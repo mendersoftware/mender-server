@@ -1,4 +1,0 @@
-# This directory is only used to collect coverage data which should
-# never be indexed.
-*
-!.gitignore
