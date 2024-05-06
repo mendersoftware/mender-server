@@ -8,6 +8,7 @@ mkdir -p backend/services
 
 if test -n "$ENTERPRISE"; then
     cat > "$REPOSITORIES_PATH" << EOF
+auditlogs
 create-artifact-worker
 deployments-enterprise
 deviceauth-enterprise
