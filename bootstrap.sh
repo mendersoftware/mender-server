@@ -51,11 +51,11 @@ cat /tmp/repositories.mender | while read repo; do
 		echo "Stripping enterprise suffix from import paths"
 		find "${service_path}" \
 			-name '*.go' \
-			-exec sed -i "s:\"github.com/mendersoftware/${repo}:\"github.com/mendersoftware/mender-server/services/${repo%%-enterprise}:" {} \;
+			-exec sed -i 's:"github.com/mendersoftware/'"${repo}"':"github.com/mendersoftware/mender-server/services/'"${repo%%-enterprise}"':' {} \;
 	fi
 	find "${service_path}" \
 		-name '*.go' \
-		-exec sed -i "s:\"github.com/mendersoftware/\(${repo}.*\)\":\"github.com/mendersoftware/mender-server/services/\1\":" {} \;
+		-exec sed -i 's:"github.com/mendersoftware/\('"${repo}"'.*\)":"github.com/mendersoftware/mender-server/services/\1":' {} \;
 done
 
 git clone git@github.com:mendersoftware/go-lib-micro backend/pkg
@@ -66,7 +66,7 @@ git clone git@github.com:mendersoftware/gui frontend
 echo "Replacing import paths to go-lib-micro"
 find backend \
 	-name '*.go' \
-	-exec sed -i "s:\"github.com/mendersoftware/go-lib-micro/\(.\+\)\":\"github.com/mendersoftware/mender-server/pkg/\1\":" {} \;
+	-exec sed -i 's:"github.com/mendersoftware/go-lib-micro/\(.*\)":"github.com/mendersoftware/mender-server/pkg/\1":' {} \;
 
 echo "Removing git indexes"
 find backend frontend -mindepth 1 -type d -name .git -prune -exec rm -rf {} \;
@@ -74,7 +74,7 @@ find backend frontend -mindepth 1 -type d -name .git -prune -exec rm -rf {} \;
 # Remove files that are not sources nor tests nor buildfiles
 # To generate a list of all suffixes, you can run this here:
 #
-# find -type f -exec sh -c 'echo {} | sed -n "s/^.*\(\.[^/.]\+\)$/\1/p"' \; | sort -u
+# find -type f -exec sh -c 'echo {} | sed -nE "s/^.*(\.[^/.]+)$/\1/p"' \; | sort -u
 #
 # The following contains a pruned list of file extensions as well as adding Dockerfile*
 # and acceptance test directories to the skip list.
