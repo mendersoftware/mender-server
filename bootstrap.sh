@@ -1,11 +1,13 @@
 #!/bin/sh
 
+REPOSITORIES_PATH="${REPOSITORIES_PATH:-/tmp/repositories.mender}"
+
 cd $(git rev-parse --show-toplevel)
 
 mkdir -p backend/services
 
 if test -n "$ENTERPRISE"; then
-	cat > /tmp/repositories.mender <<EOF
+    cat > "$REPOSITORIES_PATH" << EOF
 create-artifact-worker
 deployments-enterprise
 deviceauth-enterprise
@@ -21,7 +23,7 @@ useradm-enterprise
 workflows-enterprise
 EOF
 else
-	cat > /tmp/repositories.mender <<EOF
+    cat > "$REPOSITORIES_PATH" << EOF
 create-artifact-worker
 deployments
 deviceauth
@@ -37,26 +39,26 @@ EOF
 fi
 
 # Backend repositories
-cat /tmp/repositories.mender | while read repo; do
-	service_path="backend/services/${repo%%-enterprise}"
-	if ! test "${repo%%-enterprise}" = ${repo}; then
-		echo "Replacing open source with enterprise sources: ${service_path}"
-		rm -rf ${service_path}
-	fi
-	if ! test -d "${service_path}"; then
-		git clone git@github.com:mendersoftware/${repo} "${service_path}"
-	fi
-	echo "Changing import paths for ${repo}"
-	if ! test "${repo%%-enterprise}" = ${repo}; then
-		echo "Stripping enterprise suffix from import paths"
-		find "${service_path}" \
-			-name '*.go' \
-			-exec sed -i 's:"github.com/mendersoftware/'"${repo}"':"github.com/mendersoftware/mender-server/services/'"${repo%%-enterprise}"':' {} \;
-	fi
-	find "${service_path}" \
-		-name '*.go' \
-		-exec sed -i 's:"github.com/mendersoftware/\('"${repo}"'.*\)":"github.com/mendersoftware/mender-server/services/\1":' {} \;
-done
+while read repo; do
+    service_path="backend/services/${repo%%-enterprise}"
+    if ! test "${repo%%-enterprise}" = ${repo}; then
+        echo "Replacing open source with enterprise sources: ${service_path}"
+        rm -rf ${service_path}
+    fi
+    if ! test -d "${service_path}"; then
+        git clone git@github.com:mendersoftware/${repo} "${service_path}"
+    fi
+    echo "Changing import paths for ${repo}"
+    if ! test "${repo%%-enterprise}" = ${repo}; then
+        echo "Stripping enterprise suffix from import paths"
+        find "${service_path}" \
+            -name '*.go' \
+            -exec sed -i 's:"github.com/mendersoftware/'"${repo}"':"github.com/mendersoftware/mender-server/services/'"${repo%%-enterprise}"':' {} \;
+    fi
+    find "${service_path}" \
+        -name '*.go' \
+        -exec sed -i 's:"github.com/mendersoftware/\('"${repo}"'.*\)":"github.com/mendersoftware/mender-server/services/\1":' {} \;
+done < "$REPOSITORIES_PATH"
 
 git clone git@github.com:mendersoftware/go-lib-micro backend/pkg
 rm -f backend/pkg/dummy.go
@@ -65,8 +67,8 @@ git clone git@github.com:mendersoftware/gui frontend
 
 echo "Replacing import paths to go-lib-micro"
 find backend \
-	-name '*.go' \
-	-exec sed -i 's:"github.com/mendersoftware/go-lib-micro/\(.*\)":"github.com/mendersoftware/mender-server/pkg/\1":' {} \;
+    -name '*.go' \
+    -exec sed -i 's:"github.com/mendersoftware/go-lib-micro/\(.*\)":"github.com/mendersoftware/mender-server/pkg/\1":' {} \;
 
 echo "Removing git indexes"
 find backend frontend -mindepth 1 -type d -name .git -prune -exec rm -rf {} \;
@@ -80,58 +82,58 @@ find backend frontend -mindepth 1 -type d -name .git -prune -exec rm -rf {} \;
 # and acceptance test directories to the skip list.
 echo "Removing non-source files"
 find backend frontend -mindepth 1 -type f \
-	-and -not -name 'Makefile' \
-	-and -not -path '*/tests/*' \
-	-and -not -name '*.acceptance' \
-	-and -not -name '*.acceptance-testing' \
-	-and -not -name '*.cnf' \
-	-and -not -name '*.conf' \
-	-and -not -name '*.crt' \
-	-and -not -name '*.dockerignore' \
-	-and -not -name '*.editorconfig' \
-	-and -not -name '*.eslintignore' \
-	-and -not -name '*.eslintrc' \
-	-and -not -name '*.gif' \
-	-and -not -name '*.gitignore' \
-	-and -not -name '*.gitkeeep' \
-	-and -not -name '*.gitkeep' \
-	-and -not -name '*.go' \
-	-and -not -name '*.html' \
-	-and -not -name '*.ico' \
-	-and -not -name '*.idx' \
-	-and -not -name '*.js' \
-	-and -not -name '*.json' \
-	-and -not -name '*.key' \
-	-and -not -name '*.less' \
-	-and -not -name '*.md' \
-	-and -not -name '*.mustache' \
-	-and -not -name '*.npmrc' \
-	-and -not -name '*.openapi-generator-ignore' \
-	-and -not -name '*.pack' \
-	-and -not -name '*.pem' \
-	-and -not -name '*.png' \
-	-and -not -name '*.prettierrc' \
-	-and -not -name '*.py' \
-	-and -not -name '*.rev' \
-	-and -not -name '*.sample' \
-	-and -not -name '*.sh' \
-	-and -not -name '*.snap' \
-	-and -not -name '*.svg' \
-	-and -not -name '*.ts' \
-	-and -not -name '*.txt' \
-	-and -not -name '*.woff' \
-	-and -not -name '*.woff2' \
-	-and -not -name '*.worker' \
-	-and -not -name '*.yaml' \
-	-and -not -name '*.yml' \
-	-exec rm -f {} \;
+    -and -not -name 'Makefile' \
+    -and -not -path '*/tests/*' \
+    -and -not -name '*.acceptance' \
+    -and -not -name '*.acceptance-testing' \
+    -and -not -name '*.cnf' \
+    -and -not -name '*.conf' \
+    -and -not -name '*.crt' \
+    -and -not -name '*.dockerignore' \
+    -and -not -name '*.editorconfig' \
+    -and -not -name '*.eslintignore' \
+    -and -not -name '*.eslintrc' \
+    -and -not -name '*.gif' \
+    -and -not -name '*.gitignore' \
+    -and -not -name '*.gitkeeep' \
+    -and -not -name '*.gitkeep' \
+    -and -not -name '*.go' \
+    -and -not -name '*.html' \
+    -and -not -name '*.ico' \
+    -and -not -name '*.idx' \
+    -and -not -name '*.js' \
+    -and -not -name '*.json' \
+    -and -not -name '*.key' \
+    -and -not -name '*.less' \
+    -and -not -name '*.md' \
+    -and -not -name '*.mustache' \
+    -and -not -name '*.npmrc' \
+    -and -not -name '*.openapi-generator-ignore' \
+    -and -not -name '*.pack' \
+    -and -not -name '*.pem' \
+    -and -not -name '*.png' \
+    -and -not -name '*.prettierrc' \
+    -and -not -name '*.py' \
+    -and -not -name '*.rev' \
+    -and -not -name '*.sample' \
+    -and -not -name '*.sh' \
+    -and -not -name '*.snap' \
+    -and -not -name '*.svg' \
+    -and -not -name '*.ts' \
+    -and -not -name '*.txt' \
+    -and -not -name '*.woff' \
+    -and -not -name '*.woff2' \
+    -and -not -name '*.worker' \
+    -and -not -name '*.yaml' \
+    -and -not -name '*.yml' \
+    -exec rm -f {} \;
 
 # Remove empty directories (from last command)
 echo "Removing empty directories"
 find backend frontend \
-	-mindepth 1 \
-	-type d -empty \
-	-prune -exec rm -rf {} \;
+    -mindepth 1 \
+    -type d -empty \
+    -prune -exec rm -vrf {} \;
 
 cd backend
 echo "Initializing go Modules for backend"
@@ -140,18 +142,17 @@ go mod tidy
 
 cd "$(git rev-parse --show-toplevel)"
 
-
 echo "Creating Makefiles and Dockerfiles"
-cat /tmp/repositories.mender | while read repo; do
-	repo=${repo%%-enterprise}
-	cp Makefile.service backend/services/${repo}/Makefile
-	if test "${repo%%-worker}" != "${repo}"; then
-		# Adjust makefile to add dependency on workflows binary
-		sed -i '/^docker: build$/a \\t\$(MAKE) -C ../workflows build' \
-			backend/services/${repo}/Makefile
-		sed -i '/^docker-acceptance: build-test$/a \\t\$(MAKE) -C ../workflows build-test' \
-			backend/services/${repo}/Makefile
-	cat <<EOF > backend/services/${repo}/Dockerfile
+while read repo; do
+    repo=${repo%%-enterprise}
+    cp Makefile.service backend/services/${repo}/Makefile
+    if test "${repo%%-worker}" != "${repo}"; then
+        # Adjust makefile to add dependency on workflows binary
+        sed -i '/^docker: build$/a \\t\$(MAKE) -C ../workflows build' \
+            backend/services/${repo}/Makefile
+        sed -i '/^docker-acceptance: build-test$/a \\t\$(MAKE) -C ../workflows build-test' \
+            backend/services/${repo}/Makefile
+        cat << EOF > backend/services/${repo}/Dockerfile
 FROM scratch
 ARG TARGETARCH
 ARG TARGETOS
@@ -165,8 +166,8 @@ COPY --chown=\$USER \${BIN_FILE} /usr/bin/${repo}
 ENTRYPOINT ["/usr/bin/workflows", "--config", "/etc/${repo}/config.yaml"]
 CMD ["worker"]
 EOF
-	else
-	cat <<EOF > backend/services/${repo}/Dockerfile
+    else
+        cat << EOF > backend/services/${repo}/Dockerfile
 FROM scratch
 ARG USER=65534
 ARG BIN_FILE=./dist/\${TARGETOS}/\${TARGETARCH}/${repo}
@@ -175,13 +176,13 @@ COPY --chown=\$USER backend/services/${repo}/config.yaml /etc/${repo}/config.yam
 COPY --chown=\$USER \${BIN_FILE} /usr/bin/${repo}
 ENTRYPOINT ["/usr/bin/${repo}", "--config", "/etc/${repo}/config.yaml"]
 EOF
-	fi
-	# FIXME: services depending on mender-artifact needs special care
-	if test "${repo%%-enterprise}" = "deployments"; then
-		sed -i 's/^\(CGO_ENABLED.*\) 0/\1 1/' backend/services/${repo%%-enterprise}/Makefile
-	fi
+    fi
+    # FIXME: services depending on mender-artifact needs special care
+    if test "${repo%%-enterprise}" = "deployments"; then
+        sed -i 's/^\(CGO_ENABLED.*\) 0/\1 1/' backend/services/${repo%%-enterprise}/Makefile
+    fi
 
-done
+done < "$REPOSITORIES_PATH"
 
 cp Makefile.backend ./backend/Makefile
 
