@@ -1,0 +1,28 @@
+services:
+  tester:
+    scale: 0
+    image: mendersoftware/mender-test-containers:acceptance-testing
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    working_dir: /testing
+    entrypoint:
+      - pytest
+      - --tb=long
+    command: []
+    depends_on:
+      - create-artifact-worker
+      - deployments
+      - deviceauth
+      - deviceconfig
+      - deviceconnect
+      - generate-delta-worker
+      - gui
+      - inventory
+      - iot-manager
+      - mongo
+      - nats
+      - s3fs
+      - traefik
+      - useradm
+      - workflows
+      - workflows-worker
