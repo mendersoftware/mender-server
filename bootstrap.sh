@@ -184,7 +184,7 @@ EOF
     fi
     # FIXME: services depending on mender-artifact needs special care
     if test "${repo%%-enterprise}" = "deployments"; then
-        sed -i 's/^\(CGO_ENABLED.*\) 0/\1 1/' backend/services/${repo%%-enterprise}/Makefile
+        sed -i 's/^BUILDFLAGS ?=/\0 -tags nopkcs11/' backend/services/${repo%%-enterprise}/Makefile
     fi
 
 done < "$REPOSITORIES_PATH"
