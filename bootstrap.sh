@@ -30,7 +30,6 @@ deployments
 deviceauth
 deviceconfig
 deviceconnect
-generate-delta-worker
 inventory
 iot-manager
 reporting
