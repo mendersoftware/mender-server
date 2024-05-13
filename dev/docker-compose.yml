@@ -135,7 +135,7 @@ services:
         aliases: [mender-deviceconnect]
 
   gui:
-    image: mendersoftware/gui:mender-master
+    image: mendersoftware/gui:mender-master #FIXME: replace with locally built image
     labels:
       traefik.enable: "true"
       traefik.http.services.gui.loadBalancer.server.port: "80"
