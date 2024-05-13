@@ -23,6 +23,9 @@ tenantadm
 useradm-enterprise
 workflows-enterprise
 EOF
+    echo "Replacing docker composition for enterprise"
+    mv dev/docker-compose.enterprise.yml dev/docker-compose.yml
+    mv backend/tests/docker-compose.enterprise.yml backend/tests/docker-compose.yml
 else
     cat > "$REPOSITORIES_PATH" << EOF
 create-artifact-worker
@@ -36,6 +39,8 @@ reporting
 useradm
 workflows
 EOF
+    echo "Removing enterprise docker composition"
+    rm dev/docker-compose.enterprise.yml backend/tests/docker-compose.enterprise.yml
 fi
 
 # Backend repositories
