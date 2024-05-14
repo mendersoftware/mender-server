@@ -89,8 +89,6 @@ echo "Removing non-source files"
 find backend frontend -mindepth 1 -type f \
     -and -not -name 'Makefile' \
     -and -not -path '*/tests/*' \
-    -and -not -name '*.acceptance' \
-    -and -not -name '*.acceptance-testing' \
     -and -not -name '*.cnf' \
     -and -not -name '*.conf' \
     -and -not -name '*.crt' \
@@ -128,7 +126,6 @@ find backend frontend -mindepth 1 -type f \
     -and -not -name '*.txt' \
     -and -not -name '*.woff' \
     -and -not -name '*.woff2' \
-    -and -not -name '*.worker' \
     -and -not -name '*.yaml' \
     -and -not -name '*.yml' \
     -exec rm -f {} \;
