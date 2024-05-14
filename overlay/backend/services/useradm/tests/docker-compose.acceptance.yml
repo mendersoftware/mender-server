@@ -1,0 +1,23 @@
+# Override file for acceptance tests
+# NOTE: paths are relavitve to $GIT_ROOT/dev
+services:
+  tester:
+    volumes:
+      - ../backend/services/useradm/tests:/testing
+      - ../backend/services/useradm/docs:/docs
+    entrypoint:
+      - pytest
+      - --host=useradm:8080
+      - --management-spec=/docs/management_api.yml
+      - --internal-spec=/docs/internal_api.yml
+      - --mongo-url=mongodb://mongo
+  useradm:
+    build:
+      args:
+        - BIN_FILE=backend/tests/bin/useradm.test
+    image: useradm:test
+    environment:
+      GOCOVERDIR: /cover
+    user: ${UID:-0}:${GID:-0}
+    volumes:
+      - ../backend/tests/cover:/cover

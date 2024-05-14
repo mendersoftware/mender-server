@@ -1,0 +1,24 @@
+# Override file for acceptance tests
+# NOTE: paths are relavitve to $GIT_ROOT/dev
+services:
+  tester:
+    volumes:
+      - ../backend/services/deviceauth/tests:/testing
+      - ../backend/services/deviceauth/docs:/docs
+    entrypoint:
+      - pytest
+      - --host=deviceauth:8080
+      - --spec=/docs/internal_api.yml
+      - --management-spec=/docs/management_api.yml
+      - --mongo-url=mongodb://mongo
+  deviceauth:
+    build:
+      args:
+        - BIN_FILE=backend/tests/bin/deviceauth.test
+    image: deviceauth:test
+    environment:
+      DEVICEAUTH_ORCHESTRATOR_ADDR: "http://acceptance:9998/"
+      GOCOVERDIR: /cover
+    user: ${UID:-0}:${GID:-0}
+    volumes:
+      - ../backend/tests/cover:/cover

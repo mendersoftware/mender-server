@@ -63,6 +63,19 @@ while read repo; do
     find "${service_path}" \
         -name '*.go' \
         -exec sed -i 's:"github.com/mendersoftware/\('"${repo}"'.*\)":"github.com/mendersoftware/mender-server/services/\1":' {} \;
+
+    case ${repo%%-enterprise} in
+        auditlogs|deployments|deviceauth|inventory|tenantadm|useradm)
+            echo "Cleaning up acceptance test environment"
+	    find backend/services/${repo%%-enterprise}/tests \
+        -type f -and \
+		    -not -name '*.py' \
+		    -exec rm -v {} \;
+      ;;
+        *)
+            echo "TODO acceptance test cleanup"
+		  ;;
+    esac;
 done < "$REPOSITORIES_PATH"
 
 git clone git@github.com:mendersoftware/go-lib-micro backend/pkg

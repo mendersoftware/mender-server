@@ -1,0 +1,24 @@
+# Override file for acceptance tests
+# NOTE: paths are relavitve to $GIT_ROOT/dev
+services:
+  tester:
+    volumes:
+      - ../backend/services/inventory/tests:/testing
+      - ../backend/services/inventory/docs:/docs
+    entrypoint:
+      - pytest
+      - --host=inventory:8080
+      - --internal-spec=/docs/internal_api.yml
+      - --management-spec=/docs/management_api.yml
+      - --management-v2-spec=/docs/management_api_v2.yml
+      - --mongo-url=mongodb://mongo
+  inventory:
+    build:
+      args:
+        - BIN_FILE=backend/tests/bin/inventory.test
+    image: inventory:test
+    environment:
+      GOCOVERDIR: /cover
+    user: ${UID:-0}:${GID:-0}
+    volumes:
+      - ../backend/tests/cover:/cover
