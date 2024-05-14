@@ -28,7 +28,7 @@ build:
 
 .PHONY: build-test
 build-test: BUILDFLAGS += -cover -installsuffix .test
-build-test: binfile = $(bindir)/$(COMPONENT).test
+build-test: binfile = $(GIT_ROOT)/backend/tests/bin/$(COMPONENT).test
 build-test: build
 
 .PHONY: generate
@@ -51,7 +51,8 @@ docker: build
 
 .PHONY: docker-acceptance
 docker-acceptance: export DOCKER_TAG = $(COMPONENT):test
-docker-acceptance: export DOCKER_BIN = $(subst $(GIT_ROOT),,$(binfile)).test
+docker-acceptance: export binfile = $(GIT_ROOT)/backend/tests/bin/$(COMPONENT).test
+docker-acceptance: export DOCKER_BIN = $(subst $(GIT_ROOT),,$(binfile))
 docker-acceptance: build-test
 	$(MAKE) -C ../workflows build-test
 	docker build $(DOCKER_ARGS) \
