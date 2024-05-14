@@ -1,0 +1,7 @@
+FROM scratch
+ARG USER=65534
+ARG BIN_FILE=./dist/${TARGETOS}/${TARGETARCH}/deviceconnect
+USER $USER
+COPY --chown=$USER backend/services/deviceconnect/config.yaml /etc/deviceconnect/config.yaml
+COPY --chown=$USER ${BIN_FILE} /usr/bin/deviceconnect
+ENTRYPOINT ["/usr/bin/deviceconnect", "--config", "/etc/deviceconnect/config.yaml"]

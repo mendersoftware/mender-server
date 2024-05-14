@@ -147,49 +147,12 @@ go mod tidy
 
 cd "$(git rev-parse --show-toplevel)"
 
-echo "Creating Makefiles and Dockerfiles"
-while read repo; do
-    repo=${repo%%-enterprise}
-    cp Makefile.service backend/services/${repo}/Makefile
-    if test "${repo%%-worker}" != "${repo}"; then
-        # Adjust makefile to add dependency on workflows binary
-        sed -i '/^docker: build$/a \\t\$(MAKE) -C ../workflows build' \
-            backend/services/${repo}/Makefile
-        sed -i '/^docker-acceptance: build-test$/a \\t\$(MAKE) -C ../workflows build-test' \
-            backend/services/${repo}/Makefile
-        cat << EOF > backend/services/${repo}/Dockerfile
-FROM scratch
-ARG TARGETARCH
-ARG TARGETOS
-ARG USER=65534
-ARG BIN_FILE=./dist/\${TARGETOS}/\${TARGETARCH}/${repo}
-ARG BIN_WORKFLOWS=./dist/\${TARGETOS}/\${TARGETARCH}/workflows
-USER \$USER
-COPY --chown=\$USER backend/services/${repo}/config.yaml /etc/${repo}/config.yaml
-COPY --chown=\$USER \${BIN_WORKFLOWS} /usr/bin/workflows
-COPY --chown=\$USER \${BIN_FILE} /usr/bin/${repo}
-ENTRYPOINT ["/usr/bin/workflows", "--config", "/etc/${repo}/config.yaml"]
-CMD ["worker"]
-EOF
-    else
-        cat << EOF > backend/services/${repo}/Dockerfile
-FROM scratch
-ARG USER=65534
-ARG BIN_FILE=./dist/\${TARGETOS}/\${TARGETARCH}/${repo}
-USER \$USER
-COPY --chown=\$USER backend/services/${repo}/config.yaml /etc/${repo}/config.yaml
-COPY --chown=\$USER \${BIN_FILE} /usr/bin/${repo}
-ENTRYPOINT ["/usr/bin/${repo}", "--config", "/etc/${repo}/config.yaml"]
-EOF
-    fi
-    # FIXME: services depending on mender-artifact needs special care
-    if test "${repo%%-enterprise}" = "deployments"; then
-        sed -i 's/^BUILDFLAGS ?=/\0 -tags nopkcs11/' backend/services/${repo%%-enterprise}/Makefile
-    fi
 
-done < "$REPOSITORIES_PATH"
+echo "Applying overlay for services"
+find overlay -type f -exec sh -c \
+    'src="{}"; dst=${src#overlay/}; test -d $(dirname $dst) && cp -v $src $dst' \;
 
-cp Makefile.backend ./backend/Makefile
+rm -rf overlay
 
 # Test build and docker make targets
 make -C backend docker
