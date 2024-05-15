@@ -17,12 +17,17 @@ services:
       - --s3-key-id=mender
       - --s3-secret-key=thisisnotsecure
       - --s3-endpoint-url=http://s3fs:8333
+    depends_on:
+      - mock
   deployments:
     build:
       args:
         - BIN_FILE=backend/tests/bin/deployments.test
     image: deployments:test
     environment:
+      DEPLOYMENTS_PRESIGN_URL_SCHEME: "http"
+      DEPLOYMENTS_PRESIGN_URL_HOSTNAME: "deployments:8080"
+      DEPLOYMENTS_PRESIGN_SECRET: qF4/MZzQmHTJ+nrlr26b3g==
       DEPLOYMENTS_STORAGE_ENABLE_DIRECT_UPLOAD: "true"
       GOCOVERDIR: /cover
     user: ${UID:-0}:${GID:-0}
