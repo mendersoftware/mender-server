@@ -39,6 +39,8 @@ services:
     image: deployments
     command: [server, --automigrate]
     environment:
+      DEPLOYMENTS_PRESIGN_URL_HOSTNAME: "localhost"
+      DEPLOYMENTS_PRESIGN_SECRET: "aW5zZWN1cmUgc2VjcmV0"
       DEPLOYMENTS_INVENTORY_ADDR: http://inventory:8080
       DEPLOYMENTS_MENDER_WORKFLOWS: http://workflows:8080
       DEPLOYMENTS_MONGO_URL: "mongodb://mongo"
