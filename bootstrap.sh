@@ -65,6 +65,11 @@ while read repo; do
         -exec sed -i 's:"github.com/mendersoftware/\('"${repo}"'.*\)":"github.com/mendersoftware/mender-server/services/\1":' {} \;
 
     case ${repo%%-enterprise} in
+        deployments)
+            echo "Cleaning up acceptance test environment"
+            rm -vf backend/services/${repo%%-enterprise}/tests/run.sh
+            rm -vf backend/services/${repo%%-enterprise}/tests/docker-compose-acceptance.yml
+      ;;
         auditlogs|deployments|deviceauth|inventory|tenantadm|useradm)
             echo "Cleaning up acceptance test environment"
 	    find backend/services/${repo%%-enterprise}/tests \
