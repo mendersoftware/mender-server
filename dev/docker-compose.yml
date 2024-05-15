@@ -6,8 +6,9 @@ services:
       context: ..
       dockerfile: ./backend/services/create-artifact-worker/Dockerfile
     image: create-artifact-worker
-    command: [server, --automigrate]
+    command: [worker]
     environment:
+      CREATE_ARTIFACT_SKIPVERIFY: "true"
       WORKFLOWS_MONGO_URL: "mongodb://mongo"
       WORKFLOWS_NATS_URI: "nats://nats"
 
@@ -304,7 +305,7 @@ services:
       - 80:80
     networks:
       default:
-        aliases: [mender.local]
+        aliases: [s3.localhost]
 
   mongo:
     image: mongo:6.0
