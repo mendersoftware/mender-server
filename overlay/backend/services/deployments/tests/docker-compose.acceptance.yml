@@ -1,10 +1,10 @@
 # Override file for acceptance tests
-# NOTE: paths are relavitve to $GIT_ROOT/dev
+# NOTE: paths are relavitve to $GIT_ROOT/backend/tests
 services:
-  tester:
+  acceptance-tester:
     volumes:
-      - ../backend/services/deployments/tests:/testing
-      - ../backend/services/deployments/docs:/docs
+      - ../services/deployments/tests:/testing
+      - ../services/deployments/docs:/docs
     entrypoint:
       - pytest
       - --host=deployments:8080
@@ -32,4 +32,4 @@ services:
       GOCOVERDIR: /cover
     user: ${UID:-0}:${GID:-0}
     volumes:
-      - ../backend/tests/cover:/cover
+      - ./cover:/cover

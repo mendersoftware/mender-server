@@ -41,7 +41,7 @@ test-unit:
 
 .PHONY: test-acceptance-run
 test-acceptance-run: docker-acceptance
-	docker compose -f tests/docker-compose.yml run --rm -it --use-aliases tester
+	docker compose -f tests/docker-compose.yml run --rm -it --use-aliases acceptance-tester
 
 .PHONY: test-acceptance
 test-acceptance: test-acceptance-run

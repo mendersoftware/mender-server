@@ -1,10 +1,10 @@
 # Override file for acceptance tests
-# NOTE: paths are relavitve to $GIT_ROOT/dev
+# NOTE: paths are relavitve to $GIT_ROOT/backend/tests
 services:
-  tester:
+  acceptance-tester:
     volumes:
-      - ../backend/services/tenantadm/tests:/testing
-      - ../backend/services/tenantadm/docs:/docs
+      - ../services/tenantadm/tests:/testing
+      - ../services/tenantadm/docs:/docs
     environment:
       TENANTADM_STRIPE_API_KEY: ${STRIPE_API_KEY}
     entrypoint:
@@ -24,4 +24,4 @@ services:
       GOCOVERDIR: /cover
     user: ${UID:-0}:${GID:-0}
     volumes:
-      - ../backend/tests/cover:/cover
+      - ./cover:/cover

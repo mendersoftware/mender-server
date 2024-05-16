@@ -1,9 +1,9 @@
 # Override file for acceptance tests
-# NOTE: paths are relavitve to $GIT_ROOT/dev
+# NOTE: paths are relavitve to $GIT_ROOT/backend/tests
 services:
-  tester:
+  acceptance-tester:
     volumes:
-      - ../backend/services/auditlogs/tests:/testing
+      - ../services/auditlogs/tests:/testing
   auditlogs:
     build:
       args:
@@ -13,4 +13,4 @@ services:
       GOCOVERDIR: /cover
     user: ${UID:-0}:${GID:-0}
     volumes:
-      - ../backend/tests/cover:/cover
+      - ./cover:/cover

@@ -35,9 +35,20 @@ build-test: build
 generate:
 	go generate ./...
 
-.PHONY: test
-test:
+.PHONY: test-unit
+test-unit:
 	go test $(BUILDFLAGS) $(TESTFLAGS) ./...
+
+.PHONY: test-acceptance-run
+test-acceptance-run: docker-acceptance
+	docker compose -f tests/docker-compose.yml run --rm -it --use-aliases acceptance-tester
+
+.PHONY: test-acceptance
+test-acceptance: test-acceptance-run
+	docker compose -f tests/docker-compose.yml down
+
+.PHONY: test
+test: test-unit test-acceptance
 
 .PHONY: docker
 docker: build
