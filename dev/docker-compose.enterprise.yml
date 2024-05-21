@@ -8,6 +8,8 @@ services:
     image: auditlogs
     pull_policy: never
     command: [server, --automigrate]
+    depends_on:
+      - mongo
     environment:
       AUDITLOGS_MONGO_URL: "mongodb://mongo"
     labels:
@@ -29,6 +31,8 @@ services:
     image: create-artifact-worker
     pull_policy: never
     command: [worker]
+    depends_on:
+      - workflows
     environment:
       CREATE_ARTIFACT_SKIPVERIFY: "true"
       WORKFLOWS_MONGO_URL: "mongodb://mongo"
@@ -41,6 +45,8 @@ services:
     image: deployments
     pull_policy: never
     command: [server, --automigrate]
+    depends_on:
+      - mongo
     environment:
       DEPLOYMENTS_PRESIGN_URL_HOSTNAME: "localhost"
       DEPLOYMENTS_PRESIGN_SECRET: "aW5zZWN1cmUgc2VjcmV0"
@@ -82,6 +88,8 @@ services:
     image: deviceauth
     pull_policy: never
     command: [server, --automigrate]
+    depends_on:
+      - mongo
     environment:
       DEVICEAUTH_INVENTORY_ADDR: http://inventory:8080
       DEVICEAUTH_ORCHESTRATOR_ADDR: http://workflows:8080
@@ -119,6 +127,8 @@ services:
     image: deviceconfig
     pull_policy: never
     command: [server, --automigrate]
+    depends_on:
+      - mongo
     environment:
       DEVICECONFIG_INVENTORY_URI: http://inventory:8080
       DEVICECONFIG_WORKFLOWS_URL: http://workflows:8080
@@ -147,6 +157,9 @@ services:
     image: deviceconnect
     pull_policy: never
     command: [server, --automigrate]
+    depends_on:
+      - mongo
+      - nats
     environment:
       DEVICECONNECT_INVENTORY_URI: http://inventory:8080
       DEVICECONNECT_WORKFLOWS_URL: http://workflows:8080
@@ -176,6 +189,8 @@ services:
     image: devicemonitor
     pull_policy: never
     command: [server, --automigrate]
+    depends_on:
+      - mongo
     environment:
       DEVICEMONITOR_MONGO_URL: "mongodb://mongo"
     labels:
@@ -201,6 +216,8 @@ services:
       dockerfile: ./backend/services/generate-delta-worker/Dockerfile
     image: generate-delta-worker
     pull_policy: never
+    depends_on:
+      - workflows
     environment:
       GENERATE_DELTA_DELPOYMENTS_URL: http://deployments:8080
       WORKFLOWS_MONGO_URL: "mongodb://mongo"
@@ -235,6 +252,8 @@ services:
     image: inventory
     pull_policy: never
     command: [server, --automigrate]
+    depends_on:
+      - mongo
     environment:
       INVENTORY_DEVICEMONITOR_ADDR: http://devicemonitor:8080
       INVENTORY_ORCHESTRATOR_ADDR: http://workflows:8080
@@ -278,6 +297,8 @@ services:
     image: iot-manager
     pull_policy: never
     command: [server, --automigrate]
+    depends_on:
+      - mongo
     environment:
       IOT_MANAGER_DEVICEAUTH_URL: "http://deviceauth:8080"
       IOT_MANAGER_WORKFLOWS_URL: "http://workflows:8080"
@@ -301,6 +322,8 @@ services:
     image: useradm
     pull_policy: never
     command: [server, --automigrate]
+    depends_on:
+      - mongo
     environment:
       USERADM_MONGO: "mongodb://mongo"
       USERADM_SERVER_PRIV_KEY_PATH: "/etc/useradm/private.pem"
@@ -339,6 +362,8 @@ services:
     image: tenantadm
     pull_policy: never
     command: [server, --automigrate]
+    depends_on:
+      - mongo
     environment:
       TENANTADM_MONGO: "mongodb://mongo"
       TENANTADM_ORCHESTRATOR_ADDR: http://workflows:8080/
@@ -374,6 +399,8 @@ services:
     image: workflows
     pull_policy: never
     command: ["worker"]
+    depends_on:
+      - workflows
     environment:
       WORKFLOWS_MONGO_URL: "mongodb://mongo"
       WORKFLOWS_NATS_URI: "nats://nats"
@@ -398,6 +425,9 @@ services:
     image: workflows
     pull_policy: never
     command: [server, --automigrate]
+    depends_on:
+      - mongo
+      - nats
     environment:
       WORKFLOWS_MONGO_URL: "mongodb://mongo"
       WORKFLOWS_NATS_URI: "nats://nats"

@@ -8,6 +8,8 @@ services:
     image: create-artifact-worker
     pull_policy: never
     command: [worker]
+    depends_on:
+      - workflows
     environment:
       CREATE_ARTIFACT_SKIPVERIFY: "true"
       WORKFLOWS_MONGO_URL: "mongodb://mongo"
@@ -20,6 +22,8 @@ services:
     image: deployments
     pull_policy: never
     command: [server, --automigrate]
+    depends_on:
+      - mongo
     environment:
       DEPLOYMENTS_PRESIGN_URL_HOSTNAME: "localhost"
       DEPLOYMENTS_PRESIGN_SECRET: "aW5zZWN1cmUgc2VjcmV0"
@@ -60,6 +64,8 @@ services:
     image: deviceauth
     pull_policy: never
     command: [server, --automigrate]
+    depends_on:
+      - mongo
     environment:
       DEVICEAUTH_INVENTORY_ADDR: http://inventory:8080
       DEVICEAUTH_ORCHESTRATOR_ADDR: http://workflows:8080
@@ -96,6 +102,8 @@ services:
       DEVICECONFIG_INVENTORY_URI: http://inventory:8080
       DEVICECONFIG_WORKFLOWS_URL: http://workflows:8080
       DEVICECONFIG_MONGO_URL: "mongodb://mongo"
+    depends_on:
+      - mongo
     labels:
       traefik.enable: "true"
       traefik.http.services.deviceconfig.loadBalancer.server.port: "8080"
@@ -120,6 +128,9 @@ services:
     image: deviceconnect
     pull_policy: never
     command: [server, --automigrate]
+    depends_on:
+      - mongo
+      - nats
     environment:
       DEVICECONNECT_INVENTORY_URI: http://inventory:8080
       DEVICECONNECT_WORKFLOWS_URL: http://workflows:8080
@@ -167,6 +178,8 @@ services:
     image: inventory
     pull_policy: never
     command: [server, --automigrate]
+    depends_on:
+      - mongo
     environment:
       INVENTORY_DEVICEMONITOR_ADDR: http://devicemonitor:8080
       INVENTORY_ORCHESTRATOR_ADDR: http://workflows:8080
@@ -208,6 +221,8 @@ services:
     image: iot-manager
     pull_policy: never
     command: [server, --automigrate]
+    depends_on:
+      - mongo
     environment:
       IOT_MANAGER_DEVICEAUTH_URL: "http://deviceauth:8080"
       IOT_MANAGER_WORKFLOWS_URL: "http://workflows:8080"
@@ -231,6 +246,8 @@ services:
     image: useradm
     pull_policy: never
     command: [server, --automigrate]
+    depends_on:
+      - mongo
     environment:
       USERADM_MONGO: "mongodb://mongo"
       USERADM_SERVER_PRIV_KEY_PATH: "/etc/useradm/private.pem"
@@ -264,6 +281,8 @@ services:
     image: workflows
     pull_policy: never
     command: ["worker"]
+    depends_on:
+      - workflows
     environment:
       WORKFLOWS_MONGO_URL: "mongodb://mongo"
       WORKFLOWS_NATS_URI: "nats://nats"
@@ -285,6 +304,9 @@ services:
     image: workflows
     pull_policy: never
     command: [server, --automigrate]
+    depends_on:
+      - mongo
+      - nats
     environment:
       WORKFLOWS_MONGO_URL: "mongodb://mongo"
       WORKFLOWS_NATS_URI: "nats://nats"
