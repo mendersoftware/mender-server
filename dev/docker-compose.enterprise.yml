@@ -6,6 +6,7 @@ services:
       context: ..
       dockerfile: ./backend/services/auditlogs/Dockerfile
     image: auditlogs
+    pull_policy: never
     command: [server, --automigrate]
     environment:
       AUDITLOGS_MONGO_URL: "mongodb://mongo"
@@ -26,6 +27,7 @@ services:
       context: ..
       dockerfile: ./backend/services/create-artifact-worker/Dockerfile
     image: create-artifact-worker
+    pull_policy: never
     command: [worker]
     environment:
       CREATE_ARTIFACT_SKIPVERIFY: "true"
@@ -37,6 +39,7 @@ services:
       context: ..
       dockerfile: ./backend/services/deployments/Dockerfile
     image: deployments
+    pull_policy: never
     command: [server, --automigrate]
     environment:
       DEPLOYMENTS_PRESIGN_URL_HOSTNAME: "localhost"
@@ -77,6 +80,7 @@ services:
       context: ..
       dockerfile: ./backend/services/deviceauth/Dockerfile
     image: deviceauth
+    pull_policy: never
     command: [server, --automigrate]
     environment:
       DEVICEAUTH_INVENTORY_ADDR: http://inventory:8080
@@ -113,6 +117,7 @@ services:
       context: ..
       dockerfile: ./backend/services/deviceconfig/Dockerfile
     image: deviceconfig
+    pull_policy: never
     command: [server, --automigrate]
     environment:
       DEVICECONFIG_INVENTORY_URI: http://inventory:8080
@@ -140,6 +145,7 @@ services:
       context: ..
       dockerfile: ./backend/services/deviceconnect/Dockerfile
     image: deviceconnect
+    pull_policy: never
     command: [server, --automigrate]
     environment:
       DEVICECONNECT_INVENTORY_URI: http://inventory:8080
@@ -168,6 +174,7 @@ services:
       context: ..
       dockerfile: ./backend/services/devicemonitor/Dockerfile
     image: devicemonitor
+    pull_policy: never
     command: [server, --automigrate]
     environment:
       DEVICEMONITOR_MONGO_URL: "mongodb://mongo"
@@ -193,6 +200,7 @@ services:
       context: ..
       dockerfile: ./backend/services/generate-delta-worker/Dockerfile
     image: generate-delta-worker
+    pull_policy: never
     environment:
       GENERATE_DELTA_DELPOYMENTS_URL: http://deployments:8080
       WORKFLOWS_MONGO_URL: "mongodb://mongo"
@@ -225,6 +233,7 @@ services:
       context: ..
       dockerfile: ./backend/services/inventory/Dockerfile
     image: inventory
+    pull_policy: never
     command: [server, --automigrate]
     environment:
       INVENTORY_DEVICEMONITOR_ADDR: http://devicemonitor:8080
@@ -267,6 +276,7 @@ services:
       context: ..
       dockerfile: ./backend/services/iot-manager/Dockerfile
     image: iot-manager
+    pull_policy: never
     command: [server, --automigrate]
     environment:
       IOT_MANAGER_DEVICEAUTH_URL: "http://deviceauth:8080"
@@ -289,6 +299,7 @@ services:
       context: ..
       dockerfile: ./backend/services/useradm/Dockerfile
     image: useradm
+    pull_policy: never
     command: [server, --automigrate]
     environment:
       USERADM_MONGO: "mongodb://mongo"
@@ -326,6 +337,7 @@ services:
       context: ..
       dockerfile: ./backend/services/tenantadm/Dockerfile
     image: tenantadm
+    pull_policy: never
     command: [server, --automigrate]
     environment:
       TENANTADM_MONGO: "mongodb://mongo"
@@ -360,6 +372,7 @@ services:
       context: ..
       dockerfile: ./backend/services/workflows/Dockerfile
     image: workflows
+    pull_policy: never
     command: ["worker"]
     environment:
       WORKFLOWS_MONGO_URL: "mongodb://mongo"
@@ -383,6 +396,7 @@ services:
       context: ..
       dockerfile: ./backend/services/workflows/Dockerfile
     image: workflows
+    pull_policy: never
     command: [server, --automigrate]
     environment:
       WORKFLOWS_MONGO_URL: "mongodb://mongo"
