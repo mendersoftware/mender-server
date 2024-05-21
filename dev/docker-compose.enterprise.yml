@@ -49,7 +49,12 @@ services:
     restart: on-failure:3
     command: [server, --automigrate]
     depends_on:
-      - mongo
+      mongo:
+        condition: service_started
+        required: true
+      s3fs:
+        condition: service_healthy
+        required: true
     environment:
       DEPLOYMENTS_PRESIGN_URL_HOSTNAME: "localhost"
       DEPLOYMENTS_PRESIGN_SECRET: "aW5zZWN1cmUgc2VjcmV0"
@@ -509,6 +514,14 @@ services:
       traefik.http.routers.s3fs.rule: Host(`s3.localhost`)
       traefik.http.services.s3fs.loadBalancer.server.port: "8333"
     command: [server -s3 -s3.config /etc/seaweedfs/s3.conf]
+    healthcheck:
+      test:
+        - CMD
+        - "/usr/bin/nc"
+        - "-z"
+        - "127.0.0.1"
+        - "8333"
+      retries: 10
 
 volumes:
   s3: {}
