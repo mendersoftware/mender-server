@@ -7,6 +7,7 @@ services:
       dockerfile: ./backend/services/create-artifact-worker/Dockerfile
     image: create-artifact-worker
     pull_policy: never
+    restart: on-failure:3
     command: [worker]
     depends_on:
       - workflows
@@ -21,6 +22,7 @@ services:
       dockerfile: ./backend/services/deployments/Dockerfile
     image: deployments
     pull_policy: never
+    restart: on-failure:3
     command: [server, --automigrate]
     depends_on:
       - mongo
@@ -63,6 +65,7 @@ services:
       dockerfile: ./backend/services/deviceauth/Dockerfile
     image: deviceauth
     pull_policy: never
+    restart: on-failure:3
     command: [server, --automigrate]
     depends_on:
       - mongo
@@ -97,6 +100,7 @@ services:
       dockerfile: ./backend/services/deviceconfig/Dockerfile
     image: deviceconfig
     pull_policy: never
+    restart: on-failure:3
     command: [server, --automigrate]
     environment:
       DEVICECONFIG_INVENTORY_URI: http://inventory:8080
@@ -127,6 +131,7 @@ services:
       dockerfile: ./backend/services/deviceconnect/Dockerfile
     image: deviceconnect
     pull_policy: never
+    restart: on-failure:3
     command: [server, --automigrate]
     depends_on:
       - mongo
@@ -155,6 +160,7 @@ services:
 
   gui:
     image: mendersoftware/gui:mender-master #FIXME: replace with locally built image
+    restart: on-failure:3
     labels:
       traefik.enable: "true"
       traefik.http.services.gui.loadBalancer.server.port: "80"
@@ -177,6 +183,7 @@ services:
       dockerfile: ./backend/services/inventory/Dockerfile
     image: inventory
     pull_policy: never
+    restart: on-failure:3
     command: [server, --automigrate]
     depends_on:
       - mongo
@@ -220,6 +227,7 @@ services:
       dockerfile: ./backend/services/iot-manager/Dockerfile
     image: iot-manager
     pull_policy: never
+    restart: on-failure:3
     command: [server, --automigrate]
     depends_on:
       - mongo
@@ -245,6 +253,7 @@ services:
       dockerfile: ./backend/services/useradm/Dockerfile
     image: useradm
     pull_policy: never
+    restart: on-failure:3
     command: [server, --automigrate]
     depends_on:
       - mongo
@@ -280,6 +289,7 @@ services:
       dockerfile: ./backend/services/workflows/Dockerfile
     image: workflows
     pull_policy: never
+    restart: on-failure:3
     command: ["worker"]
     depends_on:
       - workflows
@@ -303,6 +313,7 @@ services:
       dockerfile: ./backend/services/workflows/Dockerfile
     image: workflows
     pull_policy: never
+    restart: on-failure:3
     command: [server, --automigrate]
     depends_on:
       - mongo
