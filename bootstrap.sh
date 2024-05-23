@@ -65,22 +65,15 @@ while read repo; do
         -exec sed -i 's:"github.com/mendersoftware/\('"${repo}"'.*\)":"github.com/mendersoftware/mender-server/services/\1":' {} \;
 
     case ${repo%%-enterprise} in
-        deployments)
+        auditlogs | deployments | deviceauth | inventory | tenantadm | useradm)
             echo "Cleaning up acceptance test environment"
             rm -vf backend/services/${repo%%-enterprise}/tests/run.sh
             rm -vf backend/services/${repo%%-enterprise}/tests/docker-compose-acceptance.yml
-      ;;
-        auditlogs|deployments|deviceauth|inventory|tenantadm|useradm)
-            echo "Cleaning up acceptance test environment"
-	    find backend/services/${repo%%-enterprise}/tests \
-        -type f -and \
-		    -not -name '*.py' \
-		    -exec rm -v {} \;
-      ;;
+            ;;
         *)
             echo "TODO acceptance test cleanup"
-		  ;;
-    esac;
+            ;;
+    esac
 done < "$REPOSITORIES_PATH"
 
 git clone git@github.com:mendersoftware/go-lib-micro backend/pkg
@@ -161,7 +154,6 @@ go mod init github.com/mendersoftware/mender-server
 go mod tidy
 
 cd "$(git rev-parse --show-toplevel)"
-
 
 echo "Applying overlay for services"
 find overlay -type f -exec sh -c \
