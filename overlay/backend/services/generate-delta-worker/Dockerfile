@@ -1,19 +1,20 @@
+FROM --platform=$BUILDPLATFORM alpine:3.19.1 as mender-artifact-get
+ARG TARGETARCH
+ARG TARGETOS
 ARG WORKFLOWS_VERSION=master
+#FIXME: We need to fetch mender-binary-delta-generator somehow
+ARG MENDER_ARTIFACT_VERSION=3.11.2
+RUN apk --update --no-cache add dpkg zstd
+RUN wget "https://downloads.mender.io/repos/debian/pool/main/m/mender-artifact/mender-artifact_${MENDER_ARTIFACT_VERSION}-1%2bubuntu%2bjammy_${TARGETARCH}.deb"
+
+FROM alpine:3.19.1
+
 ARG TARGETARCH
 ARG TARGETOS
 ARG USER=65534
 ARG BIN_FILE=./dist/${TARGETOS}/${TARGETARCH}/generate-delta-worker
 ARG BIN_WORKFLOWS=./dist/${TARGETOS}/${TARGETARCH}/workflows
-#FIXME: We need to fetch mender-binary-delta-generator somehow
 ARG BIN_GENERATE_DELTA=./dist/${TARGETOS}/${TARGETARCH}/mender-binary-delta-generator
-FROM --platform=$BUILDPLATFORM alpine:3.19.1 as mender-artifact-get
-ARG MENDER_ARTIFACT_VERSION=3.9.0
-RUN apk --update --no-cache add dpkg zstd
-RUN deb_filename=mender-artifact_${MENDER_ARTIFACT_VERSION}-1%2Bubuntu%2Bjammy_${TARGETARCH}.deb && \
-    wget "https://downloads.mender.io/repos/debian/pool/main/m/mender-artifact/${deb_filename}" \
-    --output-document=/mender-artifact.deb && dpkg-deb --extract /mender-artifact.deb /
-
-FROM alpine:3.19.1
 
 RUN apk add --no-cache \
     xz \

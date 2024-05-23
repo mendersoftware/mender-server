@@ -1,6 +1,9 @@
-FROM alpine:3.19.1 as dependencies
+FROM --platform=$BUILDPLATFORM alpine:3.19.1 as dependencies
+ARG TARGETARCH
+ARG TARGETOS
+ARG MENDER_ARTIFACT_VERSION=3.11.2
 RUN apk add dpkg zstd && \
-    wget "https://downloads.mender.io/repos/debian/pool/main/m/mender-artifact/mender-artifact_3.11.2-1%2bubuntu%2bjammy_amd64.deb" -O mender-artifact.deb && \
+    wget "https://downloads.mender.io/repos/debian/pool/main/m/mender-artifact/mender-artifact_${MENDER_ARTIFACT_VERSION}-1%2bubuntu%2bjammy_${TARGETARCH}.deb" -O mender-artifact.deb && \
     dpkg -x mender-artifact.deb . && \
     mkdir /var/cache/create-artifact-worker
 
