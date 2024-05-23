@@ -109,8 +109,6 @@ find backend frontend -mindepth 1 -type f \
     -and -not -name '*.eslintrc' \
     -and -not -name '*.gif' \
     -and -not -name '*.gitignore' \
-    -and -not -name '*.gitkeeep' \
-    -and -not -name '*.gitkeep' \
     -and -not -name '*.go' \
     -and -not -name '*.html' \
     -and -not -name '*.ico' \
