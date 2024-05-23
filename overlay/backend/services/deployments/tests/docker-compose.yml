@@ -10,6 +10,12 @@ services:
       command: ["/app/docker-entrypoint.sh"]
       volumes:
           - "./mock-workflows:/app"
+      healthcheck:
+        test:
+          - CMD
+          - python
+          - -c
+          - import socket; socket.create_connection(("127.0.0.1", "8080")).close()
       networks:
         default:
           aliases:

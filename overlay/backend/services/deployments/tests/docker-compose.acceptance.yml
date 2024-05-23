@@ -18,7 +18,8 @@ services:
       - --s3-secret-key=thisisnotsecure
       - --s3-endpoint-url=http://s3fs:8333
     depends_on:
-      - mock
+      mock:
+        condition: service_healthy
   deployments:
     build:
       args:
