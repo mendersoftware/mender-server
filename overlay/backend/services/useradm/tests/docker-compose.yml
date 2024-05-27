@@ -3,3 +3,28 @@ include:
   - path: 
     - ../../../tests/docker-compose.yml
     - docker-compose.acceptance.yml
+services:
+  mmock:
+    image: jordimartin/mmock:v2.7.6
+    command:
+      - -server-ip
+      - 0.0.0.0
+      - -console-ip
+      - 0.0.0.0
+      - -server-port
+      - "80"
+      - -server-tls-port
+      - "443"
+      - -tls-path
+      - /tls
+    ports:
+      - 8082:8082
+    volumes:
+      - "./mmock/config:/config"
+      - "./mmock/cert:/tls"
+    networks:
+      default:
+        aliases:
+          - github.com
+          - api.github.com
+          - oauth2.googleapis.com

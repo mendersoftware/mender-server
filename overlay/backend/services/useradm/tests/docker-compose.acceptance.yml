@@ -11,6 +11,8 @@ services:
       - --management-spec=/docs/management_api.yml
       - --internal-spec=/docs/internal_api.yml
       - --mongo-url=mongodb://mongo
+    depends_on:
+      - mmock
   useradm:
     build:
       args:
@@ -18,6 +20,14 @@ services:
     image: useradm:test
     environment:
       GOCOVERDIR: /cover
+      USERADM_TENANTADM_ADDR: "http://acceptance-tester:9997"
+      USERADM_OAUTH2_GITHUB_CLIENT_ID: "123457890"
+      USERADM_OAUTH2_GITHUB_CLIENT_SECRET: "abcdefghi"
+      USERADM_OAUTH2_GOOGLE_CLIENT_ID: "123457890"
+      USERADM_OAUTH2_GOOGLE_CLIENT_SECRET: "abcdefghi"
     user: ${UID:-0}:${GID:-0}
     volumes:
       - ./cover:/cover
+      - ../services/useradm/tests/config.yaml:/etc/useradm/config.yaml
+      - ../services/useradm/tests/mmock/cert/server.crt:/etc/ssl/certs/ca-certificates.crt
+      - ../services/useradm/tests:/testing
