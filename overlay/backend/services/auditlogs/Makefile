@@ -14,6 +14,7 @@ GOMODDIR := $(shell go list -m -f '{{.Dir}}')
 LDFLAGS ?= "-s -w"
 BUILDFLAGS ?= -trimpath -ldflags $(LDFLAGS)
 TESTFLAGS ?=
+PYTEST_ARGS ?=
 
 DOCKER_TAG ?= $(COMPONENT):latest
 DOCKER_BIN ?= $(subst $(GIT_ROOT),,$(binfile)) # Repo-local file to binary
@@ -41,11 +42,11 @@ test-unit:
 
 .PHONY: test-acceptance-run
 test-acceptance-run: docker-acceptance
-	docker compose -f tests/docker-compose.yml run --rm -it --use-aliases acceptance-tester
+	docker compose -f tests/docker-compose.yml run --rm -it --use-aliases acceptance-tester $(PYTEST_ARGS)
 
 .PHONY: test-acceptance
 test-acceptance: test-acceptance-run
-	docker compose -f tests/docker-compose.yml down
+	docker compose -f tests/docker-compose.yml down --remove-orphans -v
 
 .PHONY: test
 test: test-unit test-acceptance
