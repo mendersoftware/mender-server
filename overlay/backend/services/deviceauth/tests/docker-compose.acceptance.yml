@@ -26,6 +26,8 @@ services:
       DEVICEAUTH_TENANTADM_ADDR: "http://acceptance:9999/"
       DEVICEAUTH_ENABLE_REPORTING: "1"
       DEVICEAUTH_HAVE_ADDONS: "1"
+      # FIXME(QA-727): Remove REDIS_CONNECTION_STRING override once ticket is closed
+      DEVICEAUTH_REDIS_CONNECTION_STRING: ""
       # FIXME: The acceptance tests fails if audit logs is enabled / mock missing
       DEVICEAUTH_ENABLE_AUDIT: "0"
       TESTING_LOGS: "1"

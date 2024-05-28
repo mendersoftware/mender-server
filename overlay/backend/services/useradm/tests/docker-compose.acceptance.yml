@@ -21,6 +21,8 @@ services:
     environment:
       GOCOVERDIR: /cover
       USERADM_TENANTADM_ADDR: "http://acceptance-tester:9997"
+      # FIXME(MEN-7285): Remove this override once ticket is closed
+      USERADM_REDIS_CONNECTION_STRING: ""
       USERADM_OAUTH2_GITHUB_CLIENT_ID: "123457890"
       USERADM_OAUTH2_GITHUB_CLIENT_SECRET: "abcdefghi"
       USERADM_OAUTH2_GOOGLE_CLIENT_ID: "123457890"
