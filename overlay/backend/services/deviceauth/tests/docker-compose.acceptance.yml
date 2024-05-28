@@ -21,9 +21,9 @@ services:
         - BIN_FILE=backend/tests/bin/deviceauth.test
     image: deviceauth:test
     environment:
-      DEVICEAUTH_DEVADM_ADDR: "http://acceptance:9997/"
-      DEVICEAUTH_ORCHESTRATOR_ADDR: "http://acceptance:9998/"
-      DEVICEAUTH_TENANTADM_ADDR: "http://acceptance:9999/"
+      DEVICEAUTH_DEVADM_ADDR: "http://acceptance-tester:9997/"
+      DEVICEAUTH_ORCHESTRATOR_ADDR: "http://acceptance-tester:9998/"
+      DEVICEAUTH_TENANTADM_ADDR: "http://acceptance-tester:9999/"
       DEVICEAUTH_ENABLE_REPORTING: "1"
       DEVICEAUTH_HAVE_ADDONS: "1"
       # FIXME(QA-727): Remove REDIS_CONNECTION_STRING override once ticket is closed
