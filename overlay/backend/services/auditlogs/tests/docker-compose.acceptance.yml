@@ -1,0 +1,16 @@
+# Override file for acceptance tests
+# NOTE: paths are relavitve to $GIT_ROOT/backend/tests
+services:
+  acceptance-tester:
+    volumes:
+      - ../services/auditlogs/tests:/testing
+  auditlogs:
+    build:
+      args:
+        - BIN_FILE=backend/tests/bin/auditlogs.test
+    image: auditlogs:test
+    environment:
+      GOCOVERDIR: /cover
+    user: ${UID:-0}:${GID:-0}
+    volumes:
+      - ./cover:/cover

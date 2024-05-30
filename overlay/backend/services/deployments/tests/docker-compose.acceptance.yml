@@ -1,0 +1,37 @@
+# Override file for acceptance tests
+# NOTE: paths are relavitve to $GIT_ROOT/backend/tests
+services:
+  acceptance-tester:
+    volumes:
+      - ../services/deployments/tests:/testing
+      - ../services/deployments/docs:/docs
+    entrypoint:
+      - pytest
+      - --host=deployments:8080
+      - --inventory-host=inventory:8080
+      - --spec=/docs/management_api.yml
+      - --device-spec=/docs/devices_api.yml
+      - --internal-spec=/docs/internal_api.yml
+      - --mongo-url=mongodb://mongo
+      - --s3-bucket=mender
+      - --s3-key-id=mender
+      - --s3-secret-key=thisisnotsecure
+      - --s3-endpoint-url=http://s3fs:8333
+    depends_on:
+      mock:
+        condition: service_healthy
+  deployments:
+    build:
+      args:
+        - BIN_FILE=backend/tests/bin/deployments.test
+    image: deployments:test
+    environment:
+      DEPLOYMENTS_PRESIGN_URL_SCHEME: "http"
+      DEPLOYMENTS_PRESIGN_URL_HOSTNAME: "deployments:8080"
+      DEPLOYMENTS_PRESIGN_SECRET: qF4/MZzQmHTJ+nrlr26b3g==
+      DEPLOYMENTS_STORAGE_ENABLE_DIRECT_UPLOAD: "true"
+      DEPLOYMENTS_STORAGE_DIRECT_UPLOAD_SKIP_VERIFY: "true"
+      GOCOVERDIR: /cover
+    user: ${UID:-0}:${GID:-0}
+    volumes:
+      - ./cover:/cover

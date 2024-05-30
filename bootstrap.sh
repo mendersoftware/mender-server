@@ -8,6 +8,7 @@ mkdir -p backend/services
 
 if test -n "$ENTERPRISE"; then
     cat > "$REPOSITORIES_PATH" << EOF
+auditlogs
 create-artifact-worker
 deployments-enterprise
 deviceauth-enterprise
@@ -22,6 +23,9 @@ tenantadm
 useradm-enterprise
 workflows-enterprise
 EOF
+    echo "Replacing docker composition for enterprise"
+    mv dev/docker-compose.enterprise.yml dev/docker-compose.yml
+    mv backend/tests/docker-compose.enterprise.yml backend/tests/docker-compose.yml
 else
     cat > "$REPOSITORIES_PATH" << EOF
 create-artifact-worker
@@ -29,13 +33,14 @@ deployments
 deviceauth
 deviceconfig
 deviceconnect
-generate-delta-worker
 inventory
 iot-manager
 reporting
 useradm
 workflows
 EOF
+    echo "Removing enterprise docker composition"
+    rm dev/docker-compose.enterprise.yml backend/tests/docker-compose.enterprise.yml
 fi
 
 # Backend repositories
@@ -58,6 +63,17 @@ while read repo; do
     find "${service_path}" \
         -name '*.go' \
         -exec sed -i 's:"github.com/mendersoftware/\('"${repo}"'.*\)":"github.com/mendersoftware/mender-server/services/\1":' {} \;
+
+    case ${repo%%-enterprise} in
+        auditlogs | deployments | deviceauth | inventory | tenantadm | useradm)
+            echo "Cleaning up acceptance test environment"
+            rm -vf backend/services/${repo%%-enterprise}/tests/run.sh
+            rm -vf backend/services/${repo%%-enterprise}/tests/docker-compose-acceptance.yml
+            ;;
+        *)
+            echo "TODO acceptance test cleanup"
+            ;;
+    esac
 done < "$REPOSITORIES_PATH"
 
 git clone git@github.com:mendersoftware/go-lib-micro backend/pkg
@@ -84,8 +100,6 @@ echo "Removing non-source files"
 find backend frontend -mindepth 1 -type f \
     -and -not -name 'Makefile' \
     -and -not -path '*/tests/*' \
-    -and -not -name '*.acceptance' \
-    -and -not -name '*.acceptance-testing' \
     -and -not -name '*.cnf' \
     -and -not -name '*.conf' \
     -and -not -name '*.crt' \
@@ -95,8 +109,6 @@ find backend frontend -mindepth 1 -type f \
     -and -not -name '*.eslintrc' \
     -and -not -name '*.gif' \
     -and -not -name '*.gitignore' \
-    -and -not -name '*.gitkeeep' \
-    -and -not -name '*.gitkeep' \
     -and -not -name '*.go' \
     -and -not -name '*.html' \
     -and -not -name '*.ico' \
@@ -123,7 +135,6 @@ find backend frontend -mindepth 1 -type f \
     -and -not -name '*.txt' \
     -and -not -name '*.woff' \
     -and -not -name '*.woff2' \
-    -and -not -name '*.worker' \
     -and -not -name '*.yaml' \
     -and -not -name '*.yml' \
     -exec rm -f {} \;
@@ -142,49 +153,11 @@ go mod tidy
 
 cd "$(git rev-parse --show-toplevel)"
 
-echo "Creating Makefiles and Dockerfiles"
-while read repo; do
-    repo=${repo%%-enterprise}
-    cp Makefile.service backend/services/${repo}/Makefile
-    if test "${repo%%-worker}" != "${repo}"; then
-        # Adjust makefile to add dependency on workflows binary
-        sed -i '/^docker: build$/a \\t\$(MAKE) -C ../workflows build' \
-            backend/services/${repo}/Makefile
-        sed -i '/^docker-acceptance: build-test$/a \\t\$(MAKE) -C ../workflows build-test' \
-            backend/services/${repo}/Makefile
-        cat << EOF > backend/services/${repo}/Dockerfile
-FROM scratch
-ARG TARGETARCH
-ARG TARGETOS
-ARG USER=65534
-ARG BIN_FILE=./dist/\${TARGETOS}/\${TARGETARCH}/${repo}
-ARG BIN_WORKFLOWS=./dist/\${TARGETOS}/\${TARGETARCH}/workflows
-USER \$USER
-COPY --chown=\$USER backend/services/${repo}/config.yaml /etc/${repo}/config.yaml
-COPY --chown=\$USER \${BIN_WORKFLOWS} /usr/bin/workflows
-COPY --chown=\$USER \${BIN_FILE} /usr/bin/${repo}
-ENTRYPOINT ["/usr/bin/workflows", "--config", "/etc/${repo}/config.yaml"]
-CMD ["worker"]
-EOF
-    else
-        cat << EOF > backend/services/${repo}/Dockerfile
-FROM scratch
-ARG USER=65534
-ARG BIN_FILE=./dist/\${TARGETOS}/\${TARGETARCH}/${repo}
-USER \$USER
-COPY --chown=\$USER backend/services/${repo}/config.yaml /etc/${repo}/config.yaml
-COPY --chown=\$USER \${BIN_FILE} /usr/bin/${repo}
-ENTRYPOINT ["/usr/bin/${repo}", "--config", "/etc/${repo}/config.yaml"]
-EOF
-    fi
-    # FIXME: services depending on mender-artifact needs special care
-    if test "${repo%%-enterprise}" = "deployments"; then
-        sed -i 's/^\(CGO_ENABLED.*\) 0/\1 1/' backend/services/${repo%%-enterprise}/Makefile
-    fi
+echo "Applying overlay for services"
+find overlay -type f -exec sh -c \
+    'src="{}"; dst=${src#overlay/}; test -d $(dirname $dst) && cp -v $src $dst' \;
 
-done < "$REPOSITORIES_PATH"
-
-cp Makefile.backend ./backend/Makefile
+rm -rf overlay
 
 # Test build and docker make targets
 make -C backend docker

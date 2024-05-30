@@ -1,0 +1,41 @@
+include:
+  - ../../dev/docker-compose.yml
+
+services:
+  acceptance-tester:
+    scale: 0
+    image: acceptance-tester
+    build:
+      context: .
+      dockerfile_inline: |
+        FROM python:3.12-slim
+        COPY requirements-acceptance.txt requirements.txt
+        RUN apt update && apt install -qy zstd wget && \
+            wget "https://downloads.mender.io/repos/debian/pool/main/m/mender-artifact/mender-artifact_3.11.2-1%2bubuntu%2bjammy_amd64.deb" -O mender-artifact.deb && \
+            dpkg -x mender-artifact.deb . && \
+            pip install -r requirements.txt
+        WORKDIR /testing
+        ENTRYPOINT ["pytest"]
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    working_dir: /testing
+    entrypoint:
+      - pytest
+      - --tb=long
+    command: []
+    depends_on:
+      - create-artifact-worker
+      - deployments
+      - deviceauth
+      - deviceconfig
+      - deviceconnect
+      - gui
+      - inventory
+      - iot-manager
+      - mongo
+      - nats
+      - s3fs
+      - traefik
+      - useradm
+      - workflows
+      - workflows-worker

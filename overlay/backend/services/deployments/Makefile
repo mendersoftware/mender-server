@@ -12,8 +12,9 @@ GOOS := $(shell go env GOOS)
 GOMODDIR := $(shell go list -m -f '{{.Dir}}')
 
 LDFLAGS ?= "-s -w"
-BUILDFLAGS ?= -trimpath -ldflags $(LDFLAGS)
+BUILDFLAGS ?= -tags nopkcs11 -trimpath -ldflags $(LDFLAGS)
 TESTFLAGS ?=
+PYTEST_ARGS ?=
 
 DOCKER_TAG ?= $(COMPONENT):latest
 DOCKER_BIN ?= $(subst $(GIT_ROOT),,$(binfile)) # Repo-local file to binary
@@ -28,16 +29,27 @@ build:
 
 .PHONY: build-test
 build-test: BUILDFLAGS += -cover -installsuffix .test
-build-test: binfile = $(bindir)/$(COMPONENT).test
+build-test: binfile = $(GIT_ROOT)/backend/tests/bin/$(COMPONENT).test
 build-test: build
 
 .PHONY: generate
 generate:
 	go generate ./...
 
-.PHONY: test
-test:
+.PHONY: test-unit
+test-unit:
 	go test $(BUILDFLAGS) $(TESTFLAGS) ./...
+
+.PHONY: test-acceptance-run
+test-acceptance-run: docker-acceptance
+	docker compose -f tests/docker-compose.yml run --rm -it --use-aliases acceptance-tester $(PYTEST_ARGS)
+
+.PHONY: test-acceptance
+test-acceptance: test-acceptance-run
+	docker compose -f tests/docker-compose.yml down --remove-orphans -v
+
+.PHONY: test
+test: test-unit test-acceptance
 
 .PHONY: docker
 docker: build
@@ -50,7 +62,8 @@ docker: build
 
 .PHONY: docker-acceptance
 docker-acceptance: export DOCKER_TAG = $(COMPONENT):test
-docker-acceptance: export DOCKER_BIN = $(subst $(GIT_ROOT),,$(binfile)).test
+docker-acceptance: export binfile = $(GIT_ROOT)/backend/tests/bin/$(COMPONENT).test
+docker-acceptance: export DOCKER_BIN = $(subst $(GIT_ROOT),,$(binfile))
 docker-acceptance: build-test
 	docker build $(DOCKER_ARGS) \
 		--build-arg BIN_FILE=$(DOCKER_BIN) \

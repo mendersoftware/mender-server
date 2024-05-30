@@ -1,0 +1,5 @@
+name: acceptance
+include:
+  - path: 
+    - ../../../tests/docker-compose.yml
+    - docker-compose.acceptance.yml

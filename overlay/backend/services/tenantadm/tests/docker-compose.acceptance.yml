@@ -1,0 +1,27 @@
+# Override file for acceptance tests
+# NOTE: paths are relavitve to $GIT_ROOT/backend/tests
+services:
+  acceptance-tester:
+    volumes:
+      - ../services/tenantadm/tests:/testing
+      - ../services/tenantadm/docs:/docs
+    environment:
+      TENANTADM_STRIPE_API_KEY: ${STRIPE_API_KEY}
+    entrypoint:
+      - pytest
+      - --host=tenantadm:8080
+      - --internal-spec=/docs/internal_api.yml
+      - --management-spec=/docs/management_api.yml
+      - --management-v2-spec=/docs/management_api_v2.yml
+      - --mongo-url=mongodb://mongo
+  tenantadm:
+    build:
+      args:
+        - BIN_FILE=backend/tests/bin/tenantadm.test
+    image: tenantadm:test
+    environment:
+      TENANTADM_STRIPE_API_KEY: ${STRIPE_API_KEY}
+      GOCOVERDIR: /cover
+    user: ${UID:-0}:${GID:-0}
+    volumes:
+      - ./cover:/cover
