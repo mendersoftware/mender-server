@@ -40,6 +40,7 @@ test:
 	go test $(BUILDFLAGS) $(TESTFLAGS) ./...
 
 .PHONY: docker
+docker: export GOOS = linux
 docker: build
 	docker build $(DOCKER_ARGS) \
 		--build-arg BIN_FILE=$(DOCKER_BIN) \

@@ -52,6 +52,7 @@ test-acceptance: test-acceptance-run
 test: test-unit test-acceptance
 
 .PHONY: docker
+docker: export GOOS = linux
 docker: build
 	docker build $(DOCKER_ARGS) \
 		--build-arg BIN_FILE=$(DOCKER_BIN) \

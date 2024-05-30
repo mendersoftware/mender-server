@@ -40,6 +40,7 @@ test:
 	go test $(BUILDFLAGS) $(TESTFLAGS) ./...
 
 .PHONY: docker
+docker: export GOOS = linux
 docker: build
 	$(MAKE) -C ../workflows build
 	docker build $(DOCKER_ARGS) \
