@@ -58,11 +58,13 @@ while read repo; do
         echo "Stripping enterprise suffix from import paths"
         find "${service_path}" \
             -name '*.go' \
-            -exec sed -i='' 's:"github.com/mendersoftware/'"${repo}"':"github.com/mendersoftware/mender-server/services/'"${repo%%-enterprise}"':' {} \;
+            -exec sed -i.bak 's:"github.com/mendersoftware/'"${repo}"':"github.com/mendersoftware/mender-server/services/'"${repo%%-enterprise}"':' {} \; \
+            -exec rm {}.bak \;
     fi
     find "${service_path}" \
         -name '*.go' \
-        -exec sed -i='' 's:"github.com/mendersoftware/\('"${repo}"'.*\)":"github.com/mendersoftware/mender-server/services/\1":' {} \;
+        -exec sed -i.bak 's:"github.com/mendersoftware/\('"${repo}"'.*\)":"github.com/mendersoftware/mender-server/services/\1":' {} \; \
+        -exec rm {}.bak \;
 
     case ${repo%%-enterprise} in
         auditlogs | deployments | deviceauth | inventory | tenantadm | useradm)
@@ -84,7 +86,8 @@ git clone git@github.com:mendersoftware/gui frontend
 echo "Replacing import paths to go-lib-micro"
 find backend \
     -name '*.go' \
-    -exec sed -i='' 's:"github.com/mendersoftware/go-lib-micro/\(.*\)":"github.com/mendersoftware/mender-server/pkg/\1":' {} \;
+    -exec sed -i.bak 's:"github.com/mendersoftware/go-lib-micro/\(.*\)":"github.com/mendersoftware/mender-server/pkg/\1":' {} \; \
+    -exec rm {}.bak \;
 
 echo "Removing git indexes"
 find backend frontend -mindepth 1 -type d -name .git -prune -exec rm -rf {} \;
