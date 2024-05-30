@@ -40,6 +40,7 @@ test:
 	go test $(BUILDFLAGS) $(TESTFLAGS) ./...
 
 .PHONY: docker
+docker: export GOOS = linux
 docker: build
 	docker build $(DOCKER_ARGS) \
 		--build-arg BIN_FILE=$(DOCKER_BIN) \
@@ -52,6 +53,7 @@ docker: build
 docker-acceptance: export DOCKER_TAG = $(COMPONENT):test
 docker-acceptance: export binfile = $(GIT_ROOT)/backend/tests/bin/$(COMPONENT).test
 docker-acceptance: export DOCKER_BIN = $(subst $(GIT_ROOT),,$(binfile))
+docker-acceptance: export GOOS = linux
 docker-acceptance: build-test
 	docker build $(DOCKER_ARGS) \
 		--build-arg BIN_FILE=$(DOCKER_BIN) \
