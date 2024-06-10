@@ -1,10 +1,12 @@
 # Override file for acceptance tests
-# NOTE: paths are relavitve to $GIT_ROOT/backend/tests
+# NOTE: paths are relative to $GIT_ROOT/backend/tests
 services:
   acceptance-tester:
     volumes:
       - ../services/inventory/tests:/testing
       - ../services/inventory/docs:/docs
+    depends_on:
+      - inventory
     entrypoint:
       - pytest
       - --host=inventory:8080

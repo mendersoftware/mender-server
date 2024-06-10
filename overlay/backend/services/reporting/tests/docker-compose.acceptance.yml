@@ -1,0 +1,34 @@
+# Override file for acceptance tests
+# NOTE: paths are relative to $GIT_ROOT/backend/tests
+services:
+  acceptance-tester:
+    volumes:
+      - ../services/reporting/tests:/testing
+      - ../services/reporting/docs:/docs
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    environment:
+      TESTING_HOST: "reporting:8080"
+      REPORTING_URL: "http://reporting:8080"
+      OPENSEARCH_URL: "http://opensearch:9200"
+    depends_on:
+      - mmock
+      - reporting
+  reporting:
+    build:
+      args:
+        - BIN_FILE=backend/tests/bin/reporting.test
+    image: reporting:test
+    environment:
+      REPORTING_OPENSEARCH_ADDRESSES: "http://opensearch:9200"
+      REPORTING_DEVICEAUTH_ADDR: "http://deviceauth:8080"
+      REPORTING_INVENTORY_ADDR: "http://inventory:8080"
+      REPORTING_NATS_URI: "nats://nats:4222"
+      REPORTING_DEBUG_LOG: "true"
+      GOCOVERDIR: /cover
+    user: ${UID:-0}:${GID:-0}
+    volumes:
+      - ./cover:/cover
+    networks:
+      default:
+        aliases:
+          - mender-reporting

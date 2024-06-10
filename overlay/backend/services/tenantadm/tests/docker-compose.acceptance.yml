@@ -5,6 +5,8 @@ services:
     volumes:
       - ../services/tenantadm/tests:/testing
       - ../services/tenantadm/docs:/docs
+    depends_on:
+      - tenantadm
     environment:
       TENANTADM_STRIPE_API_KEY: ${STRIPE_API_KEY}
     entrypoint:

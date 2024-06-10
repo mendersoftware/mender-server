@@ -1,5 +1,5 @@
 # Override file for acceptance tests
-# NOTE: paths are relavitve to $GIT_ROOT/backend/tests
+# NOTE: paths are relative to $GIT_ROOT/backend/tests
 services:
   acceptance-tester:
     volumes:
@@ -13,6 +13,7 @@ services:
       - --mongo-url=mongodb://mongo
     depends_on:
       - mmock
+      - useradm
   useradm:
     build:
       args:
