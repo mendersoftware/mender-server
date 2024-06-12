@@ -483,8 +483,10 @@ services:
 
   mongo:
     image: mongo:6.0
+    command: [--replSet, rs0]
     volumes :
       - mongo:/data
+      - ./config/mongo.init.js:/docker-entrypoint-initdb.d/mongo.init.js
     networks:
       default:
         aliases: [mender-mongo]
