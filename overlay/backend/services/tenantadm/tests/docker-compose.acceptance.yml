@@ -7,6 +7,7 @@ services:
       - ../services/tenantadm/docs:/docs
     depends_on:
       - tenantadm
+      - useradm
     environment:
       TENANTADM_STRIPE_API_KEY: ${STRIPE_API_KEY}
     entrypoint:
