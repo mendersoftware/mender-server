@@ -1,6 +1,133 @@
 name: acceptance
-include:
-  - path:
-      - ../../../tests/docker-compose.yml
-      - docker-compose.acceptance.yml
 
+services:
+  acceptance-tester:
+    extends:
+      file: ../../../tests/docker-compose.yml
+      service: acceptance-tester
+    command: # FIXME(QA-733): Align dockerfile with open source
+      - -k
+      - not test_create_artifacts
+    volumes:
+      - ".:/testing"
+    environment:
+      REDIS_HOST: mender-cache
+      REDIS_PORT: 6379
+      REDIS_DB: 0
+      REDIS_PASS: correcthorse
+    depends_on:
+      - mmock
+      - workflows
+      - workflows-worker
+      - local-smtp
+
+  mongo:
+    extends:
+      file: ../../../../dev/docker-compose.yml
+      service: mongo
+  nats:
+    extends:
+      file: ../../../../dev/docker-compose.yml
+      service: nats
+  redis:
+    extends:
+      file: ../../../../dev/docker-compose.yml
+      service: redis
+
+  mmock:
+    image: jordimartin/mmock:v2.7.6
+    command: ["-server-ip", "0.0.0.0", "-console-ip", "0.0.0.0", "-server-port", "8080"]
+    ports:
+      - 8082:8082
+    volumes:
+      - "./mmock:/config"
+    networks:
+      default:
+        aliases:
+          - mender-deployments
+          - mender-auditlogs
+          - mender-device-auth
+          - mender-inventory
+          - mender-tenantadm
+          - mender-useradm
+          - mender-deviceconnect
+          - mender-deviceconfig
+          - api.hubapi.com
+          - mender-reporting
+          - mender-iot-manager
+          - mmock
+
+  workflows-worker:
+    image: workflows:test
+    build:
+      args:
+        - BIN_FILE=backend/tests/bin/workflows.test
+    pull_policy: never
+    command: ["worker"]
+    user: ${UID:-0}:${GID:-0}
+    volumes:
+      - ".:/testing"
+      - "../worker/workflows:/etc/workflows/definitions"
+      - "../worker/data:/etc/workflows-enterprise/data" # FIXME(QA-733): Align enterprise image with open-source
+      - ../../tests/cover:/cover
+    working_dir: /testing
+    environment:
+      WORKFLOWS_EMAIL_SENDER: "no-reply@hosted.mender.io"
+      WORKFLOWS_SMTP_HOST: "local-smtp:1025"
+      AWS_ACCESS_KEY_ID: "minio"
+      AWS_SECRET_ACCESS_KEY: "minio123"
+      AWS_URL: "http://minio:9000"
+      BUCKET: "mender"
+      HUBSPOT_URL: http://api.hubapi.com:8080
+      HUBSPOT_TOKEN: pat-eu1-0000000-000-0000-0000-000000000000
+      HAVE_AUDITLOGS: 1
+      HAVE_DEVICECONNECT: 1
+      HAVE_DEVICECONFIG: 1
+      GOCOVERDIR: /cover
+    restart: always
+    depends_on:
+      mongo:
+        condition: service_started
+      local-smtp:
+        condition: service_healthy
+
+  workflows:
+    image: workflows:test
+    command: [server, --automigrate]
+    build:
+      args:
+        - BIN_FILE=backend/tests/bin/workflows.test
+    ports:
+      - "8080:8080"
+    environment:
+      GOCOVERDIR: /cover
+    user: ${UID:-0}:${GID:-0}
+    volumes:
+      - ../../tests/cover:/cover
+    working_dir: /testing
+    networks:
+      default:
+        aliases:
+          - mender-workflows-server
+          - workflows-server
+    restart: always
+    depends_on:
+      - mongo
+      - nats
+
+  local-smtp:
+    image: python
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - import socket; socket.create_connection(("127.0.0.1", 1025)).close()
+    environment:
+      PYTHONUNBUFFERED: 1
+    ports:
+      - 1025:1025
+    command: bash -c "pip install aiosmtpd; aiosmtpd -n -l 0.0.0.0:1025"
+
+volumes:
+  mongo: {}
