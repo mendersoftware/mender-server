@@ -27,7 +27,7 @@ build:
 		go build -o $(binfile) $(BUILDFLAGS)
 
 .PHONY: build-test
-build-test: BUILDFLAGS += -cover -installsuffix .test
+build-test: BUILDFLAGS += -cover -installsuffix .test -tags acceptance
 build-test: binfile = $(GIT_ROOT)/backend/tests/bin/$(COMPONENT).test
 build-test: build
 

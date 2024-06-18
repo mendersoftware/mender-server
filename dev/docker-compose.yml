@@ -226,49 +226,7 @@ services:
       default:
         aliases: [mender-inventory]
 
-  reporting:
-    build:
-      context: ..
-      dockerfile: ./backend/services/reporting/Dockerfile
-    image: reporting
-    pull_policy: never
-    restart: on-failure:3
-    command: [server, --automigrate]
-    depends_on:
-      - mongo
-    environment:
-      REPORTING_MONGO_URL: mongodb://mongo
-    labels:
-      traefik.enable: "true"
-      traefik.http.services.reporting.loadBalancer.server.port: "8080"
-      traefik.http.routers.reportingDevV1.entrypoints: "websecure"
-      traefik.http.routers.reportingDevV1.middlewares: >-
-        reportingV1-replacepathregex@file,devStack@file
-      traefik.http.routers.reportingDevV1.rule: >-
-        PathPrefix(`/api/devices/v1/reporting`)
-      traefik.http.routers.reportingDevV1.service: reporting
-      traefik.http.routers.reportingMgmtV1.entrypoints: "websecure"
-      traefik.http.routers.reportingMgmtV1.middlewares: >-
-        reportingMgmtV1-replacepathregex@file,mgmtStack@file
-      traefik.http.routers.reportingMgmtV1.rule: >-
-        PathPrefix(`/api/management/v1/reporting`)
-      traefik.http.routers.reportingMgmtV1.service: reporting
-      traefik.http.routers.reportingDev.entrypoints: "websecure"
-      traefik.http.routers.reportingDev.middlewares: "devStack@file"
-      traefik.http.routers.reportingDev.rule: >-
-        PathPrefix(`/api/devices/{version:v[2-9]}/reporting`)
-      traefik.http.routers.reportingDev.service: reporting
-      traefik.http.routers.reportingMgmt.entrypoints: "websecure"
-      traefik.http.routers.reportingMgmt.middlewares: "mgmtStack@file"
-      traefik.http.routers.reportingMgmt.rule: >-
-        PathPrefix(`/api/management/{version:v[2-9]}/reporting`)
-      traefik.http.routers.reportingMgmt.service: reporting
-
-    networks:
-      default:
-        aliases: [mender-reporting]
-
-  mender-iot-manager:
+  iot-manager:
     build:
       context: ..
       dockerfile: ./backend/services/iot-manager/Dockerfile
@@ -343,13 +301,13 @@ services:
     environment:
       WORKFLOWS_MONGO_URL: "mongodb://mongo"
       WORKFLOWS_NATS_URI: "nats://nats"
-      DEPLOYMENTS_ADDR: mender-deployments:8080
-      DEVICEAUTH_ADDR: mender-deviceauth:8080
-      DEVICECONFIG_ADDR: mender-deviceconfig:8080
-      DEVICECONNECT_ADDR: mender-deviceconnect:8080
-      INVENTORY_ADDR: mender-inventory:8080
-      IOT_MANAGER_ADDR: mender-iot-manager:8080
-      USERADM_ADDR: mender-useradm:8080
+      DEPLOYMENTS_ADDR: deployments:8080
+      DEVICEAUTH_ADDR: deviceauth:8080
+      DEVICECONFIG_ADDR: deviceconfig:8080
+      DEVICECONNECT_ADDR: deviceconnect:8080
+      INVENTORY_ADDR: inventory:8080
+      IOT_MANAGER_ADDR: iot-manager:8080
+      USERADM_ADDR: useradm:8080
       WORKFLOWS_SERVER_ADDR: workflows:8080
       WOKRFLOWS_MENDER_URL: https://localhost
       HAVE_DEVICECONFIG: "1"

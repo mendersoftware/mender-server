@@ -20,6 +20,16 @@ services:
     depends_on:
       mock:
         condition: service_healthy
+      s3fs:
+        condition: service_healthy
+      deployments:
+        condition: service_started
+      inventory:
+        condition: service_started
+      traefik:
+        condition: service_started
+      create-artifact-worker:
+        condition: service_started
   deployments:
     build:
       args:
