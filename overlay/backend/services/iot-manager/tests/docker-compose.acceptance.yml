@@ -7,14 +7,14 @@ services:
       - ../services/iot-manager/docs:/docs
       - "/var/run/docker.sock:/var/run/docker.sock"
     environment:
-      IOT_MANAGER_URL: "http://mender-iot-manager:8080"
+      TEST_HOST: "iot-manager:8080"
       MMOCK_CONTROL_URL: "http://mmock:8081"
     depends_on:
       - mmock
-      - mender-iot-manager
+      - iot-manager
 
   mmock:
-    image: jordimartin/mmock:v3.0.3
+    image: jordimartin/mmock:v3.1.6
     command:
       - "-config-path=/config"
       - "-console-ip=0.0.0.0"
@@ -32,20 +32,24 @@ services:
       default:
         aliases:
           - mmock
-          - deviceauth
-          - workflows
+          - mender-device-auth
+          - mender-workflows-server
           - mock.azure-devices.net
           - iot.region.amazonaws.com
 
-  mender-iot-manager:
+  iot-manager:
     build:
       args:
         - BIN_FILE=backend/tests/bin/iot-manager.test
-    image: mender-iot-manager:test
+    image: iot-manager:test
     environment:
       IOT_MANAGER_AES_ENCRYPTION_KEY: "+mg+KXQM8/7A+uqs1bJzfH0KW9NclMEVRjkmqhfpjDg="
       IOT_MANAGER_DOMAIN_WHITELIST: "*.azure-devices.net mmock"
+      # FIXME: Update mmock `host` in request conditions
+      IOT_MANAGER_DEVICEAUTH_URL: "http://mender-device-auth:8080"
+      IOT_MANAGER_WORKFLOWS_URL: "http://mender-workflows-server:8080"
       GOCOVERDIR: /cover
     user: ${UID:-0}:${GID:-0}
     volumes:
       - ./cover:/cover
+      - "../services/iot-manager/tests/mmock/cert/server.crt:/etc/ssl/certs/ca-certificates.crt"
