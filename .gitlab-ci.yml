@@ -1,8 +1,87 @@
-stages:
-  - test
+variables:
+  GOLANG_VERSION: "1.22.4"
 
 include:
   - project: 'Northern.tech/Mender/mendertesting'
     file: '.gitlab-ci-check-commits.yml'
   - project: 'Northern.tech/Mender/mendertesting'
     file: '.gitlab-ci-github-status-updates.yml'
+
+stages:
+  - build
+  - test
+
+build:dist:
+  image: golang:${GOLANG_VERSION}
+  stage: build
+  script:
+    - make -C backend build
+  after_script:
+    - tar -zcvf dist.tar.gz dist/
+  artifacts:
+    expire_in: 1w
+    when: always
+    paths:
+      - dist.tar.gz
+
+test:unit:
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/golang:${GOLANG_VERSION}-bullseye
+  stage: test
+  services:
+    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/mongo:6.0
+      alias: mongo
+  variables:
+    MONGODB_DEBIAN_RELEASE: "bullseye"
+    MONGODB_VERSION: "6.0"
+    TEST_MONGO_URL: "mongodb://mongo"
+    WORKFLOWS_MONGO_URL: "mongodb://mongo"
+  before_script:
+    # mongodb-org package needs systemd, this circumnavigates the issue providing a fake systemctl command
+    - ln -s /bin/true /usr/sbin/systemctl
+    # install mongodb for the tests that use it locally
+    - curl -fsSL https://www.mongodb.org/static/pgp/server-${MONGODB_VERSION}.asc | gpg -o /usr/share/keyrings/mongodb-server-${MONGODB_VERSION}.gpg --dearmor
+    - echo "deb [ signed-by=/usr/share/keyrings/mongodb-server-${MONGODB_VERSION}.gpg ] http://repo.mongodb.org/apt/debian ${MONGODB_DEBIAN_RELEASE}/mongodb-org/${MONGODB_VERSION} main" | tee /etc/apt/sources.list.d/mongodb-org-${MONGODB_VERSION}.list
+    - apt-get -qq update
+    - apt-get install -qy mongodb-org
+  script:
+    - make -C backend test-unit
+
+test:acceptance:
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:cli
+  stage: test
+  services:
+    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:dind
+      alias: docker
+  needs:
+    - job: build:dist
+      artifacts: true
+  before_script:
+    - apk add make bash go git
+    - tar -zxvf dist.tar.gz
+    - make -C backend docker-acceptance
+  script:
+    - make -C backend test-acceptance
+
+test:integration:
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:cli
+  stage: test
+  services:
+    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:dind
+      alias: docker
+  needs:
+    - job: build:dist
+      artifacts: true
+  before_script:
+    - apk add make bash git curl
+    - tar -zxvf dist.tar.gz
+  script:
+    - make -C backend test-integration
+  artifacts:
+    expire_in: 1w
+    when: always
+    paths:
+      - backend/logs.*
+      - backend/results_integration_*.xml
+      - backend/report_integration_*.html
+    reports:
+      junit: backend/results_integration_*.xml
