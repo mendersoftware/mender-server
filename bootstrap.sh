@@ -23,6 +23,8 @@ tenantadm
 useradm-enterprise
 workflows-enterprise
 EOF
+    echo "Replacing enterprise Dockerfiles"
+    mv overlay/backend/services/workflows/Dockerfile.enterprise overlay/backend/services/workflows/Dockerfile
     echo "Replacing docker composition for enterprise"
     mv dev/docker-compose.enterprise.yml dev/docker-compose.yml
     mv backend/tests/docker-compose.enterprise.yml backend/tests/docker-compose.yml
