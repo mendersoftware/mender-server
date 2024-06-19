@@ -28,7 +28,7 @@ pkg-test:
 
 .PHONY: integration-test
 integration-test:
-	./tests/integration/run
+	./tests/integration/run $(args)
 
 .PHONY: docker
 docker: $(DOCKER_TARGETS)
