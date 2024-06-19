@@ -280,13 +280,13 @@ services:
       traefik.http.services.inventory.loadBalancer.server.port: "8080"
       traefik.http.routers.inventoryDevV1.entrypoints: "websecure"
       traefik.http.routers.inventoryDevV1.middlewares: >-
-        inventoryV1-replacepathregex@file,devStack@file
+        devStack@file,inventoryV1-replacepathregex@file
       traefik.http.routers.inventoryDevV1.rule: >-
         PathPrefix(`/api/devices/v1/inventory`)
       traefik.http.routers.inventoryDevV1.service: inventory
       traefik.http.routers.inventoryMgmtV1.entrypoints: "websecure"
       traefik.http.routers.inventoryMgmtV1.middlewares: >-
-        inventoryMgmtV1-replacepathregex@file,mgmtStack@file
+        mgmtStack@file,inventoryMgmtV1-replacepathregex@file
       traefik.http.routers.inventoryMgmtV1.rule: >-
         PathPrefix(`/api/management/v1/inventory`)
       traefik.http.routers.inventoryMgmtV1.service: inventory
