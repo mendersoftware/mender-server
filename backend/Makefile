@@ -4,7 +4,7 @@ SERVICES = $(subst services/,,$(wildcard services/*))
 BUILD_TARGETS := $(addsuffix "-build", $(SERVICES))
 TEST_TARGETS := $(addsuffix "-test", $(SERVICES))
 TEST_UNIT_TARGETS := $(addsuffix "-test-unit", $(SERVICES))
-TEST_ACCEPTANCe_TARGETS := $(addsuffix "-test-acceptance", $(SERVICES))
+TEST_ACCEPTANCE_TARGETS := $(addsuffix "-test-acceptance", $(SERVICES))
 DOCKER_TARGETS := $(addsuffix "-docker", $(SERVICES))
 DOCKER_ACCEPTANCE_TARGETS := $(addsuffix "-docker-acceptance", $(SERVICES))
 
