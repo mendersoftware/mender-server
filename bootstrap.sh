@@ -69,6 +69,17 @@ while read repo; do
         -exec rm {}.bak \;
 
     case ${repo%%-enterprise} in
+        deviceauth)
+            echo "Replacing host in API docs from mender-device-auth to mender-deviceauth"
+            perl -p -i -e "s/mender-device-auth/mender-deviceauth/" "backend/services/${repo%%-enterprise}/docs/internal_api.yml"
+            ;;
+        workflows)
+            echo "Replacing host in API docs from mender-workflows-server to mender-workflows"
+            perl -p -i -e "s/mender-workflows-server/mender-workflows/" "backend/services/${repo%%-enterprise}/docs/workflows_api.yml"
+            ;;
+    esac
+
+    case ${repo%%-enterprise} in
         auditlogs | deployments | deviceauth | inventory | tenantadm | useradm)
             echo "Cleaning up acceptance test environment"
             rm -vf backend/services/${repo%%-enterprise}/tests/run.sh
