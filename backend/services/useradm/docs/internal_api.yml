@@ -1,0 +1,388 @@
+swagger: "2.0"
+info:
+  version: "0.1"
+  title: User administration and authentication
+  description: |
+    An API for user administration and user authentication handling. Not exposed via the API Gateway - intended for internal use only.
+
+basePath: "/api/internal/v1/useradm"
+host: "mender-useradm:8080"
+schemes:
+  - http
+
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /health:
+    get:
+      operationId: Check Health
+      tags:
+        - Internal API
+      summary: Check the health of the service
+      responses:
+        204:
+          description: >
+            Service is healthy and all dependencies are up and running.
+        500:
+          description: >
+            Unexpected internal error
+          schema:
+            $ref: "#/definitions/Error"
+          examples:
+            application/json:
+              error: "internal error"
+              request_id: "ffd712be-d697-4cb7-814b-88ff1e2eb5f6"
+        503:
+          description: >
+            Service unhealthy / not ready to accept traffic. At least one
+            dependency is not running.
+          schema:
+            $ref: "#/definitions/Error"
+          examples:
+            application/json:
+              error: "error reaching MongoDB: context deadline exceeded"
+              request_id: "ffd712be-d697-4cb7-814b-88ff1e2eb5f6"
+
+  /alive:
+    get:
+      operationId: Check Liveliness
+      tags:
+        - Internal API
+      summary: >
+        Trivial endpoint that unconditionally returns an empty 200 response
+        whenever the API handler is running correctly.
+      responses:
+        204:
+          description: Service is up and running.
+        500:
+          description: >
+            Internal API error
+          schema:
+            $ref: "#/definitions/Error"
+
+  /auth/verify:
+    post:
+      operationId: Verify JWT
+      tags:
+        - Internal API
+      summary: Check the validity of a token
+      description: |
+        Besides the basic validity check, checks the token expiration time and user-initiated token revocation.
+
+        Services which intend to use it should be correctly set up in the gateway's configuration.
+      parameters:
+        - name: Authorization
+          in: header
+          description: The token in base64-encoded form.
+          required: true
+          type: string
+          format: Bearer [token]
+        - name: X-Forwarded-Uri
+          in: header
+          description: |
+            URI the original request was sent to, the URI is expected to have
+            at least 4 components, eg. /api/management/1.0/foo/bar
+          required: true
+          type: string
+          format: HTTP path
+        - name: X-Forwarded-Method
+          in: header
+          description: HTTP method used when accessing the original URI
+          required: true
+          type: string
+          enum:
+            - GET
+            - PUT
+            - POST
+            - DELETE
+      responses:
+        200:
+          description: The token is valid.
+        400:
+          description: Missing or malformed request parameters.
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: Verification failed, authentication should not be granted.
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: Token has expired - apply for a new one.
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: Unexpected error.
+          schema:
+            $ref: "#/definitions/Error"
+  /tenants:
+    post:
+      operationId: Create Tenant
+      tags:
+        - Internal API
+      summary: Create a tenant with provided configuration.
+      parameters:
+        - name: tenant
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/TenantNew"
+      responses:
+        201:
+          description: The tenant was created successfully.
+        400:
+          description: Missing or malformed request parameters.
+        500:
+          description: Unexpected error.
+          schema:
+            $ref: "#/definitions/Error"
+  /tenants/{tenant_id}/users:
+    post:
+      operationId: Create User
+      tags:
+        - Internal API
+      summary: Create user
+      parameters:
+        - name: tenant_id
+          in: path
+          type: string
+          description: Tenant ID.
+          required: true
+        - name: user
+          in: body
+          description: New user data.
+          required: true
+          schema:
+            $ref: "#/definitions/UserNew"
+      responses:
+        201:
+          description: The user was successfully created.
+        400:
+          description: |
+            The request body is malformed.
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            Tenant with given ID does not exist.
+          schema:
+            $ref: "#/definitions/Error"
+        422:
+          description: |
+            User name or ID is duplicated.
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: Internal server error.
+          schema:
+            $ref: "#/definitions/Error"
+
+    get:
+      operationId: List Users
+      tags:
+        - Internal API
+      summary: |
+        List all users registered under the tenant owning the JWT.
+      parameters:
+        - name: tenant_id
+          in: path
+          type: string
+          description: Tenant ID.
+          required: true
+        - name: id
+          in: query
+          type: string
+          description: >
+            Limit result by user ID, can be repeated to include multiple users
+            in the query.
+          required: false
+        - name: email
+          in: query
+          type: string
+          description: >
+            Limit result by user email, can be repeated to include multiple users
+            in the query.
+          required: false
+        - name: created_after
+          in: query
+          type: integer
+          description: >
+            Filter users created after timestamp (UNIX timestamp).
+          required: false
+        - name: created_before
+          in: query
+          type: integer
+          description: >
+            Filter users created before timestamp (UNIX timestamp).
+          required: false
+        - name: updated_after
+          in: query
+          type: integer
+          description: >
+            Filter users updated after timestamp (UNIX timestamp).
+          required: false
+        - name: updated_before
+          in: query
+          type: integer
+          description: >
+            Filter users updated before timestamp (UNIX timestamp).
+          required: false
+      responses:
+        200:
+          description: Successful response.
+          schema:
+            title: ListOfUsers
+            type: array
+            items:
+              $ref: "#/definitions/User"
+        401:
+          description: |
+            The user cannot be granted authentication.
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: Internal server error.
+          schema:
+            $ref: "#/definitions/Error"
+
+  /tenants/{tenant_id}/users/{user_id}:
+    delete:
+      operationId: Delete User
+      tags:
+        - Internal API
+      summary: Delete a user
+      description: |
+        Remove a user from the tenant.
+      parameters:
+        - name: tenant_id
+          in: path
+          type: string
+          description: Tenant ID.
+          required: true
+        - name: user_id
+          in: path
+          type: string
+          description: User ID.
+          required: true
+      responses:
+        204:
+          description: User deleted.
+        400:
+          description: |
+            Invalid parameters.
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: Internal server error.
+          schema:
+            $ref: "#/definitions/Error"
+
+  /tokens:
+    delete:
+      operationId: Revoke User Tokens
+      tags:
+        - Internal API
+      summary: Delete all user tokens
+      description: |
+        This endpoint is designed to be used for tenant account suspension purpose.
+        When only tenant_id parameter is set, tokens for all tenant users will be removed.
+        It is also possible to remove tokens for user with given user_id by setting
+        optional user_id parameter.
+      parameters:
+        - name: tenant_id
+          in: query
+          type: string
+          description: Tenant ID.
+          required: true
+        - name: user_id
+          in: query
+          type: string
+          description: User ID.
+      responses:
+        204:
+          description: Tokens deleted.
+        400:
+          description: |
+            Invalid parameters.
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: Internal server error.
+          schema:
+            $ref: "#/definitions/Error"
+
+definitions:
+  Error:
+    description: Error descriptor.
+    type: object
+    properties:
+      error:
+        description: Description of the error.
+        type: string
+    example:
+      error: "missing Authorization header"
+  TenantNew:
+    description: Tenant configuration.
+    type: object
+    properties:
+      tenant_id:
+        description: ID of given tenant.
+        type: string
+    example:
+      tenant_id: "1234"
+
+  User:
+    description: User descriptor.
+    type: object
+    properties:
+      email:
+        description: A unique email address.
+        type: string
+      id:
+        description: User Id.
+        type: string
+      created_ts:
+        description: |
+          Server-side timestamp of the user creation.
+        type: string
+        format: date-time
+      updated_ts:
+        description: |
+          Server-side timestamp of the last user information update.
+        type: string
+        format: date-time
+    required:
+      - email
+      - id
+    example:
+      email: "user@acme.com"
+      id: "806603def19d417d004a4b67e"
+      created_ts: "2020-07-06T15:04:49.114046203+02:00"
+      updated_ts: "2020-07-07T01:04:49.114046203+02:00"
+
+  UserNew:
+    description: New user descriptor.
+    type: object
+    properties:
+      email:
+        description: User's email.
+        type: string
+        format: email
+      password:
+        description: User's password.
+        type: string
+      propagate:
+        description: |
+          When propagate is true, the useradm will propagate user information
+          to tenantadm, otherwise no request to tenantadm will be made.
+          Defaults to true.
+        type: boolean
+    required:
+      - email
+      - password
+    example:
+      email: "user@acme.com"
+      password: "secret"
+      propagate: false

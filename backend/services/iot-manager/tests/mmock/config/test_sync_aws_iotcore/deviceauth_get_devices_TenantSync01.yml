@@ -1,0 +1,39 @@
+request:
+  description: Call to device auth for tenant "TenantSync01"
+  host: mender-device-auth
+  method: GET
+  path: /api/internal/v1/devauth/tenants/TestSyncAWSIoTCore01/devices
+  queryStringParameters:
+    per_page: ["10"]
+    id:
+      - 1424a387-3431-425b-9f44-1c8eba21812d
+      - 44a66a7e-4b09-4665-b343-0c5d3ad9a2ed
+      - 7abb6133-ad97-44ba-a159-674242ee565e
+      - 895a1ee2-1be0-4e78-889a-7d753f53dbd5
+      - 8ba0bc48-a669-462e-873f-f7de2f0e04c3
+      - 93406e21-8e3f-4435-9786-a294a70298ee
+      - 966095ec-6bdd-4a76-8498-3c0dffdb9ee2
+      - 9b2083e4-83b6-41d3-b089-4d2ec137620b
+      - a74ea639-8fae-4b17-ac3e-f9759dbdbfd9
+      - cea63fbb-0b0b-4a92-bd47-8d310a220a16
+response:
+  statusCode: 200
+  headers:
+    Content-Type:
+      - "application/json"
+  body: |-
+    [
+      {"id":"1424a387-3431-425b-9f44-1c8eba21812d","status":"accepted"},
+      {"id":"44a66a7e-4b09-4665-b343-0c5d3ad9a2ed","status":"accepted"},
+      {"id":"895a1ee2-1be0-4e78-889a-7d753f53dbd5","status":"accepted"},
+      {"id":"8ba0bc48-a669-462e-873f-f7de2f0e04c3","status":"noauth"},
+      {"id":"93406e21-8e3f-4435-9786-a294a70298ee","status":"accepted"},
+      {"id":"966095ec-6bdd-4a76-8498-3c0dffdb9ee2","status":"rejected"},
+      {"id":"a74ea639-8fae-4b17-ac3e-f9759dbdbfd9","status":"rejected"},
+      {"id":"cea63fbb-0b0b-4a92-bd47-8d310a220a16","status":"rejected"}
+    ]
+control:
+  scenario:
+    name: class
+    requiredState:
+      - TestSyncAWSIoTCore

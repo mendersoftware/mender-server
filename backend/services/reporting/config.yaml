@@ -1,0 +1,141 @@
+# API server listen address
+# Defauls to: ":8080" which will listen on all avalable interfaces.
+# Overwrite with environment variable: REPORTING_LISTEN
+
+# listen: :8080
+
+# List of opensearch addresses
+# Defauls to: "opensearch:9200"
+# Overwrite with environment variable: REPORTING_OPENSEARCH_ADDRESSES
+
+# opensearch_addresses: "http://localhost:9200"
+
+# Devices: index name
+# Defauls to: "devices"
+# Overwrite with environment variable: REPORTING_OPENSEARCH_DEVICES_INDEX_NAME
+
+# opensearch_devices_index_name: "devices"
+
+# Devices: number of shards
+# Defauls to: 1
+# Overwrite with environment variable: REPORTING_OPENSEARCH_DEVICES_INDEX_SHARDS
+
+# opensearch_devices_index_shards: 1
+
+# Devices: number of replicas
+# Defauls to: 0
+# Overwrite with environment variable: REPORTING_OPENSEARCH_DEVICES_INDEX_REPLICAS
+
+# opensearch_devices_index_replicas: 0
+
+# Deployments: index name
+# Defauls to: "deployments"
+# Overwrite with environment variable: REPORTING_OPENSEARCH_DEPLOYMENTS_INDEX_NAME
+
+# opensearch_deployments_index_name: "deployments"
+
+# Deployments: number of shards
+# Defauls to: 1
+# Overwrite with environment variable: REPORTING_OPENSEARCH_DEPLOYMENTS_INDEX_SHARDS
+
+# opensearch_deployments_index_shards: 1
+
+# Deployments: number of replicas
+# Defauls to: 0
+# Overwrite with environment variable: REPORTING_OPENSEARCH_DEPLOYMENTS_INDEX_REPLICAS
+
+# opensearch_deployments_index_replicas: 0
+
+# Mongodb connection string
+# Defaults to: "mongodb://mender-mongo:27017"
+# Overwrite with environment variable: REPORTING_MONGO_URL
+mongo_url: mongodb://mender-mongo:27017
+
+# Mongodb database name
+# Defaults to: "reporting"
+# Overwrite with environment variable: REPORTING_MONGO_DBNAME
+mongo_dbname: reporting
+
+# Enable SSL for mongo connections
+# Defaults to: false
+# Overwrite with environment variable: REPORTING_MONGO_SSL
+mongo_ssl: false
+
+# SkipVerify controls whether a mongo client verifies the
+# server's certificate chain and host name.
+# If InsecureSkipVerify is true, accepts any certificate
+# presented by the server and any host name in that certificate.
+# Defaults to: false
+# Overwrite with environment variable: REPORTING_MONGO_SSL_SKIPVERIFY
+mongo_ssl_skipverify: false
+
+# Mongodb username
+# Overwrites username set in connection string.
+# Defaults to: none
+# Overwrite with environment variable: REPORTING_MONGO_USERNAME
+mongo_username: ""
+
+# Mongodb password
+# Overwrites password set in connection string.
+# Defaults to: none
+# Overwrite with environment variable: REPORTING_MONGO_PASSWORD
+mongo_password: ""
+
+# NATS uri
+# Defauls to: "nats://localhost:4222"
+# Overwrite with environment variable: REPORTING_NATS_URI
+
+nats_uri: "nats://mender-nats:4222"
+
+# NATS stream name
+# Defauls to: "WORKFLOWS"
+# Overwrite with environment variable: REPORTING_NATS_STREAM_NAME
+
+# nats_stream_name: "WORKFLOWS"
+
+# NATS subscriber topic name
+# Defauls to: "default"
+# Overwrite with environment variable: REPORTING_NATS_SUBSCRIBER_TOPIC
+
+# nats_subscriber_topic: "reporting"
+
+# NATS subscriber durable name
+# Defauls to: "reporting"
+# Overwrite with environment variable: REPORTING_NATS_SUBSCRIBER_DURABLE
+
+# nats_subscriber_durable: "reporting"
+
+# Reindex batch size, in number of buffered requests
+# Defauls to: 100
+# Overwrite with environment variable: REPORTING_REINDEX_BATCH_SIZE
+
+# reindex_batch_size: 100
+
+# Worker concurrency sets the number of parallell worker routines
+# Defauls to: 10
+# Overwrite with environment variable: REPORTING_WORKER_CONCURRENCY
+# worker_concurrency: 10
+
+# Reindex max time, after which reindexing is triggered.
+# Defauls to: 1000
+# Overwrite with environment variable: REPORTING_REINDEX_MAX_TIME_MSEC
+
+# reindex_max_time_msec: 1000
+
+# Address of the deployments service
+# Defaults to: http://mender-deployments:8080/
+# Overwrite with environment variable: REPORTING_DEPLOYMENTS_ADDR
+
+# deployments_addr: "http://mender-deployments:8080/"
+
+# Address of the device auth service
+# Defaults to: http://mender-device-auth:8080/
+# Overwrite with environment variable: REPORTING_DEVICEAUTH_ADDR
+
+# deviceauth_addr: "http://mender-device-auth:8080/"
+
+# Address of the inventory service
+# Defaults to: http://mender-inventory:8080/
+# Overwrite with environment variable: REPORTING_INVENTORY_ADDR
+
+# inventory_addr: "http://mender-inventory:8080/"

@@ -1,0 +1,161 @@
+variables:
+  DOCKER_REPOSITORY: mendersoftware/workflows # server; worker image defined in required jobs
+  MULTIPLATFORM_BUILD: "true"
+  MULTIPLATFORM_PLATFORMS: "linux/amd64,linux/arm64"
+
+stages:
+  - test
+  - build
+  - publish
+
+include:
+  - project: 'Northern.tech/Mender/mendertesting'
+    file: '.gitlab-ci-check-golang-lint.yml'
+  - project: 'Northern.tech/Mender/mendertesting'
+    file: '.gitlab-ci-check-golang-unittests.yml'
+  - project: 'Northern.tech/Mender/mendertesting'
+    file: '.gitlab-ci-check-commits.yml'
+  - project: 'Northern.tech/Mender/mendertesting'
+    file: '.gitlab-ci-check-license.yml'
+  - project: 'Northern.tech/Mender/mendertesting'
+    file: '.gitlab-ci-check-apidocs.yml'
+  - project: 'Northern.tech/Mender/mendertesting'
+    file: '.gitlab-ci-check-docker-build.yml'
+  - project: 'Northern.tech/Mender/mendertesting'
+    file: '.gitlab-ci-github-status-updates.yml'
+
+test:prepare_acceptance:
+  stage: .pre
+  image: docker
+  services:
+    - docker:dind
+  variables:
+    DOCKER_HOST: "tcp://docker:2376"
+    DOCKER_CERT_PATH: "/certs/client"
+    DOCKER_TLS_VERIFY: "1"
+    DOCKER_TLS_CERTDIR: "/certs"
+  before_script:
+    - export WORKER_DOCKER_REPOSITORY="mendersoftware/workflows-worker"
+  script:
+    - docker build -f Dockerfile.acceptance-testing -t $DOCKER_REPOSITORY:prtest .
+    - docker build -f Dockerfile.acceptance-testing.worker -t $WORKER_DOCKER_REPOSITORY:prtest .
+    - docker save $DOCKER_REPOSITORY:prtest > prtest_image.tar
+    - docker save $WORKER_DOCKER_REPOSITORY:prtest > prtest_worker_image.tar
+  artifacts:
+    expire_in: 2w
+    paths:
+      - prtest_image.tar
+      - prtest_worker_image.tar
+
+test:unit:
+  services:
+    - mongo:4.4
+  variables:
+    WORKFLOWS_MONGO_URL: "mongodb://mongo"
+
+test:acceptance_tests:
+  stage: test
+  tags:
+    - hetzner-amd-beefy
+  image: docker:26-cli
+  services:
+    - docker:26-dind
+  variables:
+    DOCKER_HOST: "tcp://docker:2376"
+    DOCKER_CERT_PATH: "/certs/client"
+    DOCKER_TLS_VERIFY: "1"
+    DOCKER_TLS_CERTDIR: "/certs"
+  dependencies:
+    - test:prepare_acceptance
+  before_script:
+    - apk add --no-cache make
+    - docker load -i prtest_image.tar
+    - docker load -i prtest_worker_image.tar
+  script:
+    - make acceptance-testing-up
+    - sh -c "sleep 10"
+    - make acceptance-testing-run
+  after_script:
+    - make acceptance-testing-logs
+    - make acceptance-testing-down
+  artifacts:
+    expire_in: 2w
+    paths:
+      - tests/coverage
+
+# excludes non multiplatform build job
+build:docker:
+  rules:
+    - when: never
+
+# excludes non multiplatform build job
+publish:image:
+  rules:
+    - when: never
+
+# excludes non multiplatform job
+publish:image:saas:
+  rules:
+    - when: never
+
+# excludes non multiplatform build job
+publish:image:mender:
+  rules:
+    - when: never
+
+# workflows (server) is built and published by the template; specify
+# jobs only for the worker
+build:docker-multiplatform:worker:
+  extends: build:docker-multiplatform
+  variables:
+    DOCKER_REPOSITORY: mendersoftware/workflows-worker
+    DOCKERFILE: Dockerfile.worker
+    GITLAB_REGISTRY_TAG: '${CI_REGISTRY_IMAGE}:${CI_PIPELINE_ID}-worker'
+
+publish:image-multiplatform:worker:
+  extends: publish:image-multiplatform
+  dependencies:
+    - build:docker-multiplatform:worker
+  variables:
+    DOCKER_REPOSITORY: mendersoftware/workflows-worker
+    GITLAB_REGISTRY_TAG: '${CI_REGISTRY_IMAGE}:${CI_PIPELINE_ID}-worker'
+
+publish:image-multiplatform:mender:worker:
+  extends: publish:image-multiplatform:mender
+  dependencies:
+    - build:docker-multiplatform:worker
+  variables:
+    DOCKER_REPOSITORY: mendersoftware/workflows-worker
+    GITLAB_REGISTRY_TAG: '${CI_REGISTRY_IMAGE}:${CI_PIPELINE_ID}-worker'
+
+publish:acceptance:
+  stage: publish
+  rules:
+    - if: $CI_COMMIT_BRANCH !~ /^saas-[a-zA-Z0-9.]+$/
+  image: golang:1.22.2-alpine3.19
+  dependencies:
+    - test:acceptance_tests
+  before_script:
+    - apk add --no-cache git
+    # Coveralls env variables:
+    #  According to https://docs.coveralls.io/supported-ci-services
+    #  we should set CI_NAME, CI_BUILD_NUMBER, etc. But according
+    #  to goveralls source code (https://github.com/mattn/goveralls)
+    #  many of these are not supported. Set CI_BRANCH, CI_PR_NUMBER,
+    #  and pass few others as command line arguments.
+    #  See also https://docs.coveralls.io/api-reference
+    - export CI_BRANCH=${CI_COMMIT_BRANCH}
+    - export CI_PR_NUMBER=${CI_COMMIT_BRANCH#pr_}
+    - go install github.com/mattn/goveralls@latest
+    # Convert coverage directory to text format
+    - go tool covdata textfmt -i tests/coverage -o coverage.txt
+  script:
+    - |-
+      goveralls \
+      -repotoken ${COVERALLS_TOKEN} \
+      -service gitlab-ci \
+      -jobid $CI_PIPELINE_ID \
+      -covermode set \
+      -flagname acceptance \
+      -parallel \
+      -coverprofile coverage.txt

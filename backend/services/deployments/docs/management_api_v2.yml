@@ -1,0 +1,692 @@
+swagger: '2.0'
+info:
+  title: Deployments v2
+  version: '2'
+  description: |
+    Version 2 of the API for deployments management.
+    Intended for use by the web UI.
+
+host: 'hosted.mender.io'
+basePath: '/api/management/v2/deployments'
+schemes:
+  - https
+
+consumes:
+  - application/json
+produces:
+  - application/json
+
+securityDefinitions:
+  ManagementJWT:
+    type: apiKey
+    in: header
+    name: Authorization
+    description: |
+      API token issued by User Authentication service.
+      Format: 'Bearer [JWT]'
+
+responses:
+  InvalidRequestError: # 400
+    description: Bad request, see error message for details.
+    schema:
+      $ref: "#/definitions/Error"
+  UnauthorizedError: # 401
+    description: Unauthorized.
+    schema:
+      $ref: "#/definitions/Error"
+  ConflictError: # 409
+    description: Conflict.
+    schema:
+      $ref: "#/definitions/ReleasesDeleteError"
+  UnprocessableEntityError: # 422
+    description: Unprocessable Entity.
+    schema:
+      $ref: "#/definitions/Error"
+  InternalServerError: # 500
+    description: Internal Server Error.
+    schema:
+      $ref: "#/definitions/Error"
+
+paths:
+  /deployments/releases:
+    get:
+      operationId: List Releases with pagination
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: |
+        List releases
+      description: |
+        Returns a collection of releases, allows filtering by release name and sorting
+        by name or last modification date.
+      parameters:
+        - name: name
+          in: query
+          description: Release name filter.
+          required: false
+          type: string
+        - name: tag
+          in: query
+          description: Tag filter.
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - name: update_type
+          in: query
+          description: Update type filter.
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: Starting page.
+          required: false
+          type: number
+          format: integer
+          default: 1
+        - name: per_page
+          in: query
+          description: Maximum number of results per page.
+          required: false
+          type: number
+          format: integer
+          default: 20
+          maximum: 500
+        - name: sort
+          in: query
+          description: |
+            Sort the release list by the specified field and direction.
+          required: false
+          type: string
+          enum:
+            - artifacts_count:asc
+            - artifacts_count:desc
+            - modified:asc
+            - modified:desc
+            - name:asc
+            - name:desc
+            - tags:asc
+            - tags:desc
+          default: "name:asc"
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Successful response.
+          examples:
+            application/json:
+              - name: my-app-v1.0.1
+                artifacts:
+                  - id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+                    name: Application 1.0.0
+                    description: Johns Monday test build
+                    device_types_compatible: [Beagle Bone]
+                    info:
+                      format: mender
+                      version: 3
+                    signed: false
+                    updates:
+                      - type_info:
+                          type: "rootfs-image"
+                        files:
+                          - name: rootfs-image-1
+                            checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
+                            size: 123
+                            date: 2016-03-11T13:03:17.063+0000
+                        meta_data: []
+                    artifact_provides:
+                      artifact_name: "test"
+                      rootfs-image.checksum: "32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99"
+                      rootfs-image.version: "test"
+                    artifact_depends:
+                      device_type:
+                        - "test"
+                    clears_artifact_provides:
+                      - "rootfs-image.*"
+                    size: 36891648
+                    modified: "2016-03-11T13:03:17.063493443Z"
+                  - id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+                    name: Application 1.0.0
+                    description: Johns Monday test build
+                    device_types_compatible: [Raspberry Pi]
+                    info:
+                      format: mender
+                      version: 3
+                    signed: false
+                    updates:
+                      - type_info:
+                          type: "rootfs-image"
+                        files:
+                          - name: rootfs-image-1
+                            checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
+                            size: 123
+                            date: 2016-03-11T13:03:17.063+0000
+                        meta_data: []
+                    artifact_provides:
+                      artifact_name: "test"
+                      rootfs-image.checksum: "32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99"
+                      rootfs-image.version: "test"
+                    artifact_depends:
+                      device_type:
+                        - "test"
+                    clears_artifact_provides:
+                      - "rootfs-image.*"
+                    size: 36891648
+                    modified: "2016-03-11T13:03:17.063493443Z"
+              - name: my-app-v2.0.0
+                artifacts:
+                  - id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+                    name: Application 2.0.0
+                    description: Johns Monday test build
+                    device_types_compatible: [Beagle Bone]
+                    info:
+                      format: mender
+                      version: 3
+                    signed: false
+                    updates:
+                      - type_info:
+                          type: "rootfs-image"
+                        files:
+                          - name: rootfs-image-1
+                            checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
+                            size: 123
+                            date: 2016-03-11T13:03:17.063+0000
+                        meta_data: []
+                    artifact_provides:
+                      artifact_name: "test"
+                      rootfs-image.checksum: "32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99"
+                      rootfs-image.version: "test"
+                    artifact_depends:
+                      device_type:
+                        - "test"
+                    clears_artifact_provides:
+                      - "rootfs-image.*"
+                    size: 36891648
+                    modified: "2016-03-11T13:03:17.063493443Z"
+          schema:
+            $ref: '#/definitions/Releases'
+          headers:
+            Link:
+              type: string
+              description: Standard header, we support 'first', 'next', and 'prev'.
+            X-Total-Count:
+              type: integer
+              description: Total number of releases matching query.
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        500:
+          $ref: "#/responses/InternalServerError"
+
+    delete:
+      operationId: Delete Releases
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: Delete the releases with given names
+      description: |
+        Deletes releases with names provided in the message body.
+        Releases used by deployments in progress can not be deleted
+        until deployment finishes.
+      produces:
+        - application/json
+      parameters:
+        - name: name
+          in: query
+          description: Name of the release to be deleted
+          required: true
+          type: string
+      responses:
+        204:
+          description: Releases deleted successfully.
+        400:
+          $ref: '#/responses/InvalidRequestError'
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        409:
+          $ref: "#/responses/ConflictError"
+        500:
+          $ref: "#/responses/InternalServerError"
+
+  /deployments/releases/{release_name}:
+    patch:
+      operationId: Update Release information
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: |
+        Update selected fields of the Release object.
+      description: |
+        Updates the Release object.
+      parameters:
+        - name: release_name
+          in: path
+          description: Name of the release
+          required: true
+          type: string
+        - name: release_update
+          in: body
+          schema:
+            $ref: "#/definitions/ReleaseUpdate"
+      produces:
+        - application/json
+      responses:
+        204:
+          description: Successful response.
+        400:
+          $ref: "#/responses/InvalidRequestError"
+        401:
+          $ref: "#/responses/UnauthorizedError"
+        500:
+          $ref: "#/responses/InternalServerError"
+
+  /deployments/releases/{release_name}/tags:
+    put:
+      operationId: Assign Release Tags
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: |
+        Update and replace the tags of a release.
+      description: |
+        Assigns tags to a release. The tags associated with the release will be
+        replaced with the ones defined in the request body.
+
+        LIMITATIONS:
+          * Max 20 tags can be assigned to a single release.
+          * There can be no more than 100 unique tag keys in total.
+      parameters:
+        - name: release_name
+          in: path
+          description: Name of the release
+          required: true
+          type: string
+        - name: tags
+          in: body
+          schema:
+            $ref: "#/definitions/Tags"
+      produces:
+        - application/json
+      responses:
+        204:
+          description: Successful response.
+        400:
+          $ref: "#/responses/InvalidRequestError"
+        401:
+          $ref: "#/responses/UnauthorizedError"
+        409:
+          description: Too many unique tag keys in use.
+          schema:
+            $ref: "#/definitions/Error"
+
+          examples:
+            application/json:
+              error: "the total number of unique tags has been exceeded"
+              request_id: "f7881e82-0492-49fb-b459-795654e7188a"
+        500:
+          $ref: "#/responses/InternalServerError"
+
+  /releases/all/tags:
+    get:
+      operationId: List Release Tags
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: |
+        Lists all available tags for releases.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Successful response.
+          schema:
+            $ref: "#/definitions/Tags"
+        400:
+          $ref: "#/responses/InvalidRequestError"
+        401:
+          $ref: "#/responses/UnauthorizedError"
+        409:
+          description: Too many unique tag keys in use.
+          schema:
+            $ref: "#/definitions/Error"
+
+          examples:
+            application/json:
+              error: "the total number of unique tags has been exceeded"
+              request_id: "f7881e82-0492-49fb-b459-795654e7188a"
+        500:
+          $ref: "#/responses/InternalServerError"
+
+  /releases/all/types:
+    get:
+      operationId: List Release Types
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: |
+        Lists all release update types.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Successful response.
+          schema:
+            $ref: "#/definitions/UpdateTypes"
+        400:
+          $ref: "#/responses/InvalidRequestError"
+        401:
+          $ref: "#/responses/UnauthorizedError"
+        500:
+          $ref: "#/responses/InternalServerError"
+
+
+definitions:
+  Artifact:
+    description: Detailed artifact.
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      device_types_compatible:
+        type: array
+        description: An array of compatible device types.
+        items:
+          type: string
+      info:
+        $ref: "#/definitions/ArtifactInfo"
+      signed:
+        type: boolean
+        description: Idicates if artifact is signed or not.
+      updates:
+        type: array
+        items:
+          $ref: "#/definitions/Update"
+      artifact_provides:
+        type: object
+        description: |
+          List of Artifact provides.
+
+          Map of key/value pairs, where both keys and values are strings.
+        additionalProperties:
+          type: string
+      artifact_depends:
+        type: object
+        description: |
+          List of Artifact depends.
+
+          Map of key/value pairs, where keys are strings and values are lists of strings.
+        additionalProperties:
+          type: array
+          items:
+            type: string
+      clears_artifact_provides:
+        type: array
+        description: List of Clear Artifact provides.
+        items:
+          type: string
+      size:
+        type: number
+        format: integer
+        description: |
+            Artifact total size in bytes - the size of the actual file that will be transferred to the device (compressed).
+      modified:
+        type: string
+        format: date-time
+        description: |
+            Represents creation / last edition of any of the artifact properties.
+    required:
+      - name
+      - description
+      - device_types_compatible
+      - id
+      - modified
+    example:
+      id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+      name: Application 1.0.0
+      description: Johns Monday test build
+      device_types_compatible: [Beagle Bone]
+      info:
+        format: mender
+        version: 3
+      signed: false
+      updates:
+        - type_info:
+            type: "rootfs-image"
+          files:
+            - name: rootfs-image-1
+              checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
+              size: 123
+              date: 2016-03-11T13:03:17.063+0000
+          meta_data: []
+      artifact_provides:
+        artifact_name: "test"
+        rootfs-image.checksum: "32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99"
+        rootfs-image.version: "test"
+      artifact_depends:
+        device_type:
+          - "test"
+      clears_artifact_provides:
+        - "rootfs-image.*"
+      size: 36891648
+      modified: "2016-03-11T13:03:17.063493443Z"
+
+  ArtifactInfo:
+    description: |
+        Information about artifact format and version.
+    type: object
+    properties:
+      format:
+        type: string
+      version:
+        type: integer
+
+  ArtifactTypeInfo:
+    description: |
+        Information about update type.
+    type: object
+    properties:
+      type:
+        type: string
+        description: Note that for emtpy Artifacts, the type is 'null'
+
+  Releases:
+    description: List of releases
+    type: array
+    items:
+      $ref: "#/definitions/Release"
+
+  Release:
+    description: Groups artifacts with the same release name into a single resource.
+    type: object
+    properties:
+      name:
+        type: string
+        description: |
+            release name.
+      modified:
+        type: string
+        format: date-time
+        description: |
+            Last modification time for the release.
+      artifacts:
+        type: array
+        description: List of artifacts for this release.
+        items:
+          $ref: "#/definitions/Artifact"
+      tags:
+        type: array
+        description: |-
+          Tags assigned to the release used for filtering releases. Each tag
+          must be valid a ASCII string and contain only lowercase and uppercase
+          letters, digits, underscores, periods and hyphens.
+        items:
+          type: string
+      notes:
+        type: string
+        description: |
+          Additional information describing a Release limited to 1024 characters. Please use the v2 API to set this field.
+    example:
+      name: my-app-v1.0.1
+      artifacts:
+        - id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+          name: Application 1.0.0
+          description: Johns Monday test build
+          device_types_compatible: [Beagle Bone]
+          info:
+            format: mender
+            version: 3
+          signed: false
+          updates:
+            - type_info:
+                type: "rootfs-image"
+              files:
+                - name: rootfs-image-1
+                  checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
+                  size: 123
+                  date: 2016-03-11T13:03:17.063+0000
+              meta_data: []
+          artifact_provides:
+            artifact_name: "test"
+            rootfs-image.checksum: "32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99"
+            rootfs-image.version: "test"
+          artifact_depends:
+            device_type:
+              - "test"
+          clears_artifact_provides:
+            - "rootfs-image.*"
+          size: 36891648
+          modified: "2016-03-11T13:03:17.063493443Z"
+        - id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+          name: Application 1.0.0
+          description: Johns Monday test build
+          device_types_compatible: [Raspberry Pi]
+          info:
+            format: mender
+            version: 3
+          signed: false
+          updates:
+            - type_info:
+                type: "rootfs-image"
+              files:
+                - name: rootfs-image-1
+                  checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
+                  size: 123
+                  date: 2016-03-11T13:03:17.063+0000
+              meta_data: []
+          artifact_provides:
+            artifact_name: "test"
+            rootfs-image.checksum: "32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99"
+            rootfs-image.version: "test"
+          artifact_depends:
+            device_type:
+              - "test"
+          clears_artifact_provides:
+            - "rootfs-image.*"
+          size: 36891648
+          modified: "2016-03-11T13:03:17.063493443Z"
+
+  ReleaseUpdate:
+    type: object
+    description: |-
+      Fields to be updated in the given Release.
+    properties:
+      notes:
+        description: Release notes, limited to maximum length.
+        type: string
+    example:
+      notes: "New security fixes 2023"
+
+  Tags:
+    type: array
+    description: |-
+      Tags assigned to the release used for filtering releases. Each tag
+      must be valid a ASCII string and contain only lowercase and uppercase
+      letters, digits, underscores, periods and hyphens.
+    items:
+      type: string
+
+  Update:
+    description: |
+        Single updated to be applied.
+    type: object
+    properties:
+      type_info:
+        $ref: "#/definitions/ArtifactTypeInfo"
+      files:
+        type: array
+        items:
+          $ref: "#/definitions/UpdateFile"
+      meta_data:
+        type: array
+        description: |
+            meta_data is an array of objects of unknown structure as this
+            is dependent of update type (also custom defined by user)
+
+  UpdateFile:
+      description: |
+          Information about particular update file.
+      type: object
+      properties:
+        name:
+          type: string
+        checksum:
+          type: string
+        size:
+          type: integer
+        date:
+          type: string
+          format: date-time
+
+  UpdateTypes:
+    type: array
+    description: |-
+      Update types as present in the images.
+    items:
+      type: string
+
+  Error:
+    description: Error descriptor.
+    type: object
+    properties:
+      error:
+        description: Description of the error.
+        type: string
+      request_id:
+        description: Request ID (same as in X-MEN-RequestID header).
+        type: string
+    example:
+      error: "failed to decode device group data: JSON payload is empty"
+      request_id: "f7881e82-0492-49fb-b459-795654e7188a"
+
+  ReleasesDeleteError:
+    description: Releases used by active deployment.
+    type: object
+    properties:
+      error:
+        description: Description of the error.
+        type: string
+      active_deployments:
+        description: List of IDs of active deployments which are using releases from the request.
+        type: array
+        items:
+          type: string
+      request_id:
+        description: Request ID (same as in X-MEN-RequestID header).
+        type: string
+    example:
+      error: "active deployments are using some of the releases from the request"
+      request_id: "f7881e82-0492-49fb-b459-795654e7188a"
+        #active_deployments:
+        #  - "34d39c31-2a81-4882-a016-d96f46b19f3b"
+        #  - "9afc6156-9e92-4467-9ead-c71298dc1f4b"
+        #  - "ebff371c-2256-429e-87a9-20274c50946f"

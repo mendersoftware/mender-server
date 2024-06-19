@@ -1,0 +1,14 @@
+cpu_model,armv7 snapdragon,This is the ARM processor the device is running
+cpu_count,32
+cpu_online,32
+free_memory,1580917
+total_memory,59162084
+test,foobar
+arch,arm
+kernel,4.8
+foo,bar0
+top_cpu_process,qemu
+top_mem_process,slack,This is the process using the most CPU cycles
+logged_on_users,100000
+hostname,test1234
+garbage,';l/]-

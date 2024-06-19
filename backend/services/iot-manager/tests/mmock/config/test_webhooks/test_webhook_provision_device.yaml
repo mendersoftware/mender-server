@@ -1,0 +1,14 @@
+request:
+  description: Webhook provision device request
+  host: mmock
+  method: POST
+  path: /
+
+response:
+  statusCode: 200
+
+control:
+  scenario:
+    name: class
+    requiredState:
+      - TestWebhooks

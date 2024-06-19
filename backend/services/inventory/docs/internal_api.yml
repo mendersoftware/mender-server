@@ -1,0 +1,415 @@
+swagger: '2.0'
+info:
+  version: '1'
+  title: Device inventory
+  description: |
+    An API for device attribute management and device grouping.
+    Not exposed via the API Gateway - intended for internal use only.
+
+basePath: '/api/internal/v1/inventory'
+host: 'mender-inventory:8080'
+schemes:
+  - http
+
+paths:
+  /health:
+    get:
+      operationId: Check Health
+      tags:
+        - Internal API
+      summary: Check the health of the service
+      responses:
+        204:
+          description: >
+              Service is healthy and all dependencies are up and running.
+        500:
+          description: >
+              Unexpected internal error
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              error: "internal error"
+              request_id: "ffd712be-d697-4cb7-814b-88ff1e2eb5f6"
+        503:
+          description: >
+              Service unhealthy / not ready to accept traffic. At least one
+              dependency is not running.
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              error: "error reaching MongoDB: context deadline exceeded"
+              request_id: "ffd712be-d697-4cb7-814b-88ff1e2eb5f6"
+
+  /alive:
+    get:
+      operationId: Check Liveliness
+      tags:
+        - Internal API
+      summary: >
+          Trivial endpoint that unconditionally returns an empty 200 response
+          whenever the API handler is running correctly.
+      responses:
+        204:
+          description: Service is up and running.
+        500:
+          description: >
+              Internal API error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /tenants:
+    post:
+      operationId: Create Tenant
+      tags:
+        - Internal API
+      summary: Create tenant
+      description: |
+        Create a tenant with provided configuration.
+      parameters:
+        - name: tenant
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/TenantNew"
+      responses:
+        201:
+          description: The tenant was created successfully.
+        400:
+          description: Missing or malformed request parameters.
+        500:
+          description: Unexpected error.
+          schema:
+            $ref: '#/definitions/Error'
+
+  /tenants/{tenant_id}/devices:
+    post:
+      operationId: Initialize Device
+      tags:
+        - Internal API
+      summary: Create a device resource with the supplied set of attributes
+      parameters:
+        - name: tenant_id
+          in: path
+          description: ID of given tenant.
+          required: true
+          type: string
+        - name: device
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/DeviceNew"
+      responses:
+        201:
+          description: The device was successfully created.
+          headers:
+            Location:
+              type: string
+              description: URI for the newly created 'Device' resource.
+        400:
+          description: Malformed request body. See error for details.
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Internal server error.
+          schema:
+            $ref: '#/definitions/Error'
+
+  /tenants/{tenant_id}/devices/{device_id}:
+    delete:
+      operationId: Delete Device
+      tags:
+        - Internal API
+      summary: Remove a device from the inventory service
+      parameters:
+        - name: tenant_id
+          in: path
+          description: ID of given tenant.
+          required: true
+          type: string
+        - name: device_id
+          in: path
+          description: ID of given device.
+          required: true
+          type: string
+      responses:
+        204:
+          description: Device removed
+        404:
+          description: The device was not found.
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: Internal server error.
+          schema:
+            $ref: '#/definitions/Error'
+
+  /tenants/{tenant_id}/devices/status/{status}:
+    post:
+      operationId: Update Status of Devices
+      tags:
+        - Internal API
+      summary: Update the status of a list of devices
+      description: |
+        An API end-point that allows to bulk update the status of a list
+        of devices.
+      parameters:
+        - name: tenant_id
+          in: path
+          description: ID of given tenant.
+          required: true
+          type: string
+        - name: status
+          in: path
+          description: New status to set for the specified devices.
+          required: true
+          type: string
+        - name: devices
+          in: body
+          description: List of devices.
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DeviceUpdate'
+            description: A list of devices to update.
+            example:
+              - id: "ff8f7099-d842-42f2-9d5b-46a9ad13f90a"
+                revision: 3
+              - id: "80f3ad8f-40f2-429a-8931-b47cebbbe9b3"
+                revision: 5
+      produces:
+        - application/json
+      responses:
+        200:
+          description: The operation completed successfully.
+        400:
+          description: Malformed request body. See error for details.
+          schema:
+            $ref: '#/definitions/Error'
+        409:
+          description: Write conflict, the request needs to be retried.
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Internal server error.
+          schema:
+            $ref: '#/definitions/Error'
+
+  /tenants/{tenant_id}/device/{device_id}/attribute/scope/{scope}:
+    patch:
+      operationId: Update Inventory for a Device
+      tags:
+        - Internal API
+      summary: Update multiple inventory attributes in a single scope for a device
+      description: |
+        An API end-point that allows to  update the inventory attributes in
+        a single scope for a device.
+      parameters:
+        - name: tenant_id
+          in: path
+          description: ID of given tenant.
+          required: true
+          type: string
+        - name: device_id
+          in: path
+          description: ID of given device.
+          required: true
+          type: string
+        - name: scope
+          in: path
+          description: Scope of the inventory attributes.
+          required: true
+          type: string
+        - name: attributes
+          in: body
+          description: List of inventory attributes to set.
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Attribute'
+            description: A list of attribute descriptors.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Device inventory successfully updated.
+        400:
+          $ref: '#/definitions/Error'
+        500:
+          $ref: '#/definitions/Error'
+
+  /tenants/{tenant_id}/devices/{device_id}/groups:
+    get:
+      operationId: Get Device Groups
+      tags:
+        - Internal API
+      summary: Get a list of groups the device belongs to
+      parameters:
+        - name: tenant_id
+          in: path
+          description: ID of given tenant.
+          required: true
+          type: string
+        - name: device_id
+          in: path
+          description: Device identifier.
+          required: true
+          type: string
+      responses:
+        200:
+          description: >
+            Successful response.
+          schema:
+            $ref: "#/definitions/Groups"
+        400:
+          description: Missing or malformed request params or body. See the error message for details.
+        404:
+          description: The device was not found.
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: Internal server error.
+          schema:
+            $ref: "#/definitions/Error"
+
+  /tenants/{tenant_id}/devices/{device_id}/reindex:
+    post:
+      tags:
+        - Internal API
+      summary: Start reindexing device attributes.
+      operationId: Start Re-indexing
+      parameters:
+        - in: query
+          name: service
+          schema:
+            type: string
+            example: "devicemonitor"
+          description: The name of the calling service.
+        - in: path
+          name: device_id
+          required: true
+          description: ID of the device that needs reindexing.
+          schema:
+            type: string
+            example: "4396a839-8147-4d01-ac7d-fd3edf8f7ad0"
+        - in: path
+          name: tenant_id
+          required: true
+          description: ID of tenant owning the device.
+          schema:
+            type: string
+            example: "123456789012345678901234"
+      responses:
+        200:
+          description: Attributes have been re-indexed.
+        400:
+          description: Invalid Request.
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: Internal server error.
+          schema:
+            $ref: "#/definitions/Error"
+
+definitions:
+  Error:
+    description: Error descriptor.
+    type: object
+    properties:
+      error:
+        description: Description of the error.
+        type: string
+    example:
+      error: "missing Authorization header"
+  TenantNew:
+    description: Tenant configuration.
+    type: object
+    properties:
+      tenant_id:
+        description: ID of given tenant.
+        type: string
+    example:
+      tenant_id: "1234"
+  DeviceNew:
+    type: object
+    required:
+      - id
+    properties:
+      id:
+        type: string
+        description: Mender-assigned unique ID.
+      updated_ts:
+        type: string
+        description: Timestamp of the most recent attribute update.
+      attributes:
+        type: array
+        items:
+          $ref: '#/definitions/Attribute'
+        description: A list of attribute descriptors.
+    example:
+      id: "291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e"
+      attributes:
+        - name: "ip_addr"
+          value: "1.2.3.4"
+          description: "IP address"
+        - name: "mac_addr"
+          value: "00.01:02:03:04:05"
+          description: "MAC address"
+  Attribute:
+    description: Attribute descriptor.
+    type: object
+    required:
+      - name
+      - value
+    properties:
+      name:
+        type: string
+        description: |
+            A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc.
+      description:
+        type: string
+        description: Attribute description.
+      value:
+        type: string
+        description: |
+            The current value of the attribute.
+
+            Attribute type is implicit, inferred from the JSON type.
+
+            Supported types: number, string, array of numbers, array of strings.
+            Mixed type arrays are not allowed.
+    example:
+      name: "ip_addr_eth"
+      description: "Device IP address on ethernet interface"
+      value: "127.0.0.1"
+  DeviceUpdate:
+    description: Object containing device id and device revision of the device to update.
+    type: object
+    required:
+      - id
+      - revision
+    properties:
+      id:
+        type: string
+        description: Device identifier.
+      revision:
+        type: number
+        format: integer
+        description: Device object revision.
+  Groups:
+    type: object
+    properties:
+      groups:
+        type: array
+        description: List of device's groups.
+        items:
+          type: string
+    required:
+      - groups
+    example:
+      groups:
+        - "test"
+        - "production"

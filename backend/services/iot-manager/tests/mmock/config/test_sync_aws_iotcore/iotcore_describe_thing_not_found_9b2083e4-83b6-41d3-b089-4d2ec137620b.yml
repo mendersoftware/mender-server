@@ -1,0 +1,12 @@
+request:
+  description: Get device 9b2083e4-83b6-41d3-b089-4d2ec137620b from AWS IoT Core
+  host: iot.region.amazonaws.com
+  method: GET
+  path: /things/9b2083e4-83b6-41d3-b089-4d2ec137620b
+response:
+  statusCode: 404
+control:
+  scenario:
+    name: class
+    requiredState:
+      - TestSyncAWSIoTCore

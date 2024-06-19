@@ -1,0 +1,10 @@
+{
+	"description": "inventory: DELETE device",
+	"request": {
+		"method": "DELETE",
+		"path": "/api/internal/v1/inventory/tenants/*/devices/*"
+	},
+	"response": {
+		"statusCode": 204
+	}
+}

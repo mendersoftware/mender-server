@@ -1,0 +1,10 @@
+{
+    "description": "deviceconfig: DELETE device",
+    "request": {
+        "method": "DELETE",
+        "path": "/api/internal/v1/deviceconfig/tenants//devices/1"
+    },
+    "response": {
+        "statusCode": 204
+    }
+}

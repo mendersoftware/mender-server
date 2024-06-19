@@ -1,0 +1,72 @@
+variables:
+  DOCKER_REPOSITORY: mendersoftware/deviceauth
+  MULTIPLATFORM_BUILD: "true"
+  MULTIPLATFORM_PLATFORMS: "linux/amd64,linux/arm64"
+
+stages:
+  - test_prep
+  - test
+  - build
+  - publish
+
+include:
+  - project: 'Northern.tech/Mender/mendertesting'
+    file: '.gitlab-ci-check-golang-lint.yml'
+  - project: 'Northern.tech/Mender/mendertesting'
+    file: '.gitlab-ci-check-golang-unittests.yml'
+  - project: 'Northern.tech/Mender/mendertesting'
+    file: '.gitlab-ci-check-commits.yml'
+  - project: 'Northern.tech/Mender/mendertesting'
+    file: '.gitlab-ci-check-license.yml'
+  - project: 'Northern.tech/Mender/mendertesting'
+    file: '.gitlab-ci-check-docker-acceptance.yml'
+  - project: 'Northern.tech/Mender/mendertesting'
+    file: '.gitlab-ci-check-apidocs.yml'
+  - project: 'Northern.tech/Mender/mendertesting'
+    file: '.gitlab-ci-check-docker-build.yml'
+  - project: 'Northern.tech/Mender/mendertesting'
+    file: '.gitlab-ci-github-status-updates.yml'
+
+test:unit:
+  variables:
+    DEVICEAUTH_MONGO: mongo
+
+test:acceptance_tests:
+  script:
+    - rm -f tests/coverage-acceptance*.txt
+    - export TESTS_DIR=$(pwd)/tests
+    - export INTEGRATION_DIR=$(pwd)/mender-integration
+    - |
+      for compose in $TESTS_DIR/docker-compose*.yml; do
+        $TESTS_DIR/run-test-environment acceptance $INTEGRATION_DIR $compose;
+      done
+  after_script:
+    - set -- tests/coverage-acceptance@*.txt
+    - head -n 1 $1 > tests/coverage-acceptance.txt
+    - |
+      for cover in $@; do
+        tail -n +2 $cover >> tests/coverage-acceptance.txt;
+      done
+
+# excludes non multiplatform build job
+build:docker:
+  rules:
+    - when: never
+
+# excludes non multiplatform build job
+publish:image:
+  rules:
+    - when: never
+
+# excludes non multiplatform job
+publish:image:saas:
+  rules:
+    - when: never
+
+# excludes non multiplatform build job
+publish:image:mender:
+  rules:
+    - when: never
+
+test:validate-open-api:
+  allow_failure: false

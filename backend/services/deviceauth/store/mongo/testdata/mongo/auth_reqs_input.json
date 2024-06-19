@@ -1,0 +1,50 @@
+[
+    {
+        "device_id": "0001",
+        "id_data": "0001-id-data",
+        "tenant_token": "tenant-0001",
+        "pubkey": "0001-key",
+        "ts": "2016-06-01T12:00:00Z",
+        "status": "pending"
+    },
+    {
+        "device_id": "0001",
+        "id_data": "0001-id-data",
+        "tenant_token": "tenant-0001",
+        "pubkey": "0001-key",
+        "ts": "2016-06-02T12:00:00Z",
+        "status": "pending"
+    },
+    {
+        "device_id": "0001",
+        "id_data": "0001-id-data",
+        "tenant_token": "tenant-0001",
+        "pubkey": "0001-key",
+        "ts": "2016-06-02T15:00:00Z",
+        "status": "accepted"
+    },
+    {
+        "device_id": "0002",
+        "id_data": "0002-id-data",
+        "tenant_token": "tenant-0002",
+        "pubkey": "0002-key",
+        "ts": "2016-06-01T12:00:00Z",
+        "status": "pending"
+    },
+    {
+        "device_id": "0002",
+        "id_data": "0002-id-data",
+        "tenant_token": "tenant-0002",
+        "pubkey": "0002-key",
+        "ts": "2016-06-02T12:00:00Z",
+        "status": "pending"
+    },
+    {
+        "device_id": "0002",
+        "id_data": "0002-id-data",
+        "tenant_token": "tenant-0002",
+        "pubkey": "0002-key",
+        "ts": "2016-06-02T15:00:00Z",
+        "status": "accepted"
+    }
+]

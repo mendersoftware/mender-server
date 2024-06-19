@@ -1,0 +1,22 @@
+version: '2.1'
+services:
+
+    #
+    # opensearch
+    #
+    opensearch:
+        image: opensearchproject/opensearch:2.4.0
+        environment:
+          - "discovery.type=single-node"
+          - "plugins.security.disabled=true"
+          - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        ports:
+            - 9200:9200
+
+    #
+    # mongo
+    #
+    mongo:
+        image: mongo:4.4
+        ports:
+            - 27017:27017

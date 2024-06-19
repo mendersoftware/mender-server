@@ -1,0 +1,13 @@
+{
+	"description": "inventory: POST reindex",
+	"request": {
+		"method": "POST",
+		"path": "/api/internal/v1/inventory/tenants/1/devices/2/reindex",
+        "queryStringParameters": {
+            "service": ["monitoring"]
+        }
+	},
+	"response": {
+		"statusCode": 202
+	}
+}

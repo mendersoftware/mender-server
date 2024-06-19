@@ -1,0 +1,85 @@
+# API server listen address
+# Defauls to: ":8080" which will listen on all avalable interfaces.
+# Overwrite with environment variable: WORKFLOWS_LISTEN
+
+listen: :8080
+
+# Mongodb connection string
+# Defaults to: "mongodb://localhost"
+# Overwrite with environment variable: WORKFLOWS_MONGO_URL
+
+mongo-url: mongodb://mender-mongo:27017
+
+# Mongodb database name
+# Defaults to: "workflows"
+# Overwrite with environment variable: WORKFLOWS_MONGO_DBNAME
+
+mongo-dbname: workflows
+
+# Enable SSL for mongo connections
+# Defaults to: false
+# Overwrite with environment variable: WORKFLOWS_MONGO_SSL
+
+# mongo_ssl: false
+
+# SkipVerify controls whether a mongo client verifies the
+# server's certificate chain and host name.
+# If InsecureSkipVerify is true, accepts any certificate
+# presented by the server and any host name in that certificate.
+# Defaults to: false
+# Overwrite with environment variable: WORKFLOWS_MONGO_SSL_SKIPVERIFY
+
+# mongo_ssl_skipverify: false
+
+# Mongodb username
+# Overwrites username set in connection string.
+# Defaults to: none
+# Overwrite with environment variable: WORKFLOWS_MONGO_USERNAME
+
+# mongo_username: user
+
+# Mongodb password
+# Overwrites password set in connection string.
+# Defaults to: none
+# Overwrite with environment variable: WORKFLOWS_MONGO_PASSWORD
+
+# mongo_password: secret
+
+# SMTP host
+# Defaults to: localhost:25
+# Overwrite with environment variable: WORKFLOWS_SMTP_HOST
+
+# smtp_host: "localhost:25"
+
+# SMTP auth mechanism
+# Defaults to: PLAIN
+# Valid values: PLAIN, CRAM-MD5
+# Overwrite with environment variable: WORKFLOWS_SMTP_AUTH_MECHANISM
+
+# smtp_auth_mechanism: PLAIN
+
+# SMTP username
+# Defaults to: none
+# Overwrite with environment variable: WORKFLOWS_SMTP_USERNAME
+
+# smtp_username: username
+
+# SMTP password
+# Defaults to: none
+# Overwrite with environment variable: WORKFLOWS_SMTP_PASSWORD
+
+# smtp_password: password
+
+# Workflows path
+# The path containing the workflows definitions
+# Defaults to: none
+# Overwrite with environment variable: WORKFLOWS_WORKFLOWS_PATH
+
+workflows_path: "/etc/workflows/definitions"
+
+# Concurrency limit
+# The maximum number of jobs to be processed in parallel
+# Defaults to: 10
+# Overwrite with environment variable: WORKFLOWS_CONCURRENCY
+
+# concurrency: 10

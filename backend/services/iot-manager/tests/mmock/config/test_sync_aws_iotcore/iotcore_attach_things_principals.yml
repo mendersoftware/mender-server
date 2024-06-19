@@ -1,0 +1,13 @@
+request:
+  description: Attach a principal to a thing in AWS IoT Core
+  host: iot.region.amazonaws.com
+  method: PUT
+  path: /things/*/principals
+response:
+  statusCode: 200
+control:
+  priority: 20
+  scenario:
+    name: class
+    requiredState:
+      - TestSyncAWSIoTCore
