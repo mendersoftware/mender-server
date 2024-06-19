@@ -24,13 +24,13 @@ class TestHealthCheck:
         "url",
         [
             "http://mender-deployments:8080/api/internal/v1/deployments/health",
-            "http://mender-device-auth:8080/api/internal/v1/devauth/health",
+            "http://mender-deviceauth:8080/api/internal/v1/devauth/health",
             "http://mender-deviceconfig:8080/api/internal/v1/deviceconfig/health",
             "http://mender-deviceconnect:8080/api/internal/v1/deviceconnect/health",
             "http://mender-inventory:8080/api/internal/v1/inventory/health",
             "http://mender-iot-manager:8080/api/internal/v1/iot-manager/health",
             "http://mender-useradm:8080/api/internal/v1/useradm/health",
-            "http://mender-workflows-server:8080/api/v1/health",
+            "http://mender-workflows:8080/api/v1/health",
         ],
     )
     def test_health_check(self, url):
@@ -50,7 +50,7 @@ class TestHealthCheckEnterprise:
         [
             "http://mender-auditlogs:8080/api/internal/v1/auditlogs/health",
             "http://mender-deployments:8080/api/internal/v1/deployments/health",
-            "http://mender-device-auth:8080/api/internal/v1/devauth/health",
+            "http://mender-deviceauth:8080/api/internal/v1/devauth/health",
             "http://mender-deviceconfig:8080/api/internal/v1/deviceconfig/health",
             "http://mender-deviceconnect:8080/api/internal/v1/deviceconnect/health",
             "http://mender-devicemonitor:8080/api/internal/v1/devicemonitor/health",
@@ -58,7 +58,7 @@ class TestHealthCheckEnterprise:
             "http://mender-iot-manager:8080/api/internal/v1/iot-manager/health",
             "http://mender-tenantadm:8080/api/internal/v1/tenantadm/health",
             "http://mender-useradm:8080/api/internal/v1/useradm/health",
-            "http://mender-workflows-server:8080/api/v1/health",
+            "http://mender-workflows:8080/api/v1/health",
         ],
     )
     def test_health_check(self, url):

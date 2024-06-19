@@ -61,7 +61,7 @@ class BaseCli:
 
 
 class CliUseradm(BaseCli):
-    service_name = "mender-useradm"
+    service_name = "useradm"
 
     def __init__(self, containers_namespace="backend-tests", container_manager=None):
         BaseCli.__init__(
@@ -109,10 +109,8 @@ class CliUseradm(BaseCli):
 
 class CliTenantadm(BaseCli):
     def __init__(self, containers_namespace="backend-tests", container_manager=None):
-        BaseCli.__init__(
-            self, "mender-tenantadm", containers_namespace, container_manager
-        )
-        self.service_name = "mender-tenantadm"
+        BaseCli.__init__(self, "tenantadm", containers_namespace, container_manager)
+        self.service_name = "tenantadm"
 
         enterprise = Microservice("/usr/bin/tenantadm", "/etc/tenantadm")
         self.choose_binary_and_config_paths([enterprise], self.service_name)
@@ -152,7 +150,7 @@ class CliTenantadm(BaseCli):
 
 
 class CliDeviceauth(BaseCli):
-    service_name = "mender-device-auth"
+    service_name = "deviceauth"
 
     def __init__(self, containers_namespace="backend-tests", container_manager=None):
         """ Instantiate deviceauth microservice CLI class. Both open source and enterprise versions are supported. """
@@ -235,7 +233,7 @@ class CliDeviceauth(BaseCli):
 
 
 class CliDeployments(BaseCli):
-    service_name = "mender-deployments"
+    service_name = "deployments"
 
     def __init__(self, containers_namespace="backend-tests", container_manager=None):
         BaseCli.__init__(

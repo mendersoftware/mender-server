@@ -105,7 +105,7 @@ class DockerComposeBaseNamespace(DockerNamespace):
             "--filter label=com.docker.compose.project={project} "
             "--filter label=com.docker.compose.service={service}"
         )
-        cmd = temp.format(project=self.name, service="mender-api-gateway")
+        cmd = temp.format(project=self.name, service="traefik")
 
         output = subprocess.check_output(
             cmd + "| head -n1 | xargs -r "
@@ -115,12 +115,12 @@ class DockerComposeBaseNamespace(DockerNamespace):
         return output.decode().split()[0]
 
     def get_mender_gateway(self):
-        """Returns IP address of mender-api-gateway service
+        """Returns IP address of traefik service
         Has internal retry - upon setup 'up', the gateway
         will not be available for a while.
         """
         for _ in redo.retrier(attempts=10, sleeptime=1):
-            gateway = self.get_ip_of_service("mender-api-gateway")
+            gateway = self.get_ip_of_service("traefik")
 
             if len(gateway) != 1:
                 continue

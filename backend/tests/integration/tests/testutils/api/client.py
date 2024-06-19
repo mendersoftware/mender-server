@@ -25,7 +25,7 @@ from urllib3.exceptions import InsecureRequestWarning
 
 from testutils.infra.container_manager.kubernetes_manager import isK8S
 
-GATEWAY_HOSTNAME = os.environ.get("GATEWAY_HOSTNAME") or "mender-api-gateway"
+GATEWAY_HOSTNAME = os.environ.get("GATEWAY_HOSTNAME") or "traefik"
 
 
 def get_free_tcp_port() -> int:

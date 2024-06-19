@@ -16,7 +16,7 @@ from typing import Dict, Tuple
 
 import testutils.util.crypto
 
-HOST = "mender-device-auth:8080"
+HOST = "mender-deviceauth:8080"
 
 URL_DEVICES = "/api/devices/v1/authentication"
 URL_INTERNAL = "/api/internal/v1/devauth"

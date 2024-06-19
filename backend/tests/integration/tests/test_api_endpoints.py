@@ -199,16 +199,16 @@ class TestAPIEndpoints(BaseTestAPIEndpoints):
 class TestAPIEndpointsEnterprise(BaseTestAPIEndpoints):
     REPOS = (
         "auditlogs",
-        "deployments-enterprise",
-        "deviceauth-enterprise",
+        "deployments",
+        "deviceauth",
         "deviceconfig",
         "deviceconnect",
         "devicemonitor",
-        "inventory-enterprise",
+        "inventory",
         "iot-manager",
         "tenantadm",
-        "useradm-enterprise",
-        "workflows-enterprise",
+        "useradm",
+        "workflows",
     )
 
     @pytest.mark.skipif(

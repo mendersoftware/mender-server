@@ -553,10 +553,10 @@ class DockerComposeMTLSSetup(DockerComposeNamespace):
         self._wait_for_containers()
 
     def start_api_gateway(self):
-        self._docker_compose_cmd("start mender-api-gateway")
+        self._docker_compose_cmd("start traefik")
 
     def stop_api_gateway(self):
-        self._docker_compose_cmd("stop mender-api-gateway")
+        self._docker_compose_cmd("stop traefik")
 
     def start_mtls_gateway(self):
         self._docker_compose_cmd("up -d --scale mtls-gateway=1 mtls-gateway")

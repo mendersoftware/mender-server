@@ -421,17 +421,16 @@ def wait_until_healthy(compose_project: str = "", timeout: int = 60):
         kwargs["filters"] = {"label": f"com.docker.compose.project={compose_project}"}
 
     path_map = {
-        "mender-api-gateway": "/ping",
         "mender-auditlogs": "/api/internal/v1/auditlogs/health",
         "mender-deviceconnect": "/api/internal/v1/deviceconnect/health",
         "mender-deviceconfig": "/api/internal/v1/deviceconfig/health",
-        "mender-device-auth": "/api/internal/v1/devauth/health",
+        "mender-deviceauth": "/api/internal/v1/devauth/health",
         "mender-deployments": "/api/internal/v1/deployments/health",
         "mender-inventory": "/api/internal/v1/inventory/health",
         "mender-tenantadm": "/api/internal/v1/tenantadm/health",
         "mender-useradm": "/api/internal/v1/useradm/health",
         "mender-workflows": "/api/v1/health",
-        "minio": "/minio/health/live",
+        "s3fs": "/status",
     }
 
     containers = client.containers.list(all=True, **kwargs)
@@ -453,7 +452,7 @@ def wait_until_healthy(compose_project: str = "", timeout: int = 60):
         path = path_map.get(service)
         if path is None:
             continue
-        port = 8080 if service != "minio" else 9000
+        port = 8080 if service != "s3fs" else 8333
 
         for _ in redo.retrier(attempts=timeout, sleeptime=1):
             try:
