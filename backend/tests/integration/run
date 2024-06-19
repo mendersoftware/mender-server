@@ -268,7 +268,7 @@ for suite in "${TEST_SUITES[@]}"; do
     fi
 
     if [ $run_tests_retcode -ne 0 ]; then
-        tmppath=$(mktemp -p . acceptance.XXXXXX)
+        tmppath=$(TMPDIR=./tests mktemp logs.XXXXXX)
         echo "-- tests failed, dumping logs to $tmppath"
         compose_cmd logs > "$tmppath" 2>&1
     fi
