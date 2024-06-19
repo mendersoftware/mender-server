@@ -15,6 +15,7 @@
 import os
 import pytest
 import tempfile
+import time
 
 from collections import namedtuple
 from contextlib import contextmanager
@@ -203,6 +204,7 @@ class CliDeviceauth(BaseCli):
             # Restart the container, so that it is picked up by the device-auth service on startup
             self.container_manager.cmd(self.cid, "stop")
             self.container_manager.cmd(self.cid, "start")
+            time.sleep(5) # wait a few seconds to let the service start
             try:
                 yield
             finally:
