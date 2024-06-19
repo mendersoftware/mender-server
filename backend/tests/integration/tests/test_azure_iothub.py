@@ -585,9 +585,17 @@ class _TestAzureIoTHubDeviceLifecycleBase:
         assert state["desired"]["key"] == "value"
 
 
+@pytest.mark.skipif(
+    not bool(os.environ.get("AZURE_IOTHUB_CONNECTIONSTRING_B64")),
+    reason="AZURE_IOTHUB_CONNECTIONSTRING_B64 not provided",
+)
 class TestAzureIoTHubDeviceLifecycle(_TestAzureIoTHubDeviceLifecycleBase):
     pass
 
 
+@pytest.mark.skipif(
+    not bool(os.environ.get("AZURE_IOTHUB_CONNECTIONSTRING_B64")),
+    reason="AZURE_IOTHUB_CONNECTIONSTRING_B64 not provided",
+)
 class TestAzureIoTHubDeviceLifecycleEnterprise(_TestAzureIoTHubDeviceLifecycleBase):
     pass

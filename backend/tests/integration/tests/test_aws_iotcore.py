@@ -16,12 +16,10 @@ from dataclasses import dataclass
 from typing import Dict
 from typing import Optional
 import boto3
-import botocore
 import pytest
 import logging
 import json
 import os
-import time
 import uuid
 
 from redo import retriable
@@ -429,9 +427,17 @@ class _TestAWSIoTCoreDeviceLifecycleBase:
         assert state["desired"]["key"] == "value"
 
 
+@pytest.mark.skipif(
+    not bool(os.environ.get("AWS_IOTCORE_ACCESS_KEY_ID")),
+    reason="AWS_IOTCORE_ACCESS_KEY_ID not provided",
+)
 class TestAWSIoTCoreDeviceLifecycle(_TestAWSIoTCoreDeviceLifecycleBase):
     pass
 
 
+@pytest.mark.skipif(
+    not bool(os.environ.get("AWS_IOTCORE_ACCESS_KEY_ID")),
+    reason="AWS_IOTCORE_ACCESS_KEY_ID not provided",
+)
 class TestAWSIoTCoreDeviceLifecycleEnterprise(_TestAWSIoTCoreDeviceLifecycleBase):
     pass
