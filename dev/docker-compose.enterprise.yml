@@ -13,6 +13,8 @@ services:
       - mongo
     environment:
       AUDITLOGS_MONGO_URL: "mongodb://mongo"
+      AUDITLOGS_DEVICEAUTH_ADDRESS: "deviceauth:8080"
+      AUDITLOGS_USERADM_ADDRESS: "useradm:8080"
     labels:
       traefik.enable: "true"
       traefik.http.services.auditlogs.loadBalancer.server.port: "8080"
@@ -66,7 +68,7 @@ services:
       DEPLOYMENTS_AWS_EXTERNAL_URI: "https://s3.localhost"
       DEPLOYMENTS_AWS_AUTH_KEY: "mender"
       DEPLOYMENTS_AWS_AUTH_SECRET: "thisisnotsecure"
-      DEPLOYMENTS_HAVE_AUDIT: "1"
+      DEPLOYMENTS_ENABLE_AUDIT: "1"
     labels:
       traefik.enable: "true"
       traefik.http.services.deployments.loadBalancer.server.port: "8080"
@@ -140,7 +142,7 @@ services:
     depends_on:
       - mongo
     environment:
-      DEVICECONFIG_INVENTORY_URI: http://inventory:8080
+      DEVICECONFIG_INVENTORY_ADDR: http://inventory:8080
       DEVICECONFIG_WORKFLOWS_URL: http://workflows:8080
       DEVICECONFIG_MONGO_URL: "mongodb://mongo"
     labels:
@@ -205,6 +207,7 @@ services:
       - mongo
     environment:
       DEVICEMONITOR_MONGO_URL: "mongodb://mongo"
+      DEVICEMONITOR_WORKFLOWS_URL: http://workflows:8080
     labels:
       traefik.enable: "true"
       traefik.http.services.devicemonitor.loadBalancer.server.port: "8080"
@@ -347,6 +350,7 @@ services:
       USERADM_PLAN_DEFINITIONS_PATH: "/etc/useradm/plans.yaml"
       USERADM_REDIS_CONNECTION_STRING: "redis://redis:6379"
       USERADM_REDIS_LIMITS_EXPIRE_SEC: "3600"
+      USERADM_ORCHESTRATOR_ADDR: 'http://workflows:8080'
       USERADM_TENANTADM_ADDR: 'http://tenantadm:8080'
       USERADM_HAVE_ADDONS: "1"
       USERADM_ENABLE_AUDIT: "1"
