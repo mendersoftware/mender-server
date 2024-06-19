@@ -30,11 +30,11 @@ PYTEST_FILTER_ENTERPRISE="Enterprise"
 PYTEST_FILTER=""
 
 PYTEST_REPORT_OPEN="--self-contained-html \
-        --junit-xml=results_integration_open.xml \
-        --html=report_integration_open.html"
+        --junit-xml=tests/results_integration_open.xml \
+        --html=tests/report_integration_open.html"
 PYTEST_REPORT_ENTERPRISE="--self-contained-html \
-        --junit-xml=results_integration_enterprise.xml \
-        --html=report_integration_enterprise.html"
+        --junit-xml=tests/results_integration_enterprise.xml \
+        --html=tests/report_integration_enterprise.html"
 PYTEST_REPORT=""
 
 PYTEST_ARGS=""
