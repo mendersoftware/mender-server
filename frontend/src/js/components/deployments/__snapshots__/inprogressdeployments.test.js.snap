@@ -1,0 +1,827 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InProgressDeployments Component renders correctly 1`] = `
+.emotion-0 {
+  border-bottom: 1px solid #d4e9e7;
+}
+
+.emotion-0 span {
+  background: #fff;
+}
+
+.emotion-1 {
+  white-space: initial;
+}
+
+.emotion-3 {
+  background-color: #f7f7f7;
+  padding: 10px 20px;
+  border-radius: 4px;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  min-height: 70px;
+}
+
+.emotion-3 .chart-container {
+  min-height: 70px;
+}
+
+.emotion-3 .progress-chart {
+  min-height: 45px;
+}
+
+.emotion-3 .compact .progress-step,
+.emotion-3 .detailed .progress-step {
+  min-height: 45px;
+}
+
+.emotion-3 .progress-step,
+.emotion-3 .detailed .progress-step-total {
+  position: absolute;
+  border-right-style: none;
+}
+
+.emotion-3 .progress-step-total .progress-bar {
+  background-color: #d4e9e7;
+}
+
+.emotion-3 .progress-step-number {
+  -webkit-align-self: flex-start;
+  -ms-flex-item-align: flex-start;
+  align-self: flex-start;
+  margin-top: -4px;
+}
+
+.emotion-3.minimal {
+  padding: initial;
+}
+
+.emotion-3.no-background {
+  background: none;
+}
+
+.emotion-3.stepped-progress .progress-step-total {
+  margin-left: -0.25%;
+  width: 100.5%;
+}
+
+.emotion-3.stepped-progress .progress-step-total .progress-bar {
+  background-color: #fff;
+  border: 1px solid #a9a9a9;
+  border-radius: 2px;
+  height: 12px;
+}
+
+.emotion-3.stepped-progress .detailed .progress-step {
+  min-height: 20px;
+}
+
+.emotion-4 {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-column-gap: 16px;
+}
+
+.emotion-4 .progress-chart.detailed {
+  min-height: 20px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.emotion-5 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: inherit;
+  font-family: Lato,sans-serif;
+  font-weight: 500;
+  font-size: 0.8125rem;
+  line-height: 1.75;
+  text-transform: uppercase;
+  min-width: 64px;
+  padding: 6px 16px;
+  border-radius: 4px;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  color: #fff;
+  background-color: #337a87;
+  box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: transparent;
+  color: rgba(10, 10, 11, 0.78);
+  justify-self: center;
+  text-transform: none;
+}
+
+.emotion-5::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-5.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+@media print {
+  .emotion-5 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-5:hover {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  background-color: rgb(35, 85, 94);
+  box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
+}
+
+@media (hover: none) {
+  .emotion-5:hover {
+    background-color: #337a87;
+  }
+}
+
+.emotion-5:active {
+  box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
+}
+
+.emotion-5.Mui-focusVisible {
+  box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
+}
+
+.emotion-5.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+  box-shadow: none;
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+.emotion-5:hover {
+  colors: #337a87;
+}
+
+.emotion-5.MuiButton-text {
+  color: rgba(10, 10, 11, 0.78);
+}
+
+.emotion-5:hover {
+  background-color: transparent;
+  color: rgba(10, 10, 11, 0.78);
+}
+
+.emotion-6 {
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: inherit;
+}
+
+.emotion-7 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: inherit;
+  text-align: center;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  font-size: 1.3929rem;
+  padding: 8px;
+  border-radius: 50%;
+  overflow: visible;
+  color: rgba(0, 0, 0, 0.54);
+  -webkit-transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  padding: 12px;
+  font-size: 1.625rem;
+  font-size: 1.2rem;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.emotion-7::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-7.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+@media print {
+  .emotion-7 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-7:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+@media (hover: none) {
+  .emotion-7:hover {
+    background-color: transparent;
+  }
+}
+
+.emotion-7.Mui-disabled {
+  background-color: transparent;
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-8 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  fill: currentColor;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  font-size: 1.3929rem;
+}
+
+.emotion-8 iconButton {
+  margin-right: 8px;
+}
+
+.emotion-10 {
+  border-color: rgba(0, 0, 0, 0.06);
+  background-color: #fdfdfd;
+  color: rgba(10, 10, 11, 0.78);
+}
+
+.emotion-10 .dashboard-header span {
+  background-color: #fdfdfd;
+  color: rgba(10, 10, 11, 0.78);
+}
+
+.emotion-10 .MuiButtonBase-root {
+  color: rgba(10, 10, 11, 0.78);
+}
+
+.emotion-12 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  fill: currentColor;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  font-size: inherit;
+}
+
+.emotion-12 iconButton {
+  margin-right: 8px;
+}
+
+<div
+  class="fadeIn"
+>
+  <div
+    class="margin-left"
+  >
+    <h4
+      class="dashboard-header emotion-0 margin-top-large  margin-right"
+    >
+      <span>
+        In progress now
+      </span>
+    </h4>
+    <div
+      class="fadeIn deploy-table-contain "
+    >
+      <div
+        class="deployment-item deployment-header-item muted progress-item"
+      >
+        <div
+          class=""
+        >
+          Release
+        </div>
+        <div
+          class=""
+        >
+          Target device(s)
+        </div>
+        <div
+          class=""
+        >
+          Start time
+        </div>
+        <div
+          class=""
+        >
+          End time
+        </div>
+        <div
+          class="align-right column-defined"
+        >
+          # devices
+        </div>
+        <div
+          class=""
+        >
+          Status
+        </div>
+      </div>
+      <div
+        class="margin-right-small"
+      >
+        <div
+          class="deployment-item progress-item"
+        >
+          <div>
+            <span
+              class="deployment-item-title muted"
+            >
+              Release
+            </span>
+            <div
+              class="text-overflow emotion-1"
+              title="r1"
+            >
+              r1
+            </div>
+          </div>
+          <div>
+            <span
+              class="deployment-item-title muted"
+            >
+              Target device(s)
+            </span>
+            <div
+              class="text-overflow emotion-1"
+              title="test deployment"
+            >
+              test deployment
+            </div>
+          </div>
+          <div>
+            <span
+              class="deployment-item-title muted"
+            >
+              Start time
+            </span>
+            <span
+              aria-label="Tue Jan 01 2019 12:30:00 GMT+0000"
+              class=""
+              data-mui-internal-clone-element="true"
+            >
+              <time
+                datetime="2019-01-01T12:30:00+00:00"
+              >
+                2019-01-01 12:30
+              </time>
+            </span>
+          </div>
+          <div>
+            <span
+              class="deployment-item-title muted"
+            >
+              End time
+            </span>
+            <span
+              aria-label=""
+              class=""
+              data-mui-internal-clone-element="true"
+            >
+              <div
+                class=""
+              >
+                -
+              </div>
+            </span>
+          </div>
+          <div
+            class="align-right column-defined"
+          >
+            <span
+              class="deployment-item-title muted"
+            >
+              # devices
+            </span>
+            <div
+              class="align-right column-defined"
+            >
+              1
+            </div>
+          </div>
+          <div>
+            <span
+              class="deployment-item-title muted"
+            >
+              Status
+            </span>
+            <div
+              class="relative emotion-3  "
+            >
+              <div
+                class="emotion-4"
+              >
+                <div
+                  class="progress-chart relative detailed"
+                >
+                  <div
+                    class="progress-step"
+                    style="left: 0%; width: 100%;"
+                  >
+                    <div
+                      class="progress-bar"
+                      style="width: 100%; background-color: rgb(170, 170, 170);"
+                    />
+                    <div
+                      style="display: contents;"
+                    >
+                      <div
+                        class="progress-bar green"
+                        style="width: 0%;"
+                      />
+                      <div
+                        class="progress-bar warning"
+                        style="left: 0%; width: 0%;"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="progress-step relative flexbox progress-step-total"
+                  >
+                    <div
+                      class="progress-bar"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="flexbox center-aligned muted"
+                  style="justify-content: flex-end;"
+                >
+                  0 failures
+                </div>
+              </div>
+              <div
+                class="flexbox space-between muted"
+              >
+                <div>
+                  Devices in progress
+                </div>
+                <div>
+                  Current phase: 1 of 1
+                </div>
+              </div>
+            </div>
+          </div>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-5"
+            tabindex="0"
+            type="button"
+          >
+            View details
+            <span
+              class="MuiTouchRipple-root emotion-6"
+            />
+          </button>
+          <button
+            aria-label="Abort"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge columnHeader emotion-7"
+            data-mui-internal-clone-element="true"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium cancelButton muted emotion-8"
+              data-testid="CancelOutlinedIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"
+              />
+            </svg>
+            <span
+              class="MuiTouchRipple-root emotion-6"
+            />
+          </button>
+        </div>
+      </div>
+      <div
+        class="flexbox"
+      >
+        <div
+          class="loaderContainer shrunk"
+        >
+          <div
+            class="small  loader"
+          >
+            <span
+              class="dot dot_1"
+            />
+            <span
+              class="dot dot_2"
+            />
+            <span
+              class="dot dot_3"
+            />
+            <span
+              class="dot dot_4"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="deployments-pending margin-top margin-bottom-large emotion-10"
+  >
+    <h4
+      class="dashboard-header emotion-0 margin-small margin-top"
+    >
+      <span>
+        Pending
+      </span>
+    </h4>
+    <div
+      class="fadeIn deploy-table-contain margin-left-small"
+    >
+      <div
+        class="deployment-item deployment-header-item muted pending-item"
+      >
+        <div
+          class=""
+        >
+          Release
+        </div>
+        <div
+          class=""
+        >
+          Target device(s)
+        </div>
+        <div
+          class=""
+        >
+          Start time
+        </div>
+        <div
+          class=""
+        >
+          End time
+        </div>
+        <div
+          class="align-right column-defined"
+        >
+          # devices
+        </div>
+        <div
+          class=""
+        >
+          Status
+        </div>
+      </div>
+      <div
+        class=""
+      >
+        <div
+          class="deployment-item pending-item"
+        >
+          <div>
+            <span
+              class="deployment-item-title muted"
+            >
+              Release
+            </span>
+            <div
+              class="text-overflow "
+              title="r1"
+            >
+              r1
+            </div>
+          </div>
+          <div>
+            <span
+              class="deployment-item-title muted"
+            >
+              Target device(s)
+            </span>
+            <div
+              class="text-overflow "
+              title="test deployment 2"
+            >
+              test deployment 2
+            </div>
+          </div>
+          <div>
+            <span
+              class="deployment-item-title muted"
+            >
+              Start time
+            </span>
+            <span
+              aria-label="Tue Jan 01 2019 12:25:00 GMT+0000"
+              class=""
+              data-mui-internal-clone-element="true"
+            >
+              <time
+                datetime="2019-01-01T12:25:00+00:00"
+              >
+                2019-01-01 12:25
+              </time>
+            </span>
+          </div>
+          <div>
+            <span
+              class="deployment-item-title muted"
+            >
+              End time
+            </span>
+            <span
+              aria-label=""
+              class=""
+              data-mui-internal-clone-element="true"
+            >
+              <div
+                class=""
+              >
+                -
+              </div>
+            </span>
+          </div>
+          <div
+            class="align-right column-defined"
+          >
+            <span
+              class="deployment-item-title muted"
+            >
+              # devices
+            </span>
+            <div
+              class="align-right column-defined"
+            >
+              1
+            </div>
+          </div>
+          <div>
+            <span
+              class="deployment-item-title muted"
+            >
+              Status
+            </span>
+            <div
+              class="flexbox center-aligned"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-12"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M12,10.5A1.5,1.5 0 0,1 13.5,12A1.5,1.5 0 0,1 12,13.5A1.5,1.5 0 0,1 10.5,12A1.5,1.5 0 0,1 12,10.5M7.5,10.5A1.5,1.5 0 0,1 9,12A1.5,1.5 0 0,1 7.5,13.5A1.5,1.5 0 0,1 6,12A1.5,1.5 0 0,1 7.5,10.5M16.5,10.5A1.5,1.5 0 0,1 18,12A1.5,1.5 0 0,1 16.5,13.5A1.5,1.5 0 0,1 15,12A1.5,1.5 0 0,1 16.5,10.5Z"
+                />
+              </svg>
+              <span
+                class="margin-left-small"
+              >
+                Queued to start
+              </span>
+            </div>
+          </div>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-5"
+            tabindex="0"
+            type="button"
+          >
+            View details
+            <span
+              class="MuiTouchRipple-root emotion-6"
+            />
+          </button>
+          <button
+            aria-label="Abort"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge columnHeader emotion-7"
+            data-mui-internal-clone-element="true"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium cancelButton muted emotion-8"
+              data-testid="CancelOutlinedIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"
+              />
+            </svg>
+            <span
+              class="MuiTouchRipple-root emotion-6"
+            />
+          </button>
+        </div>
+      </div>
+      <div
+        class="flexbox"
+      >
+        <div
+          class="loaderContainer shrunk"
+        >
+          <div
+            class="small  loader"
+          >
+            <span
+              class="dot dot_1"
+            />
+            <span
+              class="dot dot_2"
+            />
+            <span
+              class="dot dot_3"
+            />
+            <span
+              class="dot dot_4"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

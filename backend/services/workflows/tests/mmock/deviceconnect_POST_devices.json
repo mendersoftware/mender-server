@@ -1,0 +1,10 @@
+{
+    "description": "deviceconnect: provision device",
+    "request": {
+        "method": "POST",
+        "path": "/api/internal/v1/deviceconnect/tenants//devices"
+    },
+    "response": {
+        "statusCode": 201
+    }
+}

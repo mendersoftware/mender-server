@@ -1,0 +1,179 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PlanSelection component renders correctly 1`] = `
+.emotion-0 {
+  border-color: #f7f7f7;
+}
+
+.emotion-0.active,
+.emotion-0:hover {
+  border-color: #d4e9e7;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.15);
+}
+
+.emotion-0.active {
+  background-color: #f7f7f7;
+}
+
+.emotion-0.addon {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-column-gap: 10px;
+  column-gap: 10px;
+  display: grid;
+  grid-template-columns: max-content minmax(150px, min-content) 1fr max-content;
+  height: initial;
+  margin-top: 10px;
+  min-width: 550px;
+  width: initial;
+}
+
+.emotion-0.addon.upgrade {
+  grid-template-columns: max-content minmax(120px, min-content) minmax(120px, min-content) 1fr max-content;
+}
+
+.emotion-1 {
+  margin-bottom: -11px;
+  font-size: smaller;
+}
+
+.emotion-2 {
+  font-size: 1rem;
+}
+
+.emotion-3 {
+  color: rgba(0, 0, 0, 0.38);
+  margin: 15px 0;
+}
+
+<div>
+  <h3
+    class="margin-top"
+  >
+    Plans
+  </h3>
+  <div
+    class="flexbox space-between"
+    style="padding-bottom: 15px;"
+  >
+    <div
+      class="planPanel emotion-0  "
+    >
+      <div
+        class="uppercased align-center muted emotion-1"
+      >
+        current plan
+      </div>
+      <h4>
+        Basic
+         
+      </h4>
+      <div>
+        <div
+          class="link-color bold emotion-2"
+        >
+          $32/month
+        </div>
+        <div>
+          for first 50 devices
+        </div>
+      </div>
+      <ul
+        class="unstyled"
+      >
+        <li>
+          <span
+            class="emotion-3 "
+          >
+            Basic OTA features
+          </span>
+        </li>
+      </ul>
+    </div>
+    <div
+      class="planPanel emotion-0  "
+    >
+      <div
+        class="uppercased align-center muted emotion-1"
+      >
+        upgrade
+      </div>
+      <h4>
+        Professional
+         
+      </h4>
+      <div>
+        <div
+          class="link-color bold emotion-2"
+        >
+          $269/month
+        </div>
+        <div>
+          for first 250 devices
+        </div>
+      </div>
+      <ul
+        class="unstyled"
+      >
+        <li>
+          <span
+            class="emotion-3 "
+          >
+            + Advanced OTA features
+          </span>
+        </li>
+        <li>
+          <span
+            class="emotion-3 "
+          >
+            + Standard support
+          </span>
+        </li>
+      </ul>
+    </div>
+    <div
+      class="planPanel emotion-0 active "
+    >
+      <div
+        class="uppercased align-center muted emotion-1"
+      >
+        upgrade
+      </div>
+      <h4>
+        Enterprise
+         
+      </h4>
+      <div>
+        <div
+          class="link-color bold emotion-2"
+        >
+          Custom pricing
+        </div>
+        <div>
+          unlimited devices
+        </div>
+      </div>
+      <ul
+        class="unstyled"
+      >
+        <li>
+          <span
+            class="emotion-3 "
+          >
+            + Enterprise-grade OTA features
+          </span>
+        </li>
+        <li>
+          <span
+            class="emotion-3 "
+          >
+            + Premium support
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;

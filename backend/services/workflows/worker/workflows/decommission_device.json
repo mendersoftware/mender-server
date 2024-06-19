@@ -1,0 +1,109 @@
+{
+    "name": "decommission_device",
+    "description": "Removes device info from all services.",
+    "version": 10,
+    "tasks": [
+        {
+            "name": "delete_device_inventory",
+            "type": "http",
+            "retries": 3,
+            "http": {
+                "uri": "http://${env.INVENTORY_ADDR|mender-inventory:8080}/api/internal/v1/inventory/tenants/${encoding=url;workflow.input.tenant_id}/devices/${encoding=url;workflow.input.device_id}",
+                "method": "DELETE",
+                "headers": {
+                    "X-MEN-RequestID": "${workflow.input.request_id}"
+                },
+                "connectionTimeOut": 8000,
+                "readTimeOut": 8000
+            }
+        },
+        {
+            "name": "delete_device_deployments",
+            "type": "http",
+            "retries": 3,
+            "http": {
+                "uri": "http://${env.DEPLOYMENTS_ADDR|mender-deployments:8080}/api/internal/v1/deployments/tenants/${encoding=url;workflow.input.tenant_id}/deployments/devices/${encoding=url;workflow.input.device_id}",
+                "method": "DELETE",
+                "headers": {
+                    "X-MEN-RequestID": "${workflow.input.request_id}"
+                },
+                "connectionTimeOut": 8000,
+                "readTimeOut": 8000
+            }
+        },
+        {
+            "name": "delete_device_deviceconnect",
+            "type": "http",
+            "retries": 3,
+            "requires": [
+                "${env.HAVE_DEVICECONNECT}"
+            ],
+            "http": {
+                "uri": "http://${env.DEVICECONNECT_ADDR|mender-deviceconnect:8080}/api/internal/v1/deviceconnect/tenants/${encoding=url;workflow.input.tenant_id}/devices/${encoding=url;workflow.input.device_id}",
+                "method": "DELETE",
+                "headers": {
+                    "X-MEN-RequestID": "${workflow.input.request_id}"
+                },
+                "connectionTimeOut": 8000,
+                "readTimeOut": 8000,
+                "statusCodes": [202, 404]
+            }
+        },
+        {
+            "name": "delete_device_deviceconfig",
+            "type": "http",
+            "retries": 3,
+            "requires": [
+                "${env.HAVE_DEVICECONFIG}"
+            ],
+            "http": {
+                "uri": "http://${env.DEVICECONFIG_ADDR|mender-deviceconfig:8080}/api/internal/v1/deviceconfig/tenants/${encoding=url;workflow.input.tenant_id}/devices/${encoding=url;workflow.input.device_id}",
+                "method": "DELETE",
+                "headers": {
+                    "X-MEN-RequestID": "${workflow.input.request_id}"
+                },
+                "connectionTimeOut": 8000,
+                "readTimeOut": 8000,
+                "statusCodes": [204, 404]
+            }
+        },
+        {
+            "name": "delete_iot_device",
+            "type": "http",
+            "retries": 3,
+            "http": {
+                "uri": "http://${env.IOT_MANAGER_ADDR|mender-iot-manager:8080}/api/internal/v1/iot-manager/tenants/${encoding=url;workflow.input.tenant_id}/devices/${encoding=url;workflow.input.device_id}",
+                "method": "DELETE",
+                "headers": {
+                    "X-MEN-RequestID": "${workflow.input.request_id}"
+                },
+                "connectionTimeOut": 8000,
+                "readTimeOut": 8000,
+                "statusCodes": [
+                    202,
+                    204,
+                    404
+                ]
+            }
+        },
+        {
+            "name": "delete_device_auth",
+            "type": "http",
+            "retries": 3,
+            "http": {
+                "uri": "http://${env.DEVICEAUTH_ADDR|mender-device-auth:8080}/api/internal/v1/devauth/tenants/${encoding=url;workflow.input.tenant_id}/devices/${encoding=url;workflow.input.device_id}",
+                "method": "DELETE",
+                "headers": {
+                    "X-MEN-RequestID": "${workflow.input.request_id}"
+                },
+                "connectionTimeOut": 8000,
+                "readTimeOut": 8000
+            }
+        }
+    ],
+    "inputParameters": [
+        "request_id",
+        "device_id",
+        "tenant_id"
+    ]
+}

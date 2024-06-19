@@ -1,0 +1,11 @@
+
+{
+	"description": "deployments: POST configuration deployment",
+	"request": {
+		"method": "POST",
+		"path": "/api/internal/v1/deployments/tenants/*"
+	},
+	"response": {
+		"statusCode": 201
+	}
+}

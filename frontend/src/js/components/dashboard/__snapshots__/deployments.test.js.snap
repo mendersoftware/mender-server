@@ -1,0 +1,376 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Deployments Component renders correctly 1`] = `
+.emotion-0 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  -webkit-column-gap: 16px;
+  column-gap: 16px;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  max-width: 500px;
+  padding: 8px;
+}
+
+.emotion-0>div:last-child {
+  width: 100%;
+}
+
+.emotion-1 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  fill: currentColor;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  font-size: inherit;
+}
+
+.emotion-1 iconButton {
+  margin-right: 8px;
+}
+
+.emotion-3 {
+  background-color: #f7f7f7;
+  padding: 10px 20px;
+  border-radius: 4px;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  min-height: 70px;
+}
+
+.emotion-3 .chart-container {
+  min-height: 70px;
+}
+
+.emotion-3 .progress-chart {
+  min-height: 45px;
+}
+
+.emotion-3 .compact .progress-step,
+.emotion-3 .detailed .progress-step {
+  min-height: 45px;
+}
+
+.emotion-3 .progress-step,
+.emotion-3 .detailed .progress-step-total {
+  position: absolute;
+  border-right-style: none;
+}
+
+.emotion-3 .progress-step-total .progress-bar {
+  background-color: #d4e9e7;
+}
+
+.emotion-3 .progress-step-number {
+  -webkit-align-self: flex-start;
+  -ms-flex-item-align: flex-start;
+  align-self: flex-start;
+  margin-top: -4px;
+}
+
+.emotion-3.minimal {
+  padding: initial;
+}
+
+.emotion-3.no-background {
+  background: none;
+}
+
+.emotion-3.stepped-progress .progress-step-total {
+  margin-left: -0.25%;
+  width: 100.5%;
+}
+
+.emotion-3.stepped-progress .progress-step-total .progress-bar {
+  background-color: #fff;
+  border: 1px solid #a9a9a9;
+  border-radius: 2px;
+  height: 12px;
+}
+
+.emotion-3.stepped-progress .detailed .progress-step {
+  min-height: 20px;
+}
+
+.emotion-4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  max-width: 500px;
+}
+
+.emotion-4>time {
+  -webkit-align-self: flex-end;
+  -ms-flex-item-align: flex-end;
+  align-self: flex-end;
+  margin-right: 6px;
+}
+
+.emotion-6 {
+  background: #fff;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.emotion-7 {
+  -webkit-column-gap: 8px;
+  column-gap: 8px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 32px);
+}
+
+.emotion-7>div {
+  -webkit-column-gap: 4px;
+  column-gap: 4px;
+}
+
+.emotion-7 .disabled {
+  opacity: 0.1;
+}
+
+<div
+  class=" deployments"
+>
+  <div
+    class="dashboard flexbox column"
+    style="grid-template-columns: 1fr; row-gap: 10px;"
+  >
+    <h4
+      class="margin-bottom-none margin-left-small"
+    >
+      Recent deployments
+    </h4>
+    <h5
+      class="margin-bottom-none"
+    >
+      Pending
+    </h5>
+    <div
+      class="clickable emotion-0"
+    >
+      <div>
+        <div>
+          r1
+        </div>
+        <div
+          class=""
+          title="test deployment 2"
+        >
+          test deployment 2
+        </div>
+      </div>
+      <div
+        class="flexbox center-aligned"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-1"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M12,10.5A1.5,1.5 0 0,1 13.5,12A1.5,1.5 0 0,1 12,13.5A1.5,1.5 0 0,1 10.5,12A1.5,1.5 0 0,1 12,10.5M7.5,10.5A1.5,1.5 0 0,1 9,12A1.5,1.5 0 0,1 7.5,13.5A1.5,1.5 0 0,1 6,12A1.5,1.5 0 0,1 7.5,10.5M16.5,10.5A1.5,1.5 0 0,1 18,12A1.5,1.5 0 0,1 16.5,13.5A1.5,1.5 0 0,1 15,12A1.5,1.5 0 0,1 16.5,10.5Z"
+          />
+        </svg>
+        <span
+          class="margin-left-small"
+        >
+          Queued to start
+        </span>
+      </div>
+    </div>
+    <h5
+      class="margin-bottom-none"
+    >
+      In Progress
+    </h5>
+    <div
+      class="clickable emotion-0"
+    >
+      <div>
+        <div>
+          r1
+        </div>
+        <div
+          class=""
+          title="test deployment"
+        >
+          test deployment
+        </div>
+      </div>
+      <div
+        class="relative emotion-3 minimal "
+      >
+        <div
+          class="chart-container"
+        >
+          <div
+            class="progress-chart relative detailed"
+          >
+            <div
+              class="progress-step"
+              style="left: 0%; width: 100%;"
+            >
+              <div
+                class="progress-bar"
+                style="width: 100%; background-color: rgb(170, 170, 170);"
+              />
+              <div
+                style="display: contents;"
+              >
+                <div
+                  class="progress-bar green"
+                  style="width: 0%;"
+                />
+                <div
+                  class="progress-bar warning"
+                  style="left: 0%; width: 0%;"
+                />
+              </div>
+            </div>
+            <div
+              class="progress-step relative flexbox progress-step-total"
+            >
+              <div
+                class="progress-bar"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h5
+      class="margin-bottom-none"
+    >
+      Finished
+    </h5>
+    <div
+      class="emotion-4"
+    >
+      <time
+        class="muted slightly-smaller"
+        datetime="2019-01-13T13:00:00+00:00"
+      >
+        2019-01-13 13:00
+      </time>
+      <div
+        class="clickable emotion-0"
+      >
+        <div>
+          <div>
+            r1
+          </div>
+          <div
+            class=""
+            title="test deployment"
+          >
+            test deployment
+          </div>
+        </div>
+        <div
+          class="emotion-6"
+        >
+          <div
+            class="flexbox emotion-7 "
+          >
+            <div
+              aria-label="Skipped"
+              class="flexbox centered disabled"
+              data-mui-internal-clone-element="true"
+            >
+              <img
+                src="skipped_status.png"
+              />
+              <div
+                class="status"
+              >
+                0
+              </div>
+            </div>
+            <div
+              aria-label="Pending"
+              class="flexbox centered disabled"
+              data-mui-internal-clone-element="true"
+            >
+              <img
+                src="pending_status.png"
+              />
+              <div
+                class="status"
+              >
+                0
+              </div>
+            </div>
+            <div
+              aria-label="In progress"
+              class="flexbox centered "
+              data-mui-internal-clone-element="true"
+            >
+              <img
+                src="progress_status.png"
+              />
+              <div
+                class="status"
+              >
+                1
+              </div>
+            </div>
+            <div
+              aria-label="Successful"
+              class="flexbox centered disabled"
+              data-mui-internal-clone-element="true"
+            >
+              <img
+                src="success_status.png"
+              />
+              <div
+                class="status"
+              >
+                0
+              </div>
+            </div>
+            <div
+              aria-label="Failed"
+              class="flexbox centered disabled"
+              data-mui-internal-clone-element="true"
+            >
+              <img
+                src="error_status.png"
+              />
+              <div
+                class="status"
+              >
+                0
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a
+      class="margin-top"
+      href="/deployments"
+    >
+      See all deployments
+    </a>
+  </div>
+</div>
+`;

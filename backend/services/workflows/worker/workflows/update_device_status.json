@@ -1,0 +1,53 @@
+{
+    "name": "update_device_status",
+    "description": "Update device status.",
+    "version": 7,
+    "tasks": [
+        {
+            "name": "update_device_identity_inventory",
+            "type": "http",
+            "retries": 3,
+            "http": {
+                "uri": "http://${env.INVENTORY_ADDR|mender-inventory:8080}/api/internal/v1/inventory/tenants/${encoding=url;workflow.input.tenant_id}/devices/status/${encoding=url;workflow.input.device_status}",
+                "method": "POST",
+                "contentType": "application/json",
+                "json": "${workflow.input.devices}",
+                "headers": {
+                    "X-MEN-RequestID": "${workflow.input.request_id}"
+                },
+                "connectionTimeOut": 8000,
+                "readTimeOut": 8000
+            }
+        },
+        {
+            "name": "update_azure_status",
+            "type": "http",
+            "retries": 3,
+            "http": {
+                "uri": "http://${env.IOT_MANAGER_ADDR|mender-iot-manager:8080}/api/internal/v1/iot-manager/tenants/${encoding=url;workflow.input.tenant_id}/bulk/devices/status/${encoding=url;workflow.input.device_status}",
+                "method": "PUT",
+                "contentType": "application/json",
+                "json": "${workflow.input.devices}",
+                "headers": {
+                    "X-MEN-RequestID": "${workflow.input.request_id}"
+                },
+                "connectionTimeOut": 8000,
+                "readTimeOut": 8000,
+                "statusCodes": [
+                    200,
+                    201,
+                    202,
+                    204,
+                    404
+                ]
+            }
+        }
+
+    ],
+    "inputParameters": [
+        "request_id",
+        "devices",
+        "device_status",
+        "tenant_id"
+    ]
+}

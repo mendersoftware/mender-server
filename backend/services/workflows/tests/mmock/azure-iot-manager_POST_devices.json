@@ -1,0 +1,10 @@
+{
+    "description": "iot-manager: provision device",
+    "request": {
+        "method": "POST",
+        "path": "/api/internal/v1/iot-manager/tenants//devices"
+    },
+    "response": {
+        "statusCode": 201
+    }
+}

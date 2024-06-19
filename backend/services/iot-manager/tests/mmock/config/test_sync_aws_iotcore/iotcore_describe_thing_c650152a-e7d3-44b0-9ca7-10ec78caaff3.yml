@@ -1,0 +1,25 @@
+request:
+  description: Get device c650152a-e7d3-44b0-9ca7-10ec78caaff3 from AWS IoT Core
+  host: iot.region.amazonaws.com
+  method: GET
+  path: /things/c650152a-e7d3-44b0-9ca7-10ec78caaff3
+response:
+  statusCode: 200
+  headers:
+    Content-Type:
+      - "application/json"
+  body: |-
+    {
+      "billingGroupName": "",
+      "defaultClientId": "",
+      "thingArn": "c650152a-e7d3-44b0-9ca7-10ec78caaff3",
+      "thingId": "c650152a-e7d3-44b0-9ca7-10ec78caaff3",
+      "thingName": "c650152a-e7d3-44b0-9ca7-10ec78caaff3",
+      "thingTypeName": "c650152a-e7d3-44b0-9ca7-10ec78caaff3",
+      "version": 1
+    }
+control:
+  scenario:
+    name: class
+    requiredState:
+      - TestSyncAWSIoTCore

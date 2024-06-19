@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  mongodb:
+    image: 'bitnami/mongodb:4.0'
+    ports:
+      - "27017:27017"
+  nats:
+    image: "nats"
+    ports:
+      - "4222:4222"
+      - "8222:8222"

@@ -1,0 +1,78 @@
+# NATS uri
+# Defauls to: "nats://localhost:4222"
+# Overwrite with environment variable: WORKFLOWS_NATS_URI
+
+nats_uri: "nats://mender-nats:4222"
+
+# NATS stream name
+# Defauls to: "WORKFLOWS"
+# Overwrite with environment variable: WORKFLOWS_NATS_STREAM_NAME
+
+# nats_stream_name: "WORKFLOWS"
+
+# NATS subscriber topic name
+# Defauls to: "default"
+# Overwrite with environment variable: WORKFLOWS_NATS_SUBSCRIBER_TOPIC
+
+nats_subscriber_topic: "generate_artifact"
+
+# NATS subscriber durable name
+# Defauls to: "workflows-worker"
+# Overwrite with environment variable: WORKFLOWS_NATS_SUBSCRIBER_DURABLE
+
+nats_subscriber_durable: "create-artifact-worker"
+
+# Mongodb connection string
+# Defaults to: "mongodb://localhost"
+# Overwrite with environment variable: WORKFLOWS_MONGO_URL
+
+mongo-url: mongodb://mender-mongo:27017
+
+# Mongodb database name
+# Defaults to: "workflows"
+# Overwrite with environment variable: WORKFLOWS_MONGO_DBNAME
+
+# mongo-dbname: workflows
+
+# Enable SSL for mongo connections
+# Defaults to: false
+# Overwrite with environment variable: WORKFLOWS_MONGO_SSL
+
+# mongo_ssl: false
+
+# SkipVerify controls whether a mongo client verifies the
+# server's certificate chain and host name.
+# If InsecureSkipVerify is true, accepts any certificate
+# presented by the server and any host name in that certificate.
+# Defaults to: false
+# Overwrite with environment variable: WORKFLOWS_MONGO_SSL_SKIPVERIFY
+
+# mongo_ssl_skipverify: false
+
+# Mongodb username
+# Overwrites username set in connection string.
+# Defaults to: none
+# Overwrite with environment variable: WORKFLOWS_MONGO_USERNAME
+
+# mongo_username: user
+
+# Mongodb password
+# Overwrites password set in connection string.
+# Defaults to: none
+# Overwrite with environment variable: WORKFLOWS_MONGO_PASSWORD
+
+# mongo_password: secret
+
+# Workflows path
+# The path containing the workflows definitions
+# Defaults to: none
+# Overwrite with environment variable: WORKFLOWS_WORKFLOWS_PATH
+
+workflows_path: "/etc/workflows/definitions"
+
+# Concurrency limit
+# The maximum number of jobs to be processed in parallel
+# Defaults to: 10
+# Overwrite with environment variable: WORKFLOWS_CONCURRENCY
+
+# concurrency: 10

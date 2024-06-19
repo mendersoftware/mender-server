@@ -1,0 +1,61 @@
+@path-fonts: '~/src/assets/fonts';
+
+// Mui token map reference. Do not use directly but pull from theme.palette
+// If unmatched from theme.palette then copy from palette as the source of truth
+@MuiPaletteSecondaryLight: var(--mui-secondary-light);
+@MuiPaletteSecondaryLighter: var(--mui-secondary-lighter);
+@MuiPaletteBrandMender: var(--mui-brand-mender);
+@MuiPaletteSucessMain: var(--mui-success-main);
+@MuiPaletteErrorMain: var(--mui-error-main);
+@MuiPaletteErrorDark: var(--mui-error-dark);
+@MuiPaletteErrorLight: var(--mui-error-light);
+
+@MuiGrey900: var(--mui-grey-900);
+@MuiGrey800: var(--mui-grey-800);
+@MuiGrey700: var(--mui-grey-700);
+@MuiGrey600: var(--mui-grey-600);
+@MuiGrey500: var(--mui-grey-500);
+@MuiGrey400: var(--mui-grey-400);
+@MuiGrey300: var(--mui-grey-300);
+@MuiGrey200: var(--mui-grey-200);
+@MuiGrey100: var(--mui-grey-100);
+@MuiGrey50: var(--mui-grey-50);
+
+// legacy color definitions
+@red: @MuiPaletteErrorDark;
+@green: @MuiPaletteSucessMain;
+@alertgreen: #679ba5;
+@alertpurple: @MuiPaletteSecondaryLight;
+@alertpurpleHover: @MuiPaletteSecondaryLighter;
+@errorStyleColor: @MuiPaletteErrorMain;
+@errorStyleColorLight: @MuiPaletteErrorLight;
+@linkgreen: var(--mui-primary-main);
+@linkhover: @alertgreen;
+@linksecondary: #669ba5;
+@grey: #cfcfcf;
+@lightergrey: @MuiGrey300;
+@darkgrey: @MuiGrey800;
+@lightestgrey: @MuiGrey400;
+@lightgrey: @MuiGrey50;
+
+@mendergreen: #015969;
+@mendermaroon: var(--mui-secondary-main);
+@menderwarning: rgb(225, 0, 80);
+@text: var(--mui-text-primary);
+@textlight: var(--mui-text-light);
+@MuiTextHint: var(--mui-text-secondary);
+@textmuted: @MuiTextHint;
+
+@placeholder: #e3e3e3;
+@bordercolor: @placeholder;
+@overlay: var(--mui-overlay);
+
+@defaultLeftBarWidth: 260px;
+@defaultGutterWidth: 15px;
+
+
+// Added
+@defaultBackground: var(--mui-background-default);
+
+// Not used
+// @textsecondary: #decfd9;
