@@ -5,9 +5,6 @@ services:
   acceptance-tester:
     scale: 0
     image: acceptance-tester
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    working_dir: /testing
     build:
       context: .
       dockerfile_inline: |
@@ -19,28 +16,16 @@ services:
             pip install -r requirements.txt
         WORKDIR /testing
         ENTRYPOINT ["pytest"]
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    working_dir: /testing
     entrypoint:
       - pytest
       - --tb=long
     command: []
     depends_on:
-      - auditlogs
-      - create-artifact-worker
-      - deployments
-      - deviceauth
-      - deviceconfig
-      - deviceconnect
-      - devicemonitor
-      - generate-delta-worker
-      - gui
-      - inventory
-      - iot-manager
       - mongo
       - nats
       - redis
-      - s3fs
-      - tenantadm
-      - traefik
-      - useradm
       - workflows
       - workflows-worker

@@ -1,0 +1,26 @@
+# Override file for acceptance tests
+# NOTE: paths are relative to $GIT_ROOT/backend/tests
+services:
+  acceptance-tester:
+    volumes:
+      - ../services/deviceconfig/tests:/testing
+      - ../services/deviceconfig/docs:/docs
+    entrypoint:
+      - pytest
+      - --host=deviceconfig:8080
+    depends_on:
+      - mmock
+      - deviceconfig
+
+  deviceconfig:
+    build:
+      args:
+        - BIN_FILE=backend/tests/bin/deviceconfig.test
+    image: deviceconfig:test
+    environment:
+      DEVICECONFIG_ENABLE_AUDIT: "true"
+      DEVICECONFIG_WORKFLOWS_URL: "http://mender-workflows-server:8080"
+      GOCOVERDIR: /cover
+    user: ${UID:-0}:${GID:-0}
+    volumes:
+      - ./cover:/cover

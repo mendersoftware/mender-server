@@ -4,6 +4,8 @@ services:
   acceptance-tester:
     volumes:
       - ../services/auditlogs/tests:/testing
+    depends_on:
+      - auditlogs
   auditlogs:
     build:
       args:

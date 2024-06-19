@@ -24,18 +24,7 @@ services:
       - --tb=long
     command: []
     depends_on:
-      - create-artifact-worker
-      - deployments
-      - deviceauth
-      - deviceconfig
-      - deviceconnect
-      - gui
-      - inventory
-      - iot-manager
       - mongo
       - nats
-      - s3fs
-      - traefik
-      - useradm
       - workflows
       - workflows-worker

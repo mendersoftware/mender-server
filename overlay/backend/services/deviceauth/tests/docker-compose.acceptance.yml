@@ -5,6 +5,8 @@ services:
     volumes:
       - ../services/deviceauth/tests:/testing
       - ../services/deviceauth/docs:/docs
+    depends_on:
+      - deviceauth
     entrypoint:
       - pytest
       - --host=deviceauth:8080

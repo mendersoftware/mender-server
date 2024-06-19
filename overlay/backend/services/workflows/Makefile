@@ -27,7 +27,7 @@ build:
 		go build -o $(binfile) $(BUILDFLAGS)
 
 .PHONY: build-test
-build-test: BUILDFLAGS += -cover -installsuffix .test
+build-test: BUILDFLAGS += -cover -installsuffix .test -tags acceptance
 build-test: binfile = $(GIT_ROOT)/backend/tests/bin/$(COMPONENT).test
 build-test: build
 
@@ -35,9 +35,20 @@ build-test: build
 generate:
 	go generate ./...
 
-.PHONY: test
-test:
+.PHONY: test-unit
+test-unit:
 	go test $(BUILDFLAGS) $(TESTFLAGS) ./...
+
+.PHONY: test-acceptance-run
+test-acceptance-run: docker-acceptance
+	docker compose -f tests/docker-compose.yml run --rm -it --use-aliases acceptance-tester $(PYTEST_ARGS)
+
+.PHONY: test-acceptance
+test-acceptance: test-acceptance-run
+	docker compose -f tests/docker-compose.yml down --remove-orphans -v
+
+.PHONY: test
+test: test-unit test-acceptance
 
 .PHONY: docker
 docker: export GOOS = linux
