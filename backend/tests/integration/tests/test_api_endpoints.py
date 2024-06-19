@@ -17,9 +17,6 @@ import glob
 import json
 import logging
 import os
-import re
-import subprocess
-import tempfile
 
 import pytest
 import requests
@@ -29,65 +26,24 @@ from testutils.api.client import GATEWAY_HOSTNAME
 from testutils.infra.container_manager.kubernetes_manager import isK8S
 
 logging.basicConfig(format="%(asctime)s %(message)s")
-logger = logging.getLogger("test_decomission")
+logger = logging.getLogger("test_api_endpoints")
 logger.setLevel(logging.INFO)
 
 
-REPO_TO_ENV_VARIABLE = {
-    "auditlogs": "AUDITLOGS_REV",
-    "deployments": "DEPLOYMENTS_REV",
-    "deployments-enterprise": "DEPLOYMENTS_ENTERPRISE_REV",
-    "deviceauth": "DEVICEAUTH_REV",
-    "deviceauth-enterprise": "DEVICEAUTH_ENTERPRISE_REV",
-    "deviceconfig": "DEVICECONFIG_REV",
-    "deviceconnect": "DEVICECONNECT_REV",
-    "inventory": "INVENTORY_REV",
-    "inventory-enterprise": "INVENTORY_ENTERPRISE_REV",
-    "iot-manager": "IOT_MANAGER_REV",
-    "tenantadm": "TENANTADM_REV",
-    "useradm": "USERADM_REV",
-    "useradm-enterprise": "USERADM_ENTERPRISE_REV",
-    "workflows": "WORKFLOWS_REV",
-    "workflows-enterprise": "WORKFLOWS_ENTERPRISE_REV",
-}
-
-
 def get_api_docs(repo):
-    # do not proceed if the SSH_PRIVATE_KEY env variable is not set
-    if not bool(os.environ.get("SSH_PRIVATE_KEY")):
-        return
-    git_repository = f"git@github.com:mendersoftware/{repo}.git"
-    with tempfile.TemporaryDirectory() as tmp:
-        tmp_repo = os.path.join(tmp, repo)
-        subprocess.check_output(["git", "clone", git_repository, tmp_repo])
-        env_var_name = REPO_TO_ENV_VARIABLE.get(repo)
-        ref_name = env_var_name and os.getenv(env_var_name) or "master"
-        if ref_name != "master":
-            tag_match = re.match(r"^[0-9]+\.[0-9]+\.[0-9]+(?:-build[0-9]+)?", ref_name)
-            if tag_match:
-                subprocess.check_output(
-                    ["git", "checkout", "-b", "prtest", ref_name], cwd=tmp_repo,
-                )
-            else:
-                subprocess.check_output(
-                    ["git", "fetch", "origin", ref_name + ":prtest"], cwd=tmp_repo,
-                )
-                subprocess.check_output(
-                    ["git", "checkout", "prtest"], cwd=tmp_repo,
-                )
-        files = glob.glob(os.path.join(tmp_repo, "docs", "*.yml"))
-        for file in files:
-            basename = os.path.basename(file)
-            kind = (
-                basename.startswith("management_")
-                and "management"
-                or basename.startswith("devices_")
-                and "devices"
-                or "internal"
-            )
-            with open(file) as f:
-                data = yaml.load(f, Loader=yaml.FullLoader)
-                yield kind, data
+    files = glob.glob(os.path.join(os.sep + "docs", repo, "*.yml"))
+    for file in files:
+        basename = os.path.basename(file)
+        kind = (
+            basename.startswith("management_")
+            and "management"
+            or basename.startswith("devices_")
+            and "devices"
+            or "internal"
+        )
+        with open(file) as f:
+            data = yaml.load(f, Loader=yaml.FullLoader)
+            yield kind, data
 
 
 def get_api_endpoints(repo):
@@ -181,10 +137,6 @@ class TestAPIEndpoints(BaseTestAPIEndpoints):
         "workflows",
     )
 
-    @pytest.mark.skipif(
-        not bool(os.environ.get("SSH_PRIVATE_KEY")),
-        reason="SSH_PRIVATE_KEY not provided",
-    )
     @pytest.mark.parametrize(
         "kind,returns_401,method,scheme,host,path", get_all_api_endpoints(REPOS),
     )
@@ -211,10 +163,6 @@ class TestAPIEndpointsEnterprise(BaseTestAPIEndpoints):
         "workflows",
     )
 
-    @pytest.mark.skipif(
-        not bool(os.environ.get("SSH_PRIVATE_KEY")),
-        reason="SSH_PRIVATE_KEY not provided",
-    )
     @pytest.mark.parametrize(
         "kind,returns_401,method,scheme,host,path", get_all_api_endpoints(REPOS),
     )
