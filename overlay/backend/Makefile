@@ -26,8 +26,8 @@ $(TEST_TARGETS):
 pkg-test:
 	@$(MAKE) -C pkg/
 
-.PHONY: integration-test
-integration-test:
+.PHONY: test-integration
+test-integration:
 	./tests/integration/run $(args)
 
 .PHONY: docker
