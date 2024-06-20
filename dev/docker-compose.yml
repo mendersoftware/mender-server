@@ -108,7 +108,7 @@ services:
     restart: on-failure:3
     command: [server, --automigrate]
     environment:
-      DEVICECONFIG_INVENTORY_ADDR: http://inventory:8080
+      DEVICECONFIG_INVENTORY_URI: http://inventory:8080
       DEVICECONFIG_WORKFLOWS_URL: http://workflows:8080
       DEVICECONFIG_MONGO_URL: "mongodb://mongo"
     depends_on:
