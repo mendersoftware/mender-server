@@ -36,7 +36,10 @@ generate:
 	go generate ./...
 
 .PHONY: test
-test:
+test: test-unit
+
+.PHONY: test-unit
+test-unit:
 	go test $(BUILDFLAGS) $(TESTFLAGS) ./...
 
 .PHONY: test-acceptance

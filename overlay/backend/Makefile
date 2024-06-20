@@ -3,6 +3,8 @@ SERVICES = $(subst services/,,$(wildcard services/*))
 
 BUILD_TARGETS := $(addsuffix "-build", $(SERVICES))
 TEST_TARGETS := $(addsuffix "-test", $(SERVICES))
+TEST_UNIT_TARGETS := $(addsuffix "-test-unit", $(SERVICES))
+TEST_ACCEPTANCE_TARGETS := $(addsuffix "-test-acceptance", $(SERVICES))
 DOCKER_TARGETS := $(addsuffix "-docker", $(SERVICES))
 DOCKER_ACCEPTANCE_TARGETS := $(addsuffix "-docker-acceptance", $(SERVICES))
 
@@ -15,7 +17,7 @@ $(BUILD_TARGETS):
 
 
 .PHONY: test
-test: $(TEST_TARGETS) pkg-test integration-test
+test: $(TEST_TARGETS) pkg-test test-integration
 
 .PHONY: $(TEST_TARGETS)
 $(TEST_TARGETS):
@@ -25,6 +27,22 @@ $(TEST_TARGETS):
 .PHONY: pkg-test
 pkg-test:
 	@$(MAKE) -C pkg/
+
+.PHONY: test-unit
+test-unit: $(TEST_UNIT_TARGETS)
+
+.PHONY: $(TEST_UNIT_TARGETS)
+$(TEST_UNIT_TARGETS):
+	@echo $(subst -test-unit,,$@)
+	@$(MAKE) -C services/$(subst -test-unit,,$@) test-unit
+
+.PHONY: test-acceptance
+test-acceptance: $(TEST_ACCEPTANCE_TARGETS)
+
+.PHONY: $(TEST_ACCEPTANCE_TARGETS)
+$(TEST_ACCEPTANCE_TARGETS):
+	@echo $(subst -test-acceptance,,$@)
+	@$(MAKE) -C services/$(subst -test-acceptance,,$@) test-acceptance
 
 .PHONY: test-integration
 test-integration:
