@@ -16,7 +16,7 @@ http:
   
     devauth:
       forwardAuth:
-        address: "http://device-auth:8080/api/internal/v1/devauth/tokens/verify"
+        address: "http://deviceauth:8080/api/internal/v1/devauth/tokens/verify"
         authResponseHeaders: "X-MEN-RequestID"
   
     userauth:

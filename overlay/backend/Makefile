@@ -15,7 +15,7 @@ $(BUILD_TARGETS):
 
 
 .PHONY: test
-test: $(TEST_TARGETS) pkg-test
+test: $(TEST_TARGETS) pkg-test integration-test
 
 .PHONY: $(TEST_TARGETS)
 $(TEST_TARGETS):
@@ -25,7 +25,10 @@ $(TEST_TARGETS):
 .PHONY: pkg-test
 pkg-test:
 	@$(MAKE) -C pkg/
-	
+
+.PHONY: test-integration
+test-integration:
+	./tests/integration/run $(args)
 
 .PHONY: docker
 docker: $(DOCKER_TARGETS)

@@ -23,6 +23,8 @@ tenantadm
 useradm-enterprise
 workflows-enterprise
 EOF
+    echo "Replacing enterprise Dockerfiles"
+    mv overlay/backend/services/workflows/Dockerfile.enterprise overlay/backend/services/workflows/Dockerfile
     echo "Replacing docker composition for enterprise"
     mv dev/docker-compose.enterprise.yml dev/docker-compose.yml
     mv backend/tests/docker-compose.enterprise.yml backend/tests/docker-compose.yml
@@ -65,6 +67,17 @@ while read repo; do
         -name '*.go' \
         -exec sed -i.bak 's:"github.com/mendersoftware/\('"${repo}"'.*\)":"github.com/mendersoftware/mender-server/services/\1":' {} \; \
         -exec rm {}.bak \;
+
+    case ${repo%%-enterprise} in
+        deviceauth)
+            echo "Replacing host in API docs from mender-device-auth to mender-deviceauth"
+            perl -p -i -e "s/mender-device-auth/mender-deviceauth/" "backend/services/${repo%%-enterprise}/docs/internal_api.yml"
+            ;;
+        workflows)
+            echo "Replacing host in API docs from mender-workflows-server to mender-workflows"
+            perl -p -i -e "s/mender-workflows-server/mender-workflows/" "backend/services/${repo%%-enterprise}/docs/workflows_api.yml"
+            ;;
+    esac
 
     case ${repo%%-enterprise} in
         auditlogs | deployments | deviceauth | inventory | tenantadm | useradm)
