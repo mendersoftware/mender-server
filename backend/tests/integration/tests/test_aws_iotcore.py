@@ -168,6 +168,10 @@ class _TestAWSIoTCoreBase:
 
 
 class TestAWSIoTCoreIntegrations(_TestAWSIoTCoreBase):
+    @pytest.mark.skipif(
+        not bool(os.environ.get("AWS_IOTCORE_ACCESS_KEY_ID")),
+        reason="AWS_IOTCORE_ACCESS_KEY_ID not provided",
+    )
     @pytest.mark.parametrize(
         "expected_integration",
         [
@@ -195,6 +199,10 @@ class TestAWSIoTCoreIntegrations(_TestAWSIoTCoreBase):
 
 
 class TestAWSIoTCoreIntegrationsEnterprise(_TestAWSIoTCoreBase):
+    @pytest.mark.skipif(
+        not bool(os.environ.get("AWS_IOTCORE_ACCESS_KEY_ID")),
+        reason="AWS_IOTCORE_ACCESS_KEY_ID not provided",
+    )
     @pytest.mark.parametrize(
         "expected_integration",
         [
