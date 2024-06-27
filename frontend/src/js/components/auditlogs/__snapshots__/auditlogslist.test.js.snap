@@ -10,36 +10,31 @@ exports[`Auditlogs Component renders correctly 1`] = `
     >
       <div
         class="columnHeader"
-        style="cursor: initial;"
       >
         Performed by
       </div>
       <div
         class="columnHeader"
-        style="cursor: initial;"
       >
         Action
       </div>
       <div
         class="columnHeader"
-        style="cursor: initial;"
       >
         Type
       </div>
       <div
         class="columnHeader"
-        style="cursor: initial;"
       >
         Changed
       </div>
       <div
         class="columnHeader"
-        style="cursor: initial;"
       >
         More details
       </div>
       <div
-        class="columnHeader"
+        class="columnHeader sortable"
       >
         Time
         <svg

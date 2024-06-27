@@ -151,10 +151,9 @@ export const AuditLogsList = ({
         <div className="auditlogs-list-item auditlogs-list-item-header muted">
           {auditLogColumns.map((column, index) => (
             <div
-              className="columnHeader"
+              className={`columnHeader${column.sortable ? ' sortable' : ''}`}
               key={`columnHeader-${index}`}
               onClick={() => (column.sortable ? onChangeSorting() : null)}
-              style={column.sortable ? {} : { cursor: 'initial' }}
             >
               {column.title}
               {column.sortable && <SortIcon columnKey="time" sortDown={sort.direction === SORTING_OPTIONS.desc} />}
