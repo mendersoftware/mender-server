@@ -16,7 +16,7 @@ import React, { useEffect, useRef, useState } from 'react';
 // material ui
 import { Sort } from '@mui/icons-material';
 
-import { TIMEOUTS } from '../../constants/appConstants';
+import { TIMEOUTS } from '@northern.tech/store/commonConstants';
 
 const SortIcon = ({ columnKey, disabled = false, sortDown = false }) => {
   const timer = useRef();

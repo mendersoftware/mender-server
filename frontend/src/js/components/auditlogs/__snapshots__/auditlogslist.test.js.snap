@@ -44,9 +44,10 @@ exports[`Auditlogs Component renders correctly 1`] = `
         Time
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon selected false css-vhgui7-MuiSvgIcon-root"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon selected fadeOut false css-vhgui7-MuiSvgIcon-root"
           data-testid="SortIcon"
           focusable="false"
+          style="font-size: 16px;"
           viewBox="0 0 24 24"
         >
           <path

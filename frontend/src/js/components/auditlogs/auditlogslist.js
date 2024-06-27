@@ -14,13 +14,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { ArrowRightAlt as ArrowRightAltIcon, Sort as SortIcon } from '@mui/icons-material';
+import { ArrowRightAlt as ArrowRightAltIcon } from '@mui/icons-material';
 
 import { DEPLOYMENT_ROUTES, SORTING_OPTIONS, canAccess } from '@northern.tech/store/constants';
 
 import DeviceIdentityDisplay from '../common/deviceidentity';
 import Loader from '../common/loader';
 import Pagination from '../common/pagination';
+import SortIcon from '../common/sorticon';
 import Time from '../common/time';
 import EventDetailsDrawer from './eventdetailsdrawer';
 
@@ -156,7 +157,7 @@ export const AuditLogsList = ({
               style={column.sortable ? {} : { cursor: 'initial' }}
             >
               {column.title}
-              {column.sortable ? <SortIcon className={`sortIcon selected ${(sort.direction === SORTING_OPTIONS.desc).toString()}`} /> : null}
+              {column.sortable && <SortIcon columnKey="time" sortDown={sort.direction === SORTING_OPTIONS.desc} />}
             </div>
           ))}
           <div />

@@ -20,7 +20,7 @@ import { Close as CloseIcon } from '@mui/icons-material';
 import { ClickAwayListener, Drawer, IconButton, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
+import { TIMEOUTS } from '@northern.tech/store/constants';
 import { getIdAttribute, getMappedDevicesList, getUserSettings } from '@northern.tech/store/selectors';
 import { setDeviceListState, setSearchState } from '@northern.tech/store/thunks';
 import pluralize from 'pluralize';
