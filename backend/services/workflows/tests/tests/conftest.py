@@ -14,12 +14,26 @@
 import pytest
 import requests
 
+from redo import retrier
+
 MMOCK_URI = "http://mmock:8082"
 WORKFLOWS_URI = "http://workflows-server:8080"
 
 
 @pytest.fixture(scope="session")
 def workflows_url():
+    timeout = 10
+    for _ in retrier(attempts=timeout, sleeptime=1):
+        try:
+            rsp = requests.request("GET", WORKFLOWS_URI + "/api/v1/health")
+        except requests.exceptions.ConnectionError:
+            continue
+        if rsp.status_code < 300:
+            break
+        else:
+            raise TimeoutError(
+                f"Timed out waiting for service 'workflows' to become healthy"
+            )
     yield WORKFLOWS_URI
 
 

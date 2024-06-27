@@ -11,9 +11,12 @@ services:
     volumes:
       - ".:/testing"
     depends_on:
-      - mmock
-      - workflows
-      - workflows-worker
+      mmock:
+        condition: service_started
+      workflows:
+        condition: service_started
+      workflows-worker:
+        condition: service_started
 
   mongo:
     extends:
@@ -93,8 +96,10 @@ services:
           - workflows-server
     restart: always
     depends_on:
-      - mongo
-      - nats
+      mongo:
+        condition: service_started
+      nats:
+        condition: service_started
 
 volumes:
   mongo: {}
