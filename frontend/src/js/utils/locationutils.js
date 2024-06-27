@@ -37,6 +37,8 @@ const commonFields = {
   issues: { parse: undefined, select: defaultSelector, target: 'selectedIssues' },
   open: { parse: Boolean, select: defaultSelector, target: 'open' }
 };
+const sortingFields = ['scope', 'key', 'direction'];
+const parsingSortingFields = [...sortingFields].reverse();
 
 const scopes = {
   identity: { delimiter: 'identity', filters: [] },
@@ -67,15 +69,18 @@ export const commonProcessor = searchParams => {
   Object.keys(commonFields).map(key => params.delete(key));
   const sort = params.has('sort')
     ? params.getAll('sort').reduce((sortAccu, scopedQuery) => {
+        // reverse the items to ensure the optional scope is only considered if it is present
         const items = scopedQuery.split(SEPARATOR).reverse();
-        return ['direction', 'key', 'scope'].reduce((accu, key, index) => {
+        const parsedSortItem = parsingSortingFields.reduce((accu, key, index) => {
           if (items[index]) {
             accu[key] = items[index];
           }
           return accu;
-        }, sortAccu);
-      }, {})
-    : undefined;
+        }, {});
+        sortAccu.push(parsedSortItem);
+        return sortAccu;
+      }, [])
+    : [];
   params.delete('sort');
   return { pageState, params, sort };
 };
@@ -156,23 +161,31 @@ export const parseDeviceQuery = (searchParams, extraProps = {}) => {
   return { detailsTab, filters: Object.values(scopedFilters).flat(), groupName, ...pageStateExtension };
 };
 
-const formatSorting = (sort, { sort: sortDefault }) => {
+const formatSorting = (sort, { sort: sortDefault = [] }) => {
   if (!sort || deepCompare(sort, sortDefault)) {
     return '';
   }
-  const sortQuery = ['scope', 'key', 'direction']
-    .reduce((accu, key) => {
-      if (!sort[key]) {
-        return accu;
-      }
-      accu.push(sort[key]);
-      return accu;
-    }, [])
-    .join(SEPARATOR);
-  return `sort=${sortQuery}`;
+  let sorter = sort;
+  if (!Array.isArray(sort)) {
+    sorter = [sort];
+  }
+  const queries = sorter.reduce((accu, sortOption) => {
+    const sortQuery = sortingFields
+      .reduce((fieldsAccu, key) => {
+        if (!sortOption[key]) {
+          return fieldsAccu;
+        }
+        fieldsAccu.push(sortOption[key]);
+        return fieldsAccu;
+      }, [])
+      .join(SEPARATOR);
+    accu.push(`sort=${sortQuery}`);
+    return accu;
+  }, []);
+  return queries.join('&');
 };
 
-export const formatPageState = ({ selectedId, selectedIssues, page, perPage, sort }, { defaults }) =>
+export const formatPageState = ({ selectedId, selectedIssues, page, perPage, sort }, { defaults = {} }) =>
   Object.entries({ page, perPage, id: selectedId, issues: selectedIssues, open: selectedId ? true : undefined })
     .reduce(
       (accu, [key, value]) => {
@@ -312,7 +325,7 @@ const formatActiveDeployments = (pageState, { defaults }) =>
     .filter(i => i)
     .join('&');
 
-export const formatDeployments = ({ deploymentObject, pageState }, { defaults, today, tonight }) => {
+export const formatDeployments = ({ deploymentObject, pageState }, { defaults = {}, today, tonight }) => {
   const { state: selectedState, showCreationDialog } = pageState.general;
   let params = new URLSearchParams();
   if (showCreationDialog) {

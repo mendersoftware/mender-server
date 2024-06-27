@@ -37,9 +37,11 @@ const sortDefaults = { sort: { direction: 'asc' } };
 describe('locationutils', () => {
   describe('common', () => {
     it('uses working utilties - commonProcessor', () => {
-      const startParams = new URLSearchParams('?perPage=234&id=123-324&open=true&sort=asc&issues=issueType1&issues=issueType2');
+      const startParams = new URLSearchParams(
+        '?perPage=234&id=123-324&open=true&sort=desc&sort=someKey:asc&sort=scoped:otherKey:asc&issues=issueType1&issues=issueType2'
+      );
       const { pageState, params, sort } = commonProcessor(startParams);
-      expect(sort).toEqual({ direction: 'asc' });
+      expect(sort).toEqual([{ direction: 'desc' }, { direction: 'asc', key: 'someKey' }, { direction: 'asc', key: 'otherKey', scope: 'scoped' }]);
       expect(pageState).toEqual({ id: ['123-324'], selectedIssues: ['issueType1', 'issueType2'], open: true, perPage: 234 });
       expect(params.has('page')).not.toBeTruthy();
     });
@@ -49,6 +51,32 @@ describe('locationutils', () => {
         { defaults: sortDefaults }
       );
       expect(search).toEqual('sort=someKey:desc&page=1234&perPage=1000&id=123&issues=1243&issues=qweioqwei&open=true');
+    });
+    it('uses working utilities - formatPageState', () => {
+      const search = formatPageState(
+        {
+          page: 1234,
+          perPage: 1000,
+          sort: [
+            { direction: 'desc', key: 'someKey' },
+            { direction: 'asc', key: 'otherKey' },
+            { direction: 'desc', scope: 'fooscope', key: 'someKey' }
+          ]
+        },
+        { defaults: { sort: [{ direction: 'asc', key: 'otherKey' }] } }
+      );
+      expect(search).toEqual('sort=someKey:desc&sort=otherKey:asc&sort=fooscope:someKey:desc&page=1234&perPage=1000');
+    });
+    it('uses working utilities - formatPageState with default sort', () => {
+      const search = formatPageState(
+        {
+          page: 1234,
+          perPage: 1000,
+          sort: [{ direction: 'asc', key: 'otherKey' }]
+        },
+        { defaults: { sort: [{ direction: 'asc', key: 'otherKey' }] } }
+      );
+      expect(search).toEqual('page=1234&perPage=1000');
     });
   });
   describe('auditlog', () => {
