@@ -13,7 +13,7 @@
 //    limitations under the License.
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import { AddCircle as AddIcon } from '@mui/icons-material';
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
@@ -98,7 +98,6 @@ export const DeviceGroups = () => {
   const isEnterprise = useSelector(getIsEnterprise);
   const dispatch = useDispatch();
   const isInitialized = useRef(false);
-  const location = useLocation();
 
   const [locationParams, setLocationParams] = useLocationParams('devices', {
     filteringAttributes,
@@ -127,11 +126,6 @@ export const DeviceGroups = () => {
     selectedState,
     setLocationParams
   ]);
-
-  useEffect(() => {
-    // set isInitialized ref to false when location changes, otherwise when you go back setLocationParams will be set with a duplicate item
-    isInitialized.current = false;
-  }, [location]);
 
   useEffect(() => {
     const { groupName, filters = [], id = [], ...remainder } = locationParams;
