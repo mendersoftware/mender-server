@@ -13,7 +13,14 @@
 //    limitations under the License.
 // @ts-nocheck
 import { duplicateFilter, yes } from '../helpers';
-import { ATTRIBUTE_SCOPES, DEVICE_FILTERING_OPTIONS, DEVICE_ISSUE_OPTIONS, DEVICE_LIST_MAXIMUM_LENGTH, emptyUiPermissions } from './commonConstants';
+import {
+  ATTRIBUTE_SCOPES,
+  DEVICE_FILTERING_OPTIONS,
+  DEVICE_ISSUE_OPTIONS,
+  DEVICE_LIST_MAXIMUM_LENGTH,
+  SORTING_OPTIONS,
+  emptyUiPermissions
+} from './commonConstants';
 import {
   DARK_MODE,
   DEPLOYMENT_STATES,
@@ -246,3 +253,28 @@ export const mapDeviceAttributes = (attributes = []) =>
   );
 
 export const isDarkMode = mode => mode === DARK_MODE;
+
+export const combineSortCriteria = (currentCriteria = [], newCriteria = []) =>
+  newCriteria.reduce(
+    (accu, sort) => {
+      const existingSortIndex = accu.findIndex(({ scope, key }) => scope === sort.scope && key === sort.key);
+      if (existingSortIndex > -1) {
+        accu.splice(existingSortIndex, 1);
+      }
+      if (sort.disabled) {
+        return accu;
+      }
+      accu.push(sort);
+      return accu;
+    },
+    [...currentCriteria.filter(({ disabled }) => !disabled)]
+  );
+
+export const sortCriteriaToSortOptions = criteria =>
+  criteria.reduce((accu, sort) => {
+    const { direction: sortDown = SORTING_OPTIONS.desc, key: sortCol, scope: sortScope } = sort;
+    if (sortCol) {
+      accu.push({ attribute: sortCol, order: sortDown, scope: sortScope });
+    }
+    return accu;
+  }, []);

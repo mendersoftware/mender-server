@@ -12,7 +12,6 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 // @ts-nocheck
-import { SORTING_OPTIONS } from '@northern.tech/store/constants';
 import { createSlice } from '@reduxjs/toolkit';
 
 export const sliceName = 'app';
@@ -58,11 +57,9 @@ export const initialState = {
     deviceIds: [],
     searchTerm: '',
     searchTotal: 0,
-    sort: {
-      direction: SORTING_OPTIONS.desc
-      // key: null,
-      // scope: null
-    }
+    sort: [
+      // { direction: AppConstants.SORTING_OPTIONS.desc, key: null, scope: null}
+    ]
   },
   stripeAPIKey: '',
   trackerCode: '',

@@ -19,7 +19,7 @@ import { AddCircle as AddIcon } from '@mui/icons-material';
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 
 import storeActions from '@northern.tech/store/actions';
-import { DEVICE_FILTERING_OPTIONS, DEVICE_ISSUE_OPTIONS, DEVICE_STATES, SORTING_OPTIONS, emptyFilter, onboardingSteps } from '@northern.tech/store/constants';
+import { DEVICE_FILTERING_OPTIONS, DEVICE_ISSUE_OPTIONS, DEVICE_STATES, emptyFilter, onboardingSteps } from '@northern.tech/store/constants';
 import {
   getAcceptedDevices,
   getDeviceCountsByStatus,
@@ -101,8 +101,7 @@ export const DeviceGroups = () => {
 
   const [locationParams, setLocationParams] = useLocationParams('devices', {
     filteringAttributes,
-    filters,
-    defaults: { sort: { direction: SORTING_OPTIONS.desc } }
+    filters
   });
 
   const { refreshTrigger, selectedId, state: selectedState } = deviceListState;

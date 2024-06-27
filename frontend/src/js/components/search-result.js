@@ -76,8 +76,7 @@ export const SearchResult = ({ onToggleSearchResult, open = true }) => {
 
   const [columnHeaders, setColumnHeaders] = useState(getHeaders(columnSelection, routes.devices.defaultHeaders, idAttribute));
 
-  const { isSearching, searchTerm, searchTotal, sort = {} } = searchState;
-  const { direction: sortDown = SORTING_OPTIONS.desc, key: sortCol } = sort;
+  const { isSearching, searchTerm, searchTotal } = searchState;
 
   useEffect(() => {
     const columnHeaders = getHeaders(columnSelection, routes.devices.defaultHeaders, idAttribute);

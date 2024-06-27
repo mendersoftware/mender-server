@@ -77,8 +77,6 @@ const autoSelectProps = {
   renderOption
 };
 
-const locationDefaults = { sort: { direction: SORTING_OPTIONS.desc } };
-
 export const AuditLogs = props => {
   const [csvLoading, setCsvLoading] = useState(false);
 
@@ -86,7 +84,7 @@ export const AuditLogs = props => {
   const { start: today, end: tonight } = date;
 
   const isInitialized = useRef();
-  const [locationParams, setLocationParams] = useLocationParams('auditlogs', { today, tonight, defaults: locationDefaults });
+  const [locationParams, setLocationParams] = useLocationParams('auditlogs', { today, tonight });
   const { classes } = useStyles();
   const dispatch = useDispatch();
   const events = useSelector(getAuditLog);

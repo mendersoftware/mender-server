@@ -11,8 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-
 // @ts-nocheck
+
 /*eslint import/namespace: ['error', { allowComputed: true }]*/
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -25,7 +25,6 @@ import {
   DEVICE_LIST_DEFAULTS,
   EXTERNAL_PROVIDER,
   MAX_PAGE_SIZE,
-  SORTING_OPTIONS,
   TIMEOUTS,
   UNGROUPED_GROUP,
   auditLogsApiUrl,
@@ -47,13 +46,15 @@ import {
 import { commonErrorFallback, commonErrorHandler } from '@northern.tech/store/store';
 import { getDeviceMonitorConfig, getLatestDeviceAlerts, getSingleDeployment, saveGlobalSettings } from '@northern.tech/store/thunks';
 import {
+  combineSortCriteria,
   convertDeviceListStateToFilters,
   extractErrorMessage,
   filtersFilter,
   mapDeviceAttributes,
   mapFiltersToTerms,
   mapTermsToFilters,
-  progress
+  progress,
+  sortCriteriaToSortOptions
 } from '@northern.tech/store/utils';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { isCancel } from 'axios';
@@ -518,7 +519,7 @@ export const setDeviceListState = createAsyncThunk(
       setOnly: false,
       refreshTrigger,
       ...selectionState,
-      sort: { ...currentState.sort, ...selectionState.sort }
+      sort: combineSortCriteria(currentState.sort, selectionState.sort)
     };
     let tasks = [];
     // eslint-disable-next-line no-unused-vars
@@ -526,12 +527,10 @@ export const setDeviceListState = createAsyncThunk(
     // eslint-disable-next-line no-unused-vars
     const { isLoading: nextLoading, deviceIds: nextDevices, selection: nextSelection, ...nextRequestState } = nextState;
     if (!nextState.setOnly && !deepCompare(currentRequestState, nextRequestState)) {
-      const { direction: sortDown = SORTING_OPTIONS.desc, key: sortCol, scope: sortScope } = nextState.sort ?? {};
-      const sortBy = sortCol ? [{ attribute: sortCol, order: sortDown, scope: sortScope }] : undefined;
       const applicableSelectedState = nextState.state === routes.allDevices.key ? undefined : nextState.state;
       nextState.isLoading = true;
       tasks.push(
-        dispatch(getDevicesByStatus({ ...nextState, status: applicableSelectedState, sortOptions: sortBy, fetchAuth }))
+        dispatch(getDevicesByStatus({ ...nextState, status: applicableSelectedState, sortOptions: sortCriteriaToSortOptions(nextState.sort), fetchAuth }))
           .unwrap()
           .then(results => {
             const { deviceAccu, total } = results[results.length - 1];
