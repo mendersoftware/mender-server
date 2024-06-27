@@ -13,7 +13,7 @@ exports[`DeviceList Component renders correctly 1`] = `
         class="deviceListRow"
       >
         <div
-          class="columnHeader flexbox space-between relative"
+          class="columnHeader flexbox space-between relative "
         >
           <div
             class="flexbox center-aligned"
@@ -31,7 +31,7 @@ exports[`DeviceList Component renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="columnHeader flexbox space-between relative"
+          class="columnHeader flexbox space-between relative "
         >
           <div
             class="flexbox center-aligned"
@@ -49,7 +49,7 @@ exports[`DeviceList Component renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="columnHeader flexbox space-between relative"
+          class="columnHeader flexbox space-between relative "
         >
           <div
             class="flexbox center-aligned"
@@ -59,7 +59,7 @@ exports[`DeviceList Component renders correctly 1`] = `
           />
         </div>
         <div
-          class="columnHeader flexbox space-between relative"
+          class="columnHeader flexbox space-between relative "
         >
           <div
             class="flexbox center-aligned"

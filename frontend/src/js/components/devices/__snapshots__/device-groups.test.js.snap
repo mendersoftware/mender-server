@@ -381,7 +381,7 @@ exports[`DeviceGroups Component renders correctly 1`] = `
                 </span>
               </div>
               <div
-                class="columnHeader flexbox space-between relative"
+                class="columnHeader flexbox space-between relative sortable"
               >
                 <div
                   class="flexbox center-aligned"
@@ -389,7 +389,7 @@ exports[`DeviceGroups Component renders correctly 1`] = `
                   Device ID
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon  true css-vhgui7-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon  fadeOut false css-vhgui7-MuiSvgIcon-root"
                     data-testid="SortIcon"
                     focusable="false"
                     style="font-size: 16px;"
@@ -425,7 +425,7 @@ exports[`DeviceGroups Component renders correctly 1`] = `
                 </div>
               </div>
               <div
-                class="columnHeader flexbox space-between relative"
+                class="columnHeader flexbox space-between relative sortable"
               >
                 <div
                   class="flexbox center-aligned"
@@ -433,7 +433,7 @@ exports[`DeviceGroups Component renders correctly 1`] = `
                   Device type
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon  true css-vhgui7-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon  fadeOut false css-vhgui7-MuiSvgIcon-root"
                     data-testid="SortIcon"
                     focusable="false"
                     style="font-size: 16px;"
@@ -457,7 +457,7 @@ exports[`DeviceGroups Component renders correctly 1`] = `
                 </div>
               </div>
               <div
-                class="columnHeader flexbox space-between relative"
+                class="columnHeader flexbox space-between relative sortable"
               >
                 <div
                   class="flexbox center-aligned"
@@ -465,7 +465,7 @@ exports[`DeviceGroups Component renders correctly 1`] = `
                   Current software
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon  true css-vhgui7-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon  fadeOut false css-vhgui7-MuiSvgIcon-root"
                     data-testid="SortIcon"
                     focusable="false"
                     style="font-size: 16px;"
@@ -489,7 +489,7 @@ exports[`DeviceGroups Component renders correctly 1`] = `
                 </div>
               </div>
               <div
-                class="columnHeader flexbox space-between relative"
+                class="columnHeader flexbox space-between relative sortable"
               >
                 <div
                   class="flexbox center-aligned"
@@ -497,7 +497,7 @@ exports[`DeviceGroups Component renders correctly 1`] = `
                   Latest activity
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon  true css-vhgui7-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon  fadeOut false css-vhgui7-MuiSvgIcon-root"
                     data-testid="SortIcon"
                     focusable="false"
                     style="font-size: 16px;"
@@ -513,7 +513,7 @@ exports[`DeviceGroups Component renders correctly 1`] = `
                 />
               </div>
               <div
-                class="columnHeader flexbox space-between relative"
+                class="columnHeader flexbox space-between relative sortable"
               >
                 <div
                   class="flexbox center-aligned"
@@ -521,7 +521,7 @@ exports[`DeviceGroups Component renders correctly 1`] = `
                   Status
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon  true css-vhgui7-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon  fadeOut false css-vhgui7-MuiSvgIcon-root"
                     data-testid="SortIcon"
                     focusable="false"
                     style="font-size: 16px;"

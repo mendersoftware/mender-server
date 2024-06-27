@@ -26,7 +26,7 @@ describe('DeviceList Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(
       <DeviceList
-        columnHeaders={[{ name: 1 }, { name: 2 }, { name: 3 }, { name: 4 }]}
+        columnHeaders={[{ attribute: { name: 1 } }, { attribute: { name: 2 } }, { attribute: { name: 3 } }, { attribute: { name: 4 } }]}
         customColumnSizes={[]}
         devices={[]}
         deviceListState={defaultState.devices.deviceList}

@@ -2175,9 +2175,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-233:focus::-ms-input
                 Name
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon selected true emotion-39"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon selected  true emotion-39"
                   data-testid="SortIcon"
                   focusable="false"
+                  style="font-size: 16px;"
                   viewBox="0 0 24 24"
                 >
                   <path
@@ -2198,9 +2199,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-233:focus::-ms-input
                 Tags
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon  true emotion-39"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon  fadeOut false emotion-39"
                   data-testid="SortIcon"
                   focusable="false"
+                  style="font-size: 16px;"
                   viewBox="0 0 24 24"
                 >
                   <path
@@ -2215,9 +2217,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-233:focus::-ms-input
                 Last modified
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon  true emotion-39"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon  fadeOut false emotion-39"
                   data-testid="SortIcon"
                   focusable="false"
+                  style="font-size: 16px;"
                   viewBox="0 0 24 24"
                 >
                   <path

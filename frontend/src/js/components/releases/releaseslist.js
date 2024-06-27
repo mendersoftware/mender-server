@@ -108,17 +108,10 @@ export const ReleasesList = ({ className = '', onFileUploadClick }) => {
   const [selectedReleases, setSelectedReleases] = useState([]);
 
   const { canUploadReleases } = userCapabilities;
-  const { key: attribute, direction } = sort;
 
   const onSelect = useCallback(id => dispatch(selectRelease(id)), [dispatch]);
 
-  const onChangeSorting = sortKey => {
-    let sort = { key: sortKey, direction: direction === SORTING_OPTIONS.asc ? SORTING_OPTIONS.desc : SORTING_OPTIONS.asc };
-    if (sortKey !== attribute) {
-      sort = { ...sort, direction: columns.find(({ key }) => key === sortKey)?.defaultSortDirection ?? SORTING_OPTIONS.desc };
-    }
-    dispatch(setReleasesListState({ page: 1, sort }));
-  };
+  const onChangeSorting = useCallback(sortOption => dispatch(setReleasesListState({ page: 1, sort: sortOption })), [dispatch]); // release retrieval only supports a single sort criterium so we can't pass a list of sortOptions
 
   const onChangePagination = (page, currentPerPage = perPage) => dispatch(setReleasesListState({ page, perPage: currentPerPage }));
 
@@ -186,9 +179,8 @@ export const ReleasesList = ({ className = '', onFileUploadClick }) => {
     );
   }
 
-  const onSelectionChange = (selection = []) => {
-    dispatch(setReleasesListState({ selection }));
-  };
+  const onSelectionChange = (selection = []) => dispatch(setReleasesListState({ selection }));
+
   return (
     <div className={className}>
       {isLoading === undefined ? (
@@ -201,7 +193,7 @@ export const ReleasesList = ({ className = '', onFileUploadClick }) => {
             columns={applicableColumns}
             items={releases}
             onItemClick={onSelect}
-            sort={sort}
+            sort={[sort]}
             onChangeSorting={onChangeSorting}
             tableRef={repoRef}
             onRowSelected={onSelectionChange}

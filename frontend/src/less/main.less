@@ -745,17 +745,19 @@ table thead.clickable tr > th:first-child {
 }
 
 .columnHeader {
-  cursor: pointer;
   display: flex;
   align-items: center;
+  &.sortable {
+    cursor: pointer;
+  }
   .sortIcon {
     visibility: hidden;
     margin-left: calc(@defaultGutterWidth / 3);
-    .transition(visibility 0.1s ease-in) !important;
+    .transition(visibility 0.1s ease-in);
     &.selected {
       .opacity(1);
       visibility: visible;
-      .transition(all 0.15s ease-in-out) !important;
+      .transition(all 0.15s ease-in-out);
     }
   }
   &:hover {
@@ -763,7 +765,11 @@ table thead.clickable tr > th:first-child {
     .sortIcon {
       .opacity(1);
       visibility: visible;
-      .transition(all 0.15s ease-in-out) !important;
+      .transition(all 0.15s ease-in-out);
+    }
+    .fadeOut {
+      .opacity(0);
+      .transition(opacity 0.2s linear);
     }
   }
   .material-icons {

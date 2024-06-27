@@ -21,7 +21,7 @@ import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import storeActions from '@northern.tech/store/actions';
-import { ALL_DEVICES, DEVICE_ISSUE_OPTIONS, DEVICE_STATES, SORTING_OPTIONS, TIMEOUTS, UNGROUPED_GROUP, onboardingSteps } from '@northern.tech/store/constants';
+import { ALL_DEVICES, DEVICE_ISSUE_OPTIONS, DEVICE_STATES, TIMEOUTS, UNGROUPED_GROUP, onboardingSteps } from '@northern.tech/store/constants';
 import {
   getAvailableIssueOptionsByType,
   getDeviceCountsByStatus,
@@ -203,11 +203,9 @@ export const Authorized = ({
     selectedIssues = [],
     isLoading: pageLoading,
     selection: selectedRows,
-    sort = {},
     state: selectedState,
     detailsTab: tabSelection
   } = deviceListState;
-  const { direction: sortDown = SORTING_OPTIONS.desc, key: sortCol } = sort;
   const { canManageDevices, canManageUsers } = userCapabilities;
   const { hasMonitor } = tenantCapabilities;
   const currentSelectedState = states[selectedState] ?? states.devices;
@@ -279,6 +277,7 @@ export const Authorized = ({
   useEffect(() => {
     setShowFilters(false);
   }, [selectedGroup]);
+
   const dispatchDeviceListState = useCallback(
     (options, shouldSelectDevices = true, forceRefresh = false, fetchAuth = false) => {
       return dispatch(setDeviceListState({ ...options, shouldSelectDevices, forceRefresh, fetchAuth }));
@@ -349,17 +348,7 @@ export const Authorized = ({
 
   const onPageLengthChange = perPage => dispatchDeviceListState({ perPage, page: 1, refreshTrigger: !refreshTrigger });
 
-  const onSortChange = attribute => {
-    let changedSortCol = attribute.name;
-    let changedSortDown = sortDown === SORTING_OPTIONS.desc ? SORTING_OPTIONS.asc : SORTING_OPTIONS.desc;
-    if (changedSortCol !== sortCol) {
-      changedSortDown = SORTING_OPTIONS.desc;
-    }
-    dispatchDeviceListState({
-      sort: { direction: changedSortDown, key: changedSortCol, scope: attribute.scope },
-      refreshTrigger: !refreshTrigger
-    });
-  };
+  const onSortChange = useCallback(sortItem => dispatchDeviceListState({ sort: [sortItem] }), [dispatchDeviceListState]);
 
   const setDetailsTab = detailsTab => dispatchDeviceListState({ detailsTab, setOnly: true });
 
