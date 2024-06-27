@@ -105,15 +105,6 @@ export const SearchResult = ({ onToggleSearchResult, open = true }) => {
     dispatch(setSearchState({ page }));
   };
 
-  const onSortChange = attribute => {
-    let changedSortCol = attribute.name;
-    let changedSortDown = sortDown === SORTING_OPTIONS.desc ? SORTING_OPTIONS.asc : SORTING_OPTIONS.desc;
-    if (changedSortCol !== sortCol) {
-      changedSortDown = SORTING_OPTIONS.desc;
-    }
-    dispatch(setSearchState({ page: 1, sort: { direction: changedSortDown, key: changedSortCol, scope: attribute.scope } }));
-  };
-
   const onClearClick = () => {
     dispatch(setSearchState({ searchTerm: '' }));
     onToggleSearchResult();
@@ -141,10 +132,9 @@ export const SearchResult = ({ onToggleSearchResult, open = true }) => {
           <Devicelist
             columnHeaders={columnHeaders}
             customColumnSizes={customColumnSizes}
-            deviceListState={{ perPage: 10, sort: {} }}
+            deviceListState={{ perPage: 10, sort: [] }} // there's no backend support for sorting search results
             devices={devices}
             idAttribute={idAttribute}
-            onSort={onSortChange}
             PaginationProps={{ rowsPerPageOptions: [10] }}
             pageTotal={searchTotal}
             onPageChange={handlePageChange}
