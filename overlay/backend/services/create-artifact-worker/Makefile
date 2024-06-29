@@ -39,6 +39,9 @@ generate:
 test:
 	go test $(BUILDFLAGS) $(TESTFLAGS) ./...
 
+.PHONY: test-acceptance
+test-acceptance:
+
 .PHONY: docker
 docker: export GOOS = linux
 docker: build
