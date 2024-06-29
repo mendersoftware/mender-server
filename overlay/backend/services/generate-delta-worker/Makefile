@@ -41,7 +41,7 @@ test-unit:
 
 .PHONY: test-acceptance-run
 test-acceptance-run: docker-acceptance
-	docker compose -f tests/docker-compose.yml run --rm -it --use-aliases generate-delta-worker
+	docker compose -f tests/docker-compose.yml run --rm --use-aliases generate-delta-worker
 
 .PHONY: test-acceptance
 test-acceptance: test-acceptance-run
