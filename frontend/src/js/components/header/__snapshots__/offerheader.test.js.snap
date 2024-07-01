@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DeviceNotifications Component renders correctly 1`] = `
+.emotion-0 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  fill: currentColor;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  font-size: 1.3929rem;
+}
+
+.emotion-0 iconButton {
+  margin-right: 8px;
+}
+
+<div
+  class="offerBox"
+  id="offerHeader"
+>
+  <svg
+    aria-hidden="true"
+    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-0"
+    data-testid="AnnouncementIcon"
+    focusable="false"
+    style="margin-right: 2px; height: 16px; vertical-align: bottom;"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-7 9h-2V5h2zm0 4h-2v-2h2z"
+    />
+  </svg>
+  <span>
+    Learn more about Mender's new add-ons at 
+    <a
+      href="https://mender.io/plans/pricing"
+      target="_blank"
+    >
+      mender.io/plans/pricing
+    </a>
+    . 
+    <a
+      class=""
+      href="https://docs.mender.io/development/add-ons"
+      rel=""
+      target="_blank"
+    >
+      Visit our documentation
+    </a>
+     to learn how to enable add-on features
+  </span>
+  <svg
+    aria-hidden="true"
+    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-0"
+    data-testid="CloseIcon"
+    focusable="false"
+    style="margin-left: 4px; height: 16px; cursor: pointer;"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+    />
+  </svg>
+</div>
+`;

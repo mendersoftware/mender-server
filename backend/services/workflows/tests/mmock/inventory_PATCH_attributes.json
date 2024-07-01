@@ -1,0 +1,10 @@
+{
+	"description": "inventory: PATCH device attributes",
+	"request": {
+		"method": "PATCH",
+		"path": "/api/internal/v1/inventory/tenants/1/device/2/attribute/scope/identity"
+	},
+	"response": {
+		"statusCode": 200
+	}
+}

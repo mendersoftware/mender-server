@@ -1,0 +1,13 @@
+request:
+  description: Detach a principal from a thing in AWS IoT Core
+  host: iot.region.amazonaws.com
+  method: DELETE
+  path: /things/*/principals
+response:
+  statusCode: 200
+control:
+  priority: 20
+  scenario:
+    name: class
+    requiredState:
+      - TestSyncAWSIoTCore

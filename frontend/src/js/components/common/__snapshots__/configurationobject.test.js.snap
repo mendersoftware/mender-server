@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ConfigurationObject Component renders correctly 1`] = `
+.emotion-0 .key>b {
+  background-color: #f7f7f7;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+<div
+  class="break-all two-columns emotion-0  column-data "
+>
+  <div
+    class="align-right key muted"
+  >
+    <b>
+      uiPasswordRequired
+    </b>
+  </div>
+  <div
+    class="flexbox "
+  >
+    <div
+      title="true"
+    >
+      true
+    </div>
+  </div>
+  <div
+    class="align-right key muted"
+  >
+    <b>
+      foo
+    </b>
+  </div>
+  <div
+    class="flexbox "
+  >
+    <div
+      title="bar"
+    >
+      bar
+    </div>
+  </div>
+  <div
+    class="align-right key muted"
+  >
+    <b>
+      timezone
+    </b>
+  </div>
+  <div
+    class="flexbox "
+  >
+    <div
+      title="GMT+2"
+    >
+      GMT+2
+    </div>
+  </div>
+</div>
+`;

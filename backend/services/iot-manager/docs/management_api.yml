@@ -1,0 +1,649 @@
+openapi: 3.0.3
+
+info:
+  title: IoT Manager
+  description: |
+    API for managing IoT Cloud integrations.
+    Intended for use by the web GUI
+
+  version: "1"
+
+servers:
+  - url: https://hosted.mender.io/api/management/v1/iot-manager
+
+# Global security definitions
+security:
+  - ManagementJWT: []
+
+tags:
+  - name: Management API
+
+paths:
+  /integrations:
+    get:
+      operationId: List integrations
+      summary: List all configured integrations
+      tags:
+        - Management API
+      parameters:
+        - name: page
+          in: query
+          description: Page number.
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: per_page
+          in: query
+          description: Number of results per page.
+          required: false
+          schema:
+            type: integer
+            default: 20
+      responses:
+        200:
+          description: OK. Returns list of integrations.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                    $ref: '#/components/schemas/Integration'
+        400:
+          $ref: '#/components/responses/InvalidRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        403:
+          $ref: '#/components/responses/ForbiddenError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+    post:
+      operationId: Register integration
+      summary: Register a new cloud integration
+      tags:
+        - Management API
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Integration'
+        required: true
+      responses:
+        201:
+          description: Integration registered.
+          headers:
+            Location:
+              description: URL of the newly registered integration.
+              schema:
+                type: string
+        400:
+          $ref: '#/components/responses/InvalidRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        403:
+          $ref: '#/components/responses/ForbiddenError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /integrations/{id}:
+    delete:
+      operationId: Remove integration
+      summary: Remove a cloud integration
+      tags:
+        - Management API
+      parameters:
+        - name: id
+          in: path
+          description: Integration identifier.
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: Integration unregistered successfully.
+        400:
+          $ref: '#/components/responses/InvalidRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        403:
+          $ref: '#/components/responses/ForbiddenError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+
+  /integrations/{id}/credentials:
+    put:
+      operationId: Set integration credentials
+      summary: Replace the credentials associated with the integration.
+      tags:
+        - Management API
+      parameters:
+        - name: id
+          in: path
+          description: Integration identifier.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Credentials'
+        required: true
+      responses:
+        204:
+          description: Credentials updated successfully.
+        400:
+          $ref: '#/components/responses/InvalidRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        403:
+          $ref: '#/components/responses/ForbiddenError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /devices/{deviceId}:
+    delete:
+      operationId: Unregister device integrations
+      summary: Removes all associated cloud integrations for the device.
+      description: >-
+        Removes all associated cloud integrations for the device, but
+        does not clean up any external state.
+      tags:
+        - Management API
+      parameters:
+        - name: deviceId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique ID of the device.
+      responses:
+        204:
+          description: OK. Device successfully unregistered.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceState'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        403:
+          $ref: '#/components/responses/ForbiddenError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /devices/{deviceId}/state:
+    get:
+      operationId: Get Device States
+      summary: Gets the desired and reported state of a device
+      tags:
+        - Management API
+      parameters:
+        - name: deviceId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique ID of the device.
+      responses:
+        200:
+          description: >-
+            OK.
+            Returns device reported and desired states for all integrations.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: >-
+                  Mapping from integration ID to DeviceState objects
+                  for all applicable integrations.
+                additionalProperties:
+                  $ref: '#/components/schemas/DeviceState'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        403:
+          $ref: '#/components/responses/ForbiddenError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /devices/{deviceId}/state/{integrationId}:
+    put:
+      operationId: Replace State
+      summary: Replaces the (desired) cloud state of the device for the given integration
+      tags:
+        - Management API
+      parameters:
+        - name: deviceId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique ID of the device.
+        - name: integrationId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique ID of the integration.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceState'
+        required: true
+      responses:
+        200:
+          description: OK. Returns the updated device state.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceState'
+        400:
+          $ref: '#/components/responses/InvalidRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        403:
+          $ref: '#/components/responses/ForbiddenError'
+        409:
+          $ref: '#/components/responses/ConflictError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+    get:
+      operationId: Get Device State
+      summary: Gets the desired and reported state of a device from an integration
+      tags:
+        - Management API
+      parameters:
+        - name: deviceId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique ID of the device.
+        - name: integrationId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique ID of the integration.
+      responses:
+        200:
+          description: OK. Returns device reported and desired state for the integration.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceState'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        403:
+          $ref: '#/components/responses/ForbiddenError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /events:
+    get:
+      operationId: List events
+      summary: List all stored events
+      tags:
+        - Management API
+      parameters:
+        - name: page
+          in: query
+          description: Page number.
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: per_page
+          in: query
+          description: Number of results per page.
+          required: false
+          schema:
+            type: integer
+            default: 20
+
+      responses:
+        200:
+          description: OK. Returns list of events.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                    $ref: '#/components/schemas/Event'
+        400:
+          $ref: '#/components/responses/InvalidRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        403:
+          $ref: '#/components/responses/ForbiddenError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+components:
+  securitySchemes:
+    ManagementJWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        JWT token issued by 'POST /api/management/v1/useradm/auth/login'
+
+        The JWT can be alternatively passed as a cookie named "JWT".
+
+  schemas:
+    Integration:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: A unique integration identifier generated by the mender server
+        # rule:
+        #   type: object
+        #   properties:
+        #     kind:
+        #       type: string
+        #     priority:
+        #       type: integer
+        #     expression:
+        #       oneOf:
+        #         - '#/components/schemas/DeviceGroup'
+        provider:
+          type: string
+          enum:
+            - "iot-hub"
+            - "iot-core"
+            - "webhook"
+        credentials:
+          $ref: '#/components/schemas/Credentials'
+        description:
+          type: string
+          description: |
+            A short human readable description (max 1024 characters).
+      required:
+        - provider
+        - credentials
+
+    Credentials:
+      allOf:
+        - type: object
+          properties:
+            type:
+              description: The credential type
+              type: string
+              enum:
+                - aws
+                - sas
+                - http
+          required:
+            - type
+        - oneOf:
+          - $ref: '#/components/schemas/AWSCredentials'
+          - $ref: '#/components/schemas/AzureSharedAccessSecret'
+          - $ref: '#/components/schemas/HTTP'
+
+      discriminator:
+        propertyName: type
+        mapping:
+          aws: '#/components/schemas/AWSCredentials'
+          sas: '#/components/schemas/AzureSharedAccessSecret'
+          http: '#/components/schemas/HTTP'
+
+    AWSCredentials:
+      type: object
+      description: |
+        AWS credentials in the form of access key id and secret access key, a region and a
+        device policy name.
+      properties:
+        aws:
+          type: object
+          properties:
+            access_key_id:
+              type: string
+            secret_access_key:
+              type: string
+            region:
+              type: string
+            device_policy_name:
+              type: string
+          required: [access_key_id,secret_access_key,region,device_policy_name]
+      required: [aws]
+
+    AzureSharedAccessSecret:
+      type: object
+      description: |
+        Shared Access Secret is an authentication mechanism in the form of a
+        connection string for Azure IoT Hub.
+      properties:
+        connection_string:
+          type: string
+      required: [connection_string]
+
+    DeviceState:
+      type: object
+      properties:
+        desired:
+          description: |
+            The desired state for the device, as reported by the cloud/user.
+          additionalProperties: true
+        reported:
+          description: |
+            State reported by the device, this cannot be changed from the cloud.
+          additionalProperties: true
+
+    HTTP:
+      type: object
+      description: |
+        HTTP Webhook configuration.
+      properties:
+        http:
+          type: object
+          properties:
+            url:
+              type: string
+              description: >-
+                The destination URL for the webhook.
+                The webhook will send POST requests with event details to this target URL.
+            secret:
+              type: string
+              description: >-
+                An optional secret used to verify the integrity of the payload.
+                The string must be in hexadecimal format.
+              pattern: '[0-9a-f]{1,64}'
+          required:
+            - url
+      required:
+        - http
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Description of the error.
+        request_id:
+          type: string
+          description:
+            Request ID passed with the request X-Men-Requestid header
+            or generated by the server.
+      description: Error descriptor.
+      example:
+        error: "<error description>"
+        request_id: "eed14d55-d996-42cd-8248-e806663810a8"
+
+    Event:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: A unique event identifier generated by the Mender server
+        type:
+          type: string
+          enum:
+            - device-provisioned
+            - device-decommissioned
+            - device-status-changed
+          description: Type of the event
+        delivery_statuses:
+          type: array
+          items:
+            type: object
+            properties:
+              integration_id:
+                type: string
+                description: The ID of the integration the status belongs.
+              success:
+                type: boolean
+                description: Whether the event hook was executed successfully.
+              status_code:
+                type: integer
+                description: The (HTTP) status code of the hook.
+              error:
+                type: string
+                description: An error message if the hook failed.
+            required:
+              - integration_id
+              - success
+        time:
+          type: string
+          format: date-time
+          description: Creation timestamp
+        data:
+          oneOf:
+            - $ref: '#/components/schemas/DeviceAuthEvent'
+
+          discriminator:
+            propertyName: type
+            mapping:
+              device-provisioned: '#/components/schemas/DeviceAuthEvent'
+              device-decommissioned: '#/components/schemas/DeviceAuthEvent'
+              device-status-changed: '#/components/schemas/DeviceAuthEvent'
+
+    DeviceAuthEvent:
+      type: object
+      description: >-
+        DeviceAuthEvent describes an event that relates to changes to a device's
+        authentication data. The properties included depends on the event type:
+        device provisioning includes the entire device with the accepted
+        authentication set, status change events only includes the device id and
+        the new status, and device decommissioning will only include the device
+        id.
+      properties:
+        id:
+          type: string
+          description: Device unique ID.
+        status:
+          type: string
+          description: The authentication status of the device.
+        auth_sets:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthSet'
+        created_ts:
+          type: string
+          format: date-time
+          description: The time the device was initialized in Mender.
+      required:
+        - id
+
+    AuthSet:
+      type: object
+      description: >-
+        AuthSet describes the identity a device use to authenticate with the
+        Mender servier.
+      properties:
+        id:
+          type: string
+          description: The unique ID of the authentication set.
+        device_id:
+          type: string
+          description: The unique ID of the device the authentication set belongs.
+        identity_data:
+          type: object
+          description: The identity data presented by the device.
+          additionalProperties: true
+        pubkey:
+          type: string
+          description: >-
+            PEM-encoded public key of the device authentication set.
+        status:
+          type: string
+          description: >-
+            Authentication status of the set.
+        ts:
+          type: string
+          description: >-
+            The creation timestamp of the authentication set.
+
+  responses:
+    InternalServerError:
+      description: Internal Server Error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "internal error"
+            request_id: "eed14d55-d996-42cd-8248-e806663810a8"
+
+    InvalidRequestError:
+      description: Invalid Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "bad request parameters"
+            request_id: "eed14d55-d996-42cd-8248-e806663810a8"
+
+    UnauthorizedError:
+      description: The user does not have authorization to access resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "Unauthorized"
+            request_id: "eed14d55-d996-42cd-8248-e806663810a8"
+
+    ForbiddenError:
+      description: The user is not permitted to access the resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "Forbidden"
+            request_id: "eed14d55-d996-42cd-8248-e806663810a8"
+
+    ConflictError:
+      description: Conflict when updating the resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "Conflict"
+            request_id: "eed14d55-d996-42cd-8248-e806663810a8"
+
+    NotFoundError:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "not found"
+            request_id: "eed14d55-d996-42cd-8248-e806663810a8"

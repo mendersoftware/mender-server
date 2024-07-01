@@ -1,0 +1,897 @@
+openapi: 3.0.3
+
+info:
+  title: Reporting
+  description: |
+    Management API for the reporting service.
+  version: "1"
+
+servers:
+  - url: https://hosted.mender.io/api/management/v1/reporting
+
+security:
+  - ManagementJWT: []
+
+paths:
+  /deployments/devices/aggregate:
+    post:
+      tags:
+        - Management API
+      summary: Aggregate deployment data.
+      operationId: Aggregate Deployments
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeploymentAggregationTerms'
+            example:
+              aggregations:
+                - name: "group"
+                  attribute: "group_name"
+                  size: 10
+              filters:
+                - attribute: "SN"
+                  type: "$in"
+                  value: ["1234567890", "0987654321"]
+      responses:
+        200:
+          description: OK. Returns a list of aggregations.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeploymentAggregation'
+              example:
+                - name: "group"
+                  items:
+                  - key: "group1"
+                    count: 1
+                  - key: "group1"
+                    count: 2
+                  other_count: 5
+        400:
+          $ref: '#/components/responses/InvalidRequestError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /deployments/devices/search:
+    post:
+      tags:
+        - Management API
+      summary: Search deployment data.
+      operationId: Search Deployments
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeploymentSearchTerms'
+            example:
+              page: 1
+              per_page: 20
+              filters:
+                - attribute: "SN"
+                  type: "$in"
+                  value: ["1234567890", "0987654321"]
+              sort:
+                - attribute: "system-version"
+                  order: "asc"
+              attributes:
+                - attribute: "SN"
+              device_ids:
+                - "571223e6-26d8-4aae-9074-0d12ce710596"
+                - "79b29122-7b69-4548-8b72-73139f44eaba"
+                - "ed15eec1-5add-495d-9a3c-119dafe85e4c"
+                - "b8783fed-103f-4416-b935-3dd1180640c6"
+                - "8e5372bc-b28c-4df4-8de2-9fea92e62db3"
+              deployment_ids:
+                - "571223e6-26d8-4aae-9074-0d12ce710596"
+                - "79b29122-7b69-4548-8b72-73139f44eaba"
+                - "ed15eec1-5add-495d-9a3c-119dafe85e4c"
+                - "b8783fed-103f-4416-b935-3dd1180640c6"
+                - "8e5372bc-b28c-4df4-8de2-9fea92e62db3"
+
+      responses:
+        200:
+          description: OK. Returns a paginated list of devices.
+          headers:
+            X-Total-Count:
+              schema:
+                type: integer
+                example: 12300
+              description: >-
+                The total number of matches.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Deployment'
+              example:
+                - id: "571223e6-26d8-4aae-9074-0d12ce710596"
+                  attributes:
+                    - name: "SN"
+                      value: "1234567890"
+                  updated_ts: "2021-08-19T10:25:32Z"
+                - id: "79b29122-7b69-4548-8b72-73139f44eaba"
+                  attributes:
+                    - name: "SN"
+                      value: "0987654321"
+                  updated_ts: "2021-08-19T08:03:32Z"
+        400:
+          $ref: '#/components/responses/InvalidRequestError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /devices/aggregate:
+    post:
+      tags:
+        - Management API
+      summary: Aggregate device data.
+      operationId: Aggregate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceAggregationTerms'
+            example:
+              aggregations:
+                - name: "group"
+                  attribute: "group_name"
+                  scope: "system"
+                  size: 10
+              filters:
+                - attribute: "SN"
+                  scope: "inventory"
+                  type: "$in"
+                  value: ["1234567890", "0987654321"]
+      responses:
+        200:
+          description: OK. Returns a list of aggregations.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeviceAggregation'
+              example:
+                - name: "group"
+                  items:
+                  - key: "group1"
+                    count: 1
+                  - key: "group1"
+                    count: 2
+                  other_count: 5
+        400:
+          $ref: '#/components/responses/InvalidRequestError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /devices/attributes:
+    get:
+      tags:
+        - Management API
+      operationId: Get device filterable attributes usage and limits
+      summary: Get the list of device filterable attributes and the limits
+      description:  |
+        Returns a list of device filterable attributes.
+      responses:
+        200:
+          description: OK. Returns a list of filterable attributes.
+          content:
+            application/json:
+              schema:
+                title: Attributes usage and limits
+                type: object
+                properties:
+                  attributes:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: Attribute key to compare.
+                        scope:
+                          type: string
+                          description: The scope the attribute exists in.
+                    description: List of filterable attributes
+                  count:
+                    type: integer
+                    description: Current number of device filterable attributes
+                  limit:
+                    type: integer
+                    description: Maximum number of device filterable attributes
+                example:
+                  attributes:
+                    - name: "system-version"
+                      scope: "inventory"
+                    - name: "SN"
+                      scope: "inventory"
+                  count: 2
+                  limit: 100
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /devices/search:
+    post:
+      tags:
+        - Management API
+      summary: Search device data.
+      operationId: Search
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceSearchTerms'
+            example:
+              page: 1
+              per_page: 20
+              filters:
+                - attribute: "SN"
+                  scope: "inventory"
+                  type: "$in"
+                  value: ["1234567890", "0987654321"]
+              sort:
+                - attribute: "system-version"
+                  scope: "inventory"
+                  order: "asc"
+              attributes:
+                - attribute: "SN"
+                  scope: "inventory"
+              device_ids:
+                - "571223e6-26d8-4aae-9074-0d12ce710596"
+                - "79b29122-7b69-4548-8b72-73139f44eaba"
+                - "ed15eec1-5add-495d-9a3c-119dafe85e4c"
+                - "b8783fed-103f-4416-b935-3dd1180640c6"
+                - "8e5372bc-b28c-4df4-8de2-9fea92e62db3"
+
+      responses:
+        200:
+          description: OK. Returns a paginated list of devices.
+          headers:
+            X-Total-Count:
+              schema:
+                type: integer
+                example: 12300
+              description: >-
+                The total number of matches.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Device'
+              example:
+                - id: "571223e6-26d8-4aae-9074-0d12ce710596"
+                  attributes:
+                    - name: "SN"
+                      value: "1234567890"
+                      scope: "inventory"
+                  updated_ts: "2021-08-19T10:25:32Z"
+                - id: "79b29122-7b69-4548-8b72-73139f44eaba"
+                  attributes:
+                    - name: "SN"
+                      value: "0987654321"
+                      scope: "inventory"
+                  updated_ts: "2021-08-19T08:03:32Z"
+        400:
+          $ref: '#/components/responses/InvalidRequestError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /devices/search/attributes:
+    get:
+      tags:
+        - Management API
+      operationId: Get device filterable attributes
+      summary: Get the list of device filterable attributes
+      description:  |
+        Returns a list of device filterable attributes.
+      responses:
+        200:
+          description: OK. Returns a list of filterable attributes.
+          content:
+            application/json:
+              schema:
+                title: List of filter attributes
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeviceFilterAttribute'
+              example:
+                - name: "serial_no"
+                  scope: "inventory"
+                  count: 1
+                - name: "region"
+                  scope: "inventory"
+                  count: 1
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+components:
+  securitySchemes:
+    ManagementJWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        JWT token issued by 'POST /api/management/v1/useradm/auth/login'
+
+        The JWT can be alternatively passed as a cookie named "JWT".
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Description of the error.
+        request_id:
+          type: string
+          description: >-
+            Request ID passed with the request X-MEN-RequestID header
+            or generated by the server.
+      description: Error descriptor.
+      example:
+        error: "<error description>"
+        request_id: "eed14d55-d996-42cd-8248-e806663810a8"
+
+    DeploymentAggregationTerm:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the aggregation.
+        attribute:
+          type: string
+          description: Attribute key(s) to aggregate.
+        limit:
+          type: integer
+          description: Number of top results to return.
+          default: 10
+        aggregations:
+          type: array
+          minItems: 1
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/DeploymentAggregationTerm'
+          description: Sub-aggregation terms; it supports up to 5 nested subaggregations.
+      required:
+        - name
+        - field
+
+    DeploymentAggregationTerms:
+      type: object
+      properties:
+        aggregations:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeploymentAggregationTerm'
+          description: Aggregation terms.
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeploymentFilterTerm'
+          description: Filtering terms.
+
+    DeploymentAggregation:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Aggregation name
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeploymentAggregationItem'
+        other_count:
+          type: integer
+          description: Count of the documents not included in the items
+
+    DeploymentAggregationItem:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Aggregation key
+        count:
+          type: integer
+          description: Aggregation count
+        aggregations:
+          type: array
+          minItems: 0
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/DeploymentAggregation'
+
+    Deployment:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Device Deployment ID.
+        tenant_id:
+          type: string
+        device_id:
+          type: string
+        deployment_id:
+          type: string
+        deployment_name:
+          type: string
+        deployment_artifact_name:
+          type: string
+        deployment_type:
+          type: string
+        deployment_created:
+          type: string
+          format: date-time
+        deployment_filter_id:
+          type: string
+        deployment_all_devices:
+          type: boolean
+        deployment_force_installation:
+          type: boolean
+        deployment_group:
+          type: string
+        deployment_phased:
+          type: boolean
+        deployment_phase_id:
+          type: string
+        deployment_retries:
+          type: integer
+        deployment_max_devices:
+          type: integer
+        deployment_autogenerate_deta:
+          type: boolean
+        device_created:
+          type: string
+          format: date-time
+        device_finished:
+          type: string
+          format: date-time
+        device_elapsed_seconds:
+          type: integer
+        device_deleted:
+          type: string
+          format: date-time
+        device_status:
+          type: string
+        device_is_log_available:
+          type: boolean
+        device_retries:
+          type: integer
+        device_attempts:
+          type: integer
+        image_id:
+          type: string
+        image_description:
+          type: string
+        image_artifact_name:
+          type: string
+        image_device_types:
+          type: array
+          items:
+            type: string
+        image_signed:
+          type: boolean
+        image_artifact_info_format:
+          type: string
+        image_artifact_info_version:
+          type: integer
+        image_provides:
+          type: object
+        image_depends:
+          type: object
+        image_clear_provides:
+          type: string
+        image_size:
+          type: integer
+
+    DeploymentFilterTerm:
+      type: object
+      properties:
+        attribute:
+          type: string
+          description: Attribute key to compare.
+        value:
+          description: Filter matching expression.
+        type:
+          type: string
+          enum:
+            - "$eq"
+            - "$gt"
+            - "$gte"
+            - "$in"
+            - "$lt"
+            - "$lte"
+            - "$ne"
+            - "$nin"
+            - "$exists"
+            - "$regex"
+          description: Type of filtering operation.
+      required:
+        - attribute
+        - type
+        - value
+
+    DeploymentSortTerm:
+      type: object
+      properties:
+        attribute:
+          type: string
+          description: Attribute key to sort by.
+        order:
+          type: string
+          enum:
+            - asc
+            - desc
+          description: "Sort order: ascending/descending."
+      required:
+        - attribute
+        - order
+
+    DeploymentAttributeProjection:
+      type: object
+      properties:
+        attribute:
+          type: string
+          description: Attribute key to sort by.
+      required:
+        - attribute
+
+    DeploymentSearchTerms:
+      type: object
+      properties:
+        page:
+          type: integer
+          description: Pagination parameter for iterating search results.
+        per_page:
+          type: integer
+          description: Number of devices returned per page.
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeploymentFilterTerm'
+          description: Filtering terms.
+        sort:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeploymentSortTerm'
+          description: Attribute keys to sort by.
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeploymentAttributeProjection'
+          description: Restrict the attribute result to the selected attributes.
+        device_ids:
+          type: array
+          items:
+            type: string
+          description: Restrict the result to the given device IDs.
+        deployment_ids:
+          type: array
+          items:
+            type: string
+          description: Restrict the result to the given deployment IDs.
+
+    DeviceAggregationTerm:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the aggregation.
+        attribute:
+          type: string
+          description: Attribute key(s) to aggregate.
+        scope:
+          type: string
+          description: The scope the attribute(s) exists in.
+        limit:
+          type: integer
+          description: Number of top results to return.
+          default: 10
+        aggregations:
+          type: array
+          minItems: 1
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/DeviceAggregationTerm'
+          description: Sub-aggregation terms; it supports up to 5 nested subaggregations.
+      required:
+        - name
+        - field
+
+    DeviceAggregationTerms:
+      type: object
+      properties:
+        aggregations:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceAggregationTerm'
+          description: Aggregation terms.
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceFilterTerm'
+          description: Filtering terms.
+        geo_distance_filter:
+          $ref: '#/components/schemas/GeoDistanceFilter'
+        geo_bounding_box_filter:
+          $ref: '#/components/schemas/GeoBoundingBoxFilter'
+
+    DeviceAggregation:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Aggregation name
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceAggregationItem'
+        other_count:
+          type: integer
+          description: Count of the documents not included in the items
+
+    DeviceAggregationItem:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Aggregation key
+        count:
+          type: integer
+          description: Aggregation count
+        aggregations:
+          type: array
+          minItems: 0
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/DeviceAggregation'
+
+    DeviceAttribute:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the attribute.
+        value:
+          description: Value of the attribute.
+        scope:
+          type: string
+          description: The scope the attribute belongs to.
+        description:
+          type: string
+          description: Optional attributes description.
+      required:
+        - name
+        - value
+
+    Device:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Device ID.
+        check_in_time:
+          type: string
+          format: date-time
+          description: Last device check-in itme.
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceAttribute'
+        updated_ts:
+          type: string
+          format: date-time
+          description: >-
+            Timestamp of the last update to the device attributes.
+
+    DeviceFilterAttribute:
+      description: Filterable attribute
+      type: object
+      required:
+        - scope
+        - name
+        - count
+      properties:
+        name:
+          type: string
+          description: Name of the attribute.
+        scope:
+          type: string
+          description: Scope of the attribute.
+        count:
+          type: integer
+          description: Number of occurrences of the attribute in the database.
+      example:
+        name: "serial_no"
+        scope: "inventory"
+        count: 10
+
+    DeviceFilterTerm:
+      type: object
+      properties:
+        attribute:
+          type: string
+          description: Attribute key to compare.
+        value:
+          description: Filter matching expression.
+        type:
+          type: string
+          enum:
+            - "$eq"
+            - "$gt"
+            - "$gte"
+            - "$in"
+            - "$lt"
+            - "$lte"
+            - "$ne"
+            - "$nin"
+            - "$exists"
+            - "$regex"
+          description: Type of filtering operation.
+        scope:
+          type: string
+          description: The scope the attribute exists in.
+      required:
+        - attribute
+        - type
+        - value
+
+    DeviceSortTerm:
+      type: object
+      properties:
+        attribute:
+          type: string
+          description: Attribute key to sort by.
+        scope:
+          type: string
+          description: Scope the attribute key belongs to.
+        order:
+          type: string
+          enum:
+            - asc
+            - desc
+          description: "Sort order: ascending/descending."
+      required:
+        - attribute
+        - order
+
+    DeviceAttributeProjection:
+      type: object
+      properties:
+        attribute:
+          type: string
+          description: Attribute key to sort by.
+        scope:
+          type: string
+          description: Scope the attribute key belongs to.
+      required:
+        - attribute
+
+    DeviceSearchTerms:
+      type: object
+      properties:
+        page:
+          type: integer
+          description: Pagination parameter for iterating search results.
+        per_page:
+          type: integer
+          description: Number of devices returned per page.
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceFilterTerm'
+          description: Filtering terms.
+        geo_distance_filter:
+          $ref: '#/components/schemas/GeoDistanceFilter'
+        geo_bounding_box_filter:
+          $ref: '#/components/schemas/GeoBoundingBoxFilter'
+        sort:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceSortTerm'
+          description: Attribute keys to sort by.
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceAttributeProjection'
+          description: Restrict the attribute result to the selected attributes.
+        device_ids:
+          type: array
+          items:
+            type: string
+          description: Restrict the result to the given device IDs.
+
+    GeoDistanceFilter:
+      type: object
+      properties:
+        geo_distance:
+          $ref: '#/components/schemas/GeoDistance'
+      required:
+        - geo_distance
+
+    GeoDistance:
+      type: object
+      properties:
+        distance:
+          type: string
+          description: |
+            Distance from given geo point. Supported units are:
+            mi or miles, yd or yards, ft or feet, in or inch, km or kilometers,
+            m or meters, cm or centimeters, mm or millimeters, NM, nmi, or nauticalmiles.
+            The default unit is meters if none is specified.
+        location:
+          $ref: '#/components/schemas/GeoPoint'
+      required:
+        - distance
+        - location
+
+    GeoBoundingBoxFilter:
+      properties:
+        geo_bounding_box:
+          $ref: '#/components/schemas/GeoBoundingBox'
+      required:
+        - geo_bounding_box
+
+    GeoBoundingBox:
+      type: object
+      properties:
+        location:
+          $ref: '#/components/schemas/BoundingBox'
+      required:
+        - Location
+
+    BoundingBox:
+      type: object
+      properties:
+        top_left:
+          $ref: '#/components/schemas/GeoPoint'
+        bottom_right:
+          $ref: '#/components/schemas/GeoPoint'
+      required:
+        - top_left
+        - bottom_right
+
+    GeoPoint:
+      type: object
+      properties:
+        lat:
+          type: number
+          format: float
+          minimum: -90
+          maximum: 90
+          description: |
+            Latitude is a coordinate given as an angle that ranges from –90° at the south pole to 90° at the north pole.
+        lon:
+          type: number
+          format: float
+          minimum: -180
+          maximum: 180
+          description: |
+            Longitude is a coordinate given as an angle that ranges from 0° at the Prime Meridian to +180° eastward and −180° westward.
+      required:
+        - lat
+        - lon
+
+  responses:
+    InternalServerError:
+      description: Internal Server Error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "internal error"
+            request_id: "eed14d55-d996-42cd-8248-e806663810a8"
+
+    InvalidRequestError:
+      description: Invalid Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "bad request parameters"
+            request_id: "eed14d55-d996-42cd-8248-e806663810a8"

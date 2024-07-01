@@ -1,0 +1,10 @@
+{
+	"description": "inventory: POST devices",
+	"request": {
+		"method": "POST",
+		"path": "/api/internal/v1/inventory/tenants/*/devices"
+	},
+	"response": {
+		"statusCode": 200
+	}
+}

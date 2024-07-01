@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="72" height="72" viewBox="2 2 43.25 43.25" xml:space="preserve">
+  <style>
+    rect { fill: transparent; }
+    @media (prefers-color-scheme: dark) {
+      rect { fill: white; }
+    }
+  </style>
+  <rect x="2" y="3" height="41" width="43" rx="3" />
+  <g transform="matrix(1 0 0 1 23.5 23.5)">
+    <g transform="matrix(1 0 0 1 0 0)">
+      <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(1,89,105); fill-rule: nonzero; opacity: 1;"  transform=" translate(-19.5, -17.7)" d="M 10.1 30.4 c 0 2.8 -2.3 5 -5.1 5 c -2.7 0 -5 -2.2 -5 -5 s 2.3 -5.1 5 -5.1 c 2.8 0 5.1 2.3 5.1 5.1 m 9.4 -5.1 c -2.8 0 -5 2.3 -5 5.1 s 2.2 5 5 5 s 5.1 -2.2 5.1 -5 s -2.3 -5.1 -5.1 -5.1 m 0 -25.3 c -2.8 0 -5 2.3 -5 5 c 0 2.8 2.2 5.1 5 5.1 s 5.1 -2.3 5.1 -5.1 c 0 -2.7 -2.3 -5 -5.1 -5 M 34 25.3 c -2.8 0 -5.1 2.3 -5.1 5.1 s 2.3 5 5.1 5 s 5 -2.2 5 -5 s -2.2 -5.1 -5 -5.1" stroke-linecap="round" />
+    </g>
+    <g transform="matrix(1 0 0 1 0 -6.25)">
+      <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(93,15,67); fill-rule: nonzero; opacity: 1;"  transform=" translate(-19.5, -11.45)" d="M 35.7 13.1 V 9.8 c 2 -0.7 3.3 -2.6 3.3 -4.8 c 0 -2.7 -2.2 -5 -5 -5 s -5.1 2.3 -5.1 5 c 0 0.5 0.1 1 0.2 1.4 L 22 13.5 c -0.7 -0.4 -1.6 -0.7 -2.5 -0.7 c -1 0 -1.9 0.3 -2.7 0.8 l -7 -7 c 0.2 -0.5 0.3 -1 0.3 -1.6 c 0 -2.7 -2.3 -5 -5.1 -5 c -2.7 0 -5 2.3 -5 5 c 0 2.2 1.4 4.1 3.3 4.8 v 3.3 c -1.9 0.8 -3.3 2.6 -3.3 4.8 c 0 2.8 2.3 5 5 5 c 2.8 0 5.1 -2.2 5.1 -5 c 0 -2.2 -1.4 -4 -3.3 -4.8 V 9.8 c 0.3 -0.1 0.6 -0.3 0.8 -0.4 l 7.1 7 c -0.2 0.5 -0.2 1 -0.2 1.5 c 0 2.8 2.2 5 5 5 s 5.1 -2.2 5.1 -5 c 0 -0.6 -0.1 -1.2 -0.3 -1.7 l 6.9 -6.9 c 0.4 0.2 0.7 0.3 1 0.5 v 3.3 c -1.9 0.8 -3.3 2.6 -3.3 4.8 c 0 2.8 2.3 5 5.1 5 s 5 -2.2 5 -5 c 0 -2.2 -1.3 -4 -3.3 -4.8" stroke-linecap="round" />
+    </g>
+  </g>
+</svg>

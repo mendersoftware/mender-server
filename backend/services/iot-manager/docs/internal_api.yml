@@ -1,0 +1,269 @@
+openapi: 3.0.3
+
+info:
+  title: IoT Manager
+  description: |
+    Internal API for managing IoT Cloud integrations.
+
+  version: "1"
+
+servers:
+  - url: http://mender-iot-manager:8080/api/internal/v1/iot-manager
+
+tags:
+  - name: Internal API
+
+paths:
+  /health:
+    get:
+      tags:
+        - Internal API
+      summary: Get health status of service
+      operationId: Check Health
+      responses:
+        204:
+          description: Service is healthy.
+        400:
+          description: Invalid Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /alive:
+    get:
+      tags:
+        - Internal API
+      summary: Get service liveliness status.
+      operationId: Check Liveliness
+      responses:
+        204:
+          description: Service is up and serving requests.
+        500:
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /tenants/{tenantId}/devices:
+    post:
+      tags:
+        - Internal API
+      operationId: Provision device
+      summary: Register a new device with the deviceconfig service.
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+          required: true
+          description: ID of tenant the device belongs to.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewDevice'
+        required: true
+      responses:
+        202:
+          description: The device provisioning event was accepted and will be processed asynchronously.
+        400:
+          $ref: '#/components/responses/InvalidRequestError'
+        409:
+          description: A device with the same ID already exists in Iot Hub.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /tenants/{tenantId}/devices/{deviceId}:
+    delete:
+      tags:
+        - Internal API
+      operationId: Decommission device
+      summary: Remove a device from Iot Hub.
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+          required: true
+          description: ID of tenant the device belongs to.
+        - in: path
+          name: deviceId
+          schema:
+            type: string
+          required: true
+          description: ID of the target device.
+      responses:
+        202:
+          description: The device decomissioning event was accepted and will be processed asynchronously.
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+
+  /tenants/{tenantId}/bulk/devices/status/{status}:
+    put:
+      operationId: Update device statuses
+      tags:
+        - Internal API
+      summary: Update device statuses in bulk.
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+          required: true
+          description: ID of tenant the device belongs to.
+        - in: path
+          name: status
+          schema:
+            type: string
+            enum:
+              - accepted
+              - noauth
+              - pending
+              - preauthorized
+              - rejected
+          required: true
+          description: The status of the device
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              description: |
+                List of devices to update.
+                Up to 100 devices can be processed per request.
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Device ID.
+                required:
+                  - id
+        required: true
+      responses:
+        202:
+          description: The device status update bulk event was accepted and will be processed asynchronously.
+        400:
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+components:
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Description of the error.
+        request_id:
+          type: string
+          description:
+            Request ID passed with the request X-MEN-RequestID header
+            or generated by the server.
+      description: Error descriptor.
+      example:
+        error: "<error description>"
+        request_id: "eed14d55-d996-42cd-8248-e806663810a8"
+
+    NewDevice:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the new device.
+        status:
+          type: string
+          enum:
+            - accepted
+            - noauth
+            - pending
+            - preauthorized
+            - rejected
+          description: Authorization status for the device.
+        auth_sets:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthSet'
+        created_ts:
+          type: string
+          format: date-time
+          description: The creation timestamp of the device.
+      required:
+        - id
+
+    AuthSet:
+      type: object
+      description: >-
+        AuthSet describes the identity a device uses to authenticate with the
+        Mender servier.
+      properties:
+        id:
+          type: string
+          description: The unique ID of the authentication set.
+        device_id:
+          type: string
+          description: The unique ID of the device the authentication set belongs.
+        identity_data:
+          type: object
+          description: The device's identity data.
+          additionalProperties: true
+        pubkey:
+          type: string
+          description: >-
+            PEM-encoded public key of the device authentication set.
+        status:
+          type: string
+          description: >-
+            Authorization status of the set.
+        ts:
+          type: string
+          format: date-time
+          description: >-
+            The creation timestamp of the authentication set.
+
+  responses:
+    InternalServerError:
+      description: Internal Server Error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "internal error"
+            request_id: "eed14d55-d996-42cd-8248-e806663810a8"
+
+    InvalidRequestError:
+      description: Invalid Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "bad request parameters"
+            request_id: "eed14d55-d996-42cd-8248-e806663810a8"

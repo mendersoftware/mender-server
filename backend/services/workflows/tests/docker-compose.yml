@@ -1,0 +1,105 @@
+name: acceptance
+
+services:
+  acceptance-tester:
+    extends:
+      file: ../../../tests/docker-compose.yml
+      service: acceptance-tester
+    command: # FIXME(QA-733): Align dockerfile with open source
+      - -k
+      - not test_create_artifacts
+    volumes:
+      - ".:/testing"
+    depends_on:
+      mmock:
+        condition: service_started
+      workflows:
+        condition: service_started
+      workflows-worker:
+        condition: service_started
+
+  mongo:
+    extends:
+      file: ../../../../dev/docker-compose.yml
+      service: mongo
+
+  nats:
+    extends:
+      file: ../../../../dev/docker-compose.yml
+      service: nats
+
+  mmock:
+    image: jordimartin/mmock:v2.7.6
+    command: ["-server-ip", "0.0.0.0", "-console-ip", "0.0.0.0", "-server-port", "8080"]
+    ports:
+      - 8082:8082
+    volumes:
+      - "./mmock:/config"
+    networks:
+      default:
+        aliases:
+          - mender-deployments
+          - mender-device-auth
+          - mender-inventory
+          - mender-tenantadm
+          - mender-useradm
+          - mender-deviceconnect
+          - mender-deviceconfig
+          - mender-reporting
+          - mender-iot-manager
+          - mmock
+
+  workflows-worker:
+    image: workflows:test
+    build:
+      args:
+        - BIN_FILE=backend/tests/bin/workflows.test
+    pull_policy: never
+    command: ["worker"]
+    user: ${UID:-0}:${GID:-0}
+    volumes:
+      - ".:/testing"
+      - "../worker/workflows:/etc/workflows/definitions"
+      - ../../../tests/cover:/cover
+    working_dir: /testing
+    environment:
+      AWS_ACCESS_KEY_ID: "minio"
+      AWS_SECRET_ACCESS_KEY: "minio123"
+      AWS_URL: "http://minio:9000"
+      BUCKET: "mender"
+      HAVE_DEVICECONNECT: 1
+      HAVE_DEVICECONFIG: 1
+      GOCOVERDIR: /cover
+    restart: always
+    depends_on:
+      mongo:
+        condition: service_started
+
+  workflows:
+    image: workflows:test
+    command: [server, --automigrate]
+    build:
+      args:
+        - BIN_FILE=backend/tests/bin/workflows.test
+    ports:
+      - "8080:8080"
+    environment:
+      GOCOVERDIR: /cover
+    user: ${UID:-0}:${GID:-0}
+    volumes:
+      - ../../../tests/cover:/cover
+    working_dir: /testing
+    networks:
+      default:
+        aliases:
+          - mender-workflows-server
+          - workflows-server
+    restart: always
+    depends_on:
+      mongo:
+        condition: service_started
+      nats:
+        condition: service_started
+
+volumes:
+  mongo: {}

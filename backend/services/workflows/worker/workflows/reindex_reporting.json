@@ -1,0 +1,29 @@
+{
+    "name": "reindex_reporting",
+    "description": "Trigger a reindex of service data in mender-reporting.",
+    "ephemeral": true,
+    "version": 3,
+    "tasks": [
+        {
+            "name": "reindex_reporting",
+            "type": "nats",
+            "retries": 3,
+            "nats": {
+                "subject": "reporting",
+                "data": {
+                    "action": "reindex",
+                    "request_id": "${workflow.input.request_id}",
+                    "tenant_id": "${workflow.input.tenant_id}",
+                    "device_id": "${workflow.input.device_id}",
+                    "service": "${workflow.input.service}"
+                }
+            }
+        }
+    ],
+    "inputParameters": [
+        "request_id",
+        "tenant_id",
+        "device_id",
+        "service"
+    ]
+}

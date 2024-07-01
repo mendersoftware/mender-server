@@ -1,0 +1,155 @@
+#!/bin/bash
+set -e
+
+# by default just add minio, with COMPOSE_CMD_BASE this creates the standard onprem ST setup
+COMPOSE_CMD="docker-compose -p gui-tests \
+             -f ${INTEGRATION_PATH}/docker-compose.yml \
+             -f ${INTEGRATION_PATH}/docker-compose.client.yml \
+             -f ${INTEGRATION_PATH}/docker-compose.demo.yml \
+             -f ${INTEGRATION_PATH}/docker-compose.storage.minio.yml"
+ENTERPRISE_COMPOSE=" -f ${INTEGRATION_PATH}/docker-compose.enterprise.yml"
+TEST_COMPOSE=" -f ${GUI_REPOSITORY}/tests/e2e_tests/docker-compose.e2e-tests.yml"
+TEST_COMPOSE_ENTERPRISE=" -f ${GUI_REPOSITORY}/tests/e2e_tests/docker-compose.e2e-tests.enterprise.yml"
+ENTERPRISE=0
+UNPRIVILEGED=0
+
+COMPOSE_FILES=()
+
+usage() {
+    echo "runner script for gui-specific integration tests"
+    echo ""
+    echo "$0"
+    echo -e "\t-h --help"
+    echo -e "\t-c --skip-cleanup \tleave containers running after tests"
+    echo -e "\t-f=<FILE>         \tspecify custom compose file(s); default files will not be used,"
+    echo -e "\t                  \tmake sure to specify all files you need"
+    echo ""
+    echo -e "examples:"
+    echo -e "run all GUI tests, from root of this repo, with default ST setup:"
+    echo -e "GUI_REPOSITORY='<path-to-local-gui-repo>' INTEGRATION_PATH=. $0"
+}
+
+parse_args(){
+    whitespace="[[:space:]]"
+
+    # FIXME args must be passed in the form -f=<path>; spaces don't workalthough they're standard...
+    while [ $# -gt 0 ]; do
+        case $1 in
+            -h | --help)
+            usage
+            exit
+            ;;
+            -c | --skip-cleanup)
+            SKIP_CLEANUP=1
+            shift
+            ;;
+            --unprivileged)
+            UNPRIVILEGED=1
+            shift
+            ;;
+            --enterprise)
+            COMPOSE_CMD+=$ENTERPRISE_COMPOSE
+            export TEST_ENVIRONMENT=enterprise
+            ENTERPRISE=1
+            shift
+            ;;
+            -f)
+            COMPOSE_CMD+=$2
+            shift 2
+            ;;
+            *)
+        esac
+    done
+}
+
+USER=mender-demo@example.com
+PASSWORD=mysecretpassword!123
+
+run_tests() {
+    COMPOSE_CMD+=$TEST_COMPOSE
+    if [[ $ENTERPRISE -eq 1 ]]; then
+      COMPOSE_CMD+=$TEST_COMPOSE_ENTERPRISE
+    fi
+    if [[ $UNPRIVILEGED -eq 1 ]]; then
+      sed -i 's|"http://mender-gui"|"http://mender-gui:8090"|g' ${INTEGRATION_PATH}/config/traefik/traefik.yaml
+    fi
+    $COMPOSE_CMD up -d
+    declare retries=5
+
+    if [[ $ENTERPRISE -eq 1 ]]; then
+        # remove the client, since it won't be able to connect as it lacks a proper tenant token config
+        $COMPOSE_CMD rm -fsv mender-client
+        while [[ $retries -gt 0 && -z $containerid ]]; do
+            containerid=$(get_container_id mender-tenantadm)
+            sleep 1
+            retries=$((retries-1))
+        done
+
+        if [[ -z $containerid ]]; then
+            echo "failed to get tenantadm id"
+            return 1
+        fi
+        tenant=$(docker exec $containerid /usr/bin/tenantadm create-org --name=test --username=$USER --password=$PASSWORD --addon configure --addon monitor --addon troubleshoot)
+        token=$(docker exec $containerid /usr/bin/tenantadm get-tenant --id $tenant | jq -r .tenant_token)
+        jq --arg tenantToken "$token" '. + { "TenantToken": $tenantToken }' ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient/mender.json > ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient/mender-test.json
+        # start a new client, using the obtained tenant token - starting it later (in the test suite) would require docker access in the test runner
+        docker run --name connect-client -d --network=gui-tests_mender \
+            -v ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient/mender-test.json:/etc/mender/mender.conf \
+            -v ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient/mender-connect.json:/etc/mender/mender-connect.conf \
+            mendersoftware/mender-client-docker-addons:mender-3.6.x
+    else
+        while [[ $retries -gt 0 && -z $containerid ]]; do
+            containerid=$(get_container_id mender-useradm)
+            sleep 1
+            retries=$((retries-1))
+        done
+
+        if [[ -z $containerid ]]; then
+            echo "failed to get useradm id"
+            return 1
+        fi
+        docker exec $containerid /usr/bin/useradm create-user --username $USER --password $PASSWORD
+    fi
+    declare retries=5
+    while [[ $retries -gt 0 && -z $runnerid ]]; do
+        runnerid=$(get_container_id mender-gui-tests-runner)
+        sleep 1
+        retries=$((retries-1))
+    done
+
+    if [[ -z $runnerid ]]; then
+        echo "failed to get runner id"
+        return 1
+    fi
+
+    # the following two lines are needed to help with updates to the playwright packages as we rely on the prebuilt mender-test-containers image
+    docker exec $runnerid npm i
+    docker exec $runnerid npx playwright install
+
+    docker exec $runnerid npm run test-ci || failed=1
+
+    docker inspect --format '{{.State.ExitCode}}' $runnerid || true
+    [ $? == 0 ] || failed=1
+}
+
+get_container_id() {
+    echo "$(docker ps --filter label=com.docker.compose.service=$1 -q)"
+}
+
+cleanup(){
+    [ -z $SKIP_CLEANUP ] && docker stop connect-client && docker rm connect-client || true
+    [ -z $SKIP_CLEANUP ] && $COMPOSE_CMD down || true
+}
+
+parse_args "$@"
+run_tests
+
+if [ -n "$failed" ]; then
+    tmppath=${GUI_REPOSITORY}/logs/gui_e2e_tests.txt
+    echo "-- tests failed, dumping logs to $tmppath"
+    $COMPOSE_CMD logs > $tmppath
+fi
+
+cleanup
+
+exit $failed

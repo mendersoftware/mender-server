@@ -1,0 +1,10 @@
+request:
+  description: |
+    Call workflow provision external device
+  host: mender-workflows-server
+  method: POST
+  path: /api/v1/workflow/provision_external_device
+  # The connection string will contain the device ID
+  body: "*93406e21-8e3f-4435-9786-a294a70298ee*"
+response:
+  statusCode: 201
