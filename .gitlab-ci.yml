@@ -1,5 +1,7 @@
 variables:
-  GOLANG_VERSION: "1.22.4"
+  GOLANG_VERSION:
+    value: "1.22.4"
+    description: 'Go version to use for building and testing'
 
 include:
   - project: 'Northern.tech/Mender/mendertesting'
