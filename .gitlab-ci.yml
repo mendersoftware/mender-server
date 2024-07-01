@@ -13,6 +13,9 @@ stages:
   - build
   - test
 
+.dind-login: &dind-login
+  - mkdir -p $HOME/.docker && echo $DOCKER_AUTH_CONFIG > $HOME/.docker/config.json
+
 build:dist:
   image: golang:${GOLANG_VERSION}
   stage: build
@@ -67,6 +70,7 @@ test:acceptance:
     - apk add make bash go git
     - tar -zxvf dist.tar.gz
     - make -C backend docker-acceptance
+    - *dind-login
   script:
     - make -C backend test-acceptance
 
@@ -84,6 +88,7 @@ test:integration:
   before_script:
     - apk add make bash git curl
     - tar -zxvf dist.tar.gz
+    - *dind-login
   script:
     - make -C backend test-integration
   artifacts:
