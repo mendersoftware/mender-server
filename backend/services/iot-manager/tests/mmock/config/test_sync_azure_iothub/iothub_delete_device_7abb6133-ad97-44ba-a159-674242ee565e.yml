@@ -1,0 +1,12 @@
+request:
+  description: Delete device 7abb6133-ad97-44ba-a159-674242ee565e from IoT Hub
+  host: mock.azure-devices.net
+  method: DELETE
+  path: /devices/7abb6133-ad97-44ba-a159-674242ee565e
+response:
+  statusCode: 200
+control:
+  scenario:
+    name: class
+    requiredState:
+      - TestSyncAzureIoTHub

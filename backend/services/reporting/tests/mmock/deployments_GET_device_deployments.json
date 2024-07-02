@@ -1,0 +1,19 @@
+
+{
+	"description": "deployments: GET devices",
+	"request": {
+		"method": "GET",
+		"path": "/api/internal/v1/deployments/tenants/123456789012345678901234/deployments/devices",
+		"queryStringParameters": {
+			"page": ["1"],
+			"per_page": ["2"]
+		}
+	},
+	"response": {
+		"statusCode": 200,
+		"headers": {
+			"Content-Type":["application/json"]
+		},
+        "body": "[{\"id\":\"f32a5329-b344-44b4-9a2f-ff2b44968a35\",\"deployment\":{\"name\":\"All devices\",\"artifact_name\":\"mender-demo-artifact-3.4.0\",\"created\":\"2023-01-06T04:39:59.765Z\",\"finished\":\"2023-01-06T04:40:13.271Z\",\"id\":\"1b543b1c-0a47-4024-bdc5-ce9722775580\",\"artifacts\":[\"596c0e6f-02a6-46df-95a3-4d09b3607e9c\"],\"status\":\"finished\",\"device_count\":1,\"max_devices\":1,\"type\":\"software\"},\"device\":{\"created\":\"2023-01-06T04:39:59.765Z\",\"finished\":\"2023-01-06T04:40:13.269Z\",\"status\":\"already-installed\",\"id\":\"0a4eb6a1-861a-4d8c-a3cf-7517f0e7c7c3\",\"log\":false}},{\"id\":\"e2b8df68-a7d8-4380-9a91-69ce1d6684e0\",\"deployment\":{\"name\":\"All devices\",\"artifact_name\":\"mender-demo-artifact-3.4.0\",\"force_installation\":true,\"created\":\"2023-01-06T04:42:40.482Z\",\"finished\":\"2023-01-06T04:42:49.179Z\",\"id\":\"ba4e785b-ccfc-4266-99f6-028f7cf557b0\",\"artifacts\":[\"596c0e6f-02a6-46df-95a3-4d09b3607e9c\"],\"status\":\"finished\",\"device_count\":1,\"max_devices\":1,\"type\":\"software\"},\"device\":{\"created\":\"2023-01-06T04:42:40.482Z\",\"finished\":\"2023-01-06T04:42:49.177Z\",\"status\":\"success\",\"id\":\"0a4eb6a1-861a-4d8c-a3cf-7517f0e7c7c3\",\"image\":{\"id\":\"596c0e6f-02a6-46df-95a3-4d09b3607e9c\",\"name\":\"mender-demo-artifact-3.4.0\",\"device_types_compatible\":[\"beaglebone\",\"beaglebone-yocto\",\"beaglebone-yocto-grub\",\"generic-armv6\",\"generic-x86_64\",\"qemux86-64\",\"raspberrypi0w\",\"raspberrypi0-wifi\",\"raspberrypi3\",\"raspberrypi4\",\"raspberrypi\"],\"info\":{\"format\":\"mender\",\"version\":3},\"signed\":false,\"updates\":[{\"type_info\":{\"type\":\"directory\"},\"files\":[{\"name\":\"update.tar\",\"checksum\":\"9f8dafe5c0152763a324db271706d62f7c3f778007cae783f623d31892c43c19\",\"size\":3235840,\"date\":\"2023-01-03T07:54:04Z\"},{\"name\":\"dest_dir\",\"checksum\":\"d1503477cc90d9e779b36476cef1b0b136769720ea7655c23e2704a2730d607d\",\"size\":20,\"date\":\"2023-01-03T07:54:04Z\"}],\"meta_data\":[]}],\"artifact_provides\":{\"artifact_name\":\"mender-demo-artifact-3.4.0\",\"data-partition.mender-demo-artifact.version\":\"3.4.0\"},\"artifact_depends\":{\"device_type\":[\"beaglebone\",\"beaglebone-yocto\",\"beaglebone-yocto-grub\",\"generic-armv6\",\"generic-x86_64\",\"qemux86-64\",\"raspberrypi0w\",\"raspberrypi0-wifi\",\"raspberrypi3\",\"raspberrypi4\",\"raspberrypi\"]},\"clears_artifact_provides\":[\"data-partition.mender-demo-artifact.*\"],\"size\":1982976,\"modified\":\"2023-01-06T04:23:24.514Z\"},\"log\":false}}]"
+	}
+}

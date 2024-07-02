@@ -1,0 +1,10 @@
+{
+    "description": "deviceconnect: POST device check-update",
+    "request": {
+        "method": "POST",
+        "path": "/api/internal/v1/deviceconnect/tenants/tenant/devices/device_id/check-update"
+    },
+    "response": {
+        "statusCode": 202
+    }
+}

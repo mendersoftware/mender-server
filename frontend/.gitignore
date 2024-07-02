@@ -1,0 +1,14 @@
+#directories
+dist
+junit
+node_modules
+videos
+.vscode
+screenshots/**
+coverage
+
+#files
+src/main.css
+.DS_Store
+.eslintcache
+mender-demo-artifact.mender

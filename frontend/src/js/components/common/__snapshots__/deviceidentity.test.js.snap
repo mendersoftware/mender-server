@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DeviceIdentityDisplay Component renders correctly 1`] = `
+.emotion-0 {
+  grid-template-columns: 1fr max-content;
+  -webkit-column-gap: 8px;
+  column-gap: 8px;
+}
+
+<div
+  class="emotion-0"
+  style="display: grid;"
+>
+  <div>
+    dc:a6:32:12:ad:bf
+  </div>
+</div>
+`;

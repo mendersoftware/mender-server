@@ -28,6 +28,7 @@ EOF
     echo "Replacing docker composition for enterprise"
     mv dev/docker-compose.enterprise.yml dev/docker-compose.yml
     mv backend/tests/docker-compose.enterprise.yml backend/tests/docker-compose.yml
+    mv backend/services/workflows/tests//docker-compose.enterprise.yml backend/services/workflows/tests/docker-compose.yml
 else
     cat > "$REPOSITORIES_PATH" << EOF
 create-artifact-worker

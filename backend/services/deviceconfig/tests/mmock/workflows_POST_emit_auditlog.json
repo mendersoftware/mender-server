@@ -1,0 +1,10 @@
+{
+	"description": "workflows: POST emit_auditlog",
+	"request": {
+		"method": "POST",
+		"path": "/api/v1/workflow/emit_auditlog"
+	},
+	"response": {
+		"statusCode": 201
+	}
+}

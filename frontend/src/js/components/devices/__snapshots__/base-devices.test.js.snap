@@ -1,0 +1,120 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`smaller components renders AcceptedEmptyState correctly 1`] = `
+<div
+  class="dashboard-placeholder"
+>
+  <p>
+    No devices found
+  </p>
+</div>
+`;
+
+exports[`smaller components renders DefaultAttributeRenderer correctly 1`] = `
+<div
+  title="dc:a6:32:12:ad:bf"
+>
+  <div
+    class="text-overflow"
+  >
+    dc:a6:32:12:ad:bf
+  </div>
+</div>
+`;
+
+exports[`smaller components renders DeviceCreationTime correctly 1`] = `
+<div>
+  <time
+    datetime="2019-01-13T06:25:00+00:00"
+  >
+    2019-01-13 06:25
+  </time>
+</div>
+`;
+
+exports[`smaller components renders DeviceSoftware correctly 1`] = `
+<div
+  title="-"
+>
+  <div
+    class="text-overflow"
+  >
+    -
+  </div>
+</div>
+`;
+
+exports[`smaller components renders DeviceStatusRenderer correctly 1`] = `
+<div>
+  <div
+    class="margin-right-small"
+  >
+    accepted
+  </div>
+</div>
+`;
+
+exports[`smaller components renders DeviceTypes correctly 1`] = `
+<div
+  title="raspberrypi4"
+>
+  <div
+    class="text-overflow"
+  >
+    raspberrypi4
+  </div>
+</div>
+`;
+
+exports[`smaller components renders PendingEmptyState correctly 1`] = `
+<div
+  class="dashboard-placeholder"
+>
+  <p>
+    There are no devices pending authorization
+  </p>
+  <p>
+    Visit the 
+    <a
+      href="/help/get-started"
+    >
+      Help section
+    </a>
+     to learn how to connect devices to the Mender server.
+  </p>
+</div>
+`;
+
+exports[`smaller components renders PreauthorizedEmptyState correctly 1`] = `
+<div
+  class="dashboard-placeholder"
+>
+  <p>
+    There are no preauthorized devices.
+  </p>
+  <img
+    alt="preauthorize"
+    src="preauthorize.png"
+  />
+</div>
+`;
+
+exports[`smaller components renders RejectedEmptyState correctly 1`] = `
+<div
+  class="dashboard-placeholder"
+>
+  <p>
+    There are no rejected devices
+  </p>
+</div>
+`;
+
+exports[`smaller components renders RelativeDeviceTime correctly 1`] = `
+<div>
+  <time
+    datetime="2019-01-01"
+  >
+    12 days ago
+  </time>
+</div>
+`;

@@ -1,0 +1,17 @@
+{
+	"control": {
+		"priority": 20
+	},
+	"description": "deployments: POST last devices deployments",
+	"request": {
+		"method": "POST",
+		"path": "/api/internal/v1/deployments/tenants/*/devices/deployments/last"
+	},
+	"response": {
+		"statusCode": 200,
+		"headers": {
+			"Content-Type":["application/json"]
+		},
+        "body": "{\"device_deployment_last_statuses\":[{\"device_id\":\"463e12dd-1adb-4f62-965e-b0a9ba2c93ff\", \"device_deployment_status\":\"success\"}]}"
+	}
+}

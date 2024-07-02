@@ -1,0 +1,25 @@
+request:
+  description: Get device cf1baca8-49f0-4dc5-91bd-c742292ea497 from AWS IoT Core
+  host: iot.region.amazonaws.com
+  method: GET
+  path: /things/cf1baca8-49f0-4dc5-91bd-c742292ea497
+response:
+  statusCode: 200
+  headers:
+    Content-Type:
+      - "application/json"
+  body: |-
+    {
+      "billingGroupName": "",
+      "defaultClientId": "",
+      "thingArn": "cf1baca8-49f0-4dc5-91bd-c742292ea497",
+      "thingId": "cf1baca8-49f0-4dc5-91bd-c742292ea497",
+      "thingName": "cf1baca8-49f0-4dc5-91bd-c742292ea497",
+      "thingTypeName": "cf1baca8-49f0-4dc5-91bd-c742292ea497",
+      "version": 1
+    }
+control:
+  scenario:
+    name: class
+    requiredState:
+      - TestSyncAWSIoTCore

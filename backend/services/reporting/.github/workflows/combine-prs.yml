@@ -1,0 +1,23 @@
+name: Combine PRs
+
+on:
+  schedule:
+    - cron: '30 6 3 * *' # 6:30, third day of the month, should give enough time for all PRs to be created
+  workflow_dispatch: # allows you to manually trigger the workflow
+
+# The minimum permissions required to run this Action
+permissions:
+  contents: write
+  pull-requests: write
+  checks: read
+
+jobs:
+  combine-prs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: combine-prs
+        id: combine-prs
+        uses: github/combine-prs@v3.1.1
+        with:
+          ci_required: false # to allow combining PRs with incomplete CI (e.g. mender-qa)
