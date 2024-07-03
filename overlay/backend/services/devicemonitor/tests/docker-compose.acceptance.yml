@@ -1,0 +1,25 @@
+# Override file for acceptance tests
+# NOTE: paths are relative to $GIT_ROOT/backend/tests
+services:
+  acceptance-tester:
+    environment:
+      DEVICEMONITOR_URL: "http://mender-devicemonitor:8080"
+      MMOCK_CONTROL_URL: "http://mmock:8081"
+      MMOCK_API_URL: "http://mmock:8080"
+    volumes:
+      - ../services/devicemonitor/tests:/testing
+      - ../services/devicemonitor/docs:/docs
+    depends_on:
+      - mmock
+      - devicemonitor
+
+  devicemonitor:
+    build:
+      args:
+        - BIN_FILE=backend/tests/bin/devicemonitor.test
+    image: devicemonitor:test
+    environment:
+      GOCOVERDIR: /cover
+    user: ${UID:-0}:${GID:-0}
+    volumes:
+      - ./cover:/cover
