@@ -19,6 +19,8 @@ stages:
 build:dist:
   image: golang:${GOLANG_VERSION}
   stage: build
+  rules:
+   - when: never
   tags:
     - hetzner-amd-beefy
   script:
@@ -34,6 +36,8 @@ build:dist:
 test:unit:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/golang:${GOLANG_VERSION}-bullseye
   stage: test
+  rules:
+   - when: never
   tags:
     - hetzner-amd-beefy
   services:
@@ -58,6 +62,8 @@ test:unit:
 test:acceptance:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:26-cli
   stage: test
+  rules:
+   - when: never
   tags:
     - hetzner-amd-beefy
   services:
@@ -77,6 +83,8 @@ test:acceptance:
 test:integration:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:26-cli
   stage: test
+  rules:
+   - when: never
   tags:
     - hetzner-amd-beefy
   services:
