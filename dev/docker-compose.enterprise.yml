@@ -431,6 +431,7 @@ services:
       DEVICEAUTH_ADDR: deviceauth:8080
       DEVICECONFIG_ADDR: deviceconfig:8080
       DEVICECONNECT_ADDR: deviceconnect:8080
+      DEVICEMONITOR_ADDR: devicemonitor:8080
       INVENTORY_ADDR: inventory:8080
       IOT_MANAGER_ADDR: iot-manager:8080
       TENANTADM_ADDR: tenantadm:8080
