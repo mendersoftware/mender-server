@@ -7,7 +7,7 @@ DOWNLOAD_REQUIREMENTS="true"
 
 COMPOSE_FILES_BASE="-f $MENDER_SERVER_PATH/backend/tests/integration/docker/docker-compose.backend-tests.yml"
 COMPOSE_FILES_OPEN=" \
-        -f $MENDER_SERVER_PATH/dev/docker-compose.yml \
+        -f $MENDER_SERVER_PATH/backend/tests/docker-compose.yml \
         -f $MENDER_SERVER_PATH/backend/tests/integration/docker/docker-compose.backend-tests.yml \
         "
 COMPOSE_FILES_ENTERPRISE="${COMPOSE_FILES_OPEN} \
@@ -62,12 +62,12 @@ usage() {
     echo -e "\t./run -s all -k TestGetDevices"
 }
 
-TEST_SUITES=( "open" )
+TEST_SUITES=("open")
 if [ -d "${MENDER_SERVER_PATH}/backend/services/auditlogs" ]; then
-    TEST_SUITES=( "enterprise" )
+    TEST_SUITES=("enterprise")
 fi
 
-parse_args(){
+parse_args() {
     while [ $# -gt 0 ]; do
         case "$1" in
             -h | --help)
@@ -77,13 +77,12 @@ parse_args(){
             -s | --suite)
                 shift 1
                 case "$1" in
-                    open)
-                        ;;
+                    open) ;;
                     enterprise)
-                        TEST_SUITES=( "enterprise" )
+                        TEST_SUITES=("enterprise")
                         ;;
                     all)
-                        TEST_SUITES=( "open" "enterprise" )
+                        TEST_SUITES=("open" "enterprise")
                         ;;
                     *)
                         usage
@@ -121,7 +120,7 @@ get_runner_requirements() {
     if [ ! -f "$MENDER_ARTIFACT_PATH" ]; then
         echo "downloading mender-artifact/$MENDER_ARTIFACT_BRANCH"
         curl -s --fail "https://downloads.mender.io/mender-artifact/${MENDER_ARTIFACT_BRANCH}/linux/mender-artifact" \
-             -o "$MENDER_ARTIFACT_PATH"
+            -o "$MENDER_ARTIFACT_PATH"
         chmod +x "$MENDER_ARTIFACT_PATH"
     fi
 
@@ -137,12 +136,12 @@ get_runner_requirements() {
 run_tests() {
     local RUN_ARGS="--use-aliases"
     # Need to start the backend first
-    compose_cmd up $COMPOSE_UP_EXTRA_ARGS --scale mender-backend-tests-runner=0 -d
+    compose_cmd up $COMPOSE_UP_EXTRA_ARGS -d
     if [ -n "$AZURE_IOTHUB_CONNECTIONSTRING" ]; then
         RUN_ARGS="${RUN_ARGS} -e AZURE_IOTHUB_CONNECTIONSTRING=${AZURE_IOTHUB_CONNECTIONSTRING}"
     fi
     # ... then the runner
-    compose_cmd run $RUN_ARGS mender-backend-tests-runner
+    compose_cmd run $RUN_ARGS integration-tester
     return $?
 }
 
@@ -167,7 +166,7 @@ copy_test_reports_if_args() {
         shift
     done
 
-    cid=$(compose_cmd ps -aq mender-backend-tests-runner | head -n 1)
+    cid=$(compose_cmd ps -aq integration-tester | head -n 1)
     if [ -n "$RESULTS_FILE" ]; then
         echo "-- copying file $RESULTS_FILE"
         docker cp ${cid}:/$RESULTS_FILE . || true
@@ -197,7 +196,7 @@ prepare_pytest_args() {
     export PYTEST_ARGS
 }
 
-cleanup(){
+cleanup() {
     if [ -z $SKIP_CLEANUP ]; then
         compose_cmd down -v --remove-orphans
     else
@@ -208,7 +207,7 @@ cleanup(){
         # Remove the blob storage container if we created one
         echo "Removing blob storage container '$AZURE_STORAGE_CONTAINER_NAME'"
         docker-compose $COMPOSE_FILE_AZURE_SETUP run --rm \
-                       azblob-container-teardown $AZURE_STORAGE_CONTAINER_NAME
+            azblob-container-teardown $AZURE_STORAGE_CONTAINER_NAME
         docker-compose $COMPOSE_FILE_AZURE_SETUP down
     fi
 }
@@ -245,7 +244,7 @@ for suite in "${TEST_SUITES[@]}"; do
         export AZURE_STORAGE_CONTAINER_NAME="${container}"
         echo "Creating container '$AZURE_STORAGE_CONTAINER_NAME'"
         docker-compose $COMPOSE_FILE_AZURE_SETUP run --rm \
-                       azblob-container-setup $AZURE_STORAGE_CONTAINER_NAME
+            azblob-container-setup $AZURE_STORAGE_CONTAINER_NAME
         ec=$?
         if [ $ec -ne 0 ]; then
             echo -n 'Failed to setup blob storage for testing'

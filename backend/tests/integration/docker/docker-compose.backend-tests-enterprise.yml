@@ -8,4 +8,4 @@ services:
     workflows-worker:
         environment:
             WORKFLOWS_EMAIL_SENDER: "no-reply@hosted.mender.io"
-            WORKFLOWS_SMTP_HOST: "mender-backend-tests-runner:4444"
+            WORKFLOWS_SMTP_HOST: "integration-tester:4444"
