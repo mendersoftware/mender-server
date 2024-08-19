@@ -49,9 +49,7 @@ from testutils.common import (
 
 
 HTTPServer.DEFAULT_LISTEN_PORT = get_free_tcp_port()
-HTTPServer.DEFAULT_LISTEN_HOST = (
-    "mender-backend-tests-runner"  # name of the compose service
-)
+HTTPServer.DEFAULT_LISTEN_HOST = "integration-tester"  # name of the compose service
 
 
 @pytest.fixture(scope="session")
@@ -485,7 +483,8 @@ class _TestAzureIoTHubDeviceLifecycleBase:
                 ).respond_with_data(status=404)
 
             rsp = self.api_devauth_mgmt.with_auth(azure_user.token).call(
-                "DELETE", deviceauth.URL_DEVICE.format(id=dev.id),
+                "DELETE",
+                deviceauth.URL_DEVICE.format(id=dev.id),
             )
             assert rsp.status_code == 204
 
