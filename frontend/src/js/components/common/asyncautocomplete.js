@@ -16,7 +16,8 @@ import React, { useEffect, useState } from 'react';
 import { Autocomplete, TextField } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-import { TIMEOUTS } from '../../constants/appConstants';
+import { TIMEOUTS } from '@northern.tech/store/constants';
+
 import { useDebounce } from '../../utils/debouncehook';
 import Loader from './loader';
 

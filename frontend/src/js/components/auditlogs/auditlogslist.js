@@ -16,8 +16,8 @@ import { Link } from 'react-router-dom';
 
 import { ArrowRightAlt as ArrowRightAltIcon, Sort as SortIcon } from '@mui/icons-material';
 
-import { SORTING_OPTIONS, canAccess } from '../../constants/appConstants';
-import { DEPLOYMENT_ROUTES } from '../../constants/deploymentConstants';
+import { DEPLOYMENT_ROUTES, SORTING_OPTIONS, canAccess } from '@northern.tech/store/constants';
+
 import DeviceIdentityDisplay from '../common/deviceidentity';
 import Loader from '../common/loader';
 import Pagination from '../common/pagination';

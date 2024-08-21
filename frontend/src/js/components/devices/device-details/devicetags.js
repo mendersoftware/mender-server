@@ -17,7 +17,8 @@ import { useDispatch } from 'react-redux';
 import { Button } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-import { getDeviceAttributes, setDeviceTags } from '../../../actions/deviceActions';
+import { getDeviceAttributes, setDeviceTags } from '@northern.tech/store/thunks';
+
 import { toggle } from '../../../helpers';
 import Tracking from '../../../tracking';
 import ConfigurationObject from '../../common/configurationobject';
@@ -70,7 +71,7 @@ export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
   const onSubmit = () => {
     Tracking.event({ category: 'devices', action: 'modify_tags' });
     setIsEditDisabled(true);
-    return dispatch(setDeviceTags(device.id, changedTags))
+    return dispatch(setDeviceTags({ deviceId: device.id, tags: changedTags }))
       .then(() => {
         dispatch(getDeviceAttributes());
         setIsEditing(false);

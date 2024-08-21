@@ -15,7 +15,8 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import { passwordResetComplete } from '../../actions/userActions';
+import { passwordResetComplete } from '@northern.tech/store/thunks';
+
 import Form from '../common/forms/form';
 import PasswordInput from '../common/forms/passwordinput';
 import { PasswordScreenContainer } from './password';
@@ -25,7 +26,7 @@ export const PasswordReset = () => {
   const { secretHash } = useParams();
   const dispatch = useDispatch();
 
-  const handleSubmit = formData => dispatch(passwordResetComplete(secretHash, formData.password)).then(() => setConfirm(true));
+  const handleSubmit = formData => dispatch(passwordResetComplete({ secretHash, newPassword: formData.password })).then(() => setConfirm(true));
 
   return (
     <PasswordScreenContainer title="Change your password">

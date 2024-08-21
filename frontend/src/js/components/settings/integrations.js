@@ -17,11 +17,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, Divider, MenuItem, Select, TextField } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { changeIntegration, createIntegration, deleteIntegration, getIntegrations } from '../../actions/organizationActions';
-import { TIMEOUTS } from '../../constants/appConstants';
-import { EXTERNAL_PROVIDER } from '../../constants/deviceConstants';
+import { EXTERNAL_PROVIDER, TIMEOUTS } from '@northern.tech/store/constants';
+import { getExternalIntegrations, getIsPreview } from '@northern.tech/store/selectors';
+import { changeIntegration, createIntegration, deleteIntegration, getIntegrations } from '@northern.tech/store/thunks';
+
 import { customSort } from '../../helpers';
-import { getExternalIntegrations, getIsPreview } from '../../selectors';
 import { useDebounce } from '../../utils/debouncehook';
 import Confirm from '../common/confirm';
 import InfoHint from '../common/info-hint';

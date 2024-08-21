@@ -16,16 +16,6 @@ import React from 'react';
 import pluralize from 'pluralize';
 import Cookies from 'universal-cookie';
 
-import { DARK_MODE } from './constants/appConstants';
-import {
-  DEPLOYMENT_STATES,
-  defaultStats,
-  deploymentDisplayStates,
-  deploymentStatesToSubstates,
-  deploymentStatesToSubstatesWithSkipped
-} from './constants/deploymentConstants';
-import { ATTRIBUTE_SCOPES, DEVICE_FILTERING_OPTIONS } from './constants/deviceConstants';
-
 const isEncoded = uri => {
   uri = uri || '';
   return uri !== decodeURIComponent(uri);
@@ -38,54 +28,6 @@ export const fullyDecodeURI = uri => {
   return uri;
 };
 
-export const groupDeploymentDevicesStats = deployment => {
-  const deviceStatCollector = (deploymentStates, devices) =>
-    Object.values(devices).reduce((accu, device) => (deploymentStates.includes(device.status) ? accu + 1 : accu), 0);
-
-  const inprogress = deviceStatCollector(deploymentStatesToSubstates.inprogress, deployment.devices);
-  const pending = deviceStatCollector(deploymentStatesToSubstates.pending, deployment.devices);
-  const successes = deviceStatCollector(deploymentStatesToSubstates.successes, deployment.devices);
-  const failures = deviceStatCollector(deploymentStatesToSubstates.failures, deployment.devices);
-  const paused = deviceStatCollector(deploymentStatesToSubstates.paused, deployment.devices);
-  return { inprogress, paused, pending, successes, failures };
-};
-
-export const statCollector = (items, statistics) => items.reduce((accu, property) => accu + Number(statistics[property] || 0), 0);
-export const groupDeploymentStats = (deployment, withSkipped) => {
-  const { statistics = {} } = deployment;
-  const { status = {} } = statistics;
-  const stats = { ...defaultStats, ...status };
-  let groupStates = deploymentStatesToSubstates;
-  let result = {};
-  if (withSkipped) {
-    groupStates = deploymentStatesToSubstatesWithSkipped;
-    result.skipped = statCollector(groupStates.skipped, stats);
-  }
-  result = {
-    ...result,
-    // don't include 'pending' as inprogress, as all remaining devices will be pending - we don't discriminate based on phase membership
-    inprogress: statCollector(groupStates.inprogress, stats),
-    pending: (deployment.max_devices ? deployment.max_devices - deployment.device_count : 0) + statCollector(groupStates.pending, stats),
-    successes: statCollector(groupStates.successes, stats),
-    failures: statCollector(groupStates.failures, stats),
-    paused: statCollector(groupStates.paused, stats)
-  };
-  return result;
-};
-
-export const getDeploymentState = deployment => {
-  const { status: deploymentStatus = DEPLOYMENT_STATES.pending } = deployment;
-  const { inprogress: currentProgressCount, paused } = groupDeploymentStats(deployment);
-
-  let status = deploymentDisplayStates[deploymentStatus];
-  if (deploymentStatus === DEPLOYMENT_STATES.pending && currentProgressCount === 0) {
-    status = 'queued';
-  } else if (paused > 0) {
-    status = deploymentDisplayStates.paused;
-  }
-  return status;
-};
-
 export const isEmpty = obj => {
   for (const _ in obj) {
     return false;
@@ -93,23 +35,8 @@ export const isEmpty = obj => {
   return true;
 };
 
-export const extractErrorMessage = (err, fallback = '') =>
-  err.response?.data?.error?.message || err.response?.data?.error || err.error || err.message || fallback;
-
-export const preformatWithRequestID = (res, failMsg) => {
-  // ellipsis line
-  if (failMsg.length > 100) failMsg = `${failMsg.substring(0, 220)}...`;
-
-  try {
-    if (res?.data && Object.keys(res.data).includes('request_id')) {
-      let shortRequestUUID = res.data['request_id'].substring(0, 8);
-      return `${failMsg} [Request ID: ${shortRequestUUID}]`;
-    }
-  } catch (e) {
-    console.log('failed to extract request id:', e);
-  }
-  return failMsg;
-};
+export const yes = () => true;
+export const canAccess = yes;
 
 export const versionCompare = (v1, v2) => {
   const partsV1 = `${v1}`.split('.');
@@ -302,31 +229,6 @@ export const unionizeStrings = (someStrings, someOtherStrings) => {
     : startingPoint;
   return [...uniqueStrings];
 };
-
-export const generateDeploymentGroupDetails = (filter, groupName) =>
-  filter && filter.terms?.length
-    ? `${groupName} (${filter.terms
-        .map(filter => `${filter.attribute || filter.key} ${DEVICE_FILTERING_OPTIONS[filter.type || filter.operator].shortform} ${filter.value}`)
-        .join(', ')})`
-    : groupName;
-
-export const mapDeviceAttributes = (attributes = []) =>
-  attributes.reduce(
-    (accu, attribute) => {
-      if (!(attribute.value && attribute.name) && attribute.scope === ATTRIBUTE_SCOPES.inventory) {
-        return accu;
-      }
-      accu[attribute.scope || ATTRIBUTE_SCOPES.inventory] = {
-        ...accu[attribute.scope || ATTRIBUTE_SCOPES.inventory],
-        [attribute.name]: attribute.value
-      };
-      if (attribute.name === 'device_type' && attribute.scope === ATTRIBUTE_SCOPES.inventory) {
-        accu.inventory.device_type = [].concat(attribute.value);
-      }
-      return accu;
-    },
-    { inventory: { device_type: [], artifact_name: '' }, identity: {}, monitor: {}, system: {}, tags: {} }
-  );
 
 export const getFormattedSize = bytes => {
   const suffixes = ['Bytes', 'KB', 'MB', 'GB'];
@@ -528,5 +430,3 @@ export const getISOStringBoundaries = currentDate => {
   const date = [currentDate.getUTCFullYear(), `0${currentDate.getUTCMonth() + 1}`.slice(-2), `0${currentDate.getUTCDate()}`.slice(-2)].join('-');
   return { start: `${date}T00:00:00.000`, end: `${date}T23:59:59.999` };
 };
-
-export const isDarkMode = mode => mode === DARK_MODE;

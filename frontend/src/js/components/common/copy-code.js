@@ -18,7 +18,7 @@ import { FileCopy as CopyPasteIcon } from '@mui/icons-material';
 import { Button, IconButton } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { TIMEOUTS } from '../../constants/appConstants';
+import { TIMEOUTS } from '@northern.tech/store/constants';
 
 const buttonStyle = { float: 'right', margin: '-20px 0 0 10px' };
 

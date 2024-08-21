@@ -36,19 +36,7 @@ import {
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import dayjs from 'dayjs';
-import Cookies from 'universal-cookie';
-
-import enterpriseLogo from '../../../assets/img/headerlogo-enterprise.png';
-import logo from '../../../assets/img/headerlogo.png';
-import whiteEnterpriseLogo from '../../../assets/img/whiteheaderlogo-enterprise.png';
-import whiteLogo from '../../../assets/img/whiteheaderlogo.png';
-import { setFirstLoginAfterSignup, setSearchState } from '../../actions/appActions';
-import { getAllDeviceCounts } from '../../actions/deviceActions';
-import { initializeSelf, logoutUser, setAllTooltipsReadState, setHideAnnouncement, switchUserOrganization } from '../../actions/userActions';
-import { TIMEOUTS } from '../../constants/appConstants';
-import { READ_STATES } from '../../constants/userConstants';
-import { isDarkMode, toggle } from '../../helpers';
+import { READ_STATES, TIMEOUTS } from '@northern.tech/store/constants';
 import {
   getAcceptedDevices,
   getCurrentSession,
@@ -60,7 +48,26 @@ import {
   getOrganization,
   getShowHelptips,
   getUserSettings
-} from '../../selectors';
+} from '@northern.tech/store/selectors';
+import { useAppInit } from '@northern.tech/store/storehooks';
+import {
+  getAllDeviceCounts,
+  initializeSelf,
+  logoutUser,
+  setAllTooltipsReadState,
+  setFirstLoginAfterSignup,
+  setHideAnnouncement,
+  setSearchState,
+  switchUserOrganization
+} from '@northern.tech/store/thunks';
+import dayjs from 'dayjs';
+import Cookies from 'universal-cookie';
+
+import enterpriseLogo from '../../../assets/img/headerlogo-enterprise.png';
+import logo from '../../../assets/img/headerlogo.png';
+import whiteEnterpriseLogo from '../../../assets/img/whiteheaderlogo-enterprise.png';
+import whiteLogo from '../../../assets/img/whiteheaderlogo.png';
+import { toggle } from '../../helpers';
 import Tracking from '../../tracking';
 import { useDebounce } from '../../utils/debouncehook';
 import Search from '../common/search';
@@ -223,7 +230,7 @@ const AccountMenu = () => {
   );
 };
 
-export const Header = ({ mode }) => {
+export const Header = ({ isDarkMode }) => {
   const { classes } = useStyles();
   const [gettingUser, setGettingUser] = useState(false);
   const [hasOfferCookie, setHasOfferCookie] = useState(false);
@@ -246,6 +253,8 @@ export const Header = ({ mode }) => {
 
   const dispatch = useDispatch();
   const deviceTimer = useRef();
+
+  useAppInit(userId);
 
   useEffect(() => {
     if ((!userId || !user.email?.length || !userSettingInitialized) && !gettingUser && token) {
@@ -283,7 +292,7 @@ export const Header = ({ mode }) => {
   const showOffer =
     isHosted && dayjs().isBefore(currentOffer.expires) && (organization.trial ? currentOffer.trial : currentOffer[organization.plan]) && !hasOfferCookie;
 
-  const headerLogo = isDarkMode(mode) ? (isEnterprise ? whiteEnterpriseLogo : whiteLogo) : isEnterprise ? enterpriseLogo : logo;
+  const headerLogo = isDarkMode ? (isEnterprise ? whiteEnterpriseLogo : whiteLogo) : isEnterprise ? enterpriseLogo : logo;
 
   return (
     <Toolbar id="fixedHeader" className={showOffer ? `${classes.header} ${classes.banner}` : classes.header}>
@@ -293,7 +302,7 @@ export const Header = ({ mode }) => {
           errorIconClassName={classes.redAnnouncementIcon}
           iconClassName={classes.demoAnnouncementIcon}
           sectionClassName={classes.demoTrialAnnouncement}
-          onHide={() => dispatch(setHideAnnouncement(true))}
+          onHide={() => dispatch(setHideAnnouncement({ shouldHide: true }))}
         />
       )}
       {showOffer && <OfferHeader onHide={setHideOffer} />}

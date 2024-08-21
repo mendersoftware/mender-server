@@ -20,11 +20,8 @@ import { CalendarToday as CalendarTodayIcon, List as ListIcon, Refresh as Refres
 import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import dayjs from 'dayjs';
-
-import { setSnackbar } from '../../actions/appActions';
-import { getDeploymentsByStatus, setDeploymentsState } from '../../actions/deploymentActions';
-import { DEPLOYMENT_STATES } from '../../constants/deploymentConstants';
+import storeActions from '@northern.tech/store/actions';
+import { DEPLOYMENT_STATES } from '@northern.tech/store/constants';
 import {
   getDeploymentsByStatus as getDeploymentsByStatusSelector,
   getDeploymentsSelectionState,
@@ -33,12 +30,17 @@ import {
   getMappedDeploymentSelection,
   getTenantCapabilities,
   getUserCapabilities
-} from '../../selectors';
+} from '@northern.tech/store/selectors';
+import { getDeploymentsByStatus, setDeploymentsState } from '@northern.tech/store/thunks';
+import dayjs from 'dayjs';
+
 import { clearAllRetryTimers, clearRetryTimer, setRetryTimer } from '../../utils/retrytimer';
 import { DefaultUpgradeNotification } from '../common/enterpriseNotification';
 import { DeploymentDeviceCount, DeploymentEndTime, DeploymentPhases, DeploymentStartTime } from './deploymentitem';
 import { defaultRefreshDeploymentsLength as refreshDeploymentsLength } from './deployments';
 import DeploymentsList, { defaultHeaders } from './deploymentslist';
+
+const { setSnackbar } = storeActions;
 
 const useStyles = makeStyles()(theme => ({
   inactive: { color: theme.palette.text.disabled },
@@ -92,10 +94,10 @@ export const Scheduled = ({ abort, createClick, openReport, ...remainder }) => {
   const { page, perPage } = scheduledState;
 
   const refreshDeployments = useCallback(() => {
-    return dispatch(getDeploymentsByStatus(DEPLOYMENT_STATES.scheduled, page, perPage))
-      .then(deploymentsAction => {
+    return dispatch(getDeploymentsByStatus({ status: DEPLOYMENT_STATES.scheduled, page, perPage }))
+      .then(({ payload }) => {
         clearRetryTimer(type, dispatchedSetSnackbar);
-        const { total, deploymentIds } = deploymentsAction[deploymentsAction.length - 1];
+        const { total, deploymentIds } = payload[payload.length - 1];
         if (total && !deploymentIds.length) {
           return refreshDeployments();
         }

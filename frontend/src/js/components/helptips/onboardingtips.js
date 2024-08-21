@@ -17,11 +17,13 @@ import { useDispatch } from 'react-redux';
 import { Schedule as HelpIcon } from '@mui/icons-material';
 import { Button } from '@mui/material';
 
-import { advanceOnboarding, setShowDismissOnboardingTipsDialog } from '../../actions/onboardingActions';
-import { setShowConnectingDialog } from '../../actions/userActions';
-import { ALL_DEVICES } from '../../constants/deviceConstants';
-import { onboardingSteps } from '../../constants/onboardingConstants';
+import storeActions from '@northern.tech/store/actions';
+import { ALL_DEVICES, onboardingSteps } from '@northern.tech/store/constants';
+import { advanceOnboarding } from '@northern.tech/store/thunks';
+
 import BaseOnboardingTip, { BaseOnboardingTooltip } from './baseonboardingtip';
+
+const { setShowConnectingDialog, setShowDismissOnboardingTipsDialog } = storeActions;
 
 export const DevicePendingTip = props => (
   <BaseOnboardingTip

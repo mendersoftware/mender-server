@@ -17,14 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, TextField } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import dayjs from 'dayjs';
-
-import historyImage from '../../../assets/img/history.png';
-import { getAuditLogs, getAuditLogsCsvLink, setAuditlogsState } from '../../actions/organizationActions';
-import { getUserList } from '../../actions/userActions';
-import { BEGINNING_OF_TIME, BENEFITS, SORTING_OPTIONS, TIMEOUTS } from '../../constants/appConstants';
-import { AUDIT_LOGS_TYPES } from '../../constants/organizationConstants';
-import { createDownload, getISOStringBoundaries } from '../../helpers';
+import { AUDIT_LOGS_TYPES, BEGINNING_OF_TIME, BENEFITS, SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
 import {
   getAuditLog,
   getAuditLogEntry,
@@ -33,7 +26,12 @@ import {
   getGroupNames,
   getTenantCapabilities,
   getUserCapabilities
-} from '../../selectors';
+} from '@northern.tech/store/selectors';
+import { getAuditLogs, getAuditLogsCsvLink, getUserList, setAuditlogsState } from '@northern.tech/store/thunks';
+import dayjs from 'dayjs';
+
+import historyImage from '../../../assets/img/history.png';
+import { createDownload, getISOStringBoundaries } from '../../helpers';
 import { useLocationParams } from '../../utils/liststatehook';
 import EnterpriseNotification, { DefaultUpgradeNotification } from '../common/enterpriseNotification';
 import { ControlledAutoComplete } from '../common/forms/autocomplete';
@@ -172,18 +170,20 @@ export const AuditLogs = props => {
       dispatch(setAuditlogsState(state)).then(() => setTimeout(() => (isInitialized.current = true), TIMEOUTS.oneSecond + TIMEOUTS.debounceDefault));
       return;
     }
-    dispatch(
-      getAuditLogs({ page: state.page ?? 1, perPage: 50, startDate: startDate !== today ? startDate : BEGINNING_OF_TIME, endDate, user, type, detail })
-    ).then(result => initAuditlogState(result, state));
+    dispatch(getAuditLogs({ page: state.page ?? 1, perPage: 50, startDate: startDate !== today ? startDate : BEGINNING_OF_TIME, endDate, user, type, detail }))
+      .unwrap()
+      .then(({ payload: result }) => initAuditlogState(result, state));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, hasAuditlogs, JSON.stringify(events), JSON.stringify(locationParams), initAuditlogState, today, tonight]);
 
   const createCsvDownload = () => {
     setCsvLoading(true);
-    dispatch(getAuditLogsCsvLink()).then(address => {
-      createDownload(encodeURI(address), `Mender-AuditLog-${dayjs(startDate).format('YYYY-MM-DD')}-${dayjs(endDate).format('YYYY-MM-DD')}.csv`, token);
-      setCsvLoading(false);
-    });
+    dispatch(getAuditLogsCsvLink())
+      .unwrap()
+      .then(address => {
+        createDownload(encodeURI(address), `Mender-AuditLog-${dayjs(startDate).format('YYYY-MM-DD')}-${dayjs(endDate).format('YYYY-MM-DD')}.csv`, token);
+        setCsvLoading(false);
+      });
   };
 
   const onChangeSorting = () => {

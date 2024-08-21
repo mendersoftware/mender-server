@@ -17,10 +17,10 @@ import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { CheckCircle as CheckIcon, Visibility as VisibilityIcon, VisibilityOff as VisibilityOffIcon } from '@mui/icons-material';
 import { Button, FormControl, FormHelperText, IconButton, Input, InputAdornment, InputLabel } from '@mui/material';
 
+import { TIMEOUTS } from '@northern.tech/store/constants';
 import copy from 'copy-to-clipboard';
 import generator from 'generate-password';
 
-import { TIMEOUTS } from '../../../constants/appConstants';
 import { toggle } from '../../../helpers';
 import { runValidations } from './form';
 

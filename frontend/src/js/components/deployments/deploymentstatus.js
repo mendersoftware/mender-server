@@ -16,12 +16,13 @@ import React from 'react';
 import { Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { groupDeploymentStats } from '@northern.tech/store/utils';
+
 import errorImage from '../../../assets/img/error_status.png';
 import pendingImage from '../../../assets/img/pending_status.png';
 import inprogressImage from '../../../assets/img/progress_status.png';
 import skippedImage from '../../../assets/img/skipped_status.png';
 import successImage from '../../../assets/img/success_status.png';
-import { groupDeploymentStats } from '../../helpers';
 
 const phases = {
   skipped: { title: 'Skipped', image: skippedImage },

@@ -16,7 +16,8 @@ import React from 'react';
 import { deepmerge } from '@mui/utils';
 import { makeStyles } from 'tss-react/mui';
 
-import { rootfsImageVersion, softwareTitleMap } from '../../../constants/releaseConstants';
+import { rootfsImageVersion, softwareTitleMap } from '@northern.tech/store/constants';
+
 import { extractSoftware, isEmpty } from '../../../helpers';
 import { TwoColumnData } from '../../common/configurationobject';
 import DeviceDataCollapse from './devicedatacollapse';

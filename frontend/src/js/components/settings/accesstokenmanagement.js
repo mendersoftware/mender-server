@@ -35,10 +35,11 @@ import {
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { generateToken, getTokens, revokeToken } from '../../actions/userActions';
-import { canAccess as canShow } from '../../constants/appConstants';
+import { canAccess as canShow } from '@northern.tech/store/constants';
+import { getCurrentUser, getIsEnterprise } from '@northern.tech/store/selectors';
+import { generateToken, getTokens, revokeToken } from '@northern.tech/store/thunks';
+
 import { customSort, toggle } from '../../helpers';
-import { getCurrentUser, getIsEnterprise } from '../../selectors';
 import CopyCode from '../common/copy-code';
 import Time, { RelativeTime } from '../common/time';
 
@@ -221,7 +222,10 @@ export const AccessTokenManagement = () => {
     setCurrentToken(token);
   };
 
-  const onGenerateClick = config => dispatch(generateToken(config)).then(results => setCurrentToken(results[results.length - 1]));
+  const onGenerateClick = config =>
+    dispatch(generateToken(config))
+      .unwrap()
+      .then(results => setCurrentToken(results[results.length - 1]));
 
   const hasLastUsedInfo = useMemo(() => tokens.some(token => !!token.last_used), [tokens]);
 
@@ -255,13 +259,16 @@ export const AccessTokenManagement = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {tokens.sort(customSort(true, creationTimeAttribute)).map(token => (
-              <TableRow key={token.id} hover>
-                {columns.map(column => (
-                  <TableCell key={column.id}>{column.render({ onRevokeTokenClick, token })}</TableCell>
-                ))}
-              </TableRow>
-            ))}
+            {tokens
+              .slice()
+              .sort(customSort(true, creationTimeAttribute))
+              .map(token => (
+                <TableRow key={token.id} hover>
+                  {columns.map(column => (
+                    <TableCell key={column.id}>{column.render({ onRevokeTokenClick, token })}</TableCell>
+                  ))}
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       )}

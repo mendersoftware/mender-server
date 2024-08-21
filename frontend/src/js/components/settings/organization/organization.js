@@ -20,27 +20,21 @@ import { FileCopy as CopyPasteIcon } from '@mui/icons-material';
 import { Button, Checkbox, Collapse, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, List, MenuItem, Select } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import storeActions from '@northern.tech/store/actions';
+import { SSO_TYPES, TIMEOUTS, yes } from '@northern.tech/store/constants';
+import { getCurrentSession, getFeatures, getIsEnterprise, getIsPreview, getOrganization, getSsoConfig, getUserRoles } from '@northern.tech/store/selectors';
+import { changeSsoConfig, deleteSsoConfig, downloadLicenseReport, getSsoConfigs, getUserOrganization, storeSsoConfig } from '@northern.tech/store/thunks';
 import copy from 'copy-to-clipboard';
 import dayjs from 'dayjs';
 
-import { setSnackbar } from '../../../actions/appActions';
-import {
-  changeSsoConfig,
-  deleteSsoConfig,
-  downloadLicenseReport,
-  getSsoConfigs,
-  getUserOrganization,
-  storeSsoConfig
-} from '../../../actions/organizationActions';
-import { TIMEOUTS, yes } from '../../../constants/appConstants';
-import { SSO_TYPES } from '../../../constants/organizationConstants.js';
 import { createFileDownload, toggle } from '../../../helpers';
-import { getCurrentSession, getFeatures, getIsEnterprise, getIsPreview, getOrganization, getSsoConfig, getUserRoles } from '../../../selectors';
 import ExpandableAttribute from '../../common/expandable-attribute';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
 import Billing from './billing';
 import OrganizationSettingsItem, { maxWidth } from './organizationsettingsitem';
 import { SSOConfig } from './ssoconfig';
+
+const { setSnackbar } = storeActions;
 
 const useStyles = makeStyles()(theme => ({
   copyNotification: { height: 15 },
@@ -139,7 +133,9 @@ export const Organization = () => {
   const onTokenExpansion = useCallback(() => setShowTokenWarning(true), []);
 
   const onDownloadReportClick = () =>
-    dispatch(downloadLicenseReport()).then(report => createFileDownload(report, `Mender-license-report-${dayjs().format('YYYY-MM-DD')}`, token));
+    dispatch(downloadLicenseReport())
+      .unwrap()
+      .then(report => createFileDownload(report, `Mender-license-report-${dayjs().format('YYYY-MM-DD')}`, token));
 
   const onTenantInfoClick = () => {
     copy(`Organization: ${org.name}, Tenant ID: ${org.id}`);

@@ -18,7 +18,8 @@ import { InfoOutlined as InfoIcon } from '@mui/icons-material';
 import { List, ListItemButton, ListItemIcon, ListItemText, ListSubheader } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { ALL_DEVICES } from '../../constants/deviceConstants';
+import { ALL_DEVICES } from '@northern.tech/store/constants';
+
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../helptips/helptooltips';
 
 const useStyles = makeStyles()(theme => ({

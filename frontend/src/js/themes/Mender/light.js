@@ -16,7 +16,8 @@ import { buttonClasses } from '@mui/material/Button';
 import { formLabelClasses } from '@mui/material/FormLabel';
 import { listItemTextClasses } from '@mui/material/ListItemText';
 
-import { LIGHT_MODE } from '../../constants/appConstants.js';
+import { LIGHT_MODE } from '@northern.tech/store/constants';
+
 import { palette as commonPalette, overrides, typography } from './common';
 
 const grey = {

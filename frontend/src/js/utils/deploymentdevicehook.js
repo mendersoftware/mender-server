@@ -14,10 +14,9 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { getDevicesById } from '@northern.tech/store/selectors';
+import { getDeviceById } from '@northern.tech/store/thunks';
 import isUUID from 'validator/lib/isUUID';
-
-import { getDeviceById } from '../actions/deviceActions';
-import { getDevicesById } from '../selectors';
 
 export const useDeploymentDevice = deploymentName => {
   const isLoading = useRef(false);

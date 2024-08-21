@@ -17,9 +17,9 @@ import { useDispatch, useSelector } from 'react-redux';
 // material ui
 import { ArrowRightAlt as ArrowRightAltIcon } from '@mui/icons-material';
 
-import { changeIntegration, createIntegration, deleteIntegration, getIntegrations, getWebhookEvents } from '../../../actions/organizationActions';
-import { EXTERNAL_PROVIDER } from '../../../constants/deviceConstants';
-import { emptyWebhook } from '../../../constants/organizationConstants';
+import { EXTERNAL_PROVIDER, emptyWebhook } from '@northern.tech/store/constants';
+import { changeIntegration, createIntegration, deleteIntegration, getIntegrations, getWebhookEvents } from '@northern.tech/store/thunks';
+
 import DetailsTable from '../../common/detailstable';
 import DocsLink from '../../common/docslink';
 import Time from '../../common/time';

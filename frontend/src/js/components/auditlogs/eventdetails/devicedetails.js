@@ -17,9 +17,8 @@ import { Link } from 'react-router-dom';
 import { Launch as LaunchIcon } from '@mui/icons-material';
 import { makeStyles } from 'tss-react/mui';
 
-import { BEGINNING_OF_TIME } from '../../../constants/appConstants';
-import { AUDIT_LOGS_TYPES } from '../../../constants/organizationConstants';
-import { rootfsImageVersion } from '../../../constants/releaseConstants';
+import { AUDIT_LOGS_TYPES, BEGINNING_OF_TIME, rootfsImageVersion } from '@northern.tech/store/constants';
+
 import { formatAuditlogs } from '../../../utils/locationutils';
 import { TwoColumns } from '../../common/configurationobject';
 import DeviceIdentityDisplay from '../../common/deviceidentity';

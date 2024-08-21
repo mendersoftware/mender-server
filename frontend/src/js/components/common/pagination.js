@@ -16,8 +16,8 @@ import React, { useEffect, useState } from 'react';
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
 import { IconButton, TablePagination } from '@mui/material';
 
-import { TIMEOUTS } from '../../constants/appConstants';
-import { DEVICE_LIST_DEFAULTS, DEVICE_LIST_MAXIMUM_LENGTH } from '../../constants/deviceConstants';
+import { DEVICE_LIST_DEFAULTS, DEVICE_LIST_MAXIMUM_LENGTH, TIMEOUTS } from '@northern.tech/store/constants';
+
 import { useDebounce } from '../../utils/debouncehook';
 import MenderTooltip from '../common/mendertooltip';
 

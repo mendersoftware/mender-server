@@ -14,27 +14,28 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setOnboardingApproach } from '../../../actions/onboardingActions';
-import { initialState as onboardingReducerState } from '../../../reducers/onboardingReducer';
-import { getFeatures, getOrganization } from '../../../selectors';
+import { getFeatures, getOrganization } from '@northern.tech/store/selectors';
+import { setOnboardingApproach } from '@northern.tech/store/thunks';
+
 import CopyCode from '../copy-code';
 import DocsLink from '../docslink';
 
-export const getDemoDeviceCreationCommand = tenantToken =>
+export const getDemoDeviceCreationCommand = (tenantToken, demoArtifactPort) =>
   tenantToken
-    ? `TENANT_TOKEN='${tenantToken}'\ndocker run -it -p ${onboardingReducerState.demoArtifactPort}:${onboardingReducerState.demoArtifactPort} -e SERVER_URL='https://${window.location.hostname}' \\\n-e TENANT_TOKEN=$TENANT_TOKEN --pull=always mendersoftware/mender-client-qemu`
+    ? `TENANT_TOKEN='${tenantToken}'\ndocker run -it -p ${demoArtifactPort}:${demoArtifactPort} -e SERVER_URL='https://${window.location.hostname}' \\\n-e TENANT_TOKEN=$TENANT_TOKEN --pull=always mendersoftware/mender-client-qemu`
     : './demo --client up';
 
 export const VirtualDeviceOnboarding = () => {
   const dispatch = useDispatch();
   const { isHosted } = useSelector(getFeatures);
   const { tenant_token: tenantToken } = useSelector(getOrganization);
+  const demoArtifactPort = useSelector(state => state.onboarding.demoArtifactPort);
 
   useEffect(() => {
     dispatch(setOnboardingApproach('virtual'));
   }, [dispatch]);
 
-  const codeToCopy = getDemoDeviceCreationCommand(tenantToken);
+  const codeToCopy = getDemoDeviceCreationCommand(tenantToken, demoArtifactPort);
 
   return (
     <div>

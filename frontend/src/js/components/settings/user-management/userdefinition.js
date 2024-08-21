@@ -30,10 +30,10 @@ import {
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { uiPermissionsByArea, uiPermissionsById } from '@northern.tech/store/constants';
+import { mapUserRolesToUiPermissions } from '@northern.tech/store/utils';
 import validator from 'validator';
 
-import { mapUserRolesToUiPermissions } from '../../../actions/userActions';
-import { uiPermissionsByArea, uiPermissionsById } from '../../../constants/userConstants';
 import { toggle } from '../../../helpers';
 import { TwoColumnData } from '../../common/configurationobject';
 import { OAuth2Providers, genericProvider } from '../../login/oauth2providers';

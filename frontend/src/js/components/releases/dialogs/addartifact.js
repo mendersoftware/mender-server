@@ -15,19 +15,21 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Dropzone from 'react-dropzone';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { CloudUpload, Delete as DeleteIcon, InsertDriveFile as InsertDriveFileIcon } from '@mui/icons-material';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton } from '@mui/material';
+import { CloudUpload } from '@mui/icons-material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { setSnackbar } from '../../../actions/appActions';
-import { createArtifact, uploadArtifact } from '../../../actions/releaseActions';
-import { FileSize, unionizeStrings } from '../../../helpers';
-import { getDeviceTypes } from '../../../selectors';
+import storeActions from '@northern.tech/store/actions';
+import { getDeviceTypes } from '@northern.tech/store/selectors';
+import { createArtifact, uploadArtifact } from '@northern.tech/store/thunks';
+
+import { unionizeStrings } from '../../../helpers';
 import Tracking from '../../../tracking';
 import useWindowSize from '../../../utils/resizehook';
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
 import ArtifactInformationForm from './artifactinformationform';
 import ArtifactUploadConfirmation from './artifactupload';
+
+const { setSnackbar } = storeActions;
 
 const reFilename = new RegExp(/^[a-z0-9.,_-]+$/i);
 
@@ -53,46 +55,6 @@ const uploadTypes = {
     key: 'singleFile',
     component: ArtifactInformationForm
   }
-};
-
-const fileInformationContent = {
-  mender: {
-    title: 'Mender Artifact',
-    icon: InsertDriveFileIcon,
-    infoId: 'menderArtifactUpload'
-  },
-  singleFile: {
-    title: 'Single File',
-    icon: InsertDriveFileIcon,
-    infoId: 'singleFileUpload'
-  }
-};
-
-export const FileInformation = ({ file, type, onRemove }) => {
-  const { classes } = useStyles();
-  if (!file) {
-    return <div />;
-  }
-  const { icon: Icon, infoId, title } = fileInformationContent[type];
-  return (
-    <>
-      <h4>Selected {title}</h4>
-      <div className={classes.fileInfo}>
-        <Icon size="large" />
-        <div className="flexbox column">
-          <div>{file.name}</div>
-          <div className={`muted ${classes.fileSizeWrapper}`}>
-            <FileSize fileSize={file.size} />
-          </div>
-        </div>
-        <IconButton size="large" onClick={onRemove}>
-          <DeleteIcon />
-        </IconButton>
-        <MenderHelpTooltip id={HELPTOOLTIPS[infoId].id} />
-      </div>
-      <Divider className="margin-right-large" />
-    </>
-  );
 };
 
 const commonExtensions = ['zip', 'txt', 'tar', 'html', 'tar.gzip', 'gzip'];
@@ -173,9 +135,9 @@ export const AddArtifactDialog = ({ onCancel, onUploadStarted, releases, selecte
   const deviceTypes = useSelector(getDeviceTypes);
   const dispatch = useDispatch();
 
-  const onCreateArtifact = useCallback((meta, file) => dispatch(createArtifact(meta, file)), [dispatch]);
+  const onCreateArtifact = useCallback((meta, file) => dispatch(createArtifact({ meta, file })), [dispatch]);
   const onSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
-  const onUploadArtifact = useCallback((meta, file) => dispatch(uploadArtifact(meta, file)), [dispatch]);
+  const onUploadArtifact = useCallback((meta, file) => dispatch(uploadArtifact({ meta, file })), [dispatch]);
 
   useEffect(() => {
     setCreation(current => ({ ...current, file: selectedFile }));

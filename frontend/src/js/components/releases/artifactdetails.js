@@ -27,15 +27,15 @@ import {
 import { Accordion, AccordionDetails, AccordionSummary, Button, List, ListItem, ListItemText } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { getUserCapabilities } from '@northern.tech/store/selectors';
+import { editArtifact, getArtifactInstallCount, getArtifactUrl } from '@northern.tech/store/thunks';
 import pluralize from 'pluralize';
 
-import { editArtifact, getArtifactInstallCount, getArtifactUrl } from '../../actions/releaseActions';
 import { extractSoftware, extractSoftwareItem, toggle } from '../../helpers';
-import { getUserCapabilities } from '../../selectors';
+import { EditableLongText } from '../common/editablelongtext';
 import ExpandableAttribute from '../common/expandable-attribute';
 import ArtifactPayload from './artifactPayload';
 import ArtifactMetadataList from './artifactmetadatalist';
-import { EditableLongText } from './releasedetails';
 
 const useStyles = makeStyles()(theme => ({
   link: { marginTop: theme.spacing() },
@@ -159,7 +159,7 @@ export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }) =>
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [artifact.id, artifact.installCount, dispatch, open, softwareVersions.length]);
 
-  const onDescriptionChanged = useCallback(description => dispatch(editArtifact(artifact.id, { description })), [artifact.id, dispatch]);
+  const onDescriptionChanged = useCallback(description => dispatch(editArtifact({ id: artifact.id, body: { description } })), [artifact.id, dispatch]);
 
   const softwareItem = extractSoftwareItem(artifact.artifact_provides);
   const softwareInformation = softwareItem

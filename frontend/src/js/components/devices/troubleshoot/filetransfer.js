@@ -18,8 +18,9 @@ import { FileCopy as CopyPasteIcon } from '@mui/icons-material';
 import { Button, Divider, IconButton, InputAdornment, Tab, Tabs, TextField, Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { deviceFileUpload } from '../../../actions/deviceActions';
-import { canAccess } from '../../../constants/appConstants';
+import { canAccess } from '@northern.tech/store/constants';
+import { deviceFileUpload } from '@northern.tech/store/thunks';
+
 import FileUpload from '../../common/forms/fileupload';
 
 const tabs = [
@@ -98,7 +99,7 @@ export const FileTransfer = ({
     setFile(selectedFile);
   };
 
-  const onUploadClick = useCallback(() => dispatch(deviceFileUpload(deviceId, uploadPath, file)), [dispatch, deviceId, uploadPath, file]);
+  const onUploadClick = useCallback(() => dispatch(deviceFileUpload({ deviceId, path: uploadPath, file })), [dispatch, deviceId, uploadPath, file]);
 
   const fileInputProps = {
     error: !isValidDestination,

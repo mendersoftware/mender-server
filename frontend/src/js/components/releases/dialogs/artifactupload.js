@@ -13,7 +13,7 @@
 //    limitations under the License.
 import React, { useEffect } from 'react';
 
-import { FileInformation } from './addartifact';
+import { FileInformation } from './fileinformation';
 
 export const ArtifactUploadConfirmation = ({ creation = {}, onRemove, updateCreation }) => {
   const { file, type } = creation;

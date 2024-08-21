@@ -17,12 +17,10 @@ import { CloudDownload, Pause, PlayArrow, Refresh } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { DEVICE_MESSAGE_PROTOCOLS as MessageProtocols, DEVICE_MESSAGE_TYPES as MessageTypes, TIMEOUTS, deviceConnect } from '@northern.tech/store/constants';
 import msgpack5 from 'msgpack5';
 import Cookies from 'universal-cookie';
 
-import { deviceConnect } from '../../../actions/deviceActions';
-import { TIMEOUTS } from '../../../constants/appConstants';
-import { DEVICE_MESSAGE_PROTOCOLS as MessageProtocols, DEVICE_MESSAGE_TYPES as MessageTypes } from '../../../constants/deviceConstants';
 import { createFileDownload, toggle } from '../../../helpers';
 import { blobToString, byteArrayToString } from '../../../utils/sockethook';
 import XTerm from '../../common/xterm';

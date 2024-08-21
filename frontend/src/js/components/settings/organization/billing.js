@@ -20,13 +20,13 @@ import { Error as ErrorIcon, OpenInNew as OpenInNewIcon } from '@mui/icons-mater
 import { LinearProgress, List } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { ADDONS, PLANS } from '@northern.tech/store/constants';
+import { getAcceptedDevices, getDeviceLimit, getIsEnterprise, getOrganization, getUserRoles } from '@northern.tech/store/selectors';
+import { cancelRequest } from '@northern.tech/store/thunks';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
-import { cancelRequest } from '../../../actions/organizationActions';
-import { ADDONS, PLANS } from '../../../constants/appConstants';
 import { toggle } from '../../../helpers';
-import { getAcceptedDevices, getDeviceLimit, getIsEnterprise, getOrganization, getUserRoles } from '../../../selectors';
 import Alert from '../../common/alert';
 import CancelRequestDialog from '../dialogs/cancelrequest';
 import OrganizationPaymentSettings from './organizationpaymentsettings';
@@ -123,7 +123,7 @@ export const Billing = () => {
     }, []) || [];
 
   const cancelSubscriptionSubmit = async reason =>
-    dispatch(cancelRequest(organization.id, reason)).then(() => {
+    dispatch(cancelRequest(reason)).then(() => {
       setCancelSubscription(false);
       setCancelSubscriptionConfirmation(true);
     });

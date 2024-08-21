@@ -16,7 +16,8 @@ import React, { useEffect, useState } from 'react';
 import { Autocomplete, Checkbox, Collapse, FormControl, FormControlLabel, FormGroup, TextField } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { BENEFITS, TIMEOUTS } from '../../../constants/appConstants';
+import { BENEFITS, TIMEOUTS } from '@northern.tech/store/constants';
+
 import { toggle } from '../../../helpers';
 import { useDebounce } from '../../../utils/debouncehook';
 import { DOCSTIPS, DocsTooltip } from '../../common/docslink';

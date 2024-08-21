@@ -15,7 +15,7 @@ import React, { useState } from 'react';
 
 import { Button, FormControl, FormHelperText, TextField } from '@mui/material';
 
-import { ADDONS, PLANS } from '../../constants/appConstants';
+import { ADDONS, PLANS } from '@northern.tech/store/constants';
 
 const quoteRequest = {
   default: {

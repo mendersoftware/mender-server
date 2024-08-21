@@ -14,11 +14,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { DEVICE_STATES, currentArtifact, rootfsImageVersion } from '@northern.tech/store/constants';
 import pluralize from 'pluralize';
 
 import preauthImage from '../../../assets/img/preauthorize.png';
-import { DEVICE_STATES } from '../../constants/deviceConstants';
-import { currentArtifact, rootfsImageVersion } from '../../constants/releaseConstants';
 import Time, { ApproximateRelativeDate } from '../common/time';
 import DeviceStatus from './device-status';
 
@@ -33,7 +32,7 @@ const propertyNameMap = {
 export const defaultTextRender = ({ column, device }) => {
   const propertyName = propertyNameMap[column.attribute.scope] ?? column.attribute.scope;
   const accessorTarget = device[propertyName] ?? device;
-  const attributeValue = accessorTarget[column.attribute.name] || accessorTarget[column.attribute.alternative] || device[column.attribute.name];
+  const attributeValue = accessorTarget[column.attribute.name] || device[column.attribute.name];
   return (typeof attributeValue === 'object' ? JSON.stringify(attributeValue) : attributeValue) ?? device.id;
 };
 
@@ -247,13 +246,3 @@ export const routes = {
     defaultHeaders: [defaultHeaders.deviceCreationTime, defaultHeaders.lastCheckIn]
   }
 };
-
-export const sortingAlternatives = Object.values(routes)
-  .reduce((accu, item) => [...accu, ...item.defaultHeaders], [])
-  .reduce((accu, item) => {
-    if (item.attribute.alternative) {
-      accu[item.attribute.name] = item.attribute.alternative;
-      accu[item.attribute.alternative] = item.attribute.name;
-    }
-    return accu;
-  }, {});

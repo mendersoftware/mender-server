@@ -18,10 +18,7 @@ import { CloudUpload } from '@mui/icons-material';
 import { Button, Tab, Tabs, TextField } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import pluralize from 'pluralize';
-
-import { getExistingReleaseTags, getReleases, getUpdateTypes, selectRelease, setReleasesListState } from '../../actions/releaseActions';
-import { BENEFITS, SORTING_OPTIONS, TIMEOUTS } from '../../constants/appConstants';
+import { BENEFITS, SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
 import {
   getHasReleases,
   getIsEnterprise,
@@ -31,7 +28,10 @@ import {
   getSelectedRelease,
   getUpdateTypes as getUpdateTypesSelector,
   getUserCapabilities
-} from '../../selectors';
+} from '@northern.tech/store/selectors';
+import { getExistingReleaseTags, getReleases, getUpdateTypes, selectRelease, setReleasesListState } from '@northern.tech/store/thunks';
+import pluralize from 'pluralize';
+
 import { useDebounce } from '../../utils/debouncehook';
 import { useLocationParams } from '../../utils/liststatehook';
 import ChipSelect from '../common/chipselect';

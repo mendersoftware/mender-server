@@ -19,10 +19,7 @@ import { InfoOutlined as InfoIcon } from '@mui/icons-material';
 import { Autocomplete, TextField } from '@mui/material';
 import { createFilterOptions } from '@mui/material/useAutocomplete';
 
-import { advanceOnboarding, setOnboardingApproach, setOnboardingDeviceType } from '../../../actions/onboardingActions';
-import { EXTERNAL_PROVIDER } from '../../../constants/deviceConstants';
-import { onboardingSteps } from '../../../constants/onboardingConstants';
-import { getDebConfigurationCode, versionCompare } from '../../../helpers';
+import { EXTERNAL_PROVIDER, onboardingSteps } from '@northern.tech/store/constants';
 import {
   getCurrentSession,
   getFeatures,
@@ -32,7 +29,10 @@ import {
   getOnboardingState,
   getOrganization,
   getTenantCapabilities
-} from '../../../selectors';
+} from '@northern.tech/store/selectors';
+import { advanceOnboarding, setOnboardingApproach, setOnboardingDeviceType } from '@northern.tech/store/thunks';
+
+import { getDebConfigurationCode, versionCompare } from '../../../helpers';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
 import CopyCode from '../copy-code';
 import DocsLink from '../docslink';

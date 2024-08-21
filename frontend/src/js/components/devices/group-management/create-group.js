@@ -16,7 +16,8 @@ import { useSelector } from 'react-redux';
 
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
-import { getGroups, getSelectedGroupInfo } from '../../../selectors';
+import { getGroups, getSelectedGroupInfo } from '@northern.tech/store/selectors';
+
 import GroupDefinition from './group-definition';
 
 export const CreateGroup = ({ addListOfDevices, fromFilters, isCreation, onClose, selectedDevices }) => {

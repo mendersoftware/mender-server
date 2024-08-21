@@ -17,9 +17,8 @@ import { Error as ErrorIcon, ReportProblemOutlined } from '@mui/icons-material';
 import { Box, Chip, Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { DEVICE_STATES } from '@northern.tech/store/constants';
 import pluralize from 'pluralize';
-
-import { DEVICE_STATES } from '../../constants/deviceConstants';
 
 const statusTypes = {
   default: { severity: 'none', notification: {} },

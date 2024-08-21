@@ -18,17 +18,17 @@ import { Link } from 'react-router-dom';
 import { Button, Table, TableBody, TableCell, TableHead, TableRow, buttonClasses, tableCellClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { deploymentsApiUrl, getDeviceDeployments, resetDeviceDeployments } from '../../../actions/deploymentActions';
-import { getToken } from '../../../auth.js';
-import { deploymentStatesToSubstates } from '../../../constants/deploymentConstants';
-import { DEVICE_LIST_DEFAULTS } from '../../../constants/deviceConstants';
-import { createDownload } from '../../../helpers.js';
+import { getToken } from '@northern.tech/store/auth';
+import { DEVICE_LIST_DEFAULTS, deploymentStatesToSubstates, deploymentsApiUrl } from '@northern.tech/store/constants';
+import { getDeviceDeployments, resetDeviceDeployments } from '@northern.tech/store/thunks';
+
+import { createDownload } from '../../../helpers';
 import Confirm from '../../common/confirm';
 import InfoHint from '../../common/info-hint';
 import Pagination from '../../common/pagination';
 import { MaybeTime } from '../../common/time';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
-import { DeviceStateSelection } from '../authorized-devices';
+import { DeviceStateSelection } from '../widgets/devicestateselection';
 
 const useStyles = makeStyles()(theme => ({
   deletion: { justifyContent: 'flex-end' },
@@ -156,7 +156,7 @@ export const Deployments = ({ device }) => {
       return;
     }
     const filterSelection = deploymentStates[filters[0]].values;
-    dispatch(getDeviceDeployments(device.id, { filterSelection, page, perPage }));
+    dispatch(getDeviceDeployments({ deviceId: device.id, filterSelection, page, perPage }));
   }, [device.id, dispatch, filters, page, perPage]);
 
   const onSelectStatus = status => setFilters([status]);

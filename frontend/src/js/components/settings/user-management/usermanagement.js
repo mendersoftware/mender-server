@@ -18,12 +18,15 @@ import { Add as AddIcon } from '@mui/icons-material';
 // material ui
 import { Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
-import { setSnackbar } from '../../../actions/appActions';
-import { addUserToCurrentTenant, createUser, editUser, getUserList, passwordResetStart, removeUser } from '../../../actions/userActions';
-import { getCurrentUser, getFeatures, getIsEnterprise, getRolesById, getUserCapabilities } from '../../../selectors';
+import storeActions from '@northern.tech/store/actions';
+import { getCurrentUser, getFeatures, getIsEnterprise, getRolesById, getUserCapabilities } from '@northern.tech/store/selectors';
+import { addUserToCurrentTenant, createUser, editUser, getUserList, passwordResetStart, removeUser } from '@northern.tech/store/thunks';
+
 import { UserDefinition } from './userdefinition';
 import UserForm from './userform';
 import UserList from './userlist';
+
+const { setSnackbar } = storeActions;
 
 const actions = {
   add: 'addUser',
@@ -67,10 +70,10 @@ export const UserManagement = () => {
   const users = useSelector(state => Object.values(state.users.byId));
   const props = {
     canManageUsers,
-    addUser: (id, tenantId) => dispatch(addUserToCurrentTenant(id, tenantId)),
+    addUser: id => dispatch(addUserToCurrentTenant(id)),
     createUser: userData => dispatch(createUser(userData)),
     currentUser,
-    editUser: (id, userData) => dispatch(editUser(id, userData)),
+    editUser: (id, userData) => dispatch(editUser({ ...userData, id })),
     isEnterprise,
     isHosted,
     removeUser: id => dispatch(removeUser(id)),

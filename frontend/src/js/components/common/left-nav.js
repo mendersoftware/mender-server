@@ -19,7 +19,7 @@ import { List, ListItem, ListItemIcon, ListItemText, ListSubheader } from '@mui/
 import { listItemTextClasses } from '@mui/material/ListItemText';
 import { makeStyles } from 'tss-react/mui';
 
-import { isDarkMode } from '../../helpers.js';
+import { isDarkMode } from '@northern.tech/store/utils';
 
 const useStyles = makeStyles()(theme => ({
   list: {

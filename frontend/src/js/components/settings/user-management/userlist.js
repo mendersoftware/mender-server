@@ -17,7 +17,8 @@ import React, { useMemo } from 'react';
 import { ArrowRightAlt as ArrowRightAltIcon, Check as CheckIcon } from '@mui/icons-material';
 import { Chip } from '@mui/material';
 
-import { twoFAStates } from '../../../constants/userConstants';
+import { twoFAStates } from '@northern.tech/store/constants';
+
 import DetailsTable from '../../common/detailstable';
 import Time, { RelativeTime } from '../../common/time';
 

@@ -14,16 +14,16 @@
 import React, { useCallback, useState } from 'react';
 
 import { Add as AddIcon } from '@mui/icons-material';
-import { Button, FormControl, IconButton, InputLabel, ListSubheader, MenuItem, Select, iconButtonClasses, selectClasses } from '@mui/material';
+import { Button, FormControl, IconButton, InputLabel, ListSubheader, MenuItem, Select, iconButtonClasses, selectClasses, svgIconClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { BENEFITS, chartTypes, emptyChartSelection } from '../../../constants/appConstants';
+import { BENEFITS, chartTypes, emptyChartSelection } from '@northern.tech/store/constants';
+
 import { toggle } from '../../../helpers';
 import Confirm from '../../common/confirm';
 import EnterpriseNotification from '../../common/enterpriseNotification';
 import { InfoHintContainer } from '../../common/info-hint';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
-import { Header } from './distribution';
 
 const fontSize = 'smaller';
 
@@ -31,6 +31,7 @@ const useStyles = makeStyles()(theme => ({
   additionButton: { fontSize: '1rem', cursor: 'pointer' },
   button: { marginLeft: theme.spacing(2), padding: '6px 8px', fontSize },
   buttonWrapper: { display: 'flex', justifyContent: 'flex-end', alignContent: 'center' },
+  header: { minHeight: 30, [`.${svgIconClasses.root}`]: { marginLeft: theme.spacing() } },
   iconButton: {
     [`&.${iconButtonClasses.root}`]: {
       borderRadius: 5,
@@ -54,6 +55,17 @@ const useStyles = makeStyles()(theme => ({
     [`.${selectClasses.select}`]: { paddingBottom: theme.spacing(0.5), paddingTop: 0, fontSize }
   }
 }));
+
+export const Header = ({ chartType }) => {
+  const { classes } = useStyles();
+  const { Icon } = chartTypes[chartType];
+  return (
+    <div className={`flexbox center-aligned ${classes.header}`}>
+      Software distribution
+      <Icon />
+    </div>
+  );
+};
 
 const GroupSelect = ({ groups, selection, setSelection }) => (
   <FormControl className="margin-top-none">

@@ -16,8 +16,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { useTheme } from '@mui/material/styles';
 
-import { getDeviceById } from '../../../actions/deviceActions';
-import { getAuditlogDevice, getIdAttribute, getUserCapabilities } from '../../../selectors';
+import { getAuditlogDevice, getIdAttribute, getUserCapabilities } from '@northern.tech/store/selectors';
+import { getDeviceById } from '@northern.tech/store/thunks';
+
 import Loader from '../../common/loader';
 import DeviceDetails, { DetailInformation } from './devicedetails';
 

@@ -18,13 +18,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { DEVICE_DISMISSAL_STATE, DEVICE_STATES, onboardingSteps } from '@northern.tech/store/constants';
+import { getAcceptedDevices, getDeviceLimit, getLimitMaxed, getUserCapabilities } from '@northern.tech/store/selectors';
+import { advanceOnboarding, deleteAuthset, updateDeviceAuth } from '@northern.tech/store/thunks';
 import pluralize from 'pluralize';
 
-import { deleteAuthset, updateDeviceAuth } from '../../../../actions/deviceActions';
-import { advanceOnboarding } from '../../../../actions/onboardingActions';
-import { DEVICE_DISMISSAL_STATE, DEVICE_STATES } from '../../../../constants/deviceConstants';
-import { onboardingSteps } from '../../../../constants/onboardingConstants';
-import { getAcceptedDevices, getDeviceLimit, getLimitMaxed, getUserCapabilities } from '../../../../selectors';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../../helptips/helptooltips';
 import { DeviceLimitWarning } from '../../dialogs/preauth-dialog';
 import Confirm from './../../../common/confirm';
@@ -55,10 +53,11 @@ export const Authsets = ({ decommission, device, listRef }) => {
   const { auth_sets = [], status = DEVICE_STATES.accepted } = device;
   const { canManageDevices } = userCapabilities;
 
-  const updateDeviceAuthStatus = (device_id, auth_id, status) => {
-    setLoading(auth_id);
+  const updateDeviceAuthStatus = (deviceId, authId, status) => {
+    setLoading(authId);
     // call API to update authset
-    const request = status === DEVICE_DISMISSAL_STATE ? dispatch(deleteAuthset(device_id, auth_id)) : dispatch(updateDeviceAuth(device_id, auth_id, status));
+    const request =
+      status === DEVICE_DISMISSAL_STATE ? dispatch(deleteAuthset({ deviceId, authId })) : dispatch(updateDeviceAuth({ deviceId, authId, status }));
     // on finish, change "loading" back to null
     return request.then(() => dispatch(advanceOnboarding(onboardingSteps.DEVICES_PENDING_ACCEPTING_ONBOARDING))).finally(() => setLoading(null));
   };

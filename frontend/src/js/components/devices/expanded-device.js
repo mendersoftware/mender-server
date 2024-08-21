@@ -19,16 +19,8 @@ import { Close as CloseIcon, Link as LinkIcon } from '@mui/icons-material';
 import { Chip, Divider, Drawer, IconButton, Tab, Tabs, Tooltip, chipClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import copy from 'copy-to-clipboard';
-
-import GatewayConnectionIcon from '../../../assets/img/gateway-connection.svg';
-import GatewayIcon from '../../../assets/img/gateway.svg';
-import { setSnackbar } from '../../actions/appActions';
-import { decommissionDevice, getDeviceInfo, getGatewayDevices } from '../../actions/deviceActions';
-import { saveGlobalSettings } from '../../actions/userActions';
-import { TIMEOUTS, yes } from '../../constants/appConstants';
-import { DEVICE_STATES, EXTERNAL_PROVIDER } from '../../constants/deviceConstants';
-import { getDemoDeviceAddress, stringToBoolean } from '../../helpers';
+import storeActions from '@northern.tech/store/actions';
+import { DEVICE_STATES, EXTERNAL_PROVIDER, TIMEOUTS, yes } from '@northern.tech/store/constants';
 import {
   getDeviceConfigDeployment,
   getDeviceTwinIntegrations,
@@ -39,7 +31,13 @@ import {
   getTenantCapabilities,
   getUserCapabilities,
   getUserSettings
-} from '../../selectors';
+} from '@northern.tech/store/selectors';
+import { decommissionDevice, getDeviceInfo, getGatewayDevices, saveGlobalSettings } from '@northern.tech/store/thunks';
+import copy from 'copy-to-clipboard';
+
+import GatewayConnectionIcon from '../../../assets/img/gateway-connection.svg';
+import GatewayIcon from '../../../assets/img/gateway.svg';
+import { getDemoDeviceAddress, stringToBoolean } from '../../helpers';
 import DeviceIdentityDisplay from '../common/deviceidentity';
 import DocsLink from '../common/docslink';
 import { MenderTooltipClickable } from '../common/mendertooltip';
@@ -55,6 +53,8 @@ import InstalledSoftware from './device-details/installedsoftware';
 import MonitoringTab from './device-details/monitoring';
 import DeviceNotifications from './device-details/notifications';
 import DeviceQuickActions from './widgets/devicequickactions';
+
+const { setSnackbar } = storeActions;
 
 const useStyles = makeStyles()(theme => ({
   gatewayChip: {
@@ -226,7 +226,7 @@ export const ExpandedDevice = ({ actionCallbacks, deviceId, onClose, setDetailsT
   }, [device.id, dispatch, mender_gateway_system_id]);
 
   // close expanded device
-  const onDecommissionDevice = device_id => dispatch(decommissionDevice(device_id)).finally(onClose);
+  const onDecommissionDevice = deviceId => dispatch(decommissionDevice({ deviceId })).finally(onClose);
 
   const copyLinkToClipboard = () => {
     const location = window.location.href.substring(0, window.location.href.indexOf('/devices') + '/devices'.length);

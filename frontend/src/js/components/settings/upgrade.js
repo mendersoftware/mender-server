@@ -17,19 +17,20 @@ import { useNavigate } from 'react-router-dom';
 
 import { InfoOutlined as InfoOutlinedIcon, LocalOffer as LocalOfferIcon } from '@mui/icons-material';
 
+import storeActions from '@northern.tech/store/actions';
+import { PLANS, TIMEOUTS } from '@northern.tech/store/constants';
+import { getFeatures, getOrganization } from '@northern.tech/store/selectors';
+import { cancelUpgrade, completeUpgrade, getDeviceLimit, getUserOrganization, requestPlanChange, startUpgrade } from '@northern.tech/store/thunks';
 import dayjs from 'dayjs';
 
-import { setSnackbar } from '../../actions/appActions';
-import { getDeviceLimit } from '../../actions/deviceActions';
-import { cancelUpgrade, completeUpgrade, getUserOrganization, requestPlanChange, startUpgrade } from '../../actions/organizationActions';
-import { PLANS, TIMEOUTS } from '../../constants/appConstants';
-import { getFeatures, getOrganization } from '../../selectors';
 import InfoText from '../common/infotext';
 import Loader from '../common/loader';
 import AddOnSelection from './addonselection';
 import CardSection from './cardsection';
 import PlanSelection from './planselection';
 import QuoteRequestForm from './quoterequestform';
+
+const { setSnackbar } = storeActions;
 
 const offerTag = (
   <span className="offerTag">
@@ -105,7 +106,7 @@ export const Upgrade = () => {
   }
 
   const handleUpgrade = async () =>
-    dispatch(completeUpgrade(org.id, updatedPlan)).then(() => {
+    dispatch(completeUpgrade({ tenantId: org.id, plan: updatedPlan })).then(() => {
       setUpgraded(true);
       setTimeout(() => {
         dispatch(getDeviceLimit());
@@ -125,12 +126,15 @@ export const Upgrade = () => {
 
   const onSendRequest = (message, addons = addOns) =>
     dispatch(
-      requestPlanChange(org.id, {
-        current_plan: PLANS[org.plan || PLANS.os.id].name,
-        requested_plan: PLANS[updatedPlan].name,
-        current_addons: addOnsToString(org.addons) || '-',
-        requested_addons: addOnsToString(addons) || '-',
-        user_message: message
+      requestPlanChange({
+        tenantId: org.id,
+        content: {
+          current_plan: PLANS[org.plan || PLANS.os.id].name,
+          requested_plan: PLANS[updatedPlan].name,
+          current_addons: addOnsToString(org.addons) || '-',
+          requested_addons: addOnsToString(addons) || '-',
+          user_message: message
+        }
       })
     );
 

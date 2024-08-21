@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useLayoutEffect, useRef, useState } from 'react';
 
-import { TIMEOUTS } from '../constants/appConstants';
+import { TIMEOUTS } from '@northern.tech/store/constants';
 
 export const useWindowSize = () => {
   const [size, setSize] = useState({ height: window.innerHeight, width: window.innerWidth });

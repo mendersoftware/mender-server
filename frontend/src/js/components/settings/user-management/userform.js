@@ -31,11 +31,10 @@ import {
   Tooltip
 } from '@mui/material';
 
+import { BENEFITS, rolesById, rolesByName, uiPermissionsById } from '@northern.tech/store/constants';
 import pluralize from 'pluralize';
 import { isUUID } from 'validator';
 
-import { BENEFITS } from '../../../constants/appConstants';
-import { rolesById, rolesByName, uiPermissionsById } from '../../../constants/userConstants';
 import EnterpriseNotification from '../../common/enterpriseNotification';
 import Form from '../../common/forms/form';
 import FormCheckbox from '../../common/forms/formcheckbox';

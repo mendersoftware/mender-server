@@ -16,7 +16,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { CheckCircle as CheckCircleIcon } from '@mui/icons-material';
 import { Button } from '@mui/material';
 
-import { twoFAStates } from '../../../../constants/userConstants';
+import { twoFAStates } from '@northern.tech/store/constants';
+
 import Form from '../../../common/forms/form';
 import TextInput from '../../../common/forms/textinput';
 import Loader from '../../../common/loader';

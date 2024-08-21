@@ -16,7 +16,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 // material ui
 import { Checkbox, MenuItem, Select } from '@mui/material';
 
-import { DEVICE_ISSUE_OPTIONS } from '../../../constants/deviceConstants';
+import { DEVICE_ISSUE_OPTIONS } from '@northern.tech/store/constants';
 
 const menuProps = {
   anchorOrigin: {

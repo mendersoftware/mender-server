@@ -18,8 +18,9 @@ import { useDispatch } from 'react-redux';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { setReleaseTags, setReleasesListState } from '../../../actions/releaseActions.js';
-import ChipSelect from '../../common/chipselect.js';
+import { setReleaseTags, setReleasesListState } from '@northern.tech/store/thunks';
+
+import ChipSelect from '../../common/chipselect';
 
 const useStyles = makeStyles()(theme => ({
   DialogContent: {
@@ -47,7 +48,7 @@ export const AddTagsDialog = ({ selectedReleases, onClose }) => {
     const tags = getValues(inputName);
     dispatch(setReleasesListState({ loading: true })).then(() => {
       const addRequests = selectedReleases.reduce((accu, release) => {
-        accu.push(dispatch(setReleaseTags(release.name, [...new Set([...release.tags, ...tags])])));
+        accu.push(dispatch(setReleaseTags({ name: release.name, tags: [...new Set([...release.tags, ...tags])] })));
         return accu;
       }, []);
       return Promise.all(addRequests).then(onClose);

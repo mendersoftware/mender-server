@@ -18,25 +18,8 @@ import { useLocation, useParams } from 'react-router-dom';
 import { AddCircle as AddIcon } from '@mui/icons-material';
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 
-import pluralize from 'pluralize';
-
-import { setOfflineThreshold } from '../../actions/appActions';
-import {
-  addDynamicGroup,
-  addStaticGroup,
-  removeDevicesFromGroup,
-  removeDynamicGroup,
-  removeStaticGroup,
-  selectGroup,
-  setDeviceFilters,
-  setDeviceListState,
-  updateDynamicGroup
-} from '../../actions/deviceActions';
-import { setShowConnectingDialog } from '../../actions/userActions';
-import { SORTING_OPTIONS } from '../../constants/appConstants';
-import { DEVICE_FILTERING_OPTIONS, DEVICE_ISSUE_OPTIONS, DEVICE_STATES, emptyFilter } from '../../constants/deviceConstants';
-import { onboardingSteps } from '../../constants/onboardingConstants';
-import { toggle } from '../../helpers';
+import storeActions from '@northern.tech/store/actions';
+import { DEVICE_FILTERING_OPTIONS, DEVICE_ISSUE_OPTIONS, DEVICE_STATES, SORTING_OPTIONS, emptyFilter, onboardingSteps } from '@northern.tech/store/constants';
 import {
   getAcceptedDevices,
   getDeviceCountsByStatus,
@@ -52,7 +35,21 @@ import {
   getSortedFilteringAttributes,
   getTenantCapabilities,
   getUserCapabilities
-} from '../../selectors';
+} from '@northern.tech/store/selectors';
+import {
+  addDynamicGroup,
+  addStaticGroup,
+  removeDevicesFromGroup,
+  removeDynamicGroup,
+  removeStaticGroup,
+  selectGroup,
+  setDeviceListState,
+  setOfflineThreshold,
+  updateDynamicGroup
+} from '@northern.tech/store/thunks';
+import pluralize from 'pluralize';
+
+import { toggle } from '../../helpers';
 import { useLocationParams } from '../../utils/liststatehook';
 import { getOnboardingComponentFor } from '../../utils/onboardingmanager';
 import Global from '../settings/global';
@@ -65,6 +62,8 @@ import CreateGroupExplainer from './group-management/create-group-explainer';
 import RemoveGroup from './group-management/remove-group';
 import Groups from './groups';
 import DeviceAdditionWidget from './widgets/deviceadditionwidget';
+
+const { setDeviceFilters, setShowConnectingDialog } = storeActions;
 
 export const DeviceGroups = () => {
   const [createGroupExplanation, setCreateGroupExplanation] = useState(false);
@@ -139,7 +138,7 @@ export const DeviceGroups = () => {
     const { hasFullFiltering } = tenantCapabilities;
     if (groupName) {
       if (groupName != selectedGroup) {
-        dispatch(selectGroup(groupName, filters));
+        dispatch(selectGroup({ group: groupName, filters }));
       }
     } else if (filters.length) {
       // dispatch setDeviceFilters even when filters are empty, otherwise filter will not be reset
@@ -161,7 +160,7 @@ export const DeviceGroups = () => {
         return;
       }
       isInitialized.current = true;
-      dispatch(setDeviceListState({}, true, true));
+      dispatch(setDeviceListState({ shouldSelectDevices: true, forceRefresh: true }));
       dispatch(setOfflineThreshold());
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -183,7 +182,7 @@ export const DeviceGroups = () => {
   };
 
   const createGroupFromDialog = (devices, group) => {
-    let request = fromFilters ? dispatch(addDynamicGroup(group, filters)) : dispatch(addStaticGroup(group, devices));
+    let request = fromFilters ? dispatch(addDynamicGroup({ groupName: group, filterPredicates: filters })) : dispatch(addStaticGroup({ group, devices }));
     return request.then(() => {
       // reached end of list
       setCreateGroupExplanation(false);
@@ -194,7 +193,7 @@ export const DeviceGroups = () => {
 
   const onGroupClick = () => {
     if (selectedGroup && groupFilters.length) {
-      return dispatch(updateDynamicGroup(selectedGroup, filters));
+      return dispatch(updateDynamicGroup({ groupName: selectedGroup, filterPredicates: filters }));
     }
     setModifyGroupDialog(true);
     setFromFilters(true);
@@ -206,7 +205,7 @@ export const DeviceGroups = () => {
     if (isGroupRemoval) {
       request = dispatch(removeStaticGroup(selectedGroup));
     } else {
-      request = dispatch(removeDevicesFromGroup(selectedGroup, devices));
+      request = dispatch(removeDevicesFromGroup({ group: selectedGroup, deviceIds: devices }));
     }
     return request.catch(console.log);
   };
@@ -233,7 +232,7 @@ export const DeviceGroups = () => {
   };
 
   const onGroupSelect = groupName => {
-    dispatch(selectGroup(groupName));
+    dispatch(selectGroup({ group: groupName }));
     dispatch(setDeviceListState({ page: 1, refreshTrigger: !refreshTrigger, selection: [] }));
   };
 

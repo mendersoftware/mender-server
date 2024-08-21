@@ -13,6 +13,8 @@
 //    limitations under the License.
 import React from 'react';
 
+import { DEPLOYMENT_STATES, onboardingSteps as stepNames, yes } from '@northern.tech/store/constants';
+
 import BaseOnboardingTip from '../components/helptips/baseonboardingtip';
 import OnboardingCompleteTip from '../components/helptips/onboardingcompletetip';
 import {
@@ -32,9 +34,6 @@ import {
   SchedulingGroupSelection,
   SchedulingReleaseToDevices
 } from '../components/helptips/onboardingtips';
-import { yes } from '../constants/appConstants';
-import { DEPLOYMENT_STATES } from '../constants/deploymentConstants';
-import { onboardingSteps as stepNames } from '../constants/onboardingConstants';
 
 export const onboardingSteps = {
   [stepNames.DASHBOARD_ONBOARDING_START]: {
@@ -152,12 +151,4 @@ export const getOnboardingComponentFor = (id, componentProps, params = {}, previ
   }
   const component = step.component(componentProps);
   return <BaseOnboardingTip id={id} component={component} progress={step.progress || params.progress || null} {...params} />;
-};
-
-export const applyOnboardingFallbacks = progress => {
-  const step = onboardingSteps[progress];
-  if (step && step.fallbackStep) {
-    return step.fallbackStep;
-  }
-  return progress;
 };

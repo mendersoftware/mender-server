@@ -18,12 +18,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Add as AddIcon, ArrowRightAlt as ArrowRightAltIcon } from '@mui/icons-material';
 import { Chip } from '@mui/material';
 
-import { getDynamicGroups, getGroups } from '../../actions/deviceActions';
-import { getExistingReleaseTags } from '../../actions/releaseActions.js';
-import { createRole, editRole, getRoles, removeRole } from '../../actions/userActions';
-import { BENEFITS } from '../../constants/appConstants';
-import { emptyRole, rolesById } from '../../constants/userConstants';
-import { getGroupsByIdWithoutUngrouped, getIsEnterprise, getReleaseTagsById, getRolesList } from '../../selectors';
+import { BENEFITS, emptyRole, rolesById } from '@northern.tech/store/constants';
+import { getGroupsByIdWithoutUngrouped, getIsEnterprise, getReleaseTagsById, getRolesList } from '@northern.tech/store/selectors';
+import { createRole, editRole, getDynamicGroups, getExistingReleaseTags, getGroups, getRoles, removeRole } from '@northern.tech/store/thunks';
+
 import DetailsTable from '../common/detailstable';
 import { DocsTooltip } from '../common/docslink';
 import EnterpriseNotification from '../common/enterpriseNotification';

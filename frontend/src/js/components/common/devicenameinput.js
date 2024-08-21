@@ -18,7 +18,8 @@ import { useDispatch } from 'react-redux';
 import { Input, InputAdornment } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { setDeviceTags } from '../../actions/deviceActions';
+import { setDeviceTags } from '@northern.tech/store/thunks';
+
 import { ConfirmationButtons, EditButton } from './confirm';
 
 const useStyles = makeStyles()(theme => ({
@@ -55,7 +56,7 @@ export const DeviceNameInput = ({ device, isHovered }) => {
     inputRef.current.focus();
   }, [isEditing]);
 
-  const onSubmit = () => dispatch(setDeviceTags(id, { ...tags, name: value })).then(() => setIsEditing(false));
+  const onSubmit = () => dispatch(setDeviceTags({ deviceId: id, tags: { ...tags, name: value } })).then(() => setIsEditing(false));
 
   const onCancel = () => {
     setValue(name);

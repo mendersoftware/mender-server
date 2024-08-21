@@ -17,8 +17,8 @@ import { Help as HelpIcon } from '@mui/icons-material';
 import { ClickAwayListener, Tooltip } from '@mui/material';
 import { makeStyles, withStyles } from 'tss-react/mui';
 
-import { TIMEOUTS } from '../../constants/appConstants';
-import { READ_STATES } from '../../constants/userConstants';
+import { READ_STATES, TIMEOUTS } from '@northern.tech/store/constants';
+
 import { toggle } from '../../helpers';
 import { useDebounce } from '../../utils/debouncehook';
 
@@ -177,7 +177,7 @@ export const HelpTooltip = ({ icon = undefined, id, contentProps = {}, tooltip, 
     if (!debouncedIsOpen) {
       return;
     }
-    setTooltipReadState(id, READ_STATES.read, true);
+    setTooltipReadState({ id, persist: true, readState: READ_STATES.read });
   }, [debouncedIsOpen, id, setTooltipReadState]);
 
   const onReadAllClick = () => setAllTooltipsReadState(READ_STATES.read);

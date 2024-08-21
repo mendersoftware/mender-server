@@ -17,8 +17,8 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { HighlightOff as HighlightOffIcon } from '@mui/icons-material';
 import { FormHelperText, IconButton, MenuItem, Select, TextField } from '@mui/material';
 
-import { TIMEOUTS } from '../../../constants/appConstants';
-import { DEVICE_FILTERING_OPTIONS, emptyFilter } from '../../../constants/deviceConstants';
+import { DEVICE_FILTERING_OPTIONS, TIMEOUTS, emptyFilter } from '@northern.tech/store/constants';
+
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
 import AttributeAutoComplete from './attribute-autocomplete';
 

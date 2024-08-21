@@ -16,11 +16,11 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { useTheme } from '@mui/material/styles';
 
+import { getAuditlogDevice, getIdAttribute, getUserCapabilities } from '@northern.tech/store/selectors';
+import { getDeviceById, getSessionDetails } from '@northern.tech/store/thunks';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 
-import { getDeviceById, getSessionDetails } from '../../../actions/deviceActions';
-import { getAuditlogDevice, getIdAttribute, getUserCapabilities } from '../../../selectors';
 import Loader from '../../common/loader';
 import Time from '../../common/time';
 import DeviceDetails, { DetailInformation } from './devicedetails';
@@ -41,7 +41,13 @@ export const PortForward = ({ item, onClose }) => {
       dispatch(getDeviceById(object.id));
     }
     dispatch(
-      getSessionDetails(meta.session_id[0], object.id, actor.id, action.startsWith('open') ? time : undefined, action.startsWith('close') ? time : undefined)
+      getSessionDetails({
+        sessionId: meta.session_id[0],
+        deviceId: object.id,
+        userId: actor.id,
+        startDate: action.startsWith('open') ? time : undefined,
+        endDate: action.startsWith('close') ? time : undefined
+      })
     ).then(setSessionDetails);
   }, [action, actor.id, canReadDevices, dispatch, meta.session_id, object.id, time]);
 

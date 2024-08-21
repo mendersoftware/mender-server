@@ -17,12 +17,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, Switch, TextField } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { setSnackbar } from '../../../actions/appActions';
-import { editUser, saveUserSettings } from '../../../actions/userActions';
-import { DARK_MODE, LIGHT_MODE } from '../../../constants/appConstants';
-import * as UserConstants from '../../../constants/userConstants';
-import { isDarkMode, toggle } from '../../../helpers';
-import { getCurrentSession, getCurrentUser, getFeatures, getIsEnterprise, getUserSettings } from '../../../selectors';
+import storeActions from '@northern.tech/store/actions';
+import { DARK_MODE, LIGHT_MODE, OWN_USER_ID } from '@northern.tech/store/constants';
+import { getCurrentSession, getCurrentUser, getFeatures, getIsDarkMode, getIsEnterprise, getUserSettings } from '@northern.tech/store/selectors';
+import { editUser, saveUserSettings } from '@northern.tech/store/thunks';
+
+import { toggle } from '../../../helpers';
 import ExpandableAttribute from '../../common/expandable-attribute';
 import Form from '../../common/forms/form';
 import PasswordInput from '../../common/forms/passwordinput';
@@ -32,6 +32,8 @@ import AccessTokenManagement from '../accesstokenmanagement';
 import { CopyTextToClipboard } from '../organization/organization';
 import TwoFactorAuthSetup from './twofactorauthsetup';
 import { UserId, getUserSSOState } from './userdefinition';
+
+const { setSnackbar } = storeActions;
 
 const useStyles = makeStyles()(() => ({
   formField: { width: 400, maxWidth: '100%' },
@@ -56,24 +58,27 @@ export const SelfUserManagement = () => {
   const { isOAuth2, provider } = getUserSSOState(currentUser);
   const { email, id: userId } = currentUser;
   const hasTracking = useSelector(state => !!state.app.trackerCode);
-  const { trackingConsentGiven: hasTrackingConsent, mode } = useSelector(getUserSettings);
+  const { trackingConsentGiven: hasTrackingConsent } = useSelector(getUserSettings);
+  const isDarkMode = useSelector(getIsDarkMode);
   const { token } = useSelector(getCurrentSession);
 
   const editSubmit = userData => {
     if (userData.password != userData.password_confirmation) {
       dispatch(setSnackbar(`The passwords don't match`));
     } else {
-      dispatch(editUser(UserConstants.OWN_USER_ID, userData)).then(() => {
-        setEditEmail(false);
-        setEditPass(false);
-      });
+      dispatch(editUser({ ...userData, id: OWN_USER_ID }))
+        .unwrap()
+        .then(() => {
+          setEditEmail(false);
+          setEditPass(false);
+        });
     }
   };
 
   const handleEmail = () => setEditEmail(toggle);
 
   const toggleMode = () => {
-    const newMode = isDarkMode(mode) ? LIGHT_MODE : DARK_MODE;
+    const newMode = isDarkMode ? LIGHT_MODE : DARK_MODE;
     dispatch(saveUserSettings({ mode: newMode }));
   };
 
@@ -118,7 +123,7 @@ export const SelfUserManagement = () => {
         ))}
       <div className="clickable flexbox space-between margin-top" onClick={toggleMode}>
         <p className="help-content">Enable dark theme</p>
-        <Switch checked={isDarkMode(mode)} />
+        <Switch checked={isDarkMode} />
       </div>
       {!isOAuth2 ? (
         canHave2FA && <TwoFactorAuthSetup />

@@ -18,11 +18,8 @@ import { Add as AddIcon } from '@mui/icons-material';
 // material ui
 import { Button, Chip, Collapse } from '@mui/material';
 
-import { getDeviceAttributes, setDeviceFilters, setDeviceListState } from '../../../actions/deviceActions';
-import { saveGlobalSettings } from '../../../actions/userActions';
-import { BENEFITS } from '../../../constants/appConstants';
-import { DEVICE_FILTERING_OPTIONS, emptyFilter } from '../../../constants/deviceConstants';
-import { deepCompare, toggle } from '../../../helpers';
+import storeActions from '@northern.tech/store/actions';
+import { BENEFITS, DEVICE_FILTERING_OPTIONS, emptyFilter } from '@northern.tech/store/constants';
 import {
   getDeviceFilters,
   getFilterAttributes,
@@ -31,11 +28,17 @@ import {
   getSelectedGroupInfo,
   getTenantCapabilities,
   getUserCapabilities
-} from '../../../selectors';
+} from '@northern.tech/store/selectors';
+import { getDeviceAttributes, saveGlobalSettings, setDeviceListState } from '@northern.tech/store/thunks';
+import { filtersFilter } from '@northern.tech/store/utils';
+
+import { deepCompare, toggle } from '../../../helpers';
 import EnterpriseNotification from '../../common/enterpriseNotification';
 import { InfoHintContainer } from '../../common/info-hint';
 import MenderTooltip from '../../common/mendertooltip';
 import FilterItem from './filteritem';
+
+const { setDeviceFilters } = storeActions;
 
 export const getFilterLabelByKey = (key, attributes) => {
   const attr = attributes.find(attr => attr.key === key);
@@ -43,13 +46,6 @@ export const getFilterLabelByKey = (key, attributes) => {
 };
 
 const MAX_PREVIOUS_FILTERS_COUNT = 3;
-
-const filterCompare = (filter, item) => Object.keys(emptyFilter).every(key => item[key].toString() === filter[key].toString());
-
-export const filtersFilter = (item, index, array) => {
-  const firstIndex = array.findIndex(filter => filterCompare(filter, item));
-  return firstIndex === index;
-};
 
 export const Filters = ({ className = '', onGroupClick, open }) => {
   const [reset, setReset] = useState(false);
@@ -84,7 +80,7 @@ export const Filters = ({ className = '', onGroupClick, open }) => {
     filters => {
       const activeFilters = filters.filter(filtersFilter).filter(item => item.value !== '');
       dispatch(setDeviceFilters(activeFilters));
-      dispatch(setDeviceListState({ selectedId: undefined, page: 1 }, true, true));
+      dispatch(setDeviceListState({ selectedId: undefined, page: 1, shouldSelectDevices: true, forceRefresh: true }));
     },
     [dispatch]
   );

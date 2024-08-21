@@ -18,7 +18,8 @@ import { Link } from 'react-router-dom';
 import { CancelOutlined as FailureIcon, VpnKeyOutlined as KeyIcon, WifiOff as OfflineIcon, WarningAmber as WarningIcon } from '@mui/icons-material';
 import { makeStyles } from 'tss-react/mui';
 
-import { DEVICE_ISSUE_OPTIONS } from '../../../constants/deviceConstants';
+import { DEVICE_ISSUE_OPTIONS } from '@northern.tech/store/constants';
+
 import { BaseWidget } from './baseWidget';
 
 const issueTypes = [

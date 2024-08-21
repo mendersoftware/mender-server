@@ -18,12 +18,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { setSnackbar } from '../../../actions/appActions';
-import { getSystemDevices } from '../../../actions/deviceActions';
-import { BENEFITS, SORTING_OPTIONS } from '../../../constants/appConstants';
-import { DEVICE_LIST_DEFAULTS } from '../../../constants/deviceConstants';
+import storeActions from '@northern.tech/store/actions';
+import { BENEFITS, DEVICE_LIST_DEFAULTS, SORTING_OPTIONS } from '@northern.tech/store/constants';
+import { getCurrentSession, getDevicesById, getIdAttribute, getIsPreview, getOrganization } from '@northern.tech/store/selectors';
+import { getSystemDevices } from '@northern.tech/store/thunks';
+
 import { getDemoDeviceAddress, toggle } from '../../../helpers';
-import { getCurrentSession, getDevicesById, getIdAttribute, getIsPreview, getOrganization } from '../../../selectors';
 import { TwoColumnData } from '../../common/configurationobject';
 import DocsLink from '../../common/docslink';
 import EnterpriseNotification from '../../common/enterpriseNotification';
@@ -32,6 +32,8 @@ import { routes } from '../base-devices';
 import Devicelist from '../devicelist';
 import ConnectToGatewayDialog from '../dialogs/connecttogatewaydialog';
 import DeviceDataCollapse from './devicedatacollapse';
+
+const { setSnackbar } = storeActions;
 
 const useStyles = makeStyles()(theme => ({ container: { maxWidth: 600, marginTop: theme.spacing(), marginBottom: theme.spacing() } }));
 
@@ -68,7 +70,7 @@ export const DeviceSystem = ({ columnSelection, device, onConnectToGatewayClick,
 
   useEffect(() => {
     if (device.attributes) {
-      dispatch(getSystemDevices(device.id, { page, perPage, sortOptions }));
+      dispatch(getSystemDevices({ id: device.id, page, perPage, sortOptions }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, device.id, device.attributes?.mender_is_gateway, page, perPage, sortOptions]);

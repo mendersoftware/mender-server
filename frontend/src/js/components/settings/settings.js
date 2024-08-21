@@ -18,10 +18,10 @@ import { Navigate, useParams } from 'react-router-dom';
 // material ui
 import { Payment as PaymentIcon } from '@mui/icons-material';
 
+import { TIMEOUTS, canAccess } from '@northern.tech/store/constants';
+import { getCurrentUser, getFeatures, getOrganization, getTenantCapabilities, getUserCapabilities, getUserRoles } from '@northern.tech/store/selectors';
 import { Elements } from '@stripe/react-stripe-js';
 
-import { TIMEOUTS, canAccess } from '../../constants/appConstants';
-import { getCurrentUser, getFeatures, getOrganization, getTenantCapabilities, getUserCapabilities, getUserRoles } from '../../selectors';
 import LeftNav from '../common/left-nav';
 import SelfUserManagement from '../settings/user-management/selfusermanagement';
 import UserManagement from '../settings/user-management/usermanagement';

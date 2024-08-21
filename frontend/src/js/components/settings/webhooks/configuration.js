@@ -17,10 +17,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Close as CloseIcon } from '@mui/icons-material';
 import { Button, Divider, Drawer, IconButton, TextField } from '@mui/material';
 
+import { EXTERNAL_PROVIDER, emptyWebhook } from '@northern.tech/store/constants';
 import validator from 'validator';
 
-import { EXTERNAL_PROVIDER } from '../../../constants/deviceConstants';
-import { emptyWebhook } from '../../../constants/organizationConstants';
 import MenderTooltip from '../../common/mendertooltip';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
 
