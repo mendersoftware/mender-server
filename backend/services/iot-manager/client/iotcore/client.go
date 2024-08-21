@@ -186,40 +186,40 @@ func (c *client) UpsertDevice(ctx context.Context,
 				_, err = svc.UpdateCertificate(ctx, paramsUpdateCertificate)
 			}
 		}
-
 		return awsDevice, err
-	} else if err == ErrDeviceNotFound {
-		err = nil
-	}
-
-	var resp *iot.CreateThingOutput
-	if err == nil {
-		resp, err = svc.CreateThing(ctx,
-			&iot.CreateThingInput{
-				ThingName: aws.String(deviceID),
-			})
+	} else if !errors.Is(err, ErrDeviceNotFound) {
+		return nil, fmt.Errorf("unexpected error getting the device: %w", err)
 	}
 
 	var privKey *ecdsa.PrivateKey
-	if err == nil {
-		privKey, err = crypto.NewPrivateKey()
+	privKey, err = crypto.NewPrivateKey()
+	if err != nil {
+		return nil, fmt.Errorf("failed to generate key for device: %w", err)
 	}
 
 	var csr []byte
-	if err == nil {
-		csr, err = crypto.NewCertificateSigningRequest(deviceID, privKey)
+	csr, err = crypto.NewCertificateSigningRequest(deviceID, privKey)
+	if err != nil {
+		return nil, fmt.Errorf("error creating certificate signing request: %w", err)
+	}
+
+	var resp *iot.CreateThingOutput
+	resp, err = svc.CreateThing(ctx,
+		&iot.CreateThingInput{
+			ThingName: aws.String(deviceID),
+		})
+	if err != nil {
+		return nil, fmt.Errorf("failed to create Thing: %w", err)
 	}
 
 	var respCert *iot.CreateCertificateFromCsrOutput
-	if err == nil {
-		respCert, err = svc.CreateCertificateFromCsr(ctx,
-			&iot.CreateCertificateFromCsrInput{
-				CertificateSigningRequest: aws.String(string(csr)),
-				SetAsActive:               *aws.Bool(device.Status == StatusEnabled),
-			})
-		if err != nil {
-			return nil, err
-		}
+	respCert, err = svc.CreateCertificateFromCsr(ctx,
+		&iot.CreateCertificateFromCsrInput{
+			CertificateSigningRequest: aws.String(string(csr)),
+			SetAsActive:               *aws.Bool(device.Status == StatusEnabled),
+		})
+	if err != nil {
+		return nil, err
 	}
 
 	endpointOutput, err := svc.DescribeEndpoint(ctx, &iot.DescribeEndpointInput{
@@ -234,29 +234,31 @@ func (c *client) UpsertDevice(ctx context.Context,
 			PolicyName: aws.String(policy),
 			Target:     respCert.CertificateArn,
 		})
+	if err != nil {
+		return nil, fmt.Errorf("failed to attach device certificate policy: %w", err)
+	}
 
-	if err == nil {
-		_, err = svc.AttachThingPrincipal(ctx,
-			&iot.AttachThingPrincipalInput{
-				Principal: respCert.CertificateArn,
-				ThingName: aws.String(deviceID),
-			})
+	_, err = svc.AttachThingPrincipal(ctx,
+		&iot.AttachThingPrincipalInput{
+			Principal: respCert.CertificateArn,
+			ThingName: aws.String(deviceID),
+		})
+	if err != nil {
+		return nil, fmt.Errorf("failed to attach thing principal: %w", err)
 	}
 
 	var deviceResp *Device
-	if err == nil {
-		pkeyPEM, err := crypto.PrivateKeyToPem(privKey)
-		if err != nil {
-			return nil, fmt.Errorf("failed to serialize private key: %w", err)
-		}
-		deviceResp = &Device{
-			ID:          *resp.ThingId,
-			Name:        *resp.ThingName,
-			Status:      device.Status,
-			PrivateKey:  string(pkeyPEM),
-			Certificate: *respCert.CertificatePem,
-			Endpoint:    endpointOutput.EndpointAddress,
-		}
+	pkeyPEM, err := crypto.PrivateKeyToPem(privKey)
+	if err != nil {
+		return nil, fmt.Errorf("failed to serialize private key: %w", err)
+	}
+	deviceResp = &Device{
+		ID:          *resp.ThingId,
+		Name:        *resp.ThingName,
+		Status:      device.Status,
+		PrivateKey:  string(pkeyPEM),
+		Certificate: *respCert.CertificatePem,
+		Endpoint:    endpointOutput.EndpointAddress,
 	}
 	return deviceResp, err
 }
