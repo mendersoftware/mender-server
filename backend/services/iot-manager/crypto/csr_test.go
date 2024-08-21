@@ -24,9 +24,10 @@ func TestNewPrivateKey(t *testing.T) {
 	key, err := NewPrivateKey()
 	assert.NoError(t, err)
 
-	keyPem := string(PrivateKeyToPem(key))
-	assert.Contains(t, keyPem, "-----BEGIN PRIVATE KEY-----")
-	assert.Contains(t, keyPem, "-----END PRIVATE KEY-----")
+	keyPem, err := PrivateKeyToPem(key)
+	assert.NoError(t, err)
+	assert.Contains(t, string(keyPem), "-----BEGIN PRIVATE KEY-----")
+	assert.Contains(t, string(keyPem), "-----END PRIVATE KEY-----")
 }
 
 func TestNewCertificateSigningRequest(t *testing.T) {

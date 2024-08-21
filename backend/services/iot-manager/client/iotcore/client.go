@@ -19,6 +19,7 @@ import (
 	"crypto/ecdsa"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"strings"
 	"time"
@@ -158,7 +159,6 @@ func (c *client) UpsertDevice(ctx context.Context,
 	device *Device,
 	policy string,
 ) (*Device, error) {
-
 	cfg, err := getAWSConfig(creds)
 	if err != nil {
 		return nil, err
@@ -229,13 +229,11 @@ func (c *client) UpsertDevice(ctx context.Context,
 		return nil, err
 	}
 
-	if err == nil {
-		_, err = svc.AttachPolicy(ctx,
-			&iot.AttachPolicyInput{
-				PolicyName: aws.String(policy),
-				Target:     respCert.CertificateArn,
-			})
-	}
+	_, err = svc.AttachPolicy(ctx,
+		&iot.AttachPolicyInput{
+			PolicyName: aws.String(policy),
+			Target:     respCert.CertificateArn,
+		})
 
 	if err == nil {
 		_, err = svc.AttachThingPrincipal(ctx,
@@ -247,11 +245,15 @@ func (c *client) UpsertDevice(ctx context.Context,
 
 	var deviceResp *Device
 	if err == nil {
+		pkeyPEM, err := crypto.PrivateKeyToPem(privKey)
+		if err != nil {
+			return nil, fmt.Errorf("failed to serialize private key: %w", err)
+		}
 		deviceResp = &Device{
 			ID:          *resp.ThingId,
 			Name:        *resp.ThingName,
 			Status:      device.Status,
-			PrivateKey:  string(crypto.PrivateKeyToPem(privKey)),
+			PrivateKey:  string(pkeyPEM),
 			Certificate: *respCert.CertificatePem,
 			Endpoint:    endpointOutput.EndpointAddress,
 		}
@@ -395,7 +397,6 @@ func (c *client) GetDeviceShadow(
 		return nil, err
 	}
 	return &devShadow, nil
-
 }
 
 func (c *client) UpdateDeviceShadow(
@@ -435,5 +436,4 @@ func (c *client) UpdateDeviceShadow(
 		return nil, err
 	}
 	return &shadow, nil
-
 }

@@ -22,6 +22,7 @@ import (
 	"crypto/x509/pkix"
 	"encoding/pem"
 	"flag"
+	"fmt"
 )
 
 func NewPrivateKey() (*ecdsa.PrivateKey, error) {
@@ -32,10 +33,13 @@ func NewPrivateKey() (*ecdsa.PrivateKey, error) {
 	return privateKey, nil
 }
 
-func PrivateKeyToPem(privateKey *ecdsa.PrivateKey) []byte {
-	x509Encoded, _ := x509.MarshalECPrivateKey(privateKey)
+func PrivateKeyToPem(privateKey *ecdsa.PrivateKey) ([]byte, error) {
+	x509Encoded, err := x509.MarshalPKCS8PrivateKey(privateKey)
+	if err != nil {
+		return nil, fmt.Errorf("failed to serialize private key: %w", err)
+	}
 	pemEncoded := pem.EncodeToMemory(&pem.Block{Type: "PRIVATE KEY", Bytes: x509Encoded})
-	return pemEncoded
+	return pemEncoded, nil
 }
 
 func NewCertificateSigningRequest(commonName string, key *ecdsa.PrivateKey) ([]byte, error) {
