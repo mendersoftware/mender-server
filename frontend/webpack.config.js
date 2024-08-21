@@ -6,6 +6,7 @@ import HtmlWebPackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { createRequire } from 'module';
 import path from 'path';
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import { fileURLToPath } from 'url';
 import webpack from 'webpack';
 
@@ -127,7 +128,13 @@ export default (env, argv) => {
         stream: require.resolve('stream-browserify'),
         util: require.resolve('util/'),
         'process/browser': require.resolve('process/browser')
-      }
+      },
+      plugins: [
+        new TsconfigPathsPlugin({
+          configFile: 'tsconfig.json',
+          extensions: ['.ts', '.tsx', '.js', '.jsx']
+        })
+      ]
     },
     target: 'web'
   };

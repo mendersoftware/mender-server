@@ -1,0 +1,57 @@
+{
+  "collectCoverage": true,
+  "collectCoverageFrom": [
+    "src/**/*.{js,ts,tsx}"
+  ],
+  "coveragePathIgnorePatterns": [
+    "/node_modules/",
+    "/themes/"
+  ],
+  "coverageReporters": [
+    [
+      "lcov",
+      {
+        "projectRoot": "../"
+      }
+    ],
+    "text"
+  ],
+  "setupFiles": [
+    "<rootDir>/tests/jest.polyfills.js"
+  ],
+  "setupFilesAfterEnv": [
+    "<rootDir>/tests/setupTests.js"
+  ],
+  "snapshotSerializers": [
+    "@emotion/jest/serializer"
+  ],
+  "testEnvironment": "jest-environment-jsdom",
+  "testMatch": [
+    "<rootDir>/src/**/__tests__/**/*.{js,ts,tsx}",
+    "<rootDir>/src/**/*.{spec,test}.{js,ts,tsx}"
+  ],
+  "fakeTimers": {
+    "enableGlobally": true
+  },
+  "preset": "ts-jest/presets/js-with-babel",
+  "testEnvironmentOptions": {
+    "customExportConditions": [
+      ""
+    ]
+  },
+  "transform": {
+    "\\.[j|t]sx?$": "babel-jest",
+    "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/assetsTransformer.js"
+  },
+  "transformIgnorePatterns": [
+    "<rootDir>/node_modules/(?!xterm-for-react|node-fetch|jsdom-worker|data-uri-to-buffer|fetch-blob|formdata-polyfill)"
+  ],
+  "moduleNameMapper": {
+    "\\.(css|less)$": "<rootDir>/tests/cssTransform.js",
+    "^@northern.tech/store/(.*)$": "<rootDir>/src/js/store/$1"
+  },
+  "watchPlugins": [
+    "jest-watch-typeahead/filename",
+    "jest-watch-typeahead/testname"
+  ]
+}

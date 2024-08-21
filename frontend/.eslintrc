@@ -8,23 +8,22 @@
   "extends": ["eslint:recommended", "plugin:import/errors", "plugin:import/warnings", "plugin:react-hooks/recommended", "plugin:react/recommended"],
   "settings": {
     "import/resolver": {
-      "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
-      }
+      "typescript": {}
     },
     "react": {
       "pragma": "React",
       "version": "detect"
     }
   },
-  "parser": "@babel/eslint-parser",
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "sourceType": "module"
+    "project": "./tsconfig.json",
+    "tsconfigRootDir": "./"
   },
   "globals": {
     "mender_environment": "readonly"
   },
-  "plugins": ["react", "prettier", "sonarjs"],
+  "plugins": ["react", "prettier", "sonarjs", "@typescript-eslint", "import"],
   "rules": {
     "prettier/prettier": "error",
     "consistent-this": ["error", "self"],
