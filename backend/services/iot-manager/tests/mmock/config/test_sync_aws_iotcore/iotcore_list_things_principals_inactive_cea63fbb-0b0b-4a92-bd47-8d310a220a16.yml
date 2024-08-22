@@ -1,0 +1,19 @@
+request:
+  description: List principals for a thing in AWS IoT Core
+  host: iot.region.amazonaws.com
+  method: GET
+  path: /things/cea63fbb-0b0b-4a92-bd47-8d310a220a16/principals
+response:
+  statusCode: 200
+  headers:
+    Content-Type:
+      - "application/json"
+  body: |-
+    {
+      "principals": ["inactivePrincipalId"]
+    }
+control:
+  scenario:
+    name: class
+    requiredState:
+      - TestSyncAWSIoTCore

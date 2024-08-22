@@ -1,0 +1,10 @@
+{
+    "description": "deviceconfig: provision device",
+    "request": {
+        "method": "POST",
+        "path": "/api/internal/v1/deviceconfig/tenants/123456789012345678901234/devices"
+    },
+    "response": {
+        "statusCode": 201
+    }
+}

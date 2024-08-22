@@ -1,0 +1,15 @@
+
+{
+	"description": "deviceauth: GET devices",
+	"request": {
+		"method": "GET",
+		"path": "/api/internal/v1/devauth/tenants/098765432109876543210987/devices"
+	},
+	"response": {
+		"statusCode": 200,
+		"headers": {
+			"Content-Type":["application/json"]
+		},
+        "body": "[{\"id\":\"98efdb94-26c2-42eb-828d-12a5d6eb698c\",\"status\":\"accepted\"}]"
+	}
+}

@@ -1,0 +1,491 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AuthsetListItem Component renders correctly 1`] = `
+.emotion-0 {
+  background-color: #fff;
+  color: rgba(10, 10, 11, 0.78);
+  -webkit-transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  box-shadow: none;
+  position: relative;
+  overflow-anchor: none;
+  border: none;
+  padding: 0;
+}
+
+.emotion-0::before {
+  position: absolute;
+  left: 0;
+  top: -1px;
+  right: 0;
+  height: 1px;
+  content: "";
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.12);
+  -webkit-transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.emotion-0:first-of-type::before {
+  display: none;
+}
+
+.emotion-0.Mui-expanded::before {
+  opacity: 0;
+}
+
+.emotion-0.Mui-expanded:first-of-type {
+  margin-top: 0;
+}
+
+.emotion-0.Mui-expanded:last-of-type {
+  margin-bottom: 0;
+}
+
+.emotion-0.Mui-expanded+.emotion-0.Mui-expanded::before {
+  display: none;
+}
+
+.emotion-0.Mui-disabled {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+.emotion-0.Mui-expanded {
+  margin: 16px 0;
+}
+
+.emotion-0:before {
+  display: none;
+}
+
+.emotion-0.Mui-expanded {
+  margin: auto;
+  background-color: #f7f7f7;
+}
+
+.emotion-1 {
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0px 16px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: inherit;
+  min-height: 48px;
+  -webkit-transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  margin-bottom: 0;
+  height: 48px;
+}
+
+.emotion-1::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-1.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+@media print {
+  .emotion-1 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-1.Mui-focusVisible {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+.emotion-1.Mui-disabled {
+  opacity: 0.38;
+}
+
+.emotion-1:hover:not(.Mui-disabled) {
+  cursor: pointer;
+}
+
+.emotion-1.Mui-expanded {
+  min-height: 64px;
+}
+
+.emotion-1.Mui-expanded {
+  height: 48px;
+  min-height: 48px;
+}
+
+.emotion-2 {
+  display: flex;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin: 12px 0;
+  -webkit-transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.emotion-2.Mui-expanded {
+  margin: 20px 0;
+}
+
+.emotion-2.Mui-expanded {
+  margin: 0;
+}
+
+.emotion-2>:last-child {
+  padding-right: 12px;
+}
+
+.emotion-3 {
+  height: auto;
+  overflow: visible;
+  -webkit-transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.emotion-4 {
+  display: flex;
+  width: 100%;
+}
+
+.emotion-5 {
+  width: 100%;
+}
+
+.emotion-6 {
+  padding: 8px 16px 16px;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.emotion-7 {
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 8px;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+}
+
+.emotion-7>:not(style)~:not(style) {
+  margin-left: 8px;
+}
+
+.emotion-8 {
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 2px;
+  padding: 10px 15px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: #337a87;
+  font-family: Lato,sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.75;
+  text-transform: uppercase;
+  min-width: 64px;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.emotion-8::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-8.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+@media print {
+  .emotion-8 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-8:hover {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  background-color: rgba(51, 122, 135, 0.04);
+}
+
+@media (hover: none) {
+  .emotion-8:hover {
+    background-color: transparent;
+  }
+}
+
+.emotion-8.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-8:hover {
+  colors: #337a87;
+}
+
+.emotion-8.MuiButton-text {
+  color: rgba(10, 10, 11, 0.78);
+}
+
+.emotion-9 {
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: inherit;
+}
+
+.emotion-10 {
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: #337a87;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 2px;
+  padding: 6px 16px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: #fff;
+  font-family: Lato,sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.75;
+  text-transform: uppercase;
+  min-width: 64px;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
+}
+
+.emotion-10::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-10.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+@media print {
+  .emotion-10 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-10:hover {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  background-color: rgb(35, 85, 94);
+  box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
+}
+
+@media (hover: none) {
+  .emotion-10:hover {
+    background-color: #337a87;
+  }
+}
+
+.emotion-10:active {
+  box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
+}
+
+.emotion-10.Mui-focusVisible {
+  box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
+}
+
+.emotion-10.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+  box-shadow: none;
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+.emotion-10:hover {
+  colors: #337a87;
+}
+
+.emotion-10.MuiButton-text {
+  color: rgba(10, 10, 11, 0.78);
+}
+
+<div
+  class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root Mui-expanded MuiAccordion-gutters accordion emotion-0"
+>
+  <div
+    aria-expanded="true"
+    class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded MuiAccordionSummary-gutters columns-5 emotion-1"
+    role="button"
+    tabindex="0"
+  >
+    <div
+      class="MuiAccordionSummary-content Mui-expanded MuiAccordionSummary-contentGutters emotion-2"
+    >
+      <div
+        class="capitalized"
+      >
+        Active
+      </div>
+      <div
+        class="capitalized"
+      >
+        accepted
+      </div>
+      <a>
+        show key
+      </a>
+      <time
+        datetime="2020-09-21T12:42:34+00:00"
+      >
+        2020-09-21 12:42
+      </time>
+      <div
+        class="action-buttons flexbox"
+      >
+        <div>
+          Accept
+        </div>
+        <a>
+          Reject
+        </a>
+        <a>
+          Dismiss
+        </a>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered emotion-3"
+    style="min-height: 0px;"
+  >
+    <div
+      class="MuiCollapse-wrapper MuiCollapse-vertical emotion-4"
+    >
+      <div
+        class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-5"
+      >
+        <div
+          class="MuiAccordion-region"
+          role="region"
+        >
+          <div
+            class="MuiAccordionDetails-root emotion-6"
+          >
+            <div
+              style="flex-grow: 1;"
+            />
+            <p
+              class="bold expanded"
+            >
+               Are you sure you want to continue?
+            </p>
+          </div>
+          <div
+            class="MuiAccordionActions-root MuiAccordionActions-spacing margin-right-small emotion-7"
+          >
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary margin-right-small emotion-8"
+              tabindex="0"
+              type="button"
+            >
+              Cancel
+              <span
+                class="MuiTouchRipple-root emotion-9"
+              />
+            </button>
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-10"
+              tabindex="0"
+              type="button"
+            >
+              Confirm
+              <span
+                class="MuiTouchRipple-root emotion-9"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,545 @@
+image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/node:22-alpine
+
+stages:
+  - pre-test
+  - test
+  - build
+  - e2e-test
+  - publish
+  - version-bump
+  - test-deploy
+
+variables:
+  DOCKER_REPOSITORY: mendersoftware/gui
+  DOCS_VERSION: development
+  MULTIPLATFORM_BUILD: 'true'
+  MULTIPLATFORM_PLATFORMS: 'linux/amd64,linux/arm64'
+
+include:
+  - project: 'Northern.tech/Mender/mendertesting'
+    file: '.gitlab-ci-check-commits.yml'
+  - project: 'Northern.tech/Mender/mendertesting'
+    file: '.gitlab-ci-check-docker-build.yml'
+  - project: 'Northern.tech/Mender/mendertesting'
+    file: '.gitlab-ci-github-status-updates.yml'
+  - project: 'Northern.tech/Mender/mender-qa'
+    file: 'gitlab-pipeline/internal-variables.yml'
+
+.export_docker_vars: &export_docker_vars |
+  DOCKER_BUILD_TAG=${CI_COMMIT_REF_SLUG:-local}
+  DOCKER_BUILD_SERVICE_IMAGE=${DOCKER_REPOSITORY}:${DOCKER_BUILD_TAG}
+  DOCKER_PUBLISH_TAG=${CI_COMMIT_REF_NAME}
+  DOCKER_PUBLISH_COMMIT_TAG=${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHA}
+
+.dind-login: &dind-login
+  - mkdir -p $HOME/.docker && echo $DOCKER_AUTH_CONFIG > $HOME/.docker/config.json
+
+test:lint:
+  stage: test
+  rules:
+    - if: $CI_COMMIT_REF_NAME !~ /^(staging|saas-[a-zA-Z0-9.]+)$/
+  needs: []
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - .npm/
+  script:
+    - npm ci --cache .npm --prefer-offline
+    - cd tests/e2e_tests && npm ci && cd ../..
+    - npm run lint
+  tags:
+    - hetzner-amd-beefy
+
+test:types:
+  stage: test
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/python:3.11
+  needs: []
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: always
+    - when: manual
+  before_script:
+    # Prepare SSH key
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan github.com >> ~/.ssh/known_hosts
+    # Configure git
+    - git config --global user.email "mender@northern.tech"
+    - git config --global user.name "Mender Test Bot"
+    # install hub cli + deno + release tool dependency
+    - apt-get update && apt-get install hub -qqy
+    - curl -fsSL https://deno.land/x/install/install.sh | sh && export PATH="/root/.deno/bin:$PATH"
+    - wget https://raw.githubusercontent.com/mendersoftware/integration/master/extra/requirements.txt
+    - pip3 install -r requirements.txt
+    # get enterprise api specs from all the repos, based on mender-api-docs tooling
+    - export GITHUB_TOKEN=${GITHUB_BOT_TOKEN_REPO_FULL}
+    - cd scripts
+    - 'wget --header "Authorization: token $GITHUB_TOKEN" https://raw.githubusercontent.com/mendersoftware/mender-api-docs/master/versions.template.js'
+    - cd typeGeneration
+    - 'wget --header "Authorization: token $GITHUB_TOKEN" https://raw.githubusercontent.com/mendersoftware/mender-api-docs/master/specs/download.sh'
+    - chmod +x ./download.sh && TARGET=specs ./download.sh
+  script:
+    - deno run --allow-read --allow-write --allow-net convert.js
+    - deno fmt generated/models
+    - mkdir -p ../../src/js/api/types && mv -f generated/models/* ../../src/js/api/types
+    - cd ../..
+    - git checkout -b update-types-$(date +%s)
+    - 'git add src/js/api/types && git commit --signoff -m "chore: Types update"'
+    - git remote add mendersoftware git@github.com:mendersoftware/gui.git
+    - 'hub pull-request --push --base mendersoftware:master --message "chore: Types update" --message "keeping types aligned"'
+  allow_failure: true
+  artifacts:
+    expire_in: 2w
+    paths:
+      - scripts/typeGeneration
+      - src/js/api/types
+
+test:licenses:
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/denoland/deno:alpine-1.38.0
+  stage: test
+  rules:
+    - if: $CI_COMMIT_REF_NAME !~ /^(staging|saas-[a-zA-Z0-9.]+)$/
+  needs: []
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - .npm/
+  before_script:
+    - apk add --no-cache nodejs npm
+    - npm ci
+  script:
+    - deno run --allow-env --allow-read --allow-sys tests/licenses/licenseCheck.ts
+  tags:
+    - hetzner-amd-beefy
+
+.template:test:acceptance:
+  stage: e2e-test
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/tiangolo/docker-with-compose
+  needs:
+    - job: build:docker-multiplatform
+      artifacts: true
+  services:
+    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:dind
+      alias: docker
+  before_script:
+    - apk add --no-cache bash git jq wget
+    - git clone --no-tags --depth=1 --single-branch https://github.com/mendersoftware/integration.git
+    - docker pull ${CI_REGISTRY_IMAGE}:${CI_PIPELINE_ID}
+    - docker tag ${CI_REGISTRY_IMAGE}:${CI_PIPELINE_ID} ${DOCKER_REPOSITORY}:pr
+  artifacts:
+    expire_in: 2w
+    paths:
+      - coverage
+      - screenshots
+      - logs
+      - junit
+    reports:
+      junit:
+        - junit/results.xml
+    when: always
+  tags:
+    - mender-qa-worker-generic-light
+
+test:acceptance:
+  extends: .template:test:acceptance
+  rules:
+    - if: $CI_COMMIT_REF_NAME !~ /^(staging|saas-[a-zA-Z0-9.]+)$/
+  script:
+    - GUI_REPOSITORY=$(pwd) INTEGRATION_PATH=$(pwd)/integration ./tests/e2e_tests/run
+    - docker rmi $DOCKER_REPOSITORY:pr
+
+test:acceptance:enterprise:
+  extends: .template:test:acceptance
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+  variables:
+    TEST_ENVIRONMENT: enterprise
+  script:
+    - if [ -n "$REGISTRY_MENDER_IO_USERNAME" ]; then
+    - docker login -u $REGISTRY_MENDER_IO_USERNAME -p $REGISTRY_MENDER_IO_PASSWORD registry.mender.io
+    - fi
+    - GUI_REPOSITORY=$(pwd) INTEGRATION_PATH=$(pwd)/integration ./tests/e2e_tests/run --enterprise
+    - docker rmi $DOCKER_REPOSITORY:pr
+
+test:acceptance:unprivileged:
+  extends: .template:test:acceptance
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+  before_script:
+    - apk add --no-cache bash git jq wget
+    - git clone --no-tags --depth=1 --single-branch https://github.com/mendersoftware/integration.git
+    - docker pull ${CI_REGISTRY_IMAGE}:${CI_PIPELINE_ID}-unprivileged
+    - docker tag ${CI_REGISTRY_IMAGE}:${CI_PIPELINE_ID}-unprivileged ${DOCKER_REPOSITORY}:pr
+  script:
+    - GUI_REPOSITORY=$(pwd) INTEGRATION_PATH=$(pwd)/integration ./tests/e2e_tests/run --unprivileged
+    - docker rmi $DOCKER_REPOSITORY:pr
+
+test:acceptance:enterprise-unprivileged:
+  extends: .template:test:acceptance
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+  variables:
+    TEST_ENVIRONMENT: enterprise
+  before_script:
+    - apk add --no-cache bash git jq wget
+    - git clone --no-tags --depth=1 --single-branch https://github.com/mendersoftware/integration.git
+    - docker pull ${CI_REGISTRY_IMAGE}:${CI_PIPELINE_ID}-unprivileged
+    - docker tag ${CI_REGISTRY_IMAGE}:${CI_PIPELINE_ID}-unprivileged ${DOCKER_REPOSITORY}:pr
+  script:
+    - if [ -n "$REGISTRY_MENDER_IO_USERNAME" ]; then
+    - docker login -u $REGISTRY_MENDER_IO_USERNAME -p $REGISTRY_MENDER_IO_PASSWORD registry.mender.io
+    - fi
+    - GUI_REPOSITORY=$(pwd) INTEGRATION_PATH=$(pwd)/integration ./tests/e2e_tests/run --enterprise --unprivileged
+    - docker rmi $DOCKER_REPOSITORY:pr
+
+test:unit:
+  stage: test
+  rules:
+    - if: $CI_COMMIT_REF_NAME !~ /^(staging|saas-[a-zA-Z0-9.]+)$/
+  needs: []
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - .npm/
+  script:
+    - npm i -g npm
+    - npm ci --cache .npm --prefer-offline
+    - npm run test -- --ci --maxWorkers=2 --reporters=default --reporters=jest-junit
+  after_script:
+    - mkdir logs && cp .npm/_logs/* logs/
+  artifacts:
+    expire_in: 2w
+    paths:
+      - coverage
+      - logs
+    reports:
+      junit: junit.xml
+    when: always
+  tags:
+    - hetzner-amd-beefy
+
+test:docs-links:
+  stage: test
+  needs: []
+  except:
+    - /^(staging|saas-[a-zA-Z0-9.]+)$/
+  before_script:
+    - apk add --no-cache curl
+  script:
+    - links=$(grep -r docs.mender.io src/ | grep -v snapshots | sed -e 's,\${docsVersion},'${DOCS_VERSION}'/,g' | sed -e 's,\${path},''/,g' | egrep -o 'https?://[^ `"]+' | sort | uniq)
+    - error=0
+    - for url in $links; do
+    - if ! curl --output /dev/null --silent --head --fail $url; then
+    - error=1
+    - echo "[ko] $url"
+    - else
+    - echo "[ok] $url"
+    - fi
+    - done
+    - if [ $error -gt 0 ]; then
+    - exit 1
+    - fi
+  tags:
+    - hetzner-amd-beefy
+
+test:docs-links:hosted:
+  extends: test:docs-links
+  only:
+    - /^(staging|saas-[a-zA-Z0-9.]+)$/
+  except: []
+  variables:
+    DOCS_VERSION: hosted
+
+test:prep:
+  stage: pre-test
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker
+  rules:
+    - if: $CI_COMMIT_BRANCH == "staging"
+  services:
+    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:dind
+      alias: docker
+  script:
+    - docker run --rm --entrypoint "/bin/sh" -v $(pwd):/extract mendersoftware/mender-stress-test-client:master -c "cp mender-stress-test-client /extract/"
+  artifacts:
+    paths:
+      - mender-stress-test-client
+    expire_in: 30 days
+  tags:
+    - hetzner-amd-beefy
+
+# excludes non multiplatform build job
+build:docker:
+  rules:
+    - when: never
+
+build:docker-multiplatform:
+  # by default alvaldi-gui uses the unprivileged mode
+  script:
+    - if [[ ! $CI_COMMIT_REF_NAME =~ "(main|master|staging|production|feature-.+|\d+\.\d+\..+)" ]]; then
+    - export MULTIPLATFORM_PLATFORMS='linux/amd64'
+    - fi
+    - echo "building ${CI_PROJECT_NAME} for ${DOCKER_BUILD_SERVICE_IMAGE}"
+    - docker context create builder
+    - docker buildx create builder --use --driver-opt network=host --buildkitd-flags '--debug --allow-insecure-entitlement network.host'
+    # needed for the license generation step
+    - docker buildx build
+      --tag ${DOCKER_REPOSITORY}:base
+      --target base
+      --output type=docker,dest=baseImage.tar
+      ${DOCKER_DIR:-.}
+    # build production target
+    - docker buildx build
+      --cache-to type=registry,ref=${CI_REGISTRY_IMAGE}:ci_cache,mode=max
+      --cache-from type=registry,ref=${CI_REGISTRY_IMAGE}:ci_cache
+      --tag ${CI_REGISTRY_IMAGE}:${CI_PIPELINE_ID}
+      --file ${DOCKER_DIR:-.}/${DOCKERFILE:-Dockerfile}
+      --build-arg GIT_COMMIT_TAG="${DOCKER_PUBLISH_COMMIT_TAG}"
+      --platform $MULTIPLATFORM_PLATFORMS
+      --provenance false
+      --target production
+      --push
+      ${DOCKER_DIR:-.}
+    # build unprivileged target
+    - docker buildx build
+      --cache-to type=registry,ref=${CI_REGISTRY_IMAGE}:ci_cache,mode=max
+      --cache-from type=registry,ref=${CI_REGISTRY_IMAGE}:ci_cache
+      --tag ${CI_REGISTRY_IMAGE}:${CI_PIPELINE_ID}-unprivileged
+      --file ${DOCKER_DIR:-.}/${DOCKERFILE:-Dockerfile}
+      --build-arg GIT_COMMIT_TAG="${DOCKER_PUBLISH_COMMIT_TAG}"
+      --platform $MULTIPLATFORM_PLATFORMS
+      --provenance false
+      --target unprivileged
+      --push
+      ${DOCKER_DIR:-.}
+  artifacts:
+    paths:
+      - baseImage.tar
+
+.template:test:staging-deployment:
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/mendersoftware/mender-test-containers:gui-e2e-testing
+  stage: test-deploy
+  services:
+    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:dind
+      alias: docker
+  cache:
+    key:
+      files:
+        - tests/e2e_tests/package-lock.json
+    paths:
+      - .npm/
+  needs:
+    - job: trigger:mender-helm-version-bump:staging
+      artifacts: false
+    - job: test:prep
+      artifacts: true
+  variables:
+    CI: 1
+    DEVICE_TYPE: qemux86-64
+    TEST_ENVIRONMENT: staging
+  before_script:
+    - curl -fsSL https://get.docker.com | sh
+    - mv mender-stress-test-client tests/e2e_tests/ && cd tests/e2e_tests
+    - docker pull mendersoftware/mender-client-docker-addons:mender-3.6.x
+    - npm ci --cache .npm --prefer-offline
+  script:
+    - npm run test
+  after_script:
+    - cd $CI_PROJECT_DIR
+    - mkdir logs && cp /root/.npm/_logs/* logs/
+  only:
+    - staging
+  artifacts:
+    expire_in: 2w
+    paths:
+      - tests/e2e_tests/test-results
+      - logs
+    when: always
+  tags:
+    - hetzner-amd-beefy-privileged
+
+test:staging-deployment:chrome:
+  extends: .template:test:staging-deployment
+  script:
+    - npm run test
+  when: delayed
+  start_in: 1 minutes
+
+test:staging-deployment:firefox:
+  extends: .template:test:staging-deployment
+  script:
+    - npm run test -- --browser=firefox
+  when: delayed
+  start_in: 25 minutes
+
+test:staging-deployment:webkit:
+  extends: .template:test:staging-deployment
+  script:
+    - npm run test -- --browser=webkit
+  when: delayed
+  start_in: 15 minutes
+
+.template:publish:tests:
+  stage: publish
+  before_script:
+    - export CI_BUILD_REF=${CI_COMMIT_SHA}
+    - export CI_BUILD_REF_NAME=${CI_COMMIT_REF_NAME}
+    - export CI_MERGE_REQUEST_IID=${CI_COMMIT_BRANCH#pr_}
+    - export COVERALLS_PARALLEL=true
+    - export COVERALLS_SERVICE_JOB_ID=${CI_JOB_ID}
+    - export COVERALLS_SERVICE_NUMBER=${CI_PIPELINE_ID}
+    - apk add --no-cache git
+    - npm i -g coveralls
+  tags:
+    - hetzner-amd-beefy
+
+publish:tests:
+  extends: .template:publish:tests
+  rules:
+    - if: $CI_COMMIT_REF_NAME !~ /^(staging|saas-[a-zA-Z0-9.]+)$/
+  needs:
+    - test:unit
+  script:
+    - export COVERALLS_SERVICE_JOB_NUMBER=unittests
+    - export COVERALLS_FLAG_NAME=unittests
+    - coveralls < coverage/lcov.info
+
+publish:e2e-tests:
+  extends: .template:publish:tests
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+  needs:
+    - test:acceptance:enterprise
+  script:
+    - export COVERALLS_SERVICE_JOB_NUMBER=e2etests
+    - export COVERALLS_FLAG_NAME=e2etests
+    - sed -i -re 's/(^[SF:]+[../]+)(.*)$/SF:\2/' coverage/lcov.info
+    - coveralls < coverage/lcov.info
+
+publish:disclaimer:
+  stage: publish
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:git
+  needs:
+    - job: build:docker-multiplatform
+      artifacts: true
+  services:
+    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:dind
+      alias: docker
+  variables:
+    DOCKER_BUILDKIT: 1
+  before_script:
+    - *dind-login
+  script:
+    - docker load -i baseImage.tar
+    - docker build -t disclaimer --target disclaim .
+    - docker run --rm --entrypoint "/bin/sh" -v $(pwd):/extract disclaimer -c "cp disclaimer.txt /extract/"
+    - docker image rm disclaimer
+  artifacts:
+    expire_in: 2w
+    paths:
+      - disclaimer.txt
+  rules:
+    - if: $CI_COMMIT_REF_NAME =~ /^(master|staging|[0-9]+\.[0-9]+\.x)$/
+  tags:
+    - hetzner-amd-beefy
+
+# excludes non multiplatform build job
+publish:image:
+  rules:
+    - when: never
+
+# excludes non multiplatform job
+publish:image:saas:
+  rules:
+    - when: never
+
+# excludes non multiplatform job
+publish:image:mender:
+  rules:
+    - when: never
+
+publish:image-multiplatform:unprivileged:
+  extends: publish:image-multiplatform
+  variables:
+    GITLAB_REGISTRY_TAG: '${CI_REGISTRY_IMAGE}:${CI_PIPELINE_ID}-unprivileged'
+  before_script:
+    - !reference [publish:image:saas, before_script]
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - *export_docker_vars
+    - DOCKER_PUBLISH_COMMIT_TAG=${CI_COMMIT_REF_NAME}-unprivileged_${CI_COMMIT_SHA}
+    - DOCKER_PUBLISH_TAG=${CI_COMMIT_REF_NAME}-unprivileged
+    - SERVICE_IMAGE=${DOCKER_REPOSITORY}:${DOCKER_PUBLISH_TAG}
+
+publish:image-multiplatform:mender-unprivileged:
+  extends: publish:image-multiplatform:mender
+  variables:
+    GITLAB_REGISTRY_TAG: '${CI_REGISTRY_IMAGE}:${CI_PIPELINE_ID}-unprivileged'
+  script:
+    # Publish the image for all releases
+    - for version in $integration_versions; do
+    - regctl image copy ${GITLAB_REGISTRY_TAG} ${DOCKER_REPOSITORY}:mender-${version}-unprivileged
+    - regctl image copy ${GITLAB_REGISTRY_TAG} ${DOCKER_REPOSITORY}:mender-${version}-unprivileged_${CI_COMMIT_SHA}
+    - done
+    - echo "PUBLISH_IMAGE_DIGEST=${DOCKER_REPOSITORY}@$(regctl image digest ${DOCKER_REPOSITORY}:mender-${version}-unprivileged)" >> publish.env
+
+publish:image-multiplatform:saas-unprivileged:
+  extends: publish:image-multiplatform:saas
+  before_script:
+    - !reference [publish:image:saas, before_script]
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - *export_docker_vars
+    - DOCKER_PUBLISH_TAG=${CI_COMMIT_REF_NAME}-unprivileged
+    - SERVICE_IMAGE=${DOCKER_REPOSITORY}:${DOCKER_PUBLISH_TAG}
+
+coveralls:done:
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/curlimages/curl
+  stage: .post
+  script:
+    - curl "https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN" -d "payload[build_num]=$CI_PIPELINE_ID&payload[status]=done"
+  tags:
+    - hetzner-amd-beefy
+
+#
+# Mender Helm Rolling release
+#
+.trigger:mender-helm-version-bump:
+  stage: version-bump
+  allow_failure: true
+  trigger:
+    project: Northern.tech/Mender/mender-helm
+    strategy: depend
+  resource_group: mender-helm
+  variables:
+    SYNC_CONTAINER_NAME: $CONTAINER_NAME
+    SYNC_IMAGE_TAG: $DOCKER_PUBLISH_COMMIT_TAG
+    CONTAINER: gui
+    DOCKER_PUBLISH_COMMIT_TAG: ${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHA}
+    GITHUB_HELM_REPO: 'github.com/mendersoftware/mender-helm.git'
+    CHART_DIR: 'mender'
+
+trigger:mender-helm-version-bump:staging:
+  extends:
+    - .trigger:mender-helm-version-bump
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^(staging)$/
+  variables:
+    SYNC_ENVIRONMENT: staging
+    HELM_PATCH_VERSION: ${CI_PIPELINE_ID}-staging # pre-release version for trigger staging only deploy
+
+trigger:mender-helm-version-bump:prod:
+  extends:
+    - .trigger:mender-helm-version-bump
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^saas-[a-zA-Z0-9.]+$/'
+      when: manual
+  variables:
+    SYNC_ENVIRONMENT: prod
+    HELM_PATCH_VERSION: ${CI_PIPELINE_ID}
+    DOCKER_PUBLISH_COMMIT_TAG: ${CI_COMMIT_REF_NAME}

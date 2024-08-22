@@ -1,0 +1,114 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserList Component renders correctly 1`] = `
+.emotion-0 {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.emotion-0 caption {
+  font-family: Lato,sans-serif;
+  font-weight: 400;
+  font-size: 0.8125rem;
+  line-height: 1.43;
+  padding: 16px;
+  color: rgba(0, 0, 0, 0.54);
+  text-align: left;
+  caption-side: bottom;
+}
+
+.emotion-1 {
+  display: table-header-group;
+}
+
+.emotion-1 .columnHeader {
+  display: table-cell;
+}
+
+.emotion-1 .columnHeader .sortIcon {
+  margin-bottom: -6px;
+}
+
+.emotion-1 .nonSortable {
+  cursor: initial;
+}
+
+.emotion-2 {
+  color: inherit;
+  display: table-row;
+  vertical-align: middle;
+  outline: 0;
+}
+
+.emotion-2.MuiTableRow-hover:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.emotion-2.Mui-selected {
+  background-color: rgba(51, 122, 135, 0.08);
+}
+
+.emotion-2.Mui-selected:hover {
+  background-color: rgba(51, 122, 135, 0.12);
+}
+
+.emotion-3 {
+  font-family: Lato,sans-serif;
+  font-weight: 500;
+  font-size: 0.8125rem;
+  line-height: 1.15rem;
+  display: table-cell;
+  vertical-align: inherit;
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
+  text-align: left;
+  padding: 0px 24px 0px 24px;
+  color: rgba(10, 10, 11, 0.78);
+  height: 56px;
+}
+
+.emotion-7 {
+  display: table-row-group;
+}
+
+<table
+  class="MuiTable-root margin-bottom  emotion-0"
+>
+  <thead
+    class="MuiTableHead-root emotion-1"
+  >
+    <tr
+      class="MuiTableRow-root MuiTableRow-head emotion-2"
+    >
+      <th
+        class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-3"
+        scope="col"
+      >
+        Email
+      </th>
+      <th
+        class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-3"
+        scope="col"
+      >
+        Date created
+      </th>
+      <th
+        class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-3"
+        scope="col"
+      >
+        Last updated
+      </th>
+      <th
+        class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-3"
+        scope="col"
+      >
+        Manage
+      </th>
+    </tr>
+  </thead>
+  <tbody
+    class="MuiTableBody-root emotion-7"
+  />
+</table>
+`;

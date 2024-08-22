@@ -1,0 +1,82 @@
+variables:
+  DOCKER_REPOSITORY: mendersoftware/reporting
+  # Setup containers to use docker dind service
+  DOCKER_HOST: "tcp://docker:2376"
+  DOCKER_CERT_PATH: "/certs/client"
+  DOCKER_TLS_VERIFY: 1
+
+  DOCKER_TLS_CERTDIR: "/certs" # Where docker:dind should generate certs
+
+stages:
+  - test
+  - build
+  - publish
+
+include:
+  - project: 'Northern.tech/Mender/mendertesting'
+    file: '.gitlab-ci-check-golang-lint.yml'
+  - project: 'Northern.tech/Mender/mendertesting'
+    file: '.gitlab-ci-check-golang-unittests.yml'
+  - project: 'Northern.tech/Mender/mendertesting'
+    file: '.gitlab-ci-check-apidocs.yml'
+  - project: 'Northern.tech/Mender/mendertesting'
+    file: '.gitlab-ci-check-commits.yml'
+  - project: 'Northern.tech/Mender/mendertesting'
+    file: '.gitlab-ci-check-license.yml'
+  - project: 'Northern.tech/Mender/mendertesting'
+    file: '.gitlab-ci-github-status-updates.yml'
+  - project: 'Northern.tech/Mender/mendertesting'
+    file: '.gitlab-ci-check-docker-build.yml'
+
+test:acceptance:
+  stage: test
+  needs: []
+  except:
+    - /^saas-[a-zA-Z0-9.-]+$/
+  tags:
+    - hetzner-amd-beefy
+  image: docker:20.10.21
+  services:
+    - name: docker:20.10.21-dind
+      alias: docker
+      command: ["--mtu=1440"]
+  before_script:
+    - apk add docker-compose make
+  script:
+    - make acceptance-tests
+  artifacts:
+    expire_in: 2w
+    paths:
+      - tests/acceptance.*
+      - tests/coverage*.txt
+    when: always
+
+publish:acceptance:
+  stage: publish
+  except:
+    - /^saas-[a-zA-Z0-9.-]+$/
+  image: golang:1.22
+  needs:
+    - job: test:acceptance
+      artifacts: true
+  before_script:
+    - go get github.com/mattn/goveralls
+    - go install github.com/mattn/goveralls
+    # Coveralls env variables:
+    #  According to https://docs.coveralls.io/supported-ci-services
+    #  we should set CI_NAME, CI_BUILD_NUMBER, etc. But according
+    #  to goveralls source code (https://github.com/mattn/goveralls)
+    #  many of these are not supported. Set CI_BRANCH, CI_PR_NUMBER,
+    #  and pass few others as command line arguments.
+    #  See also https://docs.coveralls.io/api-reference
+    - export CI_BRANCH=${CI_COMMIT_BRANCH}
+    - export CI_PR_NUMBER=${CI_COMMIT_BRANCH#pr_}
+  script:
+    - goveralls
+      -repotoken ${COVERALLS_TOKEN}
+      -service gitlab-ci
+      -jobid $CI_PIPELINE_ID
+      -covermode atomic
+      -flagname acceptance
+      -parallel
+      -coverprofile $(ls -m tests/coverage*.txt | tr -d ' \n')

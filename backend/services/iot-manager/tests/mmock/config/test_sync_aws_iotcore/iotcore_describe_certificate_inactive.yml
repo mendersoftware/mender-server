@@ -1,0 +1,22 @@
+request:
+  description: Get certificate inactivePrincipalId from AWS IoT Core
+  host: iot.region.amazonaws.com
+  method: GET
+  path: /certificates/inactivePrincipalId
+response:
+  statusCode: 200
+  headers:
+    Content-Type:
+      - "application/json"
+  body: |-
+    {
+      "certificateDescription": { 
+        "caCertificateId": "inactivePrincipalId",
+        "status": "INACTIVE"
+      }
+    }
+control:
+  scenario:
+    name: class
+    requiredState:
+      - TestSyncAWSIoTCore

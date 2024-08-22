@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Alert Component renders correctly 1`] = `
+<div
+  class="margin-top-small alert alert-error"
+>
+  Content
+</div>
+`;
