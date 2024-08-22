@@ -1,0 +1,15 @@
+
+{
+	"description": "inventory: POST search",
+	"request": {
+		"method": "POST",
+		"path": "/api/internal/v2/inventory/tenants/098765432109876543210987/filters/search"
+	},
+	"response": {
+		"statusCode": 200,
+		"headers": {
+			"Content-Type":["application/json"]
+		},
+        "body": "[{\"id\":\"98efdb94-26c2-42eb-828d-12a5d6eb698c\",\"attributes\":[{\"name\":\"string\",\"scope\":\"inventory\",\"value\":\"sample text\"},{\"name\":\"number\",\"scope\":\"inventory\",\"value\":1234}],\"updated_ts\":\"2016-10-03T16:58:51.639Z\"}]"
+	}
+}

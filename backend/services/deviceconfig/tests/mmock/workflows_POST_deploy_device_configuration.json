@@ -1,0 +1,10 @@
+{
+	"description": "workflows: POST deploy_device_configuration",
+	"request": {
+		"method": "POST",
+		"path": "/api/v1/workflow/deploy_device_configuration"
+	},
+	"response": {
+		"statusCode": 201
+	}
+}

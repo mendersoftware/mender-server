@@ -1,0 +1,2369 @@
+swagger: '2.0'
+info:
+  title: Deployments
+  version: '1'
+  description: |
+    An API for deployments and artifacts management.
+    Intended for use by the web GUI.
+
+host: 'hosted.mender.io'
+basePath: '/api/management/v1/deployments'
+schemes:
+  - https
+
+consumes:
+  - application/json
+produces:
+  - application/json
+
+securityDefinitions:
+  ManagementJWT:
+    type: apiKey
+    in: header
+    name: Authorization
+    description: |
+      API token issued by User Authentication service.
+      Format: 'Bearer [JWT]'
+
+responses:
+  NotFoundError: # 404
+    description: Not Found.
+    schema:
+      $ref: "#/definitions/Error"
+  InternalServerError: # 500
+    description: Internal Server Error.
+    schema:
+      $ref: "#/definitions/Error"
+  InvalidRequestError: # 400
+    description: Invalid Request.
+    schema:
+      $ref: "#/definitions/Error"
+  ConflictError: # 409
+    description: An active deployment with the same parameters already exists.
+    schema:
+      $ref: "#/definitions/Error"
+  UnauthorizedError: # 401
+    description: Unauthorized.
+    schema:
+      $ref: "#/definitions/Error"
+  UnprocessableEntityError: # 422
+    description: Unprocessable Entity.
+    schema:
+      $ref: "#/definitions/Error"
+
+paths:
+  /deployments:
+    get:
+      operationId: List Deployments
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: Find all deployments
+      description: |
+        Returns a filtered collection of deployments in the system,
+        including active and historical. If both 'status' and 'query' are
+        not specified, all devices are listed.
+      parameters:
+        - name: status
+          in: query
+          description: Deployment status filter.
+          required: false
+          type: string
+          enum:
+            - inprogress
+            - finished
+            - pending
+        - name: type
+          in: query
+          description: |
+              Deployment type filter.
+          required: false
+          type: string
+          enum:
+            - software
+            - configuration
+        - name: search
+          in: query
+          description: Deployment name or description filter.
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: Results page number
+          required: false
+          type: number
+          format: integer
+          default: 1
+        - name: per_page
+          in: query
+          description: Maximum number of results per page.
+          required: false
+          type: number
+          format: integer
+          default: 20
+          maximum: 500
+        - name: created_before
+          in: query
+          description: List only deployments created before and equal to Unix timestamp (UTC)
+          required: false
+          type: number
+          format: integer
+        - name: created_after
+          in: query
+          description: List only deployments created after and equal to Unix timestamp (UTC)
+          required: false
+          type: number
+          format: integer
+        - name: sort
+          in: query
+          description: |
+            Supports sorting the deployments list by creation date.
+          required: false
+          type: string
+          enum:
+            - asc
+            - desc
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Successful response.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Deployment'
+          headers:
+            Link:
+              type: string
+              description: Standard header, we support 'first', 'next', and 'prev'.
+            X-Total-Count:
+              type: integer
+              description: Total number of deployments matching query.
+        400:
+          $ref: "#/responses/InvalidRequestError"
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        500:
+          $ref: "#/responses/InternalServerError"
+
+    post:
+      operationId: Create Deployment
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: Create a deployment
+      description: |
+        Deploy software to specified devices. Artifact is auto assigned to the
+        device from all available artifacts based on artifact name and device type.
+        Devices for which there are no compatible artifacts to be installed are
+        considered finished successfully as well as receive status of `noartifact`.
+        If there is no artifacts for the deployment, deployment will not be created
+        and the 422 Unprocessable Entity status code will be returned.
+
+      parameters:
+        - name: deployment
+          in: body
+          description: New deployment that needs to be created.
+          required: true
+          schema:
+            $ref: "#/definitions/NewDeployment"
+      produces:
+        - application/json
+      responses:
+        201:
+          description: New deployment created.
+          headers:
+            Location:
+              description: URL of the newly created deployment.
+              type: string
+        400:
+          $ref: "#/responses/InvalidRequestError"
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        409:
+          $ref: "#/responses/ConflictError"
+        422:
+          $ref: "#/responses/UnprocessableEntityError"
+        500:
+          $ref: "#/responses/InternalServerError"
+
+  /deployments/statistics/list:
+    post:
+      operationId: Deployment Status Statistics List
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: |
+        Get status count for all devices in the listed deployments (plural).
+      parameters:
+        - name: deployment_ids
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/DeploymentIdentifier"
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          examples:
+            application/json:
+              - id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+                stats:
+                  success: 3
+                  pending: 1
+                  failure: 0
+                  downloading: 1
+                  installing: 2
+                  rebooting: 3
+                  noartifact: 0
+                  already-installed: 0
+                  aborted: 0
+                  pause_before_installing: 1
+                  pause_before_rebooting: 1
+                  pause_before_committing: 1
+              - id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+                stats:
+                  success: 3
+                  pending: 1
+                  failure: 0
+                  downloading: 1
+                  installing: 2
+                  rebooting: 3
+                  noartifact: 0
+                  already-installed: 0
+                  aborted: 0
+                  pause_before_installing: 1
+                  pause_before_rebooting: 1
+                  pause_before_committing: 1
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: "The deployment ID"
+                stats:
+                  $ref: "#/definitions/DeploymentStatusStatistics"
+        400:
+          $ref: "#/responses/InvalidRequestError"
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        404:
+          $ref: "#/responses/NotFoundError"
+        500:
+          $ref: "#/responses/InternalServerError"
+
+  /deployments/group/{name}:
+    post:
+      operationId: Create Deployment for a Group of Devices
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: Create a deployment for a group of devices
+      description: |
+        Deploy software to devices belonging to the specified group.
+
+        Artifact is auto assigned to the device from all available artifacts based
+        on artifact name and device type. Devices for which there are no compatible
+        artifacts to be installed are considered finished successfully as well as
+        receive status of `noartifact`. If there is no artifacts for the deployment,
+        deployment will not be created and the 422 Unprocessable Entity status code
+        will be returned.
+
+      parameters:
+        - name: name
+          in: path
+          description: Device group name.
+          required: true
+          type: string
+        - name: deployment
+          in: body
+          description: New deployment that needs to be created.
+          required: true
+          schema:
+            $ref: "#/definitions/NewDeploymentForGroup"
+      produces:
+        - application/json
+      responses:
+        201:
+          description: New deployment created.
+          headers:
+            Location:
+              description: URL of the newly created deployment.
+              type: string
+        400:
+          $ref: "#/responses/InvalidRequestError"
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        422:
+          $ref: "#/responses/UnprocessableEntityError"
+        500:
+          $ref: "#/responses/InternalServerError"
+
+  /deployments/{id}:
+    get:
+      operationId: Show Deployment
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: Get the details of a selected deployment
+      description: |
+        Returns the details of a particular deployment.
+      parameters:
+        - name: id
+          in: path
+          description: Deployment identifier.
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Successful response.
+          schema:
+            $ref: "#/definitions/Deployment"
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        404:
+          $ref: "#/responses/NotFoundError"
+        500:
+          $ref: "#/responses/InternalServerError"
+
+  /deployments/{deployment_id}/status:
+    put:
+      operationId: Abort Deployment
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: Abort the deployment
+      description: |
+        Abort an ongoing deployment. For devices included in this deployment it means that:
+
+        - Devices that have completed the deployment (i.e. reported final status) are not affected by the abort, and their original status is kept in the deployment report.
+
+        - Devices that do not yet know about the deployment at time of abort will not start the deployment.
+
+        - Devices that are in the middle of the deployment at time of abort will finish its deployment normally, but they will not be able to change its deployment status so they will perform rollback.
+
+      parameters:
+        - name: deployment_id
+          in: path
+          description: Deployment identifier.
+          required: true
+          type: string
+        - name: Status
+          in: body
+          description: Deployment status.
+          required: true
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - aborted
+            required:
+              - status
+      produces:
+        - application/json
+      responses:
+        204:
+          description: Status updated successfully.
+        400:
+          $ref: "#/responses/InvalidRequestError"
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        404:
+          $ref: "#/responses/NotFoundError"
+        422:
+          $ref: "#/responses/UnprocessableEntityError"
+        500:
+          $ref: "#/responses/InternalServerError"
+
+  /deployments/{deployment_id}/statistics:
+    get:
+      operationId: Deployment Status Statistics
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: |
+        Get status count for all devices in a deployment.
+      parameters:
+        - name: deployment_id
+          in: path
+          description: Deployment identifier
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          examples:
+            application/json:
+              success: 3
+              pending: 1
+              failure: 0
+              downloading: 1
+              installing: 2
+              rebooting: 3
+              noartifact: 0
+              already-installed: 0
+              aborted: 0
+              pause_before_installing: 1
+              pause_before_rebooting: 1
+              pause_before_committing: 1
+          schema:
+            $ref: "#/definitions/DeploymentStatusStatistics"
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        404:
+          $ref: "#/responses/NotFoundError"
+        500:
+          $ref: "#/responses/InternalServerError"
+
+  /deployments/{deployment_id}/devices:
+    get:
+      deprecated: true
+      operationId: List All Devices in Deployment
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: |
+        DEPRECATED: this end-point is deprecated because it doesn't support
+        pagination and will be removed in the future, please use the
+        /deployments/{deployment_id}/devices/list end-point instead.
+      parameters:
+        - name: deployment_id
+          in: path
+          description: Deployment identifier.
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/DeviceWithImage"
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        404:
+          $ref: "#/responses/NotFoundError"
+        500:
+          $ref: "#/responses/InternalServerError"
+
+  /deployments/{deployment_id}/devices/list:
+    get:
+      operationId: List Devices in Deployment
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: |
+        Get the list of devices and their respective status for the deployment
+        with the given ID. The response includes devices as they get assigned
+        to the deployment when checking for updates. Therefore, this endpoint
+        will list all the devices only once each asks for updates and evaluates
+        this deployment.
+      parameters:
+        - name: deployment_id
+          in: path
+          description: Deployment identifier.
+          required: true
+          type: string
+        - name: status
+          in: query
+          description: >-
+            Filter devices by status within deployment.
+          required: false
+          type: string
+          enum: # Unfortunately swagger 2.0 does not support reuse of enums.
+            - "failure"
+            - "aborted"
+            - "pause_before_installing"
+            - "pause_before_committing"
+            - "pause_before_rebooting"
+            - "downloading"
+            - "installing"
+            - "rebooting"
+            - "pending"
+            - "success"
+            - "noartifact"
+            - "already-installed"
+            - "decommissioned"
+            - "pause"
+            - "active"
+            - "finished"
+        - name: page
+          in: query
+          description: Starting page.
+          required: false
+          type: number
+          format: integer
+          default: 1
+        - name: per_page
+          in: query
+          description: Maximum number of results per page.
+          required: false
+          type: number
+          format: integer
+          default: 20
+          maximum: 500
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/DeviceWithImage"
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        404:
+          $ref: "#/responses/NotFoundError"
+        500:
+          $ref: "#/responses/InternalServerError"
+
+  /deployments/{id}/device_list:
+    get:
+      operationId: List Device IDs in Deployment
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: Get the list of device IDs being part of the deployment.
+      parameters:
+        - name: id
+          in: path
+          description: Deployment identifier.
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Successful response.
+          examples:
+            application/json:
+              - "00a0c91e6-7dec-11d0-a765-f81d4faebf6"
+              - "00a0c91e6-7dec-11d0-a765-f81d4faebf8"
+              - "00a0c91e6-7dec-11d0-a765-f81d4faebf7"
+          schema:
+            type: array
+            description: List of device IDs
+            items:
+              type: string
+        400:
+          $ref: "#/responses/InvalidRequestError"
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        404:
+          $ref: "#/responses/NotFoundError"
+        500:
+          $ref: "#/responses/InternalServerError"
+
+  /deployments/{deployment_id}/devices/{device_id}/log:
+    get:
+      operationId: Get Deployment Log for Device
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: Get the log of a selected device's deployment
+      description: |
+        The response body for this endpoint include the device's deployment logs
+        in text/plain format.
+      parameters:
+        - name: deployment_id
+          in: path
+          description: Deployment identifier.
+          required: true
+          type: string
+        - name: device_id
+          in: path
+          description: Device identifier.
+          required: true
+          type: string
+      produces:
+        - text/plain
+      responses:
+        200:
+          description: Successful response, including the logs in text/plain format.
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        404:
+          $ref: "#/responses/NotFoundError"
+        500:
+          $ref: "#/responses/InternalServerError"
+
+  /deployments/devices/{id}:
+    get:
+      operationId: List Deployments for a Device
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: Return the Deployments history for a Device
+      description: |
+        Return the Deployments history for the specified Device, listing all its Deployments.
+      parameters:
+        - name: id
+          in: path
+          description: System wide device identifier
+          required: true
+          type: string
+        - name: status
+          in: query
+          description: >-
+            Filter deployments by status for the given device.
+          type: string
+          enum: # Unfortunately swagger 2.0 does not support reuse of enums.
+            - "failure"
+            - "aborted"
+            - "pause_before_installing"
+            - "pause_before_committing"
+            - "pause_before_rebooting"
+            - "downloading"
+            - "installing"
+            - "rebooting"
+            - "pending"
+            - "success"
+            - "noartifact"
+            - "already-installed"
+            - "decommissioned"
+            - "pause"
+            - "active"
+            - "finished"
+          required: false
+        - name: page
+          in: query
+          description: Starting page.
+          required: false
+          type: number
+          format: integer
+          default: 1
+        - name: per_page
+          in: query
+          description: Maximum number of results per page.
+          required: false
+          type: number
+          format: integer
+          default: 20
+          maximum: 20
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/DeviceDeployment"
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        500:
+          description: Internal server error.
+          schema:
+              $ref: "#/definitions/Error"
+
+    delete:
+      operationId: Abort Deployments for a Device
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: Abort all the active and pending Deployments for a Device
+      description: |
+        Abort all the active and pending Deployments for the specified Device.
+      parameters:
+        - name: id
+          in: path
+          description: System wide device identifier
+          required: true
+          type: string
+      responses:
+        204:
+          description: Operation completed successfully.
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        500:
+          description: Internal server error.
+          schema:
+              $ref: "#/definitions/Error"
+
+  /deployments/devices/{id}/history:
+    delete:
+      operationId: Reset Device Deployments history
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: Reset the Device Deployments history
+      description: |
+        Mark as logically deleted the completed Device Deployments records for the given device.
+        This effectively resets the Device Deployments history and makes the
+        device eligible (again) for all the active deployments.
+      parameters:
+        - name: id
+          in: path
+          description: System wide device identifier
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        204:
+          description: Operation completed successfully.
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        500:
+          $ref: "#/responses/InternalServerError"
+
+  /deployments/releases:
+    get:
+      deprecated: true
+      operationId: List Releases
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: |
+        List releases
+      description: |
+        Returns a collection of releases, allows filtering by release name.
+
+        DEPRECATED: this end-point is deprecated because it doesn't support
+        pagination and will be removed in the future, please use the
+        /deployments/releases/list end-point instead.
+      parameters:
+        - name: name
+          in: query
+          description: Release name filter.
+          required: false
+          type: string
+        - name: description
+          in: query
+          description: Release description filter.
+          required: false
+          type: string
+        - name: device_type
+          in: query
+          description: Release device type filter.
+          required: false
+          type: string
+        - name: update_type
+          in: query
+          description: Update type filter.
+          required: false
+          type: string
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Successful response.
+          examples:
+            application/json:
+              - name: my-app-v1.0.1
+                artifacts:
+                  - id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+                    name: Application 1.0.0
+                    description: Johns Monday test build
+                    device_types_compatible: [Beagle Bone]
+                    info:
+                      format: mender
+                      version: 3
+                    signed: false
+                    updates:
+                      - type_info:
+                          type: "rootfs-image"
+                        files:
+                          - name: rootfs-image-1
+                            checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
+                            size: 123
+                            date: 2016-03-11T13:03:17.063+0000
+                        meta_data: {}
+                    artifact_provides:
+                      artifact_name: "test"
+                      rootfs-image.checksum: "32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99"
+                      rootfs-image.version: "test"
+                    artifact_depends:
+                      device_type:
+                        - "test"
+                    clears_artifact_provides:
+                      - "rootfs-image.*"
+                    size: 36891648
+                    modified: "2016-03-11T13:03:17.063493443Z"
+                  - id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+                    name: Application 1.0.0
+                    description: Johns Monday test build
+                    device_types_compatible: [Raspberry Pi]
+                    info:
+                      format: mender
+                      version: 3
+                    signed: false
+                    updates:
+                      - type_info:
+                          type: "rootfs-image"
+                        files:
+                          - name: rootfs-image-1
+                            checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
+                            size: 123
+                            date: 2016-03-11T13:03:17.063+0000
+                        meta_data: {}
+                    artifact_provides:
+                      artifact_name: "test"
+                      rootfs-image.checksum: "32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99"
+                      rootfs-image.version: "test"
+                    artifact_depends:
+                      device_type:
+                        - "test"
+                    clears_artifact_provides:
+                      - "rootfs-image.*"
+                    size: 36891648
+                    modified: "2016-03-11T13:03:17.063493443Z"
+              - name: my-app-v2.0.0
+                artifacts:
+                  - id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+                    name: Application 2.0.0
+                    description: Johns Monday test build
+                    device_types_compatible: [Beagle Bone]
+                    info:
+                      format: mender
+                      version: 3
+                    signed: false
+                    updates:
+                      - type_info:
+                          type: "rootfs-image"
+                        files:
+                          - name: rootfs-image-1
+                            checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
+                            size: 123
+                            date: 2016-03-11T13:03:17.063+0000
+                        meta_data: {}
+                    artifact_provides:
+                      artifact_name: "test"
+                      rootfs-image.checksum: "32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99"
+                      rootfs-image.version: "test"
+                    artifact_depends:
+                      device_type:
+                        - "test"
+                    clears_artifact_provides:
+                      - "rootfs-image.*"
+                    size: 36891648
+                    modified: "2016-03-11T13:03:17.063493443Z"
+          schema:
+            $ref: '#/definitions/Releases'
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        500:
+          $ref: "#/responses/InternalServerError"
+
+  /deployments/releases/list:
+    get:
+      deprecated: true
+      operationId: List Releases with pagination
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: |
+        List releases with pagination
+      description: |
+        Returns a collection of releases, allows filtering by release name and sorting
+        by name or last modification date.
+
+        DEPRECATED: due to a mismatch in the capitalization of the fields of the response
+        body and lack of support for advanced filters and sorting, we have deprecated this
+        endpoint. Please use the v2 /deployments/releases end-point instead.
+      parameters:
+        - name: name
+          in: query
+          description: Release name filter.
+          required: false
+          type: string
+        - name: description
+          in: query
+          description: Release description filter.
+          required: false
+          type: string
+        - name: device_type
+          in: query
+          description: Release device type filter.
+          required: false
+          type: string
+        - name: update_type
+          in: query
+          description: Update type filter.
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: Starting page.
+          required: false
+          type: number
+          format: integer
+          default: 1
+        - name: per_page
+          in: query
+          description: Maximum number of results per page.
+          required: false
+          type: number
+          format: integer
+          default: 20
+          maximum: 500
+        - name: sort
+          in: query
+          description: |
+            Sort the release list by the specified field and direction.
+          required: false
+          type: string
+          enum:
+            - artifacts_count:asc
+            - artifacts_count:desc
+            - modified:asc
+            - modified:desc
+            - name:asc
+            - name:desc
+            - tags:asc
+            - tags:desc
+          default: "name:asc"
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Successful response.
+          examples:
+            application/json:
+              - name: my-app-v1.0.1
+                artifacts:
+                  - id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+                    name: Application 1.0.0
+                    description: Johns Monday test build
+                    device_types_compatible: [Beagle Bone]
+                    info:
+                      format: mender
+                      version: 3
+                    signed: false
+                    updates:
+                      - type_info:
+                          type: "rootfs-image"
+                        files:
+                          - name: rootfs-image-1
+                            checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
+                            size: 123
+                            date: 2016-03-11T13:03:17.063+0000
+                        meta_data: {}
+                    artifact_provides:
+                      artifact_name: "test"
+                      rootfs-image.checksum: "32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99"
+                      rootfs-image.version: "test"
+                    artifact_depends:
+                      device_type:
+                        - "test"
+                    clears_artifact_provides:
+                      - "rootfs-image.*"
+                    size: 36891648
+                    modified: "2016-03-11T13:03:17.063493443Z"
+                  - id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+                    name: Application 1.0.0
+                    description: Johns Monday test build
+                    device_types_compatible: [Raspberry Pi]
+                    info:
+                      format: mender
+                      version: 3
+                    signed: false
+                    updates:
+                      - type_info:
+                          type: "rootfs-image"
+                        files:
+                          - name: rootfs-image-1
+                            checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
+                            size: 123
+                            date: 2016-03-11T13:03:17.063+0000
+                        meta_data: {}
+                    artifact_provides:
+                      artifact_name: "test"
+                      rootfs-image.checksum: "32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99"
+                      rootfs-image.version: "test"
+                    artifact_depends:
+                      device_type:
+                        - "test"
+                    clears_artifact_provides:
+                      - "rootfs-image.*"
+                    size: 36891648
+                    modified: "2016-03-11T13:03:17.063493443Z"
+              - name: my-app-v2.0.0
+                artifacts:
+                  - id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+                    name: Application 2.0.0
+                    description: Johns Monday test build
+                    device_types_compatible: [Beagle Bone]
+                    info:
+                      format: mender
+                      version: 3
+                    signed: false
+                    updates:
+                      - type_info:
+                          type: "rootfs-image"
+                        files:
+                          - name: rootfs-image-1
+                            checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
+                            size: 123
+                            date: 2016-03-11T13:03:17.063+0000
+                        meta_data: {}
+                    artifact_provides:
+                      artifact_name: "test"
+                      rootfs-image.checksum: "32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99"
+                      rootfs-image.version: "test"
+                    artifact_depends:
+                      device_type:
+                        - "test"
+                    clears_artifact_provides:
+                      - "rootfs-image.*"
+                    size: 36891648
+                    modified: "2016-03-11T13:03:17.063493443Z"
+          schema:
+            $ref: '#/definitions/Releases'
+          headers:
+            Link:
+              type: string
+              description: Standard header, we support 'first', 'next', and 'prev'.
+            X-Total-Count:
+              type: integer
+              description: Total number of releases matching query.
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        500:
+          $ref: "#/responses/InternalServerError"
+
+  /artifacts:
+    get:
+      deprecated: true
+      operationId: List Artifacts
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: |
+        List all the artifacts
+      description: |
+        Returns a collection of all artifacts.
+
+        DEPRECATED: this end-point is deprecated because it doesn't support
+        pagination and will be removed in the future, please use the
+        /artifacts/list end-point instead.
+      produces:
+        - application/json
+      parameters:
+        - name: name
+          in: query
+          description: Artifact name prefix filter.
+          required: false
+          type: string
+        - name: description
+          in: query
+          description: Artifact description filter. Any artifact containing this string in the description will be returned.
+          required: false
+          type: string
+        - name: device_type
+          in: query
+          description: Artifact device type filter. Any artifact containing this string in the device type will be returned.
+          required: false
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Artifact"
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        500:
+          $ref: "#/responses/InternalServerError"
+
+    post:
+      operationId: Upload Artifact
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: Upload mender artifact
+      description: |
+        Upload mender artifact. Multipart request with meta and artifact.
+        Supports artifact [versions v1, v2, v3](https://docs.mender.io/overview/artifact#versions).
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: size
+          in: formData
+          description: |
+            Size of the artifact file in bytes.
+            DEPRECATED: Size is determined from uploaded content.
+          required: false
+          type: integer
+          format: long
+        - name: description
+          in: formData
+          required: false
+          type: string
+        - name: artifact
+          in: formData
+          description: Artifact. It has to be the last part of request.
+          required: true
+          type: file
+      produces:
+        - application/json
+      responses:
+        201:
+          description: Artifact uploaded.
+          headers:
+            Location:
+              description: URL of the newly uploaded artifact.
+              type: string
+        400:
+          $ref: "#/responses/InvalidRequestError"
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        409:
+          description: |
+            An artifact with the same name and matching dependency requirements already exists.
+          schema:
+            $ref: "#/definitions/ErrorExt"
+          examples:
+            application/json:
+              error: "an artifact with the same name and depends already exists"
+              request_id: "e4dde7e9-9424-4311-8648-86e24b542410"
+              metadata:
+                conflict:
+                  want: cookies
+        500:
+          $ref: "#/responses/InternalServerError"
+
+  /artifacts/list:
+    get:
+      operationId: List Artifacts with pagination
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: |
+        List known artifacts
+      description: |
+        Returns a collection of all artifacts.
+      parameters:
+        - name: name
+          in: query
+          description: Artifact name prefix filter.
+          required: false
+          type: string
+        - name: description
+          in: query
+          description: Artifact description filter. Any artifact containing this string in the description will be returned.
+          required: false
+          type: string
+        - name: device_type
+          in: query
+          description: Artifact device type filter. Any artifact containing this string in the device type will be returned.
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: Starting page.
+          required: false
+          type: number
+          format: integer
+          default: 1
+        - name: per_page
+          in: query
+          description: Maximum number of results per page.
+          required: false
+          type: number
+          format: integer
+          default: 20
+          maximum: 500
+        - name: sort
+          in: query
+          description: |
+            Sort the artifact list by the specified field and direction.
+          required: false
+          type: string
+          enum:
+            - name:asc
+            - name:desc
+            - modified:asc
+            - modified:desc
+          default: "name:asc"
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Artifact"
+          headers:
+            Link:
+              type: string
+              description: Standard header, we support 'first', 'next', and 'prev'.
+            X-Total-Count:
+              type: integer
+              description: Total number of releases matching query.
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        500:
+          $ref: "#/responses/InternalServerError"
+
+  /artifacts/directupload:
+    post:
+      operationId: Request Direct Upload
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: Request link for uploading artifact directly to the storage backend. This is an on-prem endpoint only, not available on Hosted Mender.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/ArtifactUploadLink"
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        500:
+          $ref: "#/responses/InternalServerError"
+
+  /artifacts/directupload/{id}/complete:
+    post:
+      operationId: Complete Direct Upload
+      parameters:
+        - name: metadata
+          in: body
+          description: Metadata for contents of the artifact.
+          required: false
+          schema:
+            $ref: "#/definitions/DirectUploadMetadata"
+        - name: id
+          in: path
+          description: >-
+            Artifact ID returned by "Request Direct Upload" API.
+          required: true
+          type: string
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: >-
+        Notify the server that the direct upload is completed to make it
+        available in the artifacts API. Optionally you can provide files metadata
+        which will be absent otherwise if skip-verify flag is present in the deployments
+        service. This is an on-prem endpoint only, not available on Hosted Mender.
+      produces:
+        - application/json
+      responses:
+        202:
+          description: Accepted
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        404:
+          description: A pending direct upload with the given ID was not found.
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              request_id:
+                type: string
+                format: uuid
+                description: "Request identifier (Header: X-Men-Requestid)"
+          examples:
+            application/json:
+              error: "not found"
+              request_id: "b4965265-4475-4d00-8efc-840eaee5cf7b"
+        500:
+          $ref: "#/responses/InternalServerError"
+
+  /artifacts/generate:
+    post:
+      operationId: Generate Artifact
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: Upload raw data to generate a new artifact
+      description: |
+        Generate a new Mender artifact from raw data and meta data. Multipart request with meta and raw file.
+        Supports generating single-file updates only, using the Single File Update Module (https://hub.mender.io/t/single-file).
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: name
+          in: formData
+          description: Name of the artifact to generate.
+          required: true
+          type: string
+        - name: description
+          in: formData
+          description: Description of the artifact to generate.
+          required: false
+          type: string
+        - name: device_types_compatible
+          in: formData
+          description: An array of compatible device types.
+          required: true
+          type: array
+          collectionFormat: csv
+          items:
+            type: string
+        - name: type
+          in: formData
+          description: Update Module used to generate the artifact.
+          required: true
+          type: string
+          enum: [single_file]
+        - name: args
+          in: formData
+          description: |
+            String that represents a JSON document defining the arguments used to generate the artifact.
+            The service won't parse the content of this parameter and pass it as it is to the create artifact worker.
+            The available arguments and options depend on the Update Module implementation and are, therefore, Type-specific.
+          required: false
+          type: string
+        - name: file
+          in: formData
+          description: Raw file to be used to generate the artifact. It has to be the last part of request.
+          required: true
+          type: file
+      produces:
+        - application/json
+      responses:
+        201:
+          description: Artifact generation request accepted and queued for processing.
+          headers:
+            Location:
+              description: URL of the artifact going to be generated.
+              type: string
+        400:
+          $ref: "#/responses/InvalidRequestError"
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        500:
+          $ref: "#/responses/InternalServerError"
+
+  /artifacts/{id}:
+    get:
+      operationId: Show Artifact
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: Get the details of a selected artifact
+      description: |
+        Returns the details of a selected artifact.
+      parameters:
+        - name: id
+          in: path
+          description: Artifact identifier.
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Successful response.
+          examples:
+            application/json:
+              id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+              name: Application 1.0.0
+              description: Johns Monday test build
+              device_types_compatible: [Beagle Bone]
+              info:
+                format: mender
+                version: 3
+              signed: false
+              updates:
+                - type_info:
+                    type: "rootfs-image"
+                  files:
+                    - name: rootfs-image-1
+                      checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
+                      size: 123
+                      date: 2016-03-11T13:03:17.063+0000
+                  meta_data: {}
+              artifact_provides:
+                artifact_name: "test"
+                rootfs-image.checksum: "32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99"
+                rootfs-image.version: "test"
+              artifact_depends:
+                device_type:
+                  - "test"
+              clears_artifact_provides:
+                - "rootfs-image.*"
+              size: 36891648
+              modified: "2016-03-11T13:03:17.063493443Z"
+          schema:
+            $ref: "#/definitions/Artifact"
+        400:
+          $ref: "#/responses/InvalidRequestError"
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        404:
+          $ref: "#/responses/NotFoundError"
+        500:
+          $ref: "#/responses/InternalServerError"
+
+    put:
+      operationId: Update Artifact Info
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: Update description of a selected artifact
+      description: |
+        Edit description. Artifact is not allowed to be edited if it was used
+        in any deployment.
+      parameters:
+        - name: id
+          in: path
+          description: Artifact identifier.
+          required: true
+          type: string
+        - name: artifact
+          in: body
+          schema:
+            $ref: "#/definitions/ArtifactUpdate"
+      produces:
+        - application/json
+      responses:
+        204:
+          description: The artifact metadata updated successfully.
+        400:
+          $ref: "#/responses/InvalidRequestError"
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        404:
+          $ref: "#/responses/NotFoundError"
+        422:
+          $ref: "#/responses/UnprocessableEntityError"
+        500:
+          $ref: "#/responses/InternalServerError"
+
+    delete:
+      operationId: Delete Artifact
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: Delete the artifact
+      description: |
+        Deletes the artifact from file and artifacts storage.
+        Artifacts used by deployments in progress can not be deleted
+        until deployment finishes.
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: Artifact identifier.
+          required: true
+          type: string
+      responses:
+        204:
+          description: The artifact deleted successfully.
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        404:
+          $ref: "#/responses/NotFoundError"
+        409:
+          description: Artifact used by active deployment.
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          $ref: "#/responses/InternalServerError"
+
+  /artifacts/{id}/download:
+    get:
+      operationId: Download Artifact
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: Get the download link of a selected artifact
+      description: |
+        Generates signed URL for downloading artifact file. URI can be used only
+        with GET HTTP method. Link supports such HTTP headers: 'Range',
+        'If-Modified-Since', 'If-Unmodified-Since' It is valid for specified
+        period of time.
+      parameters:
+        - name: id
+          in: path
+          description: Artifact identifier.
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Successful response.
+          schema:
+            $ref: "#/definitions/ArtifactLink"
+        400:
+          $ref: "#/responses/InvalidRequestError"
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        404:
+          $ref: "#/responses/NotFoundError"
+        500:
+          $ref: "#/responses/InternalServerError"
+
+  /limits/storage:
+    get:
+      operationId: Get Storage Usage
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: Get storage limit and current storage usage
+      description: |
+        Get storage limit and current storage usage for currently logged in user.
+        If the limit value is 0 it means there is no limit for storage for logged in user.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Successful response.
+          schema:
+            $ref: "#/definitions/StorageLimit"
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        500:
+          $ref: "#/responses/InternalServerError"
+
+definitions:
+  Error:
+    description: Error descriptor.
+    type: object
+    properties:
+      error:
+        description: Description of the error.
+        type: string
+      request_id:
+        description: Request ID (same as in X-MEN-RequestID header).
+        type: string
+    example:
+      error: "failed to decode request body: JSON payload is empty"
+      request_id: "f7881e82-0492-49fb-b459-795654e7188a"
+    required: [error]
+  ErrorExt:
+    description: Error descriptor with additional metadata.
+    type: object
+    properties:
+      error:
+        description: Description of the error.
+        type: string
+      request_id:
+        description: Request ID (same as in X-MEN-RequestID header).
+        type: string
+      metadata:
+        type: object
+        additionalProperties: true
+    required: [error]
+    example:
+      error: "error description"
+      request_id: "11de4197-d8cf-4bd2-8a3a-29f88f238e7b"
+      metadata:
+        additional: properties
+  NewDeployment:
+    type: object
+    properties:
+      name:
+        type: string
+        description: Name of the deployment
+      artifact_name:
+        type: string
+        description: Name of the artifact to deploy
+      devices:
+        type: array
+        description: An array of devices' identifiers.
+        items:
+          type: string
+      all_devices:
+        type: boolean
+        description: |
+            When set, the deployment will be created for all
+            currently accepted devices.
+      force_installation:
+        type: boolean
+        description: Force the installation of the Artifact disabling the `already-installed` check.
+    required:
+      - name
+      - artifact_name
+    example:
+      name: production
+      artifact_name: Application 0.0.1
+      devices:
+        - 00a0c91e6-7dec-11d0-a765-f81d4faebf6
+  NewDeploymentForGroup:
+    type: object
+    properties:
+      name:
+        type: string
+        description: Name of the deployment
+      artifact_name:
+        type: string
+        description: Name of the artifact to deploy
+      force_installation:
+        type: boolean
+        description: Force the installation of the Artifact disabling the `already-installed` check.
+    required:
+      - name
+      - artifact_name
+    example:
+      name: production
+      artifact_name: Application 0.0.1
+  Deployment:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Deployment identifier
+      name:
+        type: string
+        description: Name of the deployment
+      artifact_name:
+        type: string
+        description: Name of the artifact to deploy
+      created:
+        type: string
+        format: date-time
+        description: Deployment's creation date and time
+      finished:
+        type: string
+        format: date-time
+        description: Deployment's completion date and time
+      status:
+        type: string
+        enum:
+          - inprogress
+          - pending
+          - finished
+        description: Status of the deployment
+      device_count:
+        type: integer
+        description: Number of devices the deployment acted upon
+      artifacts:
+        type: array
+        description: An array of artifact's identifiers.
+        items:
+          type: string
+      groups:
+        type: array
+        description: |
+            An array of groups the devices targeted by the deployment belong to.
+            Available only if the user created the deployment for a group or a single device (if the device was in a static group).
+        items:
+          type: string
+      type:
+        type: string
+        enum:
+          - configuration
+          - software
+      configuration:
+        type: string
+        description: |
+            A string containing a configuration object provided
+            with the deployment constructor.
+      statistics:
+        $ref: "#/definitions/DeploymentStatistics"
+    required:
+      - created
+      - name
+      - artifact_name
+      - id
+      - status
+      - device_count
+    example:
+      created: 2016-02-11T13:03:17.063493443Z
+      status: finished
+      name: production
+      artifact_name: Application 0.0.1
+      id: 00a0c91e6-7dec-11d0-a765-f81d4faebf6
+      finished: 2016-03-11T13:03:17.063493443Z
+      device_count: 100
+  DeploymentStatistics:
+    type: object
+    properties:
+      status:
+        $ref: '#/definitions/DeploymentStatusStatistics'
+      total_size:
+        type: integer
+        description: |
+          Sum of sizes (in bytes) of all artifacts assigned to all device deployments,
+          which are part of this deployment.
+          If the same artifact is assigned to multiple device deployments,
+          its size will be counted multiple times.
+  DeploymentStatusStatistics:
+    type: object
+    properties:
+      success:
+        type: integer
+        description: Number of successful deployments.
+      pending:
+        type: integer
+        description: Number of pending deployments.
+      downloading:
+        type: integer
+        description: Number of deployments being downloaded.
+      rebooting:
+        type: integer
+        description: Number of deployments devices are rebooting into.
+      installing:
+        type: integer
+        description: Number of deployments devices being installed.
+      failure:
+        type: integer
+        description: Number of failed deployments.
+      noartifact:
+        type: integer
+        description: Do not have appropriate artifact for device type.
+      already-installed:
+        type: integer
+        description: Number of devices unaffected by upgrade, since they are already running the specified software version.
+      aborted:
+        type: integer
+        description: Number of deployments aborted by user.
+      pause_before_installing:
+        type: integer
+        description: Number of deployments paused before install state.
+      pause_before_rebooting:
+        type: integer
+        description: Number of deployments paused before reboot phase.
+      pause_before_committing:
+        type: integer
+        description: Number of deployments paused before commit phase.
+    required:
+      - success
+      - pending
+      - downloading
+      - installing
+      - rebooting
+      - failure
+      - noartifact
+      - already-installed
+      - aborted
+      - pause_before_installing
+      - pause_before_rebooting
+      - pause_before_committing
+    example:
+      success: 3
+      pending: 1
+      failure: 0
+      downloading: 1
+      installing: 2
+      rebooting: 3
+      noartifact: 0
+      already-installed: 0
+      aborted: 0
+      pause_before_installing: 0
+      pause_before_rebooting: 0
+      pause_before_committing: 0
+  Device:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Device identifier.
+      status:
+        $ref: '#/definitions/DeviceStatus'
+      created:
+        type: string
+        format: date-time
+      started:
+        type: string
+        format: date-time
+      finished:
+        type: string
+        format: date-time
+      deleted:
+        type: string
+        format: date-time
+      device_type:
+        type: string
+      log:
+        type: boolean
+        description: Availability of the device's deployment log.
+      state:
+        type: string
+        description: State reported by device
+      substate:
+        type: string
+        description: Additional state information
+    required:
+      - id
+      - status
+      - log
+    example:
+      id: 00a0c91e6-7dec-11d0-a765-f81d4faebf6
+      finished: 2016-03-11T13:03:17.063493443Z
+      status: installing
+      created: 2016-02-11T13:03:17.063493443Z
+      started: 2016-02-12T13:03:17.063493443Z
+      device_type: Raspberry Pi 3
+      log: false
+      state: installing
+      substate: installing.enter;script:foo-bar
+  DeviceWithImage:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Device identifier.
+      status:
+        $ref: '#/definitions/DeviceStatus'
+      created:
+        type: string
+        format: date-time
+      started:
+        type: string
+        format: date-time
+      finished:
+        type: string
+        format: date-time
+      deleted:
+        type: string
+        format: date-time
+      device_type:
+        type: string
+      log:
+        type: boolean
+        description: Availability of the device's deployment log.
+      state:
+        type: string
+        description: State reported by device
+      substate:
+        type: string
+        description: Additional state information
+      image:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Image ID
+          meta:
+            type: object
+            properties:
+              description:
+                type: string
+                description: Image description
+          meta_artifact:
+            type: object
+            properties:
+              name:
+                type: string
+              device_types_compatible:
+                type: array
+                description: An array of compatible device types.
+                items:
+                  type: string
+              info:
+                $ref: "#/definitions/ArtifactInfo"
+              signed:
+                type: boolean
+                description: Idicates if artifact is signed or not.
+              updates:
+                type: array
+                items:
+                  $ref: "#/definitions/Update"
+              artifact_provides:
+                type: object
+                description: |
+                  List of Artifact provides.
+
+                  Map of key/value pairs, where both keys and values are strings.
+                additionalProperties:
+                  type: string
+              artifact_depends:
+                type: object
+                description: |
+                  List of Artifact depends.
+
+                  Map of key/value pairs, where keys are strings and values are lists of strings.
+                additionalProperties:
+                  type: array
+                  items:
+                    type: string
+              clears_artifact_provides:
+                type: array
+                description: List of Clear Artifact provides.
+                items:
+                  type: string
+          size:
+            type: integer
+            description: Image size in bytes
+          modified:
+            type: string
+            format: date-time
+            description: Creation / last edition of any of the artifact properties
+    required:
+      - id
+      - status
+      - log
+    example:
+      id: 00a0c91e6-7dec-11d0-a765-f81d4faebf6
+      finished: 2016-03-11T13:03:17.063493443Z
+      status: installing
+      created: 2016-02-11T13:03:17.063493443Z
+      started: 2016-02-12T13:03:17.063493443Z
+      device_type: Raspberry Pi 3
+      log: false
+      state: installing
+      substate: installing.enter;script:foo-bar
+      image:
+        id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+        name: Application 1.0.0
+        meta:
+          description: Johns Monday test build
+        meta_artifact:
+          name: Application 1.0.0
+          device_types_compatible: [Beagle Bone]
+          info:
+            format: mender
+            version: 3
+          signed: false
+          updates:
+            - type_info:
+                type: "rootfs-image"
+              files:
+                - name: rootfs-image-1
+                  checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
+                  size: 123
+                  date: 2016-03-11T13:03:17.063+0000
+              meta_data: {}
+          artifact_provides:
+            artifact_name: "test"
+            rootfs-image.checksum: "32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99"
+            rootfs-image.version: "test"
+          artifact_depends:
+            device_type:
+              - "test"
+          clears_artifact_provides:
+            - "rootfs-image.*"
+        size: 36891648
+        modified: "2016-03-11T13:03:17.063493443Z"
+  DeviceDeployment:
+    type: object
+    properties:
+      id:
+        type: string
+      deployment:
+        $ref: "#/definitions/Deployment"
+      device:
+        $ref: "#/definitions/DeviceWithImage"
+    required:
+      - deployment
+      - device
+    example:
+      id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+      deployment:
+        id: 00a0c91e6-7dec-11d0-a765-f81d4faebf6
+        name: production
+        artifact_name: Application 0.0.1
+        status: inprogress
+        created: 2016-02-11T13:03:17.063493443Z
+        device_count: 100
+      device:
+        id: 00a0c91e6-7dec-11d0-a765-f81d4faebf6
+        device_type: Raspberry Pi 3
+        status: installing
+        finished: 2016-03-11T13:03:17.063493443Z
+        created: 2016-02-11T13:03:17.063493443Z
+        started: 2016-02-11T13:03:17.063493443Z
+        state: installing
+        substate: installing.enter;script:foo-bar
+        log: false
+        image:
+          id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+          name: Application 1.0.0
+          meta:
+            description: Johns Monday test build
+          meta_artifact:
+            name: Application 1.0.0
+            device_types_compatible: [Beagle Bone]
+            info:
+              format: mender
+              version: 3
+            signed: false
+            updates:
+              - type_info:
+                  type: "rootfs-image"
+                files:
+                  - name: rootfs-image-1
+                    checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
+                    size: 123
+                    date: 2016-03-11T13:03:17.063+0000
+                meta_data: {}
+            artifact_provides:
+              artifact_name: "test"
+              rootfs-image.checksum: "32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99"
+              rootfs-image.version: "test"
+            artifact_depends:
+              device_type:
+                - "test"
+            clears_artifact_provides:
+              - "rootfs-image.*"
+          size: 36891648
+          modified: "2016-03-11T13:03:17.063493443Z"
+  ArtifactUpdate:
+    description: Artifact information update.
+    type: object
+    properties:
+      description:
+        type: string
+    example:
+      description: Some description
+  ArtifactTypeInfo:
+      description: |
+          Information about update type.
+      type: object
+      properties:
+        type:
+          type: string
+          description: Note that for emtpy Artifacts, the type is 'null'
+  UpdateFile:
+      description: |
+          Information about particular update file.
+      type: object
+      properties:
+        name:
+          type: string
+        checksum:
+          type: string
+        size:
+          type: integer
+        date:
+          type: string
+          format: date-time
+  Update:
+      description: |
+          Single updated to be applied.
+      type: object
+      properties:
+        type_info:
+          $ref: "#/definitions/ArtifactTypeInfo"
+        files:
+          type: array
+          items:
+            $ref: "#/definitions/UpdateFile"
+        meta_data:
+          type: object
+          description: |
+              meta_data is an object of unknown structure as this is dependent of update type (also custom defined by user)
+  ArtifactInfo:
+      description: |
+          Information about artifact format and version.
+      type: object
+      properties:
+        format:
+          type: string
+        version:
+          type: integer
+  Artifact:
+    description: Detailed artifact.
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      device_types_compatible:
+        type: array
+        description: An array of compatible device types.
+        items:
+          type: string
+      info:
+        $ref: "#/definitions/ArtifactInfo"
+      signed:
+        type: boolean
+        description: Idicates if artifact is signed or not.
+      updates:
+        type: array
+        items:
+          $ref: "#/definitions/Update"
+      artifact_provides:
+        type: object
+        description: |
+          List of Artifact provides.
+
+          Map of key/value pairs, where both keys and values are strings.
+        additionalProperties:
+          type: string
+      artifact_depends:
+        type: object
+        description: |
+          List of Artifact depends.
+
+          Map of key/value pairs, where keys are strings and values are lists of strings.
+        additionalProperties:
+          type: array
+          items:
+            type: string
+      clears_artifact_provides:
+        type: array
+        description: List of Clear Artifact provides.
+        items:
+          type: string
+      size:
+        type: number
+        format: integer
+        description: |
+            Artifact total size in bytes - the size of the actual file that will be transferred to the device (compressed).
+      modified:
+        type: string
+        format: date-time
+        description: |
+            Represents creation / last edition of any of the artifact properties.
+    required:
+      - name
+      - description
+      - device_types_compatible
+      - id
+      - modified
+    example:
+      id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+      name: Application 1.0.0
+      description: Johns Monday test build
+      device_types_compatible: [Beagle Bone]
+      info:
+        format: mender
+        version: 3
+      signed: false
+      updates:
+        - type_info:
+            type: "rootfs-image"
+          files:
+            - name: rootfs-image-1
+              checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
+              size: 123
+              date: 2016-03-11T13:03:17.063+0000
+          meta_data: {}
+      artifact_provides:
+        artifact_name: "test"
+        rootfs-image.checksum: "32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99"
+        rootfs-image.version: "test"
+      artifact_depends:
+        device_type:
+          - "test"
+      clears_artifact_provides:
+        - "rootfs-image.*"
+      size: 36891648
+      modified: "2016-03-11T13:03:17.063493443Z"
+  ArtifactLink:
+    description: URL for artifact file download.
+    type: object
+    properties:
+      uri:
+        type: string
+      expire:
+        type: string
+        format: date-time
+    required:
+      - uri
+      - expire
+    example:
+      uri: http://mender.io/artifact.tar.gz.mender
+      expire: 2016-10-29T10:45:34Z
+
+  ArtifactUploadLink:
+    description: URL for artifact file upload.
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+        description: The ID of the artifact upload intent.
+      uri:
+        type: string
+      expire:
+        type: string
+        format: date-time
+    required:
+      - id
+      - uri
+      - expire
+    example:
+      id: 07d2e773-a2a3-4f64-936a-4245e79194dd
+      uri: >-
+        https://hosted-mender-artifacts.s3.amazonaws.com/1234/40df67c4-e5e9-4042-981a-f43adebd5b88?X-Amz-Date=20230401T000000Z&X-Amz-Expires=900&X-Amz-Signature=6d656e646572
+      expire: 2023-04-01T00:15:00Z
+
+  DeviceStatus:
+    type: string
+    enum:
+      - "failure"
+      - "aborted"
+      - "pause_before_installing"
+      - "pause_before_committing"
+      - "pause_before_rebooting"
+      - "downloading"
+      - "installing"
+      - "rebooting"
+      - "pending"
+      - "success"
+      - "noartifact"
+      - "already-installed"
+      - "decommissioned"
+  StorageLimit:
+    description: Tenant account storage limit and storage usage.
+    type: object
+    properties:
+      limit:
+        type: integer
+        description: |
+            Storage limit in bytes. If set to 0 - there is no limit for storage.
+      usage:
+        type: integer
+        description: |
+            Current storage usage in bytes.
+    required:
+      - limit
+      - usage
+    example:
+      limit: 1073741824
+      usage: 536870912
+  Releases:
+    description: List of releases
+    type: array
+    items:
+      $ref: "#/definitions/Release"
+  Release:
+    description: Groups artifacts with the same release name into a single resource.
+    type: object
+    properties:
+      name:
+        type: string
+        description: |
+            release name.
+      modified:
+        type: string
+        format: date-time
+        description: |
+            Last modification time for the release.
+      artifacts:
+        type: array
+        description: List of artifacts for this release.
+        items:
+          $ref: "#/definitions/Artifact"
+      tags:
+        type: array
+        description: |-
+          Tags assigned to the release used for filtering releases. Each tag
+          must be valid a ASCII string and contain only lowercase and uppercase
+          letters, digits, underscores, periods and hyphens.
+        items:
+          type: string
+      notes:
+        type: string
+        description: |
+          Additional information describing a Release limited to 1024 characters. Please use the v2 API to set this field.
+    example:
+      name: my-app-v1.0.1
+      artifacts:
+        - id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+          name: Application 1.0.0
+          description: Johns Monday test build
+          device_types_compatible: [Beagle Bone]
+          info:
+            format: mender
+            version: 3
+          signed: false
+          updates:
+            - type_info:
+                type: "rootfs-image"
+              files:
+                - name: rootfs-image-1
+                  checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
+                  size: 123
+                  date: 2016-03-11T13:03:17.063+0000
+              meta_data: {}
+          artifact_provides:
+            artifact_name: "test"
+            rootfs-image.checksum: "32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99"
+            rootfs-image.version: "test"
+          artifact_depends:
+            device_type:
+              - "test"
+          clears_artifact_provides:
+            - "rootfs-image.*"
+          size: 36891648
+          modified: "2016-03-11T13:03:17.063493443Z"
+        - id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+          name: Application 1.0.0
+          description: Johns Monday test build
+          device_types_compatible: [Raspberry Pi]
+          info:
+            format: mender
+            version: 3
+          signed: false
+          updates:
+            - type_info:
+                type: "rootfs-image"
+              files:
+                - name: rootfs-image-1
+                  checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
+                  size: 123
+                  date: 2016-03-11T13:03:17.063+0000
+              meta_data: {}
+          artifact_provides:
+            artifact_name: "test"
+            rootfs-image.checksum: "32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99"
+            rootfs-image.version: "test"
+          artifact_depends:
+            device_type:
+              - "test"
+          clears_artifact_provides:
+            - "rootfs-image.*"
+          size: 36891648
+          modified: "2016-03-11T13:03:17.063493443Z"
+  DirectUploadMetadata:
+    description: Artifact metadata
+    type: object
+    properties:
+      size:
+        type: integer
+        description: |
+          wsize of the artifact file.
+      updates:
+        type: array
+        description: List of updates for this artifact.
+        items:
+          $ref: "#/definitions/Update"
+
+  DeploymentIdentifier:
+    description: Deployment identifier
+    type: object
+    properties:
+      deployment_ids:
+        type: array
+        items:
+          type: string
+          description: >-
+              The list of deployment IDs
+        maximum: 100

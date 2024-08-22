@@ -1,0 +1,560 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DeviceConnectionDialog Component renders correctly 1`] = `
+.emotion-0 {
+  position: fixed;
+  z-index: 1300;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+}
+
+@media print {
+  .emotion-0 {
+    position: absolute!important;
+  }
+}
+
+.emotion-1 {
+  position: fixed;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-tap-highlight-color: transparent;
+  z-index: -1;
+}
+
+.emotion-2 {
+  height: 100%;
+  outline: 0;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+@media print {
+  .emotion-2 {
+    height: auto;
+  }
+}
+
+.emotion-3 {
+  background-color: #fff;
+  color: rgba(10, 10, 11, 0.78);
+  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  border-radius: 4px;
+  box-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12);
+  margin: 32px;
+  position: relative;
+  overflow-y: auto;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  max-height: calc(100% - 64px);
+  max-width: 720px;
+}
+
+@media print {
+  .emotion-3 {
+    overflow-y: visible;
+    box-shadow: none;
+  }
+}
+
+@media (max-width:663.95px) {
+  .emotion-3.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+
+.emotion-4 {
+  margin: 0;
+  font-family: Lato,sans-serif;
+  font-weight: 500;
+  font-size: 1.1607rem;
+  line-height: 1.6;
+  padding: 16px 24px;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+}
+
+.emotion-5 {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+  padding: 20px 24px;
+}
+
+.MuiDialogTitle-root+.emotion-5 {
+  padding-top: 0;
+}
+
+.emotion-6 {
+  background-color: #f7f7f7;
+}
+
+.emotion-7 {
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: #5d0f43;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 2px;
+  padding: 6px 16px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: #fff;
+  font-family: Lato,sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.75;
+  text-transform: uppercase;
+  min-width: 64px;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
+}
+
+.emotion-7::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-7.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+@media print {
+  .emotion-7 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-7:hover {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  background-color: rgb(65, 10, 46);
+  box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
+}
+
+@media (hover: none) {
+  .emotion-7:hover {
+    background-color: #5d0f43;
+  }
+}
+
+.emotion-7:active {
+  box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
+}
+
+.emotion-7.Mui-focusVisible {
+  box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
+}
+
+.emotion-7.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+  box-shadow: none;
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+.emotion-7:hover {
+  colors: #337a87;
+}
+
+.emotion-7.MuiButton-text {
+  color: rgba(10, 10, 11, 0.78);
+}
+
+.emotion-8 {
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: inherit;
+}
+
+.emotion-9 {
+  height: 40px;
+  margin-left: 16px;
+}
+
+.emotion-10 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  fill: currentColor;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  font-size: 1.3929rem;
+  color: #337a87;
+}
+
+.emotion-10 iconButton {
+  margin-right: 8px;
+}
+
+.emotion-10.read {
+  color: rgba(0, 0, 0, 0.38);
+}
+
+.emotion-11 {
+  position: absolute;
+  top: -5px;
+  bottom: 0;
+  left: -5px;
+  right: -5px;
+  border: 1px dashed #337a87;
+  border-radius: 50%;
+}
+
+.emotion-11.read {
+  border-color: rgba(0, 0, 0, 0.38);
+}
+
+.emotion-12 {
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 8px;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+}
+
+.emotion-12>:not(style)~:not(style) {
+  margin-left: 8px;
+}
+
+.emotion-13 {
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 2px;
+  padding: 10px 15px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: #337a87;
+  font-family: Lato,sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.75;
+  text-transform: uppercase;
+  min-width: 64px;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.emotion-13::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-13.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+@media print {
+  .emotion-13 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-13:hover {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  background-color: rgba(51, 122, 135, 0.04);
+}
+
+@media (hover: none) {
+  .emotion-13:hover {
+    background-color: transparent;
+  }
+}
+
+.emotion-13.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-13:hover {
+  colors: #337a87;
+}
+
+.emotion-13.MuiButton-text {
+  color: rgba(10, 10, 11, 0.78);
+}
+
+<div
+  class="MuiDialog-root MuiModal-root emotion-0"
+  role="presentation"
+>
+  <div
+    aria-hidden="true"
+    class="MuiBackdrop-root MuiModal-backdrop emotion-1"
+    style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+  />
+  <div
+    data-testid="sentinelStart"
+    tabindex="0"
+  />
+  <div
+    class="MuiDialog-container MuiDialog-scrollPaper emotion-2"
+    role="presentation"
+    style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    tabindex="-1"
+  >
+    <div
+      aria-labelledby=":r0:"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm emotion-3"
+      role="dialog"
+    >
+      <h2
+        class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-4"
+        id=":r0:"
+      >
+        Connecting a device
+      </h2>
+      <div
+        class="MuiDialogContent-root onboard-dialog emotion-5"
+        style="margin: 0px 30px;"
+      >
+        <p>
+          You can connect almost any device and Linux OS with Mender, but to make things simple during evaluation we recommend you use a Raspberry Pi as a test device.
+        </p>
+        <div
+          class="padding-small padding-top-none rpi-quickstart emotion-6"
+        >
+          <h3>
+            Raspberry Pi quick start
+          </h3>
+          <p>
+            We'll walk you through the steps to connect a Raspberry Pi and deploy your first update with Mender.
+          </p>
+          <div
+            class="flexbox column centered"
+          >
+            <div
+              class="flexbox centered os-list"
+            >
+              <img
+                src="raspberrypi.png"
+              />
+              <img
+                src="raspberrypi4.png"
+              />
+            </div>
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-7"
+              tabindex="0"
+              type="button"
+            >
+              Get Started
+              <span
+                class="MuiTouchRipple-root emotion-8"
+              />
+            </button>
+          </div>
+        </div>
+        <div
+          class="two-columns margin-top"
+        >
+          <div
+            class="padding-small padding-top-none"
+          >
+            <div
+              class="flexbox center-aligned"
+            >
+              <h3>
+                Use a virtual device
+              </h3>
+              <img
+                class="emotion-9"
+                src="docker.png"
+              />
+            </div>
+            <p
+              class="margin-top-none"
+            >
+              Don't have a Raspberry Pi?
+            </p>
+            <p>
+              You can use our Docker-run virtual device to go through the same tutorial.
+            </p>
+            <a>
+              Try a virtual device
+            </a>
+          </div>
+          <div
+            class="padding-small padding-top-none"
+          >
+            <h3>
+              Other devices
+            </h3>
+            <div>
+              See the documentation to integrate the following with Mender:
+            </div>
+            <ul>
+              <li>
+                <a
+                  class=""
+                  href="https://docs.mender.io/development/operating-system-updates-debian-family"
+                  rel=""
+                  target="_blank"
+                >
+                  Debian family
+                </a>
+              </li>
+              <li>
+                <a
+                  class=""
+                  href="https://docs.mender.io/development/operating-system-updates-yocto-project"
+                  rel=""
+                  target="_blank"
+                >
+                  Yocto OSes
+                </a>
+              </li>
+            </ul>
+            Or visit 
+            <a
+              href="https://hub.mender.io/c/board-integrations"
+              rel="noopener"
+              target="_blank"
+            >
+              Mender Hub
+            </a>
+             
+            and search integrations for your device and OS.
+          </div>
+        </div>
+        <div
+          class=""
+          data-mui-internal-clone-element="true"
+          style="position: absolute; bottom: 2.5%; left: 88%;"
+        >
+          <div
+            class="relative"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium  emotion-10"
+              data-testid="HelpIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
+              />
+            </svg>
+            <div
+              class="emotion-11 "
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiDialogActions-root MuiDialogActions-spacing emotion-12"
+      >
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-13"
+          tabindex="0"
+          type="button"
+        >
+          Cancel
+          <span
+            class="MuiTouchRipple-root emotion-8"
+          />
+        </button>
+        <div
+          style="flex-grow: 1;"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    data-testid="sentinelEnd"
+    tabindex="0"
+  />
+</div>
+`;

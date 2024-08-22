@@ -1,0 +1,25 @@
+request:
+  description: Get device b9c488af-4c79-4b1f-b1bb-5626ace246de from AWS IoT Core
+  host: iot.region.amazonaws.com
+  method: GET
+  path: /things/b9c488af-4c79-4b1f-b1bb-5626ace246de
+response:
+  statusCode: 200
+  headers:
+    Content-Type:
+      - "application/json"
+  body: |-
+    {
+      "billingGroupName": "",
+      "defaultClientId": "",
+      "thingArn": "b9c488af-4c79-4b1f-b1bb-5626ace246de",
+      "thingId": "b9c488af-4c79-4b1f-b1bb-5626ace246de",
+      "thingName": "b9c488af-4c79-4b1f-b1bb-5626ace246de",
+      "thingTypeName": "b9c488af-4c79-4b1f-b1bb-5626ace246de",
+      "version": 1
+    }
+control:
+  scenario:
+    name: class
+    requiredState:
+      - TestSyncAWSIoTCore

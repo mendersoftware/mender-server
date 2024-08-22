@@ -1,0 +1,25 @@
+request:
+  description: Get device 7abb6133-ad97-44ba-a159-674242ee565e from AWS IoT Core
+  host: iot.region.amazonaws.com
+  method: GET
+  path: /things/7abb6133-ad97-44ba-a159-674242ee565e
+response:
+  statusCode: 200
+  headers:
+    Content-Type:
+      - "application/json"
+  body: |-
+    {
+      "billingGroupName": "",
+      "defaultClientId": "",
+      "thingArn": "7abb6133-ad97-44ba-a159-674242ee565e",
+      "thingId": "7abb6133-ad97-44ba-a159-674242ee565e",
+      "thingName": "7abb6133-ad97-44ba-a159-674242ee565e",
+      "thingTypeName": "7abb6133-ad97-44ba-a159-674242ee565e",
+      "version": 1
+    }
+control:
+  scenario:
+    name: class
+    requiredState:
+      - TestSyncAWSIoTCore

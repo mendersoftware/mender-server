@@ -1,0 +1,167 @@
+swagger: '2.0'
+info:
+  title: Device inventory
+  version: '1'
+  description: |
+    An API for uploading device attributes. Intended for use by devices.
+
+    Devices can upload vendor-specific attributes (software/hardware info, health checks, metrics, etc.) of various data types to the backend.
+
+basePath: '/api/devices/v1/inventory'
+host: 'hosted.mender.io'
+schemes:
+  - https
+
+securityDefinitions:
+  DeviceJWT:
+    type: apiKey
+    in: header
+    name: Authorization
+    description: |
+      API token issued by Device Authentication service.
+      Format: 'Authorization: Bearer [JWT]'
+
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /device/attributes:
+    patch:
+      operationId: Assign Attributes
+      tags:
+        - Device API
+      security:
+        - DeviceJWT: []
+      summary: Assign a set of attributes for a device
+      description: |
+        Saves the provided attribute set for the authenticated device.
+        The device ID is retrieved from the authorization header.
+
+        This method has upsert semantics:
+
+        * the values of existing attributes are overwritten
+
+        * attributes assigned for the first time are automatically created
+      parameters:
+        - name: attributes
+          in: body
+          description: A list of attribute descriptors.
+          required: true
+          schema:
+            title: ListOfAttributes
+            type: array
+            items:
+              $ref: '#/definitions/Attribute'
+            example:
+              - name: "ip_addr"
+                value: "1.2.3.4"
+                description: "IP address"
+              - name: "mac_addr"
+                value: "00.01:02:03:04:05"
+                description: "MAC address"
+      responses:
+        200:
+          description: Attributes were uploaded successfully.
+        401:
+          description: The device is not authenticated.
+        400:
+          description: Missing/malformed request parameters or body.
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Internal server error.
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      operationId: Replace Attributes
+      tags:
+        - Device API
+      security:
+        - DeviceJWT: []
+      summary: Replace the set of attributes for a device
+      description: |
+        Replaces the attribute set for the authenticated device with the provided one.
+        The device ID is retrieved from the authorization header.
+
+        This method replaces all the attributes with the new set:
+
+        * attributes not provided in the set are removed from the db
+
+        * the values of existing attributes are overwritten
+
+        * attributes assigned for the first time are automatically created
+      parameters:
+        - name: attributes
+          in: body
+          description: A list of attribute descriptors.
+          required: true
+          schema:
+            title: ListOfAttributes
+            type: array
+            items:
+              $ref: '#/definitions/Attribute'
+            example:
+              - name: "ip_addr"
+                value: "1.2.3.4"
+                description: "IP address"
+              - name: "mac_addr"
+                value: "00.01:02:03:04:05"
+                description: "MAC address"
+      responses:
+        200:
+          description: Attributes were uploaded successfully.
+        401:
+          description: The device is not authenticated.
+        400:
+          description: Missing/malformed request parameters or body.
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Internal server error.
+          schema:
+            $ref: '#/definitions/Error'
+
+definitions:
+  Attribute:
+    description: Attribute descriptor.
+    type: object
+    required:
+      - name
+      - value
+    properties:
+      name:
+        type: string
+        description: |
+            A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc.
+      description:
+        type: string
+        description: Attribute description.
+      value:
+        type: string
+        description: |
+            The current value of the attribute.
+
+            Attribute type is implicit, inferred from the JSON type.
+
+            Supported types: number, string, array of numbers, array of strings.
+            Mixed type arrays are not allowed.
+    example:
+      name: "ip_addr_eth"
+      description: "Device IP address on ethernet interface"
+      value: "127.0.0.1"
+
+  Error:
+    description: Error descriptor.
+    type: object
+    properties:
+      error:
+        description: Description of the error.
+        type: string
+      request_id:
+        description: Request ID (same as in X-MEN-RequestID header).
+        type: string
+    example:
+      error: "failed to decode request body: JSON payload is empty"
+      request_id: "f7881e82-0492-49fb-b459-795654e7188a"

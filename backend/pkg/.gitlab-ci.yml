@@ -1,0 +1,16 @@
+include:
+  - project: 'Northern.tech/Mender/mendertesting'
+    file:
+      - '.gitlab-ci-check-golang-lint.yml'
+      - '.gitlab-ci-check-golang-unittests-v2.yml'
+      - '.gitlab-ci-check-commits-signoffs.yml'
+      - '.gitlab-ci-check-license.yml'
+      - '.gitlab-ci-github-status-updates.yml'
+
+stages:
+  - test
+  - publish
+
+test:unit:
+  variables:
+    TEST_MONGO_URL: "mongodb://mongo"

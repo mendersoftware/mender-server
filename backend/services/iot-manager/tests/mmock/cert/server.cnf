@@ -1,0 +1,14 @@
+[req]
+default_bits = 2048
+prompt = no
+default_md = sha256
+x509_extensions = v3_req
+distinguished_name = dn
+[dn]
+CN = mock.azure-devices.net
+[v3_req]
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = *.azure-devices.net
+DNS.2 = iot.region.amazonaws.com
+DNS.3 = mmock

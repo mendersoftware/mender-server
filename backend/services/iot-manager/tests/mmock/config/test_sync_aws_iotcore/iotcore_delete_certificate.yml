@@ -1,0 +1,12 @@
+request:
+  description: Delete a certificate in AWS IoT Core
+  host: iot.region.amazonaws.com
+  method: DELETE
+  path: /certificates/*
+response:
+  statusCode: 200
+control:
+  scenario:
+    name: class
+    requiredState:
+      - TestSyncAWSIoTCore

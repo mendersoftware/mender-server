@@ -1,0 +1,48 @@
+run:
+  # timeout for analysis, e.g. 30s, 5m, default is 1m
+  timeout: 5m
+
+  # Skip linting _test.go files
+  tests: false
+
+  # Enables skipping of directories:
+  # vendor$, third_party$, testdata$, examples$, Godeps$, builtin$
+  skip-dirs-use-default: true
+
+  # Allow multiple parallel golangci-lint instances running.
+  # If false (default) - golangci-lint acquires file lock on start.
+  allow-parallel-runners: true
+
+linters:
+  enable:
+    - bodyclose
+    - deadcode
+    - errcheck
+    - gocyclo
+    - gofmt
+    - goimports
+    - gosimple
+    - govet
+    - ineffassign
+    - lll
+    - staticcheck
+    - structcheck
+    - typecheck
+    - unused
+    - varcheck
+
+linters-settings:
+  gocyclo:
+    # default is 30.
+    min-complexity: 20
+
+  goimports:
+    # to be edited by the template
+    local-prefixes:
+      "github.com/mendersoftware/reporting"
+
+  lll:
+    # max line length, lines longer will be reported. Default is 120.
+    line-length: 100
+    # tab width in spaces. Default to 1.
+    tab-width: 4
