@@ -25,7 +25,7 @@ export const DeviceConfiguration = ({ item, onClose }) => {
   const { object = {} } = item;
   const { canReadDevices } = useSelector(getUserCapabilities);
   const device = useSelector(getAuditlogDevice);
-  const { attribute: idAttribute } = useSelector(getIdAttribute);
+  const idAttribute = useSelector(getIdAttribute);
   const dispatch = useDispatch();
 
   const theme = useTheme();

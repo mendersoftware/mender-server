@@ -66,9 +66,9 @@ const deviceListColumns = [
   {
     key: 'idAttribute',
     title: 'id',
-    renderTitle: ({ idAttribute }) => idAttribute,
+    renderTitle: ({ idAttribute }) => idAttribute.attribute,
     render: ({ device, idAttribute }) => (
-      <Link style={{ fontWeight: 'initial', opacity: idAttribute === 'name' ? 0.6 : 1 }} to={`/devices?id=${device.id}`}>
+      <Link style={{ fontWeight: 'initial', opacity: idAttribute.attribute === 'name' ? 0.6 : 1 }} to={`/devices?id=${device.id}`}>
         <DeviceIdentityDisplay device={device} isEditable={false} />
       </Link>
     ),

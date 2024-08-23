@@ -35,7 +35,7 @@ export const TerminalSession = ({ item, onClose }) => {
   const { action, actor, meta, object = {}, time } = item;
   const { canReadDevices } = useSelector(getUserCapabilities);
   const device = useSelector(getAuditlogDevice);
-  const { attribute: idAttribute } = useSelector(getIdAttribute);
+  const idAttribute = useSelector(getIdAttribute);
   const { token } = useSelector(getCurrentSession);
 
   useEffect(() => {

@@ -83,7 +83,7 @@ export const SearchResult = ({ onToggleSearchResult, open = true }) => {
   useEffect(() => {
     const columnHeaders = getHeaders(columnSelection, routes.devices.defaultHeaders, idAttribute);
     setColumnHeaders(columnHeaders);
-  }, [columnSelection, idAttribute, idAttribute.attribute]);
+  }, [columnSelection, idAttribute, idAttribute.attribute, idAttribute.scope]);
 
   useEffect(() => {
     if (!open && isSearching) {

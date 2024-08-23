@@ -19,9 +19,7 @@ import DeviceDetails from './devicedetails';
 
 describe('DeviceDetails Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(
-      <DeviceDetails device={defaultState.devices.byId.a1} item={defaultState.organization.auditlog.events[2]} onClose={jest.fn} />
-    );
+    const { baseElement } = render(<DeviceDetails device={defaultState.devices.byId.a1} idAttribute={{ attribute: 'foo', scope: 'bar' }} onClose={jest.fn} />);
 
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();

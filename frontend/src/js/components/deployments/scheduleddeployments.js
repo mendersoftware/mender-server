@@ -79,7 +79,7 @@ export const Scheduled = ({ abort, createClick, openReport, ...remainder }) => {
   const {
     scheduled: { total: count }
   } = useSelector(getDeploymentsByStatusSelector);
-  const { attribute: idAttribute } = useSelector(getIdAttribute);
+  const idAttribute = useSelector(getIdAttribute);
   const devices = useSelector(getDevicesById);
   // TODO: isEnterprise is misleading here, but is passed down to the DeploymentListItem, this should be renamed
   const { canDelta: isEnterprise } = useSelector(getTenantCapabilities);

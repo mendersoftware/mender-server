@@ -125,11 +125,12 @@ export const getHeaders = (columnSelection = [], currentStateHeaders, idAttribut
         return header;
       })
     : currentStateHeaders;
+  const { attribute, scope } = idAttribute;
   return [
     {
-      title: idAttributeTitleMap[idAttribute.attribute] ?? idAttribute.attribute,
+      title: idAttributeTitleMap[attribute] ?? attribute,
       customize: openSettingsDialog,
-      attribute: { name: idAttribute.attribute, scope: idAttribute.scope },
+      attribute: { name: attribute, scope },
       sortable: true,
       textRender: getDeviceIdentityText
     },

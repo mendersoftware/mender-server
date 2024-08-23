@@ -30,7 +30,7 @@ export const FileTransfer = ({ item, onClose }) => {
   } = item;
   const device = useSelector(getAuditlogDevice);
   const { canReadDevices } = useSelector(getUserCapabilities);
-  const { attribute: idAttribute } = useSelector(getIdAttribute);
+  const idAttribute = useSelector(getIdAttribute);
   const theme = useTheme();
 
   useEffect(() => {

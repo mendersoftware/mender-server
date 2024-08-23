@@ -34,20 +34,26 @@ export const defaultTextRender = ({ column, device }) => {
   const propertyName = propertyNameMap[column.attribute.scope] ?? column.attribute.scope;
   const accessorTarget = device[propertyName] ?? device;
   const attributeValue = accessorTarget[column.attribute.name] || accessorTarget[column.attribute.alternative] || device[column.attribute.name];
-  return typeof attributeValue === 'object' ? JSON.stringify(attributeValue) : attributeValue;
+  return (typeof attributeValue === 'object' ? JSON.stringify(attributeValue) : attributeValue) ?? device.id;
 };
 
 export const getDeviceIdentityText = ({ device = {}, idAttribute }) => {
   const { id = '', identity_data = {}, tags = {} } = device;
   // eslint-disable-next-line no-unused-vars
   const { status, ...remainingIds } = identity_data;
+
   const nonIdKey = Object.keys(remainingIds)[0];
   if (!idAttribute || idAttribute === 'id' || idAttribute === 'Device ID') {
     return id;
-  } else if (idAttribute === 'name') {
+  } else if (typeof idAttribute === 'string' || !Object.keys(idAttribute).length) {
+    return identity_data[idAttribute] ?? identity_data[nonIdKey] ?? id;
+  }
+  const { attribute, scope } = idAttribute;
+  // special handling for tags purely to handle the untagged devices case
+  if (attribute === 'name' && scope === 'tags') {
     return tags[idAttribute] ?? `${id.substring(0, 6)}...`;
   }
-  return identity_data[idAttribute] ?? identity_data[nonIdKey] ?? id;
+  return defaultTextRender({ column: { attribute: { name: attribute, scope } }, device });
 };
 
 const AttributeRenderer = ({ content, textContent }) => (

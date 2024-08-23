@@ -120,7 +120,7 @@ export const CreateDeployment = props => {
   const devicesById = useSelector(getDevicesById);
   const docsVersion = useSelector(getDocsVersion);
   const { pending: hasPending } = useSelector(getDeviceCountsByStatus);
-  const { attribute: idAttribute } = useSelector(getIdAttribute);
+  const idAttribute = useSelector(getIdAttribute);
   const isEnterprise = useSelector(getIsEnterprise);
   const { needsDeploymentConfirmation: needsCheck, previousPhases = [], retries: previousRetries = 0 } = useSelector(getGlobalSettings);
   const onboardingState = useSelector(getOnboardingState) || {};
