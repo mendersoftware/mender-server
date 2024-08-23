@@ -100,7 +100,7 @@ export const Deployments = ({ className = '', clickHandle }) => {
                 );
                 return accu;
               }, [])}
-              <Link className="margin-top" to="/deployments">
+              <Link className="margin-top margin-bottom-large" to="/deployments">
                 See all deployments
               </Link>
             </>

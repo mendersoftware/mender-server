@@ -654,7 +654,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  min-height: 80vh;
+  margin-bottom: 48px;
 }
 
 .emotion-27 {
@@ -1885,7 +1885,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  min-height: 80vh;
+  margin-bottom: 48px;
 }
 
 .emotion-39 {
@@ -3186,7 +3186,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
               </div>
             </div>
             <a
-              class="margin-top"
+              class="margin-top margin-bottom-large"
               href="/deployments"
             >
               See all deployments

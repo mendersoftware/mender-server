@@ -877,8 +877,8 @@ export const getReportsDataWithoutBackendSupport = () => (dispatch, getState) =>
   Promise.all([dispatch(getAllDevicesByStatus(DEVICE_STATES.accepted)), dispatch(getGroups()), dispatch(getDynamicGroups())]).then(() => {
     const { dynamic: dynamicGroups, static: staticGroups } = getGroupsSelector(getState());
     return Promise.all([
-      ...staticGroups.map(group => dispatch(getAllGroupDevices(group))),
-      ...dynamicGroups.map(group => dispatch(getAllDynamicGroupDevices(group)))
+      ...staticGroups.map(({ groupId }) => dispatch(getAllGroupDevices(groupId))),
+      ...dynamicGroups.map(({ groupId }) => dispatch(getAllDynamicGroupDevices(groupId)))
     ]).then(() => dispatch(deriveReportsData()));
   });
 

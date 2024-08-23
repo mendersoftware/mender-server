@@ -9,7 +9,7 @@ exports[`Dashboard Component renders correctly 1`] = `
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  min-height: 80vh;
+  margin-bottom: 48px;
 }
 
 .emotion-1 {
@@ -1055,7 +1055,7 @@ exports[`Dashboard Component renders correctly 1`] = `
           </div>
         </div>
         <a
-          class="margin-top"
+          class="margin-top margin-bottom-large"
           href="/deployments"
         >
           See all deployments

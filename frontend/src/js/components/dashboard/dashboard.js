@@ -33,7 +33,7 @@ const useStyles = makeStyles()(theme => ({
     columnGap: theme.spacing(6),
     display: 'flex',
     flexWrap: 'wrap',
-    minHeight: '80vh'
+    marginBottom: theme.spacing(6)
   },
   left: {
     flexGrow: 1,

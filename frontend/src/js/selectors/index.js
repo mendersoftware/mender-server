@@ -136,7 +136,8 @@ export const getDeviceReportsForUser = createSelector(
   }
 );
 
-const listItemMapper = (byId, ids, { defaultObject = {}, cutOffSize = DEVICE_LIST_MAXIMUM_LENGTH }) => {
+const deviceMapDefault = { defaultObject: { auth_sets: [] }, cutOffSize: DEVICE_LIST_MAXIMUM_LENGTH };
+const listItemMapper = (byId, ids, { defaultObject, cutOffSize }) => {
   return ids.slice(0, cutOffSize).reduce((accu, id) => {
     if (id && byId[id]) {
       accu.push({ ...defaultObject, ...byId[id] });
@@ -149,7 +150,7 @@ const listTypeDeviceIdMap = {
   deviceList: getListedDevices,
   search: getSearchedDevices
 };
-const getDeviceMappingDefaults = () => ({ defaultObject: { auth_sets: [] }, cutOffSize: DEVICE_LIST_MAXIMUM_LENGTH });
+const getDeviceMappingDefaults = () => deviceMapDefault;
 export const getMappedDevicesList = createSelector(
   [getDevicesById, (state, listType) => listTypeDeviceIdMap[listType](state), getDeviceMappingDefaults],
   listItemMapper
@@ -443,21 +444,25 @@ export const getDeviceTypes = createSelector([getAcceptedDevices, getDevicesById
   )
 );
 
-export const getGroupNames = createSelector([getGroupsById, getUserRoles, (_, options = {}) => options], (groupsById, { uiPermissions }, { staticOnly }) => {
-  // eslint-disable-next-line no-unused-vars
-  const { [UNGROUPED_GROUP.id]: ungrouped, ...groups } = groupsById;
-  if (staticOnly) {
-    return Object.keys(uiPermissions.groups).sort();
+const defaultGroupSelectionOptions = {};
+export const getGroupNames = createSelector(
+  [getGroupsById, getUserRoles, (_, options = defaultGroupSelectionOptions) => options],
+  (groupsById, { uiPermissions }, { staticOnly }) => {
+    // eslint-disable-next-line no-unused-vars
+    const { [UNGROUPED_GROUP.id]: ungrouped, ...groups } = groupsById;
+    if (staticOnly) {
+      return Object.keys(uiPermissions.groups).sort();
+    }
+    return Object.keys(
+      Object.entries(groups).reduce((accu, [groupName, group]) => {
+        if (group.filter || uiPermissions.groups[ALL_DEVICES]) {
+          accu[groupName] = group;
+        }
+        return accu;
+      }, uiPermissions.groups)
+    ).sort();
   }
-  return Object.keys(
-    Object.entries(groups).reduce((accu, [groupName, group]) => {
-      if (group.filter || uiPermissions.groups[ALL_DEVICES]) {
-        accu[groupName] = group;
-      }
-      return accu;
-    }, uiPermissions.groups)
-  ).sort();
-});
+);
 
 const getReleaseMappingDefaults = () => ({});
 export const getReleasesList = createSelector([getReleasesById, getListedReleases, getReleaseMappingDefaults], listItemMapper);
