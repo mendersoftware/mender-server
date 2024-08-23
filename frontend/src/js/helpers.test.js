@@ -148,11 +148,32 @@ describe('getDebConfigurationCode function', () => {
     afterEach(postTestCleanUp);
 
     it('should contain sane information for hosted calls', async () => {
-      code = getDebConfigurationCode({ isHosted: true, isOnboarding: true, tenantToken: 'token', token: 'omnomnom', deviceType: 'raspberrypi3' });
+      code = getDebConfigurationCode({
+        deviceType: 'raspberrypi3',
+        hasMonitor: true,
+        isHosted: true,
+        isOnboarding: true,
+        tenantToken: 'token',
+        token: 'omnomnom'
+      });
       expect(code).toMatch(
         `JWT_TOKEN="omnomnom"
 TENANT_TOKEN="token"
 wget -O- https://get.mender.io | sudo bash -s -- --demo --commercial --jwt-token $JWT_TOKEN --force-mender-client4 -- --quiet --device-type "raspberrypi3" --tenant-token $TENANT_TOKEN --demo --server-url https://hosted.mender.io --server-cert=""`
+      );
+    });
+    it('should contain sane information for hosted calls by users without monitor access', async () => {
+      code = getDebConfigurationCode({
+        deviceType: 'raspberrypi3',
+        isHosted: true,
+        isOnboarding: true,
+        tenantToken: 'token',
+        token: 'omnomnom'
+      });
+      expect(code).toMatch(
+        `JWT_TOKEN="omnomnom"
+TENANT_TOKEN="token"
+wget -O- https://get.mender.io | sudo bash -s -- --demo --jwt-token $JWT_TOKEN --force-mender-client4 -- --quiet --device-type "raspberrypi3" --tenant-token $TENANT_TOKEN --demo --server-url https://hosted.mender.io --server-cert=""`
       );
     });
   });
@@ -167,12 +188,13 @@ wget -O- https://get.mender.io | sudo bash -s -- --demo --commercial --jwt-token
 
     it('should contain sane information for staging preview calls', async () => {
       code = getDebConfigurationCode({
+        deviceType: 'raspberrypi3',
+        hasMonitor: true,
         isHosted: true,
         isOnboarding: true,
+        isPreRelease: true,
         tenantToken: 'token',
-        token: 'omnomnom',
-        deviceType: 'raspberrypi3',
-        isPreRelease: true
+        token: 'omnomnom'
       });
       expect(code).toMatch(
         `JWT_TOKEN="omnomnom"

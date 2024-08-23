@@ -47,6 +47,7 @@ describe('PhysicalDeviceOnboarding Component', () => {
             hasConvertedImage={true}
             integrationProvider={EXTERNAL_PROVIDER['iot-hub'].provider}
             hasExternalIntegration={index % 2}
+            hasMonitor
             ipAddress="test.address"
             isEnterprise={false}
             isHosted={true}
