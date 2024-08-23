@@ -167,9 +167,10 @@ export const Releases = () => {
   const [locationParams, setLocationParams] = useLocationParams('releases', { defaults: { direction: SORTING_OPTIONS.desc, key: 'modified' } });
   const debouncedSearchTerm = useDebounce(searchTerm, TIMEOUTS.debounceDefault);
   const debouncedTypeFilter = useDebounce(type, TIMEOUTS.debounceDefault);
+  const isInitialized = useRef(false);
 
   useEffect(() => {
-    if (!artifactTimer.current) {
+    if (!isInitialized.current) {
       return;
     }
     setLocationParams({ pageState: { ...releasesListState, selectedRelease: selectedRelease.name } });
@@ -193,7 +194,7 @@ export const Releases = () => {
     if (selectedRelease) {
       dispatch(selectRelease(selectedRelease));
     }
-    dispatch(setReleasesListState({ ...remainder, selectedTags: tags }));
+    dispatch(setReleasesListState({ ...remainder, selectedTags: tags })).then(() => (isInitialized.current = true));
     clearInterval(artifactTimer.current);
     artifactTimer.current = setInterval(() => dispatch(getReleases()), refreshArtifactsLength);
     return () => {
