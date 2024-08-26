@@ -69,12 +69,10 @@ func (db *DataStoreMongo) MigrateTenant(ctx context.Context, version string, ten
 		&migration_2_0_1{
 			ds:     db,
 			dbName: mstore_v1.DbFromContext(tenantCtx, DbName),
-			ctx:    tenantCtx,
 		},
 		&migration_2_0_3{
 			ds:     db,
 			dbName: mstore_v1.DbFromContext(tenantCtx, DbName),
-			ctx:    tenantCtx,
 		},
 	}
 

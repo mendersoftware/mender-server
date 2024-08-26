@@ -43,8 +43,8 @@ type opensearchStore struct {
 	devicesIndexShards       int
 	devicesIndexReplicas     int
 	deploymentsIndexName     string
-	deploymentsIndexShards   int
-	deploymentsIndexReplicas int
+	deploymentsIndexShards   int //nolint:unused //FIXME: this is field is never used
+	deploymentsIndexReplicas int //nolint:unused //FIXME: this is field is never used
 	client                   *opensearch.Client
 }
 

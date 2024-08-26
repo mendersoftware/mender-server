@@ -26,20 +26,18 @@ import (
 )
 
 type RecordingReader struct {
-	ctx           context.Context
-	currentOffset uint64
-	buffer        bytes.Buffer
-	c             *mongo.Cursor
-	output        []byte
-	gzipReader    *gzip.Reader
+	ctx        context.Context
+	buffer     bytes.Buffer
+	c          *mongo.Cursor
+	output     []byte
+	gzipReader *gzip.Reader
 }
 
 func NewRecordingReader(ctx context.Context, c *mongo.Cursor) *RecordingReader {
 	r := &RecordingReader{
-		ctx:           ctx,
-		currentOffset: 0,
-		buffer:        bytes.Buffer{},
-		c:             c,
+		ctx:    ctx,
+		buffer: bytes.Buffer{},
+		c:      c,
 	}
 
 	return r

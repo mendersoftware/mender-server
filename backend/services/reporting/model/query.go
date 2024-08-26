@@ -377,18 +377,16 @@ func (f *filterNin) AddTo(q Query) Query {
 }
 
 type filterExists struct {
-	*filter
 	fp FilterPredicate
 }
 
 func NewFilterExists(fp FilterPredicate) (*filterExists, error) {
-	f, err := NewFilter(fp, ArrNotAllowed, TypeBool)
+	_, err := NewFilter(fp, ArrNotAllowed, TypeBool)
 	if err != nil {
 		return nil, err
 	}
 	return &filterExists{
-		filter: f,
-		fp:     fp,
+		fp: fp,
 	}, nil
 }
 
@@ -447,10 +445,9 @@ func (f *filterRange) AddTo(q Query) Query {
 }
 
 type sort struct {
-	attrStr  string
-	attrNum  string
-	attrBool string
-	order    string
+	attrStr string
+	attrNum string
+	order   string
 }
 
 func NewSort(sc SortCriteria) *sort {
@@ -459,10 +456,9 @@ func NewSort(sc SortCriteria) *sort {
 		order = SortOrderAsc
 	}
 	return &sort{
-		attrStr:  ToAttr(sc.Scope, sc.Attribute, TypeStr),
-		attrNum:  ToAttr(sc.Scope, sc.Attribute, TypeNum),
-		attrBool: ToAttr(sc.Scope, sc.Attribute, TypeBool),
-		order:    order,
+		attrStr: ToAttr(sc.Scope, sc.Attribute, TypeStr),
+		attrNum: ToAttr(sc.Scope, sc.Attribute, TypeNum),
+		order:   order,
 	}
 }
 

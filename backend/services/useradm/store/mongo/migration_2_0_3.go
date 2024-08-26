@@ -32,7 +32,6 @@ const IndexNameTokenExpire = "exp_time"
 type migration_2_0_3 struct {
 	ds     *DataStoreMongo
 	dbName string
-	ctx    context.Context
 }
 
 func (m *migration_2_0_3) Up(from migrate.Version) error {

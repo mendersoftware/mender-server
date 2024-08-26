@@ -23,19 +23,16 @@ import (
 )
 
 func TestNewPlayback(t *testing.T) {
-	sessionID := "sessionID"
 	deviceChan := make(chan *nats.Msg, 1)
 	sleepMs := uint(100)
-	r := NewPlayback(sessionID, deviceChan, sleepMs)
+	r := NewPlayback(deviceChan, sleepMs)
 	assert.NotNil(t, r)
-	assert.Equal(t, r.sessionID, sessionID)
 	assert.Equal(t, r.deviceChan, deviceChan)
 	assert.Equal(t, r.sleepMilliseconds, sleepMs)
 }
 
 func TestPlaybackWrite(t *testing.T) {
 	deviceChan := make(chan *nats.Msg, 1)
-	sessionID := "sessionID"
 
 	testCases := []struct {
 		Name      string
@@ -55,7 +52,7 @@ func TestPlaybackWrite(t *testing.T) {
 
 	thresholdMs := uint(15)
 	for _, tc := range testCases {
-		r := NewPlayback(sessionID, deviceChan, tc.SleepTime)
+		r := NewPlayback(deviceChan, tc.SleepTime)
 		assert.NotNil(t, r)
 
 		t0 := float64(time.Now().UTC().UnixNano()) * 0.000001

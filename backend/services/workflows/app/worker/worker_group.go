@@ -37,7 +37,6 @@ type workerGroup struct {
 	done      chan struct{} // All workers finished
 	termID    int32         // ID of the first worker to finish
 
-	sidecarDone chan struct{}
 	workerCount int32
 
 	input        <-chan *natsio.Msg
@@ -54,9 +53,8 @@ func NewWorkGroup(
 	ds store.DataStore,
 ) *workerGroup {
 	return &workerGroup{
-		sidecarDone: make(chan struct{}),
-		done:        make(chan struct{}),
-		firstDone:   make(chan struct{}),
+		done:      make(chan struct{}),
+		firstDone: make(chan struct{}),
 
 		input:        input,
 		notifyPeriod: notifyPeriod,

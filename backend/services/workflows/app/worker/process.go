@@ -119,7 +119,7 @@ func processTask(task model.Task, job *model.Job,
 	var result *model.TaskResult
 	var err error
 
-	ps := processor.NewJobStringProcessor(workflow, job)
+	ps := processor.NewJobStringProcessor(job)
 	jp := processor.NewJobProcessor(job)
 	if len(task.Requires) > 0 {
 		for _, require := range task.Requires {

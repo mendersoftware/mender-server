@@ -274,7 +274,7 @@ func (h ManagementController) Playback(c *gin.Context) {
 	go func() {
 		err = h.app.GetSessionRecording(ctx,
 			sessionID,
-			app.NewPlayback(sessionID, deviceChan, sleepMilliseconds))
+			app.NewPlayback(deviceChan, sleepMilliseconds))
 		if err != nil {
 			err = errors.Wrap(err, "unable to get the session.")
 			errChan <- err

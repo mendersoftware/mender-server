@@ -82,8 +82,7 @@ func (enc Encoding) Apply(s string) string {
 }
 
 type JobStringProcessor struct {
-	workflow *model.Workflow
-	job      *model.Job
+	job *model.Job
 }
 
 type Options struct {
@@ -91,12 +90,10 @@ type Options struct {
 }
 
 func NewJobStringProcessor(
-	workflow *model.Workflow,
 	job *model.Job,
 ) *JobStringProcessor {
 	return &JobStringProcessor{
-		workflow: workflow,
-		job:      job,
+		job: job,
 	}
 }
 

@@ -29,7 +29,6 @@ import (
 type migration_2_0_1 struct {
 	ds     *DataStoreMongo
 	dbName string
-	ctx    context.Context
 }
 
 func isValidUUID(u string) bool {

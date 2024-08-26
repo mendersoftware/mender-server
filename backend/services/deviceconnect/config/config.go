@@ -60,16 +60,6 @@ const (
 	// SettingDebugLogDefault is the default value for the debug log enabling
 	SettingDebugLogDefault = false
 
-	// SettingInventoryURI is the config key for the inventory uri
-	SettingInventoryURI = "inventory_uri"
-	// SettingInventoryURIDefault is the default value for the inventory uri
-	SettingInventoryURIDefault = "http://mender-inventory:8080"
-
-	// SettingInventoryTimeout is the config key for the inventory timeout
-	SettingInventoryTimeout = "inventory_timeout"
-	// SettingInventoryTimeoutDefault is the default value for the inventory timeout
-	SettingInventoryTimeoutDefault = 10
-
 	// SettingWorkflowsURL sets the base URL for the workflows orchestrator.
 	SettingWorkflowsURL = "workflows_url"
 	// SettingWorkflowsURLDefault sets the default workflows URL.
@@ -106,8 +96,6 @@ var (
 		{Key: SettingDbSSL, Value: SettingDbSSLDefault},
 		{Key: SettingDbSSLSkipVerify, Value: SettingDbSSLSkipVerifyDefault},
 		{Key: SettingDebugLog, Value: SettingDebugLogDefault},
-		{Key: SettingInventoryURI, Value: SettingInventoryURIDefault},
-		{Key: SettingInventoryTimeout, Value: SettingInventoryTimeoutDefault},
 		{Key: SettingWorkflowsURL, Value: SettingWorkflowsURLDefault},
 		{Key: SettingEnableAuditLogs, Value: SettingEnableAuditLogsDefault},
 		{Key: SettingRecordingExpireSec, Value: SettingRecordingExpireDefault},

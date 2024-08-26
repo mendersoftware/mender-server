@@ -25,15 +25,13 @@ const (
 )
 
 type Playback struct {
-	sessionID         string
 	deviceChan        chan *nats.Msg
 	sleepMilliseconds uint
 }
 
-func NewPlayback(sessionID string, deviceChan chan *nats.Msg, sleepMilliseconds uint) *Playback {
+func NewPlayback(deviceChan chan *nats.Msg, sleepMilliseconds uint) *Playback {
 	return &Playback{
 		deviceChan:        deviceChan,
-		sessionID:         sessionID,
 		sleepMilliseconds: sleepMilliseconds,
 	}
 }
