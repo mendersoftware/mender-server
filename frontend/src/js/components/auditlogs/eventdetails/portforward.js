@@ -34,7 +34,7 @@ export const PortForward = ({ item, onClose }) => {
   const { action, actor, meta, object = {}, time } = item;
   const { canReadDevices } = useSelector(getUserCapabilities);
   const device = useSelector(getAuditlogDevice);
-  const { attribute: idAttribute } = useSelector(getIdAttribute);
+  const idAttribute = useSelector(getIdAttribute);
 
   useEffect(() => {
     if (canReadDevices) {

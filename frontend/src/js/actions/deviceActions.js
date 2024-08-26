@@ -645,16 +645,17 @@ export const getDevicesByStatus =
   (status, options = {}, fetchAuth = true) =>
   (dispatch, getState) => {
     const { filterSelection, group, selectedIssues = [], page = defaultPage, perPage = defaultPerPage, sortOptions = [], selectedAttributes = [] } = options;
+    const state = getState();
     const { applicableFilters, filterTerms } = convertDeviceListStateToFilters({
-      filters: filterSelection ?? getDeviceFilters(getState()),
-      group: group ?? getState().devices.groups.selectedGroup,
-      groups: getState().devices.groups,
-      offlineThreshold: getState().app.offlineThreshold,
+      filters: filterSelection ?? getDeviceFilters(state),
+      group: group ?? state.devices.groups.selectedGroup,
+      groups: state.devices.groups,
+      offlineThreshold: state.app.offlineThreshold,
       selectedIssues,
       status
     });
-    const attributes = [...defaultAttributes, { scope: 'identity', attribute: getIdAttribute(getState()).attribute || 'id' }, ...selectedAttributes];
-    return GeneralApi.post(getSearchEndpoint(getState().app.features.hasReporting), {
+    const attributes = [...defaultAttributes, getIdAttribute(state), ...selectedAttributes];
+    return GeneralApi.post(getSearchEndpoint(state.app.features.hasReporting), {
       page,
       per_page: perPage,
       filters: filterTerms,
@@ -696,7 +697,7 @@ export const getDevicesByStatus =
   };
 
 export const getAllDevicesByStatus = status => (dispatch, getState) => {
-  const attributes = [...defaultAttributes, { scope: 'identity', attribute: getIdAttribute(getState()).attribute || 'id' }];
+  const attributes = [...defaultAttributes, getIdAttribute(getState())];
   const getAllDevices = (perPage = MAX_PAGE_SIZE, page = 1, devices = []) =>
     GeneralApi.post(getSearchEndpoint(getState().app.features.hasReporting), {
       page,
@@ -743,10 +744,7 @@ export const searchDevices =
     const { page = defaultPage, searchTerm, sortOptions = [] } = options;
     const { columnSelection = [] } = getUserSettings(state);
     const selectedAttributes = columnSelection.map(column => ({ attribute: column.key, scope: column.scope }));
-    const attributes = attributeDuplicateFilter(
-      [...defaultAttributes, { scope: 'identity', attribute: getIdAttribute(state).attribute }, ...selectedAttributes],
-      'attribute'
-    );
+    const attributes = attributeDuplicateFilter([...defaultAttributes, getIdAttribute(state), ...selectedAttributes], 'attribute');
     return GeneralApi.post(getSearchEndpoint(state.app.features.hasReporting), {
       page,
       per_page: 10,
@@ -1164,7 +1162,7 @@ const prepareSearchArguments = ({ filters, group, state, status }) => {
   const { filterTerms } = convertDeviceListStateToFilters({ filters, group, offlineThreshold: state.app.offlineThreshold, selectedIssues: [], status });
   const { columnSelection = [] } = getUserSettings(state);
   const selectedAttributes = columnSelection.map(column => ({ attribute: column.key, scope: column.scope }));
-  const attributes = [...defaultAttributes, { scope: 'identity', attribute: getIdAttribute(state).attribute }, ...selectedAttributes];
+  const attributes = [...defaultAttributes, getIdAttribute(state), ...selectedAttributes];
   return { attributes, filterTerms };
 };
 

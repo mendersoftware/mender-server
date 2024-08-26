@@ -78,7 +78,8 @@ const DeviceListItem = ({ columnHeaders, device, deviceListState, idAttribute, i
 
 const areEqual = (prevProps, nextProps) => {
   if (
-    prevProps.idAttribute != nextProps.idAttribute ||
+    prevProps.idAttribute.attribute != nextProps.idAttribute.attribute ||
+    prevProps.idAttribute.scope != nextProps.idAttribute.scope ||
     prevProps.selected != nextProps.selected ||
     !deepCompare(prevProps.columnHeaders, nextProps.columnHeaders) ||
     !deepCompare(prevProps.device, nextProps.device)

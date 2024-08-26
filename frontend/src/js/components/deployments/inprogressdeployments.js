@@ -58,7 +58,7 @@ const useStyles = makeStyles()(theme => ({
 
 export const Progress = ({ abort, createClick, ...remainder }) => {
   const { canConfigure, canDeploy } = useSelector(getUserCapabilities);
-  const { attribute: idAttribute } = useSelector(getIdAttribute);
+  const idAttribute = useSelector(getIdAttribute);
   const onboardingState = useSelector(getOnboardingState);
   const isEnterprise = useSelector(getIsEnterprise);
   const {

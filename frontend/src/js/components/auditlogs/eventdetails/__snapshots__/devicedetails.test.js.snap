@@ -59,7 +59,7 @@ exports[`DeviceDetails Component renders correctly 1`] = `
       class="align-right key muted"
     >
       <b>
-        Device ID
+        foo
       </b>
     </div>
     <div

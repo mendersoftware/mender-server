@@ -30,6 +30,7 @@ describe('ProgressDeviceList Component', () => {
         deployment={defaultState.deployments.byId.d1}
         getDeploymentDevices={getDeploymentDevicesMock}
         userCapabilities={adminUserCapabilities}
+        idAttribute={{ attribute: 'foo', scope: 'bar' }}
       />
     );
     const { asFragment, rerender } = render(ui);

@@ -102,7 +102,7 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type }) => {
   const dispatch = useDispatch();
   const { deployment, selectedDevices } = useSelector(getSelectedDeploymentData);
   const devicesById = useSelector(getDevicesById);
-  const { attribute: idAttribute } = useSelector(getIdAttribute);
+  const idAttribute = useSelector(getIdAttribute);
   const release = useSelector(getDeploymentRelease);
   const tenantCapabilities = useSelector(getTenantCapabilities);
   const userCapabilities = useSelector(getUserCapabilities);

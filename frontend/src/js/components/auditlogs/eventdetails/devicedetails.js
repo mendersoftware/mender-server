@@ -45,11 +45,12 @@ export const DeviceDetails = ({ device, idAttribute, onClose }) => {
   const { classes } = useStyles();
   const { attributes, id: deviceId } = device;
   const { name, device_type: deviceTypes, artifact_name } = attributes || {};
-  const usesId = !idAttribute || idAttribute === 'id' || idAttribute === 'Device ID';
+  const { attribute } = idAttribute;
+  const usesId = attribute === 'id' || attribute === 'Device ID';
   const nameContainer = name ? { Name: name } : {};
   const deviceDetails = {
     ...nameContainer,
-    [usesId ? 'Device ID' : idAttribute]: (
+    [usesId ? 'Device ID' : attribute]: (
       <Link className={`flexbox center-aligned ${classes.deviceLink}`} to={`/devices?id=${deviceId}`}>
         <DeviceIdentityDisplay device={device} isEditable={false} />
         <LaunchIcon className="margin-left-small link-color" fontSize="small" />

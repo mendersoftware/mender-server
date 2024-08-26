@@ -19,7 +19,7 @@ import { makeStyles } from 'tss-react/mui';
 import GatewayConnectionIcon from '../../../assets/img/gateway-connection.svg';
 import GatewayIcon from '../../../assets/img/gateway.svg';
 import { stringToBoolean } from '../../helpers';
-import { getIdAttribute } from '../../selectors';
+import { getDeviceById as getDeviceByIdSelector, getIdAttribute } from '../../selectors';
 import { getDeviceIdentityText } from '../devices/base-devices';
 import DeviceNameInput from './devicenameinput';
 
@@ -53,14 +53,15 @@ const adornments = [
 export const DeviceIdentityDisplay = props => {
   const { device = {}, isEditable = true, hasAdornment = true } = props;
 
-  const { attribute: idAttribute } = useSelector(getIdAttribute);
-  const stateDevice = useSelector(state => state.devices.byId[device?.id]) || {};
+  const idAttribute = useSelector(getIdAttribute);
+  const { attribute, scope } = idAttribute;
+  const stateDevice = useSelector(state => getDeviceByIdSelector(state, device.id));
   const idValue = getDeviceIdentityText({ device: { ...device, ...stateDevice }, idAttribute });
   const { classes } = useStyles();
 
   let Component = attributeComponentMap.default;
-  if (isEditable) {
-    Component = attributeComponentMap[idAttribute] ?? attributeComponentMap.default;
+  if (isEditable && attribute === 'name' && scope === 'tags') {
+    Component = attributeComponentMap[attribute] ?? attributeComponentMap.default;
   }
   const { attributes = {} } = device;
   const EndAdornment = useMemo(

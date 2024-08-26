@@ -67,7 +67,7 @@ export const Past = props => {
   const { finished: pastSelectionState } = useSelector(getDeploymentsSelectionState);
   const past = useSelector(state => getMappedDeploymentSelection(state, type));
   const { canConfigure, canDeploy } = useSelector(getUserCapabilities);
-  const { attribute: idAttribute } = useSelector(getIdAttribute);
+  const idAttribute = useSelector(getIdAttribute);
   const onboardingState = useSelector(getOnboardingState);
   const devices = useSelector(getDevicesById);
   const groupNames = useSelector(getGroupNames);
