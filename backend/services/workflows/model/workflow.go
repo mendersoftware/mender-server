@@ -16,7 +16,7 @@ package model
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"strings"
 
@@ -54,7 +54,7 @@ func ParseWorkflowFromJSON(jsonData []byte) (*Workflow, error) {
 func GetWorkflowsFromPath(path string) map[string]*Workflow {
 	var workflows = make(map[string]*Workflow)
 	l := log.NewEmpty()
-	files, err := ioutil.ReadDir(path)
+	files, err := os.ReadDir(path)
 	if err != nil {
 		return nil
 	}
@@ -66,7 +66,7 @@ func GetWorkflowsFromPath(path string) map[string]*Workflow {
 			continue
 		}
 		fn := filepath.Join(path, f.Name())
-		if data, err := ioutil.ReadFile(fn); err == nil {
+		if data, err := os.ReadFile(fn); err == nil {
 			var workflow = &Workflow{}
 			if strings.HasSuffix(f.Name(), ".json") {
 				workflow, err = ParseWorkflowFromJSON(data)

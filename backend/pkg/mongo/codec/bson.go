@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-package mongo
+package codec
 
 import (
 	"fmt"
@@ -22,24 +22,22 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/bsoncodec"
 	"go.mongodb.org/mongo-driver/bson/bsonrw"
-	"go.mongodb.org/mongo-driver/bson/bsontype"
 )
 
 var (
 	tUUID = reflect.TypeOf(uuid.UUID{})
 )
 
-func init() {
-	bson.DefaultRegistry = bson.NewRegistryBuilder().
-		RegisterCodec(tUUID, UUIDCodec{}).
-		Build()
+func NewRegistry() *bsoncodec.Registry {
+	reg := bson.NewRegistry()
+	// Add UUID encoder/decoder for github.com/google/uuid.UUID
+	uuidCodec := UUIDCodec{}
+	reg.RegisterTypeEncoder(tUUID, uuidCodec)
+	reg.RegisterTypeDecoder(tUUID, uuidCodec)
+	return reg
 }
 
 type UUIDCodec struct{}
-
-func (codec UUIDCodec) RegisterCodec(rb *bsoncodec.RegistryBuilder) *bsoncodec.RegistryBuilder {
-	return rb.RegisterCodec(tUUID, codec)
-}
 
 func (UUIDCodec) EncodeValue(
 	ec bsoncodec.EncodeContext,
@@ -54,7 +52,7 @@ func (UUIDCodec) EncodeValue(
 		}
 	}
 	uid := val.Interface().(uuid.UUID)
-	return w.WriteBinaryWithSubtype(uid[:], bsontype.BinaryUUID)
+	return w.WriteBinaryWithSubtype(uid[:], bson.TypeBinaryUUID)
 }
 
 func (UUIDCodec) DecodeValue(
@@ -77,10 +75,10 @@ func (UUIDCodec) DecodeValue(
 		uid     uuid.UUID = uuid.Nil
 	)
 	switch rType := r.Type(); rType {
-	case bsontype.Binary:
+	case bson.TypeBinary:
 		data, subtype, err = r.ReadBinary()
 		switch subtype {
-		case bsontype.BinaryGeneric:
+		case bson.TypeBinaryGeneric:
 			if len(data) != 16 {
 				return fmt.Errorf(
 					"cannot decode %v as a UUID: "+
@@ -90,7 +88,8 @@ func (UUIDCodec) DecodeValue(
 			}
 
 			fallthrough
-		case bsontype.BinaryUUID, bsontype.BinaryUUIDOld:
+		case bson.TypeBinaryUUID,
+			bson.TypeBinaryUUIDOld:
 			copy(uid[:], data)
 
 		default:
@@ -101,10 +100,10 @@ func (UUIDCodec) DecodeValue(
 			)
 		}
 
-	case bsontype.Undefined:
+	case bson.TypeUndefined:
 		err = r.ReadUndefined()
 
-	case bsontype.Null:
+	case bson.TypeNull:
 		err = r.ReadNull()
 
 	default:

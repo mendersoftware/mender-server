@@ -15,14 +15,14 @@
 package utils
 
 import (
-	"io/ioutil"
+	"io"
 	"strings"
 
 	"github.com/ant0ine/go-json-rest/rest"
 )
 
 func ReadBodyRaw(r *rest.Request) ([]byte, error) {
-	content, err := ioutil.ReadAll(r.Body)
+	content, err := io.ReadAll(r.Body)
 	r.Body.Close()
 	if err != nil {
 		return nil, err

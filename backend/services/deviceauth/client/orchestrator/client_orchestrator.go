@@ -18,7 +18,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"time"
 
@@ -159,7 +159,7 @@ func (co *Client) SubmitDeviceDecommisioningJob(
 	defer rsp.Body.Close()
 
 	if rsp.StatusCode != http.StatusOK && rsp.StatusCode != http.StatusCreated {
-		body, err := ioutil.ReadAll(rsp.Body)
+		body, err := io.ReadAll(rsp.Body)
 		if err != nil {
 			body = []byte("<failed to read>")
 		}
@@ -209,7 +209,7 @@ func (co *Client) SubmitProvisionDeviceJob(
 	defer rsp.Body.Close()
 
 	if rsp.StatusCode != http.StatusOK && rsp.StatusCode != http.StatusCreated {
-		body, err := ioutil.ReadAll(rsp.Body)
+		body, err := io.ReadAll(rsp.Body)
 		if err != nil {
 			body = []byte("<failed to read>")
 		}
@@ -259,7 +259,7 @@ func (co *Client) SubmitUpdateDeviceStatusJob(
 	defer rsp.Body.Close()
 
 	if rsp.StatusCode != http.StatusOK && rsp.StatusCode != http.StatusCreated {
-		body, err := ioutil.ReadAll(rsp.Body)
+		body, err := io.ReadAll(rsp.Body)
 		if err != nil {
 			body = []byte("<failed to read>")
 		}
@@ -353,7 +353,7 @@ func (co *Client) SubmitUpdateDeviceInventoryJob(
 	defer rsp.Body.Close()
 
 	if rsp.StatusCode != http.StatusOK && rsp.StatusCode != http.StatusCreated {
-		body, err := ioutil.ReadAll(rsp.Body)
+		body, err := io.ReadAll(rsp.Body)
 		if err != nil {
 			body = []byte("<failed to read>")
 		}

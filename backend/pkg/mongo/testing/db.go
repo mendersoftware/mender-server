@@ -16,7 +16,6 @@ package testing
 
 import (
 	"context"
-	"io/ioutil"
 	"os"
 
 	"go.mongodb.org/mongo-driver/bson/bsoncodec"
@@ -53,7 +52,7 @@ func WithDB(f func(dbtest TestDBRunner) int, reg *bsoncodec.Registry) int {
 		runner = (*dbClientFromEnv)(client)
 	} else {
 		// Fallback to running mongod on host
-		dbdir, _ := ioutil.TempDir("", "dbsetup-test")
+		dbdir, _ := os.MkdirTemp("", "dbsetup-test")
 		db := &dbtest.DBServer{}
 		db.SetPath(dbdir)
 		if reg != nil {

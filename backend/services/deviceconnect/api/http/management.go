@@ -20,7 +20,6 @@ import (
 	"encoding/binary"
 	"encoding/json"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"strconv"
 	"sync"
@@ -268,8 +267,8 @@ func (h ManagementController) Playback(c *gin.Context) {
 		session,
 		deviceChan,
 		errChan,
-		bufio.NewWriterSize(ioutil.Discard, app.RecorderBufferSize),
-		bufio.NewWriterSize(ioutil.Discard, app.RecorderBufferSize))
+		bufio.NewWriterSize(io.Discard, app.RecorderBufferSize),
+		bufio.NewWriterSize(io.Discard, app.RecorderBufferSize))
 
 	go func() {
 		err = h.app.GetSessionRecording(ctx,

@@ -15,7 +15,7 @@
 package worker
 
 import (
-	"io/ioutil"
+	"os"
 	"strings"
 
 	"github.com/mendersoftware/mender-server/services/workflows/app/processor"
@@ -25,7 +25,7 @@ func processJobStringOrFile(data string, ps *processor.JobStringProcessor) (stri
 	data = ps.ProcessJobString(data)
 	if strings.HasPrefix(data, "@") {
 		filePath := data[1:]
-		buffer, err := ioutil.ReadFile(filePath)
+		buffer, err := os.ReadFile(filePath)
 		if err != nil {
 			return "", err
 		}

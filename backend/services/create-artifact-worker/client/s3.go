@@ -18,7 +18,6 @@ import (
 	"crypto/tls"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"os"
 
@@ -70,7 +69,7 @@ func (s *storage) Download(ctx context.Context, url, path string) error {
 	if res.StatusCode != http.StatusOK {
 		var body string
 
-		bbody, err := ioutil.ReadAll(res.Body)
+		bbody, err := io.ReadAll(res.Body)
 		if err != nil {
 			body = "<failed to read body>"
 		} else {
@@ -115,7 +114,7 @@ func (s *storage) Delete(ctx context.Context, url string) error {
 	if res.StatusCode != http.StatusNoContent && res.StatusCode != http.StatusAccepted {
 		var body string
 
-		bbody, err := ioutil.ReadAll(res.Body)
+		bbody, err := io.ReadAll(res.Body)
 		if err != nil {
 			body = "<failed to read body>"
 		} else {
