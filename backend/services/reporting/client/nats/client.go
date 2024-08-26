@@ -20,8 +20,9 @@ import (
 	"errors"
 	"time"
 
-	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/nats-io/nats.go"
+
+	"github.com/mendersoftware/mender-server/pkg/log"
 
 	"github.com/mendersoftware/mender-server/services/reporting/model"
 )

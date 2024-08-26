@@ -19,11 +19,12 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/mendersoftware/mender-server/pkg/log"
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	mopts "go.mongodb.org/mongo-driver/mongo/options"
+
+	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 )
 
 const IndexNameTokenExpire = "exp_time"

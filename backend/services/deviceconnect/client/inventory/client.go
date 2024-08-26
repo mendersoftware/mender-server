@@ -21,8 +21,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/pkg/errors"
+
+	"github.com/mendersoftware/mender-server/pkg/log"
 
 	"github.com/mendersoftware/mender-server/services/deviceconnect/model"
 )

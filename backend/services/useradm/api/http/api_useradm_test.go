@@ -29,15 +29,17 @@ import (
 
 	"github.com/ant0ine/go-json-rest/rest"
 	"github.com/ant0ine/go-json-rest/rest/test"
-	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
-	"github.com/mendersoftware/mender-server/pkg/requestid"
-	"github.com/mendersoftware/mender-server/pkg/rest_utils"
-	mt "github.com/mendersoftware/mender-server/pkg/testing"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
+	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
+	"github.com/mendersoftware/mender-server/pkg/requestid"
+	"github.com/mendersoftware/mender-server/pkg/rest_utils"
+	mt "github.com/mendersoftware/mender-server/pkg/testing"
+
 	"github.com/mendersoftware/mender-server/pkg/identity"
+
 	mauthz "github.com/mendersoftware/mender-server/services/useradm/authz/mocks"
 	"github.com/mendersoftware/mender-server/services/useradm/jwt"
 	"github.com/mendersoftware/mender-server/services/useradm/model"

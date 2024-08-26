@@ -18,10 +18,11 @@ import (
 	"io/ioutil"
 
 	"github.com/ant0ine/go-json-rest/rest"
+	"github.com/sirupsen/logrus"
+
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 	"github.com/mendersoftware/mender-server/pkg/requestlog"
-	"github.com/sirupsen/logrus"
 
 	dconfig "github.com/mendersoftware/mender-server/services/deployments/config"
 )

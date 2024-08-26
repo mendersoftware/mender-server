@@ -16,8 +16,9 @@ package utils
 import (
 	"testing"
 
-	"github.com/mendersoftware/mender-server/services/inventory/model"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/mendersoftware/mender-server/services/inventory/model"
 )
 
 func TestContainsString(t *testing.T) {

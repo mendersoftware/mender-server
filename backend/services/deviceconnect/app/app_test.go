@@ -26,12 +26,12 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
+	"github.com/mendersoftware/mender-server/pkg/identity"
 	inv_mocks "github.com/mendersoftware/mender-server/services/deviceconnect/client/inventory/mocks"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/client/workflows"
 	wf_mocks "github.com/mendersoftware/mender-server/services/deviceconnect/client/workflows/mocks"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/model"
 	store_mocks "github.com/mendersoftware/mender-server/services/deviceconnect/store/mocks"
-	"github.com/mendersoftware/mender-server/pkg/identity"
 )
 
 func TestHealthCheck(t *testing.T) {

@@ -19,8 +19,9 @@ package mocks
 import (
 	context "context"
 
-	ratelimits "github.com/mendersoftware/mender-server/pkg/ratelimits"
 	mock "github.com/stretchr/testify/mock"
+
+	ratelimits "github.com/mendersoftware/mender-server/pkg/ratelimits"
 
 	time "time"
 )

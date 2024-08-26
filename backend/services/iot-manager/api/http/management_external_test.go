@@ -28,9 +28,10 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	"github.com/mendersoftware/mender-server/pkg/identity"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/app"
 	"github.com/mendersoftware/mender-server/services/iot-manager/client/iothub"

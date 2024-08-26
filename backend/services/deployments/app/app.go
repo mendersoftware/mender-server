@@ -27,12 +27,13 @@ import (
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 
-	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-artifact/areader"
 	"github.com/mendersoftware/mender-artifact/artifact"
 	"github.com/mendersoftware/mender-artifact/awriter"
 	"github.com/mendersoftware/mender-artifact/handlers"
+
+	"github.com/mendersoftware/mender-server/pkg/identity"
+	"github.com/mendersoftware/mender-server/pkg/log"
 
 	"github.com/mendersoftware/mender-server/services/deployments/client/inventory"
 	"github.com/mendersoftware/mender-server/services/deployments/client/reporting"

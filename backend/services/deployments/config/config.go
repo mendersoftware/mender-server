@@ -21,9 +21,10 @@ import (
 	"os"
 	"strings"
 
+	"github.com/pkg/errors"
+
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
-	"github.com/pkg/errors"
 )
 
 const (

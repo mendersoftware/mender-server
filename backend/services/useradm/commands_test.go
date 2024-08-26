@@ -16,9 +16,11 @@ package main
 import (
 	"testing"
 
-	cmocks "github.com/mendersoftware/mender-server/pkg/config/mocks"
-	. "github.com/mendersoftware/mender-server/services/useradm/config"
 	"github.com/stretchr/testify/assert"
+
+	cmocks "github.com/mendersoftware/mender-server/pkg/config/mocks"
+
+	. "github.com/mendersoftware/mender-server/services/useradm/config"
 )
 
 func TestCommandCreateUser(t *testing.T) {

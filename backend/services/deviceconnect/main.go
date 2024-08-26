@@ -20,8 +20,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/urfave/cli"
+
+	"github.com/mendersoftware/mender-server/pkg/config"
 
 	dconfig "github.com/mendersoftware/mender-server/services/deviceconnect/config"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/server"

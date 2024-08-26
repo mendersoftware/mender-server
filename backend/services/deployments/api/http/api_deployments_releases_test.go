@@ -30,6 +30,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
+	"github.com/mendersoftware/mender-server/pkg/requestid"
+	mt "github.com/mendersoftware/mender-server/pkg/testing"
+
 	"github.com/mendersoftware/mender-server/services/deployments/app"
 	mapp "github.com/mendersoftware/mender-server/services/deployments/app/mocks"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
@@ -38,8 +41,6 @@ import (
 	store_mocks "github.com/mendersoftware/mender-server/services/deployments/store/mocks"
 	"github.com/mendersoftware/mender-server/services/deployments/utils/restutil/view"
 	deployments_testing "github.com/mendersoftware/mender-server/services/deployments/utils/testing"
-	"github.com/mendersoftware/mender-server/pkg/requestid"
-	mt "github.com/mendersoftware/mender-server/pkg/testing"
 )
 
 func TestGetReleases(t *testing.T) {

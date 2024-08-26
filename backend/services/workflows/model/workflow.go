@@ -20,9 +20,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v3"
+
+	"github.com/mendersoftware/mender-server/pkg/log"
 )
 
 const DefaultTopic = "default"

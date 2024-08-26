@@ -18,13 +18,14 @@ import (
 	"context"
 	"testing"
 
+	"github.com/pkg/errors"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
+
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 	"github.com/mendersoftware/mender-server/services/deployments/storage"
 	storageMocks "github.com/mendersoftware/mender-server/services/deployments/storage/mocks"
 	"github.com/mendersoftware/mender-server/services/deployments/store/mocks"
-	"github.com/pkg/errors"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 )
 
 func TestGetStorageSettings(t *testing.T) {

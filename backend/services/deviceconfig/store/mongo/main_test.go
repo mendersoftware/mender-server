@@ -26,10 +26,11 @@ import (
 	"testing"
 	"time"
 
-	mstore "github.com/mendersoftware/mender-server/pkg/store"
 	"go.mongodb.org/mongo-driver/mongo"
 	mopts "go.mongodb.org/mongo-driver/mongo/options"
 	"golang.org/x/net/context"
+
+	mstore "github.com/mendersoftware/mender-server/pkg/store"
 )
 
 // TestDB is a stripped down TestDBRunner interface.

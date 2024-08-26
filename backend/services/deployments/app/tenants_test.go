@@ -19,10 +19,11 @@ import (
 	"fmt"
 	"testing"
 
-	fs_mocks "github.com/mendersoftware/mender-server/services/deployments/storage/mocks"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+
+	fs_mocks "github.com/mendersoftware/mender-server/services/deployments/storage/mocks"
 
 	mstore "github.com/mendersoftware/mender-server/services/deployments/store/mocks"
 )

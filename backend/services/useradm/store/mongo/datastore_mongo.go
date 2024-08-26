@@ -20,14 +20,15 @@ import (
 	"strings"
 	"time"
 
-	_ "github.com/mendersoftware/mender-server/pkg/mongo/codec"
-	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
-	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
 	"github.com/pkg/errors"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	mopts "go.mongodb.org/mongo-driver/mongo/options"
 	"golang.org/x/crypto/bcrypt"
+
+	_ "github.com/mendersoftware/mender-server/pkg/mongo/codec"
+	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
+	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
 
 	"github.com/mendersoftware/mender-server/services/useradm/jwt"
 	"github.com/mendersoftware/mender-server/services/useradm/model"

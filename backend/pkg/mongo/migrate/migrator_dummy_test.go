@@ -21,8 +21,9 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	. "github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 	"go.mongodb.org/mongo-driver/bson"
+
+	. "github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 )
 
 func TestDummyMigratorApply(t *testing.T) {

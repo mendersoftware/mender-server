@@ -29,6 +29,10 @@ import (
 	"github.com/gin-gonic/gin"
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/gorilla/websocket"
+	natsio "github.com/nats-io/nats.go"
+	"github.com/pkg/errors"
+	"github.com/vmihailenco/msgpack/v5"
+
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
@@ -36,9 +40,6 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/ws"
 	"github.com/mendersoftware/mender-server/pkg/ws/menderclient"
 	"github.com/mendersoftware/mender-server/pkg/ws/shell"
-	natsio "github.com/nats-io/nats.go"
-	"github.com/pkg/errors"
-	"github.com/vmihailenco/msgpack/v5"
 
 	"github.com/mendersoftware/mender-server/services/deviceconnect/app"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/client/nats"

@@ -15,9 +15,10 @@ package cmd
 
 import (
 	"flag"
-	mtesting "github.com/mendersoftware/mender-server/pkg/mongo/testing"
 	"os"
 	"testing"
+
+	mtesting "github.com/mendersoftware/mender-server/pkg/mongo/testing"
 )
 
 var db mtesting.TestDBRunner

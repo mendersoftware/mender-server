@@ -20,12 +20,13 @@ import (
 	"regexp"
 	"testing"
 
+	"github.com/pkg/errors"
+	"github.com/stretchr/testify/assert"
+
 	"github.com/mendersoftware/mender-server/pkg/addons"
 	hdr "github.com/mendersoftware/mender-server/pkg/context/httpheader"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/plan"
-	"github.com/pkg/errors"
-	"github.com/stretchr/testify/assert"
 )
 
 func init() {

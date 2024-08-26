@@ -58,11 +58,11 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
+	"github.com/redis/go-redis/v9"
 
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/ratelimits"
 	mredis "github.com/mendersoftware/mender-server/pkg/redis"
-	"github.com/redis/go-redis/v9"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/utils"
 )

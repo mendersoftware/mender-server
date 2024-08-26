@@ -18,10 +18,11 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 	"github.com/pkg/errors"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+
+	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 )

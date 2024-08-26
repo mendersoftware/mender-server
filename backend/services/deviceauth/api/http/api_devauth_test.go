@@ -27,12 +27,15 @@ import (
 
 	"github.com/ant0ine/go-json-rest/rest"
 	"github.com/ant0ine/go-json-rest/rest/test"
-	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/requestid"
-	"github.com/mendersoftware/mender-server/pkg/rest_utils"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+
+	"github.com/mendersoftware/mender-server/pkg/identity"
+	"github.com/mendersoftware/mender-server/pkg/requestid"
+	"github.com/mendersoftware/mender-server/pkg/rest_utils"
+
+	mt "github.com/mendersoftware/mender-server/pkg/testing"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/cache"
 	"github.com/mendersoftware/mender-server/services/deviceauth/client/tenant"
@@ -42,7 +45,6 @@ import (
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 	"github.com/mendersoftware/mender-server/services/deviceauth/store"
 	mtest "github.com/mendersoftware/mender-server/services/deviceauth/utils/testing"
-	mt "github.com/mendersoftware/mender-server/pkg/testing"
 )
 
 var restErrUpdateDone sync.Once

@@ -24,6 +24,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 
 	mstore "github.com/mendersoftware/mender-server/pkg/store"
+
 	"github.com/mendersoftware/mender-server/services/inventory/model"
 )
 

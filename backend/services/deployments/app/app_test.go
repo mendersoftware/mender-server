@@ -26,6 +26,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
+	"github.com/mendersoftware/mender-server/pkg/config"
+	"github.com/mendersoftware/mender-server/pkg/identity"
+
 	inventory_mocks "github.com/mendersoftware/mender-server/services/deployments/client/inventory/mocks"
 	reporting_mocks "github.com/mendersoftware/mender-server/services/deployments/client/reporting/mocks"
 	"github.com/mendersoftware/mender-server/services/deployments/client/workflows"
@@ -38,8 +41,6 @@ import (
 	"github.com/mendersoftware/mender-server/services/deployments/store/mocks"
 	"github.com/mendersoftware/mender-server/services/deployments/store/mongo"
 	h "github.com/mendersoftware/mender-server/services/deployments/utils/testing"
-	"github.com/mendersoftware/mender-server/pkg/config"
-	"github.com/mendersoftware/mender-server/pkg/identity"
 )
 
 const (

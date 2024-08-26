@@ -21,11 +21,12 @@ import (
 	"path"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
+
 	"github.com/mendersoftware/mender-server/services/reporting/client/inventory"
 	"github.com/mendersoftware/mender-server/services/reporting/model"
 	"github.com/mendersoftware/mender-server/services/reporting/store/mocks"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 )
 
 func TestNewMapper(t *testing.T) {

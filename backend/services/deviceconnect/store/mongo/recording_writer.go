@@ -17,9 +17,10 @@ package mongo
 import (
 	"io"
 
+	"github.com/vmihailenco/msgpack/v5"
+
 	"github.com/mendersoftware/mender-server/pkg/ws"
 	"github.com/mendersoftware/mender-server/pkg/ws/shell"
-	"github.com/vmihailenco/msgpack/v5"
 )
 
 type RecordingWriter struct {

@@ -16,9 +16,10 @@ package mongo
 import (
 	"context"
 
+	"go.mongodb.org/mongo-driver/bson"
+
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
-	"go.mongodb.org/mongo-driver/bson"
 )
 
 type migration_1_11_0 struct {

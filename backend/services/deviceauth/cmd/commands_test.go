@@ -21,13 +21,14 @@ import (
 	"time"
 
 	//"github.com/mendersoftware/mender-server/pkg/config"
+	"github.com/pkg/errors"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
+
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
 	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
-	"github.com/pkg/errors"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 
 	minv "github.com/mendersoftware/mender-server/services/deviceauth/client/inventory/mocks"
 	"github.com/mendersoftware/mender-server/services/deviceauth/client/orchestrator"

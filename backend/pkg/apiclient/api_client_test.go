@@ -18,9 +18,10 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	ctxhttpheader "github.com/mendersoftware/mender-server/pkg/context/httpheader"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestApiClient(t *testing.T) {

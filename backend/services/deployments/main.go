@@ -20,12 +20,13 @@ import (
 	"os"
 	"time"
 
+	"github.com/pkg/errors"
+	"github.com/urfave/cli"
+
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	mstore "github.com/mendersoftware/mender-server/pkg/store"
-	"github.com/pkg/errors"
-	"github.com/urfave/cli"
 
 	"github.com/mendersoftware/mender-server/services/deployments/app"
 	"github.com/mendersoftware/mender-server/services/deployments/client/workflows"

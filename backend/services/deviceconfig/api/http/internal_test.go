@@ -26,15 +26,17 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	mapp "github.com/mendersoftware/mender-server/services/deviceconfig/app/mocks"
-	"github.com/mendersoftware/mender-server/services/deviceconfig/model"
-	"github.com/mendersoftware/mender-server/services/deviceconfig/store"
-	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/log"
-	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+
+	"github.com/mendersoftware/mender-server/pkg/identity"
+	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
+
+	mapp "github.com/mendersoftware/mender-server/services/deviceconfig/app/mocks"
+	"github.com/mendersoftware/mender-server/services/deviceconfig/model"
+	"github.com/mendersoftware/mender-server/services/deviceconfig/store"
 )
 
 var contextMatcher = mock.MatchedBy(func(v context.Context) bool {

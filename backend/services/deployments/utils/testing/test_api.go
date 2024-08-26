@@ -19,9 +19,10 @@ import (
 	"net/http"
 
 	"github.com/ant0ine/go-json-rest/rest"
+	"github.com/sirupsen/logrus"
+
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 	"github.com/mendersoftware/mender-server/pkg/requestlog"
-	"github.com/sirupsen/logrus"
 )
 
 type RouterTypeHandler func(pathExp string, handlerFunc rest.HandlerFunc) *rest.Route

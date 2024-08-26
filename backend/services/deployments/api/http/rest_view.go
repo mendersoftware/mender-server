@@ -16,6 +16,7 @@ package http
 
 import (
 	"github.com/ant0ine/go-json-rest/rest"
+
 	"github.com/mendersoftware/mender-server/pkg/log"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"

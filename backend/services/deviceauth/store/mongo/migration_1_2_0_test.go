@@ -18,11 +18,12 @@ import (
 	"testing"
 	"time"
 
+	"github.com/stretchr/testify/assert"
+	"go.mongodb.org/mongo-driver/bson"
+
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
-	"github.com/stretchr/testify/assert"
-	"go.mongodb.org/mongo-driver/bson"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 	"github.com/mendersoftware/mender-server/services/deviceauth/utils"

@@ -23,10 +23,11 @@ import (
 	"testing"
 
 	"github.com/ant0ine/go-json-rest/rest"
-	"github.com/mendersoftware/mender-server/pkg/log"
-	"github.com/mendersoftware/mender-server/pkg/netutils"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/netutils"
 )
 
 func TestMiddlewareLegacy(t *testing.T) {

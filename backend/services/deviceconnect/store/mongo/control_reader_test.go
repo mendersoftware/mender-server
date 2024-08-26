@@ -25,10 +25,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"go.mongodb.org/mongo-driver/bson"
 
-	"github.com/mendersoftware/mender-server/services/deviceconnect/app"
-	"github.com/mendersoftware/mender-server/services/deviceconnect/model"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	mstore "github.com/mendersoftware/mender-server/pkg/store"
+	"github.com/mendersoftware/mender-server/services/deviceconnect/app"
+	"github.com/mendersoftware/mender-server/services/deviceconnect/model"
 )
 
 func TestPopControlMessage(t *testing.T) {

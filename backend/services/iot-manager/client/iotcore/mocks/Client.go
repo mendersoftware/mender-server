@@ -19,8 +19,9 @@ package mocks
 import (
 	context "context"
 
-	iotcore "github.com/mendersoftware/mender-server/services/iot-manager/client/iotcore"
 	mock "github.com/stretchr/testify/mock"
+
+	iotcore "github.com/mendersoftware/mender-server/services/iot-manager/client/iotcore"
 
 	model "github.com/mendersoftware/mender-server/services/iot-manager/model"
 )

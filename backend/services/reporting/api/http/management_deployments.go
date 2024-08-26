@@ -20,10 +20,11 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/pkg/errors"
+
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/rbac"
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
-	"github.com/pkg/errors"
 
 	"github.com/mendersoftware/mender-server/services/reporting/model"
 )

@@ -18,8 +18,9 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/mendersoftware/mender-server/services/deployments/model"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/mendersoftware/mender-server/services/deployments/model"
 )
 
 func str2ptr(s string) *string {

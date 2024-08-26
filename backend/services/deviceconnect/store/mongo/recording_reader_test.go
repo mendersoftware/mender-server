@@ -26,9 +26,9 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	mopts "go.mongodb.org/mongo-driver/mongo/options"
 
-	"github.com/mendersoftware/mender-server/services/deviceconnect/model"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	mstore "github.com/mendersoftware/mender-server/pkg/store"
+	"github.com/mendersoftware/mender-server/services/deviceconnect/model"
 )
 
 func TestReadRecording(t *testing.T) {

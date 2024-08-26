@@ -32,6 +32,7 @@ import (
 	"github.com/stretchr/testify/mock"
 
 	"github.com/mendersoftware/mender-server/pkg/log"
+
 	"github.com/mendersoftware/mender-server/services/iot-manager/client/devauth"
 	mdevauth "github.com/mendersoftware/mender-server/services/iot-manager/client/devauth/mocks"
 	"github.com/mendersoftware/mender-server/services/iot-manager/client/iotcore"

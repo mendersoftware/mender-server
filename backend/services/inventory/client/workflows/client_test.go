@@ -31,6 +31,7 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 	"github.com/mendersoftware/mender-server/pkg/rest_utils"
+
 	"github.com/mendersoftware/mender-server/services/inventory/model"
 )
 

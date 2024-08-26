@@ -21,16 +21,18 @@ import (
 	"unsafe"
 
 	"github.com/google/uuid"
-	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
-	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
-	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
-	"github.com/mendersoftware/mender-server/services/useradm/jwt"
 	"github.com/stretchr/testify/assert"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	mopts "go.mongodb.org/mongo-driver/mongo/options"
 	"golang.org/x/crypto/bcrypt"
+
+	"github.com/mendersoftware/mender-server/pkg/identity"
+	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
+	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
+
+	"github.com/mendersoftware/mender-server/services/useradm/jwt"
 
 	"github.com/mendersoftware/mender-server/services/useradm/model"
 	"github.com/mendersoftware/mender-server/services/useradm/store"

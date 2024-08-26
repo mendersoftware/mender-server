@@ -25,12 +25,14 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mendersoftware/mender-server/services/deployments/model"
+	"github.com/pkg/errors"
+	"github.com/stretchr/testify/assert"
+
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 	"github.com/mendersoftware/mender-server/pkg/rest_utils"
-	"github.com/pkg/errors"
-	"github.com/stretchr/testify/assert"
+
+	"github.com/mendersoftware/mender-server/services/deployments/model"
 )
 
 func TestCheckHealth(t *testing.T) {

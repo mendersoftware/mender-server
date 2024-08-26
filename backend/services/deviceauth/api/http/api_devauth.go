@@ -21,6 +21,8 @@ import (
 	"time"
 
 	"github.com/ant0ine/go-json-rest/rest"
+	"github.com/pkg/errors"
+
 	"github.com/mendersoftware/mender-server/pkg/accesslog"
 	ctxhttpheader "github.com/mendersoftware/mender-server/pkg/context/httpheader"
 	"github.com/mendersoftware/mender-server/pkg/identity"
@@ -28,7 +30,6 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 	"github.com/mendersoftware/mender-server/pkg/requestlog"
 	"github.com/mendersoftware/mender-server/pkg/rest_utils"
-	"github.com/pkg/errors"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/access"
 	"github.com/mendersoftware/mender-server/services/deviceauth/cache"

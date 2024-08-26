@@ -18,9 +18,10 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/vmihailenco/msgpack/v5"
+
 	"github.com/mendersoftware/mender-server/pkg/ws"
 	"github.com/mendersoftware/mender-server/pkg/ws/menderclient"
-	"github.com/vmihailenco/msgpack/v5"
 
 	"github.com/mendersoftware/mender-server/services/deviceconnect/app"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/client/nats"

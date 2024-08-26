@@ -31,9 +31,10 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	validation "github.com/go-ozzo/ozzo-validation/v4"
+	"github.com/stretchr/testify/assert"
+
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 	"github.com/mendersoftware/mender-server/services/deployments/storage"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestHealthCheck(t *testing.T) {

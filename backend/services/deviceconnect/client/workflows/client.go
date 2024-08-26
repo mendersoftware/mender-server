@@ -25,6 +25,7 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
+
 	"github.com/pkg/errors"
 )
 

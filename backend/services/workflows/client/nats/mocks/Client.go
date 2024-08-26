@@ -19,8 +19,9 @@ package mocks
 import (
 	context "context"
 
-	nats "github.com/mendersoftware/mender-server/services/workflows/client/nats"
 	mock "github.com/stretchr/testify/mock"
+
+	nats "github.com/mendersoftware/mender-server/services/workflows/client/nats"
 
 	nats_go "github.com/nats-io/nats.go"
 )

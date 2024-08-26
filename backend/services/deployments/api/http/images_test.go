@@ -25,6 +25,12 @@ import (
 	"github.com/ant0ine/go-json-rest/rest/test"
 	"github.com/pkg/errors"
 
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
+
+	"github.com/mendersoftware/mender-server/pkg/requestid"
+	mt "github.com/mendersoftware/mender-server/pkg/testing"
+
 	"github.com/mendersoftware/mender-server/services/deployments/app"
 	app_mocks "github.com/mendersoftware/mender-server/services/deployments/app/mocks"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
@@ -34,10 +40,6 @@ import (
 	"github.com/mendersoftware/mender-server/services/deployments/utils/restutil/view"
 	deployments_testing "github.com/mendersoftware/mender-server/services/deployments/utils/testing"
 	h "github.com/mendersoftware/mender-server/services/deployments/utils/testing"
-	"github.com/mendersoftware/mender-server/pkg/requestid"
-	mt "github.com/mendersoftware/mender-server/pkg/testing"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 )
 
 func TestPostArtifacts(t *testing.T) {

@@ -21,12 +21,15 @@ import (
 	"testing"
 	"time"
 
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
+
 	ctxhttpheader "github.com/mendersoftware/mender-server/pkg/context/httpheader"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
 	"github.com/mendersoftware/mender-server/pkg/ratelimits"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
+
+	"github.com/pkg/errors"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/cache"
 	mcache "github.com/mendersoftware/mender-server/services/deviceauth/cache/mocks"
@@ -43,7 +46,6 @@ import (
 	"github.com/mendersoftware/mender-server/services/deviceauth/utils"
 	mtesting "github.com/mendersoftware/mender-server/services/deviceauth/utils/testing"
 	uto "github.com/mendersoftware/mender-server/services/deviceauth/utils/to"
-	"github.com/pkg/errors"
 )
 
 func TestHealthCheck(t *testing.T) {

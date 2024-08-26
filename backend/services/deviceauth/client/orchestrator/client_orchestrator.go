@@ -22,11 +22,12 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/pkg/errors"
+
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 	"github.com/mendersoftware/mender-server/pkg/rest_utils"
-	"github.com/pkg/errors"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/utils"
 )

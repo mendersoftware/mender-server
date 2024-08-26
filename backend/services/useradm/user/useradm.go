@@ -18,12 +18,13 @@ import (
 	"context"
 	"time"
 
+	"github.com/pkg/errors"
+	"golang.org/x/crypto/bcrypt"
+
 	"github.com/mendersoftware/mender-server/pkg/apiclient"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
-	"github.com/pkg/errors"
-	"golang.org/x/crypto/bcrypt"
 
 	"github.com/mendersoftware/mender-server/services/useradm/client/tenant"
 	"github.com/mendersoftware/mender-server/services/useradm/common"

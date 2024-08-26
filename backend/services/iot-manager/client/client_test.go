@@ -29,9 +29,10 @@ import (
 	"testing"
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
+	"github.com/stretchr/testify/assert"
+
 	"github.com/mendersoftware/mender-server/services/iot-manager/crypto"
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"
-	"github.com/stretchr/testify/assert"
 )
 
 func init() {

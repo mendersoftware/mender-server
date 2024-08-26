@@ -21,9 +21,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mendersoftware/mender-server/services/reporting/model"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/mendersoftware/mender-server/services/reporting/model"
 )
 
 func TestPing(t *testing.T) {

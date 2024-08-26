@@ -18,9 +18,10 @@ import (
 	"context"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 	mstore "github.com/mendersoftware/mender-server/pkg/store"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestMigration_1_2_16(t *testing.T) {

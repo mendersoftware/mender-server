@@ -16,10 +16,11 @@ package mongo
 import (
 	"context"
 
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
-	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 	"github.com/pkg/errors"
 	"go.mongodb.org/mongo-driver/bson"
+
+	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 	"github.com/mendersoftware/mender-server/services/deviceauth/utils"

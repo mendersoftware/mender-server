@@ -19,12 +19,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mendersoftware/mender-server/pkg/identity"
-	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+
+	"github.com/mendersoftware/mender-server/pkg/identity"
+	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 )

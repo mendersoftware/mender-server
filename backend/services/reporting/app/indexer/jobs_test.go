@@ -21,6 +21,9 @@ import (
 	"testing"
 	"time"
 
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
+
 	"github.com/mendersoftware/mender-server/services/reporting/client/deployments"
 	deployments_mocks "github.com/mendersoftware/mender-server/services/reporting/client/deployments/mocks"
 	"github.com/mendersoftware/mender-server/services/reporting/client/deviceauth"
@@ -30,8 +33,6 @@ import (
 	nats_mocks "github.com/mendersoftware/mender-server/services/reporting/client/nats/mocks"
 	"github.com/mendersoftware/mender-server/services/reporting/model"
 	store_mocks "github.com/mendersoftware/mender-server/services/reporting/store/mocks"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 )
 
 func TestGetJobsSubscriptionError(t *testing.T) {

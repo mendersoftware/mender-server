@@ -33,10 +33,11 @@ import (
 	"github.com/mendersoftware/mender-server/services/iot-manager/server"
 	store "github.com/mendersoftware/mender-server/services/iot-manager/store/mongo"
 
-	"github.com/mendersoftware/mender-server/pkg/config"
-	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
+
+	"github.com/mendersoftware/mender-server/pkg/config"
+	"github.com/mendersoftware/mender-server/pkg/log"
 )
 
 func main() {

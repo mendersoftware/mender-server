@@ -21,9 +21,10 @@ import (
 	"os/signal"
 	"time"
 
+	"golang.org/x/sys/unix"
+
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
-	"golang.org/x/sys/unix"
 
 	api "github.com/mendersoftware/mender-server/services/deviceconnect/api/http"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/app"

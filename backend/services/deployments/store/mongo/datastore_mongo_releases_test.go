@@ -23,10 +23,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"go.mongodb.org/mongo-driver/bson"
 
-	"github.com/mendersoftware/mender-server/services/deployments/model"
-	"github.com/mendersoftware/mender-server/services/deployments/store"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
+
+	"github.com/mendersoftware/mender-server/services/deployments/model"
+	"github.com/mendersoftware/mender-server/services/deployments/store"
 )
 
 func TestGetReleases_1_2_14(t *testing.T) {

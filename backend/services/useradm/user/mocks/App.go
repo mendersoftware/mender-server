@@ -19,8 +19,9 @@ package mocks
 import (
 	context "context"
 
-	jwt "github.com/mendersoftware/mender-server/services/useradm/jwt"
 	mock "github.com/stretchr/testify/mock"
+
+	jwt "github.com/mendersoftware/mender-server/services/useradm/jwt"
 
 	model "github.com/mendersoftware/mender-server/services/useradm/model"
 

@@ -19,8 +19,9 @@ package mocks
 import (
 	context "context"
 
-	jwt "github.com/mendersoftware/mender-server/services/deviceauth/jwt"
 	migrate "github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+
+	jwt "github.com/mendersoftware/mender-server/services/deviceauth/jwt"
 
 	mock "github.com/stretchr/testify/mock"
 

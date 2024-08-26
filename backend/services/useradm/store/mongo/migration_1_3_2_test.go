@@ -18,12 +18,13 @@ import (
 	"context"
 	"testing"
 
-	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
-	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 	"github.com/stretchr/testify/assert"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+
+	"github.com/mendersoftware/mender-server/pkg/identity"
+	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 )
 
 func TestMigration_1_3_2(t *testing.T) {

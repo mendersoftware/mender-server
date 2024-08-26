@@ -22,10 +22,11 @@ import (
 	"strings"
 	"time"
 
+	"github.com/pkg/errors"
+
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/rest_utils"
-	"github.com/pkg/errors"
 
 	dconfig "github.com/mendersoftware/mender-server/services/deployments/config"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
