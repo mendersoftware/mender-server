@@ -22,11 +22,12 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	mopts "go.mongodb.org/mongo-driver/mongo/options"
 
+	"go.mongodb.org/mongo-driver/bson"
+
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 	mstorev1 "github.com/mendersoftware/mender-server/pkg/store"
 	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
-	"go.mongodb.org/mongo-driver/bson"
 )
 
 const (

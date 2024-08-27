@@ -18,10 +18,11 @@ import (
 	"context"
 	"regexp"
 
+	"github.com/pkg/errors"
+
 	"github.com/mendersoftware/mender-server/pkg/addons"
 	hdr "github.com/mendersoftware/mender-server/pkg/context/httpheader"
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/pkg/errors"
 )
 
 const (

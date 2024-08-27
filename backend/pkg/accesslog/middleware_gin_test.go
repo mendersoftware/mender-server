@@ -21,10 +21,11 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
-	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/mendersoftware/mender-server/pkg/log"
 )
 
 func TestMiddleware(t *testing.T) {

@@ -21,13 +21,14 @@ import (
 	"testing"
 	"time"
 
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
+
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 	"github.com/mendersoftware/mender-server/services/deployments/storage"
 	mstorage "github.com/mendersoftware/mender-server/services/deployments/storage/mocks"
 	"github.com/mendersoftware/mender-server/services/deployments/store"
 	mstore "github.com/mendersoftware/mender-server/services/deployments/store/mocks"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 )
 
 type ArrayIterator[T interface{}] struct {

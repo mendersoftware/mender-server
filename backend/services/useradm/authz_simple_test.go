@@ -25,6 +25,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
+
 	"github.com/mendersoftware/mender-server/services/useradm/jwt"
 	"github.com/mendersoftware/mender-server/services/useradm/scope"
 )

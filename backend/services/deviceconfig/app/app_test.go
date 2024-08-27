@@ -25,11 +25,12 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
+	"github.com/mendersoftware/mender-server/pkg/identity"
+
 	"github.com/mendersoftware/mender-server/services/deviceconfig/client/workflows"
 	mworkflows "github.com/mendersoftware/mender-server/services/deviceconfig/client/workflows/mocks"
 	"github.com/mendersoftware/mender-server/services/deviceconfig/model"
 	mstore "github.com/mendersoftware/mender-server/services/deviceconfig/store/mocks"
-	"github.com/mendersoftware/mender-server/pkg/identity"
 )
 
 var contextMatcher = mock.MatchedBy(func(ctx context.Context) bool { return true })

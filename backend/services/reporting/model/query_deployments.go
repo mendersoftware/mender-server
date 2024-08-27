@@ -57,10 +57,9 @@ func BuildDeploymentsQuery(params DeploymentsSearchParams) (Query, error) {
 }
 
 type deploymentsSort struct {
-	attrStr  string
-	attrNum  string
-	attrBool string
-	order    string
+	attrStr string
+	attrNum string
+	order   string
 }
 
 func NewDeploymentsSort(sc DeploymentsSortCriteria) *deploymentsSort {
@@ -69,10 +68,9 @@ func NewDeploymentsSort(sc DeploymentsSortCriteria) *deploymentsSort {
 		order = SortOrderAsc
 	}
 	return &deploymentsSort{
-		attrStr:  sc.Attribute,
-		attrNum:  sc.Attribute,
-		attrBool: sc.Attribute,
-		order:    order,
+		attrStr: sc.Attribute,
+		attrNum: sc.Attribute,
+		order:   order,
 	}
 }
 

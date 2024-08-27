@@ -23,16 +23,18 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
+	"github.com/mendersoftware/mender-artifact/areader"
+	"github.com/mendersoftware/mender-artifact/artifact"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
+
+	"github.com/mendersoftware/mender-server/pkg/identity"
+
 	workflows_mocks "github.com/mendersoftware/mender-server/services/deployments/client/workflows/mocks"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 	fs_mocks "github.com/mendersoftware/mender-server/services/deployments/storage/mocks"
 	"github.com/mendersoftware/mender-server/services/deployments/store/mocks"
 	h "github.com/mendersoftware/mender-server/services/deployments/utils/testing"
-	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-artifact/areader"
-	"github.com/mendersoftware/mender-artifact/artifact"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 )
 
 type BogusReader struct{}

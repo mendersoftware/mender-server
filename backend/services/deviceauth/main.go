@@ -19,10 +19,11 @@ import (
 	"os"
 	"time"
 
-	"github.com/mendersoftware/mender-server/pkg/config"
-	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/pkg/errors"
 	"github.com/urfave/cli"
+
+	"github.com/mendersoftware/mender-server/pkg/config"
+	"github.com/mendersoftware/mender-server/pkg/log"
 
 	cinv "github.com/mendersoftware/mender-server/services/deviceauth/client/inventory"
 	"github.com/mendersoftware/mender-server/services/deviceauth/client/orchestrator"

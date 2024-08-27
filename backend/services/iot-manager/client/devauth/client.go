@@ -26,10 +26,11 @@ import (
 	common "github.com/mendersoftware/mender-server/services/iot-manager/client"
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
+	"github.com/pkg/errors"
+
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
-	"github.com/pkg/errors"
 )
 
 const (

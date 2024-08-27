@@ -24,12 +24,14 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/mendersoftware/mender-server/services/deviceconfig/model"
-	"github.com/mendersoftware/mender-server/services/deviceconfig/store"
-	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	"github.com/mendersoftware/mender-server/pkg/identity"
+
+	"github.com/mendersoftware/mender-server/services/deviceconfig/model"
+	"github.com/mendersoftware/mender-server/services/deviceconfig/store"
 )
 
 type contextExpireAfterX struct {

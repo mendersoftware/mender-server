@@ -27,10 +27,11 @@ import (
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 
-	ct "github.com/mendersoftware/mender-server/services/deviceauth/client/testing"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 	"github.com/mendersoftware/mender-server/pkg/rest_utils"
+
+	ct "github.com/mendersoftware/mender-server/services/deviceauth/client/testing"
 )
 
 // newTestServer creates a new mock server that responds with the responses

@@ -26,12 +26,14 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mendersoftware/mender-server/pkg/rest_utils"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 
-	ct "github.com/mendersoftware/mender-server/services/deviceauth/client/testing"
+	"github.com/mendersoftware/mender-server/pkg/rest_utils"
+
 	"github.com/mendersoftware/mender-server/pkg/ratelimits"
+
+	ct "github.com/mendersoftware/mender-server/services/deviceauth/client/testing"
 )
 
 const testServerAddrRegex = `https?://(([0-9]{1,3}\.?){4}|localhost)(:[0-9]{1,5})?`

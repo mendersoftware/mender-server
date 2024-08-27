@@ -15,7 +15,7 @@
 package testing
 
 import (
-	"io/ioutil"
+	"io"
 	"os"
 
 	"github.com/mendersoftware/mender-server/pkg/log"
@@ -25,6 +25,6 @@ import (
 // unless TESTING_LOGS environment variable is non empty.
 func MaybeDiscardLogs() {
 	if os.Getenv("TESTING_LOGS") == "" {
-		log.Log.Out = ioutil.Discard
+		log.Log.Out = io.Discard
 	}
 }

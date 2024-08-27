@@ -17,12 +17,13 @@ import (
 	"context"
 	"time"
 
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
-	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 	"github.com/pkg/errors"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	mopts "go.mongodb.org/mongo-driver/mongo/options"
+
+	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 )

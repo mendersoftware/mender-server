@@ -21,13 +21,13 @@ import (
 	"os/signal"
 	"time"
 
+	"golang.org/x/sys/unix"
+
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
-	"golang.org/x/sys/unix"
 
 	api "github.com/mendersoftware/mender-server/services/deviceconnect/api/http"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/app"
-	"github.com/mendersoftware/mender-server/services/deviceconnect/client/inventory"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/client/nats"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/client/workflows"
 	dconfig "github.com/mendersoftware/mender-server/services/deviceconnect/config"
@@ -52,16 +52,11 @@ func InitAndRun(conf config.Reader, dataStore store.DataStore) error {
 	if err != nil {
 		return err
 	}
-	inventory := inventory.NewClient(
-		config.Config.GetString(dconfig.SettingInventoryURI),
-		config.Config.GetInt(dconfig.SettingInventoryTimeout),
-	)
 	wflows := workflows.NewClient(
 		config.Config.GetString(dconfig.SettingWorkflowsURL),
 	)
 	deviceConnectApp := app.New(
-		dataStore, inventory,
-		wflows, app.Config{
+		dataStore, wflows, app.Config{
 			HaveAuditLogs: conf.GetBool(dconfig.SettingEnableAuditLogs),
 		},
 	)

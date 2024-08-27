@@ -17,7 +17,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -264,7 +263,7 @@ func (c *SingleFileCmd) Run() error {
 
 	mlog.Verbose("creating temp dir at", c.Workdir)
 
-	downloadDir, err := ioutil.TempDir(c.Workdir, "single-file")
+	downloadDir, err := os.MkdirTemp(c.Workdir, "single-file")
 	if err != nil {
 		return errors.Wrapf(err, "failed to create temp dir under workdir %s", c.Workdir)
 	}

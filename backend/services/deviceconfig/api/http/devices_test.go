@@ -26,10 +26,12 @@ import (
 	"github.com/stretchr/testify/mock"
 
 	"github.com/google/uuid"
+	"github.com/stretchr/testify/assert"
+
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
+
 	mapp "github.com/mendersoftware/mender-server/services/deviceconfig/app/mocks"
 	"github.com/mendersoftware/mender-server/services/deviceconfig/model"
-	"github.com/mendersoftware/mender-server/pkg/rest.utils"
-	"github.com/stretchr/testify/assert"
 )
 
 func ptrNow() *time.Time {

@@ -17,8 +17,9 @@ package app
 import (
 	"context"
 
-	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/pkg/errors"
+
+	"github.com/mendersoftware/mender-server/pkg/log"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/client/iotcore"
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"

@@ -17,8 +17,9 @@ package indexer
 import (
 	"testing"
 
-	"github.com/mendersoftware/mender-server/services/reporting/model"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/mendersoftware/mender-server/services/reporting/model"
 )
 
 func TestGroupJobsIntoTenantActionIDs(t *testing.T) {

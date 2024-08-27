@@ -20,8 +20,9 @@ import (
 	"time"
 
 	"github.com/alicebob/miniredis"
-	"github.com/mendersoftware/mender-server/pkg/ratelimits"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/mendersoftware/mender-server/pkg/ratelimits"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/utils"
 )

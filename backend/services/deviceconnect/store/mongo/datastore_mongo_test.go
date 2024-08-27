@@ -22,9 +22,10 @@ import (
 	"testing"
 	"time"
 
+	"github.com/vmihailenco/msgpack/v5"
+
 	"github.com/mendersoftware/mender-server/pkg/ws"
 	"github.com/mendersoftware/mender-server/pkg/ws/shell"
-	"github.com/vmihailenco/msgpack/v5"
 
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
@@ -34,10 +35,10 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	mopts "go.mongodb.org/mongo-driver/mongo/options"
 
-	"github.com/mendersoftware/mender-server/services/deviceconnect/model"
-	"github.com/mendersoftware/mender-server/services/deviceconnect/store"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
+	"github.com/mendersoftware/mender-server/services/deviceconnect/model"
+	"github.com/mendersoftware/mender-server/services/deviceconnect/store"
 )
 
 type mockClock struct{}

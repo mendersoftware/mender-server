@@ -25,13 +25,14 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	app_mocks "github.com/mendersoftware/mender-server/services/deviceconnect/app/mocks"
-	"github.com/mendersoftware/mender-server/services/deviceconnect/model"
+	"github.com/nats-io/nats.go"
+	"github.com/vmihailenco/msgpack/v5"
+
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/ws"
 	"github.com/mendersoftware/mender-server/pkg/ws/shell"
-	"github.com/nats-io/nats.go"
-	"github.com/vmihailenco/msgpack/v5"
+	app_mocks "github.com/mendersoftware/mender-server/services/deviceconnect/app/mocks"
+	"github.com/mendersoftware/mender-server/services/deviceconnect/model"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"

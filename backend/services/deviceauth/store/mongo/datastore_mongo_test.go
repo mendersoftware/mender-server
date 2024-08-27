@@ -26,19 +26,21 @@ import (
 
 	"github.com/pkg/errors"
 
+	"github.com/stretchr/testify/assert"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
+
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
 	ctxstore2 "github.com/mendersoftware/mender-server/pkg/store/v2"
-	"github.com/stretchr/testify/assert"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
+
+	"github.com/mendersoftware/mender-server/pkg/ratelimits"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/jwt"
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 	"github.com/mendersoftware/mender-server/services/deviceauth/store"
 	uto "github.com/mendersoftware/mender-server/services/deviceauth/utils/to"
-	"github.com/mendersoftware/mender-server/pkg/ratelimits"
 )
 
 const (

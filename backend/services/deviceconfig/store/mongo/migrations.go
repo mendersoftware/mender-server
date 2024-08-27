@@ -17,10 +17,11 @@ package mongo
 import (
 	"context"
 
+	"github.com/pkg/errors"
+
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 	mstore "github.com/mendersoftware/mender-server/pkg/store"
-	"github.com/pkg/errors"
 )
 
 const (

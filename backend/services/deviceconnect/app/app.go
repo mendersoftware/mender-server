@@ -26,7 +26,6 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
 
-	"github.com/mendersoftware/mender-server/services/deviceconnect/client/inventory"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/client/workflows"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/model"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/store"
@@ -68,7 +67,6 @@ type App interface {
 // app is an app object
 type app struct {
 	store            store.DataStore
-	inventory        inventory.Client
 	workflows        workflows.Client
 	shutdownCancels  map[uint32]context.CancelFunc
 	shutdownCancelsM *sync.Mutex
@@ -81,7 +79,7 @@ type Config struct {
 }
 
 // NewApp initialize a new deviceconnect App
-func New(ds store.DataStore, inv inventory.Client, wf workflows.Client, config ...Config) App {
+func New(ds store.DataStore, wf workflows.Client, config ...Config) App {
 	conf := Config{}
 	for _, cfgIn := range config {
 		if cfgIn.HaveAuditLogs {
@@ -90,7 +88,6 @@ func New(ds store.DataStore, inv inventory.Client, wf workflows.Client, config .
 	}
 	return &app{
 		store:            ds,
-		inventory:        inv,
 		workflows:        wf,
 		Config:           conf,
 		shutdownCancels:  make(map[uint32]context.CancelFunc),

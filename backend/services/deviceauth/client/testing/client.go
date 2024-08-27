@@ -14,7 +14,7 @@
 package testing
 
 import (
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -32,7 +32,7 @@ func NewMockServer(status int, body []byte) (*httptest.Server, *TestReqData) {
 	rdata := &TestReqData{}
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		defer r.Body.Close()
-		rdata.ReqBody, rdata.Err = ioutil.ReadAll(r.Body)
+		rdata.ReqBody, rdata.Err = io.ReadAll(r.Body)
 		rdata.Headers = r.Header
 		rdata.Url = r.URL
 		w.WriteHeader(status)

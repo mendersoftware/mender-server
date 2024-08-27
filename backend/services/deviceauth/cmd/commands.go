@@ -18,12 +18,13 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/pkg/errors"
+
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 	mstore "github.com/mendersoftware/mender-server/pkg/store"
-	"github.com/pkg/errors"
 
 	cinv "github.com/mendersoftware/mender-server/services/deviceauth/client/inventory"
 	"github.com/mendersoftware/mender-server/services/deviceauth/client/orchestrator"

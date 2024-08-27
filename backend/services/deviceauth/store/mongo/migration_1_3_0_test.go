@@ -21,9 +21,10 @@ import (
 
 	"github.com/pkg/errors"
 
-	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 	"github.com/stretchr/testify/assert"
 	"go.mongodb.org/mongo-driver/bson"
+
+	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"

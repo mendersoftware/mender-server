@@ -22,9 +22,10 @@ import (
 	"time"
 
 	jwtgo "github.com/golang-jwt/jwt/v4"
-	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
 )
 
 func TestNewJWTHandlerEd25519(t *testing.T) {

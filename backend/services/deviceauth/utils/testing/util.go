@@ -25,8 +25,8 @@ import (
 	"encoding/asn1"
 	"encoding/base64"
 	"encoding/pem"
-	"io/ioutil"
 	"math/big"
+	"os"
 	"testing"
 
 	"github.com/pkg/errors"
@@ -82,7 +82,7 @@ func AuthReqSign(data []byte, privkey crypto.PrivateKey, t *testing.T) []byte {
 }
 
 func LoadPrivKey(path string) crypto.PrivateKey {
-	PEMData, err := ioutil.ReadFile(path)
+	PEMData, err := os.ReadFile(path)
 	if err != nil {
 		panic(err)
 	}
@@ -108,7 +108,7 @@ func DecodePrivKey(priv []byte) crypto.PrivateKey {
 }
 
 func LoadPubKeyStr(path string) string {
-	pem_data, err := ioutil.ReadFile(path)
+	pem_data, err := os.ReadFile(path)
 	if err != nil {
 		panic(err)
 	}

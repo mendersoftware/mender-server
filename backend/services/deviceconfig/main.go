@@ -22,10 +22,11 @@ import (
 	"os"
 	"strings"
 
+	"github.com/urfave/cli"
+
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
-	"github.com/urfave/cli"
 
 	. "github.com/mendersoftware/mender-server/services/deviceconfig/config"
 	"github.com/mendersoftware/mender-server/services/deviceconfig/server"

@@ -18,6 +18,7 @@ import (
 	"context"
 
 	"github.com/gin-gonic/gin"
+
 	"github.com/mendersoftware/mender-server/pkg/log"
 
 	"github.com/mendersoftware/mender-server/services/workflows/client/nats"

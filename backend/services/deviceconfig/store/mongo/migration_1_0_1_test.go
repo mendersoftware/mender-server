@@ -16,8 +16,9 @@ package mongo
 
 import (
 	"context"
-	"go.mongodb.org/mongo-driver/bson"
 	"testing"
+
+	"go.mongodb.org/mongo-driver/bson"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

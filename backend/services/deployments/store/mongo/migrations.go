@@ -16,11 +16,12 @@ package mongo
 import (
 	"context"
 
+	"github.com/pkg/errors"
+	"go.mongodb.org/mongo-driver/mongo"
+
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 	ctx_store "github.com/mendersoftware/mender-server/pkg/store"
-	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
 const (

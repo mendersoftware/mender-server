@@ -21,11 +21,12 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/mendersoftware/mender-server/pkg/identity"
-	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
 	"github.com/stretchr/testify/assert"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+
+	"github.com/mendersoftware/mender-server/pkg/identity"
+	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"
 )

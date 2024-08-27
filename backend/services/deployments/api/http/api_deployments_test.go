@@ -32,15 +32,16 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
+	"github.com/mendersoftware/mender-server/pkg/identity"
+	"github.com/mendersoftware/mender-server/pkg/requestid"
+	"github.com/mendersoftware/mender-server/pkg/rest_utils"
+
 	"github.com/mendersoftware/mender-server/services/deployments/app"
 	mapp "github.com/mendersoftware/mender-server/services/deployments/app/mocks"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 	"github.com/mendersoftware/mender-server/services/deployments/store"
 	"github.com/mendersoftware/mender-server/services/deployments/utils/restutil/view"
 	h "github.com/mendersoftware/mender-server/services/deployments/utils/testing"
-	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/requestid"
-	"github.com/mendersoftware/mender-server/pkg/rest_utils"
 
 	"github.com/ant0ine/go-json-rest/rest"
 	"github.com/ant0ine/go-json-rest/rest/test"

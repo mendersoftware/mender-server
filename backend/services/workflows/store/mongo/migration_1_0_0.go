@@ -17,10 +17,11 @@ package mongo
 import (
 	"context"
 
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	mopts "go.mongodb.org/mongo-driver/mongo/options"
+
+	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 )
 
 type migration1_0_0 struct {

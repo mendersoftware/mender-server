@@ -28,14 +28,16 @@ import (
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
+
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
+
 	"github.com/mendersoftware/mender-server/services/iot-manager/app"
 	mapp "github.com/mendersoftware/mender-server/services/iot-manager/app/mocks"
 	"github.com/mendersoftware/mender-server/services/iot-manager/client"
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 )
 
 func validateTenantIDCtx(tenantID string) interface{} {

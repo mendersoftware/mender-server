@@ -17,11 +17,12 @@ package mongo
 import (
 	"context"
 
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
-	mstore "github.com/mendersoftware/mender-server/pkg/store"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	mopts "go.mongodb.org/mongo-driver/mongo/options"
+
+	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	mstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/inventory/model"
 	"github.com/mendersoftware/mender-server/services/inventory/utils"

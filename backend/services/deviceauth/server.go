@@ -19,9 +19,10 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/pkg/errors"
+
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
-	"github.com/pkg/errors"
 
 	api_http "github.com/mendersoftware/mender-server/services/deviceauth/api/http"
 	"github.com/mendersoftware/mender-server/services/deviceauth/cache"

@@ -17,7 +17,7 @@ import (
 	"crypto/rsa"
 	"crypto/x509"
 	"encoding/pem"
-	"io/ioutil"
+	"os"
 
 	"github.com/pkg/errors"
 )
@@ -29,7 +29,7 @@ const (
 
 func LoadRSAPrivate(privKeyPath string) (*rsa.PrivateKey, error) {
 	// read key from file
-	pemData, err := ioutil.ReadFile(privKeyPath)
+	pemData, err := os.ReadFile(privKeyPath)
 	if err != nil {
 		return nil, errors.Wrap(err, ErrMsgPrivKeyReadFailed)
 	}

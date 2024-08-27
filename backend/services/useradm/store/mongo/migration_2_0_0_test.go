@@ -19,11 +19,12 @@ import (
 	"sort"
 	"testing"
 
+	"github.com/pkg/errors"
+	"github.com/stretchr/testify/assert"
+
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 	mstore_v1 "github.com/mendersoftware/mender-server/pkg/store"
-	"github.com/pkg/errors"
-	"github.com/stretchr/testify/assert"
 
 	"github.com/mendersoftware/mender-server/services/useradm/model"
 )

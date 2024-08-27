@@ -20,11 +20,12 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
+
 	"github.com/mendersoftware/mender-server/services/iot-manager/crypto"
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"
 	"github.com/mendersoftware/mender-server/services/iot-manager/store/mocks"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 )
 
 func TestReencrypt(t *testing.T) {

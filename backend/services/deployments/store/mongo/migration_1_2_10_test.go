@@ -20,11 +20,12 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 	"github.com/stretchr/testify/assert"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+
+	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 )
 
 const (

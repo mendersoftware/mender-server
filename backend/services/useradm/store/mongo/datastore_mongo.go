@@ -20,14 +20,15 @@ import (
 	"strings"
 	"time"
 
-	_ "github.com/mendersoftware/mender-server/pkg/mongo/codec"
-	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
-	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
 	"github.com/pkg/errors"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	mopts "go.mongodb.org/mongo-driver/mongo/options"
 	"golang.org/x/crypto/bcrypt"
+
+	"github.com/mendersoftware/mender-server/pkg/mongo/codec"
+	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
+	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
 
 	"github.com/mendersoftware/mender-server/services/useradm/jwt"
 	"github.com/mendersoftware/mender-server/services/useradm/model"
@@ -112,7 +113,8 @@ func NewDataStoreMongo(config DataStoreMongoConfig) (*DataStoreMongo, error) {
 	var err error
 	var mongoURL string
 
-	clientOptions := mopts.Client()
+	clientOptions := mopts.Client().
+		SetRegistry(codec.NewRegistry())
 	if !strings.Contains(config.ConnectionString, "://") {
 		mongoURL = "mongodb://" + config.ConnectionString
 	} else {

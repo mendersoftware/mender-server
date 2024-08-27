@@ -20,6 +20,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/pkg/errors"
+
 	"github.com/mendersoftware/mender-server/pkg/addons"
 	ctxhttpheader "github.com/mendersoftware/mender-server/pkg/context/httpheader"
 	"github.com/mendersoftware/mender-server/pkg/identity"
@@ -28,7 +30,6 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/plan"
 	"github.com/mendersoftware/mender-server/pkg/ratelimits"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
-	"github.com/pkg/errors"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/access"
 	"github.com/mendersoftware/mender-server/services/deviceauth/cache"

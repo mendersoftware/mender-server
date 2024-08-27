@@ -30,15 +30,16 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/ws"
-	"github.com/mendersoftware/mender-server/pkg/ws/shell"
 	"github.com/nats-io/nats-server/v2/server"
 	"github.com/nats-io/nats.go"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/vmihailenco/msgpack/v5"
+
+	"github.com/mendersoftware/mender-server/pkg/identity"
+	"github.com/mendersoftware/mender-server/pkg/ws"
+	"github.com/mendersoftware/mender-server/pkg/ws/shell"
 
 	"github.com/mendersoftware/mender-server/services/deviceconnect/app"
 	app_mocks "github.com/mendersoftware/mender-server/services/deviceconnect/app/mocks"

@@ -14,8 +14,9 @@
 package main
 
 import (
-	"github.com/mendersoftware/mender-server/pkg/log"
 	"testing"
+
+	"github.com/mendersoftware/mender-server/pkg/log"
 
 	"github.com/stretchr/testify/assert"
 )

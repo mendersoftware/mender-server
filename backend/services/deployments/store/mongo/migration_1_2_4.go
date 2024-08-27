@@ -18,12 +18,13 @@ import (
 	"context"
 	"reflect"
 
-	"github.com/mendersoftware/mender-server/pkg/log"
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 	"github.com/pkg/errors"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+
+	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 )

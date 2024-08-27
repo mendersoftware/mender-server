@@ -20,7 +20,6 @@ import (
 	"encoding/binary"
 	"encoding/json"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"strconv"
 	"sync"
@@ -29,6 +28,10 @@ import (
 	"github.com/gin-gonic/gin"
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/gorilla/websocket"
+	natsio "github.com/nats-io/nats.go"
+	"github.com/pkg/errors"
+	"github.com/vmihailenco/msgpack/v5"
+
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
@@ -36,9 +39,6 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/ws"
 	"github.com/mendersoftware/mender-server/pkg/ws/menderclient"
 	"github.com/mendersoftware/mender-server/pkg/ws/shell"
-	natsio "github.com/nats-io/nats.go"
-	"github.com/pkg/errors"
-	"github.com/vmihailenco/msgpack/v5"
 
 	"github.com/mendersoftware/mender-server/services/deviceconnect/app"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/client/nats"
@@ -267,13 +267,13 @@ func (h ManagementController) Playback(c *gin.Context) {
 		session,
 		deviceChan,
 		errChan,
-		bufio.NewWriterSize(ioutil.Discard, app.RecorderBufferSize),
-		bufio.NewWriterSize(ioutil.Discard, app.RecorderBufferSize))
+		bufio.NewWriterSize(io.Discard, app.RecorderBufferSize),
+		bufio.NewWriterSize(io.Discard, app.RecorderBufferSize))
 
 	go func() {
 		err = h.app.GetSessionRecording(ctx,
 			sessionID,
-			app.NewPlayback(sessionID, deviceChan, sleepMilliseconds))
+			app.NewPlayback(deviceChan, sleepMilliseconds))
 		if err != nil {
 			err = errors.Wrap(err, "unable to get the session.")
 			errChan <- err

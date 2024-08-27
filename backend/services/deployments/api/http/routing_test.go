@@ -20,8 +20,9 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	mapp "github.com/mendersoftware/mender-server/services/deployments/app/mocks"
 	"github.com/stretchr/testify/assert"
+
+	mapp "github.com/mendersoftware/mender-server/services/deployments/app/mocks"
 )
 
 func TestNewRouter(t *testing.T) {

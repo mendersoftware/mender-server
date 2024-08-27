@@ -19,11 +19,12 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/mendersoftware/mender-server/pkg/log"
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	mopts "go.mongodb.org/mongo-driver/mongo/options"
+
+	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 )
 
 const IndexNameTokenExpire = "exp_time"
@@ -31,7 +32,6 @@ const IndexNameTokenExpire = "exp_time"
 type migration_2_0_3 struct {
 	ds     *DataStoreMongo
 	dbName string
-	ctx    context.Context
 }
 
 func (m *migration_2_0_3) Up(from migrate.Version) error {

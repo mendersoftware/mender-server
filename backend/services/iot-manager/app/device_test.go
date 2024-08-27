@@ -19,9 +19,10 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
+	"github.com/stretchr/testify/assert"
+
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"
 	storeMocks "github.com/mendersoftware/mender-server/services/iot-manager/store/mocks"
-	"github.com/stretchr/testify/assert"
 )
 
 type testError struct{}

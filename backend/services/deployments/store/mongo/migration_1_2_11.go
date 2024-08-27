@@ -15,8 +15,9 @@
 package mongo
 
 import (
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 	"go.mongodb.org/mongo-driver/mongo"
+
+	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 )
 
 type migration_1_2_11 struct {

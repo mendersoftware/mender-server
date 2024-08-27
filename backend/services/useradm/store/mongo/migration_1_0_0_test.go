@@ -19,13 +19,15 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
-	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
-	"github.com/mendersoftware/mender-server/services/useradm/jwt"
 	"github.com/stretchr/testify/assert"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+
+	"github.com/mendersoftware/mender-server/pkg/identity"
+	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
+	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
+
+	"github.com/mendersoftware/mender-server/services/useradm/jwt"
 )
 
 func TestMigration_1_0_0(t *testing.T) {

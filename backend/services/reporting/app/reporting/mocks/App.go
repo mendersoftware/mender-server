@@ -19,8 +19,9 @@ package mocks
 import (
 	context "context"
 
-	inventory "github.com/mendersoftware/mender-server/services/reporting/client/inventory"
 	mock "github.com/stretchr/testify/mock"
+
+	inventory "github.com/mendersoftware/mender-server/services/reporting/client/inventory"
 
 	model "github.com/mendersoftware/mender-server/services/reporting/model"
 )

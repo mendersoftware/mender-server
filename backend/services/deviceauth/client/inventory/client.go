@@ -18,14 +18,15 @@ import (
 	"context"
 	"crypto/tls"
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strings"
 	"time"
 
+	"github.com/pkg/errors"
+
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/rest_utils"
-	"github.com/pkg/errors"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 	"github.com/mendersoftware/mender-server/services/deviceauth/utils"
@@ -145,7 +146,7 @@ func (c *client) SetDeviceStatus(
 	defer rsp.Body.Close()
 
 	if rsp.StatusCode != http.StatusOK {
-		body, err := ioutil.ReadAll(rsp.Body)
+		body, err := io.ReadAll(rsp.Body)
 		if err != nil {
 			body = []byte("<failed to read>")
 		}
@@ -227,7 +228,7 @@ func (c *client) SetDeviceIdentity(
 	defer rsp.Body.Close()
 
 	if rsp.StatusCode != http.StatusOK {
-		body, err := ioutil.ReadAll(rsp.Body)
+		body, err := io.ReadAll(rsp.Body)
 		if err != nil {
 			body = []byte("<failed to read>")
 		}

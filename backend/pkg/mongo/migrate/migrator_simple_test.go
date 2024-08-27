@@ -22,9 +22,10 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
+	"go.mongodb.org/mongo-driver/bson"
+
 	. "github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate/mocks"
-	"go.mongodb.org/mongo-driver/bson"
 )
 
 func TestSimpleMigratorApply(t *testing.T) {

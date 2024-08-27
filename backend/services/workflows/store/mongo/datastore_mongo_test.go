@@ -26,11 +26,13 @@ import (
 
 	"go.mongodb.org/mongo-driver/bson"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
+
 	dconfig "github.com/mendersoftware/mender-server/services/workflows/config"
 	"github.com/mendersoftware/mender-server/services/workflows/model"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestInsertWorkflows(t *testing.T) {

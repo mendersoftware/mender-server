@@ -29,12 +29,6 @@ import (
 )
 
 func TestProcessJobString(t *testing.T) {
-	workflow := &model.Workflow{
-		Name: "test",
-		InputParameters: []string{
-			"key",
-		},
-	}
 	job := &model.Job{
 		InputParameters: []model.InputParameter{
 			{
@@ -44,7 +38,7 @@ func TestProcessJobString(t *testing.T) {
 		},
 	}
 
-	ps := processor.NewJobStringProcessor(workflow, job)
+	ps := processor.NewJobStringProcessor(job)
 	res := ps.ProcessJobString("_${workflow.input.key}_")
 	assert.Equal(t, "_test+test_", res)
 
@@ -59,12 +53,9 @@ func TestProcessJobString(t *testing.T) {
 }
 
 func TestProcessJobStringEnvVariable(t *testing.T) {
-	workflow := &model.Workflow{
-		Name: "test",
-	}
 	job := &model.Job{}
 
-	ps := processor.NewJobStringProcessor(workflow, job)
+	ps := processor.NewJobStringProcessor(job)
 	res := ps.ProcessJobString("_${env.PWD}_")
 	pwd := os.Getenv("PWD")
 	expected := fmt.Sprintf("_%s_", pwd)
@@ -162,14 +153,11 @@ func TestProcessJobStringJSONOutputFromPreviousResult(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		workflow := &model.Workflow{
-			Name: "test",
-		}
 		job := &model.Job{
 			Results: []model.TaskResult{test.taskResult},
 		}
 
-		ps := processor.NewJobStringProcessor(workflow, job)
+		ps := processor.NewJobStringProcessor(job)
 		res := ps.ProcessJobString(test.expression)
 		assert.Equal(t, test.expectedValue, res)
 	}
@@ -270,13 +258,6 @@ func TestProcessJobJSON(t *testing.T) {
 
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
-			workflow := &model.Workflow{
-				Name: "test",
-				InputParameters: []string{
-					"key",
-					"num",
-				},
-			}
 			job := &model.Job{
 				InputParameters: []model.InputParameter{
 					{
@@ -291,7 +272,7 @@ func TestProcessJobJSON(t *testing.T) {
 				},
 			}
 
-			ps := processor.NewJobStringProcessor(workflow, job)
+			ps := processor.NewJobStringProcessor(job)
 			jp := processor.NewJobProcessor(job)
 
 			res := jp.ProcessJSON(test.json, ps)

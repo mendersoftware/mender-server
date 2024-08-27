@@ -21,8 +21,9 @@ import (
 
 	"github.com/ant0ine/go-json-rest/rest"
 	"github.com/ant0ine/go-json-rest/rest/test"
-	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/mendersoftware/mender-server/pkg/log"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 )

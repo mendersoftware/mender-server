@@ -21,6 +21,8 @@ import (
 
 	"github.com/ant0ine/go-json-rest/rest"
 	"github.com/google/uuid"
+	"github.com/pkg/errors"
+
 	"github.com/mendersoftware/mender-server/pkg/accesslog"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
@@ -28,7 +30,6 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/requestlog"
 	"github.com/mendersoftware/mender-server/pkg/rest_utils"
 	"github.com/mendersoftware/mender-server/pkg/routing"
-	"github.com/pkg/errors"
 
 	"github.com/mendersoftware/mender-server/services/useradm/authz"
 	"github.com/mendersoftware/mender-server/services/useradm/jwt"

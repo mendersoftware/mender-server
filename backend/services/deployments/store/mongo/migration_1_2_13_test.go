@@ -22,9 +22,10 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 
-	"github.com/mendersoftware/mender-server/services/deployments/model"
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 	mstore "github.com/mendersoftware/mender-server/pkg/store"
+
+	"github.com/mendersoftware/mender-server/services/deployments/model"
 )
 
 func TestMigration_1_2_13(t *testing.T) {

@@ -15,19 +15,21 @@ package useradm
 
 import (
 	"context"
-	"github.com/mendersoftware/mender-server/services/useradm/common"
 	"net/http"
 	"strconv"
 	"testing"
 	"time"
 
-	"github.com/mendersoftware/mender-server/pkg/apiclient"
-	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
+	"github.com/mendersoftware/mender-server/services/useradm/common"
+
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"golang.org/x/crypto/bcrypt"
+
+	"github.com/mendersoftware/mender-server/pkg/apiclient"
+	"github.com/mendersoftware/mender-server/pkg/identity"
+	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
 
 	"github.com/mendersoftware/mender-server/services/useradm/client/tenant"
 	ct "github.com/mendersoftware/mender-server/services/useradm/client/tenant"

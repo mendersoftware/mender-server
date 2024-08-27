@@ -18,17 +18,17 @@ import (
 	"context"
 
 	"github.com/google/uuid"
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
-	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	mopts "go.mongodb.org/mongo-driver/mongo/options"
+
+	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
 )
 
 type migration_2_0_1 struct {
 	ds     *DataStoreMongo
 	dbName string
-	ctx    context.Context
 }
 
 func isValidUUID(u string) bool {

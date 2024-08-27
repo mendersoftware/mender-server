@@ -24,9 +24,10 @@ import (
 
 	app_mocks "github.com/mendersoftware/mender-server/services/iot-manager/app/mocks"
 
-	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 )
 
 func TestAlive(t *testing.T) {

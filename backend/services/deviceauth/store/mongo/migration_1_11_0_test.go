@@ -17,11 +17,12 @@ import (
 	"context"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+	"go.mongodb.org/mongo-driver/bson"
+
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
-	"github.com/stretchr/testify/assert"
-	"go.mongodb.org/mongo-driver/bson"
 )
 
 func TestMigration_1_11_0(t *testing.T) {

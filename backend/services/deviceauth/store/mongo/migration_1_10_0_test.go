@@ -17,14 +17,16 @@ import (
 	"context"
 	"testing"
 
-	"github.com/mendersoftware/mender-server/services/deviceauth/model"
-	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
-	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 	"github.com/stretchr/testify/assert"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+
+	"github.com/mendersoftware/mender-server/pkg/identity"
+	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
+
+	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 )
 
 func TestMigration_1_10_0(t *testing.T) {

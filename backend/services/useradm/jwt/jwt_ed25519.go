@@ -25,14 +25,12 @@ import (
 
 // JWTHandlerEd25519 is an Ed25519-specific JWTHandler
 type JWTHandlerEd25519 struct {
-	privKey      map[int]*ed25519.PrivateKey
-	currentKeyId int
+	privKey map[int]*ed25519.PrivateKey
 }
 
 func NewJWTHandlerEd25519(privKey *ed25519.PrivateKey, keyId int) *JWTHandlerEd25519 {
 	return &JWTHandlerEd25519{
-		privKey:      map[int]*ed25519.PrivateKey{keyId: privKey},
-		currentKeyId: keyId,
+		privKey: map[int]*ed25519.PrivateKey{keyId: privKey},
 	}
 }
 

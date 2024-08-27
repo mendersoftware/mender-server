@@ -24,10 +24,11 @@ import (
 	"testing"
 
 	"github.com/ant0ine/go-json-rest/rest"
-	"github.com/mendersoftware/mender-server/pkg/accesslog"
-	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/mendersoftware/mender-server/pkg/accesslog"
+	"github.com/mendersoftware/mender-server/pkg/log"
 )
 
 type logCounter struct {

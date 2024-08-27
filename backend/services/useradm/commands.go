@@ -18,11 +18,12 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/pkg/errors"
+	"golang.org/x/term"
+
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
-	"github.com/pkg/errors"
-	"golang.org/x/term"
 
 	"github.com/mendersoftware/mender-server/services/useradm/client/tenant"
 	. "github.com/mendersoftware/mender-server/services/useradm/config"

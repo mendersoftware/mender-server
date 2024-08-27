@@ -19,7 +19,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strings"
 
@@ -43,8 +43,8 @@ type opensearchStore struct {
 	devicesIndexShards       int
 	devicesIndexReplicas     int
 	deploymentsIndexName     string
-	deploymentsIndexShards   int
-	deploymentsIndexReplicas int
+	deploymentsIndexShards   int //nolint:unused //FIXME: this is field is never used
+	deploymentsIndexReplicas int //nolint:unused //FIXME: this is field is never used
 	client                   *opensearch.Client
 }
 
@@ -306,7 +306,7 @@ func (s *opensearchStore) migratePutIndexTemplate(ctx context.Context,
 	defer res.Body.Close()
 
 	if res.StatusCode != http.StatusOK {
-		body, _ := ioutil.ReadAll(res.Body)
+		body, _ := io.ReadAll(res.Body)
 		return errors.Errorf("failed to set up the index template: %s", string(body))
 	}
 	return nil

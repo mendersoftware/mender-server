@@ -26,9 +26,10 @@ import (
 	"testing"
 	"time"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/mendersoftware/mender-server/pkg/apiclient"
 	"github.com/mendersoftware/mender-server/pkg/rest_utils"
-	"github.com/stretchr/testify/assert"
 
 	ct "github.com/mendersoftware/mender-server/services/useradm/client/testing"
 )

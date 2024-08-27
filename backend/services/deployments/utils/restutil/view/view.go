@@ -21,6 +21,7 @@ import (
 	"strings"
 
 	"github.com/ant0ine/go-json-rest/rest"
+
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 

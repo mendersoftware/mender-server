@@ -23,6 +23,7 @@ import (
 	"testing"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
+
 	dconfig "github.com/mendersoftware/mender-server/services/workflows/config"
 )
 

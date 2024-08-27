@@ -27,6 +27,7 @@ import (
 
 	"github.com/ant0ine/go-json-rest/rest"
 	"github.com/ant0ine/go-json-rest/rest/test"
+
 	mapp "github.com/mendersoftware/mender-server/services/deployments/app/mocks"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 	"github.com/mendersoftware/mender-server/services/deployments/utils/restutil/view"

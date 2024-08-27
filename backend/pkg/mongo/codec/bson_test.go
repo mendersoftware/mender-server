@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-package mongo
+package codec
 
 import (
 	"bytes"
@@ -41,14 +41,14 @@ func TestUUIDEncodeDecode(t *testing.T) {
 	}{{
 		Name: "ok, in a struct",
 		Value: struct {
-			uuid.UUID
+			UUID uuid.UUID
 		}{
 			UUID: uuid.NewSHA1(uuid.NameSpaceOID, []byte("digest")),
 		},
 	}, {
 		Name: "ok, pointer in a struct",
 		Value: struct {
-			*uuid.UUID
+			UUID *uuid.UUID
 		}{
 			UUID: func() *uuid.UUID {
 				uid := uuid.NewSHA1(uuid.NameSpaceOID, []byte("digest"))
@@ -58,7 +58,7 @@ func TestUUIDEncodeDecode(t *testing.T) {
 	}, {
 		Name: "ok, in a struct",
 		Value: struct {
-			uuid.UUID `bson:",omitempty"`
+			UUID uuid.UUID `bson:",omitempty"`
 		}{},
 	}, {
 		Name: "ok, empty slice",
@@ -109,7 +109,7 @@ func TestUUIDEncodeValue(t *testing.T) {
 		Name:  "error, bad type",
 		Value: "0c070528-236b-414b-b72b-42bfd10c3abc",
 		Error: errors.New(
-			"UUIDEncodeValue can only encode valid uuid.UUID, but got string",
+			"UUIDCodec can only encode valid uuid.UUID, but got string",
 		),
 	}}
 	for i := range testCases {
@@ -125,7 +125,7 @@ func TestUUIDEncodeValue(t *testing.T) {
 			require.NoError(t, err)
 
 			eCtx := bsoncodec.EncodeContext{Registry: bson.DefaultRegistry}
-			err = uuidEncodeValue(eCtx, ew, reflect.ValueOf(tc.Value))
+			err = UUIDCodec{}.EncodeValue(eCtx, ew, reflect.ValueOf(tc.Value))
 			dw.WriteDocumentEnd()
 			if tc.Error != nil {
 				if assert.Error(t, err) {
@@ -262,7 +262,7 @@ func TestUUIDDecodeValue(t *testing.T) {
 
 		Value: "?",
 		Error: errors.New(
-			`UUIDDecodeValue can only decode valid and settable ` +
+			`UUIDCodec can only decode valid and settable ` +
 				`uuid\.UUID, but got string`),
 	}}
 	for i := range testCases {
@@ -272,7 +272,7 @@ func TestUUIDDecodeValue(t *testing.T) {
 			r := bsonrw.NewBSONValueReader(tc.InputType, tc.RawInput)
 			dCtx := bsoncodec.DecodeContext{Registry: bson.DefaultRegistry}
 			val := reflect.New(reflect.TypeOf(tc.Value))
-			err := uuidDecodeValue(dCtx, r, val.Elem())
+			err := UUIDCodec{}.DecodeValue(dCtx, r, val.Elem())
 			if tc.Error != nil {
 				if assert.Error(t, err) {
 					assert.Regexp(t, tc.Error.Error(), err.Error())

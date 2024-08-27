@@ -20,9 +20,10 @@ import (
 	"path/filepath"
 	"regexp"
 
+	"github.com/pkg/errors"
+
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
-	"github.com/pkg/errors"
 
 	api_http "github.com/mendersoftware/mender-server/services/useradm/api/http"
 	"github.com/mendersoftware/mender-server/services/useradm/client/tenant"

@@ -27,6 +27,7 @@ import (
 	"time"
 
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
+
 	common "github.com/mendersoftware/mender-server/services/iot-manager/client"
 	"github.com/mendersoftware/mender-server/services/iot-manager/crypto"
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"

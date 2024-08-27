@@ -25,14 +25,12 @@ import (
 
 // JWTHandlerRS256 is an RS256-specific JWTHandler
 type JWTHandlerRS256 struct {
-	privKey      map[int]*rsa.PrivateKey
-	currentKeyId int
+	privKey map[int]*rsa.PrivateKey
 }
 
 func NewJWTHandlerRS256(privKey *rsa.PrivateKey, keyId int) *JWTHandlerRS256 {
 	return &JWTHandlerRS256{
-		privKey:      map[int]*rsa.PrivateKey{keyId: privKey},
-		currentKeyId: keyId,
+		privKey: map[int]*rsa.PrivateKey{keyId: privKey},
 	}
 }
 

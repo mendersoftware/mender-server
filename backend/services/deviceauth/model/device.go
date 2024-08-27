@@ -19,8 +19,9 @@ import (
 	"time"
 
 	"github.com/asaskevich/govalidator"
-	"github.com/mendersoftware/mender-server/pkg/ratelimits"
 	"github.com/pkg/errors"
+
+	"github.com/mendersoftware/mender-server/pkg/ratelimits"
 )
 
 const (

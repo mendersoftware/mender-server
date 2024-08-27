@@ -21,9 +21,10 @@ import (
 	"os"
 	"strings"
 
-	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/pkg/errors"
 	"github.com/urfave/cli"
+
+	"github.com/mendersoftware/mender-server/pkg/config"
 
 	"github.com/mendersoftware/mender-server/services/workflows/app/server"
 	"github.com/mendersoftware/mender-server/services/workflows/app/worker"

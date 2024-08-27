@@ -33,9 +33,10 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/storage/azblob/container"
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/google/uuid"
+	"github.com/stretchr/testify/assert"
+
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 	"github.com/mendersoftware/mender-server/services/deployments/storage"
-	"github.com/stretchr/testify/assert"
 )
 
 var (

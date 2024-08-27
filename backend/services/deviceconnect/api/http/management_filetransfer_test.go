@@ -28,19 +28,20 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/ws"
 	natsio "github.com/nats-io/nats.go"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/vmihailenco/msgpack/v5"
 
+	"github.com/mendersoftware/mender-server/pkg/identity"
+	"github.com/mendersoftware/mender-server/pkg/ws"
+
+	wsft "github.com/mendersoftware/mender-server/pkg/ws/filetransfer"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/app"
 	app_mocks "github.com/mendersoftware/mender-server/services/deviceconnect/app/mocks"
 	nats_mocks "github.com/mendersoftware/mender-server/services/deviceconnect/client/nats/mocks"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/model"
-	wsft "github.com/mendersoftware/mender-server/pkg/ws/filetransfer"
 )
 
 func string2pointer(v string) *string {

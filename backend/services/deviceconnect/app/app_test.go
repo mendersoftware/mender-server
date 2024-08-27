@@ -26,12 +26,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
-	inv_mocks "github.com/mendersoftware/mender-server/services/deviceconnect/client/inventory/mocks"
+	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/client/workflows"
 	wf_mocks "github.com/mendersoftware/mender-server/services/deviceconnect/client/workflows/mocks"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/model"
 	store_mocks "github.com/mendersoftware/mender-server/services/deviceconnect/store/mocks"
-	"github.com/mendersoftware/mender-server/pkg/identity"
 )
 
 func TestHealthCheck(t *testing.T) {
@@ -44,7 +43,7 @@ func TestHealthCheck(t *testing.T) {
 		}),
 	).Return(err)
 
-	app := New(store, nil, nil)
+	app := New(store, nil)
 
 	ctx := context.Background()
 	res := app.HealthCheck(ctx)
@@ -67,7 +66,7 @@ func TestProvisionDevice(t *testing.T) {
 		deviceID,
 	).Return(err)
 
-	app := New(store, nil, nil)
+	app := New(store, nil)
 
 	ctx := context.Background()
 	res := app.ProvisionDevice(ctx, tenantID, &model.Device{ID: deviceID})
@@ -90,7 +89,7 @@ func TestDeleteDevice(t *testing.T) {
 		deviceID,
 	).Return(err)
 
-	app := New(store, nil, nil)
+	app := New(store, nil)
 
 	ctx := context.Background()
 	res := app.DeleteDevice(ctx, tenantID, deviceID)
@@ -132,7 +131,7 @@ func TestGetDevice(t *testing.T) {
 		deviceID,
 	).Return(device, nil)
 
-	app := New(store, nil, nil)
+	app := New(store, nil)
 
 	ctx := context.Background()
 	_, res := app.GetDevice(ctx, tenantID, "error")
@@ -293,12 +292,10 @@ func TestPrepareUserSession(t *testing.T) {
 			defer ds.AssertExpectations(t)
 			wf := new(wf_mocks.Client)
 			defer wf.AssertExpectations(t)
-			inv := new(inv_mocks.Client)
-			defer inv.AssertExpectations(t)
 			uuid.SetRand(tc.Rand)
 			defer uuid.SetRand(nil)
 			app := New(
-				ds, inv,
+				ds,
 				wf, Config{HaveAuditLogs: tc.HaveAuditLogs},
 			)
 			if tc.BadParameters {
@@ -435,12 +432,10 @@ func TestLogUserSession(t *testing.T) {
 			defer ds.AssertExpectations(t)
 			wf := new(wf_mocks.Client)
 			defer wf.AssertExpectations(t)
-			inv := new(inv_mocks.Client)
-			defer inv.AssertExpectations(t)
 			uuid.SetRand(tc.Rand)
 			defer uuid.SetRand(nil)
 			app := New(
-				ds, inv,
+				ds,
 				wf, Config{HaveAuditLogs: tc.HaveAuditLogs},
 			)
 			if tc.BadParameters {
@@ -570,7 +565,7 @@ func TestFreeUserSession(t *testing.T) {
 			wf := new(wf_mocks.Client)
 			defer ds.AssertExpectations(t)
 			defer wf.AssertExpectations(t)
-			app := New(ds, nil, wf, Config{HaveAuditLogs: tc.HaveAuditLogs})
+			app := New(ds, wf, Config{HaveAuditLogs: tc.HaveAuditLogs})
 			ctx := context.Background()
 
 			ds.On("DeleteSession", ctx, tc.SessionID).
@@ -628,7 +623,7 @@ func TestGetSessionRecording(t *testing.T) {
 				sessionId,
 				writer,
 			).Return(tc.DbGetSessionRecordingError)
-			app := New(store, nil, nil)
+			app := New(store, nil)
 
 			ctx := context.Background()
 			err := app.GetSessionRecording(ctx, sessionId, writer)
@@ -663,7 +658,7 @@ func TestSaveSessionRecording(t *testing.T) {
 				sessionId,
 				bytes,
 			).Return(tc.DbGetSessionRecordingError)
-			app := New(store, nil, nil)
+			app := New(store, nil)
 
 			ctx := context.Background()
 			err := app.SaveSessionRecording(ctx, sessionId, bytes)
@@ -686,7 +681,7 @@ func TestGetRecorder(t *testing.T) {
 		t.Run(tc.Name, func(t *testing.T) {
 			sessionId := "00000000-0000-0000-0000-000000000000"
 			store := &store_mocks.DataStore{}
-			app := New(store, nil, nil)
+			app := New(store, nil)
 
 			ctx := context.Background()
 			r := app.GetRecorder(ctx, sessionId)
@@ -747,7 +742,7 @@ func TestDownloadFile(t *testing.T) {
 			wf := new(wf_mocks.Client)
 			defer wf.AssertExpectations(t)
 
-			app := New(ds, nil, wf, Config{HaveAuditLogs: tc.HaveAuditLogs})
+			app := New(ds, wf, Config{HaveAuditLogs: tc.HaveAuditLogs})
 			ctx := context.Background()
 
 			if tc.HaveAuditLogs {
@@ -819,7 +814,7 @@ func TestUploadFile(t *testing.T) {
 			wf := new(wf_mocks.Client)
 			defer wf.AssertExpectations(t)
 
-			app := New(ds, nil, wf, Config{HaveAuditLogs: tc.HaveAuditLogs})
+			app := New(ds, wf, Config{HaveAuditLogs: tc.HaveAuditLogs})
 			ctx := context.Background()
 
 			if tc.HaveAuditLogs {
@@ -843,7 +838,7 @@ func TestShutdown(t *testing.T) {
 	t.Parallel()
 	gracePeriod := 1 * time.Second
 
-	test := New(nil, nil, nil, Config{})
+	test := New(nil, nil, Config{})
 	test.Shutdown(gracePeriod)
 	test.ShutdownDone()
 
@@ -857,7 +852,7 @@ func TestShutdownCancels(t *testing.T) {
 	t.Parallel()
 	gracePeriod := 1 * time.Second
 
-	app := New(nil, nil, nil, Config{})
+	app := New(nil, nil, Config{})
 
 	// register shutdown cancels
 	c1 := false
@@ -923,7 +918,7 @@ func TestDeleteTenant(t *testing.T) {
 				}),
 				tc.tenantId,
 			).Return(tc.dbErr)
-			app := New(ds, nil, nil, Config{})
+			app := New(ds, nil, Config{})
 			err := app.DeleteTenant(ctx, tc.tenantId)
 
 			if tc.dbErr != nil {

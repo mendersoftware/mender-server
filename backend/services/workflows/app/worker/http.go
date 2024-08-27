@@ -17,7 +17,7 @@ package worker
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"strings"
@@ -101,7 +101,7 @@ func processHTTPTask(
 	}
 
 	defer res.Body.Close()
-	resBody, _ := ioutil.ReadAll(res.Body)
+	resBody, _ := io.ReadAll(res.Body)
 
 	var success bool
 	if len(httpTask.StatusCodes) == 0 {

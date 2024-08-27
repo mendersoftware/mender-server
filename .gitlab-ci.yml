@@ -1,13 +1,16 @@
 variables:
   GOLANG_VERSION:
     value: "1.22.4"
-    description: 'Go version to use for building and testing'
+    description: "Go version to use for building and testing"
+  IMAGE_GOLANGCI_VERSION:
+    value: "v1.60"
+    description: "Version of image golangci/golangci-lint for static checks"
 
 include:
-  - project: 'Northern.tech/Mender/mendertesting'
-    file: '.gitlab-ci-check-commits.yml'
-  - project: 'Northern.tech/Mender/mendertesting'
-    file: '.gitlab-ci-github-status-updates.yml'
+  - project: "Northern.tech/Mender/mendertesting"
+    file: ".gitlab-ci-check-commits.yml"
+  - project: "Northern.tech/Mender/mendertesting"
+    file: ".gitlab-ci-github-status-updates.yml"
 
 stages:
   - build
@@ -20,7 +23,7 @@ build:dist:
   image: golang:${GOLANG_VERSION}
   stage: build
   rules:
-   - when: never
+    - when: never
   tags:
     - hetzner-amd-beefy
   script:
@@ -33,11 +36,23 @@ build:dist:
     paths:
       - dist.tar.gz
 
+test:backend:static:
+  stage: test
+  needs: []
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+      changes:
+        paths: ["backend/**/*.go"]
+  image: "golangci/golangci-lint:${IMAGE_GOLANGCI_VERSION}"
+  script:
+    - cd backend
+    - golangci-lint run -v
+
 test:unit:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/golang:${GOLANG_VERSION}-bullseye
   stage: test
   rules:
-   - when: never
+    - when: never
   tags:
     - hetzner-amd-beefy
   services:
@@ -63,7 +78,7 @@ test:acceptance:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:26-cli
   stage: test
   rules:
-   - when: never
+    - when: never
   tags:
     - hetzner-amd-beefy
   services:
@@ -84,7 +99,7 @@ test:integration:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:26-cli
   stage: test
   rules:
-   - when: never
+    - when: never
   tags:
     - hetzner-amd-beefy
   services:

@@ -17,9 +17,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
 )
 
 func TestTokenMarshal(t *testing.T) {
