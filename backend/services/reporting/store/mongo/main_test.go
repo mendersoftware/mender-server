@@ -15,13 +15,8 @@
 package mongo
 
 import (
-	"bytes"
-	"fmt"
-	"io/ioutil"
-	"net"
+	"log"
 	"os"
-	"os/exec"
-	"strconv"
 	"strings"
 	"testing"
 	"time"
@@ -31,33 +26,27 @@ import (
 	"golang.org/x/net/context"
 )
 
-// TestDB is a stripped down TestDBRunner interface.
-type TestDB interface {
-	NewClient(ctx context.Context) *mongo.Client
-	URL() string
-}
-
 var (
-	db     TestDB
-	client *mongo.Client
+	client   *mongo.Client
+	mongoURL string
 )
 
 func TestMain(m *testing.M) {
-	status := func() int {
-		name, err := ioutil.TempDir("", "mongod-test")
+	if url, ok := os.LookupEnv("TEST_MONGO_URL"); ok {
+		var err error
+		mongoURL = url
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		client, err = mongo.Connect(ctx, mopts.Client().ApplyURI(url))
+		cancel()
 		if err != nil {
-			panic(err)
+			log.Printf("failed to connect to MongoDB: %s", err.Error())
+			os.Exit(1)
 		}
-		instance := NewMongoTestInstance(name)
-		db = instance
-		defer instance.Stop()
-		ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
-		defer cancel()
-		client = db.NewClient(ctx)
-		ret := m.Run()
-		return ret
-	}()
-	os.Exit(status)
+	} else {
+		log.Println("TEST_MONGO_URL must be set to run unit tests")
+		os.Exit(1)
+	}
+	os.Exit(m.Run())
 }
 
 var dbNameReplacer = strings.NewReplacer(
@@ -94,83 +83,4 @@ func GetTestDataStore(t *testing.T) *MongoStore {
 // GetTestDatabase as function above returns the test-local database.
 func GetTestDatabase(ctx context.Context, t *testing.T) *mongo.Database {
 	return client.Database(DbName)
-}
-
-type MongoTestInstance struct {
-	Process  *exec.Cmd
-	HostAddr string
-	DbPath   string
-	ShutDown chan struct{}
-}
-
-func NewMongoTestInstance(path string) *MongoTestInstance {
-	db := new(MongoTestInstance)
-	db.ShutDown = make(chan struct{})
-	l, err := net.Listen("tcp", "127.0.0.1:0")
-	if err != nil {
-		panic("unable to listen on a local address: " + err.Error())
-	}
-	addr := l.Addr().(*net.TCPAddr)
-	l.Close()
-	db.HostAddr = addr.String()
-
-	args := []string{
-		"--dbpath", path,
-		"--bind_ip", "127.0.0.1",
-		"--port", strconv.Itoa(addr.Port),
-		"--nojournal",
-	}
-	var stdout, stderr bytes.Buffer
-	db.Process = exec.Command("mongod", args...)
-	db.Process.Stdout = &stdout
-	db.Process.Stderr = &stderr
-	err = db.Process.Start()
-	if err != nil {
-		// print error to facilitate troubleshooting as the panic will be caught in a panic handler
-		fmt.Fprintf(os.Stderr, "mongod failed to start: %v\n", err)
-		panic(err)
-	}
-	go func() {
-		err := db.Process.Wait()
-		select {
-		case <-db.ShutDown:
-		default:
-			if err != nil {
-				fmt.Fprintf(os.Stderr, "!!! mongod process died uenxpectedly:\n")
-				fmt.Fprintf(os.Stderr, "!!! stdout:\n%s\n", stdout.String())
-				fmt.Fprintf(os.Stderr, "!!! stderr:\n%s\n", stderr.String())
-				panic(err)
-			} else {
-				fmt.Fprintf(os.Stderr, "!!! mongod process died uenxpectedly:\n")
-				fmt.Fprintf(os.Stderr, "!!! stdout:\n%s\n", stdout.String())
-				fmt.Fprintf(os.Stderr, "!!! stderr:\n%s\n", stderr.String())
-				panic("mongod process died unexpectedly")
-			}
-		}
-	}()
-	return db
-}
-
-func (db *MongoTestInstance) Stop() {
-	close(db.ShutDown)
-	db.Process.Process.Signal(os.Interrupt)
-	for i := 0; i < 10; i++ {
-		if db.Process.ProcessState != nil {
-			return
-		}
-		time.Sleep(time.Millisecond * 500)
-	}
-	db.Process.Process.Kill()
-}
-
-func (db *MongoTestInstance) NewClient(ctx context.Context) *mongo.Client {
-	client, err := mongo.Connect(ctx, mopts.Client().ApplyURI(db.URL()))
-	if err != nil {
-		panic(err)
-	}
-	return client
-}
-
-func (db *MongoTestInstance) URL() string {
-	return "mongodb://" + db.HostAddr
 }

@@ -69,18 +69,8 @@ test:backend:unit:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/mongo:6.0
       alias: mongo
   variables:
-    MONGODB_DEBIAN_RELEASE: "bullseye"
-    MONGODB_VERSION: "6.0"
     TEST_MONGO_URL: "mongodb://mongo"
     WORKFLOWS_MONGO_URL: "mongodb://mongo"
-  before_script:
-    # mongodb-org package needs systemd, this circumnavigates the issue providing a fake systemctl command
-    - ln -s /bin/true /usr/sbin/systemctl
-    # install mongodb for the tests that use it locally
-    - curl -fsSL https://www.mongodb.org/static/pgp/server-${MONGODB_VERSION}.asc | gpg -o /usr/share/keyrings/mongodb-server-${MONGODB_VERSION}.gpg --dearmor
-    - echo "deb [ signed-by=/usr/share/keyrings/mongodb-server-${MONGODB_VERSION}.gpg ] http://repo.mongodb.org/apt/debian ${MONGODB_DEBIAN_RELEASE}/mongodb-org/${MONGODB_VERSION} main" | tee /etc/apt/sources.list.d/mongodb-org-${MONGODB_VERSION}.list
-    - apt-get -qq update
-    - apt-get install -qy mongodb-org
   script:
     - make -C backend test-unit
 
