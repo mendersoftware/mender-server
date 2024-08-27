@@ -1864,7 +1864,7 @@ func (d *Deployments) SaveDeviceDeploymentLog(ctx context.Context, deviceID stri
 		Messages:     logs,
 	}
 	if err := dlog.Validate(); err != nil {
-		return errors.Wrapf(err, ErrStorageInvalidLog.Error())
+		return errors.Wrap(err, ErrStorageInvalidLog.Error())
 	}
 
 	if has, err := d.HasDeploymentForDevice(ctx, deploymentID, deviceID); !has {
