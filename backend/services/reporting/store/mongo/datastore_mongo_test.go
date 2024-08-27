@@ -56,7 +56,7 @@ func TestNewMongoStore(t *testing.T) {
 		Config: MongoStoreConfig{
 			DbName: t.Name(),
 			MongoURL: func() *url.URL {
-				uri, _ := url.Parse(db.URL())
+				uri, _ := url.Parse(mongoURL)
 				return uri
 			}(),
 		},
@@ -66,7 +66,7 @@ func TestNewMongoStore(t *testing.T) {
 		Config: MongoStoreConfig{
 			DbName: t.Name(),
 			MongoURL: func() *url.URL {
-				uri, _ := url.Parse(db.URL())
+				uri, _ := url.Parse(mongoURL)
 				uri.Scheme = "notMongo"
 				return uri
 			}(),
@@ -78,7 +78,7 @@ func TestNewMongoStore(t *testing.T) {
 		Config: MongoStoreConfig{
 			DbName: t.Name(),
 			MongoURL: func() *url.URL {
-				uri, _ := url.Parse(db.URL())
+				uri, _ := url.Parse(mongoURL)
 				return uri
 			}(),
 			Username: "user",
@@ -91,7 +91,7 @@ func TestNewMongoStore(t *testing.T) {
 		Config: MongoStoreConfig{
 			DbName: t.Name(),
 			MongoURL: func() *url.URL {
-				uri, _ := url.Parse(db.URL())
+				uri, _ := url.Parse(mongoURL)
 				return uri
 			}(),
 			Username: "user",
@@ -117,7 +117,7 @@ func TestNewMongoStore(t *testing.T) {
 			DbName: t.Name(),
 			SSL:    true,
 			MongoURL: func() *url.URL {
-				uri, _ := url.Parse(db.URL())
+				uri, _ := url.Parse(mongoURL)
 				return uri
 			}(),
 		},

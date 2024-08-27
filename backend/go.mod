@@ -1,6 +1,6 @@
 module github.com/mendersoftware/mender-server
 
-go 1.22.6
+go 1.22
 
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.14.0

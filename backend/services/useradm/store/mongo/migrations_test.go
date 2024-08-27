@@ -44,7 +44,6 @@ func TestMigration_2_0_3(t *testing.T) {
 	migration := []migrate.Migration{
 		&migration_2_0_3{
 			ds:     ds,
-			ctx:    ctx,
 			dbName: DbName,
 		},
 	}

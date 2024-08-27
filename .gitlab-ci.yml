@@ -3,7 +3,7 @@ variables:
   #       This namespace belongs to Gitlab CI/CD.
   #       https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
   GOLANG_VERSION:
-    value: "1.22.4"
+    value: "1.23.0"
     description: "Go version to use for building and testing"
   IMAGE_GOLANGCI_VERSION:
     value: "v1.60"
@@ -25,11 +25,13 @@ stages:
 .dind-login: &dind-login
   - mkdir -p $HOME/.docker && echo $DOCKER_AUTH_CONFIG > $HOME/.docker/config.json
 
-build:dist:
+build:backend:dist:
   image: golang:${GOLANG_VERSION}
   stage: build
   rules:
-    - when: never
+    - changes:
+        paths: ["backend/**/*"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
   tags:
     - hetzner-amd-beefy
   script:
@@ -54,44 +56,38 @@ test:backend:static:
     - cd backend
     - golangci-lint run -v
 
-test:unit:
+test:backend:unit:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/golang:${GOLANG_VERSION}-bullseye
   stage: test
   rules:
-    - when: never
+    - changes:
+        paths: ["backend/**/*"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
   tags:
     - hetzner-amd-beefy
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/mongo:6.0
       alias: mongo
   variables:
-    MONGODB_DEBIAN_RELEASE: "bullseye"
-    MONGODB_VERSION: "6.0"
     TEST_MONGO_URL: "mongodb://mongo"
     WORKFLOWS_MONGO_URL: "mongodb://mongo"
-  before_script:
-    # mongodb-org package needs systemd, this circumnavigates the issue providing a fake systemctl command
-    - ln -s /bin/true /usr/sbin/systemctl
-    # install mongodb for the tests that use it locally
-    - curl -fsSL https://www.mongodb.org/static/pgp/server-${MONGODB_VERSION}.asc | gpg -o /usr/share/keyrings/mongodb-server-${MONGODB_VERSION}.gpg --dearmor
-    - echo "deb [ signed-by=/usr/share/keyrings/mongodb-server-${MONGODB_VERSION}.gpg ] http://repo.mongodb.org/apt/debian ${MONGODB_DEBIAN_RELEASE}/mongodb-org/${MONGODB_VERSION} main" | tee /etc/apt/sources.list.d/mongodb-org-${MONGODB_VERSION}.list
-    - apt-get -qq update
-    - apt-get install -qy mongodb-org
   script:
     - make -C backend test-unit
 
-test:acceptance:
+test:backend:acceptance:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:26-cli
   stage: test
   rules:
-    - when: never
+    - changes:
+        paths: ["backend/**/*"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
   tags:
     - hetzner-amd-beefy
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:26-dind
       alias: docker
   needs:
-    - job: build:dist
+    - job: build:backend:dist
       artifacts: true
   before_script:
     - apk add make bash go git
@@ -101,18 +97,20 @@ test:acceptance:
   script:
     - make -C backend test-acceptance
 
-test:integration:
+test:backend:integration:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:26-cli
   stage: test
   rules:
-    - when: never
+    - changes:
+        paths: ["backend/**/*"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
   tags:
     - hetzner-amd-beefy
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:26-dind
       alias: docker
   needs:
-    - job: build:dist
+    - job: build:backend:dist
       artifacts: true
   before_script:
     - apk add make bash git curl
