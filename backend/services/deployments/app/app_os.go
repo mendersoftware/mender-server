@@ -91,7 +91,7 @@ func (d *Deployments) assignArtifact(
 	// First case is for backward compatibility.
 	// It is possible that there is old deployment structure in the system.
 	// In such case we need to select artifact using name and device type.
-	if deployment.Artifacts == nil || len(deployment.Artifacts) == 0 {
+	if len(deployment.Artifacts) == 0 {
 		artifact, err = d.db.ImageByNameAndDeviceType(
 			ctx,
 			installed.ArtifactName,

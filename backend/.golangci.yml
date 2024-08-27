@@ -2,6 +2,9 @@ run:
   # timeout for analysis, e.g. 30s, 5m, default is 1m
   timeout: 5m
 
+  build-tags:
+    - nopkcs11 # Disables (unused) openssl dependency
+
   # Skip linting _test.go files
   tests: false
 

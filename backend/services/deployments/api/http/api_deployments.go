@@ -1622,7 +1622,7 @@ func ParseLookupQuery(vals url.Values) (model.Query, error) {
 
 func parseEpochToTimestamp(epoch string) (time.Time, error) {
 	if epochInt64, err := strconv.ParseInt(epoch, 10, 64); err != nil {
-		return time.Time{}, errors.Errorf("invalid timestamp: " + epoch)
+		return time.Time{}, errors.New("invalid timestamp: " + epoch)
 	} else {
 		return time.Unix(epochInt64, 0).UTC(), nil
 	}

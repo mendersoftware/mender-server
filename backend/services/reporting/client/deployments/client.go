@@ -134,7 +134,7 @@ func (c *client) GetDeployments(
 		default:
 			err = errors.Errorf("%s %s request failed with status %v",
 				req.Method, req.URL, rsp.Status)
-			l.Errorf(err.Error())
+			l.Error(err.Error())
 		}
 		body.Close()
 		body = nil
@@ -189,7 +189,7 @@ func (c *client) GetLatestFinishedDeployment(
 	} else if rsp.StatusCode != http.StatusOK {
 		err := errors.Errorf("%s %s request failed with status %v",
 			req.Method, req.URL, rsp.Status)
-		l.Errorf(err.Error())
+		l.Error(err.Error())
 		return nil, err
 	}
 

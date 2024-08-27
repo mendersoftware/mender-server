@@ -76,7 +76,7 @@ func (d *DeploymentLog) UnmarshalJSON(raw []byte) error {
 		return err
 	}
 
-	if adl.Messages == nil || len(adl.Messages) == 0 {
+	if len(adl.Messages) == 0 {
 		return errors.Wrapf(ErrInvalidDeploymentLog, "no messages")
 	}
 
