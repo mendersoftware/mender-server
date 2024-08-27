@@ -13,12 +13,14 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
+import json
+import os
+import re
+import subprocess
+
 import bravado
 import pytest
 import requests
-import os
-import subprocess
-import json
 
 from uuid import uuid4
 
@@ -322,7 +324,8 @@ class TestDevicesApiGetConfigurationDeploymentLink:
         assert "Type: mender-configure" in stdout
         assert "Name: {}".format(name) in stdout
         assert "Version: 3" in stdout
-        assert "Compatible devices: [{}]".format(dtype) in stdout
+        # NOTE: Using regular expression for backward compatibility
+        assert re.search(rf"Compatible devices: (\[{dtype}\]|'\[{dtype}\]')", stdout)
 
         # configuration contents
         metapos = stdout.index("Metadata")
@@ -334,8 +337,12 @@ class TestDevicesApiGetConfigurationDeploymentLink:
             "Provides: data-partition.mender-configure.version: {}".format(name)
             in stdout
         )
-        assert "Clears Provides: [data-partition.mender-configure.*]" in stdout
-        assert "Depends: {}" in stdout
+        # NOTE: Using regular expression for backward compatibility
+        assert re.search(
+            rf"Clears Provides: (\[data-partition.mender-configure.*\]|\[\"data-partition.mender-configure.*\"\])",
+            stdout,
+        )
+        assert re.search(r"Depends: (\{\}|Nothing)", stdout)
 
 
 class TestDeviceApiGetConfigurationDeploymentNext:
