@@ -301,6 +301,8 @@ paths:
           $ref: "#/responses/InvalidRequestError"
         401:
           $ref: '#/responses/UnauthorizedError'
+        409:
+          $ref: "#/responses/ConflictError"
         422:
           $ref: "#/responses/UnprocessableEntityError"
         500:
