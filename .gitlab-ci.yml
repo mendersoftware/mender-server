@@ -8,6 +8,9 @@ variables:
   IMAGE_GOLANGCI_VERSION:
     value: "v1.60"
     description: "Version of image golangci/golangci-lint for static checks"
+  RULES_CHANGES_COMPARE_TO_REF:
+    value: "refs/heads/main"
+    description: "Which reference to compare rules about changes (usually set by push option)"
 
 include:
   - project: "Northern.tech/Mender/mendertesting"
@@ -43,9 +46,9 @@ test:backend:static:
   stage: test
   needs: []
   rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-      changes:
+    - changes:
         paths: ["backend/**/*.go"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
   image: "golangci/golangci-lint:${IMAGE_GOLANGCI_VERSION}"
   script:
     - cd backend
