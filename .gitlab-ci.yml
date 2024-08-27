@@ -3,7 +3,7 @@ variables:
   #       This namespace belongs to Gitlab CI/CD.
   #       https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
   GOLANG_VERSION:
-    value: "1.22.4"
+    value: "1.23.0"
     description: "Go version to use for building and testing"
   IMAGE_GOLANGCI_VERSION:
     value: "v1.60"
