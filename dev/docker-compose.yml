@@ -5,7 +5,7 @@ services:
     build:
       context: ..
       dockerfile: ./backend/services/create-artifact-worker/Dockerfile
-    image: create-artifact-worker
+    image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/create-artifact-worker:${MENDER_IMAGE_TAG:-latest}
     pull_policy: never
     restart: on-failure:3
     command: [worker]
@@ -20,7 +20,7 @@ services:
     build:
       context: ..
       dockerfile: ./backend/services/deployments/Dockerfile
-    image: deployments
+    image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/deployments:${MENDER_IMAGE_TAG:-latest}
     pull_policy: never
     restart: on-failure:3
     command: [server, --automigrate]
@@ -68,7 +68,7 @@ services:
     build:
       context: ..
       dockerfile: ./backend/services/deviceauth/Dockerfile
-    image: deviceauth
+    image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/deviceauth:${MENDER_IMAGE_TAG:-latest}
     pull_policy: never
     restart: on-failure:3
     command: [server, --automigrate]
@@ -103,7 +103,7 @@ services:
     build:
       context: ..
       dockerfile: ./backend/services/deviceconfig/Dockerfile
-    image: deviceconfig
+    image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/deviceconfig:${MENDER_IMAGE_TAG:-latest}
     pull_policy: never
     restart: on-failure:3
     command: [server, --automigrate]
@@ -134,7 +134,7 @@ services:
     build:
       context: ..
       dockerfile: ./backend/services/deviceconnect/Dockerfile
-    image: deviceconnect
+    image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/deviceconnect:${MENDER_IMAGE_TAG:-latest}
     pull_policy: never
     restart: on-failure:3
     command: [server, --automigrate]
@@ -164,7 +164,7 @@ services:
         aliases: [mender-deviceconnect]
 
   gui:
-    image: gui
+    image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/gui:${MENDER_IMAGE_TAG:-latest}
     build:
       context: ../frontend
     restart: on-failure:3
@@ -189,7 +189,7 @@ services:
     build:
       context: ..
       dockerfile: ./backend/services/inventory/Dockerfile
-    image: inventory
+    image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/inventory:${MENDER_IMAGE_TAG:-latest}
     pull_policy: never
     restart: on-failure:3
     command: [server, --automigrate]
@@ -233,7 +233,7 @@ services:
     build:
       context: ..
       dockerfile: ./backend/services/iot-manager/Dockerfile
-    image: iot-manager
+    image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/iot-manager:${MENDER_IMAGE_TAG:-latest}
     pull_policy: never
     restart: on-failure:3
     command: [server, --automigrate]
@@ -259,7 +259,7 @@ services:
     build:
       context: ..
       dockerfile: ./backend/services/useradm/Dockerfile
-    image: useradm
+    image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/useradm:${MENDER_IMAGE_TAG:-latest}
     pull_policy: never
     restart: on-failure:3
     command: [server, --automigrate]
@@ -295,7 +295,7 @@ services:
     build:
       context: ..
       dockerfile: ./backend/services/workflows/Dockerfile
-    image: workflows
+    image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/workflows:${MENDER_IMAGE_TAG:-latest}
     pull_policy: never
     restart: on-failure:3
     command: ["worker"]
@@ -319,7 +319,7 @@ services:
     build:
       context: ..
       dockerfile: ./backend/services/workflows/Dockerfile
-    image: workflows
+    image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/workflows:${MENDER_IMAGE_TAG:-latest}
     pull_policy: never
     restart: on-failure:3
     command: [server, --automigrate]
