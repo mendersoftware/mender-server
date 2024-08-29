@@ -1,0 +1,16 @@
+management_api/__init__.py
+management_api/api/__init__.py
+management_api/api/management_api_client.py
+management_api/api_client.py
+management_api/apis/__init__.py
+management_api/configuration.py
+management_api/exceptions.py
+management_api/model/__init__.py
+management_api/model/device_configuration.py
+management_api/model/error.py
+management_api/model/management_api_configuration.py
+management_api/model/new_configuration_deployment.py
+management_api/model/new_configuration_deployment_response.py
+management_api/model_utils.py
+management_api/models/__init__.py
+management_api/rest.py

@@ -1,0 +1,61 @@
+# Makefile.common initializes varialbes and common targets (build* test*)
+# for all backend services.
+MENDER_IMAGE_PREFIX ?= localhost:5000/mender-server
+MENDER_IMAGE_TAG ?= latest
+
+distdir ?= $(GIT_ROOT)/dist
+bindir ?= $(distdir)/$(GOOS)/$(GOARCH)
+binfile ?= $(bindir)/$(COMPONENT)
+
+VERSION := $(shell git describe --tag --dirty 2>/dev/null)
+COMPONENT := $(notdir $(shell go list))
+GIT_ROOT := $(shell git rev-parse --show-toplevel)
+MAKEDIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+DOCFILES := $(wildcard docs/*_api.yml)
+
+CGO_ENABLED ?= 0
+GOARCH := $(shell go env GOARCH)
+GOOS := $(shell go env GOOS)
+GOMODDIR := $(shell go list -m -f '{{.Dir}}')
+
+LDFLAGS ?= "-s -w"
+BUILDFLAGS ?= -trimpath -ldflags $(LDFLAGS)
+TESTFLAGS ?=
+PYTEST_ARGS ?=
+
+DOCKER_TAG ?= $(MENDER_IMAGE_PREFIX)/$(COMPONENT):$(MENDER_IMAGE_TAG)
+DOCKER_BIN ?= $(subst $(GIT_ROOT),,$(binfile)) # Repo-local file to binary
+# DOCKER_PLATFORM default is defined with respect to the docker server.
+# This fixes the default case on darwin where docker is running inside a VM (linux).
+DOCKER_PLATFORM ?= $(shell docker system info -f ' \
+	{{- .OSType}}/{{- if eq .Architecture "aarch64" -}} \
+	  arm64 \
+	{{- else -}} \
+	  amd64 \
+	{{- end -}} \
+')
+c := ,
+platform_targets = $(addprefix build/,$(subst $(c), ,$(DOCKER_PLATFORM)))
+
+.PHONY: build
+build:
+	# TODO: Add -ldflags "-X ...$(Version)"
+	env CGO_ENABLED=$(CGO_ENABLED) \
+		GOOS=$(GOOS) \
+		GOARCH=$(GOARCH) \
+		go build -o $(binfile) $(BUILDFLAGS)
+
+.PHONY: $(platform_targets)
+$(platform_targets):
+	@$(MAKE) GOOS=$(word 2,$(subst /, ,$@)) GOARCH=$(word 3,$(subst /, ,$@)) build
+
+.PHONY: generate
+generate:
+	go generate ./...
+
+.PHONY: test-unit
+test-unit:
+	go test $(BUILDFLAGS) $(TESTFLAGS) ./...
+
+.PHONY: test
+test: test-unit test-acceptance

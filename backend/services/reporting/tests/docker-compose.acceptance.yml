@@ -2,6 +2,10 @@
 # NOTE: paths are relative to $GIT_ROOT/backend/tests
 services:
   acceptance-tester:
+    # NOTE: Skipping acceptance tests while service is not part of the
+    #       application.
+    entrypoint:
+      - "true"
     volumes:
       - ../services/reporting/tests:/testing
       - ../services/reporting/docs:/docs
@@ -10,9 +14,9 @@ services:
       TESTING_HOST: "reporting:8080"
       REPORTING_URL: "http://reporting:8080"
       OPENSEARCH_URL: "http://opensearch:9200"
-    depends_on:
-      - mmock
-      - reporting
+    #  depends_on:
+    #    - mmock
+    #    - reporting
   reporting:
     build:
       args:

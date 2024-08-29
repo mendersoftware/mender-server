@@ -1,6 +1,7 @@
-# RFC: Should we make all services explicit to allow auto-complete?
-SERVICES = $(subst services/,,$(wildcard services/*))
+MENDER_IMAGE_PREFIX ?= localhost:5000/mender-server
+MENDER_IMAGE_TAG ?= latest
 
+SERVICES = $(subst services,,$(subst /,,$(wildcard services/*/)))
 BUILD_TARGETS := $(addsuffix "-build", $(SERVICES))
 TEST_TARGETS := $(addsuffix "-test", $(SERVICES))
 TEST_UNIT_TARGETS := $(addsuffix "-test-unit", $(SERVICES))
@@ -53,7 +54,9 @@ docker: $(DOCKER_TARGETS)
 
 .PHONY: $(DOCKER_TARGETS)
 $(DOCKER_TARGETS):
-	@$(MAKE) -C services/$(subst -docker,,$@) docker
+	@$(MAKE) -C services/$(subst -docker,,$@) docker \
+		MENDER_IMAGE_PREFIX=$(MENDER_IMAGE_PREFIX) \
+		MENDER_IMAGE_TAG=$(MENDER_IMAGE_TAG)
 
 .PHONY: docker-acceptance
 docker-acceptance: $(DOCKER_ACCEPTANCE_TARGETS)
