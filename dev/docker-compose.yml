@@ -164,11 +164,13 @@ services:
         aliases: [mender-deviceconnect]
 
   gui:
-    image: mendersoftware/gui:mender-master #FIXME: replace with locally built image
+    image: gui
+    build:
+      context: ../frontend
     restart: on-failure:3
     labels:
       traefik.enable: "true"
-      traefik.http.services.gui.loadBalancer.server.port: "80"
+      traefik.http.services.gui.loadBalancer.server.port: "8090"
       traefik.http.services.error-responder.loadBalancer.server.port: "8080"
       traefik.http.routers.gui.entrypoints: "websecure"
       traefik.http.routers.gui.middlewares: >-
@@ -359,7 +361,7 @@ services:
 
   mongo:
     image: mongo:6.0
-    volumes :
+    volumes:
       - mongo:/data
     networks:
       default:
