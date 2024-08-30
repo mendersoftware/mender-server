@@ -12,6 +12,10 @@ variables:
     value: "refs/heads/main"
     description: "Which reference to compare rules about changes (usually set by push option)"
 
+  # Defines the docker tags of built artifacts objects
+  MENDER_IMAGE_PREFIX: "${CI_REGISTRY_IMAGE}"
+  MENDER_IMAGE_TAG: "build-${CI_PIPELINE_IID}"
+
 include:
   - project: "Northern.tech/Mender/mendertesting"
     file: ".gitlab-ci-check-commits.yml"
@@ -25,7 +29,7 @@ stages:
 .dind-login: &dind-login
   - mkdir -p $HOME/.docker && echo $DOCKER_AUTH_CONFIG > $HOME/.docker/config.json
 
-build:backend:dist:
+build:binaries:
   image: golang:${GOLANG_VERSION}
   stage: build
   rules:
@@ -43,6 +47,21 @@ build:backend:dist:
     when: always
     paths:
       - dist.tar.gz
+
+build:docker:
+  image: golang:${GOLANG_VERSION}
+  stage: build
+  needs:
+    - job: build:binaries
+      artifacts: true
+  rules:
+    - changes:
+        paths: ["backend/**/*"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
+  tags:
+    - hetzner-amd-beefy
+  script:
+    - make docker
 
 test:backend:static:
   stage: test
@@ -87,12 +106,10 @@ test:backend:acceptance:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:26-dind
       alias: docker
   needs:
-    - job: build:backend:dist
-      artifacts: true
+    - job: build:binaries
   before_script:
     - apk add make bash go git
     - tar -zxvf dist.tar.gz
-    - make -C backend docker-acceptance
     - *dind-login
   script:
     - make -C backend test-acceptance
@@ -110,8 +127,7 @@ test:backend:integration:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:26-dind
       alias: docker
   needs:
-    - job: build:backend:dist
-      artifacts: true
+    - job: build:binaries
   before_script:
     - apk add make bash git curl
     - tar -zxvf dist.tar.gz
