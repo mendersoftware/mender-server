@@ -46,3 +46,61 @@ updates:
           - "playwright*"
     reviewers:
       - "mendersoftware/frontend-dependabot-reviewers"
+
+# backend part starts here
+  - commit-message:
+      prefix: chore
+    directory: /backend
+    package-ecosystem: gomod
+    schedule:
+      interval: monthly
+    groups:
+      backend-golang-dependencies:
+        patterns:
+          - "*"
+    reviewers:
+      - "mendersoftware/backend-dependabot-reviewers"
+  - commit-message:
+      prefix: chore
+    directories:
+      - /backend
+      - /backend/services/create-artifact-worker
+      - /backend/services/iot-manager
+    package-ecosystem: docker
+    schedule:
+      interval: monthly
+    groups:
+      backend-docker-dependencies:
+        patterns:
+          - "*"
+    reviewers:
+      - "mendersoftware/backend-dependabot-reviewers"
+  - commit-message:
+      prefix: chore
+    directory: /backend/tests
+    package-ecosystem: docker
+    schedule:
+      interval: monthly
+    groups:
+      backend-tests-docker-dependencies:
+        patterns:
+          - "*"
+    reviewers:
+      - "mendersoftware/backend-dependabot-reviewers"
+  - commit-message:
+      prefix: chore
+    directories:
+      - /backend/tests
+      - /backend/services/deviceconnect/tests
+      - /backend/services/iot-manager/tests
+      - /backend/services/reporting/tests
+      - /backend/services/deployments/tests/mock-workflows
+    package-ecosystem: pip
+    schedule:
+      interval: monthly
+    groups:
+      backend-tests-python-dependencies:
+        patterns:
+          - "*"
+    reviewers:
+      - "mendersoftware/backend-dependabot-reviewers"
