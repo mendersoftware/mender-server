@@ -63,4 +63,4 @@ docker-acceptance: $(DOCKER_ACCEPTANCE_TARGETS)
 
 .PHONY: $(DOCKER_ACCEPTANCE_TARGETS)
 $(DOCKER_ACCEPTANCE_TARGETS):
-	@$(MAKE) -C services/$(subst -docker-acceptance,,$@) docker-acceptance
+	@$(MAKE) -C services/$(subst -docker-acceptance,,$@) docker-acceptance-run

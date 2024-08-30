@@ -62,6 +62,7 @@ build:docker:
     - hetzner-amd-beefy
   script:
     - make docker
+    - make -C backend docker-acceptance
 
 test:backend:static:
   stage: test
@@ -108,7 +109,7 @@ test:backend:acceptance:
   needs:
     - job: build:binaries
   before_script:
-    - apk add make bash go git
+    - apk add make bash git
     - tar -zxvf dist.tar.gz
     - *dind-login
   script:

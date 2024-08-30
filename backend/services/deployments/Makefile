@@ -20,9 +20,9 @@ docker-acceptance:
 	@$(MAKE) DOCKER_TAG=$(DOCKER_TAG)-test docker
 
 .PHONY: test-acceptance-run
-test-acceptance-run: docker-acceptance
+test-acceptance-run:
 	docker compose -f tests/docker-compose.yml run --rm --use-aliases acceptance-tester $(PYTEST_ARGS)
 
 .PHONY: test-acceptance
-test-acceptance: test-acceptance-run
+test-acceptance: docker-acceptance test-acceptance-run
 	docker compose -f tests/docker-compose.yml down --remove-orphans -v
