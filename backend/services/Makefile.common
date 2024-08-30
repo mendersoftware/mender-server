@@ -3,9 +3,8 @@
 MENDER_IMAGE_PREFIX ?= localhost:5000/mender-server
 MENDER_IMAGE_TAG ?= latest
 
-distdir ?= $(GIT_ROOT)/dist
-bindir ?= $(distdir)/$(GOOS)/$(GOARCH)
-binfile ?= $(bindir)/$(COMPONENT)
+bindir ?= $(GIT_ROOT)/dist
+binfile ?= $(bindir)/$(COMPONENT)_$(GOOS)-$(GOARCH)
 
 VERSION := $(shell git describe --tag --dirty 2>/dev/null)
 COMPONENT := $(notdir $(shell go list))

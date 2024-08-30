@@ -11,8 +11,8 @@ FROM alpine:3.19.1
 ARG TARGETARCH
 ARG TARGETOS
 ARG USER=65534
-ARG BIN_FILE=./dist/${TARGETOS}/${TARGETARCH}/create-artifact-worker
-ARG BIN_WORKFLOWS=./dist/${TARGETOS}/${TARGETARCH}/workflows
+ARG BIN_FILE=./dist/create-artifact-worker_${TARGETOS}-${TARGETARCH}
+ARG BIN_WORKFLOWS=./dist/workflows_${TARGETOS}-${TARGETARCH}
 RUN apk add libc6-compat xz
 USER $USER
 

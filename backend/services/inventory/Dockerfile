@@ -2,7 +2,7 @@ FROM scratch
 ARG TARGETARCH
 ARG TARGETOS
 ARG USER=65534
-ARG BIN_FILE=./dist/${TARGETOS}/${TARGETARCH}/inventory
+ARG BIN_FILE=./dist/inventory_${TARGETOS}-${TARGETARCH}
 USER $USER
 COPY --chown=$USER backend/services/inventory/config.yaml /etc/inventory/config.yaml
 COPY --chown=$USER ${BIN_FILE} /usr/bin/inventory

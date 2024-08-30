@@ -2,7 +2,7 @@ FROM scratch
 ARG TARGETARCH
 ARG TARGETOS
 ARG USER=65534
-ARG BIN_FILE=./dist/${TARGETOS}/${TARGETARCH}/useradm
+ARG BIN_FILE=./dist/useradm_${TARGETOS}-${TARGETARCH}
 USER $USER
 COPY --chown=$USER backend/services/useradm/config.yaml /etc/useradm/config.yaml
 COPY --chown=$USER backend/services/useradm/config/plans.yaml /etc/useradm/plans.yaml

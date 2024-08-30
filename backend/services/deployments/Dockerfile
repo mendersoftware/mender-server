@@ -3,7 +3,7 @@ FROM scratch
 ARG TARGETARCH
 ARG TARGETOS
 ARG USER=65534
-ARG BIN_FILE=./dist/${TARGETOS}/${TARGETARCH}/deployments
+ARG BIN_FILE=./dist/deployments_${TARGETOS}-${TARGETARCH}
 USER $USER
 ENV TMPDIR=/tmp
 # Create tempdir for generating configuration artifacts

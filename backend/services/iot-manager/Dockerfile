@@ -4,7 +4,7 @@ FROM scratch
 ARG TARGETARCH
 ARG TARGETOS
 ARG USER=65534
-ARG BIN_FILE=./dist/${TARGETOS}/${TARGETARCH}/iot-manager
+ARG BIN_FILE=./dist/iot-manager_${TARGETOS}-${TARGETARCH}
 USER $USER
 COPY --from=alpine /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --chown=$USER backend/services/iot-manager/config.yaml /etc/iot-manager/config.yaml
