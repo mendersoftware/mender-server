@@ -48,12 +48,13 @@ $(binfile): $(GOFILES)
 			-ldflags $(LDFLAGS) \
 			$(BUILDFLAGS)
 
-.PHONY: build
+.PHONY: build build-go
+build-go: $(binfile)
 build: $(platform_targets)
 
 .PHONY: $(platform_targets)
 $(platform_targets):
-	@$(MAKE) GOOS=$(word 2,$(subst /, ,$@)) GOARCH=$(word 3,$(subst /, ,$@)) build
+	@$(MAKE) GOOS=$(word 2,$(subst /, ,$@)) GOARCH=$(word 3,$(subst /, ,$@)) build-go
 
 .PHONY: generate
 generate:
