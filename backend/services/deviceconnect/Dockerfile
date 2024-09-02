@@ -1,9 +1,24 @@
+FROM golang:1.23.0 AS builder
+ARG TARGETOS
+ARG TARGETARCH
+ARG LDFLAGS="-s -w"
+ARG BUILDFLAGS="-trimpath"
+WORKDIR /build
+RUN \
+  --mount=type=bind,source=.,target=/build/src \
+  --mount=type=cache,target=/go/pkg/mod/ \
+  --mount=type=cache,target=/root/.cache/go-build \
+  CGO_ENABLED=0 \
+  GOOS="${TARGETOS}" \
+  GOARCH="${TARGETARCH}" \
+  go build -C src/backend -ldflags="${LDFLAGS}" ${BUILDFLAGS} \
+  -o /build/deviceconnect ./services/deviceconnect
+
 FROM scratch
 ARG TARGETARCH
 ARG TARGETOS
 ARG USER=65534
-ARG BIN_FILE=./dist/${TARGETOS}/${TARGETARCH}/deviceconnect
 USER $USER
-COPY --chown=$USER backend/services/deviceconnect/config.yaml /etc/deviceconnect/config.yaml
-COPY --chown=$USER ${BIN_FILE} /usr/bin/deviceconnect
+COPY --chown=$USER  backend/services/deviceconnect/config.yaml /etc/deviceconnect/config.yaml
+COPY --from=builder --chown=$USER /build/deviceconnect /usr/bin/deviceconnect
 ENTRYPOINT ["/usr/bin/deviceconnect", "--config", "/etc/deviceconnect/config.yaml"]
