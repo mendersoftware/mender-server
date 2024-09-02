@@ -1,0 +1,83 @@
+# Makefile.common initializes varialbes and common targets (build* test*)
+# for all backend services.
+MENDER_IMAGE_PREFIX ?= localhost:5000/mender-server
+MENDER_IMAGE_TAG ?= $(MENDER_IMAGE_TAG_DEFAULT)
+
+MENDER_IMAGE_TAG_DEFAULT := latest
+
+bindir ?= $(GIT_ROOT)/dist
+binfile ?= $(bindir)/$(COMPONENT)_$(GOOS)-$(GOARCH)
+
+VERSION := $(shell git describe --tag --dirty 2>/dev/null)
+GIT_ROOT := $(shell git rev-parse --show-toplevel)
+MAKEDIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+DOCFILES := $(wildcard docs/*_api.yml)
+
+GOFILES := $(shell find -name '*.go' -not -name '_test.go')
+GOTESTFILES := $(shell find -name '_test.go')
+CGO_ENABLED ?= 0
+GOARCH := $(shell go env GOARCH)
+GOOS := $(shell go env GOOS)
+GOMODDIR := $(shell go list -m -f '{{.Dir}}')
+
+LDFLAGS ?= -s -w
+BUILDFLAGS ?= -trimpath
+TESTFLAGS ?=
+PYTEST_ARGS ?=
+
+# Convert TAGS to a `-tags` BUILDFLAG by joining the list by comma.
+_none :=
+_space := $(_none) $(_none)
+_comma := ,
+BUILDFLAGS += $(let tags,$(TAGS),-tags=$(subst $(_space),$(_comma),$(tags)))
+
+# DOCKER_PLATFORM default is defined with respect to the docker server.
+# This fixes the default case on darwin where docker is running inside a VM (linux).
+DOCKER_PLATFORM ?= $(shell docker system info -f ' \
+	{{- .OSType}}/{{- if eq .Architecture "aarch64" -}} \
+	  arm64 \
+	{{- else -}} \
+	  amd64 \
+	{{- end -}} \
+')
+DOCKER_TAG = $(MENDER_IMAGE_PREFIX)/$(COMPONENT):$(MENDER_IMAGE_TAG)
+
+$(binfile): $(GOFILES)
+	# TODO: Add -ldflags "-X ...$(Version)"
+	env CGO_ENABLED=$(CGO_ENABLED) \
+		GOOS=$(GOOS) \
+		GOARCH=$(GOARCH) \
+		go build -o $(binfile) \
+			-ldflags $(LDFLAGS) \
+			$(BUILDFLAGS)
+
+.PHONY: build
+build: $(binfile)
+
+.PHONY: generate
+generate:
+	go generate ./...
+
+.PHONY: test-unit
+test-unit:
+	go test $(BUILDFLAGS) $(TESTFLAGS) ./...
+
+.PHONY: test
+test: test-unit test-acceptance
+
+docker-acceptance: export TAGS += acceptance
+docker-acceptance: export BUILDFLAGS += -cover -installsuffix=.test
+%-acceptance test-acceptance-run: export MENDER_IMAGE_TAG_DEFAULT := test
+
+.PHONY: docker
+docker:
+	docker build $(DOCKER_ARGS) \
+		--platform $(DOCKER_PLATFORM) \
+		-f Dockerfile \
+		--build-arg GOFLAGS="$(BUILDFLAGS)" \
+		--build-arg GOLDFLAGS="$(LDFLAGS)" \
+		-t $(DOCKER_TAG) \
+		$(GIT_ROOT)/backend
+
+.PHONY: docker-acceptance
+docker-acceptance: docker
