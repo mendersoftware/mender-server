@@ -57,7 +57,10 @@ build:backend:binaries:
       - test.tar.gz
 
 build:backend:docker:
-  image: golang:${GOLANG_VERSION}
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:27-cli
+  services:
+    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:27-dind
+      alias: docker
   stage: build
   needs:
     - job: build:backend:binaries
@@ -69,6 +72,7 @@ build:backend:docker:
   tags:
     - hetzner-amd-beefy
   before_script:
+    - apk add make bash git
     - tar -xmzvf ./dist.tar.gz
     - tar -xmzvf ./test.tar.gz
     - *dind-login
