@@ -15,10 +15,6 @@ services:
       - --management-v2-spec=/docs/management_api_v2.yml
       - --mongo-url=mongodb://mongo
   inventory:
-    build:
-      args:
-        - BIN_FILE=backend/tests/bin/inventory.test
-    image: inventory:test
     environment:
       GOCOVERDIR: /cover
     user: ${UID:-0}:${GID:-0}

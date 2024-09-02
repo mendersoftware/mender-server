@@ -67,4 +67,6 @@ def clean_mongo(mongo):
 
 @pytest.fixture(scope="session")
 def cli_iot_manager(pytestconfig):
-    return CliIoTManager(pytestconfig.getoption("host").split(":")[0])
+    cli = CliIoTManager(pytestconfig.getoption("host").split(":")[0])
+    cli.migrate()
+    return cli

@@ -12,6 +12,10 @@ variables:
     value: "refs/heads/main"
     description: "Which reference to compare rules about changes (usually set by push option)"
 
+  DOCKER_PLATFORM:
+    value: "linux/amd64,linux/arm64"
+    description: "Platforms to build docker images for."
+
   # Defines the docker tags of built artifacts objects
   MENDER_IMAGE_PREFIX: "${CI_REGISTRY_IMAGE}"
   MENDER_IMAGE_TAG: "build-${CI_PIPELINE_IID}"
@@ -32,6 +36,7 @@ stages:
 build:binaries:
   image: golang:${GOLANG_VERSION}
   stage: build
+  needs: []
   rules:
     - changes:
         paths: ["backend/**/*"]

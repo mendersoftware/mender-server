@@ -62,6 +62,9 @@ class CliIoTManager:
             limit=1,
         )[0]
 
+    def migrate(self):
+        return self.iot_manager.exec_run(["/usr/bin/iot-manager", "migrate"])
+
     def sync_devices(self, fail_early=False, batch_size=None, **kwargs):
         cmd = ["/usr/bin/iot-manager", "sync-devices"]
         if batch_size:

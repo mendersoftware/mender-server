@@ -2,12 +2,13 @@ MENDER_IMAGE_PREFIX ?= localhost:5000/mender-server
 MENDER_IMAGE_TAG ?= latest
 
 SERVICES = $(subst services,,$(subst /,,$(wildcard services/*/)))
-BUILD_TARGETS := $(addsuffix "-build", $(SERVICES))
-TEST_TARGETS := $(addsuffix "-test", $(SERVICES))
-TEST_UNIT_TARGETS := $(addsuffix "-test-unit", $(SERVICES))
-TEST_ACCEPTANCE_TARGETS := $(addsuffix "-test-acceptance", $(SERVICES))
-DOCKER_TARGETS := $(addsuffix "-docker", $(SERVICES))
-DOCKER_ACCEPTANCE_TARGETS := $(addsuffix "-docker-acceptance", $(SERVICES))
+BUILD_TARGETS := $(addsuffix -build, $(SERVICES))
+TEST_TARGETS := $(addsuffix -test, $(SERVICES))
+TEST_UNIT_TARGETS := $(addsuffix -test-unit, $(SERVICES))
+TEST_ACCEPTANCE_TARGETS := $(addsuffix -test-acceptance, $(SERVICES))
+DOCKER_TARGETS := $(addsuffix -docker, $(SERVICES))
+BUILD_ACCEPTANCE_TARGETS := $(addsuffix -build-acceptance, $(SERVICES))
+DOCKER_ACCEPTANCE_TARGETS := $(addsuffix -docker-acceptance, $(SERVICES))
 
 .PHONY: build
 build: $(BUILD_TARGETS)
@@ -37,10 +38,11 @@ $(TEST_UNIT_TARGETS):
 
 .PHONY: test-acceptance
 test-acceptance: $(TEST_ACCEPTANCE_TARGETS)
+		docker compose -p acceptance down --remove-orphans
 
 .PHONY: $(TEST_ACCEPTANCE_TARGETS)
 $(TEST_ACCEPTANCE_TARGETS):
-	@$(MAKE) -C services/$(subst -test-acceptance,,$@) test-acceptance
+	@$(MAKE) -C services/$(subst -test-acceptance,,$@) test-acceptance-run
 
 .PHONY: test-integration
 test-integration:
@@ -55,9 +57,16 @@ $(DOCKER_TARGETS):
 		MENDER_IMAGE_PREFIX=$(MENDER_IMAGE_PREFIX) \
 		MENDER_IMAGE_TAG=$(MENDER_IMAGE_TAG)
 
+.PHONY: build-acceptance
+build-acceptance: $(BUILD_ACCEPTANCE_TARGETS)
+
+.PHONY: $(BUILD_ACCEPTANCE_TARGETS)
+$(BUILD_ACCEPTANCE_TARGETS):
+	@$(MAKE) -C services/$(subst -build-acceptance,,$@) build-acceptance
+
 .PHONY: docker-acceptance
 docker-acceptance: $(DOCKER_ACCEPTANCE_TARGETS)
 
 .PHONY: $(DOCKER_ACCEPTANCE_TARGETS)
 $(DOCKER_ACCEPTANCE_TARGETS):
-	@$(MAKE) -C services/$(subst -docker-acceptance,,$@) docker-acceptance-run
+	@$(MAKE) -C services/$(subst -docker-acceptance,,$@) docker-acceptance

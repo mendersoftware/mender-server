@@ -1,7 +1,9 @@
 # Makefile.common initializes varialbes and common targets (build* test*)
 # for all backend services.
 MENDER_IMAGE_PREFIX ?= localhost:5000/mender-server
-MENDER_IMAGE_TAG ?= latest
+MENDER_IMAGE_TAG ?= $(MENDER_IMAGE_TAG_DEFAULT)
+
+MENDER_IMAGE_TAG_DEFAULT := latest
 
 bindir ?= $(GIT_ROOT)/dist
 binfile ?= $(bindir)/$(COMPONENT)_$(GOOS)-$(GOARCH)
@@ -12,17 +14,18 @@ GIT_ROOT := $(shell git rev-parse --show-toplevel)
 MAKEDIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 DOCFILES := $(wildcard docs/*_api.yml)
 
+GOFILES := $(shell find -name '*.go' -not -name '_test.go')
+GOTESTFILES := $(shell find -name '_test.go')
 CGO_ENABLED ?= 0
 GOARCH := $(shell go env GOARCH)
 GOOS := $(shell go env GOOS)
 GOMODDIR := $(shell go list -m -f '{{.Dir}}')
 
 LDFLAGS ?= "-s -w"
-BUILDFLAGS ?= -trimpath -ldflags $(LDFLAGS)
+BUILDFLAGS ?= -trimpath
 TESTFLAGS ?=
 PYTEST_ARGS ?=
 
-DOCKER_TAG ?= $(MENDER_IMAGE_PREFIX)/$(COMPONENT):$(MENDER_IMAGE_TAG)
 DOCKER_BIN ?= $(subst $(GIT_ROOT),,$(binfile)) # Repo-local file to binary
 # DOCKER_PLATFORM default is defined with respect to the docker server.
 # This fixes the default case on darwin where docker is running inside a VM (linux).
@@ -35,14 +38,19 @@ DOCKER_PLATFORM ?= $(shell docker system info -f ' \
 ')
 c := ,
 platform_targets = $(addprefix build/,$(subst $(c), ,$(DOCKER_PLATFORM)))
+DOCKER_TAG = $(MENDER_IMAGE_PREFIX)/$(COMPONENT):$(MENDER_IMAGE_TAG)
 
-.PHONY: build
-build:
+$(binfile): $(GOFILES)
 	# TODO: Add -ldflags "-X ...$(Version)"
 	env CGO_ENABLED=$(CGO_ENABLED) \
 		GOOS=$(GOOS) \
 		GOARCH=$(GOARCH) \
-		go build -o $(binfile) $(BUILDFLAGS)
+		go build -o $(binfile) \
+			-ldflags $(LDFLAGS) \
+			$(BUILDFLAGS)
+
+.PHONY: build
+build: $(binfile)
 
 .PHONY: $(platform_targets)
 $(platform_targets):
@@ -58,3 +66,14 @@ test-unit:
 
 .PHONY: test
 test: test-unit test-acceptance
+
+%-acceptance: export BUILDFLAGS += -cover -installsuffix .test -tags acceptance
+%-acceptance: export bindir = $(GIT_ROOT)/backend/tests/bin
+%-acceptance: export DOCKER_BIN = $(subst $(GIT_ROOT),,$(binfile))
+%-acceptance test-acceptance-run: export MENDER_IMAGE_TAG_DEFAULT := test
+
+.PHONY: build-acceptance
+build-acceptance: $(platform_targets)
+
+.PHONY: docker-acceptance
+docker-acceptance: docker

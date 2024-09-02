@@ -17,10 +17,6 @@ services:
       FAKE_ADMISSION_ADDR: "0.0.0.0:9997"
       FAKE_ORCHESTRATOR_ADDR: "0.0.0.0:9998"
   deviceauth:
-    build:
-      args:
-        - BIN_FILE=backend/tests/bin/deviceauth.test
-    image: deviceauth:test
     environment:
       DEVICEAUTH_DEVADM_ADDR: "http://acceptance-tester:9997/"
       DEVICEAUTH_ORCHESTRATOR_ADDR: "http://acceptance-tester:9998/"

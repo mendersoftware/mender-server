@@ -13,10 +13,6 @@ services:
       - deviceconfig
 
   deviceconfig:
-    build:
-      args:
-        - BIN_FILE=backend/tests/bin/deviceconfig.test
-    image: deviceconfig:test
     environment:
       DEVICECONFIG_ENABLE_AUDIT: "true"
       DEVICECONFIG_WORKFLOWS_URL: "http://mender-workflows-server:8080"
