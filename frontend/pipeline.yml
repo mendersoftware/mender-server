@@ -1,0 +1,333 @@
+variables:
+  NODE_IMAGE:
+    value: 'node:22-alpine'
+    description: 'Node version to use for building and testing'
+  FRONTEND_REPOSITORY: mendersoftware/gui
+  DOCS_VERSION: development
+
+test:frontend:lint:
+  stage: test
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/${NODE_IMAGE}
+  rules:
+    - if: $CI_COMMIT_REF_NAME !~ /^(staging|saas-[a-zA-Z0-9.]+)$/
+    - changes:
+        paths: ['frontend/**/*.m?[jt]sx?']
+        compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
+  needs: []
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - frontend/.npm/
+  script:
+    - cd frontend
+    - npm ci --cache .npm --prefer-offline
+    - cd tests/e2e_tests && npm ci && cd ../..
+    - npm run lint
+  tags:
+    - hetzner-amd-beefy
+
+test:frontend:types:
+  stage: pre-test
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/debian:12-slim
+  needs: []
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: always
+    - when: manual
+  before_script:
+    # Prepare SSH key
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan github.com >> ~/.ssh/known_hosts
+    # Configure git
+    - git config --global user.email "mender@northern.tech"
+    - git config --global user.name "Mender Test Bot"
+    # install hub cli + deno
+    - apt-get update && apt-get install curl hub unzip -qqy
+    - curl -fsSL https://deno.land/install.sh | DENO_INSTALL=/usr/local sh
+    # get enterprise api specs from all the repos, based on mender-api-docs tooling
+    - export GITHUB_TOKEN=${GITHUB_BOT_TOKEN_REPO_FULL}
+    - cd scripts
+    - 'wget --header "Authorization: token $GITHUB_TOKEN" https://raw.githubusercontent.com/mendersoftware/mender-api-docs/master/versions.template.js'
+    - cd typeGeneration
+  script:
+    - deno run --allow-read --allow-write --allow-net convert.js
+    - deno fmt generated/models
+    - mkdir -p ../../src/js/api/types && mv -f generated/models/* ../../src/js/api/types
+    - cd ../..
+    - git checkout -b update-types-$(date +%s)
+    - 'git add src/js/api/types && git commit --signoff -m "chore: Types update"'
+    - git remote add mendersoftware git@github.com:mendersoftware/mender-server.git
+    - 'hub pull-request --push --base mendersoftware:main --message "chore: Types update" --message "keeping types aligned"'
+  allow_failure: true
+  artifacts:
+    expire_in: 2w
+    paths:
+      - frontend/scripts/typeGeneration
+      - frontend/src/js/api/types
+
+test:frontend:licenses:
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/denoland/deno:alpine-1.38.0
+  stage: test
+  rules:
+    - if: $CI_COMMIT_REF_NAME !~ /^(staging|saas-[a-zA-Z0-9.]+)$/
+    - changes:
+        paths: ['frontend/**/*']
+        compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
+  needs: []
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - frontend/.npm/
+  before_script:
+    - cd frontend
+    - apk add --no-cache nodejs npm
+    - npm ci
+  script:
+    - deno run --allow-env --allow-read --allow-sys tests/licenses/licenseCheck.ts
+  tags:
+    - hetzner-amd-beefy
+
+test:frontend:unit:
+  stage: test
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/${NODE_IMAGE}
+  rules:
+    - if: $CI_COMMIT_REF_NAME !~ /^(staging|saas-[a-zA-Z0-9.]+)$/
+    - changes:
+        paths: ['frontend/**/*']
+        compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
+  needs: []
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - frontend/.npm/
+  script:
+    - cd frontend
+    - npm ci --cache .npm --prefer-offline
+    - npm run test -- --ci --maxWorkers=8 --reporters=default --reporters=jest-junit
+  after_script:
+    - mkdir logs && cp .npm/_logs/* logs/
+  artifacts:
+    expire_in: 2w
+    paths:
+      - frontend/coverage
+      - frontend/logs
+    reports:
+      junit: frontend/junit.xml
+    when: always
+  tags:
+    - hetzner-amd-beefy
+
+test:frontend:docs-links:
+  stage: test
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/${NODE_IMAGE}
+  rules:
+    - if: $CI_COMMIT_REF_NAME !~ /^(staging|saas-[a-zA-Z0-9.]+)$/
+    - changes:
+        paths: ['frontend/**/*']
+        compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
+  needs: []
+  before_script:
+    - apk add --no-cache curl
+    - cd frontend
+  script:
+    - links=$(grep -r docs.mender.io src/ | grep -v snapshots | sed -e 's,\${docsVersion},'${DOCS_VERSION}'/,g' | sed -e 's,\${path},''/,g' | egrep -o 'https?://[^ `"]+' | sort | uniq)
+    - error=0
+    - |
+      for url in $links; do
+        if ! curl --output /dev/null --silent --head --fail $url; then
+          error=1
+          echo "[ko] $url"
+        else
+          echo "[ok] $url"
+        fi
+      done
+      if [ $error -gt 0 ]; then
+        exit 1
+      fi
+  tags:
+    - hetzner-amd-beefy
+
+test:frontend:docs-links:hosted:
+  extends: test:frontend:docs-links
+  rules:
+    - if: $CI_COMMIT_REF_NAME =~ /^(staging|saas-[a-zA-Z0-9.]+)$/
+  variables:
+    DOCS_VERSION: hosted
+
+build:frontend:docker:
+  extends: .template:build:docker
+  rules:
+    - changes:
+        paths: ['frontend/**/*']
+        compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
+      when: always
+  script:
+    - cd frontend
+    - docker context create ci;
+    - docker buildx create --name gui-builder --driver=docker-container ci
+    # needed for the license generation step
+    - docker build
+      --target base
+      --builder=gui-builder
+      --tag ${CI_REGISTRY_IMAGE}:frontend-base-${CI_PIPELINE_ID}
+      --push
+      .
+    # build production target
+    - docker build
+      --tag ${CI_REGISTRY_IMAGE}:frontend-${CI_PIPELINE_ID}
+      --builder=gui-builder
+      --build-arg GIT_COMMIT_TAG="${CI_COMMIT_TAG}"
+      --platform ${DOCKER_PLATFORM:-linux/amd64}
+      --provenance false
+      --push
+      .
+
+.template:test:frontend:acceptance:
+  stage: test
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:cli
+  rules:
+    - changes:
+        paths: ['frontend/**/*']
+        compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
+  needs:
+    - job: build:frontend:docker
+      artifacts: true
+  services:
+    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:dind
+      alias: docker
+  before_script:
+    - !reference [.dind-login]
+    - apk add --no-cache bash git jq wget
+    - docker pull ${CI_REGISTRY_IMAGE}:frontend-${CI_PIPELINE_ID}
+    - docker tag ${CI_REGISTRY_IMAGE}:frontend-${CI_PIPELINE_ID} ${FRONTEND_REPOSITORY}:pr
+  artifacts:
+    expire_in: 2w
+    paths:
+      - frontend/coverage
+      - frontend/screenshots
+      - frontend/logs
+      - frontend/junit
+    reports:
+      junit:
+        - frontend/junit/results.xml
+    when: always
+  tags:
+    - mender-qa-worker-generic-light
+
+test:frontend:acceptance:
+  extends: .template:test:frontend:acceptance
+  rules:
+    - if: $CI_COMMIT_REF_NAME !~ /^(staging|saas-[a-zA-Z0-9.]+)$/
+  script:
+    - GUI_REPOSITORY=$(pwd)/frontend SERVER_ROOT=$(pwd) ./frontend/tests/e2e_tests/run
+
+test:frontend:acceptance:enterprise:
+  extends: .template:test:frontend:acceptance
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+  variables:
+    TEST_ENVIRONMENT: enterprise
+  before_script:
+    - docker login -u $REGISTRY_MENDER_IO_USERNAME -p $REGISTRY_MENDER_IO_PASSWORD registry.mender.io
+  script:
+    - GUI_REPOSITORY=$(pwd)/frontend SERVER_ROOT=$(pwd) ./frontend/tests/e2e_tests/run --enterprise
+
+.template:publish:frontend:tests:
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/${NODE_IMAGE}
+  stage: publish
+  before_script:
+    - export CI_BUILD_REF=${CI_COMMIT_SHA}
+    - export CI_BUILD_REF_NAME=${CI_COMMIT_REF_NAME}
+    - export CI_MERGE_REQUEST_IID=${CI_COMMIT_BRANCH#pr_}
+    - export COVERALLS_PARALLEL=true
+    - export COVERALLS_SERVICE_JOB_ID=${CI_JOB_ID}
+    - export COVERALLS_SERVICE_NUMBER=${CI_PIPELINE_ID}
+    - apk add --no-cache git
+    - npm i -g coveralls
+  tags:
+    - hetzner-amd-beefy
+
+publish:frontend:tests:
+  extends: .template:publish:frontend:tests
+  rules:
+    - if: $CI_COMMIT_REF_NAME !~ /^(staging|saas-[a-zA-Z0-9.]+)$/
+  needs:
+    - job: test:frontend:unit
+      artifacts: true
+  script:
+    - export COVERALLS_SERVICE_JOB_NUMBER=unittests
+    - export COVERALLS_FLAG_NAME=unittests
+    - coveralls < frontend/coverage/lcov.info
+
+publish:frontend:e2e-tests:
+  extends: .template:publish:frontend:tests
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+  needs:
+    - test:frontend:acceptance:enterprise
+  script:
+    - export COVERALLS_SERVICE_JOB_NUMBER=frontend-e2e
+    - export COVERALLS_FLAG_NAME=frontend-e2e
+    - sed -i -re 's/(^[SF:]+[../]+)(.*)$/SF:\2/' coverage/lcov.info
+    - coveralls < coverage/lcov.info
+
+publish:frontend:licenses:
+  stage: publish
+  image: ${CI_REGISTRY_IMAGE}/frontend-base-${CI_PIPELINE_IID}
+  needs:
+    - job: build:frontend:docker
+      artifacts: false
+  script:
+    - npm run disclaim
+  artifacts:
+    expire_in: 2w
+    paths:
+      - disclaimer.txt
+  rules:
+    - if: $CI_COMMIT_REF_NAME =~ /^(main|staging|[0-9]+\.[0-9]+\.x)$/
+  tags:
+    - hetzner-amd-beefy
+
+publish:frontend:docker:
+  extends: publish:backend:docker
+  variables:
+    MENDER_PUBLISH_REGISTRY: docker.io
+  script:
+    - export DOCKER_TAG=${CI_REGISTRY_IMAGE}:frontend-${CI_PIPELINE_ID}
+    - echo "About to publish ${DOCKER_TAG} to ${MENDER_PUBLISH_TAG}"
+    - skopeo copy --multi-arch all \
+      docker://${DOCKER_TAG} \
+      docker://${MENDER_PUBLISH_REGISTRY}/${FRONTEND_REPOSITORY}:${MENDER_PUBLISH_TAG} # covers vX.Y.Z + -fragment/ -build tags
+    - |
+      if echo -n "${MENDER_PUBLISH_TAG}" | grep -E '^v[0-9]+\.v[0-9]+\.[0-9]+$'; then
+        skopeo copy --multi-arch all docker://${DOCKER_TAG} docker://${MENDER_PUBLISH_REGISTRY}/gui:$(echo -n $MENDER_PUBLISH_TAG | cut -d . -f-2)
+        skopeo copy --multi-arch all docker://${DOCKER_TAG} docker://${MENDER_PUBLISH_REGISTRY}/gui:$(echo -n $MENDER_PUBLISH_TAG | cut -d . -f-1)
+        skopeo copy --multi-arch all docker://${DOCKER_TAG} docker://${MENDER_PUBLISH_REGISTRY}/gui:latest
+        ;;
+      fi
+
+publish:frontend:docker:enterprise:
+  extends: publish:frontend:docker
+  variables:
+    MENDER_PUBLISH_REGISTRY: registry.mender.io
+  script:
+    - docker login -u $REGISTRY_MENDER_IO_USERNAME -p $REGISTRY_MENDER_IO_PASSWORD registry.mender.io
+    - skopeo copy --multi-arch all \
+      docker://${DOCKER_TAG} \
+      docker://${MENDER_PUBLISH_REGISTRY}/${FRONTEND_REPOSITORY}:${MENDER_PUBLISH_TAG} # covers vX.Y.Z + -fragment/ -build tags
+    - |
+      if echo -n "${MENDER_PUBLISH_TAG}" | grep -E '^v[0-9]+\.v[0-9]+\.[0-9]+$'; then
+        skopeo copy --multi-arch all docker://${DOCKER_TAG} docker://${MENDER_PUBLISH_REGISTRY}/gui:$(echo -n $MENDER_PUBLISH_TAG | cut -d . -f-2)
+        skopeo copy --multi-arch all docker://${DOCKER_TAG} docker://${MENDER_PUBLISH_REGISTRY}/gui:$(echo -n $MENDER_PUBLISH_TAG | cut -d . -f-1)
+        skopeo copy --multi-arch all docker://${DOCKER_TAG} docker://${MENDER_PUBLISH_REGISTRY}/gui:latest
+        ;;
+      fi

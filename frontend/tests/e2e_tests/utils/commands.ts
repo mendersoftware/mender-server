@@ -169,7 +169,7 @@ export const startDockerClient = async (baseUrl, token) => {
   updateConfigFileWithUrl('mender-connect', srippedBaseUrl, token);
   // NB! to run the tests against a running local Mender backend, uncomment & adjust the following
   // const localNetwork = ['--network', 'menderintegration_mender'];
-  const localNetwork = baseUrl.includes('docker.mender.io') ? ['--network', 'gui-tests_mender'] : [];
+  const localNetwork = baseUrl.includes('docker.mender.io') ? ['--network', 'gui-tests_default'] : [];
   const args = [
     'run',
     '-d',
@@ -180,7 +180,7 @@ export const startDockerClient = async (baseUrl, token) => {
     `${projectRoot}/dockerClient/mender-test.json:/etc/mender/mender.conf`,
     '-v',
     `${projectRoot}/dockerClient/mender-connect-test.json:/etc/mender/mender-connect.conf`,
-    'mendersoftware/mender-client-docker-addons:mender-3.6.x'
+    'mendersoftware/mender-client-docker-addons:mender-master'
   ];
   console.log(`starting with token: ${token}`);
   console.log(`starting using: docker ${args.join(' ')}`);

@@ -144,8 +144,12 @@
       "/themes/"
     ],
     "coverageReporters": [
-      "lcov",
-      "cobertura",
+      [
+        "lcov",
+        {
+          "projectRoot": "../"
+        }
+      ],
       "text"
     ],
     "setupFiles": [

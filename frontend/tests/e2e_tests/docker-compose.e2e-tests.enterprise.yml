@@ -1,20 +1,43 @@
 services:
-  mender-gui-tests-runner:
+  gui-tests-runner:
     depends_on:
-      - mender-api-gateway
-      - mender-auditlogs
-      - mender-gui
-      - mender-client
-      - mender-deployments
-      - mender-device-auth
-      - mender-inventory
-      - mender-useradm
-      - mender-mongo
-      - mender-workflows-server
-      - mender-workflows-worker
-      - mender-create-artifact-worker
-      - minio
+      - auditlogs
+      - client
+      - create-artifact-worker
+      - deployments
+      - deviceauth
+      - devicemonitor
+      - generate-delta-worker
+      - gui
+      - inventory
+      - tenantadm
+      - useradm
+      - workflows
+      - workflows-worker
+      - mongo
+      - nats
+      - s3fs
+      - traefik
 
-  mender-useradm:
+  auditlogs:
+    image: mendersoftware/auditlogs:main
+  deployments:
+    image: mendersoftware/deployments-enterprise:main
+  deviceauth:
+    image: mendersoftware/deviceauth-enterprise:main
+  devicemonitor:
+    image: registry.mender.io/mendersoftware/devicemonitor:main
+  generate-delta-worker:
+    image: registry.mender.io/mendersoftware/generate-delta-worker:main
+  inventory:
+    image: mendersoftware/inventory-enterprise:main
+  tenantadm:
+    image: mendersoftware/tenantadm:main
+  useradm:
+    image: mendersoftware/useradm-enterprise:main
     environment:
       USERADM_BASE_URL: "https://docker.mender.io"
+  workflows:
+    image: mendersoftware/workflows-enterprise:main
+  workflows-worker:
+    image: mendersoftware/workflows-enterprise-worker:main
