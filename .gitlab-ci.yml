@@ -45,13 +45,16 @@ build:binaries:
     - hetzner-amd-beefy
   script:
     - make -C backend build
+    - make -C backend build-acceptance
   after_script:
     - tar -zcvf dist.tar.gz dist/
+    - tar -zcvf test.tar.gz backend/tests/bin
   artifacts:
     expire_in: 1w
     when: always
     paths:
       - dist.tar.gz
+      - test.tar.gz
 
 build:docker:
   image: golang:${GOLANG_VERSION}
@@ -65,9 +68,13 @@ build:docker:
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
   tags:
     - hetzner-amd-beefy
+  before_script:
+    - tar -xmzvf ./dist.tar.gz
+    - tar -xmzvf ./test.tar.gz
+    - *dind-login
   script:
-    - make docker
-    - make -C backend docker-acceptance
+    - make docker DOCKER_ARGS="--push"
+    - make -C backend MENDER_IMAGE_TAG="test-${CI_PIPELINE_IID}" docker-acceptance DOCKER_ARGS="--push"
 
 test:backend:static:
   stage: test
@@ -115,10 +122,9 @@ test:backend:acceptance:
     - job: build:binaries
   before_script:
     - apk add make bash git
-    - tar -zxvf dist.tar.gz
     - *dind-login
   script:
-    - make -C backend test-acceptance
+    - make -C backend MENDER_IMAGE_TAG="test-${CI_PIPELINE_IID}" test-acceptance
 
 test:backend:integration:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:26-cli
@@ -136,7 +142,6 @@ test:backend:integration:
     - job: build:binaries
   before_script:
     - apk add make bash git curl
-    - tar -zxvf dist.tar.gz
     - *dind-login
   script:
     - make -C backend test-integration
