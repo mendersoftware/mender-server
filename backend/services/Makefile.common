@@ -49,7 +49,7 @@ $(binfile): $(GOFILES)
 			$(BUILDFLAGS)
 
 .PHONY: build
-build: $(binfile)
+build: $(platform_targets)
 
 .PHONY: $(platform_targets)
 $(platform_targets):
