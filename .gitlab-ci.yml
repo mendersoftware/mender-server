@@ -76,6 +76,8 @@ build:backend:docker:
     - tar -xmzvf ./dist.tar.gz
     - tar -xmzvf ./test.tar.gz
     - *dind-login
+    - docker context create ci
+    - docker builder create --bootstrap --platform ${DOCKER_PLATFORM} --use --name ci ci
   script:
     - make -C backend docker DOCKER_ARGS="--push"
     - make -C backend MENDER_IMAGE_TAG="test-${CI_PIPELINE_IID}" docker-acceptance DOCKER_ARGS="--push"
