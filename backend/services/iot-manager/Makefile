@@ -1,3 +1,5 @@
+COMPONENT := iot-manager
+
 include ../Makefile.common
 
 DOCFILES := $(wildcard docs/*_api.yml)

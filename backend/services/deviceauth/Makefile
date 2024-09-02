@@ -1,3 +1,5 @@
+COMPONENT := deviceauth
+
 include ../Makefile.common
 
 .PHONY: docker

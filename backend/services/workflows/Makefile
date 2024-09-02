@@ -1,3 +1,5 @@
+COMPONENT := workflows
+
 include ../Makefile.common
 
 .PHONY: docker

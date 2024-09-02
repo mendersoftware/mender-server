@@ -1,3 +1,5 @@
+COMPONENT := useradm
+
 include ../Makefile.common
 
 .PHONY: docker

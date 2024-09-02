@@ -1,3 +1,5 @@
+COMPONENT := reporting
+
 include ../Makefile.common
 
 DOCFILES := $(wildcard docs/*_api.yml)

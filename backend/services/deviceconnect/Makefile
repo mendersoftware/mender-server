@@ -1,3 +1,5 @@
+COMPONENT := deviceconnect
+
 include ../Makefile.common
 
 tests/%: docs/%.yml

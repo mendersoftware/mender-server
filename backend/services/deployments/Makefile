@@ -1,3 +1,5 @@
+COMPONENT := deployments
+
 include ../Makefile.common
 
 BUILDFLAGS += -tags nopkcs11

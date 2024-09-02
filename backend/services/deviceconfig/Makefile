@@ -1,3 +1,5 @@
+COMPONENT := deviceauth
+
 include ../Makefile.common
 
 tests/%: docs/%.yml

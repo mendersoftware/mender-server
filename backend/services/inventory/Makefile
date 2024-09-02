@@ -1,3 +1,5 @@
+COMPONENT := inventory
+
 include ../Makefile.common
 
 .PHONY: docker

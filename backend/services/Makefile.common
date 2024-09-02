@@ -9,7 +9,6 @@ bindir ?= $(GIT_ROOT)/dist
 binfile ?= $(bindir)/$(COMPONENT)_$(GOOS)-$(GOARCH)
 
 VERSION := $(shell git describe --tag --dirty 2>/dev/null)
-COMPONENT := $(notdir $(shell go list))
 GIT_ROOT := $(shell git rev-parse --show-toplevel)
 MAKEDIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 DOCFILES := $(wildcard docs/*_api.yml)
