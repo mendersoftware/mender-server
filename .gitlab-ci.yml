@@ -33,7 +33,7 @@ stages:
 .dind-login: &dind-login
   - mkdir -p $HOME/.docker && echo $DOCKER_AUTH_CONFIG > $HOME/.docker/config.json
 
-build:binaries:
+build:backend:binaries:
   image: golang:${GOLANG_VERSION}
   stage: build
   needs: []
@@ -56,11 +56,11 @@ build:binaries:
       - dist.tar.gz
       - test.tar.gz
 
-build:docker:
+build:backend:docker:
   image: golang:${GOLANG_VERSION}
   stage: build
   needs:
-    - job: build:binaries
+    - job: build:backend:binaries
       artifacts: true
   rules:
     - changes:
@@ -73,7 +73,7 @@ build:docker:
     - tar -xmzvf ./test.tar.gz
     - *dind-login
   script:
-    - make docker DOCKER_ARGS="--push"
+    - make -C backend docker DOCKER_ARGS="--push"
     - make -C backend MENDER_IMAGE_TAG="test-${CI_PIPELINE_IID}" docker-acceptance DOCKER_ARGS="--push"
 
 test:backend:static:
@@ -119,7 +119,7 @@ test:backend:acceptance:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:26-dind
       alias: docker
   needs:
-    - job: build:binaries
+    - job: build:backend:docker
   before_script:
     - apk add make bash git
     - *dind-login
@@ -139,7 +139,7 @@ test:backend:integration:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:26-dind
       alias: docker
   needs:
-    - job: build:binaries
+    - job: build:backend:docker
   before_script:
     - apk add make bash git curl
     - *dind-login
