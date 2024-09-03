@@ -20,6 +20,7 @@ GOARCH := $(shell go env GOARCH)
 GOOS := $(shell go env GOOS)
 GOMODDIR := $(shell go list -m -f '{{.Dir}}')
 
+TAGS ?= $(TAGS_DEFAULT)
 LDFLAGS ?= -s -w
 BUILDFLAGS ?= -trimpath
 TESTFLAGS ?=
@@ -42,13 +43,23 @@ DOCKER_PLATFORM ?= $(shell docker system info -f ' \
 ')
 DOCKER_TAG = $(MENDER_IMAGE_PREFIX)/$(COMPONENT):$(MENDER_IMAGE_TAG)
 
+.PHONY: docker
+docker:
+	docker build $(DOCKER_ARGS) \
+		--platform $(DOCKER_PLATFORM) \
+		-f Dockerfile \
+		--build-arg BUILDFLAGS="$(BUILDFLAGS)" \
+		--build-arg LDFLAGS="$(LDFLAGS)" \
+		-t $(DOCKER_TAG) \
+		$(GIT_ROOT)
+
 $(binfile): $(GOFILES)
 	# TODO: Add -ldflags "-X ...$(Version)"
 	env CGO_ENABLED=$(CGO_ENABLED) \
 		GOOS=$(GOOS) \
 		GOARCH=$(GOARCH) \
 		go build -o $(binfile) \
-			-ldflags $(LDFLAGS) \
+			-ldflags '$(LDFLAGS)' \
 			$(BUILDFLAGS)
 
 .PHONY: build
@@ -68,16 +79,6 @@ test: test-unit test-acceptance
 docker-acceptance: export TAGS += acceptance
 docker-acceptance: export BUILDFLAGS += -cover -installsuffix=.test
 %-acceptance test-acceptance-run: export MENDER_IMAGE_TAG_DEFAULT := test
-
-.PHONY: docker
-docker:
-	docker build $(DOCKER_ARGS) \
-		--platform $(DOCKER_PLATFORM) \
-		-f Dockerfile \
-		--build-arg GOFLAGS="$(BUILDFLAGS)" \
-		--build-arg GOLDFLAGS="$(LDFLAGS)" \
-		-t $(DOCKER_TAG) \
-		$(GIT_ROOT)/backend
 
 .PHONY: docker-acceptance
 docker-acceptance: docker

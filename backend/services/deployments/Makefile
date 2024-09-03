@@ -1,4 +1,5 @@
 COMPONENT := deployments
-BUILDFLAGS ?= -tags=nopkcs11 -trimpath
+
+TAGS_DEFAULT := nopkcs11
 
 include ../Makefile.common

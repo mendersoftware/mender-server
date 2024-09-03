@@ -10,6 +10,15 @@ DOCKER_TARGETS := $(addsuffix -docker, $(SERVICES))
 BUILD_ACCEPTANCE_TARGETS := $(addsuffix -build-acceptance, $(SERVICES))
 DOCKER_ACCEPTANCE_TARGETS := $(addsuffix -docker-acceptance, $(SERVICES))
 
+.PHONY: docker
+docker: $(DOCKER_TARGETS)
+
+.PHONY: $(DOCKER_TARGETS)
+$(DOCKER_TARGETS):
+	@$(MAKE) -C services/$(subst -docker,,$@) docker \
+		MENDER_IMAGE_PREFIX=$(MENDER_IMAGE_PREFIX) \
+		MENDER_IMAGE_TAG=$(MENDER_IMAGE_TAG)
+
 .PHONY: build
 build: $(BUILD_TARGETS)
 
@@ -47,15 +56,6 @@ $(TEST_ACCEPTANCE_TARGETS):
 .PHONY: test-integration
 test-integration:
 	./tests/integration/run $(args)
-
-.PHONY: docker
-docker: $(DOCKER_TARGETS)
-
-.PHONY: $(DOCKER_TARGETS)
-$(DOCKER_TARGETS):
-	@$(MAKE) -C services/$(subst -docker,,$@) docker \
-		MENDER_IMAGE_PREFIX=$(MENDER_IMAGE_PREFIX) \
-		MENDER_IMAGE_TAG=$(MENDER_IMAGE_TAG)
 
 .PHONY: build-acceptance
 build-acceptance: $(BUILD_ACCEPTANCE_TARGETS)
