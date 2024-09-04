@@ -17,6 +17,6 @@ tests/%: docs/%.yml
 .PHONY: docs
 docs: $(patsubst docs/%.yml,tests/%,$(DOCFILES))
 
-test_acceptance_run_deps := docker-acceptance docs
+test_acceptance_run_deps := docs
 
 include ../Makefile.common

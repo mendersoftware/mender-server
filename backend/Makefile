@@ -52,7 +52,7 @@ test-acceptance: $(TEST_ACCEPTANCE_TARGETS)
 
 .PHONY: $(TEST_ACCEPTANCE_TARGETS)
 $(TEST_ACCEPTANCE_TARGETS):
-	@$(MAKE) -C services/$(subst -test-acceptance,,$@) test-acceptance
+	@$(MAKE) -C services/$(subst -test-acceptance,,$@) test-acceptance-run
 
 .PHONY: test-integration
 test-integration:

@@ -1,6 +1,6 @@
 COMPONENT := iot-manager
 
-test_acceptance_run_deps := docker-acceptance docs
+test_acceptance_run_deps := docs
 
 include ../Makefile.common
 

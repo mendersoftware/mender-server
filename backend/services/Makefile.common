@@ -89,20 +89,24 @@ docker-acceptance: docker
 
 ifndef _no_include_acceptance_tests
 
-test_acceptance_run_deps ?= docker-acceptance
+test_acceptance_run_deps ?=
 
 .PHONY: test-acceptance-run
+
+# NOTE: Have to first run `docker compose up --remove-orphans` to remove
+#       unneeded containers because `--remove-orphans` has no effect for
+#       the run command.
 test-acceptance-run: $(test_acceptance_run_deps)
-	MENDER_IMAGE_PREFIX=$(MENDER_IMAGE_PREFIX) \
-		MENDER_IMAGE_TAG_TEST=$(MENDER_IMAGE_TAG_TEST) \
-		docker compose -f tests/docker-compose.yml run \
+		docker compose -f tests/docker-compose.yml up \
 			--remove-orphans \
-			--rm \
+			--detach \
+			acceptance-tester && \
+		docker compose -f tests/docker-compose.yml run \
 			--use-aliases \
 			acceptance-tester $(PYTEST_ARGS)
 
 .PHONY: test-acceptance
-test-acceptance: test-acceptance-run
+test-acceptance: docker-acceptance test-acceptance-run
 		docker compose -f tests/docker-compose.yml down --remove-orphans -v
 
 endif # _no_include_acceptance_tests
