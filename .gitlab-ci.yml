@@ -114,7 +114,6 @@ test:backend:acceptance:
       artifacts: false
   before_script:
     - apk add make bash git
-    - make -C backend docker-acceptance
     - *dind-login
   script:
     - make -C backend test-acceptance
