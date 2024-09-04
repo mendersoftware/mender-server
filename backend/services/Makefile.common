@@ -6,8 +6,8 @@ MENDER_IMAGE_TAG ?= $(MENDER_IMAGE_TAG_DEFAULT)
 MENDER_IMAGE_TAG_TEST ?= test
 MENDER_IMAGE_TAG_DEFAULT := latest
 
-bindir ?= $(GIT_ROOT)/dist
-binfile ?= $(bindir)/$(COMPONENT)_$(GOOS)-$(GOARCH)
+bindir ?= $(GIT_ROOT)/bin
+binfile ?= $(bindir)/$(COMPONENT)
 
 VERSION := $(shell git describe --tag --dirty 2>/dev/null)
 GIT_ROOT := $(shell git rev-parse --show-toplevel)
@@ -17,9 +17,8 @@ DOCFILES := $(wildcard docs/*_api.yml)
 GOFILES := $(shell find -name '*.go' -not -name '_test.go')
 GOTESTFILES := $(shell find -name '_test.go')
 CGO_ENABLED ?= 0
-GOARCH := $(shell go env GOARCH)
-GOOS := $(shell go env GOOS)
-GOMODDIR := $(shell go list -m -f '{{.Dir}}')
+GOARCH ?= $(shell go env GOARCH)
+GOOS ?= $(shell go env GOOS)
 
 TAGS ?= $(TAGS_DEFAULT)
 LDFLAGS ?= -s -w
@@ -65,6 +64,11 @@ $(binfile): $(GOFILES)
 
 .PHONY: build
 build: $(binfile)
+
+.PHONY: dist
+dist: bindir ?= $(GIT_ROOT)/bin/dist
+dist: binfile ?= $(bindir)/$(COMPONENT)_$(VERSION)-$(GOOS)-$(GOARCH)
+dist: $(binfile)
 
 .PHONY: generate
 generate:
