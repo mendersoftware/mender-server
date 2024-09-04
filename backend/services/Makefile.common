@@ -3,6 +3,7 @@
 MENDER_IMAGE_PREFIX ?= localhost:5000/mender-server
 MENDER_IMAGE_TAG ?= $(MENDER_IMAGE_TAG_DEFAULT)
 
+MENDER_IMAGE_TAG_TEST ?= test
 MENDER_IMAGE_TAG_DEFAULT := latest
 
 bindir ?= $(GIT_ROOT)/dist
@@ -76,11 +77,10 @@ test-unit:
 .PHONY: test
 test: test-unit test-acceptance
 
+.PHONY: docker-acceptance
 docker-acceptance: export TAGS += acceptance
 docker-acceptance: export BUILDFLAGS += -cover -installsuffix=.test
-%-acceptance test-acceptance-run: export MENDER_IMAGE_TAG_DEFAULT := test
-
-.PHONY: docker-acceptance
+docker-acceptance: export MENDER_IMAGE_TAG_DEFAULT = $(MENDER_IMAGE_TAG_TEST)
 docker-acceptance: docker
 
 ifndef _no_include_acceptance_tests
@@ -90,7 +90,7 @@ test_acceptance_run_deps ?= docker-acceptance
 .PHONY: test-acceptance-run
 test-acceptance-run: $(test_acceptance_run_deps)
 	MENDER_IMAGE_PREFIX=$(MENDER_IMAGE_PREFIX) \
-		MENDER_IMAGE_TAG=$(MENDER_IMAGE_TAG) \
+		MENDER_IMAGE_TAG_TEST=$(MENDER_IMAGE_TAG_TEST) \
 		docker compose -f tests/docker-compose.yml run \
 			--remove-orphans \
 			--rm \

@@ -1,5 +1,6 @@
 MENDER_IMAGE_PREFIX ?= localhost:5000/mender-server
 MENDER_IMAGE_TAG ?= latest
+MENDER_IMAGE_TAG_TEST ?= test
 
 SERVICES = $(subst services,,$(subst /,,$(wildcard services/*/)))
 BUILD_TARGETS := $(addsuffix -build, $(SERVICES))
@@ -69,4 +70,6 @@ docker-acceptance: $(DOCKER_ACCEPTANCE_TARGETS)
 
 .PHONY: $(DOCKER_ACCEPTANCE_TARGETS)
 $(DOCKER_ACCEPTANCE_TARGETS):
-	@$(MAKE) -C services/$(subst -docker-acceptance,,$@) docker-acceptance
+	@$(MAKE) -C services/$(subst -docker-acceptance,,$@) docker-acceptance \
+		MENDER_IMAGE_PREFIX=$(MENDER_IMAGE_PREFIX) \
+		MENDER_IMAGE_TAG_TEST=$(MENDER_IMAGE_TAG_TEST)

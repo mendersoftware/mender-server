@@ -15,6 +15,7 @@ services:
       - --management-v2-spec=/docs/management_api_v2.yml
       - --mongo-url=mongodb://mongo
   inventory:
+    image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/inventory:${MENDER_IMAGE_TAG_TEST:-test}
     environment:
       GOCOVERDIR: /cover
     user: ${UID:-0}:${GID:-0}
