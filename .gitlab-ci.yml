@@ -36,6 +36,7 @@ stages:
 
 .dind-login: &dind-login
   - mkdir -p $HOME/.docker && echo $DOCKER_AUTH_CONFIG > $HOME/.docker/config.json
+  - docker login --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
 build:backend:docker:
   stage: build
@@ -62,7 +63,7 @@ build:backend:docker:
     - docker context create ci
     - docker builder create --name ci-builder ci
     - docker builder use ci-builder
-    - make -C backend docker
+    - /usr/bin/env -u DOCKER_HOST make -C backend docker
     # NOTE: Only build for test platform (default) for the acceptance test images
     - /usr/bin/env -u DOCKER_PLATFORM make -C backend docker-acceptance
 
