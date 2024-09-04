@@ -31,10 +31,6 @@ services:
       create-artifact-worker:
         condition: service_started
   deployments:
-    build:
-      args:
-        - BIN_FILE=backend/tests/bin/deployments.test
-    image: deployments:test
     environment:
       DEPLOYMENTS_PRESIGN_URL_SCHEME: "http"
       DEPLOYMENTS_PRESIGN_URL_HOSTNAME: "deployments:8080"

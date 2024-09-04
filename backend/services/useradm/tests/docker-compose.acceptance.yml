@@ -15,10 +15,6 @@ services:
       - mmock
       - useradm
   useradm:
-    build:
-      args:
-        - BIN_FILE=backend/tests/bin/useradm.test
-    image: useradm:test
     environment:
       GOCOVERDIR: /cover
     user: ${UID:-0}:${GID:-0}

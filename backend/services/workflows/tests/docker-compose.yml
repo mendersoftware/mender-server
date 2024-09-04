@@ -30,7 +30,15 @@ services:
 
   mmock:
     image: jordimartin/mmock:v2.7.6
-    command: ["-server-ip", "0.0.0.0", "-console-ip", "0.0.0.0", "-server-port", "8080"]
+    command:
+      [
+        "-server-ip",
+        "0.0.0.0",
+        "-console-ip",
+        "0.0.0.0",
+        "-server-port",
+        "8080",
+      ]
     ports:
       - 8082:8082
     volumes:
@@ -50,10 +58,9 @@ services:
           - mmock
 
   workflows-worker:
-    image: workflows:test
-    build:
-      args:
-        - BIN_FILE=backend/tests/bin/workflows.test
+    extends:
+      file: ../../../../dev/docker-compose.yml
+      service: workflows-worker
     pull_policy: never
     command: ["worker"]
     user: ${UID:-0}:${GID:-0}
@@ -70,17 +77,24 @@ services:
       HAVE_DEVICECONNECT: 1
       HAVE_DEVICECONFIG: 1
       GOCOVERDIR: /cover
+      DEPLOYMENTS_ADDR: "mender-deployments:8080"
+      DEVICE-AUTH_ADDR: "mender-device-auth:8080"
+      INVENTORY_ADDR: "mender-inventory:8080"
+      TENANTADM_ADDR: "mender-tenantadm:8080"
+      USERADM_ADDR: "mender-useradm:8080"
+      DEVICECONNECT_ADDR: "mender-deviceconnect:8080"
+      DEVICECONFIG_ADDR: "mender-deviceconfig:8080"
+      REPORTING_ADDR: "mender-reporting:8080"
+      IOT_MANAGER_ADDR: "mender-iot-manager:8080"
     restart: always
     depends_on:
       mongo:
         condition: service_started
 
   workflows:
-    image: workflows:test
-    command: [server, --automigrate]
-    build:
-      args:
-        - BIN_FILE=backend/tests/bin/workflows.test
+    extends:
+      file: ../../../../dev/docker-compose.yml
+      service: workflows
     ports:
       - "8080:8080"
     environment:
