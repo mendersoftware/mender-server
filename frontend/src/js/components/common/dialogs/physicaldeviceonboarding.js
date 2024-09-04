@@ -30,7 +30,8 @@ import {
   getIsEnterprise,
   getIsPreview,
   getOnboardingState,
-  getOrganization
+  getOrganization,
+  getTenantCapabilities
 } from '../../../selectors';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
 import CopyCode from '../copy-code';
@@ -183,6 +184,7 @@ export const PhysicalDeviceOnboarding = ({ progress }) => {
   const { tenant_token: tenantToken } = useSelector(getOrganization);
   const { Integration: version } = useSelector(getFullVersionInformation);
   const { token } = useSelector(getCurrentSession);
+  const { hasMonitor } = useSelector(getTenantCapabilities);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -205,8 +207,9 @@ export const PhysicalDeviceOnboarding = ({ progress }) => {
   return (
     <ComponentToShow
       advanceOnboarding={step => dispatch(advanceOnboarding(step))}
-      hasExternalIntegration={hasExternalIntegration}
       hasConvertedImage={hasConvertedImage}
+      hasExternalIntegration={hasExternalIntegration}
+      hasMonitor={hasMonitor}
       integrationProvider={integrationProvider}
       ipAddress={ipAddress}
       isEnterprise={isEnterprise}

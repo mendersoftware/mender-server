@@ -424,10 +424,11 @@ export const standardizePhases = phases =>
     return standardizedPhase;
   });
 
-const getInstallScriptArgs = ({ isHosted, isPreRelease }) => {
+const getInstallScriptArgs = ({ isHosted, isPreRelease, hasMonitor }) => {
   let installScriptArgs = '--demo';
   installScriptArgs = isPreRelease ? `${installScriptArgs} -c experimental` : installScriptArgs;
-  installScriptArgs = isHosted ? `${installScriptArgs} --commercial --jwt-token $JWT_TOKEN` : installScriptArgs;
+  installScriptArgs = isHosted && hasMonitor ? `${installScriptArgs} --commercial` : installScriptArgs;
+  installScriptArgs = isHosted ? `${installScriptArgs} --jwt-token $JWT_TOKEN` : installScriptArgs;
   return installScriptArgs;
 };
 
