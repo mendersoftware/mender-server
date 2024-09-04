@@ -97,7 +97,7 @@ test:backend:unit:
     - make -C backend test-unit
 
 test:backend:acceptance:
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:26-cli
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
   stage: test
   rules:
     - changes:
@@ -106,7 +106,7 @@ test:backend:acceptance:
   tags:
     - hetzner-amd-beefy
   services:
-    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:26-dind
+    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
       alias: docker
   needs:
     - job: build:backend:docker
@@ -119,7 +119,7 @@ test:backend:acceptance:
     - make -C backend test-acceptance
 
 test:backend:integration:
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:26-cli
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
   stage: test
   rules:
     - changes:
@@ -128,7 +128,7 @@ test:backend:integration:
   tags:
     - hetzner-amd-beefy
   services:
-    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:26-dind
+    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
       alias: docker
   needs:
     - job: build:backend:docker
