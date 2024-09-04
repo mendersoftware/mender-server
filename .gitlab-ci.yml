@@ -5,12 +5,24 @@ variables:
   GOLANG_VERSION:
     value: "1.23.0"
     description: "Go version to use for building and testing"
+  DOCKER_VERSION:
+    value: "27"
+    description: "Version of docker to use in pipelines"
   IMAGE_GOLANGCI_VERSION:
     value: "v1.60"
     description: "Version of image golangci/golangci-lint for static checks"
+  DOCKER_PLATFORM:
+    value: "linux/amd64,linux/arm64"
+    description: "Platforms to build container images"
+
   RULES_CHANGES_COMPARE_TO_REF:
     value: "refs/heads/main"
     description: "Which reference to compare rules about changes (usually set by push option)"
+
+  # Defines the docker tags of built artifacts objects
+  MENDER_IMAGE_PREFIX: "${CI_REGISTRY_IMAGE}"
+  MENDER_IMAGE_TAG: "build-${CI_PIPELINE_IID}"
+  MENDER_IMAGE_TAG_TEST: "test-${CI_PIPELINE_IID}"
 
 include:
   - project: "Northern.tech/Mender/mendertesting"
@@ -25,24 +37,34 @@ stages:
 .dind-login: &dind-login
   - mkdir -p $HOME/.docker && echo $DOCKER_AUTH_CONFIG > $HOME/.docker/config.json
 
-build:backend:dist:
-  image: golang:${GOLANG_VERSION}
+build:backend:docker:
   stage: build
+  needs: []
   rules:
     - changes:
         paths: ["backend/**/*"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
   tags:
     - hetzner-amd-beefy
+
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
+  services:
+    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
+      alias: docker
+
+  variables:
+    DOCKER_ARGS: "--push --builder=ci-builder"
+
+  before_script:
+    - apk add make bash git
+    - *dind-login
   script:
-    - make -C backend build
-  after_script:
-    - tar -zcvf dist.tar.gz dist/
-  artifacts:
-    expire_in: 1w
-    when: always
-    paths:
-      - dist.tar.gz
+    - docker context create ci
+    - docker builder create --name ci-builder ci
+    - docker builder use ci-builder
+    - make -C backend docker
+    # NOTE: Only build for test platform (default) for the acceptance test images
+    - /usr/bin/env -u DOCKER_PLATFORM make -C backend docker-acceptance
 
 test:backend:static:
   stage: test
@@ -87,11 +109,10 @@ test:backend:acceptance:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:26-dind
       alias: docker
   needs:
-    - job: build:backend:dist
-      artifacts: true
+    - job: build:backend:docker
+      artifacts: false
   before_script:
-    - apk add make bash go git
-    - tar -zxvf dist.tar.gz
+    - apk add make bash git
     - make -C backend docker-acceptance
     - *dind-login
   script:
@@ -110,11 +131,10 @@ test:backend:integration:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:26-dind
       alias: docker
   needs:
-    - job: build:backend:dist
-      artifacts: true
+    - job: build:backend:docker
+      artifacts: false
   before_script:
     - apk add make bash git curl
-    - tar -zxvf dist.tar.gz
     - *dind-login
   script:
     - make -C backend test-integration
