@@ -76,7 +76,10 @@ generate:
 
 .PHONY: test-unit
 test-unit:
-	go test $(BUILDFLAGS) $(TESTFLAGS) ./...
+	env CGO_ENABLED=$(CGO_ENABLED) \
+		GOOS=$(GOOS) \
+		GOARCH=$(GOARCH) \
+		go test $(BUILDFLAGS) $(TESTFLAGS) ./...
 
 .PHONY: test
 test: test-unit test-acceptance
