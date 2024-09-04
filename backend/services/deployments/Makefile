@@ -1,5 +1,5 @@
 COMPONENT := deployments
 
-TAGS_DEFAULT := nopkcs11
+override TAGS_REQUIRED := nopkcs11
 
 include ../Makefile.common

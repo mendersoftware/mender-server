@@ -20,7 +20,7 @@ CGO_ENABLED ?= 0
 GOARCH ?= $(shell go env GOARCH)
 GOOS ?= $(shell go env GOOS)
 
-TAGS ?= $(TAGS_DEFAULT)
+TAGS ?=
 LDFLAGS ?= -s -w
 BUILDFLAGS ?= -trimpath
 TESTFLAGS ?=
@@ -30,7 +30,7 @@ PYTEST_ARGS ?=
 _none :=
 _space := $(_none) $(_none)
 _comma := ,
-BUILDFLAGS += $(let tags,$(TAGS),-tags=$(subst $(_space),$(_comma),$(tags)))
+BUILDFLAGS += $(let tags,$(TAGS) $(TAGS_REQUIRED),-tags=$(subst $(_space),$(_comma),$(tags)))
 
 # DOCKER_PLATFORM default is defined with respect to the docker server.
 # This fixes the default case on darwin where docker is running inside a VM (linux).
