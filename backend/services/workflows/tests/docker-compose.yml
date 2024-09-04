@@ -62,7 +62,6 @@ services:
       file: ../../../../dev/docker-compose.yml
       service: workflows-worker
     image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/workflows:${MENDER_IMAGE_TAG_TEST:-test}
-    pull_policy: never
     command: ["worker"]
     user: ${UID:-0}:${GID:-0}
     volumes:
