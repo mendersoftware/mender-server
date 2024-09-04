@@ -1,4 +1,4 @@
-FROM golang:1.23.0 AS builder
+FROM --platform=$BUILDPLATFORM golang:1.23.0 AS builder
 ARG LDFLAGS="-s -w"
 ARG BUILDFLAGS="-trimpath"
 WORKDIR /build

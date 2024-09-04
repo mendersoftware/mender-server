@@ -1,4 +1,4 @@
-FROM golang:1.23.0 AS builder
+FROM --platform=$BUILDPLATFORM golang:1.23.0 AS builder
 
 ARG BUILDFLAGS="-tags nopkcs11 -trimpath"
 ARG LDFLAGS="-s -w"
