@@ -8,6 +8,7 @@ TEST_TARGETS := $(addsuffix -test, $(SERVICES))
 TEST_UNIT_TARGETS := $(addsuffix -test-unit, $(SERVICES))
 TEST_ACCEPTANCE_TARGETS := $(addsuffix -test-acceptance, $(SERVICES))
 DOCKER_TARGETS := $(addsuffix -docker, $(SERVICES))
+DOCKER_PULL_TARGETS := $(addsuffix -docker-pull, $(SERVICES))
 BUILD_ACCEPTANCE_TARGETS := $(addsuffix -build-acceptance, $(SERVICES))
 DOCKER_ACCEPTANCE_TARGETS := $(addsuffix -docker-acceptance, $(SERVICES))
 
@@ -17,6 +18,15 @@ docker: $(DOCKER_TARGETS)
 .PHONY: $(DOCKER_TARGETS)
 $(DOCKER_TARGETS):
 	@$(MAKE) -C services/$(subst -docker,,$@) docker \
+		MENDER_IMAGE_PREFIX=$(MENDER_IMAGE_PREFIX) \
+		MENDER_IMAGE_TAG=$(MENDER_IMAGE_TAG)
+
+.PHONY: docker-pull
+docker-pull: $(DOCKER_PULL_TARGETS)
+
+.PHONY: $(DOCKER_PULL_TARGETS)
+$(DOCKER_PULL_TARGETS):
+	@$(MAKE) -C services/$(subst -docker-pull,,$@) docker-pull \
 		MENDER_IMAGE_PREFIX=$(MENDER_IMAGE_PREFIX) \
 		MENDER_IMAGE_TAG=$(MENDER_IMAGE_TAG)
 

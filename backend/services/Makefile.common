@@ -54,6 +54,10 @@ docker:
 		-t $(DOCKER_TAG) \
 		$(GIT_ROOT)
 
+.PHONY: docker-pull
+docker-pull:
+	docker pull $(DOCKER_TAG)
+
 $(binfile): $(GOFILES)
 	# TODO: Add -ldflags "-X ...$(Version)"
 	env CGO_ENABLED=$(CGO_ENABLED) \
