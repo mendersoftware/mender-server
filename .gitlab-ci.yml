@@ -115,6 +115,8 @@ test:backend:acceptance:
   before_script:
     - apk add make bash git
     - *dind-login
+    - make -C backend -j 4 docker-pull
+    - make -C backend -j 4 docker-pull MENDER_IMAGE_TAG=${MENDER_IMAGE_TAG_TEST}
   script:
     - make -C backend test-acceptance
 
@@ -136,6 +138,7 @@ test:backend:integration:
   before_script:
     - apk add make bash git curl
     - *dind-login
+    - make -C backend -j 4 docker-pull
   script:
     - make -C backend test-integration
   artifacts:
