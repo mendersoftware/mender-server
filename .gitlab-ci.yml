@@ -54,7 +54,7 @@ build:backend:docker:
       alias: docker
 
   variables:
-    DOCKER_ARGS: "--push --builder=ci-builder"
+    DOCKER_BUILDARGS: "--push --builder=ci-builder"
 
   before_script:
     - apk add make bash git

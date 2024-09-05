@@ -20,17 +20,17 @@ CGO_ENABLED ?= 0
 GOARCH ?= $(shell go env GOARCH)
 GOOS ?= $(shell go env GOOS)
 
-TAGS ?=
 LDFLAGS ?= -s -w
 BUILDFLAGS ?= -trimpath
+BUILDTAGS ?=
 TESTFLAGS ?=
 PYTEST_ARGS ?=
 
-# Convert TAGS to a `-tags` BUILDFLAG by joining the list by comma.
+# Convert BUILDTAGS to a `-tags` BUILDFLAG by joining the list by comma.
 _none :=
 _space := $(_none) $(_none)
 _comma := ,
-BUILDFLAGS += $(let tags,$(TAGS) $(TAGS_REQUIRED),-tags=$(subst $(_space),$(_comma),$(tags)))
+BUILDFLAGS += $(let tags,$(BUILDTAGS) $(BUILDTAGS_REQUIRED),-tags=$(subst $(_space),$(_comma),$(tags)))
 
 # DOCKER_PLATFORM default is defined with respect to the docker server.
 # This fixes the default case on darwin where docker is running inside a VM (linux).
@@ -42,10 +42,11 @@ DOCKER_PLATFORM ?= $(shell docker system info -f ' \
 	{{- end -}} \
 ')
 DOCKER_TAG = $(MENDER_IMAGE_PREFIX)/$(COMPONENT):$(MENDER_IMAGE_TAG)
+DOCKER_BUILDARGS ?=
 
 .PHONY: docker
 docker:
-	docker build $(DOCKER_ARGS) \
+	docker build $(DOCKER_BUILDARGS) \
 		--platform $(DOCKER_PLATFORM) \
 		-f Dockerfile \
 		--build-arg BUILDFLAGS="$(BUILDFLAGS)" \
@@ -85,7 +86,7 @@ test-unit:
 test: test-unit test-acceptance
 
 .PHONY: docker-acceptance
-docker-acceptance: export TAGS += acceptance
+docker-acceptance: export BUILDTAGS += acceptance
 docker-acceptance: export BUILDFLAGS += -cover -installsuffix=.test
 docker-acceptance: export MENDER_IMAGE_TAG_DEFAULT = $(MENDER_IMAGE_TAG_TEST)
 docker-acceptance: docker
