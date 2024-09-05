@@ -28,7 +28,7 @@ PYTEST_ARGS ?=
 _none :=
 _space := $(_none) $(_none)
 _comma := ,
-BUILDFLAGS += $(let tags,$(BUILDTAGS) $(BUILDTAGS_REQUIRED),-tags=$(subst $(_space),$(_comma),$(tags)))
+BUILDFLAGS += -tags=$(subst $(_space),$(_comma),$(strip $(BUILDTAGS) $(BUILDTAGS_REQUIRED)))
 
 # DOCKER_PLATFORM default is defined with respect to the docker server.
 # This fixes the default case on darwin where docker is running inside a VM (linux).
