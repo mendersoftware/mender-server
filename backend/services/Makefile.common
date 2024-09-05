@@ -1,10 +1,8 @@
 # Makefile.common initializes varialbes and common targets (build* test*)
 # for all backend services.
 MENDER_IMAGE_PREFIX ?= localhost:5000/mender-server
-MENDER_IMAGE_TAG ?= $(MENDER_IMAGE_TAG_DEFAULT)
-
+MENDER_IMAGE_TAG ?= latest
 MENDER_IMAGE_TAG_TEST ?= test
-MENDER_IMAGE_TAG_DEFAULT := latest
 
 bindir ?= $(GIT_ROOT)/bin
 binfile ?= $(bindir)/$(COMPONENT)
@@ -93,7 +91,7 @@ test: test-unit test-acceptance
 .PHONY: docker-acceptance
 docker-acceptance: export BUILDTAGS += acceptance
 docker-acceptance: export BUILDFLAGS += -cover -installsuffix=.test
-docker-acceptance: export MENDER_IMAGE_TAG_DEFAULT = $(MENDER_IMAGE_TAG_TEST)
+docker-acceptance: export MENDER_IMAGE_TAG = $(MENDER_IMAGE_TAG_TEST)
 docker-acceptance: docker
 
 ifndef _no_include_acceptance_tests
