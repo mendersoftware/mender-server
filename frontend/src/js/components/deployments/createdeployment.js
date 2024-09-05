@@ -73,7 +73,7 @@ const useStyles = makeStyles()(theme => ({
       display: 'none'
     },
     [`&.${accordionClasses.expanded}`]: {
-      margin: 'auto',
+      margin: 'unset',
       marginTop: theme.spacing(4)
     }
   },

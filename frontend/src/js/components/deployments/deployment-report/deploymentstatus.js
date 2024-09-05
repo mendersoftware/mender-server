@@ -96,7 +96,7 @@ export const DeploymentStatus = ({ className = '', deployment = {} }) => {
       </div>
       <TwoColumnData
         {...defaultColumnDataProps}
-        config={{ 'Max attempts per device': retries, 'Maximum number of devices': max_devices || 'N/A' }}
+        config={{ 'Update attempts per device': retries, 'Maximum number of devices': max_devices || 'N/A' }}
         style={{ ...defaultColumnDataProps.style, gridTemplateColumns: 'max-content 1fr' }}
       />
     </div>
