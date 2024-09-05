@@ -34,13 +34,14 @@ BUILDFLAGS += $(let tags,$(BUILDTAGS) $(BUILDTAGS_REQUIRED),-tags=$(subst $(_spa
 
 # DOCKER_PLATFORM default is defined with respect to the docker server.
 # This fixes the default case on darwin where docker is running inside a VM (linux).
-DOCKER_PLATFORM ?= $(shell docker system info -f ' \
-	{{- .OSType}}/{{- if eq .Architecture "aarch64" -}} \
-	  arm64 \
-	{{- else -}} \
-	  amd64 \
-	{{- end -}} \
-')
+define default_docker_platform_template
+{{- .OSType}}/{{- if eq .Architecture "aarch64" -}}
+  arm64
+{{- else -}}
+  amd64
+{{- end -}}
+endef
+DOCKER_PLATFORM ?= $(shell docker system info -f '$(default_docker_platform_template)')
 DOCKER_TAG = $(MENDER_IMAGE_PREFIX)/$(COMPONENT):$(MENDER_IMAGE_TAG)
 DOCKER_BUILDARGS ?=
 
