@@ -69,8 +69,13 @@ build:backend:docker:
       unset DOCKER_HOST;
       fi
     - make -C backend docker
+
+build:backend:docker-acceptance:
+  extends: build:backend:docker
+  script:
     # NOTE: Only build for test platform (default) for the acceptance test images
-    - /usr/bin/env -u DOCKER_PLATFORM make -C backend docker-acceptance
+    - unset DOCKER_PLATFORM
+    - make -C backend docker-acceptance
 
 test:backend:static:
   stage: test
@@ -116,6 +121,8 @@ test:backend:acceptance:
       alias: docker
   needs:
     - job: build:backend:docker
+      artifacts: false
+    - job: build:backend:docker-acceptance
       artifacts: false
   before_script:
     - apk add make bash git
