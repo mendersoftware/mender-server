@@ -19,6 +19,7 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
 import CreateDeployment from './createdeployment';
+import { DeviceLimit } from './deployment-wizard/devicelimit';
 import { RolloutPatternSelection } from './deployment-wizard/phasesettings';
 import { ForceDeploy, Retries, RolloutOptions } from './deployment-wizard/rolloutoptions';
 import { ScheduleRollout } from './deployment-wizard/schedulerollout';
@@ -45,7 +46,7 @@ describe('CreateDeployment Component', () => {
   });
 
   describe('smaller components', () => {
-    [Devices, ForceDeploy, ReleasesWarning, Software, ScheduleRollout, Retries, RolloutOptions, RolloutPatternSelection].forEach(Component => {
+    [DeviceLimit, Devices, ForceDeploy, ReleasesWarning, Software, ScheduleRollout, Retries, RolloutOptions, RolloutPatternSelection].forEach(Component => {
       const getReleasesMock = jest.fn();
       getReleasesMock.mockResolvedValue();
       const props = {
