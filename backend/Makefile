@@ -11,6 +11,7 @@ DOCKER_TARGETS := $(addsuffix -docker, $(SERVICES))
 DOCKER_PULL_TARGETS := $(addsuffix -docker-pull, $(SERVICES))
 BUILD_ACCEPTANCE_TARGETS := $(addsuffix -build-acceptance, $(SERVICES))
 DOCKER_ACCEPTANCE_TARGETS := $(addsuffix -docker-acceptance, $(SERVICES))
+DOCKER_PUBLISH_TARGETS := $(addsuffix -docker-publish, $(SERVICES))
 
 .PHONY: docker
 docker: $(DOCKER_TARGETS)

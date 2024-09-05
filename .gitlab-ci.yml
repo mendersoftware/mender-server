@@ -8,6 +8,9 @@ variables:
   DOCKER_VERSION:
     value: "27"
     description: "Version of docker to use in pipelines"
+  SKOPEO_VERSION:
+    value: "v1.16.1"
+    description: "Version of skopeo to use for publishing images"
   IMAGE_GOLANGCI_VERSION:
     value: "v1.60"
     description: "Version of image golangci/golangci-lint for static checks"
@@ -33,6 +36,7 @@ include:
 stages:
   - build
   - test
+  - publish
 
 .dind-login: &dind-login
   - mkdir -p $HOME/.docker && echo $DOCKER_AUTH_CONFIG > $HOME/.docker/config.json
@@ -162,3 +166,37 @@ test:backend:integration:
       - backend/report_integration_*.html
     reports:
       junit: backend/results_integration_*.xml
+
+publish:docker:backend:
+  stage: publish
+  image:
+    name: quay.io/skopeo/stable:${SKOPEO_VERSION}
+    # https://docs.gitlab.com/ee/ci/docker/using_docker_images.html#override-the-entrypoint-of-an-image
+    entrypoint: [""]
+  rules:
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+      when: always
+    - when: never
+  before_script:
+    - skopeo login --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - skopeo login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD docker.io
+    - dnf install -y make git-core
+  script:
+    - |-
+      if test -n "$CI_COMMIT_TAG"; then
+        case "${CI_COMMIT_TAG}" in
+          "v[0-9]*.[0-9]*.[0-9]*[+-]*") # vX.Y.Z[-build+fragment]
+            yes | make -C backend docker-publish MENDER_PUBLISH_TAG=${CI_COMMIT_TAG}
+            ;;
+          "v[0-9]*.[0-9]*.[0-9]*")
+            yes | make -C backend docker-publish MENDER_PUBLISH_TAG=${CI_COMMIT_TAG} # vX.Y.Z
+            yes | make -C backend docker-publish MENDER_PUBLISH_TAG=$(echo -n $CI_COMMIT_TAG | cut -d . -f-2) # vX.Y
+            yes | make -C backend docker-publish MENDER_PUBLISH_TAG=$(echo -n $CI_COMMIT_TAG | cut -d . -f-1) # vX
+            ;;
+          *)
+            yes | make -C backend docker-publish MENDER_PUBLISH_TAG=${CI_COMMIT_TAG} # Any other tags
+            ;;
+        esac
+      else
+        yes | make -C backend docker-publish MENDER_PUBLISH_TAG=${CI_COMMIT_REF_SLUG}
+      fi
