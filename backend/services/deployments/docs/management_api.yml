@@ -1073,17 +1073,17 @@ paths:
       parameters:
         - name: name
           in: query
-          description: Artifact name prefix filter.
+          description: Release name filter.
           required: false
           type: string
         - name: description
           in: query
-          description: Artifact description filter. Any artifact containing this string in the description will be returned.
+          description: Release description filter.
           required: false
           type: string
         - name: device_type
           in: query
-          description: Artifact device type filter. Any artifact containing this string in the device type will be returned.
+          description: Release device type filter.
           required: false
           type: string
       responses:
@@ -1170,17 +1170,17 @@ paths:
       parameters:
         - name: name
           in: query
-          description: Artifact name prefix filter.
+          description: Artifact name filter.
           required: false
           type: string
         - name: description
           in: query
-          description: Artifact description filter. Any artifact containing this string in the description will be returned.
+          description: Artifact description filter.
           required: false
           type: string
         - name: device_type
           in: query
-          description: Artifact device type filter. Any artifact containing this string in the device type will be returned.
+          description: Artifact device type filter.
           required: false
           type: string
         - name: page

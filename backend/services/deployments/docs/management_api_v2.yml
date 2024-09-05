@@ -63,7 +63,7 @@ paths:
       parameters:
         - name: name
           in: query
-          description: Release name prefix filter.
+          description: Release name filter.
           required: false
           type: string
         - name: tag

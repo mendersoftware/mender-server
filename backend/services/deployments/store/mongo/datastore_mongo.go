@@ -560,7 +560,7 @@ func (db *DataStoreMongo) getReleases_1_2_14(
 			{Key: "$match", Value: bson.M{
 				StorageKeyImageName: bson.M{
 					"$regex": primitive.Regex{
-						Pattern: "^" + regexp.QuoteMeta(filt.Name),
+						Pattern: ".*" + regexp.QuoteMeta(filt.Name) + ".*",
 						Options: "i",
 					},
 				},
@@ -593,7 +593,7 @@ func (db *DataStoreMongo) getReleases_1_2_14(
 			{Key: "$match", Value: bson.M{
 				"artifacts." + StorageKeyImageDescription: bson.M{
 					"$regex": primitive.Regex{
-						Pattern: regexp.QuoteMeta(filt.Description),
+						Pattern: ".*" + regexp.QuoteMeta(filt.Description) + ".*",
 						Options: "i",
 					},
 				},
@@ -605,7 +605,7 @@ func (db *DataStoreMongo) getReleases_1_2_14(
 			{Key: "$match", Value: bson.M{
 				"artifacts." + StorageKeyImageDeviceTypes: bson.M{
 					"$regex": primitive.Regex{
-						Pattern: regexp.QuoteMeta(filt.DeviceType),
+						Pattern: ".*" + regexp.QuoteMeta(filt.DeviceType) + ".*",
 						Options: "i",
 					},
 				},
@@ -713,7 +713,7 @@ func (db *DataStoreMongo) getReleases_1_2_15(
 	if filt != nil {
 		if filt.Name != "" {
 			filter[StorageKeyReleaseName] = bson.M{"$regex": primitive.Regex{
-				Pattern: "^" + regexp.QuoteMeta(filt.Name),
+				Pattern: regexp.QuoteMeta(filt.Name) + ".*",
 				Options: "i",
 			}}
 		}
@@ -722,7 +722,7 @@ func (db *DataStoreMongo) getReleases_1_2_15(
 		}
 		if filt.Description != "" {
 			filter[StorageKeyReleaseArtifactsDescription] = bson.M{"$regex": primitive.Regex{
-				Pattern: regexp.QuoteMeta(filt.Description),
+				Pattern: ".*" + regexp.QuoteMeta(filt.Description) + ".*",
 				Options: "i",
 			}}
 		}
@@ -1202,7 +1202,7 @@ func (db *DataStoreMongo) ListImages(
 		if filt.Name != "" {
 			filters[StorageKeyImageName] = bson.M{
 				"$regex": primitive.Regex{
-					Pattern: "^" + regexp.QuoteMeta(filt.Name),
+					Pattern: ".*" + regexp.QuoteMeta(filt.Name) + ".*",
 					Options: "i",
 				},
 			}
@@ -1210,7 +1210,7 @@ func (db *DataStoreMongo) ListImages(
 		if filt.Description != "" {
 			filters[StorageKeyImageDescription] = bson.M{
 				"$regex": primitive.Regex{
-					Pattern: regexp.QuoteMeta(filt.Description),
+					Pattern: ".*" + regexp.QuoteMeta(filt.Description) + ".*",
 					Options: "i",
 				},
 			}
@@ -1218,7 +1218,7 @@ func (db *DataStoreMongo) ListImages(
 		if filt.DeviceType != "" {
 			filters[StorageKeyImageDeviceTypes] = bson.M{
 				"$regex": primitive.Regex{
-					Pattern: regexp.QuoteMeta(filt.DeviceType),
+					Pattern: ".*" + regexp.QuoteMeta(filt.DeviceType) + ".*",
 					Options: "i",
 				},
 			}
