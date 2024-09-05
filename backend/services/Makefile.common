@@ -3,6 +3,7 @@
 MENDER_IMAGE_PREFIX ?= localhost:5000/mender-server
 MENDER_IMAGE_TAG ?= latest
 MENDER_IMAGE_TAG_TEST ?= test
+MENDER_PUBLISH_TAG ?= $(MENDER_IMAGE_TAG)
 
 bindir ?= $(GIT_ROOT)/bin
 binfile ?= $(bindir)/$(COMPONENT)
@@ -42,6 +43,7 @@ endef
 DOCKER_PLATFORM ?= $(shell docker system info -f '$(default_docker_platform_template)')
 DOCKER_TAG = $(MENDER_IMAGE_PREFIX)/$(COMPONENT):$(MENDER_IMAGE_TAG)
 DOCKER_BUILDARGS ?=
+DOCKER_PUBLISH_REGISTRY := docker.io/mendersoftware
 
 .PHONY: docker
 docker:
@@ -56,6 +58,15 @@ docker:
 .PHONY: docker-pull
 docker-pull:
 	docker pull $(DOCKER_TAG)
+
+.PHONY: docker-publish
+docker-publish: DOCKER_TAG_PUBLISH = $(DOCKER_PUBLISH_REGISTRY)/$(COMPONENT):$(MENDER_PUBLISH_TAG)
+docker-publish:
+	@echo "About to publish $(DOCKER_TAG) to $(DOCKER_TAG_PUBLISH)"
+	@echo -n "Continue? [y/N] " && read answer && test "$${answer:-N}" = "y"
+	skopeo copy --multi-arch all \
+		docker://$(DOCKER_TAG) \
+		docker://$(DOCKER_TAG_PUBLISH)
 
 $(binfile): $(GOFILES)
 	# TODO: Add -ldflags "-X ...$(Version)"

@@ -83,3 +83,13 @@ $(DOCKER_ACCEPTANCE_TARGETS):
 	@$(MAKE) -C services/$(subst -docker-acceptance,,$@) docker-acceptance \
 		MENDER_IMAGE_PREFIX=$(MENDER_IMAGE_PREFIX) \
 		MENDER_IMAGE_TAG_TEST=$(MENDER_IMAGE_TAG_TEST)
+
+.PHONY: docker-publish
+docker-publish: $(DOCKER_PUBLISH_TARGETS)
+
+.PHONY: $(DOCKER_PUBLISH_TARGETS)
+$(DOCKER_PUBLISH_TARGETS):
+	@$(MAKE) -C services/$(subst -docker-publish,,$@) docker-publish \
+		MENDER_IMAGE_PREFIX=$(MENDER_IMAGE_PREFIX) \
+		MENDER_IMAGE_TAG=$(MENDER_IMAGE_TAG) \
+		MENDER_PUBLISH_TAG=$(MENDER_PUBLISH_TAG)
