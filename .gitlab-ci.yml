@@ -54,16 +54,21 @@ build:backend:docker:
       alias: docker
 
   variables:
-    DOCKER_BUILDARGS: "--push --builder=ci-builder"
+    DOCKER_BUILDARGS: "--push"
 
   before_script:
     - apk add make bash git
     - *dind-login
   script:
-    - docker context create ci
-    - docker builder create --name ci-builder ci
-    - docker builder use ci-builder
-    - /usr/bin/env -u DOCKER_HOST make -C backend docker
+    # NOTE: If we're running on a PR, do not build multiplatform
+    - test "$CI_COMMIT_REF_PROTECTED" != "true" && unset DOCKER_PLATFORM
+    - if test -n "${DOCKER_PLATFORM}"; then
+      docker context create ci;
+      docker builder create --name ci-builder ci;
+      export DOCKER_BUILDARGS="${DOCKER_BUILDARGS} --builder=ci-builder";
+      unset DOCKER_HOST;
+      fi
+    - make -C backend docker
     # NOTE: Only build for test platform (default) for the acceptance test images
     - /usr/bin/env -u DOCKER_PLATFORM make -C backend docker-acceptance
 
