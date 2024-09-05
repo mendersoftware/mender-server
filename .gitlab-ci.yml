@@ -94,7 +94,7 @@ test:backend:unit:
   stage: test
   rules:
     - changes:
-        paths: ["backend/**/*"]
+        paths: ["backend/**/*.go"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
   tags:
     - hetzner-amd-beefy
