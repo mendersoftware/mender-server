@@ -63,7 +63,6 @@ updates:
   - commit-message:
       prefix: chore
     directories:
-      - /backend
       - /backend/services/create-artifact-worker
       - /backend/services/iot-manager
     package-ecosystem: docker
