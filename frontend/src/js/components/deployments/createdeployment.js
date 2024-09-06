@@ -60,6 +60,7 @@ import {
 } from '../../selectors';
 import { getOnboardingComponentFor } from '../../utils/onboardingmanager';
 import Confirm from '../common/confirm';
+import DeviceLimit from './deployment-wizard/devicelimit';
 import { RolloutPatternSelection } from './deployment-wizard/phasesettings';
 import { ForceDeploy, Retries, RolloutOptions } from './deployment-wizard/rolloutoptions';
 import { ScheduleRollout } from './deployment-wizard/schedulerollout';
@@ -73,7 +74,7 @@ const useStyles = makeStyles()(theme => ({
       display: 'none'
     },
     [`&.${accordionClasses.expanded}`]: {
-      margin: 'auto',
+      margin: 'unset',
       marginTop: theme.spacing(4)
     }
   },
@@ -199,7 +200,7 @@ export const CreateDeployment = props => {
       return setIsChecking(true);
     }
     isCreating.current = true;
-    const { delta, deploymentDeviceIds, devices, filter, forceDeploy = false, group, phases, release, retries, update_control_map } = settings;
+    const { delta, deploymentDeviceIds, devices, filter, forceDeploy = false, group, maxDevices, phases, release, retries, update_control_map } = settings;
     const startTime = phases?.length ? phases[0].start_ts : undefined;
     const retrySetting = canRetry && retries ? { retries } : {};
     const newDeployment = {
@@ -209,6 +210,7 @@ export const CreateDeployment = props => {
       filter_id: filter?.id,
       all_devices: !filter && group === ALL_DEVICES,
       group: group === ALL_DEVICES || devices.length ? undefined : group,
+      max_devices: maxDevices ? maxDevices : undefined,
       name: devices[0]?.id || (group ? decodeURIComponent(group) : ALL_DEVICES),
       phases: phases
         ? phases.map((phase, i, origPhases) => {
@@ -299,6 +301,7 @@ export const CreateDeployment = props => {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
+            <DeviceLimit {...sharedProps} />
             <RolloutPatternSelection {...sharedProps} />
             <RolloutOptions {...sharedProps} />
             <Retries {...sharedProps} />

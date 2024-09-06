@@ -271,7 +271,9 @@ export const Software = ({ commonClasses, deploymentObject, releaseRef, releases
             !!releaseDeviceTypes.length && <InfoText style={{ marginBottom: 0 }}>This Release is compatible with {devicetypesInfo}.</InfoText>
           )}
         </div>
-        <MenderHelpTooltip id={HELPTOOLTIPS.groupDeployment.id} />
+        <div className="margin-left-small">
+          <MenderHelpTooltip id={HELPTOOLTIPS.groupDeployment.id} />
+        </div>
       </div>
     </>
   );

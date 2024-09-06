@@ -182,24 +182,33 @@ describe('Deployments Component', () => {
     await user.keyboard(specialKeys.Enter);
     const groupSelect = screen.getByPlaceholderText(/Select a device group/i);
     await act(async () => await user.click(groupSelect));
+    await user.type(groupSelect, 'testGroupDyn');
+    await user.keyboard(specialKeys.ArrowDown);
     await user.keyboard(specialKeys.Enter);
-    // await waitFor(() => rerender(ui));
-    expect(groupSelect).toHaveValue(ALL_DEVICES);
+
+    await user.click(screen.getByRole('button', { name: /advanced options/i }));
+    const accordion = screen.getByRole('checkbox', { name: /maximum number of devices/i }).parentElement.parentElement.parentElement;
+    await user.click(screen.getByRole('checkbox', { name: /maximum number of devices/i }));
+    await waitFor(() => rerender(ui));
+    const limitInput = within(accordion).getByPlaceholderText(/limit/i);
+    await user.clear(limitInput);
+    await user.type(limitInput, '123');
     const post = jest.spyOn(GeneralApi, 'post');
     await act(async () => {
       jest.runOnlyPendingTimers();
       jest.runAllTicks();
     });
     await user.click(screen.getByRole('button', { name: 'Create deployment' }));
-    expect(post).toHaveBeenCalledWith('/api/management/v1/deployments/deployments', {
-      all_devices: true,
+    expect(post).toHaveBeenCalledWith('/api/management/v2/deployments/deployments', {
+      all_devices: false,
       artifact_name: releaseId,
       autogenerate_delta: undefined,
       force_installation: false,
       devices: undefined,
-      filter_id: undefined,
-      group: undefined,
-      name: ALL_DEVICES,
+      filter_id: 'filter1',
+      group: 'testGroupDynamic',
+      max_devices: '123',
+      name: 'testGroupDynamic',
       phases: undefined,
       update_control_map: undefined
     });
