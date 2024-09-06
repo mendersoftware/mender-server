@@ -20,7 +20,7 @@ import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
 import { CssBaseline, GlobalStyles, ThemeProvider, createTheme, styled } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { makeStyles } from 'tss-react/mui';
 
 import Cookies from 'universal-cookie';
@@ -221,7 +221,7 @@ export const AppProviders = ({ basename = 'ui' }) => (
   <React.StrictMode>
     <Provider store={store}>
       <CacheProvider value={cache}>
-        <LocalizationProvider dateAdapter={AdapterMoment}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
           <ErrorBoundary>
             <BrowserRouter basename={basename}>
               <AppRoot />

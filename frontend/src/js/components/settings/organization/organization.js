@@ -21,7 +21,7 @@ import { Button, Checkbox, Collapse, Dialog, DialogActions, DialogContent, Dialo
 import { makeStyles } from 'tss-react/mui';
 
 import copy from 'copy-to-clipboard';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import { setSnackbar } from '../../../actions/appActions';
 import {
@@ -139,7 +139,7 @@ export const Organization = () => {
   const onTokenExpansion = useCallback(() => setShowTokenWarning(true), []);
 
   const onDownloadReportClick = () =>
-    dispatch(downloadLicenseReport()).then(report => createFileDownload(report, `Mender-license-report-${moment().format(moment.HTML5_FMT.DATE)}`, token));
+    dispatch(downloadLicenseReport()).then(report => createFileDownload(report, `Mender-license-report-${dayjs().format('YYYY-MM-DD')}`, token));
 
   const onTenantInfoClick = () => {
     copy(`Organization: ${org.name}, Tenant ID: ${org.id}`);

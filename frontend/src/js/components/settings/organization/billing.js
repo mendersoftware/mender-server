@@ -20,7 +20,8 @@ import { Error as ErrorIcon, OpenInNew as OpenInNewIcon } from '@mui/icons-mater
 import { LinearProgress, List } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import moment from 'moment';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
 import { cancelRequest } from '../../../actions/organizationActions';
 import { ADDONS, PLANS } from '../../../constants/appConstants';
@@ -41,11 +42,13 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 
+dayjs.extend(relativeTime);
+
 export const TrialExpirationNote = ({ trial_expiration }) => (
   <div className="flexbox centered muted">
     <ErrorIcon fontSize="small" />
     <span className="margin-left-small">
-      Your trial expires in {moment().from(moment(trial_expiration), true)}. <Link to="/settings/upgrade">Upgrade to a paid plan</Link>
+      Your trial expires in {dayjs().from(dayjs(trial_expiration), true)}. <Link to="/settings/upgrade">Upgrade to a paid plan</Link>
     </span>
   </div>
 );

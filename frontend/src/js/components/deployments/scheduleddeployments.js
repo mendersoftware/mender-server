@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
+import { Calendar, dayjsLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -20,7 +20,7 @@ import { CalendarToday as CalendarTodayIcon, List as ListIcon, Refresh as Refres
 import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import { setSnackbar } from '../../actions/appActions';
 import { getDeploymentsByStatus, setDeploymentsState } from '../../actions/deploymentActions';
@@ -46,7 +46,7 @@ const useStyles = makeStyles()(theme => ({
   tabSelect: { textTransform: 'none' }
 }));
 
-const localizer = momentLocalizer(moment);
+const localizer = dayjsLocalizer(dayjs);
 
 const headers = [
   ...defaultHeaders.slice(0, 2),
@@ -135,7 +135,7 @@ export const Scheduled = ({ abort, createClick, openReport, ...remainder }) => {
         endDate = new Date(deployment.phases[deployment.phases.length - 1].end_ts);
       } else if (deployment.filter_id || deployment.filter) {
         // calendar doesn't support never ending events so we arbitrarly set one year
-        endDate = moment(start).add(1, 'year');
+        endDate = dayjs(start).add(1, 'year');
       }
       return {
         allDay: !(deployment.filter_id || deployment.filter),

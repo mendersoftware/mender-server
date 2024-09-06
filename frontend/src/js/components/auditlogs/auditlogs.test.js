@@ -17,7 +17,7 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import { prettyDOM, screen, render as testingLibRender, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -56,7 +56,7 @@ const preloadedStateNoAuditlogs = {
 describe('Auditlogs Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(
-      <LocalizationProvider dateAdapter={AdapterMoment}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
         <AuditLogs />
       </LocalizationProvider>,
       { preloadedState: preloadedStateNoAuditlogs }
@@ -73,7 +73,7 @@ describe('Auditlogs Component', () => {
     let store = getConfiguredStore({ preloadedState });
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     render(
-      <LocalizationProvider dateAdapter={AdapterMoment}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Provider store={store}>
           <AuditLogs />
         </Provider>
@@ -93,7 +93,7 @@ describe('Auditlogs Component', () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const theme = createTheme(lightTheme);
     const ui = (
-      <LocalizationProvider dateAdapter={AdapterMoment}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
         <ThemeProvider theme={theme}>
           <MemoryRouter initialEntries={['/auditlog?startDate=2018-01-01']}>
             <Provider store={store}>

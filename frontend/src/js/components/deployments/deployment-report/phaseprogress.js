@@ -17,8 +17,6 @@ import { CheckCircle, ErrorRounded, Pause, PlayArrow, Warning as WarningIcon } f
 import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import moment from 'moment';
-import momentDurationFormatSetup from 'moment-duration-format';
 import pluralize from 'pluralize';
 
 import inprogressImage from '../../../../assets/img/pending_status.png';
@@ -36,8 +34,6 @@ const useStyles = makeStyles()(theme => ({
   phaseInfo: { marginBottom: theme.spacing() },
   phaseIndex: { margin: theme.spacing(0.5) }
 }));
-
-momentDurationFormatSetup(moment);
 
 const shortCircuitIndicators = [deploymentSubstates.alreadyInstalled, deploymentSubstates.noartifact];
 

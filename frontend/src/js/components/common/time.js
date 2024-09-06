@@ -15,19 +15,21 @@ import React, { useEffect, useState } from 'react';
 
 import { Tooltip } from '@mui/material';
 
-import moment from 'moment';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import pluralize from 'pluralize';
 
 const defaultDateFormat = 'YYYY-MM-DD';
 const defaultTimeFormat = `${defaultDateFormat} HH:mm`;
 
 // based on react-time - https://github.com/andreypopp/react-time - which unfortunately is no longer maintained
+dayjs.extend(relativeTime);
 
 export const Time = ({ value, relative, format = defaultTimeFormat, valueFormat, titleFormat = defaultTimeFormat, Component = 'time', ...remainingProps }) => {
   if (!value) {
-    value = moment();
+    value = dayjs();
   }
-  value = moment(value, valueFormat, true);
+  value = dayjs(value, valueFormat, true);
 
   const machineReadable = value.format('YYYY-MM-DDTHH:mm:ssZ');
   const humanReadable = relative ? value.fromNow() : value.format(format);
@@ -46,11 +48,11 @@ export const RelativeTime = ({ className, shouldCount = 'both', updateTime }) =>
   const [updatedTime, setUpdatedTime] = useState();
 
   useEffect(() => {
-    setUpdatedTime(updatedTime => (updateTime !== updatedTime ? moment(updateTime) : updatedTime));
+    setUpdatedTime(updatedTime => (updateTime !== updatedTime ? dayjs(updateTime) : updatedTime));
   }, [updateTime]);
 
   let timeDisplay = <MaybeTime className={className} value={updatedTime} />;
-  const diffSeconds = updatedTime ? updatedTime.diff(moment(), 'seconds') : 0;
+  const diffSeconds = updatedTime ? updatedTime.diff(dayjs(), 'seconds') : 0;
   if (
     updatedTime &&
     diffSeconds > cutoff &&
@@ -63,7 +65,7 @@ export const RelativeTime = ({ className, shouldCount = 'both', updateTime }) =>
     );
   }
   return (
-    <Tooltip title={updatedTime ? updatedTime.toLocaleString() : ''} arrow enterDelay={500}>
+    <Tooltip title={updatedTime ? updatedTime.toDate().toString().slice(0, 33) : ''} arrow enterDelay={500}>
       <span>{timeDisplay}</span>
     </Tooltip>
   );
@@ -74,10 +76,10 @@ export const ApproximateRelativeDate = ({ className, updateTime }) => {
   const [updatedTime, setUpdatedTime] = useState();
 
   useEffect(() => {
-    setUpdatedTime(updatedTime => (updateTime !== updatedTime ? moment(updateTime, defaultDateFormat) : updatedTime));
+    setUpdatedTime(updatedTime => (updateTime !== updatedTime ? dayjs(updateTime, defaultDateFormat) : updatedTime));
   }, [updateTime]);
 
-  const diff = updatedTime ? Math.abs(updatedTime.diff(moment(), 'days')) : 0;
+  const diff = updatedTime ? Math.abs(updatedTime.diff(dayjs(), 'days')) : 0;
   if (updatedTime && diff <= cutoffDays) {
     return (
       <time className={className} dateTime={updatedTime.format(defaultDateFormat)}>

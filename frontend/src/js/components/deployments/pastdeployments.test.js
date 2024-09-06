@@ -14,7 +14,7 @@
 import React from 'react';
 
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import { act } from '@testing-library/react';
 
@@ -39,7 +39,7 @@ const state = {
 describe('PastDeployments Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(
-      <LocalizationProvider dateAdapter={AdapterMoment}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Past past={[]} groups={[]} refreshPast={() => {}} refreshDeployments={jest.fn} />
       </LocalizationProvider>,
       { state }

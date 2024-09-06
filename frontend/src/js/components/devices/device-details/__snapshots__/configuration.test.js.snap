@@ -1152,9 +1152,9 @@ exports[`tiny components renders ConfigEmptyNote correctly 1`] = `
     >
       Updated: 
       <time
-        datetime="Invalid date"
+        datetime="Invalid Date"
       >
-        Invalid date
+        Invalid Date
       </time>
     </span>
   </div>
@@ -1228,9 +1228,9 @@ exports[`tiny components renders ConfigUpToDateNote correctly 1`] = `
       >
         Updated: 
         <time
-          datetime="Invalid date"
+          datetime="Invalid Date"
         >
-          Invalid date
+          Invalid Date
         </time>
       </span>
     </div>

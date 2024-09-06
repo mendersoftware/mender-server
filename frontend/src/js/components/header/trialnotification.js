@@ -17,15 +17,13 @@ import { Link } from 'react-router-dom';
 import { InfoOutlined as InfoIcon, Payment } from '@mui/icons-material';
 import { Button } from '@mui/material';
 
-import moment from 'moment';
-import momentDurationFormatSetup from 'moment-duration-format';
+import dayjs from 'dayjs';
+import durationDayJs from 'dayjs/plugin/duration';
 import pluralize from 'pluralize';
 
 import { MenderTooltipClickable } from '../common/mendertooltip';
 
-momentDurationFormatSetup(moment);
-
-const today = new Date();
+dayjs.extend(durationDayJs);
 
 const TrialInformation = () => (
   <>
@@ -45,8 +43,8 @@ const TrialInformation = () => (
 );
 
 const TrialNotification = ({ iconClassName, sectionClassName, expiration }) => {
-  const expirationDate = moment(expiration);
-  const duration = moment.duration(expirationDate.diff(moment(today)));
+  const expirationDate = dayjs(expiration);
+  const duration = dayjs.duration(expirationDate.diff(dayjs()));
   const daysLeft = Math.floor(duration.asDays());
   return (
     <div className={`flexbox centered ${sectionClassName}`}>

@@ -16,8 +16,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { useTheme } from '@mui/material/styles';
 
-import moment from 'moment';
-import momentDurationFormatSetup from 'moment-duration-format';
+import dayjs from 'dayjs';
+import durationDayJs from 'dayjs/plugin/duration';
 
 import { getDeviceById, getSessionDetails } from '../../../actions/deviceActions';
 import { getAuditlogDevice, getCurrentSession, getIdAttribute, getUserCapabilities } from '../../../selectors';
@@ -26,7 +26,7 @@ import Time from '../../common/time';
 import DeviceDetails, { DetailInformation } from './devicedetails';
 import TerminalPlayer from './terminalplayer';
 
-momentDurationFormatSetup(moment);
+dayjs.extend(durationDayJs);
 
 export const TerminalSession = ({ item, onClose }) => {
   const theme = useTheme();
@@ -55,7 +55,7 @@ export const TerminalSession = ({ item, onClose }) => {
     'Session ID': item.meta.session_id[0],
     'Start time': <Time value={sessionDetails.start} />,
     'End time': <Time value={sessionDetails.end} />,
-    'Duration': moment.duration(moment(sessionDetails.end).diff(sessionDetails.start)).format('*hh:*mm:ss:SSS'),
+    'Duration': dayjs.duration(dayjs(sessionDetails.end).diff(sessionDetails.start)).format('HH:mm:ss:SSS'),
     User: item.actor.email
   };
 

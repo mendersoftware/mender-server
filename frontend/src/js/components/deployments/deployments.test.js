@@ -14,7 +14,7 @@
 import React from 'react';
 
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import { act, fireEvent, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -121,7 +121,7 @@ describe('Deployments Component', () => {
       }
     };
     const ui = (
-      <LocalizationProvider dateAdapter={AdapterMoment}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Deployments {...defaultLocationProps} />
       </LocalizationProvider>
     );
@@ -164,7 +164,7 @@ describe('Deployments Component', () => {
       }
     };
     const ui = (
-      <LocalizationProvider dateAdapter={AdapterMoment}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Deployments {...defaultLocationProps} />
       </LocalizationProvider>
     );
@@ -245,7 +245,7 @@ describe('Deployments Component', () => {
       }
     };
     const ui = (
-      <LocalizationProvider dateAdapter={AdapterMoment}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Deployments {...defaultLocationProps} />
       </LocalizationProvider>
     );

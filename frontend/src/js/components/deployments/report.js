@@ -26,8 +26,6 @@ import { Button, Divider, Drawer, IconButton, Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import copy from 'copy-to-clipboard';
-import moment from 'moment';
-import momentDurationFormatSetup from 'moment-duration-format';
 
 import { setSnackbar } from '../../actions/appActions';
 import { getDeploymentDevices, getDeviceLog, getSingleDeployment, updateDeploymentControlMap } from '../../actions/deploymentActions';
@@ -56,8 +54,6 @@ import DeploymentStatus, { DeploymentPhaseNotification } from './deployment-repo
 import DeviceList from './deployment-report/devicelist';
 import DeploymentOverview from './deployment-report/overview';
 import RolloutSchedule from './deployment-report/rolloutschedule';
-
-momentDurationFormatSetup(moment);
 
 const useStyles = makeStyles()(theme => ({
   divider: { marginTop: theme.spacing(2) },
