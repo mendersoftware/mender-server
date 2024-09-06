@@ -10,11 +10,14 @@ RUN \
   --mount=type=bind,source=.,target=/build/src \
   --mount=type=cache,target=/go/pkg/mod/ \
   --mount=type=cache,target=/root/.cache/go-build \
+  --mount=type=cache,target=/tmp,id=gotmp \
+  make -C src/backend/services/reporting build \
   CGO_ENABLED=0 \
   GOOS="${TARGETOS}" \
   GOARCH="${TARGETARCH}" \
-  go build -C src/backend -ldflags="${LDFLAGS}" ${BUILDFLAGS} \
-  -o /build/reporting ./services/reporting
+  bindir="/build" \
+  LDFLAGS="${LDFLAGS}" \
+  BUILDFLAGS="${BUILDFLAGS}"
 
 FROM scratch
 ARG TARGETARCH

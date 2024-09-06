@@ -8,11 +8,14 @@ RUN \
   --mount=type=bind,source=.,target=/build/src \
   --mount=type=cache,target=/go/pkg/mod/ \
   --mount=type=cache,target=/root/.cache/go-build \
+  --mount=type=cache,target=/tmp,id=gotmp \
+  make -C src/backend/services/deviceconnect build \
   CGO_ENABLED=0 \
   GOOS="${TARGETOS}" \
   GOARCH="${TARGETARCH}" \
-  go build -C src/backend -ldflags="${LDFLAGS}" ${BUILDFLAGS} \
-  -o /build/deviceconnect ./services/deviceconnect
+  bindir="/build" \
+  LDFLAGS="${LDFLAGS}" \
+  BUILDFLAGS="${BUILDFLAGS}"
 
 FROM scratch
 ARG TARGETARCH

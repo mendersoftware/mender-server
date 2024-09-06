@@ -11,21 +11,25 @@ RUN wget "https://downloads.mender.io/repos/debian/pool/main/m/mender-artifact/m
   dpkg -x mender-artifact.deb / && \
   mkdir /var/cache/create-artifact-worker
 
-# COPY . .
 RUN \
   --mount=type=bind,source=.,target=/build/src \
   --mount=type=cache,target=/go/pkg/mod/ \
   --mount=type=cache,target=/root/.cache/go-build \
+  --mount=type=cache,target=/tmp,id=gotmp \
+  make -C src/backend/services/workflows build \
   GOOS="${TARGETOS}" \
   GOARCH="${TARGETARCH}" \
   CGO_ENABLED=0 \
-  go build -C src/backend -ldflags="${LDFLAGS}" ${BUILDFLAGS} \
-  -o /build/create-artifact-worker ./services/create-artifact-worker && \
+  bindir=/build \
+  LDFLAGS="${LDFLAGS}" \
+  BUILDFLAGS="${BUILDFLAGS}" && \
+  make -C src/backend/services/create-artifact-worker build \
   GOOS="${TARGETOS}" \
   GOARCH="${TARGETARCH}" \
   CGO_ENABLED=0 \
-  go build -C src/backend -ldflags="${LDFLAGS}" ${BUILDFLAGS} \
-  -o /build/workflows ./services/workflows
+  bindir=/build \
+  LDFLAGS="${LDFLAGS}" \
+  BUILDFLAGS="${BUILDFLAGS}"
 
 FROM alpine:3.19.1
 ARG TARGETARCH
