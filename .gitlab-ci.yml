@@ -2,9 +2,6 @@ variables:
   # NOTE: Custom variables should never start with CI_ prefix.
   #       This namespace belongs to Gitlab CI/CD.
   #       https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
-  GOLANG_VERSION:
-    value: "1.23.0"
-    description: "Go version to use for building and testing"
   DOCKER_VERSION:
     value: "27"
     description: "Version of docker to use in pipelines"
@@ -26,6 +23,7 @@ variables:
   MENDER_IMAGE_PREFIX: "${CI_REGISTRY_IMAGE}"
   MENDER_IMAGE_TAG: "build-${CI_PIPELINE_IID}"
   MENDER_IMAGE_TAG_TEST: "test-${CI_PIPELINE_IID}"
+  MENDER_IMAGE_TAG_BUILDER: "builder-${CI_PIPELINE_IID}"
 
 include:
   - project: "Northern.tech/Mender/mendertesting"
@@ -72,6 +70,13 @@ build:backend:docker:
       export DOCKER_BUILDARGS="${DOCKER_BUILDARGS} --builder=ci-builder";
       unset DOCKER_HOST;
       fi
+    # FIXME: Only exporting deployments build stage to run unit tests
+    #        We're assuming the images have consistent GOTOOLCHAIN.
+    #        Will be fixed once we optimize to template based pipeline.
+    - |-
+      make -C backend/services/deployments docker \
+        DOCKER_BUILDARGS="${DOCKER_BUILDARGS} --target builder" \
+        MENDER_IMAGE_TAG=${MENDER_IMAGE_TAG_BUILDER}
     - make -C backend docker
 
 build:backend:docker-acceptance:
@@ -94,8 +99,12 @@ test:backend:static:
     - golangci-lint run -v
 
 test:backend:unit:
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/golang:${GOLANG_VERSION}
+  # FIXME: Using deployments build stage since we're running all tests
+  image: "${CI_REGISTRY_IMAGE}/deployments:${MENDER_IMAGE_TAG_BUILDER}"
   stage: test
+  needs:
+    - job: build:backend:docker
+      artifacts: false
   rules:
     - changes:
         paths: ["backend/**/*.go"]
