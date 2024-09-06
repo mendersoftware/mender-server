@@ -94,7 +94,7 @@ test:backend:static:
     - golangci-lint run -v
 
 test:backend:unit:
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/golang:${GOLANG_VERSION}-bullseye
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/golang:${GOLANG_VERSION}
   stage: test
   rules:
     - changes:
