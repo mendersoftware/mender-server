@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, TextField } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import historyImage from '../../../assets/img/history.png';
 import { getAuditLogs, getAuditLogsCsvLink, setAuditlogsState } from '../../actions/organizationActions';
@@ -181,11 +181,7 @@ export const AuditLogs = props => {
   const createCsvDownload = () => {
     setCsvLoading(true);
     dispatch(getAuditLogsCsvLink()).then(address => {
-      createDownload(
-        encodeURI(address),
-        `Mender-AuditLog-${moment(startDate).format(moment.HTML5_FMT.DATE)}-${moment(endDate).format(moment.HTML5_FMT.DATE)}.csv`,
-        token
-      );
+      createDownload(encodeURI(address), `Mender-AuditLog-${dayjs(startDate).format('YYYY-MM-DD')}-${dayjs(endDate).format('YYYY-MM-DD')}.csv`, token);
       setCsvLoading(false);
     });
   };

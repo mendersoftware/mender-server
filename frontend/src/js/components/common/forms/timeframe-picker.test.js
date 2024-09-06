@@ -15,7 +15,7 @@ import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import { screen } from '@testing-library/react';
 
@@ -35,7 +35,7 @@ const testRender = ui => {
 describe('TimeframePicker Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = formRenderWrapper(
-      <LocalizationProvider dateAdapter={AdapterMoment}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
         <TimeframePicker tonight={new Date().toISOString()} />
       </LocalizationProvider>
     );
@@ -45,7 +45,7 @@ describe('TimeframePicker Component', () => {
   });
   it('works in different timezones correctly', async () => {
     testRender(
-      <LocalizationProvider dateAdapter={AdapterMoment}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
         <TimeframePicker tonight={new Date().toISOString()} />
       </LocalizationProvider>
     );

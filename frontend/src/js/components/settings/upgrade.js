@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { InfoOutlined as InfoOutlinedIcon, LocalOffer as LocalOfferIcon } from '@mui/icons-material';
 
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import { setSnackbar } from '../../actions/appActions';
 import { getDeviceLimit } from '../../actions/deviceActions';
@@ -73,7 +73,7 @@ const upgradeNotes = {
 };
 
 export const Upgrade = () => {
-  const offerValid = moment().isBefore('2021-01-01');
+  const offerValid = dayjs().isBefore('2021-01-01');
   const [addOns, setAddOns] = useState([]);
   const [updatedPlan, setUpdatedPlan] = useState(PLANS.os.id);
   const [upgraded, setUpgraded] = useState(false);

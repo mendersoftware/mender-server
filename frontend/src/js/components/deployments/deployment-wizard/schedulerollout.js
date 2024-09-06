@@ -17,7 +17,7 @@ import { FormControl, MenuItem, Select } from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { makeStyles } from 'tss-react/mui';
 
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import { BENEFITS } from '../../../constants/appConstants';
 import EnterpriseNotification from '../../common/enterpriseNotification';
@@ -59,7 +59,7 @@ export const ScheduleRollout = ({ canSchedule, commonClasses, setDeploymentSetti
 
   const start_time = phases.length ? phases[0].start_ts : undefined;
 
-  const startTime = moment(start_time);
+  const startTime = dayjs(start_time);
   return (
     <>
       <h4 className={`margin-bottom-none margin-top-none ${canSchedule ? '' : commonClasses.disabled}`}>Select a start time</h4>
@@ -83,7 +83,7 @@ export const ScheduleRollout = ({ canSchedule, commonClasses, setDeploymentSetti
             onOpen={() => setIsPickerOpen(true)}
             onClose={() => setIsPickerOpen(false)}
             label="Starting at"
-            minDateTime={moment()}
+            minDateTime={dayjs()}
             disabled={!canSchedule}
             onChange={date => handleStartTimeChange(date.toISOString())}
             slotProps={{ textField: { style: { minWidth: 400 } } }}

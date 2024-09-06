@@ -11,7 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import moment from 'moment';
+import dayjs from 'dayjs';
+import durationDayJs from 'dayjs/plugin/duration';
 import Cookies from 'universal-cookie';
 
 import GeneralApi from '../api/general-api';
@@ -50,6 +51,7 @@ import { getReleases } from './releaseActions';
 import { getGlobalSettings, getRoles, getUserSettings, saveGlobalSettings, saveUserSettings, setShowStartupNotification } from './userActions';
 
 const cookies = new Cookies();
+dayjs.extend(durationDayJs);
 
 export const commonErrorFallback = 'Please check your connection.';
 export const commonErrorHandler = (err, errorContext, dispatch, fallback, mightBeAuthRelated = false) => {
@@ -174,7 +176,7 @@ const interpretAppData = () => (dispatch, getState) => {
   const { canManageUsers } = getUserCapabilities(getState());
   const { interval, intervalUnit } = getOfflineThresholdSettings(getState());
   if (canManageUsers && intervalUnit && intervalUnit !== timeUnits.days) {
-    const duration = moment.duration(interval, intervalUnit);
+    const duration = dayjs.duration(interval, intervalUnit);
     const days = duration.asDays();
     if (days < 1) {
       tasks.push(Promise.resolve(setTimeout(() => dispatch(setShowStartupNotification(true)), TIMEOUTS.fiveSeconds)));

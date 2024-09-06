@@ -19,8 +19,8 @@ import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import moment from 'moment';
-import momentDurationFormatSetup from 'moment-duration-format';
+import dayjs from 'dayjs';
+import durationDayJs from 'dayjs/plugin/duration';
 
 import { BEGINNING_OF_TIME, TIMEOUTS } from '../../../constants/appConstants';
 import { getCurrentSession, getFeatures, getIsPreview, getTenantCapabilities, getUserCapabilities } from '../../../selectors';
@@ -31,7 +31,7 @@ import { getCode } from '../dialogs/make-gateway-dialog';
 import Terminal from '../troubleshoot/terminal';
 import ListOptions from '../widgets/listoptions';
 
-momentDurationFormatSetup(moment);
+dayjs.extend(durationDayJs);
 
 const useStyles = makeStyles()(theme => ({
   connectionActions: { marginTop: theme.spacing() },
@@ -49,7 +49,7 @@ const useStyles = makeStyles()(theme => ({
 }));
 
 const SessionInfo = ({ socketInitialized, startTime }) => {
-  const [elapsed, setElapsed] = useState(moment());
+  const [elapsed, setElapsed] = useState(dayjs());
   const timer = useRef();
   const { classes } = useStyles();
 
@@ -58,7 +58,7 @@ const SessionInfo = ({ socketInitialized, startTime }) => {
     if (!socketInitialized) {
       return;
     }
-    timer.current = setInterval(() => setElapsed(moment()), TIMEOUTS.halfASecond);
+    timer.current = setInterval(() => setElapsed(dayjs()), TIMEOUTS.halfASecond);
     return () => {
       clearInterval(timer.current);
     };
@@ -72,7 +72,7 @@ const SessionInfo = ({ socketInitialized, startTime }) => {
         {
           key: 'duration',
           title: 'Duration',
-          content: startTime ? `${moment.duration(elapsed.diff(moment(startTime))).format('hh:mm:ss', { trim: false })}` : '-'
+          content: startTime ? `${dayjs.duration(elapsed.diff(dayjs(startTime))).format('hh:mm:ss', { trim: false })}` : '-'
         }
       ].map(({ key, title, content }) => (
         <div key={key} className="flexbox">

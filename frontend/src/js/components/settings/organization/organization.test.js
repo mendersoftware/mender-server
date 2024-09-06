@@ -17,6 +17,7 @@ import { drawerClasses } from '@mui/material';
 
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import MockDate from 'mockdate';
 
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
@@ -79,14 +80,14 @@ describe('MyOrganization Component', () => {
         }
       }
     };
-    Date.now = jest.fn(() => new Date('2020-07-01T12:00:00.000Z'));
+    MockDate.set(new Date('2020-07-01T12:00:00.000Z'));
   });
 
   it('renders correctly', async () => {
     const { baseElement } = render(<MyOrganization />, {
       preloadedState: { ...preloadedState, users: { ...preloadedState.users, currentSession: getSessionInfo() } }
     });
-    const view = baseElement.firstChild.firstChild;
+    const view = baseElement;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });

@@ -18,8 +18,8 @@ import { Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { mdiDotsHorizontalCircleOutline as QueuedIcon, mdiSleep as SleepIcon } from '@mdi/js';
-import moment from 'moment';
-import momentDurationFormatSetup from 'moment-duration-format';
+import dayjs from 'dayjs';
+import durationDayJs from 'dayjs/plugin/duration';
 import pluralize from 'pluralize';
 
 import { TIMEOUTS } from '../../constants/appConstants';
@@ -27,7 +27,7 @@ import { groupDeploymentStats } from '../../helpers';
 import MaterialDesignIcon from '../common/materialdesignicon';
 import Time from '../common/time';
 
-momentDurationFormatSetup(moment);
+dayjs.extend(durationDayJs);
 
 const statusMap = {
   complete: {
@@ -264,7 +264,7 @@ export const ProgressDisplay = ({ className = '', deployment, minimal = false, s
 
   const currentPhase = reversedPhases.find(phase => new Date(phase.start_ts) < time) || phases[0];
   const currentPhaseIndex = phases.findIndex(phase => phase.id === currentPhase.id);
-  const nextPhaseStart = phases.length > currentPhaseIndex + 1 ? moment(phases[currentPhaseIndex + 1].start_ts) : moment(time);
+  const nextPhaseStart = phases.length > currentPhaseIndex + 1 ? dayjs(phases[currentPhaseIndex + 1].start_ts) : dayjs(time);
 
   const displayablePhases = getDisplayablePhases({
     currentPhase,
@@ -273,8 +273,8 @@ export const ProgressDisplay = ({ className = '', deployment, minimal = false, s
     ...remainder
   });
 
-  const momentaryTime = moment(time);
-  const duration = moment.duration(nextPhaseStart.diff(momentaryTime)).format('d [days] hh [h] mm [m] ss [s]');
+  const momentaryTime = dayjs(time);
+  const duration = dayjs.duration(nextPhaseStart.diff(momentaryTime)).format('d [days] hh [h] mm [m] ss [s]');
 
   return (
     <ProgressChartComponent

@@ -514,373 +514,377 @@ exports[`MyOrganization Component renders correctly 1`] = `
   margin-right: 8px;
 }
 
-<div
-  class="margin-top-small"
->
-  <h2
-    class="margin-top-small"
-  >
-    Organization and billing
-  </h2>
-  <ul
-    class="MuiList-root MuiList-padding emotion-0"
-  >
-    <li
-      class="margin-top-small org-settings-item"
+<body>
+  <div>
+    <div
+      class="margin-top-small"
     >
-      <div
-        class="MuiListItem-root flexbox column MuiListItem-gutters MuiListItem-padding MuiListItem-alignItemsFlexStart emotion-1"
+      <h2
+        class="margin-top-small"
       >
-        <div
-          class="MuiListItemText-root MuiListItemText-multiline emotion-2"
+        Organization and billing
+      </h2>
+      <ul
+        class="MuiList-root MuiList-padding emotion-0"
+      >
+        <li
+          class="margin-top-small org-settings-item"
         >
-          <span
-            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-3"
-          >
-            Organization name
-          </span>
           <div
-            class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary two-columns emotion-4"
+            class="MuiListItem-root flexbox column MuiListItem-gutters MuiListItem-padding MuiListItem-alignItemsFlexStart emotion-1"
           >
-            <div>
-              <div
-                class="clickable emotion-5"
+            <div
+              class="MuiListItemText-root MuiListItemText-multiline emotion-2"
+            >
+              <span
+                class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-3"
               >
-                test
-                <span>
-                  (
-                  1
-                  )
-                </span>
+                Organization name
+              </span>
+              <div
+                class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary two-columns emotion-4"
+              >
+                <div>
+                  <div
+                    class="clickable emotion-5"
+                  >
+                    test
+                    <span>
+                      (
+                      1
+                      )
+                    </span>
+                  </div>
+                </div>
+                <a
+                  class="align-right"
+                />
               </div>
             </div>
-            <a
-              class="align-right"
+            <hr
+              class="MuiDivider-root MuiDivider-fullWidth emotion-6"
             />
           </div>
-        </div>
-        <hr
-          class="MuiDivider-root MuiDivider-fullWidth emotion-6"
-        />
-      </div>
-    </li>
-    <li
-      class="margin-top-small org-settings-item"
-    >
-      <div
-        class="MuiListItem-root flexbox column MuiListItem-gutters MuiListItem-padding MuiListItem-alignItemsFlexStart emotion-1"
-      >
-        <div
-          class="MuiListItemText-root MuiListItemText-multiline emotion-8"
+        </li>
+        <li
+          class="margin-top-small org-settings-item"
         >
-          <span
-            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-3"
-          >
-            <div
-              class="flexbox center-aligned"
-            >
-              <div
-                class="emotion-10"
-              >
-                Organization token
-              </div>
-              <div
-                class=""
-                data-mui-internal-clone-element="true"
-              >
-                <div
-                  class="relative"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium  emotion-11"
-                    data-testid="HelpIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
-                    />
-                  </svg>
-                  <div
-                    class="emotion-12 "
-                  />
-                </div>
-              </div>
-            </div>
-          </span>
           <div
-            class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary emotion-4"
+            class="MuiListItem-root flexbox column MuiListItem-gutters MuiListItem-padding MuiListItem-alignItemsFlexStart emotion-1"
           >
             <div
-              class="emotion-14"
+              class="MuiListItemText-root MuiListItemText-multiline emotion-8"
             >
-              <div
-                class="MuiListItem-root attributes MuiListItem-padding emotion-15"
+              <span
+                class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-3"
               >
                 <div
-                  class="MuiListItemText-root emotion-16"
+                  class="flexbox center-aligned"
                 >
                   <div
-                    class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary emotion-4"
-                    title="test"
+                    class="emotion-10"
                   >
-                    <span
-                      class="inventory-text tenant-token-text"
+                    Organization token
+                  </div>
+                  <div
+                    class=""
+                    data-mui-internal-clone-element="true"
+                  >
+                    <div
+                      class="relative"
                     >
-                      test
-                    </span>
-                     
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium  emotion-11"
+                        data-testid="HelpIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
+                        />
+                      </svg>
+                      <div
+                        class="emotion-12 "
+                      />
+                    </div>
+                  </div>
+                </div>
+              </span>
+              <div
+                class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary emotion-4"
+              >
+                <div
+                  class="emotion-14"
+                >
+                  <div
+                    class="MuiListItem-root attributes MuiListItem-padding emotion-15"
+                  >
+                    <div
+                      class="MuiListItemText-root emotion-16"
+                    >
+                      <div
+                        class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary emotion-4"
+                        title="test"
+                      >
+                        <span
+                          class="inventory-text tenant-token-text"
+                        >
+                          test
+                        </span>
+                         
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+            <hr
+              class="MuiDivider-root MuiDivider-fullWidth emotion-6"
+            />
           </div>
-        </div>
-        <hr
-          class="MuiDivider-root MuiDivider-fullWidth emotion-6"
-        />
-      </div>
+          <div>
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-19"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-20"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-21"
+                  data-testid="FileCopyIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4 6 6v10c0 1.1-.9 2-2 2H7.99C6.89 23 6 22.1 6 21l.01-14c0-1.1.89-2 1.99-2zm-1 7h5.5L14 6.5z"
+                  />
+                </svg>
+              </span>
+              Copy to clipboard
+              <span
+                class="MuiTouchRipple-root emotion-22"
+              />
+            </button>
+            <p
+              class="emotion-23"
+            />
+          </div>
+        </li>
+      </ul>
       <div>
-        <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-19"
-          tabindex="0"
-          type="button"
+        <label
+          class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd margin-bottom-small emotion-24"
         >
           <span
-            class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-20"
+            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium emotion-25"
           >
+            <input
+              class="PrivateSwitchBase-input emotion-26"
+              data-indeterminate="false"
+              type="checkbox"
+            />
             <svg
               aria-hidden="true"
               class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-21"
-              data-testid="FileCopyIcon"
+              data-testid="CheckBoxOutlineBlankIcon"
               focusable="false"
               viewBox="0 0 24 24"
             >
               <path
-                d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4 6 6v10c0 1.1-.9 2-2 2H7.99C6.89 23 6 22.1 6 21l.01-14c0-1.1.89-2 1.99-2zm-1 7h5.5L14 6.5z"
+                d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
               />
             </svg>
-          </span>
-          Copy to clipboard
-          <span
-            class="MuiTouchRipple-root emotion-22"
-          />
-        </button>
-        <p
-          class="emotion-23"
-        />
-      </div>
-    </li>
-  </ul>
-  <div>
-    <label
-      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd margin-bottom-small emotion-24"
-    >
-      <span
-        class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium emotion-25"
-      >
-        <input
-          class="PrivateSwitchBase-input emotion-26"
-          data-indeterminate="false"
-          type="checkbox"
-        />
-        <svg
-          aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-21"
-          data-testid="CheckBoxOutlineBlankIcon"
-          focusable="false"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-          />
-        </svg>
-        <span
-          class="MuiTouchRipple-root emotion-22"
-        />
-      </span>
-      <span
-        class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-29"
-      >
-        Enable Single Sign-On
-      </span>
-    </label>
-  </div>
-  <div
-    class="flexbox center-aligned"
-  />
-  <div
-    class="emotion-30"
-  >
-    <h5>
-      Billing
-    </h5>
-    <ul
-      class="MuiList-root MuiList-padding emotion-0"
-    >
-      <li
-        class="margin-top-small org-settings-item"
-      >
-        <div
-          class="MuiListItem-root flexbox column MuiListItem-gutters MuiListItem-padding MuiListItem-alignItemsFlexStart emotion-1"
-        >
-          <div
-            class="MuiListItemText-root MuiListItemText-multiline emotion-2"
-          >
             <span
-              class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-3"
-            >
-              Current plan
-            </span>
+              class="MuiTouchRipple-root emotion-22"
+            />
+          </span>
+          <span
+            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-29"
+          >
+            Enable Single Sign-On
+          </span>
+        </label>
+      </div>
+      <div
+        class="flexbox center-aligned"
+      />
+      <div
+        class="emotion-30"
+      >
+        <h5>
+          Billing
+        </h5>
+        <ul
+          class="MuiList-root MuiList-padding emotion-0"
+        >
+          <li
+            class="margin-top-small org-settings-item"
+          >
             <div
-              class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary two-columns emotion-4"
+              class="MuiListItem-root flexbox column MuiListItem-gutters MuiListItem-padding MuiListItem-alignItemsFlexStart emotion-1"
             >
-              <div>
-                Trial
+              <div
+                class="MuiListItemText-root MuiListItemText-multiline emotion-2"
+              >
+                <span
+                  class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-3"
+                >
+                  Current plan
+                </span>
+                <div
+                  class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary two-columns emotion-4"
+                >
+                  <div>
+                    Trial
+                  </div>
+                  <a
+                    class="align-right"
+                    href="https://mender.io/plans/pricing"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Compare product plans
+                  </a>
+                </div>
               </div>
+              <hr
+                class="MuiDivider-root MuiDivider-fullWidth emotion-6"
+              />
+              <div
+                class="flexbox centered muted"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-37"
+                  data-testid="ErrorIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 15h-2v-2h2zm0-4h-2V7h2z"
+                  />
+                </svg>
+                <span
+                  class="margin-left-small"
+                >
+                  Your trial expires in 
+                  6 months
+                  . 
+                  <a
+                    href="/settings/upgrade"
+                  >
+                    Upgrade to a paid plan
+                  </a>
+                </span>
+              </div>
+            </div>
+          </li>
+          <li
+            class="margin-top-small org-settings-item"
+          >
+            <div
+              class="MuiListItem-root flexbox column MuiListItem-gutters MuiListItem-padding MuiListItem-alignItemsFlexStart emotion-1"
+            >
+              <div
+                class="MuiListItemText-root MuiListItemText-multiline emotion-2"
+              >
+                <span
+                  class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-3"
+                >
+                  Current add-ons
+                </span>
+                <div
+                  class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary two-columns emotion-4"
+                >
+                  <div>
+                    Configure, Monitor
+                  </div>
+                  <a
+                    class="align-right"
+                  >
+                    Purchase an add-on
+                  </a>
+                </div>
+              </div>
+              <hr
+                class="MuiDivider-root MuiDivider-fullWidth emotion-6"
+              />
+              <div
+                class="flexbox centered muted"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-37"
+                  data-testid="ErrorIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 15h-2v-2h2zm0-4h-2V7h2z"
+                  />
+                </svg>
+                <span
+                  class="margin-left-small"
+                >
+                  Your trial expires in 
+                  6 months
+                  . 
+                  <a
+                    href="/settings/upgrade"
+                  >
+                    Upgrade to a paid plan
+                  </a>
+                </span>
+              </div>
+            </div>
+            <div
+              class="margin-left-small margin-bottom"
+            >
               <a
-                class="align-right"
+                class="flexbox center-aligned"
                 href="https://mender.io/plans/pricing"
-                rel="noopener noreferrer"
+                rel="noopener"
                 target="_blank"
               >
-                Compare product plans
+                <div
+                  style="max-width: 200px;"
+                >
+                  Compare plans and add-ons at mender.io
+                </div>
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-37"
+                  data-testid="OpenInNewIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
+                  />
+                </svg>
               </a>
             </div>
-          </div>
-          <hr
-            class="MuiDivider-root MuiDivider-fullWidth emotion-6"
-          />
-          <div
-            class="flexbox centered muted"
-          >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-37"
-              data-testid="ErrorIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 15h-2v-2h2zm0-4h-2V7h2z"
-              />
-            </svg>
-            <span
-              class="margin-left-small"
-            >
-              Your trial expires in 
-              6 months
-              . 
-              <a
-                href="/settings/upgrade"
-              >
-                Upgrade to a paid plan
-              </a>
-            </span>
-          </div>
-        </div>
-      </li>
-      <li
-        class="margin-top-small org-settings-item"
-      >
-        <div
-          class="MuiListItem-root flexbox column MuiListItem-gutters MuiListItem-padding MuiListItem-alignItemsFlexStart emotion-1"
-        >
-          <div
-            class="MuiListItemText-root MuiListItemText-multiline emotion-2"
-          >
-            <span
-              class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-3"
-            >
-              Current add-ons
-            </span>
-            <div
-              class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary two-columns emotion-4"
-            >
-              <div>
-                Configure, Monitor
-              </div>
-              <a
-                class="align-right"
-              >
-                Purchase an add-on
-              </a>
-            </div>
-          </div>
-          <hr
-            class="MuiDivider-root MuiDivider-fullWidth emotion-6"
-          />
-          <div
-            class="flexbox centered muted"
-          >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-37"
-              data-testid="ErrorIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 15h-2v-2h2zm0-4h-2V7h2z"
-              />
-            </svg>
-            <span
-              class="margin-left-small"
-            >
-              Your trial expires in 
-              6 months
-              . 
-              <a
-                href="/settings/upgrade"
-              >
-                Upgrade to a paid plan
-              </a>
-            </span>
-          </div>
-        </div>
-        <div
-          class="margin-left-small margin-bottom"
+          </li>
+        </ul>
+        <p
+          class="margin-left-small margin-right-small"
+          style="max-width: 500px;"
         >
           <a
-            class="flexbox center-aligned"
-            href="https://mender.io/plans/pricing"
-            rel="noopener"
-            target="_blank"
+            href=""
           >
-            <div
-              style="max-width: 200px;"
-            >
-              Compare plans and add-ons at mender.io
-            </div>
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-37"
-              data-testid="OpenInNewIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
-              />
-            </svg>
+            End trial
+             and deactivate account
           </a>
-        </div>
-      </li>
-    </ul>
-    <p
-      class="margin-left-small margin-right-small"
-      style="max-width: 500px;"
-    >
-      <a
-        href=""
-      >
-        End trial
-         and deactivate account
-      </a>
-    </p>
+        </p>
+      </div>
+    </div>
   </div>
-</div>
+</body>
 `;
 
 exports[`smaller components renders CancelSubscriptionAlert correctly 1`] = `

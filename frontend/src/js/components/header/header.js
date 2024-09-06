@@ -36,7 +36,7 @@ import {
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import moment from 'moment';
+import dayjs from 'dayjs';
 import Cookies from 'universal-cookie';
 
 import enterpriseLogo from '../../../assets/img/headerlogo-enterprise.png';
@@ -281,7 +281,7 @@ export const Header = ({ mode }) => {
   };
 
   const showOffer =
-    isHosted && moment().isBefore(currentOffer.expires) && (organization.trial ? currentOffer.trial : currentOffer[organization.plan]) && !hasOfferCookie;
+    isHosted && dayjs().isBefore(currentOffer.expires) && (organization.trial ? currentOffer.trial : currentOffer[organization.plan]) && !hasOfferCookie;
 
   const headerLogo = isDarkMode(mode) ? (isEnterprise ? whiteEnterpriseLogo : whiteLogo) : isEnterprise ? enterpriseLogo : logo;
 

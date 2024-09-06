@@ -14,7 +14,7 @@
 import React from 'react';
 
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
@@ -63,7 +63,7 @@ describe('CreateDeployment Component', () => {
       };
       it(`renders ${Component.displayName || Component.name} correctly`, () => {
         const { baseElement } = render(
-          <LocalizationProvider dateAdapter={AdapterMoment}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Component {...props} />
           </LocalizationProvider>,
           { preloadedState }
@@ -75,7 +75,7 @@ describe('CreateDeployment Component', () => {
       });
       it(`renders ${Component.displayName || Component.name} correctly as enterprise`, () => {
         const { baseElement } = render(
-          <LocalizationProvider dateAdapter={AdapterMoment}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Component {...props} isEnterprise />
           </LocalizationProvider>,
           { preloadedState }

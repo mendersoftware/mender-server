@@ -32,7 +32,7 @@ import {
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import moment from 'moment';
+import dayjs from 'dayjs';
 import pluralize from 'pluralize';
 
 import DeltaIcon from '../../../assets/img/deltaicon.svg';
@@ -100,7 +100,7 @@ export const getPhaseStartTime = (phases, index, startDate) => {
   // since we don't want to get stale phase start times when the creation dialog is open for a long time
   // we have to ensure start times are based on delay from previous phases
   // since there likely won't be 1000s of phases this should still be fine to recalculate
-  const newStartTime = phases.slice(0, index).reduce((accu, phase) => moment(accu).add(phase.delay, phase.delayUnit), startDate);
+  const newStartTime = phases.slice(0, index).reduce((accu, phase) => dayjs(accu).add(phase.delay, phase.delayUnit), startDate);
   return newStartTime.toISOString();
 };
 

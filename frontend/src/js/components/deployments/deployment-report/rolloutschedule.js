@@ -17,8 +17,9 @@ import { ArrowForward } from '@mui/icons-material';
 import { Chip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import moment from 'moment';
-import momentDurationFormatSetup from 'moment-duration-format';
+import dayjs from 'dayjs';
+import durationDayJs from 'dayjs/plugin/duration';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import pluralize from 'pluralize';
 
 import { DEPLOYMENT_STATES } from '../../../constants/deploymentConstants';
@@ -38,7 +39,8 @@ const useStyles = makeStyles()(theme => ({
   phasesOverviewArrow: { marginLeft: theme.spacing(4), marginRight: theme.spacing(4) }
 }));
 
-momentDurationFormatSetup(moment);
+dayjs.extend(durationDayJs);
+dayjs.extend(isSameOrAfter);
 
 const maxPhaseWidth = 270;
 
@@ -46,7 +48,7 @@ const PhaseLabel = ({ index }) => <div className="capitalized progress-step-numb
 
 export const RolloutSchedule = ({ deployment, headerClass, innerRef, onAbort, onUpdateControlChange }) => {
   const { classes } = useStyles();
-  const now = moment();
+  const now = dayjs();
   const { created: creationTime = now.toISOString(), filter, finished, status, update_control_map } = deployment;
 
   const { phases, reversedPhases, totalDeviceCount, ...remainder } = getDeploymentPhasesInfo(deployment);
@@ -96,7 +98,7 @@ export const RolloutSchedule = ({ deployment, headerClass, innerRef, onAbort, on
           let phaseTitle = status !== DEPLOYMENT_STATES.scheduled ? <div className="muted">Complete</div> : null;
           let isCurrentPhase = false;
           if (now.isBefore(startTime)) {
-            const duration = moment.duration(moment(startTime).diff(now));
+            const duration = dayjs.duration(dayjs(startTime).diff(now));
             phaseTitle = <div>{`Begins in ${duration.format('d [days] hh [h] mm [m]')}`}</div>;
           } else if (status === DEPLOYMENT_STATES.inprogress && phase.id === currentPhase.id) {
             phaseTitle = <div className="muted">Current phase</div>;
