@@ -197,11 +197,17 @@ export const commonAppInitActions = [
 ];
 
 export const deviceInitActions = [
-  { type: SET_OFFLINE_THRESHOLD, value: '2019-01-12T13:00:00.900Z' },
+  { type: SET_OFFLINE_THRESHOLD, value: '2019-01-12T13:00:06.900Z' },
   { type: SET_USER_SETTINGS, settings: { ...defaultState.users.userSettings } },
   { type: RECEIVED_PERMISSION_SETS, value: receivedPermissionSets },
   { type: RECEIVED_ROLES, value: receivedRoles },
-  { type: RECEIVE_DEVICES, devicesById: { [defaultState.devices.byId.a1.id]: { ...receivedInventoryDevice, group: 'test' } } },
+  {
+    type: RECEIVE_DEVICES,
+    devicesById: {
+      [defaultState.devices.byId.a1.id]: { ...receivedInventoryDevice, group: 'test' },
+      [defaultState.devices.byId.b1.id]: { ...receivedInventoryDevice, id: defaultState.devices.byId.b1.id, group: 'test' }
+    }
+  },
   {
     type: RECEIVE_DEVICES,
     devicesById: {
@@ -236,7 +242,10 @@ export const deviceInitActions = [
   { type: SET_REJECTED_DEVICES, deviceIds: [], status: 'rejected', total: 0 },
   {
     type: RECEIVE_DEVICES,
-    devicesById: { [expectedDevice.id]: { ...defaultState.devices.byId.a1, group: undefined, isNew: false, isOffline: true, monitor: {}, tags: {} } }
+    devicesById: {
+      [expectedDevice.id]: { ...defaultState.devices.byId.a1, group: undefined, isNew: false, isOffline: true, monitor: {}, tags: {} },
+      [defaultState.devices.byId.b1.id]: { ...defaultState.devices.byId.b1, group: undefined, isNew: false, isOffline: true, monitor: {}, tags: {} }
+    }
   },
   {
     type: RECEIVE_DEVICES,
@@ -282,7 +291,13 @@ export const deviceInitActions = [
 ];
 
 export const deviceInitActions2 = [
-  { type: RECEIVE_DEVICES, devicesById: { [expectedDevice.id]: { ...receivedInventoryDevice, group: 'test' } } },
+  {
+    type: RECEIVE_DEVICES,
+    devicesById: {
+      [expectedDevice.id]: { ...receivedInventoryDevice, group: 'test' },
+      [defaultState.devices.byId.b1.id]: { ...receivedInventoryDevice, id: defaultState.devices.byId.b1.id, group: 'test' }
+    }
+  },
   {
     type: SET_ACCEPTED_DEVICES,
     deviceIds: [defaultState.devices.byId.a1.id, defaultState.devices.byId.b1.id],
@@ -291,7 +306,10 @@ export const deviceInitActions2 = [
   },
   {
     type: RECEIVE_DEVICES,
-    devicesById: { [expectedDevice.id]: { ...defaultState.devices.byId.a1, group: undefined, isNew: false, isOffline: true, monitor: {}, tags: {} } }
+    devicesById: {
+      [expectedDevice.id]: { ...defaultState.devices.byId.a1, group: undefined, isNew: false, isOffline: true, monitor: {}, tags: {} },
+      [defaultState.devices.byId.b1.id]: { ...receivedInventoryDevice, id: defaultState.devices.byId.b1.id, group: 'test' }
+    }
   },
   {
     type: SET_DEVICE_LIST_STATE,
@@ -348,7 +366,6 @@ const appInitActions = [
     value: { ...defaultState.releases.releasesList, releaseIds: [defaultState.releases.byId.r1.name], page: 42 }
   },
   { type: SET_GLOBAL_SETTINGS, settings: { ...defaultState.users.globalSettings } },
-
   ...deviceInitActions,
   { type: SET_TOOLTIPS_STATE, value: {} },
   { type: SET_USER_SETTINGS, settings: { ...defaultState.users.userSettings } },

@@ -106,7 +106,9 @@ const searchHandler = async ({ request }) => {
   const status = filter?.value || '';
   if (!status || filters.length > 1) {
     if (filters.find(filter => filter.attribute === 'group' && filter.value.includes(Object.keys(defaultState.devices.groups.byId)[0]))) {
-      return new HttpResponse(JSON.stringify([inventoryDevice]), { headers: { [headerNames.total]: 2 } });
+      return new HttpResponse(JSON.stringify([inventoryDevice, { ...inventoryDevice, id: defaultState.devices.byId.b1.id }]), {
+        headers: { [headerNames.total]: 2 }
+      });
     }
     if (filters.find(filter => filter.scope === 'monitor' && ['failed_last_update', 'alerts', 'auth_request'].includes(filter.attribute))) {
       return new HttpResponse(JSON.stringify([inventoryDevice]), { headers: { [headerNames.total]: 4 } });

@@ -326,14 +326,28 @@ describe('overall device information retrieval', () => {
     expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow getting device aggregation data for use in the dashboard/ reports even if the reporting service is not ready', async () => {
-    const store = mockStore({ ...defaultState });
+    const groupName = 'testGroup';
+    const groupNameDynamic = 'testGroupDynamic';
+    const store = mockStore({
+      ...defaultState,
+      users: {
+        ...defaultState.users,
+        userSettings: {
+          ...defaultState.users.userSettings,
+          reports: [{ attribute: 'ipv4_wlan0', chartType: 'bar', group: groupName, type: 'distribution' }]
+        }
+      }
+    });
     const expectedActions = [
       { type: DeviceConstants.RECEIVE_GROUPS, groups: { testGroup: defaultState.devices.groups.byId.testGroup } },
       defaultResults.receivedDynamicGroups,
       defaultResults.receivedExpectedDevice,
       defaultResults.acceptedDevices,
       { type: DeviceConstants.SET_INACTIVE_DEVICES, activeDeviceTotal: 0, inactiveDeviceTotal: 2 },
-      { type: DeviceConstants.SET_DEVICE_REPORTS, reports: [{ items: [{ count: 2, key: 'undefined' }], otherCount: 0, total: 2 }] },
+      {
+        type: DeviceConstants.SET_DEVICE_REPORTS,
+        reports: [{ items: [{ count: 2, key: '192.168.10.141/24' }], otherCount: 0, total: 2 }]
+      },
       defaultResults.receiveDefaultDevice,
       defaultResults.receivedExpectedDevice,
       {
@@ -345,7 +359,18 @@ describe('overall device information retrieval', () => {
           filters: [{ key: 'group', operator: '$nin', scope: 'system', value: [Object.keys(defaultState.devices.groups.byId)[0]] }]
         }
       },
-      { type: DeviceConstants.SET_DEVICE_REPORTS, reports: [{ items: [{ count: 2, key: 'undefined' }], otherCount: 0, total: 2 }] }
+      defaultResults.receivedExpectedDevice,
+      {
+        type: DeviceConstants.RECEIVE_GROUP_DEVICES,
+        group: { filters: [], deviceIds: [defaultState.devices.byId.a1.id, defaultState.devices.byId.b1.id], total: 2 },
+        groupName
+      },
+      { type: DeviceConstants.RECEIVE_DEVICES, devicesById: {} },
+      { type: DeviceConstants.RECEIVE_GROUP_DEVICES, group: defaultState.devices.groups.byId.testGroupDynamic, groupName: groupNameDynamic },
+      {
+        type: DeviceConstants.SET_DEVICE_REPORTS,
+        reports: [{ items: [{ count: 2, key: '192.168.10.141/24' }], otherCount: 0, total: 2 }]
+      }
     ];
     await store.dispatch(getReportsDataWithoutBackendSupport());
     const storeActions = store.getActions();
@@ -655,9 +680,9 @@ describe('static grouping related actions', () => {
       { type: DeviceConstants.RECEIVE_DEVICES, devicesById: { [defaultState.devices.byId.a1.id]: { ...expectedDevice, attributes } } },
       {
         type: DeviceConstants.SET_ACCEPTED_DEVICES,
-        deviceIds: [defaultState.devices.byId.a1.id],
+        deviceIds: [defaultState.devices.byId.a1.id, defaultState.devices.byId.b1.id],
         status: DeviceConstants.DEVICE_STATES.accepted,
-        total: null
+        total: 2
       },
       { type: DeviceConstants.RECEIVE_DEVICES, devicesById: { [expectedDevice.id]: { ...expectedDevice, updated_ts } } },
       {
@@ -679,7 +704,11 @@ describe('static grouping related actions', () => {
     const groupName = 'testGroup';
     const expectedActions = [
       defaultResults.receivedExpectedDevice,
-      { type: DeviceConstants.RECEIVE_GROUP_DEVICES, group: { filters: [], deviceIds: [defaultState.devices.byId.a1.id], total: 1 }, groupName }
+      {
+        type: DeviceConstants.RECEIVE_GROUP_DEVICES,
+        group: { filters: [], deviceIds: [defaultState.devices.byId.a1.id, defaultState.devices.byId.b1.id], total: 2 },
+        groupName
+      }
     ];
     await store.dispatch(getAllGroupDevices(groupName));
     const storeActions = store.getActions();
