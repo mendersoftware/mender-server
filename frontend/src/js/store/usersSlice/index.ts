@@ -41,6 +41,7 @@ export const initialState = {
   },
   settingsInitialized: false,
   showConnectDeviceDialog: false,
+  showFeedbackDialog: false,
   showStartupNotification: false,
   tooltips: {
     byId: {
@@ -133,6 +134,9 @@ export const usersSlice = createSlice({
         ...state.tooltips.byId,
         ...action.payload
       };
+    },
+    setShowFeedbackDialog: (state, action) => {
+      state.showFeedbackDialog = action.payload;
     },
     setShowConnectingDialog: (state, action) => {
       state.showConnectDeviceDialog = action.payload;

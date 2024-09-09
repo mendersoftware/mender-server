@@ -66,6 +66,7 @@ const featureFlags = [
   'hasDeltaProgress',
   'hasDeviceConfig',
   'hasDeviceConnect',
+  'hasFeedbackEnabled',
   'hasReporting',
   'hasMonitor',
   'isEnterprise'

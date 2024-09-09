@@ -35,6 +35,7 @@ cat >/var/www/mender-gui/dist/env.js <<EOF
       hasDeviceConfig: "$HAVE_DEVICECONFIG",
       hasDeviceConnect: "$HAVE_DEVICECONNECT",
       hasDeltaProgress: "$HAVE_DELTA_PROGRESS",
+      hasFeedbackEnabled: "$HAVE_FEEDBACK_ENABLED",
       hasMonitor: "$HAVE_MONITOR",
       hasMultitenancy: "$HAVE_MULTITENANT",
       hasReleaseTags: "$HAVE_RELEASE_TAGS",

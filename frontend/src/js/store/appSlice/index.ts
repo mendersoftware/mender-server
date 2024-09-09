@@ -44,6 +44,7 @@ export const initialState = {
     hasMultitenancy: false,
     hasDeviceConfig: false,
     hasDeviceConnect: false,
+    hasFeedbackEnabled: false,
     hasMonitor: false,
     hasReporting: false,
     isDemoMode: false,

@@ -36,6 +36,7 @@ import {
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import storeActions from '@northern.tech/store/actions';
 import { READ_STATES, TIMEOUTS } from '@northern.tech/store/constants';
 import {
   getAcceptedDevices,
@@ -47,6 +48,7 @@ import {
   getIsEnterprise,
   getOrganization,
   getShowHelptips,
+  getUserRoles,
   getUserSettings
 } from '@northern.tech/store/selectors';
 import { useAppInit } from '@northern.tech/store/storehooks';
@@ -61,6 +63,7 @@ import {
   switchUserOrganization
 } from '@northern.tech/store/thunks';
 import dayjs from 'dayjs';
+import { jwtDecode } from 'jwt-decode';
 import Cookies from 'universal-cookie';
 
 import enterpriseLogo from '../../../assets/img/headerlogo-enterprise.png';
@@ -77,6 +80,8 @@ import DeploymentNotifications from './deploymentnotifications';
 import DeviceNotifications from './devicenotifications';
 import OfferHeader from './offerheader';
 import TrialNotification from './trialnotification';
+
+const { setShowFeedbackDialog } = storeActions;
 
 // Change this when a new feature/offer is introduced
 const currentOffer = {
@@ -230,6 +235,23 @@ const AccountMenu = () => {
   );
 };
 
+const HEX_BASE = 16;
+const date = dayjs().toISOString().split('T')[0];
+const pickAUser = ({ jti, probability }) => {
+  const daySessionUniqueId = `${jti}-${date}`; // jti can be unique for multiple user sessions, combined with a check at most once per day should be enough
+  const hashBuffer = new TextEncoder().encode(daySessionUniqueId);
+  return crypto.subtle.digest('SHA-256', hashBuffer).then(hashArrayBuffer => {
+    // convert the hash buffer to a hex string for easier processing towards a number
+    const hashHex = Array.from(new Uint8Array(hashArrayBuffer))
+      .map(byte => byte.toString(HEX_BASE).padStart(2, '0'))
+      .join('');
+    const hashInt = parseInt(hashHex.slice(0, 8), HEX_BASE); // convert the hex string to an integer, use first 8 chars for simplicity
+    const normalizedValue = hashInt / Math.pow(2, 32); // normalize the integer to a value between 0 and 1, within the 32bit range browsers default to
+    // select the user if the normalized value is below the probability threshold
+    return normalizedValue < probability;
+  });
+};
+
 export const Header = ({ isDarkMode }) => {
   const { classes } = useStyles();
   const [gettingUser, setGettingUser] = useState(false);
@@ -239,11 +261,13 @@ export const Header = ({ isDarkMode }) => {
   const { total: acceptedDevices = 0 } = useSelector(getAcceptedDevices);
   const announcement = useSelector(state => state.app.hostedAnnouncement);
   const deviceLimit = useSelector(getDeviceLimit);
+  const feedbackProbability = useSelector(state => state.app.feedbackProbability);
   const firstLoginAfterSignup = useSelector(state => state.app.firstLoginAfterSignup);
-  const { trackingConsentGiven: hasTrackingEnabled } = useSelector(getUserSettings);
+  const { feedbackCollectedAt, trackingConsentGiven: hasTrackingEnabled } = useSelector(getUserSettings);
+  const { isAdmin } = useSelector(getUserRoles);
   const inProgress = useSelector(state => state.deployments.byStatus.inprogress.total);
   const isEnterprise = useSelector(getIsEnterprise);
-  const { isDemoMode: demo, isHosted } = useSelector(getFeatures);
+  const { hasFeedbackEnabled, isDemoMode: demo, isHosted } = useSelector(getFeatures);
   const { isSearching, searchTerm, refreshTrigger } = useSelector(state => state.app.searchState);
   const { pending: pendingDevices } = useSelector(getDeviceCountsByStatus);
   const userSettingInitialized = useSelector(state => state.users.settingsInitialized);
@@ -253,6 +277,7 @@ export const Header = ({ isDarkMode }) => {
 
   const dispatch = useDispatch();
   const deviceTimer = useRef();
+  const feedbackTimer = useRef();
 
   useAppInit(userId);
 
@@ -279,8 +304,22 @@ export const Header = ({ isDarkMode }) => {
     deviceTimer.current = setInterval(() => dispatch(getAllDeviceCounts()), TIMEOUTS.refreshDefault);
     return () => {
       clearInterval(deviceTimer.current);
+      clearTimeout(feedbackTimer.current);
     };
   }, [dispatch]);
+
+  useEffect(() => {
+    const today = dayjs();
+    const diff = dayjs.duration(dayjs(feedbackCollectedAt).diff(today));
+    const isFeedbackEligible = diff.asMonths() > 3;
+    if (!hasFeedbackEnabled || !userSettingInitialized || !token || (feedbackCollectedAt && !isFeedbackEligible)) {
+      return;
+    }
+    const { jti } = jwtDecode(token);
+    pickAUser({ jti, probability: feedbackProbability }).then(isSelected => {
+      feedbackTimer.current = setTimeout(() => dispatch(setShowFeedbackDialog(isSelected)), TIMEOUTS.threeSeconds);
+    });
+  }, [dispatch, feedbackCollectedAt, feedbackProbability, hasFeedbackEnabled, isAdmin, userSettingInitialized, token]);
 
   const onSearch = useCallback((searchTerm, refreshTrigger) => dispatch(setSearchState({ refreshTrigger, searchTerm, page: 1 })), [dispatch]);
 
