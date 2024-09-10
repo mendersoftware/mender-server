@@ -28,48 +28,6 @@ test:frontend:lint:
   tags:
     - hetzner-amd-beefy
 
-test:frontend:types:
-  stage: pre-test
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/debian:12-slim
-  needs: []
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "schedule"
-      when: always
-    - when: manual
-  before_script:
-    # Prepare SSH key
-    - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - ssh-keyscan github.com >> ~/.ssh/known_hosts
-    # Configure git
-    - git config --global user.email "mender@northern.tech"
-    - git config --global user.name "Mender Test Bot"
-    # install hub cli + deno
-    - apt-get update && apt-get install curl hub unzip -qqy
-    - curl -fsSL https://deno.land/install.sh | DENO_INSTALL=/usr/local sh
-    # get enterprise api specs from all the repos, based on mender-api-docs tooling
-    - export GITHUB_TOKEN=${GITHUB_BOT_TOKEN_REPO_FULL}
-    - cd scripts
-    - 'wget --header "Authorization: token $GITHUB_TOKEN" https://raw.githubusercontent.com/mendersoftware/mender-api-docs/master/versions.template.js'
-    - cd typeGeneration
-  script:
-    - deno run --allow-read --allow-write --allow-net convert.js
-    - deno fmt generated/models
-    - mkdir -p ../../src/js/api/types && mv -f generated/models/* ../../src/js/api/types
-    - cd ../..
-    - git checkout -b update-types-$(date +%s)
-    - 'git add src/js/api/types && git commit --signoff -m "chore: Types update"'
-    - git remote add mendersoftware git@github.com:mendersoftware/mender-server.git
-    - 'hub pull-request --push --base mendersoftware:main --message "chore: Types update" --message "keeping types aligned"'
-  allow_failure: true
-  artifacts:
-    expire_in: 2w
-    paths:
-      - frontend/scripts/typeGeneration
-      - frontend/src/js/api/types
-
 test:frontend:licenses:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/denoland/deno:alpine-1.38.0
   stage: test
