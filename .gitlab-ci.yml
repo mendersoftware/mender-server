@@ -44,9 +44,12 @@ build:backend:docker:
   stage: build
   needs: []
   rules:
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+      when: always
     - changes:
         paths: ["backend/**/*"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
+      when: always
   tags:
     - hetzner-amd-beefy
 
@@ -109,6 +112,8 @@ test:backend:unit:
     - changes:
         paths: ["backend/**/*.go"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+      when: always
   tags:
     - hetzner-amd-beefy
   services:
@@ -127,6 +132,8 @@ test:backend:acceptance:
     - changes:
         paths: ["backend/**/*"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+      when: always
   tags:
     - hetzner-amd-beefy
   services:
@@ -152,6 +159,8 @@ test:backend:integration:
     - changes:
         paths: ["backend/**/*"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+      when: always
   tags:
     - hetzner-amd-beefy
   services:
