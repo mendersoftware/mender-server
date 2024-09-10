@@ -237,7 +237,7 @@ coveralls:done:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/curlimages/curl
   stage: .post
   script:
-    - curl "https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN" -d "payload[build_num]=$CI_PIPELINE_ID&payload[status]=done"
+    - curl "https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN&carryforward=frontend-unit,frontend-e2e,create-artifact-worker-unit,deployments-unit,deployments-integration,deviceauth-unit,deviceauth-integration,deviceconfig-unit,deviceconfig-integration,deviceconnect-unit,deviceconnect-integration,inventory-unit,inventory-integration,iot-manager-unit,iot-manager-integration,useradm-unit,useradm-integration,workflows-unit,workflows-integration" -d "payload[build_num]=$CI_PIPELINE_ID&payload[status]=done"
   tags:
     - hetzner-amd-beefy
 

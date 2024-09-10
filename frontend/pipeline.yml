@@ -264,8 +264,8 @@ publish:frontend:tests:
     - job: test:frontend:unit
       artifacts: true
   script:
-    - export COVERALLS_SERVICE_JOB_NUMBER=unittests
-    - export COVERALLS_FLAG_NAME=unittests
+    - export COVERALLS_SERVICE_JOB_NUMBER=frontend-unit
+    - export COVERALLS_FLAG_NAME=frontend-unit
     - coveralls < frontend/coverage/lcov.info
 
 publish:frontend:e2e-tests:
