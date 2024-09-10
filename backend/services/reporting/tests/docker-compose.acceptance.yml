@@ -14,10 +14,7 @@ services:
       - mmock
       - reporting
   reporting:
-    build:
-      args:
-        - BIN_FILE=backend/tests/bin/reporting.test
-    image: reporting:test
+    image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/reporting:${MENDER_IMAGE_TAG_TEST:-test}
     environment:
       REPORTING_OPENSEARCH_ADDRESSES: "http://opensearch:9200"
       REPORTING_DEVICEAUTH_ADDR: "http://deviceauth:8080"

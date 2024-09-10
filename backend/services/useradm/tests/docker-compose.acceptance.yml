@@ -15,10 +15,7 @@ services:
       - mmock
       - useradm
   useradm:
-    build:
-      args:
-        - BIN_FILE=backend/tests/bin/useradm.test
-    image: useradm:test
+    image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/useradm:${MENDER_IMAGE_TAG_TEST:-test}
     environment:
       GOCOVERDIR: /cover
     user: ${UID:-0}:${GID:-0}

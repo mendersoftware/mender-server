@@ -4,7 +4,7 @@ include:
 services:
   acceptance-tester:
     scale: 0
-    image: acceptance-tester
+    image: "${CI_REGISTRY_IMAGE:-localhost/backend-tester}:${CI_ACCEPTANCE_IMAGE_TAG:-acceptance}"
     build:
       dockerfile: Dockerfile.acceptance
     volumes:

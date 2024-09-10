@@ -31,10 +31,7 @@ services:
       create-artifact-worker:
         condition: service_started
   deployments:
-    build:
-      args:
-        - BIN_FILE=backend/tests/bin/deployments.test
-    image: deployments:test
+    image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/deployments:${MENDER_IMAGE_TAG_TEST:-test}
     environment:
       DEPLOYMENTS_PRESIGN_URL_SCHEME: "http"
       DEPLOYMENTS_PRESIGN_URL_HOSTNAME: "deployments:8080"

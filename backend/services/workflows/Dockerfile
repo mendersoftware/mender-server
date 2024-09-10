@@ -1,10 +1,30 @@
+FROM --platform=$BUILDPLATFORM golang:1.23.1 AS builder
+
+ARG BUILDFLAGS="-trimpath"
+ARG LDFLAGS="-s -w"
+ARG TARGETARCH
+ARG TARGETOS
+
+WORKDIR /build
+RUN \
+  --mount=type=bind,source=.,target=/build/src \
+  --mount=type=cache,target=/go/pkg/mod/ \
+  --mount=type=cache,target=/root/.cache/go-build \
+  --mount=type=cache,target=/tmp,id=gotmp \
+  make -C src/backend/services/workflows build \
+  CGO_ENABLED=0 \
+  GOOS="${TARGETOS}" \
+  GOARCH="${TARGETARCH}" \
+  bindir="/build" \
+  LDFLAGS="${LDFLAGS}" \
+  BUILDFLAGS="${BUILDFLAGS}"
+
 FROM scratch
 ARG TARGETARCH
 ARG TARGETOS
 ARG USER=65534
-ARG BIN_FILE=./dist/${TARGETOS}/${TARGETARCH}/workflows
 USER $USER
-COPY --chown=$USER backend/services/workflows/worker/workflows /etc/workflows/definitions
-COPY --chown=$USER backend/services/workflows/config.yaml /etc/workflows/config.yaml
-COPY --chown=$USER ${BIN_FILE} /usr/bin/workflows
+COPY --chown=$USER  backend/services/workflows/worker/workflows /etc/workflows/definitions
+COPY --chown=$USER  backend/services/workflows/config.yaml /etc/workflows/config.yaml
+COPY --from=builder --chown=$USER /build/workflows /usr/bin/workflows
 ENTRYPOINT ["/usr/bin/workflows", "--config", "/etc/workflows/config.yaml"]

@@ -1,0 +1,130 @@
+# Makefile.common initializes varialbes and common targets (build* test*)
+# for all backend services.
+MENDER_IMAGE_PREFIX ?= localhost:5000/mender-server
+MENDER_IMAGE_TAG ?= latest
+MENDER_IMAGE_TAG_TEST ?= test
+MENDER_PUBLISH_TAG ?= $(MENDER_IMAGE_TAG)
+
+bindir ?= $(GIT_ROOT)/bin
+binfile ?= $(bindir)/$(COMPONENT)
+
+VERSION := $(shell git describe --tag --dirty 2>/dev/null)
+GIT_ROOT := $(shell git rev-parse --show-toplevel)
+MAKEDIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+DOCFILES := $(wildcard docs/*_api.yml)
+
+GOFILES := $(shell find -name '*.go' -not -name '_test.go')
+GOTESTFILES := $(shell find -name '_test.go')
+CGO_ENABLED ?= 0
+GOARCH ?= $(shell go env GOARCH)
+GOOS ?= $(shell go env GOOS)
+
+LDFLAGS ?= -s -w
+BUILDFLAGS ?= -trimpath
+BUILDTAGS ?=
+TESTFLAGS ?=
+PYTEST_ARGS ?=
+
+# Convert BUILDTAGS to a `-tags` BUILDFLAG by joining the list by comma.
+_none :=
+_space := $(_none) $(_none)
+_comma := ,
+BUILDFLAGS += -tags=$(subst $(_space),$(_comma),$(strip $(BUILDTAGS) $(BUILDTAGS_REQUIRED)))
+
+# DOCKER_PLATFORM default is defined with respect to the docker server.
+# This fixes the default case on darwin where docker is running inside a VM (linux).
+define default_docker_platform_template
+{{- .OSType}}/{{- if eq .Architecture "aarch64" -}}
+  arm64
+{{- else -}}
+  amd64
+{{- end -}}
+endef
+DOCKER_PLATFORM ?= $(shell docker system info -f '$(default_docker_platform_template)')
+DOCKER_TAG = $(MENDER_IMAGE_PREFIX)/$(COMPONENT):$(MENDER_IMAGE_TAG)
+DOCKER_BUILDARGS ?=
+DOCKER_PUBLISH_REGISTRY := docker.io/mendersoftware
+
+.PHONY: docker
+docker:
+	docker build $(DOCKER_BUILDARGS) \
+		--platform $(DOCKER_PLATFORM) \
+		-f Dockerfile \
+		--build-arg BUILDFLAGS="$(BUILDFLAGS)" \
+		--build-arg LDFLAGS="$(LDFLAGS)" \
+		-t $(DOCKER_TAG) \
+		$(GIT_ROOT)
+
+.PHONY: docker-pull
+docker-pull:
+	docker pull $(DOCKER_TAG)
+
+.PHONY: docker-publish
+docker-publish: DOCKER_TAG_PUBLISH = $(DOCKER_PUBLISH_REGISTRY)/$(COMPONENT):$(MENDER_PUBLISH_TAG)
+docker-publish:
+	@echo "About to publish $(DOCKER_TAG) to $(DOCKER_TAG_PUBLISH)"
+	@echo -n "Continue? [y/N] " && read answer && test "$${answer:-N}" = "y"
+	skopeo copy --multi-arch all \
+		docker://$(DOCKER_TAG) \
+		docker://$(DOCKER_TAG_PUBLISH)
+
+$(binfile): $(GOFILES)
+	# TODO: Add -ldflags "-X ...$(Version)"
+	env CGO_ENABLED=$(CGO_ENABLED) \
+		GOOS=$(GOOS) \
+		GOARCH=$(GOARCH) \
+		go build -o $(binfile) \
+			-ldflags '$(LDFLAGS)' \
+			$(BUILDFLAGS)
+
+.PHONY: build
+build: $(binfile)
+
+.PHONY: dist
+dist: bindir ?= $(GIT_ROOT)/bin/dist
+dist: binfile ?= $(bindir)/$(COMPONENT)_$(VERSION)-$(GOOS)-$(GOARCH)
+dist: $(binfile)
+
+.PHONY: generate
+generate:
+	go generate ./...
+
+.PHONY: test-unit
+test-unit:
+	env CGO_ENABLED=$(CGO_ENABLED) \
+		GOOS=$(GOOS) \
+		GOARCH=$(GOARCH) \
+		go test $(BUILDFLAGS) $(TESTFLAGS) ./...
+
+.PHONY: test
+test: test-unit test-acceptance
+
+.PHONY: docker-acceptance
+docker-acceptance: export BUILDTAGS += acceptance
+docker-acceptance: export BUILDFLAGS += -cover -installsuffix=.test
+docker-acceptance: export MENDER_IMAGE_TAG = $(MENDER_IMAGE_TAG_TEST)
+docker-acceptance: docker
+
+ifndef _no_include_acceptance_tests
+
+test_acceptance_run_deps ?=
+
+.PHONY: test-acceptance-run
+
+# NOTE: Have to first run `docker compose up --remove-orphans` to remove
+#       unneeded containers because `--remove-orphans` has no effect for
+#       the run command.
+test-acceptance-run: $(test_acceptance_run_deps)
+		docker compose -f tests/docker-compose.yml up \
+			--remove-orphans \
+			--detach \
+			acceptance-tester && \
+		docker compose -f tests/docker-compose.yml run \
+			--use-aliases \
+			acceptance-tester $(PYTEST_ARGS)
+
+.PHONY: test-acceptance
+test-acceptance: docker-acceptance test-acceptance-run
+		docker compose -f tests/docker-compose.yml down --remove-orphans -v
+
+endif # _no_include_acceptance_tests
