@@ -38,6 +38,7 @@ services:
   client:
     image: mendersoftware/mender-client-docker-addons:mender-master
     volumes:
+      - ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient/config/traefik.cert.crt:/server.crt
       - ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient/mender.json:/etc/mender/mender.conf
       - ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient/mender-connect.json:/etc/mender/mender-connect.conf
 
@@ -45,6 +46,8 @@ services:
     image: mendersoftware/create-artifact-worker:main
   deployments:
     image: mendersoftware/deployments:main
+    environment:
+      DEPLOYMENTS_AWS_EXTERNAL_URI: "https://s3.docker.mender.io"
   deviceauth:
     image: mendersoftware/deviceauth:main
   deviceconfig:
@@ -63,9 +66,17 @@ services:
     image: mendersoftware/workflows:main
 
   traefik:
+    volumes:
+      - ${GUI_REPOSITORY}/tests/e2e_tests/config/traefik.tls.yaml:/etc/traefik/config/traefik.tls.yaml:ro
+      - ${GUI_REPOSITORY}/tests/e2e_tests/config/traefik.cert.crt:/etc/traefik/certs/cert.crt
+      - ${GUI_REPOSITORY}/tests/e2e_tests/config/traefik.private.key:/etc/traefik/certs/private.key
     networks:
       default:
-        aliases: [s3.localhost, docker.mender.io]
+        aliases: [s3.docker.mender.io, docker.mender.io]
+
+  s3fs:
+    labels:
+      traefik.http.routers.s3fs.rule: Host(`s3.docker.mender.io`)
 
   ##
   ## to execute or edit the tests locally:
