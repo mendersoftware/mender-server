@@ -72,7 +72,7 @@ const SessionInfo = ({ socketInitialized, startTime }) => {
         {
           key: 'duration',
           title: 'Duration',
-          content: startTime ? `${dayjs.duration(elapsed.diff(dayjs(startTime))).format('hh:mm:ss', { trim: false })}` : '-'
+          content: startTime ? `${dayjs.duration(elapsed.diff(dayjs(startTime))).format('HH:mm:ss', { trim: false })}` : '-'
         }
       ].map(({ key, title, content }) => (
         <div key={key} className="flexbox">
