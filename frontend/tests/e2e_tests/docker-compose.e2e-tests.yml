@@ -43,27 +43,27 @@ services:
       - ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient/mender-connect.json:/etc/mender/mender-connect.conf
 
   create-artifact-worker:
-    image: mendersoftware/create-artifact-worker:main
+    image: mendersoftware/create-artifact-worker:${MENDER_IMAGE_TAG:-main}
   deployments:
-    image: mendersoftware/deployments:main
+    image: mendersoftware/deployments:${MENDER_IMAGE_TAG:-main}
     environment:
       DEPLOYMENTS_AWS_EXTERNAL_URI: "https://s3.docker.mender.io"
   deviceauth:
-    image: mendersoftware/deviceauth:main
+    image: mendersoftware/deviceauth:${MENDER_IMAGE_TAG:-main}
   deviceconfig:
-    image: mendersoftware/deviceconfig:main
+    image: mendersoftware/deviceconfig:${MENDER_IMAGE_TAG:-main}
   deviceconnect:
-    image: mendersoftware/deviceconnect:main
+    image: mendersoftware/deviceconnect:${MENDER_IMAGE_TAG:-main}
   inventory:
-    image: mendersoftware/inventory:main
+    image: mendersoftware/inventory:${MENDER_IMAGE_TAG:-main}
   iot-manager:
-    image: mendersoftware/iot-manager:main
+    image: mendersoftware/iot-manager:${MENDER_IMAGE_TAG:-main}
   useradm:
-    image: mendersoftware/useradm:main
+    image: mendersoftware/useradm:${MENDER_IMAGE_TAG:-main}
   workflows:
-    image: mendersoftware/workflows:main
+    image: mendersoftware/workflows:${MENDER_IMAGE_TAG:-main}
   workflows-worker:
-    image: mendersoftware/workflows:main
+    image: mendersoftware/workflows:${MENDER_IMAGE_TAG:-main}
 
   traefik:
     volumes:

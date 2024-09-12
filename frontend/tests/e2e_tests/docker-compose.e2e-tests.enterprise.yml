@@ -20,24 +20,24 @@ services:
       - traefik
 
   auditlogs:
-    image: mendersoftware/auditlogs:main
+    image: mendersoftware/auditlogs:${MENDER_IMAGE_TAG:-main}
   deployments:
-    image: mendersoftware/deployments-enterprise:main
+    image: mendersoftware/deployments-enterprise:${MENDER_IMAGE_TAG:-main}
   deviceauth:
-    image: mendersoftware/deviceauth-enterprise:main
+    image: mendersoftware/deviceauth-enterprise:${MENDER_IMAGE_TAG:-main}
   devicemonitor:
-    image: registry.mender.io/mendersoftware/devicemonitor:main
+    image: registry.mender.io/mendersoftware/devicemonitor:${MENDER_IMAGE_TAG:-main}
   generate-delta-worker:
-    image: registry.mender.io/mendersoftware/generate-delta-worker:main
+    image: registry.mender.io/mendersoftware/generate-delta-worker:${MENDER_IMAGE_TAG:-main}
   inventory:
-    image: mendersoftware/inventory-enterprise:main
+    image: mendersoftware/inventory-enterprise:${MENDER_IMAGE_TAG:-main}
   tenantadm:
-    image: mendersoftware/tenantadm:main
+    image: mendersoftware/tenantadm:${MENDER_IMAGE_TAG:-main}
   useradm:
-    image: mendersoftware/useradm-enterprise:main
+    image: mendersoftware/useradm-enterprise:${MENDER_IMAGE_TAG:-main}
     environment:
       USERADM_BASE_URL: "https://docker.mender.io"
   workflows:
-    image: mendersoftware/workflows-enterprise:main
+    image: mendersoftware/workflows-enterprise:${MENDER_IMAGE_TAG:-main}
   workflows-worker:
-    image: mendersoftware/workflows-enterprise-worker:main
+    image: mendersoftware/workflows-enterprise-worker:${MENDER_IMAGE_TAG:-main}
