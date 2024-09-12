@@ -35,9 +35,11 @@ test.describe('Device details', () => {
     await page.click(`.leftNav :text('Devices')`);
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
     await page.getByText(/inventory/i).click();
-    await expect(page.locator(`css=.expandedDevice >> text=Linux`)).toBeVisible();
-    await expect(page.locator(`css=.expandedDevice >> text=mac`)).toBeVisible();
-    await expect(page.locator(`css=.expandedDevice >> text=${demoDeviceName}`)).toBeVisible();
+    const expandedDevice = await page.locator(`css=.expandedDevice`);
+    await expect(expandedDevice.getByText('Linux')).toBeVisible();
+    await expect(expandedDevice.getByText(/mac/).first()).toBeVisible();
+    await expandedDevice.getByRole('tab', { name: /software/i }).click();
+    await expect(expandedDevice.getByText(demoDeviceName)).toBeVisible();
   });
 
   test('can be found', async ({ demoDeviceName, loggedInPage: page }) => {
