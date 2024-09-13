@@ -124,7 +124,6 @@ func processTask(task model.Task, job *model.Job,
 	if len(task.Requires) > 0 {
 		for _, require := range task.Requires {
 			require = ps.ProcessJobString(require)
-			require = ps.MaybeExecuteGoTemplate(require)
 			if require == "" {
 				result := &model.TaskResult{
 					Name:    task.Name,
