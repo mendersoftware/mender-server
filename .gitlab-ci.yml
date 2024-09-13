@@ -92,6 +92,8 @@ build:backend:docker-acceptance:
 test:backend:static:
   stage: test
   needs: []
+  tags:
+    - hetzner-amd-beefy
   rules:
     - changes:
         paths: ["backend/**/*.go"]
@@ -187,6 +189,8 @@ test:backend:integration:
 
 publish:docker:backend:
   stage: publish
+  tags:
+    - hetzner-amd-beefy
   image:
     name: quay.io/skopeo/stable:${SKOPEO_VERSION}
     # https://docs.gitlab.com/ee/ci/docker/using_docker_images.html#override-the-entrypoint-of-an-image
