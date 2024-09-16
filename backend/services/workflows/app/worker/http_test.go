@@ -113,64 +113,6 @@ func TestProcessJobHTTP(t *testing.T) {
 			Body:   "key=value+to+be+encoded",
 		},
 		Error: nil,
-	}, {
-		Name: "Go-template workflow",
-		Workflow: &model.Workflow{
-			Name: "test",
-			Tasks: []model.Task{
-				{
-					Name: "task_1",
-					Type: model.TaskTypeHTTP,
-					HTTP: &model.HTTPTask{
-						URI:    "http://localhost",
-						Method: http.MethodPost,
-						Body: "{{/* This is ignored */}}" +
-							"{{range $k, $v := .}}" +
-							"{{$k}}: {{$v}}\n{{end}}",
-						ContentType: "application/yaml",
-						Headers:     map[string]string{"foo": "bar"},
-					},
-				},
-			},
-		},
-		JobRequest: &model.TaskResultHTTPRequest{
-			URI:    "http://localhost",
-			Method: http.MethodPost,
-			Headers: []string{
-				"foo: bar",
-			},
-			Body: "foo: bar\npotaito: potato\n",
-		},
-		InputParameters: model.InputParameters{
-			{Name: "foo", Value: "bar"},
-			{Name: "potaito", Value: "potato"},
-		},
-		Error: nil,
-	}, {
-		Name: "Illegal template and variable swap",
-		Workflow: &model.Workflow{
-			Name: "test",
-			Tasks: []model.Task{
-				{
-					Name: "task_1",
-					Type: model.TaskTypeHTTP,
-					HTTP: &model.HTTPTask{
-						URI:         "http://localhost",
-						Method:      http.MethodPost,
-						Body:        "{\"${workflow.input.param}\": \"{{end}}\"}",
-						ContentType: "application/yaml",
-					},
-				},
-			},
-		},
-		JobRequest: &model.TaskResultHTTPRequest{
-			URI:    "http://localhost",
-			Method: http.MethodPost,
-			Body:   "{\"foobar\": \"{{end}}\"}",
-		},
-		InputParameters: model.InputParameters{
-			{Name: "param", Value: "foobar"},
-		},
 	}}
 
 	for _, testCase := range testCases {

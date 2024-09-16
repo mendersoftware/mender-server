@@ -15,13 +15,11 @@
 package processor
 
 import (
-	"bytes"
 	"html"
 	"net/url"
 	"os"
 	"regexp"
 	"strings"
-	"text/template"
 
 	"github.com/thedevsaddam/gojsonq"
 
@@ -186,20 +184,4 @@ SubMatchLoop:
 	}
 
 	return data
-}
-
-// MaybeExecuteGoTemplate tries to parse and execute data as a go template
-// if it fails to do so, data is returned.
-func (j *JobStringProcessor) MaybeExecuteGoTemplate(data string) string {
-	input := j.job.InputParameters.Map()
-	tmpl, err := template.New("go-template").Parse(data)
-	if err != nil {
-		return data
-	}
-	buf := &bytes.Buffer{}
-	err = tmpl.Execute(buf, input)
-	if err != nil {
-		return data
-	}
-	return buf.String()
 }

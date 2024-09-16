@@ -57,9 +57,7 @@ func processHTTPTask(
 		form := url.Values{}
 		for key, value := range httpTask.FormData {
 			key = ps.ProcessJobString(key)
-			key = ps.MaybeExecuteGoTemplate(key)
 			value = ps.ProcessJobString(value)
-			value = ps.MaybeExecuteGoTemplate(value)
 			form.Add(key, value)
 		}
 		payloadString = form.Encode()
@@ -72,7 +70,6 @@ func processHTTPTask(
 		payloadString = string(payloadBytes)
 	} else {
 		payloadString = ps.ProcessJobString(httpTask.Body)
-		payloadString = ps.MaybeExecuteGoTemplate(payloadString)
 	}
 	payload := strings.NewReader(payloadString)
 
