@@ -127,6 +127,7 @@ export const SearchResult = ({ onToggleSearchResult, open = true }) => {
         anchor="top"
         classes={classes}
         disableEnforceFocus
+        disableRestoreFocus
         open={open}
         ModalProps={{ className: classes.drawerOffset, BackdropProps: { className: classes.drawerOffset } }}
         PaperProps={{ className: `${classes.drawerOffset} ${classes.paper}` }}

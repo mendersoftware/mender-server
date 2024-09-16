@@ -49,26 +49,50 @@ export const ControlledSearch = ({ isSearching, name = 'search', onSearch, place
   const { classes } = useStyles();
   const { control, watch } = useFormContext();
   const inputRef = useRef();
+  const focusLockRef = useRef(true);
+  const timer = useRef(); // this + the above focusLock are needed to work around the focus being reassigned to the input field which would cause runaway search triggers
+  const triggerDebounceRef = useRef(false); // this is needed to reject the search triggered through the recreation of the onSearch callback
 
   const searchValue = watch('search', '');
 
   const debouncedSearchTerm = useDebounce(searchValue, TIMEOUTS.debounceDefault);
 
+  const focusAndLock = () => {
+    focusLockRef.current = false;
+    inputRef.current.focus();
+    clearTimeout(timer.current);
+    triggerDebounceRef.current = false;
+    timer.current = setTimeout(() => (focusLockRef.current = true), TIMEOUTS.oneSecond);
+  };
+
   useEffect(() => {
-    if (debouncedSearchTerm.length < MINIMUM_SEARCH_LENGTH) {
+    return () => {
+      clearTimeout(timer.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (debouncedSearchTerm.length < MINIMUM_SEARCH_LENGTH || triggerDebounceRef.current) {
       return;
     }
-    onSearch(debouncedSearchTerm).then(() => inputRef.current.focus());
+    triggerDebounceRef.current = true;
+    onSearch(debouncedSearchTerm).then(focusAndLock);
   }, [debouncedSearchTerm, onSearch]);
 
   const onTriggerSearch = useCallback(
     ({ key }) => {
       if (key === 'Enter' && (!debouncedSearchTerm || debouncedSearchTerm.length >= MINIMUM_SEARCH_LENGTH)) {
-        onSearch(debouncedSearchTerm).then(() => inputRef.current.focus());
+        onSearch(debouncedSearchTerm).then(focusAndLock);
       }
     },
     [debouncedSearchTerm, onSearch]
   );
+
+  const onFocus = useCallback(() => {
+    if (focusLockRef.current && debouncedSearchTerm.length >= MINIMUM_SEARCH_LENGTH) {
+      onSearch(debouncedSearchTerm).then(focusAndLock);
+    }
+  }, [debouncedSearchTerm, onSearch]);
 
   const adornments = isSearching ? { startAdornment, endAdornment } : { startAdornment };
   return (
@@ -79,7 +103,8 @@ export const ControlledSearch = ({ isSearching, name = 'search', onSearch, place
         <TextField
           className={classes.root}
           InputProps={adornments}
-          onKeyPress={onTriggerSearch}
+          onKeyUp={onTriggerSearch}
+          onFocus={onFocus}
           placeholder={placeholder}
           inputRef={inputRef}
           size="small"
@@ -97,10 +122,11 @@ const Search = props => {
   const { searchTerm, onSearch, trigger } = props;
   const methods = useForm({ mode: 'onChange', defaultValues: { search: searchTerm ?? '' } });
   const { handleSubmit } = methods;
+  const onSubmit = useCallback(search => onSearch(search, !trigger), [onSearch, trigger]);
   return (
     <FormProvider {...methods}>
       <form noValidate onSubmit={handleSubmit(({ search }) => onSearch(search, !trigger))}>
-        <ControlledSearch {...props} />
+        <ControlledSearch {...props} onSearch={onSubmit} />
         <input className="hidden" type="submit" />
       </form>
     </FormProvider>
