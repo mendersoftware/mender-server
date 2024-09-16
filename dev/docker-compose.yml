@@ -25,10 +25,8 @@ services:
     depends_on:
       mongo:
         condition: service_started
-        required: true
       s3fs:
         condition: service_healthy
-        required: true
     environment:
       DEPLOYMENTS_PRESIGN_URL_HOSTNAME: "localhost"
       DEPLOYMENTS_PRESIGN_SECRET: "aW5zZWN1cmUgc2VjcmV0"

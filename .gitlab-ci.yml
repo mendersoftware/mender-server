@@ -27,9 +27,10 @@ variables:
 
 include:
   - project: "Northern.tech/Mender/mendertesting"
-    file: ".gitlab-ci-check-commits.yml"
-  - project: "Northern.tech/Mender/mendertesting"
-    file: ".gitlab-ci-github-status-updates.yml"
+    file:
+      - ".gitlab-ci-check-commits.yml"
+      - ".gitlab-ci-github-status-updates.yml"
+  - local: "/frontend/pipeline.yml"
 
 stages:
   - build
@@ -40,31 +41,23 @@ stages:
   - mkdir -p $HOME/.docker && echo $DOCKER_AUTH_CONFIG > $HOME/.docker/config.json
   - docker login --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
-build:backend:docker:
+.template:build:docker:
   stage: build
   needs: []
   rules:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: always
-    - changes:
-        paths: ["backend/**/*"]
-        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
-      when: always
   tags:
     - hetzner-amd-beefy
-
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
       alias: docker
-
   variables:
     DOCKER_BUILDARGS: "--push"
-
   before_script:
     - apk add make bash git
     - *dind-login
-  script:
     # NOTE: If we're running on a PR, do not build multiplatform
     - test "$CI_COMMIT_REF_PROTECTED" != "true" && unset DOCKER_PLATFORM
     - if test -n "${DOCKER_PLATFORM}"; then
@@ -73,6 +66,15 @@ build:backend:docker:
       export DOCKER_BUILDARGS="${DOCKER_BUILDARGS} --builder=ci-builder";
       unset DOCKER_HOST;
       fi
+
+build:backend:docker:
+  extends: .template:build:docker
+  rules:
+    - changes:
+        paths: ["backend/**/*"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
+      when: always
+  script:
     # FIXME: Only exporting deployments build stage to run unit tests
     #        We're assuming the images have consistent GOTOOLCHAIN.
     #        Will be fixed once we optimize to template based pipeline.
@@ -187,7 +189,7 @@ test:backend:integration:
     reports:
       junit: backend/results_integration_*.xml
 
-publish:docker:backend:
+publish:backend:docker:
   stage: publish
   tags:
     - hetzner-amd-beefy
@@ -215,3 +217,11 @@ publish:docker:backend:
          make -C backend -j 4 docker-publish NOASK=y \
             MENDER_PUBLISH_TAG=latest
       fi
+
+coveralls:done:
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/curlimages/curl
+  stage: .post
+  script:
+    - curl "https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN&carryforward=frontend-unit,frontend-e2e,create-artifact-worker-unit,deployments-unit,deployments-integration,deviceauth-unit,deviceauth-integration,deviceconfig-unit,deviceconfig-integration,deviceconnect-unit,deviceconnect-integration,inventory-unit,inventory-integration,iot-manager-unit,iot-manager-integration,useradm-unit,useradm-integration,workflows-unit,workflows-integration" -d "payload[build_num]=$CI_PIPELINE_ID&payload[status]=done"
+  tags:
+    - hetzner-amd-beefy
