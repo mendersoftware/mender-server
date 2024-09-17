@@ -44,9 +44,6 @@ stages:
 .template:build:docker:
   stage: build
   needs: []
-  rules:
-    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-      when: always
   tags:
     - hetzner-amd-beefy
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
@@ -73,6 +70,8 @@ build:backend:docker:
     - changes:
         paths: ["backend/**/*"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
+      when: always
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: always
   script:
     # FIXME: Only exporting deployments build stage to run unit tests
