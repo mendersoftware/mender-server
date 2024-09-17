@@ -128,6 +128,8 @@ build:frontend:docker:
         paths: ['frontend/**/*']
         compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
       when: always
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+      when: always
   script:
     - cd frontend
     - docker context create ci;
