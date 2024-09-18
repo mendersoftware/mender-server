@@ -132,7 +132,9 @@ build:frontend:docker:
       when: always
   script:
     - cd frontend
-    - docker context create ci;
+    - if test -z "${DOCKER_PLATFORM}"; then
+    -   docker context create ci;
+    - fi
     - docker buildx create --name gui-builder --driver=docker-container ci
     # needed for the license generation step
     - docker build
