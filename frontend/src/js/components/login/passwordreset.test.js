@@ -15,7 +15,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
-import { act, screen, render as testingLibRender, waitFor } from '@testing-library/react';
+import { screen, render as testingLibRender, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { undefineds } from '../../../../tests/mockData';
@@ -63,21 +63,16 @@ describe('PasswordReset Component', () => {
     await user.type(passwordInput, badPassword);
     await waitFor(() => rerender(ui));
     await user.type(passwordInput, badPassword);
-    await user.type(screen.getByLabelText(/confirm password \*/i), goodPassword);
+    const passwordConfirmationInput = screen.getByLabelText(/confirm password \*/i);
+    await user.type(passwordConfirmationInput, goodPassword);
     await waitFor(() => rerender(ui));
     expect(screen.getByRole('button', { name: /Save password/i })).toBeDisabled();
     expect(screen.getByText('The passwords you provided do not match, please check again.')).toBeVisible();
     await user.clear(passwordInput);
     await user.type(passwordInput, goodPassword);
-    await act(async () => jest.runOnlyPendingTimers());
+    await user.click(passwordConfirmationInput); // needed to work around form not getting re-rendered due to custom error handling for password confirmation
     await user.click(screen.getByRole('button', { name: /Save password/i }));
     await waitFor(() => expect(completeSpy).toHaveBeenCalledWith(secretHash, goodPassword));
-    await act(async () => {
-      jest.runAllTimers();
-      jest.runAllTicks();
-      return Promise.resolve();
-    });
-    await waitFor(() => rerender(ui));
-    expect(screen.queryByText(/Your password has been updated./i)).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText(/Your password has been updated./i)).toBeVisible());
   });
 });

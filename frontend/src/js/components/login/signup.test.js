@@ -43,9 +43,12 @@ describe('Signup Component', () => {
     const { container, rerender } = render(ui);
     expect(screen.getByText('Sign up with:')).toBeInTheDocument();
     await user.type(screen.getByLabelText(/Email/i), 'test@example.com');
-    await user.type(screen.getByLabelText('Password *'), 'mysecretpassword!123');
+    const passwordInput = screen.getByLabelText('Password *');
+    const passwordConfirmationInput = screen.getByLabelText(/confirm password/i);
+    await user.type(passwordInput, 'mysecretpassword!123');
     expect(screen.getByRole('button', { name: /sign up/i })).toBeDisabled();
-    await user.type(screen.getByLabelText(/Confirm password/i), 'mysecretpassword!123');
+    await user.type(passwordConfirmationInput, 'mysecretpassword!123');
+    await user.click(passwordInput); // needed to work around form not getting re-rendered due to custom error handling for password confirmation
     expect(container.querySelector('#pass-strength > meter')).toBeVisible();
     await act(async () => jest.runOnlyPendingTimers());
     expect(screen.getByRole('button', { name: /sign up/i })).toBeEnabled();
