@@ -189,6 +189,7 @@ describe('release actions', () => {
         type: AppConstants.UPLOAD_PROGRESS,
         uploads: { 'mock-uuid': { cancelSource: mockAbortController, name: undefined, size: undefined, uploadProgress: 0 } }
       },
+      { type: AppConstants.UPLOAD_PROGRESS, uploads: {} },
       { type: AppConstants.SET_SNACKBAR, snackbar: { message: 'Upload successful' } },
       { type: AppConstants.UPLOAD_PROGRESS, uploads: {} },
       { type: ReleaseConstants.SELECTED_RELEASE, release: 'createdRelease' }
@@ -227,11 +228,12 @@ describe('release actions', () => {
         type: AppConstants.UPLOAD_PROGRESS,
         uploads: { 'mock-uuid': { cancelSource: mockAbortController, name: undefined, size: 1234, uploadProgress: 0 } }
       },
+      { type: AppConstants.UPLOAD_PROGRESS, uploads: {} },
       { type: AppConstants.SET_SNACKBAR, snackbar: { message: 'Upload successful' } },
       { type: ReleaseConstants.SELECTED_RELEASE, release: defaultState.releases.byId.r1.name },
+      { type: ReleaseConstants.RECEIVE_RELEASE, release: defaultState.releases.byId.r1 },
       { type: ReleaseConstants.RECEIVE_RELEASES, releases: defaultState.releases.byId },
       { type: ReleaseConstants.SET_RELEASES_LIST_STATE, value: { ...defaultState.releases.releasesList, releaseIds: retrievedReleaseIds, total: 5000 } },
-      { type: ReleaseConstants.RECEIVE_RELEASE, release: defaultState.releases.byId.r1 },
       { type: AppConstants.UPLOAD_PROGRESS, uploads: {} }
     ];
     await store.dispatch(uploadArtifact({ description: 'new artifact to upload', name: defaultState.releases.byId.r1.name }, { size: 1234 }));

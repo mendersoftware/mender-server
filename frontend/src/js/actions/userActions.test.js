@@ -174,6 +174,17 @@ const appInitActions = [
     deploymentIds: Object.keys(defaultState.deployments.byId),
     status: 'inprogress'
   },
+  { type: SET_DEVICE_LIMIT, limit: 500 },
+  {
+    type: RECEIVE_GROUPS,
+    groups: {
+      testGroup: defaultState.devices.groups.byId.testGroup,
+      testGroupDynamic: {
+        filters: [{ key: 'group', operator: '$eq', scope: 'system', value: 'things' }],
+        id: 'filter1'
+      }
+    }
+  },
   {
     type: SET_FILTER_ATTRIBUTES,
     attributes: {
@@ -199,17 +210,6 @@ const appInitActions = [
       tagAttributes: []
     }
   },
-  { type: SET_DEVICE_LIMIT, limit: 500 },
-  {
-    type: RECEIVE_GROUPS,
-    groups: {
-      testGroup: defaultState.devices.groups.byId.testGroup,
-      testGroupDynamic: {
-        filters: [{ key: 'group', operator: '$eq', scope: 'system', value: 'things' }],
-        id: 'filter1'
-      }
-    }
-  },
   {
     type: RECEIVE_DYNAMIC_GROUPS,
     groups: {
@@ -226,6 +226,42 @@ const appInitActions = [
       }
     }
   },
+  {
+    type: RECEIVE_DEVICES,
+    devicesById: { [expectedDevice.id]: { ...defaultState.devices.byId.a1, isOffline: true, monitor: {}, tags: {} } }
+  },
+  {
+    type: SET_ACCEPTED_DEVICES,
+    deviceIds: [defaultState.devices.byId.a1.id, defaultState.devices.byId.b1.id],
+    status: DEVICE_STATES.accepted,
+    total: defaultState.devices.byStatus.accepted.deviceIds.length
+  },
+  {
+    type: RECEIVE_DEVICES,
+    devicesById: {
+      a1: {
+        ...defaultState.devices.byId.a1,
+        attributes: inventoryDevice.attributes.reduce(attributeReducer, {}),
+        group: 'test',
+        identity_data: { ...defaultState.devices.byId.a1.identity_data, status: DEVICE_STATES.accepted },
+        isOffline: true,
+        status: DEVICE_STATES.pending,
+        monitor: {},
+        tags: {},
+        updated_ts: inventoryDevice.updated_ts
+      }
+    }
+  },
+  {
+    type: SET_PENDING_DEVICES,
+    deviceIds: Array.from({ length: defaultState.devices.byStatus.pending.total }, () => defaultState.devices.byId.a1.id),
+    status: 'pending',
+    total: defaultState.devices.byStatus.pending.deviceIds.length
+  },
+  { type: RECEIVE_DEVICES, devicesById: {} },
+  { type: SET_PREAUTHORIZED_DEVICES, deviceIds: [], status: 'preauthorized', total: 0 },
+  { type: RECEIVE_DEVICES, devicesById: {} },
+  { type: SET_REJECTED_DEVICES, deviceIds: [], status: 'rejected', total: 0 },
   {
     type: RECEIVE_EXTERNAL_DEVICE_INTEGRATIONS,
     value: [
@@ -264,62 +300,10 @@ const appInitActions = [
       total: 5000
     }
   },
-  { type: SET_GLOBAL_SETTINGS, settings: { '2fa': 'enabled', previousFilters: [] } },
-  offlineThreshold,
-  { type: SET_USER_SETTINGS, settings: { ...defaultState.users.userSettings } },
-  { type: RECEIVED_PERMISSION_SETS, value: receivedPermissionSets },
-  { type: RECEIVED_ROLES, value: receivedRoles },
   {
     type: RECEIVE_DEVICES,
-    devicesById: { [expectedDevice.id]: { ...defaultState.devices.byId.a1, isOffline: true, monitor: {}, tags: {} } }
+    devicesById: { [expectedDevice.id]: { ...defaultState.devices.byId.a1, group: undefined, isOffline: true, monitor: {}, tags: {} } }
   },
-  {
-    type: RECEIVE_DEVICES,
-    devicesById: {
-      a1: {
-        ...defaultState.devices.byId.a1,
-        attributes: inventoryDevice.attributes.reduce(attributeReducer, {}),
-        group: 'test',
-        identity_data: { ...defaultState.devices.byId.a1.identity_data, status: DEVICE_STATES.accepted },
-        isOffline: true,
-        monitor: {},
-        tags: {},
-        updated_ts: inventoryDevice.updated_ts
-      }
-    }
-  },
-  {
-    type: SET_ACCEPTED_DEVICES,
-    deviceIds: [defaultState.devices.byId.a1.id, defaultState.devices.byId.b1.id],
-    status: DEVICE_STATES.accepted,
-    total: defaultState.devices.byStatus.accepted.deviceIds.length
-  },
-  {
-    type: RECEIVE_DEVICES,
-    devicesById: {
-      a1: {
-        ...defaultState.devices.byId.a1,
-        attributes: inventoryDevice.attributes.reduce(attributeReducer, {}),
-        group: 'test',
-        identity_data: { ...defaultState.devices.byId.a1.identity_data, status: DEVICE_STATES.accepted },
-        isOffline: true,
-        monitor: {},
-        status: 'pending',
-        tags: {},
-        updated_ts: inventoryDevice.updated_ts
-      }
-    }
-  },
-  {
-    type: SET_PENDING_DEVICES,
-    deviceIds: Array.from({ length: defaultState.devices.byStatus.pending.total }, () => defaultState.devices.byId.a1.id),
-    status: 'pending',
-    total: defaultState.devices.byStatus.pending.deviceIds.length
-  },
-  { type: RECEIVE_DEVICES, devicesById: {} },
-  { type: SET_PREAUTHORIZED_DEVICES, deviceIds: [], status: 'preauthorized', total: 0 },
-  { type: RECEIVE_DEVICES, devicesById: {} },
-  { type: SET_REJECTED_DEVICES, deviceIds: [], status: 'rejected', total: 0 },
   {
     type: RECEIVE_DEVICES,
     devicesById: { [expectedDevice.id]: { ...defaultState.devices.byId.a1, group: undefined, isOffline: true, monitor: {}, tags: {} } }
@@ -334,6 +318,11 @@ const appInitActions = [
       }
     }
   },
+  { type: SET_GLOBAL_SETTINGS, settings: { '2fa': 'enabled', previousFilters: [] } },
+  offlineThreshold,
+  { type: SET_USER_SETTINGS, settings: { ...defaultState.users.userSettings } },
+  { type: RECEIVED_PERMISSION_SETS, value: receivedPermissionSets },
+  { type: RECEIVED_ROLES, value: receivedRoles },
   {
     type: RECEIVE_DEVICES,
     devicesById: { [expectedDevice.id]: { ...defaultState.devices.byId.a1, group: undefined, isOffline: true, monitor: {}, tags: {} } }
@@ -359,12 +348,10 @@ const appInitActions = [
     }
   },
   { type: SET_TOOLTIPS_STATE, value: {} },
-  { type: SET_GLOBAL_SETTINGS, settings: { '2fa': 'enabled', previousFilters: [] } },
-  offlineThreshold,
-  { type: SET_USER_SETTINGS, settings: { ...defaultState.users.userSettings } },
-  { type: SET_GLOBAL_SETTINGS, settings: { '2fa': 'enabled', previousFilters: [] } },
-  { type: SET_USER_SETTINGS, settings: { ...defaultState.users.userSettings } },
-  { type: RECEIVE_DEVICES, devicesById: { [expectedDevice.id]: { ...receivedInventoryDevice, group: 'test' } } },
+  {
+    type: RECEIVE_DEVICES,
+    devicesById: { [expectedDevice.id]: { ...defaultState.devices.byId.a1, group: 'test', isOffline: true, monitor: {}, tags: {} } }
+  },
   {
     type: SET_ACCEPTED_DEVICES,
     deviceIds: [defaultState.devices.byId.a1.id, defaultState.devices.byId.b1.id],
@@ -389,6 +376,11 @@ const appInitActions = [
       total: 2
     }
   },
+  { type: SET_GLOBAL_SETTINGS, settings: { '2fa': 'enabled', previousFilters: [] } },
+  offlineThreshold,
+  { type: SET_GLOBAL_SETTINGS, settings: { '2fa': 'enabled', previousFilters: [] } },
+  { type: SET_USER_SETTINGS, settings: { ...defaultState.users.userSettings } },
+  { type: SET_USER_SETTINGS, settings: { ...defaultState.users.userSettings } },
   ...expectedOnboardingActions
 ];
 
