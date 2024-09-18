@@ -142,6 +142,17 @@ export const commonAppInitActions = [
     deploymentIds: Object.keys(defaultState.deployments.byId),
     status: 'inprogress'
   },
+  { type: SET_DEVICE_LIMIT, limit: 500 },
+  {
+    type: RECEIVE_GROUPS,
+    groups: {
+      testGroup: defaultState.devices.groups.byId.testGroup,
+      testGroupDynamic: {
+        filters: [{ key: 'group', operator: '$eq', scope: 'system', value: 'things' }],
+        id: 'filter1'
+      }
+    }
+  },
   {
     type: SET_FILTER_ATTRIBUTES,
     attributes: {
@@ -167,17 +178,6 @@ export const commonAppInitActions = [
       tagAttributes: []
     }
   },
-  { type: SET_DEVICE_LIMIT, limit: 500 },
-  {
-    type: RECEIVE_GROUPS,
-    groups: {
-      testGroup: defaultState.devices.groups.byId.testGroup,
-      testGroupDynamic: {
-        filters: [{ key: 'group', operator: '$eq', scope: 'system', value: 'things' }],
-        id: 'filter1'
-      }
-    }
-  },
   {
     type: RECEIVE_DYNAMIC_GROUPS,
     groups: {
@@ -196,28 +196,14 @@ export const commonAppInitActions = [
   }
 ];
 
-export const deviceInitActions = [
-  { type: SET_OFFLINE_THRESHOLD, value: '2019-01-12T13:00:06.900Z' },
-  { type: SET_USER_SETTINGS, settings: { ...defaultState.users.userSettings } },
-  { type: RECEIVED_PERMISSION_SETS, value: receivedPermissionSets },
-  { type: RECEIVED_ROLES, value: receivedRoles },
+const appInitActions = [
+  { type: SUCCESSFULLY_LOGGED_IN, value: { token } },
+  ...commonAppInitActions,
   {
     type: RECEIVE_DEVICES,
     devicesById: {
       [defaultState.devices.byId.a1.id]: { ...receivedInventoryDevice, group: 'test' },
       [defaultState.devices.byId.b1.id]: { ...receivedInventoryDevice, id: defaultState.devices.byId.b1.id, group: 'test' }
-    }
-  },
-  {
-    type: RECEIVE_DEVICES,
-    devicesById: {
-      [defaultState.devices.byId.a1.id]: { ...receivedInventoryDevice, group: 'test' },
-      [defaultState.devices.byId.b1.id]: {
-        ...receivedInventoryDevice,
-        id: defaultState.devices.byId.b1.id,
-        group: 'test',
-        identity_data: { ...defaultState.devices.byId.b1.identity_data, status: DEVICE_STATES.accepted }
-      }
     }
   },
   {
@@ -240,96 +226,6 @@ export const deviceInitActions = [
   { type: SET_PREAUTHORIZED_DEVICES, deviceIds: [], status: 'preauthorized', total: 0 },
   { type: RECEIVE_DEVICES, devicesById: {} },
   { type: SET_REJECTED_DEVICES, deviceIds: [], status: 'rejected', total: 0 },
-  {
-    type: RECEIVE_DEVICES,
-    devicesById: {
-      [expectedDevice.id]: { ...defaultState.devices.byId.a1, group: undefined, isNew: false, isOffline: true, monitor: {}, tags: {} },
-      [defaultState.devices.byId.b1.id]: { ...defaultState.devices.byId.b1, group: undefined, isNew: false, isOffline: true, monitor: {}, tags: {} }
-    }
-  },
-  {
-    type: RECEIVE_DEVICES,
-    devicesById: {
-      [expectedDevice.id]: {
-        ...defaultState.devices.byId.a1,
-        group: undefined,
-        identity_data: { ...defaultState.devices.byId.a1.identity_data },
-        isNew: false,
-        isOffline: true,
-        monitor: {},
-        tags: {}
-      },
-      [defaultState.devices.byId.b1.id]: { ...defaultState.devices.byId.b1, group: undefined, isNew: false, isOffline: true, monitor: {}, tags: {} }
-    }
-  },
-  {
-    type: RECEIVE_DEVICES,
-    devicesById: {
-      [expectedDevice.id]: { ...defaultState.devices.byId.a1, group: undefined, isNew: false, isOffline: true, monitor: {}, tags: {} }
-    }
-  },
-  {
-    type: ADD_DYNAMIC_GROUP,
-    groupName: UNGROUPED_GROUP.id,
-    group: { deviceIds: [], total: 0, filters: [{ key: 'group', value: ['testGroup'], operator: '$nin', scope: 'system' }] }
-  },
-  {
-    type: SET_DEVICE_LIST_STATE,
-    state: {
-      ...DEVICE_LIST_DEFAULTS,
-      deviceIds: [],
-      isLoading: true,
-      selectedAttributes: [],
-      selectedIssues: [],
-      selection: [],
-      setOnly: false,
-      sort: { direction: SORTING_OPTIONS.desc },
-      state: DEVICE_STATES.accepted,
-      total: 0
-    }
-  }
-];
-
-export const deviceInitActions2 = [
-  {
-    type: RECEIVE_DEVICES,
-    devicesById: {
-      [expectedDevice.id]: { ...receivedInventoryDevice, group: 'test' },
-      [defaultState.devices.byId.b1.id]: { ...receivedInventoryDevice, id: defaultState.devices.byId.b1.id, group: 'test' }
-    }
-  },
-  {
-    type: SET_ACCEPTED_DEVICES,
-    deviceIds: [defaultState.devices.byId.a1.id, defaultState.devices.byId.b1.id],
-    status: DEVICE_STATES.accepted,
-    total: defaultState.devices.byStatus.accepted.total
-  },
-  {
-    type: RECEIVE_DEVICES,
-    devicesById: {
-      [expectedDevice.id]: { ...defaultState.devices.byId.a1, group: undefined, isNew: false, isOffline: true, monitor: {}, tags: {} },
-      [defaultState.devices.byId.b1.id]: { ...receivedInventoryDevice, id: defaultState.devices.byId.b1.id, group: 'test' }
-    }
-  },
-  {
-    type: SET_DEVICE_LIST_STATE,
-    state: {
-      ...DEVICE_LIST_DEFAULTS,
-      deviceIds: [defaultState.devices.byId.a1.id, defaultState.devices.byId.b1.id],
-      isLoading: false,
-      selectedAttributes: [],
-      selectedIssues: [],
-      selection: [],
-      sort: { direction: SORTING_OPTIONS.desc },
-      state: DEVICE_STATES.accepted,
-      total: 2
-    }
-  }
-];
-
-const appInitActions = [
-  { type: SUCCESSFULLY_LOGGED_IN, value: { token } },
-  ...commonAppInitActions,
   {
     type: SET_VERSION_INFORMATION,
     docsVersion: '',
@@ -365,11 +261,64 @@ const appInitActions = [
     type: SET_RELEASES_LIST_STATE,
     value: { ...defaultState.releases.releasesList, releaseIds: [defaultState.releases.byId.r1.name], page: 42 }
   },
+  {
+    type: RECEIVE_DEVICES,
+    devicesById: {
+      [expectedDevice.id]: { ...defaultState.devices.byId.a1, group: undefined, isNew: false, isOffline: true, monitor: {}, tags: {} },
+      [defaultState.devices.byId.b1.id]: { ...defaultState.devices.byId.b1, group: undefined, isNew: false, isOffline: true, monitor: {}, tags: {} }
+    }
+  },
+  {
+    type: RECEIVE_DEVICES,
+    devicesById: {
+      [expectedDevice.id]: { ...defaultState.devices.byId.a1, group: undefined, isNew: false, isOffline: true, monitor: {}, tags: {} }
+    }
+  },
+  {
+    type: RECEIVE_DEVICES,
+    devicesById: {
+      [defaultState.devices.byId.a1.id]: { ...receivedInventoryDevice, group: 'test' },
+      [defaultState.devices.byId.b1.id]: {
+        ...receivedInventoryDevice,
+        id: defaultState.devices.byId.b1.id,
+        group: 'test',
+        identity_data: { ...defaultState.devices.byId.b1.identity_data, status: DEVICE_STATES.accepted }
+      }
+    }
+  },
   { type: SET_GLOBAL_SETTINGS, settings: { ...defaultState.users.globalSettings } },
-  ...deviceInitActions,
-  { type: SET_TOOLTIPS_STATE, value: {} },
+  { type: SET_OFFLINE_THRESHOLD, value: '2019-01-12T13:00:06.900Z' },
   { type: SET_USER_SETTINGS, settings: { ...defaultState.users.userSettings } },
-  { type: SET_USER_SETTINGS, settings: { ...defaultState.users.userSettings, onboarding: defaultOnboardingState } },
+  { type: RECEIVED_PERMISSION_SETS, value: receivedPermissionSets },
+  { type: RECEIVED_ROLES, value: receivedRoles },
+  {
+    type: RECEIVE_DEVICES,
+    devicesById: {
+      [expectedDevice.id]: { ...defaultState.devices.byId.a1, group: undefined, isNew: false, isOffline: true, monitor: {}, tags: {} },
+      [defaultState.devices.byId.b1.id]: { ...defaultState.devices.byId.b1, group: undefined, isNew: false, isOffline: true, monitor: {}, tags: {} }
+    }
+  },
+  {
+    type: ADD_DYNAMIC_GROUP,
+    groupName: UNGROUPED_GROUP.id,
+    group: { deviceIds: [], total: 0, filters: [{ key: 'group', value: ['testGroup'], operator: '$nin', scope: 'system' }] }
+  },
+  {
+    type: SET_DEVICE_LIST_STATE,
+    state: {
+      ...DEVICE_LIST_DEFAULTS,
+      deviceIds: [],
+      isLoading: true,
+      selectedAttributes: [],
+      selectedIssues: [],
+      selection: [],
+      setOnly: false,
+      sort: { direction: SORTING_OPTIONS.desc },
+      state: DEVICE_STATES.accepted,
+      total: 0
+    }
+  },
+  { type: SET_TOOLTIPS_STATE, value: {} },
   {
     type: RECEIVE_DEVICES,
     devicesById: {
@@ -404,6 +353,8 @@ const appInitActions = [
       total: 2
     }
   },
+  { type: SET_USER_SETTINGS, settings: { ...defaultState.users.userSettings } },
+  { type: SET_USER_SETTINGS, settings: { ...defaultState.users.userSettings, onboarding: defaultOnboardingState } },
   ...expectedOnboardingActions
 ];
 

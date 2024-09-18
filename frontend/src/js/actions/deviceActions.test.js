@@ -980,6 +980,7 @@ describe('troubleshooting related actions', () => {
         type: UPLOAD_PROGRESS,
         uploads: { 'mock-uuid': { cancelSource: mockAbortController, uploadProgress: 0 } }
       },
+      { type: UPLOAD_PROGRESS, uploads: {} },
       { type: SET_SNACKBAR, snackbar: { message: 'Upload successful' } },
       { type: UPLOAD_PROGRESS, uploads: {} }
     ];
