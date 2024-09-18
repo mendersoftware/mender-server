@@ -1435,7 +1435,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-35:focus::-ms-input-
                       max="4"
                       min="0"
                       optimum="4"
-                      value=""
+                      value="0"
                     />
                   </div>
                 </div>

@@ -71,7 +71,7 @@ export const PasswordInput = ({
   required,
   validations = ''
 }) => {
-  const [score, setScore] = useState('');
+  const [score, setScore] = useState(0);
   const [visible, setVisible] = useState(false);
   const [copied, setCopied] = useState(false);
   const [feedback, setFeedback] = useState([]);
@@ -86,7 +86,14 @@ export const PasswordInput = ({
     getValues
   } = useFormContext();
   const confirmation = useWatch({ name: confirmationId });
-  const errorKey = `${id}-error`;
+  const errorKey = `${id}`;
+  const { message } = errors[errorKey] ?? {};
+
+  useEffect(() => {
+    if (confirmationId === 'password' && !message) {
+      trigger(confirmationId);
+    }
+  }, [confirmationId, message, trigger]);
 
   useEffect(() => {
     return () => {
@@ -144,7 +151,7 @@ export const PasswordInput = ({
           control={control}
           rules={{ required, validate }}
           render={({ field: { value, onChange, onBlur, ref }, fieldState: { error } }) => (
-            <FormControl className={required ? 'required' : ''} error={Boolean(error?.message || errors[errorKey])} style={{ width: 400 }}>
+            <FormControl className={required ? 'required' : ''} error={Boolean((error || errors[errorKey])?.message)} style={{ width: 400 }}>
               <InputLabel htmlFor={id} {...InputLabelProps}>
                 {label}
               </InputLabel>
