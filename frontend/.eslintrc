@@ -5,14 +5,7 @@
     "node": true,
     "jest": true
   },
-  "extends": [
-    "eslint:recommended",
-    "plugin:import/errors",
-    "plugin:import/warnings",
-    "plugin:react-hooks/recommended",
-    "plugin:react/recommended",
-    "plugin:sonarjs/recommended-legacy"
-  ],
+  "extends": ["eslint:recommended", "plugin:import/errors", "plugin:import/warnings", "plugin:react-hooks/recommended", "plugin:react/recommended"],
   "settings": {
     "import/resolver": {
       "node": {
@@ -56,7 +49,6 @@
     "react/style-prop-object": "error",
     "react/void-dom-elements-no-children": "error",
     "react/jsx-no-target-blank": "error",
-    "sonarjs/cognitive-complexity": ["error", 17],
-    "sonarjs/no-nested-template-literals": "off"
+    "sonarjs/cognitive-complexity": ["error", 17]
   }
 }
