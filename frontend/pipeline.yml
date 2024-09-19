@@ -200,9 +200,8 @@ test:frontend:acceptance:enterprise:
       when: always
   variables:
     TEST_ENVIRONMENT: enterprise
-  before_script:
-    - docker login -u $REGISTRY_MENDER_IO_USERNAME -p $REGISTRY_MENDER_IO_PASSWORD registry.mender.io
   script:
+    - docker login -u $REGISTRY_MENDER_IO_USERNAME -p $REGISTRY_MENDER_IO_PASSWORD registry.mender.io
     - GUI_REPOSITORY=$(pwd)/frontend SERVER_ROOT=$(pwd) ./frontend/tests/e2e_tests/run --enterprise
 
 .template:publish:frontend:tests:
