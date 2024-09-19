@@ -15,7 +15,7 @@ import React from 'react';
 
 // material ui
 import { InfoOutlined as InfoIcon } from '@mui/icons-material';
-import { List, ListItem, ListItemIcon, ListItemText, ListSubheader } from '@mui/material';
+import { List, ListItemButton, ListItemIcon, ListItemText, ListSubheader } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { ALL_DEVICES } from '../../constants/deviceConstants';
@@ -45,9 +45,9 @@ export const GroupsSubheader = ({ heading }) => {
 };
 
 export const GroupItem = ({ changeGroup, groupname, selectedGroup, name }) => (
-  <ListItem classes={{ root: 'grouplist' }} button selected={name === selectedGroup || groupname === selectedGroup} onClick={() => changeGroup(name)}>
+  <ListItemButton classes={{ root: 'grouplist' }} selected={name === selectedGroup || groupname === selectedGroup} onClick={() => changeGroup(name)}>
     <ListItemText primary={decodeURIComponent(name)} />
-  </ListItem>
+  </ListItemButton>
 );
 
 export const Groups = ({ acceptedCount, changeGroup, className, groups, openGroupDialog, selectedGroup }) => {
@@ -59,9 +59,9 @@ export const Groups = ({ acceptedCount, changeGroup, className, groups, openGrou
         {!!(acceptedCount && staticGroups.length + dynamicGroups.length <= 1) && <MenderHelpTooltip id={HELPTOOLTIPS.addGroup.id} className="margin-left" />}
       </div>
       <List>
-        <ListItem classes={{ root: 'grouplist' }} button key="All" selected={!selectedGroup} onClick={() => changeGroup()}>
+        <ListItemButton classes={{ root: 'grouplist' }} key="All" selected={!selectedGroup} onClick={() => changeGroup()}>
           <ListItemText primary={ALL_DEVICES} />
-        </ListItem>
+        </ListItemButton>
         {!!dynamicGroups.length && <GroupsSubheader heading="Dynamic" />}
         {dynamicGroups.map(({ groupId, name }, index) => (
           <GroupItem changeGroup={changeGroup} groupname={name} key={name + index} name={groupId} selectedGroup={selectedGroup} />
@@ -74,12 +74,12 @@ export const Groups = ({ acceptedCount, changeGroup, className, groups, openGrou
           ungrouped.map(({ groupId, name }, index) => (
             <GroupItem changeGroup={changeGroup} groupname={name} key={name + index} name={groupId} selectedGroup={selectedGroup} />
           ))}
-        <ListItem button classes={{ root: 'grouplist' }} style={{ marginTop: 30 }} onClick={openGroupDialog}>
+        <ListItemButton classes={{ root: 'grouplist' }} style={{ marginTop: 30 }} onClick={openGroupDialog}>
           <ListItemIcon>
             <InfoIcon />
           </ListItemIcon>
           <ListItemText primary="Create a group" />
-        </ListItem>
+        </ListItemButton>
       </List>
     </div>
   );

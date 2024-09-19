@@ -48,7 +48,7 @@ describe('Signup Component', () => {
     await user.type(passwordInput, 'mysecretpassword!123');
     expect(screen.getByRole('button', { name: /sign up/i })).toBeDisabled();
     await user.type(passwordConfirmationInput, 'mysecretpassword!123');
-    await user.click(passwordInput); // needed to work around form not getting re-rendered due to custom error handling for password confirmation
+    await waitFor(() => rerender(ui));
     expect(container.querySelector('#pass-strength > meter')).toBeVisible();
     await act(async () => jest.runOnlyPendingTimers());
     expect(screen.getByRole('button', { name: /sign up/i })).toBeEnabled();
@@ -57,9 +57,8 @@ describe('Signup Component', () => {
     await user.type(screen.getByRole('textbox', { name: /company or organization name \*/i }), 'test');
     expect(screen.getByRole('button', { name: /complete signup/i })).toBeDisabled();
     await user.click(screen.getByRole('checkbox', { name: /by checking this you agree to our/i }));
-    await act(async () => jest.runOnlyPendingTimers());
-    expect(screen.getByRole('button', { name: /complete signup/i })).toBeEnabled();
-
+    await waitFor(() => rerender(ui));
+    await waitFor(() => expect(screen.getByRole('button', { name: /complete signup/i })).toBeEnabled());
     const cookies = new Cookies();
     cookies.set.mockReturnValue();
     await user.click(screen.getByRole('button', { name: /complete signup/i }));
