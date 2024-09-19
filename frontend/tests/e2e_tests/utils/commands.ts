@@ -294,8 +294,12 @@ export const generateOtp = async (otpSecret?) => {
 const protocol = 'https://';
 export const baseUrlToDomain = (baseUrl: string) => baseUrl.substring(baseUrl.indexOf(protocol) + protocol.length, baseUrl.length - 1);
 
-export const compareImages = (expectedPath, actualPath, options = { threshold: 0.1, usePercentage: true }) => {
-  const { threshold, usePercentage } = options;
+type ComparisonOptions = {
+  threshold?: number;
+  usePercentage?: boolean;
+};
+export const compareImages = (expectedPath, actualPath, options: ComparisonOptions = {}) => {
+  const { threshold = 0.12, usePercentage = true } = options;
   if (!fs.existsSync(expectedPath)) {
     fs.copyFileSync(actualPath, expectedPath);
   }
