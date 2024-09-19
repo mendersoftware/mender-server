@@ -2,17 +2,21 @@
 
 exports[`Search Component renders correctly 1`] = `
 .emotion-0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
   position: relative;
-  min-width: 240px;
+  min-width: 0;
   padding: 0;
   margin: 0;
   border: 0;
   vertical-align: top;
   margin-top: 18px;
+  min-width: 240px;
 }
 
 .emotion-0 input {
@@ -28,11 +32,15 @@ exports[`Search Component renders correctly 1`] = `
   box-sizing: border-box;
   position: relative;
   cursor: text;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  position: relative;
 }
 
 .emotion-1.Mui-disabled {
@@ -45,7 +53,6 @@ label+.emotion-1 {
 }
 
 .emotion-1::after {
-  border-bottom: 2px solid #337a87;
   left: 0;
   bottom: 0;
   content: "";
@@ -98,6 +105,10 @@ label+.emotion-1 {
   border-bottom-style: dotted;
 }
 
+.emotion-1::after {
+  border-bottom: 2px solid #337a87;
+}
+
 .emotion-1:before {
   border-bottom: 1px solid rgb(224, 224, 224);
 }
@@ -111,8 +122,10 @@ label+.emotion-1 {
 }
 
 .emotion-2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
-  height: 0.01em;
   max-height: 2em;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -131,12 +144,12 @@ label+.emotion-1 {
   width: 1em;
   height: 1em;
   display: inline-block;
-  fill: currentColor;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
   font-size: 1.1607rem;
   color: rgba(0, 0, 0, 0.26);
 }
@@ -180,13 +193,6 @@ label+.emotion-1 {
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-4:-ms-input-placeholder {
-  color: currentColor;
-  opacity: 0.42;
-  -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-}
-
 .emotion-4::-ms-input-placeholder {
   color: currentColor;
   opacity: 0.42;
@@ -214,10 +220,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4::-moz-placeholder 
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:-ms-input-placeholder {
-  opacity: 0!important;
-}
-
 label[data-shrink=false]+.MuiInputBase-formControl .emotion-4::-ms-input-placeholder {
   opacity: 0!important;
 }
@@ -227,10 +229,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-webkit-inp
 }
 
 label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-moz-placeholder {
-  opacity: 0.42;
-}
-
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus:-ms-input-placeholder {
   opacity: 0.42;
 }
 
@@ -251,8 +249,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
 }
 
 .emotion-5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
-  height: 0.01em;
   max-height: 2em;
   -webkit-align-items: center;
   -webkit-box-align: center;

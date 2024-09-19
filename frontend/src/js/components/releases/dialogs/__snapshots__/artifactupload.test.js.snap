@@ -22,12 +22,12 @@ exports[`ArtifactUpload Component renders correctly 1`] = `
   width: 1em;
   height: 1em;
   display: inline-block;
-  fill: currentColor;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
   font-size: 1.3929rem;
 }
 
@@ -40,6 +40,9 @@ exports[`ArtifactUpload Component renders correctly 1`] = `
 }
 
 .emotion-3 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -56,8 +59,8 @@ exports[`ArtifactUpload Component renders correctly 1`] = `
   outline: 0;
   border: 0;
   margin: 0;
-  border-radius: 50%;
-  padding: 12px;
+  border-radius: 0;
+  padding: 0;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -68,15 +71,21 @@ exports[`ArtifactUpload Component renders correctly 1`] = `
   -webkit-appearance: none;
   -webkit-text-decoration: none;
   text-decoration: none;
-  color: rgba(0, 0, 0, 0.54);
+  color: inherit;
   text-align: center;
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
-  font-size: 1.2rem;
-  overflow: visible;
+  font-size: 1.3929rem;
+  padding: 8px;
+  border-radius: 50%;
+  color: rgba(0, 0, 0, 0.54);
   -webkit-transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  padding: 12px;
+  font-size: 1.625rem;
+  font-size: 1.2rem;
+  color: rgba(0, 0, 0, 0.54);
 }
 
 .emotion-3::-moz-focus-inner {
@@ -111,18 +120,6 @@ exports[`ArtifactUpload Component renders correctly 1`] = `
 }
 
 .emotion-5 {
-  overflow: hidden;
-  pointer-events: none;
-  position: absolute;
-  z-index: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  border-radius: inherit;
-}
-
-.emotion-6 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -130,25 +127,25 @@ exports[`ArtifactUpload Component renders correctly 1`] = `
   width: 1em;
   height: 1em;
   display: inline-block;
-  fill: currentColor;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
   font-size: 1.3929rem;
   color: #337a87;
 }
 
-.emotion-6 iconButton {
+.emotion-5 iconButton {
   margin-right: 8px;
 }
 
-.emotion-6.read {
+.emotion-5.read {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-7 {
+.emotion-6 {
   position: absolute;
   top: -5px;
   bottom: 0;
@@ -158,11 +155,11 @@ exports[`ArtifactUpload Component renders correctly 1`] = `
   border-radius: 50%;
 }
 
-.emotion-7.read {
+.emotion-6.read {
   border-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-8 {
+.emotion-7 {
   margin: 0;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -222,9 +219,6 @@ exports[`ArtifactUpload Component renders correctly 1`] = `
           d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6zM19 4h-3.5l-1-1h-5l-1 1H5v2h14z"
         />
       </svg>
-      <span
-        class="MuiTouchRipple-root emotion-5"
-      />
     </button>
     <div
       class=""
@@ -235,7 +229,7 @@ exports[`ArtifactUpload Component renders correctly 1`] = `
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium  emotion-6"
+          class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium  emotion-5"
           data-testid="HelpIcon"
           focusable="false"
           viewBox="0 0 24 24"
@@ -245,13 +239,13 @@ exports[`ArtifactUpload Component renders correctly 1`] = `
           />
         </svg>
         <div
-          class="emotion-7 "
+          class="emotion-6 "
         />
       </div>
     </div>
   </div>
   <hr
-    class="MuiDivider-root MuiDivider-fullWidth margin-right-large emotion-8"
+    class="MuiDivider-root MuiDivider-fullWidth margin-right-large emotion-7"
   />
 </div>
 `;

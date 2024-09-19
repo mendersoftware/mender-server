@@ -2,15 +2,18 @@
 
 exports[`Groups Component renders GroupItem correctly 1`] = `
 .emotion-0 {
-  display: flex;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  -webkit-box-pack: start;
-  -ms-flex-pack: start;
-  -webkit-justify-content: flex-start;
-  justify-content: flex-start;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
   position: relative;
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
@@ -31,14 +34,34 @@ exports[`Groups Component renders GroupItem correctly 1`] = `
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  min-width: 0;
+  box-sizing: border-box;
   text-align: left;
-  padding-top: 11px;
-  padding-bottom: 11px;
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
   -webkit-transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 .emotion-0::-moz-focus-inner {
@@ -57,22 +80,6 @@ exports[`Groups Component renders GroupItem correctly 1`] = `
   }
 }
 
-.emotion-0.Mui-focusVisible {
-  background-color: rgba(0, 0, 0, 0.12);
-}
-
-.emotion-0.Mui-selected {
-  background-color: rgba(51, 122, 135, 0.08);
-}
-
-.emotion-0.Mui-selected.Mui-focusVisible {
-  background-color: rgba(51, 122, 135, 0.2);
-}
-
-.emotion-0.Mui-disabled {
-  opacity: 0.38;
-}
-
 .emotion-0:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -85,6 +92,14 @@ exports[`Groups Component renders GroupItem correctly 1`] = `
   }
 }
 
+.emotion-0.Mui-selected {
+  background-color: rgba(51, 122, 135, 0.08);
+}
+
+.emotion-0.Mui-selected.Mui-focusVisible {
+  background-color: rgba(51, 122, 135, 0.2);
+}
+
 .emotion-0.Mui-selected:hover {
   background-color: rgba(51, 122, 135, 0.12);
 }
@@ -95,22 +110,12 @@ exports[`Groups Component renders GroupItem correctly 1`] = `
   }
 }
 
+.emotion-0.Mui-focusVisible {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
 .emotion-0.Mui-disabled {
-  opacity: 1;
-}
-
-.emotion-0.active {
-  background-color: #fff;
-}
-
-.emotion-0.leftNav.active {
-  border-top: 1px solid #d4e9e7;
-  border-bottom: 1px solid #d4e9e7;
-}
-
-.emotion-0.navLink,
-.emotion-0.navLink .MuiListItemText-root {
-  color: #969696;
+  opacity: 0.38;
 }
 
 .emotion-1 {
@@ -118,9 +123,19 @@ exports[`Groups Component renders GroupItem correctly 1`] = `
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
   min-width: 0;
+  margin-top: 4px;
+  margin-bottom: 4px;
   margin-top: 0;
   margin-bottom: 0;
   color: rgba(10, 10, 11, 0.78);
+}
+
+.MuiTypography-root:where(.emotion-1 .MuiListItemText-primary) {
+  display: block;
+}
+
+.MuiTypography-root:where(.emotion-1 .MuiListItemText-secondary) {
+  display: block;
 }
 
 .emotion-2 {
@@ -129,23 +144,10 @@ exports[`Groups Component renders GroupItem correctly 1`] = `
   font-family: Lato,sans-serif;
   font-weight: 400;
   font-size: 0.9286rem;
-  display: block;
-}
-
-.emotion-3 {
-  overflow: hidden;
-  pointer-events: none;
-  position: absolute;
-  z-index: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  border-radius: inherit;
 }
 
 <div
-  class="MuiButtonBase-root MuiListItem-root grouplist MuiListItem-gutters MuiListItem-padding MuiListItem-button Mui-selected emotion-0"
+  class="MuiButtonBase-root MuiListItemButton-root grouplist MuiListItemButton-gutters Mui-selected MuiListItemButton-root grouplist MuiListItemButton-gutters Mui-selected emotion-0"
   role="button"
   tabindex="0"
 >
@@ -158,9 +160,6 @@ exports[`Groups Component renders GroupItem correctly 1`] = `
       test
     </span>
   </div>
-  <span
-    class="MuiTouchRipple-root emotion-3"
-  />
 </div>
 `;
 
@@ -169,10 +168,11 @@ exports[`Groups Component renders GroupsSubheader correctly 1`] = `
   box-sizing: border-box;
   line-height: 48px;
   list-style: none;
-  color: #a9a9a9;
+  color: rgba(0, 0, 0, 0.54);
   font-family: Lato,sans-serif;
   font-weight: 500;
   font-size: 0.8125rem;
+  color: #a9a9a9;
   height: 48px;
 }
 
@@ -209,15 +209,18 @@ exports[`Groups Component renders correctly 1`] = `
 }
 
 .emotion-1 {
-  display: flex;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  -webkit-box-pack: start;
-  -ms-flex-pack: start;
-  -webkit-justify-content: flex-start;
-  justify-content: flex-start;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
   position: relative;
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
@@ -238,14 +241,34 @@ exports[`Groups Component renders correctly 1`] = `
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  min-width: 0;
+  box-sizing: border-box;
   text-align: left;
-  padding-top: 11px;
-  padding-bottom: 11px;
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
   -webkit-transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 .emotion-1::-moz-focus-inner {
@@ -264,22 +287,6 @@ exports[`Groups Component renders correctly 1`] = `
   }
 }
 
-.emotion-1.Mui-focusVisible {
-  background-color: rgba(0, 0, 0, 0.12);
-}
-
-.emotion-1.Mui-selected {
-  background-color: rgba(51, 122, 135, 0.08);
-}
-
-.emotion-1.Mui-selected.Mui-focusVisible {
-  background-color: rgba(51, 122, 135, 0.2);
-}
-
-.emotion-1.Mui-disabled {
-  opacity: 0.38;
-}
-
 .emotion-1:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -292,6 +299,14 @@ exports[`Groups Component renders correctly 1`] = `
   }
 }
 
+.emotion-1.Mui-selected {
+  background-color: rgba(51, 122, 135, 0.08);
+}
+
+.emotion-1.Mui-selected.Mui-focusVisible {
+  background-color: rgba(51, 122, 135, 0.2);
+}
+
 .emotion-1.Mui-selected:hover {
   background-color: rgba(51, 122, 135, 0.12);
 }
@@ -302,22 +317,12 @@ exports[`Groups Component renders correctly 1`] = `
   }
 }
 
+.emotion-1.Mui-focusVisible {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
 .emotion-1.Mui-disabled {
-  opacity: 1;
-}
-
-.emotion-1.active {
-  background-color: #fff;
-}
-
-.emotion-1.leftNav.active {
-  border-top: 1px solid #d4e9e7;
-  border-bottom: 1px solid #d4e9e7;
-}
-
-.emotion-1.navLink,
-.emotion-1.navLink .MuiListItemText-root {
-  color: #969696;
+  opacity: 0.38;
 }
 
 .emotion-2 {
@@ -325,9 +330,19 @@ exports[`Groups Component renders correctly 1`] = `
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
   min-width: 0;
+  margin-top: 4px;
+  margin-bottom: 4px;
   margin-top: 0;
   margin-bottom: 0;
   color: rgba(10, 10, 11, 0.78);
+}
+
+.MuiTypography-root:where(.emotion-2 .MuiListItemText-primary) {
+  display: block;
+}
+
+.MuiTypography-root:where(.emotion-2 .MuiListItemText-secondary) {
+  display: block;
 }
 
 .emotion-3 {
@@ -336,50 +351,41 @@ exports[`Groups Component renders correctly 1`] = `
   font-family: Lato,sans-serif;
   font-weight: 400;
   font-size: 0.9286rem;
-  display: block;
 }
 
 .emotion-4 {
-  overflow: hidden;
-  pointer-events: none;
-  position: absolute;
-  z-index: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  border-radius: inherit;
-}
-
-.emotion-5 {
   box-sizing: border-box;
   line-height: 48px;
   list-style: none;
-  color: #a9a9a9;
+  color: rgba(0, 0, 0, 0.54);
   font-family: Lato,sans-serif;
   font-weight: 500;
   font-size: 0.8125rem;
+  color: #a9a9a9;
   height: 48px;
 }
 
-.emotion-6 {
+.emotion-5 {
   background: #fff;
 }
 
-.emotion-7 {
+.emotion-6 {
   background: #d4e9e7;
 }
 
-.emotion-20 {
+.emotion-17 {
   min-width: 56px;
   color: rgba(0, 0, 0, 0.54);
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
 }
 
-.emotion-21 {
+.emotion-18 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -387,16 +393,16 @@ exports[`Groups Component renders correctly 1`] = `
   width: 1em;
   height: 1em;
   display: inline-block;
-  fill: currentColor;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
   font-size: 1.3929rem;
 }
 
-.emotion-21 iconButton {
+.emotion-18 iconButton {
   margin-right: 8px;
 }
 
@@ -414,7 +420,7 @@ exports[`Groups Component renders correctly 1`] = `
     class="MuiList-root MuiList-padding emotion-0"
   >
     <div
-      class="MuiButtonBase-root MuiListItem-root grouplist MuiListItem-gutters MuiListItem-padding MuiListItem-button Mui-selected emotion-1"
+      class="MuiButtonBase-root MuiListItemButton-root grouplist MuiListItemButton-gutters Mui-selected MuiListItemButton-root grouplist MuiListItemButton-gutters Mui-selected emotion-1"
       role="button"
       tabindex="0"
     >
@@ -427,24 +433,21 @@ exports[`Groups Component renders correctly 1`] = `
           All devices
         </span>
       </div>
-      <span
-        class="MuiTouchRipple-root emotion-4"
-      />
     </div>
     <li
-      class="MuiListSubheader-root heading-lined emotion-5"
+      class="MuiListSubheader-root heading-lined emotion-4"
     >
       <span
-        class="emotion-6"
+        class="emotion-5"
       >
         Dynamic
       </span>
       <div
-        class="emotion-7"
+        class="emotion-6"
       />
     </li>
     <div
-      class="MuiButtonBase-root MuiListItem-root grouplist MuiListItem-gutters MuiListItem-padding MuiListItem-button emotion-1"
+      class="MuiButtonBase-root MuiListItemButton-root grouplist MuiListItemButton-gutters MuiListItemButton-root grouplist MuiListItemButton-gutters emotion-1"
       role="button"
       tabindex="0"
     >
@@ -457,24 +460,21 @@ exports[`Groups Component renders correctly 1`] = `
           testGroupDynamic
         </span>
       </div>
-      <span
-        class="MuiTouchRipple-root emotion-4"
-      />
     </div>
     <li
-      class="MuiListSubheader-root heading-lined emotion-5"
+      class="MuiListSubheader-root heading-lined emotion-4"
     >
       <span
-        class="emotion-6"
+        class="emotion-5"
       >
         Static
       </span>
       <div
-        class="emotion-7"
+        class="emotion-6"
       />
     </li>
     <div
-      class="MuiButtonBase-root MuiListItem-root grouplist MuiListItem-gutters MuiListItem-padding MuiListItem-button emotion-1"
+      class="MuiButtonBase-root MuiListItemButton-root grouplist MuiListItemButton-gutters MuiListItemButton-root grouplist MuiListItemButton-gutters emotion-1"
       role="button"
       tabindex="0"
     >
@@ -487,22 +487,19 @@ exports[`Groups Component renders correctly 1`] = `
           testGroup
         </span>
       </div>
-      <span
-        class="MuiTouchRipple-root emotion-4"
-      />
     </div>
     <div
-      class="MuiButtonBase-root MuiListItem-root grouplist MuiListItem-gutters MuiListItem-padding MuiListItem-button emotion-1"
+      class="MuiButtonBase-root MuiListItemButton-root grouplist MuiListItemButton-gutters MuiListItemButton-root grouplist MuiListItemButton-gutters emotion-1"
       role="button"
       style="margin-top: 30px;"
       tabindex="0"
     >
       <div
-        class="MuiListItemIcon-root emotion-20"
+        class="MuiListItemIcon-root emotion-17"
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-21"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-18"
           data-testid="InfoOutlinedIcon"
           focusable="false"
           viewBox="0 0 24 24"
@@ -521,9 +518,6 @@ exports[`Groups Component renders correctly 1`] = `
           Create a group
         </span>
       </div>
-      <span
-        class="MuiTouchRipple-root emotion-4"
-      />
     </div>
   </ul>
 </div>

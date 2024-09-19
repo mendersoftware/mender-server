@@ -6,6 +6,8 @@ exports[`Uploads Component renders correctly 1`] = `
   display: grid;
   bottom: 0;
   grid-template-rows: min-content;
+  height: -webkit-max-content;
+  height: -moz-max-content;
   height: max-content;
   padding: 0 16pxpx;
   overflow: hidden;
@@ -17,11 +19,12 @@ exports[`Uploads Component renders correctly 1`] = `
 
 .emotion-1 {
   position: fixed;
-  z-index: 1200;
+  z-index: 1300;
   right: 0;
   bottom: 0;
   top: 0;
   left: 0;
+  z-index: 1200;
 }
 
 .emotion-1 .MuiDrawer-paper {
@@ -30,6 +33,9 @@ exports[`Uploads Component renders correctly 1`] = `
 
 .emotion-2 {
   position: fixed;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -53,24 +59,30 @@ exports[`Uploads Component renders correctly 1`] = `
   color: rgba(10, 10, 11, 0.78);
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  box-shadow: 0px 8px 10px -5px rgba(0,0,0,0.2),0px 16px 24px 2px rgba(0,0,0,0.14),0px 6px 30px 5px rgba(0,0,0,0.12);
+  box-shadow: var(--Paper-shadow);
+  background-image: var(--Paper-overlay);
   overflow-y: auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
-  height: auto;
+  height: 100%;
   -webkit-flex: 1 0 auto;
   -ms-flex: 1 0 auto;
   flex: 1 0 auto;
   z-index: 1200;
   -webkit-overflow-scrolling: touch;
   position: fixed;
-  top: auto;
+  top: 0;
   outline: 0;
+  top: auto;
   left: 0;
   bottom: 0;
   right: 0;
+  height: auto;
   max-height: 100%;
   min-width: 40vw;
   max-width: 80vw;
@@ -101,6 +113,7 @@ exports[`Uploads Component renders correctly 1`] = `
   display: block;
   height: 4px;
   z-index: 0;
+  background-color: rgb(177, 204, 209);
   background-color: #cfcfcf;
   grid-column: 1;
   margin: 15px 0;
@@ -119,13 +132,18 @@ exports[`Uploads Component renders correctly 1`] = `
   left: 0;
   bottom: 0;
   top: 0;
-  -webkit-transition: -webkit-transform .4s linear;
-  transition: transform .4s linear;
+  -webkit-transition: -webkit-transform 0.2s linear;
+  transition: transform 0.2s linear;
   transform-origin: left;
   background-color: #337a87;
+  -webkit-transition: -webkit-transform .4s linear;
+  transition: transform .4s linear;
 }
 
 .emotion-7 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -142,8 +160,8 @@ exports[`Uploads Component renders correctly 1`] = `
   outline: 0;
   border: 0;
   margin: 0;
-  border-radius: 50%;
-  padding: 12px;
+  border-radius: 0;
+  padding: 0;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -154,15 +172,21 @@ exports[`Uploads Component renders correctly 1`] = `
   -webkit-appearance: none;
   -webkit-text-decoration: none;
   text-decoration: none;
-  color: rgba(0, 0, 0, 0.54);
+  color: inherit;
   text-align: center;
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
-  font-size: 1.2rem;
-  overflow: visible;
+  font-size: 1.3929rem;
+  padding: 8px;
+  border-radius: 50%;
+  color: rgba(0, 0, 0, 0.54);
   -webkit-transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  padding: 12px;
+  font-size: 1.625rem;
+  font-size: 1.2rem;
+  color: rgba(0, 0, 0, 0.54);
 }
 
 .emotion-7::-moz-focus-inner {
@@ -204,29 +228,17 @@ exports[`Uploads Component renders correctly 1`] = `
   width: 1em;
   height: 1em;
   display: inline-block;
-  fill: currentColor;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
   font-size: 1.3929rem;
 }
 
 .emotion-8 iconButton {
   margin-right: 8px;
-}
-
-.emotion-9 {
-  overflow: hidden;
-  pointer-events: none;
-  position: absolute;
-  z-index: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  border-radius: inherit;
 }
 
 <body
@@ -254,7 +266,7 @@ exports[`Uploads Component renders correctly 1`] = `
     />
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation16 MuiDrawer-paper MuiDrawer-paperAnchorBottom emotion-3"
-      style="webkit-transform: none; transform: none; webkit-transition: -webkit-transform 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;"
+      style="--Paper-shadow: 0px 8px 10px -5px rgba(0,0,0,0.2),0px 16px 24px 2px rgba(0,0,0,0.14),0px 6px 30px 5px rgba(0,0,0,0.12); webkit-transform: none; transform: none; webkit-transition: -webkit-transform 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;"
       tabindex="-1"
     >
       <h3>
@@ -306,9 +318,6 @@ exports[`Uploads Component renders correctly 1`] = `
               d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12z"
             />
           </svg>
-          <span
-            class="MuiTouchRipple-root emotion-9"
-          />
         </button>
       </div>
     </div>

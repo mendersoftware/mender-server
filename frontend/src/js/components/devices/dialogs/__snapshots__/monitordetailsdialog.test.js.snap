@@ -18,6 +18,9 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
 
 .emotion-1 {
   position: fixed;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -39,6 +42,9 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
 .emotion-2 {
   height: 100%;
   outline: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
@@ -62,10 +68,14 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 4px;
-  box-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12);
+  box-shadow: var(--Paper-shadow);
+  background-image: var(--Paper-overlay);
   margin: 32px;
   position: relative;
   overflow-y: auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
@@ -115,12 +125,16 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
 .emotion-6 {
   background-color: #fff;
   color: rgba(10, 10, 11, 0.78);
+  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  box-shadow: var(--Paper-shadow);
+  background-image: var(--Paper-overlay);
+  position: relative;
   -webkit-transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  box-shadow: none;
-  position: relative;
   overflow-anchor: none;
   border: none;
+  box-shadow: none;
   padding: 0;
 }
 
@@ -184,7 +198,14 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
 }
 
 .emotion-7 {
-  display: flex;
+  all: unset;
+}
+
+.emotion-8 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -201,7 +222,7 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
   border: 0;
   margin: 0;
   border-radius: 0;
-  padding: 0px 16px;
+  padding: 0;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -213,51 +234,59 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
   min-height: 48px;
+  padding: 0px 16px;
   -webkit-transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   margin-bottom: 0;
   height: 48px;
 }
 
-.emotion-7::-moz-focus-inner {
+.emotion-8::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-7.Mui-disabled {
+.emotion-8.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-7 {
+  .emotion-8 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-7.Mui-focusVisible {
+.emotion-8.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-7.Mui-disabled {
+.emotion-8.Mui-disabled {
   opacity: 0.38;
 }
 
-.emotion-7:hover:not(.Mui-disabled) {
+.emotion-8:hover:not(.Mui-disabled) {
   cursor: pointer;
 }
 
-.emotion-7.Mui-expanded {
+.emotion-8.Mui-expanded {
   min-height: 64px;
 }
 
-.emotion-7.Mui-expanded {
+.emotion-8.Mui-expanded {
   height: 48px;
   min-height: 48px;
 }
 
-.emotion-8 {
+.emotion-9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -272,19 +301,19 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
   align-items: center;
 }
 
-.emotion-8.Mui-expanded {
+.emotion-9.Mui-expanded {
   margin: 20px 0;
 }
 
-.emotion-8.Mui-expanded {
+.emotion-9.Mui-expanded {
   margin: 0;
 }
 
-.emotion-8>:last-child {
+.emotion-9>:last-child {
   padding-right: 12px;
 }
 
-.emotion-9 {
+.emotion-10 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -292,20 +321,20 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
   width: 1em;
   height: 1em;
   display: inline-block;
-  fill: currentColor;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
   font-size: 1.3929rem;
 }
 
-.emotion-9 iconButton {
+.emotion-10 iconButton {
   margin-right: 8px;
 }
 
-.emotion-10 {
+.emotion-11 {
   height: 0;
   overflow: hidden;
   -webkit-transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -313,23 +342,26 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
   visibility: hidden;
 }
 
-.emotion-11 {
+.emotion-12 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   width: 100%;
 }
 
-.emotion-12 {
+.emotion-13 {
   width: 100%;
 }
 
-.emotion-13 {
+.emotion-14 {
   padding: 8px 16px 16px;
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
 }
 
-.emotion-20 {
+.emotion-21 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -337,20 +369,23 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
   width: 1em;
   height: 1em;
   display: inline-block;
-  fill: currentColor;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
   font-size: 1.1607rem;
 }
 
-.emotion-20 iconButton {
+.emotion-21 iconButton {
   margin-right: 8px;
 }
 
-.emotion-24 {
+.emotion-25 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -366,11 +401,14 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
   flex: 0 0 auto;
 }
 
-.emotion-24>:not(style)~:not(style) {
+.emotion-25>:not(style)~:not(style) {
   margin-left: 8px;
 }
 
-.emotion-25 {
+.emotion-26 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -387,8 +425,8 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
   outline: 0;
   border: 0;
   margin: 0;
-  border-radius: 2px;
-  padding: 10px 15px;
+  border-radius: 0;
+  padding: 0;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -399,70 +437,78 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
   -webkit-appearance: none;
   -webkit-text-decoration: none;
   text-decoration: none;
-  color: #337a87;
+  color: inherit;
   font-family: Lato,sans-serif;
-  font-weight: bold;
-  font-size: 14px;
+  font-weight: 500;
+  font-size: 0.8125rem;
   line-height: 1.75;
   text-transform: uppercase;
   min-width: 64px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 4px;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  padding: 6px 8px;
+  color: var(--variant-textColor);
+  background-color: var(--variant-textBg);
+  --variant-textColor: #337a87;
+  --variant-outlinedColor: #337a87;
+  --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
+  --variant-containedColor: #fff;
+  --variant-containedBg: #337a87;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 15px;
 }
 
-.emotion-25::-moz-focus-inner {
+.emotion-26::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-25.Mui-disabled {
+.emotion-26.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-25 {
+  .emotion-26 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-25:hover {
+.emotion-26:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
-  background-color: rgba(51, 122, 135, 0.04);
 }
 
-@media (hover: none) {
-  .emotion-25:hover {
-    background-color: transparent;
-  }
-}
-
-.emotion-25.Mui-disabled {
+.emotion-26.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-25:hover {
+@media (hover: hover) {
+  .emotion-26:hover {
+    --variant-containedBg: rgb(35, 85, 94);
+    --variant-textBg: rgba(51, 122, 135, 0.04);
+    --variant-outlinedBorder: #337a87;
+    --variant-outlinedBg: rgba(51, 122, 135, 0.04);
+  }
+}
+
+.emotion-26:hover {
   colors: #337a87;
 }
 
-.emotion-25.MuiButton-text {
+.emotion-26.MuiButton-text {
   color: rgba(10, 10, 11, 0.78);
 }
 
-.emotion-26 {
-  overflow: hidden;
-  pointer-events: none;
-  position: absolute;
-  z-index: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  border-radius: inherit;
-}
-
 .emotion-27 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -475,12 +521,12 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
   position: relative;
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
-  background-color: #337a87;
+  background-color: transparent;
   outline: 0;
   border: 0;
   margin: 0;
-  border-radius: 2px;
-  padding: 6px 16px;
+  border-radius: 0;
+  padding: 0;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -491,16 +537,29 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
   -webkit-appearance: none;
   -webkit-text-decoration: none;
   text-decoration: none;
-  color: #fff;
+  color: inherit;
   font-family: Lato,sans-serif;
-  font-weight: bold;
-  font-size: 14px;
+  font-weight: 500;
+  font-size: 0.8125rem;
   line-height: 1.75;
   text-transform: uppercase;
   min-width: 64px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 4px;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  color: var(--variant-containedColor);
+  background-color: var(--variant-containedBg);
   box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
+  --variant-textColor: #337a87;
+  --variant-outlinedColor: #337a87;
+  --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
+  --variant-containedColor: #fff;
+  --variant-containedBg: #337a87;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: bold;
 }
 
 .emotion-27::-moz-focus-inner {
@@ -522,13 +581,19 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
 .emotion-27:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
-  background-color: rgb(35, 85, 94);
+}
+
+.emotion-27.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-27:hover {
   box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 
 @media (hover: none) {
   .emotion-27:hover {
-    background-color: #337a87;
+    box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
   }
 }
 
@@ -544,6 +609,15 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
+}
+
+@media (hover: hover) {
+  .emotion-27:hover {
+    --variant-containedBg: rgb(35, 85, 94);
+    --variant-textBg: rgba(51, 122, 135, 0.04);
+    --variant-outlinedBorder: #337a87;
+    --variant-outlinedBg: rgba(51, 122, 135, 0.04);
+  }
 }
 
 .emotion-27:hover {
@@ -577,6 +651,7 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
       aria-labelledby=":r0:"
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthMd emotion-3"
       role="dialog"
+      style="--Paper-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12);"
     >
       <h2
         class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-4"
@@ -590,53 +665,58 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
       >
         <div
           class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-6"
+          style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
         >
-          <div
-            aria-expanded="false"
-            class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters emotion-7"
-            role="button"
-            style="padding-left: 0px;"
-            tabindex="0"
+          <h3
+            class="MuiAccordion-heading emotion-7"
           >
             <div
-              class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-8"
+              aria-expanded="false"
+              class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters emotion-8"
+              role="button"
+              style="padding-left: 0px;"
+              tabindex="0"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-right-small emotion-9"
-                data-testid="ArrowDropDownIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
+              <div
+                class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-9"
               >
-                <path
-                  d="m7 10 5 5 5-5z"
-                />
-              </svg>
-              <div>
-                show 
-                previous
-                 
-                2
-                 lines
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-right-small emotion-10"
+                  data-testid="ArrowDropDownIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="m7 10 5 5 5-5z"
+                  />
+                </svg>
+                <div>
+                  show 
+                  previous
+                   
+                  2
+                   lines
+                </div>
               </div>
             </div>
-          </div>
+          </h3>
           <div
-            class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-10"
+            class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-11"
             style="min-height: 0px;"
           >
             <div
-              class="MuiCollapse-wrapper MuiCollapse-vertical emotion-11"
+              class="MuiCollapse-wrapper MuiCollapse-vertical emotion-12"
             >
               <div
-                class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-12"
+                class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-13"
               >
                 <div
                   class="MuiAccordion-region"
                   role="region"
                 >
                   <div
-                    class="MuiAccordionDetails-root emotion-13"
+                    class="MuiAccordionDetails-root emotion-14"
                     style="padding-left: 0px; padding-right: 0px;"
                   >
                     <div
@@ -655,14 +735,14 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
                       </code>
                     </div>
                     <div
-                      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-10"
+                      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-11"
                       style="min-height: 0px;"
                     >
                       <div
-                        class="MuiCollapse-wrapper MuiCollapse-vertical emotion-11"
+                        class="MuiCollapse-wrapper MuiCollapse-vertical emotion-12"
                       >
                         <div
-                          class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-12"
+                          class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-13"
                         >
                           <div
                             class="margin-left-small green fadeIn"
@@ -688,14 +768,14 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
                       </code>
                     </div>
                     <div
-                      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-10"
+                      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-11"
                       style="min-height: 0px;"
                     >
                       <div
-                        class="MuiCollapse-wrapper MuiCollapse-vertical emotion-11"
+                        class="MuiCollapse-wrapper MuiCollapse-vertical emotion-12"
                       >
                         <div
-                          class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-12"
+                          class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-13"
                         >
                           <div
                             class="margin-left-small green fadeIn"
@@ -716,7 +796,7 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
         >
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-20"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-21"
             data-testid="ReportProblemOutlinedIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -737,14 +817,14 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
           </code>
         </div>
         <div
-          class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-10"
+          class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-11"
           style="min-height: 0px;"
         >
           <div
-            class="MuiCollapse-wrapper MuiCollapse-vertical emotion-11"
+            class="MuiCollapse-wrapper MuiCollapse-vertical emotion-12"
           >
             <div
-              class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-12"
+              class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-13"
             >
               <div
                 class="margin-left-small green fadeIn"
@@ -756,17 +836,14 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="MuiDialogActions-root MuiDialogActions-spacing emotion-24"
+        class="MuiDialogActions-root MuiDialogActions-spacing emotion-25"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-25"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-26"
           tabindex="0"
           type="button"
         >
           Close
-          <span
-            class="MuiTouchRipple-root emotion-26"
-          />
         </button>
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-27"
@@ -774,9 +851,6 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
           type="button"
         >
           Export log
-          <span
-            class="MuiTouchRipple-root emotion-26"
-          />
         </button>
       </div>
     </div>
@@ -806,6 +880,9 @@ exports[`MonitorLogDialog Component renders correctly for description only 1`] =
 
 .emotion-1 {
   position: fixed;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -827,6 +904,9 @@ exports[`MonitorLogDialog Component renders correctly for description only 1`] =
 .emotion-2 {
   height: 100%;
   outline: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
@@ -850,10 +930,14 @@ exports[`MonitorLogDialog Component renders correctly for description only 1`] =
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 4px;
-  box-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12);
+  box-shadow: var(--Paper-shadow);
+  background-image: var(--Paper-overlay);
   margin: 32px;
   position: relative;
   overflow-y: auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
@@ -909,6 +993,9 @@ exports[`MonitorLogDialog Component renders correctly for description only 1`] =
 }
 
 .emotion-7 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   width: 100%;
 }
@@ -918,6 +1005,9 @@ exports[`MonitorLogDialog Component renders correctly for description only 1`] =
 }
 
 .emotion-9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -938,6 +1028,9 @@ exports[`MonitorLogDialog Component renders correctly for description only 1`] =
 }
 
 .emotion-10 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -954,8 +1047,8 @@ exports[`MonitorLogDialog Component renders correctly for description only 1`] =
   outline: 0;
   border: 0;
   margin: 0;
-  border-radius: 2px;
-  padding: 10px 15px;
+  border-radius: 0;
+  padding: 0;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -966,15 +1059,30 @@ exports[`MonitorLogDialog Component renders correctly for description only 1`] =
   -webkit-appearance: none;
   -webkit-text-decoration: none;
   text-decoration: none;
-  color: #337a87;
+  color: inherit;
   font-family: Lato,sans-serif;
-  font-weight: bold;
-  font-size: 14px;
+  font-weight: 500;
+  font-size: 0.8125rem;
   line-height: 1.75;
   text-transform: uppercase;
   min-width: 64px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 4px;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  padding: 6px 8px;
+  color: var(--variant-textColor);
+  background-color: var(--variant-textBg);
+  --variant-textColor: #337a87;
+  --variant-outlinedColor: #337a87;
+  --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
+  --variant-containedColor: #fff;
+  --variant-containedBg: #337a87;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 15px;
 }
 
 .emotion-10::-moz-focus-inner {
@@ -996,17 +1104,19 @@ exports[`MonitorLogDialog Component renders correctly for description only 1`] =
 .emotion-10:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
-  background-color: rgba(51, 122, 135, 0.04);
-}
-
-@media (hover: none) {
-  .emotion-10:hover {
-    background-color: transparent;
-  }
 }
 
 .emotion-10.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
+}
+
+@media (hover: hover) {
+  .emotion-10:hover {
+    --variant-containedBg: rgb(35, 85, 94);
+    --variant-textBg: rgba(51, 122, 135, 0.04);
+    --variant-outlinedBorder: #337a87;
+    --variant-outlinedBg: rgba(51, 122, 135, 0.04);
+  }
 }
 
 .emotion-10:hover {
@@ -1015,18 +1125,6 @@ exports[`MonitorLogDialog Component renders correctly for description only 1`] =
 
 .emotion-10.MuiButton-text {
   color: rgba(10, 10, 11, 0.78);
-}
-
-.emotion-11 {
-  overflow: hidden;
-  pointer-events: none;
-  position: absolute;
-  z-index: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  border-radius: inherit;
 }
 
 <div
@@ -1052,6 +1150,7 @@ exports[`MonitorLogDialog Component renders correctly for description only 1`] =
       aria-labelledby=":r1:"
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthMd emotion-3"
       role="dialog"
+      style="--Paper-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12);"
     >
       <h2
         class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-4"
@@ -1100,9 +1199,6 @@ exports[`MonitorLogDialog Component renders correctly for description only 1`] =
           type="button"
         >
           Close
-          <span
-            class="MuiTouchRipple-root emotion-11"
-          />
         </button>
       </div>
     </div>

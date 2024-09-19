@@ -4,6 +4,9 @@ exports[`Dashboard Component renders correctly 1`] = `
 .emotion-0 {
   -webkit-column-gap: 48px;
   column-gap: 48px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   -webkit-box-flex-wrap: wrap;
   -webkit-flex-wrap: wrap;
@@ -21,6 +24,9 @@ exports[`Dashboard Component renders correctly 1`] = `
   -ms-flex-preferred-size: 0;
   flex-basis: 0;
   min-width: 60vw;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   position: relative;
   row-gap: 48px;
@@ -43,12 +49,12 @@ exports[`Dashboard Component renders correctly 1`] = `
   width: 1em;
   height: 1em;
   display: inline-block;
-  fill: currentColor;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
   font-size: 1.3929rem;
 }
 
@@ -57,6 +63,9 @@ exports[`Dashboard Component renders correctly 1`] = `
 }
 
 .emotion-3 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -69,11 +78,11 @@ exports[`Dashboard Component renders correctly 1`] = `
   position: relative;
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
-  background-color: #337a87;
+  background-color: transparent;
   outline: 0;
   border: 0;
   margin: 0;
-  border-radius: 50%;
+  border-radius: 0;
   padding: 0;
   cursor: pointer;
   -webkit-user-select: none;
@@ -85,7 +94,7 @@ exports[`Dashboard Component renders correctly 1`] = `
   -webkit-appearance: none;
   -webkit-text-decoration: none;
   text-decoration: none;
-  color: #fff;
+  color: inherit;
   font-family: Lato,sans-serif;
   font-weight: 500;
   font-size: 0.8125rem;
@@ -94,13 +103,20 @@ exports[`Dashboard Component renders correctly 1`] = `
   min-height: 36px;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  border-radius: 50%;
+  padding: 0;
   min-width: 0;
   width: 56px;
   height: 56px;
-  z-index: 1;
+  z-index: 1050;
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
+  color: rgba(0, 0, 0, 0.87);
+  background-color: #e6f2f1;
+  color: #fff;
+  background-color: #337a87;
   top: -28px;
   right: 16px;
+  z-index: 1;
 }
 
 .emotion-3::-moz-focus-inner {
@@ -156,25 +172,16 @@ exports[`Dashboard Component renders correctly 1`] = `
 }
 
 .emotion-5 {
-  overflow: hidden;
-  pointer-events: none;
-  position: absolute;
-  z-index: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  border-radius: inherit;
-}
-
-.emotion-6 {
   gap: 16px;
 }
 
-.emotion-7 {
+.emotion-6 {
   max-width: 100%;
   font-family: Lato,sans-serif;
   font-size: 0.7545rem;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -185,8 +192,8 @@ exports[`Dashboard Component renders correctly 1`] = `
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
-  color: rgba(0, 0, 0, 0.38);
-  background-color: #f7fafb;
+  color: rgba(10, 10, 11, 0.78);
+  background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
   white-space: nowrap;
   -webkit-transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -199,15 +206,20 @@ exports[`Dashboard Component renders correctly 1`] = `
   padding: 0;
   vertical-align: middle;
   box-sizing: border-box;
+  background-color: #f7fafb;
+  color: rgba(0, 0, 0, 0.38);
+  text-transform: uppercase;
+  background-color: #f7fafb;
+  color: rgba(0, 0, 0, 0.38);
   text-transform: uppercase;
 }
 
-.emotion-7.Mui-disabled {
+.emotion-6.Mui-disabled {
   opacity: 0.38;
   pointer-events: none;
 }
 
-.emotion-7 .MuiChip-avatar {
+.emotion-6 .MuiChip-avatar {
   margin-left: 5px;
   margin-right: -6px;
   width: 24px;
@@ -216,17 +228,17 @@ exports[`Dashboard Component renders correctly 1`] = `
   font-size: 0.6964rem;
 }
 
-.emotion-7 .MuiChip-avatarColorPrimary {
+.emotion-6 .MuiChip-avatarColorPrimary {
   color: #fff;
   background-color: rgb(35, 85, 94);
 }
 
-.emotion-7 .MuiChip-avatarColorSecondary {
+.emotion-6 .MuiChip-avatarColorSecondary {
   color: #fff;
   background-color: rgb(65, 10, 46);
 }
 
-.emotion-7 .MuiChip-avatarSmall {
+.emotion-6 .MuiChip-avatarSmall {
   margin-left: 4px;
   margin-right: -4px;
   width: 18px;
@@ -234,13 +246,12 @@ exports[`Dashboard Component renders correctly 1`] = `
   font-size: 0.5804rem;
 }
 
-.emotion-7 .MuiChip-icon {
+.emotion-6 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
-  color: #bcbcbc;
 }
 
-.emotion-7 .MuiChip-deleteIcon {
+.emotion-6 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
   color: rgba(10, 10, 11, 0.26);
   font-size: 22px;
@@ -248,19 +259,23 @@ exports[`Dashboard Component renders correctly 1`] = `
   margin: 0 5px 0 -6px;
 }
 
-.emotion-7 .MuiChip-deleteIcon:hover {
+.emotion-6 .MuiChip-deleteIcon:hover {
   color: rgba(10, 10, 11, 0.4);
 }
 
-.emotion-7:hover {
+.emotion-6 .MuiChip-icon {
+  color: #bcbcbc;
+}
+
+.emotion-6:hover {
   font-weight: bold;
 }
 
-.emotion-7:hover {
+.emotion-6:hover {
   font-weight: bold;
 }
 
-.emotion-8 {
+.emotion-7 {
   overflow: hidden;
   text-overflow: ellipsis;
   padding-left: 12px;
@@ -268,7 +283,7 @@ exports[`Dashboard Component renders correctly 1`] = `
   white-space: nowrap;
 }
 
-.emotion-9 {
+.emotion-8 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -276,25 +291,25 @@ exports[`Dashboard Component renders correctly 1`] = `
   width: 1em;
   height: 1em;
   display: inline-block;
-  fill: currentColor;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
   font-size: 1.3929rem;
   color: #337a87;
 }
 
-.emotion-9 iconButton {
+.emotion-8 iconButton {
   margin-right: 8px;
 }
 
-.emotion-9.read {
+.emotion-8.read {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-10 {
+.emotion-9 {
   position: absolute;
   top: -5px;
   bottom: 0;
@@ -304,16 +319,16 @@ exports[`Dashboard Component renders correctly 1`] = `
   border-radius: 50%;
 }
 
-.emotion-10.read {
+.emotion-9.read {
   border-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-11 {
+.emotion-10 {
   font-size: 1rem;
   cursor: pointer;
 }
 
-.emotion-14 {
+.emotion-13 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -324,28 +339,28 @@ exports[`Dashboard Component renders correctly 1`] = `
   padding-top: 0;
 }
 
-.emotion-14 .deployments .dashboard>h4 {
+.emotion-13 .deployments .dashboard>h4 {
   margin-top: 48px;
 }
 
-.emotion-14 .deployments .dashboard>h4.margin-top-none {
+.emotion-13 .deployments .dashboard>h4.margin-top-none {
   margin-top: 0;
 }
 
 @media (min-width:1536px) {
-  .emotion-14 {
+  .emotion-13 {
     border-left: 1px solid #e9e9e9;
     margin-top: -16px;
     padding-left: 48px;
     padding-top: 16px;
   }
 
-  .emotion-14 .deployments .dashboard>h4 {
+  .emotion-13 .deployments .dashboard>h4 {
     margin-top: 0;
   }
 }
 
-.emotion-15 {
+.emotion-14 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -360,11 +375,11 @@ exports[`Dashboard Component renders correctly 1`] = `
   padding: 8px;
 }
 
-.emotion-15>div:last-child {
+.emotion-14>div:last-child {
   width: 100%;
 }
 
-.emotion-16 {
+.emotion-15 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -372,20 +387,20 @@ exports[`Dashboard Component renders correctly 1`] = `
   width: 1em;
   height: 1em;
   display: inline-block;
-  fill: currentColor;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
   font-size: inherit;
 }
 
-.emotion-16 iconButton {
+.emotion-15 iconButton {
   margin-right: 8px;
 }
 
-.emotion-20 {
+.emotion-19 {
   background-color: #f7f7f7;
   padding: 10px 20px;
   border-radius: 4px;
@@ -396,61 +411,64 @@ exports[`Dashboard Component renders correctly 1`] = `
   min-height: 70px;
 }
 
-.emotion-20 .chart-container {
+.emotion-19 .chart-container {
   min-height: 70px;
 }
 
-.emotion-20 .progress-chart {
+.emotion-19 .progress-chart {
   min-height: 45px;
 }
 
-.emotion-20 .compact .progress-step,
-.emotion-20 .detailed .progress-step {
+.emotion-19 .compact .progress-step,
+.emotion-19 .detailed .progress-step {
   min-height: 45px;
 }
 
-.emotion-20 .progress-step,
-.emotion-20 .detailed .progress-step-total {
+.emotion-19 .progress-step,
+.emotion-19 .detailed .progress-step-total {
   position: absolute;
   border-right-style: none;
 }
 
-.emotion-20 .progress-step-total .progress-bar {
+.emotion-19 .progress-step-total .progress-bar {
   background-color: #d4e9e7;
 }
 
-.emotion-20 .progress-step-number {
+.emotion-19 .progress-step-number {
   -webkit-align-self: flex-start;
   -ms-flex-item-align: flex-start;
   align-self: flex-start;
   margin-top: -4px;
 }
 
-.emotion-20.minimal {
+.emotion-19.minimal {
   padding: initial;
 }
 
-.emotion-20.no-background {
+.emotion-19.no-background {
   background: none;
 }
 
-.emotion-20.stepped-progress .progress-step-total {
+.emotion-19.stepped-progress .progress-step-total {
   margin-left: -0.25%;
   width: 100.5%;
 }
 
-.emotion-20.stepped-progress .progress-step-total .progress-bar {
+.emotion-19.stepped-progress .progress-step-total .progress-bar {
   background-color: #fff;
   border: 1px solid #a9a9a9;
   border-radius: 2px;
   height: 12px;
 }
 
-.emotion-20.stepped-progress .detailed .progress-step {
+.emotion-19.stepped-progress .detailed .progress-step {
   min-height: 20px;
 }
 
-.emotion-23 {
+.emotion-22 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
@@ -458,32 +476,32 @@ exports[`Dashboard Component renders correctly 1`] = `
   max-width: 500px;
 }
 
-.emotion-23>time {
+.emotion-22>time {
   -webkit-align-self: flex-end;
   -ms-flex-item-align: flex-end;
   align-self: flex-end;
   margin-right: 6px;
 }
 
-.emotion-25 {
+.emotion-24 {
   background: #fff;
   border-radius: 4px;
   padding: 4px;
 }
 
-.emotion-26 {
+.emotion-25 {
   -webkit-column-gap: 8px;
   column-gap: 8px;
   display: grid;
   grid-template-columns: repeat(auto-fit, 32px);
 }
 
-.emotion-26>div {
+.emotion-25>div {
   -webkit-column-gap: 4px;
   column-gap: 4px;
 }
 
-.emotion-26 .disabled {
+.emotion-25 .disabled {
   opacity: 0.1;
 }
 
@@ -554,9 +572,6 @@ exports[`Dashboard Component renders correctly 1`] = `
                 d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"
               />
             </svg>
-            <span
-              class="MuiTouchRipple-root emotion-5"
-            />
           </a>
           <div
             class="widget "
@@ -600,7 +615,7 @@ exports[`Dashboard Component renders correctly 1`] = `
           class="widget"
         >
           <div
-            class="flexbox center-aligned  emotion-6"
+            class="flexbox center-aligned  emotion-5"
             style="align-items: end;"
           >
             <div
@@ -608,10 +623,10 @@ exports[`Dashboard Component renders correctly 1`] = `
               data-mui-internal-clone-element="true"
             >
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-7"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-6"
               >
                 <span
-                  class="MuiChip-label MuiChip-labelMedium emotion-8"
+                  class="MuiChip-label MuiChip-labelMedium emotion-7"
                 >
                   Enterprise
                 </span>
@@ -626,7 +641,7 @@ exports[`Dashboard Component renders correctly 1`] = `
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium  emotion-9"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium  emotion-8"
                   data-testid="HelpIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -636,13 +651,13 @@ exports[`Dashboard Component renders correctly 1`] = `
                   />
                 </svg>
                 <div
-                  class="emotion-10 "
+                  class="emotion-9 "
                 />
               </div>
             </div>
           </div>
           <div
-            class="flexbox centered muted emotion-11"
+            class="flexbox centered muted emotion-10"
           >
             <svg
               aria-hidden="true"
@@ -656,7 +671,7 @@ exports[`Dashboard Component renders correctly 1`] = `
               />
             </svg>
             <span
-              class="emotion-11"
+              class="emotion-10"
             >
               add a widget
             </span>
@@ -665,7 +680,7 @@ exports[`Dashboard Component renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="emotion-14 deployments"
+      class="emotion-13 deployments"
     >
       <div
         class="dashboard flexbox column"
@@ -682,7 +697,7 @@ exports[`Dashboard Component renders correctly 1`] = `
           Pending
         </h5>
         <div
-          class="clickable emotion-15"
+          class="clickable emotion-14"
         >
           <div>
             <div>
@@ -700,7 +715,7 @@ exports[`Dashboard Component renders correctly 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-16"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
               focusable="false"
               viewBox="0 0 24 24"
             >
@@ -716,7 +731,7 @@ exports[`Dashboard Component renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="clickable emotion-15"
+          class="clickable emotion-14"
         >
           <div>
             <div>
@@ -734,7 +749,7 @@ exports[`Dashboard Component renders correctly 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-16"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
               focusable="false"
               viewBox="0 0 24 24"
             >
@@ -755,7 +770,7 @@ exports[`Dashboard Component renders correctly 1`] = `
           In Progress
         </h5>
         <div
-          class="clickable emotion-15"
+          class="clickable emotion-14"
         >
           <div>
             <div>
@@ -769,7 +784,7 @@ exports[`Dashboard Component renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="relative emotion-20 minimal "
+            class="relative emotion-19 minimal "
           >
             <div
               class="chart-container"
@@ -810,7 +825,7 @@ exports[`Dashboard Component renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="clickable emotion-15"
+          class="clickable emotion-14"
         >
           <div>
             <div>
@@ -828,7 +843,7 @@ exports[`Dashboard Component renders correctly 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-16"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
               focusable="false"
               viewBox="0 0 24 24"
             >
@@ -849,7 +864,7 @@ exports[`Dashboard Component renders correctly 1`] = `
           Finished
         </h5>
         <div
-          class="emotion-23"
+          class="emotion-22"
         >
           <time
             class="muted slightly-smaller"
@@ -858,7 +873,7 @@ exports[`Dashboard Component renders correctly 1`] = `
             2019-01-13 13:00
           </time>
           <div
-            class="clickable emotion-15"
+            class="clickable emotion-14"
           >
             <div>
               <div>
@@ -872,10 +887,10 @@ exports[`Dashboard Component renders correctly 1`] = `
               </div>
             </div>
             <div
-              class="emotion-25"
+              class="emotion-24"
             >
               <div
-                class="flexbox emotion-26 "
+                class="flexbox emotion-25 "
               >
                 <div
                   aria-label="Skipped"
@@ -952,7 +967,7 @@ exports[`Dashboard Component renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="emotion-23"
+          class="emotion-22"
         >
           <time
             class="muted slightly-smaller"
@@ -961,7 +976,7 @@ exports[`Dashboard Component renders correctly 1`] = `
             2019-01-13 13:00
           </time>
           <div
-            class="clickable emotion-15"
+            class="clickable emotion-14"
           >
             <div>
               <div>
@@ -975,10 +990,10 @@ exports[`Dashboard Component renders correctly 1`] = `
               </div>
             </div>
             <div
-              class="emotion-25"
+              class="emotion-24"
             >
               <div
-                class="flexbox emotion-26 "
+                class="flexbox emotion-25 "
               >
                 <div
                   aria-label="Skipped"
