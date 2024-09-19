@@ -176,6 +176,8 @@ test:backend:integration:
   needs:
     - job: build:backend:docker
       artifacts: false
+    - job: build:backend:docker-acceptance
+      artifacts: false
   before_script:
     - apk add make bash git curl
     - *dind-login
