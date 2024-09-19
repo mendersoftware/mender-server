@@ -9,12 +9,12 @@ exports[`AuthStatus Component renders correctly 1`] = `
   width: 1em;
   height: 1em;
   display: inline-block;
-  fill: currentColor;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
   font-size: 1.3929rem;
 }
 
@@ -26,6 +26,9 @@ exports[`AuthStatus Component renders correctly 1`] = `
   max-width: 100%;
   font-family: Lato,sans-serif;
   font-size: 0.7545rem;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -35,9 +38,9 @@ exports[`AuthStatus Component renders correctly 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  height: 24px;
-  color: #fff;
-  background-color: #337a87;
+  height: 32px;
+  color: rgba(10, 10, 11, 0.78);
+  background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
   white-space: nowrap;
   -webkit-transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -50,6 +53,9 @@ exports[`AuthStatus Component renders correctly 1`] = `
   padding: 0;
   vertical-align: middle;
   box-sizing: border-box;
+  height: 24px;
+  background-color: #337a87;
+  color: #fff;
 }
 
 .emotion-1.Mui-disabled {
@@ -85,24 +91,36 @@ exports[`AuthStatus Component renders correctly 1`] = `
 }
 
 .emotion-1 .MuiChip-icon {
-  margin-left: 4px;
-  margin-right: -4px;
-  font-size: 18px;
-  color: inherit;
+  margin-left: 5px;
+  margin-right: -6px;
 }
 
 .emotion-1 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 16px;
+  color: rgba(10, 10, 11, 0.26);
+  font-size: 22px;
   cursor: pointer;
   margin: 0 5px 0 -6px;
-  margin-right: 4px;
-  margin-left: -4px;
 }
 
 .emotion-1 .MuiChip-deleteIcon:hover {
   color: rgba(10, 10, 11, 0.4);
+}
+
+.emotion-1 .MuiChip-icon {
+  font-size: 18px;
+  margin-left: 4px;
+  margin-right: -4px;
+}
+
+.emotion-1 .MuiChip-deleteIcon {
+  font-size: 16px;
+  margin-right: 4px;
+  margin-left: -4px;
+}
+
+.emotion-1 .MuiChip-deleteIcon {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .emotion-1 .MuiChip-deleteIcon:hover,
@@ -110,12 +128,22 @@ exports[`AuthStatus Component renders correctly 1`] = `
   color: #fff;
 }
 
+.emotion-1 .MuiChip-icon {
+  color: #bcbcbc;
+}
+
+.emotion-1 .MuiChip-icon {
+  color: inherit;
+}
+
 .emotion-2 {
   overflow: hidden;
   text-overflow: ellipsis;
+  padding-left: 12px;
+  padding-right: 12px;
+  white-space: nowrap;
   padding-left: 8px;
   padding-right: 8px;
-  white-space: nowrap;
 }
 
 .emotion-3 {
@@ -136,12 +164,12 @@ exports[`AuthStatus Component renders correctly 1`] = `
   width: 1em;
   height: 1em;
   display: inline-block;
-  fill: currentColor;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
   font-size: 1.3929rem;
   color: #337a87;
 }
@@ -195,15 +223,20 @@ exports[`AuthStatus Component renders correctly 1`] = `
 }
 
 .emotion-8 {
-  background-color: #d4e9e7;
+  background-color: #fff;
   color: rgba(10, 10, 11, 0.78);
+  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  box-shadow: var(--Paper-shadow);
+  background-image: var(--Paper-overlay);
+  position: relative;
   -webkit-transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  box-shadow: none;
-  position: relative;
   overflow-anchor: none;
   border: none;
+  box-shadow: none;
   padding: 0;
+  background-color: #d4e9e7;
 }
 
 .emotion-8::before {
@@ -275,139 +308,13 @@ exports[`AuthStatus Component renders correctly 1`] = `
 }
 
 .emotion-9 {
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  position: relative;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-  background-color: transparent;
-  outline: 0;
-  border: 0;
-  margin: 0;
-  border-radius: 0;
-  padding: 0px 16px;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  vertical-align: middle;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  color: inherit;
-  min-height: 48px;
-  -webkit-transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  margin-bottom: 0;
-  height: 48px;
-}
-
-.emotion-9::-moz-focus-inner {
-  border-style: none;
-}
-
-.emotion-9.Mui-disabled {
-  pointer-events: none;
-  cursor: default;
-}
-
-@media print {
-  .emotion-9 {
-    -webkit-print-color-adjust: exact;
-    color-adjust: exact;
-  }
-}
-
-.emotion-9.Mui-focusVisible {
-  background-color: rgba(0, 0, 0, 0.12);
-}
-
-.emotion-9.Mui-disabled {
-  opacity: 0.38;
-}
-
-.emotion-9:hover:not(.Mui-disabled) {
-  cursor: pointer;
-}
-
-.emotion-9.Mui-expanded {
-  min-height: 64px;
-}
-
-.emotion-9.Mui-expanded {
-  height: 48px;
-  min-height: 48px;
+  all: unset;
 }
 
 .emotion-10 {
-  display: flex;
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  margin: 12px 0;
-  -webkit-transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-
-.emotion-10.Mui-expanded {
-  margin: 20px 0;
-}
-
-.emotion-10.Mui-expanded {
-  margin: 0;
-}
-
-.emotion-10>:last-child {
-  padding-right: 12px;
-}
-
-.emotion-13 {
-  height: 0;
-  overflow: hidden;
-  -webkit-transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  visibility: hidden;
-}
-
-.emotion-14 {
-  display: flex;
-  width: 100%;
-}
-
-.emotion-15 {
-  width: 100%;
-}
-
-.emotion-16 {
-  padding: 8px 16px 16px;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-
-.emotion-24 {
-  -webkit-box-pack: end;
-  -ms-flex-pack: end;
-  -webkit-justify-content: flex-end;
-  justify-content: flex-end;
-  margin-top: 16px;
-}
-
-.emotion-25 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -424,8 +331,8 @@ exports[`AuthStatus Component renders correctly 1`] = `
   outline: 0;
   border: 0;
   margin: 0;
-  border-radius: 2px;
-  padding: 10px 15px;
+  border-radius: 0;
+  padding: 0;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -436,67 +343,219 @@ exports[`AuthStatus Component renders correctly 1`] = `
   -webkit-appearance: none;
   -webkit-text-decoration: none;
   text-decoration: none;
-  color: #5d0f43;
-  font-family: Lato,sans-serif;
-  font-weight: bold;
-  font-size: 14px;
-  line-height: 1.75;
-  text-transform: uppercase;
-  min-width: 64px;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  color: inherit;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  min-height: 48px;
+  padding: 0px 16px;
+  -webkit-transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  margin-bottom: 0;
+  height: 48px;
 }
 
-.emotion-25::-moz-focus-inner {
+.emotion-10::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-25.Mui-disabled {
+.emotion-10.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-25 {
+  .emotion-10 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-25:hover {
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  background-color: rgba(93, 15, 67, 0.04);
+.emotion-10.Mui-focusVisible {
+  background-color: rgba(0, 0, 0, 0.12);
 }
 
-@media (hover: none) {
-  .emotion-25:hover {
-    background-color: transparent;
-  }
+.emotion-10.Mui-disabled {
+  opacity: 0.38;
 }
 
-.emotion-25.Mui-disabled {
-  color: rgba(0, 0, 0, 0.26);
+.emotion-10:hover:not(.Mui-disabled) {
+  cursor: pointer;
 }
 
-.emotion-25:hover {
-  colors: #337a87;
+.emotion-10.Mui-expanded {
+  min-height: 64px;
 }
 
-.emotion-25.MuiButton-text {
-  color: rgba(10, 10, 11, 0.78);
+.emotion-10.Mui-expanded {
+  height: 48px;
+  min-height: 48px;
+}
+
+.emotion-11 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin: 12px 0;
+  -webkit-transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.emotion-11.Mui-expanded {
+  margin: 20px 0;
+}
+
+.emotion-11.Mui-expanded {
+  margin: 0;
+}
+
+.emotion-11>:last-child {
+  padding-right: 12px;
+}
+
+.emotion-14 {
+  height: 0;
+  overflow: hidden;
+  -webkit-transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  visibility: hidden;
+}
+
+.emotion-15 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+}
+
+.emotion-16 {
+  width: 100%;
+}
+
+.emotion-17 {
+  padding: 8px 16px 16px;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
 }
 
 .emotion-26 {
-  overflow: hidden;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.emotion-27 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: inherit;
+  font-family: Lato,sans-serif;
+  font-weight: 500;
+  font-size: 0.8125rem;
+  line-height: 1.75;
+  text-transform: uppercase;
+  min-width: 64px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 4px;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  padding: 6px 8px;
+  color: var(--variant-textColor);
+  background-color: var(--variant-textBg);
+  --variant-textColor: #5d0f43;
+  --variant-outlinedColor: #5d0f43;
+  --variant-outlinedBorder: rgba(93, 15, 67, 0.5);
+  --variant-containedColor: #fff;
+  --variant-containedBg: #5d0f43;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 15px;
+}
+
+.emotion-27::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-27.Mui-disabled {
   pointer-events: none;
-  position: absolute;
-  z-index: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  border-radius: inherit;
+  cursor: default;
+}
+
+@media print {
+  .emotion-27 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-27:hover {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-27.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+@media (hover: hover) {
+  .emotion-27:hover {
+    --variant-containedBg: rgb(65, 10, 46);
+    --variant-textBg: rgba(93, 15, 67, 0.04);
+    --variant-outlinedBorder: #5d0f43;
+    --variant-outlinedBg: rgba(93, 15, 67, 0.04);
+  }
+}
+
+.emotion-27:hover {
+  colors: #337a87;
+}
+
+.emotion-27.MuiButton-text {
+  color: rgba(10, 10, 11, 0.78);
 }
 
 <div
@@ -613,70 +672,75 @@ exports[`AuthStatus Component renders correctly 1`] = `
       >
         <div
           class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-8"
+          style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
         >
-          <div
-            aria-expanded="false"
-            class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-9"
-            role="button"
-            tabindex="0"
+          <h3
+            class="MuiAccordion-heading emotion-9"
           >
             <div
-              class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-10"
+              aria-expanded="false"
+              class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-10"
+              role="button"
+              tabindex="0"
             >
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-filledPrimary emotion-1"
-                style="justify-self: flex-start;"
+                class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-11"
               >
-                <span
-                  class="MuiChip-label MuiChip-labelSmall emotion-2"
+                <div
+                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-filledPrimary emotion-1"
+                  style="justify-self: flex-start;"
                 >
-                  new
-                </span>
-              </div>
-              <div
-                class="capitalized"
-              >
-                pending
-              </div>
-              <a>
-                show key
-              </a>
-              <time
-                datetime="2019-01-13T06:25:00+00:00"
-              >
-                2019-01-13 06:25
-              </time>
-              <div
-                class="action-buttons flexbox"
-              >
+                  <span
+                    class="MuiChip-label MuiChip-labelSmall emotion-2"
+                  >
+                    new
+                  </span>
+                </div>
+                <div
+                  class="capitalized"
+                >
+                  pending
+                </div>
                 <a>
-                  Accept
+                  show key
                 </a>
-                <a>
-                  Reject
-                </a>
-                <a>
-                  Dismiss
-                </a>
+                <time
+                  datetime="2019-01-13T06:25:00+00:00"
+                >
+                  2019-01-13 06:25
+                </time>
+                <div
+                  class="action-buttons flexbox"
+                >
+                  <a>
+                    Accept
+                  </a>
+                  <a>
+                    Reject
+                  </a>
+                  <a>
+                    Dismiss
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
+          </h3>
           <div
-            class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-13"
+            class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-14"
             style="min-height: 0px;"
           >
             <div
-              class="MuiCollapse-wrapper MuiCollapse-vertical emotion-14"
+              class="MuiCollapse-wrapper MuiCollapse-vertical emotion-15"
             >
               <div
-                class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-15"
+                class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-16"
               >
                 <div
                   class="MuiAccordion-region"
                   role="region"
                 >
                   <div
-                    class="MuiAccordionDetails-root emotion-16"
+                    class="MuiAccordionDetails-root emotion-17"
                   >
                     <div
                       style="flex-grow: 1;"
@@ -694,65 +758,70 @@ exports[`AuthStatus Component renders correctly 1`] = `
         </div>
         <div
           class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-8"
+          style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
         >
-          <div
-            aria-expanded="false"
-            class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-9"
-            role="button"
-            tabindex="0"
+          <h3
+            class="MuiAccordion-heading emotion-9"
           >
             <div
-              class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-10"
+              aria-expanded="false"
+              class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-10"
+              role="button"
+              tabindex="0"
             >
               <div
-                class="capitalized"
+                class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-11"
               >
-                Active
-              </div>
-              <div
-                class="capitalized"
-              >
-                accepted
-              </div>
-              <a>
-                show key
-              </a>
-              <time
-                datetime="2019-01-13T06:25:00+00:00"
-              >
-                2019-01-13 06:25
-              </time>
-              <div
-                class="action-buttons flexbox"
-              >
-                <div>
-                  Accept
+                <div
+                  class="capitalized"
+                >
+                  Active
+                </div>
+                <div
+                  class="capitalized"
+                >
+                  accepted
                 </div>
                 <a>
-                  Reject
+                  show key
                 </a>
-                <a>
-                  Dismiss
-                </a>
+                <time
+                  datetime="2019-01-13T06:25:00+00:00"
+                >
+                  2019-01-13 06:25
+                </time>
+                <div
+                  class="action-buttons flexbox"
+                >
+                  <div>
+                    Accept
+                  </div>
+                  <a>
+                    Reject
+                  </a>
+                  <a>
+                    Dismiss
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
+          </h3>
           <div
-            class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-13"
+            class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-14"
             style="min-height: 0px;"
           >
             <div
-              class="MuiCollapse-wrapper MuiCollapse-vertical emotion-14"
+              class="MuiCollapse-wrapper MuiCollapse-vertical emotion-15"
             >
               <div
-                class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-15"
+                class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-16"
               >
                 <div
                   class="MuiAccordion-region"
                   role="region"
                 >
                   <div
-                    class="MuiAccordionDetails-root emotion-16"
+                    class="MuiAccordionDetails-root emotion-17"
                   >
                     <div
                       style="flex-grow: 1;"
@@ -771,17 +840,14 @@ exports[`AuthStatus Component renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="flexbox emotion-24"
+      class="flexbox emotion-26"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary emotion-25"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary emotion-27"
         tabindex="0"
         type="button"
       >
         Decommission device
-        <span
-          class="MuiTouchRipple-root emotion-26"
-        />
       </button>
     </div>
   </div>

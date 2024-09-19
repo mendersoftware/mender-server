@@ -7,6 +7,9 @@ exports[`GlobalSettings Component renders correctly 1`] = `
 }
 
 .emotion-1 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -19,12 +22,12 @@ exports[`GlobalSettings Component renders correctly 1`] = `
   position: relative;
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
-  background-color: #5d0f43;
+  background-color: transparent;
   outline: 0;
   border: 0;
   margin: 0;
-  border-radius: 2px;
-  padding: 6px 16px;
+  border-radius: 0;
+  padding: 0;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -35,16 +38,29 @@ exports[`GlobalSettings Component renders correctly 1`] = `
   -webkit-appearance: none;
   -webkit-text-decoration: none;
   text-decoration: none;
-  color: #fff;
+  color: inherit;
   font-family: Lato,sans-serif;
-  font-weight: bold;
-  font-size: 14px;
+  font-weight: 500;
+  font-size: 0.8125rem;
   line-height: 1.75;
   text-transform: uppercase;
   min-width: 64px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 4px;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  color: var(--variant-containedColor);
+  background-color: var(--variant-containedBg);
   box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
+  --variant-textColor: #5d0f43;
+  --variant-outlinedColor: #5d0f43;
+  --variant-outlinedBorder: rgba(93, 15, 67, 0.5);
+  --variant-containedColor: #fff;
+  --variant-containedBg: #5d0f43;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: bold;
 }
 
 .emotion-1::-moz-focus-inner {
@@ -66,13 +82,19 @@ exports[`GlobalSettings Component renders correctly 1`] = `
 .emotion-1:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
-  background-color: rgb(65, 10, 46);
+}
+
+.emotion-1.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-1:hover {
   box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 
 @media (hover: none) {
   .emotion-1:hover {
-    background-color: #5d0f43;
+    box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
   }
 }
 
@@ -88,6 +110,15 @@ exports[`GlobalSettings Component renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
+}
+
+@media (hover: hover) {
+  .emotion-1:hover {
+    --variant-containedBg: rgb(65, 10, 46);
+    --variant-textBg: rgba(93, 15, 67, 0.04);
+    --variant-outlinedBorder: #5d0f43;
+    --variant-outlinedBg: rgba(93, 15, 67, 0.04);
+  }
 }
 
 .emotion-1:hover {

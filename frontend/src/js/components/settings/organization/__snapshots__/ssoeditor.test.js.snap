@@ -3,15 +3,19 @@
 exports[`SSOEditor Component renders correctly 1`] = `
 .emotion-0 {
   position: fixed;
-  z-index: 1200;
+  z-index: 1300;
   right: 0;
   bottom: 0;
   top: 0;
   left: 0;
+  z-index: 1200;
 }
 
 .emotion-1 {
   position: fixed;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -35,8 +39,12 @@ exports[`SSOEditor Component renders correctly 1`] = `
   color: rgba(10, 10, 11, 0.78);
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  box-shadow: 0px 8px 10px -5px rgba(0,0,0,0.2),0px 16px 24px 2px rgba(0,0,0,0.14),0px 6px 30px 5px rgba(0,0,0,0.12);
+  box-shadow: var(--Paper-shadow);
+  background-image: var(--Paper-overlay);
   overflow-y: auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
@@ -57,6 +65,9 @@ exports[`SSOEditor Component renders correctly 1`] = `
 }
 
 .emotion-3 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -73,8 +84,8 @@ exports[`SSOEditor Component renders correctly 1`] = `
   outline: 0;
   border: 0;
   margin: 0;
-  border-radius: 2px;
-  padding: 10px 15px;
+  border-radius: 0;
+  padding: 0;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -85,15 +96,30 @@ exports[`SSOEditor Component renders correctly 1`] = `
   -webkit-appearance: none;
   -webkit-text-decoration: none;
   text-decoration: none;
-  color: #5d0f43;
+  color: inherit;
   font-family: Lato,sans-serif;
-  font-weight: bold;
-  font-size: 14px;
+  font-weight: 500;
+  font-size: 0.8125rem;
   line-height: 1.75;
   text-transform: uppercase;
   min-width: 64px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 4px;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  padding: 6px 8px;
+  color: var(--variant-textColor);
+  background-color: var(--variant-textBg);
+  --variant-textColor: #5d0f43;
+  --variant-outlinedColor: #5d0f43;
+  --variant-outlinedBorder: rgba(93, 15, 67, 0.5);
+  --variant-containedColor: #fff;
+  --variant-containedBg: #5d0f43;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 15px;
 }
 
 .emotion-3::-moz-focus-inner {
@@ -115,17 +141,19 @@ exports[`SSOEditor Component renders correctly 1`] = `
 .emotion-3:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
-  background-color: rgba(93, 15, 67, 0.04);
-}
-
-@media (hover: none) {
-  .emotion-3:hover {
-    background-color: transparent;
-  }
 }
 
 .emotion-3.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
+}
+
+@media (hover: hover) {
+  .emotion-3:hover {
+    --variant-containedBg: rgb(65, 10, 46);
+    --variant-textBg: rgba(93, 15, 67, 0.04);
+    --variant-outlinedBorder: #5d0f43;
+    --variant-outlinedBg: rgba(93, 15, 67, 0.04);
+  }
 }
 
 .emotion-3:hover {
@@ -154,12 +182,12 @@ exports[`SSOEditor Component renders correctly 1`] = `
   width: 1em;
   height: 1em;
   display: inline-block;
-  fill: currentColor;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
   font-size: 1.1607rem;
 }
 
@@ -168,18 +196,9 @@ exports[`SSOEditor Component renders correctly 1`] = `
 }
 
 .emotion-6 {
-  overflow: hidden;
-  pointer-events: none;
-  position: absolute;
-  z-index: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  border-radius: inherit;
-}
-
-.emotion-7 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -196,8 +215,8 @@ exports[`SSOEditor Component renders correctly 1`] = `
   outline: 0;
   border: 0;
   margin: 0;
-  border-radius: 50%;
-  padding: 12px;
+  border-radius: 0;
+  padding: 0;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -208,49 +227,55 @@ exports[`SSOEditor Component renders correctly 1`] = `
   -webkit-appearance: none;
   -webkit-text-decoration: none;
   text-decoration: none;
-  color: rgba(0, 0, 0, 0.54);
+  color: inherit;
   text-align: center;
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
-  font-size: 1.2rem;
-  overflow: visible;
+  font-size: 1.3929rem;
+  padding: 8px;
+  border-radius: 50%;
+  color: rgba(0, 0, 0, 0.54);
   -webkit-transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  padding: 12px;
+  font-size: 1.625rem;
+  font-size: 1.2rem;
+  color: rgba(0, 0, 0, 0.54);
 }
 
-.emotion-7::-moz-focus-inner {
+.emotion-6::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-7.Mui-disabled {
+.emotion-6.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-7 {
+  .emotion-6 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-7:hover {
+.emotion-6:hover {
   background-color: rgba(0, 0, 0, 0.04);
 }
 
 @media (hover: none) {
-  .emotion-7:hover {
+  .emotion-6:hover {
     background-color: transparent;
   }
 }
 
-.emotion-7.Mui-disabled {
+.emotion-6.Mui-disabled {
   background-color: transparent;
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-8 {
+.emotion-7 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -258,31 +283,35 @@ exports[`SSOEditor Component renders correctly 1`] = `
   width: 1em;
   height: 1em;
   display: inline-block;
-  fill: currentColor;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
   font-size: 1.3929rem;
 }
 
-.emotion-8 iconButton {
+.emotion-7 iconButton {
   margin-right: 8px;
 }
 
-.emotion-10 {
+.emotion-8 {
   margin: 0;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
   border-width: 0;
   border-style: solid;
-  border-color: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.12);
   border-bottom-width: thin;
+  border-color: rgba(0, 0, 0, 0.08);
 }
 
-.emotion-12 {
+.emotion-10 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -299,8 +328,8 @@ exports[`SSOEditor Component renders correctly 1`] = `
   outline: 0;
   border: 0;
   margin: 0;
-  border-radius: 2px;
-  padding: 10px 15px;
+  border-radius: 0;
+  padding: 0;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -311,54 +340,71 @@ exports[`SSOEditor Component renders correctly 1`] = `
   -webkit-appearance: none;
   -webkit-text-decoration: none;
   text-decoration: none;
-  color: #337a87;
+  color: inherit;
   font-family: Lato,sans-serif;
-  font-weight: bold;
-  font-size: 14px;
+  font-weight: 500;
+  font-size: 0.8125rem;
   line-height: 1.75;
   text-transform: uppercase;
   min-width: 64px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 4px;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  padding: 6px 8px;
+  color: var(--variant-textColor);
+  background-color: var(--variant-textBg);
+  --variant-textColor: #337a87;
+  --variant-outlinedColor: #337a87;
+  --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
+  --variant-containedColor: #fff;
+  --variant-containedBg: #337a87;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 15px;
 }
 
-.emotion-12::-moz-focus-inner {
+.emotion-10::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-12.Mui-disabled {
+.emotion-10.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-12 {
+  .emotion-10 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-12:hover {
+.emotion-10:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
-  background-color: rgba(51, 122, 135, 0.04);
 }
 
-@media (hover: none) {
-  .emotion-12:hover {
-    background-color: transparent;
-  }
-}
-
-.emotion-12.Mui-disabled {
+.emotion-10.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-12:hover {
+@media (hover: hover) {
+  .emotion-10:hover {
+    --variant-containedBg: rgb(35, 85, 94);
+    --variant-textBg: rgba(51, 122, 135, 0.04);
+    --variant-outlinedBorder: #337a87;
+    --variant-outlinedBg: rgba(51, 122, 135, 0.04);
+  }
+}
+
+.emotion-10:hover {
   colors: #337a87;
 }
 
-.emotion-12.MuiButton-text {
+.emotion-10.MuiButton-text {
   color: rgba(10, 10, 11, 0.78);
 }
 
@@ -383,7 +429,7 @@ exports[`SSOEditor Component renders correctly 1`] = `
     />
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation16 MuiDrawer-paper MuiDrawer-paperAnchorRight emotion-2"
-      style="min-width: 75vw;"
+      style="--Paper-shadow: 0px 8px 10px -5px rgba(0,0,0,0.2),0px 16px 24px 2px rgba(0,0,0,0.14),0px 6px 30px 5px rgba(0,0,0,0.12); min-width: 75vw;"
       tabindex="-1"
     >
       <div
@@ -426,19 +472,16 @@ exports[`SSOEditor Component renders correctly 1`] = `
                 </svg>
               </span>
               Import from a file
-              <span
-                class="MuiTouchRipple-root emotion-6"
-              />
             </button>
           </div>
           <button
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-7"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-6"
             tabindex="0"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-8"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-7"
               data-testid="CloseIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -447,14 +490,11 @@ exports[`SSOEditor Component renders correctly 1`] = `
                 d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
               />
             </svg>
-            <span
-              class="MuiTouchRipple-root emotion-6"
-            />
           </button>
         </div>
       </div>
       <hr
-        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-light emotion-10"
+        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-light emotion-8"
       />
       <section
         style="display: flex; position: relative; text-align: initial; width: 100%; height: 700px;"
@@ -489,34 +529,28 @@ exports[`SSOEditor Component renders correctly 1`] = `
         />
       </section>
       <hr
-        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-light margin-top-large margin-bottom emotion-10"
+        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-light margin-top-large margin-bottom emotion-8"
       />
       <div>
         <div
           class="flexbox center-aligned"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-12"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-10"
             tabindex="0"
             type="button"
           >
             Edit
-            <span
-              class="MuiTouchRipple-root emotion-6"
-            />
           </button>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-12"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-10"
             tabindex="0"
             type="button"
           >
             Download file
-            <span
-              class="MuiTouchRipple-root emotion-6"
-            />
           </button>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-12"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-10"
             tabindex="0"
             type="button"
           >
@@ -525,7 +559,7 @@ exports[`SSOEditor Component renders correctly 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-8"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-7"
                 data-testid="FileCopyOutlinedIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -536,9 +570,6 @@ exports[`SSOEditor Component renders correctly 1`] = `
               </svg>
             </span>
             Copy to clipboard
-            <span
-              class="MuiTouchRipple-root emotion-6"
-            />
           </button>
         </div>
       </div>

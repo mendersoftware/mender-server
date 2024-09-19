@@ -9,6 +9,9 @@ exports[`FileTransfer Component renders correctly 1`] = `
   overflow: hidden;
   min-height: 48px;
   -webkit-overflow-scrolling: touch;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
 }
 
@@ -30,10 +33,16 @@ exports[`FileTransfer Component renders correctly 1`] = `
 }
 
 .emotion-3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
 }
 
 .emotion-4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -51,7 +60,7 @@ exports[`FileTransfer Component renders correctly 1`] = `
   border: 0;
   margin: 0;
   border-radius: 0;
-  padding: 12px 16px;
+  padding: 0;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -62,24 +71,28 @@ exports[`FileTransfer Component renders correctly 1`] = `
   -webkit-appearance: none;
   -webkit-text-decoration: none;
   text-decoration: none;
-  color: rgba(0, 0, 0, 0.54);
+  color: inherit;
   font-family: Lato,sans-serif;
   font-weight: 500;
   font-size: 0.8125rem;
   line-height: 1.25;
-  text-transform: none;
+  text-transform: uppercase;
   max-width: 360px;
   min-width: 90px;
+  position: relative;
   min-height: 48px;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
+  padding: 12px 16px;
   overflow: hidden;
   white-space: normal;
   text-align: center;
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
+  color: rgba(0, 0, 0, 0.54);
+  text-transform: none;
 }
 
 .emotion-4::-moz-focus-inner {
@@ -106,19 +119,7 @@ exports[`FileTransfer Component renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-5 {
-  overflow: hidden;
-  pointer-events: none;
-  position: absolute;
-  z-index: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  border-radius: inherit;
-}
-
-.emotion-8 {
+.emotion-6 {
   position: absolute;
   height: 2px;
   bottom: 0;
@@ -128,7 +129,7 @@ exports[`FileTransfer Component renders correctly 1`] = `
   background-color: #337a87;
 }
 
-.emotion-9 {
+.emotion-7 {
   margin: 0;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -139,7 +140,7 @@ exports[`FileTransfer Component renders correctly 1`] = `
   border-bottom-width: thin;
 }
 
-.emotion-11 {
+.emotion-9 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -147,20 +148,20 @@ exports[`FileTransfer Component renders correctly 1`] = `
   width: 1em;
   height: 1em;
   display: inline-block;
-  fill: currentColor;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
   font-size: 1.3929rem;
 }
 
-.emotion-11 iconButton {
+.emotion-9 iconButton {
   margin-right: 8px;
 }
 
-.emotion-12 {
+.emotion-10 {
   -webkit-align-items: end;
   -webkit-box-align: end;
   -ms-flex-align: end;
@@ -170,22 +171,26 @@ exports[`FileTransfer Component renders correctly 1`] = `
   grid-template-columns: 480px min-content;
 }
 
-.emotion-13 {
+.emotion-11 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
   position: relative;
-  min-width: 240px;
+  min-width: 0;
   padding: 0;
   margin: 0;
   border: 0;
   vertical-align: top;
   width: 100%;
   margin-top: 18px;
+  min-width: 240px;
 }
 
-.emotion-14 {
+.emotion-12 {
   line-height: 1.4375em;
   font-family: Lato,sans-serif;
   font-weight: 400;
@@ -194,25 +199,28 @@ exports[`FileTransfer Component renders correctly 1`] = `
   box-sizing: border-box;
   position: relative;
   cursor: text;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
   width: 100%;
+  position: relative;
 }
 
-.emotion-14.Mui-disabled {
+.emotion-12.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
   cursor: default;
 }
 
-label+.emotion-14 {
+label+.emotion-12 {
   margin-top: 16px;
 }
 
-.emotion-14::after {
-  border-bottom: 2px solid #337a87;
+.emotion-12::after {
   left: 0;
   bottom: 0;
   content: "";
@@ -227,19 +235,19 @@ label+.emotion-14 {
   pointer-events: none;
 }
 
-.emotion-14.Mui-focused:after {
+.emotion-12.Mui-focused:after {
   -webkit-transform: scaleX(1) translateX(0);
   -moz-transform: scaleX(1) translateX(0);
   -ms-transform: scaleX(1) translateX(0);
   transform: scaleX(1) translateX(0);
 }
 
-.emotion-14.Mui-error::before,
-.emotion-14.Mui-error::after {
+.emotion-12.Mui-error::before,
+.emotion-12.Mui-error::after {
   border-bottom-color: #ab1000;
 }
 
-.emotion-14::before {
+.emotion-12::before {
   border-bottom: 1px solid rgba(0, 0, 0, 0.42);
   left: 0;
   bottom: 0;
@@ -251,33 +259,37 @@ label+.emotion-14 {
   pointer-events: none;
 }
 
-.emotion-14:hover:not(.Mui-disabled, .Mui-error):before {
+.emotion-12:hover:not(.Mui-disabled, .Mui-error):before {
   border-bottom: 2px solid rgba(10, 10, 11, 0.78);
 }
 
 @media (hover: none) {
-  .emotion-14:hover:not(.Mui-disabled, .Mui-error):before {
+  .emotion-12:hover:not(.Mui-disabled, .Mui-error):before {
     border-bottom: 1px solid rgba(0, 0, 0, 0.42);
   }
 }
 
-.emotion-14.Mui-disabled:before {
+.emotion-12.Mui-disabled:before {
   border-bottom-style: dotted;
 }
 
-.emotion-14:before {
-  border-bottom: 1px solid rgb(224, 224, 224);
-}
-
-.emotion-14:hover:not($disabled):before {
-  border-bottom: 2px solid #337a87!important;
-}
-
-.emotion-14:after {
+.emotion-12::after {
   border-bottom: 2px solid #337a87;
 }
 
-.emotion-15 {
+.emotion-12:before {
+  border-bottom: 1px solid rgb(224, 224, 224);
+}
+
+.emotion-12:hover:not($disabled):before {
+  border-bottom: 2px solid #337a87!important;
+}
+
+.emotion-12:after {
+  border-bottom: 2px solid #337a87;
+}
+
+.emotion-13 {
   font: inherit;
   letter-spacing: inherit;
   color: currentColor;
@@ -297,93 +309,80 @@ label+.emotion-14 {
   animation-duration: 10ms;
 }
 
-.emotion-15::-webkit-input-placeholder {
+.emotion-13::-webkit-input-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-15::-moz-placeholder {
+.emotion-13::-moz-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-15:-ms-input-placeholder {
+.emotion-13::-ms-input-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-15::-ms-input-placeholder {
-  color: currentColor;
-  opacity: 0.42;
-  -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-}
-
-.emotion-15:focus {
+.emotion-13:focus {
   outline: 0;
 }
 
-.emotion-15:invalid {
+.emotion-13:invalid {
   box-shadow: none;
 }
 
-.emotion-15::-webkit-search-decoration {
+.emotion-13::-webkit-search-decoration {
   -webkit-appearance: none;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-15::-webkit-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-13::-webkit-input-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-15::-moz-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-13::-moz-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:-ms-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-13::-ms-input-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-15::-ms-input-placeholder {
-  opacity: 0!important;
-}
-
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-webkit-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-13:focus::-webkit-input-placeholder {
   opacity: 0.42;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-moz-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-13:focus::-moz-placeholder {
   opacity: 0.42;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus:-ms-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-13:focus::-ms-input-placeholder {
   opacity: 0.42;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-placeholder {
-  opacity: 0.42;
-}
-
-.emotion-15.Mui-disabled {
+.emotion-13.Mui-disabled {
   opacity: 1;
   -webkit-text-fill-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-15:-webkit-autofill {
+.emotion-13:-webkit-autofill {
   -webkit-animation-duration: 5000s;
   animation-duration: 5000s;
   -webkit-animation-name: mui-auto-fill;
   animation-name: mui-auto-fill;
 }
 
-.emotion-16 {
+.emotion-14 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
-  height: 0.01em;
   max-height: 2em;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -394,7 +393,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
   margin-left: 8px;
 }
 
-.emotion-17 {
+.emotion-15 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -411,8 +413,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
   outline: 0;
   border: 0;
   margin: 0;
-  border-radius: 50%;
-  padding: 8px;
+  border-radius: 0;
+  padding: 0;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -423,15 +425,107 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
   -webkit-appearance: none;
   -webkit-text-decoration: none;
   text-decoration: none;
-  color: rgba(0, 0, 0, 0.54);
+  color: inherit;
   text-align: center;
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
-  font-size: 1.2rem;
-  overflow: visible;
+  font-size: 1.3929rem;
+  padding: 8px;
+  border-radius: 50%;
+  color: rgba(0, 0, 0, 0.54);
   -webkit-transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  font-size: 1.2rem;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.emotion-15::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-15.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+@media print {
+  .emotion-15 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-15:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+@media (hover: none) {
+  .emotion-15:hover {
+    background-color: transparent;
+  }
+}
+
+.emotion-15.Mui-disabled {
+  background-color: transparent;
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-17 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: inherit;
+  font-family: Lato,sans-serif;
+  font-weight: 500;
+  font-size: 0.8125rem;
+  line-height: 1.75;
+  text-transform: uppercase;
+  min-width: 64px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 4px;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  color: var(--variant-containedColor);
+  background-color: var(--variant-containedBg);
+  box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
+  --variant-textColor: #337a87;
+  --variant-outlinedColor: #337a87;
+  --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
+  --variant-containedColor: #fff;
+  --variant-containedBg: #337a87;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: bold;
 }
 
 .emotion-17::-moz-focus-inner {
@@ -451,109 +545,52 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
 }
 
 .emotion-17:hover {
-  background-color: rgba(0, 0, 0, 0.04);
-}
-
-@media (hover: none) {
-  .emotion-17:hover {
-    background-color: transparent;
-  }
+  -webkit-text-decoration: none;
+  text-decoration: none;
 }
 
 .emotion-17.Mui-disabled {
-  background-color: transparent;
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-20 {
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  position: relative;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-  background-color: #337a87;
-  outline: 0;
-  border: 0;
-  margin: 0;
-  border-radius: 2px;
-  padding: 6px 16px;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  vertical-align: middle;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  color: #fff;
-  font-family: Lato,sans-serif;
-  font-weight: bold;
-  font-size: 14px;
-  line-height: 1.75;
-  text-transform: uppercase;
-  min-width: 64px;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
-}
-
-.emotion-20::-moz-focus-inner {
-  border-style: none;
-}
-
-.emotion-20.Mui-disabled {
-  pointer-events: none;
-  cursor: default;
-}
-
-@media print {
-  .emotion-20 {
-    -webkit-print-color-adjust: exact;
-    color-adjust: exact;
-  }
-}
-
-.emotion-20:hover {
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  background-color: rgb(35, 85, 94);
+.emotion-17:hover {
   box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 
 @media (hover: none) {
-  .emotion-20:hover {
-    background-color: #337a87;
+  .emotion-17:hover {
+    box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
   }
 }
 
-.emotion-20:active {
+.emotion-17:active {
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-20.Mui-focusVisible {
+.emotion-17.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-20.Mui-disabled {
+.emotion-17.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-20:hover {
+@media (hover: hover) {
+  .emotion-17:hover {
+    --variant-containedBg: rgb(35, 85, 94);
+    --variant-textBg: rgba(51, 122, 135, 0.04);
+    --variant-outlinedBorder: #337a87;
+    --variant-outlinedBg: rgba(51, 122, 135, 0.04);
+  }
+}
+
+.emotion-17:hover {
   colors: #337a87;
 }
 
-.emotion-20.MuiButton-text {
+.emotion-17.MuiButton-text {
   color: rgba(10, 10, 11, 0.78);
 }
 
@@ -580,9 +617,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
             type="button"
           >
             upload
-            <span
-              class="MuiTouchRipple-root emotion-5"
-            />
           </button>
           <button
             aria-selected="false"
@@ -592,19 +626,16 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
             type="button"
           >
             download
-            <span
-              class="MuiTouchRipple-root emotion-5"
-            />
           </button>
         </div>
         <span
-          class="MuiTabs-indicator emotion-8"
+          class="MuiTabs-indicator emotion-6"
           style="left: 0px; width: 0px;"
         />
       </div>
     </div>
     <hr
-      class="MuiDivider-root MuiDivider-fullWidth emotion-9"
+      class="MuiDivider-root MuiDivider-fullWidth emotion-7"
     />
     <div
       class="emotion-0"
@@ -631,7 +662,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
             />
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium icon emotion-11"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium icon emotion-9"
               data-testid="CloudUploadOutlinedIcon"
               focusable="false"
               style="height: 24px; width: 24px; vertical-align: middle; margin-top: -2px;"
@@ -662,35 +693,35 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
         </b>
       </p>
       <div
-        class="emotion-12"
+        class="emotion-10"
       >
         <div
-          class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root emotion-13"
+          class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root emotion-11"
         >
           <div
-            class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd emotion-14"
+            class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd emotion-12"
           >
             <input
               aria-invalid="false"
-              class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd emotion-15"
+              class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd emotion-13"
               id=":r0:"
               placeholder="Example: /opt/installed-by-single-file"
               type="text"
               value=""
             />
             <div
-              class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium emotion-16"
+              class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium emotion-14"
             >
               <button
                 aria-label="Paste"
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-17"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-15"
                 data-mui-internal-clone-element="true"
                 tabindex="0"
                 type="button"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-11"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-9"
                   data-testid="FileCopyIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -699,15 +730,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
                     d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4 6 6v10c0 1.1-.9 2-2 2H7.99C6.89 23 6 22.1 6 21l.01-14c0-1.1.89-2 1.99-2zm-1 7h5.5L14 6.5z"
                   />
                 </svg>
-                <span
-                  class="MuiTouchRipple-root emotion-5"
-                />
               </button>
             </div>
           </div>
         </div>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-20"
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-17"
           disabled=""
           tabindex="-1"
           type="button"

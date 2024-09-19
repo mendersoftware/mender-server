@@ -6,6 +6,9 @@ exports[`Deployments Component renders correctly 1`] = `
   overflow: hidden;
   min-height: 48px;
   -webkit-overflow-scrolling: touch;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
 }
 
@@ -27,10 +30,16 @@ exports[`Deployments Component renders correctly 1`] = `
 }
 
 .emotion-2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
 }
 
 .emotion-3 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -48,7 +57,7 @@ exports[`Deployments Component renders correctly 1`] = `
   border: 0;
   margin: 0;
   border-radius: 0;
-  padding: 12px 16px;
+  padding: 0;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -59,24 +68,28 @@ exports[`Deployments Component renders correctly 1`] = `
   -webkit-appearance: none;
   -webkit-text-decoration: none;
   text-decoration: none;
-  color: rgba(0, 0, 0, 0.54);
+  color: inherit;
   font-family: Lato,sans-serif;
   font-weight: 500;
   font-size: 0.8125rem;
   line-height: 1.25;
-  text-transform: none;
+  text-transform: uppercase;
   max-width: 360px;
   min-width: 90px;
+  position: relative;
   min-height: 48px;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
+  padding: 12px 16px;
   overflow: hidden;
   white-space: normal;
   text-align: center;
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
+  color: rgba(0, 0, 0, 0.54);
+  text-transform: none;
 }
 
 .emotion-3::-moz-focus-inner {
@@ -103,19 +116,7 @@ exports[`Deployments Component renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-4 {
-  overflow: hidden;
-  pointer-events: none;
-  position: absolute;
-  z-index: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  border-radius: inherit;
-}
-
-.emotion-9 {
+.emotion-6 {
   position: absolute;
   height: 2px;
   bottom: 0;
@@ -125,7 +126,10 @@ exports[`Deployments Component renders correctly 1`] = `
   background-color: #337a87;
 }
 
-.emotion-10 {
+.emotion-7 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -138,12 +142,12 @@ exports[`Deployments Component renders correctly 1`] = `
   position: relative;
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
-  background-color: #5d0f43;
+  background-color: transparent;
   outline: 0;
   border: 0;
   margin: 0;
-  border-radius: 2px;
-  padding: 6px 16px;
+  border-radius: 0;
+  padding: 0;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -154,82 +158,110 @@ exports[`Deployments Component renders correctly 1`] = `
   -webkit-appearance: none;
   -webkit-text-decoration: none;
   text-decoration: none;
-  color: #fff;
+  color: inherit;
   font-family: Lato,sans-serif;
-  font-weight: bold;
-  font-size: 14px;
+  font-weight: 500;
+  font-size: 0.8125rem;
   line-height: 1.75;
   text-transform: uppercase;
   min-width: 64px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 4px;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  color: var(--variant-containedColor);
+  background-color: var(--variant-containedBg);
   box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
+  --variant-textColor: #5d0f43;
+  --variant-outlinedColor: #5d0f43;
+  --variant-outlinedBorder: rgba(93, 15, 67, 0.5);
+  --variant-containedColor: #fff;
+  --variant-containedBg: #5d0f43;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: bold;
 }
 
-.emotion-10::-moz-focus-inner {
+.emotion-7::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-10.Mui-disabled {
+.emotion-7.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-10 {
+  .emotion-7 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-10:hover {
+.emotion-7:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
-  background-color: rgb(65, 10, 46);
+}
+
+.emotion-7.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-7:hover {
   box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 
 @media (hover: none) {
-  .emotion-10:hover {
-    background-color: #5d0f43;
+  .emotion-7:hover {
+    box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
   }
 }
 
-.emotion-10:active {
+.emotion-7:active {
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-10.Mui-focusVisible {
+.emotion-7.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-10.Mui-disabled {
+.emotion-7.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-10:hover {
+@media (hover: hover) {
+  .emotion-7:hover {
+    --variant-containedBg: rgb(65, 10, 46);
+    --variant-textBg: rgba(93, 15, 67, 0.04);
+    --variant-outlinedBorder: #5d0f43;
+    --variant-outlinedBg: rgba(93, 15, 67, 0.04);
+  }
+}
+
+.emotion-7:hover {
   colors: #337a87;
 }
 
-.emotion-10.MuiButton-text {
+.emotion-7.MuiButton-text {
   color: rgba(10, 10, 11, 0.78);
 }
 
-.emotion-12 {
+.emotion-8 {
   border-bottom: 1px solid #d4e9e7;
 }
 
-.emotion-12 span {
+.emotion-8 span {
   background: #fff;
 }
 
-.emotion-13 {
+.emotion-9 {
   white-space: initial;
 }
 
-.emotion-15 {
+.emotion-11 {
   background-color: #f7f7f7;
   padding: 10px 20px;
   border-radius: 4px;
@@ -240,67 +272,67 @@ exports[`Deployments Component renders correctly 1`] = `
   min-height: 70px;
 }
 
-.emotion-15 .chart-container {
+.emotion-11 .chart-container {
   min-height: 70px;
 }
 
-.emotion-15 .progress-chart {
+.emotion-11 .progress-chart {
   min-height: 45px;
 }
 
-.emotion-15 .compact .progress-step,
-.emotion-15 .detailed .progress-step {
+.emotion-11 .compact .progress-step,
+.emotion-11 .detailed .progress-step {
   min-height: 45px;
 }
 
-.emotion-15 .progress-step,
-.emotion-15 .detailed .progress-step-total {
+.emotion-11 .progress-step,
+.emotion-11 .detailed .progress-step-total {
   position: absolute;
   border-right-style: none;
 }
 
-.emotion-15 .progress-step-total .progress-bar {
+.emotion-11 .progress-step-total .progress-bar {
   background-color: #d4e9e7;
 }
 
-.emotion-15 .progress-step-number {
+.emotion-11 .progress-step-number {
   -webkit-align-self: flex-start;
   -ms-flex-item-align: flex-start;
   align-self: flex-start;
   margin-top: -4px;
 }
 
-.emotion-15.minimal {
+.emotion-11.minimal {
   padding: initial;
 }
 
-.emotion-15.no-background {
+.emotion-11.no-background {
   background: none;
 }
 
-.emotion-15.stepped-progress .progress-step-total {
+.emotion-11.stepped-progress .progress-step-total {
   margin-left: -0.25%;
   width: 100.5%;
 }
 
-.emotion-15.stepped-progress .progress-step-total .progress-bar {
+.emotion-11.stepped-progress .progress-step-total .progress-bar {
   background-color: #fff;
   border: 1px solid #a9a9a9;
   border-radius: 2px;
   height: 12px;
 }
 
-.emotion-15.stepped-progress .detailed .progress-step {
+.emotion-11.stepped-progress .detailed .progress-step {
   min-height: 20px;
 }
 
-.emotion-16 {
+.emotion-12 {
   display: grid;
   grid-template-columns: 2fr 1fr;
   grid-column-gap: 16px;
 }
 
-.emotion-16 .progress-chart.detailed {
+.emotion-12 .progress-chart.detailed {
   min-height: 20px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -308,7 +340,10 @@ exports[`Deployments Component renders correctly 1`] = `
   align-items: center;
 }
 
-.emotion-17 {
+.emotion-13 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -325,8 +360,8 @@ exports[`Deployments Component renders correctly 1`] = `
   outline: 0;
   border: 0;
   margin: 0;
-  border-radius: 2px;
-  padding: 6px 16px;
+  border-radius: 0;
+  padding: 0;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -337,76 +372,110 @@ exports[`Deployments Component renders correctly 1`] = `
   -webkit-appearance: none;
   -webkit-text-decoration: none;
   text-decoration: none;
-  color: rgba(10, 10, 11, 0.78);
+  color: inherit;
   font-family: Lato,sans-serif;
-  font-weight: bold;
-  font-size: 14px;
+  font-weight: 500;
+  font-size: 0.8125rem;
   line-height: 1.75;
-  text-transform: none;
+  text-transform: uppercase;
   min-width: 64px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 4px;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  color: var(--variant-containedColor);
+  background-color: var(--variant-containedBg);
   box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
+  --variant-textColor: #337a87;
+  --variant-outlinedColor: #337a87;
+  --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
+  --variant-containedColor: #fff;
+  --variant-containedBg: #337a87;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: transparent;
+  color: rgba(10, 10, 11, 0.78);
   justify-self: center;
+  text-transform: none;
 }
 
-.emotion-17::-moz-focus-inner {
+.emotion-13::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-17.Mui-disabled {
+.emotion-13.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-17 {
+  .emotion-13 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-17:hover {
+.emotion-13:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
-  background-color: rgb(35, 85, 94);
+}
+
+.emotion-13.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-13:hover {
   box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 
 @media (hover: none) {
-  .emotion-17:hover {
-    background-color: #337a87;
+  .emotion-13:hover {
+    box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
   }
 }
 
-.emotion-17:active {
+.emotion-13:active {
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-17.Mui-focusVisible {
+.emotion-13.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-17.Mui-disabled {
+.emotion-13.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-17:hover {
+@media (hover: hover) {
+  .emotion-13:hover {
+    --variant-containedBg: rgb(35, 85, 94);
+    --variant-textBg: rgba(51, 122, 135, 0.04);
+    --variant-outlinedBorder: #337a87;
+    --variant-outlinedBg: rgba(51, 122, 135, 0.04);
+  }
+}
+
+.emotion-13:hover {
   colors: #337a87;
 }
 
-.emotion-17.MuiButton-text {
+.emotion-13.MuiButton-text {
   color: rgba(10, 10, 11, 0.78);
 }
 
-.emotion-17:hover {
+.emotion-13:hover {
   background-color: transparent;
   color: rgba(10, 10, 11, 0.78);
 }
 
-.emotion-19 {
+.emotion-14 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -423,8 +492,8 @@ exports[`Deployments Component renders correctly 1`] = `
   outline: 0;
   border: 0;
   margin: 0;
-  border-radius: 50%;
-  padding: 12px;
+  border-radius: 0;
+  padding: 0;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -435,49 +504,55 @@ exports[`Deployments Component renders correctly 1`] = `
   -webkit-appearance: none;
   -webkit-text-decoration: none;
   text-decoration: none;
-  color: rgba(0, 0, 0, 0.54);
+  color: inherit;
   text-align: center;
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
-  font-size: 1.2rem;
-  overflow: visible;
+  font-size: 1.3929rem;
+  padding: 8px;
+  border-radius: 50%;
+  color: rgba(0, 0, 0, 0.54);
   -webkit-transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  padding: 12px;
+  font-size: 1.625rem;
+  font-size: 1.2rem;
+  color: rgba(0, 0, 0, 0.54);
 }
 
-.emotion-19::-moz-focus-inner {
+.emotion-14::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-19.Mui-disabled {
+.emotion-14.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-19 {
+  .emotion-14 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-19:hover {
+.emotion-14:hover {
   background-color: rgba(0, 0, 0, 0.04);
 }
 
 @media (hover: none) {
-  .emotion-19:hover {
+  .emotion-14:hover {
     background-color: transparent;
   }
 }
 
-.emotion-19.Mui-disabled {
+.emotion-14.Mui-disabled {
   background-color: transparent;
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-20 {
+.emotion-15 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -485,20 +560,20 @@ exports[`Deployments Component renders correctly 1`] = `
   width: 1em;
   height: 1em;
   display: inline-block;
-  fill: currentColor;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
   font-size: 1.3929rem;
 }
 
-.emotion-20 iconButton {
+.emotion-15 iconButton {
   margin-right: 8px;
 }
 
-.emotion-24 {
+.emotion-18 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -506,31 +581,31 @@ exports[`Deployments Component renders correctly 1`] = `
   width: 1em;
   height: 1em;
   display: inline-block;
-  fill: currentColor;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
   font-size: inherit;
 }
 
-.emotion-24 iconButton {
+.emotion-18 iconButton {
   margin-right: 8px;
 }
 
-.emotion-30 {
+.emotion-22 {
   border-color: rgba(0, 0, 0, 0.06);
   background-color: #fdfdfd;
   color: rgba(10, 10, 11, 0.78);
 }
 
-.emotion-30 .dashboard-header span {
+.emotion-22 .dashboard-header span {
   background-color: #fdfdfd;
   color: rgba(10, 10, 11, 0.78);
 }
 
-.emotion-30 .MuiButtonBase-root {
+.emotion-22 .MuiButtonBase-root {
   color: rgba(10, 10, 11, 0.78);
 }
 
@@ -560,9 +635,6 @@ exports[`Deployments Component renders correctly 1`] = `
               tabindex="0"
             >
               Active
-              <span
-                class="MuiTouchRipple-root emotion-4"
-              />
             </a>
             <a
               aria-selected="false"
@@ -572,9 +644,6 @@ exports[`Deployments Component renders correctly 1`] = `
               tabindex="-1"
             >
               Scheduled
-              <span
-                class="MuiTouchRipple-root emotion-4"
-              />
             </a>
             <a
               aria-selected="false"
@@ -584,27 +653,21 @@ exports[`Deployments Component renders correctly 1`] = `
               tabindex="-1"
             >
               Finished
-              <span
-                class="MuiTouchRipple-root emotion-4"
-              />
             </a>
           </div>
           <span
-            class="MuiTabs-indicator emotion-9"
+            class="MuiTabs-indicator emotion-6"
             style="left: 0px; width: 0px;"
           />
         </div>
       </div>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-10"
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-7"
         style="height: 100%;"
         tabindex="0"
         type="button"
       >
         Create a deployment
-        <span
-          class="MuiTouchRipple-root emotion-4"
-        />
       </button>
     </div>
     <div
@@ -614,7 +677,7 @@ exports[`Deployments Component renders correctly 1`] = `
         class="margin-left"
       >
         <h4
-          class="dashboard-header emotion-12 margin-top-large  margin-right"
+          class="dashboard-header emotion-8 margin-top-large  margin-right"
         >
           <span>
             In progress now
@@ -670,7 +733,7 @@ exports[`Deployments Component renders correctly 1`] = `
                   Release
                 </span>
                 <div
-                  class="text-overflow emotion-13"
+                  class="text-overflow emotion-9"
                   title="r1"
                 >
                   r1
@@ -683,7 +746,7 @@ exports[`Deployments Component renders correctly 1`] = `
                   Target device(s)
                 </span>
                 <div
-                  class="text-overflow emotion-13"
+                  class="text-overflow emotion-9"
                   title="test deployment"
                 >
                   test deployment
@@ -746,10 +809,10 @@ exports[`Deployments Component renders correctly 1`] = `
                   Status
                 </span>
                 <div
-                  class="relative emotion-15  "
+                  class="relative emotion-11  "
                 >
                   <div
-                    class="emotion-16"
+                    class="emotion-12"
                   >
                     <div
                       class="progress-chart relative detailed"
@@ -803,25 +866,22 @@ exports[`Deployments Component renders correctly 1`] = `
                 </div>
               </div>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-17"
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-13"
                 tabindex="0"
                 type="button"
               >
                 View details
-                <span
-                  class="MuiTouchRipple-root emotion-4"
-                />
               </button>
               <button
                 aria-label="Abort"
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge columnHeader emotion-19"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge columnHeader emotion-14"
                 data-mui-internal-clone-element="true"
                 tabindex="0"
                 type="button"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium cancelButton muted emotion-20"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium cancelButton muted emotion-15"
                   data-testid="CancelOutlinedIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -830,9 +890,6 @@ exports[`Deployments Component renders correctly 1`] = `
                     d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"
                   />
                 </svg>
-                <span
-                  class="MuiTouchRipple-root emotion-4"
-                />
               </button>
             </div>
             <div
@@ -845,7 +902,7 @@ exports[`Deployments Component renders correctly 1`] = `
                   Release
                 </span>
                 <div
-                  class="text-overflow emotion-13"
+                  class="text-overflow emotion-9"
                   title="r1"
                 >
                   r1
@@ -858,7 +915,7 @@ exports[`Deployments Component renders correctly 1`] = `
                   Target device(s)
                 </span>
                 <div
-                  class="text-overflow emotion-13"
+                  class="text-overflow emotion-9"
                   title="test deployment 2"
                 >
                   test deployment 2
@@ -925,7 +982,7 @@ exports[`Deployments Component renders correctly 1`] = `
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-24"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-18"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -941,25 +998,22 @@ exports[`Deployments Component renders correctly 1`] = `
                 </div>
               </div>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-17"
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-13"
                 tabindex="0"
                 type="button"
               >
                 View details
-                <span
-                  class="MuiTouchRipple-root emotion-4"
-                />
               </button>
               <button
                 aria-label="Abort"
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge columnHeader emotion-19"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge columnHeader emotion-14"
                 data-mui-internal-clone-element="true"
                 tabindex="0"
                 type="button"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium cancelButton muted emotion-20"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium cancelButton muted emotion-15"
                   data-testid="CancelOutlinedIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -968,9 +1022,6 @@ exports[`Deployments Component renders correctly 1`] = `
                     d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"
                   />
                 </svg>
-                <span
-                  class="MuiTouchRipple-root emotion-4"
-                />
               </button>
             </div>
           </div>
@@ -1001,10 +1052,10 @@ exports[`Deployments Component renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="deployments-pending margin-top margin-bottom-large emotion-30"
+        class="deployments-pending margin-top margin-bottom-large emotion-22"
       >
         <h4
-          class="dashboard-header emotion-12 margin-small margin-top"
+          class="dashboard-header emotion-8 margin-small margin-top"
         >
           <span>
             Pending
@@ -1136,10 +1187,10 @@ exports[`Deployments Component renders correctly 1`] = `
                   Status
                 </span>
                 <div
-                  class="relative emotion-15  "
+                  class="relative emotion-11  "
                 >
                   <div
-                    class="emotion-16"
+                    class="emotion-12"
                   >
                     <div
                       class="progress-chart relative detailed"
@@ -1193,25 +1244,22 @@ exports[`Deployments Component renders correctly 1`] = `
                 </div>
               </div>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-17"
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-13"
                 tabindex="0"
                 type="button"
               >
                 View details
-                <span
-                  class="MuiTouchRipple-root emotion-4"
-                />
               </button>
               <button
                 aria-label="Abort"
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge columnHeader emotion-19"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge columnHeader emotion-14"
                 data-mui-internal-clone-element="true"
                 tabindex="0"
                 type="button"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium cancelButton muted emotion-20"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium cancelButton muted emotion-15"
                   data-testid="CancelOutlinedIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -1220,9 +1268,6 @@ exports[`Deployments Component renders correctly 1`] = `
                     d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"
                   />
                 </svg>
-                <span
-                  class="MuiTouchRipple-root emotion-4"
-                />
               </button>
             </div>
             <div
@@ -1315,7 +1360,7 @@ exports[`Deployments Component renders correctly 1`] = `
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-24"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-18"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -1331,25 +1376,22 @@ exports[`Deployments Component renders correctly 1`] = `
                 </div>
               </div>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-17"
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-13"
                 tabindex="0"
                 type="button"
               >
                 View details
-                <span
-                  class="MuiTouchRipple-root emotion-4"
-                />
               </button>
               <button
                 aria-label="Abort"
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge columnHeader emotion-19"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge columnHeader emotion-14"
                 data-mui-internal-clone-element="true"
                 tabindex="0"
                 type="button"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium cancelButton muted emotion-20"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium cancelButton muted emotion-15"
                   data-testid="CancelOutlinedIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -1358,9 +1400,6 @@ exports[`Deployments Component renders correctly 1`] = `
                     d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"
                   />
                 </svg>
-                <span
-                  class="MuiTouchRipple-root emotion-4"
-                />
               </button>
             </div>
           </div>

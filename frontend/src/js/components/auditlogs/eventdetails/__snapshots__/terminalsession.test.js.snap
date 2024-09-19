@@ -9,12 +9,13 @@ exports[`TerminalSession Component renders correctly 1`] = `
   width: 1em;
   height: 1em;
   display: inline-block;
-  fill: currentColor;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.3929rem;
   font-size: 7rem;
   color: rgba(0, 0, 0, 0.38);
 }
@@ -24,6 +25,9 @@ exports[`TerminalSession Component renders correctly 1`] = `
 }
 
 .emotion-1 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -40,8 +44,8 @@ exports[`TerminalSession Component renders correctly 1`] = `
   outline: 0;
   border: 0;
   margin: 0;
-  border-radius: 2px;
-  padding: 10px 15px;
+  border-radius: 0;
+  padding: 0;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -52,15 +56,30 @@ exports[`TerminalSession Component renders correctly 1`] = `
   -webkit-appearance: none;
   -webkit-text-decoration: none;
   text-decoration: none;
-  color: #337a87;
+  color: inherit;
   font-family: Lato,sans-serif;
-  font-weight: bold;
-  font-size: 14px;
+  font-weight: 500;
+  font-size: 0.8125rem;
   line-height: 1.75;
   text-transform: uppercase;
   min-width: 64px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 4px;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  padding: 6px 8px;
+  color: var(--variant-textColor);
+  background-color: var(--variant-textBg);
+  --variant-textColor: #337a87;
+  --variant-outlinedColor: #337a87;
+  --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
+  --variant-containedColor: #fff;
+  --variant-containedBg: #337a87;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 15px;
 }
 
 .emotion-1::-moz-focus-inner {
@@ -82,17 +101,19 @@ exports[`TerminalSession Component renders correctly 1`] = `
 .emotion-1:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
-  background-color: rgba(51, 122, 135, 0.04);
-}
-
-@media (hover: none) {
-  .emotion-1:hover {
-    background-color: transparent;
-  }
 }
 
 .emotion-1.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
+}
+
+@media (hover: hover) {
+  .emotion-1:hover {
+    --variant-containedBg: rgb(35, 85, 94);
+    --variant-textBg: rgba(51, 122, 135, 0.04);
+    --variant-outlinedBorder: #337a87;
+    --variant-outlinedBg: rgba(51, 122, 135, 0.04);
+  }
 }
 
 .emotion-1:hover {
@@ -121,12 +142,12 @@ exports[`TerminalSession Component renders correctly 1`] = `
   width: 1em;
   height: 1em;
   display: inline-block;
-  fill: currentColor;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
   font-size: 1.3929rem;
 }
 
@@ -134,40 +155,28 @@ exports[`TerminalSession Component renders correctly 1`] = `
   margin-right: 8px;
 }
 
-.emotion-4 {
-  overflow: hidden;
-  pointer-events: none;
-  position: absolute;
-  z-index: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  border-radius: inherit;
-}
-
-.emotion-12 .key>b {
+.emotion-10 .key>b {
   background-color: #f7f7f7;
   color: rgba(0, 0, 0, 0.87);
 }
 
-.emotion-13 {
+.emotion-11 {
   grid-template-columns: minmax(max-content, 150px) max-content;
   row-gap: 20px;
 }
 
-.emotion-14 {
+.emotion-12 {
   color: rgba(0, 0, 0, 0.54);
   font-weight: initial;
 }
 
-.emotion-15 {
+.emotion-13 {
   grid-template-columns: 1fr max-content;
   -webkit-column-gap: 8px;
   column-gap: 8px;
 }
 
-.emotion-16 {
+.emotion-14 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -175,16 +184,16 @@ exports[`TerminalSession Component renders correctly 1`] = `
   width: 1em;
   height: 1em;
   display: inline-block;
-  fill: currentColor;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
   font-size: 1.1607rem;
 }
 
-.emotion-16 iconButton {
+.emotion-14 iconButton {
   margin-right: 8px;
 }
 
@@ -399,9 +408,6 @@ exports[`TerminalSession Component renders correctly 1`] = `
           </svg>
         </span>
         Play
-        <span
-          class="MuiTouchRipple-root emotion-4"
-        />
       </button>
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-1"
@@ -424,9 +430,6 @@ exports[`TerminalSession Component renders correctly 1`] = `
           </svg>
         </span>
         Replay
-        <span
-          class="MuiTouchRipple-root emotion-4"
-        />
       </button>
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-1"
@@ -467,7 +470,7 @@ exports[`TerminalSession Component renders correctly 1`] = `
          details
       </b>
       <div
-        class="break-all two-columns emotion-12  emotion-13"
+        class="break-all two-columns emotion-10  emotion-11"
       >
         <div
           class="align-right key muted"
@@ -480,11 +483,11 @@ exports[`TerminalSession Component renders correctly 1`] = `
           class="flexbox "
         >
           <a
-            class="flexbox center-aligned emotion-14"
+            class="flexbox center-aligned emotion-12"
             href="/devices?id=a1"
           >
             <div
-              class="emotion-15"
+              class="emotion-13"
               style="display: grid;"
             >
               <div>
@@ -493,7 +496,7 @@ exports[`TerminalSession Component renders correctly 1`] = `
             </div>
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small link-color emotion-16"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small link-color emotion-14"
               data-testid="LaunchIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -564,7 +567,7 @@ exports[`TerminalSession Component renders correctly 1`] = `
          details
       </b>
       <div
-        class="break-all two-columns emotion-12  emotion-13"
+        class="break-all two-columns emotion-10  emotion-11"
       >
         <div
           class="align-right key muted"

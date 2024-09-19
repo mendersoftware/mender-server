@@ -20,7 +20,7 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
         data-mui-internal-clone-element="true"
       >
         <div
-          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault margin-left-small css-hsgqnq-MuiChip-root-root-root"
+          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault margin-left-small css-1rgavin-MuiChip-root-root-root"
         >
           <span
             class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
@@ -34,7 +34,7 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
       class="flexbox centered"
     >
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault css-1i7ayqp-MuiChip-root-addOnPill"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault css-1j88ah0-MuiChip-root-addOnPill"
       >
         <span
           class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
@@ -51,7 +51,7 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium red css-1lqc678-MuiSvgIcon-root"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium red css-vhgui7-MuiSvgIcon-root"
         data-testid="ErrorIcon"
         focusable="false"
         viewBox="0 0 24 24"
@@ -92,7 +92,7 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium red css-1lqc678-MuiSvgIcon-root"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium red css-vhgui7-MuiSvgIcon-root"
         data-testid="ErrorIcon"
         focusable="false"
         viewBox="0 0 24 24"
@@ -129,7 +129,7 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
       class="MuiTablePagination-root flexbox margin-top margin-top-none css-1s8wd9s-MuiTablePagination-root"
     >
       <div
-        class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar"
+        class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-16og44m-MuiToolbar-root-MuiTablePagination-toolbar"
       >
         <div
           class="MuiTablePagination-spacer flexbox no-basis css-1psng7p-MuiTablePagination-spacer"
@@ -148,7 +148,7 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
             aria-expanded="false"
             aria-haspopup="listbox"
             aria-labelledby=":r2: :r1:"
-            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
+            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-141c2s2-MuiSelect-select-MuiInputBase-input"
             id=":r1:"
             role="combobox"
             tabindex="0"
@@ -165,7 +165,7 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
           />
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-dwvfc1-MuiSvgIcon-root-MuiSelect-icon"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-nbib8d-MuiSvgIcon-root-MuiSelect-icon"
             data-testid="ArrowDropDownIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -185,13 +185,13 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
             21-40 of 9001
           </div>
           <button
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-13hun5h-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-1uaeu2g-MuiButtonBase-root-MuiIconButton-root"
             tabindex="0"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1lqc678-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vhgui7-MuiSvgIcon-root"
               data-testid="KeyboardArrowLeftIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -200,19 +200,16 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
                 d="M15.41 16.59 10.83 12l4.58-4.59L14 6l-6 6 6 6z"
               />
             </svg>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
           </button>
           <div>
             <button
-              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-13hun5h-MuiButtonBase-root-MuiIconButton-root"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-1uaeu2g-MuiButtonBase-root-MuiIconButton-root"
               tabindex="0"
               type="button"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1lqc678-MuiSvgIcon-root"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vhgui7-MuiSvgIcon-root"
                 data-testid="KeyboardArrowRightIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -221,9 +218,6 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
                   d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"
                 />
               </svg>
-              <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
             </button>
           </div>
         </div>
@@ -242,12 +236,12 @@ exports[`tiny components renders DeviceMonitorsMissingNote correctly 1`] = `
   width: 1em;
   height: 1em;
   display: inline-block;
-  fill: currentColor;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
   font-size: 1.1607rem;
   margin-right: 8px;
 }

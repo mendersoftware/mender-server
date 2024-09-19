@@ -9,6 +9,9 @@ exports[`Devices Component renders correctly 1`] = `
   max-width: 100%;
   font-family: Lato,sans-serif;
   font-size: 0.7545rem;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -19,8 +22,8 @@ exports[`Devices Component renders correctly 1`] = `
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
-  color: rgba(0, 0, 0, 0.38);
-  background-color: #f7fafb;
+  color: rgba(10, 10, 11, 0.78);
+  background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
   white-space: nowrap;
   -webkit-transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -33,6 +36,11 @@ exports[`Devices Component renders correctly 1`] = `
   padding: 0;
   vertical-align: middle;
   box-sizing: border-box;
+  background-color: #f7fafb;
+  color: rgba(0, 0, 0, 0.38);
+  text-transform: uppercase;
+  background-color: #f7fafb;
+  color: rgba(0, 0, 0, 0.38);
   text-transform: uppercase;
 }
 
@@ -71,7 +79,6 @@ exports[`Devices Component renders correctly 1`] = `
 .emotion-1 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
-  color: #bcbcbc;
 }
 
 .emotion-1 .MuiChip-deleteIcon {
@@ -84,6 +91,10 @@ exports[`Devices Component renders correctly 1`] = `
 
 .emotion-1 .MuiChip-deleteIcon:hover {
   color: rgba(10, 10, 11, 0.4);
+}
+
+.emotion-1 .MuiChip-icon {
+  color: #bcbcbc;
 }
 
 .emotion-1:hover {
@@ -110,12 +121,12 @@ exports[`Devices Component renders correctly 1`] = `
   width: 1em;
   height: 1em;
   display: inline-block;
-  fill: currentColor;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
   font-size: 1.3929rem;
   color: #337a87;
 }
@@ -155,12 +166,12 @@ exports[`Devices Component renders correctly 1`] = `
   width: 1em;
   height: 1em;
   display: inline-block;
-  fill: currentColor;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
   font-size: 1.3929rem;
 }
 
@@ -259,12 +270,12 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
   width: 1em;
   height: 1em;
   display: inline-block;
-  fill: currentColor;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
   font-size: 1.3929rem;
 }
 
@@ -273,6 +284,9 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
 }
 
 .emotion-2 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -289,8 +303,8 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
   outline: 0;
   border: 0;
   margin: 0;
-  border-radius: 50%;
-  padding: 5px;
+  border-radius: 0;
+  padding: 0;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -301,15 +315,21 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
   -webkit-appearance: none;
   -webkit-text-decoration: none;
   text-decoration: none;
-  color: rgba(0, 0, 0, 0.54);
+  color: inherit;
   text-align: center;
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
-  font-size: 1.2rem;
-  overflow: visible;
+  font-size: 1.3929rem;
+  padding: 8px;
+  border-radius: 50%;
+  color: rgba(0, 0, 0, 0.54);
   -webkit-transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  padding: 5px;
+  font-size: 1.0446rem;
+  font-size: 1.2rem;
+  color: rgba(0, 0, 0, 0.54);
 }
 
 .emotion-2::-moz-focus-inner {
@@ -351,12 +371,12 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
   width: 1em;
   height: 1em;
   display: inline-block;
-  fill: currentColor;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
   font-size: 1.1607rem;
 }
 
@@ -364,19 +384,7 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
   margin-right: 8px;
 }
 
-.emotion-4 {
-  overflow: hidden;
-  pointer-events: none;
-  position: absolute;
-  z-index: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  border-radius: inherit;
-}
-
-.emotion-8 {
+.emotion-6 {
   display: grid;
   grid-template-columns: 200px 1fr;
   -webkit-column-gap: 16px;
@@ -384,43 +392,43 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
   margin-bottom: 16px;
 }
 
-.emotion-8>.flexbox.column>* {
+.emotion-6>.flexbox.column>* {
   height: 20px;
 }
 
-.emotion-8 .barchart .MuiLinearProgress-root {
+.emotion-6 .barchart .MuiLinearProgress-root {
   background-color: #f7f7f7;
 }
 
-.emotion-8 .barchart .color-f7f7f7 .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-f7f7f7 .MuiLinearProgress-barColorPrimary {
   background-color: #f7f7f7;
 }
 
-.emotion-8 .barchart .color-337a87 .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-337a87 .MuiLinearProgress-barColorPrimary {
   background-color: #337a87;
 }
 
-.emotion-8 .barchart .color-a31773 .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-a31773 .MuiLinearProgress-barColorPrimary {
   background-color: #a31773;
 }
 
-.emotion-8 .barchart .color-00859e .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-00859e .MuiLinearProgress-barColorPrimary {
   background-color: #00859e;
 }
 
-.emotion-8 .barchart .color-14cfda .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-14cfda .MuiLinearProgress-barColorPrimary {
   background-color: #14cfda;
 }
 
-.emotion-8 .barchart .color-9bfff0 .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-9bfff0 .MuiLinearProgress-barColorPrimary {
   background-color: #9bfff0;
 }
 
-.emotion-8 .barchart .color-d5d5d5 .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-d5d5d5 .MuiLinearProgress-barColorPrimary {
   background-color: #d5d5d5;
 }
 
-.emotion-9 {
+.emotion-7 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -431,13 +439,13 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
   column-gap: 16px;
 }
 
-.emotion-9.indicating {
+.emotion-7.indicating {
   grid-template-columns: min-content 1fr max-content;
   -webkit-column-gap: 8px;
   column-gap: 8px;
 }
 
-.emotion-10 {
+.emotion-8 {
   position: relative;
   overflow: hidden;
   display: block;
@@ -447,29 +455,31 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
 }
 
 @media print {
-  .emotion-10 {
+  .emotion-8 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-11 {
+.emotion-9 {
   width: 100%;
   position: absolute;
   left: 0;
   bottom: 0;
   top: 0;
-  -webkit-transition: -webkit-transform .4s linear;
-  transition: transform .4s linear;
+  -webkit-transition: -webkit-transform 0.2s linear;
+  transition: transform 0.2s linear;
   transform-origin: left;
   background-color: #337a87;
+  -webkit-transition: -webkit-transform .4s linear;
+  transition: transform .4s linear;
 }
 
-.emotion-12 {
+.emotion-10 {
   gap: 16px;
 }
 
-.emotion-13 {
+.emotion-11 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -477,25 +487,25 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
   width: 1em;
   height: 1em;
   display: inline-block;
-  fill: currentColor;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
   font-size: 1.3929rem;
   color: #337a87;
 }
 
-.emotion-13 iconButton {
+.emotion-11 iconButton {
   margin-right: 8px;
 }
 
-.emotion-13.read {
+.emotion-11.read {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-14 {
+.emotion-12 {
   position: absolute;
   top: -5px;
   bottom: 0;
@@ -505,11 +515,11 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
   border-radius: 50%;
 }
 
-.emotion-14.read {
+.emotion-12.read {
   border-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-15 {
+.emotion-13 {
   font-size: 1rem;
   cursor: pointer;
 }
@@ -563,9 +573,6 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
                   d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6"
                 />
               </svg>
-              <span
-                class="MuiTouchRipple-root emotion-4"
-              />
             </button>
             <button
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-2"
@@ -583,9 +590,6 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
                   d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
                 />
               </svg>
-              <span
-                class="MuiTouchRipple-root emotion-4"
-              />
             </button>
           </div>
         </div>
@@ -601,13 +605,13 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
         </div>
       </div>
       <div
-        class="emotion-8"
+        class="emotion-6"
       >
         <div
           class="flexbox column"
         >
           <div
-            class="clickable emotion-9 "
+            class="clickable emotion-7 "
             title="raspotifyInstaller"
           >
             <div
@@ -632,12 +636,12 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
               aria-valuemax="100"
               aria-valuemin="0"
               aria-valuenow="0"
-              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate color-337a87 emotion-10"
+              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate color-337a87 emotion-8"
               role="progressbar"
               style="height: 8px;"
             >
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-11"
+                class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-9"
                 style="transform: translateX(-100%);"
               />
             </span>
@@ -649,7 +653,7 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
       class="widget"
     >
       <div
-        class="flexbox center-aligned  emotion-12"
+        class="flexbox center-aligned  emotion-10"
         style="align-items: end;"
       >
         <div
@@ -661,7 +665,7 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium  emotion-13"
+              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium  emotion-11"
               data-testid="HelpIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -671,13 +675,13 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
               />
             </svg>
             <div
-              class="emotion-14 "
+              class="emotion-12 "
             />
           </div>
         </div>
       </div>
       <div
-        class="flexbox centered muted emotion-15"
+        class="flexbox centered muted emotion-13"
       >
         <svg
           aria-hidden="true"
@@ -691,7 +695,7 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
           />
         </svg>
         <span
-          class="emotion-15"
+          class="emotion-13"
         >
           add a widget
         </span>

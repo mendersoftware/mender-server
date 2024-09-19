@@ -2,17 +2,21 @@
 
 exports[`QuoteRequestForm component renders correctly 1`] = `
 .emotion-0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
   position: relative;
-  min-width: 240px;
+  min-width: 0;
   padding: 0;
   margin: 0;
   border: 0;
   vertical-align: top;
   margin-top: 18px;
+  min-width: 240px;
 }
 
 .emotion-1 {
@@ -37,18 +41,22 @@ exports[`QuoteRequestForm component renders correctly 1`] = `
 }
 
 .emotion-2 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
   position: relative;
-  min-width: 240px;
+  min-width: 0;
   padding: 0;
   margin: 0;
   border: 0;
   vertical-align: top;
   width: 100%;
   margin-top: 18px;
+  min-width: 240px;
 }
 
 .emotion-3 {
@@ -60,6 +68,9 @@ exports[`QuoteRequestForm component renders correctly 1`] = `
   box-sizing: border-box;
   position: relative;
   cursor: text;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -67,6 +78,7 @@ exports[`QuoteRequestForm component renders correctly 1`] = `
   align-items: center;
   padding: 4px 0 5px;
   width: 100%;
+  position: relative;
 }
 
 .emotion-3.Mui-disabled {
@@ -79,7 +91,6 @@ label+.emotion-3 {
 }
 
 .emotion-3::after {
-  border-bottom: 2px solid #337a87;
   left: 0;
   bottom: 0;
   content: "";
@@ -132,6 +143,10 @@ label+.emotion-3 {
   border-bottom-style: dotted;
 }
 
+.emotion-3::after {
+  border-bottom: 2px solid #337a87;
+}
+
 .emotion-3:before {
   border-bottom: 1px solid rgb(224, 224, 224);
 }
@@ -148,11 +163,11 @@ label+.emotion-3 {
   font: inherit;
   letter-spacing: inherit;
   color: currentColor;
-  padding: 0;
+  padding: 4px 0 5px;
   border: 0;
   box-sizing: content-box;
   background: none;
-  height: auto;
+  height: 1.4375em;
   margin: 0;
   -webkit-tap-highlight-color: transparent;
   display: block;
@@ -162,7 +177,9 @@ label+.emotion-3 {
   animation-name: mui-auto-fill-cancel;
   -webkit-animation-duration: 10ms;
   animation-duration: 10ms;
+  height: auto;
   resize: none;
+  padding: 0;
   padding-top: 0;
 }
 
@@ -174,13 +191,6 @@ label+.emotion-3 {
 }
 
 .emotion-4::-moz-placeholder {
-  color: currentColor;
-  opacity: 0.42;
-  -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-}
-
-.emotion-4:-ms-input-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -214,10 +224,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4::-moz-placeholder 
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:-ms-input-placeholder {
-  opacity: 0!important;
-}
-
 label[data-shrink=false]+.MuiInputBase-formControl .emotion-4::-ms-input-placeholder {
   opacity: 0!important;
 }
@@ -227,10 +233,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-webkit-inp
 }
 
 label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-moz-placeholder {
-  opacity: 0.42;
-}
-
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus:-ms-input-placeholder {
   opacity: 0.42;
 }
 
@@ -251,6 +253,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
 }
 
 .emotion-6 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -263,12 +268,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
   position: relative;
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
-  background-color: #5d0f43;
+  background-color: transparent;
   outline: 0;
   border: 0;
   margin: 0;
-  border-radius: 2px;
-  padding: 6px 16px;
+  border-radius: 0;
+  padding: 0;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -279,16 +284,29 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
   -webkit-appearance: none;
   -webkit-text-decoration: none;
   text-decoration: none;
-  color: #fff;
+  color: inherit;
   font-family: Lato,sans-serif;
-  font-weight: bold;
-  font-size: 14px;
+  font-weight: 500;
+  font-size: 0.8125rem;
   line-height: 1.75;
   text-transform: uppercase;
   min-width: 64px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 4px;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  color: var(--variant-containedColor);
+  background-color: var(--variant-containedBg);
   box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
+  --variant-textColor: #5d0f43;
+  --variant-outlinedColor: #5d0f43;
+  --variant-outlinedBorder: rgba(93, 15, 67, 0.5);
+  --variant-containedColor: #fff;
+  --variant-containedBg: #5d0f43;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: bold;
 }
 
 .emotion-6::-moz-focus-inner {
@@ -310,13 +328,19 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
 .emotion-6:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
-  background-color: rgb(65, 10, 46);
+}
+
+.emotion-6.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-6:hover {
   box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 
 @media (hover: none) {
   .emotion-6:hover {
-    background-color: #5d0f43;
+    box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
   }
 }
 
@@ -332,6 +356,15 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
+}
+
+@media (hover: hover) {
+  .emotion-6:hover {
+    --variant-containedBg: rgb(65, 10, 46);
+    --variant-textBg: rgba(93, 15, 67, 0.04);
+    --variant-outlinedBorder: #5d0f43;
+    --variant-outlinedBg: rgba(93, 15, 67, 0.04);
+  }
 }
 
 .emotion-6:hover {

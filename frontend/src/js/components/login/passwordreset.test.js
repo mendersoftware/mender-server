@@ -70,7 +70,7 @@ describe('PasswordReset Component', () => {
     expect(screen.getByText('The passwords you provided do not match, please check again.')).toBeVisible();
     await user.clear(passwordInput);
     await user.type(passwordInput, goodPassword);
-    await user.click(passwordConfirmationInput); // needed to work around form not getting re-rendered due to custom error handling for password confirmation
+    await waitFor(() => rerender(ui));
     await user.click(screen.getByRole('button', { name: /Save password/i }));
     await waitFor(() => expect(completeSpy).toHaveBeenCalledWith(secretHash, goodPassword));
     await waitFor(() => expect(screen.queryByText(/Your password has been updated./i)).toBeVisible());

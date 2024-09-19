@@ -28,15 +28,20 @@ exports[`AuthsetList Component renders correctly 1`] = `
 }
 
 .emotion-2 {
-  background-color: #d4e9e7;
+  background-color: #fff;
   color: rgba(10, 10, 11, 0.78);
+  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  box-shadow: var(--Paper-shadow);
+  background-image: var(--Paper-overlay);
+  position: relative;
   -webkit-transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  box-shadow: none;
-  position: relative;
   overflow-anchor: none;
   border: none;
+  box-shadow: none;
   padding: 0;
+  background-color: #d4e9e7;
 }
 
 .emotion-2::before {
@@ -108,7 +113,14 @@ exports[`AuthsetList Component renders correctly 1`] = `
 }
 
 .emotion-3 {
-  display: flex;
+  all: unset;
+}
+
+.emotion-4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -125,7 +137,7 @@ exports[`AuthsetList Component renders correctly 1`] = `
   border: 0;
   margin: 0;
   border-radius: 0;
-  padding: 0px 16px;
+  padding: 0;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -137,51 +149,59 @@ exports[`AuthsetList Component renders correctly 1`] = `
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
   min-height: 48px;
+  padding: 0px 16px;
   -webkit-transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   margin-bottom: 0;
   height: 48px;
 }
 
-.emotion-3::-moz-focus-inner {
+.emotion-4::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-3.Mui-disabled {
+.emotion-4.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-3 {
+  .emotion-4 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-3.Mui-focusVisible {
+.emotion-4.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-3.Mui-disabled {
+.emotion-4.Mui-disabled {
   opacity: 0.38;
 }
 
-.emotion-3:hover:not(.Mui-disabled) {
+.emotion-4:hover:not(.Mui-disabled) {
   cursor: pointer;
 }
 
-.emotion-3.Mui-expanded {
+.emotion-4.Mui-expanded {
   min-height: 64px;
 }
 
-.emotion-3.Mui-expanded {
+.emotion-4.Mui-expanded {
   height: 48px;
   min-height: 48px;
 }
 
-.emotion-4 {
+.emotion-5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -196,22 +216,25 @@ exports[`AuthsetList Component renders correctly 1`] = `
   align-items: center;
 }
 
-.emotion-4.Mui-expanded {
+.emotion-5.Mui-expanded {
   margin: 20px 0;
 }
 
-.emotion-4.Mui-expanded {
+.emotion-5.Mui-expanded {
   margin: 0;
 }
 
-.emotion-4>:last-child {
+.emotion-5>:last-child {
   padding-right: 12px;
 }
 
-.emotion-5 {
+.emotion-6 {
   max-width: 100%;
   font-family: Lato,sans-serif;
   font-size: 0.7545rem;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -221,9 +244,9 @@ exports[`AuthsetList Component renders correctly 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  height: 24px;
-  color: #fff;
-  background-color: #337a87;
+  height: 32px;
+  color: rgba(10, 10, 11, 0.78);
+  background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
   white-space: nowrap;
   -webkit-transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -236,14 +259,17 @@ exports[`AuthsetList Component renders correctly 1`] = `
   padding: 0;
   vertical-align: middle;
   box-sizing: border-box;
+  height: 24px;
+  background-color: #337a87;
+  color: #fff;
 }
 
-.emotion-5.Mui-disabled {
+.emotion-6.Mui-disabled {
   opacity: 0.38;
   pointer-events: none;
 }
 
-.emotion-5 .MuiChip-avatar {
+.emotion-6 .MuiChip-avatar {
   margin-left: 5px;
   margin-right: -6px;
   width: 24px;
@@ -252,17 +278,17 @@ exports[`AuthsetList Component renders correctly 1`] = `
   font-size: 0.6964rem;
 }
 
-.emotion-5 .MuiChip-avatarColorPrimary {
+.emotion-6 .MuiChip-avatarColorPrimary {
   color: #fff;
   background-color: rgb(35, 85, 94);
 }
 
-.emotion-5 .MuiChip-avatarColorSecondary {
+.emotion-6 .MuiChip-avatarColorSecondary {
   color: #fff;
   background-color: rgb(65, 10, 46);
 }
 
-.emotion-5 .MuiChip-avatarSmall {
+.emotion-6 .MuiChip-avatarSmall {
   margin-left: 4px;
   margin-right: -4px;
   width: 18px;
@@ -270,41 +296,63 @@ exports[`AuthsetList Component renders correctly 1`] = `
   font-size: 0.5804rem;
 }
 
-.emotion-5 .MuiChip-icon {
-  margin-left: 4px;
-  margin-right: -4px;
-  font-size: 18px;
-  color: inherit;
+.emotion-6 .MuiChip-icon {
+  margin-left: 5px;
+  margin-right: -6px;
 }
 
-.emotion-5 .MuiChip-deleteIcon {
+.emotion-6 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 16px;
+  color: rgba(10, 10, 11, 0.26);
+  font-size: 22px;
   cursor: pointer;
   margin: 0 5px 0 -6px;
+}
+
+.emotion-6 .MuiChip-deleteIcon:hover {
+  color: rgba(10, 10, 11, 0.4);
+}
+
+.emotion-6 .MuiChip-icon {
+  font-size: 18px;
+  margin-left: 4px;
+  margin-right: -4px;
+}
+
+.emotion-6 .MuiChip-deleteIcon {
+  font-size: 16px;
   margin-right: 4px;
   margin-left: -4px;
 }
 
-.emotion-5 .MuiChip-deleteIcon:hover {
-  color: rgba(10, 10, 11, 0.4);
+.emotion-6 .MuiChip-deleteIcon {
+  color: rgba(255, 255, 255, 0.7);
 }
 
-.emotion-5 .MuiChip-deleteIcon:hover,
-.emotion-5 .MuiChip-deleteIcon:active {
+.emotion-6 .MuiChip-deleteIcon:hover,
+.emotion-6 .MuiChip-deleteIcon:active {
   color: #fff;
 }
 
-.emotion-6 {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-left: 8px;
-  padding-right: 8px;
-  white-space: nowrap;
+.emotion-6 .MuiChip-icon {
+  color: #bcbcbc;
+}
+
+.emotion-6 .MuiChip-icon {
+  color: inherit;
 }
 
 .emotion-7 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 12px;
+  padding-right: 12px;
+  white-space: nowrap;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.emotion-8 {
   height: 0;
   overflow: hidden;
   -webkit-transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -312,16 +360,19 @@ exports[`AuthsetList Component renders correctly 1`] = `
   visibility: hidden;
 }
 
-.emotion-8 {
+.emotion-9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   width: 100%;
 }
 
-.emotion-9 {
+.emotion-10 {
   width: 100%;
 }
 
-.emotion-10 {
+.emotion-11 {
   padding: 8px 16px 16px;
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
@@ -363,70 +414,75 @@ exports[`AuthsetList Component renders correctly 1`] = `
   >
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-2"
+      style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
-      <div
-        aria-expanded="false"
-        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-3"
-        role="button"
-        tabindex="0"
+      <h3
+        class="MuiAccordion-heading emotion-3"
       >
         <div
-          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-4"
+          aria-expanded="false"
+          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-4"
+          role="button"
+          tabindex="0"
         >
           <div
-            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-filledPrimary emotion-5"
-            style="justify-self: flex-start;"
+            class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-5"
           >
-            <span
-              class="MuiChip-label MuiChip-labelSmall emotion-6"
+            <div
+              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-filledPrimary emotion-6"
+              style="justify-self: flex-start;"
             >
-              new
-            </span>
-          </div>
-          <div
-            class="capitalized"
-          >
-            pending
-          </div>
-          <a>
-            show key
-          </a>
-          <time
-            datetime="2020-09-21T12:48:34+00:00"
-          >
-            2020-09-21 12:48
-          </time>
-          <div
-            class="action-buttons flexbox"
-          >
+              <span
+                class="MuiChip-label MuiChip-labelSmall emotion-7"
+              >
+                new
+              </span>
+            </div>
+            <div
+              class="capitalized"
+            >
+              pending
+            </div>
             <a>
-              Accept
+              show key
             </a>
-            <a>
-              Reject
-            </a>
-            <a>
-              Dismiss
-            </a>
+            <time
+              datetime="2020-09-21T12:48:34+00:00"
+            >
+              2020-09-21 12:48
+            </time>
+            <div
+              class="action-buttons flexbox"
+            >
+              <a>
+                Accept
+              </a>
+              <a>
+                Reject
+              </a>
+              <a>
+                Dismiss
+              </a>
+            </div>
           </div>
         </div>
-      </div>
+      </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-7"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-8"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-9"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-9"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
           >
             <div
               class="MuiAccordion-region"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-10"
+                class="MuiAccordionDetails-root emotion-11"
               >
                 <div
                   style="flex-grow: 1;"
@@ -444,70 +500,75 @@ exports[`AuthsetList Component renders correctly 1`] = `
     </div>
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-2"
+      style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
-      <div
-        aria-expanded="false"
-        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-3"
-        role="button"
-        tabindex="0"
+      <h3
+        class="MuiAccordion-heading emotion-3"
       >
         <div
-          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-4"
+          aria-expanded="false"
+          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-4"
+          role="button"
+          tabindex="0"
         >
           <div
-            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-filledPrimary emotion-5"
-            style="justify-self: flex-start;"
+            class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-5"
           >
-            <span
-              class="MuiChip-label MuiChip-labelSmall emotion-6"
+            <div
+              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-filledPrimary emotion-6"
+              style="justify-self: flex-start;"
             >
-              new
-            </span>
-          </div>
-          <div
-            class="capitalized"
-          >
-            pending
-          </div>
-          <a>
-            show key
-          </a>
-          <time
-            datetime="2020-09-21T12:43:34+00:00"
-          >
-            2020-09-21 12:43
-          </time>
-          <div
-            class="action-buttons flexbox"
-          >
+              <span
+                class="MuiChip-label MuiChip-labelSmall emotion-7"
+              >
+                new
+              </span>
+            </div>
+            <div
+              class="capitalized"
+            >
+              pending
+            </div>
             <a>
-              Accept
+              show key
             </a>
-            <a>
-              Reject
-            </a>
-            <a>
-              Dismiss
-            </a>
+            <time
+              datetime="2020-09-21T12:43:34+00:00"
+            >
+              2020-09-21 12:43
+            </time>
+            <div
+              class="action-buttons flexbox"
+            >
+              <a>
+                Accept
+              </a>
+              <a>
+                Reject
+              </a>
+              <a>
+                Dismiss
+              </a>
+            </div>
           </div>
         </div>
-      </div>
+      </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-7"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-8"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-9"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-9"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
           >
             <div
               class="MuiAccordion-region"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-10"
+                class="MuiAccordionDetails-root emotion-11"
               >
                 <div
                   style="flex-grow: 1;"
@@ -525,70 +586,75 @@ exports[`AuthsetList Component renders correctly 1`] = `
     </div>
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-2"
+      style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
-      <div
-        aria-expanded="false"
-        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-3"
-        role="button"
-        tabindex="0"
+      <h3
+        class="MuiAccordion-heading emotion-3"
       >
         <div
-          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-4"
+          aria-expanded="false"
+          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-4"
+          role="button"
+          tabindex="0"
         >
           <div
-            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-filledPrimary emotion-5"
-            style="justify-self: flex-start;"
+            class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-5"
           >
-            <span
-              class="MuiChip-label MuiChip-labelSmall emotion-6"
+            <div
+              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-filledPrimary emotion-6"
+              style="justify-self: flex-start;"
             >
-              new
-            </span>
-          </div>
-          <div
-            class="capitalized"
-          >
-            pending
-          </div>
-          <a>
-            show key
-          </a>
-          <time
-            datetime="2020-09-21T12:38:34+00:00"
-          >
-            2020-09-21 12:38
-          </time>
-          <div
-            class="action-buttons flexbox"
-          >
+              <span
+                class="MuiChip-label MuiChip-labelSmall emotion-7"
+              >
+                new
+              </span>
+            </div>
+            <div
+              class="capitalized"
+            >
+              pending
+            </div>
             <a>
-              Accept
+              show key
             </a>
-            <a>
-              Reject
-            </a>
-            <a>
-              Dismiss
-            </a>
+            <time
+              datetime="2020-09-21T12:38:34+00:00"
+            >
+              2020-09-21 12:38
+            </time>
+            <div
+              class="action-buttons flexbox"
+            >
+              <a>
+                Accept
+              </a>
+              <a>
+                Reject
+              </a>
+              <a>
+                Dismiss
+              </a>
+            </div>
           </div>
         </div>
-      </div>
+      </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-7"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-8"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-9"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-9"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
           >
             <div
               class="MuiAccordion-region"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-10"
+                class="MuiAccordionDetails-root emotion-11"
               >
                 <div
                   style="flex-grow: 1;"
@@ -606,65 +672,70 @@ exports[`AuthsetList Component renders correctly 1`] = `
     </div>
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-2"
+      style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
-      <div
-        aria-expanded="false"
-        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-3"
-        role="button"
-        tabindex="0"
+      <h3
+        class="MuiAccordion-heading emotion-3"
       >
         <div
-          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-4"
+          aria-expanded="false"
+          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-4"
+          role="button"
+          tabindex="0"
         >
           <div
-            class="capitalized"
+            class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-5"
           >
-            Active
-          </div>
-          <div
-            class="capitalized"
-          >
-            accepted
-          </div>
-          <a>
-            show key
-          </a>
-          <time
-            datetime="2020-09-21T12:47:34+00:00"
-          >
-            2020-09-21 12:47
-          </time>
-          <div
-            class="action-buttons flexbox"
-          >
-            <div>
-              Accept
+            <div
+              class="capitalized"
+            >
+              Active
+            </div>
+            <div
+              class="capitalized"
+            >
+              accepted
             </div>
             <a>
-              Reject
+              show key
             </a>
-            <a>
-              Dismiss
-            </a>
+            <time
+              datetime="2020-09-21T12:47:34+00:00"
+            >
+              2020-09-21 12:47
+            </time>
+            <div
+              class="action-buttons flexbox"
+            >
+              <div>
+                Accept
+              </div>
+              <a>
+                Reject
+              </a>
+              <a>
+                Dismiss
+              </a>
+            </div>
           </div>
         </div>
-      </div>
+      </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-7"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-8"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-9"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-9"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
           >
             <div
               class="MuiAccordion-region"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-10"
+                class="MuiAccordionDetails-root emotion-11"
               >
                 <div
                   style="flex-grow: 1;"
@@ -682,65 +753,70 @@ exports[`AuthsetList Component renders correctly 1`] = `
     </div>
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-2"
+      style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
-      <div
-        aria-expanded="false"
-        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-3"
-        role="button"
-        tabindex="0"
+      <h3
+        class="MuiAccordion-heading emotion-3"
       >
         <div
-          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-4"
+          aria-expanded="false"
+          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-4"
+          role="button"
+          tabindex="0"
         >
           <div
-            class="capitalized"
+            class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-5"
           >
-            Active
-          </div>
-          <div
-            class="capitalized"
-          >
-            accepted
-          </div>
-          <a>
-            show key
-          </a>
-          <time
-            datetime="2020-09-21T12:42:34+00:00"
-          >
-            2020-09-21 12:42
-          </time>
-          <div
-            class="action-buttons flexbox"
-          >
-            <div>
-              Accept
+            <div
+              class="capitalized"
+            >
+              Active
+            </div>
+            <div
+              class="capitalized"
+            >
+              accepted
             </div>
             <a>
-              Reject
+              show key
             </a>
-            <a>
-              Dismiss
-            </a>
+            <time
+              datetime="2020-09-21T12:42:34+00:00"
+            >
+              2020-09-21 12:42
+            </time>
+            <div
+              class="action-buttons flexbox"
+            >
+              <div>
+                Accept
+              </div>
+              <a>
+                Reject
+              </a>
+              <a>
+                Dismiss
+              </a>
+            </div>
           </div>
         </div>
-      </div>
+      </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-7"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-8"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-9"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-9"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
           >
             <div
               class="MuiAccordion-region"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-10"
+                class="MuiAccordionDetails-root emotion-11"
               >
                 <div
                   style="flex-grow: 1;"
@@ -758,65 +834,70 @@ exports[`AuthsetList Component renders correctly 1`] = `
     </div>
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-2"
+      style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
-      <div
-        aria-expanded="false"
-        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-3"
-        role="button"
-        tabindex="0"
+      <h3
+        class="MuiAccordion-heading emotion-3"
       >
         <div
-          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-4"
+          aria-expanded="false"
+          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-4"
+          role="button"
+          tabindex="0"
         >
           <div
-            class="capitalized"
+            class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-5"
           >
-            Active
-          </div>
-          <div
-            class="capitalized"
-          >
-            accepted
-          </div>
-          <a>
-            show key
-          </a>
-          <time
-            datetime="2020-09-21T12:37:34+00:00"
-          >
-            2020-09-21 12:37
-          </time>
-          <div
-            class="action-buttons flexbox"
-          >
-            <div>
-              Accept
+            <div
+              class="capitalized"
+            >
+              Active
+            </div>
+            <div
+              class="capitalized"
+            >
+              accepted
             </div>
             <a>
-              Reject
+              show key
             </a>
-            <a>
-              Dismiss
-            </a>
+            <time
+              datetime="2020-09-21T12:37:34+00:00"
+            >
+              2020-09-21 12:37
+            </time>
+            <div
+              class="action-buttons flexbox"
+            >
+              <div>
+                Accept
+              </div>
+              <a>
+                Reject
+              </a>
+              <a>
+                Dismiss
+              </a>
+            </div>
           </div>
         </div>
-      </div>
+      </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-7"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-8"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-9"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-9"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
           >
             <div
               class="MuiAccordion-region"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-10"
+                class="MuiAccordionDetails-root emotion-11"
               >
                 <div
                   style="flex-grow: 1;"
@@ -834,61 +915,66 @@ exports[`AuthsetList Component renders correctly 1`] = `
     </div>
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-2"
+      style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
-      <div
-        aria-expanded="false"
-        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-3"
-        role="button"
-        tabindex="0"
+      <h3
+        class="MuiAccordion-heading emotion-3"
       >
         <div
-          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-4"
+          aria-expanded="false"
+          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-4"
+          role="button"
+          tabindex="0"
         >
-          <div />
           <div
-            class="capitalized"
+            class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-5"
           >
-            rejected
-          </div>
-          <a>
-            show key
-          </a>
-          <time
-            datetime="2020-09-21T12:50:34+00:00"
-          >
-            2020-09-21 12:50
-          </time>
-          <div
-            class="action-buttons flexbox"
-          >
-            <a>
-              Accept
-            </a>
-            <div>
-              Reject
+            <div />
+            <div
+              class="capitalized"
+            >
+              rejected
             </div>
             <a>
-              Dismiss
+              show key
             </a>
+            <time
+              datetime="2020-09-21T12:50:34+00:00"
+            >
+              2020-09-21 12:50
+            </time>
+            <div
+              class="action-buttons flexbox"
+            >
+              <a>
+                Accept
+              </a>
+              <div>
+                Reject
+              </div>
+              <a>
+                Dismiss
+              </a>
+            </div>
           </div>
         </div>
-      </div>
+      </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-7"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-8"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-9"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-9"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
           >
             <div
               class="MuiAccordion-region"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-10"
+                class="MuiAccordionDetails-root emotion-11"
               >
                 <div
                   style="flex-grow: 1;"
@@ -906,61 +992,66 @@ exports[`AuthsetList Component renders correctly 1`] = `
     </div>
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-2"
+      style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
-      <div
-        aria-expanded="false"
-        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-3"
-        role="button"
-        tabindex="0"
+      <h3
+        class="MuiAccordion-heading emotion-3"
       >
         <div
-          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-4"
+          aria-expanded="false"
+          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-4"
+          role="button"
+          tabindex="0"
         >
-          <div />
           <div
-            class="capitalized"
+            class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-5"
           >
-            preauth
-          </div>
-          <a>
-            show key
-          </a>
-          <time
-            datetime="2020-09-21T12:49:34+00:00"
-          >
-            2020-09-21 12:49
-          </time>
-          <div
-            class="action-buttons flexbox"
-          >
+            <div />
+            <div
+              class="capitalized"
+            >
+              preauth
+            </div>
             <a>
-              Accept
+              show key
             </a>
-            <a>
-              Reject
-            </a>
-            <a>
-              Dismiss
-            </a>
+            <time
+              datetime="2020-09-21T12:49:34+00:00"
+            >
+              2020-09-21 12:49
+            </time>
+            <div
+              class="action-buttons flexbox"
+            >
+              <a>
+                Accept
+              </a>
+              <a>
+                Reject
+              </a>
+              <a>
+                Dismiss
+              </a>
+            </div>
           </div>
         </div>
-      </div>
+      </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-7"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-8"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-9"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-9"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
           >
             <div
               class="MuiAccordion-region"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-10"
+                class="MuiAccordionDetails-root emotion-11"
               >
                 <div
                   style="flex-grow: 1;"
@@ -978,61 +1069,66 @@ exports[`AuthsetList Component renders correctly 1`] = `
     </div>
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-2"
+      style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
-      <div
-        aria-expanded="false"
-        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-3"
-        role="button"
-        tabindex="0"
+      <h3
+        class="MuiAccordion-heading emotion-3"
       >
         <div
-          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-4"
+          aria-expanded="false"
+          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-4"
+          role="button"
+          tabindex="0"
         >
-          <div />
           <div
-            class="capitalized"
+            class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-5"
           >
-            rejected
-          </div>
-          <a>
-            show key
-          </a>
-          <time
-            datetime="2020-09-21T12:45:34+00:00"
-          >
-            2020-09-21 12:45
-          </time>
-          <div
-            class="action-buttons flexbox"
-          >
-            <a>
-              Accept
-            </a>
-            <div>
-              Reject
+            <div />
+            <div
+              class="capitalized"
+            >
+              rejected
             </div>
             <a>
-              Dismiss
+              show key
             </a>
+            <time
+              datetime="2020-09-21T12:45:34+00:00"
+            >
+              2020-09-21 12:45
+            </time>
+            <div
+              class="action-buttons flexbox"
+            >
+              <a>
+                Accept
+              </a>
+              <div>
+                Reject
+              </div>
+              <a>
+                Dismiss
+              </a>
+            </div>
           </div>
         </div>
-      </div>
+      </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-7"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-8"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-9"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-9"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
           >
             <div
               class="MuiAccordion-region"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-10"
+                class="MuiAccordionDetails-root emotion-11"
               >
                 <div
                   style="flex-grow: 1;"
@@ -1050,61 +1146,66 @@ exports[`AuthsetList Component renders correctly 1`] = `
     </div>
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-2"
+      style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
-      <div
-        aria-expanded="false"
-        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-3"
-        role="button"
-        tabindex="0"
+      <h3
+        class="MuiAccordion-heading emotion-3"
       >
         <div
-          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-4"
+          aria-expanded="false"
+          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-4"
+          role="button"
+          tabindex="0"
         >
-          <div />
           <div
-            class="capitalized"
+            class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-5"
           >
-            preauth
-          </div>
-          <a>
-            show key
-          </a>
-          <time
-            datetime="2020-09-21T12:44:34+00:00"
-          >
-            2020-09-21 12:44
-          </time>
-          <div
-            class="action-buttons flexbox"
-          >
+            <div />
+            <div
+              class="capitalized"
+            >
+              preauth
+            </div>
             <a>
-              Accept
+              show key
             </a>
-            <a>
-              Reject
-            </a>
-            <a>
-              Dismiss
-            </a>
+            <time
+              datetime="2020-09-21T12:44:34+00:00"
+            >
+              2020-09-21 12:44
+            </time>
+            <div
+              class="action-buttons flexbox"
+            >
+              <a>
+                Accept
+              </a>
+              <a>
+                Reject
+              </a>
+              <a>
+                Dismiss
+              </a>
+            </div>
           </div>
         </div>
-      </div>
+      </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-7"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-8"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-9"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-9"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
           >
             <div
               class="MuiAccordion-region"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-10"
+                class="MuiAccordionDetails-root emotion-11"
               >
                 <div
                   style="flex-grow: 1;"
@@ -1122,61 +1223,66 @@ exports[`AuthsetList Component renders correctly 1`] = `
     </div>
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-2"
+      style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
-      <div
-        aria-expanded="false"
-        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-3"
-        role="button"
-        tabindex="0"
+      <h3
+        class="MuiAccordion-heading emotion-3"
       >
         <div
-          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-4"
+          aria-expanded="false"
+          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-4"
+          role="button"
+          tabindex="0"
         >
-          <div />
           <div
-            class="capitalized"
+            class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-5"
           >
-            rejected
-          </div>
-          <a>
-            show key
-          </a>
-          <time
-            datetime="2020-09-21T12:40:34+00:00"
-          >
-            2020-09-21 12:40
-          </time>
-          <div
-            class="action-buttons flexbox"
-          >
-            <a>
-              Accept
-            </a>
-            <div>
-              Reject
+            <div />
+            <div
+              class="capitalized"
+            >
+              rejected
             </div>
             <a>
-              Dismiss
+              show key
             </a>
+            <time
+              datetime="2020-09-21T12:40:34+00:00"
+            >
+              2020-09-21 12:40
+            </time>
+            <div
+              class="action-buttons flexbox"
+            >
+              <a>
+                Accept
+              </a>
+              <div>
+                Reject
+              </div>
+              <a>
+                Dismiss
+              </a>
+            </div>
           </div>
         </div>
-      </div>
+      </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-7"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-8"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-9"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-9"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
           >
             <div
               class="MuiAccordion-region"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-10"
+                class="MuiAccordionDetails-root emotion-11"
               >
                 <div
                   style="flex-grow: 1;"
@@ -1194,61 +1300,66 @@ exports[`AuthsetList Component renders correctly 1`] = `
     </div>
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-2"
+      style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
-      <div
-        aria-expanded="false"
-        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-3"
-        role="button"
-        tabindex="0"
+      <h3
+        class="MuiAccordion-heading emotion-3"
       >
         <div
-          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-4"
+          aria-expanded="false"
+          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-4"
+          role="button"
+          tabindex="0"
         >
-          <div />
           <div
-            class="capitalized"
+            class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-5"
           >
-            preauth
-          </div>
-          <a>
-            show key
-          </a>
-          <time
-            datetime="2020-09-21T12:39:34+00:00"
-          >
-            2020-09-21 12:39
-          </time>
-          <div
-            class="action-buttons flexbox"
-          >
+            <div />
+            <div
+              class="capitalized"
+            >
+              preauth
+            </div>
             <a>
-              Accept
+              show key
             </a>
-            <a>
-              Reject
-            </a>
-            <a>
-              Dismiss
-            </a>
+            <time
+              datetime="2020-09-21T12:39:34+00:00"
+            >
+              2020-09-21 12:39
+            </time>
+            <div
+              class="action-buttons flexbox"
+            >
+              <a>
+                Accept
+              </a>
+              <a>
+                Reject
+              </a>
+              <a>
+                Dismiss
+              </a>
+            </div>
           </div>
         </div>
-      </div>
+      </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-7"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-8"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-9"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-9"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
           >
             <div
               class="MuiAccordion-region"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-10"
+                class="MuiAccordionDetails-root emotion-11"
               >
                 <div
                   style="flex-grow: 1;"
