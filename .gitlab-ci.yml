@@ -85,9 +85,13 @@ build:backend:docker:
 
 build:backend:docker-acceptance:
   extends: build:backend:docker
+  before_script:
+    - apk add make bash git
+    - *dind-login
+    # We're only building acceptance test images for CI runner platform.
+    - unset DOCKER_PLATFORM
   script:
     # NOTE: Only build for test platform (default) for the acceptance test images
-    - unset DOCKER_PLATFORM
     - make -C backend docker-acceptance
 
 test:backend:static:
