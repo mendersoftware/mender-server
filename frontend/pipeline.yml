@@ -133,7 +133,7 @@ build:frontend:docker:
   script:
     - cd frontend
     - if test -z "${DOCKER_PLATFORM}"; then
-    -   docker context create ci;
+    - docker context create ci;
     - fi
     - docker buildx create --name gui-builder --driver=docker-container ci
     # needed for the license generation step
@@ -157,6 +157,8 @@ build:frontend:docker:
   stage: test
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:cli
   rules:
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+      when: always
     - changes:
         paths: ['frontend/**/*']
         compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
@@ -188,15 +190,14 @@ build:frontend:docker:
 
 test:frontend:acceptance:
   extends: .template:test:frontend:acceptance
-  rules:
-    - if: $CI_COMMIT_REF_NAME !~ /^(staging|saas-[a-zA-Z0-9.]+)$/
   script:
     - GUI_REPOSITORY=$(pwd)/frontend SERVER_ROOT=$(pwd) ./frontend/tests/e2e_tests/run
 
 test:frontend:acceptance:enterprise:
   extends: .template:test:frontend:acceptance
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+      when: always
   variables:
     TEST_ENVIRONMENT: enterprise
   before_script:
