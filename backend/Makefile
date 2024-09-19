@@ -66,6 +66,7 @@ $(TEST_ACCEPTANCE_TARGETS):
 	@$(MAKE) -C services/$(subst -test-acceptance,,$@) test-acceptance-run
 
 .PHONY: test-integration
+test-integration: MENDER_IMAGE_TAG=$(MENDER_IMAGE_TAG_TEST)
 test-integration:
 	./tests/integration/run $(args)
 
