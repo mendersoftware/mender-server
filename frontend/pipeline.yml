@@ -164,7 +164,7 @@ build:frontend:docker:
         compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
   needs:
     - job: build:frontend:docker
-      artifacts: true
+      artifacts: false
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:dind
       alias: docker
@@ -234,7 +234,8 @@ publish:frontend:tests:
 publish:frontend:e2e-tests:
   extends: .template:publish:frontend:tests
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+      when: always
   needs:
     - test:frontend:acceptance:enterprise
   script:
@@ -250,13 +251,15 @@ publish:frontend:licenses:
     - job: build:frontend:docker
       artifacts: false
   script:
+    - cd /usr/src/app
     - npm run disclaim
   artifacts:
     expire_in: 2w
     paths:
-      - disclaimer.txt
+      - /usr/src/app/disclaimer.txt
   rules:
-    - if: $CI_COMMIT_REF_NAME =~ /^(main|staging|[0-9]+\.[0-9]+\.x)$/
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+      when: always
   tags:
     - hetzner-amd-beefy
 
@@ -283,7 +286,7 @@ publish:frontend:docker:enterprise:
   variables:
     MENDER_PUBLISH_REGISTRY: registry.mender.io
   script:
-    - docker login -u $REGISTRY_MENDER_IO_USERNAME -p $REGISTRY_MENDER_IO_PASSWORD registry.mender.io
+    - skopeo login --username $REGISTRY_MENDER_IO_USERNAME --password $REGISTRY_MENDER_IO_PASSWORD registry.mender.io
     - |
       skopeo copy --multi-arch all \
         docker://${DOCKER_TAG} \
