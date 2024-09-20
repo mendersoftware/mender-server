@@ -146,7 +146,6 @@ export const getOnboardingComponentFor = (id, componentProps, params = {}, previ
     return previousComponent;
   }
   if (step.specialComponent) {
-    // const Component = step.specialComponent
     return React.cloneElement(step.specialComponent, params);
   }
   const component = step.component(componentProps);

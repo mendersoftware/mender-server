@@ -57,16 +57,13 @@ describe('AuthorizedDevices Component', () => {
       deviceType: 'device_type',
       checkInTime: 'check_in_time'
     };
-    // const devices = defaultState.devices.byStatus.accepted.deviceIds.map(id => defaultState.devices.byId[id]);
     const pageTotal = defaultState.devices.byStatus.accepted.deviceIds.length;
-    // const deviceListState = { isLoading: false, selectedState: DEVICE_STATES.accepted, selection: [], sort: {} };
     const preloadedState = {
       ...defaultState,
       app: {
         ...defaultState.app,
         features: {
           ...defaultState.app.features,
-          // hasReporting: true,
           hasMonitor: true,
           isEnterprise: true
         }
