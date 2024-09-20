@@ -241,8 +241,8 @@ publish:frontend:e2e-tests:
   script:
     - export COVERALLS_SERVICE_JOB_NUMBER=frontend-e2e
     - export COVERALLS_FLAG_NAME=frontend-e2e
-    - sed -i -re 's/(^[SF:]+[../]+)(.*)$/SF:\2/' coverage/lcov.info
-    - coveralls < coverage/lcov.info
+    - sed -i -re 's/(^[SF:]+[../]+)(.*)$/SF:\2/' frontend/coverage/lcov.info
+    - coveralls < frontend/coverage/lcov.info
 
 publish:frontend:licenses:
   stage: publish
@@ -269,7 +269,7 @@ publish:frontend:docker:
     MENDER_PUBLISH_REGISTRY: docker.io
   script:
     - export DOCKER_TAG=${CI_REGISTRY_IMAGE}:frontend-${CI_PIPELINE_ID}
-    - echo "About to publish ${DOCKER_TAG} to ${MENDER_PUBLISH_TAG}"
+    - echo "About to publish ${DOCKER_TAG} to ${MENDER_PUBLISH_TAG} on ${MENDER_PUBLISH_REGISTRY}"
     - |
       skopeo copy --multi-arch all \
         docker://${DOCKER_TAG} \
@@ -286,6 +286,8 @@ publish:frontend:docker:enterprise:
   variables:
     MENDER_PUBLISH_REGISTRY: registry.mender.io
   script:
+    - export DOCKER_TAG=${CI_REGISTRY_IMAGE}:frontend-${CI_PIPELINE_ID}
+    - echo "About to publish ${DOCKER_TAG} to ${MENDER_PUBLISH_TAG} on ${MENDER_PUBLISH_REGISTRY}"
     - skopeo login --username $REGISTRY_MENDER_IO_USERNAME --password $REGISTRY_MENDER_IO_PASSWORD registry.mender.io
     - |
       skopeo copy --multi-arch all \
