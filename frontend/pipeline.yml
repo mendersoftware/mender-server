@@ -245,7 +245,7 @@ publish:frontend:e2e-tests:
 
 publish:frontend:licenses:
   stage: publish
-  image: ${CI_REGISTRY_IMAGE}/frontend-base-${CI_PIPELINE_IID}
+  image: ${CI_REGISTRY_IMAGE}/frontend-base-${CI_PIPELINE_ID}
   needs:
     - job: build:frontend:docker
       artifacts: false
@@ -267,15 +267,15 @@ publish:frontend:docker:
   script:
     - export DOCKER_TAG=${CI_REGISTRY_IMAGE}:frontend-${CI_PIPELINE_ID}
     - echo "About to publish ${DOCKER_TAG} to ${MENDER_PUBLISH_TAG}"
-    - skopeo copy --multi-arch all \
-      docker://${DOCKER_TAG} \
-      docker://${MENDER_PUBLISH_REGISTRY}/${FRONTEND_REPOSITORY}:${MENDER_PUBLISH_TAG} # covers vX.Y.Z + -fragment/ -build tags
+    - |
+      skopeo copy --multi-arch all \
+        docker://${DOCKER_TAG} \
+        docker://${MENDER_PUBLISH_REGISTRY}/${FRONTEND_REPOSITORY}:${MENDER_PUBLISH_TAG} # covers vX.Y.Z + -fragment/ -build tags
     - |
       if echo -n "${MENDER_PUBLISH_TAG}" | grep -E '^v[0-9]+\.v[0-9]+\.[0-9]+$'; then
         skopeo copy --multi-arch all docker://${DOCKER_TAG} docker://${MENDER_PUBLISH_REGISTRY}/gui:$(echo -n $MENDER_PUBLISH_TAG | cut -d . -f-2)
         skopeo copy --multi-arch all docker://${DOCKER_TAG} docker://${MENDER_PUBLISH_REGISTRY}/gui:$(echo -n $MENDER_PUBLISH_TAG | cut -d . -f-1)
         skopeo copy --multi-arch all docker://${DOCKER_TAG} docker://${MENDER_PUBLISH_REGISTRY}/gui:latest
-        ;;
       fi
 
 publish:frontend:docker:enterprise:
@@ -284,9 +284,10 @@ publish:frontend:docker:enterprise:
     MENDER_PUBLISH_REGISTRY: registry.mender.io
   script:
     - docker login -u $REGISTRY_MENDER_IO_USERNAME -p $REGISTRY_MENDER_IO_PASSWORD registry.mender.io
-    - skopeo copy --multi-arch all \
-      docker://${DOCKER_TAG} \
-      docker://${MENDER_PUBLISH_REGISTRY}/${FRONTEND_REPOSITORY}:${MENDER_PUBLISH_TAG} # covers vX.Y.Z + -fragment/ -build tags
+    - |
+      skopeo copy --multi-arch all \
+        docker://${DOCKER_TAG} \
+        docker://${MENDER_PUBLISH_REGISTRY}/${FRONTEND_REPOSITORY}:${MENDER_PUBLISH_TAG} # covers vX.Y.Z + -fragment/ -build tags
     - |
       if echo -n "${MENDER_PUBLISH_TAG}" | grep -E '^v[0-9]+\.v[0-9]+\.[0-9]+$'; then
         skopeo copy --multi-arch all docker://${DOCKER_TAG} docker://${MENDER_PUBLISH_REGISTRY}/gui:$(echo -n $MENDER_PUBLISH_TAG | cut -d . -f-2)
