@@ -245,7 +245,7 @@ publish:frontend:e2e-tests:
 
 publish:frontend:licenses:
   stage: publish
-  image: ${CI_REGISTRY_IMAGE}/frontend-base-${CI_PIPELINE_ID}
+  image: ${CI_REGISTRY_IMAGE}:frontend-base-${CI_PIPELINE_ID}
   needs:
     - job: build:frontend:docker
       artifacts: false
