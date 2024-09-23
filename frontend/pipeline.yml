@@ -186,7 +186,7 @@ build:frontend:docker:
         - frontend/junit/results.xml
     when: always
   tags:
-    - hetzner-amd-beefy
+    - hetzner-amd-beefy-privileged
 
 test:frontend:acceptance:
   extends: .template:test:frontend:acceptance
