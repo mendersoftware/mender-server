@@ -13,11 +13,11 @@
 //    limitations under the License.
 import React from 'react';
 
+import { TIMEOUTS } from '@northern.tech/store/constants';
 import { act, screen, waitFor } from '@testing-library/react';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
-import { TIMEOUTS } from '../../constants/appConstants';
 import Global from './global';
 
 const preloadedState = {

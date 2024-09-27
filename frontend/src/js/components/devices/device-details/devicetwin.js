@@ -20,11 +20,10 @@ import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import Editor, { DiffEditor, loader } from '@monaco-editor/react';
+import { EXTERNAL_PROVIDER, TIMEOUTS } from '@northern.tech/store/constants';
+import { getDeviceTwin, setDeviceTwin } from '@northern.tech/store/thunks';
 import pluralize from 'pluralize';
 
-import { getDeviceTwin, setDeviceTwin } from '../../../actions/deviceActions';
-import { TIMEOUTS } from '../../../constants/appConstants';
-import { EXTERNAL_PROVIDER } from '../../../constants/deviceConstants';
 import { deepCompare, isEmpty } from '../../../helpers';
 import InfoHint from '../../common/info-hint';
 import Loader from '../../common/loader';
@@ -207,7 +206,7 @@ export const DeviceTwin = ({ device, integration }) => {
     editorRef.current.modifiedEditor.getAction('editor.action.formatDocument').run();
     setUpdated(stringifyTwin(update));
     setErrorMessage('');
-    dispatch(setDeviceTwin(device.id, integration, update)).then(() => setIsEditing(false));
+    dispatch(setDeviceTwin({ deviceId: device.id, integration, settings: update })).then(() => setIsEditing(false));
   };
 
   const onCancelClick = () => {
@@ -219,7 +218,7 @@ export const DeviceTwin = ({ device, integration }) => {
 
   const onRefreshClick = () => {
     setIsRefreshing(true);
-    dispatch(getDeviceTwin(device.id, integration)).finally(() => setTimeout(() => setIsRefreshing(false), TIMEOUTS.halfASecond));
+    dispatch(getDeviceTwin({ deviceId: device.id, integration })).finally(() => setTimeout(() => setIsRefreshing(false), TIMEOUTS.halfASecond));
   };
 
   const onEditClick = () => setIsEditing(true);

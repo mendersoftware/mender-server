@@ -17,14 +17,8 @@ import { useDispatch, useSelector } from 'react-redux';
 // material ui
 import { TextField } from '@mui/material';
 
-import historyImage from '../../../assets/img/history.png';
-import { setSnackbar } from '../../actions/appActions';
-import { getDeploymentsByStatus, setDeploymentsState } from '../../actions/deploymentActions';
-import { advanceOnboarding } from '../../actions/onboardingActions';
-import { BEGINNING_OF_TIME, SORTING_OPTIONS } from '../../constants/appConstants';
-import { DEPLOYMENT_STATES, DEPLOYMENT_TYPES } from '../../constants/deploymentConstants';
-import { onboardingSteps } from '../../constants/onboardingConstants';
-import { getISOStringBoundaries } from '../../helpers';
+import storeActions from '@northern.tech/store/actions';
+import { BEGINNING_OF_TIME, DEPLOYMENT_STATES, DEPLOYMENT_TYPES, onboardingSteps } from '@northern.tech/store/constants';
 import {
   getDeploymentsSelectionState,
   getDevicesById,
@@ -33,7 +27,11 @@ import {
   getMappedDeploymentSelection,
   getOnboardingState,
   getUserCapabilities
-} from '../../selectors';
+} from '@northern.tech/store/selectors';
+import { advanceOnboarding, getDeploymentsByStatus, setDeploymentsState } from '@northern.tech/store/thunks';
+
+import historyImage from '../../../assets/img/history.png';
+import { getISOStringBoundaries } from '../../helpers';
 import { getOnboardingComponentFor } from '../../utils/onboardingmanager';
 import useWindowSize from '../../utils/resizehook';
 import { clearAllRetryTimers, clearRetryTimer, setRetryTimer } from '../../utils/retrytimer';
@@ -43,6 +41,8 @@ import TimeframePicker from '../common/forms/timeframe-picker';
 import { DeploymentSize, DeploymentStatus } from './deploymentitem';
 import { defaultRefreshDeploymentsLength as refreshDeploymentsLength } from './deployments';
 import DeploymentsList, { defaultHeaders } from './deploymentslist';
+
+const { setSnackbar } = storeActions;
 
 const headers = [
   ...defaultHeaders.slice(0, defaultHeaders.length - 1),
@@ -90,11 +90,21 @@ export const Past = props => {
       const roundedStartDate = Math.round(Date.parse(currentStartDate) / 1000);
       const roundedEndDate = Math.round(Date.parse(currentEndDate) / 1000);
       setLoading(true);
-      return dispatch(getDeploymentsByStatus(type, currentPage, currentPerPage, roundedStartDate, roundedEndDate, currentDeviceGroup, currentType))
-        .then(deploymentsAction => {
+      return dispatch(
+        getDeploymentsByStatus({
+          status: type,
+          page: currentPage,
+          perPage: currentPerPage,
+          startDate: roundedStartDate,
+          endDate: roundedEndDate,
+          group: currentDeviceGroup,
+          type: currentType
+        })
+      )
+        .then(({ payload }) => {
           setLoading(false);
           clearRetryTimer(type, dispatchedSetSnackbar);
-          const { total, deploymentIds } = deploymentsAction[deploymentsAction.length - 1];
+          const { total, deploymentIds } = payload[payload.length - 1];
           if (total && !deploymentIds.length) {
             return refreshPast(currentPage, currentPerPage, currentStartDate, currentEndDate, currentDeviceGroup);
           }
@@ -108,9 +118,11 @@ export const Past = props => {
     const roundedStartDate = Math.round(Date.parse(startDate || BEGINNING_OF_TIME) / 1000);
     const roundedEndDate = Math.round(Date.parse(endDate) / 1000);
     setLoading(true);
-    dispatch(getDeploymentsByStatus(type, page, perPage, roundedStartDate, roundedEndDate, deviceGroup, deploymentType, true, SORTING_OPTIONS.desc))
+    dispatch(
+      getDeploymentsByStatus({ status: type, page, perPage, startDate: roundedStartDate, endDate: roundedEndDate, group: deviceGroup, type: deploymentType })
+    )
       .then(deploymentsAction => {
-        const deploymentsList = deploymentsAction ? Object.values(deploymentsAction[0].deployments) : [];
+        const deploymentsList = deploymentsAction ? Object.values(deploymentsAction.payload[0]) : [];
         if (deploymentsList.length) {
           let newStartDate = new Date(deploymentsList[deploymentsList.length - 1].created);
           const { start } = getISOStringBoundaries(newStartDate);

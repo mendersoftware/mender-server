@@ -19,9 +19,9 @@ import { Close as CloseIcon, CloudUpload, FileCopyOutlined as CopyPasteIcon } fr
 import { Button, Divider, Drawer, IconButton } from '@mui/material';
 
 import Editor, { loader } from '@monaco-editor/react';
+import { JSON_METADATA_FORMAT, XML_METADATA_FORMAT } from '@northern.tech/store/constants';
 import copy from 'copy-to-clipboard';
 
-import { JSON_METADATA_FORMAT, XML_METADATA_FORMAT } from '../../../constants/organizationConstants.js';
 import { createFileDownload } from '../../../helpers';
 import Loader from '../../common/loader';
 

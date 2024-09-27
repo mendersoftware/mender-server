@@ -17,17 +17,17 @@ import { ArrowForward } from '@mui/icons-material';
 import { Chip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { DEPLOYMENT_STATES } from '@northern.tech/store/constants';
 import dayjs from 'dayjs';
 import durationDayJs from 'dayjs/plugin/duration';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import pluralize from 'pluralize';
 
-import { DEPLOYMENT_STATES } from '../../../constants/deploymentConstants';
 import { formatTime, getPhaseDeviceCount, getRemainderPercent } from '../../../helpers';
 import { TwoColumnData } from '../../common/configurationobject';
 import LinedHeader from '../../common/lined-header';
 import Time from '../../common/time';
-import { getPhaseStartTime } from '../createdeployment';
+import { getPhaseStartTime } from '../deployment-wizard/phasesettings';
 import { ProgressChartComponent, getDeploymentPhasesInfo, getDisplayablePhases } from '../progressChart';
 import { defaultColumnDataProps } from '../report';
 import PhaseProgress from './phaseprogress';

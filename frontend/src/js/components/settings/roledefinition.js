@@ -36,11 +36,18 @@ import {
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import {
+  ALL_DEVICES,
+  ALL_RELEASES,
+  emptyRole,
+  emptyUiPermissions,
+  itemUiPermissionsReducer,
+  rolesById,
+  uiPermissionsByArea,
+  uiPermissionsById
+} from '@northern.tech/store/constants';
 import validator from 'validator';
 
-import { ALL_DEVICES } from '../../constants/deviceConstants';
-import { ALL_RELEASES } from '../../constants/releaseConstants';
-import { emptyRole, emptyUiPermissions, itemUiPermissionsReducer, rolesById, uiPermissionsByArea, uiPermissionsById } from '../../constants/userConstants';
 import { deepCompare, isEmpty, toggle } from '../../helpers';
 
 const menuProps = {

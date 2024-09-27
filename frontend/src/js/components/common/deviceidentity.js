@@ -16,10 +16,11 @@ import { useSelector } from 'react-redux';
 
 import { makeStyles } from 'tss-react/mui';
 
+import { getDeviceById as getDeviceByIdSelector, getIdAttribute } from '@northern.tech/store/selectors';
+
 import GatewayConnectionIcon from '../../../assets/img/gateway-connection.svg';
 import GatewayIcon from '../../../assets/img/gateway.svg';
 import { stringToBoolean } from '../../helpers';
-import { getDeviceById as getDeviceByIdSelector, getIdAttribute } from '../../selectors';
 import { getDeviceIdentityText } from '../devices/base-devices';
 import DeviceNameInput from './devicenameinput';
 

@@ -13,11 +13,11 @@
 //    limitations under the License.
 import React from 'react';
 
+import { EXTERNAL_PROVIDER } from '@northern.tech/store/constants';
 import { act } from '@testing-library/react';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
-import { EXTERNAL_PROVIDER } from '../../constants/deviceConstants';
 import { IntegrationConfiguration, Integrations } from './integrations';
 
 const integrations = [

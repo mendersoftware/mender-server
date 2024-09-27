@@ -15,7 +15,8 @@ import React, { useMemo } from 'react';
 
 import { Checkbox } from '@mui/material';
 
-import { ADDONS, PLANS } from '../../constants/appConstants';
+import { ADDONS, PLANS } from '@northern.tech/store/constants';
+
 import InfoText from '../common/infotext';
 import { useStyles } from './planselection';
 

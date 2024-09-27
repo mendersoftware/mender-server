@@ -16,8 +16,8 @@ import React, { useState } from 'react';
 import { accordionClasses, accordionDetailsClasses, accordionSummaryClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { canAccess } from '../../../../constants/appConstants';
-import { DEVICE_STATES } from '../../../../constants/deviceConstants';
+import { DEVICE_STATES, canAccess } from '@northern.tech/store/constants';
+
 import { customSort } from '../../../../helpers';
 import AuthsetListItem from './authsetlistitem';
 

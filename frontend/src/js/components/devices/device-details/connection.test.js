@@ -13,9 +13,10 @@
 //    limitations under the License.
 import React from 'react';
 
+import { DEVICE_CONNECT_STATES } from '@northern.tech/store/constants';
+
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
-import { DEVICE_CONNECT_STATES } from '../../../constants/deviceConstants';
 import DeviceConnection, { DeviceConnectionMissingNote, DeviceDisconnectedNote, PortForwardLink } from './connection';
 
 describe('tiny DeviceConnection components', () => {

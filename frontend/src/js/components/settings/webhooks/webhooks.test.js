@@ -13,9 +13,10 @@
 //    limitations under the License.
 import React from 'react';
 
+import { EXTERNAL_PROVIDER } from '@northern.tech/store/constants';
+
 import { defaultState, undefineds, webhookEvents } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
-import { EXTERNAL_PROVIDER } from '../../../constants/deviceConstants';
 import Activity from './activity';
 import { WebhookCreation } from './configuration';
 import Management from './management';

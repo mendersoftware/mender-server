@@ -19,9 +19,10 @@ import { InfoOutlined as InfoOutlinedIcon } from '@mui/icons-material';
 import { Checkbox, FormControlLabel, TextField, Typography, formControlLabelClasses, textFieldClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { BENEFITS, TIMEOUTS } from '@northern.tech/store/constants';
+import { getDeploymentsConfig, saveDeltaDeploymentsConfig } from '@northern.tech/store/thunks';
+
 import DeltaIcon from '../../../assets/img/deltaicon.svg';
-import { getDeploymentsConfig, saveDeltaDeploymentsConfig } from '../../actions/deploymentActions';
-import { BENEFITS, TIMEOUTS } from '../../constants/appConstants';
 import { useDebounce } from '../../utils/debouncehook';
 import EnterpriseNotification from '../common/enterpriseNotification';
 import InfoText from '../common/infotext';

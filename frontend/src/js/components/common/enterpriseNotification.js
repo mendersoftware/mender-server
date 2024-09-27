@@ -18,8 +18,9 @@ import { Link } from 'react-router-dom';
 import { Chip } from '@mui/material';
 import { withStyles } from 'tss-react/mui';
 
-import { ADDONS, BENEFITS, PLANS } from '../../constants/appConstants';
-import { getTenantCapabilities } from '../../selectors';
+import { ADDONS, BENEFITS, PLANS } from '@northern.tech/store/constants';
+import { getTenantCapabilities } from '@northern.tech/store/selectors';
+
 import MenderTooltip, { MenderTooltipClickable } from './mendertooltip';
 
 const PlansTooltip = withStyles(MenderTooltip, ({ palette }) => ({

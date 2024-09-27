@@ -16,7 +16,8 @@ import React from 'react';
 // material ui
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
-import { getToken } from '../../../auth';
+import { getToken } from '@northern.tech/store/auth';
+
 import CopyCode from '../../common/copy-code';
 import DocsLink from '../../common/docslink';
 

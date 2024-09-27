@@ -17,10 +17,10 @@ import { useSelector } from 'react-redux';
 import { Block as BlockIcon, CheckCircle as CheckCircleIcon, Check as CheckIcon } from '@mui/icons-material';
 import { Chip, Icon } from '@mui/material';
 
+import { DEVICE_STATES, onboardingSteps } from '@northern.tech/store/constants';
+import { getOnboardingState } from '@northern.tech/store/selectors';
+
 import pendingIcon from '../../../../assets/img/pending_status.png';
-import { DEVICE_STATES } from '../../../constants/deviceConstants';
-import { onboardingSteps } from '../../../constants/onboardingConstants';
-import { getOnboardingState } from '../../../selectors';
 import { getOnboardingComponentFor } from '../../../utils/onboardingmanager';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
 import Authsets from './authsets/authsets';

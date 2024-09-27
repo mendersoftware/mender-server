@@ -15,13 +15,13 @@ import React from 'react';
 
 import { drawerClasses } from '@mui/material';
 
+import { getSessionInfo } from '@northern.tech/store/auth';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import MockDate from 'mockdate';
 
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
-import { getSessionInfo } from '../../../auth';
 import { CancelSubscriptionAlert, CancelSubscriptionButton, DeviceLimitExpansionNotification, TrialExpirationNote } from './billing';
 import MyOrganization, { OrgHeader } from './organization';
 

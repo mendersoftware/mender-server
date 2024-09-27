@@ -14,6 +14,10 @@
     "@reduxjs/toolkit": "2.2.7",
     "@stripe/react-stripe-js": "2.8.0",
     "@stripe/stripe-js": "4.4.0",
+    "@xterm/addon-fit": "0.10.0",
+    "@xterm/addon-search": "0.15.0",
+    "@xterm/addon-web-links": "0.11.0",
+    "@xterm/xterm": "5.5.0",
     "axios": "1.7.7",
     "copy-to-clipboard": "3.3.3",
     "dayjs": "^1.11.13",
@@ -37,36 +41,29 @@
     "react-router-dom": "6.26.2",
     "redux-thunk": "^3.1.0",
     "tss-react": "4.9.13",
-    "universal-cookie": "7.2.0",
+    "universal-cookie": "7.1.4",
     "uuid": "10.0.0",
     "validator": "13.12.0",
     "victory": "37.1.1",
-    "@xterm/xterm": "5.5.0",
-    "@xterm/addon-fit": "0.10.0",
-    "@xterm/addon-search": "0.15.0",
-    "@xterm/addon-web-links": "0.11.0",
     "zxcvbn": "4.4.2"
   },
   "devDependencies": {
     "@babel/core": "7.25.2",
-    "@babel/eslint-parser": "7.25.1",
-    "@babel/plugin-syntax-dynamic-import": "7.8.3",
-    "@babel/plugin-transform-runtime": "7.25.4",
     "@babel/preset-env": "7.25.4",
     "@babel/preset-react": "7.24.7",
+    "@babel/preset-typescript": "^7.24.7",
     "@emotion/jest": "11.13.0",
     "@svgr/webpack": "8.1.0",
     "@testing-library/jest-dom": "6.5.0",
     "@testing-library/react": "^16.0.1",
     "@testing-library/user-event": "14.5.2",
     "@trivago/prettier-plugin-sort-imports": "4.3.0",
-    "@typescript-eslint/eslint-plugin": "8.5.0",
-    "@typescript-eslint/parser": "8.5.0",
-    "@babel/preset-typescript": "^7.24.7",
     "@types/jest": "^29.5.13",
     "@types/node": "^22.5.5",
     "@types/react": "^18.3.6",
     "@types/react-dom": "^18.3.0",
+    "@typescript-eslint/eslint-plugin": "8.5.0",
+    "@typescript-eslint/parser": "8.5.0",
     "assert": "2.1.0",
     "autoprefixer": "10.4.20",
     "babel-jest": "~29.7.0",
@@ -79,6 +76,7 @@
     "css-loader": "7.1.2",
     "esbuild-loader": "4.2.2",
     "eslint": "8.57.0",
+    "eslint-import-resolver-typescript": "3.6.1",
     "eslint-plugin-import": "2.30.0",
     "eslint-plugin-prettier": "5.2.1",
     "eslint-plugin-react": "7.36.1",
@@ -106,6 +104,8 @@
     "process": "0.11.10",
     "redux-mock-store": "1.5.4",
     "stream-browserify": "3.0.0",
+    "ts-jest": "^29.2.5",
+    "tsconfig-paths-webpack-plugin": "^4.1.0",
     "typescript": "^5.6.2",
     "undici": "^6.19.8",
     "util": "0.12.5",
@@ -133,61 +133,6 @@
       "pre-commit": "lint-staged",
       "post-commit": "sh ${MENDER_TESTING}/check_commits.sh"
     }
-  },
-  "jest": {
-    "collectCoverage": true,
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx}"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/node_modules/",
-      "/themes/"
-    ],
-    "coverageReporters": [
-      [
-        "lcov",
-        {
-          "projectRoot": "../"
-        }
-      ],
-      "text"
-    ],
-    "setupFiles": [
-      "<rootDir>/tests/jest.polyfills.js"
-    ],
-    "setupFilesAfterEnv": [
-      "<rootDir>/tests/setupTests.js"
-    ],
-    "snapshotSerializers": [
-      "@emotion/jest/serializer"
-    ],
-    "testEnvironment": "jest-environment-jsdom",
-    "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.js",
-      "<rootDir>/src/**/*.{spec,test}.js"
-    ],
-    "fakeTimers": {
-      "enableGlobally": true
-    },
-    "testEnvironmentOptions": {
-      "customExportConditions": [
-        ""
-      ]
-    },
-    "transform": {
-      "\\.[j|t]sx?$": "babel-jest",
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/assetsTransformer.js"
-    },
-    "transformIgnorePatterns": [
-      "<rootDir>/node_modules/(?!xterm-for-react|node-fetch|jsdom-worker|data-uri-to-buffer|fetch-blob|formdata-polyfill)"
-    ],
-    "moduleNameMapper": {
-      "\\.(css|less)$": "<rootDir>/tests/cssTransform.js"
-    },
-    "watchPlugins": [
-      "jest-watch-typeahead/filename",
-      "jest-watch-typeahead/testname"
-    ]
   },
   "scripts": {
     "build": "webpack --mode production",

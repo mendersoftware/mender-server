@@ -20,12 +20,11 @@ import { Close as CloseIcon } from '@mui/icons-material';
 import { ClickAwayListener, Drawer, IconButton, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
+import { getIdAttribute, getMappedDevicesList, getUserSettings } from '@northern.tech/store/selectors';
+import { setDeviceListState, setSearchState } from '@northern.tech/store/thunks';
 import pluralize from 'pluralize';
 
-import { setSearchState } from '../actions/appActions';
-import { setDeviceListState } from '../actions/deviceActions';
-import { SORTING_OPTIONS, TIMEOUTS } from '../constants/appConstants';
-import { getIdAttribute, getMappedDevicesList, getUserSettings } from '../selectors';
 import { getHeaders } from './devices/authorized-devices';
 import { routes } from './devices/base-devices';
 import Devicelist from './devices/devicelist';

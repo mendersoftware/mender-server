@@ -18,9 +18,9 @@ import { Cancel as CancelIcon } from '@mui/icons-material';
 import { Drawer, IconButton, LinearProgress, Tooltip, drawerClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { cancelFileUpload } from '@northern.tech/store/thunks';
 import pluralize from 'pluralize';
 
-import { cancelFileUpload } from '../actions/releaseActions';
 import { FileSize } from '../helpers';
 
 const useStyles = makeStyles()(theme => ({

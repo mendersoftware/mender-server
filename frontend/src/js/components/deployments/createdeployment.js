@@ -32,17 +32,7 @@ import {
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import dayjs from 'dayjs';
-import pluralize from 'pluralize';
-
-import DeltaIcon from '../../../assets/img/deltaicon.svg';
-import { createDeployment, getDeploymentsConfig } from '../../actions/deploymentActions';
-import { getGroupDevices } from '../../actions/deviceActions';
-import { advanceOnboarding } from '../../actions/onboardingActions';
-import { getRelease, getReleases } from '../../actions/releaseActions';
-import { ALL_DEVICES } from '../../constants/deviceConstants';
-import { onboardingSteps } from '../../constants/onboardingConstants';
-import { toggle, validatePhases } from '../../helpers';
+import { ALL_DEVICES, onboardingSteps } from '@northern.tech/store/constants';
 import {
   getAcceptedDevices,
   getDeviceCountsByStatus,
@@ -57,11 +47,16 @@ import {
   getReleaseListState,
   getReleasesById,
   getTenantCapabilities
-} from '../../selectors';
+} from '@northern.tech/store/selectors';
+import { advanceOnboarding, createDeployment, getDeploymentsConfig, getGroupDevices, getRelease, getReleases } from '@northern.tech/store/thunks';
+import pluralize from 'pluralize';
+
+import DeltaIcon from '../../../assets/img/deltaicon.svg';
+import { toggle, validatePhases } from '../../helpers';
 import { getOnboardingComponentFor } from '../../utils/onboardingmanager';
 import Confirm from '../common/confirm';
 import DeviceLimit from './deployment-wizard/devicelimit';
-import { RolloutPatternSelection } from './deployment-wizard/phasesettings';
+import { RolloutPatternSelection, getPhaseStartTime } from './deployment-wizard/phasesettings';
 import { ForceDeploy, Retries, RolloutOptions } from './deployment-wizard/rolloutoptions';
 import { ScheduleRollout } from './deployment-wizard/schedulerollout';
 import { Devices, ReleasesWarning, Software } from './deployment-wizard/softwaredevices';
@@ -93,17 +88,6 @@ const getAnchor = (element, heightAdjustment = 3) => ({
   top: element.offsetTop + element.offsetHeight / heightAdjustment,
   left: element.offsetLeft + element.offsetWidth
 });
-
-export const getPhaseStartTime = (phases, index, startDate) => {
-  if (index < 1) {
-    return startDate?.toISOString ? startDate.toISOString() : startDate;
-  }
-  // since we don't want to get stale phase start times when the creation dialog is open for a long time
-  // we have to ensure start times are based on delay from previous phases
-  // since there likely won't be 1000s of phases this should still be fine to recalculate
-  const newStartTime = phases.slice(0, index).reduce((accu, phase) => dayjs(accu).add(phase.delay, phase.delayUnit), startDate);
-  return newStartTime.toISOString();
-};
 
 export const CreateDeployment = props => {
   const { deploymentObject = {}, onDismiss, onScheduleSubmit, setDeploymentSettings } = props;
@@ -159,7 +143,15 @@ export const CreateDeployment = props => {
       nextDeploymentObject.deploymentDeviceCount = acceptedDeviceCount;
     }
     if (groups[group]) {
-      dispatch(getGroupDevices(group, { perPage: 1 })).then(({ group: { total: deploymentDeviceCount } }) => setDeploymentSettings({ deploymentDeviceCount }));
+      dispatch(getGroupDevices({ group, perPage: 1 }))
+        .unwrap()
+        .then(
+          ({
+            payload: {
+              group: { total: deploymentDeviceCount }
+            }
+          }) => setDeploymentSettings({ deploymentDeviceCount })
+        );
     }
     setDeploymentSettings(nextDeploymentObject);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -225,7 +217,7 @@ export const CreateDeployment = props => {
     if (!isOnboardingComplete) {
       dispatch(advanceOnboarding(onboardingSteps.SCHEDULING_RELEASE_TO_DEVICES));
     }
-    return dispatch(createDeployment(newDeployment, hasNewRetryDefault))
+    return dispatch(createDeployment({ newDeployment, hasNewRetryDefault }))
       .then(() => {
         // successfully retrieved new deployment
         cleanUpDeploymentsStatus();

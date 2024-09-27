@@ -14,6 +14,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 
+import * as DeviceActions from '@northern.tech/store/devicesSlice/thunks';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import configureStore from 'redux-mock-store';
@@ -21,7 +22,6 @@ import { thunk } from 'redux-thunk';
 
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
-import * as DeviceActions from '../../../actions/deviceActions';
 import PreauthDialog from './preauth-dialog';
 
 const mockStore = configureStore([thunk]);

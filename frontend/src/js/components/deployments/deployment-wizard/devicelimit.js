@@ -16,9 +16,9 @@ import React, { useEffect, useState } from 'react';
 import { Checkbox, Collapse, FormControl, FormControlLabel, FormHelperText, Input, formControlClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { TIMEOUTS } from '@northern.tech/store/commonConstants';
 import validator from 'validator';
 
-import { TIMEOUTS } from '../../../constants/appConstants';
 import { useDebounce } from '../../../utils/debouncehook';
 import { DOCSTIPS, DocsTooltip } from '../../common/docslink';
 import { InfoHintContainer } from '../../common/info-hint';

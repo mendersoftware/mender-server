@@ -20,7 +20,7 @@ import ChipSelect from '../../common/chipselect';
 import { DOCSTIPS, DocsTooltip } from '../../common/docslink';
 import { InfoHintContainer } from '../../common/info-hint';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
-import { FileInformation } from './addartifact';
+import { FileInformation } from './fileinformation';
 
 const defaultVersion = '1.0.0';
 

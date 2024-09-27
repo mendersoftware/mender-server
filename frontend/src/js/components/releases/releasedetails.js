@@ -38,29 +38,30 @@ import {
   SpeedDial,
   SpeedDialAction,
   SpeedDialIcon,
-  TextField,
   Tooltip
 } from '@mui/material';
 import { speedDialActionClasses } from '@mui/material/SpeedDialAction';
 import { makeStyles } from 'tss-react/mui';
 
+import storeActions from '@northern.tech/store/actions';
+import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';
+import { getReleaseListState, getReleaseTags, getSelectedRelease, getUserCapabilities } from '@northern.tech/store/selectors';
+import { removeArtifact, removeRelease, selectRelease, setReleaseTags, updateReleaseInfo } from '@northern.tech/store/thunks';
 import copy from 'copy-to-clipboard';
 import pluralize from 'pluralize';
 
-import { setSnackbar } from '../../actions/appActions';
-import { removeArtifact, removeRelease, selectRelease, setReleaseTags, updateReleaseInfo } from '../../actions/releaseActions';
-import { DEPLOYMENT_ROUTES } from '../../constants/deploymentConstants';
 import { FileSize, customSort, formatTime, toggle } from '../../helpers';
-import { getReleaseListState, getReleaseTags, getSelectedRelease, getUserCapabilities } from '../../selectors';
 import { generateReleasesPath } from '../../utils/locationutils';
 import useWindowSize from '../../utils/resizehook';
 import ChipSelect from '../common/chipselect';
 import { ConfirmationButtons, EditButton } from '../common/confirm';
-import ExpandableAttribute from '../common/expandable-attribute';
+import { EditableLongText } from '../common/editablelongtext';
 import { RelativeTime } from '../common/time';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../helptips/helptooltips';
 import Artifact from './artifact';
 import RemoveArtifactDialog from './dialogs/removeartifact';
+
+const { setSnackbar } = storeActions;
 
 const DeviceTypeCompatibility = ({ artifact }) => {
   const compatible = artifact.artifact_depends ? artifact.artifact_depends.device_type.join(', ') : artifact.device_types_compatible.join(', ');
@@ -133,9 +134,7 @@ const useStyles = makeStyles()(theme => ({
   label: {
     marginRight: theme.spacing(2),
     marginBottom: theme.spacing(4)
-  },
-  notes: { display: 'block', whiteSpace: 'pre-wrap' },
-  notesWrapper: { minWidth: theme.components?.MuiFormControl?.styleOverrides?.root?.minWidth }
+  }
 }));
 
 export const ReleaseQuickActions = ({ actionCallbacks, innerRef, selectedRelease, userCapabilities, releases }) => {
@@ -187,73 +186,6 @@ export const ReleaseQuickActions = ({ actionCallbacks, innerRef, selectedRelease
           ))}
         </SpeedDial>
       </ClickAwayListener>
-    </div>
-  );
-};
-
-export const EditableLongText = ({ contentFallback = '', fullWidth, original, onChange, placeholder = '-' }) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [value, setValue] = useState(original);
-  const { classes } = useStyles();
-
-  useEffect(() => {
-    setValue(original);
-  }, [original]);
-
-  const onCancelClick = () => {
-    setValue(original);
-    setIsEditing(false);
-  };
-
-  const onEdit = ({ target: { value } }) => setValue(value);
-
-  const onEditClick = () => setIsEditing(true);
-
-  const onToggleEditing = useCallback(
-    event => {
-      event.stopPropagation();
-      if (event.key && (event.key !== 'Enter' || event.shiftKey)) {
-        return;
-      }
-      if (isEditing) {
-        // save change
-        onChange(value);
-      }
-      setIsEditing(toggle);
-    },
-    [isEditing, onChange, value]
-  );
-
-  const fullWidthClass = fullWidth ? 'full-width' : '';
-
-  return (
-    <div className="flexbox" style={{ alignItems: 'end' }}>
-      {isEditing ? (
-        <>
-          <TextField
-            className={`margin-right ${fullWidthClass}`}
-            multiline
-            onChange={onEdit}
-            onKeyDown={onToggleEditing}
-            placeholder={placeholder}
-            value={value}
-          />
-          <ConfirmationButtons onCancel={onCancelClick} onConfirm={onToggleEditing} />
-        </>
-      ) : (
-        <>
-          <ExpandableAttribute
-            className={`${fullWidthClass} margin-right ${classes.notesWrapper}`}
-            component="div"
-            dense
-            disableGutters
-            primary=""
-            secondary={original || value || contentFallback}
-            textClasses={{ secondary: classes.notes }}
-          />
-          <EditButton onClick={onEditClick} />
-        </>
-      )}
     </div>
   );
 };
@@ -410,9 +342,9 @@ export const ReleaseDetails = () => {
 
   const onDeleteRelease = () => dispatch(removeRelease(releaseName)).then(() => setConfirmReleaseDeletion(false));
 
-  const onReleaseNotesChanged = useCallback(notes => dispatch(updateReleaseInfo(releaseName, { notes })), [dispatch, releaseName]);
+  const onReleaseNotesChanged = useCallback(notes => dispatch(updateReleaseInfo({ name: releaseName, info: { notes } })), [dispatch, releaseName]);
 
-  const onTagSelectionChanged = useCallback(tags => dispatch(setReleaseTags(releaseName, tags)), [dispatch, releaseName]);
+  const onTagSelectionChanged = useCallback(tags => dispatch(setReleaseTags({ name: releaseName, tags })), [dispatch, releaseName]);
 
   return (
     <Drawer anchor="right" open={!!releaseName} onClose={onCloseClick} PaperProps={{ style: { minWidth: '60vw' }, ref: drawerRef }}>

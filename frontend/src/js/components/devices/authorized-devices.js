@@ -11,24 +11,17 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 // material ui
 import { Autorenew as AutorenewIcon, Delete as DeleteIcon, FilterList as FilterListIcon, LockOutlined } from '@mui/icons-material';
-import { Button, MenuItem, Select } from '@mui/material';
+import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { setSnackbar } from '../../actions/appActions';
-import { deleteAuthset, setDeviceFilters, setDeviceListState, updateDevicesAuth } from '../../actions/deviceActions';
-import { getIssueCountsByType } from '../../actions/monitorActions';
-import { advanceOnboarding } from '../../actions/onboardingActions';
-import { saveUserSettings, updateUserColumnSettings } from '../../actions/userActions';
-import { SORTING_OPTIONS, TIMEOUTS } from '../../constants/appConstants';
-import { ALL_DEVICES, DEVICE_ISSUE_OPTIONS, DEVICE_STATES, UNGROUPED_GROUP } from '../../constants/deviceConstants';
-import { onboardingSteps } from '../../constants/onboardingConstants';
-import { duplicateFilter, toggle } from '../../helpers';
+import storeActions from '@northern.tech/store/actions';
+import { ALL_DEVICES, DEVICE_ISSUE_OPTIONS, DEVICE_STATES, SORTING_OPTIONS, TIMEOUTS, UNGROUPED_GROUP, onboardingSteps } from '@northern.tech/store/constants';
 import {
   getAvailableIssueOptionsByType,
   getDeviceCountsByStatus,
@@ -42,7 +35,18 @@ import {
   getTenantCapabilities,
   getUserCapabilities,
   getUserSettings
-} from '../../selectors';
+} from '@northern.tech/store/selectors';
+import {
+  advanceOnboarding,
+  deleteAuthset,
+  getIssueCountsByType,
+  saveUserSettings,
+  setDeviceListState,
+  updateDevicesAuth,
+  updateUserColumnSettings
+} from '@northern.tech/store/thunks';
+
+import { toggle } from '../../helpers';
 import { useDebounce } from '../../utils/debouncehook';
 import { getOnboardingComponentFor } from '../../utils/onboardingmanager';
 import useWindowSize from '../../utils/resizehook';
@@ -53,9 +57,12 @@ import DeviceList, { minCellWidth } from './devicelist';
 import ColumnCustomizationDialog from './dialogs/custom-columns-dialog';
 import ExpandedDevice from './expanded-device';
 import DeviceQuickActions from './widgets/devicequickactions';
+import { DeviceStateSelection } from './widgets/devicestateselection';
 import Filters from './widgets/filters';
 import DeviceIssuesSelection from './widgets/issueselection';
 import ListOptions from './widgets/listoptions';
+
+const { setDeviceFilters, setSnackbar } = storeActions;
 
 const deviceRefreshTimes = {
   [DEVICE_STATES.accepted]: TIMEOUTS.refreshLong,
@@ -71,7 +78,7 @@ const idAttributeTitleMap = {
 };
 
 const headersReducer = (accu, header) => {
-  if (header.attribute.scope === accu.column.scope && (header.attribute.name === accu.column.name || header.attribute.alternative === accu.column.name)) {
+  if (header.attribute.scope === accu.column.scope && header.attribute.name === accu.column.name) {
     accu.header = { ...accu.header, ...header };
   }
   return accu;
@@ -104,14 +111,6 @@ const useStyles = makeStyles()(theme => ({
     ['&.filter-wrapper']: {
       padding: 20,
       borderTopLeftRadius: 0
-    }
-  },
-  selection: {
-    fontSize: 13,
-    marginLeft: theme.spacing(0.5),
-    marginTop: 2,
-    '>div': {
-      paddingLeft: theme.spacing(0.5)
     }
   }
 }));
@@ -251,7 +250,10 @@ export const Authorized = ({
   }, [settingsInitialized, devicesInitialized, pageLoading]);
 
   const onDeviceStateSelectionChange = useCallback(
-    newState => dispatch(setDeviceListState({ state: newState, page: 1, refreshTrigger: !refreshTrigger }, true, false, false)),
+    newState =>
+      dispatch(
+        setDeviceListState({ state: newState, page: 1, refreshTrigger: !refreshTrigger, shouldSelectDevices: true, forceRefresh: false, fetchAuth: false })
+      ),
     [dispatch, refreshTrigger]
   );
 
@@ -279,7 +281,7 @@ export const Authorized = ({
   }, [selectedGroup]);
   const dispatchDeviceListState = useCallback(
     (options, shouldSelectDevices = true, forceRefresh = false, fetchAuth = false) => {
-      return dispatch(setDeviceListState(options, shouldSelectDevices, forceRefresh, fetchAuth));
+      return dispatch(setDeviceListState({ ...options, shouldSelectDevices, forceRefresh, fetchAuth }));
     },
     [dispatch]
   );
@@ -303,7 +305,7 @@ export const Authorized = ({
   useEffect(() => {
     Object.keys(availableIssueOptions).map(key => dispatch(getIssueCountsByType(key, { filters, group: selectedGroup, state: selectedState })));
     availableIssueOptions[DEVICE_ISSUE_OPTIONS.authRequests.key]
-      ? dispatch(getIssueCountsByType(DEVICE_ISSUE_OPTIONS.authRequests.key, { filters: [] }))
+      ? dispatch(getIssueCountsByType({ type: DEVICE_ISSUE_OPTIONS.authRequests.key, options: { filters: [] } }))
       : undefined;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedIssues.join(''), JSON.stringify(availableIssueOptions), selectedState, selectedGroup, dispatch, JSON.stringify(filters)]);
@@ -326,7 +328,7 @@ export const Authorized = ({
   const onAuthorizationChange = (devices, changedState) => {
     const deviceIds = devicesToIds(devices);
     return dispatchDeviceListState({ isLoading: true })
-      .then(() => dispatch(updateDevicesAuth(deviceIds, changedState)))
+      .then(() => dispatch(updateDevicesAuth({ deviceIds, status: changedState })))
       .then(() => onSelectionChange([]));
   };
 
@@ -335,7 +337,7 @@ export const Authorized = ({
       .then(() => {
         const deleteRequests = devices.reduce((accu, device) => {
           if (device.auth_sets?.length) {
-            accu.push(dispatch(deleteAuthset(device.id, device.auth_sets[0].id)));
+            accu.push(dispatch(deleteAuthset({ deviceId: device.id, authId: device.auth_sets[0].id })));
           }
           return accu;
         }, []);
@@ -376,7 +378,7 @@ export const Authorized = ({
   const onChangeColumns = useCallback(
     (changedColumns, customColumnSizes) => {
       const { columnSizes, selectedAttributes } = calculateColumnSelectionSize(changedColumns, customColumnSizes);
-      dispatch(updateUserColumnSettings(columnSizes));
+      dispatch(updateUserColumnSettings({ columns: columnSizes }));
       dispatch(saveUserSettings({ columnSelection: changedColumns }));
       // we don't need an explicit refresh trigger here, since the selectedAttributes will be different anyway & otherwise the shown list should still be valid
       dispatchDeviceListState({ selectedAttributes });
@@ -398,7 +400,7 @@ export const Authorized = ({
 
   const onCloseExpandedDevice = useCallback(() => dispatchDeviceListState({ selectedId: undefined, detailsTab: '' }), [dispatchDeviceListState]);
 
-  const onResizeColumns = useCallback(columns => dispatch(updateUserColumnSettings(columns)), [dispatch]);
+  const onResizeColumns = useCallback(columns => dispatch(updateUserColumnSettings({ columns })), [dispatch]);
 
   const actionCallbacks = {
     onAddDevicesToGroup: addDevicesToGroup,
@@ -512,21 +514,3 @@ export const Authorized = ({
 };
 
 export default Authorized;
-
-export const DeviceStateSelection = ({ onStateChange, selectedState = '', states }) => {
-  const { classes } = useStyles();
-  const availableStates = useMemo(() => Object.values(states).filter(duplicateFilter), [states]);
-
-  return (
-    <div className="flexbox centered">
-      Status:
-      <Select className={classes.selection} disableUnderline onChange={e => onStateChange(e.target.value)} value={selectedState}>
-        {availableStates.map(state => (
-          <MenuItem key={state.key} value={state.key}>
-            {state.title()}
-          </MenuItem>
-        ))}
-      </Select>
-    </div>
-  );
-};

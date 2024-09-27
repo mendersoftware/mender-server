@@ -23,18 +23,19 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { makeStyles } from 'tss-react/mui';
 
+import storeActions from '@northern.tech/store/actions';
+import { getSessionInfo, maxSessionAge, updateMaxAge } from '@northern.tech/store/auth';
+import { TIMEOUTS } from '@northern.tech/store/constants';
+import { getCurrentSession, getCurrentUser, getIsDarkMode } from '@northern.tech/store/selectors';
+import store from '@northern.tech/store/store';
+import { parseEnvironmentInfo } from '@northern.tech/store/storehooks';
+import { logoutUser } from '@northern.tech/store/thunks';
 import Cookies from 'universal-cookie';
 
-import { parseEnvironmentInfo, setSnackbar } from '../actions/appActions';
-import { logoutUser, setAccountActivationCode, setShowConnectingDialog } from '../actions/userActions';
-import { getSessionInfo, maxSessionAge, updateMaxAge } from '../auth';
 import SharedSnackbar from '../components/common/sharedsnackbar';
 import { PrivateRoutes, PublicRoutes } from '../config/routes';
-import { TIMEOUTS } from '../constants/appConstants';
 import ErrorBoundary from '../errorboundary';
-import { isDarkMode, toggle } from '../helpers';
-import store from '../reducers';
-import { getCurrentSession, getCurrentUser, getUserSettings } from '../selectors';
+import { toggle } from '../helpers';
 import { dark as darkTheme, light as lightTheme } from '../themes/Mender';
 import Tracking from '../tracking';
 import ConfirmDismissHelptips from './common/dialogs/confirmdismisshelptips';
@@ -45,6 +46,8 @@ import Header from './header/header';
 import LeftNav from './leftnav';
 import SearchResult from './search-result';
 import Uploads from './uploads';
+
+const { receivedActivationCode, setShowConnectingDialog, setSnackbar } = storeActions;
 
 const cache = createCache({ key: 'mui', prepend: true });
 
@@ -105,7 +108,7 @@ export const AppRoot = () => {
   const showStartupNotification = useSelector(state => state.users.showStartupNotification);
   const snackbar = useSelector(state => state.app.snackbar);
   const trackingCode = useSelector(state => state.app.trackerCode);
-  const { mode } = useSelector(getUserSettings);
+  const isDarkMode = useSelector(getIsDarkMode);
   const { token: storedToken } = getSessionInfo();
   const { expiresAt, token = storedToken } = useSelector(getCurrentSession);
 
@@ -119,7 +122,7 @@ export const AppRoot = () => {
         const keyOnlyFilters = filters.split('&').reduce((accu, item) => `${accu}:${item.split('=')[0]}&`, ''); // assume the keys to filter by are not as revealing as the values things are filtered by
         page = `${page.substring(0, splitter)}?${keyOnlyFilters.substring(0, keyOnlyFilters.length - 1)}`; // cut off the last & of the reduced filters string
       } else if (page.startsWith(activationPath)) {
-        dispatch(setAccountActivationCode(page.substring(activationPath.length + 1)));
+        dispatch(receivedActivationCode(page.substring(activationPath.length + 1)));
         navigate('/settings/my-profile', { replace: true });
       } else if (trackingBlacklist.some(item => !!page.match(item))) {
         return;
@@ -180,10 +183,12 @@ export const AppRoot = () => {
 
   const onToggleSearchResult = () => setShowSearchResult(toggle);
 
-  const theme = createTheme(isDarkMode(mode) ? darkTheme : lightTheme);
+  const theme = createTheme(isDarkMode ? darkTheme : lightTheme);
 
   const { classes } = useStyles();
   const globalCssVars = cssVariables({ theme })['@global'];
+
+  const dispatchedSetSnackbar = useCallback(message => dispatch(setSnackbar(message)), [dispatch]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -192,7 +197,7 @@ export const AppRoot = () => {
       <>
         {token ? (
           <div id="app">
-            <Header mode={mode} />
+            <Header isDarkMode={isDarkMode} />
             <LeftNav />
             <div className="rightFluid container">
               <ErrorBoundary>
@@ -210,7 +215,7 @@ export const AppRoot = () => {
             <Footer />
           </div>
         )}
-        <SharedSnackbar snackbar={snackbar} setSnackbar={message => dispatch(setSnackbar(message))} />
+        <SharedSnackbar snackbar={snackbar} setSnackbar={dispatchedSetSnackbar} />
         <Uploads />
       </>
     </ThemeProvider>

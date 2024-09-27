@@ -13,14 +13,13 @@
 //    limitations under the License.
 import React from 'react';
 
+import { ALL_DEVICES, ALL_RELEASES } from '@northern.tech/store/constants';
+import * as UserActions from '@northern.tech/store/usersSlice/thunks';
 import { act, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render, selectMaterialUiSelectOption } from '../../../../tests/setupTests';
-import * as UserActions from '../../actions/userActions';
-import { ALL_DEVICES } from '../../constants/deviceConstants';
-import { ALL_RELEASES } from '../../constants/releaseConstants';
 import Roles from './roles';
 
 describe('Roles Component', () => {

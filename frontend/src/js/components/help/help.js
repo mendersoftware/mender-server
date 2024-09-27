@@ -18,7 +18,8 @@ import { Navigate, useLocation, useParams } from 'react-router-dom';
 import { Launch as LaunchIcon } from '@mui/icons-material';
 import { ListItemIcon, useTheme } from '@mui/material';
 
-import { getFeatures } from '../../selectors';
+import { getFeatures } from '@northern.tech/store/selectors';
+
 import LeftNav from '../common/left-nav';
 import Downloads from './downloads';
 import GetStarted from './getting-started';

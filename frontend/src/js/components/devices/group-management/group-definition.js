@@ -16,9 +16,9 @@ import React, { useState } from 'react';
 import { Autocomplete, FormHelperText, TextField } from '@mui/material';
 import { createFilterOptions } from '@mui/material/useAutocomplete';
 
+import { UNGROUPED_GROUP } from '@northern.tech/store/constants';
 import validator from 'validator';
 
-import { UNGROUPED_GROUP } from '../../../constants/deviceConstants';
 import { fullyDecodeURI } from '../../../helpers';
 import DocsLink from '../../common/docslink';
 import InfoText from '../../common/infotext';

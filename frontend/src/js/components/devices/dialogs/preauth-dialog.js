@@ -18,7 +18,8 @@ import { useDispatch } from 'react-redux';
 import { InfoOutlined as InfoIcon } from '@mui/icons-material';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
-import { preauthDevice } from '../../../actions/deviceActions';
+import { preauthDevice } from '@northern.tech/store/thunks';
+
 import { isEmpty } from '../../../helpers';
 import FileUpload from '../../common/forms/fileupload';
 import KeyValueEditor from '../../common/forms/keyvalueeditor';

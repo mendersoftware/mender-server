@@ -13,7 +13,8 @@
 //    limitations under the License.
 import React from 'react';
 
-import { DEVICE_STATES } from '../../../constants/deviceConstants';
+import { DEVICE_STATES } from '@northern.tech/store/constants';
+
 import { TwoColumnData } from '../../common/configurationobject';
 import DeviceNameInput from '../../common/devicenameinput';
 import Time from '../../common/time';

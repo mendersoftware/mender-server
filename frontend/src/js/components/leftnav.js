@@ -19,12 +19,14 @@ import { Link, NavLink } from 'react-router-dom';
 import { List, ListItem, ListItemText, Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import storeActions from '@northern.tech/store/actions';
+import { TIMEOUTS, canAccess } from '@northern.tech/store/constants';
+import { getFeatures, getUserCapabilities, getVersionInformation } from '@northern.tech/store/selectors';
 import copy from 'copy-to-clipboard';
 
-import { setSnackbar, setVersionInfo } from '../actions/appActions';
-import { TIMEOUTS, canAccess } from '../constants/appConstants';
-import { getFeatures, getUserCapabilities, getVersionInformation } from '../selectors';
 import DocsLink from './common/docslink';
+
+const { setSnackbar, setVersionInformation } = storeActions;
 
 const listItems = [
   { route: '/', text: 'Dashboard', canAccess },
@@ -105,7 +107,7 @@ const VersionInfo = () => {
       setClicks(0);
     }, TIMEOUTS.threeSeconds);
     if (clicks > 5) {
-      dispatch(setVersionInfo({ Integration: 'next' }));
+      dispatch(setVersionInformation({ Integration: 'next' }));
     }
     onVersionClick();
   };

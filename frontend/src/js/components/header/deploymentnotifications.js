@@ -18,7 +18,7 @@ import { Link } from 'react-router-dom';
 import { Refresh as RefreshIcon } from '@mui/icons-material';
 import { makeStyles } from 'tss-react/mui';
 
-import { DEPLOYMENT_ROUTES } from '../../constants/deploymentConstants';
+import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';
 
 const useStyles = makeStyles()(theme => ({
   icon: { color: theme.palette.grey[500], margin: '0 7px 0 10px', top: '5px', fontSize: '20px' }

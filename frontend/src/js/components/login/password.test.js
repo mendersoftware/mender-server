@@ -13,12 +13,12 @@
 //    limitations under the License.
 import React from 'react';
 
+import * as UserActions from '@northern.tech/store/usersSlice/thunks';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
-import * as UserActions from '../../actions/userActions';
 import Password from './password';
 
 describe('Password Component', () => {

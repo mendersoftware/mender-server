@@ -16,18 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { BarChart as BarChartIcon } from '@mui/icons-material';
 
-import {
-  defaultReportType,
-  defaultReports,
-  getDeviceAttributes,
-  getGroupDevices,
-  getReportingLimits,
-  getReportsData,
-  getReportsDataWithoutBackendSupport
-} from '../../actions/deviceActions';
-import { saveUserSettings } from '../../actions/userActions';
-import { rootfsImageVersion, softwareTitleMap } from '../../constants/releaseConstants';
-import { isEmpty } from '../../helpers';
+import { defaultReportType, defaultReports, rootfsImageVersion, softwareTitleMap } from '@northern.tech/store/constants';
 import {
   getAcceptedDevices,
   getAttributesList,
@@ -36,7 +25,17 @@ import {
   getFeatures,
   getGroupsByIdWithoutUngrouped,
   getIsEnterprise
-} from '../../selectors';
+} from '@northern.tech/store/selectors';
+import {
+  getDeviceAttributes,
+  getGroupDevices,
+  getReportingLimits,
+  getReportsData,
+  getReportsDataWithoutBackendSupport,
+  saveUserSettings
+} from '@northern.tech/store/thunks';
+
+import { isEmpty } from '../../helpers';
 import { extractSoftwareInformation } from '../devices/device-details/installedsoftware';
 import ChartAdditionWidget from './widgets/chart-addition';
 import DistributionReport from './widgets/distribution';

@@ -19,16 +19,15 @@ import { ChevronRight } from '@mui/icons-material';
 import { Button, Checkbox, Collapse, FormControlLabel } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import storeActions from '@northern.tech/store/actions';
+import { getToken } from '@northern.tech/store/auth';
+import { TIMEOUTS, locations, useradmApiUrl } from '@northern.tech/store/constants';
+import { getCurrentUser, getFeatures, getIsEnterprise } from '@northern.tech/store/selectors';
+import { loginUser, logoutUser } from '@northern.tech/store/thunks';
 import Cookies from 'universal-cookie';
 
 import LoginLogo from '../../../assets/img/loginlogo.svg';
 import VeryMuch from '../../../assets/img/verymuch.svg';
-import { setSnackbar } from '../../actions/appActions';
-import { loginUser, logoutUser } from '../../actions/userActions';
-import { getToken } from '../../auth';
-import { TIMEOUTS, locations } from '../../constants/appConstants';
-import { useradmApiUrl } from '../../constants/userConstants';
-import { getCurrentUser, getFeatures, getIsEnterprise } from '../../selectors';
 import { clearAllRetryTimers } from '../../utils/retrytimer';
 import Form from '../common/forms/form';
 import PasswordInput from '../common/forms/passwordinput';
@@ -36,6 +35,8 @@ import TextInput from '../common/forms/textinput';
 import LinedHeader from '../common/lined-header';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../helptips/helptooltips';
 import { OAuth2Providers } from './oauth2providers';
+
+const { setSnackbar } = storeActions;
 
 const cookies = new Cookies();
 
@@ -174,15 +175,17 @@ export const Login = () => {
   const onLoginClick = useCallback(
     loginData => {
       // set no expiry in localstorage to remember checkbox value and avoid any influence of expiration time that might occur with cookies
-      dispatch(loginUser(loginData, noExpiry)).catch(err => {
-        // don't reset the state once it was set - thus not setting `has2FA` solely based on the existence of 2fa in the error
-        if (err?.error?.includes('2fa')) {
-          setHas2FA(true);
-        }
-        if (!showPassword) {
-          setShowPassword(true);
-        }
-      });
+      dispatch(loginUser({ ...loginData, stayLoggedIn: noExpiry }))
+        .unwrap()
+        .catch(err => {
+          // don't reset the state once it was set - thus not setting `has2FA` solely based on the existence of 2fa in the error
+          if (err?.error?.includes('2fa')) {
+            setHas2FA(true);
+          }
+          if (!showPassword) {
+            setShowPassword(true);
+          }
+        });
     },
     [dispatch, noExpiry, showPassword]
   );

@@ -13,9 +13,10 @@
 //    limitations under the License.
 import React from 'react';
 
+import { getGroups } from '@northern.tech/store/selectors';
+
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
-import { getGroups } from '../../selectors';
 import Groups, { GroupItem, GroupsSubheader } from './groups';
 
 describe('Groups Component', () => {

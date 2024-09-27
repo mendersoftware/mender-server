@@ -17,10 +17,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Refresh as RefreshIcon } from '@mui/icons-material';
 import { makeStyles } from 'tss-react/mui';
 
-import { setSnackbar } from '../../actions/appActions';
-import { getDeploymentsByStatus, setDeploymentsState } from '../../actions/deploymentActions';
-import { DEPLOYMENT_STATES } from '../../constants/deploymentConstants';
-import { onboardingSteps } from '../../constants/onboardingConstants';
+import storeActions from '@northern.tech/store/actions';
+import { DEPLOYMENT_STATES, onboardingSteps } from '@northern.tech/store/constants';
 import {
   getDeploymentsByStatus as getDeploymentsByStatusSelector,
   getDeploymentsSelectionState,
@@ -30,7 +28,9 @@ import {
   getMappedDeploymentSelection,
   getOnboardingState,
   getUserCapabilities
-} from '../../selectors';
+} from '@northern.tech/store/selectors';
+import { getDeploymentsByStatus, setDeploymentsState } from '@northern.tech/store/thunks';
+
 import { getOnboardingComponentFor } from '../../utils/onboardingmanager';
 import useWindowSize from '../../utils/resizehook';
 import { clearAllRetryTimers, clearRetryTimer, setRetryTimer } from '../../utils/retrytimer';
@@ -38,6 +38,8 @@ import LinedHeader from '../common/lined-header';
 import Loader from '../common/loader';
 import { defaultRefreshDeploymentsLength as refreshDeploymentsLength } from './deployments';
 import DeploymentsList from './deploymentslist';
+
+const { setSnackbar } = storeActions;
 
 export const minimalRefreshDeploymentsLength = 2000;
 
@@ -90,10 +92,10 @@ export const Progress = ({ abort, createClick, ...remainder }) => {
   const refreshDeployments = useCallback(
     deploymentStatus => {
       const { page, perPage } = selectionState[deploymentStatus];
-      return dispatch(getDeploymentsByStatus(deploymentStatus, page, perPage))
-        .then(deploymentsAction => {
+      return dispatch(getDeploymentsByStatus({ status: deploymentStatus, page, perPage }))
+        .then(({ payload }) => {
           clearRetryTimer(deploymentStatus, dispatchedSetSnackbar);
-          const { total, deploymentIds } = deploymentsAction[deploymentsAction.length - 1];
+          const { total, deploymentIds } = payload[payload.length - 1];
           if (total && !deploymentIds.length) {
             return refreshDeployments(deploymentStatus);
           }
@@ -110,7 +112,7 @@ export const Progress = ({ abort, createClick, ...remainder }) => {
       let tasks = [refreshDeployments(DEPLOYMENT_STATES.inprogress), refreshDeployments(DEPLOYMENT_STATES.pending)];
       if (!onboardingState.complete && !pastDeploymentsCount) {
         // retrieve past deployments outside of the regular refresh cycle to not change the selection state for past deployments
-        dispatch(getDeploymentsByStatus(DEPLOYMENT_STATES.finished, 1, 1, undefined, undefined, undefined, undefined, false));
+        dispatch(getDeploymentsByStatus({ status: DEPLOYMENT_STATES.finished, page: 1, perPage: 1, shouldSelect: false }));
       }
       return Promise.all(tasks)
         .then(() => {

@@ -19,11 +19,11 @@ import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { BEGINNING_OF_TIME, TIMEOUTS } from '@northern.tech/store/constants';
+import { getCurrentSession, getFeatures, getIsPreview, getTenantCapabilities, getUserCapabilities } from '@northern.tech/store/selectors';
 import dayjs from 'dayjs';
 import durationDayJs from 'dayjs/plugin/duration';
 
-import { BEGINNING_OF_TIME, TIMEOUTS } from '../../../constants/appConstants';
-import { getCurrentSession, getFeatures, getIsPreview, getTenantCapabilities, getUserCapabilities } from '../../../selectors';
 import Tracking from '../../../tracking';
 import { useSession } from '../../../utils/sockethook';
 import { MaybeTime } from '../../common/time';

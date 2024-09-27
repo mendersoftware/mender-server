@@ -13,9 +13,10 @@
 //    limitations under the License.
 import React from 'react';
 
+import { SSO_TYPES } from '@northern.tech/store/constants';
+
 import { undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
-import { SSO_TYPES } from '../../../constants/organizationConstants.js';
 import SSOEditor from './ssoeditor';
 
 describe('SSOEditor Component', () => {

@@ -18,15 +18,21 @@ import { Link } from 'react-router-dom';
 import { Block as BlockIcon, CheckCircle as CheckCircleIcon, Error as ErrorIcon, Refresh as RefreshIcon, SaveAlt as SaveAltIcon } from '@mui/icons-material';
 import { Button, Checkbox, FormControlLabel, Typography } from '@mui/material';
 
-import { setSnackbar } from '../../../actions/appActions';
-import { abortDeployment, getDeviceLog, getSingleDeployment } from '../../../actions/deploymentActions';
-import { applyDeviceConfig, setDeviceConfig } from '../../../actions/deviceActions';
-import { saveGlobalSettings } from '../../../actions/userActions';
-import { BENEFITS, TIMEOUTS } from '../../../constants/appConstants';
-import { DEPLOYMENT_ROUTES, DEPLOYMENT_STATES } from '../../../constants/deploymentConstants';
-import { DEVICE_STATES } from '../../../constants/deviceConstants';
-import { deepCompare, groupDeploymentDevicesStats, groupDeploymentStats, isEmpty, toggle } from '../../../helpers';
-import { getDeviceConfigDeployment, getTenantCapabilities, getUserCapabilities } from '../../../selectors';
+import storeActions from '@northern.tech/store/actions';
+import { BENEFITS, DEPLOYMENT_ROUTES, DEPLOYMENT_STATES, DEVICE_STATES, TIMEOUTS } from '@northern.tech/store/constants';
+import { getDeviceConfigDeployment, getTenantCapabilities, getUserCapabilities } from '@northern.tech/store/selectors';
+import {
+  abortDeployment,
+  applyDeviceConfig,
+  getDeviceConfig,
+  getDeviceLog,
+  getSingleDeployment,
+  saveGlobalSettings,
+  setDeviceConfig
+} from '@northern.tech/store/thunks';
+import { groupDeploymentDevicesStats, groupDeploymentStats } from '@northern.tech/store/utils';
+
+import { deepCompare, isEmpty, toggle } from '../../../helpers';
 import Tracking from '../../../tracking';
 import ConfigurationObject from '../../common/configurationobject';
 import Confirm, { EditButton } from '../../common/confirm';
@@ -40,6 +46,8 @@ import Time from '../../common/time';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
 import ConfigImportDialog from './configimportdialog';
 import DeviceDataCollapse from './devicedatacollapse';
+
+const { setSnackbar } = storeActions;
 
 const buttonStyle = { marginLeft: 30 };
 const iconStyle = { margin: 12 };
@@ -195,6 +203,7 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
       setUpdateFailed(updateFailed);
       setIsEditingConfig(updateFailed);
       setIsUpdatingConfig(false);
+      dispatch(getDeviceConfig(device.id));
     } else if (deployment.status) {
       setChangedConfig(configured);
       setEditableConfig(configured);
@@ -235,10 +244,12 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
   const onSetAsDefaultChange = () => setIsSetAsDefault(toggle);
 
   const onShowLog = () =>
-    dispatch(getDeviceLog(deployment_id, device.id)).then(result => {
-      setShowLog(true);
-      setUpdateLog(result[1]);
-    });
+    dispatch(getDeviceLog({ deploymentId: deployment_id, deviceId: device.id }))
+      .unwrap()
+      .then(result => {
+        setShowLog(true);
+        setUpdateLog(result[1]);
+      });
 
   const onCancel = () => {
     if (!isEmpty(reported)) {
@@ -252,7 +263,7 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
     if (deepCompare(reported, changedConfig)) {
       requests.push(Promise.resolve());
     } else {
-      requests.push(dispatch(setDeviceConfig(device.id, reported)));
+      requests.push(dispatch(setDeviceConfig({ deviceId: device.id, config: reported })));
       if (isSetAsDefault && canManageUsers) {
         requests.push(dispatch(saveGlobalSettings({ defaultDeviceConfig: { current: defaultConfig.previous } })));
       }
@@ -268,8 +279,10 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
     Tracking.event({ category: 'devices', action: 'apply_configuration' });
     setIsUpdatingConfig(true);
     setUpdateFailed(false);
-    return dispatch(setDeviceConfig(device.id, changedConfig))
-      .then(() => dispatch(applyDeviceConfig(device.id, { retries: 0 }, isSetAsDefault, changedConfig)))
+    return dispatch(setDeviceConfig({ deviceId: device.id, config: changedConfig }))
+      .then(() =>
+        dispatch(applyDeviceConfig({ deviceId: device.id, configDeploymentConfiguration: { retries: 0 }, isDefault: isSetAsDefault, config: changedConfig }))
+      )
       .catch(() => {
         setIsEditingConfig(true);
         setUpdateFailed(true);

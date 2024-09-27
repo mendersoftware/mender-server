@@ -16,13 +16,16 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Collapse, Switch } from '@mui/material';
 
-import { setSnackbar } from '../../../actions/appActions';
-import { disableUser2fa, enableUser2fa, get2FAQRCode, verify2FA, verifyEmailComplete, verifyEmailStart } from '../../../actions/userActions';
-import { twoFAStates } from '../../../constants/userConstants';
-import { getCurrentUser, getHas2FA } from '../../../selectors';
+import storeActions from '@northern.tech/store/actions';
+import { twoFAStates } from '@northern.tech/store/constants';
+import { getCurrentUser, getHas2FA } from '@northern.tech/store/selectors';
+import { disableUser2fa, enableUser2fa, get2FAQRCode, verify2FA, verifyEmailComplete, verifyEmailStart } from '@northern.tech/store/thunks';
+
 import InfoText from '../../common/infotext';
 import AuthSetup from './twofactorauth-steps/authsetup';
 import EmailVerification from './twofactorauth-steps/emailverification';
+
+const { setSnackbar } = storeActions;
 
 export const TwoFactorAuthSetup = () => {
   const activationCode = useSelector(state => state.users.activationCode);

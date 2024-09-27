@@ -13,12 +13,12 @@
 //    limitations under the License.
 import React from 'react';
 
+import { getSessionInfo } from '@northern.tech/store/auth';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
-import { getSessionInfo } from '../../auth';
 import Upgrade, { PostUpgradeNote, PricingContactNote } from './upgrade';
 
 describe('smaller components', () => {

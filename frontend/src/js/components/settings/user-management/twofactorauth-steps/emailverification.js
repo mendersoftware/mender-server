@@ -15,7 +15,8 @@ import React, { useEffect, useState } from 'react';
 
 import { Button } from '@mui/material';
 
-import { TIMEOUTS } from '../../../../constants/appConstants';
+import { TIMEOUTS } from '@northern.tech/store/constants';
+
 import Form from '../../../common/forms/form';
 import TextInput from '../../../common/forms/textinput';
 import Loader from '../../../common/loader';

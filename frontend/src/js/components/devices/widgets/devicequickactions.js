@@ -27,14 +27,19 @@ import { speedDialActionClasses } from '@mui/material/SpeedDialAction';
 import { makeStyles } from 'tss-react/mui';
 
 import { mdiTrashCanOutline as TrashCan } from '@mdi/js';
+import { DEVICE_STATES, TIMEOUTS, UNGROUPED_GROUP, onboardingSteps } from '@northern.tech/store/constants';
+import {
+  getDeviceById,
+  getFeatures,
+  getMappedDevicesList,
+  getOnboardingState,
+  getTenantCapabilities,
+  getUserCapabilities
+} from '@northern.tech/store/selectors';
 import pluralize from 'pluralize';
 
 import GatewayIcon from '../../../../assets/img/gateway.svg';
-import { TIMEOUTS } from '../../../constants/appConstants';
-import { DEVICE_STATES, UNGROUPED_GROUP } from '../../../constants/deviceConstants';
-import { onboardingSteps } from '../../../constants/onboardingConstants';
 import { stringToBoolean, toggle } from '../../../helpers';
-import { getDeviceById, getFeatures, getMappedDevicesList, getOnboardingState, getTenantCapabilities, getUserCapabilities } from '../../../selectors';
 import { getOnboardingComponentFor } from '../../../utils/onboardingmanager';
 import MaterialDesignIcon from '../../common/materialdesignicon';
 

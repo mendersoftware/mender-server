@@ -19,7 +19,8 @@ import { Accordion, AccordionDetails, AccordionSummary, accordionClasses } from 
 import { accordionSummaryClasses } from '@mui/material/AccordionSummary';
 import { makeStyles } from 'tss-react/mui';
 
-import { DEVICE_LIST_DEFAULTS } from '../../../constants/deviceConstants';
+import { DEVICE_LIST_DEFAULTS } from '@northern.tech/store/constants';
+
 import { toggle } from '../../../helpers';
 import Pagination from '../../common/pagination';
 import Time from '../../common/time';

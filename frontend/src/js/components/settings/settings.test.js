@@ -15,11 +15,11 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
+import { getSessionInfo } from '@northern.tech/store/auth';
+import { getConfiguredStore } from '@northern.tech/store/store';
 import { act, render as testingLibRender } from '@testing-library/react';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
-import { getSessionInfo } from '../../auth';
-import { getConfiguredStore } from '../../reducers';
 import Settings from './settings';
 
 describe('Settings Component', () => {

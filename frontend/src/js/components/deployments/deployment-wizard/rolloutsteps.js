@@ -17,7 +17,8 @@ import { Add as AddIcon, ArrowRight as ArrowRightIcon, PauseCircleOutline as Pau
 import { Chip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { TIMEOUTS } from '../../../constants/appConstants';
+import { TIMEOUTS } from '@northern.tech/store/constants';
+
 import DocsLink from '../../common/docslink';
 import InfoText from '../../common/infotext';
 import MenderTooltip from '../../common/mendertooltip';

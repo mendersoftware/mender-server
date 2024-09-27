@@ -13,9 +13,10 @@
 //    limitations under the License.
 import React from 'react';
 
+import { EXTERNAL_PROVIDER } from '@northern.tech/store/constants';
+
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
-import { EXTERNAL_PROVIDER } from '../../constants/deviceConstants';
 import ExpandedDevice from './expanded-device';
 
 const preloadedState = {

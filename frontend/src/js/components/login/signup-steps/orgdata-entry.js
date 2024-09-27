@@ -17,7 +17,8 @@ import { useFormContext } from 'react-hook-form';
 
 import { MenuItem, Select } from '@mui/material';
 
-import { locations } from '../../../constants/appConstants';
+import { locations } from '@northern.tech/store/constants';
+
 import DocsLink from '../../common/docslink';
 import FormCheckbox from '../../common/forms/formcheckbox';
 import TextInput from '../../common/forms/textinput';

@@ -14,6 +14,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
+import { TIMEOUTS } from '@northern.tech/store/commonConstants';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Cookies from 'universal-cookie';
@@ -21,6 +22,8 @@ import Cookies from 'universal-cookie';
 import { undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
 import Signup from './signup';
+
+const cookies = new Cookies();
 
 describe('Signup Component', () => {
   it('renders correctly', async () => {
@@ -59,12 +62,12 @@ describe('Signup Component', () => {
     await user.click(screen.getByRole('checkbox', { name: /by checking this you agree to our/i }));
     await waitFor(() => rerender(ui));
     await waitFor(() => expect(screen.getByRole('button', { name: /complete signup/i })).toBeEnabled());
-    const cookies = new Cookies();
     cookies.set.mockReturnValue();
     await user.click(screen.getByRole('button', { name: /complete signup/i }));
     await waitFor(() => expect(container.querySelector('.loaderContainer')).toBeVisible());
-    await act(async () => jest.advanceTimersByTime(5000));
+    await act(async () => jest.advanceTimersByTime(TIMEOUTS.refreshDefault));
     await waitFor(() => rerender(ui));
+    screen.debug(undefined, 20000000);
     await waitFor(() =>
       expect(cookies.set).toHaveBeenLastCalledWith('firstLoginAfterSignup', true, { domain: '.mender.io', maxAge: 60, path: '/', sameSite: false })
     );

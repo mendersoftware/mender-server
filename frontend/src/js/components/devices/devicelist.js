@@ -18,9 +18,10 @@ import { Settings as SettingsIcon, Sort as SortIcon } from '@mui/icons-material'
 import { Checkbox } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { SORTING_OPTIONS, TIMEOUTS } from '../../constants/appConstants';
-import { DEVICE_LIST_DEFAULTS } from '../../constants/deviceConstants';
-import { deepCompare, isDarkMode, toggle } from '../../helpers';
+import { DEVICE_LIST_DEFAULTS, SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
+import { isDarkMode } from '@northern.tech/store/utils';
+
+import { deepCompare, toggle } from '../../helpers';
 import useWindowSize from '../../utils/resizehook';
 import Loader from '../common/loader';
 import MenderTooltip from '../common/mendertooltip';

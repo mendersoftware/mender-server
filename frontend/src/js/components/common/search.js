@@ -18,7 +18,8 @@ import { Search as SearchIcon } from '@mui/icons-material';
 import { InputAdornment, TextField } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { TIMEOUTS } from '../../constants/appConstants';
+import { TIMEOUTS } from '@northern.tech/store/constants';
+
 import { useDebounce } from '../../utils/debouncehook';
 import Loader from './loader';
 

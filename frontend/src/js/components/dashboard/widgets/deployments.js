@@ -15,7 +15,8 @@ import React from 'react';
 
 import { makeStyles } from 'tss-react/mui';
 
-import { DEPLOYMENT_STATES } from '../../../constants/deploymentConstants';
+import { DEPLOYMENT_STATES } from '@northern.tech/store/constants';
+
 import { useDeploymentDevice } from '../../../utils/deploymentdevicehook';
 import Time from '../../common/time';
 import { DeploymentDeviceGroup, DeploymentProgress } from '../../deployments/deploymentitem';

@@ -5,5 +5,5 @@
     "noResolve": true
   },
   "extends": "./tsconfig.json",
-  "exclude": ["src/js/api/types/Settings.ts"]
+  "exclude": ["src/js/store/api/types/Settings.ts"]
 }

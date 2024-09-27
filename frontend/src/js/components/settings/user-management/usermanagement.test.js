@@ -13,13 +13,13 @@
 //    limitations under the License.
 import React from 'react';
 
+import { yes } from '@northern.tech/store/constants';
+import * as UserActions from '@northern.tech/store/usersSlice/thunks';
 import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { defaultState, undefineds, userId } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
-import * as UserActions from '../../../actions/userActions';
-import { yes } from '../../../constants/appConstants';
 import UserManagement from './usermanagement';
 
 const preloadedState = {

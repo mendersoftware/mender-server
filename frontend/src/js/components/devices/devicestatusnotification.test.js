@@ -13,12 +13,12 @@
 //    limitations under the License.
 import React from 'react';
 
+import { DEVICE_STATES } from '@northern.tech/store/constants';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
-import { DEVICE_STATES } from '../../constants/deviceConstants';
 import DeviceStatusNotification from './devicestatusnotification';
 
 describe('DeviceStatusNotification Component', () => {

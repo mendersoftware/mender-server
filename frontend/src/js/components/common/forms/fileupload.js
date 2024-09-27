@@ -19,7 +19,9 @@ import { useDispatch } from 'react-redux';
 import { Clear as ClearIcon, CloudUploadOutlined as FileIcon } from '@mui/icons-material';
 import { IconButton, TextField } from '@mui/material';
 
-import { setSnackbar } from '../../../actions/appActions';
+import storeActions from '@northern.tech/store/actions';
+
+const { setSnackbar } = storeActions;
 
 export const FileUpload = ({ enableContentReading = true, fileNameSelection, onFileChange, onFileSelect = () => undefined, placeholder, style = {} }) => {
   const [filename, setFilename] = useState(fileNameSelection);

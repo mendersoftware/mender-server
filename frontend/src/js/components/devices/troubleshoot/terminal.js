@@ -13,9 +13,9 @@
 //    limitations under the License.
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
+import { DEVICE_MESSAGE_TYPES as MessageTypes } from '@northern.tech/store/constants';
 import { WebLinksAddon } from '@xterm/addon-web-links';
 
-import { DEVICE_MESSAGE_TYPES as MessageTypes } from '../../../constants/deviceConstants';
 import { toggle } from '../../../helpers';
 import useWindowSize from '../../../utils/resizehook';
 import XTerm from '../../common/xterm';

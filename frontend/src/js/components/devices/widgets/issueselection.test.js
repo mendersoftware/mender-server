@@ -13,9 +13,10 @@
 //    limitations under the License.
 import React from 'react';
 
+import { DEVICE_ISSUE_OPTIONS } from '@northern.tech/store/constants';
+
 import { undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
-import { DEVICE_ISSUE_OPTIONS } from '../../../constants/deviceConstants';
 import DeviceIssuesSelection from './issueselection';
 
 describe('DeviceIssuesSelection Component', () => {

@@ -15,8 +15,9 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import { passwordResetStart } from '@northern.tech/store/thunks';
+
 import LoginLogo from '../../../assets/img/loginlogo.svg';
-import { passwordResetStart } from '../../actions/userActions';
 import Form from '../common/forms/form';
 import TextInput from '../common/forms/textinput';
 import { LocationWarning } from './login';

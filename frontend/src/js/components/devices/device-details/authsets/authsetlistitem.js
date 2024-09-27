@@ -18,8 +18,8 @@ import { FileCopy as CopyPasteIcon } from '@mui/icons-material';
 // material ui
 import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Button, Chip, Divider, IconButton } from '@mui/material';
 
-import { TIMEOUTS } from '../../../../constants/appConstants';
-import { DEVICE_DISMISSAL_STATE, DEVICE_STATES } from '../../../../constants/deviceConstants';
+import { DEVICE_DISMISSAL_STATE, DEVICE_STATES, TIMEOUTS } from '@northern.tech/store/constants';
+
 import { formatTime } from '../../../../helpers';
 import Loader from '../../../common/loader';
 import Time from '../../../common/time';

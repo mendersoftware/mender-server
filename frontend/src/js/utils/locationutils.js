@@ -11,10 +11,20 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import {
+  ALL_DEVICES,
+  ATTRIBUTE_SCOPES,
+  AUDIT_LOGS_TYPES,
+  DEPLOYMENT_ROUTES,
+  DEPLOYMENT_STATES,
+  DEPLOYMENT_TYPES,
+  DEVICE_FILTERING_OPTIONS,
+  DEVICE_LIST_DEFAULTS,
+  UNGROUPED_GROUP,
+  emptyFilter
+} from '@northern.tech/store/constants';
+
 import { routes } from '../components/devices/base-devices';
-import { DEPLOYMENT_ROUTES, DEPLOYMENT_STATES, DEPLOYMENT_TYPES } from '../constants/deploymentConstants';
-import { ALL_DEVICES, ATTRIBUTE_SCOPES, DEVICE_FILTERING_OPTIONS, DEVICE_LIST_DEFAULTS, UNGROUPED_GROUP, emptyFilter } from '../constants/deviceConstants';
-import { AUDIT_LOGS_TYPES } from '../constants/organizationConstants';
 import { deepCompare, getISOStringBoundaries } from '../helpers';
 
 const SEPARATOR = ':';

@@ -34,15 +34,15 @@ import {
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { BENEFITS } from '@northern.tech/store/constants';
+import dayjs from 'dayjs';
 import pluralize from 'pluralize';
 
-import { BENEFITS } from '../../../constants/appConstants';
 import { getPhaseDeviceCount, getRemainderPercent } from '../../../helpers';
 import { DOCSTIPS, DocsTooltip } from '../../common/docslink';
 import EnterpriseNotification from '../../common/enterpriseNotification';
 import { InfoHintContainer } from '../../common/info-hint';
 import Time from '../../common/time';
-import { getPhaseStartTime } from '../createdeployment';
 
 const useStyles = makeStyles()(theme => ({
   chip: { marginTop: theme.spacing(2) },
@@ -54,6 +54,17 @@ const useStyles = makeStyles()(theme => ({
 
 const timeframes = ['minutes', 'hours', 'days'];
 const tableHeaders = ['', 'Batch size', 'Phase begins', 'Delay before next phase', ''];
+
+export const getPhaseStartTime = (phases, index, startDate) => {
+  if (index < 1) {
+    return startDate?.toISOString ? startDate.toISOString() : startDate;
+  }
+  // since we don't want to get stale phase start times when the creation dialog is open for a long time
+  // we have to ensure start times are based on delay from previous phases
+  // since there likely won't be 1000s of phases this should still be fine to recalculate
+  const newStartTime = phases.slice(0, index).reduce((accu, phase) => dayjs(accu).add(phase.delay, phase.delayUnit), startDate);
+  return newStartTime.toISOString();
+};
 
 export const PhaseSettings = ({ classNames, deploymentObject, disabled, numberDevices, setDeploymentSettings }) => {
   const { classes } = useStyles();

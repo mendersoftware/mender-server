@@ -17,7 +17,12 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
-    "target": "esnext"
+    "target": "esnext",
+    "baseUrl": ".",
+    "paths": {
+      "@northern.tech/store/*": ["src/js/store/*"]
+    }
   },
-  "include": ["./src/**/*.ts"]
+  "include": ["**/*.js", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", ".nyc_output", "coverage", "jest-coverage"]
 }

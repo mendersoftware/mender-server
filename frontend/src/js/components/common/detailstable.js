@@ -18,7 +18,7 @@ import { Sort as SortIcon } from '@mui/icons-material';
 import { Checkbox, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { SORTING_OPTIONS } from '../../constants/appConstants';
+import { SORTING_OPTIONS } from '@northern.tech/store/constants';
 
 const useStyles = makeStyles()(() => ({
   header: {

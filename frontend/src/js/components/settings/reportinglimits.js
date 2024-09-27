@@ -32,7 +32,8 @@ import {
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { getReportingLimits } from '../../actions/deviceActions';
+import { getReportingLimits } from '@northern.tech/store/thunks';
+
 import { toggle } from '../../helpers';
 import { InfoHintContainer } from '../common/info-hint';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../helptips/helptooltips';

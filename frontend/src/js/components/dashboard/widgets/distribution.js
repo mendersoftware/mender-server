@@ -15,26 +15,25 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 import { Clear as ClearIcon, Settings, Square } from '@mui/icons-material';
-import { IconButton, LinearProgress, linearProgressClasses, svgIconClasses } from '@mui/material';
+import { IconButton, LinearProgress, linearProgressClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import storeActions from '@northern.tech/store/actions';
+import { ALL_DEVICES, TIMEOUTS, chartTypes, rootfsImageVersion, softwareTitleMap } from '@northern.tech/store/constants';
 import { VictoryBar, VictoryContainer, VictoryPie, VictoryStack } from 'victory';
 
-import { ensureVersionString } from '../../../actions/deviceActions';
-import { TIMEOUTS, chartTypes } from '../../../constants/appConstants';
-import { ALL_DEVICES } from '../../../constants/deviceConstants';
-import { rootfsImageVersion, softwareTitleMap } from '../../../constants/releaseConstants';
 import { isEmpty, toggle } from '../../../helpers';
 import { chartColorPalette } from '../../../themes/Mender';
 import Loader from '../../common/loader';
-import { ChartEditWidget, RemovalWidget } from './chart-addition';
+import { ChartEditWidget, Header, RemovalWidget } from './chart-addition';
+
+const { ensureVersionString } = storeActions;
 
 const seriesOther = '__OTHER__';
 
 const createColorClassName = hexColor => `color-${hexColor.slice(1)}`;
 
 const useStyles = makeStyles()(theme => ({
-  header: { minHeight: 30, [`.${svgIconClasses.root}`]: { marginLeft: theme.spacing() } },
   indicator: { fontSize: 10, minWidth: 'initial', marginLeft: 4 },
   legendItem: {
     alignItems: 'center',
@@ -204,17 +203,6 @@ const initDistribution = ({ data, theme }) => {
   return { distribution, totals };
 };
 
-export const Header = ({ chartType }) => {
-  const { classes } = useStyles();
-  const { Icon } = chartTypes[chartType];
-  return (
-    <div className={`flexbox center-aligned ${classes.header}`}>
-      Software distribution
-      <Icon />
-    </div>
-  );
-};
-
 export const DistributionReport = ({ data, getGroupDevices, groups, onClick, onSave, selection = {}, software: softwareTree }) => {
   const {
     attribute: attributeSelection,
@@ -235,7 +223,7 @@ export const DistributionReport = ({ data, getGroupDevices, groups, onClick, onS
     setGroup(groupSelection);
     setChartType(chartTypeSelection);
     setRemoving(false);
-    getGroupDevices(groupSelection, { page: 1, perPage: 1 });
+    getGroupDevices({ group: groupSelection, page: 1, perPage: 1 });
   }, [attributeSelection, groupSelection, chartTypeSelection, softwareSelection, getGroupDevices]);
 
   const { distribution, totals } = useMemo(() => {

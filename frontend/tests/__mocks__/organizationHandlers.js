@@ -11,13 +11,18 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import {
+  EXTERNAL_PROVIDER,
+  PLANS,
+  auditLogsApiUrl,
+  headerNames,
+  iotManagerBaseURL,
+  ssoIdpApiUrlv1,
+  tenantadmApiUrlv1,
+  tenantadmApiUrlv2
+} from '@northern.tech/store/constants';
 import { HttpResponse, http } from 'msw';
 
-import { iotManagerBaseURL } from '../../src/js/actions/deviceActions';
-import { auditLogsApiUrl, ssoIdpApiUrlv1, tenantadmApiUrlv1, tenantadmApiUrlv2 } from '../../src/js/actions/organizationActions';
-import { headerNames } from '../../src/js/api/general-api';
-import { PLANS } from '../../src/js/constants/appConstants';
-import { EXTERNAL_PROVIDER } from '../../src/js/constants/deviceConstants';
 import { defaultState, webhookEvents } from '../mockData';
 
 const releasesSample = {

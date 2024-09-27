@@ -18,7 +18,8 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { Clear as ClearIcon, DragHandle as DragHandleIcon } from '@mui/icons-material';
 import { DialogContent, FormControl, IconButton, ListItem } from '@mui/material';
 
-import { ATTRIBUTE_SCOPES } from '../../../constants/deviceConstants';
+import { ATTRIBUTE_SCOPES } from '@northern.tech/store/constants';
+
 import AttributeAutoComplete, { getOptionLabel } from '../widgets/attribute-autocomplete';
 
 const DraggableListItem = ({ item, index, onRemove }) => {

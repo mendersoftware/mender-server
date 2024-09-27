@@ -17,10 +17,13 @@ import { useDispatch, useSelector } from 'react-redux';
 // material ui
 import { Error as ErrorIcon } from '@mui/icons-material';
 
-import { setSnackbar } from '../../../actions/appActions';
-import { confirmCardUpdate, getCurrentCard, startCardUpdate } from '../../../actions/organizationActions';
+import storeActions from '@northern.tech/store/actions';
+import { confirmCardUpdate, getCurrentCard, startCardUpdate } from '@northern.tech/store/thunks';
+
 import CardSection from '../cardsection';
 import OrganizationSettingsItem from './organizationsettingsitem';
+
+const { setSnackbar } = storeActions;
 
 export const OrganizationPaymentSettings = () => {
   const [isUpdatingPaymentDetails, setIsUpdatingPaymentDetails] = useState(false);

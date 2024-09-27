@@ -15,12 +15,8 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { getDeviceCount } from '../../actions/deviceActions';
-import { getIssueCountsByType } from '../../actions/monitorActions';
-import { advanceOnboarding } from '../../actions/onboardingActions';
-import { setShowConnectingDialog } from '../../actions/userActions';
-import { DEVICE_STATES } from '../../constants/deviceConstants';
-import { onboardingSteps } from '../../constants/onboardingConstants';
+import storeActions from '@northern.tech/store/actions';
+import { DEVICE_STATES, onboardingSteps } from '@northern.tech/store/constants';
 import {
   getAcceptedDevices,
   getAvailableIssueOptionsByType,
@@ -28,13 +24,17 @@ import {
   getOnboardingState,
   getTenantCapabilities,
   getUserCapabilities
-} from '../../selectors';
+} from '@northern.tech/store/selectors';
+import { advanceOnboarding, getDeviceCount, getIssueCountsByType } from '@northern.tech/store/thunks';
+
 import { getOnboardingComponentFor } from '../../utils/onboardingmanager';
 import useWindowSize from '../../utils/resizehook';
 import AcceptedDevices from './widgets/accepteddevices';
 import ActionableDevices from './widgets/actionabledevices';
 import PendingDevices from './widgets/pendingdevices';
 import RedirectionWidget from './widgets/redirectionwidget';
+
+const { setShowConnectingDialog } = storeActions;
 
 export const Devices = ({ clickHandle }) => {
   // eslint-disable-next-line no-unused-vars
@@ -51,7 +51,9 @@ export const Devices = ({ clickHandle }) => {
   const { pending: pendingDevicesCount } = useSelector(getDeviceCountsByStatus);
 
   const refreshDevices = useCallback(() => {
-    const issueRequests = Object.keys(availableIssueOptions).map(key => dispatch(getIssueCountsByType(key, { filters: [], selectedIssues: [key] })));
+    const issueRequests = Object.keys(availableIssueOptions).map(key =>
+      dispatch(getIssueCountsByType({ type: key, options: { filters: [], selectedIssues: [key] } }))
+    );
     return Promise.all([dispatch(getDeviceCount(DEVICE_STATES.accepted)), dispatch(getDeviceCount(DEVICE_STATES.pending)), ...issueRequests]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(availableIssueOptions), dispatch]);

@@ -16,14 +16,16 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider } from '@mui/material';
 
+import storeActions from '@northern.tech/store/actions';
+import { DEVICE_ONLINE_CUTOFF, TIMEOUTS } from '@northern.tech/store/constants';
+import { getIsDarkMode } from '@northern.tech/store/selectors';
+import { saveGlobalSettings } from '@northern.tech/store/thunks';
+
 import logo from '../../../../assets/img/headerlogo.png';
 import whiteLogo from '../../../../assets/img/whiteheaderlogo.png';
-import { saveGlobalSettings, setShowStartupNotification } from '../../../actions/userActions';
-import { TIMEOUTS } from '../../../constants/appConstants';
-import { DEVICE_ONLINE_CUTOFF } from '../../../constants/deviceConstants';
-import { isDarkMode } from '../../../helpers';
-import { getUserSettings } from '../../../selectors';
 import { useDebounce } from '../../../utils/debouncehook';
+
+const { setShowStartupNotification } = storeActions;
 
 const OfflineThresholdContent = () => (
   <>
@@ -66,7 +68,7 @@ const notifications = {
 export const StartupNotificationDialog = () => {
   const [isAllowedToClose] = useState(false);
   const dispatch = useDispatch();
-  const { mode } = useSelector(getUserSettings);
+  const isDarkMode = useSelector(getIsDarkMode);
 
   const { action, Content } = notifications.offlineThreshold;
 
@@ -76,7 +78,7 @@ export const StartupNotificationDialog = () => {
     action({ dispatch });
     dispatch(setShowStartupNotification(false));
   };
-  const headerLogo = isDarkMode(mode) ? whiteLogo : logo;
+  const headerLogo = isDarkMode ? whiteLogo : logo;
   return (
     <Dialog open PaperProps={{ className: 'padding-small', sx: { maxWidth: 720 } }}>
       <DialogTitle className="flexbox center-aligned">

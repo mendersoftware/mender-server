@@ -16,10 +16,11 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { useTheme } from '@mui/material/styles';
 
-import { getDeviceAlerts, setAlertListState } from '../../../actions/monitorActions';
-import { BENEFITS } from '../../../constants/appConstants';
-import { DEVICE_LIST_DEFAULTS } from '../../../constants/deviceConstants';
-import { getOfflineThresholdSettings, getTenantCapabilities } from '../../../selectors';
+import storeActions from '@northern.tech/store/actions';
+import { BENEFITS, DEVICE_LIST_DEFAULTS } from '@northern.tech/store/constants';
+import { getOfflineThresholdSettings, getTenantCapabilities } from '@northern.tech/store/selectors';
+import { getDeviceAlerts } from '@northern.tech/store/thunks';
+
 import DocsLink from '../../common/docslink';
 import EnterpriseNotification from '../../common/enterpriseNotification';
 import Pagination from '../../common/pagination';
@@ -28,6 +29,8 @@ import MonitorDetailsDialog from '../dialogs/monitordetailsdialog';
 import { DeviceConnectionNote } from './connection';
 import DeviceDataCollapse from './devicedatacollapse';
 import { DeviceOfflineHeaderNotification, NoAlertsHeaderNotification, monitoringSeverities, severityMap } from './notifications';
+
+const { setAlertListState } = storeActions;
 
 const { page: defaultPage, perPage: defaultPerPage } = DEVICE_LIST_DEFAULTS;
 
@@ -67,10 +70,10 @@ export const DeviceMonitoring = ({ device, onDetailsClick }) => {
 
   useEffect(() => {
     if (hasMonitor) {
-      dispatch(getDeviceAlerts(device.id, alertListState));
+      dispatch(getDeviceAlerts({ id: device.id, config: alertListState }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [device.id, dispatch, pageNo, pageLength]);
+  }, [device.id, dispatch, hasMonitor, pageNo, pageLength]);
 
   const onChangePage = page => dispatch(setAlertListState({ page }));
 

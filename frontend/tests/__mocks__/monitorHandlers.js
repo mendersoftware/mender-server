@@ -11,11 +11,9 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { alertChannels, headerNames, monitorApiUrlv1 } from '@northern.tech/store/constants';
 import { HttpResponse, http } from 'msw';
 
-import { monitorApiUrlv1 } from '../../src/js/actions/monitorActions';
-import { headerNames } from '../../src/js/api/general-api';
-import { alertChannels } from '../../src/js/constants/monitorConstants';
 import { defaultState } from '../mockData';
 
 export const monitorHandlers = [

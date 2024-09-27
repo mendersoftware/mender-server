@@ -20,7 +20,8 @@ import { Button } from '@mui/material';
 import { listItemTextClasses } from '@mui/material/ListItemText';
 import { makeStyles } from 'tss-react/mui';
 
-import { SSO_TYPES, XML_METADATA_FORMAT } from '../../../constants/organizationConstants.js';
+import { SSO_TYPES, XML_METADATA_FORMAT } from '@northern.tech/store/constants';
+
 import { toggle } from '../../../helpers';
 import ExpandableAttribute from '../../common/expandable-attribute';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';

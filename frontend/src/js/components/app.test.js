@@ -14,16 +14,16 @@
 import React from 'react';
 import Linkify from 'react-linkify';
 
+import GeneralApi from '@northern.tech/store/api/general-api';
+import { getSessionInfo, maxSessionAge } from '@northern.tech/store/auth';
+import { TIMEOUTS } from '@northern.tech/store/constants';
+import * as DeviceActions from '@northern.tech/store/devicesSlice/thunks';
 import { act, screen, render as testLibRender, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import 'jsdom-worker';
 
 import { defaultState, mockDate, token, undefineds } from '../../../tests/mockData';
 import { render } from '../../../tests/setupTests';
-import * as DeviceActions from '../actions/deviceActions';
-import GeneralApi from '../api/general-api';
-import { getSessionInfo, maxSessionAge } from '../auth';
-import { TIMEOUTS } from '../constants/appConstants';
 import App, { AppProviders } from './app';
 
 const preloadedState = {
