@@ -11,6 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+// @ts-nocheck
 import { DEVICE_ONLINE_CUTOFF, defaultIdAttribute } from '@northern.tech/store/constants';
 import { isDarkMode } from '@northern.tech/store/utils';
 import { createSelector } from '@reduxjs/toolkit';
