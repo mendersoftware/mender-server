@@ -45,7 +45,7 @@ describe('ColumnCustomizationDialog Component', () => {
         name: rootfs,
         scope: 'inventory',
         title: 'Current software',
-        attribute: { name: rootfs, scope: 'inventory', alternative: 'artifact_name' },
+        attribute: { name: rootfs, scope: 'inventory' },
         textRender: jest.fn
       },
       {
