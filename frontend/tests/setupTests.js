@@ -18,14 +18,14 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
+import { getSessionInfo } from '@northern.tech/store/auth';
+import { yes } from '@northern.tech/store/constants';
+import { getConfiguredStore } from '@northern.tech/store/store';
 import '@testing-library/jest-dom';
 import { act, cleanup, queryByRole, render, waitFor, within } from '@testing-library/react';
 import { setupServer } from 'msw/node';
 import { MessageChannel } from 'worker_threads';
 
-import { getSessionInfo } from '../src/js/auth';
-import { yes } from '../src/js/constants/appConstants';
-import { getConfiguredStore } from '../src/js/reducers';
 import { light as lightTheme } from '../src/js/themes/Mender';
 import handlers from './__mocks__/requestHandlers';
 import { defaultState, menderEnvironment, mockDate, token as mockToken } from './mockData';

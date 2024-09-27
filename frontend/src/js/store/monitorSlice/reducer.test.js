@@ -11,10 +11,10 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { defaultState } from '../../../tests/mockData';
-import { DEVICE_ISSUE_OPTIONS } from '../constants/deviceConstants';
-import * as MonitorConstants from '../constants/monitorConstants';
-import reducer, { initialState } from './monitorReducer';
+import reducer, { actions, initialState } from '.';
+import { defaultState } from '../../../../tests/mockData';
+import { DEVICE_ISSUE_OPTIONS, DEVICE_LIST_DEFAULTS } from '../constants';
+import { alertChannels } from './constants';
 
 describe('monitor reducer', () => {
   it('should return the initial state', async () => {
@@ -23,58 +23,56 @@ describe('monitor reducer', () => {
 
   it('should handle CHANGE_ALERT_CHANNEL', async () => {
     expect(
-      reducer(undefined, { type: MonitorConstants.CHANGE_ALERT_CHANNEL, channel: MonitorConstants.alertChannels.email, enabled: false }).settings.global
-        .channels[MonitorConstants.alertChannels.email].enabled
+      reducer(undefined, { type: actions.changeAlertChannel, payload: { channel: alertChannels.email, enabled: false } }).settings.global.channels[
+        alertChannels.email
+      ].enabled
     ).toEqual(false);
     expect(
-      reducer(initialState, { type: MonitorConstants.CHANGE_ALERT_CHANNEL, channel: MonitorConstants.alertChannels.email, enabled: true }).settings.global
-        .channels[MonitorConstants.alertChannels.email].enabled
+      reducer(initialState, { type: actions.changeAlertChannel, payload: { channel: alertChannels.email, enabled: true } }).settings.global.channels[
+        alertChannels.email
+      ].enabled
     ).toEqual(true);
   });
   it('should handle RECEIVE_DEVICE_ALERTS', async () => {
     expect(
-      reducer(undefined, { type: MonitorConstants.RECEIVE_DEVICE_ALERTS, deviceId: defaultState.devices.byId.a1.id, alerts: [] }).alerts.byDeviceId[
+      reducer(undefined, { type: actions.receiveDeviceAlerts, payload: { deviceId: defaultState.devices.byId.a1.id, alerts: [] } }).alerts.byDeviceId[
         defaultState.devices.byId.a1.id
       ].alerts
     ).toEqual([]);
-
     expect(
-      reducer(initialState, { type: MonitorConstants.RECEIVE_DEVICE_ALERTS, deviceId: defaultState.devices.byId.a1.id, alerts: [123, 456] }).alerts.byDeviceId[
-        defaultState.devices.byId.a1.id
-      ].alerts
+      reducer(initialState, { type: actions.receiveDeviceAlerts, payload: { deviceId: defaultState.devices.byId.a1.id, alerts: [123, 456] } }).alerts
+        .byDeviceId[defaultState.devices.byId.a1.id].alerts
     ).toEqual([123, 456]);
   });
   it('should handle RECEIVE_LATEST_DEVICE_ALERTS', async () => {
     expect(
-      reducer(undefined, { type: MonitorConstants.RECEIVE_LATEST_DEVICE_ALERTS, deviceId: defaultState.devices.byId.a1.id, alerts: [] }).alerts.byDeviceId[
+      reducer(undefined, { type: actions.receiveLatestDeviceAlerts, payload: { deviceId: defaultState.devices.byId.a1.id, alerts: [] } }).alerts.byDeviceId[
         defaultState.devices.byId.a1.id
       ].latest
     ).toEqual([]);
-
     expect(
-      reducer(initialState, { type: MonitorConstants.RECEIVE_LATEST_DEVICE_ALERTS, deviceId: defaultState.devices.byId.a1.id, alerts: [123, 456] }).alerts
+      reducer(initialState, { type: actions.receiveLatestDeviceAlerts, payload: { deviceId: defaultState.devices.byId.a1.id, alerts: [123, 456] } }).alerts
         .byDeviceId[defaultState.devices.byId.a1.id].latest
     ).toEqual([123, 456]);
   });
   it('should handle RECEIVE_DEVICE_ISSUE_COUNTS', async () => {
     expect(
       reducer(undefined, {
-        type: MonitorConstants.RECEIVE_DEVICE_ISSUE_COUNTS,
-        issueType: DEVICE_ISSUE_OPTIONS.monitoring.key,
-        counts: { filtered: 1, total: 3 }
+        type: actions.receiveDeviceIssueCounts,
+        payload: { issueType: DEVICE_ISSUE_OPTIONS.monitoring.key, counts: { filtered: 1, total: 3 } }
       }).issueCounts.byType[DEVICE_ISSUE_OPTIONS.monitoring.key]
     ).toEqual({ filtered: 1, total: 3 });
-
     expect(
-      reducer(initialState, {
-        type: MonitorConstants.RECEIVE_DEVICE_ISSUE_COUNTS,
-        issueType: DEVICE_ISSUE_OPTIONS.monitoring.key,
-        counts: { total: 3 }
-      }).issueCounts.byType[DEVICE_ISSUE_OPTIONS.monitoring.key]
+      reducer(initialState, { type: actions.receiveDeviceIssueCounts, payload: { issueType: DEVICE_ISSUE_OPTIONS.monitoring.key, counts: { total: 3 } } })
+        .issueCounts.byType[DEVICE_ISSUE_OPTIONS.monitoring.key]
     ).toEqual({ total: 3 });
   });
   it('should handle SET_ALERT_LIST_STATE', async () => {
-    expect(reducer(undefined, { type: MonitorConstants.SET_ALERT_LIST_STATE, value: { total: 3 } }).alerts.alertList).toEqual({ total: 3 });
-    expect(reducer(initialState, { type: MonitorConstants.SET_ALERT_LIST_STATE, value: 'something' }).alerts.alertList).toEqual('something');
+    expect(reducer(undefined, { type: actions.setAlertListState, payload: { total: 3 } }).alerts.alertList).toEqual({ ...DEVICE_LIST_DEFAULTS, total: 3 });
+    expect(reducer(initialState, { type: actions.setAlertListState, payload: { something: 'something' } }).alerts.alertList).toEqual({
+      ...DEVICE_LIST_DEFAULTS,
+      total: 0,
+      something: 'something'
+    });
   });
 });

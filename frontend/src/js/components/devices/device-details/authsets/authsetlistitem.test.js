@@ -13,9 +13,10 @@
 //    limitations under the License.
 import React from 'react';
 
+import { DEVICE_STATES } from '@northern.tech/store/constants';
+
 import { adminUserCapabilities, undefineds } from '../../../../../../tests/mockData';
 import { render } from '../../../../../../tests/setupTests';
-import { DEVICE_STATES } from '../../../../constants/deviceConstants';
 import { defaultColumns } from './authsetlist';
 import AuthsetListItem, { getConfirmationMessage } from './authsetlistitem';
 

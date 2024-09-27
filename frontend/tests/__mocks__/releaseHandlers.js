@@ -11,11 +11,9 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { SORTING_OPTIONS, deploymentsApiUrl, deploymentsApiUrlV2, headerNames } from '@northern.tech/store/constants';
 import { HttpResponse, http } from 'msw';
 
-import { deploymentsApiUrl, deploymentsApiUrlV2 } from '../../src/js/actions/deploymentActions';
-import { headerNames } from '../../src/js/api/general-api';
-import { SORTING_OPTIONS } from '../../src/js/constants/appConstants';
 import { customSort } from '../../src/js/helpers';
 import { defaultState, releasesList } from '../mockData';
 

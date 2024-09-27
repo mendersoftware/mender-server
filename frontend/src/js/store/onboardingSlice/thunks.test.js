@@ -11,23 +11,15 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { getUserSettings, saveUserSettings } from '@northern.tech/store/thunks';
 import configureMockStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 
-import { defaultState } from '../../../tests/mockData';
-import * as OnboardingConstants from '../constants/onboardingConstants';
-import * as UserConstants from '../constants/userConstants';
-import { onboardingSteps } from '../utils/onboardingmanager';
-import {
-  advanceOnboarding,
-  getOnboardingState,
-  setOnboardingApproach,
-  setOnboardingCanceled,
-  setOnboardingComplete,
-  setOnboardingDeviceType,
-  setShowDismissOnboardingTipsDialog,
-  setShowOnboardingHelp
-} from './onboardingActions';
+import { actions } from '.';
+import { defaultState } from '../../../../tests/mockData';
+import { actions as userActions } from '../usersSlice';
+import { onboardingSteps } from './constants';
+import { advanceOnboarding, getOnboardingState, setOnboardingApproach, setOnboardingCanceled, setOnboardingComplete, setOnboardingDeviceType } from './thunks';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -45,10 +37,11 @@ export const defaultOnboardingState = {
 };
 
 export const expectedOnboardingActions = [
-  { type: OnboardingConstants.SET_ONBOARDING_COMPLETE, complete: false },
+  { type: getOnboardingState.pending.type },
+  { type: actions.setOnboardingComplete.type, payload: false },
   {
-    type: OnboardingConstants.SET_ONBOARDING_STATE,
-    value: {
+    type: actions.setOnboardingState.type,
+    payload: {
       ...defaultOnboardingState,
       address: 'http://192.168.10.141:85',
       approach: 'physical',
@@ -57,10 +50,13 @@ export const expectedOnboardingActions = [
       showTips: true
     }
   },
-  { type: UserConstants.SET_USER_SETTINGS, settings: { ...defaultState.users.userSettings } },
+  { type: saveUserSettings.pending.type },
+  { type: getUserSettings.pending.type },
+  { type: userActions.setUserSettings.type, payload: { ...defaultState.users.userSettings } },
+  { type: getUserSettings.fulfilled.type },
   {
-    type: UserConstants.SET_USER_SETTINGS,
-    settings: {
+    type: userActions.setUserSettings.type,
+    payload: {
       ...defaultState.users.userSettings,
       onboarding: {
         ...defaultOnboardingState,
@@ -71,7 +67,9 @@ export const expectedOnboardingActions = [
         showTips: true
       }
     }
-  }
+  },
+  { type: saveUserSettings.fulfilled.type },
+  { type: getOnboardingState.fulfilled.type }
 ];
 
 describe('onboarding actions', () => {
@@ -79,21 +77,29 @@ describe('onboarding actions', () => {
     const store = mockStore({ ...defaultState });
     await store.dispatch(setOnboardingComplete(true));
     const expectedActions = [
-      { type: OnboardingConstants.SET_ONBOARDING_COMPLETE, complete: true },
-      { type: OnboardingConstants.SET_SHOW_ONBOARDING_HELP, show: false },
-      { type: OnboardingConstants.SET_ONBOARDING_PROGRESS, value: OnboardingConstants.onboardingSteps.DEPLOYMENTS_PAST_COMPLETED_FAILURE },
-      { type: UserConstants.SET_USER_SETTINGS, settings: { ...defaultState.users.userSettings } },
+      { type: setOnboardingComplete.pending.type },
+      { type: actions.setOnboardingComplete.type, payload: true },
+      { type: actions.setShowOnboardingHelp.type, payload: false },
+      { type: advanceOnboarding.pending.type },
+      { type: actions.setOnboardingProgress.type, payload: onboardingSteps.DEPLOYMENTS_PAST_COMPLETED_FAILURE },
+      { type: saveUserSettings.pending.type },
+      { type: getUserSettings.pending.type },
+      { type: userActions.setUserSettings.type, payload: { ...defaultState.users.userSettings } },
+      { type: getUserSettings.fulfilled.type },
       {
-        type: UserConstants.SET_USER_SETTINGS,
-        settings: {
+        type: userActions.setUserSettings.type,
+        payload: {
           ...defaultState.users.userSettings,
           onboarding: {
             ...defaultOnboardingState,
             complete: true,
-            progress: OnboardingConstants.onboardingSteps.DEPLOYMENTS_PAST_COMPLETED_FAILURE
+            progress: onboardingSteps.DEPLOYMENTS_PAST_COMPLETED_FAILURE
           }
         }
-      }
+      },
+      { type: saveUserSettings.fulfilled.type },
+      { type: advanceOnboarding.fulfilled.type },
+      { type: setOnboardingComplete.fulfilled.type }
     ];
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
@@ -103,18 +109,24 @@ describe('onboarding actions', () => {
     const store = mockStore({ ...defaultState });
     await store.dispatch(setOnboardingApproach('test'));
     const expectedActions = [
-      { type: OnboardingConstants.SET_ONBOARDING_APPROACH, value: 'test' },
-      { type: UserConstants.SET_USER_SETTINGS, settings: { ...defaultState.users.userSettings } },
+      { type: setOnboardingApproach.pending.type },
+      { type: actions.setOnboardingApproach.type, payload: 'test' },
+      { type: saveUserSettings.pending.type },
+      { type: getUserSettings.pending.type },
+      { type: userActions.setUserSettings.type, payload: { ...defaultState.users.userSettings } },
+      { type: getUserSettings.fulfilled.type },
       {
-        type: UserConstants.SET_USER_SETTINGS,
-        settings: {
+        type: userActions.setUserSettings.type,
+        payload: {
           ...defaultState.users.userSettings,
           onboarding: {
             ...defaultOnboardingState,
             approach: 'test'
           }
         }
-      }
+      },
+      { type: saveUserSettings.fulfilled.type },
+      { type: setOnboardingApproach.fulfilled.type }
     ];
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
@@ -124,14 +136,15 @@ describe('onboarding actions', () => {
     const store = mockStore({ ...defaultState });
     await store.dispatch(setOnboardingDeviceType('testtype'));
     const expectedActions = [
+      { type: setOnboardingDeviceType.pending.type },
+      { type: actions.setOnboardingDeviceType.type, payload: 'testtype' },
+      { type: saveUserSettings.pending.type },
+      { type: getUserSettings.pending.type },
+      { type: userActions.setUserSettings.type, payload: { ...defaultState.users.userSettings } },
+      { type: getUserSettings.fulfilled.type },
       {
-        type: OnboardingConstants.SET_ONBOARDING_DEVICE_TYPE,
-        value: 'testtype'
-      },
-      { type: UserConstants.SET_USER_SETTINGS, settings: { ...defaultState.users.userSettings } },
-      {
-        type: UserConstants.SET_USER_SETTINGS,
-        settings: {
+        type: userActions.setUserSettings.type,
+        payload: {
           ...defaultState.users.userSettings,
           columnSelection: [],
           onboarding: {
@@ -139,39 +152,9 @@ describe('onboarding actions', () => {
             deviceType: 'testtype'
           }
         }
-      }
-    ];
-    const storeActions = store.getActions();
-    expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => Object.keys(action).map(key => expect(storeActions[index][key]).toEqual(action[key])));
-  });
-  it('should pass on onboarding tips visibility confirmation', async () => {
-    const store = mockStore({ ...defaultState });
-    await store.dispatch(setShowDismissOnboardingTipsDialog(true));
-    const expectedActions = [
-      {
-        type: OnboardingConstants.SET_SHOW_ONBOARDING_HELP_DIALOG,
-        show: true
-      }
-    ];
-    const storeActions = store.getActions();
-    expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => Object.keys(action).map(key => expect(storeActions[index][key]).toEqual(action[key])));
-  });
-  it('should pass on onboarding tips visibility', async () => {
-    const store = mockStore({ ...defaultState });
-    await store.dispatch(setShowOnboardingHelp(true));
-    const expectedActions = [
-      { type: OnboardingConstants.SET_SHOW_ONBOARDING_HELP, show: true },
-      { type: UserConstants.SET_USER_SETTINGS, settings: { ...defaultState.users.userSettings } },
-      {
-        type: UserConstants.SET_USER_SETTINGS,
-        settings: {
-          ...defaultState.users.userSettings,
-          columnSelection: [],
-          onboarding: { ...defaultOnboardingState, showTips: true }
-        }
-      }
+      },
+      { type: saveUserSettings.fulfilled.type },
+      { type: setOnboardingDeviceType.fulfilled.type }
     ];
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
@@ -179,22 +162,27 @@ describe('onboarding actions', () => {
   });
   it('should advance onboarding by one step', async () => {
     const store = mockStore({ ...defaultState });
-    const stepNames = Object.keys(onboardingSteps);
-    await store.dispatch(advanceOnboarding(stepNames[0]));
+    await store.dispatch(advanceOnboarding(onboardingSteps.DASHBOARD_ONBOARDING_START));
     const expectedActions = [
-      { type: OnboardingConstants.SET_ONBOARDING_PROGRESS, value: stepNames[1] },
-      { type: UserConstants.SET_USER_SETTINGS, settings: { ...defaultState.users.userSettings } },
+      { type: advanceOnboarding.pending.type },
+      { type: actions.setOnboardingProgress.type, payload: onboardingSteps.DEVICES_PENDING_ONBOARDING_START },
+      { type: saveUserSettings.pending.type },
+      { type: getUserSettings.pending.type },
+      { type: userActions.setUserSettings.type, payload: { ...defaultState.users.userSettings } },
+      { type: getUserSettings.fulfilled.type },
       {
-        type: UserConstants.SET_USER_SETTINGS,
-        settings: {
+        type: userActions.setUserSettings.type,
+        payload: {
           ...defaultState.users.userSettings,
           columnSelection: [],
           onboarding: {
             ...defaultOnboardingState,
-            progress: stepNames[1]
+            progress: onboardingSteps.DEVICES_PENDING_ONBOARDING_START
           }
         }
-      }
+      },
+      { type: saveUserSettings.fulfilled.type },
+      { type: advanceOnboarding.fulfilled.type }
     ];
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
@@ -204,14 +192,19 @@ describe('onboarding actions', () => {
     const store = mockStore({ ...defaultState });
     await store.dispatch(setOnboardingCanceled());
     const expectedActions = [
-      { type: OnboardingConstants.SET_SHOW_ONBOARDING_HELP, show: false },
-      { type: OnboardingConstants.SET_SHOW_ONBOARDING_HELP_DIALOG, show: false },
-      { type: OnboardingConstants.SET_ONBOARDING_COMPLETE, complete: true },
-      { type: OnboardingConstants.SET_ONBOARDING_PROGRESS, value: 'onboarding-canceled' },
-      { type: UserConstants.SET_USER_SETTINGS, settings: { ...defaultState.users.userSettings } },
+      { type: setOnboardingCanceled.pending.type },
+      { type: actions.setShowOnboardingHelp.type, payload: false },
+      { type: actions.setShowDismissOnboardingTipsDialog.type, payload: false },
+      { type: actions.setOnboardingComplete.type, payload: true },
+      { type: advanceOnboarding.pending.type },
+      { type: actions.setOnboardingProgress.type, payload: 'onboarding-canceled' },
+      { type: saveUserSettings.pending.type },
+      { type: getUserSettings.pending.type },
+      { type: userActions.setUserSettings.type, payload: { ...defaultState.users.userSettings } },
+      { type: getUserSettings.fulfilled.type },
       {
-        type: UserConstants.SET_USER_SETTINGS,
-        settings: {
+        type: userActions.setUserSettings.type,
+        payload: {
           ...defaultState.users.userSettings,
           columnSelection: [],
           onboarding: {
@@ -220,7 +213,10 @@ describe('onboarding actions', () => {
             progress: 'onboarding-canceled'
           }
         }
-      }
+      },
+      { type: saveUserSettings.fulfilled.type },
+      { type: advanceOnboarding.fulfilled.type },
+      { type: setOnboardingCanceled.fulfilled.type }
     ];
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);

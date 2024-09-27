@@ -11,19 +11,20 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { HttpResponse, http } from 'msw';
-
 import {
+  DEVICE_FILTERING_OPTIONS,
+  DEVICE_STATES,
   deviceAuthV2,
   deviceConfig,
   deviceConnect,
+  headerNames,
   inventoryApiUrl,
   inventoryApiUrlV2,
   iotManagerBaseURL,
   reportingApiUrl
-} from '../../src/js/actions/deviceActions';
-import { headerNames } from '../../src/js/api/general-api';
-import * as DeviceConstants from '../../src/js/constants/deviceConstants';
+} from '@northern.tech/store/constants';
+import { HttpResponse, http } from 'msw';
+
 import { defaultCreationDate, defaultMacAddress, defaultState } from '../mockData';
 
 const deviceAuthDevice = {
@@ -100,9 +101,7 @@ const searchHandler = async ({ request }) => {
   if ([page, per_page, filters].some(item => !item)) {
     return new HttpResponse(null, { status: 509 });
   }
-  const filter = filters.find(
-    filter => filter.scope === 'identity' && filter.attribute === 'status' && Object.values(DeviceConstants.DEVICE_STATES).includes(filter.value)
-  );
+  const filter = filters.find(filter => filter.scope === 'identity' && filter.attribute === 'status' && Object.values(DEVICE_STATES).includes(filter.value));
   const status = filter?.value || '';
   if (!status || filters.length > 1) {
     if (filters.find(filter => filter.attribute === 'group' && filter.value.includes(Object.keys(defaultState.devices.groups.byId)[0]))) {
@@ -240,10 +239,7 @@ export const deviceHandlers = [
     if (
       [name, terms].some(item => !item) ||
       defaultState.devices.groups[name] ||
-      !terms.every(
-        term =>
-          DeviceConstants.DEVICE_FILTERING_OPTIONS[term.type] && ['identity', 'inventory', 'system'].includes(term.scope) && !!term.value && !!term.attribute
-      )
+      !terms.every(term => DEVICE_FILTERING_OPTIONS[term.type] && ['identity', 'inventory', 'system'].includes(term.scope) && !!term.value && !!term.attribute)
     ) {
       return new HttpResponse(null, { status: 510 });
     }
@@ -251,7 +247,7 @@ export const deviceHandlers = [
   }),
   http.put(`${deviceAuthV2}/devices/:deviceId/auth/:authId/status`, async ({ params: { authId, deviceId }, request }) => {
     const { status } = await request.json();
-    if (defaultState.devices.byId[deviceId].auth_sets.find(authSet => authSet.id === authId) && DeviceConstants.DEVICE_STATES[status]) {
+    if (defaultState.devices.byId[deviceId].auth_sets.find(authSet => authSet.id === authId) && DEVICE_STATES[status]) {
       return new HttpResponse(null, { status: 200 });
     }
     return new HttpResponse(null, { status: 511 });

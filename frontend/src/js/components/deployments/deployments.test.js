@@ -16,13 +16,13 @@ import React from 'react';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
+import GeneralApi from '@northern.tech/store/api/general-api';
+import { ALL_DEVICES } from '@northern.tech/store/constants';
 import { act, fireEvent, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { defaultState, mockDate, undefineds } from '../../../../tests/mockData';
 import { render, selectMaterialUiSelectOption } from '../../../../tests/setupTests';
-import GeneralApi from '../../api/general-api';
-import { ALL_DEVICES } from '../../constants/deviceConstants';
 import Deployments from './deployments';
 
 const defaultLocationProps = { location: { search: 'startDate=2019-01-01' }, match: {} };
@@ -137,7 +137,7 @@ describe('Deployments Component', () => {
     const inprogressDeployments = screen.getByText(/in progress now/i).parentElement.parentElement;
     const deployment = within(inprogressDeployments).getAllByText(/test deployment/i)[0].parentElement.parentElement;
     await user.click(within(deployment).getByRole('button', { name: /Abort/i }));
-    act(() => jest.advanceTimersByTime(200));
+    await waitFor(() => rerender(ui));
     await waitFor(() => expect(screen.getByText(/Confirm abort/i)).toBeInTheDocument());
     await user.click(document.querySelector('#confirmAbort').nextElementSibling);
     await waitFor(() => expect(within(deployment).getByRole('button', { name: /View details/i })).toBeVisible());

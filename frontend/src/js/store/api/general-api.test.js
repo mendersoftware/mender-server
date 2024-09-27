@@ -19,7 +19,6 @@ describe('General API module', () => {
   it('should allow GET requests', done => {
     Api.get(testLocation)
       .then(res => {
-        console.log(res.config.headers.Authorization);
         expect(res.config.headers.Authorization).toMatch(/Bearer/);
         return res.config.method === 'get' ? done() : done('failed');
       })

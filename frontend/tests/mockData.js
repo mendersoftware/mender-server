@@ -11,11 +11,15 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { maxSessionAge } from '../src/js/auth';
-import { SORTING_OPTIONS } from '../src/js/constants/appConstants';
-import * as DeviceConstants from '../src/js/constants/deviceConstants';
-import { ALL_RELEASES } from '../src/js/constants/releaseConstants';
+import { initialState as initialAppState } from '@northern.tech/store/appSlice';
+import { maxSessionAge } from '@northern.tech/store/auth';
 import {
+  ALL_DEVICES,
+  ALL_RELEASES,
+  DEVICE_ISSUE_OPTIONS,
+  DEVICE_LIST_DEFAULTS,
+  DEVICE_STATES,
+  SORTING_OPTIONS,
   defaultPermissionSets,
   emptyRole,
   emptyUiPermissions,
@@ -24,15 +28,14 @@ import {
   scopedPermissionAreas,
   twoFAStates,
   uiPermissionsById
-} from '../src/js/constants/userConstants';
-import { initialState as initialAppState } from '../src/js/reducers/appReducer';
-import { initialState as initialDeploymentsState } from '../src/js/reducers/deploymentReducer';
-import { initialState as initialDevicesState } from '../src/js/reducers/deviceReducer';
-import { initialState as initialMonitorState } from '../src/js/reducers/monitorReducer';
-import { initialState as initialOnboardingState } from '../src/js/reducers/onboardingReducer';
-import { initialState as initialOrganizationState } from '../src/js/reducers/organizationReducer';
-import { initialState as initialReleasesState } from '../src/js/reducers/releaseReducer';
-import { initialState as initialUsersState } from '../src/js/reducers/userReducer';
+} from '@northern.tech/store/constants';
+import { initialState as initialDeploymentsState } from '@northern.tech/store/deploymentsSlice';
+import { initialState as initialDevicesState } from '@northern.tech/store/devicesSlice';
+import { initialState as initialMonitorState } from '@northern.tech/store/monitorSlice';
+import { initialState as initialOnboardingState } from '@northern.tech/store/onboardingSlice';
+import { initialState as initialOrganizationState } from '@northern.tech/store/organizationSlice';
+import { initialState as initialReleasesState } from '@northern.tech/store/releasesSlice';
+import { initialState as initialUsersState } from '@northern.tech/store/usersSlice';
 
 export const undefineds = /undefined|\[object Object\]/;
 export const menderEnvironment = {
@@ -204,16 +207,16 @@ export const defaultState = {
     selectedDeviceIds: [],
     selectionState: {
       finished: {
-        ...DeviceConstants.DEVICE_LIST_DEFAULTS,
+        ...DEVICE_LIST_DEFAULTS,
         selection: ['d1'],
         endDate: undefined,
         search: '',
         total: 1,
         type: ''
       },
-      inprogress: { ...DeviceConstants.DEVICE_LIST_DEFAULTS, selection: ['d1'], total: 1 },
-      pending: { ...DeviceConstants.DEVICE_LIST_DEFAULTS, selection: ['d2'], total: 1 },
-      scheduled: { ...DeviceConstants.DEVICE_LIST_DEFAULTS, selection: ['d2'], total: 1 },
+      inprogress: { ...DEVICE_LIST_DEFAULTS, selection: ['d1'], total: 1 },
+      pending: { ...DEVICE_LIST_DEFAULTS, selection: ['d2'], total: 1 },
+      scheduled: { ...DEVICE_LIST_DEFAULTS, selection: ['d2'], total: 1 },
       general: {
         state: 'active',
         showCreationDialog: false,
@@ -309,7 +312,7 @@ export const defaultState = {
         // key: null,
         // scope: null
       },
-      state: DeviceConstants.DEVICE_STATES.accepted,
+      state: DEVICE_STATES.accepted,
       total: 0
     },
     filteringAttributes: {
@@ -347,7 +350,7 @@ export const defaultState = {
   monitor: {
     ...initialMonitorState,
     alerts: {
-      alertList: { ...DeviceConstants.DEVICE_LIST_DEFAULTS, total: 0 },
+      alertList: { ...DEVICE_LIST_DEFAULTS, total: 0 },
       byDeviceId: {
         a1: {
           alerts: [
@@ -371,7 +374,7 @@ export const defaultState = {
       }
     },
     issueCounts: {
-      byType: Object.values(DeviceConstants.DEVICE_ISSUE_OPTIONS).reduce(
+      byType: Object.values(DEVICE_ISSUE_OPTIONS).reduce(
         (accu, { isCategory, key }) => {
           if (isCategory) {
             return accu;
@@ -381,9 +384,9 @@ export const defaultState = {
           return accu;
         },
         {
-          [DeviceConstants.DEVICE_ISSUE_OPTIONS.authRequests.key]: { filtered: 0, total: 0 },
-          [DeviceConstants.DEVICE_ISSUE_OPTIONS.monitoring.key]: { filtered: 3, total: 0 },
-          [DeviceConstants.DEVICE_ISSUE_OPTIONS.offline.key]: { filtered: 0, total: 0 }
+          [DEVICE_ISSUE_OPTIONS.authRequests.key]: { filtered: 0, total: 0 },
+          [DEVICE_ISSUE_OPTIONS.monitoring.key]: { filtered: 3, total: 0 },
+          [DEVICE_ISSUE_OPTIONS.offline.key]: { filtered: 0, total: 0 }
         }
       )
     },
@@ -457,7 +460,7 @@ export const defaultState = {
         }
       ],
       selectionState: {
-        ...DeviceConstants.DEVICE_LIST_DEFAULTS,
+        ...DEVICE_LIST_DEFAULTS,
         sort: {},
         total: 3
       }
@@ -500,7 +503,7 @@ export const defaultState = {
       }
     },
     releasesList: {
-      ...DeviceConstants.DEVICE_LIST_DEFAULTS,
+      ...DEVICE_LIST_DEFAULTS,
       searchedIds: [],
       isLoading: false,
       releaseIds: ['r1'],
@@ -816,7 +819,7 @@ const expectedParsedRoles = {
       auditlog: [uiPermissionsById.read.value],
       deployments: [uiPermissionsById.manage.value, uiPermissionsById.deploy.value, uiPermissionsById.read.value],
       groups: {
-        [DeviceConstants.ALL_DEVICES]: [
+        [ALL_DEVICES]: [
           uiPermissionsById.read.value,
           // we can't assign deployment permissions to devices here, since the old path based rbac controls don't allow the scoped permissions
           // uiPermissionsById.deploy.value,
@@ -839,7 +842,7 @@ const expectedParsedRoles = {
       auditlog: [uiPermissionsById.read.value],
       deployments: [uiPermissionsById.read.value, uiPermissionsById.deploy.value, uiPermissionsById.manage.value],
       groups: {
-        [DeviceConstants.ALL_DEVICES]: [
+        [ALL_DEVICES]: [
           uiPermissionsById.read.value,
           uiPermissionsById.manage.value,
           uiPermissionsById.deploy.value,

@@ -34,13 +34,13 @@ describe('getDemoDeviceCreationCommand function', () => {
   it('should not contain any template string leftovers', async () => {
     let code = getDemoDeviceCreationCommand();
     expect(code).not.toMatch(/\$\{([^}]+)\}/);
-    code = getDemoDeviceCreationCommand(token);
+    code = getDemoDeviceCreationCommand(token, 85);
     expect(code).not.toMatch(/\$\{([^}]+)\}/);
   });
   it('should return a sane result', async () => {
     let code = getDemoDeviceCreationCommand();
     expect(code).toMatch('./demo --client up');
-    code = getDemoDeviceCreationCommand(token);
+    code = getDemoDeviceCreationCommand(token, 85);
     expect(code).toMatch(
       `TENANT_TOKEN='${token}'\ndocker run -it -p 85:85 -e SERVER_URL='https://localhost' \\\n-e TENANT_TOKEN=$TENANT_TOKEN --pull=always mendersoftware/mender-client-qemu`
     );

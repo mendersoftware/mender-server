@@ -15,10 +15,10 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 
+import { getConfiguredStore } from '@northern.tech/store/store';
 import { act, screen, render as testingLibRender } from '@testing-library/react';
 
 import { defaultState } from '../../../tests/mockData';
-import { getConfiguredStore } from '../reducers';
 import { PublicRoutes } from './routes';
 
 describe('Router', () => {

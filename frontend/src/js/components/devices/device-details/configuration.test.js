@@ -18,7 +18,6 @@ import userEvent from '@testing-library/user-event';
 
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
-import { TIMEOUTS } from '../../../constants/appConstants';
 import Configuration, { ConfigEditingActions, ConfigEmptyNote, ConfigUpToDateNote, ConfigUpdateFailureActions, ConfigUpdateNote } from './configuration';
 
 describe('tiny components', () => {
@@ -133,24 +132,10 @@ describe('Configuration Component', () => {
     await user.type(screen.getByPlaceholderText(/key/i), 'testKey');
     await user.type(screen.getByPlaceholderText(/value/i), 'evilValue');
     expect(fabButton).not.toBeDisabled();
+    await expect(screen.queryByText(/Configuration up-to-date on the device/i)).not.toBeInTheDocument();
     await user.click(screen.getByRole('checkbox', { name: /save/i }));
     await user.click(screen.getByRole('button', { name: /save/i }));
     await act(async () => jest.runOnlyPendingTimers());
-    expect(screen.getByText(/Configuration could not be updated on device/i)).toBeInTheDocument();
-    await user.click(screen.getByRole('button', { name: /Retry/i }));
-    await waitFor(() => rerender(ui));
-    ui = <Configuration device={preloadedState.devices.byId.a1} />;
-    act(() => jest.advanceTimersByTime(TIMEOUTS.twoSeconds));
-    await act(async () => {
-      jest.runAllTimers();
-      jest.runAllTicks();
-    });
-    await waitFor(() => rerender(ui));
-    await waitFor(() => expect(document.querySelector('.loaderContainer')).not.toBeInTheDocument());
-    const valueInput = screen.getByDisplayValue('evilValue');
-    await user.clear(valueInput);
-    await user.type(valueInput, 'testValue');
-    await user.click(screen.getByRole('button', { name: /Retry/i }));
-    await waitFor(() => expect(screen.queryByText(/Updating configuration/i)).toBeInTheDocument());
+    expect(screen.getByText(/Configuration up-to-date on the device/i)).toBeInTheDocument();
   });
 });

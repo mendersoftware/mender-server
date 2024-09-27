@@ -1097,9 +1097,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
               <div
                 class="clickable slightly-smaller"
                 data-mui-internal-clone-element="true"
-              >
-                Version: next
-              </div>
+              />
             </span>
             <p
               class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary emotion-23"

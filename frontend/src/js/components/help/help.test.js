@@ -15,11 +15,11 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
+import { getConfiguredStore } from '@northern.tech/store/store';
 import { render as testingLibRender } from '@testing-library/react';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
-import { getConfiguredStore } from '../../reducers';
 import { Downloads } from './downloads';
 import GettingStarted from './getting-started';
 import Help from './help';

@@ -14,10 +14,10 @@
 import configureMockStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 
-import { defaultState } from '../../../tests/mockData';
-import { mockAbortController } from '../../../tests/setupTests';
-import * as AppConstants from '../constants/appConstants';
-import * as ReleaseConstants from '../constants/releaseConstants';
+import { actions } from '.';
+import { defaultState } from '../../../../tests/mockData';
+import { mockAbortController } from '../../../../tests/setupTests';
+import { actions as appActions } from '../appSlice';
 import {
   createArtifact,
   editArtifact,
@@ -31,9 +31,10 @@ import {
   removeRelease,
   selectRelease,
   setReleaseTags,
+  setReleasesListState,
   updateReleaseInfo,
   uploadArtifact
-} from './releaseActions';
+} from './thunks';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -65,7 +66,11 @@ describe('release actions', () => {
   it('should retrieve a single release by name', async () => {
     const store = mockStore({ ...defaultState });
     store.clearActions();
-    const expectedActions = [{ type: ReleaseConstants.RECEIVE_RELEASE, release: defaultState.releases.byId.r1 }];
+    const expectedActions = [
+      { type: getRelease.pending.type },
+      { type: actions.receiveRelease.type, payload: defaultState.releases.byId.r1 },
+      { type: getRelease.fulfilled.type }
+    ];
     await store.dispatch(getRelease(defaultState.releases.byId.r1.name));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
@@ -74,11 +79,13 @@ describe('release actions', () => {
   it('should retrieve a list of releases', async () => {
     const store = mockStore({ ...defaultState });
     const expectedActions = [
-      { type: ReleaseConstants.RECEIVE_RELEASES, releases: defaultState.releases.byId },
+      { type: getReleases.pending.type },
+      { type: actions.receiveReleases.type, payload: defaultState.releases.byId },
       {
-        type: ReleaseConstants.SET_RELEASES_LIST_STATE,
-        value: { ...defaultState.releases.releasesList, releaseIds: ['release-1'], total: 5000 }
-      }
+        type: actions.setReleaseListState.type,
+        payload: { ...defaultState.releases.releasesList, releaseIds: ['release-1'], total: 5000 }
+      },
+      { type: getReleases.fulfilled.type }
     ];
     await store.dispatch(getReleases({ perPage: 1, sort: { direction: 'asc', key: 'name' } }));
     const storeActions = store.getActions();
@@ -88,15 +95,17 @@ describe('release actions', () => {
   it('should retrieve a search filtered list of releases', async () => {
     const store = mockStore({ ...defaultState });
     const expectedActions = [
-      { type: ReleaseConstants.RECEIVE_RELEASES, releases: defaultState.releases.byId },
+      { type: getReleases.pending.type },
+      { type: actions.receiveReleases.type, payload: defaultState.releases.byId },
       {
-        type: ReleaseConstants.SET_RELEASES_LIST_STATE,
-        value: {
+        type: actions.setReleaseListState.type,
+        payload: {
           ...defaultState.releases.releasesList,
           releaseIds: retrievedReleaseIds,
           searchTotal: 1234
         }
-      }
+      },
+      { type: getReleases.fulfilled.type }
     ];
     await store.dispatch(getReleases({ searchTerm: 'something' }));
     const storeActions = store.getActions();
@@ -106,10 +115,11 @@ describe('release actions', () => {
   it('should retrieve a deployment creation search filtered list of releases', async () => {
     const store = mockStore({ ...defaultState });
     const expectedActions = [
-      { type: ReleaseConstants.RECEIVE_RELEASES, releases: defaultState.releases.byId },
+      { type: getReleases.pending.type },
+      { type: actions.receiveReleases.type, payload: defaultState.releases.byId },
       {
-        type: ReleaseConstants.SET_RELEASES_LIST_STATE,
-        value: {
+        type: actions.setReleaseListState.type,
+        payload: {
           ...defaultState.releases.releasesList,
           searchedIds: [
             'release-999',
@@ -124,7 +134,8 @@ describe('release actions', () => {
             'release-990'
           ]
         }
-      }
+      },
+      { type: getReleases.fulfilled.type }
     ];
     await store.dispatch(getReleases({ perPage: 10, searchOnly: true, searchTerm: 'something' }));
     const storeActions = store.getActions();
@@ -134,13 +145,15 @@ describe('release actions', () => {
   it('should retrieve the device installation base for an artifact', async () => {
     const store = mockStore({ ...defaultState });
     const expectedActions = [
+      { type: getArtifactInstallCount.pending.type },
       {
-        type: ReleaseConstants.RECEIVE_RELEASE,
-        release: {
+        type: actions.receiveRelease.type,
+        payload: {
           ...defaultState.releases.byId.r1,
           artifacts: [{ ...defaultState.releases.byId.r1.artifacts[0], installCount: 0 }]
         }
-      }
+      },
+      { type: getArtifactInstallCount.fulfilled.type }
     ];
     await store.dispatch(getArtifactInstallCount('art1')).then(() => {
       const storeActions = store.getActions();
@@ -151,9 +164,10 @@ describe('release actions', () => {
   it('should retrieve the download url for an artifact', async () => {
     const store = mockStore({ ...defaultState });
     const expectedActions = [
+      { type: getArtifactUrl.pending.type },
       {
-        type: ReleaseConstants.ARTIFACTS_SET_ARTIFACT_URL,
-        release: {
+        type: actions.receiveRelease.type,
+        payload: {
           ...defaultState.releases.byId.r1,
           artifacts: [
             {
@@ -162,7 +176,8 @@ describe('release actions', () => {
             }
           ]
         }
-      }
+      },
+      { type: getArtifactUrl.fulfilled.type }
     ];
     await store.dispatch(getArtifactUrl('art1')).then(() => {
       const storeActions = store.getActions();
@@ -172,11 +187,15 @@ describe('release actions', () => {
   });
   it('should select a release by name', async () => {
     const store = mockStore({ ...defaultState });
-    await store.dispatch(selectRelease(defaultState.releases.byId.r1.name));
     const expectedActions = [
-      { type: ReleaseConstants.SELECTED_RELEASE, release: defaultState.releases.byId.r1.name },
-      { type: ReleaseConstants.RECEIVE_RELEASE, release: defaultState.releases.byId.r1 }
+      { type: selectRelease.pending.type },
+      { type: actions.selectedRelease.type, payload: defaultState.releases.byId.r1.name },
+      { type: getRelease.pending.type },
+      { type: actions.receiveRelease.type, payload: defaultState.releases.byId.r1 },
+      { type: getRelease.fulfilled.type },
+      { type: selectRelease.fulfilled.type }
     ];
+    await store.dispatch(selectRelease(defaultState.releases.byId.r1.name));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
     expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
@@ -184,17 +203,27 @@ describe('release actions', () => {
   it('should allow creating an artifact', async () => {
     const store = mockStore({ ...defaultState });
     const expectedActions = [
-      { type: AppConstants.SET_SNACKBAR, snackbar: { message: 'Generating artifact' } },
+      { type: createArtifact.pending.type },
+      { type: appActions.setSnackbar.type, payload: 'Generating artifact' },
       {
-        type: AppConstants.UPLOAD_PROGRESS,
-        uploads: { 'mock-uuid': { cancelSource: mockAbortController, name: undefined, size: undefined, uploadProgress: 0 } }
+        type: appActions.initUpload.type,
+        payload: {
+          id: 'mock-uuid',
+          upload: { cancelSource: mockAbortController, name: 'createdRelease', size: undefined, uploadProgress: 0 }
+        }
       },
-      { type: AppConstants.UPLOAD_PROGRESS, uploads: {} },
-      { type: AppConstants.SET_SNACKBAR, snackbar: { message: 'Upload successful' } },
-      { type: AppConstants.UPLOAD_PROGRESS, uploads: {} },
-      { type: ReleaseConstants.SELECTED_RELEASE, release: 'createdRelease' }
+      { type: appActions.uploadProgress.type, payload: { id: 'mock-uuid', progress: 100 } },
+      { type: appActions.setSnackbar.type, payload: 'Upload successful' },
+      { type: appActions.cleanUpUpload.type, payload: 'mock-uuid' },
+      { type: createArtifact.fulfilled.type },
+      { type: getReleases.pending.type },
+      { type: selectRelease.pending.type },
+      { type: actions.selectedRelease.type, payload: 'createdRelease' },
+      { type: getReleases.pending.type }
     ];
-    await store.dispatch(createArtifact({ name: 'createdRelease', some: 'thing', someList: ['test', 'more'], complex: { objectThing: 'yes' } }, 'filethings'));
+    await store.dispatch(
+      createArtifact({ file: { name: 'createdRelease', some: 'thing', someList: ['test', 'more'], complex: { objectThing: 'yes' } }, meta: 'filethings' })
+    );
     jest.runAllTimers();
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
@@ -203,19 +232,27 @@ describe('release actions', () => {
   it('should support editing artifact information', async () => {
     const store = mockStore({ ...defaultState });
     const expectedActions = [
+      { type: editArtifact.pending.type },
       {
-        type: ReleaseConstants.UPDATED_ARTIFACT,
-        release: {
+        type: actions.receiveRelease.type,
+        payload: {
           ...defaultState.releases.byId.r1,
           artifacts: [{ ...defaultState.releases.byId.r1.artifacts[0], description: 'something new' }]
         }
       },
-      { type: AppConstants.SET_SNACKBAR, snackbar: { message: 'Artifact details were updated successfully.' } },
-      { type: ReleaseConstants.SELECTED_RELEASE, release: defaultState.releases.byId.r1.name },
-      { type: ReleaseConstants.RECEIVE_RELEASE, release: defaultState.releases.byId.r1 },
-      { type: ReleaseConstants.RECEIVE_RELEASE, release: defaultState.releases.byId.r1 }
+      { type: appActions.setSnackbar.type, payload: 'Artifact details were updated successfully.' },
+      { type: getReleases.pending.type },
+      { type: selectRelease.pending.type },
+      { type: actions.selectedRelease.type, payload: defaultState.releases.byId.r1.name },
+      { type: getReleases.pending.type },
+      { type: actions.receiveRelease.type, payload: defaultState.releases.byId.r1 },
+      { type: actions.receiveRelease.type, payload: defaultState.releases.byId.r1 },
+      { type: getReleases.fulfilled.type },
+      { type: getReleases.fulfilled.type },
+      { type: selectRelease.fulfilled.type },
+      { type: editArtifact.fulfilled.type }
     ];
-    await store.dispatch(editArtifact(defaultState.releases.byId.r1.artifacts[0].id, { description: 'something new' }));
+    await store.dispatch(editArtifact({ id: defaultState.releases.byId.r1.artifacts[0].id, body: { description: 'something new' } }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
     expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
@@ -223,20 +260,22 @@ describe('release actions', () => {
   it('should support uploading .mender artifact files', async () => {
     const store = mockStore({ ...defaultState });
     const expectedActions = [
-      { type: AppConstants.SET_SNACKBAR, snackbar: { message: 'Uploading artifact' } },
+      { type: uploadArtifact.pending.type },
+      { type: appActions.setSnackbar.type, payload: 'Uploading artifact' },
       {
-        type: AppConstants.UPLOAD_PROGRESS,
-        uploads: { 'mock-uuid': { cancelSource: mockAbortController, name: undefined, size: 1234, uploadProgress: 0 } }
+        type: appActions.initUpload.type,
+        payload: { id: 'mock-uuid', upload: { cancelSource: mockAbortController, name: defaultState.releases.byId.r1.name, size: 1234, uploadProgress: 0 } }
       },
-      { type: AppConstants.UPLOAD_PROGRESS, uploads: {} },
-      { type: AppConstants.SET_SNACKBAR, snackbar: { message: 'Upload successful' } },
-      { type: ReleaseConstants.SELECTED_RELEASE, release: defaultState.releases.byId.r1.name },
-      { type: ReleaseConstants.RECEIVE_RELEASE, release: defaultState.releases.byId.r1 },
-      { type: ReleaseConstants.RECEIVE_RELEASES, releases: defaultState.releases.byId },
-      { type: ReleaseConstants.SET_RELEASES_LIST_STATE, value: { ...defaultState.releases.releasesList, releaseIds: retrievedReleaseIds, total: 5000 } },
-      { type: AppConstants.UPLOAD_PROGRESS, uploads: {} }
+      { type: appActions.uploadProgress.type, payload: { id: 'mock-uuid', progress: 100 } },
+      { type: appActions.setSnackbar.type, payload: 'Upload successful' },
+      { type: getReleases.pending.type },
+      { type: actions.receiveReleases.type, payload: defaultState.releases.byId },
+      { type: actions.setReleaseListState.type, payload: { ...defaultState.releases.releasesList, releaseIds: retrievedReleaseIds, total: 5000 } },
+      { type: getReleases.fulfilled.type },
+      { type: appActions.cleanUpUpload.type, payload: 'mock-uuid' },
+      { type: uploadArtifact.fulfilled.type }
     ];
-    await store.dispatch(uploadArtifact({ description: 'new artifact to upload', name: defaultState.releases.byId.r1.name }, { size: 1234 }));
+    await store.dispatch(uploadArtifact({ file: { name: defaultState.releases.byId.r1.name, size: 1234 }, meta: { description: 'new artifact to upload' } }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
     expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
@@ -244,14 +283,19 @@ describe('release actions', () => {
   it('should remove an artifact by name', async () => {
     const store = mockStore({ ...defaultState });
     const expectedActions = [
-      { type: ReleaseConstants.RELEASE_REMOVED, release: defaultState.releases.byId.r1.name },
-      { type: ReleaseConstants.SET_RELEASES_LIST_STATE, value: { ...defaultState.releases.releasesList, isLoading: true, releaseIds: [], total: 0 } },
-      { type: ReleaseConstants.RECEIVE_RELEASES, releases: defaultState.releases.byId },
-      {
-        type: ReleaseConstants.SET_RELEASES_LIST_STATE,
-        value: { ...defaultState.releases.releasesList, releaseIds: retrievedReleaseIds, total: 5000 }
-      },
-      { type: ReleaseConstants.SET_RELEASES_LIST_STATE, value: { ...defaultState.releases.releasesList } }
+      { type: removeArtifact.pending.type },
+      { type: actions.removeRelease.type, payload: defaultState.releases.byId.r1.name },
+      { type: setReleasesListState.pending.type },
+      { type: getReleases.pending.type },
+      { type: actions.setReleaseListState.type, payload: { ...defaultState.releases.releasesList, isLoading: true, releaseIds: [], total: 0 } },
+      { type: actions.receiveReleases.type, payload: defaultState.releases.byId },
+      { type: actions.setReleaseListState.type, payload: { ...defaultState.releases.releasesList, releaseIds: retrievedReleaseIds, total: 5000 } },
+      { type: getReleases.fulfilled.type },
+      { type: setReleasesListState.pending.type },
+      { type: actions.setReleaseListState.type, payload: { ...defaultState.releases.releasesList } },
+      { type: setReleasesListState.fulfilled.type },
+      { type: setReleasesListState.fulfilled.type },
+      { type: removeArtifact.fulfilled.type }
     ];
     await store.dispatch(removeArtifact('art1'));
     const storeActions = store.getActions();
@@ -261,15 +305,24 @@ describe('release actions', () => {
   it('should remove a release by name', async () => {
     const store = mockStore({ ...defaultState });
     const expectedActions = [
-      { type: ReleaseConstants.RELEASE_REMOVED, release: defaultState.releases.byId.r1.name },
-      { type: ReleaseConstants.SET_RELEASES_LIST_STATE, value: { ...defaultState.releases.releasesList, isLoading: true, releaseIds: [], total: 0 } },
-      { type: ReleaseConstants.RECEIVE_RELEASES, releases: defaultState.releases.byId },
-      {
-        type: ReleaseConstants.SET_RELEASES_LIST_STATE,
-        value: { ...defaultState.releases.releasesList, releaseIds: retrievedReleaseIds, total: 5000 }
-      },
-      { type: ReleaseConstants.SET_RELEASES_LIST_STATE, value: { ...defaultState.releases.releasesList } },
-      { type: ReleaseConstants.SELECTED_RELEASE, release: null }
+      { type: removeRelease.pending.type },
+      { type: removeArtifact.pending.type },
+      { type: actions.removeRelease.type, payload: defaultState.releases.byId.r1.name },
+      { type: setReleasesListState.pending.type },
+      { type: getReleases.pending.type },
+      { type: actions.setReleaseListState.type, payload: { ...defaultState.releases.releasesList, isLoading: true, releaseIds: [], total: 0 } },
+      { type: actions.receiveReleases.type, payload: defaultState.releases.byId },
+      { type: actions.setReleaseListState.type, payload: { ...defaultState.releases.releasesList, releaseIds: retrievedReleaseIds, total: 5000 } },
+      { type: getReleases.fulfilled.type },
+      { type: setReleasesListState.pending.type },
+      { type: actions.setReleaseListState.type, payload: { ...defaultState.releases.releasesList } },
+      { type: setReleasesListState.fulfilled.type },
+      { type: setReleasesListState.fulfilled.type },
+      { type: removeArtifact.fulfilled.type },
+      { type: selectRelease.pending.type },
+      { type: actions.selectedRelease.type, payload: null },
+      { type: selectRelease.fulfilled.type },
+      { type: removeRelease.fulfilled.type }
     ];
     await store.dispatch(removeRelease(defaultState.releases.byId.r1.name));
     const storeActions = store.getActions();
@@ -278,15 +331,23 @@ describe('release actions', () => {
   });
   it('should retrieve existing release tags', async () => {
     const store = mockStore({ ...defaultState });
-    const expectedActions = [{ type: ReleaseConstants.RECEIVE_RELEASE_TAGS, tags: ['foo', 'bar'] }];
+    const expectedActions = [
+      { type: getExistingReleaseTags.pending.type },
+      { type: actions.receiveReleaseTags.type, payload: ['foo', 'bar'] },
+      { type: getExistingReleaseTags.fulfilled.type }
+    ];
     await store.dispatch(getExistingReleaseTags());
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
     expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
-  it('should retrieve existing release tags', async () => {
+  it('should retrieve existing update types', async () => {
     const store = mockStore({ ...defaultState });
-    const expectedActions = [{ type: ReleaseConstants.RECEIVE_RELEASE_TYPES, types: ['single-file', 'not-this'] }];
+    const expectedActions = [
+      { type: getUpdateTypes.pending.type },
+      { type: actions.receiveReleaseTypes.type, payload: ['single-file', 'not-this'] },
+      { type: getUpdateTypes.fulfilled.type }
+    ];
     await store.dispatch(getUpdateTypes());
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
@@ -295,13 +356,15 @@ describe('release actions', () => {
   it('should allow setting new release tags', async () => {
     const store = mockStore({ ...defaultState });
     const expectedActions = [
+      { type: setReleaseTags.pending.type },
       {
-        type: ReleaseConstants.RECEIVE_RELEASE,
-        release: { ...defaultState.releases.byId.r1, tags: ['foo', 'bar'] }
+        type: actions.receiveRelease.type,
+        payload: { ...defaultState.releases.byId.r1, tags: ['foo', 'bar'] }
       },
-      { type: AppConstants.SET_SNACKBAR, snackbar: { message: 'Release tags were set successfully.' } }
+      { type: appActions.setSnackbar.type, payload: 'Release tags were set successfully.' },
+      { type: setReleaseTags.fulfilled.type }
     ];
-    await store.dispatch(setReleaseTags(defaultState.releases.byId.r1.name, ['foo', 'bar']));
+    await store.dispatch(setReleaseTags({ name: defaultState.releases.byId.r1.name, tags: ['foo', 'bar'] }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
     expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
@@ -309,13 +372,15 @@ describe('release actions', () => {
   it('should allow extending the release info', async () => {
     const store = mockStore({ ...defaultState });
     const expectedActions = [
+      { type: updateReleaseInfo.pending.type },
       {
-        type: ReleaseConstants.RECEIVE_RELEASE,
-        release: { ...defaultState.releases.byId.r1, notes: 'this & that' }
+        type: actions.receiveRelease.type,
+        payload: { ...defaultState.releases.byId.r1, notes: 'this & that' }
       },
-      { type: AppConstants.SET_SNACKBAR, snackbar: { message: 'Release details were updated successfully.' } }
+      { type: appActions.setSnackbar.type, payload: 'Release details were updated successfully.' },
+      { type: updateReleaseInfo.fulfilled.type }
     ];
-    await store.dispatch(updateReleaseInfo(defaultState.releases.byId.r1.name, { notes: 'this & that' }));
+    await store.dispatch(updateReleaseInfo({ name: defaultState.releases.byId.r1.name, info: { notes: 'this & that' } }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
     expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));

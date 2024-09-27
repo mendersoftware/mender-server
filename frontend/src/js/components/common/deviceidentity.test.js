@@ -13,9 +13,10 @@
 //    limitations under the License.
 import React from 'react';
 
+import { ATTRIBUTE_SCOPES } from '@northern.tech/store/constants';
+
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
-import { ATTRIBUTE_SCOPES } from '../../constants/deviceConstants';
 import DeviceIdentityDisplay from './deviceidentity';
 
 describe('DeviceIdentityDisplay Component', () => {

@@ -11,14 +11,15 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { DEVICE_ISSUE_OPTIONS } from '@northern.tech/store/commonConstants';
 import configureMockStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 
-import { defaultState } from '../../../tests/mockData';
-import * as AppConstants from '../constants/appConstants';
-import { DEVICE_ISSUE_OPTIONS } from '../constants/deviceConstants';
-import * as MonitorConstants from '../constants/monitorConstants';
-import { changeNotificationSetting, getDeviceAlerts, getDeviceMonitorConfig, getIssueCountsByType, getLatestDeviceAlerts } from './monitorActions';
+import { actions } from '.';
+import { defaultState } from '../../../../tests/mockData';
+import { actions as appActions } from '../appSlice';
+import { actions as deviceActions } from '../devicesSlice';
+import { changeNotificationSetting, getDeviceAlerts, getDeviceMonitorConfig, getIssueCountsByType, getLatestDeviceAlerts } from './thunks';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -29,14 +30,12 @@ describe('monitor actions', () => {
     const store = mockStore({ ...defaultState });
     expect(store.getActions()).toHaveLength(0);
     const expectedActions = [
-      {
-        type: MonitorConstants.RECEIVE_DEVICE_ALERTS,
-        deviceId: defaultState.devices.byId.a1.id,
-        alerts: []
-      },
-      { type: MonitorConstants.SET_ALERT_LIST_STATE, value: { page: 1, perPage: 20, total: 1 } }
+      { type: getDeviceAlerts.pending.type },
+      { type: actions.receiveDeviceAlerts.type, payload: { deviceId: defaultState.devices.byId.a1.id, alerts: [] } },
+      { type: actions.setAlertListState.type, payload: { total: 1 } },
+      { type: getDeviceAlerts.fulfilled.type }
     ];
-    const request = store.dispatch(getDeviceAlerts(defaultState.devices.byId.a1.id));
+    const request = store.dispatch(getDeviceAlerts({ id: defaultState.devices.byId.a1.id }));
     expect(request).resolves.toBeTruthy();
     await request.then(() => {
       const storeActions = store.getActions();
@@ -48,13 +47,11 @@ describe('monitor actions', () => {
     const store = mockStore({ ...defaultState });
     expect(store.getActions()).toHaveLength(0);
     const expectedActions = [
-      {
-        type: MonitorConstants.RECEIVE_LATEST_DEVICE_ALERTS,
-        deviceId: defaultState.devices.byId.a1.id,
-        alerts: []
-      }
+      { type: getLatestDeviceAlerts.pending.type },
+      { type: actions.receiveLatestDeviceAlerts.type, payload: { deviceId: defaultState.devices.byId.a1.id, alerts: [] } },
+      { type: getLatestDeviceAlerts.fulfilled.type }
     ];
-    const request = store.dispatch(getLatestDeviceAlerts(defaultState.devices.byId.a1.id));
+    const request = store.dispatch(getLatestDeviceAlerts({ id: defaultState.devices.byId.a1.id }));
     expect(request).resolves.toBeTruthy();
     await request.then(() => {
       const storeActions = store.getActions();
@@ -66,11 +63,9 @@ describe('monitor actions', () => {
     const store = mockStore({ ...defaultState });
     expect(store.getActions()).toHaveLength(0);
     const expectedActions = [
-      {
-        type: MonitorConstants.RECEIVE_DEVICE_ISSUE_COUNTS,
-        issueType: DEVICE_ISSUE_OPTIONS.monitoring.key,
-        counts: { filtered: 4, total: 4 }
-      }
+      { type: getIssueCountsByType.pending.type },
+      { type: actions.receiveDeviceIssueCounts.type, payload: { issueType: DEVICE_ISSUE_OPTIONS.monitoring.key, counts: { filtered: 4, total: 4 } } },
+      { type: getIssueCountsByType.fulfilled.type }
     ];
     const request = store.dispatch(getIssueCountsByType({ type: DEVICE_ISSUE_OPTIONS.monitoring.key }));
     expect(request).resolves.toBeTruthy();
@@ -84,10 +79,9 @@ describe('monitor actions', () => {
     const store = mockStore({ ...defaultState });
     expect(store.getActions()).toHaveLength(0);
     const expectedActions = [
-      {
-        type: MonitorConstants.RECEIVE_DEVICE_MONITOR_CONFIG,
-        device: { id: defaultState.devices.byId.a1.id, monitors: [{ something: 'here' }] }
-      }
+      { type: getDeviceMonitorConfig.pending.type },
+      { type: deviceActions.receivedDevice.type, payload: { id: defaultState.devices.byId.a1.id, monitors: [{ something: 'here' }] } },
+      { type: getDeviceMonitorConfig.fulfilled.type }
     ];
     const request = store.dispatch(getDeviceMonitorConfig(defaultState.devices.byId.a1.id));
     expect(request).resolves.toBeTruthy();
@@ -101,17 +95,10 @@ describe('monitor actions', () => {
     const store = mockStore({ ...defaultState });
     expect(store.getActions()).toHaveLength(0);
     const expectedActions = [
-      {
-        type: MonitorConstants.CHANGE_ALERT_CHANNEL,
-        channel: 'email',
-        enabled: false
-      },
-      {
-        type: AppConstants.SET_SNACKBAR,
-        snackbar: {
-          message: 'Successfully disabled email alerts'
-        }
-      }
+      { type: changeNotificationSetting.pending.type },
+      { type: actions.changeAlertChannel.type, payload: { channel: 'email', enabled: false } },
+      { type: appActions.setSnackbar.type, payload: 'Successfully disabled email alerts' },
+      { type: changeNotificationSetting.fulfilled.type }
     ];
     const request = store.dispatch(changeNotificationSetting({ enabled: false }));
     expect(request).resolves.toBeTruthy();

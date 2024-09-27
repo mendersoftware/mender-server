@@ -11,35 +11,34 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import * as OnboardingConstants from '../constants/onboardingConstants';
-import reducer, { initialState } from './onboardingReducer';
+import reducer, { actions, initialState } from '.';
 
 describe('organization reducer', () => {
   it('should return the initial state', async () => {
     expect(reducer(undefined, {})).toEqual(initialState);
   });
   it('should handle SET_SHOW_ONBOARDING_HELP', async () => {
-    expect(reducer(undefined, { type: OnboardingConstants.SET_SHOW_ONBOARDING_HELP, show: true }).showTips).toEqual(true);
-    expect(reducer(initialState, { type: OnboardingConstants.SET_SHOW_ONBOARDING_HELP, show: false }).showTips).toEqual(false);
+    expect(reducer(undefined, { type: actions.setShowOnboardingHelp, payload: true }).showTips).toEqual(true);
+    expect(reducer(initialState, { type: actions.setShowOnboardingHelp, payload: false }).showTips).toEqual(false);
   });
   it('should handle SET_SHOW_ONBOARDING_HELP_DIALOG', async () => {
-    expect(reducer(undefined, { type: OnboardingConstants.SET_SHOW_ONBOARDING_HELP_DIALOG, show: true }).showTipsDialog).toEqual(true);
-    expect(reducer(initialState, { type: OnboardingConstants.SET_SHOW_ONBOARDING_HELP_DIALOG, show: false }).showTipsDialog).toEqual(false);
+    expect(reducer(undefined, { type: actions.setShowDismissOnboardingTipsDialog, payload: true }).showTipsDialog).toEqual(true);
+    expect(reducer(initialState, { type: actions.setShowDismissOnboardingTipsDialog, payload: false }).showTipsDialog).toEqual(false);
   });
   it('should handle SET_ONBOARDING_COMPLETE', async () => {
-    expect(reducer(undefined, { type: OnboardingConstants.SET_ONBOARDING_COMPLETE, complete: true }).complete).toEqual(true);
-    expect(reducer(initialState, { type: OnboardingConstants.SET_ONBOARDING_COMPLETE, complete: false }).complete).toEqual(false);
+    expect(reducer(undefined, { type: actions.setOnboardingComplete, payload: true }).complete).toEqual(true);
+    expect(reducer(initialState, { type: actions.setOnboardingComplete, payload: false }).complete).toEqual(false);
   });
   it('should handle SET_ONBOARDING_PROGRESS', async () => {
-    expect(reducer(undefined, { type: OnboardingConstants.SET_ONBOARDING_PROGRESS, value: 'test' }).progress).toEqual('test');
-    expect(reducer(initialState, { type: OnboardingConstants.SET_ONBOARDING_PROGRESS, value: 'test' }).progress).toEqual('test');
+    expect(reducer(undefined, { type: actions.setOnboardingProgress, payload: 'test' }).progress).toEqual('test');
+    expect(reducer(initialState, { type: actions.setOnboardingProgress, payload: 'test' }).progress).toEqual('test');
   });
   it('should handle SET_ONBOARDING_DEVICE_TYPE', async () => {
-    expect(reducer(undefined, { type: OnboardingConstants.SET_ONBOARDING_DEVICE_TYPE, value: 'bbb' }).deviceType).toEqual('bbb');
-    expect(reducer(initialState, { type: OnboardingConstants.SET_ONBOARDING_DEVICE_TYPE, value: 'rpi4' }).deviceType).toEqual('rpi4');
+    expect(reducer(undefined, { type: actions.setOnboardingDeviceType, payload: 'bbb' }).deviceType).toEqual('bbb');
+    expect(reducer(initialState, { type: actions.setOnboardingDeviceType, payload: 'rpi4' }).deviceType).toEqual('rpi4');
   });
   it('should handle SET_ONBOARDING_APPROACH', async () => {
-    expect(reducer(undefined, { type: OnboardingConstants.SET_ONBOARDING_APPROACH, value: 'physical' }).approach).toEqual('physical');
-    expect(reducer(initialState, { type: OnboardingConstants.SET_ONBOARDING_APPROACH, value: 'virtual' }).approach).toEqual('virtual');
+    expect(reducer(undefined, { type: actions.setOnboardingApproach, payload: 'physical' }).approach).toEqual('physical');
+    expect(reducer(initialState, { type: actions.setOnboardingApproach, payload: 'virtual' }).approach).toEqual('virtual');
   });
 });

@@ -14,13 +14,13 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
+import { actions as deviceActions } from '@northern.tech/store/devicesSlice';
+import * as DeviceActions from '@northern.tech/store/devicesSlice/thunks';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
-import * as DeviceActions from '../../actions/deviceActions';
-import { SET_ACCEPTED_DEVICES_COUNT } from '../../constants/deviceConstants';
 import Dashboard from './dashboard';
 
 const reportsSpy = jest.spyOn(DeviceActions, 'getReportsDataWithoutBackendSupport');
@@ -77,7 +77,7 @@ describe('Dashboard Component', () => {
     const { rerender, store } = render(ui, { preloadedState });
     await waitFor(() => expect(reportsSpy).toHaveBeenCalled());
     await waitFor(() => rerender(ui));
-    await act(() => store.dispatch({ type: SET_ACCEPTED_DEVICES_COUNT, status: 'accepted', count: 0 }));
+    await act(() => store.dispatch({ type: deviceActions.setDevicesCountByStatus.type, payload: { status: 'accepted', count: 0 } }));
     await user.click(screen.getByText(/pending devices/i));
     await waitFor(() => screen.queryByText(/pendings route/i));
     expect(screen.getByText(/pendings route/i)).toBeVisible();

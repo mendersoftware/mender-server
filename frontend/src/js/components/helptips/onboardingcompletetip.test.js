@@ -15,10 +15,10 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 
+import { getConfiguredStore } from '@northern.tech/store/store';
 import { act, render as testingLibRender, waitFor } from '@testing-library/react';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
-import { getConfiguredStore } from '../../reducers';
 import OnboardingCompleteTip from './onboardingcompletetip';
 
 describe('OnboardingCompleteTip Component', () => {

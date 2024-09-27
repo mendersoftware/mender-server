@@ -13,13 +13,12 @@
 //    limitations under the License.
 import React from 'react';
 
+import { TIMEOUTS, chartTypes, rootfsImageVersion } from '@northern.tech/store/constants';
+import * as DeviceActions from '@northern.tech/store/devicesSlice/thunks';
 import { act, waitFor } from '@testing-library/react';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
-import * as DeviceActions from '../../actions/deviceActions';
-import { TIMEOUTS, chartTypes } from '../../constants/appConstants';
-import { rootfsImageVersion } from '../../constants/releaseConstants';
 import SoftwareDistribution from './software-distribution';
 
 const preloadedState = {

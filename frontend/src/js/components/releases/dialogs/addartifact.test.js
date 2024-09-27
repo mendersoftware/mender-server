@@ -13,12 +13,12 @@
 //    limitations under the License.
 import React from 'react';
 
+import * as releaseActions from '@northern.tech/store/releasesSlice/thunks';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
-import * as ReleaseActions from '../../../actions/releaseActions';
 import AddArtifact from './addartifact';
 
 describe('AddArtifact Component', () => {
@@ -36,7 +36,7 @@ describe('AddArtifact Component', () => {
   it('allows uploading a mender artifact', async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const menderFile = new File(['testContent'], 'test.mender');
-    const uploadSpy = jest.spyOn(ReleaseActions, 'uploadArtifact');
+    const uploadSpy = jest.spyOn(releaseActions, 'uploadArtifact');
 
     const ui = <AddArtifact onUploadStarted={jest.fn} releases={Object.values(defaultState.releases.byId)} />;
     const { rerender } = render(ui, { preloadedState });
@@ -56,7 +56,7 @@ describe('AddArtifact Component', () => {
 
   it('allows creating a mender artifact', async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const creationSpy = jest.spyOn(ReleaseActions, 'createArtifact');
+    const creationSpy = jest.spyOn(releaseActions, 'createArtifact');
 
     const menderFile = new File(['testContent plain'], 'testFile.txt');
     const ui = <AddArtifact onUploadStarted={jest.fn} releases={Object.values(defaultState.releases.byId)} />;

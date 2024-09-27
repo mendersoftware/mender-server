@@ -13,13 +13,13 @@
 //    limitations under the License.
 import React from 'react';
 
+import * as DeviceActions from '@northern.tech/store/devicesSlice/thunks';
+import * as UserActions from '@northern.tech/store/usersSlice/thunks';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
-import * as DeviceActions from '../../actions/deviceActions';
-import * as UserActions from '../../actions/userActions';
 import Authorized from './authorized-devices';
 import { routes } from './base-devices';
 
@@ -108,12 +108,19 @@ describe('AuthorizedDevices Component', () => {
     const { rerender } = render(ui, { preloadedState });
     await waitFor(() => expect(screen.getAllByRole('checkbox').length).toBeTruthy());
     await user.click(screen.getAllByRole('checkbox')[0]);
-    expect(setListStateSpy).toHaveBeenCalledWith({ selection: [0, 1], setOnly: true }, true, false, false);
+    expect(setListStateSpy).toHaveBeenCalledWith({ selection: [0, 1], setOnly: true, fetchAuth: false, forceRefresh: false, shouldSelectDevices: true });
     const combo = screen.getAllByRole('combobox').find(item => item.textContent?.includes('all'));
     await user.click(combo);
     await user.click(screen.getByRole('option', { name: /devices with issues/i }));
     await user.keyboard('{Escape}');
-    expect(setListStateSpy).toHaveBeenCalledWith({ page: 1, refreshTrigger: true, selectedIssues: ['offline', 'monitoring'] }, true, false, false);
+    expect(setListStateSpy).toHaveBeenCalledWith({
+      page: 1,
+      refreshTrigger: true,
+      selectedIssues: ['offline', 'monitoring'],
+      fetchAuth: false,
+      forceRefresh: false,
+      shouldSelectDevices: true
+    });
     await waitFor(() => rerender(ui));
     await user.click(screen.getByRole('button', { name: /table options/i }));
     await waitFor(() => rerender(ui));
@@ -129,25 +136,25 @@ describe('AuthorizedDevices Component', () => {
     expect(button).not.toBeDisabled();
     await user.click(button);
 
-    expect(setColumnsSpy).toHaveBeenCalledWith([
-      { attribute: { name: attributeNames.deviceType, scope: 'inventory' }, size: 150 },
-      { attribute: { name: attributeNames.artifact, scope: 'inventory' }, size: 150 },
-      { attribute: { name: attributeNames.checkInTime, scope: 'system' }, size: 220 },
-      { attribute: { name: testKey, scope: 'inventory' }, size: 150 }
-    ]);
-    expect(setListStateSpy).toHaveBeenCalledWith(
-      {
-        selectedAttributes: [
-          { attribute: attributeNames.deviceType, scope: 'inventory' },
-          { attribute: attributeNames.artifact, scope: 'inventory' },
-          { attribute: attributeNames.checkInTime, scope: 'system' },
-          { attribute: testKey, scope: 'inventory' }
-        ]
-      },
-      true,
-      false,
-      false
-    );
+    expect(setColumnsSpy).toHaveBeenCalledWith({
+      columns: [
+        { attribute: { name: attributeNames.deviceType, scope: 'inventory' }, size: 150 },
+        { attribute: { name: attributeNames.artifact, scope: 'inventory' }, size: 150 },
+        { attribute: { name: attributeNames.checkInTime, scope: 'system' }, size: 220 },
+        { attribute: { name: testKey, scope: 'inventory' }, size: 150 }
+      ]
+    });
+    expect(setListStateSpy).toHaveBeenCalledWith({
+      selectedAttributes: [
+        { attribute: attributeNames.deviceType, scope: 'inventory' },
+        { attribute: attributeNames.artifact, scope: 'inventory' },
+        { attribute: attributeNames.checkInTime, scope: 'system' },
+        { attribute: testKey, scope: 'inventory' }
+      ],
+      fetchAuth: false,
+      forceRefresh: false,
+      shouldSelectDevices: true
+    });
     expect(setUserSettingsSpy).toHaveBeenCalledWith({
       columnSelection: [
         { id: 'inventory-device_type', key: attributeNames.deviceType, name: attributeNames.deviceType, scope: 'inventory', title: 'Device type' },

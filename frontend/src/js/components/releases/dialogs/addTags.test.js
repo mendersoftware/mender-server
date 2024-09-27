@@ -15,7 +15,7 @@ import React from 'react';
 
 import { undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
-import AddTags from './addTags.js';
+import AddTags from './addTags';
 
 describe('releases addTags Component', () => {
   it('renders correctly', async () => {

@@ -11,14 +11,16 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { getGlobalSettings, saveGlobalSettings, setOfflineThreshold } from '@northern.tech/store/thunks';
 import configureMockStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 
-import { defaultState } from '../../../tests/mockData';
-import * as AppConstants from '../constants/appConstants';
-import * as DeploymentConstants from '../constants/deploymentConstants';
-import * as DeviceConstants from '../constants/deviceConstants';
-import * as UserConstants from '../constants/userConstants';
+import { actions } from '.';
+import { defaultState } from '../../../../tests/mockData';
+import { actions as appActions } from '../appSlice';
+import { actions as deviceActions } from '../devicesSlice';
+import { actions as userActions } from '../usersSlice';
+import * as DeploymentConstants from './constants';
 import {
   abortDeployment,
   createDeployment,
@@ -27,11 +29,12 @@ import {
   getDeploymentsConfig,
   getDeviceDeployments,
   getDeviceLog,
+  getSingleDeployment,
   resetDeviceDeployments,
   saveDeltaDeploymentsConfig,
   setDeploymentsState,
   updateDeploymentControlMap
-} from './deploymentActions';
+} from './thunks';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -63,85 +66,75 @@ const deploymentsConfig = {
 
 const defaultResponseActions = {
   creation: {
-    type: DeploymentConstants.CREATE_DEPLOYMENT,
-    deployment: { devices: [{ id: Object.keys(defaultState.devices.byId)[0], status: 'pending' }], statistics: { status: {} } },
-    deploymentId: createdDeployment.id
+    type: actions.createdDeployment.type,
+    isImportant: true,
+    payload: { id: createdDeployment.id, devices: [{ id: Object.keys(defaultState.devices.byId)[0], status: 'pending' }], statistics: { status: {} } }
   },
   devices: {
-    type: DeploymentConstants.RECEIVE_DEPLOYMENT_DEVICES,
-    deploymentId: defaultState.deployments.byId.d1.id,
-    devices: defaultState.deployments.byId.d1.devices,
-    selectedDeviceIds: [defaultState.deployments.byId.d1.devices.a1.id],
-    totalDeviceCount: 1
+    type: actions.receivedDeploymentDevices.type,
+    payload: {
+      id: defaultState.deployments.byId.d1.id,
+      devices: defaultState.deployments.byId.d1.devices,
+      selectedDeviceIds: [defaultState.deployments.byId.d1.devices.a1.id],
+      totalDeviceCount: 1
+    }
   },
   log: {
-    type: DeploymentConstants.RECEIVE_DEPLOYMENT_DEVICE_LOG,
-    deployment: {
-      ...defaultState.deployments.byId.d1,
-      devices: {
-        ...defaultState.deployments.byId.d1.devices,
-        a1: {
-          ...defaultState.deployments.byId.d1.devices.a1,
-          log: 'test'
-        }
-      }
+    type: actions.receivedDeploymentDeviceLog.type,
+    payload: {
+      id: defaultState.deployments.byId.d1.id,
+      deviceId: defaultState.deployments.byId.d1.devices.a1.id,
+      log: 'test'
     }
   },
-  snackbar: {
-    type: AppConstants.SET_SNACKBAR,
-    snackbar: {
-      maxWidth: '900px',
-      message: 'Deployment created successfully',
-      open: true
-    }
-  },
-  receive: {
-    type: DeploymentConstants.RECEIVE_DEPLOYMENT,
-    deployment: createdDeployment
-  },
-  receiveMultiple: { type: DeploymentConstants.RECEIVE_DEPLOYMENTS, deployments: {} },
-  receiveInprogress: { type: DeploymentConstants.RECEIVE_INPROGRESS_DEPLOYMENTS, deploymentIds: [], status: 'inprogress', total: 0 },
-  remove: { type: DeploymentConstants.REMOVE_DEPLOYMENT, deploymentId: defaultState.deployments.byId.d1.id },
-  select: {
-    type: DeploymentConstants.SELECT_DEPLOYMENT,
-    deploymentId: createdDeployment.id
-  },
+  snackbar: { type: appActions.setSnackbar.type, payload: 'Deployment created successfully' },
+  receive: { type: actions.receivedDeployment.type, payload: createdDeployment },
+  receiveMultiple: { type: actions.receivedDeployments.type, payload: {} },
+  receiveInprogress: { type: actions.receivedDeploymentsForStatus.type, payload: { deploymentIds: [], status: 'inprogress', total: 0 } },
+  remove: { type: actions.removedDeployment.type, payload: defaultState.deployments.byId.d1.id },
   selectMultiple: {
-    type: DeploymentConstants.SELECT_INPROGRESS_DEPLOYMENTS,
-    deploymentIds: Object.keys(defaultState.deployments.byId),
-    status: 'inprogress'
+    type: actions.selectDeploymentsForStatus.type,
+    payload: { deploymentIds: Object.keys(defaultState.deployments.byId), status: 'inprogress' }
   },
-  setOfflineThreshold: { type: AppConstants.SET_OFFLINE_THRESHOLD, value: '2019-01-12T13:00:00.900Z' }
+  setOfflineThreshold: { type: appActions.setOfflineThreshold.type, payload: '2019-01-12T13:00:00.900Z' }
 };
 
 // eslint-disable-next-line no-unused-vars
 const { id_attribute, ...retrievedSettings } = defaultState.users.globalSettings;
+
+const assertionFunction =
+  storeActions =>
+  ({ type, isImportant, payload }, index) => {
+    expect(storeActions[index].type).toEqual(type);
+    if (isImportant) {
+      expect(storeActions[index].payload).toEqual(payload);
+    }
+  };
 
 /* eslint-disable sonarjs/no-identical-functions */
 describe('deployment actions', () => {
   it('should allow aborting deployments', async () => {
     const store = mockStore({ ...defaultState });
     const expectedActions = [
+      { type: abortDeployment.pending.type },
       defaultResponseActions.receiveMultiple,
       defaultResponseActions.receiveInprogress,
       defaultResponseActions.remove,
-      {
-        ...defaultResponseActions.snackbar,
-        snackbar: {
-          ...defaultResponseActions.snackbar.snackbar,
-          message: 'The deployment was successfully aborted'
-        }
-      }
+      { ...defaultResponseActions.snackbar, payload: 'The deployment was successfully aborted' },
+      { type: abortDeployment.fulfilled.type }
     ];
-    return store.dispatch(abortDeployment(defaultState.deployments.byId.d1.id)).then(() => {
-      const storeActions = store.getActions();
-      expect(storeActions.length).toEqual(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
-    });
+    return store
+      .dispatch(abortDeployment(defaultState.deployments.byId.d1.id))
+      .unwrap()
+      .then(() => {
+        const storeActions = store.getActions();
+        expect(storeActions.length).toEqual(expectedActions.length);
+        expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      });
   });
   it(`should reject aborting deployments that don't exist`, () => {
     const store = mockStore({ ...defaultState });
-    const abortedDeployment = store.dispatch(abortDeployment(`${defaultState.deployments.byId.d1.id}-invalid`));
+    const abortedDeployment = store.dispatch(abortDeployment(`${defaultState.deployments.byId.d1.id}-invalid`)).unwrap();
     expect(typeof abortedDeployment === Promise);
     expect(abortedDeployment).rejects.toBeTruthy();
   });
@@ -160,84 +153,100 @@ describe('deployment actions', () => {
       }
     });
     const expectedActions = [
+      { type: createDeployment.pending.type },
       defaultResponseActions.creation,
-      {
-        ...defaultResponseActions.snackbar,
-        snackbar: {
-          ...defaultResponseActions.snackbar.snackbar,
-          autoHideDuration: AppConstants.TIMEOUTS.fiveSeconds
-        }
-      },
+      { type: getSingleDeployment.pending.type },
+      defaultResponseActions.snackbar,
+      { type: saveGlobalSettings.pending.type },
+      { type: getGlobalSettings.pending.type },
       defaultResponseActions.receive,
-      { type: UserConstants.SET_GLOBAL_SETTINGS, settings: retrievedSettings },
+      { type: getSingleDeployment.fulfilled.type },
+      { type: userActions.setGlobalSettings.type },
+      { type: setOfflineThreshold.pending.type },
       defaultResponseActions.setOfflineThreshold,
-      { type: UserConstants.SET_GLOBAL_SETTINGS, settings: { ...defaultState.users.globalSettings, hasDeployments: true } }
+      { type: setOfflineThreshold.fulfilled.type },
+      { type: getGlobalSettings.fulfilled.type },
+      { type: userActions.setGlobalSettings.type },
+      { type: saveGlobalSettings.fulfilled.type },
+      { type: createDeployment.fulfilled.type }
     ];
-    return store.dispatch(createDeployment({ devices: [Object.keys(defaultState.devices.byId)[0]] })).then(() => {
+    return store.dispatch(createDeployment({ newDeployment: { devices: [Object.keys(defaultState.devices.byId)[0]] } })).then(() => {
       const storeActions = store.getActions();
       expect(storeActions.length).toEqual(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.map(assertionFunction(storeActions));
     });
   });
   it('should allow creating deployments with a filter', async () => {
     const store = mockStore({ ...defaultState });
     const filter_id = '1234';
     const expectedActions = [
-      { ...defaultResponseActions.creation, deployment: { devices: [], filter_id, statistics: { status: {} } } },
-      {
-        ...defaultResponseActions.snackbar,
-        snackbar: {
-          ...defaultResponseActions.snackbar.snackbar,
-          autoHideDuration: AppConstants.TIMEOUTS.fiveSeconds
-        }
-      },
+      { type: createDeployment.pending.type },
+      { ...defaultResponseActions.creation, payload: { ...defaultResponseActions.creation.payload, devices: [], filter_id, statistics: { status: {} } } },
+      { type: getSingleDeployment.pending.type },
+      defaultResponseActions.snackbar,
+      { type: saveGlobalSettings.pending.type },
+      { type: getGlobalSettings.pending.type },
       defaultResponseActions.receive,
-      { type: UserConstants.SET_GLOBAL_SETTINGS, settings: retrievedSettings },
+      { type: getSingleDeployment.fulfilled.type },
+      { type: userActions.setGlobalSettings.type },
+      { type: setOfflineThreshold.pending.type },
       defaultResponseActions.setOfflineThreshold,
-      { type: UserConstants.SET_GLOBAL_SETTINGS, settings: retrievedSettings }
+      { type: setOfflineThreshold.fulfilled.type },
+      { type: getGlobalSettings.fulfilled.type },
+      { type: userActions.setGlobalSettings.type },
+      { type: saveGlobalSettings.fulfilled.type },
+      { type: createDeployment.fulfilled.type }
     ];
-    return store.dispatch(createDeployment({ filter_id })).then(() => {
+    return store.dispatch(createDeployment({ newDeployment: { filter_id } })).then(() => {
       const storeActions = store.getActions();
       expect(storeActions.length).toEqual(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.map(assertionFunction(storeActions));
     });
   });
   it('should allow creating deployments with a group', async () => {
     const store = mockStore({ ...defaultState });
     const group = Object.keys(defaultState.devices.groups.byId)[0];
     const expectedActions = [
-      { ...defaultResponseActions.creation, deployment: { devices: [], group, statistics: { status: {} } } },
-      {
-        ...defaultResponseActions.snackbar,
-        snackbar: {
-          ...defaultResponseActions.snackbar.snackbar,
-          autoHideDuration: AppConstants.TIMEOUTS.fiveSeconds
-        }
-      },
+      { type: createDeployment.pending.type },
+      { ...defaultResponseActions.creation, payload: { ...defaultResponseActions.creation.payload, devices: [], group, statistics: { status: {} } } },
+      { type: getSingleDeployment.pending.type },
+      defaultResponseActions.snackbar,
+      { type: saveGlobalSettings.pending.type },
+      { type: getGlobalSettings.pending.type },
       defaultResponseActions.receive,
-      { type: UserConstants.SET_GLOBAL_SETTINGS, settings: retrievedSettings },
+      { type: getSingleDeployment.fulfilled.type },
+      { type: userActions.setGlobalSettings.type },
+      { type: setOfflineThreshold.pending.type },
       defaultResponseActions.setOfflineThreshold,
-      { type: UserConstants.SET_GLOBAL_SETTINGS, settings: retrievedSettings }
+      { type: setOfflineThreshold.fulfilled.type },
+      { type: getGlobalSettings.fulfilled.type },
+      { type: userActions.setGlobalSettings.type },
+      { type: saveGlobalSettings.fulfilled.type },
+      { type: createDeployment.fulfilled.type }
     ];
-    return store.dispatch(createDeployment({ group })).then(() => {
+    return store.dispatch(createDeployment({ newDeployment: { group } })).then(() => {
       const storeActions = store.getActions();
       expect(storeActions.length).toEqual(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.map(assertionFunction(storeActions));
     });
   });
   it('should allow deployments retrieval', async () => {
     const store = mockStore({ ...defaultState });
     const expectedActions = [
-      { ...defaultResponseActions.receiveMultiple, deployments: defaultState.deployments.byId },
+      { type: getDeploymentsByStatus.pending.type },
+      { ...defaultResponseActions.receiveMultiple, payload: defaultState.deployments.byId },
       {
         ...defaultResponseActions.receiveInprogress,
-        deploymentIds: Object.keys(defaultState.deployments.byId),
-        total: defaultState.deployments.byStatus.inprogress.total
+        payload: {
+          deploymentIds: Object.keys(defaultState.deployments.byId),
+          total: defaultState.deployments.byStatus.inprogress.total
+        }
       },
-      defaultResponseActions.selectMultiple
+      defaultResponseActions.selectMultiple,
+      { type: getDeploymentsByStatus.fulfilled.type }
     ];
     return store
-      .dispatch(getDeploymentsByStatus('inprogress', null, null, undefined, undefined, Object.keys(defaultState.devices.groups.byId)[0], 'configuration', true))
+      .dispatch(getDeploymentsByStatus({ status: 'inprogress', group: Object.keys(defaultState.devices.groups.byId)[0], type: 'configuration' }))
       .then(() => {
         const storeActions = store.getActions();
         expect(storeActions.length).toEqual(expectedActions.length);
@@ -246,17 +255,19 @@ describe('deployment actions', () => {
   });
   it('should allow deployment device log retrieval', async () => {
     const store = mockStore({ ...defaultState });
-    const expectedActions = [defaultResponseActions.log];
-    return store.dispatch(getDeviceLog(Object.keys(defaultState.deployments.byId)[0], defaultState.deployments.byId.d1.devices.a1.id)).then(() => {
-      const storeActions = store.getActions();
-      expect(storeActions.length).toEqual(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
-    });
+    const expectedActions = [{ type: getDeviceLog.pending.type }, defaultResponseActions.log, { type: getDeviceLog.fulfilled.type }];
+    return store
+      .dispatch(getDeviceLog({ deploymentId: Object.keys(defaultState.deployments.byId)[0], deviceId: defaultState.deployments.byId.d1.devices.a1.id }))
+      .then(() => {
+        const storeActions = store.getActions();
+        expect(storeActions.length).toEqual(expectedActions.length);
+        expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      });
   });
   it('should allow deployment device list retrieval', async () => {
     const store = mockStore({ ...defaultState });
-    const expectedActions = [defaultResponseActions.devices];
-    return store.dispatch(getDeploymentDevices(Object.keys(defaultState.deployments.byId)[0])).then(() => {
+    const expectedActions = [{ type: getDeploymentDevices.pending.type }, defaultResponseActions.devices, { type: getDeploymentDevices.fulfilled.type }];
+    return store.dispatch(getDeploymentDevices({ id: Object.keys(defaultState.deployments.byId)[0] })).then(() => {
       const storeActions = store.getActions();
       expect(storeActions.length).toEqual(expectedActions.length);
       expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
@@ -265,10 +276,11 @@ describe('deployment actions', () => {
   it('should allow device deployment history retrieval', async () => {
     const store = mockStore({ ...defaultState });
     const expectedActions = [
+      { type: getDeviceDeployments.pending.type },
       {
-        type: DeviceConstants.RECEIVE_DEVICE,
-        device: {
-          ...defaultState.devices.byId.a1,
+        type: deviceActions.receivedDevice.type,
+        payload: {
+          id: defaultState.devices.byId.a1.id,
           deploymentsCount: 34,
           deviceDeployments: [
             {
@@ -281,9 +293,10 @@ describe('deployment actions', () => {
             }
           ]
         }
-      }
+      },
+      { type: getDeviceDeployments.fulfilled.type }
     ];
-    await store.dispatch(getDeviceDeployments(defaultState.devices.byId.a1.id));
+    await store.dispatch(getDeviceDeployments({ deviceId: defaultState.devices.byId.a1.id }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
     expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
@@ -291,10 +304,12 @@ describe('deployment actions', () => {
   it('should allow device deployment history deletion', async () => {
     const store = mockStore({ ...defaultState });
     const expectedActions = [
+      { type: resetDeviceDeployments.pending.type },
+      { type: getDeviceDeployments.pending.type },
       {
-        type: DeviceConstants.RECEIVE_DEVICE,
-        device: {
-          ...defaultState.devices.byId.a1,
+        type: deviceActions.receivedDevice.type,
+        payload: {
+          id: defaultState.devices.byId.a1.id,
           deploymentsCount: 34,
           deviceDeployments: [
             {
@@ -307,7 +322,9 @@ describe('deployment actions', () => {
             }
           ]
         }
-      }
+      },
+      { type: getDeviceDeployments.fulfilled.type },
+      { type: resetDeviceDeployments.fulfilled.type }
     ];
     await store.dispatch(resetDeviceDeployments(defaultState.devices.byId.a1.id));
     const storeActions = store.getActions();
@@ -316,8 +333,14 @@ describe('deployment actions', () => {
   });
   it('should allow updating a deployment to continue the execution', async () => {
     const store = mockStore({ ...defaultState });
-    const expectedActions = [defaultResponseActions.receive];
-    return store.dispatch(updateDeploymentControlMap(createdDeployment.id, { something: 'continue' })).then(() => {
+    const expectedActions = [
+      { type: updateDeploymentControlMap.pending.type },
+      { type: getSingleDeployment.pending.type },
+      defaultResponseActions.receive,
+      { type: getSingleDeployment.fulfilled.type },
+      { type: updateDeploymentControlMap.fulfilled.type }
+    ];
+    return store.dispatch(updateDeploymentControlMap({ deploymentId: createdDeployment.id, updateControlMap: { something: 'continue' } })).then(() => {
       const storeActions = store.getActions();
       expect(storeActions.length).toEqual(expectedActions.length);
       expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
@@ -333,9 +356,10 @@ describe('deployment actions', () => {
       })
     );
     const expectedActions = [
+      { type: setDeploymentsState.pending.type },
       {
-        type: DeploymentConstants.SET_DEPLOYMENTS_STATE,
-        state: {
+        type: actions.setDeploymentsState.type,
+        payload: {
           ...defaultState.deployments.selectionState,
           finished: {
             ...defaultState.deployments.selectionState.finished,
@@ -348,7 +372,10 @@ describe('deployment actions', () => {
           selectedId: createdDeployment.id
         }
       },
-      defaultResponseActions.receive
+      { type: getSingleDeployment.pending.type },
+      defaultResponseActions.receive,
+      { type: getSingleDeployment.fulfilled.type },
+      { type: setDeploymentsState.fulfilled.type }
     ];
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
@@ -357,7 +384,11 @@ describe('deployment actions', () => {
 
   it('should allow retrieving config for deployments', async () => {
     const store = mockStore({ ...defaultState });
-    const expectedActions = [{ type: DeploymentConstants.SET_DEPLOYMENTS_CONFIG, config: deploymentsConfig }];
+    const expectedActions = [
+      { type: getDeploymentsConfig.pending.type },
+      { type: actions.setDeploymentsConfig.type, payload: deploymentsConfig },
+      { type: getDeploymentsConfig.fulfilled.type }
+    ];
     return store.dispatch(getDeploymentsConfig()).then(() => {
       const storeActions = store.getActions();
       expect(storeActions.length).toEqual(expectedActions.length);
@@ -379,8 +410,10 @@ describe('deployment actions', () => {
     // eslint-disable-next-line no-unused-vars
     const { hasDelta, ...expectedConfig } = deploymentsConfig;
     const expectedActions = [
-      { type: DeploymentConstants.SET_DEPLOYMENTS_CONFIG, config: { ...expectedConfig, binaryDelta: { ...expectedConfig.binaryDelta, ...changedConfig } } },
-      { type: AppConstants.SET_SNACKBAR, snackbar: { maxWidth: '900px', message: 'Settings saved successfully', open: true } }
+      { type: saveDeltaDeploymentsConfig.pending.type },
+      { type: actions.setDeploymentsConfig.type, payload: { ...expectedConfig, binaryDelta: { ...expectedConfig.binaryDelta, ...changedConfig } } },
+      { ...defaultResponseActions.setSnackbar, payload: 'Settings saved successfully' },
+      { type: saveDeltaDeploymentsConfig.fulfilled.type }
     ];
     return store.dispatch(saveDeltaDeploymentsConfig(changedConfig)).then(() => {
       const storeActions = store.getActions();

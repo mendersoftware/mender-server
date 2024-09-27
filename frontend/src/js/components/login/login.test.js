@@ -13,12 +13,12 @@
 //    limitations under the License.
 import React from 'react';
 
+import * as UserActions from '@northern.tech/store/usersSlice/thunks';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
-import * as UserActions from '../../actions/userActions';
 import Login from './login';
 
 const preloadedState = {
@@ -54,9 +54,7 @@ describe('Login Component', () => {
     expect(await screen.findByLabelText(/Two Factor Authentication Code/i)).not.toBeVisible();
     await user.click(screen.getByRole('button', { name: /Log in/i }));
     expect(loginSpy).toHaveBeenCalled();
-    await waitFor(() => rerender(ui));
-    await act(async () => jest.runAllTicks());
-    expect(await screen.findByLabelText(/Two Factor Authentication Code/i)).toBeVisible();
+    await waitFor(() => expect(screen.getByLabelText(/Two Factor Authentication Code/i)).toBeVisible());
     const input = screen.getByDisplayValue('something-2fa@example.com');
     await user.clear(input);
     await user.type(input, 'something@example.com');
@@ -64,6 +62,6 @@ describe('Login Component', () => {
     await waitFor(() => rerender(ui));
     await user.click(screen.getByRole('button', { name: /Log in/i }));
     await act(async () => jest.runAllTicks());
-    expect(loginSpy).toHaveBeenCalledWith({ email: 'something@example.com', password: 'mysecretpassword!123', token2fa: '123456' }, false);
+    expect(loginSpy).toHaveBeenCalledWith({ email: 'something@example.com', password: 'mysecretpassword!123', token2fa: '123456', stayLoggedIn: false });
   }, 10000);
 });

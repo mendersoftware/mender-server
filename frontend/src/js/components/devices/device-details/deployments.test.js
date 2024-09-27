@@ -14,6 +14,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 
+import * as DeploymentActions from '@northern.tech/store/deploymentsSlice/thunks';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import configureStore from 'redux-mock-store';
@@ -21,7 +22,6 @@ import { thunk } from 'redux-thunk';
 
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render, selectMaterialUiSelectOption } from '../../../../../tests/setupTests';
-import * as DeploymentActions from '../../../actions/deploymentActions';
 import Deployments from './deployments';
 
 const mockStore = configureStore([thunk]);
@@ -59,6 +59,6 @@ describe('Deployments Component', () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
 
     await selectMaterialUiSelectOption(screen.getByText(/any/i), /in progress/i, user);
-    expect(getDeploymentsSpy).toHaveBeenLastCalledWith('a1', { filterSelection: ['downloading', 'installing', 'rebooting'], page: 1, perPage: 10 });
+    expect(getDeploymentsSpy).toHaveBeenLastCalledWith({ deviceId: 'a1', filterSelection: ['downloading', 'installing', 'rebooting'], page: 1, perPage: 10 });
   });
 });

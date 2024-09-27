@@ -13,12 +13,11 @@
 //    limitations under the License.
 import React from 'react';
 
+import { ALL_DEVICES, emptyRole } from '@northern.tech/store/constants';
 import { screen } from '@testing-library/react';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
-import { ALL_DEVICES } from '../../constants/deviceConstants.js';
-import { emptyRole } from '../../constants/userConstants';
 import RoleDefinition from './roledefinition';
 
 describe('Roles Component', () => {

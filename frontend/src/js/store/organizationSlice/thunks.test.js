@@ -11,23 +11,17 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { EXTERNAL_PROVIDER } from '@northern.tech/store/commonConstants';
 import configureMockStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 
-import { defaultState, webhookEvents } from '../../../tests/mockData';
+import { actions } from '.';
+import { defaultState, webhookEvents } from '../../../../tests/mockData';
+import { actions as appActions } from '../appSlice';
+import { locations } from '../appSlice/constants';
 import { getSessionInfo } from '../auth';
-import { SET_ANNOUNCEMENT, SET_FIRST_LOGIN_AFTER_SIGNUP, SET_SNACKBAR, locations } from '../constants/appConstants';
-import { EXTERNAL_PROVIDER } from '../constants/deviceConstants';
-import {
-  RECEIVE_AUDIT_LOGS,
-  RECEIVE_CURRENT_CARD,
-  RECEIVE_EXTERNAL_DEVICE_INTEGRATIONS,
-  RECEIVE_SETUP_INTENT,
-  RECEIVE_SSO_CONFIGS,
-  RECEIVE_WEBHOOK_EVENTS,
-  SET_AUDITLOG_STATE,
-  SET_ORGANIZATION
-} from '../constants/organizationConstants';
+import { TIMEOUTS } from '../commonConstants';
+import { SSO_TYPES } from './constants';
 import {
   cancelRequest,
   cancelUpgrade,
@@ -44,6 +38,7 @@ import {
   getAuditLogsCsvLink,
   getCurrentCard,
   getIntegrations,
+  getSsoConfigById,
   getSsoConfigs,
   getTargetLocation,
   getUserOrganization,
@@ -55,7 +50,7 @@ import {
   startUpgrade,
   storeSsoConfig,
   tenantDataDivergedMessage
-} from './organizationActions';
+} from './thunks';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -76,7 +71,11 @@ const oldHostname = window.location.hostname;
 describe('organization actions', () => {
   it('should handle different error message formats', async () => {
     const store = mockStore({ ...defaultState });
-    const expectedActions = [{ type: SET_SNACKBAR, snackbar: { message: 'Deactivation request was sent successfully' } }];
+    const expectedActions = [
+      { type: cancelRequest.pending.type },
+      { type: appActions.setSnackbar.type, payload: { message: 'Deactivation request was sent successfully', autoHideDuration: TIMEOUTS.fiveSeconds } },
+      { type: cancelRequest.fulfilled.type }
+    ];
     await store.dispatch(cancelRequest(defaultState.organization.organization.id, 'testReason')).then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
@@ -112,7 +111,7 @@ describe('organization actions', () => {
   it('should handle trial creation', async () => {
     const store = mockStore({ ...defaultState });
     expect(store.getActions()).toHaveLength(0);
-    const expectedActions = [{ type: SET_FIRST_LOGIN_AFTER_SIGNUP, firstLoginAfterSignup: true }];
+    const expectedActions = [{ type: appActions.setFirstLoginAfterSignup.type, payload: true }];
     const result = store.dispatch(
       createOrganizationTrial({
         'g-recaptcha-response': 'test',
@@ -134,7 +133,11 @@ describe('organization actions', () => {
   it('should handle credit card details retrieval', async () => {
     const store = mockStore({ ...defaultState });
     expect(store.getActions()).toHaveLength(0);
-    const expectedActions = [{ type: RECEIVE_CURRENT_CARD, card: defaultState.organization.card }];
+    const expectedActions = [
+      { type: getCurrentCard.pending.type },
+      { type: actions.receiveCurrentCard.type, payload: defaultState.organization.card },
+      { type: getCurrentCard.fulfilled.type }
+    ];
     await store.dispatch(getCurrentCard()).then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
@@ -146,8 +149,10 @@ describe('organization actions', () => {
     const store = mockStore({ ...defaultState, users: { ...defaultState.users, currentSession: getSessionInfo() } });
     expect(store.getActions()).toHaveLength(0);
     const expectedActions = [
-      { type: SET_ORGANIZATION, organization: defaultState.organization.organization },
-      { type: SET_ANNOUNCEMENT, announcement: tenantDataDivergedMessage }
+      { type: getUserOrganization.pending.type },
+      { type: actions.setOrganization.type, payload: defaultState.organization.organization },
+      { type: appActions.setAnnouncement.type, payload: tenantDataDivergedMessage },
+      { type: getUserOrganization.fulfilled.type }
     ];
     await store.dispatch(getUserOrganization()).then(() => {
       const storeActions = store.getActions();
@@ -159,7 +164,11 @@ describe('organization actions', () => {
   it('should handle support request sending', async () => {
     const store = mockStore({ ...defaultState });
     expect(store.getActions()).toHaveLength(0);
-    const expectedActions = [{ type: SET_SNACKBAR, snackbar: { message: 'Your request was sent successfully' } }];
+    const expectedActions = [
+      { type: sendSupportMessage.pending.type },
+      { type: appActions.setSnackbar.type, payload: { message: 'Your request was sent successfully', autoHideDuration: TIMEOUTS.fiveSeconds } },
+      { type: sendSupportMessage.fulfilled.type }
+    ];
     await store.dispatch(sendSupportMessage({ body: 'test', subject: 'testsubject' })).then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
@@ -170,15 +179,22 @@ describe('organization actions', () => {
   it('should handle schema based support request sending', async () => {
     const store = mockStore({ ...defaultState });
     expect(store.getActions()).toHaveLength(0);
-    const expectedActions = [{ type: SET_SNACKBAR, snackbar: { message: 'Your request was sent successfully' } }];
+    const expectedActions = [
+      { type: requestPlanChange.pending.type },
+      { type: appActions.setSnackbar.type, payload: { message: 'Your request was sent successfully', autoHideDuration: TIMEOUTS.fiveSeconds } },
+      { type: requestPlanChange.fulfilled.type }
+    ];
     await store
       .dispatch(
-        requestPlanChange(defaultState.organization.organization.id, {
-          current_plan: 'Basic',
-          requested_plan: 'Enterprise',
-          current_addons: 'something,extra',
-          requested_addons: 'something,extra,special',
-          user_message: 'more please'
+        requestPlanChange({
+          tenantId: defaultState.organization.organization.id,
+          content: {
+            current_plan: 'Basic',
+            requested_plan: 'Enterprise',
+            current_addons: 'something,extra',
+            requested_addons: 'something,extra,special',
+            user_message: 'more please'
+          }
         })
       )
       .then(() => {
@@ -191,64 +207,79 @@ describe('organization actions', () => {
   it('should handle license report downloads', async () => {
     const store = mockStore({ ...defaultState });
     expect(store.getActions()).toHaveLength(0);
-    const result = await store.dispatch(downloadLicenseReport());
+    const expectedActions = [{ type: downloadLicenseReport.pending.type }, { type: downloadLicenseReport.fulfilled.type }];
+    const result = await store.dispatch(downloadLicenseReport()).unwrap();
     const storeActions = store.getActions();
-    expect(storeActions).toHaveLength(0);
+    expect(storeActions).toHaveLength(expectedActions.length);
+    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
     expect(result).toEqual('test,report');
   });
 
   it('should handle account upgrade init', async () => {
     const store = mockStore({ ...defaultState });
-    await store.dispatch(startUpgrade(defaultState.organization.organization.id)).then(secret => {
-      expect(store.getActions()).toHaveLength(0);
-      expect(secret).toEqual('testSecret');
-    });
+    const expectedActions = [{ type: startUpgrade.pending.type }, { type: startUpgrade.fulfilled.type }];
+    const secret = await store.dispatch(startUpgrade(defaultState.organization.organization.id)).unwrap();
+    const storeActions = store.getActions();
+    expect(storeActions).toHaveLength(expectedActions.length);
+    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expect(secret).toEqual('testSecret');
   });
 
   it('should handle account upgrade cancelling', async () => {
     const store = mockStore({ ...defaultState });
-    await store.dispatch(cancelUpgrade(defaultState.organization.organization.id)).then(() => expect(store.getActions()).toHaveLength(0));
+    const expectedActions = [{ type: cancelUpgrade.pending.type }, { type: cancelUpgrade.fulfilled.type }];
+    await store.dispatch(cancelUpgrade(defaultState.organization.organization.id));
+    const storeActions = store.getActions();
+    expect(storeActions).toHaveLength(expectedActions.length);
+    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 
   it('should handle account upgrade completion', async () => {
     const store = mockStore({ ...defaultState, users: { ...defaultState.users, currentSession: getSessionInfo() } });
     expect(store.getActions()).toHaveLength(0);
     const expectedActions = [
-      { organization: defaultState.organization.organization, type: SET_ORGANIZATION },
-      { type: SET_ANNOUNCEMENT, announcement: tenantDataDivergedMessage }
+      { type: completeUpgrade.pending.type },
+      { type: getUserOrganization.pending.type },
+      { type: actions.setOrganization.type, payload: defaultState.organization.organization },
+      { type: appActions.setAnnouncement.type, payload: tenantDataDivergedMessage },
+      { type: getUserOrganization.fulfilled.type },
+      { type: completeUpgrade.fulfilled.type }
     ];
-    await store.dispatch(completeUpgrade(defaultState.organization.organization.id, 'enterprise')).then(() => {
-      const storeActions = store.getActions();
-      expect(storeActions).toHaveLength(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
-    });
+    await store.dispatch(completeUpgrade({ tenantId: defaultState.organization.organization.id, plan: 'enterprise' }));
+    const storeActions = store.getActions();
+    expect(storeActions).toHaveLength(expectedActions.length);
+    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 
   it('should handle confirm card update initialization', async () => {
     const store = mockStore({ ...defaultState });
     expect(store.getActions()).toHaveLength(0);
-    const expectedActions = [{ intentId: 'testIntent', type: RECEIVE_SETUP_INTENT }];
-    await store.dispatch(startCardUpdate()).then(secret => {
-      const storeActions = store.getActions();
-      expect(secret).toEqual('testSecret');
-      expect(storeActions).toHaveLength(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
-    });
+    const expectedActions = [
+      { type: startCardUpdate.pending.type },
+      { type: actions.receiveSetupIntent.type, payload: 'testIntent' },
+      { type: startCardUpdate.fulfilled.type }
+    ];
+    const secret = await store.dispatch(startCardUpdate()).unwrap();
+    const storeActions = store.getActions();
+    expect(secret).toEqual('testSecret');
+    expect(storeActions).toHaveLength(expectedActions.length);
+    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 
   it('should handle confirm card update confirmation', async () => {
     const store = mockStore({ ...defaultState });
     expect(store.getActions()).toHaveLength(0);
     const expectedActions = [
-      { type: SET_SNACKBAR, snackbar: { message: 'Payment card was updated successfully' } },
-      { type: RECEIVE_SETUP_INTENT, intentId: null }
+      { type: confirmCardUpdate.pending.type },
+      { type: appActions.setSnackbar.type, payload: 'Payment card was updated successfully' },
+      { type: actions.receiveSetupIntent.type, payload: null },
+      { type: confirmCardUpdate.fulfilled.type }
     ];
     const request = store.dispatch(confirmCardUpdate());
     expect(request).resolves.toBeTruthy();
     await request.then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
-
       expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
@@ -267,11 +298,12 @@ describe('organization actions', () => {
     });
     expect(store.getActions()).toHaveLength(0);
     const expectedActions = [
+      { type: getAuditLogs.pending.type },
       {
-        type: RECEIVE_AUDIT_LOGS,
-        events: defaultState.organization.auditlog.events,
-        total: defaultState.organization.auditlog.selectionState.total
-      }
+        type: actions.receiveAuditLogs.type,
+        payload: { events: defaultState.organization.auditlog.events, total: defaultState.organization.auditlog.selectionState.total }
+      },
+      { type: getAuditLogs.fulfilled.type }
     ];
     const request = store.dispatch(getAuditLogs({ page: 1, perPage: 20 }));
     expect(request).resolves.toBeTruthy();
@@ -281,12 +313,19 @@ describe('organization actions', () => {
       expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
-  it('should allow deployment state tracking', async () => {
+  it('should allow auditlog state tracking', async () => {
     const store = mockStore({ ...defaultState });
     await store.dispatch(setAuditlogsState({ page: 1, sort: { direction: 'something' } }));
     const expectedActions = [
-      { type: SET_AUDITLOG_STATE, state: { ...defaultState.organization.auditlog.selectionState, isLoading: true, sort: { direction: 'something' } } },
-      { type: SET_AUDITLOG_STATE, state: { ...defaultState.organization.auditlog.selectionState, isLoading: false } }
+      { type: setAuditlogsState.pending.type },
+      { type: getAuditLogs.pending.type },
+      {
+        type: actions.setAuditLogState.type,
+        payload: { ...defaultState.organization.auditlog.selectionState, isLoading: true, sort: { direction: 'something' } }
+      },
+      { type: getAuditLogs.fulfilled.type },
+      { type: actions.setAuditLogState.type, payload: { isLoading: false } },
+      { type: setAuditlogsState.fulfilled.type }
     ];
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
@@ -295,11 +334,13 @@ describe('organization actions', () => {
   it('should handle csv information download', async () => {
     const store = mockStore({ ...defaultState });
     expect(store.getActions()).toHaveLength(0);
-    const request = store.dispatch(getAuditLogsCsvLink());
+    const expectedActions = [{ type: getAuditLogsCsvLink.pending.type }, { type: getAuditLogsCsvLink.fulfilled.type }];
+    const request = store.dispatch(getAuditLogsCsvLink()).unwrap();
     expect(request).resolves.toBeTruthy();
     await request.then(link => {
       const storeActions = store.getActions();
-      expect(storeActions).toHaveLength(0);
+      expect(storeActions.length).toEqual(expectedActions.length);
+      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
       expect(link).toEqual('/api/management/v1/auditlogs/logs/export?limit=20000&sort=desc');
     });
   });
@@ -316,8 +357,12 @@ describe('organization actions', () => {
     });
     expect(store.getActions()).toHaveLength(0);
     const expectedActions = [
-      { type: SET_SNACKBAR, snackbar: { message: 'The integration was set up successfully' } },
-      { type: RECEIVE_EXTERNAL_DEVICE_INTEGRATIONS, value: expectedDeviceProviders }
+      { type: createIntegration.pending.type },
+      { type: appActions.setSnackbar.type, payload: 'The integration was set up successfully' },
+      { type: getIntegrations.pending.type },
+      { type: actions.receiveExternalDeviceIntegrations.type, payload: expectedDeviceProviders },
+      { type: getIntegrations.fulfilled.type },
+      { type: createIntegration.fulfilled.type }
     ];
     const request = store.dispatch(createIntegration({ connection_string: 'testString', provider: 'iot-hub' }));
     expect(request).resolves.toBeTruthy();
@@ -340,8 +385,12 @@ describe('organization actions', () => {
     });
     expect(store.getActions()).toHaveLength(0);
     const expectedActions = [
-      { type: SET_SNACKBAR, snackbar: { message: 'The integration was updated successfully' } },
-      { type: RECEIVE_EXTERNAL_DEVICE_INTEGRATIONS, value: expectedDeviceProviders }
+      { type: changeIntegration.pending.type },
+      { type: appActions.setSnackbar.type, payload: 'The integration was updated successfully' },
+      { type: getIntegrations.pending.type },
+      { type: actions.receiveExternalDeviceIntegrations.type, payload: expectedDeviceProviders },
+      { type: getIntegrations.fulfilled.type },
+      { type: changeIntegration.fulfilled.type }
     ];
     const request = store.dispatch(changeIntegration({ connection_string: 'testString2', id: 1, provider: 'iot-hub' }));
     expect(request).resolves.toBeTruthy();
@@ -364,10 +413,9 @@ describe('organization actions', () => {
     });
     expect(store.getActions()).toHaveLength(0);
     const expectedActions = [
-      {
-        type: RECEIVE_EXTERNAL_DEVICE_INTEGRATIONS,
-        value: expectedDeviceProviders
-      }
+      { type: getIntegrations.pending.type },
+      { type: actions.receiveExternalDeviceIntegrations.type, payload: expectedDeviceProviders },
+      { type: getIntegrations.fulfilled.type }
     ];
     const request = store.dispatch(getIntegrations());
     expect(request).resolves.toBeTruthy();
@@ -381,8 +429,10 @@ describe('organization actions', () => {
     const store = mockStore({ ...defaultState, externalDeviceIntegrations: [{ id: 1, something: 'something' }] });
     expect(store.getActions()).toHaveLength(0);
     const expectedActions = [
-      { type: SET_SNACKBAR, snackbar: { message: 'The integration was removed successfully' } },
-      { type: RECEIVE_EXTERNAL_DEVICE_INTEGRATIONS, value: [] }
+      { type: deleteIntegration.pending.type },
+      { type: appActions.setSnackbar.type, payload: 'The integration was removed successfully' },
+      { type: actions.receiveExternalDeviceIntegrations.type, payload: [] },
+      { type: deleteIntegration.fulfilled.type }
     ];
     const request = store.dispatch(deleteIntegration({ id: 1 }));
     expect(request).resolves.toBeTruthy();
@@ -407,7 +457,11 @@ describe('organization actions', () => {
       }
     });
     expect(store.getActions()).toHaveLength(0);
-    const expectedActions = [{ type: RECEIVE_WEBHOOK_EVENTS, value: webhookEvents, total: 2 }];
+    const expectedActions = [
+      { type: getWebhookEvents.pending.type },
+      { type: actions.receiveWebhookEvents.type, payload: { value: webhookEvents, total: 2 } },
+      { type: getWebhookEvents.fulfilled.type }
+    ];
     const request = store.dispatch(getWebhookEvents());
     expect(request).resolves.toBeTruthy();
     await request.then(() => {
@@ -435,8 +489,12 @@ describe('organization actions', () => {
     expect(store.getActions()).toHaveLength(0);
     const defaultEvent = webhookEvents[0];
     const expectedActions = [
-      { type: RECEIVE_WEBHOOK_EVENTS, value: [defaultEvent], total: 1 },
-      { type: RECEIVE_WEBHOOK_EVENTS, value: existingEvents, total: 2 }
+      { type: getWebhookEvents.pending.type },
+      { type: actions.receiveWebhookEvents.type, payload: { value: [defaultEvent], total: 1 } },
+      { type: getWebhookEvents.pending.type },
+      { type: actions.receiveWebhookEvents.type, payload: { value: existingEvents, total: 2 } },
+      { type: getWebhookEvents.fulfilled.type },
+      { type: getWebhookEvents.fulfilled.type }
     ];
     const request = store.dispatch(getWebhookEvents({ page: 1, perPage: 1 }));
     expect(request).resolves.toBeTruthy();
@@ -456,10 +514,20 @@ describe('organization actions', () => {
     });
     expect(store.getActions()).toHaveLength(0);
     const expectedActions = [
-      { type: SET_SNACKBAR, snackbar: { message: 'The SSO configuration was stored successfully' } },
-      { type: RECEIVE_SSO_CONFIGS, value: expectedSsoConfigs }
+      { type: storeSsoConfig.pending.type },
+      { type: appActions.setSnackbar.type, payload: 'The SSO configuration was stored successfully' },
+      { type: getSsoConfigs.pending.type },
+      { type: getSsoConfigById.pending.type },
+      { type: getSsoConfigById.pending.type },
+      { type: getSsoConfigById.fulfilled.type },
+      { type: getSsoConfigById.fulfilled.type },
+      { type: actions.receiveSsoConfigs.type },
+      { type: getSsoConfigs.fulfilled.type },
+      { type: storeSsoConfig.fulfilled.type }
     ];
-    const request = store.dispatch(storeSsoConfig({ connection_string: 'testString', provider: 'iot-hub' }));
+    const request = store.dispatch(
+      storeSsoConfig({ config: { connection_string: 'testString', provider: 'iot-hub' }, contentType: SSO_TYPES.oidc.contentType })
+    );
     expect(request).resolves.toBeTruthy();
     await request.then(() => {
       const storeActions = store.getActions();
@@ -480,10 +548,20 @@ describe('organization actions', () => {
     });
     expect(store.getActions()).toHaveLength(0);
     const expectedActions = [
-      { type: SET_SNACKBAR, snackbar: { message: 'The SSO configuration was updated successfully' } },
-      { type: RECEIVE_SSO_CONFIGS, value: expectedSsoConfigs }
+      { type: changeSsoConfig.pending.type },
+      { type: appActions.setSnackbar.type, payload: 'The SSO configuration was updated successfully' },
+      { type: getSsoConfigs.pending.type },
+      { type: getSsoConfigById.pending.type },
+      { type: getSsoConfigById.pending.type },
+      { type: getSsoConfigById.fulfilled.type },
+      { type: getSsoConfigById.fulfilled.type },
+      { type: actions.receiveSsoConfigs.type },
+      { type: getSsoConfigs.fulfilled.type },
+      { type: changeSsoConfig.fulfilled.type }
     ];
-    const request = store.dispatch(changeSsoConfig({ connection_string: 'testString2', id: 1, provider: 'iot-hub' }));
+    const request = store.dispatch(
+      changeSsoConfig({ config: { connection_string: 'testString2', id: 1, provider: 'iot-hub' }, contentType: SSO_TYPES.oidc.contentType })
+    );
     expect(request).resolves.toBeTruthy();
     await request.then(() => {
       const storeActions = store.getActions();
@@ -503,7 +581,15 @@ describe('organization actions', () => {
       }
     });
     expect(store.getActions()).toHaveLength(0);
-    const expectedActions = [{ type: RECEIVE_SSO_CONFIGS, value: expectedSsoConfigs }];
+    const expectedActions = [
+      { type: getSsoConfigs.pending.type },
+      { type: getSsoConfigById.pending.type },
+      { type: getSsoConfigById.pending.type },
+      { type: getSsoConfigById.fulfilled.type },
+      { type: getSsoConfigById.fulfilled.type },
+      { type: actions.receiveSsoConfigs.type, payload: expectedSsoConfigs },
+      { type: getSsoConfigs.fulfilled.type }
+    ];
     const request = store.dispatch(getSsoConfigs());
     expect(request).resolves.toBeTruthy();
     await request.then(() => {
@@ -516,8 +602,10 @@ describe('organization actions', () => {
     const store = mockStore({ ...defaultState, organization: { ...defaultState.organization, ssoConfigs: [...expectedSsoConfigs] } });
     expect(store.getActions()).toHaveLength(0);
     const expectedActions = [
-      { type: SET_SNACKBAR, snackbar: { message: 'The SSO configuration was removed successfully' } },
-      { type: RECEIVE_SSO_CONFIGS, value: [expectedSsoConfigs[1]] }
+      { type: deleteSsoConfig.pending.type },
+      { type: appActions.setSnackbar.type, payload: 'The SSO configuration was removed successfully' },
+      { type: actions.receiveSsoConfigs.type, payload: [expectedSsoConfigs[1]] },
+      { type: deleteSsoConfig.fulfilled.type }
     ];
     const request = store.dispatch(deleteSsoConfig({ id: '1' }));
     expect(request).resolves.toBeTruthy();

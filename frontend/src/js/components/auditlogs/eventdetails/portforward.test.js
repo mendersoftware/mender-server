@@ -13,11 +13,11 @@
 //    limitations under the License.
 import React from 'react';
 
+import * as DeviceActions from '@northern.tech/store/devicesSlice/thunks';
 import { act, waitFor } from '@testing-library/react';
 
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
-import * as DeviceActions from '../../../actions/deviceActions';
 import PortForward from './portforward';
 
 describe('PortForward Component', () => {
