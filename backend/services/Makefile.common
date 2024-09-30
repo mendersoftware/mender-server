@@ -3,8 +3,10 @@
 MENDER_IMAGE_PREFIX ?= localhost:5000/mender-server
 MENDER_IMAGE_TAG ?= latest
 MENDER_IMAGE_TAG_TEST ?= test
+
+MENDER_PUBLISH_REGISTRY ?= docker.io
+MENDER_PUBLISH_REPOSITORY ?= $(MENDER_PUBLISH_REGISTRY)/mendersoftware
 MENDER_PUBLISH_TAG ?= $(MENDER_IMAGE_TAG)
-MENDER_PUBLISH_REGISTRY := docker.io/mendersoftware
 
 bindir ?= $(GIT_ROOT)/bin
 binfile ?= $(bindir)/$(COMPONENT)
@@ -60,7 +62,7 @@ docker-pull:
 	docker pull $(DOCKER_TAG)
 
 .PHONY: docker-publish
-docker-publish: DOCKER_TAG_PUBLISH = $(MENDER_PUBLISH_REGISTRY)/$(COMPONENT):$(MENDER_PUBLISH_TAG)
+docker-publish: DOCKER_TAG_PUBLISH = $(MENDER_PUBLISH_REPOSITORY)/$(COMPONENT):$(MENDER_PUBLISH_TAG)
 ifndef NOASK
 docker-publish:
 	echo "About to publish $(DOCKER_TAG) to $(DOCKER_TAG_PUBLISH)"
