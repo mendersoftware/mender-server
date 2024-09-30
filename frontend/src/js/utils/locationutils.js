@@ -24,7 +24,6 @@ import {
   emptyFilter
 } from '@northern.tech/store/constants';
 
-import { routes } from '../components/devices/base-devices';
 import { deepCompare, getISOStringBoundaries } from '../helpers';
 
 const SEPARATOR = ':';
@@ -229,7 +228,7 @@ export const formatDeviceSearch = ({ pageState, filters, selectedGroup }) => {
 export const generateDevicePath = ({ pageState }) => {
   const { state: selectedState } = pageState;
   const path = ['/devices'];
-  if (![routes.allDevices.key, ''].includes(selectedState)) {
+  if (selectedState !== '') {
     path.push(selectedState);
   }
   return path.join('/');
