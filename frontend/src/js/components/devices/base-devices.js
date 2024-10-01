@@ -210,7 +210,7 @@ const acceptedDevicesRoute = {
 export const routes = {
   allDevices: {
     ...acceptedDevicesRoute,
-    route: baseDevicesRoute,
+    route: `${baseDevicesRoute}/any`,
     key: 'any',
     title: () => 'any'
   },

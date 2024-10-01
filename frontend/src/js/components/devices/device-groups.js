@@ -146,7 +146,7 @@ export const DeviceGroups = () => {
     }
     // preset selectedIssues and selectedId with empty values, in case if remain properties are missing them
     let listState = { ...remainder };
-    if (statusParam && Object.values(DEVICE_STATES).some(state => state === statusParam)) {
+    if (statusParam && (Object.values(DEVICE_STATES).some(state => state === statusParam) || statusParam === 'any')) {
       listState.state = statusParam;
     }
 
