@@ -71,6 +71,8 @@ const featureFlags = [
   'isEnterprise'
 ];
 
+const environmentDatas = ['feedbackProbability', 'hostAddress', 'hostedAnnouncement', 'recaptchaSiteKey', 'stripeAPIKey', 'trackerCode'];
+
 export const parseEnvironmentInfo = () => (dispatch, getState) => {
   const state = getState();
   let onboardingComplete = state.onboarding.complete || !!JSON.parse(window.localStorage.getItem('onboardingComplete') ?? 'false');
@@ -83,27 +85,16 @@ export const parseEnvironmentInfo = () => (dispatch, getState) => {
       features = {},
       demoArtifactPort: port,
       disableOnboarding,
-      hostAddress,
-      hostedAnnouncement,
       integrationVersion,
       isDemoMode,
       menderVersion,
       menderArtifactVersion,
       metaMenderVersion,
-      recaptchaSiteKey,
-      services = {},
-      stripeAPIKey,
-      trackerCode
+      services = {}
     } = mender_environment;
     onboardingComplete = stringToBoolean(features.isEnterprise) || stringToBoolean(disableOnboarding) || onboardingComplete;
     demoArtifactPort = port || demoArtifactPort;
-    environmentData = {
-      hostedAnnouncement: hostedAnnouncement || state.app.hostedAnnouncement,
-      hostAddress: hostAddress || state.app.hostAddress,
-      recaptchaSiteKey: recaptchaSiteKey || state.app.recaptchaSiteKey,
-      stripeAPIKey: stripeAPIKey || state.app.stripeAPIKey,
-      trackerCode: trackerCode || state.app.trackerCode
-    };
+    environmentData = environmentDatas.reduce((accu, flag) => ({ ...accu, [flag]: mender_environment[flag] || state.app[flag] }), {});
     environmentFeatures = {
       ...featureFlags.reduce((accu, flag) => ({ ...accu, [flag]: stringToBoolean(features[flag]) }), {}),
       isHosted: features.isHosted || window.location.hostname.includes('hosted.mender.io'),
@@ -159,7 +150,6 @@ export const useAppInit = userId => {
   const dispatch = useDispatch();
   const isEnterprise = useSelector(getIsEnterprise);
   const { hasMultitenancy, isHosted } = useSelector(getFeatures);
-  // const user = useSelector(getCurrentUser);
   const devicesByStatus = useSelector(getDevicesByStatusSelector);
   const onboardingState = useSelector(getOnboardingStateSelector);
   let { columnSelection = [], trackingConsentGiven: hasTrackingEnabled, tooltips = {} } = useSelector(getUserSettingsSelector);

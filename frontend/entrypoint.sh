@@ -41,6 +41,7 @@ cat >/var/www/mender-gui/dist/env.js <<EOF
       hasReporting: "$HAVE_REPORTING",
       isEnterprise: "$HAVE_ENTERPRISE"
     },
+    feedbackProbability: "${FEEDBACK_PROBABILITY:-0.3}",
     trackerCode: "$TRACKER_CODE",
     recaptchaSiteKey: "$RECAPTCHA_SITE_KEY",
     stripeAPIKey: "$STRIPE_API_KEY",

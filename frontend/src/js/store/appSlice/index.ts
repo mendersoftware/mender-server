@@ -50,6 +50,7 @@ export const initialState = {
     isHosted: false,
     isEnterprise: false
   },
+  feedbackProbability: 0.3,
   firstLoginAfterSignup: false,
   hostedAnnouncement: '',
   docsVersion: '',
