@@ -16,8 +16,10 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/pkg/errors"
@@ -27,6 +29,7 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	mstore "github.com/mendersoftware/mender-server/pkg/store"
+	"github.com/mendersoftware/mender-server/pkg/version"
 
 	"github.com/mendersoftware/mender-server/services/deployments/app"
 	"github.com/mendersoftware/mender-server/services/deployments/client/workflows"
@@ -41,6 +44,8 @@ const (
 	cliDefaultRateLimit = 50
 )
 
+var appVersion = version.Get()
+
 func main() {
 	doMain(os.Args)
 }
@@ -51,6 +56,7 @@ func doMain(args []string) {
 
 	app := cli.NewApp()
 	app.Usage = "Deployments Service"
+	app.Version = appVersion.Version
 
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
@@ -128,6 +134,28 @@ func doMain(args []string) {
 				},
 			},
 			Action: cmdStorageDaemon,
+		},
+		{
+			Name:  "version",
+			Usage: "Show version information",
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:  "output",
+					Usage: "Output format <json|text>",
+					Value: "text",
+				},
+			},
+			Action: func(args *cli.Context) error {
+				switch strings.ToLower(args.String("output")) {
+				case "text":
+					fmt.Print(appVersion)
+				case "json":
+					_ = json.NewEncoder(os.Stdout).Encode(appVersion)
+				default:
+					return fmt.Errorf("Unknown output format %q", args.String("output"))
+				}
+				return nil
+			},
 		},
 	}
 

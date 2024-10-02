@@ -15,6 +15,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"os"
 	"strings"
@@ -23,11 +24,14 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/version"
 
 	. "github.com/mendersoftware/mender-server/services/useradm/config"
 	"github.com/mendersoftware/mender-server/services/useradm/model"
 	"github.com/mendersoftware/mender-server/services/useradm/store/mongo"
 )
+
+var appVersion = version.Get()
 
 func main() {
 	if err := doMain(os.Args); err != nil {
@@ -121,8 +125,31 @@ func doMain(args []string) error {
 
 			Action: runMigrate,
 		},
+		{
+			Name:  "version",
+			Usage: "Show version information",
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:  "output",
+					Usage: "Output format <json|text>",
+					Value: "text",
+				},
+			},
+			Action: func(args *cli.Context) error {
+				switch strings.ToLower(args.String("output")) {
+				case "text":
+					fmt.Print(appVersion)
+				case "json":
+					_ = json.NewEncoder(os.Stdout).Encode(appVersion)
+				default:
+					return fmt.Errorf("Unknown output format %q", args.String("output"))
+				}
+				return nil
+			},
+		},
 	}
 
+	app.Version = appVersion.Version
 	app.Action = runServer
 	app.Before = func(args *cli.Context) error {
 		log.Setup(debug)
