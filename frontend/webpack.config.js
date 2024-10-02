@@ -15,7 +15,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default (env, argv) => {
-  const devPlugins = argv.mode === 'production' ? [] : [new ESLintPlugin()];
+  const devPlugins = argv.mode === 'production' ? [] : [new ESLintPlugin({ extensions: ['js', 'ts', 'tsx'] })];
   return {
     devtool: 'source-map',
     node: {
