@@ -29,7 +29,7 @@ test:frontend:lint:
     - hetzner-amd-beefy
 
 test:frontend:licenses:
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/denoland/deno:alpine-1.38.0
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/denoland/deno:debian-1.46.3
   stage: test
   rules:
     - if: $CI_COMMIT_REF_NAME !~ /^(staging|saas-[a-zA-Z0-9.]+)$/
@@ -45,7 +45,9 @@ test:frontend:licenses:
       - frontend/.npm/
   before_script:
     - cd frontend
-    - apk add --no-cache nodejs npm
+    - apt-get update && apt-get install -yq curl
+    - curl -fsSL https://deb.nodesource.com/setup_22.x | bash
+    - apt-get install -yq nodejs
     - npm ci
   script:
     - deno run --allow-env --allow-read --allow-sys tests/licenses/licenseCheck.ts
