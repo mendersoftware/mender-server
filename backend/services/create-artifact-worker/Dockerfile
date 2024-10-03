@@ -55,5 +55,5 @@ COPY --chown=$USER  backend/services/create-artifact-worker/config.yaml /etc/wor
 COPY --chown=$USER  backend/services/create-artifact-worker/workflows /etc/workflows/definitions
 COPY --from=builder --chown=$USER /build/workflows /usr/bin/workflows
 COPY --from=builder --chown=$USER /build/create-artifact-worker /usr/bin/create-artifact
-ENTRYPOINT ["/usr/bin/workflows", "--config", "/etc/workflows/config.yaml"]
+ENTRYPOINT ["/usr/bin/workflows", "--config", "/etc/workflows/config.yaml", "worker"]
 CMD ["worker"]
