@@ -42,28 +42,9 @@ services:
       - ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient/mender.json:/etc/mender/mender.conf
       - ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient/mender-connect.json:/etc/mender/mender-connect.conf
 
-  create-artifact-worker:
-    image: mendersoftware/create-artifact-worker:${MENDER_IMAGE_TAG:-main}
   deployments:
-    image: mendersoftware/deployments:${MENDER_IMAGE_TAG:-main}
     environment:
       DEPLOYMENTS_AWS_EXTERNAL_URI: "https://s3.docker.mender.io"
-  deviceauth:
-    image: mendersoftware/deviceauth:${MENDER_IMAGE_TAG:-main}
-  deviceconfig:
-    image: mendersoftware/deviceconfig:${MENDER_IMAGE_TAG:-main}
-  deviceconnect:
-    image: mendersoftware/deviceconnect:${MENDER_IMAGE_TAG:-main}
-  inventory:
-    image: mendersoftware/inventory:${MENDER_IMAGE_TAG:-main}
-  iot-manager:
-    image: mendersoftware/iot-manager:${MENDER_IMAGE_TAG:-main}
-  useradm:
-    image: mendersoftware/useradm:${MENDER_IMAGE_TAG:-main}
-  workflows:
-    image: mendersoftware/workflows:${MENDER_IMAGE_TAG:-main}
-  workflows-worker:
-    image: mendersoftware/workflows:${MENDER_IMAGE_TAG:-main}
 
   traefik:
     volumes:
@@ -83,7 +64,8 @@ services:
   ## use playwright locally using `npm install` in the e2e_tests directory and run `npm run test`
   ##
   gui:
-    image: mendersoftware/gui:pr
+    # Provide override variable MENDER_GUI_IMAGE, but fall back on default from dev/docker-compose.yml
+    image: ${MENDER_GUI_IMAGE:-${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/gui:${MENDER_IMAGE_TAG:-latest}}
     environment:
       - GATEWAY_IP=docker.mender.io
       - DISABLE_ONBOARDING=true
