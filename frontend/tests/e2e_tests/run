@@ -16,6 +16,7 @@ usage() {
     echo -e "\t-h --help"
     echo -e "\t-c --skip-cleanup \tleave containers running after tests"
     echo -e "\t-f=<FILE>         \tspecify custom compose file(s); default files will not be used,"
+    echo -e "\t--enterprise      \tuse enterprise"
     echo -e "\t                  \tmake sure to specify all files you need"
     echo ""
     echo -e "examples:"
