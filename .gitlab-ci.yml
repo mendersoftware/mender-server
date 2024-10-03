@@ -60,6 +60,7 @@ include:
   - local: "/frontend/pipeline.yml"
 
 stages:
+  - lint
   - build
   - test
   - publish
@@ -259,6 +260,21 @@ coveralls:done:
     - curl "https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN&carryforward=frontend-unit,frontend-e2e,create-artifact-worker-unit,deployments-unit,deployments-integration,deviceauth-unit,deviceauth-integration,deviceconfig-unit,deviceconfig-integration,deviceconnect-unit,deviceconnect-integration,inventory-unit,inventory-integration,iot-manager-unit,iot-manager-integration,useradm-unit,useradm-integration,workflows-unit,workflows-integration" -d "payload[build_num]=$CI_PIPELINE_ID&payload[status]=done"
   tags:
     - hetzner-amd-beefy
+
+
+lint:commit:
+  stage: lint
+  needs: []
+  image:
+    name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/commitlint/commitlint:latest
+    entrypoint: [""]
+  allow_failure: true
+  tags:
+    - hetzner-amd-beefy
+  before_script:
+    - npm install --global commitlint-plugin-selective-scope --save-dev
+  script:
+    - echo "${CI_COMMIT_MESSAGE}" | commitlint
 
 changelog:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/node:20
