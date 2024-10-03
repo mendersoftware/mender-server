@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+export SERVER_ROOT=${SERVIER_ROOT:-$(git rev-parse --show-toplevel)}
+export GUI_REPOSITORY=${GUI_REPOSITORY:-${SERVER_ROOT}/frontend}
+
 # by default just add minio, with COMPOSE_CMD_BASE this creates the standard onprem ST setup
 COMPOSE_CMD="docker compose -f ${SERVER_ROOT}/dev/docker-compose.yml"
 TEST_COMPOSE=" -f ${GUI_REPOSITORY}/tests/e2e_tests/docker-compose.e2e-tests.yml"
