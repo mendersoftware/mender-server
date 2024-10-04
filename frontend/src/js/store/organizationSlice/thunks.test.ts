@@ -342,7 +342,7 @@ describe('organization actions', () => {
       const storeActions = store.getActions();
       expect(storeActions.length).toEqual(expectedActions.length);
       expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
-      expect(link).toEqual('/api/management/v1/auditlogs/logs/export?limit=20000&sort=desc');
+      expect(link).toEqual('http://localhost/api/management/v1/auditlogs/logs/export?limit=20000&sort=desc');
     });
   });
   it('should allow initializing external device providers', async () => {

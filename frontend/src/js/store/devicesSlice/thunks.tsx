@@ -796,7 +796,7 @@ export const getSessionDetails = createAsyncThunk(`${sliceName}/getSessionDetail
 });
 
 export const getDeviceFileDownloadLink = createAsyncThunk(`${sliceName}/getDeviceFileDownloadLink`, ({ deviceId, path }) =>
-  Promise.resolve(`${deviceConnect}/devices/${deviceId}/download?path=${encodeURIComponent(path)}`)
+  Promise.resolve(`${window.location.origin}${deviceConnect}/devices/${deviceId}/download?path=${encodeURIComponent(path)}`)
 );
 
 export const deviceFileUpload = createAsyncThunk(`${sliceName}/deviceFileUpload`, ({ deviceId, path, file }, { dispatch }) => {
