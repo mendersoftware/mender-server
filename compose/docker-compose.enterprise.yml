@@ -1,0 +1,180 @@
+# Enterprise override for ../docker-compose.yml
+services:
+  auditlogs:
+    build:
+      context: .
+      dockerfile: ./backend/services/auditlogs/Dockerfile
+    image: ${MENDER_IMAGE_REGISTRY:-registry.mender.io}/${MENDER_IMAGE_REPOSITORY:-mender-server-enterprise}/auditlogs:${MENDER_IMAGE_TAG:-latest}
+    restart: on-failure:3
+    command: [server, --automigrate]
+    depends_on:
+      - mongo
+    environment:
+      AUDITLOGS_MONGO_URL: "mongodb://mongo"
+      AUDITLOGS_DEVICEAUTH_ADDRESS: "deviceauth:8080"
+      AUDITLOGS_USERADM_ADDRESS: "useradm:8080"
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.auditlogs.loadBalancer.server.port: "8080"
+      traefik.http.routers.auditlogs.entrypoints: "websecure"
+      traefik.http.routers.auditlogs.middlewares: "mgmtStack@file"
+      traefik.http.routers.auditlogs.rule: >-
+        PathRegexp(`/api/management/v[0-9]+/auditlogs`)
+      traefik.http.routers.auditlogs.service: auditlogs
+    networks:
+      default:
+        aliases: [mender-auditlogs]
+
+  create-artifact-worker:
+    build:
+      context: .
+      dockerfile: ./backend/services/create-artifact-worker/Dockerfile
+    image: ${MENDER_IMAGE_REGISTRY:-registry.mender.io}/${MENDER_IMAGE_REPOSITORY:-mender-server-enterprise}/create-artifact-worker:${MENDER_IMAGE_TAG:-latest}
+
+  deployments:
+    build:
+      context: .
+      dockerfile: ./backend/services/deployments/Dockerfile
+    image: ${MENDER_IMAGE_REGISTRY:-registry.mender.io}/${MENDER_IMAGE_REPOSITORY:-mender-server-enterprise}/deployments:${MENDER_IMAGE_TAG:-latest}
+    environment:
+      DEPLOYMENTS_ENABLE_AUDIT: "1"
+
+  deviceauth:
+    image: ${MENDER_IMAGE_REGISTRY:-registry.mender.io}/${MENDER_IMAGE_REPOSITORY:-mender-server-enterprise}/deviceauth:${MENDER_IMAGE_TAG:-latest}
+    environment:
+      DEVICEAUTH_REDIS_CONNECTION_STRING: "redis://redis:6379"
+      DEVICEAUTH_REDIS_LIMITS_EXPIRE_SEC: "3600"
+      DEVICEAUTH_TENANTADM_ADDR: "http://tenantadm:8080"
+      DEVICEAUTH_HAVE_ADDONS: "1"
+      DEVICEAUTH_ENABLE_AUDIT: "1"
+
+  deviceconfig:
+    build:
+      context: .
+      dockerfile: ./backend/services/deviceconfig/Dockerfile
+    image: ${MENDER_IMAGE_REGISTRY:-registry.mender.io}/${MENDER_IMAGE_REPOSITORY:-mender-server-enterprise}/deviceconfig:${MENDER_IMAGE_TAG:-latest}
+
+  deviceconnect:
+    image: ${MENDER_IMAGE_REGISTRY:-registry.mender.io}/${MENDER_IMAGE_REPOSITORY:-mender-server-enterprise}/deviceconnect:${MENDER_IMAGE_TAG:-latest}
+    environment:
+      DEVICECONNECT_ENABLE_AUDIT: "true"
+
+  devicemonitor:
+    build:
+      context: .
+      dockerfile: ./backend/services/devicemonitor/Dockerfile
+    image: ${MENDER_IMAGE_REGISTRY:-registry.mender.io}/${MENDER_IMAGE_REPOSITORY:-mender-server-enterprise}/devicemonitor:${MENDER_IMAGE_TAG:-latest}
+    restart: on-failure:3
+    command: [server, --automigrate]
+    depends_on:
+      - mongo
+    environment:
+      DEVICEMONITOR_MONGO_URL: "mongodb://mongo"
+      DEVICEMONITOR_WORKFLOWS_URL: http://workflows:8080
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.devicemonitor.loadBalancer.server.port: "8080"
+      traefik.http.routers.devicemonitorDev.entrypoints: "websecure"
+      traefik.http.routers.devicemonitorDev.middlewares: "devStack@file"
+      traefik.http.routers.devicemonitorDev.rule: >-
+        PathRegexp(`/api/devices/v[0-9]+/devicemonitor`)
+      traefik.http.routers.devicemonitorDev.service: devicemonitor
+      traefik.http.routers.devicemonitorMgmt.entrypoints: "websecure"
+      traefik.http.routers.devicemonitorMgmt.middlewares: "mgmtStack@file"
+      traefik.http.routers.devicemonitorMgmt.rule: >-
+        PathRegexp(`/api/management/v[0-9]+/devicemonitor`)
+      traefik.http.routers.devicemonitorMgmt.service: devicemonitor
+    networks:
+      default:
+        aliases: [mender-devicemonitor]
+
+  generate-delta-worker:
+    build:
+      context: .
+      dockerfile: ./backend/services/generate-delta-worker/Dockerfile
+    image: ${MENDER_IMAGE_REGISTRY:-registry.mender.io}/${MENDER_IMAGE_REPOSITORY:-mender-server-enterprise}/generate-delta-worker:${MENDER_IMAGE_TAG:-latest}
+    restart: on-failure:3
+    depends_on:
+      - workflows
+    environment:
+      GENERATE_DELTA_DELPOYMENTS_URL: http://deployments:8080
+      WORKFLOWS_MONGO_URL: "mongodb://mongo"
+      WORKFLOWS_NATS_URI: "nats://nats"
+
+  gui:
+    environment:
+      HAVE_AUDITLOGS: "1"
+      HAVE_DELTA_PROGRESS: "1"
+      HAVE_ENTERPRISE: "1"
+      HAVE_MONITOR: "1"
+      HAVE_MULTITENANT: "1"
+
+  inventory:
+    image: ${MENDER_IMAGE_REGISTRY:-registry.mender.io}/${MENDER_IMAGE_REPOSITORY:-mender-server-enterprise}/inventory:${MENDER_IMAGE_TAG:-latest}
+    environment:
+      INVENTORY_REDIS_CONNECTION_STRING: "redis://redis:6379"
+      INVENTORY_REDIS_LIMITS_EXPIRE_SEC: "1800"
+
+  iot-manager:
+    image: ${MENDER_IMAGE_REGISTRY:-registry.mender.io}/${MENDER_IMAGE_REPOSITORY:-mender-server-enterprise}/iot-manager:${MENDER_IMAGE_TAG:-latest}
+
+  useradm:
+    image: ${MENDER_IMAGE_REGISTRY:-registry.mender.io}/${MENDER_IMAGE_REPOSITORY:-mender-server-enterprise}/useradm:${MENDER_IMAGE_TAG:-latest}
+    environment:
+      USERADM_REDIS_CONNECTION_STRING: "redis://redis:6379"
+      USERADM_REDIS_LIMITS_EXPIRE_SEC: "3600"
+      USERADM_ORCHESTRATOR_ADDR: "http://workflows:8080"
+      USERADM_TENANTADM_ADDR: "http://tenantadm:8080"
+      USERADM_HAVE_ADDONS: "1"
+      USERADM_ENABLE_AUDIT: "1"
+
+  tenantadm:
+    build:
+      context: .
+      dockerfile: ./backend/services/tenantadm/Dockerfile
+    image: ${MENDER_IMAGE_REGISTRY:-registry.mender.io}/${MENDER_IMAGE_REPOSITORY:-mender-server-enterprise}/tenantadm:${MENDER_IMAGE_TAG:-latest}
+    restart: on-failure:3
+    command: [server, --automigrate]
+    depends_on:
+      - mongo
+    environment:
+      TENANTADM_MONGO: "mongodb://mongo"
+      TENANTADM_ORCHESTRATOR_ADDR: http://workflows:8080/
+      TENANTADM_USERADM_ADDR: http://useradm:8080/
+      TENANTADM_DEVICEAUTH_ADDR: http://deviceauth:8080/
+      TENANTADM_DEPLOYMENTS_ADDR: http://deployments:8080/
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.tenantadm.loadBalancer.server.port: "8080"
+      traefik.http.routers.tenantadm.entrypoints: "websecure"
+      traefik.http.routers.tenantadm.middlewares: "mgmtStack@file"
+      traefik.http.routers.tenantadm.rule: >-
+        PathRegexp(`/api/management/v[0-9]/tenantadm`)
+      traefik.http.routers.tenantadm.service: tenantadm
+      traefik.http.routers.signup.entrypoints: "websecure"
+      traefik.http.routers.signup.middlewares: >-
+        compression@file,sec-headers@file,json-error-responder@file
+      traefik.http.routers.signup.rule: >-
+        (Method(`OPTIONS`) || Method(`POST`)) && PathRegexp(`/api/management/v[0-9]+/tenantadm/tenants/signup`) ||
+        (Method(`OPTIONS`) || Method(`POST`)) && PathRegexp(`/api/management/v[0-9]+/tenantadm/tenants/trial`)
+      traefik.http.routers.signup.service: tenantadm
+    networks:
+      default:
+        aliases: [mender-tenantadm]
+
+  workflows-worker:
+    image: ${MENDER_IMAGE_REGISTRY:-registry.mender.io}/${MENDER_IMAGE_REPOSITORY:-mender-server-enterprise}/workflows:${MENDER_IMAGE_TAG:-latest}
+    environment:
+      AUDITLOGS_ADDR: auditlogs:8080
+      DEVICEMONITOR_ADDR: devicemonitor:8080
+      TENANTADM_ADDR: tenantadm:8080
+      HAVE_AUDITLOGS: "1"
+
+  workflows:
+    image: ${MENDER_IMAGE_REGISTRY:-registry.mender.io}/${MENDER_IMAGE_REPOSITORY:-mender-server-enterprise}/workflows:${MENDER_IMAGE_TAG:-latest}
+
+  redis:
+    image: redis:7.2
+    networks:
+      default:
+        aliases: [mender-redis]

@@ -20,12 +20,12 @@ services:
 
   mongo:
     extends:
-      file: ../../../../dev/docker-compose.yml
+      file: ../../../../docker-compose.yml
       service: mongo
 
   nats:
     extends:
-      file: ../../../../dev/docker-compose.yml
+      file: ../../../../docker-compose.yml
       service: nats
 
   mmock:
@@ -59,7 +59,7 @@ services:
 
   workflows-worker:
     extends:
-      file: ../../../../dev/docker-compose.yml
+      file: ../../../../docker-compose.yml
       service: workflows-worker
     image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/workflows:${MENDER_IMAGE_TAG_TEST:-test}
     command: ["worker"]
@@ -93,7 +93,7 @@ services:
 
   workflows:
     extends:
-      file: ../../../../dev/docker-compose.yml
+      file: ../../../../docker-compose.yml
       service: workflows
     image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/workflows:${MENDER_IMAGE_TAG_TEST:-test}
     ports:

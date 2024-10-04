@@ -65,7 +65,7 @@ services:
   ##
   gui:
     # Provide override variable MENDER_GUI_IMAGE, but fall back on default from dev/docker-compose.yml
-    image: ${MENDER_GUI_IMAGE:-${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/gui:${MENDER_IMAGE_TAG:-latest}}
+    image: ${MENDER_GUI_IMAGE:-docker.io/mendersoftware/gui:main}
     environment:
       - GATEWAY_IP=docker.mender.io
       - DISABLE_ONBOARDING=true
