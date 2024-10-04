@@ -238,7 +238,7 @@ publish:backend:licenses:
     # HACK: go-licenses won't detect the license if it's present in the parent directory
     - ln -s ../LICENSE ./
     - |
-      go-licenses report \
+      GOFLAGS='-tags=nopkcs11' go-licenses report \
         --template=./tests/go-licenses.gotpl \
         $(go list -f '{{ if eq .Name "main" }}{{println .Dir }}{{end}}' ./services/...) > licenses.md
     - |
