@@ -23,10 +23,11 @@ variables:
     description: "Which reference to compare rules about changes (usually set by push option)"
 
   # Defines the docker tags of built artifacts objects
-  MENDER_IMAGE_PREFIX: "${CI_REGISTRY_IMAGE}"
-  MENDER_IMAGE_TAG: "build-${CI_PIPELINE_IID}"
-  MENDER_IMAGE_TAG_TEST: "test-${CI_PIPELINE_IID}"
-  MENDER_IMAGE_TAG_BUILDER: "builder-${CI_PIPELINE_IID}"
+  MENDER_IMAGE_REGISTRY: "${CI_REGISTRY}"
+  MENDER_IMAGE_REPOSITORY: "northern.tech/mender/${CI_PROJECT_NAME}"
+  MENDER_IMAGE_TAG: "build-${CI_PIPELINE_ID}"
+  MENDER_IMAGE_TAG_TEST: "test-${CI_PIPELINE_ID}"
+  MENDER_IMAGE_TAG_BUILDER: "builder-${CI_PIPELINE_ID}"
 
 include:
   - project: "Northern.tech/Mender/mendertesting"
