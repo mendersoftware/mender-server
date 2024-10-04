@@ -7,7 +7,6 @@ services:
       dockerfile: ./backend/services/create-artifact-worker/Dockerfile
     image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/create-artifact-worker:${MENDER_IMAGE_TAG:-latest}
     restart: on-failure:3
-    command: [worker]
     depends_on:
       - workflows
     environment:
