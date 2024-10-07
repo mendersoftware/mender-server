@@ -143,7 +143,7 @@ export const getAuditLogs = createAsyncThunk(`${sliceName}/getAuditLogs`, (selec
 });
 
 export const getAuditLogsCsvLink = createAsyncThunk(`${sliceName}/getAuditLogsCsvLink`, (_, { getState }) =>
-  Promise.resolve(`${auditLogsApiUrl}/logs/export?limit=20000${prepareAuditlogQuery(getAuditlogState(getState()))}`)
+  Promise.resolve(`${window.location.origin}${auditLogsApiUrl}/logs/export?limit=20000${prepareAuditlogQuery(getAuditlogState(getState()))}`)
 );
 
 export const setAuditlogsState = createAsyncThunk(`${sliceName}/setAuditlogsState`, (selectionState, { dispatch, getState }) => {

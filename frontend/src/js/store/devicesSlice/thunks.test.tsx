@@ -1189,7 +1189,7 @@ describe('troubleshooting related actions', () => {
   it('should allow device file transfers', async () => {
     const store = mockStore({ ...defaultState });
     const link = await store.dispatch(getDeviceFileDownloadLink({ deviceId: 'aDeviceId', path: '/tmp/file' })).unwrap();
-    expect(link).toBe('/api/management/v1/deviceconnect/devices/aDeviceId/download?path=%2Ftmp%2Ffile');
+    expect(link).toBe('http://localhost/api/management/v1/deviceconnect/devices/aDeviceId/download?path=%2Ftmp%2Ffile');
     const expectedActions = [
       { type: getDeviceFileDownloadLink.pending.type },
       { type: getDeviceFileDownloadLink.fulfilled.type },

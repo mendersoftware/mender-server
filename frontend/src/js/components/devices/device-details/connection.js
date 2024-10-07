@@ -183,10 +183,12 @@ export const DeviceConnection = ({ className = '', device }) => {
     path => {
       setDownloadPath(path);
       dispatch(setSnackbar('Downloading file'));
-      dispatch(getDeviceFileDownloadLink({ deviceId: device.id, path })).then(address => {
-        const filename = path.substring(path.lastIndexOf('/') + 1) || 'file';
-        createDownload(address, filename, token);
-      });
+      dispatch(getDeviceFileDownloadLink({ deviceId: device.id, path }))
+        .unwrap()
+        .then(address => {
+          const filename = path.substring(path.lastIndexOf('/') + 1) || 'file';
+          createDownload(address, filename, token);
+        });
     },
     [dispatch, device.id, token]
   );
