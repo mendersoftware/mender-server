@@ -195,15 +195,18 @@ export const AccessTokenManagement = () => {
   const [showRevocation, setShowRevocation] = useState(false);
   const [currentToken, setCurrentToken] = useState(null);
   const isEnterprise = useSelector(getIsEnterprise);
-  const { tokens = [], roles: userRoles = [] } = useSelector(getCurrentUser);
+  const { tokens = [], roles: userRoles = [], id } = useSelector(getCurrentUser);
   const rolesById = useSelector(state => state.users.rolesById);
   const dispatch = useDispatch();
 
   const { classes } = useStyles();
 
   useEffect(() => {
+    if (!id) {
+      return;
+    }
     dispatch(getTokens());
-  }, [dispatch]);
+  }, [dispatch, id]);
 
   const toggleGenerateClick = () => {
     setCurrentToken(null);
