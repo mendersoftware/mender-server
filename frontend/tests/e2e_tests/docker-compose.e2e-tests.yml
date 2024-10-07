@@ -2,7 +2,8 @@ name: gui-tests
 services:
   gui-tests-runner:
     image: mendersoftware/mender-test-containers:gui-e2e-testing
-    command: tail -f /dev/null
+    deploy:
+      replicas: 0
     environment:
       - TEST_ENVIRONMENT
       - NODE_TLS_REJECT_UNAUTHORIZED=0

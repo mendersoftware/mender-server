@@ -1,16 +1,9 @@
 #!/bin/bash
 set -e
 
-export SERVER_ROOT=${SERVIER_ROOT:-$(git rev-parse --show-toplevel)}
+export SERVER_ROOT=${SERVER_ROOT:-$(git rev-parse --show-toplevel)}
 export GUI_REPOSITORY=${GUI_REPOSITORY:-${SERVER_ROOT}/frontend}
-
-# by default just add minio, with COMPOSE_CMD_BASE this creates the standard onprem ST setup
-COMPOSE_CMD="docker compose -f ${SERVER_ROOT}/docker-compose.yml"
-TEST_COMPOSE=" -f ${GUI_REPOSITORY}/tests/e2e_tests/docker-compose.e2e-tests.yml"
-TEST_COMPOSE_ENTERPRISE=" -f ${GUI_REPOSITORY}/tests/e2e_tests/docker-compose.e2e-tests.enterprise.yml"
-ENTERPRISE=0
-
-COMPOSE_FILES=()
+export COMPOSE_FILE="${SERVER_ROOT}/docker-compose.yml:${GUI_REPOSITORY}/tests/e2e_tests/docker-compose.e2e-tests.yml"
 
 usage() {
     echo "runner script for gui-specific integration tests"
@@ -43,11 +36,13 @@ parse_args(){
             ;;
             --enterprise)
             export TEST_ENVIRONMENT=enterprise
+            export COMPOSE_FILE="${COMPOSE_FILE}:${SERVER_ROOT}/compose/docker-compose.enterprise.yml"
+            export COMPOSE_FILE="${COMPOSE_FILE}:${GUI_REPOSITORY}/tests/e2e_tests/docker-compose.e2e-tests.enterprise.yml"
             ENTERPRISE=1
             shift
             ;;
             -f)
-            COMPOSE_CMD+=$2
+            COMPOSE_FILE="${COMPOSE_FILE}:${2}"
             shift 2
             ;;
             *)
@@ -60,77 +55,51 @@ USER2=demo-secondary@example.com
 PASSWORD=mysecretpassword!123
 
 run_tests() {
-    COMPOSE_CMD+=$TEST_COMPOSE
-    if [[ $ENTERPRISE -eq 1 ]]; then
-      COMPOSE_CMD+=$TEST_COMPOSE_ENTERPRISE
-    fi
-    $COMPOSE_CMD down && $COMPOSE_CMD up -d
+    docker compose down -v --remove-orphans && docker compose up -d
+    trap cleanup EXIT INT TERM
     declare retries=5
 
     if [[ $ENTERPRISE -eq 1 ]]; then
         # remove the client, since it won't be able to connect as it lacks a proper tenant token config
-        $COMPOSE_CMD rm -fsv client
-        while [[ $retries -gt 0 && -z $containerid ]]; do
-            containerid=$(get_container_id tenantadm)
-            sleep 1
-            retries=$((retries-1))
-        done
-
-        if [[ -z $containerid ]]; then
-            echo "failed to get tenantadm id"
-            return 1
-        fi
-        tenant=$(docker exec $containerid /usr/bin/tenantadm create-org --name=test --username=$USER --password=$PASSWORD --addon configure --addon monitor --addon troubleshoot)
-        secondTenant=$(docker exec $containerid /usr/bin/tenantadm create-org --name=secondary --username=$USER2 --password=$PASSWORD)
-        token=$(docker exec $containerid /usr/bin/tenantadm get-tenant --id $tenant | jq -r .tenant_token)
+        docker compose rm -fsv client
+        tenant=$(docker compose exec tenantadm /usr/bin/tenantadm \
+          create-org \
+          --name=test \
+          --username=$USER \
+          --password=$PASSWORD \
+          --addon configure \
+          --addon monitor \
+          --addon troubleshoot)
+        secondTenant=$(docker compose exec tenantadm /usr/bin/tenantadm \
+          create-org \
+          --name=secondary \
+          --username=$USER2 \
+          --password=$PASSWORD)
+        token=$(docker compose exec tenantadm /usr/bin/tenantadm \
+          get-tenant \
+          --id $tenant \
+          | jq -r .tenant_token)
         jq --arg tenantToken "$token" '. + { "TenantToken": $tenantToken }' ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient/mender.json > ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient/mender-test.json
         # start a new client, using the obtained tenant token - starting it later (in the test suite) would require docker access in the test runner
-        docker run --name connect-client -d --network=gui-tests_default \
-            -v ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient/mender-test.json:/etc/mender/mender.conf \
-            -v ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient/mender-connect.json:/etc/mender/mender-connect.conf \
-            mendersoftware/mender-client-docker-addons:mender-master
+        docker compose run -d connect-client
     else
-        while [[ $retries -gt 0 && -z $containerid ]]; do
-            containerid=$(get_container_id useradm)
-            sleep 1
-            retries=$((retries-1))
-        done
-
-        if [[ -z $containerid ]]; then
-            echo "failed to get useradm id"
-            return 1
-        fi
-        docker exec $containerid /usr/bin/useradm create-user --username $USER --password $PASSWORD
+      docker compose exec useradm /usr/bin/useradm \
+        create-user \
+        --username $USER \
+        --password $PASSWORD
     fi
     declare retries=5
-    while [[ $retries -gt 0 && -z $runnerid ]]; do
-        runnerid=$(get_container_id gui-tests-runner)
-        sleep 1
-        retries=$((retries-1))
-    done
 
-    if [[ -z $runnerid ]]; then
-        echo "failed to get runner id"
-        return 1
-    fi
-
-    # the following two lines are needed to help with updates to the playwright packages as we rely on the prebuilt mender-test-containers image
-    docker exec $runnerid npm i
-    docker exec $runnerid npx playwright install
-
-    docker exec $runnerid npm run test || failed=1
-
-    docker inspect --format '{{.State.ExitCode}}' $runnerid || true
+    # 'npm install && npx playwright install' are needed to help with updates
+    # to the playwright packages as we rely on the prebuilt
+    # mender-test-containers image
+    docker compose run gui-tests-runner \
+      /bin/sh -c 'npm i && npx playwright install && npm run test'
     [ $? == 0 ] || failed=1
 }
 
-get_container_id() {
-    echo "$(docker ps --filter label=com.docker.compose.service=$1 -q)"
-}
-
 cleanup(){
-    [ -z $SKIP_CLEANUP ] && docker stop connect-client && docker rm connect-client || true
-    [ -z $SKIP_CLEANUP ] && $COMPOSE_CMD down || true
+    [ -z $SKIP_CLEANUP ] && docker compose down -v --remove-orphans || true
 }
 
 parse_args "$@"
@@ -139,9 +108,7 @@ run_tests
 if [ -n "$failed" ]; then
     tmppath=${GUI_REPOSITORY}/logs/gui_e2e_tests.txt
     echo "-- tests failed, dumping logs to $tmppath"
-    $COMPOSE_CMD logs > $tmppath
+    docker compose logs > $tmppath
 fi
-
-cleanup
 
 exit $failed

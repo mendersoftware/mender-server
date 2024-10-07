@@ -22,3 +22,16 @@ services:
   useradm:
     environment:
       USERADM_BASE_URL: "https://docker.mender.io"
+
+  client:
+    deploy:
+      replicas: 0
+
+  connect-client:
+    image: mendersoftware/mender-client-docker-addons:mender-master
+    pull_policy: always
+    deploy:
+      replicas: 0
+    volumes:
+      - ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient/mender-test.json:/etc/mender/mender.conf
+      - ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient/mender-connect.json:/etc/mender/mender-connect.conf
