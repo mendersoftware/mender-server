@@ -103,3 +103,5 @@ updates:
           - "*"
     reviewers:
       - "mendersoftware/backend-dependabot-reviewers"
+    ignore:
+      - dependency-name: "bravado"
