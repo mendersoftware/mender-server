@@ -1,5 +1,5 @@
 bravado==9.2.2
-boto3==1.35.32
+boto3==1.35.34
 certifi >= 14.05.14
 chardet >= 4.0.0
 crypto
@@ -17,7 +17,7 @@ pymongo==4.10.1
 pytest-ordering==0.6
 pytest==8.3.3
 pyyaml
-redis==5.1.0
+redis==5.1.1
 redo==3.0.0
 requests==2.32.3
 semver==3.0.2

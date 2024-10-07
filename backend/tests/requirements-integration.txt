@@ -1,6 +1,6 @@
 attrs==24.2.0
 azure-iot-hub==2.6.1
-boto3==1.35.32
+boto3==1.35.34
 certifi==2024.8.30
 cffi==1.17.1
 chardet==5.2.0
@@ -30,9 +30,9 @@ pyzbar==0.1.9
 redo==3.0.0
 requests==2.32.3
 six==1.16.0
-stripe==11.0.0
+stripe==11.1.0
 toml==0.10.2
-trustme==1.1.0
+trustme==1.2.0
 urllib3==2.2.3
 websockets==13.1
 aiosmtpd==1.4.6
