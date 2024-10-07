@@ -1,7 +1,7 @@
 variables:
   NODE_IMAGE:
-    value: 'node:22-alpine'
-    description: 'Node version to use for building and testing'
+    value: "node:22-alpine"
+    description: "Node version to use for building and testing"
   FRONTEND_REPOSITORY: mendersoftware/gui
   DOCS_VERSION: development
 
@@ -11,8 +11,8 @@ test:frontend:lint:
   rules:
     - if: $CI_COMMIT_REF_NAME !~ /^(staging|saas-[a-zA-Z0-9.]+)$/
     - changes:
-        paths: ['frontend/**/*.m?[jt]sx?']
-        compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
+        paths: ["frontend/**/*.m?[jt]sx?"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
   needs: []
   cache:
     key:
@@ -34,8 +34,8 @@ test:frontend:licenses:
   rules:
     - if: $CI_COMMIT_REF_NAME !~ /^(staging|saas-[a-zA-Z0-9.]+)$/
     - changes:
-        paths: ['frontend/**/*']
-        compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
+        paths: ["frontend/**/*"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
   needs: []
   cache:
     key:
@@ -60,8 +60,8 @@ test:frontend:unit:
   rules:
     - if: $CI_COMMIT_REF_NAME !~ /^(staging|saas-[a-zA-Z0-9.]+)$/
     - changes:
-        paths: ['frontend/**/*']
-        compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
+        paths: ["frontend/**/*"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
   needs: []
   cache:
     key:
@@ -92,8 +92,8 @@ test:frontend:docs-links:
   rules:
     - if: $CI_COMMIT_REF_NAME !~ /^(staging|saas-[a-zA-Z0-9.]+)$/
     - changes:
-        paths: ['frontend/**/*']
-        compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
+        paths: ["frontend/**/*"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
   needs: []
   before_script:
     - apk add --no-cache curl
@@ -127,8 +127,8 @@ build:frontend:docker:
   extends: .template:build:docker
   rules:
     - changes:
-        paths: ['frontend/**/*']
-        compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
+        paths: ["frontend/**/*"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
       when: always
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: always
@@ -162,8 +162,8 @@ build:frontend:docker:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: always
     - changes:
-        paths: ['frontend/**/*']
-        compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
+        paths: ["frontend/**/*"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
   needs:
     - job: build:frontend:docker
       artifacts: false
@@ -191,7 +191,7 @@ build:frontend:docker:
         - frontend/junit/results.xml
     when: always
   tags:
-    - mender-qa-worker-generic-light
+    - hetzner-amd-beefy
 
 test:frontend:acceptance:
   extends: .template:test:frontend:acceptance
