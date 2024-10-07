@@ -1,25 +1,25 @@
 bravado==9.2.2
-boto3==1.34.101
+boto3==1.35.34
 certifi >= 14.05.14
 chardet >= 4.0.0
 crypto
-cryptography==42.0.5
+cryptography==43.0.1
 docker==7.1.0
 flaky==3.8.1
 flask
 idna >= 2.10
 jsonschema<5.0
-minio==7.2.5
+minio==7.2.9
 msgpack >= 1.0
 opensearch-py >= 2.0.0, < 3.0.0
 pluggy==1.5.0
-pymongo==4.6.3
+pymongo==4.10.1
 pytest-ordering==0.6
-pytest==8.1.1
+pytest==8.3.3
 pyyaml
-redis==5.0.4
-redo==2.0.4
-requests==2.32.2
+redis==5.1.1
+redo==3.0.0
+requests==2.32.3
 semver==3.0.2
 stripe
 tornado
