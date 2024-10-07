@@ -8,6 +8,9 @@ variables:
   SKOPEO_VERSION:
     value: "v1.16.1"
     description: "Version of skopeo to use for publishing images"
+  GOLANG_VERSION:
+    value: "1.23.2"
+    description: "Version of Golang to use in jobs"
   IMAGE_GOLANGCI_VERSION:
     value: "v1.60"
     description: "Version of image golangci/golangci-lint for static checks"
@@ -222,6 +225,31 @@ publish:backend:docker:
          make -C backend -j 4 docker-publish NOASK=y \
             MENDER_PUBLISH_TAG=latest
       fi
+
+publish:backend:licenses:
+  stage: publish
+  tags:
+    - hetzner-amd-beefy
+  image: golang:${GOLANG_VERSION}
+  before_script:
+    - go install github.com/google/go-licenses@v1.6.0
+  script:
+    - cd backend
+    # HACK: go-licenses won't detect the license if it's present in the parent directory
+    - ln -s ../LICENSE ./
+    - |
+      GOFLAGS='-tags=nopkcs11' go-licenses report \
+        --template=./tests/go-licenses.gotpl \
+        $(go list -f '{{ if eq .Name "main" }}{{println .Dir }}{{end}}' ./services/...) > licenses.md
+    - |
+      if grep -o '^LICENSE TEXT MISSING FOR.*$' licenses.md; then
+        exit 1;
+      fi
+  artifacts:
+    when: on_success
+    expire_in: "1w"
+    paths:
+      - backend/licenses.md
 
 coveralls:done:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/curlimages/curl
