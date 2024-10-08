@@ -11,7 +11,7 @@
     "@mui/material": "6.1.2",
     "@mui/x-date-pickers": "7.19.0",
     "@redux-devtools/extension": "3.3.0",
-    "@reduxjs/toolkit": "2.2.7",
+    "@reduxjs/toolkit": "2.2.8",
     "@stripe/react-stripe-js": "2.8.1",
     "@stripe/stripe-js": "4.7.0",
     "@xterm/addon-fit": "0.10.0",
