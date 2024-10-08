@@ -59,6 +59,11 @@ run_tests() {
     declare retries=5
 
     if [[ $ENTERPRISE -eq 1 ]]; then
+        # FIXME: Deployments service is too slow to start serving the API.
+        #        If we immediately start creating the organization, the
+        #        deployments service may not listen
+        sleep 5
+
         # remove the client, since it won't be able to connect as it lacks a proper tenant token config
         docker compose rm -fsv client
         tenant=$(docker compose exec tenantadm /usr/bin/tenantadm \
@@ -74,11 +79,11 @@ run_tests() {
           --name=secondary \
           --username=$USER2 \
           --password=$PASSWORD)
-        token=$(docker compose exec tenantadm /usr/bin/tenantadm \
+        TENANT_TOKEN=$(docker compose exec tenantadm /usr/bin/tenantadm \
           get-tenant \
           --id $tenant \
           | jq -r .tenant_token)
-        jq --arg tenantToken "$token" '. + { "TenantToken": $tenantToken }' ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient/mender.json > ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient/mender-test.json
+        export TENANT_TOKEN
         # start a new client, using the obtained tenant token - starting it later (in the test suite) would require docker access in the test runner
         docker compose run -d client
     else

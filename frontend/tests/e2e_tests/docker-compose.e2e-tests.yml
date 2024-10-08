@@ -1,4 +1,21 @@
 name: gui-tests
+configs:
+  client_json:
+    content: |
+      {
+        "InventoryPollIntervalSeconds": 5,
+        "RetryPollIntervalSeconds": 5,
+        "ServerURL": "${SERVER_URL:-https://docker.mender.io}",
+        "UpdatePollIntervalSeconds": 5,
+        "TenantToken": "${TENANT_TOKEN}"
+      }
+  client_connect_json:
+    content: |
+      {
+        "ShellCommand": "/bin/bash",
+        "User": "root",
+        "Terminal": { "Height": 24, "Width": 128 }
+      }
 services:
   gui-tests-runner:
     image: mendersoftware/mender-test-containers:gui-e2e-testing
@@ -38,10 +55,13 @@ services:
 
   client:
     image: mendersoftware/mender-client-docker-addons:mender-master
+    configs:
+      - source: client_json
+        target: /etc/mender/mender.conf
+      - source: client_connect_json
+        target: /etc/mender/mender-connect.conf
     volumes:
       - ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient/config/traefik.cert.crt:/server.crt
-      - ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient/mender.json:/etc/mender/mender.conf
-      - ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient/mender-connect.json:/etc/mender/mender-connect.conf
       - ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient/identity.sh:/usr/share/mender/identity/mender-device-identity
 
   deployments:
