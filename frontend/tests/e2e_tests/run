@@ -80,7 +80,7 @@ run_tests() {
           | jq -r .tenant_token)
         jq --arg tenantToken "$token" '. + { "TenantToken": $tenantToken }' ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient/mender.json > ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient/mender-test.json
         # start a new client, using the obtained tenant token - starting it later (in the test suite) would require docker access in the test runner
-        docker compose run -d connect-client
+        docker compose run -d client
     else
       docker compose exec useradm /usr/bin/useradm \
         create-user \

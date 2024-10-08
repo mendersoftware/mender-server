@@ -42,6 +42,7 @@ services:
       - ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient/config/traefik.cert.crt:/server.crt
       - ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient/mender.json:/etc/mender/mender.conf
       - ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient/mender-connect.json:/etc/mender/mender-connect.conf
+      - ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient/identity.sh:/usr/share/mender/identity/mender-device-identity
 
   deployments:
     environment:
