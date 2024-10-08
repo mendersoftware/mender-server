@@ -113,7 +113,7 @@ test.describe('Files', () => {
     const editButton = await theDiv.getByRole('button', { name: /edit/i });
     await editButton.click();
     const input = await page.getByPlaceholder(/enter release tags/i);
-    await input.fill('some,tags');
+    await input.pressSequentially('some,tags', { delay: 100 });
     await page.getByTestId('CheckIcon').click();
     await page.waitForTimeout(timeouts.oneSecond);
     await expect(input).not.toBeVisible();
@@ -144,7 +144,7 @@ test.describe('Files', () => {
       await expect(page.getByPlaceholder(/add release tags/i)).toBeVisible();
       await editButton.click();
     }
-    await page.getByPlaceholder(/enter release tags/i).fill(releaseTag);
+    await page.getByPlaceholder(/enter release tags/i).pressSequentially(releaseTag, { delay: 100 });
     await page.getByTestId('CheckIcon').click();
     await page.press('body', 'Escape');
     await page.waitForTimeout(timeouts.default);
