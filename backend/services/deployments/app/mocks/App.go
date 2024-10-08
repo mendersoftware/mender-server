@@ -1,4 +1,4 @@
-// Copyright 2023 Northern.tech AS
+// Copyright 2024 Northern.tech AS
 //
 //	Licensed under the Apache License, Version 2.0 (the "License");
 //	you may not use this file except in compliance with the License.
@@ -747,6 +747,29 @@ func (_m *App) LookupDeployment(ctx context.Context, query model.Query) ([]*mode
 	}
 
 	return r0, r1, r2
+}
+
+// LookupDeploymentV2 provides a mock function with given fields: ctx, query
+func (_m *App) LookupDeploymentV2(ctx context.Context, query model.Query) ([]*model.Deployment, error) {
+	ret := _m.Called(ctx, query)
+
+	var r0 []*model.Deployment
+	if rf, ok := ret.Get(0).(func(context.Context, model.Query) []*model.Deployment); ok {
+		r0 = rf(ctx, query)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]*model.Deployment)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, model.Query) error); ok {
+		r1 = rf(ctx, query)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
 }
 
 // ProvisionTenant provides a mock function with given fields: ctx, tenant_id
