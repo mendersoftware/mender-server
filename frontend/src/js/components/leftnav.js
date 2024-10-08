@@ -21,7 +21,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import storeActions from '@northern.tech/store/actions';
 import { TIMEOUTS, canAccess } from '@northern.tech/store/constants';
-import { getFeatures, getUserCapabilities, getVersionInformation } from '@northern.tech/store/selectors';
+import { getFeatures, getTenantCapabilities, getUserCapabilities, getVersionInformation } from '@northern.tech/store/selectors';
 import copy from 'copy-to-clipboard';
 
 import DocsLink from './common/docslink';
@@ -33,7 +33,11 @@ const listItems = [
   { route: '/devices', text: 'Devices', canAccess: ({ userCapabilities: { canReadDevices } }) => canReadDevices },
   { route: '/releases', text: 'Releases', canAccess: ({ userCapabilities: { canReadReleases, canUploadReleases } }) => canReadReleases || canUploadReleases },
   { route: '/deployments', text: 'Deployments', canAccess: ({ userCapabilities: { canDeploy, canReadDeployments } }) => canReadDeployments || canDeploy },
-  { route: '/auditlog', text: 'Audit log', canAccess: ({ userCapabilities: { canAuditlog } }) => canAuditlog }
+  {
+    route: '/auditlog',
+    text: 'Audit log',
+    canAccess: ({ userCapabilities: { canAuditlog }, tenantCapabilities: { hasAuditlog } }) => hasAuditlog && canAuditlog
+  }
 ];
 
 const useStyles = makeStyles()(theme => ({
@@ -130,11 +134,12 @@ export const LeftNav = () => {
   const { classes } = useStyles();
 
   const userCapabilities = useSelector(getUserCapabilities);
+  const tenantCapabilities = useSelector(getTenantCapabilities);
   return (
     <div className={`leftFixed leftNav ${classes.list}`}>
       <List style={{ padding: 0 }}>
         {listItems.reduce((accu, item, index) => {
-          if (!item.canAccess({ userCapabilities })) {
+          if (!item.canAccess({ userCapabilities, tenantCapabilities })) {
             return accu;
           }
           accu.push(
