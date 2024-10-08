@@ -1478,7 +1478,7 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				createdTime = createdTime.Add(time.Minute)
 			}
 
-			deps, _, err := store.Find(ctx,
+			deps, _, err := store.FindDeployments(ctx,
 				testCase.InputModelQuery)
 
 			if testCase.OutputError != nil {
@@ -1501,7 +1501,7 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				}
 
 				// output result should be stable
-				otherDeps, _, _ := store.Find(ctx,
+				otherDeps, _, _ := store.FindDeployments(ctx,
 					testCase.InputModelQuery)
 				assert.Equal(t, deps, otherDeps)
 
@@ -1532,7 +1532,7 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				// tenant is set, so only tenant's DB was set
 				// up, verify that we cannot find anything in
 				// default DB
-				deps, _, err := store.Find(context.Background(),
+				deps, _, err := store.FindDeployments(context.Background(),
 					testCase.InputModelQuery)
 				assert.Len(t, deps, 0)
 				assert.NoError(t, err)

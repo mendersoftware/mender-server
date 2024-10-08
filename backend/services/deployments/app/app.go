@@ -1778,7 +1778,7 @@ func (d *Deployments) GetDeviceDeploymentListForDevice(ctx context.Context,
 	}
 	var deployments []*model.Deployment
 	if len(deviceDeployments) > 0 {
-		deployments, _, err = d.db.Find(ctx, model.Query{
+		deployments, _, err = d.db.FindDeployments(ctx, model.Query{
 			IDs:          deploymentIDs,
 			Limit:        len(deviceDeployments),
 			DisableCount: true,
@@ -1833,7 +1833,7 @@ func (d *Deployments) setDeploymentDeviceCountIfUnset(
 
 func (d *Deployments) LookupDeployment(ctx context.Context,
 	query model.Query) ([]*model.Deployment, int64, error) {
-	list, totalCount, err := d.db.Find(ctx, query)
+	list, totalCount, err := d.db.FindDeployments(ctx, query)
 
 	if err != nil {
 		return nil, 0, errors.Wrap(err, "searching for deployments")

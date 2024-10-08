@@ -107,6 +107,9 @@ var (
 	// Indexes 1.2.16
 	IndexNameDeploymentConstructorChecksum = "deployment_deploymentconstructor_checksum"
 
+	// Indexes 1.2.17
+	IndexNameDeploymentName = "deployment_name"
+
 	_false         = false
 	_true          = true
 	StorageIndexes = mongo.IndexModel{
@@ -307,6 +310,18 @@ var (
 			Background: &_false,
 			Sparse:     &_true,
 			Name:       &IndexArtifactProvidesName,
+		},
+	}
+
+	// 1.2.17
+	IndexDeploymentName = mongo.IndexModel{
+		Keys: bson.D{
+			{Key: StorageKeyDeploymentName, Value: 1},
+			{Key: StorageKeyDeploymentCreated, Value: 1},
+		},
+		Options: &mopts.IndexOptions{
+			Background: &_true,
+			Name:       &IndexNameDeploymentName,
 		},
 	}
 )
@@ -2548,7 +2563,7 @@ func (db *DataStoreMongo) IncrementDeploymentTotalSize(
 	return err
 }
 
-func (db *DataStoreMongo) Find(ctx context.Context,
+func (db *DataStoreMongo) FindDeployments(ctx context.Context,
 	match model.Query) ([]*model.Deployment, int64, error) {
 
 	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
@@ -2561,6 +2576,16 @@ func (db *DataStoreMongo) Find(ctx context.Context,
 		tq := bson.M{
 			"_id": bson.M{
 				"$in": match.IDs,
+			},
+		}
+		andq = append(andq, tq)
+	}
+
+	// filter by Names
+	if match.Names != nil {
+		tq := bson.M{
+			StorageKeyDeploymentName: bson.M{
+				"$in": match.Names,
 			},
 		}
 		andq = append(andq, tq)

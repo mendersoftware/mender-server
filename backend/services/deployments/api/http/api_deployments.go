@@ -65,6 +65,7 @@ const (
 const (
 	// Header Constants
 	hdrTotalCount    = "X-Total-Count"
+	hdrLink          = "Link"
 	hdrForwardedHost = "X-Forwarded-Host"
 )
 
@@ -399,7 +400,7 @@ func (d *DeploymentsApiHandlers) ListImages(w rest.ResponseWriter, r *rest.Reque
 	hasNext := totalCount > int(filter.Page*filter.PerPage)
 	links := rest_utils.MakePageLinkHdrs(r, uint64(filter.Page), uint64(filter.PerPage), hasNext)
 	for _, l := range links {
-		w.Header().Add("Link", l)
+		w.Header().Add(hdrLink, l)
 	}
 	w.Header().Add(hdrTotalCount, strconv.Itoa(totalCount))
 
@@ -1547,7 +1548,7 @@ func (d *DeploymentsApiHandlers) GetDevicesListForDeployment(
 	hasNext := totalCount > int(page*perPage)
 	links := rest_utils.MakePageLinkHdrs(r, page, perPage, hasNext)
 	for _, l := range links {
-		w.Header().Add("Link", l)
+		w.Header().Add(hdrLink, l)
 	}
 	w.Header().Add(hdrTotalCount, strconv.Itoa(totalCount))
 	d.view.RenderSuccessGet(w, statuses)
@@ -1555,11 +1556,6 @@ func (d *DeploymentsApiHandlers) GetDevicesListForDeployment(
 
 func ParseLookupQuery(vals url.Values) (model.Query, error) {
 	query := model.Query{}
-
-	search := vals.Get("search")
-	if search != "" {
-		query.SearchText = search
-	}
 
 	createdBefore := vals.Get("created_before")
 	if createdBefore != "" {
@@ -1620,6 +1616,32 @@ func ParseLookupQuery(vals url.Values) (model.Query, error) {
 	return query, nil
 }
 
+func ParseDeploymentLookupQueryV1(vals url.Values) (model.Query, error) {
+	query, err := ParseLookupQuery(vals)
+	if err != nil {
+		return query, err
+	}
+
+	search := vals.Get("search")
+	if search != "" {
+		query.SearchText = search
+	}
+
+	return query, nil
+}
+
+func ParseDeploymentLookupQueryV2(vals url.Values) (model.Query, error) {
+	query, err := ParseLookupQuery(vals)
+	if err != nil {
+		return query, err
+	}
+
+	query.Names = vals["name"]
+	query.IDs = vals["id"]
+
+	return query, nil
+}
+
 func parseEpochToTimestamp(epoch string) (time.Time, error) {
 	if epochInt64, err := strconv.ParseInt(epoch, 10, 64); err != nil {
 		return time.Time{}, errors.New("invalid timestamp: " + epoch)
@@ -1639,7 +1661,7 @@ func (d *DeploymentsApiHandlers) LookupDeployment(w rest.ResponseWriter, r *rest
 		}
 	}()
 
-	query, err := ParseLookupQuery(q)
+	query, err := ParseDeploymentLookupQueryV1(q)
 	if err != nil {
 		d.view.RenderError(w, r, err, http.StatusBadRequest, l)
 		return
@@ -1669,7 +1691,54 @@ func (d *DeploymentsApiHandlers) LookupDeployment(w rest.ResponseWriter, r *rest
 
 	links := rest_utils.MakePageLinkHdrs(r, page, perPage, hasNext)
 	for _, l := range links {
-		w.Header().Add("Link", l)
+		w.Header().Add(hdrLink, l)
+	}
+
+	d.view.RenderSuccessGet(w, deps[:len])
+}
+
+func (d *DeploymentsApiHandlers) LookupDeploymentV2(w rest.ResponseWriter, r *rest.Request) {
+	ctx := r.Context()
+	l := requestlog.GetRequestLogger(r)
+	q := r.URL.Query()
+	defer func() {
+		if q.Has("name") {
+			q["name"] = []string{Redacted}
+			r.URL.RawQuery = q.Encode()
+		}
+	}()
+
+	query, err := ParseDeploymentLookupQueryV2(q)
+	if err != nil {
+		d.view.RenderError(w, r, err, http.StatusBadRequest, l)
+		return
+	}
+
+	page, perPage, err := rest_utils.ParsePagination(r)
+	if err != nil {
+		d.view.RenderError(w, r, err, http.StatusBadRequest, l)
+		return
+	}
+	query.Skip = int((page - 1) * perPage)
+	query.Limit = int(perPage + 1)
+
+	deps, totalCount, err := d.app.LookupDeployment(ctx, query)
+	if err != nil {
+		d.view.RenderError(w, r, err, http.StatusBadRequest, l)
+		return
+	}
+	w.Header().Add(hdrTotalCount, strconv.FormatInt(totalCount, 10))
+
+	len := len(deps)
+	hasNext := false
+	if uint64(len) > perPage {
+		hasNext = true
+		len = int(perPage)
+	}
+
+	links := rest_utils.MakePageLinkHdrs(r, page, perPage, hasNext)
+	for _, l := range links {
+		w.Header().Add(hdrLink, l)
 	}
 
 	d.view.RenderSuccessGet(w, deps[:len])
@@ -1846,7 +1915,7 @@ func (d *DeploymentsApiHandlers) listDeviceDeployments(ctx context.Context,
 	hasNext := totalCount > lq.Skip+len(deps)
 	links := rest_utils.MakePageLinkHdrs(r, page, perPage, hasNext)
 	for _, l := range links {
-		w.Header().Add("Link", l)
+		w.Header().Add(hdrLink, l)
 	}
 
 	d.view.RenderSuccessGet(w, deps)
