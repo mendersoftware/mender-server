@@ -4,6 +4,8 @@ set -e
 export SERVER_ROOT=${SERVIER_ROOT:-$(git rev-parse --show-toplevel)}
 export GUI_REPOSITORY=${GUI_REPOSITORY:-${SERVER_ROOT}/frontend}
 export COMPOSE_FILE="${SERVER_ROOT}/docker-compose.yml:${GUI_REPOSITORY}/tests/e2e_tests/docker-compose.e2e-tests.yml"
+LOCAL=""
+VISUAL=""
 
 usage() {
     echo "runner script for gui-specific integration tests"
@@ -11,6 +13,8 @@ usage() {
     echo "$0"
     echo -e "\t-h --help"
     echo -e "\t-c --skip-cleanup \tleave containers running after tests"
+    echo -e "\t--local           \texecute tests on your local machine"
+    echo -e "\t--local-visual    \texecute tests in visual mode (implies --local)"
     echo -e "\t-f=<FILE>         \tspecify custom compose file(s); default files will not be used,"
     echo -e "\t--enterprise      \tuse enterprise"
     echo -e "\t                  \tmake sure to specify all files you need"
@@ -40,6 +44,15 @@ parse_args(){
             export COMPOSE_FILE="${COMPOSE_FILE}:${GUI_REPOSITORY}/tests/e2e_tests/docker-compose.e2e-tests.enterprise.yml"
             ENTERPRISE=1
             shift
+            ;;
+            --local)
+              LOCAL="yay"
+              shift
+            ;;
+            --local-visual)
+              LOCAL="yay"
+              VISUAL="yay"
+              shift
             ;;
             -f)
             COMPOSE_FILE="${COMPOSE_FILE}:${2}"
@@ -94,11 +107,19 @@ run_tests() {
     fi
     declare retries=5
 
-    # 'npm install && npx playwright install' are needed to help with updates
-    # to the playwright packages as we rely on the prebuilt
-    # mender-test-containers image
-    docker compose run gui-tests-runner \
-      /bin/sh -c 'npm i && npx playwright install && npm run test'
+    if test -z "$LOCAL"; then
+        # 'npm install && npx playwright install' are needed to help with updates
+        # to the playwright packages as we rely on the prebuilt
+        # mender-test-containers image
+        docker compose run gui-tests-runner \
+          /bin/sh -c 'npm i && npx playwright install && npm run test'
+    else
+        if test -z "$VISUAL"; then
+          npm run test
+        else
+          npm run test-visual-new
+        fi
+    fi
     [ $? == 0 ] || failed=1
 }
 
