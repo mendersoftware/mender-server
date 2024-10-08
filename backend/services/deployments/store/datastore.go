@@ -1,4 +1,4 @@
-// Copyright 2023 Northern.tech AS
+// Copyright 2024 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -152,6 +152,8 @@ type DataStore interface {
 		id string, stats model.Stats) error
 	Find(ctx context.Context,
 		query model.Query) ([]*model.Deployment, int64, error)
+	FindDeployments(ctx context.Context,
+		match model.Query) ([]*model.Deployment, error)
 	SetDeploymentStatus(
 		ctx context.Context,
 		id string,

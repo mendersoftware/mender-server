@@ -107,6 +107,9 @@ var (
 	// Indexes 1.2.16
 	IndexNameDeploymentConstructorChecksum = "deployment_deploymentconstructor_checksum"
 
+	// Indexes 1.2.17
+	IndexNameDeploymentName = "deployment_name"
+
 	_false         = false
 	_true          = true
 	StorageIndexes = mongo.IndexModel{
@@ -307,6 +310,18 @@ var (
 			Background: &_false,
 			Sparse:     &_true,
 			Name:       &IndexArtifactProvidesName,
+		},
+	}
+
+	// 1.2.17
+	IndexDeploymentName = mongo.IndexModel{
+		Keys: bson.D{
+			{Key: StorageKeyDeploymentName, Value: 1},
+			{Key: StorageKeyDeploymentCreated, Value: 1},
+		},
+		Options: &mopts.IndexOptions{
+			Background: &_true,
+			Name:       &IndexNameDeploymentName,
 		},
 	}
 )
@@ -2659,6 +2674,99 @@ func (db *DataStoreMongo) Find(ctx context.Context,
 	}
 
 	return deployments, count, nil
+}
+
+func (db *DataStoreMongo) FindDeployments(ctx context.Context,
+	match model.Query) ([]*model.Deployment, error) {
+
+	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
+	collDpl := database.Collection(CollectionDeployments)
+
+	andq := []bson.M{}
+
+	// filter by IDs
+	if match.IDs != nil {
+		tq := bson.M{
+			StorageKeyId: bson.M{
+				"$in": match.IDs,
+			},
+		}
+		andq = append(andq, tq)
+	}
+
+	// filter by Names
+	if match.Names != nil {
+		tq := bson.M{
+			StorageKeyDeploymentName: bson.M{
+				"$in": match.Names,
+			},
+		}
+		andq = append(andq, tq)
+	}
+
+	// build deployment by status part of the query
+	if match.Status != model.StatusQueryAny {
+		var status model.DeploymentStatus
+		if match.Status == model.StatusQueryPending {
+			status = model.DeploymentStatusPending
+		} else if match.Status == model.StatusQueryInProgress {
+			status = model.DeploymentStatusInProgress
+		} else {
+			status = model.DeploymentStatusFinished
+		}
+		stq := bson.M{StorageKeyDeploymentStatus: status}
+		andq = append(andq, stq)
+	}
+
+	// build deployment by type part of the query
+	if match.Type != "" {
+		if match.Type == model.DeploymentTypeConfiguration {
+			andq = append(andq, bson.M{StorageKeyDeploymentType: match.Type})
+		} else if match.Type == model.DeploymentTypeSoftware {
+			andq = append(andq, bson.M{
+				"$or": []bson.M{
+					{StorageKeyDeploymentType: match.Type},
+					{StorageKeyDeploymentType: ""},
+				},
+			})
+		}
+	}
+
+	query := bson.M{}
+	if len(andq) != 0 {
+		// use search criteria if any
+		query = bson.M{
+			"$and": andq,
+		}
+	}
+
+	if match.CreatedAfter != nil && match.CreatedBefore != nil {
+		query[StorageKeyDeploymentCreated] = bson.M{
+			"$gte": match.CreatedAfter,
+			"$lte": match.CreatedBefore,
+		}
+	} else if match.CreatedAfter != nil {
+		query[StorageKeyDeploymentCreated] = bson.M{
+			"$gte": match.CreatedAfter,
+		}
+	} else if match.CreatedBefore != nil {
+		query[StorageKeyDeploymentCreated] = bson.M{
+			"$lte": match.CreatedBefore,
+		}
+	}
+
+	options := db.findOptions(match)
+
+	var deployments []*model.Deployment
+	cursor, err := collDpl.Find(ctx, query, options)
+	if err != nil {
+		return nil, err
+	}
+	if err := cursor.All(ctx, &deployments); err != nil {
+		return nil, err
+	}
+
+	return deployments, nil
 }
 
 func (db *DataStoreMongo) findOptions(match model.Query) *mopts.FindOptions {

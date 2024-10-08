@@ -1,4 +1,4 @@
-// Copyright 2023 Northern.tech AS
+// Copyright 2024 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -19,9 +19,8 @@ package mocks
 import (
 	context "context"
 
-	mock "github.com/stretchr/testify/mock"
-
 	model "github.com/mendersoftware/mender-server/services/deployments/model"
+	mock "github.com/stretchr/testify/mock"
 
 	store "github.com/mendersoftware/mender-server/services/deployments/store"
 
@@ -349,6 +348,29 @@ func (_m *DataStore) FindDeploymentStatsByIDs(ctx context.Context, ids ...string
 	var r1 error
 	if rf, ok := ret.Get(1).(func(context.Context, ...string) error); ok {
 		r1 = rf(ctx, ids...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// FindDeployments provides a mock function with given fields: ctx, match
+func (_m *DataStore) FindDeployments(ctx context.Context, match model.Query) ([]*model.Deployment, error) {
+	ret := _m.Called(ctx, match)
+
+	var r0 []*model.Deployment
+	if rf, ok := ret.Get(0).(func(context.Context, model.Query) []*model.Deployment); ok {
+		r0 = rf(ctx, match)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]*model.Deployment)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, model.Query) error); ok {
+		r1 = rf(ctx, match)
 	} else {
 		r1 = ret.Error(1)
 	}

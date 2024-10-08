@@ -48,6 +48,102 @@ responses:
       $ref: "#/definitions/Error"
 
 paths:
+  /deployments:
+    get:
+      operationId: List Deployments
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: List all the deployments matching the specified filter parameters
+      description: |
+        Returns a filtered collection of deployments in the system.
+      parameters:
+        - name: id
+          in: query
+          description: |
+              Deployment identifier.
+          required: false
+          type: string
+        - name: name
+          in: query
+          description: |
+              Deployment name.
+          required: false
+          type: string
+        - name: status
+          in: query
+          description: Deployment status filter.
+          required: false
+          type: string
+          enum:
+            - inprogress
+            - finished
+            - pending
+        - name: type
+          in: query
+          description: |
+              Deployment type filter.
+          required: false
+          type: string
+          enum:
+            - software
+            - configuration
+        - name: page
+          in: query
+          description: Results page number
+          required: false
+          type: number
+          format: integer
+          default: 1
+        - name: per_page
+          in: query
+          description: Maximum number of results per page.
+          required: false
+          type: number
+          format: integer
+          default: 20
+          maximum: 500
+        - name: created_before
+          in: query
+          description: List only deployments created before and equal to Unix timestamp (UTC)
+          required: false
+          type: number
+          format: integer
+        - name: created_after
+          in: query
+          description: List only deployments created after and equal to Unix timestamp (UTC)
+          required: false
+          type: number
+          format: integer
+        - name: sort
+          in: query
+          description: |
+            Supports sorting the deployments list by creation date.
+          required: false
+          type: string
+          enum:
+            - asc
+            - desc
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Successful response.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Deployment'
+          headers:
+            Link:
+              type: string
+              description: Standard header, we support 'first', 'next', and 'prev'.
+        400:
+          $ref: "#/responses/InvalidRequestError"
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        500:
+          $ref: "#/responses/InternalServerError"
   /deployments/releases:
     get:
       operationId: List Releases with pagination

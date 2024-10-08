@@ -1,4 +1,4 @@
-// Copyright 2023 Northern.tech AS
+// Copyright 2024 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -75,6 +75,7 @@ const (
 	ApiUrlManagementV2ReleaseTags           = ApiUrlManagementV2Releases + "/#name/tags"
 	ApiUrlManagementV2ReleaseAllTags        = ApiUrlManagementV2 + "/releases/all/tags"
 	ApiUrlManagementV2ReleaseAllUpdateTypes = ApiUrlManagementV2 + "/releases/all/types"
+	ApiUrlManagementV2Deployments           = ApiUrlManagementV2 + "/deployments"
 
 	ApiUrlDevicesDeploymentsNext  = ApiUrlDevices + "/device/deployments/next"
 	ApiUrlDevicesDeploymentStatus = ApiUrlDevices + "/device/deployments/#id/status"
@@ -254,6 +255,7 @@ func NewDeploymentsResourceRoutes(controller *DeploymentsApiHandlers) []*rest.Ro
 		rest.Post(ApiUrlManagementDeployments, controller.PostDeployment),
 		rest.Post(ApiUrlManagementDeploymentsGroup, controller.DeployToGroup),
 		rest.Get(ApiUrlManagementDeployments, controller.LookupDeployment),
+		rest.Get(ApiUrlManagementV2Deployments, controller.LookupDeploymentV2),
 		rest.Get(ApiUrlManagementDeploymentsId, controller.GetDeployment),
 		rest.Post(ApiUrlManagementMultipleDeploymentsStatistics,
 			controller.GetDeploymentsStats),

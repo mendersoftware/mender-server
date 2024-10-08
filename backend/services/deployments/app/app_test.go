@@ -1749,3 +1749,97 @@ func TestReindexDeployment(t *testing.T) {
 		})
 	}
 }
+
+func TestLookupDeploymentV2(t *testing.T) {
+	const deviceID = "device_id"
+	testCases := map[string]struct {
+		query         model.Query
+		dbDeployments []*model.Deployment
+		dbErr         error
+
+		res    []*model.Deployment
+		resErr error
+	}{
+		"ok": {
+			query: model.Query{
+				IDs: []string{
+					"d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
+					"d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+				},
+				Names: []string{"bar", "baz"},
+				Limit: 10,
+			},
+			dbDeployments: []*model.Deployment{
+				{
+					Id: "d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
+				},
+				{
+					Id: "d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+				},
+			},
+			res: []*model.Deployment{
+				{
+					Id: "d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
+				},
+				{
+					Id: "d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+				},
+			},
+		},
+		"no deployments": {
+			query: model.Query{
+				IDs: []string{
+					"d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
+					"d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+				},
+				Names: []string{"bar", "baz"},
+				Limit: 10,
+			},
+			dbDeployments: nil,
+			res:           []*model.Deployment{},
+		},
+		"database error": {
+			query: model.Query{
+				IDs: []string{
+					"d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
+					"d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+				},
+				Names: []string{"bar", "baz"},
+				Limit: 10,
+			},
+			dbDeployments: nil,
+			dbErr:         errors.New("db error"),
+			res:           nil,
+			resErr:        errors.New("searching for deployments: db error"),
+		},
+	}
+
+	for name, tc := range testCases {
+		t.Run(name, func(t *testing.T) {
+			ctx := context.Background()
+
+			db := mocks.DataStore{}
+			defer db.AssertExpectations(t)
+
+			db.On("FindDeployments",
+				ctx,
+				tc.query,
+			).Return(
+				tc.dbDeployments,
+				tc.dbErr,
+			)
+
+			ds := &Deployments{
+				db: &db,
+			}
+
+			deployments, err := ds.LookupDeploymentV2(ctx, tc.query)
+			if tc.resErr != nil {
+				assert.EqualError(t, err, tc.resErr.Error())
+			} else {
+				assert.NoError(t, err)
+				assert.Equal(t, tc.res, deployments)
+			}
+		})
+	}
+}

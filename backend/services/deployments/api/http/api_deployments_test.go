@@ -1939,6 +1939,79 @@ func TestLookupDeployment(t *testing.T) {
 	}
 }
 
+func TestLookupDeploymentV2(t *testing.T) {
+	t.Parallel()
+
+	testCases := []struct {
+		Name         string
+		appError     error
+		query        *model.Query
+		deployments  []*model.Deployment
+		sort         string
+		ResponseCode int
+	}{
+		{
+			Name: "ok, discending",
+			query: &model.Query{
+				Limit: rest_utils.PerPageDefault + 1,
+				Sort:  model.SortDirectionDescending,
+			},
+			deployments:  []*model.Deployment{},
+			sort:         model.SortDirectionDescending,
+			ResponseCode: http.StatusOK,
+		},
+		{
+			Name: "ok, ascending",
+			query: &model.Query{
+				Limit: rest_utils.PerPageDefault + 1,
+				Sort:  model.SortDirectionAscending,
+			},
+			deployments:  []*model.Deployment{},
+			sort:         model.SortDirectionAscending,
+			ResponseCode: http.StatusOK,
+		},
+		{
+			Name: "ok, default",
+			query: &model.Query{
+				Limit: rest_utils.PerPageDefault + 1,
+				Sort:  model.SortDirectionDescending,
+			},
+			deployments:  []*model.Deployment{},
+			ResponseCode: http.StatusOK,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.Name, func(t *testing.T) {
+			app := &mapp.App{}
+			app.On("LookupDeploymentV2",
+				mock.MatchedBy(func(ctx context.Context) bool {
+					return true
+				}),
+				*tc.query,
+			).Return(tc.deployments, tc.appError)
+			restView := new(view.RESTView)
+			d := NewDeploymentsApiHandlers(nil, restView, app)
+			api := setUpRestTest(
+				ApiUrlManagementV2Deployments,
+				rest.Get,
+				d.LookupDeploymentV2,
+			)
+			url := "http://localhost" + ApiUrlManagementV2Deployments
+			if tc.sort != "" {
+				url = "http://localhost" + ApiUrlManagementV2Deployments + "?sort=" + tc.sort
+			}
+			req := test.MakeSimpleRequest(
+				"GET",
+				url,
+				"",
+			)
+			recorded := test.RunRequest(t, api.MakeHandler(), req)
+			recorded.CodeIs(tc.ResponseCode)
+		})
+	}
+}
+
 func TestAbortDeviceDeployments(t *testing.T) {
 	t.Parallel()
 

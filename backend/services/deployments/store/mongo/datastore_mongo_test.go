@@ -2487,3 +2487,192 @@ func TestGetDeploymentIDsByArtifactNames(t *testing.T) {
 		})
 	}
 }
+
+func TestFindDeployments(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skipping TestGetDeploymentIDsByArtifactNames in short mode.")
+	}
+
+	testCases := map[string]struct {
+		inputDeployments []interface{}
+		query            model.Query
+
+		outputDeployments []*model.Deployment
+	}{
+		"ok, empty query": {
+			inputDeployments: []interface{}{
+				&model.Deployment{
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "foo",
+					},
+					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+				},
+				&model.Deployment{
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "bar",
+					},
+					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
+				},
+				&model.Deployment{
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "baz",
+					},
+					Id: "d1804903-5caa-4a73-a3ae-0efcc3205406",
+				},
+			},
+			query: model.Query{},
+			outputDeployments: []*model.Deployment{
+				&model.Deployment{
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "foo",
+					},
+					Id:     "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+					Active: true,
+				},
+				&model.Deployment{
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "bar",
+					},
+					Id:     "d1804903-5caa-4a73-a3ae-0efcc3205405",
+					Active: true,
+				},
+				&model.Deployment{
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "baz",
+					},
+					Id:     "d1804903-5caa-4a73-a3ae-0efcc3205406",
+					Active: true,
+				},
+			},
+		},
+		"ok, Ids in query": {
+			inputDeployments: []interface{}{
+				&model.Deployment{
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "foo",
+						Name:         "1",
+					},
+					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+				},
+				&model.Deployment{
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "bar",
+						Name:         "2",
+					},
+					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
+				},
+				&model.Deployment{
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "baz",
+						Name:         "3",
+					},
+					Id: "d1804903-5caa-4a73-a3ae-0efcc3205406",
+				},
+			},
+			query: model.Query{
+				IDs: []string{
+					"a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+					"d1804903-5caa-4a73-a3ae-0efcc3205405",
+				},
+			},
+			outputDeployments: []*model.Deployment{
+				&model.Deployment{
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "foo",
+						Name:         "1",
+					},
+					Id:     "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+					Active: true,
+				},
+				&model.Deployment{
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "bar",
+						Name:         "2",
+					},
+					Id:     "d1804903-5caa-4a73-a3ae-0efcc3205405",
+					Active: true,
+				},
+			},
+		},
+		"ok, names in query": {
+			inputDeployments: []interface{}{
+				&model.Deployment{
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "foo",
+						Name:         "1",
+					},
+					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+				},
+				&model.Deployment{
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "bar",
+						Name:         "2",
+					},
+					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
+				},
+				&model.Deployment{
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "baz",
+						Name:         "3",
+					},
+					Id: "d1804903-5caa-4a73-a3ae-0efcc3205406",
+				},
+			},
+			query: model.Query{
+				Names: []string{
+					"1",
+					"3",
+				},
+			},
+			outputDeployments: []*model.Deployment{
+				&model.Deployment{
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "foo",
+						Name:         "1",
+					},
+					Id:     "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+					Active: true,
+				},
+				&model.Deployment{
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "baz",
+						Name:         "3",
+					},
+					Id:     "d1804903-5caa-4a73-a3ae-0efcc3205406",
+					Active: true,
+				},
+			},
+		},
+		"no deployments": {
+			query:             model.Query{},
+			outputDeployments: nil,
+		},
+	}
+
+	for name, tc := range testCases {
+		t.Run(name, func(t *testing.T) {
+			// Make sure we start test with empty database
+			db.Wipe()
+
+			client := db.Client()
+			ds := NewDataStoreMongoWithClient(client)
+
+			ctx := context.Background()
+
+			collDep := client.Database(ctxstore.
+				DbFromContext(ctx, DatabaseName)).
+				Collection(CollectionDeployments)
+
+			if tc.inputDeployments != nil {
+				_, err := collDep.InsertMany(
+					ctx, tc.inputDeployments)
+				assert.NoError(t, err)
+			}
+
+			deployments, err := ds.FindDeployments(ctx, tc.query)
+			assert.NoError(t, err)
+			//assert.Equal(t, tc.outputIDs, ids)
+			assert.Equal(t, tc.outputDeployments, deployments)
+		})
+	}
+}

@@ -175,6 +175,8 @@ type App interface {
 		query store.ListQueryDeviceDeployments) ([]model.DeviceDeploymentListItem, int, error)
 	LookupDeployment(ctx context.Context,
 		query model.Query) ([]*model.Deployment, int64, error)
+	LookupDeploymentV2(ctx context.Context,
+		query model.Query) ([]*model.Deployment, error)
 	SaveDeviceDeploymentLog(ctx context.Context, deviceID string,
 		deploymentID string, logs []model.LogMessage) error
 	GetDeviceDeploymentLog(ctx context.Context,
@@ -1850,6 +1852,21 @@ func (d *Deployments) LookupDeployment(ctx context.Context,
 	}
 
 	return list, totalCount, nil
+}
+
+func (d *Deployments) LookupDeploymentV2(ctx context.Context,
+	query model.Query) ([]*model.Deployment, error) {
+	list, err := d.db.FindDeployments(ctx, query)
+
+	if err != nil {
+		return nil, errors.Wrap(err, "searching for deployments")
+	}
+
+	if list == nil {
+		list = make([]*model.Deployment, 0)
+	}
+
+	return list, nil
 }
 
 // SaveDeviceDeploymentLog will save the deployment log for device of
