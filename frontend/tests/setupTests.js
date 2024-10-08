@@ -23,6 +23,7 @@ import { yes } from '@northern.tech/store/constants';
 import { getConfiguredStore } from '@northern.tech/store/store';
 import '@testing-library/jest-dom';
 import { act, cleanup, queryByRole, render, waitFor, within } from '@testing-library/react';
+import crypto from 'crypto';
 import { setupServer } from 'msw/node';
 import { MessageChannel } from 'worker_threads';
 
@@ -104,6 +105,9 @@ beforeAll(async () => {
       setLocalDescription: () => {},
       createDataChannel: () => {}
     };
+  };
+  window.crypto.subtle = {
+    digest: (...args) => crypto.subtle.digest(...args)
   };
   createMocks();
   server = setupServer(...handlers);

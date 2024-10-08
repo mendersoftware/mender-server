@@ -23,9 +23,11 @@ import {
   APPLICATION_JSON_CONTENT_TYPE,
   APPLICATION_JWT_CONTENT_TYPE,
   SSO_TYPES,
+  TIMEOUTS,
   apiRoot,
   emptyRole,
-  emptyUiPermissions
+  emptyUiPermissions,
+  tenantadmApiUrlv2
 } from '@northern.tech/store/constants';
 import { getOnboardingState, getOrganization, getTooltipsState, getUserSettings as getUserSettingsSelector } from '@northern.tech/store/selectors';
 import { commonErrorFallback, commonErrorHandler } from '@northern.tech/store/store';
@@ -759,3 +761,14 @@ export const setAllTooltipsReadState = createAsyncThunk(`${sliceName}/toggleHelp
   const updatedTips = Object.keys(HELPTOOLTIPS).reduce((accu, id) => ({ ...accu, [id]: { readState } }), {});
   return Promise.resolve(dispatch(actions.setTooltipsState(updatedTips))).then(() => dispatch(saveUserSettings()));
 });
+
+export const submitFeedback = createAsyncThunk(`${sliceName}/submitFeedback`, ({ satisfaction, feedback, ...meta }, { dispatch }) =>
+  GeneralApi.post(`${tenantadmApiUrlv2}/contact/support`, {
+    subject: 'feedback submission',
+    body: JSON.stringify({ feedback, satisfaction, meta })
+  }).then(() => {
+    const today = new Date();
+    dispatch(saveUserSettings({ feedbackCollectedAt: today.toISOString().split('T')[0] }));
+    setTimeout(() => dispatch(actions.setShowFeedbackDialog(false)), TIMEOUTS.threeSeconds);
+  })
+);
