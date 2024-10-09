@@ -286,23 +286,3 @@ publish:frontend:docker:
         skopeo copy --multi-arch all docker://${DOCKER_TAG} docker://${MENDER_PUBLISH_IMAGE}/gui:$(echo -n $MENDER_PUBLISH_TAG | cut -d . -f-1)
         skopeo copy --multi-arch all docker://${DOCKER_TAG} docker://${MENDER_PUBLISH_IMAGE}/gui:latest
       fi
-
-publish:frontend:docker:enterprise:
-  extends: publish:frontend:docker
-  variables:
-    MENDER_PUBLISH_REGISTRY: registry.mender.io
-  script:
-    - export DOCKER_TAG=${CI_REGISTRY_IMAGE}:frontend-${CI_PIPELINE_ID}
-    - echo "About to publish ${DOCKER_TAG} to ${MENDER_PUBLISH_TAG} on ${MENDER_PUBLISH_REGISTRY}"
-    - skopeo login --username $REGISTRY_MENDER_IO_USERNAME --password $REGISTRY_MENDER_IO_PASSWORD registry.mender.io
-    - |
-      skopeo copy --multi-arch all \
-        docker://${DOCKER_TAG} \
-        docker://${MENDER_PUBLISH_REGISTRY}/${FRONTEND_REPOSITORY}:${MENDER_PUBLISH_TAG} # covers vX.Y.Z + -fragment/ -build tags
-    - |
-      if echo -n "${MENDER_PUBLISH_TAG}" | grep -E '^v[0-9]+\.v[0-9]+\.[0-9]+$'; then
-        skopeo copy --multi-arch all docker://${DOCKER_TAG} docker://${MENDER_PUBLISH_REGISTRY}/gui:$(echo -n $MENDER_PUBLISH_TAG | cut -d . -f-2)
-        skopeo copy --multi-arch all docker://${DOCKER_TAG} docker://${MENDER_PUBLISH_REGISTRY}/gui:$(echo -n $MENDER_PUBLISH_TAG | cut -d . -f-1)
-        skopeo copy --multi-arch all docker://${DOCKER_TAG} docker://${MENDER_PUBLISH_REGISTRY}/gui:latest
-        ;;
-      fi
