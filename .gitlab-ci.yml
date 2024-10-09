@@ -29,6 +29,8 @@ variables:
   MENDER_IMAGE_TAG_TEST: "test-${CI_PIPELINE_ID}"
   MENDER_IMAGE_TAG_BUILDER: "builder-${CI_PIPELINE_ID}"
 
+  GOCOVERDIR: "${CI_PROJECT_DIR}/backend/tests/cover"
+
 include:
   - project: "Northern.tech/Mender/mendertesting"
     file:
@@ -133,8 +135,17 @@ test:backend:unit:
   variables:
     TEST_MONGO_URL: "mongodb://mongo"
     WORKFLOWS_MONGO_URL: "mongodb://mongo"
+  before_script:
+    - mkdir -p $GOCOVERDIR
   script:
-    - make -C backend test-unit
+    - |
+      make -C backend test-unit \
+        TESTFLAGS="-cover -coverprofile=${GOCOVERDIR}/\$(COMPONENT)-unit.cover'
+  artifacts:
+    expire_in: 1w
+    when: always
+    paths:
+      - ${GOCOVERDIR}/*-unit.cover
 
 test:backend:acceptance:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
@@ -160,8 +171,16 @@ test:backend:acceptance:
     - *dind-login
     - make -C backend -j 4 docker-pull
     - make -C backend -j 4 docker-pull MENDER_IMAGE_TAG=${MENDER_IMAGE_TAG_TEST}
+    - mkdir -p $GOCOVERDIR
   script:
-    - make -C backend test-acceptance
+    # NOTE: Setting GOCOVERDIR this way will group the coverage report per
+    #       service (using make variable: COMPONENT).
+    - make -C backend test-acceptance GOCOVERDIR="${GOCOVERDIR}/\$(COMPONENT)-acceptance"
+  artifacts:
+    expire_in: 1w
+    when: always
+    paths:
+      - ${GOCOVERDIR}/*-acceptance
 
 test:backend:integration:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
@@ -197,6 +216,41 @@ test:backend:integration:
       - backend/report_integration_*.html
     reports:
       junit: backend/results_integration_*.xml
+
+publish:backend:coverage:
+  stage: publish
+  needs:
+    - job: test:backend:unit
+      artifacts: true
+      optional: true
+    - job: test:backend:acceptance
+      artifacts: true
+      optional: true
+  rules:
+    - changes:
+        paths: ["backend/**/*"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+      when: always
+  image: "golang:${GOLANG_VERSION}"
+  variables:
+    COVERALLS_TOKEN: "$COVERALLS_REPO_TOKEN"
+  before_script:
+    - go install github.com/mattn/goveralls@latest
+    # Convert coverage directory (from acceptance/integration) to textfmt
+    - find ${GOCOVERDIR} -mindepth 1 -maxdepth 1 -type d
+      -exec go tool covdata textfmt -i {} -o {}.cover \;
+  script:
+    - cd backend
+    # NOTE: All coverage files have the filename '<coveralls flag>.cover'
+    - |
+      for coverpath in $(find ${GOCOVERDIR} -type f -name '*.cover'); do
+        coverfile=$(basename "$coverpath")
+        goveralls -parallel \
+          -service=gitlab \
+          -flagname="${coverfile%.cover}" \
+          -coverprofile="${coverpath}"
+      done
 
 publish:backend:docker:
   stage: publish
@@ -256,6 +310,6 @@ coveralls:done:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/curlimages/curl
   stage: .post
   script:
-    - curl "https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN&carryforward=frontend-unit,frontend-e2e,create-artifact-worker-unit,deployments-unit,deployments-integration,deviceauth-unit,deviceauth-integration,deviceconfig-unit,deviceconfig-integration,deviceconnect-unit,deviceconnect-integration,inventory-unit,inventory-integration,iot-manager-unit,iot-manager-integration,useradm-unit,useradm-integration,workflows-unit,workflows-integration" -d "payload[build_num]=$CI_PIPELINE_ID&payload[status]=done"
+    - curl "https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN&carryforward=frontend-unit,frontend-e2e,create-artifact-worker-unit,deployments-unit,deployments-acceptance,deviceauth-unit,deviceauth-acceptance,deviceconfig-unit,deviceconfig-acceptance,deviceconnect-unit,deviceconnect-acceptance,inventory-unit,inventory-acceptance,iot-manager-unit,iot-manager-acceptance,useradm-unit,useradm-acceptance,workflows-unit,workflows-acceptance" -d "payload[build_num]=$CI_PIPELINE_ID&payload[status]=done"
   tags:
     - hetzner-amd-beefy

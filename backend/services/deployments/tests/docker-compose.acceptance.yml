@@ -41,4 +41,4 @@ services:
       GOCOVERDIR: /cover
     user: ${UID:-0}:${GID:-0}
     volumes:
-      - ./cover:/cover
+      - ${GOCOVERDIR:-./cover}:/cover

@@ -67,7 +67,7 @@ services:
     volumes:
       - ".:/testing"
       - "../worker/workflows:/etc/workflows/definitions"
-      - ../../../tests/cover:/cover
+      - ${GOCOVERDIR:-../../../test/cover}:/cover
     working_dir: /testing
     environment:
       AWS_ACCESS_KEY_ID: "minio"
@@ -102,7 +102,7 @@ services:
       GOCOVERDIR: /cover
     user: ${UID:-0}:${GID:-0}
     volumes:
-      - ../../../tests/cover:/cover
+      - ${GOCOVERDIR:-../../../test/cover}:/cover
     working_dir: /testing
     networks:
       default:
