@@ -79,12 +79,12 @@ docker-publish:
 endif
 
 $(binfile): $(GOFILES)
-	# TODO: Add -ldflags "-X ...$(Version)"
 	env CGO_ENABLED=$(CGO_ENABLED) \
 		GOOS=$(GOOS) \
 		GOARCH=$(GOARCH) \
 		go build -o $(binfile) \
 			-ldflags '$(LDFLAGS)' \
+			-ldflags '-X github.com/mendersoftware/mender-server/pkg/version.version=$(VERSION)' \
 			$(BUILDFLAGS)
 
 .PHONY: build
