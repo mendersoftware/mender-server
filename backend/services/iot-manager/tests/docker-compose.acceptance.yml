@@ -48,5 +48,5 @@ services:
       GOCOVERDIR: /cover
     user: ${UID:-0}:${GID:-0}
     volumes:
-      - ./cover:/cover
+      - ${GOCOVERDIR:-./cover}:/cover
       - "../services/iot-manager/tests/mmock/cert/server.crt:/etc/ssl/certs/ca-certificates.crt"

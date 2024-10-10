@@ -1,11 +1,31 @@
 services:
-
-    tenantadm:
-        environment:
-            TENANTADM_ENABLE_SELF_SERVICE_SIGN_UP: "1"
-            TENANTADM_STRIPE_API_KEY: ${STRIPE_API_KEY}
-            
-    workflows-worker:
-        environment:
-            WORKFLOWS_EMAIL_SENDER: "no-reply@hosted.mender.io"
-            WORKFLOWS_SMTP_HOST: "integration-tester:4444"
+  auditlogs:
+    environment:
+      GOCOVERDIR: /cover
+    user: ${UID:-0}:${GID:-0}
+    volumes:
+      - ${GOCOVERDIR:-cover}:/cover
+  devicemonitor:
+    environment:
+      GOCOVERDIR: /cover
+    user: ${UID:-0}:${GID:-0}
+    volumes:
+      - ${GOCOVERDIR:-cover}:/cover
+  generate-delta-worker:
+    environment:
+      GOCOVERDIR: /cover
+    user: ${UID:-0}:${GID:-0}
+    volumes:
+      - ${GOCOVERDIR:-cover}:/cover
+  tenantadm:
+    volumes:
+      - ${GOCOVERDIR:-cover}:/cover
+    user: ${UID:-0}:${GID:-0}
+    environment:
+      GOCOVERDIR: /cover
+      TENANTADM_ENABLE_SELF_SERVICE_SIGN_UP: "1"
+      TENANTADM_STRIPE_API_KEY: ${STRIPE_API_KEY}
+  workflows-worker:
+    environment:
+      WORKFLOWS_EMAIL_SENDER: "no-reply@hosted.mender.io"
+      WORKFLOWS_SMTP_HOST: "integration-tester:4444"

@@ -1,4 +1,65 @@
 services:
-    iot-manager:
-        environment:
-            IOT_MANAGER_DOMAIN_WHITELIST: "*.azure-devices.net *.iot.*.amazonaws.com integration-tester"
+  create-artifact-worker:
+    environment:
+      GOCOVERDIR: /cover
+    user: ${UID:-0}:${GID:-0}
+    volumes:
+      - ${GOCOVERDIR:-cover}:/cover
+  deployments:
+    environment:
+      GOCOVERDIR: /cover
+    user: ${UID:-0}:${GID:-0}
+    volumes:
+      - ${GOCOVERDIR:-cover}:/cover
+  deviceauth:
+    environment:
+      GOCOVERDIR: /cover
+    user: ${UID:-0}:${GID:-0}
+    volumes:
+      - ${GOCOVERDIR:-cover}:/cover
+  deviceconfig:
+    environment:
+      GOCOVERDIR: /cover
+    user: ${UID:-0}:${GID:-0}
+    volumes:
+      - ${GOCOVERDIR:-cover}:/cover
+  deviceconnect:
+    environment:
+      GOCOVERDIR: /cover
+    user: ${UID:-0}:${GID:-0}
+    volumes:
+      - ${GOCOVERDIR:-cover}:/cover
+  inventory:
+    environment:
+      GOCOVERDIR: /cover
+    user: ${UID:-0}:${GID:-0}
+    volumes:
+      - ${GOCOVERDIR:-cover}:/cover
+  iot-manager:
+    environment:
+      GOCOVERDIR: /cover
+      IOT_MANAGER_DOMAIN_WHITELIST: "*.azure-devices.net *.iot.*.amazonaws.com integration-tester"
+    user: ${UID:-0}:${GID:-0}
+    volumes:
+      - ${GOCOVERDIR:-cover}:/cover
+  useradm:
+    environment:
+      GOCOVERDIR: /cover
+    user: ${UID:-0}:${GID:-0}
+    volumes:
+      - ${GOCOVERDIR:-cover}:/cover
+  workflows:
+    environment:
+      GOCOVERDIR: /cover
+    user: ${UID:-0}:${GID:-0}
+    volumes:
+      - ${GOCOVERDIR:-cover}:/cover
+  workflows-worker:
+    environment:
+      GOCOVERDIR: /cover
+    user: ${UID:-0}:${GID:-0}
+    volumes:
+      - ${GOCOVERDIR:-cover}:/cover
+
+volumes:
+  cover: {}
