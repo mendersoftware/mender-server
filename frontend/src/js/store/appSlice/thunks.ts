@@ -15,7 +15,7 @@
 import GeneralApi from '@northern.tech/store/api/general-api';
 import { getOfflineThresholdSettings } from '@northern.tech/store/selectors';
 import { searchDevices } from '@northern.tech/store/thunks';
-import { extractErrorMessage, getComparisonCompatibleVersion } from '@northern.tech/store/utils';
+import { combineSortCriteria, extractErrorMessage, getComparisonCompatibleVersion, sortCriteriaToSortOptions } from '@northern.tech/store/utils';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import Cookies from 'universal-cookie';
 
@@ -121,10 +121,7 @@ export const setSearchState = createAsyncThunk(`${sliceName}/setSearchState`, (s
   let nextState = {
     ...currentState,
     ...searchState,
-    sort: {
-      ...currentState.sort,
-      ...searchState.sort
-    }
+    sort: combineSortCriteria(currentState.sort, searchState.sort)
   };
   let tasks = [];
   // eslint-disable-next-line no-unused-vars
@@ -134,7 +131,7 @@ export const setSearchState = createAsyncThunk(`${sliceName}/setSearchState`, (s
   if (nextRequestState.searchTerm && !deepCompare(currentRequestState, nextRequestState)) {
     nextState.isSearching = true;
     tasks.push(
-      dispatch(searchDevices(nextState))
+      dispatch(searchDevices({ ...nextState, sortOptions: sortCriteriaToSortOptions(nextState.sort) }))
         .unwrap()
         .then(results => {
           const searchResult = results[results.length - 1];

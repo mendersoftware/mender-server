@@ -12,8 +12,6 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 // @ts-nocheck
-import { SORTING_OPTIONS } from '@northern.tech/store/commonConstants';
-
 import reducer, { actions, initialState } from '.';
 
 const snackbarMessage = 'Run the tests';
@@ -21,7 +19,7 @@ const initialSearchState = {
   deviceIds: [],
   searchTerm: '',
   searchTotal: 0,
-  sort: { direction: SORTING_OPTIONS.desc }
+  sort: []
 };
 
 describe('app reducer', () => {

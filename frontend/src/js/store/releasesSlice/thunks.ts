@@ -268,10 +268,18 @@ export const selectRelease = createAsyncThunk(`${sliceName}/selectRelease`, (rel
 
 export const setReleasesListState = createAsyncThunk(`${sliceName}/setReleasesListState`, (selectionState, { dispatch, getState }) => {
   const currentState = getState().releases.releasesList;
+
+  let nextSort = selectionState.sort ?? {};
+  if (nextSort.key === currentState.sort.key && nextSort.disabled) {
+    nextSort = { direction: SORTING_OPTIONS.desc, key: 'modified' };
+  } else if (nextSort.disabled && nextSort.key !== currentState.sort.key) {
+    nextSort = currentState.sort;
+  }
+
   let nextState = {
     ...currentState,
     ...selectionState,
-    sort: { ...currentState.sort, ...selectionState.sort }
+    sort: { ...currentState.sort, ...nextSort }
   };
   let tasks = [];
   // eslint-disable-next-line no-unused-vars

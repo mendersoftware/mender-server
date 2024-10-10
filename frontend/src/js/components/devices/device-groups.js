@@ -13,13 +13,13 @@
 //    limitations under the License.
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import { AddCircle as AddIcon } from '@mui/icons-material';
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 
 import storeActions from '@northern.tech/store/actions';
-import { DEVICE_FILTERING_OPTIONS, DEVICE_ISSUE_OPTIONS, DEVICE_STATES, SORTING_OPTIONS, emptyFilter, onboardingSteps } from '@northern.tech/store/constants';
+import { DEVICE_FILTERING_OPTIONS, DEVICE_ISSUE_OPTIONS, DEVICE_STATES, emptyFilter, onboardingSteps } from '@northern.tech/store/constants';
 import {
   getAcceptedDevices,
   getDeviceCountsByStatus,
@@ -98,12 +98,10 @@ export const DeviceGroups = () => {
   const isEnterprise = useSelector(getIsEnterprise);
   const dispatch = useDispatch();
   const isInitialized = useRef(false);
-  const location = useLocation();
 
   const [locationParams, setLocationParams] = useLocationParams('devices', {
     filteringAttributes,
-    filters,
-    defaults: { sort: { direction: SORTING_OPTIONS.desc } }
+    filters
   });
 
   const { refreshTrigger, selectedId, state: selectedState } = deviceListState;
@@ -127,11 +125,6 @@ export const DeviceGroups = () => {
     selectedState,
     setLocationParams
   ]);
-
-  useEffect(() => {
-    // set isInitialized ref to false when location changes, otherwise when you go back setLocationParams will be set with a duplicate item
-    isInitialized.current = false;
-  }, [location]);
 
   useEffect(() => {
     const { groupName, filters = [], id = [], ...remainder } = locationParams;

@@ -24,9 +24,7 @@ import { getFilterLabelByKey } from './filters';
 const textFieldStyle = { marginTop: 0, marginBottom: 15 };
 
 export const getOptionLabel = option => {
-  const header = Object.values(defaultHeaders).find(
-    ({ attribute }) => attribute.scope === option.scope && (attribute.name === option.key || attribute.alternative === option.key)
-  );
+  const header = Object.values(defaultHeaders).find(({ attribute }) => attribute.scope === option.scope && attribute.name === option.key);
   return header?.title || option.title || option.value || option.key || option;
 };
 

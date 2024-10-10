@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { DEVICE_LIST_DEFAULTS, SORTING_OPTIONS, apiUrl } from '@northern.tech/store/constants';
+import { DEVICE_LIST_DEFAULTS, apiUrl } from '@northern.tech/store/constants';
 
 const alreadyInstalled = 'already-installed';
 
@@ -95,8 +95,7 @@ export const listDefaultsByState = {
   [DEPLOYMENT_STATES.inprogress]: { page: 1, perPage: 10 },
   [DEPLOYMENT_STATES.pending]: { page: 1, perPage: 10 },
   [DEPLOYMENT_STATES.scheduled]: { ...DEVICE_LIST_DEFAULTS },
-  [DEPLOYMENT_STATES.finished]: { ...DEVICE_LIST_DEFAULTS },
-  sort: { direction: SORTING_OPTIONS.desc }
+  [DEPLOYMENT_STATES.finished]: { ...DEVICE_LIST_DEFAULTS }
 };
 
 export const DEFAULT_PENDING_INPROGRESS_COUNT = 10;

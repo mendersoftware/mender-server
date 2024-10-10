@@ -72,7 +72,7 @@ const settings = { test: true };
 // eslint-disable-next-line no-unused-vars
 const { attributes, ...expectedDevice } = defaultState.devices.byId.a1;
 
-export const offlineThreshold = [
+const offlineThreshold = [
   { type: setOfflineThreshold.pending.type },
   { type: appActions.setOfflineThreshold.type, payload: '2019-01-12T13:00:00.900Z' },
   { type: setOfflineThreshold.fulfilled.type }

@@ -20,7 +20,7 @@ import { Close as CloseIcon } from '@mui/icons-material';
 import { ClickAwayListener, Drawer, IconButton, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
+import { TIMEOUTS } from '@northern.tech/store/constants';
 import { getIdAttribute, getMappedDevicesList, getUserSettings } from '@northern.tech/store/selectors';
 import { setDeviceListState, setSearchState } from '@northern.tech/store/thunks';
 import pluralize from 'pluralize';
@@ -76,8 +76,7 @@ export const SearchResult = ({ onToggleSearchResult, open = true }) => {
 
   const [columnHeaders, setColumnHeaders] = useState(getHeaders(columnSelection, routes.devices.defaultHeaders, idAttribute));
 
-  const { isSearching, searchTerm, searchTotal, sort = {} } = searchState;
-  const { direction: sortDown = SORTING_OPTIONS.desc, key: sortCol } = sort;
+  const { isSearching, searchTerm, searchTotal } = searchState;
 
   useEffect(() => {
     const columnHeaders = getHeaders(columnSelection, routes.devices.defaultHeaders, idAttribute);
@@ -104,15 +103,6 @@ export const SearchResult = ({ onToggleSearchResult, open = true }) => {
 
   const handlePageChange = page => {
     dispatch(setSearchState({ page }));
-  };
-
-  const onSortChange = attribute => {
-    let changedSortCol = attribute.name;
-    let changedSortDown = sortDown === SORTING_OPTIONS.desc ? SORTING_OPTIONS.asc : SORTING_OPTIONS.desc;
-    if (changedSortCol !== sortCol) {
-      changedSortDown = SORTING_OPTIONS.desc;
-    }
-    dispatch(setSearchState({ page: 1, sort: { direction: changedSortDown, key: changedSortCol, scope: attribute.scope } }));
   };
 
   const onClearClick = () => {
@@ -142,10 +132,9 @@ export const SearchResult = ({ onToggleSearchResult, open = true }) => {
           <Devicelist
             columnHeaders={columnHeaders}
             customColumnSizes={customColumnSizes}
-            deviceListState={{ perPage: 10, sort: {} }}
+            deviceListState={{ perPage: 10, sort: [] }} // there's no backend support for sorting search results
             devices={devices}
             idAttribute={idAttribute}
-            onSort={onSortChange}
             PaginationProps={{ rowsPerPageOptions: [10] }}
             pageTotal={searchTotal}
             onPageChange={handlePageChange}

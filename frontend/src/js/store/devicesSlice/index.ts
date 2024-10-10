@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 // @ts-nocheck
-import { DEVICE_LIST_DEFAULTS, SORTING_OPTIONS } from '@northern.tech/store/commonConstants';
+import { DEVICE_LIST_DEFAULTS } from '@northern.tech/store/commonConstants';
 import { createSlice } from '@reduxjs/toolkit';
 
 import { deepCompare, duplicateFilter } from '../../helpers';
@@ -41,11 +41,9 @@ export const initialState = {
     selectedAttributes: [],
     selectedIssues: [],
     selection: [],
-    sort: {
-      direction: SORTING_OPTIONS.desc
-      // key: null,
-      // scope: null
-    },
+    sort: [
+      // { direction: SORTING_OPTIONS.desc, key: null, scope: null }
+    ],
     state: DEVICE_STATES.accepted,
     total: 0
   },
@@ -133,11 +131,7 @@ export const devicesSlice = createSlice({
     setDeviceListState: (state, action) => {
       state.deviceList = {
         ...state.deviceList,
-        ...action.payload,
-        sort: {
-          ...state.deviceList.sort,
-          ...action.payload.sort
-        }
+        ...action.payload
       };
     },
     setFilterAttributes: (state, action) => {

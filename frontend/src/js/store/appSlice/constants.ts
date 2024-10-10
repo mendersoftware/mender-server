@@ -15,6 +15,7 @@ import { BarChart as BarChartIcon, PieChartOutline as PieChartIcon } from '@mui/
 
 import FlagEU from '../../../assets/img/flag-eu.svg';
 import FlagUS from '../../../assets/img/flag-us.svg';
+import { SORTING_OPTIONS } from '../commonConstants';
 
 const startingDeviceCount = {
   os: 'for first 50 devices',
@@ -40,6 +41,8 @@ export const chartTypes = {
 export const emptyChartSelection = { software: '', group: '', chartType: chartTypes.bar.key, attribute: 'artifact_name' };
 export const defaultReportType = 'distribution';
 export const defaultReports = [{ ...emptyChartSelection, group: null, attribute: 'artifact_name', type: defaultReportType }];
+
+export const SORT_DIRECTIONS = [SORTING_OPTIONS.desc, SORTING_OPTIONS.asc];
 
 export const BEGINNING_OF_TIME = '2016-01-01T00:00:00.000Z';
 

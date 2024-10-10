@@ -129,7 +129,7 @@ export const defaultState = {
       deviceIds: [],
       searchTerm: '',
       searchTotal: 0,
-      sort: {}
+      sort: []
     },
     snackbar: {},
     uploadsById: {},
@@ -307,11 +307,7 @@ export const defaultState = {
       selectedAttributes: [],
       selectedIssues: [],
       selection: [],
-      sort: {
-        direction: SORTING_OPTIONS.desc
-        // key: null,
-        // scope: null
-      },
+      sort: [],
       state: DEVICE_STATES.accepted,
       total: 0
     },

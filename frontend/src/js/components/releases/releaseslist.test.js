@@ -13,17 +13,21 @@
 //    limitations under the License.
 import React from 'react';
 
+import { act } from '@testing-library/react';
+
 import { undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
 import ReleasesList from './releaseslist';
 
 describe('ReleasesList Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(
-      <ReleasesList features={{}} releases={[]} releasesListState={{ isLoading: false, sort: { key: 'Name' } }} setReleasesListState={jest.fn} />
-    );
+    const { baseElement } = render(<ReleasesList onFileUploadClick={jest.fn} />);
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
+    await act(async () => {
+      jest.runOnlyPendingTimers();
+      jest.runAllTicks();
+    });
   });
 });

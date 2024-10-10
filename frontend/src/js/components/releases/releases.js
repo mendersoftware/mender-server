@@ -164,7 +164,7 @@ export const Releases = () => {
   const [selectedFile, setSelectedFile] = useState();
   const [showAddArtifactDialog, setShowAddArtifactDialog] = useState(false);
   const artifactTimer = useRef();
-  const [locationParams, setLocationParams] = useLocationParams('releases', { defaults: { direction: SORTING_OPTIONS.desc, key: 'modified' } });
+  const [locationParams, setLocationParams] = useLocationParams('releases', { defaults: { sort: { direction: SORTING_OPTIONS.desc, key: 'modified' } } });
   const debouncedSearchTerm = useDebounce(searchTerm, TIMEOUTS.debounceDefault);
   const debouncedTypeFilter = useDebounce(type, TIMEOUTS.debounceDefault);
 
@@ -189,11 +189,11 @@ export const Releases = () => {
   ]);
 
   useEffect(() => {
-    const { selectedRelease, tags, ...remainder } = locationParams;
+    const { selectedRelease, tags, sort, ...remainder } = locationParams;
     if (selectedRelease) {
       dispatch(selectRelease(selectedRelease));
     }
-    dispatch(setReleasesListState({ ...remainder, selectedTags: tags }));
+    dispatch(setReleasesListState({ ...remainder, sort: sort[0], selectedTags: tags }));
     clearInterval(artifactTimer.current);
     artifactTimer.current = setInterval(() => dispatch(getReleases()), refreshArtifactsLength);
     return () => {

@@ -11,14 +11,16 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 // material ui
-import { Sort as SortIcon } from '@mui/icons-material';
 import { Checkbox, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { SORTING_OPTIONS } from '@northern.tech/store/constants';
+import { SORTING_OPTIONS, SORT_DIRECTIONS, TIMEOUTS } from '@northern.tech/store/constants';
+
+import { useDebounce } from '../../utils/debouncehook';
+import SortIcon from './sorticon';
 
 const useStyles = makeStyles()(() => ({
   header: {
@@ -32,16 +34,50 @@ const useStyles = makeStyles()(() => ({
   }
 }));
 
+const HeaderItem = ({ columnKey, hasMultiSort, extras, renderTitle, sortable, onSort, sortOptions, title }) => {
+  const { direction, key: sortKey } = sortOptions.find(({ key: sortKey }) => columnKey === sortKey) ?? {};
+  const [sortState, setSortState] = useState({ disabled: !sortKey, direction });
+  const [resetDirection] = useState(hasMultiSort ? '' : SORT_DIRECTIONS[0]);
+
+  const debouncedSortState = useDebounce(sortState, TIMEOUTS.debounceShort);
+
+  useEffect(() => {
+    if (!onSort) {
+      return;
+    }
+    onSort({ key: columnKey, direction: debouncedSortState.direction, disabled: debouncedSortState.disabled });
+  }, [columnKey, debouncedSortState.direction, debouncedSortState.disabled, onSort]);
+
+  const onSortClick = () => {
+    if (!sortable) {
+      return;
+    }
+    const nextDirectionIndex = SORT_DIRECTIONS.indexOf(sortState.direction) + 1;
+    const direction = SORT_DIRECTIONS[nextDirectionIndex] ?? resetDirection;
+    setSortState({ direction, disabled: !direction });
+  };
+
+  const sortDown = sortKey && direction === SORTING_OPTIONS.desc;
+
+  return (
+    <TableCell className={`columnHeader ${sortable ? '' : 'nonSortable'}`} onClick={onSortClick}>
+      {renderTitle ? renderTitle(extras) : title}
+      {sortable && <SortIcon columnKey={sortKey} disabled={sortState.disabled} sortDown={sortDown} />}
+    </TableCell>
+  );
+};
+
 export const DetailsTable = ({
   className = '',
   columns,
+  hasMultiSort = false,
   items,
   onChangeSorting,
   onItemClick,
-  sort = {},
+  sort = [],
   style = {},
   tableRef,
-  onRowSelected = undefined,
+  onRowSelected,
   selectedRows = []
 }) => {
   const { classes } = useStyles();
@@ -69,23 +105,20 @@ export const DetailsTable = ({
     <Table className={`margin-bottom ${className}`} style={style} ref={tableRef}>
       <TableHead className={classes.header}>
         <TableRow>
-          {onRowSelected !== undefined && (
+          {!!onRowSelected && (
             <TableCell>
               <Checkbox indeterminate={false} checked={selectedRows.length === items.length} onChange={onSelectAllClick} />
             </TableCell>
           )}
-          {columns.map(({ extras, key, renderTitle, sortable, title }) => (
-            <TableCell key={key} className={`columnHeader ${sortable ? '' : 'nonSortable'}`} onClick={() => (sortable ? onChangeSorting(key) : null)}>
-              {renderTitle ? renderTitle(extras) : title}
-              {sortable && <SortIcon className={`sortIcon ${sort.key === key ? 'selected' : ''} ${(sort.direction === SORTING_OPTIONS.desc).toString()}`} />}
-            </TableCell>
+          {columns.map(column => (
+            <HeaderItem key={column.key} columnKey={column.key} hasMultiSort={hasMultiSort} onSort={onChangeSorting} sortOptions={sort} {...column} />
           ))}
         </TableRow>
       </TableHead>
       <TableBody>
         {items.map((item, index) => (
           <TableRow className={onItemClick ? 'clickable' : ''} hover key={item.id || index}>
-            {onRowSelected !== undefined && (
+            {onRowSelected && (
               <TableCell>
                 <Checkbox checked={selectedRows.includes(index)} onChange={() => onRowSelection(index)} />
               </TableCell>
