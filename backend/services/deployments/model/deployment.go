@@ -333,6 +333,9 @@ type Query struct {
 	// list of IDs
 	IDs []string
 
+	// list of Names
+	Names []string
+
 	// match deployments by text by looking at deployment name and artifact name
 	SearchText string
 

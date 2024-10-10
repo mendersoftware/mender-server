@@ -1749,3 +1749,229 @@ func TestReindexDeployment(t *testing.T) {
 		})
 	}
 }
+
+func TestLookupDeploymentV2(t *testing.T) {
+	const deviceID = "device_id"
+	testCases := map[string]struct {
+		query                  store.ListQueryDeviceDeployments
+		deviceDeployments      []model.DeviceDeployment
+		deviceDeploymentsCount int
+		deviceDeploymentsErr   error
+
+		deploymentsQuery model.Query
+		deployments      []*model.Deployment
+		deploymentsCount int64
+		deploymentsErr   error
+
+		res      []model.DeviceDeploymentListItem
+		resCount int
+		resErr   error
+	}{
+		"ok": {
+			query: store.ListQueryDeviceDeployments{
+				DeviceID: deviceID,
+				Limit:    10,
+			},
+			deviceDeployments: []model.DeviceDeployment{
+				{
+					Id:           "d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
+					DeviceId:     deviceID,
+					DeploymentId: "d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
+				},
+				{
+					Id:           "d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+					DeviceId:     deviceID,
+					DeploymentId: "d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+				},
+			},
+			deviceDeploymentsCount: 2,
+
+			deploymentsQuery: model.Query{
+				IDs: []string{
+					"d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
+					"d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+				},
+				Limit:        2,
+				DisableCount: true,
+			},
+			deployments: []*model.Deployment{
+				{
+					Id: "d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
+				},
+				{
+					Id: "d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+				},
+			},
+			deploymentsCount: 2,
+
+			res: []model.DeviceDeploymentListItem{
+				{
+					Id: "d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
+					Deployment: &model.Deployment{
+						Id: "d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
+					},
+					Device: &model.DeviceDeployment{
+						Id:           "d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
+						DeviceId:     deviceID,
+						DeploymentId: "d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
+					},
+				},
+				{
+					Id: "d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+					Deployment: &model.Deployment{
+						Id: "d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+					},
+					Device: &model.DeviceDeployment{
+						Id:           "d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+						DeviceId:     deviceID,
+						DeploymentId: "d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+					},
+				},
+			},
+			resCount: 2,
+		},
+		"ok, partial match of deployments": {
+			query: store.ListQueryDeviceDeployments{
+				DeviceID: deviceID,
+				Limit:    10,
+			},
+			deviceDeployments: []model.DeviceDeployment{
+				{
+					Id:           "d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
+					DeviceId:     deviceID,
+					DeploymentId: "d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
+				},
+				{
+					Id:           "d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+					DeviceId:     deviceID,
+					DeploymentId: "d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+				},
+			},
+			deviceDeploymentsCount: 2,
+
+			deploymentsQuery: model.Query{
+				IDs: []string{
+					"d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
+					"d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+				},
+				Limit:        2,
+				DisableCount: true,
+			},
+			deployments: []*model.Deployment{
+				{
+					Id: "d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+				},
+			},
+			deploymentsCount: 2,
+
+			res: []model.DeviceDeploymentListItem{
+				{
+					Id: "d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
+					Device: &model.DeviceDeployment{
+						Id:           "d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
+						DeviceId:     deviceID,
+						DeploymentId: "d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
+					},
+				},
+				{
+					Id: "d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+					Deployment: &model.Deployment{
+						Id: "d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+					},
+					Device: &model.DeviceDeployment{
+						Id:           "d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+						DeviceId:     deviceID,
+						DeploymentId: "d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+					},
+				},
+			},
+			resCount: 2,
+		},
+		"ko, error retrieving deviceDeployments": {
+			query: store.ListQueryDeviceDeployments{
+				DeviceID: deviceID,
+				Limit:    10,
+			},
+			deviceDeploymentsCount: -1,
+			deviceDeploymentsErr:   errors.New("error"),
+
+			resCount: -1,
+			resErr:   errors.New("retrieving the list of deployment statuses: error"),
+		},
+		"ko, error retrieving deployments": {
+			query: store.ListQueryDeviceDeployments{
+				DeviceID: deviceID,
+				Limit:    10,
+			},
+			deviceDeployments: []model.DeviceDeployment{
+				{
+					Id:           "d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
+					DeviceId:     deviceID,
+					DeploymentId: "d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
+				},
+				{
+					Id:           "d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+					DeviceId:     deviceID,
+					DeploymentId: "d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+				},
+			},
+			deviceDeploymentsCount: 2,
+
+			deploymentsQuery: model.Query{
+				IDs: []string{
+					"d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
+					"d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+				},
+				Limit:        2,
+				DisableCount: true,
+			},
+			deploymentsCount: -1,
+			deploymentsErr:   errors.New("error"),
+
+			resCount: -1,
+			resErr:   errors.New("retrieving the list of deployments: error"),
+		},
+	}
+
+	for name, tc := range testCases {
+		t.Run(name, func(t *testing.T) {
+			ctx := context.Background()
+
+			db := mocks.DataStore{}
+			defer db.AssertExpectations(t)
+
+			db.On("GetDeviceDeploymentsForDevice",
+				ctx,
+				tc.query,
+			).Return(
+				tc.deviceDeployments,
+				tc.deviceDeploymentsCount,
+				tc.deviceDeploymentsErr,
+			)
+
+			if tc.deviceDeploymentsErr == nil {
+				db.On("Find",
+					ctx,
+					tc.deploymentsQuery,
+				).Return(
+					tc.deployments,
+					tc.deploymentsCount,
+					tc.deploymentsErr,
+				)
+			}
+
+			ds := &Deployments{
+				db: &db,
+			}
+
+			deviceDeployments, count, err := ds.GetDeviceDeploymentListForDevice(ctx, tc.query)
+			if tc.resErr != nil {
+				assert.EqualError(t, err, tc.resErr.Error())
+			} else {
+				assert.NoError(t, err)
+				assert.Equal(t, tc.res, deviceDeployments)
+				assert.Equal(t, tc.resCount, count)
+			}
+		})
+	}
+}
