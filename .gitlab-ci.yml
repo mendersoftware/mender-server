@@ -208,13 +208,15 @@ test:backend:integration:
   before_script:
     - apk add make bash git curl
     - *dind-login
+    - mkdir -p ${GOCOVERDIR}/integration
     - make -C backend -j 4 docker-pull MENDER_IMAGE_TAG=$MENDER_IMAGE_TAG_TEST
   script:
-    - make -C backend test-integration
+    - make -C backend test-integration GOCOVERDIR=${GOCOVERDIR}/integration
   artifacts:
     expire_in: 1w
     when: always
     paths:
+      - ${GOCOVERDIR}/integration
       - backend/logs.*
       - backend/results_integration_*.xml
       - backend/report_integration_*.html
@@ -228,6 +230,9 @@ publish:backend:coverage:
       artifacts: true
       optional: true
     - job: test:backend:acceptance
+      artifacts: true
+      optional: true
+    - job: test:backend:integration
       artifacts: true
       optional: true
   rules:
@@ -314,6 +319,6 @@ coveralls:done:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/curlimages/curl
   stage: .post
   script:
-    - curl "https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN&carryforward=frontend-unit,frontend-e2e,create-artifact-worker-unit,deployments-unit,deployments-acceptance,deviceauth-unit,deviceauth-acceptance,deviceconfig-unit,deviceconfig-acceptance,deviceconnect-unit,deviceconnect-acceptance,inventory-unit,inventory-acceptance,iot-manager-unit,iot-manager-acceptance,useradm-unit,useradm-acceptance,workflows-unit,workflows-acceptance" -d "payload[build_num]=$CI_PIPELINE_ID&payload[status]=done"
+    - curl "https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN&carryforward=frontend-unit,frontend-e2e,create-artifact-worker-unit,deployments-unit,deployments-acceptance,deviceauth-unit,deviceauth-acceptance,deviceconfig-unit,deviceconfig-acceptance,deviceconnect-unit,deviceconnect-acceptance,inventory-unit,inventory-acceptance,iot-manager-unit,iot-manager-acceptance,useradm-unit,useradm-acceptance,workflows-unit,workflows-acceptance,integration" -d "payload[build_num]=$CI_PIPELINE_ID&payload[status]=done"
   tags:
     - hetzner-amd-beefy
