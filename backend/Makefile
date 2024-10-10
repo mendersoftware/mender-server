@@ -1,9 +1,10 @@
-MENDER_IMAGE_PREFIX ?= localhost:5000/mender-server
+MENDER_IMAGE_REGISTRY ?= docker.io
+MENDER_IMAGE_REPOSITORY ?= mendersoftware
 MENDER_IMAGE_TAG ?= latest
 MENDER_IMAGE_TAG_TEST ?= test
 
 MENDER_PUBLISH_REGISTRY ?= docker.io
-MENDER_PUBLISH_REPOSTIORY ?= $(MENDER_PUBLISH_REGISTRY)/mendersoftware
+MENDER_PUBLISH_REPOSTIORY ?= mendersoftware
 MENDER_PUBLISH_TAG ?= $(MENDER_IMAGE_TAG)
 
 SERVICES = $(subst services,,$(subst /,,$(wildcard services/*/)))
@@ -22,18 +23,14 @@ docker: $(DOCKER_TARGETS)
 
 .PHONY: $(DOCKER_TARGETS)
 $(DOCKER_TARGETS):
-	@$(MAKE) -C services/$(subst -docker,,$@) docker \
-		MENDER_IMAGE_PREFIX=$(MENDER_IMAGE_PREFIX) \
-		MENDER_IMAGE_TAG=$(MENDER_IMAGE_TAG)
+	@$(MAKE) -C services/$(subst -docker,,$@) docker
 
 .PHONY: docker-pull
 docker-pull: $(DOCKER_PULL_TARGETS)
 
 .PHONY: $(DOCKER_PULL_TARGETS)
 $(DOCKER_PULL_TARGETS):
-	@$(MAKE) -C services/$(subst -docker-pull,,$@) docker-pull \
-		MENDER_IMAGE_PREFIX=$(MENDER_IMAGE_PREFIX) \
-		MENDER_IMAGE_TAG=$(MENDER_IMAGE_TAG)
+	@$(MAKE) -C services/$(subst -docker-pull,,$@) docker-pull
 
 .PHONY: build
 build: $(BUILD_TARGETS)
@@ -86,18 +83,11 @@ docker-acceptance: $(DOCKER_ACCEPTANCE_TARGETS)
 
 .PHONY: $(DOCKER_ACCEPTANCE_TARGETS)
 $(DOCKER_ACCEPTANCE_TARGETS):
-	@$(MAKE) -C services/$(subst -docker-acceptance,,$@) docker-acceptance \
-		MENDER_IMAGE_PREFIX=$(MENDER_IMAGE_PREFIX) \
-		MENDER_IMAGE_TAG_TEST=$(MENDER_IMAGE_TAG_TEST)
+	@$(MAKE) -C services/$(subst -docker-acceptance,,$@) docker-acceptance
 
 .PHONY: docker-publish
 docker-publish: $(DOCKER_PUBLISH_TARGETS)
 
 .PHONY: $(DOCKER_PUBLISH_TARGETS)
 $(DOCKER_PUBLISH_TARGETS):
-	@$(MAKE) -C services/$(subst -docker-publish,,$@) docker-publish \
-		MENDER_IMAGE_PREFIX=$(MENDER_IMAGE_PREFIX) \
-		MENDER_IMAGE_TAG=$(MENDER_IMAGE_TAG) \
-		MENDER_PUBLISH_REGISTRY=$(MENDER_PUBLISH_REGISTRY) \
-		MENDER_PUBLISH_REPOSTIORY=$(MENDER_PUBLISH_REPOSTIORY) \
-		MENDER_PUBLISH_TAG=$(MENDER_PUBLISH_TAG)
+	@$(MAKE) -C services/$(subst -docker-publish,,$@) docker-publish

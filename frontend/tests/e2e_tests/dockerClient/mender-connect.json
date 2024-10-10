@@ -1,5 +1,0 @@
-{
-  "ShellCommand": "/bin/bash",
-  "User": "root",
-  "Terminal": { "Height": 24, "Width": 128 }
-}

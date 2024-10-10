@@ -1,11 +1,10 @@
 name: mender
-
 services:
   create-artifact-worker:
     build:
-      context: ..
+      context: .
       dockerfile: ./backend/services/create-artifact-worker/Dockerfile
-    image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/create-artifact-worker:${MENDER_IMAGE_TAG:-latest}
+    image: ${MENDER_IMAGE_REGISTRY:-docker.io}/${MENDER_IMAGE_REPOSITORY:-mendersoftware}/create-artifact-worker:${MENDER_IMAGE_TAG:-latest}
     restart: on-failure:3
     depends_on:
       - workflows
@@ -16,9 +15,9 @@ services:
 
   deployments:
     build:
-      context: ..
+      context: .
       dockerfile: ./backend/services/deployments/Dockerfile
-    image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/deployments:${MENDER_IMAGE_TAG:-latest}
+    image: ${MENDER_IMAGE_REGISTRY:-docker.io}/${MENDER_IMAGE_REPOSITORY:-mendersoftware}/deployments:${MENDER_IMAGE_TAG:-latest}
     restart: on-failure:3
     command: [server, --automigrate]
     depends_on:
@@ -61,9 +60,9 @@ services:
 
   deviceauth:
     build:
-      context: ..
+      context: .
       dockerfile: ./backend/services/deviceauth/Dockerfile
-    image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/deviceauth:${MENDER_IMAGE_TAG:-latest}
+    image: ${MENDER_IMAGE_REGISTRY:-docker.io}/${MENDER_IMAGE_REPOSITORY:-mendersoftware}/deviceauth:${MENDER_IMAGE_TAG:-latest}
     restart: on-failure:3
     command: [server, --automigrate]
     depends_on:
@@ -74,7 +73,7 @@ services:
       DEVICEAUTH_MONGO: "mongodb://mongo"
       DEVICEAUTH_SERVER_PRIV_KEY_PATH: "/etc/deviceauth/private.pem"
     volumes:
-      - ./config/mender.pem:/etc/deviceauth/private.pem
+      - ./compose/config/mender.pem:/etc/deviceauth/private.pem
 
     labels:
       traefik.enable: "true"
@@ -95,9 +94,9 @@ services:
 
   deviceconfig:
     build:
-      context: ..
+      context: .
       dockerfile: ./backend/services/deviceconfig/Dockerfile
-    image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/deviceconfig:${MENDER_IMAGE_TAG:-latest}
+    image: ${MENDER_IMAGE_REGISTRY:-docker.io}/${MENDER_IMAGE_REPOSITORY:-mendersoftware}/deviceconfig:${MENDER_IMAGE_TAG:-latest}
     restart: on-failure:3
     command: [server, --automigrate]
     environment:
@@ -125,9 +124,9 @@ services:
 
   deviceconnect:
     build:
-      context: ..
+      context: .
       dockerfile: ./backend/services/deviceconnect/Dockerfile
-    image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/deviceconnect:${MENDER_IMAGE_TAG:-latest}
+    image: ${MENDER_IMAGE_REGISTRY:-docker.io}/${MENDER_IMAGE_REPOSITORY:-mendersoftware}/deviceconnect:${MENDER_IMAGE_TAG:-latest}
     restart: on-failure:3
     command: [server, --automigrate]
     depends_on:
@@ -156,9 +155,9 @@ services:
         aliases: [mender-deviceconnect]
 
   gui:
-    image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/gui:${MENDER_IMAGE_TAG:-latest}
+    image: ${MENDER_IMAGE_REGISTRY:-docker.io}/${MENDER_IMAGE_REPOSITORY:-mendersoftware}/gui:${MENDER_IMAGE_TAG:-latest}
     build:
-      context: ../frontend
+      context: ./frontend
     restart: on-failure:3
     labels:
       traefik.enable: "true"
@@ -171,17 +170,22 @@ services:
       traefik.http.routers.gui.rule: PathPrefix(`/`)
       traefik.http.routers.gui.service: gui
     environment:
+      HAVE_AUDITLOGS: "0"
+      HAVE_DELTA_PROGRESS: "0"
       HAVE_DEVICECONFIG: "1"
       HAVE_DEVICECONNECT: "1"
+      HAVE_ENTERPRISE: "0"
+      HAVE_MONITOR: "0"
+      HAVE_MULTITENANT: "0"
     networks:
       default:
         aliases: [mender-gui]
 
   inventory:
     build:
-      context: ..
+      context: .
       dockerfile: ./backend/services/inventory/Dockerfile
-    image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/inventory:${MENDER_IMAGE_TAG:-latest}
+    image: ${MENDER_IMAGE_REGISTRY:-docker.io}/${MENDER_IMAGE_REPOSITORY:-mendersoftware}/inventory:${MENDER_IMAGE_TAG:-latest}
     restart: on-failure:3
     command: [server, --automigrate]
     depends_on:
@@ -222,9 +226,9 @@ services:
 
   iot-manager:
     build:
-      context: ..
+      context: .
       dockerfile: ./backend/services/iot-manager/Dockerfile
-    image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/iot-manager:${MENDER_IMAGE_TAG:-latest}
+    image: ${MENDER_IMAGE_REGISTRY:-docker.io}/${MENDER_IMAGE_REPOSITORY:-mendersoftware}/iot-manager:${MENDER_IMAGE_TAG:-latest}
     restart: on-failure:3
     command: [server, --automigrate]
     depends_on:
@@ -247,9 +251,9 @@ services:
 
   useradm:
     build:
-      context: ..
+      context: .
       dockerfile: ./backend/services/useradm/Dockerfile
-    image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/useradm:${MENDER_IMAGE_TAG:-latest}
+    image: ${MENDER_IMAGE_REGISTRY:-docker.io}/${MENDER_IMAGE_REPOSITORY:-mendersoftware}/useradm:${MENDER_IMAGE_TAG:-latest}
     restart: on-failure:3
     command: [server, --automigrate]
     depends_on:
@@ -257,7 +261,6 @@ services:
     environment:
       USERADM_MONGO: "mongodb://mongo"
       USERADM_SERVER_PRIV_KEY_PATH: "/etc/useradm/private.pem"
-      USERADM_PLAN_DEFINITIONS_PATH: "/etc/useradm/plans.yaml"
     labels:
       traefik.enable: "true"
       traefik.http.services.useradm.loadBalancer.server.port: "8080"
@@ -277,14 +280,13 @@ services:
       default:
         aliases: [mender-useradm]
     volumes:
-      - ./config/mender.pem:/etc/useradm/private.pem
-      - ../backend/services/useradm/config/plans.yaml:/etc/useradm/plans.yaml
+      - ./compose/config/mender.pem:/etc/useradm/private.pem
 
   workflows-worker:
     build:
-      context: ..
+      context: .
       dockerfile: ./backend/services/workflows/Dockerfile
-    image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/workflows:${MENDER_IMAGE_TAG:-latest}
+    image: ${MENDER_IMAGE_REGISTRY:-docker.io}/${MENDER_IMAGE_REPOSITORY:-mendersoftware}/workflows:${MENDER_IMAGE_TAG:-latest}
     restart: on-failure:3
     command: ["worker"]
     depends_on:
@@ -305,9 +307,9 @@ services:
 
   workflows:
     build:
-      context: ..
+      context: .
       dockerfile: ./backend/services/workflows/Dockerfile
-    image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/workflows:${MENDER_IMAGE_TAG:-latest}
+    image: ${MENDER_IMAGE_REGISTRY:-docker.io}/${MENDER_IMAGE_REPOSITORY:-mendersoftware}/workflows:${MENDER_IMAGE_TAG:-latest}
     restart: on-failure:3
     command: [server, --automigrate]
     depends_on:
@@ -319,7 +321,6 @@ services:
     networks:
       default:
         aliases: [mender-workflows]
-
   traefik:
     image: traefik:v3.1
     command:
@@ -338,7 +339,7 @@ services:
       - --providers.docker=true
       - --providers.docker.exposedByDefault=false
     volumes:
-      - ./config/traefik.middlewares.yaml:/etc/traefik/config/traefik.middlewares.yaml:ro
+      - ./compose/config/traefik.middlewares.yaml:/etc/traefik/config/traefik.middlewares.yaml:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     ports:
       - 443:443
@@ -366,11 +367,11 @@ services:
     image: chrislusf/seaweedfs
     volumes:
       - s3:/data
-      - ./config/s3.conf:/etc/seaweedfs/s3.conf
+      - ./compose/config/s3.conf:/etc/seaweedfs/s3.conf
     labels:
       traefik.enable: "true"
       traefik.http.routers.s3fs.priority: "99999"
-      traefik.http.routers.s3fs.rule: Host(`s3.localhost`)
+      traefik.http.routers.s3fs.rule: Host(`s3.localhost`) || Host(`s3.docker.mender.io`)
       traefik.http.services.s3fs.loadBalancer.server.port: "8333"
     command: [server -s3 -s3.config /etc/seaweedfs/s3.conf]
     healthcheck:

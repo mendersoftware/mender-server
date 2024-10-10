@@ -37,7 +37,7 @@ test.describe('Device details', () => {
     await page.getByText(/inventory/i).click();
     const expandedDevice = await page.locator(`css=.expandedDevice`);
     await expect(expandedDevice.getByText('Linux')).toBeVisible();
-    await expect(expandedDevice.getByText(/mac/).first()).toBeVisible();
+    await expect(expandedDevice.getByText(/hostname/).first()).toBeVisible();
     await expandedDevice.getByRole('tab', { name: /software/i }).click();
     await expect(expandedDevice.getByText(demoDeviceName)).toBeVisible();
   });

@@ -13,7 +13,7 @@ services:
       - deviceconfig
 
   deviceconfig:
-    image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/deviceconfig:${MENDER_IMAGE_TAG_TEST:-test}
+    image: ${MENDER_IMAGE_REGISTRY:-docker.io}/${MENDER_IMAGE_REPOSITORY:-mendersoftware}/deviceconfig:${MENDER_IMAGE_TAG_TEST:-test}
     environment:
       DEVICECONFIG_ENABLE_AUDIT: "true"
       DEVICECONFIG_WORKFLOWS_URL: "http://mender-workflows-server:8080"

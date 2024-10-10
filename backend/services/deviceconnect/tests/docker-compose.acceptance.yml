@@ -21,7 +21,7 @@ services:
           - mender-workflows-server
 
   deviceconnect:
-    image: ${MENDER_IMAGE_PREFIX:-localhost:5000/mender-server}/deviceconnect:${MENDER_IMAGE_TAG_TEST:-test}
+    image: ${MENDER_IMAGE_REGISTRY:-docker.io}/${MENDER_IMAGE_REPOSITORY:-mendersoftware}/deviceconnect:${MENDER_IMAGE_TAG_TEST:-test}
     environment:
       DEVICECONNECT_NATS_URL: "nats://nats"
       GOCOVERDIR: /cover

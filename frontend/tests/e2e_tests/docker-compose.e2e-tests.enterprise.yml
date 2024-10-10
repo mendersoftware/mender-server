@@ -19,25 +19,10 @@ services:
       - s3fs
       - traefik
 
-  auditlogs:
-    image: registry.mender.io/mender-server-enterprise/auditlogs:${MENDER_IMAGE_TAG:-main}
-  deployments:
-    image: registry.mender.io/mender-server-enterprise/deployments:${MENDER_IMAGE_TAG:-main}
-  deviceauth:
-    image: registry.mender.io/mender-server-enterprise/deviceauth:${MENDER_IMAGE_TAG:-main}
-  devicemonitor:
-    image: registry.mender.io/mender-server-enterprise/devicemonitor:${MENDER_IMAGE_TAG:-main}
-  generate-delta-worker:
-    image: registry.mender.io/mender-server-enterprise/generate-delta-worker:${MENDER_IMAGE_TAG:-main}
-  inventory:
-    image: registry.mender.io/mender-server-enterprise/inventory:${MENDER_IMAGE_TAG:-main}
-  tenantadm:
-    image: registry.mender.io/mender-server-enterprise/tenantadm:${MENDER_IMAGE_TAG:-main}
   useradm:
-    image: registry.mender.io/mender-server-enterprise/useradm:${MENDER_IMAGE_TAG:-main}
     environment:
       USERADM_BASE_URL: "https://docker.mender.io"
-  workflows:
-    image: registry.mender.io/mender-server-enterprise/workflows:${MENDER_IMAGE_TAG:-main}
-  workflows-worker:
-    image: registry.mender.io/mender-server-enterprise/workflows:${MENDER_IMAGE_TAG:-main}
+
+  client:
+    deploy:
+      replicas: 0

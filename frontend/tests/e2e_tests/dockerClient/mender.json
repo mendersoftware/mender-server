@@ -1,6 +1,0 @@
-{
-  "InventoryPollIntervalSeconds": 5,
-  "RetryPollIntervalSeconds": 5,
-  "ServerURL": "https://docker.mender.io/",
-  "UpdatePollIntervalSeconds": 5
-}
