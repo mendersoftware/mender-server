@@ -48,7 +48,7 @@ To initialize the admin user, use the following snippet:
 MENDER_NAME=Admin
 MENDER_USERNAME=admin@mender.local
 MENDER_PASSWORD=password123
-docker compose exec tenantadm create-org --username "$MENDER_USERNAME" --password "$MENDER_PASSWORD" --name "$MENDER_NAME"
+docker compose exec tenantadm tenantadm create-org --username "$MENDER_USERNAME" --password "$MENDER_PASSWORD" --name "$MENDER_NAME"
 ```
 
 Visit [https://localhost](https://localhost) and sign in using the credentials from the snippet above.
