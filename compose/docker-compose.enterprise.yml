@@ -8,7 +8,8 @@ services:
     restart: on-failure:3
     command: [server, --automigrate]
     depends_on:
-      - mongo
+      mongo:
+        condition: service_healthy
     environment:
       AUDITLOGS_MONGO_URL: "mongodb://mongo"
       AUDITLOGS_DEVICEAUTH_ADDRESS: "deviceauth:8080"
@@ -66,7 +67,8 @@ services:
     restart: on-failure:3
     command: [server, --automigrate]
     depends_on:
-      - mongo
+      mongo:
+        condition: service_healthy
     environment:
       DEVICEMONITOR_MONGO_URL: "mongodb://mongo"
       DEVICEMONITOR_WORKFLOWS_URL: http://workflows:8080
@@ -92,7 +94,10 @@ services:
     image: ${MENDER_IMAGE_REGISTRY:-registry.mender.io}/${MENDER_IMAGE_REPOSITORY:-mender-server-enterprise}/generate-delta-worker:${MENDER_IMAGE_TAG:-latest}
     restart: on-failure:3
     depends_on:
-      - workflows
+      mongo:
+        condition: service_healthy
+      nats:
+        condition: service_started
     environment:
       GENERATE_DELTA_DELPOYMENTS_URL: http://deployments:8080
       WORKFLOWS_MONGO_URL: "mongodb://mongo"
@@ -133,7 +138,8 @@ services:
     restart: on-failure:3
     command: [server, --automigrate]
     depends_on:
-      - mongo
+      mongo:
+        condition: service_healthy
     environment:
       TENANTADM_MONGO: "mongodb://mongo"
       TENANTADM_ORCHESTRATOR_ADDR: http://workflows:8080/

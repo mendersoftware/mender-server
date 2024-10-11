@@ -25,7 +25,7 @@ services:
     command: [server, --automigrate]
     depends_on:
       mongo:
-        condition: service_started
+        condition: service_healthy
       s3:
         condition: service_healthy
     environment:
@@ -66,7 +66,8 @@ services:
     restart: on-failure:3
     command: [server, --automigrate]
     depends_on:
-      - mongo
+      mongo:
+        condition: service_healthy
     environment:
       DEVICEAUTH_INVENTORY_ADDR: http://inventory:8080
       DEVICEAUTH_ORCHESTRATOR_ADDR: http://workflows:8080
@@ -102,7 +103,8 @@ services:
       DEVICECONFIG_WORKFLOWS_URL: http://workflows:8080
       DEVICECONFIG_MONGO_URL: "mongodb://mongo"
     depends_on:
-      - mongo
+      mongo:
+        condition: service_healthy
     labels:
       traefik.enable: "true"
       traefik.http.services.deviceconfig.loadBalancer.server.port: "8080"
@@ -126,8 +128,10 @@ services:
     restart: on-failure:3
     command: [server, --automigrate]
     depends_on:
-      - mongo
-      - nats
+      mongo:
+        condition: service_healthy
+      nats:
+        condition: service_started
     environment:
       DEVICECONNECT_INVENTORY_URI: http://inventory:8080
       DEVICECONNECT_WORKFLOWS_URL: http://workflows:8080
@@ -182,7 +186,8 @@ services:
     restart: on-failure:3
     command: [server, --automigrate]
     depends_on:
-      - mongo
+      mongo:
+        condition: service_healthy
     environment:
       INVENTORY_DEVICEMONITOR_ADDR: http://devicemonitor:8080
       INVENTORY_ORCHESTRATOR_ADDR: http://workflows:8080
@@ -222,7 +227,8 @@ services:
     restart: on-failure:3
     command: [server, --automigrate]
     depends_on:
-      - mongo
+      mongo:
+        condition: service_healthy
     environment:
       IOT_MANAGER_DEVICEAUTH_URL: "http://deviceauth:8080"
       IOT_MANAGER_WORKFLOWS_URL: "http://workflows:8080"
@@ -247,7 +253,8 @@ services:
     restart: on-failure:3
     command: [server, --automigrate]
     depends_on:
-      - mongo
+      mongo:
+        condition: service_healthy
     environment:
       USERADM_MONGO: "mongodb://mongo"
       USERADM_SERVER_PRIV_KEY_PATH: "/etc/useradm/private.pem"
@@ -278,7 +285,10 @@ services:
     restart: on-failure:3
     command: ["worker"]
     depends_on:
-      - workflows
+      mongo:
+        condition: service_healthy
+      nats:
+        condition: service_started
     environment:
       WORKFLOWS_MONGO_URL: "mongodb://mongo"
       WORKFLOWS_NATS_URI: "nats://nats"
@@ -301,8 +311,10 @@ services:
     restart: on-failure:3
     command: [server, --automigrate]
     depends_on:
-      - mongo
-      - nats
+      mongo:
+        condition: service_healthy
+      nats:
+        condition: service_started
     environment:
       WORKFLOWS_MONGO_URL: "mongodb://mongo"
       WORKFLOWS_NATS_URI: "nats://nats"
@@ -345,8 +357,20 @@ services:
 
   mongo:
     image: mongo:6.0
+    command: [--replSet, mender]
     volumes:
       - mongo:/data/db
+      - ./compose/initdb:/docker-entrypoint-initdb.d
+    healthcheck:
+      start_period: 1m
+      start_interval: 1s
+      test:
+        - CMD
+        - /usr/bin/mongosh
+        - --eval
+        - rs.status()
+      interval: 1m30s
+      timeout: 10s
     networks:
       default:
         aliases: [mender-mongo]
@@ -378,6 +402,5 @@ configs:
         "UpdatePollIntervalSeconds": 5,
         "TenantToken": "${TENANT_TOKEN:-}"
       }
-
 volumes:
   mongo: {}
