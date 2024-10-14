@@ -359,7 +359,7 @@ services:
   mongo:
     image: mongo:6.0
     volumes:
-      - mongo:/data
+      - mongo:/data/db
     networks:
       default:
         aliases: [mender-mongo]
