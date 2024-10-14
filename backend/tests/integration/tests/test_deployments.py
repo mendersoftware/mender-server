@@ -699,6 +699,102 @@ def try_update(
 
 
 class _TestDeploymentsBase(object):
+    def do_test_listing_deployments(self, clean_mongo, user_token, devs):
+        api_dep_v2 = ApiClient(deployments_v2.URL_MGMT)
+        api_mgmt_dep = ApiClient(deployments.URL_MGMT)
+
+        # let's create deployments every 4s, so we can then try to use
+        # created_before and created_after search filters
+        creation_sleep_s = 4
+        created_at_by_time = {}
+        created_at_by_name = {}
+        name_prefix = "phaseddeployment"
+        for i in ["1", "2", "3", "4", "5"]:
+            deployment_req = {
+                "name": name_prefix + i,
+                "artifact_name": "deployments-phase-testing",
+                "devices": [dev.id for dev in devs],
+            }
+            api_mgmt_dep.with_auth(user_token).call(
+                "POST", deployments.URL_DEPLOYMENTS, deployment_req
+            )
+            created_at_by_time[time.time()] = i
+            created_at_by_name[i] = int(time.time())
+            time.sleep(creation_sleep_s)
+
+        resp = api_dep_v2.with_auth(user_token).call("GET", "/deployments")
+        assert resp.status_code == 200
+        assert len(resp.json()) == 5
+
+        q = ""
+        for i in ["1", "2", "3", "4", "5"]:
+            q = q + "&name=" + name_prefix + i
+        q = q.lstrip("&")
+
+        # multiple names in the query
+        resp = api_dep_v2.with_auth(user_token).call("GET", "/deployments" + "?" + q)
+        assert resp.status_code == 200
+        assert len(resp.json()) == 5
+
+        q = ""
+        for j in ["1", "2", "3", "4", "5"]:
+            q = q + "&name=" + name_prefix + j
+        q = q.lstrip("&")
+        for page in ["1", "2", "3", "4", "5"]:
+            resp = api_dep_v2.with_auth(user_token).call(
+                "GET", "/deployments" + "?" + q + "&per_page=1&page=" + page
+            )
+            assert resp.status_code == 200
+            assert len(resp.json()) == 1
+
+        # created_after query parameter
+        resp = api_dep_v2.with_auth(user_token).call(
+            "GET", "/deployments" + "?created_after=" + str(created_at_by_name["2"])
+        )
+        assert resp.status_code == 200
+        assert len(resp.json()) == 4
+
+        # created_before query parameter
+        resp = api_dep_v2.with_auth(user_token).call(
+            "GET", "/deployments" + "?created_before=" + str(created_at_by_name["4"])
+        )
+        assert resp.status_code == 200
+        assert len(resp.json()) == 3
+
+        # per_page query parameter
+        resp = api_dep_v2.with_auth(user_token).call(
+            "GET", "/deployments" + "?per_page=1"
+        )
+        assert resp.status_code == 200
+        assert len(resp.json()) == 1
+
+        # per_page and page query parameters
+        resp = api_dep_v2.with_auth(user_token).call(
+            "GET", "/deployments" + "?page=2&per_page=1"
+        )
+        assert resp.status_code == 200
+        assert len(resp.json()) == 1
+
+        # per_page query parameter
+        resp = api_dep_v2.with_auth(user_token).call(
+            "GET", "/deployments" + "?per_page=1"
+        )
+        assert resp.status_code == 200
+        assert len(resp.json()) == 1
+
+        # per_page query parameter
+        resp = api_dep_v2.with_auth(user_token).call(
+            "GET", "/deployments" + "?per_page=500"
+        )
+        assert resp.status_code == 200
+        assert len(resp.json()) == 5
+
+        # per_page query parameter
+        resp = api_dep_v2.with_auth(user_token).call(
+            "GET", "/deployments" + "?per_page=18446744073709551617"
+        )
+        assert resp.status_code == 400
+
     def do_test_regular_deployment(self, clean_mongo, user_token, devs):
         api_mgmt_dep = ApiClient(deployments.URL_MGMT)
 
@@ -745,6 +841,10 @@ class TestDeploymentOpenSource(_TestDeploymentsBase):
     def test_regular_deployment(self, clean_mongo):
         _user, user_token, devs = setup_devices_and_management_st(5)
         self.do_test_regular_deployment(clean_mongo, user_token, devs)
+
+    def test_listing_deployments(self, clean_mongo):
+        _user, user_token, devs = setup_devices_and_management_st(5)
+        self.do_test_listing_deployments(clean_mongo, user_token, devs)
 
 
 @pytest.mark.storage_test
