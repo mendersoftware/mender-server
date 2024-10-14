@@ -194,6 +194,7 @@ services:
       INVENTORY_DEVICEMONITOR_ADDR: http://devicemonitor:8080
       INVENTORY_ORCHESTRATOR_ADDR: http://workflows:8080
       INVENTORY_MONGO: mongodb://mongo
+      INVENTORY_NATS_URI: "nats://nats"
     labels:
       traefik.enable: "true"
       traefik.http.services.inventory.loadBalancer.server.port: "8080"
@@ -237,6 +238,7 @@ services:
       IOT_MANAGER_DEVICEAUTH_URL: "http://deviceauth:8080"
       IOT_MANAGER_WORKFLOWS_URL: "http://workflows:8080"
       IOT_MANAGER_MONGO_URL: "mongodb://mongo"
+      IOT_MANAGER_NATS_URI: "nats://nats"
     labels:
       traefik.enable: "true"
       traefik.http.services.iot-manager.loadBalancer.server.port: "8080"
