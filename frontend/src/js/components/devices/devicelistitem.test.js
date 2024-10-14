@@ -20,7 +20,7 @@ import DeviceListItem from './devicelistitem';
 describe('DeviceListItem Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(
-      <DeviceListItem columnHeaders={[{ render: item => item }]} device={{ id: 1 }} deviceListState={{}} idAttribute="id" selectable />
+      <DeviceListItem columnHeaders={[{ render: item => item }]} listItem={{ id: 1 }} listState={{}} idAttribute="id" selectable />
     );
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();

@@ -29,9 +29,9 @@ describe('DeviceList Component', () => {
         columnHeaders={[{ name: 1 }, { name: 2 }, { name: 3 }, { name: 4 }]}
         customColumnSizes={[]}
         devices={[]}
-        deviceListState={defaultState.devices.deviceList}
+        onResizeColumns={() => {}}
+        deviceListState={{ ...defaultState.devices.deviceList, total: 50 }}
         onPageChange={jest.fn}
-        pageTotal={50}
       />
     );
     // special snapshot handling here to work around unstable ids in mui code...
