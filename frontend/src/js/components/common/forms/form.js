@@ -15,6 +15,7 @@ import React, { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { Button } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
 import validator from 'validator';
 
@@ -106,11 +107,17 @@ export const runValidations = ({ required, value, id, validations, wasMaybeTouch
   return { isValid, errortext };
 };
 
+const useStyles = makeStyles()(theme => ({
+  buttonWrapper: { display: 'flex', justifyContent: 'flex-end', height: 'min-content', marginTop: theme.spacing(4) },
+  cancelButton: { marginRight: theme.spacing() }
+}));
+
 export const Form = ({
   autocomplete,
   buttonColor,
   children,
   className = '',
+  classes = { buttonWrapper: '', cancelButton: '' },
   defaultValues = {},
   handleCancel,
   id,
@@ -119,6 +126,7 @@ export const Form = ({
   showButtons,
   submitLabel
 }) => {
+  const { classes: internalClasses } = useStyles();
   const methods = useForm({ mode: 'onChange', defaultValues });
   const {
     handleSubmit,
@@ -136,9 +144,9 @@ export const Form = ({
       <form autoComplete={autocomplete} className={className} id={id} noValidate onSubmit={handleSubmit(onSubmit)}>
         {children}
         {!!showButtons && (
-          <div className="flexbox" style={{ justifyContent: 'flex-end', height: 'min-content', marginTop: 32 }}>
+          <div className={`button-wrapper ${internalClasses.buttonWrapper} ${classes.buttonWrapper}`}>
             {!!handleCancel && (
-              <Button key="cancel" onClick={handleCancel} style={{ marginRight: 10, display: 'inline-block' }}>
+              <Button className={`${internalClasses.cancelButton} ${classes.cancelButton}`} key="cancel" onClick={handleCancel}>
                 Cancel
               </Button>
             )}
