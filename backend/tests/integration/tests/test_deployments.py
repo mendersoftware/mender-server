@@ -17,6 +17,7 @@ import os
 import random
 import time
 import uuid
+import logging
 
 from datetime import datetime, timedelta
 
@@ -47,6 +48,7 @@ from testutils.infra.container_manager.kubernetes_manager import isK8S
 
 WAITING_MULTIPLIER = 8 if isK8S() else 1
 WAITING_TIME_K8S = 5.0
+logger = logging.getLogger("test_deployments")
 
 
 def upload_image(filename, auth_token, description="abc"):
@@ -699,6 +701,134 @@ def try_update(
 
 
 class _TestDeploymentsBase(object):
+    def do_test_listing_deployments(self, clean_mongo, user_token, devs):
+        api_dep_v2 = ApiClient(deployments_v2.URL_MGMT)
+        api_mgmt_dep = ApiClient(deployments.URL_MGMT)
+
+        # let's create deployments every 4s, so we can then try to use
+        # created_before and created_after search filters
+        creation_sleep_s = 4
+        created_at_by_time = {}
+        created_at_by_name = {}
+        created_at_by_id = {}
+        ids_by_name = {}
+        name_prefix = "phaseddeployment"
+        for i in ["1", "2", "3", "4", "5"]:
+            deployment_req = {
+                "name": name_prefix + i,
+                "artifact_name": "deployments-phase-testing",
+                "devices": [dev.id for dev in devs],
+            }
+            r = api_mgmt_dep.with_auth(user_token).call(
+                "POST", deployments.URL_DEPLOYMENTS, deployment_req
+            )
+            created_at_by_time[time.time()] = i
+            created_at_by_name[i] = int(time.time())
+            deployment_id = os.path.basename(r.headers["Location"])
+            assert len(deployment_id) != 0
+            deployment_id = deployment_id.rsplit("/", 1)[-1]
+            logger.info(f"created deployment: {deployment_id}")
+            created_at_by_id[deployment_id] = created_at_by_name[i]
+            ids_by_name[name_prefix + i] = deployment_id
+            time.sleep(creation_sleep_s)
+
+        resp = api_dep_v2.with_auth(user_token).call("GET", "/deployments")
+        assert resp.status_code == 200
+        assert len(resp.json()) == 5
+        assert len(resp.json()) == int(resp.headers["X-Total-Count"])
+
+        q = ""
+        for i in ["1", "2", "3", "4", "5"]:
+            q = q + "&name=" + name_prefix + i
+        q = q.lstrip("&")
+
+        # multiple names in the query
+        resp = api_dep_v2.with_auth(user_token).call("GET", "/deployments" + "?" + q)
+        assert resp.status_code == 200
+        assert len(resp.json()) == 5
+        assert len(resp.json()) == int(resp.headers["X-Total-Count"])
+
+        q = ""
+        for j in ["1", "2", "3", "4", "5"]:
+            q = q + "&name=" + name_prefix + j
+        q = q.lstrip("&")
+        for page in ["1", "2", "3", "4", "5"]:
+            resp = api_dep_v2.with_auth(user_token).call(
+                "GET", "/deployments" + "?" + q + "&per_page=1&page=" + page
+            )
+            assert resp.status_code == 200
+            assert len(resp.json()) == 1
+
+        # created_after query parameter
+        resp = api_dep_v2.with_auth(user_token).call(
+            "GET", "/deployments" + "?created_after=" + str(created_at_by_name["2"])
+        )
+        assert resp.status_code == 200
+        assert len(resp.json()) == 4
+        assert len(resp.json()) == int(resp.headers["X-Total-Count"])
+
+        # the deployments "2", "3", "4", "5" should be in the response
+        for j in ["2", "3", "4", "5"]:
+            existing_id = ids_by_name[name_prefix + j]
+            found = False
+            for d in resp.json():
+                if d["id"] == existing_id:
+                    found = True
+                    break
+            assert found
+
+        # created_before query parameter
+        resp = api_dep_v2.with_auth(user_token).call(
+            "GET", "/deployments" + "?created_before=" + str(created_at_by_name["4"])
+        )
+        assert resp.status_code == 200
+        assert len(resp.json()) == 3
+        assert len(resp.json()) == int(resp.headers["X-Total-Count"])
+
+        # per_page query parameter
+        resp = api_dep_v2.with_auth(user_token).call(
+            "GET", "/deployments" + "?per_page=1"
+        )
+        assert resp.status_code == 200
+        assert len(resp.json()) == 1
+        assert 5 == int(resp.headers["X-Total-Count"])
+
+        # per_page and page query parameters
+        resp = api_dep_v2.with_auth(user_token).call(
+            "GET", "/deployments" + "?page=2&per_page=1"
+        )
+        assert resp.status_code == 200
+        assert len(resp.json()) == 1
+        assert 5 == int(resp.headers["X-Total-Count"])
+
+        # per_page query parameter
+        resp = api_dep_v2.with_auth(user_token).call(
+            "GET", "/deployments" + "?per_page=1"
+        )
+        assert resp.status_code == 200
+        assert len(resp.json()) == 1
+        assert 5 == int(resp.headers["X-Total-Count"])
+
+        # per_page query parameter
+        resp = api_dep_v2.with_auth(user_token).call(
+            "GET", "/deployments" + "?per_page=500"
+        )
+        assert resp.status_code == 200
+        assert len(resp.json()) == 5
+        assert 5 == int(resp.headers["X-Total-Count"])
+
+        # per_page query parameter
+        resp = api_dep_v2.with_auth(user_token).call(
+            "GET", "/deployments" + "?per_page=18446744073709551617"
+        )
+        assert resp.status_code == 400
+
+        # page query parameter
+        resp = api_dep_v2.with_auth(user_token).call(
+            "GET", "/deployments" + "?page=18446744073709551617"
+        )
+        assert resp.status_code == 400
+
     def do_test_regular_deployment(self, clean_mongo, user_token, devs):
         api_mgmt_dep = ApiClient(deployments.URL_MGMT)
 
@@ -745,6 +875,10 @@ class TestDeploymentOpenSource(_TestDeploymentsBase):
     def test_regular_deployment(self, clean_mongo):
         _user, user_token, devs = setup_devices_and_management_st(5)
         self.do_test_regular_deployment(clean_mongo, user_token, devs)
+
+    def test_listing_deployments(self, clean_mongo):
+        _user, user_token, devs = setup_devices_and_management_st(5)
+        self.do_test_listing_deployments(clean_mongo, user_token, devs)
 
 
 @pytest.mark.storage_test
