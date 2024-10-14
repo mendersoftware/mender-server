@@ -58,7 +58,7 @@ const (
 // App interface describes app objects
 //
 //nolint:lll
-//go:generate ../utils/mockgen.sh
+//go:generate ../../../utils/mockgen.sh
 type App interface {
 	WithIoTCore(client iotcore.Client) App
 	WithIoTHub(client iothub.Client) App

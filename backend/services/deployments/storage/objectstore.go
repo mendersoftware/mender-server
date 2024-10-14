@@ -29,7 +29,7 @@ var (
 
 // ObjectStorage allows to store and manage large files
 //
-//go:generate ../utils/mockgen.sh
+//go:generate ../../../utils/mockgen.sh
 type ObjectStorage interface {
 	HealthCheck(ctx context.Context) error
 	GetObject(ctx context.Context, path string) (io.ReadCloser, error)

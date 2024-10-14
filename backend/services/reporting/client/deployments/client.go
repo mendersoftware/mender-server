@@ -37,7 +37,7 @@ const (
 	defaultTimeout          = 10 * time.Second
 )
 
-//go:generate ../../x/mockgen.sh
+//go:generate ../../../../utils/mockgen.sh
 type Client interface {
 	// GetDeployments retrieves a list of deployments by ID
 	GetDeployments(

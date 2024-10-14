@@ -35,7 +35,7 @@ const (
 	defaultTimeout = 10 * time.Second
 )
 
-//go:generate ../../x/mockgen.sh
+//go:generate ../../../../utils/mockgen.sh
 type Client interface {
 	//GetDevices uses the search endpoint to get devices just by ids (not filters)
 	GetDevices(

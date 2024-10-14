@@ -41,7 +41,7 @@ const (
 
 // Client is the reporting client
 //
-//go:generate ../../utils/mockgen.sh
+//go:generate ../../../../utils/mockgen.sh
 type Client interface {
 	CheckHealth(ctx context.Context) error
 	Search(

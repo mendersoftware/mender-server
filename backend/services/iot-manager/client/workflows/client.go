@@ -42,7 +42,7 @@ const (
 
 // Client is the workflows client
 //
-//go:generate ../../utils/mockgen.sh
+//go:generate ../../../../utils/mockgen.sh
 type Client interface {
 	CheckHealth(ctx context.Context) error
 	ProvisionExternalDevice(ctx context.Context, devID string, config map[string]string) error

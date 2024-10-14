@@ -53,7 +53,7 @@ type UnsubscribeFunc func() error
 
 // Client is the nats client
 //
-//go:generate ../../x/mockgen.sh
+//go:generate ../../../../utils/mockgen.sh
 type Client interface {
 	Close()
 	IsConnected() bool

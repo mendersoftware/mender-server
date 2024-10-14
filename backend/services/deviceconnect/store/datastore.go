@@ -25,7 +25,7 @@ import (
 // DataStore interface for DataStore services
 //
 //nolint:lll - skip line length check for interface declaration.
-//go:generate ../utils/mockgen.sh
+//go:generate ../../../utils/mockgen.sh
 type DataStore interface {
 	Ping(ctx context.Context) error
 	ProvisionDevice(ctx context.Context, tenantID string, deviceID string) error

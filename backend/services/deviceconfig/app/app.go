@@ -37,7 +37,7 @@ var (
 // App interface describes app objects
 //
 //nolint:lll
-//go:generate ../x/mockgen.sh
+//go:generate ../../../utils/mockgen.sh
 type App interface {
 	HealthCheck(ctx context.Context) error
 

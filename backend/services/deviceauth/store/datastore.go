@@ -54,7 +54,7 @@ type AuthSetFilter struct {
 // MapFunc is applied to.
 type MapFunc func(dbCtx context.Context) error
 
-//go:generate ../utils/mockgen.sh
+//go:generate ../../../utils/mockgen.sh
 type DataStore interface {
 	// ForEachTenant loops over all tenants and applies opFunc with
 	// for the existing database. If opFunc returns an error for one of

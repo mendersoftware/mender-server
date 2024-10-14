@@ -35,7 +35,7 @@ var (
 	ErrWriteConflict = errors.New("write conflict")
 )
 
-//go:generate ../utils/mockgen.sh
+//go:generate ../../../utils/mockgen.sh
 type DataStore interface {
 	Ping(ctx context.Context) error
 

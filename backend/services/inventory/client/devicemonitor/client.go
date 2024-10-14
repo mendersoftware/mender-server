@@ -36,7 +36,7 @@ const (
 
 // Client is the devicemonitor client
 //
-//go:generate ../../utils/mockgen.sh
+//go:generate ../../../../utils/mockgen.sh
 type Client interface {
 	CheckAlerts(c context.Context, device string) (int, error)
 }
