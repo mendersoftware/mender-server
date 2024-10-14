@@ -26,7 +26,7 @@ import (
 	"github.com/mendersoftware/mender-server/services/reporting/store"
 )
 
-//go:generate ../../x/mockgen.sh
+//go:generate ../../../../utils/mockgen.sh
 type Indexer interface {
 	GetJobs(ctx context.Context, jobs chan model.Job) error
 	ProcessJobs(ctx context.Context, jobs []model.Job)

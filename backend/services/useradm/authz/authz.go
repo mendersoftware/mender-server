@@ -31,7 +31,7 @@ var (
 // Authorizer defines the interface for checking the permissions of a given user(token) vs an action
 // on a resource.
 //
-//go:generate ../utils/mockgen.sh
+//go:generate ../../../utils/mockgen.sh
 type Authorizer interface {
 	// Authorize checks if the given user (identified by token) has permissions to an action on a
 	// resource.

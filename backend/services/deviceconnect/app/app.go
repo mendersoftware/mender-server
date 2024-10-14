@@ -40,7 +40,7 @@ var (
 // App interface describes app objects
 //
 //nolint:lll
-//go:generate ../utils/mockgen.sh
+//go:generate ../../../utils/mockgen.sh
 type App interface {
 	HealthCheck(ctx context.Context) error
 	ProvisionDevice(ctx context.Context, tenantID string, device *model.Device) error

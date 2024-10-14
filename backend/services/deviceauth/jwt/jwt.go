@@ -35,7 +35,7 @@ const (
 
 // Handler jwt generator/verifier
 //
-//go:generate ../utils/mockgen.sh
+//go:generate ../../../utils/mockgen.sh
 type Handler interface {
 	ToJWT(t *Token) (string, error)
 	// FromJWT parses the token

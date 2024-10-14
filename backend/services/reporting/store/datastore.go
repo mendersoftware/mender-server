@@ -23,7 +23,7 @@ import (
 // DataStore interface for DataStore services
 //
 //nolint:lll - skip line length check for interface declaration.
-//go:generate ../x/mockgen.sh
+//go:generate ../../../utils/mockgen.sh
 type DataStore interface {
 	Ping(ctx context.Context) error
 	Close(ctx context.Context) error

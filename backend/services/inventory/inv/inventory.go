@@ -41,7 +41,7 @@ var (
 
 // this inventory service interface
 //
-//go:generate ../utils/mockgen.sh
+//go:generate ../../../utils/mockgen.sh
 type InventoryApp interface {
 	WithReporting(c workflows.Client) InventoryApp
 	HealthCheck(ctx context.Context) error

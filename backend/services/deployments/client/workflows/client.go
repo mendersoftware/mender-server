@@ -52,7 +52,7 @@ type DeviceDeploymentShortInfo struct {
 
 // Client is the workflows client
 //
-//go:generate ../../utils/mockgen.sh
+//go:generate ../../../../utils/mockgen.sh
 type Client interface {
 	CheckHealth(ctx context.Context) error
 	StartGenerateArtifact(

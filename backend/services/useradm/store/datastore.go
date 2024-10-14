@@ -37,7 +37,7 @@ var (
 	ErrETagMismatch = errors.New("ETag doesn't match")
 )
 
-//go:generate ../utils/mockgen.sh
+//go:generate ../../../utils/mockgen.sh
 type DataStore interface {
 	// Ping the storage service - verifying network connection.
 	Ping(ctx context.Context) error

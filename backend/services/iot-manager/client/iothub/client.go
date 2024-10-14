@@ -60,7 +60,7 @@ const (
 )
 
 //nolint:lll
-//go:generate ../../utils/mockgen.sh
+//go:generate ../../../../utils/mockgen.sh
 type Client interface {
 	GetDeviceTwins(ctx context.Context, cs *model.ConnectionString, deviceIDs []string) ([]DeviceTwin, error)
 	GetDeviceTwin(ctx context.Context, cs *model.ConnectionString, id string) (*DeviceTwin, error)

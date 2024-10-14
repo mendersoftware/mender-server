@@ -56,7 +56,7 @@ type Config struct {
 
 // ClientRunner is an interface of orchestrator client
 //
-//go:generate ../../utils/mockgen.sh
+//go:generate ../../../../utils/mockgen.sh
 type ClientRunner interface {
 	CheckHealth(ctx context.Context) error
 	SubmitDeviceDecommisioningJob(ctx context.Context, req DecommissioningReq) error

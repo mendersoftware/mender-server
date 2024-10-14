@@ -28,7 +28,7 @@ import (
 	"github.com/mendersoftware/mender-server/services/reporting/store"
 )
 
-//go:generate ../../x/mockgen.sh
+//go:generate ../../../../utils/mockgen.sh
 type App interface {
 	HealthCheck(ctx context.Context) error
 	GetMapping(ctx context.Context, tid string) (*model.Mapping, error)
