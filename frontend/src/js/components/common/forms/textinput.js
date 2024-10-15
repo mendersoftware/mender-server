@@ -27,6 +27,7 @@ export const TextInput = ({
   hint,
   id,
   InputLabelProps = {},
+  InputProps = {},
   label,
   required,
   type,
@@ -77,6 +78,7 @@ export const TextInput = ({
             placeholder={hint}
             required={required}
             type={type}
+            {...InputProps}
           />
           <FormHelperText>{(errors[errorKey] || error)?.message}</FormHelperText>
         </FormControl>
