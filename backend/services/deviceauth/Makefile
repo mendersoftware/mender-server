@@ -1,5 +1,5 @@
 COMPONENT := deviceauth
 
-TESTFLAGS := -p 1
+override TESTFLAGS := $(TESTFLAGS) -p 1
 
 include ../Makefile.common
