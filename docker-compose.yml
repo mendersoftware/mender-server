@@ -341,7 +341,8 @@ services:
       - --providers.docker=true
       - --providers.docker.exposedByDefault=false
     volumes:
-      - ./compose/config/traefik.middlewares.yaml:/etc/traefik/config/traefik.middlewares.yaml:ro
+      - ./compose/config/traefik:/etc/traefik/config:ro
+      - ./compose/certs:/etc/traefik/certs:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     ports:
       - 443:443
