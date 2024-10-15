@@ -26,14 +26,14 @@ services:
       s3fs:
         condition: service_healthy
     environment:
-      DEPLOYMENTS_PRESIGN_URL_HOSTNAME: "localhost"
+      DEPLOYMENTS_PRESIGN_URL_HOSTNAME: "mender.local"
       DEPLOYMENTS_PRESIGN_SECRET: "aW5zZWN1cmUgc2VjcmV0"
       DEPLOYMENTS_INVENTORY_ADDR: http://inventory:8080
       DEPLOYMENTS_MENDER_WORKFLOWS: http://workflows:8080
       DEPLOYMENTS_MONGO_URL: "mongodb://mongo"
       DEPLOYMENTS_STORAGE_BUCKET: "mender"
       DEPLOYMENTS_AWS_URI: "http://s3fs:8333"
-      DEPLOYMENTS_AWS_EXTERNAL_URI: "https://s3.localhost"
+      DEPLOYMENTS_AWS_EXTERNAL_URI: "https://s3.mender.local"
       DEPLOYMENTS_AWS_AUTH_KEY: "mender"
       DEPLOYMENTS_AWS_AUTH_SECRET: "thisisnotsecure"
     labels:
@@ -304,7 +304,7 @@ services:
       IOT_MANAGER_ADDR: iot-manager:8080
       USERADM_ADDR: useradm:8080
       WORKFLOWS_SERVER_ADDR: workflows:8080
-      WOKRFLOWS_MENDER_URL: https://localhost
+      WOKRFLOWS_MENDER_URL: https://mender.local
       HAVE_DEVICECONFIG: "1"
 
   workflows:
@@ -349,7 +349,12 @@ services:
       - 80:80
     networks:
       default:
-        aliases: [s3.localhost]
+        aliases:
+          - s3.localhost
+          - mender.local
+          - s3.mender.local
+          - docker.mender.io
+          - s3.docker.mender.io
 
   mongo:
     image: mongo:6.0
@@ -374,7 +379,7 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.routers.s3fs.priority: "99999"
-      traefik.http.routers.s3fs.rule: Host(`s3.localhost`) || Host(`s3.docker.mender.io`)
+      traefik.http.routers.s3fs.rule: HostRegexp(`s3\..*`)
       traefik.http.services.s3fs.loadBalancer.server.port: "8333"
     command: [server -s3 -s3.config /etc/seaweedfs/s3.conf]
     healthcheck:
@@ -385,6 +390,27 @@ services:
         - "127.0.0.1"
         - "8333"
       retries: 10
+
+  client:
+    image: mendersoftware/mender-client-docker-addons:mender-master
+    scale: 0
+    configs:
+      - source: client_json
+        target: /etc/mender/mender.conf
+    volumes:
+      - ./compose/certs/mender.crt:/var/lib/mender/mender.crt
+
+configs:
+  client_json:
+    content: |
+      {
+        "InventoryPollIntervalSeconds": 5,
+        "RetryPollIntervalSeconds": 5,
+        "ServerURL": "${SERVER_URL:-https://mender.local}",
+        "ServerCertificate": "/var/lib/mender/mender.crt",
+        "UpdatePollIntervalSeconds": 5,
+        "TenantToken": "${TENANT_TOKEN:-}"
+      }
 
 volumes:
   s3: {}
