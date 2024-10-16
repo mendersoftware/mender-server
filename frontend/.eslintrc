@@ -21,7 +21,8 @@
     "tsconfigRootDir": "./"
   },
   "globals": {
-    "mender_environment": "readonly"
+    "mender_environment": "readonly",
+    "NodeJS": true
   },
   "plugins": ["react", "prettier", "sonarjs", "@typescript-eslint", "import"],
   "rules": {
