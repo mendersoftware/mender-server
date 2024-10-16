@@ -434,4 +434,8 @@ exports[`Helptooltips Components renders TwoFactorNote correctly 1`] = `
 </div>
 `;
 
-exports[`Helptooltips Components renders Webhooks correctly 1`] = `Webhooks are triggered when a device's status is updated, or a device is decommissioned or provisioned.`;
+exports[`Helptooltips Components renders WebhookEvents correctly 1`] = `You can select which type(s) of events the webhook will receive. Device authentication includes when devices are provisioned, decommissioned, or authentication status changes.`;
+
+exports[`Helptooltips Components renders WebhookSecret correctly 1`] = `The secret is used for signing the requests sent to your webhook, to verify their authenticity. It is optional, but highly recommended for security. The secret must be a hexidecimal string (including only characters from A-F and 0-9).`;
+
+exports[`Helptooltips Components renders Webhooks correctly 1`] = `Use webhooks to send data about device lifecycle events to third-party systems. Currently you can only have one integration set up at a time.`;
