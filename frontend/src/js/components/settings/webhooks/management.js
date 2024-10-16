@@ -11,46 +11,151 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 // material ui
-import { Close as CloseIcon } from '@mui/icons-material';
-import { Button, Divider, Drawer, IconButton, Tab, Tabs } from '@mui/material';
+import { Circle as CircleIcon, Close as CloseIcon } from '@mui/icons-material';
+import { Button, Divider, Drawer, IconButton, Slide } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
-import { emptyWebhook } from '@northern.tech/store/constants';
+import actions from '@northern.tech/store/actions';
+import { EXTERNAL_PROVIDER, emptyWebhook } from '@northern.tech/store/constants';
+import { getTenantCapabilities, getWebhookEventInfo } from '@northern.tech/store/selectors';
+import { getWebhookEvents } from '@northern.tech/store/thunks';
 
+import { TwoColumnData } from '../../common/configurationobject';
+import DetailsIndicator from '../../common/detailsindicator';
+import Time from '../../common/time';
 import WebhookActivity from './activity';
-import WebhookConfiguration from './configuration';
+import { availableScopes } from './configuration';
+import WebhookEventDetails from './eventdetails';
 
-const tabs = ['settings', 'activity'];
+const { setSnackbar } = actions;
 
-export const WebhookManagement = ({ adding, editing, events, eventTotal, getWebhookEvents, onCancel, onSubmit, onRemove, webhook = { ...emptyWebhook } }) => {
-  const [currentTab, setCurrentTab] = useState(tabs[0]);
+const useStyles = makeStyles()(theme => ({
+  divider: { marginTop: theme.spacing(), marginBottom: theme.spacing() },
+  statusIcon: { fontSize: 12, marginRight: theme.spacing() },
+  twoColumnsMultiple: {
+    gridTemplateColumns: 'max-content 1fr',
+    marginBottom: theme.spacing(2),
+    marginTop: theme.spacing(2),
+    maxWidth: 'initial'
+  },
+  wrapper: { justifyContent: 'end' }
+}));
+
+const triggerMap = {
+  'device-decommissioned': 'Device decommissioned',
+  'device-provisioned': 'Device provisioned',
+  'device-status-changed': 'Device status updated'
+};
+
+const DeliveryStatus = ({ entry, webhook = {}, classes }) => {
+  const { delivery_statuses = [] } = entry;
+
+  const status = useMemo(() => {
+    const status = delivery_statuses.find(status => status.integration_id === webhook.id) ?? delivery_statuses[0];
+    if (status) {
+      return { code: status.status_code, signal: status.success ? 'green' : 'red' };
+    }
+    return { code: 418, signal: 'disabled' };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(delivery_statuses), webhook.id]);
 
   return (
-    <Drawer anchor="right" open={adding || editing} PaperProps={{ style: { minWidth: 600, width: '50vw' } }}>
+    <div className="flexbox center-aligned">
+      <CircleIcon className={`${status.signal} ${classes.statusIcon}`} />
+      <div className={status.code >= 400 ? 'muted' : ''}>{status.code}</div>
+    </div>
+  );
+};
+
+const columns = [
+  { key: 'created_ts', title: 'Time', render: entry => <Time value={entry.time} /> },
+  { key: 'trigger', title: 'Event trigger', render: entry => <div className="trigger-type">{triggerMap[entry.type] ?? entry.type}</div> },
+  { key: 'status', title: 'Status', render: (entry, { webhook, classes }) => <DeliveryStatus classes={classes} entry={entry} webhook={webhook} /> },
+  { key: 'details', title: '', render: (_, { classes }) => <DetailsIndicator classes={classes} /> }
+];
+
+export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
+  const [selectedEvent, setSelectedEvent] = useState();
+  const { events, eventTotal } = useSelector(getWebhookEventInfo);
+  const { canDelta: canScopeWebhooks } = useSelector(getTenantCapabilities);
+  const dispatch = useDispatch();
+  const { classes } = useStyles();
+  const containerRef = useRef();
+
+  const dispatchedGetWebhookEvents = useCallback(options => dispatch(getWebhookEvents(options)), [dispatch]);
+  const dispatchedSetSnackbar = useCallback(args => dispatch(setSnackbar(args)), [dispatch]);
+
+  const { description, scopes = [], credentials = {} } = webhook ?? emptyWebhook;
+  const {
+    [EXTERNAL_PROVIDER.webhook.credentialsType]: { url = '', secret = '' }
+  } = credentials;
+
+  const webhookConfig = {
+    'Destination URL': url,
+    'Description': description,
+    'Webhook events': scopes?.length
+      ? scopes.map(scope => availableScopes[scope].title).join(', ')
+      : canScopeWebhooks
+        ? 'Backend information unclear'
+        : availableScopes.deviceauth.title,
+    'Secret': secret
+  };
+
+  const handleBack = () => setSelectedEvent();
+
+  const onCancelClick = () => {
+    setSelectedEvent();
+    onCancel();
+  };
+
+  return (
+    <Drawer anchor="right" open={!!webhook?.id} PaperProps={{ style: { minWidth: 750, width: '60vw' } }}>
       <div className="flexbox margin-bottom-small space-between">
-        <h3>Manage webhook</h3>
+        <h3>Webhook details</h3>
         <div className="flexbox center-aligned">
-          <Button color="secondary" onClick={() => onRemove(webhook)}>
+          <Button className={selectedEvent ? 'muted' : ''} color="secondary" disabled={!!selectedEvent} onClick={() => onRemove(webhook)}>
             delete webhook
           </Button>
-          <IconButton onClick={onCancel} aria-label="close">
+          <IconButton onClick={onCancelClick} aria-label="close">
             <CloseIcon />
           </IconButton>
         </div>
       </div>
       <Divider />
-      <Tabs className="margin-top margin-bottom" value={currentTab} onChange={(e, tab) => setCurrentTab(tab)} textColor="primary">
-        {tabs.map(key => (
-          <Tab key={key} label={<div className="capitalized-start">{key}</div>} value={key} />
-        ))}
-      </Tabs>
-      {currentTab === tabs[0] ? (
-        <WebhookConfiguration adding={adding} editing={editing} onCancel={onCancel} onSubmit={onSubmit} webhook={webhook} />
-      ) : (
-        <WebhookActivity events={events} eventTotal={eventTotal} getWebhookEvents={getWebhookEvents} webhook={webhook} />
-      )}
+      <div className="relative" ref={containerRef}>
+        <Slide in={!selectedEvent} container={containerRef.current} direction="right">
+          <div className="absolute margin-top full-width" style={{ top: 0 }}>
+            <h4>Settings</h4>
+            <TwoColumnData className={classes.twoColumnsMultiple} config={webhookConfig} setSnackbar={dispatchedSetSnackbar} />
+            <h4>Activity</h4>
+            <WebhookActivity
+              classes={classes}
+              columns={columns}
+              events={events}
+              eventTotal={eventTotal}
+              getWebhookEvents={dispatchedGetWebhookEvents}
+              setSelectedEvent={setSelectedEvent}
+              webhook={webhook}
+            />
+          </div>
+        </Slide>
+        <Slide in={!!selectedEvent} container={containerRef.current} direction="left">
+          <div className="absolute margin-top full-width" style={{ top: 0 }}>
+            <WebhookEventDetails
+              classes={classes}
+              columns={columns}
+              entry={selectedEvent}
+              onClickBack={handleBack}
+              setSnackbar={setSnackbar}
+              webhook={webhook}
+            />
+          </div>
+        </Slide>
+      </div>
     </Drawer>
   );
 };
