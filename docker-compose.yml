@@ -352,8 +352,20 @@ services:
 
   mongo:
     image: mongo:6.0
+    command: [--replSet, mender]
     volumes:
       - mongo:/data
+      - ./compose/initdb:/docker-entrypoint-initdb.d
+    healthcheck:
+      start_period: 1m
+      start_interval: 2s
+      test:
+        - CMD
+        - /usr/bin/mongosh
+        - --eval
+        - rs.status()
+      interval: 1m30s
+      timeout: 10s
     networks:
       default:
         aliases: [mender-mongo]
