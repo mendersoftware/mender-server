@@ -11,120 +11,53 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-// material ui
-import { ArrowRightAlt as ArrowRightAltIcon } from '@mui/icons-material';
+import { EXTERNAL_PROVIDER } from '@northern.tech/store/constants';
+import { getWebhooks } from '@northern.tech/store/selectors';
+import { deleteIntegration } from '@northern.tech/store/thunks';
 
-import { EXTERNAL_PROVIDER, emptyWebhook } from '@northern.tech/store/constants';
-import { changeIntegration, createIntegration, deleteIntegration, getIntegrations, getWebhookEvents } from '@northern.tech/store/thunks';
-
+import DetailsIndicator from '../../common/detailsindicator';
 import DetailsTable from '../../common/detailstable';
 import DocsLink from '../../common/docslink';
-import Time from '../../common/time';
 import WebhookManagement from './management';
 
 const columns = [
   { key: 'url', title: 'URL', render: ({ url }) => url },
-  { key: 'status', title: 'Status', render: ({ status }) => status },
-  {
-    key: 'updated_ts',
-    title: 'Last activity',
-    render: ({ updated_ts }) => <Time value={updated_ts} />
-  },
-  {
-    key: 'manage',
-    title: 'Manage',
-    render: () => (
-      <div className="bold flexbox center-aligned link-color margin-right-small uppercased" style={{ whiteSpace: 'nowrap' }}>
-        view details <ArrowRightAltIcon />
-      </div>
-    )
-  }
+  { key: 'description', title: 'Description', render: ({ description }) => description },
+  { key: 'manage', title: 'Manage', render: DetailsIndicator }
 ];
 
-export const Webhooks = ({ webhook = { ...emptyWebhook } }) => {
-  const [adding, setAdding] = useState(false);
-  const [editing, setEditing] = useState(false);
-  const [selectedWebhook, setSelectedWebhook] = useState(webhook);
+export const Webhooks = () => {
+  const [selectedWebhook, setSelectedWebhook] = useState();
+  const webhooks = useSelector(getWebhooks);
   const dispatch = useDispatch();
-  const { events, webhooks } = useSelector(state => {
-    const webhooks = state.organization.externalDeviceIntegrations.filter(
-      integration => integration.id && integration.provider === EXTERNAL_PROVIDER.webhook.provider
-    );
-    const events = webhooks.length ? state.organization.webhooks.events : [];
-    return { events, webhooks };
-  });
-  const eventTotal = useSelector(state => state.organization.webhooks.eventTotal);
 
-  useEffect(() => {
-    dispatch(getIntegrations());
-  }, [dispatch]);
+  const onCancel = () => setSelectedWebhook();
 
-  useEffect(() => {
-    setSelectedWebhook(webhook);
+  const onRemoveClick = () => dispatch(deleteIntegration(selectedWebhook)).then(() => setSelectedWebhook());
+
+  const mappedWebhooks = useMemo(
+    () => webhooks.map(item => ({ ...item, url: item.credentials[EXTERNAL_PROVIDER.webhook.credentialsType].url, status: 'enabled' })),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(webhook)]);
+    [JSON.stringify(webhooks)]
+  );
 
-  const onEdit = item => {
-    setAdding(false);
-    setEditing(true);
-    setSelectedWebhook(item);
-  };
-
-  const onCancel = () => {
-    setAdding(false);
-    setEditing(false);
-  };
-
-  const onSubmit = item => {
-    if (adding) {
-      dispatch(createIntegration(item));
-    } else {
-      dispatch(changeIntegration(item));
-    }
-    setAdding(false);
-    setEditing(false);
-  };
-
-  const onRemoveClick = () => dispatch(deleteIntegration(selectedWebhook));
-
-  const { mappedWebhooks, relevantColumns } = useMemo(() => {
-    const mappedWebhooks = webhooks.map(item => ({ ...item, url: item.credentials[EXTERNAL_PROVIDER.webhook.credentialsType].url, status: 'enabled' }));
-    const relevantColumns = columns.reduce((accu, item) => {
-      if (mappedWebhooks.some(hook => hook[item.key]) || item === columns[columns.length - 1]) {
-        accu.push(item);
-      }
-      return accu;
-    }, []);
-    return { mappedWebhooks, relevantColumns };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(webhooks)]);
-
-  const dispatchedGetWebhookEvents = useCallback(options => dispatch(getWebhookEvents(options)), [dispatch]);
-
+  if (!mappedWebhooks.length) {
+    return null;
+  }
   return (
     <div>
       <h2>Webhooks</h2>
       {webhooks.length ? (
-        <DetailsTable columns={relevantColumns} items={mappedWebhooks} onItemClick={onEdit} />
+        <DetailsTable columns={columns} items={mappedWebhooks} onItemClick={setSelectedWebhook} />
       ) : (
         <div className="flexbox centered">
           No webhooks are configured yet. Learn more about webhooks in our <DocsLink path="server-integration" title="documentation" />
         </div>
       )}
-      <WebhookManagement
-        adding={adding}
-        editing={editing}
-        events={events}
-        eventTotal={eventTotal}
-        getWebhookEvents={dispatchedGetWebhookEvents}
-        onCancel={onCancel}
-        onSubmit={onSubmit}
-        onRemove={onRemoveClick}
-        webhook={selectedWebhook}
-      />
+      <WebhookManagement onCancel={onCancel} onRemove={onRemoveClick} webhook={selectedWebhook} />
     </div>
   );
 };
