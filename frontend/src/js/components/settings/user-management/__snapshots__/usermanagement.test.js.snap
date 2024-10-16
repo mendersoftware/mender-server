@@ -106,7 +106,7 @@ exports[`UserManagement Component renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
+  font-size: 1.1607rem;
 }
 
 .emotion-15 iconButton {
@@ -244,6 +244,27 @@ exports[`UserManagement Component renders correctly 1`] = `
 
 .emotion-18 .MuiChip-deleteIconSmall {
   margin-right: 3px;
+}
+
+.emotion-19 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.3929rem;
+}
+
+.emotion-19 iconButton {
+  margin-right: 8px;
 }
 
 .emotion-20 {
@@ -536,19 +557,18 @@ exports[`UserManagement Component renders correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-10"
         >
           <div
-            class="bold flexbox center-aligned link-color margin-right-small uppercased"
-            style="white-space: nowrap;"
+            class="bold flexbox center-aligned link-color nowrap "
           >
-            view details 
+            View details
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-15"
-              data-testid="ArrowRightAltIcon"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-xsmall  emotion-15"
+              data-testid="ArrowForwardIcon"
               focusable="false"
               viewBox="0 0 24 24"
             >
               <path
-                d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z"
+                d="m12 4-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
               />
             </svg>
           </div>
@@ -567,7 +587,7 @@ exports[`UserManagement Component renders correctly 1`] = `
             class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorDefault MuiChip-outlinedDefault margin-left-small emotion-18"
           >
             <svg
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon MuiChip-iconSmall MuiChip-iconColorDefault emotion-15"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon MuiChip-iconSmall MuiChip-iconColorDefault emotion-19"
               data-testid="CheckIcon"
               focusable="false"
               role="img"
@@ -620,19 +640,18 @@ exports[`UserManagement Component renders correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-10"
         >
           <div
-            class="bold flexbox center-aligned link-color margin-right-small uppercased"
-            style="white-space: nowrap;"
+            class="bold flexbox center-aligned link-color nowrap "
           >
-            view details 
+            View details
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-15"
-              data-testid="ArrowRightAltIcon"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-xsmall  emotion-15"
+              data-testid="ArrowForwardIcon"
               focusable="false"
               viewBox="0 0 24 24"
             >
               <path
-                d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z"
+                d="m12 4-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
               />
             </svg>
           </div>
@@ -647,7 +666,7 @@ exports[`UserManagement Component renders correctly 1`] = `
   >
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon MuiChip-iconMedium MuiChip-iconColorPrimary emotion-15"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon MuiChip-iconMedium MuiChip-iconColorPrimary emotion-19"
       data-testid="AddIcon"
       focusable="false"
       viewBox="0 0 24 24"
