@@ -27,6 +27,13 @@ docker compose exec useradm useradm create-user --username "$MENDER_USERNAME" --
 
 Visit [https://localhost](https://localhost) and sign in using the credentials from the snippet above.
 
+### Adding a virtual client
+
+To add a virtual client with the composition, run the following command:
+```bash
+docker compose run -d client
+```
+
 ### Evaluating Mender enterprise
 
 > [!WARNING]
