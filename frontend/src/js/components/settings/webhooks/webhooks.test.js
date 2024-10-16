@@ -18,7 +18,7 @@ import { EXTERNAL_PROVIDER } from '@northern.tech/store/constants';
 import { defaultState, undefineds, webhookEvents } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
 import Activity from './activity';
-import { WebhookCreation } from './configuration';
+import WebhookConfiguration from './configuration';
 import Management from './management';
 import Webhooks from './webhooks';
 
@@ -64,7 +64,7 @@ describe('Webhooks Component', () => {
       onSubmit: jest.fn,
       onRemove: jest.fn
     };
-    [Activity, Management, WebhookCreation].forEach(Component => {
+    [Activity, Management, WebhookConfiguration].forEach(Component => {
       it(`renders ${Component.displayName || Component.name} correctly`, () => {
         const { baseElement } = render(<Component {...props} />);
         const view = baseElement;
