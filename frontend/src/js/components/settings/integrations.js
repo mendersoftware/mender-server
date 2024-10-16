@@ -11,21 +11,21 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Button, Divider, MenuItem, Select, TextField } from '@mui/material';
+import { Button, Divider, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { EXTERNAL_PROVIDER, TIMEOUTS } from '@northern.tech/store/constants';
-import { getExternalIntegrations, getIsPreview } from '@northern.tech/store/selectors';
+import { getExternalIntegrations, getIsPreview, getWebhooks } from '@northern.tech/store/selectors';
 import { changeIntegration, createIntegration, deleteIntegration, getIntegrations } from '@northern.tech/store/thunks';
 
 import { customSort } from '../../helpers';
 import { useDebounce } from '../../utils/debouncehook';
 import Confirm from '../common/confirm';
 import InfoHint from '../common/info-hint';
-import { WebhookCreation } from './webhooks/configuration';
+import WebhookConfiguration from './webhooks/configuration';
 import Webhooks from './webhooks/webhooks';
 
 const maxWidth = 750;
@@ -202,6 +202,7 @@ export const Integrations = () => {
   const [configuredIntegrations, setConfiguredIntegrations] = useState([]);
   const [isConfiguringWebhook, setIsConfiguringWebhook] = useState(false);
   const integrations = useSelector(getExternalIntegrations);
+  const webhooks = useSelector(getWebhooks);
   const isPreRelease = useSelector(getIsPreview);
   const dispatch = useDispatch();
 
@@ -209,7 +210,7 @@ export const Integrations = () => {
 
   useEffect(() => {
     const available = determineAvailableIntegrations(integrations, isPreRelease);
-    setAvailableIntegrations(integrations.length ? [] : available);
+    setAvailableIntegrations(available);
     setConfiguredIntegrations(integrations.filter(integration => integration.provider !== EXTERNAL_PROVIDER.webhook.provider));
   }, [integrations, isPreRelease]);
 
@@ -245,7 +246,6 @@ export const Integrations = () => {
     dispatch(changeIntegration(integration));
   };
 
-  const configuredWebhook = useMemo(() => integrations.find(integration => integration.provider === EXTERNAL_PROVIDER.webhook.provider), [integrations]);
   return (
     <div>
       <h2 className="margin-top-small">Integrations</h2>
@@ -259,19 +259,21 @@ export const Integrations = () => {
           onSave={onSaveClick}
         />
       ))}
-      {!configuredWebhook && !!availableIntegrations.length && (
-        <Select className={classes.select} displayEmpty onChange={onConfigureIntegration} value="">
-          <MenuItem value="">Add new integration</MenuItem>
-          {availableIntegrations.map(item => (
-            <MenuItem key={item.provider} value={item.provider}>
-              {item.title}
-            </MenuItem>
-          ))}
-          <MenuItem value="webhook">Webhooks</MenuItem>
-        </Select>
+      <Webhooks />
+      {!!availableIntegrations.length && (
+        <FormControl>
+          <InputLabel id="integration-select-label">Add an integration</InputLabel>
+          <Select className={classes.select} labelId="integration-select-label" onChange={onConfigureIntegration} value="">
+            {availableIntegrations.map(item => (
+              <MenuItem key={item.provider} value={item.provider}>
+                {item.title}
+              </MenuItem>
+            ))}
+            {!webhooks.length && <MenuItem value="webhook">Webhooks</MenuItem>}
+          </Select>
+        </FormControl>
       )}
-      {!!configuredWebhook && <Webhooks webhook={configuredWebhook} />}
-      <WebhookCreation adding={isConfiguringWebhook} onCancel={onCancelClick} onSubmit={onSaveClick} />
+      {isConfiguringWebhook && <WebhookConfiguration onCancel={onCancelClick} onSubmit={onSaveClick} />}
     </div>
   );
 };
