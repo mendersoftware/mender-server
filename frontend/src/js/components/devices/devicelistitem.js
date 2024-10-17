@@ -31,7 +31,7 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 
-const DeviceListItem = ({ columnHeaders, device, deviceListState, idAttribute, index, onClick, onRowSelect, selectable, selected }) => {
+const DeviceListItem = ({ columnHeaders, listItem: device, listState: deviceListState, idAttribute, index, onClick, onRowSelect, selectable, selected }) => {
   const [isHovering, setIsHovering] = useState(false);
   const { classes } = useStyles();
 

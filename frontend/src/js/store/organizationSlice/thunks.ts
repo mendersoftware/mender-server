@@ -14,8 +14,17 @@
 // @ts-nocheck
 import storeActions from '@northern.tech/store/actions';
 import Api from '@northern.tech/store/api/general-api';
-import { DEVICE_LIST_DEFAULTS, SORTING_OPTIONS, TIMEOUTS, deviceAuthV2, headerNames, iotManagerBaseURL, locations } from '@northern.tech/store/constants';
-import { getCurrentSession, getTenantCapabilities } from '@northern.tech/store/selectors';
+import {
+  DEVICE_LIST_DEFAULTS,
+  SORTING_OPTIONS,
+  TENANT_LIST_DEFAULT,
+  TIMEOUTS,
+  deviceAuthV2,
+  headerNames,
+  iotManagerBaseURL,
+  locations
+} from '@northern.tech/store/constants';
+import { getCurrentSession, getTenantCapabilities, getTenantsList } from '@northern.tech/store/selectors';
 import { commonErrorFallback, commonErrorHandler } from '@northern.tech/store/store';
 import { setFirstLoginAfterSignup } from '@northern.tech/store/thunks';
 import { createAsyncThunk } from '@reduxjs/toolkit';
@@ -24,6 +33,7 @@ import hashString from 'md5';
 import Cookies from 'universal-cookie';
 
 import { actions, sliceName } from '.';
+import { Tenant } from '../../components/tenants/types';
 import { deepCompare } from '../../helpers';
 import { SSO_TYPES, auditLogsApiUrl, ssoIdpApiUrlv1, tenantadmApiUrlv1, tenantadmApiUrlv2 } from './constants';
 import { getAuditlogState, getOrganization } from './selectors';
@@ -170,6 +180,32 @@ export const setAuditlogsState = createAsyncThunk(`${sliceName}/setAuditlogsStat
   Tenant management + Hosted Mender
 */
 export const tenantDataDivergedMessage = 'The system detected there is a change in your plan or purchased add-ons. Please log out and log in again';
+
+const tenantListRetrieval = async (config): Promise<[Tenant[], number]> => {
+  const { page, perPage } = config;
+  const params = new URLSearchParams({ page, per_page: perPage }).toString();
+  const tenantList = await Api.get(`${tenantadmApiUrlv2}/tenants?${params}`);
+  const totalCount = tenantList.headers[headerNames.total] || TENANT_LIST_DEFAULT.perPage;
+  return [tenantList.data, totalCount];
+};
+export const getTenants = createAsyncThunk(`${sliceName}/getTenants`, async (_, { dispatch, getState }) => {
+  const currentState = getTenantsList(getState());
+  const [tenants, pageCount] = await tenantListRetrieval(currentState);
+  dispatch(actions.setTenantListState({ ...currentState, total: pageCount, tenants }));
+});
+
+export const setTenantsListState = createAsyncThunk(`${sliceName}/setTenantsListState`, async (selectionState: any, { dispatch, getState }) => {
+  const currentState = getTenantsList(getState());
+  const nextState = {
+    ...currentState,
+    ...selectionState
+  };
+  if (!deepCompare(currentState, selectionState)) {
+    const [tenants, pageCount] = await tenantListRetrieval(nextState);
+    return dispatch(actions.setTenantListState({ ...nextState, tenants, total: pageCount }));
+  }
+  return dispatch(actions.setTenantListState({ ...nextState }));
+});
 
 export const getUserOrganization = createAsyncThunk(`${sliceName}/getUserOrganization`, (_, { dispatch, getState }) => {
   return Api.get(`${tenantadmApiUrlv1}/user/tenant`).then(res => {

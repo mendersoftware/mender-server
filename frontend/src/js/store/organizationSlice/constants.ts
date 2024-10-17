@@ -70,3 +70,7 @@ export const emptyWebhook = {
     }
   }
 };
+export const TENANT_LIST_DEFAULT = {
+  page: 1,
+  perPage: 20
+};

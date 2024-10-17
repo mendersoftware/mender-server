@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { DEVICE_LIST_DEFAULTS, SORTING_OPTIONS } from '@northern.tech/store/commonConstants';
+import { DEVICE_LIST_DEFAULTS, SORTING_OPTIONS, TENANT_LIST_DEFAULT } from '@northern.tech/store/constants';
 import { createSlice } from '@reduxjs/toolkit';
 
 export const sliceName = 'organization';
@@ -24,6 +24,12 @@ export const initialState = {
   },
   intentId: null,
   organization: {
+    tenantList: {
+      ...TENANT_LIST_DEFAULT,
+      total: 0,
+      tenants: [],
+      selectedTenant: null
+    }
     // id, name, status, tenant_token, plan
   },
   auditlog: {
@@ -74,7 +80,14 @@ export const organizationSlice = createSlice({
       state.intentId = action.payload;
     },
     setOrganization: (state, action) => {
-      state.organization = action.payload;
+      state.organization = {
+        ...state.organization,
+        ...action.payload,
+        tenantList: { ...state.organization.tenantList, ...action.payload.tenantList }
+      };
+    },
+    setTenantListState: (state, action) => {
+      state.organization.tenantList = action.payload;
     },
     receiveExternalDeviceIntegrations: (state, action) => {
       state.externalDeviceIntegrations = action.payload;

@@ -1,4 +1,4 @@
-// Copyright 2016 Northern.tech AS
+// Copyright 2024 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -11,9 +11,20 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React from 'react';
+import { CSSProperties } from 'react';
 
-export const Loader = ({ fade, show, small, style, table, waiting }) => {
+interface LoaderProps {
+  show: boolean;
+  fade?: boolean;
+  small?: boolean;
+  style?: CSSProperties;
+  table?: boolean;
+  waiting?: boolean;
+}
+
+export const Loader = (props: LoaderProps) => {
+  const { fade, show, small, style, table, waiting } = props;
+
   const hideClass = fade ? 'hidden' : 'loaderContainer shrunk';
   const showClass = table ? 'miniLoaderContainer' : 'loaderContainer';
   return (

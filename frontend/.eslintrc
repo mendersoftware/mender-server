@@ -41,7 +41,6 @@
     "react/prefer-es6-class": "error",
     "react/prefer-stateless-function": "error",
     "react/prop-types": "off",
-    "react/require-default-props": "error",
     "react/sort-prop-types": "error",
     "react/state-in-constructor": "error",
     "react/static-property-placement": "error",
@@ -49,6 +48,9 @@
     "react/void-dom-elements-no-children": "error",
     "react/jsx-no-target-blank": "error",
     "sonarjs/cognitive-complexity": ["error", 17],
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "react/require-default-props": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-explicit-any": "warn"
   }
 }
