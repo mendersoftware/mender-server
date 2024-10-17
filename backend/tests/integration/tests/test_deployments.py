@@ -17,6 +17,7 @@ import os
 import random
 import time
 import uuid
+import logging
 
 from datetime import datetime, timedelta
 
@@ -47,6 +48,7 @@ from testutils.infra.container_manager.kubernetes_manager import isK8S
 
 WAITING_MULTIPLIER = 8 if isK8S() else 1
 WAITING_TIME_K8S = 5.0
+logger = logging.getLogger("test_deployments")
 
 
 def upload_image(filename, auth_token, description="abc"):
@@ -708,6 +710,8 @@ class _TestDeploymentsBase(object):
         creation_sleep_s = 4
         created_at_by_time = {}
         created_at_by_name = {}
+        created_at_by_id = {}
+        ids_by_name = {}
         name_prefix = "phaseddeployment"
         for i in ["1", "2", "3", "4", "5"]:
             deployment_req = {
@@ -715,16 +719,23 @@ class _TestDeploymentsBase(object):
                 "artifact_name": "deployments-phase-testing",
                 "devices": [dev.id for dev in devs],
             }
-            api_mgmt_dep.with_auth(user_token).call(
+            r = api_mgmt_dep.with_auth(user_token).call(
                 "POST", deployments.URL_DEPLOYMENTS, deployment_req
             )
             created_at_by_time[time.time()] = i
             created_at_by_name[i] = int(time.time())
+            deployment_id = os.path.basename(r.headers["Location"])
+            assert len(deployment_id) != 0
+            deployment_id = deployment_id.rsplit("/", 1)[-1]
+            logger.info(f"created deployment: {deployment_id}")
+            created_at_by_id[deployment_id] = created_at_by_name[i]
+            ids_by_name[name_prefix + i] = deployment_id
             time.sleep(creation_sleep_s)
 
         resp = api_dep_v2.with_auth(user_token).call("GET", "/deployments")
         assert resp.status_code == 200
         assert len(resp.json()) == 5
+        # assert len(resp.json()) == int(resp.headers["X-Total-Count"])
 
         q = ""
         for i in ["1", "2", "3", "4", "5"]:
@@ -753,6 +764,16 @@ class _TestDeploymentsBase(object):
         )
         assert resp.status_code == 200
         assert len(resp.json()) == 4
+
+        # the deployments "2", "3", "4", "5" should be in the response
+        for j in ["2", "3", "4", "5"]:
+            existing_id = ids_by_name[name_prefix + j]
+            found = False
+            for d in resp.json():
+                if d["id"] == existing_id:
+                    found = True
+                    break
+            assert found
 
         # created_before query parameter
         resp = api_dep_v2.with_auth(user_token).call(
