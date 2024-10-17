@@ -107,6 +107,9 @@ var (
 	// Indexes 1.2.16
 	IndexNameDeploymentConstructorChecksum = "deployment_deploymentconstructor_checksum"
 
+	// Indexes 1.2.17
+	IndexNameDeploymentName = "deployment_name"
+
 	_false         = false
 	_true          = true
 	StorageIndexes = mongo.IndexModel{
@@ -307,6 +310,18 @@ var (
 			Background: &_false,
 			Sparse:     &_true,
 			Name:       &IndexArtifactProvidesName,
+		},
+	}
+
+	// 1.2.17
+	IndexDeploymentName = mongo.IndexModel{
+		Keys: bson.D{
+			{Key: StorageKeyDeploymentName, Value: 1},
+			{Key: StorageKeyDeploymentCreated, Value: 1},
+		},
+		Options: &mopts.IndexOptions{
+			Background: &_true,
+			Name:       &IndexNameDeploymentName,
 		},
 	}
 )
@@ -2548,12 +2563,49 @@ func (db *DataStoreMongo) IncrementDeploymentTotalSize(
 	return err
 }
 
-func (db *DataStoreMongo) Find(ctx context.Context,
+func (db *DataStoreMongo) FindDeployments(ctx context.Context,
 	match model.Query) ([]*model.Deployment, int64, error) {
 
 	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
 	collDpl := database.Collection(CollectionDeployments)
 
+	query, err := db.buildDeploymentsQuery(ctx, match)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	options := db.findOptions(match)
+
+	var deployments []*model.Deployment
+	cursor, err := collDpl.Find(ctx, query, options)
+	if err != nil {
+		return nil, 0, err
+	}
+	if err := cursor.All(ctx, &deployments); err != nil {
+		return nil, 0, err
+	}
+	// Count documents if we didn't find all already.
+	count := int64(0)
+	if !match.DisableCount {
+		count = int64(len(deployments))
+		if count >= int64(match.Limit) {
+			count, err = collDpl.CountDocuments(ctx, query)
+			if err != nil {
+				return nil, 0, err
+			}
+		} else {
+			// Don't forget to add the skipped documents
+			count += int64(match.Skip)
+		}
+	}
+
+	return deployments, count, nil
+}
+
+func (db *DataStoreMongo) buildDeploymentsQuery(
+	ctx context.Context,
+	match model.Query,
+) (bson.M, error) {
 	andq := []bson.M{}
 
 	// filter by IDs
@@ -2566,11 +2618,21 @@ func (db *DataStoreMongo) Find(ctx context.Context,
 		andq = append(andq, tq)
 	}
 
+	// filter by Names
+	if match.Names != nil {
+		tq := bson.M{
+			StorageKeyDeploymentName: bson.M{
+				"$in": match.Names,
+			},
+		}
+		andq = append(andq, tq)
+	}
+
 	// build deployment by name part of the query
 	if match.SearchText != "" {
 		// we must have indexing for text search
 		if !db.hasIndexing(ctx, db.client) {
-			return nil, 0, ErrDeploymentStorageCannotExecQuery
+			return nil, ErrDeploymentStorageCannotExecQuery
 		}
 
 		tq := bson.M{
@@ -2633,32 +2695,7 @@ func (db *DataStoreMongo) Find(ctx context.Context,
 		}
 	}
 
-	options := db.findOptions(match)
-
-	var deployments []*model.Deployment
-	cursor, err := collDpl.Find(ctx, query, options)
-	if err != nil {
-		return nil, 0, err
-	}
-	if err := cursor.All(ctx, &deployments); err != nil {
-		return nil, 0, err
-	}
-	// Count documents if we didn't find all already.
-	count := int64(0)
-	if !match.DisableCount {
-		count = int64(len(deployments))
-		if count >= int64(match.Limit) {
-			count, err = collDpl.CountDocuments(ctx, query)
-			if err != nil {
-				return nil, 0, err
-			}
-		} else {
-			// Don't forget to add the skipped documents
-			count += int64(match.Skip)
-		}
-	}
-
-	return deployments, count, nil
+	return query, nil
 }
 
 func (db *DataStoreMongo) findOptions(match model.Query) *mopts.FindOptions {

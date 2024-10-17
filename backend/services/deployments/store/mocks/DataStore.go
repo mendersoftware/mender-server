@@ -1,4 +1,4 @@
-// Copyright 2023 Northern.tech AS
+// Copyright 2024 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -346,43 +346,6 @@ func (_m *DataStore) Exists(ctx context.Context, id string) (bool, error) {
 	return r0, r1
 }
 
-// Find provides a mock function with given fields: ctx, query
-func (_m *DataStore) Find(ctx context.Context, query model.Query) ([]*model.Deployment, int64, error) {
-	ret := _m.Called(ctx, query)
-
-	if len(ret) == 0 {
-		panic("no return value specified for Find")
-	}
-
-	var r0 []*model.Deployment
-	var r1 int64
-	var r2 error
-	if rf, ok := ret.Get(0).(func(context.Context, model.Query) ([]*model.Deployment, int64, error)); ok {
-		return rf(ctx, query)
-	}
-	if rf, ok := ret.Get(0).(func(context.Context, model.Query) []*model.Deployment); ok {
-		r0 = rf(ctx, query)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]*model.Deployment)
-		}
-	}
-
-	if rf, ok := ret.Get(1).(func(context.Context, model.Query) int64); ok {
-		r1 = rf(ctx, query)
-	} else {
-		r1 = ret.Get(1).(int64)
-	}
-
-	if rf, ok := ret.Get(2).(func(context.Context, model.Query) error); ok {
-		r2 = rf(ctx, query)
-	} else {
-		r2 = ret.Error(2)
-	}
-
-	return r0, r1, r2
-}
-
 // FindDeploymentByID provides a mock function with given fields: ctx, id
 func (_m *DataStore) FindDeploymentByID(ctx context.Context, id string) (*model.Deployment, error) {
 	ret := _m.Called(ctx, id)
@@ -448,6 +411,43 @@ func (_m *DataStore) FindDeploymentStatsByIDs(ctx context.Context, ids ...string
 	}
 
 	return r0, r1
+}
+
+// FindDeployments provides a mock function with given fields: ctx, query
+func (_m *DataStore) FindDeployments(ctx context.Context, query model.Query) ([]*model.Deployment, int64, error) {
+	ret := _m.Called(ctx, query)
+
+	if len(ret) == 0 {
+		panic("no return value specified for FindDeployments")
+	}
+
+	var r0 []*model.Deployment
+	var r1 int64
+	var r2 error
+	if rf, ok := ret.Get(0).(func(context.Context, model.Query) ([]*model.Deployment, int64, error)); ok {
+		return rf(ctx, query)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, model.Query) []*model.Deployment); ok {
+		r0 = rf(ctx, query)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]*model.Deployment)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, model.Query) int64); ok {
+		r1 = rf(ctx, query)
+	} else {
+		r1 = ret.Get(1).(int64)
+	}
+
+	if rf, ok := ret.Get(2).(func(context.Context, model.Query) error); ok {
+		r2 = rf(ctx, query)
+	} else {
+		r2 = ret.Error(2)
+	}
+
+	return r0, r1, r2
 }
 
 // FindImageByID provides a mock function with given fields: ctx, id

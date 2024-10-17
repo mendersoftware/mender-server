@@ -1567,7 +1567,7 @@ func TestGetDeviceDeploymentListForDevice(t *testing.T) {
 			)
 
 			if tc.deviceDeploymentsErr == nil {
-				db.On("Find",
+				db.On("FindDeployments",
 					ctx,
 					tc.deploymentsQuery,
 				).Return(
@@ -1745,6 +1745,114 @@ func TestReindexDeployment(t *testing.T) {
 				assert.EqualError(t, err, tc.err.Error())
 			} else {
 				assert.NoError(t, err)
+			}
+		})
+	}
+}
+
+func TestLookupDeployment(t *testing.T) {
+	const deviceID = "device_id"
+	testCases := map[string]struct {
+		query              model.Query
+		dbDeployments      []*model.Deployment
+		dbDeploymentsCount int64
+		dbErr              error
+
+		res      []*model.Deployment
+		resCount int64
+		resErr   error
+	}{
+		"ok": {
+			query: model.Query{
+				IDs: []string{
+					"d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
+					"d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+				},
+				Names: []string{"bar", "baz"},
+				Limit: 10,
+			},
+			dbDeployments: []*model.Deployment{
+				{
+					Id:          "d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
+					DeviceCount: intPtr(3),
+				},
+				{
+					Id:          "d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+					DeviceCount: intPtr(3),
+				},
+			},
+			dbDeploymentsCount: 2,
+			res: []*model.Deployment{
+				{
+					Id:          "d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
+					DeviceCount: intPtr(3),
+				},
+				{
+					Id:          "d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+					DeviceCount: intPtr(3),
+				},
+			},
+			resCount: 2,
+		},
+		"no deployments": {
+			query: model.Query{
+				IDs: []string{
+					"d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
+					"d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+				},
+				Names: []string{"bar", "baz"},
+				Limit: 10,
+			},
+			dbDeployments:      nil,
+			dbDeploymentsCount: 0,
+			res:                []*model.Deployment{},
+			resCount:           0,
+		},
+		"database error": {
+			query: model.Query{
+				IDs: []string{
+					"d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
+					"d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
+				},
+				Names: []string{"bar", "baz"},
+				Limit: 10,
+			},
+			dbDeployments:      nil,
+			dbDeploymentsCount: 0,
+			dbErr:              errors.New("db error"),
+			res:                nil,
+			resCount:           0,
+			resErr:             errors.New("searching for deployments: db error"),
+		},
+	}
+
+	for name, tc := range testCases {
+		t.Run(name, func(t *testing.T) {
+			ctx := context.Background()
+
+			db := mocks.DataStore{}
+			defer db.AssertExpectations(t)
+
+			db.On("FindDeployments",
+				ctx,
+				tc.query,
+			).Return(
+				tc.dbDeployments,
+				tc.dbDeploymentsCount,
+				tc.dbErr,
+			)
+
+			ds := &Deployments{
+				db: &db,
+			}
+
+			deployments, count, err := ds.LookupDeployment(ctx, tc.query)
+			if tc.resErr != nil {
+				assert.EqualError(t, err, tc.resErr.Error())
+			} else {
+				assert.NoError(t, err)
+				assert.Equal(t, tc.resCount, count)
+				assert.Equal(t, tc.res, deployments)
 			}
 		})
 	}
