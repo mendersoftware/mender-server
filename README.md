@@ -52,3 +52,16 @@ docker compose exec tenantadm tenantadm create-org --username "$MENDER_USERNAME"
 ```
 
 Visit [https://localhost](https://localhost) and sign in using the credentials from the snippet above.
+
+
+### Testing Gitlab build artifacts
+
+To test/debug artifacts from GitLab CI, you can pull the image straight from the internal registry (after generating credentials).
+For testing, you need to setup the following environment variables:
+```
+CI_PIPELINE_IID="1234" # The number of the pipeline
+export MENDER_IMAGE_REGISTRY=registry.gitlab.com
+export MENDER_IMAGE_REPOSITORY=northern.tech/mender/mender-server
+export MENDER_IMAGE_TAG=build-$CI_PIPELINE_IID
+export MENDER_IMAGE_TAG_TEST=test-$CI_PIPELINE_IID
+```
