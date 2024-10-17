@@ -27,4 +27,6 @@ USER $USER
 COPY --chown=$USER  backend/services/workflows/worker/workflows /etc/workflows/definitions
 COPY --chown=$USER  backend/services/workflows/config.yaml /etc/workflows/config.yaml
 COPY --from=builder --chown=$USER /build/workflows /usr/bin/workflows
+COPY --from=builder --chown=$USER /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+
 ENTRYPOINT ["/usr/bin/workflows", "--config", "/etc/workflows/config.yaml"]
