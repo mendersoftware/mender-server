@@ -24,6 +24,7 @@ export const getTenantsList = state => state.organization.organization.tenantLis
 export const getDeviceTwinIntegrations = createSelector([getExternalIntegrations], integrations =>
   integrations.filter(integration => integration.id && EXTERNAL_PROVIDER[integration.provider]?.deviceTwin)
 );
+export const getIsServiceProvider = state => state.organization.organization.service_provider;
 
 export const getAuditLogEntry = createSelector([getAuditLog, getAuditLogSelectionState], (events, { selectedId }) => {
   if (!selectedId) {

@@ -21,7 +21,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import storeActions from '@northern.tech/store/actions';
 import { TIMEOUTS, canAccess } from '@northern.tech/store/constants';
-import { getFeatures, getUserCapabilities, getVersionInformation } from '@northern.tech/store/selectors';
+import { getFeatures, getIsServiceProvider, getUserCapabilities, getVersionInformation } from '@northern.tech/store/selectors';
 import copy from 'copy-to-clipboard';
 
 import DocsLink from './common/docslink';
@@ -34,6 +34,10 @@ const listItems = [
   { route: '/releases', text: 'Releases', canAccess: ({ userCapabilities: { canReadReleases, canUploadReleases } }) => canReadReleases || canUploadReleases },
   { route: '/deployments', text: 'Deployments', canAccess: ({ userCapabilities: { canDeploy, canReadDeployments } }) => canReadDeployments || canDeploy },
   { route: '/auditlog', text: 'Audit log', canAccess: ({ userCapabilities: { canAuditlog } }) => canAuditlog }
+];
+const spTenantItems = [
+  { route: '/tenants', text: 'Tenants', canAccess },
+  { route: '/auditlog', text: 'Audit log', canAccess }
 ];
 
 const useStyles = makeStyles()(theme => ({
@@ -130,10 +134,11 @@ export const LeftNav = () => {
   const { classes } = useStyles();
 
   const userCapabilities = useSelector(getUserCapabilities);
+  const isSP = useSelector(getIsServiceProvider);
   return (
     <div className={`leftFixed leftNav ${classes.list}`}>
       <List style={{ padding: 0 }}>
-        {listItems.reduce((accu, item, index) => {
+        {(isSP ? spTenantItems : listItems).reduce((accu, item, index) => {
           if (!item.canAccess({ userCapabilities })) {
             return accu;
           }

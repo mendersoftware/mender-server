@@ -46,6 +46,7 @@ import {
   getDeviceLimit,
   getFeatures,
   getIsEnterprise,
+  getIsServiceProvider,
   getOrganization,
   getShowHelptips,
   getUserRoles,
@@ -54,6 +55,7 @@ import {
 import { useAppInit } from '@northern.tech/store/storehooks';
 import {
   getAllDeviceCounts,
+  getUserOrganization,
   initializeSelf,
   logoutUser,
   setAllTooltipsReadState,
@@ -77,6 +79,7 @@ import Search from '../common/search';
 import Announcement from './announcement';
 import DemoNotification from './demonotification';
 import DeploymentNotifications from './deploymentnotifications';
+import { DeviceCount } from './devicecount';
 import DeviceNotifications from './devicenotifications';
 import OfferHeader from './offerheader';
 import TrialNotification from './trialnotification';
@@ -142,6 +145,17 @@ const useStyles = makeStyles()(theme => ({
   organization: { marginBottom: theme.spacing() },
   redAnnouncementIcon: {
     color: theme.palette.error.dark
+  },
+  spTenantBadge: {
+    padding: theme.spacing(1),
+    color: theme.palette.grey[800],
+    background: theme.palette.tooltip.tierTipBackground,
+    borderRadius: theme.spacing(3),
+    marginRight: theme.spacing(2),
+    fontSize: '11px'
+  },
+  spTenantBadgeContainer: {
+    borderRight: `1px solid ${theme.palette.grey[300]}`
   }
 }));
 
@@ -251,7 +265,6 @@ const pickAUser = ({ jti, probability }) => {
     return normalizedValue < probability;
   });
 };
-
 export const Header = ({ isDarkMode }) => {
   const { classes } = useStyles();
   const [gettingUser, setGettingUser] = useState(false);
@@ -274,7 +287,9 @@ export const Header = ({ isDarkMode }) => {
   const user = useSelector(getCurrentUser);
   const { token } = useSelector(getCurrentSession);
   const userId = useDebounce(user.id, TIMEOUTS.debounceDefault);
-
+  const isSp = useSelector(getIsServiceProvider);
+  //TODO: replace with data from endpoint.
+  const spDeviceUtilization = 0;
   const dispatch = useDispatch();
   const deviceTimer = useRef();
   const feedbackTimer = useRef();
@@ -284,6 +299,7 @@ export const Header = ({ isDarkMode }) => {
   useEffect(() => {
     if ((!userId || !user.email?.length || !userSettingInitialized) && !gettingUser && token) {
       setGettingUser(true);
+      dispatch(getUserOrganization());
       dispatch(initializeSelf());
       return;
     }
@@ -359,12 +375,26 @@ export const Header = ({ isDarkMode }) => {
             />
           )}
         </div>
-        <Search isSearching={isSearching} searchTerm={searchTerm} onSearch={onSearch} trigger={refreshTrigger} />
-        <div className="flexbox center-aligned">
-          <DeviceNotifications pending={pendingDevices} total={acceptedDevices} limit={deviceLimit} />
-          <DeploymentNotifications inprogress={inProgress} />
-          <AccountMenu />
-        </div>
+        {isSp ? (
+          <>
+            {deviceLimit > 0 && <DeviceCount current={spDeviceUtilization} max={deviceLimit} variant="common"></DeviceCount>}
+            <div className="flexbox center-aligned">
+              <div className={`${classes.spTenantBadgeContainer}`}>
+                <div className={`${classes.spTenantBadge} uppercased bold`}>Service Provider</div>
+              </div>
+              <AccountMenu />
+            </div>
+          </>
+        ) : (
+          <>
+            <Search isSearching={isSearching} searchTerm={searchTerm} onSearch={onSearch} trigger={refreshTrigger} />
+            <div className="flexbox center-aligned">
+              <DeviceNotifications pending={pendingDevices} total={acceptedDevices} limit={deviceLimit} />
+              <DeploymentNotifications inprogress={inProgress} />
+              <AccountMenu />
+            </div>
+          </>
+        )}
       </div>
     </Toolbar>
   );
