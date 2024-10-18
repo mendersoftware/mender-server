@@ -39,17 +39,14 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.services.deployments.loadBalancer.server.port: "8080"
-      traefik.http.routers.deploymentsDL.entrypoints: "websecure"
       traefik.http.routers.deploymentsDL.middlewares: "sec-headers@file,json-error-responder@file"
       traefik.http.routers.deploymentsDL.rule: >-
         PathRegexp(`/api/devices/v[0-9]+/deployments/download`)
       traefik.http.routers.deploymentsDL.service: deployments
-      traefik.http.routers.deploymentsDev.entrypoints: "websecure"
       traefik.http.routers.deploymentsDev.middlewares: "devStack@file"
       traefik.http.routers.deploymentsDev.rule: >-
         PathRegexp(`/api/devices/v[0-9]+/deployments`)
       traefik.http.routers.deploymentsDev.service: deployments
-      traefik.http.routers.deploymentsMgmt.entrypoints: "websecure"
       traefik.http.routers.deploymentsMgmt.middlewares: "mgmtStack@file"
       traefik.http.routers.deploymentsMgmt.rule: >-
         PathRegexp(`/api/management/v[0-9]+/deployments`)
@@ -78,12 +75,10 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.services.deviceauth.loadBalancer.server.port: "8080"
-      traefik.http.routers.deviceauthDev.entrypoints: "websecure"
       traefik.http.routers.deviceauthDev.middlewares: "compression@file"
       traefik.http.routers.deviceauthDev.rule: >-
         PathRegexp(`/api/devices/v[0-9]+/authentication`)
       traefik.http.routers.deviceauthDev.service: deviceauth
-      traefik.http.routers.deviceauthMgmt.entrypoints: "websecure"
       traefik.http.routers.deviceauthMgmt.middlewares: "mgmtStack@file"
       traefik.http.routers.deviceauthMgmt.rule: >-
         PathRegexp(`/api/management/v[0-9]+/devauth`)
@@ -108,12 +103,10 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.services.deviceconfig.loadBalancer.server.port: "8080"
-      traefik.http.routers.deviceconfigDev.entrypoints: "websecure"
       traefik.http.routers.deviceconfigDev.middlewares: "devStack@file"
       traefik.http.routers.deviceconfigDev.rule: >-
         PathRegexp(`/api/devices/v[0-9]+/deviceconfig`)
       traefik.http.routers.deviceconfigDev.service: deviceconfig
-      traefik.http.routers.deviceconfigMgmt.entrypoints: "websecure"
       traefik.http.routers.deviceconfigMgmt.middlewares: "mgmtStack@file"
       traefik.http.routers.deviceconfigMgmt.rule: >-
         PathRegexp(`/api/management/v[0-9]+/deviceconfig`)
@@ -140,12 +133,10 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.services.deviceconnect.loadBalancer.server.port: "8080"
-      traefik.http.routers.deviceconnectDev.entrypoints: "websecure"
       traefik.http.routers.deviceconnectDev.middlewares: "devStack@file"
       traefik.http.routers.deviceconnectDev.rule: >-
         PathRegexp(`/api/devices/v[0-9]+/deviceconnect`)
       traefik.http.routers.deviceconnectDev.service: deviceconnect
-      traefik.http.routers.deviceconnectMgmt.entrypoints: "websecure"
       traefik.http.routers.deviceconnectMgmt.middlewares: "mgmtStack@file"
       traefik.http.routers.deviceconnectMgmt.rule: >-
         PathRegexp(`/api/management/v[0-9]+/deviceconnect`)
@@ -163,7 +154,6 @@ services:
       traefik.enable: "true"
       traefik.http.services.gui.loadBalancer.server.port: "8090"
       traefik.http.services.error-responder.loadBalancer.server.port: "8080"
-      traefik.http.routers.gui.entrypoints: "websecure"
       traefik.http.routers.gui.middlewares: >-
         compression@file,sec-headers@file,json-error-responder@file
       traefik.http.routers.gui.priority: 1
@@ -198,24 +188,20 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.services.inventory.loadBalancer.server.port: "8080"
-      traefik.http.routers.inventoryDevV1.entrypoints: "websecure"
       traefik.http.routers.inventoryDevV1.middlewares: >-
         devStack@file,inventoryV1-replacepathregex@file
       traefik.http.routers.inventoryDevV1.rule: >-
         PathRegexp(`/api/devices/v1/inventory`)
       traefik.http.routers.inventoryDevV1.service: inventory
-      traefik.http.routers.inventoryMgmtV1.entrypoints: "websecure"
       traefik.http.routers.inventoryMgmtV1.middlewares: >-
         mgmtStack@file,inventoryMgmtV1-replacepathregex@file
       traefik.http.routers.inventoryMgmtV1.rule: >-
         PathRegexp(`/api/management/v1/inventory`)
       traefik.http.routers.inventoryMgmtV1.service: inventory
-      traefik.http.routers.inventoryDev.entrypoints: "websecure"
       traefik.http.routers.inventoryDev.middlewares: "devStack@file"
       traefik.http.routers.inventoryDev.rule: >-
         PathRegexp(`/api/devices/v[2-9]/inventory`)
       traefik.http.routers.inventoryDev.service: inventory
-      traefik.http.routers.inventoryMgmt.entrypoints: "websecure"
       traefik.http.routers.inventoryMgmt.middlewares: "mgmtStack@file"
       traefik.http.routers.inventoryMgmt.rule: >-
         PathRegexp(`/api/management/v[2-9]/inventory`)
@@ -242,7 +228,6 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.services.iot-manager.loadBalancer.server.port: "8080"
-      traefik.http.routers.iot-managerMgmt.entrypoints: "websecure"
       traefik.http.routers.iot-managerMgmt.middlewares: "mgmtStack@file"
       traefik.http.routers.iot-managerMgmt.rule: >-
         PathRegexp(`/api/management/v[0-9]+/iot-manager`)
@@ -266,12 +251,10 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.services.useradm.loadBalancer.server.port: "8080"
-      traefik.http.routers.useradm.entrypoints: "websecure"
       traefik.http.routers.useradm.middlewares: "mgmtStack@file"
       traefik.http.routers.useradm.rule: >-
         PathRegexp(`/api/management/v[0-9]+/useradm`)
       traefik.http.routers.useradm.service: useradm
-      traefik.http.routers.userauth.entrypoints: "websecure"
       traefik.http.routers.userauth.middlewares: >-
         compression@file,sec-headers@file,json-error-responder@file
       traefik.http.routers.userauth.rule: >-
@@ -337,6 +320,7 @@ services:
       - --entrypoints.websecure.transport.respondingTimeouts.readTimeout=7200
       - --entrypoints.websecure.transport.respondingTimeouts.writeTimeout=7200
       - --entrypoints.websecure.http.tls=true
+      - --entrypoints.websecure.asDefault=true
       - --providers.file.directory=/etc/traefik/config
       - --providers.docker=true
       - --providers.docker.exposedByDefault=false
