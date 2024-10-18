@@ -146,7 +146,7 @@ test.describe('Files', () => {
     }
     await page.getByPlaceholder(/enter release tags/i).pressSequentially(releaseTag, { delay: 100 });
     await page.getByTestId('CheckIcon').click();
-    await page.press('body', 'Escape');
+    await page.getByLabel(/close/i).click();
     await page.waitForTimeout(timeouts.default);
     await page.getByText('Upload').isVisible({ timeout: timeouts.default });
     await page.screenshot({ path: './test-results/releasetag-reset.png' });
