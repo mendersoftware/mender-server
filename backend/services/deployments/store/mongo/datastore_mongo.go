@@ -550,11 +550,9 @@ func (db *DataStoreMongo) GetReleases(
 	} else if current == nil {
 		return []model.Release{}, 0, errors.New("couldn't get current database version")
 	}
-	target, err := migrate.NewVersion(DbVersion)
-	if err != nil {
-		return []model.Release{}, 0, errors.Wrap(err, "failed to get latest DB version")
-	}
-	if migrate.VersionIsLess(*current, *target) {
+	if migrate.VersionIsLess(*current, migrate.Version{
+		Major: 1, Minor: 2, Patch: 15,
+	}) {
 		return db.getReleases_1_2_14(ctx, filt)
 	} else {
 		return db.getReleases_1_2_15(ctx, filt)
