@@ -24,14 +24,19 @@ export interface RendererProp<T> {
   item?: T;
   [key: string]: any;
 }
+
+export interface ClassesOverrides {
+  classes: Record<string, string>;
+}
 export interface ColumnHeader<T> {
-  component?: ComponentType;
+  classes?: ClassesOverrides;
+  component: ComponentType<RendererProp<T> & ClassesOverrides>;
   title: string;
   attribute: Attribute;
   sortable: boolean;
   customize?: () => void;
   style?: CSSProperties;
-  textRender: (props: RendererProp<T>) => string | ReactElement;
+  textRender?: (props: RendererProp<T>) => string | ReactElement;
 }
 
 interface SortOptions {

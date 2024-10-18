@@ -14,8 +14,10 @@
 // material ui
 import { ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
 
+import { ClassesOverrides } from './list';
+
 const defaultClasses = { icon: '', wrapper: '' };
-export const DetailsIndicator = ({ classes = defaultClasses }) => {
+export const DetailsIndicator = ({ classes = defaultClasses }: ClassesOverrides) => {
   const { icon = '', wrapper = '' } = classes;
   return (
     <div className={`bold flexbox center-aligned link-color nowrap ${wrapper}`}>
