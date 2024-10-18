@@ -26,14 +26,14 @@ import { makeStyles } from 'tss-react/mui';
 import storeActions from '@northern.tech/store/actions';
 import { getSessionInfo, maxSessionAge, updateMaxAge } from '@northern.tech/store/auth';
 import { TIMEOUTS } from '@northern.tech/store/constants';
-import { getCurrentSession, getCurrentUser, getIsDarkMode } from '@northern.tech/store/selectors';
-import store from '@northern.tech/store/store';
+import { getCurrentSession, getCurrentUser, getIsDarkMode, getIsServiceProvider } from '@northern.tech/store/selectors';
+import { store } from '@northern.tech/store/store';
 import { parseEnvironmentInfo } from '@northern.tech/store/storehooks';
 import { logoutUser } from '@northern.tech/store/thunks';
 import Cookies from 'universal-cookie';
 
 import SharedSnackbar from '../components/common/sharedsnackbar';
-import { PrivateRoutes, PublicRoutes } from '../config/routes';
+import { PrivateRoutes, PrivateSPRoutes, PublicRoutes } from '../config/routes';
 import ErrorBoundary from '../errorboundary';
 import { toggle } from '../helpers';
 import { dark as darkTheme, light as lightTheme } from '../themes/Mender';
@@ -191,6 +191,7 @@ export const AppRoot = () => {
   const globalCssVars = cssVariables({ theme })['@global'];
 
   const dispatchedSetSnackbar = useCallback(message => dispatch(setSnackbar(message)), [dispatch]);
+  const isSP = useSelector(getIsServiceProvider);
 
   return (
     <ThemeProvider theme={theme}>
@@ -204,7 +205,7 @@ export const AppRoot = () => {
             <div className="rightFluid container">
               <ErrorBoundary>
                 <SearchResult onToggleSearchResult={onToggleSearchResult} open={showSearchResult} />
-                <PrivateRoutes />
+                {isSP ? <PrivateSPRoutes /> : <PrivateRoutes />}
               </ErrorBoundary>
             </div>
             {showDismissHelptipsDialog && <ConfirmDismissHelptips />}
