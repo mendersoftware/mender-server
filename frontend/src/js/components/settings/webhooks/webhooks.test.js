@@ -14,12 +14,12 @@
 import React from 'react';
 
 import { EXTERNAL_PROVIDER } from '@northern.tech/store/constants';
+import { screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { defaultState, undefineds, webhookEvents } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
-import Activity from './activity';
 import WebhookConfiguration from './configuration';
-import Management from './management';
 import Webhooks from './webhooks';
 
 describe('Webhooks Component', () => {
@@ -54,23 +54,61 @@ describe('Webhooks Component', () => {
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
 
-  describe('static components', () => {
-    const props = {
-      adding: true,
-      editing: true,
-      events: webhookEvents,
-      getWebhookEvents: jest.fn,
-      onCancel: jest.fn,
-      onSubmit: jest.fn,
-      onRemove: jest.fn
+  it('works as expected', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const preloadedState = {
+      ...defaultState,
+      organization: {
+        ...defaultState.organization,
+        externalDeviceIntegrations: [
+          {
+            id: '1',
+            credentials: { [EXTERNAL_PROVIDER.webhook.credentialsType]: { url: 'https://example.com' } },
+            provider: EXTERNAL_PROVIDER.webhook.provider
+          }
+        ],
+        webhooks: {
+          ...defaultState.organization.webhooks,
+          events: webhookEvents
+        }
+      }
     };
-    [Activity, Management, WebhookConfiguration].forEach(Component => {
-      it(`renders ${Component.displayName || Component.name} correctly`, () => {
-        const { baseElement } = render(<Component {...props} />);
-        const view = baseElement;
-        expect(view).toMatchSnapshot();
-        expect(view).toEqual(expect.not.stringMatching(undefineds));
-      });
+    const ui = <Webhooks />;
+    const { rerender } = render(ui, { preloadedState });
+    await user.click(screen.getByText('https://example.com'));
+    await waitFor(() => rerender(ui));
+    expect(screen.getByText(/webhook details/i)).toBeVisible();
+    await user.click(screen.getAllByText(/device status updated/i)[0]);
+    await waitFor(() => rerender(ui));
+    expect(screen.getByText(/Payload/i)).toBeVisible();
+    expect(screen.getByRole('button', { name: /delete webhook/i })).toBeDisabled();
+    await user.click(screen.getByText(/back to webhook/i));
+    await waitFor(() => rerender(ui));
+    await user.click(screen.getByLabelText(/close/i));
+    await waitFor(() => expect(screen.queryByText(/webhook details/i)).toBeNull());
+  });
+
+  it('can be configured', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const onSubmit = jest.fn();
+    render(<WebhookConfiguration onSubmit={onSubmit} />);
+    expect(screen.getByText(/save/i)).not.toBeEnabled();
+    await user.type(screen.getByLabelText(/url/i), 'http://foo.bar');
+    await waitFor(() => expect(screen.queryByText(/not protected by HTTPS/i)).toBeInTheDocument());
+    await user.clear(screen.getByLabelText(/url/i));
+    await user.type(screen.getByLabelText(/url/i), 'https://foo.bar');
+    expect(screen.queryByText(/not protected by HTTPS/i)).not.toBeInTheDocument();
+    await user.type(screen.getByLabelText(/Description/i), 'https://foo.bar');
+    await user.type(screen.getByLabelText(/secret/i), 'https://foo.bar');
+    expect(screen.getByText(/has to be entered as a hexadecimal/i)).toBeVisible();
+    await user.clear(screen.getByLabelText(/secret/i));
+    await waitFor(() => expect(screen.getByRole('button', { name: /save/i })).toBeEnabled());
+    await user.click(screen.getByRole('button', { name: /save/i }));
+    expect(onSubmit).toHaveBeenCalledWith({
+      credentials: { http: { secret: '', url: 'https://foo.bar' }, type: 'http' },
+      description: 'https://foo.bar',
+      provider: 'webhook',
+      scopes: []
     });
   });
 });
