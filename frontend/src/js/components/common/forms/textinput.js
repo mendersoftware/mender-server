@@ -21,17 +21,18 @@ import { runValidations } from './form';
 export const TextInput = ({
   autocomplete,
   className = '',
+  control,
+  controlRef,
   disabled,
+  hint,
   id,
   InputLabelProps = {},
+  InputProps = {},
   label,
-  hint,
   required,
-  controlRef,
-  value: passedValue = '',
   type,
-  control,
-  validations = ''
+  validations = '',
+  value: passedValue = ''
 }) => {
   const {
     clearErrors,
@@ -41,7 +42,7 @@ export const TextInput = ({
   const errorKey = `${id}-error`;
 
   const validate = value => {
-    const { isValid, errortext } = runValidations({ id, required, validations, value });
+    const { isValid, errortext } = runValidations({ id, required, validations, value, wasMaybeTouched: !!errors[id] });
     if (isValid) {
       clearErrors(errorKey);
     } else {
@@ -77,6 +78,7 @@ export const TextInput = ({
             placeholder={hint}
             required={required}
             type={type}
+            {...InputProps}
           />
           <FormHelperText>{(errors[errorKey] || error)?.message}</FormHelperText>
         </FormControl>

@@ -152,6 +152,11 @@ export const BENEFITS = {
     benefit: 'scheduled deployments to steer the distribution of your updates.',
     requiredPlan: PLANS.professional.id
   },
+  webhookEvents: {
+    id: 'webhookEvents',
+    benefit: 'receive inventory events and select which type(s) of events the webhook will receive',
+    requiredPlan: PLANS.professional.id
+  },
 
   default: { id: 'default', benefit: 'gain access to this feature', requiredPlan: PLANS.enterprise.id }
 };

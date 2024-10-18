@@ -63,7 +63,8 @@ export const DOCSTIPS = {
   phasedDeployments: { id: 'phasedDeployments', path: 'overview/customize-the-update-process' },
   pausedDeployments: { id: 'pausedDeployments', path: 'overview/customize-the-update-process#synchronized-updates' },
   retryDeployments: { id: 'retryDeployments', path: 'overview/deployment' },
-  releases: { id: 'releases', path: 'overview/artifact' }
+  releases: { id: 'releases', path: 'overview/artifact' },
+  webhookSecret: { id: 'webhookSecret', path: 'server-integration/webhooks#signature-header' }
 };
 
 export const DocsTooltip = ({ anchor = {}, id = '', ...props }) => {

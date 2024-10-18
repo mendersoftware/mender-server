@@ -15,13 +15,14 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // material ui
-import { Add as AddIcon, ArrowRightAlt as ArrowRightAltIcon } from '@mui/icons-material';
+import { Add as AddIcon } from '@mui/icons-material';
 import { Chip } from '@mui/material';
 
 import { BENEFITS, emptyRole, rolesById } from '@northern.tech/store/constants';
 import { getGroupsByIdWithoutUngrouped, getIsEnterprise, getReleaseTagsById, getRolesList } from '@northern.tech/store/selectors';
 import { createRole, editRole, getDynamicGroups, getExistingReleaseTags, getGroups, getRoles, removeRole } from '@northern.tech/store/thunks';
 
+import DetailsIndicator from '../common/detailsindicator';
 import DetailsTable from '../common/detailstable';
 import { DocsTooltip } from '../common/docslink';
 import EnterpriseNotification from '../common/enterpriseNotification';
@@ -34,11 +35,7 @@ const columns = [
   {
     key: 'manage',
     title: 'Manage',
-    render: () => (
-      <div className="bold flexbox center-aligned link-color margin-right-small uppercased" style={{ whiteSpace: 'nowrap' }}>
-        view details <ArrowRightAltIcon />
-      </div>
-    )
+    render: DetailsIndicator
   }
 ];
 

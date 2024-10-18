@@ -211,7 +211,23 @@ const SingleFileUpload = () => <>This will generate a single file application up
 
 const GlobalSettings = () => <>These settings apply to all users, so changes made here may affect other users&apos; experience.</>;
 
-const Webhooks = () => <>Webhooks are triggered when a device&apos;s status is updated, or a device is decommissioned or provisioned.</>;
+const Webhooks = () => (
+  <>Use webhooks to send data about device lifecycle events to third-party systems. Currently you can only have one integration set up at a time.</>
+);
+
+const WebhookEvents = () => (
+  <>
+    You can select which type(s) of events the webhook will receive. Device authentication includes when devices are provisioned, decommissioned, or
+    authentication status changes.
+  </>
+);
+
+const WebhookSecret = () => (
+  <>
+    The secret is used for signing the requests sent to your webhook, to verify their authenticity. It is optional, but highly recommended for security. The
+    secret must be a hexidecimal string (including only characters from A-F and 0-9).
+  </>
+);
 
 const TenantToken = () => (
   <>
@@ -286,7 +302,9 @@ export const HELPTOOLTIPS = {
   singleFileUpload: { id: 'singleFileUpload', Component: SingleFileUpload },
   tenantToken: { id: 'tenantToken', Component: TenantToken },
   twoFactorNote: { id: 'twoFactorNote', SpecialComponent: TwoFactorNote },
-  webhooks: { id: 'webhooks', Component: Webhooks }
+  webhookEvents: { id: 'webhookEvents', Component: WebhookEvents },
+  webhooks: { id: 'webhooks', Component: Webhooks },
+  webhookSecret: { id: 'webhookSecret', Component: WebhookSecret }
 };
 
 export const MenderHelpTooltip = props => {

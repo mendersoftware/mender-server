@@ -14,11 +14,12 @@
 import React, { useMemo } from 'react';
 
 // material ui
-import { ArrowRightAlt as ArrowRightAltIcon, Check as CheckIcon } from '@mui/icons-material';
+import { Check as CheckIcon } from '@mui/icons-material';
 import { Chip } from '@mui/material';
 
 import { twoFAStates } from '@northern.tech/store/constants';
 
+import DetailsIndicator from '../../common/detailsindicator';
 import DetailsTable from '../../common/detailstable';
 import Time, { RelativeTime } from '../../common/time';
 
@@ -57,11 +58,7 @@ const columnData = [
     disablePadding: false,
     title: 'Manage',
     enterpriseOnly: false,
-    render: () => (
-      <div className="bold flexbox center-aligned link-color margin-right-small uppercased" style={{ whiteSpace: 'nowrap' }}>
-        view details <ArrowRightAltIcon />
-      </div>
-    )
+    render: DetailsIndicator
   }
 ];
 
