@@ -16,7 +16,6 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.services.auditlogs.loadBalancer.server.port: "8080"
-      traefik.http.routers.auditlogs.entrypoints: "websecure"
       traefik.http.routers.auditlogs.middlewares: "mgmtStack@file"
       traefik.http.routers.auditlogs.rule: >-
         PathRegexp(`/api/management/v[0-9]+/auditlogs`)
@@ -74,12 +73,10 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.services.devicemonitor.loadBalancer.server.port: "8080"
-      traefik.http.routers.devicemonitorDev.entrypoints: "websecure"
       traefik.http.routers.devicemonitorDev.middlewares: "devStack@file"
       traefik.http.routers.devicemonitorDev.rule: >-
         PathRegexp(`/api/devices/v[0-9]+/devicemonitor`)
       traefik.http.routers.devicemonitorDev.service: devicemonitor
-      traefik.http.routers.devicemonitorMgmt.entrypoints: "websecure"
       traefik.http.routers.devicemonitorMgmt.middlewares: "mgmtStack@file"
       traefik.http.routers.devicemonitorMgmt.rule: >-
         PathRegexp(`/api/management/v[0-9]+/devicemonitor`)
@@ -146,12 +143,10 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.services.tenantadm.loadBalancer.server.port: "8080"
-      traefik.http.routers.tenantadm.entrypoints: "websecure"
       traefik.http.routers.tenantadm.middlewares: "mgmtStack@file"
       traefik.http.routers.tenantadm.rule: >-
         PathRegexp(`/api/management/v[0-9]/tenantadm`)
       traefik.http.routers.tenantadm.service: tenantadm
-      traefik.http.routers.signup.entrypoints: "websecure"
       traefik.http.routers.signup.middlewares: >-
         compression@file,sec-headers@file,json-error-responder@file
       traefik.http.routers.signup.rule: >-
