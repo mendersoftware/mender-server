@@ -11,16 +11,17 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useCallback, useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { ArrowForward as ArrowForwardIcon, Check as CheckIcon } from '@mui/icons-material';
+import { Check as CheckIcon } from '@mui/icons-material';
 
 import { getDeviceLimit, getTenantsList } from '@northern.tech/store/selectors';
 import { AppDispatch } from '@northern.tech/store/store';
 import { getTenants, setTenantsListState } from '@northern.tech/store/thunks';
 import dayjs from 'dayjs';
 
+import DetailsIndicator from '../common/detailsindicator';
 import { ColumnHeader, CommonList, ListItemComponentProps, RendererProp } from '../common/list';
 import { ExpandedTenant } from './expanded-tenant';
 import { Tenant } from './types';
@@ -51,15 +52,9 @@ const DateRender = (props: RendererProp<Tenant>) => {
   const attributeValue = dayjs(item?.[column.attribute.name]).format('YYYY-MM-DD HH:mm');
   return <AttributeRenderer content={attributeValue} textContent={item?.[column.attribute.name]}></AttributeRenderer>;
 };
-const moreDetailsRender = () => {
-  return (
-    <div className="link-color">
-      View details <ArrowForwardIcon sx={{ fontSize: 12 }} />
-    </div>
-  );
-};
 const columnHeaders: ColumnHeader<Tenant>[] = [
   {
+    component: () => <></>,
     title: 'Name',
     attribute: {
       name: 'name',
@@ -75,7 +70,7 @@ const columnHeaders: ColumnHeader<Tenant>[] = [
       scope: ''
     },
     sortable: false,
-    textRender: DeviceLimitRender
+    component: DeviceLimitRender
   },
   {
     title: 'Delta updates enabled ',
@@ -84,7 +79,7 @@ const columnHeaders: ColumnHeader<Tenant>[] = [
       scope: ''
     },
     sortable: false,
-    textRender: BoolRender
+    component: BoolRender
   },
   {
     title: 'Created',
@@ -93,7 +88,7 @@ const columnHeaders: ColumnHeader<Tenant>[] = [
       scope: ''
     },
     sortable: false,
-    textRender: DateRender
+    component: DateRender
   },
   {
     title: 'More details',
@@ -102,15 +97,9 @@ const columnHeaders: ColumnHeader<Tenant>[] = [
       scope: ''
     },
     sortable: false,
-    textRender: moreDetailsRender
+    component: DetailsIndicator
   }
 ];
-
-const DefaultAttributeRenderer = (props: RendererProp<Tenant>) => {
-  const { column, item } = props;
-  const text = column.textRender({ item, column });
-  return <AttributeRenderer content={text} textContent={text} />;
-};
 
 const TenantListItem = (props: ListItemComponentProps<Tenant>) => {
   const { listItem, columnHeaders, onClick } = props;
@@ -121,8 +110,11 @@ const TenantListItem = (props: ListItemComponentProps<Tenant>) => {
   return (
     <div onClick={handleOnClick} className={`deviceListRow deviceListItem clickable`}>
       {columnHeaders.map((column: ColumnHeader<Tenant>) => {
-        const Component = column.component ? column.component : DefaultAttributeRenderer;
-        return <Component column={column} item={listItem} key={column.title} />;
+        const { classes = {}, component: Component, textRender } = column;
+        if (textRender) {
+          return <AttributeRenderer content={textRender({ item: listItem, column })} key={column.title} textContent={textRender({ item: listItem, column })} />;
+        }
+        return <Component classes={classes} column={column} item={listItem} key={column.title} />;
       })}
     </div>
   );

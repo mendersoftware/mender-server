@@ -15,7 +15,7 @@
 import { ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
 
 const defaultClasses = { icon: '', wrapper: '' };
-export const DetailsIndicator = ({ classes = defaultClasses }) => {
+export const DetailsIndicator = ({ classes = defaultClasses }: { classes: Record<string, string> }) => {
   const { icon = '', wrapper = '' } = classes;
   return (
     <div className={`bold flexbox center-aligned link-color nowrap ${wrapper}`}>
