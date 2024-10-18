@@ -26,7 +26,7 @@ import durationDayJs from 'dayjs/plugin/duration';
 
 import Tracking from '../../../tracking';
 import { useSession } from '../../../utils/sockethook';
-import { MaybeTime } from '../../common/time';
+import { MaybeTime } from '../@northern.tech/common-ui/time';
 import { getCode } from '../dialogs/make-gateway-dialog';
 import Terminal from '../troubleshoot/terminal';
 import ListOptions from '../widgets/listoptions';

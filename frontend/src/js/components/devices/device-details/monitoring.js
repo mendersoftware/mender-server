@@ -21,10 +21,10 @@ import { BENEFITS, DEVICE_LIST_DEFAULTS } from '@northern.tech/store/constants';
 import { getOfflineThresholdSettings, getTenantCapabilities } from '@northern.tech/store/selectors';
 import { getDeviceAlerts } from '@northern.tech/store/thunks';
 
-import DocsLink from '../../common/docslink';
-import EnterpriseNotification from '../../common/enterpriseNotification';
-import Pagination from '../../common/pagination';
-import Time from '../../common/time';
+import DocsLink from '../@northern.tech/common-ui/docslink';
+import EnterpriseNotification from '../@northern.tech/common-ui/enterpriseNotification';
+import Pagination from '../@northern.tech/common-ui/pagination';
+import Time from '../@northern.tech/common-ui/time';
 import MonitorDetailsDialog from '../dialogs/monitordetailsdialog';
 import { DeviceConnectionNote } from './connection';
 import DeviceDataCollapse from './devicedatacollapse';

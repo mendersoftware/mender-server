@@ -25,9 +25,9 @@ import { getDeviceTwin, setDeviceTwin } from '@northern.tech/store/thunks';
 import pluralize from 'pluralize';
 
 import { deepCompare, isEmpty } from '../../../helpers';
-import InfoHint from '../../common/info-hint';
-import Loader from '../../common/loader';
-import Time from '../../common/time';
+import InfoHint from '../@northern.tech/common-ui/info-hint';
+import Loader from '../@northern.tech/common-ui/loader';
+import Time from '../@northern.tech/common-ui/time';
 import DeviceDataCollapse from './devicedatacollapse';
 
 loader.config({ paths: { vs: '/ui/vs' } });

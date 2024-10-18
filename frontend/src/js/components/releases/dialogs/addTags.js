@@ -20,7 +20,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import { setReleaseTags, setReleasesListState } from '@northern.tech/store/thunks';
 
-import ChipSelect from '../../common/chipselect';
+import ChipSelect from '../@northern.tech/common-ui/chipselect';
 
 const useStyles = makeStyles()(theme => ({
   DialogContent: {

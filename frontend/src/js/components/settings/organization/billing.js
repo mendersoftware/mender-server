@@ -27,7 +27,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
 import { toggle } from '../../../helpers';
-import Alert from '../../common/alert';
+import Alert from '../@northern.tech/common-ui/alert';
 import CancelRequestDialog from '../dialogs/cancelrequest';
 import OrganizationPaymentSettings from './organizationpaymentsettings';
 import OrganizationSettingsItem, { maxWidth } from './organizationsettingsitem';

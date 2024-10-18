@@ -23,7 +23,7 @@ import Cookies from 'universal-cookie';
 
 import { createFileDownload, toggle } from '../../../helpers';
 import { blobToString, byteArrayToString } from '../../../utils/sockethook';
-import XTerm from '../../common/xterm';
+import XTerm from '../@northern.tech/common-ui/xterm';
 
 const cookies = new Cookies();
 const MessagePack = msgpack5();

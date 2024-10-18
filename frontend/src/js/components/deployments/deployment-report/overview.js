@@ -26,9 +26,9 @@ import isUUID from 'validator/lib/isUUID';
 import failImage from '../../../../assets/img/largeFail.png';
 import successImage from '../../../../assets/img/largeSuccess.png';
 import { isEmpty } from '../../../helpers';
-import { TwoColumnData } from '../../common/configurationobject';
-import DeviceIdentityDisplay from '../../common/deviceidentity';
-import Time from '../../common/time';
+import { TwoColumnData } from '../@northern.tech/common-ui/configurationobject';
+import DeviceIdentityDisplay from '../@northern.tech/common-ui/deviceidentity';
+import Time from '../@northern.tech/common-ui/time';
 import { getDevicesLink } from '../deployment-wizard/softwaredevices';
 import { defaultColumnDataProps } from '../report';
 

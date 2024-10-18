@@ -20,8 +20,8 @@ import { UNGROUPED_GROUP } from '@northern.tech/store/constants';
 import validator from 'validator';
 
 import { fullyDecodeURI } from '../../../helpers';
-import DocsLink from '../../common/docslink';
-import InfoText from '../../common/infotext';
+import DocsLink from '../@northern.tech/common-ui/docslink';
+import InfoText from '../@northern.tech/common-ui/infotext';
 
 const filter = createFilterOptions();
 

@@ -34,16 +34,16 @@ import { groupDeploymentDevicesStats, groupDeploymentStats } from '@northern.tec
 
 import { deepCompare, isEmpty, toggle } from '../../../helpers';
 import Tracking from '../../../tracking';
-import ConfigurationObject from '../../common/configurationobject';
-import Confirm, { EditButton } from '../../common/confirm';
-import LogDialog from '../../common/dialogs/log';
-import { DOCSTIPS, DocsTooltip } from '../../common/docslink';
-import EnterpriseNotification from '../../common/enterpriseNotification';
-import KeyValueEditor from '../../common/forms/keyvalueeditor';
-import { InfoHintContainer } from '../../common/info-hint';
-import Loader from '../../common/loader';
-import Time from '../../common/time';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
+import ConfigurationObject from '../@northern.tech/common-ui/configurationobject';
+import Confirm, { EditButton } from '../@northern.tech/common-ui/confirm';
+import LogDialog from '../@northern.tech/common-ui/dialogs/log';
+import { DOCSTIPS, DocsTooltip } from '../@northern.tech/common-ui/docslink';
+import EnterpriseNotification from '../@northern.tech/common-ui/enterpriseNotification';
+import KeyValueEditor from '../@northern.tech/common-ui/forms/keyvalueeditor';
+import { InfoHintContainer } from '../@northern.tech/common-ui/info-hint';
+import Loader from '../@northern.tech/common-ui/loader';
+import Time from '../@northern.tech/common-ui/time';
 import ConfigImportDialog from './configimportdialog';
 import DeviceDataCollapse from './devicedatacollapse';
 

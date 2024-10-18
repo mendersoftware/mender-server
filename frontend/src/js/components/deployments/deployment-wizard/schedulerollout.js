@@ -20,9 +20,9 @@ import { makeStyles } from 'tss-react/mui';
 import { BENEFITS } from '@northern.tech/store/constants';
 import dayjs from 'dayjs';
 
-import EnterpriseNotification from '../../common/enterpriseNotification';
-import { InfoHintContainer } from '../../common/info-hint';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
+import EnterpriseNotification from '../@northern.tech/common-ui/enterpriseNotification';
+import { InfoHintContainer } from '../@northern.tech/common-ui/info-hint';
 
 const useStyles = makeStyles()(() => ({
   textField: { minWidth: 400 },

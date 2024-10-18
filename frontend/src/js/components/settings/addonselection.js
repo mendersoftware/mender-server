@@ -15,9 +15,9 @@ import React, { useMemo } from 'react';
 
 import { Checkbox } from '@mui/material';
 
+import InfoText from '@northern.tech/common-ui/infotext';
 import { ADDONS, PLANS } from '@northern.tech/store/constants';
 
-import InfoText from '../common/infotext';
 import { useStyles } from './planselection';
 
 export const AddOnSelection = ({ addons = [], features, onChange, updatedPlan = PLANS.os.id }) => {

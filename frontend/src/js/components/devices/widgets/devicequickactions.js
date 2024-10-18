@@ -41,7 +41,7 @@ import pluralize from 'pluralize';
 import GatewayIcon from '../../../../assets/img/gateway.svg';
 import { stringToBoolean, toggle } from '../../../helpers';
 import { getOnboardingComponentFor } from '../../../utils/onboardingmanager';
-import MaterialDesignIcon from '../../common/materialdesignicon';
+import MaterialDesignIcon from '../@northern.tech/common-ui/materialdesignicon';
 
 const defaultActions = {
   accept: {

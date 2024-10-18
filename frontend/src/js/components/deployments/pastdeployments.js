@@ -17,6 +17,9 @@ import { useDispatch, useSelector } from 'react-redux';
 // material ui
 import { TextField } from '@mui/material';
 
+import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/autocomplete';
+import Filters from '@northern.tech/common-ui/forms/filters';
+import TimeframePicker from '@northern.tech/common-ui/forms/timeframe-picker';
 import storeActions from '@northern.tech/store/actions';
 import { BEGINNING_OF_TIME, DEPLOYMENT_STATES, DEPLOYMENT_TYPES, onboardingSteps } from '@northern.tech/store/constants';
 import {
@@ -35,9 +38,6 @@ import { getISOStringBoundaries } from '../../helpers';
 import { getOnboardingComponentFor } from '../../utils/onboardingmanager';
 import useWindowSize from '../../utils/resizehook';
 import { clearAllRetryTimers, clearRetryTimer, setRetryTimer } from '../../utils/retrytimer';
-import { ControlledAutoComplete } from '../common/forms/autocomplete';
-import Filters from '../common/forms/filters';
-import TimeframePicker from '../common/forms/timeframe-picker';
 import { DeploymentSize, DeploymentStatus } from './deploymentitem';
 import { defaultRefreshDeploymentsLength as refreshDeploymentsLength } from './deployments';
 import DeploymentsList, { defaultHeaders } from './deploymentslist';

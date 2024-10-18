@@ -15,6 +15,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import Loader from '@northern.tech/common-ui/loader';
 import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_ROUTES, DEPLOYMENT_STATES, deploymentDisplayStates, onboardingSteps } from '@northern.tech/store/constants';
 import {
@@ -30,7 +31,6 @@ import { getDeploymentsByStatus } from '@northern.tech/store/thunks';
 import { getOnboardingComponentFor } from '../../utils/onboardingmanager';
 import useWindowSize from '../../utils/resizehook';
 import { clearAllRetryTimers, setRetryTimer } from '../../utils/retrytimer';
-import Loader from '../common/loader';
 import { BaseDeploymentsWidget, CompletedDeployments } from './widgets/deployments';
 import RedirectionWidget from './widgets/redirectionwidget';
 

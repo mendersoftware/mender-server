@@ -18,7 +18,7 @@ import { WebLinksAddon } from '@xterm/addon-web-links';
 
 import { toggle } from '../../../helpers';
 import useWindowSize from '../../../utils/resizehook';
-import XTerm from '../../common/xterm';
+import XTerm from '../@northern.tech/common-ui/xterm';
 
 export const options = {
   cursorBlink: 'block',

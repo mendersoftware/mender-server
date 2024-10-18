@@ -14,8 +14,8 @@
 import React from 'react';
 
 import { extractSoftware } from '../../../helpers';
-import { TwoColumnDataMultiple } from '../../common/configurationobject';
-import Time from '../../common/time';
+import { TwoColumnDataMultiple } from '../@northern.tech/common-ui/configurationobject';
+import Time from '../@northern.tech/common-ui/time';
 import DeviceDataCollapse from './devicedatacollapse';
 import DeviceInventoryLoader from './deviceinventoryloader';
 

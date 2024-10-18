@@ -15,7 +15,7 @@ import React from 'react';
 
 import { Launch as LaunchIcon } from '@mui/icons-material';
 
-import DocsLink from '../common/docslink';
+import DocsLink from '@northern.tech/common-ui/docslink';
 
 const InlineLaunchIcon = () => <LaunchIcon style={{ 'verticalAlign': 'text-bottom' }} fontSize="small" />;
 

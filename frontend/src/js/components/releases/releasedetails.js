@@ -43,6 +43,10 @@ import {
 import { speedDialActionClasses } from '@mui/material/SpeedDialAction';
 import { makeStyles } from 'tss-react/mui';
 
+import ChipSelect from '@northern.tech/common-ui/chipselect';
+import { ConfirmationButtons, EditButton } from '@northern.tech/common-ui/confirm';
+import { EditableLongText } from '@northern.tech/common-ui/editablelongtext';
+import { RelativeTime } from '@northern.tech/common-ui/time';
 import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';
 import { getReleaseListState, getReleaseTags, getSelectedRelease, getUserCapabilities } from '@northern.tech/store/selectors';
@@ -53,10 +57,6 @@ import pluralize from 'pluralize';
 import { FileSize, customSort, formatTime, toggle } from '../../helpers';
 import { generateReleasesPath } from '../../utils/locationutils';
 import useWindowSize from '../../utils/resizehook';
-import ChipSelect from '../common/chipselect';
-import { ConfirmationButtons, EditButton } from '../common/confirm';
-import { EditableLongText } from '../common/editablelongtext';
-import { RelativeTime } from '../common/time';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../helptips/helptooltips';
 import Artifact from './artifact';
 import RemoveArtifactDialog from './dialogs/removeartifact';

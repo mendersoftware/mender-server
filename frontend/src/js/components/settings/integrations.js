@@ -17,14 +17,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, Divider, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import Confirm from '@northern.tech/common-ui/confirm';
+import InfoHint from '@northern.tech/common-ui/info-hint';
 import { EXTERNAL_PROVIDER, TIMEOUTS } from '@northern.tech/store/constants';
 import { getExternalIntegrations, getIsPreview, getWebhooks } from '@northern.tech/store/selectors';
 import { changeIntegration, createIntegration, deleteIntegration, getIntegrations } from '@northern.tech/store/thunks';
 
 import { customSort } from '../../helpers';
 import { useDebounce } from '../../utils/debouncehook';
-import Confirm from '../common/confirm';
-import InfoHint from '../common/info-hint';
 import WebhookConfiguration from './webhooks/configuration';
 import Webhooks from './webhooks/webhooks';
 

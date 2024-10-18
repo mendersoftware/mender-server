@@ -35,11 +35,11 @@ import { getDeviceFileDownloadLink } from '@northern.tech/store/thunks';
 
 import { createDownload } from '../../../helpers';
 import { formatAuditlogs } from '../../../utils/locationutils';
-import DocsLink from '../../common/docslink';
-import EnterpriseNotification from '../../common/enterpriseNotification';
-import Loader from '../../common/loader';
-import MenderTooltip from '../../common/mendertooltip';
-import Time from '../../common/time';
+import DocsLink from '../@northern.tech/common-ui/docslink';
+import EnterpriseNotification from '../@northern.tech/common-ui/enterpriseNotification';
+import Loader from '../@northern.tech/common-ui/loader';
+import MenderTooltip from '../@northern.tech/common-ui/mendertooltip';
+import Time from '../@northern.tech/common-ui/time';
 import FileTransfer from '../troubleshoot/filetransfer';
 import TroubleshootContent from '../troubleshoot/terminal-wrapper';
 import DeviceDataCollapse from './devicedatacollapse';

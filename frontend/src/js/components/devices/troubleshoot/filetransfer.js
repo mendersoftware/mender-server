@@ -21,7 +21,7 @@ import { makeStyles } from 'tss-react/mui';
 import { canAccess } from '@northern.tech/store/constants';
 import { deviceFileUpload } from '@northern.tech/store/thunks';
 
-import FileUpload from '../../common/forms/fileupload';
+import FileUpload from '../@northern.tech/common-ui/forms/fileupload';
 
 const tabs = [
   { key: 'upload', canAccess: ({ userCapabilities: { canTroubleshoot, canWriteDevices } }) => canTroubleshoot && canWriteDevices },

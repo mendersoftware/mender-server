@@ -32,6 +32,7 @@ import {
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import Confirm from '@northern.tech/common-ui/confirm';
 import { ALL_DEVICES, onboardingSteps } from '@northern.tech/store/constants';
 import {
   getAcceptedDevices,
@@ -54,7 +55,6 @@ import pluralize from 'pluralize';
 import DeltaIcon from '../../../assets/img/deltaicon.svg';
 import { toggle, validatePhases } from '../../helpers';
 import { getOnboardingComponentFor } from '../../utils/onboardingmanager';
-import Confirm from '../common/confirm';
 import DeviceLimit from './deployment-wizard/devicelimit';
 import { RolloutPatternSelection, getPhaseStartTime } from './deployment-wizard/phasesettings';
 import { ForceDeploy, Retries, RolloutOptions } from './deployment-wizard/rolloutoptions';

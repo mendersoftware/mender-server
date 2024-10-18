@@ -15,11 +15,11 @@ import React, { useState } from 'react';
 
 import { Button } from '@mui/material';
 
+import InfoText from '@northern.tech/common-ui/infotext';
+import Loader from '@northern.tech/common-ui/loader';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 
 import stripeImage from '../../../assets/img/powered_by_stripe.png';
-import InfoText from '../common/infotext';
-import Loader from '../common/loader';
 
 const CardSection = ({ isSignUp, onCancel, onComplete, onSubmit, setSnackbar }) => {
   const stripe = useStripe();

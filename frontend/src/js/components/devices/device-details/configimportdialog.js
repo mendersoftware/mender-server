@@ -16,7 +16,7 @@ import React, { useState } from 'react';
 // material ui
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, FormHelperText, Radio, RadioGroup } from '@mui/material';
 
-import FileUpload from '../../common/forms/fileupload';
+import FileUpload from '../@northern.tech/common-ui/forms/fileupload';
 
 export const ConfigImportDialog = ({ onCancel, onSubmit }) => {
   const [config, setConfig] = useState(null);

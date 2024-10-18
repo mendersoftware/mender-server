@@ -20,8 +20,8 @@ import { TIMEOUTS } from '@northern.tech/store/commonConstants';
 import validator from 'validator';
 
 import { useDebounce } from '../../../utils/debouncehook';
-import { DOCSTIPS, DocsTooltip } from '../../common/docslink';
-import { InfoHintContainer } from '../../common/info-hint';
+import { DOCSTIPS, DocsTooltip } from '../@northern.tech/common-ui/docslink';
+import { InfoHintContainer } from '../@northern.tech/common-ui/info-hint';
 
 const useStyles = makeStyles()(theme => ({
   limitSelection: {

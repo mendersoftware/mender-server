@@ -17,9 +17,9 @@ import { Button } from '@mui/material';
 
 import { TIMEOUTS } from '@northern.tech/store/constants';
 
-import Form from '../../../common/forms/form';
-import TextInput from '../../../common/forms/textinput';
-import Loader from '../../../common/loader';
+import Form from '../../@northern.tech/common-ui/forms/form';
+import TextInput from '../../@northern.tech/common-ui/forms/textinput';
+import Loader from '../../@northern.tech/common-ui/loader';
 
 export const EmailVerification = ({ activationCode, verifyEmailComplete, verifyEmailStart }) => {
   const [isVerifying, setIsVerifying] = useState(false);

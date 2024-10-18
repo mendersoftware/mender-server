@@ -24,7 +24,7 @@ import { VictoryBar, VictoryContainer, VictoryPie, VictoryStack } from 'victory'
 
 import { isEmpty, toggle } from '../../../helpers';
 import { chartColorPalette } from '../../../themes/Mender';
-import Loader from '../../common/loader';
+import Loader from '../@northern.tech/common-ui/loader';
 import { ChartEditWidget, Header, RemovalWidget } from './chart-addition';
 
 const { ensureVersionString } = storeActions;

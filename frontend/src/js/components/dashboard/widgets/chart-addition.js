@@ -20,10 +20,10 @@ import { makeStyles } from 'tss-react/mui';
 import { BENEFITS, chartTypes, emptyChartSelection } from '@northern.tech/store/constants';
 
 import { toggle } from '../../../helpers';
-import Confirm from '../../common/confirm';
-import EnterpriseNotification from '../../common/enterpriseNotification';
-import { InfoHintContainer } from '../../common/info-hint';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
+import Confirm from '../@northern.tech/common-ui/confirm';
+import EnterpriseNotification from '../@northern.tech/common-ui/enterpriseNotification';
+import { InfoHintContainer } from '../@northern.tech/common-ui/info-hint';
 
 const fontSize = 'smaller';
 

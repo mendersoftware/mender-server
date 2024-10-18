@@ -27,10 +27,10 @@ import isUUID from 'validator/lib/isUUID';
 import { stringToBoolean } from '../../../helpers';
 import { formatDeviceSearch } from '../../../utils/locationutils';
 import useWindowSize from '../../../utils/resizehook';
-import AsyncAutocomplete from '../../common/asyncautocomplete';
-import InfoText from '../../common/infotext';
 import { getDeviceIdentityText } from '../../devices/base-devices';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
+import AsyncAutocomplete from '../@northern.tech/common-ui/asyncautocomplete';
+import InfoText from '../@northern.tech/common-ui/infotext';
 
 const useStyles = makeStyles()(theme => ({
   infoStyle: {

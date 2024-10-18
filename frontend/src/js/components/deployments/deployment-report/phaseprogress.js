@@ -22,7 +22,7 @@ import { getDeploymentState, groupDeploymentStats, statCollector } from '@northe
 import pluralize from 'pluralize';
 
 import inprogressImage from '../../../../assets/img/pending_status.png';
-import Confirm from '../../common/confirm';
+import Confirm from '../@northern.tech/common-ui/confirm';
 import { ProgressChartComponent } from '../progressChart';
 
 const useStyles = makeStyles()(theme => ({

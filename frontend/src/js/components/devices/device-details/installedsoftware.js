@@ -19,7 +19,7 @@ import { makeStyles } from 'tss-react/mui';
 import { rootfsImageVersion, softwareTitleMap } from '@northern.tech/store/constants';
 
 import { extractSoftware, isEmpty } from '../../../helpers';
-import { TwoColumnData } from '../../common/configurationobject';
+import { TwoColumnData } from '../@northern.tech/common-ui/configurationobject';
 import DeviceDataCollapse from './devicedatacollapse';
 import DeviceInventoryLoader from './deviceinventoryloader';
 

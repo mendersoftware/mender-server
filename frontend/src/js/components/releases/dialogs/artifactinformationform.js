@@ -16,10 +16,10 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { FormControl, Input, InputLabel, TextField } from '@mui/material';
 
-import ChipSelect from '../../common/chipselect';
-import { DOCSTIPS, DocsTooltip } from '../../common/docslink';
-import { InfoHintContainer } from '../../common/info-hint';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
+import ChipSelect from '../@northern.tech/common-ui/chipselect';
+import { DOCSTIPS, DocsTooltip } from '../@northern.tech/common-ui/docslink';
+import { InfoHintContainer } from '../@northern.tech/common-ui/info-hint';
 import { FileInformation } from './fileinformation';
 
 const defaultVersion = '1.0.0';

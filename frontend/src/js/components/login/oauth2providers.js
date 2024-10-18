@@ -14,8 +14,7 @@
 import React from 'react';
 
 import { mdiAccountKey, mdiGithub, mdiGoogle, mdiMicrosoft } from '@mdi/js';
-
-import MaterialDesignIcon from '../common/materialdesignicon';
+import MaterialDesignIcon from '@northern.tech/common-ui/materialdesignicon';
 
 export const genericProvider = {
   id: 'generic',

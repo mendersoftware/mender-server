@@ -35,9 +35,9 @@ import { mapUserRolesToUiPermissions } from '@northern.tech/store/utils';
 import validator from 'validator';
 
 import { toggle } from '../../../helpers';
-import { TwoColumnData } from '../../common/configurationobject';
-import { CopyTextToClipboard } from '../../common/copytext';
 import { OAuth2Providers, genericProvider } from '../../login/oauth2providers';
+import { TwoColumnData } from '../@northern.tech/common-ui/configurationobject';
+import { CopyTextToClipboard } from '../@northern.tech/common-ui/copytext';
 import { UserRolesSelect } from './userform';
 
 const useStyles = makeStyles()(theme => ({

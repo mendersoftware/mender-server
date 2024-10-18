@@ -17,15 +17,15 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { makeStyles } from 'tss-react/mui';
 
+import DetailsTable from '@northern.tech/common-ui/detailstable';
+import Loader from '@northern.tech/common-ui/loader';
+import Pagination from '@northern.tech/common-ui/pagination';
+import { RelativeTime } from '@northern.tech/common-ui/time';
 import storeActions from '@northern.tech/store/actions';
 import { DEVICE_LIST_DEFAULTS, SORTING_OPTIONS, canAccess as canShow } from '@northern.tech/store/constants';
 import { getFeatures, getHasReleases, getReleaseListState, getReleasesList, getUserCapabilities } from '@northern.tech/store/selectors';
 import { removeRelease, selectRelease, setReleasesListState } from '@northern.tech/store/thunks';
 
-import DetailsTable from '../common/detailstable';
-import Loader from '../common/loader';
-import Pagination from '../common/pagination';
-import { RelativeTime } from '../common/time';
 import AddTagsDialog from './dialogs/addTags';
 import { DeleteReleasesConfirmationDialog, ReleaseQuickActions } from './releasedetails';
 

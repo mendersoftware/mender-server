@@ -23,7 +23,7 @@ import { JSON_METADATA_FORMAT, XML_METADATA_FORMAT } from '@northern.tech/store/
 import copy from 'copy-to-clipboard';
 
 import { createFileDownload } from '../../../helpers';
-import Loader from '../../common/loader';
+import Loader from '../@northern.tech/common-ui/loader';
 
 loader.config({ paths: { vs: '/ui/vs' } });
 

@@ -17,6 +17,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, TextField } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import EnterpriseNotification, { DefaultUpgradeNotification } from '@northern.tech/common-ui/enterpriseNotification';
+import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/autocomplete';
+import ClickFilter from '@northern.tech/common-ui/forms/clickfilter';
+import Filters from '@northern.tech/common-ui/forms/filters';
+import TimeframePicker from '@northern.tech/common-ui/forms/timeframe-picker';
+import { InfoHintContainer } from '@northern.tech/common-ui/info-hint';
+import Loader from '@northern.tech/common-ui/loader';
 import { AUDIT_LOGS_TYPES, BEGINNING_OF_TIME, BENEFITS, SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
 import {
   getAuditLog,
@@ -33,13 +40,6 @@ import dayjs from 'dayjs';
 import historyImage from '../../../assets/img/history.png';
 import { createDownload, getISOStringBoundaries } from '../../helpers';
 import { useLocationParams } from '../../utils/liststatehook';
-import EnterpriseNotification, { DefaultUpgradeNotification } from '../common/enterpriseNotification';
-import { ControlledAutoComplete } from '../common/forms/autocomplete';
-import ClickFilter from '../common/forms/clickfilter';
-import Filters from '../common/forms/filters';
-import TimeframePicker from '../common/forms/timeframe-picker';
-import { InfoHintContainer } from '../common/info-hint';
-import Loader from '../common/loader';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../helptips/helptooltips';
 import AuditLogsList from './auditlogslist';
 

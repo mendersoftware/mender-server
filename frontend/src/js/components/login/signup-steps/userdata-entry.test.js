@@ -14,7 +14,7 @@
 import React from 'react';
 
 import { undefineds } from '../../../../../tests/mockData';
-import { formRenderWrapper } from '../../common/forms/form.test';
+import { formRenderWrapper } from '../@northern.tech/common-ui/forms/form.test';
 import UserDataEntry from './userdata-entry';
 
 describe('Login Component', () => {

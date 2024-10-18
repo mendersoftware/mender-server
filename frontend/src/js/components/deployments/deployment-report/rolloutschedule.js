@@ -24,9 +24,9 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import pluralize from 'pluralize';
 
 import { formatTime, getPhaseDeviceCount, getRemainderPercent } from '../../../helpers';
-import { TwoColumnData } from '../../common/configurationobject';
-import LinedHeader from '../../common/lined-header';
-import Time from '../../common/time';
+import { TwoColumnData } from '../@northern.tech/common-ui/configurationobject';
+import LinedHeader from '../@northern.tech/common-ui/lined-header';
+import Time from '../@northern.tech/common-ui/time';
 import { getPhaseStartTime } from '../deployment-wizard/phasesettings';
 import { ProgressChartComponent, getDeploymentPhasesInfo, getDisplayablePhases } from '../progressChart';
 import { defaultColumnDataProps } from '../report';

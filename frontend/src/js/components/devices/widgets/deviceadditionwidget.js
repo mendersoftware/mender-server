@@ -19,7 +19,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import { canAccess } from '@northern.tech/store/constants';
 
-import DocsLink from '../../common/docslink';
+import DocsLink from '../@northern.tech/common-ui/docslink';
 
 const useStyles = makeStyles()(() => ({
   buttonStyle: { textTransform: 'none' }

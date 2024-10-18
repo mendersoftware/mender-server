@@ -24,9 +24,9 @@ import { getCurrentSession, getDevicesById, getIdAttribute, getIsPreview, getOrg
 import { getSystemDevices } from '@northern.tech/store/thunks';
 
 import { getDemoDeviceAddress, toggle } from '../../../helpers';
-import { TwoColumnData } from '../../common/configurationobject';
-import DocsLink from '../../common/docslink';
-import EnterpriseNotification from '../../common/enterpriseNotification';
+import { TwoColumnData } from '../@northern.tech/common-ui/configurationobject';
+import DocsLink from '../@northern.tech/common-ui/docslink';
+import EnterpriseNotification from '../@northern.tech/common-ui/enterpriseNotification';
 import { getHeaders } from '../authorized-devices';
 import { routes } from '../base-devices';
 import Devicelist from '../devicelist';

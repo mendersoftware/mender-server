@@ -15,9 +15,9 @@ import React from 'react';
 
 import { DEVICE_STATES } from '@northern.tech/store/constants';
 
-import { TwoColumnData } from '../../common/configurationobject';
-import DeviceNameInput from '../../common/devicenameinput';
-import Time from '../../common/time';
+import { TwoColumnData } from '../@northern.tech/common-ui/configurationobject';
+import DeviceNameInput from '../@northern.tech/common-ui/devicenameinput';
+import Time from '../@northern.tech/common-ui/time';
 import AuthStatus from './authstatus';
 import DeviceDataCollapse from './devicedatacollapse';
 import DeviceTags from './devicetags';

@@ -32,10 +32,10 @@ import {
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { InfoHintContainer } from '@northern.tech/common-ui/info-hint';
 import { getReportingLimits } from '@northern.tech/store/thunks';
 
 import { toggle } from '../../helpers';
-import { InfoHintContainer } from '../common/info-hint';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../helptips/helptooltips';
 
 const useStyles = makeStyles()(theme => ({

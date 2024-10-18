@@ -13,8 +13,9 @@
 //    limitations under the License.
 import React from 'react';
 
-import Loader from '../common/loader';
-import Pagination from '../common/pagination';
+import Loader from '@northern.tech/common-ui/loader';
+import Pagination from '@northern.tech/common-ui/pagination';
+
 import DeploymentItem, {
   DeploymentDeviceCount,
   DeploymentDeviceGroup,

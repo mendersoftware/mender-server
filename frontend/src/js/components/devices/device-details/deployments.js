@@ -23,11 +23,11 @@ import { DEVICE_LIST_DEFAULTS, deploymentStatesToSubstates, deploymentsApiUrl } 
 import { getDeviceDeployments, resetDeviceDeployments } from '@northern.tech/store/thunks';
 
 import { createDownload } from '../../../helpers';
-import Confirm from '../../common/confirm';
-import InfoHint from '../../common/info-hint';
-import Pagination from '../../common/pagination';
-import { MaybeTime } from '../../common/time';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
+import Confirm from '../@northern.tech/common-ui/confirm';
+import InfoHint from '../@northern.tech/common-ui/info-hint';
+import Pagination from '../@northern.tech/common-ui/pagination';
+import { MaybeTime } from '../@northern.tech/common-ui/time';
 import { DeviceStateSelection } from '../widgets/devicestateselection';
 
 const useStyles = makeStyles()(theme => ({

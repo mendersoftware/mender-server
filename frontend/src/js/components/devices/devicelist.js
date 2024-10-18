@@ -13,8 +13,20 @@
 //    limitations under the License.
 import React, { memo } from 'react';
 
-import { deepCompare } from '../../helpers';
-import { CommonList } from '../common/list';
+// material ui
+import { Settings as SettingsIcon, Sort as SortIcon } from '@mui/icons-material';
+import { Checkbox } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
+
+import { CommonList } from '@northern.tech/common-ui/list';
+import Loader from '@northern.tech/common-ui/loader';
+import MenderTooltip from '@northern.tech/common-ui/mendertooltip';
+import Pagination from '@northern.tech/common-ui/pagination';
+import { DEVICE_LIST_DEFAULTS, SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
+import { isDarkMode } from '@northern.tech/store/utils';
+
+import { deepCompare, toggle } from '../../helpers';
+import useWindowSize from '../../utils/resizehook';
 import DeviceListItem from './devicelistitem';
 
 const sortingNotes = {

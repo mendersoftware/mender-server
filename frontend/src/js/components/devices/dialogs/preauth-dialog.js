@@ -21,8 +21,8 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/
 import { preauthDevice } from '@northern.tech/store/thunks';
 
 import { isEmpty } from '../../../helpers';
-import FileUpload from '../../common/forms/fileupload';
-import KeyValueEditor from '../../common/forms/keyvalueeditor';
+import FileUpload from '../@northern.tech/common-ui/forms/fileupload';
+import KeyValueEditor from '../@northern.tech/common-ui/forms/keyvalueeditor';
 
 export const DeviceLimitContact = () => (
   <p>

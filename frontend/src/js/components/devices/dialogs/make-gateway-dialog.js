@@ -18,8 +18,8 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/
 
 import { getToken } from '@northern.tech/store/auth';
 
-import CopyCode from '../../common/copy-code';
-import DocsLink from '../../common/docslink';
+import CopyCode from '../@northern.tech/common-ui/copy-code';
+import DocsLink from '../@northern.tech/common-ui/docslink';
 
 export const getCode = isPreRelease => {
   const { target, flags } = isPreRelease

@@ -15,10 +15,9 @@ import React from 'react';
 
 import { makeStyles } from 'tss-react/mui';
 
+import InfoText from '@northern.tech/common-ui/infotext';
 import { DEVICE_STATES } from '@northern.tech/store/constants';
 import pluralize from 'pluralize';
-
-import InfoText from '../common/infotext';
 
 const useStyles = makeStyles()(theme => ({
   default: {

@@ -23,12 +23,12 @@ import { getCurrentSession, getCurrentUser, getFeatures, getIsDarkMode, getIsEnt
 import { editUser, saveUserSettings } from '@northern.tech/store/thunks';
 
 import { toggle } from '../../../helpers';
-import { CopyTextToClipboard } from '../../common/copytext';
-import ExpandableAttribute from '../../common/expandable-attribute';
-import Form from '../../common/forms/form';
-import PasswordInput from '../../common/forms/passwordinput';
-import TextInput from '../../common/forms/textinput';
-import InfoText from '../../common/infotext';
+import { CopyTextToClipboard } from '../@northern.tech/common-ui/copytext';
+import ExpandableAttribute from '../@northern.tech/common-ui/expandable-attribute';
+import Form from '../@northern.tech/common-ui/forms/form';
+import PasswordInput from '../@northern.tech/common-ui/forms/passwordinput';
+import TextInput from '../@northern.tech/common-ui/forms/textinput';
+import InfoText from '../@northern.tech/common-ui/infotext';
 import AccessTokenManagement from '../accesstokenmanagement';
 import TwoFactorAuthSetup from './twofactorauthsetup';
 import { UserId, getUserSSOState } from './userdefinition';

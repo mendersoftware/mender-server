@@ -21,10 +21,10 @@ import { getDeviceAttributes, setDeviceTags } from '@northern.tech/store/thunks'
 
 import { toggle } from '../../../helpers';
 import Tracking from '../../../tracking';
-import ConfigurationObject from '../../common/configurationobject';
-import { EditButton } from '../../common/confirm';
-import KeyValueEditor from '../../common/forms/keyvalueeditor';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
+import ConfigurationObject from '../@northern.tech/common-ui/configurationobject';
+import { EditButton } from '../@northern.tech/common-ui/confirm';
+import KeyValueEditor from '../@northern.tech/common-ui/forms/keyvalueeditor';
 import DeviceDataCollapse from './devicedatacollapse';
 
 const NameTipComponent = props => <MenderHelpTooltip id={HELPTOOLTIPS.nameTagTip.id} {...props} />;

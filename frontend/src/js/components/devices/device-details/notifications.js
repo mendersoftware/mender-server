@@ -24,7 +24,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import pluralize from 'pluralize';
 
-import Time from '../../common/time';
+import Time from '../@northern.tech/common-ui/time';
 
 const errorIcon = <ErrorIcon className="red" />;
 const successIcon = <CheckIcon className="green" />;

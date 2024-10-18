@@ -21,8 +21,8 @@ import { getDeviceById, getSessionDetails } from '@northern.tech/store/thunks';
 import dayjs from 'dayjs';
 import durationDayJs from 'dayjs/plugin/duration';
 
-import Loader from '../../common/loader';
-import Time from '../../common/time';
+import Loader from '../@northern.tech/common-ui/loader';
+import Time from '../@northern.tech/common-ui/time';
 import DeviceDetails, { DetailInformation } from './devicedetails';
 import TerminalPlayer from './terminalplayer';
 

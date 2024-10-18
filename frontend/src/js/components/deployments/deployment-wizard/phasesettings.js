@@ -39,10 +39,10 @@ import dayjs from 'dayjs';
 import pluralize from 'pluralize';
 
 import { getPhaseDeviceCount, getRemainderPercent } from '../../../helpers';
-import { DOCSTIPS, DocsTooltip } from '../../common/docslink';
-import EnterpriseNotification from '../../common/enterpriseNotification';
-import { InfoHintContainer } from '../../common/info-hint';
-import Time from '../../common/time';
+import { DOCSTIPS, DocsTooltip } from '../@northern.tech/common-ui/docslink';
+import EnterpriseNotification from '../@northern.tech/common-ui/enterpriseNotification';
+import { InfoHintContainer } from '../@northern.tech/common-ui/info-hint';
+import Time from '../@northern.tech/common-ui/time';
 
 const useStyles = makeStyles()(theme => ({
   chip: { marginTop: theme.spacing(2) },

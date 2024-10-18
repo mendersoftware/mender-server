@@ -18,6 +18,11 @@ import { CloudUpload } from '@mui/icons-material';
 import { Button, Tab, Tabs, TextField } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import ChipSelect from '@northern.tech/common-ui/chipselect';
+import EnterpriseNotification, { DefaultUpgradeNotification } from '@northern.tech/common-ui/enterpriseNotification';
+import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/autocomplete';
+import { Filters } from '@northern.tech/common-ui/forms/filters';
+import { ControlledSearch } from '@northern.tech/common-ui/search';
 import { BENEFITS, SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
 import {
   getHasReleases,
@@ -34,11 +39,6 @@ import pluralize from 'pluralize';
 
 import { useDebounce } from '../../utils/debouncehook';
 import { useLocationParams } from '../../utils/liststatehook';
-import ChipSelect from '../common/chipselect';
-import EnterpriseNotification, { DefaultUpgradeNotification } from '../common/enterpriseNotification';
-import { ControlledAutoComplete } from '../common/forms/autocomplete';
-import { Filters } from '../common/forms/filters';
-import { ControlledSearch } from '../common/search';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../helptips/helptooltips';
 import AddArtifactDialog from './dialogs/addartifact';
 import ReleaseDetails from './releasedetails';

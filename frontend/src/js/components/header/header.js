@@ -36,6 +36,7 @@ import {
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import Search from '@northern.tech/common-ui/search';
 import storeActions from '@northern.tech/store/actions';
 import { READ_STATES, TIMEOUTS } from '@northern.tech/store/constants';
 import {
@@ -75,7 +76,6 @@ import whiteLogo from '../../../assets/img/whiteheaderlogo.png';
 import { toggle } from '../../helpers';
 import Tracking from '../../tracking';
 import { useDebounce } from '../../utils/debouncehook';
-import Search from '../common/search';
 import Announcement from './announcement';
 import DemoNotification from './demonotification';
 import DeploymentNotifications from './deploymentnotifications';

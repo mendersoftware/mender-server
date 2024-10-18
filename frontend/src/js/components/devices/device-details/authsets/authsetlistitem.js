@@ -21,8 +21,8 @@ import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Button
 import { DEVICE_DISMISSAL_STATE, DEVICE_STATES, TIMEOUTS } from '@northern.tech/store/constants';
 
 import { formatTime } from '../../../../helpers';
-import Loader from '../../../common/loader';
-import Time from '../../../common/time';
+import Loader from '../../@northern.tech/common-ui/loader';
+import Time from '../../@northern.tech/common-ui/time';
 
 const padder = <div key="padder" style={{ flexGrow: 1 }}></div>;
 

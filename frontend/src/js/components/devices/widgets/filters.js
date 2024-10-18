@@ -33,9 +33,9 @@ import { getDeviceAttributes, saveGlobalSettings, setDeviceListState } from '@no
 import { filtersFilter } from '@northern.tech/store/utils';
 
 import { deepCompare, toggle } from '../../../helpers';
-import EnterpriseNotification from '../../common/enterpriseNotification';
-import { InfoHintContainer } from '../../common/info-hint';
-import MenderTooltip from '../../common/mendertooltip';
+import EnterpriseNotification from '../@northern.tech/common-ui/enterpriseNotification';
+import { InfoHintContainer } from '../@northern.tech/common-ui/info-hint';
+import MenderTooltip from '../@northern.tech/common-ui/mendertooltip';
 import FilterItem from './filteritem';
 
 const { setDeviceFilters } = storeActions;

@@ -15,7 +15,7 @@ import React from 'react';
 
 import { List } from '@mui/material';
 
-import ExpandableAttribute from '../common/expandable-attribute';
+import ExpandableAttribute from '@northern.tech/common-ui/expandable-attribute';
 
 export const ArtifactMetadataList = ({ metaInfo = { content: [] } }) => {
   return (

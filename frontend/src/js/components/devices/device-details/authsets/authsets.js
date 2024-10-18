@@ -25,7 +25,7 @@ import pluralize from 'pluralize';
 
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../../helptips/helptooltips';
 import { DeviceLimitWarning } from '../../dialogs/preauth-dialog';
-import Confirm from './../../../common/confirm';
+import Confirm from './../../@northern.tech/common-ui/confirm';
 import Authsetlist from './authsetlist';
 
 const useStyles = makeStyles()(theme => ({

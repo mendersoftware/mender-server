@@ -19,9 +19,9 @@ import { Chip } from '@mui/material';
 
 import { twoFAStates } from '@northern.tech/store/constants';
 
-import DetailsIndicator from '../../common/detailsindicator';
-import DetailsTable from '../../common/detailstable';
-import Time, { RelativeTime } from '../../common/time';
+import DetailsIndicator from '../@northern.tech/common-ui/detailsindicator';
+import DetailsTable from '../@northern.tech/common-ui/detailstable';
+import Time, { RelativeTime } from '../@northern.tech/common-ui/time';
 
 const columnData = [
   {

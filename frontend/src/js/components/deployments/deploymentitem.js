@@ -18,13 +18,13 @@ import { CancelOutlined as CancelOutlinedIcon } from '@mui/icons-material';
 import { Button, IconButton, Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import Confirm from '@northern.tech/common-ui/confirm';
+import { RelativeTime } from '@northern.tech/common-ui/time';
 import { DEPLOYMENT_STATES, DEPLOYMENT_TYPES } from '@northern.tech/store/constants';
 import { getDeploymentState } from '@northern.tech/store/utils';
 
 import { FileSize } from '../../helpers';
 import { useDeploymentDevice } from '../../utils/deploymentdevicehook';
-import Confirm from '../common/confirm';
-import { RelativeTime } from '../common/time';
 import { PhaseProgressDisplay } from './deployment-report/phaseprogress';
 import { getDeploymentTargetText } from './deployment-wizard/softwaredevices';
 import DeploymentStats from './deploymentstatus';

@@ -17,6 +17,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Refresh as RefreshIcon } from '@mui/icons-material';
 import { makeStyles } from 'tss-react/mui';
 
+import LinedHeader from '@northern.tech/common-ui/lined-header';
+import Loader from '@northern.tech/common-ui/loader';
 import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_STATES, onboardingSteps } from '@northern.tech/store/constants';
 import {
@@ -34,8 +36,6 @@ import { getDeploymentsByStatus, setDeploymentsState } from '@northern.tech/stor
 import { getOnboardingComponentFor } from '../../utils/onboardingmanager';
 import useWindowSize from '../../utils/resizehook';
 import { clearAllRetryTimers, clearRetryTimer, setRetryTimer } from '../../utils/retrytimer';
-import LinedHeader from '../common/lined-header';
-import Loader from '../common/loader';
 import { defaultRefreshDeploymentsLength as refreshDeploymentsLength } from './deployments';
 import DeploymentsList from './deploymentslist';
 

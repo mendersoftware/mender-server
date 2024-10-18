@@ -19,7 +19,7 @@ import { makeStyles } from 'tss-react/mui';
 import { deploymentDisplayStates, pauseMap } from '@northern.tech/store/constants';
 import { groupDeploymentStats } from '@northern.tech/store/utils';
 
-import { TwoColumnData } from '../../common/configurationobject';
+import { TwoColumnData } from '../@northern.tech/common-ui/configurationobject';
 import { defaultColumnDataProps } from '../report';
 
 const useStyles = makeStyles()(theme => ({

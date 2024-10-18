@@ -14,14 +14,13 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import ConfigurationObject from '@northern.tech/common-ui/configurationobject';
+import DocsLink from '@northern.tech/common-ui/docslink';
+import { HelpTooltip } from '@northern.tech/common-ui/mendertooltip';
 import storeActions from '@northern.tech/store/actions';
 import { READ_STATES, yes } from '@northern.tech/store/constants';
 import { getDeviceById, getFeatures, getTooltipsState } from '@northern.tech/store/selectors';
 import { setAllTooltipsReadState, setTooltipReadState } from '@northern.tech/store/thunks';
-
-import ConfigurationObject from '../common/configurationobject';
-import DocsLink from '../common/docslink';
-import { HelpTooltip } from '../common/mendertooltip';
 
 const { setSnackbar } = storeActions;
 

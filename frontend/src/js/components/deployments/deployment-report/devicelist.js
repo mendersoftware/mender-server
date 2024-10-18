@@ -27,13 +27,13 @@ import {
 
 import DeltaIcon from '../../../../assets/img/deltaicon.svg';
 import { FileSize, formatTime } from '../../../helpers';
-import { TwoColumns } from '../../common/configurationobject';
-import DetailsTable from '../../common/detailstable';
-import DeviceIdentityDisplay from '../../common/deviceidentity';
-import Loader from '../../common/loader';
-import MenderTooltip from '../../common/mendertooltip';
-import Pagination from '../../common/pagination';
-import { MaybeTime } from '../../common/time';
+import { TwoColumns } from '../@northern.tech/common-ui/configurationobject';
+import DetailsTable from '../@northern.tech/common-ui/detailstable';
+import DeviceIdentityDisplay from '../@northern.tech/common-ui/deviceidentity';
+import Loader from '../@northern.tech/common-ui/loader';
+import MenderTooltip from '../@northern.tech/common-ui/mendertooltip';
+import Pagination from '../@northern.tech/common-ui/pagination';
+import { MaybeTime } from '../@northern.tech/common-ui/time';
 
 const useStyles = makeStyles()(() => ({
   table: { minHeight: '10vh', maxHeight: '40vh', overflowX: 'auto' }

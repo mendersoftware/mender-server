@@ -26,9 +26,9 @@ import copy from 'copy-to-clipboard';
 import dayjs from 'dayjs';
 
 import { createFileDownload, toggle } from '../../../helpers';
-import { CopyTextToClipboard } from '../../common/copytext';
-import ExpandableAttribute from '../../common/expandable-attribute';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
+import { CopyTextToClipboard } from '../@northern.tech/common-ui/copytext';
+import ExpandableAttribute from '../@northern.tech/common-ui/expandable-attribute';
 import Billing from './billing';
 import OrganizationSettingsItem, { maxWidth } from './organizationsettingsitem';
 import { SSOConfig } from './ssoconfig';

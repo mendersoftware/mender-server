@@ -19,7 +19,7 @@ import { useTheme } from '@mui/material/styles';
 import { getAuditlogDevice, getIdAttribute, getUserCapabilities } from '@northern.tech/store/selectors';
 import { getDeviceById } from '@northern.tech/store/thunks';
 
-import Loader from '../../common/loader';
+import Loader from '../@northern.tech/common-ui/loader';
 import DeviceDetails, { DetailInformation } from './devicedetails';
 
 export const DeviceConfiguration = ({ item, onClose }) => {
