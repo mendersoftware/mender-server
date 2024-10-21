@@ -294,6 +294,12 @@ publish:backend:licenses:
   stage: publish
   tags:
     - hetzner-amd-beefy
+  rules:
+    - changes:
+        paths: ["backend/**/*"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+      when: always
   image: golang:${GOLANG_VERSION}
   before_script:
     - go install github.com/google/go-licenses@v1.6.0
