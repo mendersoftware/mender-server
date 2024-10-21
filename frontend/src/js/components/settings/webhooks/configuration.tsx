@@ -77,7 +77,20 @@ const WebhookEventsSelector = ({ canSelectEvents }: { canSelectEvents: boolean }
 
 const defaultValues = { description: '', url: '', secret: '', ...Object.keys(availableScopes).reduce((accu, scope) => ({ ...accu, [scope]: false }), {}) };
 
-const WebhookConfiguration = ({ onCancel, onSubmit }: { onCancel: () => void; onSubmit: () => void }) => {
+interface WebhookConfigurationObject {
+  provider: string;
+  credentials: {
+    webhook: {
+      secret: string;
+      url: string;
+    };
+    type: string;
+  };
+  description: string;
+  scopes: string[];
+}
+
+const WebhookConfiguration = ({ onCancel, onSubmit }: { onCancel: () => void; onSubmit: (arg: WebhookConfigurationObject) => void }) => {
   const { canDelta: canSelectEvents } = useSelector(getTenantCapabilities);
   const { classes } = useStyles();
 

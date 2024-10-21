@@ -14,6 +14,8 @@
 // @ts-nocheck
 import { EXTERNAL_PROVIDER, apiUrl, useradmApiUrl } from '@northern.tech/store/constants';
 
+import { Integration } from '../api/types/Integration';
+
 export const auditLogsApiUrl = `${apiUrl.v1}/auditlogs`;
 export const tenantadmApiUrlv1 = `${apiUrl.v1}/tenantadm`;
 export const tenantadmApiUrlv2 = `${apiUrl.v2}/tenantadm`;
@@ -59,7 +61,12 @@ export const AUDIT_LOGS_TYPES = [
   { title: 'User', queryParameter: 'object_id', value: 'user' }
 ];
 
-export const emptyWebhook = {
+export interface Webhook extends Integration {
+  provider: Integration.provider.WEBHOOK;
+  scopes?: string[];
+}
+
+export const emptyWebhook: Webhook = {
   description: '',
   enabled: true,
   credentials: {

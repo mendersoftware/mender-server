@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import { ReactElement, useCallback, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // material ui
@@ -20,12 +20,14 @@ import { Button, Divider, Drawer, IconButton, Slide } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import actions from '@northern.tech/store/actions';
-import { EXTERNAL_PROVIDER, emptyWebhook } from '@northern.tech/store/constants';
+import { Event } from '@northern.tech/store/api/types/MenderTypes';
+import { EXTERNAL_PROVIDER, Webhook, emptyWebhook } from '@northern.tech/store/constants';
 import { getTenantCapabilities, getWebhookEventInfo } from '@northern.tech/store/selectors';
 import { getWebhookEvents } from '@northern.tech/store/thunks';
 
 import { TwoColumnData } from '../../common/configurationobject';
 import DetailsIndicator from '../../common/detailsindicator';
+import { ClassesOverrides } from '../../common/list';
 import Time from '../../common/time';
 import WebhookActivity from './activity';
 import { availableScopes } from './configuration';
@@ -71,7 +73,17 @@ const DeliveryStatus = ({ entry, webhook = {}, classes }) => {
   );
 };
 
-const columns = [
+interface WebhookColumnRenderer extends ClassesOverrides {
+  webhook: Webhook;
+}
+
+export type WebhookColumns = {
+  key: string;
+  title: string;
+  render: (entry: Event, { webhook, classes }: WebhookColumnRenderer) => ReactElement;
+}[];
+
+const columns: WebhookColumns = [
   { key: 'created_ts', title: 'Time', render: entry => <Time value={entry.time} /> },
   { key: 'trigger', title: 'Event trigger', render: entry => <div className="trigger-type">{triggerMap[entry.type] ?? entry.type}</div> },
   { key: 'status', title: 'Status', render: (entry, { webhook, classes }) => <DeliveryStatus classes={classes} entry={entry} webhook={webhook} /> },
@@ -79,7 +91,7 @@ const columns = [
 ];
 
 export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
-  const [selectedEvent, setSelectedEvent] = useState();
+  const [selectedEvent, setSelectedEvent] = useState<Event>();
   const { events, eventTotal } = useSelector(getWebhookEventInfo);
   const { canDelta: canScopeWebhooks } = useSelector(getTenantCapabilities);
   const dispatch = useDispatch();

@@ -11,14 +11,20 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { ReactNode } from 'react';
+
 import { ArrowCircleLeftOutlined as ArrowLeftIcon } from '@mui/icons-material';
 import { Divider, IconButton } from '@mui/material';
 
 import Editor, { loader } from '@monaco-editor/react';
+import { Event } from '@northern.tech/store/api/types/MenderTypes';
+import { Webhook } from '@northern.tech/store/constants';
 
 import { TwoColumnData } from '../../common/configurationobject';
 import { CopyTextToClipboard } from '../../common/copytext';
+import { ClassesOverrides } from '../../common/list';
 import Loader from '../../common/loader';
+import { WebhookColumns } from './management';
 
 loader.config({ paths: { vs: '/ui/vs' } });
 const editorProps = {
@@ -42,21 +48,24 @@ const editorProps = {
   }
 };
 
-const WebhookEventDetails = ({
-  classes,
-  columns,
-  entry = {},
-  onClickBack,
-  setSnackbar,
-  webhook
-}: {
-  classes: any;
-  columns: any;
-  entry?: {} | undefined;
-  onClickBack: any;
-  setSnackbar: any;
-  webhook: any;
-}) => {
+interface SetSnackbarProps {
+  message: string;
+  autoHideDuration: number;
+  action: () => void;
+  children: ReactNode;
+  onClick: () => void;
+  onClose: () => void;
+}
+
+interface WebhookEventDetailsProps extends ClassesOverrides {
+  columns: WebhookColumns;
+  entry?: Event | undefined;
+  onClickBack: () => void;
+  setSnackbar: (args: string | SetSnackbarProps) => void;
+  webhook: Webhook;
+}
+
+const WebhookEventDetails = ({ classes, columns, entry = {}, onClickBack, setSnackbar, webhook }: WebhookEventDetailsProps) => {
   const { data = {} } = entry;
 
   const content = columns.slice(0, columns.length - 1).reduce((accu, column) => ({ ...accu, [column.title]: column.render(entry, { webhook, classes }) }), {});

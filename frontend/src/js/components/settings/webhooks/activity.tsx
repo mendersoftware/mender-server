@@ -11,31 +11,28 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect, useRef, useState } from 'react';
+import { SetStateAction, useEffect, useRef, useState } from 'react';
 
-import { DEVICE_LIST_DEFAULTS } from '@northern.tech/store/constants';
+import { Event } from '@northern.tech/store/api/types/MenderTypes';
+import { DEVICE_LIST_DEFAULTS, Webhook } from '@northern.tech/store/constants';
 
 import DetailsTable from '../../common/detailstable';
+import { ClassesOverrides } from '../../common/list';
 import Pagination from '../../common/pagination';
+import { WebhookColumns } from './management';
 
 const { page: defaultPage, perPage: defaultPerPage } = DEVICE_LIST_DEFAULTS;
-const WebhookActivity = ({
-  classes,
-  columns,
-  events = [],
-  eventTotal,
-  getWebhookEvents,
-  setSelectedEvent,
-  webhook
-}: {
-  classes: any;
-  columns: any;
-  events?: never[] | undefined;
-  eventTotal: any;
-  getWebhookEvents: any;
-  setSelectedEvent: any;
-  webhook: any;
-}) => {
+
+interface WebhookActivityProps extends ClassesOverrides {
+  columns: WebhookColumns;
+  events?: Event[] | undefined;
+  eventTotal: number;
+  getWebhookEvents: () => void;
+  setSelectedEvent: SetStateAction<Event | undefined>;
+  webhook: Webhook;
+}
+
+const WebhookActivity = ({ classes, columns, events = [], eventTotal, getWebhookEvents, setSelectedEvent, webhook }: WebhookActivityProps) => {
   const [page, setPage] = useState(defaultPage);
   const tableRef = useRef();
 
