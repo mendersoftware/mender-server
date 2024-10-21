@@ -54,7 +54,7 @@ const type = DEPLOYMENT_STATES.finished;
 
 export const Past = props => {
   const { createClick, isShowingDetails } = props;
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const size = useWindowSize();
   const [tonight] = useState(getISOStringBoundaries(new Date()).end);
   const [loading, setLoading] = useState(false);

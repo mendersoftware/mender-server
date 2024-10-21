@@ -122,7 +122,7 @@ const providerConfigMap = {
 export const IntegrationConfiguration = ({ integration, isLast, onCancel, onDelete, onSave }) => {
   const { credentials = {}, provider } = integration;
   const [connectionConfig, setConnectionConfig] = useState(credentials);
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { type, ...otherProps } = credentials;
   const [isEditing, setIsEditing] = useState(!Object.values(otherProps).some(i => i));
   const [isDeleting, setIsDeleting] = useState(false);
@@ -131,7 +131,7 @@ export const IntegrationConfiguration = ({ integration, isLast, onCancel, onDele
 
   useEffect(() => {
     const { credentials = {} } = integration;
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { type, ...otherProps } = credentials;
     setConnectionConfig(credentials);
     setIsEditing(!Object.values(otherProps).some(i => i));

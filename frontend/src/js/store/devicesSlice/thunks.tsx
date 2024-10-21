@@ -521,9 +521,9 @@ export const setDeviceListState = createAsyncThunk(
       sort: { ...currentState.sort, ...selectionState.sort }
     };
     let tasks = [];
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { isLoading: currentLoading, deviceIds: currentDevices, selection: currentSelection, ...currentRequestState } = currentState;
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { isLoading: nextLoading, deviceIds: nextDevices, selection: nextSelection, ...nextRequestState } = nextState;
     if (!nextState.setOnly && !deepCompare(currentRequestState, nextRequestState)) {
       const { direction: sortDown = SORTING_OPTIONS.desc, key: sortCol, scope: sortScope } = nextState.sort ?? {};

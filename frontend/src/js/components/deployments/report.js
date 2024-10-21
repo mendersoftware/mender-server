@@ -206,7 +206,7 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type }) => {
   if (isConfigurationDeployment) {
     try {
       config = JSON.parse(atob(deployment.configuration));
-    } catch (error) {
+    } catch {
       config = {};
     }
   }

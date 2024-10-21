@@ -55,7 +55,7 @@ const CardSection = ({ isSignUp, onCancel, onComplete, onSubmit, setSnackbar }) 
         setSnackbar(`Card confirmed. Updating your account...`);
         onComplete();
       }
-    } catch (err) {
+    } catch {
       setSnackbar(`Something went wrong while submitting the form. Please contact support.`);
       onCancel();
     }

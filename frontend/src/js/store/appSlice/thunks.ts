@@ -127,9 +127,9 @@ export const setSearchState = createAsyncThunk(`${sliceName}/setSearchState`, (s
     }
   };
   let tasks = [];
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { isSearching: currentSearching, deviceIds: currentDevices, searchTotal: currentTotal, ...currentRequestState } = currentState;
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { isSearching: nextSearching, deviceIds: nextDevices, searchTotal: nextTotal, ...nextRequestState } = nextState;
   if (nextRequestState.searchTerm && !deepCompare(currentRequestState, nextRequestState)) {
     nextState.isSearching = true;

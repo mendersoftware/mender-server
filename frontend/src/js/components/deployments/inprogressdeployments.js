@@ -79,7 +79,7 @@ export const Progress = ({ abort, createClick, ...remainder }) => {
   const { page: pendingPage, perPage: pendingPerPage } = selectionState.pending;
 
   const [doneLoading, setDoneLoading] = useState(!!(progressCount || pendingCount));
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const size = useWindowSize();
 
   const currentRefreshDeploymentLength = useRef(refreshDeploymentsLength);

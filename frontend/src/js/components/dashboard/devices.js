@@ -37,7 +37,7 @@ import RedirectionWidget from './widgets/redirectionwidget';
 const { setShowConnectingDialog } = storeActions;
 
 export const Devices = ({ clickHandle }) => {
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const size = useWindowSize();
   const anchor = useRef();
   const pendingsRef = useRef();

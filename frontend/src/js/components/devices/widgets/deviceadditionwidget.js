@@ -74,7 +74,7 @@ export const DeviceAdditionWidget = ({ features, innerRef, onConnectClick, onMak
           if (!option.canAccess({ features, tenantCapabilities })) {
             return accu;
           }
-          // eslint-disable-next-line no-unused-vars
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { canAccess, component, title, value, ...optionProps } = option;
           const item = component ? (
             <MenuItem {...optionProps} key={value} component={component}>

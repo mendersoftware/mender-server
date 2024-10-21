@@ -69,7 +69,7 @@ const mockStore = configureMockStore(middlewares);
 const defaultRole = { ...emptyRole, name: 'test', description: 'test description' };
 const settings = { test: true };
 
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { attributes, ...expectedDevice } = defaultState.devices.byId.a1;
 
 export const offlineThreshold = [
@@ -479,7 +479,7 @@ describe('user actions', () => {
   });
   it('should allow storing global settings without deletion', async () => {
     jest.clearAllMocks();
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id_attribute, ...retrievedSettings } = defaultState.users.globalSettings;
     const expectedActions = [
       { type: saveGlobalSettings.pending.type },
@@ -498,7 +498,7 @@ describe('user actions', () => {
   });
   it('should allow storing global settings without deletion and with notification', async () => {
     jest.clearAllMocks();
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id_attribute, ...retrievedSettings } = defaultState.users.globalSettings;
     const expectedActions = [
       { type: saveGlobalSettings.pending.type },
@@ -518,7 +518,7 @@ describe('user actions', () => {
   });
   it('should allow storing user scoped settings', async () => {
     jest.clearAllMocks();
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { ...settings } = defaultState.users.userSettings;
     const expectedActions = [
       { type: saveUserSettings.pending.type },
@@ -602,7 +602,7 @@ describe('user actions', () => {
   });
   it('should allow token removal', async () => {
     jest.clearAllMocks();
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const expectedActions = [
       { type: revokeToken.pending.type },
       { type: getTokens.pending.type },

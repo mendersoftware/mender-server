@@ -109,7 +109,7 @@ export const devicesSlice = createSlice({
       } else if (state.groups.selectedGroup === group) {
         state.groups.selectedGroup = undefined;
       }
-      // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { [group]: removal, ...remainingById } = state.groups.byId;
       state.groups.byId = remainingById;
     },
@@ -125,7 +125,7 @@ export const devicesSlice = createSlice({
       state.groups.selectedGroup = group;
     },
     removeGroup: (state, action) => {
-      // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { [action.payload]: removal, ...remainingById } = state.groups.byId;
       state.groups.byId = remainingById;
       state.groups.selectedGroup = state.groups.selectedGroup === action.payload ? undefined : state.groups.selectedGroup;

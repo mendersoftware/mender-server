@@ -26,7 +26,7 @@ export const getSessionInfo = () => {
   let sessionInfo = { ...emptySession };
   try {
     sessionInfo = JSON.parse(window.localStorage.getItem('JWT') ?? '');
-  } catch (error) {
+  } catch {
     // most likely not logged in - nothing to do here
   }
   if (sessionInfo.expiresAt && new Date(sessionInfo.expiresAt) < new Date()) {

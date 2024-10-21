@@ -74,7 +74,7 @@ export const DeploymentStatus = ({ className = '', deployment = {} }) => {
   }
 
   const statsBasedDeviceCount = Object.values(phaseStats).reduce((sum, count) => sum + count, 0);
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { failure, finished: finishedDeployment, scheduled, success, ...phasesWithStats } = deploymentDisplayStates;
 
   return (

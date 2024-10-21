@@ -32,6 +32,7 @@
     "no-console": "off",
     "no-multiple-empty-lines": "error",
     "no-prototype-builtins": "off",
+    "no-unused-vars": "off",
     "quotes": ["error", "single", { "allowTemplateLiterals": true }],
     "react/forbid-dom-props": "error",
     "react/no-redundant-should-component-update": "error",
@@ -52,6 +53,7 @@
     "react/react-in-jsx-scope": "off",
     "react/require-default-props": "off",
     "@typescript-eslint/ban-ts-comment": "off",
-    "@typescript-eslint/no-explicit-any": "warn"
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-unused-vars": "error"
   }
 }

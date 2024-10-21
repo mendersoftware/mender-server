@@ -199,7 +199,7 @@ export const DeviceTwin = ({ device, integration }) => {
     let update = {};
     try {
       update = JSON.parse(updated);
-    } catch (error) {
+    } catch {
       setErrorMessage('There was an error parsing the device twin changes, please ensure that it is valid JSON.');
       return;
     }

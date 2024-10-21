@@ -88,7 +88,7 @@ const getGroupSuccessNotification = groupName => (
   </>
 );
 
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { attributes, check_in_time, updated_ts, ...expectedDevice } = defaultState.devices.byId.a1;
 const receivedExpectedDevice = { type: actions.receivedDevices.type, payload: { [defaultState.devices.byId.a1.id]: expectedDevice } };
 const defaultDeviceListState = {
@@ -196,7 +196,7 @@ describe('selecting things', () => {
     const store = mockStore({ ...defaultState });
     const groupName = 'testGroup';
     await store.dispatch(selectGroup({ group: groupName }));
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { attributes, updated_ts, ...expectedDevice } = defaultState.devices.byId.a1;
     const expectedActions = [
       { type: selectGroup.pending.type },
@@ -642,7 +642,7 @@ describe('device auth handling', () => {
   });
   it('should allow preauthorizing devices', async () => {
     const store = mockStore({ ...defaultState });
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const expectedActions = [
       { type: preauthDevice.pending.type },
       { type: appActions.setSnackbar.type, payload: 'Device was successfully added to the preauthorization list' },
@@ -822,7 +822,7 @@ describe('static grouping related actions', () => {
   it('should allow device retrieval for static groups', async () => {
     const store = mockStore({ ...defaultState });
     const groupName = 'testGroup';
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { attributes, updated_ts, ...expectedDevice } = defaultState.devices.byId.a1;
     const expectedActions = [
       { type: getGroupDevices.pending.type },
@@ -1079,8 +1079,8 @@ describe('device retrieval ', () => {
   it('should allow retrieving devices per status and their auth data', async () => {
     const store = mockStore({ ...defaultState });
     const {
-      a1: { attributes: attributes1, ...expectedDevice1 }, // eslint-disable-line no-unused-vars
-      b1: { attributes: attributes2, auth_sets, ...expectedDevice2 } // eslint-disable-line no-unused-vars
+      a1: { attributes: attributes1, ...expectedDevice1 }, // eslint-disable-line @typescript-eslint/no-unused-vars
+      b1: { attributes: attributes2, auth_sets, ...expectedDevice2 } // eslint-disable-line @typescript-eslint/no-unused-vars
     } = defaultState.devices.byId;
     const expectedActions = [
       { type: getDevicesWithAuth.pending.type },
