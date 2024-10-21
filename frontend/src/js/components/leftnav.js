@@ -20,7 +20,7 @@ import { List, ListItem, ListItemText, Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import storeActions from '@northern.tech/store/actions';
-import { TIMEOUTS, canAccess } from '@northern.tech/store/constants';
+import { TIMEOUTS } from '@northern.tech/store/constants';
 import { getFeatures, getUserCapabilities, getVersionInformation } from '@northern.tech/store/selectors';
 import copy from 'copy-to-clipboard';
 
@@ -29,10 +29,19 @@ import DocsLink from './common/docslink';
 const { setSnackbar, setVersionInformation } = storeActions;
 
 const listItems = [
-  { route: '/', text: 'Dashboard', canAccess },
-  { route: '/devices', text: 'Devices', canAccess: ({ userCapabilities: { canReadDevices } }) => canReadDevices },
-  { route: '/releases', text: 'Releases', canAccess: ({ userCapabilities: { canReadReleases, canUploadReleases } }) => canReadReleases || canUploadReleases },
-  { route: '/deployments', text: 'Deployments', canAccess: ({ userCapabilities: { canDeploy, canReadDeployments } }) => canReadDeployments || canDeploy },
+  { route: '/', text: 'Dashboard', canAccess: ({ userCapabilities: { SPTenant } }) => !SPTenant },
+  { route: '/devices', text: 'Devices', canAccess: ({ userCapabilities: { canReadDevices, SPTenant } }) => canReadDevices && !SPTenant },
+  {
+    route: '/releases',
+    text: 'Releases',
+    canAccess: ({ userCapabilities: { canReadReleases, canUploadReleases, SPTenant } }) => (canReadReleases || canUploadReleases) && !SPTenant
+  },
+  {
+    route: '/deployments',
+    text: 'Deployments',
+    canAccess: ({ userCapabilities: { canDeploy, canReadDeployments, SPTenant } }) => (canReadDeployments || canDeploy) && !SPTenant
+  },
+  { route: '/tenants', text: 'Tenants', canAccess: ({ userCapabilities: { SPTenant } }) => SPTenant },
   { route: '/auditlog', text: 'Audit log', canAccess: ({ userCapabilities: { canAuditlog } }) => canAuditlog }
 ];
 
@@ -130,6 +139,7 @@ export const LeftNav = () => {
   const { classes } = useStyles();
 
   const userCapabilities = useSelector(getUserCapabilities);
+
   return (
     <div className={`leftFixed leftNav ${classes.list}`}>
       <List style={{ padding: 0 }}>

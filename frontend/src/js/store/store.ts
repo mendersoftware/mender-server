@@ -83,9 +83,7 @@ export const getConfiguredStore = (options = {}) => {
       })
   });
 };
-
-export type AppDispatch = typeof store.dispatch;
-
-export default getConfiguredStore({
+export const store = getConfiguredStore({
   preloadedState: {}
 });
+export type AppDispatch = typeof store.dispatch;
