@@ -26,14 +26,14 @@ services:
       s3fs:
         condition: service_healthy
     environment:
-      DEPLOYMENTS_PRESIGN_URL_HOSTNAME: "mender.local"
+      DEPLOYMENTS_PRESIGN_URL_HOSTNAME: "docker.mender.io"
       DEPLOYMENTS_PRESIGN_SECRET: "aW5zZWN1cmUgc2VjcmV0"
       DEPLOYMENTS_INVENTORY_ADDR: http://inventory:8080
       DEPLOYMENTS_MENDER_WORKFLOWS: http://workflows:8080
       DEPLOYMENTS_MONGO_URL: "mongodb://mongo"
       DEPLOYMENTS_STORAGE_BUCKET: "mender"
       DEPLOYMENTS_AWS_URI: "http://s3fs:8333"
-      DEPLOYMENTS_AWS_EXTERNAL_URI: "https://s3.mender.local"
+      DEPLOYMENTS_AWS_EXTERNAL_URI: "https://s3.docker.mender.io"
       DEPLOYMENTS_AWS_AUTH_KEY: "${MENDER_ACCESS_KEY_ID:-mender}"
       DEPLOYMENTS_AWS_AUTH_SECRET: "${MENDER_SECRET_ACCESS_KEY:-thisisnotsecure}"
     labels:
@@ -287,7 +287,7 @@ services:
       IOT_MANAGER_ADDR: iot-manager:8080
       USERADM_ADDR: useradm:8080
       WORKFLOWS_SERVER_ADDR: workflows:8080
-      WOKRFLOWS_MENDER_URL: https://mender.local
+      WOKRFLOWS_MENDER_URL: https://docker.mender.io
       HAVE_DEVICECONFIG: "1"
 
   workflows:
@@ -392,7 +392,7 @@ configs:
       {
         "InventoryPollIntervalSeconds": 5,
         "RetryPollIntervalSeconds": 5,
-        "ServerURL": "${SERVER_URL:-https://mender.local}",
+        "ServerURL": "${SERVER_URL:-https://docker.mender.io}",
         "ServerCertificate": "/var/lib/mender/mender.crt",
         "UpdatePollIntervalSeconds": 5,
         "TenantToken": "${TENANT_TOKEN:-}"

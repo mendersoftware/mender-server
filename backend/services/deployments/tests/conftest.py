@@ -49,7 +49,7 @@ def pytest_addoption(parser):
     )
     parser.addoption(
         "--s3-endpoint-url",
-        default=os.environ.get("AWS_ENDPOINT_URL", "http://s3.mender.local:8080"),
+        default=os.environ.get("AWS_ENDPOINT_URL", "http://s3.docker.mender.io:8080"),
         help="The endpoint URL for s3",
     )
 

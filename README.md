@@ -9,6 +9,11 @@ Mender server requires Docker Compose version `v2.21.0` or newer.
 docker compose version
 ```
 
+You will also need to update your local DNS or host rewrites, for example by appending to `/etc/hosts`:
+```bash
+echo '127.0.0.1   docker.mender.io s3.docker.mender.io' | sudo tee -a /etc/hosts
+```
+
 > [!NOTE]
 > This docker composition is only meant for evaluation purposes.
 > Please use [the helm chart](https://github.com/mendersoftware/mender-helm) in production environments.
@@ -20,7 +25,7 @@ docker compose up -d
 
 Once all containers are running, you can create your initial user using the following command:
 ```
-MENDER_USERNAME=admin@mender.local
+MENDER_USERNAME=admin@docker.mender.io
 MENDER_PASSWORD=password123
 docker compose exec useradm useradm create-user --username "$MENDER_USERNAME" --password "$MENDER_PASSWORD"
 ```
@@ -53,7 +58,7 @@ docker compose up -d
 To initialize the admin user, use the following snippet:
 ```
 MENDER_NAME=Admin
-MENDER_USERNAME=admin@mender.local
+MENDER_USERNAME=admin@docker.mender.io
 MENDER_PASSWORD=password123
 docker compose exec tenantadm tenantadm create-org --username "$MENDER_USERNAME" --password "$MENDER_PASSWORD" --name "$MENDER_NAME"
 ```
