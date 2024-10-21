@@ -36,7 +36,11 @@ export const DeviceLimitRender = (props: RendererProp<Tenant>) => {
   const deviceLimit = useSelector(getDeviceLimit);
   const { column, item } = props;
   const attributeValue = item?.[column.attribute.name];
-  return `${attributeValue}/${deviceLimit}`;
+  return (
+    <div>
+      {attributeValue}/{deviceLimit}
+    </div>
+  );
 };
 export const BoolRender = (props: RendererProp<Tenant>) => {
   const { column, item } = props;
