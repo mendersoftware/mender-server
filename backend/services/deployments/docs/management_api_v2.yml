@@ -728,8 +728,10 @@ definitions:
       meta_data:
         type: array
         description: |
-            meta_data is an array of objects of unknown structure as this
-            is dependent of update type (also custom defined by user)
+          meta_data is an array of objects of unknown structure as this
+          is dependent of update type (also custom defined by user)
+        items:
+          type: object
 
   UpdateFile:
       description: |
@@ -766,6 +768,365 @@ definitions:
     example:
       error: "failed to decode device group data: JSON payload is empty"
       request_id: "f7881e82-0492-49fb-b459-795654e7188a"
+
+  FilterPredicate:
+    description: Attribute filter predicate
+    type: object
+    required:
+      - scope
+      - attribute
+      - type
+      - value
+    properties:
+      scope:
+        type: string
+        description: |
+          The scope of the attribute.
+
+          Scope is a string and acts as namespace for the attribute name.
+      attribute:
+        type: string
+        description: |
+          Name of the attribute to be queried for filtering.
+      type:
+        type: string
+        description: Type or operator of the filter predicate.
+        enum: [$eq, $gt, $gte, $in, $lt, $lte, $ne, $nin, $exists]
+      value:
+        type: string
+        description: |
+          The value of the attribute to be used in filtering.
+
+          Attribute type is implicit, inferred from the JSON type.
+
+          Supported types: number, string, array of numbers, array of strings.
+          Mixed arrays are not allowed.
+    example:
+      type: "$eq"
+      attribute: "serial_no"
+      scope: "inventory"
+      value: "123456789"
+
+  Filter:
+    description: Inventory filter assigned to the deployment
+    type: object
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: string
+        description: |
+          Unique identifier of the saved filter.
+      name:
+        type: string
+        description: |
+          Name of the saved filter.
+      terms:
+        type: array
+        items:
+          $ref: "#/definitions/FilterPredicate"
+    example:
+      id: "myfilter"
+      name: "My Filter"
+      terms:
+        - scope: "inventory"
+          attribute: "serial_no"
+          type: "$eq"
+          value: "123456789"
+
+  DeploymentPhase:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Phase identifier.
+      batch_size:
+        type: integer
+        description: |
+          Percentage of devices to update in the phase.
+      start_ts:
+        type: string
+        format: date-time
+        description: |
+          Start date of a phase.
+          May be undefined for the first phase of a deployment.
+      device_count:
+        type: integer
+        description: |
+          Number of devices which already requested an update within this phase.
+    example:
+      application/json:
+        id: "foo"
+        start_ts: 2020-07-06T15:04:49.114046203+02:00
+        batch_size: 5
+        device_count: 42
+
+  DeploymentStatusStatistics:
+    type: object
+    properties:
+      success:
+        type: integer
+        description: Number of successful deployments.
+      pending:
+        type: integer
+        description: Number of pending deployments.
+      downloading:
+        type: integer
+        description: Number of deployments being downloaded.
+      rebooting:
+        type: integer
+        description: Number of deployments devices are rebooting into.
+      installing:
+        type: integer
+        description: Number of deployments devices being installed.
+      failure:
+        type: integer
+        description: Number of failed deployments.
+      noartifact:
+        type: integer
+        description: Do not have appropriate artifact for device type.
+      already-installed:
+        type: integer
+        description: Number of devices unaffected by upgrade, since they are already running the specified software version.
+      aborted:
+        type: integer
+        description: Number of deployments aborted by user.
+      pause_before_installing:
+        type: integer
+        description: Number of deployments paused before install state.
+      pause_before_rebooting:
+        type: integer
+        description: Number of deployments paused before reboot phase.
+      pause_before_committing:
+        type: integer
+        description: Number of deployments paused before commit phase.
+    required:
+      - success
+      - pending
+      - downloading
+      - installing
+      - rebooting
+      - failure
+      - noartifact
+      - already-installed
+      - aborted
+      - pause_before_installing
+      - pause_before_rebooting
+      - pause_before_committing
+    example:
+      success: 3
+      pending: 1
+      failure: 0
+      downloading: 1
+      installing: 2
+      rebooting: 3
+      noartifact: 0
+      already-installed: 0
+      aborted: 0
+      pause_before_installing: 0
+      pause_before_rebooting: 0
+      pause_before_committing: 0
+
+  DeploymentStatistics:
+    type: object
+    properties:
+      status:
+        $ref: "#/definitions/DeploymentStatusStatistics"
+      total_size:
+        type: integer
+        description: |
+          Sum of sizes (in bytes) of all artifacts assigned to all device deployments,
+          which are part of this deployment.
+          If the same artifact is assigned to multiple device deployments,
+          its size will be counted multiple times.
+
+  Deployment:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Deployment identifier
+      name:
+        type: string
+        description: Name of the deployment
+      artifact_name:
+        type: string
+        description: Name of the artifact to deploy
+      created:
+        type: string
+        format: date-time
+        description: Deployment's creation date and time
+      finished:
+        type: string
+        format: date-time
+        description: Deployment's completion date and time
+      status:
+        type: string
+        enum:
+          - scheduled
+          - pending
+          - inprogress
+          - finished
+        description: Status of the deployment
+      device_count:
+        type: integer
+        description: Number of devices the deployment acted upon
+      artifacts:
+        type: array
+        description: An array of artifact's identifiers.
+        items:
+          type: string
+      groups:
+        type: array
+        description: |
+          An array of groups the devices targeted by the deployment belong to.
+          Available only if the user created the deployment for a group or a single device (if the device was in a static group).
+        items:
+          type: string
+      phases:
+        type: array
+        description: An array of deployments phases (if any were defined for the deployment).
+        items:
+          $ref: "#/definitions/DeploymentPhase"
+      retries:
+        type: integer
+        description: The number of times a device can retry the deployment in case of failure, defaults to 0
+        default: 0
+      update_control_map:
+        type: object
+        additionalProperties: true
+        description: |
+          A valid JSON object defining the update control map.
+          *NOTE*: Available only in the Enterprise plan.
+      max_devices:
+        type: integer
+        description: |
+          max_devices denotes a limit on a number of completed deployments (failed or successful) above which the dynamic deployment will be finished.
+      initial_device_count:
+        type: integer
+        description: |
+          In case of dynamic deployments this is a number of devices targeted initially (maching the filter at the moment of deployment creation).
+      dynamic:
+        type: boolean
+        description: |
+          Flag indicating if the deployment is dynamic or not.
+      filter:
+        $ref: "#/definitions/Filter"
+      type:
+        type: string
+        enum:
+          - configuration
+          - software
+      configuration:
+        type: string
+        description: |
+          A string containing a configuration object provided
+          with the deployment constructor.
+      autogenerate_delta:
+        type: boolean
+        description: |
+          The flag idicating if the autogeneration of delta artifacts is enabled for a given deployment.
+      statistics:
+        $ref: "#/definitions/DeploymentStatistics"
+    required:
+      - created
+      - name
+      - artifact_name
+      - id
+      - status
+      - device_count
+    example:
+      created: 2016-02-11T13:03:17.063493443Z
+      status: finished
+      name: production
+      artifact_name: Application 0.0.1
+      id: 00a0c91e6-7dec-11d0-a765-f81d4faebf6
+      finished: 2016-03-11T13:03:17.063493443Z
+      phases:
+        - batch_size: 5
+        - start_ts: 2020-07-06T17:04:49.114046203+02:00
+          device_count: 25
+        - batch_size: 15
+        - start_ts: 2020-07-06T18:04:49.114046203+02:00
+          device_count: 10
+        - start_ts: 2020-07-06T19:04:49.114046203+02:00
+          device_count: 0
+      device_count: 500
+      retries: 3
+
+  NewDeploymentV2:
+    type: object
+    properties:
+      name:
+        type: string
+      artifact_name:
+        type: string
+      filter_id:
+        type: string
+        description: ID of a filter from inventory service.
+      phases:
+        type: array
+        description: |
+          Phased rollout feature is available only to Enterprise users.
+        items:
+          $ref: "#/definitions/NewDeploymentPhase"
+      retries:
+        type: integer
+        description: The number of times a device can retry the deployment in case of failure, defaults to 0
+        default: 0
+      max_devices:
+        type: integer
+        description: |
+          max_devices denotes a limit on a number of completed deployments (failed or successful) above which the dynamic deployment will be finished
+      update_control_map:
+        x-mender-plan: ["enterprise"]
+        type: object
+        additionalProperties: true
+        description: |
+          A valid JSON object defining the update control map.
+          *NOTE*: Available only in the Enterprise plan.
+      autogenerate_delta:
+        type: boolean
+        description: |
+          The flag idicating if the autogeneration of delta artifacts is enabled for a given deployment.
+        default: false
+    required:
+      - name
+      - artifact_name
+      - filter_id
+    example:
+      name: production
+      artifact_name: Application 0.0.1
+      filter_id: 00a0c91e6-7dec-11d0-a765-f81d4faebf6
+      phases:
+        - batch_size: 5
+          start_ts: 2020-07-06T17:04:49.114046203+02:00
+        - batch_size: 15
+          start_ts: 2020-07-06T18:04:49.114046203+02:00
+        - start_ts: 2020-07-06T19:04:49.114046203+02:00
+      retries: 3
+  NewDeploymentPhase:
+    type: object
+    properties:
+      batch_size:
+        type: integer
+        description: |
+          Percentage of devices to update in the phase.
+          This field is optional for the last phase.
+          The last phase will contain the rest of the devices.
+          Note that if the percentage of devices entered does not add up to a whole number of devices it is rounded down, and in the case it is rounded down to zero, a 400 error will be returned.
+          This is mostly a concern when the deployment consists of a low number of devices, like say 5 percent of 11 devices will round to zero, and an error is returned by the server.
+          In the case of dynamic deployment, the number of devices for each phase is being calculated based on the initial number of devices matching the filter.
+      start_ts:
+        type: string
+        format: date-time
+        description: |
+          Start date of a phase.
+          Can be skipped for the first phase of a new deployment definition ('start immediately').
+    example:
+      start_ts: 2019-07-07T21:10:17.063493443Z
+      batch_size: 5
 
   ReleasesDeleteError:
     description: Releases used by active deployment.
