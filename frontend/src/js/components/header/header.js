@@ -153,9 +153,6 @@ const useStyles = makeStyles()(theme => ({
     borderRadius: theme.spacing(3),
     marginRight: theme.spacing(2),
     fontSize: '11px'
-  },
-  spTenantBadgeContainer: {
-    borderRight: `1px solid ${theme.palette.grey[300]}`
   }
 }));
 
@@ -379,7 +376,7 @@ export const Header = ({ isDarkMode }) => {
           <>
             {deviceLimit > 0 && <DeviceCount current={spDeviceUtilization} max={deviceLimit} variant="common"></DeviceCount>}
             <div className="flexbox center-aligned">
-              <div className={`${classes.spTenantBadgeContainer}`}>
+              <div className="header-section">
                 <div className={`${classes.spTenantBadge} uppercased bold`}>Service Provider</div>
               </div>
               <AccountMenu />

@@ -24,7 +24,7 @@ import { getDeviceById, getDevicesById, getFilteringAttributes, getGroupsById, g
 import { getIssueCountsByType } from './monitorSlice/selectors';
 import { onboardingSteps } from './onboardingSlice/constants';
 import { getOnboarding } from './onboardingSlice/selectors';
-import { getAuditLogEntry, getOrganization } from './organizationSlice/selectors';
+import { getAuditLogEntry, getIsServiceProvider, getOrganization } from './organizationSlice/selectors';
 import { getReleasesById } from './releasesSlice/selectors';
 import { rolesByName, uiPermissionsById } from './usersSlice/constants';
 import { getCurrentUser, getGlobalSettings, getRolesById, getUserSettings } from './usersSlice/selectors';
@@ -57,7 +57,7 @@ export const getUserRoles = createSelector(
 
 const hasPermission = (thing, permission) => Object.values(thing).some(permissions => permissions.includes(permission));
 
-export const getUserCapabilities = createSelector([getUserRoles], ({ uiPermissions }) => {
+export const getUserCapabilities = createSelector([getUserRoles, getIsServiceProvider], ({ uiPermissions }, isServiceProvider) => {
   const canManageReleases = hasPermission(uiPermissions.releases, uiPermissionsById.manage.value);
   const canReadReleases = canManageReleases || hasPermission(uiPermissions.releases, uiPermissionsById.read.value);
   const canUploadReleases = canManageReleases || hasPermission(uiPermissions.releases, uiPermissionsById.upload.value);
@@ -93,7 +93,8 @@ export const getUserCapabilities = createSelector([getUserRoles], ({ uiPermissio
     canUploadReleases,
     canWriteDevices,
     groupsPermissions: uiPermissions.groups,
-    releasesPermissions: uiPermissions.releases
+    releasesPermissions: uiPermissions.releases,
+    SPTenant: isServiceProvider
   };
 });
 
