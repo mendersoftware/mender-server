@@ -48,6 +48,7 @@
     "react/static-property-placement": "error",
     "react/style-prop-object": "error",
     "react/void-dom-elements-no-children": "error",
+    "react/jsx-pascal-case": "error",
     "react/jsx-no-target-blank": "error",
     "sonarjs/cognitive-complexity": ["error", 17],
     "react/react-in-jsx-scope": "off",
