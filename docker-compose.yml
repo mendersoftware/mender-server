@@ -26,30 +26,27 @@ services:
       s3fs:
         condition: service_healthy
     environment:
-      DEPLOYMENTS_PRESIGN_URL_HOSTNAME: "localhost"
+      DEPLOYMENTS_PRESIGN_URL_HOSTNAME: "docker.mender.io"
       DEPLOYMENTS_PRESIGN_SECRET: "aW5zZWN1cmUgc2VjcmV0"
       DEPLOYMENTS_INVENTORY_ADDR: http://inventory:8080
       DEPLOYMENTS_MENDER_WORKFLOWS: http://workflows:8080
       DEPLOYMENTS_MONGO_URL: "mongodb://mongo"
       DEPLOYMENTS_STORAGE_BUCKET: "mender"
       DEPLOYMENTS_AWS_URI: "http://s3fs:8333"
-      DEPLOYMENTS_AWS_EXTERNAL_URI: "https://s3.localhost"
-      DEPLOYMENTS_AWS_AUTH_KEY: "mender"
-      DEPLOYMENTS_AWS_AUTH_SECRET: "thisisnotsecure"
+      DEPLOYMENTS_AWS_EXTERNAL_URI: "https://s3.docker.mender.io"
+      DEPLOYMENTS_AWS_AUTH_KEY: "${MENDER_ACCESS_KEY_ID:-mender}"
+      DEPLOYMENTS_AWS_AUTH_SECRET: "${MENDER_SECRET_ACCESS_KEY:-thisisnotsecure}"
     labels:
       traefik.enable: "true"
       traefik.http.services.deployments.loadBalancer.server.port: "8080"
-      traefik.http.routers.deploymentsDL.entrypoints: "websecure"
       traefik.http.routers.deploymentsDL.middlewares: "sec-headers@file,json-error-responder@file"
       traefik.http.routers.deploymentsDL.rule: >-
         PathRegexp(`/api/devices/v[0-9]+/deployments/download`)
       traefik.http.routers.deploymentsDL.service: deployments
-      traefik.http.routers.deploymentsDev.entrypoints: "websecure"
       traefik.http.routers.deploymentsDev.middlewares: "devStack@file"
       traefik.http.routers.deploymentsDev.rule: >-
         PathRegexp(`/api/devices/v[0-9]+/deployments`)
       traefik.http.routers.deploymentsDev.service: deployments
-      traefik.http.routers.deploymentsMgmt.entrypoints: "websecure"
       traefik.http.routers.deploymentsMgmt.middlewares: "mgmtStack@file"
       traefik.http.routers.deploymentsMgmt.rule: >-
         PathRegexp(`/api/management/v[0-9]+/deployments`)
@@ -78,12 +75,10 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.services.deviceauth.loadBalancer.server.port: "8080"
-      traefik.http.routers.deviceauthDev.entrypoints: "websecure"
       traefik.http.routers.deviceauthDev.middlewares: "compression@file"
       traefik.http.routers.deviceauthDev.rule: >-
         PathRegexp(`/api/devices/v[0-9]+/authentication`)
       traefik.http.routers.deviceauthDev.service: deviceauth
-      traefik.http.routers.deviceauthMgmt.entrypoints: "websecure"
       traefik.http.routers.deviceauthMgmt.middlewares: "mgmtStack@file"
       traefik.http.routers.deviceauthMgmt.rule: >-
         PathRegexp(`/api/management/v[0-9]+/devauth`)
@@ -108,12 +103,10 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.services.deviceconfig.loadBalancer.server.port: "8080"
-      traefik.http.routers.deviceconfigDev.entrypoints: "websecure"
       traefik.http.routers.deviceconfigDev.middlewares: "devStack@file"
       traefik.http.routers.deviceconfigDev.rule: >-
         PathRegexp(`/api/devices/v[0-9]+/deviceconfig`)
       traefik.http.routers.deviceconfigDev.service: deviceconfig
-      traefik.http.routers.deviceconfigMgmt.entrypoints: "websecure"
       traefik.http.routers.deviceconfigMgmt.middlewares: "mgmtStack@file"
       traefik.http.routers.deviceconfigMgmt.rule: >-
         PathRegexp(`/api/management/v[0-9]+/deviceconfig`)
@@ -140,12 +133,10 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.services.deviceconnect.loadBalancer.server.port: "8080"
-      traefik.http.routers.deviceconnectDev.entrypoints: "websecure"
       traefik.http.routers.deviceconnectDev.middlewares: "devStack@file"
       traefik.http.routers.deviceconnectDev.rule: >-
         PathRegexp(`/api/devices/v[0-9]+/deviceconnect`)
       traefik.http.routers.deviceconnectDev.service: deviceconnect
-      traefik.http.routers.deviceconnectMgmt.entrypoints: "websecure"
       traefik.http.routers.deviceconnectMgmt.middlewares: "mgmtStack@file"
       traefik.http.routers.deviceconnectMgmt.rule: >-
         PathRegexp(`/api/management/v[0-9]+/deviceconnect`)
@@ -163,7 +154,6 @@ services:
       traefik.enable: "true"
       traefik.http.services.gui.loadBalancer.server.port: "8090"
       traefik.http.services.error-responder.loadBalancer.server.port: "8080"
-      traefik.http.routers.gui.entrypoints: "websecure"
       traefik.http.routers.gui.middlewares: >-
         compression@file,sec-headers@file,json-error-responder@file
       traefik.http.routers.gui.priority: 1
@@ -198,24 +188,20 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.services.inventory.loadBalancer.server.port: "8080"
-      traefik.http.routers.inventoryDevV1.entrypoints: "websecure"
       traefik.http.routers.inventoryDevV1.middlewares: >-
         devStack@file,inventoryV1-replacepathregex@file
       traefik.http.routers.inventoryDevV1.rule: >-
         PathRegexp(`/api/devices/v1/inventory`)
       traefik.http.routers.inventoryDevV1.service: inventory
-      traefik.http.routers.inventoryMgmtV1.entrypoints: "websecure"
       traefik.http.routers.inventoryMgmtV1.middlewares: >-
         mgmtStack@file,inventoryMgmtV1-replacepathregex@file
       traefik.http.routers.inventoryMgmtV1.rule: >-
         PathRegexp(`/api/management/v1/inventory`)
       traefik.http.routers.inventoryMgmtV1.service: inventory
-      traefik.http.routers.inventoryDev.entrypoints: "websecure"
       traefik.http.routers.inventoryDev.middlewares: "devStack@file"
       traefik.http.routers.inventoryDev.rule: >-
         PathRegexp(`/api/devices/v[2-9]/inventory`)
       traefik.http.routers.inventoryDev.service: inventory
-      traefik.http.routers.inventoryMgmt.entrypoints: "websecure"
       traefik.http.routers.inventoryMgmt.middlewares: "mgmtStack@file"
       traefik.http.routers.inventoryMgmt.rule: >-
         PathRegexp(`/api/management/v[2-9]/inventory`)
@@ -242,7 +228,6 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.services.iot-manager.loadBalancer.server.port: "8080"
-      traefik.http.routers.iot-managerMgmt.entrypoints: "websecure"
       traefik.http.routers.iot-managerMgmt.middlewares: "mgmtStack@file"
       traefik.http.routers.iot-managerMgmt.rule: >-
         PathRegexp(`/api/management/v[0-9]+/iot-manager`)
@@ -266,12 +251,10 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.services.useradm.loadBalancer.server.port: "8080"
-      traefik.http.routers.useradm.entrypoints: "websecure"
       traefik.http.routers.useradm.middlewares: "mgmtStack@file"
       traefik.http.routers.useradm.rule: >-
         PathRegexp(`/api/management/v[0-9]+/useradm`)
       traefik.http.routers.useradm.service: useradm
-      traefik.http.routers.userauth.entrypoints: "websecure"
       traefik.http.routers.userauth.middlewares: >-
         compression@file,sec-headers@file,json-error-responder@file
       traefik.http.routers.userauth.rule: >-
@@ -304,7 +287,7 @@ services:
       IOT_MANAGER_ADDR: iot-manager:8080
       USERADM_ADDR: useradm:8080
       WORKFLOWS_SERVER_ADDR: workflows:8080
-      WOKRFLOWS_MENDER_URL: https://localhost
+      WOKRFLOWS_MENDER_URL: https://docker.mender.io
       HAVE_DEVICECONFIG: "1"
 
   workflows:
@@ -337,23 +320,30 @@ services:
       - --entrypoints.websecure.transport.respondingTimeouts.readTimeout=7200
       - --entrypoints.websecure.transport.respondingTimeouts.writeTimeout=7200
       - --entrypoints.websecure.http.tls=true
+      - --entrypoints.websecure.asDefault=true
       - --providers.file.directory=/etc/traefik/config
       - --providers.docker=true
       - --providers.docker.exposedByDefault=false
     volumes:
-      - ./compose/config/traefik.middlewares.yaml:/etc/traefik/config/traefik.middlewares.yaml:ro
+      - ./compose/config/traefik:/etc/traefik/config:ro
+      - ./compose/certs:/etc/traefik/certs:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     ports:
       - 443:443
       - 80:80
     networks:
       default:
-        aliases: [s3.localhost]
+        aliases:
+          - s3.localhost
+          - mender.local
+          - s3.mender.local
+          - docker.mender.io
+          - s3.docker.mender.io
 
   mongo:
     image: mongo:6.0
     volumes:
-      - mongo:/data
+      - mongo:/data/db
     networks:
       default:
         aliases: [mender-mongo]
@@ -367,13 +357,15 @@ services:
 
   s3fs:
     image: chrislusf/seaweedfs
+    configs:
+      - source: s3_conf
+        target: /etc/seaweedfs/s3.conf
     volumes:
       - s3:/data
-      - ./compose/config/s3.conf:/etc/seaweedfs/s3.conf
     labels:
       traefik.enable: "true"
       traefik.http.routers.s3fs.priority: "99999"
-      traefik.http.routers.s3fs.rule: Host(`s3.localhost`) || Host(`s3.docker.mender.io`)
+      traefik.http.routers.s3fs.rule: HostRegexp(`s3\..*`)
       traefik.http.services.s3fs.loadBalancer.server.port: "8333"
     command: [server -s3 -s3.config /etc/seaweedfs/s3.conf]
     healthcheck:
@@ -384,6 +376,49 @@ services:
         - "127.0.0.1"
         - "8333"
       retries: 10
+
+  client:
+    image: mendersoftware/mender-client-docker-addons:mender-master
+    scale: 0
+    configs:
+      - source: client_json
+        target: /etc/mender/mender.conf
+    volumes:
+      - ./compose/certs/mender.crt:/var/lib/mender/mender.crt
+
+configs:
+  client_json:
+    content: |
+      {
+        "InventoryPollIntervalSeconds": 5,
+        "RetryPollIntervalSeconds": 5,
+        "ServerURL": "${SERVER_URL:-https://docker.mender.io}",
+        "ServerCertificate": "/var/lib/mender/mender.crt",
+        "UpdatePollIntervalSeconds": 5,
+        "TenantToken": "${TENANT_TOKEN:-}"
+      }
+  s3_conf:
+    content: |
+      {
+        "identities": [
+          {
+            "name": "mender",
+            "credentials": [
+              {
+                "accessKey": "${MENDER_ACCESS_KEY_ID:-mender}",
+                "secretKey": "${MENDER_SECRET_ACCESS_KEY:-thisisnotsecure}"
+              }
+            ],
+            "actions": [
+              "Admin:mender",
+              "Read:mender",
+              "Write:mender",
+              "List:mender",
+              "Tagging:mender"
+            ]
+          }
+        ]
+      }
 
 volumes:
   s3: {}
