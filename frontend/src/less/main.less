@@ -185,100 +185,55 @@ ul.link-list {
   position: absolute !important;
 }
 
+
+@directions: top, bottom, left, right;
+@variants: {
+  none: 0;
+  x-small: 0.5 * @defaultGutterWidth;
+  small: @defaultGutterWidth;
+  large: 3 * @defaultGutterWidth;
+}
 .margin {
   margin: 2 * @defaultGutterWidth;
 }
-.margin-small {
-  margin: @defaultGutterWidth;
-}
-.margin-large {
-  margin: 3 * @defaultGutterWidth;
-}
-.margin-top {
-  margin-top: 2 * @defaultGutterWidth;
-}
-.margin-top-small {
-  margin-top: @defaultGutterWidth;
-}
-.margin-top-none {
-  margin-top: 0;
-}
-.margin-top-large {
-  margin-top: 3 * @defaultGutterWidth;
-}
-.margin-left {
-  margin-left: 2 * @defaultGutterWidth;
-}
-.margin-left-xsmall {
-  margin-left: 0.5 * @defaultGutterWidth;
-}
-.margin-left-small {
-  margin-left: @defaultGutterWidth;
-}
-.margin-left-large {
-  margin-left: 3 * @defaultGutterWidth;
-}
-.margin-right {
-  margin-right: 2 * @defaultGutterWidth;
-}
-.margin-right-small {
-  margin-right: @defaultGutterWidth;
-}
-.margin-right-large {
-  margin-right: 3 * @defaultGutterWidth;
-}
-.margin-bottom {
-  margin-bottom: 2 * @defaultGutterWidth;
-}
-.margin-bottom-large {
-  margin-bottom: 3 * @defaultGutterWidth;
-}
-.margin-bottom-small {
-  margin-bottom: @defaultGutterWidth;
-}
-.margin-bottom-none {
-  margin-bottom: 0;
-}
-
+each(@directions, .(@direction) {
+  .margin-@{direction} {
+    margin: 2 * @defaultGutterWidth;
+  }
+})
+each(@variants, {
+  .margin-@{key} {
+    margin: @value;
+  }
+});
+each(@directions, .(@direction) {
+  each(@variants, .(@current-width, @variant) {
+    .margin-@{direction}-@{variant} {
+      margin-@{direction}: @current-width;
+    }
+  });
+})
 .padding {
   padding: 2 * @defaultGutterWidth;
 }
-.padding-small {
-  padding: @defaultGutterWidth;
-}
-.padding-left {
-  padding-left: 2 * @defaultGutterWidth;
-}
-.padding-right {
-  padding-right: 2 * @defaultGutterWidth;
-}
-.padding-left-large {
-  padding-left: 3 * @defaultGutterWidth;
-}
-.padding-right-large {
-  padding-right: 3 * @defaultGutterWidth;
-}
-.padding-top {
-  padding-top: 2 * @defaultGutterWidth;
-}
-.padding-bottom {
-  padding-bottom: 2 * @defaultGutterWidth;
-}
-.padding-top-small {
-  padding-top: @defaultGutterWidth;
-}
-.padding-top-none {
-  padding-top: 0;
-}
-.padding-right-none {
-  padding-right: 0;
-}
-.padding-bottom-none {
-  padding-bottom: 0;
-}
-.padding-left-none {
-  padding-left: 0;
-}
+each(@directions, .(@direction) {
+  .padding-@{direction} {
+    padding: 2 * @defaultGutterWidth;
+  }
+})
+each(@variants, {
+  .padding-@{key} {
+    padding: @value;
+  }
+});
+each(@directions, .(@direction) {
+  each(@variants, .(@current-width, @variant) {
+    .padding-@{direction}-@{variant} {
+      padding-@{direction}: @current-width;
+    }
+  });
+})
+
 
 .inline-block {
   display: inline-block;
