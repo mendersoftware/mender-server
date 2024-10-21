@@ -728,8 +728,10 @@ definitions:
       meta_data:
         type: array
         description: |
-            meta_data is an array of objects of unknown structure as this
-            is dependent of update type (also custom defined by user)
+          meta_data is an array of objects of unknown structure as this
+          is dependent of update type (also custom defined by user)
+        items:
+          type: object
 
   UpdateFile:
       description: |
@@ -984,9 +986,9 @@ definitions:
           type: string
       phases:
         type: array
+        description: An array of deployments phases (if any were defined for the deployment).
         items:
           $ref: "#/definitions/DeploymentPhase"
-          description: An array of deployments phases (if any were defined for the deployment).
       retries:
         type: integer
         description: The number of times a device can retry the deployment in case of failure, defaults to 0
@@ -1065,10 +1067,10 @@ definitions:
         description: ID of a filter from inventory service.
       phases:
         type: array
+        description: |
+          Phased rollout feature is available only to Enterprise users.
         items:
           $ref: "#/definitions/NewDeploymentPhase"
-          description: |
-            Phased rollout feature is available only to Enterprise users.
       retries:
         type: integer
         description: The number of times a device can retry the deployment in case of failure, defaults to 0

@@ -709,6 +709,7 @@ definitions:
       description: "Device IP address on ethernet interface"
       value: "127.0.0.1"
       timestamp: "2016-10-19T17:23:01.639Z"
+      scope: "inventory"
   Tag:
     description: Tag descriptor.
     type: object
@@ -758,9 +759,11 @@ definitions:
         - name: "ip_addr"
           value: "1.2.3.4"
           description: "IP address"
+          scope: "inventory"
         - name: "mac_addr"
           value: "00.01:02:03:04:05"
           description: "MAC address"
+          scope: "inventory"
       updated_ts: "2016-10-03T16:58:51.639Z"
   Group:
     type: object
