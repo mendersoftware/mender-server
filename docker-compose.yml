@@ -34,8 +34,8 @@ services:
       DEPLOYMENTS_STORAGE_BUCKET: "mender"
       DEPLOYMENTS_AWS_URI: "http://s3fs:8333"
       DEPLOYMENTS_AWS_EXTERNAL_URI: "https://s3.mender.local"
-      DEPLOYMENTS_AWS_AUTH_KEY: "mender"
-      DEPLOYMENTS_AWS_AUTH_SECRET: "thisisnotsecure"
+      DEPLOYMENTS_AWS_AUTH_KEY: "${MENDER_ACCESS_KEY_ID:-mender}"
+      DEPLOYMENTS_AWS_AUTH_SECRET: "${MENDER_SECRET_ACCESS_KEY:-thisisnotsecure}"
     labels:
       traefik.enable: "true"
       traefik.http.services.deployments.loadBalancer.server.port: "8080"
@@ -357,9 +357,11 @@ services:
 
   s3fs:
     image: chrislusf/seaweedfs
+    configs:
+      - source: s3_conf
+        target: /etc/seaweedfs/s3.conf
     volumes:
       - s3:/data
-      - ./compose/config/s3.conf:/etc/seaweedfs/s3.conf
     labels:
       traefik.enable: "true"
       traefik.http.routers.s3fs.priority: "99999"
@@ -394,6 +396,28 @@ configs:
         "ServerCertificate": "/var/lib/mender/mender.crt",
         "UpdatePollIntervalSeconds": 5,
         "TenantToken": "${TENANT_TOKEN:-}"
+      }
+  s3_conf:
+    content: |
+      {
+        "identities": [
+          {
+            "name": "mender",
+            "credentials": [
+              {
+                "accessKey": "${MENDER_ACCESS_KEY_ID:-mender}",
+                "secretKey": "${MENDER_SECRET_ACCESS_KEY:-thisisnotsecure}"
+              }
+            ],
+            "actions": [
+              "Admin:mender",
+              "Read:mender",
+              "Write:mender",
+              "List:mender",
+              "Tagging:mender"
+            ]
+          }
+        ]
       }
 
 volumes:
