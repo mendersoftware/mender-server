@@ -64,7 +64,7 @@ export const SSOEditor = ({ ssoItem, config, fileContent, hasSSOConfig, open, on
         try {
           JSON.parse(fileContent);
           valid = true;
-        } catch (error) {
+        } catch {
           valid = false;
         }
         break;

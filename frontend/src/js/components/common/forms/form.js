@@ -15,28 +15,32 @@ import React, { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { Button } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
 import validator from 'validator';
 
+const validationMethods = {
+  isAlpha: 'This field must contain only letters',
+  isAlphanumeric: 'This field must contain only letters or numbers',
+  isEmail: 'Please enter a valid email address',
+  isHexadecimal: 'The secret has to be entered as a hexadecimal string',
+  isNumeric: 'Please enter a valid code',
+  isURL: 'Please enter a valid URL',
+  isUUID: 'Please enter a valid ID'
+};
+
 const getErrorMsg = (validateMethod, args) => {
+  if (validationMethods[validateMethod]) {
+    return validationMethods[validateMethod];
+  }
   switch (validateMethod) {
     case 'isLength':
-      if (args[0] === 1) {
+      if (Number(args[0]) === 1) {
         return 'This field is required';
       } else if (args[0] > 1) {
         return `Must be at least ${args[0]} characters long`;
       }
       break;
-    case 'isAlpha':
-      return 'This field must contain only letters';
-    case 'isAlphanumeric':
-      return 'This field must contain only letters or numbers';
-    case 'isNumeric':
-      return 'Please enter a valid code';
-    case 'isEmail':
-      return 'Please enter a valid email address';
-    case 'isUUID':
-      return 'Please enter a valid ID';
     case 'isNot':
       if (args[0] === args[1]) {
         return `This field should have a value other than ${args[0]}`;
@@ -54,10 +58,6 @@ const tryApplyValidationEntry = (value, validations = [], validationResults = []
   }
   let args = validation.split(':');
   const validateMethod = args.shift();
-  // We use JSON.parse to convert the string values passed to the
-  // correct type. Ex. 'isLength:1' will make '1' actually a number
-  args = args.map(arg => JSON.parse(JSON.stringify(arg)));
-
   const tmpArgs = args;
   // We then merge two arrays, ending up with the value
   // to pass first, then options, if any. ['valueFromInput', 5]
@@ -94,24 +94,30 @@ const runPasswordValidations = ({ required, value, validations, isValid, errorte
   return { isValid, errortext };
 };
 
-export const runValidations = ({ required, value, id, validations }) => {
+export const runValidations = ({ required, value, id, validations, wasMaybeTouched }) => {
   let isValid = true;
   let errortext = '';
   if (id && id.includes('password')) {
     return runPasswordValidations({ required, value, validations, isValid, errortext });
   } else {
-    if (value || required) {
+    if (value || required || (wasMaybeTouched && validations.includes('isLength:1'))) {
       return tryApplyValidations(validations.includes('trim') ? value.trim() : value, validations, { isValid, errortext });
     }
   }
   return { isValid, errortext };
 };
 
+const useStyles = makeStyles()(theme => ({
+  buttonWrapper: { display: 'flex', justifyContent: 'flex-end', height: 'min-content', marginTop: theme.spacing(4) },
+  cancelButton: { marginRight: theme.spacing() }
+}));
+
 export const Form = ({
   autocomplete,
   buttonColor,
   children,
   className = '',
+  classes = { buttonWrapper: '', cancelButton: '' },
   defaultValues = {},
   handleCancel,
   id,
@@ -120,6 +126,7 @@ export const Form = ({
   showButtons,
   submitLabel
 }) => {
+  const { classes: internalClasses } = useStyles();
   const methods = useForm({ mode: 'onChange', defaultValues });
   const {
     handleSubmit,
@@ -137,9 +144,9 @@ export const Form = ({
       <form autoComplete={autocomplete} className={className} id={id} noValidate onSubmit={handleSubmit(onSubmit)}>
         {children}
         {!!showButtons && (
-          <div className="flexbox" style={{ justifyContent: 'flex-end', height: 'min-content', marginTop: 32 }}>
+          <div className={`button-wrapper ${internalClasses.buttonWrapper} ${classes.buttonWrapper}`}>
             {!!handleCancel && (
-              <Button key="cancel" onClick={handleCancel} style={{ marginRight: 10, display: 'inline-block' }}>
+              <Button className={`${internalClasses.cancelButton} ${classes.cancelButton}`} key="cancel" onClick={handleCancel}>
                 Cancel
               </Button>
             )}

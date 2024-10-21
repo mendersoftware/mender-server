@@ -63,7 +63,7 @@ const attributeReducer = (accu, item) => {
   return accu;
 };
 
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { attributes, ...expectedDevice } = defaultState.devices.byId.a1;
 export const receivedInventoryDevice = {
   ...defaultState.devices.byId.a1,

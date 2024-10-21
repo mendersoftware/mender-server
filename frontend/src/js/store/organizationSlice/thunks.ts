@@ -164,9 +164,9 @@ export const setAuditlogsState = createAsyncThunk(`${sliceName}/setAuditlogsStat
     sort: { ...currentState.sort, ...selectionState.sort }
   };
   let tasks = [];
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { isLoading: currentLoading, selectedIssue: currentIssue, ...currentRequestState } = currentState;
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { isLoading: selectionLoading, selectedIssue: selectionIssue, ...selectionRequestState } = nextState;
   if (!deepCompare(currentRequestState, selectionRequestState)) {
     nextState.isLoading = true;
@@ -241,7 +241,7 @@ export const downloadLicenseReport = createAsyncThunk(`${sliceName}/downloadLice
     .then(res => res.data)
 );
 
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const createIntegration = createAsyncThunk(`${sliceName}/createIntegration`, ({ id, ...integration }, { dispatch }) =>
   Api.post(`${iotManagerBaseURL}/integrations`, integration)
     .catch(err => commonErrorHandler(err, 'There was an error creating the integration', dispatch, commonErrorFallback))

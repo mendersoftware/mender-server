@@ -164,7 +164,7 @@ build:frontend:docker:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: always
     - changes:
-        paths: ["frontend/**/*"]
+        paths: ["frontend/**/*", "compose/**/*", "docker-compose.yml"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
   needs:
     - job: build:frontend:docker

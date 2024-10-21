@@ -274,9 +274,9 @@ export const setReleasesListState = createAsyncThunk(`${sliceName}/setReleasesLi
     sort: { ...currentState.sort, ...selectionState.sort }
   };
   let tasks = [];
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { isLoading: currentLoading, ...currentRequestState } = currentState;
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { isLoading: selectionLoading, ...selectionRequestState } = nextState;
   if (!deepCompare(currentRequestState, selectionRequestState)) {
     nextState.isLoading = true;

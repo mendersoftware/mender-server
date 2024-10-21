@@ -114,7 +114,7 @@ export const organizationHandlers = [
     try {
       const body = await request.json();
       plan = body.plan;
-    } catch (error) {
+    } catch {
       // no completion;
     }
     if (plan && !Object.keys(PLANS).includes(plan)) {

@@ -12,22 +12,21 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect, useState } from 'react';
-import CopyToClipboard from 'react-copy-to-clipboard';
 import { useDispatch, useSelector } from 'react-redux';
 
 // material ui
-import { FileCopy as CopyPasteIcon } from '@mui/icons-material';
 import { Button, Checkbox, Collapse, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, List, MenuItem, Select } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import storeActions from '@northern.tech/store/actions';
-import { SSO_TYPES, TIMEOUTS, yes } from '@northern.tech/store/constants';
+import { SSO_TYPES } from '@northern.tech/store/constants';
 import { getCurrentSession, getFeatures, getIsEnterprise, getIsPreview, getOrganization, getSsoConfig, getUserRoles } from '@northern.tech/store/selectors';
 import { changeSsoConfig, deleteSsoConfig, downloadLicenseReport, getSsoConfigs, getUserOrganization, storeSsoConfig } from '@northern.tech/store/thunks';
 import copy from 'copy-to-clipboard';
 import dayjs from 'dayjs';
 
 import { createFileDownload, toggle } from '../../../helpers';
+import { CopyTextToClipboard } from '../../common/copytext';
 import ExpandableAttribute from '../../common/expandable-attribute';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
 import Billing from './billing';
@@ -37,7 +36,6 @@ import { SSOConfig } from './ssoconfig';
 const { setSnackbar } = storeActions;
 
 const useStyles = makeStyles()(theme => ({
-  copyNotification: { height: 15 },
   deviceLimitBar: { backgroundColor: theme.palette.grey[500], margin: '15px 0' },
   tenantInfo: { marginTop: 11, paddingBottom: 3, 'span': { marginLeft: theme.spacing(0.5), color: theme.palette.text.disabled } },
   tenantToken: { width: `calc(${maxWidth}px - ${theme.spacing(4)})` },
@@ -52,26 +50,6 @@ export const OrgHeader = () => {
     <div className="flexbox center-aligned">
       <div className={classes.tokenTitle}>Organization token</div>
       <MenderHelpTooltip id={HELPTOOLTIPS.tenantToken.id} disableHoverListener={false} placement="top" />
-    </div>
-  );
-};
-
-export const CopyTextToClipboard = ({ onCopy = yes, token }) => {
-  const [copied, setCopied] = useState(false);
-  const { classes } = useStyles();
-
-  const onCopied = () => {
-    setCopied(true);
-    onCopy();
-    setTimeout(() => setCopied(false), TIMEOUTS.fiveSeconds);
-  };
-
-  return (
-    <div>
-      <CopyToClipboard text={token} onCopy={onCopied}>
-        <Button startIcon={<CopyPasteIcon />}>Copy to clipboard</Button>
-      </CopyToClipboard>
-      <p className={classes.copyNotification}>{copied && <span className="green fadeIn">Copied to clipboard.</span>}</p>
     </div>
   );
 };

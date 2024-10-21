@@ -80,7 +80,7 @@ export const getLimitMaxed = createSelector([getAcceptedDevices, getDeviceLimit]
   Boolean(deviceLimit && deviceLimit <= acceptedDevices)
 );
 
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getGroupsByIdWithoutUngrouped = createSelector([getGroupsById], ({ [UNGROUPED_GROUP.id]: ungrouped, ...groups }) => groups);
 
 export const getGroups = createSelector([getGroupsById], groupsById => {

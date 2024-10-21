@@ -100,7 +100,7 @@ const defaultResponseActions = {
   setOfflineThreshold: { type: appActions.setOfflineThreshold.type, payload: '2019-01-12T13:00:00.900Z' }
 };
 
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { id_attribute, ...retrievedSettings } = defaultState.users.globalSettings;
 
 const assertionFunction =
@@ -408,7 +408,7 @@ describe('deployment actions', () => {
       instructionBuffer: 123,
       sourceWindow: 13
     };
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { hasDelta, ...expectedConfig } = deploymentsConfig;
     const expectedActions = [
       { type: saveDeltaDeploymentsConfig.pending.type },

@@ -80,7 +80,7 @@ export const usersSlice = createSlice({
       state.byId[0] = action.payload;
     },
     removedUser: (state, action) => {
-      // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { [action.payload]: removedUser, ...byId } = state.byId;
       state.byId = byId;
       state.currentUser = state.currentUser === action.payload ? null : state.currentUser;
@@ -104,7 +104,7 @@ export const usersSlice = createSlice({
       };
     },
     removedRole: (state, action) => {
-      // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { [action.payload]: toBeRemoved, ...rolesById } = state.rolesById;
       state.rolesById = rolesById;
     },

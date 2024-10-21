@@ -36,8 +36,8 @@ import validator from 'validator';
 
 import { toggle } from '../../../helpers';
 import { TwoColumnData } from '../../common/configurationobject';
+import { CopyTextToClipboard } from '../../common/copytext';
 import { OAuth2Providers, genericProvider } from '../../login/oauth2providers';
-import { CopyTextToClipboard } from '../organization/organization';
 import { UserRolesSelect } from './userform';
 
 const useStyles = makeStyles()(theme => ({

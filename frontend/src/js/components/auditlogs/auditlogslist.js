@@ -14,10 +14,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { ArrowRightAlt as ArrowRightAltIcon, Sort as SortIcon } from '@mui/icons-material';
+import { Sort as SortIcon } from '@mui/icons-material';
 
 import { DEPLOYMENT_ROUTES, SORTING_OPTIONS, canAccess } from '@northern.tech/store/constants';
 
+import DetailsIndicator from '../common/detailsindicator';
 import DeviceIdentityDisplay from '../common/deviceidentity';
 import Loader from '../common/loader';
 import Pagination from '../common/pagination';
@@ -171,13 +172,7 @@ export const AuditLogsList = ({
                 onClick={() => onIssueSelection(allowsExpansion ? item : undefined)}
               >
                 {auditLogColumns.map((column, index) => column.render(item, index, userCapabilities))}
-                {allowsExpansion ? (
-                  <div className="uppercased link-color bold">
-                    view details <ArrowRightAltIcon />
-                  </div>
-                ) : (
-                  <div />
-                )}
+                {allowsExpansion ? <DetailsIndicator /> : <div />}
               </div>
             );
           })}

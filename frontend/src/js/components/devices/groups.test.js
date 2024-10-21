@@ -21,7 +21,7 @@ import Groups, { GroupItem, GroupsSubheader } from './groups';
 
 describe('Groups Component', () => {
   it('renders correctly', async () => {
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { groupNames, ...groups } = getGroups(defaultState);
     const { baseElement } = render(<Groups groups={groups} openGroupDialog={jest.fn} />);
     const view = baseElement.firstChild.firstChild;

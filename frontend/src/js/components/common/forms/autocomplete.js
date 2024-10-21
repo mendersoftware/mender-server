@@ -3,7 +3,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import { Autocomplete } from '@mui/material';
 
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const ControlledAutoComplete = ({ freeSolo, name, onChange, onInputChange, ...remainder }) => {
   const { control } = useFormContext();
 

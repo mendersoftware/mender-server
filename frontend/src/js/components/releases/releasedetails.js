@@ -314,7 +314,7 @@ export const ReleaseDetails = () => {
   const [confirmReleaseDeletion, setConfirmReleaseDeletion] = useState(false);
   const [selectedArtifact, setSelectedArtifact] = useState();
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const windowSize = useWindowSize();
   const creationRef = useRef();
   const drawerRef = useRef();

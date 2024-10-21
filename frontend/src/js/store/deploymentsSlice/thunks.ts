@@ -299,7 +299,7 @@ export const updateDeploymentControlMap = createAsyncThunk(`${sliceName}/updateD
 );
 
 export const setDeploymentsState = createAsyncThunk(`${sliceName}/setDeploymentsState`, (selection, { dispatch, getState }) => {
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { page, perPage, ...selectionState } = selection;
   const currentState = getState().deployments.selectionState;
   let nextState = {

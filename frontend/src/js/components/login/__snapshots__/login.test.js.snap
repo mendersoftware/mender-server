@@ -762,15 +762,30 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-17:focus::-ms-input-
   font-size: 0.9286rem;
 }
 
-.emotion-45 {
+.emotion-44 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+  height: -webkit-min-content;
+  height: -moz-min-content;
+  height: min-content;
+  margin-top: 32px;
+}
+
+.emotion-46 {
   color: #fff;
 }
 
-.emotion-45 a {
+.emotion-46 a {
   color: #7adce6;
 }
 
-.emotion-47 {
+.emotion-48 {
   bottom: calc(56px + 3vh);
   right: 0;
   z-index: 0;
@@ -1101,8 +1116,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-17:focus::-ms-input-
             </span>
           </label>
           <div
-            class="flexbox"
-            style="justify-content: flex-end; margin-top: 32px;"
+            class="button-wrapper emotion-44 "
           >
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-3"
@@ -1116,7 +1130,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-17:focus::-ms-input-
         </form>
       </div>
       <div
-        class="margin-top margin-bottom flexbox centered emotion-45"
+        class="margin-top margin-bottom flexbox centered emotion-46"
       >
         <div
           class="muted margin-right"
@@ -1145,7 +1159,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-17:focus::-ms-input-
     </div>
   </div>
   <svg
-    class="absolute emotion-47"
+    class="absolute emotion-48"
     id="Verymuch"
   />
 </div>

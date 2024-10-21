@@ -21,10 +21,20 @@ export const getAuditLog = state => state.organization.auditlog.events;
 export const getAuditLogSelectionState = state => state.organization.auditlog.selectionState;
 export const getSsoConfig = ({ organization: { ssoConfigs = [] } }) => ssoConfigs[0];
 export const getTenantsList = state => state.organization.organization.tenantList;
+export const getWebhookEvents = state => state.organization.webhooks.events;
+export const getWebhookEventTotal = state => state.organization.webhooks.eventTotal;
+
 export const getDeviceTwinIntegrations = createSelector([getExternalIntegrations], integrations =>
   integrations.filter(integration => integration.id && EXTERNAL_PROVIDER[integration.provider]?.deviceTwin)
 );
 export const getIsServiceProvider = state => state.organization.organization.service_provider;
+
+export const getWebhooks = createSelector([getExternalIntegrations], integrations =>
+  integrations.filter(integration => integration.id && integration.provider === EXTERNAL_PROVIDER.webhook.provider)
+);
+export const getWebhookEventInfo = createSelector([getWebhooks, getWebhookEvents, getWebhookEventTotal], (webhooks, events, eventTotal) =>
+  webhooks.length ? { events, eventTotal } : { events: [], eventTotal: 0 }
+);
 
 export const getAuditLogEntry = createSelector([getAuditLog, getAuditLogSelectionState], (events, { selectedId }) => {
   if (!selectedId) {

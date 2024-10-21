@@ -98,7 +98,7 @@ export const releaseSlice = createSlice({
       state.updateTypes = action.payload;
     },
     removeRelease: (state, action) => {
-      // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { [action.payload]: toBeRemoved, ...byId } = state.byId;
       state.byId = byId;
       state.selectedRelease = action.payload === state.selectedRelease ? null : state.selectedRelease;

@@ -73,7 +73,7 @@ export const Deployments = () => {
   const dispatch = useDispatch();
 
   const [deploymentObject, setDeploymentObject] = useState({});
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const size = useWindowSize();
   const tabsRef = useRef();
   const isInitialized = useRef(false);

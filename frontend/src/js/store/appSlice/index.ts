@@ -139,7 +139,7 @@ export const appSlice = createSlice({
       };
     },
     cleanUpUpload: (state, action) => {
-      // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { [action.payload]: current, ...remainder } = state.uploadsById;
       state.uploadsById = remainder;
     },

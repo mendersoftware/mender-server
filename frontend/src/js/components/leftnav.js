@@ -71,7 +71,7 @@ const VersionInfo = () => {
 
   const dispatch = useDispatch();
   const { isHosted } = useSelector(getFeatures);
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { latestRelease, ...versionInformation } = useSelector(getVersionInformation);
 
   useEffect(() => {

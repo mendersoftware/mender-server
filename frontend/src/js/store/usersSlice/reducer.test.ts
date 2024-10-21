@@ -92,7 +92,7 @@ describe('user reducer', () => {
     ).toBeFalsy();
   });
   it('should handle REMOVED_ROLE', async () => {
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { [defaultState.users.rolesById.test.name]: removedRole, ...rolesById } = defaultState.users.rolesById;
     expect(reducer(undefined, { type: actions.removedRole, payload: defaultState.users.rolesById.test.name }).rolesById.test).toBeFalsy();
     expect(

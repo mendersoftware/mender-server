@@ -54,7 +54,7 @@ export const Deployments = ({ className = '', clickHandle }) => {
   const devicesById = useSelector(getDevicesById);
   const idAttribute = useSelector(getIdAttribute);
   const [loading, setLoading] = useState(!deploymentsCount);
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const size = useWindowSize();
   const deploymentsRef = useRef();
   const timer = useRef();
