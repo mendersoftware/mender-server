@@ -109,6 +109,7 @@ const TenantListItem = (props: ListItemComponentProps<Tenant>) => {
   const { listItem, columnHeaders, onClick } = props;
   const handleOnClick = useCallback(() => {
     onClick(listItem);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listItem.id, onClick]);
 
   return (
