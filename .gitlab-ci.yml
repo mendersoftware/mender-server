@@ -31,6 +31,30 @@ variables:
 
   GOCOVERDIR: "${CI_PROJECT_DIR}/backend/tests/cover"
 
+  # release and changelog generators
+  GITHUB_REPO_URL:
+    description: "The Github Repo URL for release-please, in the format of 'owner/repo'"
+    value: "mendersoftware/mender-server"
+  GITHUB_USER_NAME:
+    description: "The Github username for release-please"
+    value: "mender-test-bot"
+  GITHUB_USER_EMAIL:
+    description: "The Github user email for release-please"
+    value: "mender@northern.tech"
+  RUN_RELEASE:
+    description: "Run a new release"
+    value: "false"
+    options:
+      - "true"
+      - "false"
+  GIT_CLIFF:
+    description: "Run git cliff to override the release-please changelog"
+    value: "true"
+    options:
+      - "true"
+      - "false"
+  DEFAULT_BRANCH: "main"
+
 include:
   - project: "Northern.tech/Mender/mendertesting"
     file:
@@ -39,9 +63,12 @@ include:
   - local: "/frontend/pipeline.yml"
 
 stages:
+  - lint
   - build
   - test
   - publish
+  - changelog
+  - release
 
 default:
   tags:
@@ -351,3 +378,84 @@ coveralls:done:
     - curl "https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN&carryforward=frontend-unit,frontend-e2e,create-artifact-worker-unit,deployments-unit,deployments-acceptance,deviceauth-unit,deviceauth-acceptance,deviceconfig-unit,deviceconfig-acceptance,deviceconnect-unit,deviceconnect-acceptance,inventory-unit,inventory-acceptance,iot-manager-unit,iot-manager-acceptance,useradm-unit,useradm-acceptance,workflows-unit,workflows-acceptance,integration" -d "payload[build_num]=$CI_PIPELINE_ID&payload[status]=done"
   tags:
     - hetzner-amd-beefy
+
+
+lint:commit:
+  stage: lint
+  needs: []
+  image:
+    name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/commitlint/commitlint:latest
+    entrypoint: [""]
+  allow_failure: true
+  tags:
+    - hetzner-amd-beefy
+  before_script:
+    - npm install --global commitlint-plugin-selective-scope --save-dev
+  script:
+    - echo "${CI_COMMIT_MESSAGE}" | commitlint
+
+changelog:
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/node:20
+  stage: changelog
+  tags:
+    - hetzner-amd-beefy
+  rules:
+    - if: $RUN_RELEASE == "true"
+      when: never
+    - if: $CI_COMMIT_BRANCH =~ "/^v\d+\.\d+\.x$/"
+    - if: $CI_COMMIT_BRANCH == $DEFAULT_BRANCH
+  before_script:
+    # install release-please
+    - npm install -g release-please
+    # install github-cli
+    - mkdir -p -m 755 /etc/apt/keyrings
+    - wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null
+    - chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg
+    - echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+    - apt update
+    - apt install gh jq -y
+    # Setting up git
+    - git config --global user.email "${GITHUB_USER_EMAIL}"
+    - git config --global user.name "${GITHUB_USER_NAME}"
+    - npm install -g git-cliff
+    # GITHUB_TOKEN for Github cli authentication
+    - export GITHUB_TOKEN=${GITHUB_CLI_TOKEN}
+    # getting the centralized git cliff config
+  script:
+    - release-please release-pr
+        --token=${GITHUB_BOT_TOKEN_REPO_FULL}
+        --repo-url=${GITHUB_REPO_URL}
+        --target-branch=${CI_COMMIT_REF_NAME}
+    # git cliff: override the changelog
+    - test $GIT_CLIFF == "false" && echo "INFO - Skipping git-cliff" && exit 0
+    - git remote add github-${CI_JOB_ID} https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_REPO_URL} || true  # Ignore already existing remote
+    - gh repo set-default https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_REPO_URL}
+    - RELEASE_PLEASE_PR=$(gh pr list --author "${GITHUB_USER_NAME}" --head "release-please--branches--${CI_COMMIT_REF_NAME}" --json number | jq -r '.[0].number // empty')
+    - test -z "$RELEASE_PLEASE_PR" && echo "No release-please PR found" && exit 0
+    - gh pr checkout --force $RELEASE_PLEASE_PR
+    - wget --output-document cliff.toml https://raw.githubusercontent.com/mendersoftware/mendertesting/master/utils/cliff.toml
+    - git cliff --bump --prepend CHANGELOG.md --github-repo ${GITHUB_REPO_URL}
+    - git add CHANGELOG.md
+    - git commit --amend -s --no-edit
+    - git push github-${CI_JOB_ID} --force
+    # Update the PR body
+    - git cliff --unreleased --bump -o tmp_pr_body.md --github-repo ${GITHUB_REPO_URL}
+    - gh pr edit $RELEASE_PLEASE_PR --body-file tmp_pr_body.md
+    - rm tmp_pr_body.md
+  after_script:
+    - git remote remove github-${CI_JOB_ID}
+
+release:github:
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/node:20
+  stage: release
+  tags:
+    - hetzner-amd-beefy
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ "/^v\d+\.\d+\.x$/" && $RUN_RELEASE == "true"
+    - if: $CI_COMMIT_BRANCH == $DEFAULT_BRANCH && $RUN_RELEASE == "true"
+  script:
+    - npm install -g release-please
+    - release-please github-release
+        --token=${GITHUB_BOT_TOKEN_REPO_FULL}
+        --repo-url=${GITHUB_REPO_URL}
+        --target-branch=${CI_COMMIT_REF_NAME}
