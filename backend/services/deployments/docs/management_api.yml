@@ -54,6 +54,7 @@ responses:
 paths:
   /deployments:
     get:
+      deprecated: true
       operationId: List Deployments
       tags:
         - Management API
@@ -64,6 +65,10 @@ paths:
         Returns a filtered collection of deployments in the system,
         including active and historical. If both 'status' and 'query' are
         not specified, all devices are listed.
+
+        DEPRECATED: we deprecated the endpoint due to an issue with the "search" query
+          behavior. Please use the v2 /deployments/deployments endpoint instead.
+          In the new endpoint, we replaced search parameter with the "id" and "name" parameters.
       parameters:
         - name: status
           in: query
