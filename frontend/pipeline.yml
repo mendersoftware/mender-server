@@ -30,6 +30,21 @@ test:frontend:lint:
   tags:
     - hetzner-amd-beefy
 
+test:frontend:license-headers:
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/denoland/deno:debian-2.0.2
+  stage: test
+  rules:
+    - changes:
+        paths: ['frontend/**/*']
+        compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
+  needs: []
+  before_script:
+    - apt update && apt install git -yq
+  script:
+    - deno task --cwd frontend/scripts licenseCheck --rootDir $(pwd)
+    - git diff --exit-code frontend/src
+    - git diff --exit-code frontend/tests
+
 test:frontend:licenses:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/denoland/deno:debian-1.46.3
   stage: test

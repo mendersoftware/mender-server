@@ -1,0 +1,7 @@
+{
+  "nodeModulesDir": "auto",
+  "tasks": {
+    "licenseCheck": "deno run --allow-read --allow-write --allow-run addLicense.js",
+    "typeGeneration": "deno run --allow-env --allow-net --allow-read --allow-write typeGeneration/convert.js"
+  }
+}

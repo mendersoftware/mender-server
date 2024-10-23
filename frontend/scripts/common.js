@@ -1,4 +1,9 @@
-import { join, resolve } from 'https://deno.land/std/path/posix/mod.ts';
+import { parseArgs } from 'jsr:@std/cli/parse-args';
+import { join, resolve } from 'jsr:@std/path';
+
+const { rootDir: passedRoot } = parseArgs(Deno.args, { string: ['rootDir'] });
+
+export const rootDir = passedRoot;
 
 export const getFiles = async (folder, { fileProcessor }) => {
   const files = [];
