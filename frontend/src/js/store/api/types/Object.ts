@@ -4,6 +4,7 @@
 /* eslint-disable */
 import type { Deployment } from "./Deployment";
 import type { Device } from "./Device";
+import type { Tenant } from "./Tenant";
 import type { User } from "./User";
 /**
  * Various types of objects are supported.
@@ -18,6 +19,7 @@ export type Object = {
    * The type of the object.
    */
   type: Object.type;
+  tenant?: Tenant;
   user?: User;
   deployment?: Deployment;
   device?: Device;
@@ -27,6 +29,7 @@ export namespace Object {
    * The type of the object.
    */
   export enum type {
+    TENANT = "tenant",
     USER = "user",
     DEPLOYMENT = "deployment",
     ARTIFACT = "artifact",

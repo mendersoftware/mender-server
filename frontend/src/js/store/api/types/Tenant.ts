@@ -2,37 +2,20 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Addon } from "./Addon";
-import type { TenantApiLimits } from "./TenantApiLimits";
 /**
- * Tenant descriptor.
+ * The tenant descriptor.
  */
 export type Tenant = {
   /**
-   * Tenant ID.
+   * The id of a tenant.
    */
   id: string;
   /**
-   * Name of the tenant's organization.
+   * The name of a tenant.
    */
-  name: string;
+  name?: string;
   /**
-   * Currently used tenant token.
+   * The id of a parent tenant.
    */
-  tenant_token: string;
-  /**
-   * Status of the tenant account.
-   */
-  status?: Tenant.status;
-  api_limits?: TenantApiLimits;
-  addons?: Array<Addon>;
+  parent?: string;
 };
-export namespace Tenant {
-  /**
-   * Status of the tenant account.
-   */
-  export enum status {
-    ACTIVE = "active",
-    SUSPENDED = "suspended",
-  }
-}

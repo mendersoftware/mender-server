@@ -2,7 +2,6 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { DeltaConfiguration } from "./DeltaConfiguration";
 /**
  * New Tenant
  */
@@ -25,17 +24,26 @@ export type NewTenant = {
      */
     login?: Record<string, any>;
   };
-  /**
-   * Plan for the tenant, e.g.: os, professional, enterprise.
-   */
-  plan?: string;
+  users?: Array<{
+    /**
+     * Email address of an existing user to be added to the newly created tenant
+     */
+    email?: string;
+    /**
+     * Role of the user to be added
+     */
+    role?: string;
+  }>;
   /**
    * Device limit for the tenant.
    */
   device_limit?: number;
   /**
-   * List of add-ons to enable for the tenant, e.g.: troubleshoot, configure, monitor.
+   * Enable server side binary delta generation for the tenant.
    */
-  addons?: Array<string>;
-  binary_delta?: DeltaConfiguration;
+  binary_delta?: boolean;
+  /**
+   * Enable SSO for the tenant.
+   */
+  sso?: boolean;
 };
