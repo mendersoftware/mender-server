@@ -369,6 +369,10 @@ services:
       traefik.http.services.s3fs.loadBalancer.server.port: "8333"
     command:
       - server
+      - -dir=/data
+      - -master.electionTimeout=1s
+      - -master.heartbeatInterval=250ms
+      - -master.raftHashicorp=true
       - -s3
       - -s3.config=/etc/seaweedfs/s3.conf
     healthcheck:
@@ -378,6 +382,8 @@ services:
         - "-z"
         - "127.0.0.1"
         - "8333"
+      start_period: 1m
+      start_interval: 1s
       retries: 10
 
   client:
