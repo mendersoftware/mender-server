@@ -23,6 +23,7 @@ import { selectors, storagePath, timeouts } from '../utils/constants.ts';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const search = `const transfer = '[{"content":`;
 const checkDownloadedReplayForSecret = async (path, secret) => {
   const fileStream = fs.createReadStream(path);
   const lines = readline.createInterface({
@@ -30,16 +31,22 @@ const checkDownloadedReplayForSecret = async (path, secret) => {
     crlfDelay: Infinity
   });
   for await (const line of lines) {
-    const search = `const transfer = '[{"content":`;
     if (line.includes(search)) {
       const encodedText = line.substring(line.indexOf(search) + search.length, line.lastIndexOf(`}]';`));
-      const content = JSON.parse(Buffer.from(encodedText, 'base64').toString());
+      const jsonContent = Buffer.from(encodedText, 'base64').toString();
+      let content;
+      try {
+        content = JSON.parse(jsonContent);
+      } catch {
+        console.log('checkDownloadedReplayForSecret', jsonContent);
+      }
       const decodedContent = String.fromCharCode(...content.data);
       expect(decodedContent).not.toContain(secret);
       fileStream.close();
       return;
     }
   }
+  fileStream.close();
 };
 
 test.describe('Auditlogs', () => {
