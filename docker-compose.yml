@@ -365,7 +365,7 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.routers.s3fs.priority: "99999"
-      traefik.http.routers.s3fs.rule: HostRegexp(`s3\..*`)
+      traefik.http.routers.s3fs.rule: PathPrefix(`/mender`)
       traefik.http.services.s3fs.loadBalancer.server.port: "8333"
     command: [server -s3 -s3.config /etc/seaweedfs/s3.conf]
     healthcheck:
