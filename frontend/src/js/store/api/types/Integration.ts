@@ -14,6 +14,12 @@ export type Integration = {
    * A short human readable description (max 1024 characters).
    */
   description?: string;
+  /**
+   * An array of scopes for the integration. Currently we support deviceauth
+   * and inventory scopes. The former will match the events related to a device
+   * state (accepted, decomissioned), while the latter the inventory changed event.
+   */
+  scopes?: Array<"deviceauth" | "inventory">;
 };
 export namespace Integration {
   export enum provider {

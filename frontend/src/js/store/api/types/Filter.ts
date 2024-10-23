@@ -4,7 +4,7 @@
 /* eslint-disable */
 import type { FilterPredicate } from "./FilterPredicate";
 /**
- * Filter definition
+ * Inventory filter assigned to the deployment
  */
 export type Filter = {
   /**
