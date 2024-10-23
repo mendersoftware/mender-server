@@ -24,5 +24,4 @@ services:
       USERADM_BASE_URL: "https://docker.mender.io"
 
   client:
-    deploy:
-      replicas: 0
+    scale: 0
