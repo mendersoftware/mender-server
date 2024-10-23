@@ -1,4 +1,6 @@
-import { getFiles } from './common.js';
+import { extname, join } from 'jsr:@std/path';
+
+import { getFiles, rootDir } from './common.js';
 
 const commentByExtension = {
   '.js': '//',
@@ -28,38 +30,35 @@ ${comment}    limitations under the License.
 `;
 };
 
-const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 
 const sourceFilesRegex = new RegExp('[j|t]sx?$');
+const existingHeaders = [`'use strict';\n\n// Copyright`, '/*', '// Copyright'];
 const resourceToFileInfo = async res => {
   if (!sourceFilesRegex.test(res)) {
     return;
   }
-  const command = `git log --diff-filter=A --follow --format=%aI -- ${res} | tail -1`;
-  const executor = Deno.run({ cmd: ['bash'], stdout: 'piped', stdin: 'piped' });
-  await executor.stdin.write(encoder.encode(command));
-  await executor.stdin.close();
-  const output = await executor.output();
-  const time = decoder.decode(output);
-  await executor.close();
-  const extension = res.substring(res.lastIndexOf('.'));
-  const filename = res.substring(res.lastIndexOf('/') + 1, res.lastIndexOf(extension));
-  return { birthyear: time.substring(0, time.indexOf('-')), extension, filename, path: res };
+  const fileContent = await Deno.readTextFile(res);
+  if (existingHeaders.some(start => fileContent.startsWith(start))) {
+    return;
+  }
+  const command = new Deno.Command('git', { args: ['log', '--diff-filter=A', '--follow', '--format=%aI', '--', res] });
+  const { stdout } = await command.output();
+  const output = decoder.decode(stdout);
+  const time = output.split(`\n`).reduceRight((accu, time) => (accu ? accu : time), '');
+  const extension = extname(res);
+  const birthyear = time.substring(0, time.indexOf('-'));
+  return { birthyear, extension, fileContent, path: res };
 };
 
 const processFiles = async root => {
   const files = await getFiles(root, { fileProcessor: resourceToFileInfo });
-  return files.map(async ({ birthyear, extension, path }) => {
-    const fileContent = await Deno.readTextFile(path);
-    if (fileContent.startsWith('/*')) {
-      return;
-    }
+  return files.map(async ({ birthyear, extension, fileContent, path }) => {
     const licenseHeader = getLicenseHeader(birthyear, extension);
     const newContent = licenseHeader.concat(fileContent);
     await Deno.writeTextFile(path, newContent);
   });
 };
 
-await processFiles('src');
-await processFiles('tests');
+await processFiles(join(rootDir, 'frontend', 'src'));
+await processFiles(join(rootDir, 'frontend', 'tests'));

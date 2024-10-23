@@ -1,15 +1,20 @@
-import { basename, dirname } from 'https://deno.land/std/path/posix/mod.ts';
-import { parse, stringify } from 'https://deno.land/std/yaml/mod.ts';
 import { camelCase } from 'https://deno.land/x/case/mod.ts';
+import { basename, dirname, extname, join } from 'jsr:@std/path';
+import { parse, stringify } from 'jsr:@std/yaml';
 import { generate } from 'npm:openapi-typescript-codegen';
 import converter from 'npm:swagger2openapi';
 
-import { getFiles } from '../common.js';
+import { getFiles, rootDir } from '../common.js';
 
 const apiTypes = ['management'];
 
+const specFilesRegex = new RegExp('.ya?ml$');
 const resourceToFileInfo = async res => {
-  const filename = res.substring(res.lastIndexOf('/') + 1, res.indexOf('.yml'));
+  if (!specFilesRegex.test(res)) {
+    return;
+  }
+  const extension = extname(res);
+  const filename = basename(res, extension);
   const apiType = filename.substring(0, filename.indexOf('_'));
   let versionSuffix = filename.substring(filename.lastIndexOf('_'));
   versionSuffix = versionSuffix != '_api' ? versionSuffix : '';
@@ -22,6 +27,7 @@ const resourceToFileInfo = async res => {
 
 const getFileContents = async file => {
   const fileContent = await Deno.readTextFile(file.path);
+  console.log(file.path);
   const fileData = parse(fileContent);
   if (!fileData.swagger) {
     return { ...file, fileData };
@@ -113,7 +119,7 @@ const processFiles = async root => {
 
 const generateTypeIndex = async () => {
   // modify the generated types index to work with the structure we want to use in the gui codebase
-  const fileContent = await Deno.readTextFile('./generated/index.ts');
+  const fileContent = await Deno.readTextFile(join(rootDir, 'generated', 'index.ts'));
   const lines = fileContent.split('\n').reduce((accu, line) => {
     // skip comments, but otherwise flatten the access to the types (since we discard the generated core & service folders, we can omit the indirection)
     if (line.startsWith('/* ')) {
@@ -126,10 +132,10 @@ const generateTypeIndex = async () => {
     }
     return accu;
   }, []);
-  await Deno.writeTextFile('./generated/models/MenderTypes.ts', lines.join('\n'));
+  await Deno.writeTextFile(join(rootDir, 'generated', 'models', 'MenderTypes.ts'), lines.join('\n'));
 };
 
-const mergedContent = await processFiles('./specs');
-await generate({ input: mergedContent, output: './generated' });
-await Deno.writeTextFile('combined.yml', stringify(mergedContent));
+const mergedContent = await processFiles(join(rootDir, 'backend', 'services'));
+await generate({ input: mergedContent, output: join(rootDir, 'generated') });
+await Deno.writeTextFile(join(rootDir, 'combined.yml'), stringify(mergedContent));
 await generateTypeIndex();
