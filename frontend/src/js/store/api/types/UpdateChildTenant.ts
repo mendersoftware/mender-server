@@ -3,19 +3,15 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * The tenant descriptor.
+ * Update Tenant
  */
-export type Tenant = {
+export type UpdateChildTenant = {
   /**
-   * The id of a tenant.
-   */
-  id: string;
-  /**
-   * The name of a tenant.
+   * Name of the tenant.
    */
   name?: string;
   /**
-   * The id of a parent tenant.
+   * Device limit for the tenant.
    */
-  parent?: string;
+  device_limit?: number;
 };

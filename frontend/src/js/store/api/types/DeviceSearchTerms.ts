@@ -1,14 +1,12 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 import type { DeviceAttributeProjection } from "./DeviceAttributeProjection";
 import type { DeviceFilterTerm } from "./DeviceFilterTerm";
 import type { DeviceSortTerm } from "./DeviceSortTerm";
 import type { GeoBoundingBoxFilter } from "./GeoBoundingBoxFilter";
 import type { GeoDistanceFilter } from "./GeoDistanceFilter";
-
 export type DeviceSearchTerms = {
   /**
    * Pagination parameter for iterating search results.

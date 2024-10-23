@@ -14,5 +14,5 @@ export type UpdateDeployments = {
    * meta_data is an array of objects of unknown structure as this
    * is dependent of update type (also custom defined by user)
    */
-  meta_data?: Array<any>;
+  meta_data?: Array<Record<string, any>>;
 };

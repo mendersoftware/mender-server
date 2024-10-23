@@ -10,6 +10,9 @@ export type NewDeploymentV2 = {
    * ID of a filter from inventory service.
    */
   filter_id: string;
+  /**
+   * Phased rollout feature is available only to Enterprise users.
+   */
   phases?: Array<NewDeploymentPhase>;
   /**
    * The number of times a device can retry the deployment in case of failure, defaults to 0
