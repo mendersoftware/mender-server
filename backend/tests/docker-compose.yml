@@ -3,7 +3,8 @@ include:
 
 services:
   acceptance-tester:
-    scale: 0
+    deploy:
+      replicas: 0
     image: "${CI_REGISTRY_IMAGE:-localhost/backend-tester}:${CI_ACCEPTANCE_IMAGE_TAG:-acceptance}"
     build:
       dockerfile: Dockerfile.acceptance
@@ -21,7 +22,8 @@ services:
       - workflows-worker
 
   integration-tester:
-    scale: 0
+    deploy:
+      replicas: 0
     image: "${CI_REGISTRY_IMAGE:-localhost/backend-tester}:${CI_INTEGRATION_IMAGE_TAG:-integration}"
     build:
       dockerfile: Dockerfile.integration

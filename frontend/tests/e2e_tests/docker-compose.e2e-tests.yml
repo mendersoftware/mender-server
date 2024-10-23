@@ -54,7 +54,8 @@ services:
       - ${GUI_REPOSITORY}/videos:/e2e/videos
 
   client:
-    scale: 1
+    deploy:
+      replicas: 0
     configs:
       - source: client_json
         target: /etc/mender/mender.conf

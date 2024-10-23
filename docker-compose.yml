@@ -379,7 +379,8 @@ services:
 
   client:
     image: mendersoftware/mender-client-docker-addons:mender-master
-    scale: 0
+    deploy:
+      replicas: 0
     configs:
       - source: client_json
         target: /etc/mender/mender.conf
