@@ -1,8 +1,7 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 export type DeviceFilterTerm = {
   /**
    * Attribute key to compare.
@@ -21,7 +20,6 @@ export type DeviceFilterTerm = {
    */
   scope?: string;
 };
-
 export namespace DeviceFilterTerm {
   /**
    * Type of filtering operation.
