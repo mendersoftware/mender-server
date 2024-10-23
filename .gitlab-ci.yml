@@ -397,6 +397,9 @@ lint:commit:
 changelog:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/node:20
   stage: changelog
+  variables:
+    GIT_CLIFF__BUMP__INITIAL_TAG: "4.0.0"  # TODO: after the new tag is created,
+                                           # remove this variable
   tags:
     - hetzner-amd-beefy
   rules:
