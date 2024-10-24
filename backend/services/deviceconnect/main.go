@@ -15,6 +15,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
@@ -23,11 +24,14 @@ import (
 	"github.com/urfave/cli"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
+	"github.com/mendersoftware/mender-server/pkg/version"
 
 	dconfig "github.com/mendersoftware/mender-server/services/deviceconnect/config"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/server"
 	store "github.com/mendersoftware/mender-server/services/deviceconnect/store/mongo"
 )
+
+var appVersion = version.Get()
 
 func main() {
 	doMain(os.Args)
@@ -63,10 +67,32 @@ func doMain(args []string) {
 				Usage:  "Run the migrations",
 				Action: cmdMigrate,
 			},
+			{
+				Name:  "version",
+				Usage: "Show version information",
+				Flags: []cli.Flag{
+					cli.StringFlag{
+						Name:  "output",
+						Usage: "Output format <json|text>",
+						Value: "text",
+					},
+				},
+				Action: func(args *cli.Context) error {
+					switch strings.ToLower(args.String("output")) {
+					case "text":
+						fmt.Print(appVersion)
+					case "json":
+						_ = json.NewEncoder(os.Stdout).Encode(appVersion)
+					default:
+						return fmt.Errorf("Unknown output format %q", args.String("output"))
+					}
+					return nil
+				},
+			},
 		},
+		Version: appVersion.Version,
 	}
 	app.Usage = "Device Connect"
-	app.Version = "1.0.0"
 	app.Action = cmdServer
 
 	app.Before = func(args *cli.Context) error {

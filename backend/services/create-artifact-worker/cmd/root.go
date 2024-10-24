@@ -15,11 +15,15 @@
 package cmd
 
 import (
+	"encoding/json"
+	"fmt"
 	"os"
+	"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
+	"github.com/mendersoftware/mender-server/pkg/version"
 	"github.com/mendersoftware/mender-server/services/create-artifact-worker/config"
 	mlog "github.com/mendersoftware/mender-server/services/create-artifact-worker/log"
 )
@@ -39,6 +43,32 @@ Supports the following env vars:
 `,
 }
 
+var appVersion = version.Get()
+
+func NewVersionCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "version [--output <text|json>]",
+		Short: "Show version information",
+		Run: func(cmd *cobra.Command, args []string) {
+			output := "text"
+			if outputFlag := cmd.Flag("output"); outputFlag != nil {
+				output = strings.ToLower(outputFlag.Value.String())
+			}
+			switch output {
+			case "text":
+				fmt.Print(appVersion)
+			case "json":
+				_ = json.NewEncoder(os.Stdout).Encode(appVersion)
+			default:
+				mlog.Error("Unknown output format %q", output)
+			}
+		},
+	}
+	flags := cmd.PersistentFlags()
+	flags.String("output", "text", "Output format <json|text>")
+	return cmd
+}
+
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
 		mlog.Error(err.Error())
@@ -47,8 +77,8 @@ func Execute() {
 }
 
 func init() {
+	rootCmd.AddCommand(NewVersionCmd())
 	rootCmd.AddCommand(singleFileCmd)
-
 	config.Init()
 	mlog.Init(viper.GetBool(config.CfgVerbose))
 }

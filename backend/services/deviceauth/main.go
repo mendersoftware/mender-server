@@ -15,8 +15,10 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/pkg/errors"
@@ -24,6 +26,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/version"
 
 	cinv "github.com/mendersoftware/mender-server/services/deviceauth/client/inventory"
 	"github.com/mendersoftware/mender-server/services/deviceauth/client/orchestrator"
@@ -36,6 +39,8 @@ import (
 const (
 	cliDefaultRateLimit = 50
 )
+
+var appVersion = version.Get()
 
 func main() {
 	doMain(os.Args)
@@ -190,8 +195,31 @@ func doMain(args []string) {
 			},
 			Action: cmdCheckDeviceLimits,
 		},
+		{
+			Name:  "version",
+			Usage: "Show version information",
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:  "output",
+					Usage: "Output format <json|text>",
+					Value: "text",
+				},
+			},
+			Action: func(args *cli.Context) error {
+				switch strings.ToLower(args.String("output")) {
+				case "text":
+					fmt.Print(appVersion)
+				case "json":
+					_ = json.NewEncoder(os.Stdout).Encode(appVersion)
+				default:
+					return fmt.Errorf("Unknown output format %q", args.String("output"))
+				}
+				return nil
+			},
+		},
 	}
 
+	app.Version = appVersion.Version
 	app.Action = cmdServer
 	app.Before = func(args *cli.Context) error {
 		log.Setup(debug)

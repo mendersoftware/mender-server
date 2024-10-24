@@ -16,6 +16,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
@@ -25,6 +26,7 @@ import (
 	"github.com/urfave/cli"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
+	"github.com/mendersoftware/mender-server/pkg/version"
 
 	"github.com/mendersoftware/mender-server/services/workflows/app/server"
 	"github.com/mendersoftware/mender-server/services/workflows/app/worker"
@@ -33,6 +35,8 @@ import (
 	"github.com/mendersoftware/mender-server/services/workflows/model"
 	store "github.com/mendersoftware/mender-server/services/workflows/store/mongo"
 )
+
+var appVersion = version.Get()
 
 func main() {
 	doMain(os.Args)
@@ -113,7 +117,30 @@ func doMain(args []string) {
 					},
 				},
 			},
+			{
+				Name:  "version",
+				Usage: "Show version information",
+				Flags: []cli.Flag{
+					cli.StringFlag{
+						Name:  "output",
+						Usage: "Output format <json|text>",
+						Value: "text",
+					},
+				},
+				Action: func(args *cli.Context) error {
+					switch strings.ToLower(args.String("output")) {
+					case "text":
+						fmt.Print(appVersion)
+					case "json":
+						_ = json.NewEncoder(os.Stdout).Encode(appVersion)
+					default:
+						return fmt.Errorf("Unknown output format %q", args.String("output"))
+					}
+					return nil
+				},
+			},
 		},
+		Version: appVersion.Version,
 	}
 	app.Usage = "Workflows"
 	app.Action = cmdServer
