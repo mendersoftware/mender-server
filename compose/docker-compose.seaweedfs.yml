@@ -1,0 +1,99 @@
+configs:
+  s3-conf:
+    content: |
+      {
+        "identities": [
+          {
+            "name": "mender",
+            "credentials": [
+              {
+                "accessKey": "${MENDER_ACCESS_KEY_ID:-mender}",
+                "secretKey": "${MENDER_SECRET_ACCESS_KEY:-thisisnotsecure}"
+              }
+            ],
+            "actions": [
+              "Admin:mender",
+              "Read:mender",
+              "Write:mender",
+              "List:mender",
+              "Tagging:mender"
+            ]
+          }
+        ]
+      }
+
+services:
+  s3-master:
+    image: chrislusf/seaweedfs
+    command:
+      - master
+      - -mdir=/data
+      - -ip=s3-master
+      - -ip.bind=0.0.0.0
+      - -electionTimeout=1s
+      - -heartbeatInterval=200ms
+      - -raftHashicorp=true
+    volumes:
+      - s3:/data
+
+  s3-volume:
+    image: chrislusf/seaweedfs
+    command:
+      - volume
+      - -mserver=s3-master:9333
+      - -ip.bind=0.0.0.0
+      - -port=8080
+      - -dir=/data
+      - -preStopSeconds=0
+    depends_on:
+      - s3-master
+    volumes:
+      - s3:/data
+
+  s3-filer:
+    image: chrislusf/seaweedfs
+    command:
+      - filer
+      - -master=s3-master:9333
+      - -ip.bind=0.0.0.0
+    depends_on:
+      - s3-master
+      - s3-volume
+    volumes:
+      - s3:/data
+
+  s3:
+    image: chrislusf/seaweedfs
+    command:
+      - s3
+      - -filer=s3-filer:8888
+      - -ip.bind=0.0.0.0
+      - -config=/etc/seaweedfs/s3.conf
+    depends_on:
+      - s3-master
+      - s3-volume
+      - s3-filer
+    configs:
+      - source: s3-conf
+        target: /etc/seaweedfs/s3.conf
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.s3fs.priority: "99999"
+      traefik.http.routers.s3fs.rule: PathPrefix(`/mender`)
+      traefik.http.services.s3fs.loadBalancer.server.port: "8333"
+    healthcheck:
+      test:
+        - CMD
+        - "/usr/bin/nc"
+        - "-z"
+        - "127.0.0.1"
+        - "8333"
+      start_period: 1m
+      start_interval: 500ms
+      interval: 1m
+      retries: 10
+    volumes:
+      - s3:/data
+
+volumes:
+  s3: {}
