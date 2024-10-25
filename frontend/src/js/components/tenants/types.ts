@@ -29,6 +29,7 @@ export interface Tenant extends APITenant {
   cancelled_at: string | null;
   children_tenants: any[] | null;
   max_child_tenants: number;
+  device_count: number;
   device_limit: number;
   binary_delta: boolean;
 }

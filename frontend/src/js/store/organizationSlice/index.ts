@@ -28,7 +28,11 @@ export const initialState = {
       ...TENANT_LIST_DEFAULT,
       total: 0,
       tenants: [],
-      selectedTenant: null
+      selectedTenant: null,
+      sort: {
+        direction: SORTING_OPTIONS.desc,
+        key: 'name'
+      }
     }
     // id, name, status, tenant_token, plan
   },

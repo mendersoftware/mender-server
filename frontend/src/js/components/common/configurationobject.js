@@ -72,9 +72,9 @@ const KeyColumn = ({ value, chipLikeKey }) => (
 
 export const TwoColumns = ({
   className = '',
-  children,
+  children = undefined,
   chipLikeKey = true,
-  compact,
+  compact = false,
   items = {},
   KeyComponent = KeyColumn,
   KeyProps = {},

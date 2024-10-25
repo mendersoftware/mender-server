@@ -285,8 +285,7 @@ export const Header = ({ isDarkMode }) => {
   const { token } = useSelector(getCurrentSession);
   const userId = useDebounce(user.id, TIMEOUTS.debounceDefault);
   const isSp = useSelector(getIsServiceProvider);
-  //TODO: replace with data from endpoint.
-  const spDeviceUtilization = 0;
+  const { device_count: spDeviceUtilization } = useSelector(getOrganization);
   const dispatch = useDispatch();
   const deviceTimer = useRef();
   const feedbackTimer = useRef();
