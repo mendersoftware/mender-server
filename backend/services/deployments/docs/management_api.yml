@@ -1698,6 +1698,8 @@ definitions:
             with the deployment constructor.
       statistics:
         $ref: "#/definitions/DeploymentStatistics"
+      filter:
+        $ref: "#/definitions/Filter"
     required:
       - created
       - name
@@ -2374,3 +2376,58 @@ definitions:
           description: >-
               The list of deployment IDs
         maximum: 100
+
+  FilterPredicate:
+    description: Attribute filter predicate
+    type: object
+    required:
+      - scope
+      - attribute
+      - type
+      - value
+    properties:
+      scope:
+        type: string
+        description: |
+            The scope of the attribute.
+
+            Scope is a string and acts as namespace for the attribute name.
+      attribute:
+        type: string
+        description: |
+            Name of the attribute to be queried for filtering.
+      type:
+        type: string
+        description: Type or operator of the filter predicate.
+        enum: [$eq, $gt, $gte, $in, $lt, $lte, $ne, $nin, $exists]
+      value:
+        description: |
+            The value of the attribute to be used in filtering.
+
+            Attribute type is implicit, inferred from the JSON type.
+
+            Supported types: number, string, array of numbers, array of strings.
+            Mixed arrays are not allowed.
+    example:
+      type: "$eq"
+      attribute: "group"
+      scope: "system"
+      value: "groupName"
+
+  Filter:
+    description: |
+      Filter built based on devices targeted by the deployment.
+    type: object
+    required:
+      - terms
+    properties:
+      terms:
+        type: array
+        items:
+          $ref: '#/definitions/FilterPredicate'
+    example:
+      terms:
+        - scope: "system"
+          attribute: "group"
+          type: "$eq"
+          value: "groupName"

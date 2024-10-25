@@ -1857,3 +1857,69 @@ func TestLookupDeployment(t *testing.T) {
 		})
 	}
 }
+
+func TestGetDeploymentFilter(t *testing.T) {
+	testCases := map[string]struct {
+		inConstructor *model.DeploymentConstructor
+		outFilter     *model.Filter
+	}{
+		"group": {
+			inConstructor: &model.DeploymentConstructor{
+				Group: "foo",
+			},
+			outFilter: &model.Filter{
+				Terms: []model.FilterPredicate{
+					{
+						Scope:     InventoryGroupScope,
+						Attribute: InventoryGroupAttributeName,
+						Type:      "$eq",
+						Value:     "foo",
+					},
+				},
+			},
+		},
+		"all devices": {
+			inConstructor: &model.DeploymentConstructor{
+				AllDevices: true,
+			},
+			outFilter: &model.Filter{
+				Terms: []model.FilterPredicate{
+					{
+						Scope:     InventoryIdentityScope,
+						Attribute: InventoryStatusAttributeName,
+						Type:      "$eq",
+						Value:     InventoryStatusAccepted,
+					},
+				},
+			},
+		},
+		"list of devices": {
+			inConstructor: &model.DeploymentConstructor{
+				Devices: []string{
+					"b532b01a-9313-404f-8d19-e7fcbe5cc347",
+					"b532b01a-9313-404f-8d19-e7fcbe5cc348",
+				},
+			},
+			outFilter: &model.Filter{
+				Terms: []model.FilterPredicate{
+					{
+						Scope:     InventoryIdentityScope,
+						Attribute: InventoryIdAttributeName,
+						Type:      "$in",
+						Value: []string{
+							"b532b01a-9313-404f-8d19-e7fcbe5cc347",
+							"b532b01a-9313-404f-8d19-e7fcbe5cc348",
+						},
+					},
+				},
+			},
+		},
+	}
+
+	for name, tc := range testCases {
+		t.Run(name, func(t *testing.T) {
+			filter := getDeploymentFilter(tc.inConstructor)
+			assert.Equal(t, tc.outFilter, filter)
+		})
+	}
+}

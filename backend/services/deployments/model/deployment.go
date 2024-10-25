@@ -173,6 +173,9 @@ type Deployment struct {
 	// Total number of devices targeted
 	MaxDevices int `json:"max_devices,omitempty" bson:"max_devices"`
 
+	// device filter
+	Filter *Filter `json:"filter,omitempty" bson:"filter"`
+
 	// device groups
 	Groups []string `json:"groups,omitempty" bson:"groups"`
 

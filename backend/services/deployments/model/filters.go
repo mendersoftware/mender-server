@@ -1,4 +1,4 @@
-// Copyright 2020 Northern.tech AS
+// Copyright 2024 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -19,6 +19,12 @@ type SearchParams struct {
 	PerPage   int               `json:"per_page"`
 	Filters   []FilterPredicate `json:"filters"`
 	DeviceIDs []string          `json:"device_ids"`
+}
+
+type Filter struct {
+	Id    string            `json:"id" bson:"_id"`
+	Name  string            `json:"name" bson:"name"`
+	Terms []FilterPredicate `json:"terms" bson:"terms"`
 }
 
 type FilterPredicate struct {
