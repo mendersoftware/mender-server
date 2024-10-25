@@ -430,7 +430,7 @@ def wait_until_healthy(compose_project: str = "", timeout: int = 60):
         "mender-tenantadm": "/api/internal/v1/tenantadm/health",
         "mender-useradm": "/api/internal/v1/useradm/health",
         "mender-workflows": "/api/v1/health",
-        "s3fs": "/status",
+        "s3": "/status",
     }
 
     containers = client.containers.list(all=True, **kwargs)
@@ -452,7 +452,7 @@ def wait_until_healthy(compose_project: str = "", timeout: int = 60):
         path = path_map.get(service)
         if path is None:
             continue
-        port = 8080 if service != "s3fs" else 8333
+        port = 8080
 
         for _ in redo.retrier(attempts=timeout, sleeptime=1):
             try:

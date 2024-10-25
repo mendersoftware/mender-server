@@ -66,6 +66,7 @@ services:
     image: chrislusf/seaweedfs
     command:
       - s3
+      - -port=8080
       - -filer=s3-filer:8888
       - -ip.bind=0.0.0.0
       - -config=/etc/seaweedfs/s3.conf
@@ -78,16 +79,17 @@ services:
         target: /etc/seaweedfs/s3.conf
     labels:
       traefik.enable: "true"
-      traefik.http.routers.s3fs.priority: "99999"
-      traefik.http.routers.s3fs.rule: PathPrefix(`/mender`)
-      traefik.http.services.s3fs.loadBalancer.server.port: "8333"
+      traefik.http.routers.s3.priority: "99999"
+      traefik.http.routers.s3.rule: PathPrefix(`/mender`)
+      traefik.http.services.s3.loadBalancer.server.port: "8080"
     healthcheck:
       test:
         - CMD
-        - "/usr/bin/nc"
-        - "-z"
-        - "127.0.0.1"
-        - "8333"
+        - /usr/bin/wget
+        - -q
+        - -O
+        - /dev/null
+        - http://127.0.0.1:8080/healthz
       start_period: 1m
       start_interval: 500ms
       interval: 1m
