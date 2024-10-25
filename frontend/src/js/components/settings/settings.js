@@ -23,11 +23,11 @@ import { TIMEOUTS, canAccess } from '@northern.tech/store/constants';
 import { getCurrentUser, getFeatures, getOrganization, getTenantCapabilities, getUserCapabilities, getUserRoles } from '@northern.tech/store/selectors';
 import { Elements } from '@stripe/react-stripe-js';
 
+import Upgrade from './Upgrade';
 import Global from './global';
 import Integrations from './integrations';
 import Organization from './organization/organization';
 import { RoleManagement } from './role-management/RoleManagement';
-import Upgrade from './upgrade';
 import SelfUserManagement from './user-management/selfusermanagement';
 import UserManagement from './user-management/usermanagement';
 

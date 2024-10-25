@@ -15,13 +15,15 @@ import React from 'react';
 
 import { undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
-import PlanSelection from './planselection';
+import PlanSelection from './PlanSelection';
 
 describe('PlanSelection component', () => {
   it(`renders correctly`, () => {
+    window.localStorage.getItem.mockImplementation(() => null);
     const { baseElement } = render(<PlanSelection isUpgrade offerValid offerTag="very now" trial updatedPlan="enterprise" />);
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
+    window.localStorage.getItem.mockReset();
   });
 });

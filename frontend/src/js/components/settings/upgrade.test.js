@@ -19,10 +19,10 @@ import { loadStripe } from '@stripe/stripe-js';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
-import Upgrade, { PostUpgradeNote, PricingContactNote } from './upgrade';
+import Upgrade, { PricingContactNote } from './Upgrade';
 
 describe('smaller components', () => {
-  [PostUpgradeNote, PricingContactNote].forEach(Component => {
+  [PricingContactNote].forEach(Component => {
     it(`renders ${Component.displayName || Component.name} correctly`, () => {
       const { baseElement } = render(
         <Component
@@ -42,6 +42,7 @@ describe('smaller components', () => {
 
 describe('Upgrade Component', () => {
   it('renders correctly', async () => {
+    window.localStorage.getItem.mockImplementation(() => null);
     jest.mock('@stripe/stripe-js', () => ({
       loadStripe: () => ({ createPaymentMethod: jest.fn() })
     }));
@@ -61,5 +62,6 @@ describe('Upgrade Component', () => {
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
+    window.localStorage.getItem.mockReset();
   });
 });
