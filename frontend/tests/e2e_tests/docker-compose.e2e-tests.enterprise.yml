@@ -16,7 +16,7 @@ services:
       - workflows-worker
       - mongo
       - nats
-      - s3fs
+      - s3
       - traefik
 
   useradm:

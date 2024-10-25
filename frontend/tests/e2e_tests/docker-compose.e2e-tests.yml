@@ -38,7 +38,7 @@ services:
       - workflows-worker
       - mongo
       - nats
-      - s3fs
+      - s3
       - traefik
     volumes:
       - ${GUI_REPOSITORY}/coverage:/e2e/coverage

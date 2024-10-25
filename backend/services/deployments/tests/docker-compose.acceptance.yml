@@ -16,11 +16,11 @@ services:
       - --s3-bucket=mender
       - --s3-key-id=mender
       - --s3-secret-key=thisisnotsecure
-      - --s3-endpoint-url=http://s3fs:8333
+      - --s3-endpoint-url=http://s3:8080
     depends_on:
       mock:
         condition: service_healthy
-      s3fs:
+      s3:
         condition: service_healthy
       deployments:
         condition: service_started
