@@ -15,6 +15,7 @@
 import storeActions from '@northern.tech/store/actions';
 import Api from '@northern.tech/store/api/general-api';
 import {
+  AvailablePlans,
   DEVICE_LIST_DEFAULTS,
   SORTING_OPTIONS,
   TENANT_LIST_DEFAULT,
@@ -24,9 +25,10 @@ import {
   iotManagerBaseURL,
   locations
 } from '@northern.tech/store/constants';
+import { BillingProfile } from '@northern.tech/store/organizationSlice/types';
 import { getCurrentSession, getTenantCapabilities, getTenantsList } from '@northern.tech/store/selectors';
 import { commonErrorFallback, commonErrorHandler } from '@northern.tech/store/store';
-import { setFirstLoginAfterSignup } from '@northern.tech/store/thunks';
+import { getDeviceLimit, setFirstLoginAfterSignup } from '@northern.tech/store/thunks';
 import { deepCompare } from '@northern.tech/utils/helpers';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { jwtDecode } from 'jwt-decode';
@@ -118,11 +120,15 @@ export const startUpgrade = createAsyncThunk(`${sliceName}/startUpgrade`, (tenan
 );
 
 export const cancelUpgrade = createAsyncThunk(`${sliceName}/cancelUpgrade`, tenantId => Api.post(`${tenantadmApiUrlv2}/tenants/${tenantId}/upgrade/cancel`));
-
-export const completeUpgrade = createAsyncThunk(`${sliceName}/completeUpgrade`, ({ tenantId, plan }, { dispatch }) =>
-  Api.post(`${tenantadmApiUrlv2}/tenants/${tenantId}/upgrade/complete`, { plan })
+interface completeUpgradePayload {
+  billing_profile: BillingProfile;
+  plan: AvailablePlans;
+  tenantId: string;
+}
+export const completeUpgrade = createAsyncThunk(`${sliceName}/completeUpgrade`, ({ tenantId, plan, billing_profile }: completeUpgradePayload, { dispatch }) =>
+  Api.post(`${tenantadmApiUrlv2}/tenants/${tenantId}/upgrade/complete`, { plan, billing_profile })
     .catch(err => commonErrorHandler(err, `There was an error upgrading your account:`, dispatch))
-    .then(() => Promise.resolve(dispatch(getUserOrganization())))
+    .then(() => Promise.all([dispatch(getTenants()), dispatch(getDeviceLimit()), dispatch(getUserOrganization())]))
 );
 
 const prepareAuditlogQuery = ({ startDate, endDate, user: userFilter, type, detail: detailFilter, sort = {} }) => {
@@ -266,11 +272,25 @@ export const sendSupportMessage = createAsyncThunk(`${sliceName}/sendSupportMess
     .catch(err => commonErrorHandler(err, 'There was an error sending your request', dispatch, commonErrorFallback))
     .then(() => Promise.resolve(dispatch(setSnackbar({ message: 'Your request was sent successfully', autoHideDuration: TIMEOUTS.fiveSeconds }))))
 );
-
-export const requestPlanChange = createAsyncThunk(`${sliceName}/requestPlanChange`, ({ content, tenantId }, { dispatch }) =>
-  Api.post(`${tenantadmApiUrlv2}/tenants/${tenantId}/plan`, content)
-    .catch(err => commonErrorHandler(err, 'There was an error sending your request', dispatch, commonErrorFallback))
-    .then(() => Promise.resolve(dispatch(setSnackbar({ message: 'Your request was sent successfully', autoHideDuration: TIMEOUTS.fiveSeconds }))))
+interface requestPlanChangePayload {
+  tenantId: string;
+  content: {
+    current_plan: string;
+    requested_plan: string;
+    current_addons: string;
+    requested_addons: string;
+    user_message: string;
+  };
+}
+export const requestPlanChange = createAsyncThunk(
+  `${sliceName}/requestPlanChange`,
+  ({ content, tenantId }: requestPlanChangePayload, { dispatch, rejectWithValue }) =>
+    Api.post(`${tenantadmApiUrlv2}/tenants/${tenantId}/plan`, content)
+      .catch(async err => {
+        await commonErrorHandler(err, 'There was an error sending your request', dispatch, commonErrorFallback);
+        rejectWithValue(err);
+      })
+      .then(() => Promise.resolve(dispatch(setSnackbar({ message: 'Your request was sent successfully', autoHideDuration: TIMEOUTS.fiveSeconds }))))
 );
 
 export const downloadLicenseReport = createAsyncThunk(`${sliceName}/downloadLicenseReport`, (_, { dispatch }) =>

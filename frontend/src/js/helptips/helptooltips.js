@@ -289,6 +289,13 @@ const TenantInitialAdmin = () => {
   );
 };
 
+const PlanUpgradeEmail = () => (
+  <>
+    This email address will receive all payment receipts and notifications about pricing and device limits. It does not necessarily have to belong to a user in
+    your Mender account
+  </>
+);
+
 export const HELPTOOLTIPS = {
   addGroup: { id: 'addGroup', Component: AddGroup },
   artifactUpload: { id: 'artifactUpload', Component: ArtifactUpload },
@@ -324,6 +331,7 @@ export const HELPTOOLTIPS = {
   nameFilterTip: { id: 'nameFilterTip', Component: NameFilterTip },
   nameTagTip: { id: 'nameTagTip', Component: NameTagTip },
   phasedPausedDeployments: { id: 'phasedPausedDeployments', Component: PhasedPausedDeployments },
+  planUpgradeEmail: { id: 'planUpgradeEmail', Component: PlanUpgradeEmail },
   releaseName: { id: 'releaseName', Component: ReleaseName },
   resetHistory: { id: 'resetHistory', Component: ResetHistory },
   ssoMetadata: { id: 'ssoMetadata', Component: SsoMetadata },

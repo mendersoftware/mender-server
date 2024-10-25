@@ -12,6 +12,8 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 // @ts-nocheck
+import { useDispatch } from 'react-redux';
+
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
 import actions from './actions';
@@ -85,3 +87,5 @@ export const store = getConfiguredStore({
   preloadedState: {}
 });
 export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch: () => AppDispatch = useDispatch;
+export type RootState = ReturnType<typeof store.getState>;

@@ -12,9 +12,10 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { EXTERNAL_PROVIDER } from '@northern.tech/store/constants';
+import { RootState } from '@northern.tech/store/store';
 import { createSelector } from '@reduxjs/toolkit';
 
-export const getOrganization = state => state.organization.organization;
+export const getOrganization = (state: RootState) => state.organization.organization;
 export const getExternalIntegrations = state => state.organization.externalDeviceIntegrations;
 export const getAuditlogState = state => state.organization.auditlog.selectionState;
 export const getAuditLog = state => state.organization.auditlog.events;

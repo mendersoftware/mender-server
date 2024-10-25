@@ -130,7 +130,8 @@ export const Form = ({
   initialValues = {},
   onSubmit,
   showButtons,
-  submitLabel
+  submitLabel,
+  submitRef
 }) => {
   const { classes: internalClasses } = useStyles();
   const methods = useForm({ mode: 'onChange', defaultValues });
@@ -140,6 +141,11 @@ export const Form = ({
     setValue
   } = methods;
 
+  useEffect(() => {
+    if (submitRef) {
+      submitRef.current = handleSubmit(onSubmit);
+    }
+  }, [handleSubmit, onSubmit, submitRef]);
   useEffect(() => {
     Object.entries(initialValues).forEach(([key, value]) => setValue(key, value));
     // eslint-disable-next-line react-hooks/exhaustive-deps

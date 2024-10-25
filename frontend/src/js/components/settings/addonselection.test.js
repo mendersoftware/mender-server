@@ -15,15 +15,22 @@ import React from 'react';
 
 import { undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
-import AddOnSelection from './addonselection';
+import AddOnSelection from './AddonSelection';
 
-describe('AddOnSelection component', () => {
+describe('AddonSelection component', () => {
   it(`renders correctly`, () => {
+    window.localStorage.getItem.mockImplementation(() => null);
     const { baseElement } = render(
-      <AddOnSelection addOns={[{ name: 'configure', enabled: true }]} features={{ hasDeviceConfig: true, hasDeviceConnect: true }} />
+      <AddOnSelection
+        org={{ id: 'id' }}
+        currentPlan="professional"
+        addOns={[{ name: 'configure', enabled: true }]}
+        features={{ hasDeviceConfig: true, hasDeviceConnect: true }}
+      />
     );
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
+    window.localStorage.getItem.mockReset();
   });
 });

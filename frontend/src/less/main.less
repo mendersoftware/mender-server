@@ -192,6 +192,7 @@ ul.link-list {
   x-small: 0.5 * @defaultGutterWidth;
   small: @defaultGutterWidth;
   large: 3 * @defaultGutterWidth;
+  x-large: 6 * @defaultGutterWidth;
 }
 .margin {
   margin: 2 * @defaultGutterWidth;
@@ -300,6 +301,9 @@ each(@directions, .(@direction) {
   }
 }
 
+.align-self-end {
+  align-self: end;
+}
 .flexbox {
   display: flex;
   &.center-aligned,
@@ -882,36 +886,6 @@ div:focus {
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-end;
-  }
-}
-
-/* Upgrade */
-
-.planPanel {
-  padding: 10px 20px;
-  border-radius: 5px;
-  border-width: 1px;
-  border-style: solid;
-  vertical-align: top;
-  width: 32%;
-  .transition(all 0.2s ease);
-  cursor: pointer;
-  &.muted,
-  &.muted:hover {
-    cursor: default;
-    box-shadow: none;
-  }
-}
-
-.offerTag {
-  color: @linkgreen;
-  font-size: 12px;
-  svg {
-    width: 0.7em;
-    height: 0.7em;
-    vertical-align: middle;
-    margin-left: 4px;
-    margin-right: 2px;
   }
 }
 

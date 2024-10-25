@@ -47,37 +47,67 @@ export const locations = {
   eu: { key: 'eu', title: 'EU', location: 'eu.hosted.mender.io', icon: FlagEU },
   us: { key: 'us', title: 'US', location: 'hosted.mender.io', icon: FlagUS }
 };
-export const PLANS = {
+export type AvailablePlans = 'os' | 'professional' | 'enterprise';
+
+export type Plan = {
+  id: AvailablePlans;
+  name: string;
+  offer?: boolean;
+  price: string;
+  deviceCount: string;
+  offerprice?: string;
+  price2?: string;
+  features: string[];
+};
+
+export type AvailableAddon = 'configure' | 'troubleshoot' | 'monitor';
+
+export const PLANS: { [key in AvailablePlans]: Plan } = {
   os: {
     id: 'os',
     name: 'Basic',
     offer: true,
-    price: '$32/month',
+    price: '$32 / month',
     deviceCount: startingDeviceCount.os,
-    offerprice: '$23/month for first 50 devices',
+    offerprice: '$23 / month for first 50 devices',
     price2: 'for first 6 months;\n$29/month thereafter',
-    features: ['Basic OTA features']
+    features: ['Access to core features of Mender', 'Basic support']
   },
   professional: {
     id: 'professional',
     name: 'Professional',
     offer: true,
-    price: '$269/month',
+    price: '$269 / month',
     deviceCount: startingDeviceCount.professional,
-    offerprice: '$200/month for first 50 devices',
+    offerprice: '$200 / month for first 50 devices',
     price2: 'for first 6 months;\n$249/month thereafter',
-    features: ['+ Advanced OTA features', '+ Standard support']
+    features: ['Advanced OTA features', 'Higher priority support']
   },
   enterprise: {
     id: 'enterprise',
     name: 'Enterprise',
     price: 'Custom pricing',
-    deviceCount: 'unlimited devices',
-    features: ['+ Enterprise-grade OTA features', '+ Premium support']
+    deviceCount: 'Unlimited devices',
+    features: ['All Mender features', 'Advanced security features', 'SLA-backed support']
   }
 };
+export type Addon = {
+  id: string;
+  title: string;
+  description: string;
+  needs: string[];
+  eligible: AvailablePlans[];
+} & {
+  [key in Exclude<AvailablePlans, 'enterprise'>]: {
+    price: string;
+    deviceCount: string;
+  };
+};
+
+export type AddonId = keyof typeof ADDONS;
+
 // the needs names need to be aligned with the name of the features in the appReducer, as they will be checked in the addonselection
-export const ADDONS = {
+export const ADDONS: { [key in AvailableAddon]: Addon } = {
   configure: {
     id: 'configure',
     title: 'Configure',

@@ -409,6 +409,8 @@ NodeList [
 ]
 `;
 
+exports[`Helptooltips Components renders PlanUpgradeEmail correctly 1`] = `This email address will receive all payment receipts and notifications about pricing and device limits. It does not necessarily have to belong to a user in your Mender account`;
+
 exports[`Helptooltips Components renders ReleaseName correctly 1`] = `If a Release with this name already exists, this new Artifact may be grouped into a Release with other Artifacts of the same name - so long as they are compatible with different device types`;
 
 exports[`Helptooltips Components renders ResetHistory correctly 1`] = `Greyed out items will not be considered during deployment roll out`;
