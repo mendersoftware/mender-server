@@ -35,7 +35,7 @@ services:
       DEPLOYMENTS_MENDER_WORKFLOWS: http://workflows:8080
       DEPLOYMENTS_MONGO_URL: "mongodb://mongo"
       DEPLOYMENTS_STORAGE_BUCKET: "mender"
-      DEPLOYMENTS_AWS_URI: "http://s3:8333"
+      DEPLOYMENTS_AWS_URI: "http://s3:8080"
       DEPLOYMENTS_AWS_EXTERNAL_URI: "https://s3.docker.mender.io"
       DEPLOYMENTS_AWS_AUTH_KEY: "${MENDER_ACCESS_KEY_ID:-mender}"
       DEPLOYMENTS_AWS_AUTH_SECRET: "${MENDER_SECRET_ACCESS_KEY:-thisisnotsecure}"
