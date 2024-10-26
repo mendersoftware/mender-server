@@ -65,14 +65,15 @@ const sortAndHoist = thing =>
         return layerTitle;
       }, title);
       children = sortAndHoist(children);
-      if (isEmpty(content) && children.length === 1) {
-        title = `${title}.${children[0].title}`;
-        content = children[0].content;
-        children = [];
+      if (isEmpty(content) && Object.keys(children).length === 1) {
+        const child = Object.entries(children).reduce((result, [key, value]) => ({ title: key, ...value }), {});
+        title = `${title}.${child.title}`;
+        content = child.content;
+        children = child.children;
       }
-      accu.push({ ...entry[1], children, content, title });
+      accu = { ...accu, [title]: { content, children, title } };
       return accu;
-    }, []);
+    }, {});
 
 /**
  * to get information about the software installed on the device we first need to:
@@ -87,7 +88,7 @@ export const extractSoftwareInformation = (attributes = {}, sort = true) => {
   const softwareLayers = software.reduce((accu, item, index) => {
     const layer = mapLayerInformation(item[0], item[1], index, item[0]);
     if (!accu[layer.title]) {
-      accu[layer.title] = { content: {}, children: {} };
+      accu[layer.title] = { content: {}, children: {}, title: '' };
     }
     accu[layer.title] = {
       ...accu[layer.title],
@@ -117,10 +118,10 @@ const SoftwareLayer = ({ classes, layer, isNested, overviewOnly, setSnackbar }) 
         />
       </div>
     )}
-    {!overviewOnly && !!layer.children.length && (
+    {!overviewOnly && !isEmpty(layer.children) && (
       <div className={classes.nestingBorders}>
-        {layer.children.map(child => (
-          <SoftwareLayer classes={classes} key={child.key} layer={child} isNested setSnackbar={setSnackbar} />
+        {Object.entries(layer.children).map(([key, child]) => (
+          <SoftwareLayer classes={classes} key={key} layer={child} isNested setSnackbar={setSnackbar} />
         ))}
       </div>
     )}
@@ -134,7 +135,7 @@ export const InstalledSoftware = ({ device, docsVersion, setSnackbar }) => {
 
   let softwareInformation = extractSoftwareInformation(attributes);
 
-  if (!softwareInformation.length) {
+  if (isEmpty(softwareInformation)) {
     softwareInformation = [
       {
         children: [],
@@ -148,8 +149,8 @@ export const InstalledSoftware = ({ device, docsVersion, setSnackbar }) => {
   return (
     <DeviceDataCollapse header={waiting && <DeviceInventoryLoader docsVersion={docsVersion} />} title="Installed software">
       <div className={classes.nestingBorders}>
-        {softwareInformation.map(layer => (
-          <SoftwareLayer classes={classes} key={layer.key} layer={layer} setSnackbar={setSnackbar} />
+        {Object.entries(softwareInformation).map(([key, layer]) => (
+          <SoftwareLayer classes={classes} key={key} layer={layer} setSnackbar={setSnackbar} />
         ))}
       </div>
     </DeviceDataCollapse>
