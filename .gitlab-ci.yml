@@ -430,7 +430,7 @@ changelog:
     - release-please release-pr
         --token=${GITHUB_BOT_TOKEN_REPO_FULL}
         --repo-url=${GITHUB_REPO_URL}
-        --target-branch=${CI_COMMIT_REF_NAME}
+        --target-branch=${CI_COMMIT_REF_NAME} || echo "INFO - release already exists" # workaround because we shifted to prerelease versioning strategy and there's already a PR open
     # git cliff: override the changelog
     - test $GIT_CLIFF == "false" && echo "INFO - Skipping git-cliff" && exit 0
     - git remote add github-${CI_JOB_ID} https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_REPO_URL} || true  # Ignore already existing remote
