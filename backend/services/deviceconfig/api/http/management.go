@@ -16,9 +16,7 @@ package http
 
 import (
 	"net/http"
-
-	"github.com/mendersoftware/mender-server/services/deviceconfig/model"
-	"github.com/mendersoftware/mender-server/services/deviceconfig/store"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
@@ -26,6 +24,9 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/plan"
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
+
+	"github.com/mendersoftware/mender-server/services/deviceconfig/model"
+	"github.com/mendersoftware/mender-server/services/deviceconfig/store"
 )
 
 // API errors
@@ -99,6 +100,16 @@ func (api *ManagementAPI) GetConfiguration(c *gin.Context) {
 		}
 	}
 
+	if strings.HasPrefix(c.Request.RequestURI, URIManagement) {
+		// in the v1 endpoint we do not return other attributes that the flat json ones
+		var flatAttributes model.Attributes
+		for _, a := range device.ConfiguredAttributes {
+			if _, isString := a.Value.(string); isString {
+				flatAttributes = append(flatAttributes, a)
+			}
+		}
+		device.ConfiguredAttributes = flatAttributes
+	}
 	c.JSON(http.StatusOK, device)
 }
 

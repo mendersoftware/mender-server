@@ -30,7 +30,10 @@ var (
 		switch value.(type) {
 		case string:
 			return nil
-
+		case map[string]interface{}:
+			// MEN-7614: added support for
+			// PUT {"key1":"value1","key8":{"value":"value8","hidden":true}}
+			return nil
 		default:
 			// NOTE: we will support more types in the future
 			return errors.Errorf("invalid type: %T", value)

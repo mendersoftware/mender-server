@@ -32,9 +32,10 @@ const (
 	pathParamDeviceID = "device_id"
 	pathParamTenantID = "tenant_id"
 
-	URIDevices    = "/api/devices/v1/deviceconfig"
-	URIInternal   = "/api/internal/v1/deviceconfig"
-	URIManagement = "/api/management/v1/deviceconfig"
+	URIDevices      = "/api/devices/v1/deviceconfig"
+	URIInternal     = "/api/internal/v1/deviceconfig"
+	URIManagement   = "/api/management/v1/deviceconfig"
+	URIManagementV2 = "/api/management/v2/deviceconfig"
 
 	URITenants       = "/tenants"
 	URITenant        = "/tenants/:tenant_id"
@@ -94,10 +95,13 @@ func NewRouter(app app.App) http.Handler {
 
 	mgmtAPI := (*ManagementAPI)(apiHandler)
 	mgmtGrp := router.Group(URIManagement)
+	mgmtGrpV2 := router.Group(URIManagementV2)
 
 	// identity middleware for collecting JWT claims into request Context.
 	mgmtGrp.Use(identity.Middleware())
+	mgmtGrpV2.Use(identity.Middleware())
 	mgmtGrp.GET(URIConfiguration, mgmtAPI.GetConfiguration)
+	mgmtGrpV2.GET(URIConfiguration, mgmtAPI.GetConfiguration)
 	mgmtGrp.PUT(URIConfiguration, mgmtAPI.SetConfiguration)
 	mgmtGrp.POST(URIDeployConfiguration, mgmtAPI.DeployConfiguration)
 

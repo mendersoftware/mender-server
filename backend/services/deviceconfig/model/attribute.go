@@ -18,6 +18,8 @@ import (
 	"encoding/json"
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type Attribute struct {
@@ -74,7 +76,38 @@ func (a *Attributes) UnmarshalJSON(b []byte) error {
 func attributes2Map(attributes []Attribute) map[string]interface{} {
 	configurationMap := make(map[string]interface{}, len(attributes))
 	for _, a := range attributes {
-		configurationMap[a.Key] = a.Value.(string)
+		if _, ok := a.Value.(string); ok {
+			configurationMap[a.Key] = a.Value.(string)
+		}
+		if _, ok := a.Value.(primitive.D); ok {
+			d := a.Value.(primitive.D)
+			if len(d) != 2 {
+				continue
+			}
+			var value interface{}
+			if d[0].Key == "value" {
+				value = d[0].Value
+			}
+			if d[1].Key == "value" {
+				value = d[1].Value
+			}
+			var hidden interface{}
+			if d[0].Key == "hidden" {
+				hidden = d[0].Value
+			}
+			if d[1].Key == "hidden" {
+				hidden = d[1].Value
+			}
+			m := make(map[string]interface{}, 1)
+			if isHidden, isBool := hidden.(bool); isBool && isHidden {
+				value = nil
+			}
+			if value != nil {
+				m["value"] = value
+			}
+			m["hidden"] = hidden
+			configurationMap[a.Key] = m
+		}
 	}
 
 	return configurationMap
