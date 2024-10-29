@@ -19,7 +19,7 @@ import { IconButton, TablePagination } from '@mui/material';
 import { DEVICE_LIST_DEFAULTS, DEVICE_LIST_MAXIMUM_LENGTH, TIMEOUTS } from '@northern.tech/store/constants';
 
 import { useDebounce } from '../../utils/debouncehook';
-import MenderTooltip from '../common/mendertooltip';
+import MenderTooltip from './mendertooltip';
 
 const defaultRowsPerPageOptions = [10, 20, DEVICE_LIST_MAXIMUM_LENGTH];
 const { perPage: defaultPerPage } = DEVICE_LIST_DEFAULTS;

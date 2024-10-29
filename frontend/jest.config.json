@@ -48,7 +48,8 @@
   ],
   "moduleNameMapper": {
     "\\.(css|less)$": "<rootDir>/tests/cssTransform.js",
-    "^@northern.tech/store/(.*)$": "<rootDir>/src/js/store/$1"
+    "^@northern.tech/store/(.*)$": "<rootDir>/src/js/store/$1",
+    "^@northern.tech/common-ui/(.*)$": "<rootDir>/src/js/common-ui/$1"
   },
   "watchPlugins": [
     "jest-watch-typeahead/filename",
