@@ -57,6 +57,7 @@ const (
 	InventoryIdentityScope           = "identity"
 	InventoryGroupAttributeName      = "group"
 	InventoryStatusAttributeName     = "status"
+	InventoryIdAttributeName         = "id"
 	InventoryStatusAccepted          = "accepted"
 
 	fileSuffixTmp = ".tmp"
@@ -1200,6 +1201,7 @@ func (d *Deployments) CreateDeployment(ctx context.Context,
 	deployment.DeviceList = constructor.Devices
 	deployment.MaxDevices = len(constructor.Devices)
 	deployment.Type = model.DeploymentTypeSoftware
+	deployment.Filter = getDeploymentFilter(constructor)
 	if len(constructor.Group) > 0 {
 		deployment.Groups = []string{constructor.Group}
 	}
@@ -1243,6 +1245,50 @@ func (d *Deployments) getDeploymentGroups(
 		return nil, err
 	}
 	return groups, nil
+}
+
+func getDeploymentFilter(
+	constructor *model.DeploymentConstructor,
+) *model.Filter {
+
+	var filter *model.Filter
+
+	if len(constructor.Group) > 0 {
+		filter = &model.Filter{
+			Terms: []model.FilterPredicate{
+				{
+					Scope:     InventoryGroupScope,
+					Attribute: InventoryGroupAttributeName,
+					Type:      "$eq",
+					Value:     constructor.Group,
+				},
+			},
+		}
+	} else if constructor.AllDevices {
+		filter = &model.Filter{
+			Terms: []model.FilterPredicate{
+				{
+					Scope:     InventoryIdentityScope,
+					Attribute: InventoryStatusAttributeName,
+					Type:      "$eq",
+					Value:     InventoryStatusAccepted,
+				},
+			},
+		}
+	} else if len(constructor.Devices) > 0 {
+		filter = &model.Filter{
+			Terms: []model.FilterPredicate{
+				{
+					Scope:     InventoryIdentityScope,
+					Attribute: InventoryIdAttributeName,
+					Type:      "$in",
+					Value:     constructor.Devices,
+				},
+			},
+		}
+	}
+
+	return filter
 }
 
 // IsDeploymentFinished checks if there is unfinished deployment with given ID
