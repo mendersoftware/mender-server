@@ -12,7 +12,7 @@ MENDER_PUBLISH_TAG ?= $(MENDER_IMAGE_TAG)
 bindir ?= $(GIT_ROOT)/bin
 binfile ?= $(bindir)/$(COMPONENT)
 
-VERSION := $(shell git describe --tag --dirty 2>/dev/null)
+VERSION := $(shell git describe --tag --dirty 2>/dev/null || echo "v0.0.0-dev+$$(git rev-parse --abbrev-ref HEAD)")
 GIT_ROOT := $(shell git rev-parse --show-toplevel)
 MAKEDIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 DOCFILES := $(wildcard docs/*_api.yml)
@@ -84,7 +84,7 @@ $(binfile): $(GOFILES)
 		GOARCH=$(GOARCH) \
 		go build -o $(binfile) \
 			-ldflags '$(LDFLAGS)' \
-			-ldflags '-X github.com/mendersoftware/mender-server/pkg/version.version=$(VERSION)' \
+			-ldflags '-X "github.com/mendersoftware/mender-server/pkg/version.version=$(VERSION)"' \
 			$(BUILDFLAGS)
 
 .PHONY: build
