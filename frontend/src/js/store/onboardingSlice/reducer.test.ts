@@ -18,6 +18,10 @@ describe('organization reducer', () => {
   it('should return the initial state', async () => {
     expect(reducer(undefined, {})).toEqual(initialState);
   });
+  it('should handle setOnboardingState', async () => {
+    expect(reducer(undefined, { type: actions.setOnboardingState, payload: { foo: 'bar', showTips: true } }).showTips).toEqual(true);
+    expect(reducer(initialState, { type: actions.setOnboardingState, payload: { foo: false } }).showTips).toEqual(null);
+  });
   it('should handle SET_SHOW_ONBOARDING_HELP', async () => {
     expect(reducer(undefined, { type: actions.setShowOnboardingHelp, payload: true }).showTips).toEqual(true);
     expect(reducer(initialState, { type: actions.setShowOnboardingHelp, payload: false }).showTips).toEqual(false);
