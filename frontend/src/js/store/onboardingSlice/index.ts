@@ -30,7 +30,7 @@ export const onboardingSlice = createSlice({
   initialState,
   reducers: {
     setOnboardingState: (state, action) => {
-      state = { ...state, ...action.payload };
+      return { ...state, ...action.payload };
     },
     setDemoArtifactPort: (state, action) => {
       state.demoArtifactPort = action.payload;
