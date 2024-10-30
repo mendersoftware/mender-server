@@ -275,7 +275,7 @@ definitions:
       type:
         type: string
         description: Type or operator of the filter predicate.
-        enum: [$eq]
+        enum: [$eq, $in, $nin]
       value:
         type: string
         description: |

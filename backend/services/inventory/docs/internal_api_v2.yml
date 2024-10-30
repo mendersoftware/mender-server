@@ -216,7 +216,7 @@ definitions:
       type:
         type: string
         description: Type or operator of the filter predicate.
-        enum: [$eq, $gt, $gte, $in, $lt, $lte, $ne, $nin, $exists, $regex]
+        enum: [$eq, $in, $nin]
       value:
         type: string
         description: |
@@ -234,7 +234,7 @@ definitions:
             (PCRE), automatically anchored by ^. If the regular expression is not valid,
             the filter will produce no results. If you need to specify options and flags,
             you can provide the full regex in the format of /regex/flags, for example
-            `/[a-z]+/i`. 
+            `/[a-z]+/i`.
     example:
       type: "$eq"
       attribute: "serial_no"

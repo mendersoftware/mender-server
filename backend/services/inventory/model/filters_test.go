@@ -1,4 +1,4 @@
-// Copyright 2023 Northern.tech AS
+// Copyright 2024 Northern.tech AS
 //
 //	Licensed under the Apache License, Version 2.0 (the "License");
 //	you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ func TestSearchParams(t *testing.T) {
 		"ok, empty": {
 			params: &SearchParams{},
 		},
-		"ok, filters": {
+		"ok, filters - $eq": {
 			params: &SearchParams{
 				Filters: []FilterPredicate{
 					{
@@ -36,6 +36,30 @@ func TestSearchParams(t *testing.T) {
 						Attribute: "attribute",
 						Type:      "$eq",
 						Value:     "value",
+					},
+				},
+			},
+		},
+		"ok, filters - $in": {
+			params: &SearchParams{
+				Filters: []FilterPredicate{
+					{
+						Scope:     "scope",
+						Attribute: "attribute",
+						Type:      "$in",
+						Value:     []string{"value1", "value2"},
+					},
+				},
+			},
+		},
+		"ok, filters - $nin": {
+			params: &SearchParams{
+				Filters: []FilterPredicate{
+					{
+						Scope:     "scope",
+						Attribute: "attribute",
+						Type:      "$nin",
+						Value:     []string{"value1", "value2"},
 					},
 				},
 			},
@@ -51,6 +75,19 @@ func TestSearchParams(t *testing.T) {
 				},
 			},
 			err: errors.New("attribute: cannot be blank."),
+		},
+		"ko, filters - unsupported operator": {
+			params: &SearchParams{
+				Filters: []FilterPredicate{
+					{
+						Scope:     "scope",
+						Attribute: "attribute",
+						Type:      "$regex",
+						Value:     "value",
+					},
+				},
+			},
+			err: errors.New("type: must be a valid value."),
 		},
 		"ok, sort": {
 			params: &SearchParams{
