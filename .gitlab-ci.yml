@@ -327,7 +327,7 @@ publish:backend:docker:
     - skopeo login --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - skopeo login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD docker.io
     - dnf install -y make git-core
-    - export MENDER_PUBLISH_TAG="${CI_COMMIT_REF_SLUG}"
+    - export MENDER_PUBLISH_TAG="${CI_COMMIT_REF_NAME}"
   script:
     - make -C backend -j 4 docker-publish NOASK=y
     - |
