@@ -16,7 +16,8 @@ import React from 'react';
 import { List, ListItem, ListItemText, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { FileSize, getFormattedSize } from '../../helpers';
+import { getFormattedSize } from '../../helpers';
+import FileSize from '../common/filesize';
 import Time from '../common/time';
 
 const METADATA_SPACING = 2;

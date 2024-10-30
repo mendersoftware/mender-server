@@ -11,8 +11,6 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React from 'react';
-
 import pluralize from 'pluralize';
 import Cookies from 'universal-cookie';
 
@@ -238,13 +236,6 @@ export const getFormattedSize = bytes => {
   }
   return `${(bytes / Math.pow(1024, i)).toFixed(2)} ${suffixes[i]}`;
 };
-
-export const FileSize = React.forwardRef(({ fileSize, style }, ref) => (
-  <div ref={ref} style={style}>
-    {getFormattedSize(fileSize)}
-  </div>
-));
-FileSize.displayName = 'FileSize';
 
 const collectAddressesFrom = devices =>
   devices.reduce((collector, { attributes = {} }) => {

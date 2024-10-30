@@ -26,10 +26,11 @@ import {
 } from '@northern.tech/store/constants';
 
 import DeltaIcon from '../../../../assets/img/deltaicon.svg';
-import { FileSize, formatTime } from '../../../helpers';
+import { formatTime } from '../../../helpers';
 import { TwoColumns } from '../../common/configurationobject';
 import DetailsTable from '../../common/detailstable';
 import DeviceIdentityDisplay from '../../common/deviceidentity';
+import FileSize from '../../common/filesize';
 import Loader from '../../common/loader';
 import MenderTooltip from '../../common/mendertooltip';
 import Pagination from '../../common/pagination';

@@ -21,7 +21,7 @@ import { makeStyles } from 'tss-react/mui';
 import { cancelFileUpload } from '@northern.tech/store/thunks';
 import pluralize from 'pluralize';
 
-import { FileSize } from '../helpers';
+import FileSize from './common/filesize';
 
 const useStyles = makeStyles()(theme => ({
   progress: {
