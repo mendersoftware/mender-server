@@ -21,9 +21,9 @@ import { makeStyles } from 'tss-react/mui';
 import { DEPLOYMENT_STATES, DEPLOYMENT_TYPES } from '@northern.tech/store/constants';
 import { getDeploymentState } from '@northern.tech/store/utils';
 
-import { FileSize } from '../../helpers';
 import { useDeploymentDevice } from '../../utils/deploymentdevicehook';
 import Confirm from '../common/confirm';
+import FileSize from '../common/filesize';
 import { RelativeTime } from '../common/time';
 import { PhaseProgressDisplay } from './deployment-report/phaseprogress';
 import { getDeploymentTargetText } from './deployment-wizard/softwaredevices';

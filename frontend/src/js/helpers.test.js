@@ -11,12 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React from 'react';
-
-import { defaultState, undefineds } from '../../tests/mockData';
-import { render } from '../../tests/setupTests';
+import { defaultState } from '../../tests/mockData';
 import {
-  FileSize,
   customSort,
   deepCompare,
   detectOsIdentifier,
@@ -38,16 +34,6 @@ import {
 } from './helpers';
 
 const deploymentCreationTime = defaultState.deployments.byId.d1.created;
-
-/* eslint-disable sonarjs/no-duplicate-string */
-describe('FileSize Component', () => {
-  it('renders correctly', async () => {
-    const { baseElement } = render(<FileSize fileSize={1000} />);
-    const view = baseElement.firstChild.firstChild;
-    expect(view).toMatchSnapshot();
-    expect(view).toEqual(expect.not.stringMatching(undefineds));
-  });
-});
 
 describe('getFormattedSize function', () => {
   it('converts correctly', async () => {
@@ -306,7 +292,6 @@ describe('deepCompare function', () => {
     const date = new Date();
     expect(deepCompare(date, date)).toBeTruthy();
     expect(deepCompare(date, new Date().setDate(date.getDate() - 1))).toBeFalsy();
-    expect(deepCompare(<FileSize />, <FileSize />)).toBeTruthy();
     expect(deepCompare(defaultState, {})).toBeFalsy();
   });
 });

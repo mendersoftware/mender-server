@@ -50,12 +50,13 @@ import { removeArtifact, removeRelease, selectRelease, setReleaseTags, updateRel
 import copy from 'copy-to-clipboard';
 import pluralize from 'pluralize';
 
-import { FileSize, customSort, formatTime, toggle } from '../../helpers';
+import { customSort, formatTime, toggle } from '../../helpers';
 import { generateReleasesPath } from '../../utils/locationutils';
 import useWindowSize from '../../utils/resizehook';
 import ChipSelect from '../common/chipselect';
 import { ConfirmationButtons, EditButton } from '../common/confirm';
 import { EditableLongText } from '../common/editablelongtext';
+import FileSize from '../common/filesize';
 import { RelativeTime } from '../common/time';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../helptips/helptooltips';
 import Artifact from './artifact';
