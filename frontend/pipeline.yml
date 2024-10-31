@@ -35,8 +35,8 @@ test:frontend:license-headers:
   stage: test
   rules:
     - changes:
-        paths: ['frontend/**/*']
-        compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
+        paths: ["frontend/**/*"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
   needs: []
   before_script:
     - apt update && apt install git -yq
@@ -184,6 +184,9 @@ build:frontend:docker:
   needs:
     - job: build:frontend:docker
       artifacts: false
+    - job: build:backend:docker
+      artifacts: false
+      optional: true
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:dind
       alias: docker
@@ -261,7 +264,8 @@ publish:frontend:e2e-tests:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: always
   needs:
-    - test:frontend:acceptance:enterprise
+    - job: test:frontend:acceptance:enterprise
+      artifacts: true
   script:
     - export COVERALLS_SERVICE_JOB_NUMBER=frontend-e2e
     - export COVERALLS_FLAG_NAME=frontend-e2e
