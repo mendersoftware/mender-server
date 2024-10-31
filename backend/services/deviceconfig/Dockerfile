@@ -24,4 +24,5 @@ ARG USER=65534
 USER $USER
 COPY --chown=$USER  backend/services/deviceconfig/config.yaml /etc/deviceconfig/config.yaml
 COPY --from=builder --chown=$USER /build/deviceconfig /usr/bin/deviceconfig
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 ENTRYPOINT ["/usr/bin/deviceconfig", "--config", "/etc/deviceconfig/config.yaml"]

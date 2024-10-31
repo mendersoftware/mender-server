@@ -27,4 +27,5 @@ ARG BIN_FILE=./dist/${TARGETOS}/${TARGETARCH}/inventory
 USER $USER
 COPY --chown=$USER  backend/services/inventory/config.yaml /etc/inventory/config.yaml
 COPY --from=builder --chown=$USER /build/inventory /usr/bin/inventory
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 ENTRYPOINT ["/usr/bin/inventory", "--config", "/etc/inventory/config.yaml"]
