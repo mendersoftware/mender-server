@@ -1,27 +1,3 @@
-configs:
-  s3-conf:
-    content: |
-      {
-        "identities": [
-          {
-            "name": "mender",
-            "credentials": [
-              {
-                "accessKey": "${MENDER_ACCESS_KEY_ID:-mender}",
-                "secretKey": "${MENDER_SECRET_ACCESS_KEY:-thisisnotsecure}"
-              }
-            ],
-            "actions": [
-              "Admin:mender",
-              "Read:mender",
-              "Write:mender",
-              "List:mender",
-              "Tagging:mender"
-            ]
-          }
-        ]
-      }
-
 services:
   s3-master:
     image: chrislusf/seaweedfs
@@ -74,9 +50,6 @@ services:
       - s3-master
       - s3-volume
       - s3-filer
-    configs:
-      - source: s3-conf
-        target: /etc/seaweedfs/s3.conf
     labels:
       traefik.enable: "true"
       traefik.http.routers.s3.priority: "99999"
@@ -92,6 +65,7 @@ services:
       interval: 5s
       retries: 10
     volumes:
+      - /etc/seaweedfs/s3.conf:./config/seaweedfs-s3.conf:ro
       - s3:/data
 
 volumes:

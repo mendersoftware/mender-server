@@ -364,20 +364,11 @@ services:
     configs:
       - source: client_json
         target: /etc/mender/mender.conf
+    environment:
+      SERVER_URL: ${SERVER_URL:-https://docker.mender.io}
+      TENANT_TOKEN: ${TENANT_TOKEN:-}
     volumes:
-      - ./compose/certs/mender.crt:/var/lib/mender/mender.crt
-
-configs:
-  client_json:
-    content: |
-      {
-        "InventoryPollIntervalSeconds": 5,
-        "RetryPollIntervalSeconds": 5,
-        "ServerURL": "${SERVER_URL:-https://docker.mender.io}",
-        "ServerCertificate": "/var/lib/mender/mender.crt",
-        "UpdatePollIntervalSeconds": 5,
-        "TenantToken": "${TENANT_TOKEN:-}"
-      }
-
+      - ./compose/config/mender.conf:/etc/mender/mender.conf
+      - ./compose/certs/mender.crt:/usr/share/doc/mender/server.crt
 volumes:
   mongo: {}
