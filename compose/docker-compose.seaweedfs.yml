@@ -85,14 +85,11 @@ services:
     healthcheck:
       test:
         - CMD
-        - /usr/bin/wget
-        - -q
-        - -O
-        - /dev/null
-        - http://127.0.0.1:8080/healthz
-      start_period: 1m
-      start_interval: 500ms
-      interval: 1m
+        - /usr/bin/nc
+        - -z
+        - 127.0.0.1
+        - "8080"
+      interval: 5s
       retries: 10
     volumes:
       - s3:/data
