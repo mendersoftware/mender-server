@@ -225,6 +225,9 @@ test:frontend:acceptance:enterprise:
   extends: .template:test:frontend:acceptance
   variables:
     TEST_ENVIRONMENT: enterprise
+  rules:
+    # This job can only run on protected branches
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
   script:
     - docker login -u $REGISTRY_MENDER_IO_USERNAME -p $REGISTRY_MENDER_IO_PASSWORD registry.mender.io
     - GUI_REPOSITORY=$(pwd)/frontend SERVER_ROOT=$(pwd) ./frontend/tests/e2e_tests/run --enterprise
@@ -261,14 +264,31 @@ publish:frontend:e2e-tests:
   rules:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
+    - changes:
+        paths: ["frontend/**/*", "compose/**/*", "docker-compose.yml"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
+      when: on_success
+  needs:
+    - job: test:frontend:acceptance
+      artifacts: true
+  variables:
+    COVERALLS_SERVICE_JOB_NUMBER: frontend-e2e
+    COVERALLS_FLAG_NAME: frontend-e2e
+  script:
+    - sed -i -re 's/(^[SF:]+[../]+)(.*)$/SF:\2/' frontend/coverage/lcov.info
+    - coveralls < frontend/coverage/lcov.info
+
+publish:frontend:e2e-tests:enterprise:
+  extends: publish:frontend:e2e-tests
+  rules:
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+      when: on_success
   needs:
     - job: test:frontend:acceptance:enterprise
       artifacts: true
-  script:
-    - export COVERALLS_SERVICE_JOB_NUMBER=frontend-e2e
-    - export COVERALLS_FLAG_NAME=frontend-e2e
-    - sed -i -re 's/(^[SF:]+[../]+)(.*)$/SF:\2/' frontend/coverage/lcov.info
-    - coveralls < frontend/coverage/lcov.info
+  variables:
+    COVERALLS_SERVICE_JOB_NUMBER: frontend-e2e-enterprise
+    COVERALLS_FLAG_NAME: frontend-e2e-enterprise
 
 publish:frontend:licenses:
   stage: publish
