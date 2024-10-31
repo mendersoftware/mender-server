@@ -44,11 +44,12 @@
     "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/assetsTransformer.js"
   },
   "transformIgnorePatterns": [
-    "<rootDir>/node_modules/(?!xterm-for-react|node-fetch|jsdom-worker|data-uri-to-buffer|fetch-blob|formdata-polyfill)"
+    "<rootDir>/node_modules/(?!xterm-for-react|node-fetch|jsdom-worker|data-uri-to-buffer|fetch-blob|formdata-polyfill|@northern.tech/utils)"
   ],
   "moduleNameMapper": {
     "\\.(css|less)$": "<rootDir>/tests/cssTransform.js",
-    "^@northern.tech/store/(.*)$": "<rootDir>/src/js/store/$1"
+    "^@northern.tech/store/(.*)$": "<rootDir>/src/js/store/$1",
+    "^@northern.tech/utils/(.*)$": "<rootDir>node_modules/@northern.tech/utils/packages/utils/$1"
   },
   "watchPlugins": [
     "jest-watch-typeahead/filename",
