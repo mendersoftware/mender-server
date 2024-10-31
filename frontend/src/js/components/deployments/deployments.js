@@ -30,12 +30,12 @@ import {
   getUserCapabilities
 } from '@northern.tech/store/selectors';
 import { abortDeployment, advanceOnboarding, getDynamicGroups, getGroups, setDeploymentsState } from '@northern.tech/store/thunks';
+import { getISOStringBoundaries } from '@northern.tech/utils/helpers';
+import { useLocationParams } from '@northern.tech/utils/liststatehook';
+import useWindowSize from '@northern.tech/utils/resizehook';
 import { isUUID } from 'validator';
 
-import { getISOStringBoundaries } from '../../helpers';
-import { useLocationParams } from '../../utils/liststatehook';
 import { getOnboardingComponentFor } from '../../utils/onboardingmanager';
-import useWindowSize from '../../utils/resizehook';
 import CreateDeployment from './createdeployment';
 import Progress from './inprogressdeployments';
 import Past from './pastdeployments';

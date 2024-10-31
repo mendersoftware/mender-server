@@ -32,9 +32,9 @@ import {
   getUserCapabilities
 } from '@northern.tech/store/selectors';
 import { getDeploymentsByStatus, setDeploymentsState } from '@northern.tech/store/thunks';
+import { clearAllRetryTimers, clearRetryTimer, setRetryTimer } from '@northern.tech/utils/retrytimer';
 import dayjs from 'dayjs';
 
-import { clearAllRetryTimers, clearRetryTimer, setRetryTimer } from '../../utils/retrytimer';
 import { DefaultUpgradeNotification } from '../common/enterpriseNotification';
 import { DeploymentDeviceCount, DeploymentEndTime, DeploymentPhases, DeploymentStartTime } from './deploymentitem';
 import { defaultRefreshDeploymentsLength as refreshDeploymentsLength } from './deployments';

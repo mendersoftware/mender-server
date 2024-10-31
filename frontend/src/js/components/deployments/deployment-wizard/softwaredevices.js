@@ -21,12 +21,12 @@ import { makeStyles } from 'tss-react/mui';
 
 import { ALL_DEVICES, DEPLOYMENT_TYPES } from '@northern.tech/store/constants';
 import { getReleases, getSystemDevices } from '@northern.tech/store/thunks';
+import { stringToBoolean } from '@northern.tech/utils/helpers';
+import { formatDeviceSearch } from '@northern.tech/utils/locationutils';
+import useWindowSize from '@northern.tech/utils/resizehook';
 import pluralize from 'pluralize';
 import isUUID from 'validator/lib/isUUID';
 
-import { stringToBoolean } from '../../../helpers';
-import { formatDeviceSearch } from '../../../utils/locationutils';
-import useWindowSize from '../../../utils/resizehook';
 import AsyncAutocomplete from '../../common/asyncautocomplete';
 import InfoText from '../../common/infotext';
 import { getDeviceIdentityText } from '../../devices/base-devices';

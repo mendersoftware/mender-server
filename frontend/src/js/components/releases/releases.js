@@ -30,10 +30,10 @@ import {
   getUserCapabilities
 } from '@northern.tech/store/selectors';
 import { getExistingReleaseTags, getReleases, getUpdateTypes, selectRelease, setReleasesListState } from '@northern.tech/store/thunks';
+import { useDebounce } from '@northern.tech/utils/debouncehook';
+import { useLocationParams } from '@northern.tech/utils/liststatehook';
 import pluralize from 'pluralize';
 
-import { useDebounce } from '../../utils/debouncehook';
-import { useLocationParams } from '../../utils/liststatehook';
 import ChipSelect from '../common/chipselect';
 import EnterpriseNotification, { DefaultUpgradeNotification } from '../common/enterpriseNotification';
 import { ControlledAutoComplete } from '../common/forms/autocomplete';

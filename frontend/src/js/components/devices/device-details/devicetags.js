@@ -18,8 +18,8 @@ import { Button } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 import { getDeviceAttributes, setDeviceTags } from '@northern.tech/store/thunks';
+import { toggle } from '@northern.tech/utils/helpers';
 
-import { toggle } from '../../../helpers';
 import Tracking from '../../../tracking';
 import ConfigurationObject from '../../common/configurationobject';
 import { EditButton } from '../../common/confirm';

@@ -17,8 +17,8 @@ import { Autocomplete, TextField } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 import { TIMEOUTS } from '@northern.tech/store/constants';
+import { useDebounce } from '@northern.tech/utils/debouncehook';
 
-import { useDebounce } from '../../utils/debouncehook';
 import Loader from './loader';
 
 export const AsyncAutocomplete = ({

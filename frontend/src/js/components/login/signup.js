@@ -21,11 +21,11 @@ import { makeStyles } from 'tss-react/mui';
 import storeActions from '@northern.tech/store/actions';
 import { TIMEOUTS, locations } from '@northern.tech/store/constants';
 import { createOrganizationTrial } from '@northern.tech/store/thunks';
+import { stringToBoolean } from '@northern.tech/utils/helpers';
 import Cookies from 'universal-cookie';
 
 import LoginLogo from '../../../assets/img/loginlogo.svg';
 import SignupHero from '../../../assets/img/signuphero.svg';
-import { stringToBoolean } from '../../helpers';
 import Form from '../common/forms/form';
 import Loader from '../common/loader';
 import { EntryLink } from './login';

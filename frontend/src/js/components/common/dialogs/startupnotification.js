@@ -20,10 +20,10 @@ import storeActions from '@northern.tech/store/actions';
 import { DEVICE_ONLINE_CUTOFF, TIMEOUTS } from '@northern.tech/store/constants';
 import { getIsDarkMode } from '@northern.tech/store/selectors';
 import { saveGlobalSettings } from '@northern.tech/store/thunks';
+import { useDebounce } from '@northern.tech/utils/debouncehook';
 
 import logo from '../../../../assets/img/headerlogo.png';
 import whiteLogo from '../../../../assets/img/whiteheaderlogo.png';
-import { useDebounce } from '../../../utils/debouncehook';
 
 const { setShowStartupNotification } = storeActions;
 

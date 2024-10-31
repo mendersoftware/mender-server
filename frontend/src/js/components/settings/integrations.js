@@ -20,9 +20,9 @@ import { makeStyles } from 'tss-react/mui';
 import { EXTERNAL_PROVIDER, TIMEOUTS } from '@northern.tech/store/constants';
 import { getExternalIntegrations, getIsPreview, getWebhooks } from '@northern.tech/store/selectors';
 import { changeIntegration, createIntegration, deleteIntegration, getIntegrations } from '@northern.tech/store/thunks';
+import { useDebounce } from '@northern.tech/utils/debouncehook';
+import { customSort } from '@northern.tech/utils/helpers';
 
-import { customSort } from '../../helpers';
-import { useDebounce } from '../../utils/debouncehook';
 import Confirm from '../common/confirm';
 import InfoHint from '../common/info-hint';
 import WebhookConfiguration from './webhooks/configuration';

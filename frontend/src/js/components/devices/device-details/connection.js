@@ -32,9 +32,9 @@ import {
 } from '@northern.tech/store/constants';
 import { getCurrentSession, getTenantCapabilities, getUserCapabilities } from '@northern.tech/store/selectors';
 import { getDeviceFileDownloadLink } from '@northern.tech/store/thunks';
+import { createDownload } from '@northern.tech/utils/helpers';
+import { formatAuditlogs } from '@northern.tech/utils/locationutils';
 
-import { createDownload } from '../../../helpers';
-import { formatAuditlogs } from '../../../utils/locationutils';
 import DocsLink from '../../common/docslink';
 import EnterpriseNotification from '../../common/enterpriseNotification';
 import Loader from '../../common/loader';

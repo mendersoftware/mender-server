@@ -38,9 +38,9 @@ import {
 } from '@northern.tech/store/selectors';
 import { getAuditLogs, getDeploymentDevices, getDeviceLog, getRelease, getSingleDeployment, updateDeploymentControlMap } from '@northern.tech/store/thunks';
 import { statCollector } from '@northern.tech/store/utils';
+import { toggle } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
 
-import { toggle } from '../../helpers';
 import ConfigurationObject from '../common/configurationobject';
 import Confirm from '../common/confirm';
 import LogDialog from '../common/dialogs/log';

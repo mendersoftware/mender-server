@@ -31,8 +31,8 @@ import {
 } from '@northern.tech/store/selectors';
 import { getDeviceAttributes, saveGlobalSettings, setDeviceListState } from '@northern.tech/store/thunks';
 import { filtersFilter } from '@northern.tech/store/utils';
+import { deepCompare, toggle } from '@northern.tech/utils/helpers';
 
-import { deepCompare, toggle } from '../../../helpers';
 import EnterpriseNotification from '../../common/enterpriseNotification';
 import { InfoHintContainer } from '../../common/info-hint';
 import MenderTooltip from '../../common/mendertooltip';

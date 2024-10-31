@@ -17,9 +17,9 @@ import { Autocomplete, FormHelperText, TextField } from '@mui/material';
 import { createFilterOptions } from '@mui/material/useAutocomplete';
 
 import { UNGROUPED_GROUP } from '@northern.tech/store/constants';
+import { fullyDecodeURI } from '@northern.tech/utils/helpers';
 import validator from 'validator';
 
-import { fullyDecodeURI } from '../../../helpers';
 import DocsLink from '../../common/docslink';
 import InfoText from '../../common/infotext';
 

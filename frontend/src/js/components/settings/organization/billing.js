@@ -23,10 +23,10 @@ import { makeStyles } from 'tss-react/mui';
 import { ADDONS, PLANS } from '@northern.tech/store/constants';
 import { getAcceptedDevices, getDeviceLimit, getIsEnterprise, getOrganization, getUserRoles } from '@northern.tech/store/selectors';
 import { cancelRequest } from '@northern.tech/store/thunks';
+import { toggle } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
-import { toggle } from '../../../helpers';
 import Alert from '../../common/alert';
 import CancelRequestDialog from '../dialogs/cancelrequest';
 import OrganizationPaymentSettings from './organizationpaymentsettings';

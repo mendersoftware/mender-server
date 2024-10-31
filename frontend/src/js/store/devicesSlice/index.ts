@@ -13,9 +13,9 @@
 //    limitations under the License.
 // @ts-nocheck
 import { DEVICE_LIST_DEFAULTS, SORTING_OPTIONS } from '@northern.tech/store/commonConstants';
+import { deepCompare, duplicateFilter } from '@northern.tech/utils/helpers';
 import { createSlice } from '@reduxjs/toolkit';
 
-import { deepCompare, duplicateFilter } from '../../helpers';
 import { DEVICE_STATES } from './constants';
 
 export const sliceName = 'devices';

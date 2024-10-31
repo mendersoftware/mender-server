@@ -64,6 +64,8 @@ import {
   setSearchState,
   switchUserOrganization
 } from '@northern.tech/store/thunks';
+import { useDebounce } from '@northern.tech/utils/debouncehook';
+import { toggle } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
 import { jwtDecode } from 'jwt-decode';
 import Cookies from 'universal-cookie';
@@ -72,9 +74,7 @@ import enterpriseLogo from '../../../assets/img/headerlogo-enterprise.png';
 import logo from '../../../assets/img/headerlogo.png';
 import whiteEnterpriseLogo from '../../../assets/img/whiteheaderlogo-enterprise.png';
 import whiteLogo from '../../../assets/img/whiteheaderlogo.png';
-import { toggle } from '../../helpers';
 import Tracking from '../../tracking';
-import { useDebounce } from '../../utils/debouncehook';
 import Search from '../common/search';
 import Announcement from './announcement';
 import DemoNotification from './demonotification';

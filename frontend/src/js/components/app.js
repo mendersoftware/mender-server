@@ -30,12 +30,12 @@ import { getCurrentSession, getCurrentUser, getIsDarkMode, getIsServiceProvider 
 import { store } from '@northern.tech/store/store';
 import { parseEnvironmentInfo } from '@northern.tech/store/storehooks';
 import { logoutUser } from '@northern.tech/store/thunks';
+import { toggle } from '@northern.tech/utils/helpers';
 import Cookies from 'universal-cookie';
 
 import SharedSnackbar from '../components/common/sharedsnackbar';
 import { PrivateRoutes, PrivateSPRoutes, PublicRoutes } from '../config/routes';
 import ErrorBoundary from '../errorboundary';
-import { toggle } from '../helpers';
 import { dark as darkTheme, light as lightTheme } from '../themes/Mender';
 import Tracking from '../tracking';
 import ConfirmDismissHelptips from './common/dialogs/confirmdismisshelptips';

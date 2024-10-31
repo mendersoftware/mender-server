@@ -30,10 +30,10 @@ import {
   getUserCapabilities
 } from '@northern.tech/store/selectors';
 import { getDeploymentsByStatus, setDeploymentsState } from '@northern.tech/store/thunks';
+import useWindowSize from '@northern.tech/utils/resizehook';
+import { clearAllRetryTimers, clearRetryTimer, setRetryTimer } from '@northern.tech/utils/retrytimer';
 
 import { getOnboardingComponentFor } from '../../utils/onboardingmanager';
-import useWindowSize from '../../utils/resizehook';
-import { clearAllRetryTimers, clearRetryTimer, setRetryTimer } from '../../utils/retrytimer';
 import LinedHeader from '../common/lined-header';
 import Loader from '../common/loader';
 import { defaultRefreshDeploymentsLength as refreshDeploymentsLength } from './deployments';

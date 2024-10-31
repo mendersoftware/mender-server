@@ -29,8 +29,8 @@ import {
   getUserRoles
 } from '@northern.tech/store/selectors';
 import { changeNotificationSetting, getDeviceAttributes, getGlobalSettings, saveGlobalSettings } from '@northern.tech/store/thunks';
+import { useDebounce } from '@northern.tech/utils/debouncehook';
 
-import { useDebounce } from '../../utils/debouncehook';
 import DocsLink from '../common/docslink';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../helptips/helptooltips';
 import ArtifactGenerationSettings from './artifactgeneration';

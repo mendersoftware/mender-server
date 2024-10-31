@@ -17,9 +17,9 @@ import { Autocomplete, Checkbox, Collapse, FormControl, FormControlLabel, FormGr
 import { makeStyles } from 'tss-react/mui';
 
 import { BENEFITS, TIMEOUTS } from '@northern.tech/store/constants';
+import { useDebounce } from '@northern.tech/utils/debouncehook';
+import { toggle } from '@northern.tech/utils/helpers';
 
-import { toggle } from '../../../helpers';
-import { useDebounce } from '../../../utils/debouncehook';
 import { DOCSTIPS, DocsTooltip } from '../../common/docslink';
 import EnterpriseNotification from '../../common/enterpriseNotification';
 import { InfoHintContainer } from '../../common/info-hint';

@@ -26,9 +26,9 @@ import {
   getUserCapabilities
 } from '@northern.tech/store/selectors';
 import { advanceOnboarding, getDeviceCount, getIssueCountsByType } from '@northern.tech/store/thunks';
+import useWindowSize from '@northern.tech/utils/resizehook';
 
 import { getOnboardingComponentFor } from '../../utils/onboardingmanager';
-import useWindowSize from '../../utils/resizehook';
 import AcceptedDevices from './widgets/accepteddevices';
 import ActionableDevices from './widgets/actionabledevices';
 import PendingDevices from './widgets/pendingdevices';

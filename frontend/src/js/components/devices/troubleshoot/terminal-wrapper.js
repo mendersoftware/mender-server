@@ -21,11 +21,11 @@ import { makeStyles } from 'tss-react/mui';
 
 import { BEGINNING_OF_TIME, TIMEOUTS } from '@northern.tech/store/constants';
 import { getCurrentSession, getFeatures, getIsPreview, getTenantCapabilities, getUserCapabilities } from '@northern.tech/store/selectors';
+import { useSession } from '@northern.tech/utils/sockethook';
 import dayjs from 'dayjs';
 import durationDayJs from 'dayjs/plugin/duration';
 
 import Tracking from '../../../tracking';
-import { useSession } from '../../../utils/sockethook';
 import { MaybeTime } from '../../common/time';
 import { getCode } from '../dialogs/make-gateway-dialog';
 import Terminal from '../troubleshoot/terminal';

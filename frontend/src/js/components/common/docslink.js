@@ -20,8 +20,8 @@ import { makeStyles } from 'tss-react/mui';
 
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { getDocsVersion, getFeatures } from '@northern.tech/store/selectors';
+import { useDebounce } from '@northern.tech/utils/debouncehook';
 
-import { useDebounce } from '../../utils/debouncehook';
 import { MenderTooltipClickable } from './mendertooltip';
 
 const useStyles = makeStyles()(theme => ({

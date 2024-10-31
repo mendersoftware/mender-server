@@ -35,10 +35,10 @@ import {
 import { makeStyles } from 'tss-react/mui';
 
 import { BENEFITS } from '@northern.tech/store/constants';
+import { getPhaseDeviceCount, getRemainderPercent } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
 import pluralize from 'pluralize';
 
-import { getPhaseDeviceCount, getRemainderPercent } from '../../../helpers';
 import { DOCSTIPS, DocsTooltip } from '../../common/docslink';
 import EnterpriseNotification from '../../common/enterpriseNotification';
 import { InfoHintContainer } from '../../common/info-hint';

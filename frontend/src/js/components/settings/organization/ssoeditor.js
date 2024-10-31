@@ -20,9 +20,9 @@ import { Button, Divider, Drawer, IconButton } from '@mui/material';
 
 import Editor, { loader } from '@monaco-editor/react';
 import { JSON_METADATA_FORMAT, XML_METADATA_FORMAT } from '@northern.tech/store/constants';
+import { createFileDownload } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
 
-import { createFileDownload } from '../../../helpers';
 import Loader from '../../common/loader';
 
 loader.config({ paths: { vs: '/ui/vs' } });

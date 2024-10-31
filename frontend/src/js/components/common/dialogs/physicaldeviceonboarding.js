@@ -31,8 +31,8 @@ import {
   getTenantCapabilities
 } from '@northern.tech/store/selectors';
 import { advanceOnboarding, setOnboardingApproach, setOnboardingDeviceType } from '@northern.tech/store/thunks';
+import { getDebConfigurationCode, versionCompare } from '@northern.tech/utils/helpers';
 
-import { getDebConfigurationCode, versionCompare } from '../../../helpers';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
 import CopyCode from '../copy-code';
 import DocsLink from '../docslink';

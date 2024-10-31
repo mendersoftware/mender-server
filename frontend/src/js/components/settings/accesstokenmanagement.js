@@ -38,8 +38,8 @@ import { makeStyles } from 'tss-react/mui';
 import { canAccess as canShow } from '@northern.tech/store/constants';
 import { getCurrentUser, getIsEnterprise } from '@northern.tech/store/selectors';
 import { generateToken, getTokens, revokeToken } from '@northern.tech/store/thunks';
+import { customSort, toggle } from '@northern.tech/utils/helpers';
 
-import { customSort, toggle } from '../../helpers';
 import CopyCode from '../common/copy-code';
 import Time, { RelativeTime } from '../common/time';
 

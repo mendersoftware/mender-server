@@ -19,8 +19,8 @@ import { InfoOutlined as InfoIcon } from '@mui/icons-material';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
 import { preauthDevice } from '@northern.tech/store/thunks';
+import { isEmpty } from '@northern.tech/utils/helpers';
 
-import { isEmpty } from '../../../helpers';
 import FileUpload from '../../common/forms/fileupload';
 import KeyValueEditor from '../../common/forms/keyvalueeditor';
 

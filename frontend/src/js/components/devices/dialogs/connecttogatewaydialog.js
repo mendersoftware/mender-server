@@ -16,7 +16,8 @@ import React from 'react';
 // material ui
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
-import { getDebConfigurationCode } from '../../../helpers';
+import { getDebConfigurationCode } from '@northern.tech/utils/helpers';
+
 import CopyCode from '../../common/copy-code';
 import DocsLink from '../../common/docslink';
 

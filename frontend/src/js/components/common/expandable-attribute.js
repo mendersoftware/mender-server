@@ -17,9 +17,8 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FileCopyOutlined as CopyToClipboardIcon } from '@mui/icons-material';
 import { ListItem, ListItemText, Tooltip } from '@mui/material';
 
+import { toggle } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
-
-import { toggle } from '../../helpers';
 
 const defaultClasses = { root: 'attributes' };
 

@@ -18,9 +18,8 @@ import { ClickAwayListener, Tooltip } from '@mui/material';
 import { makeStyles, withStyles } from 'tss-react/mui';
 
 import { READ_STATES, TIMEOUTS } from '@northern.tech/store/constants';
-
-import { toggle } from '../../helpers';
-import { useDebounce } from '../../utils/debouncehook';
+import { useDebounce } from '@northern.tech/utils/debouncehook';
+import { toggle } from '@northern.tech/utils/helpers';
 
 const useStyles = makeStyles()(theme => ({
   icon: {

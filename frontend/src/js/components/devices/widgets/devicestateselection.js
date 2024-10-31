@@ -17,7 +17,7 @@ import React, { useMemo } from 'react';
 import { MenuItem, Select } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { duplicateFilter } from '../../../helpers';
+import { duplicateFilter } from '@northern.tech/utils/helpers';
 
 const useStyles = makeStyles()(theme => ({
   selection: {

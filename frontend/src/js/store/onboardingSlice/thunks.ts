@@ -15,11 +15,11 @@
 import { DEVICE_STATES, onboardingSteps as onboardingStepNames } from '@northern.tech/store/constants';
 import { getOnboardingState as getCurrentOnboardingState, getUserCapabilities } from '@northern.tech/store/selectors';
 import { saveUserSettings } from '@northern.tech/store/thunks';
+import { getDemoDeviceAddress } from '@northern.tech/utils/helpers';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import Cookies from 'universal-cookie';
 
 import { actions, sliceName } from '.';
-import { getDemoDeviceAddress } from '../../helpers';
 import Tracking from '../../tracking';
 import { onboardingSteps } from '../../utils/onboardingmanager';
 

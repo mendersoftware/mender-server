@@ -22,10 +22,10 @@ import storeActions from '@northern.tech/store/actions';
 import { SSO_TYPES } from '@northern.tech/store/constants';
 import { getCurrentSession, getFeatures, getIsEnterprise, getIsPreview, getOrganization, getSsoConfig, getUserRoles } from '@northern.tech/store/selectors';
 import { changeSsoConfig, deleteSsoConfig, downloadLicenseReport, getSsoConfigs, getUserOrganization, storeSsoConfig } from '@northern.tech/store/thunks';
+import { createFileDownload, toggle } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
 import dayjs from 'dayjs';
 
-import { createFileDownload, toggle } from '../../../helpers';
 import { CopyTextToClipboard } from '../../common/copytext';
 import ExpandableAttribute from '../../common/expandable-attribute';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';

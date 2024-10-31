@@ -22,8 +22,8 @@ import storeActions from '@northern.tech/store/actions';
 import { BENEFITS, DEVICE_LIST_DEFAULTS, SORTING_OPTIONS } from '@northern.tech/store/constants';
 import { getCurrentSession, getDevicesById, getIdAttribute, getIsPreview, getOrganization } from '@northern.tech/store/selectors';
 import { getSystemDevices } from '@northern.tech/store/thunks';
+import { getDemoDeviceAddress, toggle } from '@northern.tech/utils/helpers';
 
-import { getDemoDeviceAddress, toggle } from '../../../helpers';
 import { TwoColumnData } from '../../common/configurationobject';
 import DocsLink from '../../common/docslink';
 import EnterpriseNotification from '../../common/enterpriseNotification';

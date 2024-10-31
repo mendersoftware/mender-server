@@ -33,11 +33,11 @@ import {
   getUserSettings
 } from '@northern.tech/store/selectors';
 import { decommissionDevice, getDeviceInfo, getGatewayDevices, saveGlobalSettings } from '@northern.tech/store/thunks';
+import { getDemoDeviceAddress, stringToBoolean } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
 
 import GatewayConnectionIcon from '../../../assets/img/gateway-connection.svg';
 import GatewayIcon from '../../../assets/img/gateway.svg';
-import { getDemoDeviceAddress, stringToBoolean } from '../../helpers';
 import DeviceIdentityDisplay from '../common/deviceidentity';
 import DocsLink from '../common/docslink';
 import { MenderTooltipClickable } from '../common/mendertooltip';

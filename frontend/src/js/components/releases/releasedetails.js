@@ -47,12 +47,12 @@ import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';
 import { getReleaseListState, getReleaseTags, getSelectedRelease, getUserCapabilities } from '@northern.tech/store/selectors';
 import { removeArtifact, removeRelease, selectRelease, setReleaseTags, updateReleaseInfo } from '@northern.tech/store/thunks';
+import { customSort, formatTime, toggle } from '@northern.tech/utils/helpers';
+import { generateReleasesPath } from '@northern.tech/utils/locationutils';
+import useWindowSize from '@northern.tech/utils/resizehook';
 import copy from 'copy-to-clipboard';
 import pluralize from 'pluralize';
 
-import { customSort, formatTime, toggle } from '../../helpers';
-import { generateReleasesPath } from '../../utils/locationutils';
-import useWindowSize from '../../utils/resizehook';
 import ChipSelect from '../common/chipselect';
 import { ConfirmationButtons, EditButton } from '../common/confirm';
 import { EditableLongText } from '../common/editablelongtext';

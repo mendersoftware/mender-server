@@ -12,9 +12,9 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 // @ts-nocheck
+import { attributeDuplicateFilter, getDemoDeviceAddress as getDemoDeviceAddressHelper } from '@northern.tech/utils/helpers';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { attributeDuplicateFilter, getDemoDeviceAddress as getDemoDeviceAddressHelper } from '../helpers';
 import { PLANS, defaultReports } from './appSlice/constants';
 import { getFeatures, getSearchedDevices } from './appSlice/selectors';
 import { ALL_DEVICES, ATTRIBUTE_SCOPES, DEVICE_ISSUE_OPTIONS, DEVICE_LIST_MAXIMUM_LENGTH, UNGROUPED_GROUP } from './commonConstants';

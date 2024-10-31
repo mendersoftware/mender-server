@@ -19,9 +19,9 @@ import { makeStyles } from 'tss-react/mui';
 
 import { DEVICE_LIST_DEFAULTS, SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/commonConstants';
 import { isDarkMode } from '@northern.tech/store/utils';
+import { toggle } from '@northern.tech/utils/helpers';
+import useWindowSize from '@northern.tech/utils/resizehook';
 
-import { toggle } from '../../helpers';
-import useWindowSize from '../../utils/resizehook';
 import Loader from './loader';
 import MenderTooltip from './mendertooltip';
 import Pagination from './pagination';

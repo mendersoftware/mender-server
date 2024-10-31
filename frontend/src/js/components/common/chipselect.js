@@ -16,7 +16,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import { Autocomplete, TextField } from '@mui/material';
 
-import { duplicateFilter, unionizeStrings } from '../../helpers';
+import { duplicateFilter, unionizeStrings } from '@northern.tech/utils/helpers';
 
 export const ChipSelect = ({ className = '', name, disabled = false, inputRef, label = '', options = [], placeholder = '' }) => {
   const [value, setValue] = useState('');
