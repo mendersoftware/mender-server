@@ -177,10 +177,11 @@ build:frontend:docker:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:cli
   rules:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-      when: always
+      when: on_success
     - changes:
         paths: ["frontend/**/*", "compose/**/*", "docker-compose.yml"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
+      when: on_success
   needs:
     - job: build:frontend:docker
       artifacts: false
@@ -222,9 +223,6 @@ test:frontend:acceptance:
 
 test:frontend:acceptance:enterprise:
   extends: .template:test:frontend:acceptance
-  rules:
-    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-      when: always
   variables:
     TEST_ENVIRONMENT: enterprise
   script:
@@ -262,7 +260,7 @@ publish:frontend:e2e-tests:
   extends: .template:publish:frontend:tests
   rules:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-      when: always
+      when: on_success
   needs:
     - job: test:frontend:acceptance:enterprise
       artifacts: true
@@ -287,7 +285,7 @@ publish:frontend:licenses:
       - /usr/src/app/disclaimer.txt
   rules:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-      when: always
+      when: on_success
   tags:
     - hetzner-amd-beefy
 
