@@ -181,6 +181,12 @@ export const setAuditlogsState = createAsyncThunk(`${sliceName}/setAuditlogsStat
 */
 export const tenantDataDivergedMessage = 'The system detected there is a change in your plan or purchased add-ons. Please log out and log in again';
 
+export const addTenant = createAsyncThunk(`${sliceName}/createTenant`, (selectionState, { dispatch }) => {
+  return Api.post(`${tenantadmApiUrlv2}/tenants`, selectionState)
+    .then(() => Promise.all([dispatch(getTenants()), dispatch(setSnackbar('Tenant was created successfully.'))]))
+    .catch(err => commonErrorHandler(err, 'There was an error creating tenant', dispatch, commonErrorFallback));
+});
+
 const tenantListRetrieval = async (config): Promise<[Tenant[], number]> => {
   const { page, perPage } = config;
   const params = new URLSearchParams({ page, per_page: perPage }).toString();

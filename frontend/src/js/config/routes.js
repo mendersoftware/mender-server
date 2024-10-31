@@ -25,7 +25,7 @@ import PasswordReset from '../components/login/passwordreset';
 import Signup from '../components/login/signup';
 import Releases from '../components/releases/releases';
 import Settings from '../components/settings/settings';
-import { TenantList } from '../components/tenants/tenantlist';
+import { TenantPage } from '../components/tenants/TenantPage';
 
 export const PrivateRoutes = () => (
   <Routes>
@@ -58,7 +58,7 @@ export const PrivateSPRoutes = () => {
       <Route path="help" element={<Help />}>
         <Route path=":section" element={null} />
       </Route>
-      <Route path="*" element={<TenantList />}></Route>
+      <Route path="*" element={<TenantPage />}></Route>
     </Routes>
   );
 };

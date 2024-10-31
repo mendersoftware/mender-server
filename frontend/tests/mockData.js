@@ -467,6 +467,7 @@ export const defaultState = {
     },
     intentId: 'testIntent',
     organization: {
+      ...initialOrganizationState.organization,
       addons: [],
       id: 1,
       name: 'test',
