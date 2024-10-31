@@ -20,7 +20,9 @@
     "target": "esnext",
     "baseUrl": ".",
     "paths": {
-      "@northern.tech/store/*": ["src/js/store/*"]
+      "@northern.tech/store/*": ["src/js/store/*"],
+      // should be removed once utils package is published
+      "@northern.tech/utils/*": ["node_modules/@northern.tech/utils/packages/utils/*"]
     }
   },
   "include": ["**/*.js", "**/*.ts", "**/*.tsx"],
