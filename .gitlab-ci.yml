@@ -41,19 +41,12 @@ variables:
   GITHUB_USER_EMAIL:
     description: "The Github user email for release-please"
     value: "mender@northern.tech"
-  RUN_RELEASE:
-    description: "Run a new release"
-    value: "false"
-    options:
-      - "true"
-      - "false"
   GIT_CLIFF:
     description: "Run git cliff to override the release-please changelog"
     value: "true"
     options:
       - "true"
       - "false"
-  DEFAULT_BRANCH: "main"
 
 include:
   - project: "Northern.tech/Mender/mendertesting"
@@ -68,7 +61,6 @@ stages:
   - test
   - publish
   - changelog
-  - release
 
 default:
   tags:
@@ -179,8 +171,9 @@ test:backend:unit:
     - changes:
         paths: ["backend/**/*.go"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
+      when: on_success
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-      when: always
+      when: on_success
   tags:
     - hetzner-amd-beefy
   services:
@@ -197,7 +190,7 @@ test:backend:unit:
         TESTFLAGS="-cover -coverprofile=${GOCOVERDIR}/\$(COMPONENT)-unit.cover"
   artifacts:
     expire_in: 1w
-    when: always
+    when: on_success
     paths:
       - ${GOCOVERDIR}/*-unit.cover
 
@@ -208,8 +201,9 @@ test:backend:acceptance:
     - changes:
         paths: ["backend/**/*"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
+      when: on_success
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-      when: always
+      when: on_success
   tags:
     - hetzner-amd-beefy
   services:
@@ -232,7 +226,7 @@ test:backend:acceptance:
     - make -C backend test-acceptance GOCOVERDIR="${GOCOVERDIR}/\$(COMPONENT)-acceptance"
   artifacts:
     expire_in: 1w
-    when: always
+    when: on_success
     paths:
       - ${GOCOVERDIR}/*-acceptance
 
@@ -243,8 +237,9 @@ test:backend:integration:
     - changes:
         paths: ["backend/**/*"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
+      when: on_success
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-      when: always
+      when: on_success
   tags:
     - hetzner-amd-beefy
   services:
@@ -289,8 +284,9 @@ publish:backend:coverage:
     - changes:
         paths: ["backend/**/*"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
+      when: on_success
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-      when: always
+      when: on_success
   image: "golang:${GOLANG_VERSION}"
   variables:
     COVERALLS_TOKEN: "$COVERALLS_REPO_TOKEN"
@@ -321,7 +317,7 @@ publish:backend:docker:
     entrypoint: [""]
   rules:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-      when: always
+      when: on_success
     - when: never
   before_script:
     - skopeo login --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD $CI_REGISTRY
@@ -349,7 +345,7 @@ publish:backend:licenses:
         paths: ["backend/**/*"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-      when: always
+      when: on_success
   image: golang:${GOLANG_VERSION}
   before_script:
     - go install github.com/google/go-licenses@v1.6.0
@@ -375,7 +371,7 @@ coveralls:done:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/curlimages/curl
   stage: .post
   script:
-    - curl "https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN&carryforward=frontend-unit,frontend-e2e,create-artifact-worker-unit,deployments-unit,deployments-acceptance,deviceauth-unit,deviceauth-acceptance,deviceconfig-unit,deviceconfig-acceptance,deviceconnect-unit,deviceconnect-acceptance,inventory-unit,inventory-acceptance,iot-manager-unit,iot-manager-acceptance,useradm-unit,useradm-acceptance,workflows-unit,workflows-acceptance,integration" -d "payload[build_num]=$CI_PIPELINE_ID&payload[status]=done"
+    - curl "https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN&carryforward=frontend-unit,frontend-e2e,frontend-e2e-enterprise,create-artifact-worker-unit,deployments-unit,deployments-acceptance,deviceauth-unit,deviceauth-acceptance,deviceconfig-unit,deviceconfig-acceptance,deviceconnect-unit,deviceconnect-acceptance,inventory-unit,inventory-acceptance,iot-manager-unit,iot-manager-acceptance,useradm-unit,useradm-acceptance,workflows-unit,workflows-acceptance,integration" -d "payload[build_num]=$CI_PIPELINE_ID&payload[status]=done"
   tags:
     - hetzner-amd-beefy
 
@@ -405,10 +401,8 @@ changelog:
   tags:
     - hetzner-amd-beefy
   rules:
-    - if: $RUN_RELEASE == "true"
-      when: never
-    - if: $CI_COMMIT_BRANCH =~ "/^v\d+\.\d+\.x$/"
-    - if: $CI_COMMIT_BRANCH == $DEFAULT_BRANCH
+    # Only run for protected branches (main and maintenance branches)
+    - if: $CI_COMMIT_REF_PROTECTED == "true" && $CI_COMMIT_BRANCH != ""
   before_script:
     # install release-please
     - npm install -g release-please
@@ -452,12 +446,16 @@ changelog:
 
 release:github:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/node:20
-  stage: release
+  stage: .post
   tags:
     - hetzner-amd-beefy
   rules:
-    - if: $CI_COMMIT_BRANCH =~ "/^v\d+\.\d+\.x$/" && $RUN_RELEASE == "true"
-    - if: $CI_COMMIT_BRANCH == $DEFAULT_BRANCH && $RUN_RELEASE == "true"
+    # Only make available for protected branches (main and maintenance branches)
+    - if: $CI_COMMIT_REF_PROTECTED == "true" && $CI_COMMIT_BRANCH != ""
+      when: manual
+      allow_failure: true
+  needs:
+    - job: changelog
   script:
     - npm install -g release-please
     - release-please github-release

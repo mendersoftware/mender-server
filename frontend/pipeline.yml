@@ -35,8 +35,8 @@ test:frontend:license-headers:
   stage: test
   rules:
     - changes:
-        paths: ['frontend/**/*']
-        compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
+        paths: ["frontend/**/*"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
   needs: []
   before_script:
     - apt update && apt install git -yq
@@ -177,13 +177,17 @@ build:frontend:docker:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:cli
   rules:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-      when: always
+      when: on_success
     - changes:
         paths: ["frontend/**/*", "compose/**/*", "docker-compose.yml"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
+      when: on_success
   needs:
     - job: build:frontend:docker
       artifacts: false
+    - job: build:backend:docker
+      artifacts: false
+      optional: true
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:dind
       alias: docker
@@ -219,12 +223,14 @@ test:frontend:acceptance:
 
 test:frontend:acceptance:enterprise:
   extends: .template:test:frontend:acceptance
-  rules:
-    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-      when: always
   variables:
     TEST_ENVIRONMENT: enterprise
+  rules:
+    # This job can only run on protected branches
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
   script:
+    - unset MENDER_IMAGE_REGISTRY MENDER_IMAGE_REPOSITORY
+    - export MENDER_IMAGE_TAG=main
     - docker login -u $REGISTRY_MENDER_IO_USERNAME -p $REGISTRY_MENDER_IO_PASSWORD registry.mender.io
     - GUI_REPOSITORY=$(pwd)/frontend SERVER_ROOT=$(pwd) ./frontend/tests/e2e_tests/run --enterprise
 
@@ -259,14 +265,32 @@ publish:frontend:e2e-tests:
   extends: .template:publish:frontend:tests
   rules:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-      when: always
+      when: on_success
+    - changes:
+        paths: ["frontend/**/*", "compose/**/*", "docker-compose.yml"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
+      when: on_success
   needs:
-    - test:frontend:acceptance:enterprise
+    - job: test:frontend:acceptance
+      artifacts: true
+  variables:
+    COVERALLS_SERVICE_JOB_NUMBER: frontend-e2e
+    COVERALLS_FLAG_NAME: frontend-e2e
   script:
-    - export COVERALLS_SERVICE_JOB_NUMBER=frontend-e2e
-    - export COVERALLS_FLAG_NAME=frontend-e2e
     - sed -i -re 's/(^[SF:]+[../]+)(.*)$/SF:\2/' frontend/coverage/lcov.info
     - coveralls < frontend/coverage/lcov.info
+
+publish:frontend:e2e-tests:enterprise:
+  extends: publish:frontend:e2e-tests
+  rules:
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+      when: on_success
+  needs:
+    - job: test:frontend:acceptance:enterprise
+      artifacts: true
+  variables:
+    COVERALLS_SERVICE_JOB_NUMBER: frontend-e2e-enterprise
+    COVERALLS_FLAG_NAME: frontend-e2e-enterprise
 
 publish:frontend:licenses:
   stage: publish
@@ -283,7 +307,7 @@ publish:frontend:licenses:
       - /usr/src/app/disclaimer.txt
   rules:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-      when: always
+      when: on_success
   tags:
     - hetzner-amd-beefy
 
