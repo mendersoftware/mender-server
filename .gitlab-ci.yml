@@ -41,19 +41,12 @@ variables:
   GITHUB_USER_EMAIL:
     description: "The Github user email for release-please"
     value: "mender@northern.tech"
-  RUN_RELEASE:
-    description: "Run a new release"
-    value: "false"
-    options:
-      - "true"
-      - "false"
   GIT_CLIFF:
     description: "Run git cliff to override the release-please changelog"
     value: "true"
     options:
       - "true"
       - "false"
-  DEFAULT_BRANCH: "main"
 
 include:
   - project: "Northern.tech/Mender/mendertesting"
@@ -68,7 +61,6 @@ stages:
   - test
   - publish
   - changelog
-  - release
 
 default:
   tags:
@@ -405,10 +397,8 @@ changelog:
   tags:
     - hetzner-amd-beefy
   rules:
-    - if: $RUN_RELEASE == "true"
-      when: never
-    - if: $CI_COMMIT_BRANCH =~ "/^v\d+\.\d+\.x$/"
-    - if: $CI_COMMIT_BRANCH == $DEFAULT_BRANCH
+    # Only run for protected branches (main and maintenance branches)
+    - if: $CI_COMMIT_REF_PROTECTED == "true" && $CI_COMMIT_BRANCH != ""
   before_script:
     # install release-please
     - npm install -g release-please
@@ -452,12 +442,16 @@ changelog:
 
 release:github:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/node:20
-  stage: release
+  stage: .post
   tags:
     - hetzner-amd-beefy
   rules:
-    - if: $CI_COMMIT_BRANCH =~ "/^v\d+\.\d+\.x$/" && $RUN_RELEASE == "true"
-    - if: $CI_COMMIT_BRANCH == $DEFAULT_BRANCH && $RUN_RELEASE == "true"
+    # Only make available for protected branches (main and maintenance branches)
+    - if: $CI_COMMIT_REF_PROTECTED == "true" && $CI_COMMIT_BRANCH != ""
+      when: manual
+      allow_failure: true
+  needs:
+    - job: changelog
   script:
     - npm install -g release-please
     - release-please github-release
