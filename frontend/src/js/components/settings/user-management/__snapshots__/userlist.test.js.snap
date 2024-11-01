@@ -78,7 +78,7 @@ exports[`UserList Component renders correctly 1`] = `
 }
 
 <table
-  class="MuiTable-root margin-bottom  emotion-0"
+  class="MuiTable-root margin-bottom emotion-0"
 >
   <thead
     class="MuiTableHead-root emotion-1"

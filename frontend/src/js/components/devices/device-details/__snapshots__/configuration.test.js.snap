@@ -699,7 +699,7 @@ exports[`Configuration Component renders correctly 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium  emotion-4"
+                class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-4"
                 data-testid="HelpIcon"
                 focusable="false"
                 viewBox="0 0 24 24"

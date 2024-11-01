@@ -677,7 +677,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
               novalidate=""
             >
               <div
-                class="MuiFormControl-root  required emotion-0"
+                class="MuiFormControl-root required emotion-0"
                 style="width: 400px;"
               >
                 <label

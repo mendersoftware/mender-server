@@ -641,7 +641,7 @@ exports[`Dashboard Component renders correctly 1`] = `
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium  emotion-8"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-8"
                   data-testid="HelpIcon"
                   focusable="false"
                   viewBox="0 0 24 24"

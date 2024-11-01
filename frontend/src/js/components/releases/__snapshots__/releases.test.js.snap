@@ -1244,6 +1244,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
   color: rgba(0, 0, 0, 0.54);
   -webkit-transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  --IconButton-hoverBg: rgba(0, 0, 0, 0.04);
   font-size: 1.2rem;
   color: rgba(0, 0, 0, 0.54);
   margin-right: -2px;
@@ -1268,7 +1269,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
 }
 
 .emotion-29:hover {
-  background-color: rgba(0, 0, 0, 0.04);
+  background-color: var(--IconButton-hoverBg);
 }
 
 @media (hover: none) {
@@ -1828,6 +1829,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-233:focus::-ms-input
   color: rgba(0, 0, 0, 0.54);
   -webkit-transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  --IconButton-hoverBg: rgba(0, 0, 0, 0.04);
   padding: 12px;
   font-size: 1.625rem;
   font-size: 1.2rem;
@@ -1851,7 +1853,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-233:focus::-ms-input
 }
 
 .emotion-237:hover {
-  background-color: rgba(0, 0, 0, 0.04);
+  background-color: var(--IconButton-hoverBg);
 }
 
 @media (hover: none) {
@@ -1965,7 +1967,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-233:focus::-ms-input
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium  emotion-11"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-11"
                   data-testid="HelpIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -2135,7 +2137,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-233:focus::-ms-input
         class="emotion-14"
       >
         <table
-          class="MuiTable-root margin-bottom  emotion-33"
+          class="MuiTable-root margin-bottom emotion-33"
         >
           <thead
             class="MuiTableHead-root emotion-34"
@@ -2169,7 +2171,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-233:focus::-ms-input
                 </span>
               </th>
               <th
-                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader  emotion-36"
+                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader emotion-36"
                 scope="col"
               >
                 Name
@@ -2192,13 +2194,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-233:focus::-ms-input
                 Number of artifacts
               </th>
               <th
-                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader  emotion-36"
+                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader emotion-36"
                 scope="col"
               >
                 Tags
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon  true emotion-39"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon true emotion-39"
                   data-testid="SortIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -2209,13 +2211,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-233:focus::-ms-input
                 </svg>
               </th>
               <th
-                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader  emotion-36"
+                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader emotion-36"
                 scope="col"
               >
                 Last modified
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon  true emotion-39"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon true emotion-39"
                   data-testid="SortIcon"
                   focusable="false"
                   viewBox="0 0 24 24"

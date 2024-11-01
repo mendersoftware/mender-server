@@ -211,7 +211,7 @@ exports[`ChartAdditionWidget Component renders correctly 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium  emotion-3"
+              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-3"
               data-testid="HelpIcon"
               focusable="false"
               viewBox="0 0 24 24"

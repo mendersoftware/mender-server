@@ -621,7 +621,7 @@ exports[`MyOrganization Component renders correctly 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium  emotion-11"
+                        class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-11"
                         data-testid="HelpIcon"
                         focusable="false"
                         viewBox="0 0 24 24"
@@ -1064,7 +1064,7 @@ exports[`smaller components renders OrgHeader correctly 1`] = `
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium  emotion-1"
+        class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-1"
         data-testid="HelpIcon"
         focusable="false"
         viewBox="0 0 24 24"

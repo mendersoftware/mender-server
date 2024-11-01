@@ -978,7 +978,7 @@ label+.emotion-16 {
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium  emotion-7"
+                class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-7"
                 data-testid="HelpIcon"
                 focusable="false"
                 viewBox="0 0 24 24"

@@ -20,10 +20,10 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
         data-mui-internal-clone-element="true"
       >
         <div
-          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault margin-left-small css-1rgavin-MuiChip-root-root-root"
+          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault margin-left-small css-9vx59h-MuiChip-root-root-root"
         >
           <span
-            class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
+            class="MuiChip-label MuiChip-labelMedium css-1dybbl5-MuiChip-label"
           >
             Professional
           </span>
@@ -34,10 +34,10 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
       class="flexbox centered"
     >
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault css-1j88ah0-MuiChip-root-addOnPill"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault css-17svi73-MuiChip-root-addOnPill"
       >
         <span
-          class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
+          class="MuiChip-label MuiChip-labelMedium css-1dybbl5-MuiChip-label"
         >
           Add-on
         </span>
@@ -51,7 +51,7 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium red css-vhgui7-MuiSvgIcon-root"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium red css-1j3vvli-MuiSvgIcon-root"
         data-testid="ErrorIcon"
         focusable="false"
         viewBox="0 0 24 24"
@@ -92,7 +92,7 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium red css-vhgui7-MuiSvgIcon-root"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium red css-1j3vvli-MuiSvgIcon-root"
         data-testid="ErrorIcon"
         focusable="false"
         viewBox="0 0 24 24"
@@ -126,29 +126,29 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
     class="flexbox margin-top"
   >
     <div
-      class="MuiTablePagination-root flexbox margin-top margin-top-none css-1s8wd9s-MuiTablePagination-root"
+      class="MuiTablePagination-root flexbox margin-top margin-top-none css-15pl5qu-MuiTablePagination-root"
     >
       <div
-        class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-16og44m-MuiToolbar-root-MuiTablePagination-toolbar"
+        class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-1gak8h1-MuiToolbar-root-MuiTablePagination-toolbar"
       >
         <div
-          class="MuiTablePagination-spacer flexbox no-basis css-1psng7p-MuiTablePagination-spacer"
+          class="MuiTablePagination-spacer flexbox no-basis css-1wtxofq-MuiTablePagination-spacer"
         />
         <p
-          class="MuiTablePagination-selectLabel css-1ecnf2s-MuiTablePagination-selectLabel"
+          class="MuiTablePagination-selectLabel css-15wkzhc-MuiTablePagination-selectLabel"
           id=":r2:"
         >
           Rows
         </p>
         <div
-          class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-7kd4nt-MuiInputBase-root-MuiTablePagination-select"
+          class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-11kq5w2-MuiInputBase-root-MuiTablePagination-select"
         >
           <div
             aria-controls=":r3:"
             aria-expanded="false"
             aria-haspopup="listbox"
             aria-labelledby=":r2: :r1:"
-            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-141c2s2-MuiSelect-select-MuiInputBase-input"
+            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-mmygx2-MuiSelect-select-MuiInputBase-input"
             id=":r1:"
             role="combobox"
             tabindex="0"
@@ -158,14 +158,14 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
           <input
             aria-hidden="true"
             aria-invalid="false"
-            class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+            class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
             name="pagination"
             tabindex="-1"
             value="20"
           />
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-nbib8d-MuiSvgIcon-root-MuiSelect-icon"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-ozirs8-MuiSvgIcon-root-MuiSelect-icon"
             data-testid="ArrowDropDownIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -176,7 +176,7 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
           </svg>
         </div>
         <p
-          class="MuiTablePagination-displayedRows css-cmytl3-MuiTablePagination-displayedRows"
+          class="MuiTablePagination-displayedRows css-uam3tq-MuiTablePagination-displayedRows"
         />
         <div
           class="flexbox center-aligned"
@@ -185,13 +185,13 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
             21-40 of 9001
           </div>
           <button
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-1uaeu2g-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-jk231o-MuiButtonBase-root-MuiIconButton-root"
             tabindex="0"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vhgui7-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1j3vvli-MuiSvgIcon-root"
               data-testid="KeyboardArrowLeftIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -203,13 +203,13 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
           </button>
           <div>
             <button
-              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-1uaeu2g-MuiButtonBase-root-MuiIconButton-root"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-jk231o-MuiButtonBase-root-MuiIconButton-root"
               tabindex="0"
               type="button"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vhgui7-MuiSvgIcon-root"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1j3vvli-MuiSvgIcon-root"
                 data-testid="KeyboardArrowRightIcon"
                 focusable="false"
                 viewBox="0 0 24 24"

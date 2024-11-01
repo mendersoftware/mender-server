@@ -798,7 +798,7 @@ exports[`Roles Component renders correctly 1`] = `
     </div>
   </div>
   <table
-    class="MuiTable-root margin-bottom  emotion-10"
+    class="MuiTable-root margin-bottom emotion-10"
   >
     <thead
       class="MuiTableHead-root emotion-11"
@@ -851,7 +851,7 @@ exports[`Roles Component renders correctly 1`] = `
             View details
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-xsmall  emotion-8"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-xsmall emotion-8"
               data-testid="ArrowForwardIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -885,7 +885,7 @@ exports[`Roles Component renders correctly 1`] = `
             View details
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-xsmall  emotion-8"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-xsmall emotion-8"
               data-testid="ArrowForwardIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -919,7 +919,7 @@ exports[`Roles Component renders correctly 1`] = `
             View details
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-xsmall  emotion-8"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-xsmall emotion-8"
               data-testid="ArrowForwardIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -953,7 +953,7 @@ exports[`Roles Component renders correctly 1`] = `
             View details
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-xsmall  emotion-8"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-xsmall emotion-8"
               data-testid="ArrowForwardIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -987,7 +987,7 @@ exports[`Roles Component renders correctly 1`] = `
             View details
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-xsmall  emotion-8"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-xsmall emotion-8"
               data-testid="ArrowForwardIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -1021,7 +1021,7 @@ exports[`Roles Component renders correctly 1`] = `
             View details
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-xsmall  emotion-8"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-xsmall emotion-8"
               data-testid="ArrowForwardIcon"
               focusable="false"
               viewBox="0 0 24 24"

@@ -82,6 +82,7 @@ exports[`ArtifactUpload Component renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.54);
   -webkit-transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  --IconButton-hoverBg: rgba(0, 0, 0, 0.04);
   padding: 12px;
   font-size: 1.625rem;
   font-size: 1.2rem;
@@ -105,7 +106,7 @@ exports[`ArtifactUpload Component renders correctly 1`] = `
 }
 
 .emotion-3:hover {
-  background-color: rgba(0, 0, 0, 0.04);
+  background-color: var(--IconButton-hoverBg);
 }
 
 @media (hover: none) {
@@ -229,7 +230,7 @@ exports[`ArtifactUpload Component renders correctly 1`] = `
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium  emotion-5"
+          class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-5"
           data-testid="HelpIcon"
           focusable="false"
           viewBox="0 0 24 24"
