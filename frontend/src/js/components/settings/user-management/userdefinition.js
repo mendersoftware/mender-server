@@ -32,9 +32,9 @@ import { makeStyles } from 'tss-react/mui';
 
 import { uiPermissionsByArea, uiPermissionsById } from '@northern.tech/store/constants';
 import { mapUserRolesToUiPermissions } from '@northern.tech/store/utils';
+import { toggle } from '@northern.tech/utils/helpers';
 import validator from 'validator';
 
-import { toggle } from '../../../helpers';
 import { TwoColumnData } from '../../common/configurationobject';
 import { CopyTextToClipboard } from '../../common/copytext';
 import { OAuth2Providers, genericProvider } from '../../login/oauth2providers';

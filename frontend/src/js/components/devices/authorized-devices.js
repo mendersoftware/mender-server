@@ -45,12 +45,12 @@ import {
   updateDevicesAuth,
   updateUserColumnSettings
 } from '@northern.tech/store/thunks';
+import { useDebounce } from '@northern.tech/utils/debouncehook';
+import { toggle } from '@northern.tech/utils/helpers';
+import useWindowSize from '@northern.tech/utils/resizehook';
+import { clearAllRetryTimers, setRetryTimer } from '@northern.tech/utils/retrytimer';
 
-import { toggle } from '../../helpers';
-import { useDebounce } from '../../utils/debouncehook';
 import { getOnboardingComponentFor } from '../../utils/onboardingmanager';
-import useWindowSize from '../../utils/resizehook';
-import { clearAllRetryTimers, setRetryTimer } from '../../utils/retrytimer';
 import Loader from '../common/loader';
 import { defaultHeaders, defaultTextRender, getDeviceIdentityText, routes as states } from './base-devices';
 import DeviceList, { minCellWidth } from './devicelist';

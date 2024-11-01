@@ -11,9 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { versionCompare } from '@northern.tech/utils/helpers';
 import { createSelector } from '@reduxjs/toolkit';
-
-import { versionCompare } from '../../helpers';
 
 const getAppDocsVersion = state => state.app.docsVersion;
 export const getFeatures = state => state.app.features;

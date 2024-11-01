@@ -27,6 +27,7 @@ import {
 import { getCurrentSession, getTenantCapabilities, getTenantsList } from '@northern.tech/store/selectors';
 import { commonErrorFallback, commonErrorHandler } from '@northern.tech/store/store';
 import { setFirstLoginAfterSignup } from '@northern.tech/store/thunks';
+import { deepCompare } from '@northern.tech/utils/helpers';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { jwtDecode } from 'jwt-decode';
 import hashString from 'md5';
@@ -34,7 +35,6 @@ import Cookies from 'universal-cookie';
 
 import { actions, sliceName } from '.';
 import { Tenant } from '../../components/tenants/types';
-import { deepCompare } from '../../helpers';
 import { SSO_TYPES, auditLogsApiUrl, ssoIdpApiUrlv1, tenantadmApiUrlv1, tenantadmApiUrlv2 } from './constants';
 import { getAuditlogState, getOrganization } from './selectors';
 

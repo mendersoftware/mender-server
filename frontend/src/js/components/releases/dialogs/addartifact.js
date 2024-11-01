@@ -22,10 +22,10 @@ import { makeStyles } from 'tss-react/mui';
 import storeActions from '@northern.tech/store/actions';
 import { getDeviceTypes } from '@northern.tech/store/selectors';
 import { createArtifact, uploadArtifact } from '@northern.tech/store/thunks';
+import { unionizeStrings } from '@northern.tech/utils/helpers';
+import useWindowSize from '@northern.tech/utils/resizehook';
 
-import { unionizeStrings } from '../../../helpers';
 import Tracking from '../../../tracking';
-import useWindowSize from '../../../utils/resizehook';
 import ArtifactInformationForm from './artifactinformationform';
 import ArtifactUploadConfirmation from './artifactupload';
 

@@ -24,9 +24,9 @@ import {
   deploymentSubstates,
   rootfsImageVersion as rootfsImageVersionAttribute
 } from '@northern.tech/store/constants';
+import { formatTime } from '@northern.tech/utils/helpers';
 
 import DeltaIcon from '../../../../assets/img/deltaicon.svg';
-import { formatTime } from '../../../helpers';
 import { TwoColumns } from '../../common/configurationobject';
 import DetailsTable from '../../common/detailstable';
 import DeviceIdentityDisplay from '../../common/deviceidentity';

@@ -17,7 +17,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { TextField } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { toggle } from '../../helpers';
+import { toggle } from '@northern.tech/utils/helpers';
+
 import { ConfirmationButtons, EditButton } from '../common/confirm';
 import ExpandableAttribute from '../common/expandable-attribute';
 

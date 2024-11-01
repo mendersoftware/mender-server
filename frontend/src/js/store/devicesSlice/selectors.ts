@@ -13,9 +13,8 @@
 //    limitations under the License.
 // @ts-nocheck
 import { DEVICE_STATES, UNGROUPED_GROUP } from '@northern.tech/store/constants';
+import { duplicateFilter } from '@northern.tech/utils/helpers';
 import { createSelector } from '@reduxjs/toolkit';
-
-import { duplicateFilter } from '../../helpers';
 
 export const getAcceptedDevices = state => state.devices.byStatus.accepted;
 export const getDevicesByStatus = state => state.devices.byStatus;

@@ -21,11 +21,11 @@ import { getDevicesById, getGlobalSettings, getOrganization, getUserCapabilities
 import { commonErrorHandler } from '@northern.tech/store/store';
 import { getDeviceAuth, getDeviceById, saveGlobalSettings } from '@northern.tech/store/thunks';
 import { mapTermsToFilters } from '@northern.tech/store/utils';
+import { deepCompare, isEmpty, standardizePhases, startTimeSort } from '@northern.tech/utils/helpers';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import isUUID from 'validator/lib/isUUID';
 
 import { actions, sliceName } from '.';
-import { deepCompare, isEmpty, standardizePhases, startTimeSort } from '../../helpers';
 import Tracking from '../../tracking';
 import { DEPLOYMENT_ROUTES, DEPLOYMENT_STATES, DEPLOYMENT_TYPES, deploymentPrototype, deploymentsApiUrl, deploymentsApiUrlV2 } from './constants';
 import { getDeploymentsById, getDeploymentsByStatus as getDeploymentsByStatusSelector } from './selectors';

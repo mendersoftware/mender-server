@@ -17,8 +17,8 @@ import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
 import { IconButton, TablePagination } from '@mui/material';
 
 import { DEVICE_LIST_DEFAULTS, DEVICE_LIST_MAXIMUM_LENGTH, TIMEOUTS } from '@northern.tech/store/constants';
+import { useDebounce } from '@northern.tech/utils/debouncehook';
 
-import { useDebounce } from '../../utils/debouncehook';
 import MenderTooltip from '../common/mendertooltip';
 
 const defaultRowsPerPageOptions = [10, 20, DEVICE_LIST_MAXIMUM_LENGTH];

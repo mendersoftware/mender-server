@@ -20,9 +20,9 @@ import { makeStyles } from 'tss-react/mui';
 
 import storeActions from '@northern.tech/store/actions';
 import { ALL_DEVICES, TIMEOUTS, chartTypes, rootfsImageVersion, softwareTitleMap } from '@northern.tech/store/constants';
+import { isEmpty, toggle } from '@northern.tech/utils/helpers';
 import { VictoryBar, VictoryContainer, VictoryPie, VictoryStack } from 'victory';
 
-import { isEmpty, toggle } from '../../../helpers';
 import { chartColorPalette } from '../../../themes/Mender';
 import Loader from '../../common/loader';
 import { ChartEditWidget, Header, RemovalWidget } from './chart-addition';

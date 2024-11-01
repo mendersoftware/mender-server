@@ -55,6 +55,7 @@ import {
   mapTermsToFilters,
   progress
 } from '@northern.tech/store/utils';
+import { attributeDuplicateFilter, deepCompare, getSnackbarMessage } from '@northern.tech/utils/helpers';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { isCancel } from 'axios';
 import pluralize from 'pluralize';
@@ -62,7 +63,6 @@ import { v4 as uuid } from 'uuid';
 
 import { actions, sliceName } from '.';
 import { routes } from '../../components/devices/base-devices';
-import { attributeDuplicateFilter, deepCompare, getSnackbarMessage } from '../../helpers';
 import { chartColorPalette } from '../../themes/Mender';
 import {
   DEVICE_STATES,

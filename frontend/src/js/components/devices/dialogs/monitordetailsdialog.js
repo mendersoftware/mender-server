@@ -35,8 +35,7 @@ import {
 } from '@mui/material';
 
 import { TIMEOUTS } from '@northern.tech/store/constants';
-
-import { toggle } from '../../../helpers';
+import { toggle } from '@northern.tech/utils/helpers';
 
 const CopyButton = ({ text, onCopy }) => (
   <CopyToClipboard text={text} onCopy={onCopy}>

@@ -47,10 +47,10 @@ import {
   setOfflineThreshold,
   updateDynamicGroup
 } from '@northern.tech/store/thunks';
+import { toggle } from '@northern.tech/utils/helpers';
+import { useLocationParams } from '@northern.tech/utils/liststatehook';
 import pluralize from 'pluralize';
 
-import { toggle } from '../../helpers';
-import { useLocationParams } from '../../utils/liststatehook';
 import { getOnboardingComponentFor } from '../../utils/onboardingmanager';
 import Global from '../settings/global';
 import AuthorizedDevices from './authorized-devices';

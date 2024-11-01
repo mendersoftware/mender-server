@@ -21,8 +21,8 @@ import { makeStyles } from 'tss-react/mui';
 import { getToken } from '@northern.tech/store/auth';
 import { DEVICE_LIST_DEFAULTS, deploymentStatesToSubstates, deploymentsApiUrl } from '@northern.tech/store/constants';
 import { getDeviceDeployments, resetDeviceDeployments } from '@northern.tech/store/thunks';
+import { createDownload } from '@northern.tech/utils/helpers';
 
-import { createDownload } from '../../../helpers';
 import Confirm from '../../common/confirm';
 import InfoHint from '../../common/info-hint';
 import Pagination from '../../common/pagination';

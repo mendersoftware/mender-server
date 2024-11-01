@@ -49,10 +49,10 @@ import {
   getTenantCapabilities
 } from '@northern.tech/store/selectors';
 import { advanceOnboarding, createDeployment, getDeploymentsConfig, getGroupDevices, getRelease, getReleases } from '@northern.tech/store/thunks';
+import { toggle, validatePhases } from '@northern.tech/utils/helpers';
 import pluralize from 'pluralize';
 
 import DeltaIcon from '../../../assets/img/deltaicon.svg';
-import { toggle, validatePhases } from '../../helpers';
 import { getOnboardingComponentFor } from '../../utils/onboardingmanager';
 import Confirm from '../common/confirm';
 import DeviceLimit from './deployment-wizard/devicelimit';

@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 import React, { ForwardRefRenderFunction, memo } from 'react';
 
-import { getFormattedSize } from '../../helpers';
+import { getFormattedSize } from '@northern.tech/utils/helpers';
 
 interface FileSizeProps {
   fileSize: number;

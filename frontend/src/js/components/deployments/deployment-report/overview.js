@@ -20,12 +20,12 @@ import { makeStyles } from 'tss-react/mui';
 
 import { DEPLOYMENT_STATES, DEPLOYMENT_TYPES } from '@northern.tech/store/constants';
 import { groupDeploymentStats } from '@northern.tech/store/utils';
+import { isEmpty } from '@northern.tech/utils/helpers';
 import pluralize from 'pluralize';
 import isUUID from 'validator/lib/isUUID';
 
 import failImage from '../../../../assets/img/largeFail.png';
 import successImage from '../../../../assets/img/largeSuccess.png';
-import { isEmpty } from '../../../helpers';
 import { TwoColumnData } from '../../common/configurationobject';
 import DeviceIdentityDisplay from '../../common/deviceidentity';
 import Time from '../../common/time';

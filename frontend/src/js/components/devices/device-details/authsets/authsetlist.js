@@ -17,8 +17,8 @@ import { accordionClasses, accordionDetailsClasses, accordionSummaryClasses } fr
 import { makeStyles } from 'tss-react/mui';
 
 import { DEVICE_STATES, canAccess } from '@northern.tech/store/constants';
+import { customSort } from '@northern.tech/utils/helpers';
 
-import { customSort } from '../../../../helpers';
 import AuthsetListItem from './authsetlistitem';
 
 const fourColumns = '0.5fr 1fr 2fr 2fr';

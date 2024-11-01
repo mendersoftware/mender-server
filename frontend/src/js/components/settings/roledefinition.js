@@ -46,9 +46,8 @@ import {
   uiPermissionsByArea,
   uiPermissionsById
 } from '@northern.tech/store/constants';
+import { deepCompare, isEmpty, toggle } from '@northern.tech/utils/helpers';
 import validator from 'validator';
-
-import { deepCompare, isEmpty, toggle } from '../../helpers';
 
 const menuProps = {
   anchorOrigin: {

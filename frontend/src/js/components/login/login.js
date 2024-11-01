@@ -24,11 +24,11 @@ import { getToken } from '@northern.tech/store/auth';
 import { TIMEOUTS, locations, useradmApiUrl } from '@northern.tech/store/constants';
 import { getCurrentUser, getFeatures, getIsEnterprise } from '@northern.tech/store/selectors';
 import { loginUser, logoutUser } from '@northern.tech/store/thunks';
+import { clearAllRetryTimers } from '@northern.tech/utils/retrytimer';
 import Cookies from 'universal-cookie';
 
 import LoginLogo from '../../../assets/img/loginlogo.svg';
 import VeryMuch from '../../../assets/img/verymuch.svg';
-import { clearAllRetryTimers } from '../../utils/retrytimer';
 import Form from '../common/forms/form';
 import PasswordInput from '../common/forms/passwordinput';
 import TextInput from '../common/forms/textinput';

@@ -17,8 +17,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { makeStyles } from 'tss-react/mui';
 
 import { TIMEOUTS } from '@northern.tech/store/constants';
-
-import { useDebounce } from '../../../utils/debouncehook';
+import { useDebounce } from '@northern.tech/utils/debouncehook';
 
 const useStyles = makeStyles()(theme => ({
   filters: {

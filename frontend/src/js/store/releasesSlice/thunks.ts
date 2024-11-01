@@ -26,13 +26,13 @@ import {
 import { getSearchEndpoint } from '@northern.tech/store/selectors';
 import { commonErrorFallback, commonErrorHandler } from '@northern.tech/store/store';
 import { convertDeviceListStateToFilters, progress } from '@northern.tech/store/utils';
+import { customSort, deepCompare, duplicateFilter, extractSoftwareItem } from '@northern.tech/utils/helpers';
+import { formatReleases } from '@northern.tech/utils/locationutils';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { isCancel } from 'axios';
 import { v4 as uuid } from 'uuid';
 
 import { actions, sliceName } from '.';
-import { customSort, deepCompare, duplicateFilter, extractSoftwareItem } from '../../helpers';
-import { formatReleases } from '../../utils/locationutils';
 import { ARTIFACT_GENERATION_TYPE } from './constants';
 import { getReleasesById } from './selectors';
 

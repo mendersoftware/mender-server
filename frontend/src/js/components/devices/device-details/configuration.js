@@ -31,8 +31,8 @@ import {
   setDeviceConfig
 } from '@northern.tech/store/thunks';
 import { groupDeploymentDevicesStats, groupDeploymentStats } from '@northern.tech/store/utils';
+import { deepCompare, isEmpty, toggle } from '@northern.tech/utils/helpers';
 
-import { deepCompare, isEmpty, toggle } from '../../../helpers';
 import Tracking from '../../../tracking';
 import ConfigurationObject from '../../common/configurationobject';
 import Confirm, { EditButton } from '../../common/confirm';

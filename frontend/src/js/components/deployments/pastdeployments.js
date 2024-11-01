@@ -29,12 +29,12 @@ import {
   getUserCapabilities
 } from '@northern.tech/store/selectors';
 import { advanceOnboarding, getDeploymentsByStatus, setDeploymentsState } from '@northern.tech/store/thunks';
+import { getISOStringBoundaries } from '@northern.tech/utils/helpers';
+import useWindowSize from '@northern.tech/utils/resizehook';
+import { clearAllRetryTimers, clearRetryTimer, setRetryTimer } from '@northern.tech/utils/retrytimer';
 
 import historyImage from '../../../assets/img/history.png';
-import { getISOStringBoundaries } from '../../helpers';
 import { getOnboardingComponentFor } from '../../utils/onboardingmanager';
-import useWindowSize from '../../utils/resizehook';
-import { clearAllRetryTimers, clearRetryTimer, setRetryTimer } from '../../utils/retrytimer';
 import { ControlledAutoComplete } from '../common/forms/autocomplete';
 import Filters from '../common/forms/filters';
 import TimeframePicker from '../common/forms/timeframe-picker';

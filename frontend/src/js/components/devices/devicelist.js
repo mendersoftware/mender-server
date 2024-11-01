@@ -13,7 +13,8 @@
 //    limitations under the License.
 import React, { memo } from 'react';
 
-import { deepCompare } from '../../helpers';
+import { deepCompare } from '@northern.tech/utils/helpers';
+
 import { CommonList } from '../common/list';
 import DeviceListItem from './devicelistitem';
 

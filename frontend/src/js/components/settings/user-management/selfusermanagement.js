@@ -21,8 +21,8 @@ import storeActions from '@northern.tech/store/actions';
 import { DARK_MODE, LIGHT_MODE, OWN_USER_ID } from '@northern.tech/store/constants';
 import { getCurrentSession, getCurrentUser, getFeatures, getIsDarkMode, getIsEnterprise, getUserSettings } from '@northern.tech/store/selectors';
 import { editUser, saveUserSettings } from '@northern.tech/store/thunks';
+import { toggle } from '@northern.tech/utils/helpers';
 
-import { toggle } from '../../../helpers';
 import { CopyTextToClipboard } from '../../common/copytext';
 import ExpandableAttribute from '../../common/expandable-attribute';
 import Form from '../../common/forms/form';

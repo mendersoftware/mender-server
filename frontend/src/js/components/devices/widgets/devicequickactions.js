@@ -36,10 +36,10 @@ import {
   getTenantCapabilities,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
+import { stringToBoolean, toggle } from '@northern.tech/utils/helpers';
 import pluralize from 'pluralize';
 
 import GatewayIcon from '../../../../assets/img/gateway.svg';
-import { stringToBoolean, toggle } from '../../../helpers';
 import { getOnboardingComponentFor } from '../../../utils/onboardingmanager';
 import MaterialDesignIcon from '../../common/materialdesignicon';
 

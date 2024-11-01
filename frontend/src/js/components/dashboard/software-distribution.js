@@ -34,8 +34,8 @@ import {
   getReportsDataWithoutBackendSupport,
   saveUserSettings
 } from '@northern.tech/store/thunks';
+import { isEmpty } from '@northern.tech/utils/helpers';
 
-import { isEmpty } from '../../helpers';
 import { extractSoftwareInformation } from '../devices/device-details/installedsoftware';
 import ChartAdditionWidget from './widgets/chart-addition';
 import DistributionReport from './widgets/distribution';

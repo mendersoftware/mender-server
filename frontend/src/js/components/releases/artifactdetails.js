@@ -29,9 +29,9 @@ import { makeStyles } from 'tss-react/mui';
 
 import { getUserCapabilities } from '@northern.tech/store/selectors';
 import { editArtifact, getArtifactInstallCount, getArtifactUrl } from '@northern.tech/store/thunks';
+import { extractSoftware, extractSoftwareItem, toggle } from '@northern.tech/utils/helpers';
 import pluralize from 'pluralize';
 
-import { extractSoftware, extractSoftwareItem, toggle } from '../../helpers';
 import { EditableLongText } from '../common/editablelongtext';
 import ExpandableAttribute from '../common/expandable-attribute';
 import ArtifactPayload from './artifactPayload';

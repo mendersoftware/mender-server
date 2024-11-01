@@ -25,8 +25,8 @@ import { makeStyles } from 'tss-react/mui';
 
 import storeActions from '@northern.tech/store/actions';
 import { TIMEOUTS } from '@northern.tech/store/constants';
+import { toggle } from '@northern.tech/utils/helpers';
 
-import { toggle } from '../../helpers';
 import Tracking from '../../tracking';
 import { OnboardingTooltip } from '../common/mendertooltip';
 

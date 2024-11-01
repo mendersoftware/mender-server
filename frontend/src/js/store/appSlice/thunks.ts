@@ -16,11 +16,11 @@ import GeneralApi from '@northern.tech/store/api/general-api';
 import { getOfflineThresholdSettings } from '@northern.tech/store/selectors';
 import { searchDevices } from '@northern.tech/store/thunks';
 import { extractErrorMessage, getComparisonCompatibleVersion } from '@northern.tech/store/utils';
+import { deepCompare } from '@northern.tech/utils/helpers';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import Cookies from 'universal-cookie';
 
 import { actions, sliceName } from '.';
-import { deepCompare } from '../../helpers';
 import { getFeatures, getSearchState } from './selectors';
 
 const cookies = new Cookies();

@@ -18,10 +18,10 @@ import { CheckCircle as CheckIcon, Visibility as VisibilityIcon, VisibilityOff a
 import { Button, FormControl, FormHelperText, IconButton, Input, InputAdornment, InputLabel } from '@mui/material';
 
 import { TIMEOUTS } from '@northern.tech/store/constants';
+import { toggle } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
 import generator from 'generate-password';
 
-import { toggle } from '../../../helpers';
 import { runValidations } from './form';
 
 const PasswordGenerateButtons = ({ clearPass, edit, generatePass }) => (

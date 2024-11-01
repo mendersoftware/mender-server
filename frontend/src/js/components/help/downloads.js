@@ -20,10 +20,10 @@ import { Accordion, AccordionDetails, AccordionSummary, Chip, Menu, MenuItem, Ty
 import storeActions from '@northern.tech/store/actions';
 import { canAccess } from '@northern.tech/store/constants';
 import { getCurrentSession, getCurrentUser, getIsEnterprise, getTenantCapabilities, getVersionInformation } from '@northern.tech/store/selectors';
+import { detectOsIdentifier, toggle } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
 import Cookies from 'universal-cookie';
 
-import { detectOsIdentifier, toggle } from '../../helpers';
 import Tracking from '../../tracking';
 import CommonDocsLink from '../common/docslink';
 import Time from '../common/time';

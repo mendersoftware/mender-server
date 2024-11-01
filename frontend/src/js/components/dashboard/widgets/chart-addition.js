@@ -18,8 +18,8 @@ import { Button, FormControl, IconButton, InputLabel, ListSubheader, MenuItem, S
 import { makeStyles } from 'tss-react/mui';
 
 import { BENEFITS, chartTypes, emptyChartSelection } from '@northern.tech/store/constants';
+import { toggle } from '@northern.tech/utils/helpers';
 
-import { toggle } from '../../../helpers';
 import Confirm from '../../common/confirm';
 import EnterpriseNotification from '../../common/enterpriseNotification';
 import { InfoHintContainer } from '../../common/info-hint';

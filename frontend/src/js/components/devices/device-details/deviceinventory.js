@@ -13,7 +13,8 @@
 //    limitations under the License.
 import React from 'react';
 
-import { extractSoftware } from '../../../helpers';
+import { extractSoftware } from '@northern.tech/utils/helpers';
+
 import { TwoColumnDataMultiple } from '../../common/configurationobject';
 import Time from '../../common/time';
 import DeviceDataCollapse from './devicedatacollapse';

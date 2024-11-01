@@ -17,9 +17,9 @@ import { Checkbox, Collapse, FormControl, FormControlLabel, FormHelperText, Inpu
 import { makeStyles } from 'tss-react/mui';
 
 import { TIMEOUTS } from '@northern.tech/store/commonConstants';
+import { useDebounce } from '@northern.tech/utils/debouncehook';
 import validator from 'validator';
 
-import { useDebounce } from '../../../utils/debouncehook';
 import { DOCSTIPS, DocsTooltip } from '../../common/docslink';
 import { InfoHintContainer } from '../../common/info-hint';
 

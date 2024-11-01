@@ -21,9 +21,9 @@ import { makeStyles } from 'tss-react/mui';
 
 import { BENEFITS, TIMEOUTS } from '@northern.tech/store/constants';
 import { getDeploymentsConfig, saveDeltaDeploymentsConfig } from '@northern.tech/store/thunks';
+import { useDebounce } from '@northern.tech/utils/debouncehook';
 
 import DeltaIcon from '../../../assets/img/deltaicon.svg';
-import { useDebounce } from '../../utils/debouncehook';
 import EnterpriseNotification from '../common/enterpriseNotification';
 import InfoText from '../common/infotext';
 import Loader from '../common/loader';
