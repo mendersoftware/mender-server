@@ -1,4 +1,4 @@
-FROM python:3.12-slim
+FROM python:3.13-slim
 COPY requirements-acceptance.txt requirements.txt
 RUN apt update && apt install -qy zstd wget && \
     wget "https://downloads.mender.io/repos/debian/pool/main/m/mender-artifact/mender-artifact_3.11.2-1%2bubuntu%2bjammy_amd64.deb" -O mender-artifact.deb && \
