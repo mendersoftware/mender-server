@@ -1,10 +1,13 @@
 /* eslint-disable no-undef */
 const { TextDecoder, TextEncoder } = require('node:util');
-const { ReadableStream } = require('node:stream/web');
+const { ReadableStream, TransformStream } = require('node:stream/web');
+const { BroadcastChannel } = require('node:worker_threads');
 
+Reflect.set(globalThis, 'BroadcastChannel', BroadcastChannel);
+Reflect.set(globalThis, 'ReadableStream', ReadableStream);
 Reflect.set(globalThis, 'TextDecoder', TextDecoder);
 Reflect.set(globalThis, 'TextEncoder', TextEncoder);
-Reflect.set(globalThis, 'ReadableStream', ReadableStream);
+Reflect.set(globalThis, 'TransformStream', TransformStream);
 
 const { Blob } = require('node:buffer');
 const { fetch, FormData, Headers, Request, Response } = require('undici');
