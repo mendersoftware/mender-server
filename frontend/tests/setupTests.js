@@ -143,7 +143,7 @@ export const selectMaterialUiSelectOption = async (element, optionText, user) =>
   // Open the select dropdown
   await act(async () => await user.click(selectButton));
   // Get the dropdown element. We don't use getByRole() because it includes <select>s too.
-  const listbox = document.body.querySelector('ul[role=listbox]');
+  const listbox = queryByRole(document.documentElement, 'listbox');
   // Click the list item
   const listItem = within(listbox).getByText(optionText);
   await user.click(listItem);
