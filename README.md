@@ -4,7 +4,7 @@ Mender Server monorepo
 ## Getting started
 
 Before you start the Mender server, make sure you have [Docker Compose](https://docs.docker.com/compose/install/) installed.
-Mender server requires Docker Compose version `v2.21.0` or newer.
+Mender server requires Docker Compose version `v2.23.1` or newer.
 ```
 docker compose version
 ```
