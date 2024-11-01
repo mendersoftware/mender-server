@@ -120,7 +120,7 @@ exports[`Webhooks Component renders correctly with entries  1`] = `
     Webhooks
   </h2>
   <table
-    class="MuiTable-root margin-bottom  emotion-0"
+    class="MuiTable-root margin-bottom emotion-0"
   >
     <thead
       class="MuiTableHead-root emotion-1"
@@ -171,7 +171,7 @@ exports[`Webhooks Component renders correctly with entries  1`] = `
             View details
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-xsmall  emotion-11"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-xsmall emotion-11"
               data-testid="ArrowForwardIcon"
               focusable="false"
               viewBox="0 0 24 24"

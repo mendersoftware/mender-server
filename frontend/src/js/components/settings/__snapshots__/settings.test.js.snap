@@ -251,18 +251,18 @@ exports[`Settings Component renders correctly 1`] = `
   border-color: rgba(0, 0, 0, 0.87);
 }
 
+@media (hover: none) {
+  .emotion-30:hover .MuiOutlinedInput-notchedOutline {
+    border-color: rgba(0, 0, 0, 0.23);
+  }
+}
+
 .emotion-30.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-width: 2px;
 }
 
 .emotion-30.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-color: #1976d2;
-}
-
-@media (hover: none) {
-  .emotion-30:hover .MuiOutlinedInput-notchedOutline {
-    border-color: rgba(0, 0, 0, 0.23);
-  }
 }
 
 .emotion-30.Mui-error .MuiOutlinedInput-notchedOutline {

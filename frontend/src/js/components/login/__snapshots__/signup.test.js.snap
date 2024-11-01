@@ -527,6 +527,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
   color: rgba(0, 0, 0, 0.54);
   -webkit-transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  --IconButton-hoverBg: rgba(0, 0, 0, 0.04);
   padding: 12px;
   font-size: 1.625rem;
   font-size: 1.2rem;
@@ -550,7 +551,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
 }
 
 .emotion-23:hover {
-  background-color: rgba(0, 0, 0, 0.04);
+  background-color: var(--IconButton-hoverBg);
 }
 
 @media (hover: none) {
@@ -717,7 +718,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
             </span>
           </h4>
           <div
-            class="MuiFormControl-root  required emotion-13"
+            class="MuiFormControl-root required emotion-13"
             style="width: 400px;"
           >
             <label

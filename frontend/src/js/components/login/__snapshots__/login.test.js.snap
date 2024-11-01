@@ -572,6 +572,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-17:focus::-ms-input-
   color: rgba(0, 0, 0, 0.54);
   -webkit-transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  --IconButton-hoverBg: rgba(0, 0, 0, 0.04);
   padding: 12px;
   font-size: 1.625rem;
   font-size: 1.2rem;
@@ -595,7 +596,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-17:focus::-ms-input-
 }
 
 .emotion-27:hover {
-  background-color: rgba(0, 0, 0, 0.04);
+  background-color: var(--IconButton-hoverBg);
 }
 
 @media (hover: none) {
@@ -937,7 +938,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-17:focus::-ms-input-
           novalidate=""
         >
           <div
-            class="MuiFormControl-root  required emotion-14"
+            class="MuiFormControl-root required emotion-14"
             style="width: 400px;"
           >
             <label
@@ -1056,7 +1057,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-17:focus::-ms-input-
                 class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-21"
               >
                 <div
-                  class="MuiFormControl-root   emotion-14"
+                  class="MuiFormControl-root emotion-14"
                   style="width: 400px;"
                 >
                   <label

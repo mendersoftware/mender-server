@@ -8,29 +8,29 @@ exports[`ProgressDeviceList Component renders correctly 1`] = `
     class="flexbox"
   >
     <div
-      class="MuiTablePagination-root flexbox margin-top margin-top-none css-1s8wd9s-MuiTablePagination-root"
+      class="MuiTablePagination-root flexbox margin-top margin-top-none css-15pl5qu-MuiTablePagination-root"
     >
       <div
-        class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-16og44m-MuiToolbar-root-MuiTablePagination-toolbar"
+        class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-1gak8h1-MuiToolbar-root-MuiTablePagination-toolbar"
       >
         <div
-          class="MuiTablePagination-spacer flexbox no-basis css-1psng7p-MuiTablePagination-spacer"
+          class="MuiTablePagination-spacer flexbox no-basis css-1wtxofq-MuiTablePagination-spacer"
         />
         <p
-          class="MuiTablePagination-selectLabel css-1ecnf2s-MuiTablePagination-selectLabel"
+          class="MuiTablePagination-selectLabel css-15wkzhc-MuiTablePagination-selectLabel"
           id=":r1:"
         >
           Rows
         </p>
         <div
-          class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-7kd4nt-MuiInputBase-root-MuiTablePagination-select"
+          class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-11kq5w2-MuiInputBase-root-MuiTablePagination-select"
         >
           <div
             aria-controls=":r2:"
             aria-expanded="false"
             aria-haspopup="listbox"
             aria-labelledby=":r1: :r0:"
-            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-141c2s2-MuiSelect-select-MuiInputBase-input"
+            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-mmygx2-MuiSelect-select-MuiInputBase-input"
             id=":r0:"
             role="combobox"
             tabindex="0"
@@ -40,14 +40,14 @@ exports[`ProgressDeviceList Component renders correctly 1`] = `
           <input
             aria-hidden="true"
             aria-invalid="false"
-            class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+            class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
             name="pagination"
             tabindex="-1"
             value="10"
           />
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-nbib8d-MuiSvgIcon-root-MuiSelect-icon"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-ozirs8-MuiSvgIcon-root-MuiSelect-icon"
             data-testid="ArrowDropDownIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -58,7 +58,7 @@ exports[`ProgressDeviceList Component renders correctly 1`] = `
           </svg>
         </div>
         <p
-          class="MuiTablePagination-displayedRows css-cmytl3-MuiTablePagination-displayedRows"
+          class="MuiTablePagination-displayedRows css-uam3tq-MuiTablePagination-displayedRows"
         />
         <div
           class="flexbox center-aligned"
@@ -67,14 +67,14 @@ exports[`ProgressDeviceList Component renders correctly 1`] = `
             1-1 of 1
           </div>
           <button
-            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-1uaeu2g-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-jk231o-MuiButtonBase-root-MuiIconButton-root"
             disabled=""
             tabindex="-1"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vhgui7-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1j3vvli-MuiSvgIcon-root"
               data-testid="KeyboardArrowLeftIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -86,14 +86,14 @@ exports[`ProgressDeviceList Component renders correctly 1`] = `
           </button>
           <div>
             <button
-              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-1uaeu2g-MuiButtonBase-root-MuiIconButton-root"
+              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-jk231o-MuiButtonBase-root-MuiIconButton-root"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vhgui7-MuiSvgIcon-root"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1j3vvli-MuiSvgIcon-root"
                 data-testid="KeyboardArrowRightIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
