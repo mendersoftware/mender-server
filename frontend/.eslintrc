@@ -24,6 +24,14 @@
     "mender_environment": "readonly",
     "NodeJS": true
   },
+  "overrides": [
+    {
+      "files": ["tests/e2e_tests/**/*"],
+      "rules": {
+        "react-hooks/rules-of-hooks": "off"
+      }
+    }
+  ],
   "plugins": ["react", "prettier", "sonarjs", "@typescript-eslint", "import"],
   "rules": {
     "prettier/prettier": "error",
