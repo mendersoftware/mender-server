@@ -16,12 +16,6 @@ test:frontend:lint:
         paths: ["frontend/**/*.m?[jt]sx?"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
   needs: []
-  cache:
-    key:
-      files:
-        - package-lock.json
-    paths:
-      - frontend/.npm/
   script:
     - cd frontend
     - npm ci --cache .npm --prefer-offline
@@ -54,12 +48,6 @@ test:frontend:licenses:
         paths: ["frontend/**/*"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
   needs: []
-  cache:
-    key:
-      files:
-        - package-lock.json
-    paths:
-      - frontend/.npm/
   before_script:
     - cd frontend
     - apt-get update && apt-get install -yq curl
@@ -80,12 +68,6 @@ test:frontend:unit:
         paths: ["frontend/**/*"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
   needs: []
-  cache:
-    key:
-      files:
-        - package-lock.json
-    paths:
-      - frontend/.npm/
   script:
     - cd frontend
     - npm ci --cache .npm --prefer-offline
