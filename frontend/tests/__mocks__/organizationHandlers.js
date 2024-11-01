@@ -94,10 +94,12 @@ export const organizationHandlers = [
   http.get('/tags.json', () => HttpResponse.json(tagsSample)),
   http.get('/versions.json', () => HttpResponse.json(releasesSample)),
   http.get(`${tenantadmApiUrlv1}/user/tenant`, () => HttpResponse.json(defaultState.organization.organization)),
+  http.put(`${tenantadmApiUrlv2}/tenants/:tenantId/child`, () => new HttpResponse(null, { status: 200 })),
   http.post(`${tenantadmApiUrlv2}/tenants/:tenantId/cancel`, () => new HttpResponse(null, { status: 200 })),
   http.post(`${tenantadmApiUrlv2}/tenants/trial`, signupHandler),
   http.post(`${tenantadmApiUrlv2}/tenants`, () => new HttpResponse(null, { status: 200 })),
   http.post(`https://hosted.mender.io${tenantadmApiUrlv2}/tenants/trial`, signupHandler),
+  http.get(`${tenantadmApiUrlv2}/tenants`, () => new HttpResponse([])),
   http.get(`${tenantadmApiUrlv2}/billing`, () => HttpResponse.json({ card: { last4: '7890', exp_month: 1, exp_year: 2024, brand: 'testCorp' } })),
   http.post(`${tenantadmApiUrlv2}/billing/card`, () => HttpResponse.json({ intent_id: defaultState.organization.intentId, secret: 'testSecret' })),
   http.post(

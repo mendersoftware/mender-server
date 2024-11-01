@@ -19,10 +19,10 @@ import { Check as CheckIcon, Warning as WarningIcon } from '@mui/icons-material'
 import { SORTING_OPTIONS } from '@northern.tech/store/commonConstants';
 import { getTenantsList } from '@northern.tech/store/selectors';
 import { AppDispatch } from '@northern.tech/store/store';
-import { getTenants, setTenantsListState } from '@northern.tech/store/thunks';
+import { setTenantsListState } from '@northern.tech/store/thunks';
+import { useLocationParams } from '@northern.tech/utils/liststatehook';
 import dayjs from 'dayjs';
 
-import { useLocationParams } from '../../utils/liststatehook';
 import DetailsIndicator from '../common/detailsindicator';
 import { ColumnHeader, CommonList, ListItemComponentProps, RendererProp } from '../common/list';
 import { LIMIT_THRESHOLD } from '../header/devicecount';
@@ -133,9 +133,7 @@ export const TenantList = () => {
   const tenantListState = useSelector(getTenantsList);
   const { tenants, perPage, selectedTenant, sort = {} } = tenantListState;
   const dispatch: AppDispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getTenants());
-  }, [dispatch]);
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [locationParams, setLocationParams] = useLocationParams('tenants', {
     defaults: {

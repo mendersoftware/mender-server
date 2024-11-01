@@ -40,7 +40,7 @@ NodeList [
     Expand this section to view the authentication options for this device. You can decide whether to accept it, reject it, or just dismiss this device for now.
   </p>,
   <p>
-    See the documentation for more on
+    See the documentation for more on 
     <a
       class=""
       href="https://docs.mender.io/overview/device-authentication"
@@ -64,7 +64,7 @@ NodeList [
   </p>,
   <p>
     In cases such as key rotation, each device may have more than one identity/key combination listed. See the documentation for more on
-
+     
     <a
       class=""
       href="https://docs.mender.io/overview/device-authentication"
@@ -85,7 +85,7 @@ exports[`Helptooltips Components renders ConfigureAddOnTip correctly 1`] = `
     /var/lib/mender-configure/device-config.json
   </code>
    on the device and then all the scripts in
-
+   
   <code>
     /usr/lib/mender-configure/apply-device-config.d/
   </code>
@@ -296,7 +296,7 @@ exports[`Helptooltips Components renders DashboardWidget correctly 1`] = `Add da
 
 exports[`Helptooltips Components renders DeviceSupportTip correctly 1`] = `
 <p>
-  The steps in the guide should work on most operating systems in the Debian family (e.g. Debian, Ubuntu, Raspberry Pi OS) and devices based on ARMv6 or newer (e.g. Raspberry Pi 2/3/4, Beaglebone). Visit
+  The steps in the guide should work on most operating systems in the Debian family (e.g. Debian, Ubuntu, Raspberry Pi OS) and devices based on ARMv6 or newer (e.g. Raspberry Pi 2/3/4, Beaglebone). Visit 
   <a
     class=""
     href="https://docs.mender.io/overview/device-support"
@@ -312,14 +312,14 @@ exports[`Helptooltips Components renders DeviceSupportTip correctly 1`] = `
 exports[`Helptooltips Components renders DeviceTypeTip correctly 1`] = `
 NodeList [
   <p>
-    If you don't see your exact device on the list, choose
+    If you don't see your exact device on the list, choose 
     <i>
       Generic ARMv6 or newer
     </i>
      to continue the tutorial for now.
   </p>,
   <p>
-    (Note: if your device is
+    (Note: if your device is 
     <i>
       not
     </i>
@@ -334,7 +334,7 @@ NodeList [
     Device type compatibility
   </h3>,
   <p>
-    Mender Artifacts have
+    Mender Artifacts have 
     <b>
       Device types compatible
     </b>
@@ -345,7 +345,7 @@ NodeList [
   </p>,
   <p>
     For more information on how to specify the device type compatibility and other artifact metadata,
-
+     
     <a
       class=""
       href="https://docs.mender.io/artifact-creation/create-an-artifact"
@@ -419,8 +419,6 @@ exports[`Helptooltips Components renders SingleFileUpload correctly 1`] = `This 
 
 exports[`Helptooltips Components renders SsoMetadata correctly 1`] = `Submit the metadata document from your Identity Provider`;
 
-exports[`Helptooltips Components renders TenantInitialAdmin correctly 1`] = `The user that was assigned as admin for this tenant when it was created. There is a chance the admin user will have changed or this user no longer exists in this tenant.`;
-
 exports[`Helptooltips Components renders SubTenantDeltaArtifactGeneration correctly 1`] = `TBD: is this feature still alive?`;
 
 exports[`Helptooltips Components renders SubTenantDeviceLimit correctly 1`] = `Set the maximum number of accepted devices this tenant can have connected to the server at any time. You can adjust this later. Each tenants’ amount of accepted devices will count towards your total device limit.`;
@@ -428,6 +426,8 @@ exports[`Helptooltips Components renders SubTenantDeviceLimit correctly 1`] = `S
 exports[`Helptooltips Components renders SubTenantSSO correctly 1`] = `The created tenant will inherit the same Single Sign-On configuration as this Service Provider tenant. The created tenant’s admin user will not be able to change the SSO settings later.`;
 
 exports[`Helptooltips Components renders TenantAdmin correctly 1`] = `Set the user who will have the admin role when this tenant is created. This can be a user who already has a Mender account, or a brand new user. The tenant admin will be able to change which user(s) have this role once they begin using the tenant.`;
+
+exports[`Helptooltips Components renders TenantInitialAdmin correctly 1`] = `The user that was assigned as admin for this tenant when it was created. There is a chance the admin user will have changed or this user no longer exists in this tenant.`;
 
 exports[`Helptooltips Components renders TenantToken correctly 1`] = `
 NodeList [

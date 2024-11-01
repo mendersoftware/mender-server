@@ -23,13 +23,12 @@ import actions from '@northern.tech/store/actions';
 import { getOrganization } from '@northern.tech/store/organizationSlice/selectors';
 import { editTenantDeviceLimit, removeTenant } from '@northern.tech/store/organizationSlice/thunks';
 import { AppDispatch } from '@northern.tech/store/store';
+import { generateTenantPathById } from '@northern.tech/utils/locationutils';
 import copy from 'copy-to-clipboard';
 
-import { generateTenantPathById } from '../../utils/locationutils';
-import { ConfirmModal } from '../common/ConfirmModal/ConfirmModal';
+import { ConfirmModal } from '../common/ConfirmModal';
 import { TwoColumns } from '../common/configurationobject';
 import { DeviceCount } from '../header/devicecount';
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../helptips/helptooltips';
 import { Tenant } from './types';
 
 interface ExpandedTenantProps {
@@ -68,6 +67,8 @@ export const ExpandedTenant = (props: ExpandedTenantProps) => {
   const [limitErrorText, setLimitErrorText] = useState<string>('');
 
   const { device_count: spDeviceUtilization, device_limit: spDeviceLimit } = useSelector(getOrganization);
+
+  const currentLimit = spDeviceLimit - spDeviceUtilization;
   const { classes } = useStyles();
   const dispatch = useDispatch<AppDispatch>();
   const copyLinkToClipboard = () => {
@@ -81,7 +82,7 @@ export const ExpandedTenant = (props: ExpandedTenantProps) => {
       setNewLimit(value);
       return setLimitErrorText('');
     }
-    setLimitErrorText('Device limit');
+    setLimitErrorText(`Device limit (${currentLimit}) exceeded`);
   };
   const onNewLimitSubmit = async () => {
     await dispatch(editTenantDeviceLimit({ id, name, newLimit: Number(newLimit) }));
@@ -114,13 +115,9 @@ export const ExpandedTenant = (props: ExpandedTenantProps) => {
             setSnackbar={(str: string) => dispatch(setSnackbar(str))}
             items={{
               name,
-              ID: id,
-              'Initial admin user': 'customer@email.com'
+              ID: id
             }}
           />
-          <div className={classes.tenantInitialAdminTooltip}>
-            <MenderHelpTooltip id={HELPTOOLTIPS.tenantInitialAdmin.id} />
-          </div>
         </div>
         <div className="flexbox column">
           <FormControlLabel
@@ -151,7 +148,10 @@ export const ExpandedTenant = (props: ExpandedTenantProps) => {
             toType="delete"
             open={shouldDelete}
             close={() => setShouldDelete(false)}
-            onConfirm={deleteTenant}
+            onConfirm={() => {
+              deleteTenant();
+              setShouldDelete(false);
+            }}
           />
           {newLimitForm && (
             <div className="margin-left">
@@ -161,7 +161,7 @@ export const ExpandedTenant = (props: ExpandedTenantProps) => {
                   className={classes.devLimitInput}
                   type="number"
                   onChange={onChangeLimit}
-                  inputProps={{ min: device_count, max: '10000' }}
+                  inputProps={{ min: device_count, max: currentLimit, 'data-testid': 'dev-limit-input' }}
                   error={!!limitErrorText}
                   value={newLimit}
                 />
@@ -186,7 +186,7 @@ export const ExpandedTenant = (props: ExpandedTenantProps) => {
                 </FormHelperText>
               )}
               <FormHelperText className="info" component="div">
-                Maximum limit: {spDeviceLimit - spDeviceUtilization} <br />
+                Maximum limit: {currentLimit} <br />
                 {spDeviceUtilization} devices assigned of maximum {spDeviceLimit} across all tenants. <br />
                 <a href="mailto:support@mender.io" target="_blank" rel="noopener noreferrer">
                   Contact support

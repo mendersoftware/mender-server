@@ -11,13 +11,15 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Add as AddIcon } from '@mui/icons-material';
 import { Chip } from '@mui/material';
 
 import { getTenantsList } from '@northern.tech/store/organizationSlice/selectors';
+import { getTenants } from '@northern.tech/store/organizationSlice/thunks';
+import { AppDispatch } from '@northern.tech/store/store';
 
 import { TenantCreateForm } from './TenantCreateForm';
 import { TenantList } from './TenantList';
@@ -27,6 +29,10 @@ interface TenantsEmptyStateProps {
 }
 const TenantsEmptyState = (props: TenantsEmptyStateProps) => {
   const { openModal } = props;
+  const dispatch = useDispatch<AppDispatch>();
+  useEffect(() => {
+    dispatch(getTenants());
+  }, [dispatch]);
   return (
     <div className="dashboard-placeholder">
       <p>You are not currently managing any tenants. </p>
