@@ -80,18 +80,16 @@ default:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
       alias: docker
   variables:
-    DOCKER_BUILDARGS: "--push"
+    DOCKER_BUILDARGS: "--push --cache-to=$CI_REGISTRY_IMAGE:cache --cache-from=$CI_REGISTRY_IMAGE:cache"
   before_script:
     - apk add make bash git
     - *dind-login
     # NOTE: If we're running on a PR, do not build multiplatform
-    - test "$CI_COMMIT_REF_PROTECTED" != "true" && unset DOCKER_PLATFORM
-    - if test -n "${DOCKER_PLATFORM}"; then
-      docker context create ci;
-      docker builder create --name ci-builder ci;
-      export DOCKER_BUILDARGS="${DOCKER_BUILDARGS} --builder=ci-builder";
-      unset DOCKER_HOST;
-      fi
+    - test "$CI_COMMIT_REF_PROTECTED" != "true" && export DOCKER_PLATFORM=linux/amd64
+    - docker context create ci;
+    - docker builder create --name ci-builder ci;
+    - export DOCKER_BUILDARGS="${DOCKER_BUILDARGS} --builder=ci-builder";
+    - unset DOCKER_HOST;
 
 build:backend:docker:
   extends: .template:build:docker
@@ -114,12 +112,9 @@ build:backend:docker:
 
 build:backend:docker-acceptance:
   extends: build:backend:docker
-  before_script:
-    - apk add make bash git
-    - *dind-login
-    # We're only building acceptance test images for CI runner platform.
-    - unset DOCKER_PLATFORM
   script:
+    # We're only building acceptance test images for CI runner platform.
+    - export DOCKER_PLATFORM=linux/amd64
     # NOTE: Only build for test platform (default) for the acceptance test images
     - make -C backend docker-acceptance
     - docker build $DOCKER_BUILDARGS -f backend/tests/Dockerfile.acceptance -t $CI_REGISTRY_IMAGE/acceptance:$CI_COMMIT_REF_NAME backend/tests
@@ -392,7 +387,6 @@ coveralls:done:
   tags:
     - hetzner-amd-beefy
 
-
 lint:commit:
   stage: lint
   needs: []
@@ -411,10 +405,11 @@ changelog:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/node:20
   stage: changelog
   variables:
-    GIT_DEPTH: 0  # Always get the full history
-    GIT_STRATEGY: clone  # Always get the full history
-    GIT_CLIFF__BUMP__INITIAL_TAG: "4.0.0"  # TODO: after the new tag is created,
-                                           # remove this variable
+    GIT_DEPTH: 0 # Always get the full history
+    GIT_STRATEGY: clone # Always get the full history
+    GIT_CLIFF__BUMP__INITIAL_TAG:
+      "4.0.0" # TODO: after the new tag is created,
+      # remove this variable
   tags:
     - hetzner-amd-beefy
   rules:
@@ -439,12 +434,12 @@ changelog:
     # getting the centralized git cliff config
   script:
     - release-please release-pr
-        --token=${GITHUB_BOT_TOKEN_REPO_FULL}
-        --repo-url=${GITHUB_REPO_URL}
-        --target-branch=${CI_COMMIT_REF_NAME} || echo "INFO - release already exists" # workaround because we shifted to prerelease versioning strategy and there's already a PR open
+      --token=${GITHUB_BOT_TOKEN_REPO_FULL}
+      --repo-url=${GITHUB_REPO_URL}
+      --target-branch=${CI_COMMIT_REF_NAME} || echo "INFO - release already exists" # workaround because we shifted to prerelease versioning strategy and there's already a PR open
     # git cliff: override the changelog
     - test $GIT_CLIFF == "false" && echo "INFO - Skipping git-cliff" && exit 0
-    - git remote add github-${CI_JOB_ID} https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_REPO_URL} || true  # Ignore already existing remote
+    - git remote add github-${CI_JOB_ID} https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_REPO_URL} || true # Ignore already existing remote
     - gh repo set-default https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_REPO_URL}
     - RELEASE_PLEASE_PR=$(gh pr list --author "${GITHUB_USER_NAME}" --head "release-please--branches--${CI_COMMIT_REF_NAME}" --json number | jq -r '.[0].number // empty')
     - test -z "$RELEASE_PLEASE_PR" && echo "No release-please PR found" && exit 0
@@ -476,6 +471,6 @@ release:github:
   script:
     - npm install -g release-please
     - release-please github-release
-        --token=${GITHUB_BOT_TOKEN_REPO_FULL}
-        --repo-url=${GITHUB_REPO_URL}
-        --target-branch=${CI_COMMIT_REF_NAME}
+      --token=${GITHUB_BOT_TOKEN_REPO_FULL}
+      --repo-url=${GITHUB_REPO_URL}
+      --target-branch=${CI_COMMIT_REF_NAME}
