@@ -50,7 +50,7 @@ const columnData = [
     disablePadding: false,
     title: 'Role',
     enterpriseOnly: true,
-    render: ({ roles: userRoles = [] }, { roles }) => userRoles.map(roleId => roles[roleId]?.name).join(', ')
+    render: ({ roles: userRoles = [] }, { roles }) => userRoles.map(roleId => roles.find(({ id }) => roleId === id)?.name).join(', ')
   },
   {
     key: 'actions',

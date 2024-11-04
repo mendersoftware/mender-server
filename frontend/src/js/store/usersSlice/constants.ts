@@ -77,10 +77,12 @@ const permissionSetIds = {
   DeployToDevices: 'DeployToDevices',
   ManageDevices: 'ManageDevices',
   ManageReleases: 'ManageReleases',
+  ManageTenants: 'ManageTenants',
   ManageUsers: 'ManageUsers',
   ReadAuditLogs: 'ReadAuditLogs',
   ReadDevices: 'ReadDevices',
   ReadReleases: 'ReadReleases',
+  ReadTenants: 'ReadTenants',
   ReadUsers: 'ReadUsers',
   SuperUser: 'SuperUser',
   UploadArtifacts: 'UploadArtifacts'
@@ -120,6 +122,7 @@ export const uiPermissionsById = {
     permissionSets: {
       groups: permissionSetIds.ManageDevices,
       releases: permissionSetIds.ManageReleases,
+      tenantManagement: permissionSetIds.ManageTenants,
       userManagement: permissionSetIds.ManageUsers
     },
     title: 'Manage',
@@ -133,6 +136,7 @@ export const uiPermissionsById = {
       auditlog: permissionSetIds.ReadAuditLogs,
       groups: permissionSetIds.ReadDevices,
       releases: permissionSetIds.ReadReleases,
+      tenantManagement: permissionSetIds.ReadTenants,
       userManagement: permissionSetIds.ReadUsers
     },
     title: 'Read',
@@ -217,6 +221,17 @@ export const uiPermissionsByArea = {
     scope: 'ReleaseTags',
     uiPermissions: [uiPermissionsById.read, uiPermissionsById.manage, uiPermissionsById.upload],
     title: 'Release Management'
+  },
+  tenantManagement: {
+    endpoints: [
+      { path: /\/(tenantadm\/tenants)/i, types: [PermissionTypes.Get], uiPermissions: [uiPermissionsById.read] },
+      { path: /\/(tenantadm\/tenants)/i, types: [PermissionTypes.Post, PermissionTypes.Put], uiPermissions: [uiPermissionsById.manage] },
+      { path: /\/(users\/exists)/i, types: [PermissionTypes.Get], uiPermissions: [uiPermissionsById.manage] }
+    ],
+    explanation: 'Tenant management permissions allow listing, creating and modifying child tenants',
+    key: 'tenantManagement',
+    uiPermissions: [uiPermissionsById.read, uiPermissionsById.manage],
+    title: 'Tenant Management'
   },
   userManagement: {
     endpoints: [
@@ -303,6 +318,33 @@ export const rolesById = Object.freeze({
   }
 });
 
+export const serviceProviderRolesById = {
+  admin: {
+    name: 'Admin',
+    value: staticRolesByName.admin,
+    description: 'Full access',
+    permissions: [],
+    uiPermissions: {
+      ...emptyUiPermissions,
+      auditlog: uiPermissionsByArea.auditlog.uiPermissions.map(permissionMapper),
+      userManagement: uiPermissionsByArea.userManagement.uiPermissions.map(permissionMapper),
+      tenantManagement: uiPermissionsByArea.tenantManagement.uiPermissions.map(permissionMapper)
+    }
+  },
+  readOnly: {
+    name: 'Read access',
+    value: staticRolesByName.admin,
+    description: 'This role can see all linked organizations but cannot make any changes',
+    permissions: [],
+    uiPermissions: {
+      ...emptyUiPermissions,
+      auditlog: [uiPermissionsById.read.value],
+      userManagement: [uiPermissionsById.read.value],
+      tenantManagement: [uiPermissionsById.read.value]
+    }
+  }
+};
+
 export const defaultPermissionSets = {
   [permissionSetIds.Basic]: {
     name: permissionSetIds.Basic,
@@ -333,6 +375,18 @@ export const defaultPermissionSets = {
     name: permissionSetIds.ReadReleases,
     result: {
       releases: { [ALL_RELEASES]: [uiPermissionsById.read.value] }
+    }
+  },
+  [permissionSetIds.ReadTenants]: {
+    name: permissionSetIds.ReadTenants,
+    result: {
+      tenantManagement: [uiPermissionsById.read.value]
+    }
+  },
+  [permissionSetIds.ManageTenants]: {
+    name: permissionSetIds.ManageTenants,
+    result: {
+      tenantManagement: [uiPermissionsById.manage.value]
     }
   },
   [permissionSetIds.ReadUsers]: {

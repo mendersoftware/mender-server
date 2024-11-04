@@ -241,6 +241,7 @@ export const emptyUiPermissions = Object.freeze({
   deployments: [],
   groups: Object.freeze({}),
   releases: Object.freeze({}),
+  tenantManagement: [],
   userManagement: []
 });
 

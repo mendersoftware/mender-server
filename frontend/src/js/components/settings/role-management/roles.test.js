@@ -94,6 +94,7 @@ describe('Roles Component', () => {
           { disableEdit: false, item: ALL_RELEASES, notFound: false, uiPermissions: ['read'] },
           { disableEdit: false, item: '', notFound: false, uiPermissions: [] }
         ],
+        tenantManagement: [],
         userManagement: []
       },
       source: { ...defaultState.users.rolesById.test, id: defaultState.users.rolesById.test.name }

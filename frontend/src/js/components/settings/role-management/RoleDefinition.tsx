@@ -52,6 +52,7 @@ type FormValues = FieldValues & {
   auditlog: UiPermission[];
   groups: ScopedUiPermissions[];
   releases: ScopedUiPermissions[];
+  tenantManagement: UiPermission[];
   userManagement: UiPermission[];
 };
 
@@ -61,6 +62,7 @@ const defaultValues: FormValues = {
   auditlog: [],
   groups: [],
   releases: [],
+  tenantManagement: [],
   userManagement: []
 };
 
@@ -149,11 +151,19 @@ const DefaultPermissionSelection: FunctionComponent<PermissionSelectionFormVaria
   </>
 );
 
-export const FormContent = ({ editing, groups: stateGroups, releases: stateReleases, onCancel, selectedRole }) => {
+const ServiceProviderPermissionSelection: FunctionComponent<PermissionsSelectionBaseProps> = ({ disabled }) => (
+  <>
+    <PermissionsItem area={uiPermissionsByArea.userManagement} disabled={disabled} />
+    <PermissionsItem area={uiPermissionsByArea.tenantManagement} disabled={disabled} />
+    <PermissionsItem area={uiPermissionsByArea.auditlog} disabled={disabled} />
+  </>
+);
+
+export const FormContent = ({ editing, groups: stateGroups, isServiceProvider, releases: stateReleases, onCancel, selectedRole }) => {
   const { classes } = useStyles();
   const { watch, setValue } = useFormContext();
   const watchedValues = watch();
-  const { description, name, auditlog, groups, releases, userManagement } = watchedValues;
+  const { description, name, auditlog, groups, releases, tenantManagement, userManagement } = watchedValues;
 
   const disableEdit = editing && Boolean(rolesById[selectedRole.id] || !selectedRole.editable);
 
@@ -177,11 +187,12 @@ export const FormContent = ({ editing, groups: stateGroups, releases: stateRelea
       disableEdit ||
         !name ||
         hasPartiallyDefinedAreas ||
-        !(auditlog.length || hasAreaPermissions || userManagement.length) ||
+        !(auditlog.length || hasAreaPermissions || userManagement.length || tenantManagement.length) ||
         (Object.entries({ description, name }).every(([key, value]) => selectedRole[key] === value) &&
           uiPermissionCompare(selectedRole.uiPermissions, changedPermissions))
     );
-  }, [auditlog, description, name, userManagement, groups, releases, disableEdit, selectedRole]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auditlog, description, name, userManagement, JSON.stringify(groups), JSON.stringify(releases), tenantManagement, disableEdit, selectedRole]);
 
   return (
     <>
@@ -192,7 +203,11 @@ export const FormContent = ({ editing, groups: stateGroups, releases: stateRelea
       <InputLabel className={`margin-top ${classes.permissionsTitle}`} shrink>
         Permissions
       </InputLabel>
-      <DefaultPermissionSelection disabled={disableEdit} groups={stateGroups} releases={stateReleases} setValue={setValue} />
+      {isServiceProvider ? (
+        <ServiceProviderPermissionSelection disabled={disableEdit} />
+      ) : (
+        <DefaultPermissionSelection disabled={disableEdit} groups={stateGroups} releases={stateReleases} setValue={setValue} />
+      )}
       <Divider className="margin-top-large" light />
       <div className={`flexbox centered margin-top ${classes.buttons}`}>
         <Button className="margin-right" onClick={onCancel}>
@@ -206,7 +221,17 @@ export const FormContent = ({ editing, groups: stateGroups, releases: stateRelea
   );
 };
 
-export const RoleDefinition = ({ adding, editing, stateGroups, stateReleaseTags, onCancel, onSubmit, removeRole, selectedRole = { ...emptyRole } }) => {
+export const RoleDefinition = ({
+  adding,
+  editing,
+  isServiceProvider,
+  stateGroups,
+  stateReleaseTags,
+  onCancel,
+  onSubmit,
+  removeRole,
+  selectedRole = { ...emptyRole }
+}) => {
   const [groups, setGroups] = useState([]);
   const [releases, setReleases] = useState([]);
   const [values, setValues] = useState(defaultValues);
@@ -216,7 +241,13 @@ export const RoleDefinition = ({ adding, editing, stateGroups, stateReleaseTags,
 
   useEffect(() => {
     const { name: roleName = '', description: roleDescription = '' } = selectedRole;
-    const { auditlog, groups: roleGroups = {}, releases: roleReleases = {}, userManagement } = { ...emptyUiPermissions, ...selectedRole.uiPermissions };
+    const {
+      auditlog,
+      groups: roleGroups = {},
+      releases: roleReleases = {},
+      tenantManagement,
+      userManagement
+    } = { ...emptyUiPermissions, ...selectedRole.uiPermissions };
     const disableEdit = editing && Boolean(rolesById[roleName] || !selectedRole.editable);
     const { filtered: filteredStateGroups, selections: groupSelections } = deriveItemsAndPermissions(stateGroups, roleGroups, {
       disableEdit,
@@ -232,6 +263,7 @@ export const RoleDefinition = ({ adding, editing, stateGroups, stateReleaseTags,
       name: roleName,
       description: roleDescription,
       auditlog: auditlog.map(permissionMapper),
+      tenantManagement: tenantManagement.map(permissionMapper),
       userManagement: userManagement.map(permissionMapper),
       groups: groupSelections,
       releases: releaseTagSelections
@@ -241,7 +273,7 @@ export const RoleDefinition = ({ adding, editing, stateGroups, stateReleaseTags,
 
   const onSubmitClick = values => {
     const allowUserManagement = values.userManagement.includes(uiPermissionsById.manage.value);
-    const { description, name, auditlog, groups, releases, userManagement } = values;
+    const { description, name, auditlog, groups, releases, tenantManagement, userManagement } = values;
     const role = {
       source: selectedRole,
       allowUserManagement,
@@ -251,6 +283,7 @@ export const RoleDefinition = ({ adding, editing, stateGroups, stateReleaseTags,
         auditlog,
         groups: groups,
         releases: releases,
+        tenantManagement,
         userManagement
       }
     };
@@ -287,7 +320,14 @@ export const RoleDefinition = ({ adding, editing, stateGroups, stateReleaseTags,
       </div>
       <Divider />
       <Form onSubmit={onSubmitClick} showButtons={false} autocomplete="off" defaultValues={defaultValues} initialValues={values}>
-        <FormContent editing={editing} groups={groups} releases={releases} onCancel={onCancel} selectedRole={selectedRole} />
+        <FormContent
+          editing={editing}
+          groups={groups}
+          releases={releases}
+          isServiceProvider={isServiceProvider}
+          onCancel={onCancel}
+          selectedRole={selectedRole}
+        />
       </Form>
       <DeleteRoleDialog dismiss={onToggleRemoveDialog} open={removeDialog} submit={onRemoveRole} name={selectedRole.name} />
     </Drawer>

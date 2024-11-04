@@ -68,6 +68,7 @@ const permissionSetObjectTypes = {
   empty: '',
   groups: 'Device groups',
   releases: 'Releases',
+  tenantManagement: 'Tenant management',
   userManagement: 'User management'
 };
 
@@ -618,6 +619,27 @@ export const permissionSets = [
     permissions: [{ action: 'http', object: { type: 'any', value: '^/api/management/(v[1-9])/useradm/' } }]
   },
   {
+    ...defaultPermissionSets.ReadTenants,
+    action: uiPermissionsById.read.title,
+    object: permissionSetObjectTypes.tenantManagement,
+    description: 'Set of permissions which allows user to list other tenants and their config',
+    permissions: [
+      { action: 'http', object: { type: 'GET', value: '^/api/management/(v[1-9])/tenantadm/' } },
+      { action: 'http', object: { type: 'POST', value: '^/api/management/(v[1-9])/tenantadm/' } }
+    ]
+  },
+  {
+    ...defaultPermissionSets.ManageTenants,
+    action: uiPermissionsById.manage.title,
+    object: permissionSetObjectTypes.tenantManagement,
+    description: 'Set of permissions which allows user to manage other tenants and their config',
+    permissions: [
+      { action: 'http', object: { type: 'GET', value: '^/api/management/(v[1-9])/tenantadm/' } },
+      { action: 'http', object: { type: 'POST', value: '^/api/management/(v[1-9])/tenantadm/' } },
+      { action: 'http', object: { type: 'PUT', value: '^/api/management/(v[1-9])/tenantadm/' } }
+    ]
+  },
+  {
     ...defaultPermissionSets.ReadAuditLogs,
     action: uiPermissionsById.read.title,
     object: 'System audit log',
@@ -878,6 +900,7 @@ const expectedParsedRoles = {
       releases: {
         [ALL_RELEASES]: [uiPermissionsById.manage.value, uiPermissionsById.upload.value, uiPermissionsById.read.value]
       },
+      tenantManagement: [uiPermissionsById.read.value, uiPermissionsById.manage.value],
       userManagement: [uiPermissionsById.read.value, uiPermissionsById.manage.value]
     }
   }

@@ -34,7 +34,11 @@ import UserManagement from './user-management/usermanagement';
 let stripePromise = null;
 
 const sectionMap = {
-  'global-settings': { component: Global, text: () => 'Global settings', canAccess: ({ userCapabilities: { canManageUsers } }) => canManageUsers },
+  'global-settings': {
+    component: Global,
+    text: () => 'Global settings',
+    canAccess: ({ organization: { service_provider }, userCapabilities: { canManageUsers } }) => !service_provider && canManageUsers
+  },
   'my-profile': { component: SelfUserManagement, text: () => 'My profile', canAccess },
   'organization-and-billing': {
     component: Organization,
@@ -54,13 +58,13 @@ const sectionMap = {
   integrations: {
     component: Integrations,
     text: () => 'Integrations',
-    canAccess: ({ userRoles: { isAdmin } }) => isAdmin
+    canAccess: ({ organization: { service_provider }, userRoles: { isAdmin } }) => !service_provider && isAdmin
   },
   upgrade: {
     component: Upgrade,
     icon: <PaymentIcon />,
     text: ({ organization: { trial } }) => (trial ? 'Upgrade to a plan' : 'Upgrades and add-ons'),
-    canAccess: ({ hasMultitenancy }) => hasMultitenancy
+    canAccess: ({ hasMultitenancy, organization: { service_provider } }) => !service_provider && hasMultitenancy
   }
 };
 
