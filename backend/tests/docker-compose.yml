@@ -26,11 +26,10 @@ services:
     build:
       dockerfile: Dockerfile.integration
     volumes:
-        - ${MENDER_SERVER_PATH:-../../}/backend/tests/integration/docs:/docs
         - ${MENDER_SERVER_PATH:-../../}/backend/tests/integration/downloaded-tools/mender-artifact:/usr/local/bin/mender-artifact
-        - ${MENDER_SERVER_PATH:-../../}/backend/tests/integration/tests:/tests
+        - ${MENDER_SERVER_PATH:-../../}/backend/tests/integration:/tests
         - /var/run/docker.sock:/var/run/docker.sock
-    command: ${PYTEST_ARGS}
+    command: pytest ${PYTEST_ARGS}
     environment:
         PYTHONPATH: "/tests"
         PYTHONDONTWRITEBYTECODE: 1

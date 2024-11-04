@@ -242,6 +242,7 @@ test:backend:integration:
       when: on_success
   tags:
     - hetzner-amd-beefy
+  parallel: 2
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
       alias: docker
