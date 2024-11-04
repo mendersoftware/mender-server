@@ -122,6 +122,20 @@ build:backend:docker-acceptance:
   script:
     # NOTE: Only build for test platform (default) for the acceptance test images
     - make -C backend docker-acceptance
+    - docker build $DOCKER_BUILDARGS -f backend/tests/Dockerfile.acceptance -t $CI_REGISTRY_IMAGE/acceptance:$CI_COMMIT_REF_NAME backend/tests
+
+build:backend:docker-integration:
+  extends: .template:build:docker
+  rules:
+    - changes:
+        paths: ["backend/**/*"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
+      when: always
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+      when: always
+  script:
+    - unset DOCKER_PLATFORM
+    - docker build $DOCKER_BUILDARGS -f backend/tests/Dockerfile.integration -t $CI_REGISTRY_IMAGE/integration:$CI_COMMIT_REF_NAME backend/tests
 
 test:backend:static:
   stage: test
@@ -250,6 +264,8 @@ test:backend:integration:
     - job: build:backend:docker
       artifacts: false
     - job: build:backend:docker-acceptance
+      artifacts: false
+    - job: build:backend:docker-integration
       artifacts: false
   before_script:
     - apk add make bash git curl
