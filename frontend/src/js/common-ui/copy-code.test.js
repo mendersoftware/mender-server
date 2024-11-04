@@ -17,8 +17,8 @@ import { yes } from '@northern.tech/store/constants';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { undefineds } from '../../../../tests/mockData';
-import { render } from '../../../../tests/setupTests';
+import { undefineds } from '../../../tests/mockData';
+import { render } from '../../../tests/setupTests';
 import CopyCode from './copy-code';
 
 describe('CopyCode Component', () => {

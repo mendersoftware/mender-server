@@ -13,8 +13,8 @@
 //    limitations under the License.
 import React from 'react';
 
-import { undefineds } from '../../../../tests/mockData';
-import { render } from '../../../../tests/setupTests';
+import { undefineds } from '../../../tests/mockData';
+import { render } from '../../../tests/setupTests';
 import ExpandableAttribute from './expandable-attribute';
 
 describe('ExpandableAttribute Component', () => {

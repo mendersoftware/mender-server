@@ -16,8 +16,8 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { undefineds } from '../../../../tests/mockData';
-import { render } from '../../../../tests/setupTests';
+import { undefineds } from '../../../tests/mockData';
+import { render } from '../../../tests/setupTests';
 import EnterpriseNotification from './enterpriseNotification';
 
 describe('EnterpriseNotification Component', () => {

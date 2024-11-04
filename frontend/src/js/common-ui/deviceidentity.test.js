@@ -15,8 +15,8 @@ import React from 'react';
 
 import { ATTRIBUTE_SCOPES } from '@northern.tech/store/constants';
 
-import { defaultState, undefineds } from '../../../../tests/mockData';
-import { render } from '../../../../tests/setupTests';
+import { defaultState, undefineds } from '../../../tests/mockData';
+import { render } from '../../../tests/setupTests';
 import DeviceIdentityDisplay from './deviceidentity';
 
 describe('DeviceIdentityDisplay Component', () => {

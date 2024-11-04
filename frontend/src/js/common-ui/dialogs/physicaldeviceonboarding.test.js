@@ -16,8 +16,8 @@ import React from 'react';
 import { EXTERNAL_PROVIDER } from '@northern.tech/store/constants';
 import { act, waitFor } from '@testing-library/react';
 
-import { token, undefineds } from '../../../../../tests/mockData';
-import { render } from '../../../../../tests/setupTests';
+import { token, undefineds } from '../../../../tests/mockData';
+import { render } from '../../../../tests/setupTests';
 import PhysicalDeviceOnboarding, { ConvertedImageNote, DeviceTypeSelectionStep, ExternalProviderTip, InstallationStep } from './physicaldeviceonboarding';
 
 const oldHostname = window.location.hostname;

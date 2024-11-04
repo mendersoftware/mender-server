@@ -17,8 +17,8 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { undefineds } from '../../../../../tests/mockData';
-import { render } from '../../../../../tests/setupTests';
+import { undefineds } from '../../../../tests/mockData';
+import { render } from '../../../../tests/setupTests';
 import Form from './form';
 import FormCheckbox from './formcheckbox';
 import PasswordInput from './passwordinput';

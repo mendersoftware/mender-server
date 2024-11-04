@@ -22,8 +22,8 @@ import { getIsDarkMode } from '@northern.tech/store/selectors';
 import { saveGlobalSettings } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 
-import logo from '../../../../assets/img/headerlogo.png';
-import whiteLogo from '../../../../assets/img/whiteheaderlogo.png';
+import logo from '../../../assets/img/headerlogo.png';
+import whiteLogo from '../../../assets/img/whiteheaderlogo.png';
 
 const { setShowStartupNotification } = storeActions;
 

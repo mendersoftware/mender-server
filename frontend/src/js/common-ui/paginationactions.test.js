@@ -16,7 +16,7 @@ import React from 'react';
 import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { render } from '../../../../tests/setupTests';
+import { render } from '../../../tests/setupTests';
 import { TablePaginationActions } from './pagination';
 
 describe('TablePaginationActions Component', () => {

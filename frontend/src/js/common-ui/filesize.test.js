@@ -17,7 +17,7 @@ import React from 'react';
 import { deepCompare } from '@northern.tech/utils/helpers.js';
 import { render } from '@testing-library/react';
 
-import { undefineds } from '../../../../tests/mockData.js';
+import { undefineds } from '../../../tests/mockData.js';
 import FileSize from './filesize';
 
 describe('FileSize Component', () => {

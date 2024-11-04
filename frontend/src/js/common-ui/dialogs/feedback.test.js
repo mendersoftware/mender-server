@@ -16,7 +16,7 @@ import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { render } from '../../../../../tests/setupTests';
+import { render } from '../../../../tests/setupTests';
 import Feedback from './feedback';
 
 describe('Feedback Component', () => {

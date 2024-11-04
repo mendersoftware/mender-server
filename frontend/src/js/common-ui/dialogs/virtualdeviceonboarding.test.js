@@ -15,8 +15,8 @@ import React from 'react';
 
 import { act } from '@testing-library/react';
 
-import { undefineds } from '../../../../../tests/mockData';
-import { render } from '../../../../../tests/setupTests';
+import { undefineds } from '../../../../tests/mockData';
+import { render } from '../../../../tests/setupTests';
 import VirtualDeviceOnboarding, { getDemoDeviceCreationCommand } from './virtualdeviceonboarding';
 
 describe('VirtualDeviceOnboarding Component', () => {

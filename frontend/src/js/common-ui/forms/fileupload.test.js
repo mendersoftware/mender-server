@@ -19,8 +19,8 @@ import userEvent from '@testing-library/user-event';
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 
-import { defaultState, undefineds } from '../../../../../tests/mockData';
-import { render } from '../../../../../tests/setupTests';
+import { defaultState, undefineds } from '../../../../tests/mockData';
+import { render } from '../../../../tests/setupTests';
 import FileUpload from './fileupload';
 
 const mockStore = configureStore([thunk]);

@@ -19,8 +19,8 @@ import { makeStyles } from 'tss-react/mui';
 
 import { toggle } from '@northern.tech/utils/helpers';
 
-import { ConfirmationButtons, EditButton } from '../common/confirm';
-import ExpandableAttribute from '../common/expandable-attribute';
+import { ConfirmationButtons, EditButton } from './confirm';
+import ExpandableAttribute from './expandable-attribute';
 
 const useStyles = makeStyles()(theme => ({
   notes: { display: 'block', whiteSpace: 'pre-wrap' },

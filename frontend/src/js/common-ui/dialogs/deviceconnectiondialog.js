@@ -22,12 +22,12 @@ import { DEVICE_STATES, TIMEOUTS, onboardingSteps } from '@northern.tech/store/c
 import { getDeviceCountsByStatus, getOnboardingState, getTenantCapabilities } from '@northern.tech/store/selectors';
 import { advanceOnboarding, saveUserSettings, setDeviceListState } from '@northern.tech/store/thunks';
 
-import docker from '../../../../assets/img/docker.png';
-import raspberryPi4 from '../../../../assets/img/raspberrypi4.png';
-import raspberryPi from '../../../../assets/img/raspberrypi.png';
-import InfoText from '../../common/infotext';
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
+import docker from '../../../assets/img/docker.png';
+import raspberryPi4 from '../../../assets/img/raspberrypi4.png';
+import raspberryPi from '../../../assets/img/raspberrypi.png';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '../../components/helptips/helptooltips';
 import DocsLink from '../docslink';
+import InfoText from '../infotext';
 import Loader from '../loader';
 import PhysicalDeviceOnboarding from './physicaldeviceonboarding';
 import VirtualDeviceOnboarding from './virtualdeviceonboarding';

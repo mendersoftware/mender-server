@@ -19,8 +19,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import { screen } from '@testing-library/react';
 
-import { undefineds } from '../../../../../tests/mockData';
-import { render } from '../../../../../tests/setupTests';
+import { undefineds } from '../../../../tests/mockData';
+import { render } from '../../../../tests/setupTests';
 import { formRenderWrapper } from './form.test';
 import TimeframePicker from './timeframe-picker';
 
