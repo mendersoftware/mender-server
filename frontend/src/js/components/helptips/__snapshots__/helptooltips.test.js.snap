@@ -419,6 +419,14 @@ exports[`Helptooltips Components renders SingleFileUpload correctly 1`] = `This 
 
 exports[`Helptooltips Components renders SsoMetadata correctly 1`] = `Submit the metadata document from your Identity Provider`;
 
+exports[`Helptooltips Components renders SubTenantDeltaArtifactGeneration correctly 1`] = `TBD: is this feature still alive?`;
+
+exports[`Helptooltips Components renders SubTenantDeviceLimit correctly 1`] = `Set the maximum number of accepted devices this tenant can have connected to the server at any time. You can adjust this later. Each tenants’ amount of accepted devices will count towards your total device limit.`;
+
+exports[`Helptooltips Components renders SubTenantSSO correctly 1`] = `The created tenant will inherit the same Single Sign-On configuration as this Service Provider tenant. The created tenant’s admin user will not be able to change the SSO settings later.`;
+
+exports[`Helptooltips Components renders TenantAdmin correctly 1`] = `Set the user who will have the admin role when this tenant is created. This can be a user who already has a Mender account, or a brand new user. The tenant admin will be able to change which user(s) have this role once they begin using the tenant.`;
+
 exports[`Helptooltips Components renders TenantToken correctly 1`] = `
 NodeList [
   <h3>

@@ -120,7 +120,7 @@ export const UserRolesSelect = ({ currentUser, disabled, onSelect, roles, user }
   );
 };
 
-const PasswordLabel = () => (
+export const PasswordLabel = () => (
   <div className="flexbox center-aligned">
     Optional
     <Tooltip
