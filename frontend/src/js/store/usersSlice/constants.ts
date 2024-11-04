@@ -19,6 +19,38 @@ export const useradmApiUrlv1 = `${apiUrl.v1}/useradm`;
 export const useradmApiUrlv2 = `${apiUrl.v2}/useradm`;
 export { useradmApiUrlv1 as useradmApiUrl };
 
+export type UiPermission = {
+  explanations: object;
+  permissionSets: Record<string, string>;
+  permissionLevel: number;
+  title: string;
+  value: string;
+  verbs: string[];
+};
+
+type ExcessiveAccessConfig = {
+  selector: string;
+  warning: string;
+};
+
+type EndpointDefinition = {
+  path: RegExp;
+  types: string[];
+  uiPermissions: UiPermission[];
+};
+
+export type PermissionsArea = {
+  endpoints: EndpointDefinition[];
+  explanation: string;
+  uiPermissions: UiPermission[];
+  title: string;
+  key: string;
+  scope?: string;
+  filter?: (object) => string[];
+  placeholder?: string;
+  excessiveAccessConfig?: ExcessiveAccessConfig;
+};
+
 const staticRolesByName = {
   admin: 'RBAC_ROLE_PERMIT_ALL',
   readOnly: 'RBAC_ROLE_OBSERVER',
@@ -134,6 +166,7 @@ export const uiPermissionsByArea = {
     endpoints: [{ path: /\/(auditlog)/i, types: [PermissionTypes.Get], uiPermissions: [uiPermissionsById.read] }],
     explanation:
       'Granting access to the audit log will allow tracing changes to devices, releases and user accounts, as well as providing information about deployments.',
+    key: 'auditlog',
     uiPermissions: [uiPermissionsById.read],
     title: 'System audit log'
   },
@@ -144,6 +177,7 @@ export const uiPermissionsByArea = {
       { path: /\/(deployments\/config)/i, types: [PermissionTypes.Get, PermissionTypes.Put], uiPermissions: [uiPermissionsById.manage] }
     ],
     explanation: 'Providing deploy permissions will allow deployments to be created using the releases and devices a user has access to.',
+    key: 'deployments',
     uiPermissions: [uiPermissionsById.read, uiPermissionsById.deploy],
     title: 'Deployments'
   },
@@ -159,6 +193,7 @@ export const uiPermissionsByArea = {
       { path: /\/(deviceconnect\/devices)/i, types: [PermissionTypes.Get, PermissionTypes.Post], uiPermissions: [uiPermissionsById.connect] }
     ],
     explanation: 'Device group management permissions control the degree to which devices in a group can be accessed and moved to other groups.',
+    key: 'groups',
     scope: scopedPermissionAreas.groups.scopeType,
     uiPermissions: [uiPermissionsById.read, uiPermissionsById.manage, uiPermissionsById.deploy, uiPermissionsById.configure, uiPermissionsById.connect],
     title: 'Group Management'
@@ -178,6 +213,7 @@ export const uiPermissionsByArea = {
       }
     ],
     explanation: 'Release permissions can be granted to allow artifact & release modifications, as well as the creation of new releases.',
+    key: 'releases',
     scope: 'ReleaseTags',
     uiPermissions: [uiPermissionsById.read, uiPermissionsById.manage, uiPermissionsById.upload],
     title: 'Release Management'
@@ -189,6 +225,7 @@ export const uiPermissionsByArea = {
     ],
     explanation:
       'User management permissions should be granted carefully, as these allow privilege increases for any users managed by a user with user management permissions',
+    key: 'userManagement',
     uiPermissions: [uiPermissionsById.read, uiPermissionsById.manage],
     title: 'User Management'
   }

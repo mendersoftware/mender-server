@@ -18,9 +18,9 @@ import * as UserActions from '@northern.tech/store/usersSlice/thunks';
 import { act, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { defaultState, undefineds } from '../../../../tests/mockData';
-import { render, selectMaterialUiSelectOption } from '../../../../tests/setupTests';
-import Roles from './roles';
+import { defaultState, undefineds } from '../../../../../tests/mockData';
+import { render, selectMaterialUiSelectOption } from '../../../../../tests/setupTests';
+import Roles from './RoleManagement';
 
 describe('Roles Component', () => {
   it('renders correctly', async () => {
@@ -87,12 +87,12 @@ describe('Roles Component', () => {
       uiPermissions: {
         auditlog: [],
         groups: [
-          { disableEdit: false, item: ALL_DEVICES, uiPermissions: ['deploy'] },
-          { disableEdit: false, item: '', uiPermissions: [] }
+          { disableEdit: false, item: ALL_DEVICES, notFound: false, uiPermissions: ['deploy'] },
+          { disableEdit: false, item: '', notFound: false, uiPermissions: [] }
         ],
         releases: [
-          { disableEdit: false, item: ALL_RELEASES, uiPermissions: ['read'] },
-          { disableEdit: false, item: '', uiPermissions: [] }
+          { disableEdit: false, item: ALL_RELEASES, notFound: false, uiPermissions: ['read'] },
+          { disableEdit: false, item: '', notFound: false, uiPermissions: [] }
         ],
         userManagement: []
       },

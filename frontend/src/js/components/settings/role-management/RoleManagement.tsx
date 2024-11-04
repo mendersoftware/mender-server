@@ -27,16 +27,12 @@ import { BENEFITS, emptyRole, rolesById } from '@northern.tech/store/constants';
 import { getGroupsByIdWithoutUngrouped, getIsEnterprise, getReleaseTagsById, getRolesList } from '@northern.tech/store/selectors';
 import { createRole, editRole, getDynamicGroups, getExistingReleaseTags, getGroups, getRoles, removeRole } from '@northern.tech/store/thunks';
 
-import RoleDefinition from './roledefinition';
+import RoleDefinition from './RoleDefinition';
 
 const columns = [
   { key: 'name', title: 'Role', render: ({ name }) => name },
   { key: 'description', title: 'Description', render: ({ description }) => description || '-' },
-  {
-    key: 'manage',
-    title: 'Manage',
-    render: DetailsIndicator
-  }
+  { key: 'manage', title: 'Manage', render: DetailsIndicator }
 ];
 
 export const RoleManagement = () => {

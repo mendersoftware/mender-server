@@ -23,13 +23,13 @@ import { TIMEOUTS, canAccess } from '@northern.tech/store/constants';
 import { getCurrentUser, getFeatures, getOrganization, getTenantCapabilities, getUserCapabilities, getUserRoles } from '@northern.tech/store/selectors';
 import { Elements } from '@stripe/react-stripe-js';
 
-import SelfUserManagement from '../settings/user-management/selfusermanagement';
-import UserManagement from '../settings/user-management/usermanagement';
 import Global from './global';
 import Integrations from './integrations';
 import Organization from './organization/organization';
-import Roles from './roles';
+import { RoleManagement } from './role-management/RoleManagement';
 import Upgrade from './upgrade';
+import SelfUserManagement from './user-management/selfusermanagement';
+import UserManagement from './user-management/usermanagement';
 
 let stripePromise = null;
 
@@ -47,7 +47,7 @@ const sectionMap = {
     canAccess: ({ userCapabilities: { canManageUsers } }) => canManageUsers
   },
   'role-management': {
-    component: Roles,
+    component: RoleManagement,
     text: () => 'Roles',
     canAccess: ({ currentUser, userRoles: { isAdmin } }) => currentUser && isAdmin
   },
@@ -59,7 +59,7 @@ const sectionMap = {
   upgrade: {
     component: Upgrade,
     icon: <PaymentIcon />,
-    text: ({ isTrial }) => (isTrial ? 'Upgrade to a plan' : 'Upgrades and add-ons'),
+    text: ({ organization: { trial } }) => (trial ? 'Upgrade to a plan' : 'Upgrades and add-ons'),
     canAccess: ({ hasMultitenancy }) => hasMultitenancy
   }
 };
@@ -67,7 +67,7 @@ const sectionMap = {
 export const Settings = () => {
   const currentUser = useSelector(getCurrentUser);
   const { hasMultitenancy } = useSelector(getFeatures);
-  const { trial: isTrial = false } = useSelector(getOrganization);
+  const organization = useSelector(getOrganization);
   const stripeAPIKey = useSelector(state => state.app.stripeAPIKey);
   const tenantCapabilities = useSelector(getTenantCapabilities);
   const userCapabilities = useSelector(getUserCapabilities);
@@ -90,7 +90,8 @@ export const Settings = () => {
     }
   }, [stripeAPIKey]);
 
-  const checkDenyAccess = item => currentUser.id && !item.canAccess({ currentUser, hasMultitenancy, isTrial, tenantCapabilities, userCapabilities, userRoles });
+  const checkDenyAccess = item =>
+    currentUser.id && !item.canAccess({ currentUser, hasMultitenancy, organization, tenantCapabilities, userCapabilities, userRoles });
 
   const getCurrentSection = (sections, section = sectionParam) => {
     if (!sections.hasOwnProperty(section) || checkDenyAccess(sections[section])) {
@@ -104,7 +105,7 @@ export const Settings = () => {
       accu.push({
         path: `/settings/${key}`,
         icon: item.icon,
-        title: item.text({ isTrial })
+        title: item.text({ organization })
       });
     }
     return accu;
