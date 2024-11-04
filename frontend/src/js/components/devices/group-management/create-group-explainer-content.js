@@ -16,13 +16,13 @@ import React from 'react';
 import { Autorenew, LockOutlined } from '@mui/icons-material';
 import { makeStyles } from 'tss-react/mui';
 
+import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/docslink';
+import EnterpriseNotification from '@northern.tech/common-ui/enterpriseNotification';
+import { InfoHintContainer } from '@northern.tech/common-ui/info-hint';
 import { BENEFITS } from '@northern.tech/store/constants';
 
 import dynamicImage from '../../../../assets/img/dynamic-group-creation.gif';
 import staticImage from '../../../../assets/img/static-group-creation.gif';
-import { DOCSTIPS, DocsTooltip } from '../../common/docslink';
-import EnterpriseNotification from '../../common/enterpriseNotification';
-import { InfoHintContainer } from '../../common/info-hint';
 
 const useStyles = makeStyles()(theme => ({
   groupType: {

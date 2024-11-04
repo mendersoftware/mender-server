@@ -16,13 +16,13 @@ import { Link } from 'react-router-dom';
 
 import { Sort as SortIcon } from '@mui/icons-material';
 
+import DetailsIndicator from '@northern.tech/common-ui/detailsindicator';
+import DeviceIdentityDisplay from '@northern.tech/common-ui/deviceidentity';
+import Loader from '@northern.tech/common-ui/loader';
+import Pagination from '@northern.tech/common-ui/pagination';
+import Time from '@northern.tech/common-ui/time';
 import { DEPLOYMENT_ROUTES, SORTING_OPTIONS, canAccess } from '@northern.tech/store/constants';
 
-import DetailsIndicator from '../common/detailsindicator';
-import DeviceIdentityDisplay from '../common/deviceidentity';
-import Loader from '../common/loader';
-import Pagination from '../common/pagination';
-import Time from '../common/time';
 import EventDetailsDrawer from './eventdetailsdrawer';
 
 export const defaultRowsPerPage = 20;

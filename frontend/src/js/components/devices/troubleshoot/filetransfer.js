@@ -18,10 +18,9 @@ import { FileCopy as CopyPasteIcon } from '@mui/icons-material';
 import { Button, Divider, IconButton, InputAdornment, Tab, Tabs, TextField, Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import FileUpload from '@northern.tech/common-ui/forms/fileupload';
 import { canAccess } from '@northern.tech/store/constants';
 import { deviceFileUpload } from '@northern.tech/store/thunks';
-
-import FileUpload from '../../common/forms/fileupload';
 
 const tabs = [
   { key: 'upload', canAccess: ({ userCapabilities: { canTroubleshoot, canWriteDevices } }) => canTroubleshoot && canWriteDevices },

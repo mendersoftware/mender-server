@@ -17,14 +17,14 @@ import { useNavigate } from 'react-router-dom';
 
 import { InfoOutlined as InfoOutlinedIcon, LocalOffer as LocalOfferIcon } from '@mui/icons-material';
 
+import InfoText from '@northern.tech/common-ui/infotext';
+import Loader from '@northern.tech/common-ui/loader';
 import storeActions from '@northern.tech/store/actions';
 import { PLANS, TIMEOUTS } from '@northern.tech/store/constants';
 import { getFeatures, getOrganization } from '@northern.tech/store/selectors';
 import { cancelUpgrade, completeUpgrade, getDeviceLimit, getUserOrganization, requestPlanChange, startUpgrade } from '@northern.tech/store/thunks';
 import dayjs from 'dayjs';
 
-import InfoText from '../common/infotext';
-import Loader from '../common/loader';
 import AddOnSelection from './addonselection';
 import CardSection from './cardsection';
 import PlanSelection from './planselection';

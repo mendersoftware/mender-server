@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, Checkbox, FormControl, FormControlLabel, FormHelperText, InputLabel, MenuItem, Select, Switch, TextField, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import DocsLink from '@northern.tech/common-ui/docslink';
 import { DEVICE_ONLINE_CUTOFF, TIMEOUTS, alertChannels, settingsKeys } from '@northern.tech/store/constants';
 import {
   getDeviceIdentityAttributes,
@@ -31,7 +32,6 @@ import {
 import { changeNotificationSetting, getDeviceAttributes, getGlobalSettings, saveGlobalSettings } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 
-import DocsLink from '../common/docslink';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../helptips/helptooltips';
 import ArtifactGenerationSettings from './artifactgeneration';
 import ReportingLimits from './reportinglimits';

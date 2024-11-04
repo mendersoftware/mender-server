@@ -16,13 +16,13 @@ import React, { useEffect, useState } from 'react';
 import { Autocomplete, Checkbox, Collapse, FormControl, FormControlLabel, FormGroup, TextField } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/docslink';
+import EnterpriseNotification from '@northern.tech/common-ui/enterpriseNotification';
+import { InfoHintContainer } from '@northern.tech/common-ui/info-hint';
 import { BENEFITS, TIMEOUTS } from '@northern.tech/store/constants';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { toggle } from '@northern.tech/utils/helpers';
 
-import { DOCSTIPS, DocsTooltip } from '../../common/docslink';
-import EnterpriseNotification from '../../common/enterpriseNotification';
-import { InfoHintContainer } from '../../common/info-hint';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
 import RolloutSteps from './rolloutsteps';
 

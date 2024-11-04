@@ -27,6 +27,7 @@ import { speedDialActionClasses } from '@mui/material/SpeedDialAction';
 import { makeStyles } from 'tss-react/mui';
 
 import { mdiTrashCanOutline as TrashCan } from '@mdi/js';
+import MaterialDesignIcon from '@northern.tech/common-ui/materialdesignicon';
 import { DEVICE_STATES, TIMEOUTS, UNGROUPED_GROUP, onboardingSteps } from '@northern.tech/store/constants';
 import {
   getDeviceById,
@@ -41,7 +42,6 @@ import pluralize from 'pluralize';
 
 import GatewayIcon from '../../../../assets/img/gateway.svg';
 import { getOnboardingComponentFor } from '../../../utils/onboardingmanager';
-import MaterialDesignIcon from '../../common/materialdesignicon';
 
 const defaultActions = {
   accept: {

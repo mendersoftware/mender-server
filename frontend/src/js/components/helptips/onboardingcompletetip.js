@@ -18,12 +18,11 @@ import { CheckCircle as CheckCircleIcon } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import { withStyles } from 'tss-react/mui';
 
+import Loader from '@northern.tech/common-ui/loader';
+import { MenderTooltipClickable } from '@northern.tech/common-ui/mendertooltip';
 import { DEVICE_STATES, onboardingSteps } from '@northern.tech/store/constants';
 import { getDemoDeviceAddress } from '@northern.tech/store/selectors';
 import { getDeviceById, getDevicesByStatus, setOnboardingComplete } from '@northern.tech/store/thunks';
-
-import Loader from '../common/loader';
-import { MenderTooltipClickable } from '../common/mendertooltip';
 
 export const CompletionButton = withStyles(Button, ({ palette }) => ({
   root: {

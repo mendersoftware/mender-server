@@ -13,7 +13,7 @@
 //    limitations under the License.
 import React from 'react';
 
-import { Code } from '../../common/copy-code';
+import { Code } from '@northern.tech/common-ui/copy-code';
 
 const getDiffLineStyle = line => {
   if (line.startsWith('+ ')) {

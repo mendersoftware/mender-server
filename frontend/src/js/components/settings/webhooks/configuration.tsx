@@ -23,12 +23,12 @@ import { makeStyles } from 'tss-react/mui';
 import { BENEFITS, EXTERNAL_PROVIDER, canAccess } from '@northern.tech/store/constants';
 import { getTenantCapabilities } from '@northern.tech/store/selectors';
 
-import { DOCSTIPS, DocsTooltip } from '../../common/docslink';
-import EnterpriseNotification from '../../common/enterpriseNotification';
-import Form from '../../common/forms/form';
-import FormCheckbox from '../../common/forms/formcheckbox';
-import TextInput from '../../common/forms/textinput';
-import InfoHint, { InfoHintContainer } from '../../common/info-hint';
+import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/docslink';
+import EnterpriseNotification from '@northern.tech/common-ui/enterpriseNotification';
+import Form from '@northern.tech/common-ui/forms/form';
+import FormCheckbox from '@northern.tech/common-ui/forms/formcheckbox';
+import TextInput from '@northern.tech/common-ui/forms/textinput';
+import InfoHint, { InfoHintContainer } from '@northern.tech/common-ui/info-hint';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
 
 const useStyles = makeStyles()(() => ({

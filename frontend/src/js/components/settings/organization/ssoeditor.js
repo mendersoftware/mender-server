@@ -19,11 +19,10 @@ import { Close as CloseIcon, CloudUpload, FileCopyOutlined as CopyPasteIcon } fr
 import { Button, Divider, Drawer, IconButton } from '@mui/material';
 
 import Editor, { loader } from '@monaco-editor/react';
+import Loader from '@northern.tech/common-ui/loader';
 import { JSON_METADATA_FORMAT, XML_METADATA_FORMAT } from '@northern.tech/store/constants';
 import { createFileDownload } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
-
-import Loader from '../../common/loader';
 
 loader.config({ paths: { vs: '/ui/vs' } });
 

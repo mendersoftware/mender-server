@@ -18,6 +18,14 @@ import { Link } from 'react-router-dom';
 import { Button, LinearProgress } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { TwoColumns } from '@northern.tech/common-ui/configurationobject';
+import DetailsTable from '@northern.tech/common-ui/detailstable';
+import DeviceIdentityDisplay from '@northern.tech/common-ui/deviceidentity';
+import FileSize from '@northern.tech/common-ui/filesize';
+import Loader from '@northern.tech/common-ui/loader';
+import MenderTooltip from '@northern.tech/common-ui/mendertooltip';
+import Pagination from '@northern.tech/common-ui/pagination';
+import { MaybeTime } from '@northern.tech/common-ui/time';
 import {
   DEVICE_LIST_DEFAULTS,
   canAccess as canShow,
@@ -27,14 +35,6 @@ import {
 import { formatTime } from '@northern.tech/utils/helpers';
 
 import DeltaIcon from '../../../../assets/img/deltaicon.svg';
-import { TwoColumns } from '../../common/configurationobject';
-import DetailsTable from '../../common/detailstable';
-import DeviceIdentityDisplay from '../../common/deviceidentity';
-import FileSize from '../../common/filesize';
-import Loader from '../../common/loader';
-import MenderTooltip from '../../common/mendertooltip';
-import Pagination from '../../common/pagination';
-import { MaybeTime } from '../../common/time';
 
 const useStyles = makeStyles()(() => ({
   table: { minHeight: '10vh', maxHeight: '40vh', overflowX: 'auto' }

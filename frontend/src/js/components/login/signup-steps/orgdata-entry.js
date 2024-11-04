@@ -17,11 +17,10 @@ import { useFormContext } from 'react-hook-form';
 
 import { MenuItem, Select } from '@mui/material';
 
+import DocsLink from '@northern.tech/common-ui/docslink';
+import FormCheckbox from '@northern.tech/common-ui/forms/formcheckbox';
+import TextInput from '@northern.tech/common-ui/forms/textinput';
 import { locations } from '@northern.tech/store/constants';
-
-import DocsLink from '../../common/docslink';
-import FormCheckbox from '../../common/forms/formcheckbox';
-import TextInput from '../../common/forms/textinput';
 
 export const OrgDataEntry = ({ classes, emailVerified, recaptchaSiteKey = '', setCaptchaTimestamp, location, setLocation, setRecaptcha }) => {
   const handleLocationChange = ({ target: { value } }) => setLocation(value);

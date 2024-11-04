@@ -16,10 +16,9 @@ import React from 'react';
 // material ui
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
+import CopyCode from '@northern.tech/common-ui/copy-code';
+import DocsLink from '@northern.tech/common-ui/docslink';
 import { getDebConfigurationCode } from '@northern.tech/utils/helpers';
-
-import CopyCode from '../../common/copy-code';
-import DocsLink from '../../common/docslink';
 
 export const ConnectToGatewayDialog = ({ gatewayIp, isPreRelease, onCancel, tenantToken, token }) => (
   <Dialog open fullWidth maxWidth="md">

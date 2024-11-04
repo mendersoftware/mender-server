@@ -19,6 +19,10 @@ import { ChevronRight } from '@mui/icons-material';
 import { Button, Checkbox, Collapse, FormControlLabel } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import Form from '@northern.tech/common-ui/forms/form';
+import PasswordInput from '@northern.tech/common-ui/forms/passwordinput';
+import TextInput from '@northern.tech/common-ui/forms/textinput';
+import LinedHeader from '@northern.tech/common-ui/lined-header';
 import storeActions from '@northern.tech/store/actions';
 import { getToken } from '@northern.tech/store/auth';
 import { TIMEOUTS, locations, useradmApiUrl } from '@northern.tech/store/constants';
@@ -29,10 +33,6 @@ import Cookies from 'universal-cookie';
 
 import LoginLogo from '../../../assets/img/loginlogo.svg';
 import VeryMuch from '../../../assets/img/verymuch.svg';
-import Form from '../common/forms/form';
-import PasswordInput from '../common/forms/passwordinput';
-import TextInput from '../common/forms/textinput';
-import LinedHeader from '../common/lined-header';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../helptips/helptooltips';
 import { OAuth2Providers } from './oauth2providers';
 

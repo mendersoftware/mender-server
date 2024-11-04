@@ -17,11 +17,11 @@ import { Add as AddIcon, ArrowRight as ArrowRightIcon, PauseCircleOutline as Pau
 import { Chip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import DocsLink from '@northern.tech/common-ui/docslink';
+import InfoText from '@northern.tech/common-ui/infotext';
+import MenderTooltip from '@northern.tech/common-ui/mendertooltip';
 import { TIMEOUTS } from '@northern.tech/store/constants';
 
-import DocsLink from '../../common/docslink';
-import InfoText from '../../common/infotext';
-import MenderTooltip from '../../common/mendertooltip';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
 
 const useStyles = makeStyles()(theme => ({

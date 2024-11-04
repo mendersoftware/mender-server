@@ -17,9 +17,8 @@ import { ArrowDropDown as ArrowDropDownIcon, Launch as LaunchIcon } from '@mui/i
 import { Button, ButtonGroup, Menu, MenuItem } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import DocsLink from '@northern.tech/common-ui/docslink';
 import { canAccess } from '@northern.tech/store/constants';
-
-import DocsLink from '../../common/docslink';
 
 const useStyles = makeStyles()(() => ({
   buttonStyle: { textTransform: 'none' }

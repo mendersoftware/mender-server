@@ -15,11 +15,11 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import Form from '@northern.tech/common-ui/forms/form';
+import TextInput from '@northern.tech/common-ui/forms/textinput';
 import { passwordResetStart } from '@northern.tech/store/thunks';
 
 import LoginLogo from '../../../assets/img/loginlogo.svg';
-import Form from '../common/forms/form';
-import TextInput from '../common/forms/textinput';
 import { LocationWarning } from './login';
 
 export const PasswordScreenContainer = ({ children, title }) => (

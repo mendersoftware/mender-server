@@ -31,15 +31,14 @@ import {
   Tooltip
 } from '@mui/material';
 
+import EnterpriseNotification from '@northern.tech/common-ui/enterpriseNotification';
+import Form from '@northern.tech/common-ui/forms/form';
+import FormCheckbox from '@northern.tech/common-ui/forms/formcheckbox';
+import PasswordInput from '@northern.tech/common-ui/forms/passwordinput';
+import TextInput from '@northern.tech/common-ui/forms/textinput';
 import { BENEFITS, rolesById, rolesByName, uiPermissionsById } from '@northern.tech/store/constants';
 import pluralize from 'pluralize';
 import { isUUID } from 'validator';
-
-import EnterpriseNotification from '../../common/enterpriseNotification';
-import Form from '../../common/forms/form';
-import FormCheckbox from '../../common/forms/formcheckbox';
-import PasswordInput from '../../common/forms/passwordinput';
-import TextInput from '../../common/forms/textinput';
 
 export const UserRolesSelect = ({ currentUser, disabled, onSelect, roles, user }) => {
   const [selectedRoleIds, setSelectedRoleIds] = useState(

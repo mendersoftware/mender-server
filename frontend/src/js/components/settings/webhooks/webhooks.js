@@ -14,13 +14,13 @@
 import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import DetailsIndicator from '@northern.tech/common-ui/detailsindicator';
+import DetailsTable from '@northern.tech/common-ui/detailstable';
+import DocsLink from '@northern.tech/common-ui/docslink';
 import { EXTERNAL_PROVIDER } from '@northern.tech/store/constants';
 import { getWebhooks } from '@northern.tech/store/selectors';
 import { deleteIntegration } from '@northern.tech/store/thunks';
 
-import DetailsIndicator from '../../common/detailsindicator';
-import DetailsTable from '../../common/detailstable';
-import DocsLink from '../../common/docslink';
 import WebhookManagement from './management';
 
 const columns = [

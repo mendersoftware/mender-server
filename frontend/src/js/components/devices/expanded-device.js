@@ -19,6 +19,10 @@ import { Close as CloseIcon, Link as LinkIcon } from '@mui/icons-material';
 import { Chip, Divider, Drawer, IconButton, Tab, Tabs, Tooltip, chipClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import DeviceIdentityDisplay from '@northern.tech/common-ui/deviceidentity';
+import DocsLink from '@northern.tech/common-ui/docslink';
+import { MenderTooltipClickable } from '@northern.tech/common-ui/mendertooltip';
+import { RelativeTime } from '@northern.tech/common-ui/time';
 import storeActions from '@northern.tech/store/actions';
 import { DEVICE_STATES, EXTERNAL_PROVIDER, TIMEOUTS, yes } from '@northern.tech/store/constants';
 import {
@@ -38,10 +42,6 @@ import copy from 'copy-to-clipboard';
 
 import GatewayConnectionIcon from '../../../assets/img/gateway-connection.svg';
 import GatewayIcon from '../../../assets/img/gateway.svg';
-import DeviceIdentityDisplay from '../common/deviceidentity';
-import DocsLink from '../common/docslink';
-import { MenderTooltipClickable } from '../common/mendertooltip';
-import { RelativeTime } from '../common/time';
 import DeviceConfiguration from './device-details/configuration';
 import TroubleshootTab from './device-details/connection';
 import Deployments from './device-details/deployments';

@@ -15,11 +15,10 @@ import React, { useEffect, useState } from 'react';
 
 import { Button } from '@mui/material';
 
+import Form from '@northern.tech/common-ui/forms/form';
+import TextInput from '@northern.tech/common-ui/forms/textinput';
+import Loader from '@northern.tech/common-ui/loader';
 import { TIMEOUTS } from '@northern.tech/store/constants';
-
-import Form from '../../../common/forms/form';
-import TextInput from '../../../common/forms/textinput';
-import Loader from '../../../common/loader';
 
 export const EmailVerification = ({ activationCode, verifyEmailComplete, verifyEmailStart }) => {
   const [isVerifying, setIsVerifying] = useState(false);

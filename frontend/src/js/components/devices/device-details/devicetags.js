@@ -17,13 +17,13 @@ import { useDispatch } from 'react-redux';
 import { Button } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
+import ConfigurationObject from '@northern.tech/common-ui/configurationobject';
+import { EditButton } from '@northern.tech/common-ui/confirm';
+import KeyValueEditor from '@northern.tech/common-ui/forms/keyvalueeditor';
 import { getDeviceAttributes, setDeviceTags } from '@northern.tech/store/thunks';
 import { toggle } from '@northern.tech/utils/helpers';
 
 import Tracking from '../../../tracking';
-import ConfigurationObject from '../../common/configurationobject';
-import { EditButton } from '../../common/confirm';
-import KeyValueEditor from '../../common/forms/keyvalueeditor';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
 import DeviceDataCollapse from './devicedatacollapse';
 

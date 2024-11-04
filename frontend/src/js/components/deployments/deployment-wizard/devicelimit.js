@@ -16,12 +16,11 @@ import React, { useEffect, useState } from 'react';
 import { Checkbox, Collapse, FormControl, FormControlLabel, FormHelperText, Input, formControlClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/docslink';
+import { InfoHintContainer } from '@northern.tech/common-ui/info-hint';
 import { TIMEOUTS } from '@northern.tech/store/commonConstants';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 import validator from 'validator';
-
-import { DOCSTIPS, DocsTooltip } from '../../common/docslink';
-import { InfoHintContainer } from '../../common/info-hint';
 
 const useStyles = makeStyles()(theme => ({
   limitSelection: {

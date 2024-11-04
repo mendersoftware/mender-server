@@ -16,7 +16,7 @@ import React, { Suspense, lazy, useState } from 'react';
 // material ui
 import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
 
-import Loader from '../../common/loader';
+import Loader from '@northern.tech/common-ui/loader';
 
 const Content = lazy(() => import('./custom-columns-dialog-content'));
 

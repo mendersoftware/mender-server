@@ -16,6 +16,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Check as CheckIcon, Warning as WarningIcon } from '@mui/icons-material';
 
+import DetailsIndicator from '@northern.tech/common-ui/detailsindicator';
+import { ColumnHeader, CommonList, ListItemComponentProps, RendererProp } from '@northern.tech/common-ui/list';
 import { SORTING_OPTIONS } from '@northern.tech/store/commonConstants';
 import { getTenantsList } from '@northern.tech/store/selectors';
 import { AppDispatch } from '@northern.tech/store/store';
@@ -23,8 +25,6 @@ import { setTenantsListState } from '@northern.tech/store/thunks';
 import { useLocationParams } from '@northern.tech/utils/liststatehook';
 import dayjs from 'dayjs';
 
-import DetailsIndicator from '../common/detailsindicator';
-import { ColumnHeader, CommonList, ListItemComponentProps, RendererProp } from '../common/list';
 import { LIMIT_THRESHOLD } from '../header/devicecount';
 import { ExpandedTenant } from './ExpandedTenant';
 import { Tenant } from './types';

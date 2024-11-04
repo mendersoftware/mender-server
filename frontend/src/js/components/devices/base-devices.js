@@ -14,11 +14,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import Time, { ApproximateRelativeDate } from '@northern.tech/common-ui/time';
 import { DEVICE_STATES, currentArtifact, rootfsImageVersion } from '@northern.tech/store/constants';
 import pluralize from 'pluralize';
 
 import preauthImage from '../../../assets/img/preauthorize.png';
-import Time, { ApproximateRelativeDate } from '../common/time';
 import DeviceStatus from './device-status';
 
 const propertyNameMap = {

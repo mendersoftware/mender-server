@@ -26,11 +26,11 @@ import { AppDispatch } from '@northern.tech/store/store';
 import { addTenant } from '@northern.tech/store/thunks';
 import validator from 'validator';
 
-import Form from '../common/forms/form';
-import FormCheckbox from '../common/forms/formcheckbox';
-import PasswordInput from '../common/forms/passwordinput';
-import TextInput from '../common/forms/textinput';
-import InfoHint from '../common/info-hint';
+import Form from '@northern.tech/common-ui/forms/form';
+import FormCheckbox from '@northern.tech/common-ui/forms/formcheckbox';
+import PasswordInput from '@northern.tech/common-ui/forms/passwordinput';
+import TextInput from '@northern.tech/common-ui/forms/textinput';
+import InfoHint from '@northern.tech/common-ui/info-hint';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../helptips/helptooltips';
 import { PasswordLabel } from '../settings/user-management/userform';
 

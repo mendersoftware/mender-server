@@ -19,6 +19,8 @@ import { Close as CloseIcon, Link as LinkIcon } from '@mui/icons-material';
 import { Button, Checkbox, Divider, Drawer, FormControlLabel, FormHelperText, IconButton, TextField } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
+import { TwoColumns } from '@northern.tech/common-ui/configurationobject';
 import actions from '@northern.tech/store/actions';
 import { getOrganization } from '@northern.tech/store/organizationSlice/selectors';
 import { editTenantDeviceLimit, removeTenant } from '@northern.tech/store/organizationSlice/thunks';
@@ -26,8 +28,6 @@ import { AppDispatch } from '@northern.tech/store/store';
 import { generateTenantPathById } from '@northern.tech/utils/locationutils';
 import copy from 'copy-to-clipboard';
 
-import { ConfirmModal } from '../common/ConfirmModal';
-import { TwoColumns } from '../common/configurationobject';
 import { DeviceCount } from '../header/devicecount';
 import { Tenant } from './types';
 

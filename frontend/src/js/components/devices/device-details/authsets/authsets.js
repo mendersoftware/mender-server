@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import Confirm from '@northern.tech/common-ui/confirm';
 import { DEVICE_DISMISSAL_STATE, DEVICE_STATES, onboardingSteps } from '@northern.tech/store/constants';
 import { getAcceptedDevices, getDeviceLimit, getLimitMaxed, getUserCapabilities } from '@northern.tech/store/selectors';
 import { advanceOnboarding, deleteAuthset, updateDeviceAuth } from '@northern.tech/store/thunks';
@@ -25,7 +26,6 @@ import pluralize from 'pluralize';
 
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../../helptips/helptooltips';
 import { DeviceLimitWarning } from '../../dialogs/preauth-dialog';
-import Confirm from './../../../common/confirm';
 import Authsetlist from './authsetlist';
 
 const useStyles = makeStyles()(theme => ({

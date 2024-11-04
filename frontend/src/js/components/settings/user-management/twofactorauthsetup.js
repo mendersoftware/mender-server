@@ -16,12 +16,12 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Collapse, Switch } from '@mui/material';
 
+import InfoText from '@northern.tech/common-ui/infotext';
 import storeActions from '@northern.tech/store/actions';
 import { twoFAStates } from '@northern.tech/store/constants';
 import { getCurrentUser, getHas2FA } from '@northern.tech/store/selectors';
 import { disableUser2fa, enableUser2fa, get2FAQRCode, verify2FA, verifyEmailComplete, verifyEmailStart } from '@northern.tech/store/thunks';
 
-import InfoText from '../../common/infotext';
 import AuthSetup from './twofactorauth-steps/authsetup';
 import EmailVerification from './twofactorauth-steps/emailverification';
 

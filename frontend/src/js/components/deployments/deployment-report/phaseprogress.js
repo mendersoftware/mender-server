@@ -17,12 +17,12 @@ import { CheckCircle, ErrorRounded, Pause, PlayArrow, Warning as WarningIcon } f
 import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import Confirm from '@northern.tech/common-ui/confirm';
 import { deploymentDisplayStates, deploymentSubstates, installationSubstatesMap, pauseMap } from '@northern.tech/store/constants';
 import { getDeploymentState, groupDeploymentStats, statCollector } from '@northern.tech/store/utils';
 import pluralize from 'pluralize';
 
 import inprogressImage from '../../../../assets/img/pending_status.png';
-import Confirm from '../../common/confirm';
 import { ProgressChartComponent } from '../progressChart';
 
 const useStyles = makeStyles()(theme => ({

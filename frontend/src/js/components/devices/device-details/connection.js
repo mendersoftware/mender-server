@@ -19,6 +19,11 @@ import { InfoOutlined as InfoIcon, Launch as LaunchIcon } from '@mui/icons-mater
 import { Button, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import DocsLink from '@northern.tech/common-ui/docslink';
+import EnterpriseNotification from '@northern.tech/common-ui/enterpriseNotification';
+import Loader from '@northern.tech/common-ui/loader';
+import MenderTooltip from '@northern.tech/common-ui/mendertooltip';
+import Time from '@northern.tech/common-ui/time';
 import storeActions from '@northern.tech/store/actions';
 import {
   ALL_DEVICES,
@@ -35,11 +40,6 @@ import { getDeviceFileDownloadLink } from '@northern.tech/store/thunks';
 import { createDownload } from '@northern.tech/utils/helpers';
 import { formatAuditlogs } from '@northern.tech/utils/locationutils';
 
-import DocsLink from '../../common/docslink';
-import EnterpriseNotification from '../../common/enterpriseNotification';
-import Loader from '../../common/loader';
-import MenderTooltip from '../../common/mendertooltip';
-import Time from '../../common/time';
 import FileTransfer from '../troubleshoot/filetransfer';
 import TroubleshootContent from '../troubleshoot/terminal-wrapper';
 import DeviceDataCollapse from './devicedatacollapse';

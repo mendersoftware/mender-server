@@ -16,8 +16,9 @@ import { useFormState, useWatch } from 'react-hook-form';
 
 import { Button } from '@mui/material';
 
-import PasswordInput from '../../common/forms/passwordinput';
-import TextInput from '../../common/forms/textinput';
+import PasswordInput from '@northern.tech/common-ui/forms/passwordinput';
+import TextInput from '@northern.tech/common-ui/forms/textinput';
+
 import { OAuthHeader } from '../login';
 
 export const UserDataEntry = ({ classes, onProgessClick }) => {

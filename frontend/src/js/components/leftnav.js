@@ -19,12 +19,11 @@ import { Link, NavLink } from 'react-router-dom';
 import { List, ListItem, ListItemText, Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import DocsLink from '@northern.tech/common-ui/docslink';
 import storeActions from '@northern.tech/store/actions';
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { getFeatures, getUserCapabilities, getVersionInformation } from '@northern.tech/store/selectors';
 import copy from 'copy-to-clipboard';
-
-import DocsLink from './common/docslink';
 
 const { setSnackbar, setVersionInformation } = storeActions;
 

@@ -13,9 +13,9 @@
 //    limitations under the License.
 import React, { memo } from 'react';
 
+import { CommonList } from '@northern.tech/common-ui/list';
 import { deepCompare } from '@northern.tech/utils/helpers';
 
-import { CommonList } from '../common/list';
 import DeviceListItem from './devicelistitem';
 
 const sortingNotes = {

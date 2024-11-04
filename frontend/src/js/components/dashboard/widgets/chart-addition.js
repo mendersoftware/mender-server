@@ -17,12 +17,12 @@ import { Add as AddIcon } from '@mui/icons-material';
 import { Button, FormControl, IconButton, InputLabel, ListSubheader, MenuItem, Select, iconButtonClasses, selectClasses, svgIconClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import Confirm from '@northern.tech/common-ui/confirm';
+import EnterpriseNotification from '@northern.tech/common-ui/enterpriseNotification';
+import { InfoHintContainer } from '@northern.tech/common-ui/info-hint';
 import { BENEFITS, chartTypes, emptyChartSelection } from '@northern.tech/store/constants';
 import { toggle } from '@northern.tech/utils/helpers';
 
-import Confirm from '../../common/confirm';
-import EnterpriseNotification from '../../common/enterpriseNotification';
-import { InfoHintContainer } from '../../common/info-hint';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
 
 const fontSize = 'smaller';

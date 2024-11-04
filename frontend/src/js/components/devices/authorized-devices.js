@@ -20,6 +20,7 @@ import { Autorenew as AutorenewIcon, Delete as DeleteIcon, FilterList as FilterL
 import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import Loader from '@northern.tech/common-ui/loader';
 import storeActions from '@northern.tech/store/actions';
 import { ALL_DEVICES, DEVICE_ISSUE_OPTIONS, DEVICE_STATES, SORTING_OPTIONS, TIMEOUTS, UNGROUPED_GROUP, onboardingSteps } from '@northern.tech/store/constants';
 import {
@@ -51,7 +52,6 @@ import useWindowSize from '@northern.tech/utils/resizehook';
 import { clearAllRetryTimers, setRetryTimer } from '@northern.tech/utils/retrytimer';
 
 import { getOnboardingComponentFor } from '../../utils/onboardingmanager';
-import Loader from '../common/loader';
 import { defaultHeaders, defaultTextRender, getDeviceIdentityText, routes as states } from './base-devices';
 import DeviceList, { minCellWidth } from './devicelist';
 import ColumnCustomizationDialog from './dialogs/custom-columns-dialog';

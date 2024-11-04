@@ -17,7 +17,8 @@ import { Delete as DeleteIcon, InsertDriveFile as InsertDriveFileIcon } from '@m
 import { Divider, IconButton } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import FileSize from '../../common/filesize';
+import FileSize from '@northern.tech/common-ui/filesize';
+
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
 
 const useStyles = makeStyles()(theme => ({
