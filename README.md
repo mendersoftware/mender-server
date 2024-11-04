@@ -18,6 +18,12 @@ echo '127.0.0.1   docker.mender.io s3.docker.mender.io' | sudo tee -a /etc/hosts
 > This docker composition is only meant for evaluation purposes.
 > Please use [the helm chart](https://github.com/mendersoftware/mender-helm) in production environments.
 
+Start by cloning and entering this repository:
+
+```bash
+git clone https://github.com/mendersoftware/mender-server && cd mender-server
+```
+
 To start evaluating Mender, you can bring up your Mender server by running:
 ```
 docker compose up -d
