@@ -32,7 +32,7 @@
     "react-big-calendar": "1.15.0",
     "react-copy-to-clipboard": "5.1.0",
     "react-dom": "^18.3.1",
-    "react-dropzone": "14.2.10",
+    "react-dropzone": "14.3.1",
     "react-ga4": "2.1.0",
     "react-google-recaptcha": "3.1.0",
     "react-hook-form": "7.53.1",
