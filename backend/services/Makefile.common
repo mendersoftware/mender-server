@@ -37,8 +37,14 @@ BUILDFLAGS += -tags=$(subst $(_space),$(_comma),$(strip $(BUILDTAGS) $(BUILDTAGS
 
 # DOCKER_PLATFORM default is defined with respect to the docker server.
 # This fixes the default case on darwin where docker is running inside a VM (linux).
+# NOTE: The platform always falls back on linux/amd64.
 define default_docker_platform_template
-{{- .OSType}}/{{- if eq .Architecture "aarch64" -}}
+{{- if .OSType -}}
+{{- .OSType -}}
+{{- else -}}
+{{ print "linux" }}
+{{- end -}}/
+{{- if eq .Architecture "aarch64" -}}
   arm64
 {{- else -}}
   amd64
