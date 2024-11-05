@@ -281,6 +281,14 @@ const AttributeLimit = () => {
     <>Expand to see the list of attributes currently in use.</>
   );
 };
+const TenantInitialAdmin = () => {
+  return (
+    <>
+      The user that was assigned as admin for this tenant when it was created. There is a chance the admin user will have changed or this user no longer exists
+      in this tenant.
+    </>
+  );
+};
 
 export const HELPTOOLTIPS = {
   addGroup: { id: 'addGroup', Component: AddGroup },
@@ -325,8 +333,9 @@ export const HELPTOOLTIPS = {
   subTenantDeltaArtifactGeneration: { id: 'subTenantDeltaArtifactGeneration', Component: SubTenantDeltaArtifactGeneration },
   subTenantDeviceLimit: { id: 'subTenantDeviceLimit', Component: SubTenantDeviceLimit },
   subTenantSSO: { id: 'subTenantSSO', Component: SubTenantSSO },
-  tenantToken: { id: 'tenantToken', Component: TenantToken },
   tenantAdmin: { id: 'tenantAdmin', Component: TenantAdmin },
+  tenantInitialAdmin: { id: 'tenantInitialAdmin', Component: TenantInitialAdmin },
+  tenantToken: { id: 'tenantToken', Component: TenantToken },
   twoFactorNote: { id: 'twoFactorNote', SpecialComponent: TwoFactorNote },
   webhookEvents: { id: 'webhookEvents', Component: WebhookEvents },
   webhooks: { id: 'webhooks', Component: Webhooks },

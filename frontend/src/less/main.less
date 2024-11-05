@@ -198,7 +198,7 @@ ul.link-list {
 }
 each(@directions, .(@direction) {
   .margin-@{direction} {
-    margin: 2 * @defaultGutterWidth;
+    margin-@{direction}: 2 * @defaultGutterWidth;
   }
 })
 each(@variants, {
@@ -218,7 +218,7 @@ each(@directions, .(@direction) {
 }
 each(@directions, .(@direction) {
   .padding-@{direction} {
-    padding: 2 * @defaultGutterWidth;
+    padding-@{direction}: 2 * @defaultGutterWidth;
   }
 })
 each(@variants, {

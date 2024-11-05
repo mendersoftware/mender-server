@@ -14,16 +14,19 @@
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Check as CheckIcon } from '@mui/icons-material';
+import { Check as CheckIcon, Warning as WarningIcon } from '@mui/icons-material';
 
-import { getDeviceLimit, getTenantsList } from '@northern.tech/store/selectors';
+import { SORTING_OPTIONS } from '@northern.tech/store/commonConstants';
+import { getTenantsList } from '@northern.tech/store/selectors';
 import { AppDispatch } from '@northern.tech/store/store';
-import { getTenants, setTenantsListState } from '@northern.tech/store/thunks';
+import { setTenantsListState } from '@northern.tech/store/thunks';
+import { useLocationParams } from '@northern.tech/utils/liststatehook';
 import dayjs from 'dayjs';
 
 import DetailsIndicator from '../common/detailsindicator';
 import { ColumnHeader, CommonList, ListItemComponentProps, RendererProp } from '../common/list';
-import { ExpandedTenant } from './expanded-tenant';
+import { LIMIT_THRESHOLD } from '../header/devicecount';
+import { ExpandedTenant } from './ExpandedTenant';
 import { Tenant } from './types';
 
 export const defaultTextRender = (props: RendererProp<Tenant>) => {
@@ -32,13 +35,15 @@ export const defaultTextRender = (props: RendererProp<Tenant>) => {
   return typeof attributeValue === 'object' ? JSON.stringify(attributeValue) : attributeValue;
 };
 export const DeviceLimitRender = (props: RendererProp<Tenant>) => {
-  //TODO: use better alternative once backend is ready (MEN-7615)
-  const deviceLimit = useSelector(getDeviceLimit);
   const { column, item } = props;
   const attributeValue = item?.[column.attribute.name];
+  const deviceCount = item?.device_count;
   return (
     <div>
-      {attributeValue}/{deviceLimit}
+      {deviceCount}/{attributeValue}
+      <div className="margin-left-small margin-top-x-small">
+        {Number(deviceCount) / Number(attributeValue) > LIMIT_THRESHOLD && <WarningIcon sx={{ fontSize: '20px' }} />}
+      </div>
     </div>
   );
 };
@@ -126,18 +131,39 @@ const TenantListItem = (props: ListItemComponentProps<Tenant>) => {
 };
 export const TenantList = () => {
   const tenantListState = useSelector(getTenantsList);
-  const { tenants, perPage, selectedTenant } = tenantListState;
+  const { tenants, perPage, selectedTenant, sort = {} } = tenantListState;
   const dispatch: AppDispatch = useDispatch();
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [locationParams, setLocationParams] = useLocationParams('tenants', {
+    defaults: {
+      direction: SORTING_OPTIONS.desc,
+      key: 'name',
+      sort: {}
+    }
+  });
   useEffect(() => {
-    dispatch(getTenants());
-  }, [dispatch]);
+    const { selectedTenant: selectedTenantName } = locationParams;
+    if (selectedTenantName) {
+      dispatch(setTenantsListState({ selectedTenant: selectedTenantName }));
+    }
+  }, [dispatch, locationParams]);
+
+  useEffect(() => {
+    if (selectedTenant) {
+      setLocationParams({ pageState: { ...tenantListState, selectedTenant } });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setLocationParams, JSON.stringify(sort), selectedTenant]);
+
   const onExpandClick = useCallback(
     (tenant: Tenant) => {
-      return dispatch(setTenantsListState({ selectedTenant: tenant }));
+      return dispatch(setTenantsListState({ selectedTenant: tenant.id }));
     },
     [dispatch]
   );
   const onCloseClick = useCallback(() => {
+    setLocationParams({ pageState: { ...tenantListState, selectedTenant: '' } });
     return dispatch(setTenantsListState({ selectedTenant: null }));
   }, [dispatch]);
   const onChangePagination = useCallback(
@@ -146,6 +172,7 @@ export const TenantList = () => {
     },
     [dispatch, perPage]
   );
+  const tenant = selectedTenant && tenants.find((tenant: Tenant) => selectedTenant === tenant.id);
   return (
     <div>
       <CommonList
@@ -160,7 +187,7 @@ export const TenantList = () => {
         pageLoading={false}
         ListItemComponent={TenantListItem}
       ></CommonList>
-      {selectedTenant && <ExpandedTenant onCloseClick={onCloseClick} tenantId={selectedTenant.id}></ExpandedTenant>}
+      {selectedTenant && tenant && <ExpandedTenant onCloseClick={onCloseClick} tenant={tenant}></ExpandedTenant>}
     </div>
   );
 };

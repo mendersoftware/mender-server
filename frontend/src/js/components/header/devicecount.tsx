@@ -21,7 +21,7 @@ interface DeviceCountProps {
   variant: 'common' | 'detailed';
 }
 
-const LIMIT_THRESHOLD = 0.8;
+export const LIMIT_THRESHOLD = 0.8;
 const useStyles = makeStyles()(theme => ({
   devLimitProgress: {
     width: '375px'
