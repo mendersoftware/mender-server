@@ -5,6 +5,8 @@
 export { Actor } from "./Actor";
 export type { Addon } from "./Addon";
 export type { AddonTenantadm } from "./AddonTenantadm";
+export type { Address } from "./Address";
+export type { AddressUpdate } from "./AddressUpdate";
 export { Alert } from "./Alert";
 export type { AlertDetails } from "./AlertDetails";
 export type { AlertSubject } from "./AlertSubject";
@@ -33,6 +35,7 @@ export type { AWSCredentials } from "./AWSCredentials";
 export type { AzureSharedAccessSecret } from "./AzureSharedAccessSecret";
 export type { BillingInfo } from "./BillingInfo";
 export type { BillingProfile } from "./BillingProfile";
+export type { BillingProfileUpdate } from "./BillingProfileUpdate";
 export type { BinaryDeltaConfiguration } from "./BinaryDeltaConfiguration";
 export type { BinaryDeltaLimits } from "./BinaryDeltaLimits";
 export type { BoundingBox } from "./BoundingBox";
