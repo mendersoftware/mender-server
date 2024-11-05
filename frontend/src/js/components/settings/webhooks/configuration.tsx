@@ -75,7 +75,13 @@ const WebhookEventsSelector = ({ canSelectEvents }: { canSelectEvents: boolean }
   </>
 );
 
-const defaultValues = { description: '', url: '', secret: '', ...Object.keys(availableScopes).reduce((accu, scope) => ({ ...accu, [scope]: false }), {}) };
+const defaultValues = {
+  id: 'new',
+  description: '',
+  url: '',
+  secret: '',
+  ...Object.keys(availableScopes).reduce((accu, scope) => ({ ...accu, [scope]: false }), {})
+};
 
 interface WebhookConfigurationObject {
   provider: string;
