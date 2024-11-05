@@ -17,7 +17,8 @@ import { HelpOutline as HelpOutlineIcon } from '@mui/icons-material';
 import { Divider, Drawer } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-import { Code } from '../common/copy-code';
+import { Code } from '@northern.tech/common-ui/copy-code';
+
 import DeviceConfiguration from './eventdetails/deviceconfiguration';
 import FileTransfer from './eventdetails/filetransfer';
 import PortForward from './eventdetails/portforward';

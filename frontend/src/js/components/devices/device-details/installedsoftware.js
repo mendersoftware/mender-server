@@ -16,10 +16,10 @@ import React from 'react';
 import { deepmerge } from '@mui/utils';
 import { makeStyles } from 'tss-react/mui';
 
+import { TwoColumnData } from '@northern.tech/common-ui/configurationobject';
 import { rootfsImageVersion, softwareTitleMap } from '@northern.tech/store/constants';
 import { extractSoftware, isEmpty } from '@northern.tech/utils/helpers';
 
-import { TwoColumnData } from '../../common/configurationobject';
 import DeviceDataCollapse from './devicedatacollapse';
 import DeviceInventoryLoader from './deviceinventoryloader';
 

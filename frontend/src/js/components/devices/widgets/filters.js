@@ -18,6 +18,9 @@ import { Add as AddIcon } from '@mui/icons-material';
 // material ui
 import { Button, Chip, Collapse } from '@mui/material';
 
+import EnterpriseNotification from '@northern.tech/common-ui/enterpriseNotification';
+import { InfoHintContainer } from '@northern.tech/common-ui/info-hint';
+import MenderTooltip from '@northern.tech/common-ui/mendertooltip';
 import storeActions from '@northern.tech/store/actions';
 import { BENEFITS, DEVICE_FILTERING_OPTIONS, emptyFilter } from '@northern.tech/store/constants';
 import {
@@ -33,9 +36,6 @@ import { getDeviceAttributes, saveGlobalSettings, setDeviceListState } from '@no
 import { filtersFilter } from '@northern.tech/store/utils';
 import { deepCompare, toggle } from '@northern.tech/utils/helpers';
 
-import EnterpriseNotification from '../../common/enterpriseNotification';
-import { InfoHintContainer } from '../../common/info-hint';
-import MenderTooltip from '../../common/mendertooltip';
 import FilterItem from './filteritem';
 
 const { setDeviceFilters } = storeActions;

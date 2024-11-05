@@ -20,14 +20,14 @@ import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import Editor, { DiffEditor, loader } from '@monaco-editor/react';
+import InfoHint from '@northern.tech/common-ui/info-hint';
+import Loader from '@northern.tech/common-ui/loader';
+import Time from '@northern.tech/common-ui/time';
 import { EXTERNAL_PROVIDER, TIMEOUTS } from '@northern.tech/store/constants';
 import { getDeviceTwin, setDeviceTwin } from '@northern.tech/store/thunks';
 import { deepCompare, isEmpty } from '@northern.tech/utils/helpers';
 import pluralize from 'pluralize';
 
-import InfoHint from '../../common/info-hint';
-import Loader from '../../common/loader';
-import Time from '../../common/time';
 import DeviceDataCollapse from './devicedatacollapse';
 
 loader.config({ paths: { vs: '/ui/vs' } });

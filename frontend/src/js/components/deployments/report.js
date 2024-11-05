@@ -25,6 +25,10 @@ import {
 import { Button, Divider, Drawer, IconButton, Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import ConfigurationObject from '@northern.tech/common-ui/configurationobject';
+import Confirm from '@northern.tech/common-ui/confirm';
+import LogDialog from '@northern.tech/common-ui/dialogs/log';
+import LinedHeader from '@northern.tech/common-ui/lined-header';
 import storeActions from '@northern.tech/store/actions';
 import { AUDIT_LOGS_TYPES, DEPLOYMENT_STATES, DEPLOYMENT_TYPES, TIMEOUTS, deploymentStatesToSubstates } from '@northern.tech/store/constants';
 import {
@@ -41,10 +45,6 @@ import { statCollector } from '@northern.tech/store/utils';
 import { toggle } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
 
-import ConfigurationObject from '../common/configurationobject';
-import Confirm from '../common/confirm';
-import LogDialog from '../common/dialogs/log';
-import LinedHeader from '../common/lined-header';
 import BaseOnboardingTip from '../helptips/baseonboardingtip';
 import { DeploymentUploadFinished } from '../helptips/onboardingtips';
 import DeploymentStatus, { DeploymentPhaseNotification } from './deployment-report/deploymentstatus';

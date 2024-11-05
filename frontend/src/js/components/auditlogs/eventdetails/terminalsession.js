@@ -16,13 +16,13 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { useTheme } from '@mui/material/styles';
 
+import Loader from '@northern.tech/common-ui/loader';
+import Time from '@northern.tech/common-ui/time';
 import { getAuditlogDevice, getCurrentSession, getIdAttribute, getUserCapabilities } from '@northern.tech/store/selectors';
 import { getDeviceById, getSessionDetails } from '@northern.tech/store/thunks';
 import dayjs from 'dayjs';
 import durationDayJs from 'dayjs/plugin/duration';
 
-import Loader from '../../common/loader';
-import Time from '../../common/time';
 import DeviceDetails, { DetailInformation } from './devicedetails';
 import TerminalPlayer from './terminalplayer';
 

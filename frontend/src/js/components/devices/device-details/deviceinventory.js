@@ -13,10 +13,10 @@
 //    limitations under the License.
 import React from 'react';
 
+import { TwoColumnDataMultiple } from '@northern.tech/common-ui/configurationobject';
+import Time from '@northern.tech/common-ui/time';
 import { extractSoftware } from '@northern.tech/utils/helpers';
 
-import { TwoColumnDataMultiple } from '../../common/configurationobject';
-import Time from '../../common/time';
 import DeviceDataCollapse from './devicedatacollapse';
 import DeviceInventoryLoader from './deviceinventoryloader';
 

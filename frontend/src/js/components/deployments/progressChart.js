@@ -18,14 +18,13 @@ import { Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { mdiDotsHorizontalCircleOutline as QueuedIcon, mdiSleep as SleepIcon } from '@mdi/js';
+import MaterialDesignIcon from '@northern.tech/common-ui/materialdesignicon';
+import Time from '@northern.tech/common-ui/time';
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { groupDeploymentStats } from '@northern.tech/store/utils';
 import dayjs from 'dayjs';
 import durationDayJs from 'dayjs/plugin/duration';
 import pluralize from 'pluralize';
-
-import MaterialDesignIcon from '../common/materialdesignicon';
-import Time from '../common/time';
 
 dayjs.extend(durationDayJs);
 

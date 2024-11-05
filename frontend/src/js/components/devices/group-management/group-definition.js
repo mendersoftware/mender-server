@@ -16,12 +16,11 @@ import React, { useState } from 'react';
 import { Autocomplete, FormHelperText, TextField } from '@mui/material';
 import { createFilterOptions } from '@mui/material/useAutocomplete';
 
+import DocsLink from '@northern.tech/common-ui/docslink';
+import InfoText from '@northern.tech/common-ui/infotext';
 import { UNGROUPED_GROUP } from '@northern.tech/store/constants';
 import { fullyDecodeURI } from '@northern.tech/utils/helpers';
 import validator from 'validator';
-
-import DocsLink from '../../common/docslink';
-import InfoText from '../../common/infotext';
 
 const filter = createFilterOptions();
 

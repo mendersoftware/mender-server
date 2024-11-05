@@ -16,11 +16,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { CheckCircle as CheckCircleIcon } from '@mui/icons-material';
 import { Button } from '@mui/material';
 
+import Form from '@northern.tech/common-ui/forms/form';
+import TextInput from '@northern.tech/common-ui/forms/textinput';
+import Loader from '@northern.tech/common-ui/loader';
 import { twoFAStates } from '@northern.tech/store/constants';
-
-import Form from '../../../common/forms/form';
-import TextInput from '../../../common/forms/textinput';
-import Loader from '../../../common/loader';
 
 export const AuthSetup = ({ currentUser, handle2FAState, has2FA, onClose, qrImage, verify2FA }) => {
   const current2FA = useRef(has2FA);

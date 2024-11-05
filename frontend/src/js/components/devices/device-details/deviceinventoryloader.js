@@ -16,9 +16,9 @@ import React from 'react';
 import { Info as InfoIcon } from '@mui/icons-material';
 import { List } from '@mui/material';
 
-import DocsLink from '../../common/docslink';
-import Loader from '../../common/loader';
-import { MenderTooltipClickable } from '../../common/mendertooltip';
+import DocsLink from '@northern.tech/common-ui/docslink';
+import Loader from '@northern.tech/common-ui/loader';
+import { MenderTooltipClickable } from '@northern.tech/common-ui/mendertooltip';
 
 export const DeviceInventoryLoader = () => (
   <List>

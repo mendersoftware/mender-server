@@ -20,10 +20,10 @@ import Editor, { loader } from '@monaco-editor/react';
 import { Event } from '@northern.tech/store/api/types/MenderTypes';
 import { Webhook } from '@northern.tech/store/constants';
 
-import { TwoColumnData } from '../../common/configurationobject';
-import { CopyTextToClipboard } from '../../common/copytext';
-import { ClassesOverrides } from '../../common/list';
-import Loader from '../../common/loader';
+import { TwoColumnData } from '@northern.tech/common-ui/configurationobject';
+import { CopyTextToClipboard } from '@northern.tech/common-ui/copytext';
+import { ClassesOverrides } from '@northern.tech/common-ui/list';
+import Loader from '@northern.tech/common-ui/loader';
 import { WebhookColumns } from './management';
 
 loader.config({ paths: { vs: '/ui/vs' } });

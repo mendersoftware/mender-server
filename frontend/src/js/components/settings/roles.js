@@ -18,15 +18,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Add as AddIcon } from '@mui/icons-material';
 import { Chip } from '@mui/material';
 
+import DetailsIndicator from '@northern.tech/common-ui/detailsindicator';
+import DetailsTable from '@northern.tech/common-ui/detailstable';
+import { DocsTooltip } from '@northern.tech/common-ui/docslink';
+import EnterpriseNotification from '@northern.tech/common-ui/enterpriseNotification';
+import { InfoHintContainer } from '@northern.tech/common-ui/info-hint';
 import { BENEFITS, emptyRole, rolesById } from '@northern.tech/store/constants';
 import { getGroupsByIdWithoutUngrouped, getIsEnterprise, getReleaseTagsById, getRolesList } from '@northern.tech/store/selectors';
 import { createRole, editRole, getDynamicGroups, getExistingReleaseTags, getGroups, getRoles, removeRole } from '@northern.tech/store/thunks';
 
-import DetailsIndicator from '../common/detailsindicator';
-import DetailsTable from '../common/detailstable';
-import { DocsTooltip } from '../common/docslink';
-import EnterpriseNotification from '../common/enterpriseNotification';
-import { InfoHintContainer } from '../common/info-hint';
 import RoleDefinition from './roledefinition';
 
 const columns = [

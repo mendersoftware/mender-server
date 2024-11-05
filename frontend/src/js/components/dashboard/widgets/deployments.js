@@ -15,10 +15,10 @@ import React from 'react';
 
 import { makeStyles } from 'tss-react/mui';
 
+import Time from '@northern.tech/common-ui/time';
 import { DEPLOYMENT_STATES } from '@northern.tech/store/constants';
 import { useDeploymentDevice } from '@northern.tech/utils/deploymentdevicehook';
 
-import Time from '../../common/time';
 import { DeploymentDeviceGroup, DeploymentProgress } from '../../deployments/deploymentitem';
 import DeploymentStats from '../../deployments/deploymentstatus';
 import { DeploymentStatusNotification } from '../../deployments/progressChart';

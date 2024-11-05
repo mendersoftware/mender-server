@@ -17,9 +17,9 @@ import { Link } from 'react-router-dom';
 // material ui
 import { DeveloperBoard as DeveloperBoardIcon } from '@mui/icons-material';
 
+import { MenderTooltipClickable } from '@northern.tech/common-ui/mendertooltip';
 import pluralize from 'pluralize';
 
-import { MenderTooltipClickable } from '../common/mendertooltip';
 import { DeviceLimitContact } from '../devices/dialogs/preauth-dialog';
 
 const DeviceNotifications = ({ total, limit, pending }) => {

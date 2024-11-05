@@ -20,6 +20,7 @@ import { CalendarToday as CalendarTodayIcon, List as ListIcon, Refresh as Refres
 import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { DefaultUpgradeNotification } from '@northern.tech/common-ui/enterpriseNotification';
 import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_STATES } from '@northern.tech/store/constants';
 import {
@@ -35,7 +36,6 @@ import { getDeploymentsByStatus, setDeploymentsState } from '@northern.tech/stor
 import { clearAllRetryTimers, clearRetryTimer, setRetryTimer } from '@northern.tech/utils/retrytimer';
 import dayjs from 'dayjs';
 
-import { DefaultUpgradeNotification } from '../common/enterpriseNotification';
 import { DeploymentDeviceCount, DeploymentEndTime, DeploymentPhases, DeploymentStartTime } from './deploymentitem';
 import { defaultRefreshDeploymentsLength as refreshDeploymentsLength } from './deployments';
 import DeploymentsList, { defaultHeaders } from './deploymentslist';

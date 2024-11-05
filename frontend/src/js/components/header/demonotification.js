@@ -15,8 +15,8 @@ import React from 'react';
 
 import { InfoOutlined as InfoIcon } from '@mui/icons-material';
 
-import DocsLink from '../common/docslink';
-import { MenderTooltipClickable } from '../common/mendertooltip';
+import DocsLink from '@northern.tech/common-ui/docslink';
+import { MenderTooltipClickable } from '@northern.tech/common-ui/mendertooltip';
 
 const DemoNotification = ({ iconClassName, sectionClassName }) => (
   <MenderTooltipClickable

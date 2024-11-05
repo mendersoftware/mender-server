@@ -16,10 +16,9 @@ import React from 'react';
 // material ui
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
+import CopyCode from '@northern.tech/common-ui/copy-code';
+import DocsLink from '@northern.tech/common-ui/docslink';
 import { getToken } from '@northern.tech/store/auth';
-
-import CopyCode from '../../common/copy-code';
-import DocsLink from '../../common/docslink';
 
 export const getCode = isPreRelease => {
   const { target, flags } = isPreRelease

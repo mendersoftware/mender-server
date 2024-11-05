@@ -17,11 +17,10 @@ import React, { useMemo } from 'react';
 import { Check as CheckIcon } from '@mui/icons-material';
 import { Chip } from '@mui/material';
 
+import DetailsIndicator from '@northern.tech/common-ui/detailsindicator';
+import DetailsTable from '@northern.tech/common-ui/detailstable';
+import Time, { RelativeTime } from '@northern.tech/common-ui/time';
 import { twoFAStates } from '@northern.tech/store/constants';
-
-import DetailsIndicator from '../../common/detailsindicator';
-import DetailsTable from '../../common/detailstable';
-import Time, { RelativeTime } from '../../common/time';
 
 const columnData = [
   {

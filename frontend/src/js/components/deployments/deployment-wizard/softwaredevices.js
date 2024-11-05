@@ -19,6 +19,8 @@ import { ErrorOutline as ErrorOutlineIcon } from '@mui/icons-material';
 import { Autocomplete, TextField, Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import AsyncAutocomplete from '@northern.tech/common-ui/asyncautocomplete';
+import InfoText from '@northern.tech/common-ui/infotext';
 import { ALL_DEVICES, DEPLOYMENT_TYPES } from '@northern.tech/store/constants';
 import { getReleases, getSystemDevices } from '@northern.tech/store/thunks';
 import { stringToBoolean } from '@northern.tech/utils/helpers';
@@ -27,8 +29,6 @@ import useWindowSize from '@northern.tech/utils/resizehook';
 import pluralize from 'pluralize';
 import isUUID from 'validator/lib/isUUID';
 
-import AsyncAutocomplete from '../../common/asyncautocomplete';
-import InfoText from '../../common/infotext';
 import { getDeviceIdentityText } from '../../devices/base-devices';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
 

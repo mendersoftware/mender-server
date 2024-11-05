@@ -18,6 +18,8 @@ import { Navigate, useParams } from 'react-router-dom';
 import { formControlClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import Form from '@northern.tech/common-ui/forms/form';
+import Loader from '@northern.tech/common-ui/loader';
 import storeActions from '@northern.tech/store/actions';
 import { TIMEOUTS, locations } from '@northern.tech/store/constants';
 import { createOrganizationTrial } from '@northern.tech/store/thunks';
@@ -26,8 +28,6 @@ import Cookies from 'universal-cookie';
 
 import LoginLogo from '../../../assets/img/loginlogo.svg';
 import SignupHero from '../../../assets/img/signuphero.svg';
-import Form from '../common/forms/form';
-import Loader from '../common/loader';
 import { EntryLink } from './login';
 import OrgDataEntry from './signup-steps/orgdata-entry';
 import UserDataEntry from './signup-steps/userdata-entry';

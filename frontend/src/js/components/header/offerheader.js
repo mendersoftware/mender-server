@@ -15,7 +15,7 @@ import React from 'react';
 
 import { Announcement as AnnouncmentIcon, Close as CloseIcon } from '@mui/icons-material';
 
-import DocsLink from '../common/docslink';
+import DocsLink from '@northern.tech/common-ui/docslink';
 
 const OfferHeader = ({ onHide }) => (
   <div id="offerHeader" className="offerBox">

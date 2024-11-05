@@ -18,6 +18,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, Checkbox, Collapse, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, List, MenuItem, Select } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { CopyTextToClipboard } from '@northern.tech/common-ui/copytext';
+import ExpandableAttribute from '@northern.tech/common-ui/expandable-attribute';
 import storeActions from '@northern.tech/store/actions';
 import { SSO_TYPES } from '@northern.tech/store/constants';
 import { getCurrentSession, getFeatures, getIsEnterprise, getIsPreview, getOrganization, getSsoConfig, getUserRoles } from '@northern.tech/store/selectors';
@@ -26,8 +28,6 @@ import { createFileDownload, toggle } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
 import dayjs from 'dayjs';
 
-import { CopyTextToClipboard } from '../../common/copytext';
-import ExpandableAttribute from '../../common/expandable-attribute';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
 import Billing from './billing';
 import OrganizationSettingsItem, { maxWidth } from './organizationsettingsitem';

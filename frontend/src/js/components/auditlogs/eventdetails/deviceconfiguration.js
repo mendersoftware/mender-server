@@ -16,10 +16,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { useTheme } from '@mui/material/styles';
 
+import Loader from '@northern.tech/common-ui/loader';
 import { getAuditlogDevice, getIdAttribute, getUserCapabilities } from '@northern.tech/store/selectors';
 import { getDeviceById } from '@northern.tech/store/thunks';
 
-import Loader from '../../common/loader';
 import DeviceDetails, { DetailInformation } from './devicedetails';
 
 export const DeviceConfiguration = ({ item, onClose }) => {

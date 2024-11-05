@@ -15,10 +15,9 @@ import React from 'react';
 
 import { makeStyles } from 'tss-react/mui';
 
+import InfoText from '@northern.tech/common-ui/infotext';
 import { PLANS } from '@northern.tech/store/constants';
 import { isDarkMode } from '@northern.tech/store/utils';
-
-import InfoText from '../common/infotext';
 
 export const useStyles = makeStyles()(theme => ({
   planNote: { marginBottom: -11, fontSize: 'smaller' },

@@ -17,12 +17,12 @@ import { useNavigate } from 'react-router-dom';
 
 import { makeStyles } from 'tss-react/mui';
 
+import Loader from '@northern.tech/common-ui/loader';
 import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_ROUTES, TIMEOUTS, onboardingSteps } from '@northern.tech/store/constants';
 import { getCurrentUser, getOnboardingState } from '@northern.tech/store/selectors';
 
 import { getOnboardingComponentFor } from '../../utils/onboardingmanager';
-import Loader from '../common/loader';
 import Deployments from './deployments';
 import Devices from './devices';
 import SoftwareDistribution from './software-distribution';

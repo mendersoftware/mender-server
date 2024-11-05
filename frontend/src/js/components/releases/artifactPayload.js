@@ -16,10 +16,9 @@ import React from 'react';
 import { List, ListItem, ListItemText, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import FileSize from '@northern.tech/common-ui/filesize';
+import Time from '@northern.tech/common-ui/time';
 import { getFormattedSize } from '@northern.tech/utils/helpers';
-
-import FileSize from '../common/filesize';
-import Time from '../common/time';
 
 const METADATA_SPACING = 2;
 

@@ -25,10 +25,10 @@ import { EXTERNAL_PROVIDER, Webhook, emptyWebhook } from '@northern.tech/store/c
 import { getTenantCapabilities, getWebhookEventInfo } from '@northern.tech/store/selectors';
 import { getWebhookEvents } from '@northern.tech/store/thunks';
 
-import { TwoColumnData } from '../../common/configurationobject';
-import DetailsIndicator from '../../common/detailsindicator';
-import { ClassesOverrides } from '../../common/list';
-import Time from '../../common/time';
+import { TwoColumnData } from '@northern.tech/common-ui/configurationobject';
+import DetailsIndicator from '@northern.tech/common-ui/detailsindicator';
+import { ClassesOverrides } from '@northern.tech/common-ui/list';
+import Time from '@northern.tech/common-ui/time';
 import WebhookActivity from './activity';
 import { availableScopes } from './configuration';
 import WebhookEventDetails from './eventdetails';

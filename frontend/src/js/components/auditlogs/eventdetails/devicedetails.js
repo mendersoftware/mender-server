@@ -17,11 +17,10 @@ import { Link } from 'react-router-dom';
 import { Launch as LaunchIcon } from '@mui/icons-material';
 import { makeStyles } from 'tss-react/mui';
 
+import { TwoColumns } from '@northern.tech/common-ui/configurationobject';
+import DeviceIdentityDisplay from '@northern.tech/common-ui/deviceidentity';
 import { AUDIT_LOGS_TYPES, BEGINNING_OF_TIME, rootfsImageVersion } from '@northern.tech/store/constants';
 import { formatAuditlogs } from '@northern.tech/utils/locationutils';
-
-import { TwoColumns } from '../../common/configurationobject';
-import DeviceIdentityDisplay from '../../common/deviceidentity';
 
 const useStyles = makeStyles()(theme => ({
   eventDetails: { gridTemplateColumns: 'minmax(max-content, 150px) max-content', rowGap: theme.spacing(2.5) },

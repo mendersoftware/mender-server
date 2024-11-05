@@ -16,9 +16,9 @@ import { SetStateAction, useEffect, useRef, useState } from 'react';
 import { Event } from '@northern.tech/store/api/types/MenderTypes';
 import { DEVICE_LIST_DEFAULTS, Webhook } from '@northern.tech/store/constants';
 
-import DetailsTable from '../../common/detailstable';
-import { ClassesOverrides } from '../../common/list';
-import Pagination from '../../common/pagination';
+import DetailsTable from '@northern.tech/common-ui/detailstable';
+import { ClassesOverrides } from '@northern.tech/common-ui/list';
+import Pagination from '@northern.tech/common-ui/pagination';
 import { WebhookColumns } from './management';
 
 const { page: defaultPage, perPage: defaultPerPage } = DEVICE_LIST_DEFAULTS;

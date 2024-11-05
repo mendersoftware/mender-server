@@ -17,6 +17,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ArrowDropDown, ExpandMore, FileDownloadOutlined as FileDownloadIcon, Launch } from '@mui/icons-material';
 import { Accordion, AccordionDetails, AccordionSummary, Chip, Menu, MenuItem, Typography } from '@mui/material';
 
+import CommonDocsLink from '@northern.tech/common-ui/docslink';
+import Time from '@northern.tech/common-ui/time';
 import storeActions from '@northern.tech/store/actions';
 import { canAccess } from '@northern.tech/store/constants';
 import { getCurrentSession, getCurrentUser, getIsEnterprise, getTenantCapabilities, getVersionInformation } from '@northern.tech/store/selectors';
@@ -25,8 +27,6 @@ import copy from 'copy-to-clipboard';
 import Cookies from 'universal-cookie';
 
 import Tracking from '../../tracking';
-import CommonDocsLink from '../common/docslink';
-import Time from '../common/time';
 
 const { setSnackbar } = storeActions;
 

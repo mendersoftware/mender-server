@@ -23,6 +23,11 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { makeStyles } from 'tss-react/mui';
 
+import ConfirmDismissHelptips from '@northern.tech/common-ui/dialogs/confirmdismisshelptips';
+import DeviceConnectionDialog from '@northern.tech/common-ui/dialogs/deviceconnectiondialog';
+import FeedbackDialog from '@northern.tech/common-ui/dialogs/feedback';
+import StartupNotificationDialog from '@northern.tech/common-ui/dialogs/startupnotification';
+import SharedSnackbar from '@northern.tech/common-ui/sharedsnackbar';
 import storeActions from '@northern.tech/store/actions';
 import { getSessionInfo, maxSessionAge, updateMaxAge } from '@northern.tech/store/auth';
 import { TIMEOUTS } from '@northern.tech/store/constants';
@@ -33,15 +38,10 @@ import { logoutUser } from '@northern.tech/store/thunks';
 import { toggle } from '@northern.tech/utils/helpers';
 import Cookies from 'universal-cookie';
 
-import SharedSnackbar from '../components/common/sharedsnackbar';
 import { PrivateRoutes, PrivateSPRoutes, PublicRoutes } from '../config/routes';
 import ErrorBoundary from '../errorboundary';
 import { dark as darkTheme, light as lightTheme } from '../themes/Mender';
 import Tracking from '../tracking';
-import ConfirmDismissHelptips from './common/dialogs/confirmdismisshelptips';
-import DeviceConnectionDialog from './common/dialogs/deviceconnectiondialog';
-import FeedbackDialog from './common/dialogs/feedback';
-import StartupNotificationDialog from './common/dialogs/startupnotification';
 import Footer from './footer';
 import Header from './header/header';
 import LeftNav from './leftnav';
