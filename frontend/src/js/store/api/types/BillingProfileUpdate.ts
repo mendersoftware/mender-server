@@ -2,28 +2,28 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Address } from "./Address";
+import type { AddressUpdate } from "./AddressUpdate";
 /**
- * Billing profile contains information about the customer.
+ * Billing profile contains partial billing information.
  */
-export type BillingProfile = {
+export type BillingProfileUpdate = {
   /**
    * The customer's email address.
    */
-  email: string;
+  email?: string;
   /**
    * The customer's full name or business name.
    */
-  name: string;
+  name?: string;
   /**
    * The customer's phone number.
    */
   phone?: string;
-  address: Address;
+  address?: AddressUpdate;
   /**
    * Mailing and shipping address for the customer. Appears on invoices.
    */
-  shipping: {
+  shipping?: {
     /**
      * Name of the recipient.
      */
@@ -32,6 +32,6 @@ export type BillingProfile = {
      * Phone number of the recipient (including extension).
      */
     phone?: string;
-    address?: Address;
+    address?: AddressUpdate;
   };
 };
