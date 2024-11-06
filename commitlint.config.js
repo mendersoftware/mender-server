@@ -28,7 +28,8 @@ module.exports = {
         perf: [],  // scope is not allowed
         ci: []     // scope is not allowed
       }
-    ]
+    ],
+    'subject-case': [1, 'always', ['lower-case', 'sentence-case']],
   },
 
   helpUrl: `
@@ -40,4 +41,5 @@ module.exports = {
   * To bypass pre-commit hooks run 'git commit --no-verify'
   >>> Use "npm run commit" for interactive prompt. <<<
   `
-}
+};
+
