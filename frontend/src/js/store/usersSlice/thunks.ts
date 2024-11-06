@@ -40,7 +40,7 @@ import hashString from 'md5';
 import Cookies from 'universal-cookie';
 
 import { actions, sliceName } from '.';
-import { HELPTOOLTIPS } from '../../components/helptips/helptooltips';
+import { HELPTOOLTIPS } from '@northern.tech/helptips/helptooltips';
 import {
   OWN_USER_ID,
   PermissionTypes,

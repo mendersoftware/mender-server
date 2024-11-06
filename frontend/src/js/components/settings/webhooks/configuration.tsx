@@ -29,7 +29,7 @@ import Form from '@northern.tech/common-ui/forms/form';
 import FormCheckbox from '@northern.tech/common-ui/forms/formcheckbox';
 import TextInput from '@northern.tech/common-ui/forms/textinput';
 import InfoHint, { InfoHintContainer } from '@northern.tech/common-ui/info-hint';
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 
 const useStyles = makeStyles()(() => ({
   buttonWrapper: {

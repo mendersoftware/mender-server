@@ -19,12 +19,12 @@ import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import Confirm from '@northern.tech/common-ui/confirm';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import { DEVICE_DISMISSAL_STATE, DEVICE_STATES, onboardingSteps } from '@northern.tech/store/constants';
 import { getAcceptedDevices, getDeviceLimit, getLimitMaxed, getUserCapabilities } from '@northern.tech/store/selectors';
 import { advanceOnboarding, deleteAuthset, updateDeviceAuth } from '@northern.tech/store/thunks';
 import pluralize from 'pluralize';
 
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../../../helptips/helptooltips';
 import { DeviceLimitWarning } from '../../dialogs/preauth-dialog';
 import Authsetlist from './authsetlist';
 

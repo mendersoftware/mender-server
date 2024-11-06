@@ -33,10 +33,9 @@ import {
 import { makeStyles } from 'tss-react/mui';
 
 import { InfoHintContainer } from '@northern.tech/common-ui/info-hint';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import { getReportingLimits } from '@northern.tech/store/thunks';
 import { toggle } from '@northern.tech/utils/helpers';
-
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../helptips/helptooltips';
 
 const useStyles = makeStyles()(theme => ({
   accordion: {

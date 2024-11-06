@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import { DEVICE_STATES, TIMEOUTS, onboardingSteps } from '@northern.tech/store/constants';
 import { getDeviceCountsByStatus, getOnboardingState, getTenantCapabilities } from '@northern.tech/store/selectors';
 import { advanceOnboarding, saveUserSettings, setDeviceListState } from '@northern.tech/store/thunks';
@@ -25,7 +26,6 @@ import { advanceOnboarding, saveUserSettings, setDeviceListState } from '@northe
 import docker from '../../../assets/img/docker.png';
 import raspberryPi4 from '../../../assets/img/raspberrypi4.png';
 import raspberryPi from '../../../assets/img/raspberrypi.png';
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../../components/helptips/helptooltips';
 import DocsLink from '../docslink';
 import InfoText from '../infotext';
 import Loader from '../loader';

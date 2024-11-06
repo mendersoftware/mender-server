@@ -14,46 +14,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { defaultTextRender } from '@northern.tech/common-ui/deviceidentity';
 import Time, { ApproximateRelativeDate } from '@northern.tech/common-ui/time';
 import { DEVICE_STATES, currentArtifact, rootfsImageVersion } from '@northern.tech/store/constants';
 import pluralize from 'pluralize';
 
 import preauthImage from '../../../assets/img/preauthorize.png';
 import DeviceStatus from './device-status';
-
-const propertyNameMap = {
-  inventory: 'attributes',
-  identity: 'identity_data',
-  system: 'system',
-  monitor: 'monitor',
-  tags: 'tags'
-};
-
-export const defaultTextRender = ({ column, device }) => {
-  const propertyName = propertyNameMap[column.attribute.scope] ?? column.attribute.scope;
-  const accessorTarget = device[propertyName] ?? device;
-  const attributeValue = accessorTarget[column.attribute.name] || device[column.attribute.name];
-  return (typeof attributeValue === 'object' ? JSON.stringify(attributeValue) : attributeValue) ?? device.id;
-};
-
-export const getDeviceIdentityText = ({ device = {}, idAttribute }) => {
-  const { id = '', identity_data = {}, tags = {} } = device;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { status, ...remainingIds } = identity_data;
-
-  const nonIdKey = Object.keys(remainingIds)[0];
-  if (!idAttribute || idAttribute === 'id' || idAttribute === 'Device ID') {
-    return id;
-  } else if (typeof idAttribute === 'string' || !Object.keys(idAttribute).length) {
-    return identity_data[idAttribute] ?? identity_data[nonIdKey] ?? id;
-  }
-  const { attribute, scope } = idAttribute;
-  // special handling for tags purely to handle the untagged devices case
-  if (attribute === 'name' && scope === 'tags') {
-    return tags[idAttribute] ?? `${id.substring(0, 6)}...`;
-  }
-  return defaultTextRender({ column: { attribute: { name: attribute, scope } }, device });
-};
 
 const AttributeRenderer = ({ content, textContent }) => (
   <div title={textContent}>

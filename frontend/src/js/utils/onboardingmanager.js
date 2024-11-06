@@ -13,10 +13,8 @@
 //    limitations under the License.
 import React from 'react';
 
-import { DEPLOYMENT_STATES, onboardingSteps as stepNames, yes } from '@northern.tech/store/constants';
-
-import BaseOnboardingTip from '../components/helptips/baseonboardingtip';
-import OnboardingCompleteTip from '../components/helptips/onboardingcompletetip';
+import BaseOnboardingTip from '@northern.tech/helptips/baseonboardingtip';
+import OnboardingCompleteTip from '@northern.tech/helptips/onboardingcompletetip';
 import {
   DashboardOnboardingPendings,
   DashboardOnboardingState,
@@ -33,7 +31,8 @@ import {
   SchedulingArtifactSelection,
   SchedulingGroupSelection,
   SchedulingReleaseToDevices
-} from '../components/helptips/onboardingtips';
+} from '@northern.tech/helptips/onboardingtips';
+import { DEPLOYMENT_STATES, onboardingSteps as stepNames, yes } from '@northern.tech/store/constants';
 
 export const onboardingSteps = {
   [stepNames.DASHBOARD_ONBOARDING_START]: {

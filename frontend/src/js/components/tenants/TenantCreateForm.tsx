@@ -31,7 +31,7 @@ import FormCheckbox from '@northern.tech/common-ui/forms/formcheckbox';
 import PasswordInput from '@northern.tech/common-ui/forms/passwordinput';
 import TextInput from '@northern.tech/common-ui/forms/textinput';
 import InfoHint from '@northern.tech/common-ui/info-hint';
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../helptips/helptooltips';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import { PasswordLabel } from '../settings/user-management/userform';
 
 interface TenantCreateFormProps {

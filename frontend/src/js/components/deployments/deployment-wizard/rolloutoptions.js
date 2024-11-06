@@ -19,11 +19,11 @@ import { makeStyles } from 'tss-react/mui';
 import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/docslink';
 import EnterpriseNotification from '@northern.tech/common-ui/enterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/info-hint';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import { BENEFITS, TIMEOUTS } from '@northern.tech/store/constants';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { toggle } from '@northern.tech/utils/helpers';
 
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
 import RolloutSteps from './rolloutsteps';
 
 const useStyles = makeStyles()(() => ({

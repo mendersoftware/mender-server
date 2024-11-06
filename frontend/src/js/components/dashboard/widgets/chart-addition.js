@@ -20,10 +20,9 @@ import { makeStyles } from 'tss-react/mui';
 import Confirm from '@northern.tech/common-ui/confirm';
 import EnterpriseNotification from '@northern.tech/common-ui/enterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/info-hint';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import { BENEFITS, chartTypes, emptyChartSelection } from '@northern.tech/store/constants';
 import { toggle } from '@northern.tech/utils/helpers';
-
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
 
 const fontSize = 'smaller';
 

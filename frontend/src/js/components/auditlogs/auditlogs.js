@@ -24,6 +24,7 @@ import Filters from '@northern.tech/common-ui/forms/filters';
 import TimeframePicker from '@northern.tech/common-ui/forms/timeframe-picker';
 import { InfoHintContainer } from '@northern.tech/common-ui/info-hint';
 import Loader from '@northern.tech/common-ui/loader';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import { AUDIT_LOGS_TYPES, BEGINNING_OF_TIME, BENEFITS, SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
 import {
   getAuditLog,
@@ -40,7 +41,6 @@ import { useLocationParams } from '@northern.tech/utils/liststatehook';
 import dayjs from 'dayjs';
 
 import historyImage from '../../../assets/img/history.png';
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../helptips/helptooltips';
 import AuditLogsList from './auditlogslist';
 
 const detailsMap = {

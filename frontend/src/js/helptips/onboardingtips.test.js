@@ -13,7 +13,7 @@
 //    limitations under the License.
 import React from 'react';
 
-import { render } from '../../../../tests/setupTests';
+import { render } from '../../../tests/setupTests';
 import {
   DashboardOnboardingPendings,
   DashboardOnboardingState,

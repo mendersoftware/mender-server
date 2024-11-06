@@ -20,6 +20,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import { CopyTextToClipboard } from '@northern.tech/common-ui/copytext';
 import ExpandableAttribute from '@northern.tech/common-ui/expandable-attribute';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import storeActions from '@northern.tech/store/actions';
 import { SSO_TYPES } from '@northern.tech/store/constants';
 import { getCurrentSession, getFeatures, getIsEnterprise, getIsPreview, getOrganization, getSsoConfig, getUserRoles } from '@northern.tech/store/selectors';
@@ -28,7 +29,6 @@ import { createFileDownload, toggle } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
 import dayjs from 'dayjs';
 
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
 import Billing from './billing';
 import OrganizationSettingsItem, { maxWidth } from './organizationsettingsitem';
 import { SSOConfig } from './ssoconfig';

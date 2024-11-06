@@ -23,6 +23,7 @@ import EnterpriseNotification, { DefaultUpgradeNotification } from '@northern.te
 import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/autocomplete';
 import { Filters } from '@northern.tech/common-ui/forms/filters';
 import { ControlledSearch } from '@northern.tech/common-ui/search';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import { BENEFITS, SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
 import {
   getHasReleases,
@@ -39,7 +40,6 @@ import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { useLocationParams } from '@northern.tech/utils/liststatehook';
 import pluralize from 'pluralize';
 
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../helptips/helptooltips';
 import AddArtifactDialog from './dialogs/addartifact';
 import ReleaseDetails from './releasedetails';
 import ReleasesList from './releaseslist';
