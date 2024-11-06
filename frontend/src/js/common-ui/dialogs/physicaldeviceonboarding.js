@@ -33,7 +33,7 @@ import {
 import { advanceOnboarding, setOnboardingApproach, setOnboardingDeviceType } from '@northern.tech/store/thunks';
 import { getDebConfigurationCode, versionCompare } from '@northern.tech/utils/helpers';
 
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../../components/helptips/helptooltips';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import CopyCode from '../copy-code';
 import DocsLink from '../docslink';
 import { MenderTooltipClickable } from '../mendertooltip';

@@ -24,7 +24,7 @@ import { getDeviceAttributes, setDeviceTags } from '@northern.tech/store/thunks'
 import { toggle } from '@northern.tech/utils/helpers';
 
 import Tracking from '../../../tracking';
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import DeviceDataCollapse from './devicedatacollapse';
 
 const NameTipComponent = props => <MenderHelpTooltip id={HELPTOOLTIPS.nameTagTip.id} {...props} />;

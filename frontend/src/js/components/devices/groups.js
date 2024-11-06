@@ -20,7 +20,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import { ALL_DEVICES } from '@northern.tech/store/constants';
 
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../helptips/helptooltips';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 
 const useStyles = makeStyles()(theme => ({
   header: {

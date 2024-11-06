@@ -22,7 +22,7 @@ import { InfoHintContainer } from '@northern.tech/common-ui/info-hint';
 import { BENEFITS } from '@northern.tech/store/constants';
 import dayjs from 'dayjs';
 
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 
 const useStyles = makeStyles()(() => ({
   textField: { minWidth: 400 },

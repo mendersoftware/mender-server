@@ -23,7 +23,7 @@ import { BENEFITS, TIMEOUTS } from '@northern.tech/store/constants';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { toggle } from '@northern.tech/utils/helpers';
 
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import RolloutSteps from './rolloutsteps';
 
 const useStyles = makeStyles()(() => ({

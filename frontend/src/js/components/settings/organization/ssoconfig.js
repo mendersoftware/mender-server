@@ -24,7 +24,7 @@ import ExpandableAttribute from '@northern.tech/common-ui/expandable-attribute';
 import { SSO_TYPES, XML_METADATA_FORMAT } from '@northern.tech/store/constants';
 import { toggle } from '@northern.tech/utils/helpers';
 
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import { maxWidth } from './organizationsettingsitem';
 import SSOEditor from './ssoeditor';
 

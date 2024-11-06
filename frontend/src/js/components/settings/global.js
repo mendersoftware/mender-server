@@ -32,7 +32,7 @@ import {
 import { changeNotificationSetting, getDeviceAttributes, getGlobalSettings, saveGlobalSettings } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../helptips/helptooltips';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import ArtifactGenerationSettings from './artifactgeneration';
 import ReportingLimits from './reportinglimits';
 

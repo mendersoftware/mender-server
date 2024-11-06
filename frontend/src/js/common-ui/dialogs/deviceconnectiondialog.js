@@ -25,7 +25,7 @@ import { advanceOnboarding, saveUserSettings, setDeviceListState } from '@northe
 import docker from '../../../assets/img/docker.png';
 import raspberryPi4 from '../../../assets/img/raspberrypi4.png';
 import raspberryPi from '../../../assets/img/raspberrypi.png';
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../../components/helptips/helptooltips';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import DocsLink from '../docslink';
 import InfoText from '../infotext';
 import Loader from '../loader';

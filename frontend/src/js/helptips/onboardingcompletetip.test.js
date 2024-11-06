@@ -18,7 +18,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { getConfiguredStore } from '@northern.tech/store/store';
 import { act, render as testingLibRender, waitFor } from '@testing-library/react';
 
-import { defaultState, undefineds } from '../../../../tests/mockData';
+import { defaultState, undefineds } from '../../../tests/mockData';
 import OnboardingCompleteTip from './onboardingcompletetip';
 
 describe('OnboardingCompleteTip Component', () => {

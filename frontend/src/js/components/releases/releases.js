@@ -39,7 +39,7 @@ import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { useLocationParams } from '@northern.tech/utils/liststatehook';
 import pluralize from 'pluralize';
 
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../helptips/helptooltips';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import AddArtifactDialog from './dialogs/addartifact';
 import ReleaseDetails from './releasedetails';
 import ReleasesList from './releaseslist';

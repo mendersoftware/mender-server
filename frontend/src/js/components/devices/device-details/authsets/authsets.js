@@ -24,7 +24,7 @@ import { getAcceptedDevices, getDeviceLimit, getLimitMaxed, getUserCapabilities 
 import { advanceOnboarding, deleteAuthset, updateDeviceAuth } from '@northern.tech/store/thunks';
 import pluralize from 'pluralize';
 
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../../../helptips/helptooltips';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import { DeviceLimitWarning } from '../../dialogs/preauth-dialog';
 import Authsetlist from './authsetlist';
 

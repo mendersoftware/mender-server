@@ -22,7 +22,7 @@ import Cookies from 'universal-cookie';
 
 import { actions } from '.';
 import { accessTokens, defaultPassword, defaultState, receivedPermissionSets, receivedRoles, testSsoId, userId } from '../../../../tests/mockData';
-import { HELPTOOLTIPS } from '../../components/helptips/helptooltips';
+import { HELPTOOLTIPS } from '@northern.tech/helptips/helptooltips';
 import { actions as appActions } from '../appSlice';
 import { getSamlStartUrl } from '../organizationSlice/constants';
 import { USER_LOGOUT, uiPermissionsById } from './constants';

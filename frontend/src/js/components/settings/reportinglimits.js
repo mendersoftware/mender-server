@@ -36,7 +36,7 @@ import { InfoHintContainer } from '@northern.tech/common-ui/info-hint';
 import { getReportingLimits } from '@northern.tech/store/thunks';
 import { toggle } from '@northern.tech/utils/helpers';
 
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../helptips/helptooltips';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 
 const useStyles = makeStyles()(theme => ({
   accordion: {

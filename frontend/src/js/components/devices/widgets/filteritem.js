@@ -19,7 +19,7 @@ import { FormHelperText, IconButton, MenuItem, Select, TextField } from '@mui/ma
 
 import { DEVICE_FILTERING_OPTIONS, TIMEOUTS, emptyFilter } from '@northern.tech/store/constants';
 
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import AttributeAutoComplete from './attribute-autocomplete';
 
 const textFieldStyle = { marginTop: 0, marginBottom: 15 };

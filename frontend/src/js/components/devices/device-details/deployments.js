@@ -27,7 +27,7 @@ import { DEVICE_LIST_DEFAULTS, deploymentStatesToSubstates, deploymentsApiUrl } 
 import { getDeviceDeployments, resetDeviceDeployments } from '@northern.tech/store/thunks';
 import { createDownload } from '@northern.tech/utils/helpers';
 
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import { DeviceStateSelection } from '../widgets/devicestateselection';
 
 const useStyles = makeStyles()(theme => ({

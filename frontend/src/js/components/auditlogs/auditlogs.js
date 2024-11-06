@@ -40,7 +40,7 @@ import { useLocationParams } from '@northern.tech/utils/liststatehook';
 import dayjs from 'dayjs';
 
 import historyImage from '../../../assets/img/history.png';
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../helptips/helptooltips';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import AuditLogsList from './auditlogslist';
 
 const detailsMap = {

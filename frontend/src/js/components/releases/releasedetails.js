@@ -58,7 +58,7 @@ import useWindowSize from '@northern.tech/utils/resizehook';
 import copy from 'copy-to-clipboard';
 import pluralize from 'pluralize';
 
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../helptips/helptooltips';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import Artifact from './artifact';
 import RemoveArtifactDialog from './dialogs/removeartifact';
 

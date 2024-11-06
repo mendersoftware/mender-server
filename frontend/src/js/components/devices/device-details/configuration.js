@@ -43,7 +43,7 @@ import { groupDeploymentDevicesStats, groupDeploymentStats } from '@northern.tec
 import { deepCompare, isEmpty, toggle } from '@northern.tech/utils/helpers';
 
 import Tracking from '../../../tracking';
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import ConfigImportDialog from './configimportdialog';
 import DeviceDataCollapse from './devicedatacollapse';
 

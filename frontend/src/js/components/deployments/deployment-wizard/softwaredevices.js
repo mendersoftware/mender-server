@@ -30,7 +30,7 @@ import pluralize from 'pluralize';
 import isUUID from 'validator/lib/isUUID';
 
 import { getDeviceIdentityText } from '../../devices/base-devices';
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 
 const useStyles = makeStyles()(theme => ({
   infoStyle: {

@@ -33,7 +33,7 @@ import Cookies from 'universal-cookie';
 
 import LoginLogo from '../../../assets/img/loginlogo.svg';
 import VeryMuch from '../../../assets/img/verymuch.svg';
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../helptips/helptooltips';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import { OAuth2Providers } from './oauth2providers';
 
 const { setSnackbar } = storeActions;

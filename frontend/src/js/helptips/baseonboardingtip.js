@@ -28,7 +28,7 @@ import storeActions from '@northern.tech/store/actions';
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { toggle } from '@northern.tech/utils/helpers';
 
-import Tracking from '../../tracking';
+import Tracking from '../tracking';
 
 const { setShowDismissOnboardingTipsDialog } = storeActions;
 

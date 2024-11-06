@@ -22,7 +22,7 @@ import { getOnboardingState } from '@northern.tech/store/selectors';
 
 import pendingIcon from '../../../../assets/img/pending_status.png';
 import { getOnboardingComponentFor } from '../../../utils/onboardingmanager';
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import Authsets from './authsets/authsets';
 import DeviceDataCollapse from './devicedatacollapse';
 

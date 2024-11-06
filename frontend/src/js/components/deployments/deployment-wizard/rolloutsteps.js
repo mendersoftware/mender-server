@@ -22,7 +22,7 @@ import InfoText from '@northern.tech/common-ui/infotext';
 import MenderTooltip from '@northern.tech/common-ui/mendertooltip';
 import { TIMEOUTS } from '@northern.tech/store/constants';
 
-import { HELPTOOLTIPS, MenderHelpTooltip } from '../../helptips/helptooltips';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 
 const useStyles = makeStyles()(theme => ({
   chip: { marginLeft: theme.spacing(-3), marginRight: theme.spacing(-3) },

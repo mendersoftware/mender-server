@@ -45,8 +45,8 @@ import { statCollector } from '@northern.tech/store/utils';
 import { toggle } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
 
-import BaseOnboardingTip from '../helptips/baseonboardingtip';
-import { DeploymentUploadFinished } from '../helptips/onboardingtips';
+import BaseOnboardingTip from '@northern.tech/helptips/baseonboardingtip';
+import { DeploymentUploadFinished } from '@northern.tech/helptips/onboardingtips';
 import DeploymentStatus, { DeploymentPhaseNotification } from './deployment-report/deploymentstatus';
 import DeviceList from './deployment-report/devicelist';
 import DeploymentOverview from './deployment-report/overview';
