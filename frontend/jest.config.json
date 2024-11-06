@@ -50,7 +50,8 @@
     "\\.(css|less)$": "<rootDir>/tests/cssTransform.js",
     "^@northern.tech/store/(.*)$": "<rootDir>/src/js/store/$1",
     "^@northern.tech/utils/(.*)$": "<rootDir>node_modules/@northern.tech/utils/packages/utils/$1",
-    "^@northern.tech/common-ui/(.*)$": "<rootDir>/src/js/common-ui/$1"
+    "^@northern.tech/common-ui/(.*)$": "<rootDir>/src/js/common-ui/$1",
+    "^@northern.tech/helptips/(.*)$": "<rootDir>/src/js/helptips/$1"
   },
   "watchPlugins": [
     "jest-watch-typeahead/filename",
