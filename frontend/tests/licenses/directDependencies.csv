@@ -11,6 +11,7 @@
 "@mui/icons-material","MIT","https://github.com/mui/material-ui"
 "@mui/material","MIT","https://github.com/mui/material-ui"
 "@mui/x-date-pickers","MIT","https://github.com/mui/mui-x"
+"@northern.tech/utils","Apache-2.0","https://github.com/NorthernTechHQ/nt-gui"
 "@redux-devtools/extension","MIT","https://github.com/reduxjs/redux-devtools"
 "@reduxjs/toolkit","MIT","https://github.com/reduxjs/redux-toolkit"
 "@stripe/react-stripe-js","MIT","https://github.com/stripe/react-stripe-js"
