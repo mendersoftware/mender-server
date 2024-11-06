@@ -9,13 +9,17 @@ import path from 'path';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import { fileURLToPath } from 'url';
 import webpack from 'webpack';
+import LicensePlugin from 'webpack-license-plugin';
 
 const require = createRequire(import.meta.url);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default (env, argv) => {
-  const devPlugins = argv.mode === 'production' ? [] : [new ESLintPlugin({ extensions: ['js', 'ts', 'tsx'] })];
+  const devPlugins =
+    argv.mode === 'production'
+      ? [new LicensePlugin({ outputFilename: 'licenses.json', excludedPackageTest: packageName => packageName.startsWith('@northern.tech') })]
+      : [new ESLintPlugin({ extensions: ['js', 'ts', 'tsx'] })];
   return {
     devtool: 'source-map',
     node: {
@@ -127,6 +131,7 @@ export default (env, argv) => {
         crypto: 'crypto-browserify',
         stream: require.resolve('stream-browserify'),
         util: require.resolve('util/'),
+        vm: require.resolve('vm-browserify'),
         'process/browser': require.resolve('process/browser')
       },
       plugins: [

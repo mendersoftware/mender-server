@@ -5,7 +5,6 @@ variables:
   FRONTEND_REPOSITORY: mendersoftware/gui
   DOCS_VERSION: development
   MENDER_IMAGE_GUI: '${CI_REGISTRY_IMAGE}/gui:build-${CI_PIPELINE_IID}'
-  MENDER_IMAGE_GUI_BASE: '${CI_REGISTRY_IMAGE}/gui:base-${CI_PIPELINE_IID}'
 
 test:frontend:lint:
   stage: test
@@ -137,13 +136,6 @@ build:frontend:docker:
     - docker context create ci;
     - fi
     - docker buildx create --name gui-builder --driver=docker-container ci
-    # needed for the license generation step
-    - docker build
-      --target base
-      --builder=gui-builder
-      --tag ${MENDER_IMAGE_GUI_BASE}
-      --push
-      .
     # build production target
     - docker build
       --tag ${MENDER_IMAGE_GUI}
@@ -273,25 +265,6 @@ publish:frontend:e2e-tests:enterprise:
   variables:
     COVERALLS_SERVICE_JOB_NUMBER: frontend-e2e-enterprise
     COVERALLS_FLAG_NAME: frontend-e2e-enterprise
-
-publish:frontend:licenses:
-  stage: publish
-  image: ${MENDER_IMAGE_GUI_BASE}
-  needs:
-    - job: build:frontend:docker
-      artifacts: false
-  script:
-    - cd /usr/src/app
-    - npm run disclaim
-  artifacts:
-    expire_in: 2w
-    paths:
-      - /usr/src/app/disclaimer.txt
-  rules:
-    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-      when: on_success
-  tags:
-    - hetzner-amd-beefy
 
 publish:frontend:docker:
   extends: publish:backend:docker

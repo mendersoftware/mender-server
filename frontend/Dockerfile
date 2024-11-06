@@ -2,8 +2,6 @@ FROM --platform=$BUILDPLATFORM node:23.1.0-alpine3.20 AS base
 WORKDIR /usr/src/app
 COPY package-lock.json package.json ./
 RUN npm ci
-
-FROM --platform=$BUILDPLATFORM base AS build
 COPY . ./
 RUN npm run build
 
@@ -13,7 +11,7 @@ EXPOSE 8080
 WORKDIR /var/www/mender-gui/dist
 ARG GIT_COMMIT_TAG
 ENV GIT_COMMIT_TAG=$GIT_COMMIT_TAG
-COPY --from=build /usr/src/app/dist .
+COPY --from=base /usr/src/app/dist .
 COPY ./entrypoint.sh /usr/src/entrypoint.sh
 COPY httpd.conf /etc/nginx/nginx.conf
 RUN sed -i 's|/var/run/nginx.pid|/tmp/nginx.pid|g' /etc/nginx/nginx.conf && sed -i 's|listen 80;|listen 8090;|g' /etc/nginx/nginx.conf
