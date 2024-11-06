@@ -48,6 +48,7 @@ import { ConfirmationButtons, EditButton } from '@northern.tech/common-ui/confir
 import { EditableLongText } from '@northern.tech/common-ui/editablelongtext';
 import FileSize from '@northern.tech/common-ui/filesize';
 import { RelativeTime } from '@northern.tech/common-ui/time';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';
 import { getReleaseListState, getReleaseTags, getSelectedRelease, getUserCapabilities } from '@northern.tech/store/selectors';
@@ -58,7 +59,6 @@ import useWindowSize from '@northern.tech/utils/resizehook';
 import copy from 'copy-to-clipboard';
 import pluralize from 'pluralize';
 
-import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import Artifact from './artifact';
 import RemoveArtifactDialog from './dialogs/removeartifact';
 

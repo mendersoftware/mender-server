@@ -17,9 +17,9 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { HighlightOff as HighlightOffIcon } from '@mui/icons-material';
 import { FormHelperText, IconButton, MenuItem, Select, TextField } from '@mui/material';
 
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import { DEVICE_FILTERING_OPTIONS, TIMEOUTS, emptyFilter } from '@northern.tech/store/constants';
 
-import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import AttributeAutoComplete from './attribute-autocomplete';
 
 const textFieldStyle = { marginTop: 0, marginBottom: 15 };

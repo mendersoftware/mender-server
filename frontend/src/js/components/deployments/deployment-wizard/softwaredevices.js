@@ -21,6 +21,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import AsyncAutocomplete from '@northern.tech/common-ui/asyncautocomplete';
 import InfoText from '@northern.tech/common-ui/infotext';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import { ALL_DEVICES, DEPLOYMENT_TYPES } from '@northern.tech/store/constants';
 import { getReleases, getSystemDevices } from '@northern.tech/store/thunks';
 import { stringToBoolean } from '@northern.tech/utils/helpers';
@@ -30,7 +31,6 @@ import pluralize from 'pluralize';
 import isUUID from 'validator/lib/isUUID';
 
 import { getDeviceIdentityText } from '../../devices/base-devices';
-import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 
 const useStyles = makeStyles()(theme => ({
   infoStyle: {

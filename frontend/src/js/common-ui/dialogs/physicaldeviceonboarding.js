@@ -19,6 +19,7 @@ import { InfoOutlined as InfoIcon } from '@mui/icons-material';
 import { Autocomplete, TextField } from '@mui/material';
 import { createFilterOptions } from '@mui/material/useAutocomplete';
 
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import { EXTERNAL_PROVIDER, onboardingSteps } from '@northern.tech/store/constants';
 import {
   getCurrentSession,
@@ -33,7 +34,6 @@ import {
 import { advanceOnboarding, setOnboardingApproach, setOnboardingDeviceType } from '@northern.tech/store/thunks';
 import { getDebConfigurationCode, versionCompare } from '@northern.tech/utils/helpers';
 
-import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import CopyCode from '../copy-code';
 import DocsLink from '../docslink';
 import { MenderTooltipClickable } from '../mendertooltip';

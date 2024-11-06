@@ -18,7 +18,6 @@ import { Divider, IconButton } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import FileSize from '@northern.tech/common-ui/filesize';
-
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 
 const useStyles = makeStyles()(theme => ({

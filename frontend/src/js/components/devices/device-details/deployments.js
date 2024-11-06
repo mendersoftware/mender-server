@@ -22,12 +22,12 @@ import Confirm from '@northern.tech/common-ui/confirm';
 import InfoHint from '@northern.tech/common-ui/info-hint';
 import Pagination from '@northern.tech/common-ui/pagination';
 import { MaybeTime } from '@northern.tech/common-ui/time';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import { getToken } from '@northern.tech/store/auth';
 import { DEVICE_LIST_DEFAULTS, deploymentStatesToSubstates, deploymentsApiUrl } from '@northern.tech/store/constants';
 import { getDeviceDeployments, resetDeviceDeployments } from '@northern.tech/store/thunks';
 import { createDownload } from '@northern.tech/utils/helpers';
 
-import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import { DeviceStateSelection } from '../widgets/devicestateselection';
 
 const useStyles = makeStyles()(theme => ({
