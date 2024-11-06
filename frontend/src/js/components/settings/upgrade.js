@@ -22,7 +22,7 @@ import Loader from '@northern.tech/common-ui/loader';
 import storeActions from '@northern.tech/store/actions';
 import { PLANS, TIMEOUTS } from '@northern.tech/store/constants';
 import { getFeatures, getOrganization } from '@northern.tech/store/selectors';
-import { cancelUpgrade, completeUpgrade, getDeviceLimit, getUserOrganization, requestPlanChange, startUpgrade } from '@northern.tech/store/thunks';
+import { completeUpgrade, getDeviceLimit, getUserOrganization, requestPlanChange } from '@northern.tech/store/thunks';
 import dayjs from 'dayjs';
 
 import AddOnSelection from './addonselection';
@@ -179,13 +179,7 @@ export const Upgrade = () => {
             </b>{' '}
             for <b>{PLANS[updatedPlan].price}</b>
           </p>
-          <CardSection
-            onCancel={() => Promise.resolve(dispatch(cancelUpgrade(org.id)))}
-            onComplete={handleUpgrade}
-            onSubmit={() => Promise.resolve(dispatch(startUpgrade(org.id)))}
-            setSnackbar={message => dispatch(setSnackbar(message))}
-            isSignUp={true}
-          />
+          <CardSection organization={org} onComplete={handleUpgrade} setSnackbar={message => dispatch(setSnackbar(message))} isSignUp={true} />
         </>
       )}
       {(!isTrial || updatedPlan === PLANS.enterprise.id) && (
