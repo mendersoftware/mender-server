@@ -280,6 +280,8 @@ publish:frontend:licenses:
   needs:
     - job: build:frontend:docker
       artifacts: false
+  before_script:
+    - apk add --no-cache git
   script:
     - cd /usr/src/app
     - npm run disclaim
