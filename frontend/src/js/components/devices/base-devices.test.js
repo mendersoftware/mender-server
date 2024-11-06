@@ -13,6 +13,8 @@
 //    limitations under the License.
 import React from 'react';
 
+import { defaultTextRender, getDeviceIdentityText } from '@northern.tech/common-ui/deviceidentity';
+
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
 import {
@@ -25,9 +27,7 @@ import {
   PendingEmptyState,
   PreauthorizedEmptyState,
   RejectedEmptyState,
-  RelativeDeviceTime,
-  defaultTextRender,
-  getDeviceIdentityText
+  RelativeDeviceTime
 } from './base-devices';
 
 describe('smaller components', () => {

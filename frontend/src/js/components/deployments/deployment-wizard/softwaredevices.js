@@ -20,6 +20,7 @@ import { Autocomplete, TextField, Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import AsyncAutocomplete from '@northern.tech/common-ui/asyncautocomplete';
+import { getDeviceIdentityText } from '@northern.tech/common-ui/deviceidentity';
 import InfoText from '@northern.tech/common-ui/infotext';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import { ALL_DEVICES, DEPLOYMENT_TYPES } from '@northern.tech/store/constants';
@@ -29,8 +30,6 @@ import { formatDeviceSearch } from '@northern.tech/utils/locationutils';
 import useWindowSize from '@northern.tech/utils/resizehook';
 import pluralize from 'pluralize';
 import isUUID from 'validator/lib/isUUID';
-
-import { getDeviceIdentityText } from '../../devices/base-devices';
 
 const useStyles = makeStyles()(theme => ({
   infoStyle: {
