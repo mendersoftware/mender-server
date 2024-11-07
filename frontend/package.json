@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Graphical user interface for Mender.",
   "dependencies": {
-    "@northern.tech/utils": "https://github.com/NorthernTechHQ/nt-gui#cdffaeb0db5d88d40dcbcde50340d5149f312a76",
     "@emotion/react": "11.13.3",
     "@emotion/styled": "11.13.0",
     "@mdi/js": "7.4.47",
@@ -11,6 +10,7 @@
     "@mui/icons-material": "6.1.6",
     "@mui/material": "6.1.6",
     "@mui/x-date-pickers": "7.22.1",
+    "@northern.tech/utils": "0.1.1",
     "@redux-devtools/extension": "3.3.0",
     "@reduxjs/toolkit": "2.3.0",
     "@stripe/react-stripe-js": "2.8.1",
@@ -95,7 +95,6 @@
     "jsdom-worker": "0.3.0",
     "less": "4.2.0",
     "less-loader": "12.2.0",
-    "webpack-license-plugin": "^4.5.0",
     "lint-staged": "15.2.10",
     "mini-css-extract-plugin": "2.9.2",
     "mockdate": "^3.0.5",
@@ -114,6 +113,7 @@
     "vm-browserify": "1.1.2",
     "webpack": "5.96.1",
     "webpack-cli": "5.1.4",
+    "webpack-license-plugin": "^4.5.0",
     "yarn": "1.22.22"
   },
   "browserslist": [
