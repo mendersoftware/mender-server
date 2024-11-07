@@ -85,9 +85,9 @@ To test/debug artifacts from GitLab CI, you can pull the image straight from the
 For testing, you need to setup the following environment variables:
 
 ```bash
-CI_PIPELINE_IID="1234" # The number of the pipeline
+COMMIT_SHA="$(git rev-parse HEAD)"
 export MENDER_IMAGE_REGISTRY=registry.gitlab.com
 export MENDER_IMAGE_REPOSITORY=northern.tech/mender/mender-server
-export MENDER_IMAGE_TAG=build-$CI_PIPELINE_IID
-export MENDER_IMAGE_TAG_TEST=test-$CI_PIPELINE_IID
+export MENDER_IMAGE_TAG=build-$COMMIT_SHA
+export MENDER_IMAGE_TAG_TEST=test-$COMMIT_SHA
 ```

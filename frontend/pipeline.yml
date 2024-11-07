@@ -4,7 +4,7 @@ variables:
     description: 'Node version to use for building and testing'
   FRONTEND_REPOSITORY: mendersoftware/gui
   DOCS_VERSION: development
-  MENDER_IMAGE_GUI: '${CI_REGISTRY_IMAGE}/gui:build-${CI_PIPELINE_IID}'
+  MENDER_IMAGE_GUI: ${MENDER_IMAGE_REGISTRY}/${MENDER_IMAGE_REPOSITORY}/gui:${MENDER_IMAGE_TAG}
 
 test:frontend:lint:
   stage: test
