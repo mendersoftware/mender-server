@@ -35,10 +35,10 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 	"github.com/mendersoftware/mender-server/pkg/rest_utils"
 
+	"github.com/mendersoftware/mender-server/pkg/tenant"
 	mt "github.com/mendersoftware/mender-server/pkg/testing"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/cache"
-	"github.com/mendersoftware/mender-server/services/deviceauth/client/tenant"
 	"github.com/mendersoftware/mender-server/services/deviceauth/devauth"
 	"github.com/mendersoftware/mender-server/services/deviceauth/devauth/mocks"
 	"github.com/mendersoftware/mender-server/services/deviceauth/jwt"
