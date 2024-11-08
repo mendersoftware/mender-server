@@ -142,6 +142,7 @@ export const TenantList = () => {
       sort: {}
     }
   });
+
   useEffect(() => {
     const { selectedTenant: selectedTenantName } = locationParams;
     if (selectedTenantName) {
@@ -162,16 +163,20 @@ export const TenantList = () => {
     },
     [dispatch]
   );
+
   const onCloseClick = useCallback(() => {
     setLocationParams({ pageState: { ...tenantListState, selectedTenant: '' } });
     return dispatch(setTenantsListState({ selectedTenant: null }));
-  }, [dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, setLocationParams, JSON.stringify(tenantListState)]);
+
   const onChangePagination = useCallback(
     (page, currentPerPage = perPage) => {
       dispatch(setTenantsListState({ page, perPage: currentPerPage }));
     },
     [dispatch, perPage]
   );
+
   const tenant = selectedTenant && tenants.find((tenant: Tenant) => selectedTenant === tenant.id);
   return (
     <div>

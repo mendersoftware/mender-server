@@ -99,7 +99,8 @@ const UserInputs = (props: UserInputsProps) => {
       setEmailInfoText('');
       setEmailErrorText('');
     }
-  }, [email]);
+  }, [email, setAdminExists]);
+
   return (
     <div className={classes.userInputContainer}>
       <div className="flexbox margin-bottom-small">
