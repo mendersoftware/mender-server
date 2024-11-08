@@ -20,7 +20,7 @@ export const getAuditlogState = state => state.organization.auditlog.selectionSt
 export const getAuditLog = state => state.organization.auditlog.events;
 export const getAuditLogSelectionState = state => state.organization.auditlog.selectionState;
 export const getSsoConfig = ({ organization: { ssoConfigs = [] } }) => ssoConfigs[0];
-export const getTenantsList = state => state.organization.organization.tenantList;
+export const getTenantsList = state => state.organization.tenantList;
 export const getWebhookEvents = state => state.organization.webhooks.events;
 export const getWebhookEventTotal = state => state.organization.webhooks.eventTotal;
 

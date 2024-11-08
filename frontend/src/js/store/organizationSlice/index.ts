@@ -23,17 +23,17 @@ export const initialState = {
     brand: ''
   },
   intentId: null,
-  organization: {
-    tenantList: {
-      ...TENANT_LIST_DEFAULT,
-      total: 0,
-      tenants: [],
-      selectedTenant: null,
-      sort: {
-        direction: SORTING_OPTIONS.desc,
-        key: 'name'
-      }
+  tenantList: {
+    ...TENANT_LIST_DEFAULT,
+    total: 0,
+    tenants: [],
+    selectedTenant: null,
+    sort: {
+      direction: SORTING_OPTIONS.desc,
+      key: 'name'
     }
+  },
+  organization: {
     // id, name, status, tenant_token, plan
   },
   auditlog: {
@@ -84,14 +84,10 @@ export const organizationSlice = createSlice({
       state.intentId = action.payload;
     },
     setOrganization: (state, action) => {
-      state.organization = {
-        ...state.organization,
-        ...action.payload,
-        tenantList: { ...state.organization.tenantList, ...action.payload.tenantList }
-      };
+      state.organization = { ...state.organization, ...action.payload };
     },
     setTenantListState: (state, action) => {
-      state.organization.tenantList = action.payload;
+      state.tenantList = action.payload;
     },
     receiveExternalDeviceIntegrations: (state, action) => {
       state.externalDeviceIntegrations = action.payload;

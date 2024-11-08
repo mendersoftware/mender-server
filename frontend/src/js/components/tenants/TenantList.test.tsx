@@ -21,59 +21,59 @@ const state = {
   ...defaultState,
   organization: {
     ...defaultState.organization,
+    tenantList: {
+      ...initialOrganizationState.tenantList,
+      tenants: [
+        {
+          id: '671a0f1dd58c813118fe8622',
+          parent_tenant_id: '6718de64b42e08dea2a2065d',
+          name: 'child2',
+          tenant_token: 'mQDYRCr-tGbDuJhPp7fArbfTA5htVTWE9G204AzhDUM',
+          status: 'active',
+          additional_info: {
+            marketing: false,
+            campaign: ''
+          },
+          plan: 'enterprise',
+          trial: false,
+          trial_expiration: null,
+          service_provider: false,
+          created_at: '2024-10-24T09:10:53.281Z',
+          cancelled_at: null,
+          children_tenants: null,
+          max_child_tenants: 0,
+          device_count: 0,
+          device_limit: 100,
+          binary_delta: true
+        },
+        {
+          id: '671a0f1dd58c813118fe8623',
+          parent_tenant_id: '6718de64b42e08dea2a2065a',
+          name: 'child3',
+          tenant_token: 'mQDYRCr-tGbDuJhPp7fArbfTA5htVTWE9G203AzhDUM',
+          status: 'active',
+          additional_info: {
+            marketing: false,
+            campaign: ''
+          },
+          plan: 'enterprise',
+          trial: false,
+          trial_expiration: null,
+          service_provider: false,
+          created_at: '2024-10-24T10:12:54.226Z',
+          cancelled_at: null,
+          children_tenants: null,
+          max_child_tenants: 0,
+          device_count: 0,
+          device_limit: 20,
+          binary_delta: true
+        }
+      ]
+    },
     organization: {
       ...defaultState.organization.organization,
       device_count: 20,
-      device_limit: 200,
-      tenantList: {
-        ...initialOrganizationState.organization.tenantList,
-        tenants: [
-          {
-            id: '671a0f1dd58c813118fe8622',
-            parent_tenant_id: '6718de64b42e08dea2a2065d',
-            name: 'child2',
-            tenant_token: 'mQDYRCr-tGbDuJhPp7fArbfTA5htVTWE9G204AzhDUM',
-            status: 'active',
-            additional_info: {
-              marketing: false,
-              campaign: ''
-            },
-            plan: 'enterprise',
-            trial: false,
-            trial_expiration: null,
-            service_provider: false,
-            created_at: '2024-10-24T09:10:53.281Z',
-            cancelled_at: null,
-            children_tenants: null,
-            max_child_tenants: 0,
-            device_count: 0,
-            device_limit: 100,
-            binary_delta: true
-          },
-          {
-            id: '671a0f1dd58c813118fe8623',
-            parent_tenant_id: '6718de64b42e08dea2a2065a',
-            name: 'child3',
-            tenant_token: 'mQDYRCr-tGbDuJhPp7fArbfTA5htVTWE9G203AzhDUM',
-            status: 'active',
-            additional_info: {
-              marketing: false,
-              campaign: ''
-            },
-            plan: 'enterprise',
-            trial: false,
-            trial_expiration: null,
-            service_provider: false,
-            created_at: '2024-10-24T10:12:54.226Z',
-            cancelled_at: null,
-            children_tenants: null,
-            max_child_tenants: 0,
-            device_count: 0,
-            device_limit: 20,
-            binary_delta: true
-          }
-        ]
-      }
+      device_limit: 200
     }
   }
 };
