@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 // @ts-nocheck
-import { EXTERNAL_PROVIDER } from '@northern.tech/store/commonConstants';
+import { EXTERNAL_PROVIDER, TIMEOUTS } from '@northern.tech/store/constants';
 import configureMockStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 
@@ -21,7 +21,6 @@ import { defaultState, tenants, webhookEvents } from '../../../../tests/mockData
 import { actions as appActions } from '../appSlice';
 import { locations } from '../appSlice/constants';
 import { getSessionInfo } from '../auth';
-import { TIMEOUTS } from '../commonConstants';
 import { SSO_TYPES } from './constants';
 import {
   addTenant,

@@ -11,18 +11,16 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Tenant as APITenant } from '@northern.tech/store/api/types/Tenant';
+import { Tenant as APITenant, UpgradeCompleteRequest } from '@northern.tech/store/api/types/MenderTypes';
 
 //TODO: rely on API tenant directly once type generation fixed
 export interface Tenant extends APITenant {
   parent_tenant_id: string;
-  name: string;
-  created_at: string;
   additional_info: {
     marketing: boolean;
     campaign: string;
   };
-  plan: string;
+  plan: UpgradeCompleteRequest.plan;
   trial: boolean;
   trial_expiration: string | null;
   service_provider: boolean;
