@@ -151,6 +151,7 @@ export const ExpandedTenant = (props: ExpandedTenantProps) => {
             onConfirm={() => {
               deleteTenant();
               setShouldDelete(false);
+              onCloseClick();
             }}
           />
           {newLimitForm && (

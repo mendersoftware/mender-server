@@ -19,19 +19,19 @@ import { Close as CloseIcon } from '@mui/icons-material';
 import { Divider, Drawer, IconButton, TextField } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import Api from '@northern.tech/store/api/general-api';
-import { useradmApiUrlv1 } from '@northern.tech/store/constants';
-import { getOrganization } from '@northern.tech/store/selectors';
-import { AppDispatch } from '@northern.tech/store/store';
-import { addTenant } from '@northern.tech/store/thunks';
-import validator from 'validator';
-
 import Form from '@northern.tech/common-ui/forms/form';
 import FormCheckbox from '@northern.tech/common-ui/forms/formcheckbox';
 import PasswordInput from '@northern.tech/common-ui/forms/passwordinput';
 import TextInput from '@northern.tech/common-ui/forms/textinput';
 import InfoHint from '@northern.tech/common-ui/info-hint';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
+import Api from '@northern.tech/store/api/general-api';
+import { rolesByName, useradmApiUrlv1 } from '@northern.tech/store/constants';
+import { getOrganization } from '@northern.tech/store/selectors';
+import { AppDispatch } from '@northern.tech/store/store';
+import { addTenant } from '@northern.tech/store/thunks';
+import validator from 'validator';
+
 import { PasswordLabel } from '../settings/user-management/userform';
 
 interface TenantCreateFormProps {
@@ -54,15 +54,22 @@ const useStyles = makeStyles()(theme => ({
   helpTooltip: {
     marginLeft: theme.spacing(9),
     alignSelf: 'flex-end'
+  },
+  userInputContainer: {
+    height: '260px'
   }
 }));
 interface UserInputsProps {
   email: string;
   setEmail: Dispatch<SetStateAction<string>>;
+  adminExists: boolean;
+  setAdminExists: Dispatch<SetStateAction<boolean>>;
 }
-
+const userExistsInfo =
+  'This user already has a Mender account, and will be assigned as admin to the new tenant. If you want to create a brand new user, try a different email address.';
+const newUserInfo = 'This will create a new user as admin of the new tenant.';
 const UserInputs = (props: UserInputsProps) => {
-  const { email, setEmail } = props;
+  const { email, setEmail, setAdminExists, adminExists } = props;
   const { classes } = useStyles();
   const [emailErrorText, setEmailErrorText] = useState<string>('');
   const [emailInfoText, setEmailInfoText] = useState<string>('');
@@ -77,11 +84,11 @@ const UserInputs = (props: UserInputsProps) => {
       const timeoutId = setTimeout(async () => {
         const exists = await checkEmailExists(email);
         if (exists) {
-          setEmailInfoText(
-            'This user already has a Mender account, and will be assigned as admin to the new tenant. If you want to create a brand new user, try a different email address.'
-          );
+          setAdminExists(true);
+          setEmailInfoText(userExistsInfo);
         } else {
-          setEmailInfoText('');
+          setAdminExists(false);
+          setEmailInfoText(newUserInfo);
         }
       }, 1000);
       return () => clearTimeout(timeoutId);
@@ -94,10 +101,11 @@ const UserInputs = (props: UserInputsProps) => {
     }
   }, [email]);
   return (
-    <>
+    <div className={classes.userInputContainer}>
       <div className="flexbox margin-bottom-small">
         <TextField
           style={{ width: 400 }}
+          className="margin-top-none"
           classes={{ root: 'required' }}
           onChange={e => setEmail(e.target.value)}
           required
@@ -110,22 +118,24 @@ const UserInputs = (props: UserInputsProps) => {
           <MenderHelpTooltip id={HELPTOOLTIPS.tenantAdmin.id} />
         </div>
       </div>
-      {emailInfoText ? (
-        <InfoHint className={classes.infoCard} content={emailInfoText} />
-      ) : (
-        <PasswordInput
-          label={<PasswordLabel />}
-          id="password"
-          validations={`isLength:8,isNot:${email}`}
-          InputLabelProps={{ shrink: true }}
-          edit={false}
-          placeholder="Password"
-          create
-          generate
-          className="margin-bottom-small"
-        />
+      {!adminExists && (
+        <>
+          <PasswordInput
+            label={<PasswordLabel />}
+            id="password"
+            validations={`isLength:8,isNot:${email}`}
+            InputLabelProps={{ shrink: true }}
+            edit={false}
+            placeholder="Password"
+            create
+            generate
+            className="margin-bottom-small"
+          />
+          <FormCheckbox className="margin-top-none" id="send_reset_password" label="Send an email to the user containing a link to reset the password" />
+        </>
       )}
-    </>
+      {emailInfoText ? <InfoHint className={classes.infoCard} content={emailInfoText} /> : <div style={{ margin: '52px' }}></div>}
+    </div>
   );
 };
 
@@ -136,23 +146,28 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
 
   const { classes } = useStyles();
   const [email, setEmail] = useState<string>('');
+  const [adminExists, setAdminExists] = useState<boolean>(false);
 
   const quota = spDeviceLimit - spDeviceUtilization;
   const numericValidation = {
-    min: { value: 0, message: `Device limit can't be less then 0` },
+    min: { value: 1, message: `Device limit can't be less then 0` },
     max: { value: quota, message: `Exceeds quota (${quota})` }
   };
 
   const submitNewTenant = async data => {
     const { name, password, sso, binary_delta, device_limit } = data;
-    await dispatch(addTenant({ name, admin: { password, email }, sso, device_limit: Number(device_limit), binary_delta }));
+    if (adminExists) {
+      await dispatch(addTenant({ name, users: [{ role: rolesByName.admin, email }], sso, device_limit: Number(device_limit), binary_delta }));
+    } else {
+      await dispatch(addTenant({ name, admin: { password, email }, sso, device_limit: Number(device_limit), binary_delta }));
+    }
     onCloseClick();
   };
   return (
     <Drawer open={open} onClose={onCloseClick} anchor="right" PaperProps={{ style: { minWidth: '67vw' } }}>
       <div className="flexbox center-aligned space-between">
         <div className="flexbox center-aligned">
-          <h3 className={`${classes.tenantTitle}`}>Add a tenant</h3>
+          <h3 className={classes.tenantTitle}>Add a tenant</h3>
         </div>
         <div className="flexbox center-aligned">
           <IconButton onClick={onCloseClick} aria-label="close" size="large">
@@ -162,24 +177,24 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
       </div>
       <Divider className="margin-bottom" />
       <Form
-        initialValues={{ name: '', password: '', sso: false, binary_delta: false, device_limit: 0 }}
+        initialValues={{ name: '', password: '', sso: false, binary_delta: false, device_limit: 1, send_reset_password: false }}
         classes={classes}
-        handleCancel
+        handleCancel={() => onCloseClick()}
         showButtons
         buttonColor="secondary"
         onSubmit={submitNewTenant}
         submitLabel="Create tenant"
       >
         <div className="flexbox column">
-          <TextInput required validations="isLength:3,trim" id="name" hint="Name" label="Tenant name" className="margin-bottom-large margin-top-large" />
-          <UserInputs email={email} setEmail={setEmail} />
-          <div className="flexbox">
+          <TextInput required validations="isLength:3,trim" id="name" hint="Name" label="Name" className="margin-bottom-large margin-top-large" />
+          <UserInputs adminExists={adminExists} setAdminExists={setAdminExists} email={email} setEmail={setEmail} />
+          <div className="flexbox margin-top-large margin-bottom-large">
             <TextInput
               required
               id="device_limit"
               hint="1000"
               label="Set device limit"
-              className={`${classes.devLimitInput}`}
+              className={classes.devLimitInput}
               numericValidations={numericValidation}
             />
             <div className={classes.helpTooltip}>

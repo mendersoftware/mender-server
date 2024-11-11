@@ -35,7 +35,7 @@ describe('TenantsForm', () => {
     const tenantExists = jest.spyOn(Api, 'get');
     tenantExists.mockResolvedValue({ exists: false });
 
-    const newChildTenant = { name: 'ChildTenant', email: 'child@example.com', password: 'MySecurePassword2025', dev: '1' };
+    const newChildTenant = { name: 'ChildTenant', email: 'child@example.com', password: 'MySecurePassword2025', dev: '2' };
     const preloadedState = { ...defaultState };
 
     render(<TenantPage />, { preloadedState });
@@ -45,7 +45,7 @@ describe('TenantsForm', () => {
     await user.type(screen.getByPlaceholderText('Name'), newChildTenant.name);
     await user.type(screen.getByRole('textbox', { name: /admin user/i }), newChildTenant.email);
     await user.type(screen.getByPlaceholderText('Password'), newChildTenant.password);
-    await user.type(screen.getByLabelText('Set device limit'), newChildTenant.dev);
+    await user.type(screen.getByLabelText('Set device limit'), `{backspace}${newChildTenant.dev}`);
     await user.click(screen.getByText(/enable delta artifact generation/i));
     await user.click(screen.getByRole('button', { name: /Create Tenant/i }));
 

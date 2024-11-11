@@ -61,7 +61,7 @@ const DateRender = (props: RendererProp<Tenant>) => {
   const attributeValue = dayjs(item?.[column.attribute.name]).format('YYYY-MM-DD HH:mm');
   return <AttributeRenderer content={attributeValue} textContent={item?.[column.attribute.name]}></AttributeRenderer>;
 };
-const columnHeaders: ColumnHeader<Tenant>[] = [
+export const columnHeaders: ColumnHeader<Tenant>[] = [
   {
     component: () => <></>,
     title: 'Name',
@@ -110,7 +110,7 @@ const columnHeaders: ColumnHeader<Tenant>[] = [
   }
 ];
 
-const TenantListItem = (props: ListItemComponentProps<Tenant>) => {
+export const TenantListItem = (props: ListItemComponentProps<Tenant>) => {
   const { listItem, columnHeaders, onClick } = props;
   const handleOnClick = useCallback(() => {
     onClick(listItem);

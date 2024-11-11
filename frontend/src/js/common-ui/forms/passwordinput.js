@@ -24,9 +24,9 @@ import generator from 'generate-password';
 
 import { runValidations } from './form';
 
-const PasswordGenerateButtons = ({ clearPass, edit, generatePass }) => (
+const PasswordGenerateButtons = ({ clearPass, edit, generatePass, disabled }) => (
   <div className="pass-buttons">
-    <Button color="primary" onClick={generatePass}>
+    <Button color="primary" onClick={generatePass} disabled={disabled}>
       Generate
     </Button>
     {edit ? <Button onClick={clearPass}>Cancel</Button> : null}
@@ -183,13 +183,13 @@ export const PasswordInput = ({
             </FormControl>
           )}
         />
-        {generate && !required && <PasswordGenerateButtons clearPass={clearPassClick} edit={edit} generatePass={generatePassClick} />}
+        {generate && !required && <PasswordGenerateButtons disabled={disabled} clearPass={clearPassClick} edit={edit} generatePass={generatePassClick} />}
       </div>
       {copied ? <div className="green fadeIn margin-bottom-small">Copied to clipboard</div> : null}
       {create && (
         <>
           <PasswordGenerationControls feedback={feedback} score={score} />
-          {generate && required && <PasswordGenerateButtons clearPass={clearPassClick} edit={edit} generatePass={generatePassClick} />}
+          {generate && required && <PasswordGenerateButtons disabled={disabled} clearPass={clearPassClick} edit={edit} generatePass={generatePassClick} />}
         </>
       )}
     </div>
