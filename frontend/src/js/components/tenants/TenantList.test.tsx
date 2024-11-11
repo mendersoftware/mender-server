@@ -11,15 +11,11 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Tenant } from '@northern.tech/store/api/types/Tenant';
 import { initialState as initialOrganizationState } from '@northern.tech/store/organizationSlice';
-import * as OrganizationActions from '@northern.tech/store/organizationSlice/thunks';
-import { screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
-import { ExpandedTenant } from './ExpandedTenant';
+import { TenantList } from './TenantList';
 
 const state = {
   ...defaultState,
@@ -53,35 +49,43 @@ const state = {
             device_count: 0,
             device_limit: 100,
             binary_delta: true
+          },
+          {
+            id: '671a0f1dd58c813118fe8623',
+            parent_tenant_id: '6718de64b42e08dea2a2065a',
+            name: 'child3',
+            tenant_token: 'mQDYRCr-tGbDuJhPp7fArbfTA5htVTWE9G203AzhDUM',
+            status: 'active',
+            additional_info: {
+              marketing: false,
+              campaign: ''
+            },
+            plan: 'enterprise',
+            trial: false,
+            trial_expiration: null,
+            service_provider: false,
+            created_at: '2024-10-24T10:12:54.226Z',
+            cancelled_at: null,
+            children_tenants: null,
+            max_child_tenants: 0,
+            device_count: 0,
+            device_limit: 20,
+            binary_delta: true
           }
         ]
       }
     }
   }
 };
-const tenant = state.organization.organization.tenantList.tenants[0];
 
-describe('ExpandedTenant', () => {
+describe('TenantList', () => {
   it('renders correctly', () => {
-    const { baseElement } = render(<ExpandedTenant onCloseClick={jest.fn} tenant={tenant} />, {
+    // eslint-disable-next-line react/jsx-no-undef
+    const { baseElement } = render(<TenantList />, {
       preloadedState: state
     });
     const view = baseElement;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
-  });
-  it('works as intended', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const editDeviceLimit = jest.spyOn(OrganizationActions, 'editTenantDeviceLimit');
-
-    const newLimit = '5';
-    render(<ExpandedTenant onCloseClick={jest.fn} tenant={tenant} />, { preloadedState: state });
-    expect(screen.queryByText(`Tenant Information for ${tenant.name}`));
-    await user.click(screen.getByRole('button', { name: /edit device limit/i }));
-    const limitInput = screen.getByTestId('dev-limit-input');
-    await user.clear(limitInput);
-    await user.type(limitInput, newLimit);
-    await user.click(screen.getByRole('button', { name: /save/i }));
-    expect(editDeviceLimit).toHaveBeenCalledWith({ newLimit: Number(newLimit), name: tenant.name, id: tenant.id });
   });
 });

@@ -17,13 +17,14 @@ import configureMockStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 
 import { actions } from '.';
-import { defaultState, webhookEvents } from '../../../../tests/mockData';
+import { defaultState, tenants, webhookEvents } from '../../../../tests/mockData';
 import { actions as appActions } from '../appSlice';
 import { locations } from '../appSlice/constants';
 import { getSessionInfo } from '../auth';
 import { TIMEOUTS } from '../commonConstants';
 import { SSO_TYPES } from './constants';
 import {
+  addTenant,
   cancelRequest,
   cancelUpgrade,
   changeIntegration,
@@ -35,6 +36,7 @@ import {
   deleteIntegration,
   deleteSsoConfig,
   downloadLicenseReport,
+  editTenantDeviceLimit,
   getAuditLogs,
   getAuditLogsCsvLink,
   getCurrentCard,
@@ -42,6 +44,7 @@ import {
   getSsoConfigById,
   getSsoConfigs,
   getTargetLocation,
+  getTenants,
   getUserOrganization,
   getWebhookEvents,
   requestPlanChange,
@@ -609,6 +612,71 @@ describe('organization actions', () => {
       { type: deleteSsoConfig.fulfilled.type }
     ];
     const request = store.dispatch(deleteSsoConfig({ id: '1' }));
+    expect(request).resolves.toBeTruthy();
+    await request.then(() => {
+      const storeActions = store.getActions();
+      expect(storeActions).toHaveLength(expectedActions.length);
+      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    });
+  });
+  it('should allow adding tenant', async () => {
+    const store = mockStore({ ...defaultState });
+    expect(store.getActions()).toHaveLength(0);
+    const expectedActions = [
+      { type: addTenant.pending.type },
+      { type: getTenants.pending.type },
+      { type: appActions.setSnackbar.type, payload: 'Tenant was created successfully.' },
+      { type: actions.setTenantListState.type },
+      { type: getTenants.fulfilled.type },
+      { type: addTenant.fulfilled.type }
+    ];
+    const request = store.dispatch(
+      addTenant({
+        name: 'Mikita',
+        password: 'eWlXPqo4k8366KOs',
+        device_limit: '2',
+        binary_delta: true
+      })
+    );
+    expect(request).resolves.toBeTruthy();
+    await request.then(() => {
+      const storeActions = store.getActions();
+      expect(storeActions).toHaveLength(expectedActions.length);
+      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    });
+  });
+  it('should allow retrieving tenant', async () => {
+    const store = mockStore({ ...defaultState });
+    expect(store.getActions()).toHaveLength(0);
+    const expectedActions = [{ type: getTenants.pending.type }, { type: actions.setTenantListState.type }, { type: getTenants.fulfilled.type }];
+    const request = store.dispatch(getTenants());
+    expect(request).resolves.toBeTruthy();
+    await request.then(() => {
+      const storeActions = store.getActions();
+      expect(storeActions).toHaveLength(expectedActions.length);
+      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    });
+  });
+  it('should allow changing tenants device limit', async () => {
+    const store = mockStore({
+      ...defaultState,
+      users: { ...defaultState.users, currentSession: getSessionInfo() },
+      organization: { ...defaultState.organization, tenantsList: { ...defaultState.organization.tenantList, tenants } }
+    });
+    expect(store.getActions()).toHaveLength(0);
+    const expectedActions = [
+      { type: editTenantDeviceLimit.pending.type },
+      { type: appActions.setSnackbar.type, payload: 'Device Limit was changed successfully' },
+      { type: getTenants.pending.type },
+      { type: getUserOrganization.pending.type },
+      { type: actions.setOrganization.type },
+      { type: appActions.setAnnouncement.type, payload: tenantDataDivergedMessage },
+      { type: getUserOrganization.fulfilled.type },
+      { type: actions.setTenantListState.type },
+      { type: getTenants.fulfilled.type },
+      { type: editTenantDeviceLimit.fulfilled.type }
+    ];
+    const request = store.dispatch(editTenantDeviceLimit({ id: '671a0f1dd58c813118fe8622', name: 'child2', newLimit: 2 }));
     expect(request).resolves.toBeTruthy();
     await request.then(() => {
       const storeActions = store.getActions();
