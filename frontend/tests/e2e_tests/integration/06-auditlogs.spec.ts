@@ -35,12 +35,17 @@ const checkDownloadedReplayForSecret = async (path, secret) => {
       const encodedText = line.substring(line.indexOf(search) + search.length, line.lastIndexOf(`}]';`));
       const jsonContent = Buffer.from(encodedText, 'base64').toString();
       let content;
+      let decodedContent;
       try {
         content = JSON.parse(jsonContent);
-      } catch {
-        console.log('checkDownloadedReplayForSecret', jsonContent);
+        decodedContent = String.fromCharCode(...content.data);
+      } catch (error) {
+        console.log('checkDownloadedReplayForSecret', error);
+        console.log('checkDownloadedReplayForSecret - encodedText', encodedText);
+        console.log('checkDownloadedReplayForSecret - jsonContent', jsonContent);
+        console.log('checkDownloadedReplayForSecret - decodedContent', decodedContent);
       }
-      const decodedContent = String.fromCharCode(...content.data);
+      expect(decodedContent).toBeTruthy();
       expect(decodedContent).not.toContain(secret);
       fileStream.close();
       return;
