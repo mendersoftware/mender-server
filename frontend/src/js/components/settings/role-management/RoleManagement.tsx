@@ -23,7 +23,7 @@ import DetailsTable from '@northern.tech/common-ui/detailstable';
 import { DocsTooltip } from '@northern.tech/common-ui/docslink';
 import EnterpriseNotification from '@northern.tech/common-ui/enterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/info-hint';
-import { BENEFITS, emptyRole } from '@northern.tech/store/constants';
+import { BENEFITS, UiRoleDefinition, emptyRole } from '@northern.tech/store/constants';
 import { getGroupsByIdWithoutUngrouped, getIsEnterprise, getOrganization, getReleaseTagsById, getRelevantRoles } from '@northern.tech/store/selectors';
 import { createRole, editRole, getDynamicGroups, getExistingReleaseTags, getGroups, getRoles, removeRole } from '@northern.tech/store/thunks';
 
@@ -36,9 +36,9 @@ const columns = [
 ];
 
 export const RoleManagement = () => {
-  const [adding, setAdding] = useState(false);
-  const [editing, setEditing] = useState(false);
-  const [role, setRole] = useState({ ...emptyRole });
+  const [adding, setAdding] = useState<boolean>(false);
+  const [editing, setEditing] = useState<boolean>(false);
+  const [role, setRole] = useState<UiRoleDefinition>({ ...emptyRole });
   const dispatch = useDispatch();
   const groups = useSelector(getGroupsByIdWithoutUngrouped);
   const releaseTags = useSelector(getReleaseTagsById);

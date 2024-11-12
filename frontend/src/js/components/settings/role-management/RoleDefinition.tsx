@@ -26,6 +26,7 @@ import {
   ALL_RELEASES,
   PermissionsArea,
   UiPermission,
+  UiRoleDefinition,
   emptyRole,
   emptyUiPermissions,
   itemUiPermissionsReducer,
@@ -34,6 +35,7 @@ import {
   uiPermissionsById
 } from '@northern.tech/store/constants';
 import { deepCompare, toggle } from '@northern.tech/utils/helpers';
+import { AsyncThunkAction } from '@reduxjs/toolkit';
 
 import { DeleteRoleDialog } from './DeleteRoleDialog';
 import { ItemScope, ItemSelection, ItemSelectionType, PermissionsItem, ScopedUiPermissions, emptyItemSelection } from './PermissionsItems';
@@ -159,7 +161,23 @@ const ServiceProviderPermissionSelection: FunctionComponent<PermissionsSelection
   </>
 );
 
-export const FormContent = ({ editing, groups: stateGroups, isServiceProvider, releases: stateReleases, onCancel, selectedRole }) => {
+interface RoleDefinitionFormProps {
+  editing: boolean;
+  isServiceProvider: boolean;
+  groups: ItemScope[];
+  releases: ItemScope[];
+  onCancel: () => void;
+  selectedRole: UiRoleDefinition;
+}
+
+export const FormContent: FunctionComponent<RoleDefinitionFormProps> = ({
+  editing,
+  groups: stateGroups,
+  isServiceProvider,
+  releases: stateReleases,
+  onCancel,
+  selectedRole
+}) => {
   const { classes } = useStyles();
   const { watch, setValue } = useFormContext();
   const watchedValues = watch();
@@ -221,7 +239,19 @@ export const FormContent = ({ editing, groups: stateGroups, isServiceProvider, r
   );
 };
 
-export const RoleDefinition = ({
+interface RoleDefinitionProps {
+  adding: boolean;
+  editing: boolean;
+  isServiceProvider: boolean;
+  stateGroups: Record<string, object>;
+  stateReleaseTags: Record<string, object>;
+  onCancel: () => void;
+  onSubmit: (role: UiRoleDefinition) => void;
+  removeRole: () => AsyncThunkAction<void, string, object>;
+  selectedRole: UiRoleDefinition;
+}
+
+export const RoleDefinition: FunctionComponent<RoleDefinitionProps> = ({
   adding,
   editing,
   isServiceProvider,
