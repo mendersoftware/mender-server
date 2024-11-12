@@ -58,7 +58,7 @@ export const PrivateSPRoutes = () => {
       <Route path="help" element={<Help />}>
         <Route path=":section" element={null} />
       </Route>
-      <Route path="*" element={<TenantPage />}></Route>
+      <Route path="*" element={<TenantPage />} />
     </Routes>
   );
 };

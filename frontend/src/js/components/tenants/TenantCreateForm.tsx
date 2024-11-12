@@ -135,7 +135,7 @@ const UserInputs = (props: UserInputsProps) => {
           <FormCheckbox className="margin-top-none" id="send_reset_password" label="Send an email to the user containing a link to reset the password" />
         </>
       )}
-      {emailInfoText ? <InfoHint className={classes.infoCard} content={emailInfoText} /> : <div style={{ margin: '52px' }}></div>}
+      {emailInfoText ? <InfoHint className={classes.infoCard} content={emailInfoText} /> : <div style={{ margin: '52px' }} />}
     </div>
   );
 };

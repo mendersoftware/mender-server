@@ -39,7 +39,7 @@ export const GroupsSubheader = ({ heading }) => {
   return (
     <ListSubheader classes={{ root: 'heading-lined' }} className={classes.header} disableGutters disableSticky key="static-groups-sub">
       <span className={classes.groupHeading}>{heading}</span>
-      <div className={classes.groupBorder}></div>
+      <div className={classes.groupBorder} />
     </ListSubheader>
   );
 };

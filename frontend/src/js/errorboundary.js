@@ -30,9 +30,9 @@ export default class ErrorBoundary extends React.Component {
     return this.state.error ? (
       // this will get embedded in the main grid, so we have to simulate the three empty areas for logo, header and sidebar
       <>
-        <div></div>
-        <div></div>
-        <div></div>
+        <div />
+        <div />
+        <div />
         <div className="flexbox centered">
           <div>
             <h2>An error occured.</h2>

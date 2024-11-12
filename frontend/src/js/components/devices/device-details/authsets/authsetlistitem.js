@@ -23,7 +23,7 @@ import Time from '@northern.tech/common-ui/time';
 import { DEVICE_DISMISSAL_STATE, DEVICE_STATES, TIMEOUTS } from '@northern.tech/store/constants';
 import { formatTime } from '@northern.tech/utils/helpers';
 
-const padder = <div key="padder" style={{ flexGrow: 1 }}></div>;
+const padder = <div key="padder" style={{ flexGrow: 1 }} />;
 
 const getDismissalConfirmation = (device, authset) => {
   switch (authset.status) {

@@ -59,7 +59,7 @@ const AttributeRenderer = ({ content, textContent }) => (
 const DateRender = (props: RendererProp<Tenant>) => {
   const { column, item } = props;
   const attributeValue = dayjs(item?.[column.attribute.name]).format('YYYY-MM-DD HH:mm');
-  return <AttributeRenderer content={attributeValue} textContent={item?.[column.attribute.name]}></AttributeRenderer>;
+  return <AttributeRenderer content={attributeValue} textContent={item?.[column.attribute.name]} />;
 };
 export const columnHeaders: ColumnHeader<Tenant>[] = [
   {
@@ -191,8 +191,8 @@ export const TenantList = () => {
         onSelect={false}
         pageLoading={false}
         ListItemComponent={TenantListItem}
-      ></CommonList>
-      {selectedTenant && tenant && <ExpandedTenant onCloseClick={onCloseClick} tenant={tenant}></ExpandedTenant>}
+      />
+      {selectedTenant && tenant && <ExpandedTenant onCloseClick={onCloseClick} tenant={tenant} />}
     </div>
   );
 };

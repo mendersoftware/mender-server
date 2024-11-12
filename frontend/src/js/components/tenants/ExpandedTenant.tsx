@@ -123,19 +123,19 @@ export const ExpandedTenant = (props: ExpandedTenantProps) => {
           <FormControlLabel
             control={<Checkbox color="primary" size="small" disabled={true} checked={binary_delta} />}
             label={'Enable Delta Artifact generation'}
-          ></FormControlLabel>
+          />
           <FormControlLabel
             style={{ marginTop: 10 }}
             control={<Checkbox color="primary" size="small" checked={true} disabled={true} />}
             label={'Restrict to Service Provider’s Single Sign-On settings'}
-          ></FormControlLabel>
+          />
           <div className="margin-top-x-small margin-bottom">
             <Link to="/settings/organization-and-billing">View Single Sign-On settings</Link>
           </div>
         </div>
         <div className="flexbox">
           <div>
-            <DeviceCount current={device_count} max={device_limit} variant="detailed"></DeviceCount>
+            <DeviceCount current={device_count} max={device_limit} variant="detailed" />
           </div>
           {!newLimitForm && (
             <Button className={`margin-left ${classes.editLimitButton}`} onClick={() => setNewLimitForm(true)}>

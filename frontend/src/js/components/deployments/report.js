@@ -234,12 +234,7 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type }) => {
       top: onboardingTooltipAnchor.current.offsetTop + onboardingTooltipAnchor.current.offsetHeight
     };
     onboardingComponent = (
-      <BaseOnboardingTip
-        id={onboardingState.progress}
-        progress={onboardingState.progress}
-        component={<DeploymentUploadFinished></DeploymentUploadFinished>}
-        anchor={anchor}
-      />
+      <BaseOnboardingTip id={onboardingState.progress} progress={onboardingState.progress} component={<DeploymentUploadFinished />} anchor={anchor} />
     );
   }
 

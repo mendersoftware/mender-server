@@ -219,10 +219,8 @@ export const ReleasesList = ({ className = '', onFileUploadClick }) => {
             <Loader show={isLoading} small />
           </div>
           {selectedRows?.length > 0 && <ReleaseQuickActions actionCallbacks={actionCallbacks} userCapabilities={userCapabilities} releases={releases} />}
-          {addTagsDialog && <AddTagsDialog selectedReleases={selectedReleases} onClose={() => setAddTagsDialog(false)}></AddTagsDialog>}
-          {deleteDialogConfirmation && (
-            <DeleteReleasesConfirmationDialog onClose={() => setDeleteDialogConfirmation(false)} onSubmit={deleteReleases}></DeleteReleasesConfirmationDialog>
-          )}
+          {addTagsDialog && <AddTagsDialog selectedReleases={selectedReleases} onClose={() => setAddTagsDialog(false)} />}
+          {deleteDialogConfirmation && <DeleteReleasesConfirmationDialog onClose={() => setDeleteDialogConfirmation(false)} onSubmit={deleteReleases} />}
         </>
       )}
     </div>

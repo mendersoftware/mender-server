@@ -129,7 +129,7 @@ export const ProgressChartComponent = ({
                     {PhaseDelimiter ? (
                       <PhaseDelimiter {...commonProps} />
                     ) : (
-                      <div className={`absolute ${classes.defaultDelimiter}`} style={{ left: `${phase.offset}%` }}></div>
+                      <div className={`absolute ${classes.defaultDelimiter}`} style={{ left: `${phase.offset}%` }} />
                     )}
                   </>
                 )}
@@ -137,7 +137,7 @@ export const ProgressChartComponent = ({
             );
           })}
           <div className="progress-step relative flexbox progress-step-total">
-            <div className="progress-bar"></div>
+            <div className="progress-bar" />
           </div>
         </div>
         {!minimal && Side && <Side compact={compact} {...remainder} {...sideProps} />}
