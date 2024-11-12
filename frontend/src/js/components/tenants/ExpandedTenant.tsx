@@ -51,7 +51,6 @@ const useStyles = makeStyles()(theme => ({
     alignSelf: 'flex-end'
   },
   editLimitButton: {
-    height: '42px',
     alignSelf: 'center'
   }
 }));
@@ -134,27 +133,8 @@ export const ExpandedTenant = (props: ExpandedTenantProps) => {
           </div>
         </div>
         <div className="flexbox">
-          <div>
-            <DeviceCount current={device_count} max={device_limit} variant="detailed" />
-          </div>
-          {!newLimitForm && (
-            <Button className={`margin-left ${classes.editLimitButton}`} onClick={() => setNewLimitForm(true)}>
-              Edit device limit
-            </Button>
-          )}
-          <ConfirmModal
-            header="Are you sure you want to delete this tenant?"
-            description="All devices, users, artifacts and audit logs associated with the tenant will be removed."
-            toType="delete"
-            open={shouldDelete}
-            close={() => setShouldDelete(false)}
-            onConfirm={() => {
-              deleteTenant();
-              setShouldDelete(false);
-              onCloseClick();
-            }}
-          />
-          {newLimitForm && (
+          <DeviceCount current={device_count} max={device_limit} variant="detailed" />
+          {newLimitForm ? (
             <div className="margin-left">
               <div className={classes.devLimitLabel}>Set device limit</div>
               <div className="flexbox">
@@ -195,7 +175,23 @@ export const ExpandedTenant = (props: ExpandedTenantProps) => {
                 to increase your total limit
               </FormHelperText>
             </div>
+          ) : (
+            <Button className={`margin-left ${classes.editLimitButton}`} onClick={() => setNewLimitForm(true)}>
+              Edit device limit
+            </Button>
           )}
+          <ConfirmModal
+            header="Are you sure you want to delete this tenant?"
+            description="All devices, users, artifacts and audit logs associated with the tenant will be removed."
+            toType="delete"
+            open={shouldDelete}
+            close={() => setShouldDelete(false)}
+            onConfirm={() => {
+              deleteTenant();
+              setShouldDelete(false);
+              onCloseClick();
+            }}
+          />
         </div>
       </div>
     </Drawer>

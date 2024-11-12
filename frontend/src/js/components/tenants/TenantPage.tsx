@@ -49,7 +49,7 @@ export const TenantPage = () => {
     <div>
       <h2>Tenants</h2>
       {tenants.length ? <TenantList /> : <TenantsEmptyState openModal={() => setShowCreate(true)} />}
-      <Chip color="primary" icon={<AddIcon />} label="Add tenant" onClick={() => setShowCreate(true)} />
+      <Chip className="margin-top-small" color="primary" icon={<AddIcon />} label="Add tenant" onClick={() => setShowCreate(true)} />
       {showCreate && <TenantCreateForm open={showCreate} onCloseClick={() => setShowCreate(false)} />}
     </div>
   );

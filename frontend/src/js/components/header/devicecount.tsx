@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { DeveloperBoard as DeveloperBoardIcon, Warning as WarningIcon } from '@mui/icons-material';
-import { LinearProgress } from '@mui/material';
+import { Divider, LinearProgress } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 interface DeviceCountProps {
@@ -25,10 +25,6 @@ export const LIMIT_THRESHOLD = 0.8;
 const useStyles = makeStyles()(theme => ({
   devLimitProgress: {
     width: '375px'
-  },
-  devLimitDetailed: {
-    paddingBottom: '11px',
-    borderBottom: `1px solid ${theme.palette.grey['600']}`
   },
   devIcon: {
     color: theme.palette.primary.main,
@@ -55,8 +51,9 @@ const useStyles = makeStyles()(theme => ({
 export const DeviceCount = (props: DeviceCountProps) => {
   const { classes } = useStyles();
   const { current, max, variant } = props;
+  const isDetailedDisplay = variant === 'detailed';
   return (
-    <div className={`${classes.devLimitProgress} ${variant === 'detailed' ? classes.devLimitDetailed : ''}`}>
+    <div className={classes.devLimitProgress}>
       {variant === 'common' && (
         <div className="flexbox centered">
           <DeveloperBoardIcon className={classes.devIcon} />
@@ -65,8 +62,8 @@ export const DeviceCount = (props: DeviceCountProps) => {
           </p>
         </div>
       )}
-      {variant === 'detailed' && (
-        <div className="flexbox centered space-between">
+      {isDetailedDisplay && (
+        <div className="flexbox centered space-between margin-left-x-small margin-right-x-small">
           <div className="flexbox centered">
             <p className={classes.devText}>
               Devices: {current}/{max}
@@ -76,7 +73,12 @@ export const DeviceCount = (props: DeviceCountProps) => {
           <div className={classes.devLeft}>{Math.max(0, max - current)} devices left</div>
         </div>
       )}
-      <LinearProgress className={classes.progressBar} variant="determinate" value={Math.round((current / max) * 100)} />
+      <LinearProgress
+        className={`${classes.progressBar} ${isDetailedDisplay ? 'margin-left-x-small margin-right-x-small' : ''}`}
+        variant="determinate"
+        value={Math.round((current / max) * 100)}
+      />
+      {isDetailedDisplay && <Divider className="margin-top-small" />}
     </div>
   );
 };
