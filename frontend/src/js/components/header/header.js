@@ -313,12 +313,14 @@ export const Header = ({ isDarkMode }) => {
     const showOfferCookie = cookies.get('offer') === currentOffer.name;
     setHasOfferCookie(showOfferCookie);
     clearInterval(deviceTimer.current);
-    deviceTimer.current = setInterval(() => dispatch(getAllDeviceCounts()), TIMEOUTS.refreshDefault);
+    if (!service_provider) {
+      deviceTimer.current = setInterval(() => dispatch(getAllDeviceCounts()), TIMEOUTS.refreshDefault);
+    }
     return () => {
       clearInterval(deviceTimer.current);
       clearTimeout(feedbackTimer.current);
     };
-  }, [dispatch]);
+  }, [dispatch, service_provider]);
 
   useEffect(() => {
     const today = dayjs();
