@@ -285,7 +285,7 @@ export const Header = ({ isDarkMode }) => {
   const { token } = useSelector(getCurrentSession);
   const userId = useDebounce(user.id, TIMEOUTS.debounceDefault);
   const isSp = useSelector(getIsServiceProvider);
-  const { device_count: spDeviceUtilization } = useSelector(getOrganization);
+  const { device_count: spDeviceUtilization, device_limit: tenantDeviceLimit, service_provider } = useSelector(getOrganization);
   const dispatch = useDispatch();
   const deviceTimer = useRef();
   const feedbackTimer = useRef();
@@ -373,7 +373,7 @@ export const Header = ({ isDarkMode }) => {
         </div>
         {isSp ? (
           <>
-            {deviceLimit > 0 && <DeviceCount current={spDeviceUtilization} max={deviceLimit} variant="common" />}
+            {tenantDeviceLimit > 0 && <DeviceCount current={spDeviceUtilization} max={tenantDeviceLimit} variant="common" />}
             <div className="flexbox center-aligned">
               <div className="header-section">
                 <div className={`${classes.spTenantBadge} uppercased bold`}>Service Provider</div>
