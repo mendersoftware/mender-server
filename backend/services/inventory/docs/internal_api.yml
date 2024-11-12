@@ -284,24 +284,18 @@ paths:
       parameters:
         - in: query
           name: service
-          schema:
-            type: string
-            example: "devicemonitor"
+          type: string
           description: The name of the calling service.
         - in: path
           name: device_id
           required: true
           description: ID of the device that needs reindexing.
-          schema:
-            type: string
-            example: "4396a839-8147-4d01-ac7d-fd3edf8f7ad0"
+          type: string
         - in: path
           name: tenant_id
           required: true
           description: ID of tenant owning the device.
-          schema:
-            type: string
-            example: "123456789012345678901234"
+          type: string
       responses:
         200:
           description: Attributes have been re-indexed.
