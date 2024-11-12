@@ -42,7 +42,7 @@ const getErrorMsg = (validateMethod, args) => {
       }
       break;
     case 'isAlphanumericLocator':
-      if (args[0] && validator.isWhitelisted(args[0], 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-')) {
+      if (args[0] && validator.matches(args[0], /^[a-zA-Z0-9_-]+$/)) {
         return '';
       } else {
         return 'This please only enter valid characters. Valid characters are a-z, A-Z, 0-9, _ and -';
