@@ -19,6 +19,7 @@ import { Close as CloseIcon } from '@mui/icons-material';
 import { Button, Divider, Drawer, IconButton, InputLabel } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import Form from '@northern.tech/common-ui/forms/form';
 import TextInput from '@northern.tech/common-ui/forms/textinput';
 import {
@@ -37,7 +38,6 @@ import {
 import { deepCompare, toggle } from '@northern.tech/utils/helpers';
 import { AsyncThunkAction } from '@reduxjs/toolkit';
 
-import { DeleteRoleDialog } from './DeleteRoleDialog';
 import { ItemScope, ItemSelection, ItemSelectionType, PermissionsItem, ScopedUiPermissions, emptyItemSelection } from './PermissionsItems';
 import { PermissionsSelectionBaseProps } from './PermissionsSelect';
 
@@ -359,7 +359,14 @@ export const RoleDefinition: FunctionComponent<RoleDefinitionProps> = ({
           selectedRole={selectedRole}
         />
       </Form>
-      <DeleteRoleDialog dismiss={onToggleRemoveDialog} open={removeDialog} submit={onRemoveRole} name={selectedRole.name} />
+      <ConfirmModal
+        header="Delete role?"
+        description={`Are you sure you want to delete the role ${selectedRole.name}?`}
+        toType={selectedRole.name}
+        open={removeDialog}
+        close={onToggleRemoveDialog}
+        onConfirm={onRemoveRole}
+      />
     </Drawer>
   );
 };
