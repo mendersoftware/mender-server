@@ -32,16 +32,11 @@ const DeploymentLink = ({ item }) => <Link to={`${DEPLOYMENT_ROUTES.finished.rou
 const DeviceLink = ({ item }) => <Link to={`/devices?id=${item.object.id}`}>View device</Link>;
 const DeviceRejectedLink = ({ item }) => <Link to={`/devices/rejected?id=${item.object.id}`}>View device</Link>;
 const TerminalSessionLink = () => <a>View session log</a>;
-const UserChange = ({ item: { change = '-' } }) => {
-  const formatChange = change => {
-    const diff = change.split(/@@.*@@/);
-    return diff.length > 1 ? diff[1].trim() : diff;
-  };
-  return (
-    <div className="capitalized" style={{ alignItems: 'flex-start', whiteSpace: 'pre-line' }}>
-      {formatChange(change)}
-    </div>
-  );
+const ChangeFallback = props => {
+  const {
+    item: { change = '-' }
+  } = props;
+  return <div>{change}</div>;
 };
 
 const FallbackFormatter = props => {
@@ -58,6 +53,7 @@ const ArtifactFormatter = ({ artifact }) => <div>{artifact.name}</div>;
 const DeploymentFormatter = ({ deployment }) => <div>{deployment.name}</div>;
 const DeviceFormatter = ({ id }) => <DeviceIdentityDisplay device={{ id }} />;
 const UserFormatter = ({ user }) => <div>{user.email}</div>;
+const TenantFormatter = ({ tenant }) => <div>{tenant.name}</div>;
 
 const defaultAccess = canAccess;
 const changeMap = {
@@ -72,7 +68,8 @@ const changeMap = {
   deviceRejected: { actionFormatter: DeviceFormatter, component: DeviceRejectedLink, accessCheck: ({ canReadDevices }) => canReadDevices },
   deviceGeneral: { actionFormatter: DeviceFormatter, component: DeviceLink, accessCheck: ({ canReadDevices }) => canReadDevices },
   deviceTerminalSession: { actionFormatter: DeviceFormatter, component: TerminalSessionLink, accessCheck: defaultAccess },
-  user: { component: UserChange, actionFormatter: UserFormatter, accessCheck: defaultAccess }
+  user: { component: ChangeFallback, actionFormatter: UserFormatter, accessCheck: defaultAccess },
+  tenant: { actionFormatter: TenantFormatter, accessCheck: defaultAccess, component: ChangeFallback }
 };
 
 const mapChangeToContent = item => {
