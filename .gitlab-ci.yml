@@ -25,9 +25,9 @@ variables:
   # Defines the docker tags of built artifacts objects
   MENDER_IMAGE_REGISTRY: "${CI_REGISTRY}"
   MENDER_IMAGE_REPOSITORY: "northern.tech/mender/${CI_PROJECT_NAME}"
-  MENDER_IMAGE_TAG: "build-${CI_PIPELINE_ID}"
-  MENDER_IMAGE_TAG_TEST: "test-${CI_PIPELINE_ID}"
-  MENDER_IMAGE_TAG_BUILDER: "builder-${CI_PIPELINE_ID}"
+  MENDER_IMAGE_TAG: "build-${CI_COMMIT_SHA}"
+  MENDER_IMAGE_TAG_TEST: "test-${CI_COMMIT_SHA}"
+  MENDER_IMAGE_TAG_BUILDER: "builder-${CI_COMMIT_SHA}"
 
   GOCOVERDIR: "${CI_PROJECT_DIR}/backend/tests/cover"
 
@@ -267,6 +267,28 @@ test:backend:integration:
       - backend/report_integration_*.html
     reports:
       junit: backend/results_integration_*.xml
+
+test:integration:
+  stage: test
+  needs:
+    - job: build:backend:docker
+      artifacts: false
+    - job: build:frontend:docker
+      artifacts: false
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED == "true"
+      when: manual
+      allow_failure: true
+  variables:
+    # NOTE: Cannot use indirect values based off CI_* since these will be
+    #       expanded in the downstream project context.
+    MENDER_SERVER_REGISTRY: "${CI_REGISTRY}"
+    MENDER_SERVER_REPOSITORY: "northern.tech/mender/${CI_PROJECT_NAME}"
+    MENDER_SERVER_TAG: "build-${CI_COMMIT_SHA}"
+    PYTEST_ADDOPTS: "-k 'not Enterprise'"
+    RUN_TESTS_FULL_INTEGRATION: "true"
+  trigger:
+    project: "Northern.tech/Mender/integration"
 
 publish:backend:coverage:
   stage: publish
