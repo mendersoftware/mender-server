@@ -20,9 +20,6 @@ import { Close as CloseIcon } from '@mui/icons-material';
 import { Divider, Drawer, IconButton, buttonClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { BENEFITS, EXTERNAL_PROVIDER, canAccess } from '@northern.tech/store/constants';
-import { getTenantCapabilities } from '@northern.tech/store/selectors';
-
 import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/docslink';
 import EnterpriseNotification from '@northern.tech/common-ui/enterpriseNotification';
 import Form from '@northern.tech/common-ui/forms/form';
@@ -30,6 +27,8 @@ import FormCheckbox from '@northern.tech/common-ui/forms/formcheckbox';
 import TextInput from '@northern.tech/common-ui/forms/textinput';
 import InfoHint, { InfoHintContainer } from '@northern.tech/common-ui/info-hint';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
+import { BENEFITS, EXTERNAL_PROVIDER, canAccess } from '@northern.tech/store/constants';
+import { getTenantCapabilities } from '@northern.tech/store/selectors';
 
 const useStyles = makeStyles()(() => ({
   buttonWrapper: {

@@ -18,9 +18,9 @@ import * as UserActions from '@northern.tech/store/usersSlice/thunks';
 import { act, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { defaultState, undefineds } from '../../../../tests/mockData';
-import { render, selectMaterialUiSelectOption } from '../../../../tests/setupTests';
-import Roles from './roles';
+import { defaultState, undefineds } from '../../../../../tests/mockData';
+import { render, selectMaterialUiSelectOption } from '../../../../../tests/setupTests';
+import Roles from './RoleManagement';
 
 describe('Roles Component', () => {
   it('renders correctly', async () => {
@@ -49,7 +49,11 @@ describe('Roles Component', () => {
     await user.click(screen.getByRole('button', { name: /delete/i }));
     expect(screen.queryByText(/delete the role/i)).toBeInTheDocument();
     const dialog = screen.getByText(/delete role\?/i).parentElement.parentElement;
-    await user.click(within(dialog).getByRole('button', { name: /delete/i }));
+    const confirmationButton = within(dialog).getByRole('button', { name: /confirm/i });
+    expect(confirmationButton).toBeDisabled();
+    await user.type(screen.getByLabelText(/test/i, { selector: 'input' }), preloadedState.users.rolesById.test.name);
+    expect(confirmationButton).not.toBeDisabled();
+    await user.click(within(dialog).getByRole('button', { name: /confirm/i }));
     expect(removeRoleSpy).toHaveBeenCalled();
     await user.click(within(role).getByText(/view details/i));
     collapse = screen.getByText(/edit role/i).parentElement.parentElement;
@@ -87,13 +91,14 @@ describe('Roles Component', () => {
       uiPermissions: {
         auditlog: [],
         groups: [
-          { disableEdit: false, item: ALL_DEVICES, uiPermissions: ['deploy'] },
-          { disableEdit: false, item: '', uiPermissions: [] }
+          { disableEdit: false, item: ALL_DEVICES, notFound: false, uiPermissions: ['deploy'] },
+          { disableEdit: false, item: '', notFound: false, uiPermissions: [] }
         ],
         releases: [
-          { disableEdit: false, item: ALL_RELEASES, uiPermissions: ['read'] },
-          { disableEdit: false, item: '', uiPermissions: [] }
+          { disableEdit: false, item: ALL_RELEASES, notFound: false, uiPermissions: ['read'] },
+          { disableEdit: false, item: '', notFound: false, uiPermissions: [] }
         ],
+        tenantManagement: [],
         userManagement: []
       },
       source: { ...defaultState.users.rolesById.test, id: defaultState.users.rolesById.test.name }

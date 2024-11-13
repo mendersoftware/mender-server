@@ -373,7 +373,7 @@ export const Header = ({ isDarkMode }) => {
         </div>
         {isSp ? (
           <>
-            {deviceLimit > 0 && <DeviceCount current={spDeviceUtilization} max={deviceLimit} variant="common"></DeviceCount>}
+            {deviceLimit > 0 && <DeviceCount current={spDeviceUtilization} max={deviceLimit} variant="common" />}
             <div className="flexbox center-aligned">
               <div className="header-section">
                 <div className={`${classes.spTenantBadge} uppercased bold`}>Service Provider</div>

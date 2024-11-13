@@ -135,7 +135,7 @@ export const ActionableDevices = props => {
               </div>
               <div className={`absolute ${classes.issueWrapper}`}>
                 <div className="relative">
-                  <div className="absolute"></div>
+                  <div className="absolute" />
                   <Icon className="absolute" fontSize="small" />
                 </div>
               </div>

@@ -59,7 +59,7 @@ const AttributeRenderer = ({ content, textContent }) => (
 const DateRender = (props: RendererProp<Tenant>) => {
   const { column, item } = props;
   const attributeValue = dayjs(item?.[column.attribute.name]).format('YYYY-MM-DD HH:mm');
-  return <AttributeRenderer content={attributeValue} textContent={item?.[column.attribute.name]}></AttributeRenderer>;
+  return <AttributeRenderer content={attributeValue} textContent={item?.[column.attribute.name]} />;
 };
 export const columnHeaders: ColumnHeader<Tenant>[] = [
   {
@@ -142,6 +142,7 @@ export const TenantList = () => {
       sort: {}
     }
   });
+
   useEffect(() => {
     const { selectedTenant: selectedTenantName } = locationParams;
     if (selectedTenantName) {
@@ -162,16 +163,20 @@ export const TenantList = () => {
     },
     [dispatch]
   );
+
   const onCloseClick = useCallback(() => {
     setLocationParams({ pageState: { ...tenantListState, selectedTenant: '' } });
     return dispatch(setTenantsListState({ selectedTenant: null }));
-  }, [dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, setLocationParams, JSON.stringify(tenantListState)]);
+
   const onChangePagination = useCallback(
     (page, currentPerPage = perPage) => {
       dispatch(setTenantsListState({ page, perPage: currentPerPage }));
     },
     [dispatch, perPage]
   );
+
   const tenant = selectedTenant && tenants.find((tenant: Tenant) => selectedTenant === tenant.id);
   return (
     <div>
@@ -186,8 +191,8 @@ export const TenantList = () => {
         onSelect={false}
         pageLoading={false}
         ListItemComponent={TenantListItem}
-      ></CommonList>
-      {selectedTenant && tenant && <ExpandedTenant onCloseClick={onCloseClick} tenant={tenant}></ExpandedTenant>}
+      />
+      {selectedTenant && tenant && <ExpandedTenant onCloseClick={onCloseClick} tenant={tenant} />}
     </div>
   );
 };

@@ -19,16 +19,16 @@ import { Circle as CircleIcon, Close as CloseIcon } from '@mui/icons-material';
 import { Button, Divider, Drawer, IconButton, Slide } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { TwoColumnData } from '@northern.tech/common-ui/configurationobject';
+import DetailsIndicator from '@northern.tech/common-ui/detailsindicator';
+import { ClassesOverrides } from '@northern.tech/common-ui/list';
+import Time from '@northern.tech/common-ui/time';
 import actions from '@northern.tech/store/actions';
 import { Event } from '@northern.tech/store/api/types/MenderTypes';
 import { EXTERNAL_PROVIDER, Webhook, emptyWebhook } from '@northern.tech/store/constants';
 import { getTenantCapabilities, getWebhookEventInfo } from '@northern.tech/store/selectors';
 import { getWebhookEvents } from '@northern.tech/store/thunks';
 
-import { TwoColumnData } from '@northern.tech/common-ui/configurationobject';
-import DetailsIndicator from '@northern.tech/common-ui/detailsindicator';
-import { ClassesOverrides } from '@northern.tech/common-ui/list';
-import Time from '@northern.tech/common-ui/time';
 import WebhookActivity from './activity';
 import { availableScopes } from './configuration';
 import WebhookEventDetails from './eventdetails';

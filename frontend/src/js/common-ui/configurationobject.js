@@ -57,7 +57,7 @@ const ValueColumn = ({ value = '', setSnackbar }) => {
       {shownValue}
       {setSnackbar && (
         <Tooltip title={'Copy to clipboard'} placement="top" open={tooltipVisible}>
-          <CopyToClipboardIcon color="primary" className={`margin-left-small ${tooltipVisible ? 'fadeIn' : 'fadeOut'}`} fontSize="small"></CopyToClipboardIcon>
+          <CopyToClipboardIcon color="primary" className={`margin-left-small ${tooltipVisible ? 'fadeIn' : 'fadeOut'}`} fontSize="small" />
         </Tooltip>
       )}
     </div>

@@ -26,8 +26,8 @@ import { onboardingSteps } from './onboardingSlice/constants';
 import { getOnboarding } from './onboardingSlice/selectors';
 import { getAuditLogEntry, getIsServiceProvider, getOrganization } from './organizationSlice/selectors';
 import { getReleasesById } from './releasesSlice/selectors';
-import { rolesByName, uiPermissionsById } from './usersSlice/constants';
-import { getCurrentUser, getGlobalSettings, getRolesById, getUserSettings } from './usersSlice/selectors';
+import { rolesById, rolesByName, serviceProviderRolesById, uiPermissionsById } from './usersSlice/constants';
+import { getCurrentUser, getGlobalSettings, getRolesById, getRolesList, getUserSettings } from './usersSlice/selectors';
 import { listItemMapper, mapUserRolesToUiPermissions } from './utils';
 
 export const getIsEnterprise = createSelector(
@@ -252,4 +252,23 @@ export const getAuditlogDevice = createSelector([getAuditLogEntry, getDevicesByI
     auditlogDevice = type === 'device' ? { id, ...device } : auditlogDevice;
   }
   return { ...auditlogDevice, ...devicesById[auditlogDevice.id] };
+});
+
+export const getRelevantRoles = createSelector([getOrganization, getRolesList], ({ service_provider }, roles) => {
+  if (service_provider) {
+    return roles.reduce((accu, role) => {
+      if (rolesById[role.id]) {
+        return accu;
+      }
+      accu.push(role);
+      return accu;
+    }, Object.values(serviceProviderRolesById));
+  }
+  return Object.keys(rolesById)
+    .reverse()
+    .reduce((accu, key) => {
+      const index = accu.findIndex(({ id }) => id === key);
+      accu = [accu[index], ...accu.filter((item, itemIndex) => index !== itemIndex)];
+      return accu;
+    }, roles);
 });

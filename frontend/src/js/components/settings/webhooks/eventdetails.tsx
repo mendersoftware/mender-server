@@ -17,13 +17,13 @@ import { ArrowCircleLeftOutlined as ArrowLeftIcon } from '@mui/icons-material';
 import { Divider, IconButton } from '@mui/material';
 
 import Editor, { loader } from '@monaco-editor/react';
-import { Event } from '@northern.tech/store/api/types/MenderTypes';
-import { Webhook } from '@northern.tech/store/constants';
-
 import { TwoColumnData } from '@northern.tech/common-ui/configurationobject';
 import { CopyTextToClipboard } from '@northern.tech/common-ui/copytext';
 import { ClassesOverrides } from '@northern.tech/common-ui/list';
 import Loader from '@northern.tech/common-ui/loader';
+import { Event } from '@northern.tech/store/api/types/MenderTypes';
+import { Webhook } from '@northern.tech/store/constants';
+
 import { WebhookColumns } from './management';
 
 loader.config({ paths: { vs: '/ui/vs' } });

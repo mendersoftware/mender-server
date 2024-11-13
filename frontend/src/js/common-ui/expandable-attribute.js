@@ -84,7 +84,7 @@ export const ExpandableAttribute = ({
         />
         {copyToClipboard ? (
           <Tooltip title={'Copy to clipboard'} placement="top" open={tooltipVisible}>
-            <CopyToClipboardIcon fontSize="small"></CopyToClipboardIcon>
+            <CopyToClipboardIcon fontSize="small" />
           </Tooltip>
         ) : null}
       </ListItem>

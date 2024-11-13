@@ -53,9 +53,9 @@ export const ConfirmModal = (props: ConfirmModalProps) => {
           autoFocus
           required
           name="confirmation-text"
+          id="confirmation-text"
           label={toType}
           type="text"
-          variant="standard"
         />
       </DialogContent>
       <DialogActions>

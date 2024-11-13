@@ -236,15 +236,34 @@ export const MAX_PAGE_SIZE = 500;
 
 export const ALL_RELEASES = 'All releases';
 
-export const emptyUiPermissions = Object.freeze({
+export type UiPermissionsDefinition = Readonly<{
+  auditlog: string[];
+  deployments?: string[]; // deployments are so far only covered indirectly through releases + device group permissions
+  groups: Record<string, string[]>;
+  releases: Record<string, string[]>;
+  tenantManagement: string[];
+  userManagement: string[];
+}>;
+
+export type UiRoleDefinition = {
+  name: string;
+  description: string;
+  editable?: boolean;
+  isCustom?: boolean;
+  permissions?: object[];
+  uiPermissions: UiPermissionsDefinition;
+};
+
+export const emptyUiPermissions: UiPermissionsDefinition = Object.freeze({
   auditlog: [],
   deployments: [],
   groups: Object.freeze({}),
   releases: Object.freeze({}),
+  tenantManagement: [],
   userManagement: []
 });
 
-export const emptyRole = Object.freeze({
+export const emptyRole: UiRoleDefinition = Object.freeze({
   name: undefined,
   description: '',
   permissions: [],

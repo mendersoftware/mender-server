@@ -44,7 +44,7 @@ export const LinedGroupHeader = ({ heading }) => {
   return (
     <>
       <span className={classes.groupHeading}>{heading}</span>
-      <div className={classes.groupBorder}></div>
+      <div className={classes.groupBorder} />
     </>
   );
 };

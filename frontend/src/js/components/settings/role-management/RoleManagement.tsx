@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // material ui
@@ -23,31 +23,28 @@ import DetailsTable from '@northern.tech/common-ui/detailstable';
 import { DocsTooltip } from '@northern.tech/common-ui/docslink';
 import EnterpriseNotification from '@northern.tech/common-ui/enterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/info-hint';
-import { BENEFITS, emptyRole, rolesById } from '@northern.tech/store/constants';
-import { getGroupsByIdWithoutUngrouped, getIsEnterprise, getReleaseTagsById, getRolesList } from '@northern.tech/store/selectors';
+import { BENEFITS, UiRoleDefinition, emptyRole } from '@northern.tech/store/constants';
+import { getGroupsByIdWithoutUngrouped, getIsEnterprise, getOrganization, getReleaseTagsById, getRelevantRoles } from '@northern.tech/store/selectors';
 import { createRole, editRole, getDynamicGroups, getExistingReleaseTags, getGroups, getRoles, removeRole } from '@northern.tech/store/thunks';
 
-import RoleDefinition from './roledefinition';
+import RoleDefinition from './RoleDefinition';
 
 const columns = [
   { key: 'name', title: 'Role', render: ({ name }) => name },
   { key: 'description', title: 'Description', render: ({ description }) => description || '-' },
-  {
-    key: 'manage',
-    title: 'Manage',
-    render: DetailsIndicator
-  }
+  { key: 'manage', title: 'Manage', render: DetailsIndicator }
 ];
 
 export const RoleManagement = () => {
-  const [adding, setAdding] = useState(false);
-  const [editing, setEditing] = useState(false);
-  const [role, setRole] = useState({ ...emptyRole });
+  const [adding, setAdding] = useState<boolean>(false);
+  const [editing, setEditing] = useState<boolean>(false);
+  const [role, setRole] = useState<UiRoleDefinition>({ ...emptyRole });
   const dispatch = useDispatch();
   const groups = useSelector(getGroupsByIdWithoutUngrouped);
   const releaseTags = useSelector(getReleaseTagsById);
-  const roles = useSelector(getRolesList);
   const isEnterprise = useSelector(getIsEnterprise);
+  const { service_provider } = useSelector(getOrganization);
+  const items = useSelector(getRelevantRoles);
 
   useEffect(() => {
     dispatch(getExistingReleaseTags());
@@ -89,19 +86,6 @@ export const RoleManagement = () => {
     onCancel();
   };
 
-  const items = useMemo(
-    () =>
-      Object.keys(rolesById)
-        .reverse()
-        .reduce((accu, key) => {
-          const index = accu.findIndex(({ id }) => id === key);
-          accu = [accu[index], ...accu.filter((item, itemIndex) => index !== itemIndex)];
-          return accu;
-        }, roles),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [JSON.stringify(roles)]
-  );
-
   return (
     <div>
       <div className="flexbox center-aligned">
@@ -116,6 +100,7 @@ export const RoleManagement = () => {
       <RoleDefinition
         adding={adding}
         editing={editing}
+        isServiceProvider={!!service_provider}
         onCancel={onCancel}
         onSubmit={onSubmit}
         removeRole={name => dispatch(removeRole(name))}

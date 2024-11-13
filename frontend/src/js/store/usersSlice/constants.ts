@@ -19,6 +19,38 @@ export const useradmApiUrlv1 = `${apiUrl.v1}/useradm`;
 export const useradmApiUrlv2 = `${apiUrl.v2}/useradm`;
 export { useradmApiUrlv1 as useradmApiUrl };
 
+export type UiPermission = {
+  explanations: object;
+  permissionSets: Record<string, string>;
+  permissionLevel: number;
+  title: string;
+  value: string;
+  verbs: string[];
+};
+
+type ExcessiveAccessConfig = {
+  selector: string;
+  warning: string;
+};
+
+type EndpointDefinition = {
+  path: RegExp;
+  types: string[];
+  uiPermissions: UiPermission[];
+};
+
+export type PermissionsArea = {
+  endpoints: EndpointDefinition[];
+  explanation: string;
+  uiPermissions: UiPermission[];
+  title: string;
+  key: string;
+  scope?: string;
+  filter?: (object) => string[];
+  placeholder?: string;
+  excessiveAccessConfig?: ExcessiveAccessConfig;
+};
+
 const staticRolesByName = {
   admin: 'RBAC_ROLE_PERMIT_ALL',
   readOnly: 'RBAC_ROLE_OBSERVER',
@@ -45,10 +77,12 @@ const permissionSetIds = {
   DeployToDevices: 'DeployToDevices',
   ManageDevices: 'ManageDevices',
   ManageReleases: 'ManageReleases',
+  ManageTenants: 'ManageTenants',
   ManageUsers: 'ManageUsers',
   ReadAuditLogs: 'ReadAuditLogs',
   ReadDevices: 'ReadDevices',
   ReadReleases: 'ReadReleases',
+  ReadTenants: 'ReadTenants',
   ReadUsers: 'ReadUsers',
   SuperUser: 'SuperUser',
   UploadArtifacts: 'UploadArtifacts'
@@ -88,6 +122,7 @@ export const uiPermissionsById = {
     permissionSets: {
       groups: permissionSetIds.ManageDevices,
       releases: permissionSetIds.ManageReleases,
+      tenantManagement: permissionSetIds.ManageTenants,
       userManagement: permissionSetIds.ManageUsers
     },
     title: 'Manage',
@@ -101,6 +136,7 @@ export const uiPermissionsById = {
       auditlog: permissionSetIds.ReadAuditLogs,
       groups: permissionSetIds.ReadDevices,
       releases: permissionSetIds.ReadReleases,
+      tenantManagement: permissionSetIds.ReadTenants,
       userManagement: permissionSetIds.ReadUsers
     },
     title: 'Read',
@@ -134,6 +170,7 @@ export const uiPermissionsByArea = {
     endpoints: [{ path: /\/(auditlog)/i, types: [PermissionTypes.Get], uiPermissions: [uiPermissionsById.read] }],
     explanation:
       'Granting access to the audit log will allow tracing changes to devices, releases and user accounts, as well as providing information about deployments.',
+    key: 'auditlog',
     uiPermissions: [uiPermissionsById.read],
     title: 'System audit log'
   },
@@ -144,6 +181,7 @@ export const uiPermissionsByArea = {
       { path: /\/(deployments\/config)/i, types: [PermissionTypes.Get, PermissionTypes.Put], uiPermissions: [uiPermissionsById.manage] }
     ],
     explanation: 'Providing deploy permissions will allow deployments to be created using the releases and devices a user has access to.',
+    key: 'deployments',
     uiPermissions: [uiPermissionsById.read, uiPermissionsById.deploy],
     title: 'Deployments'
   },
@@ -159,6 +197,7 @@ export const uiPermissionsByArea = {
       { path: /\/(deviceconnect\/devices)/i, types: [PermissionTypes.Get, PermissionTypes.Post], uiPermissions: [uiPermissionsById.connect] }
     ],
     explanation: 'Device group management permissions control the degree to which devices in a group can be accessed and moved to other groups.',
+    key: 'groups',
     scope: scopedPermissionAreas.groups.scopeType,
     uiPermissions: [uiPermissionsById.read, uiPermissionsById.manage, uiPermissionsById.deploy, uiPermissionsById.configure, uiPermissionsById.connect],
     title: 'Group Management'
@@ -178,9 +217,21 @@ export const uiPermissionsByArea = {
       }
     ],
     explanation: 'Release permissions can be granted to allow artifact & release modifications, as well as the creation of new releases.',
+    key: 'releases',
     scope: 'ReleaseTags',
     uiPermissions: [uiPermissionsById.read, uiPermissionsById.manage, uiPermissionsById.upload],
     title: 'Release Management'
+  },
+  tenantManagement: {
+    endpoints: [
+      { path: /\/(tenantadm\/tenants)/i, types: [PermissionTypes.Get], uiPermissions: [uiPermissionsById.read] },
+      { path: /\/(tenantadm\/tenants)/i, types: [PermissionTypes.Post, PermissionTypes.Put], uiPermissions: [uiPermissionsById.manage] },
+      { path: /\/(users\/exists)/i, types: [PermissionTypes.Get], uiPermissions: [uiPermissionsById.manage] }
+    ],
+    explanation: 'Tenant management permissions allow listing, creating and modifying child tenants',
+    key: 'tenantManagement',
+    uiPermissions: [uiPermissionsById.read, uiPermissionsById.manage],
+    title: 'Tenant Management'
   },
   userManagement: {
     endpoints: [
@@ -189,6 +240,7 @@ export const uiPermissionsByArea = {
     ],
     explanation:
       'User management permissions should be granted carefully, as these allow privilege increases for any users managed by a user with user management permissions',
+    key: 'userManagement',
     uiPermissions: [uiPermissionsById.read, uiPermissionsById.manage],
     title: 'User Management'
   }
@@ -266,6 +318,33 @@ export const rolesById = Object.freeze({
   }
 });
 
+export const serviceProviderRolesById = {
+  admin: {
+    name: 'Admin',
+    value: staticRolesByName.admin,
+    description: 'Full access',
+    permissions: [],
+    uiPermissions: {
+      ...emptyUiPermissions,
+      auditlog: uiPermissionsByArea.auditlog.uiPermissions.map(permissionMapper),
+      userManagement: uiPermissionsByArea.userManagement.uiPermissions.map(permissionMapper),
+      tenantManagement: uiPermissionsByArea.tenantManagement.uiPermissions.map(permissionMapper)
+    }
+  },
+  readOnly: {
+    name: 'Read access',
+    value: staticRolesByName.admin,
+    description: 'This role can see all linked organizations but cannot make any changes',
+    permissions: [],
+    uiPermissions: {
+      ...emptyUiPermissions,
+      auditlog: [uiPermissionsById.read.value],
+      userManagement: [uiPermissionsById.read.value],
+      tenantManagement: [uiPermissionsById.read.value]
+    }
+  }
+};
+
 export const defaultPermissionSets = {
   [permissionSetIds.Basic]: {
     name: permissionSetIds.Basic,
@@ -296,6 +375,18 @@ export const defaultPermissionSets = {
     name: permissionSetIds.ReadReleases,
     result: {
       releases: { [ALL_RELEASES]: [uiPermissionsById.read.value] }
+    }
+  },
+  [permissionSetIds.ReadTenants]: {
+    name: permissionSetIds.ReadTenants,
+    result: {
+      tenantManagement: [uiPermissionsById.read.value]
+    }
+  },
+  [permissionSetIds.ManageTenants]: {
+    name: permissionSetIds.ManageTenants,
+    result: {
+      tenantManagement: [uiPermissionsById.manage.value]
     }
   },
   [permissionSetIds.ReadUsers]: {

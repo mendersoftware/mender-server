@@ -41,9 +41,13 @@ import pluralize from 'pluralize';
 import { isUUID } from 'validator';
 
 export const UserRolesSelect = ({ currentUser, disabled, onSelect, roles, user }) => {
+  const relevantRolesById = useMemo(
+    () => roles.reduce((accu, role) => ({ ...accu, [role.id ?? role.name]: { ...role, id: role.id ?? role.name } }), {}),
+    [roles]
+  );
   const [selectedRoleIds, setSelectedRoleIds] = useState(
     (user.roles || [rolesByName.admin]).reduce((accu, roleId) => {
-      const foundRole = roles[roleId];
+      const foundRole = relevantRolesById[roleId];
       if (foundRole) {
         accu.push(roleId);
       }
@@ -64,12 +68,12 @@ export const UserRolesSelect = ({ currentUser, disabled, onSelect, roles, user }
   };
 
   const { editableRoles, showRoleUsageNotification } = useMemo(() => {
-    const editableRoles = Object.entries(roles).map(([id, role]) => {
+    const editableRoles = Object.entries(relevantRolesById).map(([id, role]) => {
       const enabled = selectedRoleIds.some(roleId => id === roleId);
       return { enabled, id, ...role };
     });
     const showRoleUsageNotification = selectedRoleIds.reduce((accu, roleId) => {
-      const { permissions, uiPermissions } = roles[roleId];
+      const { permissions, uiPermissions } = relevantRolesById[roleId];
       const hasUiApiAccess = [rolesByName.ci].includes(roleId)
         ? false
         : roleId === rolesByName.admin ||
@@ -82,7 +86,7 @@ export const UserRolesSelect = ({ currentUser, disabled, onSelect, roles, user }
     }, undefined);
     return { editableRoles, showRoleUsageNotification };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(roles), selectedRoleIds]);
+  }, [JSON.stringify(relevantRolesById), selectedRoleIds]);
 
   return (
     <div className="flexbox" style={{ alignItems: 'flex-end' }}>
@@ -96,7 +100,7 @@ export const UserRolesSelect = ({ currentUser, disabled, onSelect, roles, user }
           value={selectedRoleIds}
           required
           onChange={onInputChange}
-          renderValue={selected => selected.map(role => roles[role].name).join(', ')}
+          renderValue={selected => selected.map(role => relevantRolesById[role].name).join(', ')}
         >
           {editableRoles.map(role => (
             <MenuItem id={role.id} key={role.id} value={role.id}>

@@ -12,6 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 // @ts-nocheck
+import { HELPTOOLTIPS } from '@northern.tech/helptips/helptooltips';
 import { getSessionInfo } from '@northern.tech/store/auth';
 import { emptyRole } from '@northern.tech/store/commonConstants';
 import { setOfflineThreshold } from '@northern.tech/store/thunks';
@@ -22,7 +23,6 @@ import Cookies from 'universal-cookie';
 
 import { actions } from '.';
 import { accessTokens, defaultPassword, defaultState, receivedPermissionSets, receivedRoles, testSsoId, userId } from '../../../../tests/mockData';
-import { HELPTOOLTIPS } from '@northern.tech/helptips/helptooltips';
 import { actions as appActions } from '../appSlice';
 import { getSamlStartUrl } from '../organizationSlice/constants';
 import { USER_LOGOUT, uiPermissionsById } from './constants';

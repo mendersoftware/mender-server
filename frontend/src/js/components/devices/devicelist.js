@@ -92,7 +92,7 @@ export const DeviceList = ({
       PaginationProps={PaginationProps}
       sortingNotes={sortingNotes}
       ListItemComponent={DeviceListItem}
-    ></CommonList>
+    />
   );
 };
 
