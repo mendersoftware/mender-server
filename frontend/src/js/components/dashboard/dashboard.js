@@ -70,7 +70,7 @@ export const Dashboard = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const currentUser = useSelector(getCurrentUser);
+  const { id: currentUser } = useSelector(getCurrentUser);
   const onboardingState = useSelector(getOnboardingState);
 
   useEffect(() => {
