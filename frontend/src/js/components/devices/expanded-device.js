@@ -15,10 +15,10 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { Close as CloseIcon, Link as LinkIcon } from '@mui/icons-material';
-import { Chip, Divider, Drawer, IconButton, Tab, Tabs, Tooltip, chipClasses } from '@mui/material';
+import { Chip, Divider, Drawer, Tab, Tabs, Tooltip, chipClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import DeviceIdentityDisplay from '@northern.tech/common-ui/deviceidentity';
 import DocsLink from '@northern.tech/common-ui/docslink';
 import { MenderTooltipClickable } from '@northern.tech/common-ui/mendertooltip';
@@ -281,31 +281,25 @@ export const ExpandedDevice = ({ actionCallbacks, deviceId, onClose, setDetailsT
   };
   return (
     <Drawer anchor="right" className="expandedDevice" open={!!deviceId} onClose={onCloseClick} PaperProps={{ style: { minWidth: '67vw' } }}>
-      <div className="flexbox center-aligned space-between">
-        <div className="flexbox center-aligned">
-          <h3 className="flexbox">
-            Device information for {<DeviceIdentityDisplay device={device} isEditable={false} hasAdornment={false} style={{ marginLeft: 4 }} />}
-          </h3>
-          <IconButton onClick={copyLinkToClipboard} size="large">
-            <LinkIcon />
-          </IconButton>
-        </div>
-        <div className="flexbox center-aligned">
-          {isGateway && <GatewayNotification device={device} onClick={() => scrollToDeviceSystem()} />}
-          {!!gatewayIds.length && (
-            <GatewayConnectionNotification gatewayDevices={gatewayIds.map(gatewayId => devicesById[gatewayId])} onClick={scrollToDeviceSystem} />
-          )}
-          <div className={`${isOffline ? 'red' : 'muted'} margin-left margin-right flexbox`}>
-            <Tooltip title="The last time the device communicated with the Mender server" placement="bottom">
-              <div className="margin-right-small">Last check-in:</div>
-            </Tooltip>
-            <RelativeTime updateTime={device.check_in_time_exact ?? device.check_in_time} />
-          </div>
-          <IconButton style={{ marginLeft: 'auto' }} onClick={onCloseClick} aria-label="close" size="large">
-            <CloseIcon />
-          </IconButton>
-        </div>
-      </div>
+      <DrawerTitle
+        title={<>Device information for {<DeviceIdentityDisplay device={device} isEditable={false} hasAdornment={false} style={{ marginLeft: 4 }} />}</>}
+        onLinkCopy={copyLinkToClipboard}
+        preCloser={
+          <>
+            {isGateway && <GatewayNotification device={device} onClick={() => scrollToDeviceSystem()} />}
+            {!!gatewayIds.length && (
+              <GatewayConnectionNotification gatewayDevices={gatewayIds.map(gatewayId => devicesById[gatewayId])} onClick={scrollToDeviceSystem} />
+            )}
+            <div className={`${isOffline ? 'red' : 'muted'} margin-left margin-right flexbox`}>
+              <Tooltip title="The last time the device communicated with the Mender server" placement="bottom">
+                <div className="margin-right-small">Last check-in:</div>
+              </Tooltip>
+              <RelativeTime updateTime={device.check_in_time_exact ?? device.check_in_time} />
+            </div>
+          </>
+        }
+        onClose={onCloseClick}
+      />
       <DeviceNotifications alerts={latestAlerts} device={device} onClick={scrollToMonitor} />
       <Divider className={classes.dividerTop} />
       <Tabs value={selectedTab} onChange={(e, tab) => setDetailsTab(tab)} textColor="primary">

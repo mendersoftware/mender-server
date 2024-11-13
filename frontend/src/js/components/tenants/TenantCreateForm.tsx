@@ -15,10 +15,10 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { Close as CloseIcon } from '@mui/icons-material';
-import { Divider, Drawer, IconButton, TextField } from '@mui/material';
+import { Divider, Drawer, TextField } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import Form from '@northern.tech/common-ui/forms/form';
 import FormCheckbox from '@northern.tech/common-ui/forms/formcheckbox';
 import PasswordInput from '@northern.tech/common-ui/forms/passwordinput';
@@ -40,10 +40,6 @@ interface TenantCreateFormProps {
 }
 
 const useStyles = makeStyles()(theme => ({
-  tenantTitle: {
-    fontSize: '17px',
-    fontWeight: 700
-  },
   buttonWrapper: {
     justifyContent: 'flex-start !important'
   },
@@ -166,16 +162,7 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
   };
   return (
     <Drawer open={open} onClose={onCloseClick} anchor="right" PaperProps={{ style: { minWidth: '67vw' } }}>
-      <div className="flexbox center-aligned space-between">
-        <div className="flexbox center-aligned">
-          <h3 className={classes.tenantTitle}>Add a tenant</h3>
-        </div>
-        <div className="flexbox center-aligned">
-          <IconButton onClick={onCloseClick} aria-label="close" size="large">
-            <CloseIcon />
-          </IconButton>
-        </div>
-      </div>
+      <DrawerTitle title="Add a tenant" onClose={onCloseClick} />
       <Divider className="margin-bottom" />
       <Form
         initialValues={{ name: '', password: '', sso: false, binary_delta: false, device_limit: 1, send_reset_password: false }}

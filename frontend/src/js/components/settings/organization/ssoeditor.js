@@ -15,10 +15,11 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Dropzone from 'react-dropzone';
 
 // material ui
-import { Close as CloseIcon, CloudUpload, FileCopyOutlined as CopyPasteIcon } from '@mui/icons-material';
-import { Button, Divider, Drawer, IconButton } from '@mui/material';
+import { CloudUpload, FileCopyOutlined as CopyPasteIcon } from '@mui/icons-material';
+import { Button, Divider, Drawer } from '@mui/material';
 
 import Editor, { loader } from '@monaco-editor/react';
+import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import Loader from '@northern.tech/common-ui/loader';
 import { JSON_METADATA_FORMAT, XML_METADATA_FORMAT } from '@northern.tech/store/constants';
 import { createFileDownload } from '@northern.tech/utils/helpers';
@@ -118,9 +119,9 @@ export const SSOEditor = ({ ssoItem, config, fileContent, hasSSOConfig, open, on
 
   return (
     <Drawer className={`${open ? 'fadeIn' : 'fadeOut'}`} anchor="right" open={open} onClose={onClose} PaperProps={{ style: { minWidth: '75vw' } }}>
-      <div className="flexbox margin-bottom-small space-between">
-        <h3>{ssoItem.title} metadata</h3>
-        <div className="flexbox center-aligned">
+      <DrawerTitle
+        title={`${ssoItem.title} metadata`}
+        preCloser={
           <Dropzone multiple={false} onDrop={onDrop}>
             {({ getRootProps, getInputProps }) => (
               <div {...getRootProps()}>
@@ -131,12 +132,9 @@ export const SSOEditor = ({ ssoItem, config, fileContent, hasSSOConfig, open, on
               </div>
             )}
           </Dropzone>
-
-          <IconButton onClick={onClose} size="large">
-            <CloseIcon />
-          </IconButton>
-        </div>
-      </div>
+        }
+        onClose={onClose}
+      />
       <Divider light />
       <Editor
         {...editorProps}

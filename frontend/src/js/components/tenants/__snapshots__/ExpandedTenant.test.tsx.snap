@@ -65,11 +65,6 @@ exports[`ExpandedTenant renders correctly 1`] = `
 }
 
 .emotion-3 {
-  font-size: 17px;
-  font-weight: 700;
-}
-
-.emotion-4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -119,38 +114,38 @@ exports[`ExpandedTenant renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.54);
 }
 
-.emotion-4::-moz-focus-inner {
+.emotion-3::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-4.Mui-disabled {
+.emotion-3.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-4 {
+  .emotion-3 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-4:hover {
+.emotion-3:hover {
   background-color: var(--IconButton-hoverBg);
 }
 
 @media (hover: none) {
-  .emotion-4:hover {
+  .emotion-3:hover {
     background-color: transparent;
   }
 }
 
-.emotion-4.Mui-disabled {
+.emotion-3.Mui-disabled {
   background-color: transparent;
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-5 {
+.emotion-4 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -167,11 +162,11 @@ exports[`ExpandedTenant renders correctly 1`] = `
   font-size: 1.3929rem;
 }
 
-.emotion-5 iconButton {
+.emotion-4 iconButton {
   margin-right: 8px;
 }
 
-.emotion-6 {
+.emotion-5 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -229,33 +224,33 @@ exports[`ExpandedTenant renders correctly 1`] = `
   padding: 10px 15px;
 }
 
-.emotion-6::-moz-focus-inner {
+.emotion-5::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-6.Mui-disabled {
+.emotion-5.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-6 {
+  .emotion-5 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-6:hover {
+.emotion-5:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-6.Mui-disabled {
+.emotion-5.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-6:hover {
+  .emotion-5:hover {
     --variant-containedBg: rgb(35, 85, 94);
     --variant-textBg: rgba(51, 122, 135, 0.04);
     --variant-outlinedBorder: #337a87;
@@ -263,15 +258,15 @@ exports[`ExpandedTenant renders correctly 1`] = `
   }
 }
 
-.emotion-6:hover {
+.emotion-5:hover {
   colors: #337a87;
 }
 
-.emotion-6.MuiButton-text {
+.emotion-5.MuiButton-text {
   color: rgba(10, 10, 11, 0.78);
 }
 
-.emotion-9 {
+.emotion-8 {
   margin: 0;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -282,12 +277,12 @@ exports[`ExpandedTenant renders correctly 1`] = `
   border-bottom-width: thin;
 }
 
-.emotion-10 .key>b {
+.emotion-9 .key>b {
   background-color: #f7f7f7;
   color: rgba(0, 0, 0, 0.87);
 }
 
-.emotion-11 {
+.emotion-10 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -305,11 +300,11 @@ exports[`ExpandedTenant renders correctly 1`] = `
   color: #337a87;
 }
 
-.emotion-11 iconButton {
+.emotion-10 iconButton {
   margin-right: 8px;
 }
 
-.emotion-13 {
+.emotion-12 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -326,15 +321,15 @@ exports[`ExpandedTenant renders correctly 1`] = `
   margin-top: 18px;
 }
 
-.emotion-13.Mui-disabled {
+.emotion-12.Mui-disabled {
   cursor: default;
 }
 
-.emotion-13 .MuiFormControlLabel-label.Mui-disabled {
+.emotion-12 .MuiFormControlLabel-label.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-14 {
+.emotion-13 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -373,42 +368,42 @@ exports[`ExpandedTenant renders correctly 1`] = `
   color: rgba(10, 10, 11, 0.78);
 }
 
-.emotion-14::-moz-focus-inner {
+.emotion-13::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-14.Mui-disabled {
+.emotion-13.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-14 {
+  .emotion-13 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-14:hover {
+.emotion-13:hover {
   background-color: rgba(51, 122, 135, 0.04);
 }
 
-.emotion-14.Mui-checked,
-.emotion-14.MuiCheckbox-indeterminate {
+.emotion-13.Mui-checked,
+.emotion-13.MuiCheckbox-indeterminate {
   color: #337a87;
 }
 
-.emotion-14.Mui-disabled {
+.emotion-13.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: none) {
-  .emotion-14:hover {
+  .emotion-13:hover {
     background-color: transparent;
   }
 }
 
-.emotion-15 {
+.emotion-14 {
   cursor: inherit;
   position: absolute;
   opacity: 0;
@@ -421,7 +416,7 @@ exports[`ExpandedTenant renders correctly 1`] = `
   z-index: 1;
 }
 
-.emotion-16 {
+.emotion-15 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -438,11 +433,11 @@ exports[`ExpandedTenant renders correctly 1`] = `
   font-size: 1.1607rem;
 }
 
-.emotion-16 iconButton {
+.emotion-15 iconButton {
   margin-right: 8px;
 }
 
-.emotion-17 {
+.emotion-16 {
   margin: 0;
   line-height: 1.5;
   font-family: Lato,sans-serif;
@@ -450,22 +445,22 @@ exports[`ExpandedTenant renders correctly 1`] = `
   font-size: 0.9286rem;
 }
 
-.emotion-23 {
+.emotion-22 {
   width: 375px;
 }
 
-.emotion-24 {
+.emotion-23 {
   margin: 11px 11px 11px 0;
 }
 
-.emotion-25 {
+.emotion-24 {
   background: #e6f2f1;
   color: #969696;
   border-radius: 2px;
   padding: 4px 6px;
 }
 
-.emotion-26 {
+.emotion-25 {
   position: relative;
   overflow: hidden;
   display: block;
@@ -476,13 +471,13 @@ exports[`ExpandedTenant renders correctly 1`] = `
 }
 
 @media print {
-  .emotion-26 {
+  .emotion-25 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-27 {
+.emotion-26 {
   width: 100%;
   position: absolute;
   left: 0;
@@ -496,7 +491,7 @@ exports[`ExpandedTenant renders correctly 1`] = `
   transition: transform .4s linear;
 }
 
-.emotion-29 {
+.emotion-28 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -557,33 +552,33 @@ exports[`ExpandedTenant renders correctly 1`] = `
   align-self: center;
 }
 
-.emotion-29::-moz-focus-inner {
+.emotion-28::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-29.Mui-disabled {
+.emotion-28.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-29 {
+  .emotion-28 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-29:hover {
+.emotion-28:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-29.Mui-disabled {
+.emotion-28.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-29:hover {
+  .emotion-28:hover {
     --variant-containedBg: rgb(35, 85, 94);
     --variant-textBg: rgba(51, 122, 135, 0.04);
     --variant-outlinedBorder: #337a87;
@@ -591,11 +586,11 @@ exports[`ExpandedTenant renders correctly 1`] = `
   }
 }
 
-.emotion-29:hover {
+.emotion-28:hover {
   colors: #337a87;
 }
 
-.emotion-29.MuiButton-text {
+.emotion-28.MuiButton-text {
   color: rgba(10, 10, 11, 0.78);
 }
 
@@ -624,25 +619,24 @@ exports[`ExpandedTenant renders correctly 1`] = `
       tabindex="-1"
     >
       <div
-        class="flexbox center-aligned space-between"
+        class="flexbox margin-bottom-small space-between"
       >
         <div
           class="flexbox center-aligned"
         >
           <h3
-            class="emotion-3"
+            class="capitalized-start flexbox center-aligned"
           >
-            Tenant Information for 
-            child2
+            Tenant Information for child2
           </h3>
           <button
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-4"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-3"
             tabindex="0"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-5"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-4"
               data-testid="LinkIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -657,7 +651,7 @@ exports[`ExpandedTenant renders correctly 1`] = `
           class="flexbox center-aligned"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-6"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-5"
             tabindex="0"
             type="button"
           >
@@ -665,13 +659,13 @@ exports[`ExpandedTenant renders correctly 1`] = `
           </button>
           <button
             aria-label="close"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-4"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-3"
             tabindex="0"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-5"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-4"
               data-testid="CloseIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -684,7 +678,7 @@ exports[`ExpandedTenant renders correctly 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root MuiDivider-fullWidth margin-bottom emotion-9"
+        class="MuiDivider-root MuiDivider-fullWidth margin-bottom emotion-8"
       />
       <div
         class="margin-top"
@@ -693,7 +687,7 @@ exports[`ExpandedTenant renders correctly 1`] = `
           class="flexbox"
         >
           <div
-            class="break-all two-columns emotion-10  "
+            class="break-all two-columns emotion-9  "
           >
             <div
               class="align-right key muted"
@@ -713,7 +707,7 @@ exports[`ExpandedTenant renders correctly 1`] = `
               <svg
                 aria-hidden="true"
                 aria-label="Copy to clipboard"
-                class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall margin-left-small fadeOut emotion-11"
+                class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall margin-left-small fadeOut emotion-10"
                 data-mui-internal-clone-element="true"
                 data-testid="FileCopyOutlinedIcon"
                 focusable="false"
@@ -742,7 +736,7 @@ exports[`ExpandedTenant renders correctly 1`] = `
               <svg
                 aria-hidden="true"
                 aria-label="Copy to clipboard"
-                class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall margin-left-small fadeOut emotion-11"
+                class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall margin-left-small fadeOut emotion-10"
                 data-mui-internal-clone-element="true"
                 data-testid="FileCopyOutlinedIcon"
                 focusable="false"
@@ -759,23 +753,23 @@ exports[`ExpandedTenant renders correctly 1`] = `
           class="flexbox column"
         >
           <label
-            class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-13"
+            class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-12"
           >
             <span
               aria-disabled="true"
-              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-14"
+              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-13"
               tabindex="-1"
             >
               <input
                 checked=""
-                class="PrivateSwitchBase-input emotion-15"
+                class="PrivateSwitchBase-input emotion-14"
                 data-indeterminate="false"
                 disabled=""
                 type="checkbox"
               />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-16"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-15"
                 data-testid="CheckBoxIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -786,30 +780,30 @@ exports[`ExpandedTenant renders correctly 1`] = `
               </svg>
             </span>
             <span
-              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-17"
+              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-16"
             >
               Enable Delta Artifact generation
             </span>
           </label>
           <label
-            class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-13"
+            class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-12"
             style="margin-top: 10px;"
           >
             <span
               aria-disabled="true"
-              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-14"
+              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-13"
               tabindex="-1"
             >
               <input
                 checked=""
-                class="PrivateSwitchBase-input emotion-15"
+                class="PrivateSwitchBase-input emotion-14"
                 data-indeterminate="false"
                 disabled=""
                 type="checkbox"
               />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-16"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-15"
                 data-testid="CheckBoxIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -820,7 +814,7 @@ exports[`ExpandedTenant renders correctly 1`] = `
               </svg>
             </span>
             <span
-              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-17"
+              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-16"
             >
               Restrict to Service Provider’s Single Sign-On settings
             </span>
@@ -839,7 +833,7 @@ exports[`ExpandedTenant renders correctly 1`] = `
           class="flexbox"
         >
           <div
-            class="emotion-23"
+            class="emotion-22"
           >
             <div
               class="flexbox centered space-between margin-left-x-small margin-right-x-small"
@@ -848,7 +842,7 @@ exports[`ExpandedTenant renders correctly 1`] = `
                 class="flexbox centered"
               >
                 <p
-                  class="emotion-24"
+                  class="emotion-23"
                 >
                   Devices: 
                   0
@@ -857,7 +851,7 @@ exports[`ExpandedTenant renders correctly 1`] = `
                 </p>
               </div>
               <div
-                class="emotion-25"
+                class="emotion-24"
               >
                 100
                  devices left
@@ -867,20 +861,20 @@ exports[`ExpandedTenant renders correctly 1`] = `
               aria-valuemax="100"
               aria-valuemin="0"
               aria-valuenow="0"
-              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate margin-left-x-small margin-right-x-small emotion-26"
+              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate margin-left-x-small margin-right-x-small emotion-25"
               role="progressbar"
             >
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-27"
+                class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-26"
                 style="transform: translateX(-100%);"
               />
             </span>
             <hr
-              class="MuiDivider-root MuiDivider-fullWidth margin-top-small emotion-9"
+              class="MuiDivider-root MuiDivider-fullWidth margin-top-small emotion-8"
             />
           </div>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary margin-left emotion-29"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary margin-left emotion-28"
             tabindex="0"
             type="button"
           >

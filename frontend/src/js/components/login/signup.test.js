@@ -67,7 +67,6 @@ describe('Signup Component', () => {
     await waitFor(() => expect(container.querySelector('.loaderContainer')).toBeVisible());
     await act(async () => jest.advanceTimersByTime(TIMEOUTS.refreshDefault));
     await waitFor(() => rerender(ui));
-    screen.debug(undefined, 20000000);
     await waitFor(() =>
       expect(cookies.set).toHaveBeenLastCalledWith('firstLoginAfterSignup', true, { domain: '.mender.io', maxAge: 60, path: '/', sameSite: false })
     );

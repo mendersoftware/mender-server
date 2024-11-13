@@ -15,16 +15,11 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // material ui
-import {
-  Block as BlockIcon,
-  CheckCircleOutline as CheckCircleOutlineIcon,
-  Close as CloseIcon,
-  Link as LinkIcon,
-  Refresh as RefreshIcon
-} from '@mui/icons-material';
-import { Button, Divider, Drawer, IconButton, Tooltip } from '@mui/material';
+import { Block as BlockIcon, CheckCircleOutline as CheckCircleOutlineIcon, Refresh as RefreshIcon } from '@mui/icons-material';
+import { Button, Divider, Drawer, Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import ConfigurationObject from '@northern.tech/common-ui/configurationobject';
 import Confirm from '@northern.tech/common-ui/confirm';
 import LogDialog from '@northern.tech/common-ui/dialogs/log';
@@ -230,8 +225,8 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type }) => {
   let onboardingComponent = null;
   if (!onboardingState.complete && onboardingTooltipAnchor.current && finished) {
     const anchor = {
-      left: onboardingTooltipAnchor.current.offsetLeft + (onboardingTooltipAnchor.current.offsetWidth / 100) * 50,
-      top: onboardingTooltipAnchor.current.offsetTop + onboardingTooltipAnchor.current.offsetHeight
+      left: onboardingTooltipAnchor.current.offsetLeft + onboardingTooltipAnchor.current.offsetWidth + 15,
+      top: onboardingTooltipAnchor.current.offsetTop + onboardingTooltipAnchor.current.offsetHeight / 2
     };
     onboardingComponent = (
       <BaseOnboardingTip id={onboardingState.progress} progress={onboardingState.progress} component={<DeploymentUploadFinished />} anchor={anchor} />
@@ -241,16 +236,16 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type }) => {
   return (
     <Drawer anchor="right" open onClose={onClose} PaperProps={{ style: { minWidth: '75vw' } }}>
       {!!onboardingComponent && onboardingComponent}
-      <div className="flexbox margin-bottom-small space-between">
-        <div className="flexbox">
-          <h3>{`Deployment ${type !== DEPLOYMENT_STATES.scheduled ? 'details' : 'report'}`}</h3>
-          <h4 className="margin-left-small margin-right-small">ID: {deployment.id}</h4>
-          <IconButton onClick={copyLinkToClipboard} style={{ alignSelf: 'center' }} size="large">
-            <LinkIcon />
-          </IconButton>
-        </div>
-        <div className="flexbox center-aligned">
-          {!finished ? (
+      <DrawerTitle
+        title={
+          <>
+            Deployment {type !== DEPLOYMENT_STATES.scheduled ? 'details' : 'report'}
+            <h4 className="margin-none margin-left-small margin-right-small">ID: {deployment.id}</h4>
+          </>
+        }
+        onLinkCopy={copyLinkToClipboard}
+        preCloser={
+          !finished ? (
             <DeploymentAbortButton abort={abort} deployment={deployment} />
           ) : (stats.failure || stats.aborted) && !isConfigurationDeployment ? (
             <Tooltip
@@ -262,16 +257,14 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type }) => {
               </Button>
             </Tooltip>
           ) : (
-            <div className="flexbox centered margin-right">
+            <div className="flexbox centered margin-right" ref={onboardingTooltipAnchor}>
               <CheckCircleOutlineIcon fontSize="small" className="green margin-right-small" />
               <h3>Finished</h3>
             </div>
-          )}
-          <IconButton ref={onboardingTooltipAnchor} onClick={onClose} aria-label="close" size="large">
-            <CloseIcon />
-          </IconButton>
-        </div>
-      </div>
+          )
+        }
+        onClose={onClose}
+      />
       <Divider />
       <div>
         <DeploymentPhaseNotification deployment={deployment} onReviewClick={scrollToBottom} />

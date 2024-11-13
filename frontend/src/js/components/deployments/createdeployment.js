@@ -15,7 +15,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { Close as CloseIcon, ExpandMore } from '@mui/icons-material';
+import { ExpandMore } from '@mui/icons-material';
 import {
   Accordion,
   AccordionDetails,
@@ -26,12 +26,12 @@ import {
   Drawer,
   FormControlLabel,
   FormGroup,
-  IconButton,
   Typography,
   accordionClasses
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import Confirm from '@northern.tech/common-ui/confirm';
 import { ALL_DEVICES, onboardingSteps } from '@northern.tech/store/constants';
 import {
@@ -269,12 +269,7 @@ export const CreateDeployment = props => {
   const hasReleases = !!Object.keys(releasesById).length;
   return (
     <Drawer anchor="right" open onClose={closeWizard} PaperProps={{ style: { minWidth: '50vw' } }}>
-      <div className="flexbox space-between center-aligned">
-        <h3>Create a deployment</h3>
-        <IconButton onClick={closeWizard} aria-label="close" size="large">
-          <CloseIcon />
-        </IconButton>
-      </div>
+      <DrawerTitle title="Create a deployment" onClose={closeWizard} />
       <Divider className="margin-bottom" />
       <FormGroup>
         {!hasReleases ? (

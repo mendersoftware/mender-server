@@ -15,10 +15,11 @@ import { ReactElement, useCallback, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // material ui
-import { Circle as CircleIcon, Close as CloseIcon } from '@mui/icons-material';
-import { Button, Divider, Drawer, IconButton, Slide } from '@mui/material';
+import { Circle as CircleIcon } from '@mui/icons-material';
+import { Button, Divider, Drawer, Slide } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import { TwoColumnData } from '@northern.tech/common-ui/configurationobject';
 import DetailsIndicator from '@northern.tech/common-ui/detailsindicator';
 import { ClassesOverrides } from '@northern.tech/common-ui/list';
@@ -126,17 +127,15 @@ export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
 
   return (
     <Drawer anchor="right" open={!!webhook?.id} PaperProps={{ style: { minWidth: 750, width: '60vw' } }}>
-      <div className="flexbox margin-bottom-small space-between">
-        <h3>Webhook details</h3>
-        <div className="flexbox center-aligned">
+      <DrawerTitle
+        title="Webhook details"
+        preCloser={
           <Button className={selectedEvent ? 'muted' : ''} color="secondary" disabled={!!selectedEvent} onClick={() => onRemove(webhook)}>
             delete webhook
           </Button>
-          <IconButton onClick={onCancelClick} aria-label="close">
-            <CloseIcon />
-          </IconButton>
-        </div>
-      </div>
+        }
+        onClose={onCancelClick}
+      />
       <Divider />
       <div className="relative" ref={containerRef}>
         <Slide in={!selectedEvent} container={containerRef.current} direction="right">
