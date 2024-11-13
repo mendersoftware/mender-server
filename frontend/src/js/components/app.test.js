@@ -67,25 +67,19 @@ describe('App Component', () => {
       const { asFragment, rerender } = render(ui, {
         preloadedState: { ...preloadedState, users: { ...preloadedState.users, currentSession: getSessionInfo() } }
       });
-      await waitFor(() => expect(screen.queryByText(/see all deployments/i)).toBeInTheDocument(), { timeout: TIMEOUTS.fiveSeconds });
-      await act(async () => {
-        jest.runOnlyPendingTimers();
-        jest.runAllTicks();
-        return new Promise(resolve => resolve(), TIMEOUTS.threeSeconds);
-      });
-      await waitFor(() => expect(reportsSpy).toHaveBeenCalled(), { timeout: TIMEOUTS.fiveSeconds });
+      await waitFor(() => expect(screen.queryByText(/see all deployments/i)).toBeInTheDocument(), { timeout: TIMEOUTS.threeSeconds });
+      await waitFor(() => expect(reportsSpy).toHaveBeenCalled(), { timeout: TIMEOUTS.threeSeconds });
       await waitFor(() => rerender(ui));
       const view = asFragment();
+      await waitFor(() => expect(document.querySelector('.loaderContainer')).not.toBeInTheDocument());
       expect(view).toMatchSnapshot();
       expect(view).toEqual(expect.not.stringMatching(undefineds));
       await act(async () => {
         jest.runOnlyPendingTimers();
         jest.runAllTicks();
       });
-      reportsSpy.mockClear();
-      await act(async () => jest.runAllTicks());
     },
-    20 * TIMEOUTS.oneSecond
+    10 * TIMEOUTS.oneSecond
   );
 
   it(
@@ -128,18 +122,14 @@ describe('App Component', () => {
       const { baseElement, rerender } = testLibRender(ui);
       await waitFor(() => screen.queryByText('Software distribution'), { timeout: TIMEOUTS.fiveSeconds });
       await waitFor(() => rerender(ui));
+      await waitFor(() => expect(document.querySelector('.loaderContainer')).not.toBeInTheDocument());
+      await waitFor(() => expect(reportsSpy).toHaveBeenCalled(), { timeout: TIMEOUTS.fiveSeconds });
       const view = baseElement.lastElementChild;
       expect(view).toMatchSnapshot();
       expect(view).toEqual(expect.not.stringMatching(undefineds));
-      await waitFor(() => expect(reportsSpy).toHaveBeenCalled(), { timeout: TIMEOUTS.fiveSeconds });
-      await act(async () => {
-        jest.runOnlyPendingTimers();
-        jest.runAllTicks();
-        return new Promise(resolve => resolve(), TIMEOUTS.fiveSeconds);
-      });
       window.localStorage.getItem.mockReset();
     },
-    20 * TIMEOUTS.oneSecond
+    10 * TIMEOUTS.oneSecond
   );
   it(
     'allows offline threshold migration',
