@@ -455,22 +455,17 @@ exports[`ExpandedTenant renders correctly 1`] = `
 }
 
 .emotion-24 {
-  padding-bottom: 11px;
-  border-bottom: 1px solid #cfcfcf;
-}
-
-.emotion-25 {
   margin: 11px 11px 11px 0;
 }
 
-.emotion-26 {
+.emotion-25 {
   background: #e6f2f1;
   color: #969696;
   border-radius: 2px;
   padding: 4px 6px;
 }
 
-.emotion-27 {
+.emotion-26 {
   position: relative;
   overflow: hidden;
   display: block;
@@ -481,13 +476,13 @@ exports[`ExpandedTenant renders correctly 1`] = `
 }
 
 @media print {
-  .emotion-27 {
+  .emotion-26 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-28 {
+.emotion-27 {
   width: 100%;
   position: absolute;
   left: 0;
@@ -557,7 +552,6 @@ exports[`ExpandedTenant renders correctly 1`] = `
   font-size: 14px;
   font-weight: bold;
   padding: 10px 15px;
-  height: 42px;
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
@@ -844,45 +838,46 @@ exports[`ExpandedTenant renders correctly 1`] = `
         <div
           class="flexbox"
         >
-          <div>
+          <div
+            class="emotion-23"
+          >
             <div
-              class="emotion-23 emotion-24"
+              class="flexbox centered space-between margin-left-x-small margin-right-x-small"
             >
               <div
-                class="flexbox centered space-between"
+                class="flexbox centered"
               >
-                <div
-                  class="flexbox centered"
+                <p
+                  class="emotion-24"
                 >
-                  <p
-                    class="emotion-25"
-                  >
-                    Devices: 
-                    0
-                    /
-                    100
-                  </p>
-                </div>
-                <div
-                  class="emotion-26"
-                >
+                  Devices: 
+                  0
+                  /
                   100
-                   devices left
-                </div>
+                </p>
               </div>
-              <span
-                aria-valuemax="100"
-                aria-valuemin="0"
-                aria-valuenow="0"
-                class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate emotion-27"
-                role="progressbar"
+              <div
+                class="emotion-25"
               >
-                <span
-                  class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-28"
-                  style="transform: translateX(-100%);"
-                />
-              </span>
+                100
+                 devices left
+              </div>
             </div>
+            <span
+              aria-valuemax="100"
+              aria-valuemin="0"
+              aria-valuenow="0"
+              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate margin-left-x-small margin-right-x-small emotion-26"
+              role="progressbar"
+            >
+              <span
+                class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-27"
+                style="transform: translateX(-100%);"
+              />
+            </span>
+            <hr
+              class="MuiDivider-root MuiDivider-fullWidth margin-top-small emotion-9"
+            />
           </div>
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary margin-left emotion-29"

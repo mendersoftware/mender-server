@@ -28,7 +28,7 @@ import {
   getUserOrganization,
   tenantDataDivergedMessage
 } from '@northern.tech/store/thunks';
-import { act, renderHook } from '@testing-library/react';
+import { renderHook, waitFor } from '@testing-library/react';
 import configureMockStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 
@@ -38,7 +38,7 @@ import { actions as appActions } from './appSlice';
 import { getLatestReleaseInfo, setOfflineThreshold } from './appSlice/thunks';
 import { latestSaasReleaseTag } from './appSlice/thunks.test';
 import { getSessionInfo } from './auth';
-import { EXTERNAL_PROVIDER, TIMEOUTS, UNGROUPED_GROUP, timeUnits } from './commonConstants';
+import { EXTERNAL_PROVIDER, UNGROUPED_GROUP, timeUnits } from './commonConstants';
 import { DEVICE_STATES } from './constants';
 import { actions as deploymentsActions } from './deploymentsSlice';
 import { actions as deviceActions } from './devicesSlice';
@@ -104,6 +104,39 @@ const appInitActions = [
   { type: getLatestReleaseInfo.pending.type },
   { type: getUserSettings.pending.type },
   { type: getGlobalSettings.pending.type },
+  { type: appActions.setFirstLoginAfterSignup.type, payload: false },
+  { type: getUserOrganization.pending.type },
+  {
+    type: appActions.setVersionInformation.type,
+    payload: {
+      GUI: latestSaasReleaseTag,
+      Integration: '1.2.3',
+      'Mender-Artifact': '1.3.7',
+      'Mender-Client': '3.2.1',
+      backend: latestSaasReleaseTag,
+      latestRelease: {
+        releaseDate: '2022-02-02',
+        repos: {
+          integration: '1.2.3',
+          mender: '3.2.1',
+          'mender-artifact': '1.3.7',
+          'other-service': '1.1.0',
+          service: '3.0.0'
+        }
+      }
+    }
+  },
+  { type: organizationActions.setOrganization.type, payload: defaultState.organization.organization },
+  { type: appActions.setAnnouncement.type, payload: tenantDataDivergedMessage },
+  { type: getLatestReleaseInfo.fulfilled.type },
+  { type: getUserOrganization.fulfilled.type },
+  { type: userActions.setGlobalSettings.type, payload: { ...defaultState.users.globalSettings } },
+  { type: setOfflineThreshold.pending.type },
+  { type: appActions.setOfflineThreshold.type, payload: '2019-01-12T13:00:06.150Z' },
+  { type: setOfflineThreshold.fulfilled.type },
+  { type: userActions.setUserSettings.type, payload: { ...defaultState.users.userSettings } },
+  { type: getGlobalSettings.fulfilled.type },
+  { type: getUserSettings.fulfilled.type },
   { type: getDeviceAttributes.pending.type },
   { type: getDeploymentsByStatus.pending.type },
   { type: getDeploymentsByStatus.pending.type },
@@ -118,8 +151,6 @@ const appInitActions = [
   { type: getDeviceLimit.pending.type },
   { type: getRoles.pending.type },
   { type: getPermissionSets.pending.type },
-  { type: appActions.setFirstLoginAfterSignup.type, payload: false },
-  { type: getUserOrganization.pending.type },
   { type: deploymentsActions.receivedDeployments.type, payload: defaultState.deployments.byId },
   {
     type: deploymentsActions.receivedDeploymentsForStatus.type,
@@ -200,32 +231,8 @@ const appInitActions = [
   { type: deviceActions.setDevicesByStatus.type, payload: { deviceIds: [], status: 'preauthorized', total: 0 } },
   { type: deviceActions.receivedDevices.type, payload: {} },
   { type: deviceActions.setDevicesByStatus.type, payload: { deviceIds: [], status: 'rejected', total: 0 } },
-  {
-    type: appActions.setVersionInformation.type,
-    payload: {
-      GUI: latestSaasReleaseTag,
-      Integration: '1.2.3',
-      'Mender-Artifact': '1.3.7',
-      'Mender-Client': '3.2.1',
-      backend: latestSaasReleaseTag,
-      latestRelease: {
-        releaseDate: '2022-02-02',
-        repos: {
-          integration: '1.2.3',
-          mender: '3.2.1',
-          'mender-artifact': '1.3.7',
-          'other-service': '1.1.0',
-          service: '3.0.0'
-        }
-      }
-    }
-  },
-  { type: organizationActions.setOrganization.type, payload: defaultState.organization.organization },
-  { type: appActions.setAnnouncement.type, payload: tenantDataDivergedMessage },
   { type: getDevicesByStatus.fulfilled.type },
   { type: getDevicesByStatus.fulfilled.type },
-  { type: getLatestReleaseInfo.fulfilled.type },
-  { type: getUserOrganization.fulfilled.type },
   {
     type: organizationActions.receiveExternalDeviceIntegrations.type,
     payload: [
@@ -265,13 +272,6 @@ const appInitActions = [
   { type: getDevicesWithAuth.pending.type },
   { type: getDevicesByStatus.fulfilled.type },
   { type: getDevicesByStatus.fulfilled.type },
-  { type: userActions.setGlobalSettings.type, payload: { ...defaultState.users.globalSettings } },
-  { type: setOfflineThreshold.pending.type },
-  { type: appActions.setOfflineThreshold.type, payload: '2019-01-12T13:00:06.900Z' },
-  { type: setOfflineThreshold.fulfilled.type },
-  { type: userActions.setUserSettings.type, payload: { ...defaultState.users.userSettings } },
-  { type: getGlobalSettings.fulfilled.type },
-  { type: getUserSettings.fulfilled.type },
   { type: userActions.receivedPermissionSets.type, payload: receivedPermissionSets },
   { type: getPermissionSets.fulfilled.type },
   { type: userActions.receivedRoles.type, payload: receivedRoles },
@@ -318,12 +318,9 @@ it('should try to get all required app information', async () => {
     releases: { ...defaultState.releases, releasesList: { ...defaultState.releases.releasesList, page: 42 } }
   });
   const wrapper = ({ children }) => <Provider store={store}>{children}</Provider>;
-  renderHook(() => useAppInit(userId), { wrapper });
-  await act(async () => {
-    jest.runAllTimers();
-    jest.runAllTicks();
-  });
-
+  const { result } = renderHook(() => useAppInit(userId), { wrapper });
+  await waitFor(() => expect(result.current.coreInitDone).toBeTruthy());
+  await jest.runAllTimersAsync();
   const storeActions = store.getActions();
   expect(storeActions.length).toEqual(appInitActions.length);
   appInitActions.map((action, index) => Object.keys(action).map(key => expect(storeActions[index][key]).toEqual(action[key])));
@@ -344,11 +341,9 @@ it('should execute the offline threshold migration for multi day thresholds', as
     releases: { ...defaultState.releases, releasesList: { ...defaultState.releases.releasesList, page: 42 } }
   });
   const wrapper = ({ children }) => <Provider store={store}>{children}</Provider>;
-  renderHook(() => useAppInit(userId), { wrapper });
-  await act(async () => {
-    jest.runAllTimers();
-    jest.runAllTicks();
-  });
+  const { result } = renderHook(() => useAppInit(userId), { wrapper });
+  await waitFor(() => expect(result.current.coreInitDone).toBeTruthy());
+  await jest.runAllTimersAsync();
 
   const storeActions = store.getActions();
   expect(storeActions.length).toEqual(appInitActions.length + 9); // 3 = get settings + set settings + set offline threshold
@@ -373,12 +368,9 @@ it('should trigger the offline threshold migration dialog', async () => {
   });
 
   const wrapper = ({ children }) => <Provider store={store}>{children}</Provider>;
-  renderHook(() => useAppInit(userId), { wrapper });
-  await jest.advanceTimersByTimeAsync(TIMEOUTS.fiveSeconds + TIMEOUTS.oneSecond);
+  const { result } = renderHook(() => useAppInit(userId), { wrapper });
+  await waitFor(() => expect(result.current.coreInitDone).toBeTruthy());
   await jest.runAllTimersAsync();
-  await act(async () => {
-    jest.runAllTicks();
-  });
   const storeActions = store.getActions();
   expect(storeActions.length).toEqual(appInitActions.length + 1); // only setShowStartupNotification should be addded
   const notificationAction = storeActions.find(action => action.type === userActions.setShowStartupNotification.type);

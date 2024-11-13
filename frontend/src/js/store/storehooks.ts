@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 // @ts-nocheck
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import dayjs from 'dayjs';
@@ -28,6 +28,7 @@ import {
   getFeatures,
   getGlobalSettings as getGlobalSettingsSelector,
   getIsEnterprise,
+  getIsServiceProvider,
   getOfflineThresholdSettings,
   getOnboardingState as getOnboardingStateSelector,
   getSortedFilteringAttributes,
@@ -149,6 +150,7 @@ const maybeAddOnboardingTasks = ({ devicesByStatus, dispatch, onboardingState, t
 
 export const useAppInit = userId => {
   const dispatch = useDispatch();
+  const [coreInitDone, setCoreInitDone] = useState(false);
   const isEnterprise = useSelector(getIsEnterprise);
   const { hasMultitenancy, isHosted } = useSelector(getFeatures);
   const devicesByStatus = useSelector(getDevicesByStatusSelector);
@@ -158,13 +160,29 @@ export const useAppInit = userId => {
   const { interval, intervalUnit } = useSelector(getOfflineThresholdSettings);
   const { id_attribute } = useSelector(getGlobalSettingsSelector);
   const { identityAttributes } = useSelector(getSortedFilteringAttributes);
-  const initRunning = useRef(false);
+  const isServiceProvider = useSelector(getIsServiceProvider);
+  const coreInitRunning = useRef(false);
+  const fullInitRunning = useRef(false);
 
-  const retrieveAppData = useCallback(() => {
+  const retrieveCoreData = useCallback(() => {
     let tasks = [
       dispatch(parseEnvironmentInfo()),
       dispatch(getUserSettings()),
       dispatch(getGlobalSettings()),
+      dispatch(setFirstLoginAfterSignup(stringToBoolean(cookies.get('firstLoginAfterSignup'))))
+    ];
+    const multitenancy = hasMultitenancy || isHosted || isEnterprise;
+    if (multitenancy) {
+      tasks.push(dispatch(getUserOrganization()));
+    }
+    return Promise.all(tasks);
+  }, [dispatch, hasMultitenancy, isHosted, isEnterprise]);
+
+  const retrieveAppData = useCallback(() => {
+    if (isServiceProvider) {
+      return Promise.resolve(dispatch(getRoles()));
+    }
+    return Promise.all([
       dispatch(getDeviceAttributes()),
       dispatch(getDeploymentsByStatus({ status: DEPLOYMENT_STATES.finished, shouldSelect: false })),
       dispatch(getDeploymentsByStatus({ status: DEPLOYMENT_STATES.inprogress })),
@@ -177,15 +195,9 @@ export const useAppInit = userId => {
       dispatch(getIntegrations()),
       dispatch(getReleases()),
       dispatch(getDeviceLimit()),
-      dispatch(getRoles()),
-      dispatch(setFirstLoginAfterSignup(stringToBoolean(cookies.get('firstLoginAfterSignup'))))
-    ];
-    const multitenancy = hasMultitenancy || isHosted || isEnterprise;
-    if (multitenancy) {
-      tasks.push(dispatch(getUserOrganization()));
-    }
-    return Promise.all(tasks);
-  }, [dispatch, hasMultitenancy, isHosted, isEnterprise]);
+      dispatch(getRoles())
+    ]);
+  }, [dispatch, isServiceProvider]);
 
   const interpretAppData = useCallback(() => {
     let settings = {};
@@ -250,10 +262,20 @@ export const useAppInit = userId => {
   );
 
   useEffect(() => {
-    if (!userId || initRunning.current) {
+    if (!userId || coreInitRunning.current) {
       return;
     }
-    initRunning.current = true;
+    coreInitRunning.current = true;
+    retrieveCoreData().then(() => setCoreInitDone(true));
+  }, [userId, retrieveCoreData]);
+
+  useEffect(() => {
+    if (fullInitRunning.current || !coreInitDone) {
+      return;
+    }
+    fullInitRunning.current = true;
     initializeAppData();
-  }, [userId, initializeAppData]);
+  }, [initializeAppData, coreInitDone]);
+
+  return { coreInitDone };
 };

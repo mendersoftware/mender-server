@@ -192,7 +192,7 @@ const tenantListRetrieval = async (config): Promise<[Tenant[], number]> => {
   const params = new URLSearchParams({ page, per_page: perPage }).toString();
   const tenantList = await Api.get(`${tenantadmApiUrlv2}/tenants?${params}`);
   const totalCount = tenantList.headers[headerNames.total] || TENANT_LIST_DEFAULT.perPage;
-  return [tenantList.data, totalCount];
+  return [tenantList.data, Number(totalCount)];
 };
 export const getTenants = createAsyncThunk(`${sliceName}/getTenants`, async (_, { dispatch, getState }) => {
   const currentState = getTenantsList(getState());
