@@ -14,22 +14,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
 // material ui
-import { Close as CloseIcon } from '@mui/icons-material';
-import {
-  Button,
-  Checkbox,
-  Divider,
-  Drawer,
-  FormControl,
-  FormControlLabel,
-  FormHelperText,
-  IconButton,
-  InputLabel,
-  TextField,
-  textFieldClasses
-} from '@mui/material';
+import { Button, Checkbox, Divider, Drawer, FormControl, FormControlLabel, FormHelperText, InputLabel, TextField, textFieldClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import { TwoColumnData } from '@northern.tech/common-ui/configurationobject';
 import { CopyTextToClipboard } from '@northern.tech/common-ui/copytext';
 import { uiPermissionsByArea, uiPermissionsById } from '@northern.tech/store/constants';
@@ -151,19 +139,17 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
   const rolesClasses = isEnterprise ? '' : 'muted';
   return (
     <Drawer anchor="right" open={!!id} PaperProps={{ style: { minWidth: 600, width: '50vw' } }}>
-      <div className="flexbox margin-bottom-small space-between">
-        <h3>Edit user</h3>
-        <div className="flexbox center-aligned">
-          {currentUser.id !== id && (
+      <DrawerTitle
+        title="Edit user"
+        onClose={onCancel}
+        preCloser={
+          currentUser.id !== id && (
             <Button className={`flexbox center-aligned ${classes.leftButton}`} color="secondary" onClick={onRemoveClick}>
               delete user
             </Button>
-          )}
-          <IconButton onClick={onCancel} aria-label="close">
-            <CloseIcon />
-          </IconButton>
-        </div>
-      </div>
+          )
+        }
+      />
       <Divider />
       <UserId className={classes.userId} userId={id} />
       <FormControl className={`${classes.widthLimit} margin-top-none`}>

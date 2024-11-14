@@ -15,11 +15,11 @@ import { FunctionComponent, useEffect, useMemo, useState } from 'react';
 import { FieldValues, UseFormSetValue, useFormContext } from 'react-hook-form';
 
 // material ui
-import { Close as CloseIcon } from '@mui/icons-material';
-import { Button, Divider, Drawer, IconButton, InputLabel } from '@mui/material';
+import { Button, Divider, Drawer, InputLabel } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
+import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import Form from '@northern.tech/common-ui/forms/form';
 import TextInput from '@northern.tech/common-ui/forms/textinput';
 import {
@@ -330,10 +330,12 @@ export const RoleDefinition: FunctionComponent<RoleDefinitionProps> = ({
 
   return (
     <Drawer anchor="right" open={adding || editing} PaperProps={{ style: { minWidth: 600, width: '50vw' } }}>
-      <div className="flexbox margin-bottom-small space-between">
-        <h3>{adding ? 'Add a' : 'Edit'} role</h3>
-        <div className="flexbox center-aligned">
-          {editing && !rolesById[selectedRole.id] && (
+      <DrawerTitle
+        title={`${adding ? 'Add a' : 'Edit'} role`}
+        onClose={onCancel}
+        preCloser={
+          editing &&
+          !rolesById[selectedRole.id] && (
             <Button
               className={`flexbox center-aligned ${classes.roleDeletion}`}
               color="secondary"
@@ -342,12 +344,9 @@ export const RoleDefinition: FunctionComponent<RoleDefinitionProps> = ({
             >
               delete role
             </Button>
-          )}
-          <IconButton onClick={onCancel} aria-label="close">
-            <CloseIcon />
-          </IconButton>
-        </div>
-      </div>
+          )
+        }
+      />
       <Divider />
       <Form onSubmit={onSubmitClick} showButtons={false} autocomplete="off" defaultValues={defaultValues} initialValues={values}>
         <FormContent

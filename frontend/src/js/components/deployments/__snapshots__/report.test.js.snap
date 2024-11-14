@@ -29,20 +29,22 @@ exports[`DeploymentReport Component renders correctly 1`] = `
         class="flexbox margin-bottom-small space-between"
       >
         <div
-          class="flexbox"
+          class="flexbox center-aligned"
         >
-          <h3>
-            Deployment details
-          </h3>
-          <h4
-            class="margin-left-small margin-right-small"
+          <h3
+            class="capitalized-start flexbox center-aligned"
           >
-            ID: 
-            d1
-          </h4>
+            Deployment 
+            details
+            <h4
+              class="margin-none margin-left-small margin-right-small"
+            >
+              ID: 
+              d1
+            </h4>
+          </h3>
           <button
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-jk231o-MuiButtonBase-root-MuiIconButton-root"
-            style="align-self: center;"
             tabindex="0"
             type="button"
           >

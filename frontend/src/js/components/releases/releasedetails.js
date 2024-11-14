@@ -18,10 +18,8 @@ import { useNavigate } from 'react-router-dom';
 
 // material ui
 import {
-  Close as CloseIcon,
   HighlightOffOutlined as HighlightOffOutlinedIcon,
   LabelOutlined as LabelOutlinedIcon,
-  Link as LinkIcon,
   Replay as ReplayIcon,
   Sort as SortIcon
 } from '@mui/icons-material';
@@ -34,7 +32,6 @@ import {
   DialogTitle,
   Divider,
   Drawer,
-  IconButton,
   SpeedDial,
   SpeedDialAction,
   SpeedDialIcon,
@@ -43,6 +40,7 @@ import {
 import { speedDialActionClasses } from '@mui/material/SpeedDialAction';
 import { makeStyles } from 'tss-react/mui';
 
+import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import ChipSelect from '@northern.tech/common-ui/chipselect';
 import { ConfirmationButtons, EditButton } from '@northern.tech/common-ui/confirm';
 import { EditableLongText } from '@northern.tech/common-ui/editablelongtext';
@@ -349,25 +347,21 @@ export const ReleaseDetails = () => {
 
   return (
     <Drawer anchor="right" open={!!releaseName} onClose={onCloseClick} PaperProps={{ style: { minWidth: '60vw' }, ref: drawerRef }}>
-      <div className="flexbox center-aligned space-between">
-        <div className="flexbox center-aligned">
-          <b>
-            Release information for <i>{releaseName}</i>
-          </b>
-          <IconButton onClick={copyLinkToClipboard} size="large">
-            <LinkIcon />
-          </IconButton>
-        </div>
-        <div className="flexbox center-aligned">
+      <DrawerTitle
+        title={
+          <>
+            Release information for <h4 className="margin-none margin-left-small margin-right-small">{releaseName}</h4>
+          </>
+        }
+        onLinkCopy={copyLinkToClipboard}
+        preCloser={
           <div className="muted margin-right flexbox">
             <div className="margin-right-small">Last modified:</div>
             <RelativeTime updateTime={release.modified} />
           </div>
-          <IconButton onClick={onCloseClick} aria-label="close" size="large">
-            <CloseIcon />
-          </IconButton>
-        </div>
-      </div>
+        }
+        onClose={onCloseClick}
+      />
       <Divider className="margin-bottom" />
       <ReleaseNotes onChange={onReleaseNotesChanged} release={release} />
       <ReleaseTags existingTags={existingTags} onChange={onTagSelectionChanged} release={release} />

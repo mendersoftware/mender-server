@@ -13,10 +13,10 @@
 //    limitations under the License.
 import React from 'react';
 
-import { HelpOutline as HelpOutlineIcon } from '@mui/icons-material';
 import { Divider, Drawer } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
+import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import { Code } from '@northern.tech/common-ui/copy-code';
 
 import DeviceConfiguration from './eventdetails/deviceconfiguration';
@@ -69,10 +69,7 @@ export const EventDetailsDrawer = ({ eventItem = {}, onClose, open }) => {
   const { title, content: Component } = mapChangeToContent(eventItem);
   return (
     <Drawer className={`${open ? 'fadeIn' : 'fadeOut'}`} anchor="right" open={open} onClose={onClose}>
-      <div className="flexbox space-between margin-top-small margin-bottom">
-        <b className="capitalized">{title}</b>
-        <HelpOutlineIcon />
-      </div>
+      <DrawerTitle title={title} onClose={onClose} />
       <Divider />
       <Component item={eventItem} onClose={onClose} />
       <Divider light style={{ marginTop: theme.spacing(2) }} />

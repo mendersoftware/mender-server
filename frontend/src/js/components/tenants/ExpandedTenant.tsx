@@ -15,11 +15,11 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { Close as CloseIcon, Link as LinkIcon } from '@mui/icons-material';
-import { Button, Checkbox, Divider, Drawer, FormControlLabel, FormHelperText, IconButton, TextField } from '@mui/material';
+import { Button, Checkbox, Divider, Drawer, FormControlLabel, FormHelperText, TextField } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
+import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import { TwoColumns } from '@northern.tech/common-ui/configurationobject';
 import actions from '@northern.tech/store/actions';
 import { getOrganization } from '@northern.tech/store/organizationSlice/selectors';
@@ -41,10 +41,6 @@ const useStyles = makeStyles()(theme => ({
     color: theme.palette.primary.main,
     fontSize: '11px',
     fontWeight: 400
-  },
-  tenantTitle: {
-    fontSize: '17px',
-    fontWeight: 700
   },
   devLimitInput: { marginTop: 10, maxWidth: 150, minWidth: 130 },
   tenantInitialAdminTooltip: {
@@ -93,20 +89,12 @@ export const ExpandedTenant = (props: ExpandedTenantProps) => {
 
   return (
     <Drawer onClose={onCloseClick} open={true} PaperProps={{ style: { minWidth: '67vw' } }} anchor="right">
-      <div className="flexbox center-aligned space-between">
-        <div className="flexbox center-aligned">
-          <h3 className={classes.tenantTitle}>Tenant Information for {name}</h3>
-          <IconButton onClick={copyLinkToClipboard} size="large">
-            <LinkIcon />
-          </IconButton>
-        </div>
-        <div className="flexbox center-aligned">
-          <Button onClick={() => setShouldDelete(true)}>Delete tenant</Button>
-          <IconButton onClick={onCloseClick} aria-label="close" size="large">
-            <CloseIcon />
-          </IconButton>
-        </div>
-      </div>
+      <DrawerTitle
+        title={`Tenant Information for ${name}`}
+        onLinkCopy={copyLinkToClipboard}
+        preCloser={<Button onClick={() => setShouldDelete(true)}>Delete tenant</Button>}
+        onClose={onCloseClick}
+      />
       <Divider className="margin-bottom" />
       <div className="margin-top">
         <div className="flexbox">

@@ -436,10 +436,15 @@ exports[`SSOEditor Component renders correctly 1`] = `
       <div
         class="flexbox margin-bottom-small space-between"
       >
-        <h3>
-          SAML
-           metadata
-        </h3>
+        <div
+          class="flexbox center-aligned"
+        >
+          <h3
+            class="capitalized-start flexbox center-aligned"
+          >
+            SAML metadata
+          </h3>
+        </div>
         <div
           class="flexbox center-aligned"
         >
@@ -476,6 +481,7 @@ exports[`SSOEditor Component renders correctly 1`] = `
             </button>
           </div>
           <button
+            aria-label="close"
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-6"
             tabindex="0"
             type="button"

@@ -16,10 +16,10 @@ import { useFormState, useWatch } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
 // material ui
-import { Close as CloseIcon } from '@mui/icons-material';
-import { Divider, Drawer, IconButton, buttonClasses } from '@mui/material';
+import { Divider, Drawer, buttonClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/docslink';
 import EnterpriseNotification from '@northern.tech/common-ui/enterpriseNotification';
 import Form from '@northern.tech/common-ui/forms/form';
@@ -122,15 +122,7 @@ const WebhookConfiguration = ({ onCancel, onSubmit }: { onCancel: () => void; on
 
   return (
     <Drawer anchor="right" open PaperProps={{ style: { minWidth: 600, width: '50vw' } }}>
-      <div className="flexbox center-aligned margin-bottom-small space-between">
-        <div className="flexbox center-aligned">
-          <h3 className="margin-right-small">Webhook details</h3>
-          <MenderHelpTooltip id={HELPTOOLTIPS.webhooks.id} />
-        </div>
-        <IconButton onClick={onCancel} aria-label="close">
-          <CloseIcon />
-        </IconButton>
-      </div>
+      <DrawerTitle title="Webhook details" postTitle={<MenderHelpTooltip id={HELPTOOLTIPS.webhooks.id} />} onClose={onCancel} />
       <Divider />
       <Form
         className="flexbox column"

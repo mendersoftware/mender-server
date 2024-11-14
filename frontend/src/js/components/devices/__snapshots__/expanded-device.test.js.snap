@@ -2088,13 +2088,13 @@ label+.emotion-52 {
       tabindex="-1"
     >
       <div
-        class="flexbox center-aligned space-between"
+        class="flexbox margin-bottom-small space-between"
       >
         <div
           class="flexbox center-aligned"
         >
           <h3
-            class="flexbox"
+            class="capitalized-start flexbox center-aligned"
           >
             Device information for 
             <div
@@ -2174,7 +2174,6 @@ label+.emotion-52 {
           <button
             aria-label="close"
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-4"
-            style="margin-left: auto;"
             tabindex="0"
             type="button"
           >
