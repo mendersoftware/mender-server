@@ -11,27 +11,6 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React from 'react';
-
 import { Code } from '@northern.tech/common-ui/copy-code';
 
-const getDiffLineStyle = line => {
-  if (line.startsWith('+ ')) {
-    return 'green';
-  } else if (line.startsWith('- ')) {
-    return 'red';
-  }
-  return '';
-};
-
-export const UserChange = ({ item }) => (
-  <Code className="flexbox column">
-    {item.change.split('\n').map((line, index) => (
-      <span key={`line-${index}`} className={getDiffLineStyle(line)}>
-        {line}
-      </span>
-    ))}
-  </Code>
-);
-
-export default UserChange;
+export const UserChange = ({ item }) => <Code>{item.change}</Code>;

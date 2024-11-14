@@ -176,7 +176,11 @@ exports[`EventDetailsDrawer Component renders correctly 1`] = `
       <h3
         class="capitalized-start flexbox center-aligned"
       >
-        created user
+        <div
+          class="capitalized-start"
+        >
+          created user
+        </div>
       </h3>
     </div>
     <div
@@ -206,13 +210,9 @@ exports[`EventDetailsDrawer Component renders correctly 1`] = `
     class="MuiDivider-root MuiDivider-fullWidth emotion-3"
   />
   <div
-    class="code emotion-4 flexbox column"
+    class="code emotion-4 "
   >
-    <span
-      class=""
-    >
-      change1
-    </span>
+    change1
   </div>
   <hr
     class="MuiDivider-root MuiDivider-fullWidth MuiDivider-light emotion-5"

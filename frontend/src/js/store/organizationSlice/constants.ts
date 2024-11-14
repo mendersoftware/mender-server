@@ -60,6 +60,7 @@ export const AUDIT_LOGS_TYPES = [
   { title: 'Device', queryParameter: 'object_id', value: 'device' },
   { title: 'User', queryParameter: 'object_id', value: 'user' }
 ];
+export const SP_AUDIT_LOGS_TYPES = [AUDIT_LOGS_TYPES[3], { title: 'Tenant', queryParameter: 'object_id', value: 'tenant' }];
 
 export interface Webhook extends Integration {
   provider: Integration.provider.WEBHOOK;

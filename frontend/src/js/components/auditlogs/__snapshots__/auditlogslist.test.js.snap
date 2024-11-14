@@ -78,10 +78,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
         <div>
           user@acme.com
         </div>
-        <div
-          class="capitalized"
-          style="align-items: flex-start; white-space: pre-line;"
-        >
+        <div>
           change1
         </div>
         <time

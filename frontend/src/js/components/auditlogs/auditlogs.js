@@ -25,13 +25,14 @@ import TimeframePicker from '@northern.tech/common-ui/forms/timeframe-picker';
 import { InfoHintContainer } from '@northern.tech/common-ui/info-hint';
 import Loader from '@northern.tech/common-ui/loader';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
-import { AUDIT_LOGS_TYPES, BEGINNING_OF_TIME, BENEFITS, SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
+import { AUDIT_LOGS_TYPES, BEGINNING_OF_TIME, BENEFITS, SORTING_OPTIONS, SP_AUDIT_LOGS_TYPES, TIMEOUTS } from '@northern.tech/store/constants';
 import {
   getAuditLog,
   getAuditLogEntry,
   getAuditLogSelectionState,
   getCurrentSession,
   getGroupNames,
+  getIsServiceProvider,
   getTenantCapabilities,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
@@ -101,6 +102,7 @@ export const AuditLogs = props => {
   const [detailsReset, setDetailsReset] = useState('');
   const [dirtyField, setDirtyField] = useState('');
   const { token } = useSelector(getCurrentSession);
+  const isSP = useSelector(getIsServiceProvider);
 
   const { detail, isLoading, perPage, endDate, user, sort, startDate, total, type } = selectionState;
 
@@ -245,7 +247,7 @@ export const AuditLogs = props => {
               Component: ControlledAutoComplete,
               componentProps: {
                 ...autoSelectProps,
-                options: AUDIT_LOGS_TYPES,
+                options: isSP ? SP_AUDIT_LOGS_TYPES : AUDIT_LOGS_TYPES,
                 isOptionEqualToValue: (option, value) => option.value === value.value && option.object_type === value.object_type,
                 renderInput: params => <TextField {...params} placeholder="Type" InputProps={{ ...params.InputProps }} />
               }
