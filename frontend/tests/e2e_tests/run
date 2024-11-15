@@ -65,6 +65,7 @@ parse_args(){
 
 USER=mender-demo@example.com
 USER2=demo-secondary@example.com
+SP_TENANT=tenant-demo@example.com
 PASSWORD=mysecretpassword!123
 
 run_tests() {
@@ -78,6 +79,14 @@ run_tests() {
         sleep 5
 
         # remove the client, since it won't be able to connect as it lacks a proper tenant token config
+        spTenant=$(docker compose exec tenantadm /usr/bin/tenantadm \
+          create-org \
+          --name=secondary \
+          --username=$SP_TENANT \
+          --device-limit 100 \
+          --password=$PASSWORD)
+        docker compose exec tenantadm tenantadm update-tenant --id $spTenant --service-provider
+        docker compose exec mongo mongosh --eval 'db.getSiblingDB("tenantadm").tenants.updateOne({}, {$set: {max_child_tenants: 100}})'
         docker compose rm -fsv client
         tenant=$(docker compose exec tenantadm /usr/bin/tenantadm \
           create-org \
