@@ -1,21 +1,12 @@
-swagger: '2.0'
+openapi: 3.0.0
 info:
   version: '0.1.0'
-  title: Device authentication
+  title: Device Authentication
   description: |
-      An API for device authentication handling. Not exposed via the API Gateway,
-      internal use only.
-
-basePath: '/api/internal/v1/devauth/'
-host: 'mender-deviceauth:8080'
-schemes:
-  - http
-
-produces:
-  - application/json
-consumes:
-  - application/json
-
+    An API for device authentication handling. Not exposed via the API Gateway,
+    internal use only.
+servers:
+  - url: http://mender-deviceauth:8080/api/internal/v1/devauth/
 paths:
   /alive:
     get:
@@ -23,16 +14,18 @@ paths:
       tags:
         - Internal API
       summary: >
-          Trivial endpoint that unconditionally returns an empty 204 response
-          whenever the API handler is running correctly.
+        Trivial endpoint that unconditionally returns an empty 204 response
+        whenever the API handler is running correctly.
       responses:
-        204:
+        '204':
           description: Service is up and running
-        500:
+        '500':
           description: >
-              Internal API error
-          schema:
-            $ref: '#/definitions/Error'
+            Internal API error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
   /health:
     get:
@@ -41,28 +34,34 @@ paths:
         - Internal API
       summary: Check the health of the service
       responses:
-        204:
+        '204':
           description: >
-              Service is healthy and all dependencies are up and running.
-        500:
+            Service is healthy and all dependencies are up and running.
+        '500':
           description: >
-              Unexpected internal error
-          schema:
-            $ref: '#/definitions/Error'
-          examples:
+            Unexpected internal error
+          content:
             application/json:
-              error: "internal error"
-              request_id: "ffd712be-d697-4cb7-814b-88ff1e2eb5f6"
-        503:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example1:
+                  value:
+                    error: "internal error"
+                    request_id: "ffd712be-d697-4cb7-814b-88ff1e2eb5f6"
+        '503':
           description: >
-              Service unhealthy / not ready to accept traffic. At least one
-              dependency is not running.
-          schema:
-            $ref: '#/definitions/Error'
-          examples:
+            Service unhealthy / not ready to accept traffic. At least one
+            dependency is not running.
+          content:
             application/json:
-              error: "error reaching MongoDB: context deadline exceeded"
-              request_id: "ffd712be-d697-4cb7-814b-88ff1e2eb5f6"
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example2:
+                  value:
+                    error: "error reaching MongoDB: context deadline exceeded"
+                    request_id: "ffd712be-d697-4cb7-814b-88ff1e2eb5f6"
 
   /tokens/verify:
     post:
@@ -73,26 +72,30 @@ paths:
       description: |
         Besides the basic validity check, checks the token expiration time and
         user-initiated token revocation. Services which intend to use it should
-        be correctly set up in the gateway\'s configuration.
+        be correctly set up in the gateway's configuration.
       parameters:
         - name: Authorization
           in: header
           description: The token in base64-encoded form.
           required: true
-          type: string
-      responses:
-        200:
-          description: The token is valid.
-        400:
-          description: Missing or malformed request parameters.
-        401:
-          description: Verification failed, authentication should not be granted.
-        403:
-          description: Token has expired - apply for a new one.
-        500:
-          description: Unexpected error.
           schema:
-            $ref: '#/definitions/Error'
+            type: string
+      responses:
+        '200':
+          description: The token is valid.
+        '400':
+          description: Missing or malformed request parameters.
+        '401':
+          description: Verification failed, authentication should not be granted.
+        '403':
+          description: Token has expired - apply for a new one.
+        '500':
+          description: Unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
   /tokens:
     delete:
       operationId: Revoke Device Tokens
@@ -100,36 +103,41 @@ paths:
         - Internal API
       summary: Delete device tokens
       description: |
-        This endpoint is designed to be used for device decommissionning
+        This endpoint is designed to be used for device decommissioning
         and tenant account suspension purpose.
         For device decommissioning purpose both tenant_id and device_id parameters
         must be set. When both tenant_id and device_id parameters are set,
         all tokens will be deleted for device with given device_id.
-        For tenant account suspension purpose only tenant_id parameter
-        must be set. When device_id parameter is not set (only tenant_id parameter is set)
+        For tenant account suspension purpose only tenant_id parameter must be set.
+        When device_id parameter is not set (only tenant_id parameter is set)
         all tokens for all tenant devices will be deleted.
       parameters:
         - name: tenant_id
           in: query
-          type: string
-          description: Tenant ID.
           required: true
+          schema:
+            type: string
         - name: device_id
           in: query
-          type: string
-          description: Device ID.
+          required: false
+          schema:
+            type: string
       responses:
-        204:
+        '204':
           description: Tokens deleted.
-        400:
-          description: |
-            Invalid parameters. See error message for details.
-          schema:
-            $ref: "#/definitions/Error"
-        500:
+        '400':
+          description: Invalid parameters. See error message for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal server error.
-          schema:
-            $ref: "#/definitions/Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
   /tenant/{tenant_id}/limits/max_devices:
     get:
       operationId: Get Device Limit
@@ -138,24 +146,30 @@ paths:
       summary: Max device count limit
       parameters:
         - name: tenant_id
-          in: path
-          type: string
           description: Tenant ID.
+          in: path
           required: true
+          schema:
+            type: string
       responses:
-        200:
+        '200':
           description: Successful response.
-          schema:
-            $ref: "#/definitions/Limit"
-        400:
-          description: |
-            Invalid parameters. See error message for details.
-          schema:
-            $ref: "#/definitions/Error"
-        500:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Limit'
+        '400':
+          description: Invalid parameters. See error message for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal server error.
-          schema:
-            $ref: "#/definitions/Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     put:
       operationId: Update Device Limit
       tags:
@@ -163,27 +177,32 @@ paths:
       summary: Update max device count limit
       parameters:
         - name: tenant_id
-          in: path
-          type: string
           description: Tenant ID.
-          required: true
-        - name: limit
-          in: body
+          in: path
           required: true
           schema:
-            $ref: "#/definitions/Limit"
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Limit'
       responses:
-        204:
+        '204':
           description: Limit information updated.
-        400:
-          description: |
-              The request body is malformed.
-          schema:
-            $ref: "#/definitions/Error"
-        500:
+        '400':
+          description: The request body is malformed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal server error.
-          schema:
-            $ref: "#/definitions/Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     delete:
       operationId: Clear Device Limit
       tags:
@@ -191,17 +210,20 @@ paths:
       summary: Remove max device count limit
       parameters:
         - name: tenant_id
-          in: path
-          type: string
           description: Tenant ID.
+          in: path
           required: true
-      responses:
-        204:
-          description: Limit information deleted.
-        500:
-          description: Internal server error.
           schema:
-            $ref: "#/definitions/Error"
+            type: string
+      responses:
+        '204':
+          description: Limit information deleted.
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
   /tenants:
     post:
@@ -211,22 +233,23 @@ paths:
       summary: Provision a new tenant
       description: |
           Sets up all tenant-related infrastructure, e.g. a migrated tenant's database.
-      parameters:
-        - name: tenant
-          in: body
-          description: New tenant descriptor.
-          required: true
-          schema:
-            $ref: "#/definitions/NewTenant"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewTenant'
       responses:
-        201:
+        '201':
           description: Tenant was successfully provisioned.
-        400:
+        '400':
           description: Bad request.
-        500:
+        '500':
           description: Internal server error.
-          schema:
-           $ref: "#/definitions/Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
   /tenants/{tid}/devices/{did}:
     delete:
@@ -237,23 +260,25 @@ paths:
       parameters:
         - name: tid
           in: path
-          description: Tenant identifier.
           required: true
-          type: string
+          schema:
+            type: string
         - name: did
           in: path
-          description: Device identifier.
           required: true
-          type: string
-      responses:
-        201:
-          description: Device deleted successfully.
-        400:
-          description: Bad request.
-        500:
-          description: Internal server error.
           schema:
-           $ref: "#/definitions/Error"
+            type: string
+      responses:
+        '201':
+          description: Device deleted successfully.
+        '400':
+          description: Bad request.
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
   /tenants/{tid}/devices/{did}/external:
     put:
@@ -266,27 +291,31 @@ paths:
           in: path
           description: Tenant identifier.
           required: true
-          type: string
+          schema:
+            type: string
         - name: did
           in: path
           description: Device identifier.
           required: true
-          type: string
-        - name: device
-          in: body
-          description: External device descriptor.
-          required: true
           schema:
-            $ref: "#/definitions/ExternalDevice"
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExternalDevice'
       responses:
-        204:
+        '204':
           description: Device identity updated successfully.
-        400:
+        '400':
           description: Bad request.
-        500:
+        '500':
           description: Internal server error.
-          schema:
-           $ref: "#/definitions/Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
   /tenants/{tid}/devices/{did}/status:
     get:
@@ -301,29 +330,39 @@ paths:
           in: path
           description: Tenant identifier.
           required: true
-          type: string
+          schema:
+            type: string
         - name: did
           in: path
           description: Device identifier.
           required: true
-          type: string
+          schema:
+            type: string
       responses:
-        200:
+        '200':
           description: Success.
-          schema:
-            $ref: '#/definitions/Status'
-        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
           description: Invalid parameters. See error message for details.
-          schema:
-            $ref: '#/definitions/Error'
-        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
           description: Tenant or device not found.
-          schema:
-            $ref: '#/definitions/Error'
-        500:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal server error.
-          schema:
-            $ref: "#/definitions/Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
   /tenants/{tid}/devices:
     get:
@@ -338,59 +377,70 @@ paths:
           in: path
           description: Tenant identifier.
           required: true
-          type: string
+          schema:
+            type: string
         - name: status
           in: query
           description: |
             Device status filter. If not specified, all devices are listed.
           required: false
-          type: string
-          enum:
-            - pending
-            - accepted
-            - rejected
-            - preauthorized
-            - noauth
+          schema:
+            type: string
+            enum:
+              - pending
+              - accepted
+              - rejected
+              - preauthorized
+              - noauth
         - name: id
           in: query
           description: Device ID filter. Can be repeated to query a set of devices.
           required: false
-          type: array
-          items:
-            type: string
-          collectionFormat: multi
+          schema:
+            type: array
+            items:
+              type: string
         - name: page
           in: query
-          description: Results page number
+          description: Results page number.
           required: false
-          type: integer
-          default: 1
+          schema:
+            type: integer
+            default: 1
         - name: per_page
           in: query
           description: Maximum number of results per page.
           required: false
-          type: integer
-          default: 20
-          maximum: 500
-      responses:
-        200:
-          description: An array of devices.
           schema:
-            type: array
-            items:
-                $ref: '#/definitions/Device'
+            type: integer
+            default: 20
+            maximum: 500
+      responses:
+        '200':
+          description: An array of devices.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Device'
           headers:
             Link:
-              type: string
               description: Standard header, we support 'first', 'next', and 'prev'.
-        400:
+              schema:
+                type: string
+        '400':
           description: Missing/malformed request params.
-          schema:
-            $ref: '#/definitions/Error'
-        500:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
   /tenants/{tid}/devices/count:
     get:
@@ -403,187 +453,189 @@ paths:
           in: path
           description: Tenant identifier.
           required: true
-          type: string
+          schema:
+            type: string
         - name: status
           in: query
           description: |
             Device status filter, one of 'pending', 'accepted', 'rejected', 'noauth'. Default is 'all devices'.
           required: false
-          type: string
+          schema:
+            type: string
       responses:
-        200:
+        '200':
           description: Device count.
-          schema:
-            $ref: '#/definitions/Count'
-        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Count'
+        '400':
           description: Missing/malformed request params.
-          schema:
-            $ref: '#/definitions/Error'
-        500:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
-definitions:
-  NewTenant:
-    description: New tenant descriptor.
-    type: object
-    properties:
-      tenant_id:
-        description: New tenant's ID.
-        type: string
-    example:
-      tenant_id: "58be8208dd77460001fe0d78"
-  Limit:
-    description: Tenant account limit.
-    type: object
-    properties:
-      limit:
-        type: integer
-    required:
-      - limit
-    example:
-      limit: 123
-  Error:
-    description: Error descriptor.
-    type: object
-    properties:
-      error:
-        description: Description of the error.
-        type: string
-      request_id:
-        description: Request ID (same as in X-MEN-RequestID header).
-        type: string
-    example:
-      error: "failed to decode request body: JSON payload is empty"
-      request_id: "f7881e82-0492-49fb-b459-795654e7188a"
-  Status:
-    description: Admission status of the device.
-    type: object
-    properties:
-      status:
-        type: string
-        enum:
-          - pending
-          - accepted
-          - rejected
-          - preauthorized
-          - noauth
-    required:
-      - status
-    example:
-      status: "accepted"
-  Device:
-    type: object
-    properties:
-      id:
-        type: string
-        description: Mender assigned Device ID.
-      identity_data:
-        $ref: "#/definitions/IdentityData"
-      status:
-        type: string
-        enum:
-          - pending
-          - accepted
-          - rejected
-          - preauthorized
-          - noauth
-      created_ts:
-        type: string
-        format: datetime
-        description: Created timestamp
-      updated_ts:
-        type: string
-        format: datetime
-        description: Updated timestamp
-      check_in_time:
-        type: string
-        format: date-time
-        description: |
+components:
+  schemas:
+    NewTenant:
+      type: object
+      properties:
+        tenant_id:
+          type: string
+          description: New tenant's ID.
+      example:
+        tenant_id: "58be8208dd77460001fe0d78"
+    Limit:
+      type: object
+      properties:
+        limit:
+          type: integer
+      required:
+        - limit
+      example:
+        limit: 123
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Description of the error.
+        request_id:
+          type: string
+          description: Request ID (same as in X-MEN-RequestID header).
+      example:
+        error: "failed to decode request body: JSON payload is empty"
+        request_id: "f7881e82-0492-49fb-b459-795654e7188a"
+    Status:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - pending
+            - accepted
+            - rejected
+            - preauthorized
+            - noauth
+      required:
+        - status
+      example:
+        status: "accepted"
+    Device:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Mender assigned Device ID.
+        identity_data:
+          $ref: "#/components/schemas/IdentityData"
+        status:
+          type: string
+          enum:
+            - pending
+            - accepted
+            - rejected
+            - preauthorized
+            - noauth
+        created_ts:
+          type: string
+          format: datetime
+          description: Created timestamp
+        updated_ts:
+          type: string
+          format: datetime
+          description: Updated timestamp
+        check_in_time:
+          type: string
+          format: date-time
+          description: |
             Time when accepted device contacted server for the last time.
-      auth_sets:
-        type: array
-        items:
-          $ref: "#/definitions/AuthSet"
-      decommissioning:
-        type: boolean
-        description: Devices that are part of ongoing decomissioning process will return True
-  ExternalDevice:
-    type: object
-    description: "External device descriptor"
-    properties:
-      id:
-        type: string
-        description: "ID assigned by external provider"
-      name:
-        type: string
-        description: "Name of the device"
-      provider:
-        type: string
-        description: "Name of the external provider"
-      id_data:
-        type: string
-        description: "Optional custom ID data"
-    required:
-      - id
-      - name
-      - provider
-
-  AuthSet:
-    description: Authentication data set
-    type: object
-    properties:
-      id:
-        type: string
-        description: Authentication data set ID.
-      pubkey:
-        type: string
-        description: >
-          The device's public key (PEM encoding), generated by the device or
-          pre-provisioned by the vendor. Currently supported public algorithms
-          are: RSA, Ed25519 and ECDSA P-256.
-      identity_data:
-        $ref: "#/definitions/IdentityData"
-      status:
-        type: string
-        enum:
-          - pending
-          - accepted
-          - rejected
-          - preauthorized
-      ts:
-        type: string
-        format: datetime
-        description: Created timestamp
-  Count:
-    description: Counter type
-    type: object
-    properties:
-      count:
-        description: The count of requested items.
-        type: integer
-    example:
-      count: 42
-  IdentityData:
-    description: |
-      Device identity attributes, in the form of a JSON structure.
-
-      The attributes are completely vendor-specific, the provided ones are just an example.
-      In reference implementation structure contains vendor-selected fields,
-      such as MACs, serial numbers, etc.
-    type: object
-    properties:
-      mac:
-        description: MAC address.
-        type: string
-      sku:
-        description: Stock keeping unit.
-        type: string
-      sn:
-        description: Serial number.
-        type: string
-    example:
-      mac: "00:01:02:03:04:05"
-      sku: "My Device 1"
-      sn:  "SN1234567890"
+        auth_sets:
+          type: array
+          items:
+            $ref: "#/components/schemas/AuthSet"
+        decommissioning:
+          type: boolean
+          description: Devices that are part of ongoing decommissioning process will return True
+    ExternalDevice:
+      type: object
+      description: "External device descriptor"
+      properties:
+        id:
+          type: string
+          description: "ID assigned by external provider"
+        name:
+          type: string
+          description: "Name of the device"
+        provider:
+          type: string
+          description: "Name of the external provider"
+        id_data:
+          type: string
+          description: "Optional custom ID data"
+      required:
+        - id
+        - name
+        - provider
+    AuthSet:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Authentication data set ID.
+        pubkey:
+          type: string
+          description: >
+            The device's public key (PEM encoding), generated by the device or
+            pre-provisioned by the vendor. Currently supported public algorithms
+            are: RSA, Ed25519 and ECDSA P-256.
+        identity_data:
+          $ref: "#/components/schemas/IdentityData"
+        status:
+          type: string
+          enum:
+            - pending
+            - accepted
+            - rejected
+            - preauthorized
+        ts:
+          type: string
+          format: datetime
+          description: Created timestamp
+    Count:
+      type: object
+      properties:
+        count:
+          description: The count of requested items.
+          type: integer
+      example:
+        count: 42
+    IdentityData:
+      type: object
+      description: |
+        Device identity attributes, in the form of a JSON structure.
+        The attributes are completely vendor-specific, the provided ones are just an example.
+        In reference implementation structure contains vendor-selected fields,
+        such as MACs, serial numbers, etc.
+      properties:
+        mac:
+          description: MAC address.
+          type: string
+        sku:
+          description: Stock keeping unit.
+          type: string
+        sn:
+          description: Serial number.
+          type: string
+      example:
+        mac: "00:01:02:03:04:05"
+        sku: "My Device 1"
+        sn: "SN1234567890"
+ 
