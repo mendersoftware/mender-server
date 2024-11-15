@@ -48,7 +48,7 @@ test.describe('RBAC functionality', () => {
       await nameInput.click();
       await nameInput.fill('test-groups-role');
       await nameInput.press('Tab');
-      await dialog.locator('#role-description').fill('some description');
+      await dialog.getByLabel(/description/i).fill('some description');
       await dialog.getByText('Search groups​').click({ force: true });
       // we need to check the entire page here, since the selection list is rendered in a portal, so likely outside
       // of the dialog tree
@@ -70,7 +70,6 @@ test.describe('RBAC functionality', () => {
         await nameInput.click();
         await nameInput.fill(name);
         await nameInput.press('Tab');
-        await dialog.locator('#role-description').fill('some description');
         // we need to check the entire page here, since the selection list is rendered in a portal, so likely outside
         // of the dialog tree
         await dialog.getByText('Search release tags​').click({ force: true });
