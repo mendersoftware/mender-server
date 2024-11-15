@@ -1,4 +1,4 @@
-# Copyright 2022 Northern.tech AS
+# Copyright 2024 Northern.tech AS
 #
 #    Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 import base64
-import bravado
 import json
 import pytest
 import requests
@@ -101,26 +100,26 @@ def accept_device(device_api, management_api, tenant_token=None):
     kwargs = {}
     if tenant_token is not None:
         kwargs["Authorization"] = "Bearer " + tenant_token
-    try:
-        with orchestrator.run_fake_for_device_id(1) as server:
-            with mock_tenantadm_auth():
-                # poke devauth so that device appears
-                rsp = device_auth_req(url, da, d)
-                assert rsp.status_code == 401
+    with orchestrator.run_fake_for_device_id(1) as server:
+        with mock_tenantadm_auth():
+            # poke devauth so that device appears
+            rsp = device_auth_req(url, da, d)
+            assert rsp.status_code == 401
 
-            # try to find our devices in all devices listing
-            dev = management_api.find_device_by_identity(d.identity, **kwargs)
-            assert dev is not None
+        # try to find our devices in all devices listing
+        dev = management_api.find_device_by_identity(d.identity, **kwargs)
+        assert dev is not None
 
-            print("found matching device with ID", dev.id)
-            devid = dev.id
-            # extract authentication data set ID
-            aid = dev.auth_sets[0].id
+        print("found matching device with ID", dev.id)
+        devid = dev.id
+        # extract authentication data set ID
+        aid = dev.auth_sets[0].id
 
-        with orchestrator.run_fake_for_device_id(devid) as server:
+    with orchestrator.run_fake_for_device_id(devid) as server:
+        try:
             management_api.accept_device(devid, aid, **kwargs)
-    except bravado.exception.HTTPError as e:
-        assert e.response.status_code == 204
+        except management_api.ApiException as e:
+            assert e.status == 204
 
     return devid, d, da
 
@@ -129,11 +128,8 @@ def accept_device(device_api, management_api, tenant_token=None):
 def device_token(accepted_device, device_api):
     devid, d, da = accepted_device
 
-    try:
-        with orchestrator.run_fake_for_device_id(devid) as server:
-            token = request_token(d, da, device_api.auth_requests_url)
-    except bravado.exception.HTTPError as e:
-        assert e.response.status_code == 204
+    with orchestrator.run_fake_for_device_id(devid) as server:
+        token = request_token(d, da, device_api.auth_requests_url)
 
     print("device token:", token)
     assert token
@@ -151,11 +147,8 @@ class TestToken:
     def test_token_claims(self, accepted_device, management_api, device_api):
         devid, d, da = accepted_device
 
-        try:
-            with orchestrator.run_fake_for_device_id(devid) as server:
-                token = request_token(d, da, device_api.auth_requests_url)
-        except bravado.exception.HTTPError as e:
-            assert e.response.status_code == 204
+        with orchestrator.run_fake_for_device_id(devid) as server:
+            token = request_token(d, da, device_api.auth_requests_url)
 
         assert len(token) > 0
         print("device token:", d.token)
@@ -169,17 +162,8 @@ class TestToken:
         assert "iss" in tclaims and tclaims["iss"] == "Mender"
         assert "mender.device" in tclaims and tclaims["mender.device"] == True
 
-    def test_token_verify_ok(self, device_token, token_verify_url):
-
-        # verify token; the token is to be placed in the Authorization header
-        # and it looks like bravado cannot handle a POST request with no data
-        # in body, hence we fall back to sending request directly
-        auth_hdr = "Bearer {}".format(device_token)
-        # successful verification
-        rsp = requests.post(
-            token_verify_url, data="", headers={"Authorization": auth_hdr}
-        )
-        assert rsp.status_code == 200
+    def test_token_verify_ok(self, internal_api, device_token, token_verify_url):
+        return internal_api.verify_jwt(authorization=device_token)
 
     def test_token_verify_none(self, token_verify_url):
         # no auth header should raise an error
@@ -204,13 +188,7 @@ class TestToken:
     def test_token_delete(self, device_token, token_verify_url, management_api):
         _, tclaims, _ = explode_jwt(device_token)
 
-        # bravado cannot handle DELETE requests either
-        #   self.client.tokens.delete_tokens_id(id=tclaims['jti'])
-        # use requests instead
-        rsp = requests.delete(
-            management_api.make_api_url("/tokens/{}".format(tclaims["jti"]))
-        )
-        assert rsp.status_code == 204
+        management_api.delete_token(id=tclaims["jti"])
 
         auth_hdr = "Bearer {}".format(device_token)
         # unsuccessful verification
