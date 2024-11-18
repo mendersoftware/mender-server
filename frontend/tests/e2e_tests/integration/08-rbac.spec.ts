@@ -42,9 +42,8 @@ test.describe('RBAC functionality', () => {
       test.skip(!isEnterpriseOrStaging(environment));
       await page.getByText(/roles/i).click();
       await page.getByRole('button', { name: 'Add a role' }).click();
-      let nameInput = await page.locator('label:has-text("name") >> ..');
-      const dialog = await nameInput.locator('.. >> .. >> ..');
-      nameInput = await nameInput.locator('input');
+      const dialog = await page.locator('.MuiPaper-root >> form');
+      const nameInput = await dialog.getByLabel('name');
       await nameInput.click();
       await nameInput.fill('test-groups-role');
       await nameInput.press('Tab');
@@ -64,9 +63,8 @@ test.describe('RBAC functionality', () => {
       await page.getByText(/roles/i).click();
       for (const { name, permissions, tag } of releaseRoles) {
         await page.getByText('Add a role').click();
-        let nameInput = await page.locator('label:has-text("name") >> ..');
-        const dialog = await nameInput.locator('.. >> .. >> ..');
-        nameInput = await nameInput.locator('input');
+        const dialog = await page.locator('.MuiPaper-root >> form');
+        const nameInput = await dialog.getByLabel('name');
         await nameInput.click();
         await nameInput.fill(name);
         await nameInput.press('Tab');
