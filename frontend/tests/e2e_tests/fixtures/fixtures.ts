@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { test as coveredTest, expect } from '@bgotink/playwright-coverage';
-import { Page, test as nonCoveredTest } from '@playwright/test';
+import { BrowserContext, Page, test as nonCoveredTest } from '@playwright/test';
 
 import { getPeristentLoginInfo, isLoggedIn, prepareNewPage } from '../utils/commands.ts';
 import { storagePath, timeouts } from '../utils/constants.ts';
@@ -27,7 +27,9 @@ type TestFixtures = {
   config: unknown;
   environment: string;
   loggedInPage: Page;
+  loggedInTenantPage: Page;
   username: string;
+  spTenantUsername: string;
   password: string;
   demoDeviceName: string;
   demoArtifactVersion: DemoArtifactVersionInfo;
@@ -41,27 +43,43 @@ const urls = {
 
 const defaultConfig = {
   baseUrl: urls.localhost,
+  spTenantUsername: 'tenant-demo@example.com',
   username: 'mender-demo@example.com',
   password: 'mysecretpassword!123',
   demoDeviceName: 'original'
 };
 
+const loginCommon = async (page: Page, username: string, use: (r: Page) => Promise<void>, context: BrowserContext) => {
+  await isLoggedIn(page);
+  const isHeaderComplete = await page.getByText(username).isVisible();
+  if (!isHeaderComplete) {
+    await page.reload();
+    await page.getByText(username).waitFor({ timeout: timeouts.default });
+  }
+  await context.storageState({ path: storagePath });
+  await use(page);
+};
 const test = (process.env.TEST_ENVIRONMENT === 'staging' ? nonCoveredTest : coveredTest).extend<TestFixtures>({
   loggedInPage: async ({ baseUrl, context, password, username }, use) => {
     const page = await prepareNewPage({ baseUrl, context, password, username });
-    await isLoggedIn(page);
-    const isHeaderComplete = await page.getByText(username).isVisible();
-    if (!isHeaderComplete) {
-      await page.reload();
-      await page.getByText(username).waitFor({ timeout: timeouts.default });
-    }
-    await context.storageState({ path: storagePath });
-    await use(page);
+    await loginCommon(page, username, use, context);
+  },
+  loggedInTenantPage: async ({ baseUrl, context, password, spTenantUsername }, use) => {
+    const page = await prepareNewPage({ baseUrl, context, password, username: spTenantUsername });
+    await loginCommon(page, spTenantUsername, use, context);
   },
   // eslint-disable-next-line no-empty-pattern
   environment: async ({}, use) => {
     const environment = process.env.TEST_ENVIRONMENT ? process.env.TEST_ENVIRONMENT : 'localhost';
     await use(environment);
+  },
+  spTenantUsername: async ({ environment }, use) => {
+    test.skip(environment !== 'enterprise', 'not available in OS');
+    let spTenantUsername = defaultConfig.spTenantUsername;
+    if (environment === 'staging') {
+      spTenantUsername = getPeristentLoginInfo().tenantUsername;
+    }
+    await use(spTenantUsername);
   },
   username: async ({ environment }, use) => {
     let username = defaultConfig.username;
