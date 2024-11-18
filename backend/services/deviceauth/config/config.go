@@ -15,6 +15,8 @@
 package config
 
 import (
+	"time"
+
 	"github.com/mendersoftware/mender-server/pkg/config"
 )
 
@@ -79,6 +81,13 @@ const (
 	// Has no effect if not running in multi-tenancy context.
 	SettingHaveAddons        = "have_addons"
 	SettingHaveAddonsDefault = false
+
+	// SettingRatelimits* configures adaptive rate limiting based on device limit.
+	// The `quota` sets the maximum average number of requests per device within
+	// `interval`.
+	SettingRatelimitsQuotas          = "ratelimits.quotas"
+	SettingRatelimitsInterval        = "ratelimits.interval"
+	SettingRatelimitsIntervalDefault = time.Minute
 )
 
 var (
@@ -101,5 +110,6 @@ var (
 		{Key: SettingRedisLimitsExpSec, Value: SettingRedisLimitsExpSecDefault},
 		{Key: SettingRedisKeyPrefix, Value: SettingRedisKeyPrefixDefault},
 		{Key: SettingHaveAddons, Value: SettingHaveAddonsDefault},
+		{Key: SettingRatelimitsInterval, Value: SettingRatelimitsIntervalDefault},
 	}
 )
