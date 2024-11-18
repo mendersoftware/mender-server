@@ -52,7 +52,7 @@ test.describe('RBAC functionality', () => {
       // we need to check the entire page here, since the selection list is rendered in a portal, so likely outside
       // of the dialog tree
       await page.getByRole('option', { name: 'testgroup' }).click();
-      await dialog.getByText('Select​').nth(1).click({ force: true });
+      await dialog.locator(`[id="mui-component-select-groups.0.uiPermissions"]`).click();
       await page.getByText('Configure').click();
       await page.press('body', 'Escape');
       await dialog.getByRole('button', { name: /submit/i }).scrollIntoViewIfNeeded();
@@ -76,7 +76,7 @@ test.describe('RBAC functionality', () => {
         } else {
           await page.getByRole('option', { name: /All releases/i }).click({ force: true });
         }
-        await dialog.getByText('Select​').first().click({ force: true });
+        await dialog.locator(`[id="mui-component-select-releases.0.uiPermissions"]`).click();
         for await (const permission of permissions) {
           await page.getByRole('option', { name: permission }).click();
         }
