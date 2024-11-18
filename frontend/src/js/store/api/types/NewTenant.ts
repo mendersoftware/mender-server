@@ -23,6 +23,10 @@ export type NewTenant = {
      * Alternative SSO login schemes, must be provided if password is empty
      */
     login?: Record<string, any>;
+    /**
+     * Send reset password email to the admin user
+     */
+    send_reset_password?: boolean;
   };
   users?: Array<{
     /**
