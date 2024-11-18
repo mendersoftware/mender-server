@@ -62,13 +62,13 @@ paths:
         - name: id
           in: query
           description: |
-              Deployment identifier.
+              Deployment identifier. You can provide it multiple times to query a set of deployments.
           required: false
           type: string
         - name: name
           in: query
           description: |
-              Deployment name.
+              Deployment name. You can provide it multiple times to query a set of deployments.
           required: false
           type: string
         - name: status
