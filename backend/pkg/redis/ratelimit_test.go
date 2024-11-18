@@ -22,13 +22,12 @@ func TestFixedWindowRatelimit(t *testing.T) {
 			RedisURL)
 		t.FailNow()
 	}
+	params := FixedRatelimitParams(1)
 	tMicro := time.Now().UnixMicro()
-	params := FixedRatelimitParams(RatelimitParams{
-		Burst:     1,
-		Interval:  time.Hour,
-		KeyPrefix: fmt.Sprintf("%s_%x", strings.ToLower(t.Name()), tMicro),
-	})
-	rateLimiter := NewFixedWindowRateLimiter(client, params)
+	rateLimiter := NewFixedWindowRateLimiter(client,
+		fmt.Sprintf("%s_%x", strings.ToLower(t.Name()), tMicro),
+		time.Minute,
+		params)
 
 	// Freeze time to avoid time to progress to next window.
 	nowFrozen := time.Now()

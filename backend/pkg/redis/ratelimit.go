@@ -13,26 +13,24 @@ import (
 
 func NewFixedWindowRateLimiter(
 	client Client,
-	paramsFromContext RatelimitParamsFunc,
+	keyPrefix string,
+	interval time.Duration,
+	limitFromContext RatelimitParamsFunc,
 ) rate.Limiter {
 	return &fixedWindowRatelimiter{
 		client:     client,
-		paramsFunc: paramsFromContext,
+		paramsFunc: limitFromContext,
 		nowFunc:    time.Now,
+		keyPrefix:  keyPrefix,
+		interval:   interval,
 	}
 }
 
-type RatelimitParams struct {
-	Burst     uint64
-	Interval  time.Duration
-	KeyPrefix string
-}
+type RatelimitParamsFunc func(context.Context) (burst uint64, eventID string, err error)
 
-type RatelimitParamsFunc func(context.Context) (*RatelimitParams, error)
-
-func FixedRatelimitParams(params RatelimitParams) RatelimitParamsFunc {
-	return func(ctx context.Context) (*RatelimitParams, error) {
-		return &params, nil
+func FixedRatelimitParams(burst uint64) RatelimitParamsFunc {
+	return func(ctx context.Context) (uint64, string, error) {
+		return burst, "", nil
 	}
 }
 
@@ -40,6 +38,9 @@ type fixedWindowRatelimiter struct {
 	client     Client
 	paramsFunc RatelimitParamsFunc
 	nowFunc    func() time.Time
+	keyPrefix  string
+
+	interval time.Duration
 }
 
 type simpleReservation struct {
@@ -64,29 +65,25 @@ func epoch(t time.Time, interval time.Duration) int64 {
 	return t.UnixMilli() / interval.Milliseconds()
 }
 
-func fixedWindowKey(prefix string, epoch int64) string {
+func fixedWindowKey(prefix, eventID string, epoch int64) string {
 	if prefix == "" {
 		prefix = "ratelimit"
 	}
-	return fmt.Sprintf("%s:e:%d:c", prefix, epoch)
+	return fmt.Sprintf("%s:id:%s:e:%d:c", prefix, eventID, epoch)
 }
 
 func (rl *fixedWindowRatelimiter) Reserve(ctx context.Context) (rate.Reservation, error) {
 	now := rl.nowFunc()
-	params, err := rl.paramsFunc(ctx)
+	burst, eventID, err := rl.paramsFunc(ctx)
 	if err != nil {
 		return nil, err
-	} else if params == nil {
-		return &simpleReservation{
-			ok: true,
-		}, nil
 	}
-	epoch := epoch(now, params.Interval)
-	key := fixedWindowKey(params.KeyPrefix, epoch)
+	epoch := epoch(now, rl.interval)
+	key := fixedWindowKey(rl.keyPrefix, eventID, epoch)
 	count := uint64(1)
 
 	err = rl.client.SetArgs(ctx, key, count, redis.SetArgs{
-		TTL:  params.Interval,
+		TTL:  rl.interval,
 		Mode: `NX`,
 	}).Err()
 	if errors.Is(err, redis.Nil) {
@@ -95,35 +92,38 @@ func (rl *fixedWindowRatelimiter) Reserve(ctx context.Context) (rate.Reservation
 	if err != nil {
 		return nil, fmt.Errorf("redis: error computing rate limit: %w", err)
 	}
-	if count <= params.Burst {
+	if count <= burst {
 		return &simpleReservation{
 			delay:  0,
 			ok:     true,
-			tokens: params.Burst - count,
+			tokens: burst - count,
 		}, nil
 	}
 	return &simpleReservation{
 		delay: now.Sub(time.UnixMilli((epoch + 1) *
-			params.Interval.Milliseconds())),
+			rl.interval.Milliseconds())),
 		ok:     false,
 		tokens: 0,
 	}, nil
 }
 
 func (rl *fixedWindowRatelimiter) Tokens(ctx context.Context) (uint64, error) {
-	params, err := rl.paramsFunc(ctx)
+	burst, eventID, err := rl.paramsFunc(ctx)
 	if err != nil {
 		return 0, err
 	}
 	count, err := rl.client.Get(ctx,
-		fixedWindowKey(params.KeyPrefix, epoch(rl.nowFunc(), params.Interval)),
+		fixedWindowKey(rl.keyPrefix,
+			eventID,
+			epoch(rl.nowFunc(), rl.interval),
+		),
 	).Uint64()
 	if errors.Is(err, redis.Nil) {
-		return params.Burst, nil
+		return burst, nil
 	} else if err != nil {
 		return 0, fmt.Errorf("redis: error getting free tokens: %w", err)
-	} else if count > params.Burst {
+	} else if count > burst {
 		return 0, nil
 	}
-	return params.Burst - count, nil
+	return burst - count, nil
 }
