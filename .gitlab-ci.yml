@@ -123,6 +123,24 @@ build:backend:docker-acceptance:
     # NOTE: Only build for test platform (default) for the acceptance test images
     - make -C backend docker-acceptance
 
+## govendor-check
+test:backend:govendor-check:
+  tags:
+    - hetzner-amd-beefy
+  stage: test
+  needs: []
+  rules:
+    - exists:
+      - vendor
+    - changes:
+        paths: ["backend/**/*.go"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
+  image: "golang:${GOLANG_VERSION}"
+  script:
+    - go mod tidy
+    - go mod vendor
+    - git diff --exit-code
+
 test:backend:static:
   stage: test
   needs: []
