@@ -7,4 +7,5 @@
  */
 export type TenantIdsData = {
   tenant_ids?: Array<string>;
+  role?: string;
 };
