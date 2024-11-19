@@ -19,8 +19,10 @@ package mocks
 import (
 	context "context"
 
-	ratelimits "github.com/mendersoftware/mender-server/pkg/ratelimits"
+	model "github.com/mendersoftware/mender-server/services/deviceauth/model"
 	mock "github.com/stretchr/testify/mock"
+
+	ratelimits "github.com/mendersoftware/mender-server/pkg/ratelimits"
 
 	time "time"
 )
@@ -77,6 +79,24 @@ func (_m *Cache) CacheToken(ctx context.Context, tid string, id string, idtype s
 	var r0 error
 	if rf, ok := ret.Get(0).(func(context.Context, string, string, string, string, time.Duration) error); ok {
 		r0 = rf(ctx, tid, id, idtype, token, expireSec)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// DeleteLimit provides a mock function with given fields: ctx, name
+func (_m *Cache) DeleteLimit(ctx context.Context, name string) error {
+	ret := _m.Called(ctx, name)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteLimit")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, string) error); ok {
+		r0 = rf(ctx, name)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -162,6 +182,36 @@ func (_m *Cache) GetCheckInTimes(ctx context.Context, tid string, ids []string) 
 	return r0, r1
 }
 
+// GetLimit provides a mock function with given fields: ctx, name
+func (_m *Cache) GetLimit(ctx context.Context, name string) (*model.Limit, error) {
+	ret := _m.Called(ctx, name)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetLimit")
+	}
+
+	var r0 *model.Limit
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, string) (*model.Limit, error)); ok {
+		return rf(ctx, name)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, string) *model.Limit); ok {
+		r0 = rf(ctx, name)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*model.Limit)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = rf(ctx, name)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetLimits provides a mock function with given fields: ctx, tid, id, idtype
 func (_m *Cache) GetLimits(ctx context.Context, tid string, id string, idtype string) (*ratelimits.ApiLimits, error) {
 	ret := _m.Called(ctx, tid, id, idtype)
@@ -190,6 +240,24 @@ func (_m *Cache) GetLimits(ctx context.Context, tid string, id string, idtype st
 	}
 
 	return r0, r1
+}
+
+// SetLimit provides a mock function with given fields: ctx, limit
+func (_m *Cache) SetLimit(ctx context.Context, limit *model.Limit) error {
+	ret := _m.Called(ctx, limit)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetLimit")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, *model.Limit) error); ok {
+		r0 = rf(ctx, limit)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
 }
 
 // SuspendTenant provides a mock function with given fields: ctx, tid
