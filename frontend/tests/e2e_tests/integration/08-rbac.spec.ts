@@ -42,18 +42,17 @@ test.describe('RBAC functionality', () => {
       test.skip(!isEnterpriseOrStaging(environment));
       await page.getByText(/roles/i).click();
       await page.getByRole('button', { name: 'Add a role' }).click();
-      let nameInput = await page.locator('label:has-text("name") >> ..');
-      const dialog = await nameInput.locator('.. >> .. >> ..');
-      nameInput = await nameInput.locator('input');
+      const dialog = await page.locator('.MuiPaper-root >> form');
+      const nameInput = await dialog.getByLabel('name');
       await nameInput.click();
       await nameInput.fill('test-groups-role');
       await nameInput.press('Tab');
-      await dialog.locator('#role-description').fill('some description');
+      await dialog.getByLabel(/description/i).fill('some description');
       await dialog.getByText('Search groups​').click({ force: true });
       // we need to check the entire page here, since the selection list is rendered in a portal, so likely outside
       // of the dialog tree
       await page.getByRole('option', { name: 'testgroup' }).click();
-      await dialog.getByText('Select​').nth(1).click({ force: true });
+      await dialog.locator(`[id="mui-component-select-groups.0.uiPermissions"]`).click();
       await page.getByText('Configure').click();
       await page.press('body', 'Escape');
       await dialog.getByRole('button', { name: /submit/i }).scrollIntoViewIfNeeded();
@@ -64,13 +63,11 @@ test.describe('RBAC functionality', () => {
       await page.getByText(/roles/i).click();
       for (const { name, permissions, tag } of releaseRoles) {
         await page.getByText('Add a role').click();
-        let nameInput = await page.locator('label:has-text("name") >> ..');
-        const dialog = await nameInput.locator('.. >> .. >> ..');
-        nameInput = await nameInput.locator('input');
+        const dialog = await page.locator('.MuiPaper-root >> form');
+        const nameInput = await dialog.getByLabel('name');
         await nameInput.click();
         await nameInput.fill(name);
         await nameInput.press('Tab');
-        await dialog.locator('#role-description').fill('some description');
         // we need to check the entire page here, since the selection list is rendered in a portal, so likely outside
         // of the dialog tree
         await dialog.getByText('Search release tags​').click({ force: true });
@@ -79,7 +76,7 @@ test.describe('RBAC functionality', () => {
         } else {
           await page.getByRole('option', { name: /All releases/i }).click({ force: true });
         }
-        await dialog.getByText('Select​').first().click({ force: true });
+        await dialog.locator(`[id="mui-component-select-releases.0.uiPermissions"]`).click();
         for await (const permission of permissions) {
           await page.getByRole('option', { name: permission }).click();
         }
