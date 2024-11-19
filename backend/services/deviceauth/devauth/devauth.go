@@ -149,7 +149,8 @@ type Config struct {
 }
 
 func NewDevAuth(d store.DataStore, co orchestrator.ClientRunner,
-	jwt jwt.Handler, config Config) *DevAuth {
+	jwt jwt.Handler, config Config,
+) *DevAuth {
 	// initialize checker using an empty merge (returns nil on validate)
 	checker := access.Merge()
 	if config.HaveAddons {
@@ -195,8 +196,8 @@ func (d *DevAuth) setDeviceIdentity(ctx context.Context, dev *model.Device, tena
 	i := 0
 	for name, value := range dev.IdDataStruct {
 		if name == "status" {
-			//we have to forbid the client to override attribute status in identity scope
-			//since it stands for status of a device (as in: accepted, rejected, preauthorized)
+			// we have to forbid the client to override attribute status in identity scope
+			// since it stands for status of a device (as in: accepted, rejected, preauthorized)
 			continue
 		}
 		attribute := model.DeviceAttribute{
@@ -290,7 +291,6 @@ func (d *DevAuth) signToken(ctx context.Context) jwt.SignFunc {
 
 func (d *DevAuth) doVerifyTenant(ctx context.Context, token string) (*tenant.Tenant, error) {
 	t, err := d.cTenant.VerifyToken(ctx, token)
-
 	if err != nil {
 		if tenant.IsErrTokenVerificationFailed(err) {
 			return nil, MakeErrDevAuthUnauthorized(err)
@@ -320,7 +320,6 @@ func (d *DevAuth) getTenantWithDefault(
 	// but continue on errors and maybe try the default token
 	if tenantToken != "" {
 		t, err = d.doVerifyTenant(ctx, tenantToken)
-
 		if err != nil {
 			l.Errorf("Failed to verify supplied tenant token: %s", err.Error())
 		}
@@ -435,7 +434,6 @@ func (d *DevAuth) SubmitAuthRequest(ctx context.Context, r *model.AuthReq) (stri
 
 	// no token, return device unauthorized
 	return "", ErrDevAuthUnauthorized
-
 }
 
 func (d *DevAuth) handlePreAuthDevice(
@@ -524,7 +522,6 @@ func (d *DevAuth) processPreAuthRequest(
 	ctx context.Context,
 	r *model.AuthReq,
 ) (*model.AuthSet, error) {
-
 	_, idDataSha256, err := parseIdData(r.IdData)
 	if err != nil {
 		return nil, MakeErrDevAuthBadRequest(err)
@@ -623,7 +620,6 @@ func (d *DevAuth) processAuthRequest(
 	ctx context.Context,
 	r *model.AuthReq,
 ) (*model.AuthSet, error) {
-
 	l := log.FromContext(ctx)
 
 	// get device associated with given authorization request
@@ -754,7 +750,6 @@ func (d *DevAuth) GetDevice(ctx context.Context, devId string) (*model.Device, e
 
 // DecommissionDevice deletes device and all its tokens
 func (d *DevAuth) DecommissionDevice(ctx context.Context, devID string) error {
-
 	l := log.FromContext(ctx)
 
 	l.Warnf("Decommission device with id: %s", devID)
@@ -832,7 +827,6 @@ func (d *DevAuth) DeleteDevice(ctx context.Context, devID string) error {
 
 // Deletes device authentication set, and optionally the device.
 func (d *DevAuth) DeleteAuthSet(ctx context.Context, devID string, authId string) error {
-
 	l := log.FromContext(ctx)
 
 	l.Warnf("Delete authentication set with id: "+
@@ -1227,7 +1221,6 @@ func (d *DevAuth) RevokeToken(ctx context.Context, tokenID string) error {
 }
 
 func verifyTenantClaim(ctx context.Context, verifyTenant bool, tenant string) error {
-
 	l := log.FromContext(ctx)
 
 	if verifyTenant {
@@ -1403,7 +1396,6 @@ func (d *DevAuth) cacheThrottleVerify(
 	limits, err := d.getApiLimits(ctx,
 		token.Claims.Tenant,
 		token.Claims.Subject.String())
-
 	if err != nil {
 		return "", err
 	}
@@ -1510,7 +1502,8 @@ func apiLimitsOverride(src, dest ratelimits.ApiLimits) ratelimits.ApiLimits {
 				ratelimits.ApiBurst{
 					Action:         bdest.Action,
 					Uri:            bdest.Uri,
-					MinIntervalSec: bdest.MinIntervalSec},
+					MinIntervalSec: bdest.MinIntervalSec,
+				},
 			)
 		}
 	}
@@ -1520,16 +1513,35 @@ func apiLimitsOverride(src, dest ratelimits.ApiLimits) ratelimits.ApiLimits {
 }
 
 func (d *DevAuth) GetLimit(ctx context.Context, name string) (*model.Limit, error) {
-	lim, err := d.db.GetLimit(ctx, name)
-
-	switch err {
-	case nil:
-		return lim, nil
-	case store.ErrLimitNotFound:
-		return &model.Limit{Name: name, Value: 0}, nil
-	default:
-		return nil, err
+	l := log.FromContext(ctx)
+	var (
+		limit *model.Limit
+		err   error
+	)
+	if d.cache != nil {
+		limit, err = d.cache.GetLimit(ctx, name)
+		if err != nil {
+			l.Warnf("error fetching limit from cache: %s", err.Error())
+		}
 	}
+	if limit == nil {
+		limit, err = d.db.GetLimit(ctx, name)
+		if err != nil {
+			if errors.Is(err, store.ErrLimitNotFound) {
+				limit = &model.Limit{Name: name, Value: 0}
+				err = nil
+			} else {
+				return nil, err
+			}
+		}
+		if d.cache != nil {
+			errCache := d.cache.SetLimit(ctx, limit)
+			if errCache != nil {
+				l.Warnf("failed to store limit %q in cache: %s", name, errCache.Error())
+			}
+		}
+	}
+	return limit, err
 }
 
 func (d *DevAuth) GetTenantLimit(
@@ -1596,6 +1608,12 @@ func (d *DevAuth) SetTenantLimit(ctx context.Context, tenant_id string, limit mo
 		return errors.Wrapf(err, "failed to save limit %v for tenant %v to database",
 			limit, tenant_id)
 	}
+	if d.cache != nil {
+		errCache := d.cache.SetLimit(ctx, &limit)
+		if errCache != nil {
+			l.Warnf("failed to store limit %q in cache: %s", limit.Name, errCache.Error())
+		}
+	}
 	return nil
 }
 
@@ -1613,6 +1631,12 @@ func (d *DevAuth) DeleteTenantLimit(ctx context.Context, tenant_id string, limit
 			limit, tenant_id, err)
 		return errors.Wrapf(err, "failed to delete limit %v for tenant %v to database",
 			limit, tenant_id)
+	}
+	if d.cache != nil {
+		errCache := d.cache.DeleteLimit(ctx, limit)
+		if errCache != nil {
+			l.Warnf("error removing limit %q from cache: %s", limit, errCache.Error())
+		}
 	}
 	return nil
 }
