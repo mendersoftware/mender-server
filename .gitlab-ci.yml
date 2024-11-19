@@ -47,6 +47,12 @@ variables:
     options:
       - "true"
       - "false"
+  GITHUB_CHANGELOG_REPO_URL:
+    description: "The Github Repo URL where to push the changelog"
+    value: "mendersoftware/mender-docs-changelog"
+  CHANGELOG_REMOTE_FILE:
+    description: "The changelog file in the remote changelog repo"
+    value: "10.Mender-Server/docs.md"
 
 include:
   - project: "Northern.tech/Mender/mendertesting"
@@ -484,3 +490,30 @@ release:github:
         --token=${GITHUB_BOT_TOKEN_REPO_FULL}
         --repo-url=${GITHUB_REPO_URL}
         --target-branch=${CI_COMMIT_REF_NAME}
+
+release:mender-docs-changelog:
+  image: "registry.gitlab.com/northern.tech/mender/mender-test-containers:release-please-v1-master"
+  stage: .post
+  tags:
+    - hetzner-amd-beefy
+  rules:
+    # Only make available for stable branches
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+/'
+      allow_failure: true
+  before_script:
+    # Setting up git
+    - git config --global user.email "${GITHUB_USER_EMAIL}"
+    - git config --global user.name "${GITHUB_USER_NAME}"
+    # GITHUB_TOKEN for Github cli authentication
+    - export GITHUB_TOKEN=${GITHUB_CLI_TOKEN}
+  script:
+    - git clone https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_CHANGELOG_REPO_URL}
+    - cd ${GITHUB_CHANGELOG_REPO_URL#*/}
+    - git checkout -b changelog-${CI_JOB_ID}
+    - cat ../.docs_header.md > ${CHANGELOG_REMOTE_FILE}
+    - cat ../CHANGELOG.md | grep -v -E '^---' >> ${CHANGELOG_REMOTE_FILE}
+    - git add ${CHANGELOG_REMOTE_FILE}
+    - |
+      git commit -s -m "chore: add mender-server changelog"
+    - git push origin changelog-${CI_JOB_ID}
+    - gh pr create --title "Update CHANGELOG.md" --body "Automated change to the CHANGELOG.md file" --base master --head changelog-${CI_JOB_ID}
