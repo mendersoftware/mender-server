@@ -16,6 +16,7 @@ package http
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -142,6 +143,108 @@ func TestGetReleases(t *testing.T) {
 			if tc.filter != nil {
 				reqUrl += "?name=" + tc.filter.Name
 			}
+
+			req := test.MakeSimpleRequest("GET",
+				reqUrl,
+				nil)
+
+			req.Header.Add(requestid.RequestIdHeader, "test")
+
+			recorded := test.RunRequest(t, api, req)
+
+			mt.CheckResponse(t, tc.checker, recorded)
+		})
+	}
+}
+
+func TestGetRelease(t *testing.T) {
+	testCases := map[string]struct {
+		releaseName string
+		appRelease  *dmodel.Release
+		appErr      error
+		checker     mt.ResponseChecker
+	}{
+		"ok": {
+			releaseName: "foo",
+			appRelease: &dmodel.Release{
+				Name: "foo",
+				Artifacts: []model.Image{
+					{
+						Id: "1",
+						ImageMeta: &model.ImageMeta{
+							Description: "description",
+						},
+
+						ArtifactMeta: &model.ArtifactMeta{
+							Name:                  "App1 v1.0",
+							DeviceTypesCompatible: []string{"bar", "baz"},
+							Updates:               []model.Update{},
+						},
+					},
+				},
+			},
+			checker: mt.NewJSONResponse(
+				http.StatusOK,
+				nil,
+				&dmodel.Release{
+					Name: "foo",
+					Artifacts: []model.Image{
+						{
+							Id: "1",
+							ImageMeta: &model.ImageMeta{
+								Description: "description",
+							},
+
+							ArtifactMeta: &model.ArtifactMeta{
+								Name:                  "App1 v1.0",
+								DeviceTypesCompatible: []string{"bar", "baz"},
+								Updates:               []model.Update{},
+							},
+						},
+					},
+				}),
+		},
+		"ok, not found": {
+			releaseName: "foo",
+			appRelease:  nil,
+			appErr:      app.ErrReleaseNotFound,
+			checker: mt.NewJSONResponse(
+				http.StatusNotFound,
+				nil,
+				deployments_testing.RestError(app.ErrReleaseNotFound.Error())),
+		},
+		"error: generic": {
+			releaseName: "foo",
+			appRelease:  nil,
+			appErr:      errors.New("app error"),
+			checker: mt.NewJSONResponse(
+				http.StatusInternalServerError,
+				nil,
+				deployments_testing.RestError("app error")),
+		},
+	}
+
+	for name := range testCases {
+		tc := testCases[name]
+
+		t.Run(name, func(t *testing.T) {
+			restView := new(view.RESTView)
+			app := &mapp.App{}
+			app.On("GetRelease", mock.MatchedBy(
+				func(ctx interface{}) bool {
+					if _, ok := ctx.(context.Context); ok {
+						return true
+					}
+					return false
+				}),
+				tc.releaseName,
+			).Return(tc.appRelease, tc.appErr)
+
+			c := NewDeploymentsApiHandlers(nil, restView, app)
+
+			api := deployments_testing.SetUpTestApi("/api/management/v2/deployments/releases/#name", rest.Get, c.GetRelease)
+
+			reqUrl := "http://1.2.3.4/api/management/v2/deployments/releases/" + tc.releaseName
 
 			req := test.MakeSimpleRequest("GET",
 				reqUrl,
@@ -459,10 +562,10 @@ func TestListReleasesV2(t *testing.T) {
 
 			c := NewDeploymentsApiHandlers(store, restView, app)
 
-			api := deployments_testing.SetUpTestApi("/api/management/v2/deployments/releases", rest.Get, c.ListReleasesV2)
+			api := deployments_testing.SetUpTestApi(
+				"/api/management/v2/deployments/releases", rest.Get, c.ListReleasesV2)
 
 			reqUrl := "http://1.2.3.4/api/management/v2/deployments/releases"
-
 			if tc.filter != nil {
 				reqUrl += "?name=" + tc.filter.Name
 			}

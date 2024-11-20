@@ -301,3 +301,22 @@ func (db *DataStoreMongo) DeleteReleasesByNames(ctx context.Context, names []str
 	_, err := collDevs.DeleteMany(ctx, query)
 	return err
 }
+
+func (db *DataStoreMongo) GetRelease(
+	ctx context.Context,
+	releaseName string,
+) (*model.Release, error) {
+
+	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
+	collReleases := database.Collection(CollectionReleases)
+
+	release := new(model.Release)
+	if err := collReleases.FindOne(ctx, bson.M{StorageKeyId: releaseName}).
+		Decode(release); err != nil {
+		if err == mongo.ErrNoDocuments {
+			return nil, store.ErrNotFound
+		}
+		return nil, err
+	}
+	return release, nil
+}

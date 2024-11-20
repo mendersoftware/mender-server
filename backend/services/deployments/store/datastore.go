@@ -27,6 +27,7 @@ type DataStore interface {
 	Ping(ctx context.Context) error
 	//releases
 	GetReleases(ctx context.Context, filt *model.ReleaseOrImageFilter) ([]model.Release, int, error)
+	GetRelease(ctx context.Context, releaseName string) (*model.Release, error)
 	UpdateReleaseArtifacts(
 		ctx context.Context,
 		artifactToAdd *model.Image,
