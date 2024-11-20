@@ -15,6 +15,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { Sort as SortIcon } from '@mui/icons-material';
+import { makeStyles } from 'tss-react/mui';
 
 import DetailsIndicator from '@northern.tech/common-ui/detailsindicator';
 import DeviceIdentityDisplay from '@northern.tech/common-ui/deviceidentity';
@@ -127,6 +128,37 @@ const auditLogColumns = [
   { title: 'Time', sortable: true, render: TimeWrapper }
 ];
 
+const useStyles = makeStyles()(theme => ({
+  auditlogsList: {
+    '& .auditlogs-list-item': {
+      display: 'grid',
+      gridTemplateColumns: '2fr 1fr 1fr 2fr 2fr 1.75fr 120px',
+      gridColumnGap: theme.spacing(4),
+      padding: `5px ${theme.spacing(2)}`,
+      borderBottom: `1px solid ${theme.palette.border.main}`,
+      height: theme.spacing(6),
+      minHeight: theme.spacing(6),
+      maxHeight: theme.spacing(6),
+      alignItems: 'center',
+      '&:last-of-type': {
+        borderBottom: 'transparent'
+      },
+      '& > *': {
+        display: 'flex',
+        alignItems: 'center',
+        maxHeight: theme.spacing(6),
+        overflow: 'hidden'
+      },
+      '&.auditlogs-list-item-header': {
+        borderBottom: 'transparent',
+        cursor: 'initial',
+        padding: `10px ${theme.spacing(2)}`,
+        position: 'relative'
+      }
+    }
+  }
+}));
+
 export const AuditLogsList = ({
   eventItem,
   items,
@@ -139,13 +171,13 @@ export const AuditLogsList = ({
   userCapabilities
 }) => {
   const { page, perPage, sort = {}, total: count } = selectionState;
-
+  const { classes } = useStyles();
   const onIssueSelection = selectedIssue =>
     setAuditlogsState({ selectedId: selectedIssue ? btoa(`${selectedIssue.action}|${selectedIssue.time}`) : undefined });
 
   return (
     !!items.length && (
-      <div className="fadeIn deploy-table-contain auditlogs-list">
+      <div className={`fadeIn deploy-table-contain auditlogs-list ${classes.auditlogsList}`}>
         <div className="auditlogs-list-item auditlogs-list-item-header muted">
           {auditLogColumns.map((column, index) => (
             <div

@@ -28,6 +28,9 @@ export const palette = {
   primary: {
     main: '#337a87'
   },
+  border: {
+    main: '#e3e3e3'
+  },
   secondary: {
     main: '#5d0f43'
   },

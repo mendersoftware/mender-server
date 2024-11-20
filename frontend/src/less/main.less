@@ -941,8 +941,6 @@ div:focus {
 }
 
 /* tables */
-
-.auditlogs-list-item,
 .deviceListRow,
 .deviceListItem,
 .deployment-item {
@@ -1355,28 +1353,6 @@ div.waiting-inventory {
   white-space: normal;
   word-wrap: break-word;
   margin-left: 5px;
-}
-
-// Past deployments
-.auditlogs-list .auditlogs-list-item {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 2fr 2fr 1.75fr 120px;
-  grid-column-gap: 2 * @defaultGutterWidth;
-  padding: 5px @defaultGutterWidth;
-  > * {
-    display: flex;
-    align-items: center;
-    max-height: @defaultGutterWidth * 3;
-    overflow: hidden;
-  }
-  &.auditlogs-list-item-header {
-    border-bottom: transparent;
-  }
-  &.auditlogs-list-item-header {
-    cursor: initial;
-    padding: 10px @defaultGutterWidth;
-    position: relative;
-  }
 }
 
 // Releases & Artifacts
