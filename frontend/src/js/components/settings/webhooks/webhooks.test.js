@@ -107,6 +107,7 @@ describe('Webhooks Component', () => {
     expect(onSubmit).toHaveBeenCalledWith({
       credentials: { http: { secret: '', url: 'https://foo.bar' }, type: 'http' },
       description: 'https://foo.bar',
+      id: 'new',
       provider: 'webhook',
       scopes: []
     });
