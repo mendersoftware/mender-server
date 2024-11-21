@@ -14,11 +14,12 @@
 import pytest
 
 from common import clean_db, mongo, internal_api
-
-import bravado
+import internal_api as ia
 
 
 class TestInternalApi:
     def test_create_tenant_ok(self, internal_api, clean_db):
-        _, r = internal_api.create_tenant("foobar")
-        assert r.status_code == 201
+        try:
+            internal_api.create_tenant("foobar")
+        except ia.ApiException as e:
+            assert e.status == 201

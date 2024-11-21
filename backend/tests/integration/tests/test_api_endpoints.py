@@ -78,6 +78,11 @@ def get_api_endpoints(repo):
                         "/auth/magic/{id}"
                     )  # token authentication
                 )
+                if path.rstrip("/").endswith("/auth_requests"):
+                    returns_401 = False  # device auth endpoint,
+                    # the way we do these tests will return 400 before
+                    # 401 so it cannot be tested here like that
+
                 yield {
                     "kind": kind,
                     "returns_401": returns_401,

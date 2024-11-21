@@ -52,6 +52,7 @@ paths:
             type: integer
             default: 20
             maximum: 500
+        - $ref: '#/components/parameters/RequestId'
       responses:
         '200':
           description: An array of devices.
@@ -91,6 +92,8 @@ paths:
 
       tags:
         - Management API
+      parameters:
+        - $ref: '#/components/parameters/RequestId'
       requestBody:
         required: true
         content:
@@ -123,7 +126,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
- 
+
   /devices/search:
     post:
       operationId: Search Devices
@@ -148,6 +151,7 @@ paths:
             type: integer
             default: 20
             maximum: 500
+        - $ref: '#/components/parameters/RequestId'
       requestBody:
         required: true
         description: |
@@ -221,6 +225,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/RequestId'
       responses:
         '200':
           description: Device found.
@@ -254,6 +259,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/RequestId'
       responses:
         '204':
           description: Device decommissioned.
@@ -298,6 +304,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/RequestId'
       responses:
         '204':
           description: Device authentication set deleted.
@@ -342,6 +349,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/RequestId'
       requestBody:
         required: true
         content:
@@ -395,6 +403,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/RequestId'
       responses:
         '200':
           description: Successful response - the device's authentication set status is returned.
@@ -430,6 +439,7 @@ paths:
           required: false
           schema:
             type: string
+        - $ref: '#/components/parameters/RequestId'
       responses:
         '200':
           description: Device count.
@@ -469,6 +479,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/RequestId'
       responses:
         '204':
           description: The token was successfully deleted.
@@ -493,6 +504,8 @@ paths:
       summary: Obtain limit of accepted devices.
       tags:
         - Management API
+      parameters:
+        - $ref: '#/components/parameters/RequestId'
       responses:
         '200':
           description: Usage statistics and limits.
@@ -515,6 +528,15 @@ components:
       bearerFormat: JWT
       description: >-
         JWT token issued by 'POST /api/management/v1/useradm/auth/login'
+
+  parameters:
+    RequestId:
+      name: X-MEN-RequestID
+      in: header
+      required: false
+      description: A request identification
+      schema:
+        type: string
 
   schemas:
     Status:
