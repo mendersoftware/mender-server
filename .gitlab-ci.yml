@@ -47,6 +47,12 @@ variables:
     options:
       - "true"
       - "false"
+  GITHUB_CHANGELOG_REPO_URL:
+    description: "The Github Repo URL where to push the changelog"
+    value: "mendersoftware/mender-docs-changelog"
+  CHANGELOG_REMOTE_FILE:
+    description: "The changelog file in the remote changelog repo"
+    value: "10.Mender-Server/docs.md"
 
 include:
   - project: "Northern.tech/Mender/mendertesting"
@@ -413,7 +419,7 @@ lint:commit:
     - echo "${CI_COMMIT_MESSAGE}" | commitlint
 
 changelog:
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/node:20
+  image: "registry.gitlab.com/northern.tech/mender/mender-test-containers:release-please-v1-master"
   stage: changelog
   variables:
     GIT_DEPTH: 0  # Always get the full history
@@ -424,24 +430,15 @@ changelog:
     - hetzner-amd-beefy
   rules:
     # Only run for protected branches (main and maintenance branches)
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+/'
+      when: never
     - if: $CI_COMMIT_REF_PROTECTED == "true" && $CI_COMMIT_BRANCH != ""
   before_script:
-    # install release-please
-    - npm install -g release-please
-    # install github-cli
-    - mkdir -p -m 755 /etc/apt/keyrings
-    - wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null
-    - chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg
-    - echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
-    - apt update
-    - apt install gh jq -y
     # Setting up git
     - git config --global user.email "${GITHUB_USER_EMAIL}"
     - git config --global user.name "${GITHUB_USER_NAME}"
-    - npm install -g git-cliff
     # GITHUB_TOKEN for Github cli authentication
     - export GITHUB_TOKEN=${GITHUB_CLI_TOKEN}
-    # getting the centralized git cliff config
   script:
     - release-please release-pr
         --token=${GITHUB_BOT_TOKEN_REPO_FULL}
@@ -455,32 +452,60 @@ changelog:
     - test -z "$RELEASE_PLEASE_PR" && echo "No release-please PR found" && exit 0
     - gh pr checkout --force $RELEASE_PLEASE_PR
     - wget --output-document cliff.toml https://raw.githubusercontent.com/mendersoftware/mendertesting/master/utils/cliff.toml
-    - git cliff --bump --output CHANGELOG.md --github-repo ${GITHUB_REPO_URL}
+    - git cliff --bump --output CHANGELOG.md --github-repo ${GITHUB_REPO_URL} --use-branch-tags
     - git add CHANGELOG.md
     - git commit --amend -s --no-edit
     - git push github-${CI_JOB_ID} --force
     # Update the PR body
-    - git cliff --unreleased --bump -o tmp_pr_body.md --github-repo ${GITHUB_REPO_URL}
+    - git cliff --unreleased --bump -o tmp_pr_body.md --github-repo ${GITHUB_REPO_URL} --use-branch-tags
     - gh pr edit $RELEASE_PLEASE_PR --body-file tmp_pr_body.md
     - rm tmp_pr_body.md
   after_script:
     - git remote remove github-${CI_JOB_ID}
 
 release:github:
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/node:20
+  image: "registry.gitlab.com/northern.tech/mender/mender-test-containers:release-please-v1-master"
   stage: .post
   tags:
     - hetzner-amd-beefy
   rules:
     # Only make available for protected branches (main and maintenance branches)
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+/'
+      when: never
     - if: $CI_COMMIT_REF_PROTECTED == "true" && $CI_COMMIT_BRANCH != ""
       when: manual
       allow_failure: true
   needs:
     - job: changelog
   script:
-    - npm install -g release-please
     - release-please github-release
         --token=${GITHUB_BOT_TOKEN_REPO_FULL}
         --repo-url=${GITHUB_REPO_URL}
         --target-branch=${CI_COMMIT_REF_NAME}
+
+release:mender-docs-changelog:
+  image: "registry.gitlab.com/northern.tech/mender/mender-test-containers:release-please-v1-master"
+  stage: .post
+  tags:
+    - hetzner-amd-beefy
+  rules:
+    # Only make available for stable branches
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+/'
+      allow_failure: true
+  before_script:
+    # Setting up git
+    - git config --global user.email "${GITHUB_USER_EMAIL}"
+    - git config --global user.name "${GITHUB_USER_NAME}"
+    # GITHUB_TOKEN for Github cli authentication
+    - export GITHUB_TOKEN=${GITHUB_CLI_TOKEN}
+  script:
+    - git clone https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_CHANGELOG_REPO_URL}
+    - cd ${GITHUB_CHANGELOG_REPO_URL#*/}
+    - git checkout -b changelog-${CI_JOB_ID}
+    - cat ../.docs_header.md > ${CHANGELOG_REMOTE_FILE}
+    - cat ../CHANGELOG.md | grep -v -E '^---' >> ${CHANGELOG_REMOTE_FILE}
+    - git add ${CHANGELOG_REMOTE_FILE}
+    - |
+      git commit -s -m "chore: add mender-server changelog"
+    - git push origin changelog-${CI_JOB_ID}
+    - gh pr create --title "Update CHANGELOG.md" --body "Automated change to the CHANGELOG.md file" --base master --head changelog-${CI_JOB_ID}
