@@ -34,7 +34,9 @@ import { createDownload, getISOStringBoundaries } from '@northern.tech/utils/hel
 import { useLocationParams } from '@northern.tech/utils/liststatehook';
 import dayjs from 'dayjs';
 
+import AuditlogsListColumns from './AuditlogsListColumns';
 import AuditlogsView from './AuditlogsView.jsx';
+import AuditLogsList from './auditlogslist';
 
 const useStyles = makeStyles()(theme => ({
   filters: {
@@ -197,13 +199,8 @@ export const AuditLogs = () => {
 
   return (
     <AuditlogsView
-      onChangePagination={onChangePagination}
       onFiltersChange={onFiltersChange}
-      onChangeSorting={onChangeSorting}
       createCsvDownload={createCsvDownload}
-      events={events}
-      eventItem={eventItem}
-      userCapabilities={userCapabilities}
       hasAuditlogs={hasAuditlogs}
       groups={groups}
       users={users}
@@ -211,12 +208,23 @@ export const AuditLogs = () => {
       csvLoading={csvLoading}
       detailsReset={detailsReset}
       auditLogsTypes={auditLogsTypes}
-      setAuditlogsState={state => dispatch(setAuditlogsState(state))}
       dirtyField={dirtyField}
       setDirtyField={setDirtyField}
       InfoHintComponent={<EnterpriseNotification id={BENEFITS.auditlog.id} />}
       NoAuditlogsComponent={NoAuditlogsComponent}
-    />
+    >
+      <AuditLogsList
+        items={events}
+        eventItem={eventItem}
+        onChangePage={onChangePagination}
+        onChangeRowsPerPage={newPerPage => onChangePagination(1, newPerPage)}
+        onChangeSorting={onChangeSorting}
+        selectionState={selectionState}
+        setAuditlogsState={state => dispatch(setAuditlogsState(state))}
+        userCapabilities={userCapabilities}
+        auditLogColumns={AuditlogsListColumns}
+      />
+    </AuditlogsView>
   );
 };
 

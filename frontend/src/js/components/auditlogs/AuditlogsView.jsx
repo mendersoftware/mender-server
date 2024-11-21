@@ -46,25 +46,20 @@ const autoSelectProps = {
 };
 
 export const AuditlogsView = ({
-  events,
-  eventItem,
   groups,
   users,
   selectionState,
   hasAuditlogs,
   csvLoading,
-  onChangePagination,
-  onChangeSorting,
   onFiltersChange,
   createCsvDownload,
-  userCapabilities,
   detailsReset,
   auditLogsTypes,
-  setAuditlogsState,
   dirtyField,
   setDirtyField,
   InfoHintComponent = null,
-  NoAuditlogsComponent = null
+  NoAuditlogsComponent = null,
+  children: auditLogsList
 }) => {
   const { detail, isLoading, endDate, user, startDate, total, type } = selectionState;
   const [date] = useState(getISOStringBoundaries(new Date()));
@@ -143,19 +138,7 @@ export const AuditlogsView = ({
           Download results as csv
         </Button>
       </div>
-      {!!total && (
-        <AuditLogsList
-          items={events}
-          eventItem={eventItem}
-          loading={isLoading}
-          onChangePage={onChangePagination}
-          onChangeRowsPerPage={newPerPage => onChangePagination(1, newPerPage)}
-          onChangeSorting={onChangeSorting}
-          selectionState={selectionState}
-          setAuditlogsState={setAuditlogsState}
-          userCapabilities={userCapabilities}
-        />
-      )}
+      {!!total && auditLogsList}
       {!(isLoading || total) && hasAuditlogs && (
         <div className="dashboard-placeholder">
           <p>No log entries were found.</p>
