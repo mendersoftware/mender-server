@@ -183,17 +183,27 @@ prepare_pytest_args() {
         if [ "$val" == "-k" ]; then
             filter="next"
         elif [ "$filter" == "next" ]; then
-            PYTEST_FILTER="$PYTEST_FILTER and $val"
+            PYTEST_FILTER="$PYTEST_FILTER and ( $val )"
             filter="done"
         else
             PYTEST_ARGS="$PYTEST_ARGS $val"
         fi
     done
 
+    if test $CI_NODE_TOTAL -gt 1 && test $CI_NODE_INDEX -gt 0; then
+      # Rewrite the pytest filter into the current node's batch.
+      PYTEST_FILTER=$(compose_cmd run --rm -it \
+        $RUN_ARGS \
+        -e CI_NODE_TOTAL=$CI_NODE_TOTAL \
+        -e CI_NODE_INDEX=$CI_NODE_INDEX \
+        -v "$MENDER_SERVER_PATH/backend/tests/integration/ci-gitlab-parallel-pytest.py:/ci-gitlab-parallel-pytest.py" \
+        --entrypoint=/ci-gitlab-parallel-pytest.py \
+        integration-tester -k "$PYTEST_FILTER")
+    fi
     echo "-- using PYTEST_FILTER=$PYTEST_FILTER"
-    PYTEST_ARGS="$PYTEST_ARGS -k '$PYTEST_FILTER' $PYTEST_REPORT"
-
+    PYTEST_ARGS="$PYTEST_ARGS -k '${PYTEST_FILTER# }' $PYTEST_REPORT"
     export PYTEST_ARGS
+    echo "-- using PYTEST_ARGS=$PYTEST_ARGS"
 }
 
 cleanup() {

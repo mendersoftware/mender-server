@@ -16,4 +16,5 @@ COPY requirements-integration.txt .
 
 RUN pip3 install -r requirements-integration.txt
 
-ENTRYPOINT ["bash", "/tests/run.sh"]
+WORKDIR /tests
+CMD ["pytest"]
