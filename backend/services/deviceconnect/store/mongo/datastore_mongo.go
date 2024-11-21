@@ -531,17 +531,23 @@ func (db *DataStoreMongo) WriteSessionRecords(ctx context.Context,
 			//part of the recording buffer
 			//we can send up to control.Offset-recordingBytesSent
 			//bytes and then send the control message
-			n, e := recordingReader.Read(recordingBuffer[:bytesUntilControlMessage])
-			l.Debugf("recordingReader.Read(len=%d)=%d,%+v",
-				bytesUntilControlMessage, n, e)
-			if n > 0 {
-				_, err = sendRecordingMessage(recordingBuffer[:n], sessionID, w)
+			if bytesUntilControlMessage > 0 {
+				var n int64
+				n, err = io.CopyBuffer(
+					recordingWriter,
+					io.LimitReader(recordingReader, int64(bytesUntilControlMessage)),
+					recordingBuffer,
+				)
 				if err != nil {
 					l.Errorf("error sending recording data: %s",
 						err.Error())
 					break
 				}
-				recordingBytesSent += n
+				if n < int64(bytesUntilControlMessage) {
+					l.Warnf("copied %d out of expected %d number of bytes",
+						n, bytesUntilControlMessage)
+				}
+				recordingBytesSent += int(n)
 			}
 			l.Debugf("WriteSessionRecords: sending %+v.", *control)
 			_, err = sendControlMessage(*control, sessionID, w)
