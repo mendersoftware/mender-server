@@ -721,6 +721,36 @@ func (_m *App) GetLimit(ctx context.Context, name string) (*model.Limit, error) 
 	return r0, r1
 }
 
+// GetRelease provides a mock function with given fields: ctx, releaseName
+func (_m *App) GetRelease(ctx context.Context, releaseName string) (*model.Release, error) {
+	ret := _m.Called(ctx, releaseName)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetRelease")
+	}
+
+	var r0 *model.Release
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, string) (*model.Release, error)); ok {
+		return rf(ctx, releaseName)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, string) *model.Release); ok {
+		r0 = rf(ctx, releaseName)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*model.Release)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = rf(ctx, releaseName)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetReleasesUpdateTypes provides a mock function with given fields: ctx
 func (_m *App) GetReleasesUpdateTypes(ctx context.Context) ([]string, error) {
 	ret := _m.Called(ctx)

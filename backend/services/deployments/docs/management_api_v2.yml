@@ -34,6 +34,10 @@ responses:
     description: Unauthorized.
     schema:
       $ref: "#/definitions/Error"
+  NotFoundError: # 404
+    description: Not Found.
+    schema:
+      $ref: "#/definitions/Error"
   ConflictError: # 409
     description: Conflict.
     schema:
@@ -147,6 +151,7 @@ paths:
           $ref: '#/responses/UnauthorizedError'
         500:
           $ref: "#/responses/InternalServerError"
+
   /deployments/releases:
     get:
       operationId: List Releases with pagination
@@ -350,6 +355,35 @@ paths:
           $ref: "#/responses/InternalServerError"
 
   /deployments/releases/{release_name}:
+    get:
+      operationId: Get Release with given name
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: |
+        Get release
+      description: |
+        Returns the release with given name.
+      parameters:
+        - name: release_name
+          in: path
+          description: Name of the release
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Successful response.
+          schema:
+            $ref: '#/definitions/Release'
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        404:
+          $ref: '#/responses/NotFoundError'
+        500:
+          $ref: "#/responses/InternalServerError"
     patch:
       operationId: Update Release information
       tags:

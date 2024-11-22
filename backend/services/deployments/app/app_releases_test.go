@@ -1,4 +1,4 @@
-// Copyright 2023 Northern.tech AS
+// Copyright 2024 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -429,6 +429,87 @@ func TestDeleteReleases(t *testing.T) {
 				assert.Equal(t, tc.ids, ids)
 			} else {
 				assert.Len(t, tc.ids, 0)
+			}
+		})
+	}
+}
+
+func TestGetRelease(t *testing.T) {
+	t.Parallel()
+
+	type testCase struct {
+		name string
+
+		context.Context
+		releaseName string
+
+		getDatabase func(t *testing.T, self *testCase) *mocks.DataStore
+
+		release *model.Release
+		err     error
+	}
+	testCases := []testCase{
+		{
+			name: "ok",
+
+			Context:     context.Background(),
+			releaseName: "foo",
+
+			getDatabase: func(t *testing.T, self *testCase) *mocks.DataStore {
+				ds := new(mocks.DataStore)
+				ds.On("GetRelease", self.Context, self.releaseName).
+					Return(self.release, nil)
+				return ds
+			},
+			release: &model.Release{},
+		},
+		{
+			name: "not found",
+
+			Context:     context.Background(),
+			releaseName: "foo",
+
+			getDatabase: func(t *testing.T, self *testCase) *mocks.DataStore {
+				ds := new(mocks.DataStore)
+				ds.On("GetRelease", self.Context, self.releaseName).
+					Return(nil, store.ErrNotFound)
+				return ds
+			},
+			release: nil,
+			err:     ErrReleaseNotFound,
+		},
+		{
+			name: "database error",
+
+			Context:     context.Background(),
+			releaseName: "foo",
+
+			getDatabase: func(t *testing.T, self *testCase) *mocks.DataStore {
+				ds := new(mocks.DataStore)
+				ds.On("GetRelease", self.Context, self.releaseName).
+					Return(nil, errors.New("db error"))
+				return ds
+			},
+			release: nil,
+			err:     ErrModelInternal,
+		},
+	}
+
+	for i := range testCases {
+		tc := testCases[i]
+		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+			ds := tc.getDatabase(t, &tc)
+			defer ds.AssertExpectations(t)
+
+			app := NewDeployments(ds, nil, 0, false)
+
+			release, err := app.GetRelease(tc.Context, tc.releaseName)
+			if tc.err != nil {
+				assert.ErrorIs(t, err, tc.err)
+			} else {
+				assert.NoError(t, err)
+				assert.Equal(t, tc.release, release)
 			}
 		})
 	}

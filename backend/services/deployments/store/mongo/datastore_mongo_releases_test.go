@@ -862,6 +862,166 @@ func TestGetReleases_1_2_15(t *testing.T) {
 	}
 }
 
+func TestGetRelease(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skipping TestGetRelease in short mode.")
+	}
+	db.Wipe()
+
+	artifactType := "app"
+	inputImgs := []*model.Image{
+		{
+			Id: "6d4f6e27-c3bb-438c-ad9c-d9de30e59d80",
+			ImageMeta: &model.ImageMeta{
+				Description: "description",
+			},
+
+			ArtifactMeta: &model.ArtifactMeta{
+				Name:                  "App1 v1.0",
+				DeviceTypesCompatible: []string{"foo"},
+			},
+			Modified: timePtr("2010-09-22T22:00:00+00:00"),
+		},
+		{
+			Id: "6d4f6e27-c3bb-438c-ad9c-d9de30e59d81",
+			ImageMeta: &model.ImageMeta{
+				Description: "description",
+			},
+
+			ArtifactMeta: &model.ArtifactMeta{
+				Name:                  "App2 v0.1",
+				DeviceTypesCompatible: []string{"foo"},
+				Updates:               []model.Update{},
+			},
+			Modified: timePtr("2010-09-22T23:02:00+00:00"),
+		},
+		{
+			Id: "6d4f6e27-c3bb-438c-ad9c-d9de30e59d82",
+			ImageMeta: &model.ImageMeta{
+				Description: "description",
+			},
+
+			ArtifactMeta: &model.ArtifactMeta{
+				Name:                  "App1 v1.0",
+				DeviceTypesCompatible: []string{"bar, baz"},
+				Updates:               []model.Update{},
+			},
+			Modified: timePtr("2010-09-22T22:00:01+00:00"),
+		},
+		{
+			Id: "6d4f6e27-c3bb-438c-ad9c-d9de30e59d83",
+			ImageMeta: &model.ImageMeta{
+				Description: "description",
+			},
+
+			ArtifactMeta: &model.ArtifactMeta{
+				Name:                  "App1 v1.0",
+				DeviceTypesCompatible: []string{"bork"},
+				Updates:               []model.Update{},
+			},
+			Modified: timePtr("2010-09-22T22:00:04+00:00"),
+		},
+		{
+			Id: "6d4f6e27-c3bb-438c-ad9c-d9de30e59d84",
+			ImageMeta: &model.ImageMeta{
+				Description: "extended description",
+			},
+
+			ArtifactMeta: &model.ArtifactMeta{
+				Name:                  "App2 v0.1",
+				DeviceTypesCompatible: []string{"bar", "baz"},
+				Updates:               []model.Update{},
+			},
+			Modified: timePtr("2010-09-22T23:00:00+00:00"),
+		},
+		{
+			Id: "6d4f6e27-c3bb-438c-ad9c-d9de30e59d85",
+			ImageMeta: &model.ImageMeta{
+				Description: "description2",
+			},
+
+			ArtifactMeta: &model.ArtifactMeta{
+				Name:                  "App4 v2.0",
+				DeviceTypesCompatible: []string{"foo2"},
+				Updates: []model.Update{
+					{
+						TypeInfo: model.ArtifactUpdateTypeInfo{
+							Type: &artifactType,
+						},
+					},
+				},
+			},
+			Modified: timePtr("2023-09-22T22:00:00+00:00"),
+		},
+	}
+
+	// Setup test context
+	ctx := context.Background()
+	ds := NewDataStoreMongoWithClient(db.Client())
+	for _, img := range inputImgs {
+		err := ds.InsertImage(ctx, img)
+		assert.NoError(t, err)
+		if err != nil {
+			assert.FailNow(t,
+				"error setting up image collection for testing")
+		}
+		err = ds.UpdateReleaseArtifacts(ctx, img, nil, img.ArtifactMeta.Name)
+		assert.NoError(t, err)
+
+		// Convert Depends["device_type"] to bson.A for the sake of
+		// simplifying test case definitions.
+		img.ArtifactMeta.Depends = make(map[string]interface{})
+		img.ArtifactMeta.Depends["device_type"] = make(bson.A,
+			len(img.ArtifactMeta.DeviceTypesCompatible),
+		)
+		for i, devType := range img.ArtifactMeta.DeviceTypesCompatible {
+			img.ArtifactMeta.Depends["device_type"].(bson.A)[i] = devType
+		}
+		time.Sleep(time.Millisecond * 10)
+	}
+
+	testCases := map[string]struct {
+		releaseName string
+
+		release *model.Release
+		err     error
+	}{
+		"ok, by name": {
+			releaseName: "App2 v0.1",
+			release: &model.Release{
+				Name: "App2 v0.1",
+				Artifacts: []model.Image{
+					*inputImgs[1],
+					*inputImgs[4],
+				},
+				ArtifactsCount: 2,
+			},
+		},
+		"ok, not found": {
+			releaseName: "App3 v1.0",
+			release:     nil,
+			err:         store.ErrNotFound,
+		},
+	}
+
+	for name, tc := range testCases {
+
+		t.Run(name, func(t *testing.T) {
+			release, err := ds.GetRelease(ctx, tc.releaseName)
+
+			if tc.err != nil {
+				assert.Nil(t, release)
+				assert.EqualError(t, tc.err, err.Error())
+			} else {
+				assert.NoError(t, err)
+				//ignore modification timestamp
+				release.Modified = nil
+				assert.Equal(t, tc.release, release)
+			}
+		})
+	}
+}
+
 func TestReplaceReleaseTags(t *testing.T) {
 	ctx := context.Background()
 	client := db.Client()

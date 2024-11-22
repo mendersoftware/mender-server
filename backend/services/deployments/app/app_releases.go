@@ -1,4 +1,4 @@
-// Copyright 2023 Northern.tech AS
+// Copyright 2024 Northern.tech AS
 //
 //	Licensed under the Apache License, Version 2.0 (the "License");
 //	you may not use this file except in compliance with the License.
@@ -140,4 +140,22 @@ func (d *Deployments) DeleteReleases(
 	}
 	err = d.db.DeleteReleasesByNames(ctx, releaseNames)
 	return ids, err
+}
+
+func (d *Deployments) GetRelease(
+	ctx context.Context,
+	releaseName string,
+) (*model.Release, error) {
+	release, err := d.db.GetRelease(ctx, releaseName)
+	switch err {
+	case nil:
+		return release, nil
+	case store.ErrNotFound:
+		return nil, ErrReleaseNotFound
+	default:
+		// Rewrite internal errors
+		log.FromContext(ctx).
+			Errorf("failed to get release from database: %s", err.Error())
+		return nil, ErrModelInternal
+	}
 }

@@ -1,4 +1,4 @@
-// Copyright 2023 Northern.tech AS
+// Copyright 2024 Northern.tech AS
 //
 //	Licensed under the Apache License, Version 2.0 (the "License");
 //	you may not use this file except in compliance with the License.
@@ -98,6 +98,30 @@ func (d *DeploymentsApiHandlers) ListReleases(w rest.ResponseWriter, r *rest.Req
 
 func (d *DeploymentsApiHandlers) ListReleasesV2(w rest.ResponseWriter, r *rest.Request) {
 	d.listReleases(w, r, listReleasesV2)
+}
+
+func (d *DeploymentsApiHandlers) GetRelease(w rest.ResponseWriter, r *rest.Request) {
+	ctx := r.Context()
+	l := log.FromContext(ctx)
+
+	releaseName := r.PathParam(ParamName)
+	if releaseName == "" {
+		err := errors.New("path parameter 'release_name' cannot be empty")
+		rest_utils.RestErrWithLog(w, r, l, err, http.StatusNotFound)
+		return
+	}
+
+	release, err := d.app.GetRelease(ctx, releaseName)
+	if err != nil {
+		status := http.StatusInternalServerError
+		if errors.Is(err, app.ErrReleaseNotFound) {
+			status = http.StatusNotFound
+		}
+		rest_utils.RestErrWithLog(w, r, l, err, status)
+		return
+	}
+
+	d.view.RenderSuccessGet(w, release)
 }
 
 func (d *DeploymentsApiHandlers) PatchRelease(w rest.ResponseWriter, r *rest.Request) {
