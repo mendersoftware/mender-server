@@ -36,7 +36,9 @@ import dayjs from 'dayjs';
 
 import AuditlogsListColumns from './AuditlogsListColumns';
 import AuditlogsView from './AuditlogsView.jsx';
+import EventDetailsDrawerContentMap from './EventDetailsDrawerContentMap';
 import AuditLogsList from './auditlogslist';
+import EventDetailsDrawer from './eventdetailsdrawer';
 
 const useStyles = makeStyles()(theme => ({
   filters: {
@@ -218,7 +220,6 @@ export const AuditLogs = () => {
     >
       <AuditLogsList
         items={events}
-        eventItem={eventItem}
         onChangePage={onChangePagination}
         onChangeRowsPerPage={newPerPage => onChangePagination(1, newPerPage)}
         onChangeSorting={onChangeSorting}
@@ -226,6 +227,12 @@ export const AuditLogs = () => {
         onIssueSelection={onIssueSelection}
         userCapabilities={userCapabilities}
         auditLogColumns={AuditlogsListColumns}
+      />
+      <EventDetailsDrawer
+        mapChangeToContent={EventDetailsDrawerContentMap}
+        eventItem={eventItem}
+        open={Boolean(eventItem)}
+        onClose={() => onIssueSelection()}
       />
     </AuditlogsView>
   );

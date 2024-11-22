@@ -21,8 +21,6 @@ import Loader from '@northern.tech/common-ui/loader';
 import Pagination from '@northern.tech/common-ui/pagination';
 import { SORTING_OPTIONS } from '@northern.tech/store/constants';
 
-import EventDetailsDrawer from './eventdetailsdrawer';
-
 export const defaultRowsPerPage = 20;
 
 const useStyles = makeStyles()(theme => ({
@@ -57,7 +55,6 @@ const useStyles = makeStyles()(theme => ({
 }));
 
 export const AuditLogsList = ({
-  eventItem,
   items,
   onChangePage,
   onChangeRowsPerPage,
@@ -113,7 +110,6 @@ export const AuditLogsList = ({
           />
           <Loader show={isLoading} small />
         </div>
-        <EventDetailsDrawer eventItem={eventItem} open={Boolean(eventItem)} onClose={() => onIssueSelection()} />
       </div>
     )
   );
