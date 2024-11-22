@@ -24,7 +24,6 @@ import Loader from '@northern.tech/common-ui/loader';
 import { getISOStringBoundaries } from '@northern.tech/utils/helpers';
 
 import historyImage from '../../../assets/img/history.png';
-import AuditLogsList from './auditlogslist';
 
 const detailsMap = {
   Deployment: 'to device group',
