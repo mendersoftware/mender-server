@@ -178,6 +178,9 @@ export const AuditLogs = () => {
 
   const onChangePagination = (page, currentPerPage = perPage) => dispatch(setAuditlogsState({ page, perPage: currentPerPage }));
 
+  const onIssueSelection = selectedIssue =>
+    dispatch(setAuditlogsState({ selectedId: selectedIssue ? btoa(`${selectedIssue.action}|${selectedIssue.time}`) : undefined }));
+
   const onFiltersChange = useCallback(
     ({ endDate, detail, startDate, user, type }) => {
       if (!isInitialized.current) {
@@ -220,7 +223,7 @@ export const AuditLogs = () => {
         onChangeRowsPerPage={newPerPage => onChangePagination(1, newPerPage)}
         onChangeSorting={onChangeSorting}
         selectionState={selectionState}
-        setAuditlogsState={state => dispatch(setAuditlogsState(state))}
+        onIssueSelection={onIssueSelection}
         userCapabilities={userCapabilities}
         auditLogColumns={AuditlogsListColumns}
       />

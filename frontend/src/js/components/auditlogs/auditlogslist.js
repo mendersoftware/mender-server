@@ -63,14 +63,12 @@ export const AuditLogsList = ({
   onChangeRowsPerPage,
   onChangeSorting,
   selectionState,
-  setAuditlogsState,
+  onIssueSelection,
   userCapabilities,
   auditLogColumns
 }) => {
   const { page, perPage, sort = {}, total: count, isLoading } = selectionState;
   const { classes } = useStyles();
-  const onIssueSelection = selectedIssue =>
-    setAuditlogsState({ selectedId: selectedIssue ? btoa(`${selectedIssue.action}|${selectedIssue.time}`) : undefined });
 
   return (
     !!items.length && (
