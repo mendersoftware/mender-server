@@ -409,7 +409,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
           <div
             class="capitalized"
           >
-            user
+            User
           </div>
           <div>
             user@acme.com
@@ -453,7 +453,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
           <div
             class="capitalized"
           >
-            deployment
+            Deployment
           </div>
           <div>
             production
@@ -499,7 +499,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
           <div
             class="capitalized"
           >
-            device
+            Device
           </div>
           <div
             class="css-z9m6tn-container"

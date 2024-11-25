@@ -21,7 +21,7 @@ import DeviceIdentityDisplay from '@northern.tech/common-ui/deviceidentity';
 import Loader from '@northern.tech/common-ui/loader';
 import Pagination from '@northern.tech/common-ui/pagination';
 import Time from '@northern.tech/common-ui/time';
-import { DEPLOYMENT_ROUTES, SORTING_OPTIONS, canAccess } from '@northern.tech/store/constants';
+import { DEPLOYMENT_ROUTES, SORTING_OPTIONS, auditlogTypes, canAccess } from '@northern.tech/store/constants';
 
 import EventDetailsDrawer from './eventdetailsdrawer';
 
@@ -68,8 +68,9 @@ const changeMap = {
   deviceRejected: { actionFormatter: DeviceFormatter, component: DeviceRejectedLink, accessCheck: ({ canReadDevices }) => canReadDevices },
   deviceGeneral: { actionFormatter: DeviceFormatter, component: DeviceLink, accessCheck: ({ canReadDevices }) => canReadDevices },
   deviceTerminalSession: { actionFormatter: DeviceFormatter, component: TerminalSessionLink, accessCheck: defaultAccess },
-  user: { component: ChangeFallback, actionFormatter: UserFormatter, accessCheck: defaultAccess },
-  tenant: { actionFormatter: TenantFormatter, accessCheck: defaultAccess, component: ChangeFallback }
+  user: { actionFormatter: UserFormatter, component: ChangeFallback, accessCheck: defaultAccess },
+  user_access_token: { actionFormatter: FallbackFormatter, component: ChangeFallback, accessCheck: defaultAccess },
+  tenant: { actionFormatter: TenantFormatter, component: ChangeFallback, accessCheck: defaultAccess }
 };
 
 const mapChangeToContent = item => {
@@ -103,7 +104,7 @@ const ActionDescriptor = (item, index) => (
 );
 const TypeDescriptor = (item, index) => (
   <div className="capitalized" key={`${item.time}-${index}`}>
-    {item.object.type}
+    {auditlogTypes[item.object.type]?.title ?? item.object.type}
   </div>
 );
 const ChangeDescriptor = (item, index) => {
