@@ -67,6 +67,7 @@ stages:
   - test
   - publish
   - changelog
+  - deploy-staging
 
 default:
   tags:
@@ -509,3 +510,114 @@ release:mender-docs-changelog:
       git commit -s -m "chore: add mender-server changelog"
     - git push origin changelog-${CI_JOB_ID}
     - gh pr create --title "Update CHANGELOG.md" --body "Automated change to the CHANGELOG.md file" --base master --head changelog-${CI_JOB_ID}
+
+#
+# Helm version bump
+#
+.helm-version-bump:
+  needs:
+    - job: publish:backend:docker
+      artifacts: true
+    - job: publish:frontend:docker
+      artifacts: true
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED == "true" && $CI_COMMIT_BRANCH != ""
+      when: on_success
+    - if: $CI_COMMIT_TAG =~ "/^v\d+\.\d+\.\d+(?:-rc(?:[\.\d]*))*$/"
+      when: on_success
+  allow_failure: true
+  tags:
+    - hetzner-amd-beefy
+  image: registry.gitlab.com/northern.tech/mender/mender-test-containers:aws-k8s-v1-master
+  variables:
+    HELM_PATCH_VERSION: ${CI_PIPELINE_ID}
+  before_script:
+    - git config --global user.email "${GITHUB_USER_EMAIL}"
+    - git config --global user.name "${GITHUB_USER_NAME}"
+    - export DIGESTS_FOLDER=$(pwd)/.digests
+    - export PROJECT_FOLDER=$(pwd)
+  script:
+    - git clone https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_HELM_REPO} /tmp/helm
+    - cd /tmp/helm
+    - git remote add github-${CI_JOB_ID} https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_HELM_REPO}
+    - git fetch github-${CI_JOB_ID} ${SYNC_ENVIRONMENT:-staging}:overlay-version-bump-${CI_JOB_ID}
+    - git checkout overlay-version-bump-${CI_JOB_ID}
+    - echo "INFO - checking values files"
+    - test -e ${CHART_DIR}/values-${SYNC_ENVIRONMENT}.yaml || ( echo "ERROR - ${CHART_DIR}/values-${SYNC_ENVIRONMENT}.yaml doesn't exists" ; exit 1 )
+    - test -e ${CHART_DIR}/Chart.yaml || ( echo "ERROR - ${CHART_DIR}/Chart.yaml doesn't exists" ; exit 1 )
+    - |
+      for CONTAINER in $(echo ${SERVICES}); do
+        if [[ "${CI_COMMIT_REF_NAME}" == "main" ]]; then
+          export THIS_TAG="main@$(cat ${DIGESTS_FOLDER}/${CONTAINER})"
+          echo "INFO - container ${CONTAINER} SHA is: ${THIS_TAG}"
+        else
+          export THIS_TAG="${CI_COMMIT_TAG}"
+        fi
+        echo "INFO - bumping version ${THIS_TAG} to ${CONTAINER} image tag"
+        CONTAINER_KEY=${CONTAINER}
+        if [[ "${CHART_DIR}" == "mender" ]]; then
+          case ${CONTAINER} in
+            deviceauth)
+              CONTAINER_KEY="device_auth"
+              ;;
+            create-artifact-worker)
+              CONTAINER_KEY="create_artifact_worker"
+              ;;
+            generate-delta-worker)
+              CONTAINER_KEY="generate_delta_worker"
+              ;;
+            iot-manager)
+              CONTAINER_KEY="iot_manager"
+              ;;
+          esac
+        elif [[ "${CHART_DIR}" == "alvaldi" ]]; then
+          case ${CONTAINER} in
+            iot-manager)
+              CONTAINER_KEY="iotManager"
+              ;;
+          esac
+        fi
+        THIS_KEY=".${CONTAINER_KEY}.image.tag" THIS_VALUE="${THIS_TAG}" yq -i 'eval(strenv(THIS_KEY)) = strenv(THIS_VALUE)' ${CHART_DIR}/values-${SYNC_ENVIRONMENT}.yaml
+      done
+    - git add ${CHART_DIR}/values-${SYNC_ENVIRONMENT}.yaml
+    - echo "DEBUG - display values file content"
+    - cat ${CHART_DIR}/values-${SYNC_ENVIRONMENT}.yaml
+    - echo "INFO - bumping helm chart version"
+    - FULL_VERSION=$(yq ".version" ${CHART_DIR}/Chart.yaml)
+    - MAJOR_VERSION=$(echo $FULL_VERSION | cut -f1 -d.)
+    - MINOR_VERSION=$(echo $FULL_VERSION | cut -f2 -d.)
+    - PATCH_VERSION=$(echo $FULL_VERSION | cut -f3 -d. | cut -f1 -d\-)
+    - THIS_VALUE="${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}-${HELM_PATCH_VERSION}" yq -i '.version = strenv(THIS_VALUE)' ${CHART_DIR}/Chart.yaml
+    - git add ${CHART_DIR}/Chart.yaml
+    - cat ${CHART_DIR}/Chart.yaml
+    - git commit --signoff --message "[CI/CD] bump helm chart"
+    - |
+      for retry in $(seq 5); do
+        if git push github-${CI_JOB_ID} overlay-version-bump-${CI_JOB_ID}:${SYNC_ENVIRONMENT:-staging}; then
+          exit 0
+        fi
+        git fetch github-${CI_JOB_ID} ${SYNC_ENVIRONMENT:-staging}
+        git rebase github-${CI_JOB_ID}/${SYNC_ENVIRONMENT:-staging}
+        sleep ${TIMEOUT_SECONDS:-5}
+      done
+      echo "ERROR - can't push to github"
+      exit 1
+  after_script:
+    - git remote remove github-${CI_JOB_ID}
+    - cd ${PROJECT_FOLDER}
+    - rm -rf /tmp/helm
+
+
+#
+# Mender Helm Rolling release
+#
+mender-helm-version-bump:staging:
+  extends: .helm-version-bump
+  resource_group: mender-helm
+  stage: deploy-staging
+  variables:
+    GITHUB_HELM_REPO: "mendersoftware/mender-helm"
+    SERVICES: gui
+    CHART_DIR: "mender"
+    SYNC_ENVIRONMENT: staging
+    HELM_PATCH_VERSION: ${CI_PIPELINE_ID}-staging # pre-release version for trigger staging only deploy
