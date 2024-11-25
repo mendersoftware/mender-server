@@ -275,6 +275,7 @@ publish:frontend:docker:
     - echo "About to publish ${DOCKER_TAG} to ${MENDER_PUBLISH_IMAGE}:${MENDER_PUBLISH_TAG}"
     - |
       skopeo copy --multi-arch all \
+        --digestfile .digests/gui \
         docker://${MENDER_IMAGE_GUI} \
         docker://${MENDER_PUBLISH_IMAGE}:${MENDER_PUBLISH_TAG} # covers vX.Y.Z + -fragment/ -build tags
     - |
@@ -283,3 +284,8 @@ publish:frontend:docker:
         skopeo copy --multi-arch all docker://${MENDER_IMAGE_GUI} docker://${MENDER_PUBLISH_IMAGE}/gui:$(echo -n $MENDER_PUBLISH_TAG | cut -d . -f-1)
         skopeo copy --multi-arch all docker://${MENDER_IMAGE_GUI} docker://${MENDER_PUBLISH_IMAGE}/gui:latest
       fi
+  artifacts:
+    when: on_success
+    expire_in: 1w
+    paths:
+      - .digests
