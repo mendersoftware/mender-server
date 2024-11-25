@@ -17,6 +17,7 @@ import { prettyDOM } from '@testing-library/react';
 
 import { adminUserCapabilities, defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
+import AuditlogsListColumns from './AuditlogsListColumns';
 import AuditLogsList from './auditlogslist';
 
 describe('Auditlogs Component', () => {
@@ -32,6 +33,7 @@ describe('Auditlogs Component', () => {
         selectionState={defaultState.organization.auditlog.selectionState}
         setAuditlogsState={jest.fn}
         userCapabilities={adminUserCapabilities}
+        auditLogColumns={AuditlogsListColumns}
       />,
       { state }
     );
