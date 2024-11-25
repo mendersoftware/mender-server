@@ -58,11 +58,12 @@ export const auditlogTypes = {
   artifact: { title: 'Artifact', queryParameter: 'object_type', value: 'artifact' },
   deployment: { title: 'Deployment', queryParameter: 'object_deployment_name', value: 'deployment' },
   device: { title: 'Device', queryParameter: 'object_id', value: 'device' },
+  user_access_token: { title: 'Personal Access Token', queryParameter: 'user_access_token', value: 'user_access_token' },
   user: { title: 'User', queryParameter: 'object_id', value: 'user' },
   tenant: { title: 'Tenant', queryParameter: 'object_id', value: 'tenant' }
 };
 
-export const AUDIT_LOGS_TYPES = [auditlogTypes.artifact, auditlogTypes.deployment, auditlogTypes.device, auditlogTypes.user];
+export const AUDIT_LOGS_TYPES = [auditlogTypes.artifact, auditlogTypes.deployment, auditlogTypes.device, auditlogTypes.user_access_token, auditlogTypes.user];
 export const SP_AUDIT_LOGS_TYPES = [auditlogTypes.user, auditlogTypes.tenant];
 
 export interface Webhook extends Integration {
