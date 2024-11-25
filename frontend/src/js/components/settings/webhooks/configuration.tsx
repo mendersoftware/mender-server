@@ -75,7 +75,6 @@ const WebhookEventsSelector = ({ canSelectEvents }: { canSelectEvents: boolean }
 );
 
 const defaultValues = {
-  id: 'new',
   description: '',
   url: '',
   secret: '',
@@ -83,6 +82,7 @@ const defaultValues = {
 };
 
 interface WebhookConfigurationObject {
+  id: string;
   provider: string;
   credentials: {
     webhook: {
@@ -102,6 +102,7 @@ const WebhookConfiguration = ({ onCancel, onSubmit }: { onCancel: () => void; on
   const onSubmitClick = useCallback(
     formState => {
       let webhookConfig = {
+        id: 'new',
         provider: EXTERNAL_PROVIDER.webhook.provider,
         credentials: {
           type: EXTERNAL_PROVIDER.webhook.credentialsType,
