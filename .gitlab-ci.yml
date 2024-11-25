@@ -593,7 +593,7 @@ release:mender-docs-changelog:
         fi
         THIS_KEY=".${CONTAINER_KEY}.image.tag" THIS_VALUE="${THIS_TAG}" yq -i 'eval(strenv(THIS_KEY)) = strenv(THIS_VALUE)' ${CHART_DIR}/values-${SYNC_ENVIRONMENT}.yaml
         THIS_KEY=".${CONTAINER}.image.registry" THIS_VALUE="${MENDER_PUBLISH_REGISTRY}" yq -i 'eval(strenv(THIS_KEY)) = strenv(THIS_VALUE)' ${CHART_DIR}/values-${SYNC_ENVIRONMENT}.yaml
-        THIS_KEY=".${CONTAINER}.image.repository" THIS_VALUE="${MENDER_PUBLISH_REPOSITOIRY}/${CONTAINER}" yq -i 'eval(strenv(THIS_KEY)) = strenv(THIS_VALUE)' ${CHART_DIR}/values-${SYNC_ENVIRONMENT}.yaml
+        THIS_KEY=".${CONTAINER}.image.repository" THIS_VALUE="${MENDER_PUBLISH_REPOSITORY}/${CONTAINER}" yq -i 'eval(strenv(THIS_KEY)) = strenv(THIS_VALUE)' ${CHART_DIR}/values-${SYNC_ENVIRONMENT}.yaml
       done
     - git add ${CHART_DIR}/values-${SYNC_ENVIRONMENT}.yaml
     - echo "DEBUG - display values file content"
