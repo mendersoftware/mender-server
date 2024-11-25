@@ -51,10 +51,10 @@ describe('DeviceInventory Component', () => {
 
 describe('extractSoftwareInformation function', () => {
   it('works as expected', async () => {
-    expect(extractSoftwareInformation(defaultState.releases.byId.r1.artifacts[0].artifact_provides)).toEqual([
-      { children: [], content: { version: 'v2020.10' }, key: 'data-partition.myapp', priority: 0, title: 'data-partition.myapp' }
-    ]);
-    expect(extractSoftwareInformation(defaultState.devices.byId.a1.attributes)).toEqual([]);
+    expect(extractSoftwareInformation(defaultState.releases.byId.r1.artifacts[0].artifact_provides)).toEqual({
+      'data-partition.myapp': { 'children': {}, 'content': { 'version': 'v2020.10' }, 'title': 'data-partition.myapp' }
+    });
+    expect(extractSoftwareInformation(defaultState.devices.byId.a1.attributes)).toEqual({});
     expect(
       extractSoftwareInformation({
         artifact_name: 'myapp',
@@ -64,13 +64,45 @@ describe('extractSoftwareInformation function', () => {
         'a.whole.lot.of.dots.version': 'test-3',
         'a.whole.lot.of.dots.more': 'test-4',
         'even.more.dots.than.before.version': 'test-5',
-        'even.more.dots.than.before.more': 'test-6'
+        'even.more.dots.than.before.more': 'test-6',
+        'gateway.G13.artifact_name': 'gateway-v4',
+        'gateway.G13.data-partition.mender-orchestrator-manifest.version': 'manifest-v5',
+        'gateway.G13.rootfs-image.checksum': 'b31a03283704a8e772f946cdec3d2a0a89ada59eccbe64b6dcb62434372a8b67',
+        'gateway.G13.rootfs-image.version': 'gateway-v4',
+        'rtos.R456.device_type': 'rtos',
+        'rtos.R456.version': 'rtos-v4',
+        'rtos.R998.device_type': 'rtos',
+        'rtos.R998.version': 'rtos-v4'
       })
-    ).toEqual([
-      { children: [], content: { checksum: '12341143', version: rootfs }, key: 'rootfs-image', priority: 0, title: 'Root filesystem' },
-      { children: [], content: { version: 'test-2' }, key: 'test', priority: 2, title: 'test' },
-      { children: [], content: { more: 'test-4', version: 'test-3' }, key: 'a.whole.lot.of.dots', priority: 3, title: 'a.whole.lot.of.dots' },
-      { children: [], content: { more: 'test-6', version: 'test-5' }, key: 'even.more.dots.than.before', priority: 5, title: 'even.more.dots.than.before' }
-    ]);
+    ).toEqual({
+      'Root filesystem': { 'children': {}, 'content': { 'checksum': '12341143', 'version': 'stablev1-beta-final-v0' }, 'title': 'Root filesystem' },
+      'a.whole.lot.of.dots': { 'children': {}, 'content': { 'more': 'test-4', 'version': 'test-3' }, 'title': 'a.whole.lot.of.dots' },
+      'even.more.dots.than.before': { 'children': {}, 'content': { 'more': 'test-6', 'version': 'test-5' }, 'title': 'even.more.dots.than.before' },
+      'gateway.G13': {
+        children: {
+          'Root filesystem': {
+            children: {},
+            content: { checksum: 'b31a03283704a8e772f946cdec3d2a0a89ada59eccbe64b6dcb62434372a8b67', version: 'gateway-v4' },
+            title: 'Root filesystem'
+          },
+          'data-partition.mender-orchestrator-manifest': {
+            children: {},
+            content: { version: 'manifest-v5' },
+            title: 'data-partition.mender-orchestrator-manifest'
+          }
+        },
+        content: {},
+        title: 'gateway.G13'
+      },
+      rtos: {
+        children: {
+          R456: { children: {}, content: { device_type: 'rtos', version: 'rtos-v4' }, title: 'R456' },
+          R998: { children: {}, content: { device_type: 'rtos', version: 'rtos-v4' }, title: 'R998' }
+        },
+        content: {},
+        title: 'rtos'
+      },
+      test: { 'children': {}, 'content': { 'version': 'test-2' }, 'title': 'test' }
+    });
   });
 });
