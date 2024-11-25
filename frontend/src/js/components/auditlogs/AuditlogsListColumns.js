@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import DeviceIdentityDisplay from '@northern.tech/common-ui/deviceidentity';
 import Time from '@northern.tech/common-ui/time';
-import { DEPLOYMENT_ROUTES, canAccess } from '@northern.tech/store/constants';
+import { DEPLOYMENT_ROUTES, auditlogTypes, canAccess } from '@northern.tech/store/constants';
 
 const ArtifactLink = ({ item }) => <Link to={`/releases/${item.object.artifact.name}`}>View artifact</Link>;
 const DeploymentLink = ({ item }) => <Link to={`${DEPLOYMENT_ROUTES.finished.route}?open=true&id=${item.object.id}`}>View deployment</Link>;
@@ -46,8 +46,9 @@ const changeMap = {
   deviceRejected: { actionFormatter: DeviceFormatter, component: DeviceRejectedLink, accessCheck: ({ canReadDevices }) => canReadDevices },
   deviceGeneral: { actionFormatter: DeviceFormatter, component: DeviceLink, accessCheck: ({ canReadDevices }) => canReadDevices },
   deviceTerminalSession: { actionFormatter: DeviceFormatter, component: TerminalSessionLink, accessCheck: defaultAccess },
-  user: { component: ChangeFallback, actionFormatter: UserFormatter, accessCheck: defaultAccess },
-  tenant: { actionFormatter: TenantFormatter, accessCheck: defaultAccess, component: ChangeFallback }
+  user: { actionFormatter: UserFormatter, component: ChangeFallback, accessCheck: defaultAccess },
+  user_access_token: { actionFormatter: FallbackFormatter, component: ChangeFallback, accessCheck: defaultAccess },
+  tenant: { actionFormatter: TenantFormatter, component: ChangeFallback, accessCheck: defaultAccess }
 };
 
 const mapChangeToContent = item => {
@@ -81,7 +82,7 @@ const ActionDescriptor = (item, index) => (
 );
 const TypeDescriptor = (item, index) => (
   <div className="capitalized" key={`${item.time}-${index}`}>
-    {item.object.type}
+    {auditlogTypes[item.object.type]?.title ?? item.object.type}
   </div>
 );
 const ChangeDescriptor = (item, index) => {
