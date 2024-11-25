@@ -34,6 +34,7 @@ import { createDownload, getISOStringBoundaries } from '@northern.tech/utils/hel
 import { useLocationParams } from '@northern.tech/utils/liststatehook';
 import dayjs from 'dayjs';
 
+import AuditLogsFilter from './AuditLogsFilter';
 import AuditlogsListColumns from './AuditlogsListColumns';
 import AuditlogsView from './AuditlogsView.jsx';
 import EventDetailsDrawerContentMap from './EventDetailsDrawerContentMap';
@@ -204,19 +205,25 @@ export const AuditLogs = () => {
 
   return (
     <AuditlogsView
-      onFiltersChange={onFiltersChange}
       createCsvDownload={createCsvDownload}
       hasAuditlogs={hasAuditlogs}
-      groups={groups}
-      users={users}
       selectionState={selectionState}
       csvLoading={csvLoading}
-      detailsReset={detailsReset}
-      auditLogsTypes={auditLogsTypes}
-      dirtyField={dirtyField}
-      setDirtyField={setDirtyField}
       InfoHintComponent={<EnterpriseNotification id={BENEFITS.auditlog.id} />}
       NoAuditlogsComponent={NoAuditlogsComponent}
+      AuditLogsFilter={
+        <AuditLogsFilter
+          groups={groups}
+          users={users}
+          disabled={!hasAuditlogs}
+          onFiltersChange={onFiltersChange}
+          detailsReset={detailsReset}
+          selectionState={selectionState}
+          auditLogsTypes={auditLogsTypes}
+          dirtyField={dirtyField}
+          setDirtyField={setDirtyField}
+        />
+      }
     >
       <AuditLogsList
         items={events}

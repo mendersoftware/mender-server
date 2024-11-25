@@ -13,62 +13,24 @@
 //    limitations under the License.
 import React, { useState } from 'react';
 
-import { Button, TextField } from '@mui/material';
+import { Button } from '@mui/material';
 
-import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/autocomplete';
-import ClickFilter from '@northern.tech/common-ui/forms/clickfilter';
-import Filters from '@northern.tech/common-ui/forms/filters';
-import TimeframePicker from '@northern.tech/common-ui/forms/timeframe-picker';
 import { InfoHintContainer } from '@northern.tech/common-ui/info-hint';
 import Loader from '@northern.tech/common-ui/loader';
-import { getISOStringBoundaries } from '@northern.tech/utils/helpers';
 
 import historyImage from '../../../assets/img/history.png';
 
-const detailsMap = {
-  Deployment: 'to device group',
-  User: 'email'
-};
-
-const getOptionLabel = option => option.title ?? option.email ?? option;
-
-const renderOption = (props, option) => <li {...props}>{getOptionLabel(option)}</li>;
-
-const isUserOptionEqualToValue = ({ email, id }, value) => id === value || email === value || email === value?.email;
-
-const autoSelectProps = {
-  autoSelect: true,
-  filterSelectedOptions: true,
-  getOptionLabel,
-  handleHomeEndKeys: true,
-  renderOption
-};
-
 export const AuditlogsView = ({
-  groups,
-  users,
   selectionState,
   hasAuditlogs,
   csvLoading,
-  onFiltersChange,
   createCsvDownload,
-  detailsReset,
-  auditLogsTypes,
-  dirtyField,
-  setDirtyField,
   InfoHintComponent = null,
   NoAuditlogsComponent = null,
+  AuditLogsFilter,
   children: auditLogsList
 }) => {
-  const { detail, isLoading, endDate, user, startDate, total, type } = selectionState;
-  const [date] = useState(getISOStringBoundaries(new Date()));
-  const { start: today, end: tonight } = date;
-
-  const typeOptionsMap = {
-    Deployment: groups,
-    User: Object.values(users)
-  };
-  const detailOptions = typeOptionsMap[type?.title] ?? [];
+  const { isLoading, total } = selectionState;
 
   return (
     <div className="fadeIn margin-left flexbox column" style={{ marginRight: '5%' }}>
@@ -76,61 +38,7 @@ export const AuditlogsView = ({
         <h3 className="margin-right-small">Audit log</h3>
         <InfoHintContainer>{InfoHintComponent}</InfoHintContainer>
       </div>
-      <ClickFilter disabled={!hasAuditlogs}>
-        <Filters
-          initialValues={{ startDate, endDate, user, type, detail }}
-          defaultValues={{ startDate: today, endDate: tonight, user: '', type: null, detail: '' }}
-          fieldResetTrigger={detailsReset}
-          dirtyField={dirtyField}
-          clearDirty={setDirtyField}
-          filters={[
-            {
-              key: 'user',
-              title: 'Performed by',
-              Component: ControlledAutoComplete,
-              componentProps: {
-                ...autoSelectProps,
-                freeSolo: true,
-                isOptionEqualToValue: isUserOptionEqualToValue,
-                options: Object.values(users),
-                renderInput: params => <TextField {...params} placeholder="Select a user" InputProps={{ ...params.InputProps }} />
-              }
-            },
-            {
-              key: 'type',
-              title: 'Filter by changes',
-              Component: ControlledAutoComplete,
-              componentProps: {
-                ...autoSelectProps,
-                options: auditLogsTypes,
-                isOptionEqualToValue: (option, value) => option.value === value.value && option.object_type === value.object_type,
-                renderInput: params => <TextField {...params} placeholder="Type" InputProps={{ ...params.InputProps }} />
-              }
-            },
-            {
-              key: 'detail',
-              title: '',
-              Component: ControlledAutoComplete,
-              componentProps: {
-                ...autoSelectProps,
-                freeSolo: true,
-                options: detailOptions,
-                disabled: !type,
-                renderInput: params => <TextField {...params} placeholder={detailsMap[type] || '-'} InputProps={{ ...params.InputProps }} />
-              }
-            },
-            {
-              key: 'timeframe',
-              title: 'Start time',
-              Component: TimeframePicker,
-              componentProps: {
-                tonight
-              }
-            }
-          ]}
-          onChange={onFiltersChange}
-        />
-      </ClickFilter>
+      {AuditLogsFilter}
       <div className="flexbox center-aligned" style={{ justifyContent: 'flex-end' }}>
         <Loader show={csvLoading} />
         <Button variant="contained" color="secondary" disabled={csvLoading || !total} onClick={createCsvDownload} style={{ marginLeft: 15 }}>
