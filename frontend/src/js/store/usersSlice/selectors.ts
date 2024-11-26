@@ -23,7 +23,7 @@ export const getTooltipsById = state => state.users.tooltips.byId;
 export const getGlobalSettings = state => state.users.globalSettings;
 
 const getCurrentUserId = state => state.users.currentUser;
-const getUsersById = state => state.users.byId;
+export const getUsersById = state => state.users.byId;
 export const getCurrentUser = createSelector([getUsersById, getCurrentUserId], (usersById, userId) => usersById[userId] ?? {});
 export const getUserSettings = state => state.users.userSettings;
 

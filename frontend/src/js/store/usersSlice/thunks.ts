@@ -57,7 +57,7 @@ import {
   useradmApiUrl,
   useradmApiUrlv2
 } from './constants';
-import { getCurrentUser, getRolesById } from './selectors';
+import { getCurrentUser, getRolesById, getUsersById } from './selectors';
 
 const cookies = new Cookies();
 
@@ -191,13 +191,20 @@ export const verify2FA = createAsyncThunk(`${sliceName}/verify2FA`, (tfaData, { 
     )
 );
 
-export const getUserList = createAsyncThunk(`${sliceName}/getUserList`, (_, { dispatch }) =>
+export const getUserList = createAsyncThunk(`${sliceName}/getUserList`, (_, { dispatch, getState }) =>
   GeneralApi.get(`${useradmApiUrl}/users`)
     .then(res => {
-      const users = res.data.reduce((accu, item) => {
-        accu[item.id] = item;
-        return accu;
-      }, {});
+      const currentUsersById = getUsersById(getState());
+      const users = res.data.reduce(
+        (accu, item) => {
+          accu[item.id] = {
+            ...accu[item.id],
+            ...item
+          };
+          return accu;
+        },
+        { ...currentUsersById }
+      );
       return dispatch(actions.receivedUserList(users));
     })
     .catch(err => commonErrorHandler(err, `Users couldn't be loaded.`, dispatch, commonErrorFallback))
