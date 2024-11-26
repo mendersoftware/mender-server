@@ -85,10 +85,6 @@ export const UserManagement = () => {
     dispatch(getUserList());
   }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(getUserList());
-  }, [currentUser.id, dispatch, users.length]);
-
   const openEdit = user => {
     setUser(user);
     setRemoveDialog(false);
