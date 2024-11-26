@@ -23,7 +23,7 @@ import DetailsTable from '@northern.tech/common-ui/detailstable';
 import { DocsTooltip } from '@northern.tech/common-ui/docslink';
 import EnterpriseNotification from '@northern.tech/common-ui/enterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/info-hint';
-import { BENEFITS, UiRoleDefinition, emptyRole } from '@northern.tech/store/constants';
+import { BENEFITS, UiRoleDefinition, emptyRole, settingsKeys } from '@northern.tech/store/constants';
 import { getGroupsByIdWithoutUngrouped, getIsEnterprise, getOrganization, getReleaseTagsById, getRelevantRoles } from '@northern.tech/store/selectors';
 import { createRole, editRole, getDynamicGroups, getExistingReleaseTags, getGroups, getRoles, removeRole } from '@northern.tech/store/thunks';
 
@@ -45,20 +45,24 @@ export const RoleManagement = () => {
   const isEnterprise = useSelector(getIsEnterprise);
   const { service_provider } = useSelector(getOrganization);
   const items = useSelector(getRelevantRoles);
+  const isLikelyInitialized = window.sessionStorage.getItem(settingsKeys.initialized);
 
   useEffect(() => {
+    if (service_provider || !isLikelyInitialized) {
+      return;
+    }
     dispatch(getExistingReleaseTags());
-  }, [dispatch]);
+  }, [dispatch, isLikelyInitialized, service_provider]);
 
   useEffect(() => {
-    if (Object.keys(groups).length) {
+    if (Object.keys(groups).length || service_provider || !isLikelyInitialized) {
       return;
     }
     dispatch(getDynamicGroups());
     dispatch(getGroups());
     dispatch(getRoles());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, JSON.stringify(groups)]);
+  }, [dispatch, isLikelyInitialized, JSON.stringify(groups), service_provider]);
 
   const addRole = () => {
     setAdding(true);
