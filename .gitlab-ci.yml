@@ -62,6 +62,14 @@ variables:
     description: "The repositorywhere to push images"
     value: "mendersoftware"
 
+  # Publish licenses
+  GITHUB_DOCS_REPO_URL:
+    description: "The Github Repo URL where to push the documentation"
+    value: "mendersoftware/mender-docs"
+  LICENSE_REMOTE_FILE:
+    description: "The changelog file in the remote changelog repo"
+    value: "302.Release-information/03.Open-source-licenses/01.Mender-Server/docs.md"
+
 include:
   - project: "Northern.tech/Mender/mendertesting"
     file:
@@ -409,6 +417,38 @@ publish:backend:licenses:
     expire_in: "1w"
     paths:
       - backend/licenses.md
+
+publish:backend:licenses:docs-site:
+  stage: .post
+  tags:
+    - hetzner-amd-beefy
+  rules:
+    # Only make available for stable branches
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+/'
+      allow_failure: true
+  image: "registry.gitlab.com/northern.tech/mender/mender-test-containers:release-please-v1-master"
+  needs:
+    - job: publish:backend:licenses
+      artifacts: true
+  before_script:
+    # Setting up git
+    - git config --global user.email "${GITHUB_USER_EMAIL}"
+    - git config --global user.name "${GITHUB_USER_NAME}"
+    # GITHUB_TOKEN for Github cli authentication
+    - export GITHUB_TOKEN=${GITHUB_CLI_TOKEN}
+  script:
+    - git clone https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_DOCS_REPO_URL}
+    - cd ${GITHUB_DOCS_REPO_URL#*/}
+    - git checkout -b licenses-${CI_JOB_ID}
+    - cat ../.licenses_header.md > ${LICENSE_REMOTE_FILE}
+    - cat ../backend/licenses.md >> ${LICENSE_REMOTE_FILE}
+    - git add ${LICENSE_REMOTE_FILE}
+    - |
+      git commit -s -m "chore: add mender-server open source licenses"
+    - git push origin licenses-${CI_JOB_ID}
+    - gh pr create --title "${CI_COMMIT_TAG} Release - update Mender Server licenses" --body "Automated change to the Mender Server Licenses during ${CI_COMMIT_TAG} release" --base master --head licenses-${CI_JOB_ID}
+  after_script:
+    - git remote remove licenses-${CI_JOB_ID}
 
 coveralls:done:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/curlimages/curl
