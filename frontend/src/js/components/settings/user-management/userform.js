@@ -42,7 +42,7 @@ import { isUUID } from 'validator';
 
 export const UserRolesSelect = ({ currentUser, disabled, onSelect, roles, user }) => {
   const relevantRolesById = useMemo(
-    () => roles.reduce((accu, role) => ({ ...accu, [role.id ?? role.name]: { ...role, id: role.id ?? role.name } }), {}),
+    () => roles.reduce((accu, role) => ({ ...accu, [role.value ?? role.name]: { ...role, value: role.value ?? role.name } }), {}),
     [roles]
   );
   const [selectedRoleIds, setSelectedRoleIds] = useState(
@@ -68,9 +68,9 @@ export const UserRolesSelect = ({ currentUser, disabled, onSelect, roles, user }
   };
 
   const { editableRoles, showRoleUsageNotification } = useMemo(() => {
-    const editableRoles = Object.entries(relevantRolesById).map(([id, role]) => {
-      const enabled = selectedRoleIds.some(roleId => id === roleId);
-      return { enabled, id, ...role };
+    const editableRoles = Object.entries(relevantRolesById).map(([value, role]) => {
+      const enabled = selectedRoleIds.some(roleId => value === roleId);
+      return { enabled, value, ...role };
     });
     const showRoleUsageNotification = selectedRoleIds.reduce((accu, roleId) => {
       const { permissions, uiPermissions } = relevantRolesById[roleId];
@@ -103,9 +103,9 @@ export const UserRolesSelect = ({ currentUser, disabled, onSelect, roles, user }
           renderValue={selected => selected.map(role => relevantRolesById[role].name).join(', ')}
         >
           {editableRoles.map(role => (
-            <MenuItem id={role.id} key={role.id} value={role.id}>
-              <Checkbox id={`${role.id}-checkbox`} checked={role.enabled} />
-              <ListItemText id={`${role.id}-text`} primary={role.name} />
+            <MenuItem id={role.value} key={role.value} value={role.value}>
+              <Checkbox id={`${role.value}-checkbox`} checked={role.enabled} />
+              <ListItemText id={`${role.value}-text`} primary={role.name} />
             </MenuItem>
           ))}
         </Select>

@@ -22,7 +22,7 @@ import { TwoColumnData } from '@northern.tech/common-ui/configurationobject';
 import { CopyTextToClipboard } from '@northern.tech/common-ui/copytext';
 import { uiPermissionsByArea, uiPermissionsById } from '@northern.tech/store/constants';
 import { mapUserRolesToUiPermissions } from '@northern.tech/store/utils';
-import { toggle } from '@northern.tech/utils/helpers';
+import { isEmpty, toggle } from '@northern.tech/utils/helpers';
 import validator from 'validator';
 
 import { OAuth2Providers, genericProvider } from '../../login/oauth2providers';
@@ -80,6 +80,10 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
   const [selectedRoles, setSelectedRoles] = useState([]);
   const [shouldResetPassword, setShouldResetPassword] = useState(false);
   const [currentEmail, setCurrentEmail] = useState('');
+  const rolesById = useMemo(
+    () => roles.reduce((accu, role) => ({ ...accu, [role.value ?? role.name]: { ...role, value: role.value ?? role.name } }), {}),
+    [roles]
+  );
 
   useEffect(() => {
     setCurrentEmail(email);
@@ -116,11 +120,11 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
 
   const { areas, groups } = useMemo(() => {
     const emptySelection = { areas: {}, groups: {}, releases: {} };
-    if (!(selectedRoles && roles)) {
+    if (!selectedRoles.length || isEmpty(rolesById)) {
       return emptySelection;
     }
 
-    return Object.entries(mapUserRolesToUiPermissions(selectedRoles, roles)).reduce((accu, [key, values]) => {
+    return Object.entries(mapUserRolesToUiPermissions(selectedRoles, rolesById)).reduce((accu, [key, values]) => {
       if (scopedPermissionAreas.includes(key)) {
         accu[key] = Object.entries(values).reduce((groupsAccu, [name, uiPermissions]) => {
           groupsAccu[name] = mapPermissions(uiPermissions);
@@ -131,7 +135,7 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
       }
       return accu;
     }, emptySelection);
-  }, [selectedRoles, roles]);
+  }, [selectedRoles, rolesById]);
 
   const isSubmitDisabled = !selectedRoles.length;
 

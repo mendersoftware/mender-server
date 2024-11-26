@@ -55,6 +55,6 @@ export const getOfflineThresholdSettings = createSelector([getGlobalSettings], (
   intervalUnit: offlineThreshold?.intervalUnit || DEVICE_ONLINE_CUTOFF.intervalName
 }));
 
-export const getRolesList = createSelector([getRolesById], rolesById => Object.entries(rolesById).map(([id, role]) => ({ id, ...role })));
+export const getRolesList = createSelector([getRolesById], rolesById => Object.entries(rolesById).map(([value, role]) => ({ value, ...role })));
 
 export const getCurrentSession = state => state.users.currentSession;
