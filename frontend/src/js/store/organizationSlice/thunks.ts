@@ -222,18 +222,13 @@ export const editTenantDeviceLimit = createAsyncThunk(`${sliceName}/editDeviceLi
   return Api.put(`${tenantadmApiUrlv2}/tenants/${id}/child`, { device_limit: newLimit, name })
     .catch(err => commonErrorHandler(err, `Device Limit cannot be changed`, dispatch))
     .then(() => {
-      const tasks = [Promise.resolve(dispatch(setSnackbar('Device Limit was changed successfully')))];
-      tasks.push(dispatch(getTenants()));
-      tasks.push(dispatch(getUserOrganization()));
-      return Promise.all(tasks);
+      return Promise.all([dispatch(setSnackbar('Device Limit was changed successfully')), dispatch(getTenants()), dispatch(getUserOrganization())]);
     });
 });
 export const removeTenant = createAsyncThunk(`${sliceName}/editDeviceLimit`, ({ id }: { id: string }, { dispatch }) => {
   return Api.post(`${tenantadmApiUrlv2}/tenants/${id}/remove/start`)
     .catch(err => commonErrorHandler(err, `There was an error removing the tenant`, dispatch))
-    .then(() =>
-      Promise.all([Promise.resolve(dispatch(setSnackbar('Device Limit was changed successfully'))), dispatch(getTenants()), dispatch(getUserOrganization())])
-    );
+    .then(() => Promise.all([dispatch(setSnackbar('The tenant was removed successfully')), dispatch(getTenants()), dispatch(getUserOrganization())]));
 });
 export const getUserOrganization = createAsyncThunk(`${sliceName}/getUserOrganization`, (_, { dispatch, getState }) => {
   return Api.get(`${tenantadmApiUrlv1}/user/tenant`).then(res => {
