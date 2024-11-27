@@ -63,7 +63,7 @@ export const ExpandedTenant = (props: ExpandedTenantProps) => {
 
   const { device_count: spDeviceUtilization, device_limit: spDeviceLimit } = useSelector(getOrganization);
 
-  const currentLimit = spDeviceLimit - spDeviceUtilization;
+  const currentLimit = spDeviceLimit - spDeviceUtilization + device_limit;
   const { classes } = useStyles();
   const dispatch = useDispatch<AppDispatch>();
   const copyLinkToClipboard = () => {
