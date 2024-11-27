@@ -1818,7 +1818,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-38:focus::-ms-input-
             <div
               class="align-right"
             >
-              -
+              <div>
+                1.21 KB
+              </div>
             </div>
           </div>
           <button

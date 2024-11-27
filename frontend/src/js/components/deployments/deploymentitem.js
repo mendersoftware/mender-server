@@ -74,7 +74,9 @@ export const DeploymentStartTime = ({ direction = 'both', started }) => <Relativ
 
 export const DeploymentStatus = ({ deployment }) => <DeploymentStats key="DeploymentStatus" deployment={deployment} />;
 
-export const DeploymentSize = ({ deployment: { total_size } }) => <div className="align-right">{total_size ? <FileSize fileSize={total_size} /> : '-'}</div>;
+export const DeploymentSize = ({ deployment: { statistics } }) => (
+  <div className="align-right">{statistics.total_size ? <FileSize fileSize={statistics.total_size} /> : '-'}</div>
+);
 
 const useStyles = makeStyles()(theme => ({
   detailsButton: {
