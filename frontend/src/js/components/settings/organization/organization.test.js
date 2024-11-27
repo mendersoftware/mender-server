@@ -76,7 +76,7 @@ describe('MyOrganization Component', () => {
           plan: 'enterprise',
           tenant_token: 'test',
           trial: true,
-          trial_expiration: new Date('2021-01-01T00:00:00Z')
+          trial_expiration: '2021-01-01T00:00:00Z'
         }
       }
     };
