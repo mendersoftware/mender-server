@@ -56,7 +56,10 @@ export const getUserSSOState = user => {
 
 const mapPermissions = permissions => permissions.map(permission => uiPermissionsById[permission].title).join(', ');
 
-const scopedPermissionAreas = ['groups', 'releases'];
+const scopedPermissionAreas = {
+  groups: 'Device groups',
+  releases: 'Releases'
+};
 
 export const UserId = ({ className = '', userId }) => {
   const { classes } = useStyles();
@@ -118,14 +121,14 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
 
   const togglePasswordReset = () => setShouldResetPassword(toggle);
 
-  const { areas, groups } = useMemo(() => {
+  const { areas, ...scopedAreas } = useMemo(() => {
     const emptySelection = { areas: {}, groups: {}, releases: {} };
     if (!selectedRoles.length || isEmpty(rolesById)) {
       return emptySelection;
     }
 
     return Object.entries(mapUserRolesToUiPermissions(selectedRoles, rolesById)).reduce((accu, [key, values]) => {
-      if (scopedPermissionAreas.includes(key)) {
+      if (scopedPermissionAreas[key]) {
         accu[key] = Object.entries(values).reduce((groupsAccu, [name, uiPermissions]) => {
           groupsAccu[name] = mapPermissions(uiPermissions);
           return groupsAccu;
@@ -137,6 +140,7 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
     }, emptySelection);
   }, [selectedRoles, rolesById]);
 
+  const hasScopedPermissionsDefined = Object.values(scopedAreas).some(permissions => !isEmpty(permissions));
   const isSubmitDisabled = !selectedRoles.length;
 
   const { isOAuth2, provider } = getUserSSOState(selectedUser);
@@ -176,20 +180,26 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
         />
       )}
       <UserRolesSelect disabled={!isEnterprise} currentUser={currentUser} onSelect={onRolesSelect} roles={roles} user={selectedUser} />
-      {!!(Object.keys(groups).length || Object.keys(areas).length) && (
+      {!!(hasScopedPermissionsDefined || !isEmpty(areas)) && (
         <InputLabel className="margin-top" shrink>
           Role permissions
         </InputLabel>
       )}
       <TwoColumnData className={rolesClasses} config={areas} />
-      {!!Object.keys(groups).length && (
-        <>
-          <InputLabel className="margin-top-small" shrink>
-            Device groups
-          </InputLabel>
-          <TwoColumnData className={rolesClasses} config={groups} />
-        </>
-      )}
+      {Object.entries(scopedAreas).reduce((accu, [area, areaPermissions]) => {
+        if (isEmpty(areaPermissions)) {
+          return accu;
+        }
+        accu.push(
+          <>
+            <InputLabel className="margin-top-small" shrink>
+              {scopedPermissionAreas[area]}
+            </InputLabel>
+            <TwoColumnData className={rolesClasses} config={areaPermissions} />
+          </>
+        );
+        return accu;
+      }, [])}
       <Divider className={classes.divider} light />
       <div className={`flexbox centered margin-top ${classes.actionButtons}`}>
         <Button className={classes.leftButton} onClick={onCancel}>
