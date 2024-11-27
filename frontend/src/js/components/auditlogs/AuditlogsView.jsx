@@ -18,42 +18,21 @@ import { Button } from '@mui/material';
 import { InfoHintContainer } from '@northern.tech/common-ui/info-hint';
 import Loader from '@northern.tech/common-ui/loader';
 
-import historyImage from '../../../assets/img/history.png';
-
-export const AuditlogsView = ({
-  selectionState,
-  hasAuditlogs,
-  csvLoading,
-  createCsvDownload,
-  InfoHintComponent = null,
-  NoAuditlogsComponent = null,
-  AuditLogsFilter,
-  children: auditLogsList
-}) => {
-  const { isLoading, total } = selectionState;
-
+export const AuditlogsView = ({ total, csvLoading, createCsvDownload, infoHintComponent = null, auditLogsFilter, children }) => {
   return (
     <div className="fadeIn margin-left flexbox column" style={{ marginRight: '5%' }}>
       <div className="flexbox center-aligned">
         <h3 className="margin-right-small">Audit log</h3>
-        <InfoHintContainer>{InfoHintComponent}</InfoHintContainer>
+        <InfoHintContainer>{infoHintComponent}</InfoHintContainer>
       </div>
-      {AuditLogsFilter}
+      {auditLogsFilter}
       <div className="flexbox center-aligned" style={{ justifyContent: 'flex-end' }}>
         <Loader show={csvLoading} />
         <Button variant="contained" color="secondary" disabled={csvLoading || !total} onClick={createCsvDownload} style={{ marginLeft: 15 }}>
           Download results as csv
         </Button>
       </div>
-      {!!total && auditLogsList}
-      {!(isLoading || total) && hasAuditlogs && (
-        <div className="dashboard-placeholder">
-          <p>No log entries were found.</p>
-          <p>Try adjusting the filters.</p>
-          <img src={historyImage} alt="Past" />
-        </div>
-      )}
-      {!hasAuditlogs && NoAuditlogsComponent}
+      {children}
     </div>
   );
 };

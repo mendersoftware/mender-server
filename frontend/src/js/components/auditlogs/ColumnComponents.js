@@ -87,35 +87,24 @@ const actorMap = {
   device: 'id'
 };
 
-const UserDescriptor = (item, index) => <div key={`${item.time}-${index} `}>{item.actor[actorMap[item.actor.type]]}</div>;
-const ActionDescriptor = (item, index) => (
+export const UserDescriptor = (item, index) => <div key={`${item.time}-${index} `}>{item.actor[actorMap[item.actor.type]]}</div>;
+export const ActionDescriptor = (item, index) => (
   <div className="uppercased" key={`${item.time}-${index}`}>
     {item.action}
   </div>
 );
-const TypeDescriptor = (item, index) => (
+export const TypeDescriptor = (item, index) => (
   <div className="capitalized" key={`${item.time}-${index}`}>
     {auditlogTypes[item.object.type]?.title ?? item.object.type}
   </div>
 );
-const ChangeDescriptor = (item, index) => {
+export const ChangeDescriptor = (item, index) => {
   const FormatterComponent = mapChangeToContent(item).actionFormatter;
   return <FormatterComponent key={`${item.time}-${index}`} {...item.object} />;
 };
-const ChangeDetailsDescriptor = (item, index, userCapabilities) => {
+export const ChangeDetailsDescriptor = (item, index, userCapabilities) => {
   const { component: Comp, accessCheck } = mapChangeToContent(item);
   const key = `${item.time}-${index}`;
   return accessCheck(userCapabilities) ? <Comp key={key} item={item} /> : <div key={key} />;
 };
-const TimeWrapper = (item, index) => <Time key={`${item.time}-${index}`} value={item.time} />;
-
-const auditLogColumns = [
-  { title: 'Performed by', sortable: false, render: UserDescriptor },
-  { title: 'Action', sortable: false, render: ActionDescriptor },
-  { title: 'Type', sortable: false, render: TypeDescriptor },
-  { title: 'Changed', sortable: false, render: ChangeDescriptor },
-  { title: 'More details', sortable: false, render: ChangeDetailsDescriptor },
-  { title: 'Time', sortable: true, render: TimeWrapper }
-];
-
-export default auditLogColumns;
+export const TimeWrapper = (item, index) => <Time key={`${item.time}-${index}`} value={item.time} />;

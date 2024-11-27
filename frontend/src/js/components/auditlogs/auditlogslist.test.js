@@ -17,7 +17,7 @@ import { prettyDOM } from '@testing-library/react';
 
 import { adminUserCapabilities, defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
-import AuditlogsListColumns from './AuditlogsListColumns';
+import { ActionDescriptor, ChangeDescriptor, ChangeDetailsDescriptor, TimeWrapper, TypeDescriptor, UserDescriptor } from './ColumnComponents.js';
 import AuditLogsList from './auditlogslist';
 
 describe('Auditlogs Component', () => {
@@ -33,7 +33,14 @@ describe('Auditlogs Component', () => {
         selectionState={defaultState.organization.auditlog.selectionState}
         setAuditlogsState={jest.fn}
         userCapabilities={adminUserCapabilities}
-        auditLogColumns={AuditlogsListColumns}
+        auditLogColumns={[
+          { title: 'Performed by', sortable: false, render: UserDescriptor },
+          { title: 'Action', sortable: false, render: ActionDescriptor },
+          { title: 'Type', sortable: false, render: TypeDescriptor },
+          { title: 'Changed', sortable: false, render: ChangeDescriptor },
+          { title: 'More details', sortable: false, render: ChangeDetailsDescriptor },
+          { title: 'Time', sortable: true, render: TimeWrapper }
+        ]}
       />,
       { state }
     );

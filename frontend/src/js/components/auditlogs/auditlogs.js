@@ -34,11 +34,13 @@ import { createDownload, getISOStringBoundaries } from '@northern.tech/utils/hel
 import { useLocationParams } from '@northern.tech/utils/liststatehook';
 import dayjs from 'dayjs';
 
+import historyImage from '../../../assets/img/history.png';
 import AuditLogsFilter from './AuditLogsFilter';
-import AuditlogsListColumns from './AuditlogsListColumns';
 import AuditlogsView from './AuditlogsView.jsx';
+import { ActionDescriptor, ChangeDescriptor, ChangeDetailsDescriptor, TimeWrapper, TypeDescriptor, UserDescriptor } from './ColumnComponents.js';
 import EventDetailsDrawerContentMap from './EventDetailsDrawerContentMap';
 import AuditLogsList from './auditlogslist';
+import EventDetailsFallbackComponent from './eventdetails/FallbackComponent.js';
 import EventDetailsDrawer from './eventdetailsdrawer';
 
 const useStyles = makeStyles()(theme => ({
@@ -83,7 +85,7 @@ export const AuditLogs = () => {
   const [dirtyField, setDirtyField] = useState('');
   const { token } = useSelector(getCurrentSession);
   const isSP = useSelector(getIsServiceProvider);
-  const { detail, perPage, endDate, user, sort, startDate, type } = selectionState;
+  const { detail, perPage, endDate, user, sort, startDate, type, total, isLoading } = selectionState;
   const [auditLogsTypes, setAuditLogsTypes] = useState(AUDIT_LOGS_TYPES);
 
   useEffect(() => {
@@ -196,22 +198,14 @@ export const AuditLogs = () => {
     [dispatch, JSON.stringify(users)]
   );
 
-  const NoAuditlogsComponent = (
-    <div className={`dashboard-placeholder flexbox ${classes.upgradeNote}`}>
-      <DefaultUpgradeNotification className="margin-right-small" />
-      <MenderHelpTooltip id={HELPTOOLTIPS.auditlogExplanation.id} />
-    </div>
-  );
-
   return (
     <AuditlogsView
       createCsvDownload={createCsvDownload}
       hasAuditlogs={hasAuditlogs}
-      selectionState={selectionState}
+      total={total}
       csvLoading={csvLoading}
-      InfoHintComponent={<EnterpriseNotification id={BENEFITS.auditlog.id} />}
-      NoAuditlogsComponent={NoAuditlogsComponent}
-      AuditLogsFilter={
+      infoHintComponent={<EnterpriseNotification id={BENEFITS.auditlog.id} />}
+      auditLogsFilter={
         <AuditLogsFilter
           groups={groups}
           users={users}
@@ -225,18 +219,41 @@ export const AuditLogs = () => {
         />
       }
     >
-      <AuditLogsList
-        items={events}
-        onChangePage={onChangePagination}
-        onChangeRowsPerPage={newPerPage => onChangePagination(1, newPerPage)}
-        onChangeSorting={onChangeSorting}
-        selectionState={selectionState}
-        onIssueSelection={onIssueSelection}
-        userCapabilities={userCapabilities}
-        auditLogColumns={AuditlogsListColumns}
-      />
+      {!!total && (
+        <AuditLogsList
+          items={events}
+          onChangePage={onChangePagination}
+          onChangeRowsPerPage={newPerPage => onChangePagination(1, newPerPage)}
+          onChangeSorting={onChangeSorting}
+          selectionState={selectionState}
+          onIssueSelection={onIssueSelection}
+          userCapabilities={userCapabilities}
+          auditLogColumns={[
+            { title: 'Performed by', sortable: false, render: UserDescriptor },
+            { title: 'Action', sortable: false, render: ActionDescriptor },
+            { title: 'Type', sortable: false, render: TypeDescriptor },
+            { title: 'Changed', sortable: false, render: ChangeDescriptor },
+            { title: 'More details', sortable: false, render: ChangeDetailsDescriptor },
+            { title: 'Time', sortable: true, render: TimeWrapper }
+          ]}
+        />
+      )}
+      {!(isLoading || total) && hasAuditlogs && (
+        <div className="dashboard-placeholder">
+          <p>No log entries were found.</p>
+          <p>Try adjusting the filters.</p>
+          <img src={historyImage} alt="Past" />
+        </div>
+      )}
+      {!hasAuditlogs && (
+        <div className={`dashboard-placeholder flexbox ${classes.upgradeNote}`}>
+          <DefaultUpgradeNotification className="margin-right-small" />
+          <MenderHelpTooltip id={HELPTOOLTIPS.auditlogExplanation.id} />
+        </div>
+      )}
       <EventDetailsDrawer
         mapChangeToContent={EventDetailsDrawerContentMap}
+        fallbackComponenet={EventDetailsFallbackComponent}
         eventItem={eventItem}
         open={Boolean(eventItem)}
         onClose={() => onIssueSelection()}

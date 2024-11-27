@@ -11,23 +11,11 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Code } from '@northern.tech/common-ui/copy-code';
-
 import DeviceConfiguration from './eventdetails/deviceconfiguration';
 import FileTransfer from './eventdetails/filetransfer';
 import PortForward from './eventdetails/portforward';
 import TerminalSession from './eventdetails/terminalsession';
 import { UserChange } from './eventdetails/userchange';
-
-const FallbackComponent = ({ item }) => {
-  let content = '';
-  try {
-    content = JSON.stringify(item, null, 2);
-  } catch (error) {
-    content = `error parsing the logged event:\n${error}`;
-  }
-  return <Code style={{ whiteSpace: 'pre' }}>{content}</Code>;
-};
 
 const changeTypes = {
   user: 'user',
@@ -40,7 +28,7 @@ const configChangeDescriptor = {
   deploy_configuration: 'deployment'
 };
 
-const EventDetailsDrawerContentMap = item => {
+const EventDetailsDrawerContentMap = (item, FallbackComponent = null) => {
   const { type } = item.object || {};
   let content = { title: 'Entry details', content: FallbackComponent };
   if (type === changeTypes.user) {

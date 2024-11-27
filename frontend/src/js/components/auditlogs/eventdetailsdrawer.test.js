@@ -16,6 +16,7 @@ import React from 'react';
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
 import EventDetailsDrawerContentMap from './EventDetailsDrawerContentMap';
+import EventDetailsFallbackComponent from './eventdetails/FallbackComponent.js';
 import EventDetailsDrawer from './eventdetailsdrawer';
 
 describe('EventDetailsDrawer Component', () => {
@@ -26,6 +27,7 @@ describe('EventDetailsDrawer Component', () => {
         onClose={jest.fn}
         open={true}
         mapChangeToContent={EventDetailsDrawerContentMap}
+        fallbackComponenet={EventDetailsFallbackComponent}
       />
     );
     const view = baseElement.getElementsByClassName('MuiDrawer-paper')[0];
