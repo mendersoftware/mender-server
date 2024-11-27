@@ -101,7 +101,7 @@ describe('Roles Component', () => {
         tenantManagement: [],
         userManagement: []
       },
-      source: { ...defaultState.users.rolesById.test, id: defaultState.users.rolesById.test.name }
+      source: { ...defaultState.users.rolesById.test, value: defaultState.users.rolesById.test.name }
     });
     await act(async () => {
       jest.runOnlyPendingTimers();

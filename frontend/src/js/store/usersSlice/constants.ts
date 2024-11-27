@@ -333,7 +333,7 @@ export const serviceProviderRolesById = {
   },
   readOnly: {
     name: 'Read access',
-    value: staticRolesByName.admin,
+    value: staticRolesByName.readOnly,
     description: 'This role can see all linked organizations but cannot make any changes',
     permissions: [],
     uiPermissions: {

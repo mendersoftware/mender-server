@@ -22,7 +22,7 @@ import { TwoColumnData } from '@northern.tech/common-ui/configurationobject';
 import { CopyTextToClipboard } from '@northern.tech/common-ui/copytext';
 import { uiPermissionsByArea, uiPermissionsById } from '@northern.tech/store/constants';
 import { mapUserRolesToUiPermissions } from '@northern.tech/store/utils';
-import { toggle } from '@northern.tech/utils/helpers';
+import { isEmpty, toggle } from '@northern.tech/utils/helpers';
 import validator from 'validator';
 
 import { OAuth2Providers, genericProvider } from '../../login/oauth2providers';
@@ -56,7 +56,10 @@ export const getUserSSOState = user => {
 
 const mapPermissions = permissions => permissions.map(permission => uiPermissionsById[permission].title).join(', ');
 
-const scopedPermissionAreas = ['groups', 'releases'];
+const scopedPermissionAreas = {
+  groups: 'Device groups',
+  releases: 'Releases'
+};
 
 export const UserId = ({ className = '', userId }) => {
   const { classes } = useStyles();
@@ -80,6 +83,10 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
   const [selectedRoles, setSelectedRoles] = useState([]);
   const [shouldResetPassword, setShouldResetPassword] = useState(false);
   const [currentEmail, setCurrentEmail] = useState('');
+  const rolesById = useMemo(
+    () => roles.reduce((accu, role) => ({ ...accu, [role.value ?? role.name]: { ...role, value: role.value ?? role.name } }), {}),
+    [roles]
+  );
 
   useEffect(() => {
     setCurrentEmail(email);
@@ -114,14 +121,14 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
 
   const togglePasswordReset = () => setShouldResetPassword(toggle);
 
-  const { areas, groups } = useMemo(() => {
+  const { areas, ...scopedAreas } = useMemo(() => {
     const emptySelection = { areas: {}, groups: {}, releases: {} };
-    if (!(selectedRoles && roles)) {
+    if (!selectedRoles.length || isEmpty(rolesById)) {
       return emptySelection;
     }
 
-    return Object.entries(mapUserRolesToUiPermissions(selectedRoles, roles)).reduce((accu, [key, values]) => {
-      if (scopedPermissionAreas.includes(key)) {
+    return Object.entries(mapUserRolesToUiPermissions(selectedRoles, rolesById)).reduce((accu, [key, values]) => {
+      if (scopedPermissionAreas[key]) {
         accu[key] = Object.entries(values).reduce((groupsAccu, [name, uiPermissions]) => {
           groupsAccu[name] = mapPermissions(uiPermissions);
           return groupsAccu;
@@ -131,8 +138,9 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
       }
       return accu;
     }, emptySelection);
-  }, [selectedRoles, roles]);
+  }, [selectedRoles, rolesById]);
 
+  const hasScopedPermissionsDefined = Object.values(scopedAreas).some(permissions => !isEmpty(permissions));
   const isSubmitDisabled = !selectedRoles.length;
 
   const { isOAuth2, provider } = getUserSSOState(selectedUser);
@@ -172,20 +180,26 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
         />
       )}
       <UserRolesSelect disabled={!isEnterprise} currentUser={currentUser} onSelect={onRolesSelect} roles={roles} user={selectedUser} />
-      {!!(Object.keys(groups).length || Object.keys(areas).length) && (
+      {!!(hasScopedPermissionsDefined || !isEmpty(areas)) && (
         <InputLabel className="margin-top" shrink>
           Role permissions
         </InputLabel>
       )}
       <TwoColumnData className={rolesClasses} config={areas} />
-      {!!Object.keys(groups).length && (
-        <>
-          <InputLabel className="margin-top-small" shrink>
-            Device groups
-          </InputLabel>
-          <TwoColumnData className={rolesClasses} config={groups} />
-        </>
-      )}
+      {Object.entries(scopedAreas).reduce((accu, [area, areaPermissions]) => {
+        if (isEmpty(areaPermissions)) {
+          return accu;
+        }
+        accu.push(
+          <>
+            <InputLabel className="margin-top-small" shrink>
+              {scopedPermissionAreas[area]}
+            </InputLabel>
+            <TwoColumnData className={rolesClasses} config={areaPermissions} />
+          </>
+        );
+        return accu;
+      }, [])}
       <Divider className={classes.divider} light />
       <div className={`flexbox centered margin-top ${classes.actionButtons}`}>
         <Button className={classes.leftButton} onClick={onCancel}>

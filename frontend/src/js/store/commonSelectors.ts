@@ -257,7 +257,7 @@ export const getAuditlogDevice = createSelector([getAuditLogEntry, getDevicesByI
 export const getRelevantRoles = createSelector([getOrganization, getRolesList], ({ service_provider }, roles) => {
   if (service_provider) {
     return roles.reduce((accu, role) => {
-      if (rolesById[role.id]) {
+      if (rolesById[role.value]) {
         return accu;
       }
       accu.push(role);
@@ -267,7 +267,7 @@ export const getRelevantRoles = createSelector([getOrganization, getRolesList], 
   return Object.keys(rolesById)
     .reverse()
     .reduce((accu, key) => {
-      const index = accu.findIndex(({ id }) => id === key);
+      const index = accu.findIndex(({ value }) => value === key);
       accu = [accu[index], ...accu.filter((item, itemIndex) => index !== itemIndex)];
       return accu;
     }, roles);
