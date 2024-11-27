@@ -22,6 +22,10 @@ const unauthorizedRedirect = error => {
     cleanUp();
     window.location.replace('/ui/');
   }
+  if (error.response?.status === 403 && window.sessionStorage.getItem('tenantChanged')) {
+    window.sessionStorage.removeItem('tenantChanged');
+    window.location.replace('/ui/');
+  }
   return Promise.reject(error);
 };
 
