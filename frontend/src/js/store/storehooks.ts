@@ -121,7 +121,7 @@ export const parseEnvironmentInfo = () => (dispatch, getState) => {
     dispatch(storeActions.setOnboardingComplete(onboardingComplete)),
     dispatch(storeActions.setDemoArtifactPort(demoArtifactPort)),
     dispatch(storeActions.setFeatures(environmentFeatures)),
-    dispatch(storeActions.setVersionInformation({ docsVersion: versionInfo.docs, value: versionInfo.remainder })),
+    dispatch(storeActions.setVersionInformation({ ...versionInfo.remainder, docsVersion: versionInfo.docs })),
     dispatch(storeActions.setEnvironmentData(environmentData)),
     dispatch(getLatestReleaseInfo())
   ]);

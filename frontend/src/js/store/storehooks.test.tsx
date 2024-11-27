@@ -85,16 +85,14 @@ const appInitActions = [
     type: appActions.setVersionInformation.type,
     payload: {
       docsVersion: '',
-      value: {
-        Deployments: '1.2.3',
-        Deviceauth: null,
-        GUI: undefined,
-        Integration: 'master',
-        Inventory: null,
-        'Mender-Artifact': undefined,
-        'Mender-Client': 'next',
-        'Meta-Mender': 'saas-123.34'
-      }
+      Deployments: '1.2.3',
+      Deviceauth: null,
+      GUI: undefined,
+      Integration: 'master',
+      Inventory: null,
+      'Mender-Artifact': undefined,
+      'Mender-Client': 'next',
+      'Meta-Mender': 'saas-123.34'
     }
   },
   {
