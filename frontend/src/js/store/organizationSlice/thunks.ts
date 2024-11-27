@@ -183,7 +183,12 @@ export const tenantDataDivergedMessage = 'The system detected there is a change 
 
 export const addTenant = createAsyncThunk(`${sliceName}/createTenant`, (selectionState, { dispatch }) => {
   return Api.post(`${tenantadmApiUrlv2}/tenants`, selectionState)
-    .then(() => Promise.all([dispatch(getTenants()), dispatch(setSnackbar('Tenant was created successfully.'))]))
+    .then(() =>
+      Promise.all([
+        dispatch(setSnackbar('Tenant was created successfully.')),
+        new Promise(resolve => setTimeout(() => resolve(dispatch(getTenants())), TIMEOUTS.oneSecond))
+      ])
+    )
     .catch(err => commonErrorHandler(err, 'There was an error creating tenant', dispatch, commonErrorFallback));
 });
 
@@ -222,13 +227,23 @@ export const editTenantDeviceLimit = createAsyncThunk(`${sliceName}/editDeviceLi
   return Api.put(`${tenantadmApiUrlv2}/tenants/${id}/child`, { device_limit: newLimit, name })
     .catch(err => commonErrorHandler(err, `Device Limit cannot be changed`, dispatch))
     .then(() => {
-      return Promise.all([dispatch(setSnackbar('Device Limit was changed successfully')), dispatch(getTenants()), dispatch(getUserOrganization())]);
+      return Promise.all([
+        dispatch(setSnackbar('Device Limit was changed successfully')),
+        dispatch(getUserOrganization()),
+        new Promise(resolve => setTimeout(() => resolve(dispatch(getTenants())), TIMEOUTS.oneSecond))
+      ]);
     });
 });
 export const removeTenant = createAsyncThunk(`${sliceName}/editDeviceLimit`, ({ id }: { id: string }, { dispatch }) => {
   return Api.post(`${tenantadmApiUrlv2}/tenants/${id}/remove/start`)
     .catch(err => commonErrorHandler(err, `There was an error removing the tenant`, dispatch))
-    .then(() => Promise.all([dispatch(setSnackbar('The tenant was removed successfully')), dispatch(getTenants()), dispatch(getUserOrganization())]));
+    .then(() =>
+      Promise.all([
+        dispatch(setSnackbar('The tenant was removed successfully')),
+        dispatch(getUserOrganization()),
+        new Promise(resolve => setTimeout(() => resolve(dispatch(getTenants())), TIMEOUTS.oneSecond))
+      ])
+    );
 });
 export const getUserOrganization = createAsyncThunk(`${sliceName}/getUserOrganization`, (_, { dispatch, getState }) => {
   return Api.get(`${tenantadmApiUrlv1}/user/tenant`).then(res => {

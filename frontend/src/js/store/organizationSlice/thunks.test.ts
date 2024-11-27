@@ -623,8 +623,8 @@ describe('organization actions', () => {
     expect(store.getActions()).toHaveLength(0);
     const expectedActions = [
       { type: addTenant.pending.type },
-      { type: getTenants.pending.type },
       { type: appActions.setSnackbar.type, payload: 'Tenant was created successfully.' },
+      { type: getTenants.pending.type },
       { type: actions.setTenantListState.type },
       { type: getTenants.fulfilled.type },
       { type: addTenant.fulfilled.type }
@@ -638,11 +638,10 @@ describe('organization actions', () => {
       })
     );
     expect(request).resolves.toBeTruthy();
-    await request.then(() => {
-      const storeActions = store.getActions();
-      expect(storeActions).toHaveLength(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
-    });
+    await jest.runOnlyPendingTimersAsync();
+    const storeActions = store.getActions();
+    expect(storeActions).toHaveLength(expectedActions.length);
+    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow retrieving tenant', async () => {
     const store = mockStore({ ...defaultState });
@@ -650,11 +649,10 @@ describe('organization actions', () => {
     const expectedActions = [{ type: getTenants.pending.type }, { type: actions.setTenantListState.type }, { type: getTenants.fulfilled.type }];
     const request = store.dispatch(getTenants());
     expect(request).resolves.toBeTruthy();
-    await request.then(() => {
-      const storeActions = store.getActions();
-      expect(storeActions).toHaveLength(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
-    });
+    await jest.runOnlyPendingTimersAsync();
+    const storeActions = store.getActions();
+    expect(storeActions).toHaveLength(expectedActions.length);
+    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow changing tenants device limit', async () => {
     const store = mockStore({
@@ -666,21 +664,20 @@ describe('organization actions', () => {
     const expectedActions = [
       { type: editTenantDeviceLimit.pending.type },
       { type: appActions.setSnackbar.type, payload: 'Device Limit was changed successfully' },
-      { type: getTenants.pending.type },
       { type: getUserOrganization.pending.type },
       { type: actions.setOrganization.type },
       { type: appActions.setAnnouncement.type, payload: tenantDataDivergedMessage },
       { type: getUserOrganization.fulfilled.type },
+      { type: getTenants.pending.type },
       { type: actions.setTenantListState.type },
       { type: getTenants.fulfilled.type },
       { type: editTenantDeviceLimit.fulfilled.type }
     ];
     const request = store.dispatch(editTenantDeviceLimit({ id: '671a0f1dd58c813118fe8622', name: 'child2', newLimit: 2 }));
     expect(request).resolves.toBeTruthy();
-    await request.then(() => {
-      const storeActions = store.getActions();
-      expect(storeActions).toHaveLength(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
-    });
+    await jest.runOnlyPendingTimersAsync();
+    const storeActions = store.getActions();
+    expect(storeActions).toHaveLength(expectedActions.length);
+    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 });
