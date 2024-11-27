@@ -359,25 +359,12 @@ services:
         aliases: [mender-nats]
 
   client:
-    image: mendersoftware/mender-client-docker-addons:mender-master
+    image: mendersoftware/mender-client-qemu:mender-master
     scale: 0
-    configs:
-      - source: client_json
-        target: /etc/mender/mender.conf
-    volumes:
-      - ./compose/certs/mender.crt:/var/lib/mender/mender.crt
-
-configs:
-  client_json:
-    content: |
-      {
-        "InventoryPollIntervalSeconds": 5,
-        "RetryPollIntervalSeconds": 5,
-        "ServerURL": "${SERVER_URL:-https://docker.mender.io}",
-        "ServerCertificate": "/var/lib/mender/mender.crt",
-        "UpdatePollIntervalSeconds": 5,
-        "TenantToken": "${TENANT_TOKEN:-}"
-      }
+    privileged: true
+    environment:
+      SERVER_URL: "${SERVER_URL:-https://docker.mender.io}"
+      TENANT_TOKEN: "${TENANT_TOKEN:-}"
 
 volumes:
   mongo: {}

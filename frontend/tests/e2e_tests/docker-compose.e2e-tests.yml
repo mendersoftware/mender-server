@@ -55,6 +55,7 @@ services:
 
   client:
     scale: 1
+    image: mendersoftware/mender-client-docker-addons:mender-master
     configs:
       - source: client_json
         target: /etc/mender/mender.conf
