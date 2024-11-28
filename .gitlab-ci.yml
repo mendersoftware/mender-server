@@ -371,7 +371,7 @@ publish:backend:docker:
     - export MENDER_PUBLISH_TAG="${CI_COMMIT_REF_NAME}"
   script:
     - make -C backend -j 4 docker-publish NOASK=y \
-          SKOPEO_ARGS='--digestfile '''${CI_PROJECT_DIR}'''/.digests/$(COMPONENT)'
+      SKOPEO_ARGS='--digestfile '''${CI_PROJECT_DIR}'''/.digests/$(COMPONENT)'
     - |
       if echo -n "${MENDER_PUBLISH_TAG}" | grep -E '^v[0-9]+\.v[0-9]+\.[0-9]+$'; then
          make -C backend -j 4 docker-publish NOASK=y \
@@ -418,7 +418,7 @@ publish:backend:licenses:
     paths:
       - backend/licenses.md
 
-publish:backend:licenses:docs-site:
+publish:licenses:docs-site:
   stage: .post
   tags:
     - hetzner-amd-beefy
@@ -429,6 +429,8 @@ publish:backend:licenses:docs-site:
   image: "registry.gitlab.com/northern.tech/mender/mender-test-containers:release-please-v1-master"
   needs:
     - job: publish:backend:licenses
+      artifacts: true
+    - job: publish:frontend:licenses
       artifacts: true
   before_script:
     # Setting up git
@@ -442,6 +444,7 @@ publish:backend:licenses:docs-site:
     - git checkout -b licenses-${CI_JOB_ID}
     - cat ../.licenses_header.md > ${LICENSE_REMOTE_FILE}
     - cat ../backend/licenses.md >> ${LICENSE_REMOTE_FILE}
+    - cat ../frontend/licenses.md >> ${LICENSE_REMOTE_FILE}
     - git add ${LICENSE_REMOTE_FILE}
     - |
       git commit -s -m "chore: add mender-server open source licenses"
@@ -457,7 +460,6 @@ coveralls:done:
     - curl "https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN&carryforward=frontend-unit,frontend-e2e,frontend-e2e-enterprise,create-artifact-worker-unit,deployments-unit,deployments-acceptance,deviceauth-unit,deviceauth-acceptance,deviceconfig-unit,deviceconfig-acceptance,deviceconnect-unit,deviceconnect-acceptance,inventory-unit,inventory-acceptance,iot-manager-unit,iot-manager-acceptance,useradm-unit,useradm-acceptance,workflows-unit,workflows-acceptance,integration" -d "payload[build_num]=$CI_PIPELINE_ID&payload[status]=done"
   tags:
     - hetzner-amd-beefy
-
 
 lint:commit:
   stage: lint
@@ -477,10 +479,11 @@ changelog:
   image: "registry.gitlab.com/northern.tech/mender/mender-test-containers:release-please-v1-master"
   stage: changelog
   variables:
-    GIT_DEPTH: 0  # Always get the full history
-    GIT_STRATEGY: clone  # Always get the full history
-    GIT_CLIFF__BUMP__INITIAL_TAG: "4.0.0"  # TODO: after the new tag is created,
-                                           # remove this variable
+    GIT_DEPTH: 0 # Always get the full history
+    GIT_STRATEGY: clone # Always get the full history
+    GIT_CLIFF__BUMP__INITIAL_TAG:
+      "4.0.0" # TODO: after the new tag is created,
+      # remove this variable
   tags:
     - hetzner-amd-beefy
   rules:
@@ -496,12 +499,12 @@ changelog:
     - export GITHUB_TOKEN=${GITHUB_CLI_TOKEN}
   script:
     - release-please release-pr
-        --token=${GITHUB_BOT_TOKEN_REPO_FULL}
-        --repo-url=${GITHUB_REPO_URL}
-        --target-branch=${CI_COMMIT_REF_NAME} || echo "INFO - release already exists" # workaround because we shifted to prerelease versioning strategy and there's already a PR open
+      --token=${GITHUB_BOT_TOKEN_REPO_FULL}
+      --repo-url=${GITHUB_REPO_URL}
+      --target-branch=${CI_COMMIT_REF_NAME} || echo "INFO - release already exists" # workaround because we shifted to prerelease versioning strategy and there's already a PR open
     # git cliff: override the changelog
     - test $GIT_CLIFF == "false" && echo "INFO - Skipping git-cliff" && exit 0
-    - git remote add github-${CI_JOB_ID} https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_REPO_URL} || true  # Ignore already existing remote
+    - git remote add github-${CI_JOB_ID} https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_REPO_URL} || true # Ignore already existing remote
     - gh repo set-default https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_REPO_URL}
     - RELEASE_PLEASE_PR=$(gh pr list --author "${GITHUB_USER_NAME}" --head "release-please--branches--${CI_COMMIT_REF_NAME}" --json number | jq -r '.[0].number // empty')
     - test -z "$RELEASE_PLEASE_PR" && echo "No release-please PR found" && exit 0
@@ -534,9 +537,9 @@ release:github:
     - job: changelog
   script:
     - release-please github-release
-        --token=${GITHUB_BOT_TOKEN_REPO_FULL}
-        --repo-url=${GITHUB_REPO_URL}
-        --target-branch=${CI_COMMIT_REF_NAME}
+      --token=${GITHUB_BOT_TOKEN_REPO_FULL}
+      --repo-url=${GITHUB_REPO_URL}
+      --target-branch=${CI_COMMIT_REF_NAME}
 
 release:mender-docs-changelog:
   image: "registry.gitlab.com/northern.tech/mender/mender-test-containers:release-please-v1-master"
@@ -662,7 +665,6 @@ release:mender-docs-changelog:
     - git remote remove github-${CI_JOB_ID}
     - cd ${PROJECT_FOLDER}
     - rm -rf /tmp/helm
-
 
 #
 # Mender Helm Rolling release
