@@ -146,6 +146,7 @@ export const switchUserOrganization = createAsyncThunk(`${sliceName}/switchUserO
     return Promise.reject();
   }
   return GeneralApi.get(`${useradmApiUrl}/users/tenants/${tenantId}/token`).then(({ data: token }) => {
+    window.sessionStorage.setItem('tenantChanged', 'true');
     setSessionInfo({ ...getSessionInfo(), token });
     window.location.reload();
   });
