@@ -42,7 +42,7 @@ test.describe('Settings', () => {
       }
       await tokenGenerationButton.waitFor();
     });
-    test('allows generating & revoking tokens', async ({ baseUrl, browserName, loggedInPage: page }) => {
+    test('allows generating & revoking tokens', async ({ baseUrl, browserName, loggedInPage: page }, { retry }) => {
       await page.goto(`${baseUrl}ui/settings`);
       const tokenGenerationButton = await page.getByText(/generate a token/i);
       await tokenGenerationButton.waitFor();
@@ -54,8 +54,9 @@ test.describe('Settings', () => {
         await revokeTokenButton.click();
       }
       await tokenGenerationButton.click();
+      const tokenName = `aNewToken-${retry}`;
       await page.getByText(/Create new token/i).waitFor();
-      await page.getByPlaceholder('Name').fill('aNewToken');
+      await page.getByPlaceholder('Name').fill(tokenName);
       await page.getByText(/a year/i).click({ force: true });
       await page.getByRole('option', { name: '7 days' }).click();
       await page.getByRole('button', { name: /Create token/i }).click();
@@ -65,7 +66,7 @@ test.describe('Settings', () => {
       await revokeTokenButton.waitFor();
       await revokeTokenButton.click();
       await tokenGenerationButton.click();
-      await page.getByPlaceholder(/Name/i).fill('aNewToken');
+      await page.getByPlaceholder(/Name/i).fill(tokenName);
       await page.getByRole('button', { name: /Create token/i }).click();
       await page.click('.code .MuiSvgIcon-root');
       await page.getByText(/copied to clipboard/i).waitFor();
