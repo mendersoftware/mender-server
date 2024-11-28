@@ -37,6 +37,9 @@ const palette = {
   primary: {
     main: '#4d8b96'
   },
+  border: {
+    main: '#e7e7e7'
+  },
   secondary: {
     lighter: '#9e6f8e',
     light: '#8e577b',

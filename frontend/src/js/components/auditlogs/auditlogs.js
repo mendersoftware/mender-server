@@ -14,16 +14,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Button, TextField } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import EnterpriseNotification, { DefaultUpgradeNotification } from '@northern.tech/common-ui/enterpriseNotification';
-import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/autocomplete';
-import ClickFilter from '@northern.tech/common-ui/forms/clickfilter';
-import Filters from '@northern.tech/common-ui/forms/filters';
-import TimeframePicker from '@northern.tech/common-ui/forms/timeframe-picker';
-import { InfoHintContainer } from '@northern.tech/common-ui/info-hint';
-import Loader from '@northern.tech/common-ui/loader';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
 import { AUDIT_LOGS_TYPES, BEGINNING_OF_TIME, BENEFITS, SORTING_OPTIONS, SP_AUDIT_LOGS_TYPES, TIMEOUTS } from '@northern.tech/store/constants';
 import {
@@ -42,12 +35,13 @@ import { useLocationParams } from '@northern.tech/utils/liststatehook';
 import dayjs from 'dayjs';
 
 import historyImage from '../../../assets/img/history.png';
+import AuditLogsFilter from './AuditLogsFilter';
+import AuditlogsView from './AuditlogsView';
+import { ActionDescriptor, ChangeDescriptor, ChangeDetailsDescriptor, TimeWrapper, TypeDescriptor, UserDescriptor } from './ColumnComponents';
+import EventDetailsDrawerContentMap from './EventDetailsDrawerContentMap';
 import AuditLogsList from './auditlogslist';
-
-const detailsMap = {
-  Deployment: 'to device group',
-  User: 'email'
-};
+import EventDetailsFallbackComponent from './eventdetails/FallbackComponent';
+import EventDetailsDrawer from './eventdetailsdrawer';
 
 const useStyles = makeStyles()(theme => ({
   filters: {
@@ -64,23 +58,11 @@ const useStyles = makeStyles()(theme => ({
   upgradeNote: { marginTop: '5vh', placeSelf: 'center' }
 }));
 
-const getOptionLabel = option => option.title ?? option.email ?? option;
-
-const renderOption = (props, option) => <li {...props}>{getOptionLabel(option)}</li>;
-
 const isUserOptionEqualToValue = ({ email, id }, value) => id === value || email === value || email === value?.email;
-
-const autoSelectProps = {
-  autoSelect: true,
-  filterSelectedOptions: true,
-  getOptionLabel,
-  handleHomeEndKeys: true,
-  renderOption
-};
 
 const locationDefaults = { sort: { direction: SORTING_OPTIONS.desc } };
 
-export const AuditLogs = props => {
+export const AuditLogs = () => {
   const [csvLoading, setCsvLoading] = useState(false);
 
   const [date] = useState(getISOStringBoundaries(new Date()));
@@ -103,8 +85,14 @@ export const AuditLogs = props => {
   const [dirtyField, setDirtyField] = useState('');
   const { token } = useSelector(getCurrentSession);
   const isSP = useSelector(getIsServiceProvider);
+  const { detail, perPage, endDate, user, sort, startDate, type, total, isLoading } = selectionState;
+  const [auditLogsTypes, setAuditLogsTypes] = useState(AUDIT_LOGS_TYPES);
 
-  const { detail, isLoading, perPage, endDate, user, sort, startDate, total, type } = selectionState;
+  useEffect(() => {
+    if (isSP) {
+      setAuditLogsTypes(SP_AUDIT_LOGS_TYPES);
+    }
+  }, [isSP]);
 
   useEffect(() => {
     if (!hasAuditlogs || !isInitialized.current) {
@@ -195,6 +183,9 @@ export const AuditLogs = props => {
 
   const onChangePagination = (page, currentPerPage = perPage) => dispatch(setAuditlogsState({ page, perPage: currentPerPage }));
 
+  const onIssueSelection = selectedIssue =>
+    dispatch(setAuditlogsState({ selectedId: selectedIssue ? btoa(`${selectedIssue.action}|${selectedIssue.time}`) : undefined }));
+
   const onFiltersChange = useCallback(
     ({ endDate, detail, startDate, user, type }) => {
       if (!isInitialized.current) {
@@ -207,93 +198,44 @@ export const AuditLogs = props => {
     [dispatch, JSON.stringify(users)]
   );
 
-  const typeOptionsMap = {
-    Deployment: groups,
-    User: Object.values(users)
-  };
-  const detailOptions = typeOptionsMap[type?.title] ?? [];
-
   return (
-    <div className="fadeIn margin-left flexbox column" style={{ marginRight: '5%' }}>
-      <div className="flexbox center-aligned">
-        <h3 className="margin-right-small">Audit log</h3>
-        <InfoHintContainer>
-          <EnterpriseNotification id={BENEFITS.auditlog.id} />
-        </InfoHintContainer>
-      </div>
-      <ClickFilter disabled={!hasAuditlogs}>
-        <Filters
-          initialValues={{ startDate, endDate, user, type, detail }}
-          defaultValues={{ startDate: today, endDate: tonight, user: '', type: null, detail: '' }}
-          fieldResetTrigger={detailsReset}
+    <AuditlogsView
+      createCsvDownload={createCsvDownload}
+      hasAuditlogs={hasAuditlogs}
+      total={total}
+      csvLoading={csvLoading}
+      infoHintComponent={<EnterpriseNotification id={BENEFITS.auditlog.id} />}
+      auditLogsFilter={
+        <AuditLogsFilter
+          groups={groups}
+          users={users}
+          disabled={!hasAuditlogs}
+          onFiltersChange={onFiltersChange}
+          detailsReset={detailsReset}
+          selectionState={selectionState}
+          auditLogsTypes={auditLogsTypes}
           dirtyField={dirtyField}
-          clearDirty={setDirtyField}
-          filters={[
-            {
-              key: 'user',
-              title: 'Performed by',
-              Component: ControlledAutoComplete,
-              componentProps: {
-                ...autoSelectProps,
-                freeSolo: true,
-                isOptionEqualToValue: isUserOptionEqualToValue,
-                options: Object.values(users),
-                renderInput: params => <TextField {...params} placeholder="Select a user" InputProps={{ ...params.InputProps }} />
-              }
-            },
-            {
-              key: 'type',
-              title: 'Filter by changes',
-              Component: ControlledAutoComplete,
-              componentProps: {
-                ...autoSelectProps,
-                options: isSP ? SP_AUDIT_LOGS_TYPES : AUDIT_LOGS_TYPES,
-                isOptionEqualToValue: (option, value) => option.value === value.value && option.object_type === value.object_type,
-                renderInput: params => <TextField {...params} placeholder="Type" InputProps={{ ...params.InputProps }} />
-              }
-            },
-            {
-              key: 'detail',
-              title: '',
-              Component: ControlledAutoComplete,
-              componentProps: {
-                ...autoSelectProps,
-                freeSolo: true,
-                options: detailOptions,
-                disabled: !type,
-                renderInput: params => <TextField {...params} placeholder={detailsMap[type] || '-'} InputProps={{ ...params.InputProps }} />
-              }
-            },
-            {
-              key: 'timeframe',
-              title: 'Start time',
-              Component: TimeframePicker,
-              componentProps: {
-                tonight
-              }
-            }
-          ]}
-          onChange={onFiltersChange}
+          setDirtyField={setDirtyField}
         />
-      </ClickFilter>
-      <div className="flexbox center-aligned" style={{ justifyContent: 'flex-end' }}>
-        <Loader show={csvLoading} />
-        <Button variant="contained" color="secondary" disabled={csvLoading || !total} onClick={createCsvDownload} style={{ marginLeft: 15 }}>
-          Download results as csv
-        </Button>
-      </div>
+      }
+    >
       {!!total && (
         <AuditLogsList
-          {...props}
           items={events}
-          eventItem={eventItem}
-          loading={isLoading}
           onChangePage={onChangePagination}
           onChangeRowsPerPage={newPerPage => onChangePagination(1, newPerPage)}
           onChangeSorting={onChangeSorting}
           selectionState={selectionState}
-          setAuditlogsState={state => dispatch(setAuditlogsState(state))}
+          onIssueSelection={onIssueSelection}
           userCapabilities={userCapabilities}
+          auditLogColumns={[
+            { title: 'Performed by', sortable: false, render: UserDescriptor },
+            { title: 'Action', sortable: false, render: ActionDescriptor },
+            { title: 'Type', sortable: false, render: TypeDescriptor },
+            { title: 'Changed', sortable: false, render: ChangeDescriptor },
+            { title: 'More details', sortable: false, render: ChangeDetailsDescriptor },
+            { title: 'Time', sortable: true, render: TimeWrapper }
+          ]}
         />
       )}
       {!(isLoading || total) && hasAuditlogs && (
@@ -309,7 +251,14 @@ export const AuditLogs = props => {
           <MenderHelpTooltip id={HELPTOOLTIPS.auditlogExplanation.id} />
         </div>
       )}
-    </div>
+      <EventDetailsDrawer
+        mapChangeToContent={EventDetailsDrawerContentMap}
+        fallbackComponent={EventDetailsFallbackComponent}
+        eventItem={eventItem}
+        open={Boolean(eventItem)}
+        onClose={() => onIssueSelection()}
+      />
+    </AuditlogsView>
   );
 };
 

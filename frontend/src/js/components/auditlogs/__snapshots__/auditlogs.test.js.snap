@@ -339,7 +339,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
       </button>
     </div>
     <div
-      class="fadeIn deploy-table-contain auditlogs-list"
+      class="fadeIn deploy-table-contain auditlogs-list css-5d1fco-auditlogsList"
     >
       <div
         class="auditlogs-list-item auditlogs-list-item-header muted"
