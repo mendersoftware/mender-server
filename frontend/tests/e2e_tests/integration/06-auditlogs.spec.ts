@@ -31,25 +31,41 @@ const checkDownloadedReplayForSecret = async (path, secret) => {
     crlfDelay: Infinity
   });
   for await (const line of lines) {
-    if (line.includes(search)) {
-      const encodedText = line.substring(line.indexOf(search) + search.length, line.lastIndexOf(`}]';`));
-      const jsonContent = Buffer.from(encodedText, 'base64').toString();
-      let content;
-      let decodedContent;
-      try {
-        content = JSON.parse(jsonContent);
-        decodedContent = String.fromCharCode(...content.data);
-      } catch (error) {
-        console.log('checkDownloadedReplayForSecret', error);
-        console.log('checkDownloadedReplayForSecret - encodedText', encodedText);
-        console.log('checkDownloadedReplayForSecret - jsonContent', jsonContent);
-        console.log('checkDownloadedReplayForSecret - decodedContent', decodedContent);
-      }
-      expect(decodedContent).toBeTruthy();
-      expect(decodedContent).not.toContain(secret);
-      fileStream.close();
-      return;
+    if (!line.includes(search)) {
+      continue;
     }
+    const transferContent = line.substring(line.indexOf('['), line.lastIndexOf(']') + 1);
+    let candidates = [];
+    try {
+      candidates = JSON.parse(transferContent);
+    } catch (error) {
+      console.error('checkDownloadedReplayForSecret - content parsing failed with', error);
+      throw error;
+    }
+    const { hadContent, containedSecret } = candidates.reduce(
+      (accu, { content: encodedText }) => {
+        const jsonContent = Buffer.from(encodedText, 'base64').toString();
+        if (jsonContent === 'undefined') {
+          // pure delay entries will have undefined content, ignore those
+          return accu;
+        }
+        let content;
+        let decodedContent;
+        try {
+          content = JSON.parse(jsonContent);
+          decodedContent = String.fromCharCode(...content.data);
+        } catch (error) {
+          console.log('checkDownloadedReplayForSecret', error);
+          console.log('checkDownloadedReplayForSecret - encodedText', encodedText);
+        }
+        return { hadContent: accu.hadContent || !!decodedContent, containedSecret: accu.containedSecret || decodedContent.includes(secret) };
+      },
+      { hadContent: false, containedSecret: false }
+    );
+    expect(hadContent).toBeTruthy();
+    expect(containedSecret).toBeFalsy();
+    fileStream.close();
+    return;
   }
   fileStream.close();
 };
