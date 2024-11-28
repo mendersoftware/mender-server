@@ -16,7 +16,7 @@ import React from 'react';
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
 import EventDetailsDrawerContentMap from './EventDetailsDrawerContentMap';
-import EventDetailsFallbackComponent from './eventdetails/FallbackComponent.js';
+import EventDetailsFallbackComponent from './eventdetails/FallbackComponent';
 import EventDetailsDrawer from './eventdetailsdrawer';
 
 describe('EventDetailsDrawer Component', () => {

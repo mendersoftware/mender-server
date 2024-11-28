@@ -11,6 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import EventDetailsFallbackComponent from './eventdetails/FallbackComponent';
 import DeviceConfiguration from './eventdetails/deviceconfiguration';
 import FileTransfer from './eventdetails/filetransfer';
 import PortForward from './eventdetails/portforward';
@@ -28,7 +29,7 @@ const configChangeDescriptor = {
   deploy_configuration: 'deployment'
 };
 
-const EventDetailsDrawerContentMap = (item, FallbackComponent = null) => {
+const EventDetailsDrawerContentMap = (item, FallbackComponent = EventDetailsFallbackComponent) => {
   const { type } = item.object || {};
   let content = { title: 'Entry details', content: FallbackComponent };
   if (type === changeTypes.user) {

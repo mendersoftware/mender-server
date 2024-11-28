@@ -18,9 +18,9 @@ import { useTheme } from '@mui/material/styles';
 
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 
-export const EventDetailsDrawer = ({ eventItem = {}, onClose, open, mapChangeToContent, fallbackComponenet }) => {
+export const EventDetailsDrawer = ({ eventItem = {}, onClose, open, mapChangeToContent, fallbackComponent }) => {
   const theme = useTheme();
-  const { title, content: Component } = mapChangeToContent(eventItem, fallbackComponenet);
+  const { title, content: Component } = mapChangeToContent(eventItem, fallbackComponent);
   return (
     <Drawer className={`${open ? 'fadeIn' : 'fadeOut'}`} anchor="right" open={open} onClose={onClose}>
       <DrawerTitle title={<div className="capitalized-start">{title}</div>} onClose={onClose} />

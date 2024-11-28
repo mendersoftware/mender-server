@@ -36,11 +36,11 @@ import dayjs from 'dayjs';
 
 import historyImage from '../../../assets/img/history.png';
 import AuditLogsFilter from './AuditLogsFilter';
-import AuditlogsView from './AuditlogsView.jsx';
-import { ActionDescriptor, ChangeDescriptor, ChangeDetailsDescriptor, TimeWrapper, TypeDescriptor, UserDescriptor } from './ColumnComponents.js';
+import AuditlogsView from './AuditlogsView';
+import { ActionDescriptor, ChangeDescriptor, ChangeDetailsDescriptor, TimeWrapper, TypeDescriptor, UserDescriptor } from './ColumnComponents';
 import EventDetailsDrawerContentMap from './EventDetailsDrawerContentMap';
 import AuditLogsList from './auditlogslist';
-import EventDetailsFallbackComponent from './eventdetails/FallbackComponent.js';
+import EventDetailsFallbackComponent from './eventdetails/FallbackComponent';
 import EventDetailsDrawer from './eventdetailsdrawer';
 
 const useStyles = makeStyles()(theme => ({
@@ -253,7 +253,7 @@ export const AuditLogs = () => {
       )}
       <EventDetailsDrawer
         mapChangeToContent={EventDetailsDrawerContentMap}
-        fallbackComponenet={EventDetailsFallbackComponent}
+        fallbackComponent={EventDetailsFallbackComponent}
         eventItem={eventItem}
         open={Boolean(eventItem)}
         onClose={() => onIssueSelection()}
