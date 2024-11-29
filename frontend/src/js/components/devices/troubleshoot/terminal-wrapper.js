@@ -13,15 +13,17 @@
 //    limitations under the License.
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Dropzone from 'react-dropzone';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import Loader from '@northern.tech/common-ui/loader';
 import { MaybeTime } from '@northern.tech/common-ui/time';
 import { BEGINNING_OF_TIME, TIMEOUTS } from '@northern.tech/store/constants';
 import { getCurrentSession, getFeatures, getIsPreview, getTenantCapabilities, getUserCapabilities } from '@northern.tech/store/selectors';
+import { triggerDeviceUpdate } from '@northern.tech/store/thunks';
 import { useSession } from '@northern.tech/utils/sockethook';
 import dayjs from 'dayjs';
 import durationDayJs from 'dayjs/plugin/duration';
@@ -84,10 +86,25 @@ const SessionInfo = ({ socketInitialized, startTime }) => {
   );
 };
 
+const DeviceUpdateTitle = ({ loading, title }) => {
+  if (!loading) {
+    return <div>{title}</div>;
+  }
+  return (
+    <div className="flexbox center-aligned">
+      <div className="margin-right-x-small">{title}</div>
+      <Loader show small table style={{ top: -20 }} />
+    </div>
+  );
+};
+
 const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUploadPath, setFile, setSnackbar, setSocketInitialized, socketInitialized }) => {
   const [terminalInput, setTerminalInput] = useState('');
   const [startTime, setStartTime] = useState();
   const [snackbarAlreadySet, setSnackbarAlreadySet] = useState(false);
+  const [isAwaitingCheckInUpdate, setIsAwaitingCheckInUpdate] = useState(false);
+  const [isAwaitingInventoryUpdate, setIsAwaitingInventoryUpdate] = useState(false);
+  const inventoryTimer = useRef();
   const snackTimer = useRef();
   const { classes } = useStyles();
   const termRef = useRef({ terminal: React.createRef(), terminalRef: React.createRef() });
@@ -97,6 +114,8 @@ const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUploadPat
   const { canAuditlog } = useSelector(getUserCapabilities);
   const canPreview = useSelector(getIsPreview);
   const { token } = useSelector(getCurrentSession);
+  const dispatch = useDispatch();
+
   const onMessageReceived = useCallback(message => {
     if (!termRef.current.terminal.current) {
       return;
@@ -183,6 +202,21 @@ const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUploadPat
     return close;
   }, [close, sessionState]);
 
+  useEffect(() => {
+    setIsAwaitingCheckInUpdate(false);
+  }, [device.check_in_time]);
+
+  useEffect(() => {
+    setIsAwaitingInventoryUpdate(false);
+    inventoryTimer.current = setTimeout(() => setIsAwaitingInventoryUpdate(false), TIMEOUTS.refreshLong);
+  }, [device.updated_ts]);
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(inventoryTimer.current);
+    };
+  }, []);
+
   const onConnectionToggle = () => {
     if (sessionState === WebSocket.CLOSED) {
       setStartTime();
@@ -201,6 +235,16 @@ const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUploadPat
     setTerminalInput(code);
   };
 
+  const onTriggerUpdateClick = useCallback(() => {
+    setIsAwaitingCheckInUpdate(true);
+    dispatch(triggerDeviceUpdate({ id: device.id, type: 'deploymentUpdate' }));
+  }, [dispatch, device.id]);
+
+  const onRequestInventoryUpdateClick = useCallback(() => {
+    setIsAwaitingInventoryUpdate(true);
+    dispatch(triggerDeviceUpdate({ id: device.id, type: 'inventoryUpdate' }));
+  }, [dispatch, device.id]);
+
   const onDrop = acceptedFiles => {
     if (acceptedFiles.length === 1) {
       setFile(acceptedFiles[0]);
@@ -208,7 +252,18 @@ const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUploadPat
     }
   };
 
-  const commandHandlers = isHosted && isEnterprise ? [{ key: 'thing', onClick: onMakeGatewayClick, title: 'Promote to Mender gateway' }] : [];
+  const commonCommandHandlers = [
+    { key: 'updateCheck', onClick: onTriggerUpdateClick, title: <DeviceUpdateTitle title="Trigger update check" loading={isAwaitingCheckInUpdate} /> },
+    {
+      key: 'inventoryUpdate',
+      onClick: onRequestInventoryUpdateClick,
+      title: <DeviceUpdateTitle title="Request inventory update" loading={isAwaitingInventoryUpdate} />
+    }
+  ];
+  const commandHandlers =
+    isHosted && isEnterprise
+      ? [{ key: 'gatewayPromotion', onClick: onMakeGatewayClick, title: 'Promote to Mender gateway' }, ...commonCommandHandlers]
+      : commonCommandHandlers;
 
   const visibilityToggle = !socketInitialized ? { maxHeight: 0, overflow: 'hidden' } : {};
   return (

@@ -26,7 +26,7 @@ import { inventoryDevice } from '../../../../tests/__mocks__/deviceHandlers';
 import { defaultState } from '../../../../tests/mockData';
 import { act, mockAbortController } from '../../../../tests/setupTests';
 import { actions as appActions } from '../appSlice';
-import { EXTERNAL_PROVIDER, UNGROUPED_GROUP } from '../constants';
+import { EXTERNAL_PROVIDER, TIMEOUTS, UNGROUPED_GROUP } from '../constants';
 import { actions as deploymentActions } from '../deploymentsSlice';
 import { DEVICE_STATES } from './constants';
 import {
@@ -73,6 +73,7 @@ import {
   setDeviceListState,
   setDeviceTags,
   setDeviceTwin,
+  triggerDeviceUpdate,
   updateDeviceAuth,
   updateDevicesAuth,
   updateDynamicGroup
@@ -991,8 +992,8 @@ describe('device retrieval ', () => {
       { type: getDeviceById.fulfilled.type },
       { type: getDeviceAuth.fulfilled.type },
       { type: actions.receivedDevice.type, payload: { connect_status: 'connected', connect_updated_ts: updated_ts, id } },
-      { type: actions.receivedDevice.type, payload: expectedDevice },
       { type: getDeviceConnect.fulfilled.type },
+      { type: actions.receivedDevice.type, payload: expectedDevice },
       { type: getDeviceTwin.fulfilled.type },
       { type: getDeviceInfo.fulfilled.type }
     ];
@@ -1185,7 +1186,40 @@ describe('troubleshooting related actions', () => {
 
     expect(result).toMatchObject({ start: new Date(endDate), end: new Date(endDate) });
   });
-
+  it('should allow triggering device inventory updates', async () => {
+    const store = mockStore({ ...defaultState });
+    const { attributes, id } = defaultState.devices.byId.a1;
+    const expectedActions = [
+      { type: triggerDeviceUpdate.pending.type },
+      { type: getDeviceById.pending.type },
+      { type: actions.receivedDevice.type, payload: { attributes, id } },
+      { type: getDeviceById.fulfilled.type },
+      { type: triggerDeviceUpdate.fulfilled.type }
+    ];
+    // no await here to allow moving beyond the delayed device info update in the next line
+    store.dispatch(triggerDeviceUpdate({ id: defaultState.devices.byId.a1.id, type: 'inventoryUpdate' }));
+    await jest.advanceTimersByTimeAsync(TIMEOUTS.fiveSeconds);
+    const storeActions = store.getActions();
+    expect(storeActions.length).toEqual(expectedActions.length);
+    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+  });
+  it('should allow triggering device deployment update checks', async () => {
+    const store = mockStore({ ...defaultState });
+    const { attributes, id } = defaultState.devices.byId.a1;
+    const expectedActions = [
+      { type: triggerDeviceUpdate.pending.type },
+      { type: getDeviceById.pending.type },
+      { type: actions.receivedDevice.type, payload: { attributes, id } },
+      { type: getDeviceById.fulfilled.type },
+      { type: triggerDeviceUpdate.fulfilled.type }
+    ];
+    // no await here to allow moving beyond the delayed device info update in the next line
+    store.dispatch(triggerDeviceUpdate({ id: defaultState.devices.byId.a1.id, type: 'deploymentUpdate' }));
+    await jest.advanceTimersByTimeAsync(TIMEOUTS.fiveSeconds);
+    const storeActions = store.getActions();
+    expect(storeActions.length).toEqual(expectedActions.length);
+    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+  });
   it('should allow device file transfers', async () => {
     const store = mockStore({ ...defaultState });
     const link = await store.dispatch(getDeviceFileDownloadLink({ deviceId: 'aDeviceId', path: '/tmp/file' })).unwrap();
