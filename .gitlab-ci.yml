@@ -313,6 +313,78 @@ test:integration:
   trigger:
     project: "Northern.tech/Mender/integration"
 
+test:prep:
+  stage: test
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      when: on_success
+  services:
+    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
+      alias: docker
+  script:
+    - docker run --rm --entrypoint "/bin/sh" -v $(pwd):/extract mendersoftware/mender-stress-test-client:master -c "cp mender-stress-test-client /extract/"
+  artifacts:
+    paths:
+      - mender-stress-test-client
+    expire_in: 2w
+  tags:
+    - hetzner-amd-beefy
+
+.template:test:staging-deployment:
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/mendersoftware/mender-test-containers:gui-e2e-testing
+  stage: .post
+  services:
+    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
+      alias: docker
+  only:
+    - main # can't use rules with delays: https://gitlab.com/gitlab-org/gitlab/-/issues/424203
+  when: delayed
+  needs:
+    - job: test:prep
+      artifacts: true
+  variables:
+    CI: 1
+    DEVICE_TYPE: qemux86-64
+    DOCKER_CERT_PATH: /certs/client
+    DOCKER_HOST: tcp://docker:2376
+    DOCKER_TLS_VERIFY: 1
+    TEST_ENVIRONMENT: staging
+  before_script:
+    - mv mender-stress-test-client frontend/tests/e2e_tests/
+    - cd frontend/tests/e2e_tests
+    - curl -fsSL https://get.docker.com | sh
+    - docker pull mendersoftware/mender-client-docker-addons:mender-3.6.x
+    - npm ci --cache .npm --prefer-offline
+    - npx playwright install
+  script:
+    - npm run test
+  artifacts:
+    expire_in: 2w
+    paths:
+      - frontend/tests/e2e_tests/test-results
+    when: always
+  tags:
+    - hetzner-amd-beefy-privileged
+
+test:staging-deployment:chrome:
+  extends: .template:test:staging-deployment
+  script:
+    - npm run test
+  start_in: 10 minutes
+
+test:staging-deployment:firefox:
+  extends: .template:test:staging-deployment
+  script:
+    - npm run test -- --browser=firefox
+  start_in: 35 minutes
+
+test:staging-deployment:webkit:
+  extends: .template:test:staging-deployment
+  script:
+    - npm run test -- --browser=webkit
+  start_in: 25 minutes
+
 publish:backend:coverage:
   stage: publish
   needs:
