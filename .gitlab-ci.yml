@@ -354,7 +354,7 @@ test:prep:
     - mv mender-stress-test-client frontend/tests/e2e_tests/
     - cd frontend/tests/e2e_tests
     - curl -fsSL https://get.docker.com | sh
-    - docker pull mendersoftware/mender-client-docker-addons:mender-3.6.x
+    - docker pull mendersoftware/mender-client-docker-addons:mender-master
     - npm ci --cache .npm --prefer-offline
     - npx playwright install
   script:
