@@ -113,7 +113,7 @@ test.describe('Files', () => {
     const editButton = await theDiv.getByRole('button', { name: /edit/i });
     await editButton.click();
     const input = await page.getByPlaceholder(/enter release tags/i);
-    await input.pressSequentially('some,tags', { delay: 100 });
+    await input.pressSequentially('some,tags', { delay: 300 });
     await page.getByTestId('CheckIcon').click();
     await page.waitForTimeout(timeouts.oneSecond);
     await expect(input).not.toBeVisible();

@@ -27,16 +27,12 @@ test.describe('RBAC functionality', () => {
       await page.goto(`${baseUrl}ui/settings`);
       await page.getByText(/Global settings/i).waitFor();
       await page.getByText(/user management/i).click();
-      await page.goto(`${baseUrl}ui/settings/user-management`);
       const isVisible = await page.getByRole('button', { name: /new user/i }).isVisible();
       if (!isVisible) {
         console.log('settings may not be loaded - move around');
         await page.goto(`${baseUrl}ui/help`);
         await page.goto(`${baseUrl}ui/settings/user-management`);
       }
-    });
-    test('allows access to user management', async ({ loggedInPage: page }) => {
-      await page.getByRole('button', { name: /new user/i }).isVisible();
     });
     test('allows role creation for static groups', async ({ environment, loggedInPage: page }) => {
       test.skip(!isEnterpriseOrStaging(environment));

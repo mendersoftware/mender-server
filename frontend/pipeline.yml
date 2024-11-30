@@ -145,6 +145,7 @@ build:frontend:docker:
       --provenance false
       --push
       .
+    - docker context use ci
     - docker run --rm --entrypoint "/bin/sh" -v $(pwd):/extract ${MENDER_IMAGE_GUI} -c "cp licenses.json /extract/"
   artifacts:
     expire_in: 1w
