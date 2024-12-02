@@ -77,6 +77,22 @@ test.describe('Device details', () => {
     await page.waitForSelector(selectors.deviceListItem);
   });
 
+  test('can be filtered into non-existence by numerical comparison', async ({ environment, loggedInPage: page }) => {
+    test.skip(!isEnterpriseOrStaging(environment), 'not available in OS');
+    test.setTimeout(2 * timeouts.fifteenSeconds);
+    await page.click(`.leftNav :text('Devices')`);
+    await page.getByRole('button', { name: /filters/i }).click();
+    await page.getByLabel(/attribute/i).fill('mem_total_kB');
+    await page.getByText(/equals/i).click();
+    await page.waitForTimeout(timeouts.default);
+    await page.getByRole('option', { name: '>' }).click();
+    await page.getByLabel(/value/i).fill('1000000000');
+    const filterChip = await page.getByRole('button', { name: 'mem_total_kB > 1000000000' });
+    await filterChip.waitFor({ timeout: timeouts.fiveSeconds });
+    await expect(filterChip).toBeVisible();
+    await expect(page.getByText('No devices found')).toBeVisible();
+  });
+
   test('can be filtered into non-existence', async ({ environment, loggedInPage: page }) => {
     test.skip(!isEnterpriseOrStaging(environment), 'not available in OS');
     test.setTimeout(2 * timeouts.fifteenSeconds);

@@ -59,7 +59,7 @@ export const DEVICE_FILTERING_OPTIONS = {
   },
   $ltne: {
     key: '$ltne',
-    title: '$ltne',
+    title: 'less than or does not exist',
     shortform: 'ltne',
     help: 'The "lesser than or does not exist" operator can work both on numbers and strings. In the latter case, the operator applies the lexicographical order to the value strings.'
   },

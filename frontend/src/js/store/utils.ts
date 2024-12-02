@@ -27,10 +27,6 @@ import {
 
 // for some reason these functions can not be stored in the deviceConstants...
 const filterProcessors = {
-  $gt: val => Number(val) || val,
-  $gte: val => Number(val) || val,
-  $lt: val => Number(val) || val,
-  $lte: val => Number(val) || val,
   $in: val => ('' + val).split(',').map(i => i.trim()),
   $nin: val => ('' + val).split(',').map(i => i.trim()),
   $exists: yes,
