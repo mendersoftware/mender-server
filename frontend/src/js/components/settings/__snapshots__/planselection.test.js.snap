@@ -6,9 +6,6 @@ exports[`PlanSelection component renders correctly 1`] = `
   border-radius: 5px;
   vertical-align: top;
   width: 32%;
-  -webkit-transition: all 0.2s ease;
-  transition: all 0.2s ease;
-  cursor: pointer;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -28,7 +25,6 @@ exports[`PlanSelection component renders correctly 1`] = `
 .emotion-0.muted,
 .emotion-0.muted:hover {
   cursor: default;
-  box-shadow: none;
 }
 
 .emotion-1 {
@@ -57,11 +53,7 @@ exports[`PlanSelection component renders correctly 1`] = `
   margin-right: 8px;
 }
 
-.emotion-2 {
-  font-size: 12px;
-}
-
-.emotion-6 {
+.emotion-4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -121,57 +113,57 @@ exports[`PlanSelection component renders correctly 1`] = `
   align-self: center;
 }
 
-.emotion-6::-moz-focus-inner {
+.emotion-4::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-6.Mui-disabled {
+.emotion-4.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-6 {
+  .emotion-4 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-6:hover {
+.emotion-4:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-6.Mui-disabled {
+.emotion-4.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-6:hover {
+.emotion-4:hover {
   box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 
 @media (hover: none) {
-  .emotion-6:hover {
+  .emotion-4:hover {
     box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
   }
 }
 
-.emotion-6:active {
+.emotion-4:active {
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-6.Mui-focusVisible {
+.emotion-4.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-6.Mui-disabled {
+.emotion-4.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-6:hover {
+  .emotion-4:hover {
     --variant-containedBg: rgb(35, 85, 94);
     --variant-textBg: rgba(51, 122, 135, 0.04);
     --variant-outlinedBorder: #337a87;
@@ -179,15 +171,15 @@ exports[`PlanSelection component renders correctly 1`] = `
   }
 }
 
-.emotion-6:hover {
+.emotion-4:hover {
   colors: #337a87;
 }
 
-.emotion-6.MuiButton-text {
+.emotion-4.MuiButton-text {
   color: rgba(10, 10, 11, 0.78);
 }
 
-.emotion-22 {
+.emotion-15 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -247,57 +239,57 @@ exports[`PlanSelection component renders correctly 1`] = `
   align-self: center;
 }
 
-.emotion-22::-moz-focus-inner {
+.emotion-15::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-22.Mui-disabled {
+.emotion-15.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-22 {
+  .emotion-15 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-22:hover {
+.emotion-15:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-22.Mui-disabled {
+.emotion-15.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-22:hover {
+.emotion-15:hover {
   box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 
 @media (hover: none) {
-  .emotion-22:hover {
+  .emotion-15:hover {
     box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
   }
 }
 
-.emotion-22:active {
+.emotion-15:active {
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-22.Mui-focusVisible {
+.emotion-15.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-22.Mui-disabled {
+.emotion-15.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-22:hover {
+  .emotion-15:hover {
     --variant-containedBg: rgb(65, 10, 46);
     --variant-textBg: rgba(93, 15, 67, 0.04);
     --variant-outlinedBorder: #5d0f43;
@@ -305,11 +297,11 @@ exports[`PlanSelection component renders correctly 1`] = `
   }
 }
 
-.emotion-22:hover {
+.emotion-15:hover {
   colors: #337a87;
 }
 
-.emotion-22.MuiButton-text {
+.emotion-15.MuiButton-text {
   color: rgba(10, 10, 11, 0.78);
 }
 
@@ -365,7 +357,7 @@ exports[`PlanSelection component renders correctly 1`] = `
           class="unstyled"
         >
           <li
-            class="flexbox margin-bottom-x-small emotion-2"
+            class="flexbox margin-bottom-x-small slightly-smaller"
           >
             <svg
               aria-hidden="true"
@@ -386,7 +378,7 @@ exports[`PlanSelection component renders correctly 1`] = `
              
           </li>
           <li
-            class="flexbox margin-bottom-x-small emotion-2"
+            class="flexbox margin-bottom-x-small slightly-smaller"
           >
             <svg
               aria-hidden="true"
@@ -409,7 +401,7 @@ exports[`PlanSelection component renders correctly 1`] = `
         </ul>
       </div>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-6"
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-4"
         disabled=""
         tabindex="-1"
         type="button"
@@ -459,7 +451,7 @@ exports[`PlanSelection component renders correctly 1`] = `
           class="unstyled"
         >
           <li
-            class="flexbox margin-bottom-x-small emotion-2"
+            class="flexbox margin-bottom-x-small slightly-smaller"
           >
             <svg
               aria-hidden="true"
@@ -480,7 +472,7 @@ exports[`PlanSelection component renders correctly 1`] = `
              
           </li>
           <li
-            class="flexbox margin-bottom-x-small emotion-2"
+            class="flexbox margin-bottom-x-small slightly-smaller"
           >
             <svg
               aria-hidden="true"
@@ -503,7 +495,7 @@ exports[`PlanSelection component renders correctly 1`] = `
         </ul>
       </div>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-6"
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-4"
         tabindex="0"
         type="button"
       >
@@ -551,7 +543,7 @@ exports[`PlanSelection component renders correctly 1`] = `
           class="unstyled"
         >
           <li
-            class="flexbox margin-bottom-x-small emotion-2"
+            class="flexbox margin-bottom-x-small slightly-smaller"
           >
             <svg
               aria-hidden="true"
@@ -572,7 +564,7 @@ exports[`PlanSelection component renders correctly 1`] = `
              
           </li>
           <li
-            class="flexbox margin-bottom-x-small emotion-2"
+            class="flexbox margin-bottom-x-small slightly-smaller"
           >
             <svg
               aria-hidden="true"
@@ -593,7 +585,7 @@ exports[`PlanSelection component renders correctly 1`] = `
              
           </li>
           <li
-            class="flexbox margin-bottom-x-small emotion-2"
+            class="flexbox margin-bottom-x-small slightly-smaller"
           >
             <svg
               aria-hidden="true"
@@ -616,7 +608,7 @@ exports[`PlanSelection component renders correctly 1`] = `
         </ul>
       </div>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-22"
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-15"
         tabindex="0"
         type="button"
       >
