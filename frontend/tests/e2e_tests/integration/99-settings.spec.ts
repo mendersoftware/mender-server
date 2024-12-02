@@ -88,11 +88,16 @@ test.describe('Settings', () => {
       test.skip(environment !== 'staging');
       await page.waitForTimeout(timeouts.default);
       const wasUpgraded = await page.isVisible(`css=#limit >> text=250`);
-      if (wasUpgraded) {
-        test.skip('looks like the account was upgraded already, continue with the remaining tests');
-      }
+      test.skip(wasUpgraded, 'looks like the account was upgraded already, continue with the remaining tests');
       await page.getByText('Upgrade now').click();
-      await page.click(`css=.planPanel >> text=Professional`);
+      await page.getByRole('button', { name: 'subscribe' }).nth(1).click();
+      await page.getByRole('textbox', { name: /address line 1/i }).fill('Blindernveien');
+      await page.getByRole('textbox', { name: /state/i }).fill('Oslo');
+      await page.getByRole('textbox', { name: /city/i }).fill('Oslo');
+      await page.getByRole('textbox', { name: /zip or postal code/i }).fill('12345');
+      await page.getByLabel('Country').fill('Norw');
+      await page.getByRole('option', { name: 'Norway' }).click();
+
       await page.waitForSelector('.StripeElement iframe');
       const frameHandle = await page.$('.StripeElement iframe');
       const stripeFrame = await frameHandle.contentFrame();
@@ -102,8 +107,7 @@ test.describe('Settings', () => {
       await stripeFrame.fill('[name="postal"]', '12345');
       await page.click(`button:has-text('Sign up')`);
       await page.getByText(/Card confirmed./i).waitFor({ timeout: timeouts.tenSeconds });
-      await page.getByText(/Your upgrade was successful/i).waitFor({ timeout: timeouts.fifteenSeconds });
-      await page.getByText(/Organization name/i).waitFor({ timeout: timeouts.tenSeconds });
+      await page.getByText(/ You have successfully subscribed to the professional/i).waitFor({ timeout: timeouts.fifteenSeconds });
     });
     test('allows higher device limits once upgraded', async ({ baseUrl, environment, loggedInPage: page }) => {
       test.skip(environment !== 'staging');
