@@ -35,6 +35,8 @@ interface PlanExpandedProps {
   organization: Organization;
   onCloseClick: () => void;
 }
+const successMessage = (plan: string) =>
+  `Thank you! You have successfully subscribed to the ${plan} plan.  You can view and edit your billing details on the Organization and billing page.`;
 
 export const PlanExpanded = (props: PlanExpandedProps) => {
   const { plan: selectedPlan, onCloseClick, organization } = props;
@@ -60,6 +62,7 @@ export const PlanExpanded = (props: PlanExpandedProps) => {
     } = values;
     const billing_profile = { email, name, address: { country: code, state, city, line1, postal_code } };
     await dispatch(completeUpgrade({ tenantId: organization.id, plan: selectedPlan.id, billing_profile }));
+    dispatch(setSnackbar(successMessage(selectedPlan.name)));
     onCloseClick();
   };
   return (
