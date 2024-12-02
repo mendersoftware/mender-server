@@ -1,9 +1,10 @@
 /* eslint-disable no-undef */
 const { TextDecoder, TextEncoder } = require('node:util');
 const { ReadableStream, TransformStream } = require('node:stream/web');
-const { BroadcastChannel } = require('node:worker_threads');
+const { BroadcastChannel, MessagePort } = require('node:worker_threads');
 
 Reflect.set(globalThis, 'BroadcastChannel', BroadcastChannel);
+Reflect.set(globalThis, 'MessagePort', MessagePort);
 Reflect.set(globalThis, 'ReadableStream', ReadableStream);
 Reflect.set(globalThis, 'TextDecoder', TextDecoder);
 Reflect.set(globalThis, 'TextEncoder', TextEncoder);
