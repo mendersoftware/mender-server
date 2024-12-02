@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM golang:1.23.2 AS builder
+FROM --platform=$BUILDPLATFORM golang:1.23.3 AS builder
 
 ARG BUILDFLAGS="-trimpath"
 ARG LDFLAGS="-s -w"
