@@ -19,10 +19,10 @@
   "type": "module",
   "homepage": "https://mender.io",
   "devDependencies": {
-    "@bgotink/playwright-coverage": "^0.2.2",
+    "@bgotink/playwright-coverage": "^0.3.0",
     "@playwright/test": "1.48.2",
     "@sidewinder1138/saml-idp": "^1.4.0",
-    "axios": "^1.7.7",
+    "axios": "^1.7.8",
     "dayjs": "^1.11.13",
     "jsqr": "1.4.0",
     "jwt-decode": "^4.0.0",
@@ -32,8 +32,8 @@
     "playwright": "^1.45.0",
     "playwright-chromium": "1.48.2",
     "pngjs": "7.0.0",
-    "typescript": "^5.6.3",
-    "uuid": "^11.0.2",
-    "yaml": "^2.6.0"
+    "typescript": "^5.7.2",
+    "uuid": "^11.0.3",
+    "yaml": "^2.6.1"
   }
 }
