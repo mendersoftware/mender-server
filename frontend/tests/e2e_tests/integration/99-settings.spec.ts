@@ -61,6 +61,7 @@ test.describe('Settings', () => {
       await page.getByRole('option', { name: '7 days' }).click();
       await page.getByRole('button', { name: /Create token/i }).click();
       await page.getByRole('button', { name: /Close/i }).click();
+      await page.mouse.wheel(0, 200);
       await page.getByText(/in 7 days/i).waitFor();
       await page.getByRole('button', { name: /Revoke/i }).click();
       await revokeTokenButton.waitFor();
