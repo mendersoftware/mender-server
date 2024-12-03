@@ -85,9 +85,9 @@ test.describe('Device details', () => {
     await page.getByLabel(/attribute/i).fill('mem_total_kB');
     await page.getByText(/equals/i).click();
     await page.waitForTimeout(timeouts.default);
-    await page.getByRole('option', { name: '>' }).click();
+    await page.getByRole('option', { name: '>=' }).click();
     await page.getByLabel(/value/i).fill('1000000000');
-    const filterChip = await page.getByRole('button', { name: 'mem_total_kB > 1000000000' });
+    const filterChip = await page.getByRole('button', { name: 'mem_total_kB >= 1000000000' });
     await filterChip.waitFor({ timeout: timeouts.fiveSeconds });
     await expect(filterChip).toBeVisible();
     await expect(page.getByText('No devices found')).toBeVisible();
