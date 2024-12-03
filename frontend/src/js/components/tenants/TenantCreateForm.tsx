@@ -165,7 +165,7 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
       <DrawerTitle title="Add a tenant" onClose={onCloseClick} />
       <Divider className="margin-bottom" />
       <Form
-        initialValues={{ name: '', password: '', sso: false, binary_delta: false, device_limit: 1, send_reset_password: false }}
+        initialValues={{ name: '', password: '', sso: false, binary_delta: false, device_limit: 0, send_reset_password: false }}
         classes={classes}
         handleCancel={() => onCloseClick()}
         showButtons
