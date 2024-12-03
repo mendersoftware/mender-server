@@ -78,7 +78,15 @@ To initialize the admin user, use the following snippet in step 3:
 MENDER_NAME=Admin
 MENDER_USERNAME=admin@docker.mender.io
 MENDER_PASSWORD=password123
-docker compose exec tenantadm tenantadm create-org --username "$MENDER_USERNAME" --password "$MENDER_PASSWORD" --name "$MENDER_NAME"
+TENANT_ID=$(docker compose exec tenantadm tenantadm create-org --username "$MENDER_USERNAME" --password "$MENDER_PASSWORD" --name "$MENDER_NAME)"
+```
+
+To add a virtual client with the composition, use the following snippet in step 5:
+
+```bash
+TENANT_TOKEN=$(docker compose exec tenantadm tenantadm get-tenant --id "$TENANT_ID" | jq -r .tenant_token)
+export TENANT_TOKEN
+docker compose run -d client
 ```
 
 Visit [https://localhost](https://localhost) and sign in using the credentials from the snippet above.
