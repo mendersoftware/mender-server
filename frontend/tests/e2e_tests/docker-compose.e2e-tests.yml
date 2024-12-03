@@ -68,8 +68,8 @@ services:
   ## use playwright locally using `npm install` in the e2e_tests directory and run `npm run test`
   ##
   gui:
-    # Provide override variable MENDER_GUI_IMAGE, but fall back on default from dev/docker-compose.yml
-    image: ${MENDER_GUI_IMAGE:-docker.io/mendersoftware/gui:main}
+    # Provide override variable MENDER_IMAGE_GUI, but fall back on default from dev/docker-compose.yml
+    image: ${MENDER_IMAGE_GUI:-docker.io/mendersoftware/gui:main}
     environment:
       - GATEWAY_IP=docker.mender.io
       - DISABLE_ONBOARDING=true
