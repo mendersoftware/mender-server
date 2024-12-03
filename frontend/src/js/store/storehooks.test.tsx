@@ -171,7 +171,7 @@ const appInitActions = [
     type: deviceActions.receivedGroups.type,
     payload: {
       testGroup: defaultState.devices.groups.byId.testGroup,
-      testGroupDynamic: { filters: [{ key: 'group', operator: '$eq', scope: 'system', value: 'things' }], id: 'filter1' }
+      testGroupDynamic: { filters: [{ key: 'group', operator: '$eq', scope: 'system', value: 'things' }], id: 'filter1', name: 'filter1' }
     }
   },
   { type: getDevicesByStatus.pending.type },
@@ -189,6 +189,7 @@ const appInitActions = [
           { key: 'kernel', operator: '$exists', scope: 'identity', value: true }
         ],
         id: 'filter1',
+        name: 'filter1',
         total: 0
       }
     }

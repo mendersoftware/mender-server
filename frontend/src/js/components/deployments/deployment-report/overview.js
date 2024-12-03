@@ -19,17 +19,14 @@ import { Chip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { TwoColumnData } from '@northern.tech/common-ui/configurationobject';
-import DeviceIdentityDisplay from '@northern.tech/common-ui/deviceidentity';
 import Time from '@northern.tech/common-ui/time';
 import { DEPLOYMENT_STATES, DEPLOYMENT_TYPES } from '@northern.tech/store/constants';
 import { groupDeploymentStats } from '@northern.tech/store/utils';
-import { isEmpty } from '@northern.tech/utils/helpers';
 import pluralize from 'pluralize';
-import isUUID from 'validator/lib/isUUID';
 
 import failImage from '../../../../assets/img/largeFail.png';
 import successImage from '../../../../assets/img/largeSuccess.png';
-import { getDevicesLink } from '../deployment-wizard/softwaredevices';
+import { getDeploymentTargetText, getDevicesLink } from '../deployment-wizard/softwaredevices';
 import { defaultColumnDataProps } from '../report';
 
 const useStyles = makeStyles()(theme => ({
@@ -60,7 +57,7 @@ const defaultLinkProps = {
   rel: 'noopener noreferrer'
 };
 
-export const DeploymentOverview = ({ creator, deployment, devicesById, onScheduleClick, tenantCapabilities }) => {
+export const DeploymentOverview = ({ creator, deployment, devicesById, idAttribute, onScheduleClick }) => {
   const { classes } = useStyles();
   const {
     artifact_name,
@@ -75,42 +72,30 @@ export const DeploymentOverview = ({ creator, deployment, devicesById, onSchedul
   } = deployment;
   const { failures, successes } = groupDeploymentStats(deployment);
   const finished = deployment.finished || status === DEPLOYMENT_STATES.finished;
-  const isDeviceDeployment = isUUID(name) && (isEmpty(devices) || Object.keys(devices).length === 1);
   const isSoftwareDeployment = type === DEPLOYMENT_TYPES.software;
-  const { hasFullFiltering } = tenantCapabilities;
 
-  let deploymentRelease = (
+  const deploymentRelease = isSoftwareDeployment ? (
     <Link {...defaultLinkProps} to={`/releases/${encodeURIComponent(artifact_name)}`}>
       {artifact_name}
       <LaunchIcon className="margin-left-small" fontSize="small" />
     </Link>
+  ) : (
+    type
   );
 
   const devicesLink = getDevicesLink({
     devices: Object.values(devices),
     filters: filter?.filters,
     group: group || filter?.name,
-    hasFullFiltering,
     name
   });
   let targetDevices = (
     <Link {...defaultLinkProps} to={devicesLink}>
-      {isDeviceDeployment && devicesById[name] ? (
-        <DeviceIdentityDisplay device={devicesById[name]} isEditable={false} />
-      ) : isUUID(name) ? (
-        Object.keys(devices).join(', ')
-      ) : (
-        name
-      )}
+      {getDeploymentTargetText({ deployment, devicesById, idAttribute })}
       <LaunchIcon className="margin-left-small" fontSize="small" />
-      <Chip className={`margin-left uppercased ${classes.chip}`} label={filter ? 'dynamic' : 'static'} size="small" />
+      <Chip className={`margin-left uppercased ${classes.chip}`} label={filter?.name ? 'dynamic' : 'static'} size="small" />
     </Link>
   );
-
-  if (!isSoftwareDeployment) {
-    deploymentRelease = type;
-    targetDevices = Object.keys(devices).join(', ') || name;
-  }
 
   const deploymentInfo = {
     'Release': deploymentRelease,
