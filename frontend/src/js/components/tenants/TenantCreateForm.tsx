@@ -141,7 +141,7 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
   const quota = spDeviceLimit - spDeviceUtilization;
   const numericValidation = {
     min: { value: 1, message: `Device limit can't be less then 0` },
-    max: { value: quota, message: `Exceeds quota (${quota})` }
+    max: { value: quota, message: `The device limit must be ${quota} or fewer` }
   };
 
   const submitNewTenant = async data => {
@@ -153,6 +153,7 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
     }
     onCloseClick();
   };
+
   return (
     <Drawer open={open} onClose={onCloseClick} anchor="right" PaperProps={{ style: { minWidth: '67vw' } }}>
       <DrawerTitle title="Add a tenant" onClose={onCloseClick} />
@@ -174,6 +175,7 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
               required
               id="device_limit"
               hint="1000"
+              type="number"
               label="Set device limit"
               className={classes.devLimitInput}
               numericValidations={numericValidation}
