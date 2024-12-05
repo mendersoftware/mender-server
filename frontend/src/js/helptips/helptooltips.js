@@ -258,7 +258,8 @@ const SubTenantDeviceLimit = () => (
   </>
 );
 
-const SubTenantDeltaArtifactGeneration = () => <>TBD: is this feature still alive?</>;
+const SubTenantDeltaArtifactGeneration = () => <>This option will enable the server-side generation of Delta Artifacts for the created tenant when turned on</>;
+
 const SubTenantSSO = () => (
   <>
     The created tenant will inherit the same Single Sign-On configuration as this Service Provider tenant. The created tenant’s admin user will not be able to
