@@ -41,18 +41,15 @@ interface TenantCreateFormProps {
 
 const useStyles = makeStyles()(theme => ({
   buttonWrapper: {
-    justifyContent: 'flex-start !important'
+    '&.button-wrapper': {
+      justifyContent: 'start'
+    }
   },
+  userInputContainer: { maxWidth: 500 },
   devLimitInput: { marginTop: 10, maxWidth: 150, minWidth: 130 },
-  infoCard: {
-    maxWidth: '500px'
-  },
   helpTooltip: {
     marginLeft: theme.spacing(9),
     alignSelf: 'flex-end'
-  },
-  userInputContainer: {
-    height: '260px'
   }
 }));
 
@@ -124,7 +121,7 @@ const UserInputs = (props: UserInputsProps) => {
           <FormCheckbox className="margin-top-none" id="send_reset_password" label="Send an email to the user containing a link to reset the password" />
         </>
       )}
-      {emailInfoText ? <InfoHint className={classes.infoCard} content={emailInfoText} /> : <div style={{ margin: '52px' }} />}
+      {emailInfoText ? <InfoHint content={emailInfoText} /> : <div />}
     </div>
   );
 };
