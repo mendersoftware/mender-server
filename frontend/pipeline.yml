@@ -135,7 +135,7 @@ build:frontend:docker:
     - if test -z "${DOCKER_PLATFORM}"; then
     - docker context create ci;
     - fi
-    - docker buildx create --name gui-builder --driver=docker-container ci
+    - docker buildx create ${DOCKER_BUILDKITARGS} --name gui-builder --driver=docker-container ci
     # build production target
     - docker build
       --tag ${MENDER_IMAGE_GUI}
