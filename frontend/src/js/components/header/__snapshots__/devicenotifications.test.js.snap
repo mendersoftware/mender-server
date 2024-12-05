@@ -27,7 +27,7 @@ exports[`DeviceNotifications Component renders correctly 1`] = `
   data-mui-internal-clone-element="true"
 >
   <a
-    class=""
+    class="flexbox center-aligned "
     href="/devices"
   >
     <span>
@@ -89,7 +89,7 @@ exports[`DeviceNotifications Component renders correctly at limit 1`] = `
   data-mui-internal-clone-element="true"
 >
   <a
-    class="warning"
+    class="flexbox center-aligned warning"
     href="/devices"
   >
     <span>
@@ -152,7 +152,7 @@ exports[`DeviceNotifications Component renders correctly close to limits 1`] = `
   data-mui-internal-clone-element="true"
 >
   <a
-    class="approaching"
+    class="flexbox center-aligned approaching"
     href="/devices"
   >
     <span>
@@ -214,7 +214,7 @@ exports[`DeviceNotifications Component renders correctly with limits 1`] = `
   data-mui-internal-clone-element="true"
 >
   <a
-    class=""
+    class="flexbox center-aligned "
     href="/devices"
   >
     <span>
@@ -275,7 +275,7 @@ exports[`DeviceNotifications Component renders correctly without limits 1`] = `
   class="header-section"
 >
   <a
-    class=""
+    class="flexbox center-aligned "
     href="/devices"
   >
     <span>
