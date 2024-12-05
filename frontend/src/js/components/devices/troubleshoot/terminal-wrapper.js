@@ -104,8 +104,7 @@ const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUploadPat
   const [snackbarAlreadySet, setSnackbarAlreadySet] = useState(false);
   const [isAwaitingCheckInUpdate, setIsAwaitingCheckInUpdate] = useState(false);
   const [isAwaitingInventoryUpdate, setIsAwaitingInventoryUpdate] = useState(false);
-  const inventoryTimer = useRef();
-  const snackTimer = useRef();
+  const timers = useRef({ inventory: null, update: null, snack: null });
   const { classes } = useStyles();
   const termRef = useRef({ terminal: React.createRef(), terminalRef: React.createRef() });
 
@@ -130,7 +129,8 @@ const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUploadPat
       }
       setSnackbarAlreadySet(true);
       setSnackbar(content, TIMEOUTS.threeSeconds);
-      snackTimer.current = setTimeout(() => setSnackbarAlreadySet(false), TIMEOUTS.threeSeconds + TIMEOUTS.debounceShort);
+      clearTimeout(timers.current.snack);
+      timers.current.snack = setTimeout(() => setSnackbarAlreadySet(false), TIMEOUTS.threeSeconds + TIMEOUTS.debounceShort);
     },
     [setSnackbar, snackbarAlreadySet]
   );
@@ -187,8 +187,9 @@ const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUploadPat
   }, [close, setSnackbar, socketInitialized]);
 
   useEffect(() => {
+    const snackTimer = timers.current.snack;
     return () => {
-      clearTimeout(snackTimer.current);
+      clearTimeout(snackTimer);
       if (socketInitialized !== undefined) {
         close();
       }
@@ -208,12 +209,12 @@ const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUploadPat
 
   useEffect(() => {
     setIsAwaitingInventoryUpdate(false);
-    inventoryTimer.current = setTimeout(() => setIsAwaitingInventoryUpdate(false), TIMEOUTS.refreshLong);
   }, [device.updated_ts]);
 
   useEffect(() => {
+    const currentTimers = timers.current;
     return () => {
-      clearTimeout(inventoryTimer.current);
+      Object.values(currentTimers).map(clearTimeout);
     };
   }, []);
 
@@ -238,11 +239,15 @@ const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUploadPat
   const onTriggerUpdateClick = useCallback(() => {
     setIsAwaitingCheckInUpdate(true);
     dispatch(triggerDeviceUpdate({ id: device.id, type: 'deploymentUpdate' }));
+    clearTimeout(timers.current.update);
+    timers.current.update = setTimeout(() => setIsAwaitingCheckInUpdate(false), TIMEOUTS.refreshDefault);
   }, [dispatch, device.id]);
 
   const onRequestInventoryUpdateClick = useCallback(() => {
     setIsAwaitingInventoryUpdate(true);
     dispatch(triggerDeviceUpdate({ id: device.id, type: 'inventoryUpdate' }));
+    clearTimeout(timers.current.inventory);
+    timers.current.inventory = setTimeout(() => setIsAwaitingInventoryUpdate(false), TIMEOUTS.refreshLong);
   }, [dispatch, device.id]);
 
   const onDrop = acceptedFiles => {
