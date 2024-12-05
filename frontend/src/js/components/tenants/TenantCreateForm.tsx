@@ -166,6 +166,7 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
         buttonColor="secondary"
         onSubmit={submitNewTenant}
         submitLabel="Create tenant"
+        autocomplete="off"
       >
         <div className="flexbox column">
           <TextInput required validations="isLength:3,trim" id="name" hint="Name" label="Name" className="margin-bottom-large margin-top-large" />
