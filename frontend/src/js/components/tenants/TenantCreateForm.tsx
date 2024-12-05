@@ -12,10 +12,11 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { Divider, Drawer, TextField } from '@mui/material';
+import { Divider, Drawer } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
@@ -30,7 +31,6 @@ import { rolesByName, useradmApiUrlv1 } from '@northern.tech/store/constants';
 import { getOrganization } from '@northern.tech/store/selectors';
 import { AppDispatch } from '@northern.tech/store/store';
 import { addTenant } from '@northern.tech/store/thunks';
-import validator from 'validator';
 
 import { PasswordLabel } from '../settings/user-management/userform';
 
@@ -55,62 +55,55 @@ const useStyles = makeStyles()(theme => ({
     height: '260px'
   }
 }));
+
 interface UserInputsProps {
-  email: string;
-  setEmail: Dispatch<SetStateAction<string>>;
   adminExists: boolean;
   setAdminExists: Dispatch<SetStateAction<boolean>>;
 }
+
 const userExistsInfo =
   'This user already has a Mender account, and will be assigned as admin to the new tenant. If you want to create a brand new user, try a different email address.';
 const newUserInfo = 'This will create a new user as admin of the new tenant.';
+
 const UserInputs = (props: UserInputsProps) => {
-  const { email, setEmail, setAdminExists, adminExists } = props;
+  const { setAdminExists, adminExists } = props;
   const { classes } = useStyles();
-  const [emailErrorText, setEmailErrorText] = useState<string>('');
   const [emailInfoText, setEmailInfoText] = useState<string>('');
   const checkEmailExists = async (email: string) => {
     const response = await Api.get(`${useradmApiUrlv1}/users/exists?email=${email}`);
     return response.data.exists;
   };
 
+  const { watch, getFieldState } = useFormContext();
+
+  const enteredEmail = watch('email');
+  const isValidEmail = getFieldState('email');
+
   useEffect(() => {
-    if (validator.isEmail(email)) {
-      setEmailErrorText('');
-      const timeoutId = setTimeout(async () => {
-        const exists = await checkEmailExists(email);
-        if (exists) {
-          setAdminExists(true);
-          setEmailInfoText(userExistsInfo);
-        } else {
-          setAdminExists(false);
-          setEmailInfoText(newUserInfo);
-        }
-      }, 1000);
-      return () => clearTimeout(timeoutId);
-    } else if (email) {
-      setEmailErrorText('Please enter a valid email address');
-      setEmailInfoText('');
-    } else {
-      setEmailInfoText('');
-      setEmailErrorText('');
+    if (!(enteredEmail && isValidEmail)) {
+      return;
     }
-  }, [email, setAdminExists]);
+    const timeoutId = setTimeout(async () => {
+      const exists = await checkEmailExists(enteredEmail);
+      if (exists) {
+        setAdminExists(true);
+        setEmailInfoText(userExistsInfo);
+      } else {
+        setAdminExists(false);
+        setEmailInfoText(newUserInfo);
+      }
+    }, 1000);
+    return () => clearTimeout(timeoutId);
+  }, [enteredEmail, isValidEmail, setAdminExists]);
+
+  useEffect(() => {
+    setAdminExists(false);
+  }, [enteredEmail, setAdminExists]);
 
   return (
     <div className={classes.userInputContainer}>
       <div className="flexbox margin-bottom-small">
-        <TextField
-          style={{ width: 400 }}
-          className="margin-top-none"
-          classes={{ root: 'required' }}
-          onChange={e => setEmail(e.target.value)}
-          required
-          id="email"
-          error={!!emailErrorText}
-          helperText={emailErrorText}
-          label="Admin user"
-        />{' '}
+        <TextInput validations="isEmail,trim" required id="email" label="Admin user" />
         <div className={classes.helpTooltip}>
           <MenderHelpTooltip id={HELPTOOLTIPS.tenantAdmin.id} />
         </div>
@@ -120,7 +113,7 @@ const UserInputs = (props: UserInputsProps) => {
           <PasswordInput
             label={<PasswordLabel />}
             id="password"
-            validations={`isLength:8,isNot:${email}`}
+            validations={`isLength:8,isNot:${enteredEmail}`}
             InputLabelProps={{ shrink: true }}
             edit={false}
             placeholder="Password"
@@ -136,13 +129,13 @@ const UserInputs = (props: UserInputsProps) => {
   );
 };
 
+const tenantAdminDefaults = { email: '', name: '', password: '', sso: false, binary_delta: false, device_limit: 0, send_reset_password: false };
 export const TenantCreateForm = (props: TenantCreateFormProps) => {
   const { onCloseClick, open } = props;
   const { device_count: spDeviceUtilization, device_limit: spDeviceLimit } = useSelector(getOrganization);
   const dispatch = useDispatch<AppDispatch>();
 
   const { classes } = useStyles();
-  const [email, setEmail] = useState<string>('');
   const [adminExists, setAdminExists] = useState<boolean>(false);
 
   const quota = spDeviceLimit - spDeviceUtilization;
@@ -152,7 +145,7 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
   };
 
   const submitNewTenant = async data => {
-    const { name, password, sso, binary_delta, device_limit } = data;
+    const { email, name, password, sso, binary_delta, device_limit } = data;
     if (adminExists) {
       await dispatch(addTenant({ name, users: [{ role: rolesByName.admin, email }], sso, device_limit: Number(device_limit), binary_delta }));
     } else {
@@ -165,7 +158,7 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
       <DrawerTitle title="Add a tenant" onClose={onCloseClick} />
       <Divider className="margin-bottom" />
       <Form
-        initialValues={{ name: '', password: '', sso: false, binary_delta: false, device_limit: 0, send_reset_password: false }}
+        initialValues={tenantAdminDefaults}
         classes={classes}
         handleCancel={() => onCloseClick()}
         showButtons
@@ -175,7 +168,7 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
       >
         <div className="flexbox column">
           <TextInput required validations="isLength:3,trim" id="name" hint="Name" label="Name" className="margin-bottom-large margin-top-large" />
-          <UserInputs adminExists={adminExists} setAdminExists={setAdminExists} email={email} setEmail={setEmail} />
+          <UserInputs adminExists={adminExists} setAdminExists={setAdminExists} />
           <div className="flexbox margin-top-large margin-bottom-large">
             <TextInput
               required
