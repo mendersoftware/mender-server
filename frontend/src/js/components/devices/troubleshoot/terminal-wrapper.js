@@ -214,7 +214,7 @@ const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUploadPat
   useEffect(() => {
     const currentTimers = timers.current;
     return () => {
-      Object.values(currentTimers).map(clearTimeout);
+      Object.values(currentTimers).forEach(clearTimeout);
     };
   }, []);
 
