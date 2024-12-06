@@ -14,15 +14,29 @@
 import React from 'react';
 
 import { getSessionInfo } from '@northern.tech/store/auth';
+import { actions } from '@northern.tech/store/organizationSlice/index';
+import * as OrganizationActions from '@northern.tech/store/organizationSlice/thunks';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
+import { screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
-import Upgrade, { PostUpgradeNote, PricingContactNote } from './upgrade';
+import Upgrade, { PricingContactNote } from './Upgrade';
 
+const changeRequestBase = {
+  content: {
+    current_addons: '-',
+    current_plan: 'Basic',
+    requested_addons: '-',
+    requested_plan: 'Basic',
+    user_message: ''
+  },
+  tenantId: 1
+};
 describe('smaller components', () => {
-  [PostUpgradeNote, PricingContactNote].forEach(Component => {
+  [PricingContactNote].forEach(Component => {
     it(`renders ${Component.displayName || Component.name} correctly`, () => {
       const { baseElement } = render(
         <Component
@@ -42,6 +56,7 @@ describe('smaller components', () => {
 
 describe('Upgrade Component', () => {
   it('renders correctly', async () => {
+    window.localStorage.getItem.mockImplementation(() => null);
     jest.mock('@stripe/stripe-js', () => ({
       loadStripe: () => ({ createPaymentMethod: jest.fn() })
     }));
@@ -61,5 +76,131 @@ describe('Upgrade Component', () => {
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
+    window.localStorage.getItem.mockReset();
+  });
+  const professionalRequestArgs = {
+    ...changeRequestBase,
+    content: {
+      ...changeRequestBase.content,
+      requested_plan: 'Professional'
+    }
+  };
+  const trialState = {
+    preloadedState: {
+      ...defaultState,
+      organization: {
+        ...defaultState.organization,
+        organization: { ...defaultState.organization.organization, trial: true, plan: 'enterprise' }
+      }
+    }
+  };
+  it('signup works as intended', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    render(<Upgrade />, trialState);
+    jest.spyOn(actions, 'setOrganization').mockImplementation(() => trialState);
+
+    const upgradeButton = await screen.getAllByRole('button', { name: /subscribe/i })[0];
+    await user.click(upgradeButton);
+    await user.type(await screen.getByRole('textbox', { name: /address line 1/i }), 'Blindernveien');
+    await user.type(await screen.getByRole('textbox', { name: /state/i }), 'Oslo');
+    await user.type(await screen.getByRole('textbox', { name: /city/i }), 'Oslo');
+    await user.type(await screen.getByRole('textbox', { name: /zip or postal code/i }), '1234');
+    const countryAutoComplete = await screen.getByRole('combobox', { name: /country/i });
+    const input = await screen.getByLabelText('Country');
+    await user.type(countryAutoComplete, 'Norw');
+    await user.keyboard('[ArrowUp]');
+    await user.keyboard('[Enter]');
+    expect(input.value).toEqual('Norway');
+  });
+  it('upgrade works as intended', async () => {
+    const professionalRequest = jest.spyOn(OrganizationActions, 'requestPlanChange');
+
+    const storageMock = jest.spyOn(Storage.prototype, 'setItem');
+    Storage.prototype.setItem = jest.fn();
+
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const { rerender } = render(<Upgrade />, { preloadedState: defaultState });
+    const upgradeButton = await screen.findByRole('button', { name: /upgrade/i });
+    await user.click(upgradeButton);
+
+    let confirmButton = await screen.findByRole('button', { name: /confirm/i });
+    await user.click(confirmButton);
+
+    await waitFor(() => {
+      expect(localStorage.setItem).toBeCalledTimes(1);
+    });
+    let localStorageState = localStorage.setItem.mock.calls[0][1];
+    window.localStorage.getItem.mockImplementation(() => localStorageState);
+    rerender(<Upgrade />);
+    await screen.getByRole('button', { name: /pending/i });
+    expect(professionalRequest).toHaveBeenCalledWith(professionalRequestArgs);
+    localStorage.setItem.mockClear();
+    storageMock.mockClear();
+  });
+
+  it('adding addon works as intended', async () => {
+    const addonRequest = jest.spyOn(OrganizationActions, 'requestPlanChange');
+
+    const storageMock = jest.spyOn(Storage.prototype, 'setItem');
+    Storage.prototype.setItem = jest.fn();
+    window.localStorage.getItem.mockImplementation(() => null);
+
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+    render(<Upgrade />, { preloadedState: defaultState });
+    const addToPlanButton = await screen.getAllByRole('button', { name: /add to plan/i });
+    await user.click(addToPlanButton[0]);
+
+    const confirmButton = await screen.findByRole('button', { name: /confirm/i });
+    await user.click(confirmButton);
+
+    await user.click(addToPlanButton[2]);
+    await user.click(await screen.findByRole('button', { name: /confirm/i }));
+
+    await waitFor(() => {
+      expect(localStorage.setItem).toBeCalledTimes(2);
+    });
+    const localStorageState = localStorage.setItem.mock.calls[0][1];
+    const currentState = { configure: { pending: true, isAdd: true } };
+    expect(addonRequest).toHaveBeenCalledWith({ ...changeRequestBase, content: { ...changeRequestBase.content, requested_addons: 'configure' } });
+
+    const localStorageExpectedState = JSON.stringify(currentState);
+    expect(localStorageState).toEqual(localStorageExpectedState);
+    localStorage.setItem.mockClear();
+    storageMock.mockClear();
+  });
+  const enterpriseRequestArgs = {
+    ...changeRequestBase,
+    content: {
+      ...changeRequestBase.content,
+      requested_plan: 'Enterprise',
+      user_message: 'Interested in updating to Enterprise version'
+    }
+  };
+  it('enterprise request works as intended', async () => {
+    const enterpriseRequest = jest.spyOn(OrganizationActions, 'requestPlanChange');
+    window.localStorage.getItem.mockImplementation(() => null);
+    jest.spyOn(Storage.prototype, 'setItem');
+    Storage.prototype.setItem = jest.fn();
+
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    render(<Upgrade />, { preloadedState: defaultState });
+
+    const contactButton = await screen.findByRole('button', { name: /contact us/i });
+    await user.click(contactButton);
+    const messageInput = await screen.getByRole('textbox');
+    await user.type(messageInput, enterpriseRequestArgs.content.user_message);
+    const addOnCombobox = await screen.getByRole('combobox');
+    await user.click(addOnCombobox);
+
+    const submitButton = await screen.getByRole('button', { name: /submit request/i, hidden: true });
+    await user.click(submitButton);
+    await waitFor(() => {
+      expect(localStorage.setItem).toBeCalledTimes(1);
+    });
+    expect(enterpriseRequest).toHaveBeenCalledWith(enterpriseRequestArgs);
+    const localStorageState = localStorage.setItem.mock.calls[0][1];
+    expect(localStorageState).toEqual(JSON.stringify({ enterprise: { pending: true, isAdd: true } }));
+    localStorage.setItem.mockReset();
   });
 });

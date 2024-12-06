@@ -13,6 +13,7 @@
 //    limitations under the License.
 // @ts-nocheck
 import { EXTERNAL_PROVIDER, TIMEOUTS } from '@northern.tech/store/constants';
+import { getDeviceLimit } from '@northern.tech/store/devicesSlice/thunks';
 import configureMockStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 
@@ -21,6 +22,7 @@ import { defaultState, tenants, webhookEvents } from '../../../../tests/mockData
 import { actions as appActions } from '../appSlice';
 import { locations } from '../appSlice/constants';
 import { getSessionInfo } from '../auth';
+import { actions as deviceActions } from '../devicesSlice';
 import { SSO_TYPES } from './constants';
 import {
   addTenant,
@@ -242,10 +244,16 @@ describe('organization actions', () => {
     expect(store.getActions()).toHaveLength(0);
     const expectedActions = [
       { type: completeUpgrade.pending.type },
+      { type: getTenants.pending.type },
+      { type: getDeviceLimit.pending.type },
       { type: getUserOrganization.pending.type },
+      { type: deviceActions.setDeviceLimit.type },
+      { type: getDeviceLimit.fulfilled.type },
       { type: actions.setOrganization.type, payload: defaultState.organization.organization },
       { type: appActions.setAnnouncement.type, payload: tenantDataDivergedMessage },
       { type: getUserOrganization.fulfilled.type },
+      { type: actions.setTenantListState.type },
+      { type: getTenants.fulfilled.type },
       { type: completeUpgrade.fulfilled.type }
     ];
     await store.dispatch(completeUpgrade({ tenantId: defaultState.organization.organization.id, plan: 'enterprise' }));
