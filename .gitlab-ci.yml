@@ -685,6 +685,10 @@ release:mender-docs-changelog:
         else
           export THIS_TAG="${CI_COMMIT_TAG}"
         fi
+        if [ -z "${THIS_TAG}" ]; then
+          echo "ERROR - can't find tag for container ${CONTAINER}"
+          exit 1
+        fi
         echo "INFO - bumping version ${THIS_TAG} to ${CONTAINER} image tag"
         CONTAINER_KEY=${CONTAINER}
         if [[ "${CHART_DIR}" == "mender" ]]; then
