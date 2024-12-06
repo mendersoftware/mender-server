@@ -21,6 +21,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Button,
+  Chip,
   Divider,
   IconButton,
   ListItemSecondaryAction,
@@ -145,14 +146,6 @@ const useStyles = makeStyles()(theme => ({
   organization: { marginBottom: theme.spacing() },
   redAnnouncementIcon: {
     color: theme.palette.error.dark
-  },
-  spTenantBadge: {
-    padding: theme.spacing(1),
-    color: theme.palette.grey[800],
-    background: theme.palette.tooltip.tierTipBackground,
-    borderRadius: theme.spacing(3),
-    marginRight: theme.spacing(2),
-    fontSize: '11px'
   }
 }));
 
@@ -378,7 +371,7 @@ export const Header = ({ isDarkMode }) => {
             {tenantDeviceLimit > 0 && <DeviceCount current={spDeviceUtilization} max={tenantDeviceLimit} variant="common" />}
             <div className="flexbox center-aligned">
               <div className="header-section">
-                <div className={`${classes.spTenantBadge} uppercased bold`}>Service Provider</div>
+                <Chip className="bold muted uppercased" label="Service Provider" />
               </div>
               <AccountMenu />
             </div>

@@ -446,29 +446,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
 }
 
 .emotion-11 {
-  height: 260px;
-}
-
-.emotion-12 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  position: relative;
-  min-width: 0;
-  padding: 0;
-  margin: 0;
-  border: 0;
-  vertical-align: top;
-  margin-top: 18px;
-  min-width: 240px;
-}
-
-.emotion-14.Mui-error {
-  color: #ab1000;
+  max-width: 500px;
 }
 
 .emotion-17 {
@@ -858,11 +836,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   margin-top: 32px;
 }
 
-.emotion-60 {
-  -webkit-box-pack: start!important;
-  -ms-flex-pack: start!important;
-  -webkit-justify-content: flex-start!important;
-  justify-content: flex-start!important;
+.emotion-60.button-wrapper {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: start;
+  justify-content: start;
 }
 
 .emotion-61 {
@@ -1152,6 +1130,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
         class="MuiDivider-root MuiDivider-fullWidth margin-bottom emotion-5"
       />
       <form
+        autocomplete="off"
         class=""
         novalidate=""
       >
@@ -1195,38 +1174,34 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               class="flexbox margin-bottom-small"
             >
               <div
-                class="MuiFormControl-root MuiTextField-root required margin-top-none emotion-12"
+                class="MuiFormControl-root required emotion-6"
                 style="width: 400px;"
               >
                 <label
-                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-standard MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-standard emotion-7"
+                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-standard MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-standard emotion-7"
                   data-shrink="false"
                   for="email"
-                  id="email-label"
                 >
                   Admin user
-                  <span
-                    aria-hidden="true"
-                    class="MuiFormLabel-asterisk MuiInputLabel-asterisk emotion-14"
-                  >
-                     
-                    *
-                  </span>
                 </label>
                 <div
                   class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl emotion-8"
+                  required=""
                 >
                   <input
                     aria-invalid="false"
                     class="MuiInputBase-input MuiInput-input emotion-9"
                     id="email"
+                    name="email"
                     required=""
                     type="text"
                     value=""
                   />
                 </div>
+                <p
+                  class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-10"
+                />
               </div>
-               
               <div
                 class="emotion-17"
               >
@@ -1383,9 +1358,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                 Send an email to the user containing a link to reset the password
               </span>
             </label>
-            <div
-              style="margin: 52px;"
-            />
+            <div />
           </div>
           <div
             class="flexbox margin-top-large margin-bottom-large"
@@ -1412,7 +1385,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                   name="device_limit"
                   placeholder="1000"
                   required=""
-                  type="text"
+                  type="number"
                   value="0"
                 />
               </div>

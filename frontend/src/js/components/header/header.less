@@ -41,11 +41,10 @@
   border-right: 1px solid @lightergrey;
   display: flex;
   align-items: center;
+  line-height: initial;
 
   &:hover {
     color: darken(@grey, 10%);
-    cursor: pointer;
-
     // hover warning
     .warning {
       a,
@@ -77,9 +76,5 @@
     span {
       color: orange !important;
     }
-  }
-
-  > * > * {
-    vertical-align: middle;
   }
 }

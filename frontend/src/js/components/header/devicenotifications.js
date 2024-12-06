@@ -27,7 +27,7 @@ const DeviceNotifications = ({ total, limit, pending }) => {
   const warning = limit && limit <= total;
   const content = (
     <>
-      <Link to="/devices" className={warning ? 'warning' : approaching ? 'approaching' : ''}>
+      <Link to="/devices" className={`flexbox center-aligned ${warning ? 'warning' : approaching ? 'approaching' : ''}`}>
         <span>{total.toLocaleString()}</span>
         {limit ? <span id="limit">/{limit.toLocaleString()}</span> : null}
 
