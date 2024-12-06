@@ -91,7 +91,7 @@ describe('user actions', () => {
     await store.dispatch(get2FAQRCode(true));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 
   const commonUserRetrievalActions = [
@@ -116,7 +116,7 @@ describe('user actions', () => {
     await store.dispatch(verify2FA({ token2fa: '123456' }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow enabling 2fa during 2fa setup', async () => {
     jest.clearAllMocks();
@@ -131,7 +131,7 @@ describe('user actions', () => {
     await store.dispatch(enableUser2fa(defaultState.users.byId.a1.id));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow disabling 2fa during 2fa setup', async () => {
     jest.clearAllMocks();
@@ -146,7 +146,7 @@ describe('user actions', () => {
     await store.dispatch(disableUser2fa(defaultState.users.byId.a1.id));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow beginning email verification', async () => {
     jest.clearAllMocks();
@@ -161,7 +161,7 @@ describe('user actions', () => {
     await store.dispatch(verifyEmailStart());
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow completing email verification', async () => {
     jest.clearAllMocks();
@@ -176,7 +176,7 @@ describe('user actions', () => {
     await store.dispatch(verifyEmailComplete('superSecret'));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     await expect(store.dispatch(verifyEmailComplete('ohNo')).unwrap()).rejects.toBeTruthy();
   });
   it('should allow logging in', async () => {
@@ -193,7 +193,7 @@ describe('user actions', () => {
     await store.dispatch(loginUser({ email: 'test@example.com', password: defaultPassword }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should redirect on SSO login', async () => {
     const store = mockStore({ ...defaultState });
@@ -233,7 +233,7 @@ describe('user actions', () => {
     window.localStorage.getItem.mockReset();
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow logging out', async () => {
     jest.clearAllMocks();
@@ -242,7 +242,7 @@ describe('user actions', () => {
     await store.dispatch(logoutUser());
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should not allow logging out with an active upload', async () => {
     jest.clearAllMocks();
@@ -276,7 +276,7 @@ describe('user actions', () => {
     expect(storeActions.length).toEqual(expectedActions.length);
     // we can't check for the correct value here as the localstorage is (ab)used by msw to track state during req/res cycles, thus the localStorage expectation
     expect(window.localStorage.getItem).toHaveBeenCalledWith(`a1-column-widths`);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow current user initialization', async () => {
     jest.clearAllMocks();
@@ -291,7 +291,7 @@ describe('user actions', () => {
     await store.dispatch(initializeSelf());
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow user list retrieval', async () => {
     jest.clearAllMocks();
@@ -304,7 +304,7 @@ describe('user actions', () => {
     await store.dispatch(getUserList());
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow single user creation', async () => {
     jest.clearAllMocks();
@@ -322,7 +322,7 @@ describe('user actions', () => {
     await store.dispatch(createUser(createdUser));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow single user edits', async () => {
     jest.clearAllMocks();
@@ -336,7 +336,7 @@ describe('user actions', () => {
     await store.dispatch(editUser({ id: 'a1', email: defaultState.users.byId.a1.email, password: defaultPassword }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should not allow current user edits without proper password', async () => {
     jest.clearAllMocks();
@@ -358,7 +358,7 @@ describe('user actions', () => {
     await store.dispatch(removeUser('a1'));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow single user removal', async () => {
     jest.clearAllMocks();
@@ -374,7 +374,7 @@ describe('user actions', () => {
     await store.dispatch(addUserToCurrentTenant('a1'));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 
   it('should allow role list retrieval', async () => {
@@ -395,7 +395,7 @@ describe('user actions', () => {
     });
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow role creation', async () => {
     jest.clearAllMocks();
@@ -415,7 +415,7 @@ describe('user actions', () => {
     await store.dispatch(createRole({ ...defaultRole, uiPermissions: { groups: [{ item: 'testGroup', uiPermissions: [uiPermissionsById.manage.value] }] } }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow role edits', async () => {
     jest.clearAllMocks();
@@ -447,7 +447,7 @@ describe('user actions', () => {
     );
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow role removal', async () => {
     jest.clearAllMocks();
@@ -467,7 +467,7 @@ describe('user actions', () => {
     await store.dispatch(removeRole('test'));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow password reset - pt. 1', async () => {
     const store = mockStore({ ...defaultState });
@@ -494,7 +494,7 @@ describe('user actions', () => {
     await store.dispatch(saveGlobalSettings(settings));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow storing global settings without deletion and with notification', async () => {
     jest.clearAllMocks();
@@ -514,7 +514,7 @@ describe('user actions', () => {
     await store.dispatch(saveGlobalSettings({ ...settings, notify: true }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow storing user scoped settings', async () => {
     jest.clearAllMocks();
@@ -532,7 +532,7 @@ describe('user actions', () => {
     await store.dispatch(saveUserSettings({ extra: 'this' }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should store the visibility of the announcement shown in the header in a cookie on dismissal', async () => {
     jest.clearAllMocks();
@@ -548,7 +548,7 @@ describe('user actions', () => {
     expect(cookies.get).toHaveBeenCalledTimes(1);
     expect(cookies.set).toHaveBeenCalledTimes(1);
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should store the sizes of columns in local storage', async () => {
     jest.clearAllMocks();
@@ -563,7 +563,7 @@ describe('user actions', () => {
     expect(localStorage.getItem).not.toHaveBeenCalled();
     expect(localStorage.setItem).toHaveBeenCalled();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
 
     jest.clearAllMocks();
     await store.dispatch(updateUserColumnSettings({}));
@@ -582,7 +582,7 @@ describe('user actions', () => {
     await store.dispatch(getTokens());
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow token generation', async () => {
     jest.clearAllMocks();
@@ -598,7 +598,7 @@ describe('user actions', () => {
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
     expect(result[result.length - 1]).toEqual('aNewToken');
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow token removal', async () => {
     jest.clearAllMocks();
@@ -614,7 +614,7 @@ describe('user actions', () => {
     await store.dispatch(revokeToken({ id: 'some-id-1' }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 
   it('should handle setting single tooltip read state', async () => {
@@ -633,7 +633,7 @@ describe('user actions', () => {
     await store.dispatch(setTooltipReadState({ id: 'foo', readState: 'testRead', persist: true }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should handle setting tooltip read state for all tips', async () => {
     const store = mockStore({ ...defaultState });
@@ -655,6 +655,6 @@ describe('user actions', () => {
     await store.dispatch(setAllTooltipsReadState('testRead'));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 });

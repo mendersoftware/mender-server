@@ -321,7 +321,7 @@ it('should try to get all required app information', async () => {
   await jest.runAllTimersAsync();
   const storeActions = store.getActions();
   expect(storeActions.length).toEqual(appInitActions.length);
-  appInitActions.map((action, index) => Object.keys(action).map(key => expect(storeActions[index][key]).toEqual(action[key])));
+  appInitActions.forEach((action, index) => Object.keys(action).forEach(key => expect(storeActions[index][key]).toEqual(action[key])));
 });
 it('should execute the offline threshold migration for multi day thresholds', async () => {
   const store = mockStore({

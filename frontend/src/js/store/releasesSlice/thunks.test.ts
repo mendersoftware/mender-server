@@ -75,7 +75,7 @@ describe('release actions', () => {
     await store.dispatch(getRelease(defaultState.releases.byId.r1.name));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should retrieve a list of releases', async () => {
     const store = mockStore({ ...defaultState });
@@ -91,7 +91,7 @@ describe('release actions', () => {
     await store.dispatch(getReleases({ perPage: 1, sort: { direction: 'asc', key: 'name' } }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should retrieve a search filtered list of releases', async () => {
     const store = mockStore({ ...defaultState });
@@ -111,7 +111,7 @@ describe('release actions', () => {
     await store.dispatch(getReleases({ searchTerm: 'something' }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should retrieve a deployment creation search filtered list of releases', async () => {
     const store = mockStore({ ...defaultState });
@@ -141,7 +141,7 @@ describe('release actions', () => {
     await store.dispatch(getReleases({ perPage: 10, searchOnly: true, searchTerm: 'something' }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should retrieve the device installation base for an artifact', async () => {
     const store = mockStore({ ...defaultState });
@@ -159,7 +159,7 @@ describe('release actions', () => {
     await store.dispatch(getArtifactInstallCount('art1')).then(() => {
       const storeActions = store.getActions();
       expect(storeActions.length).toEqual(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
   it('should retrieve the download url for an artifact', async () => {
@@ -183,7 +183,7 @@ describe('release actions', () => {
     await store.dispatch(getArtifactUrl('art1')).then(() => {
       const storeActions = store.getActions();
       expect(storeActions.length).toEqual(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
   it('should select a release by name', async () => {
@@ -199,7 +199,7 @@ describe('release actions', () => {
     await store.dispatch(selectRelease(defaultState.releases.byId.r1.name));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow creating an artifact', async () => {
     const store = mockStore({ ...defaultState });
@@ -228,7 +228,7 @@ describe('release actions', () => {
     jest.runAllTimers();
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should support editing artifact information', async () => {
     const store = mockStore({ ...defaultState });
@@ -256,7 +256,7 @@ describe('release actions', () => {
     await store.dispatch(editArtifact({ id: defaultState.releases.byId.r1.artifacts[0].id, body: { description: 'something new' } }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should support uploading .mender artifact files', async () => {
     const store = mockStore({ ...defaultState });
@@ -279,7 +279,7 @@ describe('release actions', () => {
     await store.dispatch(uploadArtifact({ file: { name: defaultState.releases.byId.r1.name, size: 1234 }, meta: { description: 'new artifact to upload' } }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should remove an artifact by name', async () => {
     const store = mockStore({ ...defaultState });
@@ -301,7 +301,7 @@ describe('release actions', () => {
     await store.dispatch(removeArtifact('art1'));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should remove a release by name', async () => {
     const store = mockStore({ ...defaultState });
@@ -328,7 +328,7 @@ describe('release actions', () => {
     await store.dispatch(removeRelease(defaultState.releases.byId.r1.name));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should retrieve existing release tags', async () => {
     const store = mockStore({ ...defaultState });
@@ -340,7 +340,7 @@ describe('release actions', () => {
     await store.dispatch(getExistingReleaseTags());
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should retrieve existing update types', async () => {
     const store = mockStore({ ...defaultState });
@@ -352,7 +352,7 @@ describe('release actions', () => {
     await store.dispatch(getUpdateTypes());
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow setting new release tags', async () => {
     const store = mockStore({ ...defaultState });
@@ -368,7 +368,7 @@ describe('release actions', () => {
     await store.dispatch(setReleaseTags({ name: defaultState.releases.byId.r1.name, tags: ['foo', 'bar'] }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow extending the release info', async () => {
     const store = mockStore({ ...defaultState });
@@ -384,6 +384,6 @@ describe('release actions', () => {
     await store.dispatch(updateReleaseInfo({ name: defaultState.releases.byId.r1.name, info: { notes: 'this & that' } }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 });

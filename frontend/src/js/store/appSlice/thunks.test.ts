@@ -41,7 +41,7 @@ describe('app actions', () => {
     ];
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should not get the latest release info when not hosted', async () => {
     const store = mockStore({ ...defaultState });
@@ -72,7 +72,7 @@ describe('app actions', () => {
     await store.dispatch(getLatestReleaseInfo());
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 
   it('should store first login after Signup', async () => {
@@ -85,7 +85,7 @@ describe('app actions', () => {
     await store.dispatch(setFirstLoginAfterSignup(true));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should calculate yesterdays timestamp', async () => {
     const store = mockStore({ ...defaultState });
@@ -97,7 +97,7 @@ describe('app actions', () => {
     await store.dispatch(setOfflineThreshold());
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should handle searching', async () => {
     const store = mockStore({ ...defaultState });
@@ -113,6 +113,6 @@ describe('app actions', () => {
     await store.dispatch(setSearchState({ searchTerm: 'next!' }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 });

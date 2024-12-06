@@ -130,7 +130,7 @@ describe('deployment actions', () => {
       .then(() => {
         const storeActions = store.getActions();
         expect(storeActions.length).toEqual(expectedActions.length);
-        expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+        expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
       });
   });
   it(`should reject aborting deployments that don't exist`, () => {
@@ -174,7 +174,7 @@ describe('deployment actions', () => {
     return store.dispatch(createDeployment({ newDeployment: { devices: [Object.keys(defaultState.devices.byId)[0]] } })).then(() => {
       const storeActions = store.getActions();
       expect(storeActions.length).toEqual(expectedActions.length);
-      expectedActions.map(assertionFunction(storeActions));
+      expectedActions.forEach(assertionFunction(storeActions));
     });
   });
   it('should allow creating deployments with a filter', async () => {
@@ -201,7 +201,7 @@ describe('deployment actions', () => {
     return store.dispatch(createDeployment({ newDeployment: { filter_id } })).then(() => {
       const storeActions = store.getActions();
       expect(storeActions.length).toEqual(expectedActions.length);
-      expectedActions.map(assertionFunction(storeActions));
+      expectedActions.forEach(assertionFunction(storeActions));
     });
   });
   it('should allow creating deployments with a group', async () => {
@@ -228,7 +228,7 @@ describe('deployment actions', () => {
     return store.dispatch(createDeployment({ newDeployment: { group } })).then(() => {
       const storeActions = store.getActions();
       expect(storeActions.length).toEqual(expectedActions.length);
-      expectedActions.map(assertionFunction(storeActions));
+      expectedActions.forEach(assertionFunction(storeActions));
     });
   });
   it('should allow deployments retrieval', async () => {
@@ -251,7 +251,7 @@ describe('deployment actions', () => {
       .then(() => {
         const storeActions = store.getActions();
         expect(storeActions.length).toEqual(expectedActions.length);
-        expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+        expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
       });
   });
   it('should allow deployment device log retrieval', async () => {
@@ -262,7 +262,7 @@ describe('deployment actions', () => {
       .then(() => {
         const storeActions = store.getActions();
         expect(storeActions.length).toEqual(expectedActions.length);
-        expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+        expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
       });
   });
   it('should allow deployment device list retrieval', async () => {
@@ -271,7 +271,7 @@ describe('deployment actions', () => {
     return store.dispatch(getDeploymentDevices({ id: Object.keys(defaultState.deployments.byId)[0] })).then(() => {
       const storeActions = store.getActions();
       expect(storeActions.length).toEqual(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
   it('should allow device deployment history retrieval', async () => {
@@ -300,7 +300,7 @@ describe('deployment actions', () => {
     await store.dispatch(getDeviceDeployments({ deviceId: defaultState.devices.byId.a1.id }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow device deployment history deletion', async () => {
     const store = mockStore({ ...defaultState });
@@ -330,7 +330,7 @@ describe('deployment actions', () => {
     await store.dispatch(resetDeviceDeployments(defaultState.devices.byId.a1.id));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow updating a deployment to continue the execution', async () => {
     const store = mockStore({ ...defaultState });
@@ -344,7 +344,7 @@ describe('deployment actions', () => {
     return store.dispatch(updateDeploymentControlMap({ deploymentId: createdDeployment.id, updateControlMap: { something: 'continue' } })).then(() => {
       const storeActions = store.getActions();
       expect(storeActions.length).toEqual(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
   it('should allow deployment state tracking', async () => {
@@ -380,7 +380,7 @@ describe('deployment actions', () => {
     ];
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 
   it('should allow retrieving config for deployments', async () => {
@@ -393,7 +393,7 @@ describe('deployment actions', () => {
     return store.dispatch(getDeploymentsConfig()).then(() => {
       const storeActions = store.getActions();
       expect(storeActions.length).toEqual(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
   it('should allow storing delta deployments settings', async () => {
@@ -419,7 +419,7 @@ describe('deployment actions', () => {
     return store.dispatch(saveDeltaDeploymentsConfig(changedConfig)).then(() => {
       const storeActions = store.getActions();
       expect(storeActions.length).toEqual(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
 });
