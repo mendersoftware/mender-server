@@ -45,7 +45,7 @@ export const Xterm = ({ className, customKeyEventHandler, options = {}, onResize
     addons.forEach(addon => terminal.current.loadAddon(addon));
 
     // Create Listeners
-    Object.entries(remainingProps).map(([key, value]) => (value ? terminal.current[key](value) : undefined));
+    Object.entries(remainingProps).forEach(([key, value]) => (value ? terminal.current[key](value) : undefined));
 
     // Add Custom Key Event Handler
     if (customKeyEventHandler) {

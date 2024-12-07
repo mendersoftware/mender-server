@@ -157,4 +157,24 @@ test.describe('Device details', () => {
       expect(pass2).not.toBeTruthy();
     }
   });
+
+  test('can trigger on device updates', async ({ loggedInPage: page }) => {
+    await page.click(`.leftNav :text('Devices')`);
+    await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
+    await page.getByText(/troubleshooting/i).click();
+    // the deviceconnect connection might not be established right away
+    await page.getByText(/Session status/i).waitFor({ timeout: timeouts.tenSeconds });
+    const connectionButton = await page.getByRole('button', { name: /connect/i });
+    await connectionButton.first().click();
+    await page.getByText('Connection with the device established').waitFor({ timeout: timeouts.tenSeconds });
+    const quickActionMenu = await page.getByText(/quick commands/i);
+    await quickActionMenu.scrollIntoViewIfNeeded();
+    await quickActionMenu.click();
+    const updateLoadingIndicator = page.locator('li .miniLoaderContainer');
+    await expect(updateLoadingIndicator).not.toBeVisible();
+    await page.getByRole('menuitem', { name: 'Trigger update check' }).click();
+    await expect(updateLoadingIndicator).toBeVisible();
+    await updateLoadingIndicator.waitFor({ state: 'hidden', timeout: timeouts.tenSeconds });
+    await expect(updateLoadingIndicator).not.toBeVisible();
+  });
 });

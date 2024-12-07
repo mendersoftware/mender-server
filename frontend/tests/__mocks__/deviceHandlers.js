@@ -289,6 +289,12 @@ export const deviceHandlers = [
     }
     return new HttpResponse(null, { status: 512 });
   }),
+  http.post(`${deviceConnect}/devices/:deviceId/:action`, ({ params: { deviceId, action } }) => {
+    if (['check-update', 'send-inventory'].includes(action) && defaultState.devices.byId[deviceId]) {
+      return new HttpResponse(null, { status: 202 });
+    }
+    return new HttpResponse(null, { status: 518 });
+  }),
   http.get(`${iotManagerBaseURL}/devices/:deviceId/state`, ({ params: { deviceId } }) => {
     if (defaultState.devices.byId[deviceId]) {
       return HttpResponse.json({ deployment_id: defaultState.deployments.byId.d1.id });

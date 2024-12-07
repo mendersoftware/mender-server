@@ -26,7 +26,7 @@ import { inventoryDevice } from '../../../../tests/__mocks__/deviceHandlers';
 import { defaultState } from '../../../../tests/mockData';
 import { act, mockAbortController } from '../../../../tests/setupTests';
 import { actions as appActions } from '../appSlice';
-import { EXTERNAL_PROVIDER, UNGROUPED_GROUP } from '../constants';
+import { EXTERNAL_PROVIDER, TIMEOUTS, UNGROUPED_GROUP } from '../constants';
 import { actions as deploymentActions } from '../deploymentsSlice';
 import { DEVICE_STATES } from './constants';
 import {
@@ -73,6 +73,7 @@ import {
   setDeviceListState,
   setDeviceTags,
   setDeviceTwin,
+  triggerDeviceUpdate,
   updateDeviceAuth,
   updateDevicesAuth,
   updateDynamicGroup
@@ -178,7 +179,7 @@ describe('selecting things', () => {
     await store.dispatch(setDeviceListState({ deviceIds: ['a1'] }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow device list selections without device retrieval', async () => {
     const store = mockStore({ ...defaultState });
@@ -190,7 +191,7 @@ describe('selecting things', () => {
     await store.dispatch(setDeviceListState({ deviceIds: ['a1'], setOnly: true }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow static group selection', async () => {
     const store = mockStore({ ...defaultState });
@@ -218,7 +219,7 @@ describe('selecting things', () => {
     ];
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow dynamic group selection', async () => {
     const store = mockStore({ ...defaultState });
@@ -231,7 +232,7 @@ describe('selecting things', () => {
     ];
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow dynamic group selection with extra filters', async () => {
     const store = mockStore({ ...defaultState });
@@ -255,7 +256,7 @@ describe('selecting things', () => {
     );
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 });
 
@@ -291,7 +292,7 @@ describe('overall device information retrieval', () => {
     await Promise.all(Object.values(DEVICE_STATES).map(status => store.dispatch(getDeviceCount(status)))).then(() => {
       const storeActions = store.getActions();
       expect(storeActions.length).toEqual(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
   it('should allow count retrieval for all state counts', async () => {
@@ -311,7 +312,7 @@ describe('overall device information retrieval', () => {
     await store.dispatch(getAllDeviceCounts());
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 
   it('should allow limit retrieval', async () => {
@@ -324,7 +325,7 @@ describe('overall device information retrieval', () => {
     await store.dispatch(getDeviceLimit());
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow attribute retrieval and group results', async () => {
     const store = mockStore({ ...defaultState });
@@ -336,7 +337,7 @@ describe('overall device information retrieval', () => {
     await store.dispatch(getDeviceAttributes());
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     const receivedAttributes = storeActions.find(item => item.type === actions.setFilterAttributes.type).payload;
     expect(Object.keys(receivedAttributes)).toHaveLength(4);
     Object.entries(receivedAttributes).forEach(([key, value]) => {
@@ -381,7 +382,7 @@ describe('overall device information retrieval', () => {
     await store.dispatch(getReportingLimits());
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 
   it('should allow getting device aggregation data for use in the dashboard/ reports', async () => {
@@ -409,7 +410,7 @@ describe('overall device information retrieval', () => {
     await store.dispatch(getReportsData());
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow getting device aggregation data for use in the dashboard/ reports even if the reporting service is not ready', async () => {
     const groupName = 'testGroup';
@@ -468,7 +469,7 @@ describe('overall device information retrieval', () => {
     await store.dispatch(getReportsDataWithoutBackendSupport());
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow system devices retrieval', async () => {
     const store = mockStore({
@@ -498,7 +499,7 @@ describe('overall device information retrieval', () => {
     await store.dispatch(getSystemDevices({ id: defaultState.devices.byId.a1.id }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow system devices retrieval', async () => {
     const gatewayDevice = defaultState.devices.byId.a1;
@@ -533,7 +534,7 @@ describe('overall device information retrieval', () => {
     await store.dispatch(getGatewayDevices(defaultState.devices.byId.a1.id));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 });
 
@@ -551,7 +552,7 @@ describe('device auth handling', () => {
     await store.dispatch(getDeviceAuth(defaultState.devices.byId.a1.id));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should return device auth device as a promise result', async () => {
     const store = mockStore({ ...defaultState });
@@ -593,7 +594,7 @@ describe('device auth handling', () => {
     );
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow multiple device auth updates', async () => {
     const store = mockStore({ ...defaultState });
@@ -638,7 +639,7 @@ describe('device auth handling', () => {
     });
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow preauthorizing devices', async () => {
     const store = mockStore({ ...defaultState });
@@ -657,7 +658,7 @@ describe('device auth handling', () => {
     );
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should notify about duplicate device preauthorization attempts', async () => {
     const store = mockStore({ ...defaultState });
@@ -678,7 +679,7 @@ describe('device auth handling', () => {
     await store.dispatch(deleteAuthset({ deviceId: defaultState.devices.byId.a1.id, authId: defaultState.devices.byId.a1.auth_sets[0].id }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow single device decomissioning', async () => {
     const store = mockStore({ ...defaultState });
@@ -692,7 +693,7 @@ describe('device auth handling', () => {
     await store.dispatch(decommissionDevice({ deviceId: defaultState.devices.byId.a1.id }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 });
 
@@ -717,7 +718,7 @@ describe('static grouping related actions', () => {
     await store.dispatch(getGroups());
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow creating static groups', async () => {
     const store = mockStore({ ...defaultState });
@@ -763,7 +764,7 @@ describe('static grouping related actions', () => {
     await store.dispatch(addStaticGroup({ group: groupName, devices: [defaultState.devices.byId.a1] }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow extending static groups', async () => {
     const store = mockStore({ ...defaultState });
@@ -776,7 +777,7 @@ describe('static grouping related actions', () => {
     await store.dispatch(addDevicesToGroup({ group: groupName, deviceIds: [defaultState.devices.byId.b1.id] }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow shrinking static groups', async () => {
     const store = mockStore({ ...defaultState });
@@ -790,7 +791,7 @@ describe('static grouping related actions', () => {
     await store.dispatch(removeDevicesFromGroup({ group: groupName, deviceIds: [defaultState.devices.byId.b1.id] }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow removing static groups', async () => {
     const store = mockStore({ ...defaultState });
@@ -817,7 +818,7 @@ describe('static grouping related actions', () => {
     await store.dispatch(removeStaticGroup(groupName));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow device retrieval for static groups', async () => {
     const store = mockStore({ ...defaultState });
@@ -841,7 +842,7 @@ describe('static grouping related actions', () => {
     await store.dispatch(getGroupDevices(groupName));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     const devicesById = storeActions.find(item => item.type === actions.receivedDevices.type).payload;
     expect(devicesById[defaultState.devices.byId.a1.id]).toBeTruthy();
     expect(new Date(devicesById[defaultState.devices.byId.a1.id].updated_ts).getTime()).toBeGreaterThanOrEqual(new Date(updated_ts).getTime());
@@ -861,7 +862,7 @@ describe('static grouping related actions', () => {
     await store.dispatch(getAllGroupDevices(groupName));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 });
 
@@ -872,7 +873,7 @@ describe('dynamic grouping related actions', () => {
     await store.dispatch(getDynamicGroups());
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 
   it('should allow creating dynamic groups', async () => {
@@ -894,7 +895,7 @@ describe('dynamic grouping related actions', () => {
     await store.dispatch(addDynamicGroup({ groupName, filterPredicates: [{ key: 'group', operator: '$nin', scope: 'system', value: ['testGroup'] }] }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow complete device retrieval for dynamic groups', async () => {
     const store = mockStore({ ...defaultState });
@@ -908,7 +909,7 @@ describe('dynamic grouping related actions', () => {
     await store.dispatch(getAllDynamicGroupDevices(groupName));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow dynamic group updates', async () => {
     const groupName = 'testGroupDynamic';
@@ -937,7 +938,7 @@ describe('dynamic grouping related actions', () => {
     await store.dispatch(updateDynamicGroup({ groupName, filterPredicates: [] }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow removing dynamic groups', async () => {
     const store = mockStore({ ...defaultState });
@@ -951,7 +952,7 @@ describe('dynamic grouping related actions', () => {
     await store.dispatch(removeDynamicGroup(groupName));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 });
 
@@ -969,7 +970,7 @@ describe('device retrieval ', () => {
     await store.dispatch(getDeviceById(defaultState.devices.byId.a1.id));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow single device retrieval from detailed sources', async () => {
     const store = mockStore({
@@ -991,15 +992,15 @@ describe('device retrieval ', () => {
       { type: getDeviceById.fulfilled.type },
       { type: getDeviceAuth.fulfilled.type },
       { type: actions.receivedDevice.type, payload: { connect_status: 'connected', connect_updated_ts: updated_ts, id } },
-      { type: actions.receivedDevice.type, payload: expectedDevice },
       { type: getDeviceConnect.fulfilled.type },
+      { type: actions.receivedDevice.type, payload: expectedDevice },
       { type: getDeviceTwin.fulfilled.type },
       { type: getDeviceInfo.fulfilled.type }
     ];
     await store.dispatch(getDeviceInfo(defaultState.devices.byId.a1.id));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow retrieving multiple devices by status', async () => {
     const store = mockStore({ ...defaultState });
@@ -1015,7 +1016,7 @@ describe('device retrieval ', () => {
     await store.dispatch(getDevicesByStatus({ status: DEVICE_STATES.accepted }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow retrieving multiple devices by status and select if requested', async () => {
     const store = mockStore({ ...defaultState });
@@ -1034,7 +1035,7 @@ describe('device retrieval ', () => {
     await store.dispatch(getDevicesByStatus({ status: DEVICE_STATES.accepted, perPage: 1, shouldSelectDevices: true }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow retrieving devices based on devicelist state', async () => {
     const store = mockStore({ ...defaultState });
@@ -1055,7 +1056,7 @@ describe('device retrieval ', () => {
     await store.dispatch(setDeviceListState({ page: 1, perPage: 2, refreshTrigger: true }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow retrieving all devices per status', async () => {
     const store = mockStore({ ...defaultState });
@@ -1074,7 +1075,7 @@ describe('device retrieval ', () => {
     await store.dispatch(getAllDevicesByStatus(DEVICE_STATES.accepted));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow retrieving devices per status and their auth data', async () => {
     const store = mockStore({ ...defaultState });
@@ -1090,7 +1091,7 @@ describe('device retrieval ', () => {
     await store.dispatch(getDevicesWithAuth([defaultState.devices.byId.a1, defaultState.devices.byId.b1]));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 });
 
@@ -1112,7 +1113,7 @@ describe('device config ', () => {
     await store.dispatch(getDeviceConfig(defaultState.devices.byId.a1.id));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should not have a problem with unknown devices on config retrieval', async () => {
     const store = mockStore({ ...defaultState });
@@ -1120,7 +1121,7 @@ describe('device config ', () => {
     await store.dispatch(getDeviceConfig('testId'));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 
   it('should allow single device config update', async () => {
@@ -1135,7 +1136,7 @@ describe('device config ', () => {
     await store.dispatch(setDeviceConfig({ deviceId: defaultState.devices.byId.a1.id, config: { something: 'asdl' } }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow single device config deployment', async () => {
     const store = mockStore({ ...defaultState });
@@ -1152,7 +1153,7 @@ describe('device config ', () => {
     result.then(() => {
       const storeActions = store.getActions();
       expect(storeActions.length).toEqual(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
   it('should allow setting device tags', async () => {
@@ -1170,7 +1171,7 @@ describe('device config ', () => {
     await store.dispatch(setDeviceTags({ deviceId: defaultState.devices.byId.a1.id, tags: { something: 'asdl' } }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 });
 
@@ -1185,7 +1186,40 @@ describe('troubleshooting related actions', () => {
 
     expect(result).toMatchObject({ start: new Date(endDate), end: new Date(endDate) });
   });
-
+  it('should allow triggering device inventory updates', async () => {
+    const store = mockStore({ ...defaultState });
+    const { attributes, id } = defaultState.devices.byId.a1;
+    const expectedActions = [
+      { type: triggerDeviceUpdate.pending.type },
+      { type: getDeviceById.pending.type },
+      { type: actions.receivedDevice.type, payload: { attributes, id } },
+      { type: getDeviceById.fulfilled.type },
+      { type: triggerDeviceUpdate.fulfilled.type }
+    ];
+    // no await here to allow moving beyond the delayed device info update in the next line
+    store.dispatch(triggerDeviceUpdate({ id: defaultState.devices.byId.a1.id, type: 'inventoryUpdate' }));
+    await jest.advanceTimersByTimeAsync(TIMEOUTS.fiveSeconds);
+    const storeActions = store.getActions();
+    expect(storeActions.length).toEqual(expectedActions.length);
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
+  });
+  it('should allow triggering device deployment update checks', async () => {
+    const store = mockStore({ ...defaultState });
+    const { attributes, id } = defaultState.devices.byId.a1;
+    const expectedActions = [
+      { type: triggerDeviceUpdate.pending.type },
+      { type: getDeviceById.pending.type },
+      { type: actions.receivedDevice.type, payload: { attributes, id } },
+      { type: getDeviceById.fulfilled.type },
+      { type: triggerDeviceUpdate.fulfilled.type }
+    ];
+    // no await here to allow moving beyond the delayed device info update in the next line
+    store.dispatch(triggerDeviceUpdate({ id: defaultState.devices.byId.a1.id, type: 'deploymentUpdate' }));
+    await jest.advanceTimersByTimeAsync(TIMEOUTS.fiveSeconds);
+    const storeActions = store.getActions();
+    expect(storeActions.length).toEqual(expectedActions.length);
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
+  });
   it('should allow device file transfers', async () => {
     const store = mockStore({ ...defaultState });
     const link = await store.dispatch(getDeviceFileDownloadLink({ deviceId: 'aDeviceId', path: '/tmp/file' })).unwrap();
@@ -1207,7 +1241,7 @@ describe('troubleshooting related actions', () => {
     await store.dispatch(deviceFileUpload({ deviceId: defaultState.devices.byId.a1.id, path: '/tmp/file', file: 'file' }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 });
 
@@ -1222,7 +1256,7 @@ describe('device twin related actions', () => {
     await store.dispatch(getDeviceTwin({ deviceId: defaultState.devices.byId.a1.id, integration: EXTERNAL_PROVIDER['iot-hub'] }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow configuring twin data on azure', async () => {
     const store = mockStore({ ...defaultState });
@@ -1240,6 +1274,6 @@ describe('device twin related actions', () => {
     );
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 });

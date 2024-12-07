@@ -104,7 +104,7 @@ describe('onboarding actions', () => {
     ];
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => Object.keys(action).map(key => expect(storeActions[index][key]).toEqual(action[key])));
+    expectedActions.forEach((action, index) => Object.keys(action).forEach(key => expect(storeActions[index][key]).toEqual(action[key])));
   });
   it('should pass on onboarding approach', async () => {
     const store = mockStore({ ...defaultState });
@@ -131,7 +131,7 @@ describe('onboarding actions', () => {
     ];
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => Object.keys(action).map(key => expect(storeActions[index][key]).toEqual(action[key])));
+    expectedActions.forEach((action, index) => Object.keys(action).forEach(key => expect(storeActions[index][key]).toEqual(action[key])));
   });
   it('should pass on onboarding device type', async () => {
     const store = mockStore({ ...defaultState });
@@ -159,7 +159,7 @@ describe('onboarding actions', () => {
     ];
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => Object.keys(action).map(key => expect(storeActions[index][key]).toEqual(action[key])));
+    expectedActions.forEach((action, index) => Object.keys(action).forEach(key => expect(storeActions[index][key]).toEqual(action[key])));
   });
   it('should advance onboarding by one step', async () => {
     const store = mockStore({ ...defaultState });
@@ -187,7 +187,7 @@ describe('onboarding actions', () => {
     ];
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => Object.keys(action).map(key => expect(storeActions[index][key]).toEqual(action[key])));
+    expectedActions.forEach((action, index) => Object.keys(action).forEach(key => expect(storeActions[index][key]).toEqual(action[key])));
   });
   it('should disable helptips and store a canceled state', async () => {
     const store = mockStore({ ...defaultState });
@@ -221,7 +221,7 @@ describe('onboarding actions', () => {
     ];
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => Object.keys(action).map(key => expect(storeActions[index][key]).toEqual(action[key])));
+    expectedActions.forEach((action, index) => Object.keys(action).forEach(key => expect(storeActions[index][key]).toEqual(action[key])));
   });
   it('should try to derive the onboarding state based on the stored state of the environment', async () => {
     const store = mockStore({ ...defaultState });
@@ -230,6 +230,6 @@ describe('onboarding actions', () => {
     const expectedActions = expectedOnboardingActions;
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => Object.keys(action).map(key => expect(storeActions[index][key]).toEqual(action[key])));
+    expectedActions.forEach((action, index) => Object.keys(action).forEach(key => expect(storeActions[index][key]).toEqual(action[key])));
   });
 });

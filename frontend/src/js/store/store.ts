@@ -31,9 +31,7 @@ const { setSnackbar, uploadProgress } = actions;
 
 // exclude 'pendings-redirect' since this is expected to persist refreshes - the rest should be better to be redone
 const keys = ['sessionDeploymentChecker', settingsKeys.initialized];
-const resetEnvironment = () => {
-  keys.map(key => window.sessionStorage.removeItem(key));
-};
+const resetEnvironment = () => keys.forEach(key => window.sessionStorage.removeItem(key));
 
 resetEnvironment();
 
