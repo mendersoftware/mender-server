@@ -419,7 +419,7 @@ exports[`Helptooltips Components renders SingleFileUpload correctly 1`] = `This 
 
 exports[`Helptooltips Components renders SsoMetadata correctly 1`] = `Submit the metadata document from your Identity Provider`;
 
-exports[`Helptooltips Components renders SubTenantDeltaArtifactGeneration correctly 1`] = `TBD: is this feature still alive?`;
+exports[`Helptooltips Components renders SubTenantDeltaArtifactGeneration correctly 1`] = `This option will enable the server-side generation of Delta Artifacts for the created tenant when turned on`;
 
 exports[`Helptooltips Components renders SubTenantDeviceLimit correctly 1`] = `Set the maximum number of accepted devices this tenant can have connected to the server at any time. You can adjust this later. Each tenants’ amount of accepted devices will count towards your total device limit.`;
 

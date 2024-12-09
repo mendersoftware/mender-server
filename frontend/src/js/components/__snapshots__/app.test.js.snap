@@ -1321,7 +1321,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-8:focus::-ms-input-p
             class="header-section"
           >
             <a
-              class=""
+              class="flexbox center-aligned "
               href="/devices"
             >
               <span>
@@ -3184,7 +3184,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
             data-mui-internal-clone-element="true"
           >
             <a
-              class=""
+              class="flexbox center-aligned "
               href="/devices"
             >
               <span>
