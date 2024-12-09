@@ -1,4 +1,4 @@
-# Copyright 2024 Northern.tech AS
+# Copyright 2022 Northern.tech AS
 #
 #    Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
 #    limitations under the License.
 import os
 
+import bravado
 import pytest
 
 from common import (
@@ -29,7 +30,6 @@ from common import (
     internal_api,
     device_api,
 )
-import management_api as ma
 
 from cryptutil import compare_keys
 
@@ -43,12 +43,10 @@ class TestDevice:
 
         try:
             with orchestrator.run_fake_for_device_id(1) as server:
-                try:
-                    device_auth_req(device_api.auth_requests_url, da, d)
-                except ma.ApiException as e:
-                    assert e.status == 401
-        except ma.ApiException as e:
-            assert e.status == 204
+                rsp = device_auth_req(device_api.auth_requests_url, da, d)
+                assert rsp.status_code == 401
+        except bravado.exception.HTTPError as e:
+            assert e.response.status_code == 204
 
         devs = management_api.list_devices()
 
@@ -74,14 +72,14 @@ class TestDevice:
     def test_device_accept_nonexistent(self, management_api):
         try:
             management_api.accept_device("funnyid", "funnyid")
-        except ma.ApiException as e:
-            assert e.status == 404
+        except bravado.exception.HTTPError as e:
+            assert e.response.status_code == 404
 
     def test_device_reject_nonexistent(self, management_api):
         try:
             management_api.reject_device("funnyid", "funnyid")
-        except ma.ApiException as e:
-            assert e.status == 404
+        except bravado.exception.HTTPError as e:
+            assert e.response.status_code == 404
 
     def test_device_accept_reject_cycle(self, devices, device_api, management_api):
         d, da = devices[0]
@@ -98,8 +96,8 @@ class TestDevice:
         try:
             with orchestrator.run_fake_for_device_id(devid) as server:
                 management_api.accept_device(devid, aid)
-        except ma.ApiException as e:
-            assert e.status == 204
+        except bravado.exception.HTTPError as e:
+            assert e.response.status_code == 204
 
         # device is accepted, we should get a token now
         try:
@@ -114,14 +112,14 @@ class TestDevice:
                 # reject it now
                 try:
                     management_api.reject_device(devid, aid)
-                except ma.ApiException as e:
-                    assert e.status == 204
+                except bravado.exception.HTTPError as e:
+                    assert e.response.status_code == 204
 
                 # device is rejected, should get unauthorized
                 rsp = device_auth_req(url, da, d)
                 assert rsp.status_code == 401
-        except ma.ApiException as e:
-            assert e.status == 204
+        except bravado.exception.HTTPError as e:
+            assert e.response.status_code == 204
 
     @pytest.mark.parametrize("devices", ["50"], indirect=True)
     def test_get_devices(self, management_api, devices):
@@ -147,8 +145,8 @@ class TestDevice:
     def test_get_single_device_none(self, management_api):
         try:
             management_api.get_device(id="some-devid-foo")
-        except ma.ApiException as e:
-            assert e.status == 404
+        except bravado.exception.HTTPError as e:
+            assert e.response.status_code == 404
 
     def test_get_device_single(self, management_api, devices):
         dev, _ = devices[0]
@@ -163,8 +161,8 @@ class TestDevice:
         # try delete a nonexistent device
         try:
             management_api.decommission_device("some-devid-foo")
-        except ma.ApiException as e:
-            assert e.status == 404
+        except bravado.exception.HTTPError as e:
+            assert e.response.status_code == 404
 
     def test_delete_device(self, management_api, internal_api, devices):
         # try delete an existing device, verify decommissioning workflow was started
@@ -175,24 +173,29 @@ class TestDevice:
 
         try:
             with orchestrator.run_fake_for_device_id(ourdev.id):
-                management_api.decommission_device(
+                rsp = management_api.decommission_device(
                     ourdev.id,
-                    x_men_request_id="delete_device",
+                    {
+                        "X-MEN-RequestID": "delete_device",
+                        "Authorization": "Bearer foobar",
+                    },
                 )
-        except ma.ApiException as e:
-            assert e.status == 204
+            print("decommission request finished with status:", rsp.status_code)
+        except bravado.exception.HTTPError as e:
+            assert e.response.status_code == 204
 
         try:
             with orchestrator.run_fake_for_device_id(ourdev.id):
-                internal_api.delete_device(
+                rsp = internal_api.delete_device(
                     ourdev.id,
                     headers={
                         "X-MEN-RequestID": "delete_device",
                         "Authorization": "Bearer foobar",
                     },
                 )
-        except ma.ApiException as e:
-            assert e.status == 204
+            print("delete request finished with status:", rsp.status_code)
+        except bravado.exception.HTTPError as e:
+            assert e.response.status_code == 204
 
         found = management_api.find_device_by_identity(dev.identity)
         assert not found
@@ -224,8 +227,8 @@ class TestDevice:
                         management_api.accept_device(devid, aid)
                     elif idx == 1:
                         management_api.reject_device(devid, aid)
-            except ma.ApiException as e:
-                assert e.status == 204
+            except bravado.exception.HTTPError as e:
+                assert e.response.status_code == 204
 
         TestDevice.verify_device_count(management_api, "pending", 13)
         TestDevice.verify_device_count(management_api, "accepted", 1)
@@ -318,10 +321,8 @@ class TestDeleteAuthsetBase:
         aid = dev.auth_sets[0].id
 
         with orchestrator.run_fake_for_device_id(dev.id) as server:
-            try:
-                management_api.delete_authset(dev.id, aid, **kwargs)
-            except ma.ApiException as e:
-                assert e.status == 204
+            rsp = management_api.delete_authset(dev.id, aid, **kwargs)
+            assert rsp.status_code == 204
 
         found = management_api.get_device(id=dev.id, **kwargs)
         assert found
@@ -331,10 +332,8 @@ class TestDeleteAuthsetBase:
     def _test_delete_authset_error_device_not_found(
         self, management_api, devices, **kwargs
     ):
-        try:
-            management_api.delete_authset("foo", "bar")
-        except ma.ApiException as e:
-            assert e.status == 404
+        rsp = management_api.delete_authset("foo", "bar")
+        assert rsp.status_code == 404
 
     def _test_delete_authset_error_authset_not_found(
         self, management_api, devices, **kwargs
@@ -348,10 +347,8 @@ class TestDeleteAuthsetBase:
 
         print("found matching device with ID:", dev.id)
 
-        try:
-            management_api.delete_authset(devid, "foobar")
-        except ma.ApiException as e:
-            assert e.status == 404
+        rsp = management_api.delete_authset(devid, "foobar")
+        assert rsp.status_code == 404
 
 
 class TestDeleteAuthset(TestDeleteAuthsetBase):

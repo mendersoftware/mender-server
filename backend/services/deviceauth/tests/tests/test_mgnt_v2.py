@@ -1,4 +1,4 @@
-# Copyright 2024 Northern.tech AS
+# Copyright 2022 Northern.tech AS
 #
 #    Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -11,6 +11,7 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
+import bravado
 
 from common import (
     Device,
@@ -30,9 +31,6 @@ from common import (
 
 import orchestrator
 
-import management_api as ma
-import internal_api as ia
-
 
 class TestDeleteDevice:
     def test_delete_device(self, management_api, internal_api, devices):
@@ -42,26 +40,38 @@ class TestDeleteDevice:
         ourdev = management_api.get_single_device()
         assert ourdev
 
-        with orchestrator.run_fake_for_device_id(ourdev.id):
-            try:
-                management_api.decommission_device(
-                    ourdev.id, x_men_request_id="delete_device",
+        try:
+            with orchestrator.run_fake_for_device_id(ourdev.id):
+                rsp = management_api.decommission_device(
+                    ourdev.id,
+                    {
+                        "X-MEN-RequestID": "delete_device",
+                        "Authorization": "Bearer foobar",
+                    },
                 )
-            except ma.ApiException as e:
-                assert e.status == 204
+            print("decommission request finished with status:", rsp.status_code)
+        except bravado.exception.HTTPError as e:
+            assert e.response.status_code == 204
 
-        with orchestrator.run_fake_for_device_id(ourdev.id):
-            try:
-                internal_api.delete_device(ourdev.id,)
-            except ia.ApiException as e:
-                assert e.status == 204
+        try:
+            with orchestrator.run_fake_for_device_id(ourdev.id):
+                rsp = internal_api.delete_device(
+                    ourdev.id,
+                    headers={
+                        "X-MEN-RequestID": "delete_device",
+                        "Authorization": "Bearer foobar",
+                    },
+                )
+            print("delete request finished with status:", rsp.status_code)
+        except bravado.exception.HTTPError as e:
+            assert e.response.status_code == 204
 
         found = None
         status_code = None
         try:
             found = management_api.get_device(id=ourdev.id)
-        except ma.ApiException as e:
-            status_code = e.status
+        except bravado.exception.HTTPError as e:
+            status_code = e.response.status_code
 
         assert status_code == 404
         assert not found
@@ -74,21 +84,20 @@ class TestDeleteDevice:
         assert ourdev
 
         with orchestrator.run_fake_for_device_id(ourdev.id, 500) as server:
-            try:
-                management_api.decommission_device(
-                    ourdev.id, x_men_request_id="delete_device",
-                )
-            except ma.ApiException as e:
-                assert e.status == 500
+            rsp = management_api.decommission_device(
+                ourdev.id,
+                {
+                    "X-MEN-RequestID": "delete_device",
+                    "Authorization": "Bearer foobar",
+                },
+            )
+        print("decommission request finished with status:", rsp.status_code)
+        assert rsp.status_code == 500
 
     def test_delete_device_nonexistent(self, management_api):
         # try delete a nonexistent device
-        try:
-            management_api.decommission_device(
-                "some-devid-foo", x_men_request_id="delete_device",
-            )
-        except ma.ApiException as e:
-            assert e.status == 404
+        rsp = management_api.decommission_device("some-devid-foo")
+        assert rsp.status_code == 404
 
     def test_device_accept_reject_cycle(self, devices, device_api, management_api):
         d, da = devices[0]
@@ -103,10 +112,8 @@ class TestDeleteDevice:
         aid = dev.auth_sets[0].id
 
         with orchestrator.run_fake_for_device_id(devid) as server:
-            try:
-                management_api.accept_device(devid, aid)
-            except ma.ApiException as e:
-                assert e.status == 204
+            _, rsp = management_api.accept_device(devid, aid)
+            assert rsp.status_code == 204
 
             # device is accepted, we should get a token now
             rsp = device_auth_req(url, da, d)
@@ -117,10 +124,9 @@ class TestDeleteDevice:
             assert len(d.token) > 0
 
             # reject it now
-            try:
-                management_api.reject_device(devid, aid)
-            except ma.ApiException as e:
-                assert e.status == 204
+            _, rsp = management_api.reject_device(devid, aid)
+            print("RSP:", rsp)
+            assert rsp.status_code == 204
 
             # device is rejected, should get unauthorized
             rsp = device_auth_req(url, da, d)
@@ -144,6 +150,6 @@ class TestDeleteDevice:
         try:
             with orchestrator.run_fake_for_device_id(devid, 500) as server:
                 management_api.accept_device(devid, aid)
-        except ma.ApiException as e:
-            status = e.status
+        except bravado.exception.HTTPError as e:
+            status = e.response.status_code
         assert status == 500

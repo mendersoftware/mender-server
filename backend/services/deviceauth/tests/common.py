@@ -197,7 +197,8 @@ def management_api(request):
 @pytest.fixture(scope="session")
 def internal_api(request):
     yield SimpleInternalClient(
-        request.config.getoption("--host"), request.config.getoption("--spec"),
+        request.config.getoption("--host"),
+        request.config.getoption("--spec"),
     )
 
 
