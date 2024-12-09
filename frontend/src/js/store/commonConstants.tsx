@@ -42,6 +42,7 @@ export const DEVICE_FILTERING_OPTIONS = {
     help: 'The "greater than" operator can work both on numbers and strings. In the latter case, the operator applies the lexicographical order to the value strings.'
   },
   $gte: {
+    key: '$gte',
     title: '>=',
     shortform: '>=',
     help: 'The "greater than or equal" operator can work both on numbers and strings. In the latter case, the operator applies the lexicographical order to the value strings.'
@@ -53,6 +54,7 @@ export const DEVICE_FILTERING_OPTIONS = {
     help: 'The "lesser than" operator can work both on numbers and strings. In the latter case, the operator applies the lexicographical order to the value strings.'
   },
   $lte: {
+    key: '$lte',
     title: '<=',
     shortform: '<=',
     help: 'The "lesser than or equal" operator can work both on numbers and strings. In the latter case, the operator applies the lexicographical order to the value strings.'

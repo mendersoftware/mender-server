@@ -27,10 +27,15 @@ import {
 
 // for some reason these functions can not be stored in the deviceConstants...
 const filterProcessors = {
-  $in: val => ('' + val).split(',').map(i => i.trim()),
-  $nin: val => ('' + val).split(',').map(i => i.trim()),
-  $exists: yes,
-  $nexists: () => false
+  [DEVICE_FILTERING_OPTIONS.$gt.key]: val => Number(val) || val,
+  [DEVICE_FILTERING_OPTIONS.$gte.key]: val => Number(val) || val,
+  [DEVICE_FILTERING_OPTIONS.$lt.key]: val => Number(val) || val,
+  [DEVICE_FILTERING_OPTIONS.$lte.key]: val => Number(val) || val,
+  [DEVICE_FILTERING_OPTIONS.$ltne.key]: val => Number(val) || val,
+  [DEVICE_FILTERING_OPTIONS.$in.key]: val => ('' + val).split(',').map(i => i.trim()),
+  [DEVICE_FILTERING_OPTIONS.$nin.key]: val => ('' + val).split(',').map(i => i.trim()),
+  [DEVICE_FILTERING_OPTIONS.$exists.key]: yes,
+  [DEVICE_FILTERING_OPTIONS.$nexists.key]: () => false
 };
 const filterAliases = {
   $nexists: { alias: DEVICE_FILTERING_OPTIONS.$exists.key, value: false }
