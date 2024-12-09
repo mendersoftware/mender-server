@@ -14,42 +14,69 @@
 import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { Divider, Drawer } from '@mui/material';
+import { Button, Divider, Drawer } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import Form from '@northern.tech/common-ui/forms/form';
 import storeActions from '@northern.tech/store/actions';
 import { Plan } from '@northern.tech/store/constants';
-import { Organization } from '@northern.tech/store/organizationSlice/types';
+import { BillingProfile, Card, Organization } from '@northern.tech/store/organizationSlice/types';
 import { getCurrentUser } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
-import { completeUpgrade } from '@northern.tech/store/thunks';
+import { completeUpgrade, editBillingProfile } from '@northern.tech/store/thunks';
 
+import CardSection from './CardSection';
 import { PlanExpandedForm } from './PlanExpandedForm';
-import CardSection from './cardsection';
+import OrganizationPaymentSettings from './organization/OrganizationPaymentSettings';
 
 const { setSnackbar } = storeActions;
 
-interface PlanExpandedProps {
-  plan: Plan;
+interface PlanExpandedPropsBase {
   organization: Organization;
   onCloseClick: () => void;
+  isEdit: boolean;
 }
+interface ProfileEditProps extends PlanExpandedPropsBase {
+  isEdit: true;
+  previousValues: BillingProfile;
+  card: Card;
+}
+
+interface PlanProps extends PlanExpandedPropsBase {
+  isEdit: false;
+  plan: Plan;
+}
+
+const useStyles = makeStyles()(() => ({
+  submitButtonContainer: {
+    position: 'relative',
+    top: '172px',
+    height: 0
+  }
+}));
+
 const successMessage = (plan: string) =>
   `Thank you! You have successfully subscribed to the ${plan} plan.  You can view and edit your billing details on the Organization and billing page.`;
 
-export const PlanExpanded = (props: PlanExpandedProps) => {
-  const { plan: selectedPlan, onCloseClick, organization } = props;
+export const PlanExpanded = (props: ProfileEditProps | PlanProps) => {
+  const { onCloseClick, isEdit } = props;
+  const organization = !isEdit ? props.organization : null;
   const [isValid, setIsValid] = useState(false);
+  const [updatingCard, setUpdatingCard] = useState(false);
+  const selectedPlan = isEdit ? null : props.plan;
   const dispatch = useAppDispatch();
   const formSubmitRef = useRef<() => void | null>(null);
   const { email } = useSelector(getCurrentUser);
+  const { classes } = useStyles();
   const handleUpgrade = () => {
     if (formSubmitRef.current) {
       formSubmitRef.current();
     }
   };
-
+  const initialValues = isEdit
+    ? { ...props.previousValues.address, name: props.previousValues.name, email: props.previousValues.email }
+    : { email, name: organization?.name || '', line1: '', state: '', city: '', postal_code: '', country: '' };
   const handleSubmit = async values => {
     const {
       email,
@@ -61,36 +88,48 @@ export const PlanExpanded = (props: PlanExpandedProps) => {
       postal_code
     } = values;
     const billing_profile = { email, name, address: { country: code, state, city, line1, postal_code } };
-    await dispatch(completeUpgrade({ tenantId: organization.id, plan: selectedPlan.id, billing_profile }));
-    dispatch(setSnackbar(successMessage(selectedPlan.name)));
+    if (isEdit) {
+      await dispatch(editBillingProfile({ billing_profile }));
+    } else {
+      await dispatch(completeUpgrade({ tenantId: (organization as Organization).id, plan: (selectedPlan as Plan).id, billing_profile }));
+      dispatch(setSnackbar(successMessage((selectedPlan as Plan).name)));
+    }
     onCloseClick();
   };
+
   return (
     <Drawer anchor="right" open={true} PaperProps={{ style: { minWidth: '75vw' } }}>
-      <DrawerTitle title={<>Subscribe to {selectedPlan.name}</>} onClose={onCloseClick} />
+      <DrawerTitle title={<>{selectedPlan ? `Subscribe to ${selectedPlan.name}` : 'Edit billing details'}</>} onClose={onCloseClick} />
       <Divider className="margin-bottom" />
-      <div>
-        Complete checkout to subscribe to <b>{selectedPlan.name}</b> at <b>{selectedPlan.price}</b>
-      </div>
-      <Form
-        submitRef={formSubmitRef}
-        onSubmit={handleSubmit}
-        initialValues={{ email, name: organization.name || '', line1: '', state: '', city: '', postal_code: '', country: '' }}
-        showButtons={false}
-        autocomplete="off"
-      >
+      {selectedPlan && (
+        <div>
+          Complete checkout to subscribe to <b>{selectedPlan.name}</b> at <b>{selectedPlan.price}</b>
+        </div>
+      )}
+      <Form submitRef={formSubmitRef} onSubmit={handleSubmit} initialValues={initialValues} showButtons={false} autocomplete="off">
         <PlanExpandedForm setIsValid={setIsValid} />
+        {isEdit && !updatingCard && (
+          <div className={classes.submitButtonContainer}>
+            <Button className="margin-right-small" onClick={onCloseClick}>
+              Cancel
+            </Button>
+            <Button type="submit" color="secondary" variant="contained" disabled={!isValid}>
+              Save
+            </Button>
+          </div>
+        )}
       </Form>
-      {isValid && (
+      {isEdit ? (
         <>
-          <h4>Card Details</h4>
-          <CardSection
-            organization={organization}
-            onComplete={handleUpgrade}
-            setSnackbar={(message: string) => dispatch(setSnackbar(message))}
-            isSignUp={true}
-          />
+          <OrganizationPaymentSettings onComplete={handleUpgrade} updatingCard={updatingCard} setUpdatingCard={setUpdatingCard} isValid={isValid} />
         </>
+      ) : (
+        isValid && (
+          <>
+            <h4>Card Details</h4>
+            <CardSection organization={organization as Organization} onCardConfirmed={handleUpgrade} isSignUp />
+          </>
+        )
       )}
     </Drawer>
   );

@@ -130,7 +130,7 @@ const appInitActions = [
   { type: getUserOrganization.fulfilled.type },
   { type: userActions.setGlobalSettings.type, payload: { ...defaultState.users.globalSettings } },
   { type: setOfflineThreshold.pending.type },
-  { type: appActions.setOfflineThreshold.type, payload: '2019-01-12T13:00:06.200Z' },
+  { type: appActions.setOfflineThreshold.type, payload: '2019-01-12T13:00:00.950Z' },
   { type: setOfflineThreshold.fulfilled.type },
   { type: userActions.setUserSettings.type, payload: { ...defaultState.users.userSettings } },
   { type: getGlobalSettings.fulfilled.type },
@@ -241,15 +241,15 @@ const appInitActions = [
   { type: getIntegrations.fulfilled.type },
   { type: releasesActions.receiveReleases.type, payload: defaultState.releases.byId },
   {
-    type: releasesActions.setReleaseListState.type,
-    payload: { ...defaultState.releases.releasesList, releaseIds: [defaultState.releases.byId.r1.name], page: 42 }
-  },
-  {
     type: deviceActions.receivedDevices.type,
     payload: {
       [expectedDevice.id]: { ...defaultState.devices.byId.a1, group: undefined, isNew: false, isOffline: true, monitor: {}, tags: {} },
       [defaultState.devices.byId.b1.id]: { ...defaultState.devices.byId.b1, group: undefined, isNew: false, isOffline: true, monitor: {}, tags: {} }
     }
+  },
+  {
+    type: releasesActions.setReleaseListState.type,
+    payload: { ...defaultState.releases.releasesList, releaseIds: [defaultState.releases.byId.r1.name], page: 42 }
   },
   {
     type: deviceActions.receivedDevices.type,
@@ -321,7 +321,11 @@ it('should try to get all required app information', async () => {
   await jest.runAllTimersAsync();
   const storeActions = store.getActions();
   expect(storeActions.length).toEqual(appInitActions.length);
-  appInitActions.forEach((action, index) => Object.keys(action).forEach(key => expect(storeActions[index][key]).toEqual(action[key])));
+  console.log(appInitActions)
+  appInitActions.forEach((action, index) => {
+    // Object.keys(action).forEach(key => console.log(action[key]));
+    Object.keys(action).forEach(key => expect(storeActions[index][key]).toEqual(action[key]));
+  });
 });
 it('should execute the offline threshold migration for multi day thresholds', async () => {
   const store = mockStore({

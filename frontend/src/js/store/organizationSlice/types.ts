@@ -14,7 +14,7 @@
 import { AvailableAddon, AvailablePlans } from '@northern.tech/store/appSlice/constants';
 
 //TODO: improve types
-interface Card {
+export interface Card {
   last4: string;
   expiration: {
     month: number;
@@ -97,10 +97,17 @@ export interface Addon {
   name: AvailableAddon;
   enabled: boolean;
 }
+export interface Address {
+  country: string;
+  state: string;
+  city: string;
+  line1: string;
+  postal_code: string;
+}
 export interface BillingProfile {
   email: string;
   name: string;
-  address: { country: string; state: string; city: string; line1: string; postal_code: string };
+  address: Address;
 }
 
 export interface Organization {
@@ -126,4 +133,10 @@ export interface Organization {
   device_count: number;
   device_limit: number;
   binary_delta: boolean;
+  billing_profile?: {
+    email: string;
+    name: string;
+    address: Address;
+    shipping: { name: string; email: string; address: Address };
+  };
 }
