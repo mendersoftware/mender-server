@@ -15,25 +15,21 @@
 from multiprocessing import Process
 from flask import Flask
 import logging
-
-log = logging.getLogger("werkzeug")
+log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 
 app = Flask(__name__)
 server = None
 
-
 @app.route("/api/internal/v1/tenantadm/tenants/verify", methods=["POST"])
 def verify():
     return "", 200
 
-
 class fake_tenantadm:
     def __enter__(self):
-        self.server = Process(target=app.run, kwargs={"host": "0.0.0.0"})
-        self.server.daemon = True
+        self.server = Process(target=app.run, kwargs={'host': '0.0.0.0'})
+        self.server.daemon=True
         self.server.start()
-
     def __exit__(self, type, value, traceback):
         self.server.terminate()
         self.server.join()

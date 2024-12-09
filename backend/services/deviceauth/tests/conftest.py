@@ -13,9 +13,6 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 import logging
-import devices_api
-import internal_api
-import management_api
 
 
 def pytest_addoption(parser):
@@ -36,17 +33,6 @@ def pytest_configure(config):
     if config.getoption("verbose"):
         lvl = logging.DEBUG
     logging.basicConfig(level=lvl)
-    host = config.getoption("host")
-    devices_api.Configuration.set_default(
-        devices_api.Configuration(
-            host="http://" + host + "/api/devices/v1/authentication"
-        )
-    )
-    internal_api.Configuration.set_default(
-        internal_api.Configuration(host="http://" + host + "/api/internal/v1/devauth")
-    )
-    management_api.Configuration.set_default(
-        management_api.Configuration(
-            host="http://" + host + "/api/management/v2/devauth"
-        )
-    )
+    # configure bravado related loggers to be less verbose
+    logging.getLogger("swagger_spec_validator").setLevel(logging.INFO)
+    logging.getLogger("bravado_core").setLevel(logging.INFO)
