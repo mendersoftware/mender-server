@@ -46,7 +46,7 @@ export const Filters = ({ className = '', defaultValues, filters = [], initialVa
   const { isDirty } = formState;
 
   useEffect(() => {
-    Object.entries(initialValues).map(([key, value]) => setValue(key, value));
+    Object.entries(initialValues).forEach(([key, value]) => setValue(key, value));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(initialValues), setValue]);
 

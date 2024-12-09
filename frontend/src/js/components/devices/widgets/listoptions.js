@@ -25,7 +25,13 @@ const ListOptions = ({ options, title = 'Table options' }) => {
       <Button style={{ textTransform: 'none' }} onClick={e => setAnchorEl(e.currentTarget)} endIcon={anchorEl ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}>
         {title}
       </Button>
-      <Menu anchorEl={anchorEl} onClose={() => setAnchorEl(null)} open={Boolean(anchorEl)}>
+      <Menu
+        anchorEl={anchorEl}
+        anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+        onClose={() => setAnchorEl(null)}
+        open={Boolean(anchorEl)}
+        transformOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
         {options.map(({ key, title, onClick }) => (
           <MenuItem key={key} onClick={onClick} value={key}>
             {title}

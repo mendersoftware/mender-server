@@ -41,7 +41,7 @@ describe('monitor actions', () => {
     await request.then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
   it('should handle device based latest alert retrieval', async () => {
@@ -57,7 +57,7 @@ describe('monitor actions', () => {
     await request.then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
   it('should handle device issue count retrieval', async () => {
@@ -73,7 +73,7 @@ describe('monitor actions', () => {
     await request.then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
   it('should handle device monitor config retrieval', async () => {
@@ -89,7 +89,7 @@ describe('monitor actions', () => {
     await request.then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
   it('should handle changes to alert notification settings', async () => {
@@ -106,7 +106,7 @@ describe('monitor actions', () => {
     await request.then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
 });

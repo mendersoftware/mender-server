@@ -82,7 +82,7 @@ describe('organization actions', () => {
     await store.dispatch(cancelRequest(defaultState.organization.organization.id, 'testReason')).then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
 
@@ -102,7 +102,7 @@ describe('organization actions', () => {
       { hostname: 'localhost', location: locations.eu.key, result: '' }
     ];
 
-    expectations.map(({ hostname, location, result }) => {
+    expectations.forEach(({ hostname, location, result }) => {
       window.location = { ...window.location, hostname };
       let targetLocation = getTargetLocation(location);
       expect(targetLocation).toBe(result ? `https://${result}` : result);
@@ -144,7 +144,7 @@ describe('organization actions', () => {
     await store.dispatch(getCurrentCard()).then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
 
@@ -160,7 +160,7 @@ describe('organization actions', () => {
     await store.dispatch(getUserOrganization()).then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
 
@@ -175,7 +175,7 @@ describe('organization actions', () => {
     await store.dispatch(sendSupportMessage({ body: 'test', subject: 'testsubject' })).then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
 
@@ -203,7 +203,7 @@ describe('organization actions', () => {
       .then(() => {
         const storeActions = store.getActions();
         expect(storeActions).toHaveLength(expectedActions.length);
-        expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+        expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
       });
   });
 
@@ -214,7 +214,7 @@ describe('organization actions', () => {
     const result = await store.dispatch(downloadLicenseReport()).unwrap();
     const storeActions = store.getActions();
     expect(storeActions).toHaveLength(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     expect(result).toEqual('test,report');
   });
 
@@ -224,7 +224,7 @@ describe('organization actions', () => {
     const secret = await store.dispatch(startUpgrade(defaultState.organization.organization.id)).unwrap();
     const storeActions = store.getActions();
     expect(storeActions).toHaveLength(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     expect(secret).toEqual('testSecret');
   });
 
@@ -234,7 +234,7 @@ describe('organization actions', () => {
     await store.dispatch(cancelUpgrade(defaultState.organization.organization.id));
     const storeActions = store.getActions();
     expect(storeActions).toHaveLength(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 
   it('should handle account upgrade completion', async () => {
@@ -251,7 +251,7 @@ describe('organization actions', () => {
     await store.dispatch(completeUpgrade({ tenantId: defaultState.organization.organization.id, plan: 'enterprise' }));
     const storeActions = store.getActions();
     expect(storeActions).toHaveLength(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 
   it('should handle confirm card update initialization', async () => {
@@ -266,7 +266,7 @@ describe('organization actions', () => {
     const storeActions = store.getActions();
     expect(secret).toEqual('testSecret');
     expect(storeActions).toHaveLength(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 
   it('should handle confirm card update confirmation', async () => {
@@ -283,7 +283,7 @@ describe('organization actions', () => {
     await request.then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
 
@@ -313,7 +313,7 @@ describe('organization actions', () => {
     await request.then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
   it('should allow auditlog state tracking', async () => {
@@ -332,7 +332,7 @@ describe('organization actions', () => {
     ];
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should handle csv information download', async () => {
     const store = mockStore({ ...defaultState });
@@ -343,7 +343,7 @@ describe('organization actions', () => {
     await request.then(link => {
       const storeActions = store.getActions();
       expect(storeActions.length).toEqual(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
       expect(link).toEqual('http://localhost/api/management/v1/auditlogs/logs/export?limit=20000&sort=desc');
     });
   });
@@ -372,7 +372,7 @@ describe('organization actions', () => {
     await request.then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
   it('should allow configuring external device providers', async () => {
@@ -400,7 +400,7 @@ describe('organization actions', () => {
     await request.then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
   it('should allow retrieving external device providers', async () => {
@@ -425,7 +425,7 @@ describe('organization actions', () => {
     await request.then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
   it('should allow deleting external device provider configurations', async () => {
@@ -442,7 +442,7 @@ describe('organization actions', () => {
     await request.then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
   it('should allow retrieving webhook events', async () => {
@@ -470,7 +470,7 @@ describe('organization actions', () => {
     await request.then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
   it('should auto check for more webhook events', async () => {
@@ -504,7 +504,7 @@ describe('organization actions', () => {
     await request.then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
   it('should allow configuring external identity providers', async () => {
@@ -535,7 +535,7 @@ describe('organization actions', () => {
     await request.then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
   it('should allow updating external identity providers', async () => {
@@ -569,7 +569,7 @@ describe('organization actions', () => {
     await request.then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
   it('should allow retrieving external identity providers', async () => {
@@ -598,7 +598,7 @@ describe('organization actions', () => {
     await request.then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
   it('should allow deleting external identity providers', async () => {
@@ -615,7 +615,7 @@ describe('organization actions', () => {
     await request.then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
-      expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+      expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
     });
   });
   it('should allow adding tenant', async () => {
@@ -641,7 +641,7 @@ describe('organization actions', () => {
     await jest.runOnlyPendingTimersAsync();
     const storeActions = store.getActions();
     expect(storeActions).toHaveLength(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow retrieving tenant', async () => {
     const store = mockStore({ ...defaultState });
@@ -652,7 +652,7 @@ describe('organization actions', () => {
     await jest.runOnlyPendingTimersAsync();
     const storeActions = store.getActions();
     expect(storeActions).toHaveLength(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow changing tenants device limit', async () => {
     const store = mockStore({
@@ -678,6 +678,6 @@ describe('organization actions', () => {
     await jest.runOnlyPendingTimersAsync();
     const storeActions = store.getActions();
     expect(storeActions).toHaveLength(expectedActions.length);
-    expectedActions.map((action, index) => expect(storeActions[index]).toMatchObject(action));
+    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
 });
