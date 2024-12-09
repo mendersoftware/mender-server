@@ -32,7 +32,8 @@ export const palette = {
     main: '#e3e3e3'
   },
   secondary: {
-    main: '#5d0f43'
+    main: '#5d0f43',
+    lighter: '#921267'
   },
   error: {
     light: 'rgba(93, 15, 67, 0.075)',

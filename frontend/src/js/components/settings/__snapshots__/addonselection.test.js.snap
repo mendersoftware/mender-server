@@ -1,40 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AddOnSelection component renders correctly 1`] = `
+exports[`AddonSelection component renders correctly 1`] = `
 .emotion-0 {
-  border-color: #f7f7f7;
-}
-
-.emotion-0.active,
-.emotion-0:hover {
-  border-color: #d4e9e7;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.15);
-}
-
-.emotion-0.active {
-  background-color: #f7f7f7;
-}
-
-.emotion-0.addon {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-column-gap: 10px;
-  column-gap: 10px;
   display: grid;
-  grid-template-columns: max-content minmax(150px, min-content) 1fr max-content;
-  height: initial;
-  margin-top: 10px;
-  min-width: 550px;
-  width: initial;
-}
-
-.emotion-0.addon.upgrade {
-  grid-template-columns: max-content minmax(120px, min-content) minmax(120px, min-content) 1fr max-content;
+  grid-template-columns: max-content 1fr max-content max-content;
+  grid-template-rows: repeat(3, minmax(35px, auto));
 }
 
 .emotion-1 {
+  border-bottom: 1px solid #e6f2f1;
+}
+
+.emotion-2 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.1607rem;
+}
+
+.emotion-2 iconButton {
+  margin-right: 8px;
+}
+
+.emotion-5 {
+  padding-top: 5px;
+}
+
+.emotion-6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -67,88 +69,87 @@ exports[`AddOnSelection component renders correctly 1`] = `
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  padding: 9px;
-  border-radius: 50%;
-  color: rgba(0, 0, 0, 0.54);
-  color: rgba(10, 10, 11, 0.78);
+  font-family: Lato,sans-serif;
+  font-weight: 500;
+  font-size: 0.8125rem;
+  line-height: 1.75;
+  text-transform: uppercase;
+  min-width: 64px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 4px;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  padding: 6px 8px;
+  color: var(--variant-textColor);
+  background-color: var(--variant-textBg);
+  --variant-textColor: #337a87;
+  --variant-outlinedColor: #337a87;
+  --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
+  --variant-containedColor: #fff;
+  --variant-containedBg: #337a87;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 15px;
+  text-transform: none;
+  padding: 2px 5px;
+  border-bottom: 1px solid #e6f2f1;
 }
 
-.emotion-1::-moz-focus-inner {
+.emotion-6::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-1.Mui-disabled {
+.emotion-6.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-1 {
+  .emotion-6 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-1:hover {
-  background-color: rgba(51, 122, 135, 0.04);
+.emotion-6:hover {
+  -webkit-text-decoration: none;
+  text-decoration: none;
 }
 
-.emotion-1.Mui-checked,
-.emotion-1.MuiCheckbox-indeterminate {
-  color: #337a87;
-}
-
-.emotion-1.Mui-disabled {
+.emotion-6.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-@media (hover: none) {
-  .emotion-1:hover {
-    background-color: transparent;
+@media (hover: hover) {
+  .emotion-6:hover {
+    --variant-containedBg: rgb(35, 85, 94);
+    --variant-textBg: rgba(51, 122, 135, 0.04);
+    --variant-outlinedBorder: #337a87;
+    --variant-outlinedBg: rgba(51, 122, 135, 0.04);
   }
 }
 
-.emotion-2 {
-  cursor: inherit;
-  position: absolute;
-  opacity: 0;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  margin: 0;
-  padding: 0;
-  z-index: 1;
+.emotion-6:hover {
+  colors: #337a87;
 }
 
-.emotion-3 {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  fill: currentColor;
-  font-size: 1.3929rem;
+.emotion-6.MuiButton-text {
+  color: rgba(10, 10, 11, 0.78);
 }
 
-.emotion-3 iconButton {
-  margin-right: 8px;
+.emotion-6.MuiButton-text.addButton {
+  color: #337a87;
 }
 
-.emotion-4 {
-  font-size: 1rem;
+.emotion-6.MuiButton-text.removeButton {
+  color: #8e577b;
+  background-color: #fff;
 }
 
-.emotion-5 {
-  color: rgba(0, 0, 0, 0.38);
-  margin: 15px 0;
+.emotion-7 {
+  width: 140px;
 }
 
 <div>
@@ -161,115 +162,125 @@ exports[`AddOnSelection component renders correctly 1`] = `
     class="flexbox column"
   >
     <p>
-      Extend Mender features with our add-ons. Select one or more from the list and submit to request add-ons to be added to your plan. We'll adjust your subscription and confirm it with you.
+      Enhance your Mender plan with optional add-on packages – offering additional features to easily manage your software and devices over-the-air. Below you can request which add-ons you’d like to be included with your plan.
     </p>
     <div
-      class="planPanel emotion-0 addon upgrade  "
+      class="emotion-0"
     >
-      <span
-        class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium emotion-1"
+      <a
+        class="flexbox center-aligned bold   emotion-1"
+        href="https://mender.io/pricing/add-ons/configure"
+        rel="noopener noreferrer"
+        target="_blank"
       >
-        <input
-          class="PrivateSwitchBase-input emotion-2"
-          data-indeterminate="false"
-          type="checkbox"
-        />
-        <svg
-          aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-3"
-          data-testid="CheckBoxOutlineBlankIcon"
-          focusable="false"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-          />
-        </svg>
-      </span>
-      <div
-        class="bold"
-      >
+        Mender 
         Configure
-      </div>
-      <div
-        class="flexbox column"
-      >
-        <div
-          class="link-color bold emotion-4"
-        >
-          $11/month
-        </div>
-        <div>
-          for first 50 devices
-        </div>
-      </div>
-      <span
-        class="emotion-5 "
-      >
-        Expand your plan with device configuration features
-      </span>
-      <a
-        class="margin-left-small"
-        href="https://mender.io/plans/features"
-        rel="noopener"
-        target="_blank"
-      >
-        Learn more
-      </a>
-    </div>
-    <div
-      class="planPanel emotion-0 addon upgrade  "
-    >
-      <span
-        class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium emotion-1"
-      >
-        <input
-          class="PrivateSwitchBase-input emotion-2"
-          data-indeterminate="false"
-          type="checkbox"
-        />
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-3"
-          data-testid="CheckBoxOutlineBlankIcon"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall link-color margin-left-x-small emotion-2"
+          data-testid="LaunchIcon"
           focusable="false"
           viewBox="0 0 24 24"
         >
           <path
-            d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+            d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
           />
         </svg>
-      </span>
+      </a>
       <div
-        class="bold"
+        class="emotion-1   emotion-1 emotion-5 padding-left-small"
       >
-        Troubleshoot
+        starting 
+        <b>
+          $65/month
+        </b>
       </div>
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary addButton emotion-6"
+        tabindex="0"
+        type="button"
+      >
+        Add to plan
+      </button>
       <div
-        class="flexbox column"
-      >
-        <div
-          class="link-color bold emotion-4"
-        >
-          $27/month
-        </div>
-        <div>
-          for first 50 devices
-        </div>
-      </div>
-      <span
-        class="emotion-5 "
-      >
-        Expand your plan with device troubleshooting features
-      </span>
+        class="emotion-7   emotion-1"
+      />
       <a
-        class="margin-left-small"
-        href="https://mender.io/plans/features"
-        rel="noopener"
+        class="flexbox center-aligned bold   emotion-1"
+        href="https://mender.io/pricing/add-ons/monitor"
+        rel="noopener noreferrer"
         target="_blank"
       >
-        Learn more
+        Mender 
+        Monitor
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall link-color margin-left-x-small emotion-2"
+          data-testid="LaunchIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
+          />
+        </svg>
       </a>
+      <div
+        class="emotion-1   emotion-1 emotion-5 padding-left-small"
+      >
+        starting 
+        <b>
+          $86/month
+        </b>
+      </div>
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary addButton emotion-6"
+        tabindex="0"
+        type="button"
+      >
+        Add to plan
+      </button>
+      <div
+        class="emotion-7   emotion-1"
+      />
+      <a
+        class="flexbox center-aligned bold   emotion-1"
+        href="https://mender.io/pricing/add-ons/troubleshoot"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Mender 
+        Troubleshoot
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall link-color margin-left-x-small emotion-2"
+          data-testid="LaunchIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
+          />
+        </svg>
+      </a>
+      <div
+        class="emotion-1   emotion-1 emotion-5 padding-left-small"
+      >
+        starting 
+        <b>
+          $72/month
+        </b>
+      </div>
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary addButton emotion-6"
+        tabindex="0"
+        type="button"
+      >
+        Add to plan
+      </button>
+      <div
+        class="emotion-7   emotion-1"
+      />
     </div>
   </div>
 </div>

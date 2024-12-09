@@ -2,177 +2,618 @@
 
 exports[`PlanSelection component renders correctly 1`] = `
 .emotion-0 {
-  border-color: #f7f7f7;
+  padding: 22px 16px;
+  border-radius: 5px;
+  vertical-align: top;
+  width: 32%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  margin-right: 16px;
+  border: 1px solid #cfcfcf;
+  font-size: 14px;
+  font-weight: 500;
 }
 
-.emotion-0.active,
-.emotion-0:hover {
-  border-color: #d4e9e7;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.15);
+.emotion-0.muted,
+.emotion-0.muted:hover {
+  cursor: default;
 }
 
-.emotion-0.active {
-  background-color: #f7f7f7;
+.emotion-1 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.3929rem;
+  color: #337a87;
+  font-size: 16px;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
 }
 
-.emotion-0.addon {
+.emotion-1 iconButton {
+  margin-right: 8px;
+}
+
+.emotion-4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  -webkit-column-gap: 10px;
-  column-gap: 10px;
-  display: grid;
-  grid-template-columns: max-content minmax(150px, min-content) 1fr max-content;
-  height: initial;
-  margin-top: 10px;
-  min-width: 550px;
-  width: initial;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: inherit;
+  font-family: Lato,sans-serif;
+  font-weight: 500;
+  font-size: 0.8125rem;
+  line-height: 1.75;
+  text-transform: uppercase;
+  min-width: 64px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 4px;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  color: var(--variant-containedColor);
+  background-color: var(--variant-containedBg);
+  box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
+  --variant-textColor: #337a87;
+  --variant-outlinedColor: #337a87;
+  --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
+  --variant-containedColor: #fff;
+  --variant-containedBg: #337a87;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: bold;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
 }
 
-.emotion-0.addon.upgrade {
-  grid-template-columns: max-content minmax(120px, min-content) minmax(120px, min-content) 1fr max-content;
+.emotion-4::-moz-focus-inner {
+  border-style: none;
 }
 
-.emotion-1 {
-  margin-bottom: -11px;
-  font-size: smaller;
+.emotion-4.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
 }
 
-.emotion-2 {
-  font-size: 1rem;
+@media print {
+  .emotion-4 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
 }
 
-.emotion-3 {
-  color: rgba(0, 0, 0, 0.38);
-  margin: 15px 0;
+.emotion-4:hover {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-4.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-4:hover {
+  box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
+}
+
+@media (hover: none) {
+  .emotion-4:hover {
+    box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
+  }
+}
+
+.emotion-4:active {
+  box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
+}
+
+.emotion-4.Mui-focusVisible {
+  box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
+}
+
+.emotion-4.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+  box-shadow: none;
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+@media (hover: hover) {
+  .emotion-4:hover {
+    --variant-containedBg: rgb(35, 85, 94);
+    --variant-textBg: rgba(51, 122, 135, 0.04);
+    --variant-outlinedBorder: #337a87;
+    --variant-outlinedBg: rgba(51, 122, 135, 0.04);
+  }
+}
+
+.emotion-4:hover {
+  colors: #337a87;
+}
+
+.emotion-4.MuiButton-text {
+  color: rgba(10, 10, 11, 0.78);
+}
+
+.emotion-15 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: inherit;
+  font-family: Lato,sans-serif;
+  font-weight: 500;
+  font-size: 0.8125rem;
+  line-height: 1.75;
+  text-transform: uppercase;
+  min-width: 64px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 4px;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  color: var(--variant-containedColor);
+  background-color: var(--variant-containedBg);
+  box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
+  --variant-textColor: #5d0f43;
+  --variant-outlinedColor: #5d0f43;
+  --variant-outlinedBorder: rgba(93, 15, 67, 0.5);
+  --variant-containedColor: #fff;
+  --variant-containedBg: #5d0f43;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: bold;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.emotion-15::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-15.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+@media print {
+  .emotion-15 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-15:hover {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-15.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-15:hover {
+  box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
+}
+
+@media (hover: none) {
+  .emotion-15:hover {
+    box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
+  }
+}
+
+.emotion-15:active {
+  box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
+}
+
+.emotion-15.Mui-focusVisible {
+  box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
+}
+
+.emotion-15.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+  box-shadow: none;
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+@media (hover: hover) {
+  .emotion-15:hover {
+    --variant-containedBg: rgb(65, 10, 46);
+    --variant-textBg: rgba(93, 15, 67, 0.04);
+    --variant-outlinedBorder: #5d0f43;
+    --variant-outlinedBg: rgba(93, 15, 67, 0.04);
+  }
+}
+
+.emotion-15:hover {
+  colors: #337a87;
+}
+
+.emotion-15.MuiButton-text {
+  color: rgba(10, 10, 11, 0.78);
 }
 
 <div>
-  <h3
+  <p
     class="margin-top"
   >
-    Plans
-  </h3>
+    Your current plan: 
+    Mender Basic
+  </p>
   <div
-    class="flexbox space-between"
-    style="padding-bottom: 15px;"
+    class="flexbox margin-bottom-small"
   >
     <div
       class="planPanel emotion-0  "
     >
-      <div
-        class="uppercased align-center muted emotion-1"
+      <div>
+        <p
+          class="margin-none"
+        >
+          Mender 
+          Basic
+        </p>
+        <h2>
+          $32 / month
+        </h2>
+        <div
+          class="margin-bottom"
+        >
+          <div
+            class="flexbox align-center"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
+              data-testid="DeveloperBoardIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2v-2h-2V9zm-4 10H4V5h14zM6 13h5v4H6zm6-6h4v3h-4zM6 7h5v5H6zm6 4h4v6h-4z"
+              />
+            </svg>
+            <div
+              class="margin-left-x-small"
+            >
+              for first 50 devices
+              *
+            </div>
+          </div>
+        </div>
+        <ul
+          class="unstyled"
+        >
+          <li
+            class="flexbox margin-bottom-x-small slightly-smaller"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
+              data-testid="CheckIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+              />
+            </svg>
+            <div
+              class="margin-left-x-small"
+            >
+              Access to core features of Mender
+            </div>
+             
+          </li>
+          <li
+            class="flexbox margin-bottom-x-small slightly-smaller"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
+              data-testid="CheckIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+              />
+            </svg>
+            <div
+              class="margin-left-x-small"
+            >
+              Basic support
+            </div>
+             
+          </li>
+        </ul>
+      </div>
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-4"
+        disabled=""
+        tabindex="-1"
+        type="button"
       >
         current plan
-      </div>
-      <h4>
-        Basic
-         
-      </h4>
-      <div>
-        <div
-          class="link-color bold emotion-2"
-        >
-          $32/month
-        </div>
-        <div>
-          for first 50 devices
-        </div>
-      </div>
-      <ul
-        class="unstyled"
-      >
-        <li>
-          <span
-            class="emotion-3 "
-          >
-            Basic OTA features
-          </span>
-        </li>
-      </ul>
+      </button>
     </div>
     <div
       class="planPanel emotion-0  "
     >
-      <div
-        class="uppercased align-center muted emotion-1"
+      <div>
+        <p
+          class="margin-none"
+        >
+          Mender 
+          Professional
+        </p>
+        <h2>
+          $269 / month
+        </h2>
+        <div
+          class="margin-bottom"
+        >
+          <div
+            class="flexbox align-center"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
+              data-testid="DeveloperBoardIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2v-2h-2V9zm-4 10H4V5h14zM6 13h5v4H6zm6-6h4v3h-4zM6 7h5v5H6zm6 4h4v6h-4z"
+              />
+            </svg>
+            <div
+              class="margin-left-x-small"
+            >
+              for first 250 devices
+              *
+            </div>
+          </div>
+        </div>
+        <ul
+          class="unstyled"
+        >
+          <li
+            class="flexbox margin-bottom-x-small slightly-smaller"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
+              data-testid="CheckIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+              />
+            </svg>
+            <div
+              class="margin-left-x-small"
+            >
+              Advanced OTA features
+            </div>
+             
+          </li>
+          <li
+            class="flexbox margin-bottom-x-small slightly-smaller"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
+              data-testid="CheckIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+              />
+            </svg>
+            <div
+              class="margin-left-x-small"
+            >
+              Higher priority support
+            </div>
+             
+          </li>
+        </ul>
+      </div>
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-4"
+        tabindex="0"
+        type="button"
       >
         upgrade
-      </div>
-      <h4>
-        Professional
-         
-      </h4>
-      <div>
-        <div
-          class="link-color bold emotion-2"
-        >
-          $269/month
-        </div>
-        <div>
-          for first 250 devices
-        </div>
-      </div>
-      <ul
-        class="unstyled"
-      >
-        <li>
-          <span
-            class="emotion-3 "
-          >
-            + Advanced OTA features
-          </span>
-        </li>
-        <li>
-          <span
-            class="emotion-3 "
-          >
-            + Standard support
-          </span>
-        </li>
-      </ul>
+      </button>
     </div>
     <div
       class="planPanel emotion-0 active "
     >
-      <div
-        class="uppercased align-center muted emotion-1"
-      >
-        upgrade
-      </div>
-      <h4>
-        Enterprise
-         
-      </h4>
       <div>
-        <div
-          class="link-color bold emotion-2"
+        <p
+          class="margin-none"
         >
+          Mender 
+          Enterprise
+        </p>
+        <h2>
           Custom pricing
+        </h2>
+        <div
+          class="margin-bottom"
+        >
+          <div
+            class="flexbox align-center"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
+              data-testid="DeveloperBoardIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2v-2h-2V9zm-4 10H4V5h14zM6 13h5v4H6zm6-6h4v3h-4zM6 7h5v5H6zm6 4h4v6h-4z"
+              />
+            </svg>
+            <div
+              class="margin-left-x-small"
+            >
+              Unlimited devices
+            </div>
+          </div>
         </div>
-        <div>
-          unlimited devices
-        </div>
+        <ul
+          class="unstyled"
+        >
+          <li
+            class="flexbox margin-bottom-x-small slightly-smaller"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
+              data-testid="CheckIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+              />
+            </svg>
+            <div
+              class="margin-left-x-small"
+            >
+              All Mender features
+            </div>
+             
+          </li>
+          <li
+            class="flexbox margin-bottom-x-small slightly-smaller"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
+              data-testid="CheckIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+              />
+            </svg>
+            <div
+              class="margin-left-x-small"
+            >
+              Advanced security features
+            </div>
+             
+          </li>
+          <li
+            class="flexbox margin-bottom-x-small slightly-smaller"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
+              data-testid="CheckIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+              />
+            </svg>
+            <div
+              class="margin-left-x-small"
+            >
+              SLA-backed support
+            </div>
+             
+          </li>
+        </ul>
       </div>
-      <ul
-        class="unstyled"
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-15"
+        tabindex="0"
+        type="button"
       >
-        <li>
-          <span
-            class="emotion-3 "
-          >
-            + Enterprise-grade OTA features
-          </span>
-        </li>
-        <li>
-          <span
-            class="emotion-3 "
-          >
-            + Premium support
-          </span>
-        </li>
-      </ul>
+        contact us
+      </button>
     </div>
   </div>
 </div>

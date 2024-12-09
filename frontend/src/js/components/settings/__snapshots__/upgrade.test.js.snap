@@ -2,53 +2,58 @@
 
 exports[`Upgrade Component renders correctly 1`] = `
 .emotion-0 {
-  border-color: #f7f7f7;
+  padding: 22px 16px;
+  border-radius: 5px;
+  vertical-align: top;
+  width: 32%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  margin-right: 16px;
+  border: 1px solid #cfcfcf;
+  font-size: 14px;
+  font-weight: 500;
 }
 
-.emotion-0.active,
-.emotion-0:hover {
-  border-color: #d4e9e7;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.15);
-}
-
-.emotion-0.active {
-  background-color: #f7f7f7;
-}
-
-.emotion-0.addon {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-column-gap: 10px;
-  column-gap: 10px;
-  display: grid;
-  grid-template-columns: max-content minmax(150px, min-content) 1fr max-content;
-  height: initial;
-  margin-top: 10px;
-  min-width: 550px;
-  width: initial;
-}
-
-.emotion-0.addon.upgrade {
-  grid-template-columns: max-content minmax(120px, min-content) minmax(120px, min-content) 1fr max-content;
+.emotion-0.muted,
+.emotion-0.muted:hover {
+  cursor: default;
 }
 
 .emotion-1 {
-  margin-bottom: -11px;
-  font-size: smaller;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.3929rem;
+  color: #337a87;
+  font-size: 16px;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
 }
 
-.emotion-2 {
-  font-size: 1rem;
+.emotion-1 iconButton {
+  margin-right: 8px;
 }
 
-.emotion-3 {
-  color: rgba(0, 0, 0, 0.38);
-  margin: 15px 0;
-}
-
-.emotion-15 {
+.emotion-4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -81,333 +86,100 @@ exports[`Upgrade Component renders correctly 1`] = `
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  padding: 9px;
-  border-radius: 50%;
-  color: rgba(0, 0, 0, 0.54);
-  color: rgba(10, 10, 11, 0.78);
+  font-family: Lato,sans-serif;
+  font-weight: 500;
+  font-size: 0.8125rem;
+  line-height: 1.75;
+  text-transform: uppercase;
+  min-width: 64px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 4px;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  color: var(--variant-containedColor);
+  background-color: var(--variant-containedBg);
+  box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
+  --variant-textColor: #337a87;
+  --variant-outlinedColor: #337a87;
+  --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
+  --variant-containedColor: #fff;
+  --variant-containedBg: #337a87;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: bold;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
 }
 
-.emotion-15::-moz-focus-inner {
+.emotion-4::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-15.Mui-disabled {
+.emotion-4.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-15 {
+  .emotion-4 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-15:hover {
-  background-color: rgba(51, 122, 135, 0.04);
+.emotion-4:hover {
+  -webkit-text-decoration: none;
+  text-decoration: none;
 }
 
-.emotion-15.Mui-checked,
-.emotion-15.MuiCheckbox-indeterminate {
-  color: #337a87;
-}
-
-.emotion-15.Mui-disabled {
+.emotion-4.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-@media (hover: none) {
-  .emotion-15:hover {
-    background-color: transparent;
-  }
-}
-
-.emotion-16 {
-  cursor: inherit;
-  position: absolute;
-  opacity: 0;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  margin: 0;
-  padding: 0;
-  z-index: 1;
-}
-
-.emotion-17 {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  fill: currentColor;
-  font-size: 1.3929rem;
-}
-
-.emotion-17 iconButton {
-  margin-right: 8px;
-}
-
-.emotion-26 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  position: relative;
-  min-width: 0;
-  padding: 0;
-  margin: 0;
-  border: 0;
-  vertical-align: top;
-  margin-top: 18px;
-  min-width: 240px;
-}
-
-.emotion-27 {
-  color: rgba(0, 0, 0, 0.54);
-  font-family: Lato,sans-serif;
-  font-weight: 400;
-  font-size: 0.6964rem;
-  line-height: 1.66;
-  text-align: left;
-  margin-top: 3px;
-  margin-right: 0;
-  margin-bottom: 0;
-  margin-left: 0;
-}
-
-.emotion-27.Mui-disabled {
-  color: rgba(0, 0, 0, 0.38);
-}
-
-.emotion-27.Mui-error {
-  color: #ab1000;
-}
-
-.emotion-28 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  position: relative;
-  min-width: 0;
-  padding: 0;
-  margin: 0;
-  border: 0;
-  vertical-align: top;
-  width: 100%;
-  margin-top: 18px;
-  min-width: 240px;
-}
-
-.emotion-29 {
-  line-height: 1.4375em;
-  font-family: Lato,sans-serif;
-  font-weight: 400;
-  font-size: 0.9286rem;
-  color: rgba(10, 10, 11, 0.78);
-  box-sizing: border-box;
-  position: relative;
-  cursor: text;
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  padding: 4px 0 5px;
-  width: 100%;
-  position: relative;
-}
-
-.emotion-29.Mui-disabled {
-  color: rgba(0, 0, 0, 0.38);
-  cursor: default;
-}
-
-label+.emotion-29 {
-  margin-top: 16px;
-}
-
-.emotion-29::after {
-  left: 0;
-  bottom: 0;
-  content: "";
-  position: absolute;
-  right: 0;
-  -webkit-transform: scaleX(0);
-  -moz-transform: scaleX(0);
-  -ms-transform: scaleX(0);
-  transform: scaleX(0);
-  -webkit-transition: -webkit-transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
-  transition: transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
-  pointer-events: none;
-}
-
-.emotion-29.Mui-focused:after {
-  -webkit-transform: scaleX(1) translateX(0);
-  -moz-transform: scaleX(1) translateX(0);
-  -ms-transform: scaleX(1) translateX(0);
-  transform: scaleX(1) translateX(0);
-}
-
-.emotion-29.Mui-error::before,
-.emotion-29.Mui-error::after {
-  border-bottom-color: #ab1000;
-}
-
-.emotion-29::before {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.42);
-  left: 0;
-  bottom: 0;
-  content: "\\00a0";
-  position: absolute;
-  right: 0;
-  -webkit-transition: border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  pointer-events: none;
-}
-
-.emotion-29:hover:not(.Mui-disabled, .Mui-error):before {
-  border-bottom: 2px solid rgba(10, 10, 11, 0.78);
+.emotion-4:hover {
+  box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 
 @media (hover: none) {
-  .emotion-29:hover:not(.Mui-disabled, .Mui-error):before {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+  .emotion-4:hover {
+    box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
   }
 }
 
-.emotion-29.Mui-disabled:before {
-  border-bottom-style: dotted;
+.emotion-4:active {
+  box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-29::after {
-  border-bottom: 2px solid #337a87;
+.emotion-4.Mui-focusVisible {
+  box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-29:before {
-  border-bottom: 1px solid rgb(224, 224, 224);
-}
-
-.emotion-29:hover:not($disabled):before {
-  border-bottom: 2px solid #337a87!important;
-}
-
-.emotion-29:after {
-  border-bottom: 2px solid #337a87;
-}
-
-.emotion-30 {
-  font: inherit;
-  letter-spacing: inherit;
-  color: currentColor;
-  padding: 4px 0 5px;
-  border: 0;
-  box-sizing: content-box;
-  background: none;
-  height: 1.4375em;
-  margin: 0;
-  -webkit-tap-highlight-color: transparent;
-  display: block;
-  min-width: 0;
-  width: 100%;
-  -webkit-animation-name: mui-auto-fill-cancel;
-  animation-name: mui-auto-fill-cancel;
-  -webkit-animation-duration: 10ms;
-  animation-duration: 10ms;
-  height: auto;
-  resize: none;
-  padding: 0;
-  padding-top: 0;
-}
-
-.emotion-30::-webkit-input-placeholder {
-  color: currentColor;
-  opacity: 0.42;
-  -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-}
-
-.emotion-30::-moz-placeholder {
-  color: currentColor;
-  opacity: 0.42;
-  -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-}
-
-.emotion-30::-ms-input-placeholder {
-  color: currentColor;
-  opacity: 0.42;
-  -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-}
-
-.emotion-30:focus {
-  outline: 0;
-}
-
-.emotion-30:invalid {
+.emotion-4.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
+  background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-30::-webkit-search-decoration {
-  -webkit-appearance: none;
+@media (hover: hover) {
+  .emotion-4:hover {
+    --variant-containedBg: rgb(35, 85, 94);
+    --variant-textBg: rgba(51, 122, 135, 0.04);
+    --variant-outlinedBorder: #337a87;
+    --variant-outlinedBg: rgba(51, 122, 135, 0.04);
+  }
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-30::-webkit-input-placeholder {
-  opacity: 0!important;
+.emotion-4:hover {
+  colors: #337a87;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-30::-moz-placeholder {
-  opacity: 0!important;
+.emotion-4.MuiButton-text {
+  color: rgba(10, 10, 11, 0.78);
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-30::-ms-input-placeholder {
-  opacity: 0!important;
-}
-
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-webkit-input-placeholder {
-  opacity: 0.42;
-}
-
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-moz-placeholder {
-  opacity: 0.42;
-}
-
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-placeholder {
-  opacity: 0.42;
-}
-
-.emotion-30.Mui-disabled {
-  opacity: 1;
-  -webkit-text-fill-color: rgba(0, 0, 0, 0.38);
-}
-
-.emotion-30:-webkit-autofill {
-  -webkit-animation-duration: 5000s;
-  animation-duration: 5000s;
-  -webkit-animation-name: mui-auto-fill;
-  animation-name: mui-auto-fill;
-}
-
-.emotion-32 {
+.emotion-15 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -462,59 +234,62 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
   border-radius: 2px;
   font-size: 14px;
   font-weight: bold;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
 }
 
-.emotion-32::-moz-focus-inner {
+.emotion-15::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-32.Mui-disabled {
+.emotion-15.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-32 {
+  .emotion-15 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-32:hover {
+.emotion-15:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-32.Mui-disabled {
+.emotion-15.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-32:hover {
+.emotion-15:hover {
   box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 
 @media (hover: none) {
-  .emotion-32:hover {
+  .emotion-15:hover {
     box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
   }
 }
 
-.emotion-32:active {
+.emotion-15:active {
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-32.Mui-focusVisible {
+.emotion-15.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-32.Mui-disabled {
+.emotion-15.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-32:hover {
+  .emotion-15:hover {
     --variant-containedBg: rgb(65, 10, 46);
     --variant-textBg: rgba(93, 15, 67, 0.04);
     --variant-outlinedBorder: #5d0f43;
@@ -522,410 +297,25 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
   }
 }
 
-.emotion-32:hover {
+.emotion-15:hover {
   colors: #337a87;
 }
 
-.emotion-32.MuiButton-text {
+.emotion-15.MuiButton-text {
   color: rgba(10, 10, 11, 0.78);
 }
 
-<div
-  class="margin-top-small"
-  style="max-width: 750px;"
->
-  <h2
-    style="margin-top: 15px;"
-  >
-    Upgrades and add-ons
-  </h2>
-  <p>
-    Upgrade your plan or purchase an add-on to connect more devices, access more features and advanced support.
-  </p>
-  <p>
-    Learn more about the different plans and at 
-    <a
-      href="https://mender.io/plans/pricing"
-      rel="noopener"
-      target="_blank"
-    >
-      mender.io/plans/pricing
-    </a>
-    . Prices can change at larger device counts, please see our 
-    <a
-      href="https://mender.io/plans/pricing#calculator"
-      rel="noopener"
-      target="_blank"
-    >
-      price calculator
-    </a>
-     
-    for more.
-  </p>
-  <h3
-    class="margin-top"
-  >
-    Plans
-  </h3>
-  <div
-    class="flexbox space-between"
-    style="padding-bottom: 15px;"
-  >
-    <div
-      class="planPanel emotion-0 active "
-    >
-      <div
-        class="uppercased align-center muted emotion-1"
-      >
-        current plan
-      </div>
-      <h4>
-        Basic
-         
-      </h4>
-      <div>
-        <div
-          class="link-color bold emotion-2"
-        >
-          $32/month
-        </div>
-        <div>
-          for first 50 devices
-        </div>
-      </div>
-      <ul
-        class="unstyled"
-      >
-        <li>
-          <span
-            class="emotion-3 "
-          >
-            Basic OTA features
-          </span>
-        </li>
-      </ul>
-    </div>
-    <div
-      class="planPanel emotion-0  "
-    >
-      <div
-        class="uppercased align-center muted emotion-1"
-      >
-        upgrade
-      </div>
-      <h4>
-        Professional
-         
-      </h4>
-      <div>
-        <div
-          class="link-color bold emotion-2"
-        >
-          $269/month
-        </div>
-        <div>
-          for first 250 devices
-        </div>
-      </div>
-      <ul
-        class="unstyled"
-      >
-        <li>
-          <span
-            class="emotion-3 "
-          >
-            + Advanced OTA features
-          </span>
-        </li>
-        <li>
-          <span
-            class="emotion-3 "
-          >
-            + Standard support
-          </span>
-        </li>
-      </ul>
-    </div>
-    <div
-      class="planPanel emotion-0  "
-    >
-      <div
-        class="uppercased align-center muted emotion-1"
-      >
-        upgrade
-      </div>
-      <h4>
-        Enterprise
-         
-      </h4>
-      <div>
-        <div
-          class="link-color bold emotion-2"
-        >
-          Custom pricing
-        </div>
-        <div>
-          unlimited devices
-        </div>
-      </div>
-      <ul
-        class="unstyled"
-      >
-        <li>
-          <span
-            class="emotion-3 "
-          >
-            + Enterprise-grade OTA features
-          </span>
-        </li>
-        <li>
-          <span
-            class="emotion-3 "
-          >
-            + Premium support
-          </span>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <h3
-    class="margin-top-large"
-  >
-    Get more features with add-ons
-  </h3>
-  <div
-    class="flexbox column"
-  >
-    <p>
-      Extend Mender features with our add-ons. Select one or more from the list and submit to request add-ons to be added to your plan. We'll adjust your subscription and confirm it with you.
-    </p>
-    <div
-      class="planPanel emotion-0 addon upgrade  "
-    >
-      <span
-        class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium emotion-15"
-      >
-        <input
-          class="PrivateSwitchBase-input emotion-16"
-          data-indeterminate="false"
-          type="checkbox"
-        />
-        <svg
-          aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-17"
-          data-testid="CheckBoxOutlineBlankIcon"
-          focusable="false"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-          />
-        </svg>
-      </span>
-      <div
-        class="bold"
-      >
-        Configure
-      </div>
-      <div
-        class="flexbox column"
-      >
-        <div
-          class="link-color bold emotion-2"
-        >
-          $11/month
-        </div>
-        <div>
-          for first 50 devices
-        </div>
-      </div>
-      <span
-        class="emotion-3 "
-      >
-        Expand your plan with device configuration features
-      </span>
-      <a
-        class="margin-left-small"
-        href="https://mender.io/plans/features"
-        rel="noopener"
-        target="_blank"
-      >
-        Learn more
-      </a>
-    </div>
-    <div
-      class="planPanel emotion-0 addon upgrade  "
-    >
-      <span
-        class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium emotion-15"
-      >
-        <input
-          class="PrivateSwitchBase-input emotion-16"
-          data-indeterminate="false"
-          type="checkbox"
-        />
-        <svg
-          aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-17"
-          data-testid="CheckBoxOutlineBlankIcon"
-          focusable="false"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-          />
-        </svg>
-      </span>
-      <div
-        class="bold"
-      >
-        Troubleshoot
-      </div>
-      <div
-        class="flexbox column"
-      >
-        <div
-          class="link-color bold emotion-2"
-        >
-          $27/month
-        </div>
-        <div>
-          for first 50 devices
-        </div>
-      </div>
-      <span
-        class="emotion-3 "
-      >
-        Expand your plan with device troubleshooting features
-      </span>
-      <a
-        class="margin-left-small"
-        href="https://mender.io/plans/features"
-        rel="noopener"
-        target="_blank"
-      >
-        Learn more
-      </a>
-    </div>
-  </div>
-  <div
-    class="flexbox column margin-bottom-large"
-  >
-    <h3
-      class="margin-top-large"
-    >
-      Request a change to your plan
-    </h3>
-    You are requesting the following changes:
-    <div>
-      <p>
-        Plan: 
-        <b>
-          Basic
-        </b>
-      </p>
-    </div>
-    <div
-      class="MuiFormControl-root emotion-26"
-      style="margin-bottom: 30px; margin-top: 0px;"
-    >
-      <p
-        class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-27"
-      >
-        Your message
-      </p>
-      <div
-        class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root emotion-28"
-      >
-        <div
-          class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-multiline emotion-29"
-        >
-          <textarea
-            aria-invalid="false"
-            class="MuiInputBase-input MuiInput-input MuiInputBase-inputMultiline emotion-30"
-            id=":r0:"
-            placeholder="If you have any questions regarding plan pricing or device limits, leave us a message and we'll respond as soon as we can."
-            style="height: 0px; overflow: hidden;"
-          />
-          <textarea
-            aria-hidden="true"
-            class="MuiInputBase-input MuiInput-input MuiInputBase-inputMultiline emotion-30"
-            readonly=""
-            style="visibility: hidden; position: absolute; overflow: hidden; height: 0px; top: 0px; left: 0px; transform: translateZ(0); padding-top: 0px; padding-bottom: 0px; width: 100%;"
-            tabindex="-1"
-          />
-        </div>
-      </div>
-    </div>
-    <p>
-      We'll send you a confirmation of any changes to your subscription.
-    </p>
-    <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary margin-top margin-bottom emotion-32"
-      disabled=""
-      style="align-self: flex-start;"
-      tabindex="-1"
-      type="button"
-    >
-      Submit request
-    </button>
-  </div>
-</div>
-`;
-
-exports[`smaller components renders PostUpgradeNote correctly 1`] = `
-<div
-  class="margin-top-small"
-  style="max-width: 750px;"
->
-  <h2
-    style="margin-top: 15px;"
-  >
-    Upgrade now
-  </h2>
-  <div>
-    <p>
-      <b>
-        Your upgrade was successful! 
-      </b>
-      You are now signed up to the 
-      <b />
-       plan.
-    </p>
-    <p>
-      Redirecting you to your organization page...
-    </p>
-    <div
-      class="loaderContainer"
-    >
-      <div
-        class="  loader"
-      >
-        <span
-          class="dot dot_1"
-        />
-        <span
-          class="dot dot_2"
-        />
-        <span
-          class="dot dot_3"
-        />
-        <span
-          class="dot dot_4"
-        />
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`smaller components renders PricingContactNote correctly 1`] = `
-.emotion-0 {
-  color: rgba(0, 0, 0, 0.38);
-  margin: 15px 0;
+.emotion-16 {
+  display: grid;
+  grid-template-columns: max-content 1fr max-content max-content;
+  grid-template-rows: repeat(3, minmax(35px, auto));
 }
 
-.emotion-1 {
+.emotion-17 {
+  border-bottom: 1px solid #e6f2f1;
+}
+
+.emotion-18 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -939,37 +329,620 @@ exports[`smaller components renders PricingContactNote correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
+  font-size: 1.1607rem;
 }
 
-.emotion-1 iconButton {
+.emotion-18 iconButton {
   margin-right: 8px;
 }
 
-<p
-  class="emotion-0 "
+.emotion-21 {
+  padding-top: 5px;
+}
+
+.emotion-22 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: inherit;
+  font-family: Lato,sans-serif;
+  font-weight: 500;
+  font-size: 0.8125rem;
+  line-height: 1.75;
+  text-transform: uppercase;
+  min-width: 64px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 4px;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  padding: 6px 8px;
+  color: var(--variant-textColor);
+  background-color: var(--variant-textBg);
+  --variant-textColor: #337a87;
+  --variant-outlinedColor: #337a87;
+  --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
+  --variant-containedColor: #fff;
+  --variant-containedBg: #337a87;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 15px;
+  text-transform: none;
+  padding: 2px 5px;
+  border-bottom: 1px solid #e6f2f1;
+}
+
+.emotion-22::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-22.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+@media print {
+  .emotion-22 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-22:hover {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-22.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+@media (hover: hover) {
+  .emotion-22:hover {
+    --variant-containedBg: rgb(35, 85, 94);
+    --variant-textBg: rgba(51, 122, 135, 0.04);
+    --variant-outlinedBorder: #337a87;
+    --variant-outlinedBg: rgba(51, 122, 135, 0.04);
+  }
+}
+
+.emotion-22:hover {
+  colors: #337a87;
+}
+
+.emotion-22.MuiButton-text {
+  color: rgba(10, 10, 11, 0.78);
+}
+
+.emotion-22.MuiButton-text.addButton {
+  color: #337a87;
+}
+
+.emotion-22.MuiButton-text.removeButton {
+  color: #8e577b;
+  background-color: #fff;
+}
+
+.emotion-23 {
+  width: 140px;
+}
+
+<div
+  style="max-width: 750px;"
 >
-  <svg
-    aria-hidden="true"
-    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
-    data-testid="InfoOutlinedIcon"
-    focusable="false"
-    style="font-size: 14px; margin: 0px 4px 4px 0px; vertical-align: middle;"
-    viewBox="0 0 24 24"
+  <h2>
+    Upgrades and add-ons
+  </h2>
+  <p
+    class="margin-bottom-small"
   >
-    <path
-      d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"
-    />
-  </svg>
-  If you have any questions about the plan pricing or device limits,
+    Upgrade your plan or purchase an add-on to connect more devices, access more features and advanced support.
+  </p>
+  <p
+    class="margin-bottom-large"
+  >
+    See the full details of plans and features at 
+    <a
+      href="https://mender.io/plans/pricing"
+      rel="noopener"
+      target="_blank"
+    >
+      mender.io/plans/pricing
+    </a>
+  </p>
+  <p
+    class="margin-top"
+  >
+    Your current plan: 
+    Mender Basic
+  </p>
+  <div
+    class="flexbox margin-bottom-small"
+  >
+    <div
+      class="planPanel emotion-0 active "
+    >
+      <div>
+        <p
+          class="margin-none"
+        >
+          Mender 
+          Basic
+        </p>
+        <h2>
+          $32 / month
+        </h2>
+        <div
+          class="margin-bottom"
+        >
+          <div
+            class="flexbox align-center"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
+              data-testid="DeveloperBoardIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2v-2h-2V9zm-4 10H4V5h14zM6 13h5v4H6zm6-6h4v3h-4zM6 7h5v5H6zm6 4h4v6h-4z"
+              />
+            </svg>
+            <div
+              class="margin-left-x-small"
+            >
+              for first 50 devices
+              *
+            </div>
+          </div>
+        </div>
+        <ul
+          class="unstyled"
+        >
+          <li
+            class="flexbox margin-bottom-x-small slightly-smaller"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
+              data-testid="CheckIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+              />
+            </svg>
+            <div
+              class="margin-left-x-small"
+            >
+              Access to core features of Mender
+            </div>
+             
+          </li>
+          <li
+            class="flexbox margin-bottom-x-small slightly-smaller"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
+              data-testid="CheckIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+              />
+            </svg>
+            <div
+              class="margin-left-x-small"
+            >
+              Basic support
+            </div>
+             
+          </li>
+        </ul>
+      </div>
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-4"
+        disabled=""
+        tabindex="-1"
+        type="button"
+      >
+        current plan
+      </button>
+    </div>
+    <div
+      class="planPanel emotion-0  "
+    >
+      <div>
+        <p
+          class="margin-none"
+        >
+          Mender 
+          Professional
+        </p>
+        <h2>
+          $269 / month
+        </h2>
+        <div
+          class="margin-bottom"
+        >
+          <div
+            class="flexbox align-center"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
+              data-testid="DeveloperBoardIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2v-2h-2V9zm-4 10H4V5h14zM6 13h5v4H6zm6-6h4v3h-4zM6 7h5v5H6zm6 4h4v6h-4z"
+              />
+            </svg>
+            <div
+              class="margin-left-x-small"
+            >
+              for first 250 devices
+              *
+            </div>
+          </div>
+        </div>
+        <ul
+          class="unstyled"
+        >
+          <li
+            class="flexbox margin-bottom-x-small slightly-smaller"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
+              data-testid="CheckIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+              />
+            </svg>
+            <div
+              class="margin-left-x-small"
+            >
+              Advanced OTA features
+            </div>
+             
+          </li>
+          <li
+            class="flexbox margin-bottom-x-small slightly-smaller"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
+              data-testid="CheckIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+              />
+            </svg>
+            <div
+              class="margin-left-x-small"
+            >
+              Higher priority support
+            </div>
+             
+          </li>
+        </ul>
+      </div>
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-4"
+        tabindex="0"
+        type="button"
+      >
+        upgrade
+      </button>
+    </div>
+    <div
+      class="planPanel emotion-0  "
+    >
+      <div>
+        <p
+          class="margin-none"
+        >
+          Mender 
+          Enterprise
+        </p>
+        <h2>
+          Custom pricing
+        </h2>
+        <div
+          class="margin-bottom"
+        >
+          <div
+            class="flexbox align-center"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
+              data-testid="DeveloperBoardIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2v-2h-2V9zm-4 10H4V5h14zM6 13h5v4H6zm6-6h4v3h-4zM6 7h5v5H6zm6 4h4v6h-4z"
+              />
+            </svg>
+            <div
+              class="margin-left-x-small"
+            >
+              Unlimited devices
+            </div>
+          </div>
+        </div>
+        <ul
+          class="unstyled"
+        >
+          <li
+            class="flexbox margin-bottom-x-small slightly-smaller"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
+              data-testid="CheckIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+              />
+            </svg>
+            <div
+              class="margin-left-x-small"
+            >
+              All Mender features
+            </div>
+             
+          </li>
+          <li
+            class="flexbox margin-bottom-x-small slightly-smaller"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
+              data-testid="CheckIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+              />
+            </svg>
+            <div
+              class="margin-left-x-small"
+            >
+              Advanced security features
+            </div>
+             
+          </li>
+          <li
+            class="flexbox margin-bottom-x-small slightly-smaller"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
+              data-testid="CheckIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+              />
+            </svg>
+            <div
+              class="margin-left-x-small"
+            >
+              SLA-backed support
+            </div>
+             
+          </li>
+        </ul>
+      </div>
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-15"
+        tabindex="0"
+        type="button"
+      >
+        contact us
+      </button>
+    </div>
+  </div>
+  <p>
+    * Device limits can be adjusted on request; prices can change for larger limits. If you have any questions about the plan pricing or device limits,
+     
+    <a
+      href="mailto:support@mender.io"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      contact our team.
+    </a>
+  </p>
+  <h3
+    class="margin-top-large"
+  >
+    Get more features with add-ons
+  </h3>
+  <div
+    class="flexbox column"
+  >
+    <p>
+      Enhance your Mender plan with optional add-on packages – offering additional features to easily manage your software and devices over-the-air. Below you can request which add-ons you’d like to be included with your plan.
+    </p>
+    <div
+      class="emotion-16"
+    >
+      <a
+        class="flexbox center-aligned bold   emotion-17"
+        href="https://mender.io/pricing/add-ons/configure"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Mender 
+        Configure
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall link-color margin-left-x-small emotion-18"
+          data-testid="LaunchIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
+          />
+        </svg>
+      </a>
+      <div
+        class="emotion-17   emotion-17 emotion-21 padding-left-small"
+      >
+        starting 
+        <b>
+          $11/month
+        </b>
+      </div>
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary addButton emotion-22"
+        tabindex="0"
+        type="button"
+      >
+        Add to plan
+      </button>
+      <div
+        class="emotion-23   emotion-17"
+      />
+      <a
+        class="flexbox center-aligned bold  muted emotion-17"
+        href="https://mender.io/pricing/add-ons/monitor"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Mender 
+        Monitor
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall link-color margin-left-x-small emotion-18"
+          data-testid="LaunchIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
+          />
+        </svg>
+      </a>
+      <div
+        class="emotion-17  muted emotion-17 emotion-21 padding-left-small"
+      >
+        not available on 
+        Basic
+         plan
+      </div>
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary muted addButton emotion-22"
+        disabled=""
+        tabindex="-1"
+        type="button"
+      >
+        Add to plan
+      </button>
+      <div
+        class="emotion-23  muted emotion-17"
+      />
+      <a
+        class="flexbox center-aligned bold   emotion-17"
+        href="https://mender.io/pricing/add-ons/troubleshoot"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Mender 
+        Troubleshoot
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall link-color margin-left-x-small emotion-18"
+          data-testid="LaunchIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
+          />
+        </svg>
+      </a>
+      <div
+        class="emotion-17   emotion-17 emotion-21 padding-left-small"
+      >
+        starting 
+        <b>
+          $27/month
+        </b>
+      </div>
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary addButton emotion-22"
+        tabindex="0"
+        type="button"
+      >
+        Add to plan
+      </button>
+      <div
+        class="emotion-23   emotion-17"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`smaller components renders PricingContactNote correctly 1`] = `
+<p>
+  * Device limits can be adjusted on request; prices can change for larger limits. If you have any questions about the plan pricing or device limits,
    
   <a
     href="mailto:support@mender.io"
     rel="noopener noreferrer"
     target="_blank"
   >
-    contact our team
+    contact our team.
   </a>
-  .
 </p>
 `;
