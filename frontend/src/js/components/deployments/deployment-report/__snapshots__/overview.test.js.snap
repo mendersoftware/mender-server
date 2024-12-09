@@ -211,7 +211,7 @@ exports[`DeploymentOverview Component renders correctly 1`] = `
         style="font-weight: 500;"
         target="_blank"
       >
-        test deployment
+        testGroup
         <svg
           aria-hidden="true"
           class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small emotion-1"

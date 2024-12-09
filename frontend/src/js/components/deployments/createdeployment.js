@@ -39,6 +39,7 @@ import {
   getDeviceCountsByStatus,
   getDevicesById,
   getDocsVersion,
+  getFeatures,
   getGlobalSettings,
   getGroupNames,
   getGroupsByIdWithoutUngrouped,
@@ -93,6 +94,7 @@ export const CreateDeployment = props => {
   const { deploymentObject = {}, onDismiss, onScheduleSubmit, setDeploymentSettings } = props;
 
   const { canRetry, canSchedule, hasFullFiltering } = useSelector(getTenantCapabilities);
+  const { isHosted } = useSelector(getFeatures);
   const { createdGroup, groups, hasDynamicGroups } = useSelector(state => {
     const groups = getGroupsByIdWithoutUngrouped(state);
     const createdGroup = Object.keys(groups).length ? Object.keys(groups)[0] : undefined;
@@ -127,8 +129,13 @@ export const CreateDeployment = props => {
 
   useEffect(() => {
     dispatch(getReleases({ page: 1, perPage: 100, searchOnly: true }));
-    dispatch(getDeploymentsConfig());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (isHosted || isEnterprise) {
+      dispatch(getDeploymentsConfig());
+    }
+  }, [dispatch, isEnterprise, isHosted]);
 
   useEffect(() => {
     const { devices = [], group, release } = deploymentObject;
