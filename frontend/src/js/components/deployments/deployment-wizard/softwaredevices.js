@@ -23,7 +23,7 @@ import AsyncAutocomplete from '@northern.tech/common-ui/asyncautocomplete';
 import { getDeviceIdentityText } from '@northern.tech/common-ui/deviceidentity';
 import InfoText from '@northern.tech/common-ui/infotext';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
-import { ALL_DEVICES, DEPLOYMENT_TYPES } from '@northern.tech/store/constants';
+import { ALL_DEVICES, ATTRIBUTE_SCOPES, DEPLOYMENT_TYPES, DEVICE_FILTERING_OPTIONS, DEVICE_STATES } from '@northern.tech/store/constants';
 import { getReleases, getSystemDevices } from '@northern.tech/store/thunks';
 import { stringToBoolean } from '@northern.tech/utils/helpers';
 import { formatDeviceSearch } from '@northern.tech/utils/locationutils';
@@ -45,25 +45,63 @@ const hardCodedStyle = {
   }
 };
 
-export const getDevicesLink = ({ devices, filters = [], group, hasFullFiltering, name }) => {
+export const getDevicesLink = ({ devices, filters = [], group, name }) => {
   let devicesLink = '/devices';
+  if (filters.length) {
+    return `${devicesLink}?${formatDeviceSearch({ pageState: {}, filters, selectedGroup: group })}`;
+  }
+  // older deployments won't have the filter set so we have to try to guess their targets based on other information
   if (devices.length && (!name || isUUID(name))) {
-    devicesLink = `${devicesLink}?id=${devices[0].id}`;
-    if (hasFullFiltering) {
-      devicesLink = `/devices?${devices.map(({ id }) => `id=${id}`).join('&')}`;
-    }
+    devicesLink = `${devicesLink}?${devices.map(({ id }) => `id=${id}`).join('&')}`;
     if (devices.length === 1) {
       const { systemDeviceIds = [] } = devices[0];
       devicesLink = `${devicesLink}${systemDeviceIds.map(id => `&id=${id}`).join('')}`;
     }
-  } else if (group || filters.length) {
+  } else if (group) {
     devicesLink = `${devicesLink}?${formatDeviceSearch({ pageState: {}, filters, selectedGroup: group })}`;
   }
   return devicesLink;
 };
 
+const deploymentFiltersToTargetText = ({ devicesById, filter, idAttribute }) => {
+  const { name, filters = [] } = filter;
+  if (name) {
+    return name;
+  }
+  if (
+    filters.some(
+      ({ operator, scope, value }) => scope === ATTRIBUTE_SCOPES.identity && value === DEVICE_STATES.accepted && operator === DEVICE_FILTERING_OPTIONS.$eq.key
+    )
+  ) {
+    return ALL_DEVICES;
+  }
+  const groupFilter = filters.find(
+    ({ operator, scope, key }) => scope === ATTRIBUTE_SCOPES.system && operator === DEVICE_FILTERING_OPTIONS.$eq.key && key === 'group'
+  );
+  if (groupFilter) {
+    return groupFilter.value;
+  }
+  return filters
+    .reduce((accu, { operator, scope, key, value }) => {
+      if (!(key === 'id' && scope === ATTRIBUTE_SCOPES.identity)) {
+        return accu;
+      }
+      if (operator === DEVICE_FILTERING_OPTIONS.$in.key) {
+        const devices = value.map(deviceId => getDeviceIdentityText({ device: devicesById[deviceId], idAttribute }));
+        return [...accu, ...devices];
+      }
+      accu.push(getDeviceIdentityText({ device: devicesById[value], idAttribute }));
+      return accu;
+    }, [])
+    .join(', ');
+};
+
 export const getDeploymentTargetText = ({ deployment, devicesById, idAttribute }) => {
-  const { devices = {}, group = '', name = '', type = DEPLOYMENT_TYPES.software } = deployment;
+  const { devices = {}, filter = {}, group = '', name = '', type = DEPLOYMENT_TYPES.software } = deployment;
+  const text = deploymentFiltersToTargetText({ devicesById, filter, idAttribute });
+  if (text) {
+    return text;
+  }
   let deviceList = Array.isArray(devices) ? devices : Object.values(devices);
   if (isUUID(name) && devicesById[name]) {
     deviceList = [devicesById[name]];
