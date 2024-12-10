@@ -3,7 +3,7 @@ variables:
   #       This namespace belongs to Gitlab CI/CD.
   #       https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
   DOCKER_VERSION:
-    value: "27"
+    value: "27.3"
     description: "Version of docker to use in pipelines"
   DOCKER_BUILDKITARGS:
     value: '--driver-opt "image=moby/buildkit:v0.17.3"' # QA-823
