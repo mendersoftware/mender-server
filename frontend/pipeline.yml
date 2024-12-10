@@ -154,7 +154,7 @@ build:frontend:docker:
 
 .template:test:frontend:acceptance:
   stage: test
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:cli
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
   rules:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
@@ -169,7 +169,7 @@ build:frontend:docker:
       artifacts: false
       optional: true
   services:
-    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:dind
+    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
       alias: docker
   before_script:
     - !reference [.dind-login]
