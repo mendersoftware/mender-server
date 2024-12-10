@@ -334,15 +334,15 @@ export const getReleases = createAsyncThunk(`${sliceName}/getReleases`, (passedC
     .catch(err => commonErrorHandler(err, `Please check your connection`, dispatch));
 });
 
-export const getRelease = createAsyncThunk(`${sliceName}/getReleases`, (name, { dispatch, getState }) =>
-  releaseListRetrieval({ searchTerm: name, page: 1, perPage: 1 }).then(({ data: releases }) => {
-    if (releases.length) {
-      const stateRelease = getReleasesById(getState())[releases[0].name] || {};
-      return Promise.resolve(dispatch(actions.receiveRelease(flattenRelease(releases[0], stateRelease))));
-    }
-    return Promise.resolve(null);
-  })
-);
+export const getRelease = createAsyncThunk(`${sliceName}/getReleases`, async (name, { dispatch, getState }) => {
+  const releaseResponse = await GeneralApi.get(`${deploymentsApiUrlV2}/deployments/releases/${name}`);
+  const { data: release } = releaseResponse;
+  if (release) {
+    const stateRelease = getReleasesById(getState())[release.name] || {};
+    await dispatch(actions.receiveRelease(flattenRelease(release, stateRelease)));
+  }
+  return Promise.resolve(null);
+});
 
 export const updateReleaseInfo = createAsyncThunk(`${sliceName}/updateReleaseInfo`, ({ name, info }, { dispatch, getState }) =>
   GeneralApi.patch(`${deploymentsApiUrlV2}/deployments/releases/${name}`, info)

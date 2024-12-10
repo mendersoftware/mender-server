@@ -52,6 +52,7 @@ export const releaseHandlers = [
     }
     return new HttpResponse(JSON.stringify(releaseListSection), { headers: { [headerNames.total]: releasesList.length } });
   }),
+  http.get(`${deploymentsApiUrlV2}/deployments/releases/:name`, () => HttpResponse.json(defaultState.releases.byId.r1)),
   http.get(`${deploymentsApiUrlV2}/releases/all/tags`, () => HttpResponse.json(['foo', 'bar'])),
   http.get(`${deploymentsApiUrlV2}/releases/all/types`, () => HttpResponse.json(['single-file', 'not-this'])),
   http.put(`${deploymentsApiUrlV2}/deployments/releases/:name/tags`, async ({ params: { name }, request }) => {
