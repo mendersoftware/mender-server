@@ -220,7 +220,7 @@ describe('release actions', () => {
       { type: getReleases.pending.type },
       { type: selectRelease.pending.type },
       { type: actions.selectedRelease.type, payload: 'createdRelease' },
-      { type: getReleases.pending.type }
+      { type: getRelease.pending.type }
     ];
     await store.dispatch(
       createArtifact({ file: { name: 'createdRelease', some: 'thing', someList: ['test', 'more'], complex: { objectThing: 'yes' } }, meta: 'filethings' })
@@ -245,11 +245,11 @@ describe('release actions', () => {
       { type: getReleases.pending.type },
       { type: selectRelease.pending.type },
       { type: actions.selectedRelease.type, payload: defaultState.releases.byId.r1.name },
-      { type: getReleases.pending.type },
+      { type: getRelease.pending.type },
       { type: actions.receiveRelease.type, payload: defaultState.releases.byId.r1 },
       { type: actions.receiveRelease.type, payload: defaultState.releases.byId.r1 },
       { type: getReleases.fulfilled.type },
-      { type: getReleases.fulfilled.type },
+      { type: getRelease.fulfilled.type },
       { type: selectRelease.fulfilled.type },
       { type: editArtifact.fulfilled.type }
     ];
