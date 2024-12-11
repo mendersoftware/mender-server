@@ -142,11 +142,11 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
   };
 
   const submitNewTenant = async data => {
-    const { email, name, password, sso, binary_delta, device_limit } = data;
+    const { email, password, device_limit, send_reset_password, ...remainder } = data;
     if (adminExists) {
-      await dispatch(addTenant({ name, users: [{ role: rolesByName.admin, email }], sso, device_limit: Number(device_limit), binary_delta }));
+      await dispatch(addTenant({ users: [{ role: rolesByName.admin, email }], device_limit: Number(device_limit), ...remainder }));
     } else {
-      await dispatch(addTenant({ name, admin: { password, email }, sso, device_limit: Number(device_limit), binary_delta }));
+      await dispatch(addTenant({ admin: { password, email, send_reset_password }, device_limit: Number(device_limit), ...remainder }));
     }
     onCloseClick();
   };
