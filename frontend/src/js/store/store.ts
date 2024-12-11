@@ -64,6 +64,15 @@ export const sessionReducer = (state, action) => {
   return rootReducer(state, action);
 };
 
+const rejectionLoggerMiddleware = () => next => action => {
+  if (action.type.endsWith('/rejected')) {
+    const { error } = action;
+    console.error('Rejection in action:', action);
+    console.error(error.stack);
+  }
+  return next(action);
+};
+
 export const getConfiguredStore = (options = {}) => {
   const { preloadedState = {}, ...config } = options;
   return configureStore({
@@ -80,7 +89,7 @@ export const getConfiguredStore = (options = {}) => {
           ignoredActionPaths: ['uploads', 'snackbar', /payload\..*$/],
           ignoredPaths: ['app.uploadsById', 'app.snackbar', 'organization.externalDeviceIntegrations']
         }
-      })
+      }).concat(rejectionLoggerMiddleware)
   });
 };
 export const store = getConfiguredStore({
