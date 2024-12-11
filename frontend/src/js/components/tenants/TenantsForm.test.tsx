@@ -47,10 +47,11 @@ describe('TenantsForm', () => {
     await user.type(screen.getByPlaceholderText('Password'), newChildTenant.password);
     await user.type(screen.getByLabelText('Set device limit'), `{backspace}${newChildTenant.dev}`);
     await user.click(screen.getByText(/enable delta artifact generation/i));
+    await user.click(screen.getByText(/reset the password/i));
     await user.click(screen.getByRole('button', { name: /Create Tenant/i }));
 
     expect(submitTenantSpy).toHaveBeenCalledWith({
-      admin: { email: newChildTenant.email, password: newChildTenant.password },
+      admin: { email: newChildTenant.email, password: newChildTenant.password, send_reset_password: true },
       name: newChildTenant.name,
       device_limit: Number(newChildTenant.dev),
       binary_delta: true,
