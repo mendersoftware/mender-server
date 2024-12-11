@@ -27,7 +27,7 @@ const ChangeFallback = props => {
   const {
     item: { change = '-' }
   } = props;
-  return <div>{change}</div>;
+  return <div className="text-overflow">{change}</div>;
 };
 
 const FallbackFormatter = props => {

@@ -339,7 +339,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
       </button>
     </div>
     <div
-      class="fadeIn deploy-table-contain auditlogs-list css-5d1fco-auditlogsList"
+      class="fadeIn deploy-table-contain auditlogs-list css-1yc7te8-auditlogsList"
     >
       <div
         class="auditlogs-list-item auditlogs-list-item-header muted"
@@ -414,7 +414,9 @@ exports[`Auditlogs Component renders correctly 1`] = `
           <div>
             user@acme.com
           </div>
-          <div>
+          <div
+            class="text-overflow"
+          >
             change1
           </div>
           <time
