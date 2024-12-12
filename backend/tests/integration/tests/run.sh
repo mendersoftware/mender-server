@@ -38,4 +38,10 @@ fi
 
 chmod 755 /usr/local/bin/mender-artifact
 
-python3 -m pytest -v /tests/test_*.py $PYTEST_EXTRA_ARGS "$@"
+if [[ "${PYTEST_TEST_TO_RUN}" == "" ]]; then
+    GLOBIGNORE="/tests/*separate.py"
+    python3 -m pytest -v /tests/test_*.py $PYTEST_EXTRA_ARGS "$@"
+    unset GLOBIGNORE
+else
+    python3 -m pytest -v /tests/${PYTEST_TEST_TO_RUN} $PYTEST_EXTRA_ARGS "$@"
+fi

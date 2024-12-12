@@ -10,6 +10,9 @@ COMPOSE_FILES_OPEN=" \
         -f $MENDER_SERVER_PATH/backend/tests/docker-compose.yml \
         -f $MENDER_SERVER_PATH/backend/tests/integration/docker/docker-compose.backend-tests.yml \
         "
+COMPOSE_FILES_test_compat=" \
+        -f $MENDER_SERVER_PATH/backend/tests/integration/docker/docker-compose.backend-tests-compat.yml \
+        "
 COMPOSE_FILES_ENTERPRISE="${COMPOSE_FILES_OPEN} \
         -f $MENDER_SERVER_PATH/backend/tests/integration/docker/docker-compose.backend-tests-enterprise.yml \
         "
@@ -22,7 +25,7 @@ COMPOSE_FILES=""
 COMPOSE_UP_EXTRA_ARGS="--remove-orphans"
 
 compose_cmd() {
-    docker-compose -p backend-tests $COMPOSE_FILES $@
+    docker compose -p backend-tests $COMPOSE_FILES $@
 }
 
 PYTEST_FILTER_OPEN="not Enterprise and not Multitenant"
@@ -206,9 +209,9 @@ cleanup() {
     if [ -n "$AZURE_STORAGE_CONTAINER_PREFIX" ]; then
         # Remove the blob storage container if we created one
         echo "Removing blob storage container '$AZURE_STORAGE_CONTAINER_NAME'"
-        docker-compose $COMPOSE_FILE_AZURE_SETUP run --rm \
+        docker compose $COMPOSE_FILE_AZURE_SETUP run --rm \
             azblob-container-teardown $AZURE_STORAGE_CONTAINER_NAME
-        docker-compose $COMPOSE_FILE_AZURE_SETUP down
+        docker compose $COMPOSE_FILE_AZURE_SETUP down
     fi
 }
 
@@ -243,7 +246,7 @@ for suite in "${TEST_SUITES[@]}"; do
         container="${AZURE_STORAGE_CONTAINER_PREFIX}-${date_suffix}-${rand_suffix}"
         export AZURE_STORAGE_CONTAINER_NAME="${container}"
         echo "Creating container '$AZURE_STORAGE_CONTAINER_NAME'"
-        docker-compose $COMPOSE_FILE_AZURE_SETUP run --rm \
+        docker compose $COMPOSE_FILE_AZURE_SETUP run --rm \
             azblob-container-setup $AZURE_STORAGE_CONTAINER_NAME
         ec=$?
         if [ $ec -ne 0 ]; then
@@ -271,6 +274,25 @@ for suite in "${TEST_SUITES[@]}"; do
         echo "-- tests failed, dumping logs to $tmppath"
         compose_cmd logs > "$tmppath" 2>&1
     fi
+
+    INITIAL_COMPOSE_FILES="${COMPOSE_FILES}"
+    while read -r; do
+        export PYTEST_TEST_TO_RUN="`basename "$REPLY"`"
+        test_name="${PYTEST_TEST_TO_RUN%%+*}"
+        eval COMPOSE_FILES=\"${INITIAL_COMPOSE_FILES} \${COMPOSE_FILES_$test_name}\"
+        export PYTEST_TEST_TO_RUN="`basename "$REPLY"`"
+        run_tests
+        run_tests_retcode=$?
+        if [ $script_failed -eq 0 ]; then
+            script_failed=$run_tests_retcode
+        fi
+    
+        if [ $run_tests_retcode -ne 0 ]; then
+            tmppath=$(TMPDIR=./tests mktemp logs.XXXXXX)
+            echo "-- tests failed, dumping logs to $tmppath"
+            compose_cmd logs > "$tmppath" 2>&1
+        fi
+    done < <(find "${MENDER_SERVER_PATH}/backend/tests/integration/tests" -name '*+separate.py')
 
     copy_test_reports_if_args $PYTEST_REPORT
 
