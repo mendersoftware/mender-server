@@ -509,9 +509,9 @@ exports[`MyOrganization Component renders correctly 1`] = `
 }
 
 .emotion-28 {
-  background-color: #f7f7f7;
-  margin-top: 48px;
+  margin-top: 32px;
   padding: 16px;
+  padding-bottom: 48px;
 }
 
 .emotion-28>h5 {

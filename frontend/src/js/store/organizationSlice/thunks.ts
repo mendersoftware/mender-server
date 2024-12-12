@@ -113,13 +113,16 @@ export const getCurrentCard = createAsyncThunk(`${sliceName}/getCurrentCard`, (_
   })
 );
 
-export const startUpgrade = createAsyncThunk(`${sliceName}/startUpgrade`, (tenantId, { dispatch }) =>
+export const startUpgrade = createAsyncThunk(`${sliceName}/startUpgrade`, (tenantId: string, { dispatch }) =>
   Api.post(`${tenantadmApiUrlv2}/tenants/${tenantId}/upgrade/start`)
     .then(({ data }) => Promise.resolve(data.secret))
     .catch(err => commonErrorHandler(err, `There was an error upgrading your account:`, dispatch))
 );
 
-export const cancelUpgrade = createAsyncThunk(`${sliceName}/cancelUpgrade`, tenantId => Api.post(`${tenantadmApiUrlv2}/tenants/${tenantId}/upgrade/cancel`));
+export const cancelUpgrade = createAsyncThunk(`${sliceName}/cancelUpgrade`, (tenantId: string) =>
+  Api.post(`${tenantadmApiUrlv2}/tenants/${tenantId}/upgrade/cancel`)
+);
+
 interface completeUpgradePayload {
   billing_profile: BillingProfile;
   plan: AvailablePlans;
@@ -240,6 +243,16 @@ export const editTenantDeviceLimit = createAsyncThunk(`${sliceName}/editDeviceLi
       ]);
     });
 });
+export const editBillingProfile = createAsyncThunk(
+  `${sliceName}/editBillingProfileEmail`,
+  ({ billing_profile }: { billing_profile: BillingProfile }, { dispatch }) => {
+    return Api.patch(`${tenantadmApiUrlv2}/billing/profile`, { billing_profile })
+      .catch(err => commonErrorHandler(err, `Failed to change billing profile`, dispatch))
+      .then(() => {
+        return Promise.all([dispatch(setSnackbar('Billing Profile was changed successfully')), dispatch(getUserBilling())]);
+      });
+  }
+);
 export const removeTenant = createAsyncThunk(`${sliceName}/editDeviceLimit`, ({ id }: { id: string }, { dispatch }) => {
   return Api.post(`${tenantadmApiUrlv2}/tenants/${id}/remove/start`)
     .catch(err => commonErrorHandler(err, `There was an error removing the tenant`, dispatch))
@@ -264,6 +277,11 @@ export const getUserOrganization = createAsyncThunk(`${sliceName}/getUserOrganiz
       tasks.push(dispatch(setAnnouncement(tenantDataDivergedMessage)));
     }
     return Promise.all(tasks);
+  });
+});
+export const getUserBilling = createAsyncThunk(`${sliceName}/getUserBilling`, (_, { dispatch }) => {
+  return Api.get(`${tenantadmApiUrlv2}/billing/profile`).then(res => {
+    dispatch(actions.setBillingProfile(res.data));
   });
 });
 
