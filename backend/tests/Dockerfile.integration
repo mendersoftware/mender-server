@@ -2,6 +2,7 @@ FROM python:3.13-bullseye
 
 ARG K8S_VERSION=1.29
 
+RUN sed -i.backup -e 's/^deb /deb [trusted=yes] /' /etc/apt/sources.list
 RUN apt-get -y -qq update && apt-get -qq -y install docker.io libzbar0 apt-transport-https gnupg2 && \
     mkdir -p /etc/apt/keyrings && \
     curl -fsSL https://pkgs.k8s.io/core:/stable:/v${K8S_VERSION}/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg && \
