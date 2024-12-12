@@ -31,6 +31,8 @@ import { commonErrorFallback, commonErrorHandler } from '@northern.tech/store/st
 import { getDeviceLimit, setFirstLoginAfterSignup } from '@northern.tech/store/thunks';
 import { deepCompare } from '@northern.tech/utils/helpers';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import { jwtDecode } from 'jwt-decode';
 import hashString from 'md5';
 import Cookies from 'universal-cookie';
@@ -39,6 +41,8 @@ import { actions, sliceName } from '.';
 import { Tenant } from '../../components/tenants/types';
 import { SSO_TYPES, auditLogsApiUrl, ssoIdpApiUrlv1, tenantadmApiUrlv1, tenantadmApiUrlv2 } from './constants';
 import { getAuditlogState, getOrganization } from './selectors';
+
+dayjs.extend(utc);
 
 const cookies = new Cookies();
 
@@ -134,8 +138,8 @@ export const completeUpgrade = createAsyncThunk(`${sliceName}/completeUpgrade`, 
 const prepareAuditlogQuery = ({ startDate, endDate, user: userFilter, type, detail: detailFilter, sort = {} }) => {
   const userId = userFilter?.id || userFilter;
   const detail = detailFilter?.id || detailFilter;
-  const createdAfter = startDate ? `&created_after=${Math.round(Date.parse(startDate) / 1000)}` : '';
-  const createdBefore = endDate ? `&created_before=${Math.round(Date.parse(endDate) / 1000)}` : '';
+  const createdAfter = startDate ? `&created_after=${dayjs(startDate).utc().startOf('day').unix()}` : '';
+  const createdBefore = endDate ? `&created_before=${dayjs(endDate).utc().endOf('day').unix()}` : '';
   const typeSearch = type ? `&object_type=${type.value}`.toLowerCase() : '';
   const userSearch = userId ? `&actor_id=${userId}` : '';
   const objectSearch = type && detail ? `&${type.queryParameter}=${encodeURIComponent(detail)}` : '';
