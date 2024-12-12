@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Outlet, Route, Routes, useLocation } from 'react-router-dom';
 
 import AuditLogs from '../components/auditlogs/auditlogs';
 import Dashboard from '../components/dashboard/dashboard';
@@ -27,38 +27,54 @@ import Releases from '../components/releases/releases';
 import Settings from '../components/settings/settings';
 import { TenantPage } from '../components/tenants/TenantPage';
 
+const publicRoutes = ['/password', '/signup', '/login'];
+
+const LocationValidator = () => {
+  const location = useLocation();
+
+  if (publicRoutes.some(publicRoute => location.pathname.startsWith(publicRoute))) {
+    window.location.replace('/ui/');
+    return;
+  }
+  return <Outlet />;
+};
+
 export const PrivateRoutes = () => (
   <Routes>
-    <Route path="auditlog" element={<AuditLogs />} />
-    <Route path="devices" element={<Devices />}>
-      <Route path=":status" element={null} />
-    </Route>
-    <Route path="releases" element={<Releases />}>
-      <Route path=":artifactVersion" element={null} />
-    </Route>
-    <Route path="deployments" element={<Deployments />}>
-      <Route path=":tab" element={null} />
-    </Route>
-    <Route path="settings" element={<Settings />}>
-      <Route path=":section" element={null} />
-    </Route>
-    <Route path="help" element={<Help />}>
-      <Route path=":section" element={null} />
-    </Route>
-    <Route path="*" element={<Dashboard />} />
-  </Routes>
-);
-export const PrivateSPRoutes = () => {
-  return (
-    <Routes>
+    <Route element={<LocationValidator />}>
       <Route path="auditlog" element={<AuditLogs />} />
+      <Route path="devices" element={<Devices />}>
+        <Route path=":status" element={null} />
+      </Route>
+      <Route path="releases" element={<Releases />}>
+        <Route path=":artifactVersion" element={null} />
+      </Route>
+      <Route path="deployments" element={<Deployments />}>
+        <Route path=":tab" element={null} />
+      </Route>
       <Route path="settings" element={<Settings />}>
         <Route path=":section" element={null} />
       </Route>
       <Route path="help" element={<Help />}>
         <Route path=":section" element={null} />
       </Route>
-      <Route path="*" element={<TenantPage />} />
+      <Route path="*" element={<Dashboard />} />
+    </Route>
+  </Routes>
+);
+export const PrivateSPRoutes = () => {
+  return (
+    <Routes>
+      <Route element={<LocationValidator />}>
+        <Route path="auditlog" element={<AuditLogs />} />
+        <Route path="settings" element={<Settings />}>
+          <Route path=":section" element={null} />
+        </Route>
+        <Route path="help" element={<Help />}>
+          <Route path=":section" element={null} />
+        </Route>
+        <Route path="*" element={<TenantPage />} />
+      </Route>
     </Routes>
   );
 };
