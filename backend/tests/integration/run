@@ -22,7 +22,7 @@ COMPOSE_FILES=""
 COMPOSE_UP_EXTRA_ARGS="--remove-orphans"
 
 compose_cmd() {
-    docker-compose -p backend-tests $COMPOSE_FILES $@
+    docker compose -p backend-tests $COMPOSE_FILES $@
 }
 
 PYTEST_FILTER_OPEN="not Enterprise and not Multitenant"
@@ -206,9 +206,9 @@ cleanup() {
     if [ -n "$AZURE_STORAGE_CONTAINER_PREFIX" ]; then
         # Remove the blob storage container if we created one
         echo "Removing blob storage container '$AZURE_STORAGE_CONTAINER_NAME'"
-        docker-compose $COMPOSE_FILE_AZURE_SETUP run --rm \
+        docker compose $COMPOSE_FILE_AZURE_SETUP run --rm \
             azblob-container-teardown $AZURE_STORAGE_CONTAINER_NAME
-        docker-compose $COMPOSE_FILE_AZURE_SETUP down
+        docker compose $COMPOSE_FILE_AZURE_SETUP down
     fi
 }
 
@@ -243,7 +243,7 @@ for suite in "${TEST_SUITES[@]}"; do
         container="${AZURE_STORAGE_CONTAINER_PREFIX}-${date_suffix}-${rand_suffix}"
         export AZURE_STORAGE_CONTAINER_NAME="${container}"
         echo "Creating container '$AZURE_STORAGE_CONTAINER_NAME'"
-        docker-compose $COMPOSE_FILE_AZURE_SETUP run --rm \
+        docker compose $COMPOSE_FILE_AZURE_SETUP run --rm \
             azblob-container-setup $AZURE_STORAGE_CONTAINER_NAME
         ec=$?
         if [ $ec -ne 0 ]; then
