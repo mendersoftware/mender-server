@@ -44,6 +44,9 @@ const useStyles = makeStyles()(theme => ({
         maxHeight: theme.spacing(6),
         overflow: 'hidden'
       },
+      '> .text-overflow': {
+        display: 'block'
+      },
       '&.auditlogs-list-item-header': {
         borderBottom: 'transparent',
         cursor: 'initial',
