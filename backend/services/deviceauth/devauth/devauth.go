@@ -30,12 +30,12 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/plan"
 	"github.com/mendersoftware/mender-server/pkg/ratelimits"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
+	tenant2 "github.com/mendersoftware/mender-server/pkg/tenant"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/access"
 	"github.com/mendersoftware/mender-server/services/deviceauth/cache"
 	"github.com/mendersoftware/mender-server/services/deviceauth/client/inventory"
 	"github.com/mendersoftware/mender-server/services/deviceauth/client/orchestrator"
-	"github.com/mendersoftware/mender-server/services/deviceauth/client/tenant"
 	"github.com/mendersoftware/mender-server/services/deviceauth/jwt"
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 	"github.com/mendersoftware/mender-server/services/deviceauth/store"
@@ -118,7 +118,7 @@ type DevAuth struct {
 	db           store.DataStore
 	invClient    inventory.Client
 	cOrch        orchestrator.ClientRunner
-	cTenant      tenant.ClientRunner
+	cTenant      tenant2.ClientRunner
 	jwt          jwt.Handler
 	jwtFallback  jwt.Handler
 	verifyTenant bool
@@ -282,11 +282,11 @@ func (d *DevAuth) signToken(ctx context.Context) jwt.SignFunc {
 	}
 }
 
-func (d *DevAuth) doVerifyTenant(ctx context.Context, token string) (*tenant.Tenant, error) {
+func (d *DevAuth) doVerifyTenant(ctx context.Context, token string) (*tenant2.Tenant, error) {
 	t, err := d.cTenant.VerifyToken(ctx, token)
 
 	if err != nil {
-		if tenant.IsErrTokenVerificationFailed(err) {
+		if tenant2.IsErrTokenVerificationFailed(err) {
 			return nil, MakeErrDevAuthUnauthorized(err)
 		}
 
@@ -300,14 +300,14 @@ func (d *DevAuth) getTenantWithDefault(
 	ctx context.Context,
 	tenantToken,
 	defaultToken string,
-) (context.Context, *tenant.Tenant, error) {
+) (context.Context, *tenant2.Tenant, error) {
 	l := log.FromContext(ctx)
 
 	if tenantToken == "" && defaultToken == "" {
 		return nil, nil, MakeErrDevAuthUnauthorized(errors.New("tenant token missing"))
 	}
 
-	var t *tenant.Tenant
+	var t *tenant2.Tenant
 	var err error
 
 	// try the provided token
@@ -331,7 +331,7 @@ func (d *DevAuth) getTenantWithDefault(
 
 	// none of the tokens worked
 	if err != nil {
-		if tenant.IsErrTokenVerificationFailed(err) {
+		if tenant2.IsErrTokenVerificationFailed(err) {
 			return ctx, nil, MakeErrDevAuthUnauthorized(err)
 		}
 		return ctx, nil, err
@@ -348,7 +348,7 @@ func (d *DevAuth) getTenantWithDefault(
 func (d *DevAuth) SubmitAuthRequest(ctx context.Context, r *model.AuthReq) (string, error) {
 	l := log.FromContext(ctx)
 
-	var tenant *tenant.Tenant
+	var tenant *tenant2.Tenant
 	var err error
 
 	if d.verifyTenant {
@@ -1544,7 +1544,7 @@ func (d *DevAuth) WithJWTFallbackHandler(handler jwt.Handler) *DevAuth {
 // WithTenantVerification will force verification of tenant token with tenant
 // administrator when processing device authentication requests. Returns an
 // updated devauth.
-func (d *DevAuth) WithTenantVerification(c tenant.ClientRunner) *DevAuth {
+func (d *DevAuth) WithTenantVerification(c tenant2.ClientRunner) *DevAuth {
 	d.cTenant = c
 	d.verifyTenant = true
 	return d
