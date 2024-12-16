@@ -32,6 +32,7 @@ import (
 	"github.com/mendersoftware/mender-server/services/useradm/model"
 	"github.com/mendersoftware/mender-server/services/useradm/scope"
 	"github.com/mendersoftware/mender-server/services/useradm/store"
+	"github.com/mendersoftware/mender-server/services/useradm/utils"
 )
 
 var (
@@ -51,6 +52,8 @@ var (
 	ErrCurrentPasswordMismatch = errors.New("current password mismatch")
 	// modification of other user's password is not allowed
 	ErrCannotModifyPassword = errors.New("password cannot be modified")
+	// password too similar to the email
+	ErrPassAndMailTooSimilar = errors.New("password is too similar to the email")
 )
 
 const (
@@ -267,6 +270,9 @@ func (u *UserAdm) Logout(ctx context.Context, token *jwt.Token) error {
 }
 
 func (ua *UserAdm) CreateUser(ctx context.Context, u *model.User) error {
+	if utils.CheckIfPassSimilarToEmailRaw(string(u.Email), string(u.Password)) {
+		return ErrPassAndMailTooSimilar
+	}
 	hash, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return errors.Wrap(err, "failed to generate password hash")
@@ -462,6 +468,10 @@ func (ua *UserAdm) UpdateUser(ctx context.Context, id string, userUpdate *model.
 		}
 	}
 
+	if utils.CheckIfPassSimilarToEmail(user, userUpdate) {
+		return ErrPassAndMailTooSimilar
+	}
+
 	_, err = ua.db.UpdateUser(ctx, id, userUpdate)
 	switch err {
 	case nil:
@@ -604,6 +614,9 @@ func (ua *UserAdm) SetPassword(ctx context.Context, uu model.UserUpdate) error {
 	}
 	if u == nil {
 		return ErrUserNotFound
+	}
+	if utils.CheckIfPassSimilarToEmail(u, &uu) {
+		return ErrPassAndMailTooSimilar
 	}
 
 	_, err = ua.db.UpdateUser(ctx, u.ID, &uu)

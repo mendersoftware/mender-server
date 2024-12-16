@@ -345,7 +345,7 @@ func (u *UserAdmApiHandlers) AddUserHandler(w rest.ResponseWriter, r *rest.Reque
 
 	err = u.userAdm.CreateUser(ctx, user)
 	if err != nil {
-		if err == store.ErrDuplicateEmail {
+		if err == store.ErrDuplicateEmail || err == useradm.ErrPassAndMailTooSimilar {
 			rest_utils.RestErrWithLog(w, r, l, err, http.StatusUnprocessableEntity)
 		} else {
 			rest_utils.RestErrWithLogInternal(w, r, l, err)
@@ -454,6 +454,7 @@ func (u *UserAdmApiHandlers) UpdateUserHandler(w rest.ResponseWriter, r *rest.Re
 		switch err {
 		case store.ErrDuplicateEmail,
 			useradm.ErrCurrentPasswordMismatch,
+			useradm.ErrPassAndMailTooSimilar,
 			useradm.ErrCannotModifyPassword:
 			rest_utils.RestErrWithLog(w, r, l, err, http.StatusUnprocessableEntity)
 		case store.ErrUserNotFound:
