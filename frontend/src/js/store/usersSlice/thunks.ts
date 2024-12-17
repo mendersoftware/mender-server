@@ -301,7 +301,7 @@ export const enableUser2fa = createAsyncThunk(`${sliceName}/enableUser2fa`, (use
 export const disableUser2fa = createAsyncThunk(`${sliceName}/disableUser2fa`, (userId = OWN_USER_ID, { dispatch }) =>
   GeneralApi.post(`${useradmApiUrl}/users/${userId}/2fa/disable`)
     .catch(err => commonErrorHandler(err, `There was an error disabling Two Factor authentication for the user.`, dispatch))
-    .then(() => Promise.resolve(dispatch(getUser(userId))))
+    .then(() => Promise.all([dispatch(getUser(userId)), dispatch(actions.receivedQrCode(null))]))
 );
 
 /* RBAC related things follow:  */

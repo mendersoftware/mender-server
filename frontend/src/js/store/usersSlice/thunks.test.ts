@@ -138,6 +138,7 @@ describe('user actions', () => {
     const expectedActions = [
       { type: disableUser2fa.pending.type },
       { type: getUser.pending.type },
+      { type: actions.receivedQrCode.type, payload: null },
       { type: actions.receivedUser.type, payload: defaultState.users.byId.a1 },
       ...commonUserRetrievalActions,
       { type: disableUser2fa.fulfilled.type }
