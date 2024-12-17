@@ -57,6 +57,8 @@
     "@northern.tech/eslint-config": "0.2.0",
     "@northern.tech/prettier-config": "0.2.0",
     "@northern.tech/typescript-config": "0.1.1",
+    "@rspack/cli": "^1.1.6",
+    "@rspack/core": "^1.1.6",
     "@svgr/webpack": "8.1.0",
     "@testing-library/jest-dom": "6.6.3",
     "@testing-library/react": "^16.1.0",
@@ -77,6 +79,7 @@
     "css-loader": "7.1.2",
     "esbuild-loader": "4.2.2",
     "eslint": "8.57.0",
+    "eslint-rspack-plugin": "^4.2.1",
     "eslint-webpack-plugin": "4.2.0",
     "file-loader": "6.2.0",
     "html-webpack-plugin": "5.6.3",
@@ -132,13 +135,13 @@
     }
   },
   "scripts": {
-    "build": "webpack --mode production",
+    "build": "rspack --mode production",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx && eslint tests --ext .js,.jsx,.ts,.tsx",
     "lint-fix": "eslint src --ext .js,.jsx,.ts,.tsx --fix && eslint tests --ext .js,.jsx,.ts,.tsx --fix",
-    "serve": "./entrypoint.sh && webpack serve  --mode development",
+    "serve": "./entrypoint.sh && rspack serve --mode development",
     "test": "node test.js",
     "test-types": "tsc --project ./tsconfig-test.json",
-    "watch": "webpack --watch --mode development"
+    "watch": "rspack --watch --mode development"
   },
   "author": "Northern.tech AS",
   "license": "Apache-2.0",
