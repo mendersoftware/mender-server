@@ -168,12 +168,6 @@ export const Deployments = () => {
     }
   };
 
-  const onAbortDeployment = id =>
-    dispatch(abortDeployment(id)).then(() => {
-      dispatch(setDeploymentsState({ general: { showCreationDialog: false, showReportDialog: false } }));
-      return Promise.resolve();
-    });
-
   const changeTab = (_, tabIndex) => {
     dispatch(setDeploymentsState({ general: { state: tabIndex } }));
     dispatch(setSnackbar(''));
@@ -190,6 +184,8 @@ export const Deployments = () => {
   };
 
   const closeReport = () => dispatch(setDeploymentsState({ general: { reportType: undefined, showReportDialog: false }, selectedId: undefined }));
+
+  const onAbortDeployment = id => dispatch(abortDeployment(id)).then(closeReport);
 
   const onCreationDismiss = () => {
     dispatch(setDeploymentsState({ general: { showCreationDialog: false } }));
