@@ -43,6 +43,9 @@ export const TextInput = ({
   const errorKey = `${id}-error`;
 
   const validate = value => {
+    if (disabled) {
+      return true;
+    }
     const { isValid, errortext } = runValidations({ id, required, validations, value, wasMaybeTouched: !!errors[id] });
     if (isValid) {
       clearErrors(errorKey);
@@ -51,6 +54,7 @@ export const TextInput = ({
     }
     return isValid;
   };
+
   return (
     <Controller
       name={id}

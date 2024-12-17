@@ -122,6 +122,9 @@ export const PasswordInput = ({
   };
 
   const validate = async (value = '') => {
+    if (disabled) {
+      return true;
+    }
     let { isValid, errortext } = runValidations({ id, required, validations, value });
     if (confirmation && value !== confirmation) {
       isValid = false;
