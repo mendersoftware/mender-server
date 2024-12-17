@@ -87,6 +87,7 @@ export const AuditLogs = () => {
   const isSP = useSelector(getIsServiceProvider);
   const { detail, perPage, endDate, user, sort, startDate, type, total, isLoading } = selectionState;
   const [auditLogsTypes, setAuditLogsTypes] = useState(AUDIT_LOGS_TYPES);
+  const timers = useRef({ init: null, detailsReset: null, dirtyField: null });
 
   useEffect(() => {
     if (isSP) {
@@ -107,7 +108,8 @@ export const AuditLogs = () => {
       return;
     }
     setDetailsReset('detail');
-    setTimeout(() => setDetailsReset(''), TIMEOUTS.debounceShort);
+    clearTimeout(timers.current.detailsReset);
+    timers.current.detailsReset = setTimeout(() => setDetailsReset(''), TIMEOUTS.debounceShort);
   }, [type?.value]);
 
   useEffect(() => {
@@ -126,16 +128,44 @@ export const AuditLogs = () => {
         state.startDate = start;
       }
       dispatch(setAuditlogsState(state));
-      setTimeout(() => {
+      clearTimeout(timers.current.dirtyField);
+      timers.current.dirtyField = setTimeout(() => {
         let field = Object.entries({ detail, type, user }).reduce((accu, [key, value]) => (accu || value ? key : accu), '');
         field = field || (endDate !== tonight ? 'endDate' : field);
         field = field || (state.startDate !== today ? 'startDate' : field);
         setDirtyField(field);
       }, TIMEOUTS.debounceDefault);
       // the timeout here is slightly longer than the debounce in the filter component, otherwise the population of the filters with the url state would trigger a reset to page 1
-      setTimeout(() => (isInitialized.current = true), TIMEOUTS.oneSecond + TIMEOUTS.debounceDefault);
+      clearTimeout(timers.current.init);
+      timers.current.init = setTimeout(() => (isInitialized.current = true), TIMEOUTS.oneSecond + TIMEOUTS.debounceDefault);
     },
     [dispatch, today, tonight]
+  );
+
+  const updateState = useCallback(
+    nextState => {
+      let state = { ...nextState };
+      if (state.id && Boolean(state.open)) {
+        state.selectedId = state.id[0];
+        const [eventAction, eventTime] = atob(state.selectedId).split('|');
+        if (eventTime && !events.some(item => item.time === eventTime && item.action === eventAction)) {
+          const { start, end } = getISOStringBoundaries(new Date(eventTime));
+          state.endDate = end;
+          state.startDate = start;
+        }
+        let field = endDate !== tonight ? 'endDate' : '';
+        field = field || (startDate !== today ? 'startDate' : field);
+        setDirtyField(field);
+      }
+      // the timeout here is slightly longer than the debounce in the filter component, otherwise the population of the filters with the url state would trigger a reset to page 1
+      dispatch(setAuditlogsState(state)).then(() => {
+        clearTimeout(timers.current.init);
+        timers.current.init = setTimeout(() => (isInitialized.current = true), TIMEOUTS.oneSecond + TIMEOUTS.debounceDefault);
+      });
+      return;
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [dispatch, endDate, JSON.stringify(events), startDate, today, tonight]
   );
 
   useEffect(() => {
@@ -146,25 +176,29 @@ export const AuditLogs = () => {
     const { id, open, detail, endDate, startDate, type, user } = locationParams;
     let state = { ...locationParams };
     if (id && Boolean(open)) {
-      state.selectedId = id[0];
-      const [eventAction, eventTime] = atob(state.selectedId).split('|');
-      if (eventTime && !events.some(item => item.time === eventTime && item.action === eventAction)) {
-        const { start, end } = getISOStringBoundaries(new Date(eventTime));
-        state.endDate = end;
-        state.startDate = start;
-      }
-      let field = endDate !== tonight ? 'endDate' : '';
-      field = field || (startDate !== today ? 'startDate' : field);
-      setDirtyField(field);
-      // the timeout here is slightly longer than the debounce in the filter component, otherwise the population of the filters with the url state would trigger a reset to page 1
-      dispatch(setAuditlogsState(state)).then(() => setTimeout(() => (isInitialized.current = true), TIMEOUTS.oneSecond + TIMEOUTS.debounceDefault));
+      updateState(state);
       return;
     }
     dispatch(getAuditLogs({ page: state.page ?? 1, perPage: 50, startDate: startDate !== today ? startDate : BEGINNING_OF_TIME, endDate, user, type, detail }))
       .unwrap()
       .then(({ payload: result }) => initAuditlogState(result, state));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, hasAuditlogs, JSON.stringify(events), JSON.stringify(locationParams), initAuditlogState, today, tonight]);
+  }, [dispatch, hasAuditlogs, JSON.stringify(events), JSON.stringify(locationParams), initAuditlogState, updateState, today, tonight]);
+
+  useEffect(() => {
+    if (!hasAuditlogs || !isInitialized.current) {
+      return;
+    }
+    updateState(locationParams);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasAuditlogs, JSON.stringify(locationParams), updateState]);
+
+  useEffect(() => {
+    const currentTimers = timers.current;
+    return () => {
+      Object.values(currentTimers).forEach(clearTimeout);
+    };
+  }, []);
 
   const createCsvDownload = () => {
     setCsvLoading(true);
