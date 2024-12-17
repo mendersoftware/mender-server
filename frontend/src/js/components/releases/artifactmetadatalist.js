@@ -23,8 +23,8 @@ export const ArtifactMetadataList = ({ metaInfo = { content: [] } }) => {
       <>
         <p className="margin-bottom-none">{metaInfo.title}</p>
         <List className="list-horizontal-flex" style={{ paddingTop: 0 }}>
-          {metaInfo.content.map((info, index) => (
-            <ExpandableAttribute key={`software-info-${index}`} {...info} />
+          {metaInfo.content.map(({ key, ...info }) => (
+            <ExpandableAttribute key={key} {...info} />
           ))}
         </List>
       </>

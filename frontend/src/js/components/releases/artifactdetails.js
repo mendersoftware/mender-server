@@ -166,9 +166,9 @@ export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }) =>
     ? {
         title: 'Software versioning information',
         content: [
-          { primary: 'Software filesystem', secondary: softwareItem.key },
-          { primary: 'Software name', secondary: softwareItem.name },
-          { primary: 'Software version', secondary: softwareItem.version }
+          { key: 'software-filesystem', primary: 'Software filesystem', secondary: softwareItem.key },
+          { key: 'software-name', primary: 'Software name', secondary: softwareItem.name },
+          { key: 'software-version', primary: 'Software version', secondary: softwareItem.version }
         ]
       }
     : { content: [] };
