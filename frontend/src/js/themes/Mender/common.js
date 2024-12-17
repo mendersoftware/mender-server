@@ -97,9 +97,14 @@ const componentProps = {
       variant: 'standard'
     }
   },
+  MuiInput: {
+    defaultProps: {
+      variant: 'outlined'
+    }
+  },
   MuiTextField: {
     defaultProps: {
-      variant: 'standard'
+      variant: 'outlined'
     }
   },
   MuiSelect: {
@@ -170,6 +175,7 @@ export const overrides = {
     }
   },
   MuiInput: {
+    ...componentProps.MuiInput,
     styleOverrides: {
       underline: {
         '&:before': {
