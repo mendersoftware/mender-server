@@ -24,6 +24,7 @@ export const getGlobalSettings = state => state.users.globalSettings;
 
 const getCurrentUserId = state => state.users.currentUser;
 export const getUsersById = state => state.users.byId;
+export const getUsersList = createSelector([getUsersById], usersById => Object.values(usersById));
 export const getCurrentUser = createSelector([getUsersById, getCurrentUserId], (usersById, userId) => usersById[userId] ?? {});
 export const getUserSettings = state => state.users.userSettings;
 

@@ -81,7 +81,7 @@ const handleLoginError =
     const errorMessage = `There was a problem logging in. Please check your email${
       twoFAError ? ',' : ' and'
     } password${twoFAError}. If you still have problems, contact an administrator.`;
-    return Promise.reject(dispatch(setSnackbar(preformatWithRequestID(err.response, errorMessage), null, 'Copy to clipboard')));
+    return Promise.reject(dispatch(setSnackbar({ message: preformatWithRequestID(err.response, errorMessage), action: 'Copy to clipboard' })));
   };
 
 /*
@@ -114,7 +114,7 @@ export const loginUser = createAsyncThunk(`${sliceName}/loginUser`, ({ stayLogge
       const expiresAt = stayLoggedIn ? undefined : now.toISOString();
       setSessionInfo({ token, expiresAt });
       cookies.remove('JWT', { path: '/' });
-      return Promise.resolve(dispatch(getUser(OWN_USER_ID)))
+      return dispatch(getUser(OWN_USER_ID))
         .unwrap()
         .catch(e => {
           cleanUp();

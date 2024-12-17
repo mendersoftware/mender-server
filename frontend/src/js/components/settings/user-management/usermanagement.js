@@ -19,7 +19,7 @@ import { Add as AddIcon } from '@mui/icons-material';
 import { Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
 import storeActions from '@northern.tech/store/actions';
-import { getCurrentUser, getFeatures, getIsEnterprise, getRelevantRoles, getUserCapabilities } from '@northern.tech/store/selectors';
+import { getCurrentUser, getFeatures, getIsEnterprise, getRelevantRoles, getUserCapabilities, getUsersList } from '@northern.tech/store/selectors';
 import { addUserToCurrentTenant, createUser, editUser, getUserList, passwordResetStart, removeUser } from '@northern.tech/store/thunks';
 
 import { UserDefinition } from './userdefinition';
@@ -67,7 +67,7 @@ export const UserManagement = () => {
   const isEnterprise = useSelector(getIsEnterprise);
   const currentUser = useSelector(getCurrentUser);
   const roles = useSelector(getRelevantRoles);
-  const users = useSelector(state => Object.values(state.users.byId));
+  const users = useSelector(getUsersList);
   const props = {
     canManageUsers,
     addUser: id => dispatch(addUserToCurrentTenant(id)),
