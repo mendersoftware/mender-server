@@ -1407,6 +1407,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
             <div
               class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl emotion-8"
               required=""
+              variant="outlined"
             >
               <input
                 aria-invalid="false"
@@ -1469,6 +1470,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
                       </label>
                       <div
                         class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-8"
+                        variant="outlined"
                       >
                         <input
                           aria-invalid="false"
@@ -1582,6 +1584,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
                     <div
                       class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary Mui-disabled MuiInputBase-formControl emotion-31"
                       required=""
+                      variant="outlined"
                     >
                       <div
                         aria-controls=":r2:"
