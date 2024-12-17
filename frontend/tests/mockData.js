@@ -643,7 +643,7 @@ export const permissionSets = [
   {
     ...defaultPermissionSets.ReadAuditLogs,
     action: uiPermissionsById.read.title,
-    object: 'System audit log',
+    object: 'System Audit Log',
     description: 'Set of permissions which allows user to view system audit log',
     permissions: [{ action: 'http', object: { type: 'GET', value: '^/api/management/(v[1-9]|0.1.0)/auditlogs/logs' } }]
   },
