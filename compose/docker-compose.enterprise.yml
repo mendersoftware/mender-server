@@ -148,7 +148,7 @@ services:
         PathRegexp(`/api/management/v[0-9]/tenantadm`)
       traefik.http.routers.tenantadm.service: tenantadm
       traefik.http.routers.signup.middlewares: >-
-        compression@file,sec-headers@file,json-error-responder@file
+        compression@file,sec-headers@file
       traefik.http.routers.signup.rule: >-
         (Method(`OPTIONS`) || Method(`POST`)) && PathRegexp(`/api/management/v[0-9]+/tenantadm/tenants/signup`) ||
         (Method(`OPTIONS`) || Method(`POST`)) && PathRegexp(`/api/management/v[0-9]+/tenantadm/tenants/trial`)

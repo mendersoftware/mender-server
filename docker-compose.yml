@@ -42,7 +42,7 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.services.deployments.loadBalancer.server.port: "8080"
-      traefik.http.routers.deploymentsDL.middlewares: "sec-headers@file,json-error-responder@file"
+      traefik.http.routers.deploymentsDL.middlewares: "sec-headers@file"
       traefik.http.routers.deploymentsDL.rule: >-
         PathRegexp(`/api/devices/v[0-9]+/deployments/download`)
       traefik.http.routers.deploymentsDL.service: deployments
@@ -158,7 +158,7 @@ services:
       traefik.http.services.gui.loadBalancer.server.port: "8090"
       traefik.http.services.error-responder.loadBalancer.server.port: "8080"
       traefik.http.routers.gui.middlewares: >-
-        compression@file,sec-headers@file,json-error-responder@file
+        compression@file,sec-headers@file
       traefik.http.routers.gui.priority: 1
       traefik.http.routers.gui.rule: PathPrefix(`/`)
       traefik.http.routers.gui.service: gui
@@ -259,7 +259,7 @@ services:
         PathRegexp(`/api/management/v[0-9]+/useradm`)
       traefik.http.routers.useradm.service: useradm
       traefik.http.routers.userauth.middlewares: >-
-        compression@file,sec-headers@file,json-error-responder@file
+        compression@file,sec-headers@file
       traefik.http.routers.userauth.rule: >-
         !PathRegexp(`/api/management/v[0-9]+/useradm/auth/logout`) &&
         PathRegexp(`/api/management/v[0-9]+/useradm/(auth|oauth2|oidc)`)

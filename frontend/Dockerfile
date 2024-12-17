@@ -7,7 +7,6 @@ RUN npm run build
 
 FROM nginxinc/nginx-unprivileged:1.27.3-alpine3.20-slim AS unprivileged
 EXPOSE 8090
-EXPOSE 8080
 WORKDIR /var/www/mender-gui/dist
 ARG GIT_COMMIT_TAG
 ENV GIT_COMMIT_TAG=$GIT_COMMIT_TAG
