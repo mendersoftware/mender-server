@@ -240,7 +240,7 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type }) => {
         title={
           <>
             Deployment {type !== DEPLOYMENT_STATES.scheduled ? 'details' : 'report'}
-            <h4 className="margin-none margin-left-small margin-right-small">ID: {deployment.id}</h4>
+            <i className="margin-left-small margin-right-small">ID: {deployment.id}</i>
           </>
         }
         onLinkCopy={copyLinkToClipboard}

@@ -1516,7 +1516,7 @@ label+.emotion-35 {
         <div
           class="flexbox center-aligned margin-top "
         >
-          System audit log
+          System Audit Log
           <svg
             aria-hidden="true"
             aria-label="Granting access to the audit log will allow tracing changes to devices, releases and user accounts, as well as providing information about deployments."

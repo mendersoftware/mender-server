@@ -100,7 +100,7 @@ const defaultActions = [
   {
     action: ({ onTagRelease, selectedReleases }) => onTagRelease(selectedReleases),
     icon: <LabelOutlinedIcon />,
-    isApplicable: ({ userCapabilities: { canManageReleases } }) => canManageReleases,
+    isApplicable: ({ userCapabilities: { canManageReleases }, selectedSingleRelease }) => canManageReleases && !selectedSingleRelease,
     key: 'tag',
     title: pluralized => `Tag ${pluralized}`
   },
@@ -136,11 +136,12 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 
-export const ReleaseQuickActions = ({ actionCallbacks, innerRef, selectedRelease, userCapabilities, releases }) => {
+export const ReleaseQuickActions = ({ actionCallbacks, innerRef, userCapabilities, releases }) => {
   const [showActions, setShowActions] = useState(false);
   const [selectedReleases, setSelectedReleases] = useState([]);
   const { classes } = useStyles();
   const { selection: selectedRows } = useSelector(getReleaseListState);
+  const selectedRelease = useSelector(getSelectedRelease);
 
   useEffect(() => {
     if (releases) {
@@ -166,7 +167,7 @@ export const ReleaseQuickActions = ({ actionCallbacks, innerRef, selectedRelease
     setShowActions(false);
   };
 
-  const pluralized = pluralize('releases', selectedRows.length);
+  const pluralized = pluralize('releases', selectedRelease ? 1 : selectedRows.length);
 
   return (
     <div className={classes.container} ref={innerRef}>
@@ -350,7 +351,7 @@ export const ReleaseDetails = () => {
       <DrawerTitle
         title={
           <>
-            Release information for <h4 className="margin-none margin-left-small margin-right-small">{releaseName}</h4>
+            Release information for <i className="margin-left-small margin-right-small">{releaseName}</i>
           </>
         }
         onLinkCopy={copyLinkToClipboard}
@@ -381,7 +382,6 @@ export const ReleaseDetails = () => {
       <ReleaseQuickActions
         actionCallbacks={{ onCreateDeployment, onDeleteRelease: onToggleReleaseDeletion }}
         innerRef={creationRef}
-        selectedRelease={release}
         userCapabilities={userCapabilities}
       />
     </Drawer>

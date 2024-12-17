@@ -10,14 +10,12 @@
 //    distributed under the License is distributed on an "AS IS" BASIS,
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
-
-/* eslint-disable sonarjs/no-duplicate-string */
 import React from 'react';
 
-import { deepCompare } from '@northern.tech/utils/helpers.js';
+import { deepCompare } from '@northern.tech/utils/helpers';
 import { render } from '@testing-library/react';
 
-import { undefineds } from '../../../tests/mockData.js';
+import { undefineds } from '../../../tests/mockData';
 import FileSize from './filesize';
 
 describe('FileSize Component', () => {

@@ -20,7 +20,7 @@ import { Chip } from '@mui/material';
 
 import DetailsIndicator from '@northern.tech/common-ui/detailsindicator';
 import DetailsTable from '@northern.tech/common-ui/detailstable';
-import { DocsTooltip } from '@northern.tech/common-ui/docslink';
+import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/docslink';
 import EnterpriseNotification from '@northern.tech/common-ui/enterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/info-hint';
 import { BENEFITS, UiRoleDefinition, emptyRole, settingsKeys } from '@northern.tech/store/constants';
@@ -96,7 +96,7 @@ export const RoleManagement = () => {
         <h2 style={{ marginLeft: 20 }}>Roles</h2>
         <InfoHintContainer>
           <EnterpriseNotification id={BENEFITS.rbac.id} />
-          <DocsTooltip />
+          <DocsTooltip id={DOCSTIPS.rbac.id} />
         </InfoHintContainer>
       </div>
       <DetailsTable columns={columns} items={items} onItemClick={onEditRole} />

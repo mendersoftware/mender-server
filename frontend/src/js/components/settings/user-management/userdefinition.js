@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { Fragment, useEffect, useMemo, useState } from 'react';
 
 // material ui
 import { Button, Checkbox, Divider, Drawer, FormControl, FormControlLabel, FormHelperText, InputLabel, TextField, textFieldClasses } from '@mui/material';
@@ -191,12 +191,12 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
           return accu;
         }
         accu.push(
-          <>
+          <Fragment key={area}>
             <InputLabel className="margin-top-small" shrink>
               {scopedPermissionAreas[area]}
             </InputLabel>
             <TwoColumnData className={rolesClasses} config={areaPermissions} />
-          </>
+          </Fragment>
         );
         return accu;
       }, [])}

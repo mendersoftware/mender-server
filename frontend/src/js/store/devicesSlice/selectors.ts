@@ -90,7 +90,7 @@ export const getGroups = createSelector([getGroupsById], groupsById => {
       (accu, [groupname, group]) => {
         const name = groupname === UNGROUPED_GROUP.id ? UNGROUPED_GROUP.name : groupname;
         const groupItem = { ...group, groupId: name, name: groupname };
-        if (group.filters.length > 0) {
+        if (group.filters?.length > 0) {
           if (groupname !== UNGROUPED_GROUP.id) {
             accu.dynamic.push(groupItem);
           } else {

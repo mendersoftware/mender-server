@@ -81,7 +81,7 @@ const handleLoginError =
     const errorMessage = `There was a problem logging in. Please check your email${
       twoFAError ? ',' : ' and'
     } password${twoFAError}. If you still have problems, contact an administrator.`;
-    return Promise.reject(dispatch(setSnackbar(preformatWithRequestID(err.response, errorMessage), null, 'Copy to clipboard')));
+    return Promise.reject(dispatch(setSnackbar({ message: preformatWithRequestID(err.response, errorMessage), action: 'Copy to clipboard' })));
   };
 
 /*
@@ -114,7 +114,7 @@ export const loginUser = createAsyncThunk(`${sliceName}/loginUser`, ({ stayLogge
       const expiresAt = stayLoggedIn ? undefined : now.toISOString();
       setSessionInfo({ token, expiresAt });
       cookies.remove('JWT', { path: '/' });
-      return Promise.resolve(dispatch(getUser(OWN_USER_ID)))
+      return dispatch(getUser(OWN_USER_ID))
         .unwrap()
         .catch(e => {
           cleanUp();
@@ -301,7 +301,7 @@ export const enableUser2fa = createAsyncThunk(`${sliceName}/enableUser2fa`, (use
 export const disableUser2fa = createAsyncThunk(`${sliceName}/disableUser2fa`, (userId = OWN_USER_ID, { dispatch }) =>
   GeneralApi.post(`${useradmApiUrl}/users/${userId}/2fa/disable`)
     .catch(err => commonErrorHandler(err, `There was an error disabling Two Factor authentication for the user.`, dispatch))
-    .then(() => Promise.resolve(dispatch(getUser(userId))))
+    .then(() => Promise.all([dispatch(getUser(userId)), dispatch(actions.receivedQrCode(null))]))
 );
 
 /* RBAC related things follow:  */

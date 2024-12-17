@@ -22,8 +22,8 @@ import Confirm from '@northern.tech/common-ui/confirm';
 import FileSize from '@northern.tech/common-ui/filesize';
 import { RelativeTime } from '@northern.tech/common-ui/time';
 import { DEPLOYMENT_STATES, DEPLOYMENT_TYPES } from '@northern.tech/store/constants';
+import { useDeploymentDevice } from '@northern.tech/store/deploymentdevicehook';
 import { getDeploymentState } from '@northern.tech/store/utils';
-import { useDeploymentDevice } from '@northern.tech/utils/deploymentdevicehook';
 
 import { PhaseProgressDisplay } from './deployment-report/phaseprogress';
 import { getDeploymentTargetText } from './deployment-wizard/softwaredevices';

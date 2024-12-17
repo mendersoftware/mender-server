@@ -64,6 +64,7 @@ export const DOCSTIPS = {
   pausedDeployments: { id: 'pausedDeployments', path: 'overview/customize-the-update-process#synchronized-updates' },
   retryDeployments: { id: 'retryDeployments', path: 'overview/deployment' },
   releases: { id: 'releases', path: 'overview/artifact' },
+  rbac: { id: 'rbac', path: 'overview/role.based.access.control' },
   webhookSecret: { id: 'webhookSecret', path: 'server-integration/webhooks#signature-header' }
 };
 

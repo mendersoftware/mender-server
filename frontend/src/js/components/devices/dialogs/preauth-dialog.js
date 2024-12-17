@@ -58,6 +58,7 @@ export const PreauthDialog = ({ acceptedDevices, deviceLimit, limitMaxed, onCanc
       identity_data: jsonIdentity
     };
     return dispatch(preauthDevice(authset))
+      .unwrap()
       .then(() => onSubmit(shouldClose))
       .catch(setErrortext);
   };
