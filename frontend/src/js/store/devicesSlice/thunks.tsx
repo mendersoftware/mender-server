@@ -906,15 +906,15 @@ export const deleteAuthset = createAsyncThunk(`${sliceName}/deleteAuthset`, ({ d
     .finally(() => dispatch(setDeviceListState({ refreshTrigger: !getState().devices.deviceList.refreshTrigger })))
 );
 
-export const preauthDevice = createAsyncThunk(`${sliceName}/preauthDevice`, (authset, { dispatch }) =>
+export const preauthDevice = createAsyncThunk(`${sliceName}/preauthDevice`, (authset, { dispatch, rejectWithValue }) =>
   GeneralApi.post(`${deviceAuthV2}/devices`, authset)
+    .then(() => Promise.resolve(dispatch(setSnackbar('Device was successfully added to the preauthorization list', TIMEOUTS.fiveSeconds))))
     .catch(err => {
       if (err.response.status === 409) {
-        return Promise.reject('A device with a matching identity data set already exists');
+        return rejectWithValue('A device with a matching identity data set already exists');
       }
       return commonErrorHandler(err, 'The device could not be added:', dispatch);
     })
-    .then(() => Promise.resolve(dispatch(setSnackbar('Device was successfully added to the preauthorization list', TIMEOUTS.fiveSeconds))))
 );
 
 export const decommissionDevice = createAsyncThunk(`${sliceName}/decommissionDevice`, ({ deviceId, authId }, { dispatch, getState }) =>

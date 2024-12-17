@@ -665,7 +665,7 @@ describe('device auth handling', () => {
     await store
       .dispatch(preauthDevice(defaultState.devices.byId.a1.auth_sets[0]))
       .unwrap()
-      .catch(({ message }) => expect(message).toContain('identity data set already exists'));
+      .catch(message => expect(message).toContain('identity data set already exists'));
   });
   it('should allow single device auth set deletion', async () => {
     const store = mockStore({ ...defaultState });
