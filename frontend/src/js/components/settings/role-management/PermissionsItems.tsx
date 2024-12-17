@@ -87,8 +87,7 @@ const ScopeSelect: FunctionComponent<IScopedPermissionSelect> = ({ disabled, per
   const { control } = useFormContext();
   const { key, placeholder } = permissionsArea;
   return disabled ? (
-    // empty label as a shortcut to align the layout with the select path
-    <TextField disabled defaultValue={itemSelection.item} label=" " />
+    <TextField disabled defaultValue={itemSelection.item} />
   ) : (
     <FormControl>
       <InputLabel id={`${key}-scope-selection-select-label`}>{!itemSelection.item ? placeholder : ''}</InputLabel>

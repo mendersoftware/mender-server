@@ -15,7 +15,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 // material ui
-import { Input, InputAdornment } from '@mui/material';
+import { InputAdornment, OutlinedInput } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { setDeviceTags } from '@northern.tech/store/thunks';
@@ -71,7 +71,7 @@ export const DeviceNameInput = ({ device, isHovered }) => {
   const onInputClick = e => e.stopPropagation();
 
   return (
-    <Input
+    <OutlinedInput
       id={`${device.id}-id-input`}
       className={classes.input}
       disabled={!isEditing}

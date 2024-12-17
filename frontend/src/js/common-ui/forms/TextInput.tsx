@@ -14,7 +14,7 @@
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { FormControl, FormHelperText, Input, InputLabel } from '@mui/material';
+import { FormControl, FormHelperText, InputLabel, OutlinedInput } from '@mui/material';
 
 import { runValidations } from './Form';
 
@@ -65,7 +65,7 @@ export const TextInput = ({
           <InputLabel htmlFor={id} {...InputLabelProps}>
             {label}
           </InputLabel>
-          <Input
+          <OutlinedInput
             autoComplete={autocomplete}
             id={id}
             name={id}

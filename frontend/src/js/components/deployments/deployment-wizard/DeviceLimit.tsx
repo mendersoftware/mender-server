@@ -13,7 +13,7 @@
 //    limitations under the License.
 import React, { useEffect, useState } from 'react';
 
-import { Checkbox, Collapse, FormControl, FormControlLabel, FormHelperText, Input, formControlClasses } from '@mui/material';
+import { Checkbox, Collapse, FormControl, FormControlLabel, FormHelperText, OutlinedInput, formControlClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
@@ -95,7 +95,7 @@ export const DeviceLimit = props => {
         <div className={classes.limitSelection}>
           Finish deployment after{' '}
           <FormControl error={!!error}>
-            <Input value={value} placeholder="Limit" onChange={handleLimitChange} type="text" hint={numberDevices} />
+            <OutlinedInput value={value} placeholder="Limit" onChange={handleLimitChange} type="text" hint={numberDevices} />
             <FormHelperText>{error}</FormHelperText>
           </FormControl>
           devices have attempted to apply the update

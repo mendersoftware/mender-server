@@ -90,7 +90,7 @@ export const SelfUserManagement = () => {
       <UserId className={`full-width ${classes.userId}`} userId={userId} />
       {!editEmail && email ? (
         <div className="flexbox space-between margin-bottom-small">
-          <TextField className={classes.formField} label="Email" key={email} InputLabelProps={{ shrink: !!email }} disabled defaultValue={email} />
+          <TextField className={classes.formField} label="Email" key={email} disabled defaultValue={email} variant="standard" />
           {!isOAuth2 && (
             <Button className={`inline-block ${classes.changeButton}`} color="primary" id="change_email" onClick={handleEmail}>
               Change email
@@ -106,7 +106,15 @@ export const SelfUserManagement = () => {
       {!isOAuth2 &&
         (!editPass ? (
           <form className="flexbox space-between">
-            <TextField className={classes.formField} label="Password" key="password-placeholder" disabled defaultValue="********" type="password" />
+            <TextField
+              className={classes.formField}
+              label="Password"
+              key="password-placeholder"
+              disabled
+              defaultValue="********"
+              type="password"
+              variant="standard"
+            />
             <Button className={classes.changeButton} color="primary" id="change_password" onClick={handlePass}>
               Change password
             </Button>

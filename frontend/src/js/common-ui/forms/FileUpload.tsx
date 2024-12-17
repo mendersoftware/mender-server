@@ -58,7 +58,7 @@ export const FileUpload = ({ enableContentReading = true, fileNameSelection, onF
 
   return filename ? (
     <div style={style}>
-      <TextField id="keyfile" value={filename} disabled={true} style={{ color: 'rgba(0, 0, 0, 0.8)', borderBottom: '1px solid rgb(224, 224, 224)' }} />
+      <TextField id="keyfile" value={filename} disabled style={{ color: 'rgba(0, 0, 0, 0.8)', borderBottom: '1px solid rgb(224, 224, 224)' }} />
       <IconButton style={{ top: '6px' }} onClick={onClear} size="large">
         <ClearIcon />
       </IconButton>

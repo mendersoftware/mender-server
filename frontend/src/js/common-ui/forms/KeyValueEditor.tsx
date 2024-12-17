@@ -14,7 +14,7 @@
 import React, { createRef, useEffect, useState } from 'react';
 
 import { Clear as ClearIcon, Add as ContentAddIcon } from '@mui/icons-material';
-import { Fab, FormControl, FormHelperText, IconButton, Input } from '@mui/material';
+import { Fab, FormControl, FormHelperText, IconButton, OutlinedInput } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 const emptyInput = { helptip: null, key: '', value: '' };
@@ -86,11 +86,11 @@ export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHe
         return (
           <div className="key-value-container relative" key={index}>
             <FormControl>
-              <Input disabled={disabled} value={input.key} placeholder="Key" onChange={e => updateInputs('key', index, e)} type="text" />
+              <OutlinedInput disabled={disabled} value={input.key} placeholder="Key" onChange={e => updateInputs('key', index, e)} type="text" />
               {hasError && <FormHelperText>{errortext || error}</FormHelperText>}
             </FormControl>
             <FormControl>
-              <Input disabled={disabled} value={`${input.value}`} placeholder="Value" onChange={e => updateInputs('value', index, e)} type="text" />
+              <OutlinedInput disabled={disabled} value={input.value} placeholder="Value" onChange={e => updateInputs('value', index, e)} type="text" />
             </FormControl>
             {inputs.length > 1 && !hasRemovalDisabled ? (
               <IconButton disabled={disabled} onClick={() => removeInput(index)} size="large">

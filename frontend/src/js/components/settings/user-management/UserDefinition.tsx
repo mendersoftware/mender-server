@@ -65,7 +65,7 @@ export const UserId = ({ className = '', userId }) => {
   const { classes } = useStyles();
   return (
     <div className={`flexbox space-between ${classes.userIdWrapper} ${className}`}>
-      <TextField label="User ID" key={userId} InputLabelProps={{ shrink: !!userId }} disabled defaultValue={userId} />
+      <TextField label="User ID" key={userId} disabled defaultValue={userId} variant="standard" />
       <div className="flexbox center-aligned copy-button">
         <CopyTextToClipboard token={userId} />
       </div>

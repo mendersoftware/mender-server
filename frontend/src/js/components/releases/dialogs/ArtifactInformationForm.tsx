@@ -14,7 +14,7 @@
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { FormControl, Input, InputLabel, TextField } from '@mui/material';
+import { FormControl, InputLabel, OutlinedInput, TextField } from '@mui/material';
 
 import ChipSelect from '@northern.tech/common-ui/ChipSelect';
 import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
@@ -105,7 +105,7 @@ export const ArtifactInformation = ({ creation = {}, deviceTypes = [], onRemove,
             <DocsTooltip id={DOCSTIPS.releases.id} />
           </InfoHintContainer>
         </InputLabel>
-        <Input
+        <OutlinedInput
           defaultValue={name}
           className="release-name-input"
           id="release-name"

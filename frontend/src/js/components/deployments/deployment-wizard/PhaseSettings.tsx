@@ -21,10 +21,10 @@ import {
   FormControl,
   FormControlLabel,
   IconButton,
-  Input,
   InputAdornment,
   ListSubheader,
   MenuItem,
+  OutlinedInput,
   Select,
   Table,
   TableBody,
@@ -149,7 +149,7 @@ export const PhaseSettings = ({ classNames, deploymentObject, disabled, numberDe
         <TableCell>
           <div className="flexbox center-aligned">
             {phase.batch_size && phase.batch_size < 100 ? (
-              <Input
+              <OutlinedInput
                 value={phase.batch_size}
                 onChange={event => updateBatchSize(event.target.value, index)}
                 endAdornment={
@@ -183,7 +183,7 @@ export const PhaseSettings = ({ classNames, deploymentObject, disabled, numberDe
         <TableCell>
           {phase.delay && index !== phases.length - 1 ? (
             <div className={classes.delayInputWrapper}>
-              <Input
+              <OutlinedInput
                 value={phase.delay}
                 onChange={event => updateDelay(event.target.value, index)}
                 inputProps={{ step: 1, min: 1, max: 720, type: 'number' }}
