@@ -263,7 +263,7 @@ for suite in "${TEST_SUITES[@]}"; do
     fi
 
     prepare_pytest_args
-    export PYTEST_TESTS_INPUTS_PY=`ls /tests/*py | grep -vF test_compat.py`
+    export PYTEST_ARGS="`ls /tests/*py | grep -vF test_compat.py` $PYTEST_ARGS"
     run_tests
     run_tests_retcode=$?
     if [ $script_failed -eq 0 ]; then
@@ -277,7 +277,7 @@ for suite in "${TEST_SUITES[@]}"; do
     fi
 
     COMPOSE_FILES="${COMPOSE_FILES} ${COMPOSE_FILES_COMPAT}"
-    export PYTEST_TESTS_INPUTS_PY=/tests/test_compat.py
+    export PYTEST_ARGS="/tests/test_compat.py $PYTEST_ARGS"
     run_tests
     run_tests_retcode=$?
     if [ $script_failed -eq 0 ]; then
