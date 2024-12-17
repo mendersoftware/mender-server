@@ -134,7 +134,6 @@ export const TenantList = () => {
   const { tenants, perPage, selectedTenant, sort = {} } = tenantListState;
   const dispatch: AppDispatch = useDispatch();
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [locationParams, setLocationParams] = useLocationParams('tenants', {
     defaults: {
       direction: SORTING_OPTIONS.desc,
