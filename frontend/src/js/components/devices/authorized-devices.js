@@ -304,7 +304,7 @@ export const Authorized = ({
   }, [devicesInitialized, refreshDevices, selectedState]);
 
   useEffect(() => {
-    Object.keys(availableIssueOptions).forEach(key => dispatch(getIssueCountsByType(key, { filters, group: selectedGroup, state: selectedState })));
+    Object.keys(availableIssueOptions).forEach(key => dispatch(getIssueCountsByType({ type: key, filters, group: selectedGroup, state: selectedState })));
     availableIssueOptions[DEVICE_ISSUE_OPTIONS.authRequests.key]
       ? dispatch(getIssueCountsByType({ type: DEVICE_ISSUE_OPTIONS.authRequests.key, options: { filters: [] } }))
       : undefined;
