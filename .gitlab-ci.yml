@@ -714,8 +714,10 @@ release:mender-docs-changelog:
           esac
         fi
         THIS_KEY=".${CONTAINER_KEY}.image.tag" THIS_VALUE="${THIS_TAG}" yq -i 'eval(strenv(THIS_KEY)) = strenv(THIS_VALUE)' ${CHART_DIR}/values-${SYNC_ENVIRONMENT}.yaml
-        THIS_KEY=".${CONTAINER_KEY}.image.registry" THIS_VALUE="${HELM_MENDER_PUBLISH_REGISTRY}" yq -i 'eval(strenv(THIS_KEY)) = strenv(THIS_VALUE)' ${CHART_DIR}/values-${SYNC_ENVIRONMENT}.yaml
-        THIS_KEY=".${CONTAINER_KEY}.image.repository" THIS_VALUE="${HELM_MENDER_PUBLISH_REPOSITORY}" yq -i 'eval(strenv(THIS_KEY)) = strenv(THIS_VALUE)' ${CHART_DIR}/values-${SYNC_ENVIRONMENT}.yaml
+        if [[ "${CONTAINER}" == "gui" ]]; then
+          THIS_KEY=".${CONTAINER_KEY}.image.registry" THIS_VALUE="${HELM_MENDER_PUBLISH_REGISTRY}" yq -i 'eval(strenv(THIS_KEY)) = strenv(THIS_VALUE)' ${CHART_DIR}/values-${SYNC_ENVIRONMENT}.yaml
+          THIS_KEY=".${CONTAINER_KEY}.image.repository" THIS_VALUE="${HELM_MENDER_PUBLISH_REPOSITORY}" yq -i 'eval(strenv(THIS_KEY)) = strenv(THIS_VALUE)' ${CHART_DIR}/values-${SYNC_ENVIRONMENT}.yaml
+        fi
       done
     - git add ${CHART_DIR}/values-${SYNC_ENVIRONMENT}.yaml
     - echo "DEBUG - display values file content"
