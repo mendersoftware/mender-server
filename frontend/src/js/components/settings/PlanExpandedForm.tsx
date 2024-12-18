@@ -25,7 +25,9 @@ export const PlanExpandedForm = (props: PlanExpandedFormProp) => {
   const { setIsValid } = props;
   const { formState } = useFormContext();
   useEffect(() => {
-    setIsValid(formState.isValid);
+    if (formState.isDirty) {
+      setIsValid(formState.isValid);
+    }
   }, [formState, setIsValid]);
 
   return (

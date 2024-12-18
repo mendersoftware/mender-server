@@ -87,6 +87,9 @@ export const organizationSlice = createSlice({
     setOrganization: (state, action) => {
       state.organization = { ...state.organization, ...action.payload };
     },
+    setBillingProfile: (state, action) => {
+      state.organization.billing_profile = action.payload;
+    },
     setTenantListState: (state, action) => {
       state.tenantList = action.payload;
     },

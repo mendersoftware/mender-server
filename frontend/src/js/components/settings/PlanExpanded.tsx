@@ -14,33 +14,48 @@
 import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { Divider, Drawer } from '@mui/material';
+import { Button, Divider, Drawer } from '@mui/material';
 
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import Form from '@northern.tech/common-ui/forms/Form';
 import storeActions from '@northern.tech/store/actions';
 import { Plan } from '@northern.tech/store/constants';
-import { Organization } from '@northern.tech/store/organizationSlice/types';
+import { BillingProfile, Card, Organization } from '@northern.tech/store/organizationSlice/types';
 import { getCurrentUser } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
-import { completeUpgrade, startUpgrade } from '@northern.tech/store/thunks';
+import { completeUpgrade, editBillingProfile, startUpgrade } from '@northern.tech/store/thunks';
 
 import CardSection from './CardSection';
 import { PlanExpandedForm } from './PlanExpandedForm';
+import OrganizationPaymentSettings from './organization/OrganizationPaymentSettings';
 
 const { setSnackbar } = storeActions;
 
-interface PlanExpandedProps {
-  plan: Plan;
+interface PlanExpandedPropsBase {
   organization: Organization;
   onCloseClick: () => void;
+  isEdit: boolean;
 }
+interface ProfileEditProps extends PlanExpandedPropsBase {
+  isEdit: true;
+  currentBillingProfile: BillingProfile;
+  card: Card;
+}
+
+interface PlanProps extends PlanExpandedPropsBase {
+  isEdit: false;
+  plan: Plan;
+}
+
 const successMessage = (plan: string) =>
   `Thank you! You have successfully subscribed to the ${plan} plan.  You can view and edit your billing details on the Organization and billing page.`;
 
-export const PlanExpanded = (props: PlanExpandedProps) => {
-  const { plan: selectedPlan, onCloseClick, organization } = props;
-  const [isValid, setIsValid] = useState(false);
+export const PlanExpanded = (props: ProfileEditProps | PlanProps) => {
+  const { onCloseClick, isEdit } = props;
+  const organization = !isEdit ? props.organization : null;
+  const [isValid, setIsValid] = useState(isEdit);
+  const [updatingCard, setUpdatingCard] = useState(false);
+  const selectedPlan = isEdit ? null : props.plan;
   const dispatch = useAppDispatch();
   const formSubmitRef = useRef<() => void | null>(null);
   const { email } = useSelector(getCurrentUser);
@@ -49,43 +64,61 @@ export const PlanExpanded = (props: PlanExpandedProps) => {
       formSubmitRef.current();
     }
   };
-
+  const initialValues = isEdit
+    ? { ...props.currentBillingProfile.address, name: props.currentBillingProfile.name, email: props.currentBillingProfile.email }
+    : { email, name: organization?.name || '', line1: '', state: '', city: '', postal_code: '', country: '' };
   const handleSubmit = async values => {
-    const {
-      email,
-      name,
-      country: { code },
-      state,
-      city,
-      line1,
-      postal_code
-    } = values;
+    const { email, name, state, city, line1, postal_code } = values;
+    const code: string = values.country.code ? values.country.code : values.country;
     const billing_profile = { email, name, address: { country: code, state, city, line1, postal_code } };
-    await dispatch(completeUpgrade({ tenantId: organization.id, plan: selectedPlan.id, billing_profile }));
-    dispatch(setSnackbar(successMessage(selectedPlan.name)));
+    if (isEdit) {
+      await dispatch(editBillingProfile({ billingProfile: billing_profile }));
+    } else {
+      await dispatch(completeUpgrade({ tenantId: (organization as Organization).id, plan: (selectedPlan as Plan).id, billing_profile }));
+      dispatch(setSnackbar(successMessage((selectedPlan as Plan).name)));
+    }
     onCloseClick();
   };
+
   return (
     <Drawer anchor="right" open={true} PaperProps={{ style: { minWidth: '75vw' } }}>
-      <DrawerTitle title={<>Subscribe to {selectedPlan.name}</>} onClose={onCloseClick} />
+      <DrawerTitle title={<>{selectedPlan ? `Subscribe to Mender ${selectedPlan.name}` : 'Edit billing details'}</>} onClose={onCloseClick} />
       <Divider className="margin-bottom" />
-      <div>
-        Complete checkout to subscribe to <b>{selectedPlan.name}</b> at <b>{selectedPlan.price}</b>
-      </div>
-      <Form
-        submitRef={formSubmitRef}
-        onSubmit={handleSubmit}
-        initialValues={{ email, name: organization.name || '', line1: '', state: '', city: '', postal_code: '', country: '' }}
-        showButtons={false}
-        autocomplete="off"
-      >
+      {selectedPlan && (
+        <div>
+          Complete checkout to subscribe to <b>{selectedPlan.name}</b> at <b>{selectedPlan.price}</b>
+        </div>
+      )}
+      <Form submitRef={formSubmitRef} onSubmit={handleSubmit} defaultValues={initialValues} showButtons={false} autocomplete="off">
         <PlanExpandedForm setIsValid={setIsValid} />
       </Form>
-      {isValid && (
+      {isEdit ? (
         <>
-          <h4>Card Details</h4>
-          <CardSection organization={organization} onCardConfirmed={handleUpgrade} onSubmit={() => dispatch(startUpgrade(organization.id)).unwrap()} isSignUp />
+          <OrganizationPaymentSettings onComplete={handleUpgrade} updatingCard={updatingCard} setUpdatingCard={setUpdatingCard} isValid={isValid} />
         </>
+      ) : (
+        isValid &&
+        organization && (
+          <>
+            <h4>Card Details</h4>
+            <CardSection
+              organization={organization}
+              onCardConfirmed={handleUpgrade}
+              onSubmit={() => dispatch(startUpgrade(organization.id)).unwrap()}
+              isSignUp
+            />
+          </>
+        )
+      )}
+      {isEdit && !updatingCard && (
+        <div className="margin-top">
+          <Button className="margin-right-small" onClick={onCloseClick}>
+            Cancel
+          </Button>
+          <Button onClick={() => handleUpgrade()} color="secondary" variant="contained" disabled={!isValid}>
+            Save
+          </Button>
+        </div>
       )}
     </Drawer>
   );

@@ -18,6 +18,7 @@ import { Button } from '@mui/material';
 import InfoText from '@northern.tech/common-ui/InfoText';
 import Loader from '@northern.tech/common-ui/Loader';
 import storeActions from '@northern.tech/store/actions';
+import { Organization } from '@northern.tech/store/organizationSlice/types';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { cancelUpgrade } from '@northern.tech/store/thunks';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
@@ -26,15 +27,22 @@ import stripeImage from '../../../assets/img/powered_by_stripe.png';
 
 const { setSnackbar } = storeActions;
 
-const CardSection = ({ isSignUp, onClose, organization, onSubmit, onCardConfirmed }) => {
+interface CardSectionProps {
+  isSignUp: boolean;
+  onClose?: () => void;
+  organization: Organization;
+  isValid?: boolean;
+  onSubmit: () => Promise<void>;
+  onCardConfirmed: () => void;
+}
+const CardSection = ({ isSignUp, onClose, organization, onSubmit, onCardConfirmed, isValid = true }: CardSectionProps) => {
   const stripe = useStripe();
   const elements = useElements();
   const [errors, setErrors] = useState(false);
   const [loading, setLoading] = useState(false);
   const [empty, setEmpty] = useState(true);
-
   const dispatch = useAppDispatch();
-  const setSnackbarMessage = message => dispatch(setSnackbar(message));
+  const setSnackbarMessage = (message: string) => dispatch(setSnackbar(message));
   const onCancel = () => {
     dispatch(cancelUpgrade(organization.id));
     if (onClose) {
@@ -99,13 +107,13 @@ const CardSection = ({ isSignUp, onClose, organization, onSubmit, onCardConfirme
 
       {isSignUp && <InfoText>Billing will be scheduled monthly, starting from today. You can cancel at any time.</InfoText>}
 
-      <div className="flexbox center-aligned margin-top-small" style={{ justifyContent: 'flex-end' }}>
+      <div className="flexbox center-aligned margin-top-small">
         {!isSignUp && (
           <Button type="reset" disabled={loading} style={{ marginRight: 15 }}>
             Cancel
           </Button>
         )}
-        <Button variant="contained" color="secondary" type="submit" disabled={errors || loading || empty}>
+        <Button variant="contained" color="secondary" type="submit" disabled={errors || loading || empty || !isValid}>
           {isSignUp ? 'Sign up' : 'Save'}
         </Button>
       </div>

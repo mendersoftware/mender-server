@@ -1,4 +1,4 @@
-// Copyright 2022 Northern.tech AS
+// Copyright 2024 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -11,34 +11,39 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 // material ui
 import { Error as ErrorIcon, OpenInNew as OpenInNewIcon } from '@mui/icons-material';
-import { LinearProgress, List } from '@mui/material';
+import { Button, List } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import Alert from '@northern.tech/common-ui/Alert';
+import InfoText from '@northern.tech/common-ui/InfoText';
 import { ADDONS, PLANS } from '@northern.tech/store/constants';
-import { getAcceptedDevices, getDeviceLimit, getIsEnterprise, getOrganization, getUserRoles } from '@northern.tech/store/selectors';
-import { cancelRequest } from '@northern.tech/store/thunks';
+import { getBillingProfile, getCard, getIsEnterprise, getOrganization, getUserRoles } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
+import { cancelRequest, getCurrentCard } from '@northern.tech/store/thunks';
 import { toggle } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
+import { PlanExpanded } from '../PlanExpanded';
 import CancelRequestDialog from '../dialogs/CancelRequest';
-import OrganizationPaymentSettings from './OrganizationPaymentSettings';
 import OrganizationSettingsItem, { maxWidth } from './OrganizationSettingsItem';
 
 const useStyles = makeStyles()(theme => ({
-  deviceLimitBar: { backgroundColor: theme.palette.grey[500], margin: '15px 0' },
   wrapper: {
-    backgroundColor: theme.palette.background.lightgrey,
-    marginTop: theme.spacing(6),
+    marginTop: theme.spacing(4),
     padding: theme.spacing(2),
+    paddingBottom: theme.spacing(6),
     '&>h5': { marginTop: 0, marginBottom: 0 }
+  },
+  billingSection: {
+    backgroundColor: theme.palette.background.lightgrey,
+    padding: theme.spacing(2)
   }
 }));
 
@@ -92,24 +97,62 @@ export const CancelSubscriptionButton = ({ handleCancelSubscription, isTrial }) 
     </a>
   </p>
 );
+const Address = props => {
+  const {
+    address: { city, country, line1, postal_code },
+    name,
+    email
+  } = props;
+
+  const displayNames = new Intl.DisplayNames('en', { type: 'region' });
+  return (
+    <div>
+      <div>
+        <b>{name}</b>
+      </div>
+      <div>{line1}</div>
+      <div>
+        {postal_code}, {city}
+      </div>
+      {country && <div>{displayNames.of(country) || ''}</div>}
+      <div>{email}</div>
+    </div>
+  );
+};
+export const CardDetails = props => {
+  const { card, containerClass } = props;
+  return (
+    <div className={containerClass || ''}>
+      <div>Payment card ending: **** {card.last4}</div>
+      <div>
+        Expires {String(card.expiration.month).padStart(2, '0')}/{String(card.expiration.year).slice(-2)}
+      </div>
+    </div>
+  );
+};
 
 export const Billing = () => {
   const [cancelSubscription, setCancelSubscription] = useState(false);
+  const [changeBilling, setChangeBilling] = useState<boolean>(false);
   const [cancelSubscriptionConfirmation, setCancelSubscriptionConfirmation] = useState(false);
   const { isAdmin } = useSelector(getUserRoles);
-  const { total: acceptedDevices = 0 } = useSelector(getAcceptedDevices);
-  const deviceLimit = useSelector(getDeviceLimit);
   const isEnterprise = useSelector(getIsEnterprise);
   const organization = useSelector(getOrganization);
+  const card = useSelector(getCard);
+  const billing = useSelector(getBillingProfile);
   const { plan: currentPlan = PLANS.os.id } = organization;
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { classes } = useStyles();
 
   const planName = PLANS[currentPlan].name;
 
+  useEffect(() => {
+    dispatch(getCurrentCard());
+  }, [dispatch]);
+
   const enabledAddOns =
-    organization.addons?.reduce((accu, addon) => {
+    organization.addons?.reduce((accu: string[], addon) => {
       if (addon.enabled) {
         const { title } = ADDONS[addon.name];
         let addonPrice = '';
@@ -147,14 +190,6 @@ export const Billing = () => {
           }}
           notification={organization.trial ? <TrialExpirationNote trial_expiration={organization.trial_expiration} /> : null}
         />
-        {deviceLimit > 0 && (
-          <OrganizationSettingsItem
-            title={`Device limit: ${acceptedDevices}/${deviceLimit}`}
-            content={{}}
-            secondary={<LinearProgress className={classes.deviceLimitBar} variant="determinate" value={(acceptedDevices * 100) / deviceLimit} />}
-            notification={<DeviceLimitExpansionNotification isTrial={organization.trial} />}
-          />
-        )}
         <OrganizationSettingsItem
           title="Current add-ons"
           content={{
@@ -172,7 +207,39 @@ export const Billing = () => {
             </div>
           }
         />
-        {!organization.trial && !isEnterprise && <OrganizationPaymentSettings />}
+        {billing && changeBilling && <PlanExpanded isEdit onCloseClick={() => setChangeBilling(false)} currentBillingProfile={billing} card={card} />}
+        <div className={classes.billingSection}>
+          <div className="flexbox center-aligned">
+            <div className="padding-right-x-small">
+              <b>Billing details</b>
+            </div>
+            {!isEnterprise && billing && billing.address && (
+              <Button className="margin-left" onClick={() => setChangeBilling(true)}>
+                Edit
+              </Button>
+            )}
+          </div>
+          {isEnterprise ? (
+            <InfoText>
+              Enterprise plan payments are invoiced periodically to your organization. If you have any questions about your billing, <br /> please contact{' '}
+              <a href="mailto:support@mender.io" target="_blank" rel="noopener noreferrer">
+                support@mender.io
+              </a>
+            </InfoText>
+          ) : billing && billing.address ? (
+            <div className="flexbox">
+              <Address address={billing.address} email={billing.email} name={billing.name} />
+              {card && <CardDetails card={card} containerClass="margin-left-x-large" />}
+            </div>
+          ) : (
+            <InfoText>
+              Your account is not set up for automatic billing. If you believe this is a mistake, please contact{' '}
+              <a href="mailto:support@mender.io" target="_blank" rel="noopener noreferrer">
+                support@mender.io
+              </a>
+            </InfoText>
+          )}
+        </div>
       </List>
       {cancelSubscriptionConfirmation && <CancelSubscriptionAlert />}
       {isAdmin && !cancelSubscriptionConfirmation && (
