@@ -17,7 +17,7 @@ import { act } from '@testing-library/react';
 
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
-import OrganizationPaymentSettings from './organizationpaymentsettings';
+import OrganizationPaymentSettings from './OrganizationPaymentSettings';
 
 const preloadedState = {
   organization: {
