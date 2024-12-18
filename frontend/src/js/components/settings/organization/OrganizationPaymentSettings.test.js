@@ -1,4 +1,4 @@
-// Copyright 2020 Northern.tech AS
+// Copyright 2019 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -13,29 +13,31 @@
 //    limitations under the License.
 import React from 'react';
 
-import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
+import { act } from '@testing-library/react';
 
-import { undefineds } from '../../../../tests/mockData';
-import { render } from '../../../../tests/setupTests';
-import CardSection from './cardsection';
+import { defaultState, undefineds } from '../../../../../tests/mockData';
+import { render } from '../../../../../tests/setupTests';
+import OrganizationPaymentSettings from './OrganizationPaymentSettings';
 
-describe('GlobalSettings Component', () => {
-  let stripe;
+const preloadedState = {
+  organization: {
+    ...defaultState.organization,
+    card: {
+      last4: '1234',
+      expiration: { month: 8, year: 1230 },
+      brand: 'Visa'
+    }
+  }
+};
+describe('OrganizationPaymentSettings Component', () => {
   beforeEach(() => {
-    jest.mock('@stripe/stripe-js', () => ({
-      loadStripe: () => ({ createPaymentMethod: jest.fn() })
-    }));
-    stripe = loadStripe();
+    Date.now = jest.fn(() => new Date('2020-07-01T12:00:00.000Z'));
   });
   it('renders correctly', async () => {
-    const { baseElement } = render(
-      <Elements stripe={stripe}>
-        <CardSection isSignUp={true} />
-      </Elements>
-    );
+    const { baseElement } = render(<OrganizationPaymentSettings />, { preloadedState });
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
+    await act(async () => jest.runAllTicks());
   });
 });

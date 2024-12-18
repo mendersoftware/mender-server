@@ -22,7 +22,7 @@ import MockDate from 'mockdate';
 
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
-import { CancelSubscriptionAlert, CancelSubscriptionButton, DeviceLimitExpansionNotification, TrialExpirationNote } from './billing';
+import { CancelSubscriptionAlert, CancelSubscriptionButton, DeviceLimitExpansionNotification, TrialExpirationNote } from './Billing';
 import MyOrganization, { OrgHeader } from './organization';
 
 describe('MyOrganization Component', () => {
