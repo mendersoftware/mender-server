@@ -471,6 +471,68 @@ func TestUserAdmLogout(t *testing.T) {
 		})
 	}
 }
+func TestUserAdmCreateUser(t *testing.T) {
+	testCases := map[string]struct {
+		inUser model.User
+
+		dbErr error
+
+		outErr error
+	}{
+		"ok": {
+			inUser: model.User{
+				Email:    "foo@bar.com",
+				Password: "correcthorsebatterystaple",
+			},
+			dbErr:  nil,
+			outErr: nil,
+		},
+		"error, pass similar to email": {
+			inUser: model.User{
+				Email:    "correcthorsebatterystaple@bar.com",
+				Password: "correcthorsebatterystaple",
+			},
+			dbErr:  nil,
+			outErr: ErrPassAndMailTooSimilar,
+		},
+		"error, pass occurs in email": {
+			inUser: model.User{
+				Email:    "correcthorsebatterystaple@bar.com",
+				Password: "correcthorseb",
+			},
+			dbErr:  nil,
+			outErr: ErrPassAndMailTooSimilar,
+		},
+	}
+	for name, tc := range testCases {
+		t.Run(name, func(t *testing.T) {
+			ctx := context.Background()
+
+			db := &mstore.DataStore{}
+			defer db.AssertExpectations(t)
+			if tc.outErr == nil {
+				db.On("CreateUser",
+					ContextMatcher(),
+					mock.AnythingOfType("*model.User")).
+					Return(tc.dbErr)
+			}
+			useradm := NewUserAdm(nil, db, Config{})
+
+			id := &identity.Identity{
+				Tenant: "foo",
+			}
+			ctx = identity.WithContext(ctx, id)
+
+			err := useradm.CreateUser(ctx, &tc.inUser)
+
+			if tc.outErr != nil {
+				assert.EqualError(t, err, tc.outErr.Error())
+			} else {
+				assert.NoError(t, err)
+			}
+		})
+	}
+}
 
 func TestUserAdmDoCreateUser(t *testing.T) {
 	testCases := map[string]struct {
@@ -797,6 +859,21 @@ func TestUserAdmUpdateUser(t *testing.T) {
 			dbErr:  nil,
 			outErr: nil,
 		},
+		"error, pass similar to email": {
+			inUserUpdate: model.UserUpdate{
+				Email:           "correcthorsebatterystaple@bar.com",
+				Password:        "correcthorsebatterystaple",
+				CurrentPassword: "current",
+				Token:           &jwt.Token{Claims: jwt.Claims{ID: oid.NewUUIDv5("token-1")}},
+			},
+			getUserById: &model.User{
+				Email:    "correcthorsebatterystaple@bar.com",
+				Password: hashPassword("current"),
+			},
+
+			dbErr:  nil,
+			outErr: ErrPassAndMailTooSimilar,
+		},
 		"error, multitenant: duplicate user": {
 			inUserUpdate: model.UserUpdate{
 				Email:           "foo@bar.com",
@@ -936,6 +1013,7 @@ func TestUserAdmUpdateUser(t *testing.T) {
 			).Return(tc.getUserById, tc.getUserByIdErr)
 
 			if tc.getUserByIdErr == nil && tc.outErr != ErrCurrentPasswordMismatch &&
+				tc.outErr != ErrPassAndMailTooSimilar &&
 				(len(tc.inUserUpdate.Password) == 0 || tc.getUserById != nil) &&
 				(!tc.verifyTenant || tc.tenantErr == nil) {
 				db.On("UpdateUser",
@@ -1521,7 +1599,15 @@ func TestUserAdmSetPassword(t *testing.T) {
 			outErr:    errors.New("user not found"),
 			foundUser: nil,
 		},
-
+		"error, pass similar to email": {
+			inUser: model.User{
+				Email:    "new-password@bar.com",
+				Password: "correcthorsebatterystaple",
+			},
+			dbGetErr:  nil,
+			outErr:    ErrPassAndMailTooSimilar,
+			foundUser: &model.User{ID: "test_id"},
+		},
 		"error, get from db": {
 			inUser: model.User{
 				Email:    "foo@bar.com",
@@ -1554,7 +1640,8 @@ func TestUserAdmSetPassword(t *testing.T) {
 				tc.inUser.Email).
 				Return(tc.foundUser, tc.dbGetErr)
 
-			if tc.foundUser != nil {
+			if tc.foundUser != nil &&
+				tc.outErr != ErrPassAndMailTooSimilar {
 				db.On("UpdateUser",
 					ContextMatcher(),
 					tc.foundUser.ID,
@@ -1562,7 +1649,8 @@ func TestUserAdmSetPassword(t *testing.T) {
 					Return(&tc.inUser, tc.dbUpdateErr)
 			}
 
-			if tc.foundUser != nil && tc.dbUpdateErr == nil {
+			if tc.foundUser != nil && tc.dbUpdateErr == nil &&
+				tc.outErr != ErrPassAndMailTooSimilar {
 				if tc.currentToken == nil {
 					db.On("DeleteTokensByUserId",
 						ContextMatcher(),
