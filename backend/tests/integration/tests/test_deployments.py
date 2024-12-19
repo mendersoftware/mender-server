@@ -841,7 +841,44 @@ class _TestDeploymentsBase(object):
         api_mgmt_dep.with_auth(user_token).call(
             "POST", deployments.URL_DEPLOYMENTS, deployment_req
         )
+        for dev in devs:
+            status_code = try_update(dev)
+            assert status_code == 200
+            dev.artifact_name = deployment_req["artifact_name"]
 
+        # when running against staging, wait 5 seconds to avoid hitting
+        # the rate limits for the devices (one inventory update / 5 seconds)
+        isK8S() and time.sleep(5.0)
+
+        for dev in devs:
+            # Deployment already finished
+            status_code = try_update(dev)
+            assert status_code == 204
+
+        # when running against staging, wait 5 seconds to avoid hitting
+        # the rate limits for the devices (one inventory update / 5 seconds)
+        isK8S() and time.sleep(5.0)
+
+        deployment_req["name"] = "really-old-update"
+        api_mgmt_dep.with_auth(user_token).call(
+            "POST", deployments.URL_DEPLOYMENTS, deployment_req
+        )
+        for dev in devs:
+            # Already installed
+            status_code = try_update(dev)
+            assert status_code == 204
+    def do_test_regular_deployment_all_devices(self, clean_mongo, user_token, devs):
+        api_mgmt_dep = ApiClient(deployments.URL_MGMT)
+
+        # Make deployment request
+        deployment_req = {
+            "name": "phased-deployment",
+            "artifact_name": "deployments-phase-testing",
+            "all_devices": True,
+        }
+        rep = api_mgmt_dep.with_auth(user_token).call(
+            "POST", deployments.URL_DEPLOYMENTS, deployment_req
+        )
         for dev in devs:
             status_code = try_update(dev)
             assert status_code == 200
@@ -879,6 +916,11 @@ class TestDeploymentOpenSource(_TestDeploymentsBase):
     def test_listing_deployments(self, clean_mongo):
         _user, user_token, devs = setup_devices_and_management_st(5)
         self.do_test_listing_deployments(clean_mongo, user_token, devs)
+    
+    def test_regular_deployment_all_devices(self, clean_mongo):
+        _user, user_token, devs = setup_devices_and_management_st(5)
+        self.do_test_regular_deployment_all_devices(clean_mongo, user_token, devs)
+
 
 
 @pytest.mark.storage_test
@@ -886,6 +928,10 @@ class TestDeploymentEnterprise(_TestDeploymentsBase):
     def test_regular_deployment(self, clean_mongo):
         _user, _tenant, user_token, devs = setup_devices_and_management_mt(5)
         self.do_test_regular_deployment(clean_mongo, user_token, devs)
+        
+    def test_regular_deployment_all_devices(self, clean_mongo):
+        _user, user_token, devs = setup_devices_and_management_st(5)
+        self.do_test_regular_deployment_all_devices(clean_mongo, user_token, devs)
 
 
 @pytest.mark.storage_test
