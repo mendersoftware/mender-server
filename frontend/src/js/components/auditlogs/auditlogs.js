@@ -186,14 +186,6 @@ export const AuditLogs = () => {
   }, [dispatch, hasAuditlogs, JSON.stringify(events), JSON.stringify(locationParams), initAuditlogState, updateState, today, tonight]);
 
   useEffect(() => {
-    if (!hasAuditlogs || !isInitialized.current) {
-      return;
-    }
-    updateState(locationParams);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasAuditlogs, JSON.stringify(locationParams), updateState]);
-
-  useEffect(() => {
     const currentTimers = timers.current;
     return () => {
       Object.values(currentTimers).forEach(clearTimeout);
