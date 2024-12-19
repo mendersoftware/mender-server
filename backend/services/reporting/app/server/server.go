@@ -72,7 +72,8 @@ func InitAndRun(conf config.Reader, store store.Store, ds store.DataStore) error
 	ctxWithTimeout, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 	if err := srv.Shutdown(ctxWithTimeout); err != nil {
-		l.Fatal("Server Shutdown: ", err)
+		l.Errorf("error when shutting down the server: %s", err.Error())
+		return err
 	}
 
 	return nil

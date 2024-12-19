@@ -16,11 +16,13 @@ package main
 import (
 	"net/http"
 	"os"
+	"os/signal"
 	"path"
 	"path/filepath"
 	"regexp"
 
 	"github.com/pkg/errors"
+	"golang.org/x/sys/unix"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
@@ -157,7 +159,29 @@ func RunServer(c config.Reader) error {
 	addr := c.GetString(SettingListen)
 	l.Printf("listening on %s", addr)
 
-	return http.ListenAndServe(addr, handler)
+	srv := &http.Server{
+		Addr:    addr,
+		Handler: handler,
+	}
+
+	errChan := make(chan error, 1)
+	go func() {
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			errChan <- err
+		}
+	}()
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, unix.SIGINT, unix.SIGTERM)
+	select {
+	case sig := <-quit:
+		l.Infof("received signal %s: terminating", sig)
+	case err := <-errChan:
+		l.Errorf("server terminated unexpectedly: %s", err.Error())
+		return err
+	}
+	l.Info("server shutdown")
+
+	return nil
 }
 
 func addPrivateKeys(
