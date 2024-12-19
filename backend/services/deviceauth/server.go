@@ -16,13 +16,18 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"net/http"
+	"reflect"
+	"strconv"
+	"strings"
 	"time"
 
 	"github.com/pkg/errors"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/redis"
 
 	api_http "github.com/mendersoftware/mender-server/services/deviceauth/api/http"
 	"github.com/mendersoftware/mender-server/services/deviceauth/cache"
@@ -105,18 +110,24 @@ func RunServer(c config.Reader) error {
 	if cacheConnStr != "" {
 		l.Infof("setting up redis cache")
 
-		cache, err := cache.NewRedisCache(
-			context.TODO(),
-			cacheConnStr,
-			c.GetString(dconfig.SettingRedisKeyPrefix),
-			c.GetInt(dconfig.SettingRedisLimitsExpSec),
-		)
-
+		ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
+		redisClient, err := redis.ClientFromConnectionString(ctx, cacheConnStr)
+		cancel()
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to initialize redis client: %w", err)
 		}
 
+		redisKeyPrefix := c.GetString(dconfig.SettingRedisKeyPrefix)
+		cache := cache.NewRedisCache(
+			redisClient,
+			redisKeyPrefix,
+			c.GetInt(dconfig.SettingRedisLimitsExpSec),
+		)
 		devauth = devauth.WithCache(cache)
+		err = setupRatelimits(c, devauth, redisKeyPrefix, redisClient)
+		if err != nil {
+			return fmt.Errorf("error configuring rate limits: %w", err)
+		}
 	}
 
 	devauthapi := api_http.NewDevAuthApiHandlers(devauth, db)
@@ -130,4 +141,90 @@ func RunServer(c config.Reader) error {
 	l.Printf("listening on %s", addr)
 
 	return http.ListenAndServe(addr, apiHandler)
+}
+
+func setupRatelimits(
+	c config.Reader,
+	devauth *devauth.DevAuth,
+	redisKeyPrefix string,
+	redisClient redis.Client,
+) error {
+	if !c.IsSet(dconfig.SettingRatelimitsQuotas) {
+		return nil
+	}
+	quotas := make(map[string]float64)
+	// quotas can be given as either "plan=quota plan2=quota2"
+	// or as a map of string -> float64
+	// Only the former can be backed by environment variables
+	quotaSlice := c.GetStringSlice(dconfig.SettingRatelimitsQuotas)
+	if len(quotaSlice) > 0 {
+		for i, keyValue := range quotaSlice {
+			key, value, ok := strings.Cut(keyValue, "=")
+			if !ok {
+				return fmt.Errorf(
+					`invalid config %s: value %v item #%d: missing key/value separator '='`,
+					dconfig.SettingRatelimitsQuotas, quotaSlice, i+1,
+				)
+			}
+			valueF64, err := strconv.ParseFloat(value, 64)
+			if err != nil {
+				return fmt.Errorf("error parsing quota value: %w", err)
+			}
+			quotas[key] = valueF64
+		}
+	} else {
+		// Check for map in config file
+		quotaMap := c.GetStringMap(dconfig.SettingRatelimitsQuotas)
+		if len(quotaMap) == 0 {
+			return fmt.Errorf(
+				"invalid config value %s: cannot be empty",
+				dconfig.SettingRatelimitsQuotas)
+		}
+		for key, valueAny := range quotaMap {
+			rVal := reflect.ValueOf(valueAny)
+			if rVal.CanFloat() {
+				quotas[key] = rVal.Float()
+			} else if rVal.CanInt() {
+				quotas[key] = float64(rVal.Int())
+			} else if rVal.CanUint() {
+				quotas[key] = float64(rVal.Uint())
+			} else {
+				return fmt.Errorf(
+					"invalid config value %s[%s]: not a numeric value",
+					dconfig.SettingRatelimitsQuotas, key,
+				)
+			}
+		}
+	}
+	for key := range quotas {
+		if quotas[key] < 0.0 {
+			return fmt.Errorf("invalid config value %s[%s]: value must be a positive value",
+				dconfig.SettingRatelimitsQuotas, key)
+		}
+	}
+	log.NewEmpty().Infof("using rate limit quotas: %v", quotas)
+
+	interval := c.GetDuration(dconfig.SettingRatelimitsInterval)
+	rateLimiter := redis.NewFixedWindowRateLimiter(redisClient,
+		func(ctx context.Context) (*redis.RatelimitParams, error) {
+			limit, eventID, err := devauth.RateLimitsFromContext(ctx)
+			if err != nil {
+				return nil, err
+			} else if limit < 0 {
+				return nil, nil
+			}
+			keyPrefix := redisKeyPrefix + ":" + eventID
+			return &redis.RatelimitParams{
+				Burst:     uint64(limit),
+				Interval:  interval,
+				KeyPrefix: keyPrefix,
+			}, nil
+		},
+	)
+	devauth.WithRatelimits(
+		rateLimiter,
+		quotas,
+		c.GetFloat64(dconfig.SettingRatelimitsQuotaDefault),
+	)
+	return nil
 }
