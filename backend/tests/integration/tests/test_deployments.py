@@ -930,7 +930,7 @@ class TestDeploymentEnterprise(_TestDeploymentsBase):
         self.do_test_regular_deployment(clean_mongo, user_token, devs)
 
     def test_regular_deployment_all_devices(self, clean_mongo):
-        _user, user_token, devs = setup_devices_and_management_st(5)
+        _user, _tenant, user_token, devs = setup_devices_and_management_mt(5)
         self.do_test_regular_deployment_all_devices(clean_mongo, user_token, devs)
 
 
