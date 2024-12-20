@@ -867,6 +867,7 @@ class _TestDeploymentsBase(object):
             # Already installed
             status_code = try_update(dev)
             assert status_code == 204
+
     def do_test_regular_deployment_all_devices(self, clean_mongo, user_token, devs):
         api_mgmt_dep = ApiClient(deployments.URL_MGMT)
 
@@ -916,11 +917,10 @@ class TestDeploymentOpenSource(_TestDeploymentsBase):
     def test_listing_deployments(self, clean_mongo):
         _user, user_token, devs = setup_devices_and_management_st(5)
         self.do_test_listing_deployments(clean_mongo, user_token, devs)
-    
+
     def test_regular_deployment_all_devices(self, clean_mongo):
         _user, user_token, devs = setup_devices_and_management_st(5)
         self.do_test_regular_deployment_all_devices(clean_mongo, user_token, devs)
-
 
 
 @pytest.mark.storage_test
@@ -928,9 +928,9 @@ class TestDeploymentEnterprise(_TestDeploymentsBase):
     def test_regular_deployment(self, clean_mongo):
         _user, _tenant, user_token, devs = setup_devices_and_management_mt(5)
         self.do_test_regular_deployment(clean_mongo, user_token, devs)
-        
+
     def test_regular_deployment_all_devices(self, clean_mongo):
-        _user, user_token, devs = setup_devices_and_management_st(5)
+        _user, _tenant, user_token, devs = setup_devices_and_management_mt(5)
         self.do_test_regular_deployment_all_devices(clean_mongo, user_token, devs)
 
 
@@ -1993,8 +1993,8 @@ class TestDynamicDeploymentsEnterprise:
         ],
     )
     def test_assignment_based_on_filters(self, clean_mongo_client, tc):
-        """ Test basic dynamic deployments characteristic:
-            - deployments match on inventory attributes via various filter predicates
+        """Test basic dynamic deployments characteristic:
+        - deployments match on inventory attributes via various filter predicates
         """
         uuidv4 = str(uuid.uuid4())
         tenant = create_tenant(
@@ -2024,8 +2024,8 @@ class TestDynamicDeploymentsEnterprise:
             assert_get_next(204, d.token)
 
     def test_unbounded_deployment_lifecycle(self, setup_tenant):
-        """ Check how a dynamic deployment (no bounds) progresses through states
-            based on device activity (status, statistics).
+        """Check how a dynamic deployment (no bounds) progresses through states
+        based on device activity (status, statistics).
         """
         user = setup_tenant.users[0]
 
@@ -2077,8 +2077,8 @@ class TestDynamicDeploymentsEnterprise:
         verify_stats(stats, {"success": 5, "failure": 5})
 
     def test_bounded_deployment_lifecycle(self, setup_tenant):
-        """ Check how a dynamic deployment with max_devices progresses through states
-            based on device activity (status, statistics).
+        """Check how a dynamic deployment with max_devices progresses through states
+        based on device activity (status, statistics).
         """
         user = setup_tenant.users[0]
 
@@ -2142,11 +2142,11 @@ class TestDynamicDeploymentsEnterprise:
         verify_stats(stats, {"success": 10})
 
     def test_deployment_ordering(self, setup_tenant):
-        """ Check that devices only get dynamic deployments fresher than the
-            latest one it finished.
+        """Check that devices only get dynamic deployments fresher than the
+        latest one it finished.
 
-            In other words, after updating its attributes the device won't accidentally
-            fall into a deployment previous to what it tried already.
+        In other words, after updating its attributes the device won't accidentally
+        fall into a deployment previous to what it tried already.
         """
 
         user = setup_tenant.users[0]
@@ -2218,8 +2218,7 @@ class TestDynamicDeploymentsEnterprise:
         ],
     )
     def test_phased_rollout(self, clean_mongo_client, tc):
-        """ Check phased rollouts with and without max_devices.
-        """
+        """Check phased rollouts with and without max_devices."""
         uuidv4 = str(uuid.uuid4())
         tenant = create_tenant(
             "test.mender.io-" + uuidv4,
