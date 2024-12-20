@@ -14,9 +14,14 @@
 package main
 
 import (
+	"context"
 	"net/http"
+	"os"
+	"os/signal"
+	"time"
 
 	"github.com/pkg/errors"
+	"golang.org/x/sys/unix"
 
 	"github.com/mendersoftware/mender-server/pkg/log"
 
@@ -60,7 +65,29 @@ func RunServer(c config.Reader) error {
 	addr := c.GetString(SettingListen)
 	l.Printf("listening on %s", addr)
 
-	return http.ListenAndServe(addr, handler)
+	srv := &http.Server{
+		Addr:    addr,
+		Handler: handler,
+	}
+
+	go func() {
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			l.Fatalf("listen: %s\n", err)
+		}
+	}()
+
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, unix.SIGINT, unix.SIGTERM)
+	<-quit
+
+	ctxWithTimeout, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	if err := srv.Shutdown(ctxWithTimeout); err != nil {
+		l.Fatal("error when shutting down the server ", err)
+	}
+	l.Info("server shutdown")
+
+	return nil
 }
 
 func maybeWithInventory(
