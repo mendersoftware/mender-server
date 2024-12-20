@@ -10,7 +10,7 @@
     "@mui/icons-material": "6.1.9",
     "@mui/material": "6.1.9",
     "@mui/x-date-pickers": "7.23.0",
-    "@northern.tech/utils": "0.1.2",
+    "@northern.tech/utils": "0.4.0",
     "@redux-devtools/extension": "3.3.0",
     "@reduxjs/toolkit": "2.4.0",
     "@stripe/react-stripe-js": "3.0.0",
