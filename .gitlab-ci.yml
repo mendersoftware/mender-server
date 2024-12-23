@@ -587,7 +587,12 @@ changelog:
     - gh pr checkout --force $RELEASE_PLEASE_PR
     - wget --output-document cliff.toml https://raw.githubusercontent.com/mendersoftware/mendertesting/master/utils/cliff.toml
     - git checkout ${CI_COMMIT_REF_NAME} -- CHANGELOG.md
-    - git cliff --bump --unreleased --prepend CHANGELOG.md --github-repo ${GITHUB_REPO_URL} --use-branch-tags
+    - git cliff
+      --unreleased
+      --prepend CHANGELOG.md
+      --github-repo ${GITHUB_REPO_URL}
+      --use-branch-tags
+      --tag $(jq -r '.["."]' .release-please-manifest.json)
     - git add CHANGELOG.md
     - git commit --amend -s --no-edit
     - git push github-${CI_JOB_ID} --force
