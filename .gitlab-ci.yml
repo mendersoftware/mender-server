@@ -557,9 +557,9 @@ changelog:
   variables:
     GIT_DEPTH: 0 # Always get the full history
     GIT_STRATEGY: clone # Always get the full history
-    GIT_CLIFF__BUMP__INITIAL_TAG:
-      "4.0.0" # TODO: after the new tag is created,
-      # remove this variable
+
+    # TODO: Remove git cliff config override once 4.0.0 is released
+    GIT_CLIFF__GIT__SKIP_TAGS: ""
   tags:
     - hetzner-amd-beefy
   rules:
@@ -587,7 +587,12 @@ changelog:
     - gh pr checkout --force $RELEASE_PLEASE_PR
     - wget --output-document cliff.toml https://raw.githubusercontent.com/mendersoftware/mendertesting/master/utils/cliff.toml
     - git checkout ${CI_COMMIT_REF_NAME} -- CHANGELOG.md
-    - git cliff --bump --unreleased --prepend CHANGELOG.md --github-repo ${GITHUB_REPO_URL} --use-branch-tags
+    - git cliff
+      --unreleased
+      --prepend CHANGELOG.md
+      --github-repo ${GITHUB_REPO_URL}
+      --use-branch-tags
+      --tag $(jq -r '.["."]' .release-please-manifest.json)
     - git add CHANGELOG.md
     - git commit --amend -s --no-edit
     - git push github-${CI_JOB_ID} --force
