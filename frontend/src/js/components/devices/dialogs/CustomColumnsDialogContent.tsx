@@ -11,45 +11,95 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 // material ui
 import { Clear as ClearIcon, DragHandle as DragHandleIcon } from '@mui/icons-material';
 import { DialogContent, FormControl, IconButton, ListItem } from '@mui/material';
 
+import { attachClosestEdge, extractClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
+import { getReorderDestinationIndex } from '@atlaskit/pragmatic-drag-and-drop-hitbox/util/get-reorder-destination-index';
+import { DropIndicator } from '@atlaskit/pragmatic-drag-and-drop-react-drop-indicator/box';
+import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine';
+import { draggable, dropTargetForElements, monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
+import { reorder } from '@atlaskit/pragmatic-drag-and-drop/reorder';
 import { ATTRIBUTE_SCOPES } from '@northern.tech/store/constants';
+import invariant from 'tiny-invariant';
 
 import AttributeAutoComplete, { getOptionLabel } from '../widgets/AttributeAutocomplete';
 
 const DraggableListItem = ({ item, index, onRemove }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const title = useMemo(() => getOptionLabel(item), [item.key, item.scope, item.title]);
+  const ref = useRef(null);
+  const [dragging, setDragging] = useState(false);
 
+  const [closestEdge, setClosestEdge] = useState(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    invariant(el);
+    return combine(
+      draggable({
+        element: el,
+        onDragStart: () => setDragging(true),
+        onDrop: () => setDragging(false),
+
+        getInitialData: () => ({ itemId: item.key })
+      }),
+      dropTargetForElements({
+        element: el,
+        getData: ({ input, element }) => {
+          const data = { itemId: item.key };
+
+          return attachClosestEdge(data, {
+            input,
+            element,
+            allowedEdges: ['top', 'bottom']
+          });
+        },
+        getIsSticky: () => false,
+        onDragEnter: args => {
+          if (args.source.data.itemId !== item.key) {
+            setClosestEdge(extractClosestEdge(args.self.data));
+          }
+        },
+        onDrag: args => {
+          if (args.source.data.itemId !== item.key) {
+            setClosestEdge(extractClosestEdge(args.self.data));
+          }
+        },
+        onDragLeave: () => {
+          setClosestEdge(null);
+        },
+        onDrop: () => {
+          setClosestEdge(null);
+        }
+      })
+    );
+  }, [item.key]);
   const onClick = () => onRemove(item, index);
-
   return (
-    <Draggable draggableId={item.key} index={index}>
-      {provided => (
-        <ListItem className="flexbox space-between margin-right-large" ref={provided.innerRef} {...provided.draggableProps}>
-          <div>{title}</div>
-          <div className="flexbox space-between" style={{ width: 80 }}>
-            <div {...provided.dragHandleProps} className="flexbox centered">
-              <DragHandleIcon />
-            </div>
-            <IconButton onClick={onClick} size="small">
-              <ClearIcon color="disabled" />
-            </IconButton>
+    <div ref={ref} className="relative">
+      <ListItem className={`flexbox space-between margin-right-large ${dragging ? 'dragging' : ''}`}>
+        <div>{title}</div>
+        <div className="flexbox space-between" style={{ width: 80 }}>
+          <div className="flexbox centered">
+            <DragHandleIcon />
           </div>
-        </ListItem>
-      )}
-    </Draggable>
+          <IconButton onClick={onClick} size="small">
+            <ClearIcon color="disabled" />
+          </IconButton>
+        </div>
+      </ListItem>
+      {closestEdge && <DropIndicator edge={closestEdge} />}
+    </div>
   );
 };
 
 const filterAttributes = (list, attribute) => list.filter(item => !(item.key === attribute.key && item.scope === attribute.scope));
 
-const Content = ({ attributes, columnHeaders, idAttribute, selectedAttributes, setSelectedAttributes, ...props }) => {
+const Content = ({ attributes, columnHeaders, idAttribute, selectedAttributes, setSelectedAttributes }) => {
   const [attributeOptions, setAttributeOptions] = useState([]);
 
   useEffect(() => {
@@ -73,15 +123,41 @@ const Content = ({ attributes, columnHeaders, idAttribute, selectedAttributes, s
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(attributes), JSON.stringify(columnHeaders), idAttribute.attribute, setSelectedAttributes]);
 
-  const onDragEnd = ({ destination, source }) => {
-    if (!destination) {
-      return;
-    }
-    const result = [...selectedAttributes];
-    const [removed] = result.splice(source.index, 1);
-    result.splice(destination.index, 0, removed);
-    setSelectedAttributes(result);
-  };
+  const reorderItem = useCallback(
+    ({ startIndex, finishIndex }) => {
+      const updatedItems = reorder({
+        list: selectedAttributes,
+        startIndex,
+        finishIndex
+      });
+      setSelectedAttributes(updatedItems);
+    },
+    [selectedAttributes, setSelectedAttributes]
+  );
+  useEffect(() => {
+    return monitorForElements({
+      onDrop: ({ source, location }) => {
+        if (!location.current.dropTargets.length) {
+          return;
+        }
+        const draggedItemId = source.data.itemId;
+        const [destinationItem] = location.current.dropTargets;
+        const draggedItemIndex = selectedAttributes.findIndex(item => item.key === draggedItemId);
+        const indexOfTarget = selectedAttributes.findIndex(item => item.key === destinationItem.data.itemId);
+        const closestEdgeOfTarget = extractClosestEdge(destinationItem.data);
+        const destinationIndex = getReorderDestinationIndex({
+          startIndex: draggedItemIndex,
+          indexOfTarget: indexOfTarget,
+          closestEdgeOfTarget: closestEdgeOfTarget,
+          axis: 'vertical'
+        });
+        reorderItem({
+          startIndex: draggedItemIndex,
+          finishIndex: destinationIndex
+        });
+      }
+    });
+  }, [selectedAttributes, reorderItem]);
 
   const onRemove = (attribute, index) => {
     let selection = [];
@@ -115,20 +191,11 @@ const Content = ({ attributes, columnHeaders, idAttribute, selectedAttributes, s
   return (
     <DialogContent>
       <p>You can select columns of inventory data to display in the device list table. Drag to change the order.</p>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="droppable-list" direction="vertical">
-          {provided => {
-            return (
-              <div ref={provided.innerRef} {...provided.droppableProps} {...props}>
-                {selectedAttributes.map((item, index) => (
-                  <DraggableListItem item={item} index={index} key={item.key} onRemove={onRemove} />
-                ))}
-                {provided.placeholder}
-              </div>
-            );
-          }}
-        </Droppable>
-      </DragDropContext>
+      <div>
+        {selectedAttributes.map((item, index) => (
+          <DraggableListItem item={item} index={index} key={item.key} onRemove={onRemove} />
+        ))}
+      </div>
       <FormControl>
         <AttributeAutoComplete attributes={attributeOptions} label="Add a column" onRemove={onRemove} onSelect={onSelect} />
       </FormControl>

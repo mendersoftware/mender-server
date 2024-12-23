@@ -703,114 +703,107 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
   <p>
     You can select columns of inventory data to display in the device list table. Drag to change the order.
   </p>
-  <div
-    data-rbd-droppable-context-id="0"
-    data-rbd-droppable-id="droppable-list"
-  >
-    <li
-      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding flexbox space-between margin-right-large emotion-1"
-      data-rbd-draggable-context-id="0"
-      data-rbd-draggable-id="name"
+  <div>
+    <div
+      class="relative"
+      data-drop-target-for-element="true"
+      draggable="true"
     >
-      <div>
-        Name
-      </div>
-      <div
-        class="flexbox space-between"
-        style="width: 80px;"
+      <li
+        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding flexbox space-between margin-right-large emotion-1"
       >
-        <div
-          aria-describedby="rbd-hidden-text-0-hidden-text-0"
-          class="flexbox centered"
-          data-rbd-drag-handle-context-id="0"
-          data-rbd-drag-handle-draggable-id="name"
-          draggable="false"
-          role="button"
-          tabindex="0"
-        >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-2"
-            data-testid="DragHandleIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M20 9H4v2h16zM4 15h16v-2H4z"
-            />
-          </svg>
+        <div>
+          Name
         </div>
-        <button
-          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-3"
-          tabindex="0"
-          type="button"
+        <div
+          class="flexbox space-between"
+          style="width: 80px;"
         >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-colorDisabled MuiSvgIcon-fontSizeMedium emotion-4"
-            data-testid="ClearIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
+          <div
+            class="flexbox centered"
           >
-            <path
-              d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-            />
-          </svg>
-        </button>
-      </div>
-    </li>
-    <li
-      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding flexbox space-between margin-right-large emotion-1"
-      data-rbd-draggable-context-id="0"
-      data-rbd-draggable-id="id"
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-2"
+              data-testid="DragHandleIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M20 9H4v2h16zM4 15h16v-2H4z"
+              />
+            </svg>
+          </div>
+          <button
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-3"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-colorDisabled MuiSvgIcon-fontSizeMedium emotion-4"
+              data-testid="ClearIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              />
+            </svg>
+          </button>
+        </div>
+      </li>
+    </div>
+    <div
+      class="relative"
+      data-drop-target-for-element="true"
+      draggable="true"
     >
-      <div>
-        Device ID
-      </div>
-      <div
-        class="flexbox space-between"
-        style="width: 80px;"
+      <li
+        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding flexbox space-between margin-right-large emotion-1"
       >
-        <div
-          aria-describedby="rbd-hidden-text-0-hidden-text-0"
-          class="flexbox centered"
-          data-rbd-drag-handle-context-id="0"
-          data-rbd-drag-handle-draggable-id="id"
-          draggable="false"
-          role="button"
-          tabindex="0"
-        >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-2"
-            data-testid="DragHandleIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M20 9H4v2h16zM4 15h16v-2H4z"
-            />
-          </svg>
+        <div>
+          Device ID
         </div>
-        <button
-          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-3"
-          tabindex="0"
-          type="button"
+        <div
+          class="flexbox space-between"
+          style="width: 80px;"
         >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-colorDisabled MuiSvgIcon-fontSizeMedium emotion-4"
-            data-testid="ClearIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
+          <div
+            class="flexbox centered"
           >
-            <path
-              d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-            />
-          </svg>
-        </button>
-      </div>
-    </li>
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-2"
+              data-testid="DragHandleIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M20 9H4v2h16zM4 15h16v-2H4z"
+              />
+            </svg>
+          </div>
+          <button
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-3"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-colorDisabled MuiSvgIcon-fontSizeMedium emotion-4"
+              data-testid="ClearIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              />
+            </svg>
+          </button>
+        </div>
+      </li>
+    </div>
   </div>
   <div
     class="MuiFormControl-root emotion-9"
