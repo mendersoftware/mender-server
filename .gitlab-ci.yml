@@ -557,9 +557,9 @@ changelog:
   variables:
     GIT_DEPTH: 0 # Always get the full history
     GIT_STRATEGY: clone # Always get the full history
-    GIT_CLIFF__BUMP__INITIAL_TAG:
-      "4.0.0" # TODO: after the new tag is created,
-      # remove this variable
+
+    # TODO: Remove git cliff config override once 4.0.0 is released
+    GIT_CLIFF__GIT__SKIP_TAGS: ""
   tags:
     - hetzner-amd-beefy
   rules:
