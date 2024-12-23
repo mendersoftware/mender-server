@@ -482,6 +482,7 @@ publish:backend:licenses:
     - |
       GOFLAGS='-tags=nopkcs11' go-licenses report \
         --template=./tests/go-licenses.gotpl \
+        --ignore=github.com/mendersoftware/mender-server \
         $(go list -f '{{ if eq .Name "main" }}{{println .Dir }}{{end}}' ./services/...) > licenses.md
     - |
       if grep -o '^LICENSE TEXT MISSING FOR.*$' licenses.md; then
