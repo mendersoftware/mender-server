@@ -586,6 +586,7 @@ changelog:
     - test -z "$RELEASE_PLEASE_PR" && echo "No release-please PR found" && exit 0
     - gh pr checkout --force $RELEASE_PLEASE_PR
     - wget --output-document cliff.toml https://raw.githubusercontent.com/mendersoftware/mendertesting/master/utils/cliff.toml
+    - git checkout ${CI_COMMIT_REF_NAME} -- CHANGELOG.md
     - git cliff --bump --unreleased --prepend CHANGELOG.md --github-repo ${GITHUB_REPO_URL} --use-branch-tags
     - git add CHANGELOG.md
     - git commit --amend -s --no-edit
