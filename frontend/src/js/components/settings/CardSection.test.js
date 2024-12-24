@@ -18,7 +18,7 @@ import { loadStripe } from '@stripe/stripe-js';
 
 import { undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
-import CardSection from './cardsection';
+import CardSection from './CardSection';
 
 describe('GlobalSettings Component', () => {
   let stripe;
