@@ -573,6 +573,7 @@ changelog:
     - git config --global user.name "${GITHUB_USER_NAME}"
     # GITHUB_TOKEN for Github cli authentication
     - export GITHUB_TOKEN=${GITHUB_CLI_TOKEN}
+    - cp CHANGELOG.md CHANGELOG.md.${CI_COMMIT_REF_NAME} # Saving the changelog for later
   script:
     - release-please release-pr
       --token=${GITHUB_BOT_TOKEN_REPO_FULL}
@@ -586,7 +587,7 @@ changelog:
     - test -z "$RELEASE_PLEASE_PR" && echo "No release-please PR found" && exit 0
     - gh pr checkout --force $RELEASE_PLEASE_PR
     - wget --output-document cliff.toml https://raw.githubusercontent.com/mendersoftware/mendertesting/master/utils/cliff.toml
-    - git checkout ${CI_COMMIT_REF_NAME} -- CHANGELOG.md
+    - mv CHANGELOG.md.${CI_COMMIT_REF_NAME} CHANGELOG.md
     - git cliff
       --unreleased
       --prepend CHANGELOG.md
