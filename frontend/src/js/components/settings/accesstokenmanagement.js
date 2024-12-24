@@ -161,7 +161,7 @@ export const AccessTokenCreationDialog = ({ onCancel, generateToken, isEnterpris
         )}
         {isEnterprise && (
           <FormControl className={classes.formEntries}>
-            <TextField label="Permission level" id="role-name" value={tokenRoles} disabled />
+            <TextField label="Permission level" id="role-name" value={tokenRoles} disabled variant="standard" />
             <FormHelperText>The token will have the same permissions as your user</FormHelperText>
           </FormControl>
         )}

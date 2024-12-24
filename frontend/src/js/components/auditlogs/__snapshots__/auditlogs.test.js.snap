@@ -56,7 +56,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
               class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-1f1xbjz-MuiFormControl-root-MuiTextField-root"
             >
               <div
-                class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-14k9sz3-MuiInputBase-root-MuiInput-root"
+                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-zy1o11-MuiInputBase-root-MuiOutlinedInput-root"
               >
                 <input
                   aria-autocomplete="list"
@@ -64,7 +64,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
                   aria-invalid="false"
                   autocapitalize="none"
                   autocomplete="off"
-                  class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1sx234l-MuiInputBase-input-MuiInput-input"
+                  class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
                   id=":r1:"
                   placeholder="Select a user"
                   role="combobox"
@@ -95,6 +95,20 @@ exports[`Auditlogs Component renders correctly 1`] = `
                     </svg>
                   </button>
                 </div>
+                <fieldset
+                  aria-hidden="true"
+                  class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+                >
+                  <legend
+                    class="css-w4cd9x"
+                  >
+                    <span
+                      class="notranslate"
+                    >
+                      ​
+                    </span>
+                  </legend>
+                </fieldset>
               </div>
             </div>
           </div>
@@ -115,7 +129,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
               class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-1f1xbjz-MuiFormControl-root-MuiTextField-root"
             >
               <div
-                class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-14k9sz3-MuiInputBase-root-MuiInput-root"
+                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-zy1o11-MuiInputBase-root-MuiOutlinedInput-root"
               >
                 <input
                   aria-autocomplete="list"
@@ -123,7 +137,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
                   aria-invalid="false"
                   autocapitalize="none"
                   autocomplete="off"
-                  class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1sx234l-MuiInputBase-input-MuiInput-input"
+                  class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
                   id=":r3:"
                   placeholder="Type"
                   role="combobox"
@@ -154,6 +168,20 @@ exports[`Auditlogs Component renders correctly 1`] = `
                     </svg>
                   </button>
                 </div>
+                <fieldset
+                  aria-hidden="true"
+                  class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+                >
+                  <legend
+                    class="css-w4cd9x"
+                  >
+                    <span
+                      class="notranslate"
+                    >
+                      ​
+                    </span>
+                  </legend>
+                </fieldset>
               </div>
             </div>
           </div>
@@ -172,7 +200,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
               class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-1f1xbjz-MuiFormControl-root-MuiTextField-root"
             >
               <div
-                class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary Mui-disabled MuiInputBase-fullWidth MuiInputBase-formControl MuiAutocomplete-inputRoot css-14k9sz3-MuiInputBase-root-MuiInput-root"
+                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-fullWidth MuiInputBase-formControl MuiAutocomplete-inputRoot css-1qhngy1-MuiInputBase-root-MuiOutlinedInput-root"
               >
                 <input
                   aria-autocomplete="list"
@@ -180,7 +208,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
                   aria-invalid="false"
                   autocapitalize="none"
                   autocomplete="off"
-                  class="MuiInputBase-input MuiInput-input Mui-disabled MuiAutocomplete-input MuiAutocomplete-inputFocused css-1sx234l-MuiInputBase-input-MuiInput-input"
+                  class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiAutocomplete-input MuiAutocomplete-inputFocused css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
                   disabled=""
                   id=":r5:"
                   placeholder="-"
@@ -189,6 +217,20 @@ exports[`Auditlogs Component renders correctly 1`] = `
                   type="text"
                   value=""
                 />
+                <fieldset
+                  aria-hidden="true"
+                  class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+                >
+                  <legend
+                    class="css-w4cd9x"
+                  >
+                    <span
+                      class="notranslate"
+                    >
+                      ​
+                    </span>
+                  </legend>
+                </fieldset>
               </div>
             </div>
           </div>
@@ -209,7 +251,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
               class="MuiFormControl-root MuiTextField-root css-usbn3n-MuiFormControl-root-MuiTextField-root"
             >
               <label
-                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-standard MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-standard css-14x0j5s-MuiFormLabel-root-MuiInputLabel-root"
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-1i2dqv5-MuiFormLabel-root-MuiInputLabel-root"
                 data-shrink="true"
                 for=":r7:"
                 id=":r7:-label"
@@ -217,12 +259,12 @@ exports[`Auditlogs Component renders correctly 1`] = `
                 From
               </label>
               <div
-                class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-195or1n-MuiInputBase-root-MuiInput-root"
+                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1qo6i3u-MuiInputBase-root-MuiOutlinedInput-root"
               >
                 <input
                   aria-invalid="false"
                   autocomplete="off"
-                  class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-1sx234l-MuiInputBase-input-MuiInput-input"
+                  class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
                   id=":r7:"
                   inputmode="text"
                   placeholder="MMMM DD"
@@ -230,7 +272,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
                   value="January 13th"
                 />
                 <div
-                  class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-elo8k2-MuiInputAdornment-root"
+                  class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-elo8k2-MuiInputAdornment-root"
                 >
                   <button
                     aria-label="Choose date, selected date is Jan 13, 2019"
@@ -251,13 +293,25 @@ exports[`Auditlogs Component renders correctly 1`] = `
                     </svg>
                   </button>
                 </div>
+                <fieldset
+                  aria-hidden="true"
+                  class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+                >
+                  <legend
+                    class="css-w1u3ce"
+                  >
+                    <span>
+                      From
+                    </span>
+                  </legend>
+                </fieldset>
               </div>
             </div>
             <div
               class="MuiFormControl-root MuiTextField-root css-usbn3n-MuiFormControl-root-MuiTextField-root"
             >
               <label
-                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-standard MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-standard css-14x0j5s-MuiFormLabel-root-MuiInputLabel-root"
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-1i2dqv5-MuiFormLabel-root-MuiInputLabel-root"
                 data-shrink="true"
                 for=":r9:"
                 id=":r9:-label"
@@ -265,12 +319,12 @@ exports[`Auditlogs Component renders correctly 1`] = `
                 To
               </label>
               <div
-                class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-195or1n-MuiInputBase-root-MuiInput-root"
+                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1qo6i3u-MuiInputBase-root-MuiOutlinedInput-root"
               >
                 <input
                   aria-invalid="false"
                   autocomplete="off"
-                  class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-1sx234l-MuiInputBase-input-MuiInput-input"
+                  class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
                   id=":r9:"
                   inputmode="text"
                   placeholder="MMMM DD"
@@ -278,7 +332,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
                   value="January 13th"
                 />
                 <div
-                  class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-elo8k2-MuiInputAdornment-root"
+                  class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-elo8k2-MuiInputAdornment-root"
                 >
                   <button
                     aria-label="Choose date, selected date is Jan 13, 2019"
@@ -299,6 +353,18 @@ exports[`Auditlogs Component renders correctly 1`] = `
                     </svg>
                   </button>
                 </div>
+                <fieldset
+                  aria-hidden="true"
+                  class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+                >
+                  <legend
+                    class="css-w1u3ce"
+                  >
+                    <span>
+                      To
+                    </span>
+                  </legend>
+                </fieldset>
               </div>
             </div>
           </div>
