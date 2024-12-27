@@ -1,5 +1,50 @@
 #!/bin/bash
 
+# docker discovery taken from the app-update-module
+_docker_compose_cmd=""
+docker_cmd=${DOCKER_COMMAND:-"docker"}
+
+_discover_compose() {
+    local rc=0
+    if test -n "$DOCKER_COMPOSE_COMMAND"; then
+        _docker_compose_cmd="$DOCKER_COMPOSE_COMMAND"
+        $_docker_compose_cmd version < /dev/null > /dev/null 2>&1
+        rc=$?
+    elif $docker_cmd compose version < /dev/null > /dev/null 2>&1; then
+        _docker_compose_cmd="$docker_cmd compose"
+    elif docker-compose version < /dev/null > /dev/null 2>&1; then
+        _docker_compose_cmd="docker-compose"
+    else
+        echo "error: could not find executable for Docker Compose" 1>&2
+        echo "error: is Docker Compose installed?" 1>&2
+        rc=127
+    fi
+    if test $rc -eq 0; then
+        compose_version=$($_docker_compose_cmd version --short)
+        case "$compose_version" in
+            "2."*)  ;;
+            *)
+                echo "Docker Compose v2 is required; installed version: ${compose_version}"
+                rc=1
+                ;;
+        esac
+    fi
+    return $rc
+}
+
+docker_compose_cmd() {
+    if test -z "${_docker_compose_cmd}"; then
+        local rc=0
+        _discover_compose
+        rc=$?
+        if test $rc -ne 0; then
+            return $rc
+        fi
+    fi
+    $_docker_compose_cmd "$@"
+}
+
+
 MENDER_SERVER_PATH=$(git rev-parse --show-toplevel)
 export MENDER_SERVER_PATH
 
@@ -25,7 +70,7 @@ COMPOSE_FILES=""
 COMPOSE_UP_EXTRA_ARGS="--remove-orphans"
 
 compose_cmd() {
-    docker compose -p backend-tests $COMPOSE_FILES $@
+    docker_compose_cmd -p backend-tests $COMPOSE_FILES $@
 }
 
 PYTEST_FILTER_OPEN="not Enterprise and not Multitenant"
@@ -209,9 +254,9 @@ cleanup() {
     if [ -n "$AZURE_STORAGE_CONTAINER_PREFIX" ]; then
         # Remove the blob storage container if we created one
         echo "Removing blob storage container '$AZURE_STORAGE_CONTAINER_NAME'"
-        docker compose $COMPOSE_FILE_AZURE_SETUP run --rm \
+        docker_compose_cmd $COMPOSE_FILE_AZURE_SETUP run --rm \
             azblob-container-teardown $AZURE_STORAGE_CONTAINER_NAME
-        docker compose $COMPOSE_FILE_AZURE_SETUP down
+        docker_compose_cmd $COMPOSE_FILE_AZURE_SETUP down
     fi
 }
 
@@ -246,7 +291,7 @@ for suite in "${TEST_SUITES[@]}"; do
         container="${AZURE_STORAGE_CONTAINER_PREFIX}-${date_suffix}-${rand_suffix}"
         export AZURE_STORAGE_CONTAINER_NAME="${container}"
         echo "Creating container '$AZURE_STORAGE_CONTAINER_NAME'"
-        docker compose $COMPOSE_FILE_AZURE_SETUP run --rm \
+        docker_compose_cmd $COMPOSE_FILE_AZURE_SETUP run --rm \
             azblob-container-setup $AZURE_STORAGE_CONTAINER_NAME
         ec=$?
         if [ $ec -ne 0 ]; then
