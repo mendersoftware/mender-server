@@ -12,27 +12,35 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 
 import { Button } from '@mui/material';
 
 import InfoText from '@northern.tech/common-ui/infotext';
 import Loader from '@northern.tech/common-ui/loader';
-import { cancelUpgrade, startUpgrade } from '@northern.tech/store/thunks';
+import storeActions from '@northern.tech/store/actions';
+import { useAppDispatch } from '@northern.tech/store/store';
+import { cancelUpgrade } from '@northern.tech/store/thunks';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 
 import stripeImage from '../../../assets/img/powered_by_stripe.png';
 
-const CardSection = ({ isSignUp, organization, onComplete, setSnackbar }) => {
+const { setSnackbar } = storeActions;
+
+const CardSection = ({ isSignUp, onClose, organization, onSubmit, onCardConfirmed }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [errors, setErrors] = useState(false);
   const [loading, setLoading] = useState(false);
   const [empty, setEmpty] = useState(true);
 
-  const dispatch = useDispatch();
-
-  const onCancel = () => dispatch(cancelUpgrade(organization.id));
+  const dispatch = useAppDispatch();
+  const setSnackbarMessage = message => dispatch(setSnackbar(message));
+  const onCancel = () => {
+    dispatch(cancelUpgrade(organization.id));
+    if (onClose) {
+      onClose();
+    }
+  };
 
   const confirmCard = async secret => {
     // Use elements.getElement to get a reference to the mounted Element.
@@ -47,15 +55,15 @@ const CardSection = ({ isSignUp, organization, onComplete, setSnackbar }) => {
       });
 
       if (result.error) {
-        setSnackbar(`Error while confirming card: ${result.error.message}`);
+        setSnackbarMessage(`Error while confirming card: ${result.error.message}`);
         onCancel();
       } else {
-        setSnackbar(`Card confirmed. Updating your account...`);
-        onComplete();
+        setSnackbarMessage(`Card confirmed. Updating your account...`);
+        onCardConfirmed();
       }
     } catch (error) {
       console.error(error);
-      setSnackbar(`Something went wrong while submitting the form. Please contact support.`);
+      setSnackbarMessage(`Something went wrong while submitting the form. Please contact support.`);
       onCancel();
     }
   };
@@ -63,8 +71,7 @@ const CardSection = ({ isSignUp, organization, onComplete, setSnackbar }) => {
   const handleSubmit = async event => {
     event.preventDefault();
     setLoading(true);
-    return dispatch(startUpgrade(organization.id))
-      .unwrap()
+    return onSubmit()
       .then(confirmCard)
       .finally(() => setLoading(false));
   };
