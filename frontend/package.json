@@ -22,7 +22,7 @@
     "axios": "1.7.9",
     "copy-to-clipboard": "3.3.3",
     "dayjs": "^1.11.13",
-    "generate-password": "1.7.1",
+    "generate-password-browser": "1.1.0",
     "jwt-decode": "4.0.0",
     "md5": "2.3.0",
     "msgpack5": "6.0.2",

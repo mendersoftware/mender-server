@@ -20,7 +20,7 @@ import { Button, FormControl, FormHelperText, IconButton, Input, InputAdornment,
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { toggle } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
-import generator from 'generate-password';
+import generator from 'generate-password-browser';
 
 import { runValidations } from './Form';
 

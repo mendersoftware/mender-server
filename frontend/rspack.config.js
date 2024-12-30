@@ -124,7 +124,6 @@ export default (env, argv) => {
       fallback: {
         assert: require.resolve('assert/'),
         buffer: require.resolve('buffer/'),
-        crypto: 'crypto-browserify',
         stream: require.resolve('stream-browserify'),
         util: require.resolve('util/'),
         vm: require.resolve('vm-browserify'),
