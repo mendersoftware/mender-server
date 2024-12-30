@@ -101,6 +101,14 @@ export const organizationHandlers = [
   http.post(`https://hosted.mender.io${tenantadmApiUrlv2}/tenants/trial`, signupHandler),
   http.get(`${tenantadmApiUrlv2}/tenants`, () => new HttpResponse([])),
   http.get(`${tenantadmApiUrlv2}/billing`, () => HttpResponse.json({ card: { last4: '7890', exp_month: 1, exp_year: 2024, brand: 'testCorp' } })),
+  http.get(`${tenantadmApiUrlv2}/billing/profile`, () =>
+    HttpResponse.json({
+      name: 'company',
+      email: 'test@test.com',
+      address: { state: 'OSLO', line1: 'Blindern', country: 'NO', city: 'OSLO', postal_code: '0123' },
+      shipping: { address: { state: 'OSLO', line1: 'Blindern', country: 'NO', city: 'OSLO', postal_code: '0123' } }
+    })
+  ),
   http.post(`${tenantadmApiUrlv2}/billing/card`, () => HttpResponse.json({ intent_id: defaultState.organization.intentId, secret: 'testSecret' })),
   http.post(
     `${tenantadmApiUrlv2}/billing/card/:intentId/confirm`,
