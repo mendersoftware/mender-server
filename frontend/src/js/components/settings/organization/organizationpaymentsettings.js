@@ -17,19 +17,18 @@ import { useDispatch, useSelector } from 'react-redux';
 // material ui
 import { Error as ErrorIcon } from '@mui/icons-material';
 
-import storeActions from '@northern.tech/store/actions';
+import { getOrganization } from '@northern.tech/store/selectors';
 import { confirmCardUpdate, getCurrentCard, startCardUpdate } from '@northern.tech/store/thunks';
 
 import CardSection from '../cardsection';
 import OrganizationSettingsItem from './organizationsettingsitem';
-
-const { setSnackbar } = storeActions;
 
 export const OrganizationPaymentSettings = () => {
   const [isUpdatingPaymentDetails, setIsUpdatingPaymentDetails] = useState(false);
   const card = useSelector(state => state.organization.card);
   const hasUnpaid = useSelector(state => state.organization.billing);
   const dispatch = useDispatch();
+  const organization = useSelector(getOrganization);
 
   useEffect(() => {
     dispatch(getCurrentCard());
@@ -66,10 +65,12 @@ export const OrganizationPaymentSettings = () => {
       secondary={
         isUpdatingPaymentDetails && (
           <CardSection
-            onCancel={() => setIsUpdatingPaymentDetails(false)}
-            onComplete={onCardConfirm}
-            onSubmit={() => dispatch(startCardUpdate())}
-            setSnackbar={text => dispatch(setSnackbar(text))}
+            isSignUp={false}
+            organization={organization}
+            onClose={() => setIsUpdatingPaymentDetails(false)}
+            onCardConfirmed={onCardConfirm}
+            onSubmit={() => dispatch(startCardUpdate()).unwrap()}
+            beforeCardSubmit={() => dispatch(startCardUpdate()).unwrap()}
           />
         )
       }

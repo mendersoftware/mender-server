@@ -23,7 +23,7 @@ import { Plan } from '@northern.tech/store/constants';
 import { Organization } from '@northern.tech/store/organizationSlice/types';
 import { getCurrentUser } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
-import { completeUpgrade } from '@northern.tech/store/thunks';
+import { completeUpgrade, startUpgrade } from '@northern.tech/store/thunks';
 
 import { PlanExpandedForm } from './PlanExpandedForm';
 import CardSection from './cardsection';
@@ -84,12 +84,7 @@ export const PlanExpanded = (props: PlanExpandedProps) => {
       {isValid && (
         <>
           <h4>Card Details</h4>
-          <CardSection
-            organization={organization}
-            onComplete={handleUpgrade}
-            setSnackbar={(message: string) => dispatch(setSnackbar(message))}
-            isSignUp={true}
-          />
+          <CardSection organization={organization} onCardConfirmed={handleUpgrade} onSubmit={() => dispatch(startUpgrade(organization.id)).unwrap()} isSignUp />
         </>
       )}
     </Drawer>
