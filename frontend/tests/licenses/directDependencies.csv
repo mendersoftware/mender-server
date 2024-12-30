@@ -48,7 +48,7 @@
 "eslint-webpack-plugin","MIT","https://github.com/webpack-contrib/eslint-webpack-plugin"
 "eslint","MIT","https://github.com/eslint/eslint"
 "file-loader","MIT","https://github.com/webpack-contrib/file-loader"
-"generate-password","MIT","https://github.com/brendanashworth/generate-password"
+"generate-password-browser","MIT","https://github.com/oliver-la/generate-password-browser"
 "html-webpack-plugin","MIT","https://github.com/jantimon/html-webpack-plugin"
 "husky","MIT","https://github.com/typicode/husky"
 "jest-environment-jsdom","MIT","https://github.com/jestjs/jest"
