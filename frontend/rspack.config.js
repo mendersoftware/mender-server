@@ -81,9 +81,6 @@ export default (env, argv) => {
         }
       ]
     },
-    optimization: {
-      minimize: argv.mode === 'production'
-    },
     output: {
       filename: '[name].min.js',
       hashFunction: 'xxhash64',
