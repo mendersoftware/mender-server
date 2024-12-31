@@ -1,6 +1,7 @@
-import rspack from '@rspack/core';
+import { rspack } from '@rspack/core';
 import autoprefixer from 'autoprefixer';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import CompressionPlugin from 'compression-webpack-plugin';
 import ESLintPlugin from 'eslint-rspack-plugin';
 import { createRequire } from 'module';
 import path from 'path';
@@ -12,9 +13,14 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default (env, argv) => {
-  const devPlugins =
+  const plugins =
     argv.mode === 'production'
-      ? [new LicensePlugin({ outputFilename: 'licenses.json', excludedPackageTest: packageName => packageName.startsWith('@northern.tech') })]
+      ? [
+          new LicensePlugin({ outputFilename: 'licenses.json', excludedPackageTest: packageName => packageName.startsWith('@northern.tech') }),
+          new CompressionPlugin({
+            filename: '[path][base].gz'
+          })
+        ]
       : [new ESLintPlugin({ extensions: ['js', 'ts', 'tsx'] })];
   return {
     devtool: 'source-map',
@@ -114,7 +120,7 @@ export default (env, argv) => {
         filename: '[name].css',
         chunkFilename: '[id].css'
       }),
-      ...devPlugins
+      ...plugins
     ],
     resolve: {
       alias: {
