@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { memo, useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 // material ui
 import { Checkbox } from '@mui/material';
@@ -19,7 +19,6 @@ import { makeStyles } from 'tss-react/mui';
 
 import DeviceIdentityDisplay from '@northern.tech/common-ui/deviceidentity';
 import { DEVICE_STATES } from '@northern.tech/store/constants';
-import { deepCompare } from '@northern.tech/utils/helpers';
 
 import { DefaultAttributeRenderer } from './base-devices';
 
@@ -77,17 +76,4 @@ const DeviceListItem = ({ columnHeaders, listItem: device, listState: deviceList
   );
 };
 
-const areEqual = (prevProps, nextProps) => {
-  if (
-    prevProps.idAttribute.attribute != nextProps.idAttribute.attribute ||
-    prevProps.idAttribute.scope != nextProps.idAttribute.scope ||
-    prevProps.selected != nextProps.selected ||
-    !deepCompare(prevProps.columnHeaders, nextProps.columnHeaders) ||
-    !deepCompare(prevProps.device, nextProps.device)
-  ) {
-    return false;
-  }
-  return deepCompare(prevProps.deviceListState, nextProps.deviceListState);
-};
-
-export default memo(DeviceListItem, areEqual);
+export default DeviceListItem;
