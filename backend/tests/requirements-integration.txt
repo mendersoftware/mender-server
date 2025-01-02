@@ -1,7 +1,7 @@
-attrs==24.2.0
+attrs==24.3.0
 azure-iot-hub==2.6.1
-boto3==1.35.71
-certifi==2024.8.30
+boto3==1.35.90
+certifi==2024.12.14
 cffi==1.17.1
 chardet==5.2.0
 cryptography==44.0.0
@@ -18,7 +18,7 @@ py==1.11.0
 pycparser==2.22
 pymongo==4.10.1
 pyotp==2.9.0
-pyparsing==3.2.0
+pyparsing==3.2.1
 pytest==8.3.4
 pytest-forked==1.6.0
 pytest-html==4.1.1
@@ -29,10 +29,10 @@ PyYAML==6.0.2
 pyzbar==0.1.9
 redo==3.0.0
 requests==2.32.3
-six==1.16.0
-stripe==11.3.0
+six==1.17.0
+stripe==11.4.1
 toml==0.10.2
 trustme==1.2.0
-urllib3==2.2.3
+urllib3==2.3.0
 websockets==14.1
 aiosmtpd==1.4.6
