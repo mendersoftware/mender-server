@@ -1,5 +1,50 @@
 #!/bin/bash
 
+# docker discovery taken from the app-update-module
+_docker_compose_cmd=""
+docker_cmd=${DOCKER_COMMAND:-"docker"}
+
+_discover_compose() {
+    local rc=0
+    if test -n "$DOCKER_COMPOSE_COMMAND"; then
+        _docker_compose_cmd="$DOCKER_COMPOSE_COMMAND"
+        $_docker_compose_cmd version < /dev/null > /dev/null 2>&1
+        rc=$?
+    elif $docker_cmd compose version < /dev/null > /dev/null 2>&1; then
+        _docker_compose_cmd="$docker_cmd compose"
+    elif docker-compose version < /dev/null > /dev/null 2>&1; then
+        _docker_compose_cmd="docker-compose"
+    else
+        echo "error: could not find executable for Docker Compose" 1>&2
+        echo "error: is Docker Compose installed?" 1>&2
+        rc=127
+    fi
+    if test $rc -eq 0; then
+        compose_version=$($_docker_compose_cmd version --short)
+        case "$compose_version" in
+            "2."*)  ;;
+            *)
+                echo "Docker Compose v2 is required; installed version: ${compose_version}"
+                rc=1
+                ;;
+        esac
+    fi
+    return $rc
+}
+
+docker_compose_cmd() {
+    if test -z "${_docker_compose_cmd}"; then
+        local rc=0
+        _discover_compose
+        rc=$?
+        if test $rc -ne 0; then
+            return $rc
+        fi
+    fi
+    $_docker_compose_cmd "$@"
+}
+
+
 MENDER_SERVER_PATH=$(git rev-parse --show-toplevel)
 export MENDER_SERVER_PATH
 
@@ -9,6 +54,9 @@ COMPOSE_FILES_BASE="-f $MENDER_SERVER_PATH/backend/tests/integration/docker/dock
 COMPOSE_FILES_OPEN=" \
         -f $MENDER_SERVER_PATH/backend/tests/docker-compose.yml \
         -f $MENDER_SERVER_PATH/backend/tests/integration/docker/docker-compose.backend-tests.yml \
+        "
+COMPOSE_FILES_test_compat=" \
+        -f $MENDER_SERVER_PATH/backend/tests/integration/docker/docker-compose.backend-tests-compat.yml \
         "
 COMPOSE_FILES_ENTERPRISE="${COMPOSE_FILES_OPEN} \
         -f $MENDER_SERVER_PATH/backend/tests/integration/docker/docker-compose.backend-tests-enterprise.yml \
@@ -22,7 +70,7 @@ COMPOSE_FILES=""
 COMPOSE_UP_EXTRA_ARGS="--remove-orphans"
 
 compose_cmd() {
-    docker-compose -p backend-tests $COMPOSE_FILES $@
+    docker_compose_cmd -p backend-tests $COMPOSE_FILES $@
 }
 
 PYTEST_FILTER_OPEN="not Enterprise and not Multitenant"
@@ -206,9 +254,9 @@ cleanup() {
     if [ -n "$AZURE_STORAGE_CONTAINER_PREFIX" ]; then
         # Remove the blob storage container if we created one
         echo "Removing blob storage container '$AZURE_STORAGE_CONTAINER_NAME'"
-        docker-compose $COMPOSE_FILE_AZURE_SETUP run --rm \
+        docker_compose_cmd $COMPOSE_FILE_AZURE_SETUP run --rm \
             azblob-container-teardown $AZURE_STORAGE_CONTAINER_NAME
-        docker-compose $COMPOSE_FILE_AZURE_SETUP down
+        docker_compose_cmd $COMPOSE_FILE_AZURE_SETUP down
     fi
 }
 
@@ -243,7 +291,7 @@ for suite in "${TEST_SUITES[@]}"; do
         container="${AZURE_STORAGE_CONTAINER_PREFIX}-${date_suffix}-${rand_suffix}"
         export AZURE_STORAGE_CONTAINER_NAME="${container}"
         echo "Creating container '$AZURE_STORAGE_CONTAINER_NAME'"
-        docker-compose $COMPOSE_FILE_AZURE_SETUP run --rm \
+        docker_compose_cmd $COMPOSE_FILE_AZURE_SETUP run --rm \
             azblob-container-setup $AZURE_STORAGE_CONTAINER_NAME
         ec=$?
         if [ $ec -ne 0 ]; then
@@ -271,6 +319,28 @@ for suite in "${TEST_SUITES[@]}"; do
         echo "-- tests failed, dumping logs to $tmppath"
         compose_cmd logs > "$tmppath" 2>&1
     fi
+
+    # it was KJ's idea to run tests in a separate session.
+    # for the rest I take the blame. see README.md for the
+    # explanation of how to run your tests separately
+    INITIAL_COMPOSE_FILES="${COMPOSE_FILES}"
+    while read -r; do
+        export PYTEST_TEST_TO_RUN="`basename "$REPLY"`"
+        test_name="${PYTEST_TEST_TO_RUN%%+*}"
+        eval COMPOSE_FILES=\"${INITIAL_COMPOSE_FILES} \${COMPOSE_FILES_$test_name}\"
+        export PYTEST_TEST_TO_RUN="`basename "$REPLY"`"
+        run_tests
+        run_tests_retcode=$?
+        if [ $script_failed -eq 0 ]; then
+            script_failed=$run_tests_retcode
+        fi
+    
+        if [ $run_tests_retcode -ne 0 ]; then
+            tmppath=$(TMPDIR=./tests mktemp logs.XXXXXX)
+            echo "-- tests failed, dumping logs to $tmppath"
+            compose_cmd logs >> "$tmppath" 2>&1
+        fi
+    done < <(find "${MENDER_SERVER_PATH}/backend/tests/integration/tests" -name '*+separate.py')
 
     copy_test_reports_if_args $PYTEST_REPORT
 
