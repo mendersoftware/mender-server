@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM golang:1.23.3 as builder
+FROM --platform=$BUILDPLATFORM golang:1.23.4 as builder
 ARG TARGETARCH
 ARG TARGETOS
 ARG BUILDFLAGS="-trimpath"
@@ -31,7 +31,7 @@ RUN \
   LDFLAGS="${LDFLAGS}" \
   BUILDFLAGS="${BUILDFLAGS}"
 
-FROM alpine:3.20.3
+FROM alpine:3.21.0
 ARG TARGETARCH
 ARG TARGETOS
 ARG USER=65534
