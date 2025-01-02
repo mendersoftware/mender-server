@@ -1404,17 +1404,26 @@ func (d *Deployments) getNewDeploymentForDevice(ctx context.Context,
 	//get deployments newer then last device deployment
 	//iterate over deployments and check if the device is part of the deployment or not
 	var deploy *model.Deployment
-	deploy, err = d.db.FindNewerActiveDeployment(ctx, lastDeployment, deviceID)
-	if err != nil {
-		return nil, nil, errors.Wrap(err, "Failed to search for newer active deployments")
-	}
-	if deploy != nil {
-		deviceDeployment, err := d.createDeviceDeploymentWithStatus(ctx,
-			deviceID, deploy, model.DeviceDeploymentStatusPending)
+	for deploy == nil {
+		deploy, err = d.db.FindNewerActiveDeployment(ctx, lastDeployment, deviceID)
 		if err != nil {
-			return nil, nil, err
+			return nil, nil, errors.Wrap(err, "Failed to search for newer active deployments")
 		}
-		return deploy, deviceDeployment, nil
+		if deploy != nil {
+			if deploy.MaxDevices > 0 &&
+				deploy.DeviceCount != nil &&
+				*deploy.DeviceCount < deploy.MaxDevices {
+				lastDeployment = deploy.Created
+				continue
+			}
+			deviceDeployment, err := d.createDeviceDeploymentWithStatus(ctx,
+				deviceID, deploy, model.DeviceDeploymentStatusPending)
+			if err != nil {
+				return nil, nil, err
+			}
+			return deploy, deviceDeployment, nil
+		}
+		break
 	}
 	return nil, nil, nil
 }
