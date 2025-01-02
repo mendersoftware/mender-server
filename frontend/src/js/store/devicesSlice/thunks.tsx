@@ -62,7 +62,7 @@ import pluralize from 'pluralize';
 import { v4 as uuid } from 'uuid';
 
 import { actions, sliceName } from '.';
-import { routes } from '../../components/devices/base-devices';
+import { routes } from '../../components/devices/BaseDevices';
 import { chartColorPalette } from '../../themes/Mender';
 import {
   DEVICE_STATES,

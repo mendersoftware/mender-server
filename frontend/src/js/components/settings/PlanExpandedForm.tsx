@@ -15,8 +15,8 @@ import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { ControlledCountrySelect } from '@northern.tech/common-ui/forms/CountrySelect';
-import TextInput from '@northern.tech/common-ui/forms/textinput';
-import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
+import TextInput from '@northern.tech/common-ui/forms/TextInput';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
 
 interface PlanExpandedFormProp {
   setIsValid: (disabled: boolean) => void;

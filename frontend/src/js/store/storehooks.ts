@@ -19,7 +19,7 @@ import dayjs from 'dayjs';
 import durationDayJs from 'dayjs/plugin/duration';
 import Cookies from 'universal-cookie';
 
-import { getOnboardingComponentFor } from '../utils/onboardingmanager';
+import { getOnboardingComponentFor } from '../utils/onboardingManager';
 import storeActions from './actions';
 import { getSessionInfo } from './auth';
 import { DEPLOYMENT_STATES, DEVICE_STATES, TIMEOUTS, onboardingSteps, timeUnits } from './constants';

@@ -20,8 +20,8 @@ import { makeStyles } from 'tss-react/mui';
 
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
-import Form from '@northern.tech/common-ui/forms/form';
-import TextInput from '@northern.tech/common-ui/forms/textinput';
+import Form from '@northern.tech/common-ui/forms/Form';
+import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import {
   ALL_DEVICES,
   ALL_RELEASES,

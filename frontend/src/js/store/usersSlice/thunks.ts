@@ -14,7 +14,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 // @ts-nocheck
-import { HELPTOOLTIPS } from '@northern.tech/helptips/helptooltips';
+import { HELPTOOLTIPS } from '@northern.tech/helptips/HelpTooltips';
 import storeActions from '@northern.tech/store/actions';
 import GeneralApi from '@northern.tech/store/api/general-api';
 import UsersApi from '@northern.tech/store/api/users-api';

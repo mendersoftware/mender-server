@@ -17,7 +17,7 @@ import { useSelector } from 'react-redux';
 import { Divider, Drawer } from '@mui/material';
 
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
-import Form from '@northern.tech/common-ui/forms/form';
+import Form from '@northern.tech/common-ui/forms/Form';
 import storeActions from '@northern.tech/store/actions';
 import { Plan } from '@northern.tech/store/constants';
 import { Organization } from '@northern.tech/store/organizationSlice/types';
@@ -25,8 +25,8 @@ import { getCurrentUser } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { completeUpgrade, startUpgrade } from '@northern.tech/store/thunks';
 
+import CardSection from './CardSection';
 import { PlanExpandedForm } from './PlanExpandedForm';
-import CardSection from './cardsection';
 
 const { setSnackbar } = storeActions;
 
