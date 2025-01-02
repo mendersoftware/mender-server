@@ -295,6 +295,10 @@ export const Authorized = ({
   }, [dispatchedSetSnackbar, selectedState, dispatchDeviceListState]);
 
   useEffect(() => {
+    dispatchDeviceListState({ selectedAttributes: columnSelection.map(column => ({ attribute: column.key, scope: column.scope })) });
+  }, [columnSelection, dispatchDeviceListState]);
+
+  useEffect(() => {
     if (!devicesInitialized) {
       return;
     }
