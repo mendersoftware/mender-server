@@ -1,7 +1,7 @@
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
   root: true,
-  extends: ['@northern.tech/eslint-config/react.js'],
+  extends: ['@northern.tech/eslint-config/react.js', 'plugin:import/typescript'],
   ignorePatterns: ['node_modules/', 'dist/', '**/api/types/', 'tests/licenses'],
   globals: {
     mender_environment: 'readonly',

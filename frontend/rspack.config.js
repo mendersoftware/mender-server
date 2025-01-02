@@ -1,14 +1,11 @@
+import { rspack } from '@rspack/core';
 import autoprefixer from 'autoprefixer';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
-import CopyWebpackPlugin from 'copy-webpack-plugin';
-import ESLintPlugin from 'eslint-webpack-plugin';
-import HtmlWebPackPlugin from 'html-webpack-plugin';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import CompressionPlugin from 'compression-webpack-plugin';
+import ESLintPlugin from 'eslint-rspack-plugin';
 import { createRequire } from 'module';
 import path from 'path';
-import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import { fileURLToPath } from 'url';
-import webpack from 'webpack';
 import LicensePlugin from 'webpack-license-plugin';
 
 const require = createRequire(import.meta.url);
@@ -16,9 +13,14 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default (env, argv) => {
-  const devPlugins =
+  const plugins =
     argv.mode === 'production'
-      ? [new LicensePlugin({ outputFilename: 'licenses.json', excludedPackageTest: packageName => packageName.startsWith('@northern.tech') })]
+      ? [
+          new LicensePlugin({ outputFilename: 'licenses.json', excludedPackageTest: packageName => packageName.startsWith('@northern.tech') }),
+          new CompressionPlugin({
+            filename: '[path][base].gz'
+          })
+        ]
       : [new ESLintPlugin({ extensions: ['js', 'ts', 'tsx'] })];
   return {
     devtool: 'source-map',
@@ -41,7 +43,7 @@ export default (env, argv) => {
         {
           test: /\.(less|css)$/,
           use: [
-            MiniCssExtractPlugin.loader,
+            rspack.CssExtractRspackPlugin.loader,
             {
               loader: 'css-loader',
               options: {
@@ -79,9 +81,6 @@ export default (env, argv) => {
         }
       ]
     },
-    optimization: {
-      minimize: argv.mode === 'production'
-    },
     output: {
       filename: '[name].min.js',
       hashFunction: 'xxhash64',
@@ -93,32 +92,32 @@ export default (env, argv) => {
         cleanOnceBeforeBuildPatterns: ['**/*', '!env.js'],
         cleanAfterEveryBuildPatterns: ['!assets/fonts/*', '!assets/img/*']
       }),
-      new CopyWebpackPlugin({
+      new rspack.CopyRspackPlugin({
         patterns: [
           { from: 'node_modules/monaco-editor/min/vs/', to: 'vs' },
           argv.mode !== 'production' && { from: 'node_modules/monaco-editor/min-maps/vs/', to: 'min-maps/vs' }
         ].filter(Boolean)
       }),
-      new webpack.ProvidePlugin({
+      new rspack.ProvidePlugin({
         process: 'process/browser',
         Buffer: ['buffer', 'Buffer']
       }),
-      new webpack.DefinePlugin({
+      new rspack.DefinePlugin({
         ENV: JSON.stringify(argv.mode),
         XTERM_VERSION: JSON.stringify(require('./package.json').dependencies['@xterm/xterm']),
         XTERM_FIT_VERSION: JSON.stringify(require('./package.json').dependencies['@xterm/addon-fit']),
         XTERM_SEARCH_VERSION: JSON.stringify(require('./package.json').dependencies['@xterm/addon-search'])
       }),
-      new HtmlWebPackPlugin({
+      new rspack.HtmlRspackPlugin({
         favicon: './src/favicon.svg',
         hash: true,
         template: './src/index.html'
       }),
-      new MiniCssExtractPlugin({
+      new rspack.CssExtractRspackPlugin({
         filename: '[name].css',
         chunkFilename: '[id].css'
       }),
-      ...devPlugins
+      ...plugins
     ],
     resolve: {
       alias: {
@@ -128,19 +127,14 @@ export default (env, argv) => {
       fallback: {
         assert: require.resolve('assert/'),
         buffer: require.resolve('buffer/'),
-        crypto: 'crypto-browserify',
         stream: require.resolve('stream-browserify'),
         util: require.resolve('util/'),
         vm: require.resolve('vm-browserify'),
         'process/browser': require.resolve('process/browser')
       },
-      plugins: [
-        new TsconfigPathsPlugin({
-          configFile: 'tsconfig.json',
-          extensions: ['.ts', '.tsx', '.js', '.jsx']
-        })
-      ]
+      tsConfig: path.resolve(__dirname, 'tsconfig.json')
     },
-    target: 'web'
+    target: 'web',
+    profile: true
   };
 };
