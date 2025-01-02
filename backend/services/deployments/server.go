@@ -19,10 +19,13 @@ import (
 	"encoding/base64"
 	"net/http"
 	"net/url"
+	"os"
+	"os/signal"
 	"strings"
 	"time"
 
 	"github.com/pkg/errors"
+	"golang.org/x/sys/unix"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
@@ -165,6 +168,7 @@ func SetupObjectStorage(ctx context.Context) (objManager storage.ObjectStorage, 
 
 func RunServer(ctx context.Context) error {
 	c := config.Config
+	l := log.New(log.Ctx{})
 	dbClient, err := mstore.NewMongoClient(ctx, c)
 	if err != nil {
 		return err
@@ -221,5 +225,31 @@ func RunServer(ctx context.Context) error {
 		return http.ListenAndServeTLS(listen, cert, key, handler)
 	}
 
-	return http.ListenAndServe(listen, handler)
+	srv := &http.Server{
+		Addr:    listen,
+		Handler: handler,
+	}
+
+	errChan := make(chan error, 1)
+	go func() {
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			errChan <- err
+		}
+	}()
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, unix.SIGINT, unix.SIGTERM)
+	select {
+	case sig := <-quit:
+		l.Infof("received signal %s: terminating", sig)
+	case err = <-errChan:
+		l.Errorf("server terminated unexpectedly: %s", err.Error())
+		return err
+	}
+	l.Info("server shutdown")
+	ctxWithTimeout, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	if err := srv.Shutdown(ctxWithTimeout); err != nil {
+		l.Error("error when shutting down the server ", err)
+	}
+	return nil
 }
