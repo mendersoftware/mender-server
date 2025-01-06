@@ -2153,21 +2153,19 @@ label+.emotion-52 {
             class="muted margin-left margin-right flexbox"
           >
             <div
-              aria-label="The last time the device communicated with the Mender server"
               class="margin-right-small"
-              data-mui-internal-clone-element="true"
             >
-              Last check-in:
+              Latest activity:
             </div>
             <span
-              aria-label="Tue Jan 01 2019 10:25:00 GMT+0000"
+              aria-label="Tue Jan 01 2019 09:25:00 GMT+0000"
               class=""
               data-mui-internal-clone-element="true"
             >
               <time
-                datetime="2019-01-01T10:25:00+00:00"
+                datetime="2019-01-01T09:25:00+00:00"
               >
-                2019-01-01 10:25
+                2019-01-01 09:25
               </time>
             </span>
           </div>
