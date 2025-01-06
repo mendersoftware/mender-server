@@ -22,7 +22,7 @@
     "@bgotink/playwright-coverage": "^0.3.0",
     "@playwright/test": "1.49.1",
     "@sidewinder1138/saml-idp": "^1.4.0",
-    "axios": "^1.7.8",
+    "axios": "^1.7.9",
     "dayjs": "^1.11.13",
     "jsqr": "1.4.0",
     "jwt-decode": "^4.0.0",
@@ -34,6 +34,6 @@
     "pngjs": "7.0.0",
     "typescript": "^5.7.2",
     "uuid": "^11.0.3",
-    "yaml": "^2.6.1"
+    "yaml": "^2.7.0"
   }
 }
