@@ -2,6 +2,9 @@ variables:
   # NOTE: Custom variables should never start with CI_ prefix.
   #       This namespace belongs to Gitlab CI/CD.
   #       https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
+  ALPINE_VERSION:
+    value: "1.21"
+    description: "Version of Alpine to use in jobs"
   DOCKER_VERSION:
     value: "27.3"
     description: "Version of docker to use in pipelines"
@@ -79,6 +82,11 @@ include:
       - ".gitlab-ci-check-commits.yml"
       - ".gitlab-ci-github-status-updates.yml"
   - local: "/frontend/pipeline.yml"
+  - local: "/.gitlab/merge-enterprise.yml"
+    rules:
+      - if: '$CI_PROJECT_NAME == "mender-server"'
+        when: always
+      - when: never
 
 stages:
   - lint
