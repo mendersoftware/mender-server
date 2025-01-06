@@ -13,13 +13,20 @@
 //    limitations under the License.
 import React from 'react';
 
+import { produce } from 'immer';
+
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
 import RolloutSchedule from './rolloutschedule';
 
 describe('RolloutSchedule Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<RolloutSchedule deployment={defaultState.deployments.byId.d2} innerRef={jest.fn} />);
+    const { baseElement } = render(
+      <RolloutSchedule
+        deployment={produce({ ...defaultState.deployments.byId.d2, phases: [{ id: '0', batch_size: 100, device_count: 1 }] }, i => i)}
+        innerRef={jest.fn}
+      />
+    );
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
