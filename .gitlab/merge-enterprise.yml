@@ -16,33 +16,36 @@ merge-to-enterprise:
       https://mender-test-bot:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com:mender-test-bot/mender-server-enterprise
   script:
     # Get author Github username
-    - |-
-      wget --header "Authorization: Bearer $GITHUB_BOT_TOKEN_REPO_FULL" \
+    - |
+      wget "https://api.github.com/repos/mendersoftware/mender-server/commits/$CI_COMMIT_SHA" \
+        --header "Authorization: Bearer $GITHUB_BOT_TOKEN_REPO_FULL" \
         --header "Accept: application/vnd.github+json" \
         --header "X-GitHub-Api-Version: 2022-11-28" \
-        -O commit.json \
-        "https://api.github.com/repos/mendersoftware/mender-server/commits/$CI_COMMIT_SHA"
+        -O commit.json
+
     - GITHUB_USER=$(jq -r .author.login commit.json)
     # Fetch existing PR (if any)
-    - |-
+    - |
       wget "https://api.github.com/repos/mendersoftware/mender-server-enterprise/pulls?head=mender-test-bot:$CI_BRANCH_NAME&state=open" \
         --header "Authorization: Bearer $GITHUB_BOT_TOKEN_REPO_FULL" \
         --header "Accept: application/vnd.github+json" \
         --header "X-GitHub-Api-Version: 2022-11-28" \
         -O- | jq -r '.[]' > pull.json
-    - |-
+
+    - |
+      cat > pr_request_body.json << EOF
+      {
+        "title": "Merge branch mender-server/$CI_BRANCH_NAME to enterprise",
+        "base": "$CI_BRANCH_NAME",
+        "head": "mender-test-bot:$CI_BRANCH_NAME",
+        "maintainer_can_modify": true
+      }
+      EOF
+    - |
       if test -z "$(cat pull.json)"; then
         # Pull request does not exist: Forcefully fast-forward fork branch and create one
-        cat > /tmp/request_body.json << EOF
-        {
-          "title": "Merge branch mender-server/$CI_BRANCH_NAME to enterprise",
-          "base": "$CI_BRANCH_NAME",
-          "head": "mender-test-bot:$CI_BRANCH_NAME",
-          "maintainer_can_modify": true
-        }
-        EOF
         git push -f mender-test-bot HEAD:$CI_BRANCH_NAME
-        wget --post-file /tmp/request_body.json \
+        wget --post-file pr_request_body.json \
           --header "Authorization: Bearer $GITHUB_BOT_TOKEN_REPO_FULL" \
           --header "Accept: application/vnd.github+json" \
           --header "Content-Type: application/json" \
@@ -51,7 +54,7 @@ merge-to-enterprise:
           "https://api.github.com/repos/mendersoftware/mender-server-enterprise/pulls"
       fi
     - PULL_NUMBER=$(jq -r .number pull.json | head -n 1)
-    - |-
+    - |
       if ! git push mender-test-bot HEAD:$CI_BRANCH_NAME; then
         # Could not fast-forward PR, notify the author in the existing PR
         wget --post-data "{\"body\": \"Tried to submit commits from @$GITHUB_USER, but this PR has commits ahead of $CI_BRANCH_NAME\"}" \
@@ -63,7 +66,7 @@ merge-to-enterprise:
         exit 0;
       fi
     # Add author as a reviewer
-    - |-
+    - |
       wget --post-data "{\"reviewers\": [\"$GITHUB_USER\"]}" \
         --header "Authorization: Bearer $GITHUB_BOT_TOKEN_REPO_FULL" \
         --header "Accept: application/vnd.github+json" \
