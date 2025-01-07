@@ -13,7 +13,7 @@
 //    limitations under the License.
 import React from 'react';
 
-import { act } from '@testing-library/react';
+import { paperClasses } from '@mui/material';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
@@ -23,15 +23,21 @@ const preloadedState = {
   ...defaultState,
   releases: {
     ...defaultState.releases,
-    byId: {}
+    byId: {
+      ...defaultState.releases.byId,
+      r1: {
+        ...defaultState.releases.byId.r1,
+        artifacts: [...defaultState.releases.byId.r1.artifacts, defaultState.releases.byId.r1.artifacts[0]]
+      }
+    },
+    selectedRelease: 'r1'
   }
 };
 
 describe('ReleaseDetails Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<ReleaseDetails artifacts={[]} />, { preloadedState });
-    await act(async () => jest.advanceTimersByTime(1000));
-    const view = baseElement.lastChild.firstChild;
+    const { baseElement } = render(<ReleaseDetails />, { preloadedState });
+    const view = baseElement.querySelector(`.${paperClasses.root}`);
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });

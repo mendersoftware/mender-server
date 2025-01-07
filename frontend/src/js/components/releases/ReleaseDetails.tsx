@@ -249,6 +249,12 @@ const ReleaseTags = ({ existingTags = [], release: { tags = [] }, onChange }) =>
 const ArtifactsList = ({ artifacts, selectedArtifact, setSelectedArtifact, setShowRemoveArtifactDialog }) => {
   const [sortCol, setSortCol] = useState('modified');
   const [sortDown, setSortDown] = useState(true);
+  const [items, setItems] = useState([...artifacts]);
+
+  useEffect(() => {
+    const items = artifacts.sort(customSort(sortDown, sortCol));
+    setItems(items);
+  }, [artifacts, sortCol, sortDown]);
 
   const onRowSelection = artifact => {
     if (artifact?.id === selectedArtifact?.id) {
@@ -266,11 +272,9 @@ const ArtifactsList = ({ artifacts, selectedArtifact, setSelectedArtifact, setSh
     setSortCol(col);
   };
 
-  if (!artifacts.length) {
+  if (!items.length) {
     return null;
   }
-
-  const items = artifacts.sort(customSort(sortDown, sortCol));
 
   return (
     <>
