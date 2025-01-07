@@ -1558,6 +1558,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
           tabindex="0"
         >
           <span
+            aria-hidden="true"
             class="notranslate"
           >
             ​

@@ -276,6 +276,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
         class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-standard MuiInputAdornment-sizeSmall emotion-2"
       >
         <span
+          aria-hidden="true"
           class="notranslate"
         >
           ​

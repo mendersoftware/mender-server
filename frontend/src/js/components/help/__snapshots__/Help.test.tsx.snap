@@ -423,6 +423,7 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  width: 100%;
   min-height: 48px;
   padding: 0px 16px;
   -webkit-transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -473,6 +474,7 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  text-align: start;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -982,13 +984,13 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
     <h3
       class="MuiAccordion-heading emotion-1"
     >
-      <div
+      <button
         aria-expanded="false"
         class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters emotion-2"
-        role="button"
         tabindex="0"
+        type="button"
       >
-        <div
+        <span
           class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-3"
         >
           <div>
@@ -1008,8 +1010,8 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
               </time>
             </span>
           </div>
-        </div>
-        <div
+        </span>
+        <span
           class="MuiAccordionSummary-expandIconWrapper emotion-6"
         >
           <svg
@@ -1023,8 +1025,8 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
               d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
             />
           </svg>
-        </div>
-      </div>
+        </span>
+      </button>
     </h3>
     <div
       class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
@@ -1628,13 +1630,13 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
     <h3
       class="MuiAccordion-heading emotion-1"
     >
-      <div
+      <button
         aria-expanded="false"
         class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters emotion-2"
-        role="button"
         tabindex="0"
+        type="button"
       >
-        <div
+        <span
           class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-3"
         >
           <div>
@@ -1654,8 +1656,8 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
               </time>
             </span>
           </div>
-        </div>
-        <div
+        </span>
+        <span
           class="MuiAccordionSummary-expandIconWrapper emotion-6"
         >
           <svg
@@ -1669,8 +1671,8 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
               d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
             />
           </svg>
-        </div>
-      </div>
+        </span>
+      </button>
     </h3>
     <div
       class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
@@ -1793,13 +1795,13 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
     <h3
       class="MuiAccordion-heading emotion-1"
     >
-      <div
+      <button
         aria-expanded="false"
         class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters emotion-2"
-        role="button"
         tabindex="0"
+        type="button"
       >
-        <div
+        <span
           class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-3"
         >
           <div>
@@ -1819,8 +1821,8 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
               </time>
             </span>
           </div>
-        </div>
-        <div
+        </span>
+        <span
           class="MuiAccordionSummary-expandIconWrapper emotion-6"
         >
           <svg
@@ -1834,8 +1836,8 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
               d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
             />
           </svg>
-        </div>
-      </div>
+        </span>
+      </button>
     </h3>
     <div
       class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
@@ -1924,13 +1926,13 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
     <h3
       class="MuiAccordion-heading emotion-1"
     >
-      <div
+      <button
         aria-expanded="false"
         class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters emotion-2"
-        role="button"
         tabindex="0"
+        type="button"
       >
-        <div
+        <span
           class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-3"
         >
           <div>
@@ -1950,8 +1952,8 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
               </time>
             </span>
           </div>
-        </div>
-        <div
+        </span>
+        <span
           class="MuiAccordionSummary-expandIconWrapper emotion-6"
         >
           <svg
@@ -1965,8 +1967,8 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
               d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
             />
           </svg>
-        </div>
-      </div>
+        </span>
+      </button>
     </h3>
     <div
       class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
@@ -2089,13 +2091,13 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
     <h3
       class="MuiAccordion-heading emotion-1"
     >
-      <div
+      <button
         aria-expanded="false"
         class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters emotion-2"
-        role="button"
         tabindex="0"
+        type="button"
       >
-        <div
+        <span
           class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-3"
         >
           <div>
@@ -2115,8 +2117,8 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
               </time>
             </span>
           </div>
-        </div>
-        <div
+        </span>
+        <span
           class="MuiAccordionSummary-expandIconWrapper emotion-6"
         >
           <svg
@@ -2130,8 +2132,8 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
               d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
             />
           </svg>
-        </div>
-      </div>
+        </span>
+      </button>
     </h3>
     <div
       class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
@@ -2604,13 +2606,13 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
     <h3
       class="MuiAccordion-heading emotion-1"
     >
-      <div
+      <button
         aria-expanded="false"
         class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters emotion-2"
-        role="button"
         tabindex="0"
+        type="button"
       >
-        <div
+        <span
           class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-3"
         >
           <div>
@@ -2630,8 +2632,8 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
               </time>
             </span>
           </div>
-        </div>
-        <div
+        </span>
+        <span
           class="MuiAccordionSummary-expandIconWrapper emotion-6"
         >
           <svg
@@ -2645,8 +2647,8 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
               d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
             />
           </svg>
-        </div>
-      </div>
+        </span>
+      </button>
     </h3>
     <div
       class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
@@ -3109,13 +3111,13 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
     <h3
       class="MuiAccordion-heading emotion-1"
     >
-      <div
+      <button
         aria-expanded="false"
         class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters emotion-2"
-        role="button"
         tabindex="0"
+        type="button"
       >
-        <div
+        <span
           class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-3"
         >
           <div>
@@ -3135,8 +3137,8 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
               </time>
             </span>
           </div>
-        </div>
-        <div
+        </span>
+        <span
           class="MuiAccordionSummary-expandIconWrapper emotion-6"
         >
           <svg
@@ -3150,8 +3152,8 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
               d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
             />
           </svg>
-        </div>
-      </div>
+        </span>
+      </button>
     </h3>
     <div
       class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
@@ -3240,13 +3242,13 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
     <h3
       class="MuiAccordion-heading emotion-1"
     >
-      <div
+      <button
         aria-expanded="false"
         class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters emotion-2"
-        role="button"
         tabindex="0"
+        type="button"
       >
-        <div
+        <span
           class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-3"
         >
           <div>
@@ -3266,8 +3268,8 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
               </time>
             </span>
           </div>
-        </div>
-        <div
+        </span>
+        <span
           class="MuiAccordionSummary-expandIconWrapper emotion-6"
         >
           <svg
@@ -3281,8 +3283,8 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
               d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
             />
           </svg>
-        </div>
-      </div>
+        </span>
+      </button>
     </h3>
     <div
       class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
@@ -3745,13 +3747,13 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
     <h3
       class="MuiAccordion-heading emotion-1"
     >
-      <div
+      <button
         aria-expanded="false"
         class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters emotion-2"
-        role="button"
         tabindex="0"
+        type="button"
       >
-        <div
+        <span
           class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-3"
         >
           <div>
@@ -3771,8 +3773,8 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
               </time>
             </span>
           </div>
-        </div>
-        <div
+        </span>
+        <span
           class="MuiAccordionSummary-expandIconWrapper emotion-6"
         >
           <svg
@@ -3786,8 +3788,8 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
               d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
             />
           </svg>
-        </div>
-      </div>
+        </span>
+      </button>
     </h3>
     <div
       class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"

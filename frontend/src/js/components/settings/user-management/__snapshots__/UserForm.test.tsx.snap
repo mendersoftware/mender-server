@@ -1589,11 +1589,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
                         aria-expanded="false"
                         aria-haspopup="listbox"
                         aria-labelledby="roles-selection-label roles-selector-0"
+                        aria-required="true"
                         class="MuiSelect-select MuiSelect-standard Mui-disabled MuiSelect-multiple MuiInputBase-input MuiInput-input Mui-disabled emotion-32"
                         id="roles-selector-0"
                         role="combobox"
                       >
                         <span
+                          aria-hidden="true"
                           class="notranslate"
                         >
                           ​
