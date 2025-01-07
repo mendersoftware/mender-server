@@ -53,7 +53,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
             name="user"
           >
             <div
-              class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-1f1xbjz-MuiFormControl-root-MuiTextField-root"
+              class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-1r6xt37-MuiFormControl-root-MuiTextField-root"
             >
               <div
                 class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-14k9sz3-MuiInputBase-root-MuiInput-root"
@@ -112,7 +112,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
             name="type"
           >
             <div
-              class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-1f1xbjz-MuiFormControl-root-MuiTextField-root"
+              class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-1r6xt37-MuiFormControl-root-MuiTextField-root"
             >
               <div
                 class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-14k9sz3-MuiInputBase-root-MuiInput-root"
@@ -169,7 +169,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
             name="detail"
           >
             <div
-              class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-1f1xbjz-MuiFormControl-root-MuiTextField-root"
+              class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-1r6xt37-MuiFormControl-root-MuiTextField-root"
             >
               <div
                 class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary Mui-disabled MuiInputBase-fullWidth MuiInputBase-formControl MuiAutocomplete-inputRoot css-14k9sz3-MuiInputBase-root-MuiInput-root"
@@ -206,10 +206,10 @@ exports[`Auditlogs Component renders correctly 1`] = `
             style="flex-wrap: wrap; gap: 15px;"
           >
             <div
-              class="MuiFormControl-root MuiTextField-root css-usbn3n-MuiFormControl-root-MuiTextField-root"
+              class="MuiFormControl-root MuiTextField-root css-vmb3sd-MuiFormControl-root-MuiTextField-root"
             >
               <label
-                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-standard MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-standard css-14x0j5s-MuiFormLabel-root-MuiInputLabel-root"
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-standard MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-standard css-14i99uh-MuiFormLabel-root-MuiInputLabel-root"
                 data-shrink="true"
                 for=":r7:"
                 id=":r7:-label"
@@ -254,10 +254,10 @@ exports[`Auditlogs Component renders correctly 1`] = `
               </div>
             </div>
             <div
-              class="MuiFormControl-root MuiTextField-root css-usbn3n-MuiFormControl-root-MuiTextField-root"
+              class="MuiFormControl-root MuiTextField-root css-vmb3sd-MuiFormControl-root-MuiTextField-root"
             >
               <label
-                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-standard MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-standard css-14x0j5s-MuiFormLabel-root-MuiInputLabel-root"
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-standard MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-standard css-14i99uh-MuiFormLabel-root-MuiInputLabel-root"
                 data-shrink="true"
                 for=":r9:"
                 id=":r9:-label"
@@ -556,7 +556,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
               Rows
             </p>
             <div
-              class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-11kq5w2-MuiInputBase-root-MuiTablePagination-select"
+              class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiTablePagination-input css-11kq5w2-MuiInputBase-root-MuiTablePagination-select"
             >
               <div
                 aria-controls=":rd:"

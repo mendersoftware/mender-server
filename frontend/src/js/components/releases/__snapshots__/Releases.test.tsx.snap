@@ -2005,6 +2005,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-233:focus::-ms-input
                   class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-standard MuiInputAdornment-sizeSmall emotion-17"
                 >
                   <span
+                    aria-hidden="true"
                     class="notranslate"
                   >
                     ​
@@ -3413,7 +3414,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-233:focus::-ms-input
                 Rows
               </p>
               <div
-                class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input emotion-232"
+                class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiTablePagination-input emotion-232"
               >
                 <div
                   aria-controls=":ra:"

@@ -92,7 +92,7 @@ exports[`DeviceList Component renders correctly 1`] = `
             Rows
           </p>
           <div
-            class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-11kq5w2-MuiInputBase-root-MuiTablePagination-select"
+            class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiTablePagination-input css-11kq5w2-MuiInputBase-root-MuiTablePagination-select"
           >
             <div
               aria-controls=":r2:"

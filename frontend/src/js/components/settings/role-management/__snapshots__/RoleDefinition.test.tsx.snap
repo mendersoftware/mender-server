@@ -1625,6 +1625,7 @@ label+.emotion-35 {
                 tabindex="0"
               >
                 <span
+                  aria-hidden="true"
                   class="notranslate"
                 >
                   ​
@@ -1675,6 +1676,7 @@ label+.emotion-35 {
                 tabindex="0"
               >
                 <span
+                  aria-hidden="true"
                   class="notranslate"
                 >
                   ​
@@ -1752,6 +1754,7 @@ label+.emotion-35 {
                 tabindex="0"
               >
                 <span
+                  aria-hidden="true"
                   class="notranslate"
                 >
                   ​
@@ -1802,6 +1805,7 @@ label+.emotion-35 {
                 tabindex="0"
               >
                 <span
+                  aria-hidden="true"
                   class="notranslate"
                 >
                   ​

@@ -238,6 +238,7 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  width: 100%;
   min-height: 48px;
   padding: 0px 16px;
   -webkit-transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -288,6 +289,7 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  text-align: start;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -671,14 +673,14 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
           <h3
             class="MuiAccordion-heading emotion-7"
           >
-            <div
+            <button
               aria-expanded="false"
               class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters emotion-8"
-              role="button"
               style="padding-left: 0px;"
               tabindex="0"
+              type="button"
             >
-              <div
+              <span
                 class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-9"
               >
                 <svg
@@ -699,8 +701,8 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
                   2
                    lines
                 </div>
-              </div>
-            </div>
+              </span>
+            </button>
           </h3>
           <div
             class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-11"

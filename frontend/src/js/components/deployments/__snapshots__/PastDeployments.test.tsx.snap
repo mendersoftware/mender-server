@@ -1851,7 +1851,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-38:focus::-ms-input-
               Rows
             </p>
             <div
-              class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input emotion-37"
+              class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiTablePagination-input emotion-37"
             >
               <div
                 aria-controls=":rh:"

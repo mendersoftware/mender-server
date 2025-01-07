@@ -111,6 +111,7 @@ exports[`Artifact Component renders correctly 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  width: 100%;
   min-height: 48px;
   padding: 0px 16px;
   -webkit-transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -161,6 +162,7 @@ exports[`Artifact Component renders correctly 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  text-align: start;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -729,6 +731,7 @@ exports[`Artifact Component renders correctly 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  width: 100%;
   min-height: 48px;
   padding: 0px 16px;
   -webkit-transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -910,14 +913,14 @@ exports[`Artifact Component renders correctly 1`] = `
     <h3
       class="MuiAccordion-heading emotion-1"
     >
-      <div
+      <button
         aria-expanded="false"
         class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters emotion-2"
-        role="button"
         style="padding: 0px 12px;"
         tabindex="0"
+        type="button"
       >
-        <div
+        <span
           class="MuiAccordionSummary-content repo-item MuiAccordionSummary-contentGutters emotion-3"
         >
           <div
@@ -961,8 +964,8 @@ exports[`Artifact Component renders correctly 1`] = `
               />
             </svg>
           </button>
-        </div>
-      </div>
+        </span>
+      </button>
     </h3>
     <div
       class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-6"
@@ -1094,13 +1097,13 @@ exports[`Artifact Component renders correctly 1`] = `
                   <h3
                     class="MuiAccordion-heading emotion-1"
                   >
-                    <div
+                    <button
                       aria-expanded="false"
                       class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters emotion-31"
-                      role="button"
                       tabindex="0"
+                      type="button"
                     >
-                      <div
+                      <span
                         class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-3"
                       >
                         <p>
@@ -1121,8 +1124,8 @@ exports[`Artifact Component renders correctly 1`] = `
                             />
                           </svg>
                         </div>
-                      </div>
-                    </div>
+                      </span>
+                    </button>
                   </h3>
                   <div
                     class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-6"
