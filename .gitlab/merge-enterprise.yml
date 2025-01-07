@@ -12,7 +12,7 @@ merge-to-enterprise:
   image: "${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/alpine:${ALPINE_VERSION}"
   before_script:
     - apk add git jq
-    - GIT_REMOTE="https://mender-test-bot:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com:mender-test-bot/mender-server-enterprise"
+    - GIT_REMOTE="https://mender-test-bot:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/mender-test-bot/mender-server-enterprise"
   script:
     # Get author Github username
     - |
