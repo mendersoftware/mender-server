@@ -10,31 +10,25 @@ http:
         browserXssFilter: true
         customRequestHeaders:
           "X-Forwarded-Proto": "https"
-  
+
     compression:
       compress: true
-  
+
     devauth:
       forwardAuth:
         address: "http://deviceauth:8080/api/internal/v1/devauth/tokens/verify"
         authResponseHeaders: "X-MEN-RequestID"
-  
+
     userauth:
       forwardAuth:
         address: "http://useradm:8080/api/internal/v1/useradm/auth/verify"
         authResponseHeaders: "X-MEN-RequestID,X-MEN-RBAC-Inventory-Groups,X-MEN-RBAC-Deployments-Groups,X-MEN-RBAC-Releases-Tags"
-  
-    json-error-responder:
-      errors:
-        service: error-responder@docker
-        query: "/{status}.json"
-        status: "401-404,408,429,500-504"
-  
+
     inventoryV1-replacepathregex:
       replacepathregex:
         regex: "^/api/devices/v1/inventory/(.*)"
         replacement: "/api/0.1.0/attributes"
-  
+
     inventoryMgmtV1-replacepathregex:
       replacepathregex:
         regex: "^/api/management/v1/inventory/(.*)"
@@ -46,7 +40,6 @@ http:
           - userauth
           - sec-headers
           - compression
-          - json-error-responder
 
     devStack:
       chain:
