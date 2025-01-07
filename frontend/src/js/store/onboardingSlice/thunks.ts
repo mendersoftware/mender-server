@@ -21,7 +21,7 @@ import Cookies from 'universal-cookie';
 
 import { actions, sliceName } from '.';
 import Tracking from '../../tracking';
-import { onboardingSteps } from '../../utils/onboardingmanager';
+import { onboardingSteps } from '../../utils/onboardingManager';
 
 const cookies = new Cookies();
 

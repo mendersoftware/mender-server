@@ -20,19 +20,19 @@ import { Divider, Drawer } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
-import Form from '@northern.tech/common-ui/forms/form';
-import FormCheckbox from '@northern.tech/common-ui/forms/formcheckbox';
-import PasswordInput from '@northern.tech/common-ui/forms/passwordinput';
-import TextInput from '@northern.tech/common-ui/forms/textinput';
-import InfoHint from '@northern.tech/common-ui/info-hint';
-import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/helptooltips';
+import InfoHint from '@northern.tech/common-ui/InfoHint';
+import Form from '@northern.tech/common-ui/forms/Form';
+import FormCheckbox from '@northern.tech/common-ui/forms/FormCheckbox';
+import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
+import TextInput from '@northern.tech/common-ui/forms/TextInput';
+import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
 import Api from '@northern.tech/store/api/general-api';
 import { rolesByName, useradmApiUrlv1 } from '@northern.tech/store/constants';
 import { getOrganization } from '@northern.tech/store/selectors';
 import { AppDispatch } from '@northern.tech/store/store';
 import { addTenant } from '@northern.tech/store/thunks';
 
-import { PasswordLabel } from '../settings/user-management/userform';
+import { PasswordLabel } from '../settings/user-management/UserForm';
 
 interface TenantCreateFormProps {
   onCloseClick: () => void;

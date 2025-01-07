@@ -18,11 +18,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Add as AddIcon } from '@mui/icons-material';
 import { Chip } from '@mui/material';
 
-import DetailsIndicator from '@northern.tech/common-ui/detailsindicator';
-import DetailsTable from '@northern.tech/common-ui/detailstable';
-import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/docslink';
-import EnterpriseNotification from '@northern.tech/common-ui/enterpriseNotification';
-import { InfoHintContainer } from '@northern.tech/common-ui/info-hint';
+import DetailsIndicator from '@northern.tech/common-ui/DetailsIndicator';
+import DetailsTable from '@northern.tech/common-ui/DetailsTable';
+import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
+import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
+import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import { BENEFITS, UiRoleDefinition, emptyRole, settingsKeys } from '@northern.tech/store/constants';
 import { getGroupsByIdWithoutUngrouped, getIsEnterprise, getOrganization, getReleaseTagsById, getRelevantRoles } from '@northern.tech/store/selectors';
 import { createRole, editRole, getDynamicGroups, getExistingReleaseTags, getGroups, getRoles, removeRole } from '@northern.tech/store/thunks';

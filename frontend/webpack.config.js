@@ -25,7 +25,7 @@ export default (env, argv) => {
     node: {
       global: true
     },
-    entry: './src/js/main.js',
+    entry: './src/js/main.tsx',
     module: {
       rules: [
         {

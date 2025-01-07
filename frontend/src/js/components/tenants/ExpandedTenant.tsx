@@ -18,9 +18,9 @@ import { Link } from 'react-router-dom';
 import { Button, Checkbox, Divider, Drawer, FormControlLabel, FormHelperText, TextField } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { TwoColumns } from '@northern.tech/common-ui/ConfigurationObject';
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
-import { TwoColumns } from '@northern.tech/common-ui/configurationobject';
 import actions from '@northern.tech/store/actions';
 import { getOrganization } from '@northern.tech/store/organizationSlice/selectors';
 import { editTenantDeviceLimit, removeTenant } from '@northern.tech/store/organizationSlice/thunks';
