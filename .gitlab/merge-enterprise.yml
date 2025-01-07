@@ -25,7 +25,7 @@ merge-to-enterprise:
     - GITHUB_USER=$(jq -r .author.login commit.json)
     # Fetch existing PR (if any)
     - |
-      wget "https://api.github.com/repos/mendersoftware/mender-server-enterprise/pulls?head=mender-test-bot:$CI_BRANCH_NAME&state=open" \
+      wget "https://api.github.com/repos/mendersoftware/mender-server-enterprise/pulls?head=mender-test-bot:$CI_COMMIT_BRANCH&state=open" \
         --header "Authorization: Bearer $GITHUB_BOT_TOKEN_REPO_FULL" \
         --header "Accept: application/vnd.github+json" \
         --header "X-GitHub-Api-Version: 2022-11-28" \
@@ -34,16 +34,16 @@ merge-to-enterprise:
     - |
       cat > pr_request_body.json << EOF
       {
-        "title": "Merge branch mender-server/$CI_BRANCH_NAME to enterprise",
-        "base": "$CI_BRANCH_NAME",
-        "head": "mender-test-bot:$CI_BRANCH_NAME",
+        "title": "Merge branch mender-server/$CI_COMMIT_BRANCH to enterprise",
+        "base": "$CI_COMMIT_BRANCH",
+        "head": "mender-test-bot:$CI_COMMIT_BRANCH",
         "maintainer_can_modify": true
       }
       EOF
     - |
       if test -z "$(jq -r .number pull.json)"; then
         # Pull request does not exist: Forcefully fast-forward fork branch and create one
-        git push -f "$GIT_REMOTE" HEAD:$CI_BRANCH_NAME
+        git push -f "$GIT_REMOTE" "$CI_COMMIT_SHA:$CI_COMMIT_BRANCH"
         wget --post-file pr_request_body.json \
           --header "Authorization: Bearer $GITHUB_BOT_TOKEN_REPO_FULL" \
           --header "Accept: application/vnd.github+json" \
@@ -57,9 +57,9 @@ merge-to-enterprise:
       fi
     - PULL_NUMBER=$(jq -r .number pull.json)
     - |
-      if ! git push "$GIT_REMOTE" HEAD:$CI_BRANCH_NAME; then
+      if ! git push "$GIT_REMOTE" "$CI_COMMIT_SHA:$CI_COMMIT_BRANCH"; then
         # Could not fast-forward PR, notify the author in the existing PR
-        wget --post-data "{\"body\": \"Tried to submit commits from @$GITHUB_USER, but this PR has commits ahead of $CI_BRANCH_NAME\"}" \
+        wget --post-data "{\"body\": \"Tried to submit commits from @$GITHUB_USER, but this PR has commits ahead of $CI_COMMIT_BRANCH\"}" \
           --header "Authorization: Bearer $GITHUB_BOT_TOKEN_REPO_FULL" \
           --header "Accept: application/vnd.github+json" \
           --header "Content-Type: application/json" \
