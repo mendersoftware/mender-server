@@ -244,7 +244,6 @@ describe('organization actions', () => {
     expect(store.getActions()).toHaveLength(0);
     const expectedActions = [
       { type: completeUpgrade.pending.type },
-      { type: getTenants.pending.type },
       { type: getDeviceLimit.pending.type },
       { type: getUserOrganization.pending.type },
       { type: deviceActions.setDeviceLimit.type },
@@ -252,8 +251,6 @@ describe('organization actions', () => {
       { type: actions.setOrganization.type, payload: defaultState.organization.organization },
       { type: appActions.setAnnouncement.type, payload: tenantDataDivergedMessage },
       { type: getUserOrganization.fulfilled.type },
-      { type: actions.setTenantListState.type },
-      { type: getTenants.fulfilled.type },
       { type: completeUpgrade.fulfilled.type }
     ];
     await store.dispatch(completeUpgrade({ tenantId: defaultState.organization.organization.id, plan: 'enterprise' }));
