@@ -87,13 +87,13 @@ export const RolloutSchedule = ({ deployment, headerClass, innerRef, onAbort, on
       )}
       <div className="deployment-phases-report margin-top margin-bottom" style={{ gridTemplateColumns: `repeat(auto-fit, ${maxPhaseWidth}px)` }}>
         {phases.map((phase, index) => {
-          phase.batch_size = phase.batch_size || getRemainderPercent(phases);
-          const deviceCount = getPhaseDeviceCount(totalDeviceCount, phase.batch_size, phase.batch_size, index === phases.length - 1);
+          const batchSize = phase.batch_size || getRemainderPercent(phases);
+          const deviceCount = getPhaseDeviceCount(totalDeviceCount, batchSize, batchSize, index === phases.length - 1);
           const deviceCountText = !filter ? ` (${deviceCount} ${pluralize('device', deviceCount)})` : '';
           const startTime = phase.start_ts ?? getPhaseStartTime(phases, index, start_time);
           const phaseObject = {
             'Phase start time': <Time value={startTime} />,
-            'Batch size': <div className="muted">{`${phase.batch_size}%${deviceCountText}`}</div>
+            'Batch size': <div className="muted">{`${batchSize}%${deviceCountText}`}</div>
           };
           let phaseTitle = status !== DEPLOYMENT_STATES.scheduled ? <div className="muted">Complete</div> : null;
           let isCurrentPhase = false;
