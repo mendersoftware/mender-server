@@ -131,7 +131,7 @@ interface completeUpgradePayload {
 export const completeUpgrade = createAsyncThunk(`${sliceName}/completeUpgrade`, ({ tenantId, plan, billing_profile }: completeUpgradePayload, { dispatch }) =>
   Api.post(`${tenantadmApiUrlv2}/tenants/${tenantId}/upgrade/complete`, { plan, billing_profile })
     .catch(err => commonErrorHandler(err, `There was an error upgrading your account:`, dispatch))
-    .then(() => Promise.all([dispatch(getTenants()), dispatch(getDeviceLimit()), dispatch(getUserOrganization())]))
+    .then(() => Promise.all([dispatch(getDeviceLimit()), dispatch(getUserOrganization())]))
 );
 
 const prepareAuditlogQuery = ({ startDate, endDate, user: userFilter, type, detail: detailFilter, sort = {} }) => {

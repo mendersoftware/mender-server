@@ -11,8 +11,6 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-
-/* eslint-disable react/jsx-pascal-case */
 import React from 'react';
 import Linkify from 'react-linkify';
 
@@ -22,7 +20,7 @@ const Announcement = ({ announcement = '', errorIconClassName, iconClassName, on
   <div className={`flexbox centered fadeInSlow ${sectionClassName}`}>
     <AnnounceIcon className={errorIconClassName} fontSize="small" style={{ marginRight: 4, minWidth: 24 }} />
     <p style={{ margin: 4 }}>
-      <Linkify.default properties={{ target: '_blank' }}>{announcement}</Linkify.default>
+      <Linkify properties={{ target: '_blank' }}>{announcement}</Linkify>
     </p>
     <CloseIcon className={iconClassName} style={{ marginLeft: 4, cursor: 'pointer' }} onClick={onHide} />
   </div>
