@@ -1386,6 +1386,7 @@ label+.emotion-35 {
           <div
             class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl emotion-8"
             required=""
+            variant="outlined"
           >
             <input
               aria-invalid="false"
@@ -1414,6 +1415,7 @@ label+.emotion-35 {
           </label>
           <div
             class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-multiline emotion-13"
+            variant="outlined"
           >
             <textarea
               aria-invalid="false"
@@ -1474,6 +1476,7 @@ label+.emotion-35 {
           />
           <div
             class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl emotion-21"
+            variant="outlined"
           >
             <div
               aria-controls=":r1:"
@@ -1541,6 +1544,7 @@ label+.emotion-35 {
           />
           <div
             class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl emotion-21"
+            variant="outlined"
           >
             <div
               aria-controls=":r3:"
@@ -1613,6 +1617,7 @@ label+.emotion-35 {
             </label>
             <div
               class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl emotion-35"
+              variant="outlined"
             >
               <div
                 aria-controls=":r7:"
@@ -1663,6 +1668,7 @@ label+.emotion-35 {
             </label>
             <div
               class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl emotion-21"
+              variant="outlined"
             >
               <div
                 aria-controls=":r8:"
@@ -1740,6 +1746,7 @@ label+.emotion-35 {
             </label>
             <div
               class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl emotion-35"
+              variant="outlined"
             >
               <div
                 aria-controls=":r9:"
@@ -1790,6 +1797,7 @@ label+.emotion-35 {
             </label>
             <div
               class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl emotion-21"
+              variant="outlined"
             >
               <div
                 aria-controls=":ra:"

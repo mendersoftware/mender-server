@@ -202,6 +202,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-1:focus::-ms-input-p
     </div>
     <div
       class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary emotion-0"
+      variant="outlined"
     >
       <div
         aria-controls=":r0:"

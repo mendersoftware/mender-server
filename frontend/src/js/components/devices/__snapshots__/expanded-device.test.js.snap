@@ -2322,6 +2322,7 @@ label+.emotion-52 {
             </div>
             <div
               class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary Mui-disabled MuiInputBase-adornedEnd emotion-25"
+              variant="outlined"
             >
               <input
                 class="MuiInputBase-input MuiInput-input Mui-disabled MuiInputBase-inputAdornedEnd emotion-26"
@@ -2690,6 +2691,7 @@ label+.emotion-52 {
               >
                 <div
                   class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl emotion-52"
+                  variant="outlined"
                 >
                   <input
                     aria-invalid="false"
@@ -2705,6 +2707,7 @@ label+.emotion-52 {
               >
                 <div
                   class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl emotion-52"
+                  variant="outlined"
                 >
                   <input
                     aria-invalid="false"
