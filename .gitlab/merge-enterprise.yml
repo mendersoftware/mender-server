@@ -41,7 +41,7 @@ merge-to-enterprise:
       }
       EOF
     - |
-      if test -z "$(cat pull.json)"; then
+      if test -z "$(jq -r .number pull.json)"; then
         # Pull request does not exist: Forcefully fast-forward fork branch and create one
         git push -f "$GIT_REMOTE" HEAD:$CI_BRANCH_NAME
         wget --post-file pr_request_body.json \
@@ -51,8 +51,11 @@ merge-to-enterprise:
           --header "X-GitHub-Api-Version: 2022-11-28" \
           -O pull.json \
           "https://api.github.com/repos/mendersoftware/mender-server-enterprise/pulls"
+      else
+        echo "Pull request exists: $(jq -r .url pull.json)"
+        echo "Attempting to fast-forward"
       fi
-    - PULL_NUMBER=$(jq -r .number pull.json | head -n 1)
+    - PULL_NUMBER=$(jq -r .number pull.json)
     - |
       if ! git push "$GIT_REMOTE" HEAD:$CI_BRANCH_NAME; then
         # Could not fast-forward PR, notify the author in the existing PR
