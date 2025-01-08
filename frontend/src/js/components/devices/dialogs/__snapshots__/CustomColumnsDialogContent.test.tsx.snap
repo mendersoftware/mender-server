@@ -707,7 +707,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
     <div
       class="relative"
       data-drop-target-for-element="true"
-      draggable="true"
     >
       <li
         class="MuiListItem-root MuiListItem-gutters MuiListItem-padding flexbox space-between margin-right-large emotion-1"
@@ -720,7 +719,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
           style="width: 80px;"
         >
           <div
-            class="flexbox centered"
+            class="flexbox centered cursor-grab"
+            draggable="true"
           >
             <svg
               aria-hidden="true"
@@ -757,7 +757,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
     <div
       class="relative"
       data-drop-target-for-element="true"
-      draggable="true"
     >
       <li
         class="MuiListItem-root MuiListItem-gutters MuiListItem-padding flexbox space-between margin-right-large emotion-1"
@@ -770,7 +769,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
           style="width: 80px;"
         >
           <div
-            class="flexbox centered"
+            class="flexbox centered cursor-grab"
+            draggable="true"
           >
             <svg
               aria-hidden="true"

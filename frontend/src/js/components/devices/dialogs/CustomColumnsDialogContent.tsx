@@ -12,6 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import ReactDOM from 'react-dom';
 
 // material ui
 import { Clear as ClearIcon, DragHandle as DragHandleIcon } from '@mui/icons-material';
@@ -22,33 +23,55 @@ import { getReorderDestinationIndex } from '@atlaskit/pragmatic-drag-and-drop-hi
 import { DropIndicator } from '@atlaskit/pragmatic-drag-and-drop-react-drop-indicator/box';
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine';
 import { draggable, dropTargetForElements, monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
+import { pointerOutsideOfPreview } from '@atlaskit/pragmatic-drag-and-drop/element/pointer-outside-of-preview';
+import { setCustomNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview';
 import { reorder } from '@atlaskit/pragmatic-drag-and-drop/reorder';
 import { ATTRIBUTE_SCOPES } from '@northern.tech/store/constants';
 import invariant from 'tiny-invariant';
 
 import AttributeAutoComplete, { getOptionLabel } from '../widgets/AttributeAutocomplete';
 
+type DraggableState = { type: 'idle' } | { type: 'preview'; container: HTMLElement } | { type: 'dragging' };
+
+const idleState: DraggableState = { type: 'idle' };
+const draggingState: DraggableState = { type: 'dragging' };
+
 const DraggableListItem = ({ item, index, onRemove }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const title = useMemo(() => getOptionLabel(item), [item.key, item.scope, item.title]);
-  const ref = useRef(null);
-  const [dragging, setDragging] = useState(false);
+  const dragRef = useRef(null);
+  const elementRef = useRef(null);
+  const [draggableState, setDraggableState] = useState<DraggableState>(idleState);
 
   const [closestEdge, setClosestEdge] = useState(null);
 
   useEffect(() => {
-    const el = ref.current;
-    invariant(el);
+    const dragHandle = dragRef.current;
+    const element = elementRef.current;
+    invariant(element);
+    invariant(dragHandle);
     return combine(
       draggable({
-        element: el,
-        onDragStart: () => setDragging(true),
-        onDrop: () => setDragging(false),
-
+        element: dragHandle,
+        onDragStart: () => setDraggableState(draggingState),
+        onDrop: () => setDraggableState(idleState),
+        onGenerateDragPreview({ nativeSetDragImage }) {
+          setCustomNativeDragPreview({
+            nativeSetDragImage,
+            getOffset: pointerOutsideOfPreview({
+              x: '16px',
+              y: '8px'
+            }),
+            render({ container }) {
+              setDraggableState({ type: 'preview', container });
+              return () => setDraggableState(draggingState);
+            }
+          });
+        },
         getInitialData: () => ({ itemId: item.key })
       }),
       dropTargetForElements({
-        element: el,
+        element,
         getData: ({ input, element }) => {
           const data = { itemId: item.key };
 
@@ -80,11 +103,11 @@ const DraggableListItem = ({ item, index, onRemove }) => {
   }, [item.key]);
   const onClick = () => onRemove(item, index);
   return (
-    <div ref={ref} className="relative">
-      <ListItem className={`flexbox space-between margin-right-large ${dragging ? 'dragging' : ''}`}>
+    <div ref={elementRef} className="relative">
+      <ListItem className={`flexbox space-between margin-right-large ${draggableState.type === 'dragging' ? 'dragging' : ''}`}>
         <div>{title}</div>
         <div className="flexbox space-between" style={{ width: 80 }}>
-          <div className="flexbox centered">
+          <div className="flexbox centered cursor-grab" ref={dragRef}>
             <DragHandleIcon />
           </div>
           <IconButton onClick={onClick} size="small">
@@ -93,6 +116,7 @@ const DraggableListItem = ({ item, index, onRemove }) => {
         </div>
       </ListItem>
       {closestEdge && <DropIndicator edge={closestEdge} />}
+      {draggableState.type === 'preview' && ReactDOM.createPortal(<div>{title}</div>, draggableState.container)}
     </div>
   );
 };
