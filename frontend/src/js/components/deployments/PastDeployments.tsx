@@ -35,12 +35,16 @@ import { advanceOnboarding, getDeploymentsByStatus, setDeploymentsState } from '
 import { getISOStringBoundaries } from '@northern.tech/utils/helpers';
 import useWindowSize from '@northern.tech/utils/resizehook';
 import { clearAllRetryTimers, clearRetryTimer, setRetryTimer } from '@northern.tech/utils/retrytimer';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 
 import historyImage from '../../../assets/img/history.png';
 import { getOnboardingComponentFor } from '../../utils/onboardingManager';
 import { DeploymentSize, DeploymentStatus } from './DeploymentItem';
 import { defaultRefreshDeploymentsLength as refreshDeploymentsLength } from './Deployments';
 import DeploymentsList, { defaultHeaders } from './DeploymentsList';
+
+dayjs.extend(utc);
 
 const { setSnackbar } = storeActions;
 
@@ -87,8 +91,8 @@ export const Past = props => {
       currentDeviceGroup = deviceGroup,
       currentType = deploymentType
     ) => {
-      const roundedStartDate = Math.round(Date.parse(currentStartDate) / 1000);
-      const roundedEndDate = Math.round(Date.parse(currentEndDate) / 1000);
+      const roundedStartDate = dayjs.utc(currentStartDate).unix();
+      const roundedEndDate = dayjs.utc(currentEndDate).unix();
       setLoading(true);
       return dispatch(
         getDeploymentsByStatus({
@@ -115,8 +119,8 @@ export const Past = props => {
   );
 
   useEffect(() => {
-    const roundedStartDate = Math.round(Date.parse(startDate || BEGINNING_OF_TIME) / 1000);
-    const roundedEndDate = Math.round(Date.parse(endDate) / 1000);
+    const roundedStartDate = dayjs.utc(startDate || BEGINNING_OF_TIME).unix();
+    const roundedEndDate = dayjs.utc(endDate).unix();
     setLoading(true);
     dispatch(
       getDeploymentsByStatus({ status: type, page, perPage, startDate: roundedStartDate, endDate: roundedEndDate, group: deviceGroup, type: deploymentType })
