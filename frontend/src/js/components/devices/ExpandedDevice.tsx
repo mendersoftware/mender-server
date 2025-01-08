@@ -15,7 +15,7 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { Chip, Divider, Drawer, Tab, Tabs, Tooltip, chipClasses } from '@mui/material';
+import { Chip, Divider, Drawer, Tab, Tabs, chipClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import DeviceIdentityDisplay from '@northern.tech/common-ui/DeviceIdentity';
@@ -291,10 +291,8 @@ export const ExpandedDevice = ({ actionCallbacks, deviceId, onClose, setDetailsT
               <GatewayConnectionNotification gatewayDevices={gatewayIds.map(gatewayId => devicesById[gatewayId])} onClick={scrollToDeviceSystem} />
             )}
             <div className={`${isOffline ? 'red' : 'muted'} margin-left margin-right flexbox`}>
-              <Tooltip title="The last time the device communicated with the Mender server" placement="bottom">
-                <div className="margin-right-small">Last check-in:</div>
-              </Tooltip>
-              <RelativeTime updateTime={device.check_in_time_exact ?? device.check_in_time} />
+              <div className="margin-right-small">Latest activity:</div>
+              <RelativeTime updateTime={device.check_in_time} />
             </div>
           </>
         }
