@@ -252,7 +252,7 @@ const ArtifactsList = ({ artifacts, selectedArtifact, setSelectedArtifact, setSh
   const [items, setItems] = useState([...artifacts]);
 
   useEffect(() => {
-    const items = artifacts.sort(customSort(sortDown, sortCol));
+    const items = [...artifacts].sort(customSort(sortDown, sortCol));
     setItems(items);
   }, [artifacts, sortCol, sortDown]);
 
