@@ -47,7 +47,7 @@ export const defaultTextRender = ({ column, device }) => {
   const propertyName = propertyNameMap[column.attribute.scope] ?? column.attribute.scope;
   const accessorTarget = device[propertyName] ?? device;
   const attributeValue = accessorTarget[column.attribute.name] || device[column.attribute.name];
-  return (typeof attributeValue === 'object' ? JSON.stringify(attributeValue) : attributeValue) ?? device.id;
+  return (typeof attributeValue === 'object' ? JSON.stringify(attributeValue) : attributeValue) ?? '-';
 };
 
 export const getDeviceIdentityText = ({ device = {}, idAttribute }) => {

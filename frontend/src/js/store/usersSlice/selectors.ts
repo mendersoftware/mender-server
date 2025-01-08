@@ -27,7 +27,9 @@ export const getUsersById = state => state.users.byId;
 export const getUsersList = createSelector([getUsersById], usersById => Object.values(usersById));
 export const getCurrentUser = createSelector([getUsersById, getCurrentUserId], (usersById, userId) => usersById[userId] ?? {});
 export const getUserSettings = state => state.users.userSettings;
-
+export const getSelectedDeviceAttribute = createSelector([getUserSettings], ({ columnSelection }) =>
+  columnSelection.map(attribute => ({ attribute: attribute.key, scope: attribute.scope }))
+);
 export const getIsDarkMode = createSelector([getUserSettings], ({ mode }) => isDarkMode(mode));
 
 export const getShowHelptips = createSelector([getTooltipsById], tooltips =>

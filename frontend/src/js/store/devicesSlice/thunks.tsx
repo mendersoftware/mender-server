@@ -40,6 +40,7 @@ import {
   getGlobalSettings,
   getIdAttribute,
   getSearchEndpoint,
+  getSelectedDeviceAttribute,
   getTenantCapabilities,
   getUserCapabilities,
   getUserSettings
@@ -558,7 +559,7 @@ export const getDevicesByStatus = createAsyncThunk(`${sliceName}/getDevicesBySta
     page = defaultPage,
     perPage = defaultPerPage,
     sortOptions = [],
-    selectedAttributes = []
+    selectedAttributes = getSelectedDeviceAttribute(getState())
   } = options;
   const state = getState();
   const { applicableFilters, filterTerms } = convertDeviceListStateToFilters({

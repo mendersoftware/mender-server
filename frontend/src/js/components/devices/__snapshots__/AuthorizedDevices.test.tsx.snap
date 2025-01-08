@@ -441,162 +441,164 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-1:focus::-ms-input-p
   font-size: 20px;
 }
 
-<div>
-  <div
-    class="margin-left-small"
-  >
+<body>
+  <div>
     <div
-      class="flexbox"
+      class="margin-left-small"
     >
-      <h3
-        class="margin-right"
-      >
-        All devices
-      </h3>
       <div
-        class="flexbox space-between center-aligned"
-        style="flex-grow: 1;"
+        class="flexbox"
       >
+        <h3
+          class="margin-right"
+        >
+          All devices
+        </h3>
         <div
-          class="flexbox"
+          class="flexbox space-between center-aligned"
+          style="flex-grow: 1;"
         >
           <div
-            class="flexbox centered"
+            class="flexbox"
           >
-            Status:
             <div
-              class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary emotion-0"
+              class="flexbox centered"
             >
+              Status:
               <div
-                aria-controls=":r0:"
-                aria-expanded="false"
-                aria-haspopup="listbox"
-                class="MuiSelect-select MuiSelect-standard MuiInputBase-input MuiInput-input emotion-1"
-                role="combobox"
-                tabindex="0"
+                class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary emotion-0"
               >
-                accepted
-              </div>
-              <input
-                aria-hidden="true"
-                aria-invalid="false"
-                class="MuiSelect-nativeInput emotion-2"
-                tabindex="-1"
-                value="accepted"
-              />
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconStandard emotion-3"
-                data-testid="ArrowDropDownIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M7 10l5 5 5-5z"
+                <div
+                  aria-controls=":r0:"
+                  aria-expanded="false"
+                  aria-haspopup="listbox"
+                  class="MuiSelect-select MuiSelect-standard MuiInputBase-input MuiInput-input emotion-1"
+                  role="combobox"
+                  tabindex="0"
+                >
+                  accepted
+                </div>
+                <input
+                  aria-hidden="true"
+                  aria-invalid="false"
+                  class="MuiSelect-nativeInput emotion-2"
+                  tabindex="-1"
+                  value="accepted"
                 />
-              </svg>
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconStandard emotion-3"
+                  data-testid="ArrowDropDownIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M7 10l5 5 5-5z"
+                  />
+                </svg>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div
-      class="flexbox space-between"
-    >
       <div
-        class="flexbox centered filter-header "
+        class="flexbox space-between"
       >
+        <div
+          class="flexbox centered filter-header "
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary emotion-4"
+            style="background-color: transparent;"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-5"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-6"
+                data-testid="FilterListIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M10 18h4v-2h-4zM3 6v2h18V6zm3 7h12v-2H6z"
+                />
+              </svg>
+            </span>
+            Filters
+          </button>
+        </div>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary emotion-4"
-          style="background-color: transparent;"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-7"
+          style="text-transform: none;"
           tabindex="0"
           type="button"
         >
+          Table options
           <span
-            class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-5"
+            class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium emotion-8"
           >
             <svg
               aria-hidden="true"
               class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-6"
-              data-testid="FilterListIcon"
+              data-testid="ArrowDropDownIcon"
               focusable="false"
               viewBox="0 0 24 24"
             >
               <path
-                d="M10 18h4v-2h-4zM3 6v2h18V6zm3 7h12v-2H6z"
+                d="m7 10 5 5 5-5z"
               />
             </svg>
           </span>
-          Filters
         </button>
       </div>
-      <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-7"
-        style="text-transform: none;"
-        tabindex="0"
-        type="button"
+    </div>
+    <div
+      class="loaderContainer shrunk"
+    >
+      <div
+        class="  loader"
       >
-        Table options
         <span
-          class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium emotion-8"
-        >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-6"
-            data-testid="ArrowDropDownIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
+          class="dot dot_1"
+        />
+        <span
+          class="dot dot_2"
+        />
+        <span
+          class="dot dot_3"
+        />
+        <span
+          class="dot dot_4"
+        />
+      </div>
+    </div>
+    <div
+      class="padding-bottom"
+    >
+      <div
+        class="dashboard-placeholder"
+      >
+        <p>
+          No devices found
+        </p>
+        <p>
+          No devices have been authorized to connect to the Mender server yet.
+        </p>
+        <p>
+          Visit the 
+          <a
+            href="/help/get-started"
           >
-            <path
-              d="m7 10 5 5 5-5z"
-            />
-          </svg>
-        </span>
-      </button>
+            Help section
+          </a>
+           to learn how to connect devices to the Mender server.
+        </p>
+      </div>
     </div>
   </div>
-  <div
-    class="loaderContainer shrunk"
-  >
-    <div
-      class="  loader"
-    >
-      <span
-        class="dot dot_1"
-      />
-      <span
-        class="dot dot_2"
-      />
-      <span
-        class="dot dot_3"
-      />
-      <span
-        class="dot dot_4"
-      />
-    </div>
-  </div>
-  <div
-    class="padding-bottom"
-  >
-    <div
-      class="dashboard-placeholder"
-    >
-      <p>
-        No devices found
-      </p>
-      <p>
-        No devices have been authorized to connect to the Mender server yet.
-      </p>
-      <p>
-        Visit the 
-        <a
-          href="/help/get-started"
-        >
-          Help section
-        </a>
-         to learn how to connect devices to the Mender server.
-      </p>
-    </div>
-  </div>
-</div>
+</body>
 `;

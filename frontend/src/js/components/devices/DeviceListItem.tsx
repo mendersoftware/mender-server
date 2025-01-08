@@ -83,11 +83,11 @@ const areEqual = (prevProps, nextProps) => {
     prevProps.idAttribute.scope != nextProps.idAttribute.scope ||
     prevProps.selected != nextProps.selected ||
     !deepCompare(prevProps.columnHeaders, nextProps.columnHeaders) ||
-    !deepCompare(prevProps.device, nextProps.device)
+    !deepCompare(prevProps.listItem, nextProps.listItem)
   ) {
     return false;
   }
-  return deepCompare(prevProps.deviceListState, nextProps.deviceListState);
+  return deepCompare(prevProps.listState, nextProps.listState);
 };
 
 export default memo(DeviceListItem, areEqual);
