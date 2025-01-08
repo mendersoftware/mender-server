@@ -22,15 +22,17 @@ services:
 
   integration-tester:
     scale: 0
-    image: "${CI_REGISTRY_IMAGE:-localhost/backend-tester}:${CI_INTEGRATION_IMAGE_TAG:-integration}"
+    image: "${CI_REGISTRY_IMAGE:-localhost/backend-tester}:${CI_INTEGRATION_IMAGE_TAG:-integration_v2}"
     build:
       dockerfile: Dockerfile.integration
+    working_dir: /tests
     volumes:
         - ${MENDER_SERVER_PATH:-../../}/backend/tests/integration/docs:/docs
         - ${MENDER_SERVER_PATH:-../../}/backend/tests/integration/downloaded-tools/mender-artifact:/usr/local/bin/mender-artifact
-        - ${MENDER_SERVER_PATH:-../../}/backend/tests/integration/tests:/tests
+        - ${MENDER_SERVER_PATH:-../../}/backend/tests/integration:/tests
         - /var/run/docker.sock:/var/run/docker.sock
-    command: ${PYTEST_ARGS}
+    command:
+      - tests
     environment:
         PYTHONPATH: "/tests"
         PYTHONDONTWRITEBYTECODE: 1
@@ -51,3 +53,4 @@ services:
         GMAIL_ADDRESS: ${GMAIL_ADDRESS:-}
         GMAIL_PASSWORD: ${GMAIL_PASSWORD:-}
         K8S: ${K8S:-}
+        PYTEST_ADDOPTS: "${PYTEST_ADDOPTS:-}"

@@ -12,11 +12,11 @@ COMPOSE_FILES_OPEN=" \
         -f $MENDER_SERVER_PATH/backend/tests/docker-compose.yml \
         -f $MENDER_SERVER_PATH/backend/tests/integration/docker/docker-compose.backend-tests.yml \
         "
-COMPOSE_FILES_test_compat=" \
-        -f $MENDER_SERVER_PATH/backend/tests/integration/docker/docker-compose.backend-tests-compat.yml \
-        "
 COMPOSE_FILES_ENTERPRISE="${COMPOSE_FILES_OPEN} \
         -f $MENDER_SERVER_PATH/backend/tests/integration/docker/docker-compose.backend-tests-enterprise.yml \
+        "
+COMPOSE_FILES_COMPAT="${COMPOSE_FILES_OPEN} \
+        -f $MENDER_SERVER_PATH/backend/tests/integration/docker/docker-compose.backend-tests-compat.yml \
         "
 COMPOSE_FILE_STORAGE_AZURE="-f $MENDER_SERVER_PATH/backend/tests/integration/docker/docker-compose.storage.azblob.yml"
 
@@ -36,10 +36,10 @@ PYTEST_FILTER=""
 
 PYTEST_REPORT_OPEN="--self-contained-html \
         --junit-xml=tests/results_integration_open.xml \
-        --html=tests/report_integration_open.html"
+        --html=report_integration_open.html"
 PYTEST_REPORT_ENTERPRISE="--self-contained-html \
         --junit-xml=tests/results_integration_enterprise.xml \
-        --html=tests/report_integration_enterprise.html"
+        --html=report_integration_enterprise.html"
 PYTEST_REPORT=""
 
 PYTEST_ARGS=""
@@ -85,6 +85,9 @@ parse_args() {
                     open) ;;
                     enterprise)
                         TEST_SUITES=("enterprise")
+                        ;;
+                    compat)
+                        TEST_SUITES=("compat")
                         ;;
                     all)
                         TEST_SUITES=("open" "enterprise")
@@ -205,7 +208,7 @@ cleanup() {
     if [ -z $SKIP_CLEANUP ]; then
         compose_cmd down -v --remove-orphans
     else
-        # Remove stopped container created by docker-compose run
+        # Remove stopped container created by $docker_compose_cmd run
         compose_cmd rm -f
     fi
     if [ -n "$AZURE_STORAGE_CONTAINER_PREFIX" ]; then
@@ -230,6 +233,11 @@ for suite in "${TEST_SUITES[@]}"; do
     case "$suite" in
         open)
             COMPOSE_FILES="$COMPOSE_FILES_OPEN"
+            PYTEST_FILTER="$PYTEST_FILTER_OPEN"
+            PYTEST_REPORT="$PYTEST_REPORT_OPEN"
+            ;;
+        compat)
+            COMPOSE_FILES="$COMPOSE_FILES_COMPAT"
             PYTEST_FILTER="$PYTEST_FILTER_OPEN"
             PYTEST_REPORT="$PYTEST_REPORT_OPEN"
             ;;
@@ -276,28 +284,6 @@ for suite in "${TEST_SUITES[@]}"; do
         echo "-- tests failed, dumping logs to $tmppath"
         compose_cmd logs > "$tmppath" 2>&1
     fi
-
-    # it was KJ's idea to run tests in a separate session.
-    # for the rest I take the blame. see README.md for the
-    # explanation of how to run your tests separately
-    INITIAL_COMPOSE_FILES="${COMPOSE_FILES}"
-    while read -r; do
-        export PYTEST_TEST_TO_RUN="`basename "$REPLY"`"
-        test_name="${PYTEST_TEST_TO_RUN%%+*}"
-        eval COMPOSE_FILES=\"${INITIAL_COMPOSE_FILES} \${COMPOSE_FILES_$test_name}\"
-        export PYTEST_TEST_TO_RUN="`basename "$REPLY"`"
-        run_tests
-        run_tests_retcode=$?
-        if [ $script_failed -eq 0 ]; then
-            script_failed=$run_tests_retcode
-        fi
-
-        if [ $run_tests_retcode -ne 0 ]; then
-            tmppath=$(TMPDIR=./tests mktemp logs.XXXXXX)
-            echo "-- tests failed, dumping logs to $tmppath"
-            compose_cmd logs >> "$tmppath" 2>&1
-        fi
-    done < <(find "${MENDER_SERVER_PATH}/backend/tests/integration/tests" -name '*+separate.py')
 
     copy_test_reports_if_args $PYTEST_REPORT
 
