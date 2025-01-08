@@ -10,13 +10,18 @@ merge-to-enterprise:
       allow_failure: true
     - when: never
   image: "${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/alpine:${ALPINE_VERSION}"
+  variables:
+    GITHUB_REPOSITORY_ENTERPRISE: "mendersoftware/mender-server-enterprise"
+    GITHUB_REPOSITORY_OPEN_SOURCE: "mendersoftware/mender-server"
   before_script:
     - apk add git jq
-    - GIT_REMOTE="https://mender-test-bot:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/mender-test-bot/mender-server-enterprise"
+    - GIT_REMOTE="https://mender-test-bot:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/$GITHUB_REPOSITORY_ENTERPRISE"
+    - GITHUB_ORG="${GITHUB_REPOSITORY_ENTERPRISE%%/*}"
+    - PR_BRANCH="${GITHUB_REPOSITORY_OPEN_SOURCE##*/}/$CI_COMMIT_BRANCH"
   script:
     # Get author Github username
     - |
-      wget "https://api.github.com/repos/mendersoftware/mender-server/commits/$CI_COMMIT_SHA" \
+      wget "https://api.github.com/repos/$GITHUB_REPOSITORY_OPEN_SOURCE/commits/$CI_COMMIT_SHA" \
         --header "Authorization: Bearer $GITHUB_BOT_TOKEN_REPO_FULL" \
         --header "Accept: application/vnd.github+json" \
         --header "X-GitHub-Api-Version: 2022-11-28" \
@@ -25,7 +30,7 @@ merge-to-enterprise:
     - GITHUB_USER=$(jq -r .author.login commit.json)
     # Fetch existing PR (if any)
     - |
-      wget "https://api.github.com/repos/mendersoftware/mender-server-enterprise/pulls?head=mender-test-bot:$CI_COMMIT_BRANCH&state=open" \
+      wget "https://api.github.com/repos/$GITHUB_REPOSITORY_ENTERPRISE/pulls?head=$GITHUB_ORG:$PR_BRANCH&state=open" \
         --header "Authorization: Bearer $GITHUB_BOT_TOKEN_REPO_FULL" \
         --header "Accept: application/vnd.github+json" \
         --header "X-GitHub-Api-Version: 2022-11-28" \
@@ -34,37 +39,37 @@ merge-to-enterprise:
     - |
       cat > pr_request_body.json << EOF
       {
-        "title": "Merge branch mender-server/$CI_COMMIT_BRANCH to enterprise",
+        "title": "Merge branch $PR_BRANCH to enterprise",
         "base": "$CI_COMMIT_BRANCH",
-        "head": "mender-test-bot:$CI_COMMIT_BRANCH",
+        "head": "$GITHUB_ORG:$PR_BRANCH",
         "maintainer_can_modify": true
       }
       EOF
     - |
       if test -z "$(jq -r .number pull.json)"; then
         # Pull request does not exist: Forcefully fast-forward fork branch and create one
-        git push -f "$GIT_REMOTE" "$CI_COMMIT_SHA:$CI_COMMIT_BRANCH"
+        git push -f "$GIT_REMOTE" "$CI_COMMIT_SHA:refs/heads/$PR_BRANCH"
         wget --post-file pr_request_body.json \
           --header "Authorization: Bearer $GITHUB_BOT_TOKEN_REPO_FULL" \
           --header "Accept: application/vnd.github+json" \
           --header "Content-Type: application/json" \
           --header "X-GitHub-Api-Version: 2022-11-28" \
           -O pull.json \
-          "https://api.github.com/repos/mendersoftware/mender-server-enterprise/pulls"
+          "https://api.github.com/repos/$GITHUB_REPOSITORY_ENTERPRISE/pulls"
       else
         echo "Pull request exists: $(jq -r .url pull.json)"
         echo "Attempting to fast-forward"
       fi
     - PULL_NUMBER=$(jq -r .number pull.json)
     - |
-      if ! git push "$GIT_REMOTE" "$CI_COMMIT_SHA:$CI_COMMIT_BRANCH"; then
+      if ! git push "$GIT_REMOTE" "$CI_COMMIT_SHA:refs/heads/$PR_BRANCH"; then
         # Could not fast-forward PR, notify the author in the existing PR
         wget --post-data "{\"body\": \"Tried to submit commits from @$GITHUB_USER, but this PR has commits ahead of $CI_COMMIT_BRANCH\"}" \
           --header "Authorization: Bearer $GITHUB_BOT_TOKEN_REPO_FULL" \
           --header "Accept: application/vnd.github+json" \
           --header "Content-Type: application/json" \
           --header "X-GitHub-Api-Version: 2022-11-28" \
-          "https://api.github.com/repos/mendersoftware/mender-server-enterprise/issues/$PULL_NUMBER/comments"
+          "https://api.github.com/repos/$GITHUB_REPOSITORY_ENTERPRISE/issues/$PULL_NUMBER/comments"
         exit 0;
       fi
     # Add author as a reviewer
@@ -74,4 +79,4 @@ merge-to-enterprise:
         --header "Accept: application/vnd.github+json" \
         --header "Content-Type: application/json" \
         --header "X-GitHub-Api-Version: 2022-11-28" \
-        "https://api.github.com/repos/mendersoftware/mender-server-enterprise/pulls/$PULL_NUMBER/requested_reviewers"
+        "https://api.github.com/repos/$GITHUB_REPOSITORY_ENTERPRISE/pulls/$PULL_NUMBER/requested_reviewers"
