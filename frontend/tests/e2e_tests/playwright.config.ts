@@ -68,11 +68,11 @@ const options: PlaywrightTestConfig = {
   use: {
     ...contextArgs,
     contextOptions: contextArgs,
-    screenshot: 'only-on-failure',
-    video: process.env.CI_COMMIT_REF_PROTECTED ? 'on' : 'retain-on-failure',
     // headless: false,
     launchOptions,
-    trace: process.env.BROWSER == 'webkit' ? 'retain-on-failure' : 'off'
+    screenshot: 'only-on-failure',
+    trace: process.env.BROWSER == 'webkit' ? 'retain-on-failure' : 'off',
+    video: process.env.CI_COMMIT_REF_PROTECTED ? 'on' : 'retain-on-failure'
   }
 };
 
