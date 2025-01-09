@@ -92,7 +92,7 @@ const shortenFileName = name => {
 
 const singleFileLimit = 512 * 1024 ** 2; //512MiB
 const menderFileLimit = 10 * 1024 ** 3; //10GiB
-const reFilename = new RegExp(/^[a-z0-9.,_-]+$/i);
+const reFilename = new RegExp(/^[\w\-.,]+$/);
 
 const isMenderArtifact = (name: string): boolean => name.endsWith('.mender');
 
