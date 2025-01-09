@@ -12,12 +12,12 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 // material ui
 import { Clear as ClearIcon, DragHandle as DragHandleIcon } from '@mui/icons-material';
 import { DialogContent, FormControl, IconButton, ListItem } from '@mui/material';
 
+import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd';
 import { ATTRIBUTE_SCOPES } from '@northern.tech/store/constants';
 
 import AttributeAutoComplete, { getOptionLabel } from '../widgets/AttributeAutocomplete';
@@ -117,16 +117,14 @@ const Content = ({ attributes, columnHeaders, idAttribute, selectedAttributes, s
       <p>You can select columns of inventory data to display in the device list table. Drag to change the order.</p>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable-list" direction="vertical">
-          {provided => {
-            return (
-              <div ref={provided.innerRef} {...provided.droppableProps} {...props}>
-                {selectedAttributes.map((item, index) => (
-                  <DraggableListItem item={item} index={index} key={item.key} onRemove={onRemove} />
-                ))}
-                {provided.placeholder}
-              </div>
-            );
-          }}
+          {provided => (
+            <div ref={provided.innerRef} {...provided.droppableProps} {...props}>
+              {selectedAttributes.map((item, index) => (
+                <DraggableListItem item={item} index={index} key={item.key} onRemove={onRemove} />
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
         </Droppable>
       </DragDropContext>
       <FormControl>
