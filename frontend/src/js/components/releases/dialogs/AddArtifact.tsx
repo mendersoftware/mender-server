@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import Dropzone from 'react-dropzone';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -19,6 +19,7 @@ import { CloudUpload } from '@mui/icons-material';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { InputErrorNotification } from '@northern.tech/common-ui/InputErrorNotification';
 import storeActions from '@northern.tech/store/actions';
 import { getDeviceTypes } from '@northern.tech/store/selectors';
 import { createArtifact, uploadArtifact } from '@northern.tech/store/thunks';
@@ -31,7 +32,29 @@ import ArtifactUploadConfirmation from './ArtifactUpload';
 
 const { setSnackbar } = storeActions;
 
-const reFilename = new RegExp(/^[a-z0-9.,_-]+$/i);
+type SupportedUploadTypes = 'mender' | 'singleFile';
+
+type Update = {
+  customDeviceTypes?: string;
+  destination?: string;
+  file?: File;
+  fileSystem?: string;
+  finalStep: boolean;
+  isValid: boolean;
+  isValidDestination?: boolean;
+  name: string;
+  selectedDeviceTypes?: string[];
+  softwareName?: string;
+  softwareVersion?: string;
+  type: SupportedUploadTypes;
+};
+
+type UploadType = {
+  key: SupportedUploadTypes;
+  component: ReactNode;
+};
+
+type UploadTypes = Record<string, UploadType>;
 
 const useStyles = makeStyles()(theme => ({
   dropzone: { ['&.dropzone']: { padding: theme.spacing(4) } },
@@ -46,7 +69,7 @@ const useStyles = makeStyles()(theme => ({
   fileSizeWrapper: { marginTop: 5 }
 }));
 
-const uploadTypes = {
+const uploadTypes: UploadTypes = {
   mender: {
     key: 'mender',
     component: ArtifactUploadConfirmation
@@ -67,29 +90,48 @@ const shortenFileName = name => {
   return name;
 };
 
-export const ArtifactUpload = ({ setSnackbar, updateCreation }) => {
+const singleFileLimit = 512 * 1024 ** 2; //512MiB
+const menderFileLimit = 10 * 1024 ** 3; //10GiB
+const reFilename = new RegExp(/^[a-z0-9.,_-]+$/i);
+
+const isMenderArtifact = (name: string): boolean => name.endsWith('.mender');
+
+const validateFile = ({ name, size }: File): string => {
+  if (!reFilename.test(name)) {
+    return 'Only letters, digits and characters in the set ".,_-" are allowed in the filename.';
+  } else if (isMenderArtifact(name) && size > menderFileLimit) {
+    return 'Only artifacts smaller than 10GiB are supported.';
+  } else if (!isMenderArtifact(name) && size > singleFileLimit) {
+    return 'Artifact generation is only supported for files smaller than 512MiB.';
+  }
+  return '';
+};
+
+export const ArtifactUpload = ({ updateCreation }: { updateCreation: (some: Partial<Update>) => void }) => {
   const onboardingAnchor = useRef();
   const { classes } = useStyles();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const size = useWindowSize();
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const onDrop = acceptedFiles => {
     const emptyFileInfo = { file: undefined, name: '', type: uploadTypes.mender.key };
     if (acceptedFiles.length === 1) {
-      if (!reFilename.test(acceptedFiles[0].name)) {
+      const validationError = validateFile(acceptedFiles[0]);
+      if (validationError) {
         updateCreation(emptyFileInfo);
-        setSnackbar('Only letters, digits and characters in the set ".,_-" are allowed in the filename.', null);
+        setErrorMessage(validationError);
       } else {
         const { name } = acceptedFiles[0];
         updateCreation({
           file: acceptedFiles[0],
           name: shortenFileName(name),
-          type: name.endsWith('.mender') ? uploadTypes.mender.key : uploadTypes.singleFile.key
+          type: isMenderArtifact(name) ? uploadTypes.mender.key : uploadTypes.singleFile.key
         });
       }
     } else {
       updateCreation(emptyFileInfo);
-      setSnackbar('The selected file is not supported.', null);
+      setErrorMessage('The selected file is not supported.');
     }
   };
 
@@ -111,13 +153,14 @@ export const ArtifactUpload = ({ setSnackbar, updateCreation }) => {
           </div>
         )}
       </Dropzone>
+      <InputErrorNotification className="flexbox centered" content={errorMessage} />
     </>
   );
 };
 
 export const AddArtifactDialog = ({ onCancel, onUploadStarted, releases, selectedFile }) => {
   const [activeStep, setActiveStep] = useState(0);
-  const [creation, setCreation] = useState({
+  const [creation, setCreation] = useState<Update>({
     customDeviceTypes: '',
     destination: '',
     file: undefined,
@@ -190,7 +233,7 @@ export const AddArtifactDialog = ({ onCancel, onUploadStarted, releases, selecte
       <DialogTitle>Upload an Artifact</DialogTitle>
       <DialogContent className="dialog-content margin-top margin-left margin-right margin-bottom">
         {!file ? (
-          <ArtifactUpload {...commonProps} />
+          <ArtifactUpload updateCreation={onUpdateCreation} />
         ) : (
           <ComponentToShow {...commonProps} activeStep={activeStep} creation={creation} deviceTypes={deviceTypes} onRemove={onRemove} />
         )}
