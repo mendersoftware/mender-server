@@ -17,7 +17,7 @@ import { TIMEOUTS } from '@northern.tech/store/commonConstants';
 
 export const InputErrorNotification = ({ className, content }: { className: string; content: string }) => {
   const [isVisible, setIsVisible] = useState(false);
-  const timer = useRef<NodeJS.Timeout | undefined>();
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>();
 
   useEffect(() => {
     if (!content) {
