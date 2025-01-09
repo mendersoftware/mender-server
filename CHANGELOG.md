@@ -1,4 +1,43 @@
 ---
+## 4.0.0-rc.7 - 2025-01-09
+
+
+### Bug Fixes
+
+
+- *(gui)* Fixed an issue that would prevent showing deployment reports for phased deployments
+ ([132d6b2](https://github.com/mendersoftware/mender-server/commit/132d6b2aa932924c6612a8ca39867f246b388a88))  by @mzedel
+
+- *(gui)* Fixed an issue that would prevent upgrading a running session to a different plan
+([MEN-7898](https://northerntech.atlassian.net/browse/MEN-7898)) ([7668b29](https://github.com/mendersoftware/mender-server/commit/7668b293bc71d4eaffda0c00823cac5026dfbf4c))  by @mzedel
+
+- *(gui)* Fixed an issue that would crash the site when showing release details with multiple artifacts
+ ([fd06f66](https://github.com/mendersoftware/mender-server/commit/fd06f66516e4f33e52c9f305fb058594eecf714f))  by @mzedel
+
+- *(gui)* Made addon availability rely more on addons where possible to prevent erroneous device config retrieval
+([MEN-7895](https://northerntech.atlassian.net/browse/MEN-7895)) ([62d6516](https://github.com/mendersoftware/mender-server/commit/62d6516b848b35e493db8be9908abaf7e573e008))  by @mzedel
+
+- Implement signal handler for `server` commands
+([QA-782](https://northerntech.atlassian.net/browse/QA-782)) ([6e17ada](https://github.com/mendersoftware/mender-server/commit/6e17adaaffa6778dc021353248d83b08cf645182))  by @bahaa-ghazal
+
+
+
+
+### Features
+
+
+- *(gui)* Aligned notions of "latest device activity" in listing & details
+ ([40ee57d](https://github.com/mendersoftware/mender-server/commit/40ee57da173c1d5bc2a39b2a5534b62dc986f53c))  by @mzedel
+
+- *(gui)* Limited onboarding to hosted Mender to ensure a streamlined experience
+([MEN-7896](https://northerntech.atlassian.net/browse/MEN-7896)) ([cee60f8](https://github.com/mendersoftware/mender-server/commit/cee60f8de9eb5b6940828f5e09e11dbd4e2d4059))  by @mzedel
+
+
+
+
+
+
+
 
 ## 4.0.0-rc.5 - 2024-12-24
 
