@@ -69,7 +69,7 @@ const options: PlaywrightTestConfig = {
     ...contextArgs,
     contextOptions: contextArgs,
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    video: process.env.CI_COMMIT_REF_PROTECTED ? 'on' : 'retain-on-failure',
     // headless: false,
     launchOptions
   }
