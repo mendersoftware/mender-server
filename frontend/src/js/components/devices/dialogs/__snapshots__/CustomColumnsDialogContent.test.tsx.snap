@@ -704,13 +704,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
     You can select columns of inventory data to display in the device list table. Drag to change the order.
   </p>
   <div
-    data-rbd-droppable-context-id="0"
-    data-rbd-droppable-id="droppable-list"
+    data-rfd-droppable-context-id=":r0:"
+    data-rfd-droppable-id="droppable-list"
   >
     <li
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding flexbox space-between margin-right-large emotion-1"
-      data-rbd-draggable-context-id="0"
-      data-rbd-draggable-id="name"
+      data-rfd-draggable-context-id=":r0:"
+      data-rfd-draggable-id="name"
     >
       <div>
         Name
@@ -720,10 +720,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
         style="width: 80px;"
       >
         <div
-          aria-describedby="rbd-hidden-text-0-hidden-text-0"
+          aria-describedby="rfd-hidden-text-:r0:-hidden-text-:r1:"
           class="flexbox centered"
-          data-rbd-drag-handle-context-id="0"
-          data-rbd-drag-handle-draggable-id="name"
+          data-rfd-drag-handle-context-id=":r0:"
+          data-rfd-drag-handle-draggable-id="name"
           draggable="false"
           role="button"
           tabindex="0"
@@ -761,8 +761,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
     </li>
     <li
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding flexbox space-between margin-right-large emotion-1"
-      data-rbd-draggable-context-id="0"
-      data-rbd-draggable-id="id"
+      data-rfd-draggable-context-id=":r0:"
+      data-rfd-draggable-id="id"
     >
       <div>
         Device ID
@@ -772,10 +772,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
         style="width: 80px;"
       >
         <div
-          aria-describedby="rbd-hidden-text-0-hidden-text-0"
+          aria-describedby="rfd-hidden-text-:r0:-hidden-text-:r1:"
           class="flexbox centered"
-          data-rbd-drag-handle-context-id="0"
-          data-rbd-drag-handle-draggable-id="id"
+          data-rfd-drag-handle-context-id=":r0:"
+          data-rfd-drag-handle-draggable-id="id"
           draggable="false"
           role="button"
           tabindex="0"
