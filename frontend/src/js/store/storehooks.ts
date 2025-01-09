@@ -94,7 +94,6 @@ export const parseEnvironmentInfo = () => (dispatch, getState) => {
       metaMenderVersion,
       services = {}
     } = mender_environment;
-    onboardingComplete = stringToBoolean(features.isEnterprise) || stringToBoolean(disableOnboarding) || onboardingComplete;
     demoArtifactPort = port || demoArtifactPort;
     environmentData = environmentDatas.reduce((accu, flag) => ({ ...accu, [flag]: mender_environment[flag] || state.app[flag] }), {});
     environmentFeatures = {
@@ -102,6 +101,7 @@ export const parseEnvironmentInfo = () => (dispatch, getState) => {
       isHosted: features.isHosted || window.location.hostname.includes('hosted.mender.io'),
       isDemoMode: stringToBoolean(isDemoMode || features.isDemoMode)
     };
+    onboardingComplete = !stringToBoolean(features.isHosted) || stringToBoolean(disableOnboarding) || onboardingComplete;
     versionInfo = {
       docs: isNaN(integrationVersion.charAt(0)) ? '' : integrationVersion.split('.').slice(0, 2).join('.'),
       remainder: {
