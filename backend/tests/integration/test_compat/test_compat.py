@@ -40,7 +40,7 @@ def user(clean_mongo):
 
 class TestClientCompat:
     def test_compat(self, user):
-        expected_client_versions = [
+        expected_client_versions = {
             "3.5.3",
             "4.0.6",
             "3.0.2",
@@ -56,7 +56,7 @@ class TestClientCompat:
             "2.2.1",
             "2.1.3",
             "3.3.2",
-        ]
+        }
         max_tries = 512
         devauthm = ApiClient(deviceauth.URL_MGMT)
         uadm = ApiClient(useradm.URL_MGMT)
@@ -111,7 +111,7 @@ class TestClientCompat:
         assert len(accepted) == len(expected_client_versions)
 
         invm = ApiClient(inventory.URL_MGMT)
-        seen_versions = {}
+        seen_versions = set()
         device_id_to_mender_version = {}
         devices_ids = []
         for i in range(len(accepted)):
@@ -134,13 +134,15 @@ class TestClientCompat:
                 j = j - 1
                 time.sleep(1)
             mender_client_version = mender_client_version_attributes[0]["value"]
-            seen_versions[mender_client_version] = True
+            seen_versions.add(mender_client_version)
             device_id_to_mender_version[device["id"]] = mender_client_version
             devices_ids.append(device["id"])
 
-        artifact_file = "tests/data/date.mender"
-        for i in range(len(expected_client_versions)):
-            assert seen_versions[expected_client_versions[i]]
+        artifact_file = "/tests/data/date.mender"
+        missing_versions = expected_client_versions.difference(seen_versions)
+        assert (
+            not missing_versions
+        ), f"did not observe the following expected versions: {missing_versions}; versions seen: {seen_versions}"
 
         rsp = deploymentsm.with_auth(utoken).call(
             "POST",
