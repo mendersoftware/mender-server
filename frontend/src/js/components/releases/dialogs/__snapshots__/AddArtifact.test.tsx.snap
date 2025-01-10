@@ -346,6 +346,9 @@ exports[`AddArtifact Component renders correctly 1`] = `
              to upload
           </div>
         </div>
+        <p
+          class="warning fadeOut flexbox centered"
+        />
       </div>
       <div
         class="MuiDialogActions-root MuiDialogActions-spacing emotion-8"

@@ -27,7 +27,7 @@ const useStyles = makeStyles()(() => ({
 export const CopyTextToClipboard = ({ onCopy = yes, token }) => {
   const [copied, setCopied] = useState(false);
   const { classes } = useStyles();
-  const timer = useRef<NodeJS.Timeout | undefined>();
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>();
 
   useEffect(() => {
     return () => clearTimeout(timer.current);
