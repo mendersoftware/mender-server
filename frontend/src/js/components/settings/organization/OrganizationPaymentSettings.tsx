@@ -11,78 +11,64 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 // material ui
-import { Error as ErrorIcon } from '@mui/icons-material';
+import { Button } from '@mui/material';
 
-import { getOrganization } from '@northern.tech/store/selectors';
+import { getCard, getOrganization } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { confirmCardUpdate, getCurrentCard, startCardUpdate } from '@northern.tech/store/thunks';
 
 import CardSection from '../CardSection';
-import OrganizationSettingsItem from './OrganizationSettingsItem';
+import { CardDetails } from './Billing';
 
-export const OrganizationPaymentSettings = () => {
-  const [isUpdatingPaymentDetails, setIsUpdatingPaymentDetails] = useState(false);
-  const card = useSelector(state => state.organization.card);
-  const hasUnpaid = useSelector(state => state.organization.billing);
-  const dispatch = useDispatch();
+interface OrganizationPaymentSettingsProps {
+  onComplete?: () => void;
+  isValid: boolean;
+  updatingCard: boolean;
+  setUpdatingCard: (updatingCard: boolean) => void;
+}
+export const OrganizationPaymentSettings = (props: OrganizationPaymentSettingsProps) => {
+  const { onComplete, isValid, updatingCard, setUpdatingCard } = props;
+  const card = useSelector(getCard);
   const organization = useSelector(getOrganization);
-
-  useEffect(() => {
-    dispatch(getCurrentCard());
-  }, [dispatch]);
+  const dispatch = useAppDispatch();
 
   const onCardConfirm = async () => {
     await dispatch(confirmCardUpdate());
     dispatch(getCurrentCard());
-    setIsUpdatingPaymentDetails(false);
+    setUpdatingCard(false);
+    if (onComplete) {
+      onComplete();
+    }
   };
 
-  const { last4, expiration, brand } = card;
   return (
-    <OrganizationSettingsItem
-      title="Payment card"
-      content={{
-        action: { title: `${last4 ? 'Update' : 'Enter'} payment card`, internal: true, action: () => setIsUpdatingPaymentDetails(true) },
-        description: last4 ? (
-          <div>
-            <div>
-              {brand} ending in {last4}
-            </div>
-            <div>
-              Expires {`0${expiration.month}`.slice(-2)}/{`${expiration.year}`.slice(-2)}
-            </div>
-          </div>
-        ) : (
-          <div>
-            The introduction of the PSD2 regulation in Europe requires re-entering your card details before we can allow the modification of payment details or
-            access to the payment history.
-          </div>
-        )
-      }}
-      secondary={
-        isUpdatingPaymentDetails && (
+    <div className="flexbox margin-top">
+      <div className="margin-top" />
+      <div className="flexbox column">
+        <div className="flexbox">
+          <h5 className="margin-top-small margin-bottom-x-small margin-right-x-small">{updatingCard ? 'Edit payment card' : 'Payment card'}</h5>
+          <Button className="align-self-start" onClick={() => setUpdatingCard(!updatingCard)}>
+            {updatingCard ? 'cancel' : 'edit'}
+          </Button>
+        </div>
+        {updatingCard ? (
           <CardSection
             isSignUp={false}
             organization={organization}
-            onClose={() => setIsUpdatingPaymentDetails(false)}
+            onClose={() => setUpdatingCard(false)}
             onCardConfirmed={onCardConfirm}
+            isValid={isValid}
             onSubmit={() => dispatch(startCardUpdate()).unwrap()}
             beforeCardSubmit={() => dispatch(startCardUpdate()).unwrap()}
           />
-        )
-      }
-      notification={
-        hasUnpaid && (
-          <div className="red flexbox centered">
-            <ErrorIcon fontSize="small" />
-            <span className="margin-left-small">You have an unpaid invoice. Please check your payment card details</span>
-          </div>
-        )
-      }
-    />
+        ) : (
+          <CardDetails card={card} />
+        )}
+      </div>
+    </div>
   );
 };
 
