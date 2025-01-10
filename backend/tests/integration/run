@@ -42,7 +42,7 @@ PYTEST_REPORT_ENTERPRISE="--self-contained-html \
         --html=report_integration_enterprise.html"
 PYTEST_REPORT=""
 
-PYTEST_ARGS=""
+PYTEST_ADDOPTS=""
 
 DOCS="$MENDER_SERVER_PATH/backend/tests/integration/docs"
 TOOLS="$MENDER_SERVER_PATH/backend/tests/integration/downloaded-tools"
@@ -110,11 +110,11 @@ parse_args() {
                 ;;
             --)
                 shift 1
-                USER_PYTEST_ARGS="$USER_PYTEST_ARGS $@"
+                USER_PYTEST_ADDOPTS="$USER_PYTEST_ADDOPTS $@"
                 return 0
                 ;;
             *)
-                USER_PYTEST_ARGS="$USER_PYTEST_ARGS $1"
+                USER_PYTEST_ADDOPTS="$USER_PYTEST_ADDOPTS $1"
                 ;;
         esac
         shift 1
@@ -187,21 +187,21 @@ copy_test_reports_if_args() {
 
 prepare_pytest_args() {
     filter="none"
-    for val in $USER_PYTEST_ARGS; do
+    for val in $USER_PYTEST_ADDOPTS; do
         if [ "$val" == "-k" ]; then
             filter="next"
         elif [ "$filter" == "next" ]; then
             PYTEST_FILTER="$PYTEST_FILTER and $val"
             filter="done"
         else
-            PYTEST_ARGS="$PYTEST_ARGS $val"
+            PYTEST_ADDOPTS="$PYTEST_ADDOPTS $val"
         fi
     done
 
     echo "-- using PYTEST_FILTER=$PYTEST_FILTER"
-    PYTEST_ARGS="$PYTEST_ARGS -k '$PYTEST_FILTER' $PYTEST_REPORT"
+    PYTEST_ADDOPTS="$PYTEST_ADDOPTS -k '$PYTEST_FILTER' $PYTEST_REPORT"
 
-    export PYTEST_ARGS
+    export PYTEST_ADDOPTS
 }
 
 cleanup() {
@@ -269,7 +269,7 @@ for suite in "${TEST_SUITES[@]}"; do
     elif [ -n "$AZURE_STORAGE_CONTAINER_NAME" ]; then
         COMPOSE_FILES="${COMPOSE_FILES} ${COMPOSE_FILE_STORAGE_AZURE}"
         COMPOSE_UP_EXTRA_ARGS="${COMPOSE_UP_EXTRA_ARGS} --scale minio=0"
-        PYTEST_ARGS="$PYTEST_ARGS -m storage_test"
+        PYTEST_ADDOPTS="$PYTEST_ADDOPTS -m storage_test"
     fi
 
     prepare_pytest_args
