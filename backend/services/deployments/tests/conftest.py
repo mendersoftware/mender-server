@@ -14,6 +14,7 @@
 #    limitations under the License.
 import logging
 import os
+import socket
 
 from config import init
 
@@ -21,6 +22,9 @@ from config import init
 def pytest_addoption(parser):
     parser.addoption(
         "--host", action="store", default="localhost", help="host running API"
+    )
+    parser.addoption(
+        "--http-mock-host", default=socket.gethostname(), help="host name of http mock"
     )
     parser.addoption(
         "--inventory-host",
