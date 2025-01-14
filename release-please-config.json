@@ -9,8 +9,8 @@
     }
   },
   "release-type": "simple",
-  "versioning": "prerelease",
-  "prerelease": true,
+  "versioning": "default",
+  "prerelease": false,
   "prerelease-type": "rc",
   "include-component-in-tag": false,
   "include-v-in-tag": true,
