@@ -154,7 +154,7 @@ class DockerComposeBaseNamespace(DockerNamespace):
         """
         files_args = "".join([" -f %s" % file for file in self.docker_compose_files])
 
-        cmd = "docker-compose -p %s %s %s" % (self.name, files_args, arg_list)
+        cmd = "docker compose -p %s %s %s" % (self.name, files_args, arg_list)
 
         logger.info("running with: %s" % cmd)
 
