@@ -53,6 +53,8 @@ exports[`EmailVerification Component renders correctly 1`] = `
   --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #337a87;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 2px;
   font-size: 14px;
   font-weight: bold;
@@ -116,6 +118,10 @@ exports[`EmailVerification Component renders correctly 1`] = `
   }
 }
 
+.emotion-0.MuiButton-loading {
+  color: transparent;
+}
+
 .emotion-0:hover {
   colors: #337a87;
 }
@@ -136,6 +142,7 @@ exports[`EmailVerification Component renders correctly 1`] = `
     >
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-0"
+        id=":r0:"
         style="margin-top: 20px; margin-right: 30px;"
         tabindex="0"
         type="button"

@@ -203,6 +203,8 @@ exports[`LogDialog Component renders correctly 1`] = `
   --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #337a87;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 2px;
   font-size: 14px;
   font-weight: bold;
@@ -241,6 +243,10 @@ exports[`LogDialog Component renders correctly 1`] = `
     --variant-outlinedBorder: #337a87;
     --variant-outlinedBg: rgba(51, 122, 135, 0.04);
   }
+}
+
+.emotion-8.MuiButton-loading {
+  color: transparent;
 }
 
 .emotion-8:hover {
@@ -303,6 +309,8 @@ exports[`LogDialog Component renders correctly 1`] = `
   --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #337a87;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 2px;
   font-size: 14px;
   font-weight: bold;
@@ -366,6 +374,10 @@ exports[`LogDialog Component renders correctly 1`] = `
   }
 }
 
+.emotion-10.MuiButton-loading {
+  color: transparent;
+}
+
 .emotion-10:hover {
   colors: #337a87;
 }
@@ -426,6 +438,7 @@ exports[`LogDialog Component renders correctly 1`] = `
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-8"
+            id=":r1:"
             tabindex="0"
             type="button"
           >
@@ -434,6 +447,7 @@ exports[`LogDialog Component renders correctly 1`] = `
         </div>
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-8"
+          id=":r2:"
           style="margin-right: 10px; display: inline-block;"
           tabindex="0"
           type="button"
@@ -442,6 +456,7 @@ exports[`LogDialog Component renders correctly 1`] = `
         </button>
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-10"
+          id=":r3:"
           tabindex="0"
           type="button"
         >

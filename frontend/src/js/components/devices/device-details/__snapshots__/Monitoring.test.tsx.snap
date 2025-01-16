@@ -141,10 +141,9 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
           Rows
         </p>
         <div
-          class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiTablePagination-input css-11kq5w2-MuiInputBase-root-MuiTablePagination-select"
+          class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiSelect-root MuiTablePagination-input css-11kq5w2-MuiInputBase-root-MuiTablePagination-select"
         >
           <div
-            aria-controls=":r3:"
             aria-expanded="false"
             aria-haspopup="listbox"
             aria-labelledby=":r2: :r1:"
@@ -185,10 +184,14 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
             21-40 of 9001
           </div>
           <button
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-jk231o-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
+            id=":r4:"
             tabindex="0"
             type="button"
           >
+            <span
+              class="MuiIconButton-loadingIndicator css-165vu30-MuiIconButton-loadingIndicator"
+            />
             <svg
               aria-hidden="true"
               class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1j3vvli-MuiSvgIcon-root"
@@ -203,10 +206,14 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
           </button>
           <div>
             <button
-              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-jk231o-MuiButtonBase-root-MuiIconButton-root"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
+              id=":r5:"
               tabindex="0"
               type="button"
             >
+              <span
+                class="MuiIconButton-loadingIndicator css-165vu30-MuiIconButton-loadingIndicator"
+              />
               <svg
                 aria-hidden="true"
                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1j3vvli-MuiSvgIcon-root"

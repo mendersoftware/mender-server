@@ -531,6 +531,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #337a87;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 2px;
   font-size: 14px;
   font-weight: bold;
@@ -569,6 +571,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
     --variant-outlinedBorder: #337a87;
     --variant-outlinedBg: rgba(51, 122, 135, 0.04);
   }
+}
+
+.emotion-16.MuiButton-loading {
+  color: transparent;
 }
 
 .emotion-16:hover {
@@ -631,6 +637,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #337a87;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 2px;
   font-size: 14px;
   font-weight: bold;
@@ -694,6 +702,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   }
 }
 
+.emotion-17.MuiButton-loading {
+  color: transparent;
+}
+
 .emotion-17:hover {
   colors: #337a87;
 }
@@ -754,6 +766,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   --variant-outlinedBorder: rgba(93, 15, 67, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #5d0f43;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 2px;
   font-size: 14px;
   font-weight: bold;
@@ -815,6 +829,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
     --variant-outlinedBorder: #5d0f43;
     --variant-outlinedBg: rgba(93, 15, 67, 0.04);
   }
+}
+
+.emotion-18.MuiButton-loading {
+  color: transparent;
 }
 
 .emotion-18:hover {
@@ -987,6 +1005,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
       >
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-16"
+          id=":r1:"
           tabindex="0"
           type="button"
         >
@@ -995,6 +1014,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-17"
           disabled=""
+          id=":r2:"
           style="margin-left: 10px;"
           tabindex="-1"
           type="button"
@@ -1004,6 +1024,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-18"
           disabled=""
+          id=":r3:"
           style="margin-left: 10px;"
           tabindex="-1"
           type="button"

@@ -534,6 +534,23 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-17:focus::-ms-input-
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-21.MuiIconButton-loading {
+  color: transparent;
+}
+
+.emotion-22 {
+  display: none;
+  position: absolute;
+  visibility: visible;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  color: rgba(0, 0, 0, 0.26);
+}
+
 <div>
   <div
     class="deviceList selectable"
@@ -735,10 +752,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-17:focus::-ms-input-
             Rows
           </p>
           <div
-            class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiTablePagination-input emotion-16"
+            class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiSelect-root MuiTablePagination-input emotion-16"
           >
             <div
-              aria-controls=":r2:"
               aria-expanded="false"
               aria-haspopup="listbox"
               aria-labelledby=":r1: :r0:"
@@ -781,9 +797,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-17:focus::-ms-input-
             <button
               class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge emotion-21"
               disabled=""
+              id=":r3:"
               tabindex="-1"
               type="button"
             >
+              <span
+                class="MuiIconButton-loadingIndicator emotion-22"
+              />
               <svg
                 aria-hidden="true"
                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-3"
@@ -800,9 +820,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-17:focus::-ms-input-
               <button
                 class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge emotion-21"
                 disabled=""
+                id=":r4:"
                 tabindex="-1"
                 type="button"
               >
+                <span
+                  class="MuiIconButton-loadingIndicator emotion-22"
+                />
                 <svg
                   aria-hidden="true"
                   class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-3"

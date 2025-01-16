@@ -92,10 +92,9 @@ exports[`DeviceList Component renders correctly 1`] = `
             Rows
           </p>
           <div
-            class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiTablePagination-input css-11kq5w2-MuiInputBase-root-MuiTablePagination-select"
+            class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiSelect-root MuiTablePagination-input css-11kq5w2-MuiInputBase-root-MuiTablePagination-select"
           >
             <div
-              aria-controls=":r2:"
               aria-expanded="false"
               aria-haspopup="listbox"
               aria-labelledby=":r1: :r0:"
@@ -136,11 +135,15 @@ exports[`DeviceList Component renders correctly 1`] = `
               1-20 of 50
             </div>
             <button
-              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-jk231o-MuiButtonBase-root-MuiIconButton-root"
+              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
               disabled=""
+              id=":r3:"
               tabindex="-1"
               type="button"
             >
+              <span
+                class="MuiIconButton-loadingIndicator css-165vu30-MuiIconButton-loadingIndicator"
+              />
               <svg
                 aria-hidden="true"
                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1j3vvli-MuiSvgIcon-root"
@@ -155,10 +158,14 @@ exports[`DeviceList Component renders correctly 1`] = `
             </button>
             <div>
               <button
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-jk231o-MuiButtonBase-root-MuiIconButton-root"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
+                id=":r4:"
                 tabindex="0"
                 type="button"
               >
+                <span
+                  class="MuiIconButton-loadingIndicator css-165vu30-MuiIconButton-loadingIndicator"
+                />
                 <svg
                   aria-hidden="true"
                   class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1j3vvli-MuiSvgIcon-root"

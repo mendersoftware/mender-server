@@ -333,6 +333,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #337a87;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 2px;
   font-size: 14px;
   font-weight: bold;
@@ -372,6 +374,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
     --variant-outlinedBorder: #337a87;
     --variant-outlinedBg: rgba(51, 122, 135, 0.04);
   }
+}
+
+.emotion-7.MuiButton-loading {
+  color: transparent;
 }
 
 .emotion-7:hover {
@@ -434,6 +440,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #337a87;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 2px;
   font-size: 14px;
   font-weight: bold;
@@ -472,6 +480,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
     --variant-outlinedBorder: #337a87;
     --variant-outlinedBg: rgba(51, 122, 135, 0.04);
   }
+}
+
+.emotion-8.MuiButton-loading {
+  color: transparent;
 }
 
 .emotion-8:hover {
@@ -586,8 +598,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
       <label
         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-standard MuiFormLabel-colorPrimary Mui-disabled MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-standard emotion-3"
         data-shrink="true"
-        for=":r1:"
-        id=":r1:-label"
+        for=":r3:"
+        id=":r3:-label"
       >
         Azure IoT Hub connection string
       </label>
@@ -598,7 +610,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
           aria-invalid="false"
           class="MuiInputBase-input MuiInput-input Mui-disabled MuiInputBase-inputMultiline emotion-5"
           disabled=""
-          id=":r1:"
+          id=":r3:"
           style="height: 0px; overflow: hidden;"
         >
           something
@@ -617,6 +629,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
     >
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-7"
+        id=":r4:"
         tabindex="0"
         type="button"
       >
@@ -624,6 +637,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
       </button>
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-8"
+        id=":r5:"
         tabindex="0"
         type="button"
       >
@@ -678,8 +692,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
         <label
           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-standard MuiFormLabel-colorPrimary Mui-disabled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-standard emotion-17"
           data-shrink="false"
-          for=":r2:"
-          id=":r2:-label"
+          for=":r6:"
+          id=":r6:-label"
         >
           Key ID
         </label>
@@ -690,7 +704,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
             aria-invalid="false"
             class="MuiInputBase-input MuiInput-input Mui-disabled MuiInputBase-inputMultiline emotion-5"
             disabled=""
-            id=":r2:"
+            id=":r6:"
             style="height: 0px; overflow: hidden;"
           />
           <textarea
@@ -708,8 +722,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
         <label
           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-standard MuiFormLabel-colorPrimary Mui-disabled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-standard emotion-17"
           data-shrink="false"
-          for=":r3:"
-          id=":r3:-label"
+          for=":r7:"
+          id=":r7:-label"
         >
           Key Secret
         </label>
@@ -720,7 +734,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
             aria-invalid="false"
             class="MuiInputBase-input MuiInput-input Mui-disabled MuiInputBase-inputMultiline emotion-5"
             disabled=""
-            id=":r3:"
+            id=":r7:"
             style="height: 0px; overflow: hidden;"
           />
           <textarea
@@ -738,8 +752,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
         <label
           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-standard MuiFormLabel-colorPrimary Mui-disabled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-standard emotion-17"
           data-shrink="false"
-          for=":r4:"
-          id=":r4:-label"
+          for=":r8:"
+          id=":r8:-label"
         >
           Region
         </label>
@@ -750,7 +764,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
             aria-invalid="false"
             class="MuiInputBase-input MuiInput-input Mui-disabled MuiInputBase-inputMultiline emotion-5"
             disabled=""
-            id=":r4:"
+            id=":r8:"
             style="height: 0px; overflow: hidden;"
           />
           <textarea
@@ -768,8 +782,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
         <label
           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-standard MuiFormLabel-colorPrimary Mui-disabled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-standard emotion-17"
           data-shrink="false"
-          for=":r5:"
-          id=":r5:-label"
+          for=":r9:"
+          id=":r9:-label"
         >
           Device Policy Name
         </label>
@@ -780,7 +794,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
             aria-invalid="false"
             class="MuiInputBase-input MuiInput-input Mui-disabled MuiInputBase-inputMultiline emotion-5"
             disabled=""
-            id=":r5:"
+            id=":r9:"
             style="height: 0px; overflow: hidden;"
           />
           <textarea
@@ -798,6 +812,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
     >
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-7"
+        id=":ra:"
         tabindex="0"
         type="button"
       >
@@ -805,6 +820,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
       </button>
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-8"
+        id=":rb:"
         tabindex="0"
         type="button"
       >

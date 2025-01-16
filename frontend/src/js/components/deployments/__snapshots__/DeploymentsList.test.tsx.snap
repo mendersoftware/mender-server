@@ -132,6 +132,8 @@ exports[`DeploymentsList Component renders correctly 1`] = `
   --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #337a87;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 2px;
   font-size: 14px;
   font-weight: bold;
@@ -197,6 +199,10 @@ exports[`DeploymentsList Component renders correctly 1`] = `
     --variant-outlinedBorder: #337a87;
     --variant-outlinedBg: rgba(51, 122, 135, 0.04);
   }
+}
+
+.emotion-2.MuiButton-loading {
+  color: transparent;
 }
 
 .emotion-2:hover {
@@ -417,6 +423,7 @@ exports[`DeploymentsList Component renders correctly 1`] = `
       </div>
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-2"
+        id=":r2:"
         tabindex="0"
         type="button"
       >
@@ -530,6 +537,7 @@ exports[`DeploymentsList Component renders correctly 1`] = `
       </div>
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-2"
+        id=":r5:"
         tabindex="0"
         type="button"
       >

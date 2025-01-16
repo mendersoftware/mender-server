@@ -364,7 +364,24 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-2.MuiIconButton-loading {
+  color: transparent;
+}
+
 .emotion-3 {
+  display: none;
+  position: absolute;
+  visibility: visible;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-4 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -381,11 +398,11 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
   font-size: 1.1607rem;
 }
 
-.emotion-3 iconButton {
+.emotion-4 iconButton {
   margin-right: 8px;
 }
 
-.emotion-6 {
+.emotion-8 {
   display: grid;
   grid-template-columns: 200px 1fr;
   -webkit-column-gap: 16px;
@@ -393,43 +410,43 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
   margin-bottom: 16px;
 }
 
-.emotion-6>.flexbox.column>* {
+.emotion-8>.flexbox.column>* {
   height: 20px;
 }
 
-.emotion-6 .barchart .MuiLinearProgress-root {
+.emotion-8 .barchart .MuiLinearProgress-root {
   background-color: #f7f7f7;
 }
 
-.emotion-6 .barchart .color-f7f7f7 .MuiLinearProgress-barColorPrimary {
+.emotion-8 .barchart .color-f7f7f7 .MuiLinearProgress-barColorPrimary {
   background-color: #f7f7f7;
 }
 
-.emotion-6 .barchart .color-337a87 .MuiLinearProgress-barColorPrimary {
+.emotion-8 .barchart .color-337a87 .MuiLinearProgress-barColorPrimary {
   background-color: #337a87;
 }
 
-.emotion-6 .barchart .color-a31773 .MuiLinearProgress-barColorPrimary {
+.emotion-8 .barchart .color-a31773 .MuiLinearProgress-barColorPrimary {
   background-color: #a31773;
 }
 
-.emotion-6 .barchart .color-00859e .MuiLinearProgress-barColorPrimary {
+.emotion-8 .barchart .color-00859e .MuiLinearProgress-barColorPrimary {
   background-color: #00859e;
 }
 
-.emotion-6 .barchart .color-14cfda .MuiLinearProgress-barColorPrimary {
+.emotion-8 .barchart .color-14cfda .MuiLinearProgress-barColorPrimary {
   background-color: #14cfda;
 }
 
-.emotion-6 .barchart .color-9bfff0 .MuiLinearProgress-barColorPrimary {
+.emotion-8 .barchart .color-9bfff0 .MuiLinearProgress-barColorPrimary {
   background-color: #9bfff0;
 }
 
-.emotion-6 .barchart .color-d5d5d5 .MuiLinearProgress-barColorPrimary {
+.emotion-8 .barchart .color-d5d5d5 .MuiLinearProgress-barColorPrimary {
   background-color: #d5d5d5;
 }
 
-.emotion-7 {
+.emotion-9 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -440,13 +457,13 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
   column-gap: 16px;
 }
 
-.emotion-7.indicating {
+.emotion-9.indicating {
   grid-template-columns: min-content 1fr max-content;
   -webkit-column-gap: 8px;
   column-gap: 8px;
 }
 
-.emotion-8 {
+.emotion-10 {
   position: relative;
   overflow: hidden;
   display: block;
@@ -456,13 +473,13 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
 }
 
 @media print {
-  .emotion-8 {
+  .emotion-10 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-9 {
+.emotion-11 {
   width: 100%;
   position: absolute;
   left: 0;
@@ -476,11 +493,11 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
   transition: transform .4s linear;
 }
 
-.emotion-10 {
+.emotion-12 {
   gap: 16px;
 }
 
-.emotion-11 {
+.emotion-13 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -498,15 +515,15 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
   color: #337a87;
 }
 
-.emotion-11 iconButton {
+.emotion-13 iconButton {
   margin-right: 8px;
 }
 
-.emotion-11.read {
+.emotion-13.read {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-12 {
+.emotion-14 {
   position: absolute;
   top: -5px;
   bottom: 0;
@@ -516,11 +533,11 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
   border-radius: 50%;
 }
 
-.emotion-12.read {
+.emotion-14.read {
   border-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-13 {
+.emotion-15 {
   font-size: 1rem;
   cursor: pointer;
 }
@@ -560,12 +577,16 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
           >
             <button
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-2"
+              id=":r2:"
               tabindex="0"
               type="button"
             >
+              <span
+                class="MuiIconButton-loadingIndicator emotion-3"
+              />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-3"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-4"
                 data-testid="SettingsIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -577,12 +598,16 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
             </button>
             <button
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-2"
+              id=":r3:"
               tabindex="0"
               type="button"
             >
+              <span
+                class="MuiIconButton-loadingIndicator emotion-3"
+              />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-3"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-4"
                 data-testid="ClearIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -606,13 +631,13 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
         </div>
       </div>
       <div
-        class="emotion-6"
+        class="emotion-8"
       >
         <div
           class="flexbox column"
         >
           <div
-            class="clickable emotion-7 "
+            class="clickable emotion-9 "
             title="raspotifyInstaller"
           >
             <div
@@ -637,12 +662,12 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
               aria-valuemax="100"
               aria-valuemin="0"
               aria-valuenow="0"
-              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate color-337a87 emotion-8"
+              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate color-337a87 emotion-10"
               role="progressbar"
               style="height: 8px;"
             >
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-9"
+                class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-11"
                 style="transform: translateX(-100%);"
               />
             </span>
@@ -654,7 +679,7 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
       class="widget"
     >
       <div
-        class="flexbox center-aligned  emotion-10"
+        class="flexbox center-aligned  emotion-12"
         style="align-items: end;"
       >
         <div
@@ -666,7 +691,7 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-11"
+              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-13"
               data-testid="HelpIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -676,13 +701,13 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
               />
             </svg>
             <div
-              class="emotion-12 "
+              class="emotion-14 "
             />
           </div>
         </div>
       </div>
       <div
-        class="flexbox centered muted emotion-13"
+        class="flexbox centered muted emotion-15"
       >
         <svg
           aria-hidden="true"
@@ -696,7 +721,7 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
           />
         </svg>
         <span
-          class="emotion-13"
+          class="emotion-15"
         >
           add a widget
         </span>
