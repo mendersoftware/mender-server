@@ -47,7 +47,7 @@ updates:
     reviewers:
       - "mendersoftware/frontend-dependabot-reviewers"
 
-# backend part starts here
+  # backend part starts here
   - commit-message:
       prefix: chore
     directory: /backend
@@ -64,7 +64,15 @@ updates:
       prefix: chore
     directories:
       - /backend/services/create-artifact-worker
+      - /backend/services/deployments
+      - /backend/services/deviceauth
+      - /backend/services/deviceconfig
+      - /backend/services/deviceconnect
+      - /backend/services/inventory
       - /backend/services/iot-manager
+      - /backend/services/reporting
+      - /backend/services/useradm
+      - /backend/services/workflows
     package-ecosystem: docker
     schedule:
       interval: monthly
