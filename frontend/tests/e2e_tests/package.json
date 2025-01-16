@@ -32,8 +32,8 @@
     "playwright": "^1.45.0",
     "playwright-chromium": "1.49.1",
     "pngjs": "7.0.0",
-    "typescript": "^5.7.2",
-    "uuid": "^11.0.4",
+    "typescript": "^5.7.3",
+    "uuid": "^11.0.5",
     "yaml": "^2.7.0"
   }
 }
