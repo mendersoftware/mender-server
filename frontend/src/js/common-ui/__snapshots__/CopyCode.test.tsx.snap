@@ -88,7 +88,24 @@ exports[`CopyCode Component renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-1.MuiIconButton-loading {
+  color: transparent;
+}
+
 .emotion-2 {
+  display: none;
+  position: absolute;
+  visibility: visible;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-3 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -105,7 +122,7 @@ exports[`CopyCode Component renders correctly 1`] = `
   font-size: 1.3929rem;
 }
 
-.emotion-2 iconButton {
+.emotion-3 iconButton {
   margin-right: 8px;
 }
 
@@ -116,13 +133,17 @@ exports[`CopyCode Component renders correctly 1`] = `
     >
       <button
         class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-1"
+        id=":r0:"
         style="float: right; margin: -20px 0px 0px 10px;"
         tabindex="0"
         type="button"
       >
+        <span
+          class="MuiIconButton-loadingIndicator emotion-2"
+        />
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-2"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-3"
           data-testid="FileCopyIcon"
           focusable="false"
           viewBox="0 0 24 24"

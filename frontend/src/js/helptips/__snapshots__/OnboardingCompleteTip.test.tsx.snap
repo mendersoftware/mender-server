@@ -147,6 +147,8 @@ exports[`OnboardingCompleteTip Component renders correctly 1`] = `
   --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #1976d2;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   background-color: #fff;
   background-color: #fff;
 }
@@ -187,6 +189,10 @@ exports[`OnboardingCompleteTip Component renders correctly 1`] = `
     --variant-outlinedBorder: #1976d2;
     --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
+}
+
+.emotion-3.MuiButton-loading {
+  color: transparent;
 }
 
 .emotion-3:hover {
@@ -250,6 +256,8 @@ exports[`OnboardingCompleteTip Component renders correctly 1`] = `
   --variant-outlinedBorder: rgba(156, 39, 176, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #9c27b0;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-4::-moz-focus-inner {
@@ -310,6 +318,10 @@ exports[`OnboardingCompleteTip Component renders correctly 1`] = `
   }
 }
 
+.emotion-4.MuiButton-loading {
+  color: transparent;
+}
+
 <body>
   <div>
     <div
@@ -360,6 +372,7 @@ exports[`OnboardingCompleteTip Component renders correctly 1`] = `
           <a
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary button emotion-3"
             href="http://192.168.10.141:85/index.html?source=http%3A%2F%2Ftest.com"
+            id=":r1:"
             tabindex="0"
             target="_blank"
           >
@@ -379,6 +392,7 @@ exports[`OnboardingCompleteTip Component renders correctly 1`] = `
           />
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-4"
+            id=":r2:"
             tabindex="0"
             type="button"
           >

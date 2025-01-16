@@ -91,6 +91,8 @@ exports[`Signup Component renders correctly 1`] = `
   --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #337a87;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 2px;
   font-size: 14px;
   font-weight: bold;
@@ -152,6 +154,10 @@ exports[`Signup Component renders correctly 1`] = `
     --variant-outlinedBorder: #337a87;
     --variant-outlinedBg: rgba(51, 122, 135, 0.04);
   }
+}
+
+.emotion-3.MuiButton-loading {
+  color: transparent;
 }
 
 .emotion-3:hover {
@@ -565,7 +571,24 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-23.MuiIconButton-loading {
+  color: transparent;
+}
+
 .emotion-24 {
+  display: none;
+  position: absolute;
+  visibility: visible;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-25 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -582,11 +605,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
   font-size: 1.3929rem;
 }
 
-.emotion-24 iconButton {
+.emotion-25 iconButton {
   margin-right: 8px;
 }
 
-.emotion-35 {
+.emotion-37 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -603,11 +626,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
   font-size: 1.1607rem;
 }
 
-.emotion-35 iconButton {
+.emotion-37 iconButton {
   margin-right: 8px;
 }
 
-.emotion-36 {
+.emotion-38 {
   background: #f7f7f7;
   grid-template-rows: min-content min-content min-content;
   padding: 80px 0;
@@ -647,6 +670,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
             <a
               class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary oauth-provider emotion-3"
               href="/api/management/v1/useradm/oauth2/github"
+              id=":r0:"
               tabindex="0"
             >
               <span
@@ -668,6 +692,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
             <a
               class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary oauth-provider emotion-3"
               href="/api/management/v1/useradm/oauth2/google"
+              id=":r1:"
               tabindex="0"
             >
               <span
@@ -689,6 +714,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
             <a
               class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary oauth-provider emotion-3"
               href="/api/management/v1/useradm/oauth2/microsoft"
+              id=":r2:"
               tabindex="0"
             >
               <span
@@ -782,12 +808,16 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
                   >
                     <button
                       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-23"
+                      id=":r3:"
                       tabindex="0"
                       type="button"
                     >
+                      <span
+                        class="MuiIconButton-loadingIndicator emotion-24"
+                      />
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-24"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-25"
                         data-testid="VisibilityOffIcon"
                         focusable="false"
                         viewBox="0 0 24 24"
@@ -852,12 +882,16 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
                   >
                     <button
                       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-23"
+                      id=":r4:"
                       tabindex="0"
                       type="button"
                     >
+                      <span
+                        class="MuiIconButton-loadingIndicator emotion-24"
+                      />
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-24"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-25"
                         data-testid="VisibilityOffIcon"
                         focusable="false"
                         viewBox="0 0 24 24"
@@ -878,6 +912,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary margin-top emotion-3"
             disabled=""
+            id=":r5:"
             tabindex="-1"
             type="button"
           >
@@ -901,7 +936,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
            
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-35"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-37"
             data-testid="ChevronRightIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -914,7 +949,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
       </div>
     </div>
     <div
-      class="emotion-36"
+      class="emotion-38"
     >
       <h2>
         Connect up to 10 devices free for 12 months – no credit card required.

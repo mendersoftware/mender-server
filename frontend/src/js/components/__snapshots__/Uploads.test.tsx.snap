@@ -221,7 +221,24 @@ exports[`Uploads Component renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-7.MuiIconButton-loading {
+  color: transparent;
+}
+
 .emotion-8 {
+  display: none;
+  position: absolute;
+  visibility: visible;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-9 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -238,7 +255,7 @@ exports[`Uploads Component renders correctly 1`] = `
   font-size: 1.3929rem;
 }
 
-.emotion-8 iconButton {
+.emotion-9 iconButton {
   margin-right: 8px;
 }
 
@@ -297,7 +314,7 @@ exports[`Uploads Component renders correctly 1`] = `
           role="progressbar"
         >
           <span
-            class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-6"
+            class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-6"
             style="transform: translateX(-80%);"
           />
         </span>
@@ -305,12 +322,16 @@ exports[`Uploads Component renders correctly 1`] = `
           aria-label="Abort"
           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-7"
           data-mui-internal-clone-element="true"
+          id=":r1:"
           tabindex="0"
           type="button"
         >
+          <span
+            class="MuiIconButton-loadingIndicator emotion-8"
+          />
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-8"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-9"
             data-testid="CancelIcon"
             focusable="false"
             viewBox="0 0 24 24"

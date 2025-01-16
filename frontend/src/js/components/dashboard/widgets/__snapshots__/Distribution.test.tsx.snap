@@ -111,7 +111,24 @@ exports[`PendingDevices Component renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-2.MuiIconButton-loading {
+  color: transparent;
+}
+
 .emotion-3 {
+  display: none;
+  position: absolute;
+  visibility: visible;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-4 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -128,7 +145,7 @@ exports[`PendingDevices Component renders correctly 1`] = `
   font-size: 1.1607rem;
 }
 
-.emotion-3 iconButton {
+.emotion-4 iconButton {
   margin-right: 8px;
 }
 
@@ -165,12 +182,16 @@ exports[`PendingDevices Component renders correctly 1`] = `
           >
             <button
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-2"
+              id=":r0:"
               tabindex="0"
               type="button"
             >
+              <span
+                class="MuiIconButton-loadingIndicator emotion-3"
+              />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-3"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-4"
                 data-testid="SettingsIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -182,12 +203,16 @@ exports[`PendingDevices Component renders correctly 1`] = `
             </button>
             <button
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-2"
+              id=":r1:"
               tabindex="0"
               type="button"
             >
+              <span
+                class="MuiIconButton-loadingIndicator emotion-3"
+              />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-3"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-4"
                 data-testid="ClearIcon"
                 focusable="false"
                 viewBox="0 0 24 24"

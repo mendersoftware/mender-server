@@ -112,7 +112,24 @@ exports[`EventDetailsDrawer Component renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-1.MuiIconButton-loading {
+  color: transparent;
+}
+
 .emotion-2 {
+  display: none;
+  position: absolute;
+  visibility: visible;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-3 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -129,11 +146,11 @@ exports[`EventDetailsDrawer Component renders correctly 1`] = `
   font-size: 1.3929rem;
 }
 
-.emotion-2 iconButton {
+.emotion-3 iconButton {
   margin-right: 8px;
 }
 
-.emotion-3 {
+.emotion-4 {
   margin: 0;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -144,13 +161,13 @@ exports[`EventDetailsDrawer Component renders correctly 1`] = `
   border-bottom-width: thin;
 }
 
-.emotion-4 {
+.emotion-5 {
   border: 1px solid;
   border-color: #f7f7f7;
   background-color: #f7f7f7;
 }
 
-.emotion-5 {
+.emotion-6 {
   margin: 0;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -189,12 +206,16 @@ exports[`EventDetailsDrawer Component renders correctly 1`] = `
       <button
         aria-label="close"
         class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-1"
+        id=":r0:"
         tabindex="0"
         type="button"
       >
+        <span
+          class="MuiIconButton-loadingIndicator emotion-2"
+        />
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-2"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-3"
           data-testid="CloseIcon"
           focusable="false"
           viewBox="0 0 24 24"
@@ -207,15 +228,15 @@ exports[`EventDetailsDrawer Component renders correctly 1`] = `
     </div>
   </div>
   <hr
-    class="MuiDivider-root MuiDivider-fullWidth emotion-3"
+    class="MuiDivider-root MuiDivider-fullWidth emotion-4"
   />
   <div
-    class="code emotion-4 "
+    class="code emotion-5 "
   >
     change1
   </div>
   <hr
-    class="MuiDivider-root MuiDivider-fullWidth MuiDivider-light emotion-5"
+    class="MuiDivider-root MuiDivider-fullWidth MuiDivider-light emotion-6"
     style="margin-top: 16px;"
   />
 </div>

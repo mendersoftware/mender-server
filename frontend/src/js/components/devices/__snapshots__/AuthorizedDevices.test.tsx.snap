@@ -252,6 +252,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-1:focus::-ms-input-p
   --variant-outlinedBorder: rgba(93, 15, 67, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #5d0f43;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 2px;
   font-size: 14px;
   font-weight: bold;
@@ -290,6 +292,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-1:focus::-ms-input-p
     --variant-outlinedBorder: #5d0f43;
     --variant-outlinedBg: rgba(93, 15, 67, 0.04);
   }
+}
+
+.emotion-4.MuiButton-loading {
+  color: transparent;
 }
 
 .emotion-4:hover {
@@ -383,6 +389,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-1:focus::-ms-input-p
   --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #337a87;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 2px;
   font-size: 14px;
   font-weight: bold;
@@ -421,6 +429,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-1:focus::-ms-input-p
     --variant-outlinedBorder: #337a87;
     --variant-outlinedBg: rgba(51, 122, 135, 0.04);
   }
+}
+
+.emotion-7.MuiButton-loading {
+  color: transparent;
 }
 
 .emotion-7:hover {
@@ -466,10 +478,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-1:focus::-ms-input-p
             >
               Status:
               <div
-                class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary emotion-0"
+                class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiSelect-root emotion-0"
               >
                 <div
-                  aria-controls=":r0:"
                   aria-expanded="false"
                   aria-haspopup="listbox"
                   class="MuiSelect-select MuiSelect-standard MuiInputBase-input MuiInput-input emotion-1"
@@ -509,6 +520,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-1:focus::-ms-input-p
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary emotion-4"
+            id=":r1:"
             style="background-color: transparent;"
             tabindex="0"
             type="button"
@@ -533,6 +545,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-1:focus::-ms-input-p
         </div>
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-7"
+          id=":r2:"
           style="text-transform: none;"
           tabindex="0"
           type="button"
