@@ -1,5 +1,5 @@
 bravado==9.2.2
-boto3==1.35.90
+boto3==1.36.0
 certifi >= 14.05.14
 chardet >= 4.0.0
 crypto
@@ -9,7 +9,7 @@ flaky==3.8.1
 flask
 idna >= 2.10
 jsonschema<5.0
-minio==7.2.13
+minio==7.2.14
 msgpack >= 1.0
 opensearch-py >= 2.0.0, < 3.0.0
 pluggy==1.5.0
