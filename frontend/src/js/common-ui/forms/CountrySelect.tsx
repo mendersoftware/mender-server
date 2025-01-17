@@ -57,7 +57,10 @@ export const ControlledCountrySelect = ({ control, id, required }) => {
   return (
     <Controller
       rules={{ required }}
-      render={({ field: { onChange }, ...props }) => <CountrySelect defaultValue={defaultCountry} onChange={onChange} id={id} {...props} />}
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      render={({ field: { onChange }, formState, fieldState, ...props }) => (
+        <CountrySelect defaultValue={defaultCountry} onChange={onChange} id={id} {...props} />
+      )}
       name="country"
       control={control}
     />
