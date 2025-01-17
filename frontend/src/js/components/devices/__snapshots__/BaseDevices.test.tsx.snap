@@ -76,6 +76,7 @@ exports[`smaller components renders PendingEmptyState correctly 1`] = `
   <p>
     Visit the 
     <a
+      data-discover="true"
       href="/help/get-started"
     >
       Help section

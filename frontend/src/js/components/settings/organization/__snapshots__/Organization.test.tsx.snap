@@ -812,6 +812,7 @@ exports[`MyOrganization Component renders correctly 1`] = `
                   6 months
                   . 
                   <a
+                    data-discover="true"
                     href="/settings/upgrade"
                   >
                     Upgrade to a paid plan
@@ -871,6 +872,7 @@ exports[`MyOrganization Component renders correctly 1`] = `
                   6 months
                   . 
                   <a
+                    data-discover="true"
                     href="/settings/upgrade"
                   >
                     Upgrade to a paid plan
@@ -1037,6 +1039,7 @@ exports[`smaller components renders DeviceLimitExpansionNotification correctly 1
      
   </div>
   <a
+    data-discover="true"
     href="/settings/upgrade"
   >
     upgrade to a paid plan
@@ -1171,6 +1174,7 @@ exports[`smaller components renders TrialExpirationNote correctly 1`] = `
     9 months
     . 
     <a
+      data-discover="true"
       href="/settings/upgrade"
     >
       Upgrade to a paid plan

@@ -558,6 +558,7 @@ exports[`Dashboard Component renders correctly 1`] = `
         >
           <a
             class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary absolute emotion-3"
+            data-discover="true"
             href="/devices/pending"
             tabindex="0"
           >
@@ -1071,6 +1072,7 @@ exports[`Dashboard Component renders correctly 1`] = `
         </div>
         <a
           class="margin-top margin-bottom-large"
+          data-discover="true"
           href="/deployments"
         >
           See all deployments

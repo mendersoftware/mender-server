@@ -1267,6 +1267,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-8:focus::-ms-input-p
           class="flexbox center-aligned"
         >
           <a
+            data-discover="true"
             href="/"
           >
             <img
@@ -1329,6 +1330,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-8:focus::-ms-input-p
           >
             <a
               class="flexbox center-aligned "
+              data-discover="true"
               href="/devices"
             >
               <span>
@@ -1348,6 +1350,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-8:focus::-ms-input-p
               </svg>
             </a>
             <a
+              data-discover="true"
               href="/devices/pending"
               style="margin-left: 7px;"
             >
@@ -1357,6 +1360,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-8:focus::-ms-input-p
           </div>
           <a
             class="header-section"
+            data-discover="true"
             href="/deployments/active"
           >
             <span>
@@ -1410,6 +1414,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-8:focus::-ms-input-p
         <a
           aria-current="page"
           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-16 active"
+          data-discover="true"
           href="/"
         >
           <div
@@ -1425,6 +1430,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-8:focus::-ms-input-p
         </a>
         <a
           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-16"
+          data-discover="true"
           href="/devices"
         >
           <div
@@ -1440,6 +1446,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-8:focus::-ms-input-p
         </a>
         <a
           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-16"
+          data-discover="true"
           href="/releases"
         >
           <div
@@ -1455,6 +1462,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-8:focus::-ms-input-p
         </a>
         <a
           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-16"
+          data-discover="true"
           href="/deployments"
         >
           <div
@@ -1470,6 +1478,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-8:focus::-ms-input-p
         </a>
         <a
           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-16"
+          data-discover="true"
           href="/auditlog"
         >
           <div
@@ -1489,6 +1498,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-8:focus::-ms-input-p
       >
         <a
           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-32"
+          data-discover="true"
           href="/help"
         >
           <div
@@ -1589,6 +1599,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-8:focus::-ms-input-p
             >
               <a
                 class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary absolute emotion-43"
+                data-discover="true"
                 href="/devices/pending"
                 tabindex="0"
               >
@@ -2102,6 +2113,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-8:focus::-ms-input-p
             </div>
             <a
               class="margin-top margin-bottom-large"
+              data-discover="true"
               href="/deployments"
             >
               See all deployments
@@ -3137,6 +3149,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
           class="flexbox center-aligned"
         >
           <a
+            data-discover="true"
             href="/"
           >
             <img
@@ -3200,6 +3213,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
           >
             <a
               class="flexbox center-aligned "
+              data-discover="true"
               href="/devices"
             >
               <span>
@@ -3224,6 +3238,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
               </svg>
             </a>
             <a
+              data-discover="true"
               href="/devices/pending"
               style="margin-left: 7px;"
             >
@@ -3232,6 +3247,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
           </div>
           <a
             class="header-section"
+            data-discover="true"
             href="/deployments/active"
           >
             <span>
@@ -3285,6 +3301,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
         <a
           aria-current="page"
           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-13 active"
+          data-discover="true"
           href="/"
         >
           <div
@@ -3300,6 +3317,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
         </a>
         <a
           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-13"
+          data-discover="true"
           href="/devices"
         >
           <div
@@ -3315,6 +3333,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
         </a>
         <a
           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-13"
+          data-discover="true"
           href="/releases"
         >
           <div
@@ -3330,6 +3349,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
         </a>
         <a
           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-13"
+          data-discover="true"
           href="/deployments"
         >
           <div
@@ -3345,6 +3365,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
         </a>
         <a
           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-13"
+          data-discover="true"
           href="/auditlog"
         >
           <div
@@ -3364,6 +3385,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
       >
         <a
           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-29"
+          data-discover="true"
           href="/help"
         >
           <div
@@ -3463,6 +3485,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
             >
               <a
                 class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary absolute emotion-40"
+                data-discover="true"
                 href="/devices/pending"
                 tabindex="0"
               >
@@ -3613,6 +3636,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
             </h5>
             <a
               class="margin-top margin-bottom-large"
+              data-discover="true"
               href="/deployments"
             >
               See all deployments

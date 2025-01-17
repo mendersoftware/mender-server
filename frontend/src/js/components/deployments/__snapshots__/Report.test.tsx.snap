@@ -143,6 +143,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
             >
               <a
                 class="flexbox centered"
+                data-discover="true"
                 href="/releases/r1"
                 rel="noopener noreferrer"
                 style="font-weight: 500;"
@@ -174,6 +175,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
             >
               <a
                 class="flexbox centered"
+                data-discover="true"
                 href="/devices"
                 rel="noopener noreferrer"
                 style="font-weight: 500;"
@@ -509,6 +511,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-15kh05q-MuiTableCell-root"
               >
                 <a
+                  data-discover="true"
                   href="/devices?id=a1"
                   style="font-weight: initial; opacity: 1;"
                 >

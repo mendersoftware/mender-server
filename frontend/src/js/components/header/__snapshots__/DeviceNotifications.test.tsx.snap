@@ -28,6 +28,7 @@ exports[`DeviceNotifications Component renders correctly 1`] = `
 >
   <a
     class="flexbox center-aligned "
+    data-discover="true"
     href="/devices"
   >
     <span>
@@ -53,6 +54,7 @@ exports[`DeviceNotifications Component renders correctly 1`] = `
     </svg>
   </a>
   <a
+    data-discover="true"
     href="/devices/pending"
     style="margin-left: 7px;"
   >
@@ -90,6 +92,7 @@ exports[`DeviceNotifications Component renders correctly at limit 1`] = `
 >
   <a
     class="flexbox center-aligned warning"
+    data-discover="true"
     href="/devices"
   >
     <span>
@@ -116,6 +119,7 @@ exports[`DeviceNotifications Component renders correctly at limit 1`] = `
   </a>
   <a
     class="warning"
+    data-discover="true"
     href="/devices/pending"
     style="margin-left: 7px;"
   >
@@ -153,6 +157,7 @@ exports[`DeviceNotifications Component renders correctly close to limits 1`] = `
 >
   <a
     class="flexbox center-aligned approaching"
+    data-discover="true"
     href="/devices"
   >
     <span>
@@ -178,6 +183,7 @@ exports[`DeviceNotifications Component renders correctly close to limits 1`] = `
     </svg>
   </a>
   <a
+    data-discover="true"
     href="/devices/pending"
     style="margin-left: 7px;"
   >
@@ -215,6 +221,7 @@ exports[`DeviceNotifications Component renders correctly with limits 1`] = `
 >
   <a
     class="flexbox center-aligned "
+    data-discover="true"
     href="/devices"
   >
     <span>
@@ -240,6 +247,7 @@ exports[`DeviceNotifications Component renders correctly with limits 1`] = `
     </svg>
   </a>
   <a
+    data-discover="true"
     href="/devices/pending"
     style="margin-left: 7px;"
   >
@@ -276,6 +284,7 @@ exports[`DeviceNotifications Component renders correctly without limits 1`] = `
 >
   <a
     class="flexbox center-aligned "
+    data-discover="true"
     href="/devices"
   >
     <span>
@@ -295,6 +304,7 @@ exports[`DeviceNotifications Component renders correctly without limits 1`] = `
     </svg>
   </a>
   <a
+    data-discover="true"
     href="/devices/pending"
     style="margin-left: 7px;"
   >

@@ -310,6 +310,7 @@ exports[`DeviceTwin Component renders correctly 1`] = `
         </div>
       </div>
       <a
+        data-discover="true"
         href="/settings/integrations"
       >
         Integration settings
@@ -501,6 +502,7 @@ exports[`DeviceTwin Component renders sub component Title correctly 1`] = `
     </div>
   </div>
   <a
+    data-discover="true"
     href="/settings/integrations"
   >
     Integration settings
@@ -557,6 +559,7 @@ exports[`DeviceTwin Component renders sub component TwinError correctly 1`] = `
   <br />
   Please check your connection string in the 
   <a
+    data-discover="true"
     href="/settings/integrations"
   >
     Integration settings
@@ -718,6 +721,7 @@ exports[`DeviceTwin Component renders sub component TwinSyncStatus correctly 3`]
   <br />
   Please check your connection string in the 
   <a
+    data-discover="true"
     href="/settings/integrations"
   >
     Integration settings

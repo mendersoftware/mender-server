@@ -67,6 +67,7 @@ exports[`DeviceDetails Component renders correctly 1`] = `
     >
       <a
         class="flexbox center-aligned emotion-2"
+        data-discover="true"
         href="/devices?id=a1"
       >
         <div
@@ -133,6 +134,7 @@ exports[`DeviceDetails Component renders correctly 1`] = `
       class="flexbox "
     >
       <a
+        data-discover="true"
         href="/auditlog?objectId=a1&objectType=device&startDate=2016-01-01"
       >
         List all log entries for this device

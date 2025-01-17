@@ -197,6 +197,7 @@ exports[`LeftNav Component renders correctly 1`] = `
     <a
       aria-current="page"
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-2 active"
+      data-discover="true"
       href="/"
     >
       <div
@@ -212,6 +213,7 @@ exports[`LeftNav Component renders correctly 1`] = `
     </a>
     <a
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-2"
+      data-discover="true"
       href="/devices"
     >
       <div
@@ -227,6 +229,7 @@ exports[`LeftNav Component renders correctly 1`] = `
     </a>
     <a
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-2"
+      data-discover="true"
       href="/releases"
     >
       <div
@@ -242,6 +245,7 @@ exports[`LeftNav Component renders correctly 1`] = `
     </a>
     <a
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-2"
+      data-discover="true"
       href="/deployments"
     >
       <div
@@ -257,6 +261,7 @@ exports[`LeftNav Component renders correctly 1`] = `
     </a>
     <a
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-2"
+      data-discover="true"
       href="/auditlog"
     >
       <div
@@ -276,6 +281,7 @@ exports[`LeftNav Component renders correctly 1`] = `
   >
     <a
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-18"
+      data-discover="true"
       href="/help"
     >
       <div

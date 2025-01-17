@@ -137,6 +137,7 @@ exports[`LeftNav Component renders correctly 1`] = `
   </li>
   <a
     class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink test-list emotion-2"
+    data-discover="true"
     href="/far/away"
     style="background: red;"
   >
@@ -159,6 +160,7 @@ exports[`LeftNav Component renders correctly 1`] = `
   </a>
   <a
     class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink test-list emotion-2"
+    data-discover="true"
     href="/further/away"
   >
     <div

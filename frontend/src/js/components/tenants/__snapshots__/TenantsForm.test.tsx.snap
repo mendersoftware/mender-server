@@ -1591,6 +1591,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
             class="margin-top-x-small margin-bottom"
           >
             <a
+              data-discover="true"
               href="/settings/organization-and-billing"
             >
               View Single Sign-On settings

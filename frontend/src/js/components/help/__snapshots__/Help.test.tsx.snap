@@ -124,6 +124,7 @@ exports[`Help Component renders correctly 1`] = `
     <a
       aria-current="page"
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink helpNav emotion-2 active"
+      data-discover="true"
       href="/help/get-started"
     >
       <div
@@ -139,6 +140,7 @@ exports[`Help Component renders correctly 1`] = `
     </a>
     <a
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink helpNav emotion-2"
+      data-discover="true"
       href="/help/support"
     >
       <div
@@ -154,6 +156,7 @@ exports[`Help Component renders correctly 1`] = `
     </a>
     <a
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink helpNav emotion-2"
+      data-discover="true"
       href="/help/mender-hub"
     >
       <div

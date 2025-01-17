@@ -367,6 +367,7 @@ exports[`Deployments Component renders correctly 1`] = `
     </div>
     <a
       class="margin-top margin-bottom-large"
+      data-discover="true"
       href="/deployments"
     >
       See all deployments
