@@ -175,6 +175,7 @@ exports[`DeploymentOverview Component renders correctly 1`] = `
     >
       <a
         class="flexbox centered"
+        data-discover="true"
         href="/releases/test"
         rel="noopener noreferrer"
         style="font-weight: 500;"
@@ -206,6 +207,7 @@ exports[`DeploymentOverview Component renders correctly 1`] = `
     >
       <a
         class="flexbox centered"
+        data-discover="true"
         href="/devices?inventory=group:eq:testGroup"
         rel="noopener noreferrer"
         style="font-weight: 500;"

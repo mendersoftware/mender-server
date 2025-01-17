@@ -1071,6 +1071,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-17:focus::-ms-input-
           >
             <a
               class="emotion-31"
+              data-discover="true"
               href="/password"
             >
               Forgot your password?
@@ -1171,6 +1172,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-17:focus::-ms-input-
         </div>
         <a
           class="flexbox center-aligned"
+          data-discover="true"
           href="/signup"
         >
           Sign up here

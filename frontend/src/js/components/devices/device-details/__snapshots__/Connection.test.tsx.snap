@@ -159,6 +159,7 @@ exports[`DeviceConnection Component renders correctly 1`] = `
           </a>
           <a
             class="flexbox center-aligned margin-left"
+            data-discover="true"
             href="/auditlog?objectId=a1&objectType=device&startDate=2016-01-01"
           >
             List all log entries for this device
@@ -1256,6 +1257,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
           </a>
           <a
             class="flexbox center-aligned margin-left"
+            data-discover="true"
             href="/auditlog?objectId=a1&objectType=device&startDate=2016-01-01"
           >
             List all log entries for this device
@@ -1519,6 +1521,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
             </button>
             <a
               class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-9"
+              data-discover="true"
               href="/auditlog?objectType=device&objectId=a1&startDate=2016-01-01T00:00:00.000Z"
               id=":rk:"
               tabindex="0"
@@ -1886,6 +1889,7 @@ exports[`DeviceConnection Component renders correctly when disconnected 1`] = `
           </a>
           <a
             class="flexbox center-aligned margin-left"
+            data-discover="true"
             href="/auditlog?objectId=a1&objectType=device&startDate=2016-01-01"
           >
             List all log entries for this device

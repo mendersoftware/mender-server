@@ -3350,6 +3350,7 @@ exports[`CreateDeployment Component smaller components renders ReleasesWarning c
       artifacts available.
        
       <a
+        data-discover="true"
         href="/releases"
       >
         Upload one to the repository
@@ -3410,6 +3411,7 @@ exports[`CreateDeployment Component smaller components renders ReleasesWarning c
       artifacts available.
        
       <a
+        data-discover="true"
         href="/releases"
       >
         Upload one to the repository

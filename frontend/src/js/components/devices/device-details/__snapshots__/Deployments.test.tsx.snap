@@ -1020,6 +1020,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
             class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium emotion-16"
           >
             <a
+              data-discover="true"
               href="/releases/some-release"
             >
               some-release
@@ -1064,6 +1065,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
             class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium emotion-16"
           >
             <a
+              data-discover="true"
               href="/deployments/undefined?id=someId&open=true"
             >
               View deployment

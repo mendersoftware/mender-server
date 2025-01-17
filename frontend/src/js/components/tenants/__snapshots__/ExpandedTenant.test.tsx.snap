@@ -861,6 +861,7 @@ exports[`ExpandedTenant renders correctly 1`] = `
             class="margin-top-x-small margin-bottom"
           >
             <a
+              data-discover="true"
               href="/settings/organization-and-billing"
             >
               View Single Sign-On settings

@@ -875,6 +875,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
     </li>
     <a
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink settingsNav emotion-2"
+      data-discover="true"
       href="/settings/global-settings"
     >
       <div
@@ -890,6 +891,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
     <a
       aria-current="page"
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink settingsNav emotion-2 active"
+      data-discover="true"
       href="/settings/my-profile"
     >
       <div
@@ -904,6 +906,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
     </a>
     <a
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink settingsNav emotion-2"
+      data-discover="true"
       href="/settings/organization-and-billing"
     >
       <div
@@ -918,6 +921,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
     </a>
     <a
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink settingsNav emotion-2"
+      data-discover="true"
       href="/settings/user-management"
     >
       <div
@@ -932,6 +936,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
     </a>
     <a
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink settingsNav emotion-2"
+      data-discover="true"
       href="/settings/role-management"
     >
       <div
@@ -946,6 +951,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
     </a>
     <a
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink settingsNav emotion-2"
+      data-discover="true"
       href="/settings/integrations"
     >
       <div
@@ -960,6 +966,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
     </a>
     <a
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink settingsNav emotion-2"
+      data-discover="true"
       href="/settings/upgrade"
     >
       <div
@@ -1009,8 +1016,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
           <label
             class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-29"
             data-shrink="true"
-            for=":r0:"
-            id=":r0:-label"
+            for=":re:"
+            id=":re:-label"
           >
             User ID
           </label>
@@ -1021,7 +1028,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
               aria-invalid="false"
               class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-31"
               disabled=""
-              id=":r0:"
+              id=":re:"
               type="text"
               value="a1"
             />
@@ -1045,7 +1052,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
           <div>
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-34"
-              id=":r1:"
+              id=":rf:"
               tabindex="0"
               type="button"
             >
@@ -1081,8 +1088,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
           <label
             class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-29"
             data-shrink="true"
-            for=":r2:"
-            id=":r2:-label"
+            for=":rg:"
+            id=":rg:-label"
           >
             Email
           </label>
@@ -1093,7 +1100,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
               aria-invalid="false"
               class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-31"
               disabled=""
-              id=":r2:"
+              id=":rg:"
               type="text"
               value="a@b.com"
             />
@@ -1129,8 +1136,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
           <label
             class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-29"
             data-shrink="true"
-            for=":r4:"
-            id=":r4:-label"
+            for=":ri:"
+            id=":ri:-label"
           >
             Password
           </label>
@@ -1141,7 +1148,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
               aria-invalid="false"
               class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-31"
               disabled=""
-              id=":r4:"
+              id=":ri:"
               type="password"
               value="********"
             />
@@ -1236,7 +1243,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
           <div>
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-34"
-              id=":r6:"
+              id=":rk:"
               tabindex="0"
               type="button"
             >
@@ -1273,7 +1280,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
         </p>
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-34"
-          id=":r7:"
+          id=":rl:"
           tabindex="0"
           type="button"
         >

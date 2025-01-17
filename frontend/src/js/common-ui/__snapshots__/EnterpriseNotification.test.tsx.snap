@@ -225,6 +225,7 @@ exports[`EnterpriseNotification Component works as expected 1`] = `
       class="flexbox space-between margin-top-small"
     >
       <a
+        data-discover="true"
         href="/settings/upgrade"
       >
         Upgrade now
