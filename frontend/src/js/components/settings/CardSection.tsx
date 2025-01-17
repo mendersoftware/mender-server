@@ -97,7 +97,7 @@ const CardSection = ({ isSignUp, onClose, organization, onSubmit, onCardConfirme
 
   return (
     <form className="margin-top-small" onSubmit={handleSubmit} onReset={onCancel}>
-      <CardElement className="warning" onChange={event => stripeElementChange(event)} />
+      <CardElement className="warning" onChange={stripeElementChange} />
       {!!errors && <p className="warning">There is an error in the form. Please check that your details are correct</p>}
 
       <div id="poweredByStripe">
