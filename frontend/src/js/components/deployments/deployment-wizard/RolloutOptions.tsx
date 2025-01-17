@@ -160,8 +160,10 @@ export const Retries = ({
               <TextField
                 {...params}
                 className={classes.retryInput}
-                inputProps={{ ...params.inputProps, value: formatValue(params.inputProps.value) }}
-                InputProps={{ ...params.InputProps }}
+                slotProps={{
+                  htmlInput: { ...params.inputProps, value: formatValue(params.inputProps.value) },
+                  input: { ...params.InputProps }
+                }}
                 type="number"
               />
             )}

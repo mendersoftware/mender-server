@@ -13,8 +13,7 @@
 //    limitations under the License.
 import React, { useEffect, useState } from 'react';
 
-import { Autocomplete, TextField } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+import { Autocomplete, TextField, useTheme } from '@mui/material';
 
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
@@ -85,14 +84,16 @@ export const AsyncAutocomplete = ({
           label={label}
           placeholder={placeholder}
           style={styles.textField}
-          InputProps={{
-            ...params.InputProps,
-            endAdornment: (
-              <>
-                {loading && <Loader show small table style={{ marginTop: theme.spacing(-4) }} />}
-                {params.InputProps.endAdornment}
-              </>
-            )
+          slotProps={{
+            input: {
+              ...params.InputProps,
+              endAdornment: (
+                <>
+                  {loading && <Loader show small table style={{ marginTop: theme.spacing(-4) }} />}
+                  {params.InputProps.endAdornment}
+                </>
+              )
+            }
           }}
         />
       )}

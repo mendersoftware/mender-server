@@ -233,7 +233,7 @@ export const FormContent: FunctionComponent<RoleDefinitionFormProps> = ({
       ) : (
         <DefaultPermissionSelection disabled={disableEdit} groups={stateGroups} releases={stateReleases} setValue={setValue} />
       )}
-      <Divider className="margin-top-large" light />
+      <Divider className="margin-top-large" />
       <div className={`flexbox centered margin-top ${classes.buttons}`}>
         <Button className="margin-right" onClick={onCancel}>
           Cancel

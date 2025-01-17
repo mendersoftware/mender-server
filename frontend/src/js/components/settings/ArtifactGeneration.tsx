@@ -69,8 +69,7 @@ const NumberInputLimited = ({ limit, onChange, value: propsValue, ...remainder }
 
   return (
     <TextField
-      inputProps={{ step: 1, type: 'numeric', pattern: '[0-9]*', autoComplete: 'off' }}
-      InputLabelProps={{ shrink: true }}
+      slotProps={{ htmlInput: { step: 1, type: 'numeric', pattern: '[0-9]*', autoComplete: 'off' } }}
       error={min || max ? min > value || value > max : false}
       value={value}
       onChange={({ target: { value } }) => setValue(Number(value) || 0)}

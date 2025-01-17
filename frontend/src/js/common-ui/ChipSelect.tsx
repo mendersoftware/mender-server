@@ -72,8 +72,10 @@ export const ChipSelect = ({ className = '', name, disabled = false, helperText,
             <TextField
               {...params}
               fullWidth
-              inputProps={{ ...params.inputProps, value }}
-              InputProps={{ ...params.InputProps, disableUnderline: disabled }}
+              slotProps={{
+                htmlInput: { ...params.inputProps, value },
+                input: { ...params.InputProps, disableUnderline: disabled }
+              }}
               key={`${name}-input`}
               label={label}
               variant={disabled ? 'standard' : 'outlined'}

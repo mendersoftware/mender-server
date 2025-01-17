@@ -221,7 +221,7 @@ export const GlobalSettingsDialog = ({
           className={classes.textInput}
           type="number"
           onChange={onChangeOfflineInterval}
-          inputProps={{ min: '1', max: '1000' }}
+          slotProps={{ htmlInput: { min: '1', max: '1000' } }}
           error={!!intervalErrorText}
           value={currentInterval}
         />

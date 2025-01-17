@@ -15,12 +15,16 @@ import React, { createRef, useEffect, useState } from 'react';
 
 import { Clear as ClearIcon, Add as ContentAddIcon } from '@mui/icons-material';
 import { Fab, FormControl, FormHelperText, IconButton, OutlinedInput } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
 const emptyInput = { helptip: null, key: '', value: '' };
 
+const useStyles = makeStyles()(theme => ({
+  spacer: { minWidth: theme.spacing(30) }
+}));
+
 export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHelpTipsMap = {}, onInputChange, reset }) => {
-  const theme = useTheme();
+  const { classes } = useStyles();
   const [inputs, setInputs] = useState([{ ...emptyInput }]);
   const [error, setError] = useState('');
 
@@ -104,7 +108,7 @@ export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHe
         );
       })}
       <div className="key-value-container">
-        <div style={{ minWidth: theme.spacing(30) }}>
+        <div className={classes.spacer}>
           <Fab
             disabled={disabled || !inputs[inputs.length - 1].key || !inputs[inputs.length - 1].value}
             style={{ marginBottom: 10 }}
@@ -115,7 +119,7 @@ export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHe
             <ContentAddIcon />
           </Fab>
         </div>
-        <div style={{ minWidth: theme.spacing(30) }} />
+        <div className={classes.spacer} />
         {inputs.length > 1 ? (
           <a className="margin-left-small" onClick={onClearClick}>
             clear all

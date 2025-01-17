@@ -14,19 +14,17 @@
 import React from 'react';
 
 import { Divider, Drawer } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
 
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 
 export const EventDetailsDrawer = ({ eventItem = {}, onClose, open, mapChangeToContent, fallbackComponent }) => {
-  const theme = useTheme();
   const { title, content: Component } = mapChangeToContent(eventItem, fallbackComponent);
   return (
     <Drawer className={`${open ? 'fadeIn' : 'fadeOut'}`} anchor="right" open={open} onClose={onClose}>
       <DrawerTitle title={<div className="capitalized-start">{title}</div>} onClose={onClose} />
       <Divider />
       <Component item={eventItem} onClose={onClose} />
-      <Divider light style={{ marginTop: theme.spacing(2) }} />
+      <Divider className="margin-top-small" />
     </Drawer>
   );
 };

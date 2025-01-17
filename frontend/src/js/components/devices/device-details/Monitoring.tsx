@@ -14,8 +14,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useTheme } from '@mui/material/styles';
-
 import DocsLink from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import Pagination from '@northern.tech/common-ui/Pagination';
@@ -42,11 +40,11 @@ export const DeviceMonitorsMissingNote = () => (
   </DeviceConnectionNote>
 );
 
-const MonitoringAlert = ({ alert, onDetailsClick, style }) => {
+const MonitoringAlert = ({ alert, className = '', onDetailsClick, style }) => {
   const { description, lines_before = [], lines_after = [], line_matching = '' } = alert.subject.details;
   const lines = [...lines_before, line_matching, ...lines_after].filter(i => i);
   return (
-    <div className="monitoring-alert column-data" style={style}>
+    <div className={`monitoring-alert column-data ${className}`} style={style}>
       {(severityMap[alert.level] ?? severityMap[monitoringSeverities.UNKNOWN]).icon}
       <div className="key muted">
         <b>{alert.name}</b>
@@ -60,7 +58,6 @@ const MonitoringAlert = ({ alert, onDetailsClick, style }) => {
 
 const paginationCutoff = defaultPerPage;
 export const DeviceMonitoring = ({ device, onDetailsClick }) => {
-  const theme = useTheme();
   const { hasMonitor } = useSelector(state => getTenantCapabilities(state));
   const { alerts = [], latest: latestAlerts = [] } = useSelector(state => state.monitor.alerts.byDeviceId[device.id]) ?? {};
   const alertListState = useSelector(state => state.monitor.alerts.alertList) ?? {};
@@ -89,7 +86,7 @@ export const DeviceMonitoring = ({ device, onDetailsClick }) => {
           <>
             {hasMonitorsDefined && !latestAlerts.length && <NoAlertsHeaderNotification />}
             {latestAlerts.map(alert => (
-              <MonitoringAlert alert={alert} key={alert.id} onDetailsClick={onDetailsClick} style={{ marginBottom: theme.spacing() }} />
+              <MonitoringAlert className="margin-bottom-x-small" alert={alert} key={alert.id} onDetailsClick={onDetailsClick} />
             ))}
             {isOffline && <DeviceOfflineHeaderNotification offlineThresholdSettings={offlineThresholdSettings} />}
           </>
