@@ -82,8 +82,14 @@ export const Organization = () => {
   useEffect(() => {
     dispatch(getUserBilling());
     dispatch(getUserOrganization());
-    dispatch(getSsoConfigs());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!isEnterprise) {
+      return;
+    }
+    dispatch(getSsoConfigs());
+  }, [dispatch, isEnterprise]);
 
   useEffect(() => {
     setHasSingleSignOn(!!ssoConfig);
