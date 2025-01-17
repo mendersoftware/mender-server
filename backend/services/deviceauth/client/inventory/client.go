@@ -18,6 +18,7 @@ import (
 	"context"
 	"crypto/tls"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"strings"
@@ -86,10 +87,13 @@ func (c *client) CheckHealth(ctx context.Context) error {
 		ctx, cancel = context.WithTimeout(ctx, defaultTimeout)
 		defer cancel()
 	}
-	req, _ := http.NewRequestWithContext(
+	req, err := http.NewRequestWithContext(
 		ctx, "GET",
 		utils.JoinURL(c.urlBase, urlHealth), nil,
 	)
+	if err != nil {
+		return fmt.Errorf("failed to create healthcheck request: %w", err)
+	}
 
 	rsp, err := c.client.Do(req)
 	if err != nil {
