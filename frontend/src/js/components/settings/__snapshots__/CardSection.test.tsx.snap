@@ -158,7 +158,6 @@ exports[`GlobalSettings Component renders correctly 1`] = `
   </p>
   <div
     class="flexbox center-aligned margin-top-small"
-    style="justify-content: flex-end;"
   >
     <button
       class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-1"

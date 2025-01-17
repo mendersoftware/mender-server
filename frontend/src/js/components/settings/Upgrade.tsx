@@ -151,7 +151,7 @@ export const Upgrade = () => {
       {!isTrial && <AddOnSelection org={org} currentPlan={currentPlan} addons={orgAddOns} features={features} isTrial={isTrial} />}
 
       {isTrial && selectedPlan && updatedPlan !== PLANS.enterprise.id ? (
-        <PlanExpanded plan={selectedPlan} organization={org} onCloseClick={() => setSelectedPlan(null)} />
+        <PlanExpanded isEdit={false} plan={selectedPlan} organization={org} onCloseClick={() => setSelectedPlan(null)} />
       ) : updatedPlan === PLANS.enterprise.id && selectedPlan ? (
         <EnterpriseRequestExpanded addons={addOns} onClose={() => setSelectedPlan(null)} onSendRequest={onEnterpriseRequest} />
       ) : (

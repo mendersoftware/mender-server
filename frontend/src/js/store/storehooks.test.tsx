@@ -130,7 +130,7 @@ const appInitActions = [
   { type: getUserOrganization.fulfilled.type },
   { type: userActions.setGlobalSettings.type, payload: { ...defaultState.users.globalSettings } },
   { type: setOfflineThreshold.pending.type },
-  { type: appActions.setOfflineThreshold.type, payload: '2019-01-12T13:00:06.200Z' },
+  { type: appActions.setOfflineThreshold.type, payload: '2019-01-12T13:00:00.950Z' },
   { type: setOfflineThreshold.fulfilled.type },
   { type: userActions.setUserSettings.type, payload: { ...defaultState.users.userSettings } },
   { type: getGlobalSettings.fulfilled.type },
@@ -240,11 +240,6 @@ const appInitActions = [
     ]
   },
   { type: getIntegrations.fulfilled.type },
-  { type: releasesActions.receiveReleases.type, payload: defaultState.releases.byId },
-  {
-    type: releasesActions.setReleaseListState.type,
-    payload: { ...defaultState.releases.releasesList, releaseIds: [defaultState.releases.byId.r1.name], page: 42 }
-  },
   {
     type: deviceActions.receivedDevices.type,
     payload: {
@@ -258,9 +253,14 @@ const appInitActions = [
       [expectedDevice.id]: { ...defaultState.devices.byId.a1, group: undefined, isNew: false, isOffline: true, monitor: {}, tags: {} }
     }
   },
+  { type: releasesActions.receiveReleases.type, payload: defaultState.releases.byId },
+  {
+    type: releasesActions.setReleaseListState.type,
+    payload: { ...defaultState.releases.releasesList, releaseIds: [defaultState.releases.byId.r1.name], page: 42 }
+  },
+  { type: getDevicesWithAuth.fulfilled.type },
+  { type: getDevicesWithAuth.fulfilled.type },
   { type: getReleases.fulfilled.type },
-  { type: getDevicesWithAuth.fulfilled.type },
-  { type: getDevicesWithAuth.fulfilled.type },
   {
     type: deviceActions.receivedDevices.type,
     payload: {

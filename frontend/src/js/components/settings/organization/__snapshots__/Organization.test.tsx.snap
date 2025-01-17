@@ -515,9 +515,9 @@ exports[`MyOrganization Component renders correctly 1`] = `
 }
 
 .emotion-28 {
-  background-color: #f7f7f7;
-  margin-top: 48px;
+  margin-top: 32px;
   padding: 16px;
+  padding-bottom: 48px;
 }
 
 .emotion-28>h5 {
@@ -544,6 +544,16 @@ exports[`MyOrganization Component renders correctly 1`] = `
 
 .emotion-35 iconButton {
   margin-right: 8px;
+}
+
+.emotion-43 {
+  background-color: #f7f7f7;
+  padding: 16px;
+}
+
+.emotion-44 {
+  color: rgba(0, 0, 0, 0.38);
+  margin: 15px 0;
 }
 
 <body>
@@ -896,6 +906,36 @@ exports[`MyOrganization Component renders correctly 1`] = `
               </a>
             </div>
           </li>
+          <div
+            class="emotion-43"
+          >
+            <div
+              class="flexbox center-aligned"
+            >
+              <div
+                class="padding-right-x-small"
+              >
+                <b>
+                  Billing details
+                </b>
+              </div>
+            </div>
+            <p
+              class="emotion-44 "
+            >
+              Enterprise plan payments are invoiced periodically to your organization. If you have any questions about your billing, 
+              <br />
+               please contact
+               
+              <a
+                href="mailto:support@mender.io"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                support@mender.io
+              </a>
+            </p>
+          </div>
         </ul>
         <p
           class="margin-left-small margin-right-small"
