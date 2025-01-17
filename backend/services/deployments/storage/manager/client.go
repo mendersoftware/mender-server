@@ -119,34 +119,37 @@ func (c *client) GetRequest(
 	path string,
 	filename string,
 	duration time.Duration,
+	public bool,
 ) (*model.Link, error) {
 	objStore, err := c.clientFromContext(ctx)
 	if err != nil {
 		return nil, err
 	}
-	return objStore.GetRequest(ctx, path, filename, duration)
+	return objStore.GetRequest(ctx, path, filename, duration, public)
 }
 
 func (c *client) DeleteRequest(
 	ctx context.Context,
 	path string,
 	duration time.Duration,
+	public bool,
 ) (*model.Link, error) {
 	objStore, err := c.clientFromContext(ctx)
 	if err != nil {
 		return nil, err
 	}
-	return objStore.DeleteRequest(ctx, path, duration)
+	return objStore.DeleteRequest(ctx, path, duration, public)
 }
 
 func (c *client) PutRequest(
 	ctx context.Context,
 	path string,
 	duration time.Duration,
+	public bool,
 ) (*model.Link, error) {
 	objStore, err := c.clientFromContext(ctx)
 	if err != nil {
 		return nil, err
 	}
-	return objStore.PutRequest(ctx, path, duration)
+	return objStore.PutRequest(ctx, path, duration, public)
 }

@@ -326,6 +326,7 @@ func (c *client) buildSignedURL(
 	blobURL string,
 	expire time.Duration,
 	filename string,
+	public bool,
 ) (*model.Link, error) {
 	var permissions sas.BlobPermissions
 	switch method {
@@ -382,9 +383,11 @@ func (c *client) buildSignedURL(
 		}
 	}
 	baseURL.RawQuery = q.Encode()
-	baseURL, err = utils.RewriteProxyURL(baseURL, proxyURL)
-	if err != nil {
-		return nil, err
+	if public {
+		baseURL, err = utils.RewriteProxyURL(baseURL, proxyURL)
+		if err != nil {
+			return nil, err
+		}
 	}
 	return &model.Link{
 		Expire: exp,
@@ -398,6 +401,7 @@ func (c *client) GetRequest(
 	objectPath string,
 	filename string,
 	duration time.Duration,
+	public bool,
 ) (*model.Link, error) {
 	azClient, err := c.clientFromContext(ctx)
 	if err != nil {
@@ -436,6 +440,7 @@ func (c *client) GetRequest(
 		bc.URL(),
 		duration,
 		filename,
+		public,
 	)
 	if err != nil {
 		return nil, OpError{
@@ -451,6 +456,7 @@ func (c *client) DeleteRequest(
 	ctx context.Context,
 	path string,
 	duration time.Duration,
+	public bool,
 ) (*model.Link, error) {
 	azClient, err := c.clientFromContext(ctx)
 	if err != nil {
@@ -467,7 +473,7 @@ func (c *client) DeleteRequest(
 			Reason:  err,
 		}
 	}
-	link, err := c.buildSignedURL(ctx, http.MethodDelete, bc.URL(), duration, "")
+	link, err := c.buildSignedURL(ctx, http.MethodDelete, bc.URL(), duration, "", public)
 	if err != nil {
 		return nil, OpError{
 			Op:      OpDeleteRequest,
@@ -483,6 +489,7 @@ func (c *client) PutRequest(
 	ctx context.Context,
 	objectPath string,
 	duration time.Duration,
+	public bool,
 ) (*model.Link, error) {
 	azClient, err := c.clientFromContext(ctx)
 	if err != nil {
@@ -499,7 +506,7 @@ func (c *client) PutRequest(
 			Reason:  err,
 		}
 	}
-	link, err := c.buildSignedURL(ctx, http.MethodPut, bc.URL(), duration, "")
+	link, err := c.buildSignedURL(ctx, http.MethodPut, bc.URL(), duration, "", public)
 	if err != nil {
 		return nil, OpError{
 			Op:      OpPutRequest,

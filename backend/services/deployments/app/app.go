@@ -627,13 +627,19 @@ func (d *Deployments) handleRawFile(ctx context.Context,
 		filePath,
 		path.Base(filePath),
 		DefaultImageGenerationLinkExpire,
+		false,
 	)
 	if err != nil {
 		return "", err
 	}
 	multipartMsg.GetArtifactURI = link.Uri
 
-	link, err = d.objectStorage.DeleteRequest(ctx, filePath, DefaultImageGenerationLinkExpire)
+	link, err = d.objectStorage.DeleteRequest(
+		ctx,
+		filePath,
+		DefaultImageGenerationLinkExpire,
+		false,
+	)
 	if err != nil {
 		return "", err
 	}
@@ -797,6 +803,7 @@ func (d *Deployments) DownloadLink(ctx context.Context, imageID string,
 		imagePath,
 		image.Name+model.ArtifactFileSuffix,
 		expire,
+		true,
 	)
 	if err != nil {
 		return nil, errors.Wrap(err, "Generating download link")
@@ -820,7 +827,7 @@ func (d *Deployments) UploadLink(
 	if skipVerify {
 		path = model.ImagePathFromContext(ctx, artifactID)
 	}
-	link, err := d.objectStorage.PutRequest(ctx, path, expire)
+	link, err := d.objectStorage.PutRequest(ctx, path, expire, true)
 	if err != nil {
 		return nil, errors.WithMessage(err, "app: failed to generate signed URL")
 	}
@@ -1576,6 +1583,7 @@ func (d *Deployments) getDeploymentInstructions(
 		imagePath,
 		deviceDeployment.Image.Name+model.ArtifactFileSuffix,
 		DefaultUpdateDownloadLinkExpire,
+		true,
 	)
 	if err != nil {
 		return nil, errors.Wrap(err, "Generating download link for the device")

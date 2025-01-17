@@ -39,11 +39,11 @@ type ObjectStorage interface {
 
 	// The following interface generates signed URLs.
 	GetRequest(ctx context.Context, path string, filename string,
-		duration time.Duration) (*model.Link, error)
+		duration time.Duration, public bool) (*model.Link, error)
 	DeleteRequest(ctx context.Context, path string,
-		duration time.Duration) (*model.Link, error)
+		duration time.Duration, public bool) (*model.Link, error)
 	PutRequest(ctx context.Context, path string,
-		duration time.Duration) (*model.Link, error)
+		duration time.Duration, public bool) (*model.Link, error)
 }
 
 type ObjectInfo struct {

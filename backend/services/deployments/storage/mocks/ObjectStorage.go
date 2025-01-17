@@ -52,9 +52,9 @@ func (_m *ObjectStorage) DeleteObject(ctx context.Context, path string) error {
 	return r0
 }
 
-// DeleteRequest provides a mock function with given fields: ctx, path, duration
-func (_m *ObjectStorage) DeleteRequest(ctx context.Context, path string, duration time.Duration) (*model.Link, error) {
-	ret := _m.Called(ctx, path, duration)
+// DeleteRequest provides a mock function with given fields: ctx, path, duration, public
+func (_m *ObjectStorage) DeleteRequest(ctx context.Context, path string, duration time.Duration, public bool) (*model.Link, error) {
+	ret := _m.Called(ctx, path, duration, public)
 
 	if len(ret) == 0 {
 		panic("no return value specified for DeleteRequest")
@@ -62,19 +62,19 @@ func (_m *ObjectStorage) DeleteRequest(ctx context.Context, path string, duratio
 
 	var r0 *model.Link
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, string, time.Duration) (*model.Link, error)); ok {
-		return rf(ctx, path, duration)
+	if rf, ok := ret.Get(0).(func(context.Context, string, time.Duration, bool) (*model.Link, error)); ok {
+		return rf(ctx, path, duration, public)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, string, time.Duration) *model.Link); ok {
-		r0 = rf(ctx, path, duration)
+	if rf, ok := ret.Get(0).(func(context.Context, string, time.Duration, bool) *model.Link); ok {
+		r0 = rf(ctx, path, duration, public)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*model.Link)
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, string, time.Duration) error); ok {
-		r1 = rf(ctx, path, duration)
+	if rf, ok := ret.Get(1).(func(context.Context, string, time.Duration, bool) error); ok {
+		r1 = rf(ctx, path, duration, public)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -112,9 +112,9 @@ func (_m *ObjectStorage) GetObject(ctx context.Context, path string) (io.ReadClo
 	return r0, r1
 }
 
-// GetRequest provides a mock function with given fields: ctx, path, filename, duration
-func (_m *ObjectStorage) GetRequest(ctx context.Context, path string, filename string, duration time.Duration) (*model.Link, error) {
-	ret := _m.Called(ctx, path, filename, duration)
+// GetRequest provides a mock function with given fields: ctx, path, filename, duration, public
+func (_m *ObjectStorage) GetRequest(ctx context.Context, path string, filename string, duration time.Duration, public bool) (*model.Link, error) {
+	ret := _m.Called(ctx, path, filename, duration, public)
 
 	if len(ret) == 0 {
 		panic("no return value specified for GetRequest")
@@ -122,19 +122,19 @@ func (_m *ObjectStorage) GetRequest(ctx context.Context, path string, filename s
 
 	var r0 *model.Link
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, string, string, time.Duration) (*model.Link, error)); ok {
-		return rf(ctx, path, filename, duration)
+	if rf, ok := ret.Get(0).(func(context.Context, string, string, time.Duration, bool) (*model.Link, error)); ok {
+		return rf(ctx, path, filename, duration, public)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, string, string, time.Duration) *model.Link); ok {
-		r0 = rf(ctx, path, filename, duration)
+	if rf, ok := ret.Get(0).(func(context.Context, string, string, time.Duration, bool) *model.Link); ok {
+		r0 = rf(ctx, path, filename, duration, public)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*model.Link)
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, string, string, time.Duration) error); ok {
-		r1 = rf(ctx, path, filename, duration)
+	if rf, ok := ret.Get(1).(func(context.Context, string, string, time.Duration, bool) error); ok {
+		r1 = rf(ctx, path, filename, duration, public)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -178,9 +178,9 @@ func (_m *ObjectStorage) PutObject(ctx context.Context, path string, src io.Read
 	return r0
 }
 
-// PutRequest provides a mock function with given fields: ctx, path, duration
-func (_m *ObjectStorage) PutRequest(ctx context.Context, path string, duration time.Duration) (*model.Link, error) {
-	ret := _m.Called(ctx, path, duration)
+// PutRequest provides a mock function with given fields: ctx, path, duration, public
+func (_m *ObjectStorage) PutRequest(ctx context.Context, path string, duration time.Duration, public bool) (*model.Link, error) {
+	ret := _m.Called(ctx, path, duration, public)
 
 	if len(ret) == 0 {
 		panic("no return value specified for PutRequest")
@@ -188,19 +188,19 @@ func (_m *ObjectStorage) PutRequest(ctx context.Context, path string, duration t
 
 	var r0 *model.Link
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, string, time.Duration) (*model.Link, error)); ok {
-		return rf(ctx, path, duration)
+	if rf, ok := ret.Get(0).(func(context.Context, string, time.Duration, bool) (*model.Link, error)); ok {
+		return rf(ctx, path, duration, public)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, string, time.Duration) *model.Link); ok {
-		r0 = rf(ctx, path, duration)
+	if rf, ok := ret.Get(0).(func(context.Context, string, time.Duration, bool) *model.Link); ok {
+		r0 = rf(ctx, path, duration, public)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*model.Link)
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, string, time.Duration) error); ok {
-		r1 = rf(ctx, path, duration)
+	if rf, ok := ret.Get(1).(func(context.Context, string, time.Duration, bool) error); ok {
+		r1 = rf(ctx, path, duration, public)
 	} else {
 		r1 = ret.Error(1)
 	}
