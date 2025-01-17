@@ -197,12 +197,12 @@ exports[`DeviceGroups Component renders correctly 1`] = `
               >
                 Status:
                 <div
-                  class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiSelect-root css-l3fzcz-MuiInputBase-root-MuiInput-root-MuiSelect-root-selection"
+                  class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiSelect-root css-gac8fq-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root-selection"
                 >
                   <div
                     aria-expanded="false"
                     aria-haspopup="listbox"
-                    class="MuiSelect-select MuiSelect-standard MuiInputBase-input MuiInput-input css-1pzjxiu-MuiSelect-select-MuiInputBase-input-MuiInput-input"
+                    class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-w76bbz-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
                     role="combobox"
                     tabindex="0"
                   >
@@ -217,7 +217,7 @@ exports[`DeviceGroups Component renders correctly 1`] = `
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconStandard css-ozirs8-MuiSvgIcon-root-MuiSelect-icon"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-1usp264-MuiSvgIcon-root-MuiSelect-icon"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -226,6 +226,21 @@ exports[`DeviceGroups Component renders correctly 1`] = `
                       d="M7 10l5 5 5-5z"
                     />
                   </svg>
+                  <fieldset
+                    aria-hidden="true"
+                    class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+                  >
+                    <legend
+                      class="css-w4cd9x"
+                    >
+                      <span
+                        aria-hidden="true"
+                        class="notranslate"
+                      >
+                        ​
+                      </span>
+                    </legend>
+                  </fieldset>
                 </div>
               </div>
               <div

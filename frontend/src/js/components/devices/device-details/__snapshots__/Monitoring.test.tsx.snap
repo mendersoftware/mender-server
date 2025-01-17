@@ -46,8 +46,7 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
   </div>
   <div>
     <div
-      class="monitoring-alert column-data"
-      style="margin-bottom: 8px;"
+      class="monitoring-alert column-data margin-bottom-x-small"
     >
       <svg
         aria-hidden="true"
@@ -88,7 +87,7 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
       Alert history
     </h4>
     <div
-      class="monitoring-alert column-data"
+      class="monitoring-alert column-data "
     >
       <svg
         aria-hidden="true"
