@@ -22,8 +22,6 @@ import { DEVICE_FILTERING_OPTIONS, TIMEOUTS, emptyFilter } from '@northern.tech/
 
 import AttributeAutoComplete from './AttributeAutocomplete';
 
-const textFieldStyle = { marginTop: 0, marginBottom: 15 };
-
 const filterOptionsByPlan = {
   os: { $eq: { title: 'equals' } },
   professional: DEVICE_FILTERING_OPTIONS,
@@ -103,7 +101,7 @@ export const FilterItem = ({ attributes, onChange, onSelect, plan, reset }) => {
   const showValue = typeof (filterOptions[operator] || {}).value === 'undefined';
   return (
     <>
-      <div className="flexbox center-aligned relative">
+      <div className="flexbox center-aligned margin-top-small margin-bottom-small relative">
         {filterNotifications[key]}
         <AttributeAutoComplete
           attributes={attributes}
@@ -120,16 +118,7 @@ export const FilterItem = ({ attributes, onChange, onSelect, plan, reset }) => {
             </MenuItem>
           ))}
         </Select>
-        {showValue && (
-          <TextField
-            label="Value"
-            value={value}
-            onChange={updateFilterValue}
-            onKeyDown={onKeyDown}
-            InputLabelProps={{ shrink: !!value }}
-            style={textFieldStyle}
-          />
-        )}
+        {showValue && <TextField label="Value" value={value} onChange={updateFilterValue} onKeyDown={onKeyDown} />}
         {!!key && (
           <IconButton className="margin-left" onClick={removeFilter} size="small">
             <HighlightOffIcon />

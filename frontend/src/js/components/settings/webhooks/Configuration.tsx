@@ -30,11 +30,12 @@ import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpToo
 import { BENEFITS, EXTERNAL_PROVIDER, canAccess } from '@northern.tech/store/constants';
 import { getTenantCapabilities } from '@northern.tech/store/selectors';
 
-const useStyles = makeStyles()(() => ({
+const useStyles = makeStyles()(theme => ({
   buttonWrapper: {
     '&.button-wrapper': { justifyContent: 'initial' },
     [`.${buttonClasses.root}`]: { lineHeight: 'initial' }
-  }
+  },
+  formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(2), paddingTop: theme.spacing(4) }
 }));
 
 export const availableScopes = {
@@ -60,7 +61,7 @@ const UrlInput = props => {
 const WebhookEventsSelector = ({ canSelectEvents }: { canSelectEvents: boolean }) => (
   <>
     <div className="flexbox center-aligned margin-top">
-      <h4 className="margin-right-small">Webhook Events</h4>
+      <h4 className="margin-none margin-right-small">Webhook Events</h4>
       <InfoHintContainer>
         <EnterpriseNotification id={BENEFITS.webhookEvents.id} />
         <MenderHelpTooltip id={HELPTOOLTIPS.webhookEvents.id} />
@@ -123,10 +124,10 @@ const WebhookConfiguration = ({ onCancel, onSubmit }: { onCancel: () => void; on
 
   return (
     <Drawer anchor="right" open PaperProps={{ style: { minWidth: 600, width: '50vw' } }}>
-      <DrawerTitle title="Webhook details" postTitle={<MenderHelpTooltip id={HELPTOOLTIPS.webhooks.id} />} onClose={onCancel} />
+      <DrawerTitle title="Webhook details" postTitle={<MenderHelpTooltip className="margin-left-small" id={HELPTOOLTIPS.webhooks.id} />} onClose={onCancel} />
       <Divider />
       <Form
-        className="flexbox column"
+        className={classes.formWrapper}
         classes={classes}
         defaultValues={defaultValues}
         handleCancel={onCancel}
@@ -141,7 +142,7 @@ const WebhookConfiguration = ({ onCancel, onSubmit }: { onCancel: () => void; on
         <WebhookEventsSelector canSelectEvents={canSelectEvents} />
         <div className="flexbox">
           <TextInput label="Secret (optional)" id="secret" validations="isHexadecimal" />
-          <InfoHintContainer style={{ alignItems: 'end' }}>
+          <InfoHintContainer style={{ alignItems: 'center' }}>
             <MenderHelpTooltip id={HELPTOOLTIPS.webhookSecret.id} />
             <DocsTooltip id={DOCSTIPS.webhookSecret.id} />
           </InfoHintContainer>

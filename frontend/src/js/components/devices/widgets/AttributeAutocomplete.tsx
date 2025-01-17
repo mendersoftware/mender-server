@@ -21,8 +21,6 @@ import { TIMEOUTS, emptyFilter } from '@northern.tech/store/constants';
 import { defaultHeaders } from '../BaseDevices';
 import { getFilterLabelByKey } from './Filters';
 
-const textFieldStyle = { marginTop: 0, marginBottom: 15 };
-
 export const getOptionLabel = option => {
   const header = Object.values(defaultHeaders).find(
     ({ attribute }) => attribute.scope === option.scope && (attribute.name === option.key || attribute.alternative === option.key)
@@ -150,7 +148,7 @@ export const AttributeAutoComplete = ({ attributes, disabled = false, filter = e
         updateFilterKey(key, scope);
       }}
       options={options}
-      renderInput={params => <TextField {...params} label={label} style={textFieldStyle} />}
+      renderInput={params => <TextField {...params} label={label} />}
       key={reset}
       value={getFilterLabelByKey(key, attributes)}
     />

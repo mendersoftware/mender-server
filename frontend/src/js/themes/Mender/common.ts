@@ -194,7 +194,6 @@ export const overrides = {
     ...componentProps.MuiFormControl,
     styleOverrides: {
       root: {
-        marginTop: '18px',
         minWidth: '240px'
       }
     }

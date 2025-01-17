@@ -748,11 +748,13 @@ input[required]:-moz-ui-invalid {
 form .required::after {
   content: '* required';
   position: absolute;
-  top: 50%;
   left: 102%;
   font-size: 12px;
   color: @linkgreen;
   width: 100px;
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 form .required.file {
@@ -807,9 +809,9 @@ div:focus {
 
 .key-value-container {
   display: grid;
-  grid-template-columns: max-content max-content 65px;
+  grid-template-columns: min-content min-content 65px;
   column-gap: @defaultGutterWidth;
-  align-items: center;
+  align-items: baseline;
   justify-items: baseline;
   > div {
     margin-top: 10px;

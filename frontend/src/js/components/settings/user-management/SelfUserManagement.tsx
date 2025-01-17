@@ -37,11 +37,9 @@ const { setSnackbar } = storeActions;
 
 const useStyles = makeStyles()(() => ({
   formField: { width: 400, maxWidth: '100%' },
-  changeButton: { margin: '30px 0 0 15px' },
   infoText: { margin: 0, width: '75%' },
   jwt: { maxWidth: '70%' },
   oauthIcon: { fontSize: '36px', marginRight: 10 },
-  userId: { '&.full-width': { maxWidth: '100%' } },
   widthLimit: { maxWidth: 750 }
 }));
 
@@ -87,25 +85,31 @@ export const SelfUserManagement = () => {
   return (
     <div className={`margin-top-small ${classes.widthLimit}`}>
       <h2 className="margin-top-small">My profile</h2>
-      <UserId className={`full-width ${classes.userId}`} userId={userId} />
+      <UserId className="margin-bottom-none" userId={userId} />
       {!editEmail && email ? (
         <div className="flexbox space-between margin-bottom-small">
           <TextField className={classes.formField} label="Email" key={email} disabled defaultValue={email} variant="standard" />
           {!isOAuth2 && (
-            <Button className={`inline-block ${classes.changeButton}`} color="primary" id="change_email" onClick={handleEmail}>
+            <Button color="primary" id="change_email" onClick={handleEmail}>
               Change email
             </Button>
           )}
         </div>
       ) : (
         <Form defaultValues={{ email }} onSubmit={editSubmit} handleCancel={handleEmail} submitLabel="Save" showButtons={editEmail} buttonColor="secondary">
-          <TextInput disabled={false} hint="Email" id="email" InputLabelProps={{ shrink: !!email }} label="Email" validations="isLength:1,isEmail,trim" />
-          <PasswordInput id="current_password" label="Current password *" validations={`isLength:8,isNot:${email}`} required={true} />
+          <TextInput hint="Email" id="email" label="Email" validations="isLength:1,isEmail,trim" />
+          <PasswordInput
+            className="margin-top-x-small"
+            id="current_password"
+            label="Current password *"
+            validations={`isLength:8,isNot:${email}`}
+            required={true}
+          />
         </Form>
       )}
       {!isOAuth2 &&
         (!editPass ? (
-          <form className="flexbox space-between">
+          <form className="flexbox space-between margin-top">
             <TextField
               className={classes.formField}
               label="Password"
@@ -115,17 +119,29 @@ export const SelfUserManagement = () => {
               type="password"
               variant="standard"
             />
-            <Button className={classes.changeButton} color="primary" id="change_password" onClick={handlePass}>
+            <Button color="primary" id="change_password" onClick={handlePass}>
               Change password
             </Button>
           </form>
         ) : (
           <>
-            <h3 className="margin-top margin-bottom-none">Change password</h3>
+            <h3 className="margin-top">Change password</h3>
             <Form onSubmit={editSubmit} handleCancel={handlePass} submitLabel="Save" buttonColor="secondary" showButtons={editPass}>
-              <PasswordInput id="current_password" label="Current password *" validations={`isLength:8,isNot:${email}`} required />
-              <PasswordInput className="edit-pass" id="password" label="Password *" validations={`isLength:8,isNot:${email}`} create generate required />
-              <PasswordInput id="password_confirmation" label="Confirm password *" validations={`isLength:8,isNot:${email}`} required />
+              <PasswordInput
+                className="margin-bottom-x-small"
+                id="current_password"
+                label="Current password *"
+                validations={`isLength:8,isNot:${email}`}
+                required
+              />
+              <PasswordInput id="password" label="Password *" validations={`isLength:8,isNot:${email}`} create generate required />
+              <PasswordInput
+                className="margin-top-x-small"
+                id="password_confirmation"
+                label="Confirm password *"
+                validations={`isLength:8,isNot:${email}`}
+                required
+              />
             </Form>
           </>
         ))}

@@ -68,6 +68,7 @@ export const TextInput = ({
           <OutlinedInput
             autoComplete={autocomplete}
             id={id}
+            label={label}
             name={id}
             disabled={disabled}
             inputRef={inputRef => {
@@ -80,7 +81,6 @@ export const TextInput = ({
             onChange={({ target: { value } }) => onChange(value)}
             onBlur={() => (validations.includes('trim') ? onChange((value ?? passedValue).trim()) : onBlur)}
             placeholder={hint}
-            required={required}
             type={type}
             {...InputProps}
           />

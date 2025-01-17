@@ -61,7 +61,7 @@ export const ScheduleRollout = ({ canSchedule, commonClasses, setDeploymentSetti
   const startTime = dayjs(start_time);
   return (
     <>
-      <h4 className={`margin-bottom-none margin-top-none ${canSchedule ? '' : commonClasses.disabled}`}>Select a start time</h4>
+      <h4 className={`margin-top-none ${canSchedule ? '' : commonClasses.disabled}`}>Select a start time</h4>
       <div className={commonClasses.columns}>
         <FormControl className={classes.pickerStyle} disabled={!canSchedule}>
           <Select className={classes.textField} onChange={handleStartChange} value={start_time ? 'custom' : 0}>
@@ -75,7 +75,7 @@ export const ScheduleRollout = ({ canSchedule, commonClasses, setDeploymentSetti
         </InfoHintContainer>
       </div>
       {Boolean(isPickerOpen || start_time) && (
-        <FormControl className={`margin-top-none ${classes.pickerStyle}`} disabled={!canSchedule}>
+        <FormControl className={classes.pickerStyle} disabled={!canSchedule}>
           <DateTimePicker
             ampm={false}
             open={isPickerOpen}

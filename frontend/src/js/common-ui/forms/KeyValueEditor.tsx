@@ -99,7 +99,7 @@ export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHe
             ) : (
               <span />
             )}
-            {Helptip && <Helptip anchor={{ left: -35, top: 5 }} {...inputs[index].helptip.props} />}
+            {Helptip && <Helptip anchor={{ left: -35, top: 15, position: 'absolute' }} {...inputs[index].helptip.props} />}
           </div>
         );
       })}

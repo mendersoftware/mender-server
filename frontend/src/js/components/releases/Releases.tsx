@@ -15,7 +15,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 
 import { CloudUpload } from '@mui/icons-material';
-import { Button, Tab, Tabs, TextField } from '@mui/material';
+import { Button, Tab, Tabs, TextField, inputBaseClasses, outlinedInputClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import ChipSelect from '@northern.tech/common-ui/ChipSelect';
@@ -71,7 +71,8 @@ const useStyles = makeStyles()(theme => ({
   container: { maxWidth: 1600 },
   searchNote: { minHeight: '1.8rem' },
   tabContainer: { alignSelf: 'flex-start' },
-  uploadButton: { minWidth: 164, marginRight: theme.spacing(2) }
+  uploadButton: { minWidth: 164, marginRight: theme.spacing(2) },
+  nameSearch: { [`.${inputBaseClasses.root}.${outlinedInputClasses.root}`]: { paddingTop: theme.spacing(), paddingBottom: theme.spacing() } }
 }));
 
 const Header = ({ canUpload, releasesListState, setReleasesListState, onUploadClick }) => {
@@ -116,6 +117,7 @@ const Header = ({ canUpload, releasesListState, setReleasesListState, onUploadCl
               title: 'Release name',
               Component: ControlledSearch,
               componentProps: {
+                className: classes.nameSearch,
                 onSearch: searchUpdated,
                 placeholder: 'Starts with'
               }

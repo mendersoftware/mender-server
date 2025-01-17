@@ -26,6 +26,7 @@ const useStyles = makeStyles()(theme => ({
   limitSelection: {
     alignItems: 'baseline',
     display: 'flex',
+    marginTop: theme.spacing(2),
     marginLeft: `calc(1em + ${theme.spacing(1.5)})`,
     [`.${formControlClasses.root}`]: { minWidth: 'unset', width: 100, marginLeft: theme.spacing(), marginRight: theme.spacing() }
   }
@@ -95,7 +96,7 @@ export const DeviceLimit = props => {
         <div className={classes.limitSelection}>
           Finish deployment after{' '}
           <FormControl error={!!error}>
-            <OutlinedInput value={value} placeholder="Limit" onChange={handleLimitChange} type="text" hint={numberDevices} />
+            <OutlinedInput value={value} placeholder={numberDevices} onChange={handleLimitChange} type="text" />
             <FormHelperText>{error}</FormHelperText>
           </FormControl>
           devices have attempted to apply the update

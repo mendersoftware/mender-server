@@ -44,6 +44,7 @@ import { PermissionsSelectionBaseProps } from './PermissionsSelect';
 const useStyles = makeStyles()(theme => ({
   buttons: { '&.flexbox.centered': { justifyContent: 'flex-end' } },
   roleDeletion: { marginRight: theme.spacing(2) },
+  formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(2), paddingTop: theme.spacing(4) },
   permissionSelect: { marginLeft: theme.spacing(-1.5) },
   permissionsTitle: { marginBottom: theme.spacing(-1), minHeight: theme.spacing(3) }
 }));
@@ -214,10 +215,16 @@ export const FormContent: FunctionComponent<RoleDefinitionFormProps> = ({
 
   return (
     <>
-      <div className="flexbox column" style={{ width: 500 }}>
-        <TextInput label="Name" id="name" value={name} disabled={disableEdit || editing} validations="isAlphanumericLocator" required />
-        <TextInput disabled={disableEdit} label="Description" id="description" InputProps={{ multiline: true }} hint="-" />
-      </div>
+      <TextInput
+        className="margin-top-none"
+        disabled={disableEdit || editing}
+        id="name"
+        label="Name"
+        required
+        validations="isAlphanumericLocator"
+        value={name}
+      />
+      <TextInput className="margin-top-none" disabled={disableEdit} label="Description" id="description" InputProps={{ multiline: true }} hint="-" />
       <InputLabel className={`margin-top ${classes.permissionsTitle}`} shrink>
         Permissions
       </InputLabel>
@@ -348,7 +355,14 @@ export const RoleDefinition: FunctionComponent<RoleDefinitionProps> = ({
         }
       />
       <Divider />
-      <Form onSubmit={onSubmitClick} showButtons={false} autocomplete="off" defaultValues={defaultValues} initialValues={values}>
+      <Form
+        className={classes.formWrapper}
+        onSubmit={onSubmitClick}
+        showButtons={false}
+        autocomplete="off"
+        defaultValues={defaultValues}
+        initialValues={values}
+      >
         <FormContent
           editing={editing}
           groups={groups}

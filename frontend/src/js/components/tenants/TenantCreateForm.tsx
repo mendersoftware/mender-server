@@ -16,7 +16,7 @@ import { useFormContext } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { Divider, Drawer } from '@mui/material';
+import { Divider, Drawer, formControlLabelClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
@@ -45,12 +45,15 @@ const useStyles = makeStyles()(theme => ({
       justifyContent: 'start'
     }
   },
-  userInputContainer: { maxWidth: 500 },
-  devLimitInput: { marginTop: 10, maxWidth: 150, minWidth: 130 },
-  helpTooltip: {
-    marginLeft: theme.spacing(9),
-    alignSelf: 'flex-end'
-  }
+  formWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(2),
+    paddingTop: theme.spacing(4),
+    [`.${formControlLabelClasses.root}`]: { marginTop: 0 },
+    '.required .relative': { marginLeft: theme.spacing(10) }
+  },
+  devLimitInput: { marginTop: 10, maxWidth: 150, minWidth: 130 }
 }));
 
 interface UserInputsProps {
@@ -64,7 +67,6 @@ const newUserInfo = 'This will create a new user as admin of the new tenant.';
 
 const UserInputs = (props: UserInputsProps) => {
   const { setAdminExists, adminExists } = props;
-  const { classes } = useStyles();
   const [emailInfoText, setEmailInfoText] = useState<string>('');
   const checkEmailExists = async (email: string) => {
     const response = await Api.get(`${useradmApiUrlv1}/users/exists?email=${email}`);
@@ -98,31 +100,28 @@ const UserInputs = (props: UserInputsProps) => {
   }, [enteredEmail, setAdminExists]);
 
   return (
-    <div className={classes.userInputContainer}>
-      <div className="flexbox margin-bottom-small">
+    <>
+      <div className="flexbox center-aligned">
         <TextInput validations="isEmail,trim" required id="email" label="Admin user" />
-        <div className={classes.helpTooltip}>
-          <MenderHelpTooltip id={HELPTOOLTIPS.tenantAdmin.id} />
-        </div>
+        <MenderHelpTooltip className="required" id={HELPTOOLTIPS.tenantAdmin.id} />
       </div>
       {!adminExists && (
         <>
           <PasswordInput
+            className="margin-bottom-small"
             label={<PasswordLabel />}
             id="password"
-            validations={`isLength:8,isNot:${enteredEmail}`}
             InputLabelProps={{ shrink: true }}
-            edit={false}
+            validations={`isLength:8,isNot:${enteredEmail}`}
             placeholder="Password"
             create
             generate
-            className="margin-bottom-small"
           />
-          <FormCheckbox className="margin-top-none" id="send_reset_password" label="Send an email to the user containing a link to reset the password" />
+          <FormCheckbox id="send_reset_password" label="Send an email to the user containing a link to reset the password" />
         </>
       )}
       {emailInfoText ? <InfoHint content={emailInfoText} /> : <div />}
-    </div>
+    </>
   );
 };
 
@@ -158,6 +157,7 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
       <Form
         initialValues={tenantAdminDefaults}
         classes={classes}
+        className={classes.formWrapper}
         handleCancel={() => onCloseClick()}
         showButtons
         buttonColor="secondary"
@@ -165,39 +165,30 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
         submitLabel="Create tenant"
         autocomplete="off"
       >
-        <div className="flexbox column">
-          <TextInput required validations="isLength:3,trim" id="name" hint="Name" label="Name" className="margin-bottom-large margin-top-large" />
-          <UserInputs adminExists={adminExists} setAdminExists={setAdminExists} />
-          <div className="flexbox margin-top-large margin-bottom-large">
-            <TextInput
-              required
-              id="device_limit"
-              hint="1000"
-              type="number"
-              label="Set device limit"
-              className={classes.devLimitInput}
-              numericValidations={numericValidation}
-            />
-            <div className={classes.helpTooltip}>
-              <MenderHelpTooltip id={HELPTOOLTIPS.subTenantDeviceLimit.id} />
-            </div>
-          </div>
-          <div className="flexbox">
-            <FormCheckbox id="binary_delta" label="Enable Delta Artifact generation" />
-            <div className={classes.helpTooltip}>
-              <MenderHelpTooltip id={HELPTOOLTIPS.subTenantDeltaArtifactGeneration.id} />
-            </div>
-          </div>
-          <div className="flexbox">
-            <FormCheckbox id="sso" label="Restrict to Service Provider’s Single Sign-On settings" />
-            <div className={classes.helpTooltip}>
-              <MenderHelpTooltip id={HELPTOOLTIPS.subTenantSSO.id} />
-            </div>
-          </div>
-
-          <div className="margin-top-x-small margin-bottom">
-            <Link to="/settings/organization-and-billing">View Single Sign-On settings</Link>
-          </div>
+        <TextInput required validations="isLength:3,trim" id="name" hint="Name" label="Name" />
+        <UserInputs adminExists={adminExists} setAdminExists={setAdminExists} />
+        <div className="flexbox center-aligned">
+          <TextInput
+            required
+            id="device_limit"
+            hint="1000"
+            type="number"
+            label="Set device limit"
+            className={classes.devLimitInput}
+            numericValidations={numericValidation}
+          />
+          <MenderHelpTooltip className="required" id={HELPTOOLTIPS.subTenantDeviceLimit.id} />
+        </div>
+        <div className="flexbox center-aligned">
+          <FormCheckbox id="binary_delta" label="Enable Delta Artifact generation" />
+          <MenderHelpTooltip id={HELPTOOLTIPS.subTenantDeltaArtifactGeneration.id} />
+        </div>
+        <div className="flexbox center-aligned">
+          <FormCheckbox id="sso" label="Restrict to Service Provider’s Single Sign-On settings" />
+          <MenderHelpTooltip className="flexbox center-aligned" id={HELPTOOLTIPS.subTenantSSO.id} />
+        </div>
+        <div className="margin-top-x-small margin-bottom">
+          <Link to="/settings/organization-and-billing">View Single Sign-On settings</Link>
         </div>
       </Form>
     </Drawer>

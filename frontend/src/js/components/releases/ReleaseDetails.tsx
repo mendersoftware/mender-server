@@ -227,7 +227,7 @@ const ReleaseTags = ({ existingTags = [], release: { tags = [] }, onChange }) =>
         <h4 className="margin-right">Tags</h4>
         {!isEditing && <EditButton onClick={onToggleEdit} />}
       </div>
-      <div className="flexbox" style={{ alignItems: 'end' }}>
+      <div className="flexbox" style={{ alignItems: 'center' }}>
         <FormProvider {...methods}>
           <form noValidate>
             <ChipSelect

@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 // material ui
 import { InfoOutlined as InfoOutlinedIcon } from '@mui/icons-material';
-import { Checkbox, FormControlLabel, TextField, Typography, formControlLabelClasses, textFieldClasses } from '@mui/material';
+import { Checkbox, FormControlLabel, TextField, Typography, textFieldClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
@@ -30,6 +30,7 @@ import DeltaIcon from '../../../assets/img/deltaicon.svg';
 
 const useStyles = makeStyles()(theme => ({
   deviceLimitBar: { backgroundColor: theme.palette.grey[500], margin: '15px 0' },
+  formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(2), marginLeft: theme.spacing(2) },
   wrapper: {
     backgroundColor: theme.palette.background.lightgrey,
     display: 'flex',
@@ -39,8 +40,7 @@ const useStyles = makeStyles()(theme => ({
     paddingTop: 0,
     '&>h5': { marginTop: 0, marginBottom: 0 },
     '.flexbox>span': { alignSelf: 'flex-end' },
-    [`.${textFieldClasses.root}`]: { maxWidth: 200, minWidth: 100 },
-    [`.${formControlLabelClasses.root}`]: { marginTop: theme.spacing() }
+    [`.${textFieldClasses.root}`]: { maxWidth: 200, minWidth: 100 }
   }
 }));
 
@@ -185,7 +185,7 @@ export const ArtifactGenerationSettings = () => {
               <Typography className="margin-top-small" display="block" variant="caption">
                 xDelta3 arguments
               </Typography>
-              <div className="flexbox column margin-left">
+              <div className={classes.formWrapper}>
                 <FormControlLabel
                   control={
                     <Checkbox color="primary" checked={disableChecksum} onChange={({ target: { checked } }) => setDisableChecksum(checked)} size="small" />
@@ -193,6 +193,7 @@ export const ArtifactGenerationSettings = () => {
                   label="Disable checksum"
                 />
                 <FormControlLabel
+                  className="margin-top-none"
                   control={
                     <Checkbox
                       color="primary"

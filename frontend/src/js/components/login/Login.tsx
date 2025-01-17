@@ -78,7 +78,7 @@ const useStyles = makeStyles()(theme => {
       transform: `skew(0, -${skew}deg)`,
       zIndex: 1
     },
-    link: { marginLeft: theme.spacing(-0.5) },
+    link: { marginTop: theme.spacing(0.5) },
     ntBranding: { bottom: `calc(${theme.mixins.toolbar.minHeight}px + 3vh)`, right: 0, zIndex: 0 },
     tfaNote: { maxWidth: 300 },
     tfaTip: { position: 'absolute', right: -120 }
@@ -213,7 +213,7 @@ export const Login = () => {
             <Form className={classes.form} showButtons={true} buttonColor="primary" onSubmit={onLoginClick} submitLabel="Log in">
               <TextInput hint="Your email" label="Your email" id="email" required={true} validations="isLength:1,isEmail,trim" />
               <Collapse in={showPassword}>
-                <PasswordInput className="margin-bottom-small" id="password" label="Password" required={showPassword} />
+                <PasswordInput className="margin-top-small" id="password" label="Password" required={showPassword} />
               </Collapse>
               {isHosted ? (
                 <div className="flexbox">

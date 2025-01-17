@@ -33,6 +33,8 @@ export const AddonSelect = (props: AddonSelectProps) => {
       <InputLabel id="addons-selection-label">Select Addons</InputLabel>
       <Select
         multiple
+        label="Select Addons"
+        labelId="addons-selection-label"
         value={selectedAddons}
         onChange={onSelectedChange}
         renderValue={selected => selected.map((role: AddonId) => 'Mender ' + ADDONS[role].title).join(', ')}

@@ -78,25 +78,25 @@ export const IdAttributeSelection = ({ attributes, dialog = false, onCloseClick,
   const saveSettings = e => onSaveClick(e, { attribute: attributeSelection, scope: attributes.find(({ value }) => value === attributeSelection).scope });
 
   return (
-    <div className="flexbox space-between" style={{ alignItems: 'flex-start', maxWidth }}>
-      <FormControl>
-        <InputLabel shrink id="device-id">
-          Device identity attribute
-        </InputLabel>
-        <Select value={attributeSelection} onChange={onChangeIdAttribute}>
-          {attributes.map(item => (
-            <MenuItem key={item.value} value={item.value}>
-              {item.label}
-            </MenuItem>
-          ))}
-        </Select>
-        <FormHelperText className="info" component="div">
-          <div className="margin-top-small margin-bottom-small">Choose a device identity attribute to use to identify your devices throughout the UI.</div>
-          <div className="margin-top-small margin-bottom-small">
-            <DocsLink path="client-installation/identity" title="Learn how to add custom identity attributes" /> to your devices.
-          </div>
-        </FormHelperText>
-      </FormControl>
+    <div className="flexbox space-between" style={{ alignItems: 'start', maxWidth }}>
+      <div className="flexbox column">
+        <FormControl className="margin-top-none">
+          <InputLabel id="device-id">Device identity attribute</InputLabel>
+          <Select label="Device identity attribute" labelId="device-id" value={attributeSelection} onChange={onChangeIdAttribute}>
+            {attributes.map(item => (
+              <MenuItem key={item.value} value={item.value}>
+                {item.label}
+              </MenuItem>
+            ))}
+          </Select>
+          <FormHelperText className="info margin-left-none" component="div">
+            <div>Choose a device identity attribute to use to identify your devices throughout the UI.</div>
+            <div className={`margin-top-x-small ${dialog ? 'margin-bottom-small' : ''}`}>
+              <DocsLink path="client-installation/identity" title="Learn how to add custom identity attributes" /> to your devices.
+            </div>
+          </FormHelperText>
+        </FormControl>
+      </div>
       {dialog && (
         <div className="margin-left margin-top flexbox">
           <Button onClick={undoChanges} style={{ marginRight: 10 }}>

@@ -146,6 +146,7 @@ export const PasswordInput = ({
     return score > SCORE_THRESHOLD && isValid;
   };
 
+  const showAsNotched = label && typeof label !== 'string' ? { notched: true } : {};
   return (
     <div className={className}>
       <div className="password-wrapper">
@@ -161,6 +162,7 @@ export const PasswordInput = ({
               <OutlinedInput
                 autoComplete={autocomplete}
                 id={id}
+                label={label}
                 name={id}
                 type={visible ? 'text' : 'password'}
                 defaultValue={defaultValue}
@@ -181,6 +183,7 @@ export const PasswordInput = ({
                     </IconButton>
                   </InputAdornment>
                 }
+                {...showAsNotched}
               />
               <FormHelperText>{(errors[errorKey] || error)?.message}</FormHelperText>
             </FormControl>

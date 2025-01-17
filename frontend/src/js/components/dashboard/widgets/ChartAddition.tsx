@@ -69,7 +69,7 @@ export const Header = ({ chartType }) => {
 const GroupSelect = ({ groups, selection, setSelection }) => (
   <FormControl className="margin-top-none">
     <InputLabel id="group-select-label">Device group</InputLabel>
-    <Select labelId="group-select-label" value={selection.group || true} onChange={e => setSelection({ group: e.target.value })}>
+    <Select labelId="group-select-label" label="Device group" value={selection.group || true} onChange={e => setSelection({ group: e.target.value })}>
       <MenuItem value={true}>
         <em>All Devices</em>
       </MenuItem>
@@ -88,8 +88,17 @@ const getIndentation = level => ({ paddingLeft: basePadding + level * themeSpaci
 
 const SoftwareSelect = ({ selection, setSelection, software }) => (
   <FormControl className="margin-top-none">
-    <InputLabel id="software-select-label">Software</InputLabel>
-    <Select labelId="software-select-label" value={selection.software} onBlur={undefined} onChange={e => setSelection({ software: e.target.value })}>
+    <InputLabel shrink id="software-select-label">
+      Software
+    </InputLabel>
+    <Select
+      labelId="software-select-label"
+      label="Software"
+      displayEmpty
+      value={selection.software}
+      onBlur={undefined}
+      onChange={e => setSelection({ software: e.target.value })}
+    >
       {software.map(({ subheader, title, value, nestingLevel }) =>
         subheader ? (
           <ListSubheader key={value} style={getIndentation(nestingLevel)}>

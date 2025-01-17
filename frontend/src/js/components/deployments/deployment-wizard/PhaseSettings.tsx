@@ -48,7 +48,7 @@ const useStyles = makeStyles()(theme => ({
   delayInputWrapper: { display: 'grid', gridTemplateColumns: 'max-content max-content', columnGap: theme.spacing() },
   row: { whiteSpace: 'nowrap' },
   input: { minWidth: 400 },
-  patternSelection: { maxWidth: 515, width: 'min-content' }
+  patternSelection: { marginTop: theme.spacing(2), maxWidth: 515, width: 'min-content' }
 }));
 
 const timeframes = ['minutes', 'hours', 'days'];

@@ -33,7 +33,7 @@ const maxWidth = 750;
 const useStyles = makeStyles()(theme => ({
   leftButton: { marginRight: theme.spacing() },
   inputWrapper: { alignItems: 'flex-end' },
-  select: { marginTop: theme.spacing(2), minWidth: 300 },
+  select: { minWidth: 300 },
   textInput: { margin: theme.spacing(), minWidth: 500, wordBreak: 'break-all' },
   widthLimit: { maxWidth }
 }));
@@ -263,7 +263,7 @@ export const Integrations = () => {
       {!!availableIntegrations.length && (
         <FormControl>
           <InputLabel id="integration-select-label">Add an integration</InputLabel>
-          <Select className={classes.select} labelId="integration-select-label" onChange={onConfigureIntegration} value="">
+          <Select className={classes.select} label="Add an integration" labelId="integration-select-label" onChange={onConfigureIntegration} value="">
             {availableIntegrations.map(item => (
               <MenuItem key={item.provider} value={item.provider}>
                 {item.title}
