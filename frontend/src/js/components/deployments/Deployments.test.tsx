@@ -187,10 +187,10 @@ describe('Deployments Component', () => {
     await user.keyboard(specialKeys.Enter);
 
     await user.click(screen.getByRole('button', { name: /advanced options/i }));
-    const accordion = screen.getByRole('checkbox', { name: /maximum number of devices/i }).parentElement.parentElement.parentElement;
     await user.click(screen.getByRole('checkbox', { name: /maximum number of devices/i }));
     await waitFor(() => rerender(ui));
-    const limitInput = within(accordion).getByPlaceholderText(/limit/i);
+    let accordion = screen.getByRole('checkbox', { name: /maximum number of devices/i }).parentElement.parentElement?.parentElement;
+    const limitInput = within(accordion).getByRole('textbox');
     await user.clear(limitInput);
     await user.type(limitInput, '123');
     const post = jest.spyOn(GeneralApi, 'post');

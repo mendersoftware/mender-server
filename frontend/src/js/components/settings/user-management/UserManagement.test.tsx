@@ -64,7 +64,7 @@ describe('UserManagement Component', () => {
     expect(screen.queryByText(/enter a valid email address/i)).not.toBeInTheDocument();
     await user.click(screen.getByRole('checkbox', { name: /reset the password/i }));
     await user.click(screen.getByRole('checkbox', { name: /reset the password/i }));
-    const selectButton = screen.getByText(/roles/i).parentNode.querySelector('[role=combobox]');
+    const selectButton = screen.getByLabelText(/roles/i).parentNode.querySelector('[role=combobox]');
     await user.click(selectButton);
     let listbox = document.body.querySelector(dropDownSelector);
     const adminItem = within(listbox).getByText(/admin/i);
@@ -121,7 +121,7 @@ describe('UserManagement Component', () => {
     render(<UserManagement />, { preloadedState });
     const list = screen.getAllByText(/view details/i);
     await user.click(list[list.length - 1]);
-    const selectButton = screen.getByText(/roles/i).parentNode.querySelector('[role=combobox]');
+    const selectButton = screen.getByLabelText(/roles/i).parentNode.querySelector('[role=combobox]');
     await user.click(selectButton);
     let listbox = document.body.querySelector(dropDownSelector);
     const adminItem = within(listbox).getByText(/admin/i);

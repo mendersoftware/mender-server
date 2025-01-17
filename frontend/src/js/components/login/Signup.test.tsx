@@ -56,7 +56,7 @@ describe('Signup Component', () => {
     await act(async () => jest.runOnlyPendingTimers());
     expect(screen.getByRole('button', { name: /sign up/i })).toBeEnabled();
     await user.click(screen.getByRole('button', { name: /sign up/i }));
-    await waitFor(() => screen.queryByText('Company or organization name *'));
+    await waitFor(() => screen.queryByPlaceholderText('Company or organization name *'));
     await user.type(screen.getByRole('textbox', { name: /company or organization name \*/i }), 'test');
     expect(screen.getByRole('button', { name: /complete signup/i })).toBeDisabled();
     await user.click(screen.getByRole('checkbox', { name: /by checking this you agree to our/i }));
