@@ -11,7 +11,7 @@
   "release-type": "simple",
   "versioning": "prerelease",
   "prerelease": true,
-  "prerelease-type": "rc",
+  "prerelease-type": "saas",
   "include-component-in-tag": false,
   "include-v-in-tag": true,
   "signoff": "mender-test-bot <mender@northern.tech>",
