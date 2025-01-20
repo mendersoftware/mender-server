@@ -51,7 +51,8 @@ const useStyles = makeStyles()(theme => ({
 const triggerMap = {
   'device-decommissioned': 'Device decommissioned',
   'device-provisioned': 'Device provisioned',
-  'device-status-changed': 'Device status updated'
+  'device-status-changed': 'Device status updated',
+  'devices-inventory-changed': 'Device inventory changed'
 };
 
 const DeliveryStatus = ({ entry, webhook = {}, classes }) => {
