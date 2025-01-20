@@ -1,7 +1,8 @@
 {
     "name": "update_device_inventory",
     "description": "Update device inventory attributes.",
-    "version": 3,
+    "version": 4,
+    "ephemeral": true,
     "tasks": [
         {
             "name": "update_device_inventory",
