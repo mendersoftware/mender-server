@@ -62,15 +62,11 @@ Mender Server requires Docker Compose version `v2.23.1` or newer.
 > We strongly advise using [the helm chart](https://github.com/mendersoftware/mender-helm) for production setups.
 > This docker composition is only meant for evaluation purposes.
 
-For paying customers with access to Mender Enterprise components, you can evaluate the Mender Server Enterprise by replacing the snippet in step 2 above to:
-
-```bash
-export COMPOSE_FILE="docker-compose.yml:compose/docker-compose.enterprise.yml"
-docker compose up -d
-```
-
 > [!NOTE]
 > This composition will not work without a paid license with access to registry.mender.io.
+
+For paying customers with access to Mender Enterprise components, you can evaluate the Mender Server
+Enterprise by replacing some of the steps from above.
 
 To initialize the admin user, use the following snippet in step 3:
 
