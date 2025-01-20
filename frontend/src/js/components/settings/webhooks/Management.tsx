@@ -126,7 +126,7 @@ export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
   };
 
   return (
-    <Drawer anchor="right" open={!!webhook?.id} PaperProps={{ style: { minWidth: 750, width: '60vw' } }}>
+    <Drawer anchor="right" open={!!webhook?.id} PaperProps={{ style: { minWidth: 750, width: '60vw' } }} onClose={onCancelClick}>
       <DrawerTitle
         title="Webhook details"
         preCloser={
