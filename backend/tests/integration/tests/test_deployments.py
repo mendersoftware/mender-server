@@ -82,7 +82,7 @@ def create_tenant_test_setup(
     assert r.status_code == 200
     user.utoken = r.text
     tenant.users = [user]
-    upload_image("/tests/test-artifact.mender", user.utoken)
+    upload_image("/tests/data/test-artifact.mender", user.utoken)
 
     # count deployments
     resp = api_mgmt_deploy.with_auth(user.utoken).call("GET", "/deployments")
@@ -582,7 +582,7 @@ def setup_devices_and_management_st(nr_devices=100, deploy_to_group=None):
     assert r.status_code == 200
     utoken = r.text
     # Upload a dummy artifact to the server
-    upload_image("/tests/test-artifact.mender", utoken)
+    upload_image("/tests/data/test-artifact.mender", utoken)
     # count existing devices
     r = invm.with_auth(utoken).call(
         "GET", inventory.URL_DEVICES, qs_params={"per_page": 1}
@@ -633,7 +633,7 @@ def setup_devices_and_management_mt(nr_devices=100, deploy_to_group=None):
     assert r.status_code == 200
     utoken = r.text
     # Upload a dummy artifact to the server
-    upload_image("/tests/test-artifact.mender", utoken)
+    upload_image("/tests/data/test-artifact.mender", utoken)
     # count existing devices
     r = invm.with_auth(utoken).call(
         "GET", inventory.URL_DEVICES, qs_params={"per_page": 1}

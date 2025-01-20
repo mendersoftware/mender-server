@@ -1,5 +1,7 @@
 #!/bin/bash
 
+docker_compose_cmd="docker compose"
+
 MENDER_SERVER_PATH=$(git rev-parse --show-toplevel)
 export MENDER_SERVER_PATH
 
@@ -13,6 +15,9 @@ COMPOSE_FILES_OPEN=" \
 COMPOSE_FILES_ENTERPRISE="${COMPOSE_FILES_OPEN} \
         -f $MENDER_SERVER_PATH/backend/tests/integration/docker/docker-compose.backend-tests-enterprise.yml \
         "
+COMPOSE_FILES_COMPAT="${COMPOSE_FILES_OPEN} \
+        -f $MENDER_SERVER_PATH/backend/tests/integration/docker/docker-compose.backend-tests-compat.yml \
+        "
 COMPOSE_FILE_STORAGE_AZURE="-f $MENDER_SERVER_PATH/backend/tests/integration/docker/docker-compose.storage.azblob.yml"
 
 COMPOSE_FILE_AZURE_SETUP="-f $MENDER_SERVER_PATH/backend/tests/integration/docker/docker-compose.azblob.setup.yml"
@@ -22,7 +27,7 @@ COMPOSE_FILES=""
 COMPOSE_UP_EXTRA_ARGS="--remove-orphans"
 
 compose_cmd() {
-    docker-compose -p backend-tests $COMPOSE_FILES $@
+    $docker_compose_cmd -p backend-tests $COMPOSE_FILES $@
 }
 
 PYTEST_FILTER_OPEN="not Enterprise and not Multitenant"
@@ -31,13 +36,13 @@ PYTEST_FILTER=""
 
 PYTEST_REPORT_OPEN="--self-contained-html \
         --junit-xml=tests/results_integration_open.xml \
-        --html=tests/report_integration_open.html"
+        --html=report_integration_open.html"
 PYTEST_REPORT_ENTERPRISE="--self-contained-html \
         --junit-xml=tests/results_integration_enterprise.xml \
-        --html=tests/report_integration_enterprise.html"
+        --html=report_integration_enterprise.html"
 PYTEST_REPORT=""
 
-PYTEST_ARGS=""
+PYTEST_ADDOPTS=""
 
 DOCS="$MENDER_SERVER_PATH/backend/tests/integration/docs"
 TOOLS="$MENDER_SERVER_PATH/backend/tests/integration/downloaded-tools"
@@ -81,6 +86,9 @@ parse_args() {
                     enterprise)
                         TEST_SUITES=("enterprise")
                         ;;
+                    compat)
+                        TEST_SUITES=("compat")
+                        ;;
                     all)
                         TEST_SUITES=("open" "enterprise")
                         ;;
@@ -102,11 +110,11 @@ parse_args() {
                 ;;
             --)
                 shift 1
-                USER_PYTEST_ARGS="$USER_PYTEST_ARGS $@"
+                USER_PYTEST_ADDOPTS="$USER_PYTEST_ADDOPTS $@"
                 return 0
                 ;;
             *)
-                USER_PYTEST_ARGS="$USER_PYTEST_ARGS $1"
+                USER_PYTEST_ADDOPTS="$USER_PYTEST_ADDOPTS $1"
                 ;;
         esac
         shift 1
@@ -179,36 +187,36 @@ copy_test_reports_if_args() {
 
 prepare_pytest_args() {
     filter="none"
-    for val in $USER_PYTEST_ARGS; do
+    for val in $USER_PYTEST_ADDOPTS; do
         if [ "$val" == "-k" ]; then
             filter="next"
         elif [ "$filter" == "next" ]; then
             PYTEST_FILTER="$PYTEST_FILTER and $val"
             filter="done"
         else
-            PYTEST_ARGS="$PYTEST_ARGS $val"
+            PYTEST_ADDOPTS="$PYTEST_ADDOPTS $val"
         fi
     done
 
     echo "-- using PYTEST_FILTER=$PYTEST_FILTER"
-    PYTEST_ARGS="$PYTEST_ARGS -k '$PYTEST_FILTER' $PYTEST_REPORT"
+    PYTEST_ADDOPTS="$PYTEST_ADDOPTS -k '$PYTEST_FILTER' $PYTEST_REPORT"
 
-    export PYTEST_ARGS
+    export PYTEST_ADDOPTS
 }
 
 cleanup() {
     if [ -z $SKIP_CLEANUP ]; then
         compose_cmd down -v --remove-orphans
     else
-        # Remove stopped container created by docker-compose run
+        # Remove stopped container created by $docker_compose_cmd run
         compose_cmd rm -f
     fi
     if [ -n "$AZURE_STORAGE_CONTAINER_PREFIX" ]; then
         # Remove the blob storage container if we created one
         echo "Removing blob storage container '$AZURE_STORAGE_CONTAINER_NAME'"
-        docker-compose $COMPOSE_FILE_AZURE_SETUP run --rm \
+        $docker_compose_cmd $COMPOSE_FILE_AZURE_SETUP run --rm \
             azblob-container-teardown $AZURE_STORAGE_CONTAINER_NAME
-        docker-compose $COMPOSE_FILE_AZURE_SETUP down
+        $docker_compose_cmd $COMPOSE_FILE_AZURE_SETUP down
     fi
 }
 
@@ -228,6 +236,11 @@ for suite in "${TEST_SUITES[@]}"; do
             PYTEST_FILTER="$PYTEST_FILTER_OPEN"
             PYTEST_REPORT="$PYTEST_REPORT_OPEN"
             ;;
+        compat)
+            COMPOSE_FILES="$COMPOSE_FILES_COMPAT"
+            PYTEST_FILTER="$PYTEST_FILTER_OPEN"
+            PYTEST_REPORT="$PYTEST_REPORT_OPEN"
+            ;;
         enterprise)
             COMPOSE_FILES="$COMPOSE_FILES_ENTERPRISE"
             PYTEST_FILTER="$PYTEST_FILTER_ENTERPRISE"
@@ -243,7 +256,7 @@ for suite in "${TEST_SUITES[@]}"; do
         container="${AZURE_STORAGE_CONTAINER_PREFIX}-${date_suffix}-${rand_suffix}"
         export AZURE_STORAGE_CONTAINER_NAME="${container}"
         echo "Creating container '$AZURE_STORAGE_CONTAINER_NAME'"
-        docker-compose $COMPOSE_FILE_AZURE_SETUP run --rm \
+        $docker_compose_cmd $COMPOSE_FILE_AZURE_SETUP run --rm \
             azblob-container-setup $AZURE_STORAGE_CONTAINER_NAME
         ec=$?
         if [ $ec -ne 0 ]; then
@@ -256,7 +269,7 @@ for suite in "${TEST_SUITES[@]}"; do
     elif [ -n "$AZURE_STORAGE_CONTAINER_NAME" ]; then
         COMPOSE_FILES="${COMPOSE_FILES} ${COMPOSE_FILE_STORAGE_AZURE}"
         COMPOSE_UP_EXTRA_ARGS="${COMPOSE_UP_EXTRA_ARGS} --scale minio=0"
-        PYTEST_ARGS="$PYTEST_ARGS -m storage_test"
+        PYTEST_ADDOPTS="$PYTEST_ADDOPTS -m storage_test"
     fi
 
     prepare_pytest_args
