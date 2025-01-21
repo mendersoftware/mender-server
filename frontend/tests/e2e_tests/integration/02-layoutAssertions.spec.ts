@@ -37,10 +37,17 @@ test.describe('Layout assertions', () => {
     });
   });
 
-  test('can authorize a device', async ({ loggedInPage: page }) => {
+  test('can authorize a device', async ({ browserName, context, loggedInPage: page }) => {
     // allow twice the device interaction time + roughly a regular test execution time
     test.setTimeout(2 * timeouts.sixtySeconds + timeouts.fifteenSeconds);
+    const isWebkit = browserName === 'webkit';
+    if (isWebkit) {
+      await context.tracing.start({ screenshots: true, snapshots: true });
+    }
     await navbar.getByRole('link', { name: /Devices/i }).click();
+    if (isWebkit) {
+      await context.tracing.start({ screenshots: true, snapshots: true });
+    }
     let hasAcceptedDevice = false;
     try {
       await page.waitForSelector(`css=${selectors.deviceListItem}`, { timeout: timeouts.default });
