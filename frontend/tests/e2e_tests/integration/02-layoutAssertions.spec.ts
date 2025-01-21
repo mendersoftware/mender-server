@@ -15,30 +15,32 @@ import test, { expect } from '../fixtures/fixtures.ts';
 import { selectors, storagePath, timeouts } from '../utils/constants.ts';
 
 test.describe('Layout assertions', () => {
-  const navbar = '.leftFixed.leftNav';
   test.use({ storageState: storagePath });
-
+  let navbar;
+  test.beforeEach(async ({ loggedInPage: page }) => {
+    navbar = page.locator('.leftFixed.leftNav');
+  });
   test.describe('Overall layout and structure', () => {
-    test('shows the left navigation', async ({ loggedInPage: page }) => {
-      await expect(page.locator(`${navbar}:has-text('Dashboard')`)).toBeVisible();
-      await expect(page.locator(`${navbar}:has-text('Devices')`)).toBeVisible();
-      await expect(page.locator(`${navbar}:has-text('Releases')`)).toBeVisible();
-      await expect(page.locator(`${navbar}:has-text('Deployments')`)).toBeVisible();
+    test('shows the left navigation', async () => {
+      await expect(navbar.getByRole('link', { name: /Dashboard/i })).toBeVisible();
+      await expect(navbar.getByRole('link', { name: /Devices/i })).toBeVisible();
+      await expect(navbar.getByRole('link', { name: /Releases/i })).toBeVisible();
+      await expect(navbar.getByRole('link', { name: /Deployments/i })).toBeVisible();
     });
 
-    test('has clickable header buttons', async ({ loggedInPage: page }) => {
-      await expect(page.locator(`${navbar}:has-text('Dashboard')`)).toBeVisible();
-      await page.click(`${navbar}:has-text('Dashboard')`);
-      await page.click(`${navbar}:has-text('Devices')`);
-      await page.click(`${navbar}:has-text('Releases')`);
-      await page.click(`${navbar}:has-text('Deployments')`);
+    test('has clickable header buttons', async () => {
+      await expect(navbar.getByRole('link', { name: /Dashboard/i })).toBeVisible();
+      await navbar.getByRole('link', { name: /Dashboard/i }).click();
+      await navbar.getByRole('link', { name: /Devices/i }).click();
+      await navbar.getByRole('link', { name: /Releases/i }).click();
+      await navbar.getByRole('link', { name: /Deployments/i }).click();
     });
   });
 
   test('can authorize a device', async ({ loggedInPage: page }) => {
     // allow twice the device interaction time + roughly a regular test execution time
     test.setTimeout(2 * timeouts.sixtySeconds + timeouts.fifteenSeconds);
-    await page.click(`.leftNav :text('Devices')`);
+    await navbar.getByRole('link', { name: /Devices/i }).click();
     let hasAcceptedDevice = false;
     try {
       await page.waitForSelector(`css=${selectors.deviceListItem}`, { timeout: timeouts.default });
@@ -68,7 +70,7 @@ test.describe('Layout assertions', () => {
     const groupList = await page.locator('.grouplist');
     const wasGrouped = await groupList.getByText('testgroup').isVisible();
     test.skip(wasGrouped, 'looks like the device was grouped already, continue with the remaining tests');
-    await page.click(`.leftNav :text('Devices')`);
+    await navbar.getByRole('link', { name: /Devices/i }).click();
     await page.click(selectors.deviceListCheckbox);
     await page.click('.MuiSpeedDial-fab');
     await page.click('[aria-label="group-add"]');
