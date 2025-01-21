@@ -461,6 +461,7 @@ func TestUploadLink(t *testing.T) {
 			regexMatcher(`^[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}\`+
 				fileSuffixTmp),
 			time.Minute,
+			true,
 		).Return(link, nil)
 
 		ds.On("GetStorageSettings", ctx).
@@ -489,6 +490,7 @@ func TestUploadLink(t *testing.T) {
 				`[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}\`+
 				fileSuffixTmp),
 			time.Minute,
+			true,
 		).Return(link, nil)
 
 		ds.On("GetStorageSettings", h.ContextMatcher()).
@@ -521,6 +523,7 @@ func TestUploadLink(t *testing.T) {
 				`[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}\`+
 				fileSuffixTmp),
 			time.Minute,
+			true,
 		).Return(nil, errInternal)
 
 		upLink, err := deploy.UploadLink(ctx, time.Minute, false)
@@ -544,6 +547,7 @@ func TestUploadLink(t *testing.T) {
 				`[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}\`+
 				fileSuffixTmp),
 			time.Minute,
+			true,
 		).Return(link, nil)
 
 		ds.On("GetStorageSettings", ctx).

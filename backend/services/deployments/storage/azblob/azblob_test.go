@@ -205,10 +205,10 @@ func TestObjectStorage(t *testing.T) {
 			// Test signed requests
 
 			// Generate signed URL for object that does not exist
-			_, err = c.GetRequest(ctx, subPrefix+"not_found", "foo.mender", time.Minute)
+			_, err = c.GetRequest(ctx, subPrefix+"not_found", "foo.mender", time.Minute, true)
 			assert.ErrorIs(t, err, storage.ErrObjectNotFound)
 
-			link, err := c.GetRequest(ctx, subPrefix+"foo", "bar.mender", time.Minute)
+			link, err := c.GetRequest(ctx, subPrefix+"foo", "bar.mender", time.Minute, true)
 			if assert.NoError(t, err) {
 				req, err := http.NewRequest(link.Method, link.Uri, nil)
 				if assert.NoError(t, err) {
@@ -222,7 +222,7 @@ func TestObjectStorage(t *testing.T) {
 				}
 			}
 
-			link, err = c.DeleteRequest(ctx, subPrefix+"foo", time.Minute)
+			link, err = c.DeleteRequest(ctx, subPrefix+"foo", time.Minute, false)
 			if assert.NoError(t, err) {
 				req, err := http.NewRequest(link.Method, link.Uri, nil)
 				if assert.NoError(t, err) {
@@ -235,7 +235,7 @@ func TestObjectStorage(t *testing.T) {
 				}
 			}
 
-			link, err = c.PutRequest(ctx, subPrefix+"bar", time.Minute*5)
+			link, err = c.PutRequest(ctx, subPrefix+"bar", time.Minute*5, true)
 			if assert.NoError(t, err) {
 				req, err := http.NewRequest(link.Method, link.Uri, strings.NewReader(blobContent))
 				if assert.NoError(t, err) {

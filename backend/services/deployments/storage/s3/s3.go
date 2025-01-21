@@ -559,12 +559,17 @@ func (s *SimpleStorageService) PutRequest(
 	ctx context.Context,
 	path string,
 	expireAfter time.Duration,
+	public bool,
 ) (*model.Link, error) {
 
 	expireAfter = capDurationToLimits(expireAfter).Truncate(time.Second)
 	opts, err := s.optionsFromContext(ctx)
 	if err != nil {
 		return nil, err
+	}
+	if !public {
+		opts.ExternalURI = nil
+		opts.ProxyURI = nil
 	}
 
 	params := &s3.PutObjectInput{
@@ -592,12 +597,17 @@ func (s *SimpleStorageService) GetRequest(
 	objectPath string,
 	filename string,
 	expireAfter time.Duration,
+	public bool,
 ) (*model.Link, error) {
 
 	expireAfter = capDurationToLimits(expireAfter).Truncate(time.Second)
 	opts, err := s.optionsFromContext(ctx)
 	if err != nil {
 		return nil, err
+	}
+	if !public {
+		opts.ExternalURI = nil
+		opts.ProxyURI = nil
 	}
 
 	if _, err := s.StatObject(ctx, objectPath); err != nil {
@@ -631,12 +641,17 @@ func (s *SimpleStorageService) DeleteRequest(
 	ctx context.Context,
 	path string,
 	expireAfter time.Duration,
+	public bool,
 ) (*model.Link, error) {
 
 	expireAfter = capDurationToLimits(expireAfter).Truncate(time.Second)
 	opts, err := s.optionsFromContext(ctx)
 	if err != nil {
 		return nil, err
+	}
+	if !public {
+		opts.ExternalURI = nil
+		opts.ProxyURI = nil
 	}
 
 	params := &s3.DeleteObjectInput{
