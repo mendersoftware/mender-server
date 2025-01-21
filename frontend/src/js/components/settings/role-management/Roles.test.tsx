@@ -13,7 +13,7 @@
 //    limitations under the License.
 import React from 'react';
 
-import { ALL_DEVICES, ALL_RELEASES } from '@northern.tech/store/constants';
+import { ALL_DEVICES, ALL_RELEASES, TIMEOUTS } from '@northern.tech/store/constants';
 import * as UserActions from '@northern.tech/store/usersSlice/thunks';
 import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -30,82 +30,86 @@ describe('Roles Component', () => {
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
 
-  it('works as intended', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const editRoleSpy = jest.spyOn(UserActions, 'editRole');
-    const removeRoleSpy = jest.spyOn(UserActions, 'removeRole');
-    const preloadedState = {
-      ...defaultState,
-      releases: {
-        ...defaultState.releases,
-        tags: ['foo', 'bar']
-      }
-    };
-    render(<Roles />, { preloadedState });
+  it(
+    'works as intended',
+    async () => {
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+      const editRoleSpy = jest.spyOn(UserActions, 'editRole');
+      const removeRoleSpy = jest.spyOn(UserActions, 'removeRole');
+      const preloadedState = {
+        ...defaultState,
+        releases: {
+          ...defaultState.releases,
+          tags: ['foo', 'bar']
+        }
+      };
+      render(<Roles />, { preloadedState });
 
-    const role = screen.getByText(/test description/i).parentElement;
-    await user.click(within(role).getByText(/view details/i));
-    await waitFor(() => expect(screen.getByText(/edit role/i)).toBeVisible());
-    let collapse = screen.getByText(/edit role/i).parentElement.parentElement.parentElement;
-    await user.click(screen.getByRole('button', { name: /delete/i }));
-    expect(screen.queryByText(/delete the role/i)).toBeInTheDocument();
-    const dialog = screen.getByText(/delete role\?/i).parentElement.parentElement;
-    const confirmationButton = within(dialog).getByRole('button', { name: /confirm/i });
-    expect(confirmationButton).toBeDisabled();
-    await user.type(screen.getByLabelText(/test/i, { selector: 'input' }), preloadedState.users.rolesById.test.name);
-    expect(confirmationButton).not.toBeDisabled();
-    await user.click(within(dialog).getByRole('button', { name: /confirm/i }));
-    expect(removeRoleSpy).toHaveBeenCalled();
-    await user.click(within(role).getByText(/view details/i));
-    await user.type(within(collapse).getByLabelText(/Description/i), 'something');
-    const groupSelect = within(collapse).getByText(Object.keys(defaultState.devices.groups.byId)[0]).parentNode;
-    await selectMaterialUiSelectOption(groupSelect, ALL_DEVICES, user);
-    expect(screen.getByText(/For 'All devices',/)).toBeVisible();
+      const role = screen.getByText(/test description/i).parentElement;
+      await user.click(within(role).getByText(/view details/i));
+      await waitFor(() => expect(screen.getByText(/edit role/i)).toBeVisible());
+      let collapse = screen.getByText(/edit role/i).parentElement.parentElement.parentElement;
+      await user.click(screen.getByRole('button', { name: /delete/i }));
+      expect(screen.queryByText(/delete the role/i)).toBeInTheDocument();
+      const dialog = screen.getByText(/delete role\?/i).parentElement.parentElement;
+      const confirmationButton = within(dialog).getByRole('button', { name: /confirm/i });
+      expect(confirmationButton).toBeDisabled();
+      await user.type(screen.getByLabelText(/test/i, { selector: 'input' }), preloadedState.users.rolesById.test.name);
+      expect(confirmationButton).not.toBeDisabled();
+      await user.click(within(dialog).getByRole('button', { name: /confirm/i }));
+      expect(removeRoleSpy).toHaveBeenCalled();
+      await user.click(within(role).getByText(/view details/i));
+      await user.type(within(collapse).getByLabelText(/Description/i), 'something');
+      const groupSelect = within(collapse).getByText(Object.keys(defaultState.devices.groups.byId)[0]).parentNode;
+      await selectMaterialUiSelectOption(groupSelect, ALL_DEVICES, user);
+      expect(screen.getByText(/For 'All devices',/)).toBeVisible();
 
-    const releaseSelect = within(collapse).getByText('bar').parentNode;
-    await selectMaterialUiSelectOption(releaseSelect, ALL_RELEASES, user);
+      const releaseSelect = within(collapse).getByText('bar').parentNode;
+      await selectMaterialUiSelectOption(releaseSelect, ALL_RELEASES, user);
 
-    const permissionSelect = within(collapse).getByDisplayValue(ALL_DEVICES).parentElement?.parentElement?.parentElement;
-    const selectButton = within(within(permissionSelect).getByText(/read/i).parentElement).getByRole('combobox');
-    expect(selectButton).not.toBeDisabled();
-    // Open the select dropdown
-    // Get the dropdown element. We don't use getByRole() because it includes <select>s too.
-    await user.click(selectButton);
-    const listbox = await within(document.body).findByRole('listbox');
-    expect(listbox).toBeTruthy();
+      const permissionSelect = within(collapse).getByDisplayValue(ALL_DEVICES).parentElement?.parentElement?.parentElement;
+      const selectButton = within(within(permissionSelect).getByText(/read/i).parentElement).getByRole('combobox');
+      expect(selectButton).not.toBeDisabled();
+      // Open the select dropdown
+      // Get the dropdown element. We don't use getByRole() because it includes <select>s too.
+      await user.click(selectButton);
+      const listbox = await within(document.body).findByRole('listbox');
+      expect(listbox).toBeTruthy();
 
-    // Click the list item
-    let listItem = within(listbox).getByText(/read/i);
-    await user.click(listItem);
+      // Click the list item
+      let listItem = within(listbox).getByText(/read/i);
+      await user.click(listItem);
 
-    const submitButton = screen.getByRole('button', { name: /submit/i, hidden: true });
-    expect(submitButton).toBeDisabled();
-    listItem = within(listbox).getByText(/deploy/i);
-    await user.click(listItem);
-    expect(submitButton).not.toBeDisabled();
-    await user.click(submitButton);
-    expect(editRoleSpy).toHaveBeenCalledWith({
-      allowUserManagement: false,
-      description: `${defaultState.users.rolesById.test.description}something`,
-      name: 'test',
-      uiPermissions: {
-        auditlog: [],
-        groups: [
-          { disableEdit: false, item: ALL_DEVICES, notFound: false, uiPermissions: ['deploy'] },
-          { disableEdit: false, item: '', notFound: false, uiPermissions: [] }
-        ],
-        releases: [
-          { disableEdit: false, item: ALL_RELEASES, notFound: false, uiPermissions: ['read'] },
-          { disableEdit: false, item: '', notFound: false, uiPermissions: [] }
-        ],
-        tenantManagement: [],
-        userManagement: []
-      },
-      source: { ...defaultState.users.rolesById.test, value: defaultState.users.rolesById.test.name }
-    });
-    await act(async () => {
-      jest.runOnlyPendingTimers();
-      jest.runAllTicks();
-    });
-  });
+      const submitButton = screen.getByRole('button', { name: /submit/i, hidden: true });
+      expect(submitButton).toBeDisabled();
+      listItem = within(listbox).getByText(/deploy/i);
+      await user.click(listItem);
+      expect(submitButton).not.toBeDisabled();
+      await user.click(submitButton);
+      expect(editRoleSpy).toHaveBeenCalledWith({
+        allowUserManagement: false,
+        description: `${defaultState.users.rolesById.test.description}something`,
+        name: 'test',
+        uiPermissions: {
+          auditlog: [],
+          groups: [
+            { disableEdit: false, item: ALL_DEVICES, notFound: false, uiPermissions: ['deploy'] },
+            { disableEdit: false, item: '', notFound: false, uiPermissions: [] }
+          ],
+          releases: [
+            { disableEdit: false, item: ALL_RELEASES, notFound: false, uiPermissions: ['read'] },
+            { disableEdit: false, item: '', notFound: false, uiPermissions: [] }
+          ],
+          tenantManagement: [],
+          userManagement: []
+        },
+        source: { ...defaultState.users.rolesById.test, value: defaultState.users.rolesById.test.name }
+      });
+      await act(async () => {
+        jest.runOnlyPendingTimers();
+        jest.runAllTicks();
+      });
+    },
+    TIMEOUTS.refreshDefault
+  );
 });
