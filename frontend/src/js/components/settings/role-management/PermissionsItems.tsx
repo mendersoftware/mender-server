@@ -16,6 +16,7 @@ import { Controller, FieldValues, UseFormSetValue, useFieldArray, useFormContext
 
 import { InfoOutlined as InfoOutlinedIcon, WarningAmber as WarningIcon } from '@mui/icons-material';
 import { FormControl, InputLabel, MenuItem, Select, TextField, Tooltip } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
 import { PermissionsArea, UiPermission, uiPermissionsByArea } from '@northern.tech/store/constants';
 
@@ -120,6 +121,14 @@ const ScopeSelect: FunctionComponent<IScopedPermissionSelect> = ({ disabled, per
   );
 };
 
+const useStyles = makeStyles()(theme => ({
+  scopedPermissionItem: {
+    display: 'grid',
+    gridTemplateColumns: 'minmax(500px, max-content) 1fr',
+    gap: theme.spacing(4)
+  }
+}));
+
 const ScopedPermissionsItem: FunctionComponent<Omit<IScopedPermissionSelect, 'name'>> = ({
   permissionsArea,
   disabled: disableEdit,
@@ -132,10 +141,11 @@ const ScopedPermissionsItem: FunctionComponent<Omit<IScopedPermissionSelect, 'na
   const { selector: excessiveAccessSelector, warning: excessiveAccessWarning } = excessiveAccessConfig;
   const { uiPermissions } = uiPermissionsByArea[key];
   const { item } = itemSelection;
+  const { classes } = useStyles();
 
   const disabled = disableEdit || itemSelection.disableEdit;
   return (
-    <div className="flexbox center-aligned margin-left">
+    <div className={`margin-left-small ${classes.scopedPermissionItem}`}>
       <div className="two-columns center-aligned" style={{ maxWidth: formWidth }}>
         <ScopeSelect
           disabled={disabled}
@@ -156,11 +166,7 @@ const ScopedPermissionsItem: FunctionComponent<Omit<IScopedPermissionSelect, 'na
           unscoped={item === excessiveAccessSelector}
         />
       </div>
-      {item === excessiveAccessSelector && (
-        <div className="margin-left text-muted" style={{ alignSelf: 'flex-end' }}>
-          {excessiveAccessWarning}
-        </div>
-      )}
+      {item === excessiveAccessSelector && <div className="text-muted">{excessiveAccessWarning}</div>}
     </div>
   );
 };

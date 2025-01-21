@@ -34,7 +34,8 @@ const useStyles = makeStyles()(theme => ({
   leftButton: { marginRight: theme.spacing() },
   inputWrapper: { alignItems: 'flex-end' },
   select: { minWidth: 300 },
-  textInput: { margin: theme.spacing(), minWidth: 500, wordBreak: 'break-all' },
+  formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(2) },
+  textInput: { minWidth: 500, wordBreak: 'break-all' },
   widthLimit: { maxWidth }
 }));
 
@@ -77,7 +78,7 @@ const ConnectionDetailsInput = ({ connectionConfig, isEditing, setConnectionConf
 
   const commonProps = { className: classes.textInput, disabled: !isEditing, multiline: true };
   return (
-    <div className="flexbox column">
+    <div className={classes.formWrapper}>
       <TextField {...commonProps} label="Key ID" onChange={onKeyChange} value={keyId} />
       <TextField {...commonProps} label="Key Secret" onChange={onSecretChange} value={keySecret} />
       <TextField {...commonProps} label="Region" onChange={onRegionChange} value={awsRegion} />
@@ -159,9 +160,9 @@ export const IntegrationConfiguration = ({ integration, isLast, onCancel, onDele
   return (
     <>
       <h3 className="margin-bottom-none">{title}</h3>
-      <div className={`flexbox space-between relative ${classes.widthLimit} ${classes.inputWrapper}`}>
+      <div className={`flexbox space-between padding-top-small relative ${classes.widthLimit} ${classes.inputWrapper}`}>
         <ConfigInput connectionConfig={connectionConfig} isEditing={isEditing} setConnectionConfig={setConnectionConfig} title={title} />
-        <div className="flexbox">
+        <div className="flexbox margin-bottom-x-small">
           {isEditing ? (
             <>
               <Button className={classes.leftButton} onClick={onCancelClick}>

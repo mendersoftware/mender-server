@@ -35,7 +35,6 @@ exports[`Integrations Component renders correctly 1`] = `
   border: 0;
   vertical-align: top;
   min-width: 240px;
-  margin: 8px;
   min-width: 500px;
   word-break: break-all;
 }
@@ -557,7 +556,18 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   max-width: 750px;
 }
 
-.emotion-19 {
+.emotion-18 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.emotion-20 {
   color: rgba(0, 0, 0, 0.54);
   line-height: 1.4375em;
   font-family: Lato,sans-serif;
@@ -590,23 +600,23 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   max-width: calc(100% - 24px);
 }
 
-.emotion-19.Mui-focused {
+.emotion-20.Mui-focused {
   color: #337a87;
 }
 
-.emotion-19.Mui-disabled {
+.emotion-20.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-19.Mui-error {
+.emotion-20.Mui-error {
   color: #ab1000;
 }
 
-.emotion-19.Mui-focused {
+.emotion-20.Mui-focused {
   color: #337a87;
 }
 
-.emotion-24 {
+.emotion-25 {
   float: unset;
   width: auto;
   overflow: hidden;
@@ -621,7 +631,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   white-space: nowrap;
 }
 
-.emotion-24>span {
+.emotion-25>span {
   padding-left: 5px;
   padding-right: 5px;
   display: inline-block;
@@ -641,7 +651,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
     Azure IoT Hub
   </h3>
   <div
-    class="flexbox space-between relative emotion-0 emotion-1"
+    class="flexbox space-between padding-top-small relative emotion-0 emotion-1"
   >
     <div
       class="MuiFormControl-root MuiTextField-root emotion-2"
@@ -688,7 +698,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
       </div>
     </div>
     <div
-      class="flexbox"
+      class="flexbox margin-bottom-x-small"
     >
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-9"
@@ -744,16 +754,16 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
     AWS IoT Core
   </h3>
   <div
-    class="flexbox space-between relative emotion-0 emotion-1"
+    class="flexbox space-between padding-top-small relative emotion-0 emotion-1"
   >
     <div
-      class="flexbox column"
+      class="emotion-18"
     >
       <div
         class="MuiFormControl-root MuiTextField-root emotion-2"
       >
         <label
-          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-19"
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-20"
           data-shrink="false"
           for=":r6:"
           id=":r6:-label"
@@ -782,7 +792,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
             class="MuiOutlinedInput-notchedOutline emotion-7"
           >
             <legend
-              class="emotion-24"
+              class="emotion-25"
             >
               <span>
                 Key ID
@@ -795,7 +805,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
         class="MuiFormControl-root MuiTextField-root emotion-2"
       >
         <label
-          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-19"
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-20"
           data-shrink="false"
           for=":r7:"
           id=":r7:-label"
@@ -824,7 +834,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
             class="MuiOutlinedInput-notchedOutline emotion-7"
           >
             <legend
-              class="emotion-24"
+              class="emotion-25"
             >
               <span>
                 Key Secret
@@ -837,7 +847,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
         class="MuiFormControl-root MuiTextField-root emotion-2"
       >
         <label
-          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-19"
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-20"
           data-shrink="false"
           for=":r8:"
           id=":r8:-label"
@@ -866,7 +876,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
             class="MuiOutlinedInput-notchedOutline emotion-7"
           >
             <legend
-              class="emotion-24"
+              class="emotion-25"
             >
               <span>
                 Region
@@ -879,7 +889,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
         class="MuiFormControl-root MuiTextField-root emotion-2"
       >
         <label
-          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-19"
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-20"
           data-shrink="false"
           for=":r9:"
           id=":r9:-label"
@@ -908,7 +918,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
             class="MuiOutlinedInput-notchedOutline emotion-7"
           >
             <legend
-              class="emotion-24"
+              class="emotion-25"
             >
               <span>
                 Device Policy Name
@@ -919,7 +929,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
       </div>
     </div>
     <div
-      class="flexbox"
+      class="flexbox margin-bottom-x-small"
     >
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-9"

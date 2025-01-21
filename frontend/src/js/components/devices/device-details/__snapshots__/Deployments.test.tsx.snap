@@ -56,10 +56,6 @@ exports[`Deployments Component renders correctly 1`] = `
   border-color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-0>div {
-  padding-left: 4px;
-}
-
 .emotion-1 {
   -moz-appearance: none;
   -webkit-appearance: none;

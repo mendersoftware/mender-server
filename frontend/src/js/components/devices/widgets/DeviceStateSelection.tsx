@@ -23,10 +23,7 @@ const useStyles = makeStyles()(theme => ({
   selection: {
     fontSize: 13,
     marginLeft: theme.spacing(0.5),
-    marginTop: 2,
-    '>div': {
-      paddingLeft: theme.spacing(0.5)
-    }
+    marginTop: 2
   }
 }));
 
@@ -37,7 +34,7 @@ export const DeviceStateSelection = ({ onStateChange, selectedState = '', states
   return (
     <div className="flexbox centered">
       Status:
-      <Select className={classes.selection} disableUnderline onChange={e => onStateChange(e.target.value)} value={selectedState}>
+      <Select className={classes.selection} onChange={e => onStateChange(e.target.value)} value={selectedState}>
         {availableStates.map(state => (
           <MenuItem key={state.key} value={state.key}>
             {state.title()}

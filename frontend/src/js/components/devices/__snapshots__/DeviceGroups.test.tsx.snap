@@ -197,7 +197,7 @@ exports[`DeviceGroups Component renders correctly 1`] = `
               >
                 Status:
                 <div
-                  class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiSelect-root css-gac8fq-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root-selection"
+                  class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiSelect-root css-1sxu68y-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root-selection"
                 >
                   <div
                     aria-expanded="false"
