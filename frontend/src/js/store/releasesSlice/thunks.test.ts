@@ -33,6 +33,7 @@ import {
   selectRelease,
   setReleaseTags,
   setReleasesListState,
+  setSingleReleaseTags,
   updateReleaseInfo,
   uploadArtifact
 } from './thunks';
@@ -358,10 +359,12 @@ describe('release actions', () => {
     const store = mockStore({ ...defaultState });
     const expectedActions = [
       { type: setReleaseTags.pending.type },
+      { type: setSingleReleaseTags.pending.type },
       {
         type: actions.receiveRelease.type,
         payload: { ...defaultState.releases.byId.r1, tags: ['foo', 'bar'] }
       },
+      { type: setSingleReleaseTags.fulfilled.type },
       { type: appActions.setSnackbar.type, payload: 'Release tags were set successfully.' },
       { type: setReleaseTags.fulfilled.type }
     ];

@@ -23,8 +23,8 @@ import Pagination from '@northern.tech/common-ui/Pagination';
 import { RelativeTime } from '@northern.tech/common-ui/Time';
 import storeActions from '@northern.tech/store/actions';
 import { DEVICE_LIST_DEFAULTS, SORTING_OPTIONS, canAccess as canShow } from '@northern.tech/store/constants';
-import { getFeatures, getHasReleases, getReleaseListState, getReleasesList, getUserCapabilities } from '@northern.tech/store/selectors';
-import { removeRelease, selectRelease, setReleasesListState } from '@northern.tech/store/thunks';
+import { getFeatures, getHasReleases, getReleaseListState, getReleasesList, getSelectedReleases, getUserCapabilities } from '@northern.tech/store/selectors';
+import { removeReleases, selectRelease, setReleasesListState } from '@northern.tech/store/thunks';
 
 import { DeleteReleasesConfirmationDialog, ReleaseQuickActions } from './ReleaseDetails';
 import AddTagsDialog from './dialogs/AddTags';
@@ -95,17 +95,27 @@ export const ReleasesList = ({ className = '', onFileUploadClick }) => {
   const dropzoneRef = useRef();
   const uploading = useSelector(state => state.app.uploading);
   const releasesListState = useSelector(getReleaseListState);
-  const { selection: selectedRows } = releasesListState;
-  const { isLoading, page = defaultPage, perPage = defaultPerPage, searchTerm, sort = {}, searchTotal, selectedTags = [], total, type } = releasesListState;
+  const {
+    isLoading,
+    page = defaultPage,
+    perPage = defaultPerPage,
+    searchTerm,
+    sort = {},
+    searchTotal,
+    selection: selectedRows,
+    selectedTags = [],
+    total,
+    type
+  } = releasesListState;
   const hasReleases = useSelector(getHasReleases);
   const features = useSelector(getFeatures);
   const releases = useSelector(getReleasesList);
   const userCapabilities = useSelector(getUserCapabilities);
+  const selectedReleases = useSelector(getSelectedReleases);
   const dispatch = useDispatch();
   const { classes } = useStyles();
   const [addTagsDialog, setAddTagsDialog] = useState(false);
   const [deleteDialogConfirmation, setDeleteDialogConfirmation] = useState(false);
-  const [selectedReleases, setSelectedReleases] = useState([]);
 
   const { canUploadReleases } = userCapabilities;
   const { key: attribute, direction } = sort;
@@ -144,25 +154,21 @@ export const ReleasesList = ({ className = '', onFileUploadClick }) => {
   );
 
   const onDeleteRelease = releases => {
-    setSelectedReleases(releases);
+    onSelectionChange(releases);
     setDeleteDialogConfirmation(true);
   };
 
-  const deleteReleases = () => {
-    setDeleteDialogConfirmation(false);
-    dispatch(setReleasesListState({ loading: true }))
-      .then(() => {
-        const deleteRequests = selectedReleases.reduce((accu, release) => {
-          accu.push(dispatch(removeRelease(release.name)));
-          return accu;
-        }, []);
-        return Promise.all(deleteRequests);
-      })
-      .then(() => onSelectionChange([]));
-  };
+  const onSelectionChange = useCallback((selection: number[] = []) => dispatch(setReleasesListState({ selection })), [dispatch]);
+
+  const deleteReleases = useCallback(() => {
+    dispatch(removeReleases(selectedReleases.map(({ name }) => name))).then(() => {
+      setDeleteDialogConfirmation(false);
+      onSelectionChange([]);
+    });
+  }, [dispatch, onSelectionChange, selectedReleases]);
 
   const onTagRelease = releases => {
-    setSelectedReleases(releases);
+    onSelectionChange(releases);
     setAddTagsDialog(true);
   };
 
@@ -186,9 +192,6 @@ export const ReleasesList = ({ className = '', onFileUploadClick }) => {
     );
   }
 
-  const onSelectionChange = (selection = []) => {
-    dispatch(setReleasesListState({ selection }));
-  };
   return (
     <div className={className}>
       {isLoading === undefined ? (
@@ -218,7 +221,7 @@ export const ReleasesList = ({ className = '', onFileUploadClick }) => {
             />
             <Loader show={isLoading} small />
           </div>
-          {selectedRows?.length > 0 && <ReleaseQuickActions actionCallbacks={actionCallbacks} userCapabilities={userCapabilities} releases={releases} />}
+          {selectedReleases?.length > 0 && <ReleaseQuickActions actionCallbacks={actionCallbacks} />}
           {addTagsDialog && <AddTagsDialog selectedReleases={selectedReleases} onClose={() => setAddTagsDialog(false)} />}
           {deleteDialogConfirmation && <DeleteReleasesConfirmationDialog onClose={() => setDeleteDialogConfirmation(false)} onSubmit={deleteReleases} />}
         </>

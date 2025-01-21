@@ -260,6 +260,15 @@ export const removeRelease = createAsyncThunk(`${sliceName}/removeRelease`, (rel
   Promise.all(getReleasesById(getState())[releaseId].artifacts.map(({ id }) => dispatch(removeArtifact(id)))).then(() => dispatch(selectRelease()))
 );
 
+export const removeReleases = createAsyncThunk(`${sliceName}/removeReleases`, (releaseIds, { dispatch, getState }) => {
+  const deleteRequests = releaseIds.reduce((accu, releaseId) => {
+    const releaseArtifacts = getReleasesById(getState())[releaseId].artifacts;
+    accu.push(releaseArtifacts.map(({ id }) => dispatch(removeArtifact(id))));
+    return accu;
+  }, []);
+  return Promise.all(deleteRequests);
+});
+
 export const selectRelease = createAsyncThunk(`${sliceName}/selectRelease`, (release, { dispatch }) => {
   const name = release ? release.name || release : null;
   let tasks = [dispatch(actions.selectedRelease(name))];
@@ -358,16 +367,27 @@ export const updateReleaseInfo = createAsyncThunk(`${sliceName}/updateReleaseInf
     })
 );
 
-export const setReleaseTags = createAsyncThunk(`${sliceName}/setReleaseTags`, ({ name, tags = [] }, { dispatch, getState }) =>
-  GeneralApi.put(`${deploymentsApiUrlV2}/deployments/releases/${name}/tags`, tags)
-    .catch(err => commonErrorHandler(err, `Release tags couldn't be set.`, dispatch))
-    .then(() => {
-      return Promise.all([
-        dispatch(actions.receiveRelease({ ...getReleasesById(getState())[name], name, tags })),
-        dispatch(setSnackbar('Release tags were set successfully.', TIMEOUTS.fiveSeconds, ''))
-      ]);
-    })
+export const setSingleReleaseTags = createAsyncThunk(`${sliceName}/setSingleReleaseTags`, ({ name, tags }, { dispatch, getState }) =>
+  GeneralApi.put(`${deploymentsApiUrlV2}/deployments/releases/${name}/tags`, tags).then(() =>
+    Promise.resolve(dispatch(actions.receiveRelease({ ...getReleasesById(getState())[name], name, tags })))
+  )
 );
+
+export const setReleaseTags = createAsyncThunk(`${sliceName}/setReleaseTags`, ({ name, tags = [] }, { dispatch }) =>
+  dispatch(setSingleReleaseTags({ name, tags }))
+    .catch(err => commonErrorHandler(err, `Release tags couldn't be set.`, dispatch))
+    .then(() => Promise.resolve(dispatch(setSnackbar('Release tags were set successfully.', TIMEOUTS.fiveSeconds, ''))))
+);
+
+export const setReleasesTags = createAsyncThunk(`${sliceName}/setReleasesTags`, ({ releases, tags = [] }, { dispatch }) => {
+  const addRequests = releases.reduce((accu, release) => {
+    accu.push(dispatch(setSingleReleaseTags({ name: release.name, tags: [...new Set([...release.tags, ...tags])] })));
+    return accu;
+  }, []);
+  return Promise.all(addRequests)
+    .catch(err => commonErrorHandler(err, `Releases couldn't be tagged.`, dispatch))
+    .then(() => Promise.resolve(dispatch(setSnackbar('Releases were tagged successfully.', TIMEOUTS.fiveSeconds, ''))));
+});
 
 export const getExistingReleaseTags = createAsyncThunk(`${sliceName}/getReleaseTags`, (_, { dispatch }) =>
   GeneralApi.get(`${deploymentsApiUrlV2}/releases/all/tags`)

@@ -51,7 +51,7 @@ import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';
 import { getReleaseListState, getReleaseTags, getSelectedRelease, getUserCapabilities } from '@northern.tech/store/selectors';
 import { removeArtifact, removeRelease, selectRelease, setReleaseTags, updateReleaseInfo } from '@northern.tech/store/thunks';
-import { customSort, formatTime, toggle } from '@northern.tech/utils/helpers';
+import { customSort, formatTime, isEmpty, toggle } from '@northern.tech/utils/helpers';
 import { generateReleasesPath } from '@northern.tech/utils/locationutils';
 import useWindowSize from '@northern.tech/utils/resizehook';
 import copy from 'copy-to-clipboard';
@@ -93,19 +93,20 @@ const defaultActions = [
   {
     action: ({ onCreateDeployment, selection }) => onCreateDeployment(selection),
     icon: <ReplayIcon />,
-    isApplicable: ({ userCapabilities: { canDeploy }, selectedSingleRelease }) => canDeploy && selectedSingleRelease,
+    isApplicable: ({ userCapabilities: { canDeploy }, selectedSingleRelease, selectedRows }) =>
+      canDeploy && (selectedSingleRelease || selectedRows.length === 1),
     key: 'deploy',
     title: () => 'Create a deployment for this release'
   },
   {
-    action: ({ onTagRelease, selectedReleases }) => onTagRelease(selectedReleases),
+    action: ({ onTagRelease, selection }) => onTagRelease(selection),
     icon: <LabelOutlinedIcon />,
     isApplicable: ({ userCapabilities: { canManageReleases }, selectedSingleRelease }) => canManageReleases && !selectedSingleRelease,
     key: 'tag',
     title: pluralized => `Tag ${pluralized}`
   },
   {
-    action: ({ onDeleteRelease, selection, selectedReleases }) => onDeleteRelease(selection || selectedReleases),
+    action: ({ onDeleteRelease, selection }) => onDeleteRelease(selection),
     icon: <HighlightOffOutlinedIcon className="red" />,
     isApplicable: ({ userCapabilities: { canManageReleases } }) => canManageReleases,
     key: 'delete',
@@ -136,36 +137,26 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 
-export const ReleaseQuickActions = ({ actionCallbacks, innerRef, userCapabilities, releases }) => {
+export const ReleaseQuickActions = ({ actionCallbacks, innerRef }) => {
   const [showActions, setShowActions] = useState(false);
-  const [selectedReleases, setSelectedReleases] = useState([]);
   const { classes } = useStyles();
   const { selection: selectedRows } = useSelector(getReleaseListState);
   const selectedRelease = useSelector(getSelectedRelease);
-
-  useEffect(() => {
-    if (releases) {
-      setSelectedReleases(selectedRows.map(row => releases[row]));
-    }
-  }, [releases, selectedRows, setSelectedReleases]);
+  const userCapabilities = useSelector(getUserCapabilities);
 
   const actions = useMemo(() => {
     return Object.values(defaultActions).reduce((accu, action) => {
-      if (action.isApplicable({ userCapabilities, selectedSingleRelease: !!selectedRelease })) {
+      if (action.isApplicable({ userCapabilities, selectedSingleRelease: !isEmpty(selectedRelease), selectedRows })) {
         accu.push(action);
       }
       return accu;
     }, []);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(userCapabilities), selectedRelease]);
+  }, [JSON.stringify(userCapabilities), selectedRelease, selectedRows]);
 
-  const handleShowActions = () => {
-    setShowActions(!showActions);
-  };
+  const handleShowActions = () => setShowActions(toggle);
 
-  const handleClickAway = () => {
-    setShowActions(false);
-  };
+  const handleClickAway = () => setShowActions(false);
 
   const pluralized = pluralize('releases', selectedRelease ? 1 : selectedRows.length);
 
@@ -181,7 +172,7 @@ export const ReleaseQuickActions = ({ actionCallbacks, innerRef, userCapabilitie
               icon={action.icon}
               tooltipTitle={action.title(pluralized)}
               tooltipOpen
-              onClick={() => action.action({ ...actionCallbacks, selection: selectedRelease, selectedReleases })}
+              onClick={() => action.action({ ...actionCallbacks, selection: selectedRows })}
             />
           ))}
         </SpeedDial>
@@ -326,7 +317,6 @@ export const ReleaseDetails = () => {
   const dispatch = useDispatch();
   const release = useSelector(getSelectedRelease);
   const existingTags = useSelector(getReleaseTags);
-  const userCapabilities = useSelector(getUserCapabilities);
 
   const { name: releaseName, artifacts = [] } = release;
 
@@ -383,11 +373,7 @@ export const ReleaseDetails = () => {
         onRemove={() => onRemoveArtifact(selectedArtifact)}
       />
       <RemoveArtifactDialog open={!!confirmReleaseDeletion} onRemove={onDeleteRelease} onCancel={onToggleReleaseDeletion} release={release} />
-      <ReleaseQuickActions
-        actionCallbacks={{ onCreateDeployment, onDeleteRelease: onToggleReleaseDeletion }}
-        innerRef={creationRef}
-        userCapabilities={userCapabilities}
-      />
+      <ReleaseQuickActions actionCallbacks={{ onCreateDeployment, onDeleteRelease: onToggleReleaseDeletion }} innerRef={creationRef} />
     </Drawer>
   );
 };
