@@ -16,20 +16,11 @@ import { Controller, FormProvider, useForm, useFormContext } from 'react-hook-fo
 
 import { Search as SearchIcon } from '@mui/icons-material';
 import { InputAdornment, TextField } from '@mui/material';
-import { makeStyles } from 'tss-react/mui';
 
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 
 import Loader from './Loader';
-
-const useStyles = makeStyles()(() => ({
-  root: {
-    input: {
-      fontSize: '13px'
-    }
-  }
-}));
 
 const endAdornment = (
   <InputAdornment position="end">
@@ -46,8 +37,7 @@ const startAdornment = (
 // due to search not working reliably for single letter searches, only start at 2
 const MINIMUM_SEARCH_LENGTH = 2;
 
-export const ControlledSearch = ({ isSearching, name = 'search', onSearch, placeholder = 'Search devices', style = {} }) => {
-  const { classes } = useStyles();
+export const ControlledSearch = ({ className = '', isSearching, name = 'search', onSearch, placeholder = 'Search devices', style = {} }) => {
   const { control, watch } = useFormContext();
   const inputRef = useRef();
   const focusLockRef = useRef(true);
@@ -102,8 +92,8 @@ export const ControlledSearch = ({ isSearching, name = 'search', onSearch, place
       control={control}
       render={({ field }) => (
         <TextField
-          className={classes.root}
-          InputProps={adornments}
+          className={className}
+          slotProps={{ input: adornments }}
           onKeyUp={onTriggerSearch}
           onFocus={onFocus}
           placeholder={placeholder}
@@ -120,13 +110,13 @@ export const ControlledSearch = ({ isSearching, name = 'search', onSearch, place
 ControlledSearch.displayName = 'ConnectedSearch';
 
 const Search = props => {
-  const { searchTerm, onSearch, trigger } = props;
+  const { className = '', searchTerm, onSearch, trigger } = props;
   const methods = useForm({ mode: 'onChange', defaultValues: { search: searchTerm ?? '' } });
   const { handleSubmit } = methods;
   const onSubmit = useCallback(search => onSearch(search, !trigger), [onSearch, trigger]);
   return (
     <FormProvider {...methods}>
-      <form noValidate onSubmit={handleSubmit(({ search }) => onSearch(search, !trigger))}>
+      <form className={className} noValidate onSubmit={handleSubmit(({ search }) => onSearch(search, !trigger))}>
         <ControlledSearch {...props} onSearch={onSubmit} />
         <input className="hidden" type="submit" />
       </form>

@@ -15,7 +15,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 
 import { CheckCircle as CheckIcon, Visibility as VisibilityIcon, VisibilityOff as VisibilityOffIcon } from '@mui/icons-material';
-import { Button, FormControl, FormHelperText, IconButton, Input, InputAdornment, InputLabel } from '@mui/material';
+import { Button, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
 
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { toggle } from '@northern.tech/utils/helpers';
@@ -146,6 +146,7 @@ export const PasswordInput = ({
     return score > SCORE_THRESHOLD && isValid;
   };
 
+  const showAsNotched = label && typeof label !== 'string' ? { notched: true } : {};
   return (
     <div className={className}>
       <div className="password-wrapper">
@@ -158,9 +159,10 @@ export const PasswordInput = ({
               <InputLabel htmlFor={id} {...InputLabelProps}>
                 {label}
               </InputLabel>
-              <Input
+              <OutlinedInput
                 autoComplete={autocomplete}
                 id={id}
+                label={label}
                 name={id}
                 type={visible ? 'text' : 'password'}
                 defaultValue={defaultValue}
@@ -181,6 +183,7 @@ export const PasswordInput = ({
                     </IconButton>
                   </InputAdornment>
                 }
+                {...showAsNotched}
               />
               <FormHelperText>{(errors[errorKey] || error)?.message}</FormHelperText>
             </FormControl>

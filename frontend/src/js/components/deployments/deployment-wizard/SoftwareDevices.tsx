@@ -185,10 +185,10 @@ export const Devices = ({
 
   return (
     <>
-      <h4 className="margin-bottom-none margin-top-none">Select a device group to target</h4>
+      <h4 className="margin-top-none">Select a device group to target</h4>
       <div ref={groupRef} className={classes.selection}>
         {deviceText ? (
-          <TextField value={deviceText} label={pluralize('device', devices.length)} disabled={true} className={classes.infoStyle} />
+          <TextField value={deviceText} label={pluralize('device', devices.length)} disabled className={classes.infoStyle} />
         ) : (
           <div>
             <Autocomplete
@@ -281,11 +281,11 @@ export const Software = ({ commonClasses, deploymentObject, releaseRef, releases
 
   return (
     <>
-      <h4 className="margin-bottom-none margin-top-none">Select a Release to deploy</h4>
+      <h4 className="margin-top-none">Select a Release to deploy</h4>
       <div className={commonClasses.columns}>
         <div ref={releaseRef} className={classes.selection}>
           {releaseSelectionLocked ? (
-            <TextField value={deploymentRelease?.name} label="Release" disabled={true} className={classes.infoStyle} />
+            <TextField value={deploymentRelease?.name} label="Release" disabled className={classes.infoStyle} />
           ) : (
             <AsyncAutocomplete
               id="deployment-release-selection"

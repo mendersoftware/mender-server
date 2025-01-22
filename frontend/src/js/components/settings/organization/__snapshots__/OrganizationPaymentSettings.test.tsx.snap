@@ -107,45 +107,36 @@ exports[`OrganizationPaymentSettings Component renders correctly 1`] = `
   color: rgba(10, 10, 11, 0.78);
 }
 
-<div
-  class="flexbox margin-top"
->
+<div>
   <div
-    class="margin-top"
-  />
-  <div
-    class="flexbox column"
+    class="flexbox center-aligned margin-top"
   >
-    <div
-      class="flexbox"
+    <h5
+      class="margin-top-none margin-bottom-none margin-right-small"
     >
-      <h5
-        class="margin-top-small margin-bottom-x-small margin-right-x-small"
-      >
-        Payment card
-      </h5>
-      <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary align-self-start emotion-0"
-        id=":r0:"
-        tabindex="0"
-        type="button"
-      >
-        edit
-      </button>
+      Payment card
+    </h5>
+    <button
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-0"
+      id=":r0:"
+      tabindex="0"
+      type="button"
+    >
+      edit
+    </button>
+  </div>
+  <div
+    class=""
+  >
+    <div>
+      Payment card ending: **** 
+      1234
     </div>
-    <div
-      class=""
-    >
-      <div>
-        Payment card ending: **** 
-        1234
-      </div>
-      <div>
-        Expires 
-        08
-        /
-        30
-      </div>
+    <div>
+      Expires 
+      08
+      /
+      30
     </div>
   </div>
 </div>

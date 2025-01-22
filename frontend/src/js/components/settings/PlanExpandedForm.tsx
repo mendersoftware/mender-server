@@ -19,11 +19,14 @@ import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
 
 interface PlanExpandedFormProp {
+  className: string;
   setIsValid: (disabled: boolean) => void;
 }
+
 export const PlanExpandedForm = (props: PlanExpandedFormProp) => {
-  const { setIsValid } = props;
+  const { className, setIsValid } = props;
   const { formState } = useFormContext();
+
   useEffect(() => {
     if (formState.isDirty) {
       setIsValid(formState.isValid);
@@ -31,25 +34,19 @@ export const PlanExpandedForm = (props: PlanExpandedFormProp) => {
   }, [formState, setIsValid]);
 
   return (
-    <>
-      <div className="flexbox column">
-        <div className="flexbox">
-          <TextInput hint="Billing email" label="Billing email" id="email" required validations="isEmail,trim" />
-          <div className="margin-left-x-large align-self-end">
-            <MenderHelpTooltip id={HELPTOOLTIPS.planUpgradeEmail.id} />
-          </div>
-        </div>
-        <TextInput hint="Company name" label="Company name" id="name" required validations="isLength:2,trim" />
+    <div className={className}>
+      <div className="flexbox center-aligned">
+        <TextInput hint="Billing email" label="Billing email" id="email" required validations="isEmail,trim" />
+        <MenderHelpTooltip className="required" id={HELPTOOLTIPS.planUpgradeEmail.id} />
       </div>
-      <h4>Billing address</h4>
-      <div className="flexbox column">
-        <TextInput hint="Address line 1" label="Address line 1" required id="line1" validations="isLength:3,trim" />
-        <TextInput hint="State" label="State" required id="state" validations="isLength:2,trim" />
+      <TextInput hint="Company name" label="Company name" id="name" required validations="isLength:2,trim" />
 
-        <TextInput hint="City" label="City" required id="city" validations="isLength:2,trim" />
-        <TextInput hint="Zip or Postal code" required label="Zip or Postal code" id="postal_code" validations="isLength:4,trim" />
-        <ControlledCountrySelect required id="country" />
-      </div>
-    </>
+      <h4>Billing address</h4>
+      <TextInput hint="Address line 1" label="Address line 1" required id="line1" validations="isLength:3,trim" />
+      <TextInput hint="State" label="State" required id="state" validations="isLength:2,trim" />
+      <TextInput hint="City" label="City" required id="city" validations="isLength:2,trim" />
+      <TextInput hint="Zip or Postal code" required label="Zip or Postal code" id="postal_code" validations="isLength:4,trim" />
+      <ControlledCountrySelect required id="country" />
+    </div>
   );
 };

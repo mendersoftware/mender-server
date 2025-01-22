@@ -146,7 +146,8 @@ const useStyles = makeStyles()(theme => ({
   organization: { marginBottom: theme.spacing() },
   redAnnouncementIcon: {
     color: theme.palette.error.dark
-  }
+  },
+  search: { alignSelf: 'center' }
 }));
 
 const AccountMenu = () => {
@@ -378,7 +379,7 @@ export const Header = ({ isDarkMode }) => {
           </>
         ) : (
           <>
-            <Search isSearching={isSearching} searchTerm={searchTerm} onSearch={onSearch} trigger={refreshTrigger} />
+            <Search className={classes.search} isSearching={isSearching} searchTerm={searchTerm} onSearch={onSearch} trigger={refreshTrigger} />
             <div className="flexbox center-aligned">
               <DeviceNotifications pending={pendingDevices} total={acceptedDevices} limit={deviceLimit} />
               <DeploymentNotifications inprogress={inProgress} />

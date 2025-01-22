@@ -113,14 +113,16 @@ export const PermissionsSelect: FunctionComponent<IPermissionsSelect> = ({
     [options, permissionsArea, unscoped, selectedUiPermissions]
   );
 
+  const labelValue = label && !selectedUiPermissions.length ? label : '';
   return (
     <FormControl>
-      <InputLabel id="permission-selection-label">{label && !selectedUiPermissions.length ? label : ''}</InputLabel>
+      <InputLabel id="permission-selection-label">{labelValue}</InputLabel>
       <Controller
         name={name || permissionsArea.key}
         control={control}
         render={({ field }) => (
           <Select
+            label={labelValue}
             labelId="permission-selection-label"
             disabled={disabled}
             displayEmpty={!label}

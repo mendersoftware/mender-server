@@ -13,7 +13,7 @@
 //    limitations under the License.
 import React, { useEffect, useState } from 'react';
 
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormControlLabel, Input, Radio, RadioGroup } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormControlLabel, OutlinedInput, Radio, RadioGroup } from '@mui/material';
 
 const defaultCancelSubscriptionReasons = [
   'Just learning about Mender',
@@ -54,7 +54,7 @@ export const CancelRequestDialog = ({ onCancel, onSubmit }) => {
                 <FormControlLabel value={item} control={<Radio />} label={item} key={index} style={{ marginTop: '0px' }} />
               ))}
             </RadioGroup>
-            <Input
+            <OutlinedInput
               id="reason_other"
               name="reason_other"
               value={cancelSubscriptionReasonOther}
@@ -65,7 +65,7 @@ export const CancelRequestDialog = ({ onCancel, onSubmit }) => {
             />
           </FormControl>
           <p className="margin-top">Which key areas should we improve?</p>
-          <Input
+          <OutlinedInput
             id="suggestions"
             name="suggestions"
             className="margin-bottom"

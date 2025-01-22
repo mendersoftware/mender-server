@@ -16,6 +16,7 @@ import { Controller, FieldValues, UseFormSetValue, useFieldArray, useFormContext
 
 import { InfoOutlined as InfoOutlinedIcon, WarningAmber as WarningIcon } from '@mui/icons-material';
 import { FormControl, InputLabel, MenuItem, Select, TextField, Tooltip } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
 import { PermissionsArea, UiPermission, uiPermissionsByArea } from '@northern.tech/store/constants';
 
@@ -39,7 +40,7 @@ export type ItemScope = {
 export const emptyItemSelection: ItemSelectionType = { item: '', uiPermissions: [], disableEdit: false, notFound: false };
 
 const PermissionsAreaTitle: FunctionComponent<{ className?: string; explanation: string; title: string }> = ({ className = '', explanation, title }) => (
-  <div className={`flexbox center-aligned margin-top ${className}`}>
+  <div className={`flexbox center-aligned ${className}`}>
     {title}
     <Tooltip arrow placement="bottom" title={explanation}>
       <InfoOutlinedIcon className="margin-left-small muted" fontSize="small" />
@@ -51,10 +52,12 @@ interface IPermissionsItem extends PermissionsSelectionBaseProps {
   area: PermissionsArea;
 }
 
+const formWidth = 500;
+
 export const PermissionsItem: FunctionComponent<IPermissionsItem> = ({ area, disabled }) => (
-  <div className="two-columns center-aligned margin-left-small" style={{ maxWidth: 500 }}>
+  <div className="two-columns center-aligned margin-left-small" style={{ maxWidth: formWidth }}>
     <PermissionsAreaTitle title={area.title} explanation={area.explanation} />
-    <PermissionsSelect disabled={disabled} options={area.uiPermissions} permissionsArea={area} />
+    <PermissionsSelect disabled={disabled} options={area.uiPermissions} permissionsArea={area} unscoped />
   </div>
 );
 
@@ -86,17 +89,23 @@ interface IScopedPermissionSelect extends PermissionsSelectionBaseProps {
 const ScopeSelect: FunctionComponent<IScopedPermissionSelect> = ({ disabled, permissionsArea, index, options, itemSelection, name = '', onChange }) => {
   const { control } = useFormContext();
   const { key, placeholder } = permissionsArea;
+  const label = !itemSelection.item ? placeholder : '';
   return disabled ? (
-    // empty label as a shortcut to align the layout with the select path
-    <TextField disabled defaultValue={itemSelection.item} label=" " />
+    <TextField disabled defaultValue={itemSelection.item} />
   ) : (
     <FormControl>
-      <InputLabel id={`${key}-scope-selection-select-label`}>{!itemSelection.item ? placeholder : ''}</InputLabel>
+      <InputLabel id={`${key}-scope-selection-select-label`}>{label}</InputLabel>
       <Controller
         name={name || `${key}.${index}.item`}
         control={control}
         render={({ field }) => (
-          <Select labelId={`${key}-scope-selection-select-label`} disabled={disabled} {...field} onChange={({ target: { value } }) => onChange(value)}>
+          <Select
+            disabled={disabled}
+            label={label}
+            labelId={`${key}-scope-selection-select-label`}
+            {...field}
+            onChange={({ target: { value } }) => onChange(value)}
+          >
             {options.map(option => (
               <MenuItem disabled={option.notFound} key={option.title} value={option.title}>
                 <div title={option.notFound ? 'This item was removed' : ''} className="flexbox center-aligned">
@@ -112,6 +121,14 @@ const ScopeSelect: FunctionComponent<IScopedPermissionSelect> = ({ disabled, per
   );
 };
 
+const useStyles = makeStyles()(theme => ({
+  scopedPermissionItem: {
+    display: 'grid',
+    gridTemplateColumns: 'minmax(500px, max-content) 1fr',
+    gap: theme.spacing(4)
+  }
+}));
+
 const ScopedPermissionsItem: FunctionComponent<Omit<IScopedPermissionSelect, 'name'>> = ({
   permissionsArea,
   disabled: disableEdit,
@@ -124,11 +141,12 @@ const ScopedPermissionsItem: FunctionComponent<Omit<IScopedPermissionSelect, 'na
   const { selector: excessiveAccessSelector, warning: excessiveAccessWarning } = excessiveAccessConfig;
   const { uiPermissions } = uiPermissionsByArea[key];
   const { item } = itemSelection;
+  const { classes } = useStyles();
 
   const disabled = disableEdit || itemSelection.disableEdit;
   return (
-    <div className="flexbox center-aligned margin-left">
-      <div className="two-columns center-aligned" style={{ maxWidth: 500 }}>
+    <div className={`margin-left-small ${classes.scopedPermissionItem}`}>
+      <div className="two-columns center-aligned" style={{ maxWidth: formWidth }}>
         <ScopeSelect
           disabled={disabled}
           permissionsArea={permissionsArea}
@@ -148,11 +166,7 @@ const ScopedPermissionsItem: FunctionComponent<Omit<IScopedPermissionSelect, 'na
           unscoped={item === excessiveAccessSelector}
         />
       </div>
-      {item === excessiveAccessSelector && (
-        <div className="margin-left text-muted" style={{ alignSelf: 'flex-end' }}>
-          {excessiveAccessWarning}
-        </div>
-      )}
+      {item === excessiveAccessSelector && <div className="text-muted">{excessiveAccessWarning}</div>}
     </div>
   );
 };
@@ -185,7 +199,7 @@ export const ItemSelection: FunctionComponent<IItemSelection> = ({ disabled, opt
 
   return (
     <>
-      <PermissionsAreaTitle className="margin-left-small" explanation={explanation} title={title} />
+      <PermissionsAreaTitle className="margin-left-small margin-top-small" explanation={explanation} title={title} />
       {controlledFields.map((field, index) => (
         <ScopedPermissionsItem
           key={field.id}

@@ -13,6 +13,9 @@
 //    limitations under the License.
 import { AvailableAddon, AvailablePlans } from '@northern.tech/store/appSlice/constants';
 
+import { Address } from '../api/types/Address';
+import { ApiLimits } from '../api/types/ApiLimits';
+
 //TODO: improve types
 export interface Card {
   last4: string;
@@ -77,33 +80,12 @@ export interface OrganizationState {
   ssoConfigs: any[];
   webhooks: Webhook;
 }
-interface ApiQuota {
-  max_calls: number;
-  interval_sec: number;
-}
-
-interface ApiLimits {
-  management: {
-    bursts: any[];
-    quota: ApiQuota;
-  };
-  devices: {
-    bursts: any[];
-    quota: ApiQuota;
-  };
-}
 
 export interface Addon {
   name: AvailableAddon;
   enabled: boolean;
 }
-export interface Address {
-  country: string;
-  state: string;
-  city: string;
-  line1: string;
-  postal_code: string;
-}
+
 export interface BillingProfile {
   email: string;
   name: string;

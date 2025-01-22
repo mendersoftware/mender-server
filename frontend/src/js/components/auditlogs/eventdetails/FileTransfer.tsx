@@ -14,8 +14,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useTheme } from '@mui/material/styles';
-
 import Loader from '@northern.tech/common-ui/Loader';
 import { getAuditlogDevice, getIdAttribute, getUserCapabilities } from '@northern.tech/store/selectors';
 import { getDeviceById } from '@northern.tech/store/thunks';
@@ -32,7 +30,6 @@ export const FileTransfer = ({ item, onClose }) => {
   const device = useSelector(getAuditlogDevice);
   const { canReadDevices } = useSelector(getUserCapabilities);
   const idAttribute = useSelector(getIdAttribute);
-  const theme = useTheme();
 
   useEffect(() => {
     if (canReadDevices) {
@@ -50,7 +47,7 @@ export const FileTransfer = ({ item, onClose }) => {
   };
 
   return (
-    <div className="flexbox column" style={{ margin: theme.spacing(3), minWidth: 'min-content' }}>
+    <div className="flexbox column margin-small" style={{ minWidth: 'min-content' }}>
       {canReadDevices && <DeviceDetails device={device} idAttribute={idAttribute} onClose={onClose} />}
       <DetailInformation title="file transfer" details={sessionMeta} />
     </div>

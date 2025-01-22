@@ -14,7 +14,7 @@
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { FormControl, FormHelperText, Input, InputLabel } from '@mui/material';
+import { FormControl, FormHelperText, InputLabel, OutlinedInput } from '@mui/material';
 
 import { runValidations } from './Form';
 
@@ -65,9 +65,10 @@ export const TextInput = ({
           <InputLabel htmlFor={id} {...InputLabelProps}>
             {label}
           </InputLabel>
-          <Input
+          <OutlinedInput
             autoComplete={autocomplete}
             id={id}
+            label={label}
             name={id}
             disabled={disabled}
             inputRef={inputRef => {
@@ -80,7 +81,6 @@ export const TextInput = ({
             onChange={({ target: { value } }) => onChange(value)}
             onBlur={() => (validations.includes('trim') ? onChange((value ?? passedValue).trim()) : onBlur)}
             placeholder={hint}
-            required={required}
             type={type}
             {...InputProps}
           />

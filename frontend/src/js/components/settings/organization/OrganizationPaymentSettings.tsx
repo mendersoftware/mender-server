@@ -24,13 +24,14 @@ import CardSection from '../CardSection';
 import { CardDetails } from './Billing';
 
 interface OrganizationPaymentSettingsProps {
+  className: string;
   onComplete?: () => void;
   isValid: boolean;
   updatingCard: boolean;
   setUpdatingCard: (updatingCard: boolean) => void;
 }
 export const OrganizationPaymentSettings = (props: OrganizationPaymentSettingsProps) => {
-  const { onComplete, isValid, updatingCard, setUpdatingCard } = props;
+  const { className, onComplete, isValid, updatingCard, setUpdatingCard } = props;
   const card = useSelector(getCard);
   const organization = useSelector(getOrganization);
   const dispatch = useAppDispatch();
@@ -45,29 +46,24 @@ export const OrganizationPaymentSettings = (props: OrganizationPaymentSettingsPr
   };
 
   return (
-    <div className="flexbox margin-top">
-      <div className="margin-top" />
-      <div className="flexbox column">
-        <div className="flexbox">
-          <h5 className="margin-top-small margin-bottom-x-small margin-right-x-small">{updatingCard ? 'Edit payment card' : 'Payment card'}</h5>
-          <Button className="align-self-start" onClick={() => setUpdatingCard(!updatingCard)}>
-            {updatingCard ? 'cancel' : 'edit'}
-          </Button>
-        </div>
-        {updatingCard ? (
-          <CardSection
-            isSignUp={false}
-            organization={organization}
-            onClose={() => setUpdatingCard(false)}
-            onCardConfirmed={onCardConfirm}
-            isValid={isValid}
-            onSubmit={() => dispatch(startCardUpdate()).unwrap()}
-            beforeCardSubmit={() => dispatch(startCardUpdate()).unwrap()}
-          />
-        ) : (
-          <CardDetails card={card} />
-        )}
+    <div className={className}>
+      <div className="flexbox center-aligned margin-top">
+        <h5 className="margin-top-none margin-bottom-none margin-right-small">{updatingCard ? 'Edit payment card' : 'Payment card'}</h5>
+        <Button onClick={() => setUpdatingCard(!updatingCard)}>{updatingCard ? 'cancel' : 'edit'}</Button>
       </div>
+      {updatingCard ? (
+        <CardSection
+          isSignUp={false}
+          organization={organization}
+          onClose={() => setUpdatingCard(false)}
+          onCardConfirmed={onCardConfirm}
+          isValid={isValid}
+          onSubmit={() => dispatch(startCardUpdate()).unwrap()}
+          beforeCardSubmit={() => dispatch(startCardUpdate()).unwrap()}
+        />
+      ) : (
+        <CardDetails card={card} />
+      )}
     </div>
   );
 };

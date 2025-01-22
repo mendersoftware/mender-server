@@ -14,13 +14,17 @@
 import React, { createRef, useEffect, useState } from 'react';
 
 import { Clear as ClearIcon, Add as ContentAddIcon } from '@mui/icons-material';
-import { Fab, FormControl, FormHelperText, IconButton, Input } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+import { Fab, FormControl, FormHelperText, IconButton, OutlinedInput } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
 const emptyInput = { helptip: null, key: '', value: '' };
 
+const useStyles = makeStyles()(theme => ({
+  spacer: { minWidth: theme.spacing(30) }
+}));
+
 export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHelpTipsMap = {}, onInputChange, reset }) => {
-  const theme = useTheme();
+  const { classes } = useStyles();
   const [inputs, setInputs] = useState([{ ...emptyInput }]);
   const [error, setError] = useState('');
 
@@ -86,11 +90,11 @@ export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHe
         return (
           <div className="key-value-container relative" key={index}>
             <FormControl>
-              <Input disabled={disabled} value={input.key} placeholder="Key" onChange={e => updateInputs('key', index, e)} type="text" />
+              <OutlinedInput disabled={disabled} value={input.key} placeholder="Key" onChange={e => updateInputs('key', index, e)} type="text" />
               {hasError && <FormHelperText>{errortext || error}</FormHelperText>}
             </FormControl>
             <FormControl>
-              <Input disabled={disabled} value={`${input.value}`} placeholder="Value" onChange={e => updateInputs('value', index, e)} type="text" />
+              <OutlinedInput disabled={disabled} value={input.value} placeholder="Value" onChange={e => updateInputs('value', index, e)} type="text" />
             </FormControl>
             {inputs.length > 1 && !hasRemovalDisabled ? (
               <IconButton disabled={disabled} onClick={() => removeInput(index)} size="large">
@@ -99,12 +103,12 @@ export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHe
             ) : (
               <span />
             )}
-            {Helptip && <Helptip anchor={{ left: -35, top: 5 }} {...inputs[index].helptip.props} />}
+            {Helptip && <Helptip anchor={{ left: -35, top: 15, position: 'absolute' }} {...inputs[index].helptip.props} />}
           </div>
         );
       })}
       <div className="key-value-container">
-        <div style={{ minWidth: theme.spacing(30) }}>
+        <div className={classes.spacer}>
           <Fab
             disabled={disabled || !inputs[inputs.length - 1].key || !inputs[inputs.length - 1].value}
             style={{ marginBottom: 10 }}
@@ -115,7 +119,7 @@ export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHe
             <ContentAddIcon />
           </Fab>
         </div>
-        <div style={{ minWidth: theme.spacing(30) }} />
+        <div className={classes.spacer} />
         {inputs.length > 1 ? (
           <a className="margin-left-small" onClick={onClearClick}>
             clear all

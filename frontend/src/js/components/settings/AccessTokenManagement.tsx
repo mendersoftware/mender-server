@@ -47,7 +47,10 @@ const useStyles = makeStyles()(theme => ({
     minWidth: 900
   },
   creationDialog: {
-    minWidth: 500
+    minWidth: 500,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(2)
   },
   formEntries: {
     minWidth: 270
@@ -136,8 +139,8 @@ export const AccessTokenCreationDialog = ({ onCancel, generateToken, isEnterpris
         </form>
         <div>
           <FormControl className={classes.formEntries}>
-            <InputLabel>Expiration</InputLabel>
-            <Select disabled={!!token} onChange={onChangeExpirationTime} value={expirationTime}>
+            <InputLabel id="token-expiration-label">Expiration</InputLabel>
+            <Select labelId="token-expiration-label" label="Expiration" disabled={!!token} onChange={onChangeExpirationTime} value={expirationTime}>
               {Object.entries(expirationTimes).map(([title, item]) => (
                 <MenuItem key={item.value} value={item.value}>
                   {title}
@@ -154,7 +157,7 @@ export const AccessTokenCreationDialog = ({ onCancel, generateToken, isEnterpris
           </FormControl>
         </div>
         {token && (
-          <div className="margin-top margin-bottom">
+          <div className="margin-top-small margin-bottom-small">
             <CopyCode code={token} />
             <p className="warning">This is the only time you will be able to see the token, so make sure to store it in a safe place.</p>
           </div>

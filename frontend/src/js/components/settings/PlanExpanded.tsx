@@ -15,6 +15,7 @@ import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Button, Divider, Drawer } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import Form from '@northern.tech/common-ui/forms/Form';
@@ -47,6 +48,16 @@ interface PlanProps extends PlanExpandedPropsBase {
   plan: Plan;
 }
 
+const useStyles = makeStyles()(theme => ({
+  formWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(2),
+    maxWidth: 600,
+    '.required .relative': { marginLeft: theme.spacing(10) }
+  }
+}));
+
 const successMessage = (plan: string) =>
   `Thank you! You have successfully subscribed to the ${plan} plan.  You can view and edit your billing details on the Organization and billing page.`;
 
@@ -59,6 +70,8 @@ export const PlanExpanded = (props: ProfileEditProps | PlanProps) => {
   const dispatch = useAppDispatch();
   const formSubmitRef = useRef<() => void | null>(null);
   const { email } = useSelector(getCurrentUser);
+  const { classes } = useStyles();
+
   const handleUpgrade = () => {
     if (formSubmitRef.current) {
       formSubmitRef.current();
@@ -81,33 +94,37 @@ export const PlanExpanded = (props: ProfileEditProps | PlanProps) => {
   };
 
   return (
-    <Drawer anchor="right" open={true} PaperProps={{ style: { minWidth: '75vw' } }}>
-      <DrawerTitle title={<>{selectedPlan ? `Subscribe to Mender ${selectedPlan.name}` : 'Edit billing details'}</>} onClose={onCloseClick} />
+    <Drawer anchor="right" open={true} PaperProps={{ style: { minWidth: '50vw' } }}>
+      <DrawerTitle title={selectedPlan ? `Subscribe to Mender ${selectedPlan.name}` : 'Edit billing details'} onClose={onCloseClick} />
       <Divider className="margin-bottom" />
       {selectedPlan && (
-        <div>
+        <div className="margin-bottom">
           Complete checkout to subscribe to <b>{selectedPlan.name}</b> at <b>{selectedPlan.price}</b>
         </div>
       )}
       <Form submitRef={formSubmitRef} onSubmit={handleSubmit} defaultValues={initialValues} showButtons={false} autocomplete="off">
-        <PlanExpandedForm setIsValid={setIsValid} />
+        <PlanExpandedForm className={classes.formWrapper} setIsValid={setIsValid} />
       </Form>
       {isEdit ? (
-        <>
-          <OrganizationPaymentSettings onComplete={handleUpgrade} updatingCard={updatingCard} setUpdatingCard={setUpdatingCard} isValid={isValid} />
-        </>
+        <OrganizationPaymentSettings
+          className={classes.formWrapper}
+          onComplete={handleUpgrade}
+          updatingCard={updatingCard}
+          setUpdatingCard={setUpdatingCard}
+          isValid={isValid}
+        />
       ) : (
         isValid &&
         organization && (
-          <>
-            <h4>Card Details</h4>
+          <div className={classes.formWrapper}>
+            <h4 className="margin-top margin-bottom-none">Card Details</h4>
             <CardSection
               organization={organization}
               onCardConfirmed={handleUpgrade}
               onSubmit={() => dispatch(startUpgrade(organization.id)).unwrap()}
               isSignUp
             />
-          </>
+          </div>
         )
       )}
       {isEdit && !updatingCard && (

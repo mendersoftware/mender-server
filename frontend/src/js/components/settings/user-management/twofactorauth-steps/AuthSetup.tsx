@@ -86,7 +86,7 @@ export const AuthSetup = ({ currentUser, handle2FAState, has2FA, onClose, qrImag
                 </div>
               ) : (
                 <>
-                  <Form showButtons={!validating2fa} buttonColor="primary" onSubmit={validate2faSetup} submitLabel="Verify">
+                  <Form className="margin-text-small" showButtons={!validating2fa} buttonColor="primary" onSubmit={validate2faSetup} submitLabel="Verify">
                     <TextInput hint="Verification code" label="Verification code" id="token2fa" validations="isLength:6,isNumeric" required={true} />
                   </Form>
                   {validating2fa && (

@@ -30,6 +30,7 @@ import {
   Select,
   Tooltip
 } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import Form from '@northern.tech/common-ui/forms/Form';
@@ -39,6 +40,10 @@ import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { BENEFITS, rolesById, rolesByName, uiPermissionsById } from '@northern.tech/store/constants';
 import pluralize from 'pluralize';
 import { isUUID } from 'validator';
+
+const useStyles = makeStyles()(theme => ({
+  formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(2), paddingTop: theme.spacing(4) }
+}));
 
 export const UserRolesSelect = ({ currentUser, disabled, onSelect, roles, user }) => {
   const relevantRolesById = useMemo(
@@ -89,10 +94,11 @@ export const UserRolesSelect = ({ currentUser, disabled, onSelect, roles, user }
   }, [JSON.stringify(relevantRolesById), selectedRoleIds]);
 
   return (
-    <div className="flexbox" style={{ alignItems: 'flex-end' }}>
+    <div className="flexbox margin-top-small" style={{ alignItems: 'flex-end' }}>
       <FormControl id="roles-form" style={{ maxWidth: 400 }}>
         <InputLabel id="roles-selection-label">Roles</InputLabel>
         <Select
+          label="Roles"
           labelId="roles-selection-label"
           id={`roles-selector-${selectedRoleIds.length}`}
           disabled={disabled}
@@ -153,6 +159,7 @@ export const UserForm = ({ closeDialog, currentUser, canManageUsers, isEnterpris
   const [hadRoleChanges, setHadRoleChanges] = useState(false);
   const [selectedRoles, setSelectedRoles] = useState();
   const [isAddingExistingUser, setIsAddingExistingUser] = useState(false);
+  const { classes } = useStyles();
 
   const onSelect = (newlySelectedRoles, hadRoleChanges) => {
     setSelectedRoles(newlySelectedRoles);
@@ -174,6 +181,7 @@ export const UserForm = ({ closeDialog, currentUser, canManageUsers, isEnterpris
       <DialogTitle>Add new user</DialogTitle>
       <DialogContent style={{ overflowY: 'initial' }}>
         <Form
+          className={classes.formWrapper}
           onSubmit={onSubmit}
           handleCancel={closeDialog}
           submitLabel={`${isAddingExistingUser ? 'Add' : 'Create'} user`}
@@ -184,7 +192,6 @@ export const UserForm = ({ closeDialog, currentUser, canManageUsers, isEnterpris
           <Collapse in={!isAddingExistingUser}>
             <PasswordInput
               id="password"
-              className="edit-pass"
               autocomplete="off"
               create
               edit={false}

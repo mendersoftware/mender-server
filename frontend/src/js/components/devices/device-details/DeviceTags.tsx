@@ -15,7 +15,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { Button } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
 
 import ConfigurationObject from '@northern.tech/common-ui/ConfigurationObject';
 import { EditButton } from '@northern.tech/common-ui/Confirm';
@@ -35,7 +34,6 @@ const configHelpTipsMap = {
 
 export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
   const { canWriteDevices } = userCapabilities;
-  const theme = useTheme();
   const [changedTags, setChangedTags] = useState({});
   const [editableTags, setEditableTags] = useState();
   const [isEditDisabled, setIsEditDisabled] = useState(!canWriteDevices);
@@ -109,7 +107,7 @@ export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
               reset={shouldUpdateEditor}
             />
             <div className="flexbox center-aligned margin-bottom-small" style={{ justifyContent: 'flex-end' }}>
-              <Button color="primary" onClick={onSubmit} variant="contained" style={{ marginRight: theme.spacing(2) }}>
+              <Button className="margin-right-small" color="primary" onClick={onSubmit} variant="contained">
                 Save
               </Button>
               <Button onClick={onCancel}>Cancel</Button>

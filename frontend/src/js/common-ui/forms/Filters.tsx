@@ -77,7 +77,7 @@ export const Filters = ({ className = '', defaultValues, filters = [], initialVa
       <form className={`margin-bottom relative margin-top ${classes.filters} ${className}`} noValidate>
         {filters.map(({ key, title, Component, componentProps }) => (
           <div className="filter-item" key={key}>
-            <h5 className="margin-top-small margin-bottom-none muted">{title}</h5>
+            <h5 className="margin-top-small margin-bottom-small muted">{title}</h5>
             <Component name={key} {...componentProps} />
           </div>
         ))}

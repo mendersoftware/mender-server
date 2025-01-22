@@ -33,15 +33,13 @@ const useStyles = makeStyles()(theme => ({
   divider: { marginTop: theme.spacing(4) },
   leftButton: { marginRight: theme.spacing(2) },
   oauthIcon: { fontSize: 36, marginRight: 10 },
-  userId: { marginTop: theme.spacing(3) },
   userIdWrapper: {
     // the following 2 lines are required to align the CopyTextToClipboard with the tenant token without sacrificing consistent behaviour
     marginBottom: theme.spacing(-3),
-    '.copy-button': { marginTop: theme.spacing(3) },
-    [`.${textFieldClasses.root}`]: { width: 400 },
-    maxWidth: 600
+    '.copy-button': { marginBottom: theme.spacing(-1) },
+    [`.${textFieldClasses.root}`]: { width: 400 }
   },
-  widthLimit: { maxWidth: 400 }
+  widthLimit: { marginTop: theme.spacing(3), maxWidth: 620, [`.${textFieldClasses.root}`]: { width: 400 } }
 }));
 
 export const getUserSSOState = user => {
@@ -65,7 +63,7 @@ export const UserId = ({ className = '', userId }) => {
   const { classes } = useStyles();
   return (
     <div className={`flexbox space-between ${classes.userIdWrapper} ${className}`}>
-      <TextField label="User ID" key={userId} InputLabelProps={{ shrink: !!userId }} disabled defaultValue={userId} />
+      <TextField label="User ID" key={userId} disabled defaultValue={userId} />
       <div className="flexbox center-aligned copy-button">
         <CopyTextToClipboard token={userId} />
       </div>
@@ -159,8 +157,8 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
         }
       />
       <Divider />
-      <UserId className={classes.userId} userId={id} />
-      <FormControl className={`${classes.widthLimit} margin-top-none`}>
+      <UserId className={classes.widthLimit} userId={id} />
+      <FormControl className={classes.widthLimit}>
         <TextField label="Email" id="email" value={currentEmail} disabled={isOAuth2 || currentUser.id === id} error={nameError} onChange={validateNameChange} />
         {nameError && <FormHelperText className="warning">Please enter a valid email address</FormHelperText>}
       </FormControl>

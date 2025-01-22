@@ -14,8 +14,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useTheme } from '@mui/material/styles';
-
 import Loader from '@northern.tech/common-ui/Loader';
 import Time from '@northern.tech/common-ui/Time';
 import { getAuditlogDevice, getCurrentSession, getIdAttribute, getUserCapabilities } from '@northern.tech/store/selectors';
@@ -29,7 +27,6 @@ import TerminalPlayer from './TerminalPlayer';
 dayjs.extend(durationDayJs);
 
 export const TerminalSession = ({ item, onClose }) => {
-  const theme = useTheme();
   const [sessionDetails, setSessionDetails] = useState();
   const dispatch = useDispatch();
   const { action, actor, meta, object = {}, time } = item;
@@ -70,7 +67,7 @@ export const TerminalSession = ({ item, onClose }) => {
   return (
     <div className="flexbox" style={{ flexWrap: 'wrap' }}>
       <TerminalPlayer className="flexbox column margin-top" item={item} sessionInitialized={!!sessionDetails} token={token} />
-      <div className="flexbox column" style={{ margin: theme.spacing(3), minWidth: 'min-content' }}>
+      <div className="flexbox column margin-small" style={{ minWidth: 'min-content' }}>
         {canReadDevices && <DeviceDetails device={device} idAttribute={idAttribute} onClose={onClose} />}
         <DetailInformation title="session" details={sessionMeta} />
       </div>

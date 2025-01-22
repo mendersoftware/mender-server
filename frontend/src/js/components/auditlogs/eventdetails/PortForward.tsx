@@ -14,8 +14,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useTheme } from '@mui/material/styles';
-
 import Loader from '@northern.tech/common-ui/Loader';
 import Time from '@northern.tech/common-ui/Time';
 import { getAuditlogDevice, getIdAttribute, getUserCapabilities } from '@northern.tech/store/selectors';
@@ -28,7 +26,6 @@ import DeviceDetails, { DetailInformation } from './DeviceDetails';
 dayjs.extend(duration);
 
 export const PortForward = ({ item, onClose }) => {
-  const theme = useTheme();
   const [sessionDetails, setSessionDetails] = useState();
   const dispatch = useDispatch();
   const { action, actor, meta, object = {}, time } = item;
@@ -64,7 +61,7 @@ export const PortForward = ({ item, onClose }) => {
   };
 
   return (
-    <div className="flexbox column" style={{ margin: theme.spacing(3), minWidth: 'min-content' }}>
+    <div className="flexbox column margin-small" style={{ minWidth: 'min-content' }}>
       {canReadDevices && <DeviceDetails device={device} idAttribute={idAttribute} onClose={onClose} />}
       <DetailInformation title="port forwarding" details={sessionMeta} />
     </div>

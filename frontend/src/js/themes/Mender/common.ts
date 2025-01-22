@@ -94,18 +94,23 @@ export const typography = {
 const componentProps = {
   MuiFormControl: {
     defaultProps: {
-      variant: 'standard'
+      variant: 'outlined'
+    }
+  },
+  MuiInput: {
+    defaultProps: {
+      variant: 'outlined'
     }
   },
   MuiTextField: {
     defaultProps: {
-      variant: 'standard'
+      variant: 'outlined'
     }
   },
   MuiSelect: {
     defaultProps: {
       autoWidth: true,
-      variant: 'standard'
+      variant: 'outlined'
     }
   }
 };
@@ -170,6 +175,7 @@ export const overrides = {
     }
   },
   MuiInput: {
+    ...componentProps.MuiInput,
     styleOverrides: {
       underline: {
         '&:before': {
@@ -188,7 +194,6 @@ export const overrides = {
     ...componentProps.MuiFormControl,
     styleOverrides: {
       root: {
-        marginTop: '18px',
         minWidth: '240px'
       }
     }

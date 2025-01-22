@@ -18,7 +18,7 @@ import { Autocomplete, TextField } from '@mui/material';
 
 import { duplicateFilter, unionizeStrings } from '@northern.tech/utils/helpers';
 
-export const ChipSelect = ({ className = '', name, disabled = false, inputRef, label = '', options = [], placeholder = '' }) => {
+export const ChipSelect = ({ className = '', name, disabled = false, helperText, inputRef, label = '', options = [], placeholder = '' }) => {
   const [value, setValue] = useState('');
 
   const { control, getValues } = useFormContext();
@@ -72,13 +72,17 @@ export const ChipSelect = ({ className = '', name, disabled = false, inputRef, l
             <TextField
               {...params}
               fullWidth
-              inputProps={{ ...params.inputProps, value }}
-              InputProps={{ ...params.InputProps, disableUnderline: disabled }}
+              slotProps={{
+                htmlInput: { ...params.inputProps, value },
+                input: { ...params.InputProps, disableUnderline: disabled }
+              }}
               key={`${name}-input`}
               label={label}
+              variant={disabled ? 'standard' : 'outlined'}
               onBlur={e => onTextInputLeave(e.target.value, formOnChange)}
               onChange={e => onTextInputChange(e.target.value, 'input', formOnChange)}
               placeholder={currentSelection.length ? '' : placeholder}
+              helperText={helperText}
               inputRef={inputRef}
             />
           )}

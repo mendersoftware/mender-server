@@ -136,14 +136,14 @@ export const Retries = ({
 
   return (
     <>
-      <div className="flexbox center-aligned margin-top-small">
+      <div className="flexbox center-aligned margin-top-small margin-bottom-small">
         <b className={canRetry ? '' : commonClasses.disabled}>Select the number of times each device will attempt to apply the update</b>
         <InfoHintContainer>
           <EnterpriseNotification id={BENEFITS.retryDeployments.id} />
           <DocsTooltip id={DOCSTIPS.phasedDeployments.id} />
         </InfoHintContainer>
       </div>
-      <FormControl className="margin-top-none" disabled={!canRetry}>
+      <FormControl disabled={!canRetry}>
         <FormGroup row>
           <Autocomplete
             autoSelect
@@ -160,8 +160,10 @@ export const Retries = ({
               <TextField
                 {...params}
                 className={classes.retryInput}
-                inputProps={{ ...params.inputProps, value: formatValue(params.inputProps.value) }}
-                InputProps={{ ...params.InputProps }}
+                slotProps={{
+                  htmlInput: { ...params.inputProps, value: formatValue(params.inputProps.value) },
+                  input: { ...params.InputProps }
+                }}
                 type="number"
               />
             )}

@@ -14,7 +14,8 @@
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { FormControl, Input, InputLabel, TextField } from '@mui/material';
+import { FormControl, InputLabel, OutlinedInput, TextField, inputLabelClasses } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
 import ChipSelect from '@northern.tech/common-ui/ChipSelect';
 import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
@@ -24,6 +25,19 @@ import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpToo
 import { FileInformation } from './FileInformation';
 
 const defaultVersion = '1.0.0';
+
+const useStyles = makeStyles()(theme => ({
+  releaseName: {
+    display: 'flex',
+    alignItems: 'center',
+    [`&.${inputLabelClasses.shrink}`]: {
+      background: theme.palette.background.default,
+      paddingLeft: theme.spacing(0.5),
+      paddingRight: theme.spacing(),
+      marginTop: theme.spacing(-0.5)
+    }
+  }
+}));
 
 export const VersionInformation = ({ creation = {}, onRemove, updateCreation }) => {
   const { file, fileSystem: propFs, name, softwareName: propName, softwareVersion: version = '', type } = creation;
@@ -64,6 +78,7 @@ export const ArtifactInformation = ({ creation = {}, deviceTypes = [], onRemove,
   const methods = useForm({ mode: 'onChange', defaultValues: { deviceTypes: selectedDeviceTypes } });
   const { watch } = methods;
   const formDeviceTypes = watch('deviceTypes');
+  const { classes } = useStyles();
 
   useEffect(() => {
     updateCreation({ selectedDeviceTypes: formDeviceTypes });
@@ -82,30 +97,30 @@ export const ArtifactInformation = ({ creation = {}, deviceTypes = [], onRemove,
 
   const isValidDestination = checkDestinationValidity(destination);
   return (
-    <div className="flexbox column">
+    <div className="flexbox column" style={{ gap: 15 }}>
       <FileInformation file={file} type={type} onRemove={onRemove} />
       <TextField
         autoFocus={true}
         error={!isValidDestination}
         fullWidth
-        helperText={!isValidDestination && <div className="warning">Destination has to be an absolute path</div>}
-        inputProps={{ style: { marginTop: 16 } }}
-        InputLabelProps={{ shrink: true }}
-        label="Destination directory where the file will be installed on your devices"
+        helperText={
+          !isValidDestination ? <div className="warning">Destination has to be an absolute path</div> : 'where the file will be installed on your devices'
+        }
+        label="Destination directory"
         onChange={onDestinationChange}
         placeholder="Example: /opt/installed-by-single-file"
         value={destination}
       />
       <h4>Artifact information</h4>
       <FormControl>
-        <InputLabel htmlFor="release-name" className="flexbox center-aligned" onClick={e => e.preventDefault()}>
+        <InputLabel htmlFor="release-name" className={classes.releaseName} onClick={e => e.preventDefault()}>
           Release name
           <InfoHintContainer>
             <MenderHelpTooltip id={HELPTOOLTIPS.releaseName.id} />
             <DocsTooltip id={DOCSTIPS.releases.id} />
           </InfoHintContainer>
         </InputLabel>
-        <Input
+        <OutlinedInput
           defaultValue={name}
           className="release-name-input"
           id="release-name"
@@ -118,7 +133,7 @@ export const ArtifactInformation = ({ creation = {}, deviceTypes = [], onRemove,
           <ChipSelect
             name="deviceTypes"
             label="Device types compatible"
-            placeholder="Enter all device types this software is compatible with"
+            helperText="Enter all device types this software is compatible with"
             options={deviceTypes}
           />
         </form>

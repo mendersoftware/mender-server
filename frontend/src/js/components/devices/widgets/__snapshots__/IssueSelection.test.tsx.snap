@@ -19,11 +19,38 @@ exports[`DeviceIssuesSelection Component renders correctly 1`] = `
   -ms-flex-align: center;
   align-items: center;
   position: relative;
+  border-radius: 4px;
 }
 
 .emotion-0.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
   cursor: default;
+}
+
+.emotion-0:hover .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(10, 10, 11, 0.78);
+}
+
+@media (hover: none) {
+  .emotion-0:hover .MuiOutlinedInput-notchedOutline {
+    border-color: rgba(0, 0, 0, 0.23);
+  }
+}
+
+.emotion-0.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-width: 2px;
+}
+
+.emotion-0.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #337a87;
+}
+
+.emotion-0.Mui-error .MuiOutlinedInput-notchedOutline {
+  border-color: #ab1000;
+}
+
+.emotion-0.Mui-disabled .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(0, 0, 0, 0.26);
 }
 
 .emotion-1 {
@@ -35,6 +62,7 @@ exports[`DeviceIssuesSelection Component renders correctly 1`] = `
   user-select: none;
   border-radius: 0;
   cursor: pointer;
+  border-radius: 4px;
   font: inherit;
   letter-spacing: inherit;
   color: currentColor;
@@ -52,6 +80,7 @@ exports[`DeviceIssuesSelection Component renders correctly 1`] = `
   animation-name: mui-auto-fill-cancel;
   -webkit-animation-duration: 10ms;
   animation-duration: 10ms;
+  padding: 16.5px 14px;
 }
 
 .emotion-1:focus {
@@ -71,9 +100,12 @@ exports[`DeviceIssuesSelection Component renders correctly 1`] = `
   background-color: #fff;
 }
 
+.emotion-1:focus {
+  border-radius: 4px;
+}
+
 .emotion-1.emotion-1.emotion-1 {
-  padding-right: 24px;
-  min-width: 16px;
+  padding-right: 32px;
 }
 
 .emotion-1.MuiSelect-select {
@@ -153,6 +185,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-1:focus::-ms-input-p
   animation-name: mui-auto-fill;
 }
 
+.emotion-1:-webkit-autofill {
+  border-radius: inherit;
+}
+
 .emotion-2 {
   bottom: 0;
   left: 0;
@@ -183,6 +219,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-1:focus::-ms-input-p
   top: calc(50% - .5em);
   pointer-events: none;
   color: rgba(0, 0, 0, 0.54);
+  right: 7px;
 }
 
 .emotion-3 iconButton {
@@ -193,6 +230,34 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-1:focus::-ms-input-p
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-4 {
+  text-align: left;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  top: -5px;
+  left: 0;
+  margin: 0;
+  padding: 0 8px;
+  pointer-events: none;
+  border-radius: inherit;
+  border-style: solid;
+  border-width: 1px;
+  overflow: hidden;
+  min-width: 0%;
+  border-color: rgba(0, 0, 0, 0.23);
+}
+
+.emotion-5 {
+  float: unset;
+  width: auto;
+  overflow: hidden;
+  padding: 0;
+  line-height: 11px;
+  -webkit-transition: width 150ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
+  transition: width 150ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
+}
+
 <div>
   <div
     class="flexbox center-aligned margin-left"
@@ -201,12 +266,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-1:focus::-ms-input-p
       Show:
     </div>
     <div
-      class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiSelect-root emotion-0"
+      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiSelect-root emotion-0"
     >
       <div
         aria-expanded="false"
         aria-haspopup="listbox"
-        class="MuiSelect-select MuiSelect-standard MuiSelect-multiple MuiInputBase-input MuiInput-input emotion-1"
+        class="MuiSelect-select MuiSelect-outlined MuiSelect-multiple MuiInputBase-input MuiOutlinedInput-input emotion-1"
         role="combobox"
         tabindex="0"
       >
@@ -221,7 +286,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-1:focus::-ms-input-p
       />
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconStandard emotion-3"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined emotion-3"
         data-testid="ArrowDropDownIcon"
         focusable="false"
         viewBox="0 0 24 24"
@@ -230,6 +295,21 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-1:focus::-ms-input-p
           d="M7 10l5 5 5-5z"
         />
       </svg>
+      <fieldset
+        aria-hidden="true"
+        class="MuiOutlinedInput-notchedOutline emotion-4"
+      >
+        <legend
+          class="emotion-5"
+        >
+          <span
+            aria-hidden="true"
+            class="notranslate"
+          >
+            ​
+          </span>
+        </legend>
+      </fieldset>
     </div>
   </div>
 </div>
