@@ -78,7 +78,7 @@ To initialize the admin user, use the following snippet in step 3:
 MENDER_NAME=Admin
 MENDER_USERNAME=admin@docker.mender.io
 MENDER_PASSWORD=password123
-TENANT_ID=$(docker compose exec tenantadm tenantadm create-org --username "$MENDER_USERNAME" --password "$MENDER_PASSWORD" --name "$MENDER_NAME")
+TENANT_ID=$(docker compose exec tenantadm tenantadm create-org --username "$MENDER_USERNAME" --password "$MENDER_PASSWORD" --name "$MENDER_NAME" --addon troubleshoot --addon configure --addon monitor --device-limit 100)
 ```
 
 To add a virtual client with the composition, use the following snippet in step 5:
