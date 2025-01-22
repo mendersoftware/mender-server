@@ -57,6 +57,7 @@ test.describe('Test setup', () => {
       await expect(page.getByText(/Sign up/i)).toBeVisible();
       await page.getByText(/Sign up/i).click();
       console.log(`creating user with username: ${username} and password: ${password}`);
+      await expect(page.getByText(/Sign up with/i)).toBeVisible();
       await page.fill(selectors.email, username);
       await page.fill(selectors.password, password);
       await page.fill(selectors.password, '');
