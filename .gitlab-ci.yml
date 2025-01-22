@@ -583,6 +583,10 @@ changelog:
     # GITHUB_TOKEN for Github cli authentication
     - export GITHUB_TOKEN=${GITHUB_CLI_TOKEN}
     - cp CHANGELOG.md CHANGELOG.md.${CI_COMMIT_REF_NAME} # Saving the changelog for later
+    - cp CHANGELOG.md CHANGELOG.md.${CI_COMMIT_REF_NAME} || true # Saving the changelog for later
+    - cp CHANGELOG-saas.md CHANGELOG-saas.md.${CI_COMMIT_REF_NAME} || true # Saving the changelog for later
+    - cp CHANGELOG-enterprise.md CHANGELOG-enterprise.md.${CI_COMMIT_REF_NAME} || true # Saving the changelog for later
+    - export CHANGELOG_SUFFIX=""
   script:
     - release-please release-pr
       --token=${GITHUB_BOT_TOKEN_REPO_FULL}
@@ -596,14 +600,23 @@ changelog:
     - test -z "$RELEASE_PLEASE_PR" && echo "No release-please PR found" && exit 0
     - gh pr checkout --force $RELEASE_PLEASE_PR
     - wget --output-document cliff.toml https://raw.githubusercontent.com/mendersoftware/mendertesting/master/utils/cliff.toml
-    - mv CHANGELOG.md.${CI_COMMIT_REF_NAME} CHANGELOG.md
-    - git cliff
-      --unreleased
-      --prepend CHANGELOG.md
-      --github-repo ${GITHUB_REPO_URL}
-      --use-branch-tags
-      --tag $(jq -r '.["."]' .release-please-manifest.json)
-    - git add CHANGELOG.md
+    - RELEASE_VERSION="$(jq -r '.["."]' .release-please-manifest.json)"
+    - |
+      case $RELEASE_VERSION in
+        *saas*)
+          if [[ "$CI_PROJECT_NAME" == "mender-server-enterprise" ]]; then
+            ./.gitlab/generate_changelog.sh "${RELEASE_VERSION}" "-saas" "${GITHUB_REPO_URL}" "${CI_COMMIT_REF_NAME}"
+          fi
+          ;;
+        *)
+          if [[ "$CI_PROJECT_NAME" == "mender-server-enterprise" ]]; then
+            ./.gitlab/generate_changelog.sh "${RELEASE_VERSION}" "-enterprise" "${GITHUB_REPO_URL}" "${CI_COMMIT_REF_NAME}"
+            ./.gitlab/generate_changelog.sh "${RELEASE_VERSION}" "-saas" "${GITHUB_REPO_URL}" "${CI_COMMIT_REF_NAME}"
+          else
+            ./.gitlab/generate_changelog.sh "${RELEASE_VERSION}" "" "${GITHUB_REPO_URL}" "${CI_COMMIT_REF_NAME}"
+          fi
+          ;;
+      esac
     - git commit --amend -s --no-edit
     - git push github-${CI_JOB_ID} --force
     # Update the PR body
@@ -648,17 +661,38 @@ release:mender-docs-changelog:
     - git config --global user.name "${GITHUB_USER_NAME}"
     # GITHUB_TOKEN for Github cli authentication
     - export GITHUB_TOKEN=${GITHUB_CLI_TOKEN}
+    - if [[ "${CI_PROJECT_NAME}" == "mender-server-enterprise" ]]; then
+        export CHANGELOG_SUFFIX="-enterprise";
+      else
+        export CHANGELOG_SUFFIX="";
+      fi;
   script:
     - git clone https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_CHANGELOG_REPO_URL}
     - cd ${GITHUB_CHANGELOG_REPO_URL#*/}
     - git checkout -b changelog-${CI_JOB_ID}
     - cat ../.docs_header.md > ${CHANGELOG_REMOTE_FILE}
-    - cat ../CHANGELOG.md | grep -v -E '^---' >> ${CHANGELOG_REMOTE_FILE}
+    - cat ../CHANGELOG${CHANGELOG_SUFFIX}.md | grep -v -E '^---' >> ${CHANGELOG_REMOTE_FILE}
     - git add ${CHANGELOG_REMOTE_FILE}
     - |
-      git commit -s -m "chore: add mender-server changelog"
+      git commit -s -m "chore: add $CI_PROJECT_NAME changelog"
     - git push origin changelog-${CI_JOB_ID}
-    - gh pr create --title "Update CHANGELOG.md" --body "Automated change to the CHANGELOG.md file" --base master --head changelog-${CI_JOB_ID}
+    - gh pr create --title "Update CHANGELOG${CHANGELOG_SUFFIX}.md for $CI_PROJECT_NAME" --body "Automated change to the CHANGELOG${CHANGELOG_SUFFIX}.md file" --base master --head changelog-${CI_JOB_ID}
+
+release:mender-docs-changelog:saas:
+  extends: release:mender-docs-changelog
+  variables:
+    CHANGELOG_REMOTE_FILE: "12.Hosted-Mender/docs.md"
+  rules:
+    - if: '$CI_PROJECT_NAME == "mender-server"'
+      when: never
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+(?:-saas\.*\d*)?/'
+  before_script:
+    # Setting up git
+    - git config --global user.email "${GITHUB_USER_EMAIL}"
+    - git config --global user.name "${GITHUB_USER_NAME}"
+    # GITHUB_TOKEN for Github cli authentication
+    - export GITHUB_TOKEN=${GITHUB_CLI_TOKEN}
+    - export CHANGELOG_SUFFIX="-saas"
 
 #
 # Helm version bump
