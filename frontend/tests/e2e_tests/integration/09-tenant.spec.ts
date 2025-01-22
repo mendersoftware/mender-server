@@ -27,7 +27,10 @@ const tenantRole = {
 test.describe('Tenant Functionality', () => {
   test.beforeEach(async ({ loggedInTenantPage: page, environment }) => {
     test.skip(environment !== 'enterprise', 'not available in OS');
-    await page.click(`.leftNav :text('Tenants')`);
+    await page
+      .locator('.leftFixed.leftNav')
+      .getByRole('link', { name: /Tenants/i })
+      .click();
   });
   test('tenant creation', async ({ loggedInTenantPage: page }) => {
     await expect(page.locator('h2:has-text("Tenants")')).toBeVisible();

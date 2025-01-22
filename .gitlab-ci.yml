@@ -374,6 +374,7 @@ test:prep:
     expire_in: 2w
     paths:
       - frontend/tests/e2e_tests/test-results
+      - frontend/tests/e2e_tests/traces
     when: always
   tags:
     - hetzner-amd-beefy-privileged

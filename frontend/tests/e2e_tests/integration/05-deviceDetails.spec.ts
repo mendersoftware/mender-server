@@ -30,9 +30,12 @@ const rootfs = 'rootfs-image.version';
 
 test.describe('Device details', () => {
   test.use({ storageState: storagePath });
-
+  let navbar;
+  test.beforeEach(async ({ loggedInPage: page }) => {
+    navbar = page.locator('.leftFixed.leftNav');
+  });
   test('has basic inventory', async ({ demoDeviceName, loggedInPage: page }) => {
-    await page.click(`.leftNav :text('Devices')`);
+    await navbar.getByRole('link', { name: /Devices/i }).click();
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
     await page.getByText(/inventory/i).click();
     const expandedDevice = await page.locator(`css=.expandedDevice`);
@@ -61,7 +64,7 @@ test.describe('Device details', () => {
 
   test('can be filtered', async ({ browserName, demoDeviceName, loggedInPage: page }) => {
     test.setTimeout(2 * timeouts.fifteenSeconds);
-    await page.click(`.leftNav :text('Devices')`);
+    await navbar.getByRole('link', { name: /Devices/i }).click();
     await page.getByRole('button', { name: /filters/i }).click();
     await page.getByLabel(/attribute/i).fill(rootfs);
     const nameInput = await page.getByLabel(/value/i);
@@ -80,7 +83,7 @@ test.describe('Device details', () => {
   test('can be filtered into non-existence by numerical comparison', async ({ environment, loggedInPage: page }) => {
     test.skip(!isEnterpriseOrStaging(environment), 'not available in OS');
     test.setTimeout(2 * timeouts.fifteenSeconds);
-    await page.click(`.leftNav :text('Devices')`);
+    await navbar.getByRole('link', { name: /Devices/i }).click();
     await page.getByRole('button', { name: /filters/i }).click();
     await page.getByLabel(/attribute/i).fill('mem_total_kB');
     await page.getByText(/equals/i).click();
@@ -96,7 +99,7 @@ test.describe('Device details', () => {
   test('can be filtered into non-existence', async ({ environment, loggedInPage: page }) => {
     test.skip(!isEnterpriseOrStaging(environment), 'not available in OS');
     test.setTimeout(2 * timeouts.fifteenSeconds);
-    await page.click(`.leftNav :text('Devices')`);
+    await navbar.getByRole('link', { name: /Devices/i }).click();
     await page.getByRole('button', { name: /filters/i }).click();
     await page.getByLabel(/attribute/i).fill(rootfs);
     await page.getByText(/equals/i).click();
@@ -114,7 +117,7 @@ test.describe('Device details', () => {
   });
 
   test('can open a terminal', async ({ browserName, loggedInPage: page }) => {
-    await page.click(`.leftNav :text('Devices')`);
+    await navbar.getByRole('link', { name: /Devices/i }).click();
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
     await page.getByText(/troubleshooting/i).click();
     // the deviceconnect connection might not be established right away
@@ -159,7 +162,7 @@ test.describe('Device details', () => {
   });
 
   test('can trigger on device updates', async ({ loggedInPage: page }) => {
-    await page.click(`.leftNav :text('Devices')`);
+    await navbar.getByRole('link', { name: /Devices/i }).click();
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
     await page.getByText(/troubleshooting/i).click();
     // the deviceconnect connection might not be established right away

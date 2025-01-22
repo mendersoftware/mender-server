@@ -72,11 +72,15 @@ const checkDownloadedReplayForSecret = async (path, secret) => {
 
 test.describe('Auditlogs', () => {
   test.use({ storageState: storagePath });
+  let navbar;
+  test.beforeEach(async ({ loggedInPage: page }) => {
+    navbar = page.locator('.leftFixed.leftNav');
+  });
 
   const secret = 'super secret something text';
   test('will track remote terminal sessions', async ({ browser, environment, loggedInPage: page }) => {
     test.skip(!isEnterpriseOrStaging(environment));
-    await page.click(`.leftNav :text('Devices')`);
+    await navbar.getByRole('link', { name: /Devices/i }).click();
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
     await page.getByText(/troubleshooting/i).click();
     // the deviceconnect connection might not be established right away
@@ -106,7 +110,7 @@ test.describe('Auditlogs', () => {
     await page.keyboard.press('Enter');
     await page.waitForTimeout(timeouts.oneSecond);
     await page.click('[aria-label="close"]'); // short-form
-    await page.click(`.leftNav.navLink:has-text('Audit log')`);
+    await navbar.getByRole('link', { name: /audit log/i }).click();
 
     await page.click(`.auditlogs-list-item :text('CLOSE_TERMINAL')`);
     const drawer = page.locator(`.MuiDrawer-paper`);

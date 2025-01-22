@@ -34,8 +34,10 @@ const fileLocation = `fixtures/${fileName}`;
 test.describe('Files', () => {
   test.use({ storageState: storagePath });
 
+  let navbar;
   test.beforeEach(async ({ loggedInPage: page }) => {
-    await page.click(`.leftNav :text('Releases')`);
+    navbar = page.locator('.leftFixed.leftNav');
+    await navbar.getByRole('link', { name: /Releases/i }).click();
   });
 
   test('allows file uploads', async ({ loggedInPage: page }) => {
@@ -73,7 +75,7 @@ test.describe('Files', () => {
     await page.waitForTimeout(timeouts.oneSecond); // some extra time for the release to be tagged in the backend
     await page.keyboard.press('Escape');
     await page.reload();
-    await page.click(`.leftNav :text('Releases')`);
+    await navbar.getByRole('link', { name: /Releases/i }).click();
     await expect(page.getByText(/customRelease/i)).toBeVisible();
   });
 
@@ -219,7 +221,7 @@ test.describe('Files', () => {
   test('allows file transfer', async ({ browserName, environment, loggedInPage: page }) => {
     // TODO adjust test to better work with webkit, for now it should be good enough to assume file transfers work there too if the remote terminal works
     test.skip(!isEnterpriseOrStaging(environment) || ['webkit'].includes(browserName));
-    await page.click(`.leftNav :text('Devices')`);
+    await navbar.getByRole('link', { name: /Devices/i }).click();
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
     await page.getByText(/troubleshooting/i).click();
     // the deviceconnect connection might not be established right away

@@ -27,7 +27,8 @@ const contextArgs = {
 const launchOptions: LaunchOptions = {
   ...contextArgs,
   args: process.env.TEST_ENVIRONMENT === 'staging' ? [] : ['--disable-dev-shm-usage', '--disable-web-security'],
-  slowMo: process.env.TEST_ENVIRONMENT === 'staging' ? undefined : 50
+  slowMo: process.env.TEST_ENVIRONMENT === 'staging' ? undefined : 50,
+  tracesDir: path.join(__dirname, 'traces')
   // to ease running the test locally and "headful" uncomment and modify the below option to match your preferred browser installation
   // this might also require adjusting the `runWith` call at the bottom of the file
   // executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
@@ -72,7 +73,7 @@ const options: PlaywrightTestConfig = {
     video: 'retain-on-failure',
     // headless: false,
     launchOptions,
-    trace: process.env.BROWSER == 'webkit' ? 'retain-on-failure' : 'off'
+    trace: process.env.BROWSER == 'webkit' ? 'on-all-retries' : 'off'
   }
 };
 
