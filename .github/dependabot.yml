@@ -47,7 +47,7 @@ updates:
     reviewers:
       - "mendersoftware/frontend-dependabot-reviewers"
 
-# backend part starts here
+  # backend part starts here
   - commit-message:
       prefix: chore
     directory: /backend
@@ -93,7 +93,6 @@ updates:
       - /backend/services/deviceconnect/tests
       - /backend/services/iot-manager/tests
       - /backend/services/reporting/tests
-      - /backend/services/deployments/tests/mock-workflows
     package-ecosystem: pip
     schedule:
       interval: monthly
