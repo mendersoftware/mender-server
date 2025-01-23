@@ -31,3 +31,5 @@ export const getHasReleases = createSelector(
 );
 
 export const getSelectedRelease = createSelector([getReleasesById, getSelectedReleaseId], (byId, id) => byId[id] ?? {});
+
+export const getSelectedReleases = createSelector([getReleaseListState, getReleasesList], ({ selection }, releases) => selection.map(index => releases[index]));

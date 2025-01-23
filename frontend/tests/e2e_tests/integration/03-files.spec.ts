@@ -53,6 +53,22 @@ test.describe('Files', () => {
     await page.getByText(/last modified/i).waitFor();
   });
 
+  test('allows file removal', async ({ loggedInPage: page }) => {
+    await page.getByRole('checkbox').first().click();
+    await page.click('.MuiSpeedDial-fab');
+    await page.getByLabel(/delete release/i).click();
+    await expect(page.getByText(/will be deleted/i)).toBeVisible();
+    await page.getByRole('button', { name: /delete/i }).click();
+    await expect(page.getByText(/There are no Releases yet/i)).toBeVisible();
+    // now restore the demo artifact
+    const uploadButton = await page.getByRole('button', { name: /upload/i });
+    await uploadButton.click();
+    const drawer = page.locator(`.MuiDialog-paper`);
+    await drawer.locator('.dropzone input').setInputFiles(fileLocation);
+    await drawer.getByRole('button', { name: /Upload/i }).click();
+    await page.getByText(/last modified/i).waitFor();
+  });
+
   test('allows artifact generation', async ({ baseUrl, loggedInPage: page }) => {
     const hasTaggedRelease = await page.getByText(/customRelease/i).isVisible();
     if (hasTaggedRelease) {
