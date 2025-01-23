@@ -1,4 +1,4 @@
-# Copyright 2024 Northern.tech AS
+# Copyright 2025 Northern.tech AS
 #
 #    Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -56,6 +56,7 @@ class TestClientCompat:
             "2.2.1",
             "2.1.3",
             "3.3.2",
+            "5.0.0",
         }
         max_tries = 512
         devauthm = ApiClient(deviceauth.URL_MGMT)
