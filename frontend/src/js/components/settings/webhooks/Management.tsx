@@ -52,7 +52,7 @@ const triggerMap = {
   'device-decommissioned': 'Device decommissioned',
   'device-provisioned': 'Device provisioned',
   'device-status-changed': 'Device status updated',
-  'devices-inventory-changed': 'Device inventory changed'
+  'device-inventory-changed': 'Device inventory changed'
 };
 
 const DeliveryStatus = ({ entry, webhook = {}, classes }) => {
