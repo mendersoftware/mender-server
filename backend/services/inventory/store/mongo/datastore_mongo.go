@@ -203,10 +203,6 @@ func (db *DataStoreMongo) GetDevices(
 		groupFilter := bson.M{DbDevAttributesGroupValue: q.GroupName}
 		queryFilters = append(queryFilters, groupFilter)
 	}
-	if q.GroupName != "" {
-		groupFilter := bson.M{DbDevAttributesGroupValue: q.GroupName}
-		queryFilters = append(queryFilters, groupFilter)
-	}
 	if q.HasGroup != nil {
 		groupExistenceFilter := bson.M{
 			DbDevAttributesGroup: bson.M{
