@@ -20,7 +20,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
 import { DEVICE_STATES, TIMEOUTS, onboardingSteps } from '@northern.tech/store/constants';
-import { getDeviceCountsByStatus, getOnboardingState, getTenantCapabilities } from '@northern.tech/store/selectors';
+import { getDeviceCountsByStatus, getFeatures, getOnboardingState, getTenantCapabilities } from '@northern.tech/store/selectors';
 import { advanceOnboarding, saveUserSettings, setDeviceListState } from '@northern.tech/store/thunks';
 
 import docker from '../../../assets/img/docker.png';
@@ -38,6 +38,42 @@ const useStyles = makeStyles()(theme => ({
   },
   virtualLogo: { height: 40, marginLeft: theme.spacing(2) }
 }));
+
+const docsLinks = [
+  { key: 'debian', target: 'operating-system-updates-debian-family', title: 'Debian family' },
+  { key: 'yocto', target: 'operating-system-updates-yocto-project', title: 'Yocto OSes' }
+];
+
+const MenderHubReference = () => (
+  <p className="padding-bottom-none">
+    Or visit {/* eslint-disable-next-line react/jsx-no-target-blank */}
+    <a href="https://hub.mender.io/c/board-integrations" target="_blank" rel="noopener">
+      Mender Hub
+    </a>{' '}
+    and search integrations for your device and OS.
+  </p>
+);
+
+const OnPremDeviceConnectionExplainer = ({ isEnterprise }) => (
+  <>
+    <p>
+      You can connect almost any device and Linux OS with Mender, but to make things simple during evaluation we recommend you to get started with a Debian
+      based setup. This also works with a Raspberry Pi as a test device.
+      <br />
+      Follow the <DocsLink path="client-installation/install-with-debian-package" title="installation instructions" /> for Debian packages and select the{' '}
+      {isEnterprise ? 'Enterprise' : 'Demo'} server tab to configure the client.
+    </p>
+    <div>For operating system updates, see the documentation to integrate the following with Mender:</div>
+    <ul>
+      {docsLinks.map(item => (
+        <li key={item.key}>
+          <DocsLink path={item.target} title={item.title} />
+        </li>
+      ))}
+    </ul>
+    <MenderHubReference />
+  </>
+);
 
 const DeviceConnectionExplainer = ({ hasMonitor, setOnDevice, setVirtualDevice }) => {
   const { classes } = useStyles();
@@ -81,20 +117,13 @@ const DeviceConnectionExplainer = ({ hasMonitor, setOnDevice, setVirtualDevice }
           <h3>Other devices</h3>
           <div>See the documentation to integrate the following with Mender:</div>
           <ul>
-            {[
-              { key: 'debian', target: 'operating-system-updates-debian-family', title: 'Debian family' },
-              { key: 'yocto', target: 'operating-system-updates-yocto-project', title: 'Yocto OSes' }
-            ].map(item => (
+            {docsLinks.map(item => (
               <li key={item.key}>
                 <DocsLink path={item.target} title={item.title} />
               </li>
             ))}
           </ul>
-          Or visit {/* eslint-disable-next-line react/jsx-no-target-blank */}
-          <a href="https://hub.mender.io/c/board-integrations" target="_blank" rel="noopener">
-            Mender Hub
-          </a>{' '}
-          and search integrations for your device and OS.
+          <MenderHubReference />
         </div>
       </div>
       <MenderHelpTooltip id={HELPTOOLTIPS.deviceSupportTip.id} style={{ position: 'absolute', bottom: '2.5%', left: '88%' }} />
@@ -109,7 +138,8 @@ export const DeviceConnectionDialog = ({ onCancel }) => {
   const { pending: pendingCount } = useSelector(getDeviceCountsByStatus);
   const [pendingDevicesCount] = useState(pendingCount);
   const [hasMoreDevices, setHasMoreDevices] = useState(false);
-  const { hasMonitor } = useSelector(getTenantCapabilities);
+  const { isEnterprise, hasMonitor } = useSelector(getTenantCapabilities);
+  const { isHosted } = useSelector(getFeatures);
   const { complete: onboardingComplete, deviceType: onboardingDeviceType } = useSelector(getOnboardingState);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -149,6 +179,8 @@ export const DeviceConnectionDialog = ({ onCancel }) => {
     content = <PhysicalDeviceOnboarding progress={progress} />;
   } else if (virtualDevice) {
     content = <VirtualDeviceOnboarding />;
+  } else if (!isHosted) {
+    content = <OnPremDeviceConnectionExplainer isEnterprise={isEnterprise} />;
   }
 
   if (hasMoreDevices && !onboardingComplete) {
@@ -156,11 +188,9 @@ export const DeviceConnectionDialog = ({ onCancel }) => {
   }
 
   return (
-    <Dialog open={true} PaperProps={{ sx: { maxWidth: '720px' } }}>
+    <Dialog open={true} maxWidth="sm">
       <DialogTitle>Connecting a device</DialogTitle>
-      <DialogContent className="onboard-dialog" style={{ margin: '0 30px' }}>
-        {content}
-      </DialogContent>
+      <DialogContent className="onboard-dialog padding-bottom-none margin-left margin-right">{content}</DialogContent>
       <DialogActions>
         <Button onClick={onCancel}>Cancel</Button>
         <div style={{ flexGrow: 1 }} />
