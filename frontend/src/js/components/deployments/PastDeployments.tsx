@@ -32,7 +32,7 @@ import {
   getUserCapabilities
 } from '@northern.tech/store/selectors';
 import { advanceOnboarding, getDeploymentsByStatus, setDeploymentsState } from '@northern.tech/store/thunks';
-import { getISOStringBoundaries } from '@northern.tech/utils/helpers';
+import { dateRangeToUnix, getISOStringBoundaries } from '@northern.tech/utils/helpers';
 import useWindowSize from '@northern.tech/utils/resizehook';
 import { clearAllRetryTimers, clearRetryTimer, setRetryTimer } from '@northern.tech/utils/retrytimer';
 import dayjs from 'dayjs';
@@ -91,8 +91,7 @@ export const Past = props => {
       currentDeviceGroup = deviceGroup,
       currentType = deploymentType
     ) => {
-      const roundedStartDate = dayjs.utc(currentStartDate).unix();
-      const roundedEndDate = dayjs.utc(currentEndDate).unix();
+      const { start: roundedStartDate, end: roundedEndDate } = dateRangeToUnix(currentStartDate, currentEndDate);
       setLoading(true);
       return dispatch(
         getDeploymentsByStatus({
@@ -119,8 +118,7 @@ export const Past = props => {
   );
 
   useEffect(() => {
-    const roundedStartDate = dayjs.utc(startDate || BEGINNING_OF_TIME).unix();
-    const roundedEndDate = dayjs.utc(endDate).unix();
+    const { start: roundedStartDate, end: roundedEndDate } = dateRangeToUnix(startDate || BEGINNING_OF_TIME, endDate);
     setLoading(true);
     dispatch(
       getDeploymentsByStatus({ status: type, page, perPage, startDate: roundedStartDate, endDate: roundedEndDate, group: deviceGroup, type: deploymentType })
