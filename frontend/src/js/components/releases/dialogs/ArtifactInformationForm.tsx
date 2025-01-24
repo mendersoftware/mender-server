@@ -27,6 +27,7 @@ import { FileInformation } from './FileInformation';
 const defaultVersion = '1.0.0';
 
 const useStyles = makeStyles()(theme => ({
+  formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(2) },
   releaseName: {
     display: 'flex',
     alignItems: 'center',
@@ -44,6 +45,7 @@ export const VersionInformation = ({ creation = {}, onRemove, updateCreation }) 
   const [fileSystem, setFileSystem] = useState(propFs);
   const [softwareName, setSoftwareName] = useState(propName || name.replace('.', '-'));
   const [softwareVersion, setSoftwareVersion] = useState(version || defaultVersion);
+  const { classes } = useStyles();
 
   useEffect(() => {
     updateCreation({ finalStep: true });
@@ -57,7 +59,7 @@ export const VersionInformation = ({ creation = {}, onRemove, updateCreation }) 
     <>
       <FileInformation file={file} type={type} onRemove={onRemove} />
       <h4>Version information</h4>
-      <div className="flexbox column">
+      <div className={classes.formWrapper}>
         {[
           { key: 'fileSystem', title: 'Software filesystem', setter: setFileSystem, value: fileSystem },
           { key: 'softwareName', title: 'Software name', setter: setSoftwareName, value: softwareName },
