@@ -9,7 +9,6 @@ flaky==3.8.1
 flask
 idna >= 2.10
 jsonschema<5.0
-minio==7.2.15
 msgpack >= 1.0
 opensearch-py >= 2.0.0, < 3.0.0
 pluggy==1.5.0

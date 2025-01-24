@@ -20,7 +20,7 @@ RUN \
 FROM scratch
 ARG TARGETARCH
 ARG TARGETOS
-ARG USER=65534
+ARG USER=65534:65534
 ARG BIN_FILE=./dist/${TARGETOS}/${TARGETARCH}/deviceauth
 USER $USER
 COPY --chown=$USER  backend/services/deviceauth/config.yaml /etc/deviceauth/config.yaml

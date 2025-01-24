@@ -20,7 +20,7 @@ RUN \
 FROM scratch
 ARG TARGETARCH
 ARG TARGETOS
-ARG USER=65534
+ARG USER=65534:65534
 USER $USER
 COPY --chown=$USER  backend/services/deviceconnect/config.yaml /etc/deviceconnect/config.yaml
 COPY --from=builder --chown=$USER /build/deviceconnect /usr/bin/deviceconnect

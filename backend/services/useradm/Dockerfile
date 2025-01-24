@@ -22,7 +22,7 @@ RUN \
 FROM scratch
 ARG TARGETARCH
 ARG TARGETOS
-ARG USER=65534
+ARG USER=65534:65534
 USER $USER
 COPY --chown=$USER  backend/services/useradm/config.yaml /etc/useradm/config.yaml
 COPY --chown=$USER  backend/services/useradm/config/plans.yaml /etc/useradm/plans.yaml
