@@ -124,20 +124,7 @@ exports[`ArtifactUpload Component renders correctly 1`] = `
   color: transparent;
 }
 
-.emotion-4 {
-  display: none;
-  position: absolute;
-  visibility: visible;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  color: rgba(0, 0, 0, 0.26);
-}
-
-.emotion-6 {
+.emotion-5 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -155,15 +142,15 @@ exports[`ArtifactUpload Component renders correctly 1`] = `
   color: #337a87;
 }
 
-.emotion-6 iconButton {
+.emotion-5 iconButton {
   margin-right: 8px;
 }
 
-.emotion-6.read {
+.emotion-5.read {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-7 {
+.emotion-6 {
   position: absolute;
   top: -5px;
   bottom: 0;
@@ -173,11 +160,11 @@ exports[`ArtifactUpload Component renders correctly 1`] = `
   border-radius: 50%;
 }
 
-.emotion-7.read {
+.emotion-6.read {
   border-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-8 {
+.emotion-7 {
   margin: 0;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -227,9 +214,6 @@ exports[`ArtifactUpload Component renders correctly 1`] = `
       tabindex="0"
       type="button"
     >
-      <span
-        class="MuiIconButton-loadingIndicator emotion-4"
-      />
       <svg
         aria-hidden="true"
         class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
@@ -251,7 +235,7 @@ exports[`ArtifactUpload Component renders correctly 1`] = `
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-6"
+          class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-5"
           data-testid="HelpIcon"
           focusable="false"
           viewBox="0 0 24 24"
@@ -261,13 +245,13 @@ exports[`ArtifactUpload Component renders correctly 1`] = `
           />
         </svg>
         <div
-          class="emotion-7 "
+          class="emotion-6 "
         />
       </div>
     </div>
   </div>
   <hr
-    class="MuiDivider-root MuiDivider-fullWidth margin-right-large emotion-8"
+    class="MuiDivider-root MuiDivider-fullWidth margin-right-large emotion-7"
   />
 </div>
 `;

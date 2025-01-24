@@ -166,19 +166,6 @@ exports[`ColumnCustomizationDialogContent Component renders correctly 1`] = `
 }
 
 .emotion-4 {
-  display: none;
-  position: absolute;
-  visibility: visible;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  color: rgba(0, 0, 0, 0.26);
-}
-
-.emotion-5 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -196,11 +183,11 @@ exports[`ColumnCustomizationDialogContent Component renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-5 iconButton {
+.emotion-4 iconButton {
   margin-right: 8px;
 }
 
-.emotion-11 {
+.emotion-9 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -217,128 +204,128 @@ exports[`ColumnCustomizationDialogContent Component renders correctly 1`] = `
   min-width: 240px;
 }
 
-.emotion-12.Mui-focused .MuiAutocomplete-clearIndicator {
+.emotion-10.Mui-focused .MuiAutocomplete-clearIndicator {
   visibility: visible;
 }
 
 @media (pointer: fine) {
-  .emotion-12:hover .MuiAutocomplete-clearIndicator {
+  .emotion-10:hover .MuiAutocomplete-clearIndicator {
     visibility: visible;
   }
 }
 
-.emotion-12 .MuiAutocomplete-tag {
+.emotion-10 .MuiAutocomplete-tag {
   margin: 3px;
   max-width: calc(100% - 6px);
 }
 
-.MuiAutocomplete-hasPopupIcon.emotion-12 .MuiAutocomplete-inputRoot,
-.MuiAutocomplete-hasClearIcon.emotion-12 .MuiAutocomplete-inputRoot {
+.MuiAutocomplete-hasPopupIcon.emotion-10 .MuiAutocomplete-inputRoot,
+.MuiAutocomplete-hasClearIcon.emotion-10 .MuiAutocomplete-inputRoot {
   padding-right: 30px;
 }
 
-.MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon.emotion-12 .MuiAutocomplete-inputRoot {
+.MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon.emotion-10 .MuiAutocomplete-inputRoot {
   padding-right: 56px;
 }
 
-.emotion-12 .MuiAutocomplete-inputRoot .MuiAutocomplete-input {
+.emotion-10 .MuiAutocomplete-inputRoot .MuiAutocomplete-input {
   width: 0;
   min-width: 30px;
 }
 
-.emotion-12 .MuiInput-root {
+.emotion-10 .MuiInput-root {
   padding-bottom: 1px;
 }
 
-.emotion-12 .MuiInput-root .MuiInput-input {
+.emotion-10 .MuiInput-root .MuiInput-input {
   padding: 4px 4px 4px 0px;
 }
 
-.emotion-12 .MuiInput-root.MuiInputBase-sizeSmall .MuiInput-input {
+.emotion-10 .MuiInput-root.MuiInputBase-sizeSmall .MuiInput-input {
   padding: 2px 4px 3px 0;
 }
 
-.emotion-12 .MuiOutlinedInput-root {
+.emotion-10 .MuiOutlinedInput-root {
   padding: 9px;
 }
 
-.MuiAutocomplete-hasPopupIcon.emotion-12 .MuiOutlinedInput-root,
-.MuiAutocomplete-hasClearIcon.emotion-12 .MuiOutlinedInput-root {
+.MuiAutocomplete-hasPopupIcon.emotion-10 .MuiOutlinedInput-root,
+.MuiAutocomplete-hasClearIcon.emotion-10 .MuiOutlinedInput-root {
   padding-right: 39px;
 }
 
-.MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon.emotion-12 .MuiOutlinedInput-root {
+.MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon.emotion-10 .MuiOutlinedInput-root {
   padding-right: 65px;
 }
 
-.emotion-12 .MuiOutlinedInput-root .MuiAutocomplete-input {
+.emotion-10 .MuiOutlinedInput-root .MuiAutocomplete-input {
   padding: 7.5px 4px 7.5px 5px;
 }
 
-.emotion-12 .MuiOutlinedInput-root .MuiAutocomplete-endAdornment {
+.emotion-10 .MuiOutlinedInput-root .MuiAutocomplete-endAdornment {
   right: 9px;
 }
 
-.emotion-12 .MuiOutlinedInput-root.MuiInputBase-sizeSmall {
+.emotion-10 .MuiOutlinedInput-root.MuiInputBase-sizeSmall {
   padding-top: 6px;
   padding-bottom: 6px;
   padding-left: 6px;
 }
 
-.emotion-12 .MuiOutlinedInput-root.MuiInputBase-sizeSmall .MuiAutocomplete-input {
+.emotion-10 .MuiOutlinedInput-root.MuiInputBase-sizeSmall .MuiAutocomplete-input {
   padding: 2.5px 4px 2.5px 8px;
 }
 
-.emotion-12 .MuiFilledInput-root {
+.emotion-10 .MuiFilledInput-root {
   padding-top: 19px;
   padding-left: 8px;
 }
 
-.MuiAutocomplete-hasPopupIcon.emotion-12 .MuiFilledInput-root,
-.MuiAutocomplete-hasClearIcon.emotion-12 .MuiFilledInput-root {
+.MuiAutocomplete-hasPopupIcon.emotion-10 .MuiFilledInput-root,
+.MuiAutocomplete-hasClearIcon.emotion-10 .MuiFilledInput-root {
   padding-right: 39px;
 }
 
-.MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon.emotion-12 .MuiFilledInput-root {
+.MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon.emotion-10 .MuiFilledInput-root {
   padding-right: 65px;
 }
 
-.emotion-12 .MuiFilledInput-root .MuiFilledInput-input {
+.emotion-10 .MuiFilledInput-root .MuiFilledInput-input {
   padding: 7px 4px;
 }
 
-.emotion-12 .MuiFilledInput-root .MuiAutocomplete-endAdornment {
+.emotion-10 .MuiFilledInput-root .MuiAutocomplete-endAdornment {
   right: 9px;
 }
 
-.emotion-12 .MuiFilledInput-root.MuiInputBase-sizeSmall {
+.emotion-10 .MuiFilledInput-root.MuiInputBase-sizeSmall {
   padding-bottom: 1px;
 }
 
-.emotion-12 .MuiFilledInput-root.MuiInputBase-sizeSmall .MuiFilledInput-input {
+.emotion-10 .MuiFilledInput-root.MuiInputBase-sizeSmall .MuiFilledInput-input {
   padding: 2.5px 4px;
 }
 
-.emotion-12 .MuiInputBase-hiddenLabel {
+.emotion-10 .MuiInputBase-hiddenLabel {
   padding-top: 8px;
 }
 
-.emotion-12 .MuiFilledInput-root.MuiInputBase-hiddenLabel {
+.emotion-10 .MuiFilledInput-root.MuiInputBase-hiddenLabel {
   padding-top: 0;
   padding-bottom: 0;
 }
 
-.emotion-12 .MuiFilledInput-root.MuiInputBase-hiddenLabel .MuiAutocomplete-input {
+.emotion-10 .MuiFilledInput-root.MuiInputBase-hiddenLabel .MuiAutocomplete-input {
   padding-top: 16px;
   padding-bottom: 17px;
 }
 
-.emotion-12 .MuiFilledInput-root.MuiInputBase-hiddenLabel.MuiInputBase-sizeSmall .MuiAutocomplete-input {
+.emotion-10 .MuiFilledInput-root.MuiInputBase-hiddenLabel.MuiInputBase-sizeSmall .MuiAutocomplete-input {
   padding-top: 8px;
   padding-bottom: 9px;
 }
 
-.emotion-12 .MuiAutocomplete-input {
+.emotion-10 .MuiAutocomplete-input {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -347,11 +334,11 @@ exports[`ColumnCustomizationDialogContent Component renders correctly 1`] = `
   opacity: 0;
 }
 
-.emotion-12 .MuiAutocomplete-input {
+.emotion-10 .MuiAutocomplete-input {
   opacity: 1;
 }
 
-.emotion-13 {
+.emotion-11 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -369,7 +356,7 @@ exports[`ColumnCustomizationDialogContent Component renders correctly 1`] = `
   min-width: 240px;
 }
 
-.emotion-14 {
+.emotion-12 {
   color: rgba(0, 0, 0, 0.54);
   line-height: 1.4375em;
   font-family: Lato,sans-serif;
@@ -402,23 +389,23 @@ exports[`ColumnCustomizationDialogContent Component renders correctly 1`] = `
   max-width: calc(100% - 24px);
 }
 
-.emotion-14.Mui-focused {
+.emotion-12.Mui-focused {
   color: #337a87;
 }
 
-.emotion-14.Mui-disabled {
+.emotion-12.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-14.Mui-error {
+.emotion-12.Mui-error {
   color: #ab1000;
 }
 
-.emotion-14.Mui-focused {
+.emotion-12.Mui-focused {
   color: #337a87;
 }
 
-.emotion-15 {
+.emotion-13 {
   line-height: 1.4375em;
   font-family: Lato,sans-serif;
   font-weight: 400;
@@ -441,38 +428,38 @@ exports[`ColumnCustomizationDialogContent Component renders correctly 1`] = `
   padding-right: 14px;
 }
 
-.emotion-15.Mui-disabled {
+.emotion-13.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
   cursor: default;
 }
 
-.emotion-15:hover .MuiOutlinedInput-notchedOutline {
+.emotion-13:hover .MuiOutlinedInput-notchedOutline {
   border-color: rgba(10, 10, 11, 0.78);
 }
 
 @media (hover: none) {
-  .emotion-15:hover .MuiOutlinedInput-notchedOutline {
+  .emotion-13:hover .MuiOutlinedInput-notchedOutline {
     border-color: rgba(0, 0, 0, 0.23);
   }
 }
 
-.emotion-15.Mui-focused .MuiOutlinedInput-notchedOutline {
+.emotion-13.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-width: 2px;
 }
 
-.emotion-15.Mui-focused .MuiOutlinedInput-notchedOutline {
+.emotion-13.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-color: #337a87;
 }
 
-.emotion-15.Mui-error .MuiOutlinedInput-notchedOutline {
+.emotion-13.Mui-error .MuiOutlinedInput-notchedOutline {
   border-color: #ab1000;
 }
 
-.emotion-15.Mui-disabled .MuiOutlinedInput-notchedOutline {
+.emotion-13.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-16 {
+.emotion-14 {
   font: inherit;
   letter-spacing: inherit;
   color: currentColor;
@@ -494,80 +481,80 @@ exports[`ColumnCustomizationDialogContent Component renders correctly 1`] = `
   padding-right: 0;
 }
 
-.emotion-16::-webkit-input-placeholder {
+.emotion-14::-webkit-input-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-16::-moz-placeholder {
+.emotion-14::-moz-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-16::-ms-input-placeholder {
+.emotion-14::-ms-input-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-16:focus {
+.emotion-14:focus {
   outline: 0;
 }
 
-.emotion-16:invalid {
+.emotion-14:invalid {
   box-shadow: none;
 }
 
-.emotion-16::-webkit-search-decoration {
+.emotion-14::-webkit-search-decoration {
   -webkit-appearance: none;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-16::-webkit-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-14::-webkit-input-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-16::-moz-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-14::-moz-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-16::-ms-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-14::-ms-input-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-webkit-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-webkit-input-placeholder {
   opacity: 0.42;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-moz-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-moz-placeholder {
   opacity: 0.42;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-placeholder {
   opacity: 0.42;
 }
 
-.emotion-16.Mui-disabled {
+.emotion-14.Mui-disabled {
   opacity: 1;
   -webkit-text-fill-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-16:-webkit-autofill {
+.emotion-14:-webkit-autofill {
   -webkit-animation-duration: 5000s;
   animation-duration: 5000s;
   -webkit-animation-name: mui-auto-fill;
   animation-name: mui-auto-fill;
 }
 
-.emotion-16:-webkit-autofill {
+.emotion-14:-webkit-autofill {
   border-radius: inherit;
 }
 
-.emotion-17 {
+.emotion-15 {
   position: absolute;
   right: 0;
   top: 50%;
@@ -577,7 +564,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
   transform: translate(0, -50%);
 }
 
-.emotion-18 {
+.emotion-16 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -628,42 +615,42 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
   visibility: hidden;
 }
 
-.emotion-18::-moz-focus-inner {
+.emotion-16::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-18.Mui-disabled {
+.emotion-16.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-18 {
+  .emotion-16 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-18:hover {
+.emotion-16:hover {
   background-color: var(--IconButton-hoverBg);
 }
 
 @media (hover: none) {
-  .emotion-18:hover {
+  .emotion-16:hover {
     background-color: transparent;
   }
 }
 
-.emotion-18.Mui-disabled {
+.emotion-16.Mui-disabled {
   background-color: transparent;
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-18.MuiIconButton-loading {
+.emotion-16.MuiIconButton-loading {
   color: transparent;
 }
 
-.emotion-20 {
+.emotion-17 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -680,11 +667,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
   font-size: 1.1607rem;
 }
 
-.emotion-20 iconButton {
+.emotion-17 iconButton {
   margin-right: 8px;
 }
 
-.emotion-21 {
+.emotion-18 {
   text-align: left;
   position: absolute;
   bottom: 0;
@@ -702,7 +689,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
   border-color: rgba(0, 0, 0, 0.23);
 }
 
-.emotion-22 {
+.emotion-19 {
   float: unset;
   width: auto;
   overflow: hidden;
@@ -717,7 +704,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
   white-space: nowrap;
 }
 
-.emotion-22>span {
+.emotion-19>span {
   padding-left: 5px;
   padding-right: 5px;
   display: inline-block;
@@ -774,12 +761,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
           tabindex="0"
           type="button"
         >
-          <span
-            class="MuiIconButton-loadingIndicator emotion-4"
-          />
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-colorDisabled MuiSvgIcon-fontSizeMedium emotion-5"
+            class="MuiSvgIcon-root MuiSvgIcon-colorDisabled MuiSvgIcon-fontSizeMedium emotion-4"
             data-testid="ClearIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -830,12 +814,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
           tabindex="0"
           type="button"
         >
-          <span
-            class="MuiIconButton-loadingIndicator emotion-4"
-          />
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-colorDisabled MuiSvgIcon-fontSizeMedium emotion-5"
+            class="MuiSvgIcon-root MuiSvgIcon-colorDisabled MuiSvgIcon-fontSizeMedium emotion-4"
             data-testid="ClearIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -849,16 +830,16 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
     </li>
   </div>
   <div
-    class="MuiFormControl-root emotion-11"
+    class="MuiFormControl-root emotion-9"
   >
     <div
-      class="MuiAutocomplete-root MuiAutocomplete-hasClearIcon emotion-12"
+      class="MuiAutocomplete-root MuiAutocomplete-hasClearIcon emotion-10"
     >
       <div
-        class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root emotion-13"
+        class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root emotion-11"
       >
         <label
-          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-14"
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-12"
           data-shrink="false"
           for="filter-selection"
           id="filter-selection-label"
@@ -866,7 +847,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
           Add a column
         </label>
         <div
-          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot emotion-15"
+          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot emotion-13"
         >
           <input
             aria-autocomplete="both"
@@ -874,7 +855,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
             aria-invalid="false"
             autocapitalize="none"
             autocomplete="off"
-            class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused emotion-16"
+            class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused emotion-14"
             id="filter-selection"
             role="combobox"
             spellcheck="false"
@@ -882,22 +863,19 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
             value=""
           />
           <div
-            class="MuiAutocomplete-endAdornment emotion-17"
+            class="MuiAutocomplete-endAdornment emotion-15"
           >
             <button
               aria-label="Clear"
-              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-clearIndicator emotion-18"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-clearIndicator emotion-16"
               id=":r9:"
               tabindex="-1"
               title="Clear"
               type="button"
             >
-              <span
-                class="MuiIconButton-loadingIndicator emotion-4"
-              />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-20"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-17"
                 data-testid="CloseIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -910,10 +888,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
           </div>
           <fieldset
             aria-hidden="true"
-            class="MuiOutlinedInput-notchedOutline emotion-21"
+            class="MuiOutlinedInput-notchedOutline emotion-18"
           >
             <legend
-              class="emotion-22"
+              class="emotion-19"
             >
               <span>
                 Add a column

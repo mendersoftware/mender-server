@@ -72,9 +72,6 @@ exports[`ProgressDeviceList Component renders correctly 1`] = `
             tabindex="-1"
             type="button"
           >
-            <span
-              class="MuiIconButton-loadingIndicator css-165vu30-MuiIconButton-loadingIndicator"
-            />
             <svg
               aria-hidden="true"
               class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1j3vvli-MuiSvgIcon-root"
@@ -95,9 +92,6 @@ exports[`ProgressDeviceList Component renders correctly 1`] = `
               tabindex="-1"
               type="button"
             >
-              <span
-                class="MuiIconButton-loadingIndicator css-165vu30-MuiIconButton-loadingIndicator"
-              />
               <svg
                 aria-hidden="true"
                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1j3vvli-MuiSvgIcon-root"

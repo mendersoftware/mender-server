@@ -448,19 +448,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
 }
 
 .emotion-7 {
-  display: none;
-  position: absolute;
-  visibility: visible;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  color: rgba(0, 0, 0, 0.26);
-}
-
-.emotion-8 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -477,11 +464,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
   font-size: 1.1607rem;
 }
 
-.emotion-8 iconButton {
+.emotion-7 iconButton {
   margin-right: 8px;
 }
 
-.emotion-9 {
+.emotion-8 {
   text-align: left;
   position: absolute;
   bottom: 0;
@@ -499,7 +486,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
   border-color: rgba(0, 0, 0, 0.23);
 }
 
-.emotion-10 {
+.emotion-9 {
   float: unset;
   width: auto;
   overflow: hidden;
@@ -514,7 +501,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
   white-space: nowrap;
 }
 
-.emotion-10>span {
+.emotion-9>span {
   padding-left: 5px;
   padding-right: 5px;
   display: inline-block;
@@ -522,7 +509,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
   visibility: visible;
 }
 
-.emotion-11 {
+.emotion-10 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -539,7 +526,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
   font-size: 1.3929rem;
 }
 
-.emotion-11 iconButton {
+.emotion-10 iconButton {
   margin-right: 8px;
 }
 
@@ -597,12 +584,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
               title="Clear"
               type="button"
             >
-              <span
-                class="MuiIconButton-loadingIndicator emotion-7"
-              />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-8"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-7"
                 data-testid="CloseIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -615,10 +599,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
           </div>
           <fieldset
             aria-hidden="true"
-            class="MuiOutlinedInput-notchedOutline emotion-9"
+            class="MuiOutlinedInput-notchedOutline emotion-8"
           >
             <legend
-              class="emotion-10"
+              class="emotion-9"
             >
               <span>
                 Device type
@@ -635,7 +619,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-11"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
         data-testid="InfoOutlinedIcon"
         focusable="false"
         viewBox="0 0 24 24"
@@ -1132,19 +1116,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
 }
 
 .emotion-7 {
-  display: none;
-  position: absolute;
-  visibility: visible;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  color: rgba(0, 0, 0, 0.26);
-}
-
-.emotion-8 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -1161,11 +1132,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
   font-size: 1.1607rem;
 }
 
-.emotion-8 iconButton {
+.emotion-7 iconButton {
   margin-right: 8px;
 }
 
-.emotion-9 {
+.emotion-8 {
   text-align: left;
   position: absolute;
   bottom: 0;
@@ -1183,7 +1154,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
   border-color: rgba(0, 0, 0, 0.23);
 }
 
-.emotion-10 {
+.emotion-9 {
   float: unset;
   width: auto;
   overflow: hidden;
@@ -1201,12 +1172,33 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
   transition: max-width 100ms cubic-bezier(0.0, 0, 0.2, 1) 50ms;
 }
 
-.emotion-10>span {
+.emotion-9>span {
   padding-left: 5px;
   padding-right: 5px;
   display: inline-block;
   opacity: 0;
   visibility: visible;
+}
+
+.emotion-10 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.3929rem;
+}
+
+.emotion-10 iconButton {
+  margin-right: 8px;
 }
 
 .emotion-11 {
@@ -1224,39 +1216,18 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
   font-size: 1.3929rem;
+  color: #337a87;
 }
 
 .emotion-11 iconButton {
   margin-right: 8px;
 }
 
-.emotion-12 {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  fill: currentColor;
-  font-size: 1.3929rem;
-  color: #337a87;
-}
-
-.emotion-12 iconButton {
-  margin-right: 8px;
-}
-
-.emotion-12.read {
+.emotion-11.read {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-13 {
+.emotion-12 {
   position: absolute;
   top: -5px;
   bottom: 0;
@@ -1266,7 +1237,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
   border-radius: 50%;
 }
 
-.emotion-13.read {
+.emotion-12.read {
   border-color: rgba(0, 0, 0, 0.38);
 }
 
@@ -1324,12 +1295,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
               title="Clear"
               type="button"
             >
-              <span
-                class="MuiIconButton-loadingIndicator emotion-7"
-              />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-8"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-7"
                 data-testid="CloseIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -1342,10 +1310,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
           </div>
           <fieldset
             aria-hidden="true"
-            class="MuiOutlinedInput-notchedOutline emotion-9"
+            class="MuiOutlinedInput-notchedOutline emotion-8"
           >
             <legend
-              class="emotion-10"
+              class="emotion-9"
             >
               <span>
                 Device type
@@ -1362,7 +1330,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-11"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
         data-testid="InfoOutlinedIcon"
         focusable="false"
         viewBox="0 0 24 24"
@@ -1381,7 +1349,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-12"
+          class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-11"
           data-testid="HelpIcon"
           focusable="false"
           viewBox="0 0 24 24"
@@ -1391,7 +1359,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
           />
         </svg>
         <div
-          class="emotion-13 "
+          class="emotion-12 "
         />
       </div>
     </div>

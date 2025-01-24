@@ -432,19 +432,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
   color: transparent;
 }
 
-.emotion-15 {
-  display: none;
-  position: absolute;
-  visibility: visible;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  color: rgba(0, 0, 0, 0.26);
-}
-
 <body>
   <div>
     <div>
@@ -710,9 +697,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
                   tabindex="-1"
                   type="button"
                 >
-                  <span
-                    class="MuiIconButton-loadingIndicator emotion-15"
-                  />
                   <svg
                     aria-hidden="true"
                     class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
@@ -733,9 +717,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
                     tabindex="-1"
                     type="button"
                   >
-                    <span
-                      class="MuiIconButton-loadingIndicator emotion-15"
-                    />
                     <svg
                       aria-hidden="true"
                       class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"

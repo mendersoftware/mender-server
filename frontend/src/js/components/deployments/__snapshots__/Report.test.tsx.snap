@@ -8,7 +8,7 @@ exports[`DeploymentReport Component renders correctly 1`] = `
     aria-hidden="true"
   />
   <div
-    class="MuiDrawer-root MuiDrawer-modal MuiModal-root css-nlj7kd-MuiModal-root-MuiDrawer-root"
+    class="MuiDrawer-root MuiDrawer-anchorRight MuiDrawer-modal MuiModal-root css-nlj7kd-MuiModal-root-MuiDrawer-root"
     role="presentation"
   >
     <div
@@ -49,9 +49,6 @@ exports[`DeploymentReport Component renders correctly 1`] = `
             tabindex="0"
             type="button"
           >
-            <span
-              class="MuiIconButton-loadingIndicator css-165vu30-MuiIconButton-loadingIndicator"
-            />
             <svg
               aria-hidden="true"
               class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1j3vvli-MuiSvgIcon-root"
@@ -103,9 +100,6 @@ Devices that are in the middle of the deployment at the time of abort will finis
             tabindex="0"
             type="button"
           >
-            <span
-              class="MuiIconButton-loadingIndicator css-165vu30-MuiIconButton-loadingIndicator"
-            />
             <svg
               aria-hidden="true"
               class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1j3vvli-MuiSvgIcon-root"
@@ -665,9 +659,6 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     tabindex="-1"
                     type="button"
                   >
-                    <span
-                      class="MuiIconButton-loadingIndicator css-165vu30-MuiIconButton-loadingIndicator"
-                    />
                     <svg
                       aria-hidden="true"
                       class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1j3vvli-MuiSvgIcon-root"
@@ -688,9 +679,6 @@ Devices that are in the middle of the deployment at the time of abort will finis
                       tabindex="-1"
                       type="button"
                     >
-                      <span
-                        class="MuiIconButton-loadingIndicator css-165vu30-MuiIconButton-loadingIndicator"
-                      />
                       <svg
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1j3vvli-MuiSvgIcon-root"
