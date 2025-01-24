@@ -14,7 +14,19 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Button, Checkbox, FormControl, FormControlLabel, FormHelperText, InputLabel, MenuItem, Select, Switch, TextField, Typography } from '@mui/material';
+import {
+  Button,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+  Switch,
+  TextField,
+  textFieldClasses
+} from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import DocsLink from '@northern.tech/common-ui/DocsLink';
@@ -40,14 +52,11 @@ const maxWidth = 750;
 
 const useStyles = makeStyles()(theme => ({
   threshold: {
-    alignItems: 'baseline',
     columnGap: theme.spacing(2),
     display: 'grid',
-    gridTemplateColumns: '100px 100px'
-  },
-  textInput: {
-    marginTop: 0,
-    minWidth: 'initial'
+    gridTemplateColumns: '100px 100px',
+    marginLeft: 0,
+    [`.${textFieldClasses.root}`]: { minWidth: 'auto' }
   }
 }));
 
@@ -185,21 +194,21 @@ export const GlobalSettingsDialog = ({
       <IdAttributeSelection attributes={attributes} onCloseClick={onCloseClick} onSaveClick={onSaveClick} selectedAttribute={selectedAttribute} />
       {hasReporting && <ReportingLimits />}
       {canManageUsers && (
-        <>
-          <InputLabel className="margin-top" shrink>
-            Deployments
-          </InputLabel>
-          <div className="clickable flexbox center-aligned" onClick={toggleDeploymentConfirmation}>
-            <p className="help-content">Require confirmation on deployment creation</p>
-            <Switch checked={needsDeploymentConfirmation} />
-          </div>
-        </>
+        <FormControl className="margin-top" variant="standard">
+          <InputLabel shrink>Deployments</InputLabel>
+          <FormControlLabel
+            className="margin-left-none"
+            control={<Switch checked={needsDeploymentConfirmation} onClick={toggleDeploymentConfirmation} />}
+            label="Require confirmation on deployment creation"
+            labelPlacement="start"
+          />
+        </FormControl>
       )}
       {canManageReleases && canDelta && <ArtifactGenerationSettings />}
       {isAdmin &&
         hasMonitor &&
         Object.keys(alertChannels).map(channel => (
-          <FormControl key={channel}>
+          <FormControl className="margin-top" key={channel} variant="standard">
             <InputLabel className="capitalized-start" shrink id={`${channel}-notifications`}>
               {channel} notifications
             </InputLabel>
@@ -207,36 +216,29 @@ export const GlobalSettingsDialog = ({
               control={<Checkbox checked={!channelSettings[channel].enabled} onChange={e => onNotificationSettingsClick(e, channel)} />}
               label={`Mute ${channel} notifications`}
             />
-            <FormHelperText className="info" component="div">
-              Mute {channel} notifications for deployment and monitoring issues for all users
-            </FormHelperText>
+            <FormHelperText>Mute {channel} notifications for deployment and monitoring issues for all users</FormHelperText>
           </FormControl>
         ))}
 
-      <InputLabel className="margin-top" shrink id="offline-theshold">
-        Offline threshold
-      </InputLabel>
-      <div className={classes.threshold}>
-        <TextField
-          className={classes.textInput}
-          type="number"
-          onChange={onChangeOfflineInterval}
-          slotProps={{ htmlInput: { min: '1', max: '1000' } }}
-          error={!!intervalErrorText}
-          value={currentInterval}
+      <FormControl className="margin-top" variant="standard">
+        <InputLabel shrink>Offline threshold</InputLabel>
+        <FormControlLabel
+          className={classes.threshold}
+          control={
+            <TextField
+              type="number"
+              onChange={onChangeOfflineInterval}
+              slotProps={{ htmlInput: { min: '1', max: '1000' } }}
+              error={!!intervalErrorText}
+              value={currentInterval}
+              variant="outlined"
+            />
+          }
+          label={<div className="capitalized-start">{DEVICE_ONLINE_CUTOFF.intervalName}</div>}
         />
-        <Typography className="capitalized-start" variant="body1">
-          {DEVICE_ONLINE_CUTOFF.intervalName}
-        </Typography>
-      </div>
-      {!!intervalErrorText && (
-        <FormHelperText className="warning" component="div">
-          {intervalErrorText}
-        </FormHelperText>
-      )}
-      <FormHelperText className="info" component="div">
-        Choose how long a device can go without reporting to the server before it is considered “offline”.
-      </FormHelperText>
+        {!!intervalErrorText && <FormHelperText className="warning">{intervalErrorText}</FormHelperText>}
+        <FormHelperText>Choose how long a device can go without reporting to the server before it is considered “offline”.</FormHelperText>
+      </FormControl>
     </div>
   );
 };

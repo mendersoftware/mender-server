@@ -113,6 +113,11 @@ const useStyles = makeStyles()(theme => ({
       padding: 20,
       borderTopLeftRadius: 0
     }
+  },
+  selection: {
+    fontSize: 13,
+    marginLeft: theme.spacing(0.5),
+    marginTop: 2
   }
 }));
 
@@ -427,10 +432,10 @@ export const Authorized = ({
           <h3 className="margin-right">{isUngroupedGroup ? UNGROUPED_GROUP.name : groupLabel}</h3>
           <div className="flexbox space-between center-aligned" style={{ flexGrow: 1 }}>
             <div className="flexbox">
-              <DeviceStateSelection onStateChange={onDeviceStateSelectionChange} selectedState={selectedState} states={states} />
+              <DeviceStateSelection className={classes.selection} onStateChange={onDeviceStateSelectionChange} selectedState={selectedState} states={states} />
               {hasMonitor && (
                 <DeviceIssuesSelection
-                  classes={classes}
+                  className={classes.selection}
                   onChange={onDeviceIssuesSelectionChange}
                   options={Object.values(availableIssueOptions)}
                   selection={selectedIssues}
