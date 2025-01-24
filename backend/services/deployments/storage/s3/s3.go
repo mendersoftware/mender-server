@@ -570,8 +570,11 @@ func (s *SimpleStorageService) PutRequest(
 		return nil, err
 	}
 	if !public {
-		opts.ExternalURI = nil
-		opts.ProxyURI = nil
+		// Copy the options to prevent overwriting global settings
+		optsCopy := *opts
+		optsCopy.ExternalURI = nil
+		optsCopy.ProxyURI = nil
+		opts = &optsCopy
 	}
 
 	params := &s3.PutObjectInput{
@@ -608,8 +611,11 @@ func (s *SimpleStorageService) GetRequest(
 		return nil, err
 	}
 	if !public {
-		opts.ExternalURI = nil
-		opts.ProxyURI = nil
+		// Copy the options to prevent overwriting global settings
+		optsCopy := *opts
+		optsCopy.ExternalURI = nil
+		optsCopy.ProxyURI = nil
+		opts = &optsCopy
 	}
 
 	if _, err := s.StatObject(ctx, objectPath); err != nil {
@@ -652,8 +658,11 @@ func (s *SimpleStorageService) DeleteRequest(
 		return nil, err
 	}
 	if !public {
-		opts.ExternalURI = nil
-		opts.ProxyURI = nil
+		// Copy the options to prevent overwriting global settings
+		optsCopy := *opts
+		optsCopy.ExternalURI = nil
+		optsCopy.ProxyURI = nil
+		opts = &optsCopy
 	}
 
 	params := &s3.DeleteObjectInput{
