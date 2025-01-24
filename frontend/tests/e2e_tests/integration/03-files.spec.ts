@@ -35,9 +35,9 @@ test.describe('Files', () => {
   test.use({ storageState: storagePath });
 
   let navbar;
-  test.beforeEach(async ({ loggedInPage: page }) => {
+  test.beforeEach(async ({ browserName, loggedInPage: page }) => {
     navbar = page.locator('.leftFixed.leftNav');
-    await navbar.getByRole('link', { name: /Releases/i }).click();
+    await navbar.getByRole('link', { name: /Releases/i }).click({ force: browserName === 'webkit' });
   });
 
   test('allows file uploads', async ({ loggedInPage: page }) => {
@@ -69,7 +69,7 @@ test.describe('Files', () => {
     await page.getByText(/last modified/i).waitFor();
   });
 
-  test('allows artifact generation', async ({ baseUrl, loggedInPage: page }) => {
+  test('allows artifact generation', async ({ baseUrl, browserName, loggedInPage: page }) => {
     const hasTaggedRelease = await page.getByText(/customRelease/i).isVisible();
     if (hasTaggedRelease) {
       return;
@@ -91,7 +91,7 @@ test.describe('Files', () => {
     await page.waitForTimeout(timeouts.oneSecond); // some extra time for the release to be tagged in the backend
     await page.keyboard.press('Escape');
     await page.reload();
-    await navbar.getByRole('link', { name: /Releases/i }).click();
+    await navbar.getByRole('link', { name: /Releases/i }).click({ force: browserName === 'webkit' });
     await expect(page.getByText(/customRelease/i)).toBeVisible();
   });
 

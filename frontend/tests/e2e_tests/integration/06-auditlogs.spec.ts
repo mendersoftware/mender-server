@@ -78,9 +78,9 @@ test.describe('Auditlogs', () => {
   });
 
   const secret = 'super secret something text';
-  test('will track remote terminal sessions', async ({ browser, environment, loggedInPage: page }) => {
+  test('will track remote terminal sessions', async ({ browser, browserName, environment, loggedInPage: page }) => {
     test.skip(!isEnterpriseOrStaging(environment));
-    await navbar.getByRole('link', { name: /Devices/i }).click();
+    await navbar.getByRole('link', { name: /Devices/i }).click({ force: browserName === 'webkit' });
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
     await page.getByText(/troubleshooting/i).click();
     // the deviceconnect connection might not be established right away
