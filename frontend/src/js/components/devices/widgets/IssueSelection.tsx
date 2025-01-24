@@ -69,7 +69,7 @@ const getSelectionDisplayValue = ({ selected = [], options = [] }) => {
   return content;
 };
 
-const DeviceIssuesSelection = ({ classes, onChange, options, selection }) => {
+const DeviceIssuesSelection = ({ className = '', onChange, options, selection }) => {
   const [open, setOpen] = useState(false);
 
   const handleClose = () => setOpen(false);
@@ -110,7 +110,7 @@ const DeviceIssuesSelection = ({ classes, onChange, options, selection }) => {
     <div className="flexbox center-aligned margin-left">
       <div>Show:</div>
       <Select
-        className={classes.selection}
+        className={className}
         disableUnderline
         displayEmpty
         MenuProps={menuProps}

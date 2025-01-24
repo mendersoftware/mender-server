@@ -32,6 +32,11 @@ import { DeviceStateSelection } from '../widgets/DeviceStateSelection';
 
 const useStyles = makeStyles()(theme => ({
   deletion: { justifyContent: 'flex-end' },
+  selection: {
+    fontSize: 13,
+    marginLeft: theme.spacing(0.5),
+    marginTop: 2
+  },
   table: {
     minHeight: '10vh',
     [`.deleted > .${tableCellClasses.root}, .deleted a`]: {
@@ -171,7 +176,7 @@ export const Deployments = ({ device }) => {
     <div className="margin-bottom">
       <h4 className="margin-bottom-small">Deployments</h4>
       <div className="flexbox margin-bottom-small" style={{ alignSelf: 'flex-start' }}>
-        <DeviceStateSelection onStateChange={onSelectStatus} selectedState={filters[0]} states={deploymentStates} />
+        <DeviceStateSelection className={classes.selection} onStateChange={onSelectStatus} selectedState={filters[0]} states={deploymentStates} />
       </div>
 
       {!deviceDeployments.length ? (

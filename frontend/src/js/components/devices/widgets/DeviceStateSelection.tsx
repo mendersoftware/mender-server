@@ -15,26 +15,16 @@ import React, { useMemo } from 'react';
 
 // material ui
 import { MenuItem, Select } from '@mui/material';
-import { makeStyles } from 'tss-react/mui';
 
 import { duplicateFilter } from '@northern.tech/utils/helpers';
 
-const useStyles = makeStyles()(theme => ({
-  selection: {
-    fontSize: 13,
-    marginLeft: theme.spacing(0.5),
-    marginTop: 2
-  }
-}));
-
-export const DeviceStateSelection = ({ onStateChange, selectedState = '', states }) => {
-  const { classes } = useStyles();
+export const DeviceStateSelection = ({ className = '', onStateChange, selectedState = '', states }) => {
   const availableStates = useMemo(() => Object.values(states).filter(duplicateFilter), [states]);
 
   return (
     <div className="flexbox centered">
       Status:
-      <Select className={classes.selection} onChange={e => onStateChange(e.target.value)} value={selectedState}>
+      <Select className={className} onChange={e => onStateChange(e.target.value)} value={selectedState}>
         {availableStates.map(state => (
           <MenuItem key={state.key} value={state.key}>
             {state.title()}
