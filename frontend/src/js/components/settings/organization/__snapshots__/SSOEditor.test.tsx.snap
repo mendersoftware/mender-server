@@ -287,19 +287,6 @@ exports[`SSOEditor Component renders correctly 1`] = `
 }
 
 .emotion-7 {
-  display: none;
-  position: absolute;
-  visibility: visible;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  color: rgba(0, 0, 0, 0.26);
-}
-
-.emotion-8 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -316,11 +303,11 @@ exports[`SSOEditor Component renders correctly 1`] = `
   font-size: 1.3929rem;
 }
 
-.emotion-8 iconButton {
+.emotion-7 iconButton {
   margin-right: 8px;
 }
 
-.emotion-9 {
+.emotion-8 {
   margin: 0;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -332,7 +319,7 @@ exports[`SSOEditor Component renders correctly 1`] = `
   border-color: rgba(0, 0, 0, 0.08);
 }
 
-.emotion-11 {
+.emotion-10 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -392,33 +379,33 @@ exports[`SSOEditor Component renders correctly 1`] = `
   padding: 10px 15px;
 }
 
-.emotion-11::-moz-focus-inner {
+.emotion-10::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-11.Mui-disabled {
+.emotion-10.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-11 {
+  .emotion-10 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-11:hover {
+.emotion-10:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-11.Mui-disabled {
+.emotion-10.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-11:hover {
+  .emotion-10:hover {
     --variant-containedBg: rgb(35, 85, 94);
     --variant-textBg: rgba(51, 122, 135, 0.04);
     --variant-outlinedBorder: #337a87;
@@ -426,15 +413,15 @@ exports[`SSOEditor Component renders correctly 1`] = `
   }
 }
 
-.emotion-11.MuiButton-loading {
+.emotion-10.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-11:hover {
+.emotion-10:hover {
   colors: #337a87;
 }
 
-.emotion-11.MuiButton-text {
+.emotion-10.MuiButton-text {
   color: rgba(10, 10, 11, 0.78);
 }
 
@@ -445,7 +432,7 @@ exports[`SSOEditor Component renders correctly 1`] = `
     aria-hidden="true"
   />
   <div
-    class="MuiDrawer-root MuiDrawer-modal fadeIn MuiModal-root emotion-0"
+    class="MuiDrawer-root MuiDrawer-anchorRight MuiDrawer-modal fadeIn MuiModal-root emotion-0"
     role="presentation"
   >
     <div
@@ -517,12 +504,9 @@ exports[`SSOEditor Component renders correctly 1`] = `
             tabindex="0"
             type="button"
           >
-            <span
-              class="MuiIconButton-loadingIndicator emotion-7"
-            />
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-8"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-7"
               data-testid="CloseIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -535,7 +519,7 @@ exports[`SSOEditor Component renders correctly 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-light emotion-9"
+        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-light emotion-8"
       />
       <section
         style="display: flex; position: relative; text-align: initial; width: 100%; height: 700px;"
@@ -570,14 +554,14 @@ exports[`SSOEditor Component renders correctly 1`] = `
         />
       </section>
       <hr
-        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-light margin-top-large margin-bottom emotion-9"
+        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-light margin-top-large margin-bottom emotion-8"
       />
       <div>
         <div
           class="flexbox center-aligned"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-11"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-10"
             id=":r2:"
             tabindex="0"
             type="button"
@@ -585,7 +569,7 @@ exports[`SSOEditor Component renders correctly 1`] = `
             Edit
           </button>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-11"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-10"
             id=":r3:"
             tabindex="0"
             type="button"
@@ -593,7 +577,7 @@ exports[`SSOEditor Component renders correctly 1`] = `
             Download file
           </button>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-11"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-10"
             id=":r4:"
             tabindex="0"
             type="button"
@@ -603,7 +587,7 @@ exports[`SSOEditor Component renders correctly 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-8"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-7"
                 data-testid="FileCopyOutlinedIcon"
                 focusable="false"
                 viewBox="0 0 24 24"

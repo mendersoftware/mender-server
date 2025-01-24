@@ -316,19 +316,6 @@ exports[`InProgressDeployments Component renders correctly 1`] = `
 }
 
 .emotion-7 {
-  display: none;
-  position: absolute;
-  visibility: visible;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  color: rgba(0, 0, 0, 0.26);
-}
-
-.emotion-8 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -345,26 +332,26 @@ exports[`InProgressDeployments Component renders correctly 1`] = `
   font-size: 1.3929rem;
 }
 
-.emotion-8 iconButton {
+.emotion-7 iconButton {
   margin-right: 8px;
 }
 
-.emotion-9 {
+.emotion-8 {
   border-color: rgba(0, 0, 0, 0.06);
   background-color: #fdfdfd;
   color: rgba(10, 10, 11, 0.78);
 }
 
-.emotion-9 .dashboard-header span {
+.emotion-8 .dashboard-header span {
   background-color: #fdfdfd;
   color: rgba(10, 10, 11, 0.78);
 }
 
-.emotion-9 .MuiButtonBase-root {
+.emotion-8 .MuiButtonBase-root {
   color: rgba(10, 10, 11, 0.78);
 }
 
-.emotion-11 {
+.emotion-10 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -381,7 +368,7 @@ exports[`InProgressDeployments Component renders correctly 1`] = `
   font-size: inherit;
 }
 
-.emotion-11 iconButton {
+.emotion-10 iconButton {
   margin-right: 8px;
 }
 
@@ -596,12 +583,9 @@ exports[`InProgressDeployments Component renders correctly 1`] = `
             tabindex="0"
             type="button"
           >
-            <span
-              class="MuiIconButton-loadingIndicator emotion-7"
-            />
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium cancelButton muted emotion-8"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium cancelButton muted emotion-7"
               data-testid="CancelOutlinedIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -640,7 +624,7 @@ exports[`InProgressDeployments Component renders correctly 1`] = `
     </div>
   </div>
   <div
-    class="deployments-pending margin-top margin-bottom-large emotion-9"
+    class="deployments-pending margin-top margin-bottom-large emotion-8"
   >
     <h4
       class="dashboard-header emotion-0 margin-small margin-top"
@@ -779,7 +763,7 @@ exports[`InProgressDeployments Component renders correctly 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-11"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-10"
                 focusable="false"
                 viewBox="0 0 24 24"
               >
@@ -810,12 +794,9 @@ exports[`InProgressDeployments Component renders correctly 1`] = `
             tabindex="0"
             type="button"
           >
-            <span
-              class="MuiIconButton-loadingIndicator emotion-7"
-            />
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium cancelButton muted emotion-8"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium cancelButton muted emotion-7"
               data-testid="CancelOutlinedIcon"
               focusable="false"
               viewBox="0 0 24 24"

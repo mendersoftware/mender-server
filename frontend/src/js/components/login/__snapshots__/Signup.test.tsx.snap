@@ -732,19 +732,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
 }
 
 .emotion-26 {
-  display: none;
-  position: absolute;
-  visibility: visible;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  color: rgba(0, 0, 0, 0.26);
-}
-
-.emotion-27 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -761,11 +748,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
   font-size: 1.3929rem;
 }
 
-.emotion-27 iconButton {
+.emotion-26 iconButton {
   margin-right: 8px;
 }
 
-.emotion-43 {
+.emotion-41 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -782,11 +769,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
   font-size: 1.1607rem;
 }
 
-.emotion-43 iconButton {
+.emotion-41 iconButton {
   margin-right: 8px;
 }
 
-.emotion-44 {
+.emotion-42 {
   background: #f7f7f7;
   grid-template-rows: min-content min-content min-content;
   padding: 80px 0;
@@ -978,12 +965,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
                       tabindex="0"
                       type="button"
                     >
-                      <span
-                        class="MuiIconButton-loadingIndicator emotion-26"
-                      />
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-27"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-26"
                         data-testid="VisibilityOffIcon"
                         focusable="false"
                         viewBox="0 0 24 24"
@@ -1066,12 +1050,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
                       tabindex="0"
                       type="button"
                     >
-                      <span
-                        class="MuiIconButton-loadingIndicator emotion-26"
-                      />
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-27"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-26"
                         data-testid="VisibilityOffIcon"
                         focusable="false"
                         viewBox="0 0 24 24"
@@ -1131,7 +1112,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
            
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-43"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-41"
             data-testid="ChevronRightIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -1144,7 +1125,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
       </div>
     </div>
     <div
-      class="emotion-44"
+      class="emotion-42"
     >
       <h2>
         Connect up to 10 devices free for 12 months – no credit card required.

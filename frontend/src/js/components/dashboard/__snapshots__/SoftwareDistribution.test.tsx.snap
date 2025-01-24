@@ -369,19 +369,6 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
 }
 
 .emotion-3 {
-  display: none;
-  position: absolute;
-  visibility: visible;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  color: rgba(0, 0, 0, 0.26);
-}
-
-.emotion-4 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -398,11 +385,11 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
   font-size: 1.1607rem;
 }
 
-.emotion-4 iconButton {
+.emotion-3 iconButton {
   margin-right: 8px;
 }
 
-.emotion-8 {
+.emotion-6 {
   display: grid;
   grid-template-columns: 200px 1fr;
   -webkit-column-gap: 16px;
@@ -410,43 +397,43 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
   margin-bottom: 16px;
 }
 
-.emotion-8>.flexbox.column>* {
+.emotion-6>.flexbox.column>* {
   height: 20px;
 }
 
-.emotion-8 .barchart .MuiLinearProgress-root {
+.emotion-6 .barchart .MuiLinearProgress-root {
   background-color: #f7f7f7;
 }
 
-.emotion-8 .barchart .color-f7f7f7 .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-f7f7f7 .MuiLinearProgress-barColorPrimary {
   background-color: #f7f7f7;
 }
 
-.emotion-8 .barchart .color-337a87 .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-337a87 .MuiLinearProgress-barColorPrimary {
   background-color: #337a87;
 }
 
-.emotion-8 .barchart .color-a31773 .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-a31773 .MuiLinearProgress-barColorPrimary {
   background-color: #a31773;
 }
 
-.emotion-8 .barchart .color-00859e .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-00859e .MuiLinearProgress-barColorPrimary {
   background-color: #00859e;
 }
 
-.emotion-8 .barchart .color-14cfda .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-14cfda .MuiLinearProgress-barColorPrimary {
   background-color: #14cfda;
 }
 
-.emotion-8 .barchart .color-9bfff0 .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-9bfff0 .MuiLinearProgress-barColorPrimary {
   background-color: #9bfff0;
 }
 
-.emotion-8 .barchart .color-d5d5d5 .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-d5d5d5 .MuiLinearProgress-barColorPrimary {
   background-color: #d5d5d5;
 }
 
-.emotion-9 {
+.emotion-7 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -457,13 +444,13 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
   column-gap: 16px;
 }
 
-.emotion-9.indicating {
+.emotion-7.indicating {
   grid-template-columns: min-content 1fr max-content;
   -webkit-column-gap: 8px;
   column-gap: 8px;
 }
 
-.emotion-10 {
+.emotion-8 {
   position: relative;
   overflow: hidden;
   display: block;
@@ -473,13 +460,13 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
 }
 
 @media print {
-  .emotion-10 {
+  .emotion-8 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-11 {
+.emotion-9 {
   width: 100%;
   position: absolute;
   left: 0;
@@ -493,11 +480,11 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
   transition: transform .4s linear;
 }
 
-.emotion-12 {
+.emotion-10 {
   gap: 16px;
 }
 
-.emotion-13 {
+.emotion-11 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -515,15 +502,15 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
   color: #337a87;
 }
 
-.emotion-13 iconButton {
+.emotion-11 iconButton {
   margin-right: 8px;
 }
 
-.emotion-13.read {
+.emotion-11.read {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-14 {
+.emotion-12 {
   position: absolute;
   top: -5px;
   bottom: 0;
@@ -533,11 +520,11 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
   border-radius: 50%;
 }
 
-.emotion-14.read {
+.emotion-12.read {
   border-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-15 {
+.emotion-13 {
   font-size: 1rem;
   cursor: pointer;
 }
@@ -581,12 +568,9 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
               tabindex="0"
               type="button"
             >
-              <span
-                class="MuiIconButton-loadingIndicator emotion-3"
-              />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-4"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-3"
                 data-testid="SettingsIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -602,12 +586,9 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
               tabindex="0"
               type="button"
             >
-              <span
-                class="MuiIconButton-loadingIndicator emotion-3"
-              />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-4"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-3"
                 data-testid="ClearIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -631,13 +612,13 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
         </div>
       </div>
       <div
-        class="emotion-8"
+        class="emotion-6"
       >
         <div
           class="flexbox column"
         >
           <div
-            class="clickable emotion-9 "
+            class="clickable emotion-7 "
             title="raspotifyInstaller"
           >
             <div
@@ -662,12 +643,12 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
               aria-valuemax="100"
               aria-valuemin="0"
               aria-valuenow="0"
-              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate color-337a87 emotion-10"
+              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate color-337a87 emotion-8"
               role="progressbar"
               style="height: 8px;"
             >
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-11"
+                class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-9"
                 style="transform: translateX(-100%);"
               />
             </span>
@@ -679,7 +660,7 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
       class="widget"
     >
       <div
-        class="flexbox center-aligned  emotion-12"
+        class="flexbox center-aligned  emotion-10"
         style="align-items: end;"
       >
         <div
@@ -691,7 +672,7 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-13"
+              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-11"
               data-testid="HelpIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -701,13 +682,13 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
               />
             </svg>
             <div
-              class="emotion-14 "
+              class="emotion-12 "
             />
           </div>
         </div>
       </div>
       <div
-        class="flexbox centered muted emotion-15"
+        class="flexbox centered muted emotion-13"
       >
         <svg
           aria-hidden="true"
@@ -721,7 +702,7 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
           />
         </svg>
         <span
-          class="emotion-15"
+          class="emotion-13"
         >
           add a widget
         </span>
