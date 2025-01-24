@@ -22,7 +22,7 @@ RUN \
 FROM scratch
 ARG TARGETARCH
 ARG TARGETOS
-ARG USER=65534
+ARG USER=65534:65534
 USER $USER
 COPY --chown=$USER  backend/services/workflows/worker/workflows /etc/workflows/definitions
 COPY --chown=$USER  backend/services/workflows/config.yaml /etc/workflows/config.yaml

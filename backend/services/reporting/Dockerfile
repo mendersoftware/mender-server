@@ -22,7 +22,7 @@ RUN \
 FROM scratch
 ARG TARGETARCH
 ARG TARGETOS
-ARG USER=65534
+ARG USER=65534:65534
 USER $USER
 COPY --chown=$USER  backend/services/reporting/config.yaml /etc/reporting/config.yaml
 COPY --from=builder --chown=$USER /build/reporting /usr/bin/reporting

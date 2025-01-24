@@ -23,7 +23,7 @@ FROM scratch AS empty
 FROM scratch
 ARG TARGETARCH
 ARG TARGETOS
-ARG USER=65534
+ARG USER=65534:65534
 USER $USER
 ENV TMPDIR=/tmp
 # Create tempdir for generating configuration artifacts
