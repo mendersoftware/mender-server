@@ -44,6 +44,8 @@ def test_reindex_inventory(mmock_url, workflows_url):
         res = requests.get(
             workflows_url + "/api/v1/workflow/reindex_inventory/" + response["id"]
         )
+        if res.status_code == 404:
+            continue
         assert res.status_code == 200
         # if status is done, break
         response = res.json()

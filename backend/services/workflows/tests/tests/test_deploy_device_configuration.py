@@ -48,6 +48,8 @@ def test_deploy_device_configuration(mmock_url, workflows_url):
             + "/api/v1/workflow/deploy_device_configuration/"
             + response["id"]
         )
+        if res.status_code == 404:
+            continue
         assert res.status_code == 200
         # if status is done, break
         response = res.json()

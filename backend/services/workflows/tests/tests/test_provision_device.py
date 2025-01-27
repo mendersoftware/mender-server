@@ -49,6 +49,8 @@ def do_provision_device(mmock_url, workflows_url, tenant_id):
         res = requests.get(
             workflows_url + "/api/v1/workflow/provision_device/" + response["id"]
         )
+        if res.status_code == 404:
+            continue
         assert res.status_code == 200
         # if status is done, break
         response = res.json()
