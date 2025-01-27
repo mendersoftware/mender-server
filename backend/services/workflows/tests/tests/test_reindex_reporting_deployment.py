@@ -46,8 +46,12 @@ def test_reindex_reporting_deployment(mmock_url, workflows_url):
     for i in range(10):
         time.sleep(1)
         res = requests.get(
-            workflows_url + "/api/v1/workflow/reindex_reporting_deployment/" + response["id"]
+            workflows_url
+            + "/api/v1/workflow/reindex_reporting_deployment/"
+            + response["id"]
         )
+        if res.status_code == 404:
+            continue
         assert res.status_code == 200
         # if status is done, break
         response = res.json()

@@ -45,6 +45,8 @@ def test_update_device_inventory(mmock_url, workflows_url):
         res = requests.get(
             workflows_url + "/api/v1/workflow/update_device_inventory/" + response["id"]
         )
+        if res.status_code == 404:
+            continue
         assert res.status_code == 200
         # if status is done, break
         response = res.json()
