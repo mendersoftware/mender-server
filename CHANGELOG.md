@@ -1,4 +1,82 @@
 ---
+## 4.0.0-rc.8 - 2025-01-27
+
+
+### Bug Fixes
+
+
+- *(gui)* Aligned webhook details behaviour w/ rest of UI
+([MEN-7955](https://northerntech.atlassian.net/browse/MEN-7955)) ([7860b5b](https://github.com/mendersoftware/mender-server/commit/7860b5b40c698b580f5a299ee8c9206490ea5710))  by @mzedel
+
+- *(gui)* Prevented sso config retrieval on plans that don't support this
+ ([fe6da5d](https://github.com/mendersoftware/mender-server/commit/fe6da5dbea68222226ab01f52df7e5975fedc09d))  by @mzedel
+
+- *(gui)* Fixed an issue that would prevent deleting & tagging releases in the release overview
+([MEN-7960](https://northerntech.atlassian.net/browse/MEN-7960)) ([16b2628](https://github.com/mendersoftware/mender-server/commit/16b2628feaf39eba631b5ab013bf3eeecfa95217))  by @mzedel
+
+- *(gui)* Let on-prem installations refer to the docs to prevent server-url misconfiguration following monorepo transition
+([MEN-7948](https://northerntech.atlassian.net/browse/MEN-7948)) ([e0dae51](https://github.com/mendersoftware/mender-server/commit/e0dae512f67f08f312a61bd3be8192b7bbb7d6db))  by @mzedel
+
+- *(gui)* Fixed end date filters out today's entries in the Audit log, Deployments and Devices
+ ([3ee84f2](https://github.com/mendersoftware/mender-server/commit/3ee84f2d743b51462f72e68efeae870a51c4d12c))  by @aleksandrychev
+
+- Deviceauth healthcheck panics malformed inventory address
+ ([70d493a](https://github.com/mendersoftware/mender-server/commit/70d493a6913827d893758cd481a535de67fbeff9))  by @alfrunes
+- Use internal URLs for storage backend when generating artifacts
+([MEN-7939](https://northerntech.atlassian.net/browse/MEN-7939)) ([3d72d5e](https://github.com/mendersoftware/mender-server/commit/3d72d5e5b0294a3dcf3faa4413104ef27f95ba19))  by @alfrunes
+  - **BREAKING**: Generate artifacts API ignores `storage.proxy_uri` and
+`aws.external_url` configuration values and instead access the API using
+the same URL as deployments service.
+
+
+  When generating artifacts, the backend will use the direct access URL
+  instead of rewriting the URL using the configured `storage.proxy_uri` or
+  `aws.external_url`.
+- Deployment device count should not exceed max devices
+([MEN-7847](https://northerntech.atlassian.net/browse/MEN-7847)) ([15e5fee](https://github.com/mendersoftware/mender-server/commit/15e5feec727e4257a1ee4345265146a194edb4ab))  by @alfrunes
+
+
+  Added a condition to skip deployments when the device count reaches max
+  devices.
+
+
+
+
+### Documentation
+
+
+- Fix typo in snippet for creating tenant
+ ([a346d33](https://github.com/mendersoftware/mender-server/commit/a346d33781086d157d831478cfb64bebeef6c3bd))  by @alfrunes
+- Docmentation on backend integration tests running separately
+([QA-683](https://northerntech.atlassian.net/browse/QA-683)) ([a8f8d54](https://github.com/mendersoftware/mender-server/commit/a8f8d545573100186fba953c7179592a23196b23))  by @merlin-northern
+
+
+
+
+### Features
+
+
+- *(gui)* Added feedback on file size limits to artifact upload dialog
+([MEN-7858](https://northerntech.atlassian.net/browse/MEN-7858)) ([d612334](https://github.com/mendersoftware/mender-server/commit/d612334ebfae6b1a3d416016ee500b89daa70804))  by @mzedel
+
+- *(gui)* Aligned text input appearance with MUI updated guidelines
+([MEN-7838](https://northerntech.atlassian.net/browse/MEN-7838)) ([e5d5672](https://github.com/mendersoftware/mender-server/commit/e5d56720b901a451fa47a514424f710763b50291))  by @mzedel
+
+
+
+
+
+### Refac
+
+
+- Move compat tests to dedicated test suite
+ ([059f437](https://github.com/mendersoftware/mender-server/commit/059f4375d3b33073e711fdbf81212a2cd5dacfbb))  by @alfrunes
+
+
+
+
+
+
 ## 4.0.0-rc.7 - 2025-01-09
 
 
