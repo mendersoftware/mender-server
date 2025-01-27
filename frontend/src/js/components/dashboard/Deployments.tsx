@@ -17,7 +17,7 @@ import { Link } from 'react-router-dom';
 
 import Loader from '@northern.tech/common-ui/Loader';
 import storeActions from '@northern.tech/store/actions';
-import { DEPLOYMENT_ROUTES, DEPLOYMENT_STATES, deploymentDisplayStates, onboardingSteps } from '@northern.tech/store/constants';
+import { DEPLOYMENT_ROUTES, DEPLOYMENT_STATES, TIMEOUTS, deploymentDisplayStates, onboardingSteps } from '@northern.tech/store/constants';
 import {
   DEPLOYMENT_CUTOFF,
   getDevicesById,
@@ -56,8 +56,9 @@ export const Deployments = ({ className = '', clickHandle }) => {
   const [loading, setLoading] = useState(!deploymentsCount);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const size = useWindowSize();
-  const deploymentsRef = useRef();
-  const timer = useRef();
+  const deploymentsRef = useRef<HTMLDivElement | null>(null);
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>();
+  const timeoutTimer = useRef<ReturnType<typeof setTimeout> | undefined>();
 
   const getDeployments = useCallback(
     () =>
@@ -77,6 +78,11 @@ export const Deployments = ({ className = '', clickHandle }) => {
       clearAllRetryTimers(setSnackbarDispatched);
     };
   }, [getDeployments, setSnackbarDispatched]);
+
+  useEffect(() => {
+    timeoutTimer.current = setTimeout(() => setLoading(false), TIMEOUTS.debounceDefault);
+    return () => clearTimeout(timeoutTimer.current);
+  }, []);
 
   let onboardingComponent;
   if (deploymentsRef.current) {
