@@ -37,17 +37,10 @@ test.describe('Layout assertions', () => {
     });
   });
 
-  test('can authorize a device', async ({ browserName, context, loggedInPage: page }) => {
+  test('can authorize a device', async ({ browserName, loggedInPage: page }) => {
     // allow twice the device interaction time + roughly a regular test execution time
     test.setTimeout(2 * timeouts.sixtySeconds + timeouts.fifteenSeconds);
-    const isWebkit = browserName === 'webkit';
-    if (isWebkit) {
-      await context.tracing.start({ screenshots: true, snapshots: true });
-    }
-    await navbar.getByRole('link', { name: /Devices/i }).click();
-    if (isWebkit) {
-      await context.tracing.start({ screenshots: true, snapshots: true });
-    }
+    await navbar.getByRole('link', { name: /Devices/i }).click({ force: browserName === 'webkit' });
     let hasAcceptedDevice = false;
     try {
       await page.waitForSelector(`css=${selectors.deviceListItem}`, { timeout: timeouts.default });
@@ -73,11 +66,11 @@ test.describe('Layout assertions', () => {
     await expect(page.getByText('Authentication status')).toBeVisible();
   });
 
-  test('can group a device', async ({ loggedInPage: page }) => {
+  test('can group a device', async ({ browserName, loggedInPage: page }) => {
+    await navbar.getByRole('link', { name: /Devices/i }).click({ force: browserName === 'webkit' });
     const groupList = await page.locator('.grouplist');
     const wasGrouped = await groupList.getByText('testgroup').isVisible();
     test.skip(wasGrouped, 'looks like the device was grouped already, continue with the remaining tests');
-    await navbar.getByRole('link', { name: /Devices/i }).click();
     await page.click(selectors.deviceListCheckbox);
     await page.click('.MuiSpeedDial-fab');
     await page.click('[aria-label="group-add"]');
