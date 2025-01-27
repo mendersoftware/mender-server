@@ -2,6 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+/**
+ * Authentication request.
+ */
 export type AutoAuthRequest = {
   /**
    * Vendor-specific JSON representation of the device identity data (MACs, serial numbers, etc.).
