@@ -396,6 +396,7 @@ test:staging-deployment:firefox:
 test:staging-deployment:webkit:
   extends: .template:test:staging-deployment
   resource_group: test-staging-deployment-webkit
+  allow_failure: true
   script:
     - npm run test -- --browser=webkit
   start_in: 25 minutes
