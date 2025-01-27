@@ -134,8 +134,7 @@ export const progress = ({ loaded, total }) => {
   return (uploadProgress = uploadProgress < 50 ? Math.ceil(uploadProgress) : Math.round(uploadProgress));
 };
 
-export const extractErrorMessage = (err, fallback = '') =>
-  err.response?.data?.error?.message || err.response?.data?.error || err.error || err.message || fallback;
+export const extractErrorMessage = (err, fallback = '') => err.response?.data.error.message || fallback;
 
 export const preformatWithRequestID = (res, failMsg) => {
   // ellipsis line
