@@ -586,11 +586,6 @@ changelog:
     - git config --global user.name "${GITHUB_USER_NAME}"
     # GITHUB_TOKEN for Github cli authentication
     - export GITHUB_TOKEN=${GITHUB_CLI_TOKEN}
-    - cp CHANGELOG.md CHANGELOG.md.${CI_COMMIT_REF_NAME} # Saving the changelog for later
-    - cp CHANGELOG.md CHANGELOG.md.${CI_COMMIT_REF_NAME} || true # Saving the changelog for later
-    - cp CHANGELOG-saas.md CHANGELOG-saas.md.${CI_COMMIT_REF_NAME} || true # Saving the changelog for later
-    - cp CHANGELOG-enterprise.md CHANGELOG-enterprise.md.${CI_COMMIT_REF_NAME} || true # Saving the changelog for later
-    - export CHANGELOG_SUFFIX=""
   script:
     - release-please release-pr
       --token=${GITHUB_BOT_TOKEN_REPO_FULL}
@@ -602,7 +597,9 @@ changelog:
     - gh repo set-default https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_REPO_URL}
     - RELEASE_PLEASE_PR=$(gh pr list --author "${GITHUB_USER_NAME}" --head "release-please--branches--${CI_COMMIT_REF_NAME}" --json number | jq -r '.[0].number // empty')
     - test -z "$RELEASE_PLEASE_PR" && echo "No release-please PR found" && exit 0
+    - for filename in "CHANGELOG*.md"; do cp "${filename}" "${filename}.${CI_COMMIT_SHA}"; done
     - gh pr checkout --force $RELEASE_PLEASE_PR
+    - for filename in "CHANGELOG*.md.${CI_COMMIT_SHA}"; do mv "${filename}" "${filename%.${CI_COMMIT_SHA}}"; done
     - wget --output-document cliff.toml https://raw.githubusercontent.com/mendersoftware/mendertesting/master/utils/cliff.toml
     - RELEASE_VERSION="$(jq -r '.["."]' .release-please-manifest.json)"
     - |
