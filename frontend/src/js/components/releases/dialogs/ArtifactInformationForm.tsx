@@ -72,7 +72,7 @@ export const VersionInformation = ({ creation = {}, onRemove, updateCreation }) 
   );
 };
 
-const checkDestinationValidity = destination => (destination.length ? /^(?:\/|[a-z]+:\/\/)/.test(destination) : true);
+const checkDestinationValidity = destination => (destination.length ? /^(?:\/|[a-z]+:\/\/)/.test(destination) : false);
 
 export const ArtifactInformation = ({ creation = {}, deviceTypes = [], onRemove, updateCreation }) => {
   const { destination = '', file, name = '', selectedDeviceTypes = [], type } = creation;

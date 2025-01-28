@@ -1033,7 +1033,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
       class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root emotion-0"
     >
       <label
-        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-1"
+        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-1"
         data-shrink="true"
         for=":r0:"
         id=":r0:-label"
@@ -1041,11 +1041,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
         Destination directory
       </label>
       <div
-        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth Mui-focused MuiInputBase-formControl emotion-2"
+        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth Mui-focused MuiInputBase-formControl emotion-2"
       >
         <input
           aria-describedby=":r0:-helper-text"
-          aria-invalid="false"
+          aria-invalid="true"
           class="MuiInputBase-input MuiOutlinedInput-input emotion-3"
           id=":r0:"
           placeholder="Example: /opt/installed-by-single-file"
@@ -1066,10 +1066,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
         </fieldset>
       </div>
       <p
-        class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained Mui-focused emotion-6"
+        class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium MuiFormHelperText-contained Mui-focused emotion-6"
         id=":r0:-helper-text"
       >
-        where the file will be installed on your devices
+        <div
+          class="warning"
+        >
+          Destination has to be an absolute path
+        </div>
       </p>
     </div>
     <h4>
