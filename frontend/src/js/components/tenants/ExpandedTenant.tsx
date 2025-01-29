@@ -22,7 +22,7 @@ import { TwoColumns } from '@northern.tech/common-ui/ConfigurationObject';
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import actions from '@northern.tech/store/actions';
-import { getOrganization } from '@northern.tech/store/organizationSlice/selectors';
+import { getOrganization, getSsoConfig } from '@northern.tech/store/organizationSlice/selectors';
 import { editTenantDeviceLimit, removeTenant } from '@northern.tech/store/organizationSlice/thunks';
 import { AppDispatch } from '@northern.tech/store/store';
 import { generateTenantPathById } from '@northern.tech/utils/locationutils';
@@ -43,6 +43,10 @@ const useStyles = makeStyles()(theme => ({
     fontWeight: 400
   },
   devLimitInput: { marginTop: 10, maxWidth: 150, minWidth: 130 },
+  ssoLink: {
+    marginLeft: `calc(1em + ${theme.spacing(1.5)})`, // 1em as the width of the checkbox + the padding around the checkbox
+    marginTop: theme.spacing(-1)
+  }
   tenantInitialAdminTooltip: {
     alignSelf: 'flex-end'
   },
@@ -62,6 +66,7 @@ export const ExpandedTenant = (props: ExpandedTenantProps) => {
   const [limitErrorText, setLimitErrorText] = useState<string>('');
 
   const { device_count: spDeviceUtilization, device_limit: spDeviceLimit } = useSelector(getOrganization);
+  const ssoConfig = useSelector(getSsoConfig);
 
   const currentLimit = spDeviceLimit - spDeviceUtilization + device_limit;
   const { classes } = useStyles();
@@ -98,28 +103,17 @@ export const ExpandedTenant = (props: ExpandedTenantProps) => {
       <Divider className="margin-bottom" />
       <div className="margin-top">
         <div className="flexbox">
-          <TwoColumns
-            setSnackbar={(str: string) => dispatch(setSnackbar(str))}
-            items={{
-              name,
-              ID: id
-            }}
-          />
-        </div>
-        <div className="flexbox column">
-          <FormControlLabel
-            control={<Checkbox color="primary" size="small" disabled={true} checked={binary_delta} />}
-            label={'Enable Delta Artifact generation'}
-          />
-          <FormControlLabel
-            style={{ marginTop: 10 }}
-            control={<Checkbox color="primary" size="small" checked={true} disabled={true} />}
-            label={'Restrict to Service Provider’s Single Sign-On settings'}
-          />
-          <div className="margin-top-x-small margin-bottom">
-            <Link to="/settings/organization-and-billing">View Single Sign-On settings</Link>
-          </div>
-        </div>
+        {!!ssoConfig && (
+          <>
+            <FormControlLabel
+              control={<Checkbox color="primary" size="small" checked disabled />}
+              label="Restrict to Service Provider’s Single Sign-On settings"
+            />
+            <Link className={classes.ssoLink} to="/settings/organization-and-billing">
+              View Single Sign-On settings
+            </Link>
+          </>
+        )}
         <div className="flexbox">
           <DeviceCount current={device_count} max={device_limit} variant="detailed" />
           {newLimitForm ? (
