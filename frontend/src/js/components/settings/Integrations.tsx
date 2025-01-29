@@ -247,6 +247,7 @@ export const Integrations = () => {
     dispatch(changeIntegration(integration));
   };
 
+  const canAddIntegration = !integrations.length && !webhooks.length;
   return (
     <div>
       <h2 className="margin-top-small">Integrations</h2>
@@ -261,18 +262,22 @@ export const Integrations = () => {
         />
       ))}
       <Webhooks />
-      {!!availableIntegrations.length && (
-        <FormControl>
-          <InputLabel id="integration-select-label">Add an integration</InputLabel>
-          <Select className={classes.select} label="Add an integration" labelId="integration-select-label" onChange={onConfigureIntegration} value="">
-            {availableIntegrations.map(item => (
-              <MenuItem key={item.provider} value={item.provider}>
-                {item.title}
-              </MenuItem>
-            ))}
-            {!webhooks.length && <MenuItem value="webhook">Webhooks</MenuItem>}
-          </Select>
-        </FormControl>
+      {canAddIntegration ? (
+        !!availableIntegrations.length && (
+          <FormControl>
+            <InputLabel id="integration-select-label">Add an integration</InputLabel>
+            <Select className={classes.select} label="Add an integration" labelId="integration-select-label" onChange={onConfigureIntegration} value="">
+              {availableIntegrations.map(item => (
+                <MenuItem key={item.provider} value={item.provider}>
+                  {item.title}
+                </MenuItem>
+              ))}
+              {!webhooks.length && <MenuItem value="webhook">Webhooks</MenuItem>}
+            </Select>
+          </FormControl>
+        )
+      ) : (
+        <InfoHint content="You can only have one active integration at a time. To use a different integration, you'll need to delete the current one first." />
       )}
       {isConfiguringWebhook && <WebhookConfiguration onCancel={onCancelClick} onSubmit={onSaveClick} />}
     </div>
