@@ -14,6 +14,7 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import Dropzone from 'react-dropzone';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { makeStyles } from 'tss-react/mui';
 
@@ -22,7 +23,7 @@ import Loader from '@northern.tech/common-ui/Loader';
 import Pagination from '@northern.tech/common-ui/Pagination';
 import { RelativeTime } from '@northern.tech/common-ui/Time';
 import storeActions from '@northern.tech/store/actions';
-import { DEVICE_LIST_DEFAULTS, SORTING_OPTIONS, canAccess as canShow } from '@northern.tech/store/constants';
+import { DEPLOYMENT_ROUTES, DEVICE_LIST_DEFAULTS, SORTING_OPTIONS, canAccess as canShow } from '@northern.tech/store/constants';
 import { getFeatures, getHasReleases, getReleaseListState, getReleasesList, getSelectedReleases, getUserCapabilities } from '@northern.tech/store/selectors';
 import { removeReleases, selectRelease, setReleasesListState } from '@northern.tech/store/thunks';
 
@@ -116,6 +117,7 @@ export const ReleasesList = ({ className = '', onFileUploadClick }) => {
   const { classes } = useStyles();
   const [addTagsDialog, setAddTagsDialog] = useState(false);
   const [deleteDialogConfirmation, setDeleteDialogConfirmation] = useState(false);
+  const navigate = useNavigate();
 
   const { canUploadReleases } = userCapabilities;
   const { key: attribute, direction } = sort;
@@ -172,7 +174,19 @@ export const ReleasesList = ({ className = '', onFileUploadClick }) => {
     setAddTagsDialog(true);
   };
 
+  const onCreateDeployment = useCallback(
+    selection => {
+      if (selection.length !== 1) {
+        return;
+      }
+      const releaseName = selectedReleases[selection[0]].name;
+      navigate(`${DEPLOYMENT_ROUTES.active.route}?open=true&release=${encodeURIComponent(releaseName)}`);
+    },
+    [navigate, selectedReleases]
+  );
+
   const actionCallbacks = {
+    onCreateDeployment,
     onDeleteRelease,
     onTagRelease
   };
