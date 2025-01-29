@@ -125,7 +125,7 @@ const UserInputs = (props: UserInputsProps) => {
   );
 };
 
-const tenantAdminDefaults = { email: '', name: '', password: '', sso: false, binary_delta: false, device_limit: 0, send_reset_password: false };
+const tenantAdminDefaults = { email: '', name: '', password: '', sso: false, binary_delta: false, device_limit: undefined, send_reset_password: false };
 export const TenantCreateForm = (props: TenantCreateFormProps) => {
   const { onCloseClick, open } = props;
   const { device_count: spDeviceUtilization, device_limit: spDeviceLimit } = useSelector(getOrganization);
@@ -137,7 +137,7 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
 
   const quota = spDeviceLimit - spDeviceUtilization;
   const numericValidation = {
-    min: { value: 1, message: `Device limit can't be less then 0` },
+    min: { value: 1, message: 'The limit must be 1 or more' },
     max: { value: quota, message: `The device limit must be ${quota} or fewer` }
   };
 
@@ -180,6 +180,7 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
             type="number"
             label="Set device limit"
             className={classes.devLimitInput}
+            InputProps={{ inputProps: { min: 1, max: quota } }}
             numericValidations={numericValidation}
           />
           <MenderHelpTooltip className="required" id={HELPTOOLTIPS.subTenantDeviceLimit.id} />
