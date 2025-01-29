@@ -47,8 +47,8 @@ export const ConfirmModal = (props: ConfirmModalProps) => {
     >
       <DialogTitle>{header}</DialogTitle>
       <DialogContent>
-        <DialogContentText>{description}</DialogContentText>
-        <DialogContentText>Type &#39;{toType}&#39; below to continue</DialogContentText>
+        <DialogContentText className="margin-bottom-small">{description}</DialogContentText>
+        <DialogContentText className="margin-bottom-small">Type &#39;{toType}&#39; below to continue</DialogContentText>
         <TextField
           value={inputValue}
           onChange={e => setInputValue(e.target.value)}
@@ -61,8 +61,10 @@ export const ConfirmModal = (props: ConfirmModalProps) => {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={close}>Cancel</Button>
-        <Button color="secondary" type="submit" variant="contained" disabled={inputValue !== toType}>
+        <Button onClick={close} size="small">
+          Cancel
+        </Button>
+        <Button color="secondary" type="submit" variant="contained" disabled={inputValue !== toType} size="small">
           Confirm
         </Button>
       </DialogActions>
