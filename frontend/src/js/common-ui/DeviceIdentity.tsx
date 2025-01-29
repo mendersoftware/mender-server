@@ -94,8 +94,8 @@ export const DeviceIdentityDisplay = props => {
   const { classes } = useStyles();
 
   let Component = attributeComponentMap.default;
-  if (isEditable && attribute === 'name' && scope === 'tags') {
-    Component = attributeComponentMap[attribute] ?? attributeComponentMap.default;
+  if (attribute === 'name' && scope === 'tags') {
+    Component = isEditable ? attributeComponentMap.name : Component;
   }
   const { attributes = {} } = device;
   const EndAdornment = useMemo(
