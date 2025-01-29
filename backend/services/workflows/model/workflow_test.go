@@ -35,7 +35,7 @@ func TestParseWorkflowFromJSON(t *testing.T) {
 			"name": "delete_device_inventory",
 			"type": "http",
 			"http": {
-				"uri": "http://mender-inventory:8080/api/0.1.0/devices/${workflow.input.device_id}",
+				"uri": "http://mender-inventory:8080/api/management/v1/inventory/devices/${workflow.input.device_id}",
 				"method": "DELETE",
 				"body": "Payload",
 				"headers": {
@@ -109,7 +109,7 @@ func TestParseWorkflowFromJSON(t *testing.T) {
 	assert.Equal(t, TaskTypeHTTP, tasks[1].Type)
 
 	var httpTask *HTTPTask = tasks[0].HTTP
-	assert.Equal(t, "http://mender-inventory:8080/api/0.1.0/devices/${workflow.input.device_id}", httpTask.URI)
+	assert.Equal(t, "http://mender-inventory:8080/api/management/v1/inventory/devices/${workflow.input.device_id}", httpTask.URI)
 	assert.Equal(t, http.MethodDelete, httpTask.Method)
 	assert.Equal(t, "Payload", httpTask.Body)
 	assert.Len(t, httpTask.Headers, 2)
@@ -206,7 +206,7 @@ func TestGetWorkflowsFromPath(t *testing.T) {
 			"name": "delete_device_inventory",
 			"type": "http",
 			"http": {
-				"uri": "http://mender-inventory:8080/api/0.1.0/devices/${workflow.input.device_id}",
+				"uri": "http://mender-inventory:8080/api/management/v1/inventory/devices/${workflow.input.device_id}",
 				"method": "DELETE",
 				"body": "Payload",
 				"headers": {

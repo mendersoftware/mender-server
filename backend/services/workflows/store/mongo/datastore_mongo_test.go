@@ -112,7 +112,7 @@ func TestLoadWorkflows(t *testing.T) {
 			"name": "delete_device_inventory",
 			"type": "http",
 			"http": {
-				"uri": "http://mender-inventory:8080/api/0.1.0/devices/${workflow.input.device_id}",
+				"uri": "http://mender-inventory:8080/api/management/v1/inventory/devices/${workflow.input.device_id}",
 				"method": "DELETE",
 				"body": "Payload",
 				"headers": {

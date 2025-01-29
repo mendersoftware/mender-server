@@ -195,7 +195,7 @@ func TestApiParseFilterParams(t *testing.T) {
 	}{
 
 		"eq - short form(implicit)": {
-			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/devices?page=1&per_page=5&attr_name1=A0001", nil),
+			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=1&per_page=5&attr_name1=A0001", nil),
 			filters: []store.Filter{
 				{
 					AttrName:  "attr_name1",
@@ -206,7 +206,7 @@ func TestApiParseFilterParams(t *testing.T) {
 			},
 		},
 		"eq - short form(implicit), colons": {
-			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/devices?page=1&per_page=5&attr_name1=qe:123:123:123", nil),
+			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=1&per_page=5&attr_name1=qe:123:123:123", nil),
 			filters: []store.Filter{
 				{
 					AttrName:  "attr_name1",
@@ -217,7 +217,7 @@ func TestApiParseFilterParams(t *testing.T) {
 			},
 		},
 		"eq - short form(implicit), float": {
-			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/devices?page=1&per_page=5&attr_name1=3.14", nil),
+			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=1&per_page=5&attr_name1=3.14", nil),
 			filters: []store.Filter{
 				{
 					AttrName:   "attr_name1",
@@ -229,7 +229,7 @@ func TestApiParseFilterParams(t *testing.T) {
 			},
 		},
 		"eq - short form(implicit), time": {
-			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/devices?page=1&per_page=5&attr_name1=2014-11-12T11:45:26.371Z", nil),
+			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=1&per_page=5&attr_name1=2014-11-12T11:45:26.371Z", nil),
 			filters: []store.Filter{
 				{
 					AttrName:  "attr_name1",
@@ -241,7 +241,7 @@ func TestApiParseFilterParams(t *testing.T) {
 			},
 		},
 		"eq - short form(implicit), time without milliseconds": {
-			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/devices?page=1&per_page=5&attr_name1=2014-11-12T11:45:26Z", nil),
+			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=1&per_page=5&attr_name1=2014-11-12T11:45:26Z", nil),
 			filters: []store.Filter{
 				{
 					AttrName:  "attr_name1",
@@ -253,7 +253,7 @@ func TestApiParseFilterParams(t *testing.T) {
 			},
 		},
 		"eq - long form": {
-			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/devices?page=1&per_page=5&attr_name1=eq:A0001", nil),
+			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=1&per_page=5&attr_name1=eq:A0001", nil),
 			filters: []store.Filter{
 				{
 					AttrName:  "attr_name1",
@@ -264,7 +264,7 @@ func TestApiParseFilterParams(t *testing.T) {
 			},
 		},
 		"eq - long form, colons": {
-			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/devices?page=1&per_page=5&attr_name1=eq:qe:123:123:123", nil),
+			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=1&per_page=5&attr_name1=eq:qe:123:123:123", nil),
 			filters: []store.Filter{
 				{
 					AttrName:  "attr_name1",
@@ -275,7 +275,7 @@ func TestApiParseFilterParams(t *testing.T) {
 			},
 		},
 		"eq - long form, colons, with scope": {
-			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/devices?page=1&per_page=5&scope/attr_name1=eq:qe:123:123:123", nil),
+			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=1&per_page=5&scope/attr_name1=eq:qe:123:123:123", nil),
 			filters: []store.Filter{
 				{
 					AttrName:  "attr_name1",
@@ -286,7 +286,7 @@ func TestApiParseFilterParams(t *testing.T) {
 			},
 		},
 		"eq - long form, dashes, with scope": {
-			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/devices?page=1&per_page=5&scope/attr-name1=eq:qe-123-123-123", nil),
+			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=1&per_page=5&scope/attr-name1=eq:qe-123-123-123", nil),
 			filters: []store.Filter{
 				{
 					AttrName:  "attr-name1",
@@ -330,7 +330,7 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  3,
 			listDevicesErr:  nil,
 			listDeviceTotal: 18,
-			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/devices?page=4&per_page=5&group=foo", nil),
+			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=4&per_page=5&group=foo", nil),
 			resp: JSONResponseParams{
 				OutputStatus:     200,
 				OutputBodyObject: mockListDevices(3),
@@ -347,7 +347,7 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 20,
-			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/devices?page=4&per_page=5", nil),
+			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=4&per_page=5", nil),
 			resp: JSONResponseParams{
 				OutputStatus:     200,
 				OutputBodyObject: mockListDevices(5),
@@ -364,7 +364,7 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 21,
-			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/devices?page=4&per_page=5", nil),
+			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=4&per_page=5", nil),
 			resp: JSONResponseParams{
 				OutputStatus:     200,
 				OutputBodyObject: mockListDevices(5),
@@ -381,7 +381,7 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 5,
-			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/devices?page=foo&per_page=5", nil),
+			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=foo&per_page=5", nil),
 			resp: JSONResponseParams{
 				OutputStatus:     400,
 				OutputBodyObject: RestError(utils.MsgQueryParmInvalid("page")),
@@ -392,7 +392,7 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 5,
-			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/devices?page=1&per_page=foo", nil),
+			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=1&per_page=foo", nil),
 			resp: JSONResponseParams{
 				OutputStatus:     400,
 				OutputBodyObject: RestError(utils.MsgQueryParmInvalid("per_page")),
@@ -403,7 +403,7 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 5,
-			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/devices?page=0&per_page=5", nil),
+			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=0&per_page=5", nil),
 			resp: JSONResponseParams{
 				OutputStatus:     400,
 				OutputBodyObject: RestError(utils.MsgQueryParmLimit("page")),
@@ -414,7 +414,7 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 5,
-			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/devices?page=1&per_page=5&attr_name1=qe:123:123:123", nil),
+			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=1&per_page=5&attr_name1=qe:123:123:123", nil),
 			resp: JSONResponseParams{
 				OutputStatus:     200,
 				OutputBodyObject: mockListDevices(5),
@@ -430,7 +430,7 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 5,
-			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/devices?sort=attr_name1:asc&page=1&per_page=5", nil),
+			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?sort=attr_name1:asc&page=1&per_page=5", nil),
 			resp: JSONResponseParams{
 				OutputStatus:     200,
 				OutputBodyObject: mockListDevices(5),
@@ -446,7 +446,7 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 5,
-			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/devices?page=1&per_page=5&sort=attr_name1:gte", nil),
+			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=1&per_page=5&sort=attr_name1:gte", nil),
 			resp: JSONResponseParams{
 				OutputStatus:     400,
 				OutputBodyObject: RestError("invalid sort order"),
@@ -457,7 +457,7 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 5,
-			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/devices?has_group=true&page=1&per_page=5", nil),
+			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?has_group=true&page=1&per_page=5", nil),
 			resp: JSONResponseParams{
 				OutputStatus:     200,
 				OutputBodyObject: mockListDevices(5),
@@ -473,7 +473,7 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 5,
-			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/devices?page=1&per_page=5&has_group=asd", nil),
+			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=1&per_page=5&has_group=asd", nil),
 			resp: JSONResponseParams{
 				OutputStatus:     400,
 				OutputBodyObject: RestError(utils.MsgQueryParmInvalid("has_group")),
@@ -484,7 +484,7 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  errors.New("inventory error"),
 			listDeviceTotal: 20,
-			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/devices?page=4&per_page=5", nil),
+			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=4&per_page=5", nil),
 			resp: JSONResponseParams{
 				OutputStatus:     500,
 				OutputBodyObject: RestError("internal error"),
@@ -710,7 +710,7 @@ func TestApiInventoryUpdateDeviceTags(t *testing.T) {
 	}{
 		"Replace tags, PUT, failed ETag": {
 			inReq: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/0.1.0/devices/:id/tags",
+				"http://1.2.3.4"+uriDevices+"/:id/tags",
 				[]model.DeviceAttribute{
 					{
 						Name:  "tag_1",
@@ -740,7 +740,7 @@ func TestApiInventoryUpdateDeviceTags(t *testing.T) {
 		},
 		"ok, replace tags, PUT, with ETag": {
 			inReq: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/0.1.0/devices/:id/tags",
+				"http://1.2.3.4"+uriDevices+"/:id/tags",
 				[]model.DeviceAttribute{
 					{
 						Name:  "tag_1",
@@ -769,7 +769,7 @@ func TestApiInventoryUpdateDeviceTags(t *testing.T) {
 		},
 		"ok, replace tags, PUT, without ETag": {
 			inReq: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/0.1.0/devices/:id/tags",
+				"http://1.2.3.4"+uriDevices+"/:id/tags",
 				[]model.DeviceAttribute{
 					{
 						Name:  "tag_1",
@@ -795,7 +795,7 @@ func TestApiInventoryUpdateDeviceTags(t *testing.T) {
 		},
 		"Upsert tags, PATCH, failed ETag": {
 			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4/api/0.1.0/devices/:id/tags",
+				"http://1.2.3.4"+uriDevices+"/:id/tags",
 				[]model.DeviceAttribute{
 					{
 						Name:  "tag_1",
@@ -825,7 +825,7 @@ func TestApiInventoryUpdateDeviceTags(t *testing.T) {
 		},
 		"ok, upsert tags, PATCH, with ETag": {
 			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4/api/0.1.0/devices/:id/tags",
+				"http://1.2.3.4"+uriDevices+"/:id/tags",
 				[]model.DeviceAttribute{
 					{
 						Name:  "tag_1",
@@ -854,7 +854,7 @@ func TestApiInventoryUpdateDeviceTags(t *testing.T) {
 		},
 		"ok, upsert tags, PATCH, without ETag": {
 			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4/api/0.1.0/devices/:id/tags",
+				"http://1.2.3.4"+uriDevices+"/:id/tags",
 				[]model.DeviceAttribute{
 					{
 						Name:  "tag_1",
@@ -961,7 +961,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 	}{
 		"no auth": {
 			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4/api/0.1.0/attributes",
+				"http://1.2.3.4"+uriAttributes,
 				nil),
 			inventoryErr: nil,
 			resp: JSONResponseParams{
@@ -973,7 +973,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 
 		"invalid auth": {
 			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4/api/0.1.0/attributes",
+				"http://1.2.3.4"+uriAttributes,
 				nil),
 			inHdrs: map[string]string{
 				"Authorization:": "foobar",
@@ -988,7 +988,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 
 		"empty body": {
 			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4/api/0.1.0/attributes",
+				"http://1.2.3.4"+uriAttributes,
 				nil),
 			inHdrs: map[string]string{
 				"Authorization": makeDeviceAuthHeader(`{"sub":"fakeid","mender.device":true}`),
@@ -1003,7 +1003,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 
 		"garbled body": {
 			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4/api/0.1.0/attributes",
+				"http://1.2.3.4"+uriAttributes,
 				`{"foo": "bar"}`),
 			inHdrs: map[string]string{
 				"Authorization": makeDeviceAuthHeader(`{"sub":"fakeid","mender.device":true}`),
@@ -1018,7 +1018,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 
 		"body formatted ok, attribute name missing": {
 			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4/api/0.1.0/attributes",
+				"http://1.2.3.4"+uriAttributes,
 				[]model.DeviceAttribute{
 					{
 						Name:        "name1",
@@ -1044,7 +1044,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 
 		"body formatted ok, attribute value missing": {
 			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4/api/0.1.0/attributes",
+				"http://1.2.3.4"+uriAttributes,
 				[]model.DeviceAttribute{
 					{
 						Name:        "name1",
@@ -1065,7 +1065,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 
 		"body formatted ok, attributes ok (all fields)": {
 			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4/api/0.1.0/attributes",
+				"http://1.2.3.4"+uriAttributes,
 				[]model.DeviceAttribute{
 					{
 						Name:        "name1",
@@ -1096,7 +1096,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 
 		"body formatted ok, attributes ok (all fields), with scope": {
 			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4/api/0.1.0/attributes",
+				"http://1.2.3.4"+uriAttributes,
 				[]model.DeviceAttribute{
 					{
 						Name:        "name1",
@@ -1129,7 +1129,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 
 		"body formatted ok, attributes ok (all fields, arrays)": {
 			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4/api/0.1.0/attributes",
+				"http://1.2.3.4"+uriAttributes,
 				[]model.DeviceAttribute{
 					{
 						Name:        "name1",
@@ -1156,7 +1156,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 
 		"body formatted ok, attributes ok (values only)": {
 			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4/api/0.1.0/attributes",
+				"http://1.2.3.4"+uriAttributes,
 				[]model.DeviceAttribute{
 					{
 						Name:  "name1",
@@ -1181,7 +1181,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 
 		"body formatted ok, attributes ok, but values are empty": {
 			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4/api/0.1.0/attributes",
+				"http://1.2.3.4"+uriAttributes,
 				[]model.DeviceAttribute{
 					{
 						Name:  "name1",
@@ -1206,7 +1206,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 
 		"body formatted ok, attributes ok (all fields), inventory err": {
 			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4/api/0.1.0/attributes",
+				"http://1.2.3.4"+uriAttributes,
 				[]model.DeviceAttribute{
 					{
 						Name:        "name1",
@@ -1233,7 +1233,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 
 		"body formatted ok, attributes ok (values only), PUT": {
 			inReq: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/0.1.0/attributes",
+				"http://1.2.3.4"+uriAttributes,
 				[]model.DeviceAttribute{
 					{
 						Name:  "name1",
@@ -1660,7 +1660,7 @@ func TestApiInventoryDeleteDeviceGroup(t *testing.T) {
 	}{
 		"ok": {
 			inReq: test.MakeSimpleRequest("DELETE",
-				"http://1.2.3.4/api/0.1.0/devices/123/group/g1", nil),
+				"http://1.2.3.4"+uriDevices+"/123/group/g1", nil),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusNoContent,
 				OutputBodyObject: nil,
@@ -1668,7 +1668,7 @@ func TestApiInventoryDeleteDeviceGroup(t *testing.T) {
 		},
 		"device group not found (or device's group is other than requested)": {
 			inReq: test.MakeSimpleRequest("DELETE",
-				"http://1.2.3.4/api/0.1.0/devices/123/group/g1", nil),
+				"http://1.2.3.4"+uriDevices+"/123/group/g1", nil),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusNotFound,
 				OutputBodyObject: RestError(store.ErrDevNotFound.Error()),
@@ -1677,7 +1677,7 @@ func TestApiInventoryDeleteDeviceGroup(t *testing.T) {
 		},
 		"internal error": {
 			inReq: test.MakeSimpleRequest("DELETE",
-				"http://1.2.3.4/api/0.1.0/devices/123/group/g1", nil),
+				"http://1.2.3.4"+uriDevices+"/123/group/g1", nil),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusInternalServerError,
 				OutputBodyObject: RestError("internal error"),
@@ -1715,7 +1715,7 @@ func TestApiInventoryAddDeviceToGroup(t *testing.T) {
 	}{
 		"ok": {
 			inReq: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/0.1.0/devices/123/group",
+				"http://1.2.3.4"+uriDevices+"/123/group",
 				InventoryApiGroup{"_a-b-c_"}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusNoContent,
@@ -1724,7 +1724,7 @@ func TestApiInventoryAddDeviceToGroup(t *testing.T) {
 		},
 		"device not found": {
 			inReq: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/0.1.0/devices/123/group",
+				"http://1.2.3.4"+uriDevices+"/123/group",
 				InventoryApiGroup{"abc"}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusNotFound,
@@ -1734,7 +1734,7 @@ func TestApiInventoryAddDeviceToGroup(t *testing.T) {
 		},
 		"empty group name": {
 			inReq: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/0.1.0/devices/123/group",
+				"http://1.2.3.4"+uriDevices+"/123/group",
 				InventoryApiGroup{}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusBadRequest,
@@ -1744,7 +1744,7 @@ func TestApiInventoryAddDeviceToGroup(t *testing.T) {
 		},
 		"unsupported characters in group name": {
 			inReq: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/0.1.0/devices/123/group",
+				"http://1.2.3.4"+uriDevices+"/123/group",
 				InventoryApiGroup{"__+X@#$  ;"}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusBadRequest,
@@ -1754,7 +1754,7 @@ func TestApiInventoryAddDeviceToGroup(t *testing.T) {
 		},
 		"non-ASCII characters in group name": {
 			inReq: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/0.1.0/devices/123/group",
+				"http://1.2.3.4"+uriDevices+"/123/group",
 				InventoryApiGroup{"ęą"}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusBadRequest,
@@ -1764,7 +1764,7 @@ func TestApiInventoryAddDeviceToGroup(t *testing.T) {
 		},
 		"empty body": {
 			inReq: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/0.1.0/devices/123/group", nil),
+				"http://1.2.3.4"+uriDevices+"/123/group", nil),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusBadRequest,
 				OutputBodyObject: RestError("failed to decode device group data: JSON payload is empty"),
@@ -1773,7 +1773,7 @@ func TestApiInventoryAddDeviceToGroup(t *testing.T) {
 		},
 		"internal error": {
 			inReq: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/0.1.0/devices/123/group",
+				"http://1.2.3.4"+uriDevices+"/123/group",
 				InventoryApiGroup{"abc"}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusInternalServerError,
@@ -1812,7 +1812,7 @@ func TestApiListGroups(t *testing.T) {
 		inventoryErr error
 	}{
 		"some groups": {
-			inReq:        test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/groups", nil),
+			inReq:        test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriGroups, nil),
 			outputGroups: []model.GroupName{"foo", "bar"},
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusOK,
@@ -1820,14 +1820,14 @@ func TestApiListGroups(t *testing.T) {
 			},
 		},
 		"no groups": {
-			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/groups?status=rejected", nil),
+			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriGroups+"?status=rejected", nil),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusOK,
 				OutputBodyObject: []string{},
 			},
 		},
 		"error": {
-			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/groups", nil),
+			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriGroups, nil),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusInternalServerError,
 				OutputBodyObject: RestError("internal error"),
@@ -1874,7 +1874,7 @@ func TestApiGetDevice(t *testing.T) {
 	}{
 		"no device": {
 			inDevId:      model.DeviceID("1"),
-			inReq:        test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/devices/1", nil),
+			inReq:        test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"/1", nil),
 			outputDevice: nil,
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusNotFound,
@@ -1883,7 +1883,7 @@ func TestApiGetDevice(t *testing.T) {
 		},
 		"some device": {
 			inDevId: model.DeviceID("2"),
-			inReq:   test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/devices/2", nil),
+			inReq:   test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"/2", nil),
 			outputDevice: &model.Device{
 				ID:    model.DeviceID("2"),
 				Group: model.GroupName("foo"),
@@ -1898,7 +1898,7 @@ func TestApiGetDevice(t *testing.T) {
 		},
 		"error": {
 			inDevId: model.DeviceID("3"),
-			inReq:   test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/devices/3", nil),
+			inReq:   test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"/3", nil),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusInternalServerError,
 				OutputBodyObject: RestError("internal error"),
@@ -1936,7 +1936,7 @@ func TestApiInventoryGetDevicesByGroup(t *testing.T) {
 			listDevicesNum:   5,
 			listDevicesErr:   nil,
 			listDevicesTotal: 20,
-			inReq:            test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/groups/foo/devices?page=4&per_page=5", nil),
+			inReq:            test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriGroups+"/foo/devices?page=4&per_page=5", nil),
 			resp: JSONResponseParams{
 				OutputStatus:     200,
 				OutputBodyObject: mockListDeviceIDs(5),
@@ -1953,7 +1953,7 @@ func TestApiInventoryGetDevicesByGroup(t *testing.T) {
 			listDevicesNum:   5,
 			listDevicesErr:   nil,
 			listDevicesTotal: 21,
-			inReq:            test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/groups/foo/devices?page=4&per_page=5", nil),
+			inReq:            test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriGroups+"/foo/devices?page=4&per_page=5", nil),
 			resp: JSONResponseParams{
 				OutputStatus:     200,
 				OutputBodyObject: mockListDeviceIDs(5),
@@ -1970,7 +1970,7 @@ func TestApiInventoryGetDevicesByGroup(t *testing.T) {
 			listDevicesNum:   5,
 			listDevicesErr:   nil,
 			listDevicesTotal: 5,
-			inReq:            test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/groups/foo/devices?page=foo&per_page=5", nil),
+			inReq:            test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriGroups+"/foo/devices?page=foo&per_page=5", nil),
 			resp: JSONResponseParams{
 				OutputStatus:     400,
 				OutputBodyObject: RestError(utils.MsgQueryParmInvalid("page")),
@@ -1981,7 +1981,7 @@ func TestApiInventoryGetDevicesByGroup(t *testing.T) {
 			listDevicesNum:   5,
 			listDevicesErr:   nil,
 			listDevicesTotal: 5,
-			inReq:            test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/groups/foo/devices?page=1&per_page=foo", nil),
+			inReq:            test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriGroups+"/foo/devices?page=1&per_page=foo", nil),
 			resp: JSONResponseParams{
 				OutputStatus:     400,
 				OutputBodyObject: RestError(utils.MsgQueryParmInvalid("per_page")),
@@ -1992,7 +1992,7 @@ func TestApiInventoryGetDevicesByGroup(t *testing.T) {
 			listDevicesNum:   5,
 			listDevicesErr:   nil,
 			listDevicesTotal: 5,
-			inReq:            test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/groups/foo/devices?page=0&per_page=5", nil),
+			inReq:            test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriGroups+"/foo/devices?page=0&per_page=5", nil),
 			resp: JSONResponseParams{
 				OutputStatus:     400,
 				OutputBodyObject: RestError(utils.MsgQueryParmLimit("page")),
@@ -2003,7 +2003,7 @@ func TestApiInventoryGetDevicesByGroup(t *testing.T) {
 			listDevicesNum:   5,
 			listDevicesErr:   store.ErrGroupNotFound,
 			listDevicesTotal: 20,
-			inReq:            test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/groups/foo/devices?page=4&per_page=5", nil),
+			inReq:            test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriGroups+"/foo/devices?page=4&per_page=5", nil),
 			resp: JSONResponseParams{
 				OutputStatus:     404,
 				OutputBodyObject: RestError("group not found"),
@@ -2014,7 +2014,7 @@ func TestApiInventoryGetDevicesByGroup(t *testing.T) {
 			listDevicesNum:   5,
 			listDevicesErr:   errors.New("inventory error"),
 			listDevicesTotal: 20,
-			inReq:            test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/groups/foo/devices?page=4&per_page=5", nil),
+			inReq:            test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriGroups+"/foo/devices?page=4&per_page=5", nil),
 			resp: JSONResponseParams{
 				OutputStatus:     500,
 				OutputBodyObject: RestError("internal error"),
@@ -2062,7 +2062,7 @@ func TestApiGetDeviceGroup(t *testing.T) {
 		*/
 
 		"device with group": {
-			inReq:          test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/devices/1/group", nil),
+			inReq:          test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"/1/group", nil),
 			inventoryGroup: model.GroupName("dev"),
 			inventoryErr:   nil,
 
@@ -2072,7 +2072,7 @@ func TestApiGetDeviceGroup(t *testing.T) {
 			},
 		},
 		"device without group": {
-			inReq:          test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/devices/1/group", nil),
+			inReq:          test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"/1/group", nil),
 			inventoryGroup: model.GroupName(""),
 			inventoryErr:   nil,
 
@@ -2082,7 +2082,7 @@ func TestApiGetDeviceGroup(t *testing.T) {
 			},
 		},
 		"device not found": {
-			inReq:          test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/devices/1/group", nil),
+			inReq:          test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"/1/group", nil),
 			inventoryGroup: model.GroupName(""),
 			inventoryErr:   store.ErrDevNotFound,
 
@@ -2092,7 +2092,7 @@ func TestApiGetDeviceGroup(t *testing.T) {
 			},
 		},
 		"generic inventory error": {
-			inReq:          test.MakeSimpleRequest("GET", "http://1.2.3.4/api/0.1.0/devices/1/group", nil),
+			inReq:          test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"/1/group", nil),
 			inventoryGroup: model.GroupName(""),
 			inventoryErr:   errors.New("inventory: internal error"),
 
@@ -2201,7 +2201,7 @@ func TestApiDeleteDeviceInventory(t *testing.T) {
 	}{
 		"no device": {
 			inDevId:      model.DeviceID("1"),
-			inReq:        test.MakeSimpleRequest("DELETE", "http://1.2.3.4/api/0.1.0/devices/1", nil),
+			inReq:        test.MakeSimpleRequest("DELETE", "http://1.2.3.4"+uriDevices+"/1", nil),
 			inventoryErr: store.ErrDevNotFound,
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus: http.StatusNoContent,
@@ -2209,14 +2209,14 @@ func TestApiDeleteDeviceInventory(t *testing.T) {
 		},
 		"some device": {
 			inDevId: model.DeviceID("2"),
-			inReq:   test.MakeSimpleRequest("DELETE", "http://1.2.3.4/api/0.1.0/devices/2", nil),
+			inReq:   test.MakeSimpleRequest("DELETE", "http://1.2.3.4"+uriDevices+"/2", nil),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus: http.StatusNoContent,
 			},
 		},
 		"error": {
 			inDevId: model.DeviceID("3"),
-			inReq:   test.MakeSimpleRequest("DELETE", "http://1.2.3.4/api/0.1.0/devices/3", nil),
+			inReq:   test.MakeSimpleRequest("DELETE", "http://1.2.3.4"+uriDevices+"/3", nil),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusInternalServerError,
 				OutputBodyObject: RestError("internal error"),
@@ -2313,7 +2313,7 @@ func TestAPICDeleteGroup(t *testing.T) {
 		Name: "ok",
 		Request: test.MakeSimpleRequest(
 			"DELETE",
-			"http://localhost/api/0.1.0/groups/foo",
+			"http://localhost"+uriGroups+"/foo",
 			nil,
 		),
 		GroupName: "foo",
@@ -2328,7 +2328,7 @@ func TestAPICDeleteGroup(t *testing.T) {
 
 		Request: test.MakeSimpleRequest(
 			"DELETE",
-			"http://localhost/api/0.1.0/groups/foo",
+			"http://localhost"+uriGroups+"/foo",
 			nil,
 		),
 		GroupName: "foo",
@@ -2345,7 +2345,7 @@ func TestAPICDeleteGroup(t *testing.T) {
 
 		Request: test.MakeSimpleRequest(
 			"DELETE",
-			"http://localhost/api/0.1.0/groups/illegal$group$name",
+			"http://localhost"+uriGroups+"/illegal$group$name",
 			nil,
 		),
 		JSONResponseParams: JSONResponseParams{
@@ -2399,7 +2399,7 @@ func TestAPIClearDevicesGroup(t *testing.T) {
 
 		Request: test.MakeSimpleRequest(
 			"DELETE",
-			"http://localhost/api/0.1.0/groups/foo/devices",
+			"http://localhost"+uriGroups+"/foo/devices",
 			[]model.DeviceID{"1", "2", "3"},
 		),
 		GroupName: "foo",
@@ -2415,7 +2415,7 @@ func TestAPIClearDevicesGroup(t *testing.T) {
 
 		Request: test.MakeSimpleRequest(
 			"DELETE",
-			"http://localhost/api/0.1.0/groups/foo/devices",
+			"http://localhost"+uriGroups+"/foo/devices",
 			[]model.DeviceID{},
 		),
 		Devices:   []model.DeviceID{},
@@ -2432,7 +2432,7 @@ func TestAPIClearDevicesGroup(t *testing.T) {
 
 		Request: test.MakeSimpleRequest(
 			"DELETE",
-			"http://localhost/api/0.1.0/groups/foo/devices",
+			"http://localhost"+uriGroups+"/foo/devices",
 			map[string]string{"foo": "bar"},
 		),
 		GroupName: "foo",
@@ -2450,7 +2450,7 @@ func TestAPIClearDevicesGroup(t *testing.T) {
 
 		Request: test.MakeSimpleRequest(
 			"DELETE",
-			"http://localhost/api/0.1.0/groups/foo/devices",
+			"http://localhost"+uriGroups+"/foo/devices",
 			[]model.DeviceID{"1", "2", "3"},
 		),
 		GroupName: "foo",
@@ -2468,7 +2468,7 @@ func TestAPIClearDevicesGroup(t *testing.T) {
 
 		Request: test.MakeSimpleRequest(
 			"DELETE",
-			"http://localhost/api/0.1.0/groups/illegal$group$name/devices",
+			"http://localhost"+uriGroups+"/illegal$group$name/devices",
 			[]model.DeviceID{"1", "2", "3"},
 		),
 		JSONResponseParams: JSONResponseParams{
@@ -2526,7 +2526,7 @@ func TestAPIPatchGroupDevices(t *testing.T) {
 
 		Request: test.MakeSimpleRequest(
 			"PATCH",
-			"http://localhost/api/0.1.0/groups/foo/devices",
+			"http://localhost"+uriGroups+"/foo/devices",
 			[]model.DeviceID{"1", "2", "3"},
 		),
 		Devices:   []model.DeviceID{"1", "2", "3"},
@@ -2543,7 +2543,7 @@ func TestAPIPatchGroupDevices(t *testing.T) {
 
 		Request: test.MakeSimpleRequest(
 			"PATCH",
-			"http://localhost/api/0.1.0/groups/foo/devices",
+			"http://localhost"+uriGroups+"/foo/devices",
 			map[string][]string{"devices": {"foo", "bar", "baz"}},
 		),
 		JSONResponseParams: JSONResponseParams{
@@ -2560,7 +2560,7 @@ func TestAPIPatchGroupDevices(t *testing.T) {
 
 		Request: test.MakeSimpleRequest(
 			"PATCH",
-			"http://localhost/api/0.1.0/groups/foo/devices",
+			"http://localhost"+uriGroups+"/foo/devices",
 			[]model.DeviceID{}),
 		JSONResponseParams: JSONResponseParams{
 			OutputStatus: http.StatusBadRequest,
@@ -2574,7 +2574,7 @@ func TestAPIPatchGroupDevices(t *testing.T) {
 
 		Request: test.MakeSimpleRequest(
 			"PATCH",
-			"http://localhost/api/0.1.0/groups/deeeåååhh/devices",
+			"http://localhost"+uriGroups+"/deeeåååhh/devices",
 			[]model.DeviceID{"1", "2"},
 		),
 		JSONResponseParams: JSONResponseParams{
@@ -2591,7 +2591,7 @@ func TestAPIPatchGroupDevices(t *testing.T) {
 
 		Request: test.MakeSimpleRequest(
 			"PATCH",
-			"http://localhost/api/0.1.0/groups/foo/devices",
+			"http://localhost"+uriGroups+"/foo/devices",
 			[]model.DeviceID{"1", "2"},
 		),
 		Devices:      []model.DeviceID{"1", "2"},
