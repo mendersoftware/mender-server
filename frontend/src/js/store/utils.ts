@@ -152,6 +152,9 @@ export const preformatWithRequestID = (res, failMsg) => {
   return failMsg;
 };
 
+export const ensureVersionString = (software, fallback) =>
+  software.length && software !== 'artifact_name' ? (software.endsWith('.version') ? software : `${software}.version`) : fallback;
+
 export const getComparisonCompatibleVersion = version => (isNaN(version.charAt(0)) && version !== 'next' ? 'master' : version);
 
 export const stringToBoolean = content => {
