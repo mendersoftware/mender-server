@@ -34,12 +34,14 @@ export const ConfirmModal = (props: ConfirmModalProps) => {
       open={open}
       onClose={close}
       maxWidth={maxWidth}
-      PaperProps={{
-        component: 'form',
-        onSubmit: (event: FormEvent<HTMLFormElement>) => {
-          event.preventDefault();
-          onConfirm();
-          close();
+      slotProps={{
+        paper: {
+          component: 'form',
+          onSubmit: (event: FormEvent<HTMLFormElement>) => {
+            event.preventDefault();
+            onConfirm();
+            close();
+          }
         }
       }}
     >
