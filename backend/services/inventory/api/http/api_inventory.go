@@ -42,15 +42,27 @@ import (
 )
 
 const (
-	uriDevices       = "/api/0.1.0/devices"
-	uriDevice        = "/api/0.1.0/devices/#id"
-	uriDeviceTags    = "/api/0.1.0/devices/#id/tags"
-	uriDeviceGroups  = "/api/0.1.0/devices/#id/group"
-	uriDeviceGroup   = "/api/0.1.0/devices/#id/group/#name"
-	uriAttributes    = "/api/0.1.0/attributes"
-	uriGroups        = "/api/0.1.0/groups"
-	uriGroupsName    = "/api/0.1.0/groups/#name"
-	uriGroupsDevices = "/api/0.1.0/groups/#name/devices"
+	// legacy endpoints
+	legacyUriDevices       = "/api/0.1.0/devices"
+	legacyUriDevice        = "/api/0.1.0/devices/#id"
+	legacyUriDeviceTags    = "/api/0.1.0/devices/#id/tags"
+	legacyUriDeviceGroups  = "/api/0.1.0/devices/#id/group"
+	legacyUriDeviceGroup   = "/api/0.1.0/devices/#id/group/#name"
+	legacyUriAttributes    = "/api/0.1.0/attributes"
+	legacyUriGroups        = "/api/0.1.0/groups"
+	legacyUriGroupsName    = "/api/0.1.0/groups/#name"
+	legacyUriGroupsDevices = "/api/0.1.0/groups/#name/devices"
+
+	apiUrlManagmentV1 = "/api/management/v1/inventory"
+	uriDevices        = apiUrlManagmentV1 + "/devices"
+	uriDevice         = apiUrlManagmentV1 + "/devices/#id"
+	uriDeviceTags     = apiUrlManagmentV1 + "/devices/#id/tags"
+	uriDeviceGroups   = apiUrlManagmentV1 + "/devices/#id/group"
+	uriDeviceGroup    = apiUrlManagmentV1 + "/devices/#id/group/#name"
+	uriGroups         = apiUrlManagmentV1 + "/groups"
+	uriGroupsName     = apiUrlManagmentV1 + "/groups/#name"
+	uriGroupsDevices  = apiUrlManagmentV1 + "/groups/#name/devices"
+	uriAttributes     = "/api/devices/v1/inventory/attributes"
 
 	apiUrlInternalV1         = "/api/internal/v1/inventory"
 	uriInternalAlive         = apiUrlInternalV1 + "/alive"
@@ -179,6 +191,23 @@ func (i *inventoryHandlers) Build() (http.Handler, error) {
 		rest.Get(uriDeviceGroups, i.GetDeviceGroupHandler),
 		rest.Get(uriGroups, i.GetGroupsHandler),
 		rest.Get(uriGroupsDevices, i.GetDevicesByGroupHandler),
+
+		// legacy endpoints
+		rest.Get(legacyUriDevices, i.GetDevicesHandler),
+		rest.Get(legacyUriDevice, i.GetDeviceHandler),
+		rest.Delete(legacyUriDevice, i.DeleteDeviceInventoryHandler),
+		rest.Delete(legacyUriDeviceGroup, i.DeleteDeviceGroupHandler),
+		rest.Delete(legacyUriGroupsName, i.DeleteGroupHandler),
+		rest.Delete(legacyUriGroupsDevices, i.ClearDevicesGroupHandler),
+		rest.Patch(legacyUriAttributes, i.UpdateDeviceAttributesHandler),
+		rest.Put(legacyUriAttributes, i.UpdateDeviceAttributesHandler),
+		rest.Put(legacyUriDeviceGroups, i.AddDeviceToGroupHandler),
+		rest.Patch(legacyUriGroupsDevices, i.AppendDevicesToGroup),
+		rest.Put(legacyUriDeviceTags, i.UpdateDeviceTagsHandler),
+		rest.Patch(legacyUriDeviceTags, i.UpdateDeviceTagsHandler),
+		rest.Get(legacyUriDeviceGroups, i.GetDeviceGroupHandler),
+		rest.Get(legacyUriGroups, i.GetGroupsHandler),
+		rest.Get(legacyUriGroupsDevices, i.GetDevicesByGroupHandler),
 
 		rest.Get(urlFiltersAttributes, i.FiltersAttributesHandler),
 		rest.Post(urlFiltersSearch, i.FiltersSearchHandler),
