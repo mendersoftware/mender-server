@@ -26,11 +26,11 @@ interface ConfirmModalProps {
   maxWidth?: DialogProps['maxWidth'];
 }
 export const ConfirmModal = (props: ConfirmModalProps) => {
-  const { close, onConfirm, className, toType, header, description, open, maxWidth = 'xs' } = props;
+  const { close, onConfirm, className = '', toType, header, description, open, maxWidth = 'xs' } = props;
   const [inputValue, setInputValue] = useState<string>('');
   return (
     <Dialog
-      className={className || ''}
+      className={className}
       open={open}
       onClose={close}
       maxWidth={maxWidth}
