@@ -51,9 +51,12 @@ describe('Signup Component', () => {
     await user.type(passwordInput, 'mysecretpassword!123');
     expect(screen.getByRole('button', { name: /sign up/i })).toBeDisabled();
     await user.type(passwordConfirmationInput, 'mysecretpassword!123');
-    await waitFor(() => rerender(ui));
     expect(container.querySelector('#pass-strength > meter')).toBeVisible();
-    await act(async () => jest.runOnlyPendingTimers());
+    await act(async () => {
+      jest.runAllTicks();
+      jest.runAllTimers();
+    });
+    await waitFor(() => rerender(ui));
     expect(screen.getByRole('button', { name: /sign up/i })).toBeEnabled();
     await user.click(screen.getByRole('button', { name: /sign up/i }));
     await waitFor(() => screen.queryByPlaceholderText('Company or organization name *'));
