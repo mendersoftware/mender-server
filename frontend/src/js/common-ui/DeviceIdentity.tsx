@@ -64,7 +64,7 @@ export const getDeviceIdentityText = ({ device = {}, idAttribute }) => {
   const { attribute, scope } = idAttribute;
   // special handling for tags purely to handle the untagged devices case
   if (attribute === 'name' && scope === 'tags') {
-    return tags[idAttribute] ?? `${id.substring(0, 6)}...`;
+    return tags[attribute] ?? `${id.substring(0, 6)}...`;
   }
   return defaultTextRender({ column: { attribute: { name: attribute, scope } }, device });
 };
@@ -94,8 +94,8 @@ export const DeviceIdentityDisplay = props => {
   const { classes } = useStyles();
 
   let Component = attributeComponentMap.default;
-  if (isEditable && attribute === 'name' && scope === 'tags') {
-    Component = attributeComponentMap[attribute] ?? attributeComponentMap.default;
+  if (attribute === 'name' && scope === 'tags') {
+    Component = isEditable ? attributeComponentMap.name : Component;
   }
   const { attributes = {} } = device;
   const EndAdornment = useMemo(
