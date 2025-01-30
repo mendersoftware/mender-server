@@ -513,7 +513,7 @@ publish:licenses:docs-site:
     - hetzner-amd-beefy
   rules:
     # Only make available for stable branches
-    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+/'
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/'
       allow_failure: true
   image: "registry.gitlab.com/northern.tech/mender/mender-test-containers:release-please-v1-master"
   needs:
@@ -577,7 +577,7 @@ changelog:
     - hetzner-amd-beefy
   rules:
     # Only run for protected branches (main and maintenance branches)
-    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+/'
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/'
       when: never
     - if: $CI_COMMIT_REF_PROTECTED == "true" && $CI_COMMIT_BRANCH != ""
   before_script:
@@ -634,7 +634,7 @@ release:github:
     - hetzner-amd-beefy
   rules:
     # Only make available for protected branches (main and maintenance branches)
-    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+/'
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/'
       when: never
     - if: $CI_COMMIT_REF_PROTECTED == "true" && $CI_COMMIT_BRANCH != ""
       when: manual
@@ -654,7 +654,7 @@ release:mender-docs-changelog:
     - hetzner-amd-beefy
   rules:
     # Only make available for stable branches
-    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+/'
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/'
       allow_failure: true
   before_script:
     # Setting up git
@@ -686,7 +686,7 @@ release:mender-docs-changelog:saas:
   rules:
     - if: '$CI_PROJECT_NAME == "mender-server"'
       when: never
-    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+(?:-saas\.*\d*)?/'
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+(?:-saas\.*\d*)?$/'
   before_script:
     # Setting up git
     - git config --global user.email "${GITHUB_USER_EMAIL}"
