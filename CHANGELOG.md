@@ -1,4 +1,35 @@
 ---
+## 4.0.0-rc.9 - 2025-01-30
+
+
+### Bug Fixes
+
+
+- *(gui)* Ensured target directory is nonempty on artifact generation
+([MEN-8010](https://northerntech.atlassian.net/browse/MEN-8010)) ([5616722](https://github.com/mendersoftware/mender-server/commit/561672221f31d0be257c4e1da98c63eda40f792d))  by @mzedel
+
+- *(gui)* Fixed an issue that could prevent listing devices with their custom identity in a deployment report
+ ([f1fcf26](https://github.com/mendersoftware/mender-server/commit/f1fcf26f33a3ae458e60f994fed60231d75abd5c))  by @mzedel
+
+- *(gui)* Fixed an issue that would prevent navigating to devices from a software distribution chart
+([MEN-8038](https://northerntech.atlassian.net/browse/MEN-8038)) ([6516986](https://github.com/mendersoftware/mender-server/commit/6516986b82ce08ecdfd9ed3c790590796c60da2d))  by @mzedel
+
+
+
+
+
+### Features
+
+
+- *(gui)* Added explanation about integration number limitation
+([MEN-7899](https://northerntech.atlassian.net/browse/MEN-7899)) ([dbdfa67](https://github.com/mendersoftware/mender-server/commit/dbdfa672a62eb30745fb4b0e73bea7d345644932))  by @mzedel
+
+
+
+
+
+
+
 ## 4.0.0-rc.8 - 2025-01-27
 
 
