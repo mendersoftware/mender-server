@@ -19,7 +19,13 @@ import UserForm from './UserForm';
 
 describe('UserForm Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<UserForm currentUser={{}} roles={[]} user={{}} />);
+    const { baseElement } = render(<UserForm currentUser={{}} roles={[]} />);
+    const view = baseElement.getElementsByClassName('MuiDialog-root')[0];
+    expect(view).toMatchSnapshot();
+    expect(view).toEqual(expect.not.stringMatching(undefineds));
+  });
+  it('renders correctly for enterprise', async () => {
+    const { baseElement } = render(<UserForm currentUser={{}} roles={[]} isEnterprise />);
     const view = baseElement.getElementsByClassName('MuiDialog-root')[0];
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
