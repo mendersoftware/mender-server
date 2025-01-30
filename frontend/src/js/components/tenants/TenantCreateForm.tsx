@@ -13,7 +13,7 @@
 //    limitations under the License.
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Divider, Drawer, formControlLabelClasses } from '@mui/material';
@@ -28,9 +28,9 @@ import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
 import Api from '@northern.tech/store/api/general-api';
 import { rolesByName, useradmApiUrlv1 } from '@northern.tech/store/constants';
-import { getOrganization } from '@northern.tech/store/selectors';
-import { AppDispatch } from '@northern.tech/store/store';
-import { addTenant } from '@northern.tech/store/thunks';
+import { getOrganization, getSsoConfig } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
+import { addTenant, getSsoConfigs } from '@northern.tech/store/thunks';
 
 import { PasswordLabel } from '../settings/user-management/UserForm';
 
@@ -125,20 +125,25 @@ const UserInputs = (props: UserInputsProps) => {
   );
 };
 
-const tenantAdminDefaults = { email: '', name: '', password: '', sso: false, binary_delta: false, device_limit: 0, send_reset_password: false };
+const tenantAdminDefaults = { email: '', name: '', password: '', sso: false, binary_delta: false, device_limit: undefined, send_reset_password: false };
 export const TenantCreateForm = (props: TenantCreateFormProps) => {
   const { onCloseClick, open } = props;
-  const { device_count: spDeviceUtilization, device_limit: spDeviceLimit } = useSelector(getOrganization);
-  const dispatch = useDispatch<AppDispatch>();
+  const { device_count: spDeviceUtilization = 0, device_limit: spDeviceLimit = 0 } = useSelector(getOrganization);
+  const ssoConfig = useSelector(getSsoConfig);
+  const dispatch = useAppDispatch();
 
   const { classes } = useStyles();
   const [adminExists, setAdminExists] = useState<boolean>(false);
 
-  const quota = spDeviceLimit - spDeviceUtilization;
+  const quota = spDeviceLimit - spDeviceUtilization || 0;
   const numericValidation = {
-    min: { value: 1, message: `Device limit can't be less then 0` },
+    min: { value: 1, message: 'The limit must be 1 or more' },
     max: { value: quota, message: `The device limit must be ${quota} or fewer` }
   };
+
+  useEffect(() => {
+    dispatch(getSsoConfigs());
+  }, [dispatch]);
 
   const submitNewTenant = async data => {
     const { email, password, device_limit, send_reset_password, ...remainder } = data;
@@ -171,10 +176,11 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
           <TextInput
             required
             id="device_limit"
-            hint="1000"
+            hint={quota}
             type="number"
             label="Set device limit"
             className={classes.devLimitInput}
+            InputProps={{ inputProps: { min: 1, max: quota } }}
             numericValidations={numericValidation}
           />
           <MenderHelpTooltip className="required" id={HELPTOOLTIPS.subTenantDeviceLimit.id} />
@@ -183,13 +189,17 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
           <FormCheckbox id="binary_delta" label="Enable Delta Artifact generation" />
           <MenderHelpTooltip id={HELPTOOLTIPS.subTenantDeltaArtifactGeneration.id} />
         </div>
-        <div className="flexbox center-aligned">
-          <FormCheckbox id="sso" label="Restrict to Service Provider’s Single Sign-On settings" />
-          <MenderHelpTooltip className="flexbox center-aligned" id={HELPTOOLTIPS.subTenantSSO.id} />
-        </div>
-        <div className="margin-top-x-small margin-bottom">
-          <Link to="/settings/organization-and-billing">View Single Sign-On settings</Link>
-        </div>
+        {!!ssoConfig && (
+          <>
+            <div className="flexbox center-aligned">
+              <FormCheckbox id="sso" label="Restrict to Service Provider’s Single Sign-On settings" />
+              <MenderHelpTooltip className="flexbox center-aligned" id={HELPTOOLTIPS.subTenantSSO.id} />
+            </div>
+            <div className="margin-top-x-small margin-bottom">
+              <Link to="/settings/organization-and-billing">View Single Sign-On settings</Link>
+            </div>
+          </>
+        )}
       </Form>
     </Drawer>
   );

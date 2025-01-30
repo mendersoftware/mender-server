@@ -11,8 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React from 'react';
-import { Outlet, Route, Routes, useLocation } from 'react-router-dom';
+import React, { ReactElement } from 'react';
+import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
 
 import AuditLogs from '../components/auditlogs/AuditLogs';
 import Dashboard from '../components/dashboard/Dashboard';
@@ -27,7 +27,25 @@ import Releases from '../components/releases/Releases';
 import Settings from '../components/settings/Settings';
 import { TenantPage } from '../components/tenants/TenantPage';
 
-const publicRoutes = ['/password', '/signup', '/login'];
+type RouteConfig = { path: string; element: ReactElement; title: string; isPublic?: boolean };
+type RouteConfigs = Record<string, RouteConfig>;
+
+export const routeConfigs: RouteConfigs = {
+  auditlog: { path: 'auditlog', element: <AuditLogs />, title: 'Audit log' },
+  dashboard: { path: '', element: <Dashboard />, title: 'Dashboard' },
+  deployments: { path: 'deployments', element: <Deployments />, title: 'Deployments' },
+  devices: { path: 'devices', element: <Devices />, title: 'Devices' },
+  help: { path: 'help', element: <Help />, title: 'Help & support' },
+  login: { path: 'login', element: <Login />, title: 'Tenants', isPublic: true },
+  password: { path: 'password', element: <Password />, title: 'Tenants', isPublic: true },
+  passwordReset: { path: 'password/:secretHash', element: <PasswordReset />, title: 'Tenants' },
+  releases: { path: 'releases', element: <Releases />, title: 'Releases' },
+  settings: { path: 'settings', element: <Settings />, title: 'Settings' },
+  signup: { path: 'signup', element: <Signup />, title: 'Tenants', isPublic: true },
+  tenants: { path: 'tenants', element: <TenantPage />, title: 'Tenants' }
+};
+
+const publicRoutes: string[] = Object.values(routeConfigs).reduce((accu, { path, isPublic }) => (isPublic ? [...accu, `/${path}`] : accu), [] as string[]);
 
 const LocationValidator = () => {
   const location = useLocation();
@@ -42,50 +60,52 @@ const LocationValidator = () => {
 export const PrivateRoutes = () => (
   <Routes>
     <Route element={<LocationValidator />}>
-      <Route path="auditlog" element={<AuditLogs />} />
-      <Route path="devices" element={<Devices />}>
+      <Route path={routeConfigs.auditlog.path} element={routeConfigs.auditlog.element} />
+      <Route path={routeConfigs.devices.path} element={routeConfigs.devices.element}>
         <Route path=":status" element={null} />
       </Route>
-      <Route path="releases" element={<Releases />}>
+      <Route path={routeConfigs.releases.path} element={routeConfigs.releases.element}>
         <Route path=":artifactVersion" element={null} />
       </Route>
-      <Route path="deployments" element={<Deployments />}>
+      <Route path={routeConfigs.deployments.path} element={routeConfigs.deployments.element}>
         <Route path=":tab" element={null} />
       </Route>
-      <Route path="settings" element={<Settings />}>
+      <Route path={routeConfigs.settings.path} element={routeConfigs.settings.element}>
         <Route path=":section" element={null} />
       </Route>
-      <Route path="help" element={<Help />}>
+      <Route path={routeConfigs.help.path} element={routeConfigs.help.element}>
         <Route path=":section" element={null} />
       </Route>
-      <Route path="*" element={<Dashboard />} />
+      <Route path="*" element={routeConfigs.dashboard.element} />
     </Route>
   </Routes>
 );
-export const PrivateSPRoutes = () => {
-  return (
-    <Routes>
-      <Route element={<LocationValidator />}>
-        <Route path="auditlog" element={<AuditLogs />} />
-        <Route path="settings" element={<Settings />}>
-          <Route path=":section" element={null} />
-        </Route>
-        <Route path="help" element={<Help />}>
-          <Route path=":section" element={null} />
-        </Route>
-        <Route path="*" element={<TenantPage />} />
+
+export const PrivateSPRoutes = () => (
+  <Routes>
+    <Route element={<LocationValidator />}>
+      <Route path={routeConfigs.auditlog.path} element={routeConfigs.auditlog.element} />
+      <Route path={routeConfigs.settings.path} element={routeConfigs.settings.element}>
+        <Route path=":section" element={null} />
       </Route>
-    </Routes>
-  );
-};
+      <Route path={routeConfigs.help.path} element={routeConfigs.help.element}>
+        <Route path=":section" element={null} />
+      </Route>
+      <Route path={routeConfigs.tenants.path} element={routeConfigs.tenants.element}>
+        <Route path=":tenantId" element={null} />
+      </Route>
+      <Route path="*" element={<Navigate to={routeConfigs.tenants.path} replace />} />
+    </Route>
+  </Routes>
+);
 
 export const PublicRoutes = () => (
   <Routes>
-    <Route path="password" element={<Password />} />
-    <Route path="password/:secretHash" element={<PasswordReset />} />
-    <Route path="signup" element={<Signup />}>
+    <Route path={routeConfigs.password.path} element={routeConfigs.password.element} />
+    <Route path={routeConfigs.passwordReset.path} element={routeConfigs.passwordReset.element} />
+    <Route path={routeConfigs.signup.path} element={routeConfigs.signup.element}>
       <Route path=":campaign" element={null} />
     </Route>
-    <Route path="*" element={<Login />} />
+    <Route path="*" element={routeConfigs.login.element} />
   </Routes>
 );

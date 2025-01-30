@@ -13,7 +13,7 @@
 //    limitations under the License.
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 // material ui
 import { List, ListItem, ListItemText, Tooltip } from '@mui/material';
@@ -25,23 +25,23 @@ import { TIMEOUTS } from '@northern.tech/store/constants';
 import { getFeatures, getUserCapabilities, getVersionInformation } from '@northern.tech/store/selectors';
 import copy from 'copy-to-clipboard';
 
+import { routeConfigs } from '../config/routes';
+
 const { setSnackbar, setVersionInformation } = storeActions;
 
 const listItems = [
-  { route: '/', text: 'Dashboard', canAccess: ({ userCapabilities: { SPTenant } }) => !SPTenant },
-  { route: '/devices', text: 'Devices', canAccess: ({ userCapabilities: { canReadDevices, SPTenant } }) => canReadDevices && !SPTenant },
+  { ...routeConfigs.dashboard, canAccess: ({ userCapabilities: { SPTenant } }) => !SPTenant },
+  { ...routeConfigs.devices, canAccess: ({ userCapabilities: { canReadDevices, SPTenant } }) => canReadDevices && !SPTenant },
   {
-    route: '/releases',
-    text: 'Releases',
+    ...routeConfigs.releases,
     canAccess: ({ userCapabilities: { canReadReleases, canUploadReleases, SPTenant } }) => (canReadReleases || canUploadReleases) && !SPTenant
   },
   {
-    route: '/deployments',
-    text: 'Deployments',
+    ...routeConfigs.deployments,
     canAccess: ({ userCapabilities: { canDeploy, canReadDeployments, SPTenant } }) => (canReadDeployments || canDeploy) && !SPTenant
   },
-  { route: '/tenants', text: 'Tenants', canAccess: ({ userCapabilities: { SPTenant } }) => SPTenant },
-  { route: '/auditlog', text: 'Audit log', canAccess: ({ userCapabilities: { canAuditlog } }) => canAuditlog }
+  { ...routeConfigs.tenants, canAccess: ({ userCapabilities: { SPTenant } }) => SPTenant },
+  { ...routeConfigs.auditlog, canAccess: ({ userCapabilities: { canAuditlog } }) => canAuditlog }
 ];
 
 const useStyles = makeStyles()(theme => ({
@@ -111,9 +111,7 @@ const VersionInfo = () => {
   const onClick = () => {
     setClicks(clicks + 1);
     clearTimeout(timer.current);
-    timer.current = setTimeout(() => {
-      setClicks(0);
-    }, TIMEOUTS.threeSeconds);
+    timer.current = setTimeout(() => setClicks(0), TIMEOUTS.threeSeconds);
     if (clicks > 5) {
       dispatch(setVersionInformation({ Integration: 'next' }));
     }
@@ -150,20 +148,20 @@ export const LeftNav = () => {
             <ListItem
               className={`navLink leftNav ${classes.navLink}`}
               component={NavLink}
-              end={item.route === '/'}
+              end={item.path === ''}
               key={index}
-              ref={item.route === '/releases' ? releasesRef : null}
-              to={item.route}
+              ref={item.path === routeConfigs.releases.path ? releasesRef : null}
+              to={`/${item.path}`}
             >
-              <ListItemText primary={item.text} style={{ textTransform: 'uppercase' }} />
+              <ListItemText primary={item.title} style={{ textTransform: 'uppercase' }} />
             </ListItem>
           );
           return accu;
         }, [])}
       </List>
       <List className={classes.infoList}>
-        <ListItem className={`navLink leftNav ${classes.listItem}`} component={Link} to="/help">
-          <ListItemText primary="Help & support" />
+        <ListItem className={`navLink leftNav ${classes.listItem}`} component={NavLink} to={`/${routeConfigs.help.path}`}>
+          <ListItemText primary={routeConfigs.help.title} />
         </ListItem>
         <ListItem className={classes.listItem}>
           <ListItemText

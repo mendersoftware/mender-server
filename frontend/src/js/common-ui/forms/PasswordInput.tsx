@@ -135,14 +135,15 @@ export const PasswordInput = ({
     } else {
       setError(errorKey, { type: 'validate', message: errortext });
     }
-    if (!create || (!required && !value)) {
-      return isValid;
-    }
+    // always calculate score to always give feedback on a cleared input
     const { default: zxcvbn } = await import(/* webpackChunkName: "zxcvbn" */ 'zxcvbn');
     const strength = zxcvbn(value);
     const score = strength.score;
-    setFeedback(strength.feedback.suggestions || []);
     setScore(score);
+    if (!create || (!required && !value)) {
+      return isValid;
+    }
+    setFeedback(strength.feedback.suggestions || []);
     return score > SCORE_THRESHOLD && isValid;
   };
 

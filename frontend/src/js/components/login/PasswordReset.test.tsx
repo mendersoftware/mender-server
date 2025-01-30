@@ -17,7 +17,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
 import { getConfiguredStore } from '@northern.tech/store/store';
 import * as UserActions from '@northern.tech/store/usersSlice/thunks';
-import { screen, render as testingLibRender, waitFor } from '@testing-library/react';
+import { act, screen, render as testingLibRender, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { undefineds } from '../../../../tests/mockData';
@@ -71,6 +71,10 @@ describe('PasswordReset Component', () => {
     await user.clear(passwordInput);
     await user.type(passwordInput, goodPassword);
     await waitFor(() => rerender(ui));
+    await act(async () => {
+      jest.runAllTicks();
+      jest.runAllTimers();
+    });
     await user.click(screen.getByRole('button', { name: /Save password/i }));
     await waitFor(() => expect(completeSpy).toHaveBeenCalledWith({ secretHash, newPassword: goodPassword }));
     await waitFor(() => expect(screen.queryByText(/Your password has been updated./i)).toBeVisible());

@@ -26,27 +26,29 @@ interface ConfirmModalProps {
   maxWidth?: DialogProps['maxWidth'];
 }
 export const ConfirmModal = (props: ConfirmModalProps) => {
-  const { close, onConfirm, className, toType, header, description, open, maxWidth = 'xs' } = props;
+  const { close, onConfirm, className = '', toType, header, description, open, maxWidth = 'xs' } = props;
   const [inputValue, setInputValue] = useState<string>('');
   return (
     <Dialog
-      className={className || ''}
+      className={className}
       open={open}
       onClose={close}
       maxWidth={maxWidth}
-      PaperProps={{
-        component: 'form',
-        onSubmit: (event: FormEvent<HTMLFormElement>) => {
-          event.preventDefault();
-          onConfirm();
-          close();
+      slotProps={{
+        paper: {
+          component: 'form',
+          onSubmit: (event: FormEvent<HTMLFormElement>) => {
+            event.preventDefault();
+            onConfirm();
+            close();
+          }
         }
       }}
     >
       <DialogTitle>{header}</DialogTitle>
       <DialogContent>
-        <DialogContentText>{description}</DialogContentText>
-        <DialogContentText>Type &#39;{toType}&#39; below to continue</DialogContentText>
+        <DialogContentText className="margin-bottom-small">{description}</DialogContentText>
+        <DialogContentText className="margin-bottom-small">Type &#39;{toType}&#39; below to continue</DialogContentText>
         <TextField
           value={inputValue}
           onChange={e => setInputValue(e.target.value)}
@@ -59,8 +61,10 @@ export const ConfirmModal = (props: ConfirmModalProps) => {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={close}>Cancel</Button>
-        <Button color="secondary" type="submit" variant="contained" disabled={inputValue !== toType}>
+        <Button onClick={close} size="small">
+          Cancel
+        </Button>
+        <Button color="secondary" type="submit" variant="contained" disabled={inputValue !== toType} size="small">
           Confirm
         </Button>
       </DialogActions>
