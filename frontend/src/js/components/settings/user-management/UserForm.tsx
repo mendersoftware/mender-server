@@ -145,14 +145,25 @@ export const PasswordLabel = () => (
   </div>
 );
 
-const UserIdentifier = ({ onHasUserId }) => {
+const UserIdentifier = ({ isEnterprise, onHasUserId }) => {
   const value = useWatch({ name: 'email', defaultValue: '' });
 
   useEffect(() => {
-    onHasUserId(isUUID(value));
-  }, [value, onHasUserId]);
+    if (isEnterprise) {
+      onHasUserId(isUUID(value));
+    }
+  }, [isEnterprise, value, onHasUserId]);
 
-  return <TextInput hint="Email" label="Email or User ID" id="email" validations="isLength:1,isUUID||isEmail,trim" required autocomplete="off" />;
+  return (
+    <TextInput
+      hint="Email"
+      label={isEnterprise ? 'Email or User ID' : 'Email'}
+      id="email"
+      validations={isEnterprise ? 'isLength:1,isUUID||isEmail,trim' : 'isLength:1,trim'}
+      required
+      autocomplete="off"
+    />
+  );
 };
 
 export const UserForm = ({ closeDialog, currentUser, canManageUsers, isEnterprise, roles, submit }) => {
@@ -188,7 +199,7 @@ export const UserForm = ({ closeDialog, currentUser, canManageUsers, isEnterpris
           showButtons={true}
           autocomplete="off"
         >
-          <UserIdentifier onHasUserId={setIsAddingExistingUser} />
+          <UserIdentifier isEnterprise={isEnterprise} onHasUserId={setIsAddingExistingUser} />
           <Collapse in={!isAddingExistingUser}>
             <PasswordInput
               id="password"
