@@ -19,15 +19,13 @@ import { IconButton, LinearProgress, linearProgressClasses } from '@mui/material
 import { makeStyles } from 'tss-react/mui';
 
 import Loader from '@northern.tech/common-ui/Loader';
-import storeActions from '@northern.tech/store/actions';
 import { ALL_DEVICES, TIMEOUTS, chartTypes, rootfsImageVersion, softwareTitleMap } from '@northern.tech/store/constants';
+import { ensureVersionString } from '@northern.tech/store/utils';
 import { isEmpty, toggle } from '@northern.tech/utils/helpers';
 import { VictoryBar, VictoryContainer, VictoryPie, VictoryStack } from 'victory';
 
 import { chartColorPalette } from '../../../themes/Mender';
 import { ChartEditWidget, Header, RemovalWidget } from './ChartAddition';
-
-const { ensureVersionString } = storeActions;
 
 const seriesOther = '__OTHER__';
 

@@ -49,6 +49,7 @@ import { commonErrorFallback, commonErrorHandler } from '@northern.tech/store/st
 import { getDeviceMonitorConfig, getLatestDeviceAlerts, getSingleDeployment, saveGlobalSettings } from '@northern.tech/store/thunks';
 import {
   convertDeviceListStateToFilters,
+  ensureVersionString,
   extractErrorMessage,
   filtersFilter,
   mapDeviceAttributes,
@@ -684,9 +685,6 @@ export const getReportingLimits = createAsyncThunk(`${sliceName}/getReportingLim
       return Promise.resolve(dispatch(actions.setFilterablesConfig({ count, limit, attributes: groupedAttributes })));
     })
 );
-
-export const ensureVersionString = (software, fallback) =>
-  software.length && software !== 'artifact_name' ? (software.endsWith('.version') ? software : `${software}.version`) : fallback;
 
 const getSingleReportData = (reportConfig, groups) => {
   const { attribute, group, software = '' } = reportConfig;
