@@ -335,6 +335,45 @@ func TestPostArtifactsInternal(t *testing.T) {
 			appCreateImageResponse: "24436884-a710-4d20-aec4-82c89fbfe29e",
 			appCreateImageError:    testConflictError,
 		},
+		{
+			requestBodyObject: []h.Part{
+				{
+					FieldName:  "name",
+					FieldValue: "name",
+				},
+				{
+					FieldName:  "description",
+					FieldValue: "description",
+				},
+				{
+					FieldName:  "size",
+					FieldValue: "999999999999999999999",
+				},
+				{
+					FieldName:  "device_types_compatible",
+					FieldValue: "Beagle Bone",
+				},
+				{
+					FieldName:  "type",
+					FieldValue: "single_file",
+				},
+				{
+					FieldName:  "args",
+					FieldValue: "args",
+				},
+				{
+					FieldName:   "file",
+					ContentType: "application/octet-stream",
+					ImageData:   imageBody,
+				},
+			},
+			requestContentType:     "multipart/form-data",
+			responseCode:           http.StatusBadRequest,
+			responseBody:           "failed to read form value 'size'",
+			appCreateImage:         false,
+			appCreateImageResponse: "",
+			appCreateImageError:    nil,
+		},
 	}
 
 	store := &store_mocks.DataStore{}
@@ -704,6 +743,45 @@ func TestPostArtifactsGenerate(t *testing.T) {
 			appGenerateImage:         true,
 			appGenerateImageResponse: "",
 			appGenerateImageError:    errors.New("generic error"),
+		},
+		{
+			requestBodyObject: []h.Part{
+				{
+					FieldName:  "name",
+					FieldValue: "name",
+				},
+				{
+					FieldName:  "description",
+					FieldValue: "description",
+				},
+				{
+					FieldName:  "size",
+					FieldValue: "999999999999999999999",
+				},
+				{
+					FieldName:  "device_types_compatible",
+					FieldValue: "Beagle Bone",
+				},
+				{
+					FieldName:  "type",
+					FieldValue: "single_file",
+				},
+				{
+					FieldName:  "args",
+					FieldValue: "args",
+				},
+				{
+					FieldName:   "file",
+					ContentType: "application/octet-stream",
+					ImageData:   imageBody,
+				},
+			},
+			requestContentType:       "multipart/form-data",
+			responseCode:             http.StatusBadRequest,
+			responseBody:             "failed to read form value 'size'",
+			appGenerateImage:         false,
+			appGenerateImageResponse: "",
+			appGenerateImageError:    nil,
 		},
 	}
 

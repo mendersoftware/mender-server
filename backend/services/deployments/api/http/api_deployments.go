@@ -52,7 +52,7 @@ const (
 	// 15 minutes
 	DefaultDownloadLinkExpire = 15 * time.Minute
 	// 10 Mb
-	DefaultMaxMetaSize         = 1024 * 1024 * 10
+	MaxFormParamSize           = 1024 * 1024             // 1MiB
 	DefaultMaxImageSize        = 10 * 1024 * 1024 * 1024 // 10GiB
 	DefaultMaxGenerateDataSize = 512 * 1024 * 1024       // 512MiB
 
@@ -855,17 +855,23 @@ func (d *DeploymentsApiHandlers) ParseMultipart(
 		switch strings.ToLower(part.FormName()) {
 		case "description":
 			// Add description to the metadata
-			dscr, err := io.ReadAll(part)
+			reader := utils.ReadAtMost(part, MaxFormParamSize)
+			dscr, err := io.ReadAll(reader)
 			if err != nil {
-				return nil, err
+				return nil, errors.Wrap(err,
+					"failed to read form value 'description'",
+				)
 			}
 			uploadMsg.MetaConstructor.Description = string(dscr)
 
 		case "size":
 			// Add size limit to the metadata
-			sz, err := io.ReadAll(part)
+			reader := utils.ReadAtMost(part, 20)
+			sz, err := io.ReadAll(reader)
 			if err != nil {
-				return nil, err
+				return nil, errors.Wrap(err,
+					"failed to read form value 'size'",
+				)
 			}
 			size, err = strconv.ParseInt(string(sz), 10, 64)
 			if err != nil {
@@ -877,9 +883,12 @@ func (d *DeploymentsApiHandlers) ParseMultipart(
 
 		case "artifact_id":
 			// Add artifact id to the metadata (must be a valid UUID).
-			b, err := io.ReadAll(part)
+			reader := utils.ReadAtMost(part, MaxFormParamSize)
+			b, err := io.ReadAll(reader)
 			if err != nil {
-				return nil, err
+				return nil, errors.Wrap(err,
+					"failed to read form value 'artifact_id'",
+				)
 			}
 			id := string(b)
 			if !govalidator.IsUUID(id) {
@@ -927,7 +936,8 @@ ParseLoop:
 		}
 		switch strings.ToLower(part.FormName()) {
 		case "args":
-			b, err := io.ReadAll(part)
+			reader := utils.ReadAtMost(part, MaxFormParamSize)
+			b, err := io.ReadAll(reader)
 			if err != nil {
 				return nil, errors.Wrap(err,
 					"failed to read form value 'args'",
@@ -936,7 +946,8 @@ ParseLoop:
 			msg.Args = string(b)
 
 		case "description":
-			b, err := io.ReadAll(part)
+			reader := utils.ReadAtMost(part, MaxFormParamSize)
+			b, err := io.ReadAll(reader)
 			if err != nil {
 				return nil, errors.Wrap(err,
 					"failed to read form value 'description'",
@@ -945,7 +956,8 @@ ParseLoop:
 			msg.Description = string(b)
 
 		case "device_types_compatible":
-			b, err := io.ReadAll(part)
+			reader := utils.ReadAtMost(part, MaxFormParamSize)
+			b, err := io.ReadAll(reader)
 			if err != nil {
 				return nil, errors.Wrap(err,
 					"failed to read form value 'device_types_compatible'",
@@ -962,7 +974,8 @@ ParseLoop:
 			break ParseLoop
 
 		case "name":
-			b, err := io.ReadAll(part)
+			reader := utils.ReadAtMost(part, MaxFormParamSize)
+			b, err := io.ReadAll(reader)
 			if err != nil {
 				return nil, errors.Wrap(err,
 					"failed to read form value 'name'",
@@ -971,7 +984,8 @@ ParseLoop:
 			msg.Name = string(b)
 
 		case "type":
-			b, err := io.ReadAll(part)
+			reader := utils.ReadAtMost(part, MaxFormParamSize)
+			b, err := io.ReadAll(reader)
 			if err != nil {
 				return nil, errors.Wrap(err,
 					"failed to read form value 'type'",
@@ -981,9 +995,12 @@ ParseLoop:
 
 		case "size":
 			// Add size limit to the metadata
-			sz, err := io.ReadAll(part)
+			reader := utils.ReadAtMost(part, 20)
+			sz, err := io.ReadAll(reader)
 			if err != nil {
-				return nil, err
+				return nil, errors.Wrap(err,
+					"failed to read form value 'size'",
+				)
 			}
 			size, err = strconv.ParseInt(string(sz), 10, 64)
 			if err != nil {
