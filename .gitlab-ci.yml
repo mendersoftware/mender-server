@@ -694,6 +694,7 @@ release:mender-docs-changelog:saas:
     # GITHUB_TOKEN for Github cli authentication
     - export GITHUB_TOKEN=${GITHUB_CLI_TOKEN}
     - export CHANGELOG_SUFFIX="-saas"
+    - cp .docs_header_saas.md .docs_header.md
 
 #
 # Helm version bump
