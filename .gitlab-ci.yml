@@ -486,21 +486,19 @@ publish:backend:licenses:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
   image: golang:${GOLANG_VERSION}
+  variables:
+    GOFLAGS: -tags=nopkcs11
   before_script:
     - go install github.com/google/go-licenses@v1.6.0
   script:
     - cd backend
-    # HACK: go-licenses won't detect the license if it's present in the parent directory
-    - ln -s ../LICENSE ./
-    - |
-      GOFLAGS='-tags=nopkcs11' go-licenses report \
-        --template=./tests/go-licenses.gotpl \
-        --ignore=github.com/mendersoftware/mender-server \
-        $(go list -f '{{ if eq .Name "main" }}{{println .Dir }}{{end}}' ./services/...) > licenses.md
-    - |
-      if grep -o '^LICENSE TEXT MISSING FOR.*$' licenses.md; then
-        exit 1;
-      fi
+    - go-licenses check \
+      --disallowed_types=forbidden,restricted,unknown \
+      $(go list -f '{{ if eq .Name "main" }}{{println .Dir }}{{end}}' ./services/...)
+    - go-licenses report \
+      --template=./tests/go-licenses.gotpl \
+      --ignore=github.com/mendersoftware/mender-server \
+      $(go list -f '{{ if eq .Name "main" }}{{println .Dir }}{{end}}' ./services/...) > licenses.md
   artifacts:
     when: on_success
     expire_in: "1w"
