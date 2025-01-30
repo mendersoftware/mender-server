@@ -1650,10 +1650,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
                 aria-invalid="false"
                 class="MuiInputBase-input MuiOutlinedInput-input emotion-10"
                 id="device_limit"
-                max="NaN"
+                max="0"
                 min="1"
                 name="device_limit"
-                placeholder="1000"
+                placeholder="0"
                 type="number"
                 value=""
               />

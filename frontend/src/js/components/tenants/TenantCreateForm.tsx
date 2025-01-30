@@ -128,14 +128,14 @@ const UserInputs = (props: UserInputsProps) => {
 const tenantAdminDefaults = { email: '', name: '', password: '', sso: false, binary_delta: false, device_limit: undefined, send_reset_password: false };
 export const TenantCreateForm = (props: TenantCreateFormProps) => {
   const { onCloseClick, open } = props;
-  const { device_count: spDeviceUtilization, device_limit: spDeviceLimit } = useSelector(getOrganization);
+  const { device_count: spDeviceUtilization = 0, device_limit: spDeviceLimit = 0 } = useSelector(getOrganization);
   const ssoConfig = useSelector(getSsoConfig);
   const dispatch = useAppDispatch();
 
   const { classes } = useStyles();
   const [adminExists, setAdminExists] = useState<boolean>(false);
 
-  const quota = spDeviceLimit - spDeviceUtilization;
+  const quota = spDeviceLimit - spDeviceUtilization || 0;
   const numericValidation = {
     min: { value: 1, message: 'The limit must be 1 or more' },
     max: { value: quota, message: `The device limit must be ${quota} or fewer` }
@@ -176,7 +176,7 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
           <TextInput
             required
             id="device_limit"
-            hint="1000"
+            hint={quota}
             type="number"
             label="Set device limit"
             className={classes.devLimitInput}
