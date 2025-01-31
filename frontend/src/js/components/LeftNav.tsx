@@ -16,10 +16,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 // material ui
-import { List, ListItem, ListItemText, Tooltip } from '@mui/material';
+import { List, ListItem, ListItemText } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import DocsLink from '@northern.tech/common-ui/DocsLink';
+import MenderTooltip from '@northern.tech/common-ui/MenderTooltip';
 import storeActions from '@northern.tech/store/actions';
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { getFeatures, getUserCapabilities, getVersionInformation } from '@northern.tech/store/selectors';
@@ -53,14 +54,14 @@ const useStyles = makeStyles()(theme => ({
   },
   navLink: { padding: '22px 16px 22px 42px' },
   listItem: { padding: '16px 16px 16px 42px' },
-  versions: { display: 'grid', gridTemplateColumns: 'max-content 60px', columnGap: theme.spacing(), '>a': { color: theme.palette.grey[100] } }
+  versions: { display: 'grid', gridTemplateColumns: 'max-content max-content', columnGap: theme.spacing() }
 }));
 
 const linkables = {
   'Integration': 'integration',
   'Mender-Client': 'mender',
   'Mender-Artifact': 'mender-artifact',
-  'GUI': 'gui'
+  'Server': 'mender-server'
 };
 
 const VersionInfo = () => {
@@ -123,18 +124,28 @@ const VersionInfo = () => {
     title = 'Version: latest';
   }
   return (
-    <Tooltip title={versions} placement="top">
+    <MenderTooltip arrow title={versions} placement="top">
       <div className="clickable slightly-smaller" onClick={onClick}>
         {title}
       </div>
-    </Tooltip>
+    </MenderTooltip>
   );
+};
+
+const getDocsLocation = ({ isHosted, isEnterprise }) => {
+  if (isHosted) {
+    return 'hosted-mender';
+  } else if (isEnterprise) {
+    return 'mender-server-enterprise';
+  }
+  return 'mender-server';
 };
 
 export const LeftNav = () => {
   const releasesRef = useRef();
   const { classes } = useStyles();
 
+  const { isEnterprise, isHosted } = useSelector(getFeatures); // here we have to only rely on the enterprise flag, not the tenant setting, to also point hosted enterprise users to the right location
   const userCapabilities = useSelector(getUserCapabilities);
 
   return (
@@ -166,7 +177,18 @@ export const LeftNav = () => {
         <ListItem className={classes.listItem}>
           <ListItemText
             primary={<VersionInfo />}
-            secondary={<DocsLink className={classes.licenseLink} path="release-information/open-source-licenses" title="License information" />}
+            secondary={
+              <>
+                <DocsLink
+                  className={classes.licenseLink}
+                  path={`release-information/release-notes-changelog/${getDocsLocation({ isEnterprise, isHosted })}`}
+                  title="Release information"
+                />
+                <br />
+                <DocsLink className={classes.licenseLink} path="release-information/open-source-licenses" title="License information" />
+              </>
+            }
+            slotProps={{ secondary: { lineHeight: '2em' } }}
           />
         </ListItem>
       </List>

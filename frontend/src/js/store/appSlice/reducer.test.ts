@@ -64,11 +64,7 @@ describe('app reducer', () => {
   });
 
   const versionInformation = {
-    Deployments: '',
-    Deviceauth: '',
-    GUI: 'latest',
     Integration: '',
-    Inventory: '',
     'Mender-Artifact': '',
     'Mender-Client': '',
     'Meta-Mender': ''
