@@ -77,11 +77,7 @@ export const initialState = {
     Integration: '',
     'Mender-Client': '',
     'Mender-Artifact': '',
-    'Meta-Mender': '',
-    Deployments: '',
-    Deviceauth: '',
-    Inventory: '',
-    GUI: 'latest'
+    'Meta-Mender': ''
   },
   yesterday: undefined
 };

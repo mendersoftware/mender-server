@@ -68,10 +68,9 @@ const repoKeyMap = {
   'mender-artifact': 'Mender-Artifact'
 };
 
-const deductSaasState = (latestRelease, guiTags, saasReleases) => {
+const deductSaasState = (latestRelease, guiTags) => {
   const latestGuiTag = guiTags.length ? guiTags[0].name : '';
-  const latestSaasRelease = latestGuiTag.startsWith('saas-v') ? { date: latestGuiTag.split('-v')[1].replaceAll('.', '-'), tag: latestGuiTag } : saasReleases[0];
-  return latestSaasRelease.date > latestRelease.release_date ? latestSaasRelease.tag : latestRelease.release;
+  return latestGuiTag ? latestGuiTag : latestRelease.release;
 };
 
 export const getLatestReleaseInfo = createAsyncThunk(`${sliceName}/getLatestReleaseInfo`, (_, { dispatch, getState }) => {
@@ -87,7 +86,7 @@ export const getLatestReleaseInfo = createAsyncThunk(`${sliceName}/getLatestRele
       if (!guiTags.length) {
         return Promise.resolve();
       }
-      const { releases, saas } = data;
+      const { releases } = data;
       const latestRelease = getLatestRelease(getLatestRelease(releases));
       const { latestRepos, latestVersions } = latestRelease.repos.reduce(
         (accu, item) => {
@@ -99,13 +98,12 @@ export const getLatestReleaseInfo = createAsyncThunk(`${sliceName}/getLatestRele
         },
         { latestVersions: { ...getState().app.versionInformation }, latestRepos: {} }
       );
-      const info = deductSaasState(latestRelease, guiTags, saas);
+      const info = deductSaasState(latestRelease, guiTags);
       return Promise.resolve(
         dispatch(
           actions.setVersionInformation({
             ...latestVersions,
-            backend: info,
-            GUI: info,
+            Server: info,
             latestRelease: {
               releaseDate: latestRelease.release_date,
               repos: latestRepos

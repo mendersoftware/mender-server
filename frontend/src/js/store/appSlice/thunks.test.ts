@@ -65,7 +65,7 @@ describe('app actions', () => {
       { type: getLatestReleaseInfo.pending.type },
       {
         type: actions.setVersionInformation.type,
-        payload: { backend: latestSaasReleaseTag, GUI: latestSaasReleaseTag, Integration: '1.2.3', 'Mender-Client': '3.2.1', 'Mender-Artifact': '1.3.7' }
+        payload: { Server: latestSaasReleaseTag, Integration: '1.2.3', 'Mender-Client': '3.2.1', 'Mender-Artifact': '1.3.7' }
       },
       { type: getLatestReleaseInfo.fulfilled.type }
     ];
