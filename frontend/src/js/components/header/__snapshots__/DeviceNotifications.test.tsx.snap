@@ -1,7 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`DeviceNotifications Component renders correctly 1`] = `
-.emotion-0 {
+.emotion-0:hover .warning span,
+.emotion-0:hover .warning svg {
+  color: rgba(93, 15, 67, 0.075);
+}
+
+.emotion-0 .warning span,
+.emotion-0 .warning svg {
+  color: #ab1000;
+}
+
+.emotion-0:hover .approaching span,
+.emotion-0:hover .approaching svg {
+  color: #ff9800;
+}
+
+.emotion-0 .approaching span,
+.emotion-0 .approaching svg {
+  color: #ed6c02;
+}
+
+.emotion-1 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -18,12 +38,12 @@ exports[`DeviceNotifications Component renders correctly 1`] = `
   font-size: 1.3929rem;
 }
 
-.emotion-0 iconButton {
+.emotion-1 iconButton {
   margin-right: 8px;
 }
 
 <div
-  class="header-section"
+  class=" emotion-0"
   data-mui-internal-clone-element="true"
 >
   <a
@@ -42,7 +62,7 @@ exports[`DeviceNotifications Component renders correctly 1`] = `
     </span>
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-0"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
       data-testid="DeveloperBoardIcon"
       focusable="false"
       style="margin: 0px 7px 0px 10px; font-size: 20px;"
@@ -54,9 +74,9 @@ exports[`DeviceNotifications Component renders correctly 1`] = `
     </svg>
   </a>
   <a
+    class="margin-left-x-small"
     data-discover="true"
     href="/devices/pending"
-    style="margin-left: 7px;"
   >
     10
      pending
@@ -65,7 +85,27 @@ exports[`DeviceNotifications Component renders correctly 1`] = `
 `;
 
 exports[`DeviceNotifications Component renders correctly at limit 1`] = `
-.emotion-0 {
+.emotion-0:hover .warning span,
+.emotion-0:hover .warning svg {
+  color: rgba(93, 15, 67, 0.075);
+}
+
+.emotion-0 .warning span,
+.emotion-0 .warning svg {
+  color: #ab1000;
+}
+
+.emotion-0:hover .approaching span,
+.emotion-0:hover .approaching svg {
+  color: #ff9800;
+}
+
+.emotion-0 .approaching span,
+.emotion-0 .approaching svg {
+  color: #ed6c02;
+}
+
+.emotion-1 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -82,12 +122,12 @@ exports[`DeviceNotifications Component renders correctly at limit 1`] = `
   font-size: 1.3929rem;
 }
 
-.emotion-0 iconButton {
+.emotion-1 iconButton {
   margin-right: 8px;
 }
 
 <div
-  class="header-section"
+  class=" emotion-0"
   data-mui-internal-clone-element="true"
 >
   <a
@@ -106,7 +146,7 @@ exports[`DeviceNotifications Component renders correctly at limit 1`] = `
     </span>
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-0"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
       data-testid="DeveloperBoardIcon"
       focusable="false"
       style="margin: 0px 7px 0px 10px; font-size: 20px;"
@@ -118,10 +158,9 @@ exports[`DeviceNotifications Component renders correctly at limit 1`] = `
     </svg>
   </a>
   <a
-    class="warning"
+    class="warning margin-left-x-small"
     data-discover="true"
     href="/devices/pending"
-    style="margin-left: 7px;"
   >
     5
      pending
@@ -130,7 +169,27 @@ exports[`DeviceNotifications Component renders correctly at limit 1`] = `
 `;
 
 exports[`DeviceNotifications Component renders correctly close to limits 1`] = `
-.emotion-0 {
+.emotion-0:hover .warning span,
+.emotion-0:hover .warning svg {
+  color: rgba(93, 15, 67, 0.075);
+}
+
+.emotion-0 .warning span,
+.emotion-0 .warning svg {
+  color: #ab1000;
+}
+
+.emotion-0:hover .approaching span,
+.emotion-0:hover .approaching svg {
+  color: #ff9800;
+}
+
+.emotion-0 .approaching span,
+.emotion-0 .approaching svg {
+  color: #ed6c02;
+}
+
+.emotion-1 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -147,12 +206,12 @@ exports[`DeviceNotifications Component renders correctly close to limits 1`] = `
   font-size: 1.3929rem;
 }
 
-.emotion-0 iconButton {
+.emotion-1 iconButton {
   margin-right: 8px;
 }
 
 <div
-  class="header-section"
+  class=" emotion-0"
   data-mui-internal-clone-element="true"
 >
   <a
@@ -171,7 +230,7 @@ exports[`DeviceNotifications Component renders correctly close to limits 1`] = `
     </span>
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-0"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
       data-testid="DeveloperBoardIcon"
       focusable="false"
       style="margin: 0px 7px 0px 10px; font-size: 20px;"
@@ -183,9 +242,9 @@ exports[`DeviceNotifications Component renders correctly close to limits 1`] = `
     </svg>
   </a>
   <a
+    class="margin-left-x-small"
     data-discover="true"
     href="/devices/pending"
-    style="margin-left: 7px;"
   >
     5
      pending
@@ -194,7 +253,27 @@ exports[`DeviceNotifications Component renders correctly close to limits 1`] = `
 `;
 
 exports[`DeviceNotifications Component renders correctly with limits 1`] = `
-.emotion-0 {
+.emotion-0:hover .warning span,
+.emotion-0:hover .warning svg {
+  color: rgba(93, 15, 67, 0.075);
+}
+
+.emotion-0 .warning span,
+.emotion-0 .warning svg {
+  color: #ab1000;
+}
+
+.emotion-0:hover .approaching span,
+.emotion-0:hover .approaching svg {
+  color: #ff9800;
+}
+
+.emotion-0 .approaching span,
+.emotion-0 .approaching svg {
+  color: #ed6c02;
+}
+
+.emotion-1 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -211,12 +290,12 @@ exports[`DeviceNotifications Component renders correctly with limits 1`] = `
   font-size: 1.3929rem;
 }
 
-.emotion-0 iconButton {
+.emotion-1 iconButton {
   margin-right: 8px;
 }
 
 <div
-  class="header-section"
+  class=" emotion-0"
   data-mui-internal-clone-element="true"
 >
   <a
@@ -235,7 +314,7 @@ exports[`DeviceNotifications Component renders correctly with limits 1`] = `
     </span>
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-0"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
       data-testid="DeveloperBoardIcon"
       focusable="false"
       style="margin: 0px 7px 0px 10px; font-size: 20px;"
@@ -247,9 +326,9 @@ exports[`DeviceNotifications Component renders correctly with limits 1`] = `
     </svg>
   </a>
   <a
+    class="margin-left-x-small"
     data-discover="true"
     href="/devices/pending"
-    style="margin-left: 7px;"
   >
     5
      pending
@@ -258,7 +337,27 @@ exports[`DeviceNotifications Component renders correctly with limits 1`] = `
 `;
 
 exports[`DeviceNotifications Component renders correctly without limits 1`] = `
-.emotion-0 {
+.emotion-0:hover .warning span,
+.emotion-0:hover .warning svg {
+  color: rgba(93, 15, 67, 0.075);
+}
+
+.emotion-0 .warning span,
+.emotion-0 .warning svg {
+  color: #ab1000;
+}
+
+.emotion-0:hover .approaching span,
+.emotion-0:hover .approaching svg {
+  color: #ff9800;
+}
+
+.emotion-0 .approaching span,
+.emotion-0 .approaching svg {
+  color: #ed6c02;
+}
+
+.emotion-1 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -275,12 +374,12 @@ exports[`DeviceNotifications Component renders correctly without limits 1`] = `
   font-size: 1.3929rem;
 }
 
-.emotion-0 iconButton {
+.emotion-1 iconButton {
   margin-right: 8px;
 }
 
 <div
-  class="header-section"
+  class=" emotion-0"
 >
   <a
     class="flexbox center-aligned "
@@ -292,7 +391,7 @@ exports[`DeviceNotifications Component renders correctly without limits 1`] = `
     </span>
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-0"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
       data-testid="DeveloperBoardIcon"
       focusable="false"
       style="margin: 0px 7px 0px 10px; font-size: 20px;"
@@ -304,9 +403,9 @@ exports[`DeviceNotifications Component renders correctly without limits 1`] = `
     </svg>
   </a>
   <a
+    class="margin-left-x-small"
     data-discover="true"
     href="/devices/pending"
-    style="margin-left: 7px;"
   >
     5
      pending

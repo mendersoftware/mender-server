@@ -113,16 +113,20 @@ const useStyles = makeStyles()(theme => ({
       color: theme.palette.text.link
     }
   },
-  header: {
-    minHeight: 'unset',
-    paddingLeft: theme.spacing(4),
-    paddingRight: theme.spacing(5),
-    width: '100%',
-    borderBottom: `1px solid ${theme.palette.grey[100]}`,
-    display: 'grid'
-  },
   banner: { gridTemplateRows: `1fr ${theme.mixins.toolbar.minHeight}px` },
   buttonColor: { color: theme.palette.grey[600] },
+  demoAnnouncementIcon: {
+    height: 16,
+    color: theme.palette.primary.main,
+    '&.MuiButton-textPrimary': {
+      color: theme.palette.primary.main,
+      height: 'inherit'
+    }
+  },
+  demoTrialAnnouncement: {
+    fontSize: 14,
+    height: 'auto'
+  },
   dropDown: {
     height: '100%',
     textTransform: 'none',
@@ -131,16 +135,32 @@ const useStyles = makeStyles()(theme => ({
     }
   },
   exitIcon: { color: theme.palette.grey[600], fill: theme.palette.grey[600] },
-  demoTrialAnnouncement: {
-    fontSize: 14,
-    height: 'auto'
+  header: {
+    minHeight: 'unset',
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(5),
+    width: '100%',
+    borderBottom: `1px solid ${theme.palette.grey[100]}`,
+    display: 'grid',
+    '#logo': {
+      minWidth: 142,
+      height: theme.spacing(6),
+      marginRight: 25
+    }
   },
-  demoAnnouncementIcon: {
-    height: 16,
-    color: theme.palette.primary.main,
-    '&.MuiButton-textPrimary': {
-      color: theme.palette.primary.main,
-      height: 'inherit'
+  headerSection: {
+    height: 24,
+    fontSize: '14px',
+    color: theme.palette.grey[600],
+    margin: '14px 0',
+    paddingLeft: theme.spacing(4.5),
+    paddingRight: theme.spacing(4.5),
+    borderRight: `1px solid ${theme.palette.grey[300]}`,
+    display: 'flex',
+    alignItems: 'center',
+    lineHeight: 'initial',
+    '&:hover': {
+      color: theme.palette.grey[700]
     }
   },
   organization: { marginBottom: theme.spacing() },
@@ -371,7 +391,7 @@ export const Header = ({ isDarkMode }) => {
           <>
             {tenantDeviceLimit > 0 && <DeviceCount current={spDeviceUtilization} max={tenantDeviceLimit} variant="common" />}
             <div className="flexbox center-aligned">
-              <div className="header-section">
+              <div className={classes.headerSection}>
                 <Chip className="bold muted uppercased" label="Service Provider" />
               </div>
               <AccountMenu />
@@ -381,8 +401,8 @@ export const Header = ({ isDarkMode }) => {
           <>
             <Search className={classes.search} isSearching={isSearching} searchTerm={searchTerm} onSearch={onSearch} trigger={refreshTrigger} />
             <div className="flexbox center-aligned">
-              <DeviceNotifications pending={pendingDevices} total={acceptedDevices} limit={deviceLimit} />
-              <DeploymentNotifications inprogress={inProgress} />
+              <DeviceNotifications className={classes.headerSection} pending={pendingDevices} total={acceptedDevices} limit={deviceLimit} />
+              <DeploymentNotifications className={classes.headerSection} inprogress={inProgress} />
               <AccountMenu />
             </div>
           </>

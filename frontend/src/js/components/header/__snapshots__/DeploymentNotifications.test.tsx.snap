@@ -27,7 +27,7 @@ exports[`DeploymentNotifications Component renders correctly 1`] = `
 }
 
 <a
-  class="header-section"
+  class=""
   data-discover="true"
   href="/deployments/active"
 >
