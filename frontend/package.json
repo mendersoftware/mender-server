@@ -49,8 +49,8 @@
     "zxcvbn": "4.4.2"
   },
   "devDependencies": {
-    "@babel/core": "7.26.0",
-    "@babel/preset-env": "7.26.0",
+    "@babel/core": "7.26.7",
+    "@babel/preset-env": "7.26.7",
     "@babel/preset-react": "7.26.3",
     "@babel/preset-typescript": "^7.26.0",
     "@emotion/jest": "11.13.0",
@@ -64,7 +64,7 @@
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "14.6.1",
     "@types/jest": "^29.5.14",
-    "@types/node": "^22.10.10",
+    "@types/node": "^22.13.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "assert": "2.1.0",
@@ -91,7 +91,7 @@
     "jsdom-worker": "0.3.0",
     "less": "4.2.2",
     "less-loader": "12.2.0",
-    "lint-staged": "15.4.2",
+    "lint-staged": "15.4.3",
     "mockdate": "^3.0.5",
     "msw": "2.7.0",
     "postcss": "8.5.1",
