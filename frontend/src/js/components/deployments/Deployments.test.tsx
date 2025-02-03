@@ -316,11 +316,12 @@ describe('Deployments Component', () => {
       filter_id: undefined,
       force_installation: false,
       group: undefined,
+      max_devices: undefined,
       name: ALL_DEVICES,
       phases: [
         { batch_size: 50, delay: 30, delayUnit: 'minutes', start_ts: undefined },
         { batch_size: 25, delay: 25, delayUnit: 'days', start_ts: secondBatchDate.toISOString() },
-        { batch_size: null, start_ts: thirdBatchDate.toISOString() }
+        { start_ts: thirdBatchDate.toISOString() }
       ],
       retries: 1,
       update_control_map: undefined
@@ -336,11 +337,7 @@ describe('Deployments Component', () => {
             { batch_size: 30, delay: 5, delayUnit: 'days' },
             { batch_size: 70, start_ts: 1 }
           ],
-          [
-            { batch_size: 50, delay: 30, delayUnit: 'minutes' },
-            { batch_size: 25, delay: 25, delayUnit: 'days', start_ts: 1 },
-            { batch_size: null, start_ts: 2 }
-          ]
+          [{ batch_size: 50, delay: 30, delayUnit: 'minutes' }, { batch_size: 25, delay: 25, delayUnit: 'days', start_ts: 1 }, { start_ts: 2 }]
         ],
         retries: 1,
         hasDeployments: true

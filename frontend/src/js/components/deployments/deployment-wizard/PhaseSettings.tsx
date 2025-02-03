@@ -39,9 +39,35 @@ import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotificat
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import Time from '@northern.tech/common-ui/Time';
 import { BENEFITS } from '@northern.tech/store/constants';
-import { getPhaseDeviceCount, getRemainderPercent } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
 import pluralize from 'pluralize';
+
+// use this to get remaining percent of final phase so we don't set a hard number
+export const getRemainderPercent = phases =>
+  phases.reduce((accu, phase, index, source) => {
+    // ignore final phase size if set
+    if (index === source.length - 1) {
+      return accu;
+    }
+    return phase.batch_size ? accu - phase.batch_size : accu;
+  }, 100);
+
+export const validatePhases = (phases, deploymentDeviceCount) => {
+  if (!phases?.length) {
+    return true;
+  }
+  const remainder = getRemainderPercent(phases);
+  return phases.reduce((accu, phase) => {
+    if (!accu) {
+      return accu;
+    }
+    const deviceCount = Math.floor((deploymentDeviceCount / 100) * (phase.batch_size || remainder));
+    return deviceCount >= 1;
+  }, true);
+};
+
+export const getPhaseDeviceCount = (numberDevices = 1, batchSize, remainder, isLastPhase) =>
+  isLastPhase ? Math.ceil((numberDevices / 100) * (batchSize || remainder)) : Math.floor((numberDevices / 100) * (batchSize || remainder));
 
 const useStyles = makeStyles()(theme => ({
   chip: { marginTop: theme.spacing(2) },
