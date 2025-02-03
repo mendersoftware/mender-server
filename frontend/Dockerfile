@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM node:23.6.1-alpine3.20 AS base
+FROM --platform=$BUILDPLATFORM node:23.7.0-alpine3.20 AS base
 WORKDIR /usr/src/app
 COPY package-lock.json package.json ./
 RUN npm ci
