@@ -19,7 +19,7 @@ require (
 	github.com/golang-jwt/jwt/v4 v4.5.1
 	github.com/google/uuid v1.6.0
 	github.com/gorilla/websocket v1.5.3
-	github.com/mendersoftware/mender-artifact v0.0.0-20240813094652-2939c69fe4a8
+	github.com/mendersoftware/mender-artifact v0.0.0-20250120223930-6e04e877c623
 	github.com/nats-io/nats-server/v2 v2.10.25
 	github.com/nats-io/nats.go v1.38.0
 	github.com/opensearch-project/opensearch-go v1.1.0
