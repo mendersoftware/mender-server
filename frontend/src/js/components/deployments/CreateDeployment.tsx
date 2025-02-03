@@ -245,7 +245,7 @@ export const CreateDeployment = props => {
   const disabled =
     isCreating.current ||
     !(deploymentSettings.release && (deploymentSettings.deploymentDeviceCount || !!deploymentSettings.filter || deploymentSettings.group)) ||
-    !validatePhases(phases, deploymentSettings.deploymentDeviceCount, !!deploymentSettings.filter);
+    !validatePhases(phases, deploymentSettings.deploymentDeviceCount);
 
   const sharedProps = {
     ...props,

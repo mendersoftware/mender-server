@@ -57,13 +57,18 @@ export const validatePhases = (phases, deploymentDeviceCount) => {
     return true;
   }
   const remainder = getRemainderPercent(phases);
-  return phases.reduce((accu, phase) => {
-    if (!accu) {
-      return accu;
-    }
-    const deviceCount = Math.floor((deploymentDeviceCount / 100) * (phase.batch_size || remainder));
-    return deviceCount >= 1;
-  }, true);
+  const { isValid } = phases.reduce(
+    (accu, { batch_size = 0 }) => {
+      if (!accu.isValid) {
+        return accu;
+      }
+      const deviceCount = Math.floor((deploymentDeviceCount / 100) * (batch_size || remainder));
+      const totalSize = accu.totalSize + batch_size;
+      return { isValid: deviceCount >= 1 && totalSize <= 100, totalSize };
+    },
+    { isValid: true, totalSize: 0 }
+  );
+  return isValid;
 };
 
 export const getPhaseDeviceCount = (numberDevices = 1, batchSize, remainder, isLastPhase) =>
@@ -197,14 +202,12 @@ export const PhaseSettings = ({ classNames, deploymentObject, disabled, numberDe
             ) : (
               phase.batch_size || remainder
             )}
-            {!filter && (
-              <span className={deviceCount < 1 ? 'warning info' : 'info'} style={{ marginLeft: '5px' }}>{`(${deviceCount} ${pluralize(
-                'device',
-                deviceCount
-              )})`}</span>
-            )}
+            <span className={deviceCount < 1 ? 'warning info' : 'info'} style={{ marginLeft: '5px' }}>{`(${deviceCount} ${pluralize(
+              'device',
+              deviceCount
+            )})`}</span>
           </div>
-          {!filter && deviceCount < 1 && <div className="warning">Phases must have at least 1 device</div>}
+          {deviceCount < 1 && <div className="warning">Phases must have at least 1 device</div>}
         </TableCell>
         <TableCell>
           <Time value={getPhaseStartTime(phases, index, startTime)} />
