@@ -175,6 +175,7 @@ export const PhaseSettings = ({ classNames, deploymentObject, disabled, numberDe
   const mappedPhases = phases.map((phase, index) => {
     let max = index > 0 ? 100 - phases[index - 1].batch_size : 100;
     const deviceCount = getPhaseDeviceCount(numberDevices, phase.batch_size, remainder, index === phases.length - 1);
+    const isEmptyPhase = deviceCount < 1;
     return (
       <TableRow className={classes.row} key={index}>
         <TableCell component="td" scope="row">
@@ -187,7 +188,7 @@ export const PhaseSettings = ({ classNames, deploymentObject, disabled, numberDe
                 value={phase.batch_size}
                 onChange={event => updateBatchSize(event.target.value, index)}
                 endAdornment={
-                  <InputAdornment className={deviceCount < 1 ? 'warning' : ''} position="end">
+                  <InputAdornment className={isEmptyPhase ? 'warning' : ''} position="end">
                     %
                   </InputAdornment>
                 }
@@ -202,12 +203,12 @@ export const PhaseSettings = ({ classNames, deploymentObject, disabled, numberDe
             ) : (
               phase.batch_size || remainder
             )}
-            <span className={deviceCount < 1 ? 'warning info' : 'info'} style={{ marginLeft: '5px' }}>{`(${deviceCount} ${pluralize(
+            <span className={isEmptyPhase ? 'warning info' : 'info'} style={{ marginLeft: '5px' }}>{`(${deviceCount} ${pluralize(
               'device',
               deviceCount
             )})`}</span>
           </div>
-          {deviceCount < 1 && <div className="warning">Phases must have at least 1 device</div>}
+          {isEmptyPhase && <div className="warning">Phases must have at least 1 device</div>}
         </TableCell>
         <TableCell>
           <Time value={getPhaseStartTime(phases, index, startTime)} />
@@ -303,19 +304,23 @@ export const RolloutPatternSelection = props => {
 
   const previousPhaseOptions =
     previousPhases.length > 0
-      ? previousPhases.map((previousPhaseSetting, index) => (
-          <MenuItem key={`previousPhaseSetting-${index}`} value={previousPhaseSetting}>
-            {previousPhaseSetting.reduce(
-              (accu, phase, _, source) => {
-                const phaseDescription = phase.delay
-                  ? `${phase.batch_size}% > ${phase.delay} ${phase.delayUnit || 'hours'} >`
-                  : `${phase.batch_size || 100 / source.length}%`;
-                return `${accu} ${phaseDescription}`;
-              },
-              `${previousPhaseSetting.length} ${pluralize('phase', previousPhaseSetting.length)}:`
-            )}
-          </MenuItem>
-        ))
+      ? previousPhases.map((previousPhaseSetting, index) => {
+          const remainder = getRemainderPercent(previousPhaseSetting);
+          const phaseDescription = previousPhaseSetting.reduce(
+            (accu, phase, _, source) => {
+              const phaseDescription = phase.delay
+                ? `${phase.batch_size}% > ${phase.delay} ${phase.delayUnit || 'hours'} >`
+                : `${phase.batch_size || remainder || 100 / source.length}%`;
+              return `${accu} ${phaseDescription}`;
+            },
+            `${previousPhaseSetting.length} ${pluralize('phase', previousPhaseSetting.length)}:`
+          );
+          return (
+            <MenuItem key={`previousPhaseSetting-${index}`} value={previousPhaseSetting}>
+              {phaseDescription}
+            </MenuItem>
+          );
+        })
       : [
           <MenuItem key="noPreviousPhaseSetting" disabled={true} style={{ opacity: '0.4' }}>
             No recent patterns
