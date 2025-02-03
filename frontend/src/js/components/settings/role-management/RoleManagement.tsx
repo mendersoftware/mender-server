@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 // material ui
 import { Add as AddIcon } from '@mui/icons-material';
@@ -25,6 +25,7 @@ import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotificat
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import { BENEFITS, UiRoleDefinition, emptyRole, settingsKeys } from '@northern.tech/store/constants';
 import { getGroupsByIdWithoutUngrouped, getIsEnterprise, getOrganization, getReleaseTagsById, getRelevantRoles } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { createRole, editRole, getDynamicGroups, getExistingReleaseTags, getGroups, getRoles, removeRole } from '@northern.tech/store/thunks';
 
 import RoleDefinition from './RoleDefinition';
@@ -39,7 +40,7 @@ export const RoleManagement = () => {
   const [adding, setAdding] = useState<boolean>(false);
   const [editing, setEditing] = useState<boolean>(false);
   const [role, setRole] = useState<UiRoleDefinition>({ ...emptyRole });
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const groups = useSelector(getGroupsByIdWithoutUngrouped);
   const releaseTags = useSelector(getReleaseTagsById);
   const isEnterprise = useSelector(getIsEnterprise);
@@ -82,12 +83,13 @@ export const RoleManagement = () => {
   };
 
   const onSubmit = submittedRole => {
+    let action = editRole(submittedRole);
     if (adding) {
-      dispatch(createRole(submittedRole));
-    } else {
-      dispatch(editRole(submittedRole));
+      action = createRole(submittedRole);
     }
-    onCancel();
+    dispatch(action)
+      .unwrap()
+      .then(() => onCancel());
   };
 
   return (
