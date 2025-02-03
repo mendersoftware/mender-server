@@ -151,6 +151,7 @@ export const organizationHandlers = [
     }
     return new HttpResponse(null, { status: 200 });
   }),
+  http.patch(`${tenantadmApiUrlv2}/billing/profile`, () => new HttpResponse(null, { status: 200 })),
   http.get(`${auditLogsApiUrl}/logs`, ({ request }) => {
     const { searchParams } = new URL(request.url);
     const perPage = Number(searchParams.get('per_page'));
