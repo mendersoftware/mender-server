@@ -202,6 +202,28 @@ test.describe('Settings', () => {
       await page.getByRole('button', { name: /change email/i }).click();
       await expect(page.getByLabel(/current password/i)).toBeVisible();
     });
+    test('allows billing profile editing', async ({ baseUrl, environment, loggedInPage: page }) => {
+      test.skip(environment !== 'staging');
+      await page.goto(`${baseUrl}ui/settings/organization-and-billing`);
+      await page.getByRole('button', { name: /edit/i }).click();
+      await page.getByRole('textbox', { name: /address line 1/i }).fill('Gaustadalleen 12');
+      await page.getByRole('textbox', { name: /state/i }).fill('Moss');
+      await page.getByRole('textbox', { name: /city/i }).fill('Moss');
+      await page.getByRole('textbox', { name: /zip or postal code/i }).fill('54321');
+      await page.getByLabel('Country').fill('Pol');
+      await page.getByRole('option', { name: 'Poland' }).click();
+      await page.getByRole('button', { name: /edit/i }).click();
+
+      await page.waitForSelector('.StripeElement iframe');
+      const frameHandle = await page.$('.StripeElement iframe');
+      const stripeFrame = await frameHandle.contentFrame();
+      await stripeFrame.fill('[name="cardnumber"]', '4242424242424242');
+      await stripeFrame.fill('[name="exp-date"]', '0134');
+      await stripeFrame.fill('[name="cvc"]', '333');
+      await stripeFrame.fill('[name="postal"]', '02040');
+      await page.click(`button:has-text('Save')`);
+      await expect(page.getByText('Gaustadalleen 12')).toBeVisible();
+    });
     test('allows changing the password', async ({ baseUrl, browserName, context, environment, username, password }) => {
       test.skip(browserName === 'webkit');
       const domain = baseUrlToDomain(baseUrl);
