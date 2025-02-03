@@ -118,6 +118,7 @@ func newClient(
 	clientOpts, presignOpts := opt.toS3Options()
 	client := s3.NewFromConfig(cfg, clientOpts, func(o *s3.Options) {
 		o.RequestChecksumCalculation = aws.RequestChecksumCalculationWhenRequired
+		o.ResponseChecksumValidation = aws.ResponseChecksumValidationWhenRequired
 	})
 	presignClient := s3.NewPresignClient(client, presignOpts)
 
