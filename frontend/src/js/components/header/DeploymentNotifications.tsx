@@ -24,11 +24,11 @@ const useStyles = makeStyles()(theme => ({
   icon: { color: theme.palette.grey[500], margin: '0 7px 0 10px', top: '5px', fontSize: '20px' }
 }));
 
-const DeploymentNotifications = props => {
+const DeploymentNotifications = ({ className = '', inprogress }) => {
   const { classes } = useStyles();
   return (
-    <Link to={DEPLOYMENT_ROUTES.active.route} className="header-section">
-      <span>{props.inprogress}</span>
+    <Link to={DEPLOYMENT_ROUTES.active.route} className={className}>
+      <span>{inprogress}</span>
       <RefreshIcon className={`flip-horizontal ${classes.icon}`} />
     </Link>
   );

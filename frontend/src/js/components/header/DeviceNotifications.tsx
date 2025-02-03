@@ -16,36 +16,57 @@ import { Link } from 'react-router-dom';
 
 // material ui
 import { DeveloperBoard as DeveloperBoardIcon } from '@mui/icons-material';
+import { makeStyles } from 'tss-react/mui';
 
 import { MenderTooltipClickable } from '@northern.tech/common-ui/MenderTooltip';
 import pluralize from 'pluralize';
 
 import { DeviceLimitContact } from '../devices/dialogs/PreauthDialog';
 
-const DeviceNotifications = ({ total, limit, pending }) => {
+const useStyles = makeStyles()(theme => ({
+  root: {
+    '&:hover .warning span, &:hover .warning svg': {
+      color: theme.palette.error.light
+    },
+    // no hover warning
+    '.warning span, .warning svg': {
+      color: theme.palette.error.main
+    },
+    // hover warning
+    '&:hover .approaching span, &:hover .approaching svg': {
+      color: theme.palette.warning.light
+    },
+    '.approaching span, .approaching svg': {
+      color: theme.palette.warning.main
+    }
+  }
+}));
+
+const DeviceNotifications = ({ className = '', total, limit, pending }) => {
+  const { classes } = useStyles();
   const approaching = limit && total / limit > 0.8;
   const warning = limit && limit <= total;
   const content = (
     <>
       <Link to="/devices" className={`flexbox center-aligned ${warning ? 'warning' : approaching ? 'approaching' : ''}`}>
         <span>{total.toLocaleString()}</span>
-        {limit ? <span id="limit">/{limit.toLocaleString()}</span> : null}
-
+        {!!limit && <span id="limit">/{limit.toLocaleString()}</span>}
         <DeveloperBoardIcon style={{ margin: '0 7px 0 10px', fontSize: 20 }} />
       </Link>
       {pending ? (
-        <Link to="/devices/pending" style={{ marginLeft: '7px' }} className={limit && limit < pending + total ? 'warning' : undefined}>
+        <Link to="/devices/pending" className={limit && limit < pending + total ? 'warning margin-left-x-small' : 'margin-left-x-small'}>
           {pending.toLocaleString()} pending
         </Link>
       ) : null}
     </>
   );
+  const classNames = `${className} ${classes.root}`;
   if (!limit) {
-    return <div className="header-section">{content}</div>;
+    return <div className={classNames}>{content}</div>;
   }
   return (
     <MenderTooltipClickable
-      className="header-section"
+      className={classNames}
       disabled={!limit}
       disableHoverListener={false}
       enterDelay={500}
