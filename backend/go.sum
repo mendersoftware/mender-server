@@ -150,8 +150,8 @@ github.com/magiconair/properties v1.8.7/go.mod h1:Dhd985XPs7jluiymwWYZ0G4Z61jb3v
 github.com/mattn/go-isatty v0.0.12/go.mod h1:cbi8OIDigv2wuxKPP5vlRcQ1OAZbq2CE4Kysco4FUpU=
 github.com/mattn/go-isatty v0.0.20 h1:xfD0iDuEKnDkl03q4limB+vH+GxLEtL/jb4xVJSWWEY=
 github.com/mattn/go-isatty v0.0.20/go.mod h1:W+V8PltTTMOvKvAeJH7IuucS94S2C6jfK/D7dTCTo3Y=
-github.com/mendersoftware/mender-artifact v0.0.0-20240813094652-2939c69fe4a8 h1:MvtG6FD0fRKO36rW1iesxEmFeyG693EfZDzg6GEvslA=
-github.com/mendersoftware/mender-artifact v0.0.0-20240813094652-2939c69fe4a8/go.mod h1:i0qnSA5lywhG/59+iC9eTkOWUJKk5hpZJL8eCoRJ83M=
+github.com/mendersoftware/mender-artifact v0.0.0-20250120223930-6e04e877c623 h1:Ryb0uvf8julO7wl+fZipr5zIHhKX7MykDZExM7Gz8Cg=
+github.com/mendersoftware/mender-artifact v0.0.0-20250120223930-6e04e877c623/go.mod h1:9bMpWMTmWN13zZtGVx2Q92HG9HZowZHbHQv/OduPuZU=
 github.com/mendersoftware/openssl v1.1.1-0.20221101135106-cb94d0a179f8 h1:LO1M218stEQBF3bFaTyKQeyhj7xCZTzcZEvEmG++h7g=
 github.com/mendersoftware/openssl v1.1.1-0.20221101135106-cb94d0a179f8/go.mod h1:tikEC94q+Y0TU6r19L6mHzwruoTNYPEkrQPvsHEcQyU=
 github.com/mendersoftware/progressbar v0.0.3 h1:AUdBGPvXO0l9i39rmXKZbEAPet2FzBeiG8b30D5/2Vc=
