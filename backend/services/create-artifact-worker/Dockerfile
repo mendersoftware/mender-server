@@ -3,7 +3,7 @@ ARG TARGETARCH
 ARG TARGETOS
 ARG BUILDFLAGS="-trimpath"
 ARG LDFLAGS="-s -w"
-ARG MENDER_ARTIFACT_VERSION=3.11.2
+ARG MENDER_ARTIFACT_VERSION=4.0.0
 WORKDIR /build
 # Fetch and install mender-artifact
 RUN wget "https://downloads.mender.io/repos/debian/pool/main/m/mender-artifact/mender-artifact_${MENDER_ARTIFACT_VERSION}-1%2bubuntu%2bnoble_${TARGETARCH}.deb" \
