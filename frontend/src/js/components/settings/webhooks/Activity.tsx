@@ -17,7 +17,7 @@ import DetailsTable from '@northern.tech/common-ui/DetailsTable';
 import { ClassesOverrides } from '@northern.tech/common-ui/List';
 import Pagination from '@northern.tech/common-ui/Pagination';
 import { Event } from '@northern.tech/store/api/types/MenderTypes';
-import { DEVICE_LIST_DEFAULTS, Webhook } from '@northern.tech/store/constants';
+import { DEVICE_LIST_DEFAULTS, TIMEOUTS, Webhook } from '@northern.tech/store/constants';
 
 import { WebhookColumns } from './Management';
 
@@ -35,9 +35,15 @@ interface WebhookActivityProps extends ClassesOverrides {
 const WebhookActivity = ({ classes, columns, events = [], eventTotal, getWebhookEvents, setSelectedEvent, webhook }: WebhookActivityProps) => {
   const [page, setPage] = useState(defaultPage);
   const tableRef = useRef();
+  const timer = useRef<ReturnType<typeof setInterval> | undefined>();
 
   useEffect(() => {
+    clearInterval(timer.current);
+    timer.current = setInterval(() => getWebhookEvents({ page, perPage: defaultPerPage }), TIMEOUTS.refreshDefault);
     getWebhookEvents({ page, perPage: defaultPerPage });
+    return () => {
+      clearInterval(timer.current);
+    };
   }, [getWebhookEvents, page]);
 
   const mappedColumns = columns.map(column => ({ ...column, extras: { webhook, classes } }));
