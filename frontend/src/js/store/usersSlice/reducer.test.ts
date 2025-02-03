@@ -58,14 +58,6 @@ describe('user reducer', () => {
     expect(reducer({ ...initialState, byId: { '123': testUser } }, { type: actions.receivedUser, payload: testUser }).byId).toEqual({ '123': testUser });
   });
 
-  it('should handle CREATED_USER', async () => {
-    expect(reducer(undefined, { type: actions.createdUser, payload: testUser }).byId).toEqual({ 0: testUser });
-    expect(reducer({ ...initialState, byId: { '123': testUser } }, { type: actions.createdUser, payload: testUser }).byId).toEqual({
-      '123': testUser,
-      0: testUser
-    });
-  });
-
   it('should handle REMOVED_USER', async () => {
     expect(reducer(undefined, { type: actions.removedUser, payload: '123' }).byId).toEqual({});
     expect(reducer({ ...initialState, byId: { '123': testUser, '456': testUser } }, { type: actions.removedUser, payload: '123' }).byId).toEqual({

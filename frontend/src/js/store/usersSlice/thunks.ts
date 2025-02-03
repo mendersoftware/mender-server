@@ -266,7 +266,7 @@ const userActionErrorHandler = (err, type, dispatch) => commonErrorHandler(err, 
 
 export const createUser = createAsyncThunk(`${sliceName}/createUser`, ({ shouldResetPassword, ...userData }, { dispatch }) =>
   GeneralApi.post(`${useradmApiUrl}/users`, { ...userData, send_reset_password: shouldResetPassword })
-    .then(() => Promise.all([dispatch(actions.createdUser(userData)), dispatch(getUserList()), dispatch(setSnackbar(userActions.create.successMessage))]))
+    .then(() => Promise.all([dispatch(getUserList()), dispatch(setSnackbar(userActions.create.successMessage))]))
     .catch(err => userActionErrorHandler(err, 'create', dispatch))
 );
 
