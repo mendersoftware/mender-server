@@ -70,10 +70,10 @@ export const PhaseSettings = ({ classNames, deploymentObject, disabled, numberDe
 
   const { filter, phases = [] } = deploymentObject;
   const updateDelay = (value, index) => {
-    let newPhases = phases;
+    let newPhases = [...phases];
     // value must be at least 1
     value = Math.max(1, value);
-    newPhases[index].delay = value;
+    newPhases[index] = { ...newPhases[index], delay: value };
 
     setDeploymentSettings({ phases: newPhases });
     // logic for updating time stamps should be in parent - only change delays here
@@ -82,54 +82,57 @@ export const PhaseSettings = ({ classNames, deploymentObject, disabled, numberDe
   const updateBatchSize = (value, index) => {
     let newPhases = [...phases];
     value = Math.min(100, Math.max(1, value));
-    newPhases[index].batch_size = value;
+    newPhases[index] = {
+      ...newPhases[index],
+      batch_size: value
+    };
     // When phase's batch size changes, check for new 'remainder'
     const remainder = getRemainderPercent(newPhases);
     // if new remainder will be 0 or negative remove phase leave last phase to get remainder
     if (remainder < 1) {
       newPhases.pop();
-      newPhases[newPhases.length - 1].batch_size = null;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { batch_size, ...newFinalPhase } = newPhases[newPhases.length - 1];
+      newPhases[newPhases.length - 1] = newFinalPhase;
     }
     setDeploymentSettings({ phases: newPhases });
   };
 
   const addPhase = () => {
     let newPhases = [...phases];
-    let newPhase = {};
-
     // assign new batch size to *previous* last batch
     const remainder = getRemainderPercent(newPhases);
-    // make it default 10, unless remainder is <=10 in which case make it half remainder
-    let batch_size = remainder > 10 ? 10 : Math.floor(remainder / 2);
-    newPhases[newPhases.length - 1].batch_size = batch_size;
-
-    // check for previous phase delay or set 2hr default
-    const delay = newPhases[newPhases.length - 1].delay || 2;
-    newPhases[newPhases.length - 1].delay = delay;
-    const delayUnit = newPhases[newPhases.length - 1].delayUnit || 'hours';
-    newPhases[newPhases.length - 1].delayUnit = delayUnit;
-
-    newPhases.push(newPhase);
+    newPhases[newPhases.length - 1] = {
+      ...newPhases[newPhases.length - 1],
+      // make it default 10, unless remainder is <=10 in which case make it half remainder
+      batch_size: remainder > 10 ? 10 : Math.floor(remainder / 2),
+      // check for previous phase delay or set 2hr default
+      delay: newPhases[newPhases.length - 1].delay || 2,
+      delayUnit: newPhases[newPhases.length - 1].delayUnit || 'hours'
+    };
+    newPhases.push({});
     // use function to set new phases incl start time of new phase
     setDeploymentSettings({ phases: newPhases });
   };
 
   const removePhase = index => {
-    let newPhases = phases;
+    let newPhases = [...phases];
     newPhases.splice(index, 1);
-
-    // remove batch size from new last phase, use remainder
-    delete newPhases[newPhases.length - 1].batch_size;
-
-    if (newPhases.length === 1) {
-      delete newPhases[0].delay;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    let { batch_size, delay, ...newPhase } = newPhases[newPhases.length - 1]; // remove batch size from new last phase, use remainder
+    if (newPhases.length > 1) {
+      newPhase.delay = delay;
     }
+    newPhases[newPhases.length - 1] = newPhase;
     setDeploymentSettings({ phases: newPhases });
   };
 
   const handleDelayToggle = (value, index) => {
-    let newPhases = phases;
-    newPhases[index].delayUnit = value;
+    let newPhases = [...phases];
+    newPhases[index] = {
+      ...newPhases[index],
+      delayUnit: value
+    };
     setDeploymentSettings({ phases: newPhases });
   };
 
