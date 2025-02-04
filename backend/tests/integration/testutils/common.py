@@ -310,6 +310,20 @@ def make_accepted_device(
     return dev
 
 
+def decommission_device(
+    utoken: str,
+    device_id: str,
+):
+    """Delete one device with "accepted" status."""
+    devauthm = ApiClient(deviceauth.URL_MGMT)
+    r = devauthm.with_auth(utoken).call(
+        "DELETE",
+        deviceauth.URL_DEVICE,
+        path_params={"id": device_id},
+    )
+    assert r.status_code == 204
+
+
 def make_accepted_devices(devauthd, devauthm, utoken, tenant_token="", num_devices=1):
     """Create accepted devices.
     returns list of Device objects."""
@@ -602,3 +616,43 @@ def setup_tenant_devices(tenant, device_groups):
             tenant.devices.append(device)
 
     return grouped_devices
+
+
+# to check that it was called at least once:
+# curl -v -X PUT "http://httpd:1080/mockserver/verify" -d '{ "httpRequest": {"method":"POST","path":"/webhook/inventory/8700E8AD-1277-4982-B06C-9B6048ED1A75"}, "times":{"atLeast":1} }'
+# to set the expected request: the following allows all the calls
+# curl -v -X PUT "http://httpd:1080/mockserver/expectation" -d '{"httpResponse":{"body":"ok"}}'
+# to get all the requests:
+# curl -v -X PUT "http://localhost:32768/mockserver/retrieve?type=REQUESTS&format=JSON" -d '{"path": "/webhook/called"}'
+class MockedHttp:
+    def __init__(self, url: string = "http://mock-httpd:1080"):
+        self.url = url
+        # this will allow all the requests and accept them with 'ok' response
+        r = requests.put(
+            url + "/mockserver/expectation", json={"httpResponse": {"body": "ok"}}
+        )
+        assert r.status_code == 201
+
+    def request_seen(self, path, method="POST"):
+        r = requests.put(
+            self.url + "/mockserver/verify",
+            json={
+                "httpRequest": {"method": method, "path": path},
+                "times": {"atLeast": 1},
+            },
+        )
+        return r.status_code == 202
+
+    def request_get_all(self, path):
+        r = requests.put(
+            self.url + "/mockserver/retrieve?type=REQUESTS&format=JSON",
+            json={
+                "path": path,
+            },
+        )
+        all_requests_recorded=[]
+        if r.status_code != 200:
+            return all_requests_recorded
+        for i in r.json():
+            all_requests_recorded.append(i['body']['json'])
+        return all_requests_recorded
