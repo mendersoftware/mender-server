@@ -26,11 +26,11 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/tenant"
 
 	api_http "github.com/mendersoftware/mender-server/services/deviceauth/api/http"
 	"github.com/mendersoftware/mender-server/services/deviceauth/cache"
 	"github.com/mendersoftware/mender-server/services/deviceauth/client/orchestrator"
-	"github.com/mendersoftware/mender-server/services/deviceauth/client/tenant"
 	dconfig "github.com/mendersoftware/mender-server/services/deviceauth/config"
 	"github.com/mendersoftware/mender-server/services/deviceauth/devauth"
 	"github.com/mendersoftware/mender-server/services/deviceauth/jwt"
