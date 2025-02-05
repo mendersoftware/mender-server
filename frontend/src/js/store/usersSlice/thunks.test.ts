@@ -312,7 +312,6 @@ describe('user actions', () => {
     const createdUser = { email: 'a@b.com', password: defaultPassword };
     const expectedActions = [
       { type: createUser.pending.type },
-      { type: actions.createdUser.type, payload: createdUser },
       { type: getUserList.pending.type },
       { type: appActions.setSnackbar.type, payload: 'The user was created successfully.' },
       { type: actions.receivedUserList.type, payload: defaultState.users.byId },
