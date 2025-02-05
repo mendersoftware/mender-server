@@ -1,4 +1,42 @@
 ---
+## 4.0.0-rc.10 - 2025-02-06
+
+
+### Bug Fixes
+
+
+- *(gui)* Made user list tracking rely only on backend data instead of local store to prevent duplicate users listed
+([MEN-8049](https://northerntech.atlassian.net/browse/MEN-8049)) ([7d1b060](https://github.com/mendersoftware/mender-server/commit/7d1b060d096ff2549305cc0f453d8a35b21257b0)) 
+
+- *(gui)* Fixed an issue that would cause the ui to crash when creating phased deployments
+ ([9827ba9](https://github.com/mendersoftware/mender-server/commit/9827ba928889f52e7eb4216b68707386c082dc74)) 
+
+- *(gui)* Fixed remaining device percentage not being displayed correctly on phased deployment creation
+ ([5600913](https://github.com/mendersoftware/mender-server/commit/560091349c778c288ad1bdc5a8bcd9b54c39f399)) 
+
+- Update outdated api endpoints in the `inventory` service
+([MEN-7017](https://northerntech.atlassian.net/browse/MEN-7017)) ([73c7149](https://github.com/mendersoftware/mender-server/commit/73c714951a61642b2fc100214c61e5f66c27ee0c)) 
+- Limiting the size of metadata when uploading and generating artifacts
+([MEN-7166](https://northerntech.atlassian.net/browse/MEN-7166)) ([9e80728](https://github.com/mendersoftware/mender-server/commit/9e8072874c94da9e7a3659207e08c6a05fc48cc4)) 
+
+
+
+
+### Features
+
+
+- *(gui)* Clarified user creation capabilities for non-enterprise users
+([MEN-7883](https://northerntech.atlassian.net/browse/MEN-7883)) ([d2fd192](https://github.com/mendersoftware/mender-server/commit/d2fd192e8c09443dabb694288d73636853b02d86)) 
+
+- *(gui)* Added automatic refresh to get webhook events
+([MEN-8045](https://northerntech.atlassian.net/browse/MEN-8045)) ([502e06a](https://github.com/mendersoftware/mender-server/commit/502e06aab96f3ce980cd6fe197a2fd6d7e99233a)) 
+
+
+
+
+
+
+
 ## 4.0.0-rc.9 - 2025-01-30
 
 
