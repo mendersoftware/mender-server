@@ -21,7 +21,7 @@ import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
 import LinedHeader from '@northern.tech/common-ui/LinedHeader';
 import Time from '@northern.tech/common-ui/Time';
 import { DEPLOYMENT_STATES } from '@northern.tech/store/constants';
-import { formatTime, getPhaseDeviceCount, getRemainderPercent } from '@northern.tech/utils/helpers';
+import { formatTime } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
 import durationDayJs from 'dayjs/plugin/duration';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
@@ -29,7 +29,7 @@ import pluralize from 'pluralize';
 
 import { ProgressChartComponent, getDeploymentPhasesInfo, getDisplayablePhases } from '../ProgressChart';
 import { defaultColumnDataProps } from '../Report';
-import { getPhaseStartTime } from '../deployment-wizard/PhaseSettings';
+import { getPhaseDeviceCount, getPhaseStartTime, getRemainderPercent } from '../deployment-wizard/PhaseSettings';
 import PhaseProgress from './PhaseProgress';
 
 const useStyles = makeStyles()(theme => ({
