@@ -39,9 +39,40 @@ import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotificat
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import Time from '@northern.tech/common-ui/Time';
 import { BENEFITS } from '@northern.tech/store/constants';
-import { getPhaseDeviceCount, getRemainderPercent } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
 import pluralize from 'pluralize';
+
+// use this to get remaining percent of final phase so we don't set a hard number
+export const getRemainderPercent = phases =>
+  phases.reduce((accu, phase, index, source) => {
+    // ignore final phase size if set
+    if (index === source.length - 1) {
+      return accu;
+    }
+    return phase.batch_size ? accu - phase.batch_size : accu;
+  }, 100);
+
+export const validatePhases = (phases, deploymentDeviceCount) => {
+  if (!phases?.length) {
+    return true;
+  }
+  const remainder = getRemainderPercent(phases);
+  const { isValid } = phases.reduce(
+    (accu, { batch_size = 0 }) => {
+      if (!accu.isValid) {
+        return accu;
+      }
+      const deviceCount = Math.floor((deploymentDeviceCount / 100) * (batch_size || remainder));
+      const totalSize = accu.totalSize + batch_size;
+      return { isValid: deviceCount >= 1 && totalSize <= 100, totalSize };
+    },
+    { isValid: true, totalSize: 0 }
+  );
+  return isValid;
+};
+
+export const getPhaseDeviceCount = (numberDevices = 1, batchSize, remainder, isLastPhase) =>
+  isLastPhase ? Math.ceil((numberDevices / 100) * (batchSize || remainder)) : Math.floor((numberDevices / 100) * (batchSize || remainder));
 
 const useStyles = makeStyles()(theme => ({
   chip: { marginTop: theme.spacing(2) },
@@ -70,10 +101,10 @@ export const PhaseSettings = ({ classNames, deploymentObject, disabled, numberDe
 
   const { filter, phases = [] } = deploymentObject;
   const updateDelay = (value, index) => {
-    let newPhases = phases;
+    let newPhases = [...phases];
     // value must be at least 1
     value = Math.max(1, value);
-    newPhases[index].delay = value;
+    newPhases[index] = { ...newPhases[index], delay: value };
 
     setDeploymentSettings({ phases: newPhases });
     // logic for updating time stamps should be in parent - only change delays here
@@ -82,54 +113,57 @@ export const PhaseSettings = ({ classNames, deploymentObject, disabled, numberDe
   const updateBatchSize = (value, index) => {
     let newPhases = [...phases];
     value = Math.min(100, Math.max(1, value));
-    newPhases[index].batch_size = value;
+    newPhases[index] = {
+      ...newPhases[index],
+      batch_size: value
+    };
     // When phase's batch size changes, check for new 'remainder'
     const remainder = getRemainderPercent(newPhases);
     // if new remainder will be 0 or negative remove phase leave last phase to get remainder
     if (remainder < 1) {
       newPhases.pop();
-      newPhases[newPhases.length - 1].batch_size = null;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { batch_size, ...newFinalPhase } = newPhases[newPhases.length - 1];
+      newPhases[newPhases.length - 1] = newFinalPhase;
     }
     setDeploymentSettings({ phases: newPhases });
   };
 
   const addPhase = () => {
     let newPhases = [...phases];
-    let newPhase = {};
-
     // assign new batch size to *previous* last batch
     const remainder = getRemainderPercent(newPhases);
-    // make it default 10, unless remainder is <=10 in which case make it half remainder
-    let batch_size = remainder > 10 ? 10 : Math.floor(remainder / 2);
-    newPhases[newPhases.length - 1].batch_size = batch_size;
-
-    // check for previous phase delay or set 2hr default
-    const delay = newPhases[newPhases.length - 1].delay || 2;
-    newPhases[newPhases.length - 1].delay = delay;
-    const delayUnit = newPhases[newPhases.length - 1].delayUnit || 'hours';
-    newPhases[newPhases.length - 1].delayUnit = delayUnit;
-
-    newPhases.push(newPhase);
+    newPhases[newPhases.length - 1] = {
+      ...newPhases[newPhases.length - 1],
+      // make it default 10, unless remainder is <=10 in which case make it half remainder
+      batch_size: remainder > 10 ? 10 : Math.floor(remainder / 2),
+      // check for previous phase delay or set 2hr default
+      delay: newPhases[newPhases.length - 1].delay || 2,
+      delayUnit: newPhases[newPhases.length - 1].delayUnit || 'hours'
+    };
+    newPhases.push({});
     // use function to set new phases incl start time of new phase
     setDeploymentSettings({ phases: newPhases });
   };
 
   const removePhase = index => {
-    let newPhases = phases;
+    let newPhases = [...phases];
     newPhases.splice(index, 1);
-
-    // remove batch size from new last phase, use remainder
-    delete newPhases[newPhases.length - 1].batch_size;
-
-    if (newPhases.length === 1) {
-      delete newPhases[0].delay;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    let { batch_size, delay, ...newPhase } = newPhases[newPhases.length - 1]; // remove batch size from new last phase, use remainder
+    if (newPhases.length > 1) {
+      newPhase.delay = delay;
     }
+    newPhases[newPhases.length - 1] = newPhase;
     setDeploymentSettings({ phases: newPhases });
   };
 
   const handleDelayToggle = (value, index) => {
-    let newPhases = phases;
-    newPhases[index].delayUnit = value;
+    let newPhases = [...phases];
+    newPhases[index] = {
+      ...newPhases[index],
+      delayUnit: value
+    };
     setDeploymentSettings({ phases: newPhases });
   };
 
@@ -141,6 +175,7 @@ export const PhaseSettings = ({ classNames, deploymentObject, disabled, numberDe
   const mappedPhases = phases.map((phase, index) => {
     let max = index > 0 ? 100 - phases[index - 1].batch_size : 100;
     const deviceCount = getPhaseDeviceCount(numberDevices, phase.batch_size, remainder, index === phases.length - 1);
+    const isEmptyPhase = deviceCount < 1;
     return (
       <TableRow className={classes.row} key={index}>
         <TableCell component="td" scope="row">
@@ -153,7 +188,7 @@ export const PhaseSettings = ({ classNames, deploymentObject, disabled, numberDe
                 value={phase.batch_size}
                 onChange={event => updateBatchSize(event.target.value, index)}
                 endAdornment={
-                  <InputAdornment className={deviceCount < 1 ? 'warning' : ''} position="end">
+                  <InputAdornment className={isEmptyPhase ? 'warning' : ''} position="end">
                     %
                   </InputAdornment>
                 }
@@ -168,14 +203,12 @@ export const PhaseSettings = ({ classNames, deploymentObject, disabled, numberDe
             ) : (
               phase.batch_size || remainder
             )}
-            {!filter && (
-              <span className={deviceCount < 1 ? 'warning info' : 'info'} style={{ marginLeft: '5px' }}>{`(${deviceCount} ${pluralize(
-                'device',
-                deviceCount
-              )})`}</span>
-            )}
+            <span className={isEmptyPhase ? 'warning info' : 'info'} style={{ marginLeft: '5px' }}>{`(${deviceCount} ${pluralize(
+              'device',
+              deviceCount
+            )})`}</span>
           </div>
-          {!filter && deviceCount < 1 && <div className="warning">Phases must have at least 1 device</div>}
+          {isEmptyPhase && <div className="warning">Phases must have at least 1 device</div>}
         </TableCell>
         <TableCell>
           <Time value={getPhaseStartTime(phases, index, startTime)} />
@@ -271,19 +304,23 @@ export const RolloutPatternSelection = props => {
 
   const previousPhaseOptions =
     previousPhases.length > 0
-      ? previousPhases.map((previousPhaseSetting, index) => (
-          <MenuItem key={`previousPhaseSetting-${index}`} value={previousPhaseSetting}>
-            {previousPhaseSetting.reduce(
-              (accu, phase, _, source) => {
-                const phaseDescription = phase.delay
-                  ? `${phase.batch_size}% > ${phase.delay} ${phase.delayUnit || 'hours'} >`
-                  : `${phase.batch_size || 100 / source.length}%`;
-                return `${accu} ${phaseDescription}`;
-              },
-              `${previousPhaseSetting.length} ${pluralize('phase', previousPhaseSetting.length)}:`
-            )}
-          </MenuItem>
-        ))
+      ? previousPhases.map((previousPhaseSetting, index) => {
+          const remainder = getRemainderPercent(previousPhaseSetting);
+          const phaseDescription = previousPhaseSetting.reduce(
+            (accu, phase, _, source) => {
+              const phaseDescription = phase.delay
+                ? `${phase.batch_size}% > ${phase.delay} ${phase.delayUnit || 'hours'} >`
+                : `${phase.batch_size || remainder || 100 / source.length}%`;
+              return `${accu} ${phaseDescription}`;
+            },
+            `${previousPhaseSetting.length} ${pluralize('phase', previousPhaseSetting.length)}:`
+          );
+          return (
+            <MenuItem key={`previousPhaseSetting-${index}`} value={previousPhaseSetting}>
+              {phaseDescription}
+            </MenuItem>
+          );
+        })
       : [
           <MenuItem key="noPreviousPhaseSetting" disabled={true} style={{ opacity: '0.4' }}>
             No recent patterns

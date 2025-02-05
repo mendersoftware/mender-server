@@ -51,13 +51,13 @@ import {
   getTenantCapabilities
 } from '@northern.tech/store/selectors';
 import { advanceOnboarding, createDeployment, getDeploymentsConfig, getGroupDevices, getRelease, getReleases } from '@northern.tech/store/thunks';
-import { toggle, validatePhases } from '@northern.tech/utils/helpers';
+import { toggle } from '@northern.tech/utils/helpers';
 import pluralize from 'pluralize';
 
 import DeltaIcon from '../../../assets/img/deltaicon.svg';
 import { getOnboardingComponentFor } from '../../utils/onboardingManager';
 import DeviceLimit from './deployment-wizard/DeviceLimit';
-import { RolloutPatternSelection, getPhaseStartTime } from './deployment-wizard/PhaseSettings';
+import { RolloutPatternSelection, getPhaseStartTime, validatePhases } from './deployment-wizard/PhaseSettings';
 import { ForceDeploy, Retries, RolloutOptions } from './deployment-wizard/RolloutOptions';
 import { ScheduleRollout } from './deployment-wizard/ScheduleRollout';
 import { Devices, ReleasesWarning, Software } from './deployment-wizard/SoftwareDevices';
@@ -245,7 +245,7 @@ export const CreateDeployment = props => {
   const disabled =
     isCreating.current ||
     !(deploymentSettings.release && (deploymentSettings.deploymentDeviceCount || !!deploymentSettings.filter || deploymentSettings.group)) ||
-    !validatePhases(phases, deploymentSettings.deploymentDeviceCount, !!deploymentSettings.filter);
+    !validatePhases(phases, deploymentSettings.deploymentDeviceCount);
 
   const sharedProps = {
     ...props,
