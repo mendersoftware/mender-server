@@ -1,4 +1,33 @@
 ---
+## 4.0.0-rc.10 - 2025-02-05
+
+
+### Bug Fixes
+
+
+- Update outdated api endpoints in the `inventory` service
+([MEN-7017](https://northerntech.atlassian.net/browse/MEN-7017)) ([73c7149](https://github.com/mendersoftware/mender-server/commit/73c714951a61642b2fc100214c61e5f66c27ee0c))  by @bahaa-ghazal
+- Limiting the size of metadata when uploading and generating artifacts
+([MEN-7166](https://northerntech.atlassian.net/browse/MEN-7166)) ([9e80728](https://github.com/mendersoftware/mender-server/commit/9e8072874c94da9e7a3659207e08c6a05fc48cc4))  by @bahaa-ghazal
+
+
+
+
+### Features
+
+
+- *(gui)* Clarified user creation capabilities for non-enterprise users
+([MEN-7883](https://northerntech.atlassian.net/browse/MEN-7883)) ([d2fd192](https://github.com/mendersoftware/mender-server/commit/d2fd192e8c09443dabb694288d73636853b02d86))  by @mzedel
+
+- *(gui)* Added automatic refresh to get webhook events
+([MEN-8045](https://northerntech.atlassian.net/browse/MEN-8045)) ([502e06a](https://github.com/mendersoftware/mender-server/commit/502e06aab96f3ce980cd6fe197a2fd6d7e99233a))  by @mzedel
+
+
+
+
+
+
+
 ## 4.0.0-rc.9 - 2025-01-30
 
 
