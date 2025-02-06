@@ -69,7 +69,7 @@ const WebhookEventsSelector = ({ canSelectEvents }: { canSelectEvents: boolean }
     </div>
     <div className="flexbox column margin-left-small">
       {Object.values(availableScopes).map(scope => (
-        <FormCheckbox className="margin-top-none" disabled={!canSelectEvents} key={scope.id} id={scope.id} label={scope.title} />
+        <FormCheckbox className="margin-top-none" disabled={!scope.canAccess({ canSelectEvents })} key={scope.id} id={scope.id} label={scope.title} />
       ))}
     </div>
   </>
