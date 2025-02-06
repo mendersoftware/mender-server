@@ -60,6 +60,8 @@ services:
     user: ${UID:-0}:${GID:-0}
     volumes:
       - ${GOCOVERDIR:-cover}:/cover
+  mock-httpd:
+    image: mockserver/mockserver:5.15.0
 
 volumes:
   cover: {}
