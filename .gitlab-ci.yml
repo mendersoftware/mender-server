@@ -492,12 +492,13 @@ publish:backend:licenses:
     - go install github.com/google/go-licenses@v1.6.0
   script:
     - cd backend
-    - go-licenses check \
-      --disallowed_types=forbidden,restricted,unknown \
+    - go-licenses check
+      --disallowed_types=forbidden,restricted,unknown
+      --ignore=github.com/mendersoftware/mender-server
       $(go list -f '{{ if eq .Name "main" }}{{println .Dir }}{{end}}' ./services/...)
-    - go-licenses report \
-      --template=./tests/go-licenses.gotpl \
-      --ignore=github.com/mendersoftware/mender-server \
+    - go-licenses report
+      --template=./tests/go-licenses.gotpl
+      --ignore=github.com/mendersoftware/mender-server
       $(go list -f '{{ if eq .Name "main" }}{{println .Dir }}{{end}}' ./services/...) > licenses.md
   artifacts:
     when: on_success
