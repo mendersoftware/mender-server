@@ -28,6 +28,8 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/mendersoftware/mender-server/pkg/config"
+	dconfig "github.com/mendersoftware/mender-server/services/iot-manager/config"
 	inet "github.com/mendersoftware/mender-server/services/iot-manager/internal/net"
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"
 )
@@ -50,6 +52,10 @@ func New() *http.Client {
 }
 
 func addrIsGlobalUnicast(network, address string, _ syscall.RawConn) error {
+	c := config.Config
+	if (c.GetBool(dconfig.SettingDomainSkipVerify)) {
+		return nil
+	}
 	ipAddr, _, err := net.SplitHostPort(address)
 	if err != nil {
 		ipAddr = address
