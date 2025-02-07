@@ -17,7 +17,7 @@ import test, { expect } from '../fixtures/fixtures.ts';
 import { isEnterpriseOrStaging, startWebhookServer } from '../utils/commands.ts';
 import { storagePath, timeouts } from '../utils/constants.ts';
 
-const baseWebhookLocation = 'http://127.0.0.1:9000/webhooks';
+const baseWebhookLocation = 'http://docker.mender.io:9000/webhooks';
 
 test.describe('Webhooks Functionality', () => {
   let server: Server;
