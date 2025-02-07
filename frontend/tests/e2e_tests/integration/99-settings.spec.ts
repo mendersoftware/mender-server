@@ -117,7 +117,7 @@ test.describe('Settings', () => {
       await startClient(baseUrl, token, 50);
       await page.goto(`${baseUrl}ui/devices`);
       await page.getByRole('link', { name: /pending/i }).waitFor({ timeout: timeouts.fifteenSeconds });
-      const pendingNotification = await page.$eval('a [href="/ui/devices/pending"]', el => el.textContent);
+      const pendingNotification = await page.getByRole('link', { name: /pending/i }).innerText();
       expect(Number(pendingNotification.split(' ')[0])).toBeGreaterThan(10);
     });
   });
