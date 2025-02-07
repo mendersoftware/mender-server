@@ -79,7 +79,6 @@ variables:
 include:
   - project: "Northern.tech/Mender/mendertesting"
     file:
-      - ".gitlab-ci-check-commits.yml"
       - ".gitlab-ci-github-status-updates.yml"
   - local: "/frontend/pipeline.yml"
   - local: "/.gitlab/merge-enterprise.yml"
