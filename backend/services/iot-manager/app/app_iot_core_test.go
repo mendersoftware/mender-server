@@ -32,6 +32,7 @@ import (
 	"github.com/stretchr/testify/mock"
 
 	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/netutils"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/client/devauth"
 	mdevauth "github.com/mendersoftware/mender-server/services/iot-manager/client/devauth/mocks"
@@ -238,7 +239,7 @@ func TestProvisionDeviceIoTCore(t *testing.T) {
 			wf := tc.Wf(t, &tc)
 			defer wf.AssertExpectations(t)
 
-			a := New(ds, wf, nil)
+			a := New(ds, wf, nil, netutils.DefaultEgressIPFilter)
 
 			core := tc.Core(t, &tc)
 			defer core.AssertExpectations(t)
@@ -353,7 +354,7 @@ func TestDecommissionDeviceIoTCore(t *testing.T) {
 			ds := new(storeMocks.DataStore)
 			defer ds.AssertExpectations(t)
 
-			a := New(ds, nil, nil)
+			a := New(ds, nil, nil, netutils.DefaultEgressIPFilter)
 
 			core := tc.Core(t, &tc)
 			defer core.AssertExpectations(t)
@@ -478,7 +479,7 @@ func TestSetDeviceStatusIoTCore(t *testing.T) {
 			ds := new(storeMocks.DataStore)
 			defer ds.AssertExpectations(t)
 
-			a := New(ds, nil, nil)
+			a := New(ds, nil, nil, netutils.DefaultEgressIPFilter)
 
 			core := tc.Core(t, &tc)
 			defer core.AssertExpectations(t)
@@ -613,7 +614,7 @@ func TestGetDeviceStateIoTCore(t *testing.T) {
 		t.Run(tc.Name, func(t *testing.T) {
 			ctx := context.Background()
 
-			app := New(nil, nil, nil)
+			app := New(nil, nil, nil, netutils.DefaultEgressIPFilter)
 
 			core := tc.Core(t, &tc)
 			defer core.AssertExpectations(t)
@@ -779,7 +780,7 @@ func TestSetDeviceStateIoTCore(t *testing.T) {
 		t.Run(tc.Name, func(t *testing.T) {
 			ctx := context.Background()
 
-			app := New(nil, nil, nil)
+			app := New(nil, nil, nil, netutils.DefaultEgressIPFilter)
 
 			core := tc.Core(t, &tc)
 			defer core.AssertExpectations(t)
@@ -1262,7 +1263,7 @@ func TestSyncIoTCoreDevices(t *testing.T) {
 				da.On("GetDevices", contextMatcher, deviceIDs).
 					Return(authSets, tc.GetDevicesError)
 			}
-			app := New(ds, wf, da).WithIoTCore(core).(*app)
+			app := New(ds, wf, da, netutils.DefaultEgressIPFilter).WithIoTCore(core).(*app)
 			err := app.syncIoTCoreDevices(ctx, deviceIDs, tc.Integration, tc.FailEarly)
 			if tc.Error != nil {
 				if assert.Error(t, err) {

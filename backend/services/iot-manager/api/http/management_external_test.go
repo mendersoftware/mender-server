@@ -32,6 +32,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
+	"github.com/mendersoftware/mender-server/pkg/netutils"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/app"
 	"github.com/mendersoftware/mender-server/services/iot-manager/client/iothub"
@@ -120,7 +121,7 @@ func TestIOTHubExternal(t *testing.T) {
 	defer store.AssertExpectations(t)
 
 	iotHubClient := iothub.NewClient()
-	app := app.New(store, nil, nil).WithIoTHub(iotHubClient)
+	app := app.New(store, nil, nil, netutils.DefaultEgressIPFilter).WithIoTHub(iotHubClient)
 
 	handler := NewRouter(app)
 	srv := httptest.NewServer(handler)
