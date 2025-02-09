@@ -26,6 +26,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/netutils"
 
 	api "github.com/mendersoftware/mender-server/services/iot-manager/api/http"
 	"github.com/mendersoftware/mender-server/services/iot-manager/app"
@@ -59,7 +60,15 @@ func InitAndRun(conf config.Reader, dataStore store.DataStore) error {
 		return errors.Wrap(err, "failed to initialize devicauth client")
 	}
 
-	azureIotManagerApp := app.New(dataStore, wf, da).WithIoTHub(hub).WithIoTCore(core)
+	ipFilter := netutils.DefaultEgressIPFilter
+	blacklist, whitelist, err := dconfig.LoadWebhookCIDRLists()
+	if err != nil {
+		return err
+	} else if blacklist != nil || whitelist != nil {
+		ipFilter = netutils.NewIPFilter(blacklist, whitelist)
+	}
+
+	azureIotManagerApp := app.New(dataStore, wf, da, ipFilter).WithIoTHub(hub).WithIoTCore(core)
 	azureIotManagerApp = azureIotManagerApp.
 		WithWebhooksTimeout(config.Config.GetUint(dconfig.SettingWebhooksTimeoutSeconds))
 

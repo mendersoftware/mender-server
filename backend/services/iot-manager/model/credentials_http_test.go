@@ -37,20 +37,11 @@ func TestHTTPCredentials(t *testing.T) {
 	if !assert.NoError(t, err) {
 		return
 	}
-	creds.validateAddr = true
 
 	err = creds.Validate()
 	assert.NoError(t, err)
 
-	creds.URL = "http://localhost"
-	err = creds.Validate()
 	var errs validation.Errors
-	if assert.ErrorAs(t, err, &errs) {
-		var netErr net.InvalidAddrError
-		for _, err := range errs {
-			assert.ErrorAs(t, err, &netErr)
-		}
-	}
 
 	creds.URL = "https://%%%"
 	err = creds.Validate()
@@ -59,7 +50,7 @@ func TestHTTPCredentials(t *testing.T) {
 	creds.URL = "http://"
 	err = creds.Validate()
 	if assert.ErrorAs(t, err, &errs) {
-		var dnsError *net.DNSError
+		var dnsError net.InvalidAddrError
 		for _, err := range errs {
 			assert.ErrorAs(t, err, &dnsError)
 		}

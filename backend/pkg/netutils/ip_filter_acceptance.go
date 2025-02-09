@@ -15,13 +15,14 @@
 //go:build acceptance
 // +build acceptance
 
-package net
+package netutils
 
 import "net"
 
-// For acceptance tests the private IP constraint is relaxed
-func IsGlobalUnicast(ip net.IP) bool {
+// For acceptance tests the private IP constraint is relaxed to include
+// private IPs.
+var DefaultEgressIPFilter IPFilter = ipFilterFunc(func(ip net.IP) bool {
 	return !ip.IsLoopback() &&
 		ip.IsGlobalUnicast() &&
 		!ip.IsInterfaceLocalMulticast()
-}
+})

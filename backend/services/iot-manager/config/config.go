@@ -15,6 +15,9 @@
 package config
 
 import (
+	"fmt"
+	"net"
+
 	"github.com/mendersoftware/mender-server/pkg/config"
 )
 
@@ -93,6 +96,9 @@ const (
 	// SettingWebhooksTimeoutSecondsDefault define the default timeout
 	// in seconds for webhook requests.
 	SettingWebhooksTimeoutSecondsDefault = "10" // 10 seconds
+
+	SettingWebhooksIPWhitelist = "webhooks_ip_filter_whitelist_cidrs"
+	SettingWebhooksIPBlacklist = "webhooks_ip_filter_blacklist_cidrs"
 )
 
 var (
@@ -111,3 +117,27 @@ var (
 		{Key: SettingWebhooksTimeoutSeconds, Value: SettingWebhooksTimeoutSecondsDefault},
 	}
 )
+
+func LoadWebhookCIDRLists() (whitelist, blacklist []*net.IPNet, err error) {
+	if !config.Config.IsSet(SettingWebhooksIPBlacklist) &&
+		!config.Config.IsSet(SettingWebhooksIPWhitelist) {
+		return nil, nil, nil
+	}
+	blacklistConf := config.Config.GetStringSlice(SettingWebhooksIPBlacklist)
+	whitelistConf := config.Config.GetStringSlice(SettingWebhooksIPWhitelist)
+	blacklist = make([]*net.IPNet, len(blacklistConf))
+	whitelist = make([]*net.IPNet, len(whitelistConf))
+	for i, cidr := range blacklistConf {
+		_, blacklist[i], err = net.ParseCIDR(cidr)
+		if err != nil {
+			return nil, nil, fmt.Errorf("error parsing IP blacklist: %w", err)
+		}
+	}
+	for i, cidr := range whitelistConf {
+		_, whitelist[i], err = net.ParseCIDR(cidr)
+		if err != nil {
+			return nil, nil, fmt.Errorf("error parsing IP whitelist: %w", err)
+		}
+	}
+	return whitelist, blacklist, nil
+}

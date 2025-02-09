@@ -31,6 +31,7 @@ import (
 	"github.com/stretchr/testify/mock"
 
 	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/netutils"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/client"
 	"github.com/mendersoftware/mender-server/services/iot-manager/client/iotcore"
@@ -69,7 +70,7 @@ func (iter *JSONIterator) Close(ctx context.Context) error {
 }
 
 func TestNew(t *testing.T) {
-	app := New(nil, nil, nil)
+	app := New(nil, nil, nil, netutils.DefaultEgressIPFilter)
 	app = app.WithWebhooksTimeout(10)
 
 	assert.NotNil(t, app)
@@ -116,7 +117,7 @@ func TestHealthCheck(t *testing.T) {
 					return true
 				}),
 			).Return(tc.PingReturn)
-			app := New(store, nil, nil)
+			app := New(store, nil, nil, netutils.DefaultEgressIPFilter)
 
 			ctx := context.Background()
 			err := app.HealthCheck(ctx)
@@ -176,7 +177,7 @@ func TestGetIntegrations(t *testing.T) {
 	for i := range testCases {
 		tc := testCases[i]
 		t.Run(tc.Name, func(t *testing.T) {
-			app := New(tc.Store(t, &tc), nil, nil)
+			app := New(tc.Store(t, &tc), nil, nil, netutils.DefaultEgressIPFilter)
 
 			ctx := context.Background()
 			res, err := app.GetIntegrations(ctx)
@@ -252,7 +253,7 @@ func TestGetIntegrationByID(t *testing.T) {
 		t.Run(tc.Name, func(t *testing.T) {
 			t.Parallel()
 			store := tc.Store(t, &tc)
-			app := New(store, nil, nil)
+			app := New(store, nil, nil, netutils.DefaultEgressIPFilter)
 			integration, err := app.GetIntegrationById(context.Background(), tc.ID)
 			if tc.Error != nil {
 				if assert.Error(t, err) {
@@ -329,7 +330,7 @@ func TestCreateIntegration(t *testing.T) {
 				}),
 				mock.AnythingOfType("model.Integration"),
 			).Return(nil, tc.Error)
-			app := New(store, nil, nil)
+			app := New(store, nil, nil, netutils.NewIPFilter(nil, nil))
 
 			ctx := context.Background()
 			_, err := app.CreateIntegration(ctx, tc.CreateIntegrationData)
@@ -389,7 +390,7 @@ func TestSetIntegrationCredentials(t *testing.T) {
 	for i := range testCases {
 		tc := testCases[i]
 		t.Run(tc.Name, func(t *testing.T) {
-			app := New(tc.Store(t, &tc), nil, nil)
+			app := New(tc.Store(t, &tc), nil, nil, netutils.DefaultEgressIPFilter)
 
 			ctx := context.Background()
 			err := app.SetIntegrationCredentials(ctx, integrationID, tc.Credentials)
@@ -506,7 +507,7 @@ func TestRemoveIntegration(t *testing.T) {
 	for i := range testCases {
 		tc := testCases[i]
 		t.Run(tc.Name, func(t *testing.T) {
-			app := New(tc.Store(t, &tc), nil, nil)
+			app := New(tc.Store(t, &tc), nil, nil, netutils.DefaultEgressIPFilter)
 
 			ctx := context.Background()
 			err := app.RemoveIntegration(ctx, integrationID)
@@ -1672,7 +1673,7 @@ func TestGetDevice(t *testing.T) {
 				}),
 				tc.DeviceID,
 			).Return(tc.GetDevice, tc.GetDeviceError)
-			app := New(store, nil, nil)
+			app := New(store, nil, nil, netutils.DefaultEgressIPFilter)
 
 			ctx := context.Background()
 			device, err := app.GetDevice(ctx, tc.DeviceID)
@@ -1796,7 +1797,7 @@ func TestGetDeviceStateIntegration(t *testing.T) {
 					tc.GetIntegrationError,
 				)
 			}
-			app := New(store, nil, nil)
+			app := New(store, nil, nil, netutils.DefaultEgressIPFilter)
 
 			ctx := context.Background()
 			state, err := app.GetDeviceStateIntegration(ctx, tc.DeviceID, tc.IntegrationID)
@@ -1907,7 +1908,7 @@ func TestSetDeviceStateIntegration(t *testing.T) {
 					tc.GetIntegrationError,
 				)
 			}
-			app := New(store, nil, nil)
+			app := New(store, nil, nil, netutils.DefaultEgressIPFilter)
 
 			ctx := context.Background()
 			state := &model.DeviceState{}
@@ -1931,7 +1932,7 @@ func TestGetEvents(t *testing.T) {
 	defer ds.AssertExpectations(t)
 	ds.On("GetEvents", contextMatcher, fltr).
 		Return([]model.Event{}, nil)
-	app := New(ds, nil, nil)
+	app := New(ds, nil, nil, netutils.DefaultEgressIPFilter)
 	events, err := app.GetEvents(context.Background(), fltr)
 	assert.NoError(t, err)
 	assert.Len(t, events, 0)
@@ -1961,7 +1962,7 @@ func TestDeleteTenant(t *testing.T) {
 			).Return(
 				tc.StoreError,
 			)
-			app := New(store, nil, nil)
+			app := New(store, nil, nil, netutils.DefaultEgressIPFilter)
 			ctx := context.Background()
 
 			err := app.DeleteTenant(ctx)

@@ -1,4 +1,4 @@
-// Copyright 2022 Northern.tech AS
+// Copyright 2025 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -15,15 +15,15 @@
 //go:build !acceptance
 // +build !acceptance
 
-package net
+package netutils
 
 import "net"
 
-// IsGlobalUnicast checks if the given IP address is a global unicast IP-
+// DefaultEgressIPFilter checks if the given IP address is a global unicast IP-
 // address accessible over the Internet.
-func IsGlobalUnicast(ip net.IP) bool {
+var DefaultEgressIPFilter IPFilter = ipFilterFunc(func(ip net.IP) bool {
 	return !ip.IsLoopback() &&
 		!ip.IsPrivate() &&
 		ip.IsGlobalUnicast() &&
 		!ip.IsInterfaceLocalMulticast()
-}
+})

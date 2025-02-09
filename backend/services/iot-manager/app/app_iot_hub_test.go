@@ -26,6 +26,7 @@ import (
 	"github.com/stretchr/testify/mock"
 
 	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/netutils"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/client"
 	"github.com/mendersoftware/mender-server/services/iot-manager/client/devauth"
@@ -173,7 +174,7 @@ func TestProvisionDeviceIoTHub(t *testing.T) {
 			wf := tc.Wf(t, &tc)
 			defer wf.AssertExpectations(t)
 
-			a := New(ds, wf, nil)
+			a := New(ds, wf, nil, netutils.DefaultEgressIPFilter)
 
 			hub := tc.Hub(t, &tc)
 			defer hub.AssertExpectations(t)
@@ -273,7 +274,7 @@ func TestDecommissionDeviceIoTHub(t *testing.T) {
 			ds := new(storeMocks.DataStore)
 			defer ds.AssertExpectations(t)
 
-			a := New(ds, nil, nil)
+			a := New(ds, nil, nil, netutils.DefaultEgressIPFilter)
 
 			hub := tc.Hub(t, &tc)
 			defer hub.AssertExpectations(t)
@@ -442,7 +443,7 @@ func TestSetDeviceStatusIoTHub(t *testing.T) {
 			ds := new(storeMocks.DataStore)
 			defer ds.AssertExpectations(t)
 
-			a := New(ds, nil, nil)
+			a := New(ds, nil, nil, netutils.DefaultEgressIPFilter)
 
 			hub := tc.Hub(t, &tc)
 			defer hub.AssertExpectations(t)
@@ -593,7 +594,7 @@ func TestGetDeviceStateIoTHub(t *testing.T) {
 				defer client.AssertExpectations(t)
 				iotHubClient = client
 			}
-			app := New(nil, nil, nil).WithIoTHub(iotHubClient)
+			app := New(nil, nil, nil, netutils.DefaultEgressIPFilter).WithIoTHub(iotHubClient)
 
 			ctx := context.Background()
 			state, err := app.GetDeviceStateIoTHub(ctx, tc.DeviceID, tc.Integration)
@@ -832,7 +833,7 @@ func TestSetDeviceStateIoTHub(t *testing.T) {
 				defer client.AssertExpectations(t)
 				iotHubClient = client
 			}
-			app := New(nil, nil, nil).WithIoTHub(iotHubClient)
+			app := New(nil, nil, nil, netutils.DefaultEgressIPFilter).WithIoTHub(iotHubClient)
 
 			ctx := context.Background()
 			state, err := app.SetDeviceStateIoTHub(ctx, tc.DeviceID, tc.Integration, tc.DeviceState)
@@ -1273,7 +1274,7 @@ func TestSyncIoTHubDevices(t *testing.T) {
 			defer hub.AssertExpectations(t)
 			defer wf.AssertExpectations(t)
 
-			app := New(ds, wf, da).WithIoTHub(hub).(*app)
+			app := New(ds, wf, da, netutils.DefaultEgressIPFilter).WithIoTHub(hub).(*app)
 			err := app.syncIoTHubDevices(ctx, tc.DeviceIDs, tc.Integration, tc.FailEarly)
 			if tc.Error != nil {
 				if assert.Error(t, err) {
@@ -1753,7 +1754,7 @@ UwIDAQAC
 			defer ds.AssertExpectations(t)
 			defer hub.AssertExpectations(t)
 
-			app := New(ds, nil, nil).WithIoTHub(hub).(*app)
+			app := New(ds, nil, nil, netutils.DefaultEgressIPFilter).WithIoTHub(hub).(*app)
 			err := app.VerifyDeviceTwin(ctx, tc.Req)
 			if tc.Error != nil {
 				if assert.Error(t, err) {
