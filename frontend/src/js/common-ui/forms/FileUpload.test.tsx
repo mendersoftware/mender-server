@@ -42,9 +42,9 @@ describe('FileUpload Component', () => {
   });
 
   it('works as intended', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const selectMock = jest.fn();
-    const submitMock = jest.fn();
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const selectMock = vi.fn();
+    const submitMock = vi.fn();
 
     const menderFile = new File(['testContent plain'], 'test.file');
 

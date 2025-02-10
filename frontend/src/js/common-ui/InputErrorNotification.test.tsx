@@ -24,7 +24,7 @@ describe('InfoHint Component', () => {
     const ui = <InputErrorNotification content="test" className="some-class" />;
     const { rerender } = render(ui);
     expect(screen.getByText('test')).toBeVisible();
-    await jest.advanceTimersByTimeAsync(TIMEOUTS.fiveSeconds);
+    await vi.advanceTimersByTimeAsync(TIMEOUTS.fiveSeconds);
     await waitFor(() => rerender(ui));
     expect(screen.getByText('test')).toHaveClass('fadeOut');
   });

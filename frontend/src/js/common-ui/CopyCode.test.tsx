@@ -30,9 +30,9 @@ describe('CopyCode Component', () => {
   });
 
   it('works as intended', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const submitCheck = jest.fn();
-    document.execCommand = jest.fn(yes);
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const submitCheck = vi.fn();
+    document.execCommand = vi.fn(yes);
     const ui = <CopyCode code="sudo it all!" onCopy={submitCheck} withDescription={true} />;
     const { rerender } = render(ui);
 
@@ -41,7 +41,7 @@ describe('CopyCode Component', () => {
     expect(submitCheck).toHaveBeenCalledTimes(1);
     expect(document.execCommand).toHaveBeenCalledTimes(1);
     expect(screen.queryByText(/Copied to clipboard/i)).toBeInTheDocument();
-    act(() => jest.advanceTimersByTime(6000));
+    act(() => vi.advanceTimersByTime(6000));
     await waitFor(() => rerender(ui));
     expect(screen.queryByText(/Copied to clipboard/i)).not.toBeInTheDocument();
   });

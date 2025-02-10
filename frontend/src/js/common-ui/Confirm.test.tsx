@@ -29,9 +29,9 @@ describe('Confirm Component', () => {
   });
 
   it('works as intended', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const actionCheck = jest.fn();
-    const cancelCheck = jest.fn();
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const actionCheck = vi.fn();
+    const cancelCheck = vi.fn();
 
     const { container } = render(<Confirm type="chartRemoval" action={actionCheck} cancel={cancelCheck} />);
 

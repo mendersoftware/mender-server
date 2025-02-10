@@ -23,7 +23,7 @@ import KeyValueEditor from './KeyValueEditor';
 describe('KeyValueEditor Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(
-      <KeyValueEditor deviceLimitWarning={<div>I should not be rendered/ undefined</div>} limitMaxed={false} onSubmit={jest.fn} onCancel={jest.fn} />
+      <KeyValueEditor deviceLimitWarning={<div>I should not be rendered/ undefined</div>} limitMaxed={false} onSubmit={vi.fn} onCancel={vi.fn} />
     );
     const view = baseElement.getElementsByClassName('MuiDialog-root')[0];
     expect(view).toMatchSnapshot();
@@ -31,8 +31,8 @@ describe('KeyValueEditor Component', () => {
   });
   const fabSelector = '.MuiFab-root';
   it('works as intended', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const submitMock = jest.fn();
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const submitMock = vi.fn();
 
     const ui = <KeyValueEditor onInputChange={submitMock} />;
     const { rerender } = render(ui);
@@ -44,16 +44,16 @@ describe('KeyValueEditor Component', () => {
     await waitFor(() => rerender(ui));
 
     act(() => {
-      jest.runAllTimers();
-      jest.runAllTicks();
+      vi.runAllTimers();
+      vi.runAllTicks();
     });
     await user.type(screen.getByDisplayValue('testValue'), 's');
     expect(submitMock).toHaveBeenLastCalledWith({ testKey: 'testValues' });
   });
 
   it('warns of duplicate keys', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const ui = <KeyValueEditor onInputChange={jest.fn} />;
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const ui = <KeyValueEditor onInputChange={vi.fn()} />;
     const { rerender } = render(ui);
     await user.type(screen.getByPlaceholderText(/key/i), 'testKey');
     await user.type(screen.getByPlaceholderText(/value/i), 'testValue');
@@ -65,8 +65,8 @@ describe('KeyValueEditor Component', () => {
   });
 
   it('forwards a warning', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const ui = <KeyValueEditor errortext="I should be rendered" onInputChange={jest.fn} />;
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const ui = <KeyValueEditor errortext="I should be rendered" onInputChange={vi.fn()} />;
     render(ui);
     await user.type(screen.getByPlaceholderText(/key/i), 'testKey');
     await user.type(screen.getByPlaceholderText(/value/i), 'testValue');
@@ -74,7 +74,7 @@ describe('KeyValueEditor Component', () => {
   });
 
   it('displays tooltips when keys match', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const TestComponent = () => <div>testthing</div>;
     const helptipsMap = {
       timezone: {
@@ -82,7 +82,7 @@ describe('KeyValueEditor Component', () => {
       }
     };
 
-    const ui = <KeyValueEditor inputHelpTipsMap={helptipsMap} onInputChange={jest.fn} />;
+    const ui = <KeyValueEditor inputHelpTipsMap={helptipsMap} onInputChange={vi.fn()} />;
     render(ui);
     await user.type(screen.getByPlaceholderText(/key/i), 'timezon');
     expect(screen.queryByText(/testthing/i)).not.toBeInTheDocument();

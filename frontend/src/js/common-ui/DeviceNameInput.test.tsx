@@ -29,7 +29,7 @@ describe('DeviceNameInput Component', () => {
   });
 
   it('works as intended', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const ui = <DeviceNameInput device={{ ...defaultState.devices.byId.a1, tags: { name: 'testname' } }} isHovered />;
     const { rerender, store } = render(ui);
     expect(screen.queryByDisplayValue(/testname/i)).toBeInTheDocument();
@@ -37,7 +37,7 @@ describe('DeviceNameInput Component', () => {
     await waitFor(() => rerender(ui));
     await user.type(screen.getByDisplayValue(/testname/i), 'something');
     await user.click(screen.getAllByRole('button')[0]);
-    await act(async () => jest.runAllTicks());
+    await act(async () => vi.runAllTicks());
     await waitFor(() => expect(store.getState().app.snackbar.message).toBe('Device name changed'));
     await waitFor(() => expect(store.getState().devices.byId.a1.tags).toStrictEqual({ name: 'testnamesomething' }));
   });

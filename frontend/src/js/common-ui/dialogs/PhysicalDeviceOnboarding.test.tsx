@@ -41,7 +41,7 @@ describe('PhysicalDeviceOnboarding Component', () => {
       it(`renders ${Component.displayName || Component.name} correctly`, () => {
         const { baseElement } = render(
           <Component
-            advanceOnboarding={jest.fn}
+            advanceOnboarding={vi.fn}
             connectionString="test"
             docsVersion=""
             hasConvertedImage={true}
@@ -53,7 +53,7 @@ describe('PhysicalDeviceOnboarding Component', () => {
             isHosted={true}
             isDemoMode={false}
             onboardingState={{ complete: false, showTips: true }}
-            onSelect={jest.fn}
+            onSelect={vi.fn}
             selection="raspberrypi7"
             tenantToken="testtoken"
             token={token}
@@ -73,8 +73,8 @@ describe('PhysicalDeviceOnboarding Component', () => {
     expect(view).toEqual(expect.not.stringMatching(undefineds));
     await waitFor(() => expect(store.getState().onboarding.approach === 'physical').toBeTruthy());
     await act(async () => {
-      jest.runOnlyPendingTimers();
-      jest.runAllTicks();
+      vi.runOnlyPendingTimers();
+      vi.runAllTicks();
     });
   });
 });

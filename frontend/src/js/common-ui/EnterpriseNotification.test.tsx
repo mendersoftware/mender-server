@@ -28,7 +28,7 @@ describe('EnterpriseNotification Component', () => {
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
   it('works as expected', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     render(<EnterpriseNotification />);
     await user.click(screen.getByText(/enterprise/i));
     const view = screen.getByRole('tooltip').firstChild;

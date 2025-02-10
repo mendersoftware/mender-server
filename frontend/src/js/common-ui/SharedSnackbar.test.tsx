@@ -23,16 +23,16 @@ import SharedSnackbar from './SharedSnackbar';
 
 describe('SharedSnackbar Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<SharedSnackbar snackbar={{ maxWidth: 200, open: true, message: 'test' }} setSnackbar={jest.fn} />);
+    const { baseElement } = render(<SharedSnackbar snackbar={{ maxWidth: 200, open: true, message: 'test' }} setSnackbar={vi.fn} />);
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
 
   it('works as intended', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const actionCheck = jest.fn();
-    const copyCheck = jest.fn(yes);
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const actionCheck = vi.fn();
+    const copyCheck = vi.fn(yes);
     document.execCommand = copyCheck;
 
     render(<SharedSnackbar snackbar={{ maxWidth: 200, open: true, message: 'test' }} setSnackbar={actionCheck} />);
@@ -43,10 +43,10 @@ describe('SharedSnackbar Component', () => {
   });
 
   it('works as intended with a click listener', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const actionCheck = jest.fn();
-    const copyCheck = jest.fn(yes);
-    const onClickCheck = jest.fn();
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const actionCheck = vi.fn();
+    const copyCheck = vi.fn(yes);
+    const onClickCheck = vi.fn();
     document.execCommand = copyCheck;
 
     render(<SharedSnackbar snackbar={{ maxWidth: 200, open: true, message: 'test', onClick: onClickCheck }} setSnackbar={actionCheck} />);

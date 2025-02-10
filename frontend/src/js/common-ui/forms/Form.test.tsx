@@ -24,14 +24,6 @@ import FormCheckbox from './FormCheckbox';
 import PasswordInput from './PasswordInput';
 import TextInput from './TextInput';
 
-export const formRenderWrapper = ui => {
-  const Wrapper = ({ children }) => {
-    const methods = useForm();
-    return <FormProvider {...methods}>{children}</FormProvider>;
-  };
-  return render(<Wrapper>{ui}</Wrapper>);
-};
-
 describe('Form Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(
@@ -46,7 +38,7 @@ describe('Form Component', () => {
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
   it('works correctly with generated passwords', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
 
     const ui = (
       <Form showButtons submitLabel="submit">
@@ -56,6 +48,6 @@ describe('Form Component', () => {
     const { rerender } = render(ui);
     await user.click(screen.getByRole('button', { name: /generate/i }));
     await waitFor(() => rerender(ui));
-    expect(screen.getByRole('button', { name: /submit/i })).not.toBeDisabled();
+    await waitFor(()=> expect(screen.getByRole('button', { name: /submit/i })).not.toBeDisabled());
   });
 });
