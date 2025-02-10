@@ -48,7 +48,7 @@ describe('Router', () => {
     );
     expect(screen.getAllByText('Log in')).toBeTruthy();
     expect(screen.queryByText('Settings')).toBeFalsy();
-    await act(async () => jest.runAllTicks());
+    await act(async () => vi.runAllTicks());
   });
 
   test('valid path should not redirect to 404', async () => {
@@ -61,6 +61,6 @@ describe('Router', () => {
     );
     expect(screen.getAllByText('Log in')).toBeTruthy();
     expect(screen.queryByText('Settings')).toBeFalsy();
-    await act(async () => jest.runAllTicks());
+    await act(async () => vi.runAllTicks());
   });
 });

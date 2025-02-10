@@ -18,18 +18,18 @@ describe('auth functions', () => {
     expect(getToken()).toBeTruthy();
   });
   it('cleanup removes the JWT token', async () => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     cleanUp();
     expect(window.localStorage.removeItem).toHaveBeenCalledTimes(2);
   });
   it('updateMaxAge extends the expiration date of the jwt token', async () => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     updateMaxAge({ expiresAt: 'some-day', token: 'foo' });
     expect(window.localStorage.getItem).toHaveBeenCalledTimes(1);
     expect(window.localStorage.setItem).toHaveBeenCalledTimes(1);
   });
   it('updateMaxAge should keep any long expiration from the jwt cookie when the staying logged in setting is set', async () => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     updateMaxAge({ expiresAt: undefined, token: 'foo' });
     expect(window.localStorage.setItem).toHaveBeenCalledTimes(0);
   });

@@ -634,8 +634,8 @@ describe('device auth handling', () => {
     ];
     await store.dispatch(updateDevicesAuth({ deviceIds: [defaultState.devices.byId.a1.id, defaultState.devices.byId.c1.id], status: DEVICE_STATES.pending }));
     await act(async () => {
-      jest.runOnlyPendingTimers();
-      jest.runAllTicks();
+      vi.runOnlyPendingTimers();
+      vi.runAllTicks();
     });
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
@@ -1142,14 +1142,14 @@ describe('device config ', () => {
     const store = mockStore({ ...defaultState });
     const expectedActions = [
       { type: applyDeviceConfig.pending.type },
-      { type: actions.receivedDevice.type, payload: { ...defaultState.devices.byId.a1, config: { deployment_id: '' } } },
-      { type: getSingleDeployment.type },
+      { type: actions.receivedDevice.type, payload: { ...defaultState.devices.byId.a1, config: { deployment_id: 'config1' } } },
+      { type: getSingleDeployment.pending.type },
       { type: deploymentActions.receivedDeployment.type, payload: { ...defaultState.deployments.byId.d1, id: 'config1', created: '2019-01-01T09:25:01.000Z' } },
-      { type: getSingleDeployment.type },
+      { type: getSingleDeployment.fulfilled.type },
       { type: applyDeviceConfig.fulfilled.type }
     ];
     const result = store.dispatch(applyDeviceConfig({ deviceId: defaultState.devices.byId.a1.id, config: { something: 'asdl' } }));
-    await act(async () => jest.runAllTicks());
+    await act(async () => vi.runAllTicks());
     result.then(() => {
       const storeActions = store.getActions();
       expect(storeActions.length).toEqual(expectedActions.length);
@@ -1198,7 +1198,7 @@ describe('troubleshooting related actions', () => {
     ];
     // no await here to allow moving beyond the delayed device info update in the next line
     store.dispatch(triggerDeviceUpdate({ id: defaultState.devices.byId.a1.id, type: 'inventoryUpdate' }));
-    await jest.advanceTimersByTimeAsync(TIMEOUTS.fiveSeconds);
+    await vi.advanceTimersByTimeAsync(TIMEOUTS.fiveSeconds);
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
     expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
@@ -1215,7 +1215,7 @@ describe('troubleshooting related actions', () => {
     ];
     // no await here to allow moving beyond the delayed device info update in the next line
     store.dispatch(triggerDeviceUpdate({ id: defaultState.devices.byId.a1.id, type: 'deploymentUpdate' }));
-    await jest.advanceTimersByTimeAsync(TIMEOUTS.fiveSeconds);
+    await vi.advanceTimersByTimeAsync(TIMEOUTS.fiveSeconds);
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
     expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));

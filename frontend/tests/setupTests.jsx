@@ -52,14 +52,14 @@ const oldWindowLocalStorage = window.localStorage;
 const oldWindowLocation = window.location;
 const oldWindowSessionStorage = window.sessionStorage;
 
-// vi.mock('universal-cookie', () => {
-//   const mockCookie = {
-//     get: vi.fn(),
-//     set: vi.fn(),
-//     remove: vi.fn()
-//   };
-//   return vi.fn(() => mockCookie);
-// });
+vi.mock('universal-cookie', () => {
+  const mockCookie = {
+    get: vi.fn(),
+    set: vi.fn(),
+    remove: vi.fn()
+  };
+  return { default: vi.fn(() => mockCookie) };
+});
 
 vi.mock('uuid', () => ({ v4: () => 'mock-uuid' }));
 
