@@ -20,6 +20,7 @@ linters:
     - gofmt
     - goimports
     - gosimple
+    - gosec
     - govet
     - ineffassign
     - lll
@@ -48,3 +49,90 @@ linters-settings:
     parameters-are-used: true
     local-variables-are-used: true
     generated-is-used: false
+
+  gosec: # Inspects source code for security problems.
+    # Available rules: https://github.com/securego/gosec#available-rules
+    includes: # To specify a set of rules to explicitly exclude.
+      - G101 # Look for hard coded credentials
+      - G102 # Bind to all interfaces
+      - G103 # Audit the use of unsafe block
+      - G104 # Audit errors not checked
+      - G106 # Audit the use of ssh.InsecureIgnoreHostKey
+      - G108 # Profiling endpoint automatically exposed on /debug/pprof
+      - G109 # Potential Integer overflow made by strconv.Atoi result conversion to int16/32
+      - G110 # Potential DoS vulnerability via decompression bomb
+      - G111 # Potential directory traversal
+      - G112 # Potential slowloris attack
+      - G113 # Usage of Rat.SetString in math/big with an overflow (CVE-2022-23772)
+      - G201 # SQL query construction using format string
+      - G202 # SQL query construction using string concatenation
+      - G203 # Use of unescaped data in HTML templates
+      - G301 # Poor file permissions used when creating a directory
+      - G302 # Poor file permissions used with chmod
+      - G303 # Creating tempfile using a predictable path
+      - G304 # File path provided as taint input
+      - G305 # File traversal when extracting zip/tar archive
+      - G306 # Poor file permissions used when writing to a new file
+      - G307 # Poor file permissions used when creating a file with os.Create
+      - G401 # Detect the usage of MD5 or SHA1
+      - G403 # Ensure minimum RSA key length of 2048 bits
+      - G405 # Detect the usage of DES or RC4
+      - G406 # Detect the usage of MD4 or RIPEMD160
+      - G501 # Import blocklist: crypto/md5
+      - G502 # Import blocklist: crypto/des
+      - G503 # Import blocklist: crypto/rc4
+      - G504 # Import blocklist: net/http/cgi
+      - G505 # Import blocklist: crypto/sha1
+      - G506 # Import blocklist: golang.org/x/crypto/md4
+      - G507 # Import blocklist: golang.org/x/crypto/ripemd160
+      - G601 # Implicit memory aliasing of items from a range statement
+      - G602 # Slice access out of bounds
+    # FIXME: (QA-903) These rules should be enabled, only G115 has known issues.
+    excludes: # To specify a set of rules to explicitly exclude.
+      - G107 # Url provided to HTTP request as taint input
+      - G114 # Use of net/http serve function that has no support for setting timeouts
+      - G115 # Potential integer overflow when converting between integer types
+      - G204 # Audit use of command execution
+      - G402 # Look for bad TLS connection settings
+      - G404 # Insecure random number source (rand)
+
+    exclude-generated: true # Exclude generated files
+    severity: medium # Filter out the issues with a lower severity than the given value.
+    confidence: low # Filter out the issues with a lower confidence than the given value.
+    config: # To specify the configuration of rules.
+      global: # Globals are applicable to all rules.
+        nosec: false # If true, ignore #nosec in comments (and an alternative as well).
+        show-ignored: true # Define whether nosec issues are counted as finding or not.
+        audit: false # Audit mode enables addition checks that for normal code analysis might be too nosy.
+      G101: # Regexp pattern for variables and constants to find.
+        pattern: "(?i)passwd|pass|password|pwd|secret|token|pw|apiKey|bearer|cred"
+        ignore_entropy: true # If true, complain about all cases (even with low entropy).
+      G104: # Additional functions to ignore while checking unhandled errors.
+        bytes.Buffer:
+          - Write
+          - WriteByte
+          - WriteRune
+          - WriteString
+        fmt:
+          - Print
+          - Printf
+          - Println
+          - Fprint
+          - Fprintf
+          - Fprintln
+        strings.Builder:
+          - Write
+          - WriteByte
+          - WriteRune
+          - WriteString
+        io.PipeWriter:
+          - CloseWithError
+        hash.Hash:
+          - Write
+        os:
+          - Unsetenv
+      G111: # Regexp pattern to find potential directory traversal.
+        pattern: "http\\.Dir\\(\"\\/\"\\)|http\\.Dir\\('\\/'\\)"
+      G301: "0750" # Maximum allowed permissions mode for os.Mkdir and os.MkdirAll
+      G302: "0600" # Maximum allowed permissions mode for os.OpenFile and os.Chmod
+      G306: "0600" # Maximum allowed permissions mode for os.WriteFile and ioutil.WriteFile
