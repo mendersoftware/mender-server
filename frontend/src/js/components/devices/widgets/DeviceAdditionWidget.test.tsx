@@ -22,15 +22,15 @@ import DeviceAdditionWidget from './DeviceAdditionWidget';
 
 describe('DeviceAdditionWidget Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<DeviceAdditionWidget features={{}} onConnectClick={jest.fn} tenantCapabilities={{}} />);
+    const { baseElement } = render(<DeviceAdditionWidget features={{}} onConnectClick={vi.fn} tenantCapabilities={{}} />);
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
 
   it('works as intended', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const clickMock = jest.fn();
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const clickMock = vi.fn();
     render(<DeviceAdditionWidget features={{}} onConnectClick={clickMock} tenantCapabilities={{}} />);
     await user.click(screen.getByRole('button', { name: /connect a new device/i }));
     expect(clickMock).toHaveBeenCalled();

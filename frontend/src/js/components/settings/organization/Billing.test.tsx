@@ -13,9 +13,9 @@
 //    limitations under the License.
 import React from 'react';
 
-import * as OrganizationActions from '@northern.tech/store/organizationSlice/thunks';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
@@ -79,9 +79,10 @@ describe('Billing Component', () => {
   });
 
   it('supports modifying billing profile', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const OrganizationActions = await import('@northern.tech/store/organizationSlice/thunks');
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const ui = <Billing />;
-    const editProfileAction = jest.spyOn(OrganizationActions, 'editBillingProfile');
+    const editProfileAction = vi.spyOn(OrganizationActions, 'editBillingProfile');
     render(ui, { preloadedState });
     await expect(screen.getByText(/1234, test city/i)).toBeVisible();
     await user.click(screen.getByRole('button', { name: /edit/i }));
@@ -109,6 +110,6 @@ describe('Billing Component', () => {
     await user.click(screen.getByRole('button', { name: /save/i }));
     expect(input.value).toEqual('Poland');
 
-    expect(editProfileAction).toHaveBeenCalledWith(editProfileActionParams);
+    await waitFor(() => expect(editProfileAction).toHaveBeenCalledWith(editProfileActionParams));
   });
 });

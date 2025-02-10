@@ -23,7 +23,7 @@ describe('tiny components', () => {
       const { baseElement } = render(
         <Component
           alerts={[1, 2]}
-          onClick={jest.fn}
+          onClick={vi.fn}
           offlineThresholdSettings={{ intervalUnit: 'hour', interval: 24 }}
           check_in_time={defaultState.devices.byId.a1.check_in_time_exact}
         />
@@ -43,7 +43,7 @@ describe('DeviceNotifications Component', () => {
           ...defaultState.devices.byId.a1
         }}
         alerts={defaultState.monitor.alerts.byDeviceId.a1.alerts}
-        onClick={jest.fn}
+        onClick={vi.fn}
       />
     );
     const view = baseElement.firstChild;

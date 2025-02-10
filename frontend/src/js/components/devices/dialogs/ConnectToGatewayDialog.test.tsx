@@ -19,7 +19,7 @@ import ConnectToGatewayDialog from './ConnectToGatewayDialog';
 
 describe('ConnectToGatewayDialog Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<ConnectToGatewayDialog gatewayIp="1.2.3.4" isPreRelease={false} onCancel={jest.fn} tenantToken={token} token={token} />);
+    const { baseElement } = render(<ConnectToGatewayDialog gatewayIp="1.2.3.4" isPreRelease={false} onCancel={vi.fn} tenantToken={token} token={token} />);
     const view = baseElement.getElementsByClassName('MuiDialog-root')[0];
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

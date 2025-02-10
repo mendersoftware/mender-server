@@ -33,7 +33,7 @@ import {
 } from '@northern.tech/store/selectors';
 import { advanceOnboarding, getDeploymentsByStatus, setDeploymentsState } from '@northern.tech/store/thunks';
 import { dateRangeToUnix, getISOStringBoundaries } from '@northern.tech/utils/helpers';
-import useWindowSize from '@northern.tech/utils/resizehook';
+import { useWindowSize } from '@northern.tech/utils/resizehook';
 import { clearAllRetryTimers, clearRetryTimer, setRetryTimer } from '@northern.tech/utils/retrytimer';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';

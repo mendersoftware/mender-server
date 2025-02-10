@@ -63,7 +63,7 @@ const preloadedState = {
 };
 describe('ExpandedDevice Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<ExpandedDevice deviceId={defaultState.devices.byId.a1.id} setDetailsTab={jest.fn} />, { preloadedState });
+    const { baseElement } = render(<ExpandedDevice deviceId={defaultState.devices.byId.a1.id} setDetailsTab={vi.fn} />, { preloadedState });
     const view = baseElement;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

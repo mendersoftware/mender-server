@@ -23,7 +23,7 @@ describe('Groups Component', () => {
   it('renders correctly', async () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { groupNames, ...groups } = getGroups(defaultState);
-    const { baseElement } = render(<Groups groups={groups} openGroupDialog={jest.fn} />);
+    const { baseElement } = render(<Groups groups={groups} openGroupDialog={vi.fn} />);
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

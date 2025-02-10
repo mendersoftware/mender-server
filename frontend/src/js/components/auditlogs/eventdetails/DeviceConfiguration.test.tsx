@@ -26,7 +26,7 @@ describe('DeviceConfiguration Component', () => {
           object: { ...defaultState.organization.auditlog.events[2].object, id: defaultState.devices.byId.a1.id },
           change: '{"something":"here"}'
         }}
-        onClose={jest.fn}
+        onClose={vi.fn}
       />,
       {
         preloadedState: {

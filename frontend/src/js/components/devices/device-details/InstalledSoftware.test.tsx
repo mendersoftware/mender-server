@@ -42,7 +42,7 @@ describe('DeviceInventory Component', () => {
       'uefi-firmware.GUID.edk2.name': 'a2124',
       'uefi-firmware.GUID.edk2.version': 'v1'
     };
-    const { baseElement } = render(<InstalledSoftware device={{ attributes, id: 'a1' }} setSnackbar={jest.fn} />);
+    const { baseElement } = render(<InstalledSoftware device={{ attributes, id: 'a1' }} setSnackbar={vi.fn} />);
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

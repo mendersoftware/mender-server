@@ -14,17 +14,18 @@
 import React from 'react';
 
 import { produce } from 'immer';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
-import RolloutSchedule from './RolloutSchedule';
+import { RolloutSchedule } from './RolloutSchedule';
 
 describe('RolloutSchedule Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(
       <RolloutSchedule
         deployment={produce({ ...defaultState.deployments.byId.d2, phases: [{ id: '0', batch_size: 100, device_count: 1 }] }, i => i)}
-        innerRef={jest.fn}
+        innerRef={vi.fn()}
       />
     );
     const view = baseElement.firstChild;

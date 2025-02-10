@@ -24,7 +24,7 @@ import storeActions from '@northern.tech/store/actions';
 import { getDeviceTypes } from '@northern.tech/store/selectors';
 import { createArtifact, uploadArtifact } from '@northern.tech/store/thunks';
 import { unionizeStrings } from '@northern.tech/utils/helpers';
-import useWindowSize from '@northern.tech/utils/resizehook';
+import { useWindowSize } from '@northern.tech/utils/resizehook';
 
 import Tracking from '../../../tracking';
 import ArtifactInformationForm from './ArtifactInformationForm';

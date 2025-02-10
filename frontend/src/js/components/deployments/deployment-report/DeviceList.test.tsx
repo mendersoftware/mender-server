@@ -23,7 +23,7 @@ describe('ProgressDeviceList Component', () => {
   afterEach(cleanup);
 
   it('renders correctly', async () => {
-    const getDeploymentDevicesMock = jest.fn().mockResolvedValue(true);
+    const getDeploymentDevicesMock = vi.fn().mockResolvedValue(true);
     const ui = (
       <ProgressDeviceList
         selectedDevices={Object.values(defaultState.deployments.byId.d1.devices)}
@@ -34,7 +34,7 @@ describe('ProgressDeviceList Component', () => {
       />
     );
     const { asFragment, rerender } = render(ui);
-    await act(async () => jest.advanceTimersByTime(5000));
+    await act(async () => vi.advanceTimersByTime(5000));
     await waitFor(() => rerender(ui));
 
     const view = prettyDOM(asFragment().childNodes[1], 100000, { highlight: false })

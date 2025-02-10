@@ -26,9 +26,9 @@ describe('Roles Component', () => {
       <RoleDefinition
         adding
         editing={false}
-        onCancel={jest.fn}
-        onSubmit={jest.fn}
-        removeRole={jest.fn}
+        onCancel={vi.fn}
+        onSubmit={vi.fn}
+        removeRole={vi.fn}
         stateGroups={defaultState.devices.groups.byId}
         stateReleaseTags={{}}
         selectedRole={undefined}
@@ -60,9 +60,9 @@ describe('Roles Component', () => {
       <RoleDefinition
         adding={false}
         editing
-        onCancel={jest.fn}
-        onSubmit={jest.fn}
-        removeRole={jest.fn}
+        onCancel={vi.fn}
+        onSubmit={vi.fn}
+        removeRole={vi.fn}
         stateGroups={defaultState.devices.groups.byId}
         stateReleaseTags={{}}
         selectedRole={selectedRole}
@@ -76,9 +76,9 @@ describe('Roles Component', () => {
       <RoleDefinition
         adding={false}
         editing
-        onCancel={jest.fn}
-        onSubmit={jest.fn}
-        removeRole={jest.fn}
+        onCancel={vi.fn}
+        onSubmit={vi.fn}
+        removeRole={vi.fn}
         stateGroups={defaultState.devices.groups.byId}
         stateReleaseTags={{}}
         selectedRole={selectedRole}

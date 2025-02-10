@@ -35,7 +35,7 @@ interface CardSectionProps {
   onSubmit: () => Promise<void>;
   onCardConfirmed: () => void;
 }
-const CardSection = ({ isSignUp, onClose, organization, onSubmit, onCardConfirmed, isValid = true }: CardSectionProps) => {
+export const CardSection = ({ isSignUp, onClose, organization, onSubmit, onCardConfirmed, isValid = true }: CardSectionProps) => {
   const stripe = useStripe();
   const elements = useElements();
   const [errors, setErrors] = useState(false);

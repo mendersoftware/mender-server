@@ -69,13 +69,13 @@ describe('Deployments Component', () => {
 
   afterEach(async () => {
     await act(async () => {
-      jest.advanceTimersByTime(2000);
-      jest.runAllTicks();
+      vi.advanceTimersByTime(2000);
+      vi.runAllTicks();
     });
   });
 
   it('renders correctly', async () => {
-    const get = jest.spyOn(GeneralApi, 'get');
+    const get = vi.spyOn(GeneralApi, 'get');
     const ui = <Deployments {...defaultLocationProps} />;
     const { asFragment } = render(ui, { preloadedState: mockState });
     await waitFor(() => expect(screen.getAllByRole('button', { name: /View details/i })).toBeTruthy());
@@ -87,7 +87,7 @@ describe('Deployments Component', () => {
   });
 
   it('works as expected', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const preloadedState = {
       ...mockState,
       deployments: {
@@ -152,7 +152,7 @@ describe('Deployments Component', () => {
   }, 30000);
 
   it('allows navigating the deployment creation dialog', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const preloadedState = {
       ...mockState,
       app: {
@@ -173,7 +173,7 @@ describe('Deployments Component', () => {
     await user.click(screen.getByRole('button', { name: /Create a deployment/i }));
     const releaseId = 'release-998';
     await waitFor(() => rerender(ui));
-    act(() => jest.advanceTimersByTime(1000));
+    act(() => vi.advanceTimersByTime(1000));
     await waitFor(() => expect(screen.queryByPlaceholderText(/Select a Release/i)).toBeInTheDocument(), { timeout: 3000 });
     const releaseSelect = screen.getByPlaceholderText(/Select a Release/i);
     expect(within(releaseSelect).queryByDisplayValue(releaseId)).not.toBeInTheDocument();
@@ -193,10 +193,10 @@ describe('Deployments Component', () => {
     const limitInput = within(accordion).getByRole('textbox');
     await user.clear(limitInput);
     await user.type(limitInput, '123');
-    const post = jest.spyOn(GeneralApi, 'post');
+    const post = vi.spyOn(GeneralApi, 'post');
     await act(async () => {
-      jest.runOnlyPendingTimers();
-      jest.runAllTicks();
+      vi.runOnlyPendingTimers();
+      vi.runAllTicks();
     });
     await user.click(screen.getByRole('button', { name: 'Create deployment' }));
     expect(post).toHaveBeenCalledWith('/api/management/v2/deployments/deployments', {
@@ -212,12 +212,12 @@ describe('Deployments Component', () => {
       phases: undefined,
       update_control_map: undefined
     });
-    await act(() => jest.advanceTimersByTime(1000));
-    expect(screen.queryByText(/Cancel/i)).not.toBeInTheDocument();
-  }, 20000);
+    await act(() => vi.advanceTimersByTime(1000));
+    await waitFor(() => expect(screen.queryByText(/Cancel/i)).not.toBeInTheDocument());
+  }, 30000);
 
   it('allows navigating the enterprise deployment creation dialog', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const preloadedState = {
       ...mockState,
       app: {
@@ -291,22 +291,22 @@ describe('Deployments Component', () => {
     await user.keyboard(specialKeys.Enter);
     await user.tab();
     await act(async () => {
-      jest.advanceTimersByTime(1000);
-      jest.runAllTicks();
+      vi.advanceTimersByTime(1000);
+      vi.runAllTicks();
     });
     expect(retrySelect).toHaveValue(2);
 
     // extra explicit here as the general date mocking seems to be ignored by the moment/ date combination
-    jest.setSystemTime(mockDate);
+    vi.setSystemTime(mockDate);
     const secondBatchDate = new Date(new Date(mockDate).setMinutes(mockDate.getMinutes() + 30));
     const thirdBatchDate = new Date(new Date(secondBatchDate).setDate(secondBatchDate.getDate() + 25));
-    const post = jest.spyOn(GeneralApi, 'post');
+    const post = vi.spyOn(GeneralApi, 'post');
     const creationButton = screen.getByText(/Create deployment/i);
     await user.click(creationButton);
     expect(creationButton).toBeDisabled();
     await act(async () => {
-      jest.advanceTimersByTime(1000);
-      jest.runAllTicks();
+      vi.advanceTimersByTime(1000);
+      vi.runAllTicks();
     });
     expect(post).toHaveBeenCalledWith('/api/management/v1/deployments/deployments', {
       all_devices: true,

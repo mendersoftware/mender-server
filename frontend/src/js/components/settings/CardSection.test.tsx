@@ -18,17 +18,11 @@ import { loadStripe } from '@stripe/stripe-js';
 
 import { undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
-import CardSection from './CardSection';
+import {CardSection} from './CardSection';
 
-describe('GlobalSettings Component', () => {
-  let stripe;
-  beforeEach(() => {
-    jest.mock('@stripe/stripe-js', () => ({
-      loadStripe: () => ({ createPaymentMethod: jest.fn() })
-    }));
-    stripe = loadStripe();
-  });
+describe('CardSection Component', () => {
   it('renders correctly', async () => {
+    const stripe = loadStripe();
     const { baseElement } = render(
       <Elements stripe={stripe}>
         <CardSection isSignUp={true} />

@@ -13,9 +13,9 @@
 //    limitations under the License.
 import React from 'react';
 
-import * as UserActions from '@northern.tech/store/usersSlice/thunks';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
@@ -30,8 +30,10 @@ describe('Password Component', () => {
   });
 
   it('works as intended', async () => {
-    const startSpy = jest.spyOn(UserActions, 'passwordResetStart');
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const UserActions = await import('@northern.tech/store/usersSlice/thunks');
+
+    const startSpy = vi.spyOn(UserActions, 'passwordResetStart');
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const ui = <Password />;
     const { rerender } = render(ui);
     await user.type(screen.queryByLabelText(/your email/i), 'something@example.com');

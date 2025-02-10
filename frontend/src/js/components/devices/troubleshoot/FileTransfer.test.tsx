@@ -23,10 +23,10 @@ describe('FileTransfer Component', () => {
       <FileTransfer
         device={defaultState.devices.byId.a1}
         downloadPath={''}
-        onDownload={jest.fn}
-        setDownloadPath={jest.fn}
-        setFile={jest.fn}
-        setUploadPath={jest.fn}
+        onDownload={vi.fn}
+        setDownloadPath={vi.fn}
+        setFile={vi.fn}
+        setUploadPath={vi.fn}
         uploadPath={''}
         userCapabilities={{ canTroubleshoot: true, canWriteDevices: true }}
       />

@@ -25,8 +25,8 @@ describe('SamlConfig Component', () => {
       <SSOConfig
         ssoItem={SSO_TYPES.saml}
         config={{ id: '1', config: `<div>not quite right</div>`, type: SSO_TYPES.saml.type }}
-        onCancel={jest.fn}
-        onSave={jest.fn}
+        onCancel={vi.fn}
+        onSave={vi.fn}
       />
     );
     const view = baseElement.firstChild;

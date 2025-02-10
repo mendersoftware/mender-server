@@ -27,7 +27,7 @@ import { ALL_DEVICES, ATTRIBUTE_SCOPES, DEPLOYMENT_TYPES, DEVICE_FILTERING_OPTIO
 import { getReleases, getSystemDevices } from '@northern.tech/store/thunks';
 import { stringToBoolean } from '@northern.tech/utils/helpers';
 import { formatDeviceSearch } from '@northern.tech/utils/locationutils';
-import useWindowSize from '@northern.tech/utils/resizehook';
+import { useWindowSize } from '@northern.tech/utils/resizehook';
 import pluralize from 'pluralize';
 import isUUID from 'validator/lib/isUUID';
 

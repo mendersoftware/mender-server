@@ -16,7 +16,6 @@ import React from 'react';
 import GeneralApi from '@northern.tech/store/api/general-api';
 import { TIMEOUTS } from '@northern.tech/store/commonConstants';
 import { apiUrl } from '@northern.tech/store/constants';
-import * as ReleaseActions from '@northern.tech/store/releasesSlice/thunks';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
@@ -27,20 +26,20 @@ import Releases from './Releases';
 describe('Releases Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(<Releases />);
-    await act(async () => jest.advanceTimersByTime(1000));
+    await act(async () => vi.advanceTimersByTime(1000));
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
     await act(async () => {
-      jest.runOnlyPendingTimers();
-      jest.runAllTicks();
+      vi.runOnlyPendingTimers();
+      vi.runAllTicks();
     });
   });
 
   it(
     'works as expected',
     async () => {
-      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
       const preloadedState = {
         ...defaultState,
         releases: {
@@ -62,29 +61,30 @@ describe('Releases Component', () => {
       await user.click(screen.getByRole('button', { name: /Close/i }));
       await waitFor(() => rerender(ui));
       await act(async () => {
-        jest.runOnlyPendingTimers();
-        jest.runAllTicks();
+        vi.runOnlyPendingTimers();
+        vi.runAllTicks();
       });
       expect(screen.queryByText(/release information/i)).toBeFalsy();
     },
     TIMEOUTS.refreshDefault * 2
   );
   it('has working search handling as expected', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     render(<Releases />);
     expect(screen.queryByText(/Filtered from/i)).not.toBeInTheDocument();
     await user.type(screen.getByPlaceholderText(/starts with/i), 'b1');
     await waitFor(() => expect(screen.queryByText(/Filtered from/i)).toBeInTheDocument(), { timeout: 2000 });
     expect(screen.queryByText(/Filtered from/i)).toBeInTheDocument();
     await act(async () => {
-      jest.runOnlyPendingTimers();
-      jest.runAllTicks();
+      vi.runOnlyPendingTimers();
+      vi.runAllTicks();
     });
   });
   it('can delete releases from the list', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const deleteReleasesSpy = jest.spyOn(ReleaseActions, 'removeReleases');
-    const deletionSpy = jest.spyOn(GeneralApi, 'delete');
+    const ReleaseActions = await import('@northern.tech/store/releasesSlice/thunks');
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const deleteReleasesSpy = vi.spyOn(ReleaseActions, 'removeReleases');
+    const deletionSpy = vi.spyOn(GeneralApi, 'delete');
     const ui = <Releases />;
     const { rerender, container } = render(ui);
     await waitFor(() => expect(screen.queryAllByText(defaultState.releases.byId.r1.name)[0]).toBeInTheDocument());
@@ -96,8 +96,8 @@ describe('Releases Component', () => {
     await expect(screen.getByText(/will be deleted/i)).toBeVisible();
     await user.click(screen.getByRole('button', { name: /delete/i }));
     await act(async () => {
-      jest.runOnlyPendingTimers();
-      jest.runAllTicks();
+      vi.runOnlyPendingTimers();
+      vi.runAllTicks();
     });
     expect(deleteReleasesSpy).toHaveBeenCalledWith([defaultState.releases.byId.r1.name]);
     expect(deletionSpy).toHaveBeenCalledWith(`${apiUrl.v1}/deployments/artifacts/${defaultState.releases.byId.r1.artifacts[0].id}`);

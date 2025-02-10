@@ -15,7 +15,6 @@ import React from 'react';
 
 import { getSessionInfo } from '@northern.tech/store/auth';
 import { actions } from '@northern.tech/store/organizationSlice/index';
-import * as OrganizationActions from '@northern.tech/store/organizationSlice/thunks';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { screen, waitFor } from '@testing-library/react';
@@ -42,7 +41,7 @@ describe('smaller components', () => {
         <Component
           trial_expiration="2019-10-05T13:00:00.000Z"
           isTrial={true}
-          handleCancelSubscription={jest.fn}
+          handleCancelSubscription={vi.fn}
           orgName="test"
           mailBodyTexts={{ billing: 'bill this', upgrade: 'upgrade here' }}
         />
@@ -57,10 +56,7 @@ describe('smaller components', () => {
 describe('Upgrade Component', () => {
   it('renders correctly', async () => {
     window.localStorage.getItem.mockImplementation(() => null);
-    jest.mock('@stripe/stripe-js', () => ({
-      loadStripe: () => ({ createPaymentMethod: jest.fn() })
-    }));
-    const stripe = loadStripe('123');
+    const stripe = loadStripe();
     const { baseElement } = render(
       <Elements stripe={stripe}>
         <Upgrade />
@@ -95,9 +91,9 @@ describe('Upgrade Component', () => {
     }
   };
   it('signup works as intended', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     render(<Upgrade />, trialState);
-    jest.spyOn(actions, 'setOrganization').mockImplementation(() => trialState);
+    vi.spyOn(actions, 'setOrganization').mockImplementation(() => trialState);
 
     const upgradeButton = await screen.getAllByRole('button', { name: /subscribe/i })[0];
     await user.click(upgradeButton);
@@ -113,12 +109,13 @@ describe('Upgrade Component', () => {
     expect(input.value).toEqual('Norway');
   });
   it('upgrade works as intended', async () => {
-    const professionalRequest = jest.spyOn(OrganizationActions, 'requestPlanChange');
+    const OrganizationActions = await import('@northern.tech/store/organizationSlice/thunks');
+    const professionalRequest = vi.spyOn(OrganizationActions, 'requestPlanChange');
 
-    const storageMock = jest.spyOn(Storage.prototype, 'setItem');
-    Storage.prototype.setItem = jest.fn();
+    const storageMock = vi.spyOn(Storage.prototype, 'setItem');
+    Storage.prototype.setItem = vi.fn();
 
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const { rerender } = render(<Upgrade />, { preloadedState: defaultState });
     const upgradeButton = await screen.findByRole('button', { name: /upgrade/i });
     await user.click(upgradeButton);
@@ -139,13 +136,14 @@ describe('Upgrade Component', () => {
   });
 
   it('adding addon works as intended', async () => {
-    const addonRequest = jest.spyOn(OrganizationActions, 'requestPlanChange');
+    const OrganizationActions = await import('@northern.tech/store/organizationSlice/thunks');
+    const addonRequest = vi.spyOn(OrganizationActions, 'requestPlanChange');
 
-    const storageMock = jest.spyOn(Storage.prototype, 'setItem');
-    Storage.prototype.setItem = jest.fn();
+    const storageMock = vi.spyOn(Storage.prototype, 'setItem');
+    Storage.prototype.setItem = vi.fn();
     window.localStorage.getItem.mockImplementation(() => null);
 
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
 
     render(<Upgrade />, { preloadedState: defaultState });
     const addToPlanButton = await screen.getAllByRole('button', { name: /add to plan/i });
@@ -178,12 +176,13 @@ describe('Upgrade Component', () => {
     }
   };
   it('enterprise request works as intended', async () => {
-    const enterpriseRequest = jest.spyOn(OrganizationActions, 'requestPlanChange');
+    const OrganizationActions = await import('@northern.tech/store/organizationSlice/thunks');
+    const enterpriseRequest = vi.spyOn(OrganizationActions, 'requestPlanChange');
     window.localStorage.getItem.mockImplementation(() => null);
-    jest.spyOn(Storage.prototype, 'setItem');
-    Storage.prototype.setItem = jest.fn();
+    vi.spyOn(Storage.prototype, 'setItem');
+    Storage.prototype.setItem = vi.fn();
 
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     render(<Upgrade />, { preloadedState: defaultState });
 
     const contactButton = await screen.findByRole('button', { name: /contact us/i });

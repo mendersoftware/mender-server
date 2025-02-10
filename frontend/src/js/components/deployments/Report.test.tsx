@@ -34,9 +34,9 @@ describe('DeploymentReport Component', () => {
   afterEach(cleanup);
 
   it('renders correctly', async () => {
-    const ui = <DeploymentReport open type="finished" getDeploymentDevices={jest.fn} getDeviceById={jest.fn} getDeviceAuth={jest.fn} />;
+    const ui = <DeploymentReport open type="finished" getDeploymentDevices={vi.fn} getDeviceById={vi.fn} getDeviceAuth={vi.fn} />;
     const { asFragment, rerender } = render(ui, { preloadedState });
-    act(() => jest.advanceTimersByTime(5000));
+    act(() => vi.advanceTimersByTime(5000));
     await waitFor(() => rerender(ui));
     const view = prettyDOM(asFragment().childNodes[1], 100000, { highlight: false })
       .replace(/id="mui-[0-9]*"/g, '')

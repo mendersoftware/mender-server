@@ -24,7 +24,7 @@ describe('EventDetailsDrawer Component', () => {
     const { baseElement } = render(
       <EventDetailsDrawer
         eventItem={defaultState.organization.auditlog.events[0]}
-        onClose={jest.fn}
+        onClose={vi.fn}
         open={true}
         mapChangeToContent={EventDetailsDrawerContentMap}
         fallbackComponenet={EventDetailsFallbackComponent}

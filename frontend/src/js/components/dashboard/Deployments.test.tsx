@@ -19,7 +19,7 @@ import Deployments from './Deployments';
 
 describe('Deployments Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<Deployments clickHandle={jest.fn} />);
+    const { baseElement } = render(<Deployments clickHandle={vi.fn} />);
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

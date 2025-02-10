@@ -22,16 +22,16 @@ import RedirectionWidget from './RedirectionWidget';
 
 describe('RedirectionWidget Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<RedirectionWidget onClick={jest.fn} content="testlocation" />);
+    const { baseElement } = render(<RedirectionWidget onClick={vi.fn} content="testlocation" />);
     const view = baseElement;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
 
   it('works as intended', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const content = 'test content';
-    const submitCheck = jest.fn();
+    const submitCheck = vi.fn();
     render(<RedirectionWidget content={content} onClick={submitCheck} />);
 
     await user.click(screen.getByText(content));

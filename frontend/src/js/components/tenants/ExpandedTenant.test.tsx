@@ -63,7 +63,7 @@ const tenant: Tenant = state.organization.tenantList.tenants[0];
 
 describe('ExpandedTenant', () => {
   it('renders correctly', () => {
-    const { baseElement } = render(<ExpandedTenant onCloseClick={jest.fn} tenant={tenant} />, {
+    const { baseElement } = render(<ExpandedTenant onCloseClick={vi.fn} tenant={tenant} />, {
       preloadedState: state
     });
     const view = baseElement;
@@ -71,11 +71,11 @@ describe('ExpandedTenant', () => {
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
   it('works as intended', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const editDeviceLimit = jest.spyOn(OrganizationActions, 'editTenantDeviceLimit');
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const editDeviceLimit = vi.spyOn(OrganizationActions, 'editTenantDeviceLimit');
 
     const newLimit = '5';
-    render(<ExpandedTenant onCloseClick={jest.fn} tenant={tenant} />, { preloadedState: state });
+    render(<ExpandedTenant onCloseClick={vi.fn} tenant={tenant} />, { preloadedState: state });
     expect(screen.queryByText(`Tenant Information for ${tenant.name}`));
     await user.click(screen.getByRole('button', { name: /edit device limit/i }));
     const limitInput = screen.getByTestId('dev-limit-input');

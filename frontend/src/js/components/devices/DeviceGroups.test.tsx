@@ -15,6 +15,7 @@ import React from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 
 import { act, prettyDOM } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
@@ -35,11 +36,14 @@ const preloadedState = {
   }
 };
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'), // if you want to still use the actual other parts of the module
-  useLocation: jest.fn(),
-  useSearchParams: jest.fn()
-}));
+vi.mock('react-router-dom', async importOriginal => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    useLocation: vi.fn(),
+    useSearchParams: vi.fn()
+  };
+});
 
 describe('DeviceGroups Component', () => {
   const searchParams = `inventory=group:eq:${preloadedState.devices.groups.selectedGroup}`;
@@ -52,7 +56,7 @@ describe('DeviceGroups Component', () => {
       key: 'testKey'
     };
     const mockSearchParams = new URLSearchParams(searchParams);
-    const setParams = jest.fn();
+    const setParams = vi.fn();
 
     // mock location and search params as DeviceGroups component pays attention to the url and parses state from it
     useLocation.mockImplementation(() => location);
@@ -66,6 +70,6 @@ describe('DeviceGroups Component', () => {
       .replace(/\\/g, '');
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
-    await act(async () => jest.runAllTicks());
+    await act(async () => vi.runAllTicks());
   });
 });

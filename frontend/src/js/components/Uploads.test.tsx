@@ -37,7 +37,7 @@ describe('Uploads Component', () => {
       }
     };
     const { baseElement } = render(<Uploads />, { preloadedState });
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     user.hover(screen.getByRole('progressbar'));
     await waitFor(() => screen.queryByText(/in progress/i));
     const view = baseElement;

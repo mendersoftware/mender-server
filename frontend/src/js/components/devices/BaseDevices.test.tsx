@@ -52,7 +52,7 @@ describe('smaller components', () => {
           idAttribute={{ attribute: 'mac', scope: 'identity' }}
           column={{ title: 'mac', attribute: { name: 'mac', scope: 'identity' }, sortable: true, textRender: defaultTextRender }}
           limitMaxed={true}
-          onClick={jest.fn}
+          onClick={vi.fn}
         />
       );
       const view = baseElement.firstChild.firstChild;

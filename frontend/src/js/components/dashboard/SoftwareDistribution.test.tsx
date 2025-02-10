@@ -14,8 +14,8 @@
 import React from 'react';
 
 import { TIMEOUTS, chartTypes, rootfsImageVersion } from '@northern.tech/store/constants';
-import * as DeviceActions from '@northern.tech/store/devicesSlice/thunks';
 import { act, waitFor } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
@@ -59,16 +59,17 @@ const preloadedState = {
   }
 };
 
-const reportsSpy = jest.spyOn(DeviceActions, 'getReportsDataWithoutBackendSupport');
-
 describe('Devices Component', () => {
   it('renders correctly', async () => {
+    const DeviceActions = await import('@northern.tech/store/devicesSlice/thunks');
+    const reportsSpy = vi.spyOn(DeviceActions, 'getReportsDataWithoutBackendSupport');
+
     const ui = <SoftwareDistribution />;
 
     const { baseElement, rerender } = render(ui, { preloadedState });
     await act(async () => {
-      jest.runAllTimers();
-      jest.runAllTicks();
+      vi.runAllTimers();
+      vi.runAllTicks();
       return new Promise(resolve => resolve(), TIMEOUTS.threeSeconds);
     });
     await waitFor(() => expect(reportsSpy).toHaveBeenCalled());
@@ -80,6 +81,8 @@ describe('Devices Component', () => {
   });
 
   it('renders correctly for enterprise', async () => {
+    const DeviceActions = await import('@northern.tech/store/devicesSlice/thunks');
+    const reportsSpy = vi.spyOn(DeviceActions, 'getReportsDataWithoutBackendSupport');
     const testState = {
       ...preloadedState,
       app: {
@@ -93,8 +96,8 @@ describe('Devices Component', () => {
     const ui = <SoftwareDistribution />;
     const { baseElement, rerender } = render(ui, { preloadedState: testState });
     await act(async () => {
-      jest.runAllTimers();
-      jest.runAllTicks();
+      vi.runAllTimers();
+      vi.runAllTicks();
       return new Promise(resolve => resolve(), TIMEOUTS.threeSeconds);
     });
     await waitFor(() => expect(reportsSpy).toHaveBeenCalled());

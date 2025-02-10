@@ -19,7 +19,7 @@ import DeviceTags from './DeviceTags';
 
 describe('DeviceTags Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<DeviceTags device={{ ...defaultState.devices.byId.a1 }} setSnackbar={jest.fn} userCapabilities={adminUserCapabilities} />);
+    const { baseElement } = render(<DeviceTags device={{ ...defaultState.devices.byId.a1 }} setSnackbar={vi.fn} userCapabilities={adminUserCapabilities} />);
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

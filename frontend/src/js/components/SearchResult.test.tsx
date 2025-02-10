@@ -38,7 +38,7 @@ describe('SearchResult Component', () => {
         }
       }
     };
-    const { baseElement } = render(<SearchResult onToggleSearchResult={jest.fn} open setSearchState={jest.fn} setSnackbar={jest.fn} />, {
+    const { baseElement } = render(<SearchResult onToggleSearchResult={vi.fn} open setSearchState={vi.fn} setSnackbar={vi.fn} />, {
       preloadedState: state
     });
     const view = baseElement;

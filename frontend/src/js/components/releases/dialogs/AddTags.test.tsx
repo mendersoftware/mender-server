@@ -19,7 +19,7 @@ import AddTags from './AddTags';
 
 describe('releases addTags Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<AddTags selectedReleases={[]} onClose={jest.fn} />);
+    const { baseElement } = render(<AddTags selectedReleases={[]} onClose={vi.fn} />);
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

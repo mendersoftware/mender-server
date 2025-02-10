@@ -49,7 +49,7 @@ import {
 } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { toggle } from '@northern.tech/utils/helpers';
-import useWindowSize from '@northern.tech/utils/resizehook';
+import { useWindowSize } from '@northern.tech/utils/resizehook';
 import { clearAllRetryTimers, setRetryTimer } from '@northern.tech/utils/retrytimer';
 
 import { getOnboardingComponentFor } from '../../utils/onboardingManager';

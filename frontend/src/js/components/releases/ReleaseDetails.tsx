@@ -53,7 +53,7 @@ import { getReleaseListState, getReleaseTags, getSelectedRelease, getUserCapabil
 import { removeArtifact, removeRelease, selectRelease, setReleaseTags, updateReleaseInfo } from '@northern.tech/store/thunks';
 import { customSort, formatTime, isEmpty, toggle } from '@northern.tech/utils/helpers';
 import { generateReleasesPath } from '@northern.tech/utils/locationutils';
-import useWindowSize from '@northern.tech/utils/resizehook';
+import { useWindowSize } from '@northern.tech/utils/resizehook';
 import copy from 'copy-to-clipboard';
 import pluralize from 'pluralize';
 

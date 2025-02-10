@@ -21,7 +21,7 @@ describe('DeviceQuickActions Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(
       <DeviceQuickActions
-        actionCallbacks={{ onAddDevicesToGroup: jest.fn, onAuthorizationChange: jest.fn, onDeviceDismiss: jest.fn, onRemoveDevicesFromGroup: jest.fn }}
+        actionCallbacks={{ onAddDevicesToGroup: vi.fn, onAuthorizationChange: vi.fn, onDeviceDismiss: vi.fn, onRemoveDevicesFromGroup: vi.fn }}
         selectedGroup=""
       />,
       {

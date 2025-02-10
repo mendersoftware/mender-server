@@ -20,7 +20,7 @@ import ReleasesList from './ReleasesList';
 describe('ReleasesList Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(
-      <ReleasesList features={{}} releases={[]} releasesListState={{ isLoading: false, sort: { key: 'Name' } }} setReleasesListState={jest.fn} />
+      <ReleasesList features={{}} releases={[]} releasesListState={{ isLoading: false, sort: { key: 'Name' } }} setReleasesListState={vi.fn} />
     );
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();

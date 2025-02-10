@@ -18,6 +18,7 @@ import { TIMEOUTS } from '@northern.tech/store/commonConstants';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Cookies from 'universal-cookie';
+import { vi } from 'vitest';
 
 import { undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
@@ -34,7 +35,7 @@ describe('Signup Component', () => {
   });
 
   it('allows signing up', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const ui = (
       <>
         <Signup location={{ state: { from: '' } }} match={{ params: {} }} />
@@ -53,11 +54,11 @@ describe('Signup Component', () => {
     await user.type(passwordConfirmationInput, 'mysecretpassword!123');
     expect(container.querySelector('#pass-strength > meter')).toBeVisible();
     await act(async () => {
-      jest.runAllTicks();
-      jest.runAllTimers();
+      vi.runAllTicks();
+      vi.runAllTimers();
     });
     await waitFor(() => rerender(ui));
-    expect(screen.getByRole('button', { name: /sign up/i })).toBeEnabled();
+    await waitFor(() => expect(screen.getByRole('button', { name: /sign up/i })).toBeEnabled());
     await user.click(screen.getByRole('button', { name: /sign up/i }));
     await waitFor(() => screen.queryByPlaceholderText('Company or organization name *'));
     await user.type(screen.getByRole('textbox', { name: /company or organization name \*/i }), 'test');
@@ -65,13 +66,13 @@ describe('Signup Component', () => {
     await user.click(screen.getByRole('checkbox', { name: /by checking this you agree to our/i }));
     await waitFor(() => rerender(ui));
     await waitFor(() => expect(screen.getByRole('button', { name: /complete signup/i })).toBeEnabled());
-    cookies.set.mockReturnValue();
+    const cookiesSet = vi.spyOn(cookies, 'set');
     await user.click(screen.getByRole('button', { name: /complete signup/i }));
     await waitFor(() => expect(container.querySelector('.loaderContainer')).toBeVisible());
-    await act(async () => jest.advanceTimersByTime(TIMEOUTS.refreshDefault));
+    await act(async () => vi.advanceTimersByTime(TIMEOUTS.refreshDefault));
     await waitFor(() => rerender(ui));
     await waitFor(() =>
-      expect(cookies.set).toHaveBeenLastCalledWith('firstLoginAfterSignup', true, { domain: '.mender.io', maxAge: 60, path: '/', sameSite: false })
+      expect(cookiesSet).toHaveBeenCalledWith('firstLoginAfterSignup', true, { domain: '.mender.io', maxAge: 60, path: '/', sameSite: false })
     );
   }, 10000);
 });

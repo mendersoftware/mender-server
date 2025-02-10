@@ -98,7 +98,7 @@ const DeviceUpdateTitle = ({ loading, title }) => {
   );
 };
 
-const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUploadPath, setFile, setSnackbar, setSocketInitialized, socketInitialized }) => {
+export const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUploadPath, setFile, setSnackbar, setSocketInitialized, socketInitialized }) => {
   const [terminalInput, setTerminalInput] = useState('');
   const [startTime, setStartTime] = useState();
   const [snackbarAlreadySet, setSnackbarAlreadySet] = useState(false);

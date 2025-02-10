@@ -29,7 +29,7 @@ describe('Devices Component', () => {
         }
       }
     };
-    const { baseElement } = render(<Devices getAllDevicesByStatus={jest.fn()} />, { preloadedState });
+    const { baseElement } = render(<Devices getAllDevicesByStatus={vi.fn()} />, { preloadedState });
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

@@ -15,25 +15,27 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { actions as deviceActions } from '@northern.tech/store/devicesSlice';
-import * as DeviceActions from '@northern.tech/store/devicesSlice/thunks';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
-import Dashboard from './Dashboard';
+import { Dashboard } from './Dashboard';
 
-const reportsSpy = jest.spyOn(DeviceActions, 'getReportsDataWithoutBackendSupport');
 
 describe('Dashboard Component', () => {
   afterEach(async () => {
     // wait for all requests to settle
     await act(async () => {
-      jest.runOnlyPendingTimers();
-      jest.runAllTicks();
+      vi.runOnlyPendingTimers();
+      vi.runAllTicks();
     });
   });
   it('renders correctly', async () => {
+    const DeviceActions = await import('@northern.tech/store/devicesSlice/thunks');
+    const reportsSpy = vi.spyOn(DeviceActions, 'getReportsDataWithoutBackendSupport');
+
     const preloadedState = {
       ...defaultState,
       deployments: {
@@ -57,6 +59,8 @@ describe('Dashboard Component', () => {
   });
 
   it('allows navigating to pending devices', async () => {
+    const DeviceActions = await import('@northern.tech/store/devicesSlice/thunks');
+    const reportsSpy = vi.spyOn(DeviceActions, 'getReportsDataWithoutBackendSupport');
     const preloadedState = {
       ...defaultState,
       devices: {
@@ -67,7 +71,7 @@ describe('Dashboard Component', () => {
         }
       }
     };
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const ui = (
       <Routes>
         <Route path="/" element={<Dashboard />} />
@@ -85,7 +89,9 @@ describe('Dashboard Component', () => {
   });
 
   it('allows navigating to accepted devices', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const DeviceActions = await import('@northern.tech/store/devicesSlice/thunks');
+    const reportsSpy = vi.spyOn(DeviceActions, 'getReportsDataWithoutBackendSupport');
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const ui = (
       <Routes>
         <Route path="/" element={<Dashboard />} />
@@ -102,6 +108,8 @@ describe('Dashboard Component', () => {
   });
 
   it('allows navigating to deployments', async () => {
+    const DeviceActions = await import('@northern.tech/store/devicesSlice/thunks');
+    const reportsSpy = vi.spyOn(DeviceActions, 'getReportsDataWithoutBackendSupport');
     const preloadedState = {
       ...defaultState,
       deployments: {
@@ -112,7 +120,7 @@ describe('Dashboard Component', () => {
         }
       }
     };
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const ui = (
       <Routes>
         <Route path="/" element={<Dashboard />} />

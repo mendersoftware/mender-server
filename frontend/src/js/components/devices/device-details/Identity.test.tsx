@@ -19,13 +19,13 @@ import DeviceIdentity from './Identity';
 
 describe('DeviceIdentity Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<DeviceIdentity device={defaultState.devices.byId.a1} setSnackbar={jest.fn} />);
+    const { baseElement } = render(<DeviceIdentity device={defaultState.devices.byId.a1} setSnackbar={vi.fn} />);
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
   it('renders correctly without a mac', async () => {
-    const { baseElement } = render(<DeviceIdentity device={defaultState.devices.byId.c1} setSnackbar={jest.fn} />);
+    const { baseElement } = render(<DeviceIdentity device={defaultState.devices.byId.c1} setSnackbar={vi.fn} />);
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

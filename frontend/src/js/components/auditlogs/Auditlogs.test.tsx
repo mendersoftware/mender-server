@@ -71,7 +71,7 @@ describe('Auditlogs Component', () => {
 
   it('works as expected', async () => {
     let store = getConfiguredStore({ preloadedState });
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     render(
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Provider store={store}>
@@ -90,7 +90,7 @@ describe('Auditlogs Component', () => {
 
   it('allows navigating by url as expected', async () => {
     let store = getConfiguredStore({ preloadedState });
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const theme = createTheme(lightTheme);
     const ui = (
       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -104,7 +104,7 @@ describe('Auditlogs Component', () => {
       </LocalizationProvider>
     );
     const { rerender } = testingLibRender(ui);
-    await jest.advanceTimersByTimeAsync(TIMEOUTS.oneSecond);
+    await vi.advanceTimersByTimeAsync(TIMEOUTS.oneSecond);
     await waitFor(() => rerender(ui));
     await user.click(screen.getByText(/clear filter/i));
   });

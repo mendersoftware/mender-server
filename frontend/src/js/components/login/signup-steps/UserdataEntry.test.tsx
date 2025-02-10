@@ -13,10 +13,10 @@
 //    limitations under the License.
 import React from 'react';
 
-import { formRenderWrapper } from '@northern.tech/common-ui/forms/Form.test';
+import { formRenderWrapper } from '@northern.tech/common-ui/forms/helpers';
 
 import { undefineds } from '../../../../../tests/mockData';
-import UserDataEntry from './UserdataEntry';
+import { UserDataEntry } from './UserdataEntry';
 
 describe('Login Component', () => {
   it('renders correctly', async () => {

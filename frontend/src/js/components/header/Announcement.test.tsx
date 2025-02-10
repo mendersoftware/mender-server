@@ -18,11 +18,11 @@ import { undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
 import Announcement from './Announcement';
 
-jest.mock('react-linkify');
+vi.mock('react-linkify');
 
 describe('Announcement Component', () => {
   it('renders correctly', async () => {
-    Linkify.default = jest.fn();
+    Linkify.default = vi.fn();
     Linkify.default.mockReturnValue(null);
     const { baseElement } = render(<Announcement errorIconClassName="" iconClassName="" sectionClassName="" />);
     const view = baseElement.firstChild.firstChild;

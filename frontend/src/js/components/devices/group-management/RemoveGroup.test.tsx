@@ -19,7 +19,7 @@ import RemoveGroup from './RemoveGroup';
 
 describe('RemoveGroup Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<RemoveGroup onClose={jest.fn} onRemove={jest.fn} />);
+    const { baseElement } = render(<RemoveGroup onClose={vi.fn} onRemove={vi.fn} />);
     const view = baseElement.getElementsByClassName('MuiDialog-root')[0];
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

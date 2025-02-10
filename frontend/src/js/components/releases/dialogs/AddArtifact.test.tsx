@@ -13,7 +13,6 @@
 //    limitations under the License.
 import React from 'react';
 
-import * as releaseActions from '@northern.tech/store/releasesSlice/thunks';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
@@ -22,10 +21,7 @@ import { render } from '../../../../../tests/setupTests';
 import AddArtifact from './AddArtifact';
 
 describe('AddArtifact Component', () => {
-  let preloadedState;
-  beforeEach(() => {
-    preloadedState = { ...defaultState, onboarding: { ...defaultState.onboarding, complete: true } };
-  });
+  const preloadedState = { ...defaultState, onboarding: { ...defaultState.onboarding, complete: true } };
   it('renders correctly', async () => {
     const { baseElement } = render(<AddArtifact />, { preloadedState });
     const view = baseElement.getElementsByClassName('MuiDialog-root')[0];
@@ -34,11 +30,12 @@ describe('AddArtifact Component', () => {
   });
 
   it('allows uploading a mender artifact', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const releaseActions = await import('@northern.tech/store/releasesSlice/thunks');
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const menderFile = new File(['testContent'], 'test.mender');
-    const uploadSpy = jest.spyOn(releaseActions, 'uploadArtifact');
+    const uploadSpy = vi.spyOn(releaseActions, 'uploadArtifact');
 
-    const ui = <AddArtifact onUploadStarted={jest.fn} releases={Object.values(defaultState.releases.byId)} />;
+    const ui = <AddArtifact onUploadStarted={vi.fn} releases={Object.values(defaultState.releases.byId)} />;
     const { rerender } = render(ui, { preloadedState });
     expect(screen.getByText(/Upload a premade/i)).toBeInTheDocument();
     // container.querySelector doesn't work in this scenario for some reason -> but querying document seems to work
@@ -55,11 +52,13 @@ describe('AddArtifact Component', () => {
   });
 
   it('allows creating a mender artifact', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const creationSpy = jest.spyOn(releaseActions, 'createArtifact');
+    const releaseActions = await import('@northern.tech/store/releasesSlice/thunks');
+
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const creationSpy = vi.spyOn(releaseActions, 'createArtifact');
 
     const menderFile = new File(['testContent plain'], 'testFile.txt');
-    const ui = <AddArtifact onUploadStarted={jest.fn} releases={Object.values(defaultState.releases.byId)} />;
+    const ui = <AddArtifact onUploadStarted={vi.fn} releases={Object.values(defaultState.releases.byId)} />;
     const { rerender } = render(ui, { preloadedState });
     expect(screen.getByText(/Upload a premade/i)).toBeInTheDocument();
     // container.querySelector doesn't work in this scenario for some reason -> but querying document seems to work

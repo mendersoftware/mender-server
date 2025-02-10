@@ -53,7 +53,7 @@ describe('Header Component', () => {
   });
 
   it('works as intended', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const view = <Header />;
     const { rerender } = render(view, { preloadedState });
     expect(screen.queryByText(defaultState.users.byId[defaultState.users.currentUser].email)).toBeInTheDocument();
@@ -62,7 +62,7 @@ describe('Header Component', () => {
     const listbox = document.body.querySelector('ul[role=menu]');
     const listItem = within(listbox).getByText(/log out/i);
     await user.click(listItem);
-    await act(async () => jest.runAllTicks());
+    await act(async () => vi.runAllTicks());
     await waitFor(() => rerender(view));
     expect(screen.queryByText(defaultState.users.byId[defaultState.users.currentUser].email)).not.toBeInTheDocument();
   });

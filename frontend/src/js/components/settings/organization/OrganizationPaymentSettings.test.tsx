@@ -31,13 +31,13 @@ const preloadedState = {
 };
 describe('OrganizationPaymentSettings Component', () => {
   beforeEach(() => {
-    Date.now = jest.fn(() => new Date('2020-07-01T12:00:00.000Z'));
+    Date.now = vi.fn(() => new Date('2020-07-01T12:00:00.000Z'));
   });
   it('renders correctly', async () => {
     const { baseElement } = render(<OrganizationPaymentSettings />, { preloadedState });
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
-    await act(async () => jest.runAllTicks());
+    await act(async () => vi.runAllTicks());
   });
 });

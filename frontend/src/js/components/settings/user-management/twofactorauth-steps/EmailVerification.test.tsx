@@ -19,7 +19,7 @@ import EmailVerification from './EmailVerification';
 
 describe('EmailVerification Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<EmailVerification verifyEmailComplete={jest.fn} verifyEmailStart={jest.fn} />);
+    const { baseElement } = render(<EmailVerification verifyEmailComplete={vi.fn} verifyEmailStart={vi.fn} />);
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
