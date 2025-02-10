@@ -62,7 +62,7 @@ paths:
       summary: List all the deployments matching the specified filter parameters
       description: |
         Returns a filtered collection of deployments in the system. While you can provide multiple
-        deplyoment identifiers, and multiple names to get the multiple deplyoments you cannot mix
+        deployment identifiers, and multiple names to get the multiple deployments you cannot mix
         the ids and names in a one query expecting to get deployments that match both names or ids.
         The endpoint will return the deployments that match the ids and the name, if combined.
       parameters:
