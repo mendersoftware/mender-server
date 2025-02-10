@@ -1,8 +1,8 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CreateDeployment Component renders correctly 1`] = `undefined`;
+exports[`CreateDeployment Component > renders correctly 1`] = `undefined`;
 
-exports[`CreateDeployment Component smaller components renders DeviceLimit correctly 1`] = `
+exports[`CreateDeployment Component > smaller components > renders DeviceLimit correctly 1`] = `
 .emotion-0 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -855,7 +855,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-19:focus::-ms-input-
 </div>
 `;
 
-exports[`CreateDeployment Component smaller components renders DeviceLimit correctly as enterprise 1`] = `
+exports[`CreateDeployment Component > smaller components > renders DeviceLimit correctly as enterprise 1`] = `
 .emotion-0 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -1708,7 +1708,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-19:focus::-ms-input-
 </div>
 `;
 
-exports[`CreateDeployment Component smaller components renders Devices correctly 1`] = `
+exports[`CreateDeployment Component > smaller components > renders Devices correctly 1`] = `
 .emotion-0 {
   min-width: -webkit-min-content;
   min-width: -moz-min-content;
@@ -2243,7 +2243,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
 </div>
 `;
 
-exports[`CreateDeployment Component smaller components renders Devices correctly as enterprise 1`] = `
+exports[`CreateDeployment Component > smaller components > renders Devices correctly as enterprise 1`] = `
 .emotion-0 {
   min-width: -webkit-min-content;
   min-width: -moz-min-content;
@@ -2778,7 +2778,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
 </div>
 `;
 
-exports[`CreateDeployment Component smaller components renders ForceDeploy correctly 1`] = `
+exports[`CreateDeployment Component > smaller components > renders ForceDeploy correctly 1`] = `
 .emotion-0 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -3029,7 +3029,7 @@ exports[`CreateDeployment Component smaller components renders ForceDeploy corre
 </div>
 `;
 
-exports[`CreateDeployment Component smaller components renders ForceDeploy correctly as enterprise 1`] = `
+exports[`CreateDeployment Component > smaller components > renders ForceDeploy correctly as enterprise 1`] = `
 .emotion-0 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -3280,7 +3280,7 @@ exports[`CreateDeployment Component smaller components renders ForceDeploy corre
 </div>
 `;
 
-exports[`CreateDeployment Component smaller components renders ReleasesWarning correctly 1`] = `
+exports[`CreateDeployment Component > smaller components > renders ReleasesWarning correctly 1`] = `
 .emotion-0 {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -3341,7 +3341,7 @@ exports[`CreateDeployment Component smaller components renders ReleasesWarning c
 </div>
 `;
 
-exports[`CreateDeployment Component smaller components renders ReleasesWarning correctly as enterprise 1`] = `
+exports[`CreateDeployment Component > smaller components > renders ReleasesWarning correctly as enterprise 1`] = `
 .emotion-0 {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -3402,7 +3402,7 @@ exports[`CreateDeployment Component smaller components renders ReleasesWarning c
 </div>
 `;
 
-exports[`CreateDeployment Component smaller components renders Retries correctly 1`] = `
+exports[`CreateDeployment Component > smaller components > renders Retries correctly 1`] = `
 .emotion-0 {
   gap: 16px;
 }
@@ -4508,7 +4508,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
 </div>
 `;
 
-exports[`CreateDeployment Component smaller components renders Retries correctly as enterprise 1`] = `
+exports[`CreateDeployment Component > smaller components > renders Retries correctly as enterprise 1`] = `
 .emotion-0 {
   gap: 16px;
 }
@@ -5614,7 +5614,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
 </div>
 `;
 
-exports[`CreateDeployment Component smaller components renders RolloutOptions correctly 1`] = `
+exports[`CreateDeployment Component > smaller components > renders RolloutOptions correctly 1`] = `
 .emotion-0 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -6648,7 +6648,7 @@ exports[`CreateDeployment Component smaller components renders RolloutOptions co
 </div>
 `;
 
-exports[`CreateDeployment Component smaller components renders RolloutOptions correctly as enterprise 1`] = `
+exports[`CreateDeployment Component > smaller components > renders RolloutOptions correctly as enterprise 1`] = `
 .emotion-0 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -7908,7 +7908,7 @@ exports[`CreateDeployment Component smaller components renders RolloutOptions co
 </div>
 `;
 
-exports[`CreateDeployment Component smaller components renders RolloutPatternSelection correctly 1`] = `
+exports[`CreateDeployment Component > smaller components > renders RolloutPatternSelection correctly 1`] = `
 .emotion-0 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -8942,7 +8942,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-20:focus::-ms-input-
 </div>
 `;
 
-exports[`CreateDeployment Component smaller components renders RolloutPatternSelection correctly as enterprise 1`] = `
+exports[`CreateDeployment Component > smaller components > renders RolloutPatternSelection correctly as enterprise 1`] = `
 .emotion-0 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -9972,7 +9972,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-20:focus::-ms-input-
 </div>
 `;
 
-exports[`CreateDeployment Component smaller components renders ScheduleRollout correctly 1`] = `
+exports[`CreateDeployment Component > smaller components > renders ScheduleRollout correctly 1`] = `
 .emotion-0 {
   z-index: 1300;
 }
@@ -12101,7 +12101,7 @@ exports[`CreateDeployment Component smaller components renders ScheduleRollout c
 </div>
 `;
 
-exports[`CreateDeployment Component smaller components renders ScheduleRollout correctly as enterprise 1`] = `
+exports[`CreateDeployment Component > smaller components > renders ScheduleRollout correctly as enterprise 1`] = `
 .emotion-0 {
   z-index: 1300;
 }
@@ -14230,7 +14230,7 @@ exports[`CreateDeployment Component smaller components renders ScheduleRollout c
 </div>
 `;
 
-exports[`CreateDeployment Component smaller components renders Software correctly 1`] = `
+exports[`CreateDeployment Component > smaller components > renders Software correctly 1`] = `
 .emotion-0 {
   min-width: -webkit-min-content;
   min-width: -moz-min-content;
@@ -14695,7 +14695,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
 </div>
 `;
 
-exports[`CreateDeployment Component smaller components renders Software correctly as enterprise 1`] = `
+exports[`CreateDeployment Component > smaller components > renders Software correctly as enterprise 1`] = `
 .emotion-0 {
   min-width: -webkit-min-content;
   min-width: -moz-min-content;

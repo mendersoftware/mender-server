@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`MyOrganization Component renders correctly 1`] = `
+exports[`MyOrganization Component > renders correctly 1`] = `
 .emotion-0 {
   list-style: none;
   margin: 0;
@@ -956,7 +956,7 @@ exports[`MyOrganization Component renders correctly 1`] = `
 </body>
 `;
 
-exports[`smaller components renders CancelSubscriptionAlert correctly 1`] = `
+exports[`smaller components > renders CancelSubscriptionAlert correctly 1`] = `
 <div
   class="margin-top-large alert alert-error"
   style="max-width: 500px;"
@@ -981,7 +981,7 @@ exports[`smaller components renders CancelSubscriptionAlert correctly 1`] = `
 </div>
 `;
 
-exports[`smaller components renders CancelSubscriptionButton correctly 1`] = `
+exports[`smaller components > renders CancelSubscriptionButton correctly 1`] = `
 <p
   class="margin-left-small margin-right-small"
   style="max-width: 500px;"
@@ -995,7 +995,7 @@ exports[`smaller components renders CancelSubscriptionButton correctly 1`] = `
 </p>
 `;
 
-exports[`smaller components renders DeviceLimitExpansionNotification correctly 1`] = `
+exports[`smaller components > renders DeviceLimitExpansionNotification correctly 1`] = `
 .emotion-0 {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -1052,7 +1052,7 @@ exports[`smaller components renders DeviceLimitExpansionNotification correctly 1
 </div>
 `;
 
-exports[`smaller components renders OrgHeader correctly 1`] = `
+exports[`smaller components > renders OrgHeader correctly 1`] = `
 .emotion-0 {
   padding-right: 10px;
 }
@@ -1131,7 +1131,7 @@ exports[`smaller components renders OrgHeader correctly 1`] = `
 </div>
 `;
 
-exports[`smaller components renders TrialExpirationNote correctly 1`] = `
+exports[`smaller components > renders TrialExpirationNote correctly 1`] = `
 .emotion-0 {
   -webkit-user-select: none;
   -moz-user-select: none;

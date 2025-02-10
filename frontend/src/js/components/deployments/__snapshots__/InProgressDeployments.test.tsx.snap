@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`InProgressDeployments Component renders correctly 1`] = `
+exports[`InProgressDeployments Component > renders correctly 1`] = `
 .emotion-0 {
   border-bottom: 1px solid #d4e9e7;
 }

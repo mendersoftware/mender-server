@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CreateGroupExplainer Component renders correctly 1`] = `
+exports[`CreateGroupExplainer Component > renders correctly 1`] = `
 .emotion-0 {
   position: fixed;
   z-index: 1300;
@@ -800,7 +800,7 @@ exports[`CreateGroupExplainer Component renders correctly 1`] = `
             </div>
             <img
               class="emotion-8"
-              src="static-group-creation.gif"
+              src="/src/assets/img/static-group-creation.gif"
             />
           </div>
           <div
@@ -902,7 +902,7 @@ exports[`CreateGroupExplainer Component renders correctly 1`] = `
             </div>
             <img
               class="emotion-8"
-              src="dynamic-group-creation.gif"
+              src="/src/assets/img/dynamic-group-creation.gif"
             />
           </div>
         </div>

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`GlobalSettings Component renders correctly 1`] = `
+exports[`CardSection Component > renders correctly 1`] = `
 .emotion-0 {
   color: rgba(0, 0, 0, 0.38);
   margin: 15px 0;
@@ -148,7 +148,7 @@ exports[`GlobalSettings Component renders correctly 1`] = `
       All standard credit card fees apply (e.g. foreign transaction fee, if your card has one)
     </div>
     <img
-      src="powered_by_stripe.png"
+      src="/src/assets/img/powered_by_stripe.png"
     />
   </div>
   <p

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Auditlogs Component renders correctly 1`] = `
+exports[`Auditlogs Component > renders correctly 1`] = `
 "<div>
   <div
     class="fadeIn margin-left flexbox column"

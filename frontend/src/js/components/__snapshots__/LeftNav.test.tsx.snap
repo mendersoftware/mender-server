@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`LeftNav Component renders correctly 1`] = `
+exports[`LeftNav Component > renders correctly 1`] = `
 .emotion-0 {
   background-color: #f7f7f7;
   border-right: 1px solid #e6f2f1;

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Devices Component renders correctly 1`] = `
+exports[`Devices Component > renders correctly 1`] = `
 .emotion-0 {
   gap: 16px;
 }
@@ -253,7 +253,7 @@ exports[`Devices Component renders correctly 1`] = `
 </div>
 `;
 
-exports[`Devices Component renders correctly for enterprise 1`] = `
+exports[`Devices Component > renders correctly for enterprise 1`] = `
 .emotion-0 {
   min-height: 30px;
 }

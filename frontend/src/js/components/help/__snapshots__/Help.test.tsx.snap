@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Help Component renders correctly 1`] = `
+exports[`Help Component > renders correctly 1`] = `
 .emotion-0 {
   list-style: none;
   margin: 0;
@@ -318,7 +318,7 @@ exports[`Help Component renders correctly 1`] = `
 </div>
 `;
 
-exports[`Help Component static components renders Downloads correctly 1`] = `
+exports[`Help Component > static components > renders Downloads correctly 1`] = `
 .emotion-0 {
   background-color: #fff;
   color: rgba(10, 10, 11, 0.78);
@@ -4004,7 +4004,7 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
 </div>
 `;
 
-exports[`Help Component static components renders GettingStarted correctly 1`] = `
+exports[`Help Component > static components > renders GettingStarted correctly 1`] = `
 .emotion-0 {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -4139,7 +4139,7 @@ exports[`Help Component static components renders GettingStarted correctly 1`] =
 </div>
 `;
 
-exports[`Help Component static components renders MenderHub correctly 1`] = `
+exports[`Help Component > static components > renders MenderHub correctly 1`] = `
 .emotion-0 {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -4172,7 +4172,7 @@ exports[`Help Component static components renders MenderHub correctly 1`] = `
   >
     <span>
       <img
-        src="mender-hub-logo.png"
+        src="/src/assets/img/mender-hub-logo.png"
         style="width: 50%;"
       />
     </span>
@@ -4236,7 +4236,7 @@ exports[`Help Component static components renders MenderHub correctly 1`] = `
 </div>
 `;
 
-exports[`Help Component static components renders Support correctly 1`] = `
+exports[`Help Component > static components > renders Support correctly 1`] = `
 .emotion-0 {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -4308,7 +4308,7 @@ exports[`Help Component static components renders Support correctly 1`] = `
     >
       <span>
         <img
-          src="mender-hub-logo.png"
+          src="/src/assets/img/mender-hub-logo.png"
           style="width: 50%;"
         />
       </span>

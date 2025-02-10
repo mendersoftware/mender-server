@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`GlobalSettings Component renders correctly 1`] = `
+exports[`GlobalSettings Component > renders correctly 1`] = `
 .emotion-0 {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -2162,8 +2162,25 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-105:focus::-ms-input
       class="flexbox center-aligned"
     >
       <svg
-        id="Deltaicon"
-      />
+        fill="none"
+        height="15"
+        viewBox="0 0 17 15"
+        width="17"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          clip-rule="evenodd"
+          d="M8.40813 0.578369L8.40821 14.5784H16.491L8.40813 0.578369ZM8.40813 4.81573V12.4597H12.8214L8.40813 4.81573Z"
+          fill="#015969"
+          fill-rule="evenodd"
+        />
+        <path
+          clip-rule="evenodd"
+          d="M8.40813 0.578369L8.40805 14.5784H0.325223L8.40813 0.578369ZM8.40813 4.81573V12.4597H3.99489L8.40813 4.81573Z"
+          fill="#01869E"
+          fill-rule="evenodd"
+        />
+      </svg>
       <h5
         class="margin-left-small"
       >

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`MonitorLogDialog Component renders correctly 1`] = `
+exports[`MonitorLogDialog Component > renders correctly 1`] = `
 .emotion-0 {
   position: fixed;
   z-index: 1300;
@@ -879,7 +879,7 @@ exports[`MonitorLogDialog Component renders correctly 1`] = `
 </div>
 `;
 
-exports[`MonitorLogDialog Component renders correctly for description only 1`] = `
+exports[`MonitorLogDialog Component > renders correctly for description only 1`] = `
 .emotion-0 {
   position: fixed;
   z-index: 1300;

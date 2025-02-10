@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`DeviceTwin Component renders correctly 1`] = `
+exports[`DeviceTwin Component > renders correctly 1`] = `
 .emotion-0 {
   width: 100%;
 }
@@ -464,7 +464,7 @@ exports[`DeviceTwin Component renders correctly 1`] = `
 </div>
 `;
 
-exports[`DeviceTwin Component renders sub component Title correctly 1`] = `
+exports[`DeviceTwin Component > renders sub component Title correctly 1`] = `
 .emotion-0 {
   width: 100%;
 }
@@ -510,7 +510,7 @@ exports[`DeviceTwin Component renders sub component Title correctly 1`] = `
 </div>
 `;
 
-exports[`DeviceTwin Component renders sub component TwinError correctly 1`] = `
+exports[`DeviceTwin Component > renders sub component TwinError correctly 1`] = `
 .emotion-0 {
   color: rgba(0, 0, 0, 0.38);
   margin: 15px 0;
@@ -570,7 +570,7 @@ exports[`DeviceTwin Component renders sub component TwinError correctly 1`] = `
 </p>
 `;
 
-exports[`DeviceTwin Component renders sub component TwinSyncStatus correctly 1`] = `
+exports[`DeviceTwin Component > renders sub component TwinSyncStatus correctly 1`] = `
 .emotion-0 {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -612,7 +612,7 @@ exports[`DeviceTwin Component renders sub component TwinSyncStatus correctly 1`]
 </div>
 `;
 
-exports[`DeviceTwin Component renders sub component TwinSyncStatus correctly 2`] = `
+exports[`DeviceTwin Component > renders sub component TwinSyncStatus correctly 2`] = `
 .emotion-0 {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -672,7 +672,7 @@ exports[`DeviceTwin Component renders sub component TwinSyncStatus correctly 2`]
 </div>
 `;
 
-exports[`DeviceTwin Component renders sub component TwinSyncStatus correctly 3`] = `
+exports[`DeviceTwin Component > renders sub component TwinSyncStatus correctly 3`] = `
 .emotion-0 {
   color: rgba(0, 0, 0, 0.38);
   margin: 15px 0;

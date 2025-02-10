@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`OnboardingTips Components DevicePendingTip renders correctly 1`] = `
+exports[`OnboardingTips Components > DevicePendingTip > renders correctly 1`] = `
 .emotion-0 .MuiButtonBase-root.MuiButton-text {
   color: #fff;
   padding-right: 0;
@@ -53,37 +53,37 @@ exports[`OnboardingTips Components DevicePendingTip renders correctly 1`] = `
 </div>
 `;
 
-exports[`OnboardingTips Components tiny onboarding tips renders DashboardOnboardingPendings correctly 1`] = `
+exports[`OnboardingTips Components > tiny onboarding tips > renders DashboardOnboardingPendings correctly 1`] = `
 <div>
   Next accept your device
 </div>
 `;
 
-exports[`OnboardingTips Components tiny onboarding tips renders DashboardOnboardingState correctly 1`] = `
+exports[`OnboardingTips Components > tiny onboarding tips > renders DashboardOnboardingState correctly 1`] = `
 <div>
   Your device has requested to join the server. Click the row to expand the device details.
 </div>
 `;
 
-exports[`OnboardingTips Components tiny onboarding tips renders DeploymentsInprogress correctly 1`] = `
+exports[`OnboardingTips Components > tiny onboarding tips > renders DeploymentsInprogress correctly 1`] = `
 <div>
   Your deployment is in progress. Click to view a report
 </div>
 `;
 
-exports[`OnboardingTips Components tiny onboarding tips renders DeploymentsPast correctly 1`] = `
+exports[`OnboardingTips Components > tiny onboarding tips > renders DeploymentsPast correctly 1`] = `
 <div>
   Your deployment has finished, click here to view it
 </div>
 `;
 
-exports[`OnboardingTips Components tiny onboarding tips renders DeploymentsPastCompletedFailure correctly 1`] = `
+exports[`OnboardingTips Components > tiny onboarding tips > renders DeploymentsPastCompletedFailure correctly 1`] = `
 <div>
   Your deployment has finished, but it looks like there was a problem. Click to view the deployment report, where you can see the error log.
 </div>
 `;
 
-exports[`OnboardingTips Components tiny onboarding tips renders DevicesAcceptedOnboarding correctly 1`] = `
+exports[`OnboardingTips Components > tiny onboarding tips > renders DevicesAcceptedOnboarding correctly 1`] = `
 .emotion-0 .MuiButtonBase-root.MuiButton-text {
   color: #fff;
   padding-right: 0;
@@ -135,7 +135,7 @@ exports[`OnboardingTips Components tiny onboarding tips renders DevicesAcceptedO
 </div>
 `;
 
-exports[`OnboardingTips Components tiny onboarding tips renders DevicesPendingAcceptingOnboarding correctly 1`] = `
+exports[`OnboardingTips Components > tiny onboarding tips > renders DevicesPendingAcceptingOnboarding correctly 1`] = `
 <div>
   Your device has made a request to join the Mender server. You can inspect its identity details, such as mac address and public key, to verify it is definitely your device.
   <br />
@@ -143,7 +143,7 @@ exports[`OnboardingTips Components tiny onboarding tips renders DevicesPendingAc
 </div>
 `;
 
-exports[`OnboardingTips Components tiny onboarding tips renders GetStartedTip correctly 1`] = `
+exports[`OnboardingTips Components > tiny onboarding tips > renders GetStartedTip correctly 1`] = `
 .emotion-0 .MuiButtonBase-root.MuiButton-text {
   color: #fff;
   padding-right: 0;
@@ -195,7 +195,7 @@ exports[`OnboardingTips Components tiny onboarding tips renders GetStartedTip co
 </div>
 `;
 
-exports[`OnboardingTips Components tiny onboarding tips renders SchedulingAllDevicesSelection correctly 1`] = `
+exports[`OnboardingTips Components > tiny onboarding tips > renders SchedulingAllDevicesSelection correctly 1`] = `
 <div>
   Select 'All devices' for now.
   <p>
@@ -204,19 +204,19 @@ exports[`OnboardingTips Components tiny onboarding tips renders SchedulingAllDev
 </div>
 `;
 
-exports[`OnboardingTips Components tiny onboarding tips renders SchedulingArtifactSelection correctly 1`] = `
+exports[`OnboardingTips Components > tiny onboarding tips > renders SchedulingArtifactSelection correctly 1`] = `
 <div>
   Select the test release we included.
 </div>
 `;
 
-exports[`OnboardingTips Components tiny onboarding tips renders SchedulingGroupSelection correctly 1`] = `
+exports[`OnboardingTips Components > tiny onboarding tips > renders SchedulingGroupSelection correctly 1`] = `
 <div>
   Select the testgroup device group you just made.
 </div>
 `;
 
-exports[`OnboardingTips Components tiny onboarding tips renders SchedulingReleaseToDevices correctly 1`] = `
+exports[`OnboardingTips Components > tiny onboarding tips > renders SchedulingReleaseToDevices correctly 1`] = `
 <div>
   Create the deployment! This will deploy the test Artifact to All devices
 </div>

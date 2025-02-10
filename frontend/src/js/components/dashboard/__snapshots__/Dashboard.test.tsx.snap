@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Dashboard Component renders correctly 1`] = `
+exports[`Dashboard Component > renders correctly 1`] = `
 .emotion-0 {
   -webkit-column-gap: 48px;
   column-gap: 48px;
@@ -899,7 +899,7 @@ exports[`Dashboard Component renders correctly 1`] = `
                   data-mui-internal-clone-element="true"
                 >
                   <img
-                    src="skipped_status.png"
+                    src="/src/assets/img/skipped_status.png"
                   />
                   <div
                     class="status"
@@ -913,7 +913,7 @@ exports[`Dashboard Component renders correctly 1`] = `
                   data-mui-internal-clone-element="true"
                 >
                   <img
-                    src="pending_status.png"
+                    src="/src/assets/img/pending_status.png"
                   />
                   <div
                     class="status"
@@ -927,7 +927,7 @@ exports[`Dashboard Component renders correctly 1`] = `
                   data-mui-internal-clone-element="true"
                 >
                   <img
-                    src="progress_status.png"
+                    src="/src/assets/img/progress_status.png"
                   />
                   <div
                     class="status"
@@ -941,7 +941,7 @@ exports[`Dashboard Component renders correctly 1`] = `
                   data-mui-internal-clone-element="true"
                 >
                   <img
-                    src="success_status.png"
+                    src="/src/assets/img/success_status.png"
                   />
                   <div
                     class="status"
@@ -955,7 +955,7 @@ exports[`Dashboard Component renders correctly 1`] = `
                   data-mui-internal-clone-element="true"
                 >
                   <img
-                    src="error_status.png"
+                    src="/src/assets/img/error_status.png"
                   />
                   <div
                     class="status"
@@ -1002,7 +1002,7 @@ exports[`Dashboard Component renders correctly 1`] = `
                   data-mui-internal-clone-element="true"
                 >
                   <img
-                    src="skipped_status.png"
+                    src="/src/assets/img/skipped_status.png"
                   />
                   <div
                     class="status"
@@ -1016,7 +1016,7 @@ exports[`Dashboard Component renders correctly 1`] = `
                   data-mui-internal-clone-element="true"
                 >
                   <img
-                    src="pending_status.png"
+                    src="/src/assets/img/pending_status.png"
                   />
                   <div
                     class="status"
@@ -1030,7 +1030,7 @@ exports[`Dashboard Component renders correctly 1`] = `
                   data-mui-internal-clone-element="true"
                 >
                   <img
-                    src="progress_status.png"
+                    src="/src/assets/img/progress_status.png"
                   />
                   <div
                     class="status"
@@ -1044,7 +1044,7 @@ exports[`Dashboard Component renders correctly 1`] = `
                   data-mui-internal-clone-element="true"
                 >
                   <img
-                    src="success_status.png"
+                    src="/src/assets/img/success_status.png"
                   />
                   <div
                     class="status"
@@ -1058,7 +1058,7 @@ exports[`Dashboard Component renders correctly 1`] = `
                   data-mui-internal-clone-element="true"
                 >
                   <img
-                    src="error_status.png"
+                    src="/src/assets/img/error_status.png"
                   />
                   <div
                     class="status"

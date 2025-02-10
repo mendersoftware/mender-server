@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Configuration Component renders correctly 1`] = `
+exports[`Configuration Component > renders correctly 1`] = `
 .emotion-0 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -922,7 +922,7 @@ exports[`Configuration Component renders correctly 1`] = `
 </div>
 `;
 
-exports[`tiny components renders ConfigEditingActions correctly 1`] = `
+exports[`tiny components > renders ConfigEditingActions correctly 1`] = `
 .emotion-0 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -1246,7 +1246,7 @@ exports[`tiny components renders ConfigEditingActions correctly 1`] = `
 </div>
 `;
 
-exports[`tiny components renders ConfigEmptyNote correctly 1`] = `
+exports[`tiny components > renders ConfigEmptyNote correctly 1`] = `
 .emotion-0 {
   margin: 0;
   font-family: Lato,sans-serif;
@@ -1287,7 +1287,7 @@ exports[`tiny components renders ConfigEmptyNote correctly 1`] = `
 </div>
 `;
 
-exports[`tiny components renders ConfigUpToDateNote correctly 1`] = `
+exports[`tiny components > renders ConfigUpToDateNote correctly 1`] = `
 .emotion-0 {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -1364,7 +1364,7 @@ exports[`tiny components renders ConfigUpToDateNote correctly 1`] = `
 </div>
 `;
 
-exports[`tiny components renders ConfigUpdateFailureActions correctly 1`] = `
+exports[`tiny components > renders ConfigUpdateFailureActions correctly 1`] = `
 .emotion-0 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -1535,7 +1535,7 @@ exports[`tiny components renders ConfigUpdateFailureActions correctly 1`] = `
 </div>
 `;
 
-exports[`tiny components renders ConfigUpdateNote correctly 1`] = `
+exports[`tiny components > renders ConfigUpdateNote correctly 1`] = `
 .emotion-0 {
   margin: 0;
   font-family: Lato,sans-serif;

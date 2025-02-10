@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Upgrade Component renders correctly 1`] = `
+exports[`Upgrade Component > renders correctly 1`] = `
 .emotion-0 {
   padding: 22px 16px;
   border-radius: 5px;
@@ -957,7 +957,7 @@ exports[`Upgrade Component renders correctly 1`] = `
 </div>
 `;
 
-exports[`smaller components renders PricingContactNote correctly 1`] = `
+exports[`smaller components > renders PricingContactNote correctly 1`] = `
 <p>
   * Device limits can be adjusted on request; prices can change for larger limits. If you have any questions about the plan pricing or device limits,
    

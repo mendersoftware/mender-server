@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`RolloutSteps Component renders correctly 1`] = `
+exports[`RolloutSteps Component > renders correctly 1`] = `
 .emotion-0 {
   max-width: 100%;
   font-family: Lato,sans-serif;
@@ -604,7 +604,7 @@ exports[`RolloutSteps Component renders correctly 1`] = `
 </div>
 `;
 
-exports[`RolloutSteps Component renders correctly 2`] = `
+exports[`RolloutSteps Component > renders correctly 2`] = `
 .emotion-0 {
   max-width: 100%;
   font-family: Lato,sans-serif;

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`ProgressChart Component renders correctly 1`] = `
+exports[`ProgressChart Component > renders correctly 1`] = `
 .emotion-0 {
   background-color: #f7f7f7;
   padding: 10px 20px;

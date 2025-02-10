@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`ReleaseDetails Component renders correctly 1`] = `
+exports[`ReleaseDetails Component > renders correctly 1`] = `
 .emotion-0 {
   background-color: #fff;
   color: rgba(10, 10, 11, 0.78);

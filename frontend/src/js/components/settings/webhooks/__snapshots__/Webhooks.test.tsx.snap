@@ -1,8 +1,8 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Webhooks Component renders correctly 1`] = `null`;
+exports[`Webhooks Component > renders correctly 1`] = `null`;
 
-exports[`Webhooks Component renders correctly with entries  1`] = `
+exports[`Webhooks Component > renders correctly with entries  1`] = `
 .emotion-0 {
   display: table;
   width: 100%;
