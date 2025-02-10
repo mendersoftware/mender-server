@@ -1,4 +1,4 @@
-// Copyright 2019 Northern.tech AS
+// Copyright 2025 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@ import { createMocks } from 'react-idle-timer';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 
+import { createSerializer } from '@emotion/jest';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 import { getSessionInfo } from '@northern.tech/store/auth';
@@ -23,81 +24,91 @@ import { yes } from '@northern.tech/store/constants';
 import { getConfiguredStore } from '@northern.tech/store/store';
 import '@testing-library/jest-dom';
 import { act, cleanup, queryByRole, render, waitFor, within } from '@testing-library/react';
-import crypto from 'crypto';
 import { setupServer } from 'msw/node';
+import { afterAll, afterEach, beforeAll, vi } from 'vitest';
 import { MessageChannel } from 'worker_threads';
 
 import { light as lightTheme } from '../src/js/themes/Mender';
 import handlers from './__mocks__/requestHandlers';
 import { defaultState, menderEnvironment, mockDate, token as mockToken } from './mockData';
 
-export const RETRY_TIMES = 3;
+process.on('unhandledRejection', err => {
+  throw err;
+});
+
+expect.addSnapshotSerializer(createSerializer({ includeStyles: true }));
+
+afterEach(() => {
+  cleanup();
+});
 export const TEST_LOCATION = 'localhost';
 
 export const mockAbortController = { signal: { addEventListener: () => {}, removeEventListener: () => {} } };
 
 // Setup requests interception
-let server;
+const server = setupServer(...handlers);
 
 const oldWindowLocalStorage = window.localStorage;
 const oldWindowLocation = window.location;
 const oldWindowSessionStorage = window.sessionStorage;
 
-jest.retryTimes(RETRY_TIMES);
-jest.mock('universal-cookie', () => {
-  const mockCookie = {
-    get: jest.fn(),
-    set: jest.fn(),
-    remove: jest.fn()
-  };
-  return jest.fn(() => mockCookie);
-});
+// vi.mock('universal-cookie', () => {
+//   const mockCookie = {
+//     get: vi.fn(),
+//     set: vi.fn(),
+//     remove: vi.fn()
+//   };
+//   return vi.fn(() => mockCookie);
+// });
 
-jest.mock('uuid', () => ({ v4: () => 'mock-uuid' }));
+vi.mock('uuid', () => ({ v4: () => 'mock-uuid' }));
 
-jest.setSystemTime(mockDate);
-jest.useFakeTimers({ now: mockDate, doNotFake: ['queueMicrotask'] });
+vi.useFakeTimers({ now: mockDate });
+vi.setSystemTime(mockDate);
 
 const storage = {};
-global.HTMLCanvasElement.prototype.getContext = jest.fn();
+global.HTMLCanvasElement.prototype.getContext = vi.fn();
 
 beforeAll(async () => {
+  // Temporarily workaround for bug in @testing-library/react when use user-event with `vi.useFakeTimers()`
+
   // Enable the mocking in tests.
   delete window.location;
   window.location = {
     ...oldWindowLocation,
     hostname: TEST_LOCATION,
-    assign: jest.fn(),
-    replace: jest.fn(),
-    reload: jest.fn()
+    origin: 'http://localhost',
+    assign: vi.fn(),
+    replace: vi.fn(),
+    reload: vi.fn()
   };
   delete window.sessionStorage;
   window.sessionStorage = {
     ...oldWindowSessionStorage,
-    getItem: jest.fn(yes),
-    setItem: jest.fn(),
-    removeItem: jest.fn()
+    getItem: vi.fn(yes),
+    setItem: vi.fn(),
+    removeItem: vi.fn()
   };
   delete window.localStorage;
   window.localStorage = {
     ...oldWindowLocalStorage,
-    getItem: jest.fn(name => {
+    getItem: vi.fn(name => {
       if (name === 'JWT') {
         return JSON.stringify({ token: mockToken });
       }
       return storage[name];
     }),
-    setItem: jest.fn(name => storage[name]),
-    removeItem: jest.fn()
+    setItem: vi.fn(name => storage[name]),
+    removeItem: vi.fn()
   };
   window.mender_environment = menderEnvironment;
   window.ENV = 'test';
-  global.AbortController = jest.fn().mockImplementation(() => mockAbortController);
+  global.AbortController = vi.fn().mockImplementation(() => mockAbortController);
   global.MessageChannel = MessageChannel;
-  global.ResizeObserver = jest.fn().mockImplementation(() => ({
-    observe: jest.fn(),
-    unobserve: jest.fn(),
-    disconnect: jest.fn()
+  global.ResizeObserver = vi.fn().mockImplementation(() => ({
+    observe: vi.fn(),
+    unobserve: vi.fn(),
+    disconnect: vi.fn()
   }));
   window.RTCPeerConnection = () => {
     return {
@@ -106,19 +117,25 @@ beforeAll(async () => {
       createDataChannel: () => {}
     };
   };
-  window.crypto.subtle = {
-    digest: (...args) => crypto.subtle.digest(...args)
-  };
+
   createMocks();
-  server = setupServer(...handlers);
   await server.listen({ onUnhandledRequest: 'error' });
   Object.defineProperty(navigator, 'appVersion', { value: 'Test', writable: true });
   const intersectionObserverMock = () => ({
-    observe: jest.fn,
-    disconnect: jest.fn
+    observe: vi.fn,
+    disconnect: vi.fn
   });
-  window.IntersectionObserver = jest.fn().mockImplementation(intersectionObserverMock);
-  jest.spyOn(React, 'useEffect').mockImplementation(React.useLayoutEffect);
+  window.IntersectionObserver = vi.fn().mockImplementation(intersectionObserverMock);
+  vi.spyOn(React, 'useEffect').mockImplementation(React.useLayoutEffect);
+
+  //TODO: remove, once https://github.com/testing-library/react-testing-library/issues/1197 resolved
+  const _jest = globalThis.jest;
+
+  globalThis.jest = {
+    ...globalThis.jest,
+    advanceTimersByTime: vi.advanceTimersByTime.bind(vi)
+  };
+  return () => void (globalThis.jest = _jest);
 });
 
 afterEach(async () => {
@@ -136,6 +153,7 @@ afterAll(async () => {
   React.useEffect.mockRestore();
   cleanup();
 });
+const theme = createTheme(lightTheme);
 
 export const selectMaterialUiSelectOption = async (element, optionText, user) => {
   // The button that opens the dropdown, which is a sibling of the input
@@ -151,8 +169,6 @@ export const selectMaterialUiSelectOption = async (element, optionText, user) =>
   await waitFor(() => expect(queryByRole(document.documentElement, 'listbox')).not.toBeInTheDocument());
   return Promise.resolve();
 };
-
-const theme = createTheme(lightTheme);
 
 const customRender = (ui, options = {}) => {
   const {
@@ -170,8 +186,6 @@ const customRender = (ui, options = {}) => {
   return { store, ...render(ui, { wrapper: AllTheProviders, ...remainder }) };
 };
 
-// re-export everything
-// eslint-disable-next-line import/export
 export * from '@testing-library/react';
 // override render method
 // eslint-disable-next-line import/export
