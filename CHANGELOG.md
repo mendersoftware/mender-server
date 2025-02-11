@@ -354,6 +354,11 @@ the same URL as deployments service.
 
 ### Build
 
+- (gui) **BREAKING**: Changed container image to unprivileged port 8090 and unprivileged user ([13b2268](https://github.com/mendersoftware/mender-server/commit/13b2268027f678e52ce69aa8bfa912c713d12093)) by @alfrunes
+
+- (docker) **BREAKING**: Changed container image tag scheme from `mender-x.y.z` to `vX.Y.Z`
+
+  The new versioning scheme uses the **Mender Server** version which is decoupled from the other components in the Mender ecosystem.
 
 - *(docker)* Add build stage to Dockerfiles
  ([ba3692e](https://github.com/mendersoftware/mender-server/commit/ba3692eb52dd146081014de05ffae9b6331d6ff6))  by @alfrunes
