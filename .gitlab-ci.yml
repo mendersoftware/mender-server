@@ -679,7 +679,8 @@ release:mender-docs-changelog:
     - git push origin changelog-${CI_JOB_ID}
     - gh pr create --title "Update CHANGELOG${CHANGELOG_SUFFIX}.md for $CI_PROJECT_NAME" --body "Automated change to the CHANGELOG${CHANGELOG_SUFFIX}.md file" --base master --head changelog-${CI_JOB_ID}
 
-release:mender-docs-changelog:saas:
+# Disabled on Maintenance branches
+.release:mender-docs-changelog:saas:
   extends: release:mender-docs-changelog
   variables:
     CHANGELOG_REMOTE_FILE: "12.Hosted-Mender/docs.md"
@@ -802,8 +803,8 @@ release:mender-docs-changelog:saas:
 
 #
 # Mender Helm Rolling release
-#
-mender-helm-version-bump:staging:
+# Disabled on Maintenance branches
+.mender-helm-version-bump:staging:
   extends: .helm-version-bump
   resource_group: mender-helm
   stage: deploy-staging
