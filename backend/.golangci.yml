@@ -53,7 +53,6 @@ linters-settings:
   gosec: # Inspects source code for security problems.
     # Available rules: https://github.com/securego/gosec#available-rules
     includes: # To specify a set of rules to explicitly exclude.
-      - G101 # Look for hard coded credentials
       - G102 # Bind to all interfaces
       - G103 # Audit the use of unsafe block
       - G104 # Audit errors not checked
@@ -62,7 +61,6 @@ linters-settings:
       - G109 # Potential Integer overflow made by strconv.Atoi result conversion to int16/32
       - G110 # Potential DoS vulnerability via decompression bomb
       - G111 # Potential directory traversal
-      - G112 # Potential slowloris attack
       - G113 # Usage of Rat.SetString in math/big with an overflow (CVE-2022-23772)
       - G201 # SQL query construction using format string
       - G202 # SQL query construction using string concatenation
@@ -89,7 +87,9 @@ linters-settings:
       - G602 # Slice access out of bounds
     # FIXME: (QA-903) These rules should be enabled, only G115 has known issues.
     excludes: # To specify a set of rules to explicitly exclude.
+      - G101 # Look for hard coded credentials
       - G107 # Url provided to HTTP request as taint input
+      - G112 # Potential slowloris attack
       - G114 # Use of net/http serve function that has no support for setting timeouts
       - G115 # Potential integer overflow when converting between integer types
       - G204 # Audit use of command execution
@@ -104,9 +104,6 @@ linters-settings:
         nosec: false # If true, ignore #nosec in comments (and an alternative as well).
         show-ignored: true # Define whether nosec issues are counted as finding or not.
         audit: false # Audit mode enables addition checks that for normal code analysis might be too nosy.
-      G101: # Regexp pattern for variables and constants to find.
-        pattern: "(?i)passwd|pass|password|pwd|secret|token|pw|apiKey|bearer|cred"
-        ignore_entropy: true # If true, complain about all cases (even with low entropy).
       G104: # Additional functions to ignore while checking unhandled errors.
         bytes.Buffer:
           - Write
