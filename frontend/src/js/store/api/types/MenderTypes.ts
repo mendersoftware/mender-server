@@ -83,6 +83,7 @@ export { DeviceDeviceauth } from "./DeviceDeviceauth";
 export type { DeviceFilterAttribute } from "./DeviceFilterAttribute";
 export { DeviceFilterTerm } from "./DeviceFilterTerm";
 export type { DeviceInventory } from "./DeviceInventory";
+export type { DeviceInventoryEvent } from "./DeviceInventoryEvent";
 export type { DeviceInventoryInventory } from "./DeviceInventoryInventory";
 export type { DeviceSearchTerms } from "./DeviceSearchTerms";
 export { DeviceSortTerm } from "./DeviceSortTerm";
