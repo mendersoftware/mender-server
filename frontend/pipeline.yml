@@ -306,6 +306,7 @@ publish:frontend:docker:
           echo "Updating 'latest' reference"
           skopeo copy --multi-arch all docker://${MENDER_IMAGE_GUI} docker://${MENDER_PUBLISH_IMAGE}/gui:latest
         fi
+      fi
   artifacts:
     when: on_success
     expire_in: 1w
