@@ -296,16 +296,17 @@ publish:frontend:docker:
         NEXT_PATCH="${MENDER_PUBLISH_IMAGE}/gui:v${MAJOR_VERSION}.${MINOR_VERSION}.$(expr $PATCH_VERSION + 1)"
         NEXT_MINOR="${MENDER_PUBLISH_IMAGE}/gui:v${MAJOR_VERSION}.$(expr $MINOR_VERSION + 1)"
         NEXT_MAJOR="${MENDER_PUBLISH_IMAGE}/gui:v$(expr $MAJOR_VERSION + 1)"
-        if ! skopeo inspect "docker://$NEXT_PATCH" 1>/dev/null 2>&1; then
+        if skopeo inspect "docker://$NEXT_PATCH" 1>/dev/null 2>&1; then
           echo "Next image '$NEXT_PATCH' exists: not updating 'latest' reference"
-        elif ! skopeo inspect "docker://$NEXT_MINOR" 1>/dev/null 2>&1; then
+        elif skopeo inspect "docker://$NEXT_MINOR" 1>/dev/null 2>&1; then
           echo "Next image '$NEXT_MINOR' exists: not updating 'latest' reference"
-        elif ! skopeo inspect "docker://$NEXT_MAJOR" 1>/dev/null 2>&1; then
+        elif skopeo inspect "docker://$NEXT_MAJOR" 1>/dev/null 2>&1; then
           echo "Next image '$NEXT_MAJOR' exists: not updating 'latest' reference"
         else
-          echo "Updating 'latest' reference"
+          echo "Updating 'latest' reference: ${MENDER_PUBLISH_IMAGE}/gui:latest"
           skopeo copy --multi-arch all docker://${MENDER_IMAGE_GUI} docker://${MENDER_PUBLISH_IMAGE}/gui:latest
         fi
+      fi
   artifacts:
     when: on_success
     expire_in: 1w
