@@ -17,6 +17,7 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { getConfiguredStore } from '@northern.tech/store/store';
 import { act, screen, render as testingLibRender } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import { defaultState } from '../../../tests/mockData';
 import { PublicRoutes } from './routes';

@@ -13,7 +13,8 @@
 //    limitations under the License.
 import React from 'react';
 
-import {vi} from 'vitest';
+import { vi } from 'vitest';
+
 import { defaultState, undefineds } from '../../../../../../tests/mockData';
 import { render } from '../../../../../../tests/setupTests';
 import AuthSetup from './AuthSetup';

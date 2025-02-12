@@ -14,6 +14,7 @@
 import React from 'react';
 
 import { getGroups } from '@northern.tech/store/selectors';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';

@@ -14,6 +14,7 @@
 import React from 'react';
 
 import { DEVICE_ISSUE_OPTIONS } from '@northern.tech/store/constants';
+import { vi } from 'vitest';
 
 import { undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';

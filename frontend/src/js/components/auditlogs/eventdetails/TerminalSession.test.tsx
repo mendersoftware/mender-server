@@ -14,6 +14,7 @@
 import React from 'react';
 
 import { act, screen, waitFor } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
@@ -54,7 +55,7 @@ describe('TerminalSession Component', () => {
   });
   //TODO: fix the xterm issue
   it.skip('renders correctly', async () => {
-    const DeviceActions = await import ('@northern.tech/store/devicesSlice/thunks');
+    const DeviceActions = await import('@northern.tech/store/devicesSlice/thunks');
 
     const sessionSpy = vi.spyOn(DeviceActions, 'getSessionDetails');
     const ui = <TerminalSession item={defaultState.organization.auditlog.events[2]} />;

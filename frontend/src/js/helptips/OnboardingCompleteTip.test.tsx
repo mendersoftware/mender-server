@@ -17,6 +17,7 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { getConfiguredStore } from '@northern.tech/store/store';
 import { act, render as testingLibRender, waitFor } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../tests/mockData';
 import OnboardingCompleteTip from './OnboardingCompleteTip';

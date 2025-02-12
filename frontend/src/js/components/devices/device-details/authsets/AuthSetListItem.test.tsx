@@ -14,6 +14,7 @@
 import React from 'react';
 
 import { DEVICE_STATES } from '@northern.tech/store/constants';
+import { vi } from 'vitest';
 
 import { adminUserCapabilities, undefineds } from '../../../../../../tests/mockData';
 import { render } from '../../../../../../tests/setupTests';

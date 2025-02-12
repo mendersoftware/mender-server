@@ -16,6 +16,7 @@ import React from 'react';
 import { ALL_DEVICES, ALL_RELEASES, TIMEOUTS } from '@northern.tech/store/constants';
 import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render, selectMaterialUiSelectOption } from '../../../../../tests/setupTests';
@@ -32,7 +33,7 @@ describe('Roles Component', () => {
   it(
     'works as intended',
     async () => {
-      const UserActions = await import('@northern.tech/store/usersSlice/thunks')
+      const UserActions = await import('@northern.tech/store/usersSlice/thunks');
       const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
       const editRoleSpy = vi.spyOn(UserActions, 'editRole');
       const removeRoleSpy = vi.spyOn(UserActions, 'removeRole');

@@ -15,6 +15,7 @@ import React from 'react';
 
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { act, screen, waitFor } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';

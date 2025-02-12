@@ -15,6 +15,7 @@ import React from 'react';
 
 import { ALL_DEVICES, emptyRole } from '@northern.tech/store/constants';
 import { screen } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';

@@ -13,10 +13,9 @@
 //    limitations under the License.
 import React from 'react';
 
-import { vi } from 'vitest';
-
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';

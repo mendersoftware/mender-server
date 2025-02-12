@@ -20,6 +20,7 @@ import { act } from '@testing-library/react';
 import configureMockStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 import Cookies from 'universal-cookie';
+import { vi } from 'vitest';
 
 import { actions } from '.';
 import { accessTokens, defaultPassword, defaultState, receivedPermissionSets, receivedRoles, testSsoId, userId } from '../../../../tests/mockData';

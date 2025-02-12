@@ -16,6 +16,7 @@ import React from 'react';
 import { yes } from '@northern.tech/store/constants';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { undefineds } from '../../../tests/mockData';
 import { render } from '../../../tests/setupTests';

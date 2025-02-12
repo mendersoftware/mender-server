@@ -14,6 +14,8 @@
 import React from 'react';
 import Linkify from 'react-linkify';
 
+import { vi } from 'vitest';
+
 import { undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
 import Announcement from './Announcement';

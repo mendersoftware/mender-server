@@ -20,6 +20,7 @@ import { TIMEOUTS } from '@northern.tech/store/constants';
 import { act, screen, render as testLibRender, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import 'jsdom-worker';
+import { vi } from 'vitest';
 
 import { defaultState, mockDate, token, undefineds } from '../../../tests/mockData';
 import { render } from '../../../tests/setupTests';

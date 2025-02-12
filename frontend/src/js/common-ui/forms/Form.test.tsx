@@ -12,10 +12,10 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
@@ -48,6 +48,6 @@ describe('Form Component', () => {
     const { rerender } = render(ui);
     await user.click(screen.getByRole('button', { name: /generate/i }));
     await waitFor(() => rerender(ui));
-    await waitFor(()=> expect(screen.getByRole('button', { name: /submit/i })).not.toBeDisabled());
+    await waitFor(() => expect(screen.getByRole('button', { name: /submit/i })).not.toBeDisabled());
   });
 });

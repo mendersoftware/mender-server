@@ -15,6 +15,7 @@ import React from 'react';
 
 import { EXTERNAL_PROVIDER } from '@northern.tech/store/constants';
 import { act, waitFor } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import { token, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';

@@ -18,7 +18,7 @@ import { loadStripe } from '@stripe/stripe-js';
 
 import { undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
-import {CardSection} from './CardSection';
+import { CardSection } from './CardSection';
 
 describe('CardSection Component', () => {
   it('renders correctly', async () => {

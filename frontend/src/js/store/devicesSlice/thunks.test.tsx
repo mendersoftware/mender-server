@@ -20,6 +20,7 @@ import { Link } from 'react-router-dom';
 import { getSingleDeployment } from '@northern.tech/store/thunks';
 import configureMockStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
+import { vi } from 'vitest';
 
 import { actions } from '.';
 import { inventoryDevice } from '../../../../tests/__mocks__/deviceHandlers';

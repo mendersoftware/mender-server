@@ -14,6 +14,7 @@
 import { CommonList } from '@northern.tech/common-ui/List';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { defaultState, tenants, undefineds } from '../../../tests/mockData';
 import { render } from '../../../tests/setupTests';

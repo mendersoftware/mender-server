@@ -14,6 +14,7 @@
 import React from 'react';
 
 import { act, waitFor } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';

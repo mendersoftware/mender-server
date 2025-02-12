@@ -23,7 +23,6 @@ import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
 import { Dashboard } from './Dashboard';
 
-
 describe('Dashboard Component', () => {
   afterEach(async () => {
     // wait for all requests to settle

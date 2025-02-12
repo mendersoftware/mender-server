@@ -15,6 +15,7 @@
 import { EXTERNAL_PROVIDER, TIMEOUTS } from '@northern.tech/store/constants';
 import configureMockStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
+import { vi } from 'vitest';
 
 import { actions } from '.';
 import { defaultState, tenants, webhookEvents } from '../../../../tests/mockData';

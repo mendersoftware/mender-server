@@ -16,6 +16,7 @@ import { initialState as initialOrganizationState } from '@northern.tech/store/o
 import * as OrganizationActions from '@northern.tech/store/organizationSlice/thunks';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';

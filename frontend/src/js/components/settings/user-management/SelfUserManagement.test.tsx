@@ -17,7 +17,8 @@ import { getSessionInfo } from '@northern.tech/store/auth';
 import { yes } from '@northern.tech/store/constants';
 import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { vi, describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
 import SelfUserManagement from './SelfUserManagement';

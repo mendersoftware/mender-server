@@ -23,6 +23,7 @@ import { TIMEOUTS } from '@northern.tech/store/constants';
 import { getConfiguredStore } from '@northern.tech/store/store';
 import { prettyDOM, screen, render as testingLibRender, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { light as lightTheme } from '../../../../src/js/themes/Mender';
 import { defaultState, undefineds } from '../../../../tests/mockData';

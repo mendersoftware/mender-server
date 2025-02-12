@@ -14,6 +14,7 @@
 import React from 'react';
 
 import { prettyDOM } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import { adminUserCapabilities, defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';

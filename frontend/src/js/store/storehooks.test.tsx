@@ -31,6 +31,7 @@ import {
 import { renderHook, waitFor } from '@testing-library/react';
 import configureMockStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
+import { vi } from 'vitest';
 
 import { inventoryDevice } from '../../../tests/__mocks__/deviceHandlers';
 import { defaultState, receivedPermissionSets, receivedRoles, userId } from '../../../tests/mockData';

@@ -13,6 +13,8 @@
 //    limitations under the License.
 import React from 'react';
 
+import { vi } from 'vitest';
+
 import { token, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
 import ConnectToGatewayDialog from './ConnectToGatewayDialog';

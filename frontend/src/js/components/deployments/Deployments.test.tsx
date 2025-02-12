@@ -20,6 +20,7 @@ import GeneralApi from '@northern.tech/store/api/general-api';
 import { ALL_DEVICES } from '@northern.tech/store/constants';
 import { act, fireEvent, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { defaultState, mockDate, undefineds } from '../../../../tests/mockData';
 import { render, selectMaterialUiSelectOption } from '../../../../tests/setupTests';
