@@ -1,20 +1,22 @@
 import react from '@vitejs/plugin-react';
 import path from 'path';
+import svgr from 'vite-plugin-svgr';
 import tsconfigPaths from 'vite-tsconfig-paths';
-import svgr from "vite-plugin-svgr";
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
-  plugins: [react(),
+  plugins: [
+    react(),
     svgr({
       svgrOptions: {
         ref: true,
         svgo: false,
-        titleProp: true,
+        titleProp: true
       },
-      include: "**/*.svg",
+      include: '**/*.svg'
     }),
-    tsconfigPaths({ root: path.resolve(__dirname) })],
+    tsconfigPaths({ root: path.resolve(__dirname) })
+  ],
 
   resolve: {
     alias: [
@@ -37,9 +39,10 @@ export default defineConfig({
     middlewareMode: false
   },
   test: {
-    // deps: {
-    //   interopDefault: false
-    // },
+    coverage: {
+      reporter: ['json', 'lcov'],
+      reportsDirectory: 'coverage'
+    },
     env: {
       BABEL_ENV: 'test',
       NODE_ENV: 'test',
