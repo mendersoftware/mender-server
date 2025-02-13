@@ -18,10 +18,9 @@ const getAppDocsVersion = state => state.app.docsVersion;
 export const getFeatures = state => state.app.features;
 export const getFullVersionInformation = state => state.app.versionInformation;
 
-export const getDocsVersion = createSelector([getAppDocsVersion, getFeatures], (appDocsVersion, { isHosted }) => {
+export const getDocsVersion = createSelector([getAppDocsVersion], appDocsVersion => {
   // if hosted, use latest docs version
-  const docsVersion = appDocsVersion ? `${appDocsVersion}/` : 'development/';
-  return isHosted ? '' : docsVersion;
+  return appDocsVersion ? `${appDocsVersion}/` : '';
 });
 
 export const getSearchState = state => state.app.searchState;

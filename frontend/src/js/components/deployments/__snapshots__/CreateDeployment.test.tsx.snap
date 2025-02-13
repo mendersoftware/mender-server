@@ -7893,7 +7893,7 @@ exports[`CreateDeployment Component smaller components renders RolloutOptions co
               You can grant approval by clicking "continue" in the deployment progress UI. 
               <a
                 class=""
-                href="https://docs.mender.io/development/"
+                href="https://docs.mender.io/"
                 rel=""
                 target="_blank"
               >

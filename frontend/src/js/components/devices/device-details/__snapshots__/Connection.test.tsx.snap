@@ -140,7 +140,7 @@ exports[`DeviceConnection Component renders correctly 1`] = `
           <a
             class="flexbox centered margin-left"
             data-mui-internal-clone-element="true"
-            href="https://docs.mender.io/development/add-ons/port-forward"
+            href="https://docs.mender.io/add-ons/port-forward"
             rel=""
             target="_blank"
           >
@@ -1213,7 +1213,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
           <a
             class="flexbox centered margin-left"
             data-mui-internal-clone-element="true"
-            href="https://docs.mender.io/development/add-ons/port-forward"
+            href="https://docs.mender.io/add-ons/port-forward"
             rel=""
             target="_blank"
           >
@@ -1857,7 +1857,7 @@ exports[`DeviceConnection Component renders correctly when disconnected 1`] = `
           <a
             class="flexbox centered margin-left"
             data-mui-internal-clone-element="true"
-            href="https://docs.mender.io/development/add-ons/port-forward"
+            href="https://docs.mender.io/add-ons/port-forward"
             rel=""
             target="_blank"
           >
@@ -1929,7 +1929,7 @@ exports[`DeviceConnection Component renders correctly when disconnected 1`] = `
           Please 
           <a
             class=""
-            href="https://docs.mender.io/development/add-ons/remote-terminal"
+            href="https://docs.mender.io/add-ons/remote-terminal"
             rel=""
             target="_blank"
           >
@@ -1999,7 +1999,7 @@ exports[`tiny DeviceConnection components renders DeviceConnectionMissingNote co
       Please 
       <a
         class=""
-        href="https://docs.mender.io/development/add-ons/remote-terminal"
+        href="https://docs.mender.io/add-ons/remote-terminal"
         rel=""
         target="_blank"
       >
@@ -2073,7 +2073,7 @@ exports[`tiny DeviceConnection components renders DeviceDisconnectedNote correct
       Please 
       <a
         class=""
-        href="https://docs.mender.io/development/add-ons/remote-terminal"
+        href="https://docs.mender.io/add-ons/remote-terminal"
         rel=""
         target="_blank"
       >
@@ -2111,7 +2111,7 @@ exports[`tiny DeviceConnection components renders PortForwardLink correctly 1`] 
   <a
     class="flexbox centered margin-left"
     data-mui-internal-clone-element="true"
-    href="https://docs.mender.io/development/add-ons/port-forward"
+    href="https://docs.mender.io/add-ons/port-forward"
     rel=""
     target="_blank"
   >

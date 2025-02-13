@@ -314,7 +314,7 @@ exports[`LeftNav Component renders correctly 1`] = `
         >
           <a
             class="emotion-25"
-            href="https://docs.mender.io/development/release-information/release-notes-changelog/mender-server"
+            href="https://docs.mender.io/release-information/release-notes-changelog/mender-server"
             rel=""
             target="_blank"
           >
@@ -323,7 +323,7 @@ exports[`LeftNav Component renders correctly 1`] = `
           <br />
           <a
             class="emotion-25"
-            href="https://docs.mender.io/development/release-information/open-source-licenses"
+            href="https://docs.mender.io/release-information/open-source-licenses"
             rel=""
             target="_blank"
           >

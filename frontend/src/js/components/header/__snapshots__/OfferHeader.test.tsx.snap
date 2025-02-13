@@ -49,7 +49,7 @@ exports[`DeviceNotifications Component renders correctly 1`] = `
     . 
     <a
       class=""
-      href="https://docs.mender.io/development/add-ons"
+      href="https://docs.mender.io/add-ons"
       rel=""
       target="_blank"
     >
