@@ -14,14 +14,9 @@
 import { versionCompare } from '@northern.tech/utils/helpers';
 import { createSelector } from '@reduxjs/toolkit';
 
-const getAppDocsVersion = state => state.app.docsVersion;
+export const getDocsVersion = state => state.app.docsVersion;
 export const getFeatures = state => state.app.features;
 export const getFullVersionInformation = state => state.app.versionInformation;
-
-export const getDocsVersion = createSelector([getAppDocsVersion], appDocsVersion => {
-  // if hosted, use latest docs version
-  return appDocsVersion ? `${appDocsVersion}/` : '';
-});
 
 export const getSearchState = state => state.app.searchState;
 

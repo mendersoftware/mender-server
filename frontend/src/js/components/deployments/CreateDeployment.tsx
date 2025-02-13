@@ -38,7 +38,6 @@ import {
   getAcceptedDevices,
   getDeviceCountsByStatus,
   getDevicesById,
-  getDocsVersion,
   getFeatures,
   getGlobalSettings,
   getGroupNames,
@@ -105,7 +104,6 @@ export const CreateDeployment = props => {
   const { total: acceptedDeviceCount } = useSelector(getAcceptedDevices);
   const hasDevices = !!acceptedDeviceCount;
   const devicesById = useSelector(getDevicesById);
-  const docsVersion = useSelector(getDocsVersion);
   const { pending: hasPending } = useSelector(getDeviceCountsByStatus);
   const idAttribute = useSelector(getIdAttribute);
   const isEnterprise = useSelector(getIsEnterprise);
@@ -251,7 +249,6 @@ export const CreateDeployment = props => {
     ...props,
     canRetry,
     canSchedule,
-    docsVersion,
     groupNames,
     groupRef,
     groups,
