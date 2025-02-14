@@ -148,16 +148,28 @@ const appInitActions = [
   { type: deploymentsActions.receivedDeployments.type, payload: defaultState.deployments.byId },
   {
     type: deploymentsActions.receivedDeploymentsForStatus.type,
-    payload: { deploymentIds: Object.keys(defaultState.deployments.byId), status: 'finished', total: Object.keys(defaultState.deployments.byId).length }
+    payload: {
+      deploymentIds: [defaultState.deployments.byId.d3.id, defaultState.deployments.byId.d1.id, defaultState.deployments.byId.d2.id],
+      status: 'finished',
+      total: Object.keys(defaultState.deployments.byId).length
+    }
   },
   { type: deploymentsActions.receivedDeployments.type, payload: defaultState.deployments.byId },
   {
     type: deploymentsActions.receivedDeploymentsForStatus.type,
-    payload: { deploymentIds: Object.keys(defaultState.deployments.byId), status: 'inprogress', total: Object.keys(defaultState.deployments.byId).length }
+    payload: {
+      deploymentIds: [defaultState.deployments.byId.d3.id, defaultState.deployments.byId.d1.id, defaultState.deployments.byId.d2.id],
+      status: 'inprogress',
+      total: Object.keys(defaultState.deployments.byId).length
+    }
   },
   {
     type: deploymentsActions.selectDeploymentsForStatus.type,
-    payload: { deploymentIds: Object.keys(defaultState.deployments.byId), status: 'inprogress', total: Object.keys(defaultState.deployments.byId).length }
+    payload: {
+      deploymentIds: [defaultState.deployments.byId.d3.id, defaultState.deployments.byId.d1.id, defaultState.deployments.byId.d2.id],
+      status: 'inprogress',
+      total: Object.keys(defaultState.deployments.byId).length
+    }
   },
   { type: getDeploymentsByStatus.fulfilled.type },
   { type: getDeploymentsByStatus.fulfilled.type },

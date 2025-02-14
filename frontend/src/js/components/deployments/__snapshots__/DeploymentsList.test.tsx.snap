@@ -544,6 +544,226 @@ exports[`DeploymentsList Component > renders correctly 1`] = `
         View details
       </button>
     </div>
+    <div
+      class="deployment-item pending-item"
+    >
+      <div>
+        <span
+          class="deployment-item-title muted"
+        >
+          Release
+        </span>
+        <div
+          class="text-overflow "
+        />
+      </div>
+      <div>
+        <span
+          class="deployment-item-title muted"
+        >
+          Target device(s)
+        </span>
+        <div
+          class="text-overflow "
+          title="Test"
+        >
+          Test
+        </div>
+      </div>
+      <div>
+        <span
+          class="deployment-item-title muted"
+        >
+          Start time
+        </span>
+        <span
+          aria-label="Thu Jan 31 2019 12:59:30 GMT+0000"
+          class=""
+          data-mui-internal-clone-element="true"
+        >
+          <time
+            datetime="1548939570020"
+          >
+            in 18 days
+          </time>
+        </span>
+      </div>
+      <div>
+        <span
+          class="deployment-item-title muted"
+        >
+          End time
+        </span>
+        <span
+          aria-label=""
+          class=""
+          data-mui-internal-clone-element="true"
+        >
+          <div
+            class=""
+          >
+            -
+          </div>
+        </span>
+      </div>
+      <div
+        class="align-right column-defined"
+      >
+        <span
+          class="deployment-item-title muted"
+        >
+          # devices
+        </span>
+        <div
+          class="align-right column-defined"
+        >
+          100
+        </div>
+      </div>
+      <div>
+        <span
+          class="deployment-item-title muted"
+        >
+          Status
+        </span>
+        <div
+          class="relative emotion-0  "
+        >
+          <div
+            class="emotion-1"
+          >
+            <div
+              class="progress-chart relative detailed"
+            >
+              <div
+                class="progress-step"
+                style="left: 0%; width: 2%;"
+              >
+                <div
+                  style="display: contents;"
+                >
+                  <div
+                    class="progress-bar green"
+                    style="width: 0%;"
+                  />
+                  <div
+                    class="progress-bar warning"
+                    style="left: 0%; width: 0%;"
+                  />
+                </div>
+              </div>
+              <div
+                class="progress-step"
+                style="left: 2%; width: 3%;"
+              >
+                <div
+                  style="display: contents;"
+                >
+                  <div
+                    class="progress-bar green"
+                    style="width: 0%;"
+                  />
+                  <div
+                    class="progress-bar warning"
+                    style="left: 0%; width: 0%;"
+                  />
+                </div>
+              </div>
+              <div
+                class="progress-step"
+                style="left: 5%; width: 5%;"
+              >
+                <div
+                  style="display: contents;"
+                >
+                  <div
+                    class="progress-bar green"
+                    style="width: 0%;"
+                  />
+                  <div
+                    class="progress-bar warning"
+                    style="left: 0%; width: 0%;"
+                  />
+                </div>
+              </div>
+              <div
+                class="progress-step"
+                style="left: 10%; width: 5%;"
+              >
+                <div
+                  style="display: contents;"
+                >
+                  <div
+                    class="progress-bar green"
+                    style="width: 0%;"
+                  />
+                  <div
+                    class="progress-bar warning"
+                    style="left: 0%; width: 0%;"
+                  />
+                </div>
+              </div>
+              <div
+                class="progress-step"
+                style="left: 15%; width: 85%;"
+              >
+                <div
+                  style="display: contents;"
+                >
+                  <div
+                    class="progress-bar green"
+                    style="width: 0%;"
+                  />
+                  <div
+                    class="progress-bar warning"
+                    style="left: 0%; width: 0%;"
+                  />
+                </div>
+              </div>
+              <div
+                class="progress-step relative flexbox progress-step-total"
+              >
+                <div
+                  class="progress-bar"
+                />
+              </div>
+            </div>
+            <div
+              class="flexbox center-aligned muted"
+              style="justify-content: flex-end;"
+            >
+              0 failures
+            </div>
+          </div>
+          <div
+            class="flexbox space-between muted"
+          >
+            <div>
+              Devices in progress
+            </div>
+            <div>
+              <span>
+                Time until next phase: 
+              </span>
+              <span
+                class=""
+                data-mui-internal-clone-element="true"
+              >
+                21 days 22 h 45 m 09 s
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-2"
+        id=":r9:"
+        tabindex="0"
+        type="button"
+      >
+        View details
+      </button>
+    </div>
   </div>
   <div
     class="flexbox"

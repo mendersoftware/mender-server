@@ -1144,7 +1144,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   margin-right: 8px;
 }
 
-.emotion-66 {
+.emotion-68 {
   background-color: #f7f7f7;
   padding: 10px 20px;
   border-radius: 4px;
@@ -1155,61 +1155,61 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   min-height: 70px;
 }
 
-.emotion-66 .chart-container {
+.emotion-68 .chart-container {
   min-height: 70px;
 }
 
-.emotion-66 .progress-chart {
+.emotion-68 .progress-chart {
   min-height: 45px;
 }
 
-.emotion-66 .compact .progress-step,
-.emotion-66 .detailed .progress-step {
+.emotion-68 .compact .progress-step,
+.emotion-68 .detailed .progress-step {
   min-height: 45px;
 }
 
-.emotion-66 .progress-step,
-.emotion-66 .detailed .progress-step-total {
+.emotion-68 .progress-step,
+.emotion-68 .detailed .progress-step-total {
   position: absolute;
   border-right-style: none;
 }
 
-.emotion-66 .progress-step-total .progress-bar {
+.emotion-68 .progress-step-total .progress-bar {
   background-color: #d4e9e7;
 }
 
-.emotion-66 .progress-step-number {
+.emotion-68 .progress-step-number {
   -webkit-align-self: flex-start;
   -ms-flex-item-align: flex-start;
   align-self: flex-start;
   margin-top: -4px;
 }
 
-.emotion-66.minimal {
+.emotion-68.minimal {
   padding: initial;
 }
 
-.emotion-66.no-background {
+.emotion-68.no-background {
   background: none;
 }
 
-.emotion-66.stepped-progress .progress-step-total {
+.emotion-68.stepped-progress .progress-step-total {
   margin-left: -0.25%;
   width: 100.5%;
 }
 
-.emotion-66.stepped-progress .progress-step-total .progress-bar {
+.emotion-68.stepped-progress .progress-step-total .progress-bar {
   background-color: #fff;
   border: 1px solid #a9a9a9;
   border-radius: 2px;
   height: 12px;
 }
 
-.emotion-66.stepped-progress .detailed .progress-step {
+.emotion-68.stepped-progress .detailed .progress-step {
   min-height: 20px;
 }
 
-.emotion-69 {
+.emotion-73 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1220,36 +1220,36 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   max-width: 500px;
 }
 
-.emotion-69>time {
+.emotion-73>time {
   -webkit-align-self: flex-end;
   -ms-flex-item-align: flex-end;
   align-self: flex-end;
   margin-right: 6px;
 }
 
-.emotion-71 {
+.emotion-75 {
   background: #fff;
   border-radius: 4px;
   padding: 4px;
 }
 
-.emotion-72 {
+.emotion-76 {
   -webkit-column-gap: 8px;
   column-gap: 8px;
   display: grid;
   grid-template-columns: repeat(auto-fit, 32px);
 }
 
-.emotion-72>div {
+.emotion-76>div {
   -webkit-column-gap: 4px;
   column-gap: 4px;
 }
 
-.emotion-72 .disabled {
+.emotion-76 .disabled {
   opacity: 0.1;
 }
 
-.emotion-77 {
+.emotion-85 {
   position: fixed;
   display: grid;
   bottom: 0;
@@ -1354,7 +1354,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               <input
                 aria-invalid="false"
                 class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart emotion-9"
-                id=":rp:"
+                id=":ru:"
                 name="search"
                 placeholder="Search devices"
                 type="text"
@@ -1424,7 +1424,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
             href="/deployments/active"
           >
             <span>
-              2
+              3
             </span>
             <svg
               aria-hidden="true"
@@ -1440,7 +1440,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
           </a>
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-17"
-            id=":rr:"
+            id=":r10:"
             tabindex="0"
             type="button"
           >
@@ -1811,6 +1811,38 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               class="clickable emotion-61"
             >
               <div>
+                <div />
+                <div
+                  class=""
+                  title="Test"
+                >
+                  Test
+                </div>
+              </div>
+              <div
+                class="flexbox center-aligned"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-62"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M12,10.5A1.5,1.5 0 0,1 13.5,12A1.5,1.5 0 0,1 12,13.5A1.5,1.5 0 0,1 10.5,12A1.5,1.5 0 0,1 12,10.5M7.5,10.5A1.5,1.5 0 0,1 9,12A1.5,1.5 0 0,1 7.5,13.5A1.5,1.5 0 0,1 6,12A1.5,1.5 0 0,1 7.5,10.5M16.5,10.5A1.5,1.5 0 0,1 18,12A1.5,1.5 0 0,1 16.5,13.5A1.5,1.5 0 0,1 15,12A1.5,1.5 0 0,1 16.5,10.5Z"
+                  />
+                </svg>
+                <span
+                  class="margin-left-small"
+                >
+                  Queued to start
+                </span>
+              </div>
+            </div>
+            <div
+              class="clickable emotion-61"
+            >
+              <div>
                 <div>
                   r1
                 </div>
@@ -1884,6 +1916,123 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               class="clickable emotion-61"
             >
               <div>
+                <div />
+                <div
+                  class=""
+                  title="Test"
+                >
+                  Test
+                </div>
+              </div>
+              <div
+                class="relative emotion-68 minimal "
+              >
+                <div
+                  class="chart-container"
+                >
+                  <div
+                    class="progress-chart relative detailed"
+                  >
+                    <div
+                      class="progress-step"
+                      style="left: 0%; width: 2%;"
+                    >
+                      <div
+                        style="display: contents;"
+                      >
+                        <div
+                          class="progress-bar green"
+                          style="width: 0%;"
+                        />
+                        <div
+                          class="progress-bar warning"
+                          style="left: 0%; width: 0%;"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="progress-step"
+                      style="left: 2%; width: 3%;"
+                    >
+                      <div
+                        style="display: contents;"
+                      >
+                        <div
+                          class="progress-bar green"
+                          style="width: 0%;"
+                        />
+                        <div
+                          class="progress-bar warning"
+                          style="left: 0%; width: 0%;"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="progress-step"
+                      style="left: 5%; width: 5%;"
+                    >
+                      <div
+                        style="display: contents;"
+                      >
+                        <div
+                          class="progress-bar green"
+                          style="width: 0%;"
+                        />
+                        <div
+                          class="progress-bar warning"
+                          style="left: 0%; width: 0%;"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="progress-step"
+                      style="left: 10%; width: 5%;"
+                    >
+                      <div
+                        style="display: contents;"
+                      >
+                        <div
+                          class="progress-bar green"
+                          style="width: 0%;"
+                        />
+                        <div
+                          class="progress-bar warning"
+                          style="left: 0%; width: 0%;"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="progress-step"
+                      style="left: 15%; width: 85%;"
+                    >
+                      <div
+                        style="display: contents;"
+                      >
+                        <div
+                          class="progress-bar green"
+                          style="width: 0%;"
+                        />
+                        <div
+                          class="progress-bar warning"
+                          style="left: 0%; width: 0%;"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="progress-step relative flexbox progress-step-total"
+                    >
+                      <div
+                        class="progress-bar"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="clickable emotion-61"
+            >
+              <div>
                 <div>
                   r1
                 </div>
@@ -1895,7 +2044,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                 </div>
               </div>
               <div
-                class="relative emotion-66 minimal "
+                class="relative emotion-68 minimal "
               >
                 <div
                   class="chart-container"
@@ -1975,7 +2124,108 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               Finished
             </h5>
             <div
-              class="emotion-69"
+              class="emotion-73"
+            >
+              <time
+                class="muted slightly-smaller"
+                datetime="2019-01-13T13:30:02+00:00"
+              >
+                2019-01-13 13:30
+              </time>
+              <div
+                class="clickable emotion-61"
+              >
+                <div>
+                  <div />
+                  <div
+                    class=""
+                    title="Test"
+                  >
+                    Test
+                  </div>
+                </div>
+                <div
+                  class="emotion-75"
+                >
+                  <div
+                    class="flexbox emotion-76 "
+                  >
+                    <div
+                      aria-label="Skipped"
+                      class="flexbox centered disabled"
+                      data-mui-internal-clone-element="true"
+                    >
+                      <img
+                        src="/src/assets/img/skipped_status.png"
+                      />
+                      <div
+                        class="status"
+                      >
+                        0
+                      </div>
+                    </div>
+                    <div
+                      aria-label="Pending"
+                      class="flexbox centered disabled"
+                      data-mui-internal-clone-element="true"
+                    >
+                      <img
+                        src="/src/assets/img/pending_status.png"
+                      />
+                      <div
+                        class="status"
+                      >
+                        0
+                      </div>
+                    </div>
+                    <div
+                      aria-label="In progress"
+                      class="flexbox centered disabled"
+                      data-mui-internal-clone-element="true"
+                    >
+                      <img
+                        src="/src/assets/img/progress_status.png"
+                      />
+                      <div
+                        class="status"
+                      >
+                        0
+                      </div>
+                    </div>
+                    <div
+                      aria-label="Successful"
+                      class="flexbox centered disabled"
+                      data-mui-internal-clone-element="true"
+                    >
+                      <img
+                        src="/src/assets/img/success_status.png"
+                      />
+                      <div
+                        class="status"
+                      >
+                        0
+                      </div>
+                    </div>
+                    <div
+                      aria-label="Failed"
+                      class="flexbox centered disabled"
+                      data-mui-internal-clone-element="true"
+                    >
+                      <img
+                        src="/src/assets/img/error_status.png"
+                      />
+                      <div
+                        class="status"
+                      >
+                        0
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="emotion-73"
             >
               <time
                 class="muted slightly-smaller"
@@ -1998,10 +2248,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                   </div>
                 </div>
                 <div
-                  class="emotion-71"
+                  class="emotion-75"
                 >
                   <div
-                    class="flexbox emotion-72 "
+                    class="flexbox emotion-76 "
                   >
                     <div
                       aria-label="Skipped"
@@ -2078,7 +2328,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               </div>
             </div>
             <div
-              class="emotion-69"
+              class="emotion-73"
             >
               <time
                 class="muted slightly-smaller"
@@ -2101,10 +2351,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                   </div>
                 </div>
                 <div
-                  class="emotion-71"
+                  class="emotion-75"
                 >
                   <div
-                    class="flexbox emotion-72 "
+                    class="flexbox emotion-76 "
                   >
                     <div
                       aria-label="Skipped"
@@ -2193,7 +2443,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
     </div>
   </div>
   <div
-    class="emotion-77"
+    class="emotion-85"
   />
 </div>
 `;

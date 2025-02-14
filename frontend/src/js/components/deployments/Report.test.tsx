@@ -20,23 +20,45 @@ import { defaultState } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
 import DeploymentReport from './Report';
 
-const preloadedState = {
-  ...defaultState,
-  deployments: {
-    ...defaultState.deployments,
-    selectedDeviceIds: [defaultState.deployments.byId.d1.devices.a1.id],
-    selectionState: {
-      selectedId: defaultState.deployments.byId.d1.id
-    }
-  }
-};
-
 describe('DeploymentReport Component', () => {
   afterEach(cleanup);
 
   it('renders correctly', async () => {
-    const ui = <DeploymentReport open type="finished" getDeploymentDevices={vi.fn} getDeviceById={vi.fn} getDeviceAuth={vi.fn} />;
-    const { asFragment, rerender } = render(ui, { preloadedState });
+    const ui = <DeploymentReport type="finished" />;
+    const { asFragment, rerender } = render(ui, {
+      preloadedState: {
+        ...defaultState,
+        deployments: {
+          ...defaultState.deployments,
+          selectedDeviceIds: [defaultState.deployments.byId.d1.devices.a1.id],
+          selectionState: {
+            selectedId: defaultState.deployments.byId.d1.id
+          }
+        }
+      }
+    });
+    act(() => vi.advanceTimersByTime(5000));
+    await waitFor(() => rerender(ui));
+    const view = prettyDOM(asFragment().childNodes[1], 100000, { highlight: false })
+      .replace(/id="mui-[0-9]*"/g, '')
+      .replace(/aria-labelledby="(mui-[0-9]* *)*"/g, '')
+      .replace(/\\/g, '');
+    expect(view).toMatchSnapshot();
+  });
+  it('renders correctly for phased inprogress', async () => {
+    const ui = <DeploymentReport type="inprogress" />;
+    const { asFragment, rerender } = render(ui, {
+      preloadedState: {
+        ...defaultState,
+        deployments: {
+          ...defaultState.deployments,
+          selectedDeviceIds: [defaultState.deployments.byId.d1.devices.a1.id],
+          selectionState: {
+            selectedId: defaultState.deployments.byId.d3.id
+          }
+        }
+      }
+    });
     act(() => vi.advanceTimersByTime(5000));
     await waitFor(() => rerender(ui));
     const view = prettyDOM(asFragment().childNodes[1], 100000, { highlight: false })

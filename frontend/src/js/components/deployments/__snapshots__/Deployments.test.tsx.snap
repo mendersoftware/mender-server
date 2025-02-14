@@ -590,7 +590,7 @@ exports[`Deployments Component > renders correctly 1`] = `
   margin-right: 8px;
 }
 
-.emotion-18 {
+.emotion-25 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -607,22 +607,22 @@ exports[`Deployments Component > renders correctly 1`] = `
   font-size: inherit;
 }
 
-.emotion-18 iconButton {
+.emotion-25 iconButton {
   margin-right: 8px;
 }
 
-.emotion-22 {
+.emotion-29 {
   border-color: rgba(0, 0, 0, 0.06);
   background-color: #fdfdfd;
   color: rgba(10, 10, 11, 0.78);
 }
 
-.emotion-22 .dashboard-header span {
+.emotion-29 .dashboard-header span {
   background-color: #fdfdfd;
   color: rgba(10, 10, 11, 0.78);
 }
 
-.emotion-22 .MuiButtonBase-root {
+.emotion-29 .MuiButtonBase-root {
   color: rgba(10, 10, 11, 0.78);
 }
 
@@ -755,6 +755,246 @@ exports[`Deployments Component > renders correctly 1`] = `
                 </span>
                 <div
                   class="text-overflow emotion-9"
+                />
+              </div>
+              <div>
+                <span
+                  class="deployment-item-title muted"
+                >
+                  Target device(s)
+                </span>
+                <div
+                  class="text-overflow emotion-9"
+                  title="Test"
+                >
+                  Test
+                </div>
+              </div>
+              <div>
+                <span
+                  class="deployment-item-title muted"
+                >
+                  Start time
+                </span>
+                <span
+                  aria-label="Thu Jan 31 2019 12:59:30 GMT+0000"
+                  class=""
+                  data-mui-internal-clone-element="true"
+                >
+                  <time
+                    datetime="1548939570020"
+                  >
+                    in 18 days
+                  </time>
+                </span>
+              </div>
+              <div>
+                <span
+                  class="deployment-item-title muted"
+                >
+                  End time
+                </span>
+                <span
+                  aria-label=""
+                  class=""
+                  data-mui-internal-clone-element="true"
+                >
+                  <div
+                    class=""
+                  >
+                    -
+                  </div>
+                </span>
+              </div>
+              <div
+                class="align-right column-defined"
+              >
+                <span
+                  class="deployment-item-title muted"
+                >
+                  # devices
+                </span>
+                <div
+                  class="align-right column-defined"
+                >
+                  100
+                </div>
+              </div>
+              <div>
+                <span
+                  class="deployment-item-title muted"
+                >
+                  Status
+                </span>
+                <div
+                  class="relative emotion-11  "
+                >
+                  <div
+                    class="emotion-12"
+                  >
+                    <div
+                      class="progress-chart relative detailed"
+                    >
+                      <div
+                        class="progress-step"
+                        style="left: 0%; width: 2%;"
+                      >
+                        <div
+                          style="display: contents;"
+                        >
+                          <div
+                            class="progress-bar green"
+                            style="width: 0%;"
+                          />
+                          <div
+                            class="progress-bar warning"
+                            style="left: 0%; width: 0%;"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class="progress-step"
+                        style="left: 2%; width: 3%;"
+                      >
+                        <div
+                          style="display: contents;"
+                        >
+                          <div
+                            class="progress-bar green"
+                            style="width: 0%;"
+                          />
+                          <div
+                            class="progress-bar warning"
+                            style="left: 0%; width: 0%;"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class="progress-step"
+                        style="left: 5%; width: 5%;"
+                      >
+                        <div
+                          style="display: contents;"
+                        >
+                          <div
+                            class="progress-bar green"
+                            style="width: 0%;"
+                          />
+                          <div
+                            class="progress-bar warning"
+                            style="left: 0%; width: 0%;"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class="progress-step"
+                        style="left: 10%; width: 5%;"
+                      >
+                        <div
+                          style="display: contents;"
+                        >
+                          <div
+                            class="progress-bar green"
+                            style="width: 0%;"
+                          />
+                          <div
+                            class="progress-bar warning"
+                            style="left: 0%; width: 0%;"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class="progress-step"
+                        style="left: 15%; width: 85%;"
+                      >
+                        <div
+                          style="display: contents;"
+                        >
+                          <div
+                            class="progress-bar green"
+                            style="width: 0%;"
+                          />
+                          <div
+                            class="progress-bar warning"
+                            style="left: 0%; width: 0%;"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class="progress-step relative flexbox progress-step-total"
+                      >
+                        <div
+                          class="progress-bar"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="flexbox center-aligned muted"
+                      style="justify-content: flex-end;"
+                    >
+                      0 failures
+                    </div>
+                  </div>
+                  <div
+                    class="flexbox space-between muted"
+                  >
+                    <div>
+                      Devices in progress
+                    </div>
+                    <div>
+                      <span>
+                        Time until next phase: 
+                      </span>
+                      <span
+                        class=""
+                        data-mui-internal-clone-element="true"
+                      >
+                        21 days 22 h 45 m 09 s
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-13"
+                id=":r4:"
+                tabindex="0"
+                type="button"
+              >
+                View details
+              </button>
+              <button
+                aria-label="Abort"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge columnHeader emotion-14"
+                data-mui-internal-clone-element="true"
+                id=":r6:"
+                tabindex="0"
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium cancelButton muted emotion-15"
+                  data-testid="CancelOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div
+              class="deployment-item progress-item"
+            >
+              <div>
+                <span
+                  class="deployment-item-title muted"
+                >
+                  Release
+                </span>
+                <div
+                  class="text-overflow emotion-9"
                   title="r1"
                 >
                   r1
@@ -888,7 +1128,7 @@ exports[`Deployments Component > renders correctly 1`] = `
               </div>
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-13"
-                id=":r3:"
+                id=":r9:"
                 tabindex="0"
                 type="button"
               >
@@ -898,7 +1138,7 @@ exports[`Deployments Component > renders correctly 1`] = `
                 aria-label="Abort"
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge columnHeader emotion-14"
                 data-mui-internal-clone-element="true"
-                id=":r5:"
+                id=":rb:"
                 tabindex="0"
                 type="button"
               >
@@ -1005,7 +1245,7 @@ exports[`Deployments Component > renders correctly 1`] = `
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-18"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-25"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -1022,7 +1262,7 @@ exports[`Deployments Component > renders correctly 1`] = `
               </div>
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-13"
-                id=":r8:"
+                id=":re:"
                 tabindex="0"
                 type="button"
               >
@@ -1032,7 +1272,7 @@ exports[`Deployments Component > renders correctly 1`] = `
                 aria-label="Abort"
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge columnHeader emotion-14"
                 data-mui-internal-clone-element="true"
-                id=":ra:"
+                id=":rg:"
                 tabindex="0"
                 type="button"
               >
@@ -1077,7 +1317,7 @@ exports[`Deployments Component > renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="deployments-pending margin-top margin-bottom-large emotion-22"
+        class="deployments-pending margin-top margin-bottom-large emotion-29"
       >
         <h4
           class="dashboard-header emotion-8 margin-small margin-top"
@@ -1126,6 +1366,246 @@ exports[`Deployments Component > renders correctly 1`] = `
           <div
             class=""
           >
+            <div
+              class="deployment-item pending-item"
+            >
+              <div>
+                <span
+                  class="deployment-item-title muted"
+                >
+                  Release
+                </span>
+                <div
+                  class="text-overflow "
+                />
+              </div>
+              <div>
+                <span
+                  class="deployment-item-title muted"
+                >
+                  Target device(s)
+                </span>
+                <div
+                  class="text-overflow "
+                  title="Test"
+                >
+                  Test
+                </div>
+              </div>
+              <div>
+                <span
+                  class="deployment-item-title muted"
+                >
+                  Start time
+                </span>
+                <span
+                  aria-label="Thu Jan 31 2019 12:59:30 GMT+0000"
+                  class=""
+                  data-mui-internal-clone-element="true"
+                >
+                  <time
+                    datetime="1548939570020"
+                  >
+                    in 18 days
+                  </time>
+                </span>
+              </div>
+              <div>
+                <span
+                  class="deployment-item-title muted"
+                >
+                  End time
+                </span>
+                <span
+                  aria-label=""
+                  class=""
+                  data-mui-internal-clone-element="true"
+                >
+                  <div
+                    class=""
+                  >
+                    -
+                  </div>
+                </span>
+              </div>
+              <div
+                class="align-right column-defined"
+              >
+                <span
+                  class="deployment-item-title muted"
+                >
+                  # devices
+                </span>
+                <div
+                  class="align-right column-defined"
+                >
+                  100
+                </div>
+              </div>
+              <div>
+                <span
+                  class="deployment-item-title muted"
+                >
+                  Status
+                </span>
+                <div
+                  class="relative emotion-11  "
+                >
+                  <div
+                    class="emotion-12"
+                  >
+                    <div
+                      class="progress-chart relative detailed"
+                    >
+                      <div
+                        class="progress-step"
+                        style="left: 0%; width: 2%;"
+                      >
+                        <div
+                          style="display: contents;"
+                        >
+                          <div
+                            class="progress-bar green"
+                            style="width: 0%;"
+                          />
+                          <div
+                            class="progress-bar warning"
+                            style="left: 0%; width: 0%;"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class="progress-step"
+                        style="left: 2%; width: 3%;"
+                      >
+                        <div
+                          style="display: contents;"
+                        >
+                          <div
+                            class="progress-bar green"
+                            style="width: 0%;"
+                          />
+                          <div
+                            class="progress-bar warning"
+                            style="left: 0%; width: 0%;"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class="progress-step"
+                        style="left: 5%; width: 5%;"
+                      >
+                        <div
+                          style="display: contents;"
+                        >
+                          <div
+                            class="progress-bar green"
+                            style="width: 0%;"
+                          />
+                          <div
+                            class="progress-bar warning"
+                            style="left: 0%; width: 0%;"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class="progress-step"
+                        style="left: 10%; width: 5%;"
+                      >
+                        <div
+                          style="display: contents;"
+                        >
+                          <div
+                            class="progress-bar green"
+                            style="width: 0%;"
+                          />
+                          <div
+                            class="progress-bar warning"
+                            style="left: 0%; width: 0%;"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class="progress-step"
+                        style="left: 15%; width: 85%;"
+                      >
+                        <div
+                          style="display: contents;"
+                        >
+                          <div
+                            class="progress-bar green"
+                            style="width: 0%;"
+                          />
+                          <div
+                            class="progress-bar warning"
+                            style="left: 0%; width: 0%;"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class="progress-step relative flexbox progress-step-total"
+                      >
+                        <div
+                          class="progress-bar"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="flexbox center-aligned muted"
+                      style="justify-content: flex-end;"
+                    >
+                      0 failures
+                    </div>
+                  </div>
+                  <div
+                    class="flexbox space-between muted"
+                  >
+                    <div>
+                      Devices in progress
+                    </div>
+                    <div>
+                      <span>
+                        Time until next phase: 
+                      </span>
+                      <span
+                        class=""
+                        data-mui-internal-clone-element="true"
+                      >
+                        21 days 22 h 45 m 09 s
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-13"
+                id=":rk:"
+                tabindex="0"
+                type="button"
+              >
+                View details
+              </button>
+              <button
+                aria-label="Abort"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge columnHeader emotion-14"
+                data-mui-internal-clone-element="true"
+                id=":rm:"
+                tabindex="0"
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium cancelButton muted emotion-15"
+                  data-testid="CancelOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"
+                  />
+                </svg>
+              </button>
+            </div>
             <div
               class="deployment-item pending-item"
             >
@@ -1270,7 +1750,7 @@ exports[`Deployments Component > renders correctly 1`] = `
               </div>
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-13"
-                id=":rd:"
+                id=":rp:"
                 tabindex="0"
                 type="button"
               >
@@ -1280,7 +1760,7 @@ exports[`Deployments Component > renders correctly 1`] = `
                 aria-label="Abort"
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge columnHeader emotion-14"
                 data-mui-internal-clone-element="true"
-                id=":rf:"
+                id=":rr:"
                 tabindex="0"
                 type="button"
               >
@@ -1387,7 +1867,7 @@ exports[`Deployments Component > renders correctly 1`] = `
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-18"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-25"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -1404,7 +1884,7 @@ exports[`Deployments Component > renders correctly 1`] = `
               </div>
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-13"
-                id=":ri:"
+                id=":ru:"
                 tabindex="0"
                 type="button"
               >
@@ -1414,7 +1894,7 @@ exports[`Deployments Component > renders correctly 1`] = `
                 aria-label="Abort"
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge columnHeader emotion-14"
                 data-mui-internal-clone-element="true"
-                id=":rk:"
+                id=":r10:"
                 tabindex="0"
                 type="button"
               >

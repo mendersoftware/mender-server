@@ -92,10 +92,13 @@ const defaultResponseActions = {
   receive: { type: actions.receivedDeployment.type, payload: createdDeployment },
   receiveMultiple: { type: actions.receivedDeployments.type, payload: {} },
   receiveInprogress: { type: actions.receivedDeploymentsForStatus.type, payload: { deploymentIds: [], status: 'inprogress', total: 0 } },
-  remove: { type: actions.removedDeployment.type, payload: defaultState.deployments.byId.d1.id },
+  remove: { type: actions.removedDeployment.type, payload: defaultState.deployments.byId.d3.id },
   selectMultiple: {
     type: actions.selectDeploymentsForStatus.type,
-    payload: { deploymentIds: Object.keys(defaultState.deployments.byId), status: 'inprogress' }
+    payload: {
+      deploymentIds: [defaultState.deployments.byId.d3.id, defaultState.deployments.byId.d1.id, defaultState.deployments.byId.d2.id],
+      status: 'inprogress'
+    }
   },
   setOfflineThreshold: { type: appActions.setOfflineThreshold.type, payload: '2019-01-12T13:00:00.900Z' }
 };
@@ -125,7 +128,7 @@ describe('deployment actions', () => {
       { type: abortDeployment.fulfilled.type }
     ];
     return store
-      .dispatch(abortDeployment(defaultState.deployments.byId.d1.id))
+      .dispatch(abortDeployment(defaultState.deployments.byId.d3.id))
       .unwrap()
       .then(() => {
         const storeActions = store.getActions();
@@ -239,7 +242,7 @@ describe('deployment actions', () => {
       {
         ...defaultResponseActions.receiveInprogress,
         payload: {
-          deploymentIds: Object.keys(defaultState.deployments.byId),
+          deploymentIds: [defaultState.deployments.byId.d3.id, defaultState.deployments.byId.d1.id, defaultState.deployments.byId.d2.id],
           total: defaultState.deployments.byStatus.inprogress.total
         }
       },

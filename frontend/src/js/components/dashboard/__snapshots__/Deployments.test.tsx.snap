@@ -206,14 +206,12 @@ exports[`Deployments Component > renders correctly 1`] = `
       class="clickable emotion-0"
     >
       <div>
-        <div>
-          r1
-        </div>
+        <div />
         <div
           class=""
-          title="test deployment"
+          title="Test"
         >
-          test deployment
+          Test
         </div>
       </div>
       <div
@@ -227,12 +225,76 @@ exports[`Deployments Component > renders correctly 1`] = `
           >
             <div
               class="progress-step"
-              style="left: 0%; width: 100%;"
+              style="left: 0%; width: 2%;"
             >
               <div
-                class="progress-bar"
-                style="width: 100%; background-color: rgb(170, 170, 170);"
-              />
+                style="display: contents;"
+              >
+                <div
+                  class="progress-bar green"
+                  style="width: 0%;"
+                />
+                <div
+                  class="progress-bar warning"
+                  style="left: 0%; width: 0%;"
+                />
+              </div>
+            </div>
+            <div
+              class="progress-step"
+              style="left: 2%; width: 3%;"
+            >
+              <div
+                style="display: contents;"
+              >
+                <div
+                  class="progress-bar green"
+                  style="width: 0%;"
+                />
+                <div
+                  class="progress-bar warning"
+                  style="left: 0%; width: 0%;"
+                />
+              </div>
+            </div>
+            <div
+              class="progress-step"
+              style="left: 5%; width: 5%;"
+            >
+              <div
+                style="display: contents;"
+              >
+                <div
+                  class="progress-bar green"
+                  style="width: 0%;"
+                />
+                <div
+                  class="progress-bar warning"
+                  style="left: 0%; width: 0%;"
+                />
+              </div>
+            </div>
+            <div
+              class="progress-step"
+              style="left: 10%; width: 5%;"
+            >
+              <div
+                style="display: contents;"
+              >
+                <div
+                  class="progress-bar green"
+                  style="width: 0%;"
+                />
+                <div
+                  class="progress-bar warning"
+                  style="left: 0%; width: 0%;"
+                />
+              </div>
+            </div>
+            <div
+              class="progress-step"
+              style="left: 15%; width: 85%;"
+            >
               <div
                 style="display: contents;"
               >
