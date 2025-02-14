@@ -283,7 +283,7 @@ exports[`tiny components renders DeviceMonitorsMissingNote correctly 1`] = `
       Please 
       <a
         class=""
-        href="https://docs.mender.io/development/add-ons/monitor"
+        href="https://docs.mender.io/add-ons/monitor"
         rel=""
         target="_blank"
       >

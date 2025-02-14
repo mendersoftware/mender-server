@@ -22,7 +22,7 @@ import DeviceMonitoring, { DeviceMonitorsMissingNote } from './Monitoring';
 describe('tiny components', () => {
   [DeviceMonitorsMissingNote].forEach(async Component => {
     it(`renders ${Component.displayName || Component.name} correctly`, () => {
-      const { baseElement } = render(<Component docsVersion="" />);
+      const { baseElement } = render(<Component />);
       const view = baseElement.firstChild;
       expect(view).toMatchSnapshot();
       expect(view).toEqual(expect.not.stringMatching(undefineds));

@@ -292,7 +292,7 @@ exports[`DeviceConnectionDialog Component renders correctly 1`] = `
           Follow the 
           <a
             class=""
-            href="https://docs.mender.io/development/client-installation/install-with-debian-package"
+            href="https://docs.mender.io/client-installation/install-with-debian-package"
             rel=""
             target="_blank"
           >
@@ -310,7 +310,7 @@ exports[`DeviceConnectionDialog Component renders correctly 1`] = `
           <li>
             <a
               class=""
-              href="https://docs.mender.io/development/operating-system-updates-debian-family"
+              href="https://docs.mender.io/operating-system-updates-debian-family"
               rel=""
               target="_blank"
             >
@@ -320,7 +320,7 @@ exports[`DeviceConnectionDialog Component renders correctly 1`] = `
           <li>
             <a
               class=""
-              href="https://docs.mender.io/development/operating-system-updates-yocto-project"
+              href="https://docs.mender.io/operating-system-updates-yocto-project"
               rel=""
               target="_blank"
             >

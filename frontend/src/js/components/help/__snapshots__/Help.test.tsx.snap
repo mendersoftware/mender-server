@@ -214,7 +214,7 @@ exports[`Help Component renders correctly 1`] = `
            
           <a
             class=""
-            href="https://docs.mender.io/development/get-started"
+            href="https://docs.mender.io/get-started"
             rel=""
             target="_blank"
           >
@@ -242,7 +242,7 @@ exports[`Help Component renders correctly 1`] = `
            
           <a
             class=""
-            href="https://docs.mender.io/development/client-installation"
+            href="https://docs.mender.io/client-installation"
             rel=""
             target="_blank"
           >
@@ -292,7 +292,7 @@ exports[`Help Component renders correctly 1`] = `
            
           <a
             class=""
-            href="https://docs.mender.io/development/artifact-creation"
+            href="https://docs.mender.io/artifact-creation"
             rel=""
             target="_blank"
           >
@@ -1601,7 +1601,7 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
               </div>
               <a
                 class=""
-                href="https://docs.mender.io/development/release-information/release-notes-changelog/mender-client"
+                href="https://docs.mender.io/release-information/release-notes-changelog/mender-client"
                 rel=""
                 target="_blank"
               >
@@ -1766,7 +1766,7 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
               </div>
               <a
                 class=""
-                href="https://docs.mender.io/development/release-information/release-notes-changelog/mender-artifact"
+                href="https://docs.mender.io/release-information/release-notes-changelog/mender-artifact"
                 rel=""
                 target="_blank"
               >
@@ -1897,7 +1897,7 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
               </div>
               <a
                 class=""
-                href="https://docs.mender.io/development/release-information/release-notes-changelog/mender-binary-delta"
+                href="https://docs.mender.io/release-information/release-notes-changelog/mender-binary-delta"
                 rel=""
                 target="_blank"
               >
@@ -2062,7 +2062,7 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
               </div>
               <a
                 class=""
-                href="https://docs.mender.io/development/release-information/release-notes-changelog/mender-cli"
+                href="https://docs.mender.io/release-information/release-notes-changelog/mender-cli"
                 rel=""
                 target="_blank"
               >
@@ -2577,7 +2577,7 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
               </div>
               <a
                 class=""
-                href="https://docs.mender.io/development/release-information/release-notes-changelog/mender-configure"
+                href="https://docs.mender.io/release-information/release-notes-changelog/mender-configure"
                 rel=""
                 target="_blank"
               >
@@ -3082,7 +3082,7 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
               </div>
               <a
                 class=""
-                href="https://docs.mender.io/development/release-information/release-notes-changelog/mender-connect"
+                href="https://docs.mender.io/release-information/release-notes-changelog/mender-connect"
                 rel=""
                 target="_blank"
               >
@@ -3213,7 +3213,7 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
               </div>
               <a
                 class=""
-                href="https://docs.mender.io/development/release-information/release-notes-changelog/mender-convert"
+                href="https://docs.mender.io/release-information/release-notes-changelog/mender-convert"
                 rel=""
                 target="_blank"
               >
@@ -3718,7 +3718,7 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
               </div>
               <a
                 class=""
-                href="https://docs.mender.io/development/release-information/release-notes-changelog/mender-gateway"
+                href="https://docs.mender.io/release-information/release-notes-changelog/mender-gateway"
                 rel=""
                 target="_blank"
               >
@@ -3951,7 +3951,7 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
               </div>
               <a
                 class=""
-                href="https://docs.mender.io/development/release-information/release-notes-changelog/mender-monitor"
+                href="https://docs.mender.io/release-information/release-notes-changelog/mender-monitor"
                 rel=""
                 target="_blank"
               >
@@ -3980,7 +3980,7 @@ exports[`Help Component static components renders Downloads correctly 1`] = `
     To learn more about the tools availabe for Mender, read the 
     <a
       class=""
-      href="https://docs.mender.io/development/downloads"
+      href="https://docs.mender.io/downloads"
       rel=""
       target="_blank"
     >
@@ -4038,7 +4038,7 @@ exports[`Help Component static components renders GettingStarted correctly 1`] =
      
     <a
       class=""
-      href="https://docs.mender.io/development/get-started"
+      href="https://docs.mender.io/get-started"
       rel=""
       target="_blank"
     >
@@ -4066,7 +4066,7 @@ exports[`Help Component static components renders GettingStarted correctly 1`] =
      
     <a
       class=""
-      href="https://docs.mender.io/development/client-installation"
+      href="https://docs.mender.io/client-installation"
       rel=""
       target="_blank"
     >
@@ -4116,7 +4116,7 @@ exports[`Help Component static components renders GettingStarted correctly 1`] =
      
     <a
       class=""
-      href="https://docs.mender.io/development/artifact-creation"
+      href="https://docs.mender.io/artifact-creation"
       rel=""
       target="_blank"
     >

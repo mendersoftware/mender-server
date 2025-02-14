@@ -29,7 +29,6 @@ import {
   getDeviceConfigDeployment,
   getDeviceTwinIntegrations,
   getDevicesById,
-  getDocsVersion,
   getGlobalSettings,
   getSelectedGroupInfo,
   getTenantCapabilities,
@@ -196,7 +195,6 @@ export const ExpandedDevice = ({ actionCallbacks, deviceId, onClose, setDetailsT
   const { defaultDeviceConfig: defaultConfig } = useSelector(getGlobalSettings);
   const { device, deviceConfigDeployment } = useSelector(state => getDeviceConfigDeployment(state, deviceId));
   const devicesById = useSelector(getDevicesById);
-  const docsVersion = useSelector(getDocsVersion);
   const integrations = useSelector(getDeviceTwinIntegrations);
   const tenantCapabilities = useSelector(getTenantCapabilities);
   const userCapabilities = useSelector(getUserCapabilities);
@@ -269,7 +267,6 @@ export const ExpandedDevice = ({ actionCallbacks, deviceId, onClose, setDetailsT
     defaultConfig,
     device,
     deviceConfigDeployment,
-    docsVersion,
     integrations,
     latestAlerts,
     onDecommissionDevice,

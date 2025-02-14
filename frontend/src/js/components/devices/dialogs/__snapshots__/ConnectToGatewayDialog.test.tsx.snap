@@ -495,7 +495,7 @@ wget -O- https://get.mender.io | sudo bash -s -- --demo --force-mender-client4 -
            
           <a
             class=""
-            href="https://docs.mender.io/development/get-started/mender-gateway"
+            href="https://docs.mender.io/get-started/mender-gateway"
             rel=""
             target="_blank"
           >

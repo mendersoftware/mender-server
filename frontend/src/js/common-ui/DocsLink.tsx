@@ -121,7 +121,7 @@ export const DocsTooltip = ({ anchor = {}, id = '', ...props }) => {
 export const DocsLink = forwardRef(({ children, className = '', path, title = '', ...remainder }, ref) => {
   const docsVersion = useSelector(getDocsVersion);
   const { isHosted } = useSelector(getFeatures);
-  const target = `https://docs.mender.io/${docsVersion}${path}`;
+  const target = `https://docs.mender.io/${path}`;
 
   const onClickHandler = () => {
     const docsParams = { headers: { 'x-mender-docs': docsVersion } };

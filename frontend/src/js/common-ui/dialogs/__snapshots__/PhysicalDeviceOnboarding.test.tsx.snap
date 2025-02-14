@@ -641,7 +641,7 @@ exports[`PhysicalDeviceOnboarding Component tiny onboarding tips renders Convert
      
     <a
       class=""
-      href="https://docs.mender.io/development/get-started/preparation/prepare-a-raspberry-pi-device"
+      href="https://docs.mender.io/get-started/preparation/prepare-a-raspberry-pi-device"
       rel=""
       target="_blank"
     >
@@ -1369,7 +1369,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
      
     <a
       class=""
-      href="https://docs.mender.io/development/get-started/preparation/prepare-a-raspberry-pi-device"
+      href="https://docs.mender.io/get-started/preparation/prepare-a-raspberry-pi-device"
       rel=""
       target="_blank"
     >

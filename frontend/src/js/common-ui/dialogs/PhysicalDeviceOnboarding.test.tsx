@@ -43,7 +43,7 @@ describe('PhysicalDeviceOnboarding Component', () => {
           <Component
             advanceOnboarding={jest.fn}
             connectionString="test"
-            docsVersion={''}
+            docsVersion=""
             hasConvertedImage={true}
             integrationProvider={EXTERNAL_PROVIDER['iot-hub'].provider}
             hasExternalIntegration={index % 2}
