@@ -76,7 +76,7 @@ export const ApproximateRelativeDate = ({ className, updateTime }) => {
   const [updatedTime, setUpdatedTime] = useState();
 
   useEffect(() => {
-    setUpdatedTime(updatedTime => (updateTime !== updatedTime ? dayjs(updateTime, defaultDateFormat) : updatedTime));
+    setUpdatedTime(updatedTime => (updateTime !== updatedTime ? dayjs(updateTime) : updatedTime));
   }, [updateTime]);
 
   const diff = updatedTime ? Math.abs(updatedTime.diff(dayjs(), 'days')) : 0;
