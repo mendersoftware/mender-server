@@ -24,4 +24,10 @@ describe('ProgressChart Component', () => {
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
+  it('renders correctly for phases', async () => {
+    const { baseElement } = render(<ProgressChart deployment={defaultState.deployments.byId.d3} status="inprogress" />);
+    const view = baseElement.firstChild;
+    expect(view).toMatchSnapshot();
+    expect(view).toEqual(expect.not.stringMatching(undefineds));
+  });
 });
