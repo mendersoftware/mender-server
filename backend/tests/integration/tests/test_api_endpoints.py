@@ -1,4 +1,4 @@
-# Copyright 2022 Northern.tech AS
+# Copyright 2024 Northern.tech AS
 #
 #    Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -78,6 +78,11 @@ def get_api_endpoints(repo):
                         "/auth/magic/{id}"
                     )  # token authentication
                 )
+                if path.rstrip("/").endswith("/auth_requests"):
+                    returns_401 = False  # device auth endpoint,
+                    # the way we do these tests will return 400 before
+                    # 401 so it cannot be tested here like that
+
                 yield {
                     "kind": kind,
                     "returns_401": returns_401,
