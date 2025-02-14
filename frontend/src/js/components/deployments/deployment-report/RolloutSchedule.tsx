@@ -99,7 +99,7 @@ export const RolloutSchedule = ({ deployment, headerClass, innerRef, onAbort, on
           let isCurrentPhase = false;
           if (now.isBefore(startTime)) {
             const duration = dayjs.duration(dayjs(startTime).diff(now));
-            phaseTitle = <div>{`Begins in ${duration.format('d [days] hh [h] mm [m]')}`}</div>;
+            phaseTitle = <div>{`Begins in ${duration.format('DD [days] HH [h] mm [m]')}`}</div>;
           } else if (status === DEPLOYMENT_STATES.inprogress && phase.id === currentPhase.id) {
             phaseTitle = <div className="muted">Current phase</div>;
             isCurrentPhase = true;
