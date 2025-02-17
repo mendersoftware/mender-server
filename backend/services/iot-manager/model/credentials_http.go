@@ -22,7 +22,6 @@ import (
 	"net/url"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/crypto"
-	inet "github.com/mendersoftware/mender-server/services/iot-manager/internal/net"
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 )
@@ -56,10 +55,6 @@ func (sec *HexSecret) UnmarshalBSON(b []byte) error {
 type HTTPCredentials struct {
 	URL    string     `json:"url,omitempty" bson:"url,omitempty"`
 	Secret *HexSecret `json:"secret,omitempty" bson:"secret,omitempty"`
-
-	// private field toggling validation verbosity
-	// - only set if unmarshaled from JSON
-	validateAddr bool
 }
 
 func (cred *HTTPCredentials) UnmarshalJSON(b []byte) error {
@@ -67,7 +62,6 @@ func (cred *HTTPCredentials) UnmarshalJSON(b []byte) error {
 	if err := json.Unmarshal(b, (*creds)(cred)); err != nil {
 		return err
 	}
-	cred.validateAddr = true
 	return nil
 }
 
@@ -76,19 +70,8 @@ func (cred HTTPCredentials) validateURL(interface{}) error {
 	if err != nil {
 		return err
 	}
-	if !cred.validateAddr {
-		return nil
-	}
-	ips, err := net.LookupIP(uu.Hostname())
-	if err != nil {
-		return err
-	}
-	for _, ip := range ips {
-		if !inet.IsGlobalUnicast(ip) {
-			return net.InvalidAddrError(
-				"hostname resolves to reserved address",
-			)
-		}
+	if uu.Host == "" {
+		return net.InvalidAddrError("URL hostname cannot be empty")
 	}
 	return nil
 }

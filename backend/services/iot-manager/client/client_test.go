@@ -31,6 +31,7 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/stretchr/testify/assert"
 
+	"github.com/mendersoftware/mender-server/pkg/netutils"
 	"github.com/mendersoftware/mender-server/services/iot-manager/crypto"
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"
 )
@@ -46,6 +47,7 @@ func init() {
 
 func TestAddrIsGlobalUnicast(t *testing.T) {
 	t.Parallel()
+  ipFilter := netutils.DefaultEgressIPFilter
 	testCases := []struct {
 		Name string
 
@@ -101,7 +103,7 @@ func TestAddrIsGlobalUnicast(t *testing.T) {
 		t.Run(tc.Name, func(t *testing.T) {
 			t.Parallel()
 
-			err := addrIsGlobalUnicast("ip", tc.Address, nil)
+			err := ipFilterControl(ipFilter)("ip", tc.Address, nil)
 			tc.ErrorAssertionFunc(t, err)
 		})
 	}
@@ -265,7 +267,7 @@ func TestNewWebhookRequest(t *testing.T) {
 
 func TestNewClient(t *testing.T) {
 	t.Parallel()
-	client := New()
+	client := New(netutils.DefaultEgressIPFilter)
 	assert.NotNil(t, client.CheckRedirect, "CheckRedirect not overridden")
 	transport := client.Transport.(*http.Transport)
 	assert.NotNil(t, transport.DialContext, "Transport.DialContext not overridden")
