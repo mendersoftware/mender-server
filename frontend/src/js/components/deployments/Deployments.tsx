@@ -21,6 +21,7 @@ import { Button, Tab, Tabs } from '@mui/material';
 
 import storeActions from '@northern.tech/store/actions';
 import { ALL_DEVICES, DEPLOYMENT_ROUTES, DEPLOYMENT_STATES, listDefaultsByState, onboardingSteps } from '@northern.tech/store/constants';
+import { useLocationParams } from '@northern.tech/store/liststatehook';
 import {
   getDevicesById,
   getGroupsByIdWithoutUngrouped,
@@ -31,7 +32,6 @@ import {
 } from '@northern.tech/store/selectors';
 import { abortDeployment, advanceOnboarding, getDynamicGroups, getGroups, setDeploymentsState } from '@northern.tech/store/thunks';
 import { getISOStringBoundaries } from '@northern.tech/utils/helpers';
-import { useLocationParams } from '@northern.tech/utils/liststatehook';
 import { useWindowSize } from '@northern.tech/utils/resizehook';
 import { isUUID } from 'validator';
 

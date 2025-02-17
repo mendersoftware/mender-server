@@ -19,6 +19,7 @@ import { makeStyles } from 'tss-react/mui';
 import EnterpriseNotification, { DefaultUpgradeNotification } from '@northern.tech/common-ui/EnterpriseNotification';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
 import { AUDIT_LOGS_TYPES, BEGINNING_OF_TIME, BENEFITS, SORTING_OPTIONS, SP_AUDIT_LOGS_TYPES, TIMEOUTS } from '@northern.tech/store/constants';
+import { useLocationParams } from '@northern.tech/store/liststatehook';
 import {
   getAuditLog,
   getAuditLogEntry,
@@ -31,7 +32,6 @@ import {
 } from '@northern.tech/store/selectors';
 import { getAuditLogs, getAuditLogsCsvLink, getUserList, setAuditlogsState } from '@northern.tech/store/thunks';
 import { createDownload, getISOStringBoundaries } from '@northern.tech/utils/helpers';
-import { useLocationParams } from '@northern.tech/utils/liststatehook';
 import dayjs from 'dayjs';
 
 import historyImage from '../../../assets/img/history.png';

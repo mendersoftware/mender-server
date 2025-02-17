@@ -126,6 +126,7 @@ exports[`Help Component > renders correctly 1`] = `
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink helpNav emotion-2 active"
       data-discover="true"
       href="/help/get-started"
+      style="padding-left: calc(16px);"
     >
       <div
         class="MuiListItemText-root emotion-3"
@@ -142,6 +143,7 @@ exports[`Help Component > renders correctly 1`] = `
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink helpNav emotion-2"
       data-discover="true"
       href="/help/support"
+      style="padding-left: calc(16px);"
     >
       <div
         class="MuiListItemText-root emotion-3"
@@ -158,6 +160,7 @@ exports[`Help Component > renders correctly 1`] = `
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink helpNav emotion-2"
       data-discover="true"
       href="/help/mender-hub"
+      style="padding-left: calc(16px);"
     >
       <div
         class="MuiListItemText-root emotion-3"
@@ -175,6 +178,7 @@ exports[`Help Component > renders correctly 1`] = `
       exact="true"
       href="https://docs.mender.io/"
       rel="noopener"
+      style="padding-left: calc(16px);"
       target="_blank"
       to="https://docs.mender.io/"
     >

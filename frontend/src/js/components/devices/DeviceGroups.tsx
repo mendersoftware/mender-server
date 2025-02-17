@@ -20,6 +20,7 @@ import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 
 import storeActions from '@northern.tech/store/actions';
 import { DEVICE_FILTERING_OPTIONS, DEVICE_ISSUE_OPTIONS, DEVICE_STATES, SORTING_OPTIONS, emptyFilter, onboardingSteps } from '@northern.tech/store/constants';
+import { useLocationParams } from '@northern.tech/store/liststatehook';
 import {
   getAcceptedDevices,
   getDeviceCountsByStatus,
@@ -48,7 +49,6 @@ import {
   updateDynamicGroup
 } from '@northern.tech/store/thunks';
 import { toggle } from '@northern.tech/utils/helpers';
-import { useLocationParams } from '@northern.tech/utils/liststatehook';
 import pluralize from 'pluralize';
 
 import { getOnboardingComponentFor } from '../../utils/onboardingManager';

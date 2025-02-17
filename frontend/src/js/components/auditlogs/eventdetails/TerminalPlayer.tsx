@@ -19,8 +19,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import XTerm from '@northern.tech/common-ui/xterm';
 import { DEVICE_MESSAGE_PROTOCOLS as MessageProtocols, DEVICE_MESSAGE_TYPES as MessageTypes, TIMEOUTS, deviceConnect } from '@northern.tech/store/constants';
-import { createFileDownload, toggle } from '@northern.tech/utils/helpers';
-import { blobToString, byteArrayToString } from '@northern.tech/utils/sockethook';
+import { blobToString, byteArrayToString, createFileDownload, toggle } from '@northern.tech/utils/helpers';
 import msgpack5 from 'msgpack5';
 import Cookies from 'universal-cookie';
 

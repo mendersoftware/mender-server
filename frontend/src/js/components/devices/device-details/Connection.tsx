@@ -35,10 +35,10 @@ import {
   checkPermissionsObject,
   uiPermissionsById
 } from '@northern.tech/store/constants';
+import { formatAuditlogs } from '@northern.tech/store/locationutils';
 import { getCurrentSession, getTenantCapabilities, getUserCapabilities } from '@northern.tech/store/selectors';
 import { getDeviceFileDownloadLink } from '@northern.tech/store/thunks';
 import { createDownload } from '@northern.tech/utils/helpers';
-import { formatAuditlogs } from '@northern.tech/utils/locationutils';
 
 import FileTransfer from '../troubleshoot/FileTransfer';
 import TroubleshootContent from '../troubleshoot/TerminalWrapper';

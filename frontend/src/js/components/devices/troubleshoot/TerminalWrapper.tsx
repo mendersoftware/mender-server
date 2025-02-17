@@ -23,8 +23,8 @@ import Loader from '@northern.tech/common-ui/Loader';
 import { MaybeTime } from '@northern.tech/common-ui/Time';
 import { BEGINNING_OF_TIME, TIMEOUTS } from '@northern.tech/store/constants';
 import { getCurrentSession, getFeatures, getIsPreview, getTenantCapabilities, getUserCapabilities } from '@northern.tech/store/selectors';
+import { useSession } from '@northern.tech/store/sockethook';
 import { triggerDeviceUpdate } from '@northern.tech/store/thunks';
-import { useSession } from '@northern.tech/utils/sockethook';
 import dayjs from 'dayjs';
 import durationDayJs from 'dayjs/plugin/duration';
 

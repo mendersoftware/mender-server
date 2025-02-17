@@ -55,6 +55,7 @@
 "html-webpack-plugin","MIT","https://github.com/jantimon/html-webpack-plugin"
 "husky","MIT","https://github.com/typicode/husky"
 "jsdom-worker","MIT","https://github.com/developit/jsdom-worker"
+"jsdom","MIT","https://github.com/jsdom/jsdom"
 "jwt-decode","MIT","https://github.com/auth0/jwt-decode"
 "less-loader","MIT","https://github.com/webpack-contrib/less-loader"
 "less","Apache-2.0","https://github.com/less/less.js"

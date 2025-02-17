@@ -20,7 +20,21 @@ import { columns } from './ReleaseDetails';
 
 describe('Artifact Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<Artifact artifact={{ device_types_compatible: ['test-type'], updates: [], modified: '2019-01-01' }} columns={columns} />);
+    const { baseElement } = render(
+      <Artifact
+        artifact={{
+          artifact_provides: {
+            artifact_name: 'myapp',
+            'data-partition.myapp.version': 'v2020.10',
+            list_of_fancy: ['x172']
+          },
+          device_types_compatible: ['test-type'],
+          updates: [],
+          modified: '2019-01-01'
+        }}
+        columns={columns}
+      />
+    );
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

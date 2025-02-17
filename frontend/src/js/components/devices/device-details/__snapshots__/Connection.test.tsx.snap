@@ -1783,10 +1783,10 @@ exports[`tiny DeviceConnection components > renders DeviceConnectionMissingNote 
     >
       The troubleshoot add-on does not seem to be enabled on this device.
       <br />
-      Please
+      Please 
       <a
         class=""
-        href="https://docs.mender.io/development/add-ons/remote-terminal"
+        href="https://docs.mender.io/add-ons/remote-terminal"
         rel=""
         target="_blank"
       >
@@ -1849,7 +1849,7 @@ exports[`tiny DeviceConnection components > renders DeviceDisconnectedNote corre
     <p
       class="MuiTypography-root MuiTypography-body1 emotion-1"
     >
-      The troubleshoot add-on is not currently connected on this device, it was last connected on
+      The troubleshoot add-on is not currently connected on this device, it was last connected on 
       <time
         datetime="2019-01-01T09:25:00+00:00"
       >
@@ -1857,10 +1857,10 @@ exports[`tiny DeviceConnection components > renders DeviceDisconnectedNote corre
       </time>
       .
       <br />
-      Please
+      Please 
       <a
         class=""
-        href="https://docs.mender.io/development/add-ons/remote-terminal"
+        href="https://docs.mender.io/add-ons/remote-terminal"
         rel=""
         target="_blank"
       >
@@ -1898,7 +1898,7 @@ exports[`tiny DeviceConnection components > renders PortForwardLink correctly 1`
   <a
     class="flexbox centered margin-left"
     data-mui-internal-clone-element="true"
-    href="https://docs.mender.io/development/add-ons/port-forward"
+    href="https://docs.mender.io/add-ons/port-forward"
     rel=""
     target="_blank"
   >

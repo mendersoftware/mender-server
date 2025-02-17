@@ -21,7 +21,7 @@ import { getDevicesById, getGlobalSettings, getOrganization, getUserCapabilities
 import { commonErrorHandler } from '@northern.tech/store/store';
 import { getDeviceAuth, getDeviceById, saveGlobalSettings } from '@northern.tech/store/thunks';
 import { mapTermsToFilters } from '@northern.tech/store/utils';
-import { deepCompare, isEmpty, standardizePhases, startTimeSort } from '@northern.tech/utils/helpers';
+import { customSort, deepCompare, isEmpty, standardizePhases } from '@northern.tech/utils/helpers';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import isUUID from 'validator/lib/isUUID';
 
@@ -38,7 +38,7 @@ const { page: defaultPage, perPage: defaultPerPage } = DEVICE_LIST_DEFAULTS;
 export const deriveDeploymentGroup = ({ filter = {}, group, groups = [], name }) => (group || (groups.length === 1 && !isUUID(name)) ? groups[0] : filter.name);
 
 const transformDeployments = (deployments, deploymentsById) =>
-  deployments.sort(startTimeSort).reduce(
+  deployments.sort(customSort(true, 'created')).reduce(
     (accu, item) => {
       const filter = item.filter ?? {};
       let deployment = {

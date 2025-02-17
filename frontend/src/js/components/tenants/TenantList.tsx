@@ -19,10 +19,10 @@ import { Check as CheckIcon, Warning as WarningIcon } from '@mui/icons-material'
 import DetailsIndicator from '@northern.tech/common-ui/DetailsIndicator';
 import { ColumnHeader, CommonList, ListItemComponentProps, RendererProp } from '@northern.tech/common-ui/List';
 import { SORTING_OPTIONS } from '@northern.tech/store/commonConstants';
+import { useLocationParams } from '@northern.tech/store/liststatehook';
 import { getTenantsList } from '@northern.tech/store/selectors';
 import { AppDispatch } from '@northern.tech/store/store';
 import { setTenantsListState } from '@northern.tech/store/thunks';
-import { useLocationParams } from '@northern.tech/utils/liststatehook';
 import dayjs from 'dayjs';
 
 import { LIMIT_THRESHOLD } from '../header/devicecount';
