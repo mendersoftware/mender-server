@@ -16,14 +16,57 @@ import json
 import logging
 import os.path
 import socket
-import subprocess
 
 import docker
 import pytest  # noqa
 import requests
 
-from bravado.client import SwaggerClient, RequestsClient
-from bravado.swagger_model import load_file
+from bson.objectid import ObjectId
+from base64 import b64encode
+from datetime import datetime, timedelta
+import hmac
+import uuid
+
+import devices_api
+import internal_api
+import management_api
+from management_api import models as management_models
+
+
+def generate_jwt(tenant_id: str = "", subject: str = "", is_user: bool = True) -> str:
+    if len(subject) == 0:
+        subject = str(uuid.uuid4())
+
+    hdr = {
+        "alg": "HS256",
+        "typ": "JWT",
+    }
+    hdr64 = (
+        b64encode(json.dumps(hdr).encode(), altchars=b"-_").decode("ascii").rstrip("=")
+    )
+
+    claims = {
+        "sub": subject,
+        "exp": (datetime.utcnow() + timedelta(hours=1)).isoformat("T"),
+        "mender.user": is_user,
+        "mender.device": not is_user,
+        "mender.tenant": tenant_id,
+    }
+    if is_user:
+        claims["mender.user"] = True
+    else:
+        claims["mender.device"] = True
+
+    claims64 = (
+        b64encode(json.dumps(claims).encode(), altchars=b"-_")
+        .decode("ascii")
+        .rstrip("=")
+    )
+
+    jwt = hdr64 + "." + claims64
+    sign = hmac.new(b"secretJWTkey", msg=jwt.encode(), digestmod="sha256")
+    sign64 = b64encode(sign.digest(), altchars=b"-_").decode("ascii").rstrip("=")
+    return jwt + "." + sign64
 
 
 class BaseApiClient:
@@ -59,16 +102,20 @@ class SwaggerApiClient(BaseApiClient):
 
     def __init__(self, hostname, swagger_spec):
         self.spec = swagger_spec
-        super().__init__(hostname)
-
-    def setup_swagger(self):
-        self.http_client = RequestsClient()
-        self.http_client.session.verify = False
-
-        self.client = SwaggerClient.from_spec(
-            load_file(self.spec), config=self.config, http_client=self.http_client
+        self.config = management_api.Configuration()
+        api_conf = management_api.Configuration.get_default_copy()
+        device_id = str(uuid.uuid4())
+        tenant_id = ""  # str(ObjectId())
+        user_id = str(uuid.uuid4())
+        api_conf.access_token = generate_jwt(tenant_id, user_id, is_user=True)
+        self.client = management_api.ManagementAPIClient(
+            management_api.ApiClient(configuration=api_conf)
         )
-        self.client.swagger_spec.api_url = self.api_url
+        api_conf = internal_api.Configuration.get_default_copy()
+        self.clientInternal = internal_api.InternalAPIClient(
+            internal_api.ApiClient(configuration=api_conf)
+        )
+        super().__init__(hostname)
 
 
 class InternalClient(SwaggerApiClient):
@@ -80,37 +127,21 @@ class InternalClient(SwaggerApiClient):
 
     spec_option = "spec"
 
-    def setup(self):
-        self.setup_swagger()
-
     def get_max_devices_limit(self, tenant_id):
-        return self.client.Internal_API.Get_Device_Limit(tenant_id=tenant_id).result()[
-            0
-        ]
+        return self.clientInternal.get_device_limit(tenant_id=tenant_id)
 
     def put_max_devices_limit(self, tenant_id, limit):
-        Limit = self.client.get_model("Limit")
-        l = Limit(limit=limit)
-        return self.client.Internal_API.Update_Device_Limit(
-            tenant_id=tenant_id, limit=l
-        ).result()[0]
+        l = management_models.Limit(limit=limit)
+        return self.clientInternal.update_device_limit(tenant_id=tenant_id, limit=l)
 
     def create_tenant(self, tenant_id):
-        return self.client.Internal_API.Create_Tenant(
-            tenant={"tenant_id": tenant_id}
-        ).result()
+        return self.clientInternal.create_tenant(new_tenant={"tenant_id": tenant_id})
 
     def delete_device(self, device_id, tenant_id="", headers={}):
-        if "Authorization" not in headers:
-            self.log.debug("appending default authorization header")
-            headers["Authorization"] = "Bearer foo"
-        # bravado for some reason doesn't issue DELETEs properly (silent failure)
-        # fall back to 'requests'
-        #   return self.client.devices.delete_devices_id(id=devid, **kwargs)
-        rsp = requests.delete(
-            self.make_api_url("/tenants/{}/devices/{}".format(tenant_id, device_id)), headers=headers
-        )
-        return rsp
+        return self.clientInternal.delete_device(tid=tenant_id, did=device_id)
+
+    def verify_jwt(self, authorization):
+        return self.clientInternal.verify_jwt(authorization=authorization)
 
 
 class SimpleInternalClient(InternalClient):
@@ -120,7 +151,6 @@ class SimpleInternalClient(InternalClient):
 
     def __init__(self, hostname, swagger_spec):
         super().__init__(hostname, swagger_spec)
-        self.setup_swagger()
 
 
 class ManagementClient(SwaggerApiClient):
@@ -132,9 +162,6 @@ class ManagementClient(SwaggerApiClient):
 
     spec_option = "management_spec"
 
-    def setup(self):
-        self.setup_swagger()
-
     def accept_device(self, devid, aid, **kwargs):
         return self.put_device_status(devid, aid, "accepted", **kwargs)
 
@@ -142,47 +169,23 @@ class ManagementClient(SwaggerApiClient):
         return self.put_device_status(devid, aid, "rejected", **kwargs)
 
     def put_device_status(self, devid, aid, status, **kwargs):
-        if "Authorization" not in kwargs:
-            self.log.debug("appending default authorization header")
-            kwargs["Authorization"] = "Bearer foo"
-
-        self.log.info("definitions: %s", self.client.swagger_spec.definitions)
-        Status = self.client.get_model("Status")
-        st = Status(status=status)
-        return self.client.Management_API.Set_Authentication_Status(
+        st = management_models.Status(status=status)
+        return self.client.set_authentication_status(
             id=devid, aid=aid, status=st, **kwargs
-        ).result()
-
-    def decommission_device(self, devid, headers={}):
-        if "Authorization" not in headers:
-            self.log.debug("appending default authorization header")
-            headers["Authorization"] = "Bearer foo"
-        # bravado for some reason doesn't issue DELETEs properly (silent failure)
-        # fall back to 'requests'
-        #   return self.client.devices.delete_devices_id(id=devid, **kwargs)
-        rsp = requests.delete(
-            self.make_api_url("/devices/{}".format(devid)), headers=headers
         )
-        return rsp
+
+    def decommission_device(
+        self, devid, headers={}, x_men_request_id="", authorization=""
+    ):
+        return self.client.decommission_device(
+            id=devid, x_men_request_id=x_men_request_id,
+        )
 
     def delete_authset(self, devid, aid, **kwargs):
-        if "Authorization" not in kwargs:
-            self.log.debug("appending default authorization header")
-            kwargs["Authorization"] = "Bearer foo"
-
-        headers = {"Authorization": kwargs["Authorization"]}
-        rsp = requests.delete(
-            self.make_api_url("/devices/{}/auth/{}".format(devid, aid)), headers=headers
-        )
-        return rsp
+        return self.client.reject_authentication(id=devid, aid=aid)
 
     def count_devices(self, status=None, **kwargs):
-        if "Authorization" not in kwargs:
-            self.log.debug("appending default authorization header")
-            kwargs["Authorization"] = "Bearer foo"
-        count = self.client.Management_API.Count_Devices(
-            status=status, **kwargs
-        ).result()[0]
+        count = self.client.count_devices(status=status, **kwargs)
         return count.count
 
     def make_auth(self, tenant_token):
@@ -196,25 +199,15 @@ class SimpleManagementClient(ManagementClient):
 
     def __init__(self, hostname, swagger_spec):
         super().__init__(hostname, swagger_spec)
-        self.setup_swagger()
 
     def list_devices(self, **kwargs):
-        if "Authorization" not in kwargs:
-            self.log.debug("appending default authorization header")
-            kwargs["Authorization"] = "Bearer foo"
-        return self.client.Management_API.List_Devices(**kwargs).result()[0]
+        return self.client.list_devices(**kwargs)
 
     def get_device_limit(self, **kwargs):
-        if "Authorization" not in kwargs:
-            self.log.debug("appending default authorization header")
-            kwargs["Authorization"] = "Bearer foo"
-        return self.client.Management_API.Get_Device_Limit(**kwargs).result()[0]
+        return self.client.get_device_limit(**kwargs)
 
     def get_device(self, **kwargs):
-        if "Authorization" not in kwargs:
-            self.log.debug("appending default authorization header")
-            kwargs["Authorization"] = "Bearer foo"
-        return self.client.Management_API.Get_Device(**kwargs).result()[0]
+        return self.client.get_device(**kwargs)
 
     def get_single_device(self, **kwargs):
         page = 1
@@ -244,6 +237,9 @@ class SimpleManagementClient(ManagementClient):
             page += 1
 
         return None
+
+    def delete_token(self, **kwargs):
+        return self.client.revoke_api_token(**kwargs)
 
 
 class CliClient:
