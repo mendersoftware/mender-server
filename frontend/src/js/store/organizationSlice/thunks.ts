@@ -194,16 +194,16 @@ export const setAuditlogsState = createAsyncThunk(`${sliceName}/setAuditlogsStat
 */
 export const tenantDataDivergedMessage = 'The system detected there is a change in your plan or purchased add-ons. Please log out and log in again';
 
-export const addTenant = createAsyncThunk(`${sliceName}/createTenant`, (selectionState, { dispatch }) => {
-  return Api.post(`${tenantadmApiUrlv2}/tenants`, selectionState)
+export const addTenant = createAsyncThunk(`${sliceName}/createTenant`, (selectionState, { dispatch }) =>
+  Api.post(`${tenantadmApiUrlv2}/tenants`, selectionState)
     .then(() =>
       Promise.all([
         dispatch(setSnackbar('Tenant was created successfully.')),
         new Promise(resolve => setTimeout(() => resolve(dispatch(getTenants())), TIMEOUTS.oneSecond))
       ])
     )
-    .catch(err => commonErrorHandler(err, 'There was an error creating tenant', dispatch, commonErrorFallback));
-});
+    .catch(err => commonErrorHandler(err, 'There was an error creating tenant', dispatch, commonErrorFallback))
+);
 
 const tenantListRetrieval = async (config): Promise<[Tenant[], number]> => {
   const { page, perPage } = config;
@@ -232,21 +232,21 @@ export const setTenantsListState = createAsyncThunk(`${sliceName}/setTenantsList
 });
 
 interface editTenantBody {
+  id: string;
   name: string;
   newLimit: number;
-  id: string;
 }
-export const editTenantDeviceLimit = createAsyncThunk(`${sliceName}/editDeviceLimit`, ({ newLimit, id, name }: editTenantBody, { dispatch }) => {
-  return Api.put(`${tenantadmApiUrlv2}/tenants/${id}/child`, { device_limit: newLimit, name })
+export const editTenantDeviceLimit = createAsyncThunk(`${sliceName}/editDeviceLimit`, ({ newLimit, id, name }: editTenantBody, { dispatch }) =>
+  Api.put(`${tenantadmApiUrlv2}/tenants/${id}/child`, { device_limit: newLimit, name })
     .catch(err => commonErrorHandler(err, `Device Limit cannot be changed`, dispatch))
-    .then(() => {
-      return Promise.all([
+    .then(() =>
+      Promise.all([
         dispatch(setSnackbar('Device Limit was changed successfully')),
         dispatch(getUserOrganization()),
         new Promise(resolve => setTimeout(() => resolve(dispatch(getTenants())), TIMEOUTS.oneSecond))
-      ]);
-    });
-});
+      ])
+    )
+);
 export const editBillingProfile = createAsyncThunk(
   `${sliceName}/editBillingProfileEmail`,
   ({ billingProfile }: { billingProfile: BillingProfile }, { dispatch }) =>
@@ -254,8 +254,8 @@ export const editBillingProfile = createAsyncThunk(
       .catch(err => commonErrorHandler(err, `Failed to change billing profile`, dispatch))
       .then(() => Promise.all([dispatch(setSnackbar('Billing Profile was changed successfully')), dispatch(getUserBilling())]))
 );
-export const removeTenant = createAsyncThunk(`${sliceName}/editDeviceLimit`, ({ id }: { id: string }, { dispatch }) => {
-  return Api.post(`${tenantadmApiUrlv2}/tenants/${id}/remove/start`)
+export const removeTenant = createAsyncThunk(`${sliceName}/editDeviceLimit`, ({ id }: { id: string }, { dispatch }) =>
+  Api.post(`${tenantadmApiUrlv2}/tenants/${id}/remove/start`)
     .catch(err => commonErrorHandler(err, `There was an error removing the tenant`, dispatch))
     .then(() =>
       Promise.all([
@@ -263,10 +263,10 @@ export const removeTenant = createAsyncThunk(`${sliceName}/editDeviceLimit`, ({ 
         dispatch(getUserOrganization()),
         new Promise(resolve => setTimeout(() => resolve(dispatch(getTenants())), TIMEOUTS.oneSecond))
       ])
-    );
-});
-export const getUserOrganization = createAsyncThunk(`${sliceName}/getUserOrganization`, (_, { dispatch, getState }) => {
-  return Api.get(`${tenantadmApiUrlv1}/user/tenant`).then(res => {
+    )
+);
+export const getUserOrganization = createAsyncThunk(`${sliceName}/getUserOrganization`, (_, { dispatch, getState }) =>
+  Api.get(`${tenantadmApiUrlv1}/user/tenant`).then(res => {
     let tasks = [dispatch(actions.setOrganization(res.data))];
     const { addons, plan, trial } = res.data;
     const { token } = getCurrentSession(getState());
@@ -278,8 +278,8 @@ export const getUserOrganization = createAsyncThunk(`${sliceName}/getUserOrganiz
       tasks.push(dispatch(setAnnouncement(tenantDataDivergedMessage)));
     }
     return Promise.all(tasks);
-  });
-});
+  })
+);
 export const getUserBilling = createAsyncThunk(`${sliceName}/getUserBilling`, (_, { dispatch }) =>
   Api.get(`${tenantadmApiUrlv2}/billing/profile`).then(res => dispatch(actions.setBillingProfile(res.data)))
 );
@@ -290,14 +290,14 @@ export const sendSupportMessage = createAsyncThunk(`${sliceName}/sendSupportMess
     .then(() => Promise.resolve(dispatch(setSnackbar({ message: 'Your request was sent successfully', autoHideDuration: TIMEOUTS.fiveSeconds }))))
 );
 interface requestPlanChangePayload {
-  tenantId: string;
   content: {
-    current_plan: string;
-    requested_plan: string;
     current_addons: string;
+    current_plan: string;
     requested_addons: string;
+    requested_plan: string;
     user_message: string;
   };
+  tenantId: string;
 }
 export const requestPlanChange = createAsyncThunk(
   `${sliceName}/requestPlanChange`,

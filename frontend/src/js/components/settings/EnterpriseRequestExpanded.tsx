@@ -23,9 +23,9 @@ import { Addon } from '@northern.tech/store/organizationSlice/types';
 const note = 'Tell us a little about your requirements and device fleet size, so we can provide you with an accurate quote';
 
 interface EnterpriseRequestExpandedProps {
+  addons: Addon[];
   onClose: () => void;
   onSendRequest: (e: { message: string; selectedAddons: AddonId[] }) => void;
-  addons: Addon[];
 }
 
 export const EnterpriseRequestExpanded = (props: EnterpriseRequestExpandedProps) => {

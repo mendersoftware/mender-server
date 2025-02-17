@@ -29,9 +29,7 @@ export const CopyTextToClipboard = ({ onCopy = yes, token }) => {
   const { classes } = useStyles();
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>();
 
-  useEffect(() => {
-    return () => clearTimeout(timer.current);
-  }, []);
+  useEffect(() => () => clearTimeout(timer.current), []);
 
   const onCopied = () => {
     setCopied(true);

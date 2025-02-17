@@ -33,8 +33,8 @@ export type ItemSelectionType = ScopedUiPermissions & {
 };
 
 export type ItemScope = {
-  title: string;
   notFound: boolean;
+  title: string;
 };
 
 export const emptyItemSelection: ItemSelectionType = { item: '', uiPermissions: [], disableEdit: false, notFound: false };
@@ -79,11 +79,11 @@ const shouldExtendPermissionSelection = (changedSelection, currentItem, items) =
 
 interface IScopedPermissionSelect extends PermissionsSelectionBaseProps {
   index: number;
-  permissionsArea: PermissionsArea;
-  options: ItemScope[];
   itemSelection: ItemSelectionType;
   name: string;
-  onChange: (index: number, change: { attribute: string; [change: string]: string }) => void;
+  onChange: (index: number, change: { [change: string]: string; attribute: string }) => void;
+  options: ItemScope[];
+  permissionsArea: PermissionsArea;
 }
 
 const ScopeSelect: FunctionComponent<IScopedPermissionSelect> = ({ disabled, permissionsArea, index, options, itemSelection, name = '', onChange }) => {

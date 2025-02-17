@@ -69,14 +69,14 @@ class Tracker {
       document.body.appendChild(script);
     });
   }
-  exception(error) {
-    if (this.initialized && this.trackingEnabled) {
-      ReactGA.event('error', error);
-    }
-  }
   event(data) {
     if (this.initialized && this.trackingEnabled) {
       ReactGA.event(data);
+    }
+  }
+  exception(error) {
+    if (this.initialized && this.trackingEnabled) {
+      ReactGA.event('error', error);
     }
   }
   initialize(trackingCode) {

@@ -156,12 +156,7 @@ export const TenantList = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setLocationParams, JSON.stringify(sort), selectedTenant]);
 
-  const onExpandClick = useCallback(
-    (tenant: Tenant) => {
-      return dispatch(setTenantsListState({ selectedTenant: tenant.id }));
-    },
-    [dispatch]
-  );
+  const onExpandClick = useCallback((tenant: Tenant) => dispatch(setTenantsListState({ selectedTenant: tenant.id })), [dispatch]);
 
   const onCloseClick = useCallback(() => {
     setLocationParams({ pageState: { ...tenantListState, selectedTenant: '' } });

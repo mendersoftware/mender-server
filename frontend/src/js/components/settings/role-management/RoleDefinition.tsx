@@ -50,10 +50,10 @@ const useStyles = makeStyles()(theme => ({
 }));
 
 type FormValues = FieldValues & {
-  name: string;
-  description: string;
   auditlog: UiPermission[];
+  description: string;
   groups: ScopedUiPermissions[];
+  name: string;
   releases: ScopedUiPermissions[];
   tenantManagement: UiPermission[];
   userManagement: UiPermission[];
@@ -113,10 +113,10 @@ const deriveItemsAndPermissions = (
   stateItems,
   roleItems,
   options
-): { stateItems: Record<string, object>; roleItems: Record<string, UiPermission[]>; options?: DeriveOptions } => {
+): { options?: DeriveOptions; roleItems: Record<string, UiPermission[]>; stateItems: Record<string, object> } => {
   const { disableEdit, filter } = options;
   let filteredStateItems: ItemScope[] = filter(stateItems).map(item => ({ title: item, notFound: false }));
-  let { itemSelections, deletedScopes } = Object.entries(roleItems).reduce<{ itemSelections: ItemSelectionType[]; deletedScopes: ItemScope[] }>(
+  let { itemSelections, deletedScopes } = Object.entries(roleItems).reduce<{ deletedScopes: ItemScope[]; itemSelections: ItemSelectionType[] }>(
     (accu, [scope, permissions]) => {
       const notFound = !filteredStateItems.some(({ title }) => title === scope);
       accu.itemSelections.push({
@@ -164,10 +164,10 @@ const ServiceProviderPermissionSelection: FunctionComponent<PermissionsSelection
 
 interface RoleDefinitionFormProps {
   editing: boolean;
-  isServiceProvider: boolean;
   groups: ItemScope[];
-  releases: ItemScope[];
+  isServiceProvider: boolean;
   onCancel: () => void;
+  releases: ItemScope[];
   selectedRole: UiRoleDefinition;
 }
 
@@ -250,12 +250,12 @@ interface RoleDefinitionProps {
   adding: boolean;
   editing: boolean;
   isServiceProvider: boolean;
-  stateGroups: Record<string, object>;
-  stateReleaseTags: Record<string, object>;
   onCancel: () => void;
   onSubmit: (role: UiRoleDefinition) => void;
   removeRole: () => AsyncThunkAction<void, string, object>;
   selectedRole: UiRoleDefinition;
+  stateGroups: Record<string, object>;
+  stateReleaseTags: Record<string, object>;
 }
 
 export const RoleDefinition: FunctionComponent<RoleDefinitionProps> = ({

@@ -16,14 +16,14 @@ import { FormEvent, useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogProps, DialogTitle, TextField } from '@mui/material';
 
 interface ConfirmModalProps {
-  close: () => void;
-  onConfirm: () => void;
-  toType: string;
-  header: string;
-  description: string;
-  open: boolean;
   className?: string;
+  close: () => void;
+  description: string;
+  header: string;
   maxWidth?: DialogProps['maxWidth'];
+  onConfirm: () => void;
+  open: boolean;
+  toType: string;
 }
 export const ConfirmModal = (props: ConfirmModalProps) => {
   const { close, onConfirm, className = '', toType, header, description, open, maxWidth = 'xs' } = props;

@@ -137,29 +137,30 @@ export const ArtifactGenerationSettings = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, JSON.stringify(debouncedConfig)]);
 
-  const numberInputs = useMemo(() => {
-    return [
+  const numberInputs = useMemo(
+    () => [
       { ...numberFields.compressionLevel, setter: setCompressionLevel, value: compressionLevel, ...deltaLimits.compressionLevel },
       { ...numberFields.sourceWindow, setter: setSourceWindow, value: sourceWindow, ...deltaLimits.sourceWindow },
       { ...numberFields.inputWindow, setter: setInputWindow, value: inputWindow, ...deltaLimits.inputWindow },
       { ...numberFields.duplicatesWindow, setter: setDuplicatesWindow, value: duplicatesWindow, ...deltaLimits.duplicatesWindow },
       { ...numberFields.instructionBuffer, setter: setInstructionBuffer, value: instructionBuffer, ...deltaLimits.instructionBuffer }
-    ];
+    ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    compressionLevel,
-    setCompressionLevel,
-    setSourceWindow,
-    sourceWindow,
-    inputWindow,
-    setInputWindow,
-    setDuplicatesWindow,
-    duplicatesWindow,
-    setInstructionBuffer,
-    instructionBuffer,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    JSON.stringify(deltaLimits)
-  ]);
+    [
+      compressionLevel,
+      setCompressionLevel,
+      setSourceWindow,
+      sourceWindow,
+      inputWindow,
+      setInputWindow,
+      setDuplicatesWindow,
+      duplicatesWindow,
+      setInstructionBuffer,
+      instructionBuffer,
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      JSON.stringify(deltaLimits)
+    ]
+  );
 
   return (
     <div className={`flexbox column ${classes.wrapper}`}>

@@ -88,14 +88,13 @@ export const getDeviceMonitorConfig = createAsyncThunk(`${sliceName}/getDeviceMo
 
 export const changeNotificationSetting = createAsyncThunk(
   `${sliceName}/changeNotificationSetting`,
-  ({ enabled, channel = alertChannels.email }, { dispatch }) => {
-    return Api.put(`${monitorApiUrlv1}/settings/global/channel/alerts/${channel}/status`, { enabled })
+  ({ enabled, channel = alertChannels.email }, { dispatch }) =>
+    Api.put(`${monitorApiUrlv1}/settings/global/channel/alerts/${channel}/status`, { enabled })
       .catch(err => commonErrorHandler(err, `${enabled ? 'En' : 'Dis'}abling  ${channel} alerts failed:`, dispatch))
       .then(() =>
         Promise.all([
           dispatch(actions.changeAlertChannel({ channel, enabled })),
           dispatch(storeActions.setSnackbar(`Successfully ${enabled ? 'en' : 'dis'}abled ${channel} alerts`, TIMEOUTS.fiveSeconds))
         ])
-      );
-  }
+      )
 );

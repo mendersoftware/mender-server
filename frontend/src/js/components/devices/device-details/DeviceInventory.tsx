@@ -20,16 +20,14 @@ import { extractSoftware } from '@northern.tech/utils/helpers';
 import DeviceDataCollapse from './DeviceDataCollapse';
 import DeviceInventoryLoader from './DeviceInventoryLoader';
 
-export const Title = ({ updateTime }) => {
-  return (
-    <div className="flexbox" style={{ alignItems: 'baseline' }}>
-      <h4 className="margin-right">Device Inventory</h4>
-      <div className="muted slightly-smaller" style={{ marginTop: 2 }}>
-        Last changed: <Time value={updateTime} />
-      </div>
+export const Title = ({ updateTime }) => (
+  <div className="flexbox" style={{ alignItems: 'baseline' }}>
+    <h4 className="margin-right">Device Inventory</h4>
+    <div className="muted slightly-smaller" style={{ marginTop: 2 }}>
+      Last changed: <Time value={updateTime} />
     </div>
-  );
-};
+  </div>
+);
 
 export const DeviceInventory = ({ device, setSnackbar }) => {
   const { attributes = {}, updated_ts: updateTime } = device;

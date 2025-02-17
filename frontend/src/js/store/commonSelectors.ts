@@ -233,9 +233,8 @@ export const getGroupNames = createSelector([getGroupsById, getUserRoles, (_, op
 
 export const getDeviceReportsForUser = createSelector(
   [getUserSettings, getCurrentUser, getGlobalSettings, getDevicesById],
-  ({ reports }, { id: currentUserId }, globalSettings, devicesById) => {
-    return reports || globalSettings[`${currentUserId}-reports`] || (Object.keys(devicesById).length ? defaultReports : []);
-  }
+  ({ reports }, { id: currentUserId }, globalSettings, devicesById) =>
+    reports || globalSettings[`${currentUserId}-reports`] || (Object.keys(devicesById).length ? defaultReports : [])
 );
 
 const listTypeDeviceIdMap = {

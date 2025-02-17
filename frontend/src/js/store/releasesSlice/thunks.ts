@@ -359,12 +359,12 @@ export const getRelease = createAsyncThunk(`${sliceName}/getReleases`, async (na
 export const updateReleaseInfo = createAsyncThunk(`${sliceName}/updateReleaseInfo`, ({ name, info }, { dispatch, getState }) =>
   GeneralApi.patch(`${deploymentsApiUrlV2}/deployments/releases/${name}`, info)
     .catch(err => commonErrorHandler(err, `Release details couldn't be updated.`, dispatch))
-    .then(() => {
-      return Promise.all([
+    .then(() =>
+      Promise.all([
         dispatch(actions.receiveRelease({ ...getReleasesById(getState())[name], ...info, name })),
         dispatch(setSnackbar('Release details were updated successfully.', TIMEOUTS.fiveSeconds, ''))
-      ]);
-    })
+      ])
+    )
 );
 
 export const setSingleReleaseTags = createAsyncThunk(`${sliceName}/setSingleReleaseTags`, ({ name, tags }, { dispatch, getState }) =>

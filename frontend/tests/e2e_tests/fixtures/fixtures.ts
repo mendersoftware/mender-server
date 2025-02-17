@@ -25,14 +25,14 @@ type DemoArtifactVersionInfo = {
 type TestFixtures = {
   baseUrl: string;
   config: unknown;
+  demoArtifactVersion: DemoArtifactVersionInfo;
+  demoDeviceName: string;
   environment: string;
   loggedInPage: Page;
   loggedInTenantPage: Page;
-  username: string;
-  spTenantUsername: string;
   password: string;
-  demoDeviceName: string;
-  demoArtifactVersion: DemoArtifactVersionInfo;
+  spTenantUsername: string;
+  username: string;
 };
 
 const urls = {

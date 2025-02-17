@@ -50,14 +50,14 @@ export const locations = {
 export type AvailablePlans = 'os' | 'professional' | 'enterprise';
 
 export type Plan = {
+  deviceCount: string;
+  features: string[];
   id: AvailablePlans;
   name: string;
   offer?: boolean;
-  price: string;
-  deviceCount: string;
   offerprice?: string;
+  price: string;
   price2?: string;
-  features: string[];
 };
 
 export type AvailableAddon = 'configure' | 'troubleshoot' | 'monitor';
@@ -92,15 +92,15 @@ export const PLANS: { [key in AvailablePlans]: Plan } = {
   }
 };
 export type Addon = {
-  id: string;
-  title: string;
   description: string;
-  needs: string[];
   eligible: AvailablePlans[];
+  id: string;
+  needs: string[];
+  title: string;
 } & {
   [key in Exclude<AvailablePlans, 'enterprise'>]: {
-    price: string;
     deviceCount: string;
+    price: string;
   };
 };
 

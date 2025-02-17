@@ -95,10 +95,8 @@ export const PasswordInput = ({
     }
   }, [confirmationId, message, trigger]);
 
-  useEffect(() => {
-    return () => {
-      clearTimeout(timer.current);
-    };
+  useEffect(() => () => {
+    clearTimeout(timer.current);
   });
 
   const clearPassClick = () => {

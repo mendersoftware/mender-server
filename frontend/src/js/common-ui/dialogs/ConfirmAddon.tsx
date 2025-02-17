@@ -14,10 +14,10 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
 interface ConfirmAddonProps {
-  variant: 'remove' | 'add';
   name: string;
-  onConfirm: () => void;
   onClose: () => void;
+  onConfirm: () => void;
+  variant: 'remove' | 'add';
 }
 const title = {
   remove: 'Remove add-on?',

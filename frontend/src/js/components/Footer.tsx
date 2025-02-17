@@ -46,14 +46,12 @@ export const Footer = () => {
   const { classes } = useStyles();
   return (
     <div className={classes.footer}>
-      {targets.map(({ key, target, title }) => {
-        return (
-          /* eslint-disable-next-line react/jsx-no-target-blank */
-          <a className="clickable" href={target} key={key} target="_blank" rel="noopener">
-            {title}
-          </a>
-        );
-      })}
+      {targets.map(({ key, target, title }) => (
+        /* eslint-disable-next-line react/jsx-no-target-blank */
+        <a className="clickable" href={target} key={key} target="_blank" rel="noopener">
+          {title}
+        </a>
+      ))}
     </div>
   );
 };

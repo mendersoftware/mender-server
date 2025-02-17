@@ -44,9 +44,7 @@ export const AuthStatus = ({ decommission, device }) => {
 
   let hasPending = '';
   if (status === DEVICE_STATES.accepted && auth_sets.length > 1) {
-    hasPending = auth_sets.reduce((accu, set) => {
-      return set.status === DEVICE_STATES.pending ? 'This device has a pending authentication set' : accu;
-    }, hasPending);
+    hasPending = auth_sets.reduce((accu, set) => (set.status === DEVICE_STATES.pending ? 'This device has a pending authentication set' : accu), hasPending);
   }
 
   const statusIcon = states[status] ? states[status] : states.default;

@@ -21,17 +21,15 @@ export const FormCheckbox = ({ className, control, disabled, id, handleClick, st
     name={id}
     rules={{ required }}
     control={control}
-    render={({ field: { value = false, onChange } }) => {
-      return (
-        <FormControlLabel
-          className={className}
-          control={
-            <Checkbox name={id} onClick={handleClick} disabled={disabled} checked={value} style={style} color="primary" onChange={() => onChange(!value)} />
-          }
-          label={label}
-        />
-      );
-    }}
+    render={({ field: { value = false, onChange } }) => (
+      <FormControlLabel
+        className={className}
+        control={
+          <Checkbox name={id} onClick={handleClick} disabled={disabled} checked={value} style={style} color="primary" onChange={() => onChange(!value)} />
+        }
+        label={label}
+      />
+    )}
   />
 );
 

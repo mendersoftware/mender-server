@@ -17,19 +17,16 @@ import { List } from '@mui/material';
 
 import ExpandableAttribute from '@northern.tech/common-ui/ExpandableAttribute';
 
-export const ArtifactMetadataList = ({ metaInfo = { content: [] } }) => {
-  return (
-    !!metaInfo.content.length && (
-      <>
-        <p className="margin-bottom-none">{metaInfo.title}</p>
-        <List className="list-horizontal-flex" style={{ paddingTop: 0 }}>
-          {metaInfo.content.map(({ key, ...info }) => (
-            <ExpandableAttribute key={key} {...info} />
-          ))}
-        </List>
-      </>
-    )
+export const ArtifactMetadataList = ({ metaInfo = { content: [] } }) =>
+  !!metaInfo.content.length && (
+    <>
+      <p className="margin-bottom-none">{metaInfo.title}</p>
+      <List className="list-horizontal-flex" style={{ paddingTop: 0 }}>
+        {metaInfo.content.map(({ key, ...info }) => (
+          <ExpandableAttribute key={key} {...info} />
+        ))}
+      </List>
+    </>
   );
-};
 
 export default ArtifactMetadataList;

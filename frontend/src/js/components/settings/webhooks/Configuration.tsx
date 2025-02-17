@@ -83,16 +83,16 @@ const defaultValues = {
 };
 
 interface WebhookConfigurationObject {
-  id: string;
-  provider: string;
   credentials: {
+    type: string;
     webhook: {
       secret: string;
       url: string;
     };
-    type: string;
   };
   description: string;
+  id: string;
+  provider: string;
   scopes: string[];
 }
 

@@ -18,10 +18,10 @@ import { IconButton } from '@mui/material';
 
 interface DrawerTitleProps {
   onClose: () => void;
-  title: string | ReactNode;
   onLinkCopy?: () => void;
   postTitle?: ReactNode;
   preCloser?: ReactNode;
+  title: string | ReactNode;
 }
 
 export const DrawerTitle: FunctionComponent<DrawerTitleProps> = ({ onClose, onLinkCopy, postTitle, preCloser, title }) => (

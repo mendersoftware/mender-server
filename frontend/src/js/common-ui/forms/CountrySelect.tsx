@@ -20,9 +20,9 @@ import { makeStyles } from 'tss-react/mui';
 import { countries } from '@northern.tech/store/constants';
 
 interface CountrySelectProps {
+  [other: string]: any;
   id?: string;
   onChange: (...event: any[]) => void;
-  [other: string]: any;
 }
 const useStyles = makeStyles()(() => ({
   autocomplete: { width: 400 }

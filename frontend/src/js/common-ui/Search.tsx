@@ -56,11 +56,12 @@ export const ControlledSearch = ({ className = '', isSearching, name = 'search',
     timer.current = setTimeout(() => (focusLockRef.current = true), TIMEOUTS.oneSecond);
   };
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       clearTimeout(timer.current);
-    };
-  }, []);
+    },
+    []
+  );
 
   useEffect(() => {
     if (debouncedSearchTerm.length < MINIMUM_SEARCH_LENGTH || triggerDebounceRef.current) {

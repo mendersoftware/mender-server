@@ -281,14 +281,12 @@ const AttributeLimit = () => {
     <>Expand to see the list of attributes currently in use.</>
   );
 };
-const TenantInitialAdmin = () => {
-  return (
-    <>
-      The user that was assigned as admin for this tenant when it was created. There is a chance the admin user will have changed or this user no longer exists
-      in this tenant.
-    </>
-  );
-};
+const TenantInitialAdmin = () => (
+  <>
+    The user that was assigned as admin for this tenant when it was created. There is a chance the admin user will have changed or this user no longer exists in
+    this tenant.
+  </>
+);
 
 const PlanUpgradeEmail = () => (
   <>

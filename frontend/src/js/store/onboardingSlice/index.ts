@@ -29,9 +29,7 @@ export const onboardingSlice = createSlice({
   name: sliceName,
   initialState,
   reducers: {
-    setOnboardingState: (state, action) => {
-      return { ...state, ...action.payload };
-    },
+    setOnboardingState: (state, action) => ({ ...state, ...action.payload }),
     setDemoArtifactPort: (state, action) => {
       state.demoArtifactPort = action.payload;
     },
