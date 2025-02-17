@@ -24,7 +24,7 @@ import validator from 'validator';
 
 const filter = createFilterOptions();
 
-export const validateGroupName = (encodedName, groups = [], selectedDevices = [], isCreationDynamic) => {
+export const validateGroupName = (encodedName: string, groups = [], selectedDevices = [], isCreationDynamic) => {
   const name = fullyDecodeURI(encodedName);
   let invalid = false;
   let errortext = null;
@@ -52,7 +52,7 @@ const GroupOption = (props, option) => <li {...props}>{option.title}</li>;
 export const GroupDefinition = ({ isCreationDynamic, groups, newGroup, onInputChange, selectedDevices, selectedGroup }) => {
   const [errortext, setErrorText] = useState('');
 
-  const validateName = encodedName => {
+  const validateName = (encodedName: string) => {
     const { errortext: error, invalid, isModification, name } = validateGroupName(encodedName, groups, selectedDevices, isCreationDynamic);
     setErrorText(error);
     onInputChange(invalid, name, isModification);

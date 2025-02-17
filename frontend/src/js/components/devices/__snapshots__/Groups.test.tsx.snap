@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Groups Component renders GroupItem correctly 1`] = `
+exports[`Groups Component > renders GroupItem correctly 1`] = `
 .emotion-0 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -163,7 +163,7 @@ exports[`Groups Component renders GroupItem correctly 1`] = `
 </div>
 `;
 
-exports[`Groups Component renders GroupsSubheader correctly 1`] = `
+exports[`Groups Component > renders GroupsSubheader correctly 1`] = `
 .emotion-0 {
   box-sizing: border-box;
   line-height: 48px;
@@ -198,7 +198,7 @@ exports[`Groups Component renders GroupsSubheader correctly 1`] = `
 </li>
 `;
 
-exports[`Groups Component renders correctly 1`] = `
+exports[`Groups Component > renders correctly 1`] = `
 .emotion-0 {
   list-style: none;
   margin: 0;

@@ -13,6 +13,8 @@
 //    limitations under the License.
 import React from 'react';
 
+import { vi } from 'vitest';
+
 import { undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
 import ReleasesList from './ReleasesList';
@@ -20,7 +22,7 @@ import ReleasesList from './ReleasesList';
 describe('ReleasesList Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(
-      <ReleasesList features={{}} releases={[]} releasesListState={{ isLoading: false, sort: { key: 'Name' } }} setReleasesListState={jest.fn} />
+      <ReleasesList features={{}} releases={[]} releasesListState={{ isLoading: false, sort: { key: 'Name' } }} setReleasesListState={vi.fn} />
     );
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();

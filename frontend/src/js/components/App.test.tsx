@@ -17,10 +17,10 @@ import Linkify from 'react-linkify';
 import GeneralApi from '@northern.tech/store/api/general-api';
 import { getSessionInfo, maxSessionAge } from '@northern.tech/store/auth';
 import { TIMEOUTS } from '@northern.tech/store/constants';
-import * as DeviceActions from '@northern.tech/store/devicesSlice/thunks';
 import { act, screen, render as testLibRender, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import 'jsdom-worker';
+import { vi } from 'vitest';
 
 import { defaultState, mockDate, token, undefineds } from '../../../tests/mockData';
 import { render } from '../../../tests/setupTests';
@@ -49,19 +49,20 @@ const preloadedState = {
   }
 };
 
-const reportsSpy = jest.spyOn(DeviceActions, 'getReportsDataWithoutBackendSupport');
-
-jest.mock('react-linkify');
+vi.mock('react-linkify');
 
 describe('App Component', () => {
   beforeAll(() => {
-    Linkify.default = jest.fn();
+    Linkify.default = vi.fn();
     Linkify.default.mockReturnValue(null);
   });
   it(
     'renders correctly',
     async () => {
-      jest.replaceProperty(window.mender_environment, 'integrationVersion', 'next');
+      const DeviceActions = await import('@northern.tech/store/devicesSlice/thunks');
+      const reportsSpy = vi.spyOn(DeviceActions, 'getReportsDataWithoutBackendSupport');
+      vi.spyOn(window.mender_environment, 'integrationVersion', 'get').mockImplementation(() => 'next');
+      // vi.replaceProperty(window.mender_environment, 'integrationVersion', 'next');
 
       const ui = <App />;
       const { asFragment, rerender } = render(ui, {
@@ -75,8 +76,8 @@ describe('App Component', () => {
       expect(view).toMatchSnapshot();
       expect(view).toEqual(expect.not.stringMatching(undefineds));
       await act(async () => {
-        jest.runOnlyPendingTimers();
-        jest.runAllTicks();
+        vi.runOnlyPendingTimers();
+        vi.runAllTicks();
       });
     },
     10 * TIMEOUTS.oneSecond
@@ -85,6 +86,8 @@ describe('App Component', () => {
   it(
     'works as intended',
     async () => {
+      const DeviceActions = await import('@northern.tech/store/devicesSlice/thunks');
+      const reportsSpy = vi.spyOn(DeviceActions, 'getReportsDataWithoutBackendSupport');
       const currentSession = { expiresAt: new Date().toISOString(), token };
       window.localStorage.getItem.mockImplementation(name => (name === 'JWT' ? JSON.stringify(currentSession) : undefined));
 
@@ -94,17 +97,17 @@ describe('App Component', () => {
       });
       await waitFor(() => expect(reportsSpy).toHaveBeenCalled(), { timeout: TIMEOUTS.threeSeconds });
       await act(async () => {
-        jest.advanceTimersByTime(maxSessionAge * 1000 + 500);
-        jest.runAllTicks();
-        jest.runOnlyPendingTimers();
+        vi.advanceTimersByTime(maxSessionAge * 1000 + 500);
+        vi.runAllTicks();
+        vi.runOnlyPendingTimers();
       });
       await waitFor(() => rerender(ui));
       await waitFor(() => expect(screen.queryByText(/Version:/i)).not.toBeInTheDocument(), { timeout: TIMEOUTS.fiveSeconds });
       expect(screen.queryByText(/Northern.tech/i)).toBeInTheDocument();
       expect(screen.queryByText(`© ${mockDate.getFullYear()} Northern.tech`)).toBeInTheDocument();
       await act(async () => {
-        jest.runOnlyPendingTimers();
-        jest.runAllTicks();
+        vi.runOnlyPendingTimers();
+        vi.runAllTicks();
       });
 
       reportsSpy.mockClear();
@@ -116,6 +119,8 @@ describe('App Component', () => {
   it(
     'is embedded in working providers',
     async () => {
+      const DeviceActions = await import('@northern.tech/store/devicesSlice/thunks');
+      const reportsSpy = vi.spyOn(DeviceActions, 'getReportsDataWithoutBackendSupport');
       window.localStorage.getItem.mockImplementation(name => (name === 'JWT' ? JSON.stringify({ token }) : undefined));
       // eslint-disable-next-line
       const ui = <AppProviders basename="" />;
@@ -135,7 +140,7 @@ describe('App Component', () => {
     'allows offline threshold migration',
     async () => {
       window.localStorage.getItem.mockImplementation(name => (name === 'JWT' ? JSON.stringify({ token }) : undefined));
-      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
       const ui = <App />;
       render(ui, {
         preloadedState: {
@@ -152,15 +157,15 @@ describe('App Component', () => {
         }
       });
       await act(async () => {
-        jest.advanceTimersByTime(TIMEOUTS.fiveSeconds);
-        jest.runAllTicks();
+        vi.advanceTimersByTime(TIMEOUTS.fiveSeconds);
+        vi.runAllTicks();
       });
       await waitFor(() => expect(screen.queryByText(/granular device connectivity/i)).toBeInTheDocument(), { timeout: TIMEOUTS.fiveSeconds * 2 });
-      const post = jest.spyOn(GeneralApi, 'post');
+      const post = vi.spyOn(GeneralApi, 'post');
       await user.click(screen.getByRole('button', { name: /close/i }));
       await act(async () => {
-        jest.runOnlyPendingTimers();
-        jest.runAllTicks();
+        vi.runOnlyPendingTimers();
+        vi.runAllTicks();
       });
       expect(post).toHaveBeenCalledWith(
         '/api/management/v1/useradm/settings',

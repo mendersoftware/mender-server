@@ -133,11 +133,11 @@ describe('deployment actions', () => {
         expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
       });
   });
-  it(`should reject aborting deployments that don't exist`, () => {
+  it(`should reject aborting deployments that don't exist`, async () => {
     const store = mockStore({ ...defaultState });
     const abortedDeployment = store.dispatch(abortDeployment(`${defaultState.deployments.byId.d1.id}-invalid`)).unwrap();
     expect(typeof abortedDeployment === Promise);
-    expect(abortedDeployment).rejects.toBeTruthy();
+    await expect(abortedDeployment).rejects.toBeTruthy();
   });
   it('should allow creating deployments without filter or group', async () => {
     const store = mockStore({

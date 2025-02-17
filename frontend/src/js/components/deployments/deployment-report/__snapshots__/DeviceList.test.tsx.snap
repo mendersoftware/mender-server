@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`ProgressDeviceList Component renders correctly 1`] = `
+exports[`ProgressDeviceList Component > renders correctly 1`] = `
 "<div
   class="flexbox space-between center-aligned margin-top"
 >

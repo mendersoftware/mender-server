@@ -15,6 +15,7 @@ import React from 'react';
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render, selectMaterialUiSelectOption } from '../../../../../tests/setupTests';
@@ -35,8 +36,8 @@ describe('ChartAdditionWidget Component', () => {
   });
 
   it('works as intended', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const submitCheck = jest.fn();
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const submitCheck = vi.fn();
     render(<ChartAdditionWidget groups={defaultState.devices.groups.byId} onAdditionClick={submitCheck} software={software} />);
     expect(screen.queryByText(/Device group/i)).not.toBeInTheDocument();
     await user.click(screen.getByText(/Add a widget/i));

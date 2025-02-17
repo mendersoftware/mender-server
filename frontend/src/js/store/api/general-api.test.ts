@@ -11,41 +11,32 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { describe, expect, it } from 'vitest';
+
 import Api from './general-api';
 
 const testLocation = '/test';
 
 describe('General API module', () => {
-  it('should allow GET requests', done => {
-    Api.get(testLocation)
-      .then(res => {
-        expect(res.config.headers.Authorization).toMatch(/Bearer/);
-        return res.config.method === 'get' ? done() : done('failed');
-      })
-      .catch(done);
+  it('should allow GET requests', async () => {
+    const res = await Api.get(testLocation);
+    expect(res.config.headers.Authorization).toMatch(/Bearer/);
+    expect(res.config.method).toBe('get');
   });
-  it('should allow POST requests', done => {
-    Api.post(testLocation)
-      .then(res => {
-        expect(res.config.headers.Authorization).toMatch(/Bearer/);
-        return res.config.method === 'post' ? done() : done('failed');
-      })
-      .catch(done);
+  it('should allow POST requests', async () => {
+    const res = await Api.post(testLocation);
+    expect(res.config.headers.Authorization).toMatch(/Bearer/);
+    expect(res.config.method).toBe('post');
   });
-  it('should allow PUT requests', done => {
-    Api.put(testLocation)
-      .then(res => {
-        expect(res.config.headers.Authorization).toMatch(/Bearer/);
-        return res.config.method === 'put' ? done() : done('failed');
-      })
-      .catch(done);
+  it('should allow PUT requests', async () => {
+    const res = await Api.put(testLocation);
+    expect(res.config.headers.Authorization).toMatch(/Bearer/);
+    expect(res.config.method).toBe('put');
   });
-  it('should allow DELETE requests', done => {
-    Api.delete(testLocation)
-      .then(res => {
-        expect(res.config.headers.Authorization).toMatch(/Bearer/);
-        return res.config.method === 'del' || res.config.method === 'delete' ? done() : done('failed');
-      })
-      .catch(done);
+  it('should allow DELETE requests', async () => {
+    const res = await Api.delete(testLocation);
+    expect(res.config.headers.Authorization).toMatch(/Bearer/);
+    expect(res.config.method === 'del' || res.config.method === 'delete').toBe(true);
   });
 });
+``;

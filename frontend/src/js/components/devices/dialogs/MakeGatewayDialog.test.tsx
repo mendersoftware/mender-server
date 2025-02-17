@@ -14,6 +14,7 @@
 import React from 'react';
 
 import { screen } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import { undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
@@ -22,7 +23,7 @@ import MakeGatewayDialog from './MakeGatewayDialog';
 describe('CreateGroupExplainerContent Component', () => {
   it('renders correctly', async () => {
     window.localStorage.getItem.mockImplementation(name => (name === 'JWT' ? JSON.stringify({ token: 'veryTest' }) : undefined));
-    const { baseElement } = render(<MakeGatewayDialog onCancel={jest.fn} />);
+    const { baseElement } = render(<MakeGatewayDialog onCancel={vi.fn} />);
     const view = baseElement.getElementsByClassName('MuiDialog-root')[0];
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

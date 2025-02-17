@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`DeploymentPhaseNotification Component renders correctly 1`] = `
+exports[`DeploymentPhaseNotification Component > renders correctly 1`] = `
 .emotion-0 {
   background-color: #fdfdfd;
   padding: 16px 64px 16px;
@@ -96,7 +96,7 @@ exports[`DeploymentPhaseNotification Component renders correctly 1`] = `
 </div>
 `;
 
-exports[`DeploymentStatus Component renders correctly 1`] = `
+exports[`DeploymentStatus Component > renders correctly 1`] = `
 .emotion-0 {
   background-color: #fdfdfd;
   padding: 16px 64px 16px;

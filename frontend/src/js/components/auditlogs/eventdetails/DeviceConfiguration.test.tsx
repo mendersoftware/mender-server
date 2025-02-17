@@ -13,6 +13,8 @@
 //    limitations under the License.
 import React from 'react';
 
+import { vi } from 'vitest';
+
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
 import DeviceConfiguration from './DeviceConfiguration';
@@ -26,7 +28,7 @@ describe('DeviceConfiguration Component', () => {
           object: { ...defaultState.organization.auditlog.events[2].object, id: defaultState.devices.byId.a1.id },
           change: '{"something":"here"}'
         }}
-        onClose={jest.fn}
+        onClose={vi.fn}
       />,
       {
         preloadedState: {

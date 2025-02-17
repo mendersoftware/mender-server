@@ -17,10 +17,11 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import { act } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
-import Past from './PastDeployments';
+import { Past } from './PastDeployments';
 
 const state = {
   ...defaultState,
@@ -40,13 +41,13 @@ describe('PastDeployments Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Past past={[]} groups={[]} refreshPast={() => {}} refreshDeployments={jest.fn} />
+        <Past past={[]} groups={[]} refreshPast={() => {}} refreshDeployments={vi.fn()} />
       </LocalizationProvider>,
       { state }
     );
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
-    await act(async () => jest.runAllTicks());
+    await act(async () => vi.runAllTicks());
   });
 });

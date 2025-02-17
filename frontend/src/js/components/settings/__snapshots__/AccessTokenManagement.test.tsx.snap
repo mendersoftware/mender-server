@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`UserManagement Component renders AccessTokenCreationDialog correctly 1`] = `
+exports[`UserManagement Component > renders AccessTokenCreationDialog correctly 1`] = `
 .emotion-0 {
   background-color: #fff;
   color: rgba(10, 10, 11, 0.78);
@@ -888,7 +888,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
 }
 
 <div
-  aria-labelledby=":rl:"
+  aria-labelledby=":r7:"
   aria-modal="true"
   class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm emotion-0"
   role="dialog"
@@ -896,7 +896,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
 >
   <h2
     class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-1"
-    id=":rl:"
+    id=":r7:"
   >
     Create new token
   </h2>
@@ -914,7 +914,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
             aria-invalid="false"
             class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-5"
             disabled=""
-            id=":rm:"
+            id=":r8:"
             placeholder="Name"
             type="text"
             value=""
@@ -999,7 +999,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
         >
           expires on 
           <time
-            datetime="2020-01-13T13:00:01+00:00"
+            datetime="2020-01-13T13:00:00+00:00"
           >
             2020-01-13
           </time>
@@ -1014,7 +1014,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
       >
         <button
           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-18"
-          id=":ro:"
+          id=":ra:"
           style="float: right; margin: -20px 0px 0px 10px;"
           tabindex="0"
           type="button"
@@ -1051,7 +1051,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
     <button
       class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-21"
       disabled=""
-      id=":rp:"
+      id=":rb:"
       tabindex="-1"
       type="button"
     >
@@ -1061,7 +1061,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
 </div>
 `;
 
-exports[`UserManagement Component renders AccessTokenRevocationDialog correctly 1`] = `
+exports[`UserManagement Component > renders AccessTokenRevocationDialog correctly 1`] = `
 .emotion-0 {
   background-color: #fff;
   color: rgba(10, 10, 11, 0.78);
@@ -1252,7 +1252,7 @@ exports[`UserManagement Component renders AccessTokenRevocationDialog correctly 
 }
 
 <div
-  aria-labelledby=":rq:"
+  aria-labelledby=":rc:"
   aria-modal="true"
   class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm emotion-0"
   role="dialog"
@@ -1260,7 +1260,7 @@ exports[`UserManagement Component renders AccessTokenRevocationDialog correctly 
 >
   <h2
     class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-1"
-    id=":rq:"
+    id=":rc:"
   >
     Revoke token
   </h2>
@@ -1278,7 +1278,7 @@ exports[`UserManagement Component renders AccessTokenRevocationDialog correctly 
   >
     <button
       class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-4"
-      id=":rr:"
+      id=":rd:"
       tabindex="0"
       type="button"
     >
@@ -1286,7 +1286,7 @@ exports[`UserManagement Component renders AccessTokenRevocationDialog correctly 
     </button>
     <button
       class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-4"
-      id=":rs:"
+      id=":re:"
       tabindex="0"
       type="button"
     >
@@ -1296,7 +1296,7 @@ exports[`UserManagement Component renders AccessTokenRevocationDialog correctly 
 </div>
 `;
 
-exports[`UserManagement Component renders correctly 1`] = `
+exports[`UserManagement Component > renders correctly 1`] = `
 .emotion-0 {
   min-width: 900px;
 }

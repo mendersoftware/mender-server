@@ -14,13 +14,13 @@
 import React from 'react';
 
 import { yes } from '@northern.tech/store/constants';
-import * as UserActions from '@northern.tech/store/usersSlice/thunks';
 import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { describe, expect, it, vi } from 'vitest';
 
 import { defaultState, undefineds, userId } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
-import UserManagement from './UserManagement';
+import { UserManagement } from './UserManagement';
 
 const preloadedState = {
   ...defaultState,
@@ -44,8 +44,8 @@ describe('UserManagement Component', () => {
   });
 
   it('works as intended', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const copyCheck = jest.fn(yes);
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const copyCheck = vi.fn(yes);
     document.execCommand = copyCheck;
     render(<UserManagement />, { preloadedState });
 
@@ -77,16 +77,12 @@ describe('UserManagement Component', () => {
     await user.click(listItem);
     await user.type(listbox, '{Escape}');
     await user.click(screen.getByRole('button', { name: /Save/i }));
-    await act(async () => {
-      jest.runOnlyPendingTimers();
-      jest.runAllTicks();
-    });
   });
-
   it('supports user creation', async () => {
-    const createUserSpy = jest.spyOn(UserActions, 'createUser');
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const copyCheck = jest.fn(yes);
+    const UserActions = await import('@northern.tech/store/usersSlice/thunks');
+    const createUserSpy = vi.spyOn(UserActions, 'createUser');
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const copyCheck = vi.fn(yes);
     document.execCommand = copyCheck;
     const ui = <UserManagement />;
     const { rerender } = render(ui, { preloadedState });
@@ -101,7 +97,7 @@ describe('UserManagement Component', () => {
     expect(screen.getByText(/enter a valid email address/i)).toBeInTheDocument();
     await user.type(input, '.com');
     await waitFor(() => rerender(ui));
-    expect(submitButton).toBeEnabled();
+    await waitFor(() => expect(submitButton).toBeEnabled());
     await user.click(screen.getByRole('button', { name: /generate/i }));
     expect(copyCheck).toHaveBeenCalled();
     expect(submitButton).toBeEnabled();
@@ -110,14 +106,14 @@ describe('UserManagement Component', () => {
     expect(submitButton).toBeEnabled();
     await user.click(submitButton);
     await act(async () => {
-      jest.runOnlyPendingTimers();
-      jest.runAllTicks();
+      vi.runOnlyPendingTimers();
+      vi.runAllTicks();
     });
     await waitFor(() => expect(createUserSpy).toHaveBeenCalled(), { timeout: 3000 });
   });
 
   it('allows role adjustments', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     render(<UserManagement />, { preloadedState });
     const list = screen.getAllByText(/view details/i);
     await user.click(list[list.length - 1]);

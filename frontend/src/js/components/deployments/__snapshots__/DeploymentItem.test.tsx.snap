@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`DeploymentItem Component renders correctly 1`] = `
+exports[`DeploymentItem Component > renders correctly 1`] = `
 <div>
   <span
     class="deployment-item-title muted"

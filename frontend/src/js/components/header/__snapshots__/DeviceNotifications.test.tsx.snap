@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`DeviceNotifications Component renders correctly 1`] = `
+exports[`DeviceNotifications Component > renders correctly 1`] = `
 .emotion-0:hover .warning span,
 .emotion-0:hover .warning svg {
   color: rgba(93, 15, 67, 0.075);
@@ -84,7 +84,7 @@ exports[`DeviceNotifications Component renders correctly 1`] = `
 </div>
 `;
 
-exports[`DeviceNotifications Component renders correctly at limit 1`] = `
+exports[`DeviceNotifications Component > renders correctly at limit 1`] = `
 .emotion-0:hover .warning span,
 .emotion-0:hover .warning svg {
   color: rgba(93, 15, 67, 0.075);
@@ -168,7 +168,7 @@ exports[`DeviceNotifications Component renders correctly at limit 1`] = `
 </div>
 `;
 
-exports[`DeviceNotifications Component renders correctly close to limits 1`] = `
+exports[`DeviceNotifications Component > renders correctly close to limits 1`] = `
 .emotion-0:hover .warning span,
 .emotion-0:hover .warning svg {
   color: rgba(93, 15, 67, 0.075);
@@ -252,7 +252,7 @@ exports[`DeviceNotifications Component renders correctly close to limits 1`] = `
 </div>
 `;
 
-exports[`DeviceNotifications Component renders correctly with limits 1`] = `
+exports[`DeviceNotifications Component > renders correctly with limits 1`] = `
 .emotion-0:hover .warning span,
 .emotion-0:hover .warning svg {
   color: rgba(93, 15, 67, 0.075);
@@ -336,7 +336,7 @@ exports[`DeviceNotifications Component renders correctly with limits 1`] = `
 </div>
 `;
 
-exports[`DeviceNotifications Component renders correctly without limits 1`] = `
+exports[`DeviceNotifications Component > renders correctly without limits 1`] = `
 .emotion-0:hover .warning span,
 .emotion-0:hover .warning svg {
   color: rgba(93, 15, 67, 0.075);

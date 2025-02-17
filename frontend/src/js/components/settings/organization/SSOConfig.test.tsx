@@ -14,6 +14,7 @@
 import React from 'react';
 
 import { SSO_TYPES } from '@northern.tech/store/constants';
+import { vi } from 'vitest';
 
 import { undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
@@ -25,8 +26,8 @@ describe('SamlConfig Component', () => {
       <SSOConfig
         ssoItem={SSO_TYPES.saml}
         config={{ id: '1', config: `<div>not quite right</div>`, type: SSO_TYPES.saml.type }}
-        onCancel={jest.fn}
-        onSave={jest.fn}
+        onCancel={vi.fn}
+        onSave={vi.fn}
       />
     );
     const view = baseElement.firstChild;

@@ -14,6 +14,7 @@
 // @ts-nocheck
 import configureMockStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
+import { vi } from 'vitest';
 
 import { actions } from '.';
 import { defaultState } from '../../../../tests/mockData';
@@ -226,7 +227,7 @@ describe('release actions', () => {
     await store.dispatch(
       createArtifact({ file: { name: 'createdRelease', some: 'thing', someList: ['test', 'more'], complex: { objectThing: 'yes' } }, meta: 'filethings' })
     );
-    jest.runAllTimers();
+    vi.runAllTimers();
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
     expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));

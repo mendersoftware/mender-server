@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`InfoHint Component renders correctly 1`] = `
+exports[`InfoHint Component > renders correctly 1`] = `
 .emotion-0 {
   color: rgba(0, 0, 0, 0.38);
   margin: 15px 0;

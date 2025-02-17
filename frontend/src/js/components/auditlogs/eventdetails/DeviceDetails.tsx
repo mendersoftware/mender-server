@@ -20,7 +20,7 @@ import { makeStyles } from 'tss-react/mui';
 import { TwoColumns } from '@northern.tech/common-ui/ConfigurationObject';
 import DeviceIdentityDisplay from '@northern.tech/common-ui/DeviceIdentity';
 import { AUDIT_LOGS_TYPES, BEGINNING_OF_TIME, rootfsImageVersion } from '@northern.tech/store/constants';
-import { formatAuditlogs } from '@northern.tech/utils/locationutils';
+import { formatAuditlogs } from '@northern.tech/store/locationutils';
 
 const useStyles = makeStyles()(theme => ({
   eventDetails: { gridTemplateColumns: 'minmax(max-content, 150px) max-content', rowGap: theme.spacing(2.5) },

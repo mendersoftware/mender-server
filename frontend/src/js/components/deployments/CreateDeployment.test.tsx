@@ -16,6 +16,8 @@ import React from 'react';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
+import { vi } from 'vitest';
+
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
 import CreateDeployment from './CreateDeployment';
@@ -40,7 +42,7 @@ const deploymentCreationTime = defaultState.deployments.byId.d1.created;
 
 describe('CreateDeployment Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<CreateDeployment deploymentObject={{}} setDeploymentSettings={jest.fn} />, { preloadedState });
+    const { baseElement } = render(<CreateDeployment deploymentObject={{}} setDeploymentSettings={vi.fn()} />, { preloadedState });
     const view = baseElement.getElementsByClassName('MuiDialog-root')[0];
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
@@ -48,20 +50,20 @@ describe('CreateDeployment Component', () => {
 
   describe('smaller components', () => {
     [DeviceLimit, Devices, ForceDeploy, ReleasesWarning, Software, ScheduleRollout, Retries, RolloutOptions, RolloutPatternSelection].forEach(Component => {
-      const getReleasesMock = jest.fn();
+      const getReleasesMock = vi.fn();
       getReleasesMock.mockResolvedValue();
       const props = {
         commonClasses: { columns: 'test' },
         deploymentObject: { phases: [{ batch_size: 0 }] },
         getReleases: getReleasesMock,
-        getSystemDevices: jest.fn,
+        getSystemDevices: vi.fn(),
         groups: defaultState.devices.groups.byId,
         hasDynamicGroups: true,
         open: true,
         previousRetries: 0,
         releases: Object.keys(defaultState.releases.byId),
         releasesById: defaultState.releases.byId,
-        setDeploymentSettings: jest.fn
+        setDeploymentSettings: vi.fn()
       };
       it(`renders ${Component.displayName || Component.name} correctly`, () => {
         const { baseElement } = render(

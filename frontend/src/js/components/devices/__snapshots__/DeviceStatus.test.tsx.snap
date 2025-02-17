@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`DeviceStatus Component renders correctly 1`] = `
+exports[`DeviceStatus Component > renders correctly 1`] = `
 .emotion-0 {
   max-width: 100%;
   font-family: Lato,sans-serif;

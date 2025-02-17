@@ -14,6 +14,7 @@
 import React from 'react';
 
 import { defaultTextRender, getDeviceIdentityText } from '@northern.tech/common-ui/DeviceIdentity';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
@@ -52,7 +53,7 @@ describe('smaller components', () => {
           idAttribute={{ attribute: 'mac', scope: 'identity' }}
           column={{ title: 'mac', attribute: { name: 'mac', scope: 'identity' }, sortable: true, textRender: defaultTextRender }}
           limitMaxed={true}
-          onClick={jest.fn}
+          onClick={vi.fn}
         />
       );
       const view = baseElement.firstChild.firstChild;

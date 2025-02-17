@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`UserForm Component renders correctly 1`] = `
+exports[`UserForm Component > renders correctly 1`] = `
 .emotion-0 {
   position: fixed;
   z-index: 1300;
@@ -1910,7 +1910,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-38:focus::-ms-input-
 </div>
 `;
 
-exports[`UserForm Component renders correctly for enterprise 1`] = `
+exports[`UserForm Component > renders correctly for enterprise 1`] = `
 .emotion-0 {
   position: fixed;
   z-index: 1300;

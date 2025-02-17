@@ -14,6 +14,7 @@
 import React from 'react';
 
 import { SSO_TYPES } from '@northern.tech/store/constants';
+import { vi } from 'vitest';
 
 import { undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
@@ -26,13 +27,13 @@ describe('SSOEditor Component', () => {
       <SSOEditor
         ssoItem={SSO_TYPES.saml}
         config={config}
-        onCancel={jest.fn}
-        onSave={jest.fn}
+        onCancel={vi.fn}
+        onSave={vi.fn}
         fileContent={config}
         hasSSOConfig={true}
         open
-        onClose={jest.fn}
-        setFileContent={jest.fn}
+        onClose={vi.fn}
+        setFileContent={vi.fn}
       />
     );
     const view = baseElement;

@@ -5,7 +5,8 @@ module.exports = {
   ignorePatterns: ['node_modules/', 'dist/', '**/api/types/', 'tests/licenses'],
   globals: {
     mender_environment: 'readonly',
-    NodeJS: true
+    NodeJS: true,
+    globalThis: true
   },
   overrides: [
     {

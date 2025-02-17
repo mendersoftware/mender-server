@@ -14,6 +14,7 @@
 import React from 'react';
 
 import { act } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import { undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
@@ -25,7 +26,7 @@ describe('VirtualDeviceOnboarding Component', () => {
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
-    await act(async () => jest.runAllTicks());
+    await act(async () => vi.runAllTicks());
   });
 });
 

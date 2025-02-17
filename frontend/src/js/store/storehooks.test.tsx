@@ -31,6 +31,7 @@ import {
 import { renderHook, waitFor } from '@testing-library/react';
 import configureMockStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
+import { vi } from 'vitest';
 
 import { inventoryDevice } from '../../../tests/__mocks__/deviceHandlers';
 import { defaultState, receivedPermissionSets, receivedRoles, userId } from '../../../tests/mockData';
@@ -125,7 +126,7 @@ const appInitActions = [
   { type: getUserOrganization.fulfilled.type },
   { type: userActions.setGlobalSettings.type, payload: { ...defaultState.users.globalSettings } },
   { type: setOfflineThreshold.pending.type },
-  { type: appActions.setOfflineThreshold.type, payload: '2019-01-12T13:00:06.200Z' },
+  { type: appActions.setOfflineThreshold.type, payload: '2019-01-12T13:00:01.050Z' },
   { type: setOfflineThreshold.fulfilled.type },
   { type: userActions.setUserSettings.type, payload: { ...defaultState.users.userSettings } },
   { type: getGlobalSettings.fulfilled.type },
@@ -248,13 +249,13 @@ const appInitActions = [
       [expectedDevice.id]: { ...defaultState.devices.byId.a1, group: undefined, isNew: false, isOffline: true, monitor: {}, tags: {} }
     }
   },
+  { type: getDevicesWithAuth.fulfilled.type },
+  { type: getDevicesWithAuth.fulfilled.type },
   { type: releasesActions.receiveReleases.type, payload: defaultState.releases.byId },
   {
     type: releasesActions.setReleaseListState.type,
     payload: { ...defaultState.releases.releasesList, releaseIds: [defaultState.releases.byId.r1.name], page: 42 }
   },
-  { type: getDevicesWithAuth.fulfilled.type },
-  { type: getDevicesWithAuth.fulfilled.type },
   {
     type: deviceActions.receivedDevices.type,
     payload: {
@@ -263,10 +264,10 @@ const appInitActions = [
     }
   },
   { type: getDevicesWithAuth.pending.type },
+  { type: getDevicesByStatus.fulfilled.type },
+  { type: getDevicesByStatus.fulfilled.type },
   { type: getReleases.fulfilled.type },
 
-  { type: getDevicesByStatus.fulfilled.type },
-  { type: getDevicesByStatus.fulfilled.type },
   { type: userActions.receivedPermissionSets.type, payload: receivedPermissionSets },
   { type: getPermissionSets.fulfilled.type },
   { type: userActions.receivedRoles.type, payload: receivedRoles },
@@ -300,7 +301,6 @@ const appInitActions = [
   { type: saveUserSettings.fulfilled.type },
   ...expectedOnboardingActions
 ];
-
 it('should try to get all required app information', async () => {
   const store = mockStore({
     ...defaultState,
@@ -315,7 +315,7 @@ it('should try to get all required app information', async () => {
   const wrapper = ({ children }) => <Provider store={store}>{children}</Provider>;
   const { result } = renderHook(() => useAppInit(userId), { wrapper });
   await waitFor(() => expect(result.current.coreInitDone).toBeTruthy());
-  await jest.runAllTimersAsync();
+  await vi.runAllTimersAsync();
   const storeActions = store.getActions();
   expect(storeActions.length).toEqual(appInitActions.length);
   appInitActions.forEach((action, index) => Object.keys(action).forEach(key => expect(storeActions[index][key]).toEqual(action[key])));
@@ -338,7 +338,7 @@ it('should execute the offline threshold migration for multi day thresholds', as
   const wrapper = ({ children }) => <Provider store={store}>{children}</Provider>;
   const { result } = renderHook(() => useAppInit(userId), { wrapper });
   await waitFor(() => expect(result.current.coreInitDone).toBeTruthy());
-  await jest.runAllTimersAsync();
+  await vi.runAllTimersAsync();
 
   const storeActions = store.getActions();
   expect(storeActions.length).toEqual(appInitActions.length + 9); // 3 = get settings + set settings + set offline threshold
@@ -365,7 +365,7 @@ it('should trigger the offline threshold migration dialog', async () => {
   const wrapper = ({ children }) => <Provider store={store}>{children}</Provider>;
   const { result } = renderHook(() => useAppInit(userId), { wrapper });
   await waitFor(() => expect(result.current.coreInitDone).toBeTruthy());
-  await jest.runAllTimersAsync();
+  await vi.runAllTimersAsync();
   const storeActions = store.getActions();
   expect(storeActions.length).toEqual(appInitActions.length + 1); // only setShowStartupNotification should be addded
   const notificationAction = storeActions.find(action => action.type === userActions.setShowStartupNotification.type);

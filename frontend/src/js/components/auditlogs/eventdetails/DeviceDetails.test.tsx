@@ -13,13 +13,15 @@
 //    limitations under the License.
 import React from 'react';
 
+import { vi } from 'vitest';
+
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
 import DeviceDetails from './DeviceDetails';
 
 describe('DeviceDetails Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<DeviceDetails device={defaultState.devices.byId.a1} idAttribute={{ attribute: 'foo', scope: 'bar' }} onClose={jest.fn} />);
+    const { baseElement } = render(<DeviceDetails device={defaultState.devices.byId.a1} idAttribute={{ attribute: 'foo', scope: 'bar' }} onClose={vi.fn} />);
 
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();

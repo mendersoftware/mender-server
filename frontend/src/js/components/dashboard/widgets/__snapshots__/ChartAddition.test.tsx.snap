@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`ChartAdditionWidget Component renders correctly 1`] = `
+exports[`ChartAdditionWidget Component > renders correctly 1`] = `
 .emotion-0 {
   gap: 16px;
 }

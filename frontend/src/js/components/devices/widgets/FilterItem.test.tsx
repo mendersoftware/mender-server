@@ -13,6 +13,8 @@
 //    limitations under the License.
 import React from 'react';
 
+import { vi } from 'vitest';
+
 import { undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
 import FilterItem from './FilterItem';
@@ -20,7 +22,7 @@ import FilterItem from './FilterItem';
 describe('FilterItem Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(
-      <FilterItem attributes={[{ key: 'testkey', value: 'testvalue' }]} filter={{ key: 'testkey', value: 'testvalue' }} onChange={jest.fn} onSelect={jest.fn} />
+      <FilterItem attributes={[{ key: 'testkey', value: 'testvalue' }]} filter={{ key: 'testkey', value: 'testvalue' }} onChange={vi.fn()} onSelect={vi.fn()} />
     );
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();

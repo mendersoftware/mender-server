@@ -12,9 +12,9 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import Api from '@northern.tech/store/api/general-api';
-import * as OrganizationActions from '@northern.tech/store/organizationSlice/thunks';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { expect, vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
@@ -23,16 +23,17 @@ import { TenantPage } from './TenantPage';
 
 describe('TenantsForm', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<TenantCreateForm open={true} onCloseClick={jest.fn} />);
+    const { baseElement } = render(<TenantCreateForm open={true} onCloseClick={vi.fn} />);
     const view = baseElement;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
 
   it('works as expected', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const submitTenantSpy = jest.spyOn(OrganizationActions, 'addTenant');
-    const tenantExists = jest.spyOn(Api, 'get');
+    const OrganizationActions = await import('@northern.tech/store/organizationSlice/thunks');
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const submitTenantSpy = vi.spyOn(OrganizationActions, 'addTenant');
+    const tenantExists = vi.spyOn(Api, 'get');
     tenantExists.mockResolvedValue({ exists: false });
 
     const newChildTenant = { name: 'ChildTenant', email: 'child@example.com', password: 'MySecurePassword2025', dev: '2' };
@@ -57,14 +58,18 @@ describe('TenantsForm', () => {
     await user.type(screen.getByLabelText('Set device limit'), newChildTenant.dev);
     await user.click(screen.getByText(/enable delta artifact generation/i));
     await user.click(screen.getByText(/reset the password/i));
-    await user.click(screen.getByRole('button', { name: /Create Tenant/i }));
+    const submitButton = screen.getByRole('button', { name: /Create Tenant/i });
+    await waitFor(() => expect(submitButton).toBeEnabled());
+    await user.click(submitButton);
 
-    expect(submitTenantSpy).toHaveBeenCalledWith({
-      admin: { email: newChildTenant.email, password: newChildTenant.password, send_reset_password: true },
-      name: newChildTenant.name,
-      device_limit: Number(newChildTenant.dev),
-      binary_delta: true,
-      sso: false
-    });
+    await waitFor(() =>
+      expect(submitTenantSpy).toHaveBeenCalledWith({
+        admin: { email: newChildTenant.email, password: newChildTenant.password, send_reset_password: true },
+        name: newChildTenant.name,
+        device_limit: Number(newChildTenant.dev),
+        binary_delta: true,
+        sso: false
+      })
+    );
   });
 });

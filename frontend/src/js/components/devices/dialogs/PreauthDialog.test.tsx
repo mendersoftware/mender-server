@@ -14,15 +14,15 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import * as DeviceActions from '@northern.tech/store/devicesSlice/thunks';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
-import PreauthDialog from './PreauthDialog';
+import { PreauthDialog } from './PreauthDialog';
 
 const mockStore = configureStore([thunk]);
 
@@ -39,7 +39,7 @@ describe('PreauthDialog Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(
       <Provider store={store}>
-        <PreauthDialog deviceLimitWarning={<div>I should not be rendered/ undefined</div>} limitMaxed={false} onSubmit={jest.fn} onCancel={jest.fn} />
+        <PreauthDialog deviceLimitWarning={<div>I should not be rendered/ undefined</div>} limitMaxed={false} onSubmit={vi.fn} onCancel={vi.fn} />
       </Provider>
     );
     const view = baseElement.getElementsByClassName('MuiDialog-root')[0];
@@ -48,13 +48,15 @@ describe('PreauthDialog Component', () => {
   });
 
   it('works as intended', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime, applyAccept: false });
-    const submitMock = jest.fn();
+    const DeviceActions = await import('@northern.tech/store/devicesSlice/thunks');
+    const preAuthSpy = vi.spyOn(DeviceActions, 'preauthDevice');
+
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime, applyAccept: false });
+    const submitMock = vi.fn();
     const menderFile = new File(['testContent plain'], 'test.pem');
-    const preAuthSpy = jest.spyOn(DeviceActions, 'preauthDevice');
     const ui = (
       <Provider store={store}>
-        <PreauthDialog limitMaxed={false} onSubmit={submitMock} onCancel={jest.fn} />
+        <PreauthDialog limitMaxed={false} onSubmit={submitMock} onCancel={vi.fn()} />
       </Provider>
     );
     const { rerender } = render(ui);
@@ -75,14 +77,14 @@ describe('PreauthDialog Component', () => {
     await user.click(document.querySelector(fabSelector));
     await waitFor(() => expect(screen.queryByText(errorText)).not.toBeInTheDocument());
     await act(async () => {
-      jest.runOnlyPendingTimers();
-      jest.runAllTicks();
+      vi.runOnlyPendingTimers();
+      vi.runAllTicks();
     });
     submitMock.mockRejectedValueOnce(errorText);
     await user.click(screen.getByRole('button', { name: 'Save' }));
     act(() => {
-      jest.runOnlyPendingTimers();
-      jest.runAllTicks();
+      vi.runOnlyPendingTimers();
+      vi.runAllTicks();
     });
     await waitFor(() => rerender(ui));
     await waitFor(() => expect(screen.queryByText(errorText)).toBeTruthy());
@@ -95,7 +97,7 @@ describe('PreauthDialog Component', () => {
   });
 
   it('prevents preauthorizations when device limit was reached', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const menderFile = new File(['testContent plain'], 'test.pem');
     const ui = (
       <Provider store={store}>

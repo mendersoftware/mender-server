@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`ConfigurationObject Component renders correctly 1`] = `
+exports[`ConfigurationObject Component > renders correctly 1`] = `
 .emotion-0 .key>b {
   background-color: #f7f7f7;
   color: rgba(0, 0, 0, 0.87);

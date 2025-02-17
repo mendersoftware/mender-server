@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`DeviceIdentityDisplay Component renders correctly 1`] = `
+exports[`DeviceIdentityDisplay Component > renders correctly 1`] = `
 .emotion-0 {
   grid-template-columns: 1fr max-content;
   -webkit-column-gap: 8px;

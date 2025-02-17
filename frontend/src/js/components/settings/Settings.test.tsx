@@ -18,6 +18,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { getSessionInfo } from '@northern.tech/store/auth';
 import { getConfiguredStore } from '@northern.tech/store/store';
 import { act, render as testingLibRender } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import Settings from './Settings';
@@ -57,6 +58,6 @@ describe('Settings Component', () => {
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
-    await act(async () => jest.runAllTicks());
+    await act(async () => vi.runAllTicks());
   });
 });

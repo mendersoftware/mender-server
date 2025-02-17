@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`App Component is embedded in working providers 1`] = `
+exports[`App Component > is embedded in working providers 1`] = `
 .emotion-0 {
   position: relative;
   display: -webkit-box;
@@ -1316,7 +1316,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
           >
             <img
               id="logo"
-              src="headerlogo.png"
+              src="/src/assets/img/headerlogo.png"
             />
           </a>
         </div>
@@ -1979,7 +1979,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
             >
               <time
                 class="muted slightly-smaller"
-                datetime="2019-01-13T13:30:31+00:00"
+                datetime="2019-01-13T13:30:02+00:00"
               >
                 2019-01-13 13:30
               </time>
@@ -2009,7 +2009,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                       data-mui-internal-clone-element="true"
                     >
                       <img
-                        src="skipped_status.png"
+                        src="/src/assets/img/skipped_status.png"
                       />
                       <div
                         class="status"
@@ -2023,7 +2023,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                       data-mui-internal-clone-element="true"
                     >
                       <img
-                        src="pending_status.png"
+                        src="/src/assets/img/pending_status.png"
                       />
                       <div
                         class="status"
@@ -2037,7 +2037,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                       data-mui-internal-clone-element="true"
                     >
                       <img
-                        src="progress_status.png"
+                        src="/src/assets/img/progress_status.png"
                       />
                       <div
                         class="status"
@@ -2051,7 +2051,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                       data-mui-internal-clone-element="true"
                     >
                       <img
-                        src="success_status.png"
+                        src="/src/assets/img/success_status.png"
                       />
                       <div
                         class="status"
@@ -2065,7 +2065,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                       data-mui-internal-clone-element="true"
                     >
                       <img
-                        src="error_status.png"
+                        src="/src/assets/img/error_status.png"
                       />
                       <div
                         class="status"
@@ -2082,7 +2082,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
             >
               <time
                 class="muted slightly-smaller"
-                datetime="2019-01-13T13:30:31+00:00"
+                datetime="2019-01-13T13:30:02+00:00"
               >
                 2019-01-13 13:30
               </time>
@@ -2112,7 +2112,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                       data-mui-internal-clone-element="true"
                     >
                       <img
-                        src="skipped_status.png"
+                        src="/src/assets/img/skipped_status.png"
                       />
                       <div
                         class="status"
@@ -2126,7 +2126,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                       data-mui-internal-clone-element="true"
                     >
                       <img
-                        src="pending_status.png"
+                        src="/src/assets/img/pending_status.png"
                       />
                       <div
                         class="status"
@@ -2140,7 +2140,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                       data-mui-internal-clone-element="true"
                     >
                       <img
-                        src="progress_status.png"
+                        src="/src/assets/img/progress_status.png"
                       />
                       <div
                         class="status"
@@ -2154,7 +2154,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                       data-mui-internal-clone-element="true"
                     >
                       <img
-                        src="success_status.png"
+                        src="/src/assets/img/success_status.png"
                       />
                       <div
                         class="status"
@@ -2168,7 +2168,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                       data-mui-internal-clone-element="true"
                     >
                       <img
-                        src="error_status.png"
+                        src="/src/assets/img/error_status.png"
                       />
                       <div
                         class="status"
@@ -2198,7 +2198,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
 </div>
 `;
 
-exports[`App Component renders correctly 1`] = `
+exports[`App Component > renders correctly 1`] = `
 <DocumentFragment>
   .emotion-0 {
   position: relative;
@@ -3267,7 +3267,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
           >
             <img
               id="logo"
-              src="headerlogo.png"
+              src="/src/assets/img/headerlogo.png"
             />
           </a>
         </div>

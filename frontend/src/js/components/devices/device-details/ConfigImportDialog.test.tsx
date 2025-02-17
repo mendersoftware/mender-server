@@ -18,6 +18,7 @@ import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
@@ -34,7 +35,7 @@ describe('ConfigImportDialog Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(
       <Provider store={store}>
-        <ConfigImportDialog onSubmit={jest.fn} onCancel={jest.fn} setSnackbar={jest.fn} />
+        <ConfigImportDialog onSubmit={vi.fn} onCancel={vi.fn} setSnackbar={vi.fn} />
       </Provider>
     );
     const view = baseElement.getElementsByClassName('MuiDialog-root')[0];
@@ -43,13 +44,13 @@ describe('ConfigImportDialog Component', () => {
   });
 
   it('works as intended', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const submitMock = jest.fn();
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const submitMock = vi.fn();
     const menderFile = new File(['testContent plain'], 'test.pem');
 
     const ui = (
       <Provider store={store}>
-        <ConfigImportDialog onSubmit={submitMock} onCancel={jest.fn} setSnackbar={jest.fn} />
+        <ConfigImportDialog onSubmit={submitMock} onCancel={vi.fn} setSnackbar={vi.fn} />
       </Provider>
     );
     const { rerender } = render(ui);

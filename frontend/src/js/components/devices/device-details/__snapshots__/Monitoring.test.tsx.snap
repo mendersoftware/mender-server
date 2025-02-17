@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`DeviceMonitoring Component renders correctly 1`] = `
+exports[`DeviceMonitoring Component > renders correctly 1`] = `
 "<div
   class="margin-bottom "
 >
@@ -227,7 +227,7 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
 </div>"
 `;
 
-exports[`tiny components renders DeviceMonitorsMissingNote correctly 1`] = `
+exports[`tiny components > renders DeviceMonitorsMissingNote correctly 1`] = `
 .emotion-0 {
   -webkit-user-select: none;
   -moz-user-select: none;

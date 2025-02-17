@@ -14,6 +14,7 @@
 import React from 'react';
 
 import { prettyDOM } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import { adminUserCapabilities, defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
@@ -27,11 +28,11 @@ describe('Auditlogs Component', () => {
       <AuditLogsList
         items={defaultState.organization.auditlog.events}
         loading={false}
-        onChangeRowsPerPage={jest.fn}
-        onChangePage={jest.fn}
-        onChangeSorting={jest.fn}
+        onChangeRowsPerPage={vi.fn}
+        onChangePage={vi.fn}
+        onChangeSorting={vi.fn}
         selectionState={defaultState.organization.auditlog.selectionState}
-        setAuditlogsState={jest.fn}
+        setAuditlogsState={vi.fn}
         userCapabilities={adminUserCapabilities}
         auditLogColumns={[
           { title: 'Performed by', sortable: false, render: UserDescriptor },

@@ -37,7 +37,7 @@ describe('monitor actions', () => {
       { type: getDeviceAlerts.fulfilled.type }
     ];
     const request = store.dispatch(getDeviceAlerts({ id: defaultState.devices.byId.a1.id }));
-    expect(request).resolves.toBeTruthy();
+    await expect(request).resolves.toBeTruthy();
     await request.then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
@@ -53,7 +53,7 @@ describe('monitor actions', () => {
       { type: getLatestDeviceAlerts.fulfilled.type }
     ];
     const request = store.dispatch(getLatestDeviceAlerts({ id: defaultState.devices.byId.a1.id }));
-    expect(request).resolves.toBeTruthy();
+    await expect(request).resolves.toBeTruthy();
     await request.then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
@@ -69,7 +69,7 @@ describe('monitor actions', () => {
       { type: getIssueCountsByType.fulfilled.type }
     ];
     const request = store.dispatch(getIssueCountsByType({ type: DEVICE_ISSUE_OPTIONS.monitoring.key }));
-    expect(request).resolves.toBeTruthy();
+    await expect(request).resolves.toBeTruthy();
     await request.then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
@@ -85,7 +85,7 @@ describe('monitor actions', () => {
       { type: getDeviceMonitorConfig.fulfilled.type }
     ];
     const request = store.dispatch(getDeviceMonitorConfig(defaultState.devices.byId.a1.id));
-    expect(request).resolves.toBeTruthy();
+    await expect(request).resolves.toBeTruthy();
     await request.then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);
@@ -102,7 +102,7 @@ describe('monitor actions', () => {
       { type: changeNotificationSetting.fulfilled.type }
     ];
     const request = store.dispatch(changeNotificationSetting({ enabled: false }));
-    expect(request).resolves.toBeTruthy();
+    await expect(request).resolves.toBeTruthy();
     await request.then(() => {
       const storeActions = store.getActions();
       expect(storeActions).toHaveLength(expectedActions.length);

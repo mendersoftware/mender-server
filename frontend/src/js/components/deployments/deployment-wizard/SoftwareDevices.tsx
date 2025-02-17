@@ -24,10 +24,10 @@ import { getDeviceIdentityText } from '@northern.tech/common-ui/DeviceIdentity';
 import InfoText from '@northern.tech/common-ui/InfoText';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
 import { ALL_DEVICES, ATTRIBUTE_SCOPES, DEPLOYMENT_TYPES, DEVICE_FILTERING_OPTIONS, DEVICE_STATES } from '@northern.tech/store/constants';
+import { formatDeviceSearch } from '@northern.tech/store/locationutils';
 import { getReleases, getSystemDevices } from '@northern.tech/store/thunks';
 import { stringToBoolean } from '@northern.tech/utils/helpers';
-import { formatDeviceSearch } from '@northern.tech/utils/locationutils';
-import useWindowSize from '@northern.tech/utils/resizehook';
+import { useWindowSize } from '@northern.tech/utils/resizehook';
 import pluralize from 'pluralize';
 import isUUID from 'validator/lib/isUUID';
 

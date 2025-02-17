@@ -13,6 +13,8 @@
 //    limitations under the License.
 import React from 'react';
 
+import { vi } from 'vitest';
+
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
 import DeviceQuickActions from './DeviceQuickActions';
@@ -21,7 +23,7 @@ describe('DeviceQuickActions Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(
       <DeviceQuickActions
-        actionCallbacks={{ onAddDevicesToGroup: jest.fn, onAuthorizationChange: jest.fn, onDeviceDismiss: jest.fn, onRemoveDevicesFromGroup: jest.fn }}
+        actionCallbacks={{ onAddDevicesToGroup: vi.fn, onAuthorizationChange: vi.fn, onDeviceDismiss: vi.fn, onRemoveDevicesFromGroup: vi.fn }}
         selectedGroup=""
       />,
       {

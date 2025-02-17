@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Helptooltips Components renders AddGroup correctly 1`] = `
+exports[`Helptooltips Components > renders AddGroup correctly 1`] = `
 NodeList [
   <h3>
     Device groups
@@ -11,9 +11,9 @@ NodeList [
 ]
 `;
 
-exports[`Helptooltips Components renders ArtifactUpload correctly 1`] = `Upload an Artifact to an existing or new Release`;
+exports[`Helptooltips Components > renders ArtifactUpload correctly 1`] = `Upload an Artifact to an existing or new Release`;
 
-exports[`Helptooltips Components renders AttributeLimit correctly 1`] = `
+exports[`Helptooltips Components > renders AttributeLimit correctly 1`] = `
 NodeList [
   Expand to see the list of attributes currently in use. Please,
    ,
@@ -29,9 +29,9 @@ NodeList [
 ]
 `;
 
-exports[`Helptooltips Components renders AuditlogExplanation correctly 1`] = `The audit log shows the history of changes made to your Devices, Artifacts, Deployments, and user management.`;
+exports[`Helptooltips Components > renders AuditlogExplanation correctly 1`] = `The audit log shows the history of changes made to your Devices, Artifacts, Deployments, and user management.`;
 
-exports[`Helptooltips Components renders AuthButton correctly 1`] = `
+exports[`Helptooltips Components > renders AuthButton correctly 1`] = `
 NodeList [
   <h3>
     Authorize devices
@@ -54,7 +54,7 @@ NodeList [
 ]
 `;
 
-exports[`Helptooltips Components renders AuthExplainButton correctly 1`] = `
+exports[`Helptooltips Components > renders AuthExplainButton correctly 1`] = `
 NodeList [
   <h3>
     Device authorization status
@@ -78,7 +78,7 @@ NodeList [
 ]
 `;
 
-exports[`Helptooltips Components renders ConfigureAddOnTip correctly 1`] = `
+exports[`Helptooltips Components > renders ConfigureAddOnTip correctly 1`] = `
 <p>
   Mender deploys the configuration attributes using the same mechanisms as software updates. The configuration is stored as a JSON file at
   <code>
@@ -93,7 +93,7 @@ exports[`Helptooltips Components renders ConfigureAddOnTip correctly 1`] = `
 </p>
 `;
 
-exports[`Helptooltips Components renders ConfigureRaspberryLedTip correctly 1`] = `
+exports[`Helptooltips Components > renders ConfigureRaspberryLedTip correctly 1`] = `
 NodeList [
   To see the effects of applying a configuration to your device you can set one of the below values to modify the behaviour of your Raspberry Pi green status LED,
   .emotion-0 .key>b {
@@ -266,7 +266,7 @@ NodeList [
 ]
 `;
 
-exports[`Helptooltips Components renders ConfigureTimezoneTip correctly 1`] = `
+exports[`Helptooltips Components > renders ConfigureTimezoneTip correctly 1`] = `
 NodeList [
   To see the effects of applying a configuration to your device you can set one of the below values to modify the timezone of your device. While all values from ,
   <i>
@@ -292,9 +292,9 @@ NodeList [
 ]
 `;
 
-exports[`Helptooltips Components renders DashboardWidget correctly 1`] = `Add dashboard widgets to visualize the software distribution or geographical location of all your devices, or a group of your devices.`;
+exports[`Helptooltips Components > renders DashboardWidget correctly 1`] = `Add dashboard widgets to visualize the software distribution or geographical location of all your devices, or a group of your devices.`;
 
-exports[`Helptooltips Components renders DeviceSupportTip correctly 1`] = `
+exports[`Helptooltips Components > renders DeviceSupportTip correctly 1`] = `
 <p>
   The steps in the guide should work on most operating systems in the Debian family (e.g. Debian, Ubuntu, Raspberry Pi OS) and devices based on ARMv6 or newer (e.g. Raspberry Pi 2/3/4, Beaglebone). Visit 
   <a
@@ -309,7 +309,7 @@ exports[`Helptooltips Components renders DeviceSupportTip correctly 1`] = `
 </p>
 `;
 
-exports[`Helptooltips Components renders DeviceTypeTip correctly 1`] = `
+exports[`Helptooltips Components > renders DeviceTypeTip correctly 1`] = `
 NodeList [
   <p>
     If you don't see your exact device on the list, choose 
@@ -328,7 +328,7 @@ NodeList [
 ]
 `;
 
-exports[`Helptooltips Components renders ExpandArtifact correctly 1`] = `
+exports[`Helptooltips Components > renders ExpandArtifact correctly 1`] = `
 NodeList [
   <h3>
     Device type compatibility
@@ -359,7 +359,7 @@ NodeList [
 ]
 `;
 
-exports[`Helptooltips Components renders ForceDeployment correctly 1`] = `
+exports[`Helptooltips Components > renders ForceDeployment correctly 1`] = `
 NodeList [
   <h3>
     Force update
@@ -370,11 +370,11 @@ NodeList [
 ]
 `;
 
-exports[`Helptooltips Components renders GlobalSettings correctly 1`] = `These settings apply to all users, so changes made here may affect other users' experience.`;
+exports[`Helptooltips Components > renders GlobalSettings correctly 1`] = `These settings apply to all users, so changes made here may affect other users' experience.`;
 
-exports[`Helptooltips Components renders GroupDeployment correctly 1`] = `The deployment will skip any devices in the group that are already on the target Release version, or that have an incompatible device type.`;
+exports[`Helptooltips Components > renders GroupDeployment correctly 1`] = `The deployment will skip any devices in the group that are already on the target Release version, or that have an incompatible device type.`;
 
-exports[`Helptooltips Components renders MenderArtifactUpload correctly 1`] = `
+exports[`Helptooltips Components > renders MenderArtifactUpload correctly 1`] = `
 NodeList [
   If there is no Release matching this Artifact’s name, a new Release will be created for this Artifact.,
   <br />,
@@ -383,9 +383,9 @@ NodeList [
 ]
 `;
 
-exports[`Helptooltips Components renders NameFilterTip correctly 1`] = `Filtering by name is limited to devices with a previously defined name.`;
+exports[`Helptooltips Components > renders NameFilterTip correctly 1`] = `Filtering by name is limited to devices with a previously defined name.`;
 
-exports[`Helptooltips Components renders NameTagTip correctly 1`] = `
+exports[`Helptooltips Components > renders NameTagTip correctly 1`] = `
 NodeList [
   The ,
   <i>
@@ -395,7 +395,7 @@ NodeList [
 ]
 `;
 
-exports[`Helptooltips Components renders PhasedPausedDeployments correctly 1`] = `
+exports[`Helptooltips Components > renders PhasedPausedDeployments correctly 1`] = `
 NodeList [
   This feature is not available on ,
   <b>
@@ -409,29 +409,29 @@ NodeList [
 ]
 `;
 
-exports[`Helptooltips Components renders PlanUpgradeEmail correctly 1`] = `This email address will receive all payment receipts and notifications about pricing and device limits. It does not necessarily have to belong to a user in your Mender account`;
+exports[`Helptooltips Components > renders PlanUpgradeEmail correctly 1`] = `This email address will receive all payment receipts and notifications about pricing and device limits. It does not necessarily have to belong to a user in your Mender account`;
 
-exports[`Helptooltips Components renders ReleaseName correctly 1`] = `If a Release with this name already exists, this new Artifact may be grouped into a Release with other Artifacts of the same name - so long as they are compatible with different device types`;
+exports[`Helptooltips Components > renders ReleaseName correctly 1`] = `If a Release with this name already exists, this new Artifact may be grouped into a Release with other Artifacts of the same name - so long as they are compatible with different device types`;
 
-exports[`Helptooltips Components renders ResetHistory correctly 1`] = `Greyed out items will not be considered during deployment roll out`;
+exports[`Helptooltips Components > renders ResetHistory correctly 1`] = `Greyed out items will not be considered during deployment roll out`;
 
-exports[`Helptooltips Components renders ScheduleDeployment correctly 1`] = `This time is relative to the server only – each device's time zone will not be taken into account. Devices across different time zones will receive the update at the same time.`;
+exports[`Helptooltips Components > renders ScheduleDeployment correctly 1`] = `This time is relative to the server only – each device's time zone will not be taken into account. Devices across different time zones will receive the update at the same time.`;
 
-exports[`Helptooltips Components renders SingleFileUpload correctly 1`] = `This will generate a single file application update Artifact, which requires some additional metadata to be entered.`;
+exports[`Helptooltips Components > renders SingleFileUpload correctly 1`] = `This will generate a single file application update Artifact, which requires some additional metadata to be entered.`;
 
-exports[`Helptooltips Components renders SsoMetadata correctly 1`] = `Submit the metadata document from your Identity Provider`;
+exports[`Helptooltips Components > renders SsoMetadata correctly 1`] = `Submit the metadata document from your Identity Provider`;
 
-exports[`Helptooltips Components renders SubTenantDeltaArtifactGeneration correctly 1`] = `This option will enable the server-side generation of Delta Artifacts for the created tenant when turned on`;
+exports[`Helptooltips Components > renders SubTenantDeltaArtifactGeneration correctly 1`] = `This option will enable the server-side generation of Delta Artifacts for the created tenant when turned on`;
 
-exports[`Helptooltips Components renders SubTenantDeviceLimit correctly 1`] = `Set the maximum number of accepted devices this tenant can have connected to the server at any time. You can adjust this later. Each tenants’ amount of accepted devices will count towards your total device limit.`;
+exports[`Helptooltips Components > renders SubTenantDeviceLimit correctly 1`] = `Set the maximum number of accepted devices this tenant can have connected to the server at any time. You can adjust this later. Each tenants’ amount of accepted devices will count towards your total device limit.`;
 
-exports[`Helptooltips Components renders SubTenantSSO correctly 1`] = `The created tenant will inherit the same Single Sign-On configuration as this Service Provider tenant. The created tenant’s admin user will not be able to change the SSO settings later.`;
+exports[`Helptooltips Components > renders SubTenantSSO correctly 1`] = `The created tenant will inherit the same Single Sign-On configuration as this Service Provider tenant. The created tenant’s admin user will not be able to change the SSO settings later.`;
 
-exports[`Helptooltips Components renders TenantAdmin correctly 1`] = `Set the user who will have the admin role when this tenant is created. This can be a user who already has a Mender account, or a brand new user. The tenant admin will be able to change which user(s) have this role once they begin using the tenant.`;
+exports[`Helptooltips Components > renders TenantAdmin correctly 1`] = `Set the user who will have the admin role when this tenant is created. This can be a user who already has a Mender account, or a brand new user. The tenant admin will be able to change which user(s) have this role once they begin using the tenant.`;
 
-exports[`Helptooltips Components renders TenantInitialAdmin correctly 1`] = `The user that was assigned as admin for this tenant when it was created. There is a chance the admin user will have changed or this user no longer exists in this tenant.`;
+exports[`Helptooltips Components > renders TenantInitialAdmin correctly 1`] = `The user that was assigned as admin for this tenant when it was created. There is a chance the admin user will have changed or this user no longer exists in this tenant.`;
 
-exports[`Helptooltips Components renders TenantToken correctly 1`] = `
+exports[`Helptooltips Components > renders TenantToken correctly 1`] = `
 NodeList [
   <h3>
     Organization token
@@ -440,14 +440,14 @@ NodeList [
 ]
 `;
 
-exports[`Helptooltips Components renders TwoFactorNote correctly 1`] = `
+exports[`Helptooltips Components > renders TwoFactorNote correctly 1`] = `
 <div>
   Two Factor Authentication is enabled for your account. If you haven't set up a 3rd party authentication app with a verification code, please contact an administrator.
 </div>
 `;
 
-exports[`Helptooltips Components renders WebhookEvents correctly 1`] = `You can select which type(s) of events the webhook will receive. Device authentication includes when devices are provisioned, decommissioned, or authentication status changes.`;
+exports[`Helptooltips Components > renders WebhookEvents correctly 1`] = `You can select which type(s) of events the webhook will receive. Device authentication includes when devices are provisioned, decommissioned, or authentication status changes.`;
 
-exports[`Helptooltips Components renders WebhookSecret correctly 1`] = `The secret is used for signing the requests sent to your webhook, to verify their authenticity. It is optional, but highly recommended for security. The secret must be a hexidecimal string (including only characters from A-F and 0-9).`;
+exports[`Helptooltips Components > renders WebhookSecret correctly 1`] = `The secret is used for signing the requests sent to your webhook, to verify their authenticity. It is optional, but highly recommended for security. The secret must be a hexidecimal string (including only characters from A-F and 0-9).`;
 
-exports[`Helptooltips Components renders Webhooks correctly 1`] = `Use webhooks to send data about device lifecycle events to third-party systems. Currently you can only have one integration set up at a time.`;
+exports[`Helptooltips Components > renders Webhooks correctly 1`] = `Use webhooks to send data about device lifecycle events to third-party systems. Currently you can only have one integration set up at a time.`;

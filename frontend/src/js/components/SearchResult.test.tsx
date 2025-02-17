@@ -13,6 +13,8 @@
 //    limitations under the License.
 import React from 'react';
 
+import { vi } from 'vitest';
+
 import { defaultState, undefineds } from '../../../tests/mockData';
 import { render } from '../../../tests/setupTests';
 import SearchResult from './SearchResult';
@@ -38,7 +40,7 @@ describe('SearchResult Component', () => {
         }
       }
     };
-    const { baseElement } = render(<SearchResult onToggleSearchResult={jest.fn} open setSearchState={jest.fn} setSnackbar={jest.fn} />, {
+    const { baseElement } = render(<SearchResult onToggleSearchResult={vi.fn} open setSearchState={vi.fn} setSnackbar={vi.fn} />, {
       preloadedState: state
     });
     const view = baseElement;

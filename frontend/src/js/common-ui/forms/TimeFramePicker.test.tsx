@@ -21,8 +21,8 @@ import { screen } from '@testing-library/react';
 
 import { undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
-import { formRenderWrapper } from './Form.test';
 import TimeframePicker from './TimeframePicker';
+import { formRenderWrapper } from './helpers';
 
 const testRender = ui => {
   const Wrapper = ({ children }) => {

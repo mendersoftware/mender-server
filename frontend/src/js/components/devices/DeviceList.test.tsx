@@ -15,6 +15,7 @@ import React from 'react';
 
 import { prettyDOM, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
@@ -31,7 +32,7 @@ describe('DeviceList Component', () => {
         devices={[]}
         onResizeColumns={() => {}}
         deviceListState={{ ...defaultState.devices.deviceList, total: 50 }}
-        onPageChange={jest.fn}
+        onPageChange={vi.fn}
       />
     );
     // special snapshot handling here to work around unstable ids in mui code...
@@ -80,15 +81,15 @@ describe('DeviceList Component', () => {
   });
 
   it('works as expected', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const onExpandClickMock = jest.fn();
-    const onResizeColumns = jest.fn();
-    const onPageChange = jest.fn();
-    const onSelect = jest.fn();
-    const onSort = jest.fn();
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const onExpandClickMock = vi.fn();
+    const onResizeColumns = vi.fn();
+    const onPageChange = vi.fn();
+    const onSelect = vi.fn();
+    const onSort = vi.fn();
     const devices = defaultState.devices.byStatus.accepted.deviceIds.map(id => defaultState.devices.byId[id]);
     const pageTotal = devices.length;
-    const headers = getHeaders([], routes.allDevices.defaultHeaders, 'id', jest.fn);
+    const headers = getHeaders([], routes.allDevices.defaultHeaders, 'id', vi.fn);
     const ui = (
       <DeviceList
         columnHeaders={headers}

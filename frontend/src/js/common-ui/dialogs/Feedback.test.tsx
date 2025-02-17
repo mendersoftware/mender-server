@@ -15,16 +15,17 @@ import React from 'react';
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { render } from '../../../../tests/setupTests';
 import Feedback from './Feedback';
 
 describe('Feedback Component', () => {
   it('works as intended', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const ui = <Feedback />;
     const { rerender } = render(ui);
-    await jest.runOnlyPendingTimersAsync();
+    await vi.runOnlyPendingTimersAsync();
     await user.click(screen.getByTitle('Satisfied'));
     await waitFor(() => rerender(ui));
     expect(screen.getByText(/the most important thing/i)).toBeVisible();

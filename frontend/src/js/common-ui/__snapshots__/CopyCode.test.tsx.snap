@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CopyCode Component renders correctly 1`] = `
+exports[`CopyCode Component > renders correctly 1`] = `
 .emotion-0 {
   border: 1px solid;
   border-color: #f7f7f7;

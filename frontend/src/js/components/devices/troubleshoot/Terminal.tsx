@@ -16,7 +16,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import XTerm from '@northern.tech/common-ui/xterm';
 import { DEVICE_MESSAGE_TYPES as MessageTypes } from '@northern.tech/store/constants';
 import { toggle } from '@northern.tech/utils/helpers';
-import useWindowSize from '@northern.tech/utils/resizehook';
+import { useWindowSize } from '@northern.tech/utils/resizehook';
 import { WebLinksAddon } from '@xterm/addon-web-links';
 
 export const options = {

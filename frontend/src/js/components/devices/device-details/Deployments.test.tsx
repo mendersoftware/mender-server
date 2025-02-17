@@ -14,11 +14,11 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import * as DeploymentActions from '@northern.tech/store/deploymentsSlice/thunks';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render, selectMaterialUiSelectOption } from '../../../../../tests/setupTests';
@@ -32,6 +32,9 @@ describe('Deployments Component', () => {
     store = mockStore({ ...defaultState });
   });
   it('renders correctly', async () => {
+    const DeploymentActions = await import('@northern.tech/store/deploymentsSlice/thunks');
+    const getDeploymentsSpy = vi.spyOn(DeploymentActions, 'getDeviceDeployments');
+
     const deviceDeployments = [
       {
         id: 'someId',
@@ -45,7 +48,6 @@ describe('Deployments Component', () => {
         target: 'ALL THE DEVICES'
       }
     ];
-    const getDeploymentsSpy = jest.spyOn(DeploymentActions, 'getDeviceDeployments');
 
     const { baseElement } = render(
       <Provider store={store}>
@@ -56,7 +58,7 @@ describe('Deployments Component', () => {
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
     expect(getDeploymentsSpy).toHaveBeenCalled();
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
 
     await selectMaterialUiSelectOption(screen.getByText(/any/i), /in progress/i, user);
     expect(getDeploymentsSpy).toHaveBeenLastCalledWith({ deviceId: 'a1', filterSelection: ['downloading', 'installing', 'rebooting'], page: 1, perPage: 10 });

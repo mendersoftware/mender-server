@@ -25,6 +25,7 @@ import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/Autocompl
 import { Filters } from '@northern.tech/common-ui/forms/Filters';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
 import { BENEFITS, SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
+import { useLocationParams } from '@northern.tech/store/liststatehook';
 import {
   getHasReleases,
   getIsEnterprise,
@@ -37,7 +38,6 @@ import {
 } from '@northern.tech/store/selectors';
 import { getExistingReleaseTags, getReleases, getUpdateTypes, selectRelease, setReleasesListState } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
-import { useLocationParams } from '@northern.tech/utils/liststatehook';
 import pluralize from 'pluralize';
 
 import ReleaseDetails from './ReleaseDetails';

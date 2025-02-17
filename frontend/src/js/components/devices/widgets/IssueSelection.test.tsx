@@ -14,6 +14,7 @@
 import React from 'react';
 
 import { DEVICE_ISSUE_OPTIONS } from '@northern.tech/store/constants';
+import { vi } from 'vitest';
 
 import { undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
@@ -27,7 +28,7 @@ describe('DeviceIssuesSelection Component', () => {
       { ...DEVICE_ISSUE_OPTIONS.offline, count: 8 }
     ];
     const { baseElement } = render(
-      <DeviceIssuesSelection classes={{ selection: '' }} onChange={jest.fn} options={options} selection={[DEVICE_ISSUE_OPTIONS.offline.key]} />
+      <DeviceIssuesSelection classes={{ selection: '' }} onChange={vi.fn} options={options} selection={[DEVICE_ISSUE_OPTIONS.offline.key]} />
     );
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();

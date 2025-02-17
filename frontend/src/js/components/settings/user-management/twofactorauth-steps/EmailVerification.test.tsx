@@ -13,13 +13,15 @@
 //    limitations under the License.
 import React from 'react';
 
+import { vi } from 'vitest';
+
 import { undefineds } from '../../../../../../tests/mockData';
 import { render } from '../../../../../../tests/setupTests';
 import EmailVerification from './EmailVerification';
 
 describe('EmailVerification Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<EmailVerification verifyEmailComplete={jest.fn} verifyEmailStart={jest.fn} />);
+    const { baseElement } = render(<EmailVerification verifyEmailComplete={vi.fn} verifyEmailStart={vi.fn} />);
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

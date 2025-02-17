@@ -13,6 +13,8 @@
 //    limitations under the License.
 import React from 'react';
 
+import { vi } from 'vitest';
+
 import { undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
 import ColumnCustomizationDialog from './CustomColumnsDialog';
@@ -29,7 +31,7 @@ describe('ColumnCustomizationDialog Component', () => {
 
     const rootfs = 'rootfs-image.version';
     const headers = [
-      { title: 'mac', attribute: { name: 'mac', scope: 'identity' }, sortable: true, customize: jest.fn, textRender: jest.fn },
+      { title: 'mac', attribute: { name: 'mac', scope: 'identity' }, sortable: true, customize: vi.fn, textRender: vi.fn },
       {
         id: 'inventory-device_type',
         key: 'device_type',
@@ -37,7 +39,7 @@ describe('ColumnCustomizationDialog Component', () => {
         scope: 'inventory',
         title: 'Device type',
         attribute: { name: 'device_type', scope: 'inventory' },
-        textRender: jest.fn
+        textRender: vi.fn
       },
       {
         id: 'inventory-rootfs-image.version',
@@ -46,7 +48,7 @@ describe('ColumnCustomizationDialog Component', () => {
         scope: 'inventory',
         title: 'Current software',
         attribute: { name: rootfs, scope: 'inventory', alternative: 'artifact_name' },
-        textRender: jest.fn
+        textRender: vi.fn
       },
       {
         id: 'system-updated_ts',
@@ -55,9 +57,9 @@ describe('ColumnCustomizationDialog Component', () => {
         scope: 'system',
         title: 'Last check-in',
         attribute: { name: 'updated_ts', scope: 'system' },
-        textRender: jest.fn
+        textRender: vi.fn
       },
-      { title: 'Status', attribute: { name: 'status', scope: 'identity' }, sortable: true, component: jest.fn, textRender: jest.fn }
+      { title: 'Status', attribute: { name: 'status', scope: 'identity' }, sortable: true, component: vi.fn, textRender: vi.fn }
     ];
 
     const { baseElement } = render(
@@ -65,8 +67,8 @@ describe('ColumnCustomizationDialog Component', () => {
         attributes={attributes}
         columnHeaders={headers}
         idAttribute={{ attribute: 'mac', scope: 'identity' }}
-        onCancel={jest.fn}
-        onSubmit={jest.fn}
+        onCancel={vi.fn}
+        onSubmit={vi.fn}
         open
       />
     );

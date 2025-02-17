@@ -14,6 +14,7 @@
 import { CommonList } from '@northern.tech/common-ui/List';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { defaultState, tenants, undefineds } from '../../../tests/mockData';
 import { render } from '../../../tests/setupTests';
@@ -21,12 +22,12 @@ import { TenantListItem, columnHeaders } from '../components/tenants/TenantList'
 
 describe('List component', () => {
   it('renders correctly', () => {
-    const onExpandClickMock = jest.fn();
-    const onResizeColumns = jest.fn();
-    const onPageChange = jest.fn();
-    const onSelect = jest.fn();
-    const onSort = jest.fn();
-    const onChangeRowsPerPage = jest.fn();
+    const onExpandClickMock = vi.fn();
+    const onResizeColumns = vi.fn();
+    const onPageChange = vi.fn();
+    const onSelect = vi.fn();
+    const onSort = vi.fn();
+    const onChangeRowsPerPage = vi.fn();
     const { baseElement } = render(
       <CommonList
         ListItemComponent={TenantListItem}
@@ -47,13 +48,13 @@ describe('List component', () => {
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
   it('works as expected', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const onExpandClickMock = jest.fn();
-    const onResizeColumns = jest.fn();
-    const onPageChange = jest.fn();
-    const onSelect = jest.fn();
-    const onSort = jest.fn();
-    const onChangeRowsPerPage = jest.fn();
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const onExpandClickMock = vi.fn();
+    const onResizeColumns = vi.fn();
+    const onPageChange = vi.fn();
+    const onSelect = vi.fn();
+    const onSort = vi.fn();
+    const onChangeRowsPerPage = vi.fn();
     render(
       <CommonList
         ListItemComponent={TenantListItem}

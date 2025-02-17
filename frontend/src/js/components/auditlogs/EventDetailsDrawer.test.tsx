@@ -13,6 +13,8 @@
 //    limitations under the License.
 import React from 'react';
 
+import { vi } from 'vitest';
+
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
 import EventDetailsDrawer from './EventDetailsDrawer';
@@ -24,7 +26,7 @@ describe('EventDetailsDrawer Component', () => {
     const { baseElement } = render(
       <EventDetailsDrawer
         eventItem={defaultState.organization.auditlog.events[0]}
-        onClose={jest.fn}
+        onClose={vi.fn}
         open={true}
         mapChangeToContent={EventDetailsDrawerContentMap}
         fallbackComponenet={EventDetailsFallbackComponent}

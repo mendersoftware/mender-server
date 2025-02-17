@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`DeploymentOverview Component renders correctly 1`] = `
+exports[`DeploymentOverview Component > renders correctly 1`] = `
 .emotion-0 .key>b {
   background-color: #f7f7f7;
   color: rgba(0, 0, 0, 0.87);
@@ -298,7 +298,7 @@ exports[`DeploymentOverview Component renders correctly 1`] = `
     class="statusLarge flexbox centered"
   >
     <img
-      src="largeFail.png"
+      src="/src/assets/img/largeFail.png"
     />
     <div
       class="statusWrapper flexbox centered emotion-8"

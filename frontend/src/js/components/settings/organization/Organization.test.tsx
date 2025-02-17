@@ -19,6 +19,7 @@ import { getSessionInfo } from '@northern.tech/store/auth';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import MockDate from 'mockdate';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
@@ -97,8 +98,8 @@ describe('MyOrganization Component', () => {
     const str = JSON.stringify(config);
     const blob = new Blob([str]);
     const file = new File([blob], 'values.xml', { type: 'application/xml' });
-    File.prototype.text = jest.fn().mockResolvedValue(str);
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    File.prototype.text = vi.fn().mockResolvedValue(str);
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const ui = <MyOrganization />;
     const { rerender } = render(ui, { preloadedState: { ...preloadedState, users: { ...preloadedState.users, currentSession: getSessionInfo() } } });
     await waitFor(() => expect(screen.getByText(/text editor/i)).toBeVisible());
@@ -125,7 +126,7 @@ describe('smaller components', () => {
         <Component
           trial_expiration="2019-10-05T13:00:00.000Z"
           isTrial={true}
-          handleCancelSubscription={jest.fn}
+          handleCancelSubscription={vi.fn}
           orgName="test"
           mailBodyTexts={{ billing: 'bill this', upgrade: 'upgrade here' }}
         />

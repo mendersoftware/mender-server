@@ -29,8 +29,8 @@ import Cookies from 'universal-cookie';
 import LoginLogo from '../../../assets/img/loginlogo.svg';
 import SignupHero from '../../../assets/img/signuphero.svg';
 import { EntryLink } from './Login';
-import OrgDataEntry from './signup-steps/OrgdataEntry';
-import UserDataEntry from './signup-steps/UserdataEntry';
+import { OrgDataEntry } from './signup-steps/OrgdataEntry';
+import { UserDataEntry } from './signup-steps/UserdataEntry';
 
 const { setSnackbar } = storeActions;
 

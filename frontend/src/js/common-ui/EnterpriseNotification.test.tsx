@@ -15,6 +15,7 @@ import React from 'react';
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { undefineds } from '../../../tests/mockData';
 import { render } from '../../../tests/setupTests';
@@ -28,7 +29,7 @@ describe('EnterpriseNotification Component', () => {
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
   it('works as expected', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     render(<EnterpriseNotification />);
     await user.click(screen.getByText(/enterprise/i));
     const view = screen.getByRole('tooltip').firstChild;

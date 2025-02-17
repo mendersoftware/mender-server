@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`DeviceStatusNotification Component renders correctly 1`] = `
+exports[`DeviceStatusNotification Component > renders correctly 1`] = `
 .emotion-0 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;

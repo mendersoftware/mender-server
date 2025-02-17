@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`EnterpriseNotification Component renders correctly 1`] = `
+exports[`EnterpriseNotification Component > renders correctly 1`] = `
 .emotion-0 {
   max-width: 100%;
   font-family: Lato,sans-serif;
@@ -127,7 +127,7 @@ exports[`EnterpriseNotification Component renders correctly 1`] = `
 </div>
 `;
 
-exports[`EnterpriseNotification Component works as expected 1`] = `
+exports[`EnterpriseNotification Component > works as expected 1`] = `
 .emotion-0 {
   background-color: rgba(188, 188, 188, 0.92);
   border-radius: 4px;

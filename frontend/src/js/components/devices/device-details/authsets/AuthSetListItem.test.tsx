@@ -14,6 +14,7 @@
 import React from 'react';
 
 import { DEVICE_STATES } from '@northern.tech/store/constants';
+import { vi } from 'vitest';
 
 import { adminUserCapabilities, undefineds } from '../../../../../../tests/mockData';
 import { render } from '../../../../../../tests/setupTests';
@@ -57,8 +58,8 @@ gnr0OSIDwEL31l+12DbAQ9+ANv6TLpWNfLpX0E6IStkZAgMBAAE=
         columns={defaultColumns}
         isActive={true}
         isExpanded={true}
-        onExpand={jest.fn}
-        confirm={jest.fn}
+        onExpand={vi.fn}
+        confirm={vi.fn}
         device={device}
         limitMaxed={false}
         loading={false}

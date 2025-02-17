@@ -13,6 +13,8 @@
 //    limitations under the License.
 import React from 'react';
 
+import { vi } from 'vitest';
+
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
 import DeviceInventory from './DeviceInventory';
@@ -30,7 +32,7 @@ describe('DeviceInventory Component', () => {
       'even.more.dots.than.before.version': 'test-5',
       'even.more.dots.than.before.more': 'test-6'
     };
-    const { baseElement } = render(<DeviceInventory device={{ attributes, id: 'a1' }} setSnackbar={jest.fn} />);
+    const { baseElement } = render(<DeviceInventory device={{ attributes, id: 'a1' }} setSnackbar={vi.fn} />);
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

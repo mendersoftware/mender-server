@@ -13,6 +13,8 @@
 //    limitations under the License.
 import React from 'react';
 
+import { vi } from 'vitest';
+
 import { defaultState, undefineds } from '../../../../../../tests/mockData';
 import { render } from '../../../../../../tests/setupTests';
 import AuthSetup from './AuthSetup';
@@ -22,7 +24,7 @@ const qr =
 
 describe('AuthSetup Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<AuthSetup currentUser={defaultState.users.byId.a1} handle2FAState={jest.fn} qrImage={qr} verify2FA={jest.fn} />);
+    const { baseElement } = render(<AuthSetup currentUser={defaultState.users.byId.a1} handle2FAState={vi.fn()} qrImage={qr} verify2FA={vi.fn()} />);
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

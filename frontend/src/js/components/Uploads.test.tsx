@@ -15,6 +15,7 @@ import React from 'react';
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../tests/mockData';
 import { render } from '../../../tests/setupTests';
@@ -37,7 +38,7 @@ describe('Uploads Component', () => {
       }
     };
     const { baseElement } = render(<Uploads />, { preloadedState });
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     user.hover(screen.getByRole('progressbar'));
     await waitFor(() => screen.queryByText(/in progress/i));
     const view = baseElement;

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Billing Component renders correctly 1`] = `
+exports[`Billing Component > renders correctly 1`] = `
 .emotion-0 {
   margin-top: 32px;
   padding: 16px;

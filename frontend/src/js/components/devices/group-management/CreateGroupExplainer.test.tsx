@@ -13,13 +13,15 @@
 //    limitations under the License.
 import React from 'react';
 
+import { vi } from 'vitest';
+
 import { undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
 import CreateGroupExplainer from './CreateGroupExplainer';
 
 describe('CreateGroupExplainer Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<CreateGroupExplainer isEnterprise={false} onClose={jest.fn} />);
+    const { baseElement } = render(<CreateGroupExplainer isEnterprise={false} onClose={vi.fn} />);
     const view = baseElement.getElementsByClassName('MuiDialog-root')[0];
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

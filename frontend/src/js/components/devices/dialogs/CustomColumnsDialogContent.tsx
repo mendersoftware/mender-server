@@ -49,7 +49,7 @@ const DraggableListItem = ({ item, index, onRemove }) => {
 
 const filterAttributes = (list, attribute) => list.filter(item => !(item.key === attribute.key && item.scope === attribute.scope));
 
-const Content = ({ attributes, columnHeaders, idAttribute, selectedAttributes, setSelectedAttributes, ...props }) => {
+export const Content = ({ attributes, columnHeaders, idAttribute, selectedAttributes, setSelectedAttributes, ...props }) => {
   const [attributeOptions, setAttributeOptions] = useState([]);
 
   useEffect(() => {

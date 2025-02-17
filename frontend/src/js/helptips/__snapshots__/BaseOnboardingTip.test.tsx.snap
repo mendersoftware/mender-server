@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`BaseOnboardingTip Component renders correctly 1`] = `
+exports[`BaseOnboardingTip Component > renders correctly 1`] = `
 .emotion-0 .MuiButtonBase-root.MuiButton-text {
   color: #fff;
   padding-right: 0;

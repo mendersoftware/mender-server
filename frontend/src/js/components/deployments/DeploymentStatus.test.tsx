@@ -13,13 +13,15 @@
 //    limitations under the License.
 import React from 'react';
 
+import { vi } from 'vitest';
+
 import { undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
 import DeploymentStatus from './DeploymentStatus';
 
 describe('DeploymentStatus Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<DeploymentStatus refreshStatus={jest.fn()} />);
+    const { baseElement } = render(<DeploymentStatus refreshStatus={vi.fn()} />);
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

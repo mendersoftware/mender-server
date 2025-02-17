@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`PhysicalDeviceOnboarding Component renders correctly 1`] = `
+exports[`PhysicalDeviceOnboarding Component > renders correctly 1`] = `
 .emotion-0.Mui-focused .MuiAutocomplete-clearIndicator {
   visibility: visible;
 }
@@ -634,7 +634,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
 </div>
 `;
 
-exports[`PhysicalDeviceOnboarding Component tiny onboarding tips renders ConvertedImageNote correctly 1`] = `
+exports[`PhysicalDeviceOnboarding Component > tiny onboarding tips > renders ConvertedImageNote correctly 1`] = `
 <div>
   <p>
     We prepared an image, ready for Mender, for you to start with. You can find it in the
@@ -652,7 +652,7 @@ exports[`PhysicalDeviceOnboarding Component tiny onboarding tips renders Convert
 </div>
 `;
 
-exports[`PhysicalDeviceOnboarding Component tiny onboarding tips renders DeviceTypeSelectionStep correctly 1`] = `
+exports[`PhysicalDeviceOnboarding Component > tiny onboarding tips > renders DeviceTypeSelectionStep correctly 1`] = `
 .emotion-0.Mui-focused .MuiAutocomplete-clearIndicator {
   visibility: visible;
 }
@@ -1380,7 +1380,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
 </div>
 `;
 
-exports[`PhysicalDeviceOnboarding Component tiny onboarding tips renders ExternalProviderTip correctly 1`] = `
+exports[`PhysicalDeviceOnboarding Component > tiny onboarding tips > renders ExternalProviderTip correctly 1`] = `
 .emotion-0 {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -1423,7 +1423,7 @@ exports[`PhysicalDeviceOnboarding Component tiny onboarding tips renders Externa
 </div>
 `;
 
-exports[`PhysicalDeviceOnboarding Component tiny onboarding tips renders InstallationStep correctly 1`] = `
+exports[`PhysicalDeviceOnboarding Component > tiny onboarding tips > renders InstallationStep correctly 1`] = `
 .emotion-0 {
   border: 1px solid;
   border-color: #f7f7f7;

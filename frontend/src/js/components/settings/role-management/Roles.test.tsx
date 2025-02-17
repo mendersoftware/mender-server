@@ -14,9 +14,9 @@
 import React from 'react';
 
 import { ALL_DEVICES, ALL_RELEASES, TIMEOUTS } from '@northern.tech/store/constants';
-import * as UserActions from '@northern.tech/store/usersSlice/thunks';
 import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render, selectMaterialUiSelectOption } from '../../../../../tests/setupTests';
@@ -33,9 +33,10 @@ describe('Roles Component', () => {
   it(
     'works as intended',
     async () => {
-      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-      const editRoleSpy = jest.spyOn(UserActions, 'editRole');
-      const removeRoleSpy = jest.spyOn(UserActions, 'removeRole');
+      const UserActions = await import('@northern.tech/store/usersSlice/thunks');
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+      const editRoleSpy = vi.spyOn(UserActions, 'editRole');
+      const removeRoleSpy = vi.spyOn(UserActions, 'removeRole');
       const preloadedState = {
         ...defaultState,
         releases: {
@@ -86,6 +87,7 @@ describe('Roles Component', () => {
       await user.click(listItem);
       expect(submitButton).not.toBeDisabled();
       await user.click(submitButton);
+      await act(async () => vi.runAllTicks());
       expect(editRoleSpy).toHaveBeenCalledWith({
         allowUserManagement: false,
         description: `${defaultState.users.rolesById.test.description}something`,
@@ -106,8 +108,8 @@ describe('Roles Component', () => {
         source: { ...defaultState.users.rolesById.test, value: defaultState.users.rolesById.test.name }
       });
       await act(async () => {
-        jest.runOnlyPendingTimers();
-        jest.runAllTicks();
+        vi.runOnlyPendingTimers();
+        vi.runAllTicks();
       });
     },
     TIMEOUTS.refreshDefault

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`DeviceNotifications Component renders correctly 1`] = `
+exports[`DeviceNotifications Component > renders correctly 1`] = `
 .emotion-0 {
   margin-bottom: 8px;
   padding-bottom: 12px;
@@ -124,7 +124,7 @@ exports[`DeviceNotifications Component renders correctly 1`] = `
 </div>
 `;
 
-exports[`tiny components renders DeviceOfflineHeaderNotification correctly 1`] = `
+exports[`tiny components > renders DeviceOfflineHeaderNotification correctly 1`] = `
 .emotion-0 {
   margin-bottom: 8px;
   padding-bottom: 12px;
@@ -208,7 +208,7 @@ exports[`tiny components renders DeviceOfflineHeaderNotification correctly 1`] =
 </div>
 `;
 
-exports[`tiny components renders LastConnection correctly 1`] = `
+exports[`tiny components > renders LastConnection correctly 1`] = `
 .emotion-0 {
   margin-bottom: 8px;
   padding-bottom: 12px;
@@ -292,7 +292,7 @@ exports[`tiny components renders LastConnection correctly 1`] = `
 </div>
 `;
 
-exports[`tiny components renders NoAlertsHeaderNotification correctly 1`] = `
+exports[`tiny components > renders NoAlertsHeaderNotification correctly 1`] = `
 .emotion-0 {
   margin-bottom: 8px;
   padding-bottom: 12px;
@@ -365,7 +365,7 @@ exports[`tiny components renders NoAlertsHeaderNotification correctly 1`] = `
 </div>
 `;
 
-exports[`tiny components renders ServiceNotification correctly 1`] = `
+exports[`tiny components > renders ServiceNotification correctly 1`] = `
 .emotion-0 {
   margin-bottom: 8px;
   padding-bottom: 12px;

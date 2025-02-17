@@ -1,217 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`DeviceConnection Component renders correctly 1`] = `
-.emotion-0 {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  fill: currentColor;
-  font-size: 1.1607rem;
-}
-
-.emotion-0 iconButton {
-  margin-right: 8px;
-}
-
-.emotion-1 {
-  max-width: 100%;
-  font-family: Lato,sans-serif;
-  font-size: 0.7545rem;
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  height: 32px;
-  color: rgba(10, 10, 11, 0.78);
-  background-color: rgba(0, 0, 0, 0.08);
-  border-radius: 16px;
-  white-space: nowrap;
-  -webkit-transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  cursor: unset;
-  outline: 0;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  border: 0;
-  padding: 0;
-  vertical-align: middle;
-  box-sizing: border-box;
-  margin-right: 16px;
-}
-
-.emotion-1.Mui-disabled {
-  opacity: 0.38;
-  pointer-events: none;
-}
-
-.emotion-1 .MuiChip-avatar {
-  margin-left: 5px;
-  margin-right: -6px;
-  width: 24px;
-  height: 24px;
-  color: #bcbcbc;
-  font-size: 0.6964rem;
-}
-
-.emotion-1 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: rgb(35, 85, 94);
-}
-
-.emotion-1 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: rgb(65, 10, 46);
-}
-
-.emotion-1 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.5804rem;
-}
-
-.emotion-1 .MuiChip-icon {
-  margin-left: 5px;
-  margin-right: -6px;
-}
-
-.emotion-1 .MuiChip-deleteIcon {
-  -webkit-tap-highlight-color: transparent;
-  color: rgba(10, 10, 11, 0.26);
-  font-size: 22px;
-  cursor: pointer;
-  margin: 0 5px 0 -6px;
-}
-
-.emotion-1 .MuiChip-deleteIcon:hover {
-  color: rgba(10, 10, 11, 0.4);
-}
-
-.emotion-1 .MuiChip-icon {
-  color: #bcbcbc;
-}
-
-.emotion-2 {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-left: 12px;
-  padding-right: 12px;
-  white-space: nowrap;
-}
-
-.emotion-3 {
-  max-width: 1280px;
-}
-
-<div>
-  <div
-    class="margin-bottom "
-  >
-    <div
-      class="flexbox space-between center-aligned"
-    >
-      <div
-        class="flexbox center-aligned"
-      >
-        <h4>
-          Troubleshooting
-        </h4>
-        <div
-          class="flexbox "
-        >
-          <a
-            class="flexbox centered margin-left"
-            data-mui-internal-clone-element="true"
-            href="https://docs.mender.io/add-ons/port-forward"
-            rel=""
-            target="_blank"
-          >
-            Enable port forwarding
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small emotion-0"
-              data-testid="LaunchIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
-              />
-            </svg>
-          </a>
-          <a
-            class="flexbox center-aligned margin-left"
-            data-discover="true"
-            href="/auditlog?objectId=a1&objectType=device&startDate=2016-01-01"
-          >
-            List all log entries for this device
-          </a>
-        </div>
-      </div>
-      <div
-        class="flexbox centered"
-      >
-        <div
-          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-1"
-        >
-          <span
-            class="MuiChip-label MuiChip-labelMedium emotion-2"
-          >
-            Add-on
-          </span>
-        </div>
-      </div>
-    </div>
-    <div />
-    <div
-      class="flexbox column emotion-3"
-    >
-      <div
-        class="flexbox centered"
-      >
-        <div
-          class="loaderContainer"
-        >
-          <div
-            class="  loader"
-          >
-            <span
-              class="dot dot_1"
-            />
-            <span
-              class="dot dot_2"
-            />
-            <span
-              class="dot dot_3"
-            />
-            <span
-              class="dot dot_4"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`DeviceConnection Component renders correctly when connected 1`] = `
 .emotion-0 {
@@ -1593,7 +1380,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
                     class="margin-left-small"
                     style="font-size: 11pt;"
                   >
-                    Drag here or 
+                    Drag here or
                     <a>
                       browse
                     </a>
@@ -1918,7 +1705,7 @@ exports[`DeviceConnection Component renders correctly when disconnected 1`] = `
         <p
           class="MuiTypography-root MuiTypography-body1 emotion-5"
         >
-          The troubleshoot add-on is not currently connected on this device, it was last connected on 
+          The troubleshoot add-on is not currently connected on this device, it was last connected on
           <time
             datetime="2019-01-13T13:00:00+00:00"
           >
@@ -1926,7 +1713,7 @@ exports[`DeviceConnection Component renders correctly when disconnected 1`] = `
           </time>
           .
           <br />
-          Please 
+          Please
           <a
             class=""
             href="https://docs.mender.io/add-ons/remote-terminal"
@@ -1943,7 +1730,7 @@ exports[`DeviceConnection Component renders correctly when disconnected 1`] = `
 </div>
 `;
 
-exports[`tiny DeviceConnection components renders DeviceConnectionMissingNote correctly 1`] = `
+exports[`tiny DeviceConnection components > renders DeviceConnectionMissingNote correctly 1`] = `
 .emotion-0 {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -2011,7 +1798,7 @@ exports[`tiny DeviceConnection components renders DeviceConnectionMissingNote co
 </div>
 `;
 
-exports[`tiny DeviceConnection components renders DeviceDisconnectedNote correctly 1`] = `
+exports[`tiny DeviceConnection components > renders DeviceDisconnectedNote correctly 1`] = `
 .emotion-0 {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -2071,6 +1858,194 @@ exports[`tiny DeviceConnection components renders DeviceDisconnectedNote correct
       .
       <br />
       Please 
+      <a
+        class=""
+        href="https://docs.mender.io/add-ons/remote-terminal"
+        rel=""
+        target="_blank"
+      >
+        see the documentation
+      </a>
+       for more information.
+    </p>
+  </div>
+</div>
+`;
+
+exports[`tiny DeviceConnection components > renders PortForwardLink correctly 1`] = `
+.emotion-0 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.1607rem;
+}
+
+.emotion-0 iconButton {
+  margin-right: 8px;
+}
+
+<div>
+  <a
+    class="flexbox centered margin-left"
+    data-mui-internal-clone-element="true"
+    href="https://docs.mender.io/add-ons/port-forward"
+    rel=""
+    target="_blank"
+  >
+    Enable port forwarding
+    <svg
+      aria-hidden="true"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small emotion-0"
+      data-testid="LaunchIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
+      />
+    </svg>
+  </a>
+</div>
+`;
+
+exports[`tiny DeviceConnection components renders DeviceConnectionMissingNote correctly 1`] = `
+.emotion-0 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.1607rem;
+  margin-right: 8px;
+}
+
+.emotion-0 iconButton {
+  margin-right: 8px;
+}
+
+.emotion-1 {
+  margin: 0;
+  line-height: 1.5;
+  font-family: Lato,sans-serif;
+  font-weight: 400;
+  font-size: 0.9286rem;
+  text-transform: none;
+  text-align: left;
+}
+
+<div>
+  <div
+    class="flexbox muted"
+  >
+    <svg
+      aria-hidden="true"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-0"
+      data-testid="InfoOutlinedIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"
+      />
+    </svg>
+    <p
+      class="MuiTypography-root MuiTypography-body1 emotion-1"
+    >
+      The troubleshoot add-on does not seem to be enabled on this device.
+      <br />
+      Please
+      <a
+        class=""
+        href="https://docs.mender.io/add-ons/remote-terminal"
+        rel=""
+        target="_blank"
+      >
+        see the documentation
+      </a>
+       for a description on how it works and how to enable it.
+    </p>
+  </div>
+</div>
+`;
+
+exports[`tiny DeviceConnection components renders DeviceDisconnectedNote correctly 1`] = `
+.emotion-0 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.1607rem;
+  margin-right: 8px;
+}
+
+.emotion-0 iconButton {
+  margin-right: 8px;
+}
+
+.emotion-1 {
+  margin: 0;
+  line-height: 1.5;
+  font-family: Lato,sans-serif;
+  font-weight: 400;
+  font-size: 0.9286rem;
+  text-transform: none;
+  text-align: left;
+}
+
+<div>
+  <div
+    class="flexbox muted"
+  >
+    <svg
+      aria-hidden="true"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-0"
+      data-testid="InfoOutlinedIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"
+      />
+    </svg>
+    <p
+      class="MuiTypography-root MuiTypography-body1 emotion-1"
+    >
+      The troubleshoot add-on is not currently connected on this device, it was last connected on
+      <time
+        datetime="2019-01-01T09:25:00+00:00"
+      >
+        2019-01-01 09:25
+      </time>
+      .
+      <br />
+      Please
       <a
         class=""
         href="https://docs.mender.io/add-ons/remote-terminal"

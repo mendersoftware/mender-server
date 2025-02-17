@@ -13,13 +13,15 @@
 //    limitations under the License.
 import React from 'react';
 
+import { vi } from 'vitest';
+
 import { undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
-import Distribution from './Distribution';
+import { DistributionReport } from './Distribution';
 
-describe('PendingDevices Component', () => {
+describe('Distribution Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<Distribution attribute="artifact_name" getGroupDevices={jest.fn} group="test" devices={{}} groups={{}} />);
+    const { baseElement } = render(<DistributionReport attribute="artifact_name" getGroupDevices={vi.fn()} group="test" devices={{}} groups={{}} />);
     const view = baseElement;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

@@ -16,6 +16,7 @@ import React from 'react';
 import { EXTERNAL_PROVIDER } from '@northern.tech/store/constants';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds, webhookEvents } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
@@ -55,7 +56,7 @@ describe('Webhooks Component', () => {
   });
 
   it('works as expected', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const preloadedState = {
       ...defaultState,
       organization: {
@@ -89,8 +90,8 @@ describe('Webhooks Component', () => {
   });
 
   it('can be configured', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const onSubmit = jest.fn();
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const onSubmit = vi.fn();
     render(<WebhookConfiguration onSubmit={onSubmit} />);
     expect(screen.getByText(/save/i)).not.toBeEnabled();
     await user.type(screen.getByLabelText(/url/i), 'http://foo.bar');

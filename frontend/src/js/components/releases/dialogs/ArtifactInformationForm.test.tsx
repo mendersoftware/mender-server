@@ -13,13 +13,15 @@
 //    limitations under the License.
 import React from 'react';
 
+import { vi } from 'vitest';
+
 import { undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
-import ArtifactInformationForm from './ArtifactInformationForm';
+import { ArtifactInformationForm } from './ArtifactInformationForm';
 
 describe('ArtifactInformationForm Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<ArtifactInformationForm activeStep={0} deviceTypes={[]} updateCreation={jest.fn} onboardingState={{ complete: false }} />);
+    const { baseElement } = render(<ArtifactInformationForm activeStep={0} deviceTypes={[]} updateCreation={vi.fn()} onboardingState={{ complete: false }} />);
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

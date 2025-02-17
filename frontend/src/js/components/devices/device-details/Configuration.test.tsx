@@ -15,6 +15,7 @@ import React from 'react';
 
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
@@ -29,10 +30,10 @@ describe('tiny components', () => {
           isAccepted={true}
           isSetAsDefault={true}
           isUpdatingConfig={true}
-          onCancel={jest.fn}
-          onSetAsDefaultChange={jest.fn}
-          onSubmit={jest.fn}
-          setShowLog={jest.fn}
+          onCancel={vi.fn}
+          onSetAsDefaultChange={vi.fn}
+          onSubmit={vi.fn}
+          setShowLog={vi.fn}
           updated_ts="testgroup"
         />
       );
@@ -86,7 +87,7 @@ describe('Configuration Component', () => {
   });
 
   it('works as expected', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     let preloadedState = {
       ...defaultState,
       app: {
@@ -135,7 +136,8 @@ describe('Configuration Component', () => {
     await expect(screen.queryByText(/Configuration up-to-date on the device/i)).not.toBeInTheDocument();
     await user.click(screen.getByRole('checkbox', { name: /save/i }));
     await user.click(screen.getByRole('button', { name: /save/i }));
-    await act(async () => jest.runOnlyPendingTimers());
-    expect(screen.getByText(/Configuration up-to-date on the device/i)).toBeInTheDocument();
+    await act(async () => vi.runOnlyPendingTimers());
+    screen.logTestingPlaygroundURL();
+    expect(await screen.findByText(/Configuration up-to-date on the device/i)).toBeInTheDocument();
   });
 });

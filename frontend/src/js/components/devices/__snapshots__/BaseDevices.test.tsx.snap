@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`smaller components renders AcceptedEmptyState correctly 1`] = `
+exports[`smaller components > renders AcceptedEmptyState correctly 1`] = `
 <div
   class="dashboard-placeholder"
 >
@@ -10,7 +10,7 @@ exports[`smaller components renders AcceptedEmptyState correctly 1`] = `
 </div>
 `;
 
-exports[`smaller components renders DefaultAttributeRenderer correctly 1`] = `
+exports[`smaller components > renders DefaultAttributeRenderer correctly 1`] = `
 <div
   title="dc:a6:32:12:ad:bf"
 >
@@ -22,7 +22,7 @@ exports[`smaller components renders DefaultAttributeRenderer correctly 1`] = `
 </div>
 `;
 
-exports[`smaller components renders DeviceCreationTime correctly 1`] = `
+exports[`smaller components > renders DeviceCreationTime correctly 1`] = `
 <div>
   <time
     datetime="2019-01-13T06:25:00+00:00"
@@ -32,7 +32,7 @@ exports[`smaller components renders DeviceCreationTime correctly 1`] = `
 </div>
 `;
 
-exports[`smaller components renders DeviceSoftware correctly 1`] = `
+exports[`smaller components > renders DeviceSoftware correctly 1`] = `
 <div
   title="-"
 >
@@ -44,7 +44,7 @@ exports[`smaller components renders DeviceSoftware correctly 1`] = `
 </div>
 `;
 
-exports[`smaller components renders DeviceStatusRenderer correctly 1`] = `
+exports[`smaller components > renders DeviceStatusRenderer correctly 1`] = `
 <div>
   <div
     class="margin-right-small"
@@ -54,7 +54,7 @@ exports[`smaller components renders DeviceStatusRenderer correctly 1`] = `
 </div>
 `;
 
-exports[`smaller components renders DeviceTypes correctly 1`] = `
+exports[`smaller components > renders DeviceTypes correctly 1`] = `
 <div
   title="raspberrypi4"
 >
@@ -66,7 +66,7 @@ exports[`smaller components renders DeviceTypes correctly 1`] = `
 </div>
 `;
 
-exports[`smaller components renders PendingEmptyState correctly 1`] = `
+exports[`smaller components > renders PendingEmptyState correctly 1`] = `
 <div
   class="dashboard-placeholder"
 >
@@ -86,7 +86,7 @@ exports[`smaller components renders PendingEmptyState correctly 1`] = `
 </div>
 `;
 
-exports[`smaller components renders PreauthorizedEmptyState correctly 1`] = `
+exports[`smaller components > renders PreauthorizedEmptyState correctly 1`] = `
 <div
   class="dashboard-placeholder"
 >
@@ -95,12 +95,12 @@ exports[`smaller components renders PreauthorizedEmptyState correctly 1`] = `
   </p>
   <img
     alt="preauthorize"
-    src="preauthorize.png"
+    src="/src/assets/img/preauthorize.png"
   />
 </div>
 `;
 
-exports[`smaller components renders RejectedEmptyState correctly 1`] = `
+exports[`smaller components > renders RejectedEmptyState correctly 1`] = `
 <div
   class="dashboard-placeholder"
 >
@@ -110,7 +110,7 @@ exports[`smaller components renders RejectedEmptyState correctly 1`] = `
 </div>
 `;
 
-exports[`smaller components renders RelativeDeviceTime correctly 1`] = `
+exports[`smaller components > renders RelativeDeviceTime correctly 1`] = `
 <div>
   <time
     datetime="2019-01-01"

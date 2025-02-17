@@ -32,7 +32,7 @@ import {
   getUserCapabilities
 } from '@northern.tech/store/selectors';
 import { getDeploymentsByStatus, setDeploymentsState } from '@northern.tech/store/thunks';
-import useWindowSize from '@northern.tech/utils/resizehook';
+import { useWindowSize } from '@northern.tech/utils/resizehook';
 import { clearAllRetryTimers, clearRetryTimer, setRetryTimer } from '@northern.tech/utils/retrytimer';
 
 import { getOnboardingComponentFor } from '../../utils/onboardingManager';

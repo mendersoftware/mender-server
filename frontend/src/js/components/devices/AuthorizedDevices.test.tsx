@@ -13,10 +13,9 @@
 //    limitations under the License.
 import React from 'react';
 
-import * as DeviceActions from '@northern.tech/store/devicesSlice/thunks';
-import * as UserActions from '@northern.tech/store/usersSlice/thunks';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
@@ -46,10 +45,12 @@ describe('AuthorizedDevices Component', () => {
   });
 
   it('behaves as expected', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const setListStateSpy = jest.spyOn(DeviceActions, 'setDeviceListState');
-    const setUserSettingsSpy = jest.spyOn(UserActions, 'saveUserSettings');
-    const setColumnsSpy = jest.spyOn(UserActions, 'updateUserColumnSettings');
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const DeviceActions = await import('@northern.tech/store/devicesSlice/thunks');
+    const UserActions = await import('@northern.tech/store/usersSlice/thunks');
+    const setListStateSpy = vi.spyOn(DeviceActions, 'setDeviceListState');
+    const setUserSettingsSpy = vi.spyOn(UserActions, 'saveUserSettings');
+    const setColumnsSpy = vi.spyOn(UserActions, 'updateUserColumnSettings');
 
     const testKey = 'testKey';
     const attributeNames = {
@@ -92,13 +93,13 @@ describe('AuthorizedDevices Component', () => {
     };
     let ui = (
       <Authorized
-        addDevicesToGroup={jest.fn}
-        onGroupClick={jest.fn}
-        onGroupRemoval={jest.fn}
-        onMakeGatewayClick={jest.fn}
-        onPreauthClick={jest.fn}
-        openSettingsDialog={jest.fn}
-        removeDevicesFromGroup={jest.fn}
+        addDevicesToGroup={vi.fn}
+        onGroupClick={vi.fn}
+        onGroupRemoval={vi.fn}
+        onMakeGatewayClick={vi.fn}
+        onPreauthClick={vi.fn}
+        openSettingsDialog={vi.fn}
+        removeDevicesFromGroup={vi.fn}
         showsDialog={false}
       />
     );
@@ -124,10 +125,10 @@ describe('AuthorizedDevices Component', () => {
     await user.click(screen.getByRole('menuitem', { name: /customize/i }));
     await waitFor(() => rerender(ui));
     expect(screen.getByText(/Customize Columns/i)).toBeVisible();
-    const attributeSelect = screen.getByLabelText(/add a column/i);
+    const attributeSelect = await screen.findByLabelText(/add a column/i);
     await user.type(attributeSelect, testKey);
     await user.keyboard('{Enter}');
-    act(() => jest.advanceTimersByTime(5000));
+    act(() => vi.advanceTimersByTime(5000));
     await waitFor(() => expect(screen.getByLabelText(/add a column/i)).toBeVisible());
     const button = screen.getByRole('button', { name: /Save/i });
     expect(button).not.toBeDisabled();
@@ -160,6 +161,6 @@ describe('AuthorizedDevices Component', () => {
         { id: 'inventory-testKey', key: testKey, name: testKey, scope: 'inventory', title: testKey }
       ]
     });
-    await act(async () => jest.runAllTicks());
+    await act(async () => vi.runAllTicks());
   });
 });

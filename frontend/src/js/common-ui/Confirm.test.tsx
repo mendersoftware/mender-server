@@ -15,6 +15,7 @@ import React from 'react';
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { undefineds } from '../../../tests/mockData';
 import { render } from '../../../tests/setupTests';
@@ -29,9 +30,9 @@ describe('Confirm Component', () => {
   });
 
   it('works as intended', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const actionCheck = jest.fn();
-    const cancelCheck = jest.fn();
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const actionCheck = vi.fn();
+    const cancelCheck = vi.fn();
 
     const { container } = render(<Confirm type="chartRemoval" action={actionCheck} cancel={cancelCheck} />);
 

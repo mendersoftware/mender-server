@@ -13,13 +13,15 @@
 //    limitations under the License.
 import React from 'react';
 
+import { vi } from 'vitest';
+
 import { undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
 import RolloutSteps from './RolloutSteps';
 
 describe('RolloutSteps Component', () => {
   it('renders correctly', async () => {
-    let tree = render(<RolloutSteps onStepChange={jest.fn} steps={[]} />);
+    let tree = render(<RolloutSteps onStepChange={vi.fn} steps={[]} />);
     let view = tree.baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

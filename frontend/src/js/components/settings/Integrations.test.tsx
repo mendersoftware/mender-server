@@ -15,6 +15,7 @@ import React from 'react';
 
 import { EXTERNAL_PROVIDER } from '@northern.tech/store/constants';
 import { act } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
@@ -38,14 +39,14 @@ const preloadedState = { ...defaultState, organization: { ...defaultState.organi
 describe('IntegrationConfiguration Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(
-      <IntegrationConfiguration integration={{ ...integrations[0], connection_string: '' }} onCancel={jest.fn} onDelete={jest.fn} onSave={jest.fn} />
+      <IntegrationConfiguration integration={{ ...integrations[0], connection_string: '' }} onCancel={vi.fn} onDelete={vi.fn} onSave={vi.fn} />
     );
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
     await act(async () => {
-      jest.runOnlyPendingTimers();
-      jest.runAllTicks();
+      vi.runOnlyPendingTimers();
+      vi.runAllTicks();
     });
   });
 });
@@ -57,8 +58,8 @@ describe('Integrations Component', () => {
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
     await act(async () => {
-      jest.runOnlyPendingTimers();
-      jest.runAllTicks();
+      vi.runOnlyPendingTimers();
+      vi.runAllTicks();
     });
   });
 });

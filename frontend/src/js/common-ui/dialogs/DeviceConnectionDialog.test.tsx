@@ -15,6 +15,7 @@ import React from 'react';
 
 import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
@@ -22,15 +23,15 @@ import DeviceConnectionDialog from './DeviceConnectionDialog';
 
 describe('DeviceConnectionDialog Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<DeviceConnectionDialog onCancel={jest.fn} />);
+    const { baseElement } = render(<DeviceConnectionDialog onCancel={vi.fn} />);
     const view = baseElement.getElementsByClassName('MuiDialog-root')[0];
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
 
   it('works as intended', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    render(<DeviceConnectionDialog onCancel={jest.fn} />, {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    render(<DeviceConnectionDialog onCancel={vi.fn} />, {
       preloadedState: {
         ...defaultState,
         app: {
@@ -48,6 +49,6 @@ describe('DeviceConnectionDialog Component', () => {
     await user.click(screen.getByText(/Try a virtual device/i));
     expect(screen.getByText(/run the following command to start the virtual device/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Waiting for device/i })).toBeInTheDocument();
-    await act(async () => jest.runAllTicks());
+    await act(async () => vi.runAllTicks());
   });
 });

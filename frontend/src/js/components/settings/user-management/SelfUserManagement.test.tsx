@@ -17,6 +17,7 @@ import { getSessionInfo } from '@northern.tech/store/auth';
 import { yes } from '@northern.tech/store/constants';
 import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { describe, expect, it, vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
@@ -42,14 +43,14 @@ describe('SelfUserManagement Component', () => {
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
-    await act(async () => jest.runAllTimers());
+    await act(async () => vi.runAllTimers());
   });
 
   it('works as intended', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const preloadedState = { ...defaultState, app: { ...defaultState.app, features: { ...defaultState.app.features, isEnterprise: true } } };
 
-    const copyCheck = jest.fn(yes);
+    const copyCheck = vi.fn(yes);
     document.execCommand = copyCheck;
     const ui = <SelfUserManagement />;
     const { rerender } = render(ui, { preloadedState });
@@ -70,7 +71,7 @@ describe('SelfUserManagement Component', () => {
     expect(copyCheck).toHaveBeenCalled();
     await user.click(screen.getByRole('button', { name: /cancel/i }));
     await user.click(screen.getByText(/Enable Two Factor authentication/i));
-    await act(async () => jest.runAllTicks());
+    await act(async () => vi.runAllTicks());
     await waitFor(() => rerender(ui));
     expect(screen.getByText(/Scan the QR code on the right/i)).toBeInTheDocument();
     await user.type(screen.getByPlaceholderText(/Verification code/i), '1234');
@@ -81,11 +82,11 @@ describe('SelfUserManagement Component', () => {
     expect(screen.getByRole('button', { name: /Verify/i })).not.toBeDisabled();
     expect(screen.queryByText(/Must be at least 6 characters long/i)).not.toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: /Verify/i }));
-    await act(async () => jest.runAllTicks());
+    await act(async () => vi.runAllTicks());
     await waitFor(() => rerender(ui));
     await waitFor(() => expect(screen.queryByText(/Verifying/)).not.toBeInTheDocument(), { timeout: 5000 });
     await user.click(screen.getByRole('button', { name: /Save/i }));
     await waitFor(() => rerender(ui));
-    await act(async () => jest.runAllTicks());
+    await act(async () => vi.runAllTicks());
   }, 15000);
 });

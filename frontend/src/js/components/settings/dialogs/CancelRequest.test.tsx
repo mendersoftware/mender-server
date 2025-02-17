@@ -15,13 +15,14 @@ import React from 'react';
 
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { undefineds } from '../../../../../tests/mockData';
 import CancelRequestDialog from './CancelRequest';
 
 describe('CancelRequestDialog Component', () => {
   beforeEach(() => {
-    Math.random = jest.fn(() => 0);
+    Math.random = vi.fn(() => 0);
   });
   it('renders correctly', async () => {
     const { baseElement } = render(<CancelRequestDialog />);
@@ -31,9 +32,9 @@ describe('CancelRequestDialog Component', () => {
   });
 
   it('works as intended', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const submitMock = jest.fn();
-    render(<CancelRequestDialog onCancel={jest.fn} onSubmit={submitMock} />);
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const submitMock = vi.fn();
+    render(<CancelRequestDialog onCancel={vi.fn} onSubmit={submitMock} />);
     expect(screen.getByRole('button', { name: /Continue/i })).toBeDisabled();
     await user.click(screen.getByRole('radio', { name: /My project is delayed/i }));
     expect(screen.getByRole('button', { name: /Continue/i })).not.toBeDisabled();

@@ -13,9 +13,9 @@
 //    limitations under the License.
 import React from 'react';
 
-import * as UserActions from '@northern.tech/store/usersSlice/thunks';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
@@ -41,18 +41,23 @@ describe('Login Component', () => {
   });
 
   it('works as intended', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const loginSpy = jest.spyOn(UserActions, 'loginUser');
+    const UserActions = await import('@northern.tech/store/usersSlice/thunks');
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const loginSpy = vi.spyOn(UserActions, 'loginUser');
     const ui = <Login />;
     const { rerender } = render(ui, { preloadedState });
     await user.type(screen.getByLabelText(/your email/i), 'something-2fa@example.com');
     await waitFor(() => rerender(ui));
-    await user.click(screen.getByRole('button', { name: /Log in/i }));
+    const loginButton = screen.getByRole('button', { name: /Log in/i });
+    await waitFor(() => expect(loginButton).toBeEnabled());
+    await user.click(loginButton);
+    await act(async () => vi.runAllTicks());
     expect(loginSpy).toHaveBeenCalled();
     await waitFor(() => rerender(ui));
     await user.type(screen.getByLabelText(/password/i), 'mysecretpassword!123');
     expect(await screen.findByLabelText(/Two Factor Authentication Code/i)).not.toBeVisible();
-    await user.click(screen.getByRole('button', { name: /Log in/i }));
+    await waitFor(() => expect(loginButton).toBeEnabled());
+    await user.click(loginButton);
     expect(loginSpy).toHaveBeenCalled();
     await waitFor(() => expect(screen.getByLabelText(/Two Factor Authentication Code/i)).toBeVisible());
     const input = screen.getByDisplayValue('something-2fa@example.com');
@@ -60,8 +65,10 @@ describe('Login Component', () => {
     await user.type(input, 'something@example.com');
     await user.type(screen.getByLabelText(/Two Factor Authentication Code/i), '123456');
     await waitFor(() => rerender(ui));
-    await user.click(screen.getByRole('button', { name: /Log in/i }));
-    await act(async () => jest.runAllTicks());
+    await act(async () => vi.runAllTicks());
+    await waitFor(() => expect(loginButton).toBeEnabled());
+    await user.click(loginButton);
+    await act(async () => vi.runAllTicks());
     expect(loginSpy).toHaveBeenCalledWith({ email: 'something@example.com', password: 'mysecretpassword!123', token2fa: '123456', stayLoggedIn: false });
   }, 10000);
 });

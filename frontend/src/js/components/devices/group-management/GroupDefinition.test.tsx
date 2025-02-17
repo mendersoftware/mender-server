@@ -28,15 +28,15 @@ describe('GroupDefinition Component', () => {
   });
 
   it('validates group names correctly', async () => {
-    expect(validateGroupName('test', undefined, [{ ...selectedDevices[0], group: 'test' }])).toEqual({
+    expect(validateGroupName('test', undefined, [{ ...selectedDevices[0], group: 'test' }], false)).toEqual({
       errortext: 'test is the same group the selected devices are already in',
       invalid: true,
       isModification: false,
       name: 'test'
     });
-    expect(validateGroupName('tæst', undefined, selectedDevices).invalid).toBeTruthy();
-    expect(validateGroupName(false, undefined, selectedDevices).invalid).toBeTruthy();
-    expect(validateGroupName('', undefined, selectedDevices).invalid).toBeTruthy();
+    expect(validateGroupName('tæst', undefined, selectedDevices, false).invalid).toBeTruthy();
+    expect(validateGroupName('false', undefined, selectedDevices, false).invalid).toBeFalsy();
+    expect(validateGroupName('', undefined, selectedDevices, false).invalid).toBeTruthy();
     expect(validateGroupName('test', ['test'], [], true).invalid).toBeTruthy();
   });
 });

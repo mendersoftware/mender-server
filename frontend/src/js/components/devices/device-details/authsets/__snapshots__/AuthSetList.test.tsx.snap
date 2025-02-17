@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`AuthsetList Component renders correctly 1`] = `
+exports[`AuthsetList Component > renders correctly 1`] = `
 .emotion-0 .header,
 .emotion-0 .MuiAccordion-root {
   border-bottom: 1px solid #cfcfcf;
