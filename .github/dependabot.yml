@@ -27,6 +27,8 @@ updates:
     package-ecosystem: docker
     schedule:
       interval: monthly
+    reviewers:
+      - "mendersoftware/frontend-dependabot-reviewers"
   - commit-message:
       prefix: chore
     directory: /frontend/tests/e2e_tests
