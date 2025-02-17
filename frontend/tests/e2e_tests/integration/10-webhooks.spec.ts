@@ -14,7 +14,7 @@
 import { Server } from 'net';
 
 import test, { expect } from '../fixtures/fixtures.ts';
-import { isEnterpriseOrStaging, startWebhookServer } from '../utils/commands.ts';
+import { isEnterpriseOrStaging, startDockerClient, startWebhookServer, stopDockerClient, tenantTokenRetrieval } from '../utils/commands.ts';
 import { storagePath, timeouts } from '../utils/constants.ts';
 
 const baseWebhookLocation = 'http://docker.mender.io:9000/webhooks';
@@ -59,6 +59,7 @@ test.describe('Webhooks Functionality', () => {
   });
   test('allows configuring inventory webhooks', async ({ baseUrl, environment, loggedInPage: page }) => {
     test.skip(!isEnterpriseOrStaging(environment));
+    await stopDockerClient();
     await page.goto(`${baseUrl}ui/settings/integrations`);
     await page.getByLabel(/add an integration/i).click();
     await page.getByRole('option', { name: /Webhooks/i }).click();
@@ -66,6 +67,8 @@ test.describe('Webhooks Functionality', () => {
     await page.getByLabel(/url/i).fill(`${baseWebhookLocation}/inventory`);
     await page.getByLabel(/device authentication/i).click();
     await page.getByLabel(/device inventory/i).click();
+    const token = await tenantTokenRetrieval(baseUrl, page);
+    await startDockerClient(baseUrl, token);
     await page.getByRole('button', { name: /save/i }).click();
     await expect(page.getByText(/view details/i)).toBeVisible();
     await expect(page.getByText(/one active integration at a time/i)).toBeVisible();
