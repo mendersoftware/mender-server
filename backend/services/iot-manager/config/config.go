@@ -80,6 +80,9 @@ const (
 	// Hub domains included in connection strings.
 	SettingDomainWhitelistDefault = "*.azure-devices.net *.iot.*.amazonaws.com"
 
+	SettingDomainSkipVerify = "domain_skipverify"
+	SettingDomainSkipVerifyDefault = false
+
 	// SettingEventExpirationTimeout sets the expiration timeout for stored
 	// events. After this time events will be removed from the storage.
 	SettingEventExpirationTimeout = "event_exp_timeout"
