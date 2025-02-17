@@ -247,21 +247,19 @@ export const getDeploymentPhasesInfo = deployment => {
 };
 
 export const ProgressDisplay = ({ className = '', deployment, minimal = false, status }) => {
-  const [time, setTime] = useState(new Date());
+  const [time, setTime] = useState(dayjs());
   const timer = useRef();
 
   useEffect(() => {
-    timer.current = setInterval(updateTime, TIMEOUTS.oneSecond);
+    timer.current = setInterval(() => setTime(dayjs()), TIMEOUTS.oneSecond);
     return () => {
       clearInterval(timer.current);
     };
   }, []);
 
-  const updateTime = () => setTime(new Date());
-
   const { reversedPhases, totalFailureCount, phases, ...remainder } = getDeploymentPhasesInfo(deployment);
 
-  const currentPhase = reversedPhases.find(phase => new Date(phase.start_ts) < time) || phases[0];
+  const currentPhase = reversedPhases.find(phase => dayjs(phase.start_ts) < time) || phases[0];
   const currentPhaseIndex = phases.findIndex(phase => phase.id === currentPhase.id);
   const nextPhaseStart = phases.length > currentPhaseIndex + 1 ? dayjs(phases[currentPhaseIndex + 1].start_ts) : dayjs(time);
 
@@ -272,8 +270,7 @@ export const ProgressDisplay = ({ className = '', deployment, minimal = false, s
     ...remainder
   });
 
-  const momentaryTime = dayjs(time);
-  const duration = dayjs.duration(nextPhaseStart.diff(momentaryTime)).format('d [days] hh [h] mm [m] ss [s]');
+  const duration = dayjs.duration(nextPhaseStart.diff(time)).format('DD [days] HH [h] mm [m] ss [s]');
 
   return (
     <ProgressChartComponent

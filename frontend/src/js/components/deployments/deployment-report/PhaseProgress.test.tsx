@@ -32,4 +32,10 @@ describe('PhaseProgress Component', () => {
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
+  it('renders correctly for phased usage', async () => {
+    const { baseElement } = render(<PhaseProgressDisplay deployment={defaultState.deployments.byId.d3} status="inprogress" />);
+    const view = baseElement.firstChild;
+    expect(view).toMatchSnapshot();
+    expect(view).toEqual(expect.not.stringMatching(undefineds));
+  });
 });

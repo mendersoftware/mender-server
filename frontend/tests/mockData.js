@@ -178,6 +178,8 @@ export const defaultState = {
             status: 'installing'
           }
         },
+        filter: undefined,
+        group: undefined,
         statistics: {
           status: {
             downloading: 0,
@@ -207,6 +209,8 @@ export const defaultState = {
             status: 'pending'
           }
         },
+        filter: undefined,
+        group: undefined,
         statistics: {
           status: {
             downloading: 0,
@@ -220,11 +224,48 @@ export const defaultState = {
             'already-installed': 0
           }
         }
+      },
+      d3: {
+        id: 'd3',
+        name: 'Test',
+        phases: [
+          { id: '0', batch_size: 2, device_count: 2 },
+          { id: '1', start_ts: '2019-02-04T11:45:10.002Z', batch_size: 3, device_count: 3 },
+          { id: '2', start_ts: '2019-02-05T11:45:10.002Z', batch_size: 5, device_count: 5 },
+          { id: '3', start_ts: '2019-02-06T11:45:10.002Z', batch_size: 5, device_count: 5 },
+          { id: '4', start_ts: '2019-02-21T11:45:10.002Z', batch_size: 5, device_count: 0 }
+        ],
+        max_devices: 0,
+        created: '2019-01-31T12:59:30.020Z',
+        devices: {},
+        filter: undefined,
+        group: undefined,
+        stats: {
+          pending: 3,
+          decommissioned: 0,
+          failure: 23,
+          pause_before_committing: 0,
+          pause_before_rebooting: 0,
+          installing: 0,
+          rebooting: 0,
+          'already-installed': 0,
+          pause_before_installing: 0,
+          downloading: 0,
+          success: 6,
+          aborted: 0,
+          noartifact: 0
+        },
+        statistics: { total_size: '1234' },
+        status: 'inprogress',
+        active: true,
+        device_count: 100,
+        retries: '0',
+        type: 'software'
       }
     },
     byStatus: {
       finished: { deploymentIds: ['d1'], total: 1 },
-      inprogress: { deploymentIds: ['d1'], total: 1 },
+      inprogress: { deploymentIds: ['d3'], total: 1 },
       pending: { deploymentIds: ['d2'], total: 1 },
       scheduled: { deploymentIds: ['d2'], total: 1 }
     },
@@ -239,7 +280,7 @@ export const defaultState = {
         total: 1,
         type: ''
       },
-      inprogress: { ...DEVICE_LIST_DEFAULTS, selection: ['d1'], total: 1 },
+      inprogress: { ...DEVICE_LIST_DEFAULTS, selection: ['d3'], total: 1 },
       pending: { ...DEVICE_LIST_DEFAULTS, selection: ['d2'], total: 1 },
       scheduled: { ...DEVICE_LIST_DEFAULTS, selection: ['d2'], total: 1 },
       general: {
