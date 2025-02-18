@@ -119,6 +119,8 @@ default:
     - *dind-login
     # NOTE: If we're running on a PR, do not build multiplatform
     - test "$CI_COMMIT_REF_PROTECTED" != "true" && unset DOCKER_PLATFORM
+    # QA-932 - test the docker daemon is running, if not try again after 5s
+    - docker info || (sleep 5 && docker info)
     - if test -n "${DOCKER_PLATFORM}"; then
       docker context create ci;
       docker builder create ${DOCKER_BUILDKITARGS} --name ci-builder ci;
