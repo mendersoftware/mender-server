@@ -1,6 +1,6 @@
 attrs==25.1.0
 azure-iot-hub==2.6.1
-boto3==1.36.11
+boto3==1.36.21
 certifi==2025.1.31
 cffi==1.17.1
 chardet==5.2.0
@@ -16,7 +16,7 @@ Pillow==11.1.0
 pluggy==1.5.0
 py==1.11.0
 pycparser==2.22
-pymongo==4.11
+pymongo==4.11.1
 pyotp==2.9.0
 pyparsing==3.2.1
 pytest==8.3.4
@@ -34,5 +34,5 @@ stripe==11.5.0
 toml==0.10.2
 trustme==1.2.1
 urllib3==2.3.0
-websockets==14.2
+websockets==15.0
 aiosmtpd==1.4.6
