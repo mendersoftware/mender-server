@@ -5,9 +5,9 @@
   "dependencies": {
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.0",
-    "@hello-pangea/dnd": "^17.0.0",
+    "@hello-pangea/dnd": "^18.0.1",
     "@mdi/js": "7.4.47",
-    "@monaco-editor/react": "4.6.0",
+    "@monaco-editor/react": "4.7.0",
     "@mui/icons-material": "6.4.4",
     "@mui/material": "6.4.4",
     "@mui/x-date-pickers": "7.27.0",
