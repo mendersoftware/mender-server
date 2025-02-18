@@ -33,23 +33,23 @@ interface Attribute {
   scope: string;
 }
 export interface RendererProp<T> {
+  [key: string]: any;
   column: ColumnHeader<T>;
   item?: T;
-  [key: string]: any;
 }
 
 export interface ClassesOverrides {
   classes: Record<string, string>;
 }
 export interface ColumnHeader<T> {
+  attribute: Attribute;
   classes?: ClassesOverrides;
   component: ComponentType<RendererProp<T> & ClassesOverrides>;
-  title: string;
-  attribute: Attribute;
-  sortable: boolean;
   customize?: () => void;
+  sortable: boolean;
   style?: CSSProperties;
   textRender?: (props: RendererProp<T>) => string | ReactElement;
+  title: string;
 }
 
 interface SortOptions {
@@ -79,29 +79,29 @@ interface IdAttribute {
 type wID = { id: string };
 
 interface CommonListProps<T extends wID> {
-  listItems: T[];
   columnHeaders: ColumnHeader<T>[];
   customColumnSizes?: Attribute[];
+  idAttribute?: IdAttribute;
+  ListItemComponent: ComponentType<ListItemComponentProps<T>>;
+  listItems: T[];
+  listState: ListState;
+  onChangeRowsPerPage: (perPage: number) => void;
   onExpandClick: (item: T) => void;
-  onResizeColumns: ((columns: { size: number; attribute: Attribute }) => void) | false;
   onPageChange: (event: MouseEvent | null, page: number) => void;
+  onResizeColumns: ((columns: { attribute: Attribute; size: number }) => void) | false;
   onSelect: ((rows: number[]) => void) | false;
   onSort?: (attr: Attribute | object) => void;
-  onChangeRowsPerPage: (perPage: number) => void;
   pageLoading: boolean;
   PaginationProps?: object;
-  idAttribute?: IdAttribute;
-  listState: ListState;
   sortingNotes?: { [key: string]: string };
-  ListItemComponent: ComponentType<ListItemComponentProps<T>>;
 }
 export interface ListItemComponentProps<T> {
   columnHeaders: ColumnHeader<T>[];
-  listItem: T;
-  listState: ListState;
   idAttribute?: IdAttribute;
   index: number;
   key: string;
+  listItem: T;
+  listState: ListState;
   onClick: (item: T) => void;
   onRowSelect: (selectedRow: T) => void;
   selectable: boolean;
@@ -332,12 +332,9 @@ export const CommonList = <T extends wID>(props: CommonListProps<T>) => {
 };
 
 interface HeaderItemProps<T> {
-  sortingNotes?: { [key: string]: string };
   column: ColumnHeader<T>;
   columnCount: number;
   index: number;
-  resizable: boolean;
-  onSort: (attr: Attribute | object) => void;
   onResizeChange: (
     e: MouseEvent,
     eventData: {
@@ -354,8 +351,11 @@ interface HeaderItemProps<T> {
       ref: MutableRefObject<HTMLDivElement | null>;
     }
   ) => void;
+  onSort: (attr: Attribute | object) => void;
+  resizable: boolean;
   sortCol?: string;
   sortDown?: string;
+  sortingNotes?: { [key: string]: string };
 }
 
 const HeaderItem = <T extends wID>(props: HeaderItemProps<T>) => {

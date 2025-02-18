@@ -18,23 +18,21 @@ import { Button } from '@mui/material';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import Loader from '@northern.tech/common-ui/Loader';
 
-export const AuditlogsView = ({ total, csvLoading, createCsvDownload, infoHintComponent = null, auditLogsFilter, children }) => {
-  return (
-    <div className="fadeIn margin-left flexbox column" style={{ marginRight: '5%' }}>
-      <div className="flexbox center-aligned">
-        <h3 className="margin-right-small">Audit log</h3>
-        <InfoHintContainer>{infoHintComponent}</InfoHintContainer>
-      </div>
-      {auditLogsFilter}
-      <div className="flexbox center-aligned" style={{ justifyContent: 'flex-end' }}>
-        <Loader show={csvLoading} />
-        <Button variant="contained" color="secondary" disabled={csvLoading || !total} onClick={createCsvDownload} style={{ marginLeft: 15 }}>
-          Download results as csv
-        </Button>
-      </div>
-      {children}
+export const AuditlogsView = ({ total, csvLoading, createCsvDownload, infoHintComponent = null, auditLogsFilter, children }) => (
+  <div className="fadeIn margin-left flexbox column" style={{ marginRight: '5%' }}>
+    <div className="flexbox center-aligned">
+      <h3 className="margin-right-small">Audit log</h3>
+      <InfoHintContainer>{infoHintComponent}</InfoHintContainer>
     </div>
-  );
-};
+    {auditLogsFilter}
+    <div className="flexbox center-aligned" style={{ justifyContent: 'flex-end' }}>
+      <Loader show={csvLoading} />
+      <Button variant="contained" color="secondary" disabled={csvLoading || !total} onClick={createCsvDownload} style={{ marginLeft: 15 }}>
+        Download results as csv
+      </Button>
+    </div>
+    {children}
+  </div>
+);
 
 export default AuditlogsView;

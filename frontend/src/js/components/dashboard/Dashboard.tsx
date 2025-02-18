@@ -87,11 +87,12 @@ export const Dashboard = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser, dispatch, JSON.stringify(onboardingState)]);
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       clearTimeout(timer.current);
-    };
-  }, []);
+    },
+    []
+  );
 
   const handleClick = params => {
     let redirect = params.route;

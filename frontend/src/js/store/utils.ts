@@ -90,14 +90,13 @@ export const filtersFilter = (item, index, array) => {
   return firstIndex === index;
 };
 
-export const listItemMapper = (byId, ids, { defaultObject = {}, cutOffSize = DEVICE_LIST_MAXIMUM_LENGTH }) => {
-  return ids.slice(0, cutOffSize).reduce((accu, id) => {
+export const listItemMapper = (byId, ids, { defaultObject = {}, cutOffSize = DEVICE_LIST_MAXIMUM_LENGTH }) =>
+  ids.slice(0, cutOffSize).reduce((accu, id) => {
     if (id && byId[id]) {
       accu.push({ ...defaultObject, ...byId[id] });
     }
     return accu;
   }, []);
-};
 
 export const mergePermissions = (existingPermissions = { ...emptyUiPermissions }, addedPermissions) =>
   Object.entries(existingPermissions).reduce(

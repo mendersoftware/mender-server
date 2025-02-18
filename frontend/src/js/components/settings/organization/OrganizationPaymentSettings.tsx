@@ -25,10 +25,10 @@ import { CardDetails } from './Billing';
 
 interface OrganizationPaymentSettingsProps {
   className: string;
-  onComplete?: () => void;
   isValid: boolean;
-  updatingCard: boolean;
+  onComplete?: () => void;
   setUpdatingCard: (updatingCard: boolean) => void;
+  updatingCard: boolean;
 }
 export const OrganizationPaymentSettings = (props: OrganizationPaymentSettingsProps) => {
   const { className, onComplete, isValid, updatingCard, setUpdatingCard } = props;

@@ -50,8 +50,8 @@ type Update = {
 };
 
 type UploadType = {
-  key: SupportedUploadTypes;
   component: ReactNode;
+  key: SupportedUploadTypes;
 };
 
 type UploadTypes = Record<string, UploadType>;

@@ -49,10 +49,10 @@ const editorProps = {
 };
 
 interface SetSnackbarProps {
-  message: string;
-  autoHideDuration: number;
   action: () => void;
+  autoHideDuration: number;
   children: ReactNode;
+  message: string;
   onClick: () => void;
   onClose: () => void;
 }

@@ -68,11 +68,12 @@ export const AttributeAutoComplete = ({ attributes, disabled = false, filter = e
   const [scope, setScope] = useState(filter.scope);
   const timer = useRef();
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       clearTimeout(timer.current);
-    };
-  }, []);
+    },
+    []
+  );
 
   useEffect(() => {
     setKey(emptyFilter.key);

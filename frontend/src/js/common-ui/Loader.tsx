@@ -14,8 +14,8 @@
 import { CSSProperties } from 'react';
 
 interface LoaderProps {
-  show: boolean;
   fade?: boolean;
+  show: boolean;
   small?: boolean;
   style?: CSSProperties;
   table?: boolean;

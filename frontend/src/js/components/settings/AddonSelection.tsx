@@ -61,20 +61,20 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 interface RelatableAddon extends Addon {
-  name: string;
-  isEnabled: boolean;
-  pending: { isAdd: string; name: string };
   isEligible: boolean;
+  isEnabled: boolean;
+  name: string;
+  pending: { isAdd: string; name: string };
 }
 interface AddOnSelectionProps {
-  org: Organization;
-  currentPlan: AvailablePlans;
   addons: { enabled: boolean; name: string }[];
+  currentPlan: AvailablePlans;
   features: string[];
   isTrial: boolean;
+  org: Organization;
 }
 export const AddOnSelection = ({ org, currentPlan, addons = [], features, isTrial }: AddOnSelectionProps) => {
-  const [action, setAction] = useState<{ name: string; isAdd: boolean } | null>(null);
+  const [action, setAction] = useState<{ isAdd: boolean; name: string } | null>(null);
   const currentPlanName = PLANS[currentPlan].name;
   const { classes } = useStyles();
   const dispatch = useAppDispatch();

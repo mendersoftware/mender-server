@@ -13,8 +13,6 @@
 //    limitations under the License.
 import React from 'react';
 
-export const ClickFilter = ({ disabled = false, children }) => {
-  return disabled ? <div style={{ pointerEvents: 'none' }}>{children}</div> : <>{children}</>;
-};
+export const ClickFilter = ({ disabled = false, children }) => (disabled ? <div style={{ pointerEvents: 'none' }}>{children}</div> : <>{children}</>);
 
 export default ClickFilter;

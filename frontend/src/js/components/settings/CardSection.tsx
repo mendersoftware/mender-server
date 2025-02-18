@@ -29,11 +29,11 @@ const { setSnackbar } = storeActions;
 
 interface CardSectionProps {
   isSignUp: boolean;
-  onClose?: () => void;
-  organization: Organization;
   isValid?: boolean;
-  onSubmit: () => Promise<void>;
   onCardConfirmed: () => void;
+  onClose?: () => void;
+  onSubmit: () => Promise<void>;
+  organization: Organization;
 }
 export const CardSection = ({ isSignUp, onClose, organization, onSubmit, onCardConfirmed, isValid = true }: CardSectionProps) => {
   const stripe = useStripe();

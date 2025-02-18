@@ -84,27 +84,25 @@ const satisfactionLevels = [
 ];
 const explanations = ['Very unsatisfied', 'Very satisfied'];
 
-const SatisfactionGauge = ({ classes, setSatisfaction }) => {
-  return (
-    <div className={`flexbox column ${classes.columns}`}>
-      <div className="title">How satisfied are you with Mender?</div>
-      <div className={`flexbox space-between ${classes.rating}`}>
-        {satisfactionLevels.map(({ Icon, title }, index) => (
-          <IconButton key={`satisfaction-${index}`} onClick={() => setSatisfaction(index)} title={title}>
-            <Icon fontSize="large" />
-          </IconButton>
-        ))}
-      </div>
-      <div className="flexbox space-between muted">
-        {explanations.map((explanation, index) => (
-          <div className="slightly-smaller" key={`explanation-${index}`}>
-            {explanation}
-          </div>
-        ))}
-      </div>
+const SatisfactionGauge = ({ classes, setSatisfaction }) => (
+  <div className={`flexbox column ${classes.columns}`}>
+    <div className="title">How satisfied are you with Mender?</div>
+    <div className={`flexbox space-between ${classes.rating}`}>
+      {satisfactionLevels.map(({ Icon, title }, index) => (
+        <IconButton key={`satisfaction-${index}`} onClick={() => setSatisfaction(index)} title={title}>
+          <Icon fontSize="large" />
+        </IconButton>
+      ))}
     </div>
-  );
-};
+    <div className="flexbox space-between muted">
+      {explanations.map((explanation, index) => (
+        <div className="slightly-smaller" key={`explanation-${index}`}>
+          {explanation}
+        </div>
+      ))}
+    </div>
+  </div>
+);
 
 const TextEntry = ({ classes, feedback, onChangeFeedback, onSubmit }) => (
   <div className={`flexbox column ${classes.columns} ${classes.text}`}>

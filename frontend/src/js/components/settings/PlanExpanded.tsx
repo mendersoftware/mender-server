@@ -33,14 +33,14 @@ import OrganizationPaymentSettings from './organization/OrganizationPaymentSetti
 const { setSnackbar } = storeActions;
 
 interface PlanExpandedPropsBase {
-  organization: Organization;
-  onCloseClick: () => void;
   isEdit: boolean;
+  onCloseClick: () => void;
+  organization: Organization;
 }
 interface ProfileEditProps extends PlanExpandedPropsBase {
-  isEdit: true;
-  currentBillingProfile: BillingProfile;
   card: Card;
+  currentBillingProfile: BillingProfile;
+  isEdit: true;
 }
 
 interface PlanProps extends PlanExpandedPropsBase {

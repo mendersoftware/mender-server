@@ -74,11 +74,12 @@ const VersionInfo = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { latestRelease, ...versionInformation } = useSelector(getVersionInformation);
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       clearTimeout(timer.current);
-    };
-  }, []);
+    },
+    []
+  );
 
   const onVersionClick = () => {
     copy(JSON.stringify(versionInformation));

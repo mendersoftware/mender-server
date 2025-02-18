@@ -248,10 +248,10 @@ export type UiPermissionsDefinition = Readonly<{
 }>;
 
 export type UiRoleDefinition = {
-  name: string;
   description: string;
   editable?: boolean;
   isCustom?: boolean;
+  name: string;
   permissions?: object[];
   uiPermissions: UiPermissionsDefinition;
 };

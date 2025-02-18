@@ -73,27 +73,25 @@ export const DeviceList = ({
   onSort,
   pageLoading,
   pageTotal
-}) => {
-  return (
-    <CommonList
-      columnHeaders={columnHeaders}
-      customColumnSizes={customColumnSizes}
-      listItems={devices}
-      listState={deviceListState}
-      idAttribute={idAttribute}
-      onChangeRowsPerPage={onChangeRowsPerPage}
-      onExpandClick={onExpandClick}
-      onPageChange={onPageChange}
-      onResizeColumns={onResizeColumns}
-      onSelect={onSelect}
-      onSort={onSort}
-      pageLoading={pageLoading}
-      pageTotal={pageTotal}
-      PaginationProps={PaginationProps}
-      sortingNotes={sortingNotes}
-      ListItemComponent={DeviceListItem}
-    />
-  );
-};
+}) => (
+  <CommonList
+    columnHeaders={columnHeaders}
+    customColumnSizes={customColumnSizes}
+    listItems={devices}
+    listState={deviceListState}
+    idAttribute={idAttribute}
+    onChangeRowsPerPage={onChangeRowsPerPage}
+    onExpandClick={onExpandClick}
+    onPageChange={onPageChange}
+    onResizeColumns={onResizeColumns}
+    onSelect={onSelect}
+    onSort={onSort}
+    pageLoading={pageLoading}
+    pageTotal={pageTotal}
+    PaginationProps={PaginationProps}
+    sortingNotes={sortingNotes}
+    ListItemComponent={DeviceListItem}
+  />
+);
 
 export default memo(DeviceList, areEqual);

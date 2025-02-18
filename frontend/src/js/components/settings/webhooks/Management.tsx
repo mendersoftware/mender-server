@@ -81,8 +81,8 @@ interface WebhookColumnRenderer extends ClassesOverrides {
 
 export type WebhookColumns = {
   key: string;
-  title: string;
   render: (entry: Event, { webhook, classes }: WebhookColumnRenderer) => ReactElement;
+  title: string;
 }[];
 
 const columns: WebhookColumns = [

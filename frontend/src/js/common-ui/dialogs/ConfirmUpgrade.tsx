@@ -16,11 +16,11 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/
 import { ADDONS, Plan } from '@northern.tech/store/constants';
 
 interface ConfirmUpgradeProps {
-  onConfirm: () => void;
-  onClose: () => void;
-  newPlan: Plan;
-  currentPlan: Plan;
   addOns: { name: string }[];
+  currentPlan: Plan;
+  newPlan: Plan;
+  onClose: () => void;
+  onConfirm: () => void;
 }
 export const ConfirmUpgrade = (props: ConfirmUpgradeProps) => {
   const { onConfirm, onClose, newPlan, currentPlan, addOns } = props;
@@ -33,13 +33,11 @@ export const ConfirmUpgrade = (props: ConfirmUpgradeProps) => {
         </div>
         <div className="margin-bottom-small">
           Confirm to upgrade to <b>Mender {newPlan.name}</b>, billed at {newPlan.price}. <br />
-          {addOns.map(addon => {
-            return (
-              <div key={addon.name}>
-                The price of your <b>Mender {addon.name}</b> add-on package will change to {ADDONS[addon.name][newPlan.id].price}
-              </div>
-            );
-          })}
+          {addOns.map(addon => (
+            <div key={addon.name}>
+              The price of your <b>Mender {addon.name}</b> add-on package will change to {ADDONS[addon.name][newPlan.id].price}
+            </div>
+          ))}
         </div>
         <div>
           See full details of features and pricing at{' '}

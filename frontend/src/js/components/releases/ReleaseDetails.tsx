@@ -144,15 +144,17 @@ export const ReleaseQuickActions = ({ actionCallbacks, innerRef }) => {
   const selectedRelease = useSelector(getSelectedRelease);
   const userCapabilities = useSelector(getUserCapabilities);
 
-  const actions = useMemo(() => {
-    return Object.values(defaultActions).reduce((accu, action) => {
-      if (action.isApplicable({ userCapabilities, selectedSingleRelease: !isEmpty(selectedRelease), selectedRows })) {
-        accu.push(action);
-      }
-      return accu;
-    }, []);
+  const actions = useMemo(
+    () =>
+      Object.values(defaultActions).reduce((accu, action) => {
+        if (action.isApplicable({ userCapabilities, selectedSingleRelease: !isEmpty(selectedRelease), selectedRows })) {
+          accu.push(action);
+        }
+        return accu;
+      }, []),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(userCapabilities), selectedRelease, selectedRows]);
+    [JSON.stringify(userCapabilities), selectedRelease, selectedRows]
+  );
 
   const handleShowActions = () => setShowActions(toggle);
 

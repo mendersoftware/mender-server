@@ -27,7 +27,7 @@ import Releases from '../components/releases/Releases';
 import Settings from '../components/settings/Settings';
 import { TenantPage } from '../components/tenants/TenantPage';
 
-type RouteConfig = { path: string; element: ReactElement; title: string; isPublic?: boolean };
+type RouteConfig = { element: ReactElement; isPublic?: boolean; path: string; title: string };
 type RouteConfigs = Record<string, RouteConfig>;
 
 export const routeConfigs: RouteConfigs = {

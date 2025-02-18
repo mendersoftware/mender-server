@@ -93,17 +93,19 @@ export const Scheduled = ({ abort, createClick, openReport, ...remainder }) => {
 
   const { page, perPage } = scheduledState;
 
-  const refreshDeployments = useCallback(() => {
-    return dispatch(getDeploymentsByStatus({ status: DEPLOYMENT_STATES.scheduled, page, perPage }))
-      .then(({ payload }) => {
-        clearRetryTimer(type, dispatchedSetSnackbar);
-        const { total, deploymentIds } = payload[payload.length - 1];
-        if (total && !deploymentIds.length) {
-          return refreshDeployments();
-        }
-      })
-      .catch(err => setRetryTimer(err, 'deployments', `Couldn't load deployments.`, refreshDeploymentsLength, dispatchedSetSnackbar));
-  }, [dispatch, dispatchedSetSnackbar, page, perPage]);
+  const refreshDeployments = useCallback(
+    () =>
+      dispatch(getDeploymentsByStatus({ status: DEPLOYMENT_STATES.scheduled, page, perPage }))
+        .then(({ payload }) => {
+          clearRetryTimer(type, dispatchedSetSnackbar);
+          const { total, deploymentIds } = payload[payload.length - 1];
+          if (total && !deploymentIds.length) {
+            return refreshDeployments();
+          }
+        })
+        .catch(err => setRetryTimer(err, 'deployments', `Couldn't load deployments.`, refreshDeploymentsLength, dispatchedSetSnackbar)),
+    [dispatch, dispatchedSetSnackbar, page, perPage]
+  );
 
   useEffect(() => {
     if (!isEnterprise) {

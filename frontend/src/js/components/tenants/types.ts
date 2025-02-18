@@ -15,19 +15,19 @@ import { Tenant as APITenant, UpgradeCompleteRequest } from '@northern.tech/stor
 
 //TODO: rely on API tenant directly once type generation fixed
 export interface Tenant extends APITenant {
-  parent_tenant_id: string;
   additional_info: {
-    marketing: boolean;
     campaign: string;
+    marketing: boolean;
   };
-  plan: UpgradeCompleteRequest.plan;
-  trial: boolean;
-  trial_expiration: string | null;
-  service_provider: boolean;
+  binary_delta: boolean;
   cancelled_at: string | null;
   children_tenants: any[] | null;
-  max_child_tenants: number;
   device_count: number;
   device_limit: number;
-  binary_delta: boolean;
+  max_child_tenants: number;
+  parent_tenant_id: string;
+  plan: UpgradeCompleteRequest.plan;
+  service_provider: boolean;
+  trial: boolean;
+  trial_expiration: string | null;
 }

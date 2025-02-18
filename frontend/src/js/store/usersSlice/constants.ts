@@ -21,8 +21,8 @@ export { useradmApiUrlv1 as useradmApiUrl };
 
 export type UiPermission = {
   explanations: object;
-  permissionSets: Record<string, string>;
   permissionLevel: number;
+  permissionSets: Record<string, string>;
   title: string;
   value: string;
   verbs: string[];
@@ -41,14 +41,14 @@ type EndpointDefinition = {
 
 export type PermissionsArea = {
   endpoints: EndpointDefinition[];
-  explanation: string;
-  uiPermissions: UiPermission[];
-  title: string;
-  key: string;
-  scope?: string;
-  filter?: (object) => string[];
-  placeholder?: string;
   excessiveAccessConfig?: ExcessiveAccessConfig;
+  explanation: string;
+  filter?: (object) => string[];
+  key: string;
+  placeholder?: string;
+  scope?: string;
+  title: string;
+  uiPermissions: UiPermission[];
 };
 
 const staticRolesByName = {

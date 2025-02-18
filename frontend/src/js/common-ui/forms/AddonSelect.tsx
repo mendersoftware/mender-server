@@ -18,8 +18,8 @@ import { Checkbox, FormControl, FormHelperText, InputLabel, MenuItem, Select } f
 import { ADDONS, AddonId } from '@northern.tech/store/constants';
 
 interface AddonSelectProps {
-  onChange: (e: AddonId[]) => void;
   initialState: AddonId[];
+  onChange: (e: AddonId[]) => void;
 }
 export const AddonSelect = (props: AddonSelectProps) => {
   const { onChange, initialState } = props;

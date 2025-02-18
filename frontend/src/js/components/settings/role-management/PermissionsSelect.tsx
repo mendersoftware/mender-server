@@ -63,16 +63,16 @@ export interface PermissionsSelectionBaseProps {
 
 interface IPermissionsSelect extends PermissionsSelectionBaseProps {
   label?: string;
+  name?: string;
   onChange?: (string) => void;
   options: UiPermission[];
-  name?: string;
   permissionsArea: PermissionsArea;
   unscoped?: boolean;
 }
 
 type EditableUiPermission = UiPermission & {
-  enabled: boolean;
   disabled: boolean;
+  enabled: boolean;
 };
 
 export const PermissionsSelect: FunctionComponent<IPermissionsSelect> = ({

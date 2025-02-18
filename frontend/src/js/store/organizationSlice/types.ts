@@ -11,19 +11,20 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { AvailableAddon, AvailablePlans } from '@northern.tech/store/appSlice/constants';
+import { AvailableAddon } from '@northern.tech/store/appSlice/constants';
 
 import { Address } from '../api/types/Address';
-import { ApiLimits } from '../api/types/ApiLimits';
+import { ApiQuota } from '../api/types/ApiQuota';
+import { Tenant } from '../api/types/Tenant';
 
 //TODO: improve types
-export interface Card {
-  last4: string;
+interface Card {
+  brand: string;
   expiration: {
     month: number;
     year: number;
   };
-  brand: string;
+  last4: string;
 }
 
 interface SortOptions {
@@ -31,20 +32,15 @@ interface SortOptions {
   key?: string;
 }
 
-interface Tenant {
-  id: string;
-  name: string;
-}
-
 interface AuditLogSelectionState {
-  total: number;
-  startDate?: string;
-  endDate?: string;
   detail?: string;
+  endDate?: string;
   selectedIssue?: string;
+  sort: SortOptions;
+  startDate?: string;
+  total: number;
   type?: string;
   user?: string;
-  sort: SortOptions;
 }
 
 interface AuditLog {
@@ -53,9 +49,9 @@ interface AuditLog {
 }
 
 interface ExternalDeviceIntegration {
+  connection_string: string;
   id: string;
   provider: string;
-  connection_string: string;
 }
 
 interface Webhook {
@@ -64,61 +60,51 @@ interface Webhook {
 }
 
 interface TenantList {
-  total: number;
-  tenants: Tenant[];
   selectedTenant: Tenant | null;
   sort: SortOptions;
+  tenants: Tenant[];
+  total: number;
 }
 
 export interface OrganizationState {
-  card: Card;
-  intentId: string | null;
-  tenantList: TenantList;
-  organization: Organization;
   auditlog: AuditLog;
+  card: Card;
   externalDeviceIntegrations: ExternalDeviceIntegration[];
+  intentId: string | null;
+  organization: Organization;
   ssoConfigs: any[];
+  tenantList: TenantList;
   webhooks: Webhook;
 }
 
+interface ApiLimits {
+  devices: {
+    bursts: any[];
+    quota: ApiQuota;
+  };
+  management: {
+    bursts: any[];
+    quota: ApiQuota;
+  };
+}
+
 export interface Addon {
-  name: AvailableAddon;
   enabled: boolean;
+  name: AvailableAddon;
 }
 
 export interface BillingProfile {
+  address: Address;
   email: string;
   name: string;
-  address: Address;
 }
 
-export interface Organization {
-  id: string;
-  parent_tenant_id: string;
-  name: string;
-  tenant_token: string;
-  status: 'active' | 'inactive';
-  additional_info: {
-    marketing: boolean;
-    campaign: string;
-  };
-  plan: AvailablePlans;
-  api_limits: ApiLimits;
-  trial: boolean;
-  trial_expiration: string | null;
-  service_provider: boolean;
-  created_at: string;
-  cancelled_at: string | null;
+export interface Organization extends Tenant {
   addons: Addon[];
-  max_child_tenants: number;
-  children_tenants: any | null;
-  device_count: number;
-  device_limit: number;
-  binary_delta: boolean;
-  billing_profile?: {
-    email: string;
-    name: string;
-    address: Address;
-    shipping: { name: string; email: string; address: Address };
-  };
+  api_limits: ApiLimits;
+  created_at: string;
+  id: string;
+  name: string;
+  status: 'active' | 'inactive';
+  tenant_token: string;
 }

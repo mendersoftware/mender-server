@@ -125,17 +125,19 @@ export const Progress = ({ abort, createClick, ...remainder }) => {
     [dispatch, onboardingState.complete, pastDeploymentsCount, refreshDeployments]
   );
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       clearTimeout(dynamicTimer.current);
-    };
-  }, []);
+    },
+    []
+  );
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       clearAllRetryTimers(dispatchedSetSnackbar);
-    };
-  }, [dispatchedSetSnackbar]);
+    },
+    [dispatchedSetSnackbar]
+  );
 
   useEffect(() => {
     clearTimeout(dynamicTimer.current);

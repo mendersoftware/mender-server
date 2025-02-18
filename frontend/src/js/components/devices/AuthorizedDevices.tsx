@@ -286,9 +286,8 @@ export const Authorized = ({
     setShowFilters(false);
   }, [selectedGroup]);
   const dispatchDeviceListState = useCallback(
-    (options, shouldSelectDevices = true, forceRefresh = false, fetchAuth = false) => {
-      return dispatch(setDeviceListState({ ...options, shouldSelectDevices, forceRefresh, fetchAuth }));
-    },
+    (options, shouldSelectDevices = true, forceRefresh = false, fetchAuth = false) =>
+      dispatch(setDeviceListState({ ...options, shouldSelectDevices, forceRefresh, fetchAuth })),
     [dispatch]
   );
 

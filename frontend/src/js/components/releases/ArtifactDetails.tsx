@@ -68,8 +68,8 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 
-export const transformArtifactCapabilities = (capabilities = {}) => {
-  return Object.entries(capabilities).reduce((accu, [key, value]) => {
+export const transformArtifactCapabilities = (capabilities = {}) =>
+  Object.entries(capabilities).reduce((accu, [key, value]) => {
     if (!Array.isArray(value)) {
       accu.push({ key, primary: key, secondary: value });
     } else if (!key.startsWith('device_type')) {
@@ -83,10 +83,9 @@ export const transformArtifactCapabilities = (capabilities = {}) => {
     }
     return accu;
   }, []);
-};
 
-export const transformArtifactMetadata = (metadata = {}) => {
-  return Object.entries(metadata).reduce((accu, [key, value]) => {
+export const transformArtifactMetadata = (metadata = {}) =>
+  Object.entries(metadata).reduce((accu, [key, value]) => {
     const commonProps = { key, primary: key, secondaryTypographyProps: { component: 'div' } };
     if (Array.isArray(value)) {
       accu.push({ ...commonProps, secondary: value.length ? value.join(',') : '-' });
@@ -97,7 +96,6 @@ export const transformArtifactMetadata = (metadata = {}) => {
     }
     return accu;
   }, []);
-};
 
 const DevicesLink = ({ artifact: { installCount }, softwareItem: { key, name, version } }) => {
   const { classes } = useStyles();

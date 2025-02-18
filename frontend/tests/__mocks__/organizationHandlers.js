@@ -210,12 +210,12 @@ export const organizationHandlers = [
     const perPage = Number(searchParams.get('per_page'));
     return HttpResponse.json(webhookEvents.slice(page - 1, page * perPage));
   }),
-  http.get(ssoIdpApiUrlv1, () => {
-    return HttpResponse.json([
+  http.get(ssoIdpApiUrlv1, () =>
+    HttpResponse.json([
       { id: '1', issuer: 'https://samltest.id/saml/idp', valid_until: '2038-08-24T21:14:09Z' },
       { id: '2', issuer: 'https://samltest2.id/saml/idp', valid_until: '2030-10-24T21:14:09Z' }
-    ]);
-  }),
+    ])
+  ),
   http.post(ssoIdpApiUrlv1, () => new HttpResponse(null, { status: 200 })),
   http.get(`${ssoIdpApiUrlv1}/:configId`, ({ params: { configId } }) => {
     if (!configId) {
