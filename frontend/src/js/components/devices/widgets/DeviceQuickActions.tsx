@@ -148,7 +148,8 @@ export const DeviceQuickActions = ({ actionCallbacks, deviceId, selectedGroup })
   const singleDevice = useSelector(state => getDeviceById(state, deviceId));
   const devices = useSelector(state => getMappedDevicesList(state, 'deviceList'));
   const { classes } = useStyles();
-  const deployActionRef = useRef<HTMLDivElement>();
+  const deviceActionRef = useRef<HTMLDivElement>();
+  const deploymentActionRef = useRef<HTMLDivElement>(null);
   const onboardingState = useSelector(getOnboardingState);
   const [isInitialized, setIsInitialized] = useState(false);
   const timer = useRef();
@@ -183,23 +184,24 @@ export const DeviceQuickActions = ({ actionCallbacks, deviceId, selectedGroup })
 
   let onboardingComponent;
   let anchor;
-  if (deployActionRef.current && isInitialized && showActions) {
+  if (deploymentActionRef.current && isInitialized && showActions) {
     anchor = {
-      left: 60,
-      top: 45
+      left: deploymentActionRef.current.parentElement.parentElement.offsetLeft - deploymentActionRef.current.offsetWidth - 45,
+      top: deploymentActionRef.current.parentElement.parentElement.offsetTop + deploymentActionRef.current.parentElement.offsetHeight
     };
     onboardingComponent = getOnboardingComponentFor(onboardingSteps.DEVICES_DEPLOY_RELEASE_ONBOARDING_STEP_2, onboardingState, { anchor, place: 'left' }, null);
-  } else if (deployActionRef.current && isInitialized) {
+  } else if (deviceActionRef.current && isInitialized) {
+    const deviceActionDiv = deviceActionRef.current;
     anchor = {
-      left: deployActionRef.current.firstElementChild.offsetLeft - 15,
-      top: deployActionRef.current.offsetTop + deployActionRef.current.firstElementChild.offsetTop + deployActionRef.current.firstElementChild.offsetHeight / 2
+      left: deviceActionDiv.firstElementChild.offsetLeft - 15,
+      top: deviceActionDiv.offsetTop + deviceActionDiv.firstElementChild.offsetTop + deviceActionDiv.firstElementChild.offsetHeight / 2
     };
     onboardingComponent = getOnboardingComponentFor(onboardingSteps.DEVICES_DEPLOY_RELEASE_ONBOARDING, onboardingState, { anchor, place: 'left' }, null);
   }
   return (
     <div className={classes.container}>
       <div className="relative">
-        <div className={classes.innerContainer} ref={deployActionRef}>
+        <div className={classes.innerContainer} ref={deviceActionRef}>
           <div className={classes.label} onClick={handleShowActions}>
             {deviceId ? 'Device actions' : `${selectedDevices.length} ${pluralized} selected`}
           </div>
@@ -210,7 +212,9 @@ export const DeviceQuickActions = ({ actionCallbacks, deviceId, selectedGroup })
                   key={action.key}
                   aria-label={action.key}
                   icon={action.icon}
-                  tooltipTitle={action.title(pluralized, selectedDevices.length)}
+                  tooltipTitle={
+                    <div ref={action.key === 'create-deployment' ? deploymentActionRef : undefined}>{action.title(pluralized, selectedDevices.length)}</div>
+                  }
                   tooltipOpen
                   onClick={() => action.action({ ...actionCallbacks, selection: selectedDevices })}
                 />
