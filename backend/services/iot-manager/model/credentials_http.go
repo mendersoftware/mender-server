@@ -23,6 +23,8 @@ import (
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/crypto"
 	inet "github.com/mendersoftware/mender-server/services/iot-manager/internal/net"
+	"github.com/mendersoftware/mender-server/pkg/config"
+	dconfig "github.com/mendersoftware/mender-server/services/iot-manager/config"
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 )
@@ -75,6 +77,10 @@ func (cred HTTPCredentials) validateURL(interface{}) error {
 	uu, err := url.Parse(cred.URL)
 	if err != nil {
 		return err
+	}
+	c := config.Config
+	if (c.GetBool(dconfig.SettingDomainSkipVerify)) {
+		return nil
 	}
 	if !cred.validateAddr {
 		return nil
