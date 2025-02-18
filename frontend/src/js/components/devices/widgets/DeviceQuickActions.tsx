@@ -121,15 +121,20 @@ const useStyles = makeStyles()(theme => ({
       minWidth: 'max-content'
     }
   },
-  fab: { margin: theme.spacing(2) },
+  fab: { margin: `${theme.spacing(2)} ${theme.spacing(2)} ${theme.spacing(2)} ${theme.spacing(0.5)}` },
   innerContainer: {
     display: 'flex',
     alignItems: 'flex-end',
     justifyContent: 'flex-end'
   },
   label: {
-    marginRight: theme.spacing(2),
-    marginBottom: theme.spacing(4)
+    background: theme.palette.background.default,
+    opacity: 0.97,
+    borderRadius: theme.spacing(0.5),
+    padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
+    marginBottom: theme.spacing(3),
+    cursor: 'pointer',
+    pointerEvents: 'auto'
   }
 }));
 
@@ -148,7 +153,8 @@ export const DeviceQuickActions = ({ actionCallbacks, deviceId, selectedGroup })
   const [isInitialized, setIsInitialized] = useState(false);
   const timer = useRef();
 
-  const handleShowActions = () => {
+  const handleShowActions = e => {
+    e.stopPropagation();
     setShowActions(!showActions);
     dispatch(advanceOnboarding(onboardingSteps.DEVICES_DEPLOY_RELEASE_ONBOARDING));
   };
@@ -194,7 +200,9 @@ export const DeviceQuickActions = ({ actionCallbacks, deviceId, selectedGroup })
     <div className={classes.container}>
       <div className="relative">
         <div className={classes.innerContainer} ref={deployActionRef}>
-          <div className={classes.label}>{deviceId ? 'Device actions' : `${selectedDevices.length} ${pluralized} selected`}</div>
+          <div className={classes.label} onClick={handleShowActions}>
+            {deviceId ? 'Device actions' : `${selectedDevices.length} ${pluralized} selected`}
+          </div>
           <ClickAwayListener onClickAway={handleClickAway}>
             <SpeedDial className={classes.fab} ariaLabel="device-actions" icon={<SpeedDialIcon />} onClick={handleShowActions} open={Boolean(showActions)}>
               {actions.map(action => (
