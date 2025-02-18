@@ -85,7 +85,7 @@ test.describe('SAML Login via sso/id/login', () => {
       // Click text=input with the text editor
       await page.getByText('input with the text editor').click();
 
-      const textfield = await page.locator('[aria-label="Editor content\\;Press Alt\\+F1 for Accessibility Options\\."]');
+      const textfield = await page.getByLabel(/editor content/i);
       const cleanedMetaData = metadata.replace(/(?:\r\n|\r|\n)/g, '');
       if (browserName === 'firefox') {
         await textfield.pressSequentially(cleanedMetaData);
