@@ -29,6 +29,7 @@ import { makeStyles } from 'tss-react/mui';
 import { mdiTrashCanOutline as TrashCan } from '@mdi/js';
 import MaterialDesignIcon from '@northern.tech/common-ui/MaterialDesignIcon';
 import { DEVICE_STATES, TIMEOUTS, UNGROUPED_GROUP, onboardingSteps } from '@northern.tech/store/constants';
+import { advanceOnboarding } from '@northern.tech/store/onboardingSlice/thunks';
 import {
   getDeviceById,
   getFeatures,
@@ -37,6 +38,7 @@ import {
   getTenantCapabilities,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { stringToBoolean, toggle } from '@northern.tech/utils/helpers';
 import pluralize from 'pluralize';
 
@@ -132,6 +134,7 @@ const useStyles = makeStyles()(theme => ({
 }));
 
 export const DeviceQuickActions = ({ actionCallbacks, deviceId, selectedGroup }) => {
+  const dispatch = useAppDispatch();
   const [showActions, setShowActions] = useState(false);
   const features = useSelector(getFeatures);
   const tenantCapabilities = useSelector(getTenantCapabilities);
@@ -140,13 +143,14 @@ export const DeviceQuickActions = ({ actionCallbacks, deviceId, selectedGroup })
   const singleDevice = useSelector(state => getDeviceById(state, deviceId));
   const devices = useSelector(state => getMappedDevicesList(state, 'deviceList'));
   const { classes } = useStyles();
-  const deployActionRef = useRef();
+  const deployActionRef = useRef<HTMLDivElement>();
   const onboardingState = useSelector(getOnboardingState);
   const [isInitialized, setIsInitialized] = useState(false);
   const timer = useRef();
 
   const handleShowActions = () => {
     setShowActions(!showActions);
+    dispatch(advanceOnboarding(onboardingSteps.DEVICES_DEPLOY_RELEASE_ONBOARDING));
   };
 
   const handleClickAway = () => {
@@ -172,17 +176,19 @@ export const DeviceQuickActions = ({ actionCallbacks, deviceId, selectedGroup })
   const pluralized = pluralize('devices', selectedDevices.length);
 
   let onboardingComponent;
-  if (deployActionRef.current && isInitialized) {
-    const anchor = {
+  let anchor;
+  if (deployActionRef.current && isInitialized && showActions) {
+    anchor = {
+      left: 60,
+      top: 45
+    };
+    onboardingComponent = getOnboardingComponentFor(onboardingSteps.DEVICES_DEPLOY_RELEASE_ONBOARDING_STEP_2, onboardingState, { anchor, place: 'left' }, null);
+  } else if (deployActionRef.current && isInitialized) {
+    anchor = {
       left: deployActionRef.current.firstElementChild.offsetLeft - 15,
       top: deployActionRef.current.offsetTop + deployActionRef.current.firstElementChild.offsetTop + deployActionRef.current.firstElementChild.offsetHeight / 2
     };
-    onboardingComponent = getOnboardingComponentFor(
-      onboardingSteps.DEVICES_DEPLOY_RELEASE_ONBOARDING,
-      onboardingState,
-      { anchor, place: 'left' },
-      onboardingComponent
-    );
+    onboardingComponent = getOnboardingComponentFor(onboardingSteps.DEVICES_DEPLOY_RELEASE_ONBOARDING, onboardingState, { anchor, place: 'left' }, null);
   }
   return (
     <div className={classes.container}>
