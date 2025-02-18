@@ -32,8 +32,13 @@ exports[`DeviceQuickActions Component > renders correctly 1`] = `
 }
 
 .emotion-2 {
-  margin-right: 16px;
-  margin-bottom: 32px;
+  background: #fff;
+  opacity: 0.97;
+  border-radius: 4px;
+  padding: 8px 16px;
+  margin-bottom: 24px;
+  cursor: pointer;
+  pointer-events: auto;
 }
 
 .emotion-3 {
@@ -50,7 +55,7 @@ exports[`DeviceQuickActions Component > renders correctly 1`] = `
   -webkit-flex-direction: column-reverse;
   -ms-flex-direction: column-reverse;
   flex-direction: column-reverse;
-  margin: 16px;
+  margin: 16px 16px 16px 4px;
 }
 
 .emotion-3 .MuiSpeedDial-actions {
