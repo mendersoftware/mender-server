@@ -18,6 +18,7 @@ import { Checkbox } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { DEVICE_LIST_DEFAULTS, SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/commonConstants';
+import { SortOptions } from '@northern.tech/store/organizationSlice/types';
 import { isDarkMode } from '@northern.tech/store/utils';
 import { toggle } from '@northern.tech/utils/helpers';
 import { useWindowSize } from '@northern.tech/utils/resizehook';
@@ -50,11 +51,6 @@ export interface ColumnHeader<T> {
   style?: CSSProperties;
   textRender?: (props: RendererProp<T>) => string | ReactElement;
   title: string;
-}
-
-interface SortOptions {
-  direction?: string;
-  key?: string;
 }
 
 interface ListState {

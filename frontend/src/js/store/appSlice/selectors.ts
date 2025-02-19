@@ -14,11 +14,21 @@
 import { versionCompare } from '@northern.tech/utils/helpers';
 import { createSelector } from '@reduxjs/toolkit';
 
-export const getDocsVersion = state => state.app.docsVersion;
-export const getFeatures = state => state.app.features;
-export const getFullVersionInformation = state => state.app.versionInformation;
+import { RootState } from '../store';
 
-export const getSearchState = state => state.app.searchState;
+export const getDocsVersion = (state: RootState) => state.app.docsVersion;
+export const getFeatures = (state: RootState) => state.app.features;
+export const getFullVersionInformation = (state: RootState) => state.app.versionInformation;
+export const getSearchState = (state: RootState) => state.app.searchState;
+export const getUploads = (state: RootState) => state.app.uploadsById;
+export const getSnackbar = (state: RootState) => state.app.snackbar;
+export const getHostAddress = (state: RootState) => state.app.hostAddress;
+export const getHostedAnnouncement = (state: RootState) => state.app.hostedAnnouncement;
+export const getRecaptchaKey = (state: RootState) => state.app.recaptchaSiteKey;
+export const getStripeKey = (state: RootState) => state.app.stripeAPIKey;
+export const getTrackerCode = (state: RootState) => state.app.trackerCode;
+export const getIsFirstLogin = (state: RootState) => state.app.firstLoginAfterSignup;
+export const getFeedbackProbability = (state: RootState) => state.app.feedbackProbability;
 
 export const getSearchedDevices = createSelector([getSearchState], ({ deviceIds }) => deviceIds);
 export const getVersionInformation = createSelector([getFullVersionInformation, getFeatures], ({ Integration, ...remainder }, { isHosted }) =>
