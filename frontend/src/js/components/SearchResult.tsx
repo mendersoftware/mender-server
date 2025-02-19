@@ -21,7 +21,7 @@ import { ClickAwayListener, Drawer, IconButton, Typography } from '@mui/material
 import { makeStyles } from 'tss-react/mui';
 
 import { SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
-import { getIdAttribute, getMappedDevicesList, getUserSettings } from '@northern.tech/store/selectors';
+import { getIdAttribute, getMappedDevicesList, getSearchState, getUserSettings } from '@northern.tech/store/selectors';
 import { setDeviceListState, setSearchState } from '@northern.tech/store/thunks';
 import pluralize from 'pluralize';
 
@@ -70,7 +70,7 @@ export const SearchResult = ({ onToggleSearchResult, open = true }) => {
   const customColumnSizes = useSelector(state => state.users.customColumns);
   const devices = useSelector(state => getMappedDevicesList(state, 'search'));
   const idAttribute = useSelector(getIdAttribute);
-  const searchState = useSelector(state => state.app.searchState);
+  const searchState = useSelector(getSearchState);
 
   const { classes } = useStyles();
 

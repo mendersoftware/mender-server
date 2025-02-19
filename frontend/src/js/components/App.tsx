@@ -31,7 +31,7 @@ import StartupNotificationDialog from '@northern.tech/common-ui/dialogs/StartupN
 import storeActions from '@northern.tech/store/actions';
 import { getSessionInfo, maxSessionAge, updateMaxAge } from '@northern.tech/store/auth';
 import { TIMEOUTS } from '@northern.tech/store/constants';
-import { getCurrentSession, getCurrentUser, getIsDarkMode, getIsServiceProvider } from '@northern.tech/store/selectors';
+import { getCurrentSession, getCurrentUser, getIsDarkMode, getIsServiceProvider, getSnackbar, getTrackerCode } from '@northern.tech/store/selectors';
 import { store } from '@northern.tech/store/store';
 import { parseEnvironmentInfo } from '@northern.tech/store/storehooks';
 import { logoutUser } from '@northern.tech/store/thunks';
@@ -108,8 +108,8 @@ export const AppRoot = () => {
   const showDeviceConnectionDialog = useSelector(state => state.users.showConnectDeviceDialog);
   const showStartupNotification = useSelector(state => state.users.showStartupNotification);
   const showFeedbackDialog = useSelector(state => state.users.showFeedbackDialog);
-  const snackbar = useSelector(state => state.app.snackbar);
-  const trackingCode = useSelector(state => state.app.trackerCode);
+  const snackbar = useSelector(getSnackbar);
+  const trackingCode = useSelector(getTrackerCode);
   const isDarkMode = useSelector(getIsDarkMode);
   const { token: storedToken } = getSessionInfo();
   const { expiresAt, token = storedToken } = useSelector(getCurrentSession);

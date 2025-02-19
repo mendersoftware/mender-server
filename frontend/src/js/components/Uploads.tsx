@@ -19,6 +19,7 @@ import { Drawer, IconButton, LinearProgress, Tooltip, drawerClasses } from '@mui
 import { makeStyles } from 'tss-react/mui';
 
 import FileSize from '@northern.tech/common-ui/FileSize';
+import { getUploads } from '@northern.tech/store/selectors';
 import { cancelFileUpload } from '@northern.tech/store/thunks';
 import pluralize from 'pluralize';
 
@@ -85,7 +86,7 @@ const Uploads = () => {
   const [isHovering, setIsHovering] = useState(false);
   const { classes } = useStyles();
 
-  const uploads = useSelector(state => state.app.uploadsById);
+  const uploads = useSelector(getUploads);
 
   const isUploading = !!Object.keys(uploads).length;
   const uploadProgress = Object.values(uploads).reduce((accu, item, currentIndex, items) => {

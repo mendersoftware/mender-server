@@ -47,9 +47,13 @@ import {
   getDeviceCountsByStatus,
   getDeviceLimit,
   getFeatures,
+  getFeedbackProbability,
+  getHostedAnnouncement,
   getIsEnterprise,
+  getIsFirstLogin,
   getIsServiceProvider,
   getOrganization,
+  getSearchState,
   getShowHelptips,
   getUserRoles,
   getUserSettings
@@ -283,16 +287,16 @@ export const Header = ({ isDarkMode }) => {
 
   const organization = useSelector(getOrganization);
   const { total: acceptedDevices = 0 } = useSelector(getAcceptedDevices);
-  const announcement = useSelector(state => state.app.hostedAnnouncement);
+  const announcement = useSelector(getHostedAnnouncement);
   const deviceLimit = useSelector(getDeviceLimit);
-  const feedbackProbability = useSelector(state => state.app.feedbackProbability);
-  const firstLoginAfterSignup = useSelector(state => state.app.firstLoginAfterSignup);
+  const feedbackProbability = useSelector(getFeedbackProbability);
+  const firstLoginAfterSignup = useSelector(getIsFirstLogin);
   const { feedbackCollectedAt, trackingConsentGiven: hasTrackingEnabled } = useSelector(getUserSettings);
   const { isAdmin } = useSelector(getUserRoles);
   const inProgress = useSelector(state => state.deployments.byStatus.inprogress.total);
   const isEnterprise = useSelector(getIsEnterprise);
   const { hasFeedbackEnabled, isDemoMode: demo, isHosted } = useSelector(getFeatures);
-  const { isSearching, searchTerm, refreshTrigger } = useSelector(state => state.app.searchState);
+  const { isSearching, searchTerm, refreshTrigger } = useSelector(getSearchState);
   const { pending: pendingDevices } = useSelector(getDeviceCountsByStatus);
   const userSettingInitialized = useSelector(state => state.users.settingsInitialized);
   const user = useSelector(getCurrentUser);
