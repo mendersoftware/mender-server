@@ -1,29 +1,10 @@
-swagger: "2.0"
+openapi: 3.0.0
 info:
-  version: "2"
-  title: Device authentication
-  description: |
-    An API for device authentication handling.
-
-basePath: "/api/management/v2/devauth/"
-host: "hosted.mender.io"
-schemes:
-  - https
-
-consumes:
-  - application/json
-produces:
-  - application/json
-
-securityDefinitions:
-  ManagementJWT:
-    type: apiKey
-    in: header
-    name: Authorization
-    description: |
-      API token issued by User Authentication service.
-      Format: 'Bearer [JWT]'
-
+  version: "2.0"
+  title: Device Authentication
+  description: An API for device authentication handling.
+servers:
+  - url: https://hosted.mender.io/api/management/v2/devauth/
 paths:
   /devices:
     get:
@@ -36,56 +17,68 @@ paths:
       parameters:
         - name: status
           in: query
-          description: |
-            Device status filter. If not specified, all devices are listed.
+          description: Device status filter. If not specified, all devices are listed.
           required: false
-          type: string
-          enum:
-            - pending
-            - accepted
-            - rejected
-            - preauthorized
-            - noauth
+          schema:
+            type: string
+            enum:
+              - pending
+              - accepted
+              - rejected
+              - preauthorized
+              - noauth
         - name: id
           in: query
           description: Device ID filter. Can be repeated to query a set of devices.
           required: false
-          type: array
-          items:
-            type: string
-          collectionFormat: multi
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
         - name: page
           in: query
           description: Results page number
           required: false
-          type: integer
-          default: 1
+          schema:
+            type: integer
+            default: 1
         - name: per_page
           in: query
           description: Maximum number of results per page.
           required: false
-          type: integer
-          default: 20
-          maximum: 500
-      responses:
-        200:
-          description: An array of devices.
           schema:
-            type: array
-            items:
-              $ref: "#/definitions/Device"
+            type: integer
+            default: 20
+            maximum: 500
+        - $ref: '#/components/parameters/RequestId'
+      responses:
+        '200':
+          description: An array of devices.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Device'
           headers:
             Link:
-              type: string
               description: Standard header, we support 'first', 'next', and 'prev'.
-        400:
+              schema:
+                type: string
+        '400':
           description: Missing/malformed request params.
-          schema:
-            $ref: "#/definitions/Error"
-        500:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Unexpected error
-          schema:
-            $ref: "#/definitions/Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     post:
       operationId: Preauthorize
       security:
@@ -96,43 +89,50 @@ paths:
         device identity is marked as 'preauthorized', and once the device
         connects and sends it's first authentication request the device
         automatically become 'accepted' without explicit user intervention.
+
       tags:
         - Management API
       parameters:
-        - name: pre_auth_request
-          in: body
-          description: Preauthentication request.
-          required: true
-          schema:
-            $ref: "#/definitions/PreAuthSet"
+        - $ref: '#/components/parameters/RequestId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PreAuthSet'
       responses:
-        201:
+        '201':
           description: Device submitted.
           headers:
             Location:
               description: URL of the newly created device.
-              type: string
-        400:
+              schema:
+                type: string
+        '400':
           description: Missing/malformed request params.
-          schema:
-            $ref: "#/definitions/Error"
-        409:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
           description: Device already exists. Response contains conflicting device.
-          schema:
-            $ref: "#/definitions/Device"
-        500:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+        '500':
           description: Unexpected error
-          schema:
-            $ref: "#/definitions/Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
   /devices/search:
     post:
       operationId: Search Devices
       security:
         - ManagementJWT: []
-      summary: >-
-        Query for devices. Returns a list of matching devices with AuthSets
-        sorted by age.
+      summary: Query for devices. Returns a list of matching devices with AuthSets sorted by age.
       tags:
         - Management API
       parameters:
@@ -140,63 +140,75 @@ paths:
           in: query
           description: Results page number
           required: false
-          type: integer
-          default: 1
+          schema:
+            type: integer
+            default: 1
         - name: per_page
           in: query
           description: Maximum number of results per page.
           required: false
-          type: integer
-          default: 20
-          maximum: 500
-        - name: filter
-          in: body
-          description: |
-            Device status filter.
-            All properties can be either a single string or an array of strings.
-          required: true
           schema:
-            type: object
-            properties:
-              status:
-                type: string
-                description: >-
-                  Device status filter. Can be an array for querying devices
-                  from multiple device statuses.
-                enum:
-                  - pending
-                  - accepted
-                  - rejected
-                  - preauthorized
-                  - noauth
-              id:
-                type: array
-                items:
-                  type: string
+            type: integer
+            default: 20
+            maximum: 500
+        - $ref: '#/components/parameters/RequestId'
+      requestBody:
+        required: true
+        description: |
+          Device status filter.
+          All properties can be either a single string or an array of strings.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: array
                   description: >-
-                    Device ID
-                description: >-
-                  Device ID filter. Can be a string for querying for a single device.
+                    Device status filter. Can be an array for querying devices
+                    from multiple device statuses.
+                  items:
+                    type: string
+                    enum:
+                      - pending
+                      - accepted
+                      - rejected
+                      - preauthorized
+                      - noauth
+                id:
+                  type: array
+                  description: >-
+                    Device ID filter. Can be a string for querying for a single device.
+                  items:
+                    type: string
+                    description: Device ID
       responses:
-        200:
+        '200':
           description: Successful response
-          schema:
-            description: Array of devices
-            type: array
-            items:
-              $ref: "#/definitions/Device"
+          content:
+            application/json:
+              schema:
+                type: array
+                description: Array of devices
+                items:
+                  $ref: '#/components/schemas/Device'
           headers:
             Link:
-              type: string
               description: Pagination link header, we support 'first', 'next', and 'prev'.
-        400:
+              schema:
+                type: string
+        '400':
           description: Missing/malformed request params.
-          schema:
-            $ref: "#/definitions/Error"
-        500:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Unexpected error
-          schema:
-            $ref: "#/definitions/Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
   /devices/{id}:
     get:
@@ -211,20 +223,28 @@ paths:
           in: path
           description: Device identifier.
           required: true
-          type: string
+          schema:
+            type: string
+        - $ref: '#/components/parameters/RequestId'
       responses:
-        200:
+        '200':
           description: Device found.
-          schema:
-            $ref: "#/definitions/Device"
-        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+        '404':
           description: Device not found.
-          schema:
-            $ref: "#/definitions/Error"
-        500:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Unexpected error
-          schema:
-            $ref: "#/definitions/Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     delete:
       operationId: Decommission device
       security:
@@ -237,18 +257,25 @@ paths:
           in: path
           description: Device identifier.
           required: true
-          type: string
+          schema:
+            type: string
+        - $ref: '#/components/parameters/RequestId'
       responses:
-        204:
+        '204':
           description: Device decommissioned.
-        404:
+        '404':
           description: Device not found
-          schema:
-            $ref: "#/definitions/Error"
-        500:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal server error.
-          schema:
-            $ref: "#/definitions/Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
   /devices/{id}/auth/{aid}:
     delete:
       operationId: Reject authentication
@@ -269,23 +296,31 @@ paths:
           in: path
           description: Device identifier.
           required: true
-          type: string
+          schema:
+            type: string
         - name: aid
           in: path
           description: Authentication data set identifier.
           required: true
-          type: string
+          schema:
+            type: string
+        - $ref: '#/components/parameters/RequestId'
       responses:
-        204:
+        '204':
           description: Device authentication set deleted.
-        404:
+        '404':
           description: Device authentication set not found
-          schema:
-            $ref: "#/definitions/Error"
-        500:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal server error.
-          schema:
-            $ref: "#/definitions/Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
   /devices/{id}/auth/{aid}/status:
     put:
       operationId: Set Authentication Status
@@ -293,7 +328,7 @@ paths:
         - ManagementJWT: []
       summary: Update the device authentication set status
       description: |
-        Sets the status of a authentication data set of selected value.
+        Sets the status of an authentication data set of selected value.
         Valid state transitions:
         - 'pending' -> 'accepted'
         - 'pending' -> 'rejected'
@@ -306,37 +341,48 @@ paths:
           in: path
           description: Device identifier.
           required: true
-          type: string
+          schema:
+            type: string
         - name: aid
           in: path
           description: Authentication data set identifier.
           required: true
-          type: string
-        - name: status
-          in: body
-          description: New status.
-          required: true
           schema:
-            $ref: "#/definitions/Status"
+            type: string
+        - $ref: '#/components/parameters/RequestId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Status'
       responses:
-        204:
+        '204':
           description: The device authentication data set status was successfully updated.
-        400:
+        '400':
           description: Bad request.
-          schema:
-            $ref: "#/definitions/Error"
-        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
           description: The device was not found.
-          schema:
-            $ref: "#/definitions/Error"
-        422:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
           description: Request cannot be fulfilled e.g. due to exceeded limit on maximum accepted devices (see error message).
-          schema:
-            $ref: "#/definitions/Error"
-        500:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal server error.
-          schema:
-            $ref: "#/definitions/Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     get:
       operationId: Get Authentication Status
       security:
@@ -349,29 +395,35 @@ paths:
           in: path
           description: Device identifier.
           required: true
-          type: string
+          schema:
+            type: string
         - name: aid
           in: path
           description: Authentication data set identifier.
           required: true
-          type: string
+          schema:
+            type: string
+        - $ref: '#/components/parameters/RequestId'
       responses:
-        200:
-          description: |
-            successful response - the device's authentication set status is returned.
-          schema:
-            $ref: "#/definitions/Status"
-          examples:
+        '200':
+          description: Successful response - the device's authentication set status is returned.
+          content:
             application/json:
-              status: "accepted"
-        404:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '404':
           description: The device was not found.
-          schema:
-            $ref: "#/definitions/Error"
-        500:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal server error.
-          schema:
-            $ref: "#/definitions/Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
   /devices/count:
     get:
       operationId: Count Devices
@@ -383,23 +435,31 @@ paths:
       parameters:
         - name: status
           in: query
-          description: |
-            Device status filter, one of 'pending', 'accepted', 'rejected', 'noauth'. Default is 'all devices'.
+          description: Device status filter, one of 'pending', 'accepted', 'rejected', 'noauth'. Default is 'all devices'.
           required: false
-          type: string
+          schema:
+            type: string
+        - $ref: '#/components/parameters/RequestId'
       responses:
-        200:
+        '200':
           description: Device count.
-          schema:
-            $ref: "#/definitions/Count"
-        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Count'
+        '400':
           description: Missing/malformed request params.
-          schema:
-            $ref: "#/definitions/Error"
-        500:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Unexpected error
-          schema:
-            $ref: "#/definitions/Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
   /tokens/{id}:
     delete:
       operationId: Revoke API Token
@@ -417,18 +477,24 @@ paths:
           in: path
           description: Unique token identifier('jti').
           required: true
-          type: string
+          schema:
+            type: string
+        - $ref: '#/components/parameters/RequestId'
       responses:
-        204:
+        '204':
           description: The token was successfully deleted.
-        404:
+        '404':
           description: The token was not found.
-          schema:
-            $ref: "#/definitions/Error"
-        500:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal server error.
-          schema:
-            $ref: "#/definitions/Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
   /limits/max_devices:
     get:
@@ -438,168 +504,190 @@ paths:
       summary: Obtain limit of accepted devices.
       tags:
         - Management API
+      parameters:
+        - $ref: '#/components/parameters/RequestId'
       responses:
-        200:
+        '200':
           description: Usage statistics and limits.
-          schema:
-            $ref: "#/definitions/Limit"
-        500:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Limit'
+        '500':
           description: Internal server error.
-          schema:
-            $ref: "#/definitions/Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
-definitions:
-  Status:
-    description: Admission status of the device.
-    type: object
-    properties:
-      status:
+components:
+  securitySchemes:
+    ManagementJWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: >-
+        JWT token issued by 'POST /api/management/v1/useradm/auth/login'
+
+  parameters:
+    RequestId:
+      name: X-MEN-RequestID
+      in: header
+      required: false
+      description: A request identification
+      schema:
         type: string
-        enum:
-          - pending
-          - accepted
-          - rejected
-          - preauthorized
-    required:
-      - status
-    example:
-      status: "accepted"
-  Limit:
-    description: Limit definition
-    type: object
-    properties:
-      limit:
-        type: integer
-    required:
-      - limit
-    example:
-      limit: 123
-  Device:
-    type: object
-    properties:
-      id:
-        type: string
-        description: Mender assigned Device ID.
-      identity_data:
-        $ref: "#/definitions/IdentityData"
-      status:
-        type: string
-        enum:
-          - pending
-          - accepted
-          - rejected
-          - preauthorized
-          - noauth
-      created_ts:
-        type: string
-        format: date-time
-        description: Created timestamp
-      updated_ts:
-        type: string
-        format: date-time
-        description: Updated timestamp
-      check_in_time:
-        type: string
-        format: date-time
-        description: |
-            Time when accepted device contacted server for the last time.
-      auth_sets:
-        type: array
-        items:
-          $ref: "#/definitions/AuthSet"
-      decommissioning:
-        type: boolean
-        description: Devices that are part of ongoing decomissioning process will return True
-  AuthSet:
-    description: Authentication data set
-    type: object
-    properties:
-      id:
-        type: string
-        description: Authentication data set ID.
-      pubkey:
-        type: string
-        description: >
-          The device's public key (PEM encoding), generated by the device or
-          pre-provisioned by the vendor. Currently supported public algorithms
-          are: RSA, Ed25519 and ECDSA P-256.
-      identity_data:
-        $ref: "#/definitions/IdentityData"
-      status:
-        type: string
-        enum:
-          - pending
-          - accepted
-          - rejected
-          - preauthorized
-          - noauth
-      ts:
-        type: string
-        format: date-time
-        description: Created timestamp
-      device_id:
-        type: string
-        description: Device ID connected to authentication data set
-  Count:
-    description: Counter type
-    type: object
-    properties:
-      count:
-        description: The count of requested items.
-        type: integer
-    example:
-      count: 42
-  Error:
-    description: Error descriptor
-    type: object
-    properties:
-      error:
-        description: Description of the error
-        type: string
-  PreAuthSet:
-    type: object
-    properties:
-      force:
-        type: boolean
-        description: >
-          Indicates that despite the device having any authsets the preauthorization
-          should proceed.
-      identity_data:
-        $ref: "#/definitions/IdentityData"
-      pubkey:
-        type: string
-        description: >
-          The device's public key (PEM encoding), generated by the device or
-          pre-provisioned by the vendor. Currently supported public algorithms
-          are: RSA, Ed25519 and ECDSA P-256.
-    required:
-      - identity_data
-      - pubkey
-    example:
-      identity_data:
+
+  schemas:
+    Status:
+      description: Admission status of the device.
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - pending
+            - accepted
+            - rejected
+            - preauthorized
+      required:
+        - status
+      example:
+        status: "accepted"
+    Limit:
+      description: Limit definition
+      type: object
+      properties:
+        limit:
+          type: integer
+      required:
+        - limit
+      example:
+        limit: 123
+    Device:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Mender assigned Device ID.
+        identity_data:
+          $ref: '#/components/schemas/IdentityData'
+        status:
+          type: string
+          enum:
+            - pending
+            - accepted
+            - rejected
+            - preauthorized
+            - noauth
+        created_ts:
+          type: string
+          format: date-time
+          description: Created timestamp
+        updated_ts:
+          type: string
+          format: date-time
+          description: Updated timestamp
+        check_in_time:
+          type: string
+          format: date-time
+          description: Time when accepted device contacted server for the last time.
+        auth_sets:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthSet'
+        decommissioning:
+          type: boolean
+          description: Devices that are part of ongoing decomissioning process will return True
+    AuthSet:
+      description: Authentication data set
+      type: object
+      properties:
+        id:
+          type: string
+          description: Authentication data set ID.
+        pubkey:
+          type: string
+          description: >
+            The device's public key (PEM encoding). generated by the device or
+            pre-provisioned by the vendor. Currently supported public algorithms
+            are: RSA, Ed25519 and ECDSA P-256.
+        identity_data:
+          $ref: '#/components/schemas/IdentityData'
+        status:
+          type: string
+          enum:
+            - pending
+            - accepted
+            - rejected
+            - preauthorized
+            - noauth
+        ts:
+          type: string
+          format: date-time
+          description: Created timestamp
+        device_id:
+          type: string
+          description: Device ID connected to authentication data set
+    Count:
+      description: Counter type
+      type: object
+      properties:
+        count:
+          description: The count of requested items.
+          type: integer
+      example:
+        count: 42
+    Error:
+      description: Error descriptor
+      type: object
+      properties:
+        error:
+          description: Description of the error
+          type: string
+    PreAuthSet:
+      type: object
+      properties:
+        force:
+          type: boolean
+          description: Indicates that despite the device having any authsets the preauthorization should proceed.
+        identity_data:
+          $ref: '#/components/schemas/IdentityData'
+        pubkey:
+          type: string
+          description: |
+            The device's public key (PEM encoding), generated by the device or
+            pre-provisioned by the vendor. Currently supported public algorithms
+            are: RSA, Ed25519 and ECDSA P-256.
+      required:
+        - identity_data
+        - pubkey
+      example:
+        identity_data:
+          mac: "00:01:02:03:04:05"
+          sku: "My Device 1"
+          sn: "SN1234567890"
+        pubkey: "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzogVU7RGDilbsoUt/DdH\nVJvcepl0A5+xzGQ50cq1VE/Dyyy8Zp0jzRXCnnu9nu395mAFSZGotZVr+sWEpO3c\nyC3VmXdBZmXmQdZqbdD/GuixJOYfqta2ytbIUPRXFN7/I7sgzxnXWBYXYmObYvdP\nokP0mQanY+WKxp7Q16pt1RoqoAd0kmV39g13rFl35muSHbSBoAW3GBF3gO+mF5Ty\n1ddp/XcgLOsmvNNjY+2HOD5F/RX0fs07mWnbD7x+xz7KEKjF+H7ZpkqCwmwCXaf0\niyYyh1852rti3Afw4mDxuVSD7sd9ggvYMc0QHIpQNkD4YWOhNiE1AB0zH57VbUYG\nUwIDAQAB\n-----END PUBLIC KEY-----\n"
+    IdentityData:
+      description: |
+        Device identity attributes, in the form of a JSON structure.
+
+        The attributes are completely vendor-specific, the provided ones are just an example.
+        In reference implementation structure contains vendor-selected fields,
+        such as MACs, serial numbers, etc.
+      type: object
+      properties:
+        mac:
+          description: MAC address.
+          type: string
+        sku:
+          description: Stock keeping unit.
+          type: string
+        sn:
+          description: Serial number.
+          type: string
+      example:
         mac: "00:01:02:03:04:05"
         sku: "My Device 1"
         sn: "SN1234567890"
-      pubkey: "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzogVU7RGDilbsoUt/DdH\nVJvcepl0A5+xzGQ50cq1VE/Dyyy8Zp0jzRXCnnu9nu395mAFSZGotZVr+sWEpO3c\nyC3VmXdBZmXmQdZqbdD/GuixJOYfqta2ytbIUPRXFN7/I7sgzxnXWBYXYmObYvdP\nokP0mQanY+WKxp7Q16pt1RoqoAd0kmV39g13rFl35muSHbSBoAW3GBF3gO+mF5Ty\n1ddp/XcgLOsmvNNjY+2HOD5F/RX0fs07mWnbD7x+xz7KEKjF+H7ZpkqCwmwCXaf0\niyYyh1852rti3Afw4mDxuVSD7sd9ggvYMc0QHIpQNkD4YWOhNiE1AB0zH57VbUYG\nUwIDAQAB\n-----END PUBLIC KEY-----\n"
-  IdentityData:
-    description: |
-      Device identity attributes, in the form of a JSON structure.
 
-      The attributes are completely vendor-specific, the provided ones are just an example.
-      In reference implementation structure contains vendor-selected fields,
-      such as MACs, serial numbers, etc.
-    type: object
-    properties:
-      mac:
-        description: MAC address.
-        type: string
-      sku:
-        description: Stock keeping unit.
-        type: string
-      sn:
-        description: Serial number.
-        type: string
-    example:
-      mac: "00:01:02:03:04:05"
-      sku: "My Device 1"
-      sn: "SN1234567890"
