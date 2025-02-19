@@ -1,0 +1,1286 @@
+openapi: 3.0.1
+info:
+  description: |
+    Version 2 of the API for deployments management.
+    Intended for use by the web UI.
+  title: Deployments v2
+  version: "2"
+servers:
+- url: https://hosted.mender.io/api/management/v2/deployments
+paths:
+  /deployments:
+    get:
+      description: |
+        Returns a filtered collection of deployments in the system. While you can provide multiple
+        deplyoment identifiers, and multiple names to get the multiple deplyoments you cannot mix
+        the ids and names in a one query expecting to get deployments that match both names or ids.
+        The endpoint will return the deployments that match the ids and the name, if combined.
+      operationId: List Deployments
+      parameters:
+      - description: |
+          Deployment identifier. You can provide it multiple times to query a set of deployments.
+        in: query
+        name: id
+        schema:
+          type: string
+      - description: |
+          Deployment name. You can provide it multiple times to query a set of deployments.
+        in: query
+        name: name
+        schema:
+          type: string
+      - description: Deployment status filter.
+        in: query
+        name: status
+        schema:
+          enum:
+          - inprogress
+          - finished
+          - pending
+          type: string
+      - description: |
+          Deployment type filter.
+        in: query
+        name: type
+        schema:
+          enum:
+          - software
+          - configuration
+          type: string
+      - description: Results page number
+        in: query
+        name: page
+        schema:
+          default: 1.0
+          format: integer
+          type: number
+      - description: Maximum number of results per page.
+        in: query
+        name: per_page
+        schema:
+          default: 20.0
+          format: integer
+          maximum: 500
+          type: number
+      - description: List only deployments created before and equal to Unix timestamp
+          (UTC)
+        in: query
+        name: created_before
+        schema:
+          format: integer
+          type: number
+      - description: List only deployments created after and equal to Unix timestamp
+          (UTC)
+        in: query
+        name: created_after
+        schema:
+          format: integer
+          type: number
+      - description: |
+          Supports sorting the deployments list by creation date.
+        in: query
+        name: sort
+        schema:
+          enum:
+          - asc
+          - desc
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Deployment'
+                type: array
+          description: Successful response.
+          headers:
+            X-Total-Count:
+              description: Total number of deployments matching query.
+              schema:
+                type: integer
+            Link:
+              description: "Standard header, we support 'first', 'next', and 'prev'."
+              schema:
+                type: string
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: "Bad request, see error message for details."
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error.
+      security:
+      - ManagementJWT: []
+      summary: List all the deployments matching the specified filter parameters
+      tags:
+      - Management API
+  /deployments/releases:
+    delete:
+      description: |
+        Deletes releases with names provided in the message body.
+        Releases used by deployments in progress can not be deleted
+        until deployment finishes.
+      operationId: Delete Releases
+      parameters:
+      - description: Name of the release to be deleted
+        in: query
+        name: name
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: Releases deleted successfully.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: "Bad request, see error message for details."
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized.
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReleasesDeleteError'
+          description: Conflict.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error.
+      security:
+      - ManagementJWT: []
+      summary: Delete the releases with given names
+      tags:
+      - Management API
+    get:
+      description: |
+        Returns a collection of releases, allows filtering by release name and sorting
+        by name or last modification date.
+      operationId: List Releases with pagination
+      parameters:
+      - description: Release name filter.
+        in: query
+        name: name
+        schema:
+          type: string
+      - description: Tag filter.
+        explode: true
+        in: query
+        name: tag
+        schema:
+          items:
+            type: string
+          type: array
+        style: form
+      - description: Update type filter.
+        in: query
+        name: update_type
+        schema:
+          type: string
+      - description: Starting page.
+        in: query
+        name: page
+        schema:
+          default: 1.0
+          format: integer
+          type: number
+      - description: Maximum number of results per page.
+        in: query
+        name: per_page
+        schema:
+          default: 20.0
+          format: integer
+          maximum: 500
+          type: number
+      - description: |
+          Sort the release list by the specified field and direction.
+        in: query
+        name: sort
+        schema:
+          default: name:asc
+          enum:
+          - artifacts_count:asc
+          - artifacts_count:desc
+          - modified:asc
+          - modified:desc
+          - name:asc
+          - name:desc
+          - tags:asc
+          - tags:desc
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              example:
+              - name: my-app-v1.0.1
+                artifacts:
+                - id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+                  name: Application 1.0.0
+                  description: Johns Monday test build
+                  device_types_compatible:
+                  - Beagle Bone
+                  info:
+                    format: mender
+                    version: 3
+                  signed: false
+                  updates:
+                  - type_info:
+                      type: rootfs-image
+                    files:
+                    - name: rootfs-image-1
+                      checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
+                      size: 123
+                      date: 2016-03-11T13:03:17.063+0000
+                    meta_data: []
+                  artifact_provides:
+                    artifact_name: test
+                    rootfs-image.checksum: 32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99
+                    rootfs-image.version: test
+                  artifact_depends:
+                    device_type:
+                    - test
+                  clears_artifact_provides:
+                  - rootfs-image.*
+                  size: 36891648
+                  modified: 2016-03-11T13:03:17.063493443Z
+                - id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+                  name: Application 1.0.0
+                  description: Johns Monday test build
+                  device_types_compatible:
+                  - Raspberry Pi
+                  info:
+                    format: mender
+                    version: 3
+                  signed: false
+                  updates:
+                  - type_info:
+                      type: rootfs-image
+                    files:
+                    - name: rootfs-image-1
+                      checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
+                      size: 123
+                      date: 2016-03-11T13:03:17.063+0000
+                    meta_data: []
+                  artifact_provides:
+                    artifact_name: test
+                    rootfs-image.checksum: 32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99
+                    rootfs-image.version: test
+                  artifact_depends:
+                    device_type:
+                    - test
+                  clears_artifact_provides:
+                  - rootfs-image.*
+                  size: 36891648
+                  modified: 2016-03-11T13:03:17.063493443Z
+              - name: my-app-v2.0.0
+                artifacts:
+                - id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+                  name: Application 2.0.0
+                  description: Johns Monday test build
+                  device_types_compatible:
+                  - Beagle Bone
+                  info:
+                    format: mender
+                    version: 3
+                  signed: false
+                  updates:
+                  - type_info:
+                      type: rootfs-image
+                    files:
+                    - name: rootfs-image-1
+                      checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
+                      size: 123
+                      date: 2016-03-11T13:03:17.063+0000
+                    meta_data: []
+                  artifact_provides:
+                    artifact_name: test
+                    rootfs-image.checksum: 32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99
+                    rootfs-image.version: test
+                  artifact_depends:
+                    device_type:
+                    - test
+                  clears_artifact_provides:
+                  - rootfs-image.*
+                  size: 36891648
+                  modified: 2016-03-11T13:03:17.063493443Z
+              schema:
+                $ref: '#/components/schemas/Releases'
+          description: Successful response.
+          headers:
+            X-Total-Count:
+              description: Total number of releases matching query.
+              schema:
+                type: integer
+            Link:
+              description: "Standard header, we support 'first', 'next', and 'prev'."
+              schema:
+                type: string
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error.
+      security:
+      - ManagementJWT: []
+      summary: |
+        List releases
+      tags:
+      - Management API
+  /deployments/releases/{release_name}:
+    get:
+      description: |
+        Returns the release with given name.
+      operationId: Get Release with given name
+      parameters:
+      - description: Name of the release
+        in: path
+        name: release_name
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Release'
+          description: Successful response.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Not Found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error.
+      security:
+      - ManagementJWT: []
+      summary: |
+        Get release
+      tags:
+      - Management API
+    patch:
+      description: |
+        Updates the Release object.
+      operationId: Update Release information
+      parameters:
+      - description: Name of the release
+        in: path
+        name: release_name
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReleaseUpdate'
+        required: false
+      responses:
+        "204":
+          content: {}
+          description: Successful response.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: "Bad request, see error message for details."
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error.
+      security:
+      - ManagementJWT: []
+      summary: |
+        Update selected fields of the Release object.
+      tags:
+      - Management API
+  /deployments/releases/{release_name}/tags:
+    put:
+      description: |
+        Assigns tags to a release. The tags associated with the release will be
+        replaced with the ones defined in the request body.
+
+        LIMITATIONS:
+          * Max 20 tags can be assigned to a single release.
+          * There can be no more than 100 unique tag keys in total.
+      operationId: Assign Release Tags
+      parameters:
+      - description: Name of the release
+        in: path
+        name: release_name
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tags'
+        required: false
+      responses:
+        "204":
+          content: {}
+          description: Successful response.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: "Bad request, see error message for details."
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized.
+        "409":
+          content:
+            application/json:
+              example:
+                error: the total number of unique tags has been exceeded
+                request_id: f7881e82-0492-49fb-b459-795654e7188a
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Too many unique tag keys in use.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error.
+      security:
+      - ManagementJWT: []
+      summary: |
+        Update and replace the tags of a release.
+      tags:
+      - Management API
+  /releases/all/tags:
+    get:
+      operationId: List Release Tags
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tags'
+          description: Successful response.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: "Bad request, see error message for details."
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized.
+        "409":
+          content:
+            application/json:
+              example:
+                error: the total number of unique tags has been exceeded
+                request_id: f7881e82-0492-49fb-b459-795654e7188a
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Too many unique tag keys in use.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error.
+      security:
+      - ManagementJWT: []
+      summary: |
+        Lists all available tags for releases.
+      tags:
+      - Management API
+  /releases/all/types:
+    get:
+      operationId: List Release Types
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateTypes'
+          description: Successful response.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: "Bad request, see error message for details."
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error.
+      security:
+      - ManagementJWT: []
+      summary: |
+        Lists all release update types.
+      tags:
+      - Management API
+components:
+  responses:
+    InvalidRequestError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: "Bad request, see error message for details."
+    UnauthorizedError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Unauthorized.
+    NotFoundError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Not Found.
+    ConflictError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ReleasesDeleteError'
+      description: Conflict.
+    UnprocessableEntityError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Unprocessable Entity.
+    InternalServerError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Internal Server Error.
+  schemas:
+    Artifact:
+      description: Detailed artifact.
+      example:
+        id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+        name: Application 1.0.0
+        description: Johns Monday test build
+        device_types_compatible:
+        - Beagle Bone
+        info:
+          format: mender
+          version: 3
+        signed: false
+        updates:
+        - type_info:
+            type: rootfs-image
+          files:
+          - name: rootfs-image-1
+            checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
+            size: 123
+            date: 2016-03-11T13:03:17.063+0000
+          meta_data: []
+        artifact_provides:
+          artifact_name: test
+          rootfs-image.checksum: 32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99
+          rootfs-image.version: test
+        artifact_depends:
+          device_type:
+          - test
+        clears_artifact_provides:
+        - rootfs-image.*
+        size: 36891648
+        modified: 2016-03-11T13:03:17.063493443Z
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        device_types_compatible:
+          description: An array of compatible device types.
+          items:
+            type: string
+          type: array
+        info:
+          $ref: '#/components/schemas/ArtifactInfo'
+        signed:
+          description: Idicates if artifact is signed or not.
+          type: boolean
+        updates:
+          items:
+            $ref: '#/components/schemas/Update'
+          type: array
+        artifact_provides:
+          additionalProperties:
+            type: string
+          description: |
+            List of Artifact provides.
+
+            Map of key/value pairs, where both keys and values are strings.
+          type: object
+        artifact_depends:
+          additionalProperties:
+            items:
+              type: string
+            type: array
+          description: |
+            List of Artifact depends.
+
+            Map of key/value pairs, where keys are strings and values are lists of strings.
+          type: object
+        clears_artifact_provides:
+          description: List of Clear Artifact provides.
+          items:
+            type: string
+          type: array
+        size:
+          description: |
+            Artifact total size in bytes - the size of the actual file that will be transferred to the device (compressed).
+          format: integer
+          type: number
+        modified:
+          description: |
+            Represents creation / last edition of any of the artifact properties.
+          format: date-time
+          type: string
+      required:
+      - description
+      - device_types_compatible
+      - id
+      - modified
+      - name
+      type: object
+    ArtifactInfo:
+      description: |
+        Information about artifact format and version.
+      properties:
+        format:
+          type: string
+        version:
+          type: integer
+      type: object
+    ArtifactTypeInfo:
+      description: |
+        Information about update type.
+      properties:
+        type:
+          description: "Note that for emtpy Artifacts, the type is 'null'"
+          type: string
+      type: object
+    Releases:
+      description: List of releases
+      items:
+        $ref: '#/components/schemas/Release'
+      type: array
+    Release:
+      description: Groups artifacts with the same release name into a single resource.
+      example:
+        name: my-app-v1.0.1
+        artifacts:
+        - id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+          name: Application 1.0.0
+          description: Johns Monday test build
+          device_types_compatible:
+          - Beagle Bone
+          info:
+            format: mender
+            version: 3
+          signed: false
+          updates:
+          - type_info:
+              type: rootfs-image
+            files:
+            - name: rootfs-image-1
+              checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
+              size: 123
+              date: 2016-03-11T13:03:17.063+0000
+            meta_data: []
+          artifact_provides:
+            artifact_name: test
+            rootfs-image.checksum: 32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99
+            rootfs-image.version: test
+          artifact_depends:
+            device_type:
+            - test
+          clears_artifact_provides:
+          - rootfs-image.*
+          size: 36891648
+          modified: 2016-03-11T13:03:17.063493443Z
+        - id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+          name: Application 1.0.0
+          description: Johns Monday test build
+          device_types_compatible:
+          - Raspberry Pi
+          info:
+            format: mender
+            version: 3
+          signed: false
+          updates:
+          - type_info:
+              type: rootfs-image
+            files:
+            - name: rootfs-image-1
+              checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
+              size: 123
+              date: 2016-03-11T13:03:17.063+0000
+            meta_data: []
+          artifact_provides:
+            artifact_name: test
+            rootfs-image.checksum: 32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99
+            rootfs-image.version: test
+          artifact_depends:
+            device_type:
+            - test
+          clears_artifact_provides:
+          - rootfs-image.*
+          size: 36891648
+          modified: 2016-03-11T13:03:17.063493443Z
+      properties:
+        name:
+          description: |
+            release name.
+          type: string
+        modified:
+          description: |
+            Last modification time for the release.
+          format: date-time
+          type: string
+        artifacts:
+          description: List of artifacts for this release.
+          items:
+            $ref: '#/components/schemas/Artifact'
+          type: array
+        tags:
+          description: |-
+            Tags assigned to the release used for filtering releases. Each tag
+            must be valid a ASCII string and contain only lowercase and uppercase
+            letters, digits, underscores, periods and hyphens.
+          items:
+            type: string
+          type: array
+        notes:
+          description: |
+            Additional information describing a Release limited to 1024 characters. Please use the v2 API to set this field.
+          type: string
+      type: object
+    ReleaseUpdate:
+      description: Fields to be updated in the given Release.
+      example:
+        notes: New security fixes 2023
+      properties:
+        notes:
+          description: "Release notes, limited to maximum length."
+          type: string
+      type: object
+    Tags:
+      description: |-
+        Tags assigned to the release used for filtering releases. Each tag
+        must be valid a ASCII string and contain only lowercase and uppercase
+        letters, digits, underscores, periods and hyphens.
+      items:
+        type: string
+      type: array
+    Update:
+      description: |
+        Single updated to be applied.
+      properties:
+        type_info:
+          $ref: '#/components/schemas/ArtifactTypeInfo'
+        files:
+          items:
+            $ref: '#/components/schemas/UpdateFile'
+          type: array
+        meta_data:
+          description: |
+            meta_data is an array of objects of unknown structure as this
+            is dependent of update type (also custom defined by user)
+          items:
+            properties: {}
+            type: object
+          type: array
+      type: object
+    UpdateFile:
+      description: |
+        Information about particular update file.
+      properties:
+        name:
+          type: string
+        checksum:
+          type: string
+        size:
+          type: integer
+        date:
+          format: date-time
+          type: string
+      type: object
+    UpdateTypes:
+      description: Update types as present in the images.
+      items:
+        type: string
+      type: array
+    Error:
+      description: Error descriptor.
+      example:
+        error: "failed to decode device group data: JSON payload is empty"
+        request_id: f7881e82-0492-49fb-b459-795654e7188a
+      properties:
+        error:
+          description: Description of the error.
+          type: string
+        request_id:
+          description: Request ID (same as in X-MEN-RequestID header).
+          type: string
+      type: object
+    FilterPredicate:
+      description: Attribute filter predicate
+      example:
+        type: $eq
+        attribute: serial_no
+        scope: inventory
+        value: "123456789"
+      properties:
+        scope:
+          description: |
+            The scope of the attribute.
+
+            Scope is a string and acts as namespace for the attribute name.
+          type: string
+        attribute:
+          description: |
+            Name of the attribute to be queried for filtering.
+          type: string
+        type:
+          description: Type or operator of the filter predicate.
+          enum:
+          - $eq
+          - $gt
+          - $gte
+          - $in
+          - $lt
+          - $lte
+          - $ne
+          - $nin
+          - $exists
+          type: string
+        value:
+          description: |
+            The value of the attribute to be used in filtering.
+
+            Attribute type is implicit, inferred from the JSON type.
+
+            Supported types: number, string, array of numbers, array of strings.
+            Mixed arrays are not allowed.
+          type: string
+      required:
+      - attribute
+      - scope
+      - type
+      - value
+      type: object
+    Filter:
+      description: Inventory filter assigned to the deployment
+      example:
+        id: myfilter
+        name: My Filter
+        terms:
+        - scope: inventory
+          attribute: serial_no
+          type: $eq
+          value: "123456789"
+      properties:
+        id:
+          description: |
+            Unique identifier of the saved filter.
+          type: string
+        name:
+          description: |
+            Name of the saved filter.
+          type: string
+        terms:
+          items:
+            $ref: '#/components/schemas/FilterPredicate'
+          type: array
+      required:
+      - id
+      - name
+      type: object
+    DeploymentPhase:
+      example:
+        application/json:
+          id: foo
+          start_ts: 2020-07-06T15:04:49.114046203+02:00
+          batch_size: 5
+          device_count: 42
+      properties:
+        id:
+          description: Phase identifier.
+          type: string
+        batch_size:
+          description: |
+            Percentage of devices to update in the phase.
+          type: integer
+        start_ts:
+          description: |
+            Start date of a phase.
+            May be undefined for the first phase of a deployment.
+          format: date-time
+          type: string
+        device_count:
+          description: |
+            Number of devices which already requested an update within this phase.
+          type: integer
+      type: object
+    DeploymentStatusStatistics:
+      example:
+        success: 3
+        pending: 1
+        failure: 0
+        downloading: 1
+        installing: 2
+        rebooting: 3
+        noartifact: 0
+        already-installed: 0
+        aborted: 0
+        pause_before_installing: 0
+        pause_before_rebooting: 0
+        pause_before_committing: 0
+      properties:
+        success:
+          description: Number of successful deployments.
+          type: integer
+        pending:
+          description: Number of pending deployments.
+          type: integer
+        downloading:
+          description: Number of deployments being downloaded.
+          type: integer
+        rebooting:
+          description: Number of deployments devices are rebooting into.
+          type: integer
+        installing:
+          description: Number of deployments devices being installed.
+          type: integer
+        failure:
+          description: Number of failed deployments.
+          type: integer
+        noartifact:
+          description: Do not have appropriate artifact for device type.
+          type: integer
+        already-installed:
+          description: "Number of devices unaffected by upgrade, since they are already\
+            \ running the specified software version."
+          type: integer
+        aborted:
+          description: Number of deployments aborted by user.
+          type: integer
+        pause_before_installing:
+          description: Number of deployments paused before install state.
+          type: integer
+        pause_before_rebooting:
+          description: Number of deployments paused before reboot phase.
+          type: integer
+        pause_before_committing:
+          description: Number of deployments paused before commit phase.
+          type: integer
+      required:
+      - aborted
+      - already-installed
+      - downloading
+      - failure
+      - installing
+      - noartifact
+      - pause_before_committing
+      - pause_before_installing
+      - pause_before_rebooting
+      - pending
+      - rebooting
+      - success
+      type: object
+    DeploymentStatistics:
+      properties:
+        status:
+          $ref: '#/components/schemas/DeploymentStatusStatistics'
+        total_size:
+          description: |
+            Sum of sizes (in bytes) of all artifacts assigned to all device deployments,
+            which are part of this deployment.
+            If the same artifact is assigned to multiple device deployments,
+            its size will be counted multiple times.
+          type: integer
+      type: object
+    Deployment:
+      example:
+        created: 2016-02-11T13:03:17.063493443Z
+        status: finished
+        name: production
+        artifact_name: Application 0.0.1
+        id: 00a0c91e6-7dec-11d0-a765-f81d4faebf6
+        finished: 2016-03-11T13:03:17.063493443Z
+        phases:
+        - batch_size: 5
+        - start_ts: 2020-07-06T17:04:49.114046203+02:00
+          device_count: 25
+        - batch_size: 15
+        - start_ts: 2020-07-06T18:04:49.114046203+02:00
+          device_count: 10
+        - start_ts: 2020-07-06T19:04:49.114046203+02:00
+          device_count: 0
+        device_count: 500
+        retries: 3
+      properties:
+        id:
+          description: Deployment identifier
+          type: string
+        name:
+          description: Name of the deployment
+          type: string
+        artifact_name:
+          description: Name of the artifact to deploy
+          type: string
+        created:
+          description: Deployment's creation date and time
+          format: date-time
+          type: string
+        finished:
+          description: Deployment's completion date and time
+          format: date-time
+          type: string
+        status:
+          description: Status of the deployment
+          enum:
+          - scheduled
+          - pending
+          - inprogress
+          - finished
+          type: string
+        device_count:
+          description: Number of devices the deployment acted upon
+          type: integer
+        artifacts:
+          description: An array of artifact's identifiers.
+          items:
+            type: string
+          type: array
+        groups:
+          description: |
+            An array of groups the devices targeted by the deployment belong to.
+            Available only if the user created the deployment for a group or a single device (if the device was in a static group).
+          items:
+            type: string
+          type: array
+        phases:
+          description: An array of deployments phases (if any were defined for the
+            deployment).
+          items:
+            $ref: '#/components/schemas/DeploymentPhase'
+          type: array
+        retries:
+          description: "The number of times a device can retry the deployment in case\
+            \ of failure, defaults to 0"
+          type: integer
+        update_control_map:
+          additionalProperties: true
+          description: |
+            A valid JSON object defining the update control map.
+            *NOTE*: Available only in the Enterprise plan.
+          type: object
+        max_devices:
+          description: |
+            max_devices denotes a limit on a number of completed deployments (failed or successful) above which the dynamic deployment will be finished.
+          type: integer
+        initial_device_count:
+          description: |
+            In case of dynamic deployments this is a number of devices targeted initially (maching the filter at the moment of deployment creation).
+          type: integer
+        dynamic:
+          description: |
+            Flag indicating if the deployment is dynamic or not.
+          type: boolean
+        filter:
+          $ref: '#/components/schemas/Filter'
+        type:
+          enum:
+          - configuration
+          - software
+          type: string
+        configuration:
+          description: |
+            A string containing a configuration object provided
+            with the deployment constructor.
+          type: string
+        autogenerate_delta:
+          description: |
+            The flag idicating if the autogeneration of delta artifacts is enabled for a given deployment.
+          type: boolean
+        statistics:
+          $ref: '#/components/schemas/DeploymentStatistics'
+      required:
+      - artifact_name
+      - created
+      - device_count
+      - id
+      - name
+      - status
+      type: object
+    NewDeploymentV2:
+      example:
+        name: production
+        artifact_name: Application 0.0.1
+        filter_id: 00a0c91e6-7dec-11d0-a765-f81d4faebf6
+        phases:
+        - batch_size: 5
+          start_ts: 2020-07-06T17:04:49.114046203+02:00
+        - batch_size: 15
+          start_ts: 2020-07-06T18:04:49.114046203+02:00
+        - start_ts: 2020-07-06T19:04:49.114046203+02:00
+        retries: 3
+      properties:
+        name:
+          type: string
+        artifact_name:
+          type: string
+        filter_id:
+          description: ID of a filter from inventory service.
+          type: string
+        phases:
+          description: |
+            Phased rollout feature is available only to Enterprise users.
+          items:
+            $ref: '#/components/schemas/NewDeploymentPhase'
+          type: array
+        retries:
+          description: "The number of times a device can retry the deployment in case\
+            \ of failure, defaults to 0"
+          type: integer
+        max_devices:
+          description: |
+            max_devices denotes a limit on a number of completed deployments (failed or successful) above which the dynamic deployment will be finished
+          type: integer
+        update_control_map:
+          additionalProperties: true
+          description: |
+            A valid JSON object defining the update control map.
+            *NOTE*: Available only in the Enterprise plan.
+          type: object
+          x-mender-plan:
+          - enterprise
+        autogenerate_delta:
+          default: false
+          description: |
+            The flag idicating if the autogeneration of delta artifacts is enabled for a given deployment.
+          type: boolean
+      required:
+      - artifact_name
+      - filter_id
+      - name
+      type: object
+    NewDeploymentPhase:
+      example:
+        start_ts: 2019-07-07T21:10:17.063493443Z
+        batch_size: 5
+      properties:
+        batch_size:
+          description: |
+            Percentage of devices to update in the phase.
+            This field is optional for the last phase.
+            The last phase will contain the rest of the devices.
+            Note that if the percentage of devices entered does not add up to a whole number of devices it is rounded down, and in the case it is rounded down to zero, a 400 error will be returned.
+            This is mostly a concern when the deployment consists of a low number of devices, like say 5 percent of 11 devices will round to zero, and an error is returned by the server.
+            In the case of dynamic deployment, the number of devices for each phase is being calculated based on the initial number of devices matching the filter.
+          type: integer
+        start_ts:
+          description: |
+            Start date of a phase.
+            Can be skipped for the first phase of a new deployment definition ('start immediately').
+          format: date-time
+          type: string
+      type: object
+    ReleasesDeleteError:
+      description: Releases used by active deployment.
+      example:
+        error: active deployments are using some of the releases from the request
+        request_id: f7881e82-0492-49fb-b459-795654e7188a
+      properties:
+        error:
+          description: Description of the error.
+          type: string
+        active_deployments:
+          description: List of IDs of active deployments which are using releases
+            from the request.
+          items:
+            type: string
+          type: array
+        request_id:
+          description: Request ID (same as in X-MEN-RequestID header).
+          type: string
+      type: object
+  securitySchemes:
+    ManagementJWT:
+      description: |
+        API token issued by User Authentication service.
+        Format: 'Bearer [JWT]'
+      in: header
+      name: Authorization
+      type: apiKey
