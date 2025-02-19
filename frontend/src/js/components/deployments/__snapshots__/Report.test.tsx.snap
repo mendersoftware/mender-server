@@ -123,7 +123,6 @@ Devices that are in the middle of the deployment at the time of abort will finis
         >
           <div
             class="break-all two-columns css-lcys7r-root  column-data "
-            style="align-items: center; align-self: flex-start; grid-template-columns: minmax(140px, 1fr) minmax(220px, 1fr); max-width: 25vw;"
           >
             <div
               class="align-right  muted"
@@ -220,7 +219,6 @@ Devices that are in the middle of the deployment at the time of abort will finis
           >
             <div
               class="break-all two-columns css-lcys7r-root  column-data "
-              style="align-items: center; align-self: flex-start; grid-template-columns: minmax(140px, 1fr) minmax(220px, 1fr); max-width: 25vw;"
             >
               <div
                 class="align-right  muted"
@@ -385,7 +383,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
           </div>
           <div
             class="break-all two-columns css-lcys7r-root  column-data "
-            style="align-items: center; align-self: flex-start; grid-template-columns: max-content 1fr; max-width: 25vw;"
+            style="grid-template-columns: max-content 1fr;"
           >
             <div
               class="align-right  muted"
@@ -743,7 +741,6 @@ Devices that are in the middle of the deployment at the time of abort will finis
         >
           <div
             class="break-all two-columns css-lcys7r-root  column-data "
-            style="align-items: center; align-self: flex-start; grid-template-columns: minmax(140px, 1fr) minmax(220px, 1fr); max-width: 25vw;"
           >
             <div
               class="align-right  muted"
@@ -791,7 +788,6 @@ Devices that are in the middle of the deployment at the time of abort will finis
           </svg>
           <div
             class="break-all two-columns css-lcys7r-root  column-data "
-            style="align-items: center; align-self: flex-start; grid-template-columns: minmax(140px, 1fr) minmax(220px, 1fr); max-width: 25vw;"
           >
             <div
               class="align-right  muted"
@@ -880,7 +876,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
             </div>
             <div
               class="break-all two-columns css-lcys7r-root  column-data "
-              style="align-items: center; align-self: initial; grid-template-columns: minmax(140px, 1fr) minmax(220px, 1fr); max-width: 25vw;"
+              style="align-self: initial;"
             >
               <div
                 class="align-right  muted"
@@ -1053,7 +1049,6 @@ Devices that are in the middle of the deployment at the time of abort will finis
         >
           <div
             class="break-all two-columns css-lcys7r-root  column-data "
-            style="align-items: center; align-self: flex-start; grid-template-columns: minmax(140px, 1fr) minmax(220px, 1fr); max-width: 25vw;"
           >
             <div
               class="align-right  muted"
@@ -1149,7 +1144,6 @@ Devices that are in the middle of the deployment at the time of abort will finis
           >
             <div
               class="break-all two-columns css-lcys7r-root  column-data "
-              style="align-items: center; align-self: flex-start; grid-template-columns: minmax(140px, 1fr) minmax(220px, 1fr); max-width: 25vw;"
             >
               <div
                 class="align-right  muted"
@@ -1313,7 +1307,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
           </div>
           <div
             class="break-all two-columns css-lcys7r-root  column-data "
-            style="align-items: center; align-self: flex-start; grid-template-columns: max-content 1fr; max-width: 25vw;"
+            style="grid-template-columns: max-content 1fr;"
           >
             <div
               class="align-right  muted"
@@ -1681,7 +1675,6 @@ Devices that are in the middle of the deployment at the time of abort will finis
         >
           <div
             class="break-all two-columns css-lcys7r-root  column-data "
-            style="align-items: center; align-self: flex-start; grid-template-columns: minmax(140px, 1fr) minmax(220px, 1fr); max-width: 25vw;"
           >
             <div
               class="align-right  muted"
@@ -1729,7 +1722,6 @@ Devices that are in the middle of the deployment at the time of abort will finis
           </svg>
           <div
             class="break-all two-columns css-lcys7r-root  column-data "
-            style="align-items: center; align-self: flex-start; grid-template-columns: minmax(140px, 1fr) minmax(220px, 1fr); max-width: 25vw;"
           >
             <div
               class="align-right  muted"
@@ -1904,7 +1896,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
             </div>
             <div
               class="break-all two-columns css-lcys7r-root  column-data "
-              style="align-items: center; align-self: initial; grid-template-columns: minmax(140px, 1fr) minmax(220px, 1fr); max-width: 25vw;"
+              style="align-self: initial;"
             >
               <div
                 class="align-right  muted"
@@ -1957,7 +1949,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
             </div>
             <div
               class="break-all two-columns css-lcys7r-root  column-data "
-              style="align-items: center; align-self: initial; grid-template-columns: minmax(140px, 1fr) minmax(220px, 1fr); max-width: 25vw;"
+              style="align-self: initial;"
             >
               <div
                 class="align-right  muted"
@@ -2010,7 +2002,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
             </div>
             <div
               class="break-all two-columns css-lcys7r-root  column-data "
-              style="align-items: center; align-self: initial; grid-template-columns: minmax(140px, 1fr) minmax(220px, 1fr); max-width: 25vw;"
+              style="align-self: initial;"
             >
               <div
                 class="align-right  muted"
@@ -2063,7 +2055,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
             </div>
             <div
               class="break-all two-columns css-lcys7r-root  column-data "
-              style="align-items: center; align-self: initial; grid-template-columns: minmax(140px, 1fr) minmax(220px, 1fr); max-width: 25vw;"
+              style="align-self: initial;"
             >
               <div
                 class="align-right  muted"
@@ -2116,7 +2108,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
             </div>
             <div
               class="break-all two-columns css-lcys7r-root  column-data "
-              style="align-items: center; align-self: initial; grid-template-columns: minmax(140px, 1fr) minmax(220px, 1fr); max-width: 25vw;"
+              style="align-self: initial;"
             >
               <div
                 class="align-right  muted"

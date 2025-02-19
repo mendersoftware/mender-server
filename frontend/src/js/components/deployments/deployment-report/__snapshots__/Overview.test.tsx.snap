@@ -161,7 +161,6 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
 >
   <div
     class="break-all two-columns emotion-0  column-data "
-    style="align-items: center; align-self: flex-start; grid-template-columns: minmax(140px, 1fr) minmax(220px, 1fr); max-width: 25vw;"
   >
     <div
       class="align-right  muted"
@@ -258,7 +257,6 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
   >
     <div
       class="break-all two-columns emotion-0  column-data "
-      style="align-items: center; align-self: flex-start; grid-template-columns: minmax(140px, 1fr) minmax(220px, 1fr); max-width: 25vw;"
     >
       <div
         class="align-right  muted"

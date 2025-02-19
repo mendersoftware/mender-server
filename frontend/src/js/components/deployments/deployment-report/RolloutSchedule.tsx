@@ -28,7 +28,6 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import pluralize from 'pluralize';
 
 import { ProgressChartComponent, getDeploymentPhasesInfo, getDisplayablePhases } from '../ProgressChart';
-import { defaultColumnDataProps } from '../Report';
 import { getPhaseDeviceCount, getPhaseStartTime, getRemainderPercent } from '../deployment-wizard/PhaseSettings';
 import PhaseProgress from './PhaseProgress';
 
@@ -71,14 +70,14 @@ export const RolloutSchedule = ({ deployment, headerClass, innerRef, onAbort, on
         <>
           <div className="flexbox">
             <TwoColumnData
-              {...defaultColumnDataProps}
+              chipLikeKey={false}
               config={{
                 'Start time': <Time value={formatTime(start_time)} />,
                 'Current phase': currentPhaseTime
               }}
             />
             <ArrowForward className={classes.phasesOverviewArrow} />
-            <TwoColumnData {...defaultColumnDataProps} config={{ 'End time': endTime }} />
+            <TwoColumnData chipLikeKey={false} config={{ 'End time': endTime }} />
           </div>
           <ProgressChartComponent className="margin-top no-background" phases={displayablePhases} PhaseLabel={PhaseLabel} />
         </>
@@ -108,7 +107,7 @@ export const RolloutSchedule = ({ deployment, headerClass, innerRef, onAbort, on
             <div className={`flexbox column centered ${classes.phaseInfo} ${isCurrentPhase ? classes.currentPhaseInfo : ''}`} key={startTime}>
               {phaseTitle}
               <Chip className={classes.phaseIndex} size="small" label={`Phase ${index + 1}`} />
-              <TwoColumnData {...defaultColumnDataProps} style={{ ...defaultColumnDataProps.style, alignSelf: 'initial' }} config={phaseObject} />
+              <TwoColumnData chipLikeKey={false} config={phaseObject} style={{ alignSelf: 'initial' }} />
             </div>
           );
         })}

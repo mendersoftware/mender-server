@@ -20,8 +20,6 @@ import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
 import { deploymentDisplayStates, pauseMap } from '@northern.tech/store/constants';
 import { groupDeploymentStats } from '@northern.tech/store/utils';
 
-import { defaultColumnDataProps } from '../Report';
-
 const useStyles = makeStyles()(theme => ({
   progressStatus: {
     backgroundColor: theme.palette.background.light,
@@ -96,9 +94,9 @@ export const DeploymentStatus = ({ className = '', deployment = {} }) => {
         ))}
       </div>
       <TwoColumnData
-        {...defaultColumnDataProps}
+        chipLikeKey={false}
         config={{ 'Update attempts per device': retries, 'Maximum number of devices': max_devices || 'N/A' }}
-        style={{ ...defaultColumnDataProps.style, gridTemplateColumns: 'max-content 1fr' }}
+        style={{ gridTemplateColumns: 'max-content 1fr' }}
       />
     </div>
   );
