@@ -67,8 +67,10 @@ test.describe('Webhooks Functionality', () => {
     await page.getByLabel(/device authentication/i).click();
     await page.getByLabel(/device inventory/i).click();
     await page.getByRole('button', { name: /save/i }).click();
+    await page.screenshot({ path: './test-results/save-webhook.png' });
     await expect(page.getByText(/view details/i)).toBeVisible();
     await expect(page.getByText(/one active integration at a time/i)).toBeVisible();
+    await page.screenshot({ path: './test-results/view-webhook.png' });
   });
   test('shows webhook details for inventory events', async ({ baseUrl, loggedInPage: page }) => {
     await stopDockerClient();
