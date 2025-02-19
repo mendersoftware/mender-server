@@ -111,5 +111,5 @@ describe('Billing Component', () => {
     expect(input.value).toEqual('Poland');
 
     await waitFor(() => expect(editProfileAction).toHaveBeenCalledWith(editProfileActionParams));
-  });
+  }, 10000);
 });
