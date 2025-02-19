@@ -59,11 +59,6 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 
-export const defaultColumnDataProps = {
-  chipLikeKey: false,
-  style: { alignItems: 'center', alignSelf: 'flex-start', gridTemplateColumns: 'minmax(140px, 1fr) minmax(220px, 1fr)', maxWidth: '25vw' }
-};
-
 export const DeploymentAbortButton = ({ abort, deployment }) => {
   const [aborting, setAborting] = useState(false);
 

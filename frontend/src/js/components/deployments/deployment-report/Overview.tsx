@@ -26,7 +26,6 @@ import pluralize from 'pluralize';
 
 import failImage from '../../../../assets/img/largeFail.png';
 import successImage from '../../../../assets/img/largeSuccess.png';
-import { defaultColumnDataProps } from '../Report';
 import { getDeploymentTargetText, getDevicesLink } from '../deployment-wizard/SoftwareDevices';
 
 const useStyles = makeStyles()(theme => ({
@@ -110,9 +109,9 @@ export const DeploymentOverview = ({ creator, deployment, devicesById, idAttribu
 
   return (
     <div className="report-container margin-top-large margin-bottom-large">
-      <TwoColumnData config={deploymentInfo} {...defaultColumnDataProps} />
+      <TwoColumnData chipLikeKey={false} config={deploymentInfo} />
       <div className="flexbox column">
-        <TwoColumnData config={deploymentInfo2} {...defaultColumnDataProps} />
+        <TwoColumnData chipLikeKey={false} config={deploymentInfo2} />
         <a className={`margin-top-small flexbox center-aligned ${classes.scheduleLink}`} onClick={onScheduleClick}>
           Schedule details <ScrollDownIcon fontSize="small" />
         </a>

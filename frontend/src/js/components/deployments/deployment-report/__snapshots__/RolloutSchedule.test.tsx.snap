@@ -236,7 +236,6 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
   >
     <div
       class="break-all two-columns emotion-1  column-data "
-      style="align-items: center; align-self: flex-start; grid-template-columns: minmax(140px, 1fr) minmax(220px, 1fr); max-width: 25vw;"
     >
       <div
         class="align-right  muted"
@@ -284,7 +283,6 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
     </svg>
     <div
       class="break-all two-columns emotion-1  column-data "
-      style="align-items: center; align-self: flex-start; grid-template-columns: minmax(140px, 1fr) minmax(220px, 1fr); max-width: 25vw;"
     >
       <div
         class="align-right  muted"
@@ -369,7 +367,7 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
       </div>
       <div
         class="break-all two-columns emotion-1  column-data "
-        style="align-items: center; align-self: initial; grid-template-columns: minmax(140px, 1fr) minmax(220px, 1fr); max-width: 25vw;"
+        style="align-self: initial;"
       >
         <div
           class="align-right  muted"
