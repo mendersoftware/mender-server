@@ -22,6 +22,7 @@ import Loader from '@northern.tech/common-ui/Loader';
 import Form from '@northern.tech/common-ui/forms/Form';
 import storeActions from '@northern.tech/store/actions';
 import { TIMEOUTS, locations } from '@northern.tech/store/constants';
+import { getRecaptchaKey } from '@northern.tech/store/selectors';
 import { createOrganizationTrial } from '@northern.tech/store/thunks';
 import { stringToBoolean } from '@northern.tech/utils/helpers';
 import Cookies from 'universal-cookie';
@@ -83,7 +84,7 @@ export const Signup = () => {
   const [location, setLocation] = useState(locations.us.key); // we default to US signups to keep the US instance as the main entry point for new users
   const { campaign = '' } = useParams();
   const currentUserId = useSelector(state => state.users.currentUserId);
-  const recaptchaSiteKey = useSelector(state => state.app.recaptchaSiteKey);
+  const recaptchaSiteKey = useSelector(getRecaptchaKey);
   const dispatch = useDispatch();
   const { classes } = useStyles();
 

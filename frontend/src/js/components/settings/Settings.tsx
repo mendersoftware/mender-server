@@ -20,7 +20,15 @@ import { Payment as PaymentIcon } from '@mui/icons-material';
 
 import LeftNav from '@northern.tech/common-ui/LeftNav';
 import { TIMEOUTS, canAccess } from '@northern.tech/store/constants';
-import { getCurrentUser, getFeatures, getOrganization, getTenantCapabilities, getUserCapabilities, getUserRoles } from '@northern.tech/store/selectors';
+import {
+  getCurrentUser,
+  getFeatures,
+  getOrganization,
+  getStripeKey,
+  getTenantCapabilities,
+  getUserCapabilities,
+  getUserRoles
+} from '@northern.tech/store/selectors';
 import { Elements } from '@stripe/react-stripe-js';
 
 import Global from './Global';
@@ -72,7 +80,7 @@ export const Settings = () => {
   const currentUser = useSelector(getCurrentUser);
   const { hasMultitenancy } = useSelector(getFeatures);
   const organization = useSelector(getOrganization);
-  const stripeAPIKey = useSelector(state => state.app.stripeAPIKey);
+  const stripeAPIKey = useSelector(getStripeKey);
   const tenantCapabilities = useSelector(getTenantCapabilities);
   const userCapabilities = useSelector(getUserCapabilities);
   const userRoles = useSelector(getUserRoles);

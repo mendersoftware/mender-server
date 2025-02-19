@@ -15,6 +15,8 @@
 import { SORTING_OPTIONS } from '@northern.tech/store/constants';
 import { createSlice } from '@reduxjs/toolkit';
 
+import { SortOptions } from '../organizationSlice/types';
+
 export const sliceName = 'app';
 
 const getYesterday = () => {
@@ -23,7 +25,52 @@ const getYesterday = () => {
   return today.toISOString();
 };
 
-export const initialState = {
+interface SnackbarContent {
+  action: () => void;
+  autoHideDuration?: number;
+  children: JSX.Element;
+  maxWidth?: number;
+  message: string;
+  onClick: () => void;
+  onClose: () => void;
+  open: boolean;
+}
+
+interface SearchState {
+  deviceIds: string[];
+  searchTerm: string;
+  searchTotal: number;
+  sort: SortOptions;
+}
+
+interface Upload {
+  cancelSource: any;
+  progress: number;
+  uploading: boolean;
+}
+
+type AppSliceType = {
+  cancelSource: any;
+  demoArtifactLink: string;
+  docsVersion: string;
+  features: Record<string, boolean>;
+  feedbackProbability: number;
+  firstLoginAfterSignup: boolean;
+  hostAddress: string | null;
+  hostedAnnouncement: string;
+  newThreshold: string;
+  offlineThreshold: string;
+  recaptchaSiteKey: string;
+  searchState: SearchState;
+  snackbar: SnackbarContent;
+  stripeAPIKey: string;
+  trackerCode: string;
+  uploadsById: Record<string, Upload>;
+  versionInformation: Record<string, string>;
+  yesterday?: string;
+};
+
+export const initialState: AppSliceType = {
   cancelSource: undefined,
   demoArtifactLink: 'https://dgsbl4vditpls.cloudfront.net/mender-demo-artifact.mender',
   hostAddress: null,
@@ -69,7 +116,7 @@ export const initialState = {
   stripeAPIKey: '',
   trackerCode: '',
   uploadsById: {
-    // id: { uploading: false, uploadProgress: 0, cancelSource: undefined }
+    // id: { uploading: false, progress: 0, cancelSource: undefined }
   },
   newThreshold: getYesterday(),
   offlineThreshold: getYesterday(),

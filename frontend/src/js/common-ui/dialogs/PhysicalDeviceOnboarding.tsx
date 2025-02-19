@@ -25,6 +25,7 @@ import {
   getCurrentSession,
   getFeatures,
   getFullVersionInformation,
+  getHostAddress,
   getIsEnterprise,
   getIsPreview,
   getOnboardingState,
@@ -176,7 +177,7 @@ export const PhysicalDeviceOnboarding = ({ progress }) => {
     const { [EXTERNAL_PROVIDER['iot-hub'].credentialsAttribute]: azureConnectionString = '' } = credentials;
     return !!azureConnectionString;
   });
-  const ipAddress = useSelector(state => state.app.hostAddress);
+  const ipAddress = useSelector(getHostAddress);
   const isEnterprise = useSelector(getIsEnterprise);
   const { isDemoMode, isHosted } = useSelector(getFeatures);
   const isPreRelease = useSelector(getIsPreview);

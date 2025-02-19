@@ -19,6 +19,7 @@ import { Drawer, IconButton, LinearProgress, Tooltip, drawerClasses } from '@mui
 import { makeStyles } from 'tss-react/mui';
 
 import FileSize from '@northern.tech/common-ui/FileSize';
+import { getUploads } from '@northern.tech/store/selectors';
 import { cancelFileUpload } from '@northern.tech/store/thunks';
 import pluralize from 'pluralize';
 
@@ -63,15 +64,15 @@ const useStyles = makeStyles()(theme => ({
 }));
 
 const UploadProgressBar = ({ classes, upload, uploadId }) => {
-  const { name, size, uploadProgress } = upload;
+  const { name, size, progress } = upload;
   const dispatch = useDispatch();
   const onCancelClick = useCallback(() => dispatch(cancelFileUpload(uploadId)), [dispatch, uploadId]);
   return (
     <div className={classes.progressContainer}>
       <div className="info flexbox centered">
-        {Math.round(uploadProgress)}% - {name} (<FileSize fileSize={size} />)
+        {Math.round(progress)}% - {name} (<FileSize fileSize={size} />)
       </div>
-      <LinearProgress className={classes.progress} variant="determinate" value={uploadProgress} />
+      <LinearProgress className={classes.progress} variant="determinate" value={progress} />
       <Tooltip title="Abort" placement="top">
         <IconButton onClick={onCancelClick} size="large">
           <CancelIcon />
@@ -85,11 +86,11 @@ const Uploads = () => {
   const [isHovering, setIsHovering] = useState(false);
   const { classes } = useStyles();
 
-  const uploads = useSelector(state => state.app.uploadsById);
+  const uploads = useSelector(getUploads);
 
   const isUploading = !!Object.keys(uploads).length;
   const uploadProgress = Object.values(uploads).reduce((accu, item, currentIndex, items) => {
-    accu += item.uploadProgress;
+    accu += item.progress;
     if (currentIndex === items.length - 1) {
       return accu / (currentIndex + 1);
     }
