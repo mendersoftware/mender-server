@@ -248,13 +248,13 @@ describe('user actions', () => {
   });
   it('should not allow logging out with an active upload', async () => {
     vi.clearAllMocks();
-    const store = mockStore({ ...defaultState, releases: { ...defaultState.releases, uploadProgress: 42 } });
+    const store = mockStore({ ...defaultState, releases: { ...defaultState.releases, progress: 42 } });
     await store.dispatch(logoutUser()).catch(() => expect(true).toEqual(true));
   });
   it('should allow switching users', async () => {
     vi.clearAllMocks();
     const reloadSpy = vi.spyOn(window.location, 'reload');
-    const store = mockStore({ ...defaultState, releases: { ...defaultState.releases, uploadProgress: 42 } });
+    const store = mockStore({ ...defaultState, releases: { ...defaultState.releases, progress: 42 } });
     await store.dispatch(switchUserOrganization('a1'));
     expect(localStorage.getItem).toHaveBeenCalledWith('JWT');
     expect(localStorage.setItem).toHaveBeenCalledWith('JWT', JSON.stringify({ token: 'differentToken' }));
@@ -262,7 +262,7 @@ describe('user actions', () => {
   });
   it('should not allow switching users during uploads', async () => {
     vi.clearAllMocks();
-    const store = mockStore({ ...defaultState, releases: { ...defaultState.releases, uploadProgress: 42 } });
+    const store = mockStore({ ...defaultState, releases: { ...defaultState.releases, progress: 42 } });
     await store.dispatch(switchUserOrganization('a1')).catch(() => expect(true).toEqual(true));
   });
   it('should allow single user retrieval', async () => {

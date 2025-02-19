@@ -1232,7 +1232,7 @@ describe('troubleshooting related actions', () => {
       { type: appActions.setSnackbar.type, payload: 'Uploading file' },
       {
         type: appActions.initUpload.type,
-        payload: { id: 'mock-uuid', upload: { cancelSource: mockAbortController, uploadProgress: 0 } }
+        payload: { id: 'mock-uuid', upload: { cancelSource: mockAbortController, progress: 0 } }
       },
       { type: appActions.uploadProgress.type, payload: { id: 'mock-uuid', progress: 100 } },
       { type: appActions.setSnackbar.type, payload: 'Upload successful' },

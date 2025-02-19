@@ -69,7 +69,7 @@ export const initialState = {
   stripeAPIKey: '',
   trackerCode: '',
   uploadsById: {
-    // id: { uploading: false, uploadProgress: 0, cancelSource: undefined }
+    // id: { uploading: false, progress: 0, cancelSource: undefined }
   },
   newThreshold: getYesterday(),
   offlineThreshold: getYesterday(),

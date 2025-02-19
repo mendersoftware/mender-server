@@ -212,7 +212,7 @@ describe('release actions', () => {
         type: appActions.initUpload.type,
         payload: {
           id: 'mock-uuid',
-          upload: { cancelSource: mockAbortController, name: 'createdRelease', size: undefined, uploadProgress: 0 }
+          upload: { cancelSource: mockAbortController, name: 'createdRelease', size: undefined, progress: 0 }
         }
       },
       { type: appActions.uploadProgress.type, payload: { id: 'mock-uuid', progress: 100 } },
@@ -267,7 +267,7 @@ describe('release actions', () => {
       { type: appActions.setSnackbar.type, payload: 'Uploading artifact' },
       {
         type: appActions.initUpload.type,
-        payload: { id: 'mock-uuid', upload: { cancelSource: mockAbortController, name: defaultState.releases.byId.r1.name, size: 1234, uploadProgress: 0 } }
+        payload: { id: 'mock-uuid', upload: { cancelSource: mockAbortController, name: defaultState.releases.byId.r1.name, size: 1234, progress: 0 } }
       },
       { type: appActions.uploadProgress.type, payload: { id: 'mock-uuid', progress: 100 } },
       { type: appActions.setSnackbar.type, payload: 'Upload successful' },

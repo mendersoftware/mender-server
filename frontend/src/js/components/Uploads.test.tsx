@@ -32,7 +32,7 @@ describe('Uploads Component', () => {
           test: {
             name: 'testfile',
             size: 2048,
-            uploadProgress: 20
+            progress: 20
           }
         }
       }

@@ -63,15 +63,15 @@ const useStyles = makeStyles()(theme => ({
 }));
 
 const UploadProgressBar = ({ classes, upload, uploadId }) => {
-  const { name, size, uploadProgress } = upload;
+  const { name, size, progress } = upload;
   const dispatch = useDispatch();
   const onCancelClick = useCallback(() => dispatch(cancelFileUpload(uploadId)), [dispatch, uploadId]);
   return (
     <div className={classes.progressContainer}>
       <div className="info flexbox centered">
-        {Math.round(uploadProgress)}% - {name} (<FileSize fileSize={size} />)
+        {Math.round(progress)}% - {name} (<FileSize fileSize={size} />)
       </div>
-      <LinearProgress className={classes.progress} variant="determinate" value={uploadProgress} />
+      <LinearProgress className={classes.progress} variant="determinate" value={progress} />
       <Tooltip title="Abort" placement="top">
         <IconButton onClick={onCancelClick} size="large">
           <CancelIcon />
@@ -89,7 +89,7 @@ const Uploads = () => {
 
   const isUploading = !!Object.keys(uploads).length;
   const uploadProgress = Object.values(uploads).reduce((accu, item, currentIndex, items) => {
-    accu += item.uploadProgress;
+    accu += item.progress;
     if (currentIndex === items.length - 1) {
       return accu / (currentIndex + 1);
     }

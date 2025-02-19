@@ -150,7 +150,7 @@ export const createArtifact = createAsyncThunk(`${sliceName}/createArtifact`, ({
   const cancelSource = new AbortController();
   return Promise.all([
     dispatch(setSnackbar('Generating artifact')),
-    dispatch(initUpload({ id: uploadId, upload: { name: file.name, size: file.size, uploadProgress: 0, cancelSource } })),
+    dispatch(initUpload({ id: uploadId, upload: { name: file.name, size: file.size, progress: 0, cancelSource } })),
     GeneralApi.upload(
       `${deploymentsApiUrl}/artifacts/generate`,
       formData,
@@ -183,7 +183,7 @@ export const uploadArtifact = createAsyncThunk(`${sliceName}/uploadArtifact`, ({
   const cancelSource = new AbortController();
   return Promise.all([
     dispatch(setSnackbar('Uploading artifact')),
-    dispatch(initUpload({ id: uploadId, upload: { name: file.name, size: file.size, uploadProgress: 0, cancelSource } })),
+    dispatch(initUpload({ id: uploadId, upload: { name: file.name, size: file.size, progress: 0, cancelSource } })),
     GeneralApi.upload(`${deploymentsApiUrl}/artifacts`, formData, e => dispatch(uploadProgress({ id: uploadId, progress: progress(e) })), cancelSource.signal)
   ])
     .then(() => {
