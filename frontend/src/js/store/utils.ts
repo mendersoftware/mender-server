@@ -90,7 +90,11 @@ export const filtersFilter = (item, index, array) => {
   return firstIndex === index;
 };
 
-export const listItemMapper = (byId, ids, { defaultObject = {}, cutOffSize = DEVICE_LIST_MAXIMUM_LENGTH }) =>
+export const listItemMapper = <T extends unknown>(
+  byId: Record<string, T>,
+  ids: string[],
+  { cutOffSize = DEVICE_LIST_MAXIMUM_LENGTH, defaultObject = {} }: { cutOffSize?: number; defaultObject?: T }
+): T[] =>
   ids.slice(0, cutOffSize).reduce((accu, id) => {
     if (id && byId[id]) {
       accu.push({ ...defaultObject, ...byId[id] });
