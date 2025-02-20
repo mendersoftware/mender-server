@@ -128,6 +128,8 @@ test.describe('RBAC functionality', () => {
       await expect(page.getByText('1-2 of 2')).toBeVisible();
       // the created role doesn't have permission to upload artifacts, so the button shouldn't be visible
       await expect(page.getByRole('button', { name: /upload/i })).not.toBeVisible();
+      await page.getByRole('checkbox').first().click();
+      await expect(page.getByLabel(/release-actions/i)).not.toBeVisible();
     });
     test('read-only tagged releases', async ({ baseUrl, browser, environment, password, username }) => {
       test.skip(!isEnterpriseOrStaging(environment));
