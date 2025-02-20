@@ -12,28 +12,29 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React from 'react';
-import { useDispatch } from 'react-redux';
 
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Button, DialogActions, DialogContent } from '@mui/material';
 
+import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import storeActions from '@northern.tech/store/actions';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { setOnboardingCanceled } from '@northern.tech/store/thunks';
 
 const { setShowDismissOnboardingTipsDialog } = storeActions;
 
 export const ConfirmDismissHelptips = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const onClose = () => dispatch(setOnboardingCanceled());
   return (
-    <Dialog open={true}>
-      <DialogTitle>Dismiss the Getting Started help?</DialogTitle>
+    <BaseDialog open title="Dismiss the Getting Started help?" onClose={onClose}>
       <DialogContent>Hide the help tips? You haven&apos;t finished your first update yet.</DialogContent>
       <DialogActions className="flexbox space-between">
         <Button onClick={() => dispatch(setShowDismissOnboardingTipsDialog(false))}>Cancel</Button>
-        <Button variant="contained" color="secondary" onClick={() => dispatch(setOnboardingCanceled())}>
+        <Button variant="contained" color="secondary" onClick={onClose}>
           Yes, hide the help
         </Button>
       </DialogActions>
-    </Dialog>
+    </BaseDialog>
   );
 };
 

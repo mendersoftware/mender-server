@@ -14,10 +14,11 @@
 import React from 'react';
 
 // material ui
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Button, DialogActions, DialogContent } from '@mui/material';
 
 import CopyCode from '@northern.tech/common-ui/CopyCode';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
+import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import { getToken } from '@northern.tech/store/auth';
 
 export const getCode = isPreRelease => {
@@ -30,8 +31,7 @@ wget -O- ${target} | sudo bash -s -- --jwt-token $JWT_TOKEN mender-gateway --dem
 };
 
 export const MakeGatewayDialog = ({ isPreRelease, onCancel }) => (
-  <Dialog open fullWidth maxWidth="md">
-    <DialogTitle>Promoting a device to a gateway</DialogTitle>
+  <BaseDialog open title="Promoting a device to a gateway" fullWidth maxWidth="md" onClose={onCancel}>
     <DialogContent className="onboard-dialog dialog-content">
       You can test Mender Gateway by promoting a device to a gateway device, enabling other devices to securely contact the Mender Server through it.
       <p>
@@ -51,7 +51,7 @@ export const MakeGatewayDialog = ({ isPreRelease, onCancel }) => (
         Close
       </Button>
     </DialogActions>
-  </Dialog>
+  </BaseDialog>
 );
 
 export default MakeGatewayDialog;

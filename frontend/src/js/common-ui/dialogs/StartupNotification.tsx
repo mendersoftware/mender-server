@@ -14,8 +14,9 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider } from '@mui/material';
+import { Button, DialogActions, DialogContent, Divider } from '@mui/material';
 
+import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import storeActions from '@northern.tech/store/actions';
 import { DEVICE_ONLINE_CUTOFF, TIMEOUTS } from '@northern.tech/store/constants';
 import { getIsDarkMode } from '@northern.tech/store/selectors';
@@ -80,11 +81,22 @@ export const StartupNotificationDialog = () => {
   };
   const headerLogo = isDarkMode ? whiteLogo : logo;
   return (
-    <Dialog open PaperProps={{ className: 'padding-small', sx: { maxWidth: 720 } }}>
-      <DialogTitle className="flexbox center-aligned">
-        <img src={headerLogo} style={{ maxHeight: 75 }} />
-        <div className="margin-left-small">Welcome back!</div>
-      </DialogTitle>
+    <BaseDialog
+      open
+      slotProps={{
+        paper: {
+          className: 'padding-small',
+          sx: { maxWidth: 720 }
+        }
+      }}
+      title={
+        <div className="flexbox center-aligned">
+          <img src={headerLogo} style={{ maxHeight: 75 }} />
+          <div className="margin-left-small">Welcome back!</div>
+        </div>
+      }
+      onClose={onClose}
+    >
       <DialogContent className="margin-left-small margin-right-small">
         <Content />
       </DialogContent>
@@ -93,7 +105,7 @@ export const StartupNotificationDialog = () => {
           Close
         </Button>
       </DialogActions>
-    </Dialog>
+    </BaseDialog>
   );
 };
 

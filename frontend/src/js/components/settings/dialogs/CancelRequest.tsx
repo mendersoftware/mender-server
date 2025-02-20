@@ -13,7 +13,9 @@
 //    limitations under the License.
 import React, { useEffect, useState } from 'react';
 
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormControlLabel, OutlinedInput, Radio, RadioGroup } from '@mui/material';
+import { Button, DialogActions, DialogContent, FormControl, FormControlLabel, OutlinedInput, Radio, RadioGroup } from '@mui/material';
+
+import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 
 const defaultCancelSubscriptionReasons = [
   'Just learning about Mender',
@@ -39,8 +41,7 @@ export const CancelRequestDialog = ({ onCancel, onSubmit }) => {
   }, [cancelSubscriptionReason]);
 
   return (
-    <Dialog open={true}>
-      <DialogTitle>{!confirm ? 'Cancel subscription and deactivate account?' : 'Confirm deactivation'}</DialogTitle>
+    <BaseDialog open title={!confirm ? 'Cancel subscription and deactivate account?' : 'Confirm deactivation'} onClose={onCancel}>
       {!confirm ? (
         <DialogContent>
           <p className="margin-top-small">
@@ -106,7 +107,7 @@ export const CancelRequestDialog = ({ onCancel, onSubmit }) => {
           </Button>
         )}
       </DialogActions>
-    </Dialog>
+    </BaseDialog>
   );
 };
 

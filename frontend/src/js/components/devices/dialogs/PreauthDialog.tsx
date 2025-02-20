@@ -16,8 +16,9 @@ import { useDispatch } from 'react-redux';
 
 // material ui
 import { InfoOutlined as InfoIcon } from '@mui/icons-material';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Button, DialogActions, DialogContent } from '@mui/material';
 
+import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import FileUpload from '@northern.tech/common-ui/forms/FileUpload';
 import KeyValueEditor from '@northern.tech/common-ui/forms/KeyValueEditor';
 import { preauthDevice } from '@northern.tech/store/thunks';
@@ -65,8 +66,7 @@ export const PreauthDialog = ({ acceptedDevices, deviceLimit, limitMaxed, onCanc
 
   const isSubmitDisabled = !publicKey || isEmpty(jsonIdentity) || !!limitMaxed;
   return (
-    <Dialog open>
-      <DialogTitle>Preauthorize devices</DialogTitle>
+    <BaseDialog open title="Preauthorize devices" onClose={onCancel}>
       <DialogContent style={{ overflow: 'hidden' }}>
         <p>You can preauthorize a device by adding its authentication dataset here.</p>
         <p>This means when a device with the matching key and identity data comes online, it will automatically be authorized to connect to the server.</p>
@@ -93,7 +93,7 @@ export const PreauthDialog = ({ acceptedDevices, deviceLimit, limitMaxed, onCanc
           Save
         </Button>
       </DialogActions>
-    </Dialog>
+    </BaseDialog>
   );
 };
 

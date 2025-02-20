@@ -13,20 +13,21 @@
 //    limitations under the License.
 import React from 'react';
 
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Button, DialogActions, DialogContent } from '@mui/material';
+
+import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 
 import CreateGroupExplainerContent from './CreateGroupExplainerContent';
 
 export const CreateGroupExplainer = ({ isEnterprise, onClose }) => (
-  <Dialog className="dialog" disableEscapeKeyDown open={true} scroll="paper" fullWidth={true} maxWidth="md">
-    <DialogTitle style={{ marginLeft: 15 }}>Creating a group</DialogTitle>
+  <BaseDialog title="Creating a group" open fullWidth maxWidth="md" onClose={onClose}>
     <DialogContent>
       <CreateGroupExplainerContent isEnterprise={isEnterprise} />
     </DialogContent>
     <DialogActions>
       <Button onClick={onClose}>Close</Button>
     </DialogActions>
-  </Dialog>
+  </BaseDialog>
 );
 
 export default CreateGroupExplainer;
