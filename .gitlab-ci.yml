@@ -573,7 +573,6 @@ lint:commit:
   image:
     name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/commitlint/commitlint:latest
     entrypoint: [""]
-  allow_failure: true
   tags:
     - hetzner-amd-beefy
   before_script:
