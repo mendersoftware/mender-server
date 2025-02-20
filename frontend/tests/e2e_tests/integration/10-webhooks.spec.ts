@@ -81,7 +81,6 @@ test.describe('Webhooks Functionality', () => {
 
     await page.getByRole('link', { name: /Devices/i }).click();
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
-    await page.getByText(/inventory/i).click();
     await page.getByPlaceholder(/key/i).fill('foo');
     await page.getByPlaceholder(/value/i).fill('bar');
     await page.getByRole('button', { name: /save/i }).click();
