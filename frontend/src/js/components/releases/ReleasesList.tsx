@@ -179,7 +179,7 @@ export const ReleasesList = ({ className = '', onFileUploadClick }) => {
       if (selection.length !== 1) {
         return;
       }
-      const releaseName = selectedReleases[selection[0]].name;
+      const { name: releaseName } = selectedReleases[0];
       navigate(`${DEPLOYMENT_ROUTES.active.route}?open=true&release=${encodeURIComponent(releaseName)}`);
     },
     [navigate, selectedReleases]

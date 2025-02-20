@@ -15,9 +15,35 @@
 import { DEVICE_LIST_DEFAULTS, SORTING_OPTIONS } from '@northern.tech/store/constants';
 import { createSlice } from '@reduxjs/toolkit';
 
+import { Release } from '../api/types/Release';
+import { SortOptions } from '../organizationSlice/types';
+
 export const sliceName = 'releases';
 
-export const initialState = {
+type ReleaseSliceType = {
+  artifacts: never[];
+  byId: Record<string, Release>;
+  releasesList: {
+    isLoading?: boolean;
+    page: number;
+    perPage: number;
+    releaseIds: string[];
+    searchedIds: string[];
+    searchTerm: string;
+    searchTotal: number;
+    selectedTags: string[];
+    selection: number[];
+    sort?: SortOptions;
+    tab: 'releases' | 'delta';
+    total: number;
+    type: string;
+  };
+  selectedRelease: string | null;
+  tags: string[];
+  updateTypes: string[];
+};
+
+export const initialState: ReleaseSliceType = {
   /*
    * Return list of saved artifacts objects
    */
