@@ -24,6 +24,7 @@ import {
   DevicePendingTip,
   DevicesAcceptedOnboarding,
   DevicesDeployReleaseOnboarding,
+  DevicesDeployReleaseOnboardingStep2,
   DevicesPendingAcceptingOnboarding,
   DevicesPendingDelayed,
   GetStartedTip,
@@ -75,6 +76,10 @@ export const onboardingSteps = {
   [stepNames.DEVICES_DEPLOY_RELEASE_ONBOARDING]: {
     condition: {},
     component: DevicesDeployReleaseOnboarding
+  },
+  [stepNames.DEVICES_DEPLOY_RELEASE_ONBOARDING_STEP_2]: {
+    condition: {},
+    component: DevicesDeployReleaseOnboardingStep2
   },
   [stepNames.SCHEDULING_ALL_DEVICES_SELECTION]: {
     condition: { min: stepNames.DEVICES_ACCEPTED_ONBOARDING, max: stepNames.DEPLOYMENTS_INPROGRESS },

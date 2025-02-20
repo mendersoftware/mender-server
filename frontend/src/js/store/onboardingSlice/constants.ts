@@ -21,6 +21,7 @@ export const onboardingSteps = {
   DEVICES_ACCEPTED_ONBOARDING: 'devices-accepted-onboarding',
   DEVICES_PENDING_ACCEPTING_ONBOARDING: 'devices-pending-accepting-onboarding',
   DEVICES_DEPLOY_RELEASE_ONBOARDING: 'devices-deploy-release-onboarding',
+  DEVICES_DEPLOY_RELEASE_ONBOARDING_STEP_2: 'devices-deploy-release-onboarding-step-2',
   SCHEDULING_ARTIFACT_SELECTION: 'scheduling-artifact-selection',
   SCHEDULING_ALL_DEVICES_SELECTION: 'scheduling-all-devices-selection',
   SCHEDULING_GROUP_SELECTION: 'scheduling-group-selection',

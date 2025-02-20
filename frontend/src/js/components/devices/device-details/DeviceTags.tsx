@@ -21,7 +21,7 @@ import { EditButton } from '@northern.tech/common-ui/Confirm';
 import KeyValueEditor from '@northern.tech/common-ui/forms/KeyValueEditor';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
 import { getDeviceAttributes, setDeviceTags } from '@northern.tech/store/thunks';
-import { toggle } from '@northern.tech/utils/helpers';
+import { isEmpty, toggle } from '@northern.tech/utils/helpers';
 
 import Tracking from '../../../tracking';
 import DeviceDataCollapse from './DeviceDataCollapse';
@@ -107,7 +107,7 @@ export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
               reset={shouldUpdateEditor}
             />
             <div className="flexbox center-aligned margin-bottom-small" style={{ justifyContent: 'flex-end' }}>
-              <Button className="margin-right-small" color="primary" onClick={onSubmit} variant="contained">
+              <Button className="margin-right-small" disabled={isEmpty(changedTags)} color="primary" onClick={onSubmit} variant="contained">
                 Save
               </Button>
               <Button onClick={onCancel}>Cancel</Button>

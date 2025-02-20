@@ -29,6 +29,7 @@ import { makeStyles } from 'tss-react/mui';
 import { mdiTrashCanOutline as TrashCan } from '@mdi/js';
 import MaterialDesignIcon from '@northern.tech/common-ui/MaterialDesignIcon';
 import { DEVICE_STATES, TIMEOUTS, UNGROUPED_GROUP, onboardingSteps } from '@northern.tech/store/constants';
+import { advanceOnboarding } from '@northern.tech/store/onboardingSlice/thunks';
 import {
   getDeviceById,
   getFeatures,
@@ -37,6 +38,7 @@ import {
   getTenantCapabilities,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { stringToBoolean, toggle } from '@northern.tech/utils/helpers';
 import pluralize from 'pluralize';
 
@@ -119,19 +121,25 @@ const useStyles = makeStyles()(theme => ({
       minWidth: 'max-content'
     }
   },
-  fab: { margin: theme.spacing(2) },
+  fab: { margin: `${theme.spacing(2)} ${theme.spacing(2)} ${theme.spacing(2)} ${theme.spacing(0.5)}` },
   innerContainer: {
     display: 'flex',
     alignItems: 'flex-end',
     justifyContent: 'flex-end'
   },
   label: {
-    marginRight: theme.spacing(2),
-    marginBottom: theme.spacing(4)
+    background: theme.palette.background.default,
+    opacity: 0.97,
+    borderRadius: theme.spacing(0.5),
+    padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
+    marginBottom: theme.spacing(3),
+    cursor: 'pointer',
+    pointerEvents: 'auto'
   }
 }));
 
 export const DeviceQuickActions = ({ actionCallbacks, deviceId, selectedGroup }) => {
+  const dispatch = useAppDispatch();
   const [showActions, setShowActions] = useState(false);
   const features = useSelector(getFeatures);
   const tenantCapabilities = useSelector(getTenantCapabilities);
@@ -140,13 +148,16 @@ export const DeviceQuickActions = ({ actionCallbacks, deviceId, selectedGroup })
   const singleDevice = useSelector(state => getDeviceById(state, deviceId));
   const devices = useSelector(state => getMappedDevicesList(state, 'deviceList'));
   const { classes } = useStyles();
-  const deployActionRef = useRef();
+  const deviceActionRef = useRef<HTMLDivElement>();
+  const deploymentActionRef = useRef<HTMLDivElement>(null);
   const onboardingState = useSelector(getOnboardingState);
   const [isInitialized, setIsInitialized] = useState(false);
   const timer = useRef();
 
-  const handleShowActions = () => {
+  const handleShowActions = e => {
+    e.stopPropagation();
     setShowActions(!showActions);
+    dispatch(advanceOnboarding(onboardingSteps.DEVICES_DEPLOY_RELEASE_ONBOARDING));
   };
 
   const handleClickAway = () => {
@@ -172,23 +183,28 @@ export const DeviceQuickActions = ({ actionCallbacks, deviceId, selectedGroup })
   const pluralized = pluralize('devices', selectedDevices.length);
 
   let onboardingComponent;
-  if (deployActionRef.current && isInitialized) {
-    const anchor = {
-      left: deployActionRef.current.firstElementChild.offsetLeft - 15,
-      top: deployActionRef.current.offsetTop + deployActionRef.current.firstElementChild.offsetTop + deployActionRef.current.firstElementChild.offsetHeight / 2
+  let anchor;
+  if (deploymentActionRef.current && isInitialized && showActions) {
+    anchor = {
+      left: deploymentActionRef.current.parentElement.parentElement.offsetLeft - deploymentActionRef.current.offsetWidth - 45,
+      top: deploymentActionRef.current.parentElement.parentElement.offsetTop + deploymentActionRef.current.parentElement.offsetHeight
     };
-    onboardingComponent = getOnboardingComponentFor(
-      onboardingSteps.DEVICES_DEPLOY_RELEASE_ONBOARDING,
-      onboardingState,
-      { anchor, place: 'left' },
-      onboardingComponent
-    );
+    onboardingComponent = getOnboardingComponentFor(onboardingSteps.DEVICES_DEPLOY_RELEASE_ONBOARDING_STEP_2, onboardingState, { anchor, place: 'left' }, null);
+  } else if (deviceActionRef.current && isInitialized) {
+    const deviceActionDiv = deviceActionRef.current;
+    anchor = {
+      left: deviceActionDiv.firstElementChild.offsetLeft - 15,
+      top: deviceActionDiv.offsetTop + deviceActionDiv.firstElementChild.offsetTop + deviceActionDiv.firstElementChild.offsetHeight / 2
+    };
+    onboardingComponent = getOnboardingComponentFor(onboardingSteps.DEVICES_DEPLOY_RELEASE_ONBOARDING, onboardingState, { anchor, place: 'left' }, null);
   }
   return (
     <div className={classes.container}>
       <div className="relative">
-        <div className={classes.innerContainer} ref={deployActionRef}>
-          <div className={classes.label}>{deviceId ? 'Device actions' : `${selectedDevices.length} ${pluralized} selected`}</div>
+        <div className={classes.innerContainer} ref={deviceActionRef}>
+          <div className={classes.label} onClick={handleShowActions}>
+            {deviceId ? 'Device actions' : `${selectedDevices.length} ${pluralized} selected`}
+          </div>
           <ClickAwayListener onClickAway={handleClickAway}>
             <SpeedDial className={classes.fab} ariaLabel="device-actions" icon={<SpeedDialIcon />} onClick={handleShowActions} open={Boolean(showActions)}>
               {actions.map(action => (
@@ -196,7 +212,9 @@ export const DeviceQuickActions = ({ actionCallbacks, deviceId, selectedGroup })
                   key={action.key}
                   aria-label={action.key}
                   icon={action.icon}
-                  tooltipTitle={action.title(pluralized, selectedDevices.length)}
+                  tooltipTitle={
+                    <div ref={action.key === 'create-deployment' ? deploymentActionRef : undefined}>{action.title(pluralized, selectedDevices.length)}</div>
+                  }
                   tooltipOpen
                   onClick={() => action.action({ ...actionCallbacks, selection: selectedDevices })}
                 />
