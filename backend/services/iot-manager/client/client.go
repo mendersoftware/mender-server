@@ -28,7 +28,8 @@ import (
 	"syscall"
 	"time"
 
-	inet "github.com/mendersoftware/mender-server/services/iot-manager/internal/net"
+	"github.com/mendersoftware/mender-server/pkg/netutils"
+
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"
 )
 
@@ -40,35 +41,39 @@ const (
 	AlgorithmTypeHMAC256 = "MEN-HMAC-SHA256-Payload"
 )
 
-func New() *http.Client {
+func New(ipFilter netutils.IPFilter) *http.Client {
 	return &http.Client{
-		Transport: NewTransport(),
+		Transport: NewTransport(ipFilter),
 		CheckRedirect: func(req *http.Request, via []*http.Request) error {
 			return http.ErrUseLastResponse
 		},
 	}
 }
 
-func addrIsGlobalUnicast(network, address string, _ syscall.RawConn) error {
-	ipAddr, _, err := net.SplitHostPort(address)
-	if err != nil {
-		ipAddr = address
-	}
-	ip := net.ParseIP(ipAddr)
-	if ip == nil {
-		return &net.ParseError{
-			Type: "IP address",
-			Text: address,
+func ipFilterControl(ipFilter netutils.IPFilter) func(
+	network, address string, _ syscall.RawConn,
+) error {
+	return func(network, address string, _ syscall.RawConn) error {
+		ipAddr, _, err := net.SplitHostPort(address)
+		if err != nil {
+			ipAddr = address
 		}
-	} else if !inet.IsGlobalUnicast(ip) {
-		return net.InvalidAddrError("destination address is in reserved address range")
+		ip := net.ParseIP(ipAddr)
+		if ip == nil {
+			return &net.ParseError{
+				Type: "IP address",
+				Text: address,
+			}
+		} else if !ipFilter.IsAllowed(ip) {
+			return net.InvalidAddrError("destination address is in reserved address range")
+		}
+		return nil
 	}
-	return nil
 }
 
-func NewTransport() http.RoundTripper {
+func NewTransport(ipFilter netutils.IPFilter) http.RoundTripper {
 	dialer := &net.Dialer{
-		Control: addrIsGlobalUnicast,
+		Control: ipFilterControl(ipFilter),
 	}
 	tlsDialer := &tls.Dialer{
 		NetDialer: dialer,
