@@ -14,8 +14,8 @@
 import { Server } from 'net';
 
 import test, { expect } from '../fixtures/fixtures.ts';
-import { isEnterpriseOrStaging, startDockerClient, startWebhookServer, stopDockerClient, tenantTokenRetrieval } from '../utils/commands.ts';
-import { storagePath, timeouts } from '../utils/constants.ts';
+import { startWebhookServer } from '../utils/commands.ts';
+import { selectors, storagePath, timeouts } from '../utils/constants.ts';
 
 const baseWebhookLocation = 'http://docker.mender.io:9000/webhooks';
 
@@ -58,7 +58,7 @@ test.describe('Webhooks Functionality', () => {
     await expect(page.getByLabel(/add an integration/i)).toBeVisible();
   });
   test('allows configuring inventory webhooks', async ({ baseUrl, environment, loggedInPage: page }) => {
-    test.skip(!isEnterpriseOrStaging(environment));
+    test.skip(environment !== 'enterprise');
     await page.goto(`${baseUrl}ui/settings/integrations`);
     await page.getByLabel(/add an integration/i).click();
     await page.getByRole('option', { name: /Webhooks/i }).click();
@@ -73,17 +73,25 @@ test.describe('Webhooks Functionality', () => {
     await page.screenshot({ path: './test-results/view-webhook.png' });
   });
   test('shows webhook details for inventory events', async ({ baseUrl, environment, loggedInPage: page }) => {
-    test.skip(!isEnterpriseOrStaging(environment));
-    await stopDockerClient();
-    const token = await tenantTokenRetrieval(baseUrl, page);
-    await startDockerClient(baseUrl, token);
+    test.skip(environment !== 'enterprise');
     await page.goto(`${baseUrl}ui/settings/integrations`);
     await page.getByText(/view details/i).click();
+    const inventoryChangeCount = (await page.getByText(/inventory changed/).all()).length;
+    await page.getByRole('link', { name: /Devices/i }).click();
+    await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
+    await page.getByText(/inventory/i).click();
+    await page.getByPlaceholder(/key/i).fill('foo');
+    await page.getByPlaceholder(/value/i).fill('bar');
+    await page.getByRole('button', { name: /save/i }).click();
+    await expect(page.getByPlaceholder(/key/i)).not.toBeVisible();
+    await page.goto(`${baseUrl}ui/settings/integrations`);
+    await page.getByText(/view details/i).click();
+    const newInventoryChangeCount = (await page.getByText(/inventory changed/).all()).length;
+    expect(newInventoryChangeCount).toBeGreaterThan(inventoryChangeCount);
     await page
-      .getByText(/inventory changed/i)
+      .getByText(/inventory changed/)
       .first()
       .click();
-    await expect(page.getByText(/device_type/)).toBeVisible();
-    await page.getByText(/back to webhook/i).click();
+    await expect(page.getByText('tags-foo')).toBeVisible();
   });
 });
