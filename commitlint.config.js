@@ -30,6 +30,7 @@ module.exports = {
       }
     ],
     'subject-case': [1, 'always', ['lower-case', 'sentence-case']],
+    'signed-off-by': [2, 'always', 'Signed-off-by'],
   },
 
   helpUrl: `
