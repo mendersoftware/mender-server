@@ -383,14 +383,14 @@ test:staging-deployment:chrome:
   resource_group: test-staging-deployment-chrome
   script:
     - npm run test
-  start_in: 10 minutes
+  start_in: 15 minutes
 
 test:staging-deployment:firefox:
   extends: .template:test:staging-deployment
   resource_group: test-staging-deployment-firefox
   script:
     - npm run test -- --browser=firefox
-  start_in: 35 minutes
+  start_in: 40 minutes
 
 test:staging-deployment:webkit:
   extends: .template:test:staging-deployment
@@ -398,7 +398,7 @@ test:staging-deployment:webkit:
   allow_failure: true
   script:
     - npm run test -- --browser=webkit
-  start_in: 25 minutes
+  start_in: 30 minutes
 
 publish:backend:coverage:
   stage: publish
