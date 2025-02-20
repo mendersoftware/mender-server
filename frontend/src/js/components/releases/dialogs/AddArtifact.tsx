@@ -188,8 +188,8 @@ export const AddArtifactDialog = ({ onCancel, onUploadStarted, releases, selecte
 
   const addArtifact = useCallback(
     (meta, file, type = 'upload') => {
-      const upload = type === 'create' ? onCreateArtifact(meta, file) : onUploadArtifact(meta, file);
       onUploadStarted();
+      const upload = type === 'create' ? onCreateArtifact(meta, file) : onUploadArtifact(meta, file);
       // track in GA
       return upload.then(() => Tracking.event({ category: 'artifacts', action: 'create' }));
     },

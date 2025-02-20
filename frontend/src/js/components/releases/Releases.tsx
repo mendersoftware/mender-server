@@ -171,6 +171,13 @@ export const Releases = () => {
   const debouncedTypeFilter = useDebounce(type, TIMEOUTS.debounceDefault);
 
   useEffect(() => {
+    // if an upload is ongoing and another upload is being prepared, prioritize the configuration of the new upload instead of showing the newly created release
+    if (showAddArtifactDialog && selectedRelease) {
+      dispatch(selectRelease());
+    }
+  }, [dispatch, selectedRelease, showAddArtifactDialog]);
+
+  useEffect(() => {
     if (!artifactTimer.current) {
       return;
     }
