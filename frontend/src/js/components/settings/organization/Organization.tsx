@@ -15,11 +15,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // material ui
-import { Button, Checkbox, Collapse, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, List, MenuItem, Select } from '@mui/material';
+import { Button, Checkbox, Collapse, DialogActions, DialogContent, FormControlLabel, List, MenuItem, Select } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
 import ExpandableAttribute from '@northern.tech/common-ui/ExpandableAttribute';
+import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
 import storeActions from '@northern.tech/store/actions';
 import { SSO_TYPES } from '@northern.tech/store/constants';
@@ -263,8 +264,7 @@ export const Organization = () => {
 };
 
 const ChangeSsoDialog = ({ dismiss, open, submit }) => (
-  <Dialog open={open}>
-    <DialogTitle>Change Single Sign-On type</DialogTitle>
+  <BaseDialog open={open} title="Change Single Sign-On type" onClose={dismiss}>
     <DialogContent style={{ overflow: 'hidden' }}>Are you sure you want to change SSO type? This will lose your current settings.</DialogContent>
     <DialogActions>
       <Button style={{ marginRight: 10 }} onClick={dismiss}>
@@ -274,7 +274,7 @@ const ChangeSsoDialog = ({ dismiss, open, submit }) => (
         Change
       </Button>
     </DialogActions>
-  </Dialog>
+  </BaseDialog>
 );
 
 export default Organization;

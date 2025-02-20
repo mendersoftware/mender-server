@@ -14,8 +14,9 @@
 import React, { useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Button, DialogActions, DialogContent } from '@mui/material';
 
+import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import { createFileDownload } from '@northern.tech/utils/helpers';
 
 import { Code } from '../CopyCode';
@@ -39,8 +40,7 @@ export const LogDialog = ({ context = {}, logData = '', onClose, type = 'deviceL
   const exportLog = () => createFileDownload(logData, dialogTypes[type].filename(context), '');
 
   return (
-    <Dialog open={true} maxWidth="lg">
-      <DialogTitle>{dialogTypes[type].title}</DialogTitle>
+    <BaseDialog open title={dialogTypes[type].title} maxWidth="lg" onClose={onClose}>
       <DialogContent>
         <Code className="log">{logData}</Code>
         <p style={{ marginLeft: 24 }}>{copied && <span className="green fadeIn">Copied to clipboard.</span>}</p>
@@ -56,7 +56,7 @@ export const LogDialog = ({ context = {}, logData = '', onClose, type = 'deviceL
           Export log
         </Button>
       </DialogActions>
-    </Dialog>
+    </BaseDialog>
   );
 };
 

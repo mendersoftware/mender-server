@@ -16,8 +16,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 
 import { AddCircle as AddIcon } from '@mui/icons-material';
-import { Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { DialogContent } from '@mui/material';
 
+import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import storeActions from '@northern.tech/store/actions';
 import { DEVICE_FILTERING_OPTIONS, DEVICE_ISSUE_OPTIONS, DEVICE_STATES, SORTING_OPTIONS, emptyFilter, onboardingSteps } from '@northern.tech/store/constants';
 import { useLocationParams } from '@northern.tech/store/liststatehook';
@@ -320,12 +321,11 @@ export const DeviceGroups = () => {
         )}
         {createGroupExplanation && <CreateGroupExplainer isEnterprise={isEnterprise} onClose={() => setCreateGroupExplanation(false)} />}
         {openIdDialog && (
-          <Dialog open>
-            <DialogTitle>Default device identity attribute</DialogTitle>
+          <BaseDialog open title="Default device identity attribute" onClose={openSettingsDialog}>
             <DialogContent style={{ overflow: 'hidden' }}>
               <Global dialog closeDialog={openSettingsDialog} />
             </DialogContent>
-          </Dialog>
+          </BaseDialog>
         )}
         {openPreauth && (
           <PreauthDialog
