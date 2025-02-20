@@ -70,7 +70,7 @@ test:frontend:unit:
   script:
     - cd frontend
     - npm ci
-    - npm run test -- --poolOptions.threads.maxThreads 6 --reporter=default --reporter=junit --outputFile.junit=./junit.xml --coverage
+    - npm run test -- --reporter=default --reporter=junit --outputFile.junit=./junit.xml --coverage
   after_script:
     - mkdir logs && cp frontend/logs/* logs/
   artifacts:
