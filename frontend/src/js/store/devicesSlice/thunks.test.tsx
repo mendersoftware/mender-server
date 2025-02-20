@@ -1166,7 +1166,7 @@ describe('device config ', () => {
       { type: actions.receivedDevice.type, payload: { attributes, id } },
       { type: getDeviceById.fulfilled.type },
       { type: actions.receivedDevice.type, payload: { id, tags: { something: 'asdl' } } },
-      { type: appActions.setSnackbar.type, payload: 'Device name changed' },
+      { type: appActions.setSnackbar.type, payload: 'Device tags changed' },
       { type: setDeviceTags.fulfilled.type }
     ];
     await store.dispatch(setDeviceTags({ deviceId: defaultState.devices.byId.a1.id, tags: { something: 'asdl' } }));

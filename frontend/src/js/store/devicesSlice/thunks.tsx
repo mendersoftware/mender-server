@@ -967,13 +967,16 @@ export const setDeviceTags = createAsyncThunk(`${sliceName}/setDeviceTags`, ({ d
   // to prevent tag set failures, retrieve the device & use the freshest etag we can get
   Promise.resolve(dispatch(getDeviceById(deviceId))).then(device => {
     const headers = device.etag ? { 'If-Match': device.etag } : {};
-    return GeneralApi.put(
-      `${inventoryApiUrl}/devices/${deviceId}/tags`,
-      Object.entries(tags).map(([name, value]) => ({ name, value })),
-      { headers }
-    )
+    const tagList = Object.entries(tags).map(([name, value]) => ({ name, value }));
+    const isNameChange = tagList.some(({ name }) => name === 'name');
+    return GeneralApi.put(`${inventoryApiUrl}/devices/${deviceId}/tags`, tagList, { headers })
       .catch(err => commonErrorHandler(err, `There was an error setting tags for device ${deviceId}.`, dispatch, 'Please check your connection.'))
-      .then(() => Promise.all([dispatch(actions.receivedDevice({ ...device, id: deviceId, tags })), dispatch(setSnackbar('Device name changed'))]));
+      .then(() =>
+        Promise.all([
+          dispatch(actions.receivedDevice({ ...device, id: deviceId, tags })),
+          dispatch(setSnackbar(`Device ${tagList.length === 1 && isNameChange ? 'name' : 'tags'} changed`))
+        ])
+      );
   })
 );
 
