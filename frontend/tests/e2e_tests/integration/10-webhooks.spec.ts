@@ -77,6 +77,8 @@ test.describe('Webhooks Functionality', () => {
     await page.goto(`${baseUrl}ui/settings/integrations`);
     await page.getByText(/view details/i).click();
     const inventoryChangeCount = (await page.getByText(/inventory changed/).all()).length;
+    await page.getByLabel(/close/i).click();
+
     await page.getByRole('link', { name: /Devices/i }).click();
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
     await page.getByText(/inventory/i).click();
