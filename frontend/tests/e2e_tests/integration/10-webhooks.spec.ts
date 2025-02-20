@@ -72,7 +72,8 @@ test.describe('Webhooks Functionality', () => {
     await expect(page.getByText(/one active integration at a time/i)).toBeVisible();
     await page.screenshot({ path: './test-results/view-webhook.png' });
   });
-  test('shows webhook details for inventory events', async ({ baseUrl, loggedInPage: page }) => {
+  test('shows webhook details for inventory events', async ({ baseUrl, environment, loggedInPage: page }) => {
+    test.skip(!isEnterpriseOrStaging(environment));
     await stopDockerClient();
     const token = await tenantTokenRetrieval(baseUrl, page);
     await startDockerClient(baseUrl, token);
