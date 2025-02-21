@@ -623,6 +623,9 @@ changelog:
         *saas*)
           if [[ "$CI_PROJECT_NAME" == "mender-server-enterprise" ]]; then
             ./.gitlab/generate_changelog.sh "${RELEASE_VERSION}" "-saas" "${GITHUB_REPO_URL}" "${CI_COMMIT_REF_NAME}"
+          else
+            echo "INFO - Skipping changelog generation for saas release"
+            git add CHANGELOG.md  # restore the original CHANGELOG.md after release-please
           fi
           ;;
         *)
