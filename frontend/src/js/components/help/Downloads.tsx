@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { ArrowDropDown, ExpandMore, FileDownloadOutlined as FileDownloadIcon, Launch } from '@mui/icons-material';
 import { Accordion, AccordionDetails, AccordionSummary, Chip, Menu, MenuItem, Typography } from '@mui/material';
@@ -22,6 +22,7 @@ import Time from '@northern.tech/common-ui/Time';
 import storeActions from '@northern.tech/store/actions';
 import { canAccess } from '@northern.tech/store/constants';
 import { getCurrentSession, getCurrentUser, getIsEnterprise, getTenantCapabilities, getVersionInformation } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { detectOsIdentifier, toggle } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
 import Cookies from 'universal-cookie';
@@ -322,7 +323,7 @@ export const Downloads = () => {
   const [anchorEl, setAnchorEl] = useState();
   const [currentLocation, setCurrentLocation] = useState('');
   const [os] = useState(detectOsIdentifier());
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { tokens = [] } = useSelector(getCurrentUser);
   const { token } = useSelector(getCurrentSession);
   const isEnterprise = useSelector(getIsEnterprise);

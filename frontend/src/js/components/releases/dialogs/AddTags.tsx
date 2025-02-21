@@ -13,13 +13,13 @@
 //    limitations under the License.
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 
 import { Button, DialogActions, DialogContent } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import ChipSelect from '@northern.tech/common-ui/ChipSelect';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { setReleaseTags, setReleasesListState } from '@northern.tech/store/thunks';
 
 const useStyles = makeStyles()(theme => ({
@@ -42,7 +42,7 @@ export const AddTagsDialog = ({ selectedReleases, onClose }) => {
   const methods = useForm({ mode: 'onChange', defaultValues: initialValues });
   const { watch, getValues } = methods;
   const watchTagsInput = watch([inputName]);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const addTagsToReleases = () => {
     const tags = getValues(inputName);

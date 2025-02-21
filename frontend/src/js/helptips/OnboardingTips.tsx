@@ -12,13 +12,13 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React from 'react';
-import { useDispatch } from 'react-redux';
 
 import { Schedule as HelpIcon } from '@mui/icons-material';
 import { Button } from '@mui/material';
 
 import storeActions from '@northern.tech/store/actions';
 import { ALL_DEVICES, onboardingSteps } from '@northern.tech/store/constants';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { advanceOnboarding } from '@northern.tech/store/thunks';
 
 import BaseOnboardingTip, { BaseOnboardingTooltip } from './BaseOnoardingTip';
@@ -34,7 +34,7 @@ export const DevicePendingTip = props => (
 );
 
 export const GetStartedTip = props => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   return (
     <BaseOnboardingTooltip {...props}>
       <div className="margin-top" style={{ marginBottom: -12 }}>
@@ -71,7 +71,7 @@ export const DevicesPendingAcceptingOnboarding = () => (
 export const DashboardOnboardingPendings = () => <div>Next accept your device</div>;
 
 export const DevicesAcceptedOnboarding = props => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   return (
     <BaseOnboardingTooltip {...props}>
       <div className="margin-top" style={{ marginBottom: -12 }}>

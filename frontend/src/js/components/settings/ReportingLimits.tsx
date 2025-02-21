@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { ArrowDropDown as ArrowDropDownIcon, ArrowDropUp as ArrowDropUpIcon } from '@mui/icons-material';
 // material ui
@@ -34,6 +34,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getReportingLimits } from '@northern.tech/store/thunks';
 import { toggle } from '@northern.tech/utils/helpers';
 
@@ -66,7 +67,7 @@ const useStyles = makeStyles()(theme => ({
 export const ReportingLimits = () => {
   const [open, setOpen] = useState(false);
   const { classes } = useStyles();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { attributes = {}, count = 0, limit = 100 } = useSelector(state => state.devices.filteringAttributesConfig);
 
   useEffect(() => {

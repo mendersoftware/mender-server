@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import ConfigurationObject from '@northern.tech/common-ui/ConfigurationObject';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
@@ -20,6 +20,7 @@ import { HelpTooltip } from '@northern.tech/common-ui/MenderTooltip';
 import storeActions from '@northern.tech/store/actions';
 import { READ_STATES, yes } from '@northern.tech/store/constants';
 import { getDeviceById, getFeatures, getTooltipsState } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { setAllTooltipsReadState, setTooltipReadState } from '@northern.tech/store/thunks';
 
 const { setSnackbar } = storeActions;
@@ -98,7 +99,7 @@ const ConfigureTimezoneTip = () => (
 );
 
 const ConfigureRaspberryLedTip = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   return (
     <>
       To see the effects of applying a configuration to your device you can set one of the below values to modify the behaviour of your Raspberry Pi green
@@ -353,7 +354,7 @@ export const HELPTOOLTIPS = {
 export const MenderHelpTooltip = props => {
   const { id, contentProps = {} } = props;
   const tooltipsById = useSelector(getTooltipsState);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const device = useSelector(state => getDeviceById(state, contentProps.deviceId));
   const { readState = READ_STATES.unread } = tooltipsById[id] || {};
   const { Component, SpecialComponent, isRelevant = yes } = HELPTOOLTIPS[id];

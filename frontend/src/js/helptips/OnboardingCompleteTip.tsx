@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { CheckCircle as CheckCircleIcon } from '@mui/icons-material';
 import { Button } from '@mui/material';
@@ -22,6 +22,7 @@ import Loader from '@northern.tech/common-ui/Loader';
 import { MenderTooltipClickable } from '@northern.tech/common-ui/MenderTooltip';
 import { DEVICE_STATES, onboardingSteps } from '@northern.tech/store/constants';
 import { getDemoDeviceAddress } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeviceById, getDevicesByStatus, setOnboardingComplete } from '@northern.tech/store/thunks';
 
 export const CompletionButton = withStyles(Button, ({ palette }) => ({
@@ -35,7 +36,7 @@ export const CompletionButton = withStyles(Button, ({ palette }) => ({
 
 export const OnboardingCompleteTip = ({ anchor, targetUrl }) => {
   const timer = useRef();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const url = useSelector(getDemoDeviceAddress) || targetUrl;
 
   useEffect(() => {

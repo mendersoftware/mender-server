@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Refresh as RefreshIcon } from '@mui/icons-material';
 import { makeStyles } from 'tss-react/mui';
@@ -31,6 +31,7 @@ import {
   getOnboardingState,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeploymentsByStatus, setDeploymentsState } from '@northern.tech/store/thunks';
 import { useWindowSize } from '@northern.tech/utils/resizehook';
 import { clearAllRetryTimers, clearRetryTimer, setRetryTimer } from '@northern.tech/utils/retrytimer';
@@ -72,7 +73,7 @@ export const Progress = ({ abort, createClick, ...remainder }) => {
   const pending = useSelector(state => getMappedDeploymentSelection(state, DEPLOYMENT_STATES.pending));
   const selectionState = useSelector(getDeploymentsSelectionState);
   const devices = useSelector(getDevicesById);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const dispatchedSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
 
   const { page: progressPage, perPage: progressPerPage } = selectionState.inprogress;

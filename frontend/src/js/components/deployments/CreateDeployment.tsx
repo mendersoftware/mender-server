@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { ExpandMore } from '@mui/icons-material';
@@ -49,6 +49,7 @@ import {
   getReleasesById,
   getTenantCapabilities
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { advanceOnboarding, createDeployment, getDeploymentsConfig, getGroupDevices, getRelease, getReleases } from '@northern.tech/store/thunks';
 import { toggle } from '@northern.tech/utils/helpers';
 import pluralize from 'pluralize';
@@ -112,7 +113,7 @@ export const CreateDeployment = props => {
   const { searchedIds: releases } = useSelector(getReleaseListState);
   const releasesById = useSelector(getReleasesById);
   const groupNames = useSelector(getGroupNames);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const isCreating = useRef(false);
   const [hasNewRetryDefault, setHasNewRetryDefault] = useState(false);

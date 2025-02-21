@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 // material ui
 import { InfoOutlined as InfoOutlinedIcon } from '@mui/icons-material';
@@ -23,6 +23,7 @@ import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotificat
 import InfoText from '@northern.tech/common-ui/InfoText';
 import Loader from '@northern.tech/common-ui/Loader';
 import { BENEFITS, TIMEOUTS } from '@northern.tech/store/constants';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeploymentsConfig, saveDeltaDeploymentsConfig } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 
@@ -81,7 +82,7 @@ const NumberInputLimited = ({ limit, onChange, value: propsValue, ...remainder }
 
 export const ArtifactGenerationSettings = () => {
   const { binaryDelta: deltaConfig = {}, binaryDeltaLimits: deltaLimits = {}, hasDelta: deltaEnabled } = useSelector(state => state.deployments.config) ?? {};
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [timeoutValue, setTimeoutValue] = useState(deltaConfig.timeout);
   const [disableChecksum, setDisableChecksum] = useState(deltaConfig.disableChecksum);
   const [disableDecompression, setDisableDecompression] = useState(deltaConfig.disableChecksum);

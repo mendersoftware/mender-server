@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import {
   Button,
@@ -42,6 +42,7 @@ import {
   getUserCapabilities,
   getUserRoles
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { changeNotificationSetting, getDeviceAttributes, getGlobalSettings, saveGlobalSettings } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 
@@ -244,7 +245,7 @@ export const GlobalSettingsDialog = ({
 };
 
 export const GlobalSettingsContainer = ({ closeDialog, dialog }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const attributes = useSelector(getDeviceIdentityAttributes);
   const { hasReporting } = useSelector(getFeatures);
   const { isAdmin } = useSelector(getUserRoles);

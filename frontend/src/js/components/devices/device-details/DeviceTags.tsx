@@ -12,7 +12,6 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 
 import { Button } from '@mui/material';
 
@@ -20,6 +19,7 @@ import ConfigurationObject from '@northern.tech/common-ui/ConfigurationObject';
 import { EditButton } from '@northern.tech/common-ui/Confirm';
 import KeyValueEditor from '@northern.tech/common-ui/forms/KeyValueEditor';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeviceAttributes, setDeviceTags } from '@northern.tech/store/thunks';
 import { isEmpty, toggle } from '@northern.tech/utils/helpers';
 
@@ -39,7 +39,7 @@ export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
   const [isEditDisabled, setIsEditDisabled] = useState(!canWriteDevices);
   const [isEditing, setIsEditing] = useState(false);
   const [shouldUpdateEditor, setShouldUpdateEditor] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { tags = {} } = device;
   const hasTags = !!Object.keys(tags).length;

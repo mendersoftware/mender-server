@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import Loader from '@northern.tech/common-ui/Loader';
@@ -26,6 +26,7 @@ import {
   getRecentDeployments,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeploymentsByStatus } from '@northern.tech/store/thunks';
 import { useWindowSize } from '@northern.tech/utils/resizehook';
 import { clearAllRetryTimers, setRetryTimer } from '@northern.tech/utils/retrytimer';
@@ -46,7 +47,7 @@ const stateMap = {
 };
 
 export const Deployments = ({ className = '', clickHandle }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const setSnackbarDispatched = useCallback(message => dispatch(setSnackbar(message)), [dispatch]);
   const { canDeploy } = useSelector(getUserCapabilities);
   const { total: deploymentsCount, ...deployments } = useSelector(getRecentDeployments);

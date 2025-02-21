@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 // material ui
 import { Block as BlockIcon, CheckCircleOutline as CheckCircleOutlineIcon, Refresh as RefreshIcon } from '@mui/icons-material';
@@ -37,6 +37,7 @@ import {
   getTenantCapabilities,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getAuditLogs, getDeploymentDevices, getDeviceLog, getRelease, getSingleDeployment, updateDeploymentControlMap } from '@northern.tech/store/thunks';
 import { statCollector } from '@northern.tech/store/utils';
 import { toggle } from '@northern.tech/utils/helpers';
@@ -84,7 +85,7 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type }) => {
   const timer = useRef();
   const onboardingTooltipAnchor = useRef();
   const { classes } = useStyles();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { deployment, selectedDevices } = useSelector(getSelectedDeploymentData);
   const devicesById = useSelector(getDevicesById);
   const idAttribute = useSelector(getIdAttribute);

@@ -12,7 +12,6 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 
 // material ui
 import { InfoOutlined as InfoIcon } from '@mui/icons-material';
@@ -21,6 +20,7 @@ import { Button, DialogActions, DialogContent } from '@mui/material';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import FileUpload from '@northern.tech/common-ui/forms/FileUpload';
 import KeyValueEditor from '@northern.tech/common-ui/forms/KeyValueEditor';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { preauthDevice } from '@northern.tech/store/thunks';
 import { isEmpty } from '@northern.tech/utils/helpers';
 
@@ -46,7 +46,7 @@ export const PreauthDialog = ({ acceptedDevices, deviceLimit, limitMaxed, onCanc
   const [errortext, setErrortext] = useState(null);
   const [jsonIdentity, setJsonIdentity] = useState(null);
   const [publicKey, setPublicKey] = useState(null);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const convertIdentityToJSON = jsonIdentity => {
     setErrortext(null);

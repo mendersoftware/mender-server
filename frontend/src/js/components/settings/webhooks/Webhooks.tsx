@@ -12,13 +12,14 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import DetailsIndicator from '@northern.tech/common-ui/DetailsIndicator';
 import DetailsTable from '@northern.tech/common-ui/DetailsTable';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
 import { EXTERNAL_PROVIDER } from '@northern.tech/store/constants';
 import { getWebhooks } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { deleteIntegration } from '@northern.tech/store/thunks';
 
 import WebhookManagement from './Management';
@@ -32,7 +33,7 @@ const columns = [
 export const Webhooks = () => {
   const [selectedWebhook, setSelectedWebhook] = useState();
   const webhooks = useSelector(getWebhooks);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const onCancel = () => setSelectedWebhook();
 

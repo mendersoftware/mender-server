@@ -14,7 +14,7 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { Button, Tab, Tabs } from '@mui/material';
@@ -30,6 +30,7 @@ import {
   getReleasesById,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { abortDeployment, advanceOnboarding, getDynamicGroups, getGroups, setDeploymentsState } from '@northern.tech/store/thunks';
 import { getISOStringBoundaries } from '@northern.tech/utils/helpers';
 import { useWindowSize } from '@northern.tech/utils/resizehook';
@@ -70,7 +71,7 @@ export const Deployments = () => {
   const releases = useSelector(getReleasesById);
   const selectionState = useSelector(state => state.deployments.selectionState);
   const userCapabilities = useSelector(getUserCapabilities);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [deploymentObject, setDeploymentObject] = useState({});
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

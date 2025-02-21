@@ -12,14 +12,14 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Add as AddIcon } from '@mui/icons-material';
 import { Chip } from '@mui/material';
 
 import { getTenantsList } from '@northern.tech/store/organizationSlice/selectors';
 import { getTenants } from '@northern.tech/store/organizationSlice/thunks';
-import { AppDispatch } from '@northern.tech/store/store';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { toggle } from '@northern.tech/utils/helpers';
 
 import { TenantCreateForm } from './TenantCreateForm';
@@ -30,7 +30,7 @@ interface TenantsEmptyStateProps {
 }
 const TenantsEmptyState = (props: TenantsEmptyStateProps) => {
   const { openModal } = props;
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getTenants());
   }, [dispatch]);

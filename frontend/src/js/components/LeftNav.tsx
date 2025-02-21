@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 // material ui
@@ -24,6 +24,7 @@ import MenderTooltip from '@northern.tech/common-ui/MenderTooltip';
 import storeActions from '@northern.tech/store/actions';
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { getFeatures, getUserCapabilities, getVersionInformation } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import copy from 'copy-to-clipboard';
 
 import { routeConfigs } from '../config/routes';
@@ -69,7 +70,7 @@ const VersionInfo = () => {
   const timer = useRef();
   const { classes } = useStyles();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { isHosted } = useSelector(getFeatures);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { latestRelease, ...versionInformation } = useSelector(getVersionInformation);

@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { Close as CloseIcon } from '@mui/icons-material';
@@ -22,6 +22,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import { SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
 import { getIdAttribute, getMappedDevicesList, getSearchState, getUserSettings } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { setDeviceListState, setSearchState } from '@northern.tech/store/thunks';
 import pluralize from 'pluralize';
 
@@ -64,7 +65,7 @@ const ResultTitle = ({ onClick, term, total }) => {
 
 export const SearchResult = ({ onToggleSearchResult, open = true }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { columnSelection } = useSelector(getUserSettings);
   const customColumnSizes = useSelector(state => state.users.customColumns);

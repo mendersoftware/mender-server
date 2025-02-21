@@ -13,7 +13,7 @@
 //    limitations under the License.
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Dropzone from 'react-dropzone';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Button } from '@mui/material';
@@ -24,6 +24,7 @@ import { MaybeTime } from '@northern.tech/common-ui/Time';
 import { BEGINNING_OF_TIME, TIMEOUTS } from '@northern.tech/store/constants';
 import { getCurrentSession, getFeatures, getIsPreview, getTenantCapabilities, getUserCapabilities } from '@northern.tech/store/selectors';
 import { useSession } from '@northern.tech/store/sockethook';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { triggerDeviceUpdate } from '@northern.tech/store/thunks';
 import dayjs from 'dayjs';
 import durationDayJs from 'dayjs/plugin/duration';
@@ -113,7 +114,7 @@ export const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUp
   const { canAuditlog } = useSelector(getUserCapabilities);
   const canPreview = useSelector(getIsPreview);
   const { token } = useSelector(getCurrentSession);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const onMessageReceived = useCallback(message => {
     if (!termRef.current.terminal.current) {

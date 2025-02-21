@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 // material ui
 import { Button, Checkbox, Collapse, DialogActions, DialogContent, FormControlLabel, List, MenuItem, Select } from '@mui/material';
@@ -25,6 +25,7 @@ import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpToo
 import storeActions from '@northern.tech/store/actions';
 import { SSO_TYPES } from '@northern.tech/store/constants';
 import { getCurrentSession, getFeatures, getIsEnterprise, getIsPreview, getOrganization, getSsoConfig, getUserRoles } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import {
   changeSsoConfig,
   deleteSsoConfig,
@@ -76,7 +77,7 @@ export const Organization = () => {
   const { isHosted } = useSelector(getFeatures);
   const org = useSelector(getOrganization);
   const ssoConfig = useSelector(getSsoConfig);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { token } = useSelector(getCurrentSession);
   const { classes } = useStyles();
 
