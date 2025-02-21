@@ -12,11 +12,11 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import Form from '@northern.tech/common-ui/forms/Form';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { passwordResetStart } from '@northern.tech/store/thunks';
 
 import LoginLogo from '../../../assets/img/loginlogo.svg';
@@ -50,7 +50,7 @@ const texts = {
 export const Password = () => {
   const [confirm, setConfirm] = useState(false);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleSubmit = formData => dispatch(passwordResetStart(formData.email)).then(() => setConfirm(true));
 

@@ -12,7 +12,6 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
 
 import {
   Close as CloseIcon,
@@ -40,6 +39,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import actions from '@northern.tech/store/actions';
 import { TIMEOUTS } from '@northern.tech/store/constants';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { submitFeedback } from '@northern.tech/store/thunks';
 import { isDarkMode } from '@northern.tech/store/utils';
 
@@ -129,7 +129,7 @@ export const FeedbackDialog = () => {
   const [progress, setProgress] = useState(0);
   const [satisfaction, setSatisfaction] = useState(-1);
   const [feedback, setFeedback] = useState('');
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isInitialized = useRef(false);
 
   const { classes } = useStyles();

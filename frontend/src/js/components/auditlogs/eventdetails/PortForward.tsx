@@ -12,11 +12,12 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Loader from '@northern.tech/common-ui/Loader';
 import Time from '@northern.tech/common-ui/Time';
 import { getAuditlogDevice, getIdAttribute, getUserCapabilities } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeviceById, getSessionDetails } from '@northern.tech/store/thunks';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
@@ -27,7 +28,7 @@ dayjs.extend(duration);
 
 export const PortForward = ({ item, onClose }) => {
   const [sessionDetails, setSessionDetails] = useState();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { action, actor, meta, object = {}, time } = item;
   const { canReadDevices } = useSelector(getUserCapabilities);
   const device = useSelector(getAuditlogDevice);

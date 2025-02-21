@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import DocsLink from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
@@ -21,6 +21,7 @@ import Time from '@northern.tech/common-ui/Time';
 import storeActions from '@northern.tech/store/actions';
 import { BENEFITS, DEVICE_LIST_DEFAULTS } from '@northern.tech/store/constants';
 import { getOfflineThresholdSettings, getTenantCapabilities } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeviceAlerts } from '@northern.tech/store/thunks';
 
 import MonitorDetailsDialog from '../dialogs/MonitorDetailsDialog';
@@ -62,7 +63,7 @@ export const DeviceMonitoring = ({ device, onDetailsClick }) => {
   const { alerts = [], latest: latestAlerts = [] } = useSelector(state => state.monitor.alerts.byDeviceId[device.id]) ?? {};
   const alertListState = useSelector(state => state.monitor.alerts.alertList) ?? {};
   const offlineThresholdSettings = useSelector(getOfflineThresholdSettings);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { page: pageNo = defaultPage, perPage: pageLength = defaultPerPage, total: alertCount } = alertListState;
 
   useEffect(() => {

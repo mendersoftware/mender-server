@@ -12,17 +12,17 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React from 'react';
-import { useDispatch } from 'react-redux';
 
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
 import storeActions from '@northern.tech/store/actions';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { setOnboardingCanceled } from '@northern.tech/store/thunks';
 
 const { setShowDismissOnboardingTipsDialog } = storeActions;
 
 export const ConfirmDismissHelptips = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   return (
     <Dialog open={true}>
       <DialogTitle>Dismiss the Getting Started help?</DialogTitle>

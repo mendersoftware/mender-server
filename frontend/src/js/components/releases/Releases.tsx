@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { CloudUpload } from '@mui/icons-material';
 import { Button, Tab, Tabs, TextField, inputBaseClasses, outlinedInputClasses } from '@mui/material';
@@ -36,6 +36,7 @@ import {
   getUpdateTypes as getUpdateTypesSelector,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getExistingReleaseTags, getReleases, getUpdateTypes, selectRelease, setReleasesListState } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 import pluralize from 'pluralize';
@@ -160,7 +161,7 @@ export const Releases = () => {
   const releases = useSelector(getReleasesList);
   const selectedRelease = useSelector(getSelectedRelease);
   const { canUploadReleases } = useSelector(getUserCapabilities);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { classes } = useStyles();
 
   const [selectedFile, setSelectedFile] = useState();

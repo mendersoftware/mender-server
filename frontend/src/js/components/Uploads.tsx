@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Cancel as CancelIcon } from '@mui/icons-material';
 import { Drawer, IconButton, LinearProgress, Tooltip, drawerClasses } from '@mui/material';
@@ -20,6 +20,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import FileSize from '@northern.tech/common-ui/FileSize';
 import { getUploads } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { cancelFileUpload } from '@northern.tech/store/thunks';
 import pluralize from 'pluralize';
 
@@ -65,7 +66,7 @@ const useStyles = makeStyles()(theme => ({
 
 const UploadProgressBar = ({ classes, upload, uploadId }) => {
   const { name, size, progress } = upload;
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const onCancelClick = useCallback(() => dispatch(cancelFileUpload(uploadId)), [dispatch, uploadId]);
   return (
     <div className={classes.progressContainer}>
