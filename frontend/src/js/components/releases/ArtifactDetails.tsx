@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 // material ui
 import {
@@ -30,6 +30,7 @@ import { makeStyles } from 'tss-react/mui';
 import { EditableLongText } from '@northern.tech/common-ui/EditableLongText';
 import ExpandableAttribute from '@northern.tech/common-ui/ExpandableAttribute';
 import { getUserCapabilities } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { editArtifact, getArtifactInstallCount, getArtifactUrl } from '@northern.tech/store/thunks';
 import { extractSoftware, extractSoftwareItem, toggle } from '@northern.tech/utils/helpers';
 import pluralize from 'pluralize';
@@ -122,7 +123,7 @@ export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }) =>
   const [showPayloads, setShowPayloads] = useState(false);
   const [showProvidesDepends, setShowProvidesDepends] = useState(false);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { canManageReleases } = useSelector(getUserCapabilities);
 

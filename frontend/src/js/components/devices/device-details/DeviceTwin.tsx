@@ -12,7 +12,6 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { CheckCircleOutlined, CloudUploadOutlined as CloudUpload, Refresh as RefreshIcon } from '@mui/icons-material';
@@ -24,6 +23,7 @@ import InfoHint from '@northern.tech/common-ui/InfoHint';
 import Loader from '@northern.tech/common-ui/Loader';
 import Time from '@northern.tech/common-ui/Time';
 import { EXTERNAL_PROVIDER, TIMEOUTS } from '@northern.tech/store/constants';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeviceTwin, setDeviceTwin } from '@northern.tech/store/thunks';
 import { deepCompare, isEmpty } from '@northern.tech/utils/helpers';
 import pluralize from 'pluralize';
@@ -150,7 +150,7 @@ export const DeviceTwin = ({ device, integration }) => {
   const [isSync, setIsSync] = useState(true);
   const editorRef = useRef(null);
   const { classes } = useStyles();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const externalProvider = EXTERNAL_PROVIDER[integration.provider];
   const { [integration.id]: deviceTwin = {} } = device.twinsByIntegration ?? {};

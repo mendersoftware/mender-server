@@ -12,12 +12,12 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
 
 // material ui
 import { InputAdornment, OutlinedInput } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { useAppDispatch } from '@northern.tech/store/store';
 import { setDeviceTags } from '@northern.tech/store/thunks';
 
 import { ConfirmationButtons, EditButton } from './Confirm';
@@ -38,7 +38,7 @@ export const DeviceNameInput = ({ device, isHovered }) => {
   const { classes } = useStyles();
   const inputRef = useRef();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { id = '', tags = {} } = device;
   const { name = '' } = tags;

@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Button, Checkbox, Divider, Drawer, FormControl, FormControlLabel, FormHelperText, TextField, formControlLabelClasses } from '@mui/material';
@@ -25,7 +25,7 @@ import actions from '@northern.tech/store/actions';
 import { generateTenantPathById } from '@northern.tech/store/locationutils';
 import { getOrganization, getSsoConfig } from '@northern.tech/store/organizationSlice/selectors';
 import { editTenantDeviceLimit, removeTenant } from '@northern.tech/store/organizationSlice/thunks';
-import { AppDispatch } from '@northern.tech/store/store';
+import { useAppDispatch } from '@northern.tech/store/store';
 import copy from 'copy-to-clipboard';
 
 import { DeviceCount } from '../header/devicecount';
@@ -60,7 +60,7 @@ export const ExpandedTenant = (props: ExpandedTenantProps) => {
 
   const currentLimit = spDeviceLimit - spDeviceUtilization + device_limit;
   const { classes } = useStyles();
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   const copyLinkToClipboard = () => {
     const location = window.origin + '/ui';

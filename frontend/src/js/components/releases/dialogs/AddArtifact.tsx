@@ -13,7 +13,7 @@
 //    limitations under the License.
 import React, { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import Dropzone from 'react-dropzone';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { CloudUpload } from '@mui/icons-material';
 import { Button, DialogActions, DialogContent } from '@mui/material';
@@ -23,6 +23,7 @@ import { InputErrorNotification } from '@northern.tech/common-ui/InputErrorNotif
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import storeActions from '@northern.tech/store/actions';
 import { getDeviceTypes } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { createArtifact, uploadArtifact } from '@northern.tech/store/thunks';
 import { unionizeStrings } from '@northern.tech/utils/helpers';
 import { useWindowSize } from '@northern.tech/utils/resizehook';
@@ -177,7 +178,7 @@ export const AddArtifactDialog = ({ onCancel, onUploadStarted, releases, selecte
   });
 
   const deviceTypes = useSelector(getDeviceTypes);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const onCreateArtifact = useCallback((meta, file) => dispatch(createArtifact({ meta, file })), [dispatch]);
   const onSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);

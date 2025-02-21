@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Button, DialogActions, DialogContent, Divider } from '@mui/material';
 
@@ -20,6 +20,7 @@ import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import storeActions from '@northern.tech/store/actions';
 import { DEVICE_ONLINE_CUTOFF, TIMEOUTS } from '@northern.tech/store/constants';
 import { getIsDarkMode } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { saveGlobalSettings } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 
@@ -68,7 +69,7 @@ const notifications = {
 
 export const StartupNotificationDialog = () => {
   const [isAllowedToClose] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isDarkMode = useSelector(getIsDarkMode);
 
   const { action, Content } = notifications.offlineThreshold;

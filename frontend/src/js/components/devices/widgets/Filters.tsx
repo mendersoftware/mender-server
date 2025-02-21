@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Add as AddIcon } from '@mui/icons-material';
 // material ui
@@ -32,6 +32,7 @@ import {
   getTenantCapabilities,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeviceAttributes, saveGlobalSettings, setDeviceListState } from '@northern.tech/store/thunks';
 import { filtersFilter } from '@northern.tech/store/utils';
 import { deepCompare, toggle } from '@northern.tech/utils/helpers';
@@ -51,7 +52,7 @@ export const Filters = ({ className = '', onGroupClick, open }) => {
   const [reset, setReset] = useState(false);
   const [newFilter, setNewFilter] = useState(emptyFilter);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { hasFullFiltering, plan } = useSelector(getTenantCapabilities);
   const { canManageUsers } = useSelector(getUserCapabilities);
   const { groupFilters, selectedGroup } = useSelector(getSelectedGroupInfo);

@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { makeStyles } from 'tss-react/mui';
@@ -21,6 +21,7 @@ import Loader from '@northern.tech/common-ui/Loader';
 import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_ROUTES, TIMEOUTS, onboardingSteps } from '@northern.tech/store/constants';
 import { getCurrentUser, getOnboardingState } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 
 import { getOnboardingComponentFor } from '../../utils/onboardingManager';
 import Deployments from './Deployments';
@@ -69,7 +70,7 @@ export const Dashboard = () => {
   const timer = useRef();
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { id: currentUser } = useSelector(getCurrentUser);
   const onboardingState = useSelector(getOnboardingState);
 
