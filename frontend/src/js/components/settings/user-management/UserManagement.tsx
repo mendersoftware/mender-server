@@ -16,8 +16,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Add as AddIcon } from '@mui/icons-material';
 // material ui
-import { Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Button, Chip, DialogActions, DialogContent } from '@mui/material';
 
+import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import storeActions from '@northern.tech/store/actions';
 import { getCurrentUser, getFeatures, getIsEnterprise, getRelevantRoles, getUserCapabilities, getUsersList } from '@northern.tech/store/selectors';
 import { addUserToCurrentTenant, createUser, editUser, getUserList, passwordResetStart, removeUser } from '@northern.tech/store/thunks';
@@ -36,8 +37,7 @@ const actions = {
 };
 
 const DeleteUserDialog = ({ dismiss, open, submit, user }) => (
-  <Dialog open={open}>
-    <DialogTitle>Delete user?</DialogTitle>
+  <BaseDialog title="Delete user?" open={open} onClose={dismiss}>
     <DialogContent style={{ overflow: 'hidden' }}>
       Are you sure you want to delete the user with email{' '}
       <b>
@@ -53,7 +53,7 @@ const DeleteUserDialog = ({ dismiss, open, submit, user }) => (
         Delete user
       </Button>
     </DialogActions>
-  </Dialog>
+  </BaseDialog>
 );
 
 export const UserManagement = () => {

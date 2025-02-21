@@ -13,11 +13,12 @@
 //    limitations under the License.
 import React from 'react';
 
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Button, DialogActions, DialogContent } from '@mui/material';
+
+import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 
 const RemoveGroup = ({ onRemove, onClose }) => (
-  <Dialog open={true}>
-    <DialogTitle>Remove this group?</DialogTitle>
+  <BaseDialog open title="Remove this group?" onClose={onClose}>
     <DialogContent>
       <p>This will remove the group from the list. Are you sure you want to continue?</p>
     </DialogContent>
@@ -29,7 +30,7 @@ const RemoveGroup = ({ onRemove, onClose }) => (
         Remove group
       </Button>
     </DialogActions>
-  </Dialog>
+  </BaseDialog>
 );
 
 export default RemoveGroup;

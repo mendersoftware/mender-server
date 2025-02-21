@@ -14,15 +14,15 @@
 import React from 'react';
 
 // material ui
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Button, DialogActions, DialogContent } from '@mui/material';
 
 import CopyCode from '@northern.tech/common-ui/CopyCode';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
+import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import { getDebConfigurationCode } from '@northern.tech/utils/helpers';
 
 export const ConnectToGatewayDialog = ({ gatewayIp, isPreRelease, onCancel, tenantToken, token }) => (
-  <Dialog open fullWidth maxWidth="md">
-    <DialogTitle>Connecting a device to a gateway</DialogTitle>
+  <BaseDialog open title="Connecting a device to a gateway" fullWidth maxWidth="md" onClose={onCancel}>
     <DialogContent className="onboard-dialog dialog-content">
       On the device terminal, run the following command:
       <CopyCode code={getDebConfigurationCode({ ipAddress: gatewayIp, isDemoMode: true, tenantToken, token, isPreRelease })} withDescription />
@@ -38,7 +38,7 @@ export const ConnectToGatewayDialog = ({ gatewayIp, isPreRelease, onCancel, tena
         Close
       </Button>
     </DialogActions>
-  </Dialog>
+  </BaseDialog>
 );
 
 export default ConnectToGatewayDialog;

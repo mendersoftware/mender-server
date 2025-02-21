@@ -16,10 +16,11 @@ import Dropzone from 'react-dropzone';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { CloudUpload } from '@mui/icons-material';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Button, DialogActions, DialogContent } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { InputErrorNotification } from '@northern.tech/common-ui/InputErrorNotification';
+import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import storeActions from '@northern.tech/store/actions';
 import { getDeviceTypes } from '@northern.tech/store/selectors';
 import { createArtifact, uploadArtifact } from '@northern.tech/store/thunks';
@@ -229,8 +230,7 @@ export const AddArtifactDialog = ({ onCancel, onUploadStarted, releases, selecte
   const commonProps = { releases, setSnackbar: onSetSnackbar, updateCreation: onUpdateCreation };
 
   return (
-    <Dialog open={true} fullWidth={true} maxWidth="sm">
-      <DialogTitle>Upload an Artifact</DialogTitle>
+    <BaseDialog open title="Upload an Artifact" fullWidth maxWidth="sm" onClose={onCancel}>
       <DialogContent className="dialog-content margin-top margin-left margin-right margin-bottom">
         {!file ? (
           <ArtifactUpload updateCreation={onUpdateCreation} />
@@ -248,7 +248,7 @@ export const AddArtifactDialog = ({ onCancel, onUploadStarted, releases, selecte
           </Button>
         )}
       </DialogActions>
-    </Dialog>
+    </BaseDialog>
   );
 };
 

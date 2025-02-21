@@ -13,7 +13,9 @@
 //    limitations under the License.
 import React from 'react';
 
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Button, DialogActions, DialogContent } from '@mui/material';
+
+import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 
 const content = {
   artifact: ({ artifact }) => (
@@ -32,8 +34,7 @@ const RemoveArtifactDialog = ({ artifact, onCancel, open, onRemove, release }) =
   const type = artifact ? 'artifact' : 'release';
   const Content = content[type];
   return (
-    <Dialog open={open}>
-      <DialogTitle>Remove this {type}?</DialogTitle>
+    <BaseDialog open={open} title={`Remove this ${type}?`} onClose={onCancel}>
       <DialogContent>
         <Content artifact={artifact} release={release} />
       </DialogContent>
@@ -44,7 +45,7 @@ const RemoveArtifactDialog = ({ artifact, onCancel, open, onRemove, release }) =
           Remove {type}
         </Button>
       </DialogActions>
-    </Dialog>
+    </BaseDialog>
   );
 };
 

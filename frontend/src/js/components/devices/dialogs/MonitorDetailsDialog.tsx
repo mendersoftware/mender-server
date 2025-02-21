@@ -20,20 +20,9 @@ import {
   FileCopy as CopyPasteIcon,
   ReportProblemOutlined as WarningIcon
 } from '@mui/icons-material';
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Button,
-  Collapse,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  styled
-} from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Button, Collapse, DialogActions, DialogContent, IconButton, styled } from '@mui/material';
 
+import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { toggle } from '@northern.tech/utils/helpers';
 
@@ -153,8 +142,7 @@ export const MonitorDetailsDialog = ({ alert, onClose }) => {
 
   const { component: Component, title } = lines.length ? detailTypes.log : detailTypes.description;
   return (
-    <Dialog open={!!alert} maxWidth="md">
-      <DialogTitle>{`${title} for ${name}`}</DialogTitle>
+    <BaseDialog open={!!alert} title={`${title} for ${name}`} maxWidth="md" onClose={onClose}>
       <DialogContent style={{ minWidth: 600 }}>
         <Component {...subject.details} />
       </DialogContent>
@@ -166,7 +154,7 @@ export const MonitorDetailsDialog = ({ alert, onClose }) => {
           </Button>
         )}
       </DialogActions>
-    </Dialog>
+    </BaseDialog>
   );
 };
 

@@ -728,7 +728,7 @@ exports[`CreateGroupExplainer Component > renders correctly 1`] = `
 }
 
 <div
-  class="MuiDialog-root dialog MuiModal-root emotion-0"
+  class="MuiDialog-root MuiModal-root emotion-0"
   role="presentation"
 >
   <div
@@ -756,7 +756,6 @@ exports[`CreateGroupExplainer Component > renders correctly 1`] = `
       <h2
         class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-4"
         id=":r0:"
-        style="margin-left: 15px;"
       >
         Creating a group
       </h2>

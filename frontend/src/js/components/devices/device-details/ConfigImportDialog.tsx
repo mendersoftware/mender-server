@@ -14,8 +14,9 @@
 import React, { useState } from 'react';
 
 // material ui
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, FormHelperText, Radio, RadioGroup } from '@mui/material';
+import { Button, DialogActions, DialogContent, FormControlLabel, FormHelperText, Radio, RadioGroup } from '@mui/material';
 
+import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import FileUpload from '@northern.tech/common-ui/forms/FileUpload';
 
 export const ConfigImportDialog = ({ onCancel, onSubmit }) => {
@@ -43,8 +44,7 @@ export const ConfigImportDialog = ({ onCancel, onSubmit }) => {
   };
 
   return (
-    <Dialog open={true}>
-      <DialogTitle>Import configuration</DialogTitle>
+    <BaseDialog open title="Import configuration" onClose={onCancel}>
       <DialogContent className="margin-small" style={{ overflow: 'hidden' }}>
         <RadioGroup
           value={importType}
@@ -85,7 +85,7 @@ export const ConfigImportDialog = ({ onCancel, onSubmit }) => {
           Import
         </Button>
       </DialogActions>
-    </Dialog>
+    </BaseDialog>
   );
 };
 

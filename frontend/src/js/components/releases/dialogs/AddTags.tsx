@@ -15,10 +15,11 @@ import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Button, DialogActions, DialogContent } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import ChipSelect from '@northern.tech/common-ui/ChipSelect';
+import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import { setReleaseTags, setReleasesListState } from '@northern.tech/store/thunks';
 
 const useStyles = makeStyles()(theme => ({
@@ -59,8 +60,7 @@ export const AddTagsDialog = ({ selectedReleases, onClose }) => {
   }, [getValues, watchTagsInput]);
 
   return (
-    <Dialog open={true} fullWidth={true} maxWidth="sm">
-      <DialogTitle>Add tags to Releases</DialogTitle>
+    <BaseDialog open title="Add tags to Releases" fullWidth maxWidth="sm" onClose={onClose}>
       <DialogContent className={`${classes.DialogContent}`}>
         <div className="margin-bottom">Add tags to the selected Releases. If a Release already has the tag, it won’t be added again.</div>
         <FormProvider {...methods}>
@@ -77,7 +77,7 @@ export const AddTagsDialog = ({ selectedReleases, onClose }) => {
           Add tags
         </Button>
       </DialogActions>
-    </Dialog>
+    </BaseDialog>
   );
 };
 
