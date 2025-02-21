@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Check as CheckIcon, Warning as WarningIcon } from '@mui/icons-material';
 
@@ -21,7 +21,7 @@ import { ColumnHeader, CommonList, ListItemComponentProps, RendererProp } from '
 import { SORTING_OPTIONS } from '@northern.tech/store/commonConstants';
 import { useLocationParams } from '@northern.tech/store/liststatehook';
 import { getTenantsList } from '@northern.tech/store/selectors';
-import { AppDispatch } from '@northern.tech/store/store';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { setTenantsListState } from '@northern.tech/store/thunks';
 import dayjs from 'dayjs';
 
@@ -130,7 +130,7 @@ export const TenantListItem = (props: ListItemComponentProps<Tenant>) => {
 export const TenantList = () => {
   const tenantListState = useSelector(getTenantsList);
   const { tenants, perPage, selectedTenant, sort = {} } = tenantListState;
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [locationParams, setLocationParams] = useLocationParams('tenants', {
     defaults: {

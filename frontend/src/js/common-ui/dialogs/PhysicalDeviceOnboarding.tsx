@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { InfoOutlined as InfoIcon } from '@mui/icons-material';
@@ -32,6 +32,7 @@ import {
   getOrganization,
   getTenantCapabilities
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { advanceOnboarding, setOnboardingApproach, setOnboardingDeviceType } from '@northern.tech/store/thunks';
 import { getDebConfigurationCode, versionCompare } from '@northern.tech/utils/helpers';
 
@@ -186,7 +187,7 @@ export const PhysicalDeviceOnboarding = ({ progress }) => {
   const { Integration: version } = useSelector(getFullVersionInformation);
   const { token } = useSelector(getCurrentSession);
   const { hasMonitor } = useSelector(getTenantCapabilities);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(setOnboardingApproach('physical'));

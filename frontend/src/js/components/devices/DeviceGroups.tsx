@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 
 import { AddCircle as AddIcon } from '@mui/icons-material';
@@ -38,6 +38,7 @@ import {
   getTenantCapabilities,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import {
   addDynamicGroup,
   addStaticGroup,
@@ -97,7 +98,7 @@ export const DeviceGroups = () => {
   const showDeviceConnectionDialog = useSelector(state => state.users.showConnectDeviceDialog);
   const onboardingState = useSelector(getOnboardingState);
   const isEnterprise = useSelector(getIsEnterprise);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isInitialized = useRef(false);
   const location = useLocation();
 

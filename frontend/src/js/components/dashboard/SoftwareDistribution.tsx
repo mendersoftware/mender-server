@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { BarChart as BarChartIcon } from '@mui/icons-material';
 
@@ -26,6 +26,7 @@ import {
   getGroupsByIdWithoutUngrouped,
   getIsEnterprise
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import {
   getDeviceAttributes,
   getGroupDevices,
@@ -85,7 +86,7 @@ const listSoftware = attributes => {
 };
 
 export const SoftwareDistribution = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const reports = useSelector(getDeviceReportsForUser);
   const groups = useSelector(getGroupsByIdWithoutUngrouped);

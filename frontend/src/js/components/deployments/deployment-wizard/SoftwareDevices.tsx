@@ -12,7 +12,6 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { ErrorOutline as ErrorOutlineIcon } from '@mui/icons-material';
@@ -25,6 +24,7 @@ import InfoText from '@northern.tech/common-ui/InfoText';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
 import { ALL_DEVICES, ATTRIBUTE_SCOPES, DEPLOYMENT_TYPES, DEVICE_FILTERING_OPTIONS, DEVICE_STATES } from '@northern.tech/store/constants';
 import { formatDeviceSearch } from '@northern.tech/store/locationutils';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getReleases, getSystemDevices } from '@northern.tech/store/thunks';
 import { stringToBoolean } from '@northern.tech/utils/helpers';
 import { useWindowSize } from '@northern.tech/utils/resizehook';
@@ -136,7 +136,7 @@ export const Devices = ({
   const { classes } = useStyles();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const size = useWindowSize();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { deploymentDeviceCount = 0, devices = [], filter, group = null } = deploymentObject;
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -234,7 +234,7 @@ export const Devices = ({
 
 export const Software = ({ commonClasses, deploymentObject, releaseRef, releases, releasesById, setDeploymentSettings }) => {
   const [isLoadingReleases, setIsLoadingReleases] = useState(!releases.length);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { classes } = useStyles();
   const { devices = [], release: deploymentRelease = null, releaseSelectionLocked } = deploymentObject;
   const device = devices.length ? devices[0] : undefined;

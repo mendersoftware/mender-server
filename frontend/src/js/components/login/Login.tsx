@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { ChevronRight } from '@mui/icons-material';
@@ -24,6 +24,7 @@ import storeActions from '@northern.tech/store/actions';
 import { getToken } from '@northern.tech/store/auth';
 import { TIMEOUTS, locations, useradmApiUrl } from '@northern.tech/store/constants';
 import { getCurrentUser, getFeatures, getIsEnterprise } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { loginUser, logoutUser } from '@northern.tech/store/thunks';
 import { clearAllRetryTimers } from '@northern.tech/utils/retrytimer';
 import Cookies from 'universal-cookie';
@@ -129,7 +130,7 @@ export const OAuthHeader = ({ buttonProps, type }) => (
 );
 
 export const Login = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const currentUser = useSelector(getCurrentUser);
   const { isHosted } = useSelector(getFeatures);
   const isEnterprise = useSelector(getIsEnterprise);

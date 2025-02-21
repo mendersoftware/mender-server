@@ -12,7 +12,6 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Button, Table, TableBody, TableCell, TableHead, TableRow, buttonClasses, tableCellClasses } from '@mui/material';
@@ -25,6 +24,7 @@ import { MaybeTime } from '@northern.tech/common-ui/Time';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
 import { getToken } from '@northern.tech/store/auth';
 import { DEVICE_LIST_DEFAULTS, deploymentStatesToSubstates, deploymentsApiUrl } from '@northern.tech/store/constants';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeviceDeployments, resetDeviceDeployments } from '@northern.tech/store/thunks';
 import { createDownload } from '@northern.tech/utils/helpers';
 
@@ -154,7 +154,7 @@ export const Deployments = ({ device }) => {
   const [perPage, setPerPage] = useState(10);
   const [isChecking, setIsChecking] = useState(false);
   const { classes } = useStyles();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (!device?.id) {

@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { AccountCircle as AccountCircleIcon, ExitToApp as ExitIcon, ExpandMore } from '@mui/icons-material';
@@ -58,6 +58,7 @@ import {
   getUserRoles,
   getUserSettings
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { useAppInit } from '@northern.tech/store/storehooks';
 import {
   getAllDeviceCounts,
@@ -183,7 +184,7 @@ const AccountMenu = () => {
   const isEnterprise = useSelector(getIsEnterprise);
   const { hasMultitenancy, isHosted } = useSelector(getFeatures);
   const multitenancy = hasMultitenancy || isEnterprise || isHosted;
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { classes } = useStyles();
 
@@ -304,7 +305,7 @@ export const Header = ({ isDarkMode }) => {
   const userId = useDebounce(user.id, TIMEOUTS.debounceDefault);
   const isSp = useSelector(getIsServiceProvider);
   const { device_count: spDeviceUtilization, device_limit: tenantDeviceLimit, service_provider } = useSelector(getOrganization);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const deviceTimer = useRef();
   const feedbackTimer = useRef();
 

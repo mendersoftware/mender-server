@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Collapse, Switch } from '@mui/material';
 
@@ -20,6 +20,7 @@ import InfoText from '@northern.tech/common-ui/InfoText';
 import storeActions from '@northern.tech/store/actions';
 import { twoFAStates } from '@northern.tech/store/constants';
 import { getCurrentUser, getHas2FA } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { disableUser2fa, enableUser2fa, get2FAQRCode, verify2FA, verifyEmailComplete, verifyEmailStart } from '@northern.tech/store/thunks';
 
 import AuthSetup from './twofactorauth-steps/AuthSetup';
@@ -35,7 +36,7 @@ export const TwoFactorAuthSetup = () => {
   const [qrExpanded, setQrExpanded] = useState(false);
   const [is2FAEnabled, setIs2FAEnabled] = useState(has2FA);
   const [showEmailVerification, setShowEmailVerification] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if ((currentUser.verified || currentUser.email?.endsWith('@example.com')) && is2FAEnabled && !has2FA) {

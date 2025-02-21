@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Button, Switch, TextField } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
@@ -26,6 +26,7 @@ import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import storeActions from '@northern.tech/store/actions';
 import { DARK_MODE, LIGHT_MODE, OWN_USER_ID } from '@northern.tech/store/constants';
 import { getCurrentSession, getCurrentUser, getFeatures, getIsDarkMode, getIsEnterprise, getUserSettings } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { editUser, saveUserSettings } from '@northern.tech/store/thunks';
 import { toggle } from '@northern.tech/utils/helpers';
 
@@ -47,7 +48,7 @@ export const SelfUserManagement = () => {
   const [editEmail, setEditEmail] = useState(false);
   const [editPass, setEditPass] = useState(false);
   const { classes } = useStyles();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { isHosted } = useSelector(getFeatures);
   const isEnterprise = useSelector(getIsEnterprise);

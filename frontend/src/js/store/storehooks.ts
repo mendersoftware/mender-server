@@ -13,8 +13,9 @@
 //    limitations under the License.
 // @ts-nocheck
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
+import { useAppDispatch } from '@northern.tech/store/store';
 import dayjs from 'dayjs';
 import durationDayJs from 'dayjs/plugin/duration';
 import Cookies from 'universal-cookie';
@@ -135,7 +136,7 @@ const maybeAddOnboardingTasks = ({ devicesByStatus, dispatch, onboardingState, t
 };
 
 export const useAppInit = userId => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [coreInitDone, setCoreInitDone] = useState(false);
   const isEnterprise = useSelector(getIsEnterprise);
   const { hasMultitenancy, isHosted } = useSelector(getFeatures);

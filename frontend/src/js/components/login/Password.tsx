@@ -12,7 +12,6 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { ReactNode, useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { buttonClasses } from '@mui/material';
@@ -20,6 +19,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import Form from '@northern.tech/common-ui/forms/Form';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { passwordResetStart } from '@northern.tech/store/thunks';
 
 import LoginLogo from '../../../assets/img/loginlogo.svg';
@@ -120,7 +120,7 @@ export const Password = () => {
   const [confirm, setConfirm] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleSubmit = (formData: PasswordResetState) =>
     dispatch(passwordResetStart(formData.email))
