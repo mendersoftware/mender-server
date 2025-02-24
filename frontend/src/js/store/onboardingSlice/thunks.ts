@@ -70,7 +70,7 @@ const deductOnboardingState = ({ devicesById, devicesByStatus, onboardingState, 
     ),
     showTips: onboardingState.showTips != null ? onboardingState.showTips : true,
     deviceType,
-    approach: onboardingState.approach || (deviceType.some(type => type.startsWith('qemu')) ? 'virtual' : 'physical'),
+    approach: onboardingState.approach || (deviceType.some(type => type.startsWith('qemu') || type === 'generic-x86_64') ? 'virtual' : 'physical'),
     progress
   };
 };

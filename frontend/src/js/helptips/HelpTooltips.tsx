@@ -308,7 +308,8 @@ export const HELPTOOLTIPS = {
     Component: ConfigureRaspberryLedTip,
     isRelevant: ({ device = {} }) => {
       const { attributes = {} } = device;
-      return ['raspberry', 'rpi'].some(type => attributes.device_type?.some(deviceType => deviceType.startsWith(type)));
+      const { device_type = [] } = attributes;
+      return ['raspberry', 'rpi'].some(type => device_type.some(deviceType => deviceType.startsWith(type)));
     }
   },
   configureTimezoneTip: {
@@ -316,7 +317,8 @@ export const HELPTOOLTIPS = {
     Component: ConfigureTimezoneTip,
     isRelevant: ({ device = {} }) => {
       const { attributes = {} } = device;
-      return ['raspberry', 'rpi', 'qemux86-64'].some(type => attributes.device_type?.some(deviceType => deviceType.startsWith(type)));
+      const { device_type = [] } = attributes;
+      return ['generic-x86_64', 'raspberry', 'rpi', 'qemux86-64'].some(type => device_type.some(deviceType => deviceType.startsWith(type)));
     }
   },
   dashboardWidget: { id: 'dashboardWidget', Component: DashboardWidget },
