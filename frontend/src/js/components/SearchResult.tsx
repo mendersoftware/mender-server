@@ -98,14 +98,12 @@ export const SearchResult = ({ onToggleSearchResult, open = true }) => {
   }, [onToggleSearchResult, open, searchTerm]);
 
   const onDeviceSelect = device => {
-    dispatch(setDeviceListState({ selectedId: device.id }));
+    dispatch(setDeviceListState({ selectedId: device.id })).unwrap();
     onToggleSearchResult();
     setTimeout(() => navigate(`/devices/${device.status}?id=${device.id}`), TIMEOUTS.debounceShort);
   };
 
-  const handlePageChange = page => {
-    dispatch(setSearchState({ page }));
-  };
+  const handlePageChange = page => dispatch(setSearchState({ page })).unwrap();
 
   const onSortChange = attribute => {
     let changedSortCol = attribute.name;
@@ -113,11 +111,11 @@ export const SearchResult = ({ onToggleSearchResult, open = true }) => {
     if (changedSortCol !== sortCol) {
       changedSortDown = SORTING_OPTIONS.desc;
     }
-    dispatch(setSearchState({ page: 1, sort: { direction: changedSortDown, key: changedSortCol, scope: attribute.scope } }));
+    dispatch(setSearchState({ page: 1, sort: { direction: changedSortDown, key: changedSortCol, scope: attribute.scope } })).unwrap();
   };
 
   const onClearClick = () => {
-    dispatch(setSearchState({ searchTerm: '' }));
+    dispatch(setSearchState({ searchTerm: '' })).unwrap();
     onToggleSearchResult();
   };
 

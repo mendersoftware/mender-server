@@ -84,7 +84,7 @@ export const createOrganizationTrial = createAsyncThunk(`${sliceName}/createOrga
       cookies.remove('oauth');
       cookies.remove('externalID');
       cookies.remove('email');
-      dispatch(setFirstLoginAfterSignup(true));
+      dispatch(setFirstLoginAfterSignup(true)).unwrap();
       return new Promise(resolve =>
         setTimeout(() => {
           window.location.assign(`${targetLocation}${headers.location || ''}`);
@@ -134,7 +134,7 @@ interface completeUpgradePayload {
 export const completeUpgrade = createAsyncThunk(`${sliceName}/completeUpgrade`, ({ tenantId, plan, billing_profile }: completeUpgradePayload, { dispatch }) =>
   Api.post(`${tenantadmApiUrlv2}/tenants/${tenantId}/upgrade/complete`, { plan, billing_profile })
     .catch(err => commonErrorHandler(err, `There was an error upgrading your account:`, dispatch))
-    .then(() => Promise.all([dispatch(getDeviceLimit()), dispatch(getUserOrganization())]))
+    .then(() => Promise.all([dispatch(getDeviceLimit()).unwrap(), dispatch(getUserOrganization()).unwrap()]))
 );
 
 const prepareAuditlogQuery = ({ startDate, endDate, user: userFilter, type, detail: detailFilter, sort = {} }) => {
@@ -160,7 +160,7 @@ export const getAuditLogs = createAsyncThunk(`${sliceName}/getAuditLogs`, (selec
     .then(({ data, headers }) => {
       let total = headers[headerNames.total];
       total = Number(total || data.length);
-      return Promise.resolve(dispatch(actions.receiveAuditLogs({ events: data, total })));
+      return dispatch(actions.receiveAuditLogs({ events: data, total }));
     })
     .catch(err => commonErrorHandler(err, `There was an error retrieving audit logs:`, dispatch));
 });
@@ -183,7 +183,11 @@ export const setAuditlogsState = createAsyncThunk(`${sliceName}/setAuditlogsStat
   const { isLoading: selectionLoading, selectedIssue: selectionIssue, ...selectionRequestState } = nextState;
   if (!deepCompare(currentRequestState, selectionRequestState)) {
     nextState.isLoading = true;
-    tasks.push(dispatch(getAuditLogs(nextState)).finally(() => dispatch(actions.setAuditLogState({ isLoading: false }))));
+    tasks.push(
+      dispatch(getAuditLogs(nextState))
+        .unwrap()
+        .finally(() => dispatch(actions.setAuditLogState({ isLoading: false })))
+    );
   }
   tasks.push(dispatch(actions.setAuditLogState(nextState)));
   return Promise.all(tasks);
@@ -199,7 +203,7 @@ export const addTenant = createAsyncThunk(`${sliceName}/createTenant`, (selectio
     .then(() =>
       Promise.all([
         dispatch(setSnackbar('Tenant was created successfully.')),
-        new Promise(resolve => setTimeout(() => resolve(dispatch(getTenants())), TIMEOUTS.oneSecond))
+        new Promise(resolve => setTimeout(() => resolve(dispatch(getTenants()).unwrap()), TIMEOUTS.oneSecond))
       ])
     )
     .catch(err => commonErrorHandler(err, 'There was an error creating tenant', dispatch, commonErrorFallback))
@@ -242,8 +246,8 @@ export const editTenantDeviceLimit = createAsyncThunk(`${sliceName}/editDeviceLi
     .then(() =>
       Promise.all([
         dispatch(setSnackbar('Device Limit was changed successfully')),
-        dispatch(getUserOrganization()),
-        new Promise(resolve => setTimeout(() => resolve(dispatch(getTenants())), TIMEOUTS.oneSecond))
+        dispatch(getUserOrganization()).unwrap(),
+        new Promise(resolve => setTimeout(() => resolve(dispatch(getTenants()).unwrap()), TIMEOUTS.oneSecond))
       ])
     )
 );
@@ -252,7 +256,7 @@ export const editBillingProfile = createAsyncThunk(
   ({ billingProfile }: { billingProfile: BillingProfile }, { dispatch }) =>
     Api.patch(`${tenantadmApiUrlv2}/billing/profile`, billingProfile)
       .catch(err => commonErrorHandler(err, `Failed to change billing profile`, dispatch))
-      .then(() => Promise.all([dispatch(setSnackbar('Billing Profile was changed successfully')), dispatch(getUserBilling())]))
+      .then(() => Promise.all([dispatch(setSnackbar('Billing Profile was changed successfully')), dispatch(getUserBilling()).unwrap()]))
 );
 export const removeTenant = createAsyncThunk(`${sliceName}/editDeviceLimit`, ({ id }: { id: string }, { dispatch }) =>
   Api.post(`${tenantadmApiUrlv2}/tenants/${id}/remove/start`)
@@ -260,8 +264,8 @@ export const removeTenant = createAsyncThunk(`${sliceName}/editDeviceLimit`, ({ 
     .then(() =>
       Promise.all([
         dispatch(setSnackbar('The tenant was removed successfully')),
-        dispatch(getUserOrganization()),
-        new Promise(resolve => setTimeout(() => resolve(dispatch(getTenants())), TIMEOUTS.oneSecond))
+        dispatch(getUserOrganization()).unwrap(),
+        new Promise(resolve => setTimeout(() => resolve(dispatch(getTenants()).unwrap()), TIMEOUTS.oneSecond))
       ])
     )
 );
@@ -320,13 +324,13 @@ export const downloadLicenseReport = createAsyncThunk(`${sliceName}/downloadLice
 export const createIntegration = createAsyncThunk(`${sliceName}/createIntegration`, ({ id, ...integration }, { dispatch }) =>
   Api.post(`${iotManagerBaseURL}/integrations`, integration)
     .catch(err => commonErrorHandler(err, 'There was an error creating the integration', dispatch, commonErrorFallback))
-    .then(() => Promise.all([dispatch(setSnackbar('The integration was set up successfully')), dispatch(getIntegrations())]))
+    .then(() => Promise.all([dispatch(setSnackbar('The integration was set up successfully')), dispatch(getIntegrations()).unwrap()]))
 );
 
 export const changeIntegration = createAsyncThunk(`${sliceName}/changeIntegration`, ({ id, credentials }, { dispatch }) =>
   Api.put(`${iotManagerBaseURL}/integrations/${id}/credentials`, credentials)
     .catch(err => commonErrorHandler(err, 'There was an error updating the integration', dispatch, commonErrorFallback))
-    .then(() => Promise.all([dispatch(setSnackbar('The integration was updated successfully')), dispatch(getIntegrations())]))
+    .then(() => Promise.all([dispatch(setSnackbar('The integration was updated successfully')), dispatch(getIntegrations()).unwrap()]))
 );
 
 export const deleteIntegration = createAsyncThunk(`${sliceName}/deleteIntegration`, ({ id, provider }, { dispatch, getState }) =>
@@ -370,7 +374,7 @@ export const getWebhookEvents = createAsyncThunk(`${sliceName}/getWebhookEvents`
         )
       ];
       if (data.length >= perPage && !isFollowUp) {
-        tasks.push(dispatch(getWebhookEvents({ isFollowUp: true, page: page + 1, perPage: 1 })));
+        tasks.push(dispatch(getWebhookEvents({ isFollowUp: true, page: page + 1, perPage: 1 })).unwrap());
       }
       return Promise.all(tasks);
     });
@@ -392,13 +396,13 @@ const ssoConfigActionSuccessHandler = type => dispatch => dispatch(setSnackbar(`
 export const storeSsoConfig = createAsyncThunk(`${sliceName}/storeSsoConfig`, ({ config, contentType }, { dispatch }) =>
   Api.post(ssoIdpApiUrlv1, config, { headers: { 'Content-Type': contentType, Accept: 'application/json' } })
     .catch(err => dispatch(ssoConfigActionErrorHandler(err, 'create')))
-    .then(() => Promise.all([dispatch(ssoConfigActionSuccessHandler('create')), dispatch(getSsoConfigs())]))
+    .then(() => Promise.all([dispatch(ssoConfigActionSuccessHandler('create')), dispatch(getSsoConfigs()).unwrap()]))
 );
 
 export const changeSsoConfig = createAsyncThunk(`${sliceName}/changeSsoConfig`, ({ config, contentType }, { dispatch }) =>
   Api.put(`${ssoIdpApiUrlv1}/${config.id}`, config, { headers: { 'Content-Type': contentType, Accept: 'application/json' } })
     .catch(err => dispatch(ssoConfigActionErrorHandler(err, 'edit')))
-    .then(() => Promise.all([dispatch(ssoConfigActionSuccessHandler('edit')), dispatch(getSsoConfigs())]))
+    .then(() => Promise.all([dispatch(ssoConfigActionSuccessHandler('edit')), dispatch(getSsoConfigs()).unwrap()]))
 );
 
 export const deleteSsoConfig = createAsyncThunk(`${sliceName}/deleteSsoConfig`, ({ id }, { dispatch, getState }) =>

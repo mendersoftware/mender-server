@@ -98,7 +98,7 @@ export const FileTransfer = ({
     setFile(selectedFile);
   };
 
-  const onUploadClick = useCallback(() => dispatch(deviceFileUpload({ deviceId, path: uploadPath, file })), [dispatch, deviceId, uploadPath, file]);
+  const onUploadClick = useCallback(() => dispatch(deviceFileUpload({ deviceId, path: uploadPath, file })).unwrap(), [dispatch, deviceId, uploadPath, file]);
 
   const fileInputProps = {
     error: !isValidDestination,

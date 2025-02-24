@@ -42,9 +42,9 @@ export const OnboardingCompleteTip = ({ anchor, targetUrl }) => {
   useEffect(() => {
     dispatch(getDevicesByStatus({ status: DEVICE_STATES.accepted }))
       .unwrap()
-      .then(tasks => Promise.all(tasks[tasks.length - 1].deviceAccu.ids.map(id => dispatch(getDeviceById(id)))))
+      .then(tasks => Promise.all(tasks[tasks.length - 1].deviceAccu.ids.map(id => dispatch(getDeviceById(id)).unwrap())))
       .finally(() => {
-        timer.current = setTimeout(() => dispatch(setOnboardingComplete(true)), 120000);
+        timer.current = setTimeout(() => dispatch(setOnboardingComplete(true)).unwrap(), 120000);
       });
     return () => {
       clearTimeout(timer.current);
@@ -79,7 +79,7 @@ export const OnboardingCompleteTip = ({ anchor, targetUrl }) => {
           <p>NOTE: if you have local network restrictions, you may need to check them if you have difficulty loading the page.</p>
           <div className="flexbox">
             <div style={{ flexGrow: 1 }} />
-            <Button variant="contained" color="secondary" onClick={() => dispatch(setOnboardingComplete(true))}>
+            <Button variant="contained" color="secondary" onClick={() => dispatch(setOnboardingComplete(true)).unwrap()}>
               Close
             </Button>
           </div>

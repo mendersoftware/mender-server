@@ -159,10 +159,12 @@ export const AuditLogs = () => {
         setDirtyField(field);
       }
       // the timeout here is slightly longer than the debounce in the filter component, otherwise the population of the filters with the url state would trigger a reset to page 1
-      dispatch(setAuditlogsState(state)).then(() => {
-        clearTimeout(timers.current.init);
-        timers.current.init = setTimeout(() => (isInitialized.current = true), TIMEOUTS.oneSecond + TIMEOUTS.debounceDefault);
-      });
+      dispatch(setAuditlogsState(state))
+        .unwrap()
+        .then(() => {
+          clearTimeout(timers.current.init);
+          timers.current.init = setTimeout(() => (isInitialized.current = true), TIMEOUTS.oneSecond + TIMEOUTS.debounceDefault);
+        });
       return;
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -208,10 +210,10 @@ export const AuditLogs = () => {
     dispatch(setAuditlogsState({ page: 1, sort: { direction: currentSorting } }));
   };
 
-  const onChangePagination = (page, currentPerPage = perPage) => dispatch(setAuditlogsState({ page, perPage: currentPerPage }));
+  const onChangePagination = (page, currentPerPage = perPage) => dispatch(setAuditlogsState({ page, perPage: currentPerPage })).unwrap();
 
   const onIssueSelection = selectedIssue =>
-    dispatch(setAuditlogsState({ selectedId: selectedIssue ? btoa(`${selectedIssue.action}|${selectedIssue.time}`) : undefined }));
+    dispatch(setAuditlogsState({ selectedId: selectedIssue ? btoa(`${selectedIssue.action}|${selectedIssue.time}`) : undefined })).unwrap();
 
   const onFiltersChange = useCallback(
     ({ endDate, detail, startDate, user, type }) => {

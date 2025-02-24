@@ -225,7 +225,7 @@ export const ExpandedDevice = ({ actionCallbacks, deviceId, onClose, setDetailsT
   }, [device.id, dispatch, mender_gateway_system_id]);
 
   // close expanded device
-  const onDecommissionDevice = deviceId => dispatch(decommissionDevice({ deviceId })).finally(onClose);
+  const onDecommissionDevice = deviceId => dispatch(decommissionDevice({ deviceId })).unwrap().finally(onClose);
 
   const copyLinkToClipboard = () => {
     const location = window.location.href.substring(0, window.location.href.indexOf('/devices') + '/devices'.length);
@@ -260,7 +260,7 @@ export const ExpandedDevice = ({ actionCallbacks, deviceId, onClose, setDetailsT
   const { component: SelectedTab, value: selectedTab } = availableTabs.find(tab => tab.value === tabSelection) ?? tabs[0];
 
   const dispatchedSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
-  const dispatchedSaveGlobalSettings = useCallback(settings => dispatch(saveGlobalSettings(settings)), [dispatch]);
+  const dispatchedSaveGlobalSettings = useCallback(settings => dispatch(saveGlobalSettings(settings)).unwrap(), [dispatch]);
 
   const commonProps = {
     classes,

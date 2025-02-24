@@ -113,7 +113,7 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type }) => {
     if (!deployment.id) {
       return;
     }
-    return dispatch(getSingleDeployment(deployment.id));
+    return dispatch(getSingleDeployment(deployment.id)).unwrap();
   }, [deployment.id, dispatch]);
 
   useEffect(() => {
@@ -180,7 +180,10 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type }) => {
   const scrollToBottom = () => rolloutSchedule.current?.scrollIntoView({ behavior: 'smooth' });
 
   const viewLog = useCallback(
-    id => dispatch(getDeviceLog({ deploymentId: deployment.id, deviceId: id })).then(() => setDeviceId(id)),
+    id =>
+      dispatch(getDeviceLog({ deploymentId: deployment.id, deviceId: id }))
+        .unwrap()
+        .then(() => setDeviceId(id)),
     [deployment.id, dispatch]
   );
 
@@ -211,7 +214,7 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type }) => {
 
   const props = {
     deployment,
-    getDeploymentDevices: useCallback((...args) => dispatch(getDeploymentDevices(...args)), [dispatch]),
+    getDeploymentDevices: useCallback((...args) => dispatch(getDeploymentDevices(...args)).unwrap(), [dispatch]),
     idAttribute,
     selectedDevices,
     userCapabilities,

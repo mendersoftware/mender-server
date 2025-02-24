@@ -118,7 +118,7 @@ export const parseEnvironmentInfo = () => (dispatch, getState) => {
     dispatch(storeActions.setFeatures(environmentFeatures)),
     dispatch(storeActions.setVersionInformation({ ...versionInfo.remainder, docsVersion: versionInfo.docs })),
     dispatch(storeActions.setEnvironmentData(environmentData)),
-    dispatch(getLatestReleaseInfo())
+    dispatch(getLatestReleaseInfo()).unwrap()
   ]);
 };
 
@@ -130,7 +130,7 @@ const maybeAddOnboardingTasks = ({ devicesByStatus, dispatch, onboardingState, t
   // we only load the first few/ 20 devices, as it is possible the onboarding is left dangling
   // and a lot of devices are present and we don't want to flood the backend for this
   return devicesByStatus[DEVICE_STATES.accepted].deviceIds.reduce((accu, id) => {
-    accu.push(dispatch(getDeviceById(id)));
+    accu.push(dispatch(getDeviceById(id)).unwrap());
     return accu;
   }, tasks);
 };
@@ -154,35 +154,35 @@ export const useAppInit = userId => {
   const retrieveCoreData = useCallback(() => {
     let tasks = [
       dispatch(parseEnvironmentInfo()),
-      dispatch(getUserSettings()),
-      dispatch(getGlobalSettings()),
+      dispatch(getUserSettings()).unwrap(),
+      dispatch(getGlobalSettings()).unwrap(),
       dispatch(setFirstLoginAfterSignup(stringToBoolean(cookies.get('firstLoginAfterSignup'))))
     ];
     const multitenancy = hasMultitenancy || isHosted || isEnterprise;
     if (multitenancy) {
-      tasks.push(dispatch(getUserOrganization()));
+      tasks.push(dispatch(getUserOrganization()).unwrap());
     }
     return Promise.all(tasks);
   }, [dispatch, hasMultitenancy, isHosted, isEnterprise]);
 
   const retrieveAppData = useCallback(() => {
     if (isServiceProvider) {
-      return Promise.resolve(dispatch(getRoles()));
+      return dispatch(getRoles()).unwrap();
     }
     return Promise.all([
-      dispatch(getDeviceAttributes()),
-      dispatch(getDeploymentsByStatus({ status: DEPLOYMENT_STATES.finished, shouldSelect: false })),
-      dispatch(getDeploymentsByStatus({ status: DEPLOYMENT_STATES.inprogress })),
-      dispatch(getDevicesByStatus({ status: DEVICE_STATES.accepted })),
-      dispatch(getDevicesByStatus({ status: DEVICE_STATES.pending })),
-      dispatch(getDevicesByStatus({ status: DEVICE_STATES.preauth })),
-      dispatch(getDevicesByStatus({ status: DEVICE_STATES.rejected })),
-      dispatch(getDynamicGroups()),
-      dispatch(getGroups()),
-      dispatch(getIntegrations()),
-      dispatch(getReleases()),
-      dispatch(getDeviceLimit()),
-      dispatch(getRoles())
+      dispatch(getDeviceAttributes()).unwrap(),
+      dispatch(getDeploymentsByStatus({ status: DEPLOYMENT_STATES.finished, shouldSelect: false })).unwrap(),
+      dispatch(getDeploymentsByStatus({ status: DEPLOYMENT_STATES.inprogress })).unwrap(),
+      dispatch(getDevicesByStatus({ status: DEVICE_STATES.accepted })).unwrap(),
+      dispatch(getDevicesByStatus({ status: DEVICE_STATES.pending })).unwrap(),
+      dispatch(getDevicesByStatus({ status: DEVICE_STATES.preauth })).unwrap(),
+      dispatch(getDevicesByStatus({ status: DEVICE_STATES.rejected })).unwrap(),
+      dispatch(getDynamicGroups()).unwrap(),
+      dispatch(getGroups()).unwrap(),
+      dispatch(getIntegrations()).unwrap(),
+      dispatch(getReleases()).unwrap(),
+      dispatch(getDeviceLimit()).unwrap(),
+      dispatch(getRoles()).unwrap()
     ]);
   }, [dispatch, isServiceProvider]);
 
@@ -194,7 +194,7 @@ export const useAppInit = userId => {
     let tasks = [
       dispatch(setDeviceListState({ selectedAttributes: columnSelection.map(column => ({ attribute: column.key, scope: column.scope })) })),
       dispatch(setTooltipsState(tooltips)), // tooltips read state is primarily trusted from the redux store, except on app init - here user settings are the reference
-      dispatch(saveUserSettings(settings))
+      dispatch(saveUserSettings(settings)).unwrap()
     ];
     // checks if user id is set and if cookie for helptips exists for that user
     tasks = maybeAddOnboardingTasks({ devicesByStatus, dispatch, tasks, onboardingState });
@@ -206,7 +206,7 @@ export const useAppInit = userId => {
         tasks.push(Promise.resolve(setTimeout(() => dispatch(setShowStartupNotification(true)), TIMEOUTS.fiveSeconds)));
       } else {
         const roundedDays = Math.max(1, Math.round(days));
-        tasks.push(dispatch(saveGlobalSettings({ offlineThreshold: { interval: roundedDays, intervalUnit: timeUnits.days } })));
+        tasks.push(dispatch(saveGlobalSettings({ offlineThreshold: { interval: roundedDays, intervalUnit: timeUnits.days } })).unwrap());
       }
     }
 
@@ -215,13 +215,13 @@ export const useAppInit = userId => {
     // id attribute setting exists
     const identityOptions = identityAttributes.filter(attribute => !['id', 'Device ID', 'status'].includes(attribute));
     if (!id_attribute && identityOptions.length) {
-      tasks.push(dispatch(saveGlobalSettings({ id_attribute: { attribute: identityOptions[0], scope: 'identity' } })));
+      tasks.push(dispatch(saveGlobalSettings({ id_attribute: { attribute: identityOptions[0], scope: 'identity' } })).unwrap());
     } else if (typeof id_attribute === 'string') {
       let attribute = id_attribute;
       if (attribute === 'Device ID') {
         attribute = 'id';
       }
-      tasks.push(dispatch(saveGlobalSettings({ id_attribute: { attribute, scope: 'identity' } })));
+      tasks.push(dispatch(saveGlobalSettings({ id_attribute: { attribute, scope: 'identity' } })).unwrap());
     }
     return Promise.all(tasks);
   }, [
@@ -244,7 +244,7 @@ export const useAppInit = userId => {
         .then(interpretAppData)
         // this is allowed to fail if no user information are available
         .catch(err => console.log(extractErrorMessage(err)))
-        .then(() => dispatch(getOnboardingState())),
+        .then(() => dispatch(getOnboardingState()).unwrap()),
     [dispatch, retrieveAppData, interpretAppData]
   );
 

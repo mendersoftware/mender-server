@@ -77,11 +77,11 @@ export const ExpandedTenant = (props: ExpandedTenantProps) => {
   };
 
   const onNewLimitSubmit = async () => {
-    await dispatch(editTenantDeviceLimit({ id, name, newLimit: Number(newLimit) }));
+    await dispatch(editTenantDeviceLimit({ id, name, newLimit: Number(newLimit) })).unwrap();
     setNewLimitForm(false);
   };
 
-  const deleteTenant = () => dispatch(removeTenant({ id }));
+  const deleteTenant = () => dispatch(removeTenant({ id })).unwrap();
 
   return (
     <Drawer onClose={onCloseClick} open={true} PaperProps={{ style: { minWidth: '67vw' } }} anchor="right">

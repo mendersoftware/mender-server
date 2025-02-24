@@ -101,31 +101,31 @@ export const getOnboardingState = createAsyncThunk(`${sliceName}/getOnboardingSt
 });
 
 export const setOnboardingDeviceType = createAsyncThunk(`${sliceName}/setOnboardingDeviceType`, (value, { dispatch }) =>
-  Promise.all([dispatch(actions.setOnboardingDeviceType(value)), dispatch(saveUserSettings({ onboarding: { deviceType: value } }))])
+  Promise.all([dispatch(actions.setOnboardingDeviceType(value)), dispatch(saveUserSettings({ onboarding: { deviceType: value } })).unwrap()])
 );
 
 export const setOnboardingApproach = createAsyncThunk(`${sliceName}/setOnboardingApproach`, (value, { dispatch }) =>
-  Promise.all([dispatch(actions.setOnboardingApproach(value)), dispatch(saveUserSettings({ onboarding: { approach: value } }))])
+  Promise.all([dispatch(actions.setOnboardingApproach(value)), dispatch(saveUserSettings({ onboarding: { approach: value } })).unwrap()])
 );
 
 export const setOnboardingComplete = createAsyncThunk(`${sliceName}/setOnboardingComplete`, (value, { dispatch }) => {
-  let tasks = [Promise.resolve(dispatch(actions.setOnboardingComplete(value)))];
+  let tasks = [dispatch(actions.setOnboardingComplete(value))];
   if (value) {
-    tasks.push(Promise.resolve(dispatch(actions.setShowOnboardingHelp(false))));
-    tasks.push(Promise.resolve(dispatch(advanceOnboarding(onboardingStepNames.DEPLOYMENTS_PAST_COMPLETED))));
+    tasks.push(dispatch(actions.setShowOnboardingHelp(false)));
+    tasks.push(dispatch(advanceOnboarding(onboardingStepNames.DEPLOYMENTS_PAST_COMPLETED)).unwrap());
   }
   return Promise.all(tasks);
 });
 
 export const setOnboardingCanceled = createAsyncThunk(`${sliceName}/setOnboardingCanceled`, (_, { dispatch }) =>
   Promise.all([
-    Promise.resolve(dispatch(actions.setShowOnboardingHelp(false))),
-    Promise.resolve(dispatch(actions.setShowDismissOnboardingTipsDialog(false))),
-    Promise.resolve(dispatch(actions.setOnboardingComplete(true)))
+    dispatch(actions.setShowOnboardingHelp(false)),
+    dispatch(actions.setShowDismissOnboardingTipsDialog(false)),
+    dispatch(actions.setOnboardingComplete(true))
   ])
     // using DEPLOYMENTS_PAST_COMPLETED to ensure we get the intended onboarding state set after
     // _advancing_ the onboarding progress
-    .then(() => dispatch(advanceOnboarding(onboardingStepNames.DEPLOYMENTS_PAST_COMPLETED_FAILURE)))
+    .then(() => dispatch(advanceOnboarding(onboardingStepNames.DEPLOYMENTS_PAST_COMPLETED_FAILURE)).unwrap())
     // since we can't advance after ONBOARDING_CANCELED, track the step manually here
     .then(() => Tracking.event({ category: 'onboarding', action: onboardingSteps.ONBOARDING_CANCELED }))
 );
@@ -144,5 +144,5 @@ export const advanceOnboarding = createAsyncThunk(`${sliceName}/advanceOnboardin
   state.complete =
     stepIndex + 1 >= Object.keys(onboardingSteps).findIndex(step => step === onboardingStepNames.DEPLOYMENTS_PAST_COMPLETED_FAILURE) ? true : state.complete;
   Tracking.event({ category: 'onboarding', action: stepId });
-  return Promise.all([dispatch(actions.setOnboardingProgress(madeProgress)), dispatch(saveUserSettings({ onboarding: state }))]);
+  return Promise.all([dispatch(actions.setOnboardingProgress(madeProgress)), dispatch(saveUserSettings({ onboarding: state })).unwrap()]);
 });

@@ -63,7 +63,7 @@ const OfflineThresholdContent = () => (
 const notifications = {
   offlineThreshold: {
     Content: OfflineThresholdContent,
-    action: ({ dispatch }) => dispatch(saveGlobalSettings({ offlineThreshold: { interval: 1, intervalUnit: DEVICE_ONLINE_CUTOFF.intervalName } }))
+    action: ({ dispatch }) => dispatch(saveGlobalSettings({ offlineThreshold: { interval: 1, intervalUnit: DEVICE_ONLINE_CUTOFF.intervalName } })).unwrap()
   }
 };
 

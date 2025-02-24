@@ -389,7 +389,7 @@ describe('user actions', () => {
       { type: getRoles.fulfilled.type }
     ];
     const store = mockStore({ ...defaultState });
-    await store.dispatch(getRoles());
+    await store.dispatch(getRoles()).unwrap();
     await act(async () => {
       vi.runOnlyPendingTimers();
       vi.runAllTicks();

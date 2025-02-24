@@ -81,7 +81,7 @@ export const getDeploymentsByStatus = createAsyncThunk(`${sliceName}/getDeployme
     ];
     tasks = deploymentIds.reduce((accu, deploymentId) => {
       if (deployments[deploymentId].type === DEPLOYMENT_TYPES.configuration) {
-        accu.push(dispatch(getSingleDeployment(deploymentId)));
+        accu.push(dispatch(getSingleDeployment(deploymentId)).unwrap());
       }
       return accu;
     }, tasks);
@@ -141,7 +141,7 @@ export const createDeployment = createAsyncThunk(`${sliceName}/createDeployment`
       };
       let tasks = [
         dispatch(actions.createdDeployment(deployment)),
-        dispatch(getSingleDeployment(deploymentId)),
+        dispatch(getSingleDeployment(deploymentId)).unwrap(),
         dispatch(setSnackbar({ message: 'Deployment created successfully', autoHideDuration: TIMEOUTS.fiveSeconds }))
       ];
       // track in GA
@@ -159,7 +159,7 @@ export const createDeployment = createAsyncThunk(`${sliceName}/createDeployment`
           }
           newSettings.previousPhases = prevPhases.slice(-1 * MAX_PREVIOUS_PHASES_COUNT);
         }
-        tasks.push(dispatch(saveGlobalSettings(newSettings)));
+        tasks.push(dispatch(saveGlobalSettings(newSettings)).unwrap());
       }
       return Promise.all(tasks);
     });
@@ -198,7 +198,7 @@ export const getDeploymentDevices = createAsyncThunk(`${sliceName}/getDeployment
       return accu;
     }, []);
     // get device artifact, inventory and identity details not listed in schedule data
-    tasks = lackingData.reduce((accu, deviceId) => [...accu, dispatch(getDeviceById(deviceId)), dispatch(getDeviceAuth(deviceId))], tasks);
+    tasks = lackingData.reduce((accu, deviceId) => [...accu, dispatch(getDeviceById(deviceId)).unwrap(), dispatch(getDeviceAuth(deviceId)).unwrap()], tasks);
     return Promise.all(tasks);
   });
 });
@@ -243,7 +243,7 @@ export const getDeviceDeployments = createAsyncThunk(`${sliceName}/getDeviceDepl
 
 export const resetDeviceDeployments = createAsyncThunk(`${sliceName}/resetDeviceDeployments`, (deviceId, { dispatch }) =>
   GeneralApi.delete(`${deploymentsApiUrl}/deployments/devices/${deviceId}/history`)
-    .then(() => Promise.resolve(dispatch(getDeviceDeployments({ deviceId }))))
+    .then(() => dispatch(getDeviceDeployments({ deviceId })).unwrap())
     .catch(err => commonErrorHandler(err, 'There was an error resetting the device deployment history:', dispatch))
 );
 
@@ -295,7 +295,7 @@ export const abortDeployment = createAsyncThunk(`${sliceName}/abortDeployment`, 
 export const updateDeploymentControlMap = createAsyncThunk(`${sliceName}/updateDeploymentControlMap`, ({ deploymentId, updateControlMap }, { dispatch }) =>
   GeneralApi.patch(`${deploymentsApiUrl}/deployments/${deploymentId}`, { update_control_map: updateControlMap })
     .catch(err => commonErrorHandler(err, 'There was an error while updating the deployment status:', dispatch))
-    .then(() => Promise.resolve(dispatch(getSingleDeployment(deploymentId))))
+    .then(() => dispatch(getSingleDeployment(deploymentId)).unwrap())
 );
 
 export const setDeploymentsState = createAsyncThunk(`${sliceName}/setDeploymentsState`, (selection, { dispatch, getState }) => {
@@ -319,7 +319,7 @@ export const setDeploymentsState = createAsyncThunk(`${sliceName}/setDeployments
   };
   let tasks = [dispatch(actions.setDeploymentsState(nextState))];
   if (nextState.selectedId && currentState.selectedId !== nextState.selectedId) {
-    tasks.push(dispatch(getSingleDeployment(nextState.selectedId)));
+    tasks.push(dispatch(getSingleDeployment(nextState.selectedId)).unwrap());
   }
   return Promise.all(tasks);
 });

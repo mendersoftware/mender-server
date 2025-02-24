@@ -123,7 +123,7 @@ export const ReleasesList = ({ className = '', onFileUploadClick }) => {
   const { canUploadReleases } = userCapabilities;
   const { key: attribute, direction } = sort;
 
-  const onSelect = useCallback(id => dispatch(selectRelease(id)), [dispatch]);
+  const onSelect = useCallback(id => dispatch(selectRelease(id)).unwrap(), [dispatch]);
 
   const onChangeSorting = sortKey => {
     let sort = { key: sortKey, direction: direction === SORTING_OPTIONS.asc ? SORTING_OPTIONS.desc : SORTING_OPTIONS.asc };
@@ -133,7 +133,7 @@ export const ReleasesList = ({ className = '', onFileUploadClick }) => {
     dispatch(setReleasesListState({ page: 1, sort }));
   };
 
-  const onChangePagination = (page, currentPerPage = perPage) => dispatch(setReleasesListState({ page, perPage: currentPerPage }));
+  const onChangePagination = (page, currentPerPage = perPage) => dispatch(setReleasesListState({ page, perPage: currentPerPage })).unwrap();
 
   const onDrop = (acceptedFiles, rejectedFiles) => {
     if (acceptedFiles.length) {
@@ -161,13 +161,15 @@ export const ReleasesList = ({ className = '', onFileUploadClick }) => {
     setDeleteDialogConfirmation(true);
   };
 
-  const onSelectionChange = useCallback((selection: number[] = []) => dispatch(setReleasesListState({ selection })), [dispatch]);
+  const onSelectionChange = useCallback((selection: number[] = []) => dispatch(setReleasesListState({ selection })).unwrap(), [dispatch]);
 
   const deleteReleases = useCallback(() => {
-    dispatch(removeReleases(selectedReleases.map(({ name }) => name))).then(() => {
-      setDeleteDialogConfirmation(false);
-      onSelectionChange([]);
-    });
+    dispatch(removeReleases(selectedReleases.map(({ name }) => name)))
+      .unwrap()
+      .then(() => {
+        setDeleteDialogConfirmation(false);
+        onSelectionChange([]);
+      });
   }, [dispatch, onSelectionChange, selectedReleases]);
 
   const onTagRelease = releases => {

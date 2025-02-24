@@ -175,18 +175,18 @@ export const passwordResetComplete = createAsyncThunk(`${sliceName}/passwordRese
 export const verifyEmailStart = createAsyncThunk(`${sliceName}/verifyEmailStart`, (_, { dispatch, getState }) =>
   GeneralApi.post(`${useradmApiUrl}/auth/verify-email/start`, { email: getCurrentUser(getState()).email })
     .catch(err => commonErrorHandler(err, 'An error occured starting the email verification process:', dispatch))
-    .finally(() => Promise.resolve(dispatch(getUser(OWN_USER_ID))))
+    .finally(() => dispatch(getUser(OWN_USER_ID)).unwrap())
 );
 
 export const verifyEmailComplete = createAsyncThunk(`${sliceName}/verifyEmailComplete`, (secret_hash, { dispatch }) =>
   GeneralApi.post(`${useradmApiUrl}/auth/verify-email/complete`, { secret_hash })
     .catch(err => commonErrorHandler(err, 'An error occured completing the email verification process:', dispatch))
-    .finally(() => Promise.resolve(dispatch(getUser(OWN_USER_ID))))
+    .finally(() => dispatch(getUser(OWN_USER_ID)).unwrap())
 );
 
 export const verify2FA = createAsyncThunk(`${sliceName}/verify2FA`, (tfaData, { dispatch }) =>
   UsersApi.putVerifyTFA(`${useradmApiUrl}/2faverify`, tfaData)
-    .then(() => Promise.resolve(dispatch(getUser(OWN_USER_ID))))
+    .then(() => dispatch(getUser(OWN_USER_ID)).unwrap())
     .catch(err =>
       commonErrorHandler(err, 'An error occured validating the verification code: failed to verify token, please try again.', dispatch, undefined, true)
     )
@@ -217,14 +217,14 @@ export const getUser = createAsyncThunk(`${sliceName}/getUser`, (id, { dispatch,
       Promise.all([
         dispatch(actions.receivedUser(user)),
         dispatch(setHideAnnouncement({ shouldHide: false, userId: user.id })),
-        dispatch(updateUserColumnSettings({ currentUserId: user.id })),
+        dispatch(updateUserColumnSettings({ currentUserId: user.id })).unwrap(),
         user
       ])
     )
     .catch(e => rejectWithValue(e))
 );
 
-export const initializeSelf = createAsyncThunk(`${sliceName}/initializeSelf`, (_, { dispatch }) => dispatch(getUser(OWN_USER_ID)));
+export const initializeSelf = createAsyncThunk(`${sliceName}/initializeSelf`, (_, { dispatch }) => dispatch(getUser(OWN_USER_ID)).unwrap());
 
 export const updateUserColumnSettings = createAsyncThunk(`${sliceName}/updateUserColumnSettings`, ({ columns, currentUserId }, { dispatch, getState }) => {
   const userId = currentUserId ?? getCurrentUser(getState()).id;
@@ -266,13 +266,15 @@ const userActionErrorHandler = (err, type, dispatch) => commonErrorHandler(err, 
 
 export const createUser = createAsyncThunk(`${sliceName}/createUser`, ({ shouldResetPassword, ...userData }, { dispatch }) =>
   GeneralApi.post(`${useradmApiUrl}/users`, { ...userData, send_reset_password: shouldResetPassword })
-    .then(() => Promise.all([dispatch(getUserList()), dispatch(setSnackbar(userActions.create.successMessage))]))
+    .then(() => Promise.all([dispatch(getUserList()).unwrap(), dispatch(setSnackbar(userActions.create.successMessage))]))
     .catch(err => userActionErrorHandler(err, 'create', dispatch))
 );
 
 export const removeUser = createAsyncThunk(`${sliceName}/removeUser`, (userId, { dispatch }) =>
   GeneralApi.delete(`${useradmApiUrl}/users/${userId}`)
-    .then(() => Promise.all([dispatch(actions.removedUser(userId)), dispatch(getUserList()), dispatch(setSnackbar(userActions.remove.successMessage))]))
+    .then(() =>
+      Promise.all([dispatch(actions.removedUser(userId)), dispatch(getUserList()).unwrap(), dispatch(setSnackbar(userActions.remove.successMessage))])
+    )
     .catch(err => userActionErrorHandler(err, 'remove', dispatch))
 );
 
@@ -289,19 +291,19 @@ export const addUserToCurrentTenant = createAsyncThunk(`${sliceName}/addUserToTe
   const { id } = getOrganization(getState());
   return GeneralApi.post(`${useradmApiUrl}/users/${userId}/assign`, { tenant_ids: [id] })
     .catch(err => commonErrorHandler(err, `There was an error adding the user to your organization:`, dispatch))
-    .then(() => Promise.all([dispatch(setSnackbar(userActions.add.successMessage)), dispatch(getUserList())]));
+    .then(() => Promise.all([dispatch(setSnackbar(userActions.add.successMessage)), dispatch(getUserList()).unwrap()]));
 });
 
 export const enableUser2fa = createAsyncThunk(`${sliceName}/enableUser2fa`, (userId = OWN_USER_ID, { dispatch }) =>
   GeneralApi.post(`${useradmApiUrl}/users/${userId}/2fa/enable`)
     .catch(err => commonErrorHandler(err, `There was an error enabling Two Factor authentication for the user.`, dispatch))
-    .then(() => Promise.resolve(dispatch(getUser(userId))))
+    .then(() => dispatch(getUser(userId)).unwrap())
 );
 
 export const disableUser2fa = createAsyncThunk(`${sliceName}/disableUser2fa`, (userId = OWN_USER_ID, { dispatch }) =>
   GeneralApi.post(`${useradmApiUrl}/users/${userId}/2fa/disable`)
     .catch(err => commonErrorHandler(err, `There was an error disabling Two Factor authentication for the user.`, dispatch))
-    .then(() => Promise.all([dispatch(getUser(userId)), dispatch(actions.receivedQrCode(null))]))
+    .then(() => Promise.all([dispatch(getUser(userId)).unwrap(), dispatch(actions.receivedQrCode(null))]))
 );
 
 /* RBAC related things follow:  */
@@ -490,7 +492,7 @@ export const getPermissionSets = createAsyncThunk(`${sliceName}/getPermissionSet
 );
 
 export const getRoles = createAsyncThunk(`${sliceName}/getRoles`, (_, { dispatch, getState }) =>
-  Promise.all([GeneralApi.get(`${useradmApiUrlv2}/roles?per_page=500`), dispatch(getPermissionSets())])
+  Promise.all([GeneralApi.get(`${useradmApiUrlv2}/roles?per_page=500`), dispatch(getPermissionSets()).unwrap()])
     .then(results => {
       if (!results) {
         return Promise.resolve();
@@ -626,7 +628,7 @@ export const createRole = createAsyncThunk(`${sliceName}/createRole`, (roleData,
     description: role.description,
     permission_sets_with_scope: permissionSetsWithScope
   })
-    .then(() => Promise.all([dispatch(actions.createdRole(role)), dispatch(getRoles()), dispatch(setSnackbar(roleActions.create.successMessage))]))
+    .then(() => Promise.all([dispatch(actions.createdRole(role)), dispatch(getRoles()).unwrap(), dispatch(setSnackbar(roleActions.create.successMessage))]))
     .catch(err => roleActionErrorHandler(err, 'create', dispatch, { permissionSetsCreated: permissionSetsWithScope.length, name: role.name }));
 });
 
@@ -637,13 +639,13 @@ export const editRole = createAsyncThunk(`${sliceName}/editRole`, (roleData, { d
     name: role.name,
     permission_sets_with_scope: permissionSetsWithScope
   })
-    .then(() => Promise.all([dispatch(actions.createdRole(role)), dispatch(getRoles()), dispatch(setSnackbar(roleActions.edit.successMessage))]))
+    .then(() => Promise.all([dispatch(actions.createdRole(role)), dispatch(getRoles()).unwrap(), dispatch(setSnackbar(roleActions.edit.successMessage))]))
     .catch(err => roleActionErrorHandler(err, 'edit', dispatch, { permissionSetsCreated: permissionSetsWithScope.length, name: role.name }));
 });
 
 export const removeRole = createAsyncThunk(`${sliceName}/removeRole`, (roleId, { dispatch }) =>
   GeneralApi.delete(`${useradmApiUrlv2}/roles/${roleId}`)
-    .then(() => Promise.all([dispatch(actions.removedRole(roleId)), dispatch(getRoles()), dispatch(setSnackbar(roleActions.remove.successMessage))]))
+    .then(() => Promise.all([dispatch(actions.removedRole(roleId)), dispatch(getRoles()).unwrap(), dispatch(setSnackbar(roleActions.remove.successMessage))]))
     .catch(err => roleActionErrorHandler(err, 'remove', dispatch))
 );
 
@@ -653,7 +655,7 @@ export const removeRole = createAsyncThunk(`${sliceName}/removeRole`, (roleId, {
 export const getGlobalSettings = createAsyncThunk(`${sliceName}/getGlobalSettings`, (_, { dispatch }) =>
   GeneralApi.get(`${useradmApiUrl}/settings`).then(({ data: settings, headers: { etag } }) => {
     window.sessionStorage.setItem(settingsKeys.initialized, true);
-    return Promise.all([dispatch(actions.setGlobalSettings(settings)), dispatch(setOfflineThreshold()), etag]);
+    return Promise.all([dispatch(actions.setGlobalSettings(settings)), dispatch(setOfflineThreshold()).unwrap(), etag]);
   })
 );
 
@@ -720,7 +722,7 @@ export const saveUserSettings = createAsyncThunk(`${sliceName}/saveUserSettings`
       };
       const headers = result[result.length - 1] ? { 'If-Match': result[result.length - 1] } : {};
       return Promise.all([
-        Promise.resolve(dispatch(actions.setUserSettings(updatedSettings))),
+        dispatch(actions.setUserSettings(updatedSettings)),
         GeneralApi.post(`${useradmApiUrl}/settings/me`, updatedSettings, { headers })
       ]).catch(() => dispatch(actions.setUserSettings(userSettings)));
     });
@@ -756,25 +758,25 @@ const ONE_YEAR = 31536000;
 
 export const generateToken = createAsyncThunk(`${sliceName}/generateToken`, ({ expiresIn = ONE_YEAR, name }, { dispatch }) =>
   GeneralApi.post(`${useradmApiUrl}/settings/tokens`, { name, expires_in: expiresIn })
-    .then(({ data: token }) => Promise.all([dispatch(getTokens()), token]))
+    .then(({ data: token }) => Promise.all([dispatch(getTokens()).unwrap(), token]))
     .catch(err => commonErrorHandler(err, 'There was an error creating the token:', dispatch))
 );
 
 export const revokeToken = createAsyncThunk(`${sliceName}/revokeToken`, (token, { dispatch }) =>
-  GeneralApi.delete(`${useradmApiUrl}/settings/tokens/${token.id}`).then(() => Promise.resolve(dispatch(getTokens())))
+  GeneralApi.delete(`${useradmApiUrl}/settings/tokens/${token.id}`).then(() => dispatch(getTokens()).unwrap())
 );
 
 export const setTooltipReadState = createAsyncThunk(`${sliceName}/setTooltipReadState`, ({ persist, ...remainder }, { dispatch }) => {
   let tasks = [dispatch(actions.setTooltipState(remainder))];
   if (persist) {
-    tasks.push(dispatch(saveUserSettings()));
+    tasks.push(dispatch(saveUserSettings()).unwrap());
   }
   return Promise.all(tasks);
 });
 
 export const setAllTooltipsReadState = createAsyncThunk(`${sliceName}/toggleHelptips`, (readState = READ_STATES.read, { dispatch }) => {
   const updatedTips = Object.keys(HELPTOOLTIPS).reduce((accu, id) => ({ ...accu, [id]: { readState } }), {});
-  return Promise.resolve(dispatch(actions.setTooltipsState(updatedTips))).then(() => dispatch(saveUserSettings()));
+  return Promise.resolve(dispatch(actions.setTooltipsState(updatedTips))).then(() => dispatch(saveUserSettings()).unwrap());
 });
 
 export const submitFeedback = createAsyncThunk(`${sliceName}/submitFeedback`, ({ satisfaction, feedback, ...meta }, { dispatch }) =>
@@ -783,7 +785,7 @@ export const submitFeedback = createAsyncThunk(`${sliceName}/submitFeedback`, ({
     body: JSON.stringify({ feedback, satisfaction, meta })
   }).then(() => {
     const today = new Date();
-    dispatch(saveUserSettings({ feedbackCollectedAt: today.toISOString().split('T')[0] }));
+    dispatch(saveUserSettings({ feedbackCollectedAt: today.toISOString().split('T')[0] })).unwrap();
     setTimeout(() => dispatch(actions.setShowFeedbackDialog(false)), TIMEOUTS.threeSeconds);
   })
 );

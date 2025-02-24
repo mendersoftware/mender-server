@@ -184,16 +184,16 @@ export const Deployments = () => {
     dispatch(setDeploymentsState({ general: { reportType, showCreationDialog: false, showReportDialog: true }, selectedId }));
   };
 
-  const closeReport = () => dispatch(setDeploymentsState({ general: { reportType: undefined, showReportDialog: false }, selectedId: undefined }));
+  const closeReport = () => dispatch(setDeploymentsState({ general: { reportType: undefined, showReportDialog: false }, selectedId: undefined })).unwrap();
 
-  const onAbortDeployment = id => dispatch(abortDeployment(id)).then(closeReport);
+  const onAbortDeployment = id => dispatch(abortDeployment(id)).unwrap().then(closeReport);
 
   const onCreationDismiss = () => {
     dispatch(setDeploymentsState({ general: { showCreationDialog: false } }));
     setDeploymentObject({});
   };
 
-  const onCreationShow = () => dispatch(setDeploymentsState({ general: { showCreationDialog: true } }));
+  const onCreationShow = () => dispatch(setDeploymentsState({ general: { showCreationDialog: true } })).unwrap();
 
   const setDeploymentSettings = useCallback(change => setDeploymentObject(current => ({ ...current, ...change })), []);
 

@@ -168,7 +168,10 @@ export const Deployments = ({ device }) => {
 
   const onResetStart = () => setIsChecking(true);
 
-  const onResetConfirm = () => dispatch(resetDeviceDeployments(device.id)).then(() => setIsChecking(false));
+  const onResetConfirm = () =>
+    dispatch(resetDeviceDeployments(device.id))
+      .unwrap()
+      .then(() => setIsChecking(false));
 
   const { deviceDeployments = [], deploymentsCount } = device;
 

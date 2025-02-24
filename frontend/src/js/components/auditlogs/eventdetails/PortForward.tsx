@@ -46,7 +46,9 @@ export const PortForward = ({ item, onClose }) => {
         startDate: action.startsWith('open') ? time : undefined,
         endDate: action.startsWith('close') ? time : undefined
       })
-    ).then(setSessionDetails);
+    )
+      .unwrap()
+      .then(setSessionDetails);
   }, [action, actor.id, canReadDevices, dispatch, meta.session_id, object.id, time]);
 
   if (!sessionDetails || (canReadDevices && !device)) {

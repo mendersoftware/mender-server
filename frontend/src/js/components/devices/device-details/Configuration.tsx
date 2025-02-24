@@ -259,14 +259,14 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
     }
     let requests = [];
     if (deployment_id && deployment.status !== DEPLOYMENT_STATES.finished) {
-      requests.push(dispatch(abortDeployment(deployment_id)));
+      requests.push(dispatch(abortDeployment(deployment_id)).unwrap());
     }
     if (deepCompare(reported, changedConfig)) {
       requests.push(Promise.resolve());
     } else {
-      requests.push(dispatch(setDeviceConfig({ deviceId: device.id, config: reported })));
+      requests.push(dispatch(setDeviceConfig({ deviceId: device.id, config: reported })).unwrap());
       if (isSetAsDefault && canManageUsers) {
-        requests.push(dispatch(saveGlobalSettings({ defaultDeviceConfig: { current: defaultConfig.previous } })));
+        requests.push(dispatch(saveGlobalSettings({ defaultDeviceConfig: { current: defaultConfig.previous } })).unwrap());
       }
     }
     return Promise.all(requests).then(() => {
@@ -281,8 +281,11 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
     setIsUpdatingConfig(true);
     setUpdateFailed(false);
     return dispatch(setDeviceConfig({ deviceId: device.id, config: changedConfig }))
+      .unwrap()
       .then(() =>
-        dispatch(applyDeviceConfig({ deviceId: device.id, configDeploymentConfiguration: { retries: 0 }, isDefault: isSetAsDefault, config: changedConfig }))
+        dispatch(
+          applyDeviceConfig({ deviceId: device.id, configDeploymentConfiguration: { retries: 0 }, isDefault: isSetAsDefault, config: changedConfig })
+        ).unwrap()
       )
       .catch(() => {
         setIsEditingConfig(true);

@@ -259,7 +259,7 @@ export const Authorized = ({
       changeLocation(newState);
       dispatch(
         setDeviceListState({ state: newState, page: 1, refreshTrigger: !refreshTrigger, shouldSelectDevices: true, forceRefresh: false, fetchAuth: false })
-      );
+      ).unwrap();
     },
     [dispatch, changeLocation, refreshTrigger]
   );
@@ -288,7 +288,7 @@ export const Authorized = ({
   }, [selectedGroup]);
   const dispatchDeviceListState = useCallback(
     (options, shouldSelectDevices = true, forceRefresh = false, fetchAuth = false) =>
-      dispatch(setDeviceListState({ ...options, shouldSelectDevices, forceRefresh, fetchAuth })),
+      dispatch(setDeviceListState({ ...options, shouldSelectDevices, forceRefresh, fetchAuth })).unwrap(),
     [dispatch]
   );
 
@@ -334,7 +334,7 @@ export const Authorized = ({
   const onAuthorizationChange = (devices, changedState) => {
     const deviceIds = devicesToIds(devices);
     return dispatchDeviceListState({ isLoading: true })
-      .then(() => dispatch(updateDevicesAuth({ deviceIds, status: changedState })))
+      .then(() => dispatch(updateDevicesAuth({ deviceIds, status: changedState })).unwrap())
       .then(() => onSelectionChange([]));
   };
 
@@ -343,7 +343,7 @@ export const Authorized = ({
       .then(() => {
         const deleteRequests = devices.reduce((accu, device) => {
           if (device.auth_sets?.length) {
-            accu.push(dispatch(deleteAuthset({ deviceId: device.id, authId: device.auth_sets[0].id })));
+            accu.push(dispatch(deleteAuthset({ deviceId: device.id, authId: device.auth_sets[0].id })).unwrap());
           }
           return accu;
         }, []);
@@ -406,7 +406,7 @@ export const Authorized = ({
 
   const onCloseExpandedDevice = useCallback(() => dispatchDeviceListState({ selectedId: undefined, detailsTab: '' }), [dispatchDeviceListState]);
 
-  const onResizeColumns = useCallback(columns => dispatch(updateUserColumnSettings({ columns })), [dispatch]);
+  const onResizeColumns = useCallback(columns => dispatch(updateUserColumnSettings({ columns })).unwrap(), [dispatch]);
 
   const actionCallbacks = {
     onAddDevicesToGroup: addDevicesToGroup,

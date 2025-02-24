@@ -227,7 +227,7 @@ export const Releases = () => {
 
   const onHideAddArtifactDialog = () => setShowAddArtifactDialog(false);
 
-  const onSetReleasesListState = useCallback(state => dispatch(setReleasesListState(state)), [dispatch]);
+  const onSetReleasesListState = useCallback(state => dispatch(setReleasesListState(state)).unwrap(), [dispatch]);
 
   const ContentComponent = useMemo(() => tabs.find(({ key }) => key === tab).component, [tab]);
   return (

@@ -53,9 +53,9 @@ export const Devices = ({ clickHandle }) => {
 
   const refreshDevices = useCallback(() => {
     const issueRequests = Object.keys(availableIssueOptions).map(key =>
-      dispatch(getIssueCountsByType({ type: key, options: { filters: [], selectedIssues: [key] } }))
+      dispatch(getIssueCountsByType({ type: key, options: { filters: [], selectedIssues: [key] } })).unwrap()
     );
-    return Promise.all([dispatch(getDeviceCount(DEVICE_STATES.accepted)), dispatch(getDeviceCount(DEVICE_STATES.pending)), ...issueRequests]);
+    return Promise.all([dispatch(getDeviceCount(DEVICE_STATES.accepted)).unwrap(), dispatch(getDeviceCount(DEVICE_STATES.pending)).unwrap(), ...issueRequests]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(availableIssueOptions), dispatch]);
 
@@ -101,7 +101,7 @@ export const Devices = ({ clickHandle }) => {
         {!!acceptedDevicesCount && shouldShowActionableDevices && <ActionableDevices issues={availableIssueOptions} />}
         {!!pendingDevicesCount && !(acceptedDevicesCount && hasReporting) && (
           <PendingDevices
-            advanceOnboarding={step => dispatch(advanceOnboarding(step))}
+            advanceOnboarding={step => dispatch(advanceOnboarding(step)).unwrap()}
             innerRef={pendingsRef}
             isActive={pendingDevicesCount > 0}
             onboardingState={onboardingState}

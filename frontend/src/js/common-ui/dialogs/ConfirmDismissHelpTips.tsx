@@ -24,7 +24,7 @@ const { setShowDismissOnboardingTipsDialog } = storeActions;
 
 export const ConfirmDismissHelptips = () => {
   const dispatch = useAppDispatch();
-  const onClose = () => dispatch(setOnboardingCanceled());
+  const onClose = () => dispatch(setOnboardingCanceled()).unwrap();
   return (
     <BaseDialog open title="Dismiss the Getting Started help?" onClose={onClose}>
       <DialogContent>Hide the help tips? You haven&apos;t finished your first update yet.</DialogContent>
