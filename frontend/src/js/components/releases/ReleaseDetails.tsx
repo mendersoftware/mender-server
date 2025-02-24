@@ -13,7 +13,7 @@
 //    limitations under the License.
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 // material ui
@@ -51,6 +51,7 @@ import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';
 import { generateReleasesPath } from '@northern.tech/store/locationutils';
 import { getReleaseListState, getReleaseTags, getSelectedRelease, getUserCapabilities } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { removeArtifact, removeRelease, selectRelease, setReleaseTags, updateReleaseInfo } from '@northern.tech/store/thunks';
 import { customSort, formatTime, isEmpty, toggle } from '@northern.tech/utils/helpers';
 import { useWindowSize } from '@northern.tech/utils/resizehook';
@@ -316,13 +317,16 @@ export const ReleaseDetails = () => {
   const creationRef = useRef();
   const drawerRef = useRef();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const release = useSelector(getSelectedRelease);
   const existingTags = useSelector(getReleaseTags);
 
   const { name: releaseName, artifacts = [] } = release;
 
-  const onRemoveArtifact = artifact => dispatch(removeArtifact(artifact.id)).finally(() => setShowRemoveArtifactDialog(false));
+  const onRemoveArtifact = artifact =>
+    dispatch(removeArtifact(artifact.id))
+      .unwrap()
+      .finally(() => setShowRemoveArtifactDialog(false));
 
   const copyLinkToClipboard = () => {
     const location = window.location.href.substring(0, window.location.href.indexOf('/releases'));
@@ -330,15 +334,18 @@ export const ReleaseDetails = () => {
     dispatch(setSnackbar('Link copied to clipboard'));
   };
 
-  const onCloseClick = () => dispatch(selectRelease());
+  const onCloseClick = () => dispatch(selectRelease()).unwrap();
 
   const onCreateDeployment = () => navigate(`${DEPLOYMENT_ROUTES.active.route}?open=true&release=${encodeURIComponent(releaseName)}`);
 
   const onToggleReleaseDeletion = () => setConfirmReleaseDeletion(toggle);
 
-  const onDeleteRelease = () => dispatch(removeRelease(releaseName)).then(() => setConfirmReleaseDeletion(false));
+  const onDeleteRelease = () =>
+    dispatch(removeRelease(releaseName))
+      .unwrap()
+      .then(() => setConfirmReleaseDeletion(false));
 
-  const onReleaseNotesChanged = useCallback(notes => dispatch(updateReleaseInfo({ name: releaseName, info: { notes } })), [dispatch, releaseName]);
+  const onReleaseNotesChanged = useCallback(notes => dispatch(updateReleaseInfo({ name: releaseName, info: { notes } })).unwrap(), [dispatch, releaseName]);
 
   const onTagSelectionChanged = useCallback(tags => dispatch(setReleaseTags({ name: releaseName, tags })), [dispatch, releaseName]);
 

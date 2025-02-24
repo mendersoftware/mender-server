@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { InfoOutlined as InfoIcon, Launch as LaunchIcon } from '@mui/icons-material';
@@ -37,6 +37,7 @@ import {
 } from '@northern.tech/store/constants';
 import { formatAuditlogs } from '@northern.tech/store/locationutils';
 import { getCurrentSession, getTenantCapabilities, getUserCapabilities } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeviceFileDownloadLink } from '@northern.tech/store/thunks';
 import { createDownload } from '@northern.tech/utils/helpers';
 
@@ -145,7 +146,7 @@ export const DeviceConnection = ({ className = '', device }) => {
   const { connect_status, connect_updated_ts, isOffline } = device;
   const [connectionStatus, setConnectionStatus] = useState(connect_status);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const dispatchedSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
 
   useEffect(() => {

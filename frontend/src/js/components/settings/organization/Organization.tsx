@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 // material ui
 import { Button, Checkbox, Collapse, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, List, MenuItem, Select } from '@mui/material';
@@ -24,6 +24,7 @@ import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpToo
 import storeActions from '@northern.tech/store/actions';
 import { SSO_TYPES } from '@northern.tech/store/constants';
 import { getCurrentSession, getFeatures, getIsEnterprise, getIsPreview, getOrganization, getSsoConfig, getUserRoles } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import {
   changeSsoConfig,
   deleteSsoConfig,
@@ -75,7 +76,7 @@ export const Organization = () => {
   const { isHosted } = useSelector(getFeatures);
   const org = useSelector(getOrganization);
   const ssoConfig = useSelector(getSsoConfig);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { token } = useSelector(getCurrentSession);
   const { classes } = useStyles();
 
@@ -105,12 +106,14 @@ export const Organization = () => {
     (id, config) => {
       const { contentType } = SSO_TYPES[selectedSsoItem.type];
       if (isResettingSSO) {
-        return dispatch(deleteSsoConfig(ssoConfig)).then(() => setIsResettingSSO(false));
+        return dispatch(deleteSsoConfig(ssoConfig))
+          .unwrap()
+          .then(() => setIsResettingSSO(false));
       }
       if (id) {
-        return dispatch(changeSsoConfig({ id, config, contentType }));
+        return dispatch(changeSsoConfig({ id, config, contentType })).unwrap();
       }
-      return dispatch(storeSsoConfig({ config, contentType }));
+      return dispatch(storeSsoConfig({ config, contentType })).unwrap();
     },
     [isResettingSSO, dispatch, ssoConfig, selectedSsoItem]
   );
@@ -152,11 +155,13 @@ export const Organization = () => {
   );
 
   const changeSSO = () =>
-    dispatch(deleteSsoConfig(ssoConfig)).then(() => {
-      setSelectedSsoItem(SSO_TYPES[newSso]);
-      setIsConfiguringSSO(true);
-      setNewSso('');
-    });
+    dispatch(deleteSsoConfig(ssoConfig))
+      .unwrap()
+      .then(() => {
+        setSelectedSsoItem(SSO_TYPES[newSso]);
+        setIsConfiguringSSO(true);
+        setNewSso('');
+      });
 
   return (
     <div className="margin-top-small">

@@ -12,15 +12,16 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { getDevicesById } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeviceById } from '@northern.tech/store/thunks';
 import { isUUID } from 'validator';
 
 export const useDeploymentDevice = deploymentName => {
   const isLoading = useRef(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const devicesById = useSelector(getDevicesById);
   const hasDeviceInfo = !!devicesById[deploymentName];
 
@@ -30,7 +31,9 @@ export const useDeploymentDevice = deploymentName => {
     }
     isLoading.current = true;
     if (isUUID(deploymentName) && !hasDeviceInfo) {
-      dispatch(getDeviceById(deploymentName)).then(() => (isLoading.current = false));
+      dispatch(getDeviceById(deploymentName))
+        .unwrap()
+        .then(() => (isLoading.current = false));
     }
   }, [deploymentName, dispatch, hasDeviceInfo]);
 };

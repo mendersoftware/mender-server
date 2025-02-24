@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
@@ -21,6 +21,7 @@ import { makeStyles } from 'tss-react/mui';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
 import { DEVICE_STATES, TIMEOUTS, onboardingSteps } from '@northern.tech/store/constants';
 import { getDeviceCountsByStatus, getFeatures, getOnboardingState, getTenantCapabilities } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { advanceOnboarding, saveUserSettings, setDeviceListState } from '@northern.tech/store/thunks';
 
 import docker from '../../../assets/img/docker.png';
@@ -141,7 +142,7 @@ export const DeviceConnectionDialog = ({ onCancel }) => {
   const { isEnterprise, hasMonitor } = useSelector(getTenantCapabilities);
   const { isHosted } = useSelector(getFeatures);
   const { complete: onboardingComplete, deviceType: onboardingDeviceType } = useSelector(getOnboardingState);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {

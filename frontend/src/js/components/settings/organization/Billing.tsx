@@ -166,10 +166,12 @@ export const Billing = () => {
     }, []) || [];
 
   const cancelSubscriptionSubmit = async reason =>
-    dispatch(cancelRequest(reason)).then(() => {
-      setCancelSubscription(false);
-      setCancelSubscriptionConfirmation(true);
-    });
+    dispatch(cancelRequest(reason))
+      .unwrap()
+      .then(() => {
+        setCancelSubscription(false);
+        setCancelSubscriptionConfirmation(true);
+      });
 
   const handleCancelSubscription = e => {
     if (e !== undefined) {

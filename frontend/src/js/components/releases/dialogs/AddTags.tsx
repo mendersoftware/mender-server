@@ -13,12 +13,12 @@
 //    limitations under the License.
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import ChipSelect from '@northern.tech/common-ui/ChipSelect';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { setReleaseTags, setReleasesListState } from '@northern.tech/store/thunks';
 
 const useStyles = makeStyles()(theme => ({
@@ -41,17 +41,19 @@ export const AddTagsDialog = ({ selectedReleases, onClose }) => {
   const methods = useForm({ mode: 'onChange', defaultValues: initialValues });
   const { watch, getValues } = methods;
   const watchTagsInput = watch([inputName]);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const addTagsToReleases = () => {
     const tags = getValues(inputName);
-    dispatch(setReleasesListState({ loading: true })).then(() => {
-      const addRequests = selectedReleases.reduce((accu, release) => {
-        accu.push(dispatch(setReleaseTags({ name: release.name, tags: [...new Set([...release.tags, ...tags])] })));
-        return accu;
-      }, []);
-      return Promise.all(addRequests).then(onClose);
-    });
+    dispatch(setReleasesListState({ loading: true }))
+      .unwrap()
+      .then(() => {
+        const addRequests = selectedReleases.reduce((accu, release) => {
+          accu.push(dispatch(setReleaseTags({ name: release.name, tags: [...new Set([...release.tags, ...tags])] })).unwrap());
+          return accu;
+        }, []);
+        return Promise.all(addRequests).then(onClose);
+      });
   };
 
   useEffect(() => {

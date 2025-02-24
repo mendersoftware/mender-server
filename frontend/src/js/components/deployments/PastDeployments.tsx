@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 // material ui
 import { TextField } from '@mui/material';
@@ -31,6 +31,7 @@ import {
   getOnboardingState,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { advanceOnboarding, getDeploymentsByStatus, setDeploymentsState } from '@northern.tech/store/thunks';
 import { dateRangeToUnix, getISOStringBoundaries } from '@northern.tech/utils/helpers';
 import { useWindowSize } from '@northern.tech/utils/resizehook';
@@ -65,7 +66,7 @@ export const Past = props => {
   const deploymentsRef = useRef();
   const timer = useRef();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const dispatchedSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
 
   const { finished: pastSelectionState } = useSelector(getDeploymentsSelectionState);
@@ -104,6 +105,7 @@ export const Past = props => {
           type: currentType
         })
       )
+        .unwrap()
         .then(({ payload }) => {
           setLoading(false);
           clearRetryTimer(type, dispatchedSetSnackbar);
@@ -123,6 +125,7 @@ export const Past = props => {
     dispatch(
       getDeploymentsByStatus({ status: type, page, perPage, startDate: roundedStartDate, endDate: roundedEndDate, group: deviceGroup, type: deploymentType })
     )
+      .unwrap()
       .then(deploymentsAction => {
         const deploymentsList = deploymentsAction ? Object.values(deploymentsAction.payload[0]) : [];
         if (deploymentsList.length) {
@@ -187,7 +190,7 @@ export const Past = props => {
 
   const onFiltersChange = useCallback(
     ({ endDate, group, startDate, type }) =>
-      dispatch(setDeploymentsState({ [DEPLOYMENT_STATES.finished]: { page: 1, search: group, type, startDate, endDate } })),
+      dispatch(setDeploymentsState({ [DEPLOYMENT_STATES.finished]: { page: 1, search: group, type, startDate, endDate } })).unwrap(),
     [dispatch]
   );
 
@@ -244,8 +247,8 @@ export const Past = props => {
             idAttribute={idAttribute}
             items={past}
             loading={loading}
-            onChangePage={page => dispatch(setDeploymentsState({ [DEPLOYMENT_STATES.finished]: { page } }))}
-            onChangeRowsPerPage={perPage => dispatch(setDeploymentsState({ [DEPLOYMENT_STATES.finished]: { page: 1, perPage } }))}
+            onChangePage={page => dispatch(setDeploymentsState({ [DEPLOYMENT_STATES.finished]: { page } })).unwrap()}
+            onChangeRowsPerPage={perPage => dispatch(setDeploymentsState({ [DEPLOYMENT_STATES.finished]: { page: 1, perPage } })).unwrap()}
             page={page}
             pageSize={perPage}
             rootRef={deploymentsRef}

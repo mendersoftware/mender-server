@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 // material ui
 import {
@@ -39,6 +39,7 @@ import CopyCode from '@northern.tech/common-ui/CopyCode';
 import Time, { RelativeTime } from '@northern.tech/common-ui/Time';
 import { canAccess as canShow } from '@northern.tech/store/constants';
 import { getCurrentUser, getIsEnterprise } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { generateToken, getTokens, revokeToken } from '@northern.tech/store/thunks';
 import { customSort, toggle } from '@northern.tech/utils/helpers';
 
@@ -199,7 +200,7 @@ export const AccessTokenManagement = () => {
   const isEnterprise = useSelector(getIsEnterprise);
   const { tokens = [], roles: userRoles = [], id } = useSelector(getCurrentUser);
   const rolesById = useSelector(state => state.users.rolesById);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { classes } = useStyles();
 
@@ -220,7 +221,10 @@ export const AccessTokenManagement = () => {
     setShowRevocation(toggle);
   };
 
-  const onRevokeClick = token => dispatch(revokeToken(token)).then(() => toggleRevocationClick());
+  const onRevokeClick = token =>
+    dispatch(revokeToken(token))
+      .unwrap()
+      .then(() => toggleRevocationClick());
 
   const onRevokeTokenClick = token => {
     toggleRevocationClick();

@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Navigate, useParams } from 'react-router-dom';
 
 import { formControlClasses } from '@mui/material';
@@ -23,6 +23,7 @@ import Form from '@northern.tech/common-ui/forms/Form';
 import storeActions from '@northern.tech/store/actions';
 import { TIMEOUTS, locations } from '@northern.tech/store/constants';
 import { getRecaptchaKey } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { createOrganizationTrial } from '@northern.tech/store/thunks';
 import { stringToBoolean } from '@northern.tech/utils/helpers';
 import Cookies from 'universal-cookie';
@@ -85,7 +86,7 @@ export const Signup = () => {
   const { campaign = '' } = useParams();
   const currentUserId = useSelector(state => state.users.currentUserId);
   const recaptchaSiteKey = useSelector(getRecaptchaKey);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { classes } = useStyles();
 
   const dispatchedSetSnackbar = useCallback(message => dispatch(setSnackbar(message)), [dispatch]);
@@ -128,13 +129,15 @@ export const Signup = () => {
       plan: 'enterprise',
       ts: captchaTimestamp
     };
-    return dispatch(createOrganizationTrial(signup)).catch(() => {
-      setStep(1);
-      setOrganization(formData.name);
-      setTos(formData.tos);
-      setMarketing(formData.marketing);
-      setLoading(false);
-    });
+    return dispatch(createOrganizationTrial(signup))
+      .unwrap()
+      .catch(() => {
+        setStep(1);
+        setOrganization(formData.name);
+        setTos(formData.tos);
+        setMarketing(formData.marketing);
+        setLoading(false);
+      });
   };
 
   const onProgessClick = () => {
