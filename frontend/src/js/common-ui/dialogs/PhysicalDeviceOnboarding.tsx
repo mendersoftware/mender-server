@@ -208,7 +208,7 @@ export const PhysicalDeviceOnboarding = ({ progress }) => {
   const ComponentToShow = steps[progress];
   return (
     <ComponentToShow
-      advanceOnboarding={step => dispatch(advanceOnboarding(step))}
+      advanceOnboarding={step => dispatch(advanceOnboarding(step)).unwrap()}
       hasConvertedImage={hasConvertedImage}
       hasExternalIntegration={hasExternalIntegration}
       hasMonitor={hasMonitor}

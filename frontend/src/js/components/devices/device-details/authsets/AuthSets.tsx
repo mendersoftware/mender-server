@@ -60,7 +60,10 @@ export const Authsets = ({ decommission, device, listRef }) => {
     const request =
       status === DEVICE_DISMISSAL_STATE ? dispatch(deleteAuthset({ deviceId, authId })) : dispatch(updateDeviceAuth({ deviceId, authId, status }));
     // on finish, change "loading" back to null
-    return request.then(() => dispatch(advanceOnboarding(onboardingSteps.DEVICES_PENDING_ACCEPTING_ONBOARDING))).finally(() => setLoading(null));
+    return request
+      .unwrap()
+      .then(() => dispatch(advanceOnboarding(onboardingSteps.DEVICES_PENDING_ACCEPTING_ONBOARDING)).unwrap())
+      .finally(() => setLoading(null));
   };
 
   return (

@@ -97,6 +97,7 @@ export const Scheduled = ({ abort, createClick, openReport, ...remainder }) => {
   const refreshDeployments = useCallback(
     () =>
       dispatch(getDeploymentsByStatus({ status: DEPLOYMENT_STATES.scheduled, page, perPage }))
+        .unwrap()
         .then(({ payload }) => {
           clearRetryTimer(type, dispatchedSetSnackbar);
           const { total, deploymentIds } = payload[payload.length - 1];
@@ -191,8 +192,8 @@ export const Scheduled = ({ abort, createClick, openReport, ...remainder }) => {
               abort={abortDeployment}
               headers={headers}
               type={type}
-              onChangeRowsPerPage={perPage => dispatch(setDeploymentsState({ [DEPLOYMENT_STATES.scheduled]: { page: 1, perPage } }))}
-              onChangePage={page => dispatch(setDeploymentsState({ [DEPLOYMENT_STATES.scheduled]: { page } }))}
+              onChangeRowsPerPage={perPage => dispatch(setDeploymentsState({ [DEPLOYMENT_STATES.scheduled]: { page: 1, perPage } })).unwrap()}
+              onChangePage={page => dispatch(setDeploymentsState({ [DEPLOYMENT_STATES.scheduled]: { page } })).unwrap()}
             />
           )}
           {tabIndex === tabs.calendar.index && (

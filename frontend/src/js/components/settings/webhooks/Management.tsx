@@ -101,7 +101,7 @@ export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
   const { classes } = useStyles();
   const containerRef = useRef();
 
-  const dispatchedGetWebhookEvents = useCallback(options => dispatch(getWebhookEvents(options)), [dispatch]);
+  const dispatchedGetWebhookEvents = useCallback(options => dispatch(getWebhookEvents(options)).unwrap(), [dispatch]);
   const dispatchedSetSnackbar = useCallback(args => dispatch(setSnackbar(args)), [dispatch]);
 
   const { description, scopes = [], credentials = {} } = webhook ?? emptyWebhook;

@@ -258,7 +258,7 @@ export const Integrations = () => {
           integration={integration}
           isLast={configuredIntegrations.length === index + 1}
           onCancel={onCancelClick}
-          onDelete={integration => dispatch(deleteIntegration(integration))}
+          onDelete={integration => dispatch(deleteIntegration(integration)).unwrap()}
           onSave={onSaveClick}
         />
       ))}

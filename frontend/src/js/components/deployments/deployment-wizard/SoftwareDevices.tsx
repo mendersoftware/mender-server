@@ -265,7 +265,9 @@ export const Software = ({ commonClasses, deploymentObject, releaseRef, releases
   const onReleaseInputChange = useCallback(
     inputValue => {
       setIsLoadingReleases(!releases.length);
-      return dispatch(getReleases({ page: 1, perPage: 100, searchTerm: inputValue, searchOnly: true })).finally(() => setIsLoadingReleases(false));
+      return dispatch(getReleases({ page: 1, perPage: 100, searchTerm: inputValue, searchOnly: true }))
+        .unwrap()
+        .finally(() => setIsLoadingReleases(false));
     },
     [dispatch, releases.length]
   );

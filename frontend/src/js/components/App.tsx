@@ -172,6 +172,7 @@ export const AppRoot = () => {
     if (!!expiresAt && currentUser) {
       // logout user and warn
       return dispatch(logoutUser())
+        .unwrap()
         .catch(updateExpiryDate)
         .then(() => {
           navigate('//'); // double / to ensure the logged out URL conforms to `/ui/` in order to not trigger a redirect and potentially use state

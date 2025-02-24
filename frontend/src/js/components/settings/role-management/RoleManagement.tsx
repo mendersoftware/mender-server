@@ -117,7 +117,7 @@ export const RoleManagement = () => {
         isServiceProvider={!!service_provider}
         onCancel={onCancel}
         onSubmit={onSubmit}
-        removeRole={name => dispatch(removeRole(name))}
+        removeRole={name => dispatch(removeRole(name)).unwrap()}
         selectedRole={role}
         stateGroups={groups}
         stateReleaseTags={releaseTags}

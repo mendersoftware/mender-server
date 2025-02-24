@@ -223,6 +223,7 @@ export const CreateDeployment = props => {
       dispatch(advanceOnboarding(onboardingSteps.SCHEDULING_RELEASE_TO_DEVICES));
     }
     return dispatch(createDeployment({ newDeployment, hasNewRetryDefault }))
+      .unwrap()
       .then(() => {
         // successfully retrieved new deployment
         cleanUpDeploymentsStatus();
