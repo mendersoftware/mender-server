@@ -67,7 +67,7 @@ const useStyles = makeStyles()(theme => ({
 const UploadProgressBar = ({ classes, upload, uploadId }) => {
   const { name, size, progress } = upload;
   const dispatch = useAppDispatch();
-  const onCancelClick = useCallback(() => dispatch(cancelFileUpload(uploadId)), [dispatch, uploadId]);
+  const onCancelClick = useCallback(() => dispatch(cancelFileUpload(uploadId)).unwrap(), [dispatch, uploadId]);
   return (
     <div className={classes.progressContainer}>
       <div className="info flexbox centered">

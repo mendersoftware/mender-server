@@ -124,9 +124,9 @@ export const SoftwareDistribution = () => {
     dispatch(saveUserSettings({ reports: newReports }));
   };
 
-  const removeReport = removedReport => dispatch(saveUserSettings({ reports: reports.filter(report => report !== removedReport) }));
+  const removeReport = removedReport => dispatch(saveUserSettings({ reports: reports.filter(report => report !== removedReport) })).unwrap();
 
-  const onGetGroupDevices = useCallback((...args) => dispatch(getGroupDevices(...args)), [dispatch]);
+  const onGetGroupDevices = useCallback((...args) => dispatch(getGroupDevices(...args)).unwrap(), [dispatch]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const software = useMemo(() => listSoftware(hasReporting ? attributes : [rootfsImageVersion]), [JSON.stringify(attributes), hasReporting]);

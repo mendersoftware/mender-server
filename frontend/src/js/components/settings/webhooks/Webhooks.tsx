@@ -37,7 +37,10 @@ export const Webhooks = () => {
 
   const onCancel = () => setSelectedWebhook();
 
-  const onRemoveClick = () => dispatch(deleteIntegration(selectedWebhook)).then(() => setSelectedWebhook());
+  const onRemoveClick = () =>
+    dispatch(deleteIntegration(selectedWebhook))
+      .unwrap()
+      .then(() => setSelectedWebhook());
 
   const mappedWebhooks = useMemo(
     () => webhooks.map(item => ({ ...item, url: item.credentials[EXTERNAL_PROVIDER.webhook.credentialsType].url, status: 'enabled' })),

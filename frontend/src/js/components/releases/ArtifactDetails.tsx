@@ -158,7 +158,7 @@ export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }) =>
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [artifact.id, artifact.installCount, dispatch, open, softwareVersions.length]);
 
-  const onDescriptionChanged = useCallback(description => dispatch(editArtifact({ id: artifact.id, body: { description } })), [artifact.id, dispatch]);
+  const onDescriptionChanged = useCallback(description => dispatch(editArtifact({ id: artifact.id, body: { description } })).unwrap(), [artifact.id, dispatch]);
 
   const softwareItem = extractSoftwareItem(artifact.artifact_provides);
   const softwareInformation = softwareItem

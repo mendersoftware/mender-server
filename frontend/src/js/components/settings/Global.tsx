@@ -277,8 +277,8 @@ export const GlobalSettingsContainer = ({ closeDialog, dialog }) => {
     }
   };
 
-  const onChangeNotificationSetting = useCallback((...args) => dispatch(changeNotificationSetting(...args)), [dispatch]);
-  const onSaveGlobalSettings = useCallback((...args) => dispatch(saveGlobalSettings(...args)), [dispatch]);
+  const onChangeNotificationSetting = useCallback((...args) => dispatch(changeNotificationSetting(...args)).unwrap(), [dispatch]);
+  const onSaveGlobalSettings = useCallback((...args) => dispatch(saveGlobalSettings(...args)).unwrap(), [dispatch]);
 
   const saveAttributeSetting = (e, id_attribute) =>
     onSaveGlobalSettings({ ...updatedSettings, id_attribute, notify: true }).then(() => {

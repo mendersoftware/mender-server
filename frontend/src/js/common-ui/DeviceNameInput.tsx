@@ -56,7 +56,10 @@ export const DeviceNameInput = ({ device, isHovered }) => {
     inputRef.current.focus();
   }, [isEditing]);
 
-  const onSubmit = () => dispatch(setDeviceTags({ deviceId: id, tags: { ...tags, name: value } })).then(() => setIsEditing(false));
+  const onSubmit = () =>
+    dispatch(setDeviceTags({ deviceId: id, tags: { ...tags, name: value } }))
+      .unwrap()
+      .then(() => setIsEditing(false));
 
   const onCancel = () => {
     setValue(name);

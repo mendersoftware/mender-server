@@ -95,7 +95,7 @@ export const Filters = ({ className = '', onGroupClick, open }) => {
     [filters, handleFilterChange, saveUpdatedFilter]
   );
 
-  const resetIdFilter = () => dispatch(setDeviceListState({ selectedId: undefined, setOnly: true }));
+  const resetIdFilter = () => dispatch(setDeviceListState({ selectedId: undefined, setOnly: true })).unwrap();
 
   const removeFilter = removedFilter => {
     if (removedFilter.key === 'id') {

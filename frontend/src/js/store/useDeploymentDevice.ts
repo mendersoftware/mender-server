@@ -31,7 +31,9 @@ export const useDeploymentDevice = deploymentName => {
     }
     isLoading.current = true;
     if (isUUID(deploymentName) && !hasDeviceInfo) {
-      dispatch(getDeviceById(deploymentName)).then(() => (isLoading.current = false));
+      dispatch(getDeviceById(deploymentName))
+        .unwrap()
+        .then(() => (isLoading.current = false));
     }
   }, [deploymentName, dispatch, hasDeviceInfo]);
 };

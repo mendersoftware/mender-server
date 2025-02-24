@@ -63,7 +63,7 @@ export const Deployments = ({ className = '', clickHandle }) => {
 
   const getDeployments = useCallback(
     () =>
-      Promise.all(Object.keys(stateMap).map(status => dispatch(getDeploymentsByStatus({ status, page: 1, perPage: DEPLOYMENT_CUTOFF }))))
+      Promise.all(Object.keys(stateMap).map(status => dispatch(getDeploymentsByStatus({ status, page: 1, perPage: DEPLOYMENT_CUTOFF })).unwrap()))
         .catch(err => setRetryTimer(err, 'deployments', `Couldn't load deployments.`, refreshDeploymentsLength, setSnackbarDispatched))
         .finally(() => setLoading(false)),
     [dispatch, setSnackbarDispatched]

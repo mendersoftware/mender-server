@@ -359,8 +359,8 @@ export const MenderHelpTooltip = props => {
   const { readState = READ_STATES.unread } = tooltipsById[id] || {};
   const { Component, SpecialComponent, isRelevant = yes } = HELPTOOLTIPS[id];
 
-  const onSetTooltipReadState = useCallback((...args) => dispatch(setTooltipReadState(...args)), [dispatch]);
-  const onSetAllTooltipsReadState = state => dispatch(setAllTooltipsReadState(state));
+  const onSetTooltipReadState = useCallback((...args) => dispatch(setTooltipReadState(...args)).unwrap(), [dispatch]);
+  const onSetAllTooltipsReadState = state => dispatch(setAllTooltipsReadState(state)).unwrap();
 
   return (
     <HelpTooltip

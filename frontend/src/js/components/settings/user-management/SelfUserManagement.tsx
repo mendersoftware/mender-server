@@ -172,7 +172,7 @@ export const SelfUserManagement = () => {
       <AccessTokenManagement />
       {isEnterprise && hasTracking && (
         <div className="margin-top">
-          <div className="clickable flexbox space-between" onClick={() => dispatch(saveUserSettings({ trackingConsentGiven: !hasTrackingConsent }))}>
+          <div className="clickable flexbox space-between" onClick={() => dispatch(saveUserSettings({ trackingConsentGiven: !hasTrackingConsent })).unwrap()}>
             <p className="help-content">Help us improve Mender</p>
             <Switch checked={!!hasTrackingConsent} />
           </div>

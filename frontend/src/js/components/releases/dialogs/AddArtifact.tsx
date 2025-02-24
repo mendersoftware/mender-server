@@ -180,9 +180,9 @@ export const AddArtifactDialog = ({ onCancel, onUploadStarted, releases, selecte
   const deviceTypes = useSelector(getDeviceTypes);
   const dispatch = useAppDispatch();
 
-  const onCreateArtifact = useCallback((meta, file) => dispatch(createArtifact({ meta, file })), [dispatch]);
+  const onCreateArtifact = useCallback((meta, file) => dispatch(createArtifact({ meta, file })).unwrap(), [dispatch]);
   const onSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
-  const onUploadArtifact = useCallback((meta, file) => dispatch(uploadArtifact({ meta, file })), [dispatch]);
+  const onUploadArtifact = useCallback((meta, file) => dispatch(uploadArtifact({ meta, file })).unwrap(), [dispatch]);
 
   useEffect(() => {
     setCreation(current => ({ ...current, file: selectedFile }));

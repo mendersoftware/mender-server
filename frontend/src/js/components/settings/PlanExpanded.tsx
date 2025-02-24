@@ -88,9 +88,9 @@ export const PlanExpanded = (props: ProfileEditProps | PlanProps) => {
     const code: string = values.country.code ? values.country.code : values.country;
     const billing_profile = { email, name, address: { country: code, state, city, line1, postal_code } };
     if (isEdit) {
-      await dispatch(editBillingProfile({ billingProfile: billing_profile }));
+      await dispatch(editBillingProfile({ billingProfile: billing_profile })).unwrap();
     } else {
-      await dispatch(completeUpgrade({ tenantId: (organization as Organization).id, plan: (selectedPlan as Plan).id, billing_profile }));
+      await dispatch(completeUpgrade({ tenantId: (organization as Organization).id, plan: (selectedPlan as Plan).id, billing_profile })).unwrap();
       dispatch(setSnackbar(successMessage((selectedPlan as Plan).name)));
     }
     onCloseClick();

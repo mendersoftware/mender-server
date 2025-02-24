@@ -83,7 +83,7 @@ export const DevicesAcceptedOnboarding = props => {
           <b className="clickable slightly-smaller" onClick={() => dispatch(setShowDismissOnboardingTipsDialog(true))}>
             Dismiss the tutorial
           </b>
-          <Button onClick={() => dispatch(advanceOnboarding(onboardingSteps.DEVICES_ACCEPTED_ONBOARDING))}>Yes, let&apos;s deploy!</Button>
+          <Button onClick={() => dispatch(advanceOnboarding(onboardingSteps.DEVICES_ACCEPTED_ONBOARDING)).unwrap()}>Yes, let&apos;s deploy!</Button>
         </div>
       </div>
     </BaseOnboardingTooltip>

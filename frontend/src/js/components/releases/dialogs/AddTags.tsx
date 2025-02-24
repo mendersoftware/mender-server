@@ -46,13 +46,15 @@ export const AddTagsDialog = ({ selectedReleases, onClose }) => {
 
   const addTagsToReleases = () => {
     const tags = getValues(inputName);
-    dispatch(setReleasesListState({ loading: true })).then(() => {
-      const addRequests = selectedReleases.reduce((accu, release) => {
-        accu.push(dispatch(setReleaseTags({ name: release.name, tags: [...new Set([...release.tags, ...tags])] })));
-        return accu;
-      }, []);
-      return Promise.all(addRequests).then(onClose);
-    });
+    dispatch(setReleasesListState({ loading: true }))
+      .unwrap()
+      .then(() => {
+        const addRequests = selectedReleases.reduce((accu, release) => {
+          accu.push(dispatch(setReleaseTags({ name: release.name, tags: [...new Set([...release.tags, ...tags])] })).unwrap());
+          return accu;
+        }, []);
+        return Promise.all(addRequests).then(onClose);
+      });
   };
 
   useEffect(() => {
