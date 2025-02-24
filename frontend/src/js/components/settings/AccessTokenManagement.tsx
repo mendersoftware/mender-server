@@ -221,7 +221,10 @@ export const AccessTokenManagement = () => {
     setShowRevocation(toggle);
   };
 
-  const onRevokeClick = token => dispatch(revokeToken(token)).then(() => toggleRevocationClick());
+  const onRevokeClick = token =>
+    dispatch(revokeToken(token))
+      .unwrap()
+      .then(() => toggleRevocationClick());
 
   const onRevokeTokenClick = token => {
     toggleRevocationClick();

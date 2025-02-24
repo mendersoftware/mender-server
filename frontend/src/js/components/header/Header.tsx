@@ -193,14 +193,16 @@ const AccountMenu = () => {
     setTenantSwitcherShowing(false);
   };
 
-  const handleSwitchTenant = id => dispatch(switchUserOrganization(id));
+  const handleSwitchTenant = id => dispatch(switchUserOrganization(id)).unwrap();
 
   const onLogoutClick = () => {
     setAnchorEl(null);
-    dispatch(logoutUser()).then(() => window.location.replace('/ui/'));
+    dispatch(logoutUser())
+      .unwrap()
+      .then(() => window.location.replace('/ui/'));
   };
 
-  const onToggleTooltips = () => dispatch(setAllTooltipsReadState(showHelptips ? READ_STATES.read : READ_STATES.unread));
+  const onToggleTooltips = () => dispatch(setAllTooltipsReadState(showHelptips ? READ_STATES.read : READ_STATES.unread)).unwrap();
 
   return (
     <>
@@ -354,7 +356,7 @@ export const Header = ({ isDarkMode }) => {
     });
   }, [dispatch, feedbackCollectedAt, feedbackProbability, hasFeedbackEnabled, isAdmin, userSettingInitialized, token]);
 
-  const onSearch = useCallback((searchTerm, refreshTrigger) => dispatch(setSearchState({ refreshTrigger, searchTerm, page: 1 })), [dispatch]);
+  const onSearch = useCallback((searchTerm, refreshTrigger) => dispatch(setSearchState({ refreshTrigger, searchTerm, page: 1 })).unwrap(), [dispatch]);
 
   const setHideOffer = () => {
     cookies.set('offer', currentOffer.name, { path: '/', maxAge: 2629746 });
@@ -374,7 +376,7 @@ export const Header = ({ isDarkMode }) => {
           errorIconClassName={classes.redAnnouncementIcon}
           iconClassName={classes.demoAnnouncementIcon}
           sectionClassName={classes.demoTrialAnnouncement}
-          onHide={() => dispatch(setHideAnnouncement({ shouldHide: true }))}
+          onHide={() => dispatch(setHideAnnouncement({ shouldHide: true })).unwrap()}
         />
       )}
       {showOffer && <OfferHeader onHide={setHideOffer} />}

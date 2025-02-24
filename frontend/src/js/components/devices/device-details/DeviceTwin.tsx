@@ -206,7 +206,9 @@ export const DeviceTwin = ({ device, integration }) => {
     editorRef.current.modifiedEditor.getAction('editor.action.formatDocument').run();
     setUpdated(stringifyTwin(update));
     setErrorMessage('');
-    dispatch(setDeviceTwin({ deviceId: device.id, integration, settings: update })).then(() => setIsEditing(false));
+    dispatch(setDeviceTwin({ deviceId: device.id, integration, settings: update }))
+      .unwrap()
+      .then(() => setIsEditing(false));
   };
 
   const onCancelClick = () => {
@@ -218,7 +220,9 @@ export const DeviceTwin = ({ device, integration }) => {
 
   const onRefreshClick = () => {
     setIsRefreshing(true);
-    dispatch(getDeviceTwin({ deviceId: device.id, integration })).finally(() => setTimeout(() => setIsRefreshing(false), TIMEOUTS.halfASecond));
+    dispatch(getDeviceTwin({ deviceId: device.id, integration }))
+      .unwrap()
+      .finally(() => setTimeout(() => setIsRefreshing(false), TIMEOUTS.halfASecond));
   };
 
   const onEditClick = () => setIsEditing(true);

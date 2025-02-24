@@ -52,7 +52,10 @@ export const Password = () => {
 
   const dispatch = useAppDispatch();
 
-  const handleSubmit = formData => dispatch(passwordResetStart(formData.email)).then(() => setConfirm(true));
+  const handleSubmit = formData =>
+    dispatch(passwordResetStart(formData.email))
+      .unwrap()
+      .then(() => setConfirm(true));
 
   const content = confirm ? texts.confirmation : texts.request;
   return (

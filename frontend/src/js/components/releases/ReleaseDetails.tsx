@@ -323,7 +323,10 @@ export const ReleaseDetails = () => {
 
   const { name: releaseName, artifacts = [] } = release;
 
-  const onRemoveArtifact = artifact => dispatch(removeArtifact(artifact.id)).finally(() => setShowRemoveArtifactDialog(false));
+  const onRemoveArtifact = artifact =>
+    dispatch(removeArtifact(artifact.id))
+      .unwrap()
+      .finally(() => setShowRemoveArtifactDialog(false));
 
   const copyLinkToClipboard = () => {
     const location = window.location.href.substring(0, window.location.href.indexOf('/releases'));
@@ -331,15 +334,18 @@ export const ReleaseDetails = () => {
     dispatch(setSnackbar('Link copied to clipboard'));
   };
 
-  const onCloseClick = () => dispatch(selectRelease());
+  const onCloseClick = () => dispatch(selectRelease()).unwrap();
 
   const onCreateDeployment = () => navigate(`${DEPLOYMENT_ROUTES.active.route}?open=true&release=${encodeURIComponent(releaseName)}`);
 
   const onToggleReleaseDeletion = () => setConfirmReleaseDeletion(toggle);
 
-  const onDeleteRelease = () => dispatch(removeRelease(releaseName)).then(() => setConfirmReleaseDeletion(false));
+  const onDeleteRelease = () =>
+    dispatch(removeRelease(releaseName))
+      .unwrap()
+      .then(() => setConfirmReleaseDeletion(false));
 
-  const onReleaseNotesChanged = useCallback(notes => dispatch(updateReleaseInfo({ name: releaseName, info: { notes } })), [dispatch, releaseName]);
+  const onReleaseNotesChanged = useCallback(notes => dispatch(updateReleaseInfo({ name: releaseName, info: { notes } })).unwrap(), [dispatch, releaseName]);
 
   const onTagSelectionChanged = useCallback(tags => dispatch(setReleaseTags({ name: releaseName, tags })), [dispatch, releaseName]);
 

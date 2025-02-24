@@ -106,12 +106,14 @@ export const Organization = () => {
     (id, config) => {
       const { contentType } = SSO_TYPES[selectedSsoItem.type];
       if (isResettingSSO) {
-        return dispatch(deleteSsoConfig(ssoConfig)).then(() => setIsResettingSSO(false));
+        return dispatch(deleteSsoConfig(ssoConfig))
+          .unwrap()
+          .then(() => setIsResettingSSO(false));
       }
       if (id) {
-        return dispatch(changeSsoConfig({ id, config, contentType }));
+        return dispatch(changeSsoConfig({ id, config, contentType })).unwrap();
       }
-      return dispatch(storeSsoConfig({ config, contentType }));
+      return dispatch(storeSsoConfig({ config, contentType })).unwrap();
     },
     [isResettingSSO, dispatch, ssoConfig, selectedSsoItem]
   );
@@ -153,11 +155,13 @@ export const Organization = () => {
   );
 
   const changeSSO = () =>
-    dispatch(deleteSsoConfig(ssoConfig)).then(() => {
-      setSelectedSsoItem(SSO_TYPES[newSso]);
-      setIsConfiguringSSO(true);
-      setNewSso('');
-    });
+    dispatch(deleteSsoConfig(ssoConfig))
+      .unwrap()
+      .then(() => {
+        setSelectedSsoItem(SSO_TYPES[newSso]);
+        setIsConfiguringSSO(true);
+        setNewSso('');
+      });
 
   return (
     <div className="margin-top-small">

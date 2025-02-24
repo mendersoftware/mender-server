@@ -70,6 +70,7 @@ export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
     Tracking.event({ category: 'devices', action: 'modify_tags' });
     setIsEditDisabled(true);
     return dispatch(setDeviceTags({ deviceId: device.id, tags: changedTags }))
+      .unwrap()
       .then(() => {
         dispatch(getDeviceAttributes());
         setIsEditing(false);

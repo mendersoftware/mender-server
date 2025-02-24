@@ -129,13 +129,15 @@ export const Signup = () => {
       plan: 'enterprise',
       ts: captchaTimestamp
     };
-    return dispatch(createOrganizationTrial(signup)).catch(() => {
-      setStep(1);
-      setOrganization(formData.name);
-      setTos(formData.tos);
-      setMarketing(formData.marketing);
-      setLoading(false);
-    });
+    return dispatch(createOrganizationTrial(signup))
+      .unwrap()
+      .catch(() => {
+        setStep(1);
+        setOrganization(formData.name);
+        setTos(formData.tos);
+        setMarketing(formData.marketing);
+        setLoading(false);
+      });
   };
 
   const onProgessClick = () => {

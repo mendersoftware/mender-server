@@ -71,13 +71,13 @@ export const UserManagement = () => {
   const users = useSelector(getUsersList);
   const props = {
     canManageUsers,
-    addUser: id => dispatch(addUserToCurrentTenant(id)),
-    createUser: userData => dispatch(createUser(userData)),
+    addUser: id => dispatch(addUserToCurrentTenant(id)).unwrap(),
+    createUser: userData => dispatch(createUser(userData)).unwrap(),
     currentUser,
-    editUser: (id, userData) => dispatch(editUser({ ...userData, id })),
+    editUser: (id, userData) => dispatch(editUser({ ...userData, id })).unwrap(),
     isEnterprise,
     isHosted,
-    removeUser: id => dispatch(removeUser(id)),
+    removeUser: id => dispatch(removeUser(id)).unwrap(),
     roles,
     users
   };

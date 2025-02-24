@@ -49,13 +49,14 @@ export const TwoFactorAuthSetup = () => {
     if (activationCode) {
       setIs2FAEnabled(true);
       dispatch(verifyEmailComplete(activationCode))
+        .unwrap()
         .catch(() => {
           setShowEmailVerification(true);
           setQrExpanded(false);
         })
         // we have to explicitly call this, to not send the returned promise as user to activate 2fa for
-        .then(() => dispatch(enableUser2fa()))
-        .then(() => dispatch(get2FAQRCode()));
+        .then(() => dispatch(enableUser2fa()).unwrap())
+        .then(() => dispatch(get2FAQRCode()).unwrap());
     }
   }, [activationCode, dispatch]);
 
@@ -113,8 +114,8 @@ export const TwoFactorAuthSetup = () => {
       {showEmailVerification && (
         <EmailVerification
           activationCode={activationCode}
-          verifyEmailComplete={data => dispatch(verifyEmailComplete(data))}
-          verifyEmailStart={() => dispatch(verifyEmailStart())}
+          verifyEmailComplete={data => dispatch(verifyEmailComplete(data)).unwrap()}
+          verifyEmailStart={() => dispatch(verifyEmailStart().unwrap())}
         />
       )}
       <Collapse in={qrExpanded} timeout="auto" unmountOnExit>
@@ -123,7 +124,7 @@ export const TwoFactorAuthSetup = () => {
           handle2FAState={handle2FAState}
           has2FA={has2FA}
           qrImage={qrImage}
-          verify2FA={data => dispatch(verify2FA(data))}
+          verify2FA={data => dispatch(verify2FA(data)).unwrap()}
           onClose={() => setQrExpanded(false)}
         />
       </Collapse>

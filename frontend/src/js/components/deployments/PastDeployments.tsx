@@ -105,6 +105,7 @@ export const Past = props => {
           type: currentType
         })
       )
+        .unwrap()
         .then(({ payload }) => {
           setLoading(false);
           clearRetryTimer(type, dispatchedSetSnackbar);
@@ -124,6 +125,7 @@ export const Past = props => {
     dispatch(
       getDeploymentsByStatus({ status: type, page, perPage, startDate: roundedStartDate, endDate: roundedEndDate, group: deviceGroup, type: deploymentType })
     )
+      .unwrap()
       .then(deploymentsAction => {
         const deploymentsList = deploymentsAction ? Object.values(deploymentsAction.payload[0]) : [];
         if (deploymentsList.length) {
@@ -188,7 +190,7 @@ export const Past = props => {
 
   const onFiltersChange = useCallback(
     ({ endDate, group, startDate, type }) =>
-      dispatch(setDeploymentsState({ [DEPLOYMENT_STATES.finished]: { page: 1, search: group, type, startDate, endDate } })),
+      dispatch(setDeploymentsState({ [DEPLOYMENT_STATES.finished]: { page: 1, search: group, type, startDate, endDate } })).unwrap(),
     [dispatch]
   );
 
@@ -245,8 +247,8 @@ export const Past = props => {
             idAttribute={idAttribute}
             items={past}
             loading={loading}
-            onChangePage={page => dispatch(setDeploymentsState({ [DEPLOYMENT_STATES.finished]: { page } }))}
-            onChangeRowsPerPage={perPage => dispatch(setDeploymentsState({ [DEPLOYMENT_STATES.finished]: { page: 1, perPage } }))}
+            onChangePage={page => dispatch(setDeploymentsState({ [DEPLOYMENT_STATES.finished]: { page } })).unwrap()}
+            onChangeRowsPerPage={perPage => dispatch(setDeploymentsState({ [DEPLOYMENT_STATES.finished]: { page: 1, perPage } })).unwrap()}
             page={page}
             pageSize={perPage}
             rootRef={deploymentsRef}

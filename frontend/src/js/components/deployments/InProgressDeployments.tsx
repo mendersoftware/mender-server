@@ -94,6 +94,7 @@ export const Progress = ({ abort, createClick, ...remainder }) => {
     deploymentStatus => {
       const { page, perPage } = selectionState[deploymentStatus];
       return dispatch(getDeploymentsByStatus({ status: deploymentStatus, page, perPage }))
+        .unwrap()
         .then(({ payload }) => {
           clearRetryTimer(deploymentStatus, dispatchedSetSnackbar);
           const { total, deploymentIds } = payload[payload.length - 1];
@@ -159,8 +160,8 @@ export const Progress = ({ abort, createClick, ...remainder }) => {
   const abortDeployment = id =>
     abort(id).then(() => Promise.all([refreshDeployments(DEPLOYMENT_STATES.inprogress), refreshDeployments(DEPLOYMENT_STATES.pending)]));
 
-  const onChangePage = state => page => dispatch(setDeploymentsState({ [state]: { page } }));
-  const onChangeRowsPerPage = state => perPage => dispatch(setDeploymentsState({ [state]: { page: 1, perPage } }));
+  const onChangePage = state => page => dispatch(setDeploymentsState({ [state]: { page } })).unwrap();
+  const onChangeRowsPerPage = state => perPage => dispatch(setDeploymentsState({ [state]: { page: 1, perPage } })).unwrap();
 
   let onboardingComponent = null;
   if (!onboardingState.complete && inprogressRef.current) {
