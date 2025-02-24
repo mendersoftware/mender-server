@@ -210,10 +210,7 @@ const ReleaseTags = ({ existingTags = [], release: { tags = [] }, onChange, user
     setIsEditing(toggle);
   }, [setValue, tags]);
 
-  const onSave = () => {
-    onChange(getValues('tags'));
-    setIsEditing(false);
-  };
+  const onSave = () => onChange(getValues('tags')).then(() => setIsEditing(false));
 
   return (
     <div className="margin-bottom margin-top" style={{ maxWidth: 500 }}>
@@ -342,7 +339,7 @@ export const ReleaseDetails = () => {
 
   const onReleaseNotesChanged = useCallback(notes => dispatch(updateReleaseInfo({ name: releaseName, info: { notes } })), [dispatch, releaseName]);
 
-  const onTagSelectionChanged = useCallback(tags => dispatch(setReleaseTags({ name: releaseName, tags })), [dispatch, releaseName]);
+  const onTagSelectionChanged = useCallback(tags => dispatch(setReleaseTags({ name: releaseName, tags })).unwrap(), [dispatch, releaseName]);
 
   return (
     <Drawer anchor="right" open={!!releaseName} onClose={onCloseClick} PaperProps={{ style: { minWidth: '60vw' }, ref: drawerRef }}>
