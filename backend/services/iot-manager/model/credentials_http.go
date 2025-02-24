@@ -20,7 +20,10 @@ import (
 	"fmt"
 	"net"
 	"net/url"
+	"sync"
 
+	"github.com/mendersoftware/mender-server/pkg/config"
+	dconfig "github.com/mendersoftware/mender-server/services/iot-manager/config"
 	"github.com/mendersoftware/mender-server/services/iot-manager/crypto"
 	inet "github.com/mendersoftware/mender-server/services/iot-manager/internal/net"
 
@@ -28,6 +31,11 @@ import (
 )
 
 type HexSecret crypto.String
+
+var (
+	skipVerify         bool
+	skipVerifyLoadOnce sync.Once
+)
 
 func (sec *HexSecret) UnmarshalText(b []byte) error {
 	dst := make([]byte, hex.DecodedLen(len(b)))
@@ -54,7 +62,7 @@ func (sec *HexSecret) UnmarshalBSON(b []byte) error {
 }
 
 type HTTPCredentials struct {
-	URL    string     `json:"url,omitempty" bson:"url,omitempty"`
+	URL    string     `json:"url,omitempty"    bson:"url,omitempty"`
 	Secret *HexSecret `json:"secret,omitempty" bson:"secret,omitempty"`
 
 	// private field toggling validation verbosity
@@ -75,6 +83,12 @@ func (cred HTTPCredentials) validateURL(interface{}) error {
 	uu, err := url.Parse(cred.URL)
 	if err != nil {
 		return err
+	}
+	skipVerifyLoadOnce.Do(func() {
+		skipVerify = config.Config.GetBool(dconfig.SettingDomainSkipVerify)
+	})
+	if skipVerify {
+		return nil
 	}
 	if !cred.validateAddr {
 		return nil
