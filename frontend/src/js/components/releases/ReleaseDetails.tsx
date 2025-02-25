@@ -193,10 +193,11 @@ const ReleaseNotes = ({ onChange, release: { notes = '' } }) => (
   </>
 );
 
-const ReleaseTags = ({ existingTags = [], release: { tags = [] }, onChange }) => {
+const ReleaseTags = ({ existingTags = [], release: { tags = [] }, onChange, userCapabilities }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [initialValues] = useState({ tags });
   const { classes } = useStyles();
+  const { canManageReleases } = userCapabilities;
 
   const methods = useForm({ mode: 'onChange', defaultValues: initialValues });
   const { setValue, getValues } = methods;
@@ -212,16 +213,13 @@ const ReleaseTags = ({ existingTags = [], release: { tags = [] }, onChange }) =>
     setIsEditing(toggle);
   }, [setValue, tags]);
 
-  const onSave = () => {
-    onChange(getValues('tags'));
-    setIsEditing(false);
-  };
+  const onSave = () => onChange(getValues('tags')).then(() => setIsEditing(false));
 
   return (
     <div className="margin-bottom margin-top" style={{ maxWidth: 500 }}>
       <div className="flexbox center-aligned">
         <h4 className="margin-right">Tags</h4>
-        {!isEditing && <EditButton onClick={onToggleEdit} />}
+        {!isEditing && canManageReleases && <EditButton onClick={onToggleEdit} />}
       </div>
       <div className="flexbox" style={{ alignItems: 'center' }}>
         <FormProvider {...methods}>
@@ -232,7 +230,7 @@ const ReleaseTags = ({ existingTags = [], release: { tags = [] }, onChange }) =>
               label=""
               name="tags"
               options={existingTags}
-              placeholder={isEditing ? 'Enter release tags' : 'Click edit to add release tags'}
+              placeholder={isEditing ? 'Enter release tags' : canManageReleases ? 'Click edit to add release tags' : 'No tags yet'}
             />
           </form>
         </FormProvider>
@@ -321,6 +319,7 @@ export const ReleaseDetails = () => {
   const dispatch = useDispatch();
   const release = useSelector(getSelectedRelease);
   const existingTags = useSelector(getReleaseTags);
+  const userCapabilities = useSelector(getUserCapabilities);
 
   const { name: releaseName, artifacts = [] } = release;
 
@@ -342,7 +341,7 @@ export const ReleaseDetails = () => {
 
   const onReleaseNotesChanged = useCallback(notes => dispatch(updateReleaseInfo({ name: releaseName, info: { notes } })), [dispatch, releaseName]);
 
-  const onTagSelectionChanged = useCallback(tags => dispatch(setReleaseTags({ name: releaseName, tags })), [dispatch, releaseName]);
+  const onTagSelectionChanged = useCallback(tags => dispatch(setReleaseTags({ name: releaseName, tags })).unwrap(), [dispatch, releaseName]);
 
   return (
     <Drawer anchor="right" open={!!releaseName} onClose={onCloseClick} PaperProps={{ style: { minWidth: '60vw' }, ref: drawerRef }}>
@@ -363,7 +362,7 @@ export const ReleaseDetails = () => {
       />
       <Divider className="margin-bottom" />
       <ReleaseNotes onChange={onReleaseNotesChanged} release={release} />
-      <ReleaseTags existingTags={existingTags} onChange={onTagSelectionChanged} release={release} />
+      <ReleaseTags existingTags={existingTags} onChange={onTagSelectionChanged} release={release} userCapabilities={userCapabilities} />
       <ArtifactsList
         artifacts={artifacts}
         selectedArtifact={selectedArtifact}
