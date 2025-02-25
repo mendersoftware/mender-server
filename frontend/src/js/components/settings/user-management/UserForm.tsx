@@ -18,10 +18,8 @@ import { InfoOutlined } from '@mui/icons-material';
 import {
   Checkbox,
   Collapse,
-  Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
   FormControl,
   FormHelperText,
   InputLabel,
@@ -33,6 +31,7 @@ import {
 import { makeStyles } from 'tss-react/mui';
 
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
+import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import Form from '@northern.tech/common-ui/forms/Form';
 import FormCheckbox from '@northern.tech/common-ui/forms/FormCheckbox';
 import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
@@ -188,8 +187,7 @@ export const UserForm = ({ closeDialog, currentUser, canManageUsers, isEnterpris
   };
 
   return (
-    <Dialog open={true} fullWidth={true} maxWidth="sm">
-      <DialogTitle>Add new user</DialogTitle>
+    <BaseDialog open title="Add new user" fullWidth maxWidth="sm" onClose={closeDialog}>
       <DialogContent style={{ overflowY: 'initial' }}>
         <Form
           className={classes.formWrapper}
@@ -218,7 +216,7 @@ export const UserForm = ({ closeDialog, currentUser, canManageUsers, isEnterpris
         </Form>
       </DialogContent>
       <DialogActions />
-    </Dialog>
+    </BaseDialog>
   );
 };
 

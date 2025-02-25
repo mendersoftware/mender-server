@@ -17,10 +17,8 @@ import { useDispatch, useSelector } from 'react-redux';
 // material ui
 import {
   Button,
-  Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
   FormControl,
   FormHelperText,
   InputLabel,
@@ -37,6 +35,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import CopyCode from '@northern.tech/common-ui/CopyCode';
 import Time, { RelativeTime } from '@northern.tech/common-ui/Time';
+import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import { canAccess as canShow } from '@northern.tech/store/constants';
 import { getCurrentUser, getIsEnterprise } from '@northern.tech/store/selectors';
 import { generateToken, getTokens, revokeToken } from '@northern.tech/store/thunks';
@@ -131,8 +130,7 @@ export const AccessTokenCreationDialog = ({ onCancel, generateToken, isEnterpris
   const tokenRoles = useMemo(() => userRoles.map(roleId => rolesById[roleId]?.name).join(', '), [rolesById, userRoles]);
 
   return (
-    <Dialog open>
-      <DialogTitle>Create new token</DialogTitle>
+    <BaseDialog title="Create new token" open onClose={onCancel}>
       <DialogContent className={classes.creationDialog}>
         <form>
           <TextField className={`${classes.formEntries} required`} disabled={!!token} onChange={nameUpdated} placeholder="Name" value={name} />
@@ -175,13 +173,12 @@ export const AccessTokenCreationDialog = ({ onCancel, generateToken, isEnterpris
           {generationLabel}
         </Button>
       </DialogActions>
-    </Dialog>
+    </BaseDialog>
   );
 };
 
 export const AccessTokenRevocationDialog = ({ onCancel, revokeToken, token }) => (
-  <Dialog open>
-    <DialogTitle>Revoke token</DialogTitle>
+  <BaseDialog title="Revoke token" open onClose={onCancel}>
     <DialogContent>
       Are you sure you want to revoke the token <b>{token?.name}</b>?
     </DialogContent>
@@ -189,7 +186,7 @@ export const AccessTokenRevocationDialog = ({ onCancel, revokeToken, token }) =>
       <Button onClick={onCancel}>Cancel</Button>
       <Button onClick={() => revokeToken(token)}>Revoke Token</Button>
     </DialogActions>
-  </Dialog>
+  </BaseDialog>
 );
 
 export const AccessTokenManagement = () => {

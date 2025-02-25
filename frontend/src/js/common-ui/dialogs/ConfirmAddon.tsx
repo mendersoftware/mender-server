@@ -11,7 +11,9 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Button, DialogActions, DialogContent } from '@mui/material';
+
+import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 
 interface ConfirmAddonProps {
   name: string;
@@ -27,8 +29,7 @@ const title = {
 export const ConfirmAddon = (props: ConfirmAddonProps) => {
   const { variant, name, onConfirm, onClose } = props;
   return (
-    <Dialog open={true}>
-      <DialogTitle>{title[variant]}</DialogTitle>
+    <BaseDialog open title={title[variant]} onClose={onClose}>
       <DialogContent>
         You are requesting to {variant} the Mender <b>{name}</b> add-on from your plan.
       </DialogContent>
@@ -42,6 +43,6 @@ export const ConfirmAddon = (props: ConfirmAddonProps) => {
           Confirm
         </Button>
       </DialogActions>
-    </Dialog>
+    </BaseDialog>
   );
 };

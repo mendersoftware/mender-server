@@ -14,8 +14,9 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Button, DialogActions, DialogContent } from '@mui/material';
 
+import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import { getGroups, getSelectedGroupInfo } from '@northern.tech/store/selectors';
 
 import GroupDefinition from './GroupDefinition';
@@ -41,9 +42,8 @@ export const CreateGroup = ({ addListOfDevices, fromFilters, isCreation, onClose
   };
 
   return (
-    <Dialog disableEscapeKeyDown open={true} scroll="paper" fullWidth={true} maxWidth="sm">
-      <DialogTitle style={{ paddingBottom: '15px', marginBottom: 0 }}>{title}</DialogTitle>
-      <DialogContent className="dialog">
+    <BaseDialog open title={title} disableEscapeKeyDown fullWidth maxWidth="sm" onClose={onClose}>
+      <DialogContent>
         <GroupDefinition
           groups={groups}
           isCreationDynamic={isCreationDynamic}
@@ -61,7 +61,7 @@ export const CreateGroup = ({ addListOfDevices, fromFilters, isCreation, onClose
           {!isModification || isCreationDynamic || groups.length === 0 ? 'Create group' : 'Add to group'}
         </Button>
       </DialogActions>
-    </Dialog>
+    </BaseDialog>
   );
 };
 

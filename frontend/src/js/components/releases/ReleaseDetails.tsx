@@ -23,20 +23,7 @@ import {
   Replay as ReplayIcon,
   Sort as SortIcon
 } from '@mui/icons-material';
-import {
-  Button,
-  ClickAwayListener,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Divider,
-  Drawer,
-  SpeedDial,
-  SpeedDialAction,
-  SpeedDialIcon,
-  Tooltip
-} from '@mui/material';
+import { Button, ClickAwayListener, DialogActions, DialogContent, Divider, Drawer, SpeedDial, SpeedDialAction, SpeedDialIcon, Tooltip } from '@mui/material';
 import { speedDialActionClasses } from '@mui/material/SpeedDialAction';
 import { makeStyles } from 'tss-react/mui';
 
@@ -46,6 +33,7 @@ import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import { EditableLongText } from '@northern.tech/common-ui/EditableLongText';
 import FileSize from '@northern.tech/common-ui/FileSize';
 import { RelativeTime } from '@northern.tech/common-ui/Time';
+import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
 import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';
@@ -384,8 +372,7 @@ export const ReleaseDetails = () => {
 export default ReleaseDetails;
 
 export const DeleteReleasesConfirmationDialog = ({ onClose, onSubmit }) => (
-  <Dialog open={true}>
-    <DialogTitle>Delete releases?</DialogTitle>
+  <BaseDialog open title="Delete releases?" onClose={onClose}>
     <DialogContent style={{ overflow: 'hidden' }}>All releases artifacts will be deleted. Are you sure you want to delete these releases ?</DialogContent>
     <DialogActions>
       <Button style={{ marginRight: 10 }} onClick={onClose}>
@@ -395,5 +382,5 @@ export const DeleteReleasesConfirmationDialog = ({ onClose, onSubmit }) => (
         Delete
       </Button>
     </DialogActions>
-  </Dialog>
+  </BaseDialog>
 );

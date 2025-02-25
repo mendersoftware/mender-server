@@ -820,12 +820,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
       <h2
         class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-4"
         id=":r0:"
-        style="padding-bottom: 15px; margin-bottom: 0px;"
       >
         Add devices to group
       </h2>
       <div
-        class="MuiDialogContent-root dialog emotion-5"
+        class="MuiDialogContent-root emotion-5"
       >
         <div
           class="MuiAutocomplete-root emotion-6"

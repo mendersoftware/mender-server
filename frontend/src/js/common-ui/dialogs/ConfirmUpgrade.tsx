@@ -11,8 +11,9 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Button, DialogActions, DialogContent } from '@mui/material';
 
+import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import { ADDONS, Plan } from '@northern.tech/store/constants';
 
 interface ConfirmUpgradeProps {
@@ -25,8 +26,7 @@ interface ConfirmUpgradeProps {
 export const ConfirmUpgrade = (props: ConfirmUpgradeProps) => {
   const { onConfirm, onClose, newPlan, currentPlan, addOns } = props;
   return (
-    <Dialog open={!!newPlan}>
-      <DialogTitle>Upgrade your plan to {newPlan.name}</DialogTitle>
+    <BaseDialog title={`Upgrade your plan to ${newPlan.name}`} open={!!newPlan} onClose={onClose}>
       <DialogContent>
         <div className="margin-bottom-small">
           You are currently subscribed to the <b>Mender {currentPlan.name}</b> plan.
@@ -52,6 +52,6 @@ export const ConfirmUpgrade = (props: ConfirmUpgradeProps) => {
           Confirm
         </Button>
       </DialogActions>
-    </Dialog>
+    </BaseDialog>
   );
 };

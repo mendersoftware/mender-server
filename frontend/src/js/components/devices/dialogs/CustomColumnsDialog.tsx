@@ -14,9 +14,10 @@
 import React, { Suspense, lazy, useState } from 'react';
 
 // material ui
-import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
+import { Button, DialogActions } from '@mui/material';
 
 import Loader from '@northern.tech/common-ui/Loader';
+import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 
 const Content = lazy(() => import('./CustomColumnsDialogContent'));
 
@@ -35,8 +36,7 @@ export const ColumnCustomizationDialog = ({ customColumnSizes, open, onCancel, o
   };
 
   return (
-    <Dialog open={open}>
-      <DialogTitle>Customize Columns</DialogTitle>
+    <BaseDialog open={open} title="Customize Columns" onClose={onCancel}>
       <Suspense fallback={<Loader show />}>
         <Content selectedAttributes={selectedAttributes} setSelectedAttributes={setSelectedAttributes} {...props} />
       </Suspense>
@@ -48,7 +48,7 @@ export const ColumnCustomizationDialog = ({ customColumnSizes, open, onCancel, o
           Save
         </Button>
       </DialogActions>
-    </Dialog>
+    </BaseDialog>
   );
 };
 
