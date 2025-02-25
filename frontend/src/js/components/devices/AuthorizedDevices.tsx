@@ -34,7 +34,6 @@ import {
   getMappedDevicesList,
   getOnboardingState,
   getSelectedGroupInfo,
-  getTenantCapabilities,
   getUserCapabilities,
   getUserSettings
 } from '@northern.tech/store/selectors';
@@ -198,7 +197,6 @@ export const Authorized = ({
   const idAttribute = useSelector(getIdAttribute);
   const onboardingState = useSelector(getOnboardingState);
   const settingsInitialized = useSelector(state => state.users.settingsInitialized);
-  const tenantCapabilities = useSelector(getTenantCapabilities);
   const userCapabilities = useSelector(getUserCapabilities);
   const dispatch = useDispatch();
   const dispatchedSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
@@ -215,7 +213,6 @@ export const Authorized = ({
   } = deviceListState;
   const { direction: sortDown = SORTING_OPTIONS.desc, key: sortCol } = sort;
   const { canManageDevices, canManageUsers } = userCapabilities;
-  const { hasMonitor } = tenantCapabilities;
   const currentSelectedState = states[selectedState] ?? states.devices;
   const [columnHeaders, setColumnHeaders] = useState([]);
   const [isInitialized, setIsInitialized] = useState(false);
@@ -424,6 +421,7 @@ export const Authorized = ({
   const selectedStaticGroup = selectedGroup && !groupFilters.length ? selectedGroup : undefined;
 
   const openedDevice = useDebounce(selectedId, TIMEOUTS.debounceShort);
+  const issueOptions = Object.values(availableIssueOptions);
   return (
     <>
       <div className="margin-left-small">
@@ -432,11 +430,11 @@ export const Authorized = ({
           <div className="flexbox space-between center-aligned" style={{ flexGrow: 1 }}>
             <div className="flexbox">
               <DeviceStateSelection className={classes.selection} onStateChange={onDeviceStateSelectionChange} selectedState={selectedState} states={states} />
-              {hasMonitor && (
+              {!!issueOptions.length && (
                 <DeviceIssuesSelection
                   className={classes.selection}
                   onChange={onDeviceIssuesSelectionChange}
-                  options={Object.values(availableIssueOptions)}
+                  options={issueOptions}
                   selection={selectedIssues}
                 />
               )}
