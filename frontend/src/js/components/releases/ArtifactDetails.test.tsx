@@ -13,6 +13,10 @@
 //    limitations under the License.
 import React from 'react';
 
+import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
+
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
 import ArtifactDetails, { transformArtifactCapabilities, transformArtifactMetadata } from './ArtifactDetails';
@@ -32,6 +36,25 @@ describe('ArtifactDetails Component', () => {
         }}
       />
     );
+    const view = baseElement.firstChild.firstChild;
+    expect(view).toMatchSnapshot();
+    expect(view).toEqual(expect.not.stringMatching(undefineds));
+  });
+  it('renders correctly without software', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const { baseElement } = render(
+      <ArtifactDetails
+        artifact={{
+          artifact_provides: {
+            list_of_fancy: ['x172']
+          },
+          description: 'text',
+          name: 'test'
+        }}
+      />
+    );
+    await user.click(screen.getByText(/Provides and Depends/i));
+
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
