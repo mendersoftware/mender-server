@@ -330,7 +330,7 @@ export const ReleaseDetails = () => {
     dispatch(setSnackbar('Link copied to clipboard'));
   };
 
-  const onCloseClick = () => dispatch(selectRelease());
+  const onCloseClick = () => dispatch(selectRelease(null));
 
   const onCreateDeployment = () => navigate(`${DEPLOYMENT_ROUTES.active.route}?open=true&release=${encodeURIComponent(releaseName)}`);
 

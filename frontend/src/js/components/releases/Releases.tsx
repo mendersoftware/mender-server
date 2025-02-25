@@ -173,7 +173,7 @@ export const Releases = () => {
   useEffect(() => {
     // if an upload is ongoing and another upload is being prepared, prioritize the configuration of the new upload instead of showing the newly created release
     if (showAddArtifactDialog && selectedRelease) {
-      dispatch(selectRelease());
+      dispatch(selectRelease(null));
     }
   }, [dispatch, selectedRelease, showAddArtifactDialog]);
 

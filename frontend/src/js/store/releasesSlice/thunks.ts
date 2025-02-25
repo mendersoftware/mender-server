@@ -257,7 +257,7 @@ export const removeArtifact = createAsyncThunk(`${sliceName}/removeArtifact`, (i
 );
 
 export const removeRelease = createAsyncThunk(`${sliceName}/removeRelease`, (releaseId, { dispatch, getState }) =>
-  Promise.all(getReleasesById(getState())[releaseId].artifacts.map(({ id }) => dispatch(removeArtifact(id)))).then(() => dispatch(selectRelease()))
+  Promise.all(getReleasesById(getState())[releaseId].artifacts.map(({ id }) => dispatch(removeArtifact(id)))).then(() => dispatch(selectRelease(null)))
 );
 
 export const removeReleases = createAsyncThunk(`${sliceName}/removeReleases`, (releaseIds, { dispatch, getState }) => {
