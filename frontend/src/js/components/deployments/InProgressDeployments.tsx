@@ -202,7 +202,7 @@ export const Progress = ({ abort, createClick, ...remainder }) => {
             items={pending}
             page={pendingPage}
             pageSize={pendingPerPage}
-            onChangeRowsPerPage={onChangeRowsPerPage(DEPLOYMENT_STATES)}
+            onChangeRowsPerPage={onChangeRowsPerPage(DEPLOYMENT_STATES.pending)}
             onChangePage={onChangePage(DEPLOYMENT_STATES.pending)}
             type={DEPLOYMENT_STATES.pending}
           />
