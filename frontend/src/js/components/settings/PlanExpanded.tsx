@@ -20,6 +20,7 @@ import { makeStyles } from 'tss-react/mui';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import Form from '@northern.tech/common-ui/forms/Form';
 import storeActions from '@northern.tech/store/actions';
+import { Address } from '@northern.tech/store/api/types/Address';
 import { Plan } from '@northern.tech/store/constants';
 import { BillingProfile, Card, Organization } from '@northern.tech/store/organizationSlice/types';
 import { getCurrentUser } from '@northern.tech/store/selectors';
@@ -58,6 +59,8 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 
+const emptyAddress: Address = { city: '', country: '', line1: '', postal_code: '', state: '' };
+
 const successMessage = (plan: string) =>
   `Thank you! You have successfully subscribed to the ${plan} plan.  You can view and edit your billing details on the Organization and billing page.`;
 
@@ -78,7 +81,7 @@ export const PlanExpanded = (props: ProfileEditProps | PlanProps) => {
     }
   };
   const initialValues = isEdit
-    ? { ...props.currentBillingProfile.address, name: props.currentBillingProfile.name, email: props.currentBillingProfile.email }
+    ? { ...(props.currentBillingProfile.address || emptyAddress), name: props.currentBillingProfile.name, email: props.currentBillingProfile.email }
     : { email, name: organization?.name || '', line1: '', state: '', city: '', postal_code: '', country: '' };
   const handleSubmit = async values => {
     const { email, name, state, city, line1, postal_code } = values;

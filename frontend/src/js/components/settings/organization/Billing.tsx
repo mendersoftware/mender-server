@@ -213,7 +213,7 @@ export const Billing = () => {
             <div className="padding-right-x-small">
               <b>Billing details</b>
             </div>
-            {!isEnterprise && billing && billing.address && (
+            {!isEnterprise && billing && (
               <Button className="margin-left" onClick={() => setChangeBilling(true)}>
                 Edit
               </Button>
@@ -226,10 +226,10 @@ export const Billing = () => {
                 support@mender.io
               </a>
             </InfoText>
-          ) : billing && billing.address ? (
+          ) : billing ? (
             <div className="flexbox">
-              <Address address={billing.address} email={billing.email} name={billing.name} />
-              {card && <CardDetails card={card} containerClass="margin-left-x-large" />}
+              {billing.address && <Address address={billing.address} email={billing.email} name={billing.name} />}
+              {card && <CardDetails card={card} containerClass={billing.address ? 'margin-left-x-large' : ''} />}
             </div>
           ) : (
             <InfoText>

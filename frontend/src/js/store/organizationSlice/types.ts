@@ -19,7 +19,7 @@ import { Tenant } from '../api/types/Tenant';
 import { SORTING_OPTIONS } from '../commonConstants';
 
 //TODO: improve types
-interface Card {
+export interface Card {
   brand: string;
   expiration: {
     month: number;
@@ -95,7 +95,7 @@ export interface Addon {
 }
 
 export interface BillingProfile {
-  address: Address;
+  address?: Address;
   email: string;
   name: string;
 }
