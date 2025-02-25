@@ -137,7 +137,7 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 
-export const ReleaseQuickActions = ({ actionCallbacks, innerRef }) => {
+export const ReleaseQuickActions = ({ actionCallbacks }) => {
   const [showActions, setShowActions] = useState(false);
   const { classes } = useStyles();
   const { selection: selectedRows } = useSelector(getReleaseListState);
@@ -162,11 +162,14 @@ export const ReleaseQuickActions = ({ actionCallbacks, innerRef }) => {
 
   const pluralized = pluralize('releases', selectedRelease ? 1 : selectedRows.length);
 
+  if (!actions.length) {
+    return null;
+  }
   return (
-    <div className={classes.container} ref={innerRef}>
+    <div className={classes.container}>
       <div className={classes.label}>{selectedRelease ? 'Release actions' : `${selectedRows.length} ${pluralized} selected`}</div>
       <ClickAwayListener onClickAway={handleClickAway}>
-        <SpeedDial className={classes.fab} ariaLabel="device-actions" icon={<SpeedDialIcon />} onClick={handleShowActions} open={Boolean(showActions)}>
+        <SpeedDial className={classes.fab} ariaLabel="release-actions" icon={<SpeedDialIcon />} onClick={handleShowActions} open={Boolean(showActions)}>
           {actions.map(action => (
             <SpeedDialAction
               key={action.key}
@@ -313,7 +316,6 @@ export const ReleaseDetails = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const windowSize = useWindowSize();
-  const creationRef = useRef();
   const drawerRef = useRef();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -375,7 +377,7 @@ export const ReleaseDetails = () => {
         onRemove={() => onRemoveArtifact(selectedArtifact)}
       />
       <RemoveArtifactDialog open={!!confirmReleaseDeletion} onRemove={onDeleteRelease} onCancel={onToggleReleaseDeletion} release={release} />
-      <ReleaseQuickActions actionCallbacks={{ onCreateDeployment, onDeleteRelease: onToggleReleaseDeletion }} innerRef={creationRef} />
+      <ReleaseQuickActions actionCallbacks={{ onCreateDeployment, onDeleteRelease: onToggleReleaseDeletion }} />
     </Drawer>
   );
 };
