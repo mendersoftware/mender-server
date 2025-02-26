@@ -1,4 +1,4 @@
-// Copyright 2022 Northern.tech AS
+// Copyright 2025 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -233,6 +233,12 @@ func (h *ManagementHandler) GetEvents(c *gin.Context) {
 			err,
 		)
 		return
+	}
+	integrationID := c.Param(paramIntegrationID)
+	if len(integrationID) > 0 {
+		if err := uuid.Validate(integrationID); err == nil {
+			filter.IntegrationID = &integrationID
+		}
 	}
 
 	events, err := h.app.GetEvents(ctx, *filter)

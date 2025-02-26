@@ -1,4 +1,4 @@
-// Copyright 2022 Northern.tech AS
+// Copyright 2025 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -62,8 +62,17 @@ func (db *DataStoreMongo) GetEvents(
 		findOpts.SetLimit(fltr.Limit)
 	}
 
+	filter := bson.D{}
+	if fltr.IntegrationID != nil {
+		filter = append(filter,
+			bson.E{
+				Key:   KeyStatus + "." + KeyIntegrationID,
+				Value: uuid.MustParse(*fltr.IntegrationID),
+			},
+		)
+	}
 	cur, err := collEvents.Find(ctx,
-		mstore.WithTenantID(ctx, bson.D{}),
+		mstore.WithTenantID(ctx, filter),
 		findOpts,
 	)
 	if err != nil {
