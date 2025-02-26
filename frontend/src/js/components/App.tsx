@@ -31,7 +31,16 @@ import StartupNotificationDialog from '@northern.tech/common-ui/dialogs/StartupN
 import storeActions from '@northern.tech/store/actions';
 import { getSessionInfo, maxSessionAge, updateMaxAge } from '@northern.tech/store/auth';
 import { TIMEOUTS } from '@northern.tech/store/constants';
-import { getCurrentSession, getCurrentUser, getIsDarkMode, getIsServiceProvider, getSnackbar, getTrackerCode } from '@northern.tech/store/selectors';
+import {
+  getCommit,
+  getCurrentSession,
+  getCurrentUser,
+  getIsDarkMode,
+  getIsServiceProvider,
+  getSentryLocation,
+  getSnackbar,
+  getTrackerCode
+} from '@northern.tech/store/selectors';
 import { store } from '@northern.tech/store/store';
 import { parseEnvironmentInfo } from '@northern.tech/store/storehooks';
 import { logoutUser } from '@northern.tech/store/thunks';
@@ -97,6 +106,22 @@ const useStyles = makeStyles()(() => ({
   }
 }));
 
+const initSentry = async ({ location, commit }) => {
+  const Sentry = await import(/* webpackChunkName: "@sentry/react" */ '@sentry/react');
+  Sentry.init({
+    dsn: location,
+    integrations: [Sentry.browserTracingIntegration(), Sentry.replayIntegration()],
+    release: `mender-frontend@${commit}`,
+    // Tracing
+    tracesSampleRate: 1.0, //  Capture 100% of the transactions
+    // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
+    tracePropagationTargets: ['localhost', /^https:\/\/(\w*\.)*hosted\.mender\.io/, 'https://docker.mender.io'],
+    // Session Replay
+    replaysSessionSampleRate: 1.0, // This sets the sample rate at 10%. You may want to change it to 100% while in development and then sample at a lower rate in production.
+    replaysOnErrorSampleRate: 1.0 // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
+  });
+};
+
 export const AppRoot = () => {
   const [showSearchResult, setShowSearchResult] = useState(false);
   const navigate = useNavigate();
@@ -110,6 +135,8 @@ export const AppRoot = () => {
   const showFeedbackDialog = useSelector(state => state.users.showFeedbackDialog);
   const snackbar = useSelector(getSnackbar);
   const trackingCode = useSelector(getTrackerCode);
+  const sentryLocation = useSelector(getSentryLocation);
+  const commit = useSelector(getCommit);
   const isDarkMode = useSelector(getIsDarkMode);
   const { token: storedToken } = getSessionInfo();
   const { expiresAt, token = storedToken } = useSelector(getCurrentSession);
@@ -150,6 +177,13 @@ export const AppRoot = () => {
       Tracking.initialize(trackingCode);
     }
   }, [dispatch, trackingCode]);
+
+  useEffect(() => {
+    if (!(sentryLocation && commit)) {
+      return;
+    }
+    initSentry({ location: sentryLocation, commit });
+  }, [commit, sentryLocation]);
 
   useEffect(() => {
     if (!(trackingCode && cookies.get('_ga'))) {

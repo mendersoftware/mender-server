@@ -1,4 +1,5 @@
 import { rspack } from '@rspack/core';
+import { sentryWebpackPlugin } from '@sentry/webpack-plugin';
 import autoprefixer from 'autoprefixer';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CompressionPlugin from 'compression-webpack-plugin';
@@ -22,6 +23,19 @@ export default (env, argv) => {
           })
         ]
       : [new ESLintPlugin({ extensions: ['js', 'ts', 'tsx'] })];
+  const { COMMIT_SHA, SENTRY_AUTH_TOKEN, SENTRY_ORG, SENTRY_URL } = process.env;
+  if (SENTRY_AUTH_TOKEN) {
+    plugins.push(
+      sentryWebpackPlugin({
+        authToken: SENTRY_AUTH_TOKEN,
+        org: SENTRY_ORG,
+        project: 'mender-frontend',
+        release: { finalize: false, name: `mender-frontend@${COMMIT_SHA}` },
+        telemetry: false,
+        url: SENTRY_URL
+      })
+    );
+  }
   return {
     devtool: 'source-map',
     node: {

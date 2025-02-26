@@ -73,7 +73,16 @@ const featureFlags = [
   'isEnterprise'
 ];
 
-const environmentDatas = ['feedbackProbability', 'hostAddress', 'hostedAnnouncement', 'recaptchaSiteKey', 'stripeAPIKey', 'trackerCode'];
+const environmentDatas = [
+  'commit',
+  'feedbackProbability',
+  'hostAddress',
+  'hostedAnnouncement',
+  'recaptchaSiteKey',
+  'sentryLocation',
+  'stripeAPIKey',
+  'trackerCode'
+];
 
 export const parseEnvironmentInfo = () => (dispatch, getState) => {
   const state = getState();

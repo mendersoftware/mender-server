@@ -51,6 +51,7 @@ interface Upload {
 
 type AppSliceType = {
   cancelSource: any;
+  commit: string;
   demoArtifactLink: string;
   docsVersion: string;
   features: Record<string, boolean>;
@@ -62,6 +63,7 @@ type AppSliceType = {
   offlineThreshold: string;
   recaptchaSiteKey: string;
   searchState: SearchState;
+  sentryLocation: string;
   snackbar: SnackbarContent;
   stripeAPIKey: string;
   trackerCode: string;
@@ -72,6 +74,7 @@ type AppSliceType = {
 
 export const initialState: AppSliceType = {
   cancelSource: undefined,
+  commit: '',
   demoArtifactLink: 'https://dgsbl4vditpls.cloudfront.net/mender-demo-artifact.mender',
   hostAddress: null,
   snackbar: {
@@ -113,6 +116,7 @@ export const initialState: AppSliceType = {
       // scope: null
     }
   },
+  sentryLocation: '',
   stripeAPIKey: '',
   trackerCode: '',
   uploadsById: {
