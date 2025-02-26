@@ -69,7 +69,8 @@ export const TimeframePicker = ({ tonight: propsTonight }) => {
         render={({ field: { onChange, value } }) => (
           <DatePicker
             disableFuture
-            format="MMMM Do"
+            format="YYYY-MM-DD"
+            yearsOrder="desc"
             label="From"
             maxDate={maxStartDate}
             onChange={e => onChange(handleChangeStartDate(e))}
@@ -83,7 +84,8 @@ export const TimeframePicker = ({ tonight: propsTonight }) => {
         render={({ field: { onChange, value } }) => (
           <DatePicker
             disableFuture
-            format="MMMM Do"
+            format="YYYY-MM-DD"
+            yearsOrder="desc"
             label="To"
             minDate={minEndDate}
             onChange={e => onChange(handleChangeEndDate(e))}

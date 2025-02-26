@@ -51,6 +51,6 @@ describe('TimeframePicker Component', () => {
     );
     const endDatePicker = screen.getByLabelText(/to/i);
     expect(endDatePicker).toBeInTheDocument();
-    expect(endDatePicker).toHaveValue('January 13th');
+    expect(endDatePicker).toHaveValue('2019-01-13');
   });
 });
