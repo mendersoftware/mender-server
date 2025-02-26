@@ -35,6 +35,8 @@ func TestGetEvents(t *testing.T) {
 	t.Parallel()
 	dbClient := db.Client()
 	const tenantID = "123456789012345678901234"
+	integrationId := uuid.New().String()
+	success200 := 200
 	now := time.Now().Local()
 	type testCase struct {
 		Name string
@@ -237,6 +239,95 @@ func TestGetEvents(t *testing.T) {
 						Type: model.EventTypeDeviceProvisioned,
 						Data: bson.M{
 							"id": "baz",
+						},
+					},
+				},
+			},
+		},
+		{
+			Name: "ok, with filter with integration id",
+			CTX: identity.WithContext(context.Background(), &identity.Identity{
+				Tenant: tenantID,
+			}),
+			InitDatabase: func(
+				self *testCase,
+				coll *mongo.Collection,
+			) {
+				docFace := castInterfaceSlice(self.InEvents)
+				docs := mstore.ArrayWithTenantID(self.CTX, docFace)
+				_, err := coll.InsertMany(context.Background(), docs)
+				if err != nil {
+					panic(err)
+				}
+			},
+
+			EventFilter: model.EventsFilter{
+				IntegrationID: &integrationId,
+			},
+
+			InEvents: []model.Event{
+				{
+					WebhookEvent: model.WebhookEvent{
+						ID:   uuid.New(),
+						Type: model.EventTypeDeviceStatusChanged,
+						Data: model.DeviceEvent{
+							ID:     "foo",
+							Status: "bar",
+						},
+						EventTS: now,
+					},
+				},
+				{
+					WebhookEvent: model.WebhookEvent{
+						ID:   uuid.New(),
+						Type: model.EventTypeDeviceDecommissioned,
+						Data: model.DeviceEvent{
+							ID: "bar-" + uuid.MustParse(integrationId).String(),
+						},
+						EventTS: now.Add(time.Second),
+					},
+					DeliveryStatus: []model.DeliveryStatus{
+						{
+							IntegrationID: uuid.MustParse(integrationId),
+							Success:       true,
+							StatusCode:    &success200,
+						},
+					},
+				},
+				{
+					WebhookEvent: model.WebhookEvent{
+						ID:   uuid.New(),
+						Type: model.EventTypeDeviceProvisioned,
+						Data: model.DeviceEvent{
+							ID: "baz",
+						},
+						EventTS: now.Add(time.Second * 2),
+					},
+				},
+				{
+					WebhookEvent: model.WebhookEvent{
+						ID:   uuid.New(),
+						Type: model.EventTypeDeviceProvisioned,
+						Data: model.DeviceEvent{
+							ID: "foo-bar-baz",
+						},
+						EventTS: now.Add(time.Second * 3),
+					},
+				},
+			},
+			OutEvents: []model.Event{
+				{
+					WebhookEvent: model.WebhookEvent{
+						Type: model.EventTypeDeviceDecommissioned,
+						Data: bson.M{
+							"id": "bar-" + uuid.MustParse(integrationId).String(),
+						},
+					},
+					DeliveryStatus: []model.DeliveryStatus{
+						{
+							IntegrationID: uuid.MustParse(integrationId),
+							Success:       true,
+							StatusCode:    &success200,
 						},
 					},
 				},
