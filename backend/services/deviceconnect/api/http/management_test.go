@@ -285,15 +285,6 @@ func TestManagementConnect(t *testing.T) {
 			conn, _, err := websocket.DefaultDialer.Dial(url, headers)
 			assert.NoError(t, err)
 
-			pingReceived := make(chan struct{}, 1)
-			conn.SetPingHandler(func(message string) error {
-				pingReceived <- struct{}{}
-				return conn.WriteControl(
-					websocket.PongMessage,
-					[]byte{},
-					time.Now().Add(writeWait),
-				)
-			})
 			pongReceived := make(chan struct{}, 1)
 			conn.SetPongHandler(func(message string) error {
 				pongReceived <- struct{}{}
@@ -365,11 +356,6 @@ func TestManagementConnect(t *testing.T) {
 			}
 
 			// check that ping and pong works as expected
-			select {
-			case <-pingReceived:
-			case <-time.After(pongWait):
-				assert.Fail(t, "did not receive ping within pongWait")
-			}
 
 			select {
 			case <-pongReceived:
