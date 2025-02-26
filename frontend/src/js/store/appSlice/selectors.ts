@@ -27,6 +27,8 @@ export const getHostedAnnouncement = (state: RootState) => state.app.hostedAnnou
 export const getRecaptchaKey = (state: RootState) => state.app.recaptchaSiteKey;
 export const getStripeKey = (state: RootState) => state.app.stripeAPIKey;
 export const getTrackerCode = (state: RootState) => state.app.trackerCode;
+export const getSentryConfig = (state: RootState) => state.app.sentry;
+export const getCommit = (state: RootState) => state.app.commit;
 export const getIsFirstLogin = (state: RootState) => state.app.firstLoginAfterSignup;
 export const getFeedbackProbability = (state: RootState) => state.app.feedbackProbability;
 
