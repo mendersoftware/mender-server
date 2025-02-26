@@ -26,7 +26,7 @@ import (
 
 const (
 	// DbVersion is the current schema version
-	DbVersion = "1.1.1"
+	DbVersion = "1.1.2"
 
 	// DbName is the database name
 	DbName = "iot_manager"
