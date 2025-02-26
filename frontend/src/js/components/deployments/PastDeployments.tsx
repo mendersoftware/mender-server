@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 // material ui
 import { TextField } from '@mui/material';
@@ -31,6 +31,7 @@ import {
   getOnboardingState,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { advanceOnboarding, getDeploymentsByStatus, setDeploymentsState } from '@northern.tech/store/thunks';
 import { dateRangeToUnix, getISOStringBoundaries } from '@northern.tech/utils/helpers';
 import { useWindowSize } from '@northern.tech/utils/resizehook';
@@ -65,7 +66,7 @@ export const Past = props => {
   const deploymentsRef = useRef();
   const timer = useRef();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const dispatchedSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
 
   const { finished: pastSelectionState } = useSelector(getDeploymentsSelectionState);
@@ -123,10 +124,11 @@ export const Past = props => {
     dispatch(
       getDeploymentsByStatus({ status: type, page, perPage, startDate: roundedStartDate, endDate: roundedEndDate, group: deviceGroup, type: deploymentType })
     )
+      .unwrap()
       .then(deploymentsAction => {
-        const deploymentsList = deploymentsAction ? Object.values(deploymentsAction.payload[0]) : [];
+        const deploymentsList = deploymentsAction ? Object.values(deploymentsAction[0].payload) : [];
         if (deploymentsList.length) {
-          let newStartDate = new Date(deploymentsList[deploymentsList.length - 1].created);
+          const newStartDate = new Date(deploymentsList[deploymentsList.length - 1].created);
           const { start } = getISOStringBoundaries(newStartDate);
           dispatch(setDeploymentsState({ [DEPLOYMENT_STATES.finished]: { startDate: startDate || start } }));
         }
@@ -172,7 +174,7 @@ export const Past = props => {
     const left = detailsButtons.length
       ? deploymentsRef.current.offsetLeft + detailsButtons[0].offsetLeft + detailsButtons[0].offsetWidth / 2 + 15
       : deploymentsRef.current.offsetWidth;
-    let anchor = { left: deploymentsRef.current.offsetWidth / 2, top: deploymentsRef.current.offsetTop };
+    const anchor = { left: deploymentsRef.current.offsetWidth / 2, top: deploymentsRef.current.offsetTop };
     onboardingComponent = getOnboardingComponentFor(onboardingSteps.DEPLOYMENTS_PAST_COMPLETED, onboardingState, {
       anchor,
       setSnackbar: dispatchedSetSnackbar
