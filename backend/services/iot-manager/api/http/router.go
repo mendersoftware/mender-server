@@ -1,4 +1,4 @@
-// Copyright 2024 Northern.tech AS
+// Copyright 2025 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -56,7 +56,8 @@ const (
 	APIURLDeviceState            = APIURLDevice + "/state"
 	APIURLDeviceStateIntegration = APIURLDevice + "/state/:integrationId"
 
-	APIURLEvents = "/events"
+	APIURLEvents            = "/events"
+	APIURLEventsIntegration = APIURLEvents + "/:integrationId"
 )
 
 const (
@@ -128,6 +129,7 @@ func NewRouter(
 	managementAPI.PUT(APIURLDeviceStateIntegration, management.SetDeviceStateIntegration)
 
 	managementAPI.GET(APIURLEvents, management.GetEvents)
+	managementAPI.GET(APIURLEventsIntegration, management.GetEvents)
 
 	return router
 }

@@ -1,4 +1,4 @@
-// Copyright 2022 Northern.tech AS
+// Copyright 2025 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -63,6 +63,10 @@ func Migrate(ctx context.Context,
 			db:     db,
 		},
 		&migration_1_1_1{
+			client: client,
+			db:     db,
+		},
+		&migration_1_1_2{
 			client: client,
 			db:     db,
 		},
