@@ -330,6 +330,38 @@ paths:
         500:
           $ref: '#/components/responses/InternalServerError'
 
+  /events/{integrationId}:
+    get:
+      operationId: List events by integration ID
+      summary: List all stored events for an integration specified by ID
+      tags:
+        - Management API
+      parameters:
+        - name: integrationId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique ID of the integration.
+
+      responses:
+        200:
+          description: OK. Returns list of events.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+        400:
+          $ref: '#/components/responses/InvalidRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        403:
+          $ref: '#/components/responses/ForbiddenError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
 components:
   securitySchemes:
     ManagementJWT:
