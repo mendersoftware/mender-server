@@ -22,7 +22,7 @@ import DocsLink from '../DocsLink';
 
 export const getDemoDeviceCreationCommand = (tenantToken, demoArtifactPort) =>
   tenantToken
-    ? `TENANT_TOKEN='${tenantToken}'\ndocker run -it -p ${demoArtifactPort}:${demoArtifactPort} -e SERVER_URL='https://${window.location.hostname}' \\\n-e TENANT_TOKEN=$TENANT_TOKEN --pull=always mendersoftware/mender-client-qemu`
+    ? `TENANT_TOKEN='${tenantToken}'\ndocker run -it -p ${demoArtifactPort}:${demoArtifactPort} -e SERVER_URL='https://${window.location.hostname}' \\\n-e TENANT_TOKEN=$TENANT_TOKEN --pull=always mendersoftware/mender-client-docker-addons`
     : './demo --client up';
 
 export const VirtualDeviceOnboarding = () => {
