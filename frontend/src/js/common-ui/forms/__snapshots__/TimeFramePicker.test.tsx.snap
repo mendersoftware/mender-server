@@ -507,7 +507,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
           class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd emotion-3"
           id=":r0:"
           inputmode="text"
-          placeholder="MMMM DD"
+          placeholder="YYYY-MM-DD"
           type="text"
           value=""
         />
@@ -568,9 +568,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
           class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd emotion-3"
           id=":r3:"
           inputmode="text"
-          placeholder="MMMM DD"
+          placeholder="YYYY-MM-DD"
           type="text"
-          value="January 13th"
+          value="2019-01-13"
         />
         <div
           class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-4"

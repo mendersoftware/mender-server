@@ -13,19 +13,17 @@
 //    limitations under the License.
 import { Page } from '@playwright/test';
 import dayjs from 'dayjs';
-import advancedFormat from 'dayjs/plugin/advancedFormat.js';
 import isBetween from 'dayjs/plugin/isBetween.js';
 
 import test, { expect } from '../fixtures/fixtures';
 import { selectors, storagePath, timeouts } from '../utils/constants';
 
 dayjs.extend(isBetween);
-dayjs.extend(advancedFormat);
 
 const checkTimeFilter = async (page: Page, name: string, isSetToday?: boolean) => {
   const input = page.getByRole('textbox', { name });
   if (isSetToday) {
-    await expect(input).toHaveValue(dayjs().format('MMMM Do'));
+    await expect(input).toHaveValue(dayjs().format('YYYY-MM-DD'));
   }
   await expect(input.locator('..')).not.toHaveClass(/Mui-error/);
 };
