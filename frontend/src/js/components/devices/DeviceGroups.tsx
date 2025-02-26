@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 
@@ -246,6 +246,14 @@ export const DeviceGroups = () => {
 
   const toggleMakeGatewayClick = () => setShowMakeGateway(toggle);
 
+  const changeLocation = useCallback(
+    (newLocation: string) => {
+      isInitialized.current = false;
+      setLocationParams({ pageState: { ...deviceListState, state: newLocation }, filters, selectedGroup });
+    },
+    [setLocationParams, deviceListState, filters, selectedGroup]
+  );
+
   let onboardingComponent;
   if (deviceConnectionRef.current && !(pendingCount || acceptedCount)) {
     const anchor = { top: deviceConnectionRef.current.offsetTop + deviceConnectionRef.current.offsetHeight / 2, left: deviceConnectionRef.current.offsetLeft };
@@ -299,6 +307,7 @@ export const DeviceGroups = () => {
         <div className="rightFluid relative" style={{ paddingTop: 0 }}>
           {limitMaxed && <DeviceLimitWarning acceptedDevices={acceptedCount} deviceLimit={deviceLimit} />}
           <AuthorizedDevices
+            changeLocation={changeLocation}
             addDevicesToGroup={addDevicesToGroup}
             onGroupClick={onGroupClick}
             onGroupRemoval={toggleGroupRemoval}
