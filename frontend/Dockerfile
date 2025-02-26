@@ -3,6 +3,14 @@ WORKDIR /usr/src/app
 COPY package-lock.json package.json ./
 RUN npm ci
 COPY . ./
+ARG GIT_COMMIT_SHA
+ENV GIT_COMMIT_SHA=$GIT_COMMIT_SHA
+ARG SENTRY_AUTH_TOKEN
+ENV SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN
+ARG SENTRY_ORG
+ENV SENTRY_ORG=$SENTRY_ORG
+ARG SENTRY_URL
+ENV SENTRY_URL=$SENTRY_URL
 RUN npm run build
 
 FROM nginxinc/nginx-unprivileged:1.27.3-alpine3.20-slim AS unprivileged
@@ -10,6 +18,8 @@ EXPOSE 8090
 WORKDIR /var/www/mender-gui/dist
 ARG GIT_COMMIT_TAG
 ENV GIT_COMMIT_TAG=$GIT_COMMIT_TAG
+ARG GIT_COMMIT_SHA
+ENV GIT_COMMIT_SHA=$GIT_COMMIT_SHA
 COPY --from=base /usr/src/app/dist .
 COPY ./entrypoint.sh /usr/src/entrypoint.sh
 COPY httpd.conf /etc/nginx/nginx.conf

@@ -27,6 +27,7 @@ fi
 
 cat >/var/www/mender-gui/dist/env.js <<EOF
   mender_environment = {
+    commit: "$GIT_COMMIT_SHA",
     hostAddress: "$HOSTNAME",
     hostedAnnouncement: "$ANNOUNCEMENT",
     isDemoMode: "$DEMO",
@@ -45,6 +46,7 @@ cat >/var/www/mender-gui/dist/env.js <<EOF
     feedbackProbability: "${FEEDBACK_PROBABILITY:-0.3}",
     trackerCode: "$TRACKER_CODE",
     recaptchaSiteKey: "$RECAPTCHA_SITE_KEY",
+    sentryLocation: "$SENTRY_URL",
     stripeAPIKey: "$STRIPE_API_KEY",
     integrationVersion: "$INTEGRATION_VERSION",
     menderVersion: "$MENDER_VERSION",
