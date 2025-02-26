@@ -180,7 +180,8 @@ export const Authorized = ({
   onPreauthClick,
   openSettingsDialog,
   removeDevicesFromGroup,
-  showsDialog
+  showsDialog,
+  changeLocation
 }) => {
   const limitMaxed = useSelector(getLimitMaxed);
   const devices = useSelector(state => getMappedDevicesList(state, 'deviceList'));
@@ -253,11 +254,13 @@ export const Authorized = ({
   }, [settingsInitialized, devicesInitialized, pageLoading]);
 
   const onDeviceStateSelectionChange = useCallback(
-    newState =>
+    newState => {
+      changeLocation(newState);
       dispatch(
         setDeviceListState({ state: newState, page: 1, refreshTrigger: !refreshTrigger, shouldSelectDevices: true, forceRefresh: false, fetchAuth: false })
-      ),
-    [dispatch, refreshTrigger]
+      );
+    },
+    [dispatch, changeLocation, refreshTrigger]
   );
 
   useEffect(() => {
