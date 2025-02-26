@@ -39,7 +39,7 @@ export const TimeframePicker = ({ tonight: propsTonight }) => {
   const endDate = watch('endDate');
 
   useEffect(() => {
-    let currentEndDate = getValues('endDate');
+    const currentEndDate = getValues('endDate');
     const now = new Date().toISOString().replace('Z', '');
     if (startDate > currentEndDate) {
       setValue('endDate', ensureEndOfDay(startDate));
@@ -50,7 +50,7 @@ export const TimeframePicker = ({ tonight: propsTonight }) => {
   }, [startDate, getValues, setValue]);
 
   useEffect(() => {
-    let currentStartDate = getValues('startDate');
+    const currentStartDate = getValues('startDate');
     if (endDate < currentStartDate) {
       setValue('startDate', ensureStartOfDay(endDate));
     }
@@ -68,13 +68,12 @@ export const TimeframePicker = ({ tonight: propsTonight }) => {
         control={control}
         render={({ field: { onChange, value } }) => (
           <DatePicker
-            disabled={!value}
             disableFuture
             format="MMMM Do"
             label="From"
             maxDate={maxStartDate}
             onChange={e => onChange(handleChangeStartDate(e))}
-            value={value ? dayjs(value) : dayjs()}
+            value={value ? dayjs(value) : null}
           />
         )}
       />

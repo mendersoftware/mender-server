@@ -11,13 +11,24 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { Page } from '@playwright/test';
 import dayjs from 'dayjs';
+import advancedFormat from 'dayjs/plugin/advancedFormat.js';
 import isBetween from 'dayjs/plugin/isBetween.js';
 
 import test, { expect } from '../fixtures/fixtures';
 import { selectors, storagePath, timeouts } from '../utils/constants';
 
 dayjs.extend(isBetween);
+dayjs.extend(advancedFormat);
+
+const checkTimeFilter = async (page: Page, name: string, isSetToday?: boolean) => {
+  const input = page.getByRole('textbox', { name });
+  if (isSetToday) {
+    await expect(input).toHaveValue(dayjs().format('MMMM Do'));
+  }
+  await expect(input.locator('..')).not.toHaveClass(/Mui-error/);
+};
 
 test.describe('Deployments', () => {
   test.use({ storageState: storagePath });
@@ -28,7 +39,12 @@ test.describe('Deployments', () => {
     await page.goto(`${baseUrl}ui/releases`);
     await page.waitForTimeout(timeouts.default);
   });
-
+  test('check time filters before deployment', async ({ baseUrl, loggedInPage: page }) => {
+    await page.goto(`${baseUrl}ui/deployments`);
+    await page.getByRole('tab', { name: /finished/i }).click();
+    await checkTimeFilter(page, 'From');
+    await checkTimeFilter(page, 'To', true);
+  });
   test('allows shortcut deployments', async ({ loggedInPage: page }) => {
     // create an artifact to download first
     await page.getByText(/mender-demo-artifact/i).click();
@@ -44,6 +60,8 @@ test.describe('Deployments', () => {
     await creationButton.click();
     await page.waitForSelector(selectors.deploymentListItem, { timeout: timeouts.tenSeconds });
     await page.getByRole('tab', { name: /finished/i }).click();
+    await checkTimeFilter(page, 'From', true);
+    await checkTimeFilter(page, 'To', true);
     await page.waitForSelector(selectors.deploymentListItemContent, { timeout: timeouts.sixtySeconds });
     const datetime = await page.getAttribute(`${selectors.deploymentListItemContent} time`, 'datetime');
     const time = dayjs(datetime);
