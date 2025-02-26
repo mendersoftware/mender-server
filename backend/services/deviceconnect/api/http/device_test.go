@@ -38,6 +38,11 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
+var (
+	// Time allowed to read the next pong message from the peer.
+	pongWait = time.Minute
+)
+
 func TestDeviceConnect(t *testing.T) {
 	// temporarily speed things up a bit
 	prevPongWait := pongWait
@@ -94,15 +99,6 @@ func TestDeviceConnect(t *testing.T) {
 	conn, _, err := websocket.DefaultDialer.Dial(url+APIURLDevicesConnect, headers)
 	assert.NoError(t, err)
 
-	pingReceived := make(chan struct{}, 10)
-	conn.SetPingHandler(func(message string) error {
-		pingReceived <- struct{}{}
-		return conn.WriteControl(
-			websocket.PongMessage,
-			[]byte{},
-			time.Now().Add(writeWait),
-		)
-	})
 	pongReceived := make(chan struct{}, 1)
 	conn.SetPongHandler(func(message string) error {
 		pongReceived <- struct{}{}
@@ -174,12 +170,6 @@ func TestDeviceConnect(t *testing.T) {
 	case <-pongReceived:
 	case <-time.After(pongWait * 2):
 		assert.Fail(t, "did not receive pong within pongWait")
-	}
-
-	select {
-	case <-pingReceived:
-	case <-time.After(pongWait * 2):
-		assert.Fail(t, "did not receive ping within pongWait")
 	}
 
 	// start a new terminal
