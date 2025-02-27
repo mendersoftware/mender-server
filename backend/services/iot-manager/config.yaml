@@ -85,3 +85,13 @@ mongo_dbname: iot_manager
 # Overwrite with environment variable: IOT_MANAGER_WEBHOOKS_TIMEOUT_SECONDS
 #
 # webhooks_timeout_seconds: 10
+
+# webhooks:
+#   ip_filter:
+#     # blacklist_cidrs sets the blacklist network filters for webhooks
+#     # Overwrite with environment variable IOT_MANAGER_WEBHOOKS_IP_FILTER_BLACKLIST_CIDR
+#     blacklist_cidrs: [127.0.0.1/8, 10.0.0.0/8, 172.16.0.1/12, 192.168.0.0/16, fd00::/8]
+#
+#     # whitelist_cidrs sets the blacklist network filters for webhooks
+#     # Overwrite with environment variable IOT_MANAGER_WEBHOOKS_IP_FILTER_WHITELIST_CIDR
+#     whitelist_cidrs: [0.0.0.0/0]

@@ -16,7 +16,10 @@ package app
 
 import (
 	"context"
+	"fmt"
+	"net"
 	"net/http"
+	"net/url"
 	"time"
 
 	"github.com/google/uuid"
@@ -24,6 +27,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/netutils"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/client"
 	"github.com/mendersoftware/mender-server/services/iot-manager/client/devauth"
@@ -47,6 +51,18 @@ var (
 	ErrDeviceStateConflict     = errors.New("conflict when updating the device state")
 	ErrCannotRemoveIntegration = errors.New("cannot remove integration in use by devices")
 )
+
+type InvalidCredentialsError struct {
+	cause error
+}
+
+func (err InvalidCredentialsError) Unwrap() error {
+	return err.cause
+}
+
+func (err InvalidCredentialsError) Error() string {
+	return err.cause.Error()
+}
 
 const (
 	confKeyPrimaryKey     = "azureConnectionString"
@@ -96,21 +112,26 @@ type app struct {
 	wf              workflows.Client
 	devauth         devauth.Client
 	httpClient      *http.Client
+	ipFilter        netutils.IPFilter
 	webhooksTimeout time.Duration
 }
 
 // NewApp initialize a new iot-manager App
-func New(ds store.DataStore, wf workflows.Client, da devauth.Client) App {
-	c := client.New()
+func New(
+	ds store.DataStore, wf workflows.Client,
+	da devauth.Client, ipFilter netutils.IPFilter,
+) App {
+	httpClient := client.New(ipFilter)
 	hubClient := iothub.NewClient(
-		iothub.NewOptions().SetClient(c),
+		iothub.NewOptions().SetClient(httpClient),
 	)
 	return &app{
 		store:        ds,
 		wf:           wf,
 		devauth:      da,
 		iothubClient: hubClient,
-		httpClient:   c,
+		ipFilter:     ipFilter,
+		httpClient:   httpClient,
 	}
 }
 
@@ -154,10 +175,48 @@ func (a *app) GetIntegrationById(ctx context.Context, id uuid.UUID) (*model.Inte
 	return integration, err
 }
 
+func (a *app) CheckURL(u *url.URL) error {
+	ips, err := net.LookupIP(u.Hostname())
+	if err != nil {
+		return fmt.Errorf("error checking hostname integrity: %w", err)
+	}
+	for _, ip := range ips {
+		if !a.ipFilter.IsAllowed(ip) {
+			return net.InvalidAddrError(
+				fmt.Sprintf("address %q belongs to reserved address space", ip),
+			)
+		}
+	}
+	return nil
+}
+
+func (a *app) CheckCredentials(creds model.Credentials) error {
+	if creds.HTTP != nil {
+		httpURL, err := url.Parse(creds.HTTP.URL)
+		if err != nil {
+			return InvalidCredentialsError{cause: err}
+		}
+		if err := a.CheckURL(httpURL); err != nil {
+			return InvalidCredentialsError{cause: err}
+		}
+	}
+	if creds.ConnectionString != nil {
+		err := a.CheckURL(&url.URL{Host: creds.ConnectionString.HostName})
+		if err != nil {
+			return InvalidCredentialsError{cause: err}
+		}
+	}
+	return nil
+}
+
 func (a *app) CreateIntegration(
 	ctx context.Context,
 	integration model.Integration,
 ) (*model.Integration, error) {
+	err := a.CheckCredentials(integration.Credentials)
+	if err != nil {
+		return nil, err
+	}
 	result, err := a.store.CreateIntegration(ctx, integration)
 	if err == store.ErrObjectExists {
 		return nil, ErrIntegrationExists
@@ -170,7 +229,11 @@ func (a *app) SetIntegrationCredentials(
 	integrationID uuid.UUID,
 	credentials model.Credentials,
 ) error {
-	err := a.store.SetIntegrationCredentials(ctx, integrationID, credentials)
+	err := a.CheckCredentials(credentials)
+	if err != nil {
+		return err
+	}
+	err = a.store.SetIntegrationCredentials(ctx, integrationID, credentials)
 	if err != nil {
 		switch cause := errors.Cause(err); cause {
 		case store.ErrObjectNotFound:

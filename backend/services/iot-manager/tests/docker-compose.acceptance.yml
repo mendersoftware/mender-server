@@ -45,6 +45,7 @@ services:
       # FIXME: Update mmock `host` in request conditions
       IOT_MANAGER_DEVICEAUTH_URL: "http://mender-device-auth:8080"
       IOT_MANAGER_WORKFLOWS_URL: "http://mender-workflows-server:8080"
+      IOT_MANAGER_WEBHOOKS_IP_FILTER_WHITELIST_CIDR: "0.0.0.0/0"
       GOCOVERDIR: /cover
     user: ${UID:-0}:${GID:-0}
     volumes:

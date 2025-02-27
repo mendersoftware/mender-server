@@ -95,6 +95,11 @@ func (h *ManagementHandler) CreateIntegration(c *gin.Context) {
 
 	inserted, err := h.app.CreateIntegration(ctx, integration)
 	if err != nil {
+		var errInvalid *app.InvalidCredentialsError
+		if errors.As(err, &errInvalid) {
+			rest.RenderError(c, http.StatusBadRequest, err)
+			return
+		}
 		switch cause := errors.Cause(err); cause {
 		case app.ErrIntegrationExists:
 			// NOTE: temporary limitation
@@ -173,6 +178,11 @@ func (h *ManagementHandler) SetIntegrationCredentials(c *gin.Context) {
 
 	err = h.app.SetIntegrationCredentials(ctx, integrationID, credentials)
 	if err != nil {
+		var errInvalid *app.InvalidCredentialsError
+		if errors.As(err, &errInvalid) {
+			rest.RenderError(c, http.StatusBadRequest, err)
+			return
+		}
 		switch cause := errors.Cause(err); cause {
 		case app.ErrIntegrationNotFound:
 			rest.RenderError(c, http.StatusNotFound, ErrIntegrationNotFound)
