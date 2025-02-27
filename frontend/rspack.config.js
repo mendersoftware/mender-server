@@ -16,7 +16,11 @@ export default (env, argv) => {
   const plugins =
     argv.mode === 'production'
       ? [
-          new LicensePlugin({ outputFilename: 'licenses.json', excludedPackageTest: packageName => packageName.startsWith('@northern.tech') }),
+          new LicensePlugin({
+            outputFilename: 'licenses.json',
+            excludedPackageTest: packageName => packageName.startsWith('@northern.tech'),
+            replenishDefaultLicenseTexts: true
+          }),
           new CompressionPlugin({
             filename: '[path][base].gz'
           })
