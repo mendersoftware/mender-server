@@ -39,9 +39,6 @@ import (
 )
 
 var (
-	// Time allowed to read the next pong message from the peer.
-	pongWait = time.Minute
-
 	// Seconds allowed to write a message to the peer.
 	writeWait = time.Second * 10
 )
@@ -234,22 +231,12 @@ func (h DeviceController) connectWSWriter(
 	}()
 
 	// handle the ping-pong connection health check
-	err = conn.SetReadDeadline(time.Now().Add(pongWait))
 	if err != nil {
 		l.Error(err)
 		return err
 	}
 
-	pingPeriod := (pongWait * 9) / 10
-	ticker := time.NewTicker(pingPeriod)
-	defer ticker.Stop()
-	conn.SetPongHandler(func(string) error {
-		ticker.Reset(pingPeriod)
-		return conn.SetReadDeadline(time.Now().Add(pongWait))
-	})
 	conn.SetPingHandler(func(msg string) error {
-		ticker.Reset(pingPeriod)
-		err := conn.SetReadDeadline(time.Now().Add(pongWait))
 		if err != nil {
 			return err
 		}
@@ -271,11 +258,6 @@ Loop:
 		case <-ctx.Done():
 			err = errors.New("connection closed by the server")
 			break Loop
-		case <-ticker.C:
-			if !websocketPing(conn) {
-				err = errors.New("connection timeout")
-				break Loop
-			}
 		case err := <-errChan:
 			return err
 		}
