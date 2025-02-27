@@ -53,7 +53,7 @@ paths:
           description: |
             Internal API error
       summary: |
-        Trivial endpoint that unconditionally returns an empty 200 response whenever the API handler is running correctly.
+        Trivial endpoint that unconditionally returns an empty 204 response whenever the API handler is running correctly.
       tags:
       - Internal API
   /tenants/{id}/storage/settings:
