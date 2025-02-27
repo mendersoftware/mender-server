@@ -1,3 +1,4 @@
+# DEPRECATED: Superseded by OpenAPI v3 specs in ../../../docs/api/*.yaml
 swagger: '2.0'
 info:
   title: Deployments v2

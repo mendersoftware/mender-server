@@ -1,0 +1,396 @@
+openapi: 3.0.1
+info:
+  description: |
+    An API for device firmware deployments. Intended for use by devices.
+
+    Devices can get new updates and send information about current deployment status.
+  title: Deployments
+  version: "1"
+servers:
+- url: https://hosted.mender.io/api/devices/v1/deployments
+paths:
+  /device/deployments/next:
+    get:
+      description: |
+        On success, either an empty response or a DeploymentInstructions object
+        is returned depending on whether there are any pending updates.
+      operationId: Check Update
+      parameters:
+      - description: currently installed artifact
+        in: query
+        name: artifact_name
+        required: true
+        schema:
+          type: string
+      - description: Device type of device
+        in: query
+        name: device_type
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              example:
+                id: w81s4fae-7dec-11d0-a765-00a0c91e6bf6
+                artifact:
+                  artifact_name: my-app-0.1
+                  source:
+                    uri: https://aws.myupdatebucket.com/image123
+                    expire: 2016-03-11T13:03:17.063493443Z
+                  device_types_compatible:
+                  - rspi
+                  - rspi2
+                  - rspi0
+              schema:
+                $ref: '#/components/schemas/DeploymentInstructions'
+          description: Successful response.
+        "204":
+          content: {}
+          description: No updates for device.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid Request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Not Found.
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Conflicting request data provided.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error.
+      security:
+      - DeviceJWT: []
+      summary: Get next update
+      tags:
+      - Device API
+  /device/deployments/{id}/status:
+    put:
+      description: |
+        Updates the status of a deployment on a particular device. Final status
+        of the deployment is required to be set to indicate the success or failure
+        of the installation process. The status can not be changed when deployment
+        status is set to aborted. Reporting of intermediate steps such as
+        installing, downloading, rebooting is optional.
+      operationId: Update Deployment Status
+      parameters:
+      - description: Deployment identifier.
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeploymentStatus'
+        description: Deployment status.
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: Status updated successfully.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid Request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Not Found.
+        "409":
+          content: {}
+          description: Status already set to aborted.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error.
+      security:
+      - DeviceJWT: []
+      summary: Update the device deployment status
+      tags:
+      - Device API
+  /device/deployments/{id}/log:
+    put:
+      description: |
+        Set the log of a selected deployment. Messages are split by line in the payload.
+      operationId: Report Deployment Log
+      parameters:
+      - description: Deployment identifier.
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeploymentLog'
+        description: Deployment log
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: The deployment log uploaded successfully.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid Request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Not Found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error.
+      security:
+      - DeviceJWT: []
+      summary: Upload the device deployment log
+      tags:
+      - Device API
+  /download/configuration/{deployment_id}/{device_type}/{device_id}:
+    get:
+      operationId: Fetch Configuration
+      parameters:
+      - description: Deployment UUID
+        in: path
+        name: deployment_id
+        required: true
+        schema:
+          type: string
+      - description: Device type of the calling device
+        in: path
+        name: device_type
+        required: true
+        schema:
+          type: string
+      - description: Device UUID
+        in: path
+        name: device_id
+        required: true
+        schema:
+          type: string
+      - description: Time of link expire
+        in: query
+        name: x-men-expire
+        required: true
+        schema:
+          format: date-time
+          type: string
+      - description: Signature of the URL link
+        in: query
+        name: x-men-signature
+        required: true
+        schema:
+          type: string
+      - description: Device tenant ID
+        in: query
+        name: tenant_id
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                description: Artifact file
+                format: binary
+                type: string
+          description: Successful response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid Request.
+        "403":
+          content: {}
+          description: The download link has expired or the signature is invalid.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error.
+      security: []
+      summary: |
+        Internally generated download link for deploying device configurations.
+        All parameters are generated internally when fetching a configuration deployment.
+      tags:
+      - Device API
+components:
+  responses:
+    NotFoundError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Not Found.
+    InternalServerError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Internal Server Error.
+    InvalidRequestError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Invalid Request.
+  schemas:
+    Error:
+      description: Error descriptor.
+      example:
+        error: "failed to decode device group data: JSON payload is empty"
+        request_id: f7881e82-0492-49fb-b459-795654e7188a
+      properties:
+        error:
+          description: Description of the error.
+          type: string
+        request_id:
+          description: Request ID (same as in X-MEN-RequestID header).
+          type: string
+      type: object
+    DeploymentStatus:
+      example:
+        status: success
+      properties:
+        status:
+          enum:
+          - installing
+          - pause_before_installing
+          - downloading
+          - pause_before_rebooting
+          - rebooting
+          - pause_before_committing
+          - success
+          - failure
+          - already-installed
+          type: string
+        substate:
+          description: Additional state information
+          type: string
+      required:
+      - status
+      type: object
+    DeploymentInstructions:
+      example:
+        id: w81s4fae-7dec-11d0-a765-00a0c91e6bf6
+        artifact:
+          artifact_name: my-app-0.1
+          source:
+            uri: https://aws.myupdatebucket.com/image123
+            expire: 2016-03-11T13:03:17.063493443Z
+          device_types_compatible:
+          - rspi
+          - rspi2
+          - rspi0
+      properties:
+        id:
+          description: Deployment ID
+          type: string
+        artifact:
+          $ref: '#/components/schemas/DeploymentInstructions_artifact'
+      required:
+      - artifact
+      - id
+      type: object
+    DeploymentLog:
+      example:
+        messages:
+        - timestamp: 2016-03-11T13:03:17.063493443Z
+          level: INFO
+          message: OK
+        - timestamp: 2016-03-11T13:03:18.023765782Z
+          level: DEBUG
+          message: successfully updated.
+      properties:
+        messages:
+          description: Array of log entries of a deployment
+          items:
+            $ref: '#/components/schemas/DeploymentLog_messages_inner'
+          type: array
+      required:
+      - messages
+      type: object
+    DeploymentInstructions_artifact_source:
+      properties:
+        uri:
+          description: URL to fetch the artifact from
+          format: url
+          type: string
+        expire:
+          description: URL expiration time
+          format: date-time
+          type: string
+      type: object
+    DeploymentInstructions_artifact:
+      properties:
+        id:
+          type: string
+        source:
+          $ref: '#/components/schemas/DeploymentInstructions_artifact_source'
+        device_types_compatible:
+          description: Compatible device types
+          items:
+            type: string
+          type: array
+        artifact_name:
+          type: string
+      required:
+      - artifact_name
+      - device_types_compatible
+      - source
+      type: object
+    DeploymentLog_messages_inner:
+      properties:
+        timestamp:
+          format: date-time
+          type: string
+        level:
+          type: string
+        message:
+          type: string
+      required:
+      - level
+      - message
+      - timestamp
+      type: object
+  securitySchemes:
+    DeviceJWT:
+      description: |
+        API token issued by Device Authentication service.
+        Format: 'Authorization: Bearer [JWT]'
+      in: header
+      name: Authorization
+      type: apiKey
