@@ -198,20 +198,20 @@ func (db *DataStoreMongo) ProvisionDevice(ctx context.Context, tenantID, deviceI
 
 	now := clock.Now().UTC()
 
-	updateOpts := &mopts.UpdateOptions{}
-	updateOpts.SetUpsert(true)
-	_, err := coll.UpdateOne(ctx,
-		bson.M{dbFieldID: deviceID, mstore.FieldTenantID: tenantID},
+	_, err := coll.InsertOne(ctx,
 		bson.M{
-			"$setOnInsert": bson.M{
-				dbFieldStatus:        model.DeviceStatusUnknown,
-				dbFieldCreatedTs:     &now,
-				dbFieldUpdatedTs:     &now,
-				mstore.FieldTenantID: tenantID,
-			},
+			dbFieldID:            deviceID,
+			mstore.FieldTenantID: tenantID,
+			dbFieldStatus:        model.DeviceStatusDisconnected,
+			dbFieldCreatedTs:     &now,
+			dbFieldUpdatedTs:     &now,
 		},
-		updateOpts,
 	)
+	if mongo.IsDuplicateKeyError(err) {
+		// NOTE(MEN-8164): Ignore duplicate key error since that means the device
+		//                 was too fast to connect or was previously provisioned.
+		return nil
+	}
 	return err
 }
 
