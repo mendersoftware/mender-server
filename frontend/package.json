@@ -107,6 +107,7 @@
     "yarn": "1.22.22"
   },
   "optionalDependencies": {
+    "@rollup/rollup-linux-x64-musl": "4.34.8",
     "@rspack/binding-linux-x64-musl": "1.2.6",
     "@rspack/binding-darwin-arm64": "1.2.6"
   },
