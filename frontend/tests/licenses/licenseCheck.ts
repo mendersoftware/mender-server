@@ -11,9 +11,10 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { parse } from 'https://deno.land/std@0.206.0/flags/mod.ts';
-import { dirname, fromFileUrl, resolve as resolvePath } from 'https://deno.land/std@0.206.0/path/mod.ts';
 import { DiffTerm, diff } from 'https://deno.land/x/diff_kit@v2.0.4/mod.ts';
+import { parseArgs } from 'jsr:@std/cli/parse-args';
+import { dirname, fromFileUrl, join, resolve as resolvePath } from 'jsr:@std/path';
+// import { dirname, fromFileUrl, resolve as resolvePath } from 'jsr:@std/path/mod.ts';
 import { asCSV, asSummary, init } from 'npm:license-checker-rseidelsohn@4.2.10';
 
 const licenseFile = 'directDependencies.csv';
@@ -66,7 +67,19 @@ const writeLicenseFile = () =>
       return await Deno.writeTextFile(licenseFileLocation, newPackageData);
     });
 
-const { '_': _catcher, ...flags } = parse(Deno.args, { boolean: knownOptions.map(({ key }) => key) });
+const checkGeneratedLicenses = async (root: string = '.') => {
+  const { default: licenses } = await import(join(root, 'licenses.json'), {
+    with: { type: 'json' }
+  });
+  if (!licenses.length) {
+    throw new Error('no licenses found, license generation broken');
+  }
+};
+
+const { '_': _catcher, rootDir: passedRoot, ...flags } = parseArgs(Deno.args, { boolean: knownOptions.map(({ key }) => key), string: ['rootDir'] });
+
+await checkGeneratedLicenses(passedRoot);
+
 const hasUnknownFlag = Object.keys(flags).some(option => !knownOptions.find(({ key }) => option === key));
 if (flags.update) {
   await writeLicenseFile();
