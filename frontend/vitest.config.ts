@@ -49,7 +49,6 @@ export default defineConfig({
       PUBLIC_URL: '',
       TZ: 'UTC'
     },
-    //TODO: change to 3
     retry: 3,
     environment: 'jsdom',
     globals: true,
