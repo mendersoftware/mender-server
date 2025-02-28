@@ -106,6 +106,10 @@
     "webpack-license-plugin": "^4.5.0",
     "yarn": "1.22.22"
   },
+  "optionalDependencies": {
+    "@rspack/binding-linux-x64-musl": "1.2.6",
+    "@rspack/binding-darwin-arm64": "1.2.6"
+  },
   "browserslist": [
     ">0.2%",
     "last 5 versions",
