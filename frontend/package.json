@@ -46,7 +46,6 @@
     "uuid": "11.0.5",
     "validator": "13.12.0",
     "victory": "37.3.6",
-    "vite-tsconfig-paths": "^5.1.4",
     "zxcvbn": "4.4.2"
   },
   "devDependencies": {
@@ -101,6 +100,7 @@
     "undici": "^7.3.0",
     "util": "0.12.5",
     "vite-plugin-svgr": "^4.3.0",
+    "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.0.4",
     "vm-browserify": "1.1.2",
     "webpack-license-plugin": "^4.5.0",
@@ -113,8 +113,8 @@
     "not op_mini all"
   ],
   "engines": {
-    "node": ">=14",
-    "npm": ">=8"
+    "node": ">=22",
+    "npm": ">=10"
   },
   "repository": {
     "type": "git",
