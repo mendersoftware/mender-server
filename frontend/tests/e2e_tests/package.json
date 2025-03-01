@@ -19,21 +19,21 @@
   "type": "module",
   "homepage": "https://mender.io",
   "devDependencies": {
-    "@bgotink/playwright-coverage": "^0.3.0",
+    "@bgotink/playwright-coverage": "^0.3.1",
     "@playwright/test": "1.50.1",
     "@sidewinder1138/saml-idp": "^1.4.0",
-    "axios": "^1.7.9",
+    "axios": "^1.8.1",
     "dayjs": "^1.11.13",
     "jsqr": "1.4.0",
     "jwt-decode": "^4.0.0",
     "md5": "^2.3.0",
     "otplib": "^12.0.1",
-    "pixelmatch": "^6.0.0",
+    "pixelmatch": "^7.1.0",
     "playwright": "^1.45.0",
     "playwright-chromium": "1.50.1",
     "pngjs": "7.0.0",
-    "typescript": "^5.7.3",
-    "uuid": "^11.0.5",
+    "typescript": "^5.8.2",
+    "uuid": "^11.1.0",
     "yaml": "^2.7.0"
   }
 }
