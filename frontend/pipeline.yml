@@ -46,7 +46,9 @@ test:frontend:licenses:
     - changes:
         paths: ['frontend/**/*']
         compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
-  needs: []
+  needs:
+    - job: build:frontend:docker
+      artifacts: true
   before_script:
     - cd frontend
     - apt-get update && apt-get install -yq curl
@@ -54,7 +56,7 @@ test:frontend:licenses:
     - apt-get install -yq nodejs
     - npm ci
   script:
-    - deno run --allow-env --allow-read --allow-sys tests/licenses/licenseCheck.ts
+    - deno run --allow-env --allow-read --allow-sys tests/licenses/licenseCheck.ts --rootDir $(pwd)
   tags:
     - hetzner-amd-beefy
 
