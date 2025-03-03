@@ -1995,7 +1995,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-239:focus::-ms-input
               style="overflow: hidden; margin-bottom: 0px;"
             >
               <div
-                class="MuiTabs-flexContainer emotion-2"
+                class="MuiTabs-list MuiTabs-flexContainer emotion-2"
                 role="tablist"
               >
                 <button
@@ -2048,7 +2048,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-239:focus::-ms-input
           >
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-8"
-              id=":r1:"
               tabindex="0"
               type="button"
             >
@@ -2250,7 +2249,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-239:focus::-ms-input
                     <button
                       aria-label="Clear"
                       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-clearIndicator emotion-33"
-                      id=":r8:"
                       tabindex="-1"
                       title="Clear"
                       type="button"
@@ -3617,7 +3615,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-239:focus::-ms-input
                 <button
                   class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge emotion-243"
                   disabled=""
-                  id=":r1e:"
                   tabindex="-1"
                   type="button"
                 >
@@ -3636,7 +3633,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-239:focus::-ms-input
                 <div>
                   <button
                     class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-243"
-                    id=":r1f:"
                     tabindex="0"
                     type="button"
                   >

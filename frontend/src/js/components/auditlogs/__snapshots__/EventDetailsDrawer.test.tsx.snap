@@ -181,7 +181,6 @@ exports[`EventDetailsDrawer Component > renders correctly 1`] = `
       <button
         aria-label="close"
         class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-1"
-        id=":r0:"
         tabindex="0"
         type="button"
       >

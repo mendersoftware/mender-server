@@ -594,7 +594,6 @@ exports[`Upgrade Component > renders correctly 1`] = `
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-4"
         disabled=""
-        id=":r0:"
         tabindex="-1"
         type="button"
       >
@@ -688,7 +687,6 @@ exports[`Upgrade Component > renders correctly 1`] = `
       </div>
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-4"
-        id=":r1:"
         tabindex="0"
         type="button"
       >
@@ -802,7 +800,6 @@ exports[`Upgrade Component > renders correctly 1`] = `
       </div>
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-15"
-        id=":r2:"
         tabindex="0"
         type="button"
       >
@@ -865,7 +862,6 @@ exports[`Upgrade Component > renders correctly 1`] = `
       </div>
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary addButton emotion-22"
-        id=":r3:"
         tabindex="0"
         type="button"
       >
@@ -904,7 +900,6 @@ exports[`Upgrade Component > renders correctly 1`] = `
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary muted addButton emotion-22"
         disabled=""
-        id=":r4:"
         tabindex="-1"
         type="button"
       >
@@ -943,7 +938,6 @@ exports[`Upgrade Component > renders correctly 1`] = `
       </div>
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary addButton emotion-22"
-        id=":r5:"
         tabindex="0"
         type="button"
       >

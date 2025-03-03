@@ -852,7 +852,6 @@ exports[`AuthStatus Component > renders correctly 1`] = `
     >
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary emotion-27"
-        id=":r1:"
         tabindex="0"
         type="button"
       >

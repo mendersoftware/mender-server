@@ -78,7 +78,6 @@ exports[`Auditlogs Component > renders correctly 1`] = `
                   <button
                     aria-label="Clear"
                     class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-clearIndicator css-4ganoy-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-clearIndicator"
-                    id=":r3:"
                     tabindex="-1"
                     title="Clear"
                     type="button"
@@ -153,7 +152,6 @@ exports[`Auditlogs Component > renders correctly 1`] = `
                   <button
                     aria-label="Open"
                     class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-popupIndicator css-16ba7z5-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-popupIndicator"
-                    id=":r6:"
                     tabindex="-1"
                     title="Open"
                     type="button"
@@ -282,7 +280,6 @@ exports[`Auditlogs Component > renders correctly 1`] = `
                   <button
                     aria-label="Choose date, selected date is Jan 13, 2019"
                     class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-sonn5k-MuiButtonBase-root-MuiIconButton-root"
-                    id=":rb:"
                     tabindex="0"
                     type="button"
                   >
@@ -343,7 +340,6 @@ exports[`Auditlogs Component > renders correctly 1`] = `
                   <button
                     aria-label="Choose date, selected date is Jan 13, 2019"
                     class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-sonn5k-MuiButtonBase-root-MuiIconButton-root"
-                    id=":re:"
                     tabindex="0"
                     type="button"
                   >
@@ -404,7 +400,6 @@ exports[`Auditlogs Component > renders correctly 1`] = `
       </div>
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary css-kvtsny-MuiButtonBase-root-MuiButton-root"
-        id=":rf:"
         style="margin-left: 15px;"
         tabindex="0"
         type="button"
@@ -676,7 +671,6 @@ exports[`Auditlogs Component > renders correctly 1`] = `
               <button
                 class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
                 disabled=""
-                id=":rj:"
                 tabindex="-1"
                 type="button"
               >
@@ -696,7 +690,6 @@ exports[`Auditlogs Component > renders correctly 1`] = `
                 <button
                   class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
                   disabled=""
-                  id=":rk:"
                   tabindex="-1"
                   type="button"
                 >

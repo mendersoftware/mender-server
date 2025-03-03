@@ -2202,7 +2202,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
               <button
                 aria-label="Open"
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-popupIndicator emotion-6"
-                id=":r10:"
                 tabindex="-1"
                 title="Open"
                 type="button"
@@ -2737,7 +2736,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
               <button
                 aria-label="Open"
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-popupIndicator emotion-6"
-                id=":r13:"
                 tabindex="-1"
                 title="Open"
                 type="button"
@@ -11151,7 +11149,6 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                 aria-label="Previous month"
                 class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-edgeEnd MuiIconButton-sizeMedium MuiPickersArrowSwitcher-button MuiPickersArrowSwitcher-previousIconButton emotion-10"
                 disabled=""
-                id=":r1j:"
                 tabindex="-1"
                 title="Previous month"
                 type="button"
@@ -11175,7 +11172,6 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                 aria-label="Next month"
                 class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-edgeStart MuiIconButton-sizeMedium MuiPickersArrowSwitcher-button MuiPickersArrowSwitcher-nextIconButton emotion-13"
                 disabled=""
-                id=":r1k:"
                 tabindex="-1"
                 title="Next month"
                 type="button"
@@ -12085,7 +12081,6 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
       >
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-109"
-          id=":r1l:"
           tabindex="0"
           type="button"
         >
@@ -13280,7 +13275,6 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                 aria-label="Previous month"
                 class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-edgeEnd MuiIconButton-sizeMedium MuiPickersArrowSwitcher-button MuiPickersArrowSwitcher-previousIconButton emotion-10"
                 disabled=""
-                id=":r1t:"
                 tabindex="-1"
                 title="Previous month"
                 type="button"
@@ -13304,7 +13298,6 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                 aria-label="Next month"
                 class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-edgeStart MuiIconButton-sizeMedium MuiPickersArrowSwitcher-button MuiPickersArrowSwitcher-nextIconButton emotion-13"
                 disabled=""
-                id=":r1u:"
                 tabindex="-1"
                 title="Next month"
                 type="button"
@@ -14214,7 +14207,6 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
       >
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-109"
-          id=":r1v:"
           tabindex="0"
           type="button"
         >

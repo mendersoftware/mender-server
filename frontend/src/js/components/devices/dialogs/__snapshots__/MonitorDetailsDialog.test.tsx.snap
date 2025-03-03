@@ -855,7 +855,6 @@ exports[`MonitorLogDialog Component > renders correctly 1`] = `
       >
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-26"
-          id=":r1:"
           tabindex="0"
           type="button"
         >
@@ -863,7 +862,6 @@ exports[`MonitorLogDialog Component > renders correctly 1`] = `
         </button>
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-27"
-          id=":r2:"
           tabindex="0"
           type="button"
         >
@@ -1219,7 +1217,6 @@ exports[`MonitorLogDialog Component > renders correctly for description only 1`]
       >
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-10"
-          id=":r4:"
           tabindex="0"
           type="button"
         >

@@ -911,7 +911,6 @@ exports[`CreateGroupExplainer Component > renders correctly 1`] = `
       >
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-23"
-          id=":r3:"
           tabindex="0"
           type="button"
         >

@@ -1285,7 +1285,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary oauth-provider emotion-3"
-            id=":r0:"
             tabindex="0"
             type="button"
           >
@@ -1307,7 +1306,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
           </button>
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary oauth-provider emotion-3"
-            id=":r1:"
             tabindex="0"
             type="button"
           >
@@ -1329,7 +1327,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
           </button>
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary oauth-provider emotion-3"
-            id=":r2:"
             tabindex="0"
             type="button"
           >
@@ -1446,7 +1443,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
                         >
                           <button
                             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-29"
-                            id=":r3:"
                             tabindex="0"
                             type="button"
                           >
@@ -1584,7 +1580,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-3"
               disabled=""
-              id=":r4:"
               tabindex="-1"
               type="submit"
             >

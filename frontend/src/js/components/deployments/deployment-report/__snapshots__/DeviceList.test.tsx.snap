@@ -68,7 +68,6 @@ exports[`ProgressDeviceList Component > renders correctly 1`] = `
           <button
             class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
             disabled=""
-            id=":r7:"
             tabindex="-1"
             type="button"
           >
@@ -88,7 +87,6 @@ exports[`ProgressDeviceList Component > renders correctly 1`] = `
             <button
               class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
               disabled=""
-              id=":r8:"
               tabindex="-1"
               type="button"
             >

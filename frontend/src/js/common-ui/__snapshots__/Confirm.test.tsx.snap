@@ -136,7 +136,6 @@ exports[`Confirm Component > renders correctly 1`] = `
   </button>
   <button
     class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-0"
-    id=":r1:"
     tabindex="0"
     type="button"
   >

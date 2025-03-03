@@ -1014,7 +1014,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
       >
         <button
           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-18"
-          id=":ra:"
           style="float: right; margin: -20px 0px 0px 10px;"
           tabindex="0"
           type="button"
@@ -1051,7 +1050,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
     <button
       class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-21"
       disabled=""
-      id=":rb:"
       tabindex="-1"
       type="button"
     >
@@ -1278,7 +1276,6 @@ exports[`UserManagement Component > renders AccessTokenRevocationDialog correctl
   >
     <button
       class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-4"
-      id=":rd:"
       tabindex="0"
       type="button"
     >
@@ -1286,7 +1283,6 @@ exports[`UserManagement Component > renders AccessTokenRevocationDialog correctl
     </button>
     <button
       class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-4"
-      id=":re:"
       tabindex="0"
       type="button"
     >
@@ -1417,7 +1413,6 @@ exports[`UserManagement Component > renders correctly 1`] = `
   </p>
   <button
     class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-1"
-    id=":r0:"
     tabindex="0"
     type="button"
   >

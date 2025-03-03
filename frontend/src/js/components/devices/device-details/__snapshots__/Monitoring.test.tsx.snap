@@ -184,7 +184,6 @@ exports[`DeviceMonitoring Component > renders correctly 1`] = `
           </div>
           <button
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
-            id=":r4:"
             tabindex="0"
             type="button"
           >
@@ -203,7 +202,6 @@ exports[`DeviceMonitoring Component > renders correctly 1`] = `
           <div>
             <button
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
-              id=":r5:"
               tabindex="0"
               type="button"
             >

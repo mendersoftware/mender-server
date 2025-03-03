@@ -810,7 +810,6 @@ exports[`ConfigImportDialog Component > renders correctly 1`] = `
       >
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-23"
-          id=":r2:"
           tabindex="0"
           type="button"
         >
@@ -818,7 +817,6 @@ exports[`ConfigImportDialog Component > renders correctly 1`] = `
         </button>
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-24"
-          id=":r3:"
           style="margin-left: 10px;"
           tabindex="0"
           type="button"

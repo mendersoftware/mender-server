@@ -579,7 +579,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
             <button
               aria-label="Clear"
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-clearIndicator emotion-6"
-              id=":r9:"
               tabindex="-1"
               title="Clear"
               type="button"
@@ -1290,7 +1289,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
             <button
               aria-label="Clear"
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-clearIndicator emotion-6"
-              id=":r2:"
               tabindex="-1"
               title="Clear"
               type="button"
@@ -1583,7 +1581,6 @@ exports[`PhysicalDeviceOnboarding Component > tiny onboarding tips > renders Ins
   >
     <button
       class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-1"
-      id=":r5:"
       style="float: right; margin: -20px 0px 0px 10px;"
       tabindex="0"
       type="button"

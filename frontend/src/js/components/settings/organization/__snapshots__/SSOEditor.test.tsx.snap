@@ -475,7 +475,6 @@ exports[`SSOEditor Component > renders correctly 1`] = `
             />
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary emotion-3"
-              id=":r0:"
               tabindex="0"
               type="button"
             >
@@ -500,7 +499,6 @@ exports[`SSOEditor Component > renders correctly 1`] = `
           <button
             aria-label="close"
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-6"
-            id=":r1:"
             tabindex="0"
             type="button"
           >
@@ -562,7 +560,6 @@ exports[`SSOEditor Component > renders correctly 1`] = `
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-10"
-            id=":r2:"
             tabindex="0"
             type="button"
           >
@@ -570,7 +567,6 @@ exports[`SSOEditor Component > renders correctly 1`] = `
           </button>
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-10"
-            id=":r3:"
             tabindex="0"
             type="button"
           >
@@ -578,7 +574,6 @@ exports[`SSOEditor Component > renders correctly 1`] = `
           </button>
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-10"
-            id=":r4:"
             tabindex="0"
             type="button"
           >
