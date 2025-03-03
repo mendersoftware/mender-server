@@ -10,7 +10,8 @@ test:frontend:lint:
   stage: test
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/${NODE_IMAGE}
   rules:
-    - if: $CI_COMMIT_REF_NAME !~ /^(staging|saas-[a-zA-Z0-9.]+)$/
+    - if: $CI_COMMIT_REF_NAME =~ /^(staging|saas-[a-zA-Z0-9.]+)$/
+      when: never
     - changes:
         paths: ['frontend/**/*.m?[jt]sx?']
         compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
@@ -65,7 +66,8 @@ test:frontend:unit:
   stage: test
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/${NODE_IMAGE}
   rules:
-    - if: $CI_COMMIT_REF_NAME !~ /^(staging|saas-[a-zA-Z0-9.]+)$/
+    - if: $CI_COMMIT_REF_NAME =~ /^(staging|saas-[a-zA-Z0-9.]+)$/
+      when: never
     - changes:
         paths: ['frontend/**/*']
         compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
@@ -91,7 +93,8 @@ test:frontend:docs-links:
   stage: test
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/${NODE_IMAGE}
   rules:
-    - if: $CI_COMMIT_REF_NAME !~ /^(staging|saas-[a-zA-Z0-9.]+)$/
+    - if: $CI_COMMIT_REF_NAME =~ /^(staging|saas-[a-zA-Z0-9.]+)$/
+      when: never
     - changes:
         paths: ['frontend/**/*']
         compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
@@ -235,7 +238,11 @@ test:frontend:acceptance:enterprise:
 publish:frontend:tests:
   extends: .template:publish:frontend:tests
   rules:
-    - if: $CI_COMMIT_REF_NAME !~ /^(staging|saas-[a-zA-Z0-9.]+)$/
+    - if: $CI_COMMIT_REF_NAME =~ /^(staging|saas-[a-zA-Z0-9.]+)$/
+      when: never
+    - changes:
+        paths: ['frontend/**/*']
+        compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
   needs:
     - job: test:frontend:unit
       artifacts: true
