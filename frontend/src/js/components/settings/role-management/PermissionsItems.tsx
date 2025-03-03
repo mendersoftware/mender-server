@@ -61,7 +61,7 @@ export const PermissionsItem: FunctionComponent<IPermissionsItem> = ({ area, dis
   </div>
 );
 
-const shouldExtendPermissionSelection = (changedSelection, currentItem, items) => {
+export const shouldExtendPermissionSelection = (changedSelection, currentItem, items) => {
   if (items.every(({ title }) => changedSelection.some(selectionItem => selectionItem.item === title))) {
     return false;
   }
@@ -74,7 +74,11 @@ const shouldExtendPermissionSelection = (changedSelection, currentItem, items) =
     const isPartiallyDefined = selection.item || selection.uiPermissions.length;
     return isPartiallyDefined && isDifferentThanCurrent;
   });
-  return filtered.length === 1;
+
+  // ensure there is no empty rows
+  const noEmpty = changedSelection.every(selection => selection.item || selection.uiPermissions.length);
+
+  return filtered.length === 1 && noEmpty;
 };
 
 interface IScopedPermissionSelect extends PermissionsSelectionBaseProps {
