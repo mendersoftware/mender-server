@@ -23,8 +23,16 @@ import DetailsTable from '@northern.tech/common-ui/DetailsTable';
 import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
+import { Loader } from '@northern.tech/common-ui/Loader';
 import { BENEFITS, UiRoleDefinition, emptyRole, settingsKeys } from '@northern.tech/store/constants';
-import { getGroupsByIdWithoutUngrouped, getIsEnterprise, getOrganization, getReleaseTagsById, getRelevantRoles } from '@northern.tech/store/selectors';
+import {
+  getGroupsByIdWithoutUngrouped,
+  getIsEnterprise,
+  getOrganization,
+  getReleaseTagsById,
+  getRelevantRoles,
+  getRolesInitialized
+} from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { createRole, editRole, getDynamicGroups, getExistingReleaseTags, getGroups, getRoles, removeRole } from '@northern.tech/store/thunks';
 
@@ -47,7 +55,7 @@ export const RoleManagement = () => {
   const { service_provider } = useSelector(getOrganization);
   const items = useSelector(getRelevantRoles);
   const isLikelyInitialized = window.sessionStorage.getItem(settingsKeys.initialized);
-
+  const rolesInitialized = useSelector(getRolesInitialized);
   useEffect(() => {
     if (service_provider || !isLikelyInitialized) {
       return;
@@ -101,7 +109,7 @@ export const RoleManagement = () => {
           <DocsTooltip id={DOCSTIPS.rbac.id} />
         </InfoHintContainer>
       </div>
-      <DetailsTable columns={columns} items={items} onItemClick={onEditRole} />
+      {rolesInitialized ? <DetailsTable columns={columns} items={items} onItemClick={onEditRole} /> : <Loader show={true} />}
       <Chip color="primary" icon={<AddIcon />} label="Add a role" onClick={addRole} disabled={!isEnterprise} />
       <RoleDefinition
         adding={adding}
