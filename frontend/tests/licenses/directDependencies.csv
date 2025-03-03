@@ -29,6 +29,7 @@
 "@types/node","MIT","https://github.com/DefinitelyTyped/DefinitelyTyped"
 "@types/react-dom","MIT","https://github.com/DefinitelyTyped/DefinitelyTyped"
 "@types/react","MIT","https://github.com/DefinitelyTyped/DefinitelyTyped"
+"@typescript-eslint/eslint-plugin","MIT","https://github.com/typescript-eslint/typescript-eslint"
 "@vitejs/plugin-react","MIT","https://github.com/vitejs/vite-plugin-react"
 "@vitest/coverage-v8","MIT","https://github.com/vitest-dev/vitest"
 "@xterm/addon-fit","MIT","https://github.com/xtermjs/xterm.js.git#master"
