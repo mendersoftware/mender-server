@@ -42,7 +42,8 @@ test:frontend:licenses:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/denoland/deno:debian-1.46.3
   stage: test
   rules:
-    - if: $CI_COMMIT_REF_NAME !~ /^(staging|saas-[a-zA-Z0-9.]+)$/
+    - if: $CI_COMMIT_REF_NAME =~ /^(staging|saas-[a-zA-Z0-9.]+)$/
+      when: never
     - changes:
         paths: ['frontend/**/*']
         compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
