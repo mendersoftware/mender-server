@@ -136,6 +136,7 @@ services:
       - mongo
     environment:
       TENANTADM_MONGO: "mongodb://mongo"
+      TENANTADM_AUDITLOGS_ADDR: http://auditlogs:8080/
       TENANTADM_ORCHESTRATOR_ADDR: http://workflows:8080/
       TENANTADM_USERADM_ADDR: http://useradm:8080/
       TENANTADM_DEVICEAUTH_ADDR: http://deviceauth:8080/
