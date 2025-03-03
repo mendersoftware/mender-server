@@ -36,8 +36,6 @@ exports[`SearchResult Component > renders correctly 1`] = `
   z-index: -1;
   top: 57px;
   left: 200px;
-  top: 57px;
-  left: 200px;
 }
 
 .emotion-2 {
@@ -72,6 +70,11 @@ exports[`SearchResult Component > renders correctly 1`] = `
   min-width: 40vw;
   max-width: 80vw;
   padding: 30px 75px 5%;
+  max-width: 100vw;
+  min-height: 20vh;
+  box-shadow: none;
+  top: 57px;
+  left: 200px;
   max-width: 100vw;
   min-height: 20vh;
   box-shadow: none;
@@ -203,7 +206,7 @@ exports[`SearchResult Component > renders correctly 1`] = `
     aria-hidden="true"
   />
   <div
-    class="MuiModal-root emotion-0"
+    class="MuiDrawer-root MuiDrawer-anchorTop MuiDrawer-modal MuiModal-root emotion-0"
     role="presentation"
   >
     <div
@@ -241,7 +244,6 @@ exports[`SearchResult Component > renders correctly 1`] = `
         <button
           aria-label="close"
           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-4"
-          id=":r0:"
           tabindex="0"
           type="button"
         >

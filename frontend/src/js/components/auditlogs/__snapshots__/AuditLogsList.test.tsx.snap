@@ -266,7 +266,6 @@ exports[`Auditlogs Component > renders correctly 1`] = `
             <button
               class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
               disabled=""
-              id=":r3:"
               tabindex="-1"
               type="button"
             >
@@ -286,7 +285,6 @@ exports[`Auditlogs Component > renders correctly 1`] = `
               <button
                 class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
                 disabled=""
-                id=":r4:"
                 tabindex="-1"
                 type="button"
               >

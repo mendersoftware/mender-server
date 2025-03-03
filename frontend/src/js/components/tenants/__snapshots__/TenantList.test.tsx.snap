@@ -693,7 +693,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
                 <button
                   class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge emotion-14"
                   disabled=""
-                  id=":r3:"
                   tabindex="-1"
                   type="button"
                 >
@@ -713,7 +712,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
                   <button
                     class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge emotion-14"
                     disabled=""
-                    id=":r4:"
                     tabindex="-1"
                     type="button"
                   >

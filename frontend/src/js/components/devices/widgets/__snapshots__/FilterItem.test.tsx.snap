@@ -950,7 +950,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-19:focus::-ms-input-
           <button
             aria-label="Clear"
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-clearIndicator emotion-6"
-            id=":r2:"
             tabindex="-1"
             title="Clear"
             type="button"

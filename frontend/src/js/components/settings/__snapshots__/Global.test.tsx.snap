@@ -1776,7 +1776,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-105:focus::-ms-input
           </span>
           <button
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge margin-left-small expandButton emotion-21"
-            id=":r3:"
             tabindex="0"
             type="button"
           >

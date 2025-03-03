@@ -1703,7 +1703,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-21:focus::-ms-input-
       </h3>
       <button
         class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-1"
-        id=":r0:"
         tabindex="0"
         type="button"
       >
@@ -1746,7 +1745,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-21:focus::-ms-input-
       <button
         aria-label="close"
         class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-1"
-        id=":r2:"
         tabindex="0"
         type="button"
       >
@@ -1802,7 +1800,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-21:focus::-ms-input-
     </div>
     <button
       class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary emotion-12"
-      id=":r3:"
       style="padding: 5px;"
       tabindex="0"
       type="button"
@@ -1839,7 +1836,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-21:focus::-ms-input-
       </h4>
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary emotion-12"
-        id=":r4:"
         style="padding: 5px;"
         tabindex="0"
         type="button"
@@ -2028,7 +2024,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-21:focus::-ms-input-
               </span>
               <button
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge expandButton emotion-1"
-                id=":re:"
                 tabindex="0"
                 type="button"
               >
@@ -2118,7 +2113,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-21:focus::-ms-input-
                               </div>
                               <button
                                 class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary emotion-12"
-                                id=":rf:"
                                 style="padding: 5px;"
                                 tabindex="0"
                                 type="button"
@@ -2393,7 +2387,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-21:focus::-ms-input-
                         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-86"
                         disabled=""
                         download=""
-                        id=":rg:"
                         tabindex="-1"
                         target="_blank"
                         type="button"
@@ -2418,7 +2411,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-21:focus::-ms-input-
                       </button>
                       <button
                         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-86"
-                        id=":rh:"
                         tabindex="0"
                         type="button"
                       >
@@ -2499,7 +2491,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-21:focus::-ms-input-
               </span>
               <button
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge expandButton emotion-1"
-                id=":rk:"
                 tabindex="0"
                 type="button"
               >
@@ -2589,7 +2580,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-21:focus::-ms-input-
                               </div>
                               <button
                                 class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary emotion-12"
-                                id=":rl:"
                                 style="padding: 5px;"
                                 tabindex="0"
                                 type="button"
@@ -2864,7 +2854,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-21:focus::-ms-input-
                         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-86"
                         disabled=""
                         download=""
-                        id=":rm:"
                         tabindex="-1"
                         target="_blank"
                         type="button"
@@ -2889,7 +2878,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-21:focus::-ms-input-
                       </button>
                       <button
                         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-86"
-                        id=":rn:"
                         tabindex="0"
                         type="button"
                       >

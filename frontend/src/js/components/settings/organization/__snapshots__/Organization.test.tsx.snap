@@ -688,7 +688,6 @@ exports[`MyOrganization Component > renders correctly 1`] = `
           <div>
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-19"
-              id=":r1:"
               tabindex="0"
               type="button"
             >

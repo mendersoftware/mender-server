@@ -137,7 +137,6 @@ exports[`DeviceList Component > renders correctly 1`] = `
             <button
               class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
               disabled=""
-              id=":r3:"
               tabindex="-1"
               type="button"
             >
@@ -156,7 +155,6 @@ exports[`DeviceList Component > renders correctly 1`] = `
             <div>
               <button
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
-                id=":r4:"
                 tabindex="0"
                 type="button"
               >

@@ -1423,7 +1423,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-46:focus::-ms-input-
               <button
                 aria-label="Clear"
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-clearIndicator emotion-7"
-                id=":r2:"
                 tabindex="-1"
                 title="Clear"
                 type="button"
@@ -1503,7 +1502,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-46:focus::-ms-input-
               <button
                 aria-label="Clear"
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-clearIndicator emotion-7"
-                id=":r5:"
                 tabindex="-1"
                 title="Clear"
                 type="button"
@@ -1579,7 +1577,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-46:focus::-ms-input-
               <button
                 aria-label="Choose date"
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-26"
-                id=":r8:"
                 tabindex="0"
                 type="button"
               >
@@ -1640,7 +1637,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-46:focus::-ms-input-
               <button
                 aria-label="Choose date, selected date is Jan 13, 2019"
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-26"
-                id=":rb:"
                 tabindex="0"
                 type="button"
               >
@@ -1898,7 +1894,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-46:focus::-ms-input-
           </div>
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-40"
-            id=":rj:"
             tabindex="0"
             type="button"
           >
@@ -1970,7 +1965,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-46:focus::-ms-input-
               <button
                 class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge emotion-50"
                 disabled=""
-                id=":rr:"
                 tabindex="-1"
                 type="button"
               >
@@ -1990,7 +1984,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-46:focus::-ms-input-
                 <button
                   class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge emotion-50"
                   disabled=""
-                  id=":rs:"
                   tabindex="-1"
                   type="button"
                 >

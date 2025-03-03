@@ -757,7 +757,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
         </div>
         <button
           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-3"
-          id=":r4:"
           tabindex="0"
           type="button"
         >
@@ -810,7 +809,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
         </div>
         <button
           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-3"
-          id=":r6:"
           tabindex="0"
           type="button"
         >
@@ -868,7 +866,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
             <button
               aria-label="Clear"
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-clearIndicator emotion-16"
-              id=":r9:"
               tabindex="-1"
               title="Clear"
               type="button"

@@ -309,7 +309,6 @@ exports[`Uploads Component > renders correctly 1`] = `
           aria-label="Abort"
           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-7"
           data-mui-internal-clone-element="true"
-          id=":r1:"
           tabindex="0"
           type="button"
         >

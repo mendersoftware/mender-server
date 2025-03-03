@@ -1013,7 +1013,6 @@ exports[`Artifact Component > renders correctly 1`] = `
           </span>
           <button
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge expandButton emotion-4"
-            id=":r2:"
             tabindex="0"
             type="button"
           >
@@ -1101,7 +1100,6 @@ exports[`Artifact Component > renders correctly 1`] = `
                           </div>
                           <button
                             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary emotion-21"
-                            id=":r3:"
                             style="padding: 5px;"
                             tabindex="0"
                             type="button"
@@ -1376,7 +1374,6 @@ exports[`Artifact Component > renders correctly 1`] = `
                     class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-60"
                     disabled=""
                     download=""
-                    id=":r4:"
                     tabindex="-1"
                     target="_blank"
                     type="button"
@@ -1401,7 +1398,6 @@ exports[`Artifact Component > renders correctly 1`] = `
                   </button>
                   <button
                     class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-60"
-                    id=":r5:"
                     tabindex="0"
                     type="button"
                   >

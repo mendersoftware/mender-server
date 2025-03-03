@@ -770,7 +770,6 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
             </div>
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary emotion-11"
-              id=":r0:"
               style="padding: 5px;"
               tabindex="0"
               type="button"
@@ -1045,7 +1044,6 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
       class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-50"
       disabled=""
       download="test.mender"
-      id=":r1:"
       tabindex="-1"
       target="_blank"
       type="button"
@@ -1070,7 +1068,6 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
     </button>
     <button
       class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-50"
-      id=":r2:"
       tabindex="0"
       type="button"
     >
@@ -1874,7 +1871,6 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
             </div>
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary emotion-11"
-              id=":r3:"
               style="padding: 5px;"
               tabindex="0"
               type="button"
@@ -2094,7 +2090,6 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
       class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-42"
       disabled=""
       download="test.mender"
-      id=":r4:"
       tabindex="-1"
       target="_blank"
       type="button"
@@ -2119,7 +2114,6 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
     </button>
     <button
       class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-42"
-      id=":r5:"
       tabindex="0"
       type="button"
     >

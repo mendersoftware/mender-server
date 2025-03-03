@@ -45,7 +45,6 @@ exports[`DeploymentReport Component > renders correctly 1`] = `
           </h3>
           <button
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
-            id=":r0:"
             tabindex="0"
             type="button"
           >
@@ -71,7 +70,6 @@ Devices that have already completed the deployment are not affected by the abort
 Devices that are in the middle of the deployment at the time of abort will finish deployment normally, but will perform a rollback."
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary css-8o615b-MuiButtonBase-root-MuiButton-root"
             data-mui-internal-clone-element="true"
-            id=":r2:"
             tabindex="0"
             type="button"
           >
@@ -96,7 +94,6 @@ Devices that are in the middle of the deployment at the time of abort will finis
           <button
             aria-label="close"
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
-            id=":r3:"
             tabindex="0"
             type="button"
           >
@@ -653,7 +650,6 @@ Devices that are in the middle of the deployment at the time of abort will finis
                   <button
                     class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
                     disabled=""
-                    id=":r9:"
                     tabindex="-1"
                     type="button"
                   >
@@ -673,7 +669,6 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     <button
                       class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
                       disabled=""
-                      id=":ra:"
                       tabindex="-1"
                       type="button"
                     >
@@ -971,7 +966,6 @@ exports[`DeploymentReport Component > renders correctly for phased inprogress 1`
           </h3>
           <button
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
-            id=":rb:"
             tabindex="0"
             type="button"
           >
@@ -997,7 +991,6 @@ Devices that have already completed the deployment are not affected by the abort
 Devices that are in the middle of the deployment at the time of abort will finish deployment normally, but will perform a rollback."
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary css-8o615b-MuiButtonBase-root-MuiButton-root"
             data-mui-internal-clone-element="true"
-            id=":rd:"
             tabindex="0"
             type="button"
           >
@@ -1022,7 +1015,6 @@ Devices that are in the middle of the deployment at the time of abort will finis
           <button
             aria-label="close"
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
-            id=":re:"
             tabindex="0"
             type="button"
           >
@@ -1588,7 +1580,6 @@ Devices that are in the middle of the deployment at the time of abort will finis
                   <button
                     class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
                     disabled=""
-                    id=":rk:"
                     tabindex="-1"
                     type="button"
                   >
@@ -1607,7 +1598,6 @@ Devices that are in the middle of the deployment at the time of abort will finis
                   <div>
                     <button
                       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
-                      id=":rl:"
                       tabindex="0"
                       type="button"
                     >

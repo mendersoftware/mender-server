@@ -554,7 +554,6 @@ exports[`ExpandedTenant > renders correctly 1`] = `
           </h3>
           <button
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-3"
-            id=":r0:"
             tabindex="0"
             type="button"
           >
@@ -576,7 +575,6 @@ exports[`ExpandedTenant > renders correctly 1`] = `
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-5"
-            id=":r1:"
             tabindex="0"
             type="button"
           >
@@ -585,7 +583,6 @@ exports[`ExpandedTenant > renders correctly 1`] = `
           <button
             aria-label="close"
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-3"
-            id=":r2:"
             tabindex="0"
             type="button"
           >
@@ -753,7 +750,6 @@ exports[`ExpandedTenant > renders correctly 1`] = `
           >
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-5"
-              id=":r5:"
               tabindex="0"
               type="button"
             >
