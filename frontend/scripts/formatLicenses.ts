@@ -29,12 +29,8 @@ const adjustRepoLocation = (repository: string) => {
   return accessibleRepo;
 };
 
-const formatLicenseEntry = (licenseTexts: Record<string, string>) => (licenseRecord: License) => {
-  const { name, version, repository, license } = licenseRecord;
-  let licenseText = licenseRecord.licenseText;
-  if (!licenseText) {
-    licenseText = licenseTexts[license] ?? licenseText;
-  }
+const formatLicenseEntry = (licenseRecord: License) => {
+  const { name, version, repository, license, licenseText } = licenseRecord;
   const accessibleRepo = adjustRepoLocation(repository);
 
   return `## ${name}\n
@@ -49,10 +45,7 @@ const processLicenseFile = async () => {
   const { default: licenses } = await import(join(root, 'frontend', 'licenses.json'), {
     with: { type: 'json' }
   });
-  // workaround until https://github.com/codepunkt/webpack-license-plugin/pull/1149 is released
-  const licenseRequest = await fetch('https://raw.githubusercontent.com/spdx/license-list-data/main/text/MIT.txt');
-  const MIT = await licenseRequest.text();
-  const licenseEntries = licenses.map(formatLicenseEntry({ MIT })).join('\n');
+  const licenseEntries = licenses.map(formatLicenseEntry).join('\n');
   await Deno.writeTextFile(join(root, 'frontend', 'licenses.md'), `# Licenses\n\n\n${licenseEntries}`);
 };
 
