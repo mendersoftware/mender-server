@@ -23,7 +23,6 @@ import TerminalSession from './TerminalSession';
 describe('TerminalSession Component', () => {
   let socketSpyFactory;
   let socketSpy;
-  const oldMatchMedia = window.matchMedia;
 
   beforeEach(() => {
     socketSpyFactory = vi.spyOn(window, 'WebSocket');
@@ -34,27 +33,12 @@ describe('TerminalSession Component', () => {
       };
       return socketSpy;
     });
-    Object.defineProperty(window, 'matchMedia', {
-      writable: true,
-      value: vi.fn().mockImplementation(query => ({
-        matches: false,
-        media: query,
-        onchange: null,
-        addListener: vi.fn(), // Deprecated
-        removeListener: vi.fn(), // Deprecated
-        addEventListener: vi.fn(),
-        removeEventListener: vi.fn(),
-        dispatchEvent: vi.fn()
-      }))
-    });
   });
 
   afterEach(() => {
     socketSpyFactory.mockReset();
-    window.matchMedia = oldMatchMedia;
   });
-  //TODO: fix the xterm issue
-  it.skip('renders correctly', async () => {
+  it('renders correctly', async () => {
     const DeviceActions = await import('@northern.tech/store/devicesSlice/thunks');
 
     const sessionSpy = vi.spyOn(DeviceActions, 'getSessionDetails');
@@ -81,7 +65,10 @@ describe('TerminalSession Component', () => {
     });
     expect(sessionSpy).toHaveBeenCalled();
     await waitFor(() => expect(screen.queryByText(/Device type/i)).toBeVisible());
-
+    await act(async () => {
+      vi.runAllTimers();
+      vi.runAllTicks();
+    });
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
