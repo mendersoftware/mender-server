@@ -607,6 +607,7 @@ export const defaultState = {
         }
       }
     },
+    rolesInitialized: true,
     settingsInitialized: true,
     userSettings: { columnSelection: [], onboarding: { something: 'here' }, tooltips: {} }
   }

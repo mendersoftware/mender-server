@@ -61,3 +61,4 @@ export const getOfflineThresholdSettings = createSelector([getGlobalSettings], (
 export const getRolesList = createSelector([getRolesById], rolesById => Object.entries(rolesById).map(([value, role]) => ({ value, ...role })));
 
 export const getCurrentSession = state => state.users.currentSession;
+export const getRolesInitialized = state => state.users.rolesInitialized;
