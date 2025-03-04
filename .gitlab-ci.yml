@@ -163,7 +163,7 @@ test:backend:static:
     - hetzner-amd-beefy
   rules:
     - changes:
-        paths: ["backend/**/*.go"]
+        paths: ["backend/**/*.go", "backend/go.mod"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
   image: "golangci/golangci-lint:${IMAGE_GOLANGCI_VERSION}"
   script:
