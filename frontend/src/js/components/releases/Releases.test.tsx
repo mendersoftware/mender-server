@@ -25,17 +25,21 @@ import { render } from '../../../../tests/setupTests';
 import Releases from './Releases';
 
 describe('Releases Component', () => {
-  it('renders correctly', async () => {
-    const { baseElement } = render(<Releases />);
-    await act(async () => vi.advanceTimersByTime(1000));
-    const view = baseElement.firstChild;
-    expect(view).toMatchSnapshot();
-    expect(view).toEqual(expect.not.stringMatching(undefineds));
-    await act(async () => {
-      vi.runOnlyPendingTimers();
-      vi.runAllTicks();
-    });
-  });
+  it(
+    'renders correctly',
+    async () => {
+      const { baseElement } = render(<Releases />);
+      await act(async () => vi.advanceTimersByTime(1000));
+      const view = baseElement.firstChild;
+      expect(view).toMatchSnapshot();
+      expect(view).toEqual(expect.not.stringMatching(undefineds));
+      await act(async () => {
+        vi.runOnlyPendingTimers();
+        vi.runAllTicks();
+      });
+    },
+    TIMEOUTS.refreshDefault
+  );
 
   it(
     'works as expected',

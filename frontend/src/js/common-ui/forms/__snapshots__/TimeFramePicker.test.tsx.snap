@@ -231,126 +231,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
 }
 
 .emotion-4 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  max-height: 2em;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  white-space: nowrap;
-  color: rgba(0, 0, 0, 0.54);
-  margin-left: 8px;
-}
-
-.emotion-5 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  position: relative;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-  background-color: transparent;
-  outline: 0;
-  border: 0;
-  margin: 0;
-  border-radius: 0;
-  padding: 0;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  vertical-align: middle;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  color: inherit;
-  text-align: center;
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-  font-size: 1.3929rem;
-  padding: 8px;
-  border-radius: 50%;
-  color: rgba(0, 0, 0, 0.54);
-  -webkit-transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  --IconButton-hoverBg: rgba(0, 0, 0, 0.04);
-  margin-right: -12px;
-  font-size: 1.2rem;
-  color: rgba(0, 0, 0, 0.54);
-}
-
-.emotion-5::-moz-focus-inner {
-  border-style: none;
-}
-
-.emotion-5.Mui-disabled {
-  pointer-events: none;
-  cursor: default;
-}
-
-@media print {
-  .emotion-5 {
-    -webkit-print-color-adjust: exact;
-    color-adjust: exact;
-  }
-}
-
-.emotion-5:hover {
-  background-color: var(--IconButton-hoverBg);
-}
-
-@media (hover: none) {
-  .emotion-5:hover {
-    background-color: transparent;
-  }
-}
-
-.emotion-5.Mui-disabled {
-  background-color: transparent;
-  color: rgba(0, 0, 0, 0.26);
-}
-
-.emotion-5.MuiIconButton-loading {
-  color: transparent;
-}
-
-.emotion-6 {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  fill: currentColor;
-  font-size: 1.3929rem;
-}
-
-.emotion-6 iconButton {
-  margin-right: 8px;
-}
-
-.emotion-7 {
   text-align: left;
   position: absolute;
   bottom: 0;
@@ -368,7 +248,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
   border-color: rgba(0, 0, 0, 0.23);
 }
 
-.emotion-8 {
+.emotion-5 {
   float: unset;
   width: auto;
   overflow: hidden;
@@ -383,7 +263,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
   white-space: nowrap;
 }
 
-.emotion-8>span {
+.emotion-5>span {
   padding-left: 5px;
   padding-right: 5px;
   display: inline-block;
@@ -391,7 +271,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
   visibility: visible;
 }
 
-.emotion-10 {
+.emotion-7 {
   color: rgba(0, 0, 0, 0.54);
   line-height: 1.4375em;
   font-family: Lato,sans-serif;
@@ -440,23 +320,23 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
   transform: translate(14px, -9px) scale(0.75);
 }
 
-.emotion-10.Mui-focused {
+.emotion-7.Mui-focused {
   color: #337a87;
 }
 
-.emotion-10.Mui-disabled {
+.emotion-7.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-10.Mui-error {
+.emotion-7.Mui-error {
   color: #ab1000;
 }
 
-.emotion-10.Mui-focused {
+.emotion-7.Mui-focused {
   color: #337a87;
 }
 
-.emotion-17 {
+.emotion-11 {
   float: unset;
   width: auto;
   overflow: hidden;
@@ -474,7 +354,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
   transition: max-width 100ms cubic-bezier(0.0, 0, 0.2, 1) 50ms;
 }
 
-.emotion-17>span {
+.emotion-11>span {
   padding-left: 5px;
   padding-right: 5px;
   display: inline-block;
@@ -493,53 +373,32 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
       <label
         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-1"
         data-shrink="false"
-        for=":r0:"
-        id=":r0:-label"
+        for=":r1:"
+        id=":r1:-label"
       >
         From
       </label>
       <div
-        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-2"
+        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd Mui-readOnly MuiInputBase-readOnly emotion-2"
       >
         <input
           aria-invalid="false"
           aria-label="From"
           autocomplete="off"
-          class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd emotion-3"
-          id=":r0:"
+          class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd Mui-readOnly MuiInputBase-readOnly emotion-3"
+          id=":r1:"
           inputmode="text"
           placeholder="YYYY-MM-DD"
+          readonly=""
           type="text"
           value=""
         />
-        <div
-          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-4"
-        >
-          <button
-            aria-label="Choose date"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-5"
-            tabindex="0"
-            type="button"
-          >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-6"
-              data-testid="CalendarIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-              />
-            </svg>
-          </button>
-        </div>
         <fieldset
           aria-hidden="true"
-          class="MuiOutlinedInput-notchedOutline emotion-7"
+          class="MuiOutlinedInput-notchedOutline emotion-4"
         >
           <legend
-            class="emotion-8"
+            class="emotion-5"
           >
             <span>
               From
@@ -552,55 +411,34 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
       class="MuiFormControl-root MuiTextField-root emotion-0"
     >
       <label
-        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-10"
+        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-7"
         data-shrink="true"
-        for=":r3:"
-        id=":r3:-label"
+        for=":r4:"
+        id=":r4:-label"
       >
         To
       </label>
       <div
-        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-2"
+        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd Mui-readOnly MuiInputBase-readOnly emotion-2"
       >
         <input
           aria-invalid="false"
           aria-label="To"
           autocomplete="off"
-          class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd emotion-3"
-          id=":r3:"
+          class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd Mui-readOnly MuiInputBase-readOnly emotion-3"
+          id=":r4:"
           inputmode="text"
           placeholder="YYYY-MM-DD"
+          readonly=""
           type="text"
           value="2019-01-13"
         />
-        <div
-          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-4"
-        >
-          <button
-            aria-label="Choose date, selected date is Jan 13, 2019"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-5"
-            tabindex="0"
-            type="button"
-          >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-6"
-              data-testid="CalendarIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-              />
-            </svg>
-          </button>
-        </div>
         <fieldset
           aria-hidden="true"
-          class="MuiOutlinedInput-notchedOutline emotion-7"
+          class="MuiOutlinedInput-notchedOutline emotion-4"
         >
           <legend
-            class="emotion-17"
+            class="emotion-11"
           >
             <span>
               To

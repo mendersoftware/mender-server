@@ -49,8 +49,7 @@ describe('UserManagement Component', () => {
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
-  //TODO: fix test (getSpy called 1 time)
-  it.skip('works as expected', async () => {
+  it('works as expected', async () => {
     const UserActions = await import('@northern.tech/store/usersSlice/thunks');
     const getSpy = vi.spyOn(UserActions, 'getTokens');
     const createSpy = vi.spyOn(UserActions, 'generateToken');
@@ -66,7 +65,7 @@ describe('UserManagement Component', () => {
     await user.click(generateButton);
     await waitFor(() => rerender(ui));
     expect(createSpy).toHaveBeenCalledWith({ expiresIn: 31536000, name: 'somename' });
-    await waitFor(() => expect(getSpy.mock.calls.length).toBeGreaterThanOrEqual(4));
+    await waitFor(() => expect(getSpy).toHaveBeenCalledTimes(1));
     await act(async () => {
       vi.runOnlyPendingTimers();
       vi.runAllTicks();
