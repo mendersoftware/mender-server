@@ -53,7 +53,6 @@ const preloadedState = {
 
 describe('DeviceConnection Component', () => {
   let socketSpyFactory;
-  const oldMatchMedia = window.matchMedia;
 
   beforeEach(() => {
     socketSpyFactory = vi.spyOn(window, 'WebSocket');
@@ -63,34 +62,19 @@ describe('DeviceConnection Component', () => {
       close: () => {},
       send: () => {}
     }));
-    Object.defineProperty(window, 'matchMedia', {
-      writable: true,
-      value: vi.fn().mockImplementation(query => ({
-        matches: false,
-        media: query,
-        onchange: null,
-        addListener: vi.fn(), // Deprecated
-        removeListener: vi.fn(), // Deprecated
-        addEventListener: vi.fn(),
-        removeEventListener: vi.fn(),
-        dispatchEvent: vi.fn()
-      }))
-    });
   });
 
   afterEach(() => {
     socketSpyFactory.mockReset();
-    window.matchMedia = oldMatchMedia;
   });
 
-  //TODO: fix issue with XTERM and unskip 3 tests
-  it.skip('renders correctly', async () => {
+  it('renders correctly', async () => {
     const { baseElement } = render(<DeviceConnection device={defaultState.devices.byId.a1} />, { preloadedState });
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
-  it.skip('renders correctly when disconnected', async () => {
+  it('renders correctly when disconnected', async () => {
     const { baseElement } = render(<DeviceConnection device={{ ...defaultState.devices.byId.a1, connect_status: DEVICE_CONNECT_STATES.disconnected }} />, {
       preloadedState
     });
@@ -98,7 +82,7 @@ describe('DeviceConnection Component', () => {
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
-  it.skip('renders correctly when connected', async () => {
+  it('renders correctly when connected', async () => {
     const { baseElement } = render(<DeviceConnection device={{ ...defaultState.devices.byId.a1, connect_status: DEVICE_CONNECT_STATES.connected }} />, {
       preloadedState
     });
