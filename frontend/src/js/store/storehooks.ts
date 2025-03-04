@@ -100,7 +100,7 @@ export const parseEnvironmentInfo = () => (dispatch, getState) => {
       isHosted: stringToBoolean(features.isHosted) || window.location.hostname.includes('hosted.mender.io'),
       isDemoMode: stringToBoolean(isDemoMode || features.isDemoMode)
     };
-    onboardingComplete = !stringToBoolean(features.isHosted) || stringToBoolean(disableOnboarding) || onboardingComplete;
+    onboardingComplete = !stringToBoolean(environmentFeatures.isHosted) || stringToBoolean(disableOnboarding) || onboardingComplete;
     versionInfo = {
       docs: isNaN(integrationVersion.charAt(0)) ? '' : integrationVersion.split('.').slice(0, 2).join('.'),
       remainder: {
