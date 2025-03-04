@@ -202,7 +202,7 @@ test:backend:unit:
       artifacts: false
   rules:
     - changes:
-        paths: ["backend/**/*.go"]
+        paths: ["backend/**/*.go", "backend/go.mod"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
       when: on_success
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
