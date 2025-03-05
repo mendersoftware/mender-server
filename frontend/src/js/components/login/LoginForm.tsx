@@ -11,83 +11,153 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect, useRef, useState } from 'react';
-import { Form, Link } from 'react-router-dom';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 
-import { Checkbox, Collapse, FormControlLabel, Theme } from '@mui/material';
+import { Edit as EditIcon } from '@mui/icons-material';
+import { Alert, Button, Collapse, IconButton, InputAdornment, Theme } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import FormCheckbox from '@northern.tech/common-ui/forms/FormCheckbox';
 import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
+import { TIMEOUTS } from '@northern.tech/store/commonConstants';
+import { useDebounce } from '@northern.tech/utils/debouncehook';
+import { toggle } from '@northern.tech/utils/helpers';
 
 const useStyles = makeStyles()((theme: Theme) => ({
-  form: { maxWidth: 400 },
-  link: { marginTop: theme.spacing(0.5) },
-  tfaTip: { position: 'absolute', right: -120 },
+  alert: {
+    backgroundColor: theme.palette.error.light,
+    color: theme.palette.error.dark,
+    fontWeight: theme.typography.fontWeightMedium,
+    marginBottom: theme.spacing()
+  },
+  gapRemover: { marginTop: theme.spacing(-1.5) },
+  formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(1.5), position: 'relative', '.required:after': { content: 'none' } },
+  passwordWrapper: { '.password-wrapper': { gridTemplateColumns: '1fr' } },
   tfaNote: { maxWidth: 300 }
 }));
 
+interface LoginFormState {
+  email: string;
+  noExpiry: boolean;
+  password: string;
+  token2fa: string;
+}
+
 export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
-  const [noExpiry, setNoExpiry] = useState<boolean>(false);
-  const [showPassword, setShowPassword] = useState<boolean>(!(isEnterprise || isHosted));
+  const isOsInstallation = !(isEnterprise || isHosted);
+  const [emailEditingDisabled, setEmailEditingDisabled] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(isOsInstallation);
   const [has2FA, setHas2FA] = useState<boolean>(false);
+  const [hasError, setHasError] = useState<boolean>(false);
   const twoFARef = useRef<HTMLInputElement | undefined>(undefined);
+  // can't use the existing Form component due to the validation mode that's targeted
+  const methods = useForm<LoginFormState>({ mode: 'onBlur', defaultValues: { email: '', password: '', noExpiry: false, token2fa: '' } });
+  const { formState, handleSubmit, watch, trigger, setFocus } = methods;
+  const email = watch('email');
+  const debouncedEmail = useDebounce(email, TIMEOUTS.oneSecond) as string;
 
   const { classes } = useStyles();
 
   useEffect(() => {
-    if (isEnterprise || isHosted) {
-      setShowPassword(false);
-    }
-  }, [isEnterprise, isHosted]);
+    setShowPassword(isOsInstallation);
+  }, [isOsInstallation]);
 
-  const onLoginClick = ({ noExpiry, ...loginData }) =>
-    onSubmit({ ...loginData, stayLoggedIn: noExpiry }).catch(err => {
+  useEffect(() => {
+    if (isOsInstallation) {
+      return;
+    }
+    setEmailEditingDisabled(showPassword);
+  }, [isOsInstallation, showPassword]);
+
+  useEffect(() => {
+    if (!debouncedEmail) {
+      return;
+    }
+    trigger('email');
+  }, [debouncedEmail, trigger]);
+
+  const maybeShowPassword = useCallback(async () => {
+    const isValidEmail = await trigger('email');
+    setShowPassword(isValidEmail);
+  }, [trigger]);
+
+  const onSubmitClick = (formData: LoginFormState) =>
+    onSubmit(formData).catch(err => {
       // don't reset the state once it was set - thus not setting `has2FA` solely based on the existence of 2fa in the error
       if (err?.error?.includes('2fa')) {
-        setHas2FA(true);
+        setShowPassword(true);
+        return setHas2FA(true);
+      } else if (!showPassword) {
+        return maybeShowPassword();
       }
+      setHasError(true);
     });
 
-  const onNoExpiryClick = ({ target: { checked } }) => setNoExpiry(checked);
+  const onShowPassword = () => setFocus('password');
+
+  const onShow2fa = () => {
+    setFocus('token2fa');
+    setTimeout(() => window.dispatchEvent(new Event('resize')), TIMEOUTS.oneSecond); // since there is no state change associated here, the timeout can be skipped from clearing on unmount
+  };
 
   return (
-    <Form className={classes.form} showButtons={true} buttonColor="primary" onSubmit={onLoginClick} submitLabel="Log in">
-      <TextInput hint="Your email" label="Your email" id="email" required={true} validations="isLength:1,isEmail,trim" />
-      <Collapse in={showPassword}>
-        <PasswordInput className="margin-top-small" id="password" label="Password" required={showPassword} />
-      </Collapse>
-      {isHosted ? (
-        <div className="flexbox">
-          <Link className={classes.link} to="/password">
-            Forgot your password?
-          </Link>
-        </div>
-      ) : (
-        <div />
-      )}
-      <Collapse in={has2FA}>
+    <FormProvider {...methods}>
+      <form autoComplete="off" className={classes.formWrapper} noValidate onSubmit={handleSubmit(onSubmitClick)}>
+        {hasError && (
+          <Alert className={classes.alert} severity="error">
+            Incorrect email address and / or password.
+          </Alert>
+        )}
         <TextInput
-          hint="Two Factor Authentication Code"
-          label="Two Factor Authentication Code"
-          id="token2fa"
-          validations="isLength:6,isNumeric"
-          required={has2FA}
-          controlRef={twoFARef}
+          disabled={emailEditingDisabled}
+          hint="Your email"
+          label="Your email"
+          id="email"
+          required
+          validations="isLength:1,isEmail,trim"
+          InputProps={{
+            endAdornment: emailEditingDisabled ? (
+              <InputAdornment position="end">
+                <IconButton onClick={() => setEmailEditingDisabled(toggle)} size="large">
+                  <EditIcon />
+                </IconButton>
+              </InputAdornment>
+            ) : undefined
+          }}
         />
-      </Collapse>
-      <FormControlLabel control={<Checkbox color="primary" checked={noExpiry} onChange={onNoExpiryClick} />} label="Stay logged in" />
-      {has2FA && twoFARef.current && (
-        <MenderHelpTooltip
-          id={HELPTOOLTIPS.twoFactorNote.id}
-          disableHoverListener={false}
-          placement="right"
-          className={classes.tfaTip}
-          style={{ top: twoFARef.current.parentElement.parentElement.offsetTop + twoFARef.current.parentElement.parentElement.offsetHeight / 2 }}
-          contentProps={{ className: classes.tfaNote }}
-        />
-      )}
-    </Form>
+        <Collapse className={showPassword ? '' : classes.gapRemover} in={showPassword} onEntering={onShowPassword}>
+          <PasswordInput className={classes.passwordWrapper} id="password" label="Password" required={isOsInstallation} />
+        </Collapse>
+        {isHosted && <Link to="/password">Forgot your password?</Link>}
+        <Collapse className={has2FA ? '' : classes.gapRemover} in={has2FA} onEntering={onShow2fa}>
+          <TextInput
+            controlRef={twoFARef}
+            hint="Two Factor Authentication Code"
+            id="token2fa"
+            label="Two Factor Authentication Code"
+            required={has2FA}
+            validations="isLength:6,isNumeric"
+          />
+        </Collapse>
+        <FormCheckbox className="margin-top-none" id="noExpiry" label="Stay logged in" />
+        <Button className="full-width" variant="contained" type="submit" disabled={!formState.isValid}>
+          Log in
+        </Button>
+        {has2FA && twoFARef.current && (
+          <MenderHelpTooltip
+            id={HELPTOOLTIPS.twoFactorNote.id}
+            disableHoverListener={false}
+            placement="right"
+            className="absolute"
+            style={{ top: twoFARef.current.parentElement.parentElement.offsetTop + twoFARef.current.parentElement.parentElement.offsetHeight / 4, right: -35 }}
+            contentProps={{ className: classes.tfaNote }}
+          />
+        )}
+      </form>
+    </FormProvider>
   );
 };
