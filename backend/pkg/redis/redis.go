@@ -26,6 +26,8 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
+type Client = redis.Cmdable
+
 // nolint:lll
 // NewClient creates a new redis client (Cmdable) from the parameters in the
 // connectionString URL format:
