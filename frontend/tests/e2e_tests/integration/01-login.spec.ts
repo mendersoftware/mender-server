@@ -61,7 +61,7 @@ test.describe('Login', () => {
 
       // still on /login page plus an error is displayed
       await expect(page.getByRole('button', { name: /log in/i })).toBeVisible();
-      await page.getByText('There was a problem logging in').waitFor();
+      await expect(page.getByText('Incorrect email address and / or password')).toBeVisible();
     });
 
     test('Does not log in without password', async ({ baseUrl, environment, page, username }) => {
@@ -72,6 +72,7 @@ test.describe('Login', () => {
       await page.waitForSelector(selectors.email);
       await page.click(selectors.email);
       await page.fill(selectors.email, username);
+      await page.waitForTimeout(timeouts.default);
       await expect(page.getByRole('button', { name: /Log in/i })).toBeDisabled();
     });
   });

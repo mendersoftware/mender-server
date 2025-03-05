@@ -22,12 +22,14 @@ type DemoArtifactVersionInfo = {
   updateVersion: string;
 };
 
+export type TestEnvironment = 'enterprise' | 'staging' | 'localhost';
+
 type TestFixtures = {
   baseUrl: string;
   config: unknown;
   demoArtifactVersion: DemoArtifactVersionInfo;
   demoDeviceName: string;
-  environment: string;
+  environment: TestEnvironment;
   loggedInPage: Page;
   loggedInTenantPage: Page;
   password: string;

@@ -25,7 +25,8 @@ import { PNG } from 'pngjs';
 import { fileURLToPath } from 'url';
 import { v4 as uuid } from 'uuid';
 
-import { selectors, storagePath } from './constants.ts';
+import { TestEnvironment } from '../fixtures/fixtures.ts';
+import { selectors, storagePath, timeouts } from './constants.ts';
 import { startServer } from './webhookListener.ts';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -247,12 +248,25 @@ export const isLoggedIn = async (page: Page, timeout: number = 0) => {
 
 export const isEnterpriseOrStaging = environment => ['enterprise', 'staging'].includes(environment);
 
-export const processLoginForm = async ({ username, password, environment, page, stayLoggedIn = false }) => {
+export const processLoginForm = async ({
+  username,
+  password,
+  environment,
+  page,
+  stayLoggedIn = false
+}: {
+  environment: TestEnvironment;
+  page: Page;
+  password: string;
+  stayLoggedIn?: boolean;
+  username: string;
+}) => {
   await page.click(selectors.email);
   await page.fill(selectors.email, username);
 
   if (isEnterpriseOrStaging(environment)) {
     // enterprise supports two-step login, and the first screen does not have password field until submit clicked
+    await page.waitForTimeout(timeouts.oneSecond);
     await page.getByRole('button', { name: /log in/i }).click();
   }
 
