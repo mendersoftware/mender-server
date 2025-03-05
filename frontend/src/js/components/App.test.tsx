@@ -71,7 +71,7 @@ describe('App Component', () => {
       await waitFor(() => expect(screen.queryByText(/see all deployments/i)).toBeInTheDocument(), { timeout: TIMEOUTS.threeSeconds });
       await waitFor(() => expect(reportsSpy).toHaveBeenCalled(), { timeout: TIMEOUTS.threeSeconds });
       await waitFor(() => rerender(ui));
-      const view = asFragment();
+      const view = asFragment().querySelector('#app');
       await waitFor(() => expect(document.querySelector('.loaderContainer')).not.toBeInTheDocument());
       await act(async () => {
         vi.runOnlyPendingTimers();
