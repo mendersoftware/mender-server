@@ -285,18 +285,6 @@ func (h ManagementController) Playback(c *gin.Context) {
 	}
 }
 
-func websocketPing(conn *websocket.Conn) bool {
-	pongWaitString := strconv.Itoa(int(pongWait.Seconds()))
-	if err := conn.WriteControl(
-		websocket.PingMessage,
-		[]byte(pongWaitString),
-		time.Now().Add(writeWait),
-	); err != nil {
-		return false
-	}
-	return true
-}
-
 func writerFinalizer(conn *websocket.Conn, e *error, l *log.Logger) {
 	err := *e
 	if err != nil {
@@ -340,22 +328,12 @@ func (h ManagementController) websocketWriter(
 	defer writerFinalizer(conn, &err, l)
 
 	// handle the ping-pong connection health check
-	err = conn.SetReadDeadline(time.Now().Add(pongWait))
 	if err != nil {
 		l.Error(err)
 		return err
 	}
 
-	pingPeriod := (pongWait * 9) / 10
-	ticker := time.NewTicker(pingPeriod)
-	defer ticker.Stop()
-	conn.SetPongHandler(func(string) error {
-		ticker.Reset(pingPeriod)
-		return conn.SetReadDeadline(time.Now().Add(pongWait))
-	})
 	conn.SetPingHandler(func(msg string) error {
-		ticker.Reset(pingPeriod)
-		err := conn.SetReadDeadline(time.Now().Add(pongWait))
 		if err != nil {
 			return err
 		}
@@ -436,11 +414,6 @@ Loop:
 			}
 		case <-ctx.Done():
 			break Loop
-		case <-ticker.C:
-			if !websocketPing(conn) {
-				err = errors.New("connection timeout")
-				break Loop
-			}
 		case err := <-errChan:
 			return err
 		}
