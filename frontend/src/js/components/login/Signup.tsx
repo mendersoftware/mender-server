@@ -67,6 +67,10 @@ const useStyles = makeStyles()(theme => ({
   },
   logo: { marginLeft: '5vw', marginTop: 45, maxHeight: 50 }
 }));
+const getCurrentLocation = (location: Location): string => {
+  const currentLocation = Object.values(locations).find(value => [`staging.${value.location}`, value.location].includes(location.hostname));
+  return currentLocation ? currentLocation.key : locations.us.key;
+};
 
 export const Signup = () => {
   const [step, setStep] = useState(1);
@@ -81,7 +85,7 @@ export const Signup = () => {
   const [redirectOnLogin, setRedirectOnLogin] = useState(false);
   const [captchaTimestamp, setCaptchaTimestamp] = useState(0);
   const [recaptcha, setRecaptcha] = useState('');
-  const [location, setLocation] = useState(locations.us.key); // we default to US signups to keep the US instance as the main entry point for new users
+  const [location, setLocation] = useState<string>(getCurrentLocation(window.location));
   const { campaign = '' } = useParams();
   const currentUserId = useSelector(state => state.users.currentUserId);
   const recaptchaSiteKey = useSelector(getRecaptchaKey);
