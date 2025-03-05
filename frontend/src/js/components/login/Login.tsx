@@ -11,19 +11,15 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { ChevronRight } from '@mui/icons-material';
-import { Button, Checkbox, Collapse, FormControlLabel } from '@mui/material';
+import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import LinedHeader from '@northern.tech/common-ui/LinedHeader';
-import Form from '@northern.tech/common-ui/forms/Form';
-import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
-import TextInput from '@northern.tech/common-ui/forms/TextInput';
-import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
 import storeActions from '@northern.tech/store/actions';
 import { getToken } from '@northern.tech/store/auth';
 import { TIMEOUTS, locations, useradmApiUrl } from '@northern.tech/store/constants';
@@ -34,6 +30,7 @@ import Cookies from 'universal-cookie';
 
 import LoginLogo from '../../../assets/img/loginlogo.svg';
 import VeryMuch from '../../../assets/img/verymuch.svg';
+import { LoginForm } from './LoginForm';
 import { OAuth2Providers } from './OAuth2Providers';
 
 const { setSnackbar } = storeActions;
@@ -53,7 +50,6 @@ const useStyles = makeStyles()(theme => {
       color: theme.palette.background.paper,
       a: { color: theme.palette.text.entryLink }
     },
-    form: { maxWidth: 400 },
     reset: {
       transform: `skew(0, ${skew}deg)`,
       'svg': { maxWidth: 200 },
@@ -61,9 +57,9 @@ const useStyles = makeStyles()(theme => {
       '#login-box': {
         background: theme.palette.background.paper,
         minWidth: 'calc(100% + 20px)',
-        maxWidth: 'initial',
+        maxWidth: 480,
         paddingBottom: 25,
-        paddingRight: 60,
+        paddingRight: 50,
         paddingLeft: 50,
         borderRadius: 10
       }
@@ -78,10 +74,7 @@ const useStyles = makeStyles()(theme => {
       transform: `skew(0, -${skew}deg)`,
       zIndex: 1
     },
-    link: { marginTop: theme.spacing(0.5) },
-    ntBranding: { bottom: `calc(${theme.mixins.toolbar.minHeight}px + 3vh)`, right: 0, zIndex: 0 },
-    tfaNote: { maxWidth: 300 },
-    tfaTip: { position: 'absolute', right: -120 }
+    ntBranding: { bottom: `calc(${theme.mixins.toolbar.minHeight}px + 3vh)`, right: 0, zIndex: 0 }
   };
 });
 
@@ -136,20 +129,11 @@ export const OAuthHeader = ({ buttonProps, type }) => (
 );
 
 export const Login = () => {
-  const [noExpiry, setNoExpiry] = useState(false);
-  const [has2FA, setHas2FA] = useState(false);
-  const twoFARef = useRef();
   const dispatch = useDispatch();
   const currentUser = useSelector(getCurrentUser);
   const { isHosted } = useSelector(getFeatures);
   const isEnterprise = useSelector(getIsEnterprise);
-  const [showPassword, setShowPassword] = useState(!isEnterprise);
-
-  useEffect(() => {
-    if (isEnterprise || isHosted) {
-      setShowPassword(false);
-    }
-  }, [isEnterprise, isHosted]);
+  const { classes } = useStyles();
 
   useEffect(() => {
     clearAllRetryTimers(message => dispatch(setSnackbar(message)));
@@ -173,21 +157,10 @@ export const Login = () => {
   }, [currentUser, dispatch]);
 
   const onLoginClick = useCallback(
-    loginData => {
+    ({ noExpiry, ...loginData }) =>
       // set no expiry in localstorage to remember checkbox value and avoid any influence of expiration time that might occur with cookies
-      dispatch(loginUser({ ...loginData, stayLoggedIn: noExpiry }))
-        .unwrap()
-        .catch(err => {
-          // don't reset the state once it was set - thus not setting `has2FA` solely based on the existence of 2fa in the error
-          if (err?.error?.includes('2fa')) {
-            setHas2FA(true);
-          }
-          if (!showPassword) {
-            setShowPassword(true);
-          }
-        });
-    },
-    [dispatch, noExpiry, showPassword]
+      dispatch(loginUser({ ...loginData, stayLoggedIn: noExpiry })).unwrap(),
+    [dispatch]
   );
 
   const onOAuthClick = ({ target: { textContent } }) => {
@@ -198,9 +171,6 @@ export const Login = () => {
     window.location.replace(`${useradmApiUrl}/oauth2/${providerId}`);
   };
 
-  const onNoExpiryClick = ({ target: { checked } }) => setNoExpiry(checked);
-
-  const { classes } = useStyles();
   return (
     <>
       {isHosted ? <LocationWarning /> : <div />}
@@ -210,42 +180,7 @@ export const Login = () => {
           <div className="flexbox column" id="login-box">
             <h1 className="flexbox centered">Welcome back!</h1>
             {isHosted && <OAuthHeader type="Log in" buttonProps={{ onClick: onOAuthClick }} />}
-            <Form className={classes.form} showButtons={true} buttonColor="primary" onSubmit={onLoginClick} submitLabel="Log in">
-              <TextInput hint="Your email" label="Your email" id="email" required={true} validations="isLength:1,isEmail,trim" />
-              <Collapse in={showPassword}>
-                <PasswordInput className="margin-top-small" id="password" label="Password" required={showPassword} />
-              </Collapse>
-              {isHosted ? (
-                <div className="flexbox">
-                  <Link className={classes.link} to="/password">
-                    Forgot your password?
-                  </Link>
-                </div>
-              ) : (
-                <div />
-              )}
-              <Collapse in={has2FA}>
-                <TextInput
-                  hint="Two Factor Authentication Code"
-                  label="Two Factor Authentication Code"
-                  id="token2fa"
-                  validations="isLength:6,isNumeric"
-                  required={has2FA}
-                  controlRef={twoFARef}
-                />
-              </Collapse>
-              <FormControlLabel control={<Checkbox color="primary" checked={noExpiry} onChange={onNoExpiryClick} />} label="Stay logged in" />
-            </Form>
-            {has2FA && twoFARef.current && (
-              <MenderHelpTooltip
-                id={HELPTOOLTIPS.twoFactorNote.id}
-                disableHoverListener={false}
-                placement="right"
-                className={classes.tfaTip}
-                style={{ top: twoFARef.current.parentElement.parentElement.offsetTop + twoFARef.current.parentElement.parentElement.offsetHeight / 2 }}
-                contentProps={{ className: classes.tfaNote }}
-              />
-            )}
+            <LoginForm isEnterprise={isEnterprise} isHosted={isHosted} onSubmit={onLoginClick} />
           </div>
           {isHosted ? <EntryLink className={classes.entryLink} target="signup" /> : <div className="padding" />}
         </div>
