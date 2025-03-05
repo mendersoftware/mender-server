@@ -173,6 +173,13 @@ test:backend:static:
 test:backend:validate-open-api:
   stage: test
   needs: []
+  rules:
+    - changes:
+        paths: ["backend/**/docs/*.yml", "backend/docs/api/*.yaml"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
+      when: on_success
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+      when: on_success
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/alpine
   before_script:
     - apk add --no-cache curl
@@ -682,9 +689,9 @@ release:mender-docs-changelog:
     # GITHUB_TOKEN for Github cli authentication
     - export GITHUB_TOKEN=${GITHUB_CLI_TOKEN}
     - if [[ "${CI_PROJECT_NAME}" == "mender-server-enterprise" ]]; then
-        export CHANGELOG_SUFFIX="-enterprise";
+      export CHANGELOG_SUFFIX="-enterprise";
       else
-        export CHANGELOG_SUFFIX="";
+      export CHANGELOG_SUFFIX="";
       fi;
   script:
     - git clone https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_CHANGELOG_REPO_URL}
