@@ -13,7 +13,7 @@ test:frontend:lint:
     - if: $CI_COMMIT_REF_NAME =~ /^(staging|saas-[a-zA-Z0-9.]+)$/
       when: never
     - changes:
-        paths: ['frontend/**/*.m?[jt]sx?']
+        paths: ['frontend/**/*']
         compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
   needs: []
   script:
