@@ -33,7 +33,7 @@ import {
 import { getOnboardingState, getOrganization, getTooltipsState, getUserSettings as getUserSettingsSelector } from '@northern.tech/store/selectors';
 import { commonErrorFallback, commonErrorHandler } from '@northern.tech/store/store';
 import { setOfflineThreshold } from '@northern.tech/store/thunks';
-import { extractErrorMessage, mergePermissions, preformatWithRequestID } from '@northern.tech/store/utils';
+import { extractErrorMessage, mergePermissions } from '@northern.tech/store/utils';
 import { duplicateFilter, isEmpty } from '@northern.tech/utils/helpers';
 import { clearAllRetryTimers } from '@northern.tech/utils/retrytimer';
 import { createAsyncThunk } from '@reduxjs/toolkit';
@@ -65,7 +65,7 @@ const { setAnnouncement, setSnackbar } = storeActions;
 
 const handleLoginError =
   (err, { token2fa: has2FA, password }, rejectWithValue) =>
-  dispatch => {
+  () => {
     const errorText = extractErrorMessage(err);
     const is2FABackend = errorText.includes('2fa');
     if (is2FABackend && !has2FA) {
@@ -81,7 +81,7 @@ const handleLoginError =
     const errorMessage = `There was a problem logging in. Please check your email${
       twoFAError ? ',' : ' and'
     } password${twoFAError}. If you still have problems, contact an administrator.`;
-    return Promise.reject(dispatch(setSnackbar({ message: preformatWithRequestID(err.response, errorMessage), action: 'Copy to clipboard' })));
+    return rejectWithValue({ error: errorMessage });
   };
 
 /*
