@@ -323,7 +323,9 @@ func (a *app) setDeviceStatus(ctx context.Context, deviceID string, status model
 		}
 		event.DeliveryStatus = append(event.DeliveryStatus, deliver)
 	}
-	err = a.store.SaveEvent(ctx, event)
+	if len(integrations) > 0 {
+		err = a.store.SaveEvent(ctx, event)
+	}
 	return err
 }
 
@@ -434,7 +436,9 @@ func (a *app) provisionDevice(
 			WithField("panic", err.Error()).
 			Error("failed to connect device integration")
 	}
-	err = a.store.SaveEvent(ctx, event)
+	if len(integrations) > 0 {
+		err = a.store.SaveEvent(ctx, event)
+	}
 	return err
 }
 
@@ -697,7 +701,9 @@ func (a *app) decommissionDevice(ctx context.Context, deviceID string) error {
 			WithField("panic", err.Error()).
 			Errorf("failed to remove device from database: %s", err.Error())
 	}
-	err = a.store.SaveEvent(ctx, event)
+	if len(integrations) > 0 {
+		err = a.store.SaveEvent(ctx, event)
+	}
 	return err
 }
 

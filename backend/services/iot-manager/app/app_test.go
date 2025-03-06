@@ -802,7 +802,6 @@ func TestProvisionDevice(t *testing.T) {
 					[]uuid.UUID{}).
 				Return(new(model.Device), errors.New("internal error")).
 				Once().
-				On("SaveEvent", contextMatcher, mock.AnythingOfType("model.Event")).
 				Run(func(args mock.Arguments) {
 					event := args.Get(1).(model.Event)
 					assert.Equal(t, model.EventTypeDeviceProvisioned, event.Type)
