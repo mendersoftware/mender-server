@@ -66,7 +66,6 @@ func TestCreateIntegration(t *testing.T) {
 			Tenant: "1234567890",
 		}),
 		Integration: model.Integration{
-			ID:       uuid.NewSHA1(uuid.NameSpaceOID, []byte("1234567890")),
 			Provider: model.ProviderIoTHub,
 			Credentials: model.Credentials{
 				Type: "connection_string",
@@ -82,7 +81,6 @@ func TestCreateIntegration(t *testing.T) {
 
 		CTX: context.Background(),
 		Integration: model.Integration{
-			ID:       uuid.NewSHA1(uuid.NameSpaceOID, []byte("")),
 			Provider: model.ProviderIoTHub,
 			Credentials: model.Credentials{
 				Type: "connection_string",
@@ -154,6 +152,9 @@ func TestCreateIntegration(t *testing.T) {
 
 				var integration model.Integration
 				bson.UnmarshalWithRegistry(newRegistry(), doc, &integration)
+				assert.True(t, uuid.Validate(integration.ID.String()) == nil)
+				integration.ID = uuid.Nil
+				tc.Integration.ID = uuid.Nil
 				assert.Equal(t, tc.Integration, integration)
 			}
 		})
