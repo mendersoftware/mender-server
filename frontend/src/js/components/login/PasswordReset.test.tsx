@@ -41,8 +41,7 @@ describe('PasswordReset Component', () => {
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
 
-  //TODO: fix the test
-  it.skip('works as intended', async () => {
+  it('works as intended', async () => {
     const UserActions = await import('@northern.tech/store/usersSlice/thunks');
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const completeSpy = vi.spyOn(UserActions, 'passwordResetComplete');
@@ -77,7 +76,9 @@ describe('PasswordReset Component', () => {
       vi.runAllTicks();
       vi.runAllTimers();
     });
-    await user.click(screen.getByRole('button', { name: /Save password/i }));
+    const saveButton = screen.getByRole('button', { name: /Save password/i });
+    await waitFor(() => expect(saveButton).not.toBeDisabled());
+    await user.click(saveButton);
     await waitFor(() => expect(completeSpy).toHaveBeenCalledWith({ secretHash, newPassword: goodPassword }));
     await waitFor(() => expect(screen.queryByText(/Your password has been updated./i)).toBeVisible());
   });
