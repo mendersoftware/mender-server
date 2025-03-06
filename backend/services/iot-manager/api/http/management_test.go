@@ -1010,6 +1010,7 @@ func (neverExpireContext) Deadline() (time.Time, bool) {
 
 func TestGetEvents(t *testing.T) {
 	t.Parallel()
+	integrationId := uuid.New().String()
 	testCases := []struct {
 		Name string
 
@@ -1060,6 +1061,54 @@ func TestGetEvents(t *testing.T) {
 			StatusCode: http.StatusOK,
 			Response: []map[string]interface{}{{
 				"id":   uuid.Nil,
+				"data": map[string]interface{}{"id": "00000000-0000-0000-0000-000000000000"},
+				"delivery_statuses": []map[string]interface{}{{
+					"integration_id": uuid.Nil,
+					"success":        true,
+					"status_code":    200,
+				}},
+				"time": "0001-01-01T00:00:00Z",
+				"type": "device-provisioned",
+			}},
+		},
+		{
+			Name: "ok with integration id",
+
+			Headers: http.Header{
+				"Authorization": []string{"Bearer " + GenerateJWT(identity.Identity{
+					IsUser:  true,
+					Subject: "829cbefb-70e7-438f-9ac5-35fd131c2111",
+					Tenant:  "123456789012345678901234",
+				})},
+			},
+
+			Url: "http://localhost" + APIURLManagement + APIURLEvents + "/" + integrationId,
+
+			App: func(t *testing.T) *mapp.App {
+				app := new(mapp.App)
+				app.On("GetEvents", contextMatcher, model.EventsFilter{Limit: 20, IntegrationID: &integrationId}).
+					Return([]model.Event{{
+						WebhookEvent: model.WebhookEvent{
+							ID:      uuid.MustParse(integrationId),
+							Type:    model.EventTypeDeviceProvisioned,
+							Data:    model.DeviceEvent{ID: uuid.Nil.String()},
+							EventTS: time.Time{},
+						},
+						DeliveryStatus: []model.DeliveryStatus{{
+							IntegrationID: uuid.Nil,
+							Success:       true,
+							StatusCode: func() *int {
+								i := 200
+								return &i
+							}(),
+						}},
+					}}, nil)
+				return app
+			},
+
+			StatusCode: http.StatusOK,
+			Response: []map[string]interface{}{{
+				"id":   uuid.MustParse(integrationId),
 				"data": map[string]interface{}{"id": "00000000-0000-0000-0000-000000000000"},
 				"delivery_statuses": []map[string]interface{}{{
 					"integration_id": uuid.Nil,
