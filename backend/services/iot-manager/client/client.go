@@ -25,9 +25,12 @@ import (
 	"errors"
 	"net"
 	"net/http"
+	"sync"
 	"syscall"
 	"time"
 
+	"github.com/mendersoftware/mender-server/pkg/config"
+	dconfig "github.com/mendersoftware/mender-server/services/iot-manager/config"
 	inet "github.com/mendersoftware/mender-server/services/iot-manager/internal/net"
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"
 )
@@ -40,6 +43,11 @@ const (
 	AlgorithmTypeHMAC256 = "MEN-HMAC-SHA256-Payload"
 )
 
+var (
+	skipVerify         bool
+	skipVerifyLoadOnce sync.Once
+)
+
 func New() *http.Client {
 	return &http.Client{
 		Transport: NewTransport(),
@@ -50,6 +58,12 @@ func New() *http.Client {
 }
 
 func addrIsGlobalUnicast(network, address string, _ syscall.RawConn) error {
+	skipVerifyLoadOnce.Do(func() {
+		skipVerify = config.Config.GetBool(dconfig.SettingDomainSkipVerify)
+	})
+	if skipVerify {
+		return nil
+	}
 	ipAddr, _, err := net.SplitHostPort(address)
 	if err != nil {
 		ipAddr = address
