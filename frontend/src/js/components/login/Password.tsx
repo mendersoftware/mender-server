@@ -11,62 +11,126 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useState } from 'react';
+import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+
+import { buttonClasses } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
 import Form from '@northern.tech/common-ui/forms/Form';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { passwordResetStart } from '@northern.tech/store/thunks';
 
 import LoginLogo from '../../../assets/img/loginlogo.svg';
+import VeryMuch from '../../../assets/img/verymuch.svg';
 import { LocationWarning } from './Login';
 
-export const PasswordScreenContainer = ({ children, title }) => (
-  <>
-    <LocationWarning />
-    <div className="flexbox column content" id="login-box" style={{ marginTop: -200 }}>
-      <LoginLogo alt="mender-logo" className="flexbox margin-bottom-large" style={{ maxWidth: 300, alignSelf: 'center' }} />
-      <h1 className="align-center">{title}</h1>
-      {children}
-      <div className="margin-top-large flexbox centered">
-        <Link to="/login">Back to the login page</Link>
+const useStyles = makeStyles()(theme => ({
+  loginBox: { marginTop: 200, maxWidth: 400, '&#login-box': { alignSelf: 'start' } },
+  logo: { maxWidth: 215 },
+  buttonWrapper: { [`.${buttonClasses.root}`]: { width: '100%' } },
+  requiredReset: { '.required:after': { content: 'none' } },
+  ntBrandingLeft: { bottom: `${theme.mixins.toolbar.minHeight}px`, left: '1vw', zIndex: 0 },
+  ntBrandingRight: { right: '2vw', top: '-3vh', transform: 'rotate(90deg)', zIndex: 0 }
+}));
+
+export const PasswordScreenContainer = ({ children, hasReturn = true, title }: { children: ReactNode; hasReturn?: boolean; title: string }) => {
+  const { classes } = useStyles();
+  return (
+    <>
+      <LocationWarning />
+      <div className={`flexbox column content ${classes.loginBox}`} id="login-box">
+        <a href="https://mender.io/" target="_blank" rel="noopener noreferrer">
+          <LoginLogo alt="mender-logo" className={`flexbox margin-bottom-large ${classes.logo}`} />
+        </a>
+        <h1>{title}</h1>
+        {children}
+        {hasReturn && (
+          <div className="margin-top-large flexbox centered">
+            <Link to="/login">Return to login page</Link>
+          </div>
+        )}
       </div>
-    </div>
+      <VeryMuch className={`absolute ${classes.ntBrandingLeft}`} />
+      <VeryMuch className={`absolute ${classes.ntBrandingRight}`} />
+    </>
+  );
+};
+
+interface PasswordResetState {
+  email: string;
+}
+
+const PasswordForgotRequest = ({ onSubmit }: { onSubmit: (formValues: PasswordResetState) => Promise<void> }) => {
+  const { classes } = useStyles();
+  const inputRef = useRef<HTMLInputElement | undefined>(undefined);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+
+  return (
+    <>
+      <p className="margin-bottom">Enter the email address associated with your account, and we&apos;ll send you a reset link.</p>
+      <Form
+        buttonColor="primary"
+        classes={{ buttonWrapper: classes.buttonWrapper }}
+        className={classes.requiredReset}
+        defaultValues={{ email: '' }}
+        onSubmit={onSubmit}
+        showButtons={true}
+        submitLabel="Send password reset link"
+      >
+        <TextInput
+          className="full-width"
+          controlRef={inputRef}
+          hint="Your email"
+          id="email"
+          label="Your email"
+          required
+          validations="isLength:1,isEmail,trim"
+        />
+      </Form>
+    </>
+  );
+};
+
+const PasswordResetInfo = ({ email }: { email: string }) => (
+  <>
+    <p>
+      If there is a Mender account with email address <b>{email}</b>, you&apos;ll receive an email with a link and instructions to reset your password.
+    </p>
+    <Link className="margin-top-small margin-bottom-small" to="/login">
+      Return to login page
+    </Link>
+    <p>
+      If you still haven&apos;t received the email, check your spam folder or{' '}
+      <a href="mailto:support@mender.io" target="_blank" rel="noopener noreferrer">
+        contact support
+      </a>
+      .
+    </p>
   </>
 );
 
-const texts = {
-  confirmation: [
-    `Thanks - we're sending you an email now!`,
-    `If there is a Mender account with that address, you'll receive an email with a link and instructions to reset your password.`
-  ],
-  request: [
-    `If you've forgotten your password, you can request to reset it.`,
-    `Enter the email address you use to sign in to Mender, and we'll send you a reset link.`
-  ]
-};
-
 export const Password = () => {
-  const [confirm, setConfirm] = useState(false);
+  const [confirm, setConfirm] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>('');
 
   const dispatch = useDispatch();
 
-  const handleSubmit = formData => dispatch(passwordResetStart(formData.email)).then(() => setConfirm(true));
+  const handleSubmit = (formData: PasswordResetState) =>
+    dispatch(passwordResetStart(formData.email)).then(() => {
+      setEmail(formData.email);
+      setConfirm(true);
+    });
 
-  const content = confirm ? texts.confirmation : texts.request;
   return (
-    <PasswordScreenContainer title="Reset your password">
-      {content.map((text, index) => (
-        <p className="align-center" key={index}>
-          {text}
-        </p>
-      ))}
-      {!confirm && (
-        <Form showButtons={true} buttonColor="primary" onSubmit={handleSubmit} submitLabel="Send password reset link">
-          <TextInput hint="Your email" label="Your email" id="email" required={true} validations="isLength:1,isEmail,trim" />
-        </Form>
-      )}
+    <PasswordScreenContainer title={confirm ? 'Reset your password' : 'Forgot password?'}>
+      {confirm ? <PasswordResetInfo email={email} /> : <PasswordForgotRequest onSubmit={handleSubmit} />}
     </PasswordScreenContainer>
   );
 };

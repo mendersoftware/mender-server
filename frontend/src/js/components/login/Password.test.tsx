@@ -41,6 +41,7 @@ describe('Password Component', () => {
     await user.click(screen.getByRole('button', { name: /Send password reset link/i }));
     await waitFor(() => expect(startSpy).toHaveBeenCalledWith('something@example.com'));
     await waitFor(() => rerender(ui));
-    await waitFor(() => expect(screen.queryByText(/sending you an email/i)).toBeInTheDocument(), { timeout: 5000 });
+    await waitFor(() => expect(screen.queryByText(/check your spam folder/i)).toBeInTheDocument());
+    expect(screen.queryByText(/something@example.com/i)).toBeInTheDocument();
   });
 });
