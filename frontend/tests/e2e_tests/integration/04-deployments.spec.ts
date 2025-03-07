@@ -21,7 +21,7 @@ import { selectors, storagePath, timeouts } from '../utils/constants';
 dayjs.extend(isBetween);
 
 const checkTimeFilter = async (page: Page, name: string, isSetToday?: boolean) => {
-  const input = page.getByRole('textbox', { name });
+  const input = page.getByLabel(name);
   if (isSetToday) {
     await expect(input).toHaveValue(dayjs().format('YYYY-MM-DD'));
   }
