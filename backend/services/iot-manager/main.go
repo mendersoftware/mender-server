@@ -39,6 +39,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/netutils"
 	"github.com/mendersoftware/mender-server/pkg/version"
 )
 
@@ -241,7 +242,16 @@ func cmdSync(args *cli.Context) error {
 		return err
 	}
 	defer ds.Close()
-	app := app.New(ds, wf, devauth).WithIoTHub(hub).WithIoTCore(core)
+	ipFilter := netutils.DefaultEgressIPFilter
+	blacklist, whitelist, err := dconfig.LoadWebhookCIDRLists()
+	if err != nil {
+		return err
+	} else if blacklist != nil || whitelist != nil {
+		ipFilter = netutils.NewIPFilter(blacklist, whitelist)
+	}
+	app := app.New(ds, wf, devauth, ipFilter).
+		WithIoTHub(hub).
+		WithIoTCore(core)
 	app = app.WithWebhooksTimeout(config.Config.GetUint(dconfig.SettingWebhooksTimeoutSeconds))
 	return app.SyncDevices(ctx, args.Int("batch-size"), args.Bool("fail-early"))
 }
