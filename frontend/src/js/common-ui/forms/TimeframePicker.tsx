@@ -69,6 +69,14 @@ export const TimeframePicker = ({ tonight: propsTonight }) => {
         render={({ field: { onChange, value } }) => (
           <DatePicker
             disableFuture
+            slotProps={{
+              textField: props => ({
+                inputProps: {
+                  ...props.inputProps,
+                  'aria-label': 'From'
+                }
+              })
+            }}
             format="YYYY-MM-DD"
             yearsOrder="desc"
             label="From"
@@ -84,6 +92,14 @@ export const TimeframePicker = ({ tonight: propsTonight }) => {
         render={({ field: { onChange, value } }) => (
           <DatePicker
             disableFuture
+            slotProps={{
+              textField: props => ({
+                inputProps: {
+                  ...props.inputProps,
+                  'aria-label': 'To'
+                }
+              })
+            }}
             format="YYYY-MM-DD"
             yearsOrder="desc"
             label="To"

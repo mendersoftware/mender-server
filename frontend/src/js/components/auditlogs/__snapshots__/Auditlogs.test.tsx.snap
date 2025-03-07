@@ -266,6 +266,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
               >
                 <input
                   aria-invalid="false"
+                  aria-label="From"
                   autocomplete="off"
                   class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
                   id=":r9:"
@@ -326,6 +327,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
               >
                 <input
                   aria-invalid="false"
+                  aria-label="To"
                   autocomplete="off"
                   class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
                   id=":rc:"
