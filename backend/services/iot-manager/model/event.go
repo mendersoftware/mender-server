@@ -1,4 +1,4 @@
-// Copyright 2022 Northern.tech AS
+// Copyright 2025 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -76,8 +76,9 @@ func (typ EventType) Validate() error {
 }
 
 type EventsFilter struct {
-	Skip  int64
-	Limit int64
+	Skip          int64
+	Limit         int64
+	IntegrationID *string
 }
 
 // AuthSet contains a subset of the deviceauth AuthSet definition

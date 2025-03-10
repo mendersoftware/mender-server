@@ -1,4 +1,4 @@
-// Copyright 2024 Northern.tech AS
+// Copyright 2025 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -45,6 +45,8 @@ const (
 	KeyProvider       = "provider"
 	KeyTenantID       = "tenant_id"
 	KeyCredentials    = "credentials"
+	KeyStatus         = "status"
+	KeyIntegrationID  = "integration_id"
 
 	ConnectTimeoutSeconds = 10
 	defaultAutomigrate    = false
@@ -294,15 +296,8 @@ func (db *DataStoreMongo) CreateIntegration(
 	ctx context.Context,
 	integration model.Integration,
 ) (*model.Integration, error) {
-	var tenantID string
-	if id := identity.FromContext(ctx); id != nil {
-		tenantID = id.Tenant
-	}
 	collIntegrations := db.Collection(CollNameIntegrations)
-
-	// Force a single integration per tenant by utilizing unique '_id' index
-	integration.ID = uuid.NewSHA1(uuid.NameSpaceOID, []byte(tenantID))
-
+	integration.ID = uuid.New()
 	_, err := collIntegrations.
 		InsertOne(ctx, mstore.WithTenantID(ctx, integration))
 	if err != nil {

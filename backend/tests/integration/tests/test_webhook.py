@@ -122,10 +122,26 @@ class TestInventoryWebhooks:
         )
         assert response.status_code == expected_responose_code
 
-    def _get_events(self, user: User, expected_responose_code=200):
-        response = self.api_iot.with_auth(user.token).call("GET", iot.URL_EVENTS)
+    def _get_events(self, user: User, expected_responose_code=200, integration_id=None):
+        url = iot.URL_EVENTS
+        if integration_id:
+            url = url + "?integration_id=" + integration_id
+        response = self.api_iot.with_auth(user.token).call("GET", url)
         assert response.status_code == expected_responose_code
         return response.json()
+
+    def _get_integrations(self, user: User, expected_response_code=200):
+        response = self.api_iot.with_auth(user.token).call("GET", iot.URL_INTEGRATIONS)
+        assert response.status_code == expected_response_code
+        return response.json()
+
+    def _delete_integration(
+        self, user: User, integration_id, expected_response_code=204
+    ):
+        response = self.api_iot.with_auth(user.token).call(
+            "DELETE", iot.URL_INTEGRATIONS + "/" + integration_id
+        )
+        assert response.status_code == expected_response_code
 
     def test_deviceauth_webhook(
         self, user: User,
@@ -194,3 +210,12 @@ class TestInventoryWebhooks:
         ]:
             i = i - 1
             assert events[i]["type"] == event_type
+
+        # lets get events by integration id
+        integrations = self._get_integrations(user)
+        assert len(integrations) > 0
+        integration_id = integrations[0]["id"]
+        events = self._get_events(user, integration_id=integration_id)
+        assert len(events) == expected_events_count
+        events = self._get_events(user, integration_id=str(uuid.uuid4()))
+        assert len(events) == 0

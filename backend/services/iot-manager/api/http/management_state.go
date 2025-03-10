@@ -28,8 +28,9 @@ import (
 )
 
 const (
-	paramDeviceID      = "id"
-	paramIntegrationID = "integrationId"
+	paramDeviceID           = "id"
+	paramIntegrationID      = "integrationId"
+	paramQueryIntegrationID = "integration_id"
 )
 
 var (

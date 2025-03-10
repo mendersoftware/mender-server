@@ -311,6 +311,13 @@ paths:
           schema:
             type: integer
             default: 20
+        - name: integration_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+          required: false
+          description: The unique ID of the integration to get the events from.
 
       responses:
         200:
