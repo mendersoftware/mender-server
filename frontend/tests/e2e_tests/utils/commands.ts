@@ -26,6 +26,7 @@ import { fileURLToPath } from 'url';
 import { v4 as uuid } from 'uuid';
 
 import { selectors, storagePath } from './constants.ts';
+import { startServer } from './webhookListener.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -345,3 +346,5 @@ export const startIdpServer = ({ acsUrl = 'https://example.com/acs', metadataLoc
     },
     callback
   );
+
+export const startWebhookServer = startServer;
