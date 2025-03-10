@@ -43,7 +43,7 @@ test.describe('Webhooks Functionality', () => {
   });
   test('shows webhook details', async ({ baseUrl, loggedInPage: page }) => {
     await page.goto(`${baseUrl}ui/devices`);
-    await page.locator(`css=${selectors.deviceListItem}`).click();
+    await page.locator(`css=${selectors.deviceListItem} div:last-child`).click();
     await page.getByText(/dismiss/i).click();
     await page.locator(`input:near(:text("Status:"))`).first().click({ force: true });
     await page.getByRole('option', { name: /pending/i }).click();
