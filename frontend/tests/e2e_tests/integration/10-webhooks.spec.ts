@@ -42,6 +42,15 @@ test.describe('Webhooks Functionality', () => {
     await expect(page.getByText(/one active integration at a time/i)).toBeVisible();
   });
   test('shows webhook details', async ({ baseUrl, loggedInPage: page }) => {
+    await page.goto(`${baseUrl}ui/devices`);
+    await page.locator(`css=${selectors.deviceListItem} div:last-child`).first().click();
+    await page.getByText(/dismiss/i).click();
+    await page.locator(`input:near(:text("Status:"))`).first().click({ force: true });
+    await page.getByRole('option', { name: /pending/i }).click();
+    await page.click(selectors.deviceListCheckbox);
+    await page.click('.MuiSpeedDial-fab');
+    await page.click('[aria-label="accept"]');
+
     await page.goto(`${baseUrl}ui/settings/integrations`);
     await page.getByText(/view details/i).click();
     await page

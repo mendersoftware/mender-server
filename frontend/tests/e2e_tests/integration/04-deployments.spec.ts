@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween.js';
 

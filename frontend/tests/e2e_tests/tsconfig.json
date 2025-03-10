@@ -2,8 +2,8 @@
   "compilerOptions": {
     "allowImportingTsExtensions": true,
     "lib": ["dom", "dom.iterable", "esnext"],
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "noEmit": true,
     "target": "es6"
   }
