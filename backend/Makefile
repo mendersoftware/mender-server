@@ -1,7 +1,6 @@
 MENDER_IMAGE_REGISTRY ?= docker.io
 MENDER_IMAGE_REPOSITORY ?= mendersoftware
 MENDER_IMAGE_TAG ?= latest
-MENDER_IMAGE_TAG_TEST ?= test
 
 MENDER_PUBLISH_REGISTRY ?= docker.io
 MENDER_PUBLISH_REPOSTIORY ?= mendersoftware
@@ -67,7 +66,6 @@ $(TEST_ACCEPTANCE_TARGETS):
 	@$(MAKE) -C services/$(subst -test-acceptance,,$@) test-acceptance-run
 
 .PHONY: test-integration
-test-integration: export MENDER_IMAGE_TAG=$(MENDER_IMAGE_TAG_TEST)
 test-integration:
 	./tests/integration/run $(args)
 
