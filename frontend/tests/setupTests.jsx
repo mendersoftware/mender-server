@@ -52,6 +52,21 @@ const oldWindowLocalStorage = window.localStorage;
 const oldWindowLocation = window.location;
 const oldWindowSessionStorage = window.sessionStorage;
 
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  enumerable: true,
+  value: vi.fn().mockImplementation(query => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: vi.fn(), // deprecated
+    removeListener: vi.fn(), // deprecated
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn()
+  }))
+});
+
 vi.mock('universal-cookie', () => {
   const mockCookie = {
     get: vi.fn(),
@@ -120,8 +135,8 @@ beforeAll(async () => {
   await server.listen({ onUnhandledRequest: 'error' });
   Object.defineProperty(navigator, 'appVersion', { value: 'Test', writable: true });
   const intersectionObserverMock = () => ({
-    observe: vi.fn,
-    disconnect: vi.fn
+    observe: vi.fn(),
+    disconnect: vi.fn()
   });
   window.IntersectionObserver = vi.fn().mockImplementation(intersectionObserverMock);
   vi.spyOn(React, 'useEffect').mockImplementation(React.useLayoutEffect);
