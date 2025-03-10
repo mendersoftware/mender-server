@@ -1,4 +1,32 @@
 ---
+## [4.1.0-saas.3](https://github.com/mendersoftware/mender-server/compare/v4.1.0-saas.2...v4.1.0-saas.3) (2025-03-10)
+
+
+### Features
+
+* **gui:** added year to timeframe picker ([718f3b1](https://github.com/mendersoftware/mender-server/commit/718f3b1eec7bba7137261986bbf3e38cd575e583))
+* **gui:** added year to timeframe picker ([48a5e98](https://github.com/mendersoftware/mender-server/commit/48a5e98cdfc7793fac653f80d1dbe7ae6172956c))
+* **iot-manager:** allowed disabling address verification during webhook configuration ([e05997c](https://github.com/mendersoftware/mender-server/commit/e05997c7c7846c5fec9049a1b937461431687b3a))
+
+
+### Bug Fixes
+
+* **gui:** default to eu in eu.hosted domain during signup ([0512d24](https://github.com/mendersoftware/mender-server/commit/0512d24b7b6ddbf8e90677f737da4625d95c5e6f))
+* **gui:** fixed an issue that would prevent new signups from using the onboarding ([6d3591b](https://github.com/mendersoftware/mender-server/commit/6d3591bf9603e5e7d7d1ab7566a5b32ada46eb94))
+* **gui:** fixed an issue that would prevent new signups from using the onboarding ([fbaa329](https://github.com/mendersoftware/mender-server/commit/fbaa329fb66bb3dc687db463a7cc507f8643a6b8))
+* **gui:** fixed default roles being shown before loading ones from backend ([d934020](https://github.com/mendersoftware/mender-server/commit/d9340200ce40229fab441e2334117906ab18e103))
+* **gui:** fixed location not being changed on device status filter change ([36eb469](https://github.com/mendersoftware/mender-server/commit/36eb4695544a0fdc2559d4178b9e0cfa5c647691))
+* **gui:** fixed time filter in past deployments ([25cdee0](https://github.com/mendersoftware/mender-server/commit/25cdee07a5e6f76942f8b0dcaa67a4f76b1b2ecb))
+* **gui:** fixed webhook configuration checks by subscription ([6b5989d](https://github.com/mendersoftware/mender-server/commit/6b5989d8b61fc05bde9b788b69b60474f99983f2))
+* **gui:** removed border on active tab in left nav bar ([a5d5df4](https://github.com/mendersoftware/mender-server/commit/a5d5df49f70a34427edcde7348858fbb9d18c4b7))
+* **gui:** restored rspack to license generator compatible version ([1280dc7](https://github.com/mendersoftware/mender-server/commit/1280dc7363135444575611f32f5011935557f01b))
+* **iot-manager:** do not store events if there are no integrations ([0c0ee9d](https://github.com/mendersoftware/mender-server/commit/0c0ee9d3e497d04cbf43e4693fbdd17c30f1edb3))
+* **iot-manager:** do not store events if there are no integrations. ([a41e5c9](https://github.com/mendersoftware/mender-server/commit/a41e5c99d59e750a2d8b11fc0164e877993678d1))
+* Race when provisioning and connecting a device ([19421d1](https://github.com/mendersoftware/mender-server/commit/19421d1b80061a90677566c579f36db3e90d2ff5))
+* Race when provisioning and connecting a device ([eae5bf2](https://github.com/mendersoftware/mender-server/commit/eae5bf230060838f6b93d656ba19d68c609bb425))
+* Stop deviceconnect's `/connect` endpoints from sending ping ([f5a0e5d](https://github.com/mendersoftware/mender-server/commit/f5a0e5d563e789c5950eb0502b9e92ffc93d10b3))
+* Stop deviceconnect's `/connect` endpoints from sending ping ([79a32a6](https://github.com/mendersoftware/mender-server/commit/79a32a6f12fd1b90be3560a896e50d8d63516210))
+
 ## 4.0.0 - 2025-02-10
 
 
