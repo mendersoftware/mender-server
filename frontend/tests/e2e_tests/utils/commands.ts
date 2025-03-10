@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Browser, BrowserContext, Page } from '@playwright/test';
+import type { Browser, BrowserContext, Page } from '@playwright/test';
 import { runServer } from '@sidewinder1138/saml-idp';
 import axios from 'axios';
 import { spawn } from 'child_process';
@@ -25,7 +25,7 @@ import { PNG } from 'pngjs';
 import { fileURLToPath } from 'url';
 import { v4 as uuid } from 'uuid';
 
-import { TestEnvironment } from '../fixtures/fixtures.ts';
+import type { TestEnvironment } from '../fixtures/fixtures.ts';
 import { selectors, storagePath, timeouts } from './constants.ts';
 import { startServer } from './webhookListener.ts';
 

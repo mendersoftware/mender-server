@@ -12,7 +12,8 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { test as coveredTest, expect } from '@bgotink/playwright-coverage';
-import { BrowserContext, Page, test as nonCoveredTest } from '@playwright/test';
+import type { BrowserContext, Page } from '@playwright/test';
+import { test as nonCoveredTest } from '@playwright/test';
 
 import { getPeristentLoginInfo, isLoggedIn, prepareNewPage } from '../utils/commands.ts';
 import { storagePath, timeouts } from '../utils/constants.ts';
