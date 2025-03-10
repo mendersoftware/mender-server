@@ -316,7 +316,7 @@ paths:
           schema:
             type: string
             format: uuid
-          required: true
+          required: false
           description: The unique ID of the integration to get the events from.
 
       responses:
