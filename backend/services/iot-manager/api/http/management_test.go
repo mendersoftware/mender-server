@@ -1187,6 +1187,26 @@ func TestGetEvents(t *testing.T) {
 				"request_id": "test",
 			},
 		},
+		{
+			Name: "bad request with integration id",
+
+			Headers: http.Header{
+				"Authorization": []string{"Bearer " + GenerateJWT(identity.Identity{
+					IsUser:  true,
+					Subject: "829cbefb-70e7-438f-9ac5-35fd131c2111",
+					Tenant:  "123456789012345678901234",
+				})},
+				textproto.CanonicalMIMEHeaderKey(requestid.RequestIdHeader): []string{"test"},
+			},
+
+			Url: "http://localhost" + APIURLManagement + APIURLEvents + "/trash",
+
+			StatusCode: http.StatusBadRequest,
+			Response: map[string]interface{}{
+				"error":      "integration ID is not a valid UUID",
+				"request_id": "test",
+			},
+		},
 	}
 	for i := range testCases {
 		tc := testCases[i]

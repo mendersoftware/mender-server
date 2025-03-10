@@ -238,6 +238,12 @@ func (h *ManagementHandler) GetEvents(c *gin.Context) {
 	if len(integrationID) > 0 {
 		if err := uuid.Validate(integrationID); err == nil {
 			filter.IntegrationID = &integrationID
+		} else {
+			rest.RenderError(c,
+				http.StatusBadRequest,
+				ErrInvalidIntegrationID,
+			)
+			return
 		}
 	}
 
