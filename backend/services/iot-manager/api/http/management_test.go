@@ -1082,7 +1082,7 @@ func TestGetEvents(t *testing.T) {
 				})},
 			},
 
-			Url: "http://localhost" + APIURLManagement + APIURLEvents + "/" + integrationId,
+			Url: "http://localhost" + APIURLManagement + APIURLEvents + "?" + paramQueryIntegrationID + "=" + integrationId,
 
 			App: func(t *testing.T) *mapp.App {
 				app := new(mapp.App)
@@ -1199,7 +1199,7 @@ func TestGetEvents(t *testing.T) {
 				textproto.CanonicalMIMEHeaderKey(requestid.RequestIdHeader): []string{"test"},
 			},
 
-			Url: "http://localhost" + APIURLManagement + APIURLEvents + "/trash",
+			Url: "http://localhost" + APIURLManagement + APIURLEvents + "?" + paramQueryIntegrationID + "=trash",
 
 			StatusCode: http.StatusBadRequest,
 			Response: map[string]interface{}{

@@ -56,8 +56,7 @@ const (
 	APIURLDeviceState            = APIURLDevice + "/state"
 	APIURLDeviceStateIntegration = APIURLDevice + "/state/:integrationId"
 
-	APIURLEvents            = "/events"
-	APIURLEventsIntegration = APIURLEvents + "/:integrationId"
+	APIURLEvents = "/events"
 )
 
 const (
@@ -129,7 +128,6 @@ func NewRouter(
 	managementAPI.PUT(APIURLDeviceStateIntegration, management.SetDeviceStateIntegration)
 
 	managementAPI.GET(APIURLEvents, management.GetEvents)
-	managementAPI.GET(APIURLEventsIntegration, management.GetEvents)
 
 	return router
 }

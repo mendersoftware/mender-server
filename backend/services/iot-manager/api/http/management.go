@@ -234,7 +234,7 @@ func (h *ManagementHandler) GetEvents(c *gin.Context) {
 		)
 		return
 	}
-	integrationID := c.Param(paramIntegrationID)
+	integrationID := c.Request.URL.Query().Get(paramQueryIntegrationID)
 	if len(integrationID) > 0 {
 		if err := uuid.Validate(integrationID); err == nil {
 			filter.IntegrationID = &integrationID
