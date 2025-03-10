@@ -36,12 +36,18 @@ test.describe('Webhooks Functionality', () => {
     await page.getByLabel(/url/i).fill(`${baseWebhookLocation}/all`);
     await page.getByLabel(/description/i).fill('some description');
     await expect(page.getByRole('button', { name: /save/i })).not.toBeDisabled();
-    await page.getByLabel(/device authentication/i).click();
     await page.getByRole('button', { name: /save/i }).click();
     await expect(page.getByText(/view details/i)).toBeVisible();
     await expect(page.getByText(/one active integration at a time/i)).toBeVisible();
   });
   test('shows webhook details', async ({ baseUrl, loggedInPage: page }) => {
+    await page.goto(`${baseUrl}ui/devices`);
+    await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
+    await expect(page.getByText(/Device information for/i)).toBeVisible();
+    await page.getByText('Dismiss', { exact: true }).click();
+    await page.getByRole('button', { name: 'Confirm' }).click();
+    await page.reload();
+    await page.getByText('Accept', { exact: true }).click();
     await page.goto(`${baseUrl}ui/settings/integrations`);
     await page.getByText(/view details/i).click();
     await page
