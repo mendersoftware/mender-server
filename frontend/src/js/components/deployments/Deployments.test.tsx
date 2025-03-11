@@ -235,7 +235,7 @@ describe('Deployments Component', () => {
           accepted: {
             ...mockState.devices.byStatus.accepted,
             deviceIds: [...Object.keys(mockState.devices.byId), 'test1', 'test2'],
-            total: Object.keys(mockState.devices.byId).length + 2
+            total: Object.keys(mockState.devices.byId).length + 3
           }
         }
       },
@@ -250,7 +250,13 @@ describe('Deployments Component', () => {
         ...mockState.users,
         globalSettings: {
           ...mockState.users.globalSettings,
-          previousPhases: [[{ batch_size: 30, delay: 5, delayUnit: 'days' }, { batch_size: 70 }]]
+          previousPhases: [
+            [
+              { batch_size: 30, delay: 5, delayUnit: 'days', start_ts: 1 },
+              { batch_size: 20, delay: 15, delayUnit: 'hours', start_ts: 1 },
+              { batch_size: 50, start_ts: 2 }
+            ]
+          ]
         }
       }
     };
@@ -274,17 +280,19 @@ describe('Deployments Component', () => {
     await user.click(screen.getByRole('button', { name: /advanced options/i }));
     await user.click(screen.getByRole('checkbox', { name: /select a rollout pattern/i }));
     await waitFor(() => rerender(ui));
-    await selectMaterialUiSelectOption(screen.getByText(/Single phase: 100%/i), /Custom/i, user);
+    await selectMaterialUiSelectOption(screen.getByText(/Single phase: 100%/i), /3 phases/i, user);
     const firstPhase = screen.getByText(/Phase 1/i).parentElement.parentElement.parentElement;
-    await selectMaterialUiSelectOption(within(firstPhase).getByDisplayValue(/hours/i), /minutes/i, user);
-    fireEvent.change(within(firstPhase).getByDisplayValue(20), { target: { value: '50' } });
-    fireEvent.change(within(firstPhase).getByDisplayValue('2'), { target: { value: '30' } });
-    await user.click(screen.getByText(/Add a phase/i));
+    await selectMaterialUiSelectOption(within(firstPhase).getByDisplayValue(/days/i), /minutes/i, user);
+    fireEvent.change(within(firstPhase).getByDisplayValue(30), { target: { value: '40' } });
+    fireEvent.change(within(firstPhase).getByDisplayValue('5'), { target: { value: '30' } });
     const secondPhase = screen.getByText(/Phase 2/i).parentElement.parentElement.parentElement;
     await selectMaterialUiSelectOption(within(secondPhase).getByDisplayValue(/hours/i), /days/i, user);
-    expect(within(secondPhase).getByText(/Phases must have at least 1 device/i)).toBeTruthy();
-    fireEvent.change(within(secondPhase).getByDisplayValue(10), { target: { value: '25' } });
-    fireEvent.change(within(secondPhase).getByDisplayValue('2'), { target: { value: '25' } });
+    fireEvent.change(within(secondPhase).getByDisplayValue(20), { target: { value: '20' } });
+    fireEvent.change(within(secondPhase).getByDisplayValue('15'), { target: { value: '25' } });
+    await user.click(screen.getByText(/Add a phase/i));
+    const thirdPhase = screen.getByText(/Phase 3/i).parentElement.parentElement.parentElement;
+    expect(within(thirdPhase).getByText(/Phases must have at least 1 device/i)).toBeTruthy();
+    fireEvent.change(within(thirdPhase).getByDisplayValue(10), { target: { value: '20' } });
     await user.click(screen.getByRole('checkbox', { name: /save as default/i }));
     const retrySelect = document.querySelector('#deployment-retries-selection');
     await act(async () => await user.click(retrySelect));
@@ -301,6 +309,7 @@ describe('Deployments Component', () => {
     vi.setSystemTime(mockDate);
     const secondBatchDate = new Date(new Date(mockDate).setMinutes(mockDate.getMinutes() + 30));
     const thirdBatchDate = new Date(new Date(secondBatchDate).setDate(secondBatchDate.getDate() + 25));
+    const fourthBatchDate = new Date(new Date(thirdBatchDate).setHours(thirdBatchDate.getHours() + 2));
     const post = vi.spyOn(GeneralApi, 'post');
     const creationButton = screen.getByText(/Create deployment/i);
     await user.click(creationButton);
@@ -320,9 +329,10 @@ describe('Deployments Component', () => {
       max_devices: undefined,
       name: ALL_DEVICES,
       phases: [
-        { batch_size: 50, delay: 30, delayUnit: 'minutes', start_ts: undefined },
-        { batch_size: 25, delay: 25, delayUnit: 'days', start_ts: secondBatchDate.toISOString() },
-        { start_ts: thirdBatchDate.toISOString() }
+        { batch_size: 40, delay: 30, delayUnit: 'minutes', start_ts: undefined },
+        { batch_size: 20, delay: 25, delayUnit: 'days', start_ts: secondBatchDate.toISOString() },
+        { batch_size: 20, delay: 2, delayUnit: 'hours', start_ts: thirdBatchDate.toISOString() },
+        { start_ts: fourthBatchDate.toISOString() }
       ],
       retries: 1,
       update_control_map: undefined
@@ -336,9 +346,15 @@ describe('Deployments Component', () => {
         previousPhases: [
           [
             { batch_size: 30, delay: 5, delayUnit: 'days' },
-            { batch_size: 70, start_ts: 1 }
+            { batch_size: 20, delay: 15, delayUnit: 'hours', start_ts: 1 },
+            { batch_size: 50, start_ts: 2 }
           ],
-          [{ batch_size: 50, delay: 30, delayUnit: 'minutes' }, { batch_size: 25, delay: 25, delayUnit: 'days', start_ts: 1 }, { start_ts: 2 }]
+          [
+            { batch_size: 40, delay: 30, delayUnit: 'minutes' },
+            { batch_size: 20, delay: 25, delayUnit: 'days', start_ts: 1 },
+            { batch_size: 20, delay: 2, delayUnit: 'hours', start_ts: 2 },
+            { batch_size: undefined, start_ts: 3 }
+          ]
         ],
         retries: 1,
         hasDeployments: true
