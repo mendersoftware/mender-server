@@ -21,7 +21,6 @@ import { TroubleshootContent as TroubleshootDialog } from './TerminalWrapper';
 
 describe('TroubleshootDialog Component', () => {
   let socketSpyFactory;
-  const oldMatchMedia = window.matchMedia;
 
   beforeEach(() => {
     socketSpyFactory = vi.spyOn(window, 'WebSocket');
@@ -31,28 +30,13 @@ describe('TroubleshootDialog Component', () => {
       close: () => {},
       send: () => {}
     }));
-    Object.defineProperty(window, 'matchMedia', {
-      writable: true,
-      value: vi.fn().mockImplementation(query => ({
-        matches: false,
-        media: query,
-        onchange: null,
-        addListener: vi.fn(), // Deprecated
-        removeListener: vi.fn(), // Deprecated
-        addEventListener: vi.fn(),
-        removeEventListener: vi.fn(),
-        dispatchEvent: vi.fn()
-      }))
-    });
   });
 
   afterEach(() => {
     socketSpyFactory.mockReset();
-    window.matchMedia = oldMatchMedia;
   });
 
-  //TODO: fix issue with XTERM
-  it.skip('renders correctly', async () => {
+  it('renders correctly', async () => {
     const { baseElement } = render(
       <TroubleshootDialog
         device={defaultState.devices.byId.a1}
@@ -65,8 +49,7 @@ describe('TroubleshootDialog Component', () => {
         socketInitialized
       />
     );
-    const view = baseElement.getElementsByClassName('MuiDialog-root')[0];
-    expect(view).toMatchSnapshot();
-    expect(view).toEqual(expect.not.stringMatching(undefineds));
+    expect(baseElement).toMatchSnapshot();
+    expect(baseElement).toEqual(expect.not.stringMatching(undefineds));
   });
 });

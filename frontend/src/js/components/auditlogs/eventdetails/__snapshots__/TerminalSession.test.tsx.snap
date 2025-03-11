@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`TerminalSession Component renders correctly 1`] = `
+exports[`TerminalSession Component > renders correctly 1`] = `
 .emotion-0 {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -263,7 +263,7 @@ exports[`TerminalSession Component renders correctly 1`] = `
                   class="xterm-char-measure-element"
                   style="font-weight: normal;"
                 >
-                  WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+                                                  
                 </span>
                 <span
                   class="xterm-char-measure-element"
@@ -292,7 +292,11 @@ exports[`TerminalSession Component renders correctly 1`] = `
             >
               <div
                 style="width: 0px; height: 0px; line-height: 0px; overflow: hidden;"
-              />
+              >
+                <span>
+                   
+                </span>
+              </div>
               <div
                 style="width: 0px; height: 0px; line-height: 0px; overflow: hidden;"
               />
@@ -395,7 +399,6 @@ exports[`TerminalSession Component renders correctly 1`] = `
     >
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-1"
-        id=":r0:"
         tabindex="0"
         type="button"
       >
@@ -418,7 +421,6 @@ exports[`TerminalSession Component renders correctly 1`] = `
       </button>
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-1"
-        id=":r1:"
         tabindex="0"
         type="button"
       >
@@ -442,7 +444,6 @@ exports[`TerminalSession Component renders correctly 1`] = `
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-1"
         disabled=""
-        id=":r2:"
         tabindex="-1"
         type="button"
       >

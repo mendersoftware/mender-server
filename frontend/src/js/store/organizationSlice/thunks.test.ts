@@ -13,6 +13,7 @@
 //    limitations under the License.
 // @ts-nocheck
 import { EXTERNAL_PROVIDER, TIMEOUTS } from '@northern.tech/store/constants';
+import { setFirstLoginAfterSignup } from '@northern.tech/store/thunks';
 import configureMockStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 import { vi } from 'vitest';
@@ -21,7 +22,6 @@ import { actions } from '.';
 import { defaultState, tenants, webhookEvents } from '../../../../tests/mockData';
 import { actions as appActions } from '../appSlice';
 import { locations } from '../appSlice/constants';
-import { setFirstLoginAfterSignup } from '../appSlice/thunks';
 import { getSessionInfo } from '../auth';
 import { actions as deviceActions } from '../devicesSlice';
 import { SSO_TYPES } from './constants';
@@ -114,7 +114,7 @@ describe('organization actions', () => {
     window.location = { ...window.location, hostname: oldHostname };
   });
 
-  it.skip('should handle trial creation', async () => {
+  it('should handle trial creation', async () => {
     const store = mockStore({ ...defaultState });
     expect(store.getActions()).toHaveLength(0);
     const expectedActions = [
