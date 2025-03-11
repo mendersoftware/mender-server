@@ -41,6 +41,7 @@ import Time from '@northern.tech/common-ui/Time';
 import { BENEFITS } from '@northern.tech/store/constants';
 import dayjs from 'dayjs';
 import pluralize from 'pluralize';
+import validator from 'validator';
 
 // use this to get remaining percent of final phase so we don't set a hard number
 export const getRemainderPercent = phases =>
@@ -86,16 +87,17 @@ const timeframes = ['minutes', 'hours', 'days'];
 const tableHeaders = ['', 'Batch size', 'Phase begins', 'Delay before next phase', ''];
 
 export const getPhaseStartTime = (phases, index, startDate) => {
+  const startingDate = typeof startDate === 'string' && validator.isISO8601(startDate) ? startDate : undefined;
   if (index < 1) {
-    return startDate?.toISOString ? startDate.toISOString() : startDate;
-  } else if (phases[index].start_ts) {
+    return startDate?.toISOString ? startDate.toISOString() : startingDate;
+  } else if (phases[index].start_ts && typeof phases[index].start_ts === 'string' && validator.isISO8601(phases[index].start_ts)) {
     // if displaying an ongoing deployment we can rely on the timing info from the backend
     return phases[index].start_ts;
   }
   // since we don't want to get stale phase start times when the creation dialog is open for a long time
   // we have to ensure start times are based on delay from previous phases
   // since there likely won't be 1000s of phases this should still be fine to recalculate
-  const newStartTime = phases.slice(0, index).reduce((accu, phase) => dayjs(accu).add(phase.delay, phase.delayUnit), startDate);
+  const newStartTime = phases.slice(0, index).reduce((accu, phase) => dayjs(accu).add(phase.delay, phase.delayUnit), startingDate);
   return newStartTime.toISOString();
 };
 
