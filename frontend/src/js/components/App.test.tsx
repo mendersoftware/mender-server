@@ -71,14 +71,14 @@ describe('App Component', () => {
       await waitFor(() => expect(screen.queryByText(/see all deployments/i)).toBeInTheDocument(), { timeout: TIMEOUTS.threeSeconds });
       await waitFor(() => expect(reportsSpy).toHaveBeenCalled(), { timeout: TIMEOUTS.threeSeconds });
       await waitFor(() => rerender(ui));
-      const view = asFragment();
+      const view = asFragment().querySelector('#app');
       await waitFor(() => expect(document.querySelector('.loaderContainer')).not.toBeInTheDocument());
-      expect(view).toMatchSnapshot();
-      expect(view).toEqual(expect.not.stringMatching(undefineds));
       await act(async () => {
         vi.runOnlyPendingTimers();
         vi.runAllTicks();
       });
+      expect(view).toMatchSnapshot();
+      expect(view).toEqual(expect.not.stringMatching(undefineds));
     },
     10 * TIMEOUTS.oneSecond
   );

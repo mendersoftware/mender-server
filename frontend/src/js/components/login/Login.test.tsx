@@ -13,6 +13,7 @@
 //    limitations under the License.
 import React from 'react';
 
+import { TIMEOUTS } from '@northern.tech/store/commonConstants';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
@@ -41,15 +42,15 @@ describe('Login Component', () => {
   });
 
   it('works as intended', async () => {
+    window.localStorage.getItem.mockImplementation(() => null);
     const UserActions = await import('@northern.tech/store/usersSlice/thunks');
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const loginSpy = vi.spyOn(UserActions, 'loginUser');
     const ui = <Login />;
     const { rerender } = render(ui, { preloadedState });
     await user.type(screen.getByLabelText(/your email/i), 'something-2fa@example.com');
-    await waitFor(() => rerender(ui));
     const loginButton = screen.getByRole('button', { name: /Log in/i });
-    await waitFor(() => expect(loginButton).toBeEnabled());
+    await waitFor(() => expect(loginButton).toBeEnabled(), { timeout: TIMEOUTS.oneSecond + TIMEOUTS.debounceDefault });
     await user.click(loginButton);
     await act(async () => vi.runAllTicks());
     expect(loginSpy).toHaveBeenCalled();
@@ -61,6 +62,9 @@ describe('Login Component', () => {
     expect(loginSpy).toHaveBeenCalled();
     await waitFor(() => expect(screen.getByLabelText(/Two Factor Authentication Code/i)).toBeVisible());
     const input = screen.getByDisplayValue('something-2fa@example.com');
+    expect(input).toBeDisabled();
+    await user.click(screen.getByTestId('EditIcon'));
+    expect(input).not.toBeDisabled();
     await user.clear(input);
     await user.type(input, 'something@example.com');
     await user.type(screen.getByLabelText(/Two Factor Authentication Code/i), '123456');
@@ -70,5 +74,6 @@ describe('Login Component', () => {
     await user.click(loginButton);
     await act(async () => vi.runAllTicks());
     expect(loginSpy).toHaveBeenCalledWith({ email: 'something@example.com', password: 'mysecretpassword!123', token2fa: '123456', stayLoggedIn: false });
+    window.localStorage.getItem.mockReset();
   }, 10000);
 });
