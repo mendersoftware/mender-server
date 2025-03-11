@@ -28,13 +28,13 @@ const (
 	IndexNameOneIntegration = `integration_one_per_tenant`
 )
 
-type migration_1_1_2 struct {
+type migration_1_2_0 struct {
 	client *mongo.Client
 	db     string
 }
 
 // Up creates indexes for fetching event documents
-func (m *migration_1_1_2) Up(from migrate.Version) error {
+func (m *migration_1_2_0) Up(from migrate.Version) error {
 	ctx := context.Background()
 	eventModel := mongo.IndexModel{
 		Keys: bson.D{
@@ -52,6 +52,6 @@ func (m *migration_1_1_2) Up(from migrate.Version) error {
 	return err
 }
 
-func (m *migration_1_1_2) Version() migrate.Version {
-	return migrate.MakeVersion(1, 1, 2)
+func (m *migration_1_2_0) Version() migrate.Version {
+	return migrate.MakeVersion(1, 2, 0)
 }

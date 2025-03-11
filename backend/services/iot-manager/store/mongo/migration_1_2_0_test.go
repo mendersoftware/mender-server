@@ -25,10 +25,10 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 )
 
-func TestMigration_1_1_2(t *testing.T) {
+func TestMigration_1_2_0(t *testing.T) {
 	ctx := context.Background()
 	client := db.Client()
-	m := &migration_1_1_2{
+	m := &migration_1_2_0{
 		client: client,
 		db:     DbName,
 	}
@@ -63,5 +63,5 @@ func TestMigration_1_1_2(t *testing.T) {
 			break
 		}
 	}
-	assert.True(t, foundIndex, "Failed to find index created by migration 1.1.2")
+	assert.True(t, foundIndex, "Failed to find index created by migration 1.2.0")
 }
