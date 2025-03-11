@@ -22,11 +22,13 @@ const baseWebhookLocation = 'http://docker.mender.io:9000/webhooks';
 test.describe('Webhooks Functionality', () => {
   let server: Server;
   test.use({ storageState: storagePath });
-  test.beforeAll(() => {
+  test.beforeAll(({ environment }) => {
+    test.skip(environment === 'staging');
     server = startWebhookServer();
   });
   test.afterAll(() => server.close());
-  test('allows configuring basic webhooks', async ({ baseUrl, loggedInPage: page }) => {
+  test('allows configuring basic webhooks', async ({ baseUrl, environment, loggedInPage: page }) => {
+    test.skip(environment === 'staging');
     await page.goto(`${baseUrl}ui/settings`);
     await page.getByText(/integrations/i).click();
     await page.getByLabel(/add an integration/i).click();
@@ -40,7 +42,8 @@ test.describe('Webhooks Functionality', () => {
     await expect(page.getByText(/view details/i)).toBeVisible();
     await expect(page.getByText(/one active integration at a time/i)).toBeVisible();
   });
-  test('shows webhook details', async ({ baseUrl, loggedInPage: page }) => {
+  test('shows webhook details', async ({ baseUrl, environment, loggedInPage: page }) => {
+    test.skip(environment === 'staging');
     await page.goto(`${baseUrl}ui/devices`);
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
     await expect(page.getByText(/Device information for/i)).toBeVisible();
@@ -57,7 +60,8 @@ test.describe('Webhooks Functionality', () => {
     await expect(page.getByText('pubkey')).toBeVisible();
     await page.getByText(/back to webhook/i).click();
   });
-  test('allows deleting a webhook', async ({ baseUrl, loggedInPage: page }) => {
+  test('allows deleting a webhook', async ({ baseUrl, environment, loggedInPage: page }) => {
+    test.skip(environment === 'staging');
     await page.goto(`${baseUrl}ui/settings/integrations`);
     await page.getByText(/view details/i).click();
     await page.getByText(/delete webhook/i).click();
