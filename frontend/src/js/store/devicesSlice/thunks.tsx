@@ -125,8 +125,7 @@ export const getGroups = createAsyncThunk(`${sliceName}/getGroups`, (_, { dispat
       dispatch(getDevicesByStatus({ filterSelection: filters, group: 0, page: 1, perPage: 1, status: undefined })).unwrap()
     ]).then(promises => {
       const devicesRetrieval = promises[promises.length - 1] || [];
-      const { payload } = devicesRetrieval || {};
-      const result = payload[payload.length - 1] || {};
+      const result = devicesRetrieval[devicesRetrieval.length - 1] || {};
       if (!result.total) {
         return Promise.resolve();
       }

@@ -106,7 +106,7 @@ export const Past = props => {
         })
       )
         .unwrap()
-        .then(({ payload }) => {
+        .then(payload => {
           setLoading(false);
           clearRetryTimer(type, dispatchedSetSnackbar);
           const { total, deploymentIds } = payload[payload.length - 1];

@@ -95,7 +95,7 @@ export const Progress = ({ abort, createClick, ...remainder }) => {
       const { page, perPage } = selectionState[deploymentStatus];
       return dispatch(getDeploymentsByStatus({ status: deploymentStatus, page, perPage }))
         .unwrap()
-        .then(({ payload }) => {
+        .then(payload => {
           clearRetryTimer(deploymentStatus, dispatchedSetSnackbar);
           const { total, deploymentIds } = payload[payload.length - 1];
           if (total && !deploymentIds.length) {
