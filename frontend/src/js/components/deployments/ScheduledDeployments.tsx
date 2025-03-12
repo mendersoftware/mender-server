@@ -98,7 +98,7 @@ export const Scheduled = ({ abort, createClick, openReport, ...remainder }) => {
     () =>
       dispatch(getDeploymentsByStatus({ status: DEPLOYMENT_STATES.scheduled, page, perPage }))
         .unwrap()
-        .then(({ payload }) => {
+        .then(payload => {
           clearRetryTimer(type, dispatchedSetSnackbar);
           const { total, deploymentIds } = payload[payload.length - 1];
           if (total && !deploymentIds.length) {
