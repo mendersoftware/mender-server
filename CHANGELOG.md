@@ -1,4 +1,12 @@
 ---
+## [4.0.1-saas](https://github.com/mendersoftware/mender-server/compare/v4.0.0...v4.0.1-saas) (2025-03-12)
+
+
+### Bug Fixes
+
+* Race when provisioning and connecting a device ([cfa60f9](https://github.com/mendersoftware/mender-server/commit/cfa60f9042e012a548141fdd1187d27d86985f8a))
+* Race when provisioning and connecting a device ([5535078](https://github.com/mendersoftware/mender-server/commit/5535078d027b213fb0ee6d37dd4c4934b075e51c))
+
 ## 4.0.0 - 2025-02-10
 
 
@@ -509,5 +517,3 @@ the same URL as deployments service.
 
 
   This was done by mistake when updating the Dockerfile for the monorepo.
-
-
