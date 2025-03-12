@@ -14,7 +14,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Calendar, dayjsLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { CalendarToday as CalendarTodayIcon, List as ListIcon, Refresh as RefreshIcon } from '@mui/icons-material';
 import { Button } from '@mui/material';
@@ -32,6 +32,7 @@ import {
   getTenantCapabilities,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeploymentsByStatus, setDeploymentsState } from '@northern.tech/store/thunks';
 import { clearAllRetryTimers, clearRetryTimer, setRetryTimer } from '@northern.tech/utils/retrytimer';
 import dayjs from 'dayjs';
@@ -87,7 +88,7 @@ export const Scheduled = ({ abort, createClick, openReport, ...remainder }) => {
   const { canDelta: isEnterprise } = useSelector(getTenantCapabilities);
   const { scheduled: scheduledState } = useSelector(getDeploymentsSelectionState);
   const items = useSelector(state => getMappedDeploymentSelection(state, type));
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const dispatchedSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
   const { classes } = useStyles();
 
@@ -96,7 +97,8 @@ export const Scheduled = ({ abort, createClick, openReport, ...remainder }) => {
   const refreshDeployments = useCallback(
     () =>
       dispatch(getDeploymentsByStatus({ status: DEPLOYMENT_STATES.scheduled, page, perPage }))
-        .then(({ payload }) => {
+        .unwrap()
+        .then(payload => {
           clearRetryTimer(type, dispatchedSetSnackbar);
           const { total, deploymentIds } = payload[payload.length - 1];
           if (total && !deploymentIds.length) {
@@ -190,8 +192,8 @@ export const Scheduled = ({ abort, createClick, openReport, ...remainder }) => {
               abort={abortDeployment}
               headers={headers}
               type={type}
-              onChangeRowsPerPage={perPage => dispatch(setDeploymentsState({ [DEPLOYMENT_STATES.scheduled]: { page: 1, perPage } }))}
-              onChangePage={page => dispatch(setDeploymentsState({ [DEPLOYMENT_STATES.scheduled]: { page } }))}
+              onChangeRowsPerPage={perPage => dispatch(setDeploymentsState({ [DEPLOYMENT_STATES.scheduled]: { page: 1, perPage } })).unwrap()}
+              onChangePage={page => dispatch(setDeploymentsState({ [DEPLOYMENT_STATES.scheduled]: { page } })).unwrap()}
             />
           )}
           {tabIndex === tabs.calendar.index && (

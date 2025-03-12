@@ -12,11 +12,11 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import Form from '@northern.tech/common-ui/forms/Form';
 import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { passwordResetComplete } from '@northern.tech/store/thunks';
 
 import { PasswordScreenContainer } from './Password';
@@ -24,9 +24,12 @@ import { PasswordScreenContainer } from './Password';
 export const PasswordReset = () => {
   const [confirm, setConfirm] = useState(false);
   const { secretHash } = useParams();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const handleSubmit = formData => dispatch(passwordResetComplete({ secretHash, newPassword: formData.password })).then(() => setConfirm(true));
+  const handleSubmit = formData =>
+    dispatch(passwordResetComplete({ secretHash, newPassword: formData.password }))
+      .unwrap()
+      .then(() => setConfirm(true));
 
   return (
     <PasswordScreenContainer title="Change your password">
