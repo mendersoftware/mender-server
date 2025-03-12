@@ -12,9 +12,10 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { Tenant } from '@northern.tech/store/api/types/Tenant';
+import { getSessionInfo } from '@northern.tech/store/auth';
 import { initialState as initialOrganizationState } from '@northern.tech/store/organizationSlice';
 import * as OrganizationActions from '@northern.tech/store/thunks';
-import { screen } from '@testing-library/react';
+import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
@@ -22,47 +23,51 @@ import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
 import { ExpandedTenant } from './ExpandedTenant';
 
-const state = {
-  ...defaultState,
-  organization: {
-    ...defaultState.organization,
-    tenantList: {
-      ...initialOrganizationState.tenantList,
-      tenants: [
-        {
-          id: '671a0f1dd58c813118fe8622',
-          parent_tenant_id: '6718de64b42e08dea2a2065d',
-          name: 'child2',
-          tenant_token: 'mQDYRCr-tGbDuJhPp7fArbfTA5htVTWE9G204AzhDUM',
-          status: 'active',
-          additional_info: {
-            marketing: false,
-            campaign: ''
-          },
-          plan: 'enterprise',
-          trial: false,
-          trial_expiration: null,
-          service_provider: false,
-          created_at: '2024-10-24T09:10:53.281Z',
-          cancelled_at: null,
-          children_tenants: null,
-          max_child_tenants: 0,
-          device_count: 0,
-          device_limit: 100,
-          binary_delta: true
-        }
-      ]
-    },
-    organization: {
-      ...defaultState.organization.organization,
-      device_count: 20,
-      device_limit: 200
-    }
-  }
-};
-const tenant: Tenant = state.organization.tenantList.tenants[0];
-
+let state;
+let tenant: Tenant;
 describe('ExpandedTenant', () => {
+  beforeAll(() => {
+    state = {
+      ...defaultState,
+      organization: {
+        ...defaultState.organization,
+        tenantList: {
+          ...initialOrganizationState.tenantList,
+          tenants: [
+            {
+              id: '671a0f1dd58c813118fe8622',
+              parent_tenant_id: '6718de64b42e08dea2a2065d',
+              name: 'child2',
+              tenant_token: 'mQDYRCr-tGbDuJhPp7fArbfTA5htVTWE9G204AzhDUM',
+              status: 'active',
+              additional_info: {
+                marketing: false,
+                campaign: ''
+              },
+              plan: 'enterprise',
+              trial: false,
+              trial_expiration: null,
+              service_provider: false,
+              created_at: '2024-10-24T09:10:53.281Z',
+              cancelled_at: null,
+              children_tenants: null,
+              max_child_tenants: 0,
+              device_count: 0,
+              device_limit: 100,
+              binary_delta: true
+            }
+          ]
+        },
+        organization: {
+          ...defaultState.organization.organization,
+          device_count: 20,
+          device_limit: 200
+        },
+        users: { ...defaultState.users, currentSession: getSessionInfo() }
+      }
+    };
+    tenant = state.organization.tenantList.tenants[0];
+  });
   it('renders correctly', () => {
     const { baseElement } = render(<ExpandedTenant onCloseClick={vi.fn} tenant={tenant} />, {
       preloadedState: state
@@ -83,6 +88,10 @@ describe('ExpandedTenant', () => {
     await user.clear(limitInput);
     await user.type(limitInput, newLimit);
     await user.click(screen.getByRole('button', { name: /save/i }));
+    await act(async () => {
+      vi.runOnlyPendingTimers();
+      vi.runAllTicks();
+    });
     expect(editDeviceLimit).toHaveBeenCalledWith({ newLimit: Number(newLimit), name: tenant.name, id: tenant.id });
   });
 });

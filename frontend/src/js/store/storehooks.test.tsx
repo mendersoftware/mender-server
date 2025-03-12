@@ -129,8 +129,8 @@ const appInitActions = [
   { type: appActions.setOfflineThreshold.type, payload: '2019-01-12T13:00:01.050Z' },
   { type: setOfflineThreshold.fulfilled.type },
   { type: userActions.setUserSettings.type, payload: { ...defaultState.users.userSettings } },
-  { type: getGlobalSettings.fulfilled.type },
   { type: getUserSettings.fulfilled.type },
+  { type: getGlobalSettings.fulfilled.type },
   { type: getDeviceAttributes.pending.type },
   { type: getDeploymentsByStatus.pending.type },
   { type: getDeploymentsByStatus.pending.type },
@@ -276,10 +276,9 @@ const appInitActions = [
     }
   },
   { type: getDevicesWithAuth.pending.type },
-  { type: getDevicesByStatus.fulfilled.type },
-  { type: getDevicesByStatus.fulfilled.type },
   { type: getReleases.fulfilled.type },
-
+  { type: getDevicesByStatus.fulfilled.type },
+  { type: getDevicesByStatus.fulfilled.type },
   { type: userActions.receivedPermissionSets.type, payload: receivedPermissionSets },
   { type: getPermissionSets.fulfilled.type },
   { type: userActions.receivedRoles.type, payload: receivedRoles },

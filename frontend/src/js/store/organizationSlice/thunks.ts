@@ -26,7 +26,7 @@ import {
   locations
 } from '@northern.tech/store/constants';
 import { BillingProfile } from '@northern.tech/store/organizationSlice/types';
-import { getCurrentSession, getTenantCapabilities, getTenantsList } from '@northern.tech/store/selectors';
+import { getTenantCapabilities, getTenantsList } from '@northern.tech/store/selectors';
 import { commonErrorFallback, commonErrorHandler } from '@northern.tech/store/store';
 import { getDeviceLimit, setFirstLoginAfterSignup } from '@northern.tech/store/thunks';
 import { dateRangeToUnix, deepCompare } from '@northern.tech/utils/helpers';
@@ -39,6 +39,7 @@ import Cookies from 'universal-cookie';
 
 import { actions, sliceName } from '.';
 import { Tenant } from '../../components/tenants/types';
+import { getToken } from '../auth';
 import { SSO_TYPES, auditLogsApiUrl, ssoIdpApiUrlv1, tenantadmApiUrlv1, tenantadmApiUrlv2 } from './constants';
 import { getAuditlogState, getOrganization } from './selectors';
 
@@ -269,11 +270,11 @@ export const removeTenant = createAsyncThunk(`${sliceName}/editDeviceLimit`, ({ 
       ])
     )
 );
-export const getUserOrganization = createAsyncThunk(`${sliceName}/getUserOrganization`, (_, { dispatch, getState }) =>
+export const getUserOrganization = createAsyncThunk(`${sliceName}/getUserOrganization`, (_, { dispatch }) =>
   Api.get(`${tenantadmApiUrlv1}/user/tenant`).then(res => {
     let tasks = [dispatch(actions.setOrganization(res.data))];
     const { addons, plan, trial } = res.data;
-    const { token } = getCurrentSession(getState());
+    const token = getToken();
     const jwt = jwtDecode(token);
     const jwtData = { addons: jwt['mender.addons'], plan: jwt['mender.plan'], trial: jwt['mender.trial'] };
     if (!deepCompare({ addons, plan, trial }, jwtData)) {
