@@ -785,7 +785,7 @@ export const submitFeedback = createAsyncThunk(`${sliceName}/submitFeedback`, ({
     body: JSON.stringify({ feedback, satisfaction, meta })
   }).then(() => {
     const today = new Date();
-    dispatch(saveUserSettings({ feedbackCollectedAt: today.toISOString().split('T')[0] })).unwrap();
+    dispatch(saveUserSettings({ feedbackCollectedAt: today.toISOString().split('T')[0] }));
     setTimeout(() => dispatch(actions.setShowFeedbackDialog(false)), TIMEOUTS.threeSeconds);
   })
 );
