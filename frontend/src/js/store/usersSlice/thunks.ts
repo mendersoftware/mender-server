@@ -497,7 +497,7 @@ export const getRoles = createAsyncThunk(`${sliceName}/getRoles`, (_, { dispatch
       if (!results) {
         return Promise.resolve();
       }
-      const [{ data: roles }, { payload: permissionSetTasks }] = results;
+      const [{ data: roles }, permissionSetTasks] = results;
       const rolesById = normalizeRbacRoles(roles, getRolesById(getState()), permissionSetTasks[permissionSetTasks.length - 1]);
       return Promise.resolve(dispatch(actions.receivedRoles(rolesById)));
     })
