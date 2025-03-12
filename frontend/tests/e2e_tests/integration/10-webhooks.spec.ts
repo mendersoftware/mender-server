@@ -22,11 +22,13 @@ const baseWebhookLocation = 'http://docker.mender.io:9000/webhooks';
 test.describe('Webhooks Functionality', () => {
   let server: Server;
   test.use({ storageState: storagePath });
-  test.beforeAll(() => {
+  test.beforeAll(({ environment }) => {
+    test.skip(environment === 'staging');
     server = startWebhookServer();
   });
   test.afterAll(() => server.close());
-  test('allows configuring basic webhooks', async ({ baseUrl, loggedInPage: page }) => {
+  test('allows configuring basic webhooks', async ({ baseUrl, environment, loggedInPage: page }) => {
+    test.skip(environment === 'staging');
     await page.goto(`${baseUrl}ui/settings`);
     await page.getByText(/integrations/i).click();
     await page.getByLabel(/add an integration/i).click();
@@ -40,7 +42,8 @@ test.describe('Webhooks Functionality', () => {
     await expect(page.getByText(/view details/i)).toBeVisible();
     await expect(page.getByText(/one active integration at a time/i)).toBeVisible();
   });
-  test('shows webhook details', async ({ baseUrl, loggedInPage: page }) => {
+  test('shows webhook details', async ({ baseUrl, environment, loggedInPage: page }) => {
+    test.skip(environment === 'staging');
     await page.goto(`${baseUrl}ui/devices`);
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
     await expect(page.getByText(/Device information for/i)).toBeVisible();
@@ -57,7 +60,8 @@ test.describe('Webhooks Functionality', () => {
     await expect(page.getByText('pubkey')).toBeVisible();
     await page.getByText(/back to webhook/i).click();
   });
-  test('allows deleting a webhook', async ({ baseUrl, loggedInPage: page }) => {
+  test('allows deleting a webhook', async ({ baseUrl, environment, loggedInPage: page }) => {
+    test.skip(environment === 'staging');
     await page.goto(`${baseUrl}ui/settings/integrations`);
     await page.getByText(/view details/i).click();
     await page.getByText(/delete webhook/i).click();
@@ -72,13 +76,12 @@ test.describe('Webhooks Functionality', () => {
     await page.getByLabel(/url/i).fill(`${baseWebhookLocation}/inventory`);
     await page.getByLabel(/device authentication/i).click();
     await page.getByLabel(/device inventory/i).click();
-    await page.getByRole('button', { name: /save/i }).click();
     await page.screenshot({ path: './test-results/save-webhook.png' });
+    await page.getByRole('button', { name: /save/i }).click();
     await expect(page.getByText(/view details/i)).toBeVisible();
     await expect(page.getByText(/one active integration at a time/i)).toBeVisible();
-    await page.screenshot({ path: './test-results/view-webhook.png' });
   });
-  test('shows webhook details for inventory events', async ({ baseUrl, environment, loggedInPage: page }) => {
+  test('shows webhook details for inventory events', async ({ baseUrl, environment, loggedInPage: page }, { retry }) => {
     test.skip(environment !== 'enterprise');
     await page.goto(`${baseUrl}ui/settings/integrations`);
     await page.getByText(/view details/i).click();
@@ -87,10 +90,17 @@ test.describe('Webhooks Functionality', () => {
 
     await page.getByRole('link', { name: /Devices/i }).click();
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
+    const editButton = page.locator('button:right-of(:text("Tags"))');
+    const hasTags = await editButton.isVisible();
+    if (hasTags) {
+      await page.getByRole('button', { name: /edit/i }).click();
+    }
     await page.getByPlaceholder(/key/i).fill('foo');
-    await page.getByPlaceholder(/value/i).fill('bar');
+    await page.getByPlaceholder(/value/i).fill(`bar ${retry}`);
     await page.getByRole('button', { name: /save/i }).click();
+    await expect(page.getByText(/device tags changed/i)).toBeVisible();
     await expect(page.getByPlaceholder(/key/i)).not.toBeVisible();
+
     await page.goto(`${baseUrl}ui/settings/integrations`);
     await page.getByText(/view details/i).click();
     const newInventoryChangeCount = (await page.getByText(/inventory changed/).all()).length;
