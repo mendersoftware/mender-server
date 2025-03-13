@@ -44,7 +44,7 @@ export const ControlledSearch = ({ className = '', isSearching, name = 'search',
   const timer = useRef(); // this + the above focusLock are needed to work around the focus being reassigned to the input field which would cause runaway search triggers
   const triggerDebounceRef = useRef(false); // this is needed to reject the search triggered through the recreation of the onSearch callback
 
-  const searchValue = watch('search', '');
+  const searchValue = watch(name, '');
 
   const debouncedSearchTerm = useDebounce(searchValue, TIMEOUTS.debounceDefault);
 
