@@ -109,7 +109,7 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
       <form autoComplete="off" className={classes.formWrapper} noValidate onSubmit={handleSubmit(onSubmitClick)}>
         {hasError && (
           <Alert className={classes.alert} severity="error">
-            Incorrect email address and / or password.
+            {has2FA ? 'Incorrect email address, password and / or two factor authentication code.' : 'Incorrect email address and / or password.'}
           </Alert>
         )}
         <TextInput
