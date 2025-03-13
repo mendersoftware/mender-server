@@ -58,7 +58,7 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
   const methods = useForm<LoginFormState>({ mode: 'onBlur', defaultValues: { email: '', password: '', noExpiry: false, token2fa: '' } });
   const { formState, handleSubmit, watch, trigger, setFocus } = methods;
   const email = watch('email');
-  const debouncedEmail = useDebounce(email, TIMEOUTS.oneSecond) as string;
+  const debouncedEmail = useDebounce(email, TIMEOUTS.debounceShort) as string;
 
   const { classes } = useStyles();
 
