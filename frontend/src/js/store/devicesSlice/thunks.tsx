@@ -167,15 +167,16 @@ const getGroupNotification = (newGroup, selectedGroup) => {
   if (newGroup === selectedGroup) {
     return { message: successMessage, autoHideDuration: TIMEOUTS.fiveSeconds };
   }
-  return [
-    <>
-      {successMessage} - <Link to={`/devices?inventory=group:eq:${newGroup}`}>click here</Link> to see it.
-    </>,
-    5000,
-    undefined,
-    undefined,
-    () => {}
-  ];
+  return {
+    action: '',
+    autoHideDuration: TIMEOUTS.fiveSeconds,
+    message: (
+      <>
+        {successMessage} - <Link to={`/devices?inventory=group:eq:${newGroup}`}>click here</Link> to see it.
+      </>
+    ),
+    preventClickToCopy: true
+  };
 };
 
 export const addStaticGroup = createAsyncThunk(`${sliceName}/addStaticGroup`, ({ group, devices }, { dispatch, getState }) =>
@@ -192,7 +193,7 @@ export const addStaticGroup = createAsyncThunk(`${sliceName}/addStaticGroup`, ({
         Promise.all([
           dispatch(setDeviceListState({ setOnly: true })),
           dispatch(getGroups()),
-          dispatch(setSnackbar(...getGroupNotification(group, getState().devices.groups.selectedGroup)))
+          dispatch(setSnackbar(getGroupNotification(group, getState().devices.groups.selectedGroup)))
         ])
       )
     )
@@ -251,7 +252,7 @@ export const addDynamicGroup = createAsyncThunk(`${sliceName}/addDynamicGroup`, 
         const { cleanedFilters } = getGroupFilters(groupName, getState().devices.groups);
         return Promise.all([
           dispatch(actions.setDeviceFilters(cleanedFilters)),
-          dispatch(setSnackbar(...getGroupNotification(groupName, getState().devices.groups.selectedGroup))),
+          dispatch(setSnackbar(getGroupNotification(groupName, getState().devices.groups.selectedGroup))),
           dispatch(getDynamicGroups())
         ]);
       })
