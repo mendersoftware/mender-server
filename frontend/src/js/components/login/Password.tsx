@@ -27,7 +27,7 @@ import VeryMuch from '../../../assets/img/verymuch.svg';
 import { LocationWarning } from './Login';
 
 const useStyles = makeStyles()(theme => ({
-  loginBox: { marginTop: 200, maxWidth: 400, '&#login-box': { alignSelf: 'start' } },
+  loginBox: { marginTop: 190, maxWidth: 400, '&#login-box': { alignSelf: 'start' } },
   logo: { maxWidth: 215 },
   buttonWrapper: { [`.${buttonClasses.root}`]: { width: '100%' } },
   requiredReset: { '.required:after': { content: 'none' } },
