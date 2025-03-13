@@ -60,10 +60,11 @@ import (
 	"github.com/pkg/errors"
 	"github.com/redis/go-redis/v9"
 
+	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/ratelimits"
-	mredis "github.com/mendersoftware/mender-server/pkg/redis"
 
+	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 	"github.com/mendersoftware/mender-server/services/deviceauth/utils"
 )
 
@@ -106,6 +107,13 @@ type Cache interface {
 	// DeleteToken deletes the token for 'id'
 	DeleteToken(ctx context.Context, tid, id, idtype string) error
 
+	// GetLimit gets a limit from cache (see store.Datastore.GetLimit)
+	GetLimit(ctx context.Context, name string) (*model.Limit, error)
+	// SetLimit writes a limit to cache (see store.Datastore.SetLimit)
+	SetLimit(ctx context.Context, limit *model.Limit) error
+	// DeleteLimit evicts the limit with the given name from cache
+	DeleteLimit(ctx context.Context, name string) error
+
 	// GetLimits fetches limits for 'id'
 	GetLimits(ctx context.Context, tid, id, idtype string) (*ratelimits.ApiLimits, error)
 
@@ -133,31 +141,77 @@ type RedisCache struct {
 	c               redis.Cmdable
 	prefix          string
 	LimitsExpireSec int
+	DefaultExpire   time.Duration
 	clock           utils.Clock
 }
 
 func NewRedisCache(
-	ctx context.Context,
-	connectionString string,
+	redisClient redis.Cmdable,
 	prefix string,
 	limitsExpireSec int,
-) (*RedisCache, error) {
-	c, err := mredis.ClientFromConnectionString(ctx, connectionString)
-	if err != nil {
-		return nil, err
-	}
-
+) *RedisCache {
 	return &RedisCache{
-		c:               c,
+		c:               redisClient,
 		LimitsExpireSec: limitsExpireSec,
 		prefix:          prefix,
+		DefaultExpire:   time.Hour * 3,
 		clock:           utils.NewClock(),
-	}, err
+	}
 }
 
 func (rl *RedisCache) WithClock(c utils.Clock) *RedisCache {
 	rl.clock = c
 	return rl
+}
+
+func (rl *RedisCache) keyLimit(tenantID, name string) string {
+	if tenantID == "" {
+		tenantID = "default"
+	}
+	return fmt.Sprintf("%s:tenant:%s:limit:%s", rl.prefix, tenantID, name)
+}
+
+func (rl *RedisCache) GetLimit(ctx context.Context, name string) (*model.Limit, error) {
+	var tenantID string
+	id := identity.FromContext(ctx)
+	if id != nil {
+		tenantID = id.Tenant
+	}
+	value, err := rl.c.Get(ctx, rl.keyLimit(tenantID, name)).Uint64()
+	if err != nil {
+		if errors.Is(err, redis.Nil) {
+			return nil, nil
+		}
+		return nil, err
+	}
+	return &model.Limit{
+		TenantID: tenantID,
+		Value:    value,
+		Name:     name,
+	}, nil
+}
+
+func (rl *RedisCache) SetLimit(ctx context.Context, limit *model.Limit) error {
+	if limit == nil {
+		return nil
+	}
+	var tenantID string
+	id := identity.FromContext(ctx)
+	if id != nil {
+		tenantID = id.Tenant
+	}
+	key := rl.keyLimit(tenantID, limit.Name)
+	return rl.c.SetEx(ctx, key, limit.Value, rl.DefaultExpire).Err()
+}
+
+func (rl *RedisCache) DeleteLimit(ctx context.Context, name string) error {
+	var tenantID string
+	id := identity.FromContext(ctx)
+	if id != nil {
+		tenantID = id.Tenant
+	}
+	key := rl.keyLimit(tenantID, name)
+	return rl.c.Del(ctx, key).Err()
 }
 
 func (rl *RedisCache) Throttle(
@@ -235,7 +289,6 @@ func (rl *RedisCache) pipeToken(
 
 func (rl *RedisCache) checkToken(cmd *redis.StringCmd, raw string) (string, error) {
 	err := cmd.Err()
-
 	if err != nil {
 		if isErrRedisNil(err) {
 			return "", nil
@@ -381,7 +434,6 @@ func (rl *RedisCache) GetLimits(
 	id,
 	idtype string,
 ) (*ratelimits.ApiLimits, error) {
-
 	version, err := rl.getTenantKeyVersion(ctx, tid)
 	if err != nil {
 		return nil, err
@@ -440,7 +492,8 @@ func (rl *RedisCache) KeyQuota(tid, id, idtype, intvlNum string, version int) st
 }
 
 func (rl *RedisCache) KeyBurst(
-	tid, id, idtype, url, action, intvlNum string, version int) string {
+	tid, id, idtype, url, action, intvlNum string, version int,
+) string {
 	return fmt.Sprintf(
 		"%s:tenant:%s:version:%d:%s:%s:burst:%s:%s:%s",
 		rl.prefix, tid, version, idtype, id, url, action, intvlNum)
@@ -513,7 +566,6 @@ func (rl *RedisCache) GetCheckInTime(
 	tid,
 	id string,
 ) (*time.Time, error) {
-
 	version, err := rl.getTenantKeyVersion(ctx, tid)
 	if err != nil {
 		return nil, err
