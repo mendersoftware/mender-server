@@ -129,7 +129,7 @@ export const Password = () => {
     });
 
   return (
-    <PasswordScreenContainer title={confirm ? 'Reset your password' : 'Forgot password?'}>
+    <PasswordScreenContainer title={confirm ? 'Reset your password' : 'Forgot password?'} hasReturn={!confirm}>
       {confirm ? <PasswordResetInfo email={email} /> : <PasswordForgotRequest onSubmit={handleSubmit} />}
     </PasswordScreenContainer>
   );
