@@ -36,7 +36,7 @@ describe('SharedSnackbar Component', () => {
     const copyCheck = vi.fn(yes);
     document.execCommand = copyCheck;
 
-    render(<SharedSnackbar snackbar={{ maxWidth: 200, open: true, message: 'test' }} setSnackbar={actionCheck} />);
+    render(<SharedSnackbar snackbar={{ open: true, message: 'test' }} setSnackbar={actionCheck} />);
     expect(screen.queryByText(/test/i)).toBeInTheDocument();
     await user.click(screen.getByText(/test/i));
     expect(actionCheck).toHaveBeenCalled();
@@ -47,13 +47,11 @@ describe('SharedSnackbar Component', () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const actionCheck = vi.fn();
     const copyCheck = vi.fn(yes);
-    const onClickCheck = vi.fn();
     document.execCommand = copyCheck;
 
-    render(<SharedSnackbar snackbar={{ maxWidth: 200, open: true, message: 'test', onClick: onClickCheck }} setSnackbar={actionCheck} />);
+    render(<SharedSnackbar snackbar={{ open: true, message: 'test', preventClickToCopy: true }} setSnackbar={actionCheck} />);
     await user.click(screen.getByText(/test/i));
     expect(actionCheck).not.toHaveBeenCalled();
     expect(copyCheck).not.toHaveBeenCalled();
-    expect(onClickCheck).toHaveBeenCalled();
   });
 });

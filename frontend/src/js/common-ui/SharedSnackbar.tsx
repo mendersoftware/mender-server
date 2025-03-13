@@ -31,13 +31,13 @@ export const SharedSnackbar = ({ setSnackbar, snackbar }) => {
     setSnackbar('');
   };
 
-  const { maxWidth, onClick = handleActionClick, ...snackProps } = snackbar;
+  const { preventClickToCopy, ...snackProps } = snackbar;
   return (
     <Snackbar
       {...snackProps}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      style={{ maxWidth, height: 'auto', lineHeight: '28px', padding: 24, whiteSpace: 'pre-line' }}
-      onClick={onClick}
+      style={{ maxWidth: 900, height: 'auto', lineHeight: '28px', padding: 24, whiteSpace: 'pre-line' }}
+      onClick={preventClickToCopy ? undefined : handleActionClick}
       onClose={onCloseSnackbar}
     />
   );

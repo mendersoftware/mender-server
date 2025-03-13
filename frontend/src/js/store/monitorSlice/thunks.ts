@@ -94,7 +94,9 @@ export const changeNotificationSetting = createAsyncThunk(
       .then(() =>
         Promise.all([
           dispatch(actions.changeAlertChannel({ channel, enabled })),
-          dispatch(storeActions.setSnackbar(`Successfully ${enabled ? 'en' : 'dis'}abled ${channel} alerts`, TIMEOUTS.fiveSeconds))
+          dispatch(
+            storeActions.setSnackbar({ message: `Successfully ${enabled ? 'en' : 'dis'}abled ${channel} alerts`, autoHideDuration: TIMEOUTS.fiveSeconds })
+          )
         ])
       )
 );

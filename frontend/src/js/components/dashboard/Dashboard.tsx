@@ -11,23 +11,19 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { makeStyles } from 'tss-react/mui';
 
 import Loader from '@northern.tech/common-ui/Loader';
-import storeActions from '@northern.tech/store/actions';
-import { DEPLOYMENT_ROUTES, TIMEOUTS, onboardingSteps } from '@northern.tech/store/constants';
-import { getCurrentUser, getOnboardingState } from '@northern.tech/store/selectors';
+import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';
+import { getCurrentUser } from '@northern.tech/store/selectors';
 
-import { getOnboardingComponentFor } from '../../utils/onboardingManager';
 import Deployments from './Deployments';
 import Devices from './Devices';
 import SoftwareDistribution from './SoftwareDistribution';
-
-const { setSnackbar } = storeActions;
 
 const useStyles = makeStyles()(theme => ({
   board: {
@@ -66,33 +62,9 @@ const useStyles = makeStyles()(theme => ({
 }));
 
 export const Dashboard = () => {
-  const timer = useRef();
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const { id: currentUser } = useSelector(getCurrentUser);
-  const onboardingState = useSelector(getOnboardingState);
-
-  useEffect(() => {
-    if (!currentUser || !onboardingState.showTips) {
-      return;
-    }
-    clearTimeout(timer.current);
-    timer.current = setTimeout(() => {
-      const notification = getOnboardingComponentFor(onboardingSteps.ONBOARDING_START, onboardingState, {
-        setSnackbar: (...args) => dispatch(setSnackbar(...args))
-      });
-      !!notification && dispatch(setSnackbar('open', TIMEOUTS.refreshDefault, '', notification, () => {}, true));
-    }, TIMEOUTS.debounceDefault);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUser, dispatch, JSON.stringify(onboardingState)]);
-
-  useEffect(
-    () => () => {
-      clearTimeout(timer.current);
-    },
-    []
-  );
 
   const handleClick = params => {
     let redirect = params.route;

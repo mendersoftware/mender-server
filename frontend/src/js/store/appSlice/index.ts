@@ -12,6 +12,8 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 // @ts-nocheck
+import type { SnackbarProps } from '@mui/material';
+
 import { SORTING_OPTIONS } from '@northern.tech/store/constants';
 import { createSlice } from '@reduxjs/toolkit';
 
@@ -25,15 +27,8 @@ const getYesterday = () => {
   return today.toISOString();
 };
 
-interface SnackbarContent {
-  action: () => void;
-  autoHideDuration?: number;
-  children: JSX.Element;
-  maxWidth?: number;
-  message: string;
-  onClick: () => void;
-  onClose: () => void;
-  open: boolean;
+interface SnackbarContent extends Pick<SnackbarProps, 'action' | 'autoHideDuration' | 'message' | 'open'> {
+  preventClickToCopy?: boolean;
 }
 
 interface SearchState {
@@ -75,14 +70,11 @@ export const initialState: AppSliceType = {
   demoArtifactLink: 'https://dgsbl4vditpls.cloudfront.net/mender-demo-artifact.mender',
   hostAddress: null,
   snackbar: {
-    open: false,
-    message: '',
-    maxWidth: 900,
-    autoHideDuration: undefined,
     action: undefined,
-    children: undefined,
-    onClick: undefined,
-    onClose: undefined
+    autoHideDuration: undefined,
+    message: '',
+    open: false,
+    preventClickToCopy: false
   },
   // return boolean rather than organization details
   features: {
@@ -140,19 +132,16 @@ export const appSlice = createSlice({
       };
     },
     setSnackbar: (state, { payload }) => {
-      let { message, autoHideDuration, action, children, onClick, onClose } = payload;
+      let { message, autoHideDuration, action, preventClickToCopy = false } = payload;
       if (typeof payload === 'string' || payload instanceof String) {
         message = payload;
       }
       state.snackbar = {
-        open: message ? true : false,
-        message,
-        maxWidth: 900,
-        autoHideDuration,
         action,
-        children,
-        onClick,
-        onClose
+        autoHideDuration,
+        message,
+        open: message ? true : false,
+        preventClickToCopy
       };
     },
     setFirstLoginAfterSignup: (state, action) => {

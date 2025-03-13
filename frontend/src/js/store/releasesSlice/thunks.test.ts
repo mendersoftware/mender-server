@@ -216,7 +216,7 @@ describe('release actions', () => {
         }
       },
       { type: appActions.uploadProgress.type, payload: { id: 'mock-uuid', progress: 100 } },
-      { type: appActions.setSnackbar.type, payload: 'Upload successful' },
+      { type: appActions.setSnackbar.type, payload: { message: 'Upload successful', autoHideDuration: 5000 } },
       { type: appActions.cleanUpUpload.type, payload: 'mock-uuid' },
       { type: createArtifact.fulfilled.type },
       { type: getReleases.pending.type },
@@ -243,7 +243,10 @@ describe('release actions', () => {
           artifacts: [{ ...defaultState.releases.byId.r1.artifacts[0], description: 'something new' }]
         }
       },
-      { type: appActions.setSnackbar.type, payload: 'Artifact details were updated successfully.' },
+      {
+        type: appActions.setSnackbar.type,
+        payload: { action: '', autoHideDuration: 5000, message: 'Artifact details were updated successfully.' }
+      },
       { type: getReleases.pending.type },
       { type: selectRelease.pending.type },
       { type: actions.selectedRelease.type, payload: defaultState.releases.byId.r1.name },
@@ -270,7 +273,7 @@ describe('release actions', () => {
         payload: { id: 'mock-uuid', upload: { cancelSource: mockAbortController, name: defaultState.releases.byId.r1.name, size: 1234, progress: 0 } }
       },
       { type: appActions.uploadProgress.type, payload: { id: 'mock-uuid', progress: 100 } },
-      { type: appActions.setSnackbar.type, payload: 'Upload successful' },
+      { type: appActions.setSnackbar.type, payload: { autoHideDuration: 5000, message: 'Upload successful' } },
       { type: getReleases.pending.type },
       { type: actions.receiveReleases.type, payload: defaultState.releases.byId },
       { type: actions.setReleaseListState.type, payload: { ...defaultState.releases.releasesList, releaseIds: retrievedReleaseIds, total: 5000 } },
@@ -366,7 +369,7 @@ describe('release actions', () => {
         payload: { ...defaultState.releases.byId.r1, tags: ['foo', 'bar'] }
       },
       { type: setSingleReleaseTags.fulfilled.type },
-      { type: appActions.setSnackbar.type, payload: 'Release tags were set successfully.' },
+      { type: appActions.setSnackbar.type, payload: { action: '', autoHideDuration: 5000, message: 'Release tags were set successfully.' } },
       { type: setReleaseTags.fulfilled.type }
     ];
     await store.dispatch(setReleaseTags({ name: defaultState.releases.byId.r1.name, tags: ['foo', 'bar'] }));
@@ -382,7 +385,10 @@ describe('release actions', () => {
         type: actions.receiveRelease.type,
         payload: { ...defaultState.releases.byId.r1, notes: 'this & that' }
       },
-      { type: appActions.setSnackbar.type, payload: 'Release details were updated successfully.' },
+      {
+        type: appActions.setSnackbar.type,
+        payload: { action: '', autoHideDuration: 5000, message: 'Release details were updated successfully.' }
+      },
       { type: updateReleaseInfo.fulfilled.type }
     ];
     await store.dispatch(updateReleaseInfo({ name: defaultState.releases.byId.r1.name, info: { notes: 'this & that' } }));

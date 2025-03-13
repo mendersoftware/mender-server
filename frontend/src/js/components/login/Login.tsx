@@ -142,7 +142,7 @@ export const Login = () => {
     }
     const loginError = cookies.get('error');
     if (loginError) {
-      dispatch(setSnackbar(loginError, TIMEOUTS.refreshDefault));
+      dispatch(setSnackbar({ message: loginError, autoHideDuration: TIMEOUTS.refreshDefault }));
       cookies.remove('error');
     }
     return () => {

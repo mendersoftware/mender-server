@@ -163,11 +163,11 @@ export const createArtifact = createAsyncThunk(`${sliceName}/createArtifact`, ({
         dispatch(getReleases());
         dispatch(selectRelease(file.name));
       }, TIMEOUTS.oneSecond);
-      return Promise.resolve(dispatch(setSnackbar('Upload successful', TIMEOUTS.fiveSeconds)));
+      return Promise.resolve(dispatch(setSnackbar({ message: 'Upload successful', autoHideDuration: TIMEOUTS.fiveSeconds })));
     })
     .catch(err => {
       if (isCancel(err)) {
-        return dispatch(setSnackbar('The artifact generation has been cancelled', TIMEOUTS.fiveSeconds));
+        return dispatch(setSnackbar({ message: 'The artifact generation has been cancelled', autoHideDuration: TIMEOUTS.fiveSeconds }));
       }
       return commonErrorHandler(err, `Artifact couldn't be generated.`, dispatch);
     })
@@ -187,7 +187,7 @@ export const uploadArtifact = createAsyncThunk(`${sliceName}/uploadArtifact`, ({
     GeneralApi.upload(`${deploymentsApiUrl}/artifacts`, formData, e => dispatch(uploadProgress({ id: uploadId, progress: progress(e) })), cancelSource.signal)
   ])
     .then(() => {
-      const tasks = [dispatch(setSnackbar('Upload successful', TIMEOUTS.fiveSeconds)), dispatch(getReleases())];
+      const tasks = [dispatch(setSnackbar({ message: 'Upload successful', autoHideDuration: TIMEOUTS.fiveSeconds })), dispatch(getReleases())];
       if (meta.name) {
         tasks.push(dispatch(selectRelease(meta.name)));
       }
@@ -195,7 +195,7 @@ export const uploadArtifact = createAsyncThunk(`${sliceName}/uploadArtifact`, ({
     })
     .catch(err => {
       if (isCancel(err)) {
-        return dispatch(setSnackbar('The upload has been cancelled', TIMEOUTS.fiveSeconds));
+        return dispatch(setSnackbar({ message: 'The upload has been cancelled', autoHideDuration: TIMEOUTS.fiveSeconds }));
       }
       return commonErrorHandler(err, `Artifact couldn't be uploaded.`, dispatch);
     })
@@ -223,7 +223,7 @@ export const editArtifact = createAsyncThunk(`${sliceName}/editArtifact`, ({ id,
       };
       return Promise.all([
         dispatch(actions.receiveRelease(updatedRelease)),
-        dispatch(setSnackbar('Artifact details were updated successfully.', TIMEOUTS.fiveSeconds, '')),
+        dispatch(setSnackbar({ message: 'Artifact details were updated successfully.', autoHideDuration: TIMEOUTS.fiveSeconds, action: '' })),
         dispatch(getRelease(release.name)),
         dispatch(selectRelease(release.name))
       ]);
@@ -251,7 +251,10 @@ export const removeArtifact = createAsyncThunk(`${sliceName}/removeArtifact`, (i
           )
         ]);
       }
-      return Promise.all([dispatch(setSnackbar('Artifact was removed', TIMEOUTS.fiveSeconds, '')), dispatch(actions.receiveRelease(release))]);
+      return Promise.all([
+        dispatch(setSnackbar({ message: 'Artifact was removed', autoHideDuration: TIMEOUTS.fiveSeconds, action: '' })),
+        dispatch(actions.receiveRelease(release))
+      ]);
     })
     .catch(err => commonErrorHandler(err, `Error removing artifact:`, dispatch))
 );
@@ -362,7 +365,7 @@ export const updateReleaseInfo = createAsyncThunk(`${sliceName}/updateReleaseInf
     .then(() =>
       Promise.all([
         dispatch(actions.receiveRelease({ ...getReleasesById(getState())[name], ...info, name })),
-        dispatch(setSnackbar('Release details were updated successfully.', TIMEOUTS.fiveSeconds, ''))
+        dispatch(setSnackbar({ message: 'Release details were updated successfully.', autoHideDuration: TIMEOUTS.fiveSeconds, action: '' }))
       ])
     )
 );
@@ -376,7 +379,7 @@ export const setSingleReleaseTags = createAsyncThunk(`${sliceName}/setSingleRele
 export const setReleaseTags = createAsyncThunk(`${sliceName}/setReleaseTags`, ({ name, tags = [] }, { dispatch }) =>
   dispatch(setSingleReleaseTags({ name, tags }))
     .catch(err => commonErrorHandler(err, `Release tags couldn't be set.`, dispatch))
-    .then(() => Promise.resolve(dispatch(setSnackbar('Release tags were set successfully.', TIMEOUTS.fiveSeconds, ''))))
+    .then(() => Promise.resolve(dispatch(setSnackbar({ message: 'Release tags were set successfully.', autoHideDuration: TIMEOUTS.fiveSeconds, action: '' }))))
 );
 
 export const setReleasesTags = createAsyncThunk(`${sliceName}/setReleasesTags`, ({ releases, tags = [] }, { dispatch }) => {
@@ -386,7 +389,7 @@ export const setReleasesTags = createAsyncThunk(`${sliceName}/setReleasesTags`, 
   }, []);
   return Promise.all(addRequests)
     .catch(err => commonErrorHandler(err, `Releases couldn't be tagged.`, dispatch))
-    .then(() => Promise.resolve(dispatch(setSnackbar('Releases were tagged successfully.', TIMEOUTS.fiveSeconds, ''))));
+    .then(() => Promise.resolve(dispatch(setSnackbar({ message: 'Releases were tagged successfully.', autoHideDuration: TIMEOUTS.fiveSeconds, action: '' }))));
 });
 
 export const getExistingReleaseTags = createAsyncThunk(`${sliceName}/getReleaseTags`, (_, { dispatch }) =>

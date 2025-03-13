@@ -30,15 +30,19 @@ describe('app reducer', () => {
   });
   it('should handle SET_SNACKBAR', async () => {
     expect(reducer(undefined, { type: actions.setSnackbar, payload: { open: true, message: snackbarMessage } }).snackbar).toEqual({
+      action: undefined,
+      autoHideDuration: undefined,
+      message: snackbarMessage,
       open: true,
-      maxWidth: 900,
-      message: snackbarMessage
+      preventClickToCopy: false
     });
 
     expect(reducer(initialState, { type: actions.setSnackbar, payload: { open: true, message: snackbarMessage } }).snackbar).toEqual({
+      action: undefined,
+      autoHideDuration: undefined,
+      message: snackbarMessage,
       open: true,
-      maxWidth: 900,
-      message: snackbarMessage
+      preventClickToCopy: false
     });
   });
 
