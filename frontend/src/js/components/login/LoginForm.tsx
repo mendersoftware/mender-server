@@ -97,6 +97,11 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
       setHasError(true);
     });
 
+  const onEditEmailClick = () => {
+    setEmailEditingDisabled(toggle);
+    setShowPassword(false);
+  };
+
   const onShowPassword = () => setFocus('password');
 
   const onShow2fa = () => {
@@ -122,7 +127,7 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
           InputProps={{
             endAdornment: emailEditingDisabled ? (
               <InputAdornment position="end">
-                <IconButton onClick={() => setEmailEditingDisabled(toggle)} size="large">
+                <IconButton onClick={onEditEmailClick} size="large">
                   <EditIcon />
                 </IconButton>
               </InputAdornment>
