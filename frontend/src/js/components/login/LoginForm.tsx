@@ -24,7 +24,6 @@ import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
 import { TIMEOUTS } from '@northern.tech/store/commonConstants';
-import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { toggle } from '@northern.tech/utils/helpers';
 
 const useStyles = makeStyles()((theme: Theme) => ({
@@ -49,10 +48,8 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
   const [hasError, setHasError] = useState<boolean>(false);
   const twoFARef = useRef<HTMLInputElement | undefined>(undefined);
   // can't use the existing Form component due to the validation mode that's targeted
-  const methods = useForm<LoginFormState>({ mode: 'onBlur', defaultValues: { email: '', password: '', noExpiry: false, token2fa: '' } });
-  const { formState, handleSubmit, watch, trigger, setFocus } = methods;
-  const email = watch('email');
-  const debouncedEmail = useDebounce(email, TIMEOUTS.oneSecond) as string;
+  const methods = useForm<LoginFormState>({ mode: 'onSubmit', defaultValues: { email: '', password: '', noExpiry: false, token2fa: '' } });
+  const { handleSubmit, trigger, setFocus } = methods;
   const isOsInstallation = !(isEnterprise || isHosted);
 
   const { classes } = useStyles();
@@ -68,13 +65,6 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
     }
     setEmailEditingDisabled(showPassword);
   }, [isOsInstallation, showPassword]);
-
-  useEffect(() => {
-    if (!debouncedEmail) {
-      return;
-    }
-    trigger('email');
-  }, [debouncedEmail, trigger]);
 
   const maybeShowPassword = useCallback(async () => {
     const isValidEmail = await trigger('email');
