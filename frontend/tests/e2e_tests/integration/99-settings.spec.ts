@@ -144,7 +144,7 @@ test.describe('Settings', () => {
       console.log(qrData.get('secret'));
       const qrToken = await generateOtp(qrData.get('secret'));
       console.log('Generated otp:', qrToken);
-      await page.fill('#token2fa', qrToken);
+      await page.getByLabel(/Two Factor Authentication Code/i).fill(qrToken);
       await page.getByRole('button', { name: /Verify/i }).click();
       await page.waitForSelector(`css=ol >> text=Verified`);
       await page.getByRole('button', { name: /save/i }).click();
@@ -157,18 +157,18 @@ test.describe('Settings', () => {
       // enter valid username and password
       await processLoginForm({ username, password, page, environment });
       await page.waitForTimeout(timeouts.default);
-      await page.fill('#token2fa', '123456');
+      await page.getByLabel(/Two Factor Authentication Code/i).fill('123456');
       await page.getByRole('button', { name: /log in/i }).click();
       // still on /login page plus an error is displayed
       await expect(page.getByRole('button', { name: /Log in/i })).toBeVisible();
-      await page.getByText(/There was a problem logging in/).waitFor({ timeout: timeouts.default });
+      await page.getByText(/Incorrect email address/).waitFor({ timeout: timeouts.default });
     });
     test('allows turning 2fa off again', async ({ baseUrl, environment, page, password, username }) => {
       test.skip(environment !== 'staging');
       await page.goto(`${baseUrl}ui/`);
       await processLoginForm({ username, password, page, environment });
       const newToken = await generateOtp();
-      await page.fill('#token2fa', newToken);
+      await page.getByLabel(/Two Factor Authentication Code/i).fill(newToken);
       await page.getByRole('button', { name: /log in/i }).click();
       await isLoggedIn(page);
       await page.goto(`${baseUrl}ui/settings/my-account`);
