@@ -224,10 +224,6 @@ exports[`PastDeployments Component > renders correctly 1`] = `
   color: #ab1000;
 }
 
-.emotion-3.Mui-focused {
-  color: #337a87;
-}
-
 .emotion-4 {
   line-height: 1.4375em;
   font-family: Lato,sans-serif;
@@ -679,10 +675,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
 
 .emotion-28.Mui-error {
   color: #ab1000;
-}
-
-.emotion-28.Mui-focused {
-  color: #337a87;
 }
 
 .emotion-32 {

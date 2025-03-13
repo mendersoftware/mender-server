@@ -401,10 +401,6 @@ exports[`ColumnCustomizationDialogContent Component > renders correctly 1`] = `
   color: #ab1000;
 }
 
-.emotion-12.Mui-focused {
-  color: #337a87;
-}
-
 .emotion-13 {
   line-height: 1.4375em;
   font-family: Lato,sans-serif;

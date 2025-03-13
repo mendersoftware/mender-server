@@ -341,10 +341,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   color: #ab1000;
 }
 
-.emotion-9.Mui-focused {
-  color: #337a87;
-}
-
 .emotion-10 {
   line-height: 1.4375em;
   font-family: Lato,sans-serif;

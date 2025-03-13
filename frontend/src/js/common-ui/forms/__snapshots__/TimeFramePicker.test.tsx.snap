@@ -78,10 +78,6 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
   color: #ab1000;
 }
 
-.emotion-1.Mui-focused {
-  color: #337a87;
-}
-
 .emotion-2 {
   line-height: 1.4375em;
   font-family: Lato,sans-serif;
@@ -330,10 +326,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
 
 .emotion-7.Mui-error {
   color: #ab1000;
-}
-
-.emotion-7.Mui-focused {
-  color: #337a87;
 }
 
 .emotion-11 {
