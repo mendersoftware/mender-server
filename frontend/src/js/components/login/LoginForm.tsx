@@ -100,6 +100,11 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
     setFocus('password');
   };
 
+  const onEditEmailClick = () => {
+    setEmailEditingDisabled(toggle);
+    setShowPassword(false);
+  };
+
   const onShow2fa = () => {
     setFocus('token2fa');
     setTimeout(() => window.dispatchEvent(new Event('resize')), TIMEOUTS.oneSecond); // since there is no state change associated here, the timeout can be skipped from clearing on unmount
@@ -123,7 +128,7 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
           InputProps={{
             endAdornment: emailEditingDisabled ? (
               <InputAdornment position="end">
-                <IconButton onClick={() => setEmailEditingDisabled(toggle)} size="large">
+                <IconButton onClick={onEditEmailClick} size="large">
                   <EditIcon />
                 </IconButton>
               </InputAdornment>
