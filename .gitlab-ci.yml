@@ -296,7 +296,9 @@ test:backend:integration:
     - mkdir -p ${GOCOVERDIR}/integration
     - make -C backend -j 4 docker-pull MENDER_IMAGE_TAG=$MENDER_IMAGE_TAG_TEST
   script:
-    - make -C backend test-integration GOCOVERDIR=${GOCOVERDIR}/integration
+    - make -C backend test-integration
+      GOCOVERDIR=${GOCOVERDIR}/integration
+      MENDER_IMAGE_TAG=$MENDER_IMAGE_TAG_TEST
   artifacts:
     expire_in: 1w
     when: always
