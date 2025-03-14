@@ -147,7 +147,7 @@ test.describe('Settings', () => {
       console.log(qrData.get('secret'));
       const qrToken = await generateOtp(qrData.get('secret'));
       console.log('Generated otp:', qrToken);
-      await page.getByLabel(/Two Factor Authentication Code/i).fill(qrToken);
+      await page.getByLabel(/Verification code/i).fill(qrToken);
       await page.getByRole('button', { name: /Verify/i }).click();
       await page.waitForSelector(`css=ol >> text=Verified`);
       await page.getByRole('button', { name: /save/i }).click();
