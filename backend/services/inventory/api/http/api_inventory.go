@@ -62,7 +62,7 @@ const (
 	uriGroups         = apiUrlManagmentV1 + "/groups"
 	uriGroupsName     = apiUrlManagmentV1 + "/groups/#name"
 	uriGroupsDevices  = apiUrlManagmentV1 + "/groups/#name/devices"
-	uriAttributes     = "/api/devices/v1/inventory/attributes"
+	uriAttributes     = "/api/devices/v1/inventory/device/attributes"
 
 	apiUrlInternalV1         = "/api/internal/v1/inventory"
 	uriInternalAlive         = apiUrlInternalV1 + "/alive"
