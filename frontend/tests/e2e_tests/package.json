@@ -29,8 +29,6 @@
     "md5": "^2.3.0",
     "otplib": "^12.0.1",
     "pixelmatch": "^7.1.0",
-    "playwright": "^1.45.0",
-    "playwright-chromium": "1.50.1",
     "pngjs": "7.0.0",
     "typescript": "^5.8.2",
     "uuid": "^11.1.0",

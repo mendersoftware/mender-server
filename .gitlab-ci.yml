@@ -375,7 +375,6 @@ test:prep:
     - curl -fsSL https://get.docker.com | sh
     - docker pull mendersoftware/mender-client-docker-addons:mender-master
     - npm ci --cache .npm --prefer-offline
-    - npx playwright install
   script:
     - npm run test
   artifacts:
@@ -391,6 +390,7 @@ test:staging-deployment:chrome:
   extends: .template:test:staging-deployment
   resource_group: test-staging-deployment-chrome
   script:
+    - npx playwright install chromium
     - npm run test
   start_in: 15 minutes
 
@@ -398,6 +398,7 @@ test:staging-deployment:firefox:
   extends: .template:test:staging-deployment
   resource_group: test-staging-deployment-firefox
   script:
+    - npx playwright install firefox
     - npm run test -- --browser=firefox
   start_in: 40 minutes
 
@@ -406,6 +407,7 @@ test:staging-deployment:webkit:
   resource_group: test-staging-deployment-webkit
   allow_failure: true
   script:
+    - npx playwright install webkit
     - npm run test -- --browser=webkit
   start_in: 30 minutes
 

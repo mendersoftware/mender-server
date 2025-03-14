@@ -62,7 +62,10 @@ test.describe('Settings', () => {
       await page.getByRole('button', { name: /Create token/i }).click();
       await page.getByRole('button', { name: /Close/i }).click();
       await page.mouse.wheel(0, 200);
-      await page.getByText(/in 7 days/i).waitFor();
+      await page
+        .getByText(/in 7 days/i)
+        .first()
+        .waitFor();
       await page.getByRole('button', { name: /Revoke/i }).click();
       await revokeTokenButton.waitFor();
       await revokeTokenButton.click();
@@ -144,7 +147,7 @@ test.describe('Settings', () => {
       console.log(qrData.get('secret'));
       const qrToken = await generateOtp(qrData.get('secret'));
       console.log('Generated otp:', qrToken);
-      await page.getByLabel(/Two Factor Authentication Code/i).fill(qrToken);
+      await page.getByLabel(/Verification code/i).fill(qrToken);
       await page.getByRole('button', { name: /Verify/i }).click();
       await page.waitForSelector(`css=ol >> text=Verified`);
       await page.getByRole('button', { name: /save/i }).click();
