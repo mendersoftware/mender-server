@@ -100,8 +100,6 @@ export const Organization = () => {
     }
   }, [ssoConfig]);
 
-  const dispatchedSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
-
   const onSaveSSOSettings = useCallback(
     (id, config) => {
       const { contentType } = SSO_TYPES[selectedSsoItem.type];
@@ -240,14 +238,7 @@ export const Organization = () => {
       {selectedSsoItem && (
         <div className="margin-top">
           <Collapse className="margin-left-large" in={isConfiguringSSO}>
-            <SSOConfig
-              ssoItem={selectedSsoItem}
-              config={ssoConfig}
-              onSave={onSaveSSOSettings}
-              onCancel={onCancelSSOSettings}
-              setSnackbar={dispatchedSetSnackbar}
-              token={token}
-            />
+            <SSOConfig ssoItem={selectedSsoItem} config={ssoConfig} onSave={onSaveSSOSettings} onCancel={onCancelSSOSettings} token={token} />
           </Collapse>
         </div>
       )}
