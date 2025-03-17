@@ -117,9 +117,14 @@ func (a AccessLogger) LogFunc(
 		Log(logLevel)
 }
 
+// Middleware implementsa gin compatible MiddlewareFunc
+//
+// NOTE: This accesslog middleware also implements the legacy requestlog
+// middleware.
 func (a AccessLogger) Middleware(c *gin.Context) {
 	ctx := c.Request.Context()
 	startTime := time.Now()
+	ctx = log.WithContext(ctx, log.New(log.Ctx{}))
 	ctx = withContext(ctx, &logContext{maxErrors: DefaultMaxErrors})
 	c.Request = c.Request.WithContext(ctx)
 	defer a.LogFunc(ctx, c, startTime)
