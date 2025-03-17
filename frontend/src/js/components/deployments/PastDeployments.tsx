@@ -67,7 +67,7 @@ export const Past = props => {
   const timer = useRef();
 
   const dispatch = useAppDispatch();
-  const dispatchedSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
+  const dispatchedSetSnackbar = useCallback(payload => dispatch(setSnackbar(payload)), [dispatch]);
 
   const { finished: pastSelectionState } = useSelector(getDeploymentsSelectionState);
   const past = useSelector(state => getMappedDeploymentSelection(state, type));
@@ -175,10 +175,7 @@ export const Past = props => {
       ? deploymentsRef.current.offsetLeft + detailsButtons[0].offsetLeft + detailsButtons[0].offsetWidth / 2 + 15
       : deploymentsRef.current.offsetWidth;
     const anchor = { left: deploymentsRef.current.offsetWidth / 2, top: deploymentsRef.current.offsetTop };
-    onboardingComponent = getOnboardingComponentFor(onboardingSteps.DEPLOYMENTS_PAST_COMPLETED, onboardingState, {
-      anchor,
-      setSnackbar: dispatchedSetSnackbar
-    });
+    onboardingComponent = getOnboardingComponentFor(onboardingSteps.DEPLOYMENTS_PAST_COMPLETED, onboardingState, { anchor });
     onboardingComponent = getOnboardingComponentFor(
       onboardingSteps.DEPLOYMENTS_PAST_COMPLETED_FAILURE,
       onboardingState,
