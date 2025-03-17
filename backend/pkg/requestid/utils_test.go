@@ -30,3 +30,9 @@ func TestContext(t *testing.T) {
 	// make sure that the helpers are using private types
 	assert.Nil(t, WithContext(context.Background(), "foo").Value(0))
 }
+
+func TestNewID(t *testing.T) {
+	u1 := New()
+	u2 := New()
+	assert.NotEqual(t, u1, u2, "Request ID MUST never be equal")
+}
