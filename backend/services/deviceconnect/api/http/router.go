@@ -73,7 +73,6 @@ func NewRouter(
 
 	router := gin.New()
 	router.Use(accesslog.Middleware())
-	router.Use(gin.Recovery())
 	router.Use(identity.Middleware(
 		identity.NewMiddlewareOptions().
 			SetPathRegex(`^/api/(devices|management)/v[0-9]/`),
