@@ -13,33 +13,67 @@
 //    limitations under the License.
 import React from 'react';
 
+import { actions } from '@northern.tech/store/appSlice';
 import { yes } from '@northern.tech/store/constants';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { undefineds } from '../../../tests/mockData';
+import { defaultState, undefineds } from '../../../tests/mockData';
 import { render } from '../../../tests/setupTests';
 import SharedSnackbar from './SharedSnackbar';
 
+const preloadedState = {
+  ...defaultState,
+  app: {
+    ...defaultState.app,
+    snackbar: {
+      ...defaultState.snackbar,
+      message: 'test',
+      open: true
+    }
+  }
+};
+const preloadedStateNoCopy = {
+  ...defaultState,
+  app: {
+    ...defaultState.app,
+    snackbar: {
+      ...defaultState.snackbar,
+      message: 'test',
+      preventClickToCopy: true,
+      open: true
+    }
+  }
+};
+
 describe('SharedSnackbar Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<SharedSnackbar snackbar={{ maxWidth: 200, open: true, message: 'test' }} setSnackbar={vi.fn} />);
+    const { baseElement } = render(<SharedSnackbar />, { preloadedState });
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
 
   it('works as intended', async () => {
+    const mockDispatch = vi.fn();
+    useAppDispatch.mockReturnValue(mockDispatch);
+    vi.mock('@northern.tech/store/store', async importOriginal => {
+      const actual = await importOriginal();
+      return {
+        ...actual,
+        useAppDispatch: vi.fn()
+      };
+    });
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    const actionCheck = vi.fn();
     const copyCheck = vi.fn(yes);
     document.execCommand = copyCheck;
 
-    render(<SharedSnackbar snackbar={{ open: true, message: 'test' }} setSnackbar={actionCheck} />);
+    render(<SharedSnackbar />, { preloadedState });
     expect(screen.queryByText(/test/i)).toBeInTheDocument();
     await user.click(screen.getByText(/test/i));
-    expect(actionCheck).toHaveBeenCalled();
+    expect(mockDispatch).toHaveBeenCalledWith(actions.setSnackbar('Copied to clipboard'));
     expect(copyCheck).toHaveBeenCalled();
   });
 
@@ -49,7 +83,7 @@ describe('SharedSnackbar Component', () => {
     const copyCheck = vi.fn(yes);
     document.execCommand = copyCheck;
 
-    render(<SharedSnackbar snackbar={{ open: true, message: 'test', preventClickToCopy: true }} setSnackbar={actionCheck} />);
+    render(<SharedSnackbar />, { preloadedState: preloadedStateNoCopy });
     await user.click(screen.getByText(/test/i));
     expect(actionCheck).not.toHaveBeenCalled();
     expect(copyCheck).not.toHaveBeenCalled();
