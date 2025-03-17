@@ -12,7 +12,6 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 export const onboardingSteps = {
-  ONBOARDING_START: 'onboarding-start',
   DEVICES_PENDING_ONBOARDING_START: 'devices-pending-onboarding-start',
   DASHBOARD_ONBOARDING_START: 'dashboard-onboarding-start',
   DASHBOARD_ONBOARDING_PENDINGS: 'dashboard-onboarding-pendings',

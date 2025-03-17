@@ -114,7 +114,7 @@ export const Signup = () => {
 
   const handleSignup = formData => {
     if (recaptchaSiteKey !== '' && recaptcha === '') {
-      return setSnackbar('Please complete the reCAPTCHA test before proceeding!', TIMEOUTS.fiveSeconds, '');
+      return setSnackbar({ message: 'Please complete the reCAPTCHA test before proceeding!', autoHideDuration: TIMEOUTS.fiveSeconds, action: '' });
     }
     setLoading(true);
     const { name, marketing, password, ...remainder } = formData;

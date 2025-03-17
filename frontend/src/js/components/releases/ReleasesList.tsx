@@ -139,7 +139,7 @@ export const ReleasesList = ({ className = '', onFileUploadClick }) => {
       onFileUploadClick(acceptedFiles[0]);
     }
     if (rejectedFiles.length) {
-      dispatch(setSnackbar(`File '${rejectedFiles[0].name}' was rejected. File should be of type .mender`, null));
+      dispatch(setSnackbar(`File '${rejectedFiles[0].name}' was rejected. File should be of type .mender`));
     }
   };
 

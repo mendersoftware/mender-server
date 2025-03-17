@@ -128,7 +128,7 @@ export const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUp
         return;
       }
       setSnackbarAlreadySet(true);
-      setSnackbar(content, TIMEOUTS.threeSeconds);
+      setSnackbar({ message: content, autoHideDuration: TIMEOUTS.threeSeconds });
       clearTimeout(timers.current.snack);
       timers.current.snack = setTimeout(() => setSnackbarAlreadySet(false), TIMEOUTS.threeSeconds + TIMEOUTS.debounceShort);
     },
@@ -180,7 +180,7 @@ export const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUp
     }
     if (socketInitialized) {
       setStartTime(new Date());
-      setSnackbar('Connection with the device established.', TIMEOUTS.fiveSeconds);
+      setSnackbar({ message: 'Connection with the device established.', autoHideDuration: TIMEOUTS.fiveSeconds });
     } else {
       close();
     }

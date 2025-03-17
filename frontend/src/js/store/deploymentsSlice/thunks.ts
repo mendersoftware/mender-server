@@ -142,7 +142,7 @@ export const createDeployment = createAsyncThunk(`${sliceName}/createDeployment`
       let tasks = [
         dispatch(actions.createdDeployment(deployment)),
         dispatch(getSingleDeployment(deploymentId)),
-        dispatch(setSnackbar('Deployment created successfully', TIMEOUTS.fiveSeconds))
+        dispatch(setSnackbar({ message: 'Deployment created successfully', autoHideDuration: TIMEOUTS.fiveSeconds }))
       ];
       // track in GA
       trackDeploymentCreation(totalDeploymentCount, hasDeployments, trial_expiration);

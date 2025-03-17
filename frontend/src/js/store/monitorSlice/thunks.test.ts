@@ -98,7 +98,7 @@ describe('monitor actions', () => {
     const expectedActions = [
       { type: changeNotificationSetting.pending.type },
       { type: actions.changeAlertChannel.type, payload: { channel: 'email', enabled: false } },
-      { type: appActions.setSnackbar.type, payload: 'Successfully disabled email alerts' },
+      { type: appActions.setSnackbar.type, payload: { message: 'Successfully disabled email alerts', autoHideDuration: 5000 } },
       { type: changeNotificationSetting.fulfilled.type }
     ];
     const request = store.dispatch(changeNotificationSetting({ enabled: false }));

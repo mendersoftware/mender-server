@@ -37,7 +37,6 @@ import { DEPLOYMENT_STATES, onboardingSteps as stepNames, yes } from '@northern.
 
 export const onboardingSteps = {
   [stepNames.DASHBOARD_ONBOARDING_START]: {
-    condition: { min: stepNames.ONBOARDING_START },
     specialComponent: <GetStartedTip />
   },
   [stepNames.DEVICES_PENDING_ONBOARDING_START]: {

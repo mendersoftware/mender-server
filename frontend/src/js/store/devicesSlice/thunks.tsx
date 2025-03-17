@@ -152,7 +152,12 @@ export const removeDevicesFromGroup = createAsyncThunk(`${sliceName}/removeDevic
   GeneralApi.delete(`${inventoryApiUrl}/groups/${group}/devices`, deviceIds).then(() =>
     Promise.all([
       dispatch(actions.removeFromGroup({ group, deviceIds })),
-      dispatch(setSnackbar(`The ${pluralize('devices', deviceIds.length)} ${pluralize('were', deviceIds.length)} removed from the group`, TIMEOUTS.fiveSeconds))
+      dispatch(
+        setSnackbar({
+          message: `The ${pluralize('devices', deviceIds.length)} ${pluralize('were', deviceIds.length)} removed from the group`,
+          autoHideDuration: TIMEOUTS.fiveSeconds
+        })
+      )
     ])
   )
 );
@@ -160,17 +165,18 @@ export const removeDevicesFromGroup = createAsyncThunk(`${sliceName}/removeDevic
 const getGroupNotification = (newGroup, selectedGroup) => {
   const successMessage = 'The group was updated successfully';
   if (newGroup === selectedGroup) {
-    return [successMessage, TIMEOUTS.fiveSeconds];
+    return { message: successMessage, autoHideDuration: TIMEOUTS.fiveSeconds };
   }
-  return [
-    <>
-      {successMessage} - <Link to={`/devices?inventory=group:eq:${newGroup}`}>click here</Link> to see it.
-    </>,
-    5000,
-    undefined,
-    undefined,
-    () => {}
-  ];
+  return {
+    action: '',
+    autoHideDuration: TIMEOUTS.fiveSeconds,
+    message: (
+      <>
+        {successMessage} - <Link to={`/devices?inventory=group:eq:${newGroup}`}>click here</Link> to see it.
+      </>
+    ),
+    preventClickToCopy: true
+  };
 };
 
 export const addStaticGroup = createAsyncThunk(`${sliceName}/addStaticGroup`, ({ group, devices }, { dispatch, getState }) =>
@@ -187,7 +193,7 @@ export const addStaticGroup = createAsyncThunk(`${sliceName}/addStaticGroup`, ({
         Promise.all([
           dispatch(setDeviceListState({ setOnly: true })),
           dispatch(getGroups()),
-          dispatch(setSnackbar(...getGroupNotification(group, getState().devices.groups.selectedGroup)))
+          dispatch(setSnackbar(getGroupNotification(group, getState().devices.groups.selectedGroup)))
         ])
       )
     )
@@ -199,7 +205,7 @@ export const removeStaticGroup = createAsyncThunk(`${sliceName}/removeStaticGrou
     Promise.all([
       dispatch(actions.removeGroup(groupName)),
       dispatch(getGroups()),
-      dispatch(setSnackbar('Group was removed successfully', TIMEOUTS.fiveSeconds))
+      dispatch(setSnackbar({ message: 'Group was removed successfully', autoHideDuration: TIMEOUTS.fiveSeconds }))
     ])
   )
 );
@@ -246,7 +252,7 @@ export const addDynamicGroup = createAsyncThunk(`${sliceName}/addDynamicGroup`, 
         const { cleanedFilters } = getGroupFilters(groupName, getState().devices.groups);
         return Promise.all([
           dispatch(actions.setDeviceFilters(cleanedFilters)),
-          dispatch(setSnackbar(...getGroupNotification(groupName, getState().devices.groups.selectedGroup))),
+          dispatch(setSnackbar(getGroupNotification(groupName, getState().devices.groups.selectedGroup))),
           dispatch(getDynamicGroups())
         ]);
       })
@@ -262,7 +268,10 @@ export const updateDynamicGroup = createAsyncThunk(`${sliceName}/updateDynamicGr
 export const removeDynamicGroup = createAsyncThunk(`${sliceName}/removeDynamicGroup`, (groupName, { dispatch, getState }) => {
   const filterId = getState().devices.groups.byId[groupName].id;
   return GeneralApi.delete(`${inventoryApiUrlV2}/filters/${filterId}`).then(() =>
-    Promise.all([dispatch(actions.removeGroup(groupName)), dispatch(setSnackbar('Group was removed successfully', TIMEOUTS.fiveSeconds))])
+    Promise.all([
+      dispatch(actions.removeGroup(groupName)),
+      dispatch(setSnackbar({ message: 'Group was removed successfully', autoHideDuration: TIMEOUTS.fiveSeconds }))
+    ])
   );
 });
 
@@ -822,10 +831,10 @@ export const deviceFileUpload = createAsyncThunk(`${sliceName}/deviceFileUpload`
       cancelSource.signal
     )
   ])
-    .then(() => Promise.resolve(dispatch(setSnackbar('Upload successful', TIMEOUTS.fiveSeconds))))
+    .then(() => Promise.resolve(dispatch(setSnackbar({ message: 'Upload successful', autoHideDuration: TIMEOUTS.fiveSeconds }))))
     .catch(err => {
       if (isCancel(err)) {
-        return dispatch(setSnackbar('The upload has been cancelled', TIMEOUTS.fiveSeconds));
+        return dispatch(setSnackbar({ message: 'The upload has been cancelled', autoHideDuration: TIMEOUTS.fiveSeconds }));
       }
       return commonErrorHandler(err, `Error uploading file to device.`, dispatch);
     })
@@ -908,7 +917,9 @@ export const deleteAuthset = createAsyncThunk(`${sliceName}/deleteAuthset`, ({ d
 
 export const preauthDevice = createAsyncThunk(`${sliceName}/preauthDevice`, (authset, { dispatch, rejectWithValue }) =>
   GeneralApi.post(`${deviceAuthV2}/devices`, authset)
-    .then(() => Promise.resolve(dispatch(setSnackbar('Device was successfully added to the preauthorization list', TIMEOUTS.fiveSeconds))))
+    .then(() =>
+      Promise.resolve(dispatch(setSnackbar({ message: 'Device was successfully added to the preauthorization list', autoHideDuration: TIMEOUTS.fiveSeconds })))
+    )
     .catch(err => {
       if (err.response.status === 409) {
         return rejectWithValue('A device with a matching identity data set already exists');
