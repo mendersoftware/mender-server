@@ -34,74 +34,103 @@ import (
 func TestUpdateDeviceDeploymentStatus(t *testing.T) {
 	ctx := context.TODO()
 
-	// 'downloading' -> 'installing'
-	ddStatusNew := model.DeviceDeploymentState{
-		Status: model.DeviceDeploymentStatusInstalling,
-	}
+	testCases := map[string]struct {
+		ddStatueNew model.DeviceDeploymentState
+		deployment  *model.Deployment
 
-	devId := "somedevice"
+		deviceStatus model.DeviceDeploymentStatus
 
-	depName := "foo"
-	depArtifact := "bar"
-	fakeDeployment, err := model.NewDeploymentFromConstructor(
-		&model.DeploymentConstructor{
-			Name:         depName,
-			ArtifactName: depArtifact,
-			Devices:      []string{"baz"},
+		getDeviceDepErr error
+
+		notFounddDepByID bool
+		findDepByIDErr   error
+
+		err error
+	}{
+		"ok": {
+			ddStatueNew: model.DeviceDeploymentState{
+				Status: model.DeviceDeploymentStatusInstalling,
+			},
+			deviceStatus: model.DeviceDeploymentStatusDownloading,
 		},
-	)
-	fakeDeployment.MaxDevices = 1
-	assert.NoError(t, err)
+		"error: device deployment not found": {
+			ddStatueNew: model.DeviceDeploymentState{
+				Status: model.DeviceDeploymentStatusInstalling,
+			},
+			getDeviceDepErr: mongo.ErrStorageNotFound,
+			err:             ErrStorageNotFound,
+		},
+		"error: deployment not found by id": {
+			ddStatueNew: model.DeviceDeploymentState{
+				Status: model.DeviceDeploymentStatusInstalling,
+			},
+			notFounddDepByID: true,
+			err:              ErrModelDeploymentNotFound,
+		},
+	}
+	for name, tc := range testCases {
+		t.Run(name, func(t *testing.T) {
+			depName := "foo"
+			depArtifact := "bar"
+			fakeDeployment, err := model.NewDeploymentFromConstructor(
+				&model.DeploymentConstructor{
+					Name:         depName,
+					ArtifactName: depArtifact,
+					Devices:      []string{"baz"},
+				},
+			)
+			fakeDeployment.MaxDevices = 1
+			assert.NoError(t, err)
 
-	fakeDeviceDeployment := model.NewDeviceDeployment(
-		devId, fakeDeployment.Id)
-	fakeDeviceDeployment.Status = model.DeviceDeploymentStatusDownloading
+			devId := "somedevice"
+			fakeDeviceDeployment := model.NewDeviceDeployment(
+				devId, fakeDeployment.Id)
+			fakeDeviceDeployment.Status = tc.deviceStatus
 
-	fs := &fs_mocks.ObjectStorage{}
-	db := mocks.DataStore{}
+			fs := &fs_mocks.ObjectStorage{}
+			db := mocks.DataStore{}
 
-	db.On("GetDeviceDeployment", ctx,
-		fakeDeployment.Id, devId, false).Return(
-		fakeDeviceDeployment, nil).Once()
+			db.On("GetDeviceDeployment", ctx,
+				fakeDeployment.Id, devId, false).Return(
+				fakeDeviceDeployment, tc.getDeviceDepErr).Once()
+			if tc.getDeviceDepErr == nil {
+				db.On("UpdateDeviceDeploymentStatus", ctx,
+					devId,
+					fakeDeployment.Id,
+					mock.MatchedBy(func(ddStatus model.DeviceDeploymentState) bool {
+						assert.Equal(t, tc.ddStatueNew.Status, ddStatus.Status)
+						return true
+					}),
+					mock.AnythingOfType("model.DeviceDeploymentStatus"),
+				).Return(tc.deviceStatus, nil).Once()
+				db.On("UpdateStatsInc", ctx,
+					fakeDeployment.Id,
+					tc.deviceStatus,
+					tc.ddStatueNew.Status).Run(func(args mock.Arguments) {
+					// fake updated stats
+					fakeDeployment.Stats.Inc(tc.ddStatueNew.Status)
+				}).Return(fakeDeployment.Stats, nil).Once()
+				foundDepById := fakeDeployment
+				if tc.notFounddDepByID {
+					foundDepById = nil
+				}
+				db.On("FindDeploymentByID", ctx, fakeDeployment.Id).Return(
+					foundDepById, tc.findDepByIDErr).Once()
+				if tc.findDepByIDErr == nil && foundDepById != nil {
+					db.On("SetDeploymentStatus", ctx,
+						fakeDeployment.Id,
+						model.DeploymentStatusInProgress,
+						mock.AnythingOfType("time.Time")).Return(nil).Once()
 
-	db.On("UpdateDeviceDeploymentStatus", ctx,
-		devId,
-		fakeDeployment.Id,
-		mock.MatchedBy(func(ddStatus model.DeviceDeploymentState) bool {
-			assert.Equal(t, model.DeviceDeploymentStatusInstalling, ddStatus.Status)
+				}
+			}
+			ds := NewDeployments(&db, fs, 0, false)
 
-			return true
-		}),
-		mock.AnythingOfType("model.DeviceDeploymentStatus"),
-	).Return(model.DeviceDeploymentStatusDownloading, nil).Once()
+			err = ds.UpdateDeviceDeploymentStatus(ctx, fakeDeployment.Id, fakeDeviceDeployment.DeviceId, tc.ddStatueNew)
 
-	db.On("UpdateStatsInc", ctx,
-		fakeDeployment.Id,
-		model.DeviceDeploymentStatusDownloading,
-		model.DeviceDeploymentStatusInstalling).Run(func(args mock.Arguments) {
-		// fake updated stats
-		fakeDeployment.Stats.Inc(model.DeviceDeploymentStatusInstalling)
-	}).Return(fakeDeployment.Stats, nil).Once()
-
-	db.On("FindDeploymentByID", ctx, fakeDeployment.Id).Return(
-		fakeDeployment, nil).Once()
-
-	db.On("SetDeploymentStatus", ctx,
-		fakeDeployment.Id,
-		model.DeploymentStatusInProgress,
-		mock.AnythingOfType("time.Time")).Return(nil).Once()
-
-	ds := NewDeployments(&db, fs, 0, false)
-
-	err = ds.UpdateDeviceDeploymentStatus(ctx, fakeDeployment.Id, fakeDeviceDeployment.DeviceId, ddStatusNew)
-	assert.NoError(t, err)
-
-	db.On("GetDeviceDeployment", ctx,
-		fakeDeployment.Id, devId, false).Return(
-		nil, mongo.ErrStorageNotFound).Once()
-
-	err = ds.UpdateDeviceDeploymentStatus(ctx, fakeDeployment.Id, fakeDeviceDeployment.DeviceId, ddStatusNew)
-	assert.Equal(t, err, ErrStorageNotFound)
+			assert.ErrorIs(t, err, tc.err)
+		})
+	}
 }
 
 func TestGetDeploymentForDeviceWithCurrent(t *testing.T) {

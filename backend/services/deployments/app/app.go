@@ -1721,6 +1721,9 @@ func (d *Deployments) updateDeviceDeploymentStatus(
 		if err != nil {
 			return errors.Wrap(err, "failed when searching for deployment")
 		}
+		if deployment == nil {
+			return ErrModelDeploymentNotFound
+		}
 		beforeStatus := deployment.GetStatus()
 
 		deployment.Stats, err = d.db.UpdateStatsInc(ctx, dd.DeploymentId, old, ddState.Status)
