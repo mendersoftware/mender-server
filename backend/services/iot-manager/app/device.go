@@ -16,8 +16,10 @@ package app
 
 import (
 	"context"
+	"errors"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"
+	"github.com/mendersoftware/mender-server/services/iot-manager/store"
 
 	"github.com/google/uuid"
 )
@@ -44,12 +46,18 @@ func newDevice(deviceID string, deviceGetter deviceGetter) *device {
 
 func (m *device) HasIntegration(ctx context.Context, id uuid.UUID) (bool, error) {
 	if m.err != nil {
+		if errors.Is(m.err, store.ErrObjectNotFound) {
+			return false, nil
+		}
 		return false, m.err
 	}
 	if m.m == nil {
 		dev, err := m.DeviceGetter.GetDevice(ctx, m.DeviceID)
 		if err != nil {
 			m.err = err
+			if errors.Is(m.err, store.ErrObjectNotFound) {
+				return false, nil
+			}
 			return false, m.err
 		}
 		m.m = make(map[uuid.UUID]struct{}, len(dev.IntegrationIDs))
