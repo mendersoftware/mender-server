@@ -24,7 +24,6 @@ import DetailsIndicator from '@northern.tech/common-ui/DetailsIndicator';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import { ClassesOverrides } from '@northern.tech/common-ui/List';
 import Time from '@northern.tech/common-ui/Time';
-import actions from '@northern.tech/store/actions';
 import { Event } from '@northern.tech/store/api/types/MenderTypes';
 import { EXTERNAL_PROVIDER, Webhook, emptyWebhook } from '@northern.tech/store/constants';
 import { getTenantCapabilities, getWebhookEventInfo } from '@northern.tech/store/selectors';
@@ -33,8 +32,6 @@ import { getWebhookEvents } from '@northern.tech/store/thunks';
 import WebhookActivity from './Activity';
 import { availableScopes } from './Configuration';
 import WebhookEventDetails from './EventDetails';
-
-const { setSnackbar } = actions;
 
 const useStyles = makeStyles()(theme => ({
   divider: { marginTop: theme.spacing(), marginBottom: theme.spacing() },
@@ -101,7 +98,6 @@ export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
   const containerRef = useRef();
 
   const dispatchedGetWebhookEvents = useCallback(options => dispatch(getWebhookEvents(options)), [dispatch]);
-  const dispatchedSetSnackbar = useCallback(args => dispatch(setSnackbar(args)), [dispatch]);
 
   const { description, scopes = [], credentials = {} } = webhook ?? emptyWebhook;
   const {
@@ -142,7 +138,7 @@ export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
         <Slide in={!selectedEvent} container={containerRef.current} direction="right">
           <div className="absolute margin-top full-width" style={{ top: 0 }}>
             <h4>Settings</h4>
-            <TwoColumnData className={classes.twoColumnsMultiple} config={webhookConfig} setSnackbar={dispatchedSetSnackbar} />
+            <TwoColumnData className={classes.twoColumnsMultiple} config={webhookConfig} copyable />
             <h4>Activity</h4>
             <WebhookActivity
               classes={classes}
@@ -157,14 +153,7 @@ export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
         </Slide>
         <Slide in={!!selectedEvent} container={containerRef.current} direction="left">
           <div className="absolute margin-top full-width" style={{ top: 0 }}>
-            <WebhookEventDetails
-              classes={classes}
-              columns={columns}
-              entry={selectedEvent}
-              onClickBack={handleBack}
-              setSnackbar={setSnackbar}
-              webhook={webhook}
-            />
+            <WebhookEventDetails classes={classes} columns={columns} entry={selectedEvent} onClickBack={handleBack} webhook={webhook} />
           </div>
         </Slide>
       </div>

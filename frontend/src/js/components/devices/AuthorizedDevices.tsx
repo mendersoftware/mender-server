@@ -200,7 +200,7 @@ export const Authorized = ({
   const settingsInitialized = useSelector(state => state.users.settingsInitialized);
   const userCapabilities = useSelector(getUserCapabilities);
   const dispatch = useDispatch();
-  const dispatchedSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
+  const dispatchedSetSnackbar = useCallback(payload => dispatch(setSnackbar(payload)), [dispatch]);
 
   const {
     refreshTrigger,

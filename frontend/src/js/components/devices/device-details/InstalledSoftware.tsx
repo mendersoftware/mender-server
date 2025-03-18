@@ -105,7 +105,7 @@ export const extractSoftwareInformation = (attributes = {}, sort = true) => {
   return softwareLayers;
 };
 
-const SoftwareLayer = ({ classes, layer, isNested, overviewOnly, setSnackbar }) => (
+const SoftwareLayer = ({ classes, layer, isNested, overviewOnly }) => (
   <div className={`margin-top-small ${overviewOnly ? classes.paddingOnly : ''}`}>
     <div className="muted">{layer.title}</div>
     {!isEmpty(layer.content) && (
@@ -114,21 +114,21 @@ const SoftwareLayer = ({ classes, layer, isNested, overviewOnly, setSnackbar }) 
           className={`${isNested || overviewOnly ? 'margin-bottom-small' : ''} margin-left-small margin-top-small`}
           config={layer.content}
           compact
-          setSnackbar={setSnackbar}
+          copyable
         />
       </div>
     )}
     {!overviewOnly && !isEmpty(layer.children) && (
       <div className={classes.nestingBorders}>
         {Object.entries(layer.children).map(([key, child]) => (
-          <SoftwareLayer classes={classes} key={key} layer={child} isNested setSnackbar={setSnackbar} />
+          <SoftwareLayer classes={classes} key={key} layer={child} isNested />
         ))}
       </div>
     )}
   </div>
 );
 
-export const InstalledSoftware = ({ device, setSnackbar }) => {
+export const InstalledSoftware = ({ device }) => {
   const { classes } = useStyles();
 
   const { attributes = {} } = device;
@@ -150,7 +150,7 @@ export const InstalledSoftware = ({ device, setSnackbar }) => {
     <DeviceDataCollapse header={waiting && <DeviceInventoryLoader />} title="Installed software">
       <div className={classes.nestingBorders}>
         {Object.entries(softwareInformation).map(([key, layer]) => (
-          <SoftwareLayer classes={classes} key={key} layer={layer} setSnackbar={setSnackbar} />
+          <SoftwareLayer classes={classes} key={key} layer={layer} />
         ))}
       </div>
     </DeviceDataCollapse>

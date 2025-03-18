@@ -21,7 +21,6 @@ import { makeStyles } from 'tss-react/mui';
 
 import { InputErrorNotification } from '@northern.tech/common-ui/InputErrorNotification';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
-import storeActions from '@northern.tech/store/actions';
 import { getDeviceTypes } from '@northern.tech/store/selectors';
 import { createArtifact, uploadArtifact } from '@northern.tech/store/thunks';
 import { unionizeStrings } from '@northern.tech/utils/helpers';
@@ -30,8 +29,6 @@ import { useWindowSize } from '@northern.tech/utils/resizehook';
 import Tracking from '../../../tracking';
 import ArtifactInformationForm from './ArtifactInformationForm';
 import ArtifactUploadConfirmation from './ArtifactUpload';
-
-const { setSnackbar } = storeActions;
 
 type SupportedUploadTypes = 'mender' | 'singleFile';
 
@@ -180,7 +177,6 @@ export const AddArtifactDialog = ({ onCancel, onUploadStarted, releases, selecte
   const dispatch = useDispatch();
 
   const onCreateArtifact = useCallback((meta, file) => dispatch(createArtifact({ meta, file })), [dispatch]);
-  const onSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
   const onUploadArtifact = useCallback((meta, file) => dispatch(uploadArtifact({ meta, file })), [dispatch]);
 
   useEffect(() => {
@@ -227,7 +223,7 @@ export const AddArtifactDialog = ({ onCancel, onUploadStarted, releases, selecte
 
   const { file, finalStep, isValid, type } = creation;
   const { component: ComponentToShow } = uploadTypes[type];
-  const commonProps = { releases, setSnackbar: onSetSnackbar, updateCreation: onUpdateCreation };
+  const commonProps = { releases, updateCreation: onUpdateCreation };
 
   return (
     <BaseDialog open title="Upload an Artifact" fullWidth maxWidth="sm" onClose={onCancel}>
