@@ -76,7 +76,6 @@
     "buffer": "6.0.3",
     "child_process": "1.0.2",
     "clean-webpack-plugin": "4.0.0",
-    "compression-webpack-plugin": "^11.1.0",
     "core-js": "3.41.0",
     "crypto-browserify": "3.12.1",
     "css-loader": "7.1.2",

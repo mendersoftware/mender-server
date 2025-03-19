@@ -44,7 +44,6 @@
 "buffer","MIT","https://github.com/feross/buffer"
 "child_process","ISC","https://github.com/npm/security-holder"
 "clean-webpack-plugin","MIT","https://github.com/johnagan/clean-webpack-plugin"
-"compression-webpack-plugin","MIT","https://github.com/webpack-contrib/compression-webpack-plugin"
 "copy-to-clipboard","MIT","https://github.com/sudodoki/copy-to-clipboard"
 "core-js","MIT","https://github.com/zloirock/core-js"
 "crypto-browserify","MIT","https://github.com/browserify/crypto-browserify"
