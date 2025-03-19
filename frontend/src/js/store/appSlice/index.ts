@@ -45,6 +45,7 @@ interface Upload {
 }
 
 export type SentryConfig = {
+  isReduxEnabled?: string; // no parsing done here as this has to be accessed outside of the store
   location: string;
   replaysSessionSampleRate?: number;
   tracesSampleRate?: number;
