@@ -29,6 +29,7 @@ cat >/var/www/mender-gui/dist/env.js <<EOF
   mender_environment = {
     commit: "$GIT_COMMIT_SHA",
     sentry: {
+      isReduxEnabled: "$SENTRY_REDUX_ENABLED",
       location: "$SENTRY_DSN",
       replaysSessionSampleRate: ${SENTRY_SESSION_SAMPLE_RATE:-0.1},
       tracesSampleRate: ${SENTRY_TRACES_SAMPLE_RATE:-1.0}
