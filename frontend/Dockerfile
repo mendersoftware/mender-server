@@ -1,5 +1,6 @@
 FROM --platform=$BUILDPLATFORM node:23.11.0-alpine3.20 AS base
 WORKDIR /usr/src/app
+RUN apk add --no-cache gzip
 COPY package-lock.json package.json ./
 RUN npm ci
 COPY . ./
@@ -10,6 +11,7 @@ ENV SENTRY_ORG=$SENTRY_ORG
 ARG SENTRY_URL
 ENV SENTRY_URL=$SENTRY_URL
 RUN --mount=type=secret,id=sentryAuthToken export SENTRY_AUTH_TOKEN=$(cat /run/secrets/sentryAuthToken) && npm run build
+RUN gzip -r -k dist/*
 
 FROM nginxinc/nginx-unprivileged:1.27.3-alpine3.20-slim AS unprivileged
 EXPOSE 8090
