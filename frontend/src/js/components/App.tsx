@@ -38,6 +38,7 @@ import {
   getCurrentUser,
   getIsDarkMode,
   getIsServiceProvider,
+  getOrganization,
   getSentryConfig,
   getSnackbar,
   getTrackerCode
@@ -46,7 +47,7 @@ import { store } from '@northern.tech/store/store';
 import { parseEnvironmentInfo } from '@northern.tech/store/storehooks';
 import { logoutUser } from '@northern.tech/store/thunks';
 import { toggle } from '@northern.tech/utils/helpers';
-import { browserTracingIntegration, replayIntegration } from '@sentry/react';
+import { browserTracingIntegration, replayIntegration, setUser } from '@sentry/react';
 import Cookies from 'universal-cookie';
 
 import ErrorBoundary from '../ErrorBoundary';
@@ -139,6 +140,7 @@ export const AppRoot = () => {
   const isDarkMode = useSelector(getIsDarkMode);
   const { token: storedToken } = getSessionInfo();
   const { expiresAt, token = storedToken } = useSelector(getCurrentSession);
+  const { id: tenantId } = useSelector(getOrganization);
 
   const trackLocationChange = useCallback(
     pathname => {
@@ -183,6 +185,12 @@ export const AppRoot = () => {
     }
     initSentry({ commit, location: sentryLocation, replaysSessionSampleRate, tracesSampleRate });
   }, [commit, sentryLocation, replaysSessionSampleRate, tracesSampleRate]);
+
+  useEffect(() => {
+    if (sentryLocation) {
+      setUser({ tenantId });
+    }
+  }, [sentryLocation, tenantId]);
 
   useEffect(() => {
     if (!(trackingCode && cookies.get('_ga'))) {
