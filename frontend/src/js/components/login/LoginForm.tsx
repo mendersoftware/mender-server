@@ -48,9 +48,8 @@ interface LoginFormState {
 }
 
 export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
-  const isOsInstallation = !(isEnterprise || isHosted);
   const [emailEditingDisabled, setEmailEditingDisabled] = useState<boolean>(false);
-  const [showPassword, setShowPassword] = useState<boolean>(isOsInstallation);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [has2FA, setHas2FA] = useState<boolean>(false);
   const [hasError, setHasError] = useState<boolean>(false);
   const twoFARef = useRef<HTMLInputElement | undefined>(undefined);
@@ -59,6 +58,7 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
   const { formState, handleSubmit, watch, trigger, setFocus } = methods;
   const email = watch('email');
   const debouncedEmail = useDebounce(email, TIMEOUTS.oneSecond) as string;
+  const isOsInstallation = !(isEnterprise || isHosted);
 
   const { classes } = useStyles();
 
