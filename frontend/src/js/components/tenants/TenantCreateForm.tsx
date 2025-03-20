@@ -69,7 +69,7 @@ const UserInputs = (props: UserInputsProps) => {
   const { setAdminExists, adminExists } = props;
   const [emailInfoText, setEmailInfoText] = useState<string>('');
   const checkEmailExists = async (email: string) => {
-    const response = await Api.get(`${useradmApiUrlv1}/users/exists?email=${email}`);
+    const response = await Api.get(`${useradmApiUrlv1}/users/exists?email=${encodeURIComponent(email)}`);
     return response.data.exists;
   };
 
