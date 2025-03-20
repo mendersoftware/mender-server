@@ -73,7 +73,7 @@ const UserInputs = (props: UserInputsProps) => {
     return response.data.exists;
   };
 
-  const { watch, getFieldState } = useFormContext();
+  const { watch, getFieldState, setValue } = useFormContext();
 
   const enteredEmail = watch('email');
   const isValidEmail = getFieldState('email');
@@ -87,17 +87,14 @@ const UserInputs = (props: UserInputsProps) => {
       if (exists) {
         setAdminExists(true);
         setEmailInfoText(userExistsInfo);
+        setValue('password', '');
       } else {
         setAdminExists(false);
         setEmailInfoText(newUserInfo);
       }
     }, 1000);
     return () => clearTimeout(timeoutId);
-  }, [enteredEmail, isValidEmail, setAdminExists]);
-
-  useEffect(() => {
-    setAdminExists(false);
-  }, [enteredEmail, setAdminExists]);
+  }, [enteredEmail, isValidEmail, setAdminExists, setValue]);
 
   return (
     <>
