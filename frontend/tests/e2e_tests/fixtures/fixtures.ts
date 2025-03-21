@@ -75,14 +75,14 @@ const loginCommon = async ({
   await use(page);
 };
 const test = (process.env.TEST_ENVIRONMENT === 'staging' ? nonCoveredTest : coveredTest).extend<TestFixtures>({
-  loggedInPage: async ({ baseUrl, context, password, username }, use) => {
-    test.use({ storageState: storagePath });
+  loggedInPage: async ({ baseUrl, browser, password, username }, use) => {
+    const context = await browser.newContext({ storageState: storagePath });
     const page = await prepareNewPage({ baseUrl, context, password, username });
     await loginCommon({ page, username, use, context });
   },
-  loggedInTenantPage: async ({ baseUrl, context, password, spTenantUsername }, use) => {
+  loggedInTenantPage: async ({ baseUrl, browser, password, spTenantUsername }, use) => {
     const storageLocation = `tenant-${storagePath}`;
-    test.use({ storageState: storageLocation });
+    const context = await browser.newContext({ storageState: storageLocation });
     const page = await prepareNewPage({ baseUrl, context, password, storageLocation, username: spTenantUsername });
     await loginCommon({ page, username: spTenantUsername, use, context });
   },
