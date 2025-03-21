@@ -28,7 +28,7 @@ const tenantRole = {
 test.describe('Tenant Functionality', () => {
   test.beforeAll(async ({ baseUrl, browser, password, spTenantUsername }) => {
     const storageLocation = `tenant-${storagePath}`;
-    const context = await browser.newContext();
+    const context = await browser.newContext({ storageState: storageLocation });
     await prepareNewPage({ baseUrl, context, password, storageLocation, username: spTenantUsername });
     await context.storageState({ path: storageLocation });
   });
