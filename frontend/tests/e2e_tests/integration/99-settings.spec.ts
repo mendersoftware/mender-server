@@ -184,6 +184,7 @@ test.describe('Settings', () => {
       const hasUserAlready = await loggedInPage.getByText(secondaryUser).isVisible();
       test.skip(hasUserAlready, `${secondaryUser} was added in a previous run, but success notification wasn't caught`);
       const page = await prepareIsolatedNewPage({ baseUrl, browser, environment, password, username: secondaryUser });
+      await page.screenshot({ path: './test-results/secondary-account-login.png' });
       await page.goto(`${baseUrl}ui/settings/my-account`);
       await page.screenshot({ path: './test-results/secondary-account.png' });
       await page
