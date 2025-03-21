@@ -83,6 +83,28 @@ export const prepareCookies = async (context: BrowserContext, domain: string, us
   return context;
 };
 
+export const prepareIsolatedNewPage = async ({
+  baseUrl,
+  browser,
+  environment,
+  password,
+  username
+}: {
+  baseUrl: string;
+  browser?: Browser;
+  environment: TestEnvironment;
+  password: string;
+  username: string;
+}) => {
+  const domain = baseUrlToDomain(baseUrl);
+  let newContext = await browser.newContext();
+  newContext = await prepareCookies(newContext, domain, '');
+  const page = await newContext.newPage();
+  await page.goto(`${baseUrl}ui/`);
+  await processLoginForm({ username, password, page, environment });
+  return page;
+};
+
 export const prepareNewPage = async ({
   baseUrl,
   browser,

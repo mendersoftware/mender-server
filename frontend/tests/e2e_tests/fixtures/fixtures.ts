@@ -68,7 +68,7 @@ const test = (process.env.TEST_ENVIRONMENT === 'staging' ? nonCoveredTest : cove
     await loginCommon(page, username, use, context);
   },
   loggedInTenantPage: async ({ baseUrl, context, password, spTenantUsername }, use) => {
-    const page = await prepareNewPage({ baseUrl, context, password, username: spTenantUsername });
+    const page = await prepareNewPage({ baseUrl, context, hasSessionCaching: false, password, username: spTenantUsername });
     await loginCommon(page, spTenantUsername, use, context);
   },
   // eslint-disable-next-line no-empty-pattern

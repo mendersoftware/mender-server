@@ -22,6 +22,7 @@ import {
   isLoggedIn,
   login,
   prepareCookies,
+  prepareIsolatedNewPage,
   prepareNewPage,
   processLoginForm,
   startClient,
@@ -293,7 +294,7 @@ test.describe('Settings', () => {
       await loggedInPage.click('text=/user management/i');
       const hasUserAlready = await loggedInPage.getByText(secondaryUser).isVisible();
       test.skip(hasUserAlready, `${secondaryUser} was added in a previous run, but success notification wasn't caught`);
-      const page = await prepareNewPage({ baseUrl, browser, hasSessionCaching: false, username: secondaryUser, password });
+      const page = await prepareIsolatedNewPage({ baseUrl, browser, environment, password, username: secondaryUser });
       await page.goto(`${baseUrl}ui/settings/my-account`);
       await page
         .getByText(/User ID/i)
@@ -323,12 +324,7 @@ test.describe('Settings', () => {
     test('allows switching tenants', async ({ baseUrl, browser, browserName, environment, loggedInPage, password }) => {
       test.skip('enterprise' !== environment || browserName !== 'chromium');
       // here we can't use prepareNewPage as it sets the initial JWT to be used on every page init
-      const domain = baseUrlToDomain(baseUrl);
-      let newContext = await browser.newContext();
-      newContext = await prepareCookies(newContext, domain, '');
-      const page = await newContext.newPage();
-      await page.goto(`${baseUrl}ui/`);
-      await processLoginForm({ username: secondaryUser, password, page, environment });
+      const page = await prepareIsolatedNewPage({ baseUrl, browser, environment, password, username: secondaryUser });
       await page.getByRole('button', { name: secondaryUser }).click();
       await expect(page.getByRole('menuitem', { name: /secondary/i })).toBeVisible();
       await page.getByText(/switch organization/i).click({ force: true });
