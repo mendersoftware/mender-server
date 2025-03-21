@@ -335,9 +335,9 @@ test:integration:
 test:prep:
   stage: test
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-      when: on_success
+  # rules:
+  #   - if: $CI_COMMIT_BRANCH == "main"
+  #     when: on_success
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
       alias: docker
@@ -352,13 +352,13 @@ test:prep:
 
 .template:test:staging-deployment:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/mendersoftware/mender-test-containers:gui-e2e-testing
-  stage: .post
+  stage: test
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
       alias: docker
-  only:
-    - main # can't use rules with delays: https://gitlab.com/gitlab-org/gitlab/-/issues/424203
-  when: delayed
+  # only:
+  #   - main # can't use rules with delays: https://gitlab.com/gitlab-org/gitlab/-/issues/424203
+  # when: delayed
   needs:
     - job: test:prep
       artifacts: true
@@ -392,7 +392,7 @@ test:staging-deployment:chrome:
   script:
     - npx playwright install chromium
     - npm run test
-  start_in: 15 minutes
+  # start_in: 15 minutes
 
 test:staging-deployment:firefox:
   extends: .template:test:staging-deployment
@@ -400,7 +400,7 @@ test:staging-deployment:firefox:
   script:
     - npx playwright install firefox
     - npm run test -- --browser=firefox
-  start_in: 40 minutes
+  # start_in: 40 minutes
 
 test:staging-deployment:webkit:
   extends: .template:test:staging-deployment
@@ -409,7 +409,7 @@ test:staging-deployment:webkit:
   script:
     - npx playwright install webkit
     - npm run test -- --browser=webkit
-  start_in: 30 minutes
+  # start_in: 30 minutes
 
 publish:backend:coverage:
   stage: publish
