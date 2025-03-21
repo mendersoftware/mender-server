@@ -127,6 +127,7 @@ test.describe('Settings', () => {
   });
 
   test.describe('2FA setup', () => {
+    test.use({ storageState: storagePath });
     test('supports regular 2fa setup', async ({ baseUrl, environment, loggedInPage: page }) => {
       test.skip(environment !== 'staging');
       let tfaSecret;
@@ -189,6 +190,7 @@ test.describe('Settings', () => {
   });
 
   test.describe('Basic setting features', () => {
+    test.use({ storageState: storagePath });
     const replacementPassword = 'mysecretpassword!456';
 
     test('allows access to user management', async ({ baseUrl, loggedInPage: page }) => {
@@ -287,6 +289,7 @@ test.describe('Settings', () => {
   });
 
   test.describe('Multi tenant access', () => {
+    test.use({ storageState: storagePath });
     const secondaryUser = 'demo-secondary@example.com';
     test('allows adding users to tenants', async ({ baseUrl, browser, browserName, environment, loggedInPage, password }) => {
       test.skip('enterprise' !== environment || browserName !== 'chromium');

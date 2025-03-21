@@ -47,10 +47,10 @@ export const getPeristentLoginInfo = () => {
 
 type StorageState = Awaited<ReturnType<BrowserContext['storageState']>>;
 
-export const getStorageState = () => {
+export const getStorageState = (location: string) => {
   let storageState: StorageState = { cookies: [], origins: [] };
   try {
-    const content = fs.readFileSync(storagePath, 'utf8');
+    const content = fs.readFileSync(location, 'utf8');
     storageState = JSON.parse(content);
   } catch {
     // most likely not set yet
@@ -60,10 +60,10 @@ export const getStorageState = () => {
 
 type SessionInfo = { token: string; userId?: string };
 
-export const getTokenFromStorage = (baseUrl: string) => {
+export const getTokenFromStorage = (baseUrl: string, location: string = storagePath) => {
   const originUrl = baseUrl.endsWith('/') ? baseUrl.substring(0, baseUrl.length - 1) : baseUrl;
   const sessionInfo: SessionInfo = { token: '', userId: '' };
-  const storageState = getStorageState();
+  const storageState = getStorageState(location);
   if (!storageState.origins) {
     return sessionInfo;
   }
@@ -115,6 +115,7 @@ export const prepareNewPage = async ({
   browser,
   context: passedContext,
   hasSessionCaching = true,
+  storageLocation,
   password,
   username
 }: {
@@ -123,6 +124,7 @@ export const prepareNewPage = async ({
   context?: BrowserContext;
   hasSessionCaching?: boolean;
   password: string;
+  storageLocation?: string;
   username: string;
 }) => {
   let context = passedContext;
@@ -132,7 +134,7 @@ export const prepareNewPage = async ({
   if (context.browser()?.browserType().name() === 'chromium') {
     await context.grantPermissions(['clipboard-read'], { origin: baseUrl });
   }
-  let logInResult: SessionInfo = getTokenFromStorage(baseUrl);
+  let logInResult: SessionInfo = getTokenFromStorage(baseUrl, storageLocation);
   if ((!hasSessionCaching || !logInResult.token) && username && password) {
     logInResult = await login(username, password, baseUrl);
   }

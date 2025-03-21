@@ -13,7 +13,7 @@
 //    limitations under the License.
 import test, { expect } from '../fixtures/fixtures.ts';
 import { isEnterpriseOrStaging, prepareNewPage } from '../utils/commands.ts';
-import { releaseTag, selectors, timeouts } from '../utils/constants.ts';
+import { releaseTag, selectors, storagePath, timeouts } from '../utils/constants.ts';
 
 const releaseRoles = [
   { name: 'test-releases-role', permissions: ['Read'], tag: undefined },
@@ -23,6 +23,7 @@ const releaseRoles = [
 
 test.describe('RBAC functionality', () => {
   test.describe('configuration', () => {
+    test.use({ storageState: storagePath });
     test.beforeEach(async ({ baseUrl, loggedInPage: page }) => {
       await page.goto(`${baseUrl}ui/settings`);
       await page.getByText(/Global settings/i).waitFor();

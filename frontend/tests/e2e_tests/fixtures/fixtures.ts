@@ -52,24 +52,37 @@ const defaultConfig = {
   demoDeviceName: 'original'
 };
 
-const loginCommon = async (page: Page, username: string, use: (r: Page) => Promise<void>, context: BrowserContext) => {
+const loginCommon = async ({
+  page,
+  username,
+  storageLocation = storagePath,
+  use,
+  context
+}: {
+  context: BrowserContext;
+  page: Page;
+  storageLocation?: string;
+  use: (r: Page) => Promise<void>;
+  username: string;
+}) => {
   await isLoggedIn(page);
   const isHeaderComplete = await page.getByText(username).isVisible();
   if (!isHeaderComplete) {
     await page.reload();
     await page.getByText(username).waitFor({ timeout: timeouts.default });
   }
-  await context.storageState({ path: storagePath });
+  await context.storageState({ path: storageLocation });
   await use(page);
 };
 const test = (process.env.TEST_ENVIRONMENT === 'staging' ? nonCoveredTest : coveredTest).extend<TestFixtures>({
   loggedInPage: async ({ baseUrl, context, password, username }, use) => {
     const page = await prepareNewPage({ baseUrl, context, password, username });
-    await loginCommon(page, username, use, context);
+    await loginCommon({ page, username, use, context });
   },
   loggedInTenantPage: async ({ baseUrl, context, password, spTenantUsername }, use) => {
-    const page = await prepareNewPage({ baseUrl, context, hasSessionCaching: false, password, username: spTenantUsername });
-    await loginCommon(page, spTenantUsername, use, context);
+    const storageLocation = `tenant-${storagePath}`;
+    const page = await prepareNewPage({ baseUrl, context, password, storageLocation, username: spTenantUsername });
+    await loginCommon({ page, username: spTenantUsername, use, context });
   },
   // eslint-disable-next-line no-empty-pattern
   environment: async ({}, use) => {
