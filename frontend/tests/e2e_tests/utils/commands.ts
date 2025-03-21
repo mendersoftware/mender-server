@@ -45,14 +45,15 @@ export const getPeristentLoginInfo = () => {
   return loginInfo;
 };
 
-export const getStorageState = location => {
-  let storageState;
+type StorageState = Awaited<ReturnType<BrowserContext['storageState']>>;
+
+export const getStorageState = () => {
+  let storageState: StorageState = { cookies: [], origins: [] };
   try {
-    const content = fs.readFileSync(location, 'utf8');
+    const content = fs.readFileSync(storagePath, 'utf8');
     storageState = JSON.parse(content);
-    return storageState;
   } catch {
-    storageState = { username: process.env.STAGING_USER ?? `${uuid()}@example.com`, password: process.env.STAGING_PASSWORD ?? uuid() };
+    // most likely not set yet
   }
   return storageState;
 };
@@ -61,10 +62,14 @@ type SessionInfo = { token: string; userId?: string };
 
 export const getTokenFromStorage = (baseUrl: string) => {
   const originUrl = baseUrl.endsWith('/') ? baseUrl.substring(0, baseUrl.length - 1) : baseUrl;
-  const origin = getStorageState(storagePath).origins.find(({ origin }) => origin === originUrl);
+  const sessionInfo: SessionInfo = { token: '', userId: '' };
+  const storageState = getStorageState();
+  if (!storageState.origins) {
+    return sessionInfo;
+  }
+  const origin = storageState.origins.find(({ origin }) => origin === originUrl);
   const tokenTextContent = origin?.localStorage.find(({ name }) => name === 'JWT').value;
   const userIdContent = origin?.localStorage.find(({ name }) => name === 'userId');
-  const sessionInfo: SessionInfo = { token: '', userId: '' };
   try {
     const { token } = JSON.parse(tokenTextContent);
     sessionInfo.token = token;
