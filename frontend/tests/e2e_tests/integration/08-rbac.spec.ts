@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import test, { expect } from '../fixtures/fixtures.ts';
-import { isEnterpriseOrStaging, prepareNewPage } from '../utils/commands.ts';
+import { isEnterpriseOrStaging, prepareIsolatedNewPage } from '../utils/commands.ts';
 import { releaseTag, selectors, storagePath, timeouts } from '../utils/constants.ts';
 
 const releaseRoles = [
@@ -114,7 +114,7 @@ test.describe('RBAC functionality', () => {
   test.describe('has working RBAC limitations for', () => {
     test('device groups', async ({ baseUrl, browser, environment, password, username }) => {
       test.skip(!isEnterpriseOrStaging(environment));
-      const page = await prepareNewPage({ baseUrl, browser, hasSessionCaching: false, password, username: `limited-${username}` });
+      const page = await prepareIsolatedNewPage({ baseUrl, browser, environment, password, username: `limited-${username}` });
       await page.getByRole('link', { name: /devices/i }).click({ force: true, timeout: timeouts.tenSeconds });
       await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
       // the created role does have permission to configure devices, so the section should be visible
@@ -123,7 +123,7 @@ test.describe('RBAC functionality', () => {
     });
     test('read-only all releases', async ({ baseUrl, browser, environment, password, username }) => {
       test.skip(!isEnterpriseOrStaging(environment));
-      const page = await prepareNewPage({ baseUrl, browser, hasSessionCaching: false, password, username: `limited-ro-releases-${username}` });
+      const page = await prepareIsolatedNewPage({ baseUrl, browser, environment, password, username: `limited-ro-releases-${username}` });
       await page.getByRole('link', { name: /releases/i }).click({ force: true, timeout: timeouts.tenSeconds });
       // there should be multiple releases present
       await expect(page.getByText('1-2 of 2')).toBeVisible();
@@ -134,7 +134,7 @@ test.describe('RBAC functionality', () => {
     });
     test('read-only tagged releases', async ({ baseUrl, browser, environment, password, username }) => {
       test.skip(!isEnterpriseOrStaging(environment));
-      const page = await prepareNewPage({ baseUrl, browser, hasSessionCaching: false, password, username: `limited-ro-${releaseTag}-${username}` });
+      const page = await prepareIsolatedNewPage({ baseUrl, browser, environment, password, username: `limited-ro-${releaseTag}-${username}` });
       await page.getByRole('link', { name: /releases/i }).click({ force: true, timeout: timeouts.tenSeconds });
       // there should be only one release tagged with the releaseTag
       await expect(page.getByText('1-1 of 1')).toBeVisible();
@@ -143,7 +143,7 @@ test.describe('RBAC functionality', () => {
     });
     test('manage tagged releases', async ({ baseUrl, browser, environment, password, username }) => {
       test.skip(!isEnterpriseOrStaging(environment));
-      const page = await prepareNewPage({ baseUrl, browser, hasSessionCaching: false, password, username: `limited-manage-${releaseTag}-${username}` });
+      const page = await prepareIsolatedNewPage({ baseUrl, browser, environment, password, username: `limited-manage-${releaseTag}-${username}` });
       await page.getByRole('link', { name: /releases/i }).click({ force: true, timeout: timeouts.tenSeconds });
       // there should be only one release tagged with the releaseTag
       await expect(page.getByText('1-1 of 1')).toBeVisible();

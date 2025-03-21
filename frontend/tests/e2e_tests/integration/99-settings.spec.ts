@@ -263,9 +263,9 @@ test.describe('Settings', () => {
       await expect(page.getByRole('button', { name: /log in/i })).toBeVisible();
     });
 
-    test('allows changing the password back', async ({ baseUrl, browserName, browser, password, username }) => {
+    test('allows changing the password back', async ({ baseUrl, browserName, browser, environment, password, username }) => {
       test.skip(browserName === 'webkit');
-      const page = await prepareNewPage({ baseUrl, browser, hasSessionCaching: false, password: replacementPassword, username });
+      const page = await prepareIsolatedNewPage({ baseUrl, browser, environment, password: replacementPassword, username });
       await page.getByRole('button', { name: username }).click();
       await page.getByText(/my profile/i).click();
       await page.getByRole('button', { name: /change password/i }).click();

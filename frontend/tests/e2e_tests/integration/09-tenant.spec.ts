@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import test, { expect } from '../fixtures/fixtures.ts';
-import { timeouts } from '../utils/constants.js';
+import { timeouts } from '../utils/constants.ts';
 
 const tenant = {
   name: 'Child Tenant',

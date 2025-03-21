@@ -104,6 +104,7 @@ export const prepareIsolatedNewPage = async ({
   const domain = baseUrlToDomain(baseUrl);
   let newContext = await browser.newContext();
   newContext = await prepareCookies(newContext, domain, '');
+  await newContext.addInitScript(() => window.localStorage.setItem(`onboardingComplete`, 'true'));
   const page = await newContext.newPage();
   await page.goto(`${baseUrl}ui/`);
   await processLoginForm({ username, password, page, environment });
