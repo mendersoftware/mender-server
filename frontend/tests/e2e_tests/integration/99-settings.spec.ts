@@ -262,7 +262,7 @@ test.describe('Settings', () => {
 
     test('allows changing the password back', async ({ baseUrl, browserName, browser, password, username }) => {
       test.skip(browserName === 'webkit');
-      const page = await prepareNewPage({ baseUrl, browser, password: replacementPassword, username });
+      const page = await prepareNewPage({ baseUrl, browser, hasSessionCaching: false, password: replacementPassword, username });
       await page.getByRole('button', { name: username }).click();
       await page.getByText(/my profile/i).click();
       await page.getByRole('button', { name: /change password/i }).click();
@@ -293,7 +293,7 @@ test.describe('Settings', () => {
       await loggedInPage.click('text=/user management/i');
       const hasUserAlready = await loggedInPage.getByText(secondaryUser).isVisible();
       test.skip(hasUserAlready, `${secondaryUser} was added in a previous run, but success notification wasn't caught`);
-      const page = await prepareNewPage({ baseUrl, browser, username: secondaryUser, password });
+      const page = await prepareNewPage({ baseUrl, browser, hasSessionCaching: false, username: secondaryUser, password });
       await page.goto(`${baseUrl}ui/settings/my-account`);
       await page
         .getByText(/User ID/i)

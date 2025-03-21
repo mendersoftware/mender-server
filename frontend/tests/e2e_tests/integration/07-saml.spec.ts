@@ -42,7 +42,7 @@ test.describe('SAML Login via sso/id/login', () => {
     if (testInfo.status === 'skipped' || !isEnterpriseOrStaging(environment)) {
       return;
     }
-    const token = await getTokenFromStorage(baseUrl);
+    const { token } = await getTokenFromStorage(baseUrl);
     const requestInfo = { headers: { ...defaultHeaders, Authorization: `Bearer ${token}` }, httpsAgent, method: 'GET' };
     console.log(`Finished ${testInfo.title} with status ${testInfo.status}. Cleaning up.`);
     const response = await axios({
@@ -107,7 +107,7 @@ test.describe('SAML Login via sso/id/login', () => {
     expect(downloadTargetPath).toBeTruthy();
     const dialog = await page.locator('text=SAML metadata >> .. >> ..');
     await dialog.locator('data-testid=CloseIcon').click();
-    const token = await getTokenFromStorage(baseUrl);
+    const { token } = await getTokenFromStorage(baseUrl);
     const requestInfo = { method: 'GET', headers: { ...defaultHeaders, Authorization: `Bearer ${token}` }, httpsAgent };
     const { data } = await axios({ ...requestInfo, url: `${baseUrl}api/management/v1/useradm/sso/idp/metadata` });
     const metadataId = data[0].id;
