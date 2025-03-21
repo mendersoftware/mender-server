@@ -12,7 +12,8 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import test, { expect } from '../fixtures/fixtures.ts';
-import { timeouts } from '../utils/constants.ts';
+import { prepareNewPage } from '../utils/commands.ts';
+import { storagePath, timeouts } from '../utils/constants.ts';
 
 const tenant = {
   name: 'Child Tenant',
@@ -25,6 +26,11 @@ const tenantRole = {
   description: 'Test role for SP tenant'
 };
 test.describe('Tenant Functionality', () => {
+  test.beforeAll(async ({ baseUrl, context, password, spTenantUsername }) => {
+    const storageLocation = `tenant-${storagePath}`;
+    await prepareNewPage({ baseUrl, context, password, storageLocation, username: spTenantUsername });
+    await context.storageState({ path: storageLocation });
+  });
   test.beforeEach(async ({ loggedInTenantPage: page, environment }) => {
     test.skip(environment !== 'enterprise', 'not available in OS');
     await page
