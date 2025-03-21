@@ -45,29 +45,39 @@ export const getPeristentLoginInfo = () => {
   return loginInfo;
 };
 
-export const getStorageState = location => {
-  let storageState;
+type StorageState = Awaited<ReturnType<BrowserContext['storageState']>>;
+
+export const getStorageState = (location: string) => {
+  let storageState: StorageState = { cookies: [], origins: [] };
   try {
     const content = fs.readFileSync(location, 'utf8');
     storageState = JSON.parse(content);
-    return storageState;
   } catch {
-    storageState = { username: process.env.STAGING_USER ?? `${uuid()}@example.com`, password: process.env.STAGING_PASSWORD ?? uuid() };
+    // most likely not set yet
   }
   return storageState;
 };
 
-export const getTokenFromStorage = (baseUrl: string) => {
+type SessionInfo = { token: string; userId?: string };
+
+export const getTokenFromStorage = (baseUrl: string, location: string = storagePath) => {
   const originUrl = baseUrl.endsWith('/') ? baseUrl.substring(0, baseUrl.length - 1) : baseUrl;
-  const origin = getStorageState(storagePath).origins.find(({ origin }) => origin === originUrl);
-  const textContent = origin?.localStorage.find(({ name }) => name === 'JWT').value;
-  let sessionInfo = { token: '' };
+  const sessionInfo: SessionInfo = { token: '', userId: '' };
+  const storageState = getStorageState(location);
+  if (!storageState.origins) {
+    return sessionInfo;
+  }
+  const origin = storageState.origins.find(({ origin }) => origin === originUrl);
+  const tokenTextContent = origin?.localStorage.find(({ name }) => name === 'JWT').value;
+  const userIdContent = origin?.localStorage.find(({ name }) => name === 'userId');
   try {
-    sessionInfo = JSON.parse(textContent);
+    const { token } = JSON.parse(tokenTextContent);
+    sessionInfo.token = token;
+    sessionInfo.userId = userIdContent?.value || '';
   } catch {
     // most likely not logged in - nothing to do here
   }
-  return sessionInfo.token;
+  return sessionInfo;
 };
 
 export const prepareCookies = async (context: BrowserContext, domain: string, userId: string) => {
@@ -78,17 +88,44 @@ export const prepareCookies = async (context: BrowserContext, domain: string, us
   return context;
 };
 
+export const prepareIsolatedNewPage = async ({
+  baseUrl,
+  browser,
+  environment,
+  password,
+  username
+}: {
+  baseUrl: string;
+  browser?: Browser;
+  environment: TestEnvironment;
+  password: string;
+  username: string;
+}) => {
+  const domain = baseUrlToDomain(baseUrl);
+  let newContext = await browser.newContext();
+  newContext = await prepareCookies(newContext, domain, '');
+  await newContext.addInitScript(() => window.localStorage.setItem(`onboardingComplete`, 'true'));
+  const page = await newContext.newPage();
+  await page.goto(`${baseUrl}ui/`);
+  await processLoginForm({ username, password, page, environment });
+  return page;
+};
+
 export const prepareNewPage = async ({
   baseUrl,
   browser,
   context: passedContext,
+  hasSessionCaching = true,
+  storageLocation,
   password,
   username
 }: {
   baseUrl: string;
   browser?: Browser;
   context?: BrowserContext;
+  hasSessionCaching?: boolean;
   password: string;
+  storageLocation?: string;
   username: string;
 }) => {
   let context = passedContext;
@@ -98,16 +135,17 @@ export const prepareNewPage = async ({
   if (context.browser()?.browserType().name() === 'chromium') {
     await context.grantPermissions(['clipboard-read'], { origin: baseUrl });
   }
-  let logInResult = { userId: '', token: '' };
-  if (username && password) {
+  let logInResult: SessionInfo = getTokenFromStorage(baseUrl, storageLocation);
+  if ((!hasSessionCaching || !logInResult.token) && username && password) {
     logInResult = await login(username, password, baseUrl);
   }
   const domain = baseUrlToDomain(baseUrl);
   context = await prepareCookies(context, domain, logInResult.userId);
-  await context.addInitScript(token => {
+  await context.addInitScript(({ userId, token }) => {
     window.localStorage.setItem('JWT', JSON.stringify({ token }));
+    window.localStorage.setItem('userId', userId);
     window.localStorage.setItem(`onboardingComplete`, 'true');
-  }, logInResult.token);
+  }, logInResult);
   const page = await context.newPage();
   await page.goto(`${baseUrl}ui/`);
   return page;

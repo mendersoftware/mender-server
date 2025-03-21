@@ -11,8 +11,11 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import * as fs from 'fs';
+
 import test, { expect } from '../fixtures/fixtures.ts';
-import { timeouts } from '../utils/constants.js';
+import { prepareNewPage } from '../utils/commands.ts';
+import { storagePath, timeouts } from '../utils/constants.ts';
 
 const tenant = {
   name: 'Child Tenant',
@@ -25,6 +28,13 @@ const tenantRole = {
   description: 'Test role for SP tenant'
 };
 test.describe('Tenant Functionality', () => {
+  test.beforeAll(async ({ baseUrl, browser, password, spTenantUsername }) => {
+    const storageLocation = `tenant-${storagePath}`;
+    fs.writeFileSync(storageLocation, JSON.stringify({ cookies: [], origins: [] }));
+    const context = await browser.newContext();
+    await prepareNewPage({ baseUrl, context, password, storageLocation, username: spTenantUsername });
+    await context.storageState({ path: storageLocation });
+  });
   test.beforeEach(async ({ loggedInTenantPage: page, environment }) => {
     test.skip(environment !== 'enterprise', 'not available in OS');
     await page
