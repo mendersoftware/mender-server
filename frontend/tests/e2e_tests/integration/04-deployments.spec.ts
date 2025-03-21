@@ -16,7 +16,7 @@ import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween.js';
 
 import test, { expect } from '../fixtures/fixtures';
-import { selectors, storagePath, timeouts } from '../utils/constants';
+import { selectors, timeouts } from '../utils/constants';
 
 dayjs.extend(isBetween);
 
@@ -29,8 +29,6 @@ const checkTimeFilter = async (page: Page, name: string, isSetToday?: boolean) =
 };
 
 test.describe('Deployments', () => {
-  test.use({ storageState: storagePath });
-
   test.beforeEach(async ({ baseUrl, loggedInPage: page }) => {
     await page.goto(`${baseUrl}ui/devices`);
     await page.waitForTimeout(timeouts.default);

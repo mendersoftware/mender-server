@@ -76,17 +76,19 @@ const loginCommon = async ({
 };
 const test = (process.env.TEST_ENVIRONMENT === 'staging' ? nonCoveredTest : coveredTest).extend<TestFixtures>({
   loggedInPage: async ({ baseUrl, context, password, username }, use) => {
+    test.use({ storageState: storagePath });
     const page = await prepareNewPage({ baseUrl, context, password, username });
     await loginCommon({ page, username, use, context });
   },
   loggedInTenantPage: async ({ baseUrl, context, password, spTenantUsername }, use) => {
     const storageLocation = `tenant-${storagePath}`;
+    test.use({ storageState: storageLocation });
     const page = await prepareNewPage({ baseUrl, context, password, storageLocation, username: spTenantUsername });
     await loginCommon({ page, username: spTenantUsername, use, context });
   },
   // eslint-disable-next-line no-empty-pattern
   environment: async ({}, use) => {
-    const environment = process.env.TEST_ENVIRONMENT ? process.env.TEST_ENVIRONMENT : 'localhost';
+    const environment = (process.env.TEST_ENVIRONMENT ? process.env.TEST_ENVIRONMENT : 'localhost') as TestEnvironment;
     await use(environment);
   },
   spTenantUsername: async ({ environment }, use) => {

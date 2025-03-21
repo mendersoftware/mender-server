@@ -16,23 +16,11 @@ import jsQR from 'jsqr';
 import { PNG } from 'pngjs';
 
 import test, { expect } from '../fixtures/fixtures.ts';
-import {
-  baseUrlToDomain,
-  generateOtp,
-  isLoggedIn,
-  login,
-  prepareCookies,
-  prepareIsolatedNewPage,
-  prepareNewPage,
-  processLoginForm,
-  startClient,
-  tenantTokenRetrieval
-} from '../utils/commands.ts';
-import { selectors, storagePath, timeouts } from '../utils/constants.ts';
+import { generateOtp, isLoggedIn, login, prepareIsolatedNewPage, processLoginForm, startClient, tenantTokenRetrieval } from '../utils/commands.ts';
+import { selectors, timeouts } from '../utils/constants.ts';
 
 test.describe('Settings', () => {
   test.describe('access token feature', () => {
-    test.use({ storageState: storagePath });
     test('allows access to access tokens', async ({ baseUrl, loggedInPage: page }) => {
       await page.goto(`${baseUrl}ui/settings`);
       const tokenGenerationButton = await page.getByRole('button', { name: /Generate a token/i });
@@ -87,7 +75,6 @@ test.describe('Settings', () => {
     });
   });
   test.describe('account upgrades', () => {
-    test.use({ storageState: storagePath });
     test('allows upgrading to Professional', async ({ environment, loggedInPage: page }) => {
       test.skip(environment !== 'staging');
       await page.waitForTimeout(timeouts.default);
@@ -127,7 +114,6 @@ test.describe('Settings', () => {
   });
 
   test.describe('2FA setup', () => {
-    test.use({ storageState: storagePath });
     test('supports regular 2fa setup', async ({ baseUrl, environment, loggedInPage: page }) => {
       test.skip(environment !== 'staging');
       let tfaSecret;
@@ -190,7 +176,6 @@ test.describe('Settings', () => {
   });
 
   test.describe('Basic setting features', () => {
-    test.use({ storageState: storagePath });
     const replacementPassword = 'mysecretpassword!456';
 
     test('allows access to user management', async ({ baseUrl, loggedInPage: page }) => {
@@ -230,13 +215,9 @@ test.describe('Settings', () => {
       await page.click(`button:has-text('Save')`);
       await expect(page.getByText('Gaustadalleen 12')).toBeVisible();
     });
-    test('allows changing the password', async ({ baseUrl, browserName, context, environment, username, password }) => {
+    test('allows changing the password', async ({ baseUrl, browserName, browser, environment, username, password }) => {
       test.skip(browserName === 'webkit');
-      const domain = baseUrlToDomain(baseUrl);
-      context = await prepareCookies(context, domain, '');
-      const page = await context.newPage();
-      await page.goto(`${baseUrl}ui/`);
-      await processLoginForm({ username, password, page, environment });
+      const page = await prepareIsolatedNewPage({ baseUrl, browser, environment, password, username });
       await page.getByRole('button', { name: username }).click();
       await page.getByText(/my profile/i).click();
       await page.getByRole('button', { name: /change password/i }).click();
@@ -289,7 +270,6 @@ test.describe('Settings', () => {
   });
 
   test.describe('Multi tenant access', () => {
-    test.use({ storageState: storagePath });
     const secondaryUser = 'demo-secondary@example.com';
     test('allows adding users to tenants', async ({ baseUrl, browser, browserName, environment, loggedInPage, password }) => {
       test.skip('enterprise' !== environment || browserName !== 'chromium');
