@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -145,15 +145,18 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
     dispatch(getSsoConfigs());
   }, [dispatch]);
 
-  const submitNewTenant = async data => {
-    const { email, password, device_limit, send_reset_password, ...remainder } = data;
-    if (adminExists) {
-      await dispatch(addTenant({ users: [{ role: rolesByName.admin, email }], device_limit: Number(device_limit), ...remainder }));
-    } else {
-      await dispatch(addTenant({ admin: { password, email, send_reset_password }, device_limit: Number(device_limit), ...remainder }));
-    }
-    onCloseClick();
-  };
+  const submitNewTenant = useCallback(
+    async data => {
+      const { email, password, device_limit, send_reset_password, ...remainder } = data;
+      if (adminExists) {
+        await dispatch(addTenant({ users: [{ role: rolesByName.admin, email }], device_limit: Number(device_limit), ...remainder }));
+      } else {
+        await dispatch(addTenant({ admin: { password, email, send_reset_password }, device_limit: Number(device_limit), ...remainder }));
+      }
+      onCloseClick();
+    },
+    [adminExists, dispatch, onCloseClick]
+  );
 
   return (
     <Drawer open={open} onClose={onCloseClick} anchor="right" PaperProps={{ style: { minWidth: '67vw' } }}>
