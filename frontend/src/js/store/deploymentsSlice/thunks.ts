@@ -59,13 +59,13 @@ const transformDeployments = (deployments, deploymentsById) =>
 
 /*Deployments */
 export const getDeploymentsByStatus = createAsyncThunk(`${sliceName}/getDeploymentsByStatus`, (options = {}, { dispatch, getState }) => {
-  const { status, page = defaultPage, per_page = defaultPerPage, startDate, endDate, group, type, shouldSelect = true, sort = SORTING_OPTIONS.desc } = options;
+  const { status, page = defaultPage, perPage = defaultPerPage, startDate, endDate, group, type, shouldSelect = true, sort = SORTING_OPTIONS.desc } = options;
   const created_after = startDate ? `&created_after=${startDate}` : '';
   const created_before = endDate ? `&created_before=${endDate}` : '';
   const search = group ? `&search=${group}` : '';
   const typeFilter = type ? `&type=${type}` : '';
   return GeneralApi.get(
-    `${deploymentsApiUrl}/deployments?status=${status}&per_page=${per_page}&page=${page}${created_after}${created_before}${search}${typeFilter}&sort=${sort}`
+    `${deploymentsApiUrl}/deployments?status=${status}&per_page=${perPage}&page=${page}${created_after}${created_before}${search}${typeFilter}&sort=${sort}`
   ).then(res => {
     const { deployments, deploymentIds } = transformDeployments(res.data, getState().deployments.byId);
     const total = Number(res.headers[headerNames.total]);
