@@ -130,7 +130,7 @@ export const prepareNewPage = async ({
 }) => {
   let context = passedContext;
   if (!context) {
-    context = await browser.newContext();
+    context = await browser.newContext({ storageState: storageLocation });
   }
   if (context.browser()?.browserType().name() === 'chromium') {
     await context.grantPermissions(['clipboard-read'], { origin: baseUrl });
