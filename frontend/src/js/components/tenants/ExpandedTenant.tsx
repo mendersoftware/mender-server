@@ -48,7 +48,7 @@ const { setSnackbar } = actions;
 
 export const ExpandedTenant = (props: ExpandedTenantProps) => {
   const { onCloseClick, tenant } = props;
-  const { name, id, device_limit, device_count, binary_delta } = tenant;
+  const { name, id, device_limit = 0, device_count = 0, binary_delta } = tenant;
 
   const [shouldDelete, setShouldDelete] = useState<boolean>(false);
   const [newLimitForm, setNewLimitForm] = useState<boolean>(false);
