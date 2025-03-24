@@ -69,7 +69,14 @@ export const userHandlers = [
     }
     return HttpResponse.json(defaultState.users.byId[defaultUserId]);
   }),
-  http.get(`${useradmApiUrl}/users/exists`, () => HttpResponse.json({ exists: true })),
+  http.get(`${useradmApiUrl}/users/exists`, ({ request }) => {
+    const url = new URL(request.url);
+    const email = url.searchParams.get('email');
+    if (!decodeURIComponent(email).includes('child+123')) {
+      return new HttpResponse(null, { status: 578 });
+    }
+    return HttpResponse.json({ exists: true });
+  }),
   http.get(`${useradmApiUrl}/users/:userId`, ({ params: { userId } }) => {
     if (userId === 'me' || defaultState.users.byId[userId]) {
       const user = userId === 'me' ? defaultUserId : userId;
