@@ -11,7 +11,6 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import Api from '@northern.tech/store/api/general-api';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, vi } from 'vitest';
@@ -33,8 +32,6 @@ describe('TenantsForm', () => {
     const OrganizationActions = await import('@northern.tech/store/organizationSlice/thunks');
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const submitTenantSpy = vi.spyOn(OrganizationActions, 'addTenant');
-    const tenantExists = vi.spyOn(Api, 'get');
-    tenantExists.mockResolvedValue({ exists: false });
 
     const newChildTenant = { name: 'ChildTenant', email: 'child@example.com', password: 'MySecurePassword2025', dev: '2' };
     const preloadedState = {
