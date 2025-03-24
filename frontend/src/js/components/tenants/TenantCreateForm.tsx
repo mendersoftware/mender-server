@@ -148,12 +148,16 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
   const submitNewTenant = useCallback(
     async data => {
       const { email, password, device_limit, send_reset_password, ...remainder } = data;
+      let selectionState = { device_limit: Number(device_limit), ...remainder };
       if (adminExists) {
-        await dispatch(addTenant({ users: [{ role: rolesByName.admin, email }], device_limit: Number(device_limit), ...remainder }));
+        selectionState = { users: [{ role: rolesByName.admin, email }], ...selectionState };
       } else {
-        await dispatch(addTenant({ admin: { password, email, send_reset_password }, device_limit: Number(device_limit), ...remainder }));
+        selectionState = { admin: { password, email, send_reset_password }, ...selectionState };
       }
-      onCloseClick();
+      const success = await dispatch(addTenant(selectionState)).unwrap();
+      if (success) {
+        onCloseClick();
+      }
     },
     [adminExists, dispatch, onCloseClick]
   );
