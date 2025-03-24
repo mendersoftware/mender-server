@@ -642,15 +642,8 @@ describe('organization actions', () => {
       { type: getTenants.fulfilled.type },
       { type: addTenant.fulfilled.type }
     ];
-    const request = store.dispatch(
-      addTenant({
-        name: 'Mikita',
-        password: 'eWlXPqo4k8366KOs',
-        device_limit: '2',
-        binary_delta: true
-      })
-    );
-    await vi.advanceTimersByTime(1000);
+    const request = store.dispatch(addTenant({ name: 'Mikita', users: [{ email: 'some@example.com' }], device_limit: 2, binary_delta: true }));
+    await vi.advanceTimersByTime(TIMEOUTS.oneSecond);
     await vi.runOnlyPendingTimersAsync();
     await expect(request).resolves.toBeTruthy();
     const storeActions = store.getActions();
