@@ -11,6 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { TIMEOUTS, rolesByName } from '@northern.tech/store/constants';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, vi } from 'vitest';
@@ -50,7 +51,8 @@ describe('TenantsForm', () => {
     expect(screen.queryByText('You are not currently managing any tenants'));
     await user.click(screen.getByRole('button', { name: /Add tenant/i }));
     await user.type(screen.getByPlaceholderText('Name'), newChildTenant.name);
-    await user.type(screen.getByRole('textbox', { name: /admin user/i }), newChildTenant.email);
+    const emailInput = screen.getByLabelText(/admin user/i);
+    await user.type(emailInput, `bad-${newChildTenant.email}`);
     await user.type(screen.getByPlaceholderText('Password'), newChildTenant.password);
     await user.type(screen.getByLabelText('Set device limit'), newChildTenant.dev);
     await user.click(screen.getByText(/enable delta artifact generation/i));
@@ -58,10 +60,16 @@ describe('TenantsForm', () => {
     const submitButton = screen.getByRole('button', { name: /Create Tenant/i });
     await waitFor(() => expect(submitButton).toBeEnabled());
     await user.click(submitButton);
+    expect(emailInput).toBeVisible();
+    await user.clear(emailInput);
+    await user.type(emailInput, newChildTenant.email);
+    await vi.advanceTimersByTimeAsync(TIMEOUTS.oneSecond);
+    await waitFor(() => expect(submitButton).toBeEnabled());
+    await user.click(submitButton);
 
     await waitFor(() =>
       expect(submitTenantSpy).toHaveBeenCalledWith({
-        admin: { email: newChildTenant.email, password: newChildTenant.password, send_reset_password: true },
+        users: [{ email: newChildTenant.email, role: rolesByName.admin }],
         name: newChildTenant.name,
         device_limit: Number(newChildTenant.dev),
         binary_delta: true,
