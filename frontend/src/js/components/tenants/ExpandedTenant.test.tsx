@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { Tenant } from '@northern.tech/store/api/types/Tenant';
 import { initialState as initialOrganizationState } from '@northern.tech/store/organizationSlice';
-import * as OrganizationActions from '@northern.tech/store/organizationSlice/thunks';
+import * as OrganizationActions from '@northern.tech/store/thunks';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';

@@ -23,9 +23,9 @@ import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import actions from '@northern.tech/store/actions';
 import { generateTenantPathById } from '@northern.tech/store/locationutils';
-import { getOrganization, getSsoConfig } from '@northern.tech/store/organizationSlice/selectors';
-import { editTenantDeviceLimit, removeTenant } from '@northern.tech/store/organizationSlice/thunks';
+import { getOrganization, getSsoConfig } from '@northern.tech/store/selectors';
 import { AppDispatch } from '@northern.tech/store/store';
+import { editTenantDeviceLimit, removeTenant } from '@northern.tech/store/thunks';
 import copy from 'copy-to-clipboard';
 
 import { DeviceCount } from '../header/devicecount';
