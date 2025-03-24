@@ -522,13 +522,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
                 child2
               </div>
             </div>
-            <div>
+            <div
+              class="flexbox center-aligned"
+            >
               0
               /
               100
-              <div
-                class="margin-left-small margin-top-x-small"
-              />
             </div>
             <div>
               <svg
@@ -581,13 +580,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
                 child3
               </div>
             </div>
-            <div>
+            <div
+              class="flexbox center-aligned"
+            >
               0
               /
               20
-              <div
-                class="margin-left-small margin-top-x-small"
-              />
             </div>
             <div>
               <svg
