@@ -117,7 +117,7 @@ export const ExpandedTenant = (props: ExpandedTenantProps) => {
                     label="Set device limit"
                     type="number"
                     onChange={onChangeLimit}
-                    slotProps={{ htmlInput: { min: device_count, max: currentLimit, 'data-testid': 'dev-limit-input' } }}
+                    slotProps={{ htmlInput: { min: device_count, max: currentLimit } }}
                     error={hasLimitError}
                     value={newLimit}
                   />

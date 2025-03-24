@@ -79,7 +79,7 @@ describe('ExpandedTenant', () => {
     render(<ExpandedTenant onCloseClick={vi.fn} tenant={tenant} />, { preloadedState: state });
     expect(screen.queryByText(`Tenant Information for ${tenant.name}`));
     await user.click(screen.getByRole('button', { name: /edit device limit/i }));
-    const limitInput = screen.getByTestId('dev-limit-input');
+    const limitInput = screen.getByLabelText(/set device limit/i);
     await user.clear(limitInput);
     await user.type(limitInput, newLimit);
     await user.click(screen.getByRole('button', { name: /save/i }));
