@@ -144,8 +144,8 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
           />
         </Collapse>
         <FormCheckbox className="margin-top-none" id="noExpiry" label="Stay logged in" />
-        <Button className="full-width" variant="contained" type="submit" disabled={!formState.isValid}>
-          Log in
+        <Button className="full-width" variant="contained" type="submit">
+          Next
         </Button>
         {has2FA && twoFARef.current && (
           <MenderHelpTooltip

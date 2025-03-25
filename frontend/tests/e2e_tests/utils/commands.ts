@@ -259,7 +259,7 @@ export const processLoginForm = async ({
   if (isEnterpriseOrStaging(environment)) {
     // enterprise supports two-step login, and the first screen does not have password field until submit clicked
     await page.waitForTimeout(timeouts.oneSecond);
-    await page.getByRole('button', { name: /log in/i }).click();
+    await page.getByRole('button', { name: /next/i }).click();
   }
 
   await page.click(selectors.password);
@@ -270,7 +270,7 @@ export const processLoginForm = async ({
     await checkbox.check();
   }
 
-  await page.getByRole('button', { name: /log in/i }).click();
+  await page.getByRole('button', { name: /next/i }).click();
 };
 
 export const tenantTokenRetrieval = async (baseUrl: string, page: Page) => {
