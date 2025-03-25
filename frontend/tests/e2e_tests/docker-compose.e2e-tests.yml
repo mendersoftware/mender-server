@@ -76,6 +76,5 @@ services:
       - HAVE_REPORTING=0
 
   iot-manager:
-    image: ${CI_REGISTRY_IMAGE}/iot-manager:${MENDER_IMAGE_TAG}
     environment:
       - IOT_MANAGER_DOMAIN_SKIPVERIFY=true
