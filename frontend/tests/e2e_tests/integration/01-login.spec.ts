@@ -11,9 +11,6 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import axios from 'axios';
-import * as https from 'https';
-
 import test, { expect } from '../fixtures/fixtures.ts';
 import { baseUrlToDomain, isEnterpriseOrStaging, isLoggedIn, prepareCookies, processLoginForm } from '../utils/commands.ts';
 import { selectors, storagePath, timeouts } from '../utils/constants.ts';
@@ -46,10 +43,10 @@ test.describe('Login', () => {
       await expect(page.getByRole('button', { name: /log in/i })).toBeVisible();
     });
 
-    test('fails to access unknown resource', async ({ baseUrl, page }) => {
+    test('fails to access unknown resource', async ({ baseUrl, page, request }) => {
       await page.goto(`${baseUrl}ui/`);
-      const { status } = await axios.get(`${baseUrl}/users`, { httpsAgent: new https.Agent({ rejectUnauthorized: false }) });
-      expect(status).toEqual(200);
+      const response = await request.get(`${baseUrl}/users`);
+      expect(response.ok()).toBeTruthy();
       await expect(page.getByRole('button', { name: /log in/i })).toBeVisible();
     });
 
