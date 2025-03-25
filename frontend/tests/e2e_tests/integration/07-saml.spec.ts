@@ -11,9 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import axios from 'axios';
 import dns from 'node:dns';
-import * as https from 'node:https';
 
 import test, { expect } from '../fixtures/fixtures.ts';
 import { getTokenFromStorage, isEnterpriseOrStaging, isLoggedIn, startIdpServer } from '../utils/commands.ts';
@@ -30,40 +28,31 @@ const samlSettings = {
   idpUrl: 'http://localhost:7000/metadata'
 };
 
-const httpsAgent = new https.Agent({ rejectUnauthorized: false });
-const defaultHeaders = { 'Content-Type': 'application/json' };
-
 let acsUrl = '';
 let metadataLocation = '';
 
 test.describe('SAML Login via sso/id/login', () => {
   test.use({ storageState: storagePath });
-  test.afterAll(async ({ environment, baseUrl, browserName }, testInfo) => {
+  test.afterAll(async ({ environment, baseUrl, browserName, request }, testInfo) => {
     if (testInfo.status === 'skipped' || !isEnterpriseOrStaging(environment)) {
       return;
     }
     const token = await getTokenFromStorage(baseUrl);
-    const requestInfo = { headers: { ...defaultHeaders, Authorization: `Bearer ${token}` }, httpsAgent, method: 'GET' };
+    const options = { headers: { Authorization: `Bearer ${token}` } };
     console.log(`Finished ${testInfo.title} with status ${testInfo.status}. Cleaning up.`);
-    const response = await axios({
-      ...requestInfo,
-      url: `${baseUrl}api/management/v1/useradm/users?email=${encodeURIComponent(samlSettings.credentials[browserName])}`
-    });
-    if (response.status >= 300 || !response.data.length) {
+    const response = await request.get(`${baseUrl}api/management/v1/useradm/users?email=${encodeURIComponent(samlSettings.credentials[browserName])}`, options);
+    const users = await response.json();
+    if (response.status() >= 300 || !users.length) {
       console.log(`${samlSettings.credentials[browserName]} does not exist.`);
       return;
     }
-    const { id: userId } = response.data[0];
-    await axios({
-      ...requestInfo,
-      url: `${baseUrl}api/management/v1/useradm/users/${userId}`,
-      method: 'DELETE'
-    });
+    const { id: userId } = users[0];
+    await request.delete(`${baseUrl}api/management/v1/useradm/users/${userId}`, options);
     console.log(`removed user ${samlSettings.credentials[browserName]}.`);
   });
 
   // Setups the SAML/SSO login with samltest.id Identity Provider
-  test('Set up SAML', async ({ browserName, environment, baseUrl, loggedInPage: page }) => {
+  test('Set up SAML', async ({ browserName, environment, baseUrl, loggedInPage: page, request }) => {
     test.skip(!isEnterpriseOrStaging(environment));
     // allow a lot of time to enter metadata + then some to handle uploading the config to the external service
     test.setTimeout(5 * timeouts.sixtySeconds + timeouts.fifteenSeconds);
@@ -71,10 +60,12 @@ test.describe('SAML Login via sso/id/login', () => {
     let idpServer;
     startIdpServer({}, server => (idpServer = server));
     await page.waitForTimeout(timeouts.oneSecond);
-    const { data: metadata, status } = await axios({ url: samlSettings.idpUrl, method: 'GET' });
+    const response = await request.get(samlSettings.idpUrl);
+    const status = response.status();
     idpServer.close();
     expect(status).toBeGreaterThanOrEqual(200);
     expect(status).toBeLessThan(300);
+    const metadata = await response.text();
     await page.goto(`${baseUrl}ui/settings/organization-and-billing`);
     const isInitialized = await page.getByText('Entity ID').isVisible();
     if (!isInitialized) {
@@ -108,8 +99,9 @@ test.describe('SAML Login via sso/id/login', () => {
     const dialog = await page.locator('text=SAML metadata >> .. >> ..');
     await dialog.locator('data-testid=CloseIcon').click();
     const token = await getTokenFromStorage(baseUrl);
-    const requestInfo = { method: 'GET', headers: { ...defaultHeaders, Authorization: `Bearer ${token}` }, httpsAgent };
-    const { data } = await axios({ ...requestInfo, url: `${baseUrl}api/management/v1/useradm/sso/idp/metadata` });
+    const options = { headers: { Authorization: `Bearer ${token}` } };
+    const storedMetadataResponse = await request.get(`${baseUrl}api/management/v1/useradm/sso/idp/metadata`, options);
+    const data = await storedMetadataResponse.json();
     const metadataId = data[0].id;
     console.log(`looking for config info for metadata id: ${metadataId}`);
     const expectedLoginUrl = `${baseUrl}api/management/v1/useradm/auth/sso/${metadataId}/login`;
@@ -122,10 +114,11 @@ test.describe('SAML Login via sso/id/login', () => {
     await expect(page.getByText(expectedSpMetaUrl)).toBeVisible();
     acsUrl = expectedAcsUrl;
     metadataLocation = expectedSpMetaUrl;
-
-    const { data: spMetadata, status: spDataStatus } = await axios({ ...requestInfo, url: expectedSpMetaUrl });
+    const spMetadataResponse = await request.get(expectedSpMetaUrl, options);
+    const spDataStatus = spMetadataResponse.status();
     expect(spDataStatus).toBeGreaterThanOrEqual(200);
     expect(spDataStatus).toBeLessThan(300);
+    const spMetadata = await spMetadataResponse.text();
     expect(spMetadata).toContain('SPSSODescriptor');
     idpServer.close();
     await page.waitForTimeout(timeouts.oneSecond);

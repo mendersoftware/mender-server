@@ -11,12 +11,10 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import axios from 'axios';
 import { exec } from 'child_process';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween.js';
 import * as fs from 'fs';
-import https from 'https';
 import md5 from 'md5';
 import { parse } from 'yaml';
 
@@ -69,7 +67,7 @@ test.describe('Files', () => {
     await page.getByText(/last modified/i).waitFor();
   });
 
-  test('allows artifact generation', async ({ baseUrl, browserName, loggedInPage: page }) => {
+  test('allows artifact generation', async ({ baseUrl, browserName, loggedInPage: page, request }) => {
     const hasTaggedRelease = await page.getByText(/customRelease/i).isVisible();
     if (hasTaggedRelease) {
       return;
@@ -87,7 +85,7 @@ test.describe('Files', () => {
     await page.getByRole('button', { name: /upload artifact/i }).click();
     await page.getByText('1-2 of 2').waitFor();
     const token = await getTokenFromStorage(baseUrl);
-    await tagRelease(releaseName, 'customRelease', baseUrl, token);
+    await tagRelease(releaseName, 'customRelease', baseUrl, token, request);
     await page.waitForTimeout(timeouts.oneSecond); // some extra time for the release to be tagged in the backend
     await page.keyboard.press('Escape');
     await page.reload();
@@ -199,7 +197,7 @@ test.describe('Files', () => {
   //       })
   // })
 
-  test('allows artifact downloads', async ({ demoArtifactVersion, loggedInPage: page }) => {
+  test('allows artifact downloads', async ({ demoArtifactVersion, loggedInPage: page, request }) => {
     await page.getByText(/mender-demo-artifact/i).click();
     await page.click('.expandButton');
     const downloadButton = await page.getByText(/download artifact/i);
@@ -209,8 +207,8 @@ test.describe('Files', () => {
     const downloadError = await download.failure();
     if (downloadError) {
       const downloadUrl = download.url();
-      const response = await axios.get(downloadUrl, { httpsAgent: new https.Agent({ rejectUnauthorized: false }), responseType: 'arraybuffer' });
-      const fileData = Buffer.from(response.data, 'binary');
+      const response = await request.get(downloadUrl);
+      const fileData = await response.body();
       downloadTargetPath = `./${download.suggestedFilename()}`;
       fs.writeFileSync(downloadTargetPath, fileData);
     } else {
