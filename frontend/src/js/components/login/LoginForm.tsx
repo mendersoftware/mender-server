@@ -23,7 +23,7 @@ import FormCheckbox from '@northern.tech/common-ui/forms/FormCheckbox';
 import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
-import { TIMEOUTS } from '@northern.tech/store/commonConstants';
+import { TIMEOUTS } from '@northern.tech/store/constants';
 import { toggle } from '@northern.tech/utils/helpers';
 
 const useStyles = makeStyles()((theme: Theme) => ({
