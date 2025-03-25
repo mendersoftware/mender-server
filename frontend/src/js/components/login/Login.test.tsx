@@ -49,7 +49,7 @@ describe('Login Component', () => {
     const ui = <Login />;
     const { rerender } = render(ui, { preloadedState });
     await user.type(screen.getByLabelText(/your email/i), 'something-2fa@example.com');
-    const loginButton = screen.getByRole('button', { name: /Log in/i });
+    const loginButton = screen.getByRole('button', { name: /Next/i });
     await waitFor(() => expect(loginButton).toBeEnabled(), { timeout: TIMEOUTS.oneSecond + TIMEOUTS.debounceDefault });
     await user.click(loginButton);
     await act(async () => vi.runAllTicks());

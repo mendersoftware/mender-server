@@ -33,7 +33,7 @@ test.describe('Login', () => {
 
     test('does not stay logged in across sessions, after browser restart', async ({ baseUrl, page }) => {
       await page.goto(`${baseUrl}ui/`);
-      await expect(page.getByRole('button', { name: /log in/i })).toBeVisible();
+      await expect(page.getByRole('button', { name: /next/i })).toBeVisible();
     });
 
     test('Logs out using UI', async ({ baseUrl, environment, page, password, username }) => {
@@ -42,15 +42,15 @@ test.describe('Login', () => {
       // now we can log out
       await page.getByRole('button', { name: username }).click();
       await page.getByText(/log out/i).click();
-      await page.getByRole('button', { name: /log in/i }).waitFor({ timeout: timeouts.default });
-      await expect(page.getByRole('button', { name: /log in/i })).toBeVisible();
+      await page.getByRole('button', { name: /next/i }).waitFor({ timeout: timeouts.default });
+      await expect(page.getByRole('button', { name: /next/i })).toBeVisible();
     });
 
     test('fails to access unknown resource', async ({ baseUrl, page }) => {
       await page.goto(`${baseUrl}ui/`);
       const { status } = await axios.get(`${baseUrl}/users`, { httpsAgent: new https.Agent({ rejectUnauthorized: false }) });
       expect(status).toEqual(200);
-      await expect(page.getByRole('button', { name: /log in/i })).toBeVisible();
+      await expect(page.getByRole('button', { name: /next/i })).toBeVisible();
     });
 
     test('Does not log in with invalid password', async ({ baseUrl, environment, page, username }) => {
@@ -60,7 +60,7 @@ test.describe('Login', () => {
       await processLoginForm({ username, password: 'lewrongpassword', page, environment });
 
       // still on /login page plus an error is displayed
-      await expect(page.getByRole('button', { name: /log in/i })).toBeVisible();
+      await expect(page.getByRole('button', { name: /next/i })).toBeVisible();
       await expect(page.getByText('Incorrect email address and / or password')).toBeVisible();
     });
 
@@ -73,7 +73,7 @@ test.describe('Login', () => {
       await page.click(selectors.email);
       await page.fill(selectors.email, username);
       await page.waitForTimeout(timeouts.default);
-      await expect(page.getByRole('button', { name: /Log in/i })).toBeDisabled();
+      await expect(page.getByRole('button', { name: /next/i })).toBeDisabled();
     });
   });
 
@@ -88,7 +88,7 @@ test.describe('Login', () => {
 
     // confirm we have logged in successfully
     await isLoggedIn(page);
-    await expect(page.getByRole('button', { name: /log in/i })).not.toBeVisible();
+    await expect(page.getByRole('button', { name: /next/i })).not.toBeVisible();
     await page.getByText(/Releases/i).click();
     await context.storageState({ path: storagePath });
     let differentContext = await browser.newContext({ storageState: storagePath });
@@ -96,7 +96,7 @@ test.describe('Login', () => {
     const differentPage = await differentContext.newPage();
     await differentPage.goto(`${baseUrl}ui/`);
     // page.reload();
-    await expect(page.getByRole('button', { name: /log in/i })).not.toBeVisible();
+    await expect(page.getByRole('button', { name: /next/i })).not.toBeVisible();
     await expect(differentPage.getByText('Getting started')).not.toBeVisible();
   });
 });

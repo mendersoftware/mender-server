@@ -47,7 +47,7 @@ describe('Router', () => {
         </Provider>
       </MemoryRouter>
     );
-    expect(screen.getAllByText('Log in')).toBeTruthy();
+    expect(screen.getAllByText('Next')).toBeTruthy();
     expect(screen.queryByText('Settings')).toBeFalsy();
     await act(async () => vi.runAllTicks());
   });
@@ -60,7 +60,7 @@ describe('Router', () => {
         </Provider>
       </MemoryRouter>
     );
-    expect(screen.getAllByText('Log in')).toBeTruthy();
+    expect(screen.getAllByText('Next')).toBeTruthy();
     expect(screen.queryByText('Settings')).toBeFalsy();
     await act(async () => vi.runAllTicks());
   });

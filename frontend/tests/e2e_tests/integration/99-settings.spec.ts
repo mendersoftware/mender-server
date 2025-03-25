@@ -153,14 +153,14 @@ test.describe('Settings', () => {
     test(`prevents from logging in without 2fa code`, async ({ baseUrl, environment, page, password, username }) => {
       test.skip(environment !== 'staging');
       await page.goto(`${baseUrl}ui/`);
-      await expect(page.getByRole('button', { name: /Log in/i })).toBeVisible();
+      await expect(page.getByRole('button', { name: /next/i })).toBeVisible();
       // enter valid username and password
       await processLoginForm({ username, password, page, environment });
       await page.waitForTimeout(timeouts.default);
       await page.fill('#token2fa', '123456');
-      await page.getByRole('button', { name: /log in/i }).click();
+      await page.getByRole('button', { name: /next/i }).click();
       // still on /login page plus an error is displayed
-      await expect(page.getByRole('button', { name: /Log in/i })).toBeVisible();
+      await expect(page.getByRole('button', { name: /next/i })).toBeVisible();
       await page.getByText(/There was a problem logging in/).waitFor({ timeout: timeouts.default });
     });
     test('allows turning 2fa off again', async ({ baseUrl, environment, page, password, username }) => {
@@ -169,7 +169,7 @@ test.describe('Settings', () => {
       await processLoginForm({ username, password, page, environment });
       const newToken = await generateOtp();
       await page.fill('#token2fa', newToken);
-      await page.getByRole('button', { name: /log in/i }).click();
+      await page.getByRole('button', { name: /next/i }).click();
       await isLoggedIn(page);
       await page.goto(`${baseUrl}ui/settings/my-account`);
       await page.getByText(/Enable Two Factor/).click();
@@ -253,8 +253,8 @@ test.describe('Settings', () => {
       await page.getByText(/log out/i).click();
       await page.waitForTimeout(timeouts.default);
       await page.screenshot({ path: './test-results/logout.png' });
-      await page.getByRole('button', { name: /log in/i }).waitFor({ timeout: timeouts.fiveSeconds });
-      await expect(page.getByRole('button', { name: /log in/i })).toBeVisible();
+      await page.getByRole('button', { name: /next/i }).waitFor({ timeout: timeouts.fiveSeconds });
+      await expect(page.getByRole('button', { name: /next/i })).toBeVisible();
     });
 
     test('allows changing the password back', async ({ baseUrl, browserName, browser, password, username }) => {
