@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import test, { expect } from '../fixtures/fixtures.ts';
-import { baseUrlToDomain, isEnterpriseOrStaging, isLoggedIn, prepareCookies, processLoginForm } from '../utils/commands.ts';
+import { baseUrlToDomain, isLoggedIn, prepareCookies, processLoginForm } from '../utils/commands.ts';
 import { selectors, storagePath, timeouts } from '../utils/constants.ts';
 
 test.describe('Login', () => {
@@ -62,15 +62,19 @@ test.describe('Login', () => {
     });
 
     test('Does not log in without password', async ({ baseUrl, environment, page, username }) => {
-      test.skip(isEnterpriseOrStaging(environment));
+      test.skip(environment === 'staging');
       console.log(`logging in user with username: ${username} and without a password`);
       await page.goto(`${baseUrl}ui/`);
       // enter valid username and invalid password
       await page.waitForSelector(selectors.email);
       await page.click(selectors.email);
       await page.fill(selectors.email, username);
+      await page.getByRole('button', { name: /next/i }).click();
       await page.waitForTimeout(timeouts.default);
-      await expect(page.getByRole('button', { name: /next/i })).toBeDisabled();
+      await page.getByRole('button', { name: /next/i }).click();
+      if (environment === 'enterprise') {
+        await expect(page.getByText('Incorrect email address and / or password')).toBeVisible();
+      }
     });
   });
 
