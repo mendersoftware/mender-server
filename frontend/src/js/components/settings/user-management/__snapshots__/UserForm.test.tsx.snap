@@ -197,10 +197,6 @@ exports[`UserForm Component > renders correctly 1`] = `
   color: #ab1000;
 }
 
-.emotion-8.Mui-focused {
-  color: #337a87;
-}
-
 .emotion-9 {
   line-height: 1.4375em;
   font-family: Lato,sans-serif;
@@ -491,10 +487,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
 
 .emotion-18.Mui-error {
   color: #ab1000;
-}
-
-.emotion-18.Mui-focused {
-  color: #337a87;
 }
 
 .emotion-19 {
@@ -2104,10 +2096,6 @@ exports[`UserForm Component > renders correctly for enterprise 1`] = `
   color: #ab1000;
 }
 
-.emotion-8.Mui-focused {
-  color: #337a87;
-}
-
 .emotion-9 {
   line-height: 1.4375em;
   font-family: Lato,sans-serif;
@@ -2398,10 +2386,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
 
 .emotion-18.Mui-error {
   color: #ab1000;
-}
-
-.emotion-18.Mui-focused {
-  color: #337a87;
 }
 
 .emotion-19 {
