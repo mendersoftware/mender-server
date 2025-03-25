@@ -22,7 +22,7 @@ import { parse } from 'yaml';
 
 import test, { expect } from '../fixtures/fixtures.ts';
 import { getTokenFromStorage, isEnterpriseOrStaging, tagRelease } from '../utils/commands.ts';
-import { releaseTag, selectors, storagePath, timeouts } from '../utils/constants.ts';
+import { releaseTag, selectors, timeouts } from '../utils/constants.ts';
 
 dayjs.extend(isBetween);
 
@@ -32,8 +32,6 @@ const demoArtifactLocation = `https://dgsbl4vditpls.cloudfront.net/${fileName}`;
 const fileLocation = `fixtures/${fileName}`;
 
 test.describe('Files', () => {
-  test.use({ storageState: storagePath });
-
   let navbar;
   test.beforeEach(async ({ browserName, loggedInPage: page }) => {
     navbar = page.locator('.leftFixed.leftNav');
@@ -86,7 +84,7 @@ test.describe('Files', () => {
     await page.getByRole('button', { name: /next/i }).click();
     await page.getByRole('button', { name: /upload artifact/i }).click();
     await page.getByText('1-2 of 2').waitFor();
-    const token = await getTokenFromStorage(baseUrl);
+    const { token } = await getTokenFromStorage(baseUrl);
     await tagRelease(releaseName, 'customRelease', baseUrl, token);
     await page.waitForTimeout(timeouts.oneSecond); // some extra time for the release to be tagged in the backend
     await page.keyboard.press('Escape');

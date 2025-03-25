@@ -16,22 +16,11 @@ import jsQR from 'jsqr';
 import { PNG } from 'pngjs';
 
 import test, { expect } from '../fixtures/fixtures.ts';
-import {
-  baseUrlToDomain,
-  generateOtp,
-  isLoggedIn,
-  login,
-  prepareCookies,
-  prepareNewPage,
-  processLoginForm,
-  startClient,
-  tenantTokenRetrieval
-} from '../utils/commands.ts';
-import { selectors, storagePath, timeouts } from '../utils/constants.ts';
+import { generateOtp, isLoggedIn, login, prepareIsolatedNewPage, processLoginForm, startClient, tenantTokenRetrieval } from '../utils/commands.ts';
+import { selectors, timeouts } from '../utils/constants.ts';
 
 test.describe('Settings', () => {
   test.describe('access token feature', () => {
-    test.use({ storageState: storagePath });
     test('allows access to access tokens', async ({ baseUrl, loggedInPage: page }) => {
       await page.goto(`${baseUrl}ui/settings`);
       const tokenGenerationButton = await page.getByRole('button', { name: /Generate a token/i });
@@ -86,7 +75,6 @@ test.describe('Settings', () => {
     });
   });
   test.describe('account upgrades', () => {
-    test.use({ storageState: storagePath });
     test('allows upgrading to Professional', async ({ environment, loggedInPage: page }) => {
       test.skip(environment !== 'staging');
       await page.waitForTimeout(timeouts.default);
@@ -187,6 +175,76 @@ test.describe('Settings', () => {
     });
   });
 
+  test.describe('Multi tenant access', () => {
+    const secondaryUser = 'demo-secondary@example.com';
+    test('allows adding users to tenants', async ({ baseUrl, browser, browserName, environment, loggedInPage, password }) => {
+      test.skip('enterprise' !== environment || browserName !== 'chromium');
+      await loggedInPage.goto(`${baseUrl}ui/settings`);
+      await loggedInPage.click('text=/user management/i');
+      const hasUserAlready = await loggedInPage.getByText(secondaryUser).isVisible();
+      test.skip(hasUserAlready, `${secondaryUser} was added in a previous run, but success notification wasn't caught`);
+      const page = await prepareIsolatedNewPage({ baseUrl, browser, environment, password, username: secondaryUser });
+      await page.screenshot({ path: './test-results/secondary-account-login.png' });
+      await page.goto(`${baseUrl}ui/settings/my-account`);
+      await page.screenshot({ path: './test-results/secondary-account.png' });
+      await page
+        .getByText(/User ID/i)
+        .locator('..')
+        .locator('..')
+        .getByRole('button', { name: /copy to clipboard/i })
+        .click({ force: true });
+      const content = await page.evaluateHandle(() => navigator.clipboard.readText());
+      const uuid = await content.jsonValue();
+      await page.getByText(/help/i).click();
+      await page.getByRole('button', { name: secondaryUser }).click();
+      await expect(page.getByText(/switch organization/i)).not.toBeVisible();
+
+      await loggedInPage.getByRole('button', { name: /new user/i }).click();
+      const passwordInput = await loggedInPage.getByPlaceholder(/password/i);
+      const emailUuidInput = await loggedInPage.getByPlaceholder(/email/i);
+      await emailUuidInput.click();
+      await emailUuidInput.fill(uuid);
+      await expect(passwordInput).not.toBeVisible();
+      await loggedInPage.getByRole('button', { name: /add user/i }).click();
+      await page.waitForTimeout(timeouts.oneSecond);
+
+      await page.reload();
+      await page.getByRole('button', { name: secondaryUser }).click();
+      await expect(page.getByText(/switch organization/i)).toBeVisible();
+    });
+    test('allows switching tenants', async ({ baseUrl, browser, browserName, environment, loggedInPage, password }) => {
+      test.skip('enterprise' !== environment || browserName !== 'chromium');
+      // here we can't use prepareNewPage as it sets the initial JWT to be used on every page init
+      const page = await prepareIsolatedNewPage({ baseUrl, browser, environment, password, username: secondaryUser });
+      await page.getByRole('button', { name: secondaryUser }).click();
+      await expect(page.getByRole('menuitem', { name: /secondary/i })).toBeVisible();
+      await page.getByText(/switch organization/i).click({ force: true });
+      const tenantSwitch = await page.getByRole('menuitem', { name: /test/i });
+      await tenantSwitch.waitFor({ timeout: timeouts.default });
+      await tenantSwitch.click();
+      await page.waitForTimeout(timeouts.default);
+      await page.getByRole('button', { name: secondaryUser }).click();
+      await expect(page.getByRole('menuitem', { name: /secondary/i })).not.toBeVisible();
+      await expect(page.getByRole('menuitem', { name: /test/i })).toBeVisible();
+
+      await loggedInPage.goto(`${baseUrl}ui/settings`);
+      await loggedInPage.click('text=/user management/i');
+      await loggedInPage.getByText(secondaryUser).click();
+      await loggedInPage.getByRole('button', { name: /delete user/i }).click();
+      await expect(loggedInPage.getByText(/delete user\?/i)).toBeVisible();
+      await loggedInPage
+        .getByRole('button', { name: /delete user/i })
+        .last()
+        .click();
+
+      await page.reload();
+      await expect(page.getByText(/log in/i)).toBeVisible();
+      await processLoginForm({ username: secondaryUser, password, page, environment });
+      await page.getByRole('button', { name: secondaryUser }).click();
+      await expect(page.getByText(/switch organization/i)).not.toBeVisible();
+    });
+  });
+
   test.describe('Basic setting features', () => {
     const replacementPassword = 'mysecretpassword!456';
 
@@ -227,13 +285,9 @@ test.describe('Settings', () => {
       await page.click(`button:has-text('Save')`);
       await expect(page.getByText('Gaustadalleen 12')).toBeVisible();
     });
-    test('allows changing the password', async ({ baseUrl, browserName, context, environment, username, password }) => {
+    test('allows changing the password', async ({ baseUrl, browserName, browser, environment, username, password }) => {
       test.skip(browserName === 'webkit');
-      const domain = baseUrlToDomain(baseUrl);
-      context = await prepareCookies(context, domain, '');
-      const page = await context.newPage();
-      await page.goto(`${baseUrl}ui/`);
-      await processLoginForm({ username, password, page, environment });
+      const page = await prepareIsolatedNewPage({ baseUrl, browser, environment, password, username });
       await page.getByRole('button', { name: username }).click();
       await page.getByText(/my profile/i).click();
       await page.getByRole('button', { name: /change password/i }).click();
@@ -260,9 +314,9 @@ test.describe('Settings', () => {
       await expect(page.getByRole('button', { name: /log in/i })).toBeVisible();
     });
 
-    test('allows changing the password back', async ({ baseUrl, browserName, browser, password, username }) => {
+    test('allows changing the password back', async ({ baseUrl, browserName, browser, environment, password, username }) => {
       test.skip(browserName === 'webkit');
-      const page = await prepareNewPage({ baseUrl, browser, password: replacementPassword, username });
+      const page = await prepareIsolatedNewPage({ baseUrl, browser, environment, password: replacementPassword, username });
       await page.getByRole('button', { name: username }).click();
       await page.getByText(/my profile/i).click();
       await page.getByRole('button', { name: /change password/i }).click();
@@ -282,79 +336,6 @@ test.describe('Settings', () => {
 
       const { token: newToken } = await login(username, password, baseUrl);
       expect(newToken).toBeTruthy();
-    });
-  });
-
-  test.describe('Multi tenant access', () => {
-    const secondaryUser = 'demo-secondary@example.com';
-    test('allows adding users to tenants', async ({ baseUrl, browser, browserName, environment, loggedInPage, password }) => {
-      test.skip('enterprise' !== environment || browserName !== 'chromium');
-      await loggedInPage.goto(`${baseUrl}ui/settings`);
-      await loggedInPage.click('text=/user management/i');
-      const hasUserAlready = await loggedInPage.getByText(secondaryUser).isVisible();
-      test.skip(hasUserAlready, `${secondaryUser} was added in a previous run, but success notification wasn't caught`);
-      const page = await prepareNewPage({ baseUrl, browser, username: secondaryUser, password });
-      await page.goto(`${baseUrl}ui/settings/my-account`);
-      await page
-        .getByText(/User ID/i)
-        .locator('..')
-        .locator('..')
-        .getByRole('button', { name: /copy to clipboard/i })
-        .click({ force: true });
-      const content = await page.evaluateHandle(() => navigator.clipboard.readText());
-      const uuid = await content.jsonValue();
-      await page.getByText(/help/i).click();
-      await page.getByRole('button', { name: secondaryUser }).click();
-      await expect(page.getByText(/switch organization/i)).not.toBeVisible();
-
-      await loggedInPage.getByRole('button', { name: /new user/i }).click();
-      const passwordInput = await loggedInPage.getByPlaceholder(/password/i);
-      const emailUuidInput = await loggedInPage.getByPlaceholder(/email/i);
-      await emailUuidInput.click();
-      await emailUuidInput.fill(uuid);
-      await expect(passwordInput).not.toBeVisible();
-      await loggedInPage.getByRole('button', { name: /add user/i }).click();
-      await page.waitForTimeout(timeouts.oneSecond);
-
-      await page.reload();
-      await page.getByRole('button', { name: secondaryUser }).click();
-      await expect(page.getByText(/switch organization/i)).toBeVisible();
-    });
-    test('allows switching tenants', async ({ baseUrl, browser, browserName, environment, loggedInPage, password }) => {
-      test.skip('enterprise' !== environment || browserName !== 'chromium');
-      // here we can't use prepareNewPage as it sets the initial JWT to be used on every page init
-      const domain = baseUrlToDomain(baseUrl);
-      let newContext = await browser.newContext();
-      newContext = await prepareCookies(newContext, domain, '');
-      const page = await newContext.newPage();
-      await page.goto(`${baseUrl}ui/`);
-      await processLoginForm({ username: secondaryUser, password, page, environment });
-      await page.getByRole('button', { name: secondaryUser }).click();
-      await expect(page.getByRole('menuitem', { name: /secondary/i })).toBeVisible();
-      await page.getByText(/switch organization/i).click({ force: true });
-      const tenantSwitch = await page.getByRole('menuitem', { name: /test/i });
-      await tenantSwitch.waitFor({ timeout: timeouts.default });
-      await tenantSwitch.click();
-      await page.waitForTimeout(timeouts.default);
-      await page.getByRole('button', { name: secondaryUser }).click();
-      await expect(page.getByRole('menuitem', { name: /secondary/i })).not.toBeVisible();
-      await expect(page.getByRole('menuitem', { name: /test/i })).toBeVisible();
-
-      await loggedInPage.goto(`${baseUrl}ui/settings`);
-      await loggedInPage.click('text=/user management/i');
-      await loggedInPage.getByText(secondaryUser).click();
-      await loggedInPage.getByRole('button', { name: /delete user/i }).click();
-      await expect(loggedInPage.getByText(/delete user\?/i)).toBeVisible();
-      await loggedInPage
-        .getByRole('button', { name: /delete user/i })
-        .last()
-        .click();
-
-      await page.reload();
-      await expect(page.getByText(/log in/i)).toBeVisible();
-      await processLoginForm({ username: secondaryUser, password, page, environment });
-      await page.getByRole('button', { name: secondaryUser }).click();
-      await expect(page.getByText(/switch organization/i)).not.toBeVisible();
     });
   });
 });
