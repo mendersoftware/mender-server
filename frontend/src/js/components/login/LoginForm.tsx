@@ -128,7 +128,11 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
         <Collapse className={showPassword ? '' : classes.gapRemover} in={showPassword} onEntering={onShowPassword} timeout={isOsInstallation ? 0 : 'auto'}>
           <PasswordInput className={classes.passwordWrapper} id="password" label="Password" required={isOsInstallation} />
         </Collapse>
-        {isHosted && <Link to="/password">Forgot your password?</Link>}
+        {isHosted && (
+          <div>
+            <Link to="/password">Forgot your password?</Link>
+          </div>
+        )}
         <Collapse className={has2FA ? '' : classes.gapRemover} in={has2FA} onEntering={onShow2fa}>
           <TextInput
             controlRef={twoFARef}
