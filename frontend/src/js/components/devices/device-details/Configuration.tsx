@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -28,7 +28,6 @@ import Time from '@northern.tech/common-ui/Time';
 import LogDialog from '@northern.tech/common-ui/dialogs/Log';
 import KeyValueEditor from '@northern.tech/common-ui/forms/KeyValueEditor';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
-import storeActions from '@northern.tech/store/actions';
 import { BENEFITS, DEPLOYMENT_ROUTES, DEPLOYMENT_STATES, DEVICE_STATES, TIMEOUTS } from '@northern.tech/store/constants';
 import { getDeviceConfigDeployment, getTenantCapabilities, getUserCapabilities } from '@northern.tech/store/selectors';
 import {
@@ -46,8 +45,6 @@ import { deepCompare, isEmpty, toggle } from '@northern.tech/utils/helpers';
 import Tracking from '../../../tracking';
 import ConfigImportDialog from './ConfigImportDialog';
 import DeviceDataCollapse from './DeviceDataCollapse';
-
-const { setSnackbar } = storeActions;
 
 const buttonStyle = { marginLeft: 30 };
 const iconStyle = { margin: 12 };
@@ -239,8 +236,6 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
     setShowConfigImport(false);
   };
 
-  const onSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
-
   const onSetAsDefaultChange = () => setIsSetAsDefault(toggle);
 
   const onShowLog = () =>
@@ -393,7 +388,7 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
             onInputChange={setChangedConfig}
           />
         ) : (
-          hasDeviceConfig && <ConfigurationObject config={reported} setSnackbar={onSetSnackbar} />
+          hasDeviceConfig && <ConfigurationObject config={reported} copyable />
         )}
         {hasDeviceConfig && <div className="flexbox center-aligned margin-bottom margin-top">{footer}</div>}
         {showLog && <LogDialog logData={updateLog} onClose={() => setShowLog(false)} type="configUpdateLog" />}

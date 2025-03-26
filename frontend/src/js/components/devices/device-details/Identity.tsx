@@ -25,7 +25,7 @@ import DeviceTags from './DeviceTags';
 const style = { maxWidth: '80%', gridTemplateColumns: 'minmax(max-content, 150px) auto' };
 const previewStyle = { ...style, marginBottom: 5 };
 
-export const DeviceIdentity = ({ device, setSnackbar }) => {
+export const DeviceIdentity = ({ device }) => {
   const { created_ts, id, identity_data = {}, status = DEVICE_STATES.accepted } = device;
 
   const { mac, ...remainingIdentity } = identity_data;
@@ -55,17 +55,17 @@ export const DeviceIdentity = ({ device, setSnackbar }) => {
       }
       title="Device identity"
     >
-      <TwoColumnData config={content} compact setSnackbar={setSnackbar} style={style} />
+      <TwoColumnData config={content} compact copyable style={style} />
     </DeviceDataCollapse>
   );
 };
 
 export default DeviceIdentity;
 
-export const IdentityTab = ({ device, setSnackbar, userCapabilities, onDecommissionDevice }) => (
+export const IdentityTab = ({ device, userCapabilities, onDecommissionDevice }) => (
   <>
-    <DeviceIdentity device={device} setSnackbar={setSnackbar} />
+    <DeviceIdentity device={device} />
     <AuthStatus device={device} decommission={onDecommissionDevice} />
-    <DeviceTags device={device} setSnackbar={setSnackbar} userCapabilities={userCapabilities} />
+    <DeviceTags device={device} userCapabilities={userCapabilities} />
   </>
 );

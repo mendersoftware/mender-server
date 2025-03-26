@@ -18,7 +18,11 @@ import { FileCopyOutlined as CopyToClipboardIcon } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import storeActions from '@northern.tech/store/actions';
+import { useAppDispatch } from '@northern.tech/store/store';
 import copy from 'copy-to-clipboard';
+
+const { setSnackbar } = storeActions;
 
 const useStyles = makeStyles()(theme => ({
   root: {
@@ -30,17 +34,15 @@ const useStyles = makeStyles()(theme => ({
 }));
 
 const cutoffLength = 100;
-const ValueColumn = ({ value = '', setSnackbar }) => {
+const ValueColumn = ({ value = '', copyable }) => {
   const [tooltipVisible, setTooltipVisible] = useState(false);
+  const dispatch = useAppDispatch();
   const isComponent = React.isValidElement(value);
   const onClick = () => {
-    if (setSnackbar) {
-      let copyable = value;
-      if (isComponent) {
-        copyable = value.props.value;
-      }
-      copy(copyable);
-      setSnackbar('Value copied to clipboard');
+    if (copyable) {
+      const val = isComponent ? value.props.value : value;
+      copy(val);
+      dispatch(setSnackbar('Value copied to clipboard'));
     }
   };
   let shownValue = value;
@@ -49,13 +51,13 @@ const ValueColumn = ({ value = '', setSnackbar }) => {
   }
   return (
     <div
-      className={`flexbox ${setSnackbar ? 'clickable' : ''}`}
+      className={`flexbox ${copyable ? 'clickable' : ''}`}
       onClick={onClick}
       onMouseEnter={() => setTooltipVisible(true)}
       onMouseLeave={() => setTooltipVisible(false)}
     >
       {shownValue}
-      {setSnackbar && (
+      {copyable && (
         <Tooltip title={'Copy to clipboard'} placement="top" open={tooltipVisible}>
           <CopyToClipboardIcon color="primary" className={`margin-left-small ${tooltipVisible ? 'fadeIn' : 'fadeOut'}`} fontSize="small" />
         </Tooltip>
@@ -78,7 +80,7 @@ export const TwoColumns = ({
   items = {},
   KeyComponent = KeyColumn,
   KeyProps = {},
-  setSnackbar,
+  copyable = false,
   style = {},
   ValueComponent = ValueColumn,
   ValueProps = {}
@@ -91,7 +93,7 @@ export const TwoColumns = ({
         : Object.entries(items).map(([key, value]) => (
             <Fragment key={key}>
               <KeyComponent chipLikeKey={chipLikeKey} value={key} {...KeyProps} />
-              <ValueComponent setSnackbar={setSnackbar} value={value} {...ValueProps} />
+              <ValueComponent copyable={copyable} value={value} {...ValueProps} />
             </Fragment>
           ))}
     </div>

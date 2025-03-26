@@ -29,7 +29,7 @@ export const Title = ({ updateTime }) => (
   </div>
 );
 
-export const DeviceInventory = ({ device, setSnackbar }) => {
+export const DeviceInventory = ({ device }) => {
   const { attributes = {}, updated_ts: updateTime } = device;
 
   const { device_type, ...remainingAttributes } = attributes;
@@ -57,10 +57,10 @@ export const DeviceInventory = ({ device, setSnackbar }) => {
   const waiting = !Object.values(attributes).some(i => i);
   return (
     <DeviceDataCollapse
-      header={waiting ? <DeviceInventoryLoader /> : <TwoColumnDataMultiple config={keyContent} setSnackbar={setSnackbar} style={{ marginBottom: 5 }} />}
+      header={waiting ? <DeviceInventoryLoader /> : <TwoColumnDataMultiple config={keyContent} copyable style={{ marginBottom: 5 }} />}
       title={<Title updateTime={updateTime} />}
     >
-      <TwoColumnDataMultiple config={deviceInventory} setSnackbar={setSnackbar} />
+      <TwoColumnDataMultiple config={deviceInventory} copyable />
     </DeviceDataCollapse>
   );
 };
