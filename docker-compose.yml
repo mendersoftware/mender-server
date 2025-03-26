@@ -192,14 +192,14 @@ services:
       traefik.enable: "true"
       traefik.http.services.inventory.loadBalancer.server.port: "8080"
       traefik.http.routers.inventoryDevV1.middlewares: >-
-        devStack@file,inventoryV1-replacepathregex@file
+        devStack@file${TRAEFIK_LEGACY_INVENTORY:+,inventoryV1-replacepathregex@file}
       traefik.http.routers.inventoryDevV1.rule: >-
-        PathRegexp(`/api/devices/v1/inventory`)
+        PathPrefix(`/api/devices/v1/inventory`)
       traefik.http.routers.inventoryDevV1.service: inventory
       traefik.http.routers.inventoryMgmtV1.middlewares: >-
-        mgmtStack@file,inventoryMgmtV1-replacepathregex@file
+        mgmtStack@file${TRAEFIK_LEGACY_INVENTORY:+,inventoryV1-replacepathregex@file}
       traefik.http.routers.inventoryMgmtV1.rule: >-
-        PathRegexp(`/api/management/v1/inventory`)
+        PathPrefix(`/api/management/v1/inventory`)
       traefik.http.routers.inventoryMgmtV1.service: inventory
       traefik.http.routers.inventoryDev.middlewares: "devStack@file"
       traefik.http.routers.inventoryDev.rule: >-
@@ -311,6 +311,8 @@ services:
         aliases: [mender-workflows]
   traefik:
     image: traefik:v3.1
+    environment:
+      TRAEFIK_LEGACY_INVENTORY: ${TRAEFIK_LEGACY_INVENTORY:-}
     command:
       - --api=true
       - --api.insecure=true
