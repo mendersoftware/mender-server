@@ -435,7 +435,9 @@ paths:
       parameters:
         - name: status
           in: query
-          description: Device status filter, one of 'pending', 'accepted', 'rejected', 'noauth'. Default is 'all devices'.
+          description: |
+            Device status filter, one of 'pending', 'accepted', 'rejected', 'noauth', 'preauthorized'.
+            Default is 'all devices', meaning devices with any of these statuses will be counted.
           required: false
           schema:
             type: string
