@@ -52,7 +52,7 @@ export const TextInput = ({
     } else {
       setError(errorKey, { type: 'validate', message: errortext });
     }
-    return isValid;
+    return isValid || errortext;
   };
 
   return (
