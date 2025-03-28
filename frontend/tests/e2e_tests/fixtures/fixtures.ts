@@ -103,7 +103,7 @@ const test = (process.env.TEST_ENVIRONMENT === 'staging' ? nonCoveredTest : cove
     await use(baseUrl);
   },
   demoDeviceName: defaultConfig.demoDeviceName,
-  demoArtifactVersion: { artifactVersion: '3.8.0', updateVersion: '5.0.0' }
+  demoArtifactVersion: { artifactVersion: '3.8.1', updateVersion: '5.0.1' }
 });
 
 export { expect };
