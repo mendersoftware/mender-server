@@ -38,7 +38,7 @@ describe('Signup Component', () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const ui = (
       <>
-        <Signup location={{ state: { from: '' } }} match={{ params: {} }} />
+        <Signup />
         <Routes>
           <Route path="/" element={<div>signed up</div>} />
         </Routes>
@@ -60,8 +60,9 @@ describe('Signup Component', () => {
     await waitFor(() => rerender(ui));
     await waitFor(() => expect(screen.getByRole('button', { name: /sign up/i })).toBeEnabled());
     await user.click(screen.getByRole('button', { name: /sign up/i }));
+    await act(async () => vi.runAllTicks());
     await waitFor(() => screen.queryByPlaceholderText('Company or organization name *'));
-    await user.type(screen.getByRole('textbox', { name: /company or organization name \*/i }), 'test');
+    await user.type(screen.getByLabelText(/company or organization name \*/i), 'test');
     expect(screen.getByRole('button', { name: /complete signup/i })).toBeDisabled();
     await user.click(screen.getByRole('checkbox', { name: /by checking this you agree to our/i }));
     await waitFor(() => rerender(ui));
