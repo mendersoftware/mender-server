@@ -29,7 +29,7 @@ export const UserDataEntry = ({ classes, onProgessClick }) => {
   };
 
   return (
-    <div className={classes.userData} onKeyPress={handleKeyPress}>
+    <div className={classes.userData} onKeyUp={handleKeyPress}>
       <h1 className="flexbox centered">Create your account</h1>
       <OAuthHeader type="Sign up" />
       <TextInput hint="Email *" label="Email *" id="email" required={true} validations="isLength:1,isEmail,trim" />
