@@ -94,7 +94,16 @@ const appInitActions = [
   },
   {
     type: appActions.setEnvironmentData.type,
-    payload: { feedbackProbability: 0.3, hostAddress: null, hostedAnnouncement: '', recaptchaSiteKey: '', stripeAPIKey: '', trackerCode: '' }
+    payload: {
+      commit: '',
+      feedbackProbability: 0.3,
+      hostAddress: null,
+      hostedAnnouncement: '',
+      recaptchaSiteKey: '',
+      sentry: { location: '', replaysSessionSampleRate: 0.1, tracesSampleRate: 1 },
+      stripeAPIKey: '',
+      trackerCode: ''
+    }
   },
   { type: getLatestReleaseInfo.pending.type },
   { type: getUserSettings.pending.type },

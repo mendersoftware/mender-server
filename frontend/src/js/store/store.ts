@@ -15,6 +15,7 @@
 import { useDispatch } from 'react-redux';
 
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { createReduxEnhancer } from '@sentry/react';
 
 import actions from './actions';
 import appSlice from './appSlice';
@@ -26,7 +27,7 @@ import monitorSlice from './monitorSlice';
 import onboardingSlice from './onboardingSlice';
 import organizationSlice, { actions as organizationActions } from './organizationSlice';
 import releaseSlice from './releasesSlice';
-import userSlice from './usersSlice';
+import userSlice, { actions as userActions } from './usersSlice';
 import { extractErrorMessage, preformatWithRequestID } from './utils';
 
 const { setSnackbar, uploadProgress } = actions;
@@ -73,11 +74,35 @@ const rejectionLoggerMiddleware = () => next => action => {
   return next(action);
 };
 
+const sentryReduxEnhancer = createReduxEnhancer({
+  actionTransformer: action => {
+    if (action.type === userActions.successfullyLoggedIn.type) {
+      return null;
+    }
+    return action;
+  },
+  // Transform the state to remove sensitive information
+  stateTransformer: (state: RootState) => {
+    const transformedState = {
+      ...state,
+      users: { ...state.users, currentSession: null }
+    };
+    return transformedState;
+  }
+});
+
 export const getConfiguredStore = (options = {}) => {
   const { preloadedState = {}, ...config } = options;
   return configureStore({
     ...config,
     preloadedState,
+    enhancers: getDefaultEnhancers => {
+      // rely on the plain injected env object, as we're initializing the store only here
+      if (window.mender_environment?.sentry?.isReduxEnabled) {
+        return getDefaultEnhancers().concat(sentryReduxEnhancer);
+      }
+      return getDefaultEnhancers();
+    },
     reducer: sessionReducer,
     middleware: getDefaultMiddleware =>
       getDefaultMiddleware({
