@@ -97,7 +97,14 @@ export const organizationHandlers = [
   http.put(`${tenantadmApiUrlv2}/tenants/:tenantId/child`, () => new HttpResponse(null, { status: 200 })),
   http.post(`${tenantadmApiUrlv2}/tenants/:tenantId/cancel`, () => new HttpResponse(null, { status: 200 })),
   http.post(`${tenantadmApiUrlv2}/tenants/trial`, signupHandler),
-  http.post(`${tenantadmApiUrlv2}/tenants`, () => new HttpResponse(null, { status: 200 })),
+  http.post(`${tenantadmApiUrlv2}/tenants`, async ({ request }) => {
+    const { users } = await request.json();
+    const { email } = users[0];
+    if (email.includes('bad')) {
+      return new HttpResponse(null, { status: 553 });
+    }
+    return new HttpResponse(null, { status: 200 });
+  }),
   http.post(`https://hosted.mender.io${tenantadmApiUrlv2}/tenants/trial`, signupHandler),
   http.get(`${tenantadmApiUrlv2}/tenants`, () => new HttpResponse([])),
   http.get(`${tenantadmApiUrlv2}/billing`, () => HttpResponse.json({ card: { last4: '7890', exp_month: 1, exp_year: 2024, brand: 'testCorp' } })),
