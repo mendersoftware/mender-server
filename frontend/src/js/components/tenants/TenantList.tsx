@@ -36,14 +36,12 @@ export const defaultTextRender = (props: RendererProp<Tenant>) => {
 };
 export const DeviceLimitRender = (props: RendererProp<Tenant>) => {
   const { column, item } = props;
-  const attributeValue = item?.[column.attribute.name];
-  const deviceCount = item?.device_count;
+  const attributeValue = item?.[column.attribute.name] ?? 0;
+  const deviceCount = item?.device_count ?? 0;
   return (
-    <div>
+    <div className="flexbox center-aligned">
       {deviceCount}/{attributeValue}
-      <div className="margin-left-small margin-top-x-small">
-        {Number(deviceCount) / Number(attributeValue) > LIMIT_THRESHOLD && <WarningIcon sx={{ fontSize: '20px' }} />}
-      </div>
+      {Number(deviceCount) / Number(attributeValue) > LIMIT_THRESHOLD && <WarningIcon className="margin-left-small" fontSize="small" />}
     </div>
   );
 };

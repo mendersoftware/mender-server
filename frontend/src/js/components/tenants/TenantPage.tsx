@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Add as AddIcon } from '@mui/icons-material';
@@ -20,6 +20,7 @@ import { Chip } from '@mui/material';
 import { getTenantsList } from '@northern.tech/store/organizationSlice/selectors';
 import { getTenants } from '@northern.tech/store/organizationSlice/thunks';
 import { AppDispatch } from '@northern.tech/store/store';
+import { toggle } from '@northern.tech/utils/helpers';
 
 import { TenantCreateForm } from './TenantCreateForm';
 import { TenantList } from './TenantList';
@@ -45,12 +46,14 @@ const TenantsEmptyState = (props: TenantsEmptyStateProps) => {
 export const TenantPage = () => {
   const [showCreate, setShowCreate] = useState<boolean>(false);
   const { tenants } = useSelector(getTenantsList);
+
+  const onToggleCreation = useCallback(() => setShowCreate(toggle), []);
   return (
     <div>
       <h2>Tenants</h2>
-      {tenants.length ? <TenantList /> : <TenantsEmptyState openModal={() => setShowCreate(true)} />}
-      <Chip className="margin-top-small" color="primary" icon={<AddIcon />} label="Add tenant" onClick={() => setShowCreate(true)} />
-      {showCreate && <TenantCreateForm open={showCreate} onCloseClick={() => setShowCreate(false)} />}
+      {tenants.length ? <TenantList /> : <TenantsEmptyState openModal={onToggleCreation} />}
+      <Chip className="margin-top-small" color="primary" icon={<AddIcon />} label="Add tenant" onClick={onToggleCreation} />
+      {showCreate && <TenantCreateForm open={showCreate} onCloseClick={onToggleCreation} />}
     </div>
   );
 };
