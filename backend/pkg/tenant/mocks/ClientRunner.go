@@ -1,4 +1,4 @@
-// Copyright 2023 Northern.tech AS
+// Copyright 2024 Northern.tech AS
 //
 //	Licensed under the Apache License, Version 2.0 (the "License");
 //	you may not use this file except in compliance with the License.
@@ -18,8 +18,8 @@ package mocks
 
 import (
 	context "context"
+	tenant2 "github.com/mendersoftware/mender-server/pkg/tenant"
 
-	tenant "github.com/mendersoftware/mender-server/services/deviceauth/client/tenant"
 	mock "github.com/stretchr/testify/mock"
 )
 
@@ -47,23 +47,23 @@ func (_m *ClientRunner) CheckHealth(ctx context.Context) error {
 }
 
 // GetTenant provides a mock function with given fields: ctx, tid
-func (_m *ClientRunner) GetTenant(ctx context.Context, tid string) (*tenant.Tenant, error) {
+func (_m *ClientRunner) GetTenant(ctx context.Context, tid string) (*tenant2.Tenant, error) {
 	ret := _m.Called(ctx, tid)
 
 	if len(ret) == 0 {
 		panic("no return value specified for GetTenant")
 	}
 
-	var r0 *tenant.Tenant
+	var r0 *tenant2.Tenant
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, string) (*tenant.Tenant, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, string) (*tenant2.Tenant, error)); ok {
 		return rf(ctx, tid)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, string) *tenant.Tenant); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, string) *tenant2.Tenant); ok {
 		r0 = rf(ctx, tid)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*tenant.Tenant)
+			r0 = ret.Get(0).(*tenant2.Tenant)
 		}
 	}
 
@@ -77,23 +77,23 @@ func (_m *ClientRunner) GetTenant(ctx context.Context, tid string) (*tenant.Tena
 }
 
 // GetTenantUsers provides a mock function with given fields: ctx, tenantID
-func (_m *ClientRunner) GetTenantUsers(ctx context.Context, tenantID string) ([]tenant.User, error) {
+func (_m *ClientRunner) GetTenantUsers(ctx context.Context, tenantID string) ([]tenant2.User, error) {
 	ret := _m.Called(ctx, tenantID)
 
 	if len(ret) == 0 {
 		panic("no return value specified for GetTenantUsers")
 	}
 
-	var r0 []tenant.User
+	var r0 []tenant2.User
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, string) ([]tenant.User, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, string) ([]tenant2.User, error)); ok {
 		return rf(ctx, tenantID)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, string) []tenant.User); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, string) []tenant2.User); ok {
 		r0 = rf(ctx, tenantID)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]tenant.User)
+			r0 = ret.Get(0).([]tenant2.User)
 		}
 	}
 
@@ -107,23 +107,23 @@ func (_m *ClientRunner) GetTenantUsers(ctx context.Context, tenantID string) ([]
 }
 
 // VerifyToken provides a mock function with given fields: ctx, token
-func (_m *ClientRunner) VerifyToken(ctx context.Context, token string) (*tenant.Tenant, error) {
+func (_m *ClientRunner) VerifyToken(ctx context.Context, token string) (*tenant2.Tenant, error) {
 	ret := _m.Called(ctx, token)
 
 	if len(ret) == 0 {
 		panic("no return value specified for VerifyToken")
 	}
 
-	var r0 *tenant.Tenant
+	var r0 *tenant2.Tenant
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, string) (*tenant.Tenant, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, string) (*tenant2.Tenant, error)); ok {
 		return rf(ctx, token)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, string) *tenant.Tenant); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, string) *tenant2.Tenant); ok {
 		r0 = rf(ctx, token)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*tenant.Tenant)
+			r0 = ret.Get(0).(*tenant2.Tenant)
 		}
 	}
 

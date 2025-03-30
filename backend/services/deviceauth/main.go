@@ -26,11 +26,11 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/tenant"
 	"github.com/mendersoftware/mender-server/pkg/version"
 
 	cinv "github.com/mendersoftware/mender-server/services/deviceauth/client/inventory"
 	"github.com/mendersoftware/mender-server/services/deviceauth/client/orchestrator"
-	"github.com/mendersoftware/mender-server/services/deviceauth/client/tenant"
 	"github.com/mendersoftware/mender-server/services/deviceauth/cmd"
 	dconfig "github.com/mendersoftware/mender-server/services/deviceauth/config"
 	"github.com/mendersoftware/mender-server/services/deviceauth/store/mongo"

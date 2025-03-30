@@ -29,12 +29,12 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
 	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
+	"github.com/mendersoftware/mender-server/pkg/tenant"
+	mtenant "github.com/mendersoftware/mender-server/pkg/tenant/mocks"
 
 	minv "github.com/mendersoftware/mender-server/services/deviceauth/client/inventory/mocks"
 	"github.com/mendersoftware/mender-server/services/deviceauth/client/orchestrator"
 	mwflows "github.com/mendersoftware/mender-server/services/deviceauth/client/orchestrator/mocks"
-	"github.com/mendersoftware/mender-server/services/deviceauth/client/tenant"
-	mtenant "github.com/mendersoftware/mender-server/services/deviceauth/client/tenant/mocks"
 	"github.com/mendersoftware/mender-server/services/deviceauth/store"
 
 	//dconfig "github.com/mendersoftware/mender-server/services/deviceauth/config"

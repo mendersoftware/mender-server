@@ -28,6 +28,8 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
 	"github.com/mendersoftware/mender-server/pkg/ratelimits"
+	"github.com/mendersoftware/mender-server/pkg/tenant"
+	mtenant "github.com/mendersoftware/mender-server/pkg/tenant/mocks"
 
 	"github.com/pkg/errors"
 
@@ -36,8 +38,6 @@ import (
 	minv "github.com/mendersoftware/mender-server/services/deviceauth/client/inventory/mocks"
 	"github.com/mendersoftware/mender-server/services/deviceauth/client/orchestrator"
 	morchestrator "github.com/mendersoftware/mender-server/services/deviceauth/client/orchestrator/mocks"
-	"github.com/mendersoftware/mender-server/services/deviceauth/client/tenant"
-	mtenant "github.com/mendersoftware/mender-server/services/deviceauth/client/tenant/mocks"
 	"github.com/mendersoftware/mender-server/services/deviceauth/jwt"
 	mjwt "github.com/mendersoftware/mender-server/services/deviceauth/jwt/mocks"
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
