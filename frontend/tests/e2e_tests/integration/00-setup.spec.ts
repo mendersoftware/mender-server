@@ -79,7 +79,7 @@ test.describe('Test setup', () => {
       await isLoggedIn(page, timeouts.fifteenSeconds);
 
       // the following sets the UI up for easier navigation by disabling onboarding
-      const newPage = await prepareNewPage({ baseUrl, context, password, username });
+      const newPage = await prepareNewPage({ baseUrl, context, hasSessionCaching: false, password, username });
       await isLoggedIn(newPage);
       await context.storageState({ path: storagePath });
     });
@@ -89,7 +89,7 @@ test.describe('Test setup', () => {
     test('supports tenant token retrieval', async ({ baseUrl, context, environment, password, username }) => {
       test.skip(!isEnterpriseOrStaging(environment));
       console.log(`logging in user with username: ${username} and password: ${password}`);
-      const page = await prepareNewPage({ baseUrl, context, password, username });
+      const page = await prepareNewPage({ baseUrl, context, hasSessionCaching: false, password, username });
       await page.goto(`${baseUrl}ui/settings`);
       const isVisible = await page.getByRole('button', { name: /change email/i }).isVisible();
       if (!isVisible) {
