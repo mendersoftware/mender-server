@@ -183,7 +183,7 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
           <TextInput
             required
             id="device_limit"
-            hint={quota}
+            hint={`${quota}`}
             type="number"
             label="Set device limit"
             className={classes.devLimitInput}
