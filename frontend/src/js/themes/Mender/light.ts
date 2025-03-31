@@ -86,6 +86,15 @@ export const light = {
         }
       }
     },
+    MuiAlert: {
+      ...overrides.MuiAlert,
+      styleOverrides: {
+        root: {
+          ...overrides.MuiAlert.styleOverrides.root,
+          color: palette.error.dark
+        }
+      }
+    },
     MuiButton: {
       ...overrides.MuiButton,
       styleOverrides: {

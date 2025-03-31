@@ -16,7 +16,8 @@ import { useFormContext } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { Divider, Drawer, formControlLabelClasses } from '@mui/material';
+import { ErrorOutline as ErrorOutlineIcon } from '@mui/icons-material';
+import { Alert, Divider, Drawer, formControlLabelClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
@@ -134,6 +135,7 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
 
   const { classes } = useStyles();
   const [adminExists, setAdminExists] = useState<boolean>(false);
+  const [hasError, setHasError] = useState<boolean>(false);
 
   const quota = spDeviceLimit - spDeviceUtilization || 0;
   const numericValidation = {
@@ -154,9 +156,11 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
       } else {
         selectionState = { admin: { password, email, send_reset_password }, ...selectionState };
       }
-      const success = await dispatch(addTenant(selectionState)).unwrap();
-      if (success) {
+      try {
+        await dispatch(addTenant(selectionState)).unwrap(); // only awaiting the thunk resolution to not get rejected
         onCloseClick();
+      } catch {
+        setHasError(true);
       }
     },
     [adminExists, dispatch, onCloseClick]
@@ -177,6 +181,11 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
         submitLabel="Create tenant"
         autocomplete="off"
       >
+        {hasError && (
+          <Alert icon={<ErrorOutlineIcon />} severity="error">
+            There was an error while creating the tenant. Please try again, or contact support.
+          </Alert>
+        )}
         <TextInput required validations="isLength:3,trim" id="name" hint="Name" label="Name" />
         <UserInputs adminExists={adminExists} setAdminExists={setAdminExists} />
         <div className="flexbox center-aligned">
