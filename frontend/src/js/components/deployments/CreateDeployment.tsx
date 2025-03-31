@@ -53,7 +53,6 @@ import { advanceOnboarding, createDeployment, getDeploymentsConfig, getGroupDevi
 import { toggle } from '@northern.tech/utils/helpers';
 import pluralize from 'pluralize';
 
-import DeltaIcon from '../../../assets/img/deltaicon.svg';
 import { getOnboardingComponentFor } from '../../utils/onboardingManager';
 import DeviceLimit from './deployment-wizard/DeviceLimit';
 import { RolloutPatternSelection, getPhaseStartTime, validatePhases } from './deployment-wizard/PhaseSettings';
@@ -300,11 +299,7 @@ export const CreateDeployment = props => {
             {hasDeltaEnabled && (
               <FormControlLabel
                 control={<Checkbox color="primary" checked={delta} onChange={onDeltaToggle} size="small" />}
-                label={
-                  <>
-                    Generate and deploy Delta Artifacts (where available) <DeltaIcon />
-                  </>
-                }
+                label="Generate and deploy Delta Artifacts where available"
               />
             )}
           </AccordionDetails>
