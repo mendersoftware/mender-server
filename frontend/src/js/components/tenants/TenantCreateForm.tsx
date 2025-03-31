@@ -50,7 +50,6 @@ const useStyles = makeStyles()(theme => ({
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(2),
-    paddingTop: theme.spacing(4),
     [`.${formControlLabelClasses.root}`]: { marginTop: 0 },
     '.required .relative': { marginLeft: theme.spacing(10) }
   },
@@ -169,7 +168,7 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
   return (
     <Drawer open={open} onClose={onCloseClick} anchor="right" PaperProps={{ style: { minWidth: '67vw' } }}>
       <DrawerTitle title="Add a tenant" onClose={onCloseClick} />
-      <Divider className="margin-bottom" />
+      <Divider className="margin-bottom-large" />
       <Form
         initialValues={tenantAdminDefaults}
         classes={classes}

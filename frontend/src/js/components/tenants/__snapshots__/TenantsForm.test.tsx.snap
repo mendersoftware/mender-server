@@ -190,7 +190,6 @@ exports[`TenantsForm > renders correctly 1`] = `
   -ms-flex-direction: column;
   flex-direction: column;
   gap: 16px;
-  padding-top: 32px;
 }
 
 .emotion-6 .MuiFormControlLabel-root {
@@ -1356,7 +1355,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
         </div>
       </div>
       <hr
-        class="MuiDivider-root MuiDivider-fullWidth margin-bottom emotion-5"
+        class="MuiDivider-root MuiDivider-fullWidth margin-bottom-large emotion-5"
       />
       <form
         autocomplete="off"
