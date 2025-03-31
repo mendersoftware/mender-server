@@ -64,7 +64,8 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
 
   useEffect(() => {
     setShowPassword(isOsInstallation);
-  }, [isOsInstallation]);
+    setFocus('email');
+  }, [isOsInstallation, setFocus]);
 
   useEffect(() => {
     if (isOsInstallation) {
