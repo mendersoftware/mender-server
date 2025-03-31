@@ -473,7 +473,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
     <a
       class=""
       href="https://docs.mender.io/overview/device-group"
-      rel=""
+      rel="noopener"
       target="_blank"
     >
       Learn more about static vs. dynamic groups

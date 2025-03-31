@@ -459,7 +459,7 @@ exports[`CreateGroupExplainerContent Component > renders correctly 1`] = `
           <a
             class=""
             href="https://docs.mender.io/add-ons/remote-terminal"
-            rel=""
+            rel="noopener"
             target="_blank"
           >
             Remote Terminal
@@ -507,7 +507,7 @@ wget -O- https://get.mender.io | sudo bash -s -- --jwt-token $JWT_TOKEN mender-g
           <a
             class=""
             href="https://docs.mender.io/get-started/mender-gateway"
-            rel=""
+            rel="noopener"
             target="_blank"
           >
             full Mender Gateway documentation

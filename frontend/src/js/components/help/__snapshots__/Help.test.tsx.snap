@@ -93,7 +93,7 @@ exports[`Help Component > renders correctly 1`] = `
   letter-spacing: 0.00938em;
 }
 
-.emotion-14 {
+.emotion-17 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -136,6 +136,23 @@ exports[`Help Component > renders correctly 1`] = `
           class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-4"
         >
           Getting started
+        </span>
+      </div>
+    </a>
+    <a
+      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink helpNav emotion-2"
+      data-discover="true"
+      href="/help/downloads"
+      style="padding-left: calc(16px);"
+    >
+      <div
+        class="MuiListItemText-root emotion-3"
+        url=""
+      >
+        <span
+          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-4"
+        >
+          Downloads
         </span>
       </div>
     </a>
@@ -219,13 +236,13 @@ exports[`Help Component > renders correctly 1`] = `
           <a
             class=""
             href="https://docs.mender.io/get-started"
-            rel=""
+            rel="noopener"
             target="_blank"
           >
             Get Started chapter in our documentation 
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-14"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-17"
               data-testid="LaunchIcon"
               focusable="false"
               style="vertical-align: text-bottom;"
@@ -247,13 +264,13 @@ exports[`Help Component > renders correctly 1`] = `
           <a
             class=""
             href="https://docs.mender.io/client-installation"
-            rel=""
+            rel="noopener"
             target="_blank"
           >
             Client Installation documentation 
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-14"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-17"
               data-testid="LaunchIcon"
               focusable="false"
               style="vertical-align: text-bottom;"
@@ -276,7 +293,7 @@ exports[`Help Component > renders correctly 1`] = `
             Mender Hub 
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-14"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-17"
               data-testid="LaunchIcon"
               focusable="false"
               style="vertical-align: text-bottom;"
@@ -297,13 +314,13 @@ exports[`Help Component > renders correctly 1`] = `
           <a
             class=""
             href="https://docs.mender.io/artifact-creation"
-            rel=""
+            rel="noopener"
             target="_blank"
           >
             Artifact Creation documentation 
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-14"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-17"
               data-testid="LaunchIcon"
               focusable="false"
               style="vertical-align: text-bottom;"
@@ -1606,7 +1623,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
               <a
                 class=""
                 href="https://docs.mender.io/release-information/release-notes-changelog/mender-client"
-                rel=""
+                rel="noopener"
                 target="_blank"
               >
                 Changelog
@@ -1771,7 +1788,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
               <a
                 class=""
                 href="https://docs.mender.io/release-information/release-notes-changelog/mender-artifact"
-                rel=""
+                rel="noopener"
                 target="_blank"
               >
                 Changelog
@@ -1902,7 +1919,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
               <a
                 class=""
                 href="https://docs.mender.io/release-information/release-notes-changelog/mender-binary-delta"
-                rel=""
+                rel="noopener"
                 target="_blank"
               >
                 Changelog
@@ -2067,7 +2084,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
               <a
                 class=""
                 href="https://docs.mender.io/release-information/release-notes-changelog/mender-cli"
-                rel=""
+                rel="noopener"
                 target="_blank"
               >
                 Changelog
@@ -2582,7 +2599,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
               <a
                 class=""
                 href="https://docs.mender.io/release-information/release-notes-changelog/mender-configure"
-                rel=""
+                rel="noopener"
                 target="_blank"
               >
                 Changelog
@@ -3087,7 +3104,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
               <a
                 class=""
                 href="https://docs.mender.io/release-information/release-notes-changelog/mender-connect"
-                rel=""
+                rel="noopener"
                 target="_blank"
               >
                 Changelog
@@ -3218,7 +3235,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
               <a
                 class=""
                 href="https://docs.mender.io/release-information/release-notes-changelog/mender-convert"
-                rel=""
+                rel="noopener"
                 target="_blank"
               >
                 Changelog
@@ -3723,7 +3740,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
               <a
                 class=""
                 href="https://docs.mender.io/release-information/release-notes-changelog/mender-gateway"
-                rel=""
+                rel="noopener"
                 target="_blank"
               >
                 Changelog
@@ -3956,7 +3973,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
               <a
                 class=""
                 href="https://docs.mender.io/release-information/release-notes-changelog/mender-monitor"
-                rel=""
+                rel="noopener"
                 target="_blank"
               >
                 Changelog
@@ -3985,7 +4002,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
     <a
       class=""
       href="https://docs.mender.io/downloads"
-      rel=""
+      rel="noopener"
       target="_blank"
     >
       Downloads section in our documentation
@@ -4043,7 +4060,7 @@ exports[`Help Component > static components > renders GettingStarted correctly 1
     <a
       class=""
       href="https://docs.mender.io/get-started"
-      rel=""
+      rel="noopener"
       target="_blank"
     >
       Get Started chapter in our documentation 
@@ -4071,7 +4088,7 @@ exports[`Help Component > static components > renders GettingStarted correctly 1
     <a
       class=""
       href="https://docs.mender.io/client-installation"
-      rel=""
+      rel="noopener"
       target="_blank"
     >
       Client Installation documentation 
@@ -4121,7 +4138,7 @@ exports[`Help Component > static components > renders GettingStarted correctly 1
     <a
       class=""
       href="https://docs.mender.io/artifact-creation"
-      rel=""
+      rel="noopener"
       target="_blank"
     >
       Artifact Creation documentation 

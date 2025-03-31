@@ -141,7 +141,7 @@ exports[`DeviceConnection Component > renders correctly 1`] = `
             class="flexbox centered margin-left"
             data-mui-internal-clone-element="true"
             href="https://docs.mender.io/add-ons/port-forward"
-            rel=""
+            rel="noopener"
             target="_blank"
           >
             Enable port forwarding
@@ -1214,7 +1214,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
             class="flexbox centered margin-left"
             data-mui-internal-clone-element="true"
             href="https://docs.mender.io/add-ons/port-forward"
-            rel=""
+            rel="noopener"
             target="_blank"
           >
             Enable port forwarding
@@ -1853,7 +1853,7 @@ exports[`DeviceConnection Component > renders correctly when disconnected 1`] = 
             class="flexbox centered margin-left"
             data-mui-internal-clone-element="true"
             href="https://docs.mender.io/add-ons/port-forward"
-            rel=""
+            rel="noopener"
             target="_blank"
           >
             Enable port forwarding
@@ -1925,7 +1925,7 @@ exports[`DeviceConnection Component > renders correctly when disconnected 1`] = 
           <a
             class=""
             href="https://docs.mender.io/add-ons/remote-terminal"
-            rel=""
+            rel="noopener"
             target="_blank"
           >
             see the documentation
@@ -1995,7 +1995,7 @@ exports[`tiny DeviceConnection components > renders DeviceConnectionMissingNote 
       <a
         class=""
         href="https://docs.mender.io/add-ons/remote-terminal"
-        rel=""
+        rel="noopener"
         target="_blank"
       >
         see the documentation
@@ -2069,7 +2069,7 @@ exports[`tiny DeviceConnection components > renders DeviceDisconnectedNote corre
       <a
         class=""
         href="https://docs.mender.io/add-ons/remote-terminal"
-        rel=""
+        rel="noopener"
         target="_blank"
       >
         see the documentation
@@ -2107,7 +2107,7 @@ exports[`tiny DeviceConnection components > renders PortForwardLink correctly 1`
     class="flexbox centered margin-left"
     data-mui-internal-clone-element="true"
     href="https://docs.mender.io/add-ons/port-forward"
-    rel=""
+    rel="noopener"
     target="_blank"
   >
     Enable port forwarding

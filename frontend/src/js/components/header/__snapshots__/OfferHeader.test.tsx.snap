@@ -50,7 +50,7 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
     <a
       class=""
       href="https://docs.mender.io/add-ons"
-      rel=""
+      rel="noopener"
       target="_blank"
     >
       Visit our documentation

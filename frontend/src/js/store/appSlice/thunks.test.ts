@@ -44,7 +44,7 @@ describe('app actions', () => {
     expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should not get the latest release info when not hosted', async () => {
-    const store = mockStore({ ...defaultState });
+    const store = mockStore({ ...defaultState, app: { ...defaultState.app, features: { ...defaultState.app.features, isHosted: false } } });
     const expectedActions = [{ type: getLatestReleaseInfo.pending.type }, { type: getLatestReleaseInfo.fulfilled.type }];
     await store.dispatch(getLatestReleaseInfo());
     const storeActions = store.getActions();
