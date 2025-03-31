@@ -97,7 +97,12 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
       setHasError(true);
     });
 
-  const onShowPassword = () => setFocus('password');
+  const onShowPassword = () => {
+    if (isOsInstallation) {
+      return setFocus('email');
+    }
+    setFocus('password');
+  };
 
   const onShow2fa = () => {
     setFocus('token2fa');
@@ -129,7 +134,7 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
             ) : undefined
           }}
         />
-        <Collapse className={showPassword ? '' : classes.gapRemover} in={showPassword} onEntering={onShowPassword}>
+        <Collapse className={showPassword ? '' : classes.gapRemover} in={showPassword} onEntering={onShowPassword} timeout={isOsInstallation ? 0 : 'auto'}>
           <PasswordInput className={classes.passwordWrapper} id="password" label="Password" required={isOsInstallation} />
         </Collapse>
         {isHosted && <Link to="/password">Forgot your password?</Link>}
