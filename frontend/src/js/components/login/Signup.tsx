@@ -76,7 +76,7 @@ const getCurrentLocation = (location: Location): string => {
 const defaultValues = { email: '', tos: false, marketing: false, name: '', location: '', captcha: '', password_confirmation: '', password: '' };
 
 export const Signup = () => {
-  const [step, setStep] = useState(1);
+  const [isStarting, setIsStarting] = useState(true);
   const [emailVerified, setEmailVerified] = useState(false);
   const [loading, setLoading] = useState(false);
   const [oauthProvider, setOauthProvider] = useState(undefined);
@@ -92,7 +92,11 @@ export const Signup = () => {
   const { classes } = useStyles();
 
   const methods = useForm({ mode: 'onSubmit', defaultValues });
-  const { handleSubmit, setValue, trigger, getFieldState } = methods;
+  const { handleSubmit, setValue, trigger, watch, getFieldState } = methods;
+  const password = watch('password');
+  const email = watch('email');
+  const passwordConfirmation = watch('password_confirmation');
+  const isNotDefined = !(email && password && passwordConfirmation);
 
   const dispatchedSetSnackbar = useCallback(message => dispatch(setSnackbar(message)), [dispatch]);
 
@@ -103,7 +107,7 @@ export const Signup = () => {
       setOauthId(`${cookies.get('externalID')}`);
       setFormValues(current => ({ ...current, email: cookies.get('email') }));
       setEmailVerified(stringToBoolean(cookies.get('emailVerified')));
-      setStep(2);
+      setIsStarting(false);
     }
     const location = getCurrentLocation(window.location);
     setFormValues(current => ({ ...current, location }));
@@ -121,7 +125,17 @@ export const Signup = () => {
     }
   }, [currentUserId, dispatchedSetSnackbar]);
 
-  const handleSignup = formData => {
+  const handleSignup = async formData => {
+    if (isStarting) {
+      await trigger();
+      const { invalid: emailInvalid } = getFieldState('email');
+      const { invalid: passwordInvalid } = getFieldState('password');
+      const { invalid: passwordConfirmationInvalid } = getFieldState('password_confirmation');
+      if (emailInvalid || passwordInvalid || passwordConfirmationInvalid) {
+        return;
+      }
+      return onProgressClick();
+    }
     if (recaptchaSiteKey !== '' && formData.captcha === '') {
       return setSnackbar({ message: 'Please complete the reCAPTCHA test before proceeding!', autoHideDuration: TIMEOUTS.fiveSeconds, action: '' });
     }
@@ -141,36 +155,45 @@ export const Signup = () => {
       ts: captchaTimestamp
     };
     return dispatch(createOrganizationTrial(signup)).catch(() => {
-      setStep(1);
       setInitialValues({ ...formData, captcha: '' });
+      setIsStarting(true);
       setLoading(false);
     });
   };
 
-  const onProgessClick = () => {
-    setEmailVerified(true);
-    setStep(2);
+  const onProgressClick = async () => {
+    const canProgress = await trigger();
+    if (canProgress) {
+      setEmailVerified(true);
+      setIsStarting(false);
+    }
+  };
+
+  const onFormBlur = ({ target: { id } }) => {
+    if (id !== 'password_confirmation') {
+      return;
+    }
+    return trigger();
   };
 
   if (redirectOnLogin) {
     return <Navigate to="/" replace />;
   }
 
-  const isStarting = step === 1;
   return (
     <>
       <LoginLogo className={classes.logo} />
       <div className={`${classes.background} ${isStarting ? 'two-columns' : classes.orgData}`} id="signup-box">
         <div>
           <FormProvider {...methods}>
-            <form noValidate onSubmit={handleSubmit(handleSignup)}>
+            <form noValidate onSubmit={handleSubmit(handleSignup)} onBlur={onFormBlur}>
               {loading ? (
                 <Loader show style={{ marginTop: '40vh' }} />
               ) : isStarting ? (
                 <>
                   <UserDataEntry classes={classes} onProgessClick={onProgressClick} />
                   <div className={`flexbox align-self-end margin-top`}>
-                    <Button variant="contained" onClick={onProgressClick}>
+                    <Button variant="contained" disabled={isNotDefined} onClick={onProgressClick}>
                       Sign up
                     </Button>
                   </div>
