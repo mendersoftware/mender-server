@@ -27,7 +27,7 @@ import VeryMuch from '../../../assets/img/verymuch.svg';
 import { LocationWarning } from './Login';
 
 const useStyles = makeStyles()(theme => ({
-  loginBox: { marginTop: 200, maxWidth: 400, '&#login-box': { alignSelf: 'start' } },
+  loginBox: { marginTop: 190, maxWidth: 400, '&#login-box': { alignSelf: 'start' } },
   logo: { maxWidth: 215 },
   buttonWrapper: { [`.${buttonClasses.root}`]: { width: '100%' } },
   requiredReset: { '.required:after': { content: 'none' } },
@@ -123,13 +123,15 @@ export const Password = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = (formData: PasswordResetState) =>
-    dispatch(passwordResetStart(formData.email)).then(() => {
-      setEmail(formData.email);
-      setConfirm(true);
-    });
+    dispatch(passwordResetStart(formData.email))
+      .unwrap()
+      .then(() => {
+        setEmail(formData.email);
+        setConfirm(true);
+      });
 
   return (
-    <PasswordScreenContainer title={confirm ? 'Reset your password' : 'Forgot password?'}>
+    <PasswordScreenContainer title={confirm ? 'Reset your password' : 'Forgot password?'} hasReturn={!confirm}>
       {confirm ? <PasswordResetInfo email={email} /> : <PasswordForgotRequest onSubmit={handleSubmit} />}
     </PasswordScreenContainer>
   );

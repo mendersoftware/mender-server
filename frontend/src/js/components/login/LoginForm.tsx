@@ -23,8 +23,7 @@ import FormCheckbox from '@northern.tech/common-ui/forms/FormCheckbox';
 import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
-import { TIMEOUTS } from '@northern.tech/store/commonConstants';
-import { useDebounce } from '@northern.tech/utils/debouncehook';
+import { TIMEOUTS } from '@northern.tech/store/constants';
 import { toggle } from '@northern.tech/utils/helpers';
 
 const useStyles = makeStyles()((theme: Theme) => ({
@@ -49,10 +48,8 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
   const [hasError, setHasError] = useState<boolean>(false);
   const twoFARef = useRef<HTMLInputElement | undefined>(undefined);
   // can't use the existing Form component due to the validation mode that's targeted
-  const methods = useForm<LoginFormState>({ mode: 'onBlur', defaultValues: { email: '', password: '', noExpiry: false, token2fa: '' } });
-  const { formState, handleSubmit, watch, trigger, setFocus } = methods;
-  const email = watch('email');
-  const debouncedEmail = useDebounce(email, TIMEOUTS.oneSecond) as string;
+  const methods = useForm<LoginFormState>({ mode: 'onSubmit', defaultValues: { email: '', password: '', noExpiry: false, token2fa: '' } });
+  const { handleSubmit, trigger, setFocus } = methods;
   const isOsInstallation = !(isEnterprise || isHosted);
 
   const { classes } = useStyles();
@@ -68,13 +65,6 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
     }
     setEmailEditingDisabled(showPassword);
   }, [isOsInstallation, showPassword]);
-
-  useEffect(() => {
-    if (!debouncedEmail) {
-      return;
-    }
-    trigger('email');
-  }, [debouncedEmail, trigger]);
 
   const maybeShowPassword = useCallback(async () => {
     const isValidEmail = await trigger('email');
@@ -100,6 +90,11 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
     setFocus('password');
   };
 
+  const onEditEmailClick = () => {
+    setEmailEditingDisabled(toggle);
+    setShowPassword(false);
+  };
+
   const onShow2fa = () => {
     setFocus('token2fa');
     setTimeout(() => window.dispatchEvent(new Event('resize')), TIMEOUTS.oneSecond); // since there is no state change associated here, the timeout can be skipped from clearing on unmount
@@ -123,7 +118,7 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
           InputProps={{
             endAdornment: emailEditingDisabled ? (
               <InputAdornment position="end">
-                <IconButton onClick={() => setEmailEditingDisabled(toggle)} size="large">
+                <IconButton onClick={onEditEmailClick} size="large">
                   <EditIcon />
                 </IconButton>
               </InputAdornment>
@@ -133,7 +128,11 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
         <Collapse className={showPassword ? '' : classes.gapRemover} in={showPassword} onEntering={onShowPassword} timeout={isOsInstallation ? 0 : 'auto'}>
           <PasswordInput className={classes.passwordWrapper} id="password" label="Password" required={isOsInstallation} />
         </Collapse>
-        {isHosted && <Link to="/password">Forgot your password?</Link>}
+        {isHosted && (
+          <div>
+            <Link to="/password">Forgot your password?</Link>
+          </div>
+        )}
         <Collapse className={has2FA ? '' : classes.gapRemover} in={has2FA} onEntering={onShow2fa}>
           <TextInput
             controlRef={twoFARef}
@@ -145,8 +144,8 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
           />
         </Collapse>
         <FormCheckbox className="margin-top-none" id="noExpiry" label="Stay logged in" />
-        <Button className="full-width" variant="contained" type="submit" disabled={!formState.isValid}>
-          Log in
+        <Button className="full-width" variant="contained" type="submit">
+          Next
         </Button>
         {has2FA && twoFARef.current && (
           <MenderHelpTooltip

@@ -472,11 +472,17 @@ describe('user actions', () => {
   });
   it('should allow password reset - pt. 1', async () => {
     const store = mockStore({ ...defaultState });
-    await store.dispatch(passwordResetStart(defaultState.users.byId.a1.email)).then(() => expect(true).toEqual(true));
+    await store
+      .dispatch(passwordResetStart(defaultState.users.byId.a1.email))
+      .unwrap()
+      .then(() => expect(true).toEqual(true));
   });
   it('should allow password reset - pt. 2', async () => {
     const store = mockStore({ ...defaultState });
-    await store.dispatch(passwordResetComplete({ secretHash: 'secretHash', newPassword: 'newPassword' })).then(() => expect(true).toEqual(true));
+    await store
+      .dispatch(passwordResetComplete({ secretHash: 'secretHash', newPassword: 'newPassword' }))
+      .unwrap()
+      .then(() => expect(true).toEqual(true));
   });
   it('should allow storing global settings without deletion', async () => {
     vi.clearAllMocks();

@@ -26,7 +26,10 @@ export const PasswordReset = () => {
   const { secretHash } = useParams();
   const dispatch = useDispatch();
 
-  const handleSubmit = formData => dispatch(passwordResetComplete({ secretHash, newPassword: formData.password })).then(() => setConfirm(true));
+  const handleSubmit = formData =>
+    dispatch(passwordResetComplete({ secretHash, newPassword: formData.password }))
+      .unwrap()
+      .then(() => setConfirm(true));
 
   return (
     <PasswordScreenContainer title="Change your password">

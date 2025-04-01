@@ -13,7 +13,6 @@
 //    limitations under the License.
 import React from 'react';
 
-import { TIMEOUTS } from '@northern.tech/store/commonConstants';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
@@ -43,23 +42,21 @@ describe('Login Component', () => {
 
   it('works as intended', async () => {
     window.localStorage.getItem.mockImplementation(() => null);
-    const UserActions = await import('@northern.tech/store/usersSlice/thunks');
+    const UserActions = await import('@northern.tech/store/thunks');
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const loginSpy = vi.spyOn(UserActions, 'loginUser');
     const ui = <Login />;
     const { rerender } = render(ui, { preloadedState });
     await user.type(screen.getByLabelText(/your email/i), 'something-2fa@example.com');
-    const loginButton = screen.getByRole('button', { name: /Log in/i });
-    await waitFor(() => expect(loginButton).toBeEnabled(), { timeout: TIMEOUTS.oneSecond + TIMEOUTS.debounceDefault });
+    const loginButton = screen.getByRole('button', { name: /Next/i });
     await user.click(loginButton);
-    await act(async () => vi.runAllTicks());
-    expect(loginSpy).toHaveBeenCalled();
-    await waitFor(() => rerender(ui));
+    await waitFor(() => expect(loginSpy).toHaveBeenCalled());
     await user.type(screen.getByLabelText(/password/i), 'mysecretpassword!123');
     expect(await screen.findByLabelText(/Two Factor Authentication Code/i)).not.toBeVisible();
     await waitFor(() => expect(loginButton).toBeEnabled());
+    loginSpy.mockClear();
     await user.click(loginButton);
-    expect(loginSpy).toHaveBeenCalled();
+    await waitFor(() => expect(loginSpy).toHaveBeenCalled());
     await waitFor(() => expect(screen.getByLabelText(/Two Factor Authentication Code/i)).toBeVisible());
     const input = screen.getByDisplayValue('something-2fa@example.com');
     expect(input).toBeDisabled();

@@ -323,10 +323,6 @@ exports[`Login Component > renders correctly 1`] = `
   color: #ab1000;
 }
 
-.emotion-15.Mui-focused {
-  color: #337a87;
-}
-
 .emotion-16 {
   line-height: 1.4375em;
   font-family: Lato,sans-serif;
@@ -608,10 +604,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-17:focus::-ms-input-
 
 .emotion-26.Mui-error {
   color: #ab1000;
-}
-
-.emotion-26.Mui-focused {
-  color: #337a87;
 }
 
 .emotion-27 {
@@ -1564,12 +1556,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
               </div>
             </div>
           </div>
-          <a
-            data-discover="true"
-            href="/password"
-          >
-            Forgot your password?
-          </a>
+          <div>
+            <a
+              data-discover="true"
+              href="/password"
+            >
+              Forgot your password?
+            </a>
+          </div>
           <div
             class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-21"
             style="min-height: 0px;"
@@ -1654,12 +1648,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
             </span>
           </label>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary full-width emotion-3"
-            disabled=""
-            tabindex="-1"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary full-width emotion-3"
+            tabindex="0"
             type="submit"
           >
-            Log in
+            Next
           </button>
         </form>
       </div>

@@ -13,7 +13,6 @@
 //    limitations under the License.
 import { accordionClasses } from '@mui/material/Accordion';
 import { buttonClasses } from '@mui/material/Button';
-import { formLabelClasses } from '@mui/material/FormLabel';
 import { listItemTextClasses } from '@mui/material/ListItemText';
 
 import { LIGHT_MODE } from '@northern.tech/store/constants';
@@ -111,10 +110,7 @@ export const light = {
     MuiFormLabel: {
       styleOverrides: {
         root: {
-          color: palette.text.hint,
-          [`&.${formLabelClasses.focused}`]: {
-            color: palette.primary.main
-          }
+          color: palette.text.hint
         }
       }
     },
