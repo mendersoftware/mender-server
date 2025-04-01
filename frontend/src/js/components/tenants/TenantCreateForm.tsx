@@ -11,12 +11,13 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { Divider, Drawer, formControlLabelClasses } from '@mui/material';
+import { ErrorOutline as ErrorOutlineIcon } from '@mui/icons-material';
+import { Alert, Divider, Drawer, formControlLabelClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
@@ -49,7 +50,6 @@ const useStyles = makeStyles()(theme => ({
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(2),
-    paddingTop: theme.spacing(4),
     [`.${formControlLabelClasses.root}`]: { marginTop: 0 },
     '.required .relative': { marginLeft: theme.spacing(10) }
   },
@@ -134,6 +134,7 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
 
   const { classes } = useStyles();
   const [adminExists, setAdminExists] = useState<boolean>(false);
+  const [hasError, setHasError] = useState<boolean>(false);
 
   const quota = spDeviceLimit - spDeviceUtilization || 0;
   const numericValidation = {
@@ -145,20 +146,29 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
     dispatch(getSsoConfigs());
   }, [dispatch]);
 
-  const submitNewTenant = async data => {
-    const { email, password, device_limit, send_reset_password, ...remainder } = data;
-    if (adminExists) {
-      await dispatch(addTenant({ users: [{ role: rolesByName.admin, email }], device_limit: Number(device_limit), ...remainder }));
-    } else {
-      await dispatch(addTenant({ admin: { password, email, send_reset_password }, device_limit: Number(device_limit), ...remainder }));
-    }
-    onCloseClick();
-  };
+  const submitNewTenant = useCallback(
+    async data => {
+      const { email, password, device_limit, send_reset_password, ...remainder } = data;
+      let selectionState = { device_limit: Number(device_limit), ...remainder };
+      if (adminExists) {
+        selectionState = { users: [{ role: rolesByName.admin, email }], ...selectionState };
+      } else {
+        selectionState = { admin: { password, email, send_reset_password }, ...selectionState };
+      }
+      try {
+        await dispatch(addTenant(selectionState)).unwrap(); // only awaiting the thunk resolution to not get rejected
+        onCloseClick();
+      } catch {
+        setHasError(true);
+      }
+    },
+    [adminExists, dispatch, onCloseClick]
+  );
 
   return (
     <Drawer open={open} onClose={onCloseClick} anchor="right" PaperProps={{ style: { minWidth: '67vw' } }}>
       <DrawerTitle title="Add a tenant" onClose={onCloseClick} />
-      <Divider className="margin-bottom" />
+      <Divider className="margin-bottom-large" />
       <Form
         initialValues={tenantAdminDefaults}
         classes={classes}
@@ -170,13 +180,18 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
         submitLabel="Create tenant"
         autocomplete="off"
       >
+        {hasError && (
+          <Alert icon={<ErrorOutlineIcon />} severity="error">
+            There was an error while creating the tenant. Please try again, or contact support.
+          </Alert>
+        )}
         <TextInput required validations="isLength:3,trim" id="name" hint="Name" label="Name" />
         <UserInputs adminExists={adminExists} setAdminExists={setAdminExists} />
         <div className="flexbox center-aligned">
           <TextInput
             required
             id="device_limit"
-            hint={quota}
+            hint={`${quota}`}
             type="number"
             label="Set device limit"
             className={classes.devLimitInput}

@@ -28,12 +28,7 @@ import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { toggle } from '@northern.tech/utils/helpers';
 
 const useStyles = makeStyles()((theme: Theme) => ({
-  alert: {
-    backgroundColor: theme.palette.error.light,
-    color: theme.palette.error.dark,
-    fontWeight: theme.typography.fontWeightMedium,
-    marginBottom: theme.spacing()
-  },
+  alert: { fontWeight: theme.typography.fontWeightMedium },
   gapRemover: { marginTop: theme.spacing(-1.5) },
   formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(1.5), position: 'relative', '.required:after': { content: 'none' } },
   passwordWrapper: { '.password-wrapper': { gridTemplateColumns: '1fr' } },

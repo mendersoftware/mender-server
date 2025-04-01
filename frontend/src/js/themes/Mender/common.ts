@@ -174,6 +174,15 @@ export const overrides = {
       }
     }
   },
+  MuiAlert: {
+    styleOverrides: {
+      root: {
+        backgroundColor: palette.error.light,
+        color: palette.error.dark,
+        marginBottom: 8
+      }
+    }
+  },
   MuiInput: {
     ...componentProps.MuiInput,
     styleOverrides: {
