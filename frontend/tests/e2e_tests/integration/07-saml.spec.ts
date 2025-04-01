@@ -42,7 +42,7 @@ test.describe('SAML Login via sso/id/login', () => {
     console.log(`Finished ${testInfo.title} with status ${testInfo.status}. Cleaning up.`);
     const response = await request.get(`${baseUrl}api/management/v1/useradm/users?email=${encodeURIComponent(samlSettings.credentials[browserName])}`, options);
     const users = await response.json();
-    if (response.status() >= 300 || !users.length) {
+    if (!response.ok() || !users.length) {
       console.log(`${samlSettings.credentials[browserName]} does not exist.`);
       return;
     }
@@ -61,10 +61,8 @@ test.describe('SAML Login via sso/id/login', () => {
     startIdpServer({}, server => (idpServer = server));
     await page.waitForTimeout(timeouts.oneSecond);
     const response = await request.get(samlSettings.idpUrl);
-    const status = response.status();
     idpServer.close();
-    expect(status).toBeGreaterThanOrEqual(200);
-    expect(status).toBeLessThan(300);
+    expect(response.ok()).toBeTruthy();
     const metadata = await response.text();
     await page.goto(`${baseUrl}ui/settings/organization-and-billing`);
     const isInitialized = await page.getByText('Entity ID').isVisible();
@@ -115,9 +113,7 @@ test.describe('SAML Login via sso/id/login', () => {
     acsUrl = expectedAcsUrl;
     metadataLocation = expectedSpMetaUrl;
     const spMetadataResponse = await request.get(expectedSpMetaUrl, options);
-    const spDataStatus = spMetadataResponse.status();
-    expect(spDataStatus).toBeGreaterThanOrEqual(200);
-    expect(spDataStatus).toBeLessThan(300);
+    expect(spMetadataResponse.ok()).toBeTruthy();
     const spMetadata = await spMetadataResponse.text();
     expect(spMetadata).toContain('SPSSODescriptor');
     idpServer.close();

@@ -220,7 +220,7 @@ export const login = async (username: string, password: string, baseUrl: string,
     headers: { Authorization: `Basic ${Buffer.from(`${username}:${password}`).toString('base64')}` }
   });
 
-  if (response.status() !== 200) {
+  if (!response.ok()) {
     throw 'oh no';
   }
 
@@ -330,7 +330,7 @@ export const tagRelease = async (releaseName: string, tag: string, baseUrl: stri
     headers: { Authorization: `Bearer ${token}` }
   });
 
-  if (response.status() >= 300) {
+  if (!response.ok()) {
     console.error(`failed to tag release ${releaseName} got status:`, response.status());
     throw 'oh no';
   }
