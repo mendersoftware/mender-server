@@ -16,6 +16,7 @@ import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween.js';
 
 import test, { expect } from '../fixtures/fixtures';
+import { getTokenFromStorage } from '../utils/commands';
 import { selectors, storagePath, timeouts } from '../utils/constants';
 
 dayjs.extend(isBetween);
@@ -120,5 +121,25 @@ test.describe('Deployments', () => {
     await page.waitForSelector(selectors.deploymentListItem, { timeout: timeouts.tenSeconds });
     await page.getByRole('tab', { name: /finished/i }).click();
     await page.waitForSelector(selectors.deploymentListItemContent, { timeout: timeouts.sixtySeconds });
+  });
+  test('deployment pagination', async ({ baseUrl, loggedInPage: page, request }) => {
+    const token = await getTokenFromStorage(baseUrl);
+    const pendingDeploymentRequests = Array.from({ length: 50 }, (_, index) => ({
+      artifact_name: 'terminalImage',
+      all_devices: true,
+      max_devices: index,
+      name: `deployment-${index + 1}`
+    })).map(deployment =>
+      request.post(`${baseUrl}api/management/v1/deployments/deployments`, { data: deployment, headers: { Authorization: `Bearer ${token}` } })
+    );
+    await Promise.all(pendingDeploymentRequests);
+    await page.goto(`${baseUrl}ui/deployments`);
+    await expect(page.getByText(/rows/i)).toBeVisible();
+    // 10 clicks as anything leading outside of the 50 + something releases present (considering the 10 item page size)
+    for (let clickAttempt = 0; clickAttempt < 10; clickAttempt++) {
+      const paginationButton = page.getByTestId('KeyboardArrowRightIcon');
+      await paginationButton.click({ noWaitAfter: true, force: true });
+    }
+    await expect(page.getByText(/queued to start/i).first()).toBeVisible();
   });
 });
