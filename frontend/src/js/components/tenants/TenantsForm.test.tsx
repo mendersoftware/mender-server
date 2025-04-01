@@ -34,7 +34,7 @@ describe('TenantsForm', () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const submitTenantSpy = vi.spyOn(OrganizationActions, 'addTenant');
 
-    const newChildTenant = { name: 'ChildTenant', email: 'child@example.com', password: 'MySecurePassword2025', dev: '2' };
+    const newChildTenant = { name: 'ChildTenant', email: 'child+123@example.com', password: 'MySecurePassword2025', dev: '2' };
     const preloadedState = {
       ...defaultState,
       organization: {

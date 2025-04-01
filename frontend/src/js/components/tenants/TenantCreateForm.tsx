@@ -28,10 +28,11 @@ import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
 import Api from '@northern.tech/store/api/general-api';
-import { rolesByName, useradmApiUrlv1 } from '@northern.tech/store/constants';
+import { TIMEOUTS, rolesByName, useradmApiUrlv1 } from '@northern.tech/store/constants';
 import { getOrganization, getSsoConfig } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { addTenant, getSsoConfigs } from '@northern.tech/store/thunks';
+import { useDebounce } from '@northern.tech/utils/debouncehook';
 
 import { PasswordLabel } from '../settings/user-management/UserForm';
 
@@ -69,35 +70,33 @@ const UserInputs = (props: UserInputsProps) => {
   const { setAdminExists, adminExists } = props;
   const [emailInfoText, setEmailInfoText] = useState<string>('');
   const checkEmailExists = async (email: string) => {
-    const response = await Api.get(`${useradmApiUrlv1}/users/exists?email=${email}`);
+    const response = await Api.get(`${useradmApiUrlv1}/users/exists?email=${encodeURIComponent(email)}`);
     return response.data.exists;
   };
 
-  const { watch, getFieldState } = useFormContext();
+  const { watch, getFieldState, setValue } = useFormContext();
 
   const enteredEmail = watch('email');
-  const isValidEmail = getFieldState('email');
+  const debouncedEmail = useDebounce(enteredEmail, TIMEOUTS.debounceDefault);
 
   useEffect(() => {
-    if (!(enteredEmail && isValidEmail)) {
+    const { invalid: isInvalidEmail } = getFieldState('email');
+    if (!debouncedEmail || isInvalidEmail) {
       return;
     }
-    const timeoutId = setTimeout(async () => {
-      const exists = await checkEmailExists(enteredEmail);
+    const existingEmailCheck = async () => {
+      const exists = await checkEmailExists(debouncedEmail);
       if (exists) {
         setAdminExists(true);
         setEmailInfoText(userExistsInfo);
+        setValue('password', '');
       } else {
         setAdminExists(false);
         setEmailInfoText(newUserInfo);
       }
-    }, 1000);
-    return () => clearTimeout(timeoutId);
-  }, [enteredEmail, isValidEmail, setAdminExists]);
-
-  useEffect(() => {
-    setAdminExists(false);
-  }, [enteredEmail, setAdminExists]);
+    };
+    existingEmailCheck();
+  }, [debouncedEmail, getFieldState, setAdminExists, setValue]);
 
   return (
     <>

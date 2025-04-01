@@ -23,9 +23,9 @@ import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import actions from '@northern.tech/store/actions';
 import { generateTenantPathById } from '@northern.tech/store/locationutils';
-import { getOrganization, getSsoConfig } from '@northern.tech/store/organizationSlice/selectors';
-import { editTenantDeviceLimit, removeTenant } from '@northern.tech/store/organizationSlice/thunks';
+import { getOrganization, getSsoConfig } from '@northern.tech/store/selectors';
 import { AppDispatch } from '@northern.tech/store/store';
+import { editTenantDeviceLimit, removeTenant } from '@northern.tech/store/thunks';
 import copy from 'copy-to-clipboard';
 
 import { DeviceCount } from '../header/devicecount';
@@ -48,7 +48,7 @@ const { setSnackbar } = actions;
 
 export const ExpandedTenant = (props: ExpandedTenantProps) => {
   const { onCloseClick, tenant } = props;
-  const { name, id, device_limit, device_count, binary_delta } = tenant;
+  const { name, id, device_limit = 0, device_count = 0, binary_delta } = tenant;
 
   const [shouldDelete, setShouldDelete] = useState<boolean>(false);
   const [newLimitForm, setNewLimitForm] = useState<boolean>(false);
@@ -117,7 +117,7 @@ export const ExpandedTenant = (props: ExpandedTenantProps) => {
                     label="Set device limit"
                     type="number"
                     onChange={onChangeLimit}
-                    slotProps={{ htmlInput: { min: device_count, max: currentLimit, 'data-testid': 'dev-limit-input' } }}
+                    slotProps={{ htmlInput: { min: device_count, max: currentLimit } }}
                     error={hasLimitError}
                     value={newLimit}
                   />

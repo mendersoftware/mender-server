@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { Tenant } from '@northern.tech/store/api/types/Tenant';
 import { initialState as initialOrganizationState } from '@northern.tech/store/organizationSlice';
-import * as OrganizationActions from '@northern.tech/store/organizationSlice/thunks';
+import * as OrganizationActions from '@northern.tech/store/thunks';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
@@ -79,7 +79,7 @@ describe('ExpandedTenant', () => {
     render(<ExpandedTenant onCloseClick={vi.fn} tenant={tenant} />, { preloadedState: state });
     expect(screen.queryByText(`Tenant Information for ${tenant.name}`));
     await user.click(screen.getByRole('button', { name: /edit device limit/i }));
-    const limitInput = screen.getByTestId('dev-limit-input');
+    const limitInput = screen.getByLabelText(/set device limit/i);
     await user.clear(limitInput);
     await user.type(limitInput, newLimit);
     await user.click(screen.getByRole('button', { name: /save/i }));
