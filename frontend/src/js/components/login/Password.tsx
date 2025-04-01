@@ -123,10 +123,12 @@ export const Password = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = (formData: PasswordResetState) =>
-    dispatch(passwordResetStart(formData.email)).then(() => {
-      setEmail(formData.email);
-      setConfirm(true);
-    });
+    dispatch(passwordResetStart(formData.email))
+      .unwrap()
+      .then(() => {
+        setEmail(formData.email);
+        setConfirm(true);
+      });
 
   return (
     <PasswordScreenContainer title={confirm ? 'Reset your password' : 'Forgot password?'} hasReturn={!confirm}>
