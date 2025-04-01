@@ -910,7 +910,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
         <a
           class=""
           href="https://docs.mender.io/general/hosted-mender-regions"
-          rel=""
+          rel="noopener"
           target="_blank"
         >
           Learn more

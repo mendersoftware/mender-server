@@ -307,15 +307,17 @@ exports[`LeftNav Component > renders correctly 1`] = `
           <div
             class="clickable slightly-smaller"
             data-mui-internal-clone-element="true"
-          />
+          >
+            Version: latest
+          </div>
         </span>
         <p
           class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary emotion-24"
         >
           <a
             class="emotion-25"
-            href="https://docs.mender.io/release-information/release-notes-changelog/mender-server"
-            rel=""
+            href="https://docs.mender.io/release-information/release-notes-changelog/hosted-mender"
+            rel="noopener"
             target="_blank"
           >
             Release information
@@ -324,7 +326,7 @@ exports[`LeftNav Component > renders correctly 1`] = `
           <a
             class="emotion-25"
             href="https://docs.mender.io/release-information/open-source-licenses"
-            rel=""
+            rel="noopener"
             target="_blank"
           >
             License information

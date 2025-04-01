@@ -87,7 +87,7 @@ export const initialState: AppSliceType = {
     hasMonitor: false,
     hasReporting: false,
     isDemoMode: false,
-    isHosted: false,
+    isHosted: true,
     isEnterprise: false
   },
   feedbackProbability: 0.3,

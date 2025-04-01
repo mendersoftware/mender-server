@@ -43,9 +43,8 @@ interface LoginFormState {
 }
 
 export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
-  const isOsInstallation = !(isEnterprise || isHosted);
   const [emailEditingDisabled, setEmailEditingDisabled] = useState<boolean>(false);
-  const [showPassword, setShowPassword] = useState<boolean>(isOsInstallation);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [has2FA, setHas2FA] = useState<boolean>(false);
   const [hasError, setHasError] = useState<boolean>(false);
   const twoFARef = useRef<HTMLInputElement | undefined>(undefined);
@@ -54,12 +53,14 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
   const { formState, handleSubmit, watch, trigger, setFocus } = methods;
   const email = watch('email');
   const debouncedEmail = useDebounce(email, TIMEOUTS.oneSecond) as string;
+  const isOsInstallation = !(isEnterprise || isHosted);
 
   const { classes } = useStyles();
 
   useEffect(() => {
     setShowPassword(isOsInstallation);
-  }, [isOsInstallation]);
+    setFocus('email');
+  }, [isOsInstallation, setFocus]);
 
   useEffect(() => {
     if (isOsInstallation) {
@@ -92,7 +93,12 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
       setHasError(true);
     });
 
-  const onShowPassword = () => setFocus('password');
+  const onShowPassword = () => {
+    if (isOsInstallation) {
+      return setFocus('email');
+    }
+    setFocus('password');
+  };
 
   const onShow2fa = () => {
     setFocus('token2fa');
@@ -124,7 +130,7 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
             ) : undefined
           }}
         />
-        <Collapse className={showPassword ? '' : classes.gapRemover} in={showPassword} onEntering={onShowPassword}>
+        <Collapse className={showPassword ? '' : classes.gapRemover} in={showPassword} onEntering={onShowPassword} timeout={isOsInstallation ? 0 : 'auto'}>
           <PasswordInput className={classes.passwordWrapper} id="password" label="Password" required={isOsInstallation} />
         </Collapse>
         {isHosted && <Link to="/password">Forgot your password?</Link>}

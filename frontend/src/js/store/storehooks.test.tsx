@@ -81,7 +81,7 @@ const appInitActions = [
   { type: userActions.successfullyLoggedIn.type }, //, payload: { token }
   { type: onboardingActions.setOnboardingComplete.type, payload: true },
   { type: onboardingActions.setDemoArtifactPort.type, payload: 85 },
-  { type: appActions.setFeatures.type, payload: { ...defaultState.app.features, hasMultitenancy: true } },
+  { type: appActions.setFeatures.type, payload: { ...defaultState.app.features, hasMultitenancy: true, isHosted: false } },
   {
     type: appActions.setVersionInformation.type,
     payload: {

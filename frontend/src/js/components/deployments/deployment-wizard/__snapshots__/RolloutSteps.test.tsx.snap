@@ -593,7 +593,7 @@ exports[`RolloutSteps Component > renders correctly 1`] = `
         <a
           class=""
           href="https://docs.mender.io/"
-          rel=""
+          rel="noopener"
           target="_blank"
         >
           Learn more
@@ -1197,7 +1197,7 @@ exports[`RolloutSteps Component > renders correctly 2`] = `
         <a
           class=""
           href="https://docs.mender.io/"
-          rel=""
+          rel="noopener"
           target="_blank"
         >
           Learn more

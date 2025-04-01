@@ -147,13 +147,21 @@ exports[`VirtualDeviceOnboarding Component > renders correctly 1`] = `
 <div>
   <div>
     <b>
-      1. Prerequisites
+      1. Get Docker Engine
     </b>
     <p>
-      As you are running Mender on-premise, for these instructions we assume that you already have Docker installed and the Mender integration environment up and running on your machine.
+      If you do not have it already, please install Docker on your local machine.
     </p>
     <p>
-      To start a virtual device, change directory into the folder where you cloned Mender integration.
+      For example if you are using Ubuntu follow this tutorial:
+       
+      <a
+        href="https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/
+      </a>
     </p>
   </div>
   <p>
@@ -202,7 +210,7 @@ exports[`VirtualDeviceOnboarding Component > renders correctly 1`] = `
     <a
       class=""
       href="https://docs.mender.io/get-started/preparation/prepare-a-virtual-device"
-      rel=""
+      rel="noopener"
       target="_blank"
     >
       our documentation
