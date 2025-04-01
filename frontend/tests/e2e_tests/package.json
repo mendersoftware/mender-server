@@ -19,7 +19,7 @@
   "type": "module",
   "homepage": "https://mender.io",
   "devDependencies": {
-    "@bgotink/playwright-coverage": "^0.3.1",
+    "@bgotink/playwright-coverage": "^0.3.2",
     "@playwright/test": "1.51.1",
     "@sidewinder1138/saml-idp": "^1.4.0",
     "dayjs": "^1.11.13",
@@ -31,6 +31,6 @@
     "pngjs": "7.0.0",
     "typescript": "^5.8.2",
     "uuid": "^11.1.0",
-    "yaml": "^2.7.0"
+    "yaml": "^2.7.1"
   }
 }
