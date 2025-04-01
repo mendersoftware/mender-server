@@ -27,6 +27,7 @@ import monitorSlice from './monitorSlice';
 import onboardingSlice from './onboardingSlice';
 import organizationSlice, { actions as organizationActions } from './organizationSlice';
 import releaseSlice from './releasesSlice';
+import { loginUser } from './thunks';
 import userSlice, { actions as userActions } from './usersSlice';
 import { extractErrorMessage, preformatWithRequestID } from './utils';
 
@@ -74,9 +75,11 @@ const rejectionLoggerMiddleware = () => next => action => {
   return next(action);
 };
 
+const tracingActionIgnoreList = [userActions.successfullyLoggedIn.type, loginUser.pending.type, loginUser.fulfilled.type, loginUser.rejected.type];
+
 const sentryReduxEnhancer = createReduxEnhancer({
   actionTransformer: action => {
-    if (action.type === userActions.successfullyLoggedIn.type) {
+    if (tracingActionIgnoreList.includes(action.type)) {
       return null;
     }
     return action;
@@ -85,7 +88,14 @@ const sentryReduxEnhancer = createReduxEnhancer({
   stateTransformer: (state: RootState) => {
     const transformedState = {
       ...state,
-      users: { ...state.users, currentSession: null }
+      users: { ...state.users, currentSession: null },
+      organization: {
+        ...state.organization,
+        organization: {
+          ...state.organization.organization,
+          tenant_token: null
+        }
+      }
     };
     return transformedState;
   }
