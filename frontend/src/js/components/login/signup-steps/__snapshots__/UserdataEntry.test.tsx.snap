@@ -715,8 +715,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-20:focus::-ms-input-
 }
 
 <div>
-  <div
+  <form
     class="test"
+    novalidate=""
   >
     <h1
       class="flexbox centered"
@@ -1002,13 +1003,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-20:focus::-ms-input-
       </div>
     </div>
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary margin-top emotion-0"
+      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-0"
       disabled=""
       tabindex="-1"
-      type="button"
+      type="submit"
     >
       Sign up
     </button>
-  </div>
+  </form>
 </div>
 `;
