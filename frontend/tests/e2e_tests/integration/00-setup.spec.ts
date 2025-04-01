@@ -45,10 +45,10 @@ test.describe('Test setup', () => {
   });
 
   test.describe('account creation', () => {
-    test('allows account creation', async ({ baseUrl, context, environment, page, password, username }) => {
+    test('allows account creation', async ({ baseUrl, context, environment, page, password, request, username }) => {
       test.skip(environment !== 'staging');
       try {
-        const { token } = await login(username, password, baseUrl);
+        const { token } = await login(username, password, baseUrl, request);
         test.skip(!!token, 'looks like the account was created already, continue with the remaining tests');
       } catch {
         // looks like this is the first run, let's continue
@@ -79,17 +79,17 @@ test.describe('Test setup', () => {
       await isLoggedIn(page, timeouts.fifteenSeconds);
 
       // the following sets the UI up for easier navigation by disabling onboarding
-      const newPage = await prepareNewPage({ baseUrl, context, password, username });
+      const newPage = await prepareNewPage({ baseUrl, context, password, request, username });
       await isLoggedIn(newPage);
       await context.storageState({ path: storagePath });
     });
   });
 
   test.describe('enterprise setting features, that happens to start up a docker client', () => {
-    test('supports tenant token retrieval', async ({ baseUrl, context, environment, password, username }) => {
+    test('supports tenant token retrieval', async ({ baseUrl, context, environment, password, request, username }) => {
       test.skip(!isEnterpriseOrStaging(environment));
       console.log(`logging in user with username: ${username} and password: ${password}`);
-      const page = await prepareNewPage({ baseUrl, context, password, username });
+      const page = await prepareNewPage({ baseUrl, context, password, request, username });
       await page.goto(`${baseUrl}ui/settings`);
       const isVisible = await page.getByRole('button', { name: /change email/i }).isVisible();
       if (!isVisible) {

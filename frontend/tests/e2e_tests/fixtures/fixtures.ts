@@ -63,12 +63,12 @@ const loginCommon = async (page: Page, username: string, use: (r: Page) => Promi
   await use(page);
 };
 const test = (process.env.TEST_ENVIRONMENT === 'staging' ? nonCoveredTest : coveredTest).extend<TestFixtures>({
-  loggedInPage: async ({ baseUrl, context, password, username }, use) => {
-    const page = await prepareNewPage({ baseUrl, context, password, username });
+  loggedInPage: async ({ baseUrl, context, password, request, username }, use) => {
+    const page = await prepareNewPage({ baseUrl, context, password, request, username });
     await loginCommon(page, username, use, context);
   },
-  loggedInTenantPage: async ({ baseUrl, context, password, spTenantUsername }, use) => {
-    const page = await prepareNewPage({ baseUrl, context, password, username: spTenantUsername });
+  loggedInTenantPage: async ({ baseUrl, context, password, request, spTenantUsername }, use) => {
+    const page = await prepareNewPage({ baseUrl, context, password, request, username: spTenantUsername });
     await loginCommon(page, spTenantUsername, use, context);
   },
   // eslint-disable-next-line no-empty-pattern

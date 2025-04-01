@@ -111,18 +111,18 @@ test.describe('RBAC functionality', () => {
     });
   });
   test.describe('has working RBAC limitations for', () => {
-    test('device groups', async ({ baseUrl, browser, environment, password, username }) => {
+    test('device groups', async ({ baseUrl, browser, environment, password, request, username }) => {
       test.skip(!isEnterpriseOrStaging(environment));
-      const page = await prepareNewPage({ baseUrl, browser, password, username: `limited-${username}` });
+      const page = await prepareNewPage({ baseUrl, browser, password, request, username: `limited-${username}` });
       await page.getByRole('link', { name: /devices/i }).click({ force: true, timeout: timeouts.tenSeconds });
       await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
       // the created role does have permission to configure devices, so the section should be visible
       await page.getByText(/configuration/i).click();
       await page.getByText(/Device configuration/i).waitFor({ timeout: timeouts.tenSeconds });
     });
-    test('read-only all releases', async ({ baseUrl, browser, environment, password, username }) => {
+    test('read-only all releases', async ({ baseUrl, browser, environment, password, request, username }) => {
       test.skip(!isEnterpriseOrStaging(environment));
-      const page = await prepareNewPage({ baseUrl, browser, password, username: `limited-ro-releases-${username}` });
+      const page = await prepareNewPage({ baseUrl, browser, password, request, username: `limited-ro-releases-${username}` });
       await page.getByRole('link', { name: /releases/i }).click({ force: true, timeout: timeouts.tenSeconds });
       // there should be multiple releases present
       await expect(page.getByText('1-2 of 2')).toBeVisible();
@@ -131,18 +131,18 @@ test.describe('RBAC functionality', () => {
       await page.getByRole('checkbox').first().click();
       await expect(page.getByLabel(/release-actions/i)).not.toBeVisible();
     });
-    test('read-only tagged releases', async ({ baseUrl, browser, environment, password, username }) => {
+    test('read-only tagged releases', async ({ baseUrl, browser, environment, password, request, username }) => {
       test.skip(!isEnterpriseOrStaging(environment));
-      const page = await prepareNewPage({ baseUrl, browser, password, username: `limited-ro-${releaseTag}-${username}` });
+      const page = await prepareNewPage({ baseUrl, browser, password, request, username: `limited-ro-${releaseTag}-${username}` });
       await page.getByRole('link', { name: /releases/i }).click({ force: true, timeout: timeouts.tenSeconds });
       // there should be only one release tagged with the releaseTag
       await expect(page.getByText('1-1 of 1')).toBeVisible();
       // the created role doesn't have permission to upload artifacts, so the button shouldn't be visible
       await expect(page.getByRole('button', { name: /upload/i })).not.toBeVisible();
     });
-    test('manage tagged releases', async ({ baseUrl, browser, environment, password, username }) => {
+    test('manage tagged releases', async ({ baseUrl, browser, environment, password, request, username }) => {
       test.skip(!isEnterpriseOrStaging(environment));
-      const page = await prepareNewPage({ baseUrl, browser, password, username: `limited-manage-${releaseTag}-${username}` });
+      const page = await prepareNewPage({ baseUrl, browser, password, request, username: `limited-manage-${releaseTag}-${username}` });
       await page.getByRole('link', { name: /releases/i }).click({ force: true, timeout: timeouts.tenSeconds });
       // there should be only one release tagged with the releaseTag
       await expect(page.getByText('1-1 of 1')).toBeVisible();

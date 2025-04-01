@@ -11,12 +11,10 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import type { Browser, BrowserContext, Page } from '@playwright/test';
+import type { APIRequestContext, Browser, BrowserContext, Page } from '@playwright/test';
 import { runServer } from '@sidewinder1138/saml-idp';
-import axios from 'axios';
 import { spawn } from 'child_process';
 import * as fs from 'fs';
-import * as https from 'https';
 import { jwtDecode } from 'jwt-decode';
 import { authenticator } from 'otplib';
 import * as path from 'path';
@@ -83,12 +81,14 @@ export const prepareNewPage = async ({
   browser,
   context: passedContext,
   password,
+  request,
   username
 }: {
   baseUrl: string;
   browser?: Browser;
   context?: BrowserContext;
   password: string;
+  request: APIRequestContext;
   username: string;
 }) => {
   let context = passedContext;
@@ -100,7 +100,7 @@ export const prepareNewPage = async ({
   }
   let logInResult = { userId: '', token: '' };
   if (username && password) {
-    logInResult = await login(username, password, baseUrl);
+    logInResult = await login(username, password, baseUrl, request);
   }
   const domain = baseUrlToDomain(baseUrl);
   context = await prepareCookies(context, domain, logInResult.userId);
@@ -215,24 +215,16 @@ export const stopDockerClient = async () => {
   return Promise.resolve();
 };
 
-export const login = async (username: string, password: string, baseUrl: string) => {
-  const request = await axios({
-    url: `${baseUrl}api/management/v1/useradm/auth/login`,
-    method: 'POST',
-    headers: {
-      Authorization: `Basic ${Buffer.from(`${username}:${password}`).toString('base64')}`,
-      'Content-Type': 'application/json'
-    },
-    httpsAgent: new https.Agent({
-      rejectUnauthorized: false
-    })
+export const login = async (username: string, password: string, baseUrl: string, request: APIRequestContext) => {
+  const response = await request.post(`${baseUrl}api/management/v1/useradm/auth/login`, {
+    headers: { Authorization: `Basic ${Buffer.from(`${username}:${password}`).toString('base64')}` }
   });
 
-  if (request.status !== 200) {
+  if (!response.ok()) {
     throw 'oh no';
   }
 
-  const token = request.data;
+  const token = await response.text();
   const userId = jwtDecode(token).sub;
   return { token, userId };
 };
@@ -332,17 +324,14 @@ export const compareImages = (expectedPath, actualPath, options: ComparisonOptio
   return { pass, numDiffPixels };
 };
 
-export const tagRelease = async (releaseName: string, tag: string, baseUrl: string, token: string) => {
-  const request = await axios.put(`${baseUrl}api/management/v2/deployments/deployments/releases/${releaseName}/tags`, [tag], {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    },
-    httpsAgent: new https.Agent({ rejectUnauthorized: false })
+export const tagRelease = async (releaseName: string, tag: string, baseUrl: string, token: string, request: APIRequestContext) => {
+  const response = await request.put(`${baseUrl}api/management/v2/deployments/deployments/releases/${releaseName}/tags`, {
+    data: [tag],
+    headers: { Authorization: `Bearer ${token}` }
   });
 
-  if (request.status >= 300) {
-    console.error(`failed to tag release ${releaseName} got status:`, request.status);
+  if (!response.ok()) {
+    console.error(`failed to tag release ${releaseName} got status:`, response.status());
     throw 'oh no';
   }
   return Promise.resolve();

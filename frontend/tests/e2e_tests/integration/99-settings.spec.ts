@@ -260,9 +260,9 @@ test.describe('Settings', () => {
       await expect(page.getByRole('button', { name: /log in/i })).toBeVisible();
     });
 
-    test('allows changing the password back', async ({ baseUrl, browserName, browser, password, username }) => {
+    test('allows changing the password back', async ({ baseUrl, browserName, browser, password, request, username }) => {
       test.skip(browserName === 'webkit');
-      const page = await prepareNewPage({ baseUrl, browser, password: replacementPassword, username });
+      const page = await prepareNewPage({ baseUrl, browser, password: replacementPassword, request, username });
       await page.getByRole('button', { name: username }).click();
       await page.getByText(/my profile/i).click();
       await page.getByRole('button', { name: /change password/i }).click();
@@ -280,20 +280,20 @@ test.describe('Settings', () => {
       await page.getByText(/user has been updated/i).waitFor({ timeout: timeouts.tenSeconds });
       await page.waitForTimeout(timeouts.default);
 
-      const { token: newToken } = await login(username, password, baseUrl);
+      const { token: newToken } = await login(username, password, baseUrl, request);
       expect(newToken).toBeTruthy();
     });
   });
 
   test.describe('Multi tenant access', () => {
     const secondaryUser = 'demo-secondary@example.com';
-    test('allows adding users to tenants', async ({ baseUrl, browser, browserName, environment, loggedInPage, password }) => {
+    test('allows adding users to tenants', async ({ baseUrl, browser, browserName, environment, loggedInPage, request, password }) => {
       test.skip('enterprise' !== environment || browserName !== 'chromium');
       await loggedInPage.goto(`${baseUrl}ui/settings`);
       await loggedInPage.click('text=/user management/i');
       const hasUserAlready = await loggedInPage.getByText(secondaryUser).isVisible();
       test.skip(hasUserAlready, `${secondaryUser} was added in a previous run, but success notification wasn't caught`);
-      const page = await prepareNewPage({ baseUrl, browser, username: secondaryUser, password });
+      const page = await prepareNewPage({ baseUrl, browser, password, request, username: secondaryUser });
       await page.goto(`${baseUrl}ui/settings/my-account`);
       await page
         .getByText(/User ID/i)
