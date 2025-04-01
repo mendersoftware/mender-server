@@ -12,9 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React from 'react';
-import { useFormState, useWatch } from 'react-hook-form';
-
-import { Button } from '@mui/material';
+import { useWatch } from 'react-hook-form';
 
 import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
@@ -22,7 +20,6 @@ import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { OAuthHeader } from '../Login';
 
 export const UserDataEntry = ({ classes, onProgessClick }) => {
-  const { isValid } = useFormState();
   const email = useWatch({ name: 'email' });
 
   const handleKeyPress = ({ key }) => {
@@ -46,9 +43,6 @@ export const UserDataEntry = ({ classes, onProgessClick }) => {
         className="margin-bottom-small"
       />
       <PasswordInput id="password_confirmation" label="Confirm password *" validations={`isLength:8,isNot:${email}`} required={true} />
-      <Button className="margin-top" color="primary" disabled={!isValid} variant="contained" onClick={onProgessClick}>
-        Sign up
-      </Button>
     </div>
   );
 };

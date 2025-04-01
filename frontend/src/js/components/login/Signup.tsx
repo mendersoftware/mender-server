@@ -12,14 +12,14 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect, useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useParams } from 'react-router-dom';
 
-import { formControlClasses } from '@mui/material';
+import { Button, formControlClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import Loader from '@northern.tech/common-ui/Loader';
-import Form from '@northern.tech/common-ui/forms/Form';
 import storeActions from '@northern.tech/store/actions';
 import { TIMEOUTS, locations } from '@northern.tech/store/constants';
 import { getRecaptchaKey } from '@northern.tech/store/selectors';
@@ -67,30 +67,32 @@ const useStyles = makeStyles()(theme => ({
   },
   logo: { marginLeft: '5vw', marginTop: 45, maxHeight: 50 }
 }));
+
 const getCurrentLocation = (location: Location): string => {
   const currentLocation = Object.values(locations).find(value => [`staging.${value.location}`, value.location].includes(location.hostname));
   return currentLocation ? currentLocation.key : locations.us.key;
 };
 
+const defaultValues = { email: '', tos: false, marketing: false, name: '', location: '', captcha: '', password_confirmation: '', password: '' };
+
 export const Signup = () => {
   const [step, setStep] = useState(1);
-  const [email, setEmail] = useState('');
   const [emailVerified, setEmailVerified] = useState(false);
   const [loading, setLoading] = useState(false);
   const [oauthProvider, setOauthProvider] = useState(undefined);
   const [oauthId, setOauthId] = useState('');
-  const [marketing, setMarketing] = useState(false);
-  const [organization, setOrganization] = useState('');
-  const [tos, setTos] = useState(false);
   const [redirectOnLogin, setRedirectOnLogin] = useState(false);
   const [captchaTimestamp, setCaptchaTimestamp] = useState(0);
-  const [recaptcha, setRecaptcha] = useState('');
   const [location, setLocation] = useState<string>(getCurrentLocation(window.location));
+  const [initialValues, setInitialValues] = useState({ ...defaultValues });
   const { campaign = '' } = useParams();
   const currentUserId = useSelector(state => state.users.currentUserId);
   const recaptchaSiteKey = useSelector(getRecaptchaKey);
   const dispatch = useDispatch();
   const { classes } = useStyles();
+
+  const methods = useForm({ mode: 'onSubmit', defaultValues });
+  const { handleSubmit, setValue, trigger, getFieldState } = methods;
 
   const dispatchedSetSnackbar = useCallback(message => dispatch(setSnackbar(message)), [dispatch]);
 
@@ -99,11 +101,18 @@ export const Signup = () => {
     if (usedOauthProvider) {
       setOauthProvider(usedOauthProvider);
       setOauthId(`${cookies.get('externalID')}`);
-      setEmail(cookies.get('email'));
+      setFormValues(current => ({ ...current, email: cookies.get('email') }));
       setEmailVerified(stringToBoolean(cookies.get('emailVerified')));
       setStep(2);
     }
+    const location = getCurrentLocation(window.location);
+    setFormValues(current => ({ ...current, location }));
   }, []);
+
+  useEffect(() => {
+    Object.entries(initialValues).forEach(([key, value]) => setValue(key, value));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(initialValues), setValue]);
 
   useEffect(() => {
     if (currentUserId) {
@@ -113,17 +122,16 @@ export const Signup = () => {
   }, [currentUserId, dispatchedSetSnackbar]);
 
   const handleSignup = formData => {
-    if (recaptchaSiteKey !== '' && recaptcha === '') {
+    if (recaptchaSiteKey !== '' && formData.captcha === '') {
       return setSnackbar({ message: 'Please complete the reCAPTCHA test before proceeding!', autoHideDuration: TIMEOUTS.fiveSeconds, action: '' });
     }
     setLoading(true);
-    const { name, marketing, password, ...remainder } = formData;
-    const actualEmail = formData.email != null ? formData.email : email;
-    const credentials = oauthProvider ? { email: actualEmail, login: { [oauthProvider]: oauthId } } : { email: actualEmail, password };
+    const { email, name, marketing, password, captcha, ...remainder } = formData;
+    const credentials = oauthProvider ? { email, login: { [oauthProvider]: oauthId } } : { email, password };
     const signup = {
       ...remainder,
       ...credentials,
-      'g-recaptcha-response': recaptcha || 'empty',
+      'g-recaptcha-response': captcha || 'empty',
       campaign,
       emailVerified,
       location,
@@ -134,9 +142,7 @@ export const Signup = () => {
     };
     return dispatch(createOrganizationTrial(signup)).catch(() => {
       setStep(1);
-      setOrganization(formData.name);
-      setTos(formData.tos);
-      setMarketing(formData.marketing);
+      setInitialValues({ ...formData, captcha: '' });
       setLoading(false);
     });
   };
@@ -150,36 +156,44 @@ export const Signup = () => {
     return <Navigate to="/" replace />;
   }
 
-  const steps = {
-    1: <UserDataEntry classes={classes} onProgessClick={onProgessClick} />,
-    2: (
-      <OrgDataEntry
-        classes={classes}
-        emailVerified={emailVerified}
-        location={location}
-        recaptchaSiteKey={recaptchaSiteKey}
-        setCaptchaTimestamp={setCaptchaTimestamp}
-        setLocation={setLocation}
-        setRecaptcha={setRecaptcha}
-      />
-    )
-  };
   const isStarting = step === 1;
   return (
     <>
       <LoginLogo className={classes.logo} />
       <div className={`${classes.background} ${isStarting ? 'two-columns' : classes.orgData}`} id="signup-box">
         <div>
-          <Form
-            buttonColor="primary"
-            defaultValues={{ email: '', tos: false, marketing: false, name: '', captcha: '' }}
-            initialValues={{ email, tos, marketing, name: organization, captcha: '' }}
-            onSubmit={handleSignup}
-            showButtons={!(isStarting || loading)}
-            submitLabel={isStarting ? 'Sign up' : 'Complete signup'}
-          >
-            {loading ? <Loader show style={{ marginTop: '40vh' }} /> : steps[step]}
-          </Form>
+          <FormProvider {...methods}>
+            <form noValidate onSubmit={handleSubmit(handleSignup)}>
+              {loading ? (
+                <Loader show style={{ marginTop: '40vh' }} />
+              ) : isStarting ? (
+                <>
+                  <UserDataEntry classes={classes} onProgessClick={onProgressClick} />
+                  <div className={`flexbox align-self-end margin-top`}>
+                    <Button variant="contained" onClick={onProgressClick}>
+                      Sign up
+                    </Button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <OrgDataEntry
+                    classes={classes}
+                    emailVerified={emailVerified}
+                    location={location}
+                    recaptchaSiteKey={recaptchaSiteKey}
+                    setCaptchaTimestamp={setCaptchaTimestamp}
+                    setLocation={setLocation}
+                  />
+                  <div className={`flexbox align-self-end margin-top`}>
+                    <Button variant="contained" type="submit">
+                      Complete signup
+                    </Button>
+                  </div>
+                </>
+              )}
+            </form>
+          </FormProvider>
           {!loading && <EntryLink target="login" />}
         </div>
         {isStarting && (

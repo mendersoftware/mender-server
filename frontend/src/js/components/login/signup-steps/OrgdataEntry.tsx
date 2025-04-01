@@ -13,7 +13,7 @@
 //    limitations under the License.
 import React from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
-import { useFormContext } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 
 import { MenuItem, Select } from '@mui/material';
 
@@ -22,15 +22,13 @@ import FormCheckbox from '@northern.tech/common-ui/forms/FormCheckbox';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { locations } from '@northern.tech/store/constants';
 
-export const OrgDataEntry = ({ classes, emailVerified, recaptchaSiteKey = '', setCaptchaTimestamp, location, setLocation, setRecaptcha }) => {
-  const handleLocationChange = ({ target: { value } }) => setLocation(value);
-  const { register, setValue, trigger } = useFormContext();
+const OrgDataEntry = ({ classes, emailVerified, recaptchaSiteKey = '', setCaptchaTimestamp }) => {
+  const { control, register, setValue, trigger } = useFormContext();
   const captchaFieldName = 'captcha';
 
   const handleCaptchaChange = value => {
     setCaptchaTimestamp(new Date().getTime());
-    setRecaptcha(value);
-    setValue(captchaFieldName, value ? 'validated' : '');
+    setValue(captchaFieldName, value ? value : '');
     trigger(captchaFieldName);
   };
 
@@ -51,24 +49,29 @@ export const OrgDataEntry = ({ classes, emailVerified, recaptchaSiteKey = '', se
           </p>
           <DocsLink path="general/hosted-mender-regions" title="Learn more" />
         </div>
-        <Select
-          value={location}
-          onChange={handleLocationChange}
-          renderValue={selected => {
-            const { icon: Icon, title } = locations[selected];
-            return (
-              <div className="flexbox center-aligned">
-                {title} <Icon className={classes.locationIcon} />
-              </div>
-            );
-          }}
-        >
-          {Object.entries(locations).map(([key, { icon: Icon, title }]) => (
-            <MenuItem key={key} value={key}>
-              {title} <Icon className={classes.locationIcon} />
-            </MenuItem>
-          ))}
-        </Select>
+        <Controller
+          name="location"
+          control={control}
+          render={({ field }) => (
+            <Select
+              renderValue={selected => {
+                const { icon: Icon, title } = locations[selected];
+                return (
+                  <div className="flexbox center-aligned">
+                    {title} <Icon className={classes.locationIcon} />
+                  </div>
+                );
+              }}
+              {...field}
+            >
+              {Object.entries(locations).map(([key, { icon: Icon, title }]) => (
+                <MenuItem key={key} value={key}>
+                  {title} <Icon className={classes.locationIcon} />
+                </MenuItem>
+              ))}
+            </Select>
+          )}
+        />
       </div>
       <FormCheckbox
         id="tos"
