@@ -689,6 +689,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
                   1-0 of 0
                 </div>
                 <button
+                  aria-label="prev"
                   class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge emotion-14"
                   disabled=""
                   tabindex="-1"
@@ -708,6 +709,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
                 </button>
                 <div>
                   <button
+                    aria-label="next"
                     class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge emotion-14"
                     disabled=""
                     tabindex="-1"
