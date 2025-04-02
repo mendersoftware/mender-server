@@ -11,24 +11,25 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { memo } from 'react';
+import { useSelector } from 'react-redux';
 
 import { Snackbar } from '@mui/material';
 
+import storeActions from '@northern.tech/store/actions';
+import { getSnackbar } from '@northern.tech/store/appSlice/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import copy from 'copy-to-clipboard';
 
-export const SharedSnackbar = ({ setSnackbar, snackbar }) => {
-  const handleActionClick = () => {
-    copy(snackbar.message);
-    setSnackbar('Copied to clipboard');
-  };
+const { setSnackbar } = storeActions;
 
-  const onCloseSnackbar = (_, reason) => {
-    const { onClose = false } = snackbar;
-    if (onClose && reason === 'clickaway') {
-      return;
+export const SharedSnackbar = () => {
+  const dispatch = useAppDispatch();
+  const snackbar = useSelector(getSnackbar);
+  const handleActionClick = () => {
+    if (typeof snackbar.message === 'string') {
+      copy(snackbar.message);
+      dispatch(setSnackbar('Copied to clipboard'));
     }
-    setSnackbar('');
   };
 
   const { preventClickToCopy, ...snackProps } = snackbar;
@@ -38,16 +39,9 @@ export const SharedSnackbar = ({ setSnackbar, snackbar }) => {
       anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       style={{ maxWidth: 900, height: 'auto', lineHeight: '28px', padding: 24, whiteSpace: 'pre-line' }}
       onClick={preventClickToCopy ? undefined : handleActionClick}
-      onClose={onCloseSnackbar}
+      onClose={() => dispatch(setSnackbar(''))}
     />
   );
 };
 
-const areEqual = (prevProps, nextProps) => {
-  if (prevProps.snackbar.open != nextProps.snackbar.open || prevProps.snackbar.message != nextProps.snackbar.message) {
-    return false;
-  }
-  return prevProps.snackbar.children != nextProps.snackbar.children;
-};
-
-export default memo(SharedSnackbar, areEqual);
+export default SharedSnackbar;

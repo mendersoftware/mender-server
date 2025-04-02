@@ -32,7 +32,7 @@ const configHelpTipsMap = {
   name: { component: NameTipComponent, position: 'right' }
 };
 
-export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
+export const DeviceTags = ({ device, userCapabilities }) => {
   const { canWriteDevices } = userCapabilities;
   const [changedTags, setChangedTags] = useState({});
   const [editableTags, setEditableTags] = useState();
@@ -114,7 +114,7 @@ export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
             </div>
           </>
         ) : (
-          hasTags && <ConfigurationObject config={tags} setSnackbar={setSnackbar} />
+          hasTags && <ConfigurationObject config={tags} copyable />
         )}
       </div>
     </DeviceDataCollapse>

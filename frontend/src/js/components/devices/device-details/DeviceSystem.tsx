@@ -21,7 +21,6 @@ import { makeStyles } from 'tss-react/mui';
 import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
-import storeActions from '@northern.tech/store/actions';
 import { BENEFITS, DEVICE_LIST_DEFAULTS, SORTING_OPTIONS } from '@northern.tech/store/constants';
 import { getCurrentSession, getDevicesById, getIdAttribute, getIsPreview, getOrganization } from '@northern.tech/store/selectors';
 import { getSystemDevices } from '@northern.tech/store/thunks';
@@ -32,8 +31,6 @@ import { routes } from '../BaseDevices';
 import Devicelist from '../DeviceList';
 import ConnectToGatewayDialog from '../dialogs/ConnectToGatewayDialog';
 import DeviceDataCollapse from './DeviceDataCollapse';
-
-const { setSnackbar } = storeActions;
 
 const useStyles = makeStyles()(theme => ({ container: { maxWidth: 600, marginTop: theme.spacing(), marginBottom: theme.spacing() } }));
 
@@ -87,7 +84,7 @@ export const DeviceSystem = ({ columnSelection, device, onConnectToGatewayClick,
           </div>
         }
       >
-        <TwoColumnData config={{ 'Server IP': deviceIp }} compact setSnackbar={message => dispatch(setSnackbar(message))} />
+        <TwoColumnData config={{ 'Server IP': deviceIp }} compact copyable />
       </DeviceDataCollapse>
       <DeviceDataCollapse className={classes.container} title="System for this gateway">
         {systemDeviceTotal ? (

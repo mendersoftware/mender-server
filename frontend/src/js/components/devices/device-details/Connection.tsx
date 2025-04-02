@@ -146,7 +146,6 @@ export const DeviceConnection = ({ className = '', device }) => {
   const [connectionStatus, setConnectionStatus] = useState(connect_status);
 
   const dispatch = useDispatch();
-  const dispatchedSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
 
   useEffect(() => {
     if (!socketClosed) {
@@ -233,7 +232,6 @@ export const DeviceConnection = ({ className = '', device }) => {
                 onDownload={onDownloadClick}
                 setDownloadPath={setDownloadPath}
                 setFile={setFile}
-                setSnackbar={dispatchedSetSnackbar}
                 setSocketClosed={setSocketClosed}
                 setSocketInitialized={setSocketInitialized}
                 setUploadPath={setUploadPath}
