@@ -56,8 +56,7 @@ func Middleware(opts ...*MiddlewareOptions) gin.HandlerFunc {
 
 		requestID := c.GetHeader(RequestIdHeader)
 		if requestID == "" && *opt.GenerateRequestID {
-			uid, _ := uuid.NewRandom()
-			requestID = uid.String()
+			requestID = New().String()
 		}
 		ctx = WithContext(ctx, requestID)
 
