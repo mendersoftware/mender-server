@@ -106,7 +106,7 @@ test.describe('SAML Login via sso/id/login', () => {
     const downloadTargetPath = await download.path();
     expect(downloadTargetPath).toBeTruthy();
     const dialog = await page.locator('text=SAML metadata >> .. >> ..');
-    await dialog.locator('data-testid=CloseIcon').click();
+    await dialog.getByLabel('close').click();
     const token = await getTokenFromStorage(baseUrl);
     const requestInfo = { method: 'GET', headers: { ...defaultHeaders, Authorization: `Bearer ${token}` }, httpsAgent };
     const { data } = await axios({ ...requestInfo, url: `${baseUrl}api/management/v1/useradm/sso/idp/metadata` });

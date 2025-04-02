@@ -107,7 +107,7 @@ describe('MyOrganization Component', () => {
     expect(screen.getByText(/import from a file/i)).toBeVisible();
     await act(async () => await user.upload(screen.getByText(/import from a file/i).previousSibling, file));
     await waitFor(() => expect(document.querySelector(`.${drawerClasses.root}`)).toBeVisible());
-    await user.click(screen.getByTestId('CloseIcon'));
+    await user.click(screen.getByRole('button', { name: 'close' }));
     await waitFor(() => rerender(ui));
     await waitFor(() => expect(document.querySelector(`.${drawerClasses.root}`)).not.toBeInTheDocument());
     await waitFor(() => expect(screen.getByRole('checkbox')).toBeChecked());
