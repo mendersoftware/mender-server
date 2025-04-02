@@ -89,15 +89,14 @@ test.describe('Login', () => {
 
     // confirm we have logged in successfully
     await isLoggedIn(page);
-    await expect(page.getByRole('button', { name: /next/i })).not.toBeVisible();
+    await expect(page.getByText('Welcome back')).not.toBeVisible();
     await page.getByText(/Releases/i).click();
     await context.storageState({ path: storagePath });
     let differentContext = await browser.newContext({ storageState: storagePath });
     differentContext = await prepareCookies(differentContext, domain, '');
     const differentPage = await differentContext.newPage();
     await differentPage.goto(`${baseUrl}ui/`);
-    // page.reload();
-    await expect(page.getByRole('button', { name: /next/i })).not.toBeVisible();
+    await expect(page.getByText('Welcome back')).not.toBeVisible();
     await expect(differentPage.getByText('Getting started')).not.toBeVisible();
   });
 });
