@@ -750,6 +750,7 @@ exports[`DeviceGroups Component renders correctly 1`] = `
                     1-0 of 0
                   </div>
                   <button
+                    aria-label="prev"
                     class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
                     disabled=""
                     tabindex="-1"
@@ -769,6 +770,7 @@ exports[`DeviceGroups Component renders correctly 1`] = `
                   </button>
                   <div>
                     <button
+                      aria-label="next"
                       class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
                       disabled=""
                       tabindex="-1"

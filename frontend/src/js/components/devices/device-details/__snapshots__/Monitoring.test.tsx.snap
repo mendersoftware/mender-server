@@ -183,6 +183,7 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
             21-40 of 9001
           </div>
           <button
+            aria-label="prev"
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
             tabindex="0"
             type="button"
@@ -201,6 +202,7 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
           </button>
           <div>
             <button
+              aria-label="next"
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
               tabindex="0"
               type="button"

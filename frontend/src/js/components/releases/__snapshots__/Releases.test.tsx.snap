@@ -3614,6 +3614,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-239:focus::-ms-input
                   1-20 of 5000
                 </div>
                 <button
+                  aria-label="prev"
                   class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge emotion-243"
                   disabled=""
                   tabindex="-1"
@@ -3633,6 +3634,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-239:focus::-ms-input
                 </button>
                 <div>
                   <button
+                    aria-label="next"
                     class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-243"
                     tabindex="0"
                     type="button"

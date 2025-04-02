@@ -652,6 +652,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     1-1 of 1
                   </div>
                   <button
+                    aria-label="prev"
                     class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
                     disabled=""
                     tabindex="-1"
@@ -671,6 +672,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                   </button>
                   <div>
                     <button
+                      aria-label="next"
                       class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
                       disabled=""
                       tabindex="-1"
