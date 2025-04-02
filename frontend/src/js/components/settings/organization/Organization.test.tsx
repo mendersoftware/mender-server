@@ -102,6 +102,10 @@ describe('MyOrganization Component', () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const ui = <MyOrganization />;
     const { rerender } = render(ui, { preloadedState: { ...preloadedState, users: { ...preloadedState.users, currentSession: getSessionInfo() } } });
+    await act(async () => {
+      vi.runAllTicks();
+      vi.runOnlyPendingTimers();
+    });
     await waitFor(() => expect(screen.getByText(/text editor/i)).toBeVisible());
     expect(screen.getByText(/text editor/i)).toBeVisible();
     await user.click(screen.getByText(/text editor/i));

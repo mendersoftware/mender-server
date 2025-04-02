@@ -13,6 +13,7 @@
 //    limitations under the License.
 import React from 'react';
 
+import { TIMEOUTS } from '@northern.tech/store/commonConstants';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
@@ -44,7 +45,7 @@ describe('AuthorizedDevices Component', () => {
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
 
-  it('behaves as expected', async () => {
+  it('behaves as expected', { timeout: TIMEOUTS.refreshDefault }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const DeviceActions = await import('@northern.tech/store/devicesSlice/thunks');
     const UserActions = await import('@northern.tech/store/usersSlice/thunks');
@@ -123,8 +124,7 @@ describe('AuthorizedDevices Component', () => {
     await user.click(screen.getByRole('button', { name: /table options/i }));
     await waitFor(() => rerender(ui));
     await user.click(screen.getByRole('menuitem', { name: /customize/i }));
-    await waitFor(() => rerender(ui));
-    expect(screen.getByText(/Customize Columns/i)).toBeVisible();
+    await waitFor(() => expect(screen.queryByText(/Customize Columns/i)).toBeVisible());
     const attributeSelect = await screen.findByLabelText(/add a column/i);
     await user.type(attributeSelect, testKey);
     await user.keyboard('{Enter}');

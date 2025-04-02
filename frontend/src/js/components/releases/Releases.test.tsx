@@ -27,7 +27,10 @@ import Releases from './Releases';
 describe('Releases Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(<Releases />);
-    await act(async () => vi.advanceTimersByTime(1000));
+    await act(async () => {
+      vi.advanceTimersByTime(61 * TIMEOUTS.oneSecond);
+      vi.runAllTicks();
+    });
     const view = prettyDOM(baseElement.firstChild, 100000, { highlight: false })
       .replace(/(:?aria-labelledby|id)=":.*:"/g, '')
       .replace(/\\/g, '');

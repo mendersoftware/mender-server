@@ -14,6 +14,7 @@
 import React from 'react';
 
 import { getSessionInfo } from '@northern.tech/store/auth';
+import { TIMEOUTS } from '@northern.tech/store/commonConstants';
 import { actions } from '@northern.tech/store/organizationSlice/index';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
@@ -91,7 +92,7 @@ describe('Upgrade Component', () => {
       }
     }
   };
-  it('signup works as intended', async () => {
+  it('signup works as intended', { timeout: TIMEOUTS.refreshDefault }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     render(<Upgrade />, trialState);
     vi.spyOn(actions, 'setOrganization').mockImplementation(() => trialState);

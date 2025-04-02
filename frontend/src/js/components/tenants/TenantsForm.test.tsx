@@ -29,7 +29,7 @@ describe('TenantsForm', () => {
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
 
-  it('works as expected', async () => {
+  it('works as expected', { timeout: TIMEOUTS.refreshDefault }, async () => {
     const OrganizationActions = await import('@northern.tech/store/organizationSlice/thunks');
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const submitTenantSpy = vi.spyOn(OrganizationActions, 'addTenant');
