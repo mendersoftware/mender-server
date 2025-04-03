@@ -37,8 +37,7 @@ describe('DeviceList Component', () => {
     );
     // special snapshot handling here to work around unstable ids in mui code...
     const view = prettyDOM(baseElement.firstChild, 100000, { highlight: false })
-      .replace(/id="mui-[0-9]*"/g, '')
-      .replace(/aria-labelledby="(mui-[0-9]* *)*"/g, '')
+      .replace(/(:?aria-labelledby|id)=":.*:"/g, '')
       .replace(/\\/g, '');
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

@@ -16,7 +16,7 @@ import React from 'react';
 import GeneralApi from '@northern.tech/store/api/general-api';
 import { TIMEOUTS } from '@northern.tech/store/commonConstants';
 import { apiUrl } from '@northern.tech/store/constants';
-import { act, screen, waitFor } from '@testing-library/react';
+import { act, prettyDOM, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
@@ -28,7 +28,9 @@ describe('Releases Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(<Releases />);
     await act(async () => vi.advanceTimersByTime(1000));
-    const view = baseElement.firstChild;
+    const view = prettyDOM(baseElement.firstChild, 100000, { highlight: false })
+      .replace(/(:?aria-labelledby|id)=":.*:"/g, '')
+      .replace(/\\/g, '');
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
     await act(async () => {
