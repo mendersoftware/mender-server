@@ -83,7 +83,7 @@ export const ChipSelect = ({ className = '', name, disabled = false, helperText,
               fullWidth
               slotProps={{
                 htmlInput: { ...params.inputProps, value },
-                input: { ...params.InputProps, disableUnderline: disabled }
+                input: params.InputProps
               }}
               key={`${name}-input`}
               label={label}
