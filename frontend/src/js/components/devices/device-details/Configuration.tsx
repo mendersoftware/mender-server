@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Block as BlockIcon, CheckCircle as CheckCircleIcon, Error as ErrorIcon, Refresh as RefreshIcon, SaveAlt as SaveAltIcon } from '@mui/icons-material';
@@ -31,6 +31,7 @@ import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpToo
 import storeActions from '@northern.tech/store/actions';
 import { BENEFITS, DEPLOYMENT_ROUTES, DEPLOYMENT_STATES, DEVICE_STATES, TIMEOUTS } from '@northern.tech/store/constants';
 import { getDeviceConfigDeployment, getTenantCapabilities, getUserCapabilities } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import {
   abortDeployment,
   applyDeviceConfig,
@@ -160,7 +161,7 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
   const [showLog, setShowLog] = useState(false);
   const [updateFailed, setUpdateFailed] = useState();
   const [updateLog, setUpdateLog] = useState();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const deploymentTimer = useRef();
 
   useEffect(() => {
@@ -258,14 +259,14 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
     }
     let requests = [];
     if (deployment_id && deployment.status !== DEPLOYMENT_STATES.finished) {
-      requests.push(dispatch(abortDeployment(deployment_id)));
+      requests.push(dispatch(abortDeployment(deployment_id)).unwrap());
     }
     if (deepCompare(reported, changedConfig)) {
       requests.push(Promise.resolve());
     } else {
-      requests.push(dispatch(setDeviceConfig({ deviceId: device.id, config: reported })));
+      requests.push(dispatch(setDeviceConfig({ deviceId: device.id, config: reported })).unwrap());
       if (isSetAsDefault && canManageUsers) {
-        requests.push(dispatch(saveGlobalSettings({ defaultDeviceConfig: { current: defaultConfig.previous } })));
+        requests.push(dispatch(saveGlobalSettings({ defaultDeviceConfig: { current: defaultConfig.previous } })).unwrap());
       }
     }
     return Promise.all(requests).then(() => {
@@ -280,8 +281,11 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
     setIsUpdatingConfig(true);
     setUpdateFailed(false);
     return dispatch(setDeviceConfig({ deviceId: device.id, config: changedConfig }))
+      .unwrap()
       .then(() =>
-        dispatch(applyDeviceConfig({ deviceId: device.id, configDeploymentConfiguration: { retries: 0 }, isDefault: isSetAsDefault, config: changedConfig }))
+        dispatch(
+          applyDeviceConfig({ deviceId: device.id, configDeploymentConfiguration: { retries: 0 }, isDefault: isSetAsDefault, config: changedConfig })
+        ).unwrap()
       )
       .catch(() => {
         setIsEditingConfig(true);

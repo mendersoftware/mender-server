@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 
 import { AddCircle as AddIcon } from '@mui/icons-material';
@@ -38,6 +38,7 @@ import {
   getTenantCapabilities,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import {
   addDynamicGroup,
   addStaticGroup,
@@ -97,7 +98,7 @@ export const DeviceGroups = () => {
   const showDeviceConnectionDialog = useSelector(state => state.users.showConnectDeviceDialog);
   const onboardingState = useSelector(getOnboardingState);
   const isEnterprise = useSelector(getIsEnterprise);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isInitialized = useRef(false);
   const location = useLocation();
 
@@ -156,14 +157,16 @@ export const DeviceGroups = () => {
     } else if (id.length && hasFullFiltering) {
       dispatch(setDeviceFilters([...filters, { ...emptyFilter, key: 'id', operator: DEVICE_FILTERING_OPTIONS.$in.key, value: id }]));
     }
-    dispatch(setDeviceListState(listState)).then(() => {
-      if (isInitialized.current) {
-        return;
-      }
-      isInitialized.current = true;
-      dispatch(setDeviceListState({ shouldSelectDevices: true, forceRefresh: true }));
-      dispatch(setOfflineThreshold());
-    });
+    dispatch(setDeviceListState(listState))
+      .unwrap()
+      .then(() => {
+        if (isInitialized.current) {
+          return;
+        }
+        isInitialized.current = true;
+        dispatch(setDeviceListState({ shouldSelectDevices: true, forceRefresh: true }));
+        dispatch(setOfflineThreshold());
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, JSON.stringify(tenantCapabilities), JSON.stringify(locationParams), statusParam]);
 
@@ -172,7 +175,7 @@ export const DeviceGroups = () => {
    */
   const removeCurrentGroup = () => {
     const request = groupFilters.length ? dispatch(removeDynamicGroup(selectedGroup)) : dispatch(removeStaticGroup(selectedGroup));
-    return request.then(toggleGroupRemoval).catch(console.log);
+    return request.unwrap().then(toggleGroupRemoval).catch(console.log);
   };
 
   // Edit groups from device selection
@@ -184,7 +187,7 @@ export const DeviceGroups = () => {
 
   const createGroupFromDialog = (devices, group) => {
     let request = fromFilters ? dispatch(addDynamicGroup({ groupName: group, filterPredicates: filters })) : dispatch(addStaticGroup({ group, devices }));
-    return request.then(() => {
+    return request.unwrap().then(() => {
       // reached end of list
       setCreateGroupExplanation(false);
       setModifyGroupDialog(false);
@@ -194,7 +197,7 @@ export const DeviceGroups = () => {
 
   const onGroupClick = () => {
     if (selectedGroup && groupFilters.length) {
-      return dispatch(updateDynamicGroup({ groupName: selectedGroup, filterPredicates: filters }));
+      return dispatch(updateDynamicGroup({ groupName: selectedGroup, filterPredicates: filters })).unwrap();
     }
     setModifyGroupDialog(true);
     setFromFilters(true);
@@ -208,7 +211,7 @@ export const DeviceGroups = () => {
     } else {
       request = dispatch(removeDevicesFromGroup({ group: selectedGroup, deviceIds: devices }));
     }
-    return request.catch(console.log);
+    return request.unwrap().catch(console.log);
   };
 
   const openSettingsDialog = e => {

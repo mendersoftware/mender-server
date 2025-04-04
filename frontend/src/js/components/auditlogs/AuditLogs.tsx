@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { makeStyles } from 'tss-react/mui';
 
@@ -30,6 +30,7 @@ import {
   getTenantCapabilities,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getAuditLogs, getAuditLogsCsvLink, getUserList, setAuditlogsState } from '@northern.tech/store/thunks';
 import { createDownload, getISOStringBoundaries } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
@@ -71,7 +72,7 @@ export const AuditLogs = () => {
   const isInitialized = useRef();
   const [locationParams, setLocationParams] = useLocationParams('auditlogs', { today, tonight, defaults: locationDefaults });
   const { classes } = useStyles();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const events = useSelector(getAuditLog);
   const eventItem = useSelector(getAuditLogEntry);
   const groups = useSelector(getGroupNames);
@@ -158,10 +159,12 @@ export const AuditLogs = () => {
         setDirtyField(field);
       }
       // the timeout here is slightly longer than the debounce in the filter component, otherwise the population of the filters with the url state would trigger a reset to page 1
-      dispatch(setAuditlogsState(state)).then(() => {
-        clearTimeout(timers.current.init);
-        timers.current.init = setTimeout(() => (isInitialized.current = true), TIMEOUTS.oneSecond + TIMEOUTS.debounceDefault);
-      });
+      dispatch(setAuditlogsState(state))
+        .unwrap()
+        .then(() => {
+          clearTimeout(timers.current.init);
+          timers.current.init = setTimeout(() => (isInitialized.current = true), TIMEOUTS.oneSecond + TIMEOUTS.debounceDefault);
+        });
       return;
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -207,10 +210,10 @@ export const AuditLogs = () => {
     dispatch(setAuditlogsState({ page: 1, sort: { direction: currentSorting } }));
   };
 
-  const onChangePagination = (page, currentPerPage = perPage) => dispatch(setAuditlogsState({ page, perPage: currentPerPage }));
+  const onChangePagination = (page, currentPerPage = perPage) => dispatch(setAuditlogsState({ page, perPage: currentPerPage })).unwrap();
 
   const onIssueSelection = selectedIssue =>
-    dispatch(setAuditlogsState({ selectedId: selectedIssue ? btoa(`${selectedIssue.action}|${selectedIssue.time}`) : undefined }));
+    dispatch(setAuditlogsState({ selectedId: selectedIssue ? btoa(`${selectedIssue.action}|${selectedIssue.time}`) : undefined })).unwrap();
 
   const onFiltersChange = useCallback(
     ({ endDate, detail, startDate, user, type }) => {

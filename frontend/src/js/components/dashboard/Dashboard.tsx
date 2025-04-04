@@ -18,7 +18,6 @@ import { useNavigate } from 'react-router-dom';
 import { makeStyles } from 'tss-react/mui';
 
 import Loader from '@northern.tech/common-ui/Loader';
-import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';
 import { getCurrentUser } from '@northern.tech/store/selectors';
 
 import Deployments from './Deployments';

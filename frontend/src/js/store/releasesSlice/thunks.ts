@@ -118,7 +118,7 @@ export const getArtifactUrl = createAsyncThunk(`${sliceName}/getArtifactUrl`, (i
   GeneralApi.get(`${deploymentsApiUrl}/artifacts/${id}/download`).then(response => {
     let { release, index } = findArtifactIndexInRelease(getReleasesById(getState()), id);
     if (!release || index === -1) {
-      return dispatch(getReleases());
+      return dispatch(getReleases()).unwrap();
     }
     const releaseArtifacts = [...release.artifacts];
     releaseArtifacts[index] = {
@@ -160,8 +160,8 @@ export const createArtifact = createAsyncThunk(`${sliceName}/createArtifact`, ({
   ])
     .then(() => {
       setTimeout(() => {
-        dispatch(getReleases());
-        dispatch(selectRelease(file.name));
+        dispatch(getReleases()).unwrap();
+        dispatch(selectRelease(file.name)).unwrap();
       }, TIMEOUTS.oneSecond);
       return Promise.resolve(dispatch(setSnackbar({ message: 'Upload successful', autoHideDuration: TIMEOUTS.fiveSeconds })));
     })
@@ -187,9 +187,9 @@ export const uploadArtifact = createAsyncThunk(`${sliceName}/uploadArtifact`, ({
     GeneralApi.upload(`${deploymentsApiUrl}/artifacts`, formData, e => dispatch(uploadProgress({ id: uploadId, progress: progress(e) })), cancelSource.signal)
   ])
     .then(() => {
-      const tasks = [dispatch(setSnackbar({ message: 'Upload successful', autoHideDuration: TIMEOUTS.fiveSeconds })), dispatch(getReleases())];
+      const tasks = [dispatch(setSnackbar({ message: 'Upload successful', autoHideDuration: TIMEOUTS.fiveSeconds })), dispatch(getReleases()).unwrap()];
       if (meta.name) {
-        tasks.push(dispatch(selectRelease(meta.name)));
+        tasks.push(dispatch(selectRelease(meta.name)).unwrap());
       }
       return Promise.all(tasks);
     })
@@ -215,7 +215,7 @@ export const editArtifact = createAsyncThunk(`${sliceName}/editArtifact`, ({ id,
       const state = getState();
       let { release, index } = findArtifactIndexInRelease(getReleasesById(state), id);
       if (!release || index === -1) {
-        return dispatch(getReleases());
+        return dispatch(getReleases()).unwrap();
       }
       const updatedRelease = {
         ...release,
@@ -224,8 +224,8 @@ export const editArtifact = createAsyncThunk(`${sliceName}/editArtifact`, ({ id,
       return Promise.all([
         dispatch(actions.receiveRelease(updatedRelease)),
         dispatch(setSnackbar({ message: 'Artifact details were updated successfully.', autoHideDuration: TIMEOUTS.fiveSeconds, action: '' })),
-        dispatch(getRelease(release.name)),
-        dispatch(selectRelease(release.name))
+        dispatch(getRelease(release.name)).unwrap(),
+        dispatch(selectRelease(release.name)).unwrap()
       ]);
     })
 );
@@ -248,7 +248,7 @@ export const removeArtifact = createAsyncThunk(`${sliceName}/removeArtifact`, (i
               searchTotal: releasesList.searchTerm ? releasesList.searchTotal - 1 : releasesList.searchTotal,
               total: releasesList.total - 1
             })
-          )
+          ).unwrap()
         ]);
       }
       return Promise.all([
@@ -260,13 +260,15 @@ export const removeArtifact = createAsyncThunk(`${sliceName}/removeArtifact`, (i
 );
 
 export const removeRelease = createAsyncThunk(`${sliceName}/removeRelease`, (releaseId, { dispatch, getState }) =>
-  Promise.all(getReleasesById(getState())[releaseId].artifacts.map(({ id }) => dispatch(removeArtifact(id)))).then(() => dispatch(selectRelease(null)))
+  Promise.all(getReleasesById(getState())[releaseId].artifacts.map(({ id }) => dispatch(removeArtifact(id)).unwrap())).then(() =>
+    dispatch(selectRelease(null)).unwrap()
+  )
 );
 
 export const removeReleases = createAsyncThunk(`${sliceName}/removeReleases`, (releaseIds, { dispatch, getState }) => {
   const deleteRequests = releaseIds.reduce((accu, releaseId) => {
     const releaseArtifacts = getReleasesById(getState())[releaseId].artifacts;
-    accu.push(releaseArtifacts.map(({ id }) => dispatch(removeArtifact(id))));
+    accu.push(releaseArtifacts.map(({ id }) => dispatch(removeArtifact(id)).unwrap()));
     return accu;
   }, []);
   return Promise.all(deleteRequests);
@@ -276,7 +278,7 @@ export const selectRelease = createAsyncThunk(`${sliceName}/selectRelease`, (rel
   const name = release ? release.name || release : null;
   let tasks = [dispatch(actions.selectedRelease(name))];
   if (name) {
-    tasks.push(dispatch(getRelease(name)));
+    tasks.push(dispatch(getRelease(name)).unwrap());
   }
   return Promise.all(tasks);
 });
@@ -295,7 +297,11 @@ export const setReleasesListState = createAsyncThunk(`${sliceName}/setReleasesLi
   const { isLoading: selectionLoading, ...selectionRequestState } = nextState;
   if (!deepCompare(currentRequestState, selectionRequestState)) {
     nextState.isLoading = true;
-    tasks.push(dispatch(getReleases(nextState)).finally(() => dispatch(setReleasesListState({ isLoading: false }))));
+    tasks.push(
+      dispatch(getReleases(nextState))
+        .unwrap()
+        .finally(() => dispatch(setReleasesListState({ isLoading: false })))
+    );
   }
   tasks.push(dispatch(actions.setReleaseListState(nextState)));
   return Promise.all(tasks);
@@ -378,13 +384,14 @@ export const setSingleReleaseTags = createAsyncThunk(`${sliceName}/setSingleRele
 
 export const setReleaseTags = createAsyncThunk(`${sliceName}/setReleaseTags`, ({ name, tags = [] }, { dispatch }) =>
   dispatch(setSingleReleaseTags({ name, tags }))
+    .unwrap()
     .catch(err => commonErrorHandler(err, `Release tags couldn't be set.`, dispatch))
     .then(() => Promise.resolve(dispatch(setSnackbar({ message: 'Release tags were set successfully.', autoHideDuration: TIMEOUTS.fiveSeconds, action: '' }))))
 );
 
 export const setReleasesTags = createAsyncThunk(`${sliceName}/setReleasesTags`, ({ releases, tags = [] }, { dispatch }) => {
   const addRequests = releases.reduce((accu, release) => {
-    accu.push(dispatch(setSingleReleaseTags({ name: release.name, tags: [...new Set([...release.tags, ...tags])] })));
+    accu.push(dispatch(setSingleReleaseTags({ name: release.name, tags: [...new Set([...release.tags, ...tags])] })).unwrap());
     return accu;
   }, []);
   return Promise.all(addRequests)

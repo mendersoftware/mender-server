@@ -13,7 +13,7 @@
 //    limitations under the License.
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import Dropzone from 'react-dropzone';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { makeStyles } from 'tss-react/mui';
@@ -25,6 +25,7 @@ import { RelativeTime } from '@northern.tech/common-ui/Time';
 import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_ROUTES, DEVICE_LIST_DEFAULTS, SORTING_OPTIONS, canAccess as canShow } from '@northern.tech/store/constants';
 import { getFeatures, getHasReleases, getReleaseListState, getReleasesList, getSelectedReleases, getUserCapabilities } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { removeReleases, selectRelease, setReleasesListState } from '@northern.tech/store/thunks';
 
 import { DeleteReleasesConfirmationDialog, ReleaseQuickActions } from './ReleaseDetails';
@@ -113,7 +114,7 @@ export const ReleasesList = ({ className = '', onFileUploadClick }) => {
   const releases = useSelector(getReleasesList);
   const userCapabilities = useSelector(getUserCapabilities);
   const selectedReleases = useSelector(getSelectedReleases);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { classes } = useStyles();
   const [addTagsDialog, setAddTagsDialog] = useState(false);
   const [deleteDialogConfirmation, setDeleteDialogConfirmation] = useState(false);
@@ -122,7 +123,7 @@ export const ReleasesList = ({ className = '', onFileUploadClick }) => {
   const { canUploadReleases } = userCapabilities;
   const { key: attribute, direction } = sort;
 
-  const onSelect = useCallback(id => dispatch(selectRelease(id)), [dispatch]);
+  const onSelect = useCallback(id => dispatch(selectRelease(id)).unwrap(), [dispatch]);
 
   const onChangeSorting = sortKey => {
     let sort = { key: sortKey, direction: direction === SORTING_OPTIONS.asc ? SORTING_OPTIONS.desc : SORTING_OPTIONS.asc };
@@ -132,7 +133,7 @@ export const ReleasesList = ({ className = '', onFileUploadClick }) => {
     dispatch(setReleasesListState({ page: 1, sort }));
   };
 
-  const onChangePagination = (page, currentPerPage = perPage) => dispatch(setReleasesListState({ page, perPage: currentPerPage }));
+  const onChangePagination = (page, currentPerPage = perPage) => dispatch(setReleasesListState({ page, perPage: currentPerPage })).unwrap();
 
   const onDrop = (acceptedFiles, rejectedFiles) => {
     if (acceptedFiles.length) {
@@ -160,13 +161,15 @@ export const ReleasesList = ({ className = '', onFileUploadClick }) => {
     setDeleteDialogConfirmation(true);
   };
 
-  const onSelectionChange = useCallback((selection: number[] = []) => dispatch(setReleasesListState({ selection })), [dispatch]);
+  const onSelectionChange = useCallback((selection: number[] = []) => dispatch(setReleasesListState({ selection })).unwrap(), [dispatch]);
 
   const deleteReleases = useCallback(() => {
-    dispatch(removeReleases(selectedReleases.map(({ name }) => name))).then(() => {
-      setDeleteDialogConfirmation(false);
-      onSelectionChange([]);
-    });
+    dispatch(removeReleases(selectedReleases.map(({ name }) => name)))
+      .unwrap()
+      .then(() => {
+        setDeleteDialogConfirmation(false);
+        onSelectionChange([]);
+      });
   }, [dispatch, onSelectionChange, selectedReleases]);
 
   const onTagRelease = releases => {

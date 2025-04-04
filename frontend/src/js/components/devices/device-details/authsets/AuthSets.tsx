@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 // material ui
 import { Button } from '@mui/material';
@@ -22,6 +22,7 @@ import Confirm from '@northern.tech/common-ui/Confirm';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
 import { DEVICE_DISMISSAL_STATE, DEVICE_STATES, onboardingSteps } from '@northern.tech/store/constants';
 import { getAcceptedDevices, getDeviceLimit, getLimitMaxed, getUserCapabilities } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { advanceOnboarding, deleteAuthset, updateDeviceAuth } from '@northern.tech/store/thunks';
 import pluralize from 'pluralize';
 
@@ -44,7 +45,7 @@ const useStyles = makeStyles()(theme => ({
 export const Authsets = ({ decommission, device, listRef }) => {
   const [confirmDecommission, setConfirmDecomission] = useState(false);
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { total: acceptedDevices = 0 } = useSelector(getAcceptedDevices);
   const deviceLimit = useSelector(getDeviceLimit);
   const limitMaxed = useSelector(getLimitMaxed);
@@ -59,7 +60,10 @@ export const Authsets = ({ decommission, device, listRef }) => {
     const request =
       status === DEVICE_DISMISSAL_STATE ? dispatch(deleteAuthset({ deviceId, authId })) : dispatch(updateDeviceAuth({ deviceId, authId, status }));
     // on finish, change "loading" back to null
-    return request.then(() => dispatch(advanceOnboarding(onboardingSteps.DEVICES_PENDING_ACCEPTING_ONBOARDING))).finally(() => setLoading(null));
+    return request
+      .unwrap()
+      .then(() => dispatch(advanceOnboarding(onboardingSteps.DEVICES_PENDING_ACCEPTING_ONBOARDING)).unwrap())
+      .finally(() => setLoading(null));
   };
 
   return (
