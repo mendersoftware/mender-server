@@ -49,6 +49,7 @@ export type { Count } from "./Count";
 export { Credentials } from "./Credentials";
 export type { DBusSubsystem } from "./DBusSubsystem";
 export type { DeltaConfiguration } from "./DeltaConfiguration";
+export { DeltaJobsListItem } from "./DeltaJobsListItem";
 export type { Deployment } from "./Deployment";
 export type { DeploymentAggregation } from "./DeploymentAggregation";
 export type { DeploymentAggregationItem } from "./DeploymentAggregationItem";
