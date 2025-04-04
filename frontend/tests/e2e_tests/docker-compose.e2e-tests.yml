@@ -22,8 +22,9 @@ services:
     deploy:
       replicas: 0
     environment:
-      - TEST_ENVIRONMENT
+      - CI_COMMIT_REF_PROTECTED
       - NODE_TLS_REJECT_UNAUTHORIZED=0
+      - TEST_ENVIRONMENT
     networks:
       - default
     depends_on:
