@@ -94,7 +94,7 @@ test.describe('Files', () => {
   });
 
   test('allows release notes manipulation', async ({ loggedInPage: page }) => {
-    await page.getByText(/demo-artifact/i).click();
+    await page.getByText(/terminalimage/i).click();
     await expect(page.getByRole('heading', { name: /Release notes/i })).toBeVisible();
     const hasNotes = await page.getByText('foo notes');
     if (await hasNotes.isVisible()) {
@@ -109,7 +109,7 @@ test.describe('Files', () => {
       .click();
     const input = await page.getByPlaceholder(/release notes/i);
     await input.fill('foo notes');
-    await page.getByTestId('CheckIcon').click();
+    await page.getByRole('button', { name: 'confirm' }).click();
     await expect(input).not.toBeVisible();
     await expect(hasNotes).toBeVisible();
   });
@@ -130,7 +130,7 @@ test.describe('Files', () => {
     await editButton.click();
     const input = await page.getByPlaceholder(/enter release tags/i);
     await input.pressSequentially('some,tags', { delay: 300 });
-    await page.getByTestId('CheckIcon').click();
+    await page.getByRole('button', { name: 'confirm' }).click();
     await page.waitForTimeout(timeouts.oneSecond);
     await expect(input).not.toBeVisible();
     await page.goto(`${baseUrl}ui/releases`);
@@ -153,15 +153,15 @@ test.describe('Files', () => {
         if (!(await foundTag.isVisible())) {
           continue;
         }
-        await foundTag.getByTestId('CancelIcon').click();
+        await foundTag.getByLabel('tags-delete').click();
       }
-      await page.getByTestId('CheckIcon').click();
+      await page.getByRole('button', { name: 'confirm' }).click();
       await page.getByPlaceholder(/add release tags/i).waitFor({ timeout: timeouts.oneSecond });
       await expect(page.getByPlaceholder(/add release tags/i)).toBeVisible();
       await editButton.click();
     }
     await page.getByPlaceholder(/enter release tags/i).pressSequentially(releaseTag, { delay: 100 });
-    await page.getByTestId('CheckIcon').click();
+    await page.getByRole('button', { name: 'confirm' }).click();
     await page.getByLabel(/close/i).click();
     await page.waitForTimeout(timeouts.default);
     await page.getByText('Upload').isVisible({ timeout: timeouts.default });

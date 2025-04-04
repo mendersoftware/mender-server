@@ -102,13 +102,17 @@ describe('MyOrganization Component', () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const ui = <MyOrganization />;
     const { rerender } = render(ui, { preloadedState: { ...preloadedState, users: { ...preloadedState.users, currentSession: getSessionInfo() } } });
+    await act(async () => {
+      vi.runAllTicks();
+      vi.runOnlyPendingTimers();
+    });
     await waitFor(() => expect(screen.getByText(/text editor/i)).toBeVisible());
     expect(screen.getByText(/text editor/i)).toBeVisible();
     await user.click(screen.getByText(/text editor/i));
     expect(screen.getByText(/import from a file/i)).toBeVisible();
     await act(async () => await user.upload(screen.getByText(/import from a file/i).previousSibling, file));
     await waitFor(() => expect(document.querySelector(`.${drawerClasses.root}`)).toBeVisible());
-    await user.click(screen.getByTestId('CloseIcon'));
+    await user.click(screen.getByRole('button', { name: 'close' }));
     await waitFor(() => rerender(ui));
     await waitFor(() => expect(document.querySelector(`.${drawerClasses.root}`)).not.toBeInTheDocument());
     await waitFor(() => expect(screen.getByRole('checkbox')).toBeChecked());

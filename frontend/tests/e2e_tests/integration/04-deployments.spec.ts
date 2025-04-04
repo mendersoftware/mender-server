@@ -135,9 +135,10 @@ test.describe('Deployments', () => {
     await Promise.all(pendingDeploymentRequests);
     await page.goto(`${baseUrl}ui/deployments`);
     await expect(page.getByText(/rows/i)).toBeVisible();
+    await page.getByText(/rows/i).scrollIntoViewIfNeeded();
     // 10 clicks as anything leading outside of the 50 + something releases present (considering the 10 item page size)
     for (let clickAttempt = 0; clickAttempt < 10; clickAttempt++) {
-      const paginationButton = page.getByTestId('KeyboardArrowRightIcon');
+      const paginationButton = page.getByRole('button', { name: 'next' });
       await paginationButton.click({ noWaitAfter: true, force: true });
     }
     await expect(page.getByText(/queued to start/i).first()).toBeVisible();

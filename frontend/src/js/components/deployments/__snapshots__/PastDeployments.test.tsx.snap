@@ -1286,7 +1286,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
           class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root emotion-2"
         >
           <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-3"
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-3"
             data-shrink="false"
             for=":r0:"
             id=":r0:-label"
@@ -1365,7 +1365,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
           class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root emotion-2"
         >
           <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-3"
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-3"
             data-shrink="false"
             for=":r3:"
             id=":r3:-label"
@@ -1444,7 +1444,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
           class="MuiFormControl-root MuiTextField-root emotion-21"
         >
           <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-3"
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-3"
             data-shrink="false"
             for=":r7:"
             id=":r7:-label"
@@ -1484,7 +1484,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
           class="MuiFormControl-root MuiTextField-root emotion-21"
         >
           <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-28"
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-28"
             data-shrink="true"
             for=":ra:"
             id=":ra:-label"
@@ -1816,6 +1816,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
                 1-1 of 1
               </div>
               <button
+                aria-label="prev"
                 class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge emotion-44"
                 disabled=""
                 tabindex="-1"
@@ -1835,6 +1836,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
               </button>
               <div>
                 <button
+                  aria-label="next"
                   class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge emotion-44"
                   disabled=""
                   tabindex="-1"

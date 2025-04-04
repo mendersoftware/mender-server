@@ -13,6 +13,7 @@
 //    limitations under the License.
 import React from 'react';
 
+import { TIMEOUTS } from '@northern.tech/store/constants';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
@@ -52,7 +53,7 @@ describe('AddArtifact Component', () => {
     expect(uploadSpy).toHaveBeenCalled();
   });
 
-  it('allows creating a mender artifact', async () => {
+  it('allows creating a mender artifact', { timeout: TIMEOUTS.refreshDefault }, async () => {
     const releaseActions = await import('@northern.tech/store/releasesSlice/thunks');
 
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });

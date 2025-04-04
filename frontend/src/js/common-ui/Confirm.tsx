@@ -91,10 +91,10 @@ export const EditButton = ({ onClick, disabled = false }) => (
 
 export const ConfirmationButtons = ({ onConfirm, onCancel }) => (
   <div className="flexbox">
-    <IconButton onClick={onConfirm} size="small">
+    <IconButton onClick={onConfirm} size="small" aria-label="confirm">
       <CheckIcon color="disabled" />
     </IconButton>
-    <IconButton onClick={onCancel} size="small">
+    <IconButton onClick={onCancel} size="small" aria-label="cancel">
       <CloseIcon color="disabled" />
     </IconButton>
   </div>

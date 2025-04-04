@@ -135,7 +135,7 @@ exports[`DeviceMonitoring Component > renders correctly 1`] = `
         />
         <p
           class="MuiTablePagination-selectLabel css-15wkzhc-MuiTablePagination-selectLabel"
-          id=":r2:"
+          
         >
           Rows
         </p>
@@ -145,9 +145,9 @@ exports[`DeviceMonitoring Component > renders correctly 1`] = `
           <div
             aria-expanded="false"
             aria-haspopup="listbox"
-            aria-labelledby=":r2: :r1:"
+            
             class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-mmygx2-MuiSelect-select-MuiInputBase-input"
-            id=":r1:"
+            
             role="combobox"
             tabindex="0"
           >
@@ -183,6 +183,7 @@ exports[`DeviceMonitoring Component > renders correctly 1`] = `
             21-40 of 9001
           </div>
           <button
+            aria-label="prev"
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
             tabindex="0"
             type="button"
@@ -201,6 +202,7 @@ exports[`DeviceMonitoring Component > renders correctly 1`] = `
           </button>
           <div>
             <button
+              aria-label="next"
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
               tabindex="0"
               type="button"

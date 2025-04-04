@@ -14,7 +14,8 @@
 import React, { useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { Autocomplete, TextField } from '@mui/material';
+import { Cancel as CancelIcon } from '@mui/icons-material';
+import { Autocomplete, Chip, TextField } from '@mui/material';
 
 import { duplicateFilter, unionizeStrings } from '@northern.tech/utils/helpers';
 
@@ -68,13 +69,21 @@ export const ChipSelect = ({ className = '', name, disabled = false, helperText,
           options={options}
           readOnly={disabled}
           ref={ref}
+          renderTags={(values, getTagProps) =>
+            values.map((option, index) => {
+              const { key, onDelete, ...tagProps } = getTagProps({ index });
+              return (
+                <Chip label={option} key={key} onDelete={onDelete} deleteIcon={<CancelIcon onClick={onDelete} aria-label={`${name}-delete`} />} {...tagProps} />
+              );
+            })
+          }
           renderInput={params => (
             <TextField
               {...params}
               fullWidth
               slotProps={{
                 htmlInput: { ...params.inputProps, value },
-                input: { ...params.InputProps, disableUnderline: disabled }
+                input: params.InputProps
               }}
               key={`${name}-input`}
               label={label}

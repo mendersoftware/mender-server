@@ -216,7 +216,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
           />
           <p
             class="MuiTablePagination-selectLabel css-15wkzhc-MuiTablePagination-selectLabel"
-            id=":r1:"
+            
           >
             Rows
           </p>
@@ -226,9 +226,9 @@ exports[`Auditlogs Component > renders correctly 1`] = `
             <div
               aria-expanded="false"
               aria-haspopup="listbox"
-              aria-labelledby=":r1: :r0:"
+              
               class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-mmygx2-MuiSelect-select-MuiInputBase-input"
-              id=":r0:"
+              
               role="combobox"
               tabindex="0"
             >
@@ -264,6 +264,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
               1-3 of 3
             </div>
             <button
+              aria-label="prev"
               class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
               disabled=""
               tabindex="-1"
@@ -283,6 +284,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
             </button>
             <div>
               <button
+                aria-label="next"
                 class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
                 disabled=""
                 tabindex="-1"

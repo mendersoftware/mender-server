@@ -15,7 +15,7 @@ import React from 'react';
 
 // material ui
 import { ArrowDropDown as ArrowDropDownIcon, ArrowDropUp as ArrowDropUpIcon } from '@mui/icons-material';
-import { Accordion, AccordionDetails, AccordionSummary, IconButton } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import ArtifactDetails from './ArtifactDetails';
@@ -39,9 +39,7 @@ export const Artifact = ({ artifact, columns, expanded, index, onRowSelection, s
           {columns.map(({ name, render: Component }) => (
             <Component key={name} artifact={artifact} />
           ))}
-          <IconButton className="expandButton" size="large">
-            {expanded ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-          </IconButton>
+          {expanded ? <ArrowDropUpIcon className="expandButton" fontSize="large" /> : <ArrowDropDownIcon className="expandButton" fontSize="large" />}
         </AccordionSummary>
         <AccordionDetails>
           <ArtifactDetails artifact={artifact} open={expanded} showRemoveArtifactDialog={showRemoveArtifactDialog} />

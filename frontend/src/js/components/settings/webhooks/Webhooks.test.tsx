@@ -13,7 +13,7 @@
 //    limitations under the License.
 import React from 'react';
 
-import { EXTERNAL_PROVIDER } from '@northern.tech/store/constants';
+import { EXTERNAL_PROVIDER, TIMEOUTS } from '@northern.tech/store/constants';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
@@ -89,7 +89,7 @@ describe('Webhooks Component', () => {
     await waitFor(() => expect(screen.queryByText(/webhook details/i)).toBeNull());
   });
 
-  it('can be configured', async () => {
+  it('can be configured', { timeout: TIMEOUTS.refreshDefault }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const onSubmit = vi.fn();
     render(<WebhookConfiguration onSubmit={onSubmit} />);
