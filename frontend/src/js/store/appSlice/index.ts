@@ -44,8 +44,16 @@ interface Upload {
   uploading: boolean;
 }
 
+export type SentryConfig = {
+  isReduxEnabled?: string; // no parsing done here as this has to be accessed outside of the store
+  location: string;
+  replaysSessionSampleRate?: number;
+  tracesSampleRate?: number;
+};
+
 type AppSliceType = {
   cancelSource: any;
+  commit: string;
   demoArtifactLink: string;
   docsVersion: string;
   features: Record<string, boolean>;
@@ -57,6 +65,7 @@ type AppSliceType = {
   offlineThreshold: string;
   recaptchaSiteKey: string;
   searchState: SearchState;
+  sentry: SentryConfig;
   snackbar: SnackbarContent;
   stripeAPIKey: string;
   trackerCode: string;
@@ -67,6 +76,7 @@ type AppSliceType = {
 
 export const initialState: AppSliceType = {
   cancelSource: undefined,
+  commit: '',
   demoArtifactLink: 'https://dgsbl4vditpls.cloudfront.net/mender-demo-artifact.mender',
   hostAddress: null,
   snackbar: {
@@ -104,6 +114,11 @@ export const initialState: AppSliceType = {
       // key: null,
       // scope: null
     }
+  },
+  sentry: {
+    location: '',
+    replaysSessionSampleRate: 0.1,
+    tracesSampleRate: 1.0
   },
   stripeAPIKey: '',
   trackerCode: '',
