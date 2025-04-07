@@ -134,10 +134,17 @@ describe('Configuration Component', () => {
     await user.type(screen.getByPlaceholderText(/value/i), 'evilValue');
     expect(fabButton).not.toBeDisabled();
     await expect(screen.queryByText(/Configuration up-to-date on the device/i)).not.toBeInTheDocument();
+
+    ui = <Configuration device={preloadedState.devices.byId.a1} />;
+    await waitFor(() => rerender(ui));
+    await waitFor(() => expect(document.querySelector('.loaderContainer')).not.toBeInTheDocument());
+    const valueInput = screen.getByDisplayValue('evilValue');
+    await user.clear(valueInput);
+    await user.type(valueInput, 'testValue');
     await user.click(screen.getByRole('checkbox', { name: /save/i }));
     await user.click(screen.getByRole('button', { name: /save/i }));
+    await waitFor(() => expect(screen.queryByText(/Updating configuration/i)).toBeInTheDocument());
     await act(async () => vi.runOnlyPendingTimers());
-    screen.logTestingPlaygroundURL();
     expect(await screen.findByText(/Configuration up-to-date on the device/i)).toBeInTheDocument();
   });
 });

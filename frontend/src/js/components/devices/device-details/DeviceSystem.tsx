@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { Button } from '@mui/material';
@@ -24,6 +24,7 @@ import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotificat
 import storeActions from '@northern.tech/store/actions';
 import { BENEFITS, DEVICE_LIST_DEFAULTS, SORTING_OPTIONS } from '@northern.tech/store/constants';
 import { getCurrentSession, getDevicesById, getIdAttribute, getIsPreview, getOrganization } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getSystemDevices } from '@northern.tech/store/thunks';
 import { getDemoDeviceAddress, toggle } from '@northern.tech/utils/helpers';
 
@@ -44,7 +45,7 @@ export const DeviceSystem = ({ columnSelection, device, onConnectToGatewayClick,
   const [perPage, setPerPage] = useState(DEVICE_LIST_DEFAULTS.perPage);
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const devicesById = useSelector(getDevicesById);
   const idAttribute = useSelector(getIdAttribute);
 

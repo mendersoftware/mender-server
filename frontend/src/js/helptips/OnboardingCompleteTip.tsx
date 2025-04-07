@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { CheckCircle as CheckCircleIcon } from '@mui/icons-material';
 import { Button } from '@mui/material';
@@ -22,6 +22,7 @@ import Loader from '@northern.tech/common-ui/Loader';
 import { MenderTooltipClickable } from '@northern.tech/common-ui/MenderTooltip';
 import { DEVICE_STATES, onboardingSteps } from '@northern.tech/store/constants';
 import { getDemoDeviceAddress } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeviceById, getDevicesByStatus, setOnboardingComplete } from '@northern.tech/store/thunks';
 
 export const CompletionButton = withStyles(Button, ({ palette }) => ({
@@ -35,15 +36,15 @@ export const CompletionButton = withStyles(Button, ({ palette }) => ({
 
 export const OnboardingCompleteTip = ({ anchor, targetUrl }) => {
   const timer = useRef();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const url = useSelector(getDemoDeviceAddress) || targetUrl;
 
   useEffect(() => {
     dispatch(getDevicesByStatus({ status: DEVICE_STATES.accepted }))
       .unwrap()
-      .then(tasks => Promise.all(tasks[tasks.length - 1].deviceAccu.ids.map(id => dispatch(getDeviceById(id)))))
+      .then(tasks => Promise.all(tasks[tasks.length - 1].deviceAccu.ids.map(id => dispatch(getDeviceById(id)).unwrap())))
       .finally(() => {
-        timer.current = setTimeout(() => dispatch(setOnboardingComplete(true)), 120000);
+        timer.current = setTimeout(() => dispatch(setOnboardingComplete(true)).unwrap(), 120000);
       });
     return () => {
       clearTimeout(timer.current);
@@ -78,7 +79,7 @@ export const OnboardingCompleteTip = ({ anchor, targetUrl }) => {
           <p>NOTE: if you have local network restrictions, you may need to check them if you have difficulty loading the page.</p>
           <div className="flexbox">
             <div style={{ flexGrow: 1 }} />
-            <Button variant="contained" color="secondary" onClick={() => dispatch(setOnboardingComplete(true))}>
+            <Button variant="contained" color="secondary" onClick={() => dispatch(setOnboardingComplete(true)).unwrap()}>
               Close
             </Button>
           </div>
