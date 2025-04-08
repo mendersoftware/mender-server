@@ -29,13 +29,25 @@ import DeviceConnectionDialog from '@northern.tech/common-ui/dialogs/DeviceConne
 import FeedbackDialog from '@northern.tech/common-ui/dialogs/Feedback';
 import StartupNotificationDialog from '@northern.tech/common-ui/dialogs/StartupNotification';
 import storeActions from '@northern.tech/store/actions';
+import { SentryConfig } from '@northern.tech/store/appSlice';
 import { getSessionInfo, maxSessionAge, updateMaxAge } from '@northern.tech/store/auth';
 import { TIMEOUTS } from '@northern.tech/store/constants';
-import { getCurrentSession, getCurrentUser, getIsDarkMode, getIsServiceProvider, getSnackbar, getTrackerCode } from '@northern.tech/store/selectors';
+import {
+  getCommit,
+  getCurrentSession,
+  getCurrentUser,
+  getIsDarkMode,
+  getIsServiceProvider,
+  getOrganization,
+  getSentryConfig,
+  getSnackbar,
+  getTrackerCode
+} from '@northern.tech/store/selectors';
 import { store } from '@northern.tech/store/store';
 import { parseEnvironmentInfo } from '@northern.tech/store/storehooks';
 import { logoutUser } from '@northern.tech/store/thunks';
 import { toggle } from '@northern.tech/utils/helpers';
+import { browserTracingIntegration, replayIntegration, setUser } from '@sentry/react';
 import Cookies from 'universal-cookie';
 
 import ErrorBoundary from '../ErrorBoundary';
@@ -97,6 +109,19 @@ const useStyles = makeStyles()(() => ({
   }
 }));
 
+const initSentry = async ({ commit, location, replaysSessionSampleRate, tracesSampleRate }: SentryConfig & { commit: string }) => {
+  const Sentry = await import(/* webpackChunkName: "@sentry/react" */ '@sentry/react');
+  Sentry.init({
+    dsn: location,
+    integrations: [browserTracingIntegration(), replayIntegration({ networkDetailAllowUrls: [window.location.origin] })],
+    release: `mender-frontend@${commit}`,
+    tracesSampleRate, // defaults to capturing 100% of the transactions
+    tracePropagationTargets: ['localhost', /^https:\/\/(\w*\.)*hosted\.mender\.io/, 'https://docker.mender.io'],
+    replaysSessionSampleRate, // defaults to 0.1 in the environment settings, to be adjusted externally
+    replaysOnErrorSampleRate: 1.0 // always change the sample rate to 100% when sampling sessions where errors occur
+  });
+};
+
 export const AppRoot = () => {
   const [showSearchResult, setShowSearchResult] = useState(false);
   const navigate = useNavigate();
@@ -110,9 +135,12 @@ export const AppRoot = () => {
   const showFeedbackDialog = useSelector(state => state.users.showFeedbackDialog);
   const snackbar = useSelector(getSnackbar);
   const trackingCode = useSelector(getTrackerCode);
+  const { location: sentryLocation, replaysSessionSampleRate, tracesSampleRate } = useSelector(getSentryConfig);
+  const commit = useSelector(getCommit);
   const isDarkMode = useSelector(getIsDarkMode);
   const { token: storedToken } = getSessionInfo();
   const { expiresAt, token = storedToken } = useSelector(getCurrentSession);
+  const { id: tenantId } = useSelector(getOrganization);
 
   const trackLocationChange = useCallback(
     pathname => {
@@ -150,6 +178,19 @@ export const AppRoot = () => {
       Tracking.initialize(trackingCode);
     }
   }, [dispatch, trackingCode]);
+
+  useEffect(() => {
+    if (!(sentryLocation && commit)) {
+      return;
+    }
+    initSentry({ commit, location: sentryLocation, replaysSessionSampleRate, tracesSampleRate });
+  }, [commit, sentryLocation, replaysSessionSampleRate, tracesSampleRate]);
+
+  useEffect(() => {
+    if (sentryLocation) {
+      setUser({ tenantId });
+    }
+  }, [sentryLocation, tenantId]);
 
   useEffect(() => {
     if (!(trackingCode && cookies.get('_ga'))) {
