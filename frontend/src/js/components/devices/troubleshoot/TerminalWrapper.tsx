@@ -21,6 +21,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import Loader from '@northern.tech/common-ui/Loader';
 import { MaybeTime } from '@northern.tech/common-ui/Time';
+import storeActions from '@northern.tech/store/actions';
 import { BEGINNING_OF_TIME, TIMEOUTS } from '@northern.tech/store/constants';
 import { getCurrentSession, getFeatures, getIsPreview, getTenantCapabilities, getUserCapabilities } from '@northern.tech/store/selectors';
 import { useSession } from '@northern.tech/store/sockethook';
@@ -32,6 +33,8 @@ import Tracking from '../../../tracking';
 import { getCode } from '../dialogs/MakeGatewayDialog';
 import ListOptions from '../widgets/ListOptions';
 import Terminal from './Terminal';
+
+const { setSnackbar } = storeActions;
 
 dayjs.extend(durationDayJs);
 
@@ -98,7 +101,7 @@ const DeviceUpdateTitle = ({ loading, title }) => {
   );
 };
 
-export const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUploadPath, setFile, setSnackbar, setSocketInitialized, socketInitialized }) => {
+export const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUploadPath, setFile, setSocketInitialized, socketInitialized }) => {
   const [terminalInput, setTerminalInput] = useState('');
   const [startTime, setStartTime] = useState();
   const [snackbarAlreadySet, setSnackbarAlreadySet] = useState(false);
@@ -128,11 +131,11 @@ export const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUp
         return;
       }
       setSnackbarAlreadySet(true);
-      setSnackbar({ message: content, autoHideDuration: TIMEOUTS.threeSeconds });
+      dispatch(setSnackbar({ message: content, autoHideDuration: TIMEOUTS.threeSeconds }));
       clearTimeout(timers.current.snack);
       timers.current.snack = setTimeout(() => setSnackbarAlreadySet(false), TIMEOUTS.threeSeconds + TIMEOUTS.debounceShort);
     },
-    [setSnackbar, snackbarAlreadySet]
+    [dispatch, snackbarAlreadySet]
   );
 
   const onHealthCheckFailed = useCallback(() => {
@@ -180,11 +183,11 @@ export const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUp
     }
     if (socketInitialized) {
       setStartTime(new Date());
-      setSnackbar({ message: 'Connection with the device established.', autoHideDuration: TIMEOUTS.fiveSeconds });
+      dispatch(setSnackbar({ message: 'Connection with the device established.', autoHideDuration: TIMEOUTS.fiveSeconds }));
     } else {
       close();
     }
-  }, [close, setSnackbar, socketInitialized]);
+  }, [close, dispatch, socketInitialized]);
 
   useEffect(() => {
     const snackTimer = timers.current.snack;

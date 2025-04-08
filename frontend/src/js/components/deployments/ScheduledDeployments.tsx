@@ -88,7 +88,7 @@ export const Scheduled = ({ abort, createClick, openReport, ...remainder }) => {
   const { scheduled: scheduledState } = useSelector(getDeploymentsSelectionState);
   const items = useSelector(state => getMappedDeploymentSelection(state, type));
   const dispatch = useDispatch();
-  const dispatchedSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
+  const dispatchedSetSnackbar = useCallback(payload => dispatch(setSnackbar(payload)), [dispatch]);
   const { classes } = useStyles();
 
   const { page, perPage } = scheduledState;

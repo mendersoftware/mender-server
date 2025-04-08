@@ -56,7 +56,7 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 
-export const SSOConfig = ({ ssoItem, config, onCancel, onSave, setSnackbar, token }) => {
+export const SSOConfig = ({ ssoItem, config, onCancel, onSave, token }) => {
   const [configDetails, setConfigDetails] = useState([]);
   const [fileContent, setFileContentState] = useState('');
   const [hasSSOConfig, setHasSSOConfig] = useState(false);
@@ -149,7 +149,6 @@ export const SSOConfig = ({ ssoItem, config, onCancel, onSave, setSnackbar, toke
               key={item.key}
               primary={item.label}
               secondary={item.value}
-              setSnackbar={setSnackbar}
               disableGutters
               dividerDisabled
             />

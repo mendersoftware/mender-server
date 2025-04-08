@@ -73,7 +73,7 @@ export const Progress = ({ abort, createClick, ...remainder }) => {
   const selectionState = useSelector(getDeploymentsSelectionState);
   const devices = useSelector(getDevicesById);
   const dispatch = useDispatch();
-  const dispatchedSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
+  const dispatchedSetSnackbar = useCallback(payload => dispatch(setSnackbar(payload)), [dispatch]);
 
   const { page: progressPage, perPage: progressPerPage } = selectionState.inprogress;
   const { page: pendingPage, perPage: pendingPerPage } = selectionState.pending;

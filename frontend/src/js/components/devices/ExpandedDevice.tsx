@@ -258,7 +258,6 @@ export const ExpandedDevice = ({ actionCallbacks, deviceId, onClose, setDetailsT
 
   const { component: SelectedTab, value: selectedTab } = availableTabs.find(tab => tab.value === tabSelection) ?? tabs[0];
 
-  const dispatchedSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
   const dispatchedSaveGlobalSettings = useCallback(settings => dispatch(saveGlobalSettings(settings)), [dispatch]);
 
   const commonProps = {
@@ -272,7 +271,6 @@ export const ExpandedDevice = ({ actionCallbacks, deviceId, onClose, setDetailsT
     onDecommissionDevice,
     saveGlobalSettings: dispatchedSaveGlobalSettings,
     setDetailsTab,
-    setSnackbar: dispatchedSetSnackbar,
     tenantCapabilities,
     userCapabilities
   };

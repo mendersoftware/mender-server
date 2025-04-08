@@ -11,8 +11,6 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { ReactNode } from 'react';
-
 import { ArrowCircleLeftOutlined as ArrowLeftIcon } from '@mui/icons-material';
 import { Divider, IconButton } from '@mui/material';
 
@@ -48,24 +46,14 @@ const editorProps = {
   }
 };
 
-interface SetSnackbarProps {
-  action: () => void;
-  autoHideDuration: number;
-  children: ReactNode;
-  message: string;
-  onClick: () => void;
-  onClose: () => void;
-}
-
 interface WebhookEventDetailsProps extends ClassesOverrides {
   columns: WebhookColumns;
   entry?: Event | undefined;
   onClickBack: () => void;
-  setSnackbar: (args: string | SetSnackbarProps) => void;
   webhook: Webhook;
 }
 
-const WebhookEventDetails = ({ classes, columns, entry = {}, onClickBack, setSnackbar, webhook }: WebhookEventDetailsProps) => {
+const WebhookEventDetails = ({ classes, columns, entry = {}, onClickBack, webhook }: WebhookEventDetailsProps) => {
   const { data = {} } = entry;
 
   const content = columns.slice(0, columns.length - 1).reduce((accu, column) => ({ ...accu, [column.title]: column.render(entry, { webhook, classes }) }), {});
@@ -80,7 +68,7 @@ const WebhookEventDetails = ({ classes, columns, entry = {}, onClickBack, setSna
       </div>
       <Divider className={classes.divider} />
       <h4>Event details</h4>
-      <TwoColumnData className={classes.twoColumnsMultiple} config={content} setSnackbar={setSnackbar} />
+      <TwoColumnData className={classes.twoColumnsMultiple} config={content} copyable />
       <h4>Payload</h4>
       {data && <Editor {...editorProps} className="editor modified" value={JSON.stringify(data, null, '\t')} />}
       <Divider className={classes.divider} />
