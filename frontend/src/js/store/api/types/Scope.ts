@@ -15,5 +15,6 @@ export namespace Scope {
    */
   export enum type {
     DEVICE_GROUPS = "DeviceGroups",
+    RELEASE_TAGS = "ReleaseTags",
   }
 }
