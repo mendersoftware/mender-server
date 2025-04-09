@@ -21,5 +21,8 @@ export namespace RolePermission {
     ANY = "any",
     HTTP = "http",
     CREATE_DEPLOYMENT = "CREATE_DEPLOYMENT",
+    MANAGE_DEVICE = "MANAGE_DEVICE",
+    REMOTE_TERMINAL = "REMOTE_TERMINAL",
+    VIEW_DEVICE = "VIEW_DEVICE",
   }
 }
