@@ -24,7 +24,7 @@ import { fileURLToPath } from 'url';
 import { v4 as uuid } from 'uuid';
 
 import type { TestEnvironment } from '../fixtures/fixtures.ts';
-import { selectors, storagePath, timeouts } from './constants.ts';
+import { emptyStorageState, selectors, storagePath, timeouts } from './constants.ts';
 import { startServer } from './webhookListener.ts';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -93,7 +93,7 @@ export const prepareNewPage = async ({
 }) => {
   let context = passedContext;
   if (!context) {
-    context = await browser.newContext();
+    context = await browser.newContext({ storageState: { ...emptyStorageState } });
   }
   let logInResult = { userId: '', token: '' };
   if (username && password) {
