@@ -28,7 +28,7 @@ import {
   startClient,
   tenantTokenRetrieval
 } from '../utils/commands.ts';
-import { selectors, timeouts } from '../utils/constants.ts';
+import { emptyStorageState, selectors, timeouts } from '../utils/constants.ts';
 
 test.describe('Settings', () => {
   test.describe('access token feature', () => {
@@ -235,17 +235,11 @@ test.describe('Settings', () => {
       await page.click(`button:has-text('Save')`);
       await expect(page.getByText('Gaustadalleen 12')).toBeVisible();
     });
-    test('allows changing the password', async ({ baseUrl, browserName, context, environment, username, password }) => {
+    test('allows changing the password', async ({ browserName, page, username, password }) => {
       test.skip(browserName === 'webkit');
-      const domain = baseUrlToDomain(baseUrl);
-      context = await prepareCookies(context, domain, '');
-      const page = await context.newPage();
-      await page.goto(`${baseUrl}ui/`);
-      await processLoginForm({ username, password, page, environment });
       await page.getByRole('button', { name: username }).click();
       await page.getByText(/my profile/i).click();
       await page.getByRole('button', { name: /change password/i }).click();
-
       expect(await page.$eval(selectors.password, (el: HTMLInputElement) => el.value)).toBeFalsy();
       await page.getByRole('button', { exact: true, name: 'Generate' }).click();
       await page.click(selectors.passwordCurrent, { clickCount: 3 });
@@ -350,7 +344,7 @@ test.describe('Settings', () => {
       }
       // here we can't use prepareNewPage as it sets the initial JWT to be used on every page init
       const domain = baseUrlToDomain(baseUrl);
-      let newContext = await browser.newContext();
+      let newContext = await browser.newContext({ storageState: { ...emptyStorageState } });
       newContext = await prepareCookies(newContext, domain, '');
       const page = await newContext.newPage();
       await page.goto(`${baseUrl}ui/`);
