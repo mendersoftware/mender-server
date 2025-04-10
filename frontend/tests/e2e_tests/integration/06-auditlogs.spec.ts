@@ -72,12 +72,12 @@ const checkDownloadedReplayForSecret = async (path, secret) => {
 
 test.describe('Auditlogs', () => {
   let navbar;
-  test.beforeEach(async ({ loggedInPage: page }) => {
+  test.beforeEach(async ({ page }) => {
     navbar = page.locator('.leftFixed.leftNav');
   });
 
   const secret = 'super secret something text';
-  test('will track remote terminal sessions', async ({ browser, browserName, environment, loggedInPage: page }) => {
+  test('will track remote terminal sessions', async ({ browser, browserName, environment, page }) => {
     test.skip(!isEnterpriseOrStaging(environment));
     await navbar.getByRole('link', { name: /Devices/i }).click({ force: browserName === 'webkit' });
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();

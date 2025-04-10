@@ -29,10 +29,10 @@ const terminalReferenceFileMap = {
 const rootfs = 'rootfs-image.version';
 
 test.describe('Device details', () => {
-  test.beforeEach(async ({ baseUrl, loggedInPage: page }) => {
+  test.beforeEach(async ({ baseUrl, page }) => {
     await page.goto(`${baseUrl}ui/devices`);
   });
-  test('has basic inventory', async ({ demoDeviceName, loggedInPage: page }) => {
+  test('has basic inventory', async ({ demoDeviceName, page }) => {
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
     await page.getByText(/inventory/i).click();
     const expandedDevice = await page.locator(`css=.expandedDevice`);
@@ -42,7 +42,7 @@ test.describe('Device details', () => {
     await expect(expandedDevice.getByText(demoDeviceName)).toBeVisible();
   });
 
-  test('can be found', async ({ demoDeviceName, loggedInPage: page }) => {
+  test('can be found', async ({ demoDeviceName, page }) => {
     const searchField = await page.getByPlaceholder(/search devices/i);
     await searchField.fill(demoDeviceName);
     await page.waitForSelector(selectors.deviceListItem);
@@ -59,7 +59,7 @@ test.describe('Device details', () => {
     await expect(page.getByText(/device found/i)).toBeVisible();
   });
 
-  test('can be filtered', async ({ browserName, demoDeviceName, loggedInPage: page }) => {
+  test('can be filtered', async ({ browserName, demoDeviceName, page }) => {
     test.setTimeout(2 * timeouts.fifteenSeconds);
     await page.getByRole('button', { name: /filters/i }).click();
     await page.getByLabel(/attribute/i).fill(rootfs);
@@ -76,7 +76,7 @@ test.describe('Device details', () => {
     await page.waitForSelector(selectors.deviceListItem);
   });
 
-  test('can be filtered into non-existence by numerical comparison', async ({ environment, loggedInPage: page }) => {
+  test('can be filtered into non-existence by numerical comparison', async ({ environment, page }) => {
     test.skip(!isEnterpriseOrStaging(environment), 'not available in OS');
     test.setTimeout(2 * timeouts.fifteenSeconds);
     await page.getByRole('button', { name: /filters/i }).click();
@@ -91,7 +91,7 @@ test.describe('Device details', () => {
     await expect(page.getByText('No devices found')).toBeVisible();
   });
 
-  test('can be filtered into non-existence', async ({ environment, loggedInPage: page }) => {
+  test('can be filtered into non-existence', async ({ environment, page }) => {
     test.skip(!isEnterpriseOrStaging(environment), 'not available in OS');
     test.setTimeout(2 * timeouts.fifteenSeconds);
     await page.getByRole('button', { name: /filters/i }).click();
@@ -110,7 +110,7 @@ test.describe('Device details', () => {
     await expect(pagination).toBeVisible();
   });
 
-  test('can open a terminal', async ({ browserName, loggedInPage: page }) => {
+  test('can open a terminal', async ({ browserName, page }) => {
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
     await page.getByText(/troubleshooting/i).click();
     // the deviceconnect connection might not be established right away
@@ -154,7 +154,7 @@ test.describe('Device details', () => {
     }
   });
 
-  test('can trigger on device updates', async ({ loggedInPage: page }) => {
+  test('can trigger on device updates', async ({ page }) => {
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
     await page.getByText(/troubleshooting/i).click();
     // the deviceconnect connection might not be established right away
