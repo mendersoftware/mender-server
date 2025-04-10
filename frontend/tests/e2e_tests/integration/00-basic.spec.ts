@@ -14,8 +14,11 @@
 import { expect } from '@playwright/test';
 
 import test from '../fixtures/fixtures.ts';
+import { emptyStorageState } from '../utils/constants.ts';
 
-test.describe('Test setup', () => {
+test.use({ storageState: { ...emptyStorageState } });
+
+test.describe('Basic functionality checks', () => {
   test.describe('basic window checks', () => {
     test('get the global window object', async ({ baseUrl, context, page }) => {
       page = await context.newPage();
