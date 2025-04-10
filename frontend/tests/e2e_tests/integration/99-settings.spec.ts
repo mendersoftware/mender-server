@@ -28,7 +28,7 @@ import {
   startClient,
   tenantTokenRetrieval
 } from '../utils/commands.ts';
-import { selectors, timeouts } from '../utils/constants.ts';
+import { emptyStorageState, selectors, storagePath, switchTenantStoragePath, timeouts } from '../utils/constants.ts';
 
 test.describe('Settings', () => {
   test.describe('access token feature', () => {
@@ -343,7 +343,7 @@ test.describe('Settings', () => {
       }
       // here we can't use prepareNewPage as it sets the initial JWT to be used on every page init
       const domain = baseUrlToDomain(baseUrl);
-      let newContext = await browser.newContext();
+      let newContext = await browser.newContext({ storageState: switchTenantStoragePath });
       newContext = await prepareCookies(newContext, domain, '');
       const page = await newContext.newPage();
       await page.goto(`${baseUrl}ui/`);

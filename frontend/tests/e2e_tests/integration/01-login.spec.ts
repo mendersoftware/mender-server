@@ -13,7 +13,7 @@
 //    limitations under the License.
 import test, { expect } from '../fixtures/fixtures.ts';
 import { baseUrlToDomain, isLoggedIn, prepareCookies, processLoginForm } from '../utils/commands.ts';
-import { cookieConsentCookie, emptyStorageState, selectors, storagePath, timeouts } from '../utils/constants.ts';
+import { cookieConsentCookie, emptyStorageState, selectors, timeouts } from '../utils/constants.ts';
 
 test.use({ storageState: { ...emptyStorageState } });
 
@@ -91,8 +91,8 @@ test.describe('Login', () => {
     await isLoggedIn(page);
     await expect(page.getByText('Welcome back')).not.toBeVisible();
     await page.getByText(/Releases/i).click();
-    await context.storageState({ path: `restart-test-${storagePath}` });
-    let differentContext = await browser.newContext({ storageState: `restart-test-${storagePath}` });
+    await context.storageState({ path: `storage/restart-test-storage.json` });
+    let differentContext = await browser.newContext({ storageState: `storage/restart-test-storage.json` });
     differentContext = await prepareCookies(differentContext, domain, '');
     const differentPage = await differentContext.newPage();
     await differentPage.goto(`${baseUrl}ui/`);
