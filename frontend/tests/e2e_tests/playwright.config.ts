@@ -15,6 +15,8 @@ import type { LaunchOptions, PlaywrightTestConfig } from '@playwright/test';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 
+import { storagePath } from './utils/constants';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -35,6 +37,14 @@ const launchOptions: LaunchOptions = {
 
 const options: PlaywrightTestConfig = {
   forbidOnly: !!process.env.CI,
+  projects: [
+    { name: 'setup', testMatch: /.*\.setup\.ts/ },
+    {
+      name: 'test suite',
+      use: { storageState: storagePath }, // rely on stored session config
+      dependencies: ['setup']
+    }
+  ],
   reporter: process.env.CI
     ? [
         ['line'],
