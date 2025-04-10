@@ -35,6 +35,7 @@ export const selectors = {
 export const releaseTag = 'sometag';
 
 export const storagePath = 'storage.json';
+export const spStoragePath = 'sp-tenant-storage.json';
 
 const oneSecond = 1000;
 export const timeouts = {
