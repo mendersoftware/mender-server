@@ -15,13 +15,12 @@ import { Server } from 'net';
 
 import test, { expect } from '../fixtures/fixtures.ts';
 import { startWebhookServer } from '../utils/commands.ts';
-import { selectors, storagePath, timeouts } from '../utils/constants.ts';
+import { selectors, timeouts } from '../utils/constants.ts';
 
 const baseWebhookLocation = 'http://docker.mender.io:9000/webhooks';
 
 test.describe('Webhooks Functionality', () => {
   let server: Server;
-  test.use({ storageState: storagePath });
   test.beforeAll(({ environment }) => {
     test.skip(environment === 'staging');
     server = startWebhookServer();
