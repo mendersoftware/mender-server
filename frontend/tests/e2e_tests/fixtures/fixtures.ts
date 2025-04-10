@@ -31,7 +31,7 @@ type TestFixtures = {
   demoArtifactVersion: DemoArtifactVersionInfo;
   demoDeviceName: string;
   environment: TestEnvironment;
-  loggedInPage: Page;
+  page;
   loggedInTenantPage: Page;
   password: string;
   spTenantUsername: string;
@@ -63,10 +63,6 @@ const loginCommon = async (page: Page, username: string, use: (r: Page) => Promi
   await use(page);
 };
 const test = (process.env.TEST_ENVIRONMENT === 'staging' ? nonCoveredTest : coveredTest).extend<TestFixtures>({
-  loggedInPage: async ({ baseUrl, context, password, request, username }, use) => {
-    const page = await prepareNewPage({ baseUrl, context, password, request, username });
-    await loginCommon(page, username, use, context);
-  },
   loggedInTenantPage: async ({ baseUrl, context, password, request, spTenantUsername }, use) => {
     const page = await prepareNewPage({ baseUrl, context, password, request, username: spTenantUsername });
     await loginCommon(page, spTenantUsername, use, context);

@@ -31,12 +31,12 @@ const fileLocation = `fixtures/${fileName}`;
 
 test.describe('Files', () => {
   let navbar;
-  test.beforeEach(async ({ browserName, loggedInPage: page }) => {
+  test.beforeEach(async ({ browserName, page }) => {
     navbar = page.locator('.leftFixed.leftNav');
     await navbar.getByRole('link', { name: /Releases/i }).click({ force: browserName === 'webkit' });
   });
 
-  test('allows file uploads', async ({ loggedInPage: page }) => {
+  test('allows file uploads', async ({ page }) => {
     // download a fresh version of the demo artifact and upload in any case (even though)
     const response = await fetch(demoArtifactLocation);
     const buffer = await response.arrayBuffer();
@@ -49,7 +49,7 @@ test.describe('Files', () => {
     await page.getByText(/last modified/i).waitFor();
   });
 
-  test('allows file removal', async ({ loggedInPage: page }) => {
+  test('allows file removal', async ({ page }) => {
     await page.getByRole('checkbox').first().click();
     await page.click('.MuiSpeedDial-fab');
     await page.getByLabel(/delete release/i).click();
@@ -65,7 +65,7 @@ test.describe('Files', () => {
     await page.getByText(/last modified/i).waitFor();
   });
 
-  test('allows artifact generation', async ({ baseUrl, browserName, loggedInPage: page, request }) => {
+  test('allows artifact generation', async ({ baseUrl, browserName, page, request }) => {
     const hasTaggedRelease = await page.getByText(/customRelease/i).isVisible();
     if (hasTaggedRelease) {
       return;
@@ -91,7 +91,7 @@ test.describe('Files', () => {
     await expect(page.getByText(/customRelease/i)).toBeVisible();
   });
 
-  test('allows release notes manipulation', async ({ loggedInPage: page }) => {
+  test('allows release notes manipulation', async ({ page }) => {
     await page.getByText(/terminalimage/i).click();
     await expect(page.getByRole('heading', { name: /Release notes/i })).toBeVisible();
     const hasNotes = await page.getByText('foo notes');
@@ -112,7 +112,7 @@ test.describe('Files', () => {
     await expect(hasNotes).toBeVisible();
   });
 
-  test('allows release tags manipulation', async ({ baseUrl, loggedInPage: page }) => {
+  test('allows release tags manipulation', async ({ baseUrl, page }) => {
     const alreadyTagged = await page.getByText(selectors.releaseTags).isVisible();
     test.skip(alreadyTagged, 'looks like the release was tagged already');
     await page.getByText(/demo-artifact/i).click();
@@ -136,7 +136,7 @@ test.describe('Files', () => {
     await expect(page.getByText(selectors.releaseTags)).toBeVisible();
   });
 
-  test('allows release tags reset', async ({ loggedInPage: page }) => {
+  test('allows release tags reset', async ({ page }) => {
     await page.getByText(/demo-artifact/i).click();
     const theDiv = await page
       .locator('div')
@@ -167,7 +167,7 @@ test.describe('Files', () => {
     await expect(page.getByText(releaseTag, { exact: false })).toBeVisible();
   });
 
-  test('allows release tags filtering', async ({ loggedInPage: page }) => {
+  test('allows release tags filtering', async ({ page }) => {
     await expect(page.getByText(releaseTag.toLowerCase())).toBeVisible();
     await page.getByPlaceholder(/select tags/i).fill('foo,');
     const releasesNote = await page.getByText(/There are no Releases*/i);
@@ -195,7 +195,7 @@ test.describe('Files', () => {
   //       })
   // })
 
-  test('allows artifact downloads', async ({ demoArtifactVersion, loggedInPage: page, request }) => {
+  test('allows artifact downloads', async ({ demoArtifactVersion, page, request }) => {
     await page.getByText(/mender-demo-artifact/i).click();
     await page.click('.expandButton');
     const downloadButton = await page.getByText(/download artifact/i);
@@ -230,7 +230,7 @@ test.describe('Files', () => {
     });
   });
 
-  test('allows file transfer', async ({ browserName, environment, loggedInPage: page }) => {
+  test('allows file transfer', async ({ browserName, environment, page }) => {
     // TODO adjust test to better work with webkit, for now it should be good enough to assume file transfers work there too if the remote terminal works
     test.skip(!isEnterpriseOrStaging(environment) || ['webkit'].includes(browserName));
     await navbar.getByRole('link', { name: /Devices/i }).click();
