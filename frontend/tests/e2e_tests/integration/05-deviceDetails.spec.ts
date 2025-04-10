@@ -16,7 +16,7 @@ import { fileURLToPath } from 'url';
 
 import test, { expect } from '../fixtures/fixtures.ts';
 import { compareImages, isEnterpriseOrStaging } from '../utils/commands.ts';
-import { selectors, storagePath, timeouts } from '../utils/constants.ts';
+import { selectors, timeouts } from '../utils/constants.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -29,7 +29,6 @@ const terminalReferenceFileMap = {
 const rootfs = 'rootfs-image.version';
 
 test.describe('Device details', () => {
-  test.use({ storageState: storagePath });
   test.beforeEach(async ({ baseUrl, loggedInPage: page }) => {
     await page.goto(`${baseUrl}ui/devices`);
   });

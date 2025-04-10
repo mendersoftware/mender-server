@@ -15,7 +15,7 @@ import dns from 'node:dns';
 
 import test, { expect } from '../fixtures/fixtures.ts';
 import { getTokenFromStorage, isEnterpriseOrStaging, isLoggedIn, startIdpServer } from '../utils/commands.ts';
-import { storagePath, timeouts } from '../utils/constants.ts';
+import { timeouts } from '../utils/constants.ts';
 
 dns.setDefaultResultOrder('ipv4first');
 
@@ -32,7 +32,6 @@ let acsUrl = '';
 let metadataLocation = '';
 
 test.describe('SAML Login via sso/id/login', () => {
-  test.use({ storageState: storagePath });
   test.afterAll(async ({ environment, baseUrl, browserName, request }, testInfo) => {
     if (testInfo.status === 'skipped' || !isEnterpriseOrStaging(environment)) {
       return;
