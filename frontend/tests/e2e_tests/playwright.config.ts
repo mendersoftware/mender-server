@@ -11,7 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import type { LaunchOptions, PlaywrightTestConfig } from '@playwright/test';
+import type { LaunchOptions, PlaywrightTestConfig, ViewportSize } from '@playwright/test';
+import { devices } from '@playwright/test';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -20,10 +21,12 @@ import { storagePath } from './utils/constants';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const viewport: ViewportSize = { width: 1600, height: 900 };
+
 const contextArgs = {
   acceptDownloads: true,
   ignoreHTTPSErrors: true,
-  viewport: { width: 1600, height: 900 }
+  viewport
 };
 
 const launchOptions: LaunchOptions = {
@@ -38,12 +41,16 @@ const launchOptions: LaunchOptions = {
 const options: PlaywrightTestConfig = {
   forbidOnly: !!process.env.CI,
   projects: [
-    { name: 'setup', testMatch: /.*\.setup\.ts/, use: { permissions: ['clipboard-read'] } },
+    { name: 'setup-chromium', testMatch: /.*\.setup\.ts/, use: { ...devices['Desktop Chrome'], viewport, permissions: ['clipboard-read'] } },
+    { name: 'setup-firefox', testMatch: /.*\.setup\.ts/, use: { ...devices['Desktop Firefox'], viewport } },
+    { name: 'setup-webkit', testMatch: /.*\.setup\.ts/, use: { ...devices['Desktop Safari'], viewport } },
     {
-      name: 'test suite',
-      use: { storageState: storagePath, permissions: ['clipboard-read'] }, // rely on stored session config
-      dependencies: ['setup']
-    }
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'], storageState: storagePath, permissions: ['clipboard-read'], viewport },
+      dependencies: ['setup-chromium']
+    },
+    { name: 'firefox', use: { ...devices['Desktop Firefox'], storageState: storagePath, viewport }, dependencies: ['setup-firefox'] },
+    { name: 'webkit', use: { ...devices['Desktop Safari'], storageState: storagePath, viewport }, dependencies: ['setup-webkit'] }
   ],
   reporter: process.env.CI
     ? [
