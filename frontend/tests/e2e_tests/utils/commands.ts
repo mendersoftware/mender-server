@@ -95,9 +95,6 @@ export const prepareNewPage = async ({
   if (!context) {
     context = await browser.newContext();
   }
-  if (context.browser()?.browserType().name() === 'chromium') {
-    await context.grantPermissions(['clipboard-read'], { origin: baseUrl });
-  }
   let logInResult = { userId: '', token: '' };
   if (username && password) {
     logInResult = await login(username, password, baseUrl, request);
