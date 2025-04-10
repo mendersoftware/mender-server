@@ -16,7 +16,7 @@ import { selectors, timeouts } from '../utils/constants.ts';
 
 test.describe('Layout assertions', () => {
   let navbar;
-  test.beforeEach(async ({ loggedInPage: page }) => {
+  test.beforeEach(async ({ page }) => {
     navbar = page.locator('.leftFixed.leftNav');
   });
   test.describe('Overall layout and structure', () => {
@@ -36,7 +36,7 @@ test.describe('Layout assertions', () => {
     });
   });
 
-  test('can authorize a device', async ({ browserName, loggedInPage: page }) => {
+  test('can authorize a device', async ({ browserName, page }) => {
     // allow twice the device interaction time + roughly a regular test execution time
     test.setTimeout(2 * timeouts.sixtySeconds + timeouts.fifteenSeconds);
     await navbar.getByRole('link', { name: /Devices/i }).click({ force: browserName === 'webkit' });
@@ -65,7 +65,7 @@ test.describe('Layout assertions', () => {
     await expect(page.getByText('Authentication status')).toBeVisible();
   });
 
-  test('can group a device', async ({ browserName, loggedInPage: page }) => {
+  test('can group a device', async ({ browserName, page }) => {
     await navbar.getByRole('link', { name: /Devices/i }).click({ force: browserName === 'webkit' });
     const groupList = await page.locator('.grouplist');
     const wasGrouped = await groupList.getByText('testgroup').isVisible();

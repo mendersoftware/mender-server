@@ -30,19 +30,19 @@ const checkTimeFilter = async (page: Page, name: string, isSetToday?: boolean) =
 };
 
 test.describe('Deployments', () => {
-  test.beforeEach(async ({ baseUrl, loggedInPage: page }) => {
+  test.beforeEach(async ({ baseUrl, page }) => {
     await page.goto(`${baseUrl}ui/devices`);
     await page.waitForTimeout(timeouts.default);
     await page.goto(`${baseUrl}ui/releases`);
     await page.waitForTimeout(timeouts.default);
   });
-  test('check time filters before deployment', async ({ baseUrl, loggedInPage: page }) => {
+  test('check time filters before deployment', async ({ baseUrl, page }) => {
     await page.goto(`${baseUrl}ui/deployments`);
     await page.getByRole('tab', { name: /finished/i }).click();
     await checkTimeFilter(page, 'From');
     await checkTimeFilter(page, 'To', true);
   });
-  test('allows shortcut deployments', async ({ loggedInPage: page }) => {
+  test('allows shortcut deployments', async ({ page }) => {
     // create an artifact to download first
     await page.getByText(/mender-demo-artifact/i).click();
     await page.click('.MuiSpeedDial-fab');
@@ -67,7 +67,7 @@ test.describe('Deployments', () => {
     expect(time.isBetween(earlier, now));
   });
 
-  test('allows shortcut device deployments', async ({ baseUrl, loggedInPage: page }) => {
+  test('allows shortcut device deployments', async ({ baseUrl, page }) => {
     await page.goto(`${baseUrl}ui/devices`);
     // create an artifact to download first
     await page.getByText(/original/i).click();
@@ -97,7 +97,7 @@ test.describe('Deployments', () => {
     expect(time.isBetween(earlier, now));
   });
 
-  test('allows group deployments', async ({ loggedInPage: page }) => {
+  test('allows group deployments', async ({ page }) => {
     await page.click(`a:has-text('Deployments')`);
     await page.click(`button:has-text('Create a deployment')`);
 
@@ -120,7 +120,7 @@ test.describe('Deployments', () => {
     await page.getByRole('tab', { name: /finished/i }).click();
     await page.waitForSelector(selectors.deploymentListItemContent, { timeout: timeouts.sixtySeconds });
   });
-  test('deployment pagination', async ({ baseUrl, loggedInPage: page, request }) => {
+  test('deployment pagination', async ({ baseUrl, page, request }) => {
     const token = await getTokenFromStorage(baseUrl);
     const pendingDeploymentRequests = Array.from({ length: 50 }, (_, index) => ({
       artifact_name: 'terminalImage',

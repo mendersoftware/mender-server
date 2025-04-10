@@ -31,8 +31,8 @@ type TestFixtures = {
   demoArtifactVersion: DemoArtifactVersionInfo;
   demoDeviceName: string;
   environment: TestEnvironment;
-  loggedInPage: Page;
   loggedInTenantPage: Page;
+  page: Page;
   password: string;
   spTenantUsername: string;
   username: string;
@@ -63,9 +63,9 @@ const loginCommon = async (page: Page, username: string, use: (r: Page) => Promi
   await use(page);
 };
 const test = (process.env.TEST_ENVIRONMENT === 'staging' ? nonCoveredTest : coveredTest).extend<TestFixtures>({
-  loggedInPage: async ({ baseUrl, context, password, request, username }, use) => {
-    const page = await prepareNewPage({ baseUrl, context, password, request, username });
-    await loginCommon(page, username, use, context);
+  page: async ({ baseUrl, page }, use) => {
+    await page.goto(baseUrl);
+    await use(page);
   },
   loggedInTenantPage: async ({ baseUrl, context, password, request, spTenantUsername }, use) => {
     const page = await prepareNewPage({ baseUrl, context, password, request, username: spTenantUsername });
@@ -73,7 +73,7 @@ const test = (process.env.TEST_ENVIRONMENT === 'staging' ? nonCoveredTest : cove
   },
   // eslint-disable-next-line no-empty-pattern
   environment: async ({}, use) => {
-    const environment = process.env.TEST_ENVIRONMENT ? process.env.TEST_ENVIRONMENT : 'localhost';
+    const environment = (process.env.TEST_ENVIRONMENT ? process.env.TEST_ENVIRONMENT : 'localhost') as TestEnvironment;
     await use(environment);
   },
   spTenantUsername: async ({ environment }, use) => {

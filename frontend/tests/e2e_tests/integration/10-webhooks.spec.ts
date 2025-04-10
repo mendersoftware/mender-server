@@ -26,7 +26,7 @@ test.describe('Webhooks Functionality', () => {
     server = startWebhookServer();
   });
   test.afterAll(() => server.close());
-  test('allows configuring basic webhooks', async ({ baseUrl, environment, loggedInPage: page }) => {
+  test('allows configuring basic webhooks', async ({ baseUrl, environment, page }) => {
     test.skip(environment === 'staging');
     await page.goto(`${baseUrl}ui/settings`);
     await page.getByText(/integrations/i).click();
@@ -41,7 +41,7 @@ test.describe('Webhooks Functionality', () => {
     await expect(page.getByText(/view details/i)).toBeVisible();
     await expect(page.getByText(/one active integration at a time/i)).toBeVisible();
   });
-  test('shows webhook details', async ({ baseUrl, environment, loggedInPage: page }) => {
+  test('shows webhook details', async ({ baseUrl, environment, page }) => {
     test.skip(environment === 'staging');
     await page.goto(`${baseUrl}ui/devices`);
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
@@ -59,14 +59,14 @@ test.describe('Webhooks Functionality', () => {
     await expect(page.getByText('pubkey')).toBeVisible();
     await page.getByText(/back to webhook/i).click();
   });
-  test('allows deleting a webhook', async ({ baseUrl, environment, loggedInPage: page }) => {
+  test('allows deleting a webhook', async ({ baseUrl, environment, page }) => {
     test.skip(environment === 'staging');
     await page.goto(`${baseUrl}ui/settings/integrations`);
     await page.getByText(/view details/i).click();
     await page.getByText(/delete webhook/i).click();
     await expect(page.getByLabel(/add an integration/i)).toBeVisible();
   });
-  test('allows configuring inventory webhooks', async ({ baseUrl, environment, loggedInPage: page }) => {
+  test('allows configuring inventory webhooks', async ({ baseUrl, environment, page }) => {
     test.skip(environment !== 'enterprise');
     await page.goto(`${baseUrl}ui/settings/integrations`);
     await page.getByLabel(/add an integration/i).click();
@@ -80,7 +80,7 @@ test.describe('Webhooks Functionality', () => {
     await expect(page.getByText(/view details/i)).toBeVisible();
     await expect(page.getByText(/one active integration at a time/i)).toBeVisible();
   });
-  test('shows webhook details for inventory events', async ({ baseUrl, environment, loggedInPage: page }, { retry }) => {
+  test('shows webhook details for inventory events', async ({ baseUrl, environment, page }, { retry }) => {
     test.skip(environment !== 'enterprise');
     await page.goto(`${baseUrl}ui/settings/integrations`);
     await page.getByText(/view details/i).click();

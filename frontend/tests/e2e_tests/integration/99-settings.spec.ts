@@ -32,7 +32,7 @@ import { selectors, timeouts } from '../utils/constants.ts';
 
 test.describe('Settings', () => {
   test.describe('access token feature', () => {
-    test('allows access to access tokens', async ({ baseUrl, loggedInPage: page }) => {
+    test('allows access to access tokens', async ({ baseUrl, page }) => {
       await page.goto(`${baseUrl}ui/settings`);
       const tokenGenerationButton = await page.getByRole('button', { name: /Generate a token/i });
       if (!(await tokenGenerationButton.isVisible())) {
@@ -42,7 +42,7 @@ test.describe('Settings', () => {
       }
       await tokenGenerationButton.waitFor();
     });
-    test('allows generating & revoking tokens', async ({ baseUrl, browserName, loggedInPage: page }, { retry }) => {
+    test('allows generating & revoking tokens', async ({ baseUrl, browserName, page }, { retry }) => {
       await page.goto(`${baseUrl}ui/settings`);
       const tokenGenerationButton = await page.getByText(/generate a token/i);
       await tokenGenerationButton.waitFor();
@@ -86,7 +86,7 @@ test.describe('Settings', () => {
     });
   });
   test.describe('account upgrades', () => {
-    test('allows upgrading to Professional', async ({ environment, loggedInPage: page }) => {
+    test('allows upgrading to Professional', async ({ environment, page }) => {
       test.skip(environment !== 'staging');
       await page.waitForTimeout(timeouts.default);
       const wasUpgraded = await page.isVisible(`css=#limit >> text=250`);
@@ -111,7 +111,7 @@ test.describe('Settings', () => {
       await page.getByText(/Card confirmed./i).waitFor({ timeout: timeouts.tenSeconds });
       await page.getByText(/ You have successfully subscribed to the professional/i).waitFor({ timeout: timeouts.fifteenSeconds });
     });
-    test('allows higher device limits once upgraded', async ({ baseUrl, environment, loggedInPage: page }) => {
+    test('allows higher device limits once upgraded', async ({ baseUrl, environment, page }) => {
       test.skip(environment !== 'staging');
       await page.waitForSelector(`css=#limit >> text=250`, { timeout: timeouts.default });
       await expect(page.locator(`css=#limit >> text=250`)).toBeVisible();
@@ -125,7 +125,7 @@ test.describe('Settings', () => {
   });
 
   test.describe('2FA setup', () => {
-    test('supports regular 2fa setup', async ({ baseUrl, environment, loggedInPage: page }) => {
+    test('supports regular 2fa setup', async ({ baseUrl, environment, page }) => {
       test.skip(environment !== 'staging');
       let tfaSecret;
       try {
@@ -189,7 +189,7 @@ test.describe('Settings', () => {
   test.describe('Basic setting features', () => {
     const replacementPassword = 'mysecretpassword!456';
 
-    test('allows access to user management', async ({ baseUrl, loggedInPage: page }) => {
+    test('allows access to user management', async ({ baseUrl, page }) => {
       await page.goto(`${baseUrl}ui/settings/user-management`);
       const userCreationButton = await page.getByRole('button', { name: /Add new user/i });
       if (!(await userCreationButton.isVisible())) {
@@ -199,12 +199,12 @@ test.describe('Settings', () => {
       }
       await userCreationButton.waitFor();
     });
-    test('allows email changes', async ({ baseUrl, loggedInPage: page }) => {
+    test('allows email changes', async ({ baseUrl, page }) => {
       await page.goto(`${baseUrl}ui/settings/my-account`);
       await page.getByRole('button', { name: /change email/i }).click();
       await expect(page.getByLabel(/current password/i)).toBeVisible();
     });
-    test('allows billing profile editing', async ({ baseUrl, environment, loggedInPage: page }) => {
+    test('allows billing profile editing', async ({ baseUrl, environment, page }) => {
       test.skip(environment !== 'staging');
       await page.goto(`${baseUrl}ui/settings/organization-and-billing`);
       await page.getByRole('button', { name: /edit/i }).click();
@@ -226,17 +226,11 @@ test.describe('Settings', () => {
       await page.click(`button:has-text('Save')`);
       await expect(page.getByText('Gaustadalleen 12')).toBeVisible();
     });
-    test('allows changing the password', async ({ baseUrl, browserName, context, environment, username, password }) => {
+    test('allows changing the password', async ({ browserName, page, username, password }) => {
       test.skip(browserName === 'webkit');
-      const domain = baseUrlToDomain(baseUrl);
-      context = await prepareCookies(context, domain, '');
-      const page = await context.newPage();
-      await page.goto(`${baseUrl}ui/`);
-      await processLoginForm({ username, password, page, environment });
       await page.getByRole('button', { name: username }).click();
       await page.getByText(/my profile/i).click();
       await page.getByRole('button', { name: /change password/i }).click();
-
       expect(await page.$eval(selectors.password, (el: HTMLInputElement) => el.value)).toBeFalsy();
       await page.getByRole('button', { exact: true, name: 'Generate' }).click();
       await page.click(selectors.passwordCurrent, { clickCount: 3 });
@@ -277,8 +271,7 @@ test.describe('Settings', () => {
       await page.fill(selectors.passwordCurrent, replacementPassword);
       await page.getByRole('button', { name: /save/i }).click();
       await page.getByText(/user has been updated/i).waitFor({ timeout: timeouts.tenSeconds });
-      await page.waitForTimeout(timeouts.default);
-
+      await page.context().storageState({ path: storagePath });
       const { token: newToken } = await login(username, password, baseUrl, request);
       expect(newToken).toBeTruthy();
     });
@@ -288,7 +281,7 @@ test.describe('Settings', () => {
     const secondaryUser = 'demo-secondary@example.com';
     const tenantIdDescriptor = 'Tenant ID:';
     let userId = '';
-    test('allows adding users to tenants', async ({ baseUrl, browser, browserName, environment, loggedInPage, request, password }) => {
+    test('allows adding users to tenants', async ({ baseUrl, browser, browserName, environment, page: loggedInPage, request, password }) => {
       test.skip('enterprise' !== environment || browserName !== 'chromium');
       await loggedInPage.goto(`${baseUrl}ui/settings`);
       await loggedInPage.getByRole('link', { name: /user management/i }).click();
@@ -321,7 +314,7 @@ test.describe('Settings', () => {
       await page.getByRole('button', { name: secondaryUser }).click();
       await expect(page.getByRole('button', { name: /switch organization/i })).toBeVisible();
     });
-    test('allows switching tenants', async ({ baseUrl, browser, browserName, environment, loggedInPage, password, request }) => {
+    test('allows switching tenants', async ({ baseUrl, browser, browserName, environment, page: loggedInPage, password, request }) => {
       test.skip('enterprise' !== environment || browserName !== 'chromium');
       await loggedInPage.goto(`${baseUrl}ui/settings`);
       await loggedInPage.getByRole('link', { name: /user management/i }).click();
