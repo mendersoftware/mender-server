@@ -13,19 +13,19 @@
 //    limitations under the License.
 import test, { expect } from '../fixtures/fixtures.ts';
 import { baseUrlToDomain, isLoggedIn, prepareCookies, processLoginForm } from '../utils/commands.ts';
-import { selectors, storagePath, timeouts } from '../utils/constants.ts';
+import { cookieConsentCookie, emptyStorageState, selectors, storagePath, timeouts } from '../utils/constants.ts';
+
+test.use({ storageState: { ...emptyStorageState } });
 
 test.describe('Login', () => {
   test.describe('works as expected', () => {
-    test('Logs in using UI', async ({ baseUrl, environment, context, page, password, username }) => {
+    test('Logs in using UI', async ({ baseUrl, environment, page, password, username }) => {
       console.log(`logging in user with username: ${username} and password: ${password}`);
       // enter valid username and password
       await page.goto(`${baseUrl}ui/`);
       await processLoginForm({ username, password, page, environment });
       // confirm we have logged in successfully
       await isLoggedIn(page);
-      await page.evaluate(() => localStorage.setItem(`onboardingComplete`, 'true'));
-      await context.storageState({ path: storagePath });
     });
 
     test('does not stay logged in across sessions, after browser restart', async ({ baseUrl, page }) => {
@@ -81,7 +81,7 @@ test.describe('Login', () => {
   test('stays logged in across sessions, after browser restart if selected', async ({ baseUrl, environment, browser, context, password, username }) => {
     console.log(`logging in user with username: ${username} and password: ${password}`);
     const domain = baseUrlToDomain(baseUrl);
-    await context.addCookies([{ name: 'cookieconsent_status', value: 'allow', path: '/', domain }]);
+    await context.addCookies([cookieConsentCookie]);
     const page = await context.newPage();
     await page.goto(`${baseUrl}ui/`);
     // enter valid username and password
@@ -91,8 +91,8 @@ test.describe('Login', () => {
     await isLoggedIn(page);
     await expect(page.getByText('Welcome back')).not.toBeVisible();
     await page.getByText(/Releases/i).click();
-    await context.storageState({ path: storagePath });
-    let differentContext = await browser.newContext({ storageState: storagePath });
+    await context.storageState({ path: `restart-test-${storagePath}` });
+    let differentContext = await browser.newContext({ storageState: `restart-test-${storagePath}` });
     differentContext = await prepareCookies(differentContext, domain, '');
     const differentPage = await differentContext.newPage();
     await differentPage.goto(`${baseUrl}ui/`);

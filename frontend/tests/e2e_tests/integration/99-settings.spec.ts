@@ -154,8 +154,11 @@ test.describe('Settings', () => {
       await page.getByRole('button', { name: /save/i }).click();
       await page.waitForTimeout(timeouts.default);
     });
-    test(`prevents from logging in without 2fa code`, async ({ baseUrl, environment, page, password, username }) => {
+    test(`prevents from logging in without 2fa code`, async ({ baseUrl, context, environment, password, username }) => {
       test.skip(environment !== 'staging');
+      const domain = baseUrlToDomain(baseUrl);
+      context = await prepareCookies(context, domain, '');
+      const page = await context.newPage();
       await page.goto(`${baseUrl}ui/`);
       await expect(page.getByRole('button', { name: /next/i })).toBeVisible();
       // enter valid username and password
@@ -167,8 +170,11 @@ test.describe('Settings', () => {
       await expect(page.getByRole('button', { name: /next/i })).toBeVisible();
       await page.getByText(/Incorrect email address/).waitFor({ timeout: timeouts.default });
     });
-    test('allows turning 2fa off again', async ({ baseUrl, environment, page, password, username }) => {
+    test('allows turning 2fa off again', async ({ baseUrl, context, environment, password, username }) => {
       test.skip(environment !== 'staging');
+      const domain = baseUrlToDomain(baseUrl);
+      context = await prepareCookies(context, domain, '');
+      const page = await context.newPage();
       await page.goto(`${baseUrl}ui/`);
       await processLoginForm({ username, password, page, environment });
       const newToken = await generateOtp();
@@ -179,8 +185,11 @@ test.describe('Settings', () => {
       await page.getByText(/Enable Two Factor/).click();
       await page.waitForTimeout(timeouts.default);
     });
-    test('allows logging in without 2fa after deactivation', async ({ baseUrl, environment, page, password, username }) => {
+    test('allows logging in without 2fa after deactivation', async ({ baseUrl, context, environment, password, username }) => {
       test.skip(environment !== 'staging');
+      const domain = baseUrlToDomain(baseUrl);
+      context = await prepareCookies(context, domain, '');
+      const page = await context.newPage();
       await page.goto(`${baseUrl}ui/`);
       await processLoginForm({ username, password, page, environment });
       await isLoggedIn(page);
