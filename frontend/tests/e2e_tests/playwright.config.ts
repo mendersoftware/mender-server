@@ -38,10 +38,10 @@ const launchOptions: LaunchOptions = {
 const options: PlaywrightTestConfig = {
   forbidOnly: !!process.env.CI,
   projects: [
-    { name: 'setup', testMatch: /.*\.setup\.ts/ },
+    { name: 'setup', testMatch: /.*\.setup\.ts/, use: { permissions: ['clipboard-read'] } },
     {
       name: 'test suite',
-      use: { storageState: storagePath }, // rely on stored session config
+      use: { storageState: storagePath, permissions: ['clipboard-read'] }, // rely on stored session config
       dependencies: ['setup']
     }
   ],
