@@ -12,10 +12,9 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import test, { expect } from '../fixtures/fixtures.ts';
-import { selectors, storagePath, timeouts } from '../utils/constants.ts';
+import { selectors, timeouts } from '../utils/constants.ts';
 
 test.describe('Layout assertions', () => {
-  test.use({ storageState: storagePath });
   let navbar;
   test.beforeEach(async ({ loggedInPage: page }) => {
     navbar = page.locator('.leftFixed.leftNav');

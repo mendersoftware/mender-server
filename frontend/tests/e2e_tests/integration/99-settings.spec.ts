@@ -28,11 +28,10 @@ import {
   startClient,
   tenantTokenRetrieval
 } from '../utils/commands.ts';
-import { selectors, storagePath, timeouts } from '../utils/constants.ts';
+import { selectors, timeouts } from '../utils/constants.ts';
 
 test.describe('Settings', () => {
   test.describe('access token feature', () => {
-    test.use({ storageState: storagePath });
     test('allows access to access tokens', async ({ baseUrl, loggedInPage: page }) => {
       await page.goto(`${baseUrl}ui/settings`);
       const tokenGenerationButton = await page.getByRole('button', { name: /Generate a token/i });
@@ -87,7 +86,6 @@ test.describe('Settings', () => {
     });
   });
   test.describe('account upgrades', () => {
-    test.use({ storageState: storagePath });
     test('allows upgrading to Professional', async ({ environment, loggedInPage: page }) => {
       test.skip(environment !== 'staging');
       await page.waitForTimeout(timeouts.default);
