@@ -16,7 +16,7 @@ import * as fs from 'fs';
 
 import test from '../fixtures/fixtures.ts';
 import { isEnterpriseOrStaging, isLoggedIn, login, prepareNewPage, startDockerClient, stopDockerClient, tenantTokenRetrieval } from '../utils/commands.ts';
-import { selectors, storagePath, timeouts } from '../utils/constants.ts';
+import { emptyStorageState, selectors, spStoragePath, storagePath, switchTenantStoragePath, timeouts } from '../utils/constants.ts';
 
 test.describe('Test setup', () => {
   test.beforeAll(async () => {
@@ -72,8 +72,15 @@ test.describe('Test setup', () => {
     await context.storageState({ path: storagePath });
   });
 
-  test.describe('enterprise setting features, that happens to start up a docker client', () => {
-    test('supports tenant token retrieval', async ({ baseUrl, context, environment, password, request, username }) => {
+  test.describe('enterprise setting features', () => {
+    test('supports tenant token retrieval, that happens to start up a docker client', async ({
+      baseUrl,
+      context,
+      environment,
+      password,
+      request,
+      username
+    }) => {
       test.skip(!isEnterpriseOrStaging(environment));
       console.log(`logging in user with username: ${username} and password: ${password}`);
       const page = await prepareNewPage({ baseUrl, context, password, request, username });
@@ -90,6 +97,16 @@ test.describe('Test setup', () => {
       }
       await context.storageState({ path: storagePath });
       expect(token).toBeTruthy();
+    });
+    test('SP tenant login', async ({ baseUrl, browser, environment, password, request, spTenantUsername }) => {
+      if (environment !== 'enterprise') {
+        fs.writeFileSync(spStoragePath, JSON.stringify(emptyStorageState));
+        test.skip(true, 'only relevant on enterprise setups for now');
+      }
+      fs.writeFileSync(switchTenantStoragePath, JSON.stringify(emptyStorageState));
+      const page = await prepareNewPage({ baseUrl, browser, password, request, username: spTenantUsername });
+      await isLoggedIn(page);
+      await page.context().storageState({ path: spStoragePath });
     });
   });
 });

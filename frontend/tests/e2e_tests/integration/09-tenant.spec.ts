@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import test, { expect } from '../fixtures/fixtures.ts';
-import { timeouts } from '../utils/constants.js';
+import { spStoragePath, timeouts } from '../utils/constants.ts';
 
 const tenant = {
   name: 'Child Tenant',
@@ -25,14 +25,15 @@ const tenantRole = {
   description: 'Test role for SP tenant'
 };
 test.describe('Tenant Functionality', () => {
-  test.beforeEach(async ({ loggedInTenantPage: page, environment }) => {
+  test.use({ storageState: spStoragePath });
+  test.beforeEach(async ({ page, environment }) => {
     test.skip(environment !== 'enterprise', 'not available in OS');
     await page
       .locator('.leftFixed.leftNav')
       .getByRole('link', { name: /Tenants/i })
       .click();
   });
-  test('tenant creation', async ({ loggedInTenantPage: page }) => {
+  test('tenant creation', async ({ page }) => {
     await expect(page.locator('h2:has-text("Tenants")')).toBeVisible();
     await page.getByRole('button', { name: /add tenant/i }).click();
     const nameInput = page.getByPlaceholder(/Name/i);
@@ -48,7 +49,7 @@ test.describe('Tenant Functionality', () => {
     await submitButton.click();
     await expect(page.getByText('Child Tenant')).toBeVisible();
   });
-  test('tenant edit', async ({ loggedInTenantPage: page }) => {
+  test('tenant edit', async ({ page }) => {
     await page.getByText('View details').click();
     await page.getByRole('button', { name: /edit device limit/i }).click();
     await page.getByLabel(/Set device limit/i).fill('12');
@@ -56,14 +57,14 @@ test.describe('Tenant Functionality', () => {
     await page.getByLabel('close').click();
     await expect(page.getByText('0/12')).toBeVisible();
   });
-  test('tenant removal', async ({ loggedInTenantPage: page }) => {
+  test('tenant removal', async ({ page }) => {
     await page.getByText('View details').click();
     await page.getByRole('button', { name: /delete tenant/i }).click();
     const confirmInput = page.getByRole('textbox', { name: /delete/i });
     await confirmInput.fill('delete');
     await page.getByRole('button', { name: /Confirm/i }).click();
   });
-  test('create a tenant Role', async ({ baseUrl, loggedInTenantPage: page }) => {
+  test('create a tenant Role', async ({ baseUrl, page }) => {
     await page.goto(`${baseUrl}ui/settings/role-management`);
     await page.getByRole('button', { name: /add a role/i }).click();
     await page.getByLabel('Name').fill(tenantRole.name);
@@ -74,7 +75,7 @@ test.describe('Tenant Functionality', () => {
     await page.getByRole('button', { name: /Submit/i }).click();
     await expect(page.getByText('SP_tenant_role')).toBeVisible();
   });
-  test('remove a tenant Role', async ({ baseUrl, loggedInTenantPage: page }) => {
+  test('remove a tenant Role', async ({ baseUrl, page }) => {
     await page.goto(`${baseUrl}ui/settings/role-management`);
     await page.getByRole('cell', { name: tenantRole.name }).click();
     await page.getByRole('button', { name: /delete role/i }).click();
