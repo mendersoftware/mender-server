@@ -27,6 +27,7 @@ test.describe('Test setup', () => {
       // ...continue
     }
   });
+
   test('allows account creation', async ({ baseUrl, context, environment, page, password, request, username }) => {
     test.skip(environment !== 'staging');
     try {
@@ -77,12 +78,11 @@ test.describe('Test setup', () => {
     if (environment !== 'enterprise') {
       fs.writeFileSync(spStoragePath, JSON.stringify(emptyStorageState));
       console.log('written storage state', environment);
-    } else {
-      const page = await prepareNewPage({ baseUrl, browser, password, request, username: spTenantUsername });
-      await isLoggedIn(page);
-      await page.context().storageState({ path: spStoragePath });
+      test.skip(true, 'only relevant on enterprise setups for now');
     }
-    expect(baseUrl).toBeFalsy(); // this should fail
+    const page = await prepareNewPage({ baseUrl, browser, password, request, username: spTenantUsername });
+    await isLoggedIn(page);
+    await page.context().storageState({ path: spStoragePath });
   });
 
   test('enterprise setup supports tenant token retrieval, that happens to start up a docker client', async ({
