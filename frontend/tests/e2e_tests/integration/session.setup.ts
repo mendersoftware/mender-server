@@ -72,43 +72,42 @@ test.describe('Test setup', () => {
     await context.storageState({ path: storagePath });
   });
 
-  test.describe('enterprise setting features', () => {
-    test('SP tenant login', async ({ baseUrl, browser, environment, password, request, spTenantUsername }) => {
-      console.log('sp tenant login starting in', environment);
-      if (environment !== 'enterprise') {
-        fs.writeFileSync(spStoragePath, JSON.stringify(emptyStorageState));
-        console.log('written storage state', environment);
-      } else {
-        const page = await prepareNewPage({ baseUrl, browser, password, request, username: spTenantUsername });
-        await isLoggedIn(page);
-        await page.context().storageState({ path: spStoragePath });
-      }
-      expect(baseUrl).toBeTruthy();
-    });
-    test('supports tenant token retrieval, that happens to start up a docker client', async ({
-      baseUrl,
-      context,
-      environment,
-      password,
-      request,
-      username
-    }) => {
-      test.skip(!isEnterpriseOrStaging(environment));
-      console.log(`logging in user with username: ${username} and password: ${password}`);
-      const page = await prepareNewPage({ baseUrl, context, password, request, username });
+  test('enterprise SP tenant login', async ({ baseUrl, browser, environment, password, request, spTenantUsername }) => {
+    console.log('sp tenant login starting in', environment);
+    if (environment !== 'enterprise') {
+      fs.writeFileSync(spStoragePath, JSON.stringify(emptyStorageState));
+      console.log('written storage state', environment);
+    } else {
+      const page = await prepareNewPage({ baseUrl, browser, password, request, username: spTenantUsername });
+      await isLoggedIn(page);
+      await page.context().storageState({ path: spStoragePath });
+    }
+    expect(baseUrl).toBeFalsy(); // this should fail
+  });
+
+  test('enterprise setup supports tenant token retrieval, that happens to start up a docker client', async ({
+    baseUrl,
+    context,
+    environment,
+    password,
+    request,
+    username
+  }) => {
+    test.skip(!isEnterpriseOrStaging(environment));
+    console.log(`logging in user with username: ${username} and password: ${password}`);
+    const page = await prepareNewPage({ baseUrl, context, password, request, username });
+    await page.goto(`${baseUrl}ui/settings`);
+    const isVisible = await page.getByRole('button', { name: /change email/i }).isVisible();
+    if (!isVisible) {
+      console.log('settings may not be loaded - move around');
+      await page.goto(`${baseUrl}ui/help`);
       await page.goto(`${baseUrl}ui/settings`);
-      const isVisible = await page.getByRole('button', { name: /change email/i }).isVisible();
-      if (!isVisible) {
-        console.log('settings may not be loaded - move around');
-        await page.goto(`${baseUrl}ui/help`);
-        await page.goto(`${baseUrl}ui/settings`);
-      }
-      const token = await tenantTokenRetrieval(baseUrl, page);
-      if (environment === 'staging') {
-        await startDockerClient(baseUrl, token);
-      }
-      await context.storageState({ path: storagePath });
-      expect(token).toBeTruthy();
-    });
+    }
+    const token = await tenantTokenRetrieval(baseUrl, page);
+    if (environment === 'staging') {
+      await startDockerClient(baseUrl, token);
+    }
+    await context.storageState({ path: storagePath });
+    expect(token).toBeTruthy();
   });
 });
