@@ -45,12 +45,11 @@ services:
       - ${GUI_REPOSITORY}/junit:/e2e/junit
       - ${GUI_REPOSITORY}/logs:/root/.npm/_logs
       - ${GUI_REPOSITORY}/screenshots:/e2e/test-results
+      - ${GUI_REPOSITORY}/storage:/e2e/storage
       - ${GUI_REPOSITORY}/tests/e2e_tests/dockerClient:/e2e/dockerClient
       - ${GUI_REPOSITORY}/tests/e2e_tests/fixtures:/e2e/fixtures
       - ${GUI_REPOSITORY}/tests/e2e_tests/integration:/e2e/integration
       - ${GUI_REPOSITORY}/tests/e2e_tests/package.json:/e2e/package.json
-      - ${GUI_REPOSITORY}/screenshots/storage.json:/e2e/storage.json
-      - ${GUI_REPOSITORY}/tests/e2e_tests/sp-tenant-storage.json:/e2e/sp-tenant-storage.json
       - ${GUI_REPOSITORY}/tests/e2e_tests/playwright.config.ts:/e2e/playwright.config.ts
       - ${GUI_REPOSITORY}/tests/e2e_tests/utils:/e2e/utils
       - ${GUI_REPOSITORY}/videos:/e2e/videos

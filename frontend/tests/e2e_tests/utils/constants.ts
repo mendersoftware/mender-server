@@ -34,8 +34,8 @@ export const selectors = {
 
 export const releaseTag = 'sometag';
 
-export const storagePath = 'storage.json';
-export const spStoragePath = 'sp-tenant-storage.json';
+export const storagePath = 'storage/storage.json';
+export const spStoragePath = 'storage/sp-tenant-storage.json';
 
 const oneSecond = 1000;
 export const timeouts = {
@@ -51,7 +51,7 @@ export type BrowserCookie = Exclude<BrowserContextOptions['storageState'], strin
 
 export const cookieConsentCookie: BrowserCookie = {
   domain: '.mender.io',
-  expires: 2147483647,
+  expires: -1,
   httpOnly: false,
   name: 'cookieconsent_status',
   path: '/',

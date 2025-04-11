@@ -99,8 +99,10 @@ test.describe('Test setup', () => {
       expect(token).toBeTruthy();
     });
     test('SP tenant login', async ({ baseUrl, browser, environment, password, request, spTenantUsername }) => {
+      console.log('sp tenant login starting in', environment);
       if (environment !== 'enterprise') {
         fs.writeFileSync(spStoragePath, JSON.stringify(emptyStorageState));
+        console.log('written storage state', environment);
         test.skip(true, 'currently only testable in on-prem enterprise');
       }
       const page = await prepareNewPage({ baseUrl, browser, password, request, username: spTenantUsername });
