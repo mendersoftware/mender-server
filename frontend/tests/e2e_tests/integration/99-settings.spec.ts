@@ -346,13 +346,7 @@ test.describe('Settings', () => {
         await loggedInPage.getByRole('link', { name: /user management/i }).click();
         await loggedInPage.screenshot({ path: './test-results/switch-user-list.png' });
       }
-      // here we can't use prepareNewPage as it sets the initial JWT to be used on every page init
-      const domain = baseUrlToDomain(baseUrl);
-      let newContext = await browser.newContext({ storageState: { ...emptyStorageState } });
-      newContext = await prepareCookies(newContext, domain, '');
-      const page = await newContext.newPage();
-      await page.goto(`${baseUrl}ui/`);
-      await processLoginForm({ username: secondaryUser, password, page, environment });
+      const page = await prepareNewPage({ baseUrl, browser, password, request, username: secondaryUser });
       await page.getByRole('button', { name: secondaryUser }).click();
       await expect(page.getByRole('menuitem', { name: /secondary/i })).toBeVisible();
       await page.screenshot({ path: './test-results/switch-try-switch.png' });
