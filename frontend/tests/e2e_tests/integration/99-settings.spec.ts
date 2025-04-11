@@ -285,7 +285,7 @@ test.describe('Settings', () => {
       await page.fill(selectors.passwordCurrent, replacementPassword);
       await page.getByRole('button', { name: /save/i }).click();
       await page.getByText(/user has been updated/i).waitFor({ timeout: timeouts.tenSeconds });
-      await page.waitForTimeout(timeouts.default);
+      await page.context().storageState({ path: storagePath });
       console.log('verifying le olde password');
       const { token: newToken } = await login(username, password, baseUrl, request);
       expect(newToken).toBeTruthy();
