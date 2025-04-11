@@ -78,11 +78,12 @@ test.describe('Test setup', () => {
       if (environment !== 'enterprise') {
         fs.writeFileSync(spStoragePath, JSON.stringify(emptyStorageState));
         console.log('written storage state', environment);
-        test.skip(true, 'currently only testable in on-prem enterprise');
+      } else {
+        const page = await prepareNewPage({ baseUrl, browser, password, request, username: spTenantUsername });
+        await isLoggedIn(page);
+        await page.context().storageState({ path: spStoragePath });
       }
-      const page = await prepareNewPage({ baseUrl, browser, password, request, username: spTenantUsername });
-      await isLoggedIn(page);
-      await page.context().storageState({ path: spStoragePath });
+      expect(baseUrl).toBeTruthy();
     });
     test('supports tenant token retrieval, that happens to start up a docker client', async ({
       baseUrl,
