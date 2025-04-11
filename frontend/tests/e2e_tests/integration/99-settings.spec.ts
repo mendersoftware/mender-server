@@ -86,7 +86,7 @@ test.describe('Settings', () => {
     });
   });
   test.describe('account upgrades', () => {
-    test('allows upgrading to Professional', async ({ environment, page }) => {
+    test('allows upgrading to Professional', async ({ baseUrl, context, environment, page, password, request, username }) => {
       test.skip(environment !== 'staging');
       await page.waitForTimeout(timeouts.default);
       const wasUpgraded = await page.isVisible(`css=#limit >> text=250`);
@@ -110,6 +110,10 @@ test.describe('Settings', () => {
       await page.click(`button:has-text('Sign up')`);
       await page.getByText(/Card confirmed./i).waitFor({ timeout: timeouts.tenSeconds });
       await page.getByText(/ You have successfully subscribed to the professional/i).waitFor({ timeout: timeouts.fifteenSeconds });
+
+      // overwrite the existing auth info to remove the notification to log out & in again to update the session info
+      const newPage = await prepareNewPage({ baseUrl, context, password, request, username });
+      await newPage.context().storageState({ path: storagePath });
     });
     test('allows higher device limits once upgraded', async ({ baseUrl, environment, page }) => {
       test.skip(environment !== 'staging');
