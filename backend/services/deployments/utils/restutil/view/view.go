@@ -44,7 +44,7 @@ type RESTView struct {
 func (p *RESTView) RenderSuccessPost(w rest.ResponseWriter, r *rest.Request, id string) {
 	w.Header().Add(
 		HttpHeaderLocation,
-		fmt.Sprintf(".%s/%s", strings.TrimPrefix(strings.TrimPrefix(r.URL.Path, "."), "/api"), id),
+		fmt.Sprintf("%s/%s", r.URL.Path, id),
 	)
 	w.WriteHeader(http.StatusCreated)
 }

@@ -46,7 +46,7 @@ func TestRenderPost(t *testing.T) {
 
 	recorded.CodeIs(http.StatusCreated)
 	recorded.ContentTypeIsJson()
-	recorded.HeaderIs(HttpHeaderLocation, "./test/test_id")
+	recorded.HeaderIs(HttpHeaderLocation, "/test/test_id")
 }
 
 func TestRenderSuccessGet(t *testing.T) {

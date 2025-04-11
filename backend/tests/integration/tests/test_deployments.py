@@ -1791,7 +1791,7 @@ def create_dynamic_deployment(
         if status_code != 201:
             return None
 
-        depid = res.headers["Location"].split("/")[5]
+        depid = res.headers["Location"].split("/")[-1]
 
     newdep = get_deployment(depid, utoken)
 
@@ -2334,7 +2334,7 @@ class _TestDeploymentsShowArtifactSizeBase(object):
             "POST", deployments.URL_DEPLOYMENTS, deployment_req
         )
         assert r.status_code == 201
-        depid = r.headers["Location"].split("/")[5]
+        depid = r.headers["Location"].split("/")[-1]
 
         # get deployment and check the total size is zero
         dep = get_deployment(depid, user_token)
