@@ -28,7 +28,7 @@ import {
   startClient,
   tenantTokenRetrieval
 } from '../utils/commands.ts';
-import { selectors, storagePath, timeouts } from '../utils/constants.ts';
+import { emptyStorageState, selectors, storagePath, timeouts } from '../utils/constants.ts';
 
 test.describe('Settings', () => {
   test.describe('access token feature', () => {
@@ -286,7 +286,7 @@ test.describe('Settings', () => {
       await page.getByRole('button', { name: /save/i }).click();
       await page.getByText(/user has been updated/i).waitFor({ timeout: timeouts.tenSeconds });
       await page.waitForTimeout(timeouts.default);
-
+      console.log('verifying le olde password');
       const { token: newToken } = await login(username, password, baseUrl, request);
       expect(newToken).toBeTruthy();
     });
