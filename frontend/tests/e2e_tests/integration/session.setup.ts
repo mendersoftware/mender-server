@@ -73,6 +73,17 @@ test.describe('Test setup', () => {
   });
 
   test.describe('enterprise setting features', () => {
+    test('SP tenant login', async ({ baseUrl, browser, environment, password, request, spTenantUsername }) => {
+      console.log('sp tenant login starting in', environment);
+      if (environment !== 'enterprise') {
+        fs.writeFileSync(spStoragePath, JSON.stringify(emptyStorageState));
+        console.log('written storage state', environment);
+        test.skip(true, 'currently only testable in on-prem enterprise');
+      }
+      const page = await prepareNewPage({ baseUrl, browser, password, request, username: spTenantUsername });
+      await isLoggedIn(page);
+      await page.context().storageState({ path: spStoragePath });
+    });
     test('supports tenant token retrieval, that happens to start up a docker client', async ({
       baseUrl,
       context,
@@ -97,17 +108,6 @@ test.describe('Test setup', () => {
       }
       await context.storageState({ path: storagePath });
       expect(token).toBeTruthy();
-    });
-    test('SP tenant login', async ({ baseUrl, browser, environment, password, request, spTenantUsername }) => {
-      console.log('sp tenant login starting in', environment);
-      if (environment !== 'enterprise') {
-        fs.writeFileSync(spStoragePath, JSON.stringify(emptyStorageState));
-        console.log('written storage state', environment);
-        test.skip(true, 'currently only testable in on-prem enterprise');
-      }
-      const page = await prepareNewPage({ baseUrl, browser, password, request, username: spTenantUsername });
-      await isLoggedIn(page);
-      await page.context().storageState({ path: spStoragePath });
     });
   });
 });

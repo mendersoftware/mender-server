@@ -91,8 +91,8 @@ test.describe('Login', () => {
     await isLoggedIn(page);
     await expect(page.getByText('Welcome back')).not.toBeVisible();
     await page.getByText(/Releases/i).click();
-    await context.storageState({ path: `storage/restart-test-${storagePath}` });
-    let differentContext = await browser.newContext({ storageState: `storage/restart-test-${storagePath}` });
+    await context.storageState({ path: `storage/restart-test-storage.json` });
+    let differentContext = await browser.newContext({ storageState: `storage/restart-test-storage.json` });
     differentContext = await prepareCookies(differentContext, domain, '');
     const differentPage = await differentContext.newPage();
     await differentPage.goto(`${baseUrl}ui/`);
