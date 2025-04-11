@@ -133,9 +133,7 @@ test.describe('Settings', () => {
       } catch {
         // moving on
       }
-      if (tfaSecret) {
-        test.skip('looks like the account is already 2fa enabled, continue with the remaining tests');
-      }
+      test.skip(tfaSecret, 'looks like the account is already 2fa enabled, continue with the remaining tests');
       await page.goto(`${baseUrl}ui/settings/my-account`);
       await page.getByText(/Enable Two Factor/).click();
       await page.waitForSelector('.margin-top img');
