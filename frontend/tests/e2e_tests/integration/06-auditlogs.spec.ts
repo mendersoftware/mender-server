@@ -18,7 +18,7 @@ import { fileURLToPath } from 'url';
 
 import test, { expect } from '../fixtures/fixtures.ts';
 import { compareImages, isEnterpriseOrStaging } from '../utils/commands.ts';
-import { selectors, storagePath, timeouts } from '../utils/constants.ts';
+import { selectors, timeouts } from '../utils/constants.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -71,14 +71,13 @@ const checkDownloadedReplayForSecret = async (path, secret) => {
 };
 
 test.describe('Auditlogs', () => {
-  test.use({ storageState: storagePath });
   let navbar;
-  test.beforeEach(async ({ loggedInPage: page }) => {
+  test.beforeEach(async ({ page }) => {
     navbar = page.locator('.leftFixed.leftNav');
   });
 
   const secret = 'super secret something text';
-  test('will track remote terminal sessions', async ({ browser, browserName, environment, loggedInPage: page }) => {
+  test('will track remote terminal sessions', async ({ browser, browserName, environment, page }) => {
     test.skip(!isEnterpriseOrStaging(environment));
     await navbar.getByRole('link', { name: /Devices/i }).click({ force: browserName === 'webkit' });
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();

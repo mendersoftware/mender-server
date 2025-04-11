@@ -15,7 +15,7 @@ import dns from 'node:dns';
 
 import test, { expect } from '../fixtures/fixtures.ts';
 import { getTokenFromStorage, isEnterpriseOrStaging, isLoggedIn, startIdpServer } from '../utils/commands.ts';
-import { storagePath, timeouts } from '../utils/constants.ts';
+import { timeouts } from '../utils/constants.ts';
 
 dns.setDefaultResultOrder('ipv4first');
 
@@ -32,7 +32,6 @@ let acsUrl = '';
 let metadataLocation = '';
 
 test.describe('SAML Login via sso/id/login', () => {
-  test.use({ storageState: storagePath });
   test.afterAll(async ({ environment, baseUrl, browserName, request }, testInfo) => {
     if (testInfo.status === 'skipped' || !isEnterpriseOrStaging(environment)) {
       return;
@@ -52,7 +51,7 @@ test.describe('SAML Login via sso/id/login', () => {
   });
 
   // Setups the SAML/SSO login with samltest.id Identity Provider
-  test('Set up SAML', async ({ browserName, environment, baseUrl, loggedInPage: page, request }) => {
+  test('Set up SAML', async ({ browserName, environment, baseUrl, page, request }) => {
     test.skip(!isEnterpriseOrStaging(environment));
     // allow a lot of time to enter metadata + then some to handle uploading the config to the external service
     test.setTimeout(5 * timeouts.sixtySeconds + timeouts.fifteenSeconds);
@@ -121,7 +120,7 @@ test.describe('SAML Login via sso/id/login', () => {
   });
 
   // Creates a user with login that matches Identity privder (samltest.id) user email
-  test('Creates a user without a password', async ({ environment, baseUrl, browserName, loggedInPage: page }) => {
+  test('Creates a user without a password', async ({ environment, baseUrl, browserName, page }) => {
     test.skip(!isEnterpriseOrStaging(environment));
     await page.goto(`${baseUrl}ui/settings/user-management`);
     const userExists = await page.getByText(samlSettings.credentials[browserName]).isVisible();
@@ -140,7 +139,7 @@ test.describe('SAML Login via sso/id/login', () => {
 
   // This test calls auth/sso/${id}/login, where id is the id of the identity provider
   // and verifies that login is successful.
-  test('User can login via sso/login endpoint', async ({ environment, baseUrl, browser, browserName, loggedInPage }) => {
+  test('User can login via sso/login endpoint', async ({ environment, baseUrl, browser, browserName, page: loggedInPage }) => {
     test.skip(!isEnterpriseOrStaging(environment));
     test.setTimeout(3 * timeouts.fifteenSeconds);
     let idpServer;

@@ -197,6 +197,7 @@ build:frontend:docker:
     paths:
       - frontend/coverage
       - frontend/screenshots
+      - frontend/storage
       - frontend/logs
       - frontend/junit
     reports:
