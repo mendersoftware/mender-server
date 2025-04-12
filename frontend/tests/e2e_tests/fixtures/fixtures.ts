@@ -61,7 +61,6 @@ const test = (process.env.TEST_ENVIRONMENT === 'staging' ? nonCoveredTest : cove
     await use(environment);
   },
   spTenantUsername: async ({ environment }, use) => {
-    test.skip(environment !== 'enterprise', 'not available in OS');
     let spTenantUsername = defaultConfig.spTenantUsername;
     if (environment === 'staging') {
       spTenantUsername = getPeristentLoginInfo().tenantUsername;
