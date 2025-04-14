@@ -2301,7 +2301,6 @@ components:
           description: |
             meta_data is an object of unknown structure as this is dependent of update type (also custom defined by user)
           properties: {}
-          type: object
       type: object
     ArtifactInfo:
       description: |
@@ -2663,7 +2662,6 @@ components:
 
             Supported types: number, string, array of numbers, array of strings.
             Mixed arrays are not allowed.
-          type: object
       required:
       - attribute
       - scope

@@ -163,7 +163,7 @@ test:backend:static:
     - hetzner-amd-beefy
   rules:
     - changes:
-        paths: ["backend/**/*.go", "backend/go.mod"]
+        paths: ["backend/**/*.go", "backend/go.mod", ".gitlab-ci.yml"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
   image: "golangci/golangci-lint:${IMAGE_GOLANGCI_VERSION}"
   script:
@@ -175,7 +175,7 @@ test:backend:validate-open-api:
   needs: []
   rules:
     - changes:
-        paths: ["backend/**/docs/*.yml", "backend/docs/api/*.yaml"]
+        paths: ["backend/**/docs/*.yml", "backend/docs/api/*.yaml", ".gitlab-ci.yml"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
       when: on_success
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
@@ -192,8 +192,8 @@ test:backend:validate-open-api:
       parserOptions:
         incompatibleValues: 1
       EOF
-    - spectral lint -v -D -f text backend/services/**/docs/*.yml
-    - spectral lint -v -D -f junit -o spectral-report.xml backend/services/**/docs/*.yml
+    - spectral lint -v -D -f text backend/services/**/docs/*.yml backend/docs/api/*.yaml
+    - spectral lint -v -D -f junit -o spectral-report.xml backend/services/**/docs/*.yml backend/docs/api/*.yml
   artifacts:
     when: always
     expire_in: 2 weeks
@@ -209,7 +209,7 @@ test:backend:unit:
       artifacts: false
   rules:
     - changes:
-        paths: ["backend/**/*.go", "backend/go.mod"]
+        paths: ["backend/**/*.go", "backend/go.mod", ".gitlab-ci.yml"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
       when: on_success
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
@@ -239,7 +239,7 @@ test:backend:acceptance:
   stage: test
   rules:
     - changes:
-        paths: ["backend/**/*"]
+        paths: ["backend/**/*", ".gitlab-ci.yml"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
       when: on_success
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
@@ -275,7 +275,7 @@ test:backend:integration:
   stage: test
   rules:
     - changes:
-        paths: ["backend/**/*"]
+        paths: ["backend/**/*", ".gitlab-ci.yml"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
       when: on_success
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
