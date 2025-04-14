@@ -16,7 +16,7 @@ paths:
         including active and historical. If both 'status' and 'query' are
         not specified, all devices are listed.
 
-        DEPRECATED: we deprecated the endpoint due to an issue with the "search" query
+        DEPRECATED: _since Mon Oct 21 2024_ we deprecated the endpoint due to an issue with the "search" query
           behavior. Please use the v2 /deployments/deployments endpoint instead.
           In the new endpoint, we replaced search parameter with the "id" and "name" parameters.
       operationId: List Deployments
@@ -531,7 +531,7 @@ paths:
       security:
       - ManagementJWT: []
       summary: |
-        DEPRECATED: this end-point is deprecated because it doesn't support
+        DEPRECATED: _since Wed May 19 2021_ this end-point is deprecated because it doesn't support
         pagination and will be removed in the future, please use the
         /deployments/{deployment_id}/devices/list end-point instead.
       tags:
@@ -867,7 +867,7 @@ paths:
       description: |
         Returns a collection of releases, allows filtering by release name.
 
-        DEPRECATED: this end-point is deprecated because it doesn't support
+        DEPRECATED: _since Wed May 19 2021_ this end-point is deprecated because it doesn't support
         pagination and will be removed in the future, please use the
         /deployments/releases/list end-point instead.
       operationId: List Releases
@@ -1016,7 +1016,7 @@ paths:
         Returns a collection of releases, allows filtering by release name and sorting
         by name or last modification date.
 
-        DEPRECATED: due to a mismatch in the capitalization of the fields of the response
+        DEPRECATED: _since Sep 24 2023_ due to a mismatch in the capitalization of the fields of the response
         body and lack of support for advanced filters and sorting, we have deprecated this
         endpoint. Please use the v2 /deployments/releases end-point instead.
       operationId: List Releases with pagination
@@ -1204,7 +1204,7 @@ paths:
       description: |
         Returns a collection of all artifacts.
 
-        DEPRECATED: this end-point is deprecated because it doesn't support
+        DEPRECATED: _since Oct 18 2021_ this end-point is deprecated because it doesn't support
         pagination and will be removed in the future, please use the
         /artifacts/list end-point instead.
       operationId: List Artifacts
@@ -2724,7 +2724,7 @@ components:
         size:
           description: |
             Size of the artifact file in bytes.
-            DEPRECATED: Size is determined from uploaded content.
+            DEPRECATED: _since Mon Apr 6 2020_ Size is determined from uploaded content.
           format: long
           type: integer
         description:
