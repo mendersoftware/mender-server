@@ -1042,10 +1042,9 @@ func (d *DeploymentsApiHandlers) createDeployment(
 	id, err := d.app.CreateDeployment(ctx, constructor)
 	switch err {
 	case nil:
-		// in case of deployment to group remove "/group/{name}" from path before creating location
-		// haeder
-		r.URL.Path = strings.TrimSuffix(r.URL.Path, "/group/"+constructor.Group)
-		d.view.RenderSuccessPost(w, r, id)
+		location := fmt.Sprintf("%s/%s", ApiUrlManagementDeployments, id)
+		w.Header().Add("Location", location)
+		w.WriteHeader(http.StatusCreated)
 	case app.ErrNoArtifact:
 		d.view.RenderError(w, r, err, http.StatusUnprocessableEntity, l)
 	case app.ErrNoDevices:

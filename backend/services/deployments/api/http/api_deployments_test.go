@@ -467,7 +467,7 @@ func TestPostDeployment(t *testing.T) {
 			Devices:      []string{"f826484e-1157-4109-af21-304e6d711560"},
 		},
 		ResponseCode:           http.StatusCreated,
-		ResponseLocationHeader: "./management/v1/deployments/deployments/foo",
+		ResponseLocationHeader: "/api/management/v1/deployments/deployments/foo",
 	}, {
 		Name: "ok, all devices",
 		InputBody: &model.DeploymentConstructor{
@@ -476,7 +476,7 @@ func TestPostDeployment(t *testing.T) {
 			AllDevices:   true,
 		},
 		ResponseCode:           http.StatusCreated,
-		ResponseLocationHeader: "./management/v1/deployments/deployments/foo",
+		ResponseLocationHeader: "/api/management/v1/deployments/deployments/foo",
 	}, {
 		Name:         "error: empty payload",
 		ResponseCode: http.StatusBadRequest,
@@ -615,7 +615,7 @@ func TestPostDeploymentToGroup(t *testing.T) {
 		},
 		InputGroup:             "baz",
 		ResponseCode:           http.StatusCreated,
-		ResponseLocationHeader: "./management/v1/deployments/deployments/foo",
+		ResponseLocationHeader: "/api/management/v1/deployments/deployments/foo",
 	}, {
 		Name:         "error: empty payload",
 		InputGroup:   "baz",
