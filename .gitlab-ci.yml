@@ -99,12 +99,36 @@ default:
   tags:
     - hetzner-amd-beefy
 
+.requires-docker: &requires-docker
+  - DOCKER_RETRY_SLEEP_S=2
+  - DOCKER_RUNNING=false
+  - for try in 4 3 2 1; do
+  -  docker ps && DOCKER_RUNNING=true
+  -  if [ "${DOCKER_RUNNING}" == "true" ]; then
+  -   break
+  -  fi
+  -  sleep "${DOCKER_RETRY_SLEEP_S}"
+  - done
+  - if [ "${DOCKER_RUNNING}" != "true" ]; then
+  -  exit 192
+  - fi
+
 .dind-login: &dind-login
   - mkdir -p $HOME/.docker && echo $DOCKER_AUTH_CONFIG > $HOME/.docker/config.json
   - docker login --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
+.build:base:
+  before_script:
+    - *requires-docker
+  retry:
+    max: 2
+    exit_codes:
+      - 137
+      - 192
+
 .template:build:docker:
   stage: build
+  extends: .build:base
   needs: []
   tags:
     - hetzner-amd-beefy
