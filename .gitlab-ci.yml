@@ -130,7 +130,7 @@ build:backend:docker:
   extends: .template:build:docker
   rules:
     - changes:
-        paths: ["backend/**/*"]
+        paths: ["backend/**/*", ".gitlab-ci.yml"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
       when: always
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
