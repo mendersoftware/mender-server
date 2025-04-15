@@ -1,0 +1,289 @@
+openapi: 3.0.1
+info:
+  description: |
+    An API for inventory-based filters management and device search.
+    Not exposed via the API Gateway - intended for internal use only.
+  title: Device inventory filters and search
+  version: "1"
+servers:
+- url: http://mender-inventory:8080/api/internal/v2/inventory
+paths:
+  /tenants/{tenant_id}/filters/search:
+    post:
+      description: |
+        Returns a paged collection of devices and their attributes.
+
+        It accepts optional filters and sort parameters as body parameters.
+      operationId: Search Device Inventories
+      parameters:
+      - description: Tenant ID.
+        in: path
+        name: tenant_id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Search_Device_Inventories_request'
+        description: The search and sort parameters of the filter
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              example:
+              - id: 291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
+                attributes:
+                - name: ip_addr
+                  scope: inventory
+                  value: 1.2.3.4
+                  description: IP address
+                - name: mac_addr
+                  scope: inventory
+                  value: 00.01:02:03:04:05
+                  description: MAC address
+                updated_ts: 2016-10-03T16:58:51.639Z
+              - id: 76f40e5956c699e327489213df4459d1923e1a806603def19d417d004a4a3ef
+                attributes:
+                - name: mac
+                  scope: inventory
+                  value: 00:01:02:03:04:05
+                  description: MAC address
+                updated_ts: 2016-10-04T18:24:21.432Z
+              schema:
+                items:
+                  $ref: '#/components/schemas/DeviceInventory'
+                title: ListOfDevices
+                type: array
+          description: Successful response.
+          headers:
+            X-Total-Count:
+              description: Custom header indicating the total number of devices for
+                the given query parameters
+              schema:
+                type: string
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Missing or malformed request parameters. See error for details.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal error.
+      summary: Search device inventories based on attributes
+      tags:
+      - Internal API
+components:
+  schemas:
+    Attribute:
+      description: Attribute descriptor.
+      example:
+        name: serial_no
+        scope: inventory
+        description: Serial number
+        value: "123456789"
+      properties:
+        name:
+          description: |
+            A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc.
+          type: string
+        scope:
+          description: |
+            The scope of the attribute.
+
+            Scope is a string and acts as namespace for the attribute name.
+          type: string
+        description:
+          description: Attribute description.
+          type: string
+        value:
+          description: |
+            The current value of the attribute.
+
+            Attribute type is implicit, inferred from the JSON type.
+
+            Supported types: number, string, array of numbers, array of strings.
+            Mixed arrays are not allowed.
+          type: string
+      required:
+      - name
+      - scope
+      - value
+      type: object
+    DeviceInventory:
+      example:
+        id: 291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
+        attributes:
+        - name: ip_addr
+          scope: inventory
+          value: 1.2.3.4
+          description: IP address
+        - name: mac_addr
+          scope: inventory
+          value: 00.01:02:03:04:05
+          description: MAC address
+        updated_ts: 2016-10-03T16:58:51.639Z
+      properties:
+        id:
+          description: Mender-assigned unique ID.
+          type: string
+        updated_ts:
+          description: Timestamp of the most recent attribute update.
+          type: string
+        attributes:
+          description: A list of attribute descriptors.
+          items:
+            $ref: '#/components/schemas/Attribute'
+          type: array
+      type: object
+    Error:
+      description: Error descriptor.
+      example:
+        error: "failed to decode device group data: JSON payload is empty"
+        request_id: f7881e82-0492-49fb-b459-795654e7188a
+      properties:
+        error:
+          description: Description of the error.
+          type: string
+        request_id:
+          description: Request ID (same as in X-MEN-RequestID header).
+          type: string
+      type: object
+    FilterPredicate:
+      description: Attribute filter predicate
+      example:
+        type: $eq
+        attribute: serial_no
+        scope: inventory
+        value: "123456789"
+      properties:
+        scope:
+          description: |
+            The scope of the attribute.
+
+            Scope is a string and acts as namespace for the attribute name.
+          type: string
+        attribute:
+          description: |
+            Name of the attribute to be queried for filtering.
+          type: string
+        type:
+          description: Type or operator of the filter predicate.
+          enum:
+          - $eq
+          - $in
+          - $nin
+          type: string
+        value:
+          description: |
+            The value of the attribute to be used in filtering.
+
+            Attribute type is implicit, inferred from the JSON type.
+
+            Supported types: number, string, array of numbers, array of strings.
+            Mixed arrays are not allowed.
+
+            The $exists operator expects a boolean value: true means the specified
+            attribute exists, false means the specified attribute doesn't exist.
+
+            The $regex operator expects a string as a Perl compatible regular expression
+            (PCRE), automatically anchored by ^. If the regular expression is not valid,
+            the filter will produce no results. If you need to specify options and flags,
+            you can provide the full regex in the format of /regex/flags, for example
+            `/[a-z]+/i`.
+          type: string
+      required:
+      - attribute
+      - scope
+      - type
+      - value
+      type: object
+    SelectAttribute:
+      description: Inventory attribute
+      example:
+        attribute: serial_no
+        scope: inventory
+      properties:
+        attribute:
+          description: Attribute name.
+          type: string
+        scope:
+          description: Attribute scope.
+          type: string
+      required:
+      - attribute
+      - scope
+      type: object
+    SortCriteria:
+      description: Sort criteria definition
+      example:
+        attribute: serial_no
+        scope: inventory
+        order: asc
+      properties:
+        scope:
+          description: |
+            The scope of the attribute.
+
+            Scope is a string and acts as namespace for the attribute name.
+          type: string
+        attribute:
+          description: |
+            Name of the attribute to be queried for filtering.
+          type: string
+        order:
+          description: |
+            Order direction, ascending or descending.
+
+            Defaults to ascending.
+          enum:
+          - asc
+          - desc
+          type: string
+      required:
+      - attribute
+      - order
+      - scope
+      type: object
+    Search_Device_Inventories_request:
+      properties:
+        page:
+          description: Starting page.
+          format: integer
+          type: number
+        per_page:
+          description: Number of results per page.
+          format: integer
+          type: number
+        device_ids:
+          description: List of device IDs
+          items:
+            description: Attribute filter predicate
+            type: string
+          type: array
+        text:
+          description: Free-text search query
+          type: string
+        filters:
+          description: "List of filter predicates, chained with boolean AND operators\
+            \ to build the search condition definition."
+          items:
+            $ref: '#/components/schemas/FilterPredicate'
+          type: array
+        sort:
+          description: List of ordered sort criterias
+          items:
+            $ref: '#/components/schemas/SortCriteria'
+          type: array
+        attributes:
+          description: List of attributes to select and return
+          items:
+            $ref: '#/components/schemas/SelectAttribute'
+          type: array
+      type: object
