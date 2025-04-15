@@ -20,7 +20,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/gorilla/websocket v1.5.3
 	github.com/mendersoftware/mender-artifact v0.0.0-20250120223930-6e04e877c623
-	github.com/nats-io/nats-server/v2 v2.11.0
+	github.com/nats-io/nats-server/v2 v2.11.1
 	github.com/nats-io/nats.go v1.40.1
 	github.com/opensearch-project/opensearch-go v1.1.0
 	github.com/pkg/errors v0.9.1
