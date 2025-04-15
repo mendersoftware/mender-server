@@ -71,6 +71,8 @@ test:frontend:unit:
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^(staging|saas-[a-zA-Z0-9.]+)$/
       when: never
+    - if: $CI_COMMIT_REF_PROTECTED == "true"
+      when: never
     - changes:
         paths: ['frontend/**/*']
         compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
