@@ -69,11 +69,12 @@ test:frontend:unit:
   stage: test
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/${NODE_IMAGE}
   rules:
-    - if: $CI_COMMIT_REF_NAME =~ /^(staging|saas-[a-zA-Z0-9.]+)$/
-      when: never
     - changes:
         paths: ['frontend/**/*']
         compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
+      when: on_success
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+      when: on_success
   needs: []
   timeout: 5 minutes
   script:
