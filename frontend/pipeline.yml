@@ -75,7 +75,7 @@ test:frontend:unit:
         paths: ['frontend/**/*']
         compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
   needs: []
-  timeout: 5 minutes
+  timeout: 15 minutes
   script:
     - cd frontend
     - npm ci
