@@ -68,6 +68,10 @@ test:frontend:licenses:
 test:frontend:unit:
   stage: test
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/${NODE_IMAGE}
+  tags:
+    # temporarily using dedicated runners to avoid noisy neighbor issues
+    # https://northerntech.atlassian.net/browse/QA-983
+    - mender-qa-worker-generic-heavy
   rules:
     - changes:
         paths: ['frontend/**/*']
@@ -91,8 +95,6 @@ test:frontend:unit:
     reports:
       junit: frontend/junit.xml
     when: always
-  tags:
-    - hetzner-amd-beefy
 
 test:frontend:docs-links:
   stage: test
