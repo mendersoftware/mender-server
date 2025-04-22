@@ -1,0 +1,324 @@
+openapi: 3.0.1
+info:
+  title: Device inventory filters and search
+  description: |
+    An API for inventory-based filters management and device search.
+    It is intended for use by the web GUI.
+
+    Devices can upload vendor-specific attributes (software/hardware info, health checks, metrics, etc.) of various data types to the backend as scoped attributes.
+
+    This API enables the user to:
+    * search devices by inventory scoped attribute value
+    * use the results to create and manage device groups for deployment scheduling
+  version: "2"
+servers:
+- url: https://hosted.mender.io/api/management/v2/inventory
+paths:
+  /filters/attributes:
+    get:
+      tags:
+      - Management API
+      summary: Get the list of filterable inventory attributes
+      description: |
+        Returns a list of filterable inventory attributes.
+
+        The list is sorted in descending order by the count of occurrences of the
+        attribute in the inventory database, then in ascending order by scope and name.
+
+        Limitations:
+         * The API considers up to a sample of 5,000 devices when aggregating the number of attributes.
+         * The API returns up to 500 unique attributes.
+      operationId: Get filterable attributes
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                title: List of filter attributes
+                type: array
+                items:
+                  $ref: '#/components/schemas/FilterAttribute'
+        "500":
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - ManagementJWT: []
+  /filters/search:
+    post:
+      tags:
+      - Management API
+      summary: Search devices based on inventory attributes
+      description: |
+        Returns a paged collection of devices and their attributes.
+
+        If multiple filter predicates are specified, the filters are
+        combined using boolean `and` operator.
+      operationId: Search Device Inventories
+      requestBody:
+        description: The search and sort parameters of the filter
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                page:
+                  type: number
+                  description: Starting page.
+                  format: integer
+                per_page:
+                  type: number
+                  description: Maximum number of results per page.
+                  format: integer
+                text:
+                  type: string
+                  description: Free-text search query
+                filters:
+                  type: array
+                  description: List of filter predicates.
+                  items:
+                    $ref: '#/components/schemas/FilterPredicate'
+                sort:
+                  type: array
+                  description: List of ordered sort criterias
+                  items:
+                    $ref: '#/components/schemas/SortCriteria'
+                attributes:
+                  type: array
+                  description: List of attributes to select and return
+                  items:
+                    $ref: '#/components/schemas/SelectAttribute'
+        required: false
+      responses:
+        "200":
+          description: Successful response.
+          headers:
+            X-Total-Count:
+              description: Total number of devices matched query.
+              schema:
+                type: string
+            Link:
+              description: |
+                Standard header used for page navigation, page relations: 'first', 'next' and 'prev'.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                title: ListOfDevices
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeviceInventory'
+              example:
+              - id: 291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
+                attributes:
+                - name: ip_addr
+                  scope: inventory
+                  value: 1.2.3.4
+                  description: IP address
+                - name: mac_addr
+                  scope: inventory
+                  value: 00.01:02:03:04:05
+                  description: MAC address
+                updated_ts: 2016-10-03T16:58:51.639Z
+              - id: 76f40e5956c699e327489213df4459d1923e1a806603def19d417d004a4a3ef
+                attributes:
+                - name: mac
+                  scope: inventory
+                  value: 00:01:02:03:04:05
+                  description: MAC address
+                updated_ts: 2016-10-04T18:24:21.432Z
+        "400":
+          description: Missing or malformed request parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - ManagementJWT: []
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    Attribute:
+      required:
+      - name
+      - scope
+      - value
+      type: object
+      properties:
+        name:
+          type: string
+          description: |
+            A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc.
+        scope:
+          type: string
+          description: |
+            The scope of the attribute.
+
+            Scope is a string and acts as namespace for the attribute name.
+        description:
+          type: string
+          description: Attribute description.
+        value:
+          type: string
+          description: |
+            The current value of the attribute.
+
+            Attribute type is implicit, inferred from the JSON type.
+
+            Supported types: number, string, array of numbers, array of strings.
+            Mixed arrays are not allowed.
+      description: Attribute descriptor.
+      example:
+        name: serial_no
+        scope: inventory
+        description: Serial number
+        value: "123456789"
+    DeviceInventory:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Mender-assigned unique ID.
+        updated_ts:
+          type: string
+          description: Timestamp of the most recent attribute update.
+        attributes:
+          type: array
+          description: A list of attribute descriptors.
+          items:
+            $ref: '#/components/schemas/Attribute'
+      example:
+        id: 291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
+        attributes:
+        - name: ip_addr
+          scope: inventory
+          value: 1.2.3.4
+          description: IP address
+        - name: mac_addr
+          scope: inventory
+          value: 00.01:02:03:04:05
+          description: MAC address
+        updated_ts: 2016-10-03T16:58:51.639Z
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Description of the error.
+        request_id:
+          type: string
+          description: Request ID (same as in X-MEN-RequestID header).
+      description: Error descriptor.
+      example:
+        error: "failed to decode device group data: JSON payload is empty"
+        request_id: f7881e82-0492-49fb-b459-795654e7188a
+    FilterAttribute:
+      required:
+      - count
+      - name
+      - scope
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the attribute.
+        scope:
+          type: string
+          description: Scope of the attribute.
+        count:
+          type: integer
+          description: Number of occurrences of the attribute in the database.
+      description: Filterable attribute
+      example:
+        name: serial_no
+        scope: inventory
+        count: 10
+    FilterPredicate:
+      required:
+      - attribute
+      - scope
+      - type
+      type: object
+      properties:
+        attribute:
+          type: string
+          description: Attribute name.
+        scope:
+          type: string
+        type:
+          type: string
+          description: Type or operator of the filter predicate.
+          enum:
+          - $eq
+          - $in
+          - $nin
+        value:
+          type: string
+          description: |
+            The value of the attribute to be used in filtering.
+            Attribute type is implicit, inferred from the JSON type.
+      description: Attribute filter predicate
+      example:
+        attribute: serial_no
+        scope: inventory
+        type: $eq
+        value: "123456789"
+    SelectAttribute:
+      required:
+      - attribute
+      - scope
+      type: object
+      properties:
+        attribute:
+          type: string
+          description: Attribute name.
+        scope:
+          type: string
+          description: Attribute scope.
+      description: Inventory attribute
+      example:
+        attribute: serial_no
+        scope: inventory
+    SortCriteria:
+      required:
+      - attribute
+      - order
+      - scope
+      type: object
+      properties:
+        attribute:
+          type: string
+          description: Attribute name.
+        scope:
+          type: string
+          description: Attribute scope.
+        order:
+          type: string
+          description: "Order direction, ascending (\"asc\") or descending (\"desc\"\
+            )."
+          enum:
+          - asc
+          - desc
+      description: Sort criteria definition
+      example:
+        attribute: serial_no
+        scope: inventory
+        order: asc
+  securitySchemes:
+    ManagementJWT:
+      type: apiKey
+      description: |
+        API token issued by User Authentication service.
+        Format: 'Bearer [JWT]'
+      name: Authorization
+      in: header

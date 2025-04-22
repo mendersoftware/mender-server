@@ -1,0 +1,875 @@
+openapi: 3.0.1
+info:
+  title: Device inventory
+  description: |
+    An API for device attribute management and device grouping. Intended for use by the web GUI.
+
+    Devices can upload vendor-specific attributes (software/hardware info, health checks, metrics, etc.) of various data types to the backend.
+
+    This API enables the user to:
+    * list devices with their attributes
+    * search devices by attribute value
+    * use the results to create and manage device groups for the purpose of deployment scheduling
+  version: "1"
+servers:
+- url: https://hosted.mender.io/api/management/v1/inventory
+paths:
+  /devices:
+    get:
+      tags:
+      - Management API
+      summary: List devices inventories
+      description: |
+        Returns a paged collection of devices and their attributes.
+        Accepts optional search and sort parameters.
+
+        **Searching**
+        Searching by attributes values is accomplished by appending attribute
+        name/value pairs to the query string, e.g.:
+        `GET /devices?attr_name_1=foo&attr_name_2=100`
+      operationId: List Device Inventories
+      parameters:
+      - name: page
+        in: query
+        description: Starting page.
+        schema:
+          type: number
+          format: integer
+          default: 1.0
+      - name: per_page
+        in: query
+        description: Maximum number of results per page.
+        schema:
+          type: number
+          format: integer
+          default: 10.0
+      - name: sort
+        in: query
+        description: |
+          Sort devices by attribute.
+          The parameter is formatted as a comma-separated list of attribute
+          names and sort order.
+
+          The order direction (`ord`) must be either `asc` or `desc` for
+          ascending and descending respectively.
+          Defaults to `desc` if not specified.
+
+          For example: `?sort=attr1:asc,attr2:desc`
+          will sort by 'attr1' ascending, and then by 'attr2' descending.
+        schema:
+          type: string
+          format: "attr[:ord][,attr[:ord]...]"
+      - name: has_group
+        in: query
+        description: Limit result to devices assigned to a group.
+        schema:
+          type: boolean
+      - name: group
+        in: query
+        description: Limits result to devices in the given group.
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful response.
+          headers:
+            X-Total-Count:
+              description: Total number of devices found
+              schema:
+                type: string
+            Link:
+              description: |
+                Standard page navigation header, supported relations: 'first', 'next', and 'prev'.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                title: ListOfDevices
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeviceInventory'
+              example:
+              - id: 291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
+                attributes:
+                - name: ip_addr
+                  scope: inventory
+                  value: 1.2.3.4
+                  description: IP address
+                - name: mac_addr
+                  scope: inventory
+                  value: 00.01:02:03:04:05
+                  description: MAC address
+                updated_ts: 2016-10-03T16:58:51.639Z
+              - id: 76f40e5956c699e327489213df4459d1923e1a806603def19d417d004a4a3ef
+                attributes:
+                - name: mac
+                  scope: inventory
+                  value: 00:01:02:03:04:05
+                  description: MAC address
+                updated_ts: 2016-10-04T18:24:21.432Z
+        "400":
+          description: Missing or malformed request parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - ManagementJWT: []
+  /devices/{id}:
+    get:
+      tags:
+      - Management API
+      summary: Get a selected device's inventory
+      operationId: Get Device Inventory
+      parameters:
+      - name: id
+        in: path
+        description: Device identifier.
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful response - the device was found.
+          headers:
+            ETag:
+              description: |
+                Contains the device object's current ETag.
+                Applicable only to attributes with 'tags' scope, changing other attributes doesn't affect the ETag.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceInventory'
+              example:
+                id: 291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
+                attributes:
+                - name: ip_addr
+                  scope: inventory
+                  value: 1.2.3.4
+                  description: IP address
+                - name: mac_addr
+                  scope: inventory
+                  value: 00.01:02:03:04:05
+                  description: MAC address
+                - name: environment
+                  scope: tags
+                  value: test
+                  description: Test environment
+                  timestamp: 2016-10-19T17:23:01.639Z
+                updated_ts: 2016-10-03T16:58:51.639Z
+        "404":
+          description: The device was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - ManagementJWT: []
+    delete:
+      tags:
+      - Management API
+      summary: Remove selected device's inventory
+      operationId: Delete Device Inventory
+      parameters:
+      - name: id
+        in: path
+        description: Device identifier.
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: Device removed
+          content: {}
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - ManagementJWT: []
+  /devices/{id}/tags:
+    put:
+      tags:
+      - Management API
+      summary: Replace the set of tags for a device
+      description: |
+        Replaces the tags associated to the device.
+
+        This method replaces all the tags with the new set:
+        * it removes from the db the attributes not provided
+        * it overwrites the values of existing attributes
+        * it creates attributes assigned for the first time
+      operationId: Assign Tags
+      parameters:
+      - name: If-Match
+        in: header
+        description: "Contains the device object's current ETag, and performs the\
+          \ update only if it matches the one stored in the database."
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Device identifier.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: A list of tags descriptors.
+        content:
+          application/json:
+            schema:
+              title: ListOfTags
+              type: array
+              example:
+              - name: location
+                value: germany
+                description: Germany region
+              - name: environment
+                value: test
+              items:
+                $ref: '#/components/schemas/Tag'
+        required: true
+      responses:
+        "200":
+          description: Tags were updated successfully.
+          content: {}
+        "400":
+          description: Missing or malformed request params or body. See the error
+            message for details.
+          content: {}
+        "404":
+          description: The device was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "412":
+          description: ETag doesn't match.
+          content: {}
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - ManagementJWT: []
+    patch:
+      tags:
+      - Management API
+      summary: Adds a set of tags for a device
+      description: |
+        Saves the provided tags set for the authenticated device.
+
+        This method has upsert semantic:
+        * it overwrites the values of existing attributes
+        * it creates attributes assigned for the first time
+      operationId: Add Tags
+      parameters:
+      - name: If-Match
+        in: header
+        description: "Contains the device object's current ETag, and performs the\
+          \ update only if it matches the one stored in the database."
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Device identifier.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: A list of tag descriptors.
+        content:
+          application/json:
+            schema:
+              title: ListOfTags
+              type: array
+              example:
+              - name: location
+                value: germany
+                description: Germany region
+              - name: environment
+                value: test
+              items:
+                $ref: '#/components/schemas/Tag'
+        required: true
+      responses:
+        "200":
+          description: Tags were updated successfully.
+          content: {}
+        "400":
+          description: Missing or malformed request params or body. See the error
+            message for details.
+          content: {}
+        "404":
+          description: The device was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "412":
+          description: ETag doesn't match.
+          content: {}
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - ManagementJWT: []
+  /devices/{id}/group:
+    get:
+      tags:
+      - Management API
+      summary: Get a selected device's group
+      operationId: Get Device Group
+      parameters:
+      - name: id
+        in: path
+        description: Device identifier.
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: |
+            Successful response. If the device is not assigned to any group, the 'group' field will be set to 'null'.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+        "400":
+          description: Missing or malformed request params or body. See the error
+            message for details.
+          content: {}
+        "404":
+          description: The device was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - ManagementJWT: []
+    put:
+      tags:
+      - Management API
+      summary: Add a device to a group
+      description: |
+        Adds a device to a group.
+
+        Note that a given device can belong to at most one group.
+        If a device already belongs to some group, it will be moved
+        to the selected one.
+      operationId: Assign Group
+      parameters:
+      - name: id
+        in: path
+        description: Device identifier.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Group descriptor.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Group'
+        required: true
+      responses:
+        "204":
+          description: Success - the device was added to the group.
+          content: {}
+        "400":
+          description: Missing or malformed request params or body. See the error
+            message for details.
+          content: {}
+        "404":
+          description: The device was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - ManagementJWT: []
+  /devices/{id}/group/{name}:
+    delete:
+      tags:
+      - Management API
+      summary: Remove a device from a group
+      description: |
+        Removes the device with identifier 'id' from the group 'group'.
+      operationId: Clear Group
+      parameters:
+      - name: id
+        in: path
+        description: Device identifier.
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        description: Group name.
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: The device was successfully removed from the group.
+          content: {}
+        "404":
+          description: The device was not found or doesn't belong to the group.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - ManagementJWT: []
+  /groups:
+    get:
+      tags:
+      - Management API
+      summary: List all groups existing device groups
+      operationId: List Groups
+      parameters:
+      - name: status
+        in: query
+        description: Show groups for devices with the given auth set status.
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  title: ListOfGroupNames
+                  type: string
+                  description: Group name
+              example:
+              - staging
+              - testing
+              - production
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - ManagementJWT: []
+  /groups/{name}:
+    delete:
+      tags:
+      - Management API
+      summary: Remove a device group
+      description: |
+        Removes a device group. This API provides a bulk alternative to
+        DELETE /devices/{id}/group/{name} for managing device groups.
+      operationId: Remove a Group
+      parameters:
+      - name: name
+        in: path
+        description: Group name.
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                required:
+                - updated_count
+                type: object
+                properties:
+                  updated_count:
+                    type: number
+                    description: |
+                      Number of devices for which the group was cleared sucessfully.
+                description: |
+                  JSON object listing how many devices were updated.
+              example:
+                updated_count: 2
+        "400":
+          description: Invalid request schema.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: The group was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - ManagementJWT: []
+  /groups/{name}/devices:
+    get:
+      tags:
+      - Management API
+      summary: List the devices belonging to a given group
+      operationId: Get Devices in Group
+      parameters:
+      - name: page
+        in: query
+        description: Starting page.
+        schema:
+          type: integer
+          default: 1
+      - name: per_page
+        in: query
+        description: Maximum number of results per page.
+        schema:
+          type: integer
+          default: 10
+      - name: name
+        in: path
+        description: Group name.
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful response
+          headers:
+            X-Total-Count:
+              description: Custom header indicating the total number of devices in
+                the given group
+              schema:
+                type: string
+            Link:
+              description: "Standard header, we support 'first', 'next', and 'prev'."
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                title: ListOfIDs
+                type: array
+                items:
+                  type: string
+        "400":
+          description: Invalid request parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: The group was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - ManagementJWT: []
+    delete:
+      tags:
+      - Management API
+      summary: Clear devices' group
+      description: |
+        Removes a list of devices from the specified group.
+      operationId: Remove Devices from Group
+      parameters:
+      - name: name
+        in: path
+        description: Group name.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: JSON list of device IDs to remove from the group.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+        required: true
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                required:
+                - updated_count
+                type: object
+                properties:
+                  updated_count:
+                    type: number
+                    description: |
+                      Number of devices for which the group was cleared sucessfully.
+                description: |
+                  JSON object listing how many devices were updated.
+              example:
+                updated_count: 2
+        "400":
+          description: Invalid request schema.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: The group was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - ManagementJWT: []
+    patch:
+      tags:
+      - Management API
+      summary: Add devices to group
+      description: |
+        Appends the list of devices in the request body to the given group.
+        For devices already present in the group the operation has no effect.
+      operationId: Add Devices to Group
+      parameters:
+      - name: name
+        in: path
+        description: Group name.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: JSON list of device IDs to append to the group.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+        required: true
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                required:
+                - matched_count
+                - updated_count
+                type: object
+                properties:
+                  updated_count:
+                    type: number
+                    description: |
+                      Number of devices listed that changed group.
+                  matched_count:
+                    type: number
+                    description: |
+                      Number of devices listed that matched a valid device id internally.
+                description: |
+                  JSON object listing how many devices were updated.
+              example:
+                updated_count: 2
+                matched_count: 3
+        "400":
+          description: Invalid request schema.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: The group was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - ManagementJWT: []
+components:
+  schemas:
+    Attribute:
+      required:
+      - name
+      - scope
+      - value
+      type: object
+      properties:
+        name:
+          type: string
+          description: |
+            A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc.
+        scope:
+          type: string
+          description: |
+            The scope of the attribute.
+
+            Scope is a string and acts as namespace for the attribute name.
+        description:
+          type: string
+          description: Attribute description.
+        value:
+          type: string
+          description: |
+            The current value of the attribute.
+
+            Attribute type is implicit, inferred from the JSON type.
+
+            Supported types: number, string, array of numbers, array of strings.
+            Mixed type arrays are not allowed.
+        timestamp:
+          type: string
+          description: |
+            The date and time of last tag update in RFC3339 format.
+          format: date-time
+      description: Attribute descriptor.
+      example:
+        name: ip_addr_eth
+        description: Device IP address on ethernet interface
+        value: 127.0.0.1
+        timestamp: 2016-10-19T17:23:01.639Z
+        scope: inventory
+    Tag:
+      required:
+      - name
+      - value
+      type: object
+      properties:
+        name:
+          type: string
+          description: |
+            Tag is an attribute with 'tags' scope.
+
+            A human readable, unique tag ID, e.g. 'location', 'environment', etc.
+        description:
+          type: string
+          description: Tag description.
+        value:
+          type: string
+          description: The current value of the tag.
+        timestamp:
+          type: string
+          description: |
+            The date and time of last tag update in RFC3339 format.
+          format: date-time
+      description: Tag descriptor.
+      example:
+        name: environment
+        description: Test environment
+        value: test
+        timestamp: 2016-10-19T17:23:01.639Z
+    DeviceInventory:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Mender-assigned unique device ID.
+        updated_ts:
+          type: string
+          description: Timestamp of the most recent attribute update.
+        attributes:
+          type: array
+          description: A list of attribute descriptors.
+          items:
+            $ref: '#/components/schemas/Attribute'
+      example:
+        id: 291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
+        attributes:
+        - name: ip_addr
+          value: 1.2.3.4
+          description: IP address
+          scope: inventory
+        - name: mac_addr
+          value: 00.01:02:03:04:05
+          description: MAC address
+          scope: inventory
+        updated_ts: 2016-10-03T16:58:51.639Z
+    Group:
+      required:
+      - group
+      type: object
+      properties:
+        group:
+          type: string
+          description: Device group.
+      example:
+        group: staging
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Description of the error.
+        request_id:
+          type: string
+          description: Request ID (same as in X-MEN-RequestID header).
+      description: Error descriptor.
+      example:
+        error: "failed to decode device group data: JSON payload is empty"
+        request_id: f7881e82-0492-49fb-b459-795654e7188a
+  securitySchemes:
+    ManagementJWT:
+      type: apiKey
+      description: |
+        API token issued by User Authentication service.
+        Format: 'Bearer [JWT]'
+      name: Authorization
+      in: header
