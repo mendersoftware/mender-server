@@ -91,95 +91,95 @@ test.describe('Multi tenant access', () => {
   const secondaryUser = 'demo-secondary@example.com';
   const tenantIdDescriptor = 'Tenant ID:';
   let userId = '';
-  test('allows adding users to tenants', async ({ baseUrl, browser, browserName, environment, page: loggedInPage, request, password }) => {
+  test('allows adding users to tenants', async ({ baseUrl, browser, browserName, environment, page, request, password }) => {
     test.skip('enterprise' !== environment || browserName !== 'chromium');
-    await loggedInPage.goto(`${baseUrl}ui/settings`);
-    await loggedInPage.getByRole('link', { name: /user management/i }).click();
-    const hasUserAlready = await loggedInPage.getByText(secondaryUser).isVisible();
+    await page.goto(`${baseUrl}ui/settings`);
+    await page.getByRole('link', { name: /user management/i }).click();
+    const hasUserAlready = await page.getByText(secondaryUser).isVisible();
     test.skip(hasUserAlready, `${secondaryUser} was added in a previous run, but success notification wasn't caught`);
-    const page = await prepareNewPage({ baseUrl, browser, password, request, username: secondaryUser });
-    await page.goto(`${baseUrl}ui/settings/my-account`);
-    await page
+    const newPage = await prepareNewPage({ baseUrl, browser, password, request, username: secondaryUser });
+    await newPage.goto(`${baseUrl}ui/settings/my-account`);
+    await newPage
       .getByText(/User ID/i)
       .locator('..')
       .locator('..')
       .getByRole('button', { name: /copy to clipboard/i })
       .click({ force: true });
-    const content = await page.evaluateHandle(() => navigator.clipboard.readText());
+    const content = await newPage.evaluateHandle(() => navigator.clipboard.readText());
     userId = await content.jsonValue();
     expect(userId).toBeTruthy();
-    await page.getByText(/help/i).click();
-    await page.getByRole('button', { name: secondaryUser }).click();
-    await expect(page.getByText(/switch organization/i)).not.toBeVisible();
+    await newPage.getByText(/help/i).click();
+    await newPage.getByRole('button', { name: secondaryUser }).click();
+    await expect(newPage.getByText(/switch organization/i)).not.toBeVisible();
 
-    await loggedInPage.getByRole('button', { name: /new user/i }).click();
-    const passwordInput = await loggedInPage.getByPlaceholder(/password/i);
-    const emailUuidInput = await loggedInPage.getByPlaceholder(/email/i);
+    await page.getByRole('button', { name: /new user/i }).click();
+    const passwordInput = await page.getByPlaceholder(/password/i);
+    const emailUuidInput = await page.getByPlaceholder(/email/i);
     await emailUuidInput.click();
     await emailUuidInput.fill(userId);
     await expect(passwordInput).not.toBeVisible();
-    await loggedInPage.getByRole('button', { name: /add user/i }).click();
-    await loggedInPage.getByText('The user was added successfully.').waitFor();
-    await expect(loggedInPage.getByText('The user was added successfully.')).toBeVisible();
-    await loggedInPage.screenshot({ path: './test-results/switch-user-added.png' });
+    await page.getByRole('button', { name: /add user/i }).click();
+    await page.getByText('The user was added successfully.').waitFor();
+    await expect(page.getByText('The user was added successfully.')).toBeVisible();
+    await page.screenshot({ path: './test-results/switch-user-added.png' });
 
-    await page.reload();
-    await page.getByRole('button', { name: secondaryUser }).click();
-    await expect(page.getByRole('button', { name: /switch organization/i })).toBeVisible();
-    await page.context().close();
+    await newPage.reload();
+    await newPage.getByRole('button', { name: secondaryUser }).click();
+    await expect(newPage.getByRole('button', { name: /switch organization/i })).toBeVisible();
+    await newPage.context().close();
   });
-  test('allows switching tenants', async ({ baseUrl, browser, browserName, environment, page: loggedInPage, password, request }) => {
+  test('allows switching tenants', async ({ baseUrl, browser, browserName, environment, page, password, request }) => {
     test.skip('enterprise' !== environment || browserName !== 'chromium');
-    await loggedInPage.goto(`${baseUrl}ui/settings`);
-    await loggedInPage.getByRole('link', { name: /user management/i }).click();
-    const hasUserAlready = await loggedInPage.getByText(secondaryUser).isVisible();
+    await page.goto(`${baseUrl}ui/settings`);
+    await page.getByRole('link', { name: /user management/i }).click();
+    const hasUserAlready = await page.getByText(secondaryUser).isVisible();
     if (!hasUserAlready) {
-      await loggedInPage.getByRole('link', { name: /organization/i }).click();
-      await loggedInPage.getByText('test').click();
-      const content = await loggedInPage.evaluateHandle(() => navigator.clipboard.readText());
+      await page.getByRole('link', { name: /organization/i }).click();
+      await page.getByText('test').click();
+      const content = await page.evaluateHandle(() => navigator.clipboard.readText());
       const tenantInfo = await content.jsonValue();
       const tenantId = tenantInfo.substring(tenantInfo.indexOf(tenantIdDescriptor) + tenantIdDescriptor.length).trim();
       const token = await getTokenFromStorage(baseUrl);
       const options = { headers: { Authorization: `Bearer ${token}` }, data: { tenant_ids: [tenantId] } };
       const response = await request.post(`${baseUrl}api/management/v1/useradm/users/${userId}/assign`, options);
       expect(response.ok()).toBeTruthy();
-      await loggedInPage.getByRole('link', { name: /user management/i }).click();
-      await loggedInPage.screenshot({ path: './test-results/switch-user-list.png' });
+      await page.getByRole('link', { name: /user management/i }).click();
+      await page.screenshot({ path: './test-results/switch-user-list.png' });
     }
     // here we can't use prepareNewPage as it sets the initial JWT to be used on every page init
     const domain = baseUrlToDomain(baseUrl);
     let newContext = await browser.newContext({ storageState: switchTenantStoragePath });
     newContext = await prepareCookies(newContext, domain, '');
-    const page = await newContext.newPage();
-    await page.goto(`${baseUrl}ui/`);
-    await processLoginForm({ username: secondaryUser, password, page, environment });
-    await page.getByRole('button', { name: secondaryUser }).click();
-    await expect(page.getByRole('menuitem', { name: /secondary/i })).toBeVisible();
-    await page.screenshot({ path: './test-results/switch-try-switch.png' });
-    await page.getByRole('button', { name: /switch organization/i }).click({ force: true });
-    const tenantSwitch = await page.getByRole('menuitem', { name: /test/i });
+    const newPage = await newContext.newPage();
+    await newPage.goto(`${baseUrl}ui/`);
+    await processLoginForm({ username: secondaryUser, password, page: newPage, environment });
+    await newPage.getByRole('button', { name: secondaryUser }).click();
+    await expect(newPage.getByRole('menuitem', { name: /secondary/i })).toBeVisible();
+    await newPage.screenshot({ path: './test-results/switch-try-switch.png' });
+    await newPage.getByRole('button', { name: /switch organization/i }).click({ force: true });
+    const tenantSwitch = await newPage.getByRole('menuitem', { name: /test/i });
     await tenantSwitch.waitFor({ timeout: timeouts.default });
     await tenantSwitch.click();
-    await page.waitForTimeout(timeouts.default);
-    await page.getByRole('button', { name: secondaryUser }).click();
-    await expect(page.getByRole('menuitem', { name: /secondary/i })).not.toBeVisible();
-    await expect(page.getByRole('menuitem', { name: /test/i })).toBeVisible();
-    await page.screenshot({ path: './test-results/switch-post-switch.png' });
+    await newPage.waitForTimeout(timeouts.default);
+    await newPage.getByRole('button', { name: secondaryUser }).click();
+    await expect(newPage.getByRole('menuitem', { name: /secondary/i })).not.toBeVisible();
+    await expect(newPage.getByRole('menuitem', { name: /test/i })).toBeVisible();
+    await newPage.screenshot({ path: './test-results/switch-post-switch.png' });
 
-    await loggedInPage.goto(`${baseUrl}ui/settings`);
-    await loggedInPage.getByRole('link', { name: /user management/i }).click();
-    await loggedInPage.getByText(secondaryUser).click();
-    await loggedInPage.getByRole('button', { name: /delete user/i }).click();
-    await expect(loggedInPage.getByText(/delete user\?/i)).toBeVisible();
-    await loggedInPage
+    await page.goto(`${baseUrl}ui/settings`);
+    await page.getByRole('link', { name: /user management/i }).click();
+    await page.getByText(secondaryUser).click();
+    await page.getByRole('button', { name: /delete user/i }).click();
+    await expect(page.getByText(/delete user\?/i)).toBeVisible();
+    await page
       .getByRole('button', { name: /delete user/i })
       .last()
       .click();
 
-    await page.getByRole('menuitem', { name: /log out/i }).click();
-    await processLoginForm({ username: secondaryUser, password, page, environment });
-    await page.getByRole('button', { name: secondaryUser }).click();
-    await expect(page.getByText(/switch organization/i)).not.toBeVisible();
+    await newPage.getByRole('menuitem', { name: /log out/i }).click();
+    await processLoginForm({ username: secondaryUser, password, page: newPage, environment });
+    await newPage.getByRole('button', { name: secondaryUser }).click();
+    await expect(newPage.getByText(/switch organization/i)).not.toBeVisible();
     await newContext.close();
   });
 });

@@ -139,38 +139,38 @@ test.describe('SAML Login via sso/id/login', () => {
 
   // This test calls auth/sso/${id}/login, where id is the id of the identity provider
   // and verifies that login is successful.
-  test('User can login via sso/login endpoint', async ({ environment, baseUrl, browser, browserName, page: loggedInPage }) => {
+  test('User can login via sso/login endpoint', async ({ environment, baseUrl, browser, browserName, page }) => {
     test.skip(!isEnterpriseOrStaging(environment));
     test.setTimeout(3 * timeouts.fifteenSeconds);
     let idpServer;
     startIdpServer({ acsUrl, metadataLocation }, server => (idpServer = server));
-    await loggedInPage.waitForTimeout(timeouts.oneSecond);
-    await loggedInPage.goto(`${baseUrl}ui/help`);
-    await loggedInPage.goto(`${baseUrl}ui/settings`);
-    await loggedInPage.getByText(/organization/i).click();
-    await loggedInPage.getByText('View metadata in the text editor').waitFor({ timeout: timeouts.tenSeconds });
+    await page.waitForTimeout(timeouts.oneSecond);
+    await page.goto(`${baseUrl}ui/help`);
+    await page.goto(`${baseUrl}ui/settings`);
+    await page.getByText(/organization/i).click();
+    await page.getByText('View metadata in the text editor').waitFor({ timeout: timeouts.tenSeconds });
     let loginUrl = '';
-    let loginThing = await loggedInPage.locator('*:below(:text("Start URL"))').first();
+    let loginThing = await page.locator('*:below(:text("Start URL"))').first();
     loginUrl = await loginThing.getAttribute('title');
     if (!loginUrl) {
-      loginThing = await loggedInPage.locator(':text("Start URL") + *').first();
+      loginThing = await page.locator(':text("Start URL") + *').first();
       loginUrl = await loginThing.innerText();
     }
     console.log(`logging in via ${loginUrl} (using: ${samlSettings.credentials[browserName]})`);
     const context = await browser.newContext();
-    const page = await context.newPage();
-    await page.goto(loginUrl);
+    const samlPage = await context.newPage();
+    await samlPage.goto(loginUrl);
     // This screenshot saves the view right after the first redirection
-    await page.screenshot({ path: './test-results/saml-redirected.png' });
+    await samlPage.screenshot({ path: './test-results/saml-redirected.png' });
 
-    await page.getByLabel(/Subject NameID/i).clear();
-    await page.getByLabel(/Subject NameID/i).fill(samlSettings.credentials[browserName]);
-    await page.getByLabel(/E-Mail Address/i).clear();
-    await page.getByLabel(/E-Mail Address/i).fill(samlSettings.credentials[browserName]);
-    await page.getByRole('button', { name: /sign in/i }).click();
+    await samlPage.getByLabel(/Subject NameID/i).clear();
+    await samlPage.getByLabel(/Subject NameID/i).fill(samlSettings.credentials[browserName]);
+    await samlPage.getByLabel(/E-Mail Address/i).clear();
+    await samlPage.getByLabel(/E-Mail Address/i).fill(samlSettings.credentials[browserName]);
+    await samlPage.getByRole('button', { name: /sign in/i }).click();
     // confirm we have logged in successfully
-    await page.screenshot({ path: './test-results/saml-logging-in-accept.png' });
-    await isLoggedIn(page);
+    await samlPage.screenshot({ path: './test-results/saml-logging-in-accept.png' });
+    await isLoggedIn(samlPage);
     idpServer.close();
     await context.close();
   });
