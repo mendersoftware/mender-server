@@ -2,7 +2,7 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import svgr from 'vite-plugin-svgr';
 import tsconfigPaths from 'vite-tsconfig-paths';
-import { defineConfig } from 'vitest/config';
+import { UserWorkspaceConfig, defineConfig } from 'vitest/config';
 
 export default defineConfig({
   plugins: [
@@ -56,5 +56,6 @@ export default defineConfig({
     fakeTimers: {
       toFake: ['setTimeout', 'clearTimeout', 'Date']
     }
-  }
-});
+  },
+  pool: 'threads'
+} as UserWorkspaceConfig);
