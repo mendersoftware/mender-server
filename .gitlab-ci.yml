@@ -297,6 +297,7 @@ test:backend:acceptance:
 test:backend:integration:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
   stage: test
+  extends: .build:base
   rules:
     - changes:
         paths: ["backend/**/*", ".gitlab-ci.yml"]
