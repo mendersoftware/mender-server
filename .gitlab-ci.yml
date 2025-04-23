@@ -76,6 +76,16 @@ variables:
     description: "The changelog file in the remote changelog repo"
     value: "302.Release-information/03.Open-source-licenses/01.Mender-Server/docs.md"
 
+  COMPASS_CLOUD_URL:
+    description: "Compass Cloud URL"
+    value: "https://northerntech.atlassian.net/gateway/api/compass/v1/events"
+  COMPASS_CLOUD_ID:
+    description: "Compass Cloud ID"
+    value: "415471ec-5532-42bf-b7dc-acc88186742b"
+  COMPASS_COMPONENT_ID:
+    description: "Compass component ID"
+    value: "ari:cloud:compass:415471ec-5532-42bf-b7dc-acc88186742b:component/049b3d55-89b7-47a2-9d7d-52f5f578e3b8/b5cc5e94-504b-44c8-ada2-d3e4998832a7"
+
 include:
   - project: "Northern.tech/Mender/mendertesting"
     file:
@@ -94,6 +104,7 @@ stages:
   - publish
   - changelog
   - deploy-staging
+  - compass
 
 default:
   tags:
@@ -869,3 +880,49 @@ mender-helm-version-bump:staging:
     CHART_DIR: "mender"
     SYNC_ENVIRONMENT: staging
     HELM_PATCH_VERSION: ${CI_PIPELINE_ID}-staging # pre-release version for trigger staging only deploy
+
+compass:
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/curlimages/curl
+  allow_failure: true
+  stage: compass
+  needs:
+    - job: mender-helm-version-bump
+      artifacts: false
+  before_script:
+    - apk add jq
+  script:
+    - RELEASE_VERSION="$(jq -r '.["."]' .release-please-manifest.json)"
+    - |
+      curl --request POST
+        --url $COMPASS_CLOUD_URL
+        --user "$COMPASS_JIRA_USER:$COMPASS_JIRA_API_TOKEN"
+        --header "Accept: application/json"
+        --header "Content-Type: application/json"
+        --data '{
+          "cloudId": '"$COMPASS_CLOUD_ID"',
+          "componentId": '"$COMPASS_COMPONENT_ID"',
+          "event": {
+            "deployment": {
+              "displayName": "'"$RELEASE_VERSION"'-released",
+              "updateSequenceNumber": '"$(date +%s)"',
+              "url": "https://mender.io",
+              "description": "Deployment of '"$RELEASE_VERSION"'",
+              "lastUpdated": "'"$(date -u +"%Y-%m-%dT%H:%M:%SZ")"'",
+              "externalEventSourceId": "a-b-c-d",
+              "deploymentProperties": {
+                "sequenceNumber": 41,
+                "state": "SUCCESSFUL",
+                "pipeline": {
+                  "pipelineId": "s0",
+                  "url": "https://s1.com",
+                  "displayName": "s2"
+                },
+                "environment": {
+                  "category": "PRODUCTION",
+                  "displayName": "ala",
+                  "environmentId": "ola"
+                }
+              }
+            }
+          }
+        }'
