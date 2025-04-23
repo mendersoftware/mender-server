@@ -172,5 +172,6 @@ test.describe('SAML Login via sso/id/login', () => {
     await page.screenshot({ path: './test-results/saml-logging-in-accept.png' });
     await isLoggedIn(page);
     idpServer.close();
+    await context.close();
   });
 });

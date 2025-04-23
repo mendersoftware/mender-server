@@ -119,6 +119,7 @@ test.describe('RBAC functionality', () => {
       // the created role does have permission to configure devices, so the section should be visible
       await page.getByText(/configuration/i).click();
       await page.getByText(/Device configuration/i).waitFor({ timeout: timeouts.tenSeconds });
+      await page.context().close();
     });
     test('read-only all releases', async ({ baseUrl, browser, environment, password, request, username }) => {
       test.skip(!isEnterpriseOrStaging(environment));
@@ -130,6 +131,7 @@ test.describe('RBAC functionality', () => {
       await expect(page.getByRole('button', { name: /upload/i })).not.toBeVisible();
       await page.getByRole('checkbox').first().click();
       await expect(page.getByLabel(/release-actions/i)).not.toBeVisible();
+      await page.context().close();
     });
     test('read-only tagged releases', async ({ baseUrl, browser, environment, password, request, username }) => {
       test.skip(!isEnterpriseOrStaging(environment));
@@ -139,6 +141,7 @@ test.describe('RBAC functionality', () => {
       await expect(page.getByText('1-1 of 1')).toBeVisible();
       // the created role doesn't have permission to upload artifacts, so the button shouldn't be visible
       await expect(page.getByRole('button', { name: /upload/i })).not.toBeVisible();
+      await page.context().close();
     });
     test('manage tagged releases', async ({ baseUrl, browser, environment, password, request, username }) => {
       test.skip(!isEnterpriseOrStaging(environment));
@@ -148,6 +151,7 @@ test.describe('RBAC functionality', () => {
       await expect(page.getByText('1-1 of 1')).toBeVisible();
       // the created role does have permission to upload artifacts, so the button should be visible
       await expect(page.getByRole('button', { name: /upload/i })).toBeVisible();
+      await page.context().close();
     });
   });
 });

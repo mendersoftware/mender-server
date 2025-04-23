@@ -107,6 +107,7 @@ test.describe('Test setup', () => {
       const page = await prepareNewPage({ baseUrl, browser, password, request, username: spTenantUsername });
       await isLoggedIn(page);
       await page.context().storageState({ path: spStoragePath });
+      await page.context().close();
     });
   });
 });

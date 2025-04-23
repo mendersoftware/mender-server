@@ -98,5 +98,6 @@ test.describe('Login', () => {
     await differentPage.goto(`${baseUrl}ui/`);
     await expect(page.getByText('Welcome back')).not.toBeVisible();
     await expect(differentPage.getByText('Getting started')).not.toBeVisible();
+    await differentContext.close();
   });
 });

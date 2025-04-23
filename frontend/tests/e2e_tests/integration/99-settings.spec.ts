@@ -169,6 +169,7 @@ test.describe('Settings', () => {
       // still on /login page plus an error is displayed
       await expect(page.getByRole('button', { name: /next/i })).toBeVisible();
       await page.getByText(/Incorrect email address/).waitFor({ timeout: timeouts.default });
+      await context.close();
     });
     test('allows turning 2fa off again', async ({ baseUrl, browser, environment, password, username }) => {
       test.skip(environment !== 'staging');
@@ -185,6 +186,7 @@ test.describe('Settings', () => {
       await page.goto(`${baseUrl}ui/settings/my-account`);
       await page.getByText(/Enable Two Factor/).click();
       await page.waitForTimeout(timeouts.default);
+      await context.close();
     });
     test('allows logging in without 2fa after deactivation', async ({ baseUrl, browser, environment, password, username }) => {
       test.skip(environment !== 'staging');
@@ -196,6 +198,7 @@ test.describe('Settings', () => {
       await processLoginForm({ username, password, page, environment });
       await isLoggedIn(page);
       await page.goto(`${baseUrl}ui/settings`);
+      await context.close();
     });
   });
 
@@ -287,6 +290,7 @@ test.describe('Settings', () => {
       await page.context().storageState({ path: storagePath });
       const { token: newToken } = await login(username, password, baseUrl, request);
       expect(newToken).toBeTruthy();
+      await page.context().close();
     });
   });
 });

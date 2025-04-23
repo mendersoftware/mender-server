@@ -126,6 +126,7 @@ test.describe('Multi tenant access', () => {
     await page.reload();
     await page.getByRole('button', { name: secondaryUser }).click();
     await expect(page.getByRole('button', { name: /switch organization/i })).toBeVisible();
+    await page.context().close();
   });
   test('allows switching tenants', async ({ baseUrl, browser, browserName, environment, page: loggedInPage, password, request }) => {
     test.skip('enterprise' !== environment || browserName !== 'chromium');
@@ -179,5 +180,6 @@ test.describe('Multi tenant access', () => {
     await processLoginForm({ username: secondaryUser, password, page, environment });
     await page.getByRole('button', { name: secondaryUser }).click();
     await expect(page.getByText(/switch organization/i)).not.toBeVisible();
+    await newContext.close();
   });
 });
