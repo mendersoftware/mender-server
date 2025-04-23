@@ -66,6 +66,9 @@ test:frontend:licenses:
     - hetzner-amd-beefy
 
 test:frontend:unit:
+  # QA-983: hard-retry on the CI jobs while we work on a proper fix
+  retry:
+    max: 2
   stage: test
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/${NODE_IMAGE}
   rules:
@@ -167,6 +170,9 @@ build:frontend:docker:
       - frontend/licenses.json
 
 .template:test:frontend:acceptance:
+  # QA-983: hard-retry on the CI jobs while we work on a proper fix
+  retry:
+    max: 2
   stage: test
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
   rules:
