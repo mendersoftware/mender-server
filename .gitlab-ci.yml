@@ -359,6 +359,7 @@ test:integration:
 
 test:prep:
   stage: test
+  extends: .build:base
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
