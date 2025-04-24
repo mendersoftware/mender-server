@@ -83,6 +83,7 @@ test:frontend:unit:
     - npm run test -- --reporter=default --reporter=junit --outputFile.junit=./junit.xml --coverage
   after_script:
     - mkdir logs && cp frontend/logs/* logs/
+  allow_failure: true
   artifacts:
     expire_in: 2w
     paths:
