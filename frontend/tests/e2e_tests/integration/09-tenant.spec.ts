@@ -107,6 +107,7 @@ test.describe('Multi tenant access', () => {
       .click({ force: true });
     const content = await page.evaluateHandle(() => navigator.clipboard.readText());
     userId = await content.jsonValue();
+    expect(userId).toBeTruthy();
     await page.getByText(/help/i).click();
     await page.getByRole('button', { name: secondaryUser }).click();
     await expect(page.getByText(/switch organization/i)).not.toBeVisible();
@@ -118,7 +119,9 @@ test.describe('Multi tenant access', () => {
     await emailUuidInput.fill(userId);
     await expect(passwordInput).not.toBeVisible();
     await loggedInPage.getByRole('button', { name: /add user/i }).click();
-    await page.waitForTimeout(timeouts.oneSecond);
+    await loggedInPage.getByText('The user was added successfully.').waitFor();
+    await expect(loggedInPage.getByText('The user was added successfully.')).toBeVisible();
+    await loggedInPage.screenshot({ path: './test-results/switch-user-added.png' });
 
     await page.reload();
     await page.getByRole('button', { name: secondaryUser }).click();
