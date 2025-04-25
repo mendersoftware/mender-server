@@ -40,7 +40,7 @@
     "react-idle-timer": "5.7.2",
     "react-linkify": "1.0.0-alpha",
     "react-redux": "9.2.0",
-    "react-router-dom": "7.4.1",
+    "react-router-dom": "7.5.2",
     "redux-thunk": "^3.1.0",
     "tss-react": "4.9.16",
     "universal-cookie": "8.0.1",
