@@ -30,6 +30,7 @@ import {
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import DocsLink from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import Form from '@northern.tech/common-ui/forms/Form';
@@ -135,7 +136,10 @@ export const PasswordLabel = () => (
       title={
         <>
           <p>You can skip setting a password for now - you can opt to send the new user an email containing a password reset link by checking the box below.</p>
-          <p>Organizations using Single Sign-On or other means of authorization may want to create users with no password.</p>
+          <p>
+            For Single Sign-On to work, you must create users with no password. Please{' '}
+            <DocsLink path="server-integration/saml-federated-authentication" title="see the documentation" /> for more information.
+          </p>
         </>
       }
     >
