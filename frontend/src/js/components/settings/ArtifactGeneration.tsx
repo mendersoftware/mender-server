@@ -35,7 +35,6 @@ const useStyles = makeStyles()(theme => ({
     backgroundColor: theme.palette.background.lightgrey,
     display: 'flex',
     flexDirection: 'column',
-    marginTop: theme.spacing(6),
     padding: theme.spacing(2),
     paddingTop: 0,
     '&>h5': { marginTop: 0, marginBottom: 0 },

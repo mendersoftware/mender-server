@@ -42,6 +42,17 @@ exports[`GlobalSettings Component > renders correctly 1`] = `
 }
 
 .emotion-2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.emotion-3 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -58,7 +69,7 @@ exports[`GlobalSettings Component > renders correctly 1`] = `
   min-width: 240px;
 }
 
-.emotion-3 {
+.emotion-4 {
   color: rgba(0, 0, 0, 0.54);
   line-height: 1.4375em;
   font-family: Lato,sans-serif;
@@ -107,19 +118,19 @@ exports[`GlobalSettings Component > renders correctly 1`] = `
   transform: translate(14px, -9px) scale(0.75);
 }
 
-.emotion-3.Mui-focused {
+.emotion-4.Mui-focused {
   color: #337a87;
 }
 
-.emotion-3.Mui-disabled {
+.emotion-4.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-3.Mui-error {
+.emotion-4.Mui-error {
   color: #ab1000;
 }
 
-.emotion-4 {
+.emotion-5 {
   line-height: 1.4375em;
   font-family: Lato,sans-serif;
   font-weight: 400;
@@ -140,38 +151,38 @@ exports[`GlobalSettings Component > renders correctly 1`] = `
   border-radius: 4px;
 }
 
-.emotion-4.Mui-disabled {
+.emotion-5.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
   cursor: default;
 }
 
-.emotion-4:hover .MuiOutlinedInput-notchedOutline {
+.emotion-5:hover .MuiOutlinedInput-notchedOutline {
   border-color: rgba(10, 10, 11, 0.78);
 }
 
 @media (hover: none) {
-  .emotion-4:hover .MuiOutlinedInput-notchedOutline {
+  .emotion-5:hover .MuiOutlinedInput-notchedOutline {
     border-color: rgba(0, 0, 0, 0.23);
   }
 }
 
-.emotion-4.Mui-focused .MuiOutlinedInput-notchedOutline {
+.emotion-5.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-width: 2px;
 }
 
-.emotion-4.Mui-focused .MuiOutlinedInput-notchedOutline {
+.emotion-5.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-color: #337a87;
 }
 
-.emotion-4.Mui-error .MuiOutlinedInput-notchedOutline {
+.emotion-5.Mui-error .MuiOutlinedInput-notchedOutline {
   border-color: #ab1000;
 }
 
-.emotion-4.Mui-disabled .MuiOutlinedInput-notchedOutline {
+.emotion-5.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-5 {
+.emotion-6 {
   -moz-appearance: none;
   -webkit-appearance: none;
   -webkit-user-select: none;
@@ -201,32 +212,32 @@ exports[`GlobalSettings Component > renders correctly 1`] = `
   padding: 16.5px 14px;
 }
 
-.emotion-5:focus {
+.emotion-6:focus {
   border-radius: 0;
 }
 
-.emotion-5.Mui-disabled {
+.emotion-6.Mui-disabled {
   cursor: default;
 }
 
-.emotion-5[multiple] {
+.emotion-6[multiple] {
   height: auto;
 }
 
-.emotion-5:not([multiple]) option,
-.emotion-5:not([multiple]) optgroup {
+.emotion-6:not([multiple]) option,
+.emotion-6:not([multiple]) optgroup {
   background-color: #fff;
 }
 
-.emotion-5:focus {
+.emotion-6:focus {
   border-radius: 4px;
 }
 
-.emotion-5.emotion-5.emotion-5 {
+.emotion-6.emotion-6.emotion-6 {
   padding-right: 32px;
 }
 
-.emotion-5.MuiSelect-select {
+.emotion-6.MuiSelect-select {
   height: auto;
   min-height: 1.4375em;
   text-overflow: ellipsis;
@@ -234,80 +245,80 @@ exports[`GlobalSettings Component > renders correctly 1`] = `
   overflow: hidden;
 }
 
-.emotion-5::-webkit-input-placeholder {
+.emotion-6::-webkit-input-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-5::-moz-placeholder {
+.emotion-6::-moz-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-5::-ms-input-placeholder {
+.emotion-6::-ms-input-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-5:focus {
+.emotion-6:focus {
   outline: 0;
 }
 
-.emotion-5:invalid {
+.emotion-6:invalid {
   box-shadow: none;
 }
 
-.emotion-5::-webkit-search-decoration {
+.emotion-6::-webkit-search-decoration {
   -webkit-appearance: none;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-5::-webkit-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-6::-webkit-input-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-5::-moz-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-6::-moz-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-5::-ms-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-6::-ms-input-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-webkit-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-webkit-input-placeholder {
   opacity: 0.42;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-moz-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-moz-placeholder {
   opacity: 0.42;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-placeholder {
   opacity: 0.42;
 }
 
-.emotion-5.Mui-disabled {
+.emotion-6.Mui-disabled {
   opacity: 1;
   -webkit-text-fill-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-5:-webkit-autofill {
+.emotion-6:-webkit-autofill {
   -webkit-animation-duration: 5000s;
   animation-duration: 5000s;
   -webkit-animation-name: mui-auto-fill;
   animation-name: mui-auto-fill;
 }
 
-.emotion-5:-webkit-autofill {
+.emotion-6:-webkit-autofill {
   border-radius: inherit;
 }
 
-.emotion-6 {
+.emotion-7 {
   bottom: 0;
   left: 0;
   position: absolute;
@@ -317,7 +328,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   box-sizing: border-box;
 }
 
-.emotion-7 {
+.emotion-8 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -340,15 +351,15 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   right: 7px;
 }
 
-.emotion-7 iconButton {
+.emotion-8 iconButton {
   margin-right: 8px;
 }
 
-.emotion-7.Mui-disabled {
+.emotion-8.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-8 {
+.emotion-9 {
   text-align: left;
   position: absolute;
   bottom: 0;
@@ -366,7 +377,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   border-color: rgba(0, 0, 0, 0.23);
 }
 
-.emotion-9 {
+.emotion-10 {
   float: unset;
   width: auto;
   overflow: hidden;
@@ -384,7 +395,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   transition: max-width 100ms cubic-bezier(0.0, 0, 0.2, 1) 50ms;
 }
 
-.emotion-9>span {
+.emotion-10>span {
   padding-left: 5px;
   padding-right: 5px;
   display: inline-block;
@@ -392,7 +403,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   visibility: visible;
 }
 
-.emotion-10 {
+.emotion-11 {
   color: rgba(0, 0, 0, 0.54);
   font-family: Lato,sans-serif;
   font-weight: 400;
@@ -407,15 +418,15 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   margin-right: 14px;
 }
 
-.emotion-10.Mui-disabled {
+.emotion-11.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-10.Mui-error {
+.emotion-11.Mui-error {
   color: #ab1000;
 }
 
-.emotion-11 {
+.emotion-12 {
   color: rgba(0, 0, 0, 0.54);
   line-height: 1.4375em;
   font-family: Lato,sans-serif;
@@ -440,23 +451,23 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   transition: color 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,max-width 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
 }
 
-.emotion-11.Mui-focused {
+.emotion-12.Mui-focused {
   color: #337a87;
 }
 
-.emotion-11.Mui-disabled {
+.emotion-12.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-11.Mui-error {
+.emotion-12.Mui-error {
   color: #ab1000;
 }
 
-.emotion-12 {
+.emotion-13 {
   gap: 16px;
 }
 
-.emotion-15 {
+.emotion-16 {
   background-color: #fff;
   color: rgba(10, 10, 11, 0.78);
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -472,7 +483,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   padding: 0;
 }
 
-.emotion-15::before {
+.emotion-16::before {
   position: absolute;
   left: 0;
   top: -1px;
@@ -485,58 +496,58 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-15:first-of-type::before {
+.emotion-16:first-of-type::before {
   display: none;
 }
 
-.emotion-15.Mui-expanded::before {
+.emotion-16.Mui-expanded::before {
   opacity: 0;
 }
 
-.emotion-15.Mui-expanded:first-of-type {
+.emotion-16.Mui-expanded:first-of-type {
   margin-top: 0;
 }
 
-.emotion-15.Mui-expanded:last-of-type {
+.emotion-16.Mui-expanded:last-of-type {
   margin-bottom: 0;
 }
 
-.emotion-15.Mui-expanded+.emotion-15.Mui-expanded::before {
+.emotion-16.Mui-expanded+.emotion-16.Mui-expanded::before {
   display: none;
 }
 
-.emotion-15.Mui-disabled {
+.emotion-16.Mui-disabled {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-15.Mui-expanded {
+.emotion-16.Mui-expanded {
   margin: 16px 0;
 }
 
-.emotion-15:before {
+.emotion-16:before {
   display: none;
 }
 
-.emotion-15.Mui-expanded {
+.emotion-16.Mui-expanded {
   margin: auto;
   background-color: #f7f7f7;
 }
 
-.emotion-15 ul {
+.emotion-16 ul {
   -webkit-padding-start: 0;
   padding-inline-start: 0;
 }
 
-.emotion-15.Mui-disabled,
-.emotion-15.Mui-expanded {
+.emotion-16.Mui-disabled,
+.emotion-16.Mui-expanded {
   background-color: #fff;
 }
 
-.emotion-16 {
+.emotion-17 {
   all: unset;
 }
 
-.emotion-17 {
+.emotion-18 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -584,44 +595,44 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   margin-bottom: 8px;
 }
 
-.emotion-17::-moz-focus-inner {
+.emotion-18::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-17.Mui-disabled {
+.emotion-18.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-17 {
+  .emotion-18 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-17.Mui-focusVisible {
+.emotion-18.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-17.Mui-disabled {
+.emotion-18.Mui-disabled {
   opacity: 0.38;
 }
 
-.emotion-17:hover:not(.Mui-disabled) {
+.emotion-18:hover:not(.Mui-disabled) {
   cursor: pointer;
 }
 
-.emotion-17.Mui-expanded {
+.emotion-18.Mui-expanded {
   min-height: 64px;
 }
 
-.emotion-17.Mui-expanded {
+.emotion-18.Mui-expanded {
   height: 48px;
   min-height: 48px;
 }
 
-.emotion-18 {
+.emotion-19 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -640,19 +651,19 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   align-items: center;
 }
 
-.emotion-18.Mui-expanded {
+.emotion-19.Mui-expanded {
   margin: 20px 0;
 }
 
-.emotion-18.Mui-expanded {
+.emotion-19.Mui-expanded {
   margin: 0;
 }
 
-.emotion-18>:last-child {
+.emotion-19>:last-child {
   padding-right: 12px;
 }
 
-.emotion-19 {
+.emotion-20 {
   position: relative;
   overflow: hidden;
   display: block;
@@ -664,13 +675,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
 }
 
 @media print {
-  .emotion-19 {
+  .emotion-20 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-20 {
+.emotion-21 {
   width: 100%;
   position: absolute;
   left: 0;
@@ -684,7 +695,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   transition: transform .4s linear;
 }
 
-.emotion-21 {
+.emotion-22 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -734,42 +745,42 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   color: rgba(0, 0, 0, 0.54);
 }
 
-.emotion-21::-moz-focus-inner {
+.emotion-22::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-21.Mui-disabled {
+.emotion-22.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-21 {
+  .emotion-22 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-21:hover {
+.emotion-22:hover {
   background-color: var(--IconButton-hoverBg);
 }
 
 @media (hover: none) {
-  .emotion-21:hover {
+  .emotion-22:hover {
     background-color: transparent;
   }
 }
 
-.emotion-21.Mui-disabled {
+.emotion-22.Mui-disabled {
   background-color: transparent;
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-21.MuiIconButton-loading {
+.emotion-22.MuiIconButton-loading {
   color: transparent;
 }
 
-.emotion-22 {
+.emotion-23 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -786,11 +797,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   font-size: 1.3929rem;
 }
 
-.emotion-22 iconButton {
+.emotion-23 iconButton {
   margin-right: 8px;
 }
 
-.emotion-23 {
+.emotion-24 {
   height: 0;
   overflow: hidden;
   -webkit-transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -798,7 +809,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   visibility: hidden;
 }
 
-.emotion-24 {
+.emotion-25 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -806,18 +817,18 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   width: 100%;
 }
 
-.emotion-25 {
+.emotion-26 {
   width: 100%;
 }
 
-.emotion-26 {
+.emotion-27 {
   padding: 8px 16px 16px;
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
 }
 
-.emotion-27 {
+.emotion-28 {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -831,15 +842,15 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   position: relative;
 }
 
-.emotion-27 .MuiListSubheader-root {
+.emotion-28 .MuiListSubheader-root {
   top: -10px;
 }
 
-.emotion-27 li>ul {
+.emotion-28 li>ul {
   overflow: initial;
 }
 
-.emotion-28 {
+.emotion-29 {
   box-sizing: border-box;
   line-height: 48px;
   list-style: none;
@@ -856,7 +867,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   background-color: #fff;
 }
 
-.emotion-29 {
+.emotion-30 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -883,25 +894,25 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   padding-bottom: 11px;
 }
 
-.emotion-29.undefined {
+.emotion-30.undefined {
   opacity: 1;
 }
 
-.emotion-29.active {
+.emotion-30.active {
   background-color: #fff;
 }
 
-.emotion-29.leftNav.active {
+.emotion-30.leftNav.active {
   border-top: 1px solid #d4e9e7;
   border-bottom: 1px solid #d4e9e7;
 }
 
-.emotion-29.navLink,
-.emotion-29.navLink .MuiListItemText-root {
+.emotion-30.navLink,
+.emotion-30.navLink .MuiListItemText-root {
   color: #969696;
 }
 
-.emotion-30 {
+.emotion-31 {
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -913,15 +924,15 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   color: rgba(10, 10, 11, 0.78);
 }
 
-.MuiTypography-root:where(.emotion-30 .MuiListItemText-primary) {
+.MuiTypography-root:where(.emotion-31 .MuiListItemText-primary) {
   display: block;
 }
 
-.MuiTypography-root:where(.emotion-30 .MuiListItemText-secondary) {
+.MuiTypography-root:where(.emotion-31 .MuiListItemText-secondary) {
   display: block;
 }
 
-.emotion-31 {
+.emotion-32 {
   margin: 0;
   line-height: 1.5;
   font-family: Lato,sans-serif;
@@ -930,6 +941,26 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
 }
 
 .emotion-93 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  position: relative;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  vertical-align: top;
+  min-width: 240px;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
+
+.emotion-94 {
   color: rgba(0, 0, 0, 0.54);
   line-height: 1.4375em;
   font-family: Lato,sans-serif;
@@ -961,19 +992,19 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   transition: color 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,max-width 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
 }
 
-.emotion-93.Mui-focused {
+.emotion-94.Mui-focused {
   color: #337a87;
 }
 
-.emotion-93.Mui-disabled {
+.emotion-94.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-93.Mui-error {
+.emotion-94.Mui-error {
   color: #ab1000;
 }
 
-.emotion-94 {
+.emotion-95 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -995,15 +1026,15 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   margin-top: 18px;
 }
 
-.emotion-94.Mui-disabled {
+.emotion-95.Mui-disabled {
   cursor: default;
 }
 
-.emotion-94 .MuiFormControlLabel-label.Mui-disabled {
+.emotion-95 .MuiFormControlLabel-label.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-95 {
+.emotion-96 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1022,13 +1053,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
 }
 
 @media print {
-  .emotion-95 {
+  .emotion-96 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-96 {
+.emotion-97 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1072,79 +1103,79 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   transition: left 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-96::-moz-focus-inner {
+.emotion-97::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-96.Mui-disabled {
+.emotion-97.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-96 {
+  .emotion-97 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-96.Mui-checked {
+.emotion-97.Mui-checked {
   -webkit-transform: translateX(20px);
   -moz-transform: translateX(20px);
   -ms-transform: translateX(20px);
   transform: translateX(20px);
 }
 
-.emotion-96.Mui-disabled {
+.emotion-97.Mui-disabled {
   color: #d8ebe9;
 }
 
-.emotion-96.Mui-checked+.MuiSwitch-track {
+.emotion-97.Mui-checked+.MuiSwitch-track {
   opacity: 0.5;
 }
 
-.emotion-96.Mui-disabled+.MuiSwitch-track {
+.emotion-97.Mui-disabled+.MuiSwitch-track {
   opacity: 0.12;
 }
 
-.emotion-96 .MuiSwitch-input {
+.emotion-97 .MuiSwitch-input {
   left: -100%;
   width: 300%;
 }
 
-.emotion-96:hover {
+.emotion-97:hover {
   background-color: rgba(0, 0, 0, 0.04);
 }
 
 @media (hover: none) {
-  .emotion-96:hover {
+  .emotion-97:hover {
     background-color: transparent;
   }
 }
 
-.emotion-96.Mui-checked {
+.emotion-97.Mui-checked {
   color: #337a87;
 }
 
-.emotion-96.Mui-checked:hover {
+.emotion-97.Mui-checked:hover {
   background-color: rgba(51, 122, 135, 0.04);
 }
 
 @media (hover: none) {
-  .emotion-96.Mui-checked:hover {
+  .emotion-97.Mui-checked:hover {
     background-color: transparent;
   }
 }
 
-.emotion-96.Mui-checked.Mui-disabled {
+.emotion-97.Mui-checked.Mui-disabled {
   color: rgb(177, 204, 209);
 }
 
-.emotion-96.Mui-checked+.MuiSwitch-track {
+.emotion-97.Mui-checked+.MuiSwitch-track {
   background-color: #337a87;
 }
 
-.emotion-97 {
+.emotion-98 {
   cursor: inherit;
   position: absolute;
   opacity: 0;
@@ -1157,7 +1188,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   z-index: 1;
 }
 
-.emotion-98 {
+.emotion-99 {
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
   background-color: currentColor;
   width: 20px;
@@ -1165,7 +1196,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   border-radius: 50%;
 }
 
-.emotion-99 {
+.emotion-100 {
   height: 100%;
   width: 100%;
   border-radius: 7px;
@@ -1176,7 +1207,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   opacity: 0.38;
 }
 
-.emotion-101 {
+.emotion-102 {
   background-color: #f7f7f7;
   display: -webkit-box;
   display: -webkit-flex;
@@ -1185,28 +1216,27 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
-  margin-top: 48px;
   padding: 16px;
   padding-top: 0;
 }
 
-.emotion-101>h5 {
+.emotion-102>h5 {
   margin-top: 0;
   margin-bottom: 0;
 }
 
-.emotion-101 .flexbox>span {
+.emotion-102 .flexbox>span {
   -webkit-align-self: flex-end;
   -ms-flex-item-align: flex-end;
   align-self: flex-end;
 }
 
-.emotion-101 .MuiTextField-root {
+.emotion-102 .MuiTextField-root {
   max-width: 200px;
   min-width: 100px;
 }
 
-.emotion-102 {
+.emotion-103 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1223,7 +1253,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   min-width: 240px;
 }
 
-.emotion-104 {
+.emotion-105 {
   line-height: 1.4375em;
   font-family: Lato,sans-serif;
   font-weight: 400;
@@ -1244,38 +1274,38 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   border-radius: 4px;
 }
 
-.emotion-104.Mui-disabled {
+.emotion-105.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
   cursor: default;
 }
 
-.emotion-104:hover .MuiOutlinedInput-notchedOutline {
+.emotion-105:hover .MuiOutlinedInput-notchedOutline {
   border-color: rgba(10, 10, 11, 0.78);
 }
 
 @media (hover: none) {
-  .emotion-104:hover .MuiOutlinedInput-notchedOutline {
+  .emotion-105:hover .MuiOutlinedInput-notchedOutline {
     border-color: rgba(0, 0, 0, 0.23);
   }
 }
 
-.emotion-104.Mui-focused .MuiOutlinedInput-notchedOutline {
+.emotion-105.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-width: 2px;
 }
 
-.emotion-104.Mui-focused .MuiOutlinedInput-notchedOutline {
+.emotion-105.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-color: #337a87;
 }
 
-.emotion-104.Mui-error .MuiOutlinedInput-notchedOutline {
+.emotion-105.Mui-error .MuiOutlinedInput-notchedOutline {
   border-color: #ab1000;
 }
 
-.emotion-104.Mui-disabled .MuiOutlinedInput-notchedOutline {
+.emotion-105.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-105 {
+.emotion-106 {
   font: inherit;
   letter-spacing: inherit;
   color: currentColor;
@@ -1296,80 +1326,80 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   padding: 16.5px 14px;
 }
 
-.emotion-105::-webkit-input-placeholder {
+.emotion-106::-webkit-input-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-105::-moz-placeholder {
+.emotion-106::-moz-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-105::-ms-input-placeholder {
+.emotion-106::-ms-input-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-105:focus {
+.emotion-106:focus {
   outline: 0;
 }
 
-.emotion-105:invalid {
+.emotion-106:invalid {
   box-shadow: none;
 }
 
-.emotion-105::-webkit-search-decoration {
+.emotion-106::-webkit-search-decoration {
   -webkit-appearance: none;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-105::-webkit-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-106::-webkit-input-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-105::-moz-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-106::-moz-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-105::-ms-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-106::-ms-input-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-105:focus::-webkit-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-106:focus::-webkit-input-placeholder {
   opacity: 0.42;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-105:focus::-moz-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-106:focus::-moz-placeholder {
   opacity: 0.42;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-105:focus::-ms-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-106:focus::-ms-input-placeholder {
   opacity: 0.42;
 }
 
-.emotion-105.Mui-disabled {
+.emotion-106.Mui-disabled {
   opacity: 1;
   -webkit-text-fill-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-105:-webkit-autofill {
+.emotion-106:-webkit-autofill {
   -webkit-animation-duration: 5000s;
   animation-duration: 5000s;
   -webkit-animation-name: mui-auto-fill;
   animation-name: mui-auto-fill;
 }
 
-.emotion-105:-webkit-autofill {
+.emotion-106:-webkit-autofill {
   border-radius: inherit;
 }
 
-.emotion-109 {
+.emotion-110 {
   margin: 0;
   font-family: Lato,sans-serif;
   font-weight: 400;
@@ -1378,7 +1408,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-105:focus::-ms-input
   display: block;
 }
 
-.emotion-110 {
+.emotion-111 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1390,7 +1420,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-105:focus::-ms-input
   margin-left: 16px;
 }
 
-.emotion-111 {
+.emotion-112 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1407,15 +1437,15 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-105:focus::-ms-input
   margin-top: 18px;
 }
 
-.emotion-111.Mui-disabled {
+.emotion-112.Mui-disabled {
   cursor: default;
 }
 
-.emotion-111 .MuiFormControlLabel-label.Mui-disabled {
+.emotion-112 .MuiFormControlLabel-label.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-112 {
+.emotion-113 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1454,42 +1484,42 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-105:focus::-ms-input
   color: rgba(10, 10, 11, 0.78);
 }
 
-.emotion-112::-moz-focus-inner {
+.emotion-113::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-112.Mui-disabled {
+.emotion-113.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-112 {
+  .emotion-113 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-112:hover {
+.emotion-113:hover {
   background-color: rgba(51, 122, 135, 0.04);
 }
 
-.emotion-112.Mui-checked,
-.emotion-112.MuiCheckbox-indeterminate {
+.emotion-113.Mui-checked,
+.emotion-113.MuiCheckbox-indeterminate {
   color: #337a87;
 }
 
-.emotion-112.Mui-disabled {
+.emotion-113.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: none) {
-  .emotion-112:hover {
+  .emotion-113:hover {
     background-color: transparent;
   }
 }
 
-.emotion-114 {
+.emotion-115 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -1506,11 +1536,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-105:focus::-ms-input
   font-size: 1.1607rem;
 }
 
-.emotion-114 iconButton {
+.emotion-115 iconButton {
   margin-right: 8px;
 }
 
-.emotion-157 {
+.emotion-158 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1532,19 +1562,19 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-105:focus::-ms-input
   margin-left: 0;
 }
 
-.emotion-157.Mui-disabled {
+.emotion-158.Mui-disabled {
   cursor: default;
 }
 
-.emotion-157 .MuiFormControlLabel-label.Mui-disabled {
+.emotion-158 .MuiFormControlLabel-label.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-157 .MuiTextField-root {
+.emotion-158 .MuiTextField-root {
   min-width: auto;
 }
 
-.emotion-162 {
+.emotion-163 {
   float: unset;
   width: auto;
   overflow: hidden;
@@ -1554,7 +1584,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-105:focus::-ms-input
   transition: width 150ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
 }
 
-.emotion-164 {
+.emotion-165 {
   color: rgba(0, 0, 0, 0.54);
   font-family: Lato,sans-serif;
   font-weight: 400;
@@ -1567,11 +1597,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-105:focus::-ms-input
   margin-left: 0;
 }
 
-.emotion-164.Mui-disabled {
+.emotion-165.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-164.Mui-error {
+.emotion-165.Mui-error {
   color: #ab1000;
 }
 
@@ -1612,971 +1642,975 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-105:focus::-ms-input
     </div>
   </div>
   <div
-    class="flexbox space-between"
-    style="align-items: start; max-width: 750px;"
+    class="emotion-2"
   >
     <div
-      class="flexbox column"
+      class="flexbox space-between"
+      style="align-items: start; max-width: 750px;"
     >
       <div
-        class="MuiFormControl-root margin-top-none emotion-2"
+        class="flexbox column"
       >
-        <label
-          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-3"
-          data-shrink="true"
-          id="device-id"
-        >
-          Device identity attribute
-        </label>
         <div
-          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiSelect-root emotion-4"
+          class="MuiFormControl-root margin-top-none emotion-3"
         >
+          <label
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-4"
+            data-shrink="true"
+            id="device-id"
+          >
+            Device identity attribute
+          </label>
           <div
-            aria-expanded="false"
-            aria-haspopup="listbox"
-            aria-labelledby="device-id"
-            class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input emotion-5"
-            role="combobox"
-            tabindex="0"
+            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiSelect-root emotion-5"
           >
-            Device ID
-          </div>
-          <input
-            aria-hidden="true"
-            aria-invalid="false"
-            class="MuiSelect-nativeInput emotion-6"
-            tabindex="-1"
-            value="id"
-          />
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined emotion-7"
-            data-testid="ArrowDropDownIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M7 10l5 5 5-5z"
-            />
-          </svg>
-          <fieldset
-            aria-hidden="true"
-            class="MuiOutlinedInput-notchedOutline emotion-8"
-          >
-            <legend
-              class="emotion-9"
+            <div
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              aria-labelledby="device-id"
+              class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input emotion-6"
+              role="combobox"
+              tabindex="0"
             >
-              <span>
-                Device identity attribute
-              </span>
-            </legend>
-          </fieldset>
-        </div>
-        <div
-          class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained MuiFormHelperText-filled info margin-left-none emotion-10"
-        >
-          <div>
-            Choose a device identity attribute to use to identify your devices throughout the UI.
-          </div>
-          <div
-            class="margin-top-x-small "
-          >
-            <a
-              class=""
-              href="https://docs.mender.io/client-installation/identity"
-              rel="noopener"
-              target="_blank"
-            >
-              Learn how to add custom identity attributes
-            </a>
-             to your devices.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <label
-    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated MuiInputLabel-shrink margin-top-small padding-top-small flexbox emotion-11"
-    data-shrink="true"
-    id="filterable-attributes-usage-and-limit"
-  >
-    Filterable attributes usage & limit (
-    20
-    /
-    100
-    )
-    <div
-      class="flexbox center-aligned margin-left-small emotion-12"
-    >
-      <div
-        class=""
-        data-mui-internal-clone-element="true"
-      >
-        <div
-          class="relative"
-        >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-0"
-            data-testid="HelpIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
+              Device ID
+            </div>
+            <input
+              aria-hidden="true"
+              aria-invalid="false"
+              class="MuiSelect-nativeInput emotion-7"
+              tabindex="-1"
+              value="id"
             />
-          </svg>
-          <div
-            class="emotion-1 "
-          />
-        </div>
-      </div>
-    </div>
-  </label>
-  <div
-    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-15"
-    style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
-  >
-    <h3
-      class="MuiAccordion-heading emotion-16"
-    >
-      <button
-        aria-expanded="false"
-        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters emotion-17"
-        tabindex="0"
-        type="button"
-      >
-        <span
-          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-18"
-        >
-          <span
-            aria-valuemax="100"
-            aria-valuemin="0"
-            aria-valuenow="20"
-            class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate emotion-19"
-            role="progressbar"
-            style="width: 100%;"
-          >
-            <span
-              class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-20"
-              style="transform: translateX(-80%);"
-            />
-          </span>
-          <button
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge margin-left-small expandButton emotion-21"
-            tabindex="0"
-            type="button"
-          >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-22"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined emotion-8"
               data-testid="ArrowDropDownIcon"
               focusable="false"
               viewBox="0 0 24 24"
             >
               <path
-                d="m7 10 5 5 5-5z"
+                d="M7 10l5 5 5-5z"
               />
             </svg>
-          </button>
-        </span>
-      </button>
-    </h3>
-    <div
-      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-23"
-      style="min-height: 0px;"
-    >
-      <div
-        class="MuiCollapse-wrapper MuiCollapse-vertical emotion-24"
-      >
-        <div
-          class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-25"
-        >
-          <div
-            class="MuiAccordion-region"
-            role="region"
-          >
-            <div
-              class="MuiAccordionDetails-root emotion-26"
+            <fieldset
+              aria-hidden="true"
+              class="MuiOutlinedInput-notchedOutline emotion-9"
             >
-              <ul
-                class="MuiList-root MuiList-padding emotion-27"
+              <legend
+                class="emotion-10"
               >
-                <li>
-                  <ul>
-                    <li
-                      class="MuiListSubheader-root MuiListSubheader-gutters MuiListSubheader-sticky emotion-28"
-                    >
-                      identity
-                    </li>
-                    <li
-                      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-29"
-                    >
-                      <div
-                        class="MuiListItemText-root emotion-30"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-31"
-                        >
-                          status
-                        </span>
-                      </div>
-                    </li>
-                    <li
-                      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-29"
-                    >
-                      <div
-                        class="MuiListItemText-root emotion-30"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-31"
-                        >
-                          mac
-                        </span>
-                      </div>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <ul>
-                    <li
-                      class="MuiListSubheader-root MuiListSubheader-gutters MuiListSubheader-sticky emotion-28"
-                    >
-                      inventory
-                    </li>
-                    <li
-                      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-29"
-                    >
-                      <div
-                        class="MuiListItemText-root emotion-30"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-31"
-                        >
-                          artifact_name
-                        </span>
-                      </div>
-                    </li>
-                    <li
-                      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-29"
-                    >
-                      <div
-                        class="MuiListItemText-root emotion-30"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-31"
-                        >
-                          cpu_model
-                        </span>
-                      </div>
-                    </li>
-                    <li
-                      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-29"
-                    >
-                      <div
-                        class="MuiListItemText-root emotion-30"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-31"
-                        >
-                          device_type
-                        </span>
-                      </div>
-                    </li>
-                    <li
-                      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-29"
-                    >
-                      <div
-                        class="MuiListItemText-root emotion-30"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-31"
-                        >
-                          hostname
-                        </span>
-                      </div>
-                    </li>
-                    <li
-                      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-29"
-                    >
-                      <div
-                        class="MuiListItemText-root emotion-30"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-31"
-                        >
-                          ipv4_wlan0
-                        </span>
-                      </div>
-                    </li>
-                    <li
-                      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-29"
-                    >
-                      <div
-                        class="MuiListItemText-root emotion-30"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-31"
-                        >
-                          ipv6_wlan0
-                        </span>
-                      </div>
-                    </li>
-                    <li
-                      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-29"
-                    >
-                      <div
-                        class="MuiListItemText-root emotion-30"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-31"
-                        >
-                          kernel
-                        </span>
-                      </div>
-                    </li>
-                    <li
-                      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-29"
-                    >
-                      <div
-                        class="MuiListItemText-root emotion-30"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-31"
-                        >
-                          mac_eth0
-                        </span>
-                      </div>
-                    </li>
-                    <li
-                      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-29"
-                    >
-                      <div
-                        class="MuiListItemText-root emotion-30"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-31"
-                        >
-                          mac_wlan0
-                        </span>
-                      </div>
-                    </li>
-                    <li
-                      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-29"
-                    >
-                      <div
-                        class="MuiListItemText-root emotion-30"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-31"
-                        >
-                          mem_total_kB
-                        </span>
-                      </div>
-                    </li>
-                    <li
-                      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-29"
-                    >
-                      <div
-                        class="MuiListItemText-root emotion-30"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-31"
-                        >
-                          mender_bootloader_integration
-                        </span>
-                      </div>
-                    </li>
-                    <li
-                      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-29"
-                    >
-                      <div
-                        class="MuiListItemText-root emotion-30"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-31"
-                        >
-                          mender_client_version
-                        </span>
-                      </div>
-                    </li>
-                    <li
-                      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-29"
-                    >
-                      <div
-                        class="MuiListItemText-root emotion-30"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-31"
-                        >
-                          network_interfaces
-                        </span>
-                      </div>
-                    </li>
-                    <li
-                      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-29"
-                    >
-                      <div
-                        class="MuiListItemText-root emotion-30"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-31"
-                        >
-                          os
-                        </span>
-                      </div>
-                    </li>
-                    <li
-                      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-29"
-                    >
-                      <div
-                        class="MuiListItemText-root emotion-30"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-31"
-                        >
-                          rootfs_type
-                        </span>
-                      </div>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <ul>
-                    <li
-                      class="MuiListSubheader-root MuiListSubheader-gutters MuiListSubheader-sticky emotion-28"
-                    >
-                      system
-                    </li>
-                    <li
-                      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-29"
-                    >
-                      <div
-                        class="MuiListItemText-root emotion-30"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-31"
-                        >
-                          created_ts
-                        </span>
-                      </div>
-                    </li>
-                    <li
-                      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-29"
-                    >
-                      <div
-                        class="MuiListItemText-root emotion-30"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-31"
-                        >
-                          updated_ts
-                        </span>
-                      </div>
-                    </li>
-                    <li
-                      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-29"
-                    >
-                      <div
-                        class="MuiListItemText-root emotion-30"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-31"
-                        >
-                          group
-                        </span>
-                      </div>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <ul>
-                    <li
-                      class="MuiListSubheader-root MuiListSubheader-gutters MuiListSubheader-sticky emotion-28"
-                    >
-                      tags
-                    </li>
-                  </ul>
-                </li>
-              </ul>
+                <span>
+                  Device identity attribute
+                </span>
+              </legend>
+            </fieldset>
+          </div>
+          <div
+            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained MuiFormHelperText-filled info margin-left-none emotion-11"
+          >
+            <div>
+              Choose a device identity attribute to use to identify your devices throughout the UI.
+            </div>
+            <div
+              class="margin-top-x-small "
+            >
+              <a
+                class=""
+                href="https://docs.mender.io/client-installation/identity"
+                rel="noopener"
+                target="_blank"
+              >
+                Learn how to add custom identity attributes
+              </a>
+               to your devices.
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div
-    class="MuiFormControl-root margin-top emotion-2"
-  >
     <label
-      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-standard MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-standard emotion-93"
+      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated MuiInputLabel-shrink margin-top-small padding-top-small flexbox emotion-12"
       data-shrink="true"
+      id="filterable-attributes-usage-and-limit"
     >
-      Deployments
-    </label>
-    <label
-      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementStart margin-left-none emotion-94"
-    >
-      <span
-        class="MuiSwitch-root MuiSwitch-sizeMedium emotion-95"
-      >
-        <span
-          class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary emotion-96"
-        >
-          <input
-            class="PrivateSwitchBase-input MuiSwitch-input emotion-97"
-            type="checkbox"
-          />
-          <span
-            class="MuiSwitch-thumb emotion-98"
-          />
-        </span>
-        <span
-          class="MuiSwitch-track emotion-99"
-        />
-      </span>
-      <span
-        class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-31"
-      >
-        Require confirmation on deployment creation
-      </span>
-    </label>
-  </div>
-  <div
-    class="flexbox column emotion-101"
-  >
-    <div
-      class="flexbox center-aligned"
-    >
-      <svg
-        fill="none"
-        height="15"
-        viewBox="0 0 17 15"
-        width="17"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          clip-rule="evenodd"
-          d="M8.40813 0.578369L8.40821 14.5784H16.491L8.40813 0.578369ZM8.40813 4.81573V12.4597H12.8214L8.40813 4.81573Z"
-          fill="#015969"
-          fill-rule="evenodd"
-        />
-        <path
-          clip-rule="evenodd"
-          d="M8.40813 0.578369L8.40805 14.5784H0.325223L8.40813 0.578369ZM8.40813 4.81573V12.4597H3.99489L8.40813 4.81573Z"
-          fill="#01869E"
-          fill-rule="evenodd"
-        />
-      </svg>
-      <h5
-        class="margin-left-small"
-      >
-        Delta artifacts generation configuration
-      </h5>
-    </div>
-    <div
-      class="margin-small margin-top-none"
-    >
+      Filterable attributes usage & limit (
+      20
+      /
+      100
+      )
       <div
-        class="flexbox"
+        class="flexbox center-aligned margin-left-small emotion-13"
       >
         <div
-          class="MuiFormControl-root MuiTextField-root emotion-102"
+          class=""
+          data-mui-internal-clone-element="true"
         >
-          <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-3"
-            data-shrink="true"
-            for=":r5:"
-            id=":r5:-label"
-          >
-            Timeout
-          </label>
           <div
-            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-104"
+            class="relative"
           >
-            <input
-              aria-describedby=":r5:-helper-text"
-              aria-invalid="false"
-              autocomplete="off"
-              class="MuiInputBase-input MuiOutlinedInput-input emotion-105"
-              id=":r5:"
-              pattern="[0-9]*"
-              step="1"
-              type="numeric"
-              value="60"
-            />
-            <fieldset
-              aria-hidden="true"
-              class="MuiOutlinedInput-notchedOutline emotion-8"
-            >
-              <legend
-                class="emotion-9"
-              >
-                <span>
-                  Timeout
-                </span>
-              </legend>
-            </fieldset>
-          </div>
-          <p
-            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained MuiFormHelperText-filled emotion-10"
-            id=":r5:-helper-text"
-          >
-            Defaults to: 60
-          </p>
-        </div>
-        <span
-          class="margin-left-small muted slightly-smaller"
-        >
-          seconds
-        </span>
-      </div>
-      <span
-        class="MuiTypography-root MuiTypography-caption margin-top-small emotion-109"
-      >
-        xDelta3 arguments
-      </span>
-      <div
-        class="emotion-110"
-      >
-        <label
-          class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-111"
-        >
-          <span
-            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-112"
-          >
-            <input
-              class="PrivateSwitchBase-input emotion-97"
-              data-indeterminate="false"
-              type="checkbox"
-            />
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-114"
-              data-testid="CheckBoxOutlineBlankIcon"
+              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-0"
+              data-testid="HelpIcon"
               focusable="false"
               viewBox="0 0 24 24"
             >
               <path
-                d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
               />
             </svg>
-          </span>
-          <span
-            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-31"
-          >
-            Disable checksum
-          </span>
-        </label>
-        <label
-          class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd margin-top-none emotion-111"
-        >
-          <span
-            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-112"
-          >
-            <input
-              class="PrivateSwitchBase-input emotion-97"
-              data-indeterminate="false"
-              type="checkbox"
+            <div
+              class="emotion-1 "
             />
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-114"
-              data-testid="CheckBoxOutlineBlankIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-              />
-            </svg>
-          </span>
-          <span
-            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-31"
-          >
-            Disable external decompression
-          </span>
-        </label>
-        <div
-          class="MuiFormControl-root MuiTextField-root emotion-102"
-        >
-          <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-3"
-            data-shrink="true"
-            for=":r6:"
-            id=":r6:-label"
-          >
-            Compression level
-          </label>
-          <div
-            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-104"
-          >
-            <input
-              aria-invalid="false"
-              autocomplete="off"
-              class="MuiInputBase-input MuiOutlinedInput-input emotion-105"
-              id=":r6:"
-              pattern="[0-9]*"
-              step="1"
-              type="numeric"
-              value="0"
-            />
-            <fieldset
-              aria-hidden="true"
-              class="MuiOutlinedInput-notchedOutline emotion-8"
-            >
-              <legend
-                class="emotion-9"
-              >
-                <span>
-                  Compression level
-                </span>
-              </legend>
-            </fieldset>
           </div>
-        </div>
-        <div
-          class="MuiFormControl-root MuiTextField-root emotion-102"
-        >
-          <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-3"
-            data-shrink="true"
-            for=":r7:"
-            id=":r7:-label"
-          >
-            Source window size
-          </label>
-          <div
-            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-104"
-          >
-            <input
-              aria-describedby=":r7:-helper-text"
-              aria-invalid="false"
-              autocomplete="off"
-              class="MuiInputBase-input MuiOutlinedInput-input emotion-105"
-              id=":r7:"
-              pattern="[0-9]*"
-              step="1"
-              type="numeric"
-              value="5"
-            />
-            <fieldset
-              aria-hidden="true"
-              class="MuiOutlinedInput-notchedOutline emotion-8"
-            >
-              <legend
-                class="emotion-9"
-              >
-                <span>
-                  Source window size
-                </span>
-              </legend>
-            </fieldset>
-          </div>
-          <p
-            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained MuiFormHelperText-filled emotion-10"
-            id=":r7:-helper-text"
-          >
-            Defaults to: 10
-          </p>
-        </div>
-        <div
-          class="MuiFormControl-root MuiTextField-root emotion-102"
-        >
-          <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-3"
-            data-shrink="true"
-            for=":r8:"
-            id=":r8:-label"
-          >
-            Input window size
-          </label>
-          <div
-            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-104"
-          >
-            <input
-              aria-describedby=":r8:-helper-text"
-              aria-invalid="false"
-              autocomplete="off"
-              class="MuiInputBase-input MuiOutlinedInput-input emotion-105"
-              id=":r8:"
-              pattern="[0-9]*"
-              step="1"
-              type="numeric"
-              value="5"
-            />
-            <fieldset
-              aria-hidden="true"
-              class="MuiOutlinedInput-notchedOutline emotion-8"
-            >
-              <legend
-                class="emotion-9"
-              >
-                <span>
-                  Input window size
-                </span>
-              </legend>
-            </fieldset>
-          </div>
-          <p
-            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained MuiFormHelperText-filled emotion-10"
-            id=":r8:-helper-text"
-          >
-            Defaults to: 10
-          </p>
-        </div>
-        <div
-          class="MuiFormControl-root MuiTextField-root emotion-102"
-        >
-          <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-3"
-            data-shrink="true"
-            for=":r9:"
-            id=":r9:-label"
-          >
-            Compression duplicates window
-          </label>
-          <div
-            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-104"
-          >
-            <input
-              aria-describedby=":r9:-helper-text"
-              aria-invalid="false"
-              autocomplete="off"
-              class="MuiInputBase-input MuiOutlinedInput-input emotion-105"
-              id=":r9:"
-              pattern="[0-9]*"
-              step="1"
-              type="numeric"
-              value="5"
-            />
-            <fieldset
-              aria-hidden="true"
-              class="MuiOutlinedInput-notchedOutline emotion-8"
-            >
-              <legend
-                class="emotion-9"
-              >
-                <span>
-                  Compression duplicates window
-                </span>
-              </legend>
-            </fieldset>
-          </div>
-          <p
-            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained MuiFormHelperText-filled emotion-10"
-            id=":r9:-helper-text"
-          >
-            Defaults to: 10
-          </p>
-        </div>
-        <div
-          class="MuiFormControl-root MuiTextField-root emotion-102"
-        >
-          <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-3"
-            data-shrink="true"
-            for=":ra:"
-            id=":ra:-label"
-          >
-            Instruction buffer size
-          </label>
-          <div
-            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-104"
-          >
-            <input
-              aria-describedby=":ra:-helper-text"
-              aria-invalid="false"
-              autocomplete="off"
-              class="MuiInputBase-input MuiOutlinedInput-input emotion-105"
-              id=":ra:"
-              pattern="[0-9]*"
-              step="1"
-              type="numeric"
-              value="5"
-            />
-            <fieldset
-              aria-hidden="true"
-              class="MuiOutlinedInput-notchedOutline emotion-8"
-            >
-              <legend
-                class="emotion-9"
-              >
-                <span>
-                  Instruction buffer size
-                </span>
-              </legend>
-            </fieldset>
-          </div>
-          <p
-            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained MuiFormHelperText-filled emotion-10"
-            id=":ra:-helper-text"
-          >
-            Defaults to: 10
-          </p>
         </div>
       </div>
-    </div>
-  </div>
-  <div
-    class="MuiFormControl-root margin-top emotion-2"
-  >
-    <label
-      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-standard MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-standard emotion-93"
-      data-shrink="true"
-    >
-      Offline threshold
     </label>
-    <label
-      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-157"
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-16"
+      style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
-      <div
-        class="MuiFormControl-root MuiTextField-root emotion-102"
+      <h3
+        class="MuiAccordion-heading emotion-17"
       >
-        <div
-          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-104"
+        <button
+          aria-expanded="false"
+          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters emotion-18"
+          tabindex="0"
+          type="button"
         >
-          <input
-            aria-invalid="false"
-            class="MuiInputBase-input MuiOutlinedInput-input emotion-105"
-            id=":r4:"
-            max="1000"
-            min="1"
-            type="number"
-            value="1"
-          />
-          <fieldset
-            aria-hidden="true"
-            class="MuiOutlinedInput-notchedOutline emotion-8"
+          <span
+            class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-19"
           >
-            <legend
-              class="emotion-162"
+            <span
+              aria-valuemax="100"
+              aria-valuemin="0"
+              aria-valuenow="20"
+              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate emotion-20"
+              role="progressbar"
+              style="width: 100%;"
             >
               <span
+                class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-21"
+                style="transform: translateX(-80%);"
+              />
+            </span>
+            <button
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge margin-left-small expandButton emotion-22"
+              tabindex="0"
+              type="button"
+            >
+              <svg
                 aria-hidden="true"
-                class="notranslate"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-23"
+                data-testid="ArrowDropDownIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
               >
-                ​
-              </span>
-            </legend>
-          </fieldset>
-        </div>
-      </div>
-      <span
-        class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-31"
+                <path
+                  d="m7 10 5 5 5-5z"
+                />
+              </svg>
+            </button>
+          </span>
+        </button>
+      </h3>
+      <div
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-24"
+        style="min-height: 0px;"
       >
         <div
-          class="capitalized-start"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-25"
         >
-          days
+          <div
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-26"
+          >
+            <div
+              class="MuiAccordion-region"
+              role="region"
+            >
+              <div
+                class="MuiAccordionDetails-root emotion-27"
+              >
+                <ul
+                  class="MuiList-root MuiList-padding emotion-28"
+                >
+                  <li>
+                    <ul>
+                      <li
+                        class="MuiListSubheader-root MuiListSubheader-gutters MuiListSubheader-sticky emotion-29"
+                      >
+                        identity
+                      </li>
+                      <li
+                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-30"
+                      >
+                        <div
+                          class="MuiListItemText-root emotion-31"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-32"
+                          >
+                            status
+                          </span>
+                        </div>
+                      </li>
+                      <li
+                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-30"
+                      >
+                        <div
+                          class="MuiListItemText-root emotion-31"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-32"
+                          >
+                            mac
+                          </span>
+                        </div>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <ul>
+                      <li
+                        class="MuiListSubheader-root MuiListSubheader-gutters MuiListSubheader-sticky emotion-29"
+                      >
+                        inventory
+                      </li>
+                      <li
+                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-30"
+                      >
+                        <div
+                          class="MuiListItemText-root emotion-31"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-32"
+                          >
+                            artifact_name
+                          </span>
+                        </div>
+                      </li>
+                      <li
+                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-30"
+                      >
+                        <div
+                          class="MuiListItemText-root emotion-31"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-32"
+                          >
+                            cpu_model
+                          </span>
+                        </div>
+                      </li>
+                      <li
+                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-30"
+                      >
+                        <div
+                          class="MuiListItemText-root emotion-31"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-32"
+                          >
+                            device_type
+                          </span>
+                        </div>
+                      </li>
+                      <li
+                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-30"
+                      >
+                        <div
+                          class="MuiListItemText-root emotion-31"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-32"
+                          >
+                            hostname
+                          </span>
+                        </div>
+                      </li>
+                      <li
+                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-30"
+                      >
+                        <div
+                          class="MuiListItemText-root emotion-31"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-32"
+                          >
+                            ipv4_wlan0
+                          </span>
+                        </div>
+                      </li>
+                      <li
+                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-30"
+                      >
+                        <div
+                          class="MuiListItemText-root emotion-31"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-32"
+                          >
+                            ipv6_wlan0
+                          </span>
+                        </div>
+                      </li>
+                      <li
+                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-30"
+                      >
+                        <div
+                          class="MuiListItemText-root emotion-31"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-32"
+                          >
+                            kernel
+                          </span>
+                        </div>
+                      </li>
+                      <li
+                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-30"
+                      >
+                        <div
+                          class="MuiListItemText-root emotion-31"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-32"
+                          >
+                            mac_eth0
+                          </span>
+                        </div>
+                      </li>
+                      <li
+                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-30"
+                      >
+                        <div
+                          class="MuiListItemText-root emotion-31"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-32"
+                          >
+                            mac_wlan0
+                          </span>
+                        </div>
+                      </li>
+                      <li
+                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-30"
+                      >
+                        <div
+                          class="MuiListItemText-root emotion-31"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-32"
+                          >
+                            mem_total_kB
+                          </span>
+                        </div>
+                      </li>
+                      <li
+                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-30"
+                      >
+                        <div
+                          class="MuiListItemText-root emotion-31"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-32"
+                          >
+                            mender_bootloader_integration
+                          </span>
+                        </div>
+                      </li>
+                      <li
+                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-30"
+                      >
+                        <div
+                          class="MuiListItemText-root emotion-31"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-32"
+                          >
+                            mender_client_version
+                          </span>
+                        </div>
+                      </li>
+                      <li
+                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-30"
+                      >
+                        <div
+                          class="MuiListItemText-root emotion-31"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-32"
+                          >
+                            network_interfaces
+                          </span>
+                        </div>
+                      </li>
+                      <li
+                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-30"
+                      >
+                        <div
+                          class="MuiListItemText-root emotion-31"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-32"
+                          >
+                            os
+                          </span>
+                        </div>
+                      </li>
+                      <li
+                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-30"
+                      >
+                        <div
+                          class="MuiListItemText-root emotion-31"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-32"
+                          >
+                            rootfs_type
+                          </span>
+                        </div>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <ul>
+                      <li
+                        class="MuiListSubheader-root MuiListSubheader-gutters MuiListSubheader-sticky emotion-29"
+                      >
+                        system
+                      </li>
+                      <li
+                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-30"
+                      >
+                        <div
+                          class="MuiListItemText-root emotion-31"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-32"
+                          >
+                            created_ts
+                          </span>
+                        </div>
+                      </li>
+                      <li
+                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-30"
+                      >
+                        <div
+                          class="MuiListItemText-root emotion-31"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-32"
+                          >
+                            updated_ts
+                          </span>
+                        </div>
+                      </li>
+                      <li
+                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-30"
+                      >
+                        <div
+                          class="MuiListItemText-root emotion-31"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-32"
+                          >
+                            group
+                          </span>
+                        </div>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <ul>
+                      <li
+                        class="MuiListSubheader-root MuiListSubheader-gutters MuiListSubheader-sticky emotion-29"
+                      >
+                        tags
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
-      </span>
-    </label>
-    <p
-      class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-164"
+      </div>
+    </div>
+    <div
+      class="MuiFormControl-root emotion-93"
     >
-      Choose how long a device can go without reporting to the server before it is considered “offline”.
-    </p>
+      <label
+        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-standard MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-standard emotion-94"
+        data-shrink="true"
+      >
+        Deployments
+      </label>
+      <label
+        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementStart margin-left-none emotion-95"
+      >
+        <span
+          class="MuiSwitch-root MuiSwitch-sizeMedium emotion-96"
+        >
+          <span
+            class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary emotion-97"
+          >
+            <input
+              class="PrivateSwitchBase-input MuiSwitch-input emotion-98"
+              type="checkbox"
+            />
+            <span
+              class="MuiSwitch-thumb emotion-99"
+            />
+          </span>
+          <span
+            class="MuiSwitch-track emotion-100"
+          />
+        </span>
+        <span
+          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-32"
+        >
+          Require confirmation on deployment creation
+        </span>
+      </label>
+    </div>
+    <div
+      class="flexbox column emotion-102"
+    >
+      <div
+        class="flexbox center-aligned"
+      >
+        <svg
+          fill="none"
+          height="15"
+          viewBox="0 0 17 15"
+          width="17"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            clip-rule="evenodd"
+            d="M8.40813 0.578369L8.40821 14.5784H16.491L8.40813 0.578369ZM8.40813 4.81573V12.4597H12.8214L8.40813 4.81573Z"
+            fill="#015969"
+            fill-rule="evenodd"
+          />
+          <path
+            clip-rule="evenodd"
+            d="M8.40813 0.578369L8.40805 14.5784H0.325223L8.40813 0.578369ZM8.40813 4.81573V12.4597H3.99489L8.40813 4.81573Z"
+            fill="#01869E"
+            fill-rule="evenodd"
+          />
+        </svg>
+        <h5
+          class="margin-left-small"
+        >
+          Delta artifacts generation configuration
+        </h5>
+      </div>
+      <div
+        class="margin-small margin-top-none"
+      >
+        <div
+          class="flexbox"
+        >
+          <div
+            class="MuiFormControl-root MuiTextField-root emotion-103"
+          >
+            <label
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-4"
+              data-shrink="true"
+              for=":r5:"
+              id=":r5:-label"
+            >
+              Timeout
+            </label>
+            <div
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-105"
+            >
+              <input
+                aria-describedby=":r5:-helper-text"
+                aria-invalid="false"
+                autocomplete="off"
+                class="MuiInputBase-input MuiOutlinedInput-input emotion-106"
+                id=":r5:"
+                pattern="[0-9]*"
+                step="1"
+                type="numeric"
+                value="60"
+              />
+              <fieldset
+                aria-hidden="true"
+                class="MuiOutlinedInput-notchedOutline emotion-9"
+              >
+                <legend
+                  class="emotion-10"
+                >
+                  <span>
+                    Timeout
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+            <p
+              class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained MuiFormHelperText-filled emotion-11"
+              id=":r5:-helper-text"
+            >
+              Defaults to: 60
+            </p>
+          </div>
+          <span
+            class="margin-left-small muted slightly-smaller"
+          >
+            seconds
+          </span>
+        </div>
+        <span
+          class="MuiTypography-root MuiTypography-caption margin-top-small emotion-110"
+        >
+          xDelta3 arguments
+        </span>
+        <div
+          class="emotion-111"
+        >
+          <label
+            class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-112"
+          >
+            <span
+              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-113"
+            >
+              <input
+                class="PrivateSwitchBase-input emotion-98"
+                data-indeterminate="false"
+                type="checkbox"
+              />
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-115"
+                data-testid="CheckBoxOutlineBlankIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                />
+              </svg>
+            </span>
+            <span
+              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-32"
+            >
+              Disable checksum
+            </span>
+          </label>
+          <label
+            class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd margin-top-none emotion-112"
+          >
+            <span
+              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-113"
+            >
+              <input
+                class="PrivateSwitchBase-input emotion-98"
+                data-indeterminate="false"
+                type="checkbox"
+              />
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-115"
+                data-testid="CheckBoxOutlineBlankIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                />
+              </svg>
+            </span>
+            <span
+              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-32"
+            >
+              Disable external decompression
+            </span>
+          </label>
+          <div
+            class="MuiFormControl-root MuiTextField-root emotion-103"
+          >
+            <label
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-4"
+              data-shrink="true"
+              for=":r6:"
+              id=":r6:-label"
+            >
+              Compression level
+            </label>
+            <div
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-105"
+            >
+              <input
+                aria-invalid="false"
+                autocomplete="off"
+                class="MuiInputBase-input MuiOutlinedInput-input emotion-106"
+                id=":r6:"
+                pattern="[0-9]*"
+                step="1"
+                type="numeric"
+                value="0"
+              />
+              <fieldset
+                aria-hidden="true"
+                class="MuiOutlinedInput-notchedOutline emotion-9"
+              >
+                <legend
+                  class="emotion-10"
+                >
+                  <span>
+                    Compression level
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+          </div>
+          <div
+            class="MuiFormControl-root MuiTextField-root emotion-103"
+          >
+            <label
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-4"
+              data-shrink="true"
+              for=":r7:"
+              id=":r7:-label"
+            >
+              Source window size
+            </label>
+            <div
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-105"
+            >
+              <input
+                aria-describedby=":r7:-helper-text"
+                aria-invalid="false"
+                autocomplete="off"
+                class="MuiInputBase-input MuiOutlinedInput-input emotion-106"
+                id=":r7:"
+                pattern="[0-9]*"
+                step="1"
+                type="numeric"
+                value="5"
+              />
+              <fieldset
+                aria-hidden="true"
+                class="MuiOutlinedInput-notchedOutline emotion-9"
+              >
+                <legend
+                  class="emotion-10"
+                >
+                  <span>
+                    Source window size
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+            <p
+              class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained MuiFormHelperText-filled emotion-11"
+              id=":r7:-helper-text"
+            >
+              Defaults to: 10
+            </p>
+          </div>
+          <div
+            class="MuiFormControl-root MuiTextField-root emotion-103"
+          >
+            <label
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-4"
+              data-shrink="true"
+              for=":r8:"
+              id=":r8:-label"
+            >
+              Input window size
+            </label>
+            <div
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-105"
+            >
+              <input
+                aria-describedby=":r8:-helper-text"
+                aria-invalid="false"
+                autocomplete="off"
+                class="MuiInputBase-input MuiOutlinedInput-input emotion-106"
+                id=":r8:"
+                pattern="[0-9]*"
+                step="1"
+                type="numeric"
+                value="5"
+              />
+              <fieldset
+                aria-hidden="true"
+                class="MuiOutlinedInput-notchedOutline emotion-9"
+              >
+                <legend
+                  class="emotion-10"
+                >
+                  <span>
+                    Input window size
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+            <p
+              class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained MuiFormHelperText-filled emotion-11"
+              id=":r8:-helper-text"
+            >
+              Defaults to: 10
+            </p>
+          </div>
+          <div
+            class="MuiFormControl-root MuiTextField-root emotion-103"
+          >
+            <label
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-4"
+              data-shrink="true"
+              for=":r9:"
+              id=":r9:-label"
+            >
+              Compression duplicates window
+            </label>
+            <div
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-105"
+            >
+              <input
+                aria-describedby=":r9:-helper-text"
+                aria-invalid="false"
+                autocomplete="off"
+                class="MuiInputBase-input MuiOutlinedInput-input emotion-106"
+                id=":r9:"
+                pattern="[0-9]*"
+                step="1"
+                type="numeric"
+                value="5"
+              />
+              <fieldset
+                aria-hidden="true"
+                class="MuiOutlinedInput-notchedOutline emotion-9"
+              >
+                <legend
+                  class="emotion-10"
+                >
+                  <span>
+                    Compression duplicates window
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+            <p
+              class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained MuiFormHelperText-filled emotion-11"
+              id=":r9:-helper-text"
+            >
+              Defaults to: 10
+            </p>
+          </div>
+          <div
+            class="MuiFormControl-root MuiTextField-root emotion-103"
+          >
+            <label
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-4"
+              data-shrink="true"
+              for=":ra:"
+              id=":ra:-label"
+            >
+              Instruction buffer size
+            </label>
+            <div
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-105"
+            >
+              <input
+                aria-describedby=":ra:-helper-text"
+                aria-invalid="false"
+                autocomplete="off"
+                class="MuiInputBase-input MuiOutlinedInput-input emotion-106"
+                id=":ra:"
+                pattern="[0-9]*"
+                step="1"
+                type="numeric"
+                value="5"
+              />
+              <fieldset
+                aria-hidden="true"
+                class="MuiOutlinedInput-notchedOutline emotion-9"
+              >
+                <legend
+                  class="emotion-10"
+                >
+                  <span>
+                    Instruction buffer size
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+            <p
+              class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained MuiFormHelperText-filled emotion-11"
+              id=":ra:-helper-text"
+            >
+              Defaults to: 10
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiFormControl-root emotion-3"
+    >
+      <label
+        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-standard MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-standard emotion-94"
+        data-shrink="true"
+      >
+        Offline threshold
+      </label>
+      <label
+        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-158"
+      >
+        <div
+          class="MuiFormControl-root MuiTextField-root emotion-103"
+        >
+          <div
+            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-105"
+          >
+            <input
+              aria-invalid="false"
+              class="MuiInputBase-input MuiOutlinedInput-input emotion-106"
+              id=":r4:"
+              max="1000"
+              min="1"
+              type="number"
+              value="1"
+            />
+            <fieldset
+              aria-hidden="true"
+              class="MuiOutlinedInput-notchedOutline emotion-9"
+            >
+              <legend
+                class="emotion-163"
+              >
+                <span
+                  aria-hidden="true"
+                  class="notranslate"
+                >
+                  ​
+                </span>
+              </legend>
+            </fieldset>
+          </div>
+        </div>
+        <span
+          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-32"
+        >
+          <div
+            class="capitalized-start"
+          >
+            days
+          </div>
+        </span>
+      </label>
+      <p
+        class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-165"
+      >
+        Choose how long a device can go without reporting to the server before it is considered “offline”.
+      </p>
+    </div>
   </div>
 </div>
 `;
