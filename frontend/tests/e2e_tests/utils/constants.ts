@@ -10,6 +10,8 @@
 //    distributed under the License is distributed on an "AS IS" BASIS,
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
+import type { BrowserContextOptions } from '@playwright/test';
+
 //    limitations under the License.
 const deviceListItem = '.deviceListItem';
 export const selectors = {
@@ -32,7 +34,9 @@ export const selectors = {
 
 export const releaseTag = 'sometag';
 
-export const storagePath = 'storage.json';
+export const storagePath = 'storage/storage.json';
+export const spStoragePath = 'storage/sp-tenant-storage.json';
+export const switchTenantStoragePath = 'storage/switch-tenant-storage.json';
 
 const oneSecond = 1000;
 export const timeouts = {
@@ -43,3 +47,18 @@ export const timeouts = {
   fifteenSeconds: 15 * oneSecond,
   sixtySeconds: 60 * oneSecond
 };
+
+export type BrowserCookie = Exclude<BrowserContextOptions['storageState'], string>['cookies'][0];
+
+export const cookieConsentCookie: BrowserCookie = {
+  domain: '.mender.io',
+  expires: -1,
+  httpOnly: false,
+  name: 'cookieconsent_status',
+  path: '/',
+  sameSite: 'Strict',
+  secure: false,
+  value: 'allow'
+};
+
+export const emptyStorageState: Exclude<BrowserContextOptions['storageState'], string> = { cookies: [cookieConsentCookie], origins: [] };

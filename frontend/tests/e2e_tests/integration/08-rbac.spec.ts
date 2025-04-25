@@ -23,7 +23,7 @@ const releaseRoles = [
 
 test.describe('RBAC functionality', () => {
   test.describe('configuration', () => {
-    test.beforeEach(async ({ baseUrl, loggedInPage: page }) => {
+    test.beforeEach(async ({ baseUrl, page }) => {
       await page.goto(`${baseUrl}ui/settings`);
       await page.getByText(/Global settings/i).waitFor();
       await page.getByText(/user management/i).click();
@@ -34,7 +34,7 @@ test.describe('RBAC functionality', () => {
         await page.goto(`${baseUrl}ui/settings/user-management`);
       }
     });
-    test('allows role creation for static groups', async ({ environment, loggedInPage: page }) => {
+    test('allows role creation for static groups', async ({ environment, page }) => {
       test.skip(!isEnterpriseOrStaging(environment));
       await page.getByText(/roles/i).click();
       await page.getByRole('button', { name: 'Add a role' }).click();
@@ -54,7 +54,7 @@ test.describe('RBAC functionality', () => {
       await dialog.getByRole('button', { name: /submit/i }).scrollIntoViewIfNeeded();
       await dialog.getByRole('button', { name: /submit/i }).click();
     });
-    test('allows role creation for release tags', async ({ environment, loggedInPage: page }) => {
+    test('allows role creation for release tags', async ({ environment, page }) => {
       test.skip(!isEnterpriseOrStaging(environment));
       await page.getByText(/roles/i).click();
       for (const { name, permissions, tag } of releaseRoles) {
@@ -83,7 +83,7 @@ test.describe('RBAC functionality', () => {
         await page.waitForTimeout(timeouts.default);
       }
     });
-    test('allows user creation', async ({ environment, loggedInPage: page, password, username }) => {
+    test('allows user creation', async ({ environment, page, password, username }) => {
       const userCreations = [
         { user: `limited-${username}`, role: 'test-groups-role' },
         { user: `limited-ro-releases-${username}`, role: releaseRoles[0].name },
@@ -119,6 +119,7 @@ test.describe('RBAC functionality', () => {
       // the created role does have permission to configure devices, so the section should be visible
       await page.getByText(/configuration/i).click();
       await page.getByText(/Device configuration/i).waitFor({ timeout: timeouts.tenSeconds });
+      await page.context().close();
     });
     test('read-only all releases', async ({ baseUrl, browser, environment, password, request, username }) => {
       test.skip(!isEnterpriseOrStaging(environment));
@@ -130,6 +131,7 @@ test.describe('RBAC functionality', () => {
       await expect(page.getByRole('button', { name: /upload/i })).not.toBeVisible();
       await page.getByRole('checkbox').first().click();
       await expect(page.getByLabel(/release-actions/i)).not.toBeVisible();
+      await page.context().close();
     });
     test('read-only tagged releases', async ({ baseUrl, browser, environment, password, request, username }) => {
       test.skip(!isEnterpriseOrStaging(environment));
@@ -139,6 +141,7 @@ test.describe('RBAC functionality', () => {
       await expect(page.getByText('1-1 of 1')).toBeVisible();
       // the created role doesn't have permission to upload artifacts, so the button shouldn't be visible
       await expect(page.getByRole('button', { name: /upload/i })).not.toBeVisible();
+      await page.context().close();
     });
     test('manage tagged releases', async ({ baseUrl, browser, environment, password, request, username }) => {
       test.skip(!isEnterpriseOrStaging(environment));
@@ -148,6 +151,7 @@ test.describe('RBAC functionality', () => {
       await expect(page.getByText('1-1 of 1')).toBeVisible();
       // the created role does have permission to upload artifacts, so the button should be visible
       await expect(page.getByRole('button', { name: /upload/i })).toBeVisible();
+      await page.context().close();
     });
   });
 });

@@ -417,7 +417,7 @@ test:staging-deployment:chrome:
   resource_group: test-staging-deployment-chrome
   script:
     - npx playwright install chromium
-    - npm run test
+    - npm run test -- --project=chromium
   start_in: 15 minutes
 
 test:staging-deployment:firefox:
@@ -425,7 +425,7 @@ test:staging-deployment:firefox:
   resource_group: test-staging-deployment-firefox
   script:
     - npx playwright install firefox
-    - npm run test -- --browser=firefox
+    - npm run test -- --project=firefox
   start_in: 40 minutes
 
 test:staging-deployment:webkit:
@@ -434,7 +434,7 @@ test:staging-deployment:webkit:
   allow_failure: true
   script:
     - npx playwright install webkit
-    - npm run test -- --browser=webkit
+    - npm run test -- --project=webkit
   start_in: 30 minutes
 
 publish:backend:coverage:
