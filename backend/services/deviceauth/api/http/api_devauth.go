@@ -20,16 +20,15 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ant0ine/go-json-rest/rest"
+	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
 
 	"github.com/mendersoftware/mender-server/pkg/accesslog"
+	"github.com/mendersoftware/mender-server/pkg/contenttype"
 	ctxhttpheader "github.com/mendersoftware/mender-server/pkg/context/httpheader"
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
-	"github.com/mendersoftware/mender-server/pkg/requestlog"
-	"github.com/mendersoftware/mender-server/pkg/rest_utils"
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/access"
 	"github.com/mendersoftware/mender-server/services/deviceauth/cache"
@@ -41,36 +40,35 @@ import (
 )
 
 const (
-	uriAuthReqs = "/api/devices/v1/authentication/auth_requests"
+	apiUrlDevicesV1 = "/api/devices/v1/authentication"
+	uriAuthReqs     = "/auth_requests"
 
 	// internal API
-	uriAlive              = "/api/internal/v1/devauth/alive"
-	uriHealth             = "/api/internal/v1/devauth/health"
-	uriTokenVerify        = "/api/internal/v1/devauth/tokens/verify"
-	uriTenantLimit        = "/api/internal/v1/devauth/tenant/#id/limits/#name"
-	uriTokens             = "/api/internal/v1/devauth/tokens"
-	uriTenants            = "/api/internal/v1/devauth/tenants"
-	uriTenantDevice       = "/api/internal/v1/devauth/tenants/#tid/devices/#did"
-	uriTenantDeviceStatus = "/api/internal/v1/devauth/tenants/#tid/devices/#did/status"
-	uriTenantDevices      = "/api/internal/v1/devauth/tenants/#tid/devices"
-	uriTenantDevicesCount = "/api/internal/v1/devauth/tenants/#tid/devices/count"
+	apiUrlInternalV1      = "/api/internal/v1/devauth"
+	uriAlive              = "/alive"
+	uriHealth             = "/health"
+	uriTokenVerify        = "/tokens/verify"
+	uriTenantLimit        = "/tenant/:id/limits/:name"
+	uriTokens             = "/tokens"
+	uriTenants            = "/tenants"
+	uriTenantDevice       = "/tenants/:tid/devices/:did"
+	uriTenantDeviceStatus = "/tenants/:tid/devices/:did/status"
+	uriTenantDevices      = "/tenants/:tid/devices"
+	uriTenantDevicesCount = "/tenants/:tid/devices/count"
 
 	// management API v2
-	v2uriDevices             = "/api/management/v2/devauth/devices"
-	v2uriDevicesCount        = "/api/management/v2/devauth/devices/count"
-	v2uriDevicesSearch       = "/api/management/v2/devauth/devices/search"
-	v2uriDevice              = "/api/management/v2/devauth/devices/#id"
-	v2uriDeviceAuthSet       = "/api/management/v2/devauth/devices/#id/auth/#aid"
-	v2uriDeviceAuthSetStatus = "/api/management/v2/devauth/devices/#id/auth/#aid/status"
-	v2uriToken               = "/api/management/v2/devauth/tokens/#id"
-	v2uriDevicesLimit        = "/api/management/v2/devauth/limits/#name"
+	apiUrlManagementV2       = "/api/management/v2/devauth"
+	v2uriDevices             = "/devices"
+	v2uriDevicesCount        = "/devices/count"
+	v2uriDevicesSearch       = "/devices/search"
+	v2uriDevice              = "/devices/:id"
+	v2uriDeviceAuthSet       = "/devices/:id/auth/:aid"
+	v2uriDeviceAuthSetStatus = "/devices/:id/auth/:aid/status"
+	v2uriToken               = "/tokens/:id"
+	v2uriDevicesLimit        = "/limits/:name"
 
 	HdrAuthReqSign = "X-MEN-Signature"
 )
-
-func init() {
-	rest.ErrorFieldName = "error"
-}
 
 const (
 	defaultTimeout = time.Second * 5
@@ -78,183 +76,150 @@ const (
 
 var (
 	ErrIncorrectStatus = errors.New("incorrect device status")
-	ErrNoAuthHeader    = errors.New("no authorization header")
+	ErrNoAuthHeader    = errors.New("Authorization not present in header")
 )
 
 type DevAuthApiHandlers struct {
-	devAuth devauth.App
-	db      store.DataStore
+	app devauth.App
+	db  store.DataStore
 }
 
 type DevAuthApiStatus struct {
 	Status string `json:"status"`
 }
 
-func NewDevAuthApiHandlers(devAuth devauth.App, db store.DataStore) ApiHandler {
+func NewDevAuthApiHandlers(devAuth devauth.App, db store.DataStore) *DevAuthApiHandlers {
 	return &DevAuthApiHandlers{
-		devAuth: devAuth,
-		db:      db,
+		app: devAuth,
+		db:  db,
 	}
 }
 
-func wrapMiddleware(middleware rest.Middleware, routes ...*rest.Route) []*rest.Route {
-	for _, route := range routes {
-		route.Func = middleware.MiddlewareFunc(route.Func)
-	}
-	return routes
+func NewRouter(app devauth.App, db store.DataStore) http.Handler {
+	router := gin.New()
+	router.Use(accesslog.Middleware())
+	router.Use(requestid.Middleware())
+
+	d := NewDevAuthApiHandlers(app, db)
+
+	publicAPIs := router.Group(".")
+	publicAPIs.Use(identity.Middleware())
+
+	mgmtAPIV2 := publicAPIs.Group(apiUrlManagementV2)
+	devicesAPIs := router.Group(apiUrlDevicesV1)
+
+	// Devices API
+	devicesAPIs.Group(".").Use(contenttype.CheckJSON()).
+		POST(uriAuthReqs, d.SubmitAuthRequestHandler)
+
+	// API v2
+	mgmtAPIV2.GET(v2uriDevicesCount, d.GetDevicesCountHandler)
+	mgmtAPIV2.GET(v2uriDevices, d.GetDevicesV2Handler)
+	mgmtAPIV2.GET(v2uriDevice, d.GetDeviceV2Handler)
+	mgmtAPIV2.GET(v2uriDeviceAuthSetStatus, d.GetAuthSetStatusHandler)
+	mgmtAPIV2.GET(v2uriDevicesLimit, d.GetLimitHandler)
+	mgmtAPIV2.DELETE(v2uriDevice, d.DecommissionDeviceHandler)
+	mgmtAPIV2.DELETE(v2uriDeviceAuthSet, d.DeleteDeviceAuthSetHandler)
+	mgmtAPIV2.DELETE(v2uriToken, d.DeleteTokenHandler)
+	mgmtAPIV2.Group(".").Use(contenttype.CheckJSON()).
+		POST(v2uriDevices, d.PostDevicesV2Handler).
+		PUT(v2uriDeviceAuthSetStatus, d.UpdateDeviceStatusHandler).
+		POST(v2uriDevicesSearch, d.SearchDevicesV2Handler)
+
+	// automatically add Option routes for public endpoints
+	AutogenOptionsRoutes(router, AllowHeaderOptionsGenerator)
+
+	intrnlAPIV1 := router.Group(apiUrlInternalV1)
+
+	intrnlAPIV1.GET(uriAlive, d.AliveHandler)
+	intrnlAPIV1.GET(uriHealth, d.HealthCheckHandler)
+	intrnlAPIV1.GET(uriTokenVerify,
+		identity.Middleware(),
+		d.VerifyTokenHandler)
+	intrnlAPIV1.POST(uriTokenVerify,
+		identity.Middleware(),
+		d.VerifyTokenHandler)
+	intrnlAPIV1.DELETE(uriTokens, d.DeleteTokensHandler)
+	intrnlAPIV1.PUT(uriTenantLimit, d.PutTenantLimitHandler)
+	intrnlAPIV1.GET(uriTenantLimit, d.GetTenantLimitHandler)
+	intrnlAPIV1.DELETE(uriTenantLimit, d.DeleteTenantLimitHandler)
+	intrnlAPIV1.POST(uriTenants, d.ProvisionTenantHandler)
+	intrnlAPIV1.GET(uriTenantDeviceStatus, d.GetTenantDeviceStatus)
+	intrnlAPIV1.GET(uriTenantDevices, d.GetTenantDevicesHandler)
+	intrnlAPIV1.GET(uriTenantDevicesCount, d.GetTenantDevicesCountHandler)
+	intrnlAPIV1.DELETE(uriTenantDevice, d.DeleteDeviceHandler)
+
+	return router
 }
 
-func (d *DevAuthApiHandlers) Build() (http.Handler, error) {
-	identityMiddleware := &identity.IdentityMiddleware{
-		UpdateLogger: true,
-	}
-	internalRoutes := []*rest.Route{
-		rest.Get(uriAlive, d.AliveHandler),
-		rest.Get(uriHealth, d.HealthCheckHandler),
-		rest.Get(uriTokenVerify, identityMiddleware.MiddlewareFunc(
-			d.VerifyTokenHandler,
-		)),
-		rest.Post(uriTokenVerify, identityMiddleware.MiddlewareFunc(
-			d.VerifyTokenHandler,
-		)),
-		rest.Delete(uriTokens, d.DeleteTokensHandler),
-
-		rest.Put(uriTenantLimit, d.PutTenantLimitHandler),
-		rest.Get(uriTenantLimit, d.GetTenantLimitHandler),
-		rest.Delete(uriTenantLimit, d.DeleteTenantLimitHandler),
-
-		rest.Post(uriTenants, d.ProvisionTenantHandler),
-		rest.Get(uriTenantDeviceStatus, d.GetTenantDeviceStatus),
-		rest.Get(uriTenantDevices, d.GetTenantDevicesHandler),
-		rest.Get(uriTenantDevicesCount, d.GetTenantDevicesCountHandler),
-		rest.Delete(uriTenantDevice, d.DeleteDeviceHandler),
-	}
-	publicRoutes := []*rest.Route{
-		// Devices API
-		rest.Post(uriAuthReqs, d.SubmitAuthRequestHandler),
-
-		// API v2
-		rest.Get(v2uriDevicesCount, d.GetDevicesCountHandler),
-		rest.Get(v2uriDevices, d.GetDevicesV2Handler),
-		rest.Post(v2uriDevicesSearch, d.SearchDevicesV2Handler),
-		rest.Post(v2uriDevices, d.PostDevicesV2Handler),
-		rest.Get(v2uriDevice, d.GetDeviceV2Handler),
-		rest.Delete(v2uriDevice, d.DecommissionDeviceHandler),
-		rest.Delete(v2uriDeviceAuthSet, d.DeleteDeviceAuthSetHandler),
-		rest.Put(v2uriDeviceAuthSetStatus, d.UpdateDeviceStatusHandler),
-		rest.Get(v2uriDeviceAuthSetStatus, d.GetAuthSetStatusHandler),
-		rest.Delete(v2uriToken, d.DeleteTokenHandler),
-		rest.Get(v2uriDevicesLimit, d.GetLimitHandler),
-	}
-	publicRoutes = wrapMiddleware(identityMiddleware, publicRoutes...)
-
-	routes := append(publicRoutes, internalRoutes...)
-
-	app, err := rest.MakeRouter(
-		// augment routes with OPTIONS handler
-		AutogenOptionsRoutes(routes, AllowHeaderOptionsGenerator)...,
-	)
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to create router")
-	}
-
-	api := rest.NewApi()
-	api.SetApp(app)
-	api.Use(
-		&requestlog.RequestLogMiddleware{},
-		&requestid.RequestIdMiddleware{},
-		&accesslog.AccessLogMiddleware{
-			Format: accesslog.SimpleLogFormat,
-			DisableLog: func(statusCode int, r *rest.Request) bool {
-				if statusCode < 300 &&
-					(r.Request.URL.Path == uriAlive ||
-						r.Request.URL.Path == uriHealth ||
-						r.Request.URL.Path == uriTokenVerify) {
-					return true
-				}
-				return false
-			},
-		},
-		// verifies the request Content-Type header
-		// The expected Content-Type is 'application/json'
-		// if the content is non-null
-		&rest.ContentTypeCheckerMiddleware{},
-	)
-
-	return api.MakeHandler(), nil
+func (i *DevAuthApiHandlers) AliveHandler(c *gin.Context) {
+	c.Status(http.StatusNoContent)
 }
 
-func (d *DevAuthApiHandlers) AliveHandler(w rest.ResponseWriter, r *rest.Request) {
-	w.WriteHeader(http.StatusNoContent)
-}
-
-func (d *DevAuthApiHandlers) HealthCheckHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-	l := log.FromContext(ctx)
+func (i *DevAuthApiHandlers) HealthCheckHandler(c *gin.Context) {
+	ctx := c.Request.Context()
 	ctx, cancel := context.WithTimeout(ctx, defaultTimeout)
 	defer cancel()
 
-	err := d.devAuth.HealthCheck(ctx)
+	err := i.app.HealthCheck(ctx)
 	if err != nil {
-		rest_utils.RestErrWithLog(w, r, l, err, http.StatusServiceUnavailable)
+		rest.RenderError(c, http.StatusServiceUnavailable, err)
 		return
 	}
-	w.WriteHeader(http.StatusNoContent)
+	c.Status(http.StatusNoContent)
 }
 
-func (d *DevAuthApiHandlers) SubmitAuthRequestHandler(w rest.ResponseWriter, r *rest.Request) {
+func (i *DevAuthApiHandlers) SubmitAuthRequestHandler(c *gin.Context) {
 	var authreq model.AuthReq
 
-	ctx := r.Context()
-
-	l := log.FromContext(ctx)
+	ctx := c.Request.Context()
 
 	//validate req body by reading raw content manually
 	//(raw body will be needed later, DecodeJsonPayload would
 	//unmarshal and close it)
-	body, err := utils.ReadBodyRaw(r)
+	body, err := utils.ReadBodyRaw(c.Request)
 	if err != nil {
 		err = errors.Wrap(err, "failed to decode auth request")
-		rest_utils.RestErrWithLog(w, r, l, err, http.StatusBadRequest)
+		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}
 
 	err = json.Unmarshal(body, &authreq)
 	if err != nil {
 		err = errors.Wrap(err, "failed to decode auth request")
-		rest_utils.RestErrWithLog(w, r, l, err, http.StatusBadRequest)
+		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}
 
 	err = authreq.Validate()
 	if err != nil {
 		err = errors.Wrap(err, "invalid auth request")
-		rest_utils.RestErrWithLog(w, r, l, err, http.StatusBadRequest)
+		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}
 
 	//verify signature
-	signature := r.Header.Get(HdrAuthReqSign)
+	signature := c.GetHeader(HdrAuthReqSign)
 	if signature == "" {
-		rest_utils.RestErrWithLog(
-			w,
-			r,
-			l,
+		rest.RenderError(c, http.StatusBadRequest,
 			errors.New("missing request signature header"),
-			http.StatusBadRequest,
 		)
 		return
 	}
 
-	token, err := d.devAuth.SubmitAuthRequest(ctx, &authreq)
+	token, err := i.app.SubmitAuthRequest(ctx, &authreq)
 	if err != nil {
 		if devauth.IsErrDevAuthUnauthorized(err) {
-			rest_utils.RestErrWithWarningMsg(w, r, l, err,
-				http.StatusUnauthorized, errors.Cause(err).Error())
+			rest.RenderError(c,
+				http.StatusUnauthorized,
+				errors.Cause(err),
+			)
 			return
 		} else if devauth.IsErrDevAuthBadRequest(err) {
-			rest_utils.RestErrWithWarningMsg(w, r, l, err,
-				http.StatusBadRequest, errors.Cause(err).Error())
+			rest.RenderError(c,
+				http.StatusBadRequest,
+				errors.Cause(err),
+			)
 			return
 		}
 	}
@@ -263,136 +228,136 @@ func (d *DevAuthApiHandlers) SubmitAuthRequestHandler(w rest.ResponseWriter, r *
 	case nil:
 		err = utils.VerifyAuthReqSign(signature, authreq.PubKeyStruct, body)
 		if err != nil {
-			rest_utils.RestErrWithLogMsg(
-				w,
-				r,
-				l,
-				err,
+			rest.RenderErrorWithMessage(c,
 				http.StatusUnauthorized,
+				errors.Cause(err),
 				"signature verification failed",
 			)
 			return
 		}
-		w.Header().Set("Content-Type", "application/jwt")
-		_, _ = w.(http.ResponseWriter).Write([]byte(token))
+		c.Header("Content-Type", "application/jwt")
+		_, _ = c.Writer.Write([]byte(token))
 		return
 	case devauth.ErrDevIdAuthIdMismatch, devauth.ErrMaxDeviceCountReached:
 		// error is always set to unauthorized, client does not need to
 		// know why
-		rest_utils.RestErrWithWarningMsg(w, r, l, devauth.ErrDevAuthUnauthorized,
-			http.StatusUnauthorized, "unauthorized")
+		rest.RenderErrorWithMessage(c,
+			http.StatusUnauthorized,
+			errors.Cause(err),
+			"unauthorized",
+		)
 		return
 	default:
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		c.Error(err)
+		rest.RenderInternalError(c, err)
 		return
 	}
 }
 
-func (d *DevAuthApiHandlers) PostDevicesV2Handler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
+func (i *DevAuthApiHandlers) PostDevicesV2Handler(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	l := log.FromContext(ctx)
-
-	req, err := parsePreAuthReq(r.Body)
+	req, err := parsePreAuthReq(c.Request.Body)
 	if err != nil {
 		err = errors.Wrap(err, "failed to decode preauth request")
-		rest_utils.RestErrWithLog(w, r, l, err, http.StatusBadRequest)
+		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}
 
 	reqDbModel, err := req.getDbModel()
 	if err != nil {
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		rest.RenderInternalError(c, err)
 		return
 	}
 
-	device, err := d.devAuth.PreauthorizeDevice(ctx, reqDbModel)
+	device, err := i.app.PreauthorizeDevice(ctx, reqDbModel)
 	switch err {
 	case nil:
-		w.Header().Set("Location", "devices/"+reqDbModel.DeviceId)
-		w.WriteHeader(http.StatusCreated)
+		c.Header("Location", "devices/"+reqDbModel.DeviceId)
+		c.Status(http.StatusCreated)
 	case devauth.ErrDeviceExists:
-		l.Error(err)
-		w.WriteHeader(http.StatusConflict)
-		_ = w.WriteJson(device)
+		c.JSON(http.StatusConflict, device)
 	default:
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		rest.RenderInternalError(c, err)
 	}
 }
 
-func (d *DevAuthApiHandlers) SearchDevicesV2Handler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-	l := log.FromContext(ctx)
+func (i *DevAuthApiHandlers) SearchDevicesV2Handler(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	page, perPage, err := rest_utils.ParsePagination(r)
+	page, perPage, err := rest.ParsePagingParameters(c.Request)
 	if err != nil {
-		rest_utils.RestErrWithLog(w, r, l, err, http.StatusBadRequest)
+		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}
 	fltr := model.DeviceFilter{}
 
-	switch strings.ToLower(r.Header.Get("Content-Type")) {
+	switch strings.ToLower(c.GetHeader("Content-Type")) {
 	case "application/json", "":
-		err := r.DecodeJsonPayload(&fltr)
+		err := c.ShouldBindJSON(&fltr)
 		if err != nil {
 			err = errors.Wrap(err, "api: malformed request body")
-			rest_utils.RestErrWithLog(w, r, l, err, http.StatusBadRequest)
+			rest.RenderError(c, http.StatusBadRequest, err)
 			return
 		}
-
 	case "application/x-www-form-urlencoded":
-		if err = r.ParseForm(); err != nil {
+		if err = c.Request.ParseForm(); err != nil {
 			err = errors.Wrap(err, "api: malformed query parameters")
-			rest_utils.RestErrWithLog(w, r, l, err, http.StatusBadRequest)
+			rest.RenderError(c, http.StatusBadRequest, err)
 			return
 		}
-		if err = fltr.ParseForm(r.Form); err != nil {
-			rest_utils.RestErrWithLog(w, r, l, err, http.StatusBadRequest)
+		if err = fltr.ParseForm(c.Request.Form); err != nil {
+			rest.RenderError(c, http.StatusBadRequest, err)
 			return
 		}
 
 	default:
-		rest_utils.RestErrWithLog(w, r, l, errors.Errorf(
-			"Content-Type '%s' not supported",
-			r.Header.Get("Content-Type"),
-		), http.StatusUnsupportedMediaType)
+		rest.RenderError(c,
+			http.StatusUnsupportedMediaType,
+			errors.Errorf(
+				"Content-Type '%s' not supported",
+				c.GetHeader("Content-Type"),
+			))
 		return
 	}
 
 	skip := (page - 1) * perPage
 	limit := perPage + 1
-	devs, err := d.devAuth.GetDevices(ctx, uint(skip), uint(limit), fltr)
+	devs, err := i.app.GetDevices(ctx, uint(skip), uint(limit), fltr)
 	if err != nil {
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		rest.RenderInternalError(c, err)
 		return
 	}
 
 	numDevs := len(devs)
 	hasNext := false
-	if uint64(numDevs) > perPage {
+	if int64(numDevs) > perPage {
 		hasNext = true
 		numDevs = int(perPage)
 	}
-
-	links := rest_utils.MakePageLinkHdrs(r, page, perPage, hasNext)
-
-	for _, l := range links {
-		w.Header().Add("Link", l)
+	hints := rest.NewPagingHints().
+		SetPage(page).
+		SetPerPage(perPage).
+		SetHasNext(hasNext).
+		SetTotalCount(int64(numDevs))
+	links, err := rest.MakePagingHeaders(c.Request, hints)
+	if err != nil {
+		rest.RenderError(c, http.StatusBadRequest, err)
 	}
-
-	_ = w.WriteJson(devs[:numDevs])
+	for _, l := range links {
+		c.Writer.Header().Add("Link", l)
+	}
+	c.JSON(http.StatusOK, devs[:numDevs])
 }
 
-func (d *DevAuthApiHandlers) GetDevicesV2Handler(w rest.ResponseWriter, r *rest.Request) {
-	r.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	d.SearchDevicesV2Handler(w, r)
+func (i *DevAuthApiHandlers) GetDevicesV2Handler(c *gin.Context) {
+	c.Request.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	i.SearchDevicesV2Handler(c)
 }
 
-func (d *DevAuthApiHandlers) GetDevicesCountHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-	l := log.FromContext(ctx)
-
-	status := r.URL.Query().Get("status")
+func (i *DevAuthApiHandlers) GetDevicesCountHandler(c *gin.Context) {
+	ctx := c.Request.Context()
+	status := c.Query("status")
 
 	switch status {
 	case model.DevStatusAccepted,
@@ -402,124 +367,111 @@ func (d *DevAuthApiHandlers) GetDevicesCountHandler(w rest.ResponseWriter, r *re
 		model.DevStatusNoAuth,
 		"":
 	default:
-		rest_utils.RestErrWithLog(
-			w,
-			r,
-			l,
-			errors.New("status must be one of: pending, accepted, rejected, preauthorized, noauth"),
+		rest.RenderError(c,
 			http.StatusBadRequest,
+			errors.New("status must be one of: pending, accepted, rejected, preauthorized, noauth"),
 		)
 		return
 	}
 
-	count, err := d.devAuth.GetDevCountByStatus(ctx, status)
+	count, err := i.app.GetDevCountByStatus(ctx, status)
 
 	if err != nil {
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		rest.RenderInternalError(c, err)
 		return
 	}
 
-	_ = w.WriteJson(model.Count{Count: count})
+	c.JSON(http.StatusOK, model.Count{Count: count})
 }
 
-func (d *DevAuthApiHandlers) GetDeviceV2Handler(w rest.ResponseWriter, r *rest.Request) {
+func (i *DevAuthApiHandlers) GetDeviceV2Handler(c *gin.Context) {
 
-	ctx := r.Context()
+	ctx := c.Request.Context()
 
-	l := log.FromContext(ctx)
+	devId := c.Param("id")
 
-	devId := r.PathParam("id")
-
-	dev, err := d.devAuth.GetDevice(ctx, devId)
+	dev, err := i.app.GetDevice(ctx, devId)
 	switch {
 	case err == store.ErrDevNotFound:
-		rest_utils.RestErrWithLog(w, r, l, err, http.StatusNotFound)
+		rest.RenderError(c, http.StatusNotFound, err)
 	case dev != nil:
-		_ = w.WriteJson(dev)
+		c.JSON(http.StatusOK, dev)
 	default:
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		rest.RenderInternalError(c, err)
 	}
 }
 
-func (d *DevAuthApiHandlers) DecommissionDeviceHandler(w rest.ResponseWriter, r *rest.Request) {
+func (i *DevAuthApiHandlers) DecommissionDeviceHandler(c *gin.Context) {
 
-	ctx := r.Context()
+	ctx := c.Request.Context()
 
-	l := log.FromContext(ctx)
+	devId := c.Param("id")
 
-	devId := r.PathParam("id")
-
-	if err := d.devAuth.DecommissionDevice(ctx, devId); err != nil {
+	if err := i.app.DecommissionDevice(ctx, devId); err != nil {
 		if err == store.ErrDevNotFound {
-			w.WriteHeader(http.StatusNotFound)
+			c.Status(http.StatusNotFound)
 			return
 		}
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		rest.RenderInternalError(c, err)
 		return
 	}
 
-	w.WriteHeader(http.StatusNoContent)
+	c.Status(http.StatusNoContent)
 }
 
-func (d *DevAuthApiHandlers) DeleteDeviceAuthSetHandler(w rest.ResponseWriter, r *rest.Request) {
+func (i *DevAuthApiHandlers) DeleteDeviceAuthSetHandler(c *gin.Context) {
 
-	ctx := r.Context()
+	ctx := c.Request.Context()
 
-	l := log.FromContext(ctx)
+	devId := c.Param("id")
+	authId := c.Param("aid")
 
-	devId := r.PathParam("id")
-	authId := r.PathParam("aid")
-
-	if err := d.devAuth.DeleteAuthSet(ctx, devId, authId); err != nil {
+	if err := i.app.DeleteAuthSet(ctx, devId, authId); err != nil {
 		if err == store.ErrAuthSetNotFound {
-			w.WriteHeader(http.StatusNotFound)
+			c.Status(http.StatusNotFound)
 			return
 		}
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		rest.RenderInternalError(c, err)
 		return
 	}
 
-	w.WriteHeader(http.StatusNoContent)
+	c.Status(http.StatusNoContent)
 }
 
-func (d *DevAuthApiHandlers) DeleteTokenHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
+func (i *DevAuthApiHandlers) DeleteTokenHandler(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	l := log.FromContext(ctx)
-
-	tokenID := r.PathParam("id")
-	err := d.devAuth.RevokeToken(ctx, tokenID)
+	tokenID := c.Param("id")
+	err := i.app.RevokeToken(ctx, tokenID)
 	if err != nil {
 		if err == store.ErrTokenNotFound ||
 			err == devauth.ErrInvalidAuthSetID {
-			w.WriteHeader(http.StatusNotFound)
+			c.Status(http.StatusNotFound)
 			return
 		}
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		rest.RenderInternalError(c, err)
 		return
 	}
 
-	w.WriteHeader(http.StatusNoContent)
+	c.Status(http.StatusNoContent)
 }
 
-func (d *DevAuthApiHandlers) VerifyTokenHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
+func (i *DevAuthApiHandlers) VerifyTokenHandler(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	l := log.FromContext(ctx)
-
-	tokenStr, err := extractToken(r.Header)
+	tokenStr, err := extractToken(c.Request.Header)
 	if err != nil {
-		rest_utils.RestErrWithLog(w, r, l, ErrNoAuthHeader, http.StatusUnauthorized)
+		rest.RenderError(c, http.StatusUnauthorized, ErrNoAuthHeader)
 		return
 	}
 
 	ctx = ctxhttpheader.WithContext(ctx,
-		r.Header,
+		c.Request.Header,
 		"X-Forwarded-Method",
 		"X-Forwarded-Uri")
 
 	// verify token
-	err = d.devAuth.VerifyToken(ctx, tokenStr)
+	err = i.app.VerifyToken(ctx, tokenStr)
 	code := http.StatusOK
 	if err != nil {
 		switch e := errors.Cause(err); e {
@@ -531,87 +483,82 @@ func (d *DevAuthApiHandlers) VerifyTokenHandler(w rest.ResponseWriter, r *rest.R
 			code = http.StatusTooManyRequests
 		default:
 			if _, ok := e.(access.PermissionError); ok {
-				rest_utils.RestErrWithLog(w, r, l, e, http.StatusForbidden)
+				rest.RenderError(c, http.StatusForbidden, e)
 			} else {
-				rest_utils.RestErrWithLogInternal(w, r, l, err)
+				rest.RenderInternalError(c, err)
 			}
 			return
 		}
-		l.Error(err)
 	}
 
-	w.WriteHeader(code)
+	c.Status(code)
 }
 
-func (d *DevAuthApiHandlers) UpdateDeviceStatusHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
+func (i *DevAuthApiHandlers) UpdateDeviceStatusHandler(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	l := log.FromContext(ctx)
-
-	devid := r.PathParam("id")
-	authid := r.PathParam("aid")
+	devid := c.Param("id")
+	authid := c.Param("aid")
 
 	var status DevAuthApiStatus
-	err := r.DecodeJsonPayload(&status)
+	err := c.ShouldBindJSON(&status)
 	if err != nil {
 		err = errors.Wrap(err, "failed to decode status data")
-		rest_utils.RestErrWithLog(w, r, l, err, http.StatusBadRequest)
+		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}
 
 	if err := statusValidate(&status); err != nil {
-		rest_utils.RestErrWithLog(w, r, l, err, http.StatusBadRequest)
+		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}
 
 	if status.Status == model.DevStatusAccepted {
-		err = d.devAuth.AcceptDeviceAuth(ctx, devid, authid)
+		err = i.app.AcceptDeviceAuth(ctx, devid, authid)
 	} else if status.Status == model.DevStatusRejected {
-		err = d.devAuth.RejectDeviceAuth(ctx, devid, authid)
+		err = i.app.RejectDeviceAuth(ctx, devid, authid)
 	} else if status.Status == model.DevStatusPending {
-		err = d.devAuth.ResetDeviceAuth(ctx, devid, authid)
+		err = i.app.ResetDeviceAuth(ctx, devid, authid)
 	}
 	if err != nil {
 		switch err {
 		case store.ErrDevNotFound, store.ErrAuthSetNotFound:
-			rest_utils.RestErrWithLog(w, r, l, err, http.StatusNotFound)
+			rest.RenderError(c, http.StatusNotFound, err)
 		case devauth.ErrDevIdAuthIdMismatch, devauth.ErrDevAuthBadRequest:
-			rest_utils.RestErrWithLog(w, r, l, err, http.StatusBadRequest)
+			rest.RenderError(c, http.StatusBadRequest, err)
 		case devauth.ErrMaxDeviceCountReached:
-			rest_utils.RestErrWithLog(w, r, l, err, http.StatusUnprocessableEntity)
+			rest.RenderError(c, http.StatusUnprocessableEntity, err)
 		default:
-			rest_utils.RestErrWithLogInternal(w, r, l, err)
+			rest.RenderInternalError(c, err)
 		}
 		return
 	}
 
-	w.WriteHeader(http.StatusNoContent)
+	c.Status(http.StatusNoContent)
 }
 
 type LimitValue struct {
 	Limit uint64 `json:"limit"`
 }
 
-func (d *DevAuthApiHandlers) PutTenantLimitHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
+func (i *DevAuthApiHandlers) PutTenantLimitHandler(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	l := log.FromContext(ctx)
-
-	tenantId := r.PathParam("id")
-	reqLimitName := r.PathParam("name")
+	tenantId := c.Param("id")
+	reqLimitName := c.Param("name")
 
 	if !model.IsValidLimit(reqLimitName) {
-		rest_utils.RestErrWithLog(w, r, l,
-			errors.Errorf("unsupported limit %v", reqLimitName),
-			http.StatusBadRequest)
+		rest.RenderError(c,
+			http.StatusBadRequest,
+			errors.Errorf("unsupported limit %v", reqLimitName))
 		return
 	}
 
 	var value LimitValue
-	err := r.DecodeJsonPayload(&value)
+	err := c.ShouldBindJSON(&value)
 	if err != nil {
 		err = errors.Wrap(err, "failed to decode limit request")
-		rest_utils.RestErrWithLog(w, r, l, err, http.StatusBadRequest)
+		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}
 
@@ -620,206 +567,186 @@ func (d *DevAuthApiHandlers) PutTenantLimitHandler(w rest.ResponseWriter, r *res
 		Name:  reqLimitName,
 	}
 
-	if err := d.devAuth.SetTenantLimit(ctx, tenantId, limit); err != nil {
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+	if err := i.app.SetTenantLimit(ctx, tenantId, limit); err != nil {
+		rest.RenderInternalError(c, err)
 		return
 	}
 
-	w.WriteHeader(http.StatusNoContent)
+	c.Status(http.StatusNoContent)
 }
 
-func (d *DevAuthApiHandlers) DeleteTenantLimitHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
+func (i *DevAuthApiHandlers) DeleteTenantLimitHandler(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	l := log.FromContext(ctx)
-
-	tenantId := r.PathParam("id")
-	reqLimitName := r.PathParam("name")
+	tenantId := c.Param("id")
+	reqLimitName := c.Param("name")
 
 	if !model.IsValidLimit(reqLimitName) {
-		rest_utils.RestErrWithLog(w, r, l,
-			errors.Errorf("unsupported limit %v", reqLimitName),
-			http.StatusBadRequest)
+		rest.RenderError(c,
+			http.StatusBadRequest,
+			errors.Errorf("unsupported limit %v", reqLimitName))
 		return
 	}
 
-	if err := d.devAuth.DeleteTenantLimit(ctx, tenantId, reqLimitName); err != nil {
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+	if err := i.app.DeleteTenantLimit(ctx, tenantId, reqLimitName); err != nil {
+		rest.RenderInternalError(c, err)
 		return
 	}
 
-	w.WriteHeader(http.StatusNoContent)
+	c.Status(http.StatusNoContent)
 }
 
-func (d *DevAuthApiHandlers) GetTenantLimitHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
+func (i *DevAuthApiHandlers) GetTenantLimitHandler(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	l := log.FromContext(ctx)
-
-	tenantId := r.PathParam("id")
-	limitName := r.PathParam("name")
+	tenantId := c.Param("id")
+	limitName := c.Param("name")
 
 	if !model.IsValidLimit(limitName) {
-		rest_utils.RestErrWithLog(w, r, l,
-			errors.Errorf("unsupported limit %v", limitName),
-			http.StatusBadRequest)
+		rest.RenderError(c,
+			http.StatusBadRequest,
+			errors.Errorf("unsupported limit %v", limitName))
 		return
 	}
 
-	lim, err := d.devAuth.GetTenantLimit(ctx, limitName, tenantId)
+	lim, err := i.app.GetTenantLimit(ctx, limitName, tenantId)
 	if err != nil {
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		rest.RenderInternalError(c, err)
 		return
 	}
 
-	_ = w.WriteJson(LimitValue{lim.Value})
+	c.JSON(http.StatusOK, LimitValue{lim.Value})
 }
 
-func (d *DevAuthApiHandlers) GetLimitHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
+func (i *DevAuthApiHandlers) GetLimitHandler(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	l := log.FromContext(ctx)
-
-	name := r.PathParam("name")
+	name := c.Param("name")
 
 	if !model.IsValidLimit(name) {
-		rest_utils.RestErrWithLog(w, r, l,
-			errors.Errorf("unsupported limit %v", name),
-			http.StatusBadRequest)
+		rest.RenderError(c,
+			http.StatusBadRequest,
+			errors.Errorf("unsupported limit %v", name))
 		return
 	}
 
-	lim, err := d.devAuth.GetLimit(ctx, name)
+	lim, err := i.app.GetLimit(ctx, name)
 	if err != nil {
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		rest.RenderInternalError(c, err)
 		return
 	}
 
-	_ = w.WriteJson(LimitValue{lim.Value})
+	c.JSON(http.StatusOK, LimitValue{lim.Value})
 }
 
-func (d *DevAuthApiHandlers) DeleteTokensHandler(w rest.ResponseWriter, r *rest.Request) {
+func (i *DevAuthApiHandlers) DeleteTokensHandler(c *gin.Context) {
 
-	ctx := r.Context()
+	ctx := c.Request.Context()
 
-	l := log.FromContext(ctx)
-
-	tenantId := r.URL.Query().Get("tenant_id")
+	tenantId := c.Query("tenant_id")
 	if tenantId == "" {
-		rest_utils.RestErrWithLog(
-			w,
-			r,
-			l,
-			errors.New("tenant_id must be provided"),
+		rest.RenderError(c,
 			http.StatusBadRequest,
-		)
+			errors.New("tenant_id must be provided"))
 		return
 	}
-	devId := r.URL.Query().Get("device_id")
+	devId := c.Query("device_id")
 
-	err := d.devAuth.DeleteTokens(ctx, tenantId, devId)
+	err := i.app.DeleteTokens(ctx, tenantId, devId)
 	switch err {
 	case nil:
-		w.WriteHeader(http.StatusNoContent)
+		c.Status(http.StatusNoContent)
 	default:
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		rest.RenderInternalError(c, err)
 	}
 }
 
-func (d *DevAuthApiHandlers) GetAuthSetStatusHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-	l := log.FromContext(ctx)
+func (i *DevAuthApiHandlers) GetAuthSetStatusHandler(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	devid := r.PathParam("id")
-	authid := r.PathParam("aid")
+	devid := c.Param("id")
+	authid := c.Param("aid")
 
 	// get authset directly from store
-	aset, err := d.db.GetAuthSetById(ctx, authid)
+	aset, err := i.db.GetAuthSetById(ctx, authid)
 	switch err {
 	case nil:
-		_ = w.WriteJson(&model.Status{Status: aset.Status})
+		c.JSON(http.StatusOK, &model.Status{Status: aset.Status})
 	case store.ErrDevNotFound, store.ErrAuthSetNotFound:
-		rest_utils.RestErrWithLog(w, r, l, store.ErrAuthSetNotFound, http.StatusNotFound)
+		rest.RenderError(c, http.StatusNotFound, store.ErrAuthSetNotFound)
 	default:
-		rest_utils.RestErrWithLogInternal(w, r, l,
+		rest.RenderInternalError(c,
 			errors.Wrapf(err,
 				"failed to fetch auth set %s for device %s",
 				authid, devid))
 	}
 }
 
-func (d *DevAuthApiHandlers) ProvisionTenantHandler(w rest.ResponseWriter, r *rest.Request) {
+func (i *DevAuthApiHandlers) ProvisionTenantHandler(c *gin.Context) {
 	// NOTE: This handler was used to initialize database collections. This is no longer
 	//       needed after migration 2.0.0.
-	w.WriteHeader(http.StatusCreated)
+	c.Status(http.StatusCreated)
 }
 
-func (d *DevAuthApiHandlers) GetTenantDeviceStatus(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
+func (i *DevAuthApiHandlers) GetTenantDeviceStatus(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	l := log.FromContext(ctx)
-
-	tid := r.PathParam("tid")
-	did := r.PathParam("did")
+	tid := c.Param("tid")
+	did := c.Param("did")
 
 	if did == "" {
-		rest_utils.RestErrWithLog(
-			w,
-			r,
-			l,
-			errors.New("device id (did) cannot be empty"),
+		rest.RenderError(c,
 			http.StatusBadRequest,
-		)
+			errors.New("device id (did) cannot be empty"))
 		return
 	}
 
-	status, err := d.devAuth.GetTenantDeviceStatus(ctx, tid, did)
+	status, err := i.app.GetTenantDeviceStatus(ctx, tid, did)
 	switch err {
 	case nil:
-		_ = w.WriteJson(status)
+		c.JSON(http.StatusOK, status)
 	case devauth.ErrDeviceNotFound:
-		rest_utils.RestErrWithLog(w, r, l, err, http.StatusNotFound)
+		rest.RenderError(c, http.StatusNotFound, err)
 	default:
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		rest.RenderInternalError(c, err)
 	}
 }
 
-func (d *DevAuthApiHandlers) GetTenantDevicesHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-	if tid := r.PathParam("tid"); tid != "" {
+func (i *DevAuthApiHandlers) GetTenantDevicesHandler(c *gin.Context) {
+	ctx := c.Request.Context()
+	if tid := c.Param("tid"); tid != "" {
 		ctx = identity.WithContext(ctx, &identity.Identity{Tenant: tid})
 	}
-	r.Request = r.WithContext(ctx)
+	c.Request = c.Request.WithContext(ctx)
 
-	d.GetDevicesV2Handler(w, r)
+	i.GetDevicesV2Handler(c)
 }
 
-func (d *DevAuthApiHandlers) GetTenantDevicesCountHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-	if tid := r.PathParam("tid"); tid != "" {
+func (i *DevAuthApiHandlers) GetTenantDevicesCountHandler(c *gin.Context) {
+	ctx := c.Request.Context()
+	if tid := c.Param("tid"); tid != "" {
 		ctx = identity.WithContext(ctx, &identity.Identity{Tenant: tid})
 	}
-	r.Request = r.WithContext(ctx)
+	c.Request = c.Request.WithContext(ctx)
 
-	d.GetDevicesCountHandler(w, r)
+	i.GetDevicesCountHandler(c)
 }
 
-func (d *DevAuthApiHandlers) DeleteDeviceHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-	l := log.FromContext(ctx)
-	did := r.PathParam("did")
+func (i *DevAuthApiHandlers) DeleteDeviceHandler(c *gin.Context) {
+	ctx := c.Request.Context()
+	did := c.Param("did")
 
-	err := d.devAuth.DeleteDevice(ctx, did)
+	err := i.app.DeleteDevice(ctx, did)
 	switch err {
 	case nil:
-		w.WriteHeader(http.StatusNoContent)
+		c.Status(http.StatusNoContent)
 	case devauth.ErrInvalidDeviceID:
 		didErr := errors.New("device id (did) cannot be empty")
-		rest_utils.RestErrWithLog(w, r, l, didErr, http.StatusBadRequest)
+		rest.RenderError(c, http.StatusBadRequest, didErr)
 	case store.ErrDevNotFound:
-		w.WriteHeader(http.StatusNotFound)
+		c.Status(http.StatusNotFound)
 	default:
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		rest.RenderInternalError(c, err)
 	}
 }
 
