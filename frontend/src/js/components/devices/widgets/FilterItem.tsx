@@ -73,8 +73,8 @@ export const FilterItem = ({ attributes, onChange, onSelect, plan, reset, onSave
   };
 
   const updateFilterOperator = ({ target: { value: changedOperator } }) => {
-    const operator = DEVICE_FILTERING_OPTIONS[changedOperator] || {};
-    const opValue = operator.value ?? value ?? '';
+    const newOperator = DEVICE_FILTERING_OPTIONS[changedOperator] || {};
+    const opValue = newOperator.value ?? (operator.includes('exists') ? '' : value) ?? '';
     setOperator(changedOperator);
     setValue(opValue);
   };
