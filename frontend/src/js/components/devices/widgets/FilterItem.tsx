@@ -52,14 +52,12 @@ export const FilterItem = ({ attributes, onChange, onSelect, plan, reset, onSave
     onChange({ key, operator, scope, value });
     timer.current = setTimeout(
       () =>
-        key && (value || operator.includes('exists'))
-          ? onSelect({
-              key,
-              operator,
-              scope,
-              value
-            })
-          : null,
+        onSelect({
+          key,
+          operator,
+          scope,
+          value
+        }),
       TIMEOUTS.threeSeconds
     );
     return () => {

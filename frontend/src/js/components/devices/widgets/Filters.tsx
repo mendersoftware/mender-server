@@ -80,7 +80,7 @@ export const Filters = ({ className = '', onGroupClick, open }) => {
     filters => {
       const activeFilters = filters.filter(filtersFilter).filter(item => item.value !== '');
       dispatch(setDeviceFilters(activeFilters));
-      dispatch(setDeviceListState({ selectedId: undefined, page: 1, shouldSelectDevices: true, forceRefresh: true }));
+      dispatch(setDeviceListState({ selectedId: undefined, page: 1, shouldSelectDevices: true, forceRefresh: true, filterSelection: undefined }));
     },
     [dispatch]
   );
