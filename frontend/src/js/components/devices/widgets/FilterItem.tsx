@@ -58,7 +58,7 @@ export const FilterItem = ({ attributes, onChange, onSelect, plan, reset, onSave
           scope,
           value
         }),
-      TIMEOUTS.threeSeconds
+      TIMEOUTS.debounceDefault
     );
     return () => {
       clearTimeout(timer.current);
