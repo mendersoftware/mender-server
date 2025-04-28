@@ -41,16 +41,16 @@ merge-to-enterprise:
       This is an automated PR by @mender-test-bot. To complete the PR please follow the following steps:
       1. Merge the PR into ${CI_COMMIT_BRANCH}:
          \`\`\`bash
-         git pull -f git@github.com:${GITHUB_REPOSITORY_ENTERPRISE} ${CI_COMMIT_BRANCH} && \
-            git checkout ${CI_COMMIT_BRANCH} && \
-            git pull --no -ff git@github.com:${GITHUB_REPOSITORY_ENTERPRISE} refs/heads/${PR_BRANCH}:${CI_COMMIT_BRANCH}
+         git checkout ${CI_COMMIT_BRANCH} && \\
+             git pull -f git@github.com:${GITHUB_REPOSITORY_ENTERPRISE} refs/heads/${CI_COMMIT_BRANCH} && \\
+             git pull --no-ff git@github.com:${GITHUB_REPOSITORY_ENTERPRISE} refs/heads/${PR_BRANCH}
          \`\`\`
       2. Resolve any conflicts (if any).
-      3. Push the changes to this branch.
+      3. Remove the \`[NOCI]\` prefix in the PR title to start the pipeline
+      4. Push the changes to this branch.
          \`\`\`bash
          git push git@github.com:${GITHUB_REPOSITORY_ENTERPRISE} ${CI_COMMIT_BRANCH}:refs/heads/${PR_BRANCH}
          \`\`\`
-      4. Remove the \`[NOCI]\` prefix in the PR title to start the pipeline
       EOF
     - |
       cat > pr_request_body.json << EOF
