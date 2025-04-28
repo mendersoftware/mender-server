@@ -119,10 +119,7 @@ export const Filters = ({ className = '', onGroupClick, open }) => {
     setReset(toggle);
   };
 
-  const onAddClick = () => {
-    updateFilter(newFilter);
-    setReset(toggle);
-  };
+  const onAddClick = () => updateFilter(newFilter);
 
   const isFilterDefined = Object.values(newFilter).every(thing => !!thing);
   const currentFilters = filters.filter(filtersFilter);
