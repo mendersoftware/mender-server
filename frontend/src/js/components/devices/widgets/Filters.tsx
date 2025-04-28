@@ -85,6 +85,15 @@ export const Filters = ({ className = '', onGroupClick, open }) => {
     [dispatch]
   );
 
+  // We want to preview the resulting list while user types / selects a filter before saving
+  const applyPreviewFilter = useCallback(
+    updatedFilter => {
+      const activeFilters = [...filters, updatedFilter].filter(filtersFilter).filter(item => item.key && item.value !== '');
+      dispatch(setDeviceListState({ selectedId: undefined, page: 1, shouldSelectDevices: true, forceRefresh: true, filterSelection: activeFilters }));
+    },
+    [dispatch, filters]
+  );
+
   const updateFilter = useCallback(
     updatedFilter => {
       saveUpdatedFilter(updatedFilter);
@@ -143,7 +152,7 @@ export const Filters = ({ className = '', onGroupClick, open }) => {
             </div>
             {(hasFullFiltering || !currentFilters.length) && (
               <>
-                <FilterItem attributes={attributes} onChange={setNewFilter} onSelect={updateFilter} plan={plan} reset={reset} />
+                <FilterItem attributes={attributes} onChange={setNewFilter} onSelect={applyPreviewFilter} onSave={updateFilter} plan={plan} reset={reset} />
                 {isFilterDefined && <Chip className="margin-bottom-small" icon={<AddIcon />} label="Add a rule" color="primary" onClick={onAddClick} />}
               </>
             )}

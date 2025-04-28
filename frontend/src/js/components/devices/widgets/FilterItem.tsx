@@ -32,7 +32,7 @@ const filterNotifications = {
   name: <MenderHelpTooltip id={HELPTOOLTIPS.nameFilterTip.id} style={{ position: 'absolute', top: 20, left: -28 }} />
 };
 
-export const FilterItem = ({ attributes, onChange, onSelect, plan, reset }) => {
+export const FilterItem = ({ attributes, onChange, onSelect, plan, reset, onSave }) => {
   const [key, setKey] = useState(emptyFilter.key); // this refers to the selected filter with key as the id
   const [value, setValue] = useState(emptyFilter.value); // while this is the value that is applied with the filter
   const [operator, setOperator] = useState(emptyFilter.operator);
@@ -93,7 +93,7 @@ export const FilterItem = ({ attributes, onChange, onSelect, plan, reset }) => {
       return;
     }
     e.preventDefault();
-    onSelect({ key, operator, scope, value });
+    onSave({ key, operator, scope, value });
   };
 
   const filterOptions = plan ? filterOptionsByPlan[plan] : DEVICE_FILTERING_OPTIONS;
