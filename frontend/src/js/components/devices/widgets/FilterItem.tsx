@@ -32,7 +32,7 @@ const filterNotifications = {
   name: <MenderHelpTooltip id={HELPTOOLTIPS.nameFilterTip.id} style={{ position: 'absolute', top: 20, left: -28 }} />
 };
 
-export const FilterItem = ({ attributes, onChange, onSelect, plan, reset }) => {
+export const FilterItem = ({ attributes, onChange, onSelect, plan, reset, onSave }) => {
   const [key, setKey] = useState(emptyFilter.key); // this refers to the selected filter with key as the id
   const [value, setValue] = useState(emptyFilter.value); // while this is the value that is applied with the filter
   const [operator, setOperator] = useState(emptyFilter.operator);
@@ -52,15 +52,13 @@ export const FilterItem = ({ attributes, onChange, onSelect, plan, reset }) => {
     onChange({ key, operator, scope, value });
     timer.current = setTimeout(
       () =>
-        key && (value || operator.includes('exists'))
-          ? onSelect({
-              key,
-              operator,
-              scope,
-              value
-            })
-          : null,
-      TIMEOUTS.threeSeconds
+        onSelect({
+          key,
+          operator,
+          scope,
+          value
+        }),
+      TIMEOUTS.debounceDefault
     );
     return () => {
       clearTimeout(timer.current);
@@ -73,8 +71,8 @@ export const FilterItem = ({ attributes, onChange, onSelect, plan, reset }) => {
   };
 
   const updateFilterOperator = ({ target: { value: changedOperator } }) => {
-    const operator = DEVICE_FILTERING_OPTIONS[changedOperator] || {};
-    const opValue = operator.value ?? value ?? '';
+    const newOperator = DEVICE_FILTERING_OPTIONS[changedOperator] || {};
+    const opValue = newOperator.value ?? (operator.includes('exists') ? '' : value) ?? '';
     setOperator(changedOperator);
     setValue(opValue);
   };
@@ -93,7 +91,7 @@ export const FilterItem = ({ attributes, onChange, onSelect, plan, reset }) => {
       return;
     }
     e.preventDefault();
-    onSelect({ key, operator, scope, value });
+    onSave({ key, operator, scope, value });
   };
 
   const filterOptions = plan ? filterOptionsByPlan[plan] : DEVICE_FILTERING_OPTIONS;

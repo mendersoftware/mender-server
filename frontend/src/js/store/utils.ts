@@ -83,7 +83,7 @@ export const convertDeviceListStateToFilters = ({ filters = [], group, groups = 
   return { applicableFilters: nonMonitorFilters, filterTerms: mapFiltersToTerms(effectiveFilters) };
 };
 
-const filterCompare = (filter, item) => Object.keys(emptyFilter).every(key => item[key].toString() === filter[key].toString());
+const filterCompare = (filter, item) => Object.keys(emptyFilter).every(key => item[key]?.toString() === filter[key]?.toString());
 
 export const filtersFilter = (item, index, array) => {
   const firstIndex = array.findIndex(filter => filterCompare(filter, item));

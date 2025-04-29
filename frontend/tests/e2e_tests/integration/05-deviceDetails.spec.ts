@@ -65,7 +65,7 @@ test.describe('Device details', () => {
     await page.getByLabel(/attribute/i).fill(rootfs);
     const nameInput = await page.getByLabel(/value/i);
     await nameInput.fill(demoDeviceName);
-    await page.waitForTimeout(timeouts.oneSecond);
+    await page.getByRole('button', { name: /Add a rule/i }).waitFor();
     await nameInput.press('Enter');
     if (browserName === 'webkit') {
       await page.waitForTimeout(timeouts.fiveSeconds);

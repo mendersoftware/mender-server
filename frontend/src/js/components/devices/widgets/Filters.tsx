@@ -80,9 +80,18 @@ export const Filters = ({ className = '', onGroupClick, open }) => {
     filters => {
       const activeFilters = filters.filter(filtersFilter).filter(item => item.value !== '');
       dispatch(setDeviceFilters(activeFilters));
-      dispatch(setDeviceListState({ selectedId: undefined, page: 1, shouldSelectDevices: true, forceRefresh: true }));
+      dispatch(setDeviceListState({ selectedId: undefined, page: 1, shouldSelectDevices: true, forceRefresh: true, filterSelection: undefined }));
     },
     [dispatch]
+  );
+
+  // We want to preview the resulting list while user types / selects a filter before saving
+  const applyPreviewFilter = useCallback(
+    updatedFilter => {
+      const activeFilters = [...filters, updatedFilter].filter(filtersFilter).filter(item => item.key && item.value !== '');
+      dispatch(setDeviceListState({ selectedId: undefined, page: 1, shouldSelectDevices: true, forceRefresh: true, filterSelection: activeFilters }));
+    },
+    [dispatch, filters]
   );
 
   const updateFilter = useCallback(
@@ -110,10 +119,7 @@ export const Filters = ({ className = '', onGroupClick, open }) => {
     setReset(toggle);
   };
 
-  const onAddClick = () => {
-    updateFilter(newFilter);
-    setReset(toggle);
-  };
+  const onAddClick = () => updateFilter(newFilter);
 
   const isFilterDefined = Object.values(newFilter).every(thing => !!thing);
   const currentFilters = filters.filter(filtersFilter);
@@ -143,7 +149,7 @@ export const Filters = ({ className = '', onGroupClick, open }) => {
             </div>
             {(hasFullFiltering || !currentFilters.length) && (
               <>
-                <FilterItem attributes={attributes} onChange={setNewFilter} onSelect={updateFilter} plan={plan} reset={reset} />
+                <FilterItem attributes={attributes} onChange={setNewFilter} onSelect={applyPreviewFilter} onSave={updateFilter} plan={plan} reset={reset} />
                 {isFilterDefined && <Chip className="margin-bottom-small" icon={<AddIcon />} label="Add a rule" color="primary" onClick={onAddClick} />}
               </>
             )}
