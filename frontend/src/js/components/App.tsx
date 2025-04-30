@@ -50,6 +50,7 @@ import { toggle } from '@northern.tech/utils/helpers';
 import { browserTracingIntegration, replayIntegration, setUser } from '@sentry/react';
 import Cookies from 'universal-cookie';
 
+import '../../less/main.less';
 import ErrorBoundary from '../ErrorBoundary';
 import { PrivateRoutes, PrivateSPRoutes, PublicRoutes } from '../config/routes';
 import { dark as darkTheme, light as lightTheme } from '../themes/Mender';
