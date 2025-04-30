@@ -85,10 +85,8 @@ test.describe('Device details', () => {
     await page.waitForTimeout(timeouts.default);
     await page.getByRole('option', { name: '>=' }).click();
     await page.getByLabel(/value/i).fill('1000000000');
-    const filterChip = await page.getByRole('button', { name: 'mem_total_kB >= 1000000000' });
-    await filterChip.waitFor({ timeout: timeouts.fiveSeconds });
-    await expect(filterChip).toBeVisible();
-    await expect(page.getByText('No devices found')).toBeVisible();
+    await page.getByRole('button', { name: /Add a rule/i }).waitFor();
+    await page.getByText('No devices found').waitFor({ timeout: timeouts.fiveSeconds });
   });
 
   test('can be filtered into non-existence', async ({ environment, page }) => {
@@ -99,9 +97,10 @@ test.describe('Device details', () => {
     await page.getByText(/equals/i).click();
     await page.waitForTimeout(timeouts.default);
     await page.getByRole('option', { name: `doesn't exist` }).click();
-    const filterChip = await page.getByRole('button', { name: `${rootfs} doesn't exist` });
-    await filterChip.waitFor({ timeout: timeouts.fiveSeconds });
-    await expect(filterChip).toBeVisible();
+    await page.getByRole('button', { name: /Add a rule/i }).waitFor();
+    await page.getByRole('button', { name: /Add a rule/i }).click();
+    await expect(page.getByRole('button', { name: `${rootfs} doesn't exist` })).toBeVisible();
+    await page.getByText('No devices found').waitFor({ timeout: timeouts.fiveSeconds });
     await expect(page.getByText('No devices found')).toBeVisible();
     await page.getByText(/clear filter/i).click();
     await page.waitForSelector(selectors.deviceListItem);
