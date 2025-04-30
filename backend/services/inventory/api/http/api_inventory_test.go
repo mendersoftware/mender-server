@@ -19,22 +19,22 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/http/httptest"
 	"reflect"
 	"strconv"
 	"strings"
 	"testing"
 	"time"
 
-	"github.com/ant0ine/go-json-rest/rest"
-	"github.com/ant0ine/go-json-rest/rest/test"
+	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
 	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 	"github.com/mendersoftware/mender-server/pkg/rest_utils"
-	mt "github.com/mendersoftware/mender-server/pkg/testing"
 
 	inventory "github.com/mendersoftware/mender-server/services/inventory/inv"
 	minventory "github.com/mendersoftware/mender-server/services/inventory/inv/mocks"
@@ -54,49 +54,21 @@ func ToJson(data interface{}) string {
 	return string(j)
 }
 
-// test.HasHeader only tests the first header,
-// so create a wrapper for headers with multiple values
-func HasHeader(hdr, val string, r *test.Recorded) bool {
-	rec := r.Recorder
-	for _, v := range rec.Header()[hdr] {
-		if v == val {
-			return true
-		}
-	}
-
-	return false
-}
-
-func ExtractHeader(hdr, val string, r *test.Recorded) string {
-	rec := r.Recorder
-	for _, v := range rec.Header()[hdr] {
-		if v == val {
-			return v
-		}
-	}
-
-	return ""
-}
-
 func RestError(status string) map[string]interface{} {
 	return map[string]interface{}{"error": status, "request_id": "test"}
 }
 
 func runTestRequest(t *testing.T, handler http.Handler, req *http.Request, resp JSONResponseParams) {
 	req.Header.Add(requestid.RequestIdHeader, "test")
-	recorded := test.RunRequest(t, handler, req)
-	CheckRecordedResponse(t, recorded, resp)
+	w := httptest.NewRecorder()
+	handler.ServeHTTP(w, req)
+	CheckRecordedResponse(t, w, resp)
 }
 
 func makeMockApiHandler(t *testing.T, i inventory.InventoryApp) http.Handler {
-	handlers := NewInventoryApiHandlers(i)
-	assert.NotNil(t, handlers)
-
-	handler, err := handlers.Build()
-	assert.NotNil(t, handler)
-	assert.NoError(t, err)
-
-	return handler
+	router := NewRouter(i)
+	assert.NotNil(t, router)
+	return router
 }
 
 func mockListDevices(num int) []model.Device {
@@ -127,9 +99,14 @@ func timePtr(f string) *time.Time {
 
 func TestLiveliness(t *testing.T) {
 	api := makeMockApiHandler(t, nil)
-	req, _ := http.NewRequest("GET", "http://localhost"+uriInternalAlive, nil)
-	recorded := test.RunRequest(t, api, req)
-	recorded.CodeIs(http.StatusNoContent)
+	tr := &rest.TestRequest{
+		Method: "GET",
+		Path:   "http://localhost" + apiUrlInternalV1 + uriInternalAlive,
+	}
+	req := rest.MakeTestRequest(tr)
+	w := httptest.NewRecorder()
+	api.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusNoContent, w.Code)
 }
 
 func TestHealthCheck(t *testing.T) {
@@ -161,15 +138,17 @@ func TestHealthCheck(t *testing.T) {
 			)).Return(tc.AppError)
 			req, _ := http.NewRequest(
 				"GET",
-				"http://localhost"+uriInternalHealth,
+				"http://localhost"+apiUrlInternalV1+uriInternalHealth,
 				nil,
 			)
 			req.Header.Add("X-MEN-RequestID", "test")
 			api := makeMockApiHandler(t, app)
-			recorded := test.RunRequest(t, api, req)
-			recorded.CodeIs(tc.HTTPCode)
+
+			w := httptest.NewRecorder()
+			api.ServeHTTP(w, req)
+			assert.Equal(t, tc.HTTPCode, w.Code)
 			if tc.HTTPCode == 204 {
-				recorded.BodyIs("")
+				assert.Empty(t, w.Body)
 			} else {
 				apiErr := rest_utils.ApiError{
 					Err:   tc.AppError.Error(),
@@ -178,7 +157,7 @@ func TestHealthCheck(t *testing.T) {
 				b, _ := json.Marshal(apiErr)
 				assert.JSONEq(t,
 					string(b),
-					recorded.Recorder.Body.String(),
+					w.Body.String(),
 				)
 			}
 		})
@@ -195,7 +174,10 @@ func TestApiParseFilterParams(t *testing.T) {
 	}{
 
 		"eq - short form(implicit)": {
-			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=1&per_page=5&attr_name1=A0001", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=1&per_page=5&attr_name1=A0001",
+			}),
 			filters: []store.Filter{
 				{
 					AttrName:  "attr_name1",
@@ -206,7 +188,10 @@ func TestApiParseFilterParams(t *testing.T) {
 			},
 		},
 		"eq - short form(implicit), colons": {
-			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=1&per_page=5&attr_name1=qe:123:123:123", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=1&per_page=5&attr_name1=qe:123:123:123",
+			}),
 			filters: []store.Filter{
 				{
 					AttrName:  "attr_name1",
@@ -217,7 +202,10 @@ func TestApiParseFilterParams(t *testing.T) {
 			},
 		},
 		"eq - short form(implicit), float": {
-			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=1&per_page=5&attr_name1=3.14", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=1&per_page=5&attr_name1=3.14",
+			}),
 			filters: []store.Filter{
 				{
 					AttrName:   "attr_name1",
@@ -229,7 +217,10 @@ func TestApiParseFilterParams(t *testing.T) {
 			},
 		},
 		"eq - short form(implicit), time": {
-			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=1&per_page=5&attr_name1=2014-11-12T11:45:26.371Z", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=1&per_page=5&attr_name1=2014-11-12T11:45:26.371Z",
+			}),
 			filters: []store.Filter{
 				{
 					AttrName:  "attr_name1",
@@ -241,7 +232,10 @@ func TestApiParseFilterParams(t *testing.T) {
 			},
 		},
 		"eq - short form(implicit), time without milliseconds": {
-			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=1&per_page=5&attr_name1=2014-11-12T11:45:26Z", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=1&per_page=5&attr_name1=2014-11-12T11:45:26Z",
+			}),
 			filters: []store.Filter{
 				{
 					AttrName:  "attr_name1",
@@ -253,7 +247,10 @@ func TestApiParseFilterParams(t *testing.T) {
 			},
 		},
 		"eq - long form": {
-			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=1&per_page=5&attr_name1=eq:A0001", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=1&per_page=5&attr_name1=eq:A0001",
+			}),
 			filters: []store.Filter{
 				{
 					AttrName:  "attr_name1",
@@ -264,7 +261,10 @@ func TestApiParseFilterParams(t *testing.T) {
 			},
 		},
 		"eq - long form, colons": {
-			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=1&per_page=5&attr_name1=eq:qe:123:123:123", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=1&per_page=5&attr_name1=eq:qe:123:123:123",
+			}),
 			filters: []store.Filter{
 				{
 					AttrName:  "attr_name1",
@@ -275,7 +275,10 @@ func TestApiParseFilterParams(t *testing.T) {
 			},
 		},
 		"eq - long form, colons, with scope": {
-			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=1&per_page=5&scope/attr_name1=eq:qe:123:123:123", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=1&per_page=5&scope/attr_name1=eq:qe:123:123:123",
+			}),
 			filters: []store.Filter{
 				{
 					AttrName:  "attr_name1",
@@ -285,8 +288,12 @@ func TestApiParseFilterParams(t *testing.T) {
 				},
 			},
 		},
+
 		"eq - long form, dashes, with scope": {
-			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=1&per_page=5&scope/attr-name1=eq:qe-123-123-123", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=1&per_page=5&scope/attr-name1=eq:qe-123-123-123",
+			}),
 			filters: []store.Filter{
 				{
 					AttrName:  "attr-name1",
@@ -300,7 +307,7 @@ func TestApiParseFilterParams(t *testing.T) {
 
 	for name, testCase := range testCases {
 		t.Run(fmt.Sprintf("tc %s", name), func(t *testing.T) {
-			req := rest.Request{Request: testCase.inReq}
+			req := gin.Context{Request: testCase.inReq}
 			filters, err := parseFilterParams(&req)
 			if testCase.err != nil {
 				assert.Error(t, testCase.err, err.Error())
@@ -317,7 +324,6 @@ func TestApiParseFilterParams(t *testing.T) {
 
 func TestApiInventoryGetDevices(t *testing.T) {
 	t.Parallel()
-	rest.ErrorFieldName = "error"
 
 	testCases := map[string]struct {
 		listDevicesNum  int
@@ -330,14 +336,18 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  3,
 			listDevicesErr:  nil,
 			listDeviceTotal: 18,
-			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=4&per_page=5&group=foo", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=4&per_page=5&group=foo",
+				Auth:   true,
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     200,
 				OutputBodyObject: mockListDevices(3),
 				OutputHeaders: map[string][]string{
 					"Link": {
-						fmt.Sprintf(utils.LinkTmpl, "devices", "group=foo&page=3&per_page=5", "prev"),
-						fmt.Sprintf(utils.LinkTmpl, "devices", "group=foo&page=1&per_page=5", "first"),
+						fmt.Sprintf(utils.LinkTmpl, apiUrlManagementV1+uriDevices, "group=foo&page=3&per_page=5", "prev"),
+						fmt.Sprintf(utils.LinkTmpl, apiUrlManagementV1+uriDevices, "group=foo&page=1&per_page=5", "first"),
 					},
 					hdrTotalCount: {"18"},
 				},
@@ -347,14 +357,18 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 20,
-			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=4&per_page=5", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=4&per_page=5",
+				Auth:   true,
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     200,
 				OutputBodyObject: mockListDevices(5),
 				OutputHeaders: map[string][]string{
 					"Link": {
-						fmt.Sprintf(utils.LinkTmpl, "devices", "page=3&per_page=5", "prev"),
-						fmt.Sprintf(utils.LinkTmpl, "devices", "page=1&per_page=5", "first"),
+						fmt.Sprintf(utils.LinkTmpl, apiUrlManagementV1+uriDevices, "page=3&per_page=5", "prev"),
+						fmt.Sprintf(utils.LinkTmpl, apiUrlManagementV1+uriDevices, "page=1&per_page=5", "first"),
 					},
 					hdrTotalCount: {"20"},
 				},
@@ -364,14 +378,18 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 21,
-			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=4&per_page=5", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=4&per_page=5",
+				Auth:   true,
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     200,
 				OutputBodyObject: mockListDevices(5),
 				OutputHeaders: map[string][]string{
 					"Link": {
-						fmt.Sprintf(utils.LinkTmpl, "devices", "page=3&per_page=5", "prev"),
-						fmt.Sprintf(utils.LinkTmpl, "devices", "page=1&per_page=5", "first"),
+						fmt.Sprintf(utils.LinkTmpl, apiUrlManagementV1+uriDevices, "page=3&per_page=5", "prev"),
+						fmt.Sprintf(utils.LinkTmpl, apiUrlManagementV1+uriDevices, "page=1&per_page=5", "first"),
 					},
 					hdrTotalCount: {"21"},
 				},
@@ -381,10 +399,14 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 5,
-			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=foo&per_page=5", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=foo&per_page=5",
+				Auth:   true,
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     400,
-				OutputBodyObject: RestError(utils.MsgQueryParmInvalid("page")),
+				OutputBodyObject: RestError(rest.ErrQueryParmInvalid("page", "foo").Error()),
 				OutputHeaders:    nil,
 			},
 		},
@@ -392,10 +414,14 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 5,
-			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=1&per_page=foo", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=1&per_page=foo",
+				Auth:   true,
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     400,
-				OutputBodyObject: RestError(utils.MsgQueryParmInvalid("per_page")),
+				OutputBodyObject: RestError(rest.ErrQueryParmInvalid("per_page", "foo").Error()),
 				OutputHeaders:    nil,
 			},
 		},
@@ -403,10 +429,14 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 5,
-			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=0&per_page=5", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=0&per_page=5",
+				Auth:   true,
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     400,
-				OutputBodyObject: RestError(utils.MsgQueryParmLimit("page")),
+				OutputBodyObject: RestError(rest.ErrQueryParmLimit("page").Error()),
 				OutputHeaders:    nil,
 			},
 		},
@@ -414,13 +444,17 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 5,
-			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=1&per_page=5&attr_name1=qe:123:123:123", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=1&per_page=5&attr_name1=qe:123:123:123",
+				Auth:   true,
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     200,
 				OutputBodyObject: mockListDevices(5),
 				OutputHeaders: map[string][]string{
 					"Link": {
-						fmt.Sprintf(utils.LinkTmpl, "devices", "attr_name1=qe%3A123%3A123%3A123&page=1&per_page=5", "first"),
+						fmt.Sprintf(utils.LinkTmpl, apiUrlManagementV1+uriDevices, "attr_name1=qe%3A123%3A123%3A123&page=1&per_page=5", "first"),
 					},
 					hdrTotalCount: {"5"},
 				},
@@ -430,13 +464,17 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 5,
-			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?sort=attr_name1:asc&page=1&per_page=5", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?sort=attr_name1:asc&page=1&per_page=5",
+				Auth:   true,
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     200,
 				OutputBodyObject: mockListDevices(5),
 				OutputHeaders: map[string][]string{
 					"Link": {
-						fmt.Sprintf(utils.LinkTmpl, "devices", "page=1&per_page=5&sort=attr_name1%3Aasc", "first"),
+						fmt.Sprintf(utils.LinkTmpl, apiUrlManagementV1+uriDevices, "page=1&per_page=5&sort=attr_name1%3Aasc", "first"),
 					},
 					hdrTotalCount: {"5"},
 				},
@@ -446,7 +484,11 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 5,
-			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=1&per_page=5&sort=attr_name1:gte", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=1&per_page=5&sort=attr_name1:gte",
+				Auth:   true,
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     400,
 				OutputBodyObject: RestError("invalid sort order"),
@@ -457,13 +499,17 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 5,
-			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?has_group=true&page=1&per_page=5", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?has_group=true&page=1&per_page=5",
+				Auth:   true,
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     200,
 				OutputBodyObject: mockListDevices(5),
 				OutputHeaders: map[string][]string{
 					"Link": {
-						fmt.Sprintf(utils.LinkTmpl, "devices", "has_group=true&page=1&per_page=5", "first"),
+						fmt.Sprintf(utils.LinkTmpl, apiUrlManagementV1+uriDevices, "has_group=true&page=1&per_page=5", "first"),
 					},
 					hdrTotalCount: {"5"},
 				},
@@ -473,10 +519,14 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 5,
-			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=1&per_page=5&has_group=asd", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=1&per_page=5&has_group=asd",
+				Auth:   true,
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     400,
-				OutputBodyObject: RestError(utils.MsgQueryParmInvalid("has_group")),
+				OutputBodyObject: RestError(rest.ErrQueryParmInvalid("has_group", "asd").Error()),
 				OutputHeaders:    nil,
 			},
 		},
@@ -484,7 +534,11 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  errors.New("inventory error"),
 			listDeviceTotal: 20,
-			inReq:           test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"?page=4&per_page=5", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=4&per_page=5",
+				Auth:   true,
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     500,
 				OutputBodyObject: RestError("internal error"),
@@ -512,7 +566,6 @@ func TestApiInventoryGetDevices(t *testing.T) {
 
 func TestApiInventoryAddDevice(t *testing.T) {
 	t.Parallel()
-	rest.ErrorFieldName = "error"
 
 	testCases := map[string]struct {
 		JSONResponseParams
@@ -524,19 +577,22 @@ func TestApiInventoryAddDevice(t *testing.T) {
 		deviceAttributes model.DeviceAttributes
 	}{
 		"empty body": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v1/inventory/tenants/1/devices",
-				nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/internal/v1/inventory/tenants/1/devices",
+			}),
 			inventoryErr: nil,
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusBadRequest,
-				OutputBodyObject: RestError("failed to decode request body: JSON payload is empty"),
+				OutputBodyObject: RestError("failed to decode request body: invalid request"),
 			},
 		},
 		"garbled body": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v1/inventory/tenants/1/devices",
-				"foo bar"),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/internal/v1/inventory/tenants/1/devices",
+				Body:   "foo bar",
+			}),
 			inventoryErr: nil,
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusBadRequest,
@@ -544,9 +600,10 @@ func TestApiInventoryAddDevice(t *testing.T) {
 			},
 		},
 		"body formatted ok, all fields present": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v1/inventory/tenants/1/devices",
-				map[string]interface{}{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/internal/v1/inventory/tenants/1/devices",
+				Body: map[string]interface{}{
 					"id": "id-0001",
 					"attributes": []map[string]interface{}{
 						{"name": "a1", "value": "00:00:00:01", "description": "ddd"},
@@ -554,7 +611,7 @@ func TestApiInventoryAddDevice(t *testing.T) {
 						{"name": "a3", "value": []interface{}{"00:00:00:01", "00"}, "description": "ddd"},
 					},
 				},
-			),
+			}),
 			inventoryErr: nil,
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusCreated,
@@ -568,9 +625,10 @@ func TestApiInventoryAddDevice(t *testing.T) {
 			},
 		},
 		"body formatted ok, all fields present, attributes with scope": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v1/inventory/tenants/1/devices",
-				map[string]interface{}{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/internal/v1/inventory/tenants/1/devices",
+				Body: map[string]interface{}{
 					"id": "id-0001",
 					"attributes": []map[string]interface{}{
 						{"name": "a1", "value": "00:00:00:01", "description": "ddd", "scope": model.AttrScopeInventory},
@@ -578,7 +636,7 @@ func TestApiInventoryAddDevice(t *testing.T) {
 						{"name": "a3", "value": []interface{}{"00:00:00:01", "00"}, "description": "ddd", "scope": model.AttrScopeInventory},
 					},
 				},
-			),
+			}),
 			inventoryErr: nil,
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusCreated,
@@ -592,13 +650,14 @@ func TestApiInventoryAddDevice(t *testing.T) {
 			},
 		},
 		"body formatted ok, wrong attributes type": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v1/inventory/tenants/1/devices",
-				map[string]interface{}{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/internal/v1/inventory/tenants/1/devices",
+				Body: map[string]interface{}{
 					"id":         "id-0001",
 					"attributes": 123,
 				},
-			),
+			}),
 			inventoryErr: nil,
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusBadRequest,
@@ -606,10 +665,11 @@ func TestApiInventoryAddDevice(t *testing.T) {
 			},
 		},
 		"body formatted ok, 'id' missing": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v1/inventory/tenants/1/devices",
-				map[string]interface{}{},
-			),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/internal/v1/inventory/tenants/1/devices",
+				Body:   map[string]interface{}{},
+			}),
 			inventoryErr: nil,
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusBadRequest,
@@ -617,16 +677,17 @@ func TestApiInventoryAddDevice(t *testing.T) {
 			},
 		},
 		"body formatted ok, incorrect attribute value": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v1/inventory/tenants/1/devices",
-				map[string]interface{}{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/internal/v1/inventory/tenants/1/devices",
+				Body: map[string]interface{}{
 					"id": "id-0001",
 					"attributes": []map[string]interface{}{
 						{"name": "asd", "value": []interface{}{"asd", 123}},
 						{"name": "asd2", "value": []interface{}{123, "asd"}},
 					},
 				},
-			),
+			}),
 			inventoryErr: nil,
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusBadRequest,
@@ -634,15 +695,16 @@ func TestApiInventoryAddDevice(t *testing.T) {
 			},
 		},
 		"body formatted ok, attribute name missing": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v1/inventory/tenants/1/devices",
-				map[string]interface{}{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/internal/v1/inventory/tenants/1/devices",
+				Body: map[string]interface{}{
 					"id": "id-0001",
 					"attributes": []map[string]interface{}{
 						{"value": "23"},
 					},
 				},
-			),
+			}),
 			inventoryErr: nil,
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusBadRequest,
@@ -650,9 +712,10 @@ func TestApiInventoryAddDevice(t *testing.T) {
 			},
 		},
 		"body formatted ok, inv error": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v1/inventory/tenants/1/devices",
-				map[string]interface{}{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/internal/v1/inventory/tenants/1/devices",
+				Body: map[string]interface{}{
 					"id": "id-0001",
 					"attributes": []map[string]interface{}{
 						{
@@ -661,7 +724,7 @@ func TestApiInventoryAddDevice(t *testing.T) {
 						},
 					},
 				},
-			),
+			}),
 			inventoryErr: errors.New("internal error"),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusInternalServerError,
@@ -709,9 +772,11 @@ func TestApiInventoryUpdateDeviceTags(t *testing.T) {
 		resp          JSONResponseParams
 	}{
 		"Replace tags, PUT, failed ETag": {
-			inReq: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4"+uriDevices+"/:id/tags",
-				[]model.DeviceAttribute{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/:id/tags",
+				Auth:   true,
+				Body: []model.DeviceAttribute{
 					{
 						Name:  "tag_1",
 						Value: "value_1",
@@ -721,7 +786,7 @@ func TestApiInventoryUpdateDeviceTags(t *testing.T) {
 						Value: "value_2",
 					},
 				},
-			),
+			}),
 			deviceID: "ad22a170-37b5-4c8b-9eab-612bad1eac19",
 			inHdrs: map[string]string{
 				"If-Match": "f7238315-062d-4440-875a-676006f84c34",
@@ -739,9 +804,11 @@ func TestApiInventoryUpdateDeviceTags(t *testing.T) {
 			},
 		},
 		"ok, replace tags, PUT, with ETag": {
-			inReq: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4"+uriDevices+"/:id/tags",
-				[]model.DeviceAttribute{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/:id/tags",
+				Auth:   true,
+				Body: []model.DeviceAttribute{
 					{
 						Name:  "tag_1",
 						Value: "value_1",
@@ -751,7 +818,7 @@ func TestApiInventoryUpdateDeviceTags(t *testing.T) {
 						Value: "value_2",
 					},
 				},
-			),
+			}),
 			deviceID: "ad22a170-37b5-4c8b-9eab-612bad1eac19",
 			inHdrs: map[string]string{
 				"If-Match": "f7238315-062d-4440-875a-676006f84c34",
@@ -768,9 +835,11 @@ func TestApiInventoryUpdateDeviceTags(t *testing.T) {
 			},
 		},
 		"ok, replace tags, PUT, without ETag": {
-			inReq: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4"+uriDevices+"/:id/tags",
-				[]model.DeviceAttribute{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/:id/tags",
+				Auth:   true,
+				Body: []model.DeviceAttribute{
 					{
 						Name:  "tag_1",
 						Value: "value_1",
@@ -780,7 +849,7 @@ func TestApiInventoryUpdateDeviceTags(t *testing.T) {
 						Value: "value_2",
 					},
 				},
-			),
+			}),
 			deviceID: "ad22a170-37b5-4c8b-9eab-612bad1eac19",
 			attrsToUpsert: model.DeviceAttributes{
 				{Name: "tag_1", Value: "value_1", Scope: model.AttrScopeTags},
@@ -794,9 +863,11 @@ func TestApiInventoryUpdateDeviceTags(t *testing.T) {
 			},
 		},
 		"Upsert tags, PATCH, failed ETag": {
-			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4"+uriDevices+"/:id/tags",
-				[]model.DeviceAttribute{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/:id/tags",
+				Auth:   true,
+				Body: []model.DeviceAttribute{
 					{
 						Name:  "tag_1",
 						Value: "value_1",
@@ -806,7 +877,7 @@ func TestApiInventoryUpdateDeviceTags(t *testing.T) {
 						Value: "value_2",
 					},
 				},
-			),
+			}),
 			deviceID: "ad22a170-37b5-4c8b-9eab-612bad1eac19",
 			inHdrs: map[string]string{
 				"If-Match": "f7238315-062d-4440-875a-676006f84c34",
@@ -824,9 +895,11 @@ func TestApiInventoryUpdateDeviceTags(t *testing.T) {
 			},
 		},
 		"ok, upsert tags, PATCH, with ETag": {
-			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4"+uriDevices+"/:id/tags",
-				[]model.DeviceAttribute{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/:id/tags",
+				Auth:   true,
+				Body: []model.DeviceAttribute{
 					{
 						Name:  "tag_1",
 						Value: "value_1",
@@ -836,7 +909,7 @@ func TestApiInventoryUpdateDeviceTags(t *testing.T) {
 						Value: "value_2",
 					},
 				},
-			),
+			}),
 			deviceID: "ad22a170-37b5-4c8b-9eab-612bad1eac19",
 			inHdrs: map[string]string{
 				"If-Match": "f7238315-062d-4440-875a-676006f84c34",
@@ -853,9 +926,11 @@ func TestApiInventoryUpdateDeviceTags(t *testing.T) {
 			},
 		},
 		"ok, upsert tags, PATCH, without ETag": {
-			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4"+uriDevices+"/:id/tags",
-				[]model.DeviceAttribute{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/:id/tags",
+				Auth:   true,
+				Body: []model.DeviceAttribute{
 					{
 						Name:  "tag_1",
 						Value: "value_1",
@@ -865,7 +940,7 @@ func TestApiInventoryUpdateDeviceTags(t *testing.T) {
 						Value: "value_2",
 					},
 				},
-			),
+			}),
 			deviceID: "ad22a170-37b5-4c8b-9eab-612bad1eac19",
 			attrsToUpsert: model.DeviceAttributes{
 				{Name: "tag_1", Value: "value_1", Scope: model.AttrScopeTags},
@@ -945,8 +1020,6 @@ func TestApiInventoryUpdateDeviceTags(t *testing.T) {
 func TestApiInventoryUpsertAttributes(t *testing.T) {
 	t.Parallel()
 
-	rest.ErrorFieldName = "error"
-
 	testCases := map[string]struct {
 		inReq  *http.Request
 		inHdrs map[string]string
@@ -960,9 +1033,11 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		deviceAttributes model.DeviceAttributes
 	}{
 		"no auth": {
-			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4"+uriAttributes,
-				nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "PATCH",
+				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
+				Auth:   true,
+			}),
 			inventoryErr: nil,
 			resp: JSONResponseParams{
 				OutputStatus:     http.StatusUnauthorized,
@@ -972,9 +1047,11 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		},
 
 		"invalid auth": {
-			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4"+uriAttributes,
-				nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "PATCH",
+				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
+				Auth:   true,
+			}),
 			inHdrs: map[string]string{
 				"Authorization:": "foobar",
 			},
@@ -987,24 +1064,29 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		},
 
 		"empty body": {
-			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4"+uriAttributes,
-				nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "PATCH",
+				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
+				Auth:   true,
+			}),
 			inHdrs: map[string]string{
 				"Authorization": makeDeviceAuthHeader(`{"sub":"fakeid","mender.device":true}`),
 			},
 			inventoryErr: nil,
 			resp: JSONResponseParams{
 				OutputStatus:     http.StatusBadRequest,
-				OutputBodyObject: RestError("failed to decode request body: JSON payload is empty"),
+				OutputBodyObject: RestError("failed to decode request body: invalid request"),
 			},
 			scope: model.AttrScopeInventory,
 		},
 
 		"garbled body": {
-			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4"+uriAttributes,
-				`{"foo": "bar"}`),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "PATCH",
+				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
+				Auth:   true,
+				Body:   `{"foo": "bar"}`,
+			}),
 			inHdrs: map[string]string{
 				"Authorization": makeDeviceAuthHeader(`{"sub":"fakeid","mender.device":true}`),
 			},
@@ -1017,9 +1099,11 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		},
 
 		"body formatted ok, attribute name missing": {
-			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4"+uriAttributes,
-				[]model.DeviceAttribute{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "PATCH",
+				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
+				Auth:   true,
+				Body: []model.DeviceAttribute{
 					{
 						Name:        "name1",
 						Value:       "value1",
@@ -1030,7 +1114,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 						Description: strPtr("descr2"),
 					},
 				},
-			),
+			}),
 			inHdrs: map[string]string{
 				"Authorization": makeDeviceAuthHeader(`{"sub":"fakeid","mender.device":true}`),
 			},
@@ -1043,15 +1127,17 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		},
 
 		"body formatted ok, attribute value missing": {
-			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4"+uriAttributes,
-				[]model.DeviceAttribute{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "PATCH",
+				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
+				Auth:   true,
+				Body: []model.DeviceAttribute{
 					{
 						Name:        "name1",
 						Description: strPtr("descr1"),
 					},
 				},
-			),
+			}),
 			inHdrs: map[string]string{
 				"Authorization": makeDeviceAuthHeader(`{"sub":"fakeid","mender.device":true}`),
 			},
@@ -1064,9 +1150,11 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		},
 
 		"body formatted ok, attributes ok (all fields)": {
-			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4"+uriAttributes,
-				[]model.DeviceAttribute{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "PATCH",
+				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
+				Auth:   true,
+				Body: []model.DeviceAttribute{
 					{
 						Name:        "name1",
 						Value:       "value1",
@@ -1078,7 +1166,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 						Description: strPtr("descr2"),
 					},
 				},
-			),
+			}),
 			inHdrs: map[string]string{
 				"Authorization": makeDeviceAuthHeader(`{"sub":"fakeid","mender.device":true}`),
 			},
@@ -1095,9 +1183,11 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		},
 
 		"body formatted ok, attributes ok (all fields), with scope": {
-			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4"+uriAttributes,
-				[]model.DeviceAttribute{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "PATCH",
+				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
+				Auth:   true,
+				Body: []model.DeviceAttribute{
 					{
 						Name:        "name1",
 						Value:       "value1",
@@ -1111,7 +1201,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 						Scope:       model.AttrScopeInventory,
 					},
 				},
-			),
+			}),
 			inHdrs: map[string]string{
 				"Authorization": makeDeviceAuthHeader(`{"sub":"fakeid","mender.device":true}`),
 			},
@@ -1128,9 +1218,11 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		},
 
 		"body formatted ok, attributes ok (all fields, arrays)": {
-			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4"+uriAttributes,
-				[]model.DeviceAttribute{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "PATCH",
+				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
+				Auth:   true,
+				Body: []model.DeviceAttribute{
 					{
 						Name:        "name1",
 						Value:       []interface{}{"foo", "bar"},
@@ -1142,7 +1234,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 						Description: strPtr("descr2"),
 					},
 				},
-			),
+			}),
 			inHdrs: map[string]string{
 				"Authorization": makeDeviceAuthHeader(`{"sub":"fakeid","mender.device":true}`),
 			},
@@ -1155,9 +1247,11 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		},
 
 		"body formatted ok, attributes ok (values only)": {
-			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4"+uriAttributes,
-				[]model.DeviceAttribute{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "PATCH",
+				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
+				Auth:   true,
+				Body: []model.DeviceAttribute{
 					{
 						Name:  "name1",
 						Value: "value1",
@@ -1167,7 +1261,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 						Value: 2,
 					},
 				},
-			),
+			}),
 			inHdrs: map[string]string{
 				"Authorization": makeDeviceAuthHeader(`{"sub":"fakeid","mender.device":true}`),
 			},
@@ -1180,9 +1274,11 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		},
 
 		"body formatted ok, attributes ok, but values are empty": {
-			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4"+uriAttributes,
-				[]model.DeviceAttribute{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "PATCH",
+				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
+				Auth:   true,
+				Body: []model.DeviceAttribute{
 					{
 						Name:  "name1",
 						Value: "",
@@ -1192,7 +1288,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 						Value: "",
 					},
 				},
-			),
+			}),
 			inHdrs: map[string]string{
 				"Authorization": makeDeviceAuthHeader(`{"sub":"fakeid","mender.device":true}`),
 			},
@@ -1205,9 +1301,11 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		},
 
 		"body formatted ok, attributes ok (all fields), inventory err": {
-			inReq: test.MakeSimpleRequest("PATCH",
-				"http://1.2.3.4"+uriAttributes,
-				[]model.DeviceAttribute{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "PATCH",
+				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
+				Auth:   true,
+				Body: []model.DeviceAttribute{
 					{
 						Name:        "name1",
 						Value:       "value1",
@@ -1219,7 +1317,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 						Description: strPtr("descr2"),
 					},
 				},
-			),
+			}),
 			inHdrs: map[string]string{
 				"Authorization": makeDeviceAuthHeader(`{"sub":"fakeid","mender.device":true}`),
 			},
@@ -1232,9 +1330,11 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		},
 
 		"body formatted ok, attributes ok (values only), PUT": {
-			inReq: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4"+uriAttributes,
-				[]model.DeviceAttribute{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "PATCH",
+				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
+				Auth:   true,
+				Body: []model.DeviceAttribute{
 					{
 						Name:  "name1",
 						Value: "value1",
@@ -1244,7 +1344,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 						Value: 2,
 					},
 				},
-			),
+			}),
 			inHdrs: map[string]string{
 				"Authorization": makeDeviceAuthHeader(`{"sub":"fakeid","mender.device":true}`),
 			},
@@ -1301,8 +1401,6 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 
 			apih := makeMockApiHandler(t, &inv)
 
-			rest.ErrorFieldName = "error"
-
 			for k, v := range tc.inHdrs {
 				tc.inReq.Header.Set(k, v)
 			}
@@ -1323,8 +1421,6 @@ func strPtr(s string) *string {
 
 func TestApiInventoryUpsertAttributesInternal(t *testing.T) {
 	t.Parallel()
-
-	rest.ErrorFieldName = "error"
 
 	testCases := map[string]struct {
 		tenantId string
@@ -1350,7 +1446,7 @@ func TestApiInventoryUpsertAttributesInternal(t *testing.T) {
 			inventoryErr: nil,
 			resp: JSONResponseParams{
 				OutputStatus:     http.StatusBadRequest,
-				OutputBodyObject: RestError("failed to decode request body: JSON payload is empty"),
+				OutputBodyObject: RestError("failed to decode request body: invalid request"),
 			},
 		},
 
@@ -1614,9 +1710,11 @@ func TestApiInventoryUpsertAttributesInternal(t *testing.T) {
 
 	for name, tc := range testCases {
 		t.Logf("test case: %s", name)
-		tc.inReq = test.MakeSimpleRequest("PATCH",
-			"http://1.2.3.4/api/internal/v1/inventory/tenants/"+tc.tenantId+"/device/"+tc.deviceId+"/attribute/scope/"+tc.scope,
-			tc.payload)
+		tc.inReq = rest.MakeTestRequest(&rest.TestRequest{
+			Method: "PATCH",
+			Path:   "http://localhost/api/internal/v1/inventory/tenants/" + tc.tenantId + "/device/" + tc.deviceId + "/attribute/scope/" + tc.scope,
+			Body:   tc.payload,
+		})
 		inv := minventory.InventoryApp{}
 
 		ctx := contextMatcher()
@@ -1638,8 +1736,6 @@ func TestApiInventoryUpsertAttributesInternal(t *testing.T) {
 
 		apih := makeMockApiHandler(t, &inv)
 
-		rest.ErrorFieldName = "error"
-
 		for k, v := range tc.inHdrs {
 			tc.inReq.Header.Set(k, v)
 		}
@@ -1649,7 +1745,6 @@ func TestApiInventoryUpsertAttributesInternal(t *testing.T) {
 }
 
 func TestApiInventoryDeleteDeviceGroup(t *testing.T) {
-	rest.ErrorFieldName = "error"
 
 	tcases := map[string]struct {
 		JSONResponseParams
@@ -1659,16 +1754,22 @@ func TestApiInventoryDeleteDeviceGroup(t *testing.T) {
 		inventoryErr error
 	}{
 		"ok": {
-			inReq: test.MakeSimpleRequest("DELETE",
-				"http://1.2.3.4"+uriDevices+"/123/group/g1", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "DELETE",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/123/group/g1",
+				Auth:   true,
+			}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusNoContent,
 				OutputBodyObject: nil,
 			},
 		},
 		"device group not found (or device's group is other than requested)": {
-			inReq: test.MakeSimpleRequest("DELETE",
-				"http://1.2.3.4"+uriDevices+"/123/group/g1", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "DELETE",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/123/group/g1",
+				Auth:   true,
+			}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusNotFound,
 				OutputBodyObject: RestError(store.ErrDevNotFound.Error()),
@@ -1676,8 +1777,11 @@ func TestApiInventoryDeleteDeviceGroup(t *testing.T) {
 			inventoryErr: store.ErrDevNotFound,
 		},
 		"internal error": {
-			inReq: test.MakeSimpleRequest("DELETE",
-				"http://1.2.3.4"+uriDevices+"/123/group/g1", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "DELETE",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/123/group/g1",
+				Auth:   true,
+			}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusInternalServerError,
 				OutputBodyObject: RestError("internal error"),
@@ -1704,7 +1808,6 @@ func TestApiInventoryDeleteDeviceGroup(t *testing.T) {
 }
 
 func TestApiInventoryAddDeviceToGroup(t *testing.T) {
-	rest.ErrorFieldName = "error"
 
 	tcases := map[string]struct {
 		JSONResponseParams
@@ -1714,18 +1817,24 @@ func TestApiInventoryAddDeviceToGroup(t *testing.T) {
 		inventoryErr error
 	}{
 		"ok": {
-			inReq: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4"+uriDevices+"/123/group",
-				InventoryApiGroup{"_a-b-c_"}),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/123/group",
+				Auth:   true,
+				Body:   InventoryApiGroup{"_a-b-c_"},
+			}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusNoContent,
 				OutputBodyObject: nil,
 			},
 		},
 		"device not found": {
-			inReq: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4"+uriDevices+"/123/group",
-				InventoryApiGroup{"abc"}),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/123/group",
+				Auth:   true,
+				Body:   InventoryApiGroup{"abc"},
+			}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusNotFound,
 				OutputBodyObject: RestError(store.ErrDevNotFound.Error()),
@@ -1733,9 +1842,12 @@ func TestApiInventoryAddDeviceToGroup(t *testing.T) {
 			inventoryErr: store.ErrDevNotFound,
 		},
 		"empty group name": {
-			inReq: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4"+uriDevices+"/123/group",
-				InventoryApiGroup{}),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/123/group",
+				Auth:   true,
+				Body:   InventoryApiGroup{},
+			}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusBadRequest,
 				OutputBodyObject: RestError("Group name cannot be blank"),
@@ -1743,9 +1855,12 @@ func TestApiInventoryAddDeviceToGroup(t *testing.T) {
 			inventoryErr: nil,
 		},
 		"unsupported characters in group name": {
-			inReq: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4"+uriDevices+"/123/group",
-				InventoryApiGroup{"__+X@#$  ;"}),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/123/group",
+				Auth:   true,
+				Body:   InventoryApiGroup{"__+X@#$  ;"},
+			}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusBadRequest,
 				OutputBodyObject: RestError("Group name can only contain: upper/lowercase alphanum, -(dash), _(underscore)"),
@@ -1753,9 +1868,12 @@ func TestApiInventoryAddDeviceToGroup(t *testing.T) {
 			inventoryErr: nil,
 		},
 		"non-ASCII characters in group name": {
-			inReq: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4"+uriDevices+"/123/group",
-				InventoryApiGroup{"ęą"}),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/123/group",
+				Auth:   true,
+				Body:   InventoryApiGroup{"ęą"},
+			}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusBadRequest,
 				OutputBodyObject: RestError("Group name can only contain: upper/lowercase alphanum, -(dash), _(underscore)"),
@@ -1763,18 +1881,24 @@ func TestApiInventoryAddDeviceToGroup(t *testing.T) {
 			inventoryErr: nil,
 		},
 		"empty body": {
-			inReq: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4"+uriDevices+"/123/group", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/123/group",
+				Auth:   true,
+			}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusBadRequest,
-				OutputBodyObject: RestError("failed to decode device group data: JSON payload is empty"),
+				OutputBodyObject: RestError("failed to decode device group data: invalid request"),
 			},
 			inventoryErr: nil,
 		},
 		"internal error": {
-			inReq: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4"+uriDevices+"/123/group",
-				InventoryApiGroup{"abc"}),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/123/group",
+				Auth:   true,
+				Body:   InventoryApiGroup{"abc"},
+			}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusInternalServerError,
 				OutputBodyObject: RestError("internal error"),
@@ -1801,7 +1925,6 @@ func TestApiInventoryAddDeviceToGroup(t *testing.T) {
 }
 
 func TestApiListGroups(t *testing.T) {
-	rest.ErrorFieldName = "error"
 
 	tcases := map[string]struct {
 		JSONResponseParams
@@ -1812,7 +1935,11 @@ func TestApiListGroups(t *testing.T) {
 		inventoryErr error
 	}{
 		"some groups": {
-			inReq:        test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriGroups, nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriGroups,
+				Auth:   true,
+			}),
 			outputGroups: []model.GroupName{"foo", "bar"},
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusOK,
@@ -1820,14 +1947,22 @@ func TestApiListGroups(t *testing.T) {
 			},
 		},
 		"no groups": {
-			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriGroups+"?status=rejected", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "?status=rejected",
+				Auth:   true,
+			}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusOK,
 				OutputBodyObject: []string{},
 			},
 		},
 		"error": {
-			inReq: test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriGroups, nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriGroups,
+				Auth:   true,
+			}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusInternalServerError,
 				OutputBodyObject: RestError("internal error"),
@@ -1862,7 +1997,6 @@ func TestApiListGroups(t *testing.T) {
 }
 
 func TestApiGetDevice(t *testing.T) {
-	rest.ErrorFieldName = "error"
 
 	tcases := map[string]struct {
 		JSONResponseParams
@@ -1873,8 +2007,12 @@ func TestApiGetDevice(t *testing.T) {
 		inventoryErr error
 	}{
 		"no device": {
-			inDevId:      model.DeviceID("1"),
-			inReq:        test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"/1", nil),
+			inDevId: model.DeviceID("1"),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/1",
+				Auth:   true,
+			}),
 			outputDevice: nil,
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusNotFound,
@@ -1883,7 +2021,11 @@ func TestApiGetDevice(t *testing.T) {
 		},
 		"some device": {
 			inDevId: model.DeviceID("2"),
-			inReq:   test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"/2", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/2",
+				Auth:   true,
+			}),
 			outputDevice: &model.Device{
 				ID:    model.DeviceID("2"),
 				Group: model.GroupName("foo"),
@@ -1898,7 +2040,11 @@ func TestApiGetDevice(t *testing.T) {
 		},
 		"error": {
 			inDevId: model.DeviceID("3"),
-			inReq:   test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"/3", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/3",
+				Auth:   true,
+			}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusInternalServerError,
 				OutputBodyObject: RestError("internal error"),
@@ -1923,7 +2069,6 @@ func TestApiGetDevice(t *testing.T) {
 
 func TestApiInventoryGetDevicesByGroup(t *testing.T) {
 	t.Parallel()
-	rest.ErrorFieldName = "error"
 
 	testCases := map[string]struct {
 		listDevicesNum   int
@@ -1936,14 +2081,22 @@ func TestApiInventoryGetDevicesByGroup(t *testing.T) {
 			listDevicesNum:   5,
 			listDevicesErr:   nil,
 			listDevicesTotal: 20,
-			inReq:            test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriGroups+"/foo/devices?page=4&per_page=5", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices?page=4&per_page=5",
+				Auth:   true,
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     200,
 				OutputBodyObject: mockListDeviceIDs(5),
 				OutputHeaders: map[string][]string{
 					"Link": {
-						fmt.Sprintf(utils.LinkTmpl, "devices", "page=3&per_page=5", "prev"),
-						fmt.Sprintf(utils.LinkTmpl, "devices", "page=1&per_page=5", "first"),
+						fmt.Sprintf(utils.LinkTmpl,
+							apiUrlManagementV1+uriGroups+"/foo/devices",
+							"page=3&per_page=5", "prev"),
+						fmt.Sprintf(utils.LinkTmpl,
+							apiUrlManagementV1+uriGroups+"/foo/devices",
+							"page=1&per_page=5", "first"),
 					},
 					hdrTotalCount: {"20"},
 				},
@@ -1953,14 +2106,22 @@ func TestApiInventoryGetDevicesByGroup(t *testing.T) {
 			listDevicesNum:   5,
 			listDevicesErr:   nil,
 			listDevicesTotal: 21,
-			inReq:            test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriGroups+"/foo/devices?page=4&per_page=5", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices?page=4&per_page=5",
+				Auth:   true,
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     200,
 				OutputBodyObject: mockListDeviceIDs(5),
 				OutputHeaders: map[string][]string{
 					"Link": {
-						fmt.Sprintf(utils.LinkTmpl, "devices", "page=3&per_page=5", "prev"),
-						fmt.Sprintf(utils.LinkTmpl, "devices", "page=1&per_page=5", "first"),
+						fmt.Sprintf(utils.LinkTmpl,
+							apiUrlManagementV1+uriGroups+"/foo/devices",
+							"page=3&per_page=5", "prev"),
+						fmt.Sprintf(utils.LinkTmpl,
+							apiUrlManagementV1+uriGroups+"/foo/devices",
+							"page=1&per_page=5", "first"),
 					},
 					hdrTotalCount: {"21"},
 				},
@@ -1970,10 +2131,14 @@ func TestApiInventoryGetDevicesByGroup(t *testing.T) {
 			listDevicesNum:   5,
 			listDevicesErr:   nil,
 			listDevicesTotal: 5,
-			inReq:            test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriGroups+"/foo/devices?page=foo&per_page=5", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices?page=foo&per_page=5",
+				Auth:   true,
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     400,
-				OutputBodyObject: RestError(utils.MsgQueryParmInvalid("page")),
+				OutputBodyObject: RestError(rest.ErrQueryParmInvalid("page", "foo").Error()),
 				OutputHeaders:    nil,
 			},
 		},
@@ -1981,10 +2146,14 @@ func TestApiInventoryGetDevicesByGroup(t *testing.T) {
 			listDevicesNum:   5,
 			listDevicesErr:   nil,
 			listDevicesTotal: 5,
-			inReq:            test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriGroups+"/foo/devices?page=1&per_page=foo", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices?page=1&per_page=foo",
+				Auth:   true,
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     400,
-				OutputBodyObject: RestError(utils.MsgQueryParmInvalid("per_page")),
+				OutputBodyObject: RestError(rest.ErrQueryParmInvalid("per_page", "foo").Error()),
 				OutputHeaders:    nil,
 			},
 		},
@@ -1992,10 +2161,14 @@ func TestApiInventoryGetDevicesByGroup(t *testing.T) {
 			listDevicesNum:   5,
 			listDevicesErr:   nil,
 			listDevicesTotal: 5,
-			inReq:            test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriGroups+"/foo/devices?page=0&per_page=5", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices?page=0&per_page=5",
+				Auth:   true,
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     400,
-				OutputBodyObject: RestError(utils.MsgQueryParmLimit("page")),
+				OutputBodyObject: RestError(rest.ErrQueryParmLimit("page").Error()),
 				OutputHeaders:    nil,
 			},
 		},
@@ -2003,7 +2176,11 @@ func TestApiInventoryGetDevicesByGroup(t *testing.T) {
 			listDevicesNum:   5,
 			listDevicesErr:   store.ErrGroupNotFound,
 			listDevicesTotal: 20,
-			inReq:            test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriGroups+"/foo/devices?page=4&per_page=5", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices?page=4&per_page=5",
+				Auth:   true,
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     404,
 				OutputBodyObject: RestError("group not found"),
@@ -2014,7 +2191,11 @@ func TestApiInventoryGetDevicesByGroup(t *testing.T) {
 			listDevicesNum:   5,
 			listDevicesErr:   errors.New("inventory error"),
 			listDevicesTotal: 20,
-			inReq:            test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriGroups+"/foo/devices?page=4&per_page=5", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices?page=4&per_page=5",
+				Auth:   true,
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     500,
 				OutputBodyObject: RestError("internal error"),
@@ -2043,7 +2224,6 @@ func TestApiInventoryGetDevicesByGroup(t *testing.T) {
 }
 
 func TestApiGetDeviceGroup(t *testing.T) {
-	rest.ErrorFieldName = "error"
 
 	tcases := map[string]struct {
 		JSONResponseParams
@@ -2062,7 +2242,11 @@ func TestApiGetDeviceGroup(t *testing.T) {
 		*/
 
 		"device with group": {
-			inReq:          test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"/1/group", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/1/group",
+				Auth:   true,
+			}),
 			inventoryGroup: model.GroupName("dev"),
 			inventoryErr:   nil,
 
@@ -2072,7 +2256,11 @@ func TestApiGetDeviceGroup(t *testing.T) {
 			},
 		},
 		"device without group": {
-			inReq:          test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"/1/group", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/1/group",
+				Auth:   true,
+			}),
 			inventoryGroup: model.GroupName(""),
 			inventoryErr:   nil,
 
@@ -2082,7 +2270,11 @@ func TestApiGetDeviceGroup(t *testing.T) {
 			},
 		},
 		"device not found": {
-			inReq:          test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"/1/group", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/1/group",
+				Auth:   true,
+			}),
 			inventoryGroup: model.GroupName(""),
 			inventoryErr:   store.ErrDevNotFound,
 
@@ -2092,7 +2284,11 @@ func TestApiGetDeviceGroup(t *testing.T) {
 			},
 		},
 		"generic inventory error": {
-			inReq:          test.MakeSimpleRequest("GET", "http://1.2.3.4"+uriDevices+"/1/group", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/1/group",
+				Auth:   true,
+			}),
 			inventoryGroup: model.GroupName(""),
 			inventoryErr:   errors.New("inventory: internal error"),
 
@@ -2120,7 +2316,6 @@ func TestApiGetDeviceGroup(t *testing.T) {
 }
 
 func TestApiGetDeviceGroupInternal(t *testing.T) {
-	rest.ErrorFieldName = "error"
 
 	tcases := map[string]struct {
 		JSONResponseParams
@@ -2131,7 +2326,10 @@ func TestApiGetDeviceGroupInternal(t *testing.T) {
 		inventoryErr   error
 	}{
 		"device with group": {
-			inReq:          test.MakeSimpleRequest("GET", "http://1.2.3.4/api/internal/v1/inventory/tenants/foo/devices/1/groups", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost/api/internal/v1/inventory/tenants/foo/devices/1/groups",
+			}),
 			inventoryGroup: model.GroupName("dev"),
 			inventoryErr:   nil,
 
@@ -2141,9 +2339,11 @@ func TestApiGetDeviceGroupInternal(t *testing.T) {
 			},
 		},
 		"device without group": {
-			inReq:          test.MakeSimpleRequest("GET", "http://1.2.3.4/api/internal/v1/inventory/tenants/foo/devices/1/groups", nil),
-			inventoryGroup: model.GroupName(""),
-			inventoryErr:   nil,
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost/api/internal/v1/inventory/tenants/foo/devices/1/groups",
+			}), inventoryGroup: model.GroupName(""),
+			inventoryErr: nil,
 
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusOK,
@@ -2151,9 +2351,11 @@ func TestApiGetDeviceGroupInternal(t *testing.T) {
 			},
 		},
 		"device not found": {
-			inReq:          test.MakeSimpleRequest("GET", "http://1.2.3.4/api/internal/v1/inventory/tenants/foo/devices/1/groups", nil),
-			inventoryGroup: model.GroupName(""),
-			inventoryErr:   store.ErrDevNotFound,
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost/api/internal/v1/inventory/tenants/foo/devices/1/groups",
+			}), inventoryGroup: model.GroupName(""),
+			inventoryErr: store.ErrDevNotFound,
 
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusNotFound,
@@ -2161,9 +2363,11 @@ func TestApiGetDeviceGroupInternal(t *testing.T) {
 			},
 		},
 		"generic inventory error": {
-			inReq:          test.MakeSimpleRequest("GET", "http://1.2.3.4/api/internal/v1/inventory/tenants/foo/devices/1/groups", nil),
-			inventoryGroup: model.GroupName(""),
-			inventoryErr:   errors.New("inventory: internal error"),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost/api/internal/v1/inventory/tenants/foo/devices/1/groups",
+			}), inventoryGroup: model.GroupName(""),
+			inventoryErr: errors.New("inventory: internal error"),
 
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusInternalServerError,
@@ -2190,7 +2394,6 @@ func TestApiGetDeviceGroupInternal(t *testing.T) {
 
 func TestApiDeleteDeviceInventory(t *testing.T) {
 	t.Parallel()
-	rest.ErrorFieldName = "error"
 
 	tcases := map[string]struct {
 		JSONResponseParams
@@ -2200,8 +2403,12 @@ func TestApiDeleteDeviceInventory(t *testing.T) {
 		inventoryErr error
 	}{
 		"no device": {
-			inDevId:      model.DeviceID("1"),
-			inReq:        test.MakeSimpleRequest("DELETE", "http://1.2.3.4"+uriDevices+"/1", nil),
+			inDevId: model.DeviceID("1"),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "DELETE",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/1",
+				Auth:   true,
+			}),
 			inventoryErr: store.ErrDevNotFound,
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus: http.StatusNoContent,
@@ -2209,14 +2416,22 @@ func TestApiDeleteDeviceInventory(t *testing.T) {
 		},
 		"some device": {
 			inDevId: model.DeviceID("2"),
-			inReq:   test.MakeSimpleRequest("DELETE", "http://1.2.3.4"+uriDevices+"/2", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "DELETE",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/2",
+				Auth:   true,
+			}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus: http.StatusNoContent,
 			},
 		},
 		"error": {
 			inDevId: model.DeviceID("3"),
-			inReq:   test.MakeSimpleRequest("DELETE", "http://1.2.3.4"+uriDevices+"/3", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "DELETE",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/3",
+				Auth:   true,
+			}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusInternalServerError,
 				OutputBodyObject: RestError("internal error"),
@@ -2248,7 +2463,6 @@ func TestApiDeleteDeviceInventory(t *testing.T) {
 
 func TestApiDeleteDevice(t *testing.T) {
 	t.Parallel()
-	rest.ErrorFieldName = "error"
 
 	tcases := map[string]struct {
 		JSONResponseParams
@@ -2258,8 +2472,11 @@ func TestApiDeleteDevice(t *testing.T) {
 		inventoryErr error
 	}{
 		"no device": {
-			inDevId:      model.DeviceID("1"),
-			inReq:        test.MakeSimpleRequest("DELETE", "http://1.2.3.4/api/internal/v1/inventory/tenants/1/devices/1", nil),
+			inDevId: model.DeviceID("1"),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "DELETE",
+				Path:   "http://localhost/api/internal/v1/inventory/tenants/1/devices/1",
+			}),
 			inventoryErr: store.ErrDevNotFound,
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus: http.StatusNoContent,
@@ -2267,14 +2484,20 @@ func TestApiDeleteDevice(t *testing.T) {
 		},
 		"some device": {
 			inDevId: model.DeviceID("2"),
-			inReq:   test.MakeSimpleRequest("DELETE", "http://1.2.3.4/api/internal/v1/inventory/tenants/1/devices/2", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "DELETE",
+				Path:   "http://localhost/api/internal/v1/inventory/tenants/1/devices/2",
+			}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus: http.StatusNoContent,
 			},
 		},
 		"error": {
 			inDevId: model.DeviceID("3"),
-			inReq:   test.MakeSimpleRequest("DELETE", "http://1.2.3.4/api/internal/v1/inventory/tenants/1/devices/3", nil),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "DELETE",
+				Path:   "http://localhost/api/internal/v1/inventory/tenants/1/devices/3",
+			}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusInternalServerError,
 				OutputBodyObject: RestError("internal error"),
@@ -2311,11 +2534,11 @@ func TestAPICDeleteGroup(t *testing.T) {
 		InventoryErr error
 	}{{
 		Name: "ok",
-		Request: test.MakeSimpleRequest(
-			"DELETE",
-			"http://localhost"+uriGroups+"/foo",
-			nil,
-		),
+		Request: rest.MakeTestRequest(&rest.TestRequest{
+			Method: "DELETE",
+			Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo",
+			Auth:   true,
+		}),
 		GroupName: "foo",
 		JSONResponseParams: JSONResponseParams{
 			OutputStatus: http.StatusOK,
@@ -2326,11 +2549,11 @@ func TestAPICDeleteGroup(t *testing.T) {
 	}, {
 		Name: "internal error",
 
-		Request: test.MakeSimpleRequest(
-			"DELETE",
-			"http://localhost"+uriGroups+"/foo",
-			nil,
-		),
+		Request: rest.MakeTestRequest(&rest.TestRequest{
+			Method: "DELETE",
+			Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo",
+			Auth:   true,
+		}),
 		GroupName: "foo",
 		JSONResponseParams: JSONResponseParams{
 			OutputStatus: http.StatusInternalServerError,
@@ -2342,12 +2565,11 @@ func TestAPICDeleteGroup(t *testing.T) {
 		InventoryErr: errors.New("unknown error"),
 	}, {
 		Name: "error, invalid group name",
-
-		Request: test.MakeSimpleRequest(
-			"DELETE",
-			"http://localhost"+uriGroups+"/illegal$group$name",
-			nil,
-		),
+		Request: rest.MakeTestRequest(&rest.TestRequest{
+			Method: "DELETE",
+			Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/illegal$group$name",
+			Auth:   true,
+		}),
 		JSONResponseParams: JSONResponseParams{
 			OutputStatus: http.StatusBadRequest,
 			OutputBodyObject: map[string]interface{}{
@@ -2396,12 +2618,12 @@ func TestAPIClearDevicesGroup(t *testing.T) {
 		InventoryErr error
 	}{{
 		Name: "ok, some devices",
-
-		Request: test.MakeSimpleRequest(
-			"DELETE",
-			"http://localhost"+uriGroups+"/foo/devices",
-			[]model.DeviceID{"1", "2", "3"},
-		),
+		Request: rest.MakeTestRequest(&rest.TestRequest{
+			Method: "DELETE",
+			Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices",
+			Auth:   true,
+			Body:   []model.DeviceID{"1", "2", "3"},
+		}),
 		GroupName: "foo",
 		Devices:   []model.DeviceID{"1", "2", "3"},
 		JSONResponseParams: JSONResponseParams{
@@ -2413,11 +2635,12 @@ func TestAPIClearDevicesGroup(t *testing.T) {
 	}, {
 		Name: "error, empty device list",
 
-		Request: test.MakeSimpleRequest(
-			"DELETE",
-			"http://localhost"+uriGroups+"/foo/devices",
-			[]model.DeviceID{},
-		),
+		Request: rest.MakeTestRequest(&rest.TestRequest{
+			Method: "DELETE",
+			Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices",
+			Auth:   true,
+			Body:   []model.DeviceID{},
+		}),
 		Devices:   []model.DeviceID{},
 		GroupName: "foo",
 		JSONResponseParams: JSONResponseParams{
@@ -2429,12 +2652,12 @@ func TestAPIClearDevicesGroup(t *testing.T) {
 		},
 	}, {
 		Name: "error, invalid schema",
-
-		Request: test.MakeSimpleRequest(
-			"DELETE",
-			"http://localhost"+uriGroups+"/foo/devices",
-			map[string]string{"foo": "bar"},
-		),
+		Request: rest.MakeTestRequest(&rest.TestRequest{
+			Method: "DELETE",
+			Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices",
+			Auth:   true,
+			Body:   map[string]string{"foo": "bar"},
+		}),
 		GroupName: "foo",
 		JSONResponseParams: JSONResponseParams{
 			OutputStatus: http.StatusBadRequest,
@@ -2447,12 +2670,12 @@ func TestAPIClearDevicesGroup(t *testing.T) {
 		},
 	}, {
 		Name: "internal error",
-
-		Request: test.MakeSimpleRequest(
-			"DELETE",
-			"http://localhost"+uriGroups+"/foo/devices",
-			[]model.DeviceID{"1", "2", "3"},
-		),
+		Request: rest.MakeTestRequest(&rest.TestRequest{
+			Method: "DELETE",
+			Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices",
+			Auth:   true,
+			Body:   []model.DeviceID{"1", "2", "3"},
+		}),
 		GroupName: "foo",
 		Devices:   []model.DeviceID{"1", "2", "3"},
 		JSONResponseParams: JSONResponseParams{
@@ -2465,12 +2688,12 @@ func TestAPIClearDevicesGroup(t *testing.T) {
 		InventoryErr: errors.New("unknown error"),
 	}, {
 		Name: "error, invalid group name",
-
-		Request: test.MakeSimpleRequest(
-			"DELETE",
-			"http://localhost"+uriGroups+"/illegal$group$name/devices",
-			[]model.DeviceID{"1", "2", "3"},
-		),
+		Request: rest.MakeTestRequest(&rest.TestRequest{
+			Method: "DELETE",
+			Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/illegal$group$name/devices",
+			Auth:   true,
+			Body:   []model.DeviceID{"1", "2", "3"},
+		}),
 		JSONResponseParams: JSONResponseParams{
 			OutputStatus: http.StatusBadRequest,
 			OutputBodyObject: map[string]interface{}{
@@ -2523,12 +2746,12 @@ func TestAPIPatchGroupDevices(t *testing.T) {
 		JSONResponseParams
 	}{{
 		Name: "ok, all device IDs match",
-
-		Request: test.MakeSimpleRequest(
-			"PATCH",
-			"http://localhost"+uriGroups+"/foo/devices",
-			[]model.DeviceID{"1", "2", "3"},
-		),
+		Request: rest.MakeTestRequest(&rest.TestRequest{
+			Method: "PATCH",
+			Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices",
+			Auth:   true,
+			Body:   []model.DeviceID{"1", "2", "3"},
+		}),
 		Devices:   []model.DeviceID{"1", "2", "3"},
 		GroupName: "foo",
 		JSONResponseParams: JSONResponseParams{
@@ -2540,12 +2763,12 @@ func TestAPIPatchGroupDevices(t *testing.T) {
 		},
 	}, {
 		Name: "error, invalid JSON schema",
-
-		Request: test.MakeSimpleRequest(
-			"PATCH",
-			"http://localhost"+uriGroups+"/foo/devices",
-			map[string][]string{"devices": {"foo", "bar", "baz"}},
-		),
+		Request: rest.MakeTestRequest(&rest.TestRequest{
+			Method: "PATCH",
+			Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices",
+			Auth:   true,
+			Body:   map[string][]string{"devices": {"foo", "bar", "baz"}},
+		}),
 		JSONResponseParams: JSONResponseParams{
 			OutputStatus: http.StatusBadRequest,
 			OutputBodyObject: map[string]interface{}{
@@ -2557,11 +2780,12 @@ func TestAPIPatchGroupDevices(t *testing.T) {
 		},
 	}, {
 		Name: "error, empty devices list",
-
-		Request: test.MakeSimpleRequest(
-			"PATCH",
-			"http://localhost"+uriGroups+"/foo/devices",
-			[]model.DeviceID{}),
+		Request: rest.MakeTestRequest(&rest.TestRequest{
+			Method: "PATCH",
+			Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices",
+			Auth:   true,
+			Body:   []model.DeviceID{},
+		}),
 		JSONResponseParams: JSONResponseParams{
 			OutputStatus: http.StatusBadRequest,
 			OutputBodyObject: map[string]interface{}{
@@ -2571,12 +2795,12 @@ func TestAPIPatchGroupDevices(t *testing.T) {
 		},
 	}, {
 		Name: "error, invalid group name",
-
-		Request: test.MakeSimpleRequest(
-			"PATCH",
-			"http://localhost"+uriGroups+"/deeeåååhh/devices",
-			[]model.DeviceID{"1", "2"},
-		),
+		Request: rest.MakeTestRequest(&rest.TestRequest{
+			Method: "PATCH",
+			Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/deeeåååhh/devices",
+			Auth:   true,
+			Body:   []model.DeviceID{"1", "2"},
+		}),
 		JSONResponseParams: JSONResponseParams{
 			OutputStatus: http.StatusBadRequest,
 			OutputBodyObject: map[string]interface{}{
@@ -2588,12 +2812,13 @@ func TestAPIPatchGroupDevices(t *testing.T) {
 		},
 	}, {
 		Name: "error, internal error",
+		Request: rest.MakeTestRequest(&rest.TestRequest{
+			Method: "PATCH",
+			Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices",
+			Auth:   true,
+			Body:   []model.DeviceID{"1", "2"},
+		}),
 
-		Request: test.MakeSimpleRequest(
-			"PATCH",
-			"http://localhost"+uriGroups+"/foo/devices",
-			[]model.DeviceID{"1", "2"},
-		),
 		Devices:      []model.DeviceID{"1", "2"},
 		GroupName:    "foo",
 		InventoryErr: errors.New("unknown error"),
@@ -2642,7 +2867,7 @@ func TestUserAdmApiCreateTenant(t *testing.T) {
 		body    interface{}
 		tenant  model.NewTenant
 
-		checker mt.ResponseChecker
+		res JSONResponseParams
 	}{
 		"ok": {
 			uaError: nil,
@@ -2651,11 +2876,9 @@ func TestUserAdmApiCreateTenant(t *testing.T) {
 			},
 			tenant: model.NewTenant{ID: "foobar"},
 
-			checker: mt.NewJSONResponse(
-				http.StatusCreated,
-				nil,
-				nil,
-			),
+			res: JSONResponseParams{
+				OutputStatus: http.StatusCreated,
+			},
 		},
 		"error: useradm internal": {
 			body: map[string]interface{}{
@@ -2664,11 +2887,10 @@ func TestUserAdmApiCreateTenant(t *testing.T) {
 			uaError: errors.New("some internal error"),
 			tenant:  model.NewTenant{ID: "failing-tenant"},
 
-			checker: mt.NewJSONResponse(
-				http.StatusInternalServerError,
-				nil,
-				restError("internal error"),
-			),
+			res: JSONResponseParams{
+				OutputStatus:     500,
+				OutputBodyObject: RestError("internal error"),
+			},
 		},
 		"error: no tenant id": {
 			body: map[string]interface{}{
@@ -2676,20 +2898,17 @@ func TestUserAdmApiCreateTenant(t *testing.T) {
 			},
 			tenant: model.NewTenant{},
 
-			checker: mt.NewJSONResponse(
-				http.StatusBadRequest,
-				nil,
-				restError("tenant_id: cannot be blank."),
-			),
+			res: JSONResponseParams{
+				OutputStatus:     http.StatusBadRequest,
+				OutputBodyObject: restError("tenant_id: cannot be blank."),
+			},
 		},
 		"error: empty json": {
 			tenant: model.NewTenant{},
-
-			checker: mt.NewJSONResponse(
-				http.StatusBadRequest,
-				nil,
-				restError("JSON payload is empty"),
-			),
+			res: JSONResponseParams{
+				OutputStatus:     http.StatusBadRequest,
+				OutputBodyObject: restError("invalid request"),
+			},
 		},
 	}
 
@@ -2706,22 +2925,21 @@ func TestUserAdmApiCreateTenant(t *testing.T) {
 			api := makeMockApiHandler(t, inv)
 
 			//make request
-			req := makeReq(http.MethodPost,
-				"http://1.2.3.4/api/internal/v1/inventory/tenants",
-				"",
-				tc.body)
+
+			req := rest.MakeTestRequest(&rest.TestRequest{
+				Method: http.MethodPost,
+				Path:   "http://localhost/api/internal/v1/inventory/tenants",
+				Body:   tc.body,
+			})
 
 			//test
-			recorded := test.RunRequest(t, api, req)
-			mt.CheckResponse(t, tc.checker, recorded)
+			runTestRequest(t, api, req, tc.res)
 		})
 	}
 }
 
 func TestApiInventoryInternalDevicesStatus(t *testing.T) {
 	t.Parallel()
-
-	rest.ErrorFieldName = "error"
 
 	tenantId := "5abcb6de7a673a0001287c71"
 	emptyTenant := ""
@@ -2810,7 +3028,7 @@ func TestApiInventoryInternalDevicesStatus(t *testing.T) {
 			inputDevices: nil,
 			resp: JSONResponseParams{
 				OutputStatus:     http.StatusBadRequest,
-				OutputBodyObject: RestError("cant parse devices: JSON payload is empty"),
+				OutputBodyObject: RestError("cant parse devices: invalid request"),
 			},
 			callsInventory: false,
 		},
@@ -2877,11 +3095,12 @@ func TestApiInventoryInternalDevicesStatus(t *testing.T) {
 	for name, tc := range testCases {
 		t.Run(name, func(t *testing.T) {
 			var (
-				inReq = test.MakeSimpleRequest("POST",
-					"http://1.2.3.4/api/internal/v1/inventory/tenants/"+
-						tc.tenantID+"/devices/status/"+tc.status,
-					tc.inputDevices,
-				)
+				inReq = rest.MakeTestRequest(&rest.TestRequest{
+					Method: "POST",
+					Path: "http://1.2.3.4/api/internal/v1/inventory/tenants/" +
+						tc.tenantID + "/devices/status/" + tc.status,
+					Body: tc.inputDevices,
+				})
 				deviceAttributes = model.DeviceAttributes{{
 					Name:  "status",
 					Value: tc.status,
@@ -2912,8 +3131,6 @@ func TestApiInventoryInternalDevicesStatus(t *testing.T) {
 			}
 
 			apih := makeMockApiHandler(t, &inv)
-
-			rest.ErrorFieldName = "error"
 
 			runTestRequest(t, apih, inReq, tc.resp)
 
@@ -2961,16 +3178,21 @@ func TestApiInventoryFiltersAttributes(t *testing.T) {
 			).Return(tc.attributes, tc.err)
 
 			api := makeMockApiHandler(t, &inv)
-			req, _ := http.NewRequest("GET", "http://localhost"+urlFiltersAttributes, nil)
-			recorded := test.RunRequest(t, api, req)
+			req := rest.MakeTestRequest(&rest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost" + apiUrlManagementV2 + urlFiltersAttributes,
+				Auth:   true,
+			})
+			w := httptest.NewRecorder()
+			api.ServeHTTP(w, req)
 
-			recorded.CodeIs(tc.httpCode)
+			assert.Equal(t, tc.httpCode, w.Code)
 			if tc.httpCode == http.StatusOK {
 				if tc.attributes == nil {
 					tc.attributes = []model.FilterAttribute{}
 				}
 				body, _ := json.Marshal(tc.attributes)
-				recorded.BodyIs(string(body))
+				assert.Equal(t, body, w.Body.Bytes())
 			}
 		})
 	}
@@ -2978,7 +3200,6 @@ func TestApiInventoryFiltersAttributes(t *testing.T) {
 
 func TestApiInventorySearchDevices(t *testing.T) {
 	t.Parallel()
-	rest.ErrorFieldName = "error"
 
 	testCases := map[string]struct {
 		listDevicesNum  int
@@ -2991,13 +3212,15 @@ func TestApiInventorySearchDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 20,
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/management/v2/inventory/filters/search",
-				model.SearchParams{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/management/v2/inventory/filters/search",
+				Auth:   true,
+				Body: model.SearchParams{
 					Page:    4,
 					PerPage: 5,
 				},
-			),
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     200,
 				OutputBodyObject: mockListDevices(5),
@@ -3010,13 +3233,15 @@ func TestApiInventorySearchDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 21,
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/management/v2/inventory/filters/search",
-				model.SearchParams{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/management/v2/inventory/filters/search",
+				Auth:   true,
+				Body: model.SearchParams{
 					Page:    4,
 					PerPage: 5,
 				},
-			),
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     200,
 				OutputBodyObject: mockListDevices(5),
@@ -3029,9 +3254,11 @@ func TestApiInventorySearchDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 21,
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/management/v2/inventory/filters/search",
-				model.SearchParams{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/management/v2/inventory/filters/search",
+				Auth:   true,
+				Body: model.SearchParams{
 					Page:    4,
 					PerPage: 5,
 					Filters: []model.FilterPredicate{
@@ -3061,7 +3288,7 @@ func TestApiInventorySearchDevices(t *testing.T) {
 						},
 					},
 				},
-			),
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     200,
 				OutputBodyObject: mockListDevices(5),
@@ -3074,9 +3301,11 @@ func TestApiInventorySearchDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 21,
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/management/v2/inventory/filters/search",
-				model.SearchParams{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/management/v2/inventory/filters/search",
+				Auth:   true,
+				Body: model.SearchParams{
 					Page:    4,
 					PerPage: 5,
 					Filters: []model.FilterPredicate{
@@ -3101,7 +3330,7 @@ func TestApiInventorySearchDevices(t *testing.T) {
 						},
 					},
 				},
-			),
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     400,
 				OutputBodyObject: RestError("attribute: cannot be blank; scope: cannot be blank; type: cannot be blank; value: is required."),
@@ -3112,9 +3341,11 @@ func TestApiInventorySearchDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 21,
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/management/v2/inventory/filters/search",
-				model.SearchParams{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/management/v2/inventory/filters/search",
+				Auth:   true,
+				Body: model.SearchParams{
 					Page:    4,
 					PerPage: 5,
 					Filters: []model.FilterPredicate{
@@ -3140,7 +3371,7 @@ func TestApiInventorySearchDevices(t *testing.T) {
 						},
 					},
 				},
-			),
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     400,
 				OutputBodyObject: RestError("attribute: cannot be blank; order: cannot be blank; scope: cannot be blank."),
@@ -3151,9 +3382,11 @@ func TestApiInventorySearchDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  errors.New("inventory error"),
 			listDeviceTotal: 21,
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/management/v2/inventory/filters/search",
-				model.SearchParams{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/management/v2/inventory/filters/search",
+				Auth:   true,
+				Body: model.SearchParams{
 					Page:    4,
 					PerPage: 5,
 					Filters: []model.FilterPredicate{
@@ -3183,7 +3416,7 @@ func TestApiInventorySearchDevices(t *testing.T) {
 						},
 					},
 				},
-			),
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     500,
 				OutputBodyObject: RestError("internal error"),
@@ -3194,9 +3427,11 @@ func TestApiInventorySearchDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  errors.New("inventory error: BadValue"),
 			listDeviceTotal: 21,
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/management/v2/inventory/filters/search",
-				model.SearchParams{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/management/v2/inventory/filters/search",
+				Auth:   true,
+				Body: model.SearchParams{
 					Page:    4,
 					PerPage: 5,
 					Filters: []model.FilterPredicate{
@@ -3226,20 +3461,22 @@ func TestApiInventorySearchDevices(t *testing.T) {
 						},
 					},
 				},
-			),
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     400,
 				OutputBodyObject: RestError("inventory error: BadValue"),
 				OutputHeaders:    nil,
 			},
 		},
-		"valid": {
+		"valid, plan proffessional": {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 21,
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/management/v2/inventory/filters/search",
-				model.SearchParams{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/management/v2/inventory/filters/search",
+				Auth:   true,
+				Body: model.SearchParams{
 					Page:    4,
 					PerPage: 5,
 					Filters: []model.FilterPredicate{
@@ -3269,7 +3506,7 @@ func TestApiInventorySearchDevices(t *testing.T) {
 						},
 					},
 				},
-			),
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     200,
 				OutputBodyObject: mockListDevices(5),
@@ -3306,9 +3543,11 @@ func TestApiParseSearchParams(t *testing.T) {
 		err          error
 	}{
 		"ok": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/management/v2/inventory/filters/search",
-				model.SearchParams{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/management/v2/inventory/filters/search",
+				Auth:   true,
+				Body: model.SearchParams{
 					Page:    4,
 					PerPage: 5,
 					Filters: []model.FilterPredicate{
@@ -3338,7 +3577,7 @@ func TestApiParseSearchParams(t *testing.T) {
 						},
 					},
 				},
-			),
+			}),
 			searchParams: &model.SearchParams{
 				Page:    4,
 				PerPage: 5,
@@ -3371,9 +3610,11 @@ func TestApiParseSearchParams(t *testing.T) {
 			},
 		},
 		"ok: all filter types and sort orders": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/management/v2/inventory/filters/search",
-				model.SearchParams{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/management/v2/inventory/filters/search",
+				Auth:   true,
+				Body: model.SearchParams{
 					Page:    4,
 					PerPage: 5,
 					Filters: []model.FilterPredicate{
@@ -3403,7 +3644,7 @@ func TestApiParseSearchParams(t *testing.T) {
 						},
 					},
 				},
-			),
+			}),
 			searchParams: &model.SearchParams{
 				Page:    4,
 				PerPage: 5,
@@ -3436,9 +3677,11 @@ func TestApiParseSearchParams(t *testing.T) {
 			},
 		},
 		"invalid Page and perPage": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/management/v2/inventory/filters/search",
-				model.SearchParams{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/management/v2/inventory/filters/search",
+				Auth:   true,
+				Body: model.SearchParams{
 					Page:    -3,
 					PerPage: 0,
 					Filters: []model.FilterPredicate{
@@ -3457,7 +3700,7 @@ func TestApiParseSearchParams(t *testing.T) {
 						},
 					},
 				},
-			),
+			}),
 			searchParams: &model.SearchParams{
 				Page:    utils.PageDefault,
 				PerPage: utils.PerPageDefault,
@@ -3479,9 +3722,11 @@ func TestApiParseSearchParams(t *testing.T) {
 			},
 		},
 		"wrong sort order": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/management/v2/inventory/filters/search",
-				model.SearchParams{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/management/v2/inventory/filters/search",
+				Auth:   true,
+				Body: model.SearchParams{
 					Page:    4,
 					PerPage: 5,
 					Sort: []model.SortCriteria{
@@ -3497,13 +3742,15 @@ func TestApiParseSearchParams(t *testing.T) {
 						},
 					},
 				},
-			),
+			}),
 			err: errors.New("order: must be a valid value."),
 		},
 		"wrong filter type": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/management/v2/inventory/filters/search",
-				model.SearchParams{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/management/v2/inventory/filters/search",
+				Auth:   true,
+				Body: model.SearchParams{
 					Page:    4,
 					PerPage: 5,
 					Filters: []model.FilterPredicate{
@@ -3521,21 +3768,23 @@ func TestApiParseSearchParams(t *testing.T) {
 						},
 					},
 				},
-			),
+			}),
 			err: errors.New("type: must be a valid value."),
 		},
 		"invalid JSON": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/management/v2/inventory/filters/search",
-				"invalid json",
-			),
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/management/v2/inventory/filters/search",
+				Auth:   true,
+				Body:   "invalid json",
+			}),
 			err: errors.New("failed to decode request body: json: cannot unmarshal string into Go value of type model.SearchParams"),
 		},
 	}
 
 	for name, tc := range testCases {
 		t.Run(fmt.Sprintf("test case: %s", name), func(t *testing.T) {
-			req := rest.Request{Request: tc.inReq}
+			req := gin.Context{Request: tc.inReq}
 			params, err := parseSearchParams(&req)
 			if tc.err != nil {
 				assert.EqualError(t, tc.err, err.Error())
@@ -3552,7 +3801,6 @@ func TestApiParseSearchParams(t *testing.T) {
 
 func TestApiInventoryInternalSearchDevices(t *testing.T) {
 	t.Parallel()
-	rest.ErrorFieldName = "error"
 
 	testCases := map[string]struct {
 		listDevicesNum  int
@@ -3565,9 +3813,10 @@ func TestApiInventoryInternalSearchDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 21,
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v2/inventory/tenants/foo/filters/search",
-				model.SearchParams{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/internal/v2/inventory/tenants/foo/filters/search",
+				Body: model.SearchParams{
 					Page:    4,
 					PerPage: 5,
 					Filters: []model.FilterPredicate{
@@ -3597,7 +3846,7 @@ func TestApiInventoryInternalSearchDevices(t *testing.T) {
 						},
 					},
 				},
-			),
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     200,
 				OutputBodyObject: mockListDevices(5),
@@ -3610,9 +3859,10 @@ func TestApiInventoryInternalSearchDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 21,
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v2/inventory/tenants//filters/search",
-				model.SearchParams{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/internal/v2/inventory/tenants//filters/search",
+				Body: model.SearchParams{
 					Page:    4,
 					PerPage: 5,
 					Filters: []model.FilterPredicate{
@@ -3642,7 +3892,7 @@ func TestApiInventoryInternalSearchDevices(t *testing.T) {
 						},
 					},
 				},
-			),
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     200,
 				OutputBodyObject: mockListDevices(5),
@@ -3655,9 +3905,10 @@ func TestApiInventoryInternalSearchDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 21,
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v2/inventory/tenants/foo/filters/search",
-				model.SearchParams{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/internal/v2/inventory/tenants//filters/search",
+				Body: model.SearchParams{
 					Page:    4,
 					PerPage: 5,
 					Filters: []model.FilterPredicate{
@@ -3682,7 +3933,7 @@ func TestApiInventoryInternalSearchDevices(t *testing.T) {
 						},
 					},
 				},
-			),
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     400,
 				OutputBodyObject: RestError("attribute: cannot be blank; scope: cannot be blank; type: cannot be blank; value: is required."),
@@ -3693,9 +3944,10 @@ func TestApiInventoryInternalSearchDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  errors.New("inventory error"),
 			listDeviceTotal: 21,
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v2/inventory/tenants/foo/filters/search",
-				model.SearchParams{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/internal/v2/inventory/tenants//filters/search",
+				Body: model.SearchParams{
 					Page:    4,
 					PerPage: 5,
 					Filters: []model.FilterPredicate{
@@ -3725,7 +3977,7 @@ func TestApiInventoryInternalSearchDevices(t *testing.T) {
 						},
 					},
 				},
-			),
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     500,
 				OutputBodyObject: RestError("internal error"),
@@ -3736,9 +3988,10 @@ func TestApiInventoryInternalSearchDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  errors.New("inventory error: BadValue"),
 			listDeviceTotal: 21,
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v2/inventory/tenants/foo/filters/search",
-				model.SearchParams{
+			inReq: rest.MakeTestRequest(&rest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/internal/v2/inventory/tenants//filters/search",
+				Body: model.SearchParams{
 					Page:    4,
 					PerPage: 5,
 					Filters: []model.FilterPredicate{
@@ -3768,7 +4021,7 @@ func TestApiInventoryInternalSearchDevices(t *testing.T) {
 						},
 					},
 				},
-			),
+			}),
 			resp: JSONResponseParams{
 				OutputStatus:     400,
 				OutputBodyObject: RestError("inventory error: BadValue"),
@@ -3792,17 +4045,6 @@ func TestApiInventoryInternalSearchDevices(t *testing.T) {
 
 		runTestRequest(t, apih, testCase.inReq, testCase.resp)
 	}
-}
-
-func makeReq(method, url, auth string, body interface{}) *http.Request {
-	req := test.MakeSimpleRequest(method, url, body)
-
-	if auth != "" {
-		req.Header.Set("Authorization", auth)
-	}
-	req.Header.Add(requestid.RequestIdHeader, "test")
-
-	return req
 }
 
 func restError(status string) map[string]interface{} {
@@ -3904,11 +4146,11 @@ func TestApiInventoryInternalReindex(t *testing.T) {
 	for name, tc := range testCases {
 		t.Run(name, func(t *testing.T) {
 			var (
-				inReq = test.MakeSimpleRequest("POST",
-					"http://1.2.3.4/api/internal/v1/inventory/tenants/"+
-						tc.tenantID+"/devices/"+tc.deviceID+"/reindex?service="+tc.serviceName,
-					nil,
-				)
+				inReq = rest.MakeTestRequest(&rest.TestRequest{
+					Method: "POST",
+					Path: "http://localhost/api/internal/v1/inventory/tenants/" +
+						tc.tenantID + "/devices/" + tc.deviceID + "/reindex?service=" + tc.serviceName,
+				})
 			)
 
 			inv := minventory.InventoryApp{}
@@ -3938,8 +4180,6 @@ func TestApiInventoryInternalReindex(t *testing.T) {
 			}
 
 			apih := makeMockApiHandler(t, &inv)
-
-			rest.ErrorFieldName = "error"
 
 			runTestRequest(t, apih, inReq, tc.resp)
 
