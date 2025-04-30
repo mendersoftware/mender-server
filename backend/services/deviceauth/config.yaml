@@ -147,25 +147,8 @@
 # Overwrite with environment variable: DEVICEAUTH_REDIS_LIMITS_EXPIRE_SEC
 # redis_limits_expire_sec: "1800"
 
+
 #    Enable addon feature restrictions.
 #    Defaults to: false
 #    Overwrite with environment variable: DEVICEAUTH_HAVE_ADDONS
 # have_addons: false
-
-# Adaptive ratelimits based on device limits.
-# The number of request allowed in a fixed `interval` is given by the device
-# limit multiplied by the `quota_default` for the given plan.
-# For Mender Enterprise, other quota factors can be specified in `quota_plan`.
-# `quota_plan` can either be a YAML map or a string-slice (key=value) for
-# overriding quotas for specific plans. Example follows:
-# ratelimit_devices:
-#   interval: 1m
-#   quota_default: 1.0
-#   quota_plan:
-#     os: 1.0
-#     professional: 1.5
-#     enterprise: 2.0
-# Using environment variables:
-# DEVICEAUTH_RATELIMIT_INTERVAL: "1m"
-# DEVICEAUTH_RATELIMIT_DEVICE_QUOTA_DEFAULT: "1.0"
-# DEVICEAUTH_RATELMIIT_DEVICE_QUOTA_PLAN: "professional=1.5 enterprise=2.0"

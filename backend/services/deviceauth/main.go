@@ -233,7 +233,6 @@ func doMain(args []string) {
 
 		// Enable setting config values by environment variables
 		config.Config.SetEnvPrefix("DEVICEAUTH")
-		config.Config.SetEnvKeyReplacer(strings.NewReplacer(".", "_", "-", "_"))
 		config.Config.AutomaticEnv()
 
 		return nil
@@ -268,7 +267,7 @@ func cmdServer(args *cli.Context) error {
 			3)
 	}
 
-	l.Printf("Device Authentication Service %s starting up", args.App.Version)
+	l.Print("Device Authentication Service starting up")
 
 	err = RunServer(config.Config)
 	if err != nil {
