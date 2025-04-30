@@ -15,6 +15,9 @@
 package rest
 
 import (
+	"errors"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 
 	"github.com/mendersoftware/mender-server/pkg/requestid"
@@ -28,4 +31,29 @@ func RenderError(c *gin.Context, code int, err error) {
 		RequestID: requestid.FromContext(ctx),
 	}
 	c.JSON(code, err)
+}
+
+func RenderErrorWithMessage(c *gin.Context, code int, err error, apiMessage string) {
+	ctx := c.Request.Context()
+	_ = c.Error(err)
+	err = &Error{
+		Err:       apiMessage,
+		RequestID: requestid.FromContext(ctx),
+	}
+	c.JSON(code, err)
+}
+
+func RenderInternalError(c *gin.Context, err error) {
+	msg := "internal error"
+	if err != nil {
+		RenderErrorWithMessage(c,
+			http.StatusInternalServerError,
+			err, msg,
+		)
+		return
+	}
+	RenderError(c,
+		http.StatusInternalServerError,
+		errors.New(msg),
+	)
 }

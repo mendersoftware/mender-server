@@ -57,8 +57,7 @@ func RunServer(c config.Reader) error {
 		return err
 	}
 
-	invapi := api_http.NewInventoryApiHandlers(inv)
-	handler, err := invapi.Build()
+	handler := api_http.NewRouter(inv)
 	if err != nil {
 		return errors.Wrap(err, "inventory API handlers setup failed")
 	}

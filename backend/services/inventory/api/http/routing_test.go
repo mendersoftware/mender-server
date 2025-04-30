@@ -15,13 +15,12 @@ package http
 
 import (
 	"net/http"
+	"net/http/httptest"
 	"reflect"
 	"runtime"
 	"testing"
 
-	"github.com/ant0ine/go-json-rest/rest"
-	rtest "github.com/ant0ine/go-json-rest/rest/test"
-
+	"github.com/gin-gonic/gin"
 	"github.com/mendersoftware/mender-server/services/inventory/utils"
 )
 
@@ -69,39 +68,38 @@ func funcName(f interface{}) string {
 func TestAutogenOptionRoutes(t *testing.T) {
 	// make sure that dummy and options are different to prevent
 	// the compiler making this a single symbol
-	dummy := func(w rest.ResponseWriter, r *rest.Request) {
+	dummy := func(c *gin.Context) {
 		// dummy
-		w.WriteJson(struct {
+		c.JSON(http.StatusOK, struct {
 			x int
 		}{
 			2,
 		})
 	}
-	options := func(w rest.ResponseWriter, r *rest.Request) {
+	options := func(c *gin.Context) {
 		// dummy
-		w.WriteJson(struct {
+		c.JSON(http.StatusOK, struct {
 			x int
 		}{
 			1,
 		})
 	}
-	gen := func(methods []string) rest.HandlerFunc {
+	gen := func(methods []string) gin.HandlerFunc {
 		return options
 	}
+	router := gin.Default()
 
-	routes := []*rest.Route{
-		// expecting rest.Options(..) to be added for /foo
-		rest.Get("/foo", dummy),
-		rest.Post("/foo", dummy),
+	// expecting rest.Options(..) to be added for /foo
+	router.GET("/foo", dummy)
+	router.POST("/foo", dummy)
 
-		// no extra OPTIONS handler for /bar
-		rest.Get("/bar", dummy),
-		rest.Options("/bar", dummy),
-	}
+	// no extra OPTIONS handler for /bar
+	router.GET("/bar", dummy)
+	router.OPTIONS("/bar", dummy)
 
-	augmented := AutogenOptionsRoutes(routes, gen)
+	AutogenOptionsRoutes(router, gen)
 
-	type expHandler map[string]rest.HandlerFunc
+	type expHandler map[string]gin.HandlerFunc
 	exp := map[string]expHandler{
 		"/foo": {
 			http.MethodGet:     dummy,
@@ -115,23 +113,25 @@ func TestAutogenOptionRoutes(t *testing.T) {
 	}
 
 	// we're expecting 5 handlers in total
+	routes := router.Routes()
+
 	expCount := 5
-	if len(augmented) != expCount {
-		t.Errorf("got %d handlers instead of %d", len(augmented), expCount)
+	if len(routes) != expCount {
+		t.Errorf("got %d handlers instead of %d", len(routes), expCount)
 	}
 
-	for _, r := range augmented {
-		v, ok := exp[r.PathExp]
+	for _, r := range routes {
+		v, ok := exp[r.Path]
 		if ok != true {
 			t.Errorf("failed with route %+v, route not present", r)
 		}
 
-		h, ok := v[r.HttpMethod]
+		h, ok := v[r.Method]
 		if ok != true {
 			t.Errorf("failed with route %+v, method not present", r)
 		}
 
-		if funcName(r.Func) != funcName(h) {
+		if funcName(r.HandlerFunc) != funcName(h) {
 			t.Errorf("failed with route %+v, different handler", r)
 		}
 	}
@@ -144,19 +144,19 @@ func TestAutogenOptionHeaders(t *testing.T) {
 		http.MethodPut,
 	}
 
-	api := rest.NewApi()
-	api.Use(rest.DefaultDevStack...)
-	router, _ := rest.MakeRouter(
-		rest.Options("/test", AllowHeaderOptionsGenerator(suppmeth)),
+	router := gin.Default()
+
+	router.OPTIONS("/test", AllowHeaderOptionsGenerator(suppmeth))
+
+	req, _ := http.NewRequest(http.MethodOptions,
+		"http://localhost/test",
+		nil,
 	)
+	w := httptest.NewRecorder()
 
-	api.SetApp(router)
+	router.ServeHTTP(w, req)
 
-	rec := rtest.RunRequest(t, api.MakeHandler(),
-		rtest.MakeSimpleRequest(http.MethodOptions,
-			"http://1.2.3.4/test", nil))
-
-	allowmeth := rec.Recorder.HeaderMap[http.CanonicalHeaderKey("Allow")]
+	allowmeth := w.Header()[http.CanonicalHeaderKey("Allow")]
 
 	// expecting only 2 allowed methods (should OPTIONS be
 	// included in Allow too?)
