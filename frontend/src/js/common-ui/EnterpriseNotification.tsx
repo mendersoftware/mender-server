@@ -25,17 +25,17 @@ import MenderTooltip, { MenderTooltipClickable } from './MenderTooltip';
 
 const PlansTooltip = withStyles(MenderTooltip, ({ palette }) => ({
   arrow: {
-    color: palette.tooltip.tierTipBackground
+    color: palette.tooltip?.tierTipBackground ?? palette.grey[100]
   },
   tooltip: {
-    backgroundColor: palette.tooltip.tierTipBackground,
+    backgroundColor: palette.tooltip?.tierTipBackground ?? palette.grey[100],
     maxWidth: 300
   }
 }));
 
 const PlanChip = withStyles(Chip, ({ palette }) => ({
   root: {
-    backgroundColor: palette.tooltip.tierTipBackground,
+    backgroundColor: palette.tooltip?.tierTipBackground ?? palette.grey[100],
     color: palette.text.disabled,
     textTransform: 'uppercase',
     '&:hover': {

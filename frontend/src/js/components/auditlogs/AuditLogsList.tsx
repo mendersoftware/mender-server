@@ -30,7 +30,7 @@ const useStyles = makeStyles()(theme => ({
       gridTemplateColumns: '2fr 1fr 1fr 2fr 2fr 1.75fr 120px',
       gridColumnGap: theme.spacing(4),
       padding: `5px ${theme.spacing(2)}`,
-      borderBottom: `1px solid ${theme.palette.border.main}`,
+      borderBottom: `1px solid ${theme.palette.border?.main ?? theme.palette.divider}`,
       height: theme.spacing(6),
       minHeight: theme.spacing(6),
       maxHeight: theme.spacing(6),
