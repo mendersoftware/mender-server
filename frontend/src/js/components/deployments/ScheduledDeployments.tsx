@@ -139,7 +139,7 @@ export const Scheduled = ({ abort, createClick, openReport, ...remainder }) => {
         endDate = new Date(deployment.phases[deployment.phases.length - 1].end_ts);
       } else if (deployment.filter_id || deployment.filter) {
         // calendar doesn't support never ending events so we arbitrarly set one year
-        endDate = dayjs(start).add(1, 'year');
+        endDate = dayjs(start).add(1, 'year').toDate();
       }
       return {
         allDay: !(deployment.filter_id || deployment.filter),
