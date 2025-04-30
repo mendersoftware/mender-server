@@ -31,12 +31,13 @@ import StartupNotificationDialog from '@northern.tech/common-ui/dialogs/StartupN
 import storeActions from '@northern.tech/store/actions';
 import { SentryConfig } from '@northern.tech/store/appSlice';
 import { getSessionInfo, maxSessionAge, updateMaxAge } from '@northern.tech/store/auth';
-import { TIMEOUTS } from '@northern.tech/store/constants';
+import { DARK_MODE, LIGHT_MODE, TIMEOUTS } from '@northern.tech/store/constants';
 import {
   getCommit,
   getCurrentSession,
   getCurrentUser,
   getIsDarkMode,
+  getIsPreview,
   getIsServiceProvider,
   getOrganization,
   getSentryConfig,
@@ -54,6 +55,7 @@ import '../../less/main.less';
 import ErrorBoundary from '../ErrorBoundary';
 import { PrivateRoutes, PrivateSPRoutes, PublicRoutes } from '../config/routes';
 import { dark as darkTheme, light as lightTheme } from '../themes/Mender';
+import { dark as nextDarkTheme, light as nextLightTheme } from '../themes/MenderNext';
 import Tracking from '../tracking';
 import Footer from './Footer';
 import LeftNav from './LeftNav';
@@ -123,6 +125,17 @@ const initSentry = async ({ commit, location, replaysSessionSampleRate, tracesSa
   });
 };
 
+const THEMES = {
+  default: {
+    [LIGHT_MODE]: lightTheme,
+    [DARK_MODE]: darkTheme
+  },
+  next: {
+    [LIGHT_MODE]: nextLightTheme,
+    [DARK_MODE]: nextDarkTheme
+  }
+};
+
 export const AppRoot = () => {
   const [showSearchResult, setShowSearchResult] = useState(false);
   const navigate = useNavigate();
@@ -142,6 +155,7 @@ export const AppRoot = () => {
   const { token: storedToken } = getSessionInfo();
   const { expiresAt, token = storedToken } = useSelector(getCurrentSession);
   const { id: tenantId } = useSelector(getOrganization);
+  const isPreview = useSelector(getIsPreview);
 
   const trackLocationChange = useCallback(
     pathname => {
@@ -227,7 +241,7 @@ export const AppRoot = () => {
 
   const onToggleSearchResult = () => setShowSearchResult(toggle);
 
-  const theme = createTheme(isDarkMode ? darkTheme : lightTheme);
+  const theme = createTheme(THEMES[isPreview ? 'next' : 'default'][isDarkMode ? DARK_MODE : LIGHT_MODE] || THEMES.default.light);
 
   const { classes } = useStyles();
   const globalCssVars = cssVariables({ theme })['@global'];
