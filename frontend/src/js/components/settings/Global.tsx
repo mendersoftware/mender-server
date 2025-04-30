@@ -51,6 +51,8 @@ import ReportingLimits from './ReportingLimits';
 const maxWidth = 750;
 
 const useStyles = makeStyles()(theme => ({
+  confirmDeploy: { flexDirection: 'row' },
+  formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(4) },
   threshold: {
     columnGap: theme.spacing(2),
     display: 'grid',
@@ -191,54 +193,56 @@ export const GlobalSettingsDialog = ({
         <h2 className="margin-top-small margin-right-small">Global settings</h2>
         <MenderHelpTooltip id={HELPTOOLTIPS.globalSettings.id} placement="top" />
       </div>
-      <IdAttributeSelection attributes={attributes} onCloseClick={onCloseClick} onSaveClick={onSaveClick} selectedAttribute={selectedAttribute} />
-      {hasReporting && <ReportingLimits />}
-      {canManageUsers && (
-        <FormControl className="margin-top" variant="standard">
-          <InputLabel shrink>Deployments</InputLabel>
-          <FormControlLabel
-            className="margin-left-none"
-            control={<Switch checked={needsDeploymentConfirmation} onClick={toggleDeploymentConfirmation} />}
-            label="Require confirmation on deployment creation"
-            labelPlacement="start"
-          />
-        </FormControl>
-      )}
-      {canManageReleases && canDelta && <ArtifactGenerationSettings />}
-      {isAdmin &&
-        hasMonitor &&
-        Object.keys(alertChannels).map(channel => (
-          <FormControl className="margin-top" key={channel} variant="standard">
-            <InputLabel className="capitalized-start" shrink id={`${channel}-notifications`}>
-              {channel} notifications
-            </InputLabel>
+      <div className={classes.formWrapper}>
+        <IdAttributeSelection attributes={attributes} onCloseClick={onCloseClick} onSaveClick={onSaveClick} selectedAttribute={selectedAttribute} />
+        {hasReporting && <ReportingLimits />}
+        {canManageUsers && (
+          <FormControl className={classes.confirmDeploy} variant="standard">
+            <InputLabel shrink>Deployments</InputLabel>
             <FormControlLabel
-              control={<Checkbox checked={!channelSettings[channel].enabled} onChange={e => onNotificationSettingsClick(e, channel)} />}
-              label={`Mute ${channel} notifications`}
+              className="margin-left-none"
+              control={<Switch checked={needsDeploymentConfirmation} onClick={toggleDeploymentConfirmation} />}
+              label="Require confirmation on deployment creation"
+              labelPlacement="start"
             />
-            <FormHelperText>Mute {channel} notifications for deployment and monitoring issues for all users</FormHelperText>
           </FormControl>
-        ))}
+        )}
+        {canManageReleases && canDelta && <ArtifactGenerationSettings />}
+        {isAdmin &&
+          hasMonitor &&
+          Object.keys(alertChannels).map(channel => (
+            <FormControl key={channel} variant="standard">
+              <InputLabel className="capitalized-start" shrink id={`${channel}-notifications`}>
+                {channel} notifications
+              </InputLabel>
+              <FormControlLabel
+                control={<Checkbox checked={!channelSettings[channel].enabled} onChange={e => onNotificationSettingsClick(e, channel)} />}
+                label={`Mute ${channel} notifications`}
+              />
+              <FormHelperText>Mute {channel} notifications for deployment and monitoring issues for all users</FormHelperText>
+            </FormControl>
+          ))}
 
-      <FormControl className="margin-top" variant="standard">
-        <InputLabel shrink>Offline threshold</InputLabel>
-        <FormControlLabel
-          className={classes.threshold}
-          control={
-            <TextField
-              type="number"
-              onChange={onChangeOfflineInterval}
-              slotProps={{ htmlInput: { min: '1', max: '1000' } }}
-              error={!!intervalErrorText}
-              value={currentInterval}
-              variant="outlined"
-            />
-          }
-          label={<div className="capitalized-start">{DEVICE_ONLINE_CUTOFF.intervalName}</div>}
-        />
-        {!!intervalErrorText && <FormHelperText className="warning">{intervalErrorText}</FormHelperText>}
-        <FormHelperText>Choose how long a device can go without reporting to the server before it is considered “offline”.</FormHelperText>
-      </FormControl>
+        <FormControl variant="standard">
+          <InputLabel shrink>Offline threshold</InputLabel>
+          <FormControlLabel
+            className={classes.threshold}
+            control={
+              <TextField
+                type="number"
+                onChange={onChangeOfflineInterval}
+                slotProps={{ htmlInput: { min: '1', max: '1000' } }}
+                error={!!intervalErrorText}
+                value={currentInterval}
+                variant="outlined"
+              />
+            }
+            label={<div className="capitalized-start">{DEVICE_ONLINE_CUTOFF.intervalName}</div>}
+          />
+          {!!intervalErrorText && <FormHelperText className="warning">{intervalErrorText}</FormHelperText>}
+          <FormHelperText>Choose how long a device can go without reporting to the server before it is considered “offline”.</FormHelperText>
+        </FormControl>
+      </div>
     </div>
   );
 };
