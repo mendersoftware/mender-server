@@ -26,7 +26,6 @@ import (
 	mopts "go.mongodb.org/mongo-driver/mongo/options"
 	"golang.org/x/crypto/bcrypt"
 
-	"github.com/mendersoftware/mender-server/pkg/mongo/codec"
 	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
 	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
 
@@ -112,9 +111,8 @@ func NewDataStoreMongoWithClient(client *mongo.Client) (*DataStoreMongo, error) 
 func NewDataStoreMongo(config DataStoreMongoConfig) (*DataStoreMongo, error) {
 	var err error
 	var mongoURL string
-
 	clientOptions := mopts.Client().
-		SetRegistry(codec.NewRegistry())
+		SetRegistry(newRegistry())
 	if !strings.Contains(config.ConnectionString, "://") {
 		mongoURL = "mongodb://" + config.ConnectionString
 	} else {
