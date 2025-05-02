@@ -1,5 +1,5 @@
 bravado==9.2.2
-boto3==1.37.24
+boto3==1.38.6
 certifi >= 14.05.14
 chardet >= 4.0.0
 crypto
@@ -12,7 +12,7 @@ jsonschema<5.0
 msgpack >= 1.0
 opensearch-py >= 2.0.0, < 3.0.0
 pluggy==1.5.0
-pymongo==4.11.3
+pymongo==4.12.1
 pytest-ordering==0.6
 pytest==8.3.5
 pyyaml
