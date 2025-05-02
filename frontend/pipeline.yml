@@ -74,7 +74,6 @@ test:frontend:unit:
       when: on_success
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
-  needs: []
   timeout: 5 minutes
   script:
     - cd frontend
