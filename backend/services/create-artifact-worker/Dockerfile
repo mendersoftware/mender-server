@@ -3,13 +3,24 @@ ARG TARGETARCH
 ARG TARGETOS
 ARG BUILDFLAGS="-trimpath"
 ARG LDFLAGS="-s -w"
-ARG MENDER_ARTIFACT_VERSION=4.0.0
+ARG MENDER_ARTIFACT_VERSION=4.1.0
 WORKDIR /build
-# Fetch and install mender-artifact
-RUN wget "https://downloads.mender.io/repos/debian/pool/main/m/mender-artifact/mender-artifact_${MENDER_ARTIFACT_VERSION}-1%2bubuntu%2bnoble_${TARGETARCH}.deb" \
-  -O mender-artifact.deb && \
-  dpkg -x mender-artifact.deb / && \
-  mkdir /var/cache/create-artifact-worker
+
+# Fetch and build mender-artifact
+RUN \
+  git clone \
+    --depth 1 \
+    --branch $MENDER_ARTIFACT_VERSION \
+    https://github.com/mendersoftware/mender-artifact.git \
+    /tmp/mender-artifact && \
+  cd /tmp/mender-artifact && \
+  env \
+    CGO_ENABLED=0 \
+    GOARCH=${TARGETARCH} \
+    go build \
+    -tags nopkcs11 \
+    -ldflags "-X github.com/mendersoftware/mender-artifact/cli.Version=${MENDER_ARTIFACT_VERSION}" \
+    -o /build/mender-artifact
 
 RUN \
   --mount=type=bind,source=.,target=/build/src \
@@ -29,7 +40,8 @@ RUN \
   CGO_ENABLED=0 \
   bindir=/build \
   LDFLAGS="${LDFLAGS}" \
-  BUILDFLAGS="${BUILDFLAGS}"
+  BUILDFLAGS="${BUILDFLAGS}" && \
+  mkdir /var/cache/create-artifact-worker
 
 FROM alpine:3.21.3
 ARG TARGETARCH
@@ -48,7 +60,7 @@ COPY --from=builder --chown=$USER \
 ADD --chmod=0755 https://raw.githubusercontent.com/mendersoftware/mender/master/support/modules-artifact-gen/single-file-artifact-gen \
   /usr/bin/single-file-artifact-gen
 COPY --from=builder --chown=$USER \
-  /usr/bin/mender-artifact \
+  /build/mender-artifact \
   /usr/bin/mender-artifact
 
 COPY --chown=$USER  backend/services/create-artifact-worker/config.yaml /etc/workflows/config.yaml
