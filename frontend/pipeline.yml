@@ -67,9 +67,6 @@ test:frontend:licenses:
 test:frontend:unit:
   stage: test
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/${NODE_IMAGE}
-  # heavy_duty: global resource group for all jobs that require most of the
-  # resources of the runner - QA-983
-  resource_group: heavy_duty
   rules:
     - changes:
         paths: ['frontend/**/*']
@@ -77,7 +74,6 @@ test:frontend:unit:
       when: on_success
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
-  needs: []
   timeout: 5 minutes
   script:
     - cd frontend

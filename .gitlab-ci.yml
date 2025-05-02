@@ -240,9 +240,6 @@ test:backend:unit:
       when: on_success
   tags:
     - hetzner-amd-beefy
-  # heavy_duty: global resource group for all jobs that require most of the
-  # resources of the runner - QA-983
-  resource_group: heavy_duty
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/mongo:6.0
       alias: mongo
@@ -264,9 +261,6 @@ test:backend:unit:
 test:backend:acceptance:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
   stage: test
-  # heavy_duty: global resource group for all jobs that require most of the
-  # resources of the runner - QA-983
-  resource_group: heavy_duty
   rules:
     - changes:
         paths: ["backend/**/*", ".gitlab-ci.yml"]
@@ -303,9 +297,6 @@ test:backend:acceptance:
 test:backend:integration:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
   stage: test
-  # heavy_duty: global resource group for all jobs that require most of the
-  # resources of the runner - QA-983
-  resource_group: heavy_duty
   extends: .build:base
   rules:
     - changes:
