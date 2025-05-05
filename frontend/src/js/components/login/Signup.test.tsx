@@ -45,7 +45,7 @@ describe('Signup Component', () => {
         </Routes>
       </>
     );
-    const { container, rerender } = render(ui);
+    const { container } = render(ui);
     expect(screen.getByText('Sign up with:')).toBeInTheDocument();
     await user.type(screen.getByLabelText(/Email/i), 'test@example.com');
     const passwordInput = screen.getByLabelText('Password *');
@@ -58,21 +58,18 @@ describe('Signup Component', () => {
       vi.runAllTicks();
       vi.runAllTimers();
     });
-    await waitFor(() => rerender(ui));
     await waitFor(() => expect(screen.getByRole('button', { name: /sign up/i })).toBeEnabled());
     await user.click(screen.getByRole('button', { name: /sign up/i }));
     await act(async () => vi.runAllTicks());
-    await waitFor(() => screen.queryByPlaceholderText('Company or organization name *'));
+    await waitFor(() => screen.getByLabelText(/company or organization name \*/i));
     await user.type(screen.getByLabelText(/company or organization name \*/i), 'test');
     expect(screen.getByRole('button', { name: /complete signup/i })).toBeDisabled();
     await user.click(screen.getByRole('checkbox', { name: /by checking this you agree to our/i }));
-    await waitFor(() => rerender(ui));
     await waitFor(() => expect(screen.getByRole('button', { name: /complete signup/i })).toBeEnabled());
     const cookiesSet = vi.spyOn(cookies, 'set');
     await user.click(screen.getByRole('button', { name: /complete signup/i }));
     await waitFor(() => expect(container.querySelector('.loaderContainer')).toBeVisible());
     await act(async () => vi.advanceTimersByTime(TIMEOUTS.refreshDefault));
-    await waitFor(() => rerender(ui));
     await waitFor(() =>
       expect(cookiesSet).toHaveBeenCalledWith('firstLoginAfterSignup', true, { domain: '.mender.io', maxAge: 60, path: '/', sameSite: false })
     );
