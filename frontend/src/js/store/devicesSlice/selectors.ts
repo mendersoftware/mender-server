@@ -82,6 +82,11 @@ export const getLimitMaxed = createSelector([getAcceptedDevices, getDeviceLimit]
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getGroupsByIdWithoutUngrouped = createSelector([getGroupsById], ({ [UNGROUPED_GROUP.id]: ungrouped, ...groups }) => groups);
 
+export const getGroupData = createSelector([getGroupsByIdWithoutUngrouped], groups => {
+  const createdGroup = Object.keys(groups).length ? Object.keys(groups)[0] : undefined;
+  const hasDynamicGroups = Object.values(groups).some(group => !!group.id);
+  return { createdGroup, hasDynamicGroups, groups };
+});
 export const getGroups = createSelector([getGroupsById], groupsById => {
   const groupNames = Object.keys(groupsById).sort();
   const groupedGroups = Object.entries(groupsById)
