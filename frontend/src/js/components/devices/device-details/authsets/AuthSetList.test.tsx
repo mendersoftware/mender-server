@@ -32,9 +32,9 @@ MIIBoj
       status: 'accepted'
     };
     const authSets = Object.keys(DEVICE_STATES).reduce((accu, status, index) => {
-      accu.push({ ...authset, id: `${status}-${index}`, status, ts: `2020-09-21T12:${42 + index - 5}:34.571Z` });
-      accu.push({ ...authset, id: `${status}-${index}`, status, ts: `2020-09-21T12:${42 + index}:34.571Z` });
-      accu.push({ ...authset, id: `${status}-${index}`, status, ts: `2020-09-21T12:${42 + index + 5}:34.571Z` });
+      accu.push({ ...authset, id: `${status}-${index}-1`, status, ts: `2020-09-21T12:${42 + index - 5}:34.571Z` });
+      accu.push({ ...authset, id: `${status}-${index}-2`, status, ts: `2020-09-21T12:${42 + index}:34.571Z` });
+      accu.push({ ...authset, id: `${status}-${index}-3`, status, ts: `2020-09-21T12:${42 + index + 5}:34.571Z` });
       return accu;
     }, []);
     const device = {

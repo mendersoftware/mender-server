@@ -28,6 +28,7 @@ describe('AuthStatus Component', () => {
             ...defaultState.devices.byId.a1.auth_sets,
             {
               ...defaultState.devices.byId.a1.auth_sets[0],
+              id: `auth2`,
               status: 'pending'
             }
           ]
