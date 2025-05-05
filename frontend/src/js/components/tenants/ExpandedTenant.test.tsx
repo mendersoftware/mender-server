@@ -12,6 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { Tenant } from '@northern.tech/store/api/types/Tenant';
+import { getSessionInfo } from '@northern.tech/store/auth';
 import { initialState as initialOrganizationState } from '@northern.tech/store/organizationSlice';
 import * as OrganizationActions from '@northern.tech/store/thunks';
 import { act, screen } from '@testing-library/react';
@@ -76,7 +77,9 @@ describe('ExpandedTenant', () => {
     const editDeviceLimit = vi.spyOn(OrganizationActions, 'editTenantDeviceLimit');
 
     const newLimit = '5';
-    render(<ExpandedTenant onCloseClick={vi.fn} tenant={tenant} />, { preloadedState: state });
+    render(<ExpandedTenant onCloseClick={vi.fn} tenant={tenant} />, {
+      preloadedState: { ...state, users: { ...defaultState.users, currentSession: getSessionInfo() } }
+    });
     expect(screen.queryByText(`Tenant Information for ${tenant.name}`));
     await user.click(screen.getByRole('button', { name: /edit device limit/i }));
     const limitInput = screen.getByLabelText(/set device limit/i);
