@@ -112,6 +112,7 @@ default:
   - if [ "${DOCKER_RUNNING}" != "true" ]; then
   -  exit 192
   - fi
+  - curl -k -v -XGET "${DOCKER_HOST}"/_ping || exit 192
 
 .dind-login: &dind-login
   - mkdir -p $HOME/.docker && echo $DOCKER_AUTH_CONFIG > $HOME/.docker/config.json
