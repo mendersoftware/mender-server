@@ -27,12 +27,13 @@ import TextInput from './TextInput';
 describe('Form Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(
-      <Form showButtons>
+      <Form showButtons submitLabel="submit">
         <FormCheckbox id="testbox" label="testbox" />
         <PasswordInput id="password" create />
         <TextInput id="textbox" />
       </Form>
     );
+    expect(await screen.findByText('submit')).toBeInTheDocument();
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
