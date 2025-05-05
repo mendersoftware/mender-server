@@ -111,7 +111,6 @@ const DeviceIssuesSelection = ({ className = '', onChange, options, selection })
       <div>Show:</div>
       <Select
         className={className}
-        disableUnderline
         displayEmpty
         MenuProps={menuProps}
         multiple
