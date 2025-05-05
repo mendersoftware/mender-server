@@ -18,7 +18,7 @@ import { TIMEOUTS } from '@northern.tech/store/commonConstants';
 import { actions } from '@northern.tech/store/organizationSlice/index';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import { screen, waitFor } from '@testing-library/react';
+import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
@@ -102,12 +102,12 @@ describe('Upgrade Component', () => {
     await user.type(await screen.getByRole('textbox', { name: /address line 1/i }), 'Blindernveien');
     await user.type(await screen.getByRole('textbox', { name: /state/i }), 'Oslo');
     await user.type(await screen.getByRole('textbox', { name: /city/i }), 'Oslo');
-    await user.type(await screen.getByRole('textbox', { name: /zip or postal code/i }), '1234');
+    await act(async () => await user.type(await screen.getByRole('textbox', { name: /zip or postal code/i }), '1234'));
     const countryAutoComplete = await screen.getByRole('combobox', { name: /country/i });
     const input = await screen.getByLabelText('Country');
     await user.type(countryAutoComplete, 'Norw');
     await user.keyboard('[ArrowUp]');
-    await user.keyboard('[Enter]');
+    await act(async () => await user.keyboard('[Enter]'));
     expect(input.value).toEqual('Norway');
   });
   it('upgrade works as intended', async () => {

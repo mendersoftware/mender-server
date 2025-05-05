@@ -14,7 +14,7 @@
 import React from 'react';
 
 import { EXTERNAL_PROVIDER, TIMEOUTS } from '@northern.tech/store/constants';
-import { screen, waitFor } from '@testing-library/react';
+import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
@@ -104,7 +104,7 @@ describe('Webhooks Component', () => {
     expect(screen.getByText(/has to be entered as a hexadecimal/i)).toBeVisible();
     await user.clear(screen.getByLabelText(/secret/i));
     await waitFor(() => expect(screen.getByRole('button', { name: /save/i })).toBeEnabled());
-    await user.click(screen.getByRole('button', { name: /save/i }));
+    await act(async () => await user.click(screen.getByRole('button', { name: /save/i })));
     expect(onSubmit).toHaveBeenCalledWith({
       credentials: { http: { secret: '', url: 'https://foo.bar' }, type: 'http' },
       description: 'https://foo.bar',

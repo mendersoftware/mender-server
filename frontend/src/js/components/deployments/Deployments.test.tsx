@@ -128,11 +128,14 @@ describe('Deployments Component', () => {
     );
     const { rerender } = render(ui, { preloadedState });
     await user.click(screen.getByRole('tab', { name: /Finished/i }));
+    await act(async () => vi.runOnlyPendingTimers());
     await user.click(screen.getByRole('tab', { name: /Scheduled/i }));
+    await act(async () => vi.runOnlyPendingTimers());
     await user.click(screen.getByRole('tab', { name: /Active/i }));
     await user.click(screen.getByRole('button', { name: /Create a deployment/i }));
     await waitFor(() => rerender(ui));
     await waitFor(() => expect(screen.getByText(/Cancel/i)).toBeInTheDocument());
+    await act(async () => vi.runOnlyPendingTimers());
     await user.click(screen.getByRole('button', { name: /Cancel/i }));
     await waitFor(() => rerender(ui));
     const inprogressDeployments = screen.getByText(/in progress now/i).parentElement.parentElement;
@@ -171,6 +174,7 @@ describe('Deployments Component', () => {
     );
     const { rerender } = render(ui, { preloadedState });
     await user.click(screen.getByRole('tab', { name: /Finished/i }));
+    await act(async () => vi.runOnlyPendingTimers());
     await user.click(screen.getByRole('button', { name: /Create a deployment/i }));
     const releaseId = 'release-998';
     await waitFor(() => rerender(ui));
