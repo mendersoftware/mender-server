@@ -19,7 +19,7 @@ import { AvailablePlans, PLANS, Plan } from '@northern.tech/store/constants';
 import { Addon } from '@northern.tech/store/organizationSlice/types';
 import { getFeatures, getOrganization } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
-import { getUserOrganization, requestPlanChange } from '@northern.tech/store/thunks';
+import { requestPlanChange } from '@northern.tech/store/thunks';
 
 import AddOnSelection from './AddonSelection';
 import { EnterpriseRequestExpanded } from './EnterpriseRequestExpanded';
@@ -85,10 +85,6 @@ export const Upgrade = () => {
   const features = useSelector(getFeatures);
   const org = useSelector(getOrganization);
   const { addons: orgAddOns = [], plan: currentPlan = PLANS.os.id as AvailablePlans, trial: isTrial = true } = org;
-
-  useEffect(() => {
-    dispatch(getUserOrganization());
-  }, [dispatch]);
 
   useEffect(() => {
     const currentAddOns = orgAddOns.reduce((accu: Addon[], addon) => {
