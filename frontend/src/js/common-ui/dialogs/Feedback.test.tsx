@@ -25,7 +25,7 @@ describe('Feedback Component', () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const ui = <Feedback />;
     const { rerender } = render(ui);
-    await vi.runOnlyPendingTimersAsync();
+    await act(() => vi.runOnlyPendingTimersAsync());
     await user.click(screen.getByTitle('Satisfied'));
     await waitFor(() => rerender(ui));
     expect(screen.getByText(/the most important thing/i)).toBeVisible();

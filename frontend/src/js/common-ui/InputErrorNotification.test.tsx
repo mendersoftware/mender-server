@@ -14,7 +14,7 @@
 import React from 'react';
 
 import { TIMEOUTS } from '@northern.tech/store/commonConstants';
-import { screen, waitFor } from '@testing-library/react';
+import { act, screen, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
 
 import { render } from '../../../tests/setupTests';
@@ -25,7 +25,7 @@ describe('InfoHint Component', () => {
     const ui = <InputErrorNotification content="test" className="some-class" />;
     const { rerender } = render(ui);
     expect(screen.getByText('test')).toBeVisible();
-    await vi.advanceTimersByTimeAsync(TIMEOUTS.fiveSeconds);
+    await act(() => vi.advanceTimersByTimeAsync(TIMEOUTS.fiveSeconds));
     await waitFor(() => rerender(ui));
     expect(screen.getByText('test')).toHaveClass('fadeOut');
   });

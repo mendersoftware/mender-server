@@ -128,7 +128,7 @@ describe('AuthorizedDevices Component', () => {
     const attributeSelect = await screen.findByLabelText(/add a column/i);
     await user.type(attributeSelect, testKey);
     await user.keyboard('{Enter}');
-    act(() => vi.advanceTimersByTime(5000));
+    await act(() => vi.advanceTimersByTime(5000));
     await waitFor(() => expect(screen.getByLabelText(/add a column/i)).toBeVisible());
     const button = screen.getByRole('button', { name: /Save/i });
     expect(button).not.toBeDisabled();

@@ -174,7 +174,7 @@ describe('Deployments Component', () => {
     await user.click(screen.getByRole('button', { name: /Create a deployment/i }));
     const releaseId = 'release-998';
     await waitFor(() => rerender(ui));
-    act(() => vi.advanceTimersByTime(1000));
+    await act(() => vi.advanceTimersByTime(1000));
     await waitFor(() => expect(screen.queryByPlaceholderText(/Select a Release/i)).toBeInTheDocument(), { timeout: 3000 });
     const releaseSelect = screen.getByPlaceholderText(/Select a Release/i);
     expect(within(releaseSelect).queryByDisplayValue(releaseId)).not.toBeInTheDocument();
