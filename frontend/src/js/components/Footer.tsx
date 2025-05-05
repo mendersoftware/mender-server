@@ -17,7 +17,7 @@ import { makeStyles } from 'tss-react/mui';
 
 const useStyles = makeStyles()(theme => ({
   footer: {
-    background: theme.palette.brand.northernTech,
+    background: theme.palette.brand?.northernTech || theme.palette.primary.main,
     display: 'grid',
     minHeight: theme.mixins.toolbar.minHeight,
     gridTemplateColumns: '1fr max-content max-content',

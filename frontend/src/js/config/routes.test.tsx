@@ -15,15 +15,22 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 
+import { ThemeProvider } from '@emotion/react';
+import { createTheme } from '@mui/material';
+
 import { getConfiguredStore } from '@northern.tech/store/store';
 import { act, screen, render as testingLibRender } from '@testing-library/react';
 import { vi } from 'vitest';
 
 import { defaultState } from '../../../tests/mockData';
+import { light as lightTheme } from '../themes/Mender';
 import { PublicRoutes } from './routes';
+
+const theme = createTheme(lightTheme);
 
 describe('Router', () => {
   let store;
+
   beforeEach(() => {
     store = getConfiguredStore({
       preloadedState: {
@@ -41,11 +48,13 @@ describe('Router', () => {
 
   test('invalid path should redirect to Dashboard', async () => {
     testingLibRender(
-      <MemoryRouter initialEntries={['/random']}>
-        <Provider store={store}>
-          <PublicRoutes />
-        </Provider>
-      </MemoryRouter>
+      <ThemeProvider theme={theme}>
+        <MemoryRouter initialEntries={['/random']}>
+          <Provider store={store}>
+            <PublicRoutes />
+          </Provider>
+        </MemoryRouter>
+      </ThemeProvider>
     );
     expect(screen.getAllByText('Next')).toBeTruthy();
     expect(screen.queryByText('Settings')).toBeFalsy();
@@ -54,11 +63,13 @@ describe('Router', () => {
 
   test('valid path should not redirect to 404', async () => {
     testingLibRender(
-      <MemoryRouter initialEntries={['/']}>
-        <Provider store={store}>
-          <PublicRoutes />
-        </Provider>
-      </MemoryRouter>
+      <ThemeProvider theme={theme}>
+        <MemoryRouter initialEntries={['/']}>
+          <Provider store={store}>
+            <PublicRoutes />
+          </Provider>
+        </MemoryRouter>
+      </ThemeProvider>
     );
     expect(screen.getAllByText('Next')).toBeTruthy();
     expect(screen.queryByText('Settings')).toBeFalsy();

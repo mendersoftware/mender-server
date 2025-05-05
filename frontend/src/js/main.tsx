@@ -14,7 +14,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
-import '../less/main.less';
 import { AppProviders } from './components/App';
 
 const welcomeMessage = `Welcome to the Mender project!
