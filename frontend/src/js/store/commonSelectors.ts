@@ -215,12 +215,9 @@ export const getAvailableIssueOptionsByType = createSelector(
     }, {})
 );
 
-export const getGroupNames = createSelector([getGroupsById, getUserRoles, (_, options = {}) => options], (groupsById, { uiPermissions }, { staticOnly }) => {
+export const getGroupNames = createSelector([getGroupsById, getUserRoles], (groupsById, { uiPermissions }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { [UNGROUPED_GROUP.id]: ungrouped, ...groups } = groupsById;
-  if (staticOnly) {
-    return Object.keys(uiPermissions.groups).sort();
-  }
   return Object.keys(
     Object.entries(groups).reduce((accu, [groupName, group]) => {
       if (group.filterId || uiPermissions.groups[ALL_DEVICES]) {
