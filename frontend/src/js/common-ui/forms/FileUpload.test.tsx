@@ -14,7 +14,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import { act, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
@@ -58,7 +58,7 @@ describe('FileUpload Component', () => {
     expect(screen.getByText(/test placeholder/i)).toBeInTheDocument();
     // container.querySelector doesn't work in this scenario for some reason -> but querying document seems to work
     const uploadInput = document.querySelector('.dropzone input');
-    await act(async () => await user.upload(uploadInput, menderFile));
+    await user.upload(uploadInput, menderFile);
     await waitFor(() => rerender(ui));
 
     expect(uploadInput.files).toHaveLength(1);

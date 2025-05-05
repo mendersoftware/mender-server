@@ -178,11 +178,11 @@ describe('Deployments Component', () => {
     await waitFor(() => expect(screen.queryByPlaceholderText(/Select a Release/i)).toBeInTheDocument(), { timeout: 3000 });
     const releaseSelect = screen.getByPlaceholderText(/Select a Release/i);
     expect(within(releaseSelect).queryByDisplayValue(releaseId)).not.toBeInTheDocument();
-    await act(async () => await user.click(releaseSelect));
+    await user.click(releaseSelect);
     await user.keyboard(specialKeys.ArrowDown);
     await user.keyboard(specialKeys.Enter);
     const groupSelect = screen.getByPlaceholderText(/Select a device group/i);
-    await act(async () => await user.click(groupSelect));
+    await user.click(groupSelect);
     await user.type(groupSelect, 'testGroupDyn');
     await user.keyboard(specialKeys.ArrowDown);
     await user.keyboard(specialKeys.Enter);
@@ -269,12 +269,13 @@ describe('Deployments Component', () => {
     await user.click(screen.getByRole('button', { name: /Create a deployment/i }));
     const releaseId = 'release-998';
     const groupSelect = screen.getByPlaceholderText(/Select a device group/i);
-    await act(async () => await user.click(groupSelect));
+    await act(async () => vi.runOnlyPendingTimers());
+    await user.click(groupSelect);
     await user.keyboard(specialKeys.Enter);
     expect(groupSelect).toHaveValue(ALL_DEVICES);
     await waitFor(() => expect(screen.queryByPlaceholderText(/Select a Release/i)).toBeInTheDocument(), { timeout: 3000 });
     const releaseSelect = screen.getByPlaceholderText(/Select a Release/i);
-    await act(async () => await user.click(releaseSelect));
+    await user.click(releaseSelect);
     await user.keyboard(specialKeys.ArrowDown);
     await user.keyboard(specialKeys.Enter);
     await user.click(screen.getByRole('button', { name: /advanced options/i }));
@@ -295,7 +296,7 @@ describe('Deployments Component', () => {
     fireEvent.change(within(thirdPhase).getByDisplayValue(10), { target: { value: '20' } });
     await user.click(screen.getByRole('checkbox', { name: /save as default/i }));
     const retrySelect = document.querySelector('#deployment-retries-selection');
-    await act(async () => await user.click(retrySelect));
+    await user.click(retrySelect);
     await user.keyboard(specialKeys.ArrowDown);
     await user.keyboard(specialKeys.Enter);
     await user.tab();
