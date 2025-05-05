@@ -1795,10 +1795,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-106:focus::-ms-input
                 style="transform: translateX(-80%);"
               />
             </span>
-            <button
+            <span
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge margin-left-small expandButton emotion-22"
+              role="button"
               tabindex="0"
-              type="button"
             >
               <svg
                 aria-hidden="true"
@@ -1811,7 +1811,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-106:focus::-ms-input
                   d="m7 10 5 5 5-5z"
                 />
               </svg>
-            </button>
+            </span>
           </span>
         </button>
       </h3>

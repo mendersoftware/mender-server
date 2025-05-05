@@ -1057,11 +1057,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
         class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium MuiFormHelperText-contained Mui-focused emotion-6"
         id=":r0:-helper-text"
       >
-        <div
+        <span
           class="warning"
         >
           Destination has to be an absolute path
-        </div>
+        </span>
       </p>
     </div>
     <h4>
