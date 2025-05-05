@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { TIMEOUTS, rolesByName } from '@northern.tech/store/constants';
-import { screen, waitFor } from '@testing-library/react';
+import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, vi } from 'vitest';
 
@@ -27,6 +27,7 @@ describe('TenantsForm', () => {
     const view = baseElement;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
+    await act(() => vi.runAllTimersAsync());
   });
 
   it('works as expected', { timeout: TIMEOUTS.refreshDefault }, async () => {

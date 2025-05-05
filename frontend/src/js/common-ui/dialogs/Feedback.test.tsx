@@ -13,7 +13,7 @@
 //    limitations under the License.
 import React from 'react';
 
-import { screen, waitFor } from '@testing-library/react';
+import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
@@ -32,5 +32,7 @@ describe('Feedback Component', () => {
     await user.type(screen.getByPlaceholderText(/your feedback/i), 'some feedback');
     await user.click(screen.getByRole('button', { name: /submit/i }));
     expect(screen.getByText(/Thank you/i)).toBeVisible();
+    // Wait for every network request to finish
+    await act(() => vi.runAllTimersAsync());
   });
 });

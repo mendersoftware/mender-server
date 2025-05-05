@@ -14,7 +14,7 @@
 import { Tenant } from '@northern.tech/store/api/types/Tenant';
 import { initialState as initialOrganizationState } from '@northern.tech/store/organizationSlice';
 import * as OrganizationActions from '@northern.tech/store/thunks';
-import { screen } from '@testing-library/react';
+import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
@@ -84,5 +84,7 @@ describe('ExpandedTenant', () => {
     await user.type(limitInput, newLimit);
     await user.click(screen.getByRole('button', { name: /save/i }));
     expect(editDeviceLimit).toHaveBeenCalledWith({ newLimit: Number(newLimit), name: tenant.name, id: tenant.id });
+    // Wait for every network request to finish
+    await act(() => vi.runAllTimersAsync());
   });
 });

@@ -54,6 +54,8 @@ describe('OnboardingCompleteTip Component', () => {
     const view = baseElement;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
+    // Wait for every network request to finish
+    await act(() => vi.runAllTimersAsync());
     await act(async () => {
       vi.runOnlyPendingTimers();
       vi.runAllTicks();

@@ -39,6 +39,7 @@ describe('PasswordReset Component', () => {
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
+    await act(() => vi.runAllTimersAsync());
   });
 
   it('works as intended', async () => {
