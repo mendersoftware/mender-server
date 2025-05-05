@@ -112,9 +112,7 @@ exports[`OnboardingTips Components > tiny onboarding tips > renders DevicesAccep
 
 <div
   class="emotion-0 onboard-tip"
-  createdgroup="testgroup"
   data-mui-internal-clone-element="true"
-  selectedrelease="test"
   style="left: -15px; top: 0px; overflow: initial;"
 >
   <div
@@ -172,9 +170,7 @@ exports[`OnboardingTips Components > tiny onboarding tips > renders GetStartedTi
 
 <div
   class="emotion-0 onboard-tip"
-  createdgroup="testgroup"
   data-mui-internal-clone-element="true"
-  selectedrelease="test"
   style="left: -15px; top: 0px; overflow: initial;"
 >
   <div
