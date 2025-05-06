@@ -74,6 +74,7 @@ test:frontend:unit:
       when: on_success
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
+  needs: []
   timeout: 5 minutes
   script:
     - cd frontend
@@ -90,7 +91,7 @@ test:frontend:unit:
       junit: frontend/junit.xml
     when: always
   tags:
-    - hetzner-amd-beefy
+    - hetzner-podman-ax42
 
 test:frontend:docs-links:
   stage: test
