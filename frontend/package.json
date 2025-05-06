@@ -50,10 +50,6 @@
     "zxcvbn": "4.4.2"
   },
   "devDependencies": {
-    "@babel/core": "7.27.1",
-    "@babel/preset-env": "7.27.1",
-    "@babel/preset-react": "7.27.1",
-    "@babel/preset-typescript": "^7.27.1",
     "@emotion/jest": "11.13.0",
     "@northern.tech/eslint-config": "0.3.0",
     "@northern.tech/prettier-config": "0.2.0",

@@ -1,8 +1,4 @@
 "module name","license","repository"
-"@babel/core","MIT","https://github.com/babel/babel"
-"@babel/preset-env","MIT","https://github.com/babel/babel"
-"@babel/preset-react","MIT","https://github.com/babel/babel"
-"@babel/preset-typescript","MIT","https://github.com/babel/babel"
 "@emotion/jest","MIT","https://github.com/emotion-js/emotion.git#main"
 "@emotion/react","MIT","https://github.com/emotion-js/emotion.git#main"
 "@emotion/styled","MIT","https://github.com/emotion-js/emotion.git#main"
