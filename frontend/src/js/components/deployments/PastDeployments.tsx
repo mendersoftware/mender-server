@@ -42,8 +42,8 @@ import utc from 'dayjs/plugin/utc';
 import historyImage from '../../../assets/img/history.png';
 import { getOnboardingComponentFor } from '../../utils/onboardingManager';
 import { DeploymentSize, DeploymentStatus } from './DeploymentItem';
-import { defaultRefreshDeploymentsLength as refreshDeploymentsLength } from './Deployments';
 import DeploymentsList, { defaultHeaders } from './DeploymentsList';
+import { defaultRefreshDeploymentsLength as refreshDeploymentsLength } from './constants';
 
 dayjs.extend(utc);
 
