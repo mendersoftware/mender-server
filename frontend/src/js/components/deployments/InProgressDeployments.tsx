@@ -36,8 +36,8 @@ import { useWindowSize } from '@northern.tech/utils/resizehook';
 import { clearAllRetryTimers, clearRetryTimer, setRetryTimer } from '@northern.tech/utils/retrytimer';
 
 import { getOnboardingComponentFor } from '../../utils/onboardingManager';
-import { defaultRefreshDeploymentsLength as refreshDeploymentsLength } from './Deployments';
 import DeploymentsList from './DeploymentsList';
+import { defaultRefreshDeploymentsLength as refreshDeploymentsLength } from './constants';
 
 const { setSnackbar } = storeActions;
 

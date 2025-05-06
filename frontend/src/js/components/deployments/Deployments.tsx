@@ -59,8 +59,6 @@ const routes = {
   }
 };
 
-export const defaultRefreshDeploymentsLength = 30000;
-
 export const Deployments = () => {
   const groupsById = useSelector(getGroupsByIdWithoutUngrouped);
   const devicesById = useSelector(getDevicesById);
