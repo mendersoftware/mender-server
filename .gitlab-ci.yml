@@ -239,7 +239,7 @@ test:backend:unit:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
   tags:
-    - hetzner-amd-beefy
+    - hetzner-podman-ax42
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/mongo:6.0
       alias: mongo
@@ -269,7 +269,7 @@ test:backend:acceptance:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
   tags:
-    - hetzner-amd-beefy
+    - hetzner-podman-ax42
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
       alias: docker
@@ -306,7 +306,7 @@ test:backend:integration:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
   tags:
-    - hetzner-amd-beefy
+    - hetzner-podman-ax42
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
       alias: docker
@@ -410,7 +410,8 @@ test:prep:
       - frontend/tests/e2e_tests/traces
     when: always
   tags:
-    - hetzner-amd-beefy-privileged
+    #- hetzner-amd-beefy-privileged
+    - hetzner-podman-ax42
 
 test:staging-deployment:chrome:
   extends: .template:test:staging-deployment
