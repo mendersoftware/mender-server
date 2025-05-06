@@ -239,8 +239,7 @@ test:backend:unit:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
   tags:
-    #- hetzner-amd-ax42
-    - k8s
+    - hetzner-amd-ax42
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/mongo:6.0
       alias: mongo
@@ -270,8 +269,7 @@ test:backend:acceptance:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
   tags:
-    #- hetzner-amd-ax42
-    - k8s
+    - hetzner-amd-ax42
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
       alias: docker
@@ -308,8 +306,7 @@ test:backend:integration:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
   tags:
-    #- hetzner-amd-ax42
-    - k8s
+    - hetzner-amd-ax42
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
       alias: docker
