@@ -13,13 +13,20 @@
 //    limitations under the License.
 import React from 'react';
 
+import { vi } from 'vitest';
+
 import { undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
 import { Terminal } from './Terminal';
 
 describe('Terminal Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<Terminal xtermRef={{ current: { terminal: {}, terminalRef: {} } }} />);
+    const xtermRef = React.createRef();
+    xtermRef.current = {
+      terminal: { current: { reset: vi.fn(), loadAddon: vi.fn(), focus: vi.fn(), paste: vi.fn() } },
+      terminalRef: { current: document.createElement('div') }
+    };
+    const { baseElement } = render(<Terminal xtermRef={xtermRef} />);
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

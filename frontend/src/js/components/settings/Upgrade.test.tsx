@@ -15,14 +15,13 @@ import React from 'react';
 
 import { getSessionInfo } from '@northern.tech/store/auth';
 import { TIMEOUTS } from '@northern.tech/store/commonConstants';
-import { actions } from '@northern.tech/store/organizationSlice/index';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import { screen, waitFor } from '@testing-library/react';
+import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { defaultState, undefineds } from '../../../../tests/mockData';
+import { defaultState, token as mockToken, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
 import Upgrade, { PricingContactNote } from './Upgrade';
 
@@ -57,7 +56,6 @@ describe('smaller components', () => {
 
 describe('Upgrade Component', () => {
   it('renders correctly', async () => {
-    window.localStorage.getItem.mockImplementation(() => null);
     const stripe = loadStripe();
     const { baseElement } = render(
       <Elements stripe={stripe}>
@@ -74,7 +72,6 @@ describe('Upgrade Component', () => {
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
-    window.localStorage.getItem.mockReset();
   });
   const professionalRequestArgs = {
     ...changeRequestBase,
@@ -94,20 +91,26 @@ describe('Upgrade Component', () => {
   };
   it('signup works as intended', { timeout: TIMEOUTS.refreshDefault }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    render(<Upgrade />, trialState);
-    vi.spyOn(actions, 'setOrganization').mockImplementation(() => trialState);
+    const stripe = loadStripe();
+
+    render(
+      <Elements stripe={stripe}>
+        <Upgrade />
+      </Elements>,
+      trialState
+    );
 
     const upgradeButton = await screen.getAllByRole('button', { name: /subscribe/i })[0];
     await user.click(upgradeButton);
     await user.type(await screen.getByRole('textbox', { name: /address line 1/i }), 'Blindernveien');
     await user.type(await screen.getByRole('textbox', { name: /state/i }), 'Oslo');
     await user.type(await screen.getByRole('textbox', { name: /city/i }), 'Oslo');
-    await user.type(await screen.getByRole('textbox', { name: /zip or postal code/i }), '1234');
+    await act(async () => await user.type(await screen.getByRole('textbox', { name: /zip or postal code/i }), '1234'));
     const countryAutoComplete = await screen.getByRole('combobox', { name: /country/i });
     const input = await screen.getByLabelText('Country');
     await user.type(countryAutoComplete, 'Norw');
     await user.keyboard('[ArrowUp]');
-    await user.keyboard('[Enter]');
+    await act(async () => await user.keyboard('[Enter]'));
     expect(input.value).toEqual('Norway');
   });
   it('upgrade works as intended', async () => {
@@ -118,7 +121,7 @@ describe('Upgrade Component', () => {
     Storage.prototype.setItem = vi.fn();
 
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    const { rerender } = render(<Upgrade />, { preloadedState: defaultState });
+    const { rerender } = render(<Upgrade />);
     const upgradeButton = await screen.findByRole('button', { name: /upgrade/i });
     await user.click(upgradeButton);
 
@@ -143,11 +146,11 @@ describe('Upgrade Component', () => {
 
     const storageMock = vi.spyOn(Storage.prototype, 'setItem');
     Storage.prototype.setItem = vi.fn();
-    window.localStorage.getItem.mockImplementation(() => null);
+    window.localStorage.getItem.mockImplementation(name => (name === 'JWT' ? JSON.stringify({ token: mockToken }) : null));
 
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
 
-    render(<Upgrade />, { preloadedState: defaultState });
+    render(<Upgrade />);
     const addToPlanButton = await screen.getAllByRole('button', { name: /add to plan/i });
     await user.click(addToPlanButton[0]);
 
@@ -180,12 +183,12 @@ describe('Upgrade Component', () => {
   it('enterprise request works as intended', async () => {
     const OrganizationActions = await import('@northern.tech/store/organizationSlice/thunks');
     const enterpriseRequest = vi.spyOn(OrganizationActions, 'requestPlanChange');
-    window.localStorage.getItem.mockImplementation(() => null);
+    window.localStorage.getItem.mockImplementation(name => (name === 'JWT' ? JSON.stringify({ token: mockToken }) : null));
     vi.spyOn(Storage.prototype, 'setItem');
     Storage.prototype.setItem = vi.fn();
 
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    render(<Upgrade />, { preloadedState: defaultState });
+    render(<Upgrade />);
 
     const contactButton = await screen.findByRole('button', { name: /contact us/i });
     await user.click(contactButton);

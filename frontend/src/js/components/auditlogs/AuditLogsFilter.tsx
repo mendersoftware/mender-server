@@ -28,8 +28,14 @@ const detailsMap = {
 
 const getOptionLabel = option => option.title ?? option.email ?? option;
 
-const renderOption = (props, option) => <li {...props}>{getOptionLabel(option)}</li>;
-
+const renderOption = (props, option) => {
+  const { key, ...rest } = props;
+  return (
+    <li key={key} {...rest}>
+      {getOptionLabel(option)}
+    </li>
+  );
+};
 const isUserOptionEqualToValue = ({ email, id }, value) => id === value || email === value || email === value?.email;
 
 const autoSelectProps = {

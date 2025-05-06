@@ -956,7 +956,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
       disabled=""
       tabindex="-1"
       type="submit"
-    />
+    >
+      submit
+    </button>
   </div>
 </form>
 `;

@@ -40,8 +40,8 @@ import {
   getDevicesById,
   getFeatures,
   getGlobalSettings,
+  getGroupData,
   getGroupNames,
-  getGroupsByIdWithoutUngrouped,
   getIdAttribute,
   getIsEnterprise,
   getOnboardingState,
@@ -93,12 +93,7 @@ export const CreateDeployment = props => {
 
   const { canRetry, canSchedule, hasFullFiltering } = useSelector(getTenantCapabilities);
   const { isHosted } = useSelector(getFeatures);
-  const { createdGroup, groups, hasDynamicGroups } = useSelector(state => {
-    const groups = getGroupsByIdWithoutUngrouped(state);
-    const createdGroup = Object.keys(groups).length ? Object.keys(groups)[0] : undefined;
-    const hasDynamicGroups = Object.values(groups).some(group => !!group.id);
-    return { createdGroup, hasDynamicGroups, groups };
-  });
+  const { createdGroup, groups, hasDynamicGroups } = useSelector(getGroupData);
   const { hasDelta: hasDeltaEnabled } = useSelector(state => state.deployments.config) ?? {};
   const { total: acceptedDeviceCount } = useSelector(getAcceptedDevices);
   const hasDevices = !!acceptedDeviceCount;

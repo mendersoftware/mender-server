@@ -904,7 +904,7 @@ exports[`Artifact Component > renders correctly 1`] = `
   <div
     class="muted"
   >
-    NaN
+    1
   </div>
   <div
     class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-0"

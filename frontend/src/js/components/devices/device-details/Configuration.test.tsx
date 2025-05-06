@@ -137,7 +137,6 @@ describe('Configuration Component', () => {
     await user.click(screen.getByRole('checkbox', { name: /save/i }));
     await user.click(screen.getByRole('button', { name: /save/i }));
     await act(async () => vi.runOnlyPendingTimers());
-    screen.logTestingPlaygroundURL();
     expect(await screen.findByText(/Configuration up-to-date on the device/i)).toBeInTheDocument();
   });
 });

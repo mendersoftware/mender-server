@@ -58,6 +58,7 @@ describe('CreateDeployment Component', () => {
         getReleases: getReleasesMock,
         getSystemDevices: vi.fn(),
         groups: defaultState.devices.groups.byId,
+        groupNames: ['testGroup', 'testGroupDynamic'],
         hasDynamicGroups: true,
         open: true,
         previousRetries: 0,

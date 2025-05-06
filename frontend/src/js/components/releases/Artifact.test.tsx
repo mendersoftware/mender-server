@@ -32,6 +32,7 @@ describe('Artifact Component', () => {
           updates: [],
           modified: '2019-01-01'
         }}
+        index={0}
         columns={columns}
       />
     );

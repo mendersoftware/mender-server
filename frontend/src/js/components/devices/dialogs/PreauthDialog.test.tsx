@@ -63,7 +63,8 @@ describe('PreauthDialog Component', () => {
     expect(screen.getByText(/upload a public key file/i)).toBeInTheDocument();
     // container.querySelector doesn't work in this scenario for some reason -> but querying document seems to work
     const uploadInput = document.querySelector(dropzone);
-    await act(async () => await user.upload(uploadInput, menderFile));
+    await user.upload(uploadInput, menderFile);
+    await act(async () => vi.runOnlyPendingTimers());
     await waitFor(() => rerender(ui));
 
     expect(uploadInput.files).toHaveLength(1);
@@ -108,7 +109,7 @@ describe('PreauthDialog Component', () => {
     const { rerender } = render(ui);
     // container.querySelector doesn't work in this scenario for some reason -> but querying document seems to work
     const uploadInput = document.querySelector(dropzone);
-    await act(async () => await user.upload(uploadInput, menderFile));
+    await user.upload(uploadInput, menderFile);
     await waitFor(() => rerender(ui));
     await user.type(screen.getByPlaceholderText(/key/i), 'testKey');
     await user.type(screen.getByPlaceholderText(/value/i), 'testValue');

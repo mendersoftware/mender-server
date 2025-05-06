@@ -13,7 +13,7 @@
 //    limitations under the License.
 import React from 'react';
 
-import { screen, waitFor } from '@testing-library/react';
+import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
@@ -84,8 +84,8 @@ describe('Billing Component', () => {
     const ui = <Billing />;
     const editProfileAction = vi.spyOn(OrganizationActions, 'editBillingProfile');
     render(ui, { preloadedState });
-    await expect(screen.getByText(/1234, test city/i)).toBeVisible();
-    await user.click(screen.getByRole('button', { name: /edit/i }));
+    expect(screen.getByText(/1234, test city/i)).toBeVisible();
+    await act(async () => await user.click(screen.getByRole('button', { name: /edit/i })));
     const input = screen.getByLabelText<HTMLInputElement>('Country');
 
     const addressInput = screen.getByRole('textbox', { name: /address line 1/i });
@@ -100,14 +100,14 @@ describe('Billing Component', () => {
     await user.type(addressInput, 'Blindernveien');
     await user.type(stateInput, 'Oslo');
     await user.type(cityInput, 'Oslo');
-    await user.type(zipInput, '5678');
-
+    await act(async () => await user.type(zipInput, '5678'));
     const countryAutoComplete = screen.getByRole('combobox', { name: /country/i });
-
-    await user.type(countryAutoComplete, 'Polan');
-    await user.keyboard('[ArrowUp]');
-    await user.keyboard('[Enter]');
-    await user.click(screen.getByRole('button', { name: /save/i }));
+    await act(async () => {
+      await user.type(countryAutoComplete, 'Polan');
+      await user.keyboard('[ArrowUp]');
+      await user.keyboard('[Enter]');
+      await user.click(screen.getByRole('button', { name: /save/i }));
+    });
     expect(input.value).toEqual('Poland');
 
     await waitFor(() => expect(editProfileAction).toHaveBeenCalledWith(editProfileActionParams));

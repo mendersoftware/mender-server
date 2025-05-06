@@ -23,8 +23,8 @@ export const getReleaseTags = (state: RootState) => state.releases.tags;
 export const getReleaseListState = (state: RootState) => state.releases.releasesList;
 const getListedReleases = (state: RootState) => state.releases.releasesList.releaseIds;
 export const getUpdateTypes = (state: RootState) => state.releases.updateTypes;
-
-const getReleaseMappingDefaults = () => ({});
+const releaseDefaults = {};
+const getReleaseMappingDefaults = () => releaseDefaults;
 export const getReleasesList = createSelector([getReleasesById, getListedReleases, getReleaseMappingDefaults], listItemMapper<Release>);
 
 export const getReleaseTagsById = createSelector([getReleaseTags], releaseTags => releaseTags.reduce((accu, key) => ({ ...accu, [key]: key }), {}));

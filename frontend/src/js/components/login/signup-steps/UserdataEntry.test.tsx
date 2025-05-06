@@ -14,6 +14,8 @@
 import React from 'react';
 
 import { formRenderWrapper } from '@northern.tech/common-ui/forms/helpers';
+import { act } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import { undefineds } from '../../../../../tests/mockData';
 import { UserDataEntry } from './UserdataEntry';
@@ -24,5 +26,6 @@ describe('Login Component', () => {
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
+    await act(() => vi.runAllTimersAsync());
   });
 });

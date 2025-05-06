@@ -21,7 +21,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { getConfiguredStore } from '@northern.tech/store/store';
-import { prettyDOM, screen, render as testingLibRender, waitFor } from '@testing-library/react';
+import { act, prettyDOM, screen, render as testingLibRender, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
@@ -104,7 +104,7 @@ describe('Auditlogs Component', () => {
       </LocalizationProvider>
     );
     const { rerender } = testingLibRender(ui);
-    await vi.advanceTimersByTimeAsync(TIMEOUTS.oneSecond);
+    await act(() => vi.advanceTimersByTimeAsync(TIMEOUTS.oneSecond));
     await waitFor(() => rerender(ui));
     await user.click(screen.getByText(/clear filter/i));
   });

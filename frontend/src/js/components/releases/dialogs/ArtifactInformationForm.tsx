@@ -106,7 +106,7 @@ export const ArtifactInformation = ({ creation = {}, deviceTypes = [], onRemove,
         error={!isValidDestination}
         fullWidth
         helperText={
-          !isValidDestination ? <div className="warning">Destination has to be an absolute path</div> : 'where the file will be installed on your devices'
+          !isValidDestination ? <span className="warning">Destination has to be an absolute path</span> : 'where the file will be installed on your devices'
         }
         label="Destination directory"
         onChange={onDestinationChange}

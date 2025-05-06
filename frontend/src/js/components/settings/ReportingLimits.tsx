@@ -86,7 +86,7 @@ export const ReportingLimits = () => {
       <Accordion className={classes.accordion} square expanded={open} onChange={toggleOpen} disabled={!count}>
         <AccordionSummary className={classes.summary}>
           <LinearProgress className={classes.limitBar} variant="determinate" value={(count * 100) / limit} style={{ width: '100%' }} />
-          <IconButton className="margin-left-small expandButton" size="large">
+          <IconButton component="span" className="margin-left-small expandButton" size="large">
             {open ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
           </IconButton>
         </AccordionSummary>

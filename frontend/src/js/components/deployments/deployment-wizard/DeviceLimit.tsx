@@ -96,7 +96,7 @@ export const DeviceLimit = props => {
         <div className={classes.limitSelection}>
           Finish deployment after{' '}
           <FormControl error={!!error}>
-            <OutlinedInput value={value} placeholder={numberDevices} onChange={handleLimitChange} type="text" />
+            <OutlinedInput value={value} placeholder={String(numberDevices)} onChange={handleLimitChange} type="text" />
             <FormHelperText>{error}</FormHelperText>
           </FormControl>
           devices have attempted to apply the update

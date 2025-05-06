@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { TIMEOUTS, rolesByName } from '@northern.tech/store/constants';
-import { screen, waitFor } from '@testing-library/react';
+import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, vi } from 'vitest';
 
@@ -27,6 +27,7 @@ describe('TenantsForm', () => {
     const view = baseElement;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
+    await act(() => vi.runAllTimersAsync());
   });
 
   it('works as expected', { timeout: TIMEOUTS.refreshDefault }, async () => {
@@ -57,15 +58,16 @@ describe('TenantsForm', () => {
     await user.type(screen.getByLabelText('Set device limit'), newChildTenant.dev);
     await user.click(screen.getByText(/enable delta artifact generation/i));
     await user.click(screen.getByText(/reset the password/i));
+    await act(() => vi.runAllTimersAsync());
     const submitButton = screen.getByRole('button', { name: /Create Tenant/i });
     await waitFor(() => expect(submitButton).toBeEnabled());
-    await user.click(submitButton);
+    await act(async () => await user.click(submitButton));
     expect(emailInput).toBeVisible();
     await user.clear(emailInput);
     await user.type(emailInput, newChildTenant.email);
-    await vi.advanceTimersByTimeAsync(TIMEOUTS.oneSecond);
+    await act(async () => await vi.advanceTimersByTimeAsync(TIMEOUTS.oneSecond));
     await waitFor(() => expect(submitButton).toBeEnabled());
-    await user.click(submitButton);
+    await act(async () => await user.click(submitButton));
 
     await waitFor(() =>
       expect(submitTenantSpy).toHaveBeenCalledWith({

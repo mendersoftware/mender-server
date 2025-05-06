@@ -39,6 +39,7 @@ describe('PasswordReset Component', () => {
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
+    await act(() => vi.runAllTimersAsync());
   });
 
   it('works as intended', async () => {
@@ -78,7 +79,7 @@ describe('PasswordReset Component', () => {
     });
     const saveButton = screen.getByRole('button', { name: /Save password/i });
     await waitFor(() => expect(saveButton).not.toBeDisabled());
-    await user.click(saveButton);
+    await act(() => user.click(saveButton));
     await waitFor(() => expect(completeSpy).toHaveBeenCalledWith({ secretHash, newPassword: goodPassword }));
     await waitFor(() => expect(screen.queryByText(/Your password has been updated./i)).toBeVisible());
   });
