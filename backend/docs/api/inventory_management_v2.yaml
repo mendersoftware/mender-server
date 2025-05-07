@@ -145,7 +145,6 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
       - ManagementJWT: []
-      x-codegen-request-body-name: body
 components:
   schemas:
     Attribute:
