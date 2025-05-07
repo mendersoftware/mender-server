@@ -75,7 +75,7 @@ test:frontend:unit:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
   needs: []
-  timeout: 5 minutes
+  timeout: 10 minutes
   script:
     - cd frontend
     - npm ci
@@ -91,7 +91,7 @@ test:frontend:unit:
       junit: frontend/junit.xml
     when: always
   tags:
-    - hetzner-podman-ax42
+    - k8s
 
 test:frontend:docs-links:
   stage: test
@@ -168,6 +168,7 @@ build:frontend:docker:
 .template:test:frontend:acceptance:
   stage: test
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
+  extends: .build:base
   rules:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
