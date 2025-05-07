@@ -43,7 +43,7 @@ merge-to-enterprise:
          \`\`\`bash
          git checkout ${CI_COMMIT_BRANCH} && \\
              git pull -f git@github.com:${GITHUB_REPOSITORY_ENTERPRISE} refs/heads/${CI_COMMIT_BRANCH} && \\
-             git pull --no-ff git@github.com:${GITHUB_REPOSITORY_ENTERPRISE} refs/heads/${PR_BRANCH}
+             git pull --no-rebase --no-ff git@github.com:${GITHUB_REPOSITORY_ENTERPRISE} refs/heads/${PR_BRANCH}
          \`\`\`
       2. Resolve any conflicts (if any).
       3. Remove the \`[NOCI]\` prefix in the PR title to start the pipeline
