@@ -123,6 +123,7 @@ default:
   retry:
     max: 2
     exit_codes:
+      - 2
       - 137
       - 192
 
