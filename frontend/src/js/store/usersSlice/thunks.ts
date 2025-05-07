@@ -277,12 +277,14 @@ export const removeUser = createAsyncThunk(`${sliceName}/removeUser`, (userId, {
 );
 
 export const editUser = createAsyncThunk(`${sliceName}/editUser`, ({ id, ...userData }, { dispatch, getState }) =>
-  GeneralApi.put(`${useradmApiUrl}/users/${id}`, userData).then(() =>
-    Promise.all([
-      dispatch(actions.updatedUser({ ...userData, id: id === OWN_USER_ID ? getCurrentUser(getState()).id : id })),
-      dispatch(setSnackbar(userActions.edit.successMessage))
-    ])
-  )
+  GeneralApi.put(`${useradmApiUrl}/users/${id}`, userData)
+    .then(() =>
+      Promise.all([
+        dispatch(actions.updatedUser({ ...userData, id: id === OWN_USER_ID ? getCurrentUser(getState()).id : id })),
+        dispatch(setSnackbar(userActions.edit.successMessage))
+      ])
+    )
+    .catch(err => userActionErrorHandler(err, 'edit', dispatch))
 );
 
 export const addUserToCurrentTenant = createAsyncThunk(`${sliceName}/addUserToTenant`, (userId, { dispatch, getState }) => {
