@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { exec } from 'child_process';
+import { execSync } from 'child_process';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween.js';
 import * as fs from 'fs';
@@ -212,22 +212,15 @@ test.describe('Files', () => {
     } else {
       downloadTargetPath = await download.path();
     }
-    exec(`mender-artifact read --no-progress ${downloadTargetPath}`, (err, stdout, stderr) => {
-      if (err) {
-        if (stderr) {
-          console.error(stderr);
-        }
-        expect(err).toEqual(null);
-      }
-      const artifactInfo = parse(stdout);
-      // Parse artifact header to check that artifact name matches
-      const artifactName = artifactInfo['Mender Artifact'].Name;
-      expect(artifactName).toMatch(/^mender-demo-artifact/);
-      const versionInfo = artifactName.substring(artifactName.indexOf(expectedArtifactName) + expectedArtifactName.length + 1);
-      expect(versionInfo).toEqual(demoArtifactVersion.artifactVersion);
-      const { 'data-partition.mender-demo-artifact.version': updateVersion } = artifactInfo.Updates[0].Provides;
-      expect(updateVersion).toEqual(demoArtifactVersion.updateVersion);
-    });
+    const stdout = execSync(`mender-artifact read --no-progress ${downloadTargetPath}`);
+    const artifactInfo = parse(stdout.toString());
+    // Parse artifact header to check that artifact name matches
+    const artifactName = artifactInfo['Mender Artifact'].Name;
+    expect(artifactName).toMatch(/^mender-demo-artifact/);
+    const versionInfo = artifactName.substring(artifactName.indexOf(expectedArtifactName) + expectedArtifactName.length + 1);
+    expect(versionInfo).toEqual(demoArtifactVersion.artifactVersion);
+    const { 'data-partition.mender-demo-artifact.version': updateVersion } = artifactInfo.Updates[0].Provides;
+    expect(updateVersion).toEqual(demoArtifactVersion.updateVersion);
   });
 
   test('allows file transfer', async ({ browserName, environment, page }) => {
