@@ -99,12 +99,38 @@ default:
   tags:
     - hetzner-amd-beefy
 
+.requires-docker: &requires-docker
+  - DOCKER_RETRY_SLEEP_S=2
+  - DOCKER_RUNNING=false
+  - for try in 4 3 2 1; do
+  -  docker ps && DOCKER_RUNNING=true
+  -  if [ "${DOCKER_RUNNING}" == "true" ]; then
+  -   echo "DEBUG - docker is running - continue"
+  -   break
+  -  fi
+  -  sleep "${DOCKER_RETRY_SLEEP_S}"
+  - done
+  - if [ "${DOCKER_RUNNING}" != "true" ]; then
+  -  echo "DEBUG - docker is not running - exiting"
+  -  exit 192
+  - fi
+
 .dind-login: &dind-login
   - mkdir -p $HOME/.docker && echo $DOCKER_AUTH_CONFIG > $HOME/.docker/config.json
   - docker login --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
+.build:base:
+  before_script:
+    - *requires-docker
+  retry:
+    max: 2
+    exit_codes:
+      - 137
+      - 192
+
 .template:build:docker:
   stage: build
+  extends: .build:base
   needs: []
   tags:
     - hetzner-amd-beefy
@@ -115,6 +141,7 @@ default:
   variables:
     DOCKER_BUILDARGS: "--push"
   before_script:
+    - *requires-docker
     - apk add make bash git
     - *dind-login
     # NOTE: If we're running on a PR, do not build multiplatform
@@ -148,6 +175,7 @@ build:backend:docker:
 build:backend:docker-acceptance:
   extends: build:backend:docker
   before_script:
+    - *requires-docker
     - apk add make bash git
     - *dind-login
     # We're only building acceptance test images for CI runner platform.
@@ -229,6 +257,7 @@ test:backend:unit:
 
 test:backend:acceptance:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
+  extends: .build:base
   stage: test
   rules:
     - changes:
@@ -238,7 +267,7 @@ test:backend:acceptance:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
   tags:
-    - hetzner-amd-beefy
+    - hetzner-amd-ax42
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
       alias: docker
@@ -248,6 +277,7 @@ test:backend:acceptance:
     - job: build:backend:docker-acceptance
       artifacts: false
   before_script:
+    - *requires-docker
     - apk add make bash git
     - *dind-login
     - make -C backend -j 4 docker-pull
@@ -284,6 +314,7 @@ test:backend:integration:
     - job: build:backend:docker-acceptance
       artifacts: false
   before_script:
+    - *requires-docker
     - apk add make bash git curl
     - *dind-login
     - mkdir -p ${GOCOVERDIR}/integration
@@ -350,9 +381,11 @@ test:prep:
   only:
     - main # can't use rules with delays: https://gitlab.com/gitlab-org/gitlab/-/issues/424203
   when: delayed
+  resource_group: test_staging_e2e
   needs:
     - job: test:prep
       artifacts: true
+    - job: mender-helm-version-bump:staging
   variables:
     CI: 1
     DEVICE_TYPE: qemux86-64
@@ -380,25 +413,22 @@ test:prep:
 
 test:staging-deployment:chrome:
   extends: .template:test:staging-deployment
-  resource_group: test-staging-deployment-chrome
   script:
     - npm run test
-  start_in: 10 minutes
+  start_in: 3 minutes
 
 test:staging-deployment:firefox:
   extends: .template:test:staging-deployment
-  resource_group: test-staging-deployment-firefox
   script:
     - npm run test -- --browser=firefox
-  start_in: 35 minutes
+  start_in: 10 minutes
 
 test:staging-deployment:webkit:
   extends: .template:test:staging-deployment
-  resource_group: test-staging-deployment-webkit
   allow_failure: true
   script:
     - npm run test -- --browser=webkit
-  start_in: 25 minutes
+  start_in: 15 minutes
 
 publish:backend:coverage:
   stage: publish
