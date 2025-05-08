@@ -34,7 +34,7 @@ func TestMain(m *testing.M) {
 		status = mtesting.WithDB(func(dbtest mtesting.TestDBRunner) int {
 			db = dbtest
 			return m.Run()
-		}, nil)
+		}, newRegistry())
 	} else {
 		status = m.Run()
 	}

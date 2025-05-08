@@ -390,6 +390,14 @@ func TestMongoGetUserByEmail(t *testing.T) {
 				Password: "passwordhash12345",
 			},
 		},
+		"ok - case case insensitive": {
+			inEmail: "fOO@bAr.cOm",
+			outUser: &model.User{
+				ID:       "1",
+				Email:    "foo@bar.com",
+				Password: "passwordhash12345",
+			},
+		},
 		"ok - found 2": {
 			inEmail: "bar@bar.com",
 			outUser: &model.User{
