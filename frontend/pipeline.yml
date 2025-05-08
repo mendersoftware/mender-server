@@ -217,8 +217,17 @@ test:frontend:acceptance:
 
 test:frontend:acceptance:enterprise:
   extends: .template:test:frontend:acceptance
+  tags:
+    - k8s
   variables:
     TEST_ENVIRONMENT: enterprise
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+  services:
+    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
+      alias: docker
+      variables:
+        HEALTHCHECK_TCP_PORT: "2375"
   rules:
     # This job can only run on protected branches
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
