@@ -105,11 +105,13 @@ default:
   - for try in 4 3 2 1; do
   -  docker ps && DOCKER_RUNNING=true
   -  if [ "${DOCKER_RUNNING}" == "true" ]; then
+  -   echo "DEBUG - docker is running - continue"
   -   break
   -  fi
   -  sleep "${DOCKER_RETRY_SLEEP_S}"
   - done
   - if [ "${DOCKER_RUNNING}" != "true" ]; then
+  -  echo "DEBUG - docker is not running - exiting"
   -  exit 192
   - fi
 
@@ -139,6 +141,7 @@ default:
   variables:
     DOCKER_BUILDARGS: "--push"
   before_script:
+    - *requires-docker
     - apk add make bash git
     - *dind-login
     # NOTE: If we're running on a PR, do not build multiplatform
@@ -172,6 +175,7 @@ build:backend:docker:
 build:backend:docker-acceptance:
   extends: build:backend:docker
   before_script:
+    - *requires-docker
     - apk add make bash git
     - *dind-login
     # We're only building acceptance test images for CI runner platform.
@@ -280,6 +284,7 @@ test:backend:acceptance:
     - job: build:backend:docker-acceptance
       artifacts: false
   before_script:
+    - *requires-docker
     - apk add make bash git
     - *dind-login
     - make -C backend -j 4 docker-pull
@@ -317,6 +322,7 @@ test:backend:integration:
     - job: build:backend:docker-acceptance
       artifacts: false
   before_script:
+    - *requires-docker
     - apk add make bash git curl
     - *dind-login
     - mkdir -p ${GOCOVERDIR}/integration

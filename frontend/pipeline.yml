@@ -186,6 +186,7 @@ build:frontend:docker:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
       alias: docker
   before_script:
+    - !reference [.requires-docker]
     - !reference [.dind-login]
     - apk add --no-cache bash git jq wget
     - docker pull ${MENDER_IMAGE_GUI}
