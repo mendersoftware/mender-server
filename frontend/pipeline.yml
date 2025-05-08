@@ -25,6 +25,9 @@ test:frontend:lint:
 
 test:frontend:license-headers:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/denoland/deno:debian-2.0.2
+  tags:
+    # can't use safe sysbox-runc here - see https://northerntech.atlassian.net/browse/QA-866
+    - mender-qa-worker-generic-light
   stage: test
   rules:
     - changes:
