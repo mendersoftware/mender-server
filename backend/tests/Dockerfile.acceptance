@@ -1,7 +1,7 @@
 FROM python:3.13-slim
 COPY requirements-acceptance.txt requirements.txt
-RUN apt update && apt install -qy zstd wget && \
-    wget "https://downloads.mender.io/repos/debian/pool/main/m/mender-artifact/mender-artifact_3.11.2-1%2bubuntu%2bjammy_amd64.deb" -O mender-artifact.deb && \
+RUN apt update && apt install -qy wget && \
+    wget "https://downloads.mender.io/repos/debian/pool/main/m/mender-artifact/mender-artifact_4.1.0-1%2b$(. /etc/os-release; echo $ID)%2b$(. /etc/os-release; echo $VERSION_CODENAME)_amd64.deb" -O mender-artifact.deb && \
     dpkg -x mender-artifact.deb . && \
     pip install -r requirements.txt
 WORKDIR /testing
