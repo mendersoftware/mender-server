@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
 import { IconButton, TablePagination } from '@mui/material';
@@ -81,7 +81,7 @@ const Pagination = props => {
       component="div"
       labelDisplayedRows={() => ''}
       labelRowsPerPage="Rows"
-      SelectProps={{ name: 'pagination' }}
+      slotProps={{ select: { name: 'pagination' } }}
       rowsPerPageOptions={rowsPerPageOptions}
       onRowsPerPageChange={e => onChangeRowsPerPage(e.target.value)}
       page={propsPage}
@@ -92,4 +92,10 @@ const Pagination = props => {
   );
 };
 
-export default Pagination;
+const areEqual = (prevProps, nextProps) =>
+  Math.floor(prevProps.count / prevProps.rowsPerPage) === Math.floor(nextProps.count / nextProps.rowsPerPage) &&
+  prevProps.page === nextProps.page &&
+  prevProps.rowsPerPage === nextProps.rowsPerPage &&
+  prevProps.disabled === nextProps.disabled;
+
+export default memo(Pagination, areEqual);
