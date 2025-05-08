@@ -29,3 +29,9 @@ func RenderError(c *gin.Context, code int, err error) {
 	}
 	c.JSON(code, err)
 }
+
+func ApplyMiddlewareToRoutes(middleware gin.HandlerFunc, routes ...gin.IRoutes) {
+	for _, route := range routes {
+		route.Use(middleware)
+	}
+}
