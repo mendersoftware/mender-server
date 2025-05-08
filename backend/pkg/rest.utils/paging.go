@@ -37,6 +37,14 @@ var (
 	)
 )
 
+func ErrQueryParmInvalid(param, name string) error {
+	return fmt.Errorf("invalid %s query: \"%s\"", param, name)
+}
+
+func ErrQueryParmLimit(name string) error {
+	return fmt.Errorf("invalid %s query: value must be a non-zero positive integer", name)
+}
+
 // ParsePagingParameters parses the paging parameters from the URL query
 // string and returns the parsed page, per_page or a parsing error respectively.
 func ParsePagingParameters(r *http.Request) (int64, int64, error) {
@@ -52,14 +60,9 @@ func ParsePagingParameters(r *http.Request) (int64, int64, error) {
 	} else {
 		page, err = strconv.ParseInt(qPage, 10, 64)
 		if err != nil {
-			return -1, -1, errors.Errorf(
-				"invalid page query: \"%s\"",
-				qPage,
-			)
+			return -1, -1, ErrQueryParmInvalid("page", qPage)
 		} else if page < 1 {
-			return -1, -1, errors.New("invalid page query: " +
-				"value must be a non-zero positive integer",
-			)
+			return -1, -1, ErrQueryParmLimit("page")
 		}
 	}
 
@@ -69,14 +72,9 @@ func ParsePagingParameters(r *http.Request) (int64, int64, error) {
 	} else {
 		perPage, err = strconv.ParseInt(qPerPage, 10, 64)
 		if err != nil {
-			return -1, -1, errors.Errorf(
-				"invalid per_page query: \"%s\"",
-				qPerPage,
-			)
-		} else if perPage < 1 {
-			return -1, -1, errors.New("invalid per_page query: " +
-				"value must be a non-zero positive integer",
-			)
+			return -1, -1, ErrQueryParmInvalid("per_page", qPerPage)
+		} else if page < 1 {
+			return -1, -1, ErrQueryParmLimit("per_page")
 		} else if perPage > PerPageMax {
 			return page, perPage, ErrPerPageLimit
 		}

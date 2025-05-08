@@ -15,10 +15,36 @@ package http
 
 import (
 	"net/http"
+
+	inventory "github.com/mendersoftware/mender-server/services/inventory/inv"
+	"github.com/mendersoftware/mender-server/services/inventory/store"
 )
 
 // thin API handler interface
 type ApiHandler interface {
 	// produce a rest.App with routing setup or an error
 	Build() (http.Handler, error)
+}
+
+type InternalAPI struct {
+	App inventory.InventoryApp
+}
+
+// NewInternalHandler returns a new InternalAPI
+func NewInternalHandler(inventory inventory.InventoryApp) *InternalAPI {
+	return &InternalAPI{
+		App: inventory,
+	}
+}
+
+type ManagementAPI struct {
+	App inventory.InventoryApp
+	Db  store.DataStore
+}
+
+// NewManagementHandler returns a new ManagementAPI
+func NewManagementHandler(inventory inventory.InventoryApp) *ManagementAPI {
+	return &ManagementAPI{
+		App: inventory,
+	}
 }
