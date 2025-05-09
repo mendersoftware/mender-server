@@ -716,6 +716,8 @@ release:mender-docs-changelog:saas:
     - if: '$CI_PROJECT_NAME == "mender-server"'
       when: never
     - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+(?:-saas\.*\d*)?$/'
+    - if: '$CI_COMMIT_REF_NAME =~ /^\d+\.\d+\.x$/' # Disabled on Maintenance branches
+      when: never
   before_script:
     # Setting up git
     - git config --global user.email "${GITHUB_USER_EMAIL}"
@@ -739,6 +741,8 @@ release:mender-docs-changelog:saas:
       when: on_success
     - if: $CI_COMMIT_TAG =~ "/^v\d+\.\d+\.\d+(?:-rc(?:[\.\d]*))*$/"
       when: on_success
+    - if: '$CI_COMMIT_REF_NAME =~ /^\d+\.\d+\.x$/' # Disabled on Maintenance branches
+      when: never
   allow_failure: true
   tags:
     - hetzner-amd-beefy
