@@ -56,14 +56,14 @@ export default defineConfig(() => {
       setupFiles: './tests/setupTests.jsx',
       fakeTimers: {
         toFake: ['setTimeout', 'clearTimeout', 'Date']
-      }
-    },
-    pool: 'threads',
-    poolOptions: {
-      threads: {
-        minThreads: threadCount,
-        maxThreads: threadCount,
-        useAtomics: true
+      },
+      pool: 'threads',
+      poolOptions: {
+        threads: {
+          minThreads: 0,
+          maxThreads: 1,
+          useAtomics: true
+        }
       }
     }
   } as UserWorkspaceConfig;
