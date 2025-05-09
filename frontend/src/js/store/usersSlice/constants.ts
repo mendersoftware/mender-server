@@ -274,7 +274,8 @@ export const rolesById = Object.freeze({
   [staticRolesByName.readOnly]: {
     name: 'Read Access',
     value: staticRolesByName.readOnly,
-    description: '',
+    description:
+      'Intended for team leaders or limited tech support accounts, this role can see all Devices, Artifacts and Deployment reports but cannot make any changes.',
     permissions: [],
     uiPermissions: {
       ...emptyUiPermissions,
@@ -287,7 +288,8 @@ export const rolesById = Object.freeze({
   [staticRolesByName.ci]: {
     name: 'Releases Manager',
     value: staticRolesByName.ci,
-    description: '',
+    description:
+      'Intended for automation accounts building software (e.g. CI/CD systems), this role can only manage Artifacts, including upload new Artifacts and delete Artifacts. It does not have access to Devices or Deployments.',
     permissions: [],
     uiPermissions: {
       ...emptyUiPermissions,
@@ -297,7 +299,7 @@ export const rolesById = Object.freeze({
   [staticRolesByName.deploymentsManager]: {
     name: 'Deployments Manager',
     value: staticRolesByName.deploymentsManager,
-    description: '',
+    description: 'Intended for users responsible for managing deployments, this role can create and abort deployments',
     permissions: [],
     uiPermissions: {
       ...emptyUiPermissions,

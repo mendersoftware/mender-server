@@ -500,6 +500,7 @@ export const getRoles = createAsyncThunk(`${sliceName}/getRoles`, (_, { dispatch
       return Promise.resolve(dispatch(actions.receivedRoles(rolesById)));
     })
     .catch(() => console.log('Role retrieval failed - likely accessing a non-RBAC backend'))
+    .finally(() => Promise.resolve(dispatch(actions.finishedRoleInitialization(true))))
 );
 
 const deriveImpliedAreaPermissions = (area, areaPermissions, skipPermissions = []) => {

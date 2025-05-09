@@ -93,7 +93,9 @@ export const usersSlice = createSlice({
     },
     receivedRoles: (state, action) => {
       state.rolesById = action.payload;
-      state.rolesInitialized = true;
+    },
+    finishedRoleInitialization: (state, action) => {
+      state.rolesInitialized = action.payload;
     },
     createdRole: (state, action) => {
       state.rolesById[action.payload.name] = {

@@ -292,7 +292,7 @@ const appInitActions = [
   { type: userActions.receivedPermissionSets.type, payload: receivedPermissionSets },
   { type: getPermissionSets.fulfilled.type },
   { type: userActions.receivedRoles.type, payload: receivedRoles },
-  { type: getRoles.fulfilled.type },
+  { type: userActions.finishedRoleInitialization.type, payload: true },
   {
     type: deviceActions.receivedDevices.type,
     payload: {
@@ -300,6 +300,7 @@ const appInitActions = [
       [defaultState.devices.byId.b1.id]: { ...defaultState.devices.byId.b1, group: undefined, isNew: false, isOffline: true, monitor: {}, tags: {} }
     }
   },
+  { type: getRoles.fulfilled.type },
   { type: getDevicesWithAuth.fulfilled.type },
   { type: getDevicesByStatus.fulfilled.type },
   {

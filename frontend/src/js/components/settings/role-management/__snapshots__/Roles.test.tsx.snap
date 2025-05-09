@@ -874,7 +874,7 @@ exports[`Roles Component > renders correctly 1`] = `
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-18"
         >
-          -
+          Intended for team leaders or limited tech support accounts, this role can see all Devices, Artifacts and Deployment reports but cannot make any changes.
         </td>
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-18"
@@ -908,7 +908,7 @@ exports[`Roles Component > renders correctly 1`] = `
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-18"
         >
-          -
+          Intended for automation accounts building software (e.g. CI/CD systems), this role can only manage Artifacts, including upload new Artifacts and delete Artifacts. It does not have access to Devices or Deployments.
         </td>
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-18"
@@ -942,7 +942,7 @@ exports[`Roles Component > renders correctly 1`] = `
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-18"
         >
-          -
+          Intended for users responsible for managing deployments, this role can create and abort deployments
         </td>
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-18"

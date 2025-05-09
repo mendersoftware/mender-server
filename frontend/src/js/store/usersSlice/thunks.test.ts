@@ -386,6 +386,7 @@ describe('user actions', () => {
       { type: actions.receivedPermissionSets.type, payload: receivedPermissionSets },
       { type: getPermissionSets.fulfilled.type },
       { type: actions.receivedRoles.type, payload: receivedRoles },
+      { type: actions.finishedRoleInitialization.type, payload: true },
       { type: getRoles.fulfilled.type }
     ];
     const store = mockStore({ ...defaultState });
@@ -409,6 +410,7 @@ describe('user actions', () => {
       { type: actions.receivedPermissionSets.type, payload: receivedPermissionSets },
       { type: getPermissionSets.fulfilled.type },
       { type: actions.receivedRoles.type, payload: receivedRoles },
+      { type: actions.finishedRoleInitialization.type, payload: true },
       { type: getRoles.fulfilled.type },
       { type: createRole.fulfilled.type }
     ];
@@ -439,6 +441,7 @@ describe('user actions', () => {
       { type: actions.receivedPermissionSets.type, payload: receivedPermissionSets },
       { type: getPermissionSets.fulfilled.type },
       { type: actions.receivedRoles.type, payload: receivedRoles },
+      { type: actions.finishedRoleInitialization.type, payload: true },
       { type: getRoles.fulfilled.type },
       { type: editRole.fulfilled.type }
     ];
@@ -461,6 +464,7 @@ describe('user actions', () => {
       { type: actions.receivedPermissionSets.type, payload: receivedPermissionSets },
       { type: getPermissionSets.fulfilled.type },
       { type: actions.receivedRoles.type, payload: receivedRoles },
+      { type: actions.finishedRoleInitialization.type, payload: true },
       { type: getRoles.fulfilled.type },
       { type: removeRole.fulfilled.type }
     ];
