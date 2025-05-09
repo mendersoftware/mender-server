@@ -61,6 +61,12 @@ export default defineConfig(() => {
       setupFiles: './tests/setupTests.jsx',
       fakeTimers: {
         toFake: ['setTimeout', 'clearTimeout', 'Date']
+      },
+      pool: 'forks',
+      poolOptions: {
+        forks: {
+          singleFork: true
+        }
       }
     },
     pool: 'threads',
