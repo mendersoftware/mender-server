@@ -70,9 +70,9 @@ exports[`DeviceMonitoring Component > renders correctly 1`] = `
         CRITICAL
       </div>
       <time
-        datetime="2021-07-23T12:22:36+00:00"
+        datetime="2021-07-23T14:22:36+02:00"
       >
-        2021-07-23 12:22
+        2021-07-23 14:22
       </time>
       <a>
         view 
@@ -111,9 +111,9 @@ exports[`DeviceMonitoring Component > renders correctly 1`] = `
         CRITICAL
       </div>
       <time
-        datetime="2021-07-23T12:22:36+00:00"
+        datetime="2021-07-23T14:22:36+02:00"
       >
-        2021-07-23 12:22
+        2021-07-23 14:22
       </time>
       <a>
         view 

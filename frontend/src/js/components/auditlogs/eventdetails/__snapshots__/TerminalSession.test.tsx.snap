@@ -608,9 +608,9 @@ exports[`TerminalSession Component > renders correctly 1`] = `
           class="flexbox "
         >
           <time
-            datetime="2019-01-01T12:10:22+00:00"
+            datetime="2019-01-01T13:10:22+01:00"
           >
-            2019-01-01 12:10
+            2019-01-01 13:10
           </time>
         </div>
         <div
@@ -624,9 +624,9 @@ exports[`TerminalSession Component > renders correctly 1`] = `
           class="flexbox "
         >
           <time
-            datetime="2019-01-01T12:16:22+00:00"
+            datetime="2019-01-01T13:16:22+01:00"
           >
-            2019-01-01 12:16
+            2019-01-01 13:16
           </time>
         </div>
         <div

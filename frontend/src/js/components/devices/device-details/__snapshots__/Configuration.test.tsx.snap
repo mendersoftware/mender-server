@@ -909,9 +909,9 @@ exports[`Configuration Component > renders correctly 1`] = `
           >
             Updated: 
             <time
-              datetime="2019-01-01T09:25:01+00:00"
+              datetime="2019-01-01T10:25:01+01:00"
             >
-              2019-01-01 09:25
+              2019-01-01 10:25
             </time>
           </span>
         </div>

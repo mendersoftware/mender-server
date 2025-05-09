@@ -705,9 +705,9 @@ exports[`Auditlogs Component > renders correctly 1`] = `
             change1
           </div>
           <time
-            datetime="2019-01-01T12:10:22+00:00"
+            datetime="2019-01-01T13:10:22+01:00"
           >
-            2019-01-01 12:10
+            2019-01-01 13:10
           </time>
           <div
             class="bold flexbox center-aligned link-color nowrap "
@@ -752,9 +752,9 @@ exports[`Auditlogs Component > renders correctly 1`] = `
             View deployment
           </a>
           <time
-            datetime="2019-01-01T12:16:22+00:00"
+            datetime="2019-01-01T13:16:22+01:00"
           >
-            2019-01-01 12:16
+            2019-01-01 13:16
           </time>
           <div
             class="bold flexbox center-aligned link-color nowrap "
@@ -801,9 +801,9 @@ exports[`Auditlogs Component > renders correctly 1`] = `
             View session log
           </a>
           <time
-            datetime="2019-01-01T12:10:22+00:00"
+            datetime="2019-01-01T13:10:22+01:00"
           >
-            2019-01-01 12:10
+            2019-01-01 13:10
           </time>
           <div
             class="bold flexbox center-aligned link-color nowrap "

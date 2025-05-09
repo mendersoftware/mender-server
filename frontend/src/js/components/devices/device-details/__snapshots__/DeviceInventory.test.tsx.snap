@@ -49,9 +49,9 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
       >
         Last changed: 
         <time
-          datetime="2019-01-13T13:00:00+00:00"
+          datetime="2019-01-13T14:00:00+01:00"
         >
-          2019-01-13 13:00
+          2019-01-13 14:00
         </time>
       </div>
     </div>

@@ -303,9 +303,9 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
         >
           Last synced: 
           <time
-            datetime="2019-01-13T06:25:00+00:00"
+            datetime="2019-01-13T07:25:00+01:00"
           >
-            2019-01-13 06:25
+            2019-01-13 07:25
           </time>
         </div>
       </div>
@@ -493,9 +493,9 @@ exports[`DeviceTwin Component > renders sub component Title correctly 1`] = `
     >
       Last synced: 
       <time
-        datetime="2019-01-01T09:25:00+00:00"
+        datetime="2019-01-01T10:25:00+01:00"
       >
-        2019-01-01 09:25
+        2019-01-01 10:25
       </time>
     </div>
   </div>
@@ -662,9 +662,9 @@ exports[`DeviceTwin Component > renders sub component TwinSyncStatus correctly 2
   >
     Last synced: 
     <time
-      datetime="2019-01-01T09:25:00+00:00"
+      datetime="2019-01-01T10:25:00+01:00"
     >
-      2019-01-01 09:25
+      2019-01-01 10:25
     </time>
   </div>
 </div>

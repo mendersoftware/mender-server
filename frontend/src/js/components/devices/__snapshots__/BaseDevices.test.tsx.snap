@@ -25,9 +25,9 @@ exports[`smaller components > renders DefaultAttributeRenderer correctly 1`] = `
 exports[`smaller components > renders DeviceCreationTime correctly 1`] = `
 <div>
   <time
-    datetime="2019-01-13T06:25:00+00:00"
+    datetime="2019-01-13T07:25:00+01:00"
   >
-    2019-01-13 06:25
+    2019-01-13 07:25
   </time>
 </div>
 `;

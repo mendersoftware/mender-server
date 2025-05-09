@@ -1915,9 +1915,9 @@ exports[`DeviceConnection Component > renders correctly when disconnected 1`] = 
         >
           The troubleshoot add-on is not currently connected on this device, it was last connected on 
           <time
-            datetime="2019-01-13T13:00:00+00:00"
+            datetime="2019-01-13T14:00:00+01:00"
           >
-            2019-01-13 13:00
+            2019-01-13 14:00
           </time>
           .
           <br />
@@ -2059,9 +2059,9 @@ exports[`tiny DeviceConnection components > renders DeviceDisconnectedNote corre
     >
       The troubleshoot add-on is not currently connected on this device, it was last connected on 
       <time
-        datetime="2019-01-01T09:25:00+00:00"
+        datetime="2019-01-01T10:25:00+01:00"
       >
-        2019-01-01 09:25
+        2019-01-01 10:25
       </time>
       .
       <br />

@@ -2088,14 +2088,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-74:focus::-ms-input-
               Start time
             </span>
             <span
-              aria-label="Tue Jan 01 2019 12:30:00 GMT+0000"
+              aria-label="Tue Jan 01 2019 13:30:00 GMT+0100"
               class=""
               data-mui-internal-clone-element="true"
             >
               <time
-                datetime="2019-01-01T12:30:00+00:00"
+                datetime="2019-01-01T13:30:00+01:00"
               >
-                2019-01-01 12:30
+                2019-01-01 13:30
               </time>
             </span>
           </div>

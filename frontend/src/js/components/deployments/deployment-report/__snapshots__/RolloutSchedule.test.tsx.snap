@@ -248,9 +248,9 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
         class="flexbox "
       >
         <time
-          datetime="2019-01-01T12:25:00+00:00"
+          datetime="2019-01-01T13:25:00+01:00"
         >
-          2019-01-01 12:25
+          2019-01-01 13:25
         </time>
       </div>
       <div
@@ -380,9 +380,9 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
           class="flexbox "
         >
           <time
-            datetime="2019-01-01T12:25:00+00:00"
+            datetime="2019-01-01T13:25:00+01:00"
           >
-            2019-01-01 12:25
+            2019-01-01 13:25
           </time>
         </div>
         <div
