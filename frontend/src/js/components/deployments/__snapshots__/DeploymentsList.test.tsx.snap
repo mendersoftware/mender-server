@@ -315,14 +315,14 @@ exports[`DeploymentsList Component > renders correctly 1`] = `
           Start time
         </span>
         <span
-          aria-label="Tue Jan 01 2019 12:30:00 GMT+0000"
+          aria-label="Tue Jan 01 2019 13:30:00 GMT+0100"
           class=""
           data-mui-internal-clone-element="true"
         >
           <time
-            datetime="2019-01-01T12:30:00+00:00"
+            datetime="2019-01-01T13:30:00+01:00"
           >
-            2019-01-01 12:30
+            2019-01-01 13:30
           </time>
         </span>
       </div>
@@ -465,14 +465,14 @@ exports[`DeploymentsList Component > renders correctly 1`] = `
           Start time
         </span>
         <span
-          aria-label="Tue Jan 01 2019 12:25:00 GMT+0000"
+          aria-label="Tue Jan 01 2019 13:25:00 GMT+0100"
           class=""
           data-mui-internal-clone-element="true"
         >
           <time
-            datetime="2019-01-01T12:25:00+00:00"
+            datetime="2019-01-01T13:25:00+01:00"
           >
-            2019-01-01 12:25
+            2019-01-01 13:25
           </time>
         </span>
       </div>
@@ -575,7 +575,7 @@ exports[`DeploymentsList Component > renders correctly 1`] = `
           Start time
         </span>
         <span
-          aria-label="Thu Jan 31 2019 12:59:30 GMT+0000"
+          aria-label="Thu Jan 31 2019 13:59:30 GMT+0100"
           class=""
           data-mui-internal-clone-element="true"
         >

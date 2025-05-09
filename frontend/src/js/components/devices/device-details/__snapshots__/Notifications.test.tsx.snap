@@ -283,9 +283,9 @@ exports[`tiny components > renders LastConnection correctly 1`] = `
       Device has not connected to the server since 
       <time
         class="emotion-2"
-        datetime="2019-01-01T10:25:00+00:00"
+        datetime="2019-01-01T11:25:00+01:00"
       >
-        2019-01-01 10:25
+        2019-01-01 11:25
       </time>
     </div>
   </div>

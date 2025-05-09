@@ -1028,7 +1028,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
             >
               Updated: 
               <time
-                datetime="2003-01-01T00:00:00+00:00"
+                datetime="2003-01-01T00:00:00+01:00"
               >
                 2003-01-01
               </time>
@@ -1674,7 +1674,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
             >
               Updated: 
               <time
-                datetime="2003-01-01T00:00:00+00:00"
+                datetime="2003-01-01T00:00:00+01:00"
               >
                 2003-01-01
               </time>
@@ -1839,7 +1839,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
             >
               Updated: 
               <time
-                datetime="2003-01-01T00:00:00+00:00"
+                datetime="2003-01-01T00:00:00+01:00"
               >
                 2003-01-01
               </time>
@@ -1970,7 +1970,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
             >
               Updated: 
               <time
-                datetime="2003-01-01T00:00:00+00:00"
+                datetime="2003-01-01T00:00:00+01:00"
               >
                 2003-01-01
               </time>
@@ -2135,7 +2135,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
             >
               Updated: 
               <time
-                datetime="2003-01-01T00:00:00+00:00"
+                datetime="2003-01-01T00:00:00+01:00"
               >
                 2003-01-01
               </time>
@@ -2650,7 +2650,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
             >
               Updated: 
               <time
-                datetime="2003-01-01T00:00:00+00:00"
+                datetime="2003-01-01T00:00:00+01:00"
               >
                 2003-01-01
               </time>
@@ -3155,7 +3155,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
             >
               Updated: 
               <time
-                datetime="2003-01-01T00:00:00+00:00"
+                datetime="2003-01-01T00:00:00+01:00"
               >
                 2003-01-01
               </time>
@@ -3286,7 +3286,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
             >
               Updated: 
               <time
-                datetime="2003-01-01T00:00:00+00:00"
+                datetime="2003-01-01T00:00:00+01:00"
               >
                 2003-01-01
               </time>
@@ -3791,7 +3791,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
             >
               Updated: 
               <time
-                datetime="2003-01-01T00:00:00+00:00"
+                datetime="2003-01-01T00:00:00+01:00"
               >
                 2003-01-01
               </time>

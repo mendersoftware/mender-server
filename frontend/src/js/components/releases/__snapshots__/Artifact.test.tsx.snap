@@ -937,12 +937,12 @@ exports[`Artifact Component > renders correctly 1`] = `
             0 Bytes
           </div>
           <span
-            aria-label="Tue Jan 01 2019 00:00:00 GMT+0000"
+            aria-label="Tue Jan 01 2019 00:00:00 GMT+0100"
             class=""
             data-mui-internal-clone-element="true"
           >
             <time
-              datetime="2019-01-01T00:00:00+00:00"
+              datetime="2019-01-01T00:00:00+01:00"
             >
               2019-01-01 00:00
             </time>

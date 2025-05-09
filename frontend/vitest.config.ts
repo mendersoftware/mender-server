@@ -62,19 +62,13 @@ export default defineConfig(() => {
       fakeTimers: {
         toFake: ['setTimeout', 'clearTimeout', 'Date']
       },
-      pool: 'forks',
+      pool: 'threads',
       poolOptions: {
-        forks: {
-          singleFork: true
+        threads: {
+          minThreads: 0,
+          maxThreads: 1,
+          useAtomics: true
         }
-      }
-    },
-    pool: 'threads',
-    poolOptions: {
-      threads: {
-        minThreads: threadCount,
-        maxThreads: threadCount,
-        useAtomics: true
       }
     }
   } as UserWorkspaceConfig;
