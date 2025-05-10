@@ -70,7 +70,6 @@ test:frontend:unit:
         paths: ['frontend/**/*']
         compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
   needs: []
-  timeout: 10 minutes
   script:
     - cd frontend
     - npm ci
@@ -86,7 +85,7 @@ test:frontend:unit:
       junit: frontend/junit.xml
     when: always
   tags:
-    - k8s
+    - hetzner-amd-beefy
 
 test:frontend:docs-links:
   stage: test

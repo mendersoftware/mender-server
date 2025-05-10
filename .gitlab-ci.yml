@@ -708,8 +708,7 @@ release:mender-docs-changelog:
     - git push origin changelog-${CI_JOB_ID}
     - gh pr create --title "Update CHANGELOG${CHANGELOG_SUFFIX}.md for $CI_PROJECT_NAME" --body "Automated change to the CHANGELOG${CHANGELOG_SUFFIX}.md file" --base master --head changelog-${CI_JOB_ID}
 
-# Disabled on Maintenance branches
-.release:mender-docs-changelog:saas:
+release:mender-docs-changelog:saas:
   extends: release:mender-docs-changelog
   variables:
     CHANGELOG_REMOTE_FILE: "12.Hosted-Mender/docs.md"
@@ -717,6 +716,8 @@ release:mender-docs-changelog:
     - if: '$CI_PROJECT_NAME == "mender-server"'
       when: never
     - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+(?:-saas\.*\d*)?$/'
+    - if: '$CI_COMMIT_REF_NAME =~ /^\d+\.\d+\.x$/' # Disabled on Maintenance branches
+      when: never
   before_script:
     # Setting up git
     - git config --global user.email "${GITHUB_USER_EMAIL}"
@@ -740,6 +741,8 @@ release:mender-docs-changelog:
       when: on_success
     - if: $CI_COMMIT_TAG =~ "/^v\d+\.\d+\.\d+(?:-rc(?:[\.\d]*))*$/"
       when: on_success
+    - if: '$CI_COMMIT_REF_NAME =~ /^\d+\.\d+\.x$/' # Disabled on Maintenance branches
+      when: never
   allow_failure: true
   tags:
     - hetzner-amd-beefy
@@ -832,8 +835,8 @@ release:mender-docs-changelog:
 
 #
 # Mender Helm Rolling release
-# Disabled on Maintenance branches
-.mender-helm-version-bump:staging:
+#
+mender-helm-version-bump:staging:
   extends: .helm-version-bump
   resource_group: mender-helm
   stage: deploy-staging

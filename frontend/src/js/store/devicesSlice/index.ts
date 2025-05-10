@@ -121,7 +121,7 @@ export const devicesSlice = createSlice({
       };
     },
     selectGroup: (state, { payload: group }) => {
-      state.deviceList.deviceIds = state.groups.byId[group] && state.groups.byId[group].deviceIds.length > 0 ? state.groups.byId[group].deviceIds : [];
+      state.deviceList.deviceIds = state.groups.byId[group] && state.groups.byId[group].deviceIds?.length > 0 ? state.groups.byId[group].deviceIds : [];
       state.groups.selectedGroup = group;
     },
     removeGroup: (state, action) => {
