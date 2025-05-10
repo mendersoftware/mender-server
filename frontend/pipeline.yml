@@ -209,7 +209,7 @@ build:frontend:docker:
         - frontend/junit/results.xml
     when: always
   tags:
-    - hetzner-amd-beefy
+    - hetzner-amd-ax42
 
 test:frontend:acceptance:
   extends: .template:test:frontend:acceptance
