@@ -243,7 +243,7 @@ test:backend:unit:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
   tags:
-    - hetzner-amd-beefy
+    - hetzner-amd-ax42
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/mongo:6.0
       alias: mongo
@@ -304,6 +304,9 @@ test:backend:integration:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
   stage: test
   extends: .build:base
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
   rules:
     - changes:
         paths: ["backend/**/*", ".gitlab-ci.yml"]
@@ -312,10 +315,12 @@ test:backend:integration:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
   tags:
-    - hetzner-amd-beefy
+    - k8s
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
       alias: docker
+      variables:
+        HEALTHCHECK_TCP_PORT: "2375"
   needs:
     - job: build:backend:docker
       artifacts: false
