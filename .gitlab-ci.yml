@@ -98,6 +98,11 @@ stages:
 default:
   tags:
     - hetzner-amd-beefy
+  retry:
+    max: 2
+    when:
+      - runner_system_failure
+      - stuck_or_timeout_failure
 
 .requires-docker: &requires-docker
   - DOCKER_RETRY_SLEEP_S=2
