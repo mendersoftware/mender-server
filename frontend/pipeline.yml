@@ -182,9 +182,14 @@ build:frontend:docker:
     - job: build:backend:docker
       artifacts: false
       optional: true
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ''
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
       alias: docker
+      variables:
+        HEALTHCHECK_TCP_PORT: '2375'
   before_script:
     - !reference [.requires-docker]
     - !reference [.dind-login]
@@ -209,7 +214,7 @@ build:frontend:docker:
         - frontend/junit/results.xml
     when: always
   tags:
-    - hetzner-amd-beefy
+    - k8s
 
 test:frontend:acceptance:
   extends: .template:test:frontend:acceptance
