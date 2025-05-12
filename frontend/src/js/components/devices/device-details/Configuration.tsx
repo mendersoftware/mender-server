@@ -89,7 +89,7 @@ export const ConfigEmptyNote = ({ updated_ts = '' }) => (
   </div>
 );
 
-export const ConfigEditingActions = ({ canSetDefault, hasDeviceConfig, isSetAsDefault, onSetAsDefaultChange, onSubmit, onCancel }) => (
+export const ConfigEditingActions = ({ canSetDefault, isSetAsDefault, onSetAsDefaultChange, onSubmit, onCancel }) => (
   <>
     {canSetDefault && (
       <div style={{ maxWidth: 275 }}>
@@ -104,11 +104,9 @@ export const ConfigEditingActions = ({ canSetDefault, hasDeviceConfig, isSetAsDe
     <Button variant="contained" color="primary" onClick={onSubmit} style={buttonStyle}>
       Save and apply to device
     </Button>
-    {hasDeviceConfig && (
-      <Button onClick={onCancel} style={buttonStyle}>
-        Cancel changes
-      </Button>
-    )}
+    <Button onClick={onCancel} style={buttonStyle}>
+      Cancel changes
+    </Button>
   </>
 );
 
@@ -251,6 +249,12 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
         setUpdateLog(result[1]);
       });
 
+  const onClose = () => {
+    setIsEditingConfig(false);
+    setUpdateFailed(false);
+    setIsAborting(false);
+  };
+
   const onCancel = () => {
     if (!isEmpty(reported)) {
       setEditableConfig(reported);
@@ -311,11 +315,10 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
     footer = (
       <ConfigEditingActions
         canSetDefault={canManageUsers}
-        hasDeviceConfig={hasDeviceConfiguration}
         isSetAsDefault={isSetAsDefault}
         onSetAsDefaultChange={onSetAsDefaultChange}
         onSubmit={onSubmit}
-        onCancel={onCancel}
+        onCancel={onClose}
       />
     );
   }
