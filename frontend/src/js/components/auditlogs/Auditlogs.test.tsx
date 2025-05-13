@@ -84,7 +84,10 @@ describe('Auditlogs Component', () => {
     await user.type(input, 'art');
     await selectMaterialUiSelectOption(input, /artifact/i, user);
     await user.click(screen.getByText(/clear filter/i));
+    const anchorClickHandler = HTMLAnchorElement.prototype.click; // we need to mock the click handler to avoid errors when the download is created artificially
+    HTMLAnchorElement.prototype.click = vi.fn(); // this should only affect the final download helper function as the trigger is a `button` element and no `a`
     await user.click(screen.getByRole('button', { name: /Download results as csv/i }));
+    HTMLAnchorElement.prototype.click = anchorClickHandler;
     await user.click(screen.getByText(/open_terminal/i));
   });
 
