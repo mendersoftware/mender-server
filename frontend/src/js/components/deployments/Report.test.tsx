@@ -24,7 +24,7 @@ describe('DeploymentReport Component', () => {
   afterEach(cleanup);
 
   it('renders correctly', async () => {
-    const ui = <DeploymentReport type="finished" />;
+    const ui = <DeploymentReport type="finished" open={true} />;
     const { asFragment, rerender } = render(ui, {
       preloadedState: {
         ...defaultState,
@@ -45,7 +45,7 @@ describe('DeploymentReport Component', () => {
     expect(view).toMatchSnapshot();
   });
   it('renders correctly for phased inprogress', async () => {
-    const ui = <DeploymentReport type="inprogress" />;
+    const ui = <DeploymentReport type="inprogress" open={true} />;
     const { asFragment, rerender } = render(ui, {
       preloadedState: {
         ...defaultState,
