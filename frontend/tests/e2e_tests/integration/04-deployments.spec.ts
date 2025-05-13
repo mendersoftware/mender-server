@@ -24,6 +24,7 @@ dayjs.extend(isBetween);
 const checkTimeFilter = async (page: Page, name: string, isSetToday?: boolean) => {
   const input = page.getByRole('group', { name });
   if (isSetToday) {
+    await page.waitForTimeout(timeouts.oneSecond); // wait a little as sometimes the rendering hasn't fully finished when the following runs
     const shownDate = await input.textContent(); // will be shown as `YYYY-MM-DD${name}`
     await expect(shownDate).toContain(dayjs().format('YYYY-MM-DD'));
   }
