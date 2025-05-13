@@ -57,12 +57,11 @@ export default defineConfig(() => {
       fakeTimers: {
         toFake: ['setTimeout', 'clearTimeout', 'Date']
       },
-      pool: 'threads',
+      pool: 'forks',
       poolOptions: {
-        threads: {
-          minThreads: 0,
-          maxThreads: 1,
-          useAtomics: true
+        forks: {
+          minForks: 0,
+          maxForks: 2
         }
       }
     }
