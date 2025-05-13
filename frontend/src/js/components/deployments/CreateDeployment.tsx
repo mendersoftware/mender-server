@@ -89,7 +89,7 @@ const getAnchor = (element, heightAdjustment = 3) => ({
 });
 
 export const CreateDeployment = props => {
-  const { deploymentObject = {}, onDismiss, onScheduleSubmit, setDeploymentSettings } = props;
+  const { deploymentObject = {}, onDismiss, onScheduleSubmit, setDeploymentSettings, open } = props;
 
   const { canRetry, canSchedule, hasFullFiltering } = useSelector(getTenantCapabilities);
   const { isHosted } = useSelector(getFeatures);
@@ -266,7 +266,7 @@ export const CreateDeployment = props => {
   };
   const hasReleases = !!Object.keys(releasesById).length;
   return (
-    <Drawer anchor="right" open onClose={closeWizard} PaperProps={{ style: { minWidth: '50vw' } }}>
+    <Drawer anchor="right" open={open} onClose={closeWizard} PaperProps={{ style: { minWidth: '50vw' } }}>
       <DrawerTitle title="Create a deployment" onClose={closeWizard} />
       <Divider className="margin-bottom" />
       <FormGroup>

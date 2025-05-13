@@ -78,7 +78,7 @@ export const DeploymentAbortButton = ({ abort, deployment }) => {
   );
 };
 
-export const DeploymentReport = ({ abort, onClose, past, retry, type }) => {
+export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) => {
   const [deviceId, setDeviceId] = useState('');
   const rolloutSchedule = useRef();
   const timer = useRef();
@@ -229,7 +229,7 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type }) => {
   }
 
   return (
-    <Drawer anchor="right" open onClose={onClose} PaperProps={{ style: { minWidth: '75vw' } }}>
+    <Drawer anchor="right" open={open} onClose={onClose} PaperProps={{ style: { minWidth: '75vw' } }}>
       {!!onboardingComponent && onboardingComponent}
       <DrawerTitle
         title={
