@@ -401,9 +401,8 @@ test:prep:
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
       alias: docker
-  only:
-    - main # can't use rules with delays: https://gitlab.com/gitlab-org/gitlab/-/issues/424203
-  when: delayed
+  rules:
+    - when: never
   resource_group: test_staging_e2e
   needs:
     - job: test:prep
@@ -438,14 +437,20 @@ test:staging-deployment:chrome:
   script:
     - npx playwright install chromium
     - npm run test -- --project=chromium
-  start_in: 3 minutes
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      when: delayed
+      start_in: 3 minutes
 
 test:staging-deployment:firefox:
   extends: .template:test:staging-deployment
   script:
     - npx playwright install firefox
     - npm run test -- --project=firefox
-  start_in: 10 minutes
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      when: delayed
+      start_in: 10 minutes
 
 test:staging-deployment:webkit:
   extends: .template:test:staging-deployment
@@ -453,7 +458,10 @@ test:staging-deployment:webkit:
   script:
     - npx playwright install webkit
     - npm run test -- --project=webkit
-  start_in: 15 minutes
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      when: delayed
+      start_in: 15 minutes
 
 publish:backend:coverage:
   stage: publish
