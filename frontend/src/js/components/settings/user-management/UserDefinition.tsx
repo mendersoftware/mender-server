@@ -144,7 +144,7 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
   const { isOAuth2, provider } = getUserSSOState(selectedUser);
   const rolesClasses = isEnterprise ? '' : 'muted';
   return (
-    <Drawer anchor="right" open={!!id} PaperProps={{ style: { minWidth: 600, width: '50vw' } }}>
+    <Drawer anchor="right" onClose={onCancel} open={!!id} PaperProps={{ style: { minWidth: 600, width: '50vw' } }}>
       <DrawerTitle
         title="Edit user"
         onClose={onCancel}

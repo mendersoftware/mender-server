@@ -336,7 +336,7 @@ export const RoleDefinition: FunctionComponent<RoleDefinitionProps> = ({
   const onToggleRemoveDialog = () => setRemoveDialog(toggle);
 
   return (
-    <Drawer anchor="right" open={adding || editing} PaperProps={{ style: { minWidth: 600, width: '50vw' } }}>
+    <Drawer anchor="right" open={adding || editing} onClose={onCancel} PaperProps={{ style: { minWidth: 600, width: '50vw' } }}>
       <DrawerTitle
         title={`${adding ? 'Add a' : 'Edit'} role`}
         onClose={onCancel}
