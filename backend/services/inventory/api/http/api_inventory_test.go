@@ -35,6 +35,7 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 	"github.com/mendersoftware/mender-server/pkg/rest_utils"
+	rtest "github.com/mendersoftware/mender-server/pkg/testing/rest"
 
 	inventory "github.com/mendersoftware/mender-server/services/inventory/inv"
 	minventory "github.com/mendersoftware/mender-server/services/inventory/inv/mocks"
@@ -99,11 +100,11 @@ func timePtr(f string) *time.Time {
 
 func TestLiveliness(t *testing.T) {
 	api := makeMockApiHandler(t, nil)
-	tr := &rest.TestRequest{
+	tr := &rtest.TestRequest{
 		Method: "GET",
 		Path:   "http://localhost" + apiUrlInternalV1 + uriInternalAlive,
 	}
-	req := rest.MakeTestRequest(tr)
+	req := rtest.MakeTestRequest(tr)
 	w := httptest.NewRecorder()
 	api.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusNoContent, w.Code)
@@ -174,7 +175,7 @@ func TestApiParseFilterParams(t *testing.T) {
 	}{
 
 		"eq - short form(implicit)": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=1&per_page=5&attr_name1=A0001",
 			}),
@@ -188,7 +189,7 @@ func TestApiParseFilterParams(t *testing.T) {
 			},
 		},
 		"eq - short form(implicit), colons": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=1&per_page=5&attr_name1=qe:123:123:123",
 			}),
@@ -202,7 +203,7 @@ func TestApiParseFilterParams(t *testing.T) {
 			},
 		},
 		"eq - short form(implicit), float": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=1&per_page=5&attr_name1=3.14",
 			}),
@@ -217,7 +218,7 @@ func TestApiParseFilterParams(t *testing.T) {
 			},
 		},
 		"eq - short form(implicit), time": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=1&per_page=5&attr_name1=2014-11-12T11:45:26.371Z",
 			}),
@@ -232,7 +233,7 @@ func TestApiParseFilterParams(t *testing.T) {
 			},
 		},
 		"eq - short form(implicit), time without milliseconds": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=1&per_page=5&attr_name1=2014-11-12T11:45:26Z",
 			}),
@@ -247,7 +248,7 @@ func TestApiParseFilterParams(t *testing.T) {
 			},
 		},
 		"eq - long form": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=1&per_page=5&attr_name1=eq:A0001",
 			}),
@@ -261,7 +262,7 @@ func TestApiParseFilterParams(t *testing.T) {
 			},
 		},
 		"eq - long form, colons": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=1&per_page=5&attr_name1=eq:qe:123:123:123",
 			}),
@@ -275,7 +276,7 @@ func TestApiParseFilterParams(t *testing.T) {
 			},
 		},
 		"eq - long form, colons, with scope": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=1&per_page=5&scope/attr_name1=eq:qe:123:123:123",
 			}),
@@ -290,7 +291,7 @@ func TestApiParseFilterParams(t *testing.T) {
 		},
 
 		"eq - long form, dashes, with scope": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=1&per_page=5&scope/attr-name1=eq:qe-123-123-123",
 			}),
@@ -336,7 +337,7 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  3,
 			listDevicesErr:  nil,
 			listDeviceTotal: 18,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=4&per_page=5&group=foo",
 				Auth:   true,
@@ -357,7 +358,7 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 20,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=4&per_page=5",
 				Auth:   true,
@@ -378,7 +379,7 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 21,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=4&per_page=5",
 				Auth:   true,
@@ -399,7 +400,7 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 5,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=foo&per_page=5",
 				Auth:   true,
@@ -414,7 +415,7 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 5,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=1&per_page=foo",
 				Auth:   true,
@@ -429,7 +430,7 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 5,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=0&per_page=5",
 				Auth:   true,
@@ -444,7 +445,7 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 5,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=1&per_page=5&attr_name1=qe:123:123:123",
 				Auth:   true,
@@ -464,7 +465,7 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 5,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?sort=attr_name1:asc&page=1&per_page=5",
 				Auth:   true,
@@ -484,7 +485,7 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 5,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=1&per_page=5&sort=attr_name1:gte",
 				Auth:   true,
@@ -499,7 +500,7 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 5,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?has_group=true&page=1&per_page=5",
 				Auth:   true,
@@ -519,7 +520,7 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 5,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=1&per_page=5&has_group=asd",
 				Auth:   true,
@@ -534,7 +535,7 @@ func TestApiInventoryGetDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  errors.New("inventory error"),
 			listDeviceTotal: 20,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "?page=4&per_page=5",
 				Auth:   true,
@@ -577,7 +578,7 @@ func TestApiInventoryAddDevice(t *testing.T) {
 		deviceAttributes model.DeviceAttributes
 	}{
 		"empty body": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/internal/v1/inventory/tenants/1/devices",
 			}),
@@ -588,7 +589,7 @@ func TestApiInventoryAddDevice(t *testing.T) {
 			},
 		},
 		"garbled body": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/internal/v1/inventory/tenants/1/devices",
 				Body:   "foo bar",
@@ -600,7 +601,7 @@ func TestApiInventoryAddDevice(t *testing.T) {
 			},
 		},
 		"body formatted ok, all fields present": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/internal/v1/inventory/tenants/1/devices",
 				Body: map[string]interface{}{
@@ -625,7 +626,7 @@ func TestApiInventoryAddDevice(t *testing.T) {
 			},
 		},
 		"body formatted ok, all fields present, attributes with scope": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/internal/v1/inventory/tenants/1/devices",
 				Body: map[string]interface{}{
@@ -650,7 +651,7 @@ func TestApiInventoryAddDevice(t *testing.T) {
 			},
 		},
 		"body formatted ok, wrong attributes type": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/internal/v1/inventory/tenants/1/devices",
 				Body: map[string]interface{}{
@@ -665,7 +666,7 @@ func TestApiInventoryAddDevice(t *testing.T) {
 			},
 		},
 		"body formatted ok, 'id' missing": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/internal/v1/inventory/tenants/1/devices",
 				Body:   map[string]interface{}{},
@@ -677,7 +678,7 @@ func TestApiInventoryAddDevice(t *testing.T) {
 			},
 		},
 		"body formatted ok, incorrect attribute value": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/internal/v1/inventory/tenants/1/devices",
 				Body: map[string]interface{}{
@@ -695,7 +696,7 @@ func TestApiInventoryAddDevice(t *testing.T) {
 			},
 		},
 		"body formatted ok, attribute name missing": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/internal/v1/inventory/tenants/1/devices",
 				Body: map[string]interface{}{
@@ -712,7 +713,7 @@ func TestApiInventoryAddDevice(t *testing.T) {
 			},
 		},
 		"body formatted ok, inv error": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/internal/v1/inventory/tenants/1/devices",
 				Body: map[string]interface{}{
@@ -772,7 +773,7 @@ func TestApiInventoryUpdateDeviceTags(t *testing.T) {
 		resp          JSONResponseParams
 	}{
 		"Replace tags, PUT, failed ETag": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PUT",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/:id/tags",
 				Auth:   true,
@@ -804,7 +805,7 @@ func TestApiInventoryUpdateDeviceTags(t *testing.T) {
 			},
 		},
 		"ok, replace tags, PUT, with ETag": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PUT",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/:id/tags",
 				Auth:   true,
@@ -835,7 +836,7 @@ func TestApiInventoryUpdateDeviceTags(t *testing.T) {
 			},
 		},
 		"ok, replace tags, PUT, without ETag": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PUT",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/:id/tags",
 				Auth:   true,
@@ -863,7 +864,7 @@ func TestApiInventoryUpdateDeviceTags(t *testing.T) {
 			},
 		},
 		"Upsert tags, PATCH, failed ETag": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PUT",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/:id/tags",
 				Auth:   true,
@@ -895,7 +896,7 @@ func TestApiInventoryUpdateDeviceTags(t *testing.T) {
 			},
 		},
 		"ok, upsert tags, PATCH, with ETag": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PUT",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/:id/tags",
 				Auth:   true,
@@ -926,7 +927,7 @@ func TestApiInventoryUpdateDeviceTags(t *testing.T) {
 			},
 		},
 		"ok, upsert tags, PATCH, without ETag": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PUT",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/:id/tags",
 				Auth:   true,
@@ -1033,7 +1034,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		deviceAttributes model.DeviceAttributes
 	}{
 		"no auth": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PATCH",
 				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
 				Auth:   true,
@@ -1047,7 +1048,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		},
 
 		"invalid auth": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PATCH",
 				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
 				Auth:   true,
@@ -1064,7 +1065,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		},
 
 		"empty body": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PATCH",
 				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
 				Auth:   true,
@@ -1081,7 +1082,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		},
 
 		"garbled body": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PATCH",
 				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
 				Auth:   true,
@@ -1099,7 +1100,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		},
 
 		"body formatted ok, attribute name missing": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PATCH",
 				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
 				Auth:   true,
@@ -1127,7 +1128,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		},
 
 		"body formatted ok, attribute value missing": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PATCH",
 				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
 				Auth:   true,
@@ -1150,7 +1151,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		},
 
 		"body formatted ok, attributes ok (all fields)": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PATCH",
 				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
 				Auth:   true,
@@ -1183,7 +1184,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		},
 
 		"body formatted ok, attributes ok (all fields), with scope": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PATCH",
 				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
 				Auth:   true,
@@ -1218,7 +1219,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		},
 
 		"body formatted ok, attributes ok (all fields, arrays)": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PATCH",
 				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
 				Auth:   true,
@@ -1247,7 +1248,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		},
 
 		"body formatted ok, attributes ok (values only)": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PATCH",
 				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
 				Auth:   true,
@@ -1274,7 +1275,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		},
 
 		"body formatted ok, attributes ok, but values are empty": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PATCH",
 				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
 				Auth:   true,
@@ -1301,7 +1302,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		},
 
 		"body formatted ok, attributes ok (all fields), inventory err": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PATCH",
 				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
 				Auth:   true,
@@ -1330,7 +1331,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		},
 
 		"body formatted ok, attributes ok (values only), PUT": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PATCH",
 				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
 				Auth:   true,
@@ -1710,7 +1711,7 @@ func TestApiInventoryUpsertAttributesInternal(t *testing.T) {
 
 	for name, tc := range testCases {
 		t.Logf("test case: %s", name)
-		tc.inReq = rest.MakeTestRequest(&rest.TestRequest{
+		tc.inReq = rtest.MakeTestRequest(&rtest.TestRequest{
 			Method: "PATCH",
 			Path:   "http://localhost/api/internal/v1/inventory/tenants/" + tc.tenantId + "/device/" + tc.deviceId + "/attribute/scope/" + tc.scope,
 			Body:   tc.payload,
@@ -1754,7 +1755,7 @@ func TestApiInventoryDeleteDeviceGroup(t *testing.T) {
 		inventoryErr error
 	}{
 		"ok": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "DELETE",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/123/group/g1",
 				Auth:   true,
@@ -1765,7 +1766,7 @@ func TestApiInventoryDeleteDeviceGroup(t *testing.T) {
 			},
 		},
 		"device group not found (or device's group is other than requested)": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "DELETE",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/123/group/g1",
 				Auth:   true,
@@ -1777,7 +1778,7 @@ func TestApiInventoryDeleteDeviceGroup(t *testing.T) {
 			inventoryErr: store.ErrDevNotFound,
 		},
 		"internal error": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "DELETE",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/123/group/g1",
 				Auth:   true,
@@ -1817,7 +1818,7 @@ func TestApiInventoryAddDeviceToGroup(t *testing.T) {
 		inventoryErr error
 	}{
 		"ok": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PUT",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/123/group",
 				Auth:   true,
@@ -1829,7 +1830,7 @@ func TestApiInventoryAddDeviceToGroup(t *testing.T) {
 			},
 		},
 		"device not found": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PUT",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/123/group",
 				Auth:   true,
@@ -1842,7 +1843,7 @@ func TestApiInventoryAddDeviceToGroup(t *testing.T) {
 			inventoryErr: store.ErrDevNotFound,
 		},
 		"empty group name": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PUT",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/123/group",
 				Auth:   true,
@@ -1855,7 +1856,7 @@ func TestApiInventoryAddDeviceToGroup(t *testing.T) {
 			inventoryErr: nil,
 		},
 		"unsupported characters in group name": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PUT",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/123/group",
 				Auth:   true,
@@ -1868,7 +1869,7 @@ func TestApiInventoryAddDeviceToGroup(t *testing.T) {
 			inventoryErr: nil,
 		},
 		"non-ASCII characters in group name": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PUT",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/123/group",
 				Auth:   true,
@@ -1881,7 +1882,7 @@ func TestApiInventoryAddDeviceToGroup(t *testing.T) {
 			inventoryErr: nil,
 		},
 		"empty body": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PUT",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/123/group",
 				Auth:   true,
@@ -1893,7 +1894,7 @@ func TestApiInventoryAddDeviceToGroup(t *testing.T) {
 			inventoryErr: nil,
 		},
 		"internal error": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PUT",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/123/group",
 				Auth:   true,
@@ -1935,7 +1936,7 @@ func TestApiListGroups(t *testing.T) {
 		inventoryErr error
 	}{
 		"some groups": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriGroups,
 				Auth:   true,
@@ -1947,7 +1948,7 @@ func TestApiListGroups(t *testing.T) {
 			},
 		},
 		"no groups": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "?status=rejected",
 				Auth:   true,
@@ -1958,7 +1959,7 @@ func TestApiListGroups(t *testing.T) {
 			},
 		},
 		"error": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriGroups,
 				Auth:   true,
@@ -2008,7 +2009,7 @@ func TestApiGetDevice(t *testing.T) {
 	}{
 		"no device": {
 			inDevId: model.DeviceID("1"),
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/1",
 				Auth:   true,
@@ -2021,7 +2022,7 @@ func TestApiGetDevice(t *testing.T) {
 		},
 		"some device": {
 			inDevId: model.DeviceID("2"),
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/2",
 				Auth:   true,
@@ -2040,7 +2041,7 @@ func TestApiGetDevice(t *testing.T) {
 		},
 		"error": {
 			inDevId: model.DeviceID("3"),
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/3",
 				Auth:   true,
@@ -2081,7 +2082,7 @@ func TestApiInventoryGetDevicesByGroup(t *testing.T) {
 			listDevicesNum:   5,
 			listDevicesErr:   nil,
 			listDevicesTotal: 20,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices?page=4&per_page=5",
 				Auth:   true,
@@ -2106,7 +2107,7 @@ func TestApiInventoryGetDevicesByGroup(t *testing.T) {
 			listDevicesNum:   5,
 			listDevicesErr:   nil,
 			listDevicesTotal: 21,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices?page=4&per_page=5",
 				Auth:   true,
@@ -2131,7 +2132,7 @@ func TestApiInventoryGetDevicesByGroup(t *testing.T) {
 			listDevicesNum:   5,
 			listDevicesErr:   nil,
 			listDevicesTotal: 5,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices?page=foo&per_page=5",
 				Auth:   true,
@@ -2146,7 +2147,7 @@ func TestApiInventoryGetDevicesByGroup(t *testing.T) {
 			listDevicesNum:   5,
 			listDevicesErr:   nil,
 			listDevicesTotal: 5,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices?page=1&per_page=foo",
 				Auth:   true,
@@ -2161,7 +2162,7 @@ func TestApiInventoryGetDevicesByGroup(t *testing.T) {
 			listDevicesNum:   5,
 			listDevicesErr:   nil,
 			listDevicesTotal: 5,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices?page=0&per_page=5",
 				Auth:   true,
@@ -2176,7 +2177,7 @@ func TestApiInventoryGetDevicesByGroup(t *testing.T) {
 			listDevicesNum:   5,
 			listDevicesErr:   store.ErrGroupNotFound,
 			listDevicesTotal: 20,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices?page=4&per_page=5",
 				Auth:   true,
@@ -2191,7 +2192,7 @@ func TestApiInventoryGetDevicesByGroup(t *testing.T) {
 			listDevicesNum:   5,
 			listDevicesErr:   errors.New("inventory error"),
 			listDevicesTotal: 20,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices?page=4&per_page=5",
 				Auth:   true,
@@ -2242,7 +2243,7 @@ func TestApiGetDeviceGroup(t *testing.T) {
 		*/
 
 		"device with group": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/1/group",
 				Auth:   true,
@@ -2256,7 +2257,7 @@ func TestApiGetDeviceGroup(t *testing.T) {
 			},
 		},
 		"device without group": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/1/group",
 				Auth:   true,
@@ -2270,7 +2271,7 @@ func TestApiGetDeviceGroup(t *testing.T) {
 			},
 		},
 		"device not found": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/1/group",
 				Auth:   true,
@@ -2284,7 +2285,7 @@ func TestApiGetDeviceGroup(t *testing.T) {
 			},
 		},
 		"generic inventory error": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/1/group",
 				Auth:   true,
@@ -2326,7 +2327,7 @@ func TestApiGetDeviceGroupInternal(t *testing.T) {
 		inventoryErr   error
 	}{
 		"device with group": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost/api/internal/v1/inventory/tenants/foo/devices/1/groups",
 			}),
@@ -2339,7 +2340,7 @@ func TestApiGetDeviceGroupInternal(t *testing.T) {
 			},
 		},
 		"device without group": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost/api/internal/v1/inventory/tenants/foo/devices/1/groups",
 			}), inventoryGroup: model.GroupName(""),
@@ -2351,7 +2352,7 @@ func TestApiGetDeviceGroupInternal(t *testing.T) {
 			},
 		},
 		"device not found": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost/api/internal/v1/inventory/tenants/foo/devices/1/groups",
 			}), inventoryGroup: model.GroupName(""),
@@ -2363,7 +2364,7 @@ func TestApiGetDeviceGroupInternal(t *testing.T) {
 			},
 		},
 		"generic inventory error": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost/api/internal/v1/inventory/tenants/foo/devices/1/groups",
 			}), inventoryGroup: model.GroupName(""),
@@ -2404,7 +2405,7 @@ func TestApiDeleteDeviceInventory(t *testing.T) {
 	}{
 		"no device": {
 			inDevId: model.DeviceID("1"),
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "DELETE",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/1",
 				Auth:   true,
@@ -2416,7 +2417,7 @@ func TestApiDeleteDeviceInventory(t *testing.T) {
 		},
 		"some device": {
 			inDevId: model.DeviceID("2"),
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "DELETE",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/2",
 				Auth:   true,
@@ -2427,7 +2428,7 @@ func TestApiDeleteDeviceInventory(t *testing.T) {
 		},
 		"error": {
 			inDevId: model.DeviceID("3"),
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "DELETE",
 				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/3",
 				Auth:   true,
@@ -2473,7 +2474,7 @@ func TestApiDeleteDevice(t *testing.T) {
 	}{
 		"no device": {
 			inDevId: model.DeviceID("1"),
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "DELETE",
 				Path:   "http://localhost/api/internal/v1/inventory/tenants/1/devices/1",
 			}),
@@ -2484,7 +2485,7 @@ func TestApiDeleteDevice(t *testing.T) {
 		},
 		"some device": {
 			inDevId: model.DeviceID("2"),
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "DELETE",
 				Path:   "http://localhost/api/internal/v1/inventory/tenants/1/devices/2",
 			}),
@@ -2494,7 +2495,7 @@ func TestApiDeleteDevice(t *testing.T) {
 		},
 		"error": {
 			inDevId: model.DeviceID("3"),
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "DELETE",
 				Path:   "http://localhost/api/internal/v1/inventory/tenants/1/devices/3",
 			}),
@@ -2534,7 +2535,7 @@ func TestAPICDeleteGroup(t *testing.T) {
 		InventoryErr error
 	}{{
 		Name: "ok",
-		Request: rest.MakeTestRequest(&rest.TestRequest{
+		Request: rtest.MakeTestRequest(&rtest.TestRequest{
 			Method: "DELETE",
 			Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo",
 			Auth:   true,
@@ -2549,7 +2550,7 @@ func TestAPICDeleteGroup(t *testing.T) {
 	}, {
 		Name: "internal error",
 
-		Request: rest.MakeTestRequest(&rest.TestRequest{
+		Request: rtest.MakeTestRequest(&rtest.TestRequest{
 			Method: "DELETE",
 			Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo",
 			Auth:   true,
@@ -2565,7 +2566,7 @@ func TestAPICDeleteGroup(t *testing.T) {
 		InventoryErr: errors.New("unknown error"),
 	}, {
 		Name: "error, invalid group name",
-		Request: rest.MakeTestRequest(&rest.TestRequest{
+		Request: rtest.MakeTestRequest(&rtest.TestRequest{
 			Method: "DELETE",
 			Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/illegal$group$name",
 			Auth:   true,
@@ -2618,7 +2619,7 @@ func TestAPIClearDevicesGroup(t *testing.T) {
 		InventoryErr error
 	}{{
 		Name: "ok, some devices",
-		Request: rest.MakeTestRequest(&rest.TestRequest{
+		Request: rtest.MakeTestRequest(&rtest.TestRequest{
 			Method: "DELETE",
 			Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices",
 			Auth:   true,
@@ -2635,7 +2636,7 @@ func TestAPIClearDevicesGroup(t *testing.T) {
 	}, {
 		Name: "error, empty device list",
 
-		Request: rest.MakeTestRequest(&rest.TestRequest{
+		Request: rtest.MakeTestRequest(&rtest.TestRequest{
 			Method: "DELETE",
 			Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices",
 			Auth:   true,
@@ -2652,7 +2653,7 @@ func TestAPIClearDevicesGroup(t *testing.T) {
 		},
 	}, {
 		Name: "error, invalid schema",
-		Request: rest.MakeTestRequest(&rest.TestRequest{
+		Request: rtest.MakeTestRequest(&rtest.TestRequest{
 			Method: "DELETE",
 			Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices",
 			Auth:   true,
@@ -2670,7 +2671,7 @@ func TestAPIClearDevicesGroup(t *testing.T) {
 		},
 	}, {
 		Name: "internal error",
-		Request: rest.MakeTestRequest(&rest.TestRequest{
+		Request: rtest.MakeTestRequest(&rtest.TestRequest{
 			Method: "DELETE",
 			Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices",
 			Auth:   true,
@@ -2688,7 +2689,7 @@ func TestAPIClearDevicesGroup(t *testing.T) {
 		InventoryErr: errors.New("unknown error"),
 	}, {
 		Name: "error, invalid group name",
-		Request: rest.MakeTestRequest(&rest.TestRequest{
+		Request: rtest.MakeTestRequest(&rtest.TestRequest{
 			Method: "DELETE",
 			Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/illegal$group$name/devices",
 			Auth:   true,
@@ -2746,7 +2747,7 @@ func TestAPIPatchGroupDevices(t *testing.T) {
 		JSONResponseParams
 	}{{
 		Name: "ok, all device IDs match",
-		Request: rest.MakeTestRequest(&rest.TestRequest{
+		Request: rtest.MakeTestRequest(&rtest.TestRequest{
 			Method: "PATCH",
 			Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices",
 			Auth:   true,
@@ -2763,7 +2764,7 @@ func TestAPIPatchGroupDevices(t *testing.T) {
 		},
 	}, {
 		Name: "error, invalid JSON schema",
-		Request: rest.MakeTestRequest(&rest.TestRequest{
+		Request: rtest.MakeTestRequest(&rtest.TestRequest{
 			Method: "PATCH",
 			Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices",
 			Auth:   true,
@@ -2780,7 +2781,7 @@ func TestAPIPatchGroupDevices(t *testing.T) {
 		},
 	}, {
 		Name: "error, empty devices list",
-		Request: rest.MakeTestRequest(&rest.TestRequest{
+		Request: rtest.MakeTestRequest(&rtest.TestRequest{
 			Method: "PATCH",
 			Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices",
 			Auth:   true,
@@ -2795,7 +2796,7 @@ func TestAPIPatchGroupDevices(t *testing.T) {
 		},
 	}, {
 		Name: "error, invalid group name",
-		Request: rest.MakeTestRequest(&rest.TestRequest{
+		Request: rtest.MakeTestRequest(&rtest.TestRequest{
 			Method: "PATCH",
 			Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/deeeåååhh/devices",
 			Auth:   true,
@@ -2812,7 +2813,7 @@ func TestAPIPatchGroupDevices(t *testing.T) {
 		},
 	}, {
 		Name: "error, internal error",
-		Request: rest.MakeTestRequest(&rest.TestRequest{
+		Request: rtest.MakeTestRequest(&rtest.TestRequest{
 			Method: "PATCH",
 			Path:   "http://localhost" + apiUrlManagementV1 + uriGroups + "/foo/devices",
 			Auth:   true,
@@ -2926,7 +2927,7 @@ func TestUserAdmApiCreateTenant(t *testing.T) {
 
 			//make request
 
-			req := rest.MakeTestRequest(&rest.TestRequest{
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: http.MethodPost,
 				Path:   "http://localhost/api/internal/v1/inventory/tenants",
 				Body:   tc.body,
@@ -3095,7 +3096,7 @@ func TestApiInventoryInternalDevicesStatus(t *testing.T) {
 	for name, tc := range testCases {
 		t.Run(name, func(t *testing.T) {
 			var (
-				inReq = rest.MakeTestRequest(&rest.TestRequest{
+				inReq = rtest.MakeTestRequest(&rtest.TestRequest{
 					Method: "POST",
 					Path: "http://1.2.3.4/api/internal/v1/inventory/tenants/" +
 						tc.tenantID + "/devices/status/" + tc.status,
@@ -3178,7 +3179,7 @@ func TestApiInventoryFiltersAttributes(t *testing.T) {
 			).Return(tc.attributes, tc.err)
 
 			api := makeMockApiHandler(t, &inv)
-			req := rest.MakeTestRequest(&rest.TestRequest{
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "GET",
 				Path:   "http://localhost" + apiUrlManagementV2 + urlFiltersAttributes,
 				Auth:   true,
@@ -3212,7 +3213,7 @@ func TestApiInventorySearchDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 20,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/management/v2/inventory/filters/search",
 				Auth:   true,
@@ -3233,7 +3234,7 @@ func TestApiInventorySearchDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 21,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/management/v2/inventory/filters/search",
 				Auth:   true,
@@ -3254,7 +3255,7 @@ func TestApiInventorySearchDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 21,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/management/v2/inventory/filters/search",
 				Auth:   true,
@@ -3301,7 +3302,7 @@ func TestApiInventorySearchDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 21,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/management/v2/inventory/filters/search",
 				Auth:   true,
@@ -3341,7 +3342,7 @@ func TestApiInventorySearchDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 21,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/management/v2/inventory/filters/search",
 				Auth:   true,
@@ -3382,7 +3383,7 @@ func TestApiInventorySearchDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  errors.New("inventory error"),
 			listDeviceTotal: 21,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/management/v2/inventory/filters/search",
 				Auth:   true,
@@ -3427,7 +3428,7 @@ func TestApiInventorySearchDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  errors.New("inventory error: BadValue"),
 			listDeviceTotal: 21,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/management/v2/inventory/filters/search",
 				Auth:   true,
@@ -3472,7 +3473,7 @@ func TestApiInventorySearchDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 21,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/management/v2/inventory/filters/search",
 				Auth:   true,
@@ -3543,7 +3544,7 @@ func TestApiParseSearchParams(t *testing.T) {
 		err          error
 	}{
 		"ok": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/management/v2/inventory/filters/search",
 				Auth:   true,
@@ -3610,7 +3611,7 @@ func TestApiParseSearchParams(t *testing.T) {
 			},
 		},
 		"ok: all filter types and sort orders": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/management/v2/inventory/filters/search",
 				Auth:   true,
@@ -3677,7 +3678,7 @@ func TestApiParseSearchParams(t *testing.T) {
 			},
 		},
 		"invalid Page and perPage": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/management/v2/inventory/filters/search",
 				Auth:   true,
@@ -3722,7 +3723,7 @@ func TestApiParseSearchParams(t *testing.T) {
 			},
 		},
 		"wrong sort order": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/management/v2/inventory/filters/search",
 				Auth:   true,
@@ -3746,7 +3747,7 @@ func TestApiParseSearchParams(t *testing.T) {
 			err: errors.New("order: must be a valid value."),
 		},
 		"wrong filter type": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/management/v2/inventory/filters/search",
 				Auth:   true,
@@ -3772,7 +3773,7 @@ func TestApiParseSearchParams(t *testing.T) {
 			err: errors.New("type: must be a valid value."),
 		},
 		"invalid JSON": {
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/management/v2/inventory/filters/search",
 				Auth:   true,
@@ -3813,7 +3814,7 @@ func TestApiInventoryInternalSearchDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 21,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/internal/v2/inventory/tenants/foo/filters/search",
 				Body: model.SearchParams{
@@ -3859,7 +3860,7 @@ func TestApiInventoryInternalSearchDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 21,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/internal/v2/inventory/tenants//filters/search",
 				Body: model.SearchParams{
@@ -3905,7 +3906,7 @@ func TestApiInventoryInternalSearchDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  nil,
 			listDeviceTotal: 21,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/internal/v2/inventory/tenants//filters/search",
 				Body: model.SearchParams{
@@ -3944,7 +3945,7 @@ func TestApiInventoryInternalSearchDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  errors.New("inventory error"),
 			listDeviceTotal: 21,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/internal/v2/inventory/tenants//filters/search",
 				Body: model.SearchParams{
@@ -3988,7 +3989,7 @@ func TestApiInventoryInternalSearchDevices(t *testing.T) {
 			listDevicesNum:  5,
 			listDevicesErr:  errors.New("inventory error: BadValue"),
 			listDeviceTotal: 21,
-			inReq: rest.MakeTestRequest(&rest.TestRequest{
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/internal/v2/inventory/tenants//filters/search",
 				Body: model.SearchParams{
@@ -4146,7 +4147,7 @@ func TestApiInventoryInternalReindex(t *testing.T) {
 	for name, tc := range testCases {
 		t.Run(name, func(t *testing.T) {
 			var (
-				inReq = rest.MakeTestRequest(&rest.TestRequest{
+				inReq = rtest.MakeTestRequest(&rtest.TestRequest{
 					Method: "POST",
 					Path: "http://localhost/api/internal/v1/inventory/tenants/" +
 						tc.tenantID + "/devices/" + tc.deviceID + "/reindex?service=" + tc.serviceName,
