@@ -153,6 +153,7 @@ build:frontend:docker:
       --build-arg GIT_COMMIT_TAG="${CI_COMMIT_TAG}"
       --build-arg GIT_COMMIT_SHA="${CI_COMMIT_SHA}"
       --build-arg SENTRY_ORG="${SENTRY_ORG}"
+      --build-arg SENTRY_URL="${SENTRY_URL}"
       --secret id=sentryAuthToken,env=SENTRY_AUTH_TOKEN
       --platform ${DOCKER_PLATFORM:-linux/amd64}
       --provenance false
@@ -364,8 +365,5 @@ publish:frontend:sentry:finalize:
   tags:
     - hetzner-amd-beefy
   script:
-    - sentry-cli releases \
-      --auth-token $SENTRY_AUTH_TOKEN \
-      --org $SENTRY_ORG \
-      --project mender-frontend \
-      finalize mender-frontend@$CI_COMMIT_SHA --url $SENTRY_URL
+    # this has to be in one line as the cli won't work with formatting induced white space around passed options
+    - sentry-cli --auth-token $SENTRY_AUTH_TOKEN --url $SENTRY_URL releases finalize mender-frontend@$CI_COMMIT_SHA  --project mender-frontend  --org $SENTRY_ORG

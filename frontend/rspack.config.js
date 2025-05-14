@@ -23,15 +23,17 @@ export default (env, argv) => {
           })
         ]
       : [new ESLintPlugin({ extensions: ['js', 'ts', 'tsx'] })];
-  const { GIT_COMMIT_SHA, SENTRY_AUTH_TOKEN, SENTRY_ORG } = process.env;
-  if (SENTRY_AUTH_TOKEN && argv.mode === 'production') {
+  const { GIT_COMMIT_SHA, SENTRY_AUTH_TOKEN, SENTRY_ORG, SENTRY_URL } = process.env;
+  if (SENTRY_URL && SENTRY_AUTH_TOKEN && argv.mode === 'production') {
     plugins.push(
       sentryWebpackPlugin({
         authToken: SENTRY_AUTH_TOKEN,
         org: SENTRY_ORG,
         project: 'mender-frontend',
-        release: { finalize: true, name: `mender-frontend@${GIT_COMMIT_SHA}` },
-        telemetry: false
+        release: { name: `mender-frontend@${GIT_COMMIT_SHA}` },
+        sourcemaps: { ignore: ['./dist/vs'], assets: './dist' },
+        telemetry: false,
+        url: SENTRY_URL
       })
     );
   }
