@@ -40,7 +40,7 @@ $(BUILD_TARGETS):
 
 
 .PHONY: test
-test: $(TEST_TARGETS) pkg-test test-integration
+test: test-unit test-integration
 
 .PHONY: $(TEST_TARGETS)
 $(TEST_TARGETS):
@@ -48,10 +48,10 @@ $(TEST_TARGETS):
 
 .PHONY: pkg-test
 pkg-test:
-	@$(MAKE) -C pkg/
+	@$(MAKE) -C pkg/ test
 
 .PHONY: test-unit
-test-unit: $(TEST_UNIT_TARGETS)
+test-unit: pkg-test $(TEST_UNIT_TARGETS)
 
 .PHONY: $(TEST_UNIT_TARGETS)
 $(TEST_UNIT_TARGETS):
