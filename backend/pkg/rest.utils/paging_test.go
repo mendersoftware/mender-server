@@ -24,6 +24,18 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestErrQueryParmInvalid(t *testing.T) {
+	err := ErrQueryParmInvalid("testparam", "foo")
+	assert.EqualError(t, err,
+		"invalid testparam query: \"foo\"")
+}
+
+func TestErrQueryParmLimit(t *testing.T) {
+	err := ErrQueryParmLimit("testparam")
+	assert.EqualError(t, err,
+		"invalid testparam query: value must be a non-zero positive integer")
+}
+
 func TestParsePagingParameters(t *testing.T) {
 	t.Parallel()
 	testCases := []struct {

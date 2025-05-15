@@ -17,12 +17,11 @@ package utils
 import (
 	"errors"
 	"fmt"
-	"math"
+	"net/http"
 	"net/url"
 	"strconv"
-	"strings"
 
-	"github.com/ant0ine/go-json-rest/rest"
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 )
 
 // pagination constants
@@ -43,16 +42,8 @@ const (
 )
 
 // error msgs
-func MsgQueryParmInvalid(name string) string {
-	return fmt.Sprintf("Can't parse param %s", name)
-}
-
 func MsgQueryParmMissing(name string) string {
 	return fmt.Sprintf("Missing required param %s", name)
-}
-
-func MsgQueryParmLimit(name string) string {
-	return fmt.Sprintf("Param %s is out of bounds", name)
 }
 
 func MsgQueryParmOneOf(name string, allowed []string) string {
@@ -61,7 +52,7 @@ func MsgQueryParmOneOf(name string, allowed []string) string {
 
 // query param parsing/validation
 func ParseQueryParmUInt(
-	r *rest.Request,
+	r *http.Request,
 	name string,
 	required bool,
 	min,
@@ -80,17 +71,17 @@ func ParseQueryParmUInt(
 
 	uintVal, err := strconv.ParseUint(strVal, 10, 32)
 	if err != nil {
-		return 0, errors.New(MsgQueryParmInvalid(name))
+		return 0, rest.ErrQueryParmInvalid(name, strVal)
 	}
 
 	if uintVal < min || uintVal > max {
-		return 0, errors.New(MsgQueryParmLimit(name))
+		return 0, rest.ErrQueryParmLimit(name)
 	}
 
 	return uintVal, nil
 }
 
-func ParseQueryParmBool(r *rest.Request, name string, required bool, def *bool) (*bool, error) {
+func ParseQueryParmBool(r *http.Request, name string, required bool, def *bool) (*bool, error) {
 	strVal := r.URL.Query().Get(name)
 
 	if strVal == "" {
@@ -103,14 +94,14 @@ func ParseQueryParmBool(r *rest.Request, name string, required bool, def *bool) 
 
 	boolVal, err := strconv.ParseBool(strVal)
 	if err != nil {
-		return nil, errors.New(MsgQueryParmInvalid(name))
+		return nil, rest.ErrQueryParmInvalid(name, strVal)
 	}
 
 	return &boolVal, nil
 }
 
 func ParseQueryParmStr(
-	r *rest.Request,
+	r *http.Request,
 	name string,
 	required bool,
 	allowed []string,
@@ -129,56 +120,8 @@ func ParseQueryParmStr(
 
 	val, err := url.QueryUnescape(val)
 	if err != nil {
-		return "", errors.New(MsgQueryParmInvalid(name))
+		return "", rest.ErrQueryParmInvalid(name, val)
 	}
 
 	return val, nil
-}
-
-// pagination helpers
-func ParsePagination(r *rest.Request) (uint64, uint64, error) {
-	page, err := ParseQueryParmUInt(r, PageName, false, PageMin, math.MaxUint64, PageDefault)
-	if err != nil {
-		return 0, 0, err
-	}
-
-	per_page, err := ParseQueryParmUInt(
-		r,
-		PerPageName,
-		false,
-		PerPageMin,
-		PerPageMax,
-		PerPageDefault,
-	)
-	if err != nil {
-		return 0, 0, err
-	}
-
-	return page, per_page, nil
-}
-
-func MakePageLinkHdrs(r *rest.Request, page, per_page uint64, has_next bool) []string {
-	var links []string
-
-	pathitems := strings.Split(r.URL.Path, "/")
-	resource := pathitems[len(pathitems)-1]
-	query := r.URL.Query()
-
-	if page > 1 {
-		links = append(links, MakeLink(LinkPrev, resource, query, page-1, per_page))
-	}
-
-	if has_next {
-		links = append(links, MakeLink(LinkNext, resource, query, page+1, per_page))
-	}
-
-	links = append(links, MakeLink(LinkFirst, resource, query, 1, per_page))
-	return links
-}
-
-func MakeLink(link_type string, resource string, query url.Values, page, per_page uint64) string {
-	query.Set(PageName, strconv.Itoa(int(page)))
-	query.Set(PerPageName, strconv.Itoa(int(per_page)))
-
-	return fmt.Sprintf(LinkTmpl, resource, query.Encode(), link_type)
 }
