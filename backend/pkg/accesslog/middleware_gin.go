@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"net"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -34,15 +35,30 @@ type AccessLogger struct {
 	ClientIPHook func(r *http.Request) net.IP
 }
 
+func formatPathParams(params gin.Params) string {
+	var b strings.Builder
+	lastIdx := len(params) - 1
+	delimiter := " "
+	for i, p := range params {
+		if i == lastIdx {
+			delimiter = ""
+		}
+		key := strings.TrimPrefix(p.Key, ":")
+		fmt.Fprintf(&b, "%s=%s%s", key, p.Value, delimiter)
+	}
+	return b.String()
+}
+
 func (a AccessLogger) LogFunc(
 	ctx context.Context,
 	c *gin.Context,
 	startTime time.Time,
 ) {
 	logCtx := logrus.Fields{
-		"method": c.Request.Method,
-		"path":   c.Request.URL.Path,
-		"qs":     c.Request.URL.RawQuery,
+		"method":      c.Request.Method,
+		"path":        c.FullPath(),
+		"path_params": formatPathParams(c.Params),
+		"qs":          c.Request.URL.RawQuery,
 		"ts": startTime.
 			Truncate(time.Millisecond).
 			Format(time.RFC3339Nano),
