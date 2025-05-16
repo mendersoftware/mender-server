@@ -11,13 +11,31 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { createRef, useEffect, useState } from 'react';
+import React, { CSSProperties, ComponentType, RefObject, createRef, useEffect, useState } from 'react';
 
 import { Clear as ClearIcon, Add as ContentAddIcon } from '@mui/icons-material';
 import { Fab, FormControl, FormHelperText, IconButton, OutlinedInput } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-const emptyInput = { helptip: null, key: '', value: '' };
+type HelptipProps = {
+  [key: string]: any;
+  style?: CSSProperties;
+};
+
+type InputHelptip = {
+  component: ComponentType<HelptipProps>;
+  position?: string;
+  props?: HelptipProps;
+};
+
+type InputLineItem = {
+  helptip: InputHelptip | null;
+  key: string;
+  ref?: RefObject<unknown>;
+  value: string;
+};
+
+const emptyInput: InputLineItem = { helptip: null, key: '', value: '' };
 
 const useStyles = makeStyles()(theme => ({
   spacer: { minWidth: theme.spacing(30) },
@@ -87,7 +105,7 @@ export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHe
       {inputs.map((input, index) => {
         const hasError = Boolean(index === inputs.length - 1 && (errortext || error));
         const hasRemovalDisabled = !(inputs[index].key && inputs[index].value);
-        const Helptip = inputs[index].helptip?.component;
+        const { component: Helptip = null, props: helptipProps = {} } = (inputs[index].helptip ?? {}) as InputHelptip;
         return (
           <div className="key-value-container relative" key={index}>
             <FormControl>
@@ -104,7 +122,7 @@ export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHe
             ) : (
               <span />
             )}
-            {Helptip && <Helptip className={classes.helptip} {...inputs[index].helptip.props} />}
+            {Helptip && <Helptip className={classes.helptip} {...helptipProps} />}
           </div>
         );
       })}
