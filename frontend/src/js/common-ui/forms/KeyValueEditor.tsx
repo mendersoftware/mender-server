@@ -120,13 +120,7 @@ export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHe
           </Fab>
         </div>
         <div className={classes.spacer} />
-        {inputs.length > 1 ? (
-          <a className="margin-left-small" onClick={onClearClick}>
-            clear all
-          </a>
-        ) : (
-          <div />
-        )}
+        {inputs.length > 1 ? <a onClick={onClearClick}>clear all</a> : <div />}
       </div>
     </div>
   );
