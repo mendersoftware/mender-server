@@ -11,13 +11,14 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useCallback } from 'react';
+import React, { ComponentType, FC, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import ConfigurationObject from '@northern.tech/common-ui/ConfigurationObject';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
-import { HelpTooltip } from '@northern.tech/common-ui/MenderTooltip';
+import { HelpTooltip, HelpTooltipProps } from '@northern.tech/common-ui/MenderTooltip';
 import storeActions from '@northern.tech/store/actions';
+import { Device } from '@northern.tech/store/api/types/Device';
 import { READ_STATES, yes } from '@northern.tech/store/constants';
 import { getDeviceById, getFeatures, getTooltipsState } from '@northern.tech/store/selectors';
 import { setAllTooltipsReadState, setTooltipReadState } from '@northern.tech/store/thunks';
@@ -155,7 +156,7 @@ const DeviceTypeTip = () => (
   </>
 );
 
-const TwoFactorNote = ({ className }) => (
+const TwoFactorNote = ({ className }: { className?: string }) => (
   <div className={className}>
     Two Factor Authentication is enabled for your account. If you haven&apos;t set up a 3rd party authentication app with a verification code, please contact an
     administrator.
@@ -295,7 +296,15 @@ const PlanUpgradeEmail = () => (
   </>
 );
 
-export const HELPTOOLTIPS = {
+export type HelpTooltipComponent = {
+  Component?: FC;
+  id: string;
+  isRelevant?: (props: { device?: Device }) => boolean;
+  readState?: keyof typeof READ_STATES;
+  SpecialComponent?: ComponentType<{ className?: string; device?: Device }>;
+};
+
+export const HELPTOOLTIPS: Record<string, HelpTooltipComponent> = {
   addGroup: { id: 'addGroup', Component: AddGroup },
   artifactUpload: { id: 'artifactUpload', Component: ArtifactUpload },
   attributeLimit: { id: 'attributeLimit', Component: AttributeLimit },
@@ -350,7 +359,12 @@ export const HELPTOOLTIPS = {
   webhookSecret: { id: 'webhookSecret', Component: WebhookSecret }
 };
 
-export const MenderHelpTooltip = props => {
+type MenderHelpTooltipProps = {
+  contentProps?: Record<string, unknown>;
+  id: string;
+} & Omit<HelpTooltipProps, 'setAllTooltipsReadState' | 'setTooltipReadState' | 'tooltip'>;
+
+export const MenderHelpTooltip = (props: MenderHelpTooltipProps) => {
   const { id, contentProps = {} } = props;
   const tooltipsById = useSelector(getTooltipsState);
   const dispatch = useDispatch();
