@@ -29,7 +29,7 @@ import DeviceDataCollapse from './DeviceDataCollapse';
 const NameTipComponent = props => <MenderHelpTooltip id={HELPTOOLTIPS.nameTagTip.id} {...props} />;
 
 const configHelpTipsMap = {
-  name: { component: NameTipComponent, position: 'right' }
+  name: { component: NameTipComponent }
 };
 
 export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
@@ -77,13 +77,6 @@ export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
       .finally(() => setIsEditDisabled(false));
   };
 
-  const helpTipsMap = Object.entries(configHelpTipsMap).reduce((accu, [key, value]) => {
-    accu[key] = {
-      ...value,
-      props: { deviceId: device.id }
-    };
-    return accu;
-  }, {});
   return (
     <DeviceDataCollapse
       title={
@@ -102,7 +95,7 @@ export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
               disabled={isEditDisabled}
               errortext=""
               initialInput={editableTags}
-              inputHelpTipsMap={helpTipsMap}
+              inputHelpTipsMap={configHelpTipsMap}
               onInputChange={setChangedTags}
               reset={shouldUpdateEditor}
             />
