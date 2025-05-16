@@ -187,7 +187,7 @@ export const Organization = () => {
                 dividerDisabled
                 key="org_token"
                 onExpansion={onTokenExpansion}
-                secondary={tenant_token}
+                secondary={showTokenWarning ? tenant_token : `${tenant_token.substring(0, 5)}...${tenant_token.substring(tenant_token.length - 5)}`}
                 textClasses={{ secondary: 'inventory-text tenant-token-text' }}
               />
               {showTokenWarning && (
