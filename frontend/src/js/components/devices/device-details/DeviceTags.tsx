@@ -78,6 +78,8 @@ export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
       .finally(() => setIsEditDisabled(false));
   };
 
+  const isFullyDefined = Object.entries(changedTags).every(([key, value]) => !!key && !!value);
+
   return (
     <DeviceDataCollapse
       title={
@@ -97,11 +99,11 @@ export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
               errortext=""
               initialInput={editableTags}
               inputHelpTipsMap={configHelpTipsMap}
-              onInputChange={setChangedTags}
+              onInputUpdate={setChangedTags}
               reset={shouldUpdateEditor}
             />
             <div className="flexbox center-aligned margin-bottom-small" style={{ justifyContent: 'flex-end' }}>
-              <Button className="margin-right-small" color="primary" onClick={onSubmit} variant="contained">
+              <Button className="margin-right-small" disabled={!isFullyDefined} color="primary" onClick={onSubmit} variant="contained">
                 Save
               </Button>
               <Button onClick={onCancel}>Cancel</Button>
