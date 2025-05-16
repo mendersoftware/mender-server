@@ -20,7 +20,18 @@ import { makeStyles } from 'tss-react/mui';
 const emptyInput = { helptip: null, key: '', value: '' };
 
 const useStyles = makeStyles()(theme => ({
-  spacer: { minWidth: theme.spacing(30) }
+  spacer: { minWidth: theme.spacing(30) },
+  helptip: { left: -35, top: 15, position: 'absolute' },
+  keyValueContainer: {
+    display: 'grid',
+    gridTemplateColumns: 'min-content min-content max-content',
+    columnGap: theme.spacing(2),
+    alignItems: 'baseline',
+    justifyItems: 'baseline',
+    '> div': {
+      marginTop: 10
+    }
+  }
 }));
 
 export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHelpTipsMap = {}, onInputChange, reset }) => {
@@ -88,7 +99,7 @@ export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHe
         const hasRemovalDisabled = !(inputs[index].key && inputs[index].value);
         const Helptip = inputs[index].helptip?.component;
         return (
-          <div className="key-value-container relative" key={index}>
+          <div className={`${classes.keyValueContainer} relative`} key={index}>
             <FormControl>
               <OutlinedInput disabled={disabled} value={input.key} placeholder="Key" onChange={e => updateInputs('key', index, e)} type="text" />
               {hasError && <FormHelperText>{errortext || error}</FormHelperText>}
@@ -103,11 +114,11 @@ export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHe
             ) : (
               <span />
             )}
-            {Helptip && <Helptip anchor={{ left: -35, top: 15, position: 'absolute' }} {...inputs[index].helptip.props} />}
+            {Helptip && <Helptip className={classes.helptip} {...inputs[index].helptip.props} />}
           </div>
         );
       })}
-      <div className="key-value-container">
+      <div className={classes.keyValueContainer}>
         <div className={classes.spacer}>
           <Fab
             disabled={disabled || !inputs[inputs.length - 1].key || !inputs[inputs.length - 1].value}
