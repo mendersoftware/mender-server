@@ -11,19 +11,40 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { createRef, useEffect, useState } from 'react';
+import React, { CSSProperties, ComponentType, RefObject, createRef, useEffect, useState } from 'react';
 
 import { Clear as ClearIcon, Add as ContentAddIcon } from '@mui/icons-material';
 import { Fab, FormControl, FormHelperText, IconButton, OutlinedInput } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-const emptyInput = { helptip: null, key: '', value: '' };
+import { yes } from '@northern.tech/store/constants';
+
+type HelptipProps = {
+  [key: string]: any;
+  style?: CSSProperties;
+};
+
+type InputHelptip = {
+  component: ComponentType<HelptipProps>;
+  position?: string;
+  props?: HelptipProps;
+};
+
+type InputLineItem = {
+  helptip: InputHelptip | null;
+  key: string;
+  ref?: RefObject<unknown>;
+  value: string;
+};
+
+const emptyInput: InputLineItem = { helptip: null, key: '', value: '' };
 
 const useStyles = makeStyles()(theme => ({
-  spacer: { minWidth: theme.spacing(30) }
+  spacer: { minWidth: theme.spacing(30) },
+  helptip: { left: -35, top: 15, position: 'absolute' }
 }));
 
-export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHelpTipsMap = {}, onInputChange, reset }) => {
+export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHelpTipsMap = {}, onInputChange, onInputUpdate = yes, reset }) => {
   const { classes } = useStyles();
   const [inputs, setInputs] = useState([{ ...emptyInput }]);
   const [error, setError] = useState('');
@@ -55,6 +76,7 @@ export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHe
       changedInputs[index].helptip = inputHelpTipsMap[normalizedKey];
     }
     setInputs(changedInputs);
+    onInputUpdate(reducePairsIndiscriminately(changedInputs));
     const inputObject = reducePairs(changedInputs);
     if (changedInputs.every(item => item.key && item.value) && changedInputs.length !== Object.keys(inputObject).length) {
       setError('Duplicate keys exist, only the last set value will be submitted');
@@ -65,6 +87,9 @@ export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHe
   };
 
   const reducePairs = listOfPairs => listOfPairs.reduce((accu, item) => ({ ...accu, ...(item.value ? { [item.key]: item.value } : {}) }), {});
+
+  // have this for now, the intention is to move the editor to RHF and then we can reconsider this & the related usage in device config + preauth
+  const reducePairsIndiscriminately = listOfPairs => listOfPairs.reduce((accu, item) => ({ ...accu, [item.key]: item.value }), {});
 
   const addKeyValue = () => {
     const changedInputs = [...inputs, { ...emptyInput, ref: createRef() }];
@@ -86,7 +111,7 @@ export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHe
       {inputs.map((input, index) => {
         const hasError = Boolean(index === inputs.length - 1 && (errortext || error));
         const hasRemovalDisabled = !(inputs[index].key && inputs[index].value);
-        const Helptip = inputs[index].helptip?.component;
+        const { component: Helptip = null, props: helptipProps = {} } = (inputs[index].helptip ?? {}) as InputHelptip;
         return (
           <div className="key-value-container relative" key={index}>
             <FormControl>
@@ -103,7 +128,7 @@ export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHe
             ) : (
               <span />
             )}
-            {Helptip && <Helptip anchor={{ left: -35, top: 15, position: 'absolute' }} {...inputs[index].helptip.props} />}
+            {Helptip && <Helptip className={classes.helptip} {...helptipProps} />}
           </div>
         );
       })}
@@ -120,13 +145,7 @@ export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHe
           </Fab>
         </div>
         <div className={classes.spacer} />
-        {inputs.length > 1 ? (
-          <a className="margin-left-small" onClick={onClearClick}>
-            clear all
-          </a>
-        ) : (
-          <div />
-        )}
+        {inputs.length > 1 ? <a onClick={onClearClick}>clear all</a> : <div />}
       </div>
     </div>
   );

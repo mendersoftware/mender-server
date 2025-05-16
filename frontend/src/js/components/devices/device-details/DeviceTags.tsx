@@ -14,14 +14,14 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 
 import ConfigurationObject from '@northern.tech/common-ui/ConfigurationObject';
 import { EditButton } from '@northern.tech/common-ui/Confirm';
 import KeyValueEditor from '@northern.tech/common-ui/forms/KeyValueEditor';
 import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
 import { getDeviceAttributes, setDeviceTags } from '@northern.tech/store/thunks';
-import { isEmpty, toggle } from '@northern.tech/utils/helpers';
+import { toggle } from '@northern.tech/utils/helpers';
 
 import Tracking from '../../../tracking';
 import DeviceDataCollapse from './DeviceDataCollapse';
@@ -29,7 +29,7 @@ import DeviceDataCollapse from './DeviceDataCollapse';
 const NameTipComponent = props => <MenderHelpTooltip id={HELPTOOLTIPS.nameTagTip.id} {...props} />;
 
 const configHelpTipsMap = {
-  name: { component: NameTipComponent, position: 'right' }
+  name: { component: NameTipComponent }
 };
 
 export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
@@ -47,12 +47,6 @@ export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
   useEffect(() => {
     setShouldUpdateEditor(toggle);
   }, [isEditing]);
-
-  useEffect(() => {
-    if (canWriteDevices) {
-      setIsEditing(!hasTags);
-    }
-  }, [hasTags, canWriteDevices]);
 
   const onCancel = () => {
     setIsEditing(false);
@@ -77,13 +71,8 @@ export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
       .finally(() => setIsEditDisabled(false));
   };
 
-  const helpTipsMap = Object.entries(configHelpTipsMap).reduce((accu, [key, value]) => {
-    accu[key] = {
-      ...value,
-      props: { deviceId: device.id }
-    };
-    return accu;
-  }, {});
+  const isFullyDefined = Object.entries(changedTags).every(([key, value]) => !!key && !!value);
+
   return (
     <DeviceDataCollapse
       title={
@@ -102,19 +91,21 @@ export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
               disabled={isEditDisabled}
               errortext=""
               initialInput={editableTags}
-              inputHelpTipsMap={helpTipsMap}
-              onInputChange={setChangedTags}
+              inputHelpTipsMap={configHelpTipsMap}
+              onInputUpdate={setChangedTags}
               reset={shouldUpdateEditor}
             />
             <div className="flexbox center-aligned margin-bottom-small" style={{ justifyContent: 'flex-end' }}>
-              <Button className="margin-right-small" disabled={isEmpty(changedTags)} color="primary" onClick={onSubmit} variant="contained">
+              <Button className="margin-right-small" disabled={!isFullyDefined} color="primary" onClick={onSubmit} variant="contained">
                 Save
               </Button>
               <Button onClick={onCancel}>Cancel</Button>
             </div>
           </>
+        ) : hasTags ? (
+          <ConfigurationObject config={tags} setSnackbar={setSnackbar} />
         ) : (
-          hasTags && <ConfigurationObject config={tags} setSnackbar={setSnackbar} />
+          <Typography variant="subtitle2">No tags have been set for this device.</Typography>
         )}
       </div>
     </DeviceDataCollapse>

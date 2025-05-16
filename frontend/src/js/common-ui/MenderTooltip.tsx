@@ -12,14 +12,18 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useEffect, useState } from 'react';
+import type { FC, ReactNode } from 'react';
 
 import { Help as HelpIcon } from '@mui/icons-material';
-import { ClickAwayListener, Tooltip } from '@mui/material';
+import { ClickAwayListener, Tooltip, TooltipProps } from '@mui/material';
 import { makeStyles, withStyles } from 'tss-react/mui';
 
+import type { HelpTooltipComponent } from '@northern.tech/helptips/HelpTooltips';
+import type { Device } from '@northern.tech/store/api/types/Device';
 import { READ_STATES, TIMEOUTS } from '@northern.tech/store/constants';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { toggle } from '@northern.tech/utils/helpers';
+import type { PositioningStrategy } from '@popperjs/core';
 
 const useStyles = makeStyles()(theme => ({
   icon: {
@@ -60,7 +64,15 @@ export const MenderTooltip = withStyles(Tooltip, ({ palette, shadows, spacing })
   }
 }));
 
-export const MenderTooltipClickable = ({
+interface MenderTooltipClickableProps extends TooltipProps {
+  onboarding?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  startOpen?: boolean;
+  tooltipComponent?: typeof MenderTooltip;
+  visibility?: boolean;
+}
+
+export const MenderTooltipClickable: FC<MenderTooltipClickableProps> = ({
   children,
   onboarding,
   startOpen = false,
@@ -86,13 +98,13 @@ export const MenderTooltipClickable = ({
 
   const hide = () => setOpen(false);
 
-  const Component = onboarding ? OnboardingTooltip : tooltipComponent;
+  const Component = (onboarding ? OnboardingTooltip : tooltipComponent) as typeof Tooltip;
   const extraProps = onboarding
     ? {
         PopperProps: {
           disablePortal: true,
           popperOptions: {
-            strategy: 'fixed',
+            strategy: 'fixed' as PositioningStrategy,
             modifiers: [
               { name: 'flip', enabled: false },
               { name: 'preventOverflow', enabled: true, options: { boundary: window, altBoundary: false } }
@@ -152,7 +164,13 @@ const tooltipStateStyleMap = {
   default: ''
 };
 
-const TooltipWrapper = ({ content, onClose, onReadAll }) => (
+interface TooltipWrapperProps {
+  content: ReactNode;
+  onClose: () => void;
+  onReadAll: () => void;
+}
+
+const TooltipWrapper: FC<TooltipWrapperProps> = ({ content, onClose, onReadAll }) => (
   <div>
     {content}
     <div className="flexbox space-between margin-top-small">
@@ -166,7 +184,29 @@ const TooltipWrapper = ({ content, onClose, onReadAll }) => (
   </div>
 );
 
-export const HelpTooltip = ({ icon = undefined, id, contentProps = {}, tooltip, device, setAllTooltipsReadState, setTooltipReadState, ...props }) => {
+export interface HelpTooltipProps {
+  contentProps?: Record<string, unknown>;
+  device?: Device; // TODO: use the UI Device type once it's available
+  icon?: ReactNode;
+  id: string;
+  setAllTooltipsReadState: (state: keyof typeof READ_STATES) => void;
+  setTooltipReadState: (args: { id: string; persist: boolean; readState: string }) => void;
+  tooltip: Omit<HelpTooltipComponent, 'id' | 'isRelevant' | 'readState'> & {
+    isRelevant: (props: { device?: Device }) => boolean;
+    readState: keyof typeof READ_STATES;
+  };
+}
+
+export const HelpTooltip: FC<HelpTooltipProps & Omit<MenderTooltipClickableProps, 'children' | 'title'>> = ({
+  icon = undefined,
+  id,
+  contentProps = {},
+  tooltip,
+  device,
+  setAllTooltipsReadState,
+  setTooltipReadState,
+  ...props
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const debouncedIsOpen = useDebounce(isOpen, TIMEOUTS.threeSeconds);
   const { classes } = useStyles();
