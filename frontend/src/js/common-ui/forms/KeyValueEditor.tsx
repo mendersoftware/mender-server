@@ -17,6 +17,8 @@ import { Clear as ClearIcon, Add as ContentAddIcon } from '@mui/icons-material';
 import { Fab, FormControl, FormHelperText, IconButton, OutlinedInput } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { yes } from '@northern.tech/store/constants';
+
 type HelptipProps = {
   [key: string]: any;
   style?: CSSProperties;
@@ -51,7 +53,7 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 
-export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHelpTipsMap = {}, onInputChange, reset }) => {
+export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHelpTipsMap = {}, onInputChange, onInputUpdate = yes, reset }) => {
   const { classes } = useStyles();
   const [inputs, setInputs] = useState([{ ...emptyInput }]);
   const [error, setError] = useState('');
@@ -83,6 +85,7 @@ export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHe
       changedInputs[index].helptip = inputHelpTipsMap[normalizedKey];
     }
     setInputs(changedInputs);
+    onInputUpdate(reducePairsIndiscriminately(changedInputs));
     const inputObject = reducePairs(changedInputs);
     if (changedInputs.every(item => item.key && item.value) && changedInputs.length !== Object.keys(inputObject).length) {
       setError('Duplicate keys exist, only the last set value will be submitted');
@@ -93,6 +96,9 @@ export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHe
   };
 
   const reducePairs = listOfPairs => listOfPairs.reduce((accu, item) => ({ ...accu, ...(item.value ? { [item.key]: item.value } : {}) }), {});
+
+  // have this for now, the intention is to move the editor to RHF and then we can reconsider this & the related usage in device config + preauth
+  const reducePairsIndiscriminately = listOfPairs => listOfPairs.reduce((accu, item) => ({ ...accu, [item.key]: item.value }), {});
 
   const addKeyValue = () => {
     const changedInputs = [...inputs, { ...emptyInput }];
