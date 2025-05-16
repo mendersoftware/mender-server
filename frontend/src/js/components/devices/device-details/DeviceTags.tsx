@@ -14,7 +14,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 
 import ConfigurationObject from '@northern.tech/common-ui/ConfigurationObject';
 import { EditButton } from '@northern.tech/common-ui/Confirm';
@@ -47,12 +47,6 @@ export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
   useEffect(() => {
     setShouldUpdateEditor(toggle);
   }, [isEditing]);
-
-  useEffect(() => {
-    if (canWriteDevices) {
-      setIsEditing(!hasTags);
-    }
-  }, [hasTags, canWriteDevices]);
 
   const onCancel = () => {
     setIsEditing(false);
@@ -108,8 +102,10 @@ export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
               <Button onClick={onCancel}>Cancel</Button>
             </div>
           </>
+        ) : hasTags ? (
+          <ConfigurationObject config={tags} setSnackbar={setSnackbar} />
         ) : (
-          hasTags && <ConfigurationObject config={tags} setSnackbar={setSnackbar} />
+          <Typography variant="subtitle2">No tags have been set for this device.</Typography>
         )}
       </div>
     </DeviceDataCollapse>
