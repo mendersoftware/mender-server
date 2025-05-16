@@ -20,7 +20,8 @@ import { makeStyles } from 'tss-react/mui';
 const emptyInput = { helptip: null, key: '', value: '' };
 
 const useStyles = makeStyles()(theme => ({
-  spacer: { minWidth: theme.spacing(30) }
+  spacer: { minWidth: theme.spacing(30) },
+  helptip: { left: -35, top: 15, position: 'absolute' }
 }));
 
 export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHelpTipsMap = {}, onInputChange, reset }) => {
@@ -103,7 +104,7 @@ export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHe
             ) : (
               <span />
             )}
-            {Helptip && <Helptip anchor={{ left: -35, top: 15, position: 'absolute' }} {...inputs[index].helptip.props} />}
+            {Helptip && <Helptip className={classes.helptip} {...inputs[index].helptip.props} />}
           </div>
         );
       })}
