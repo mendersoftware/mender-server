@@ -25,7 +25,7 @@ import { AppDispatch } from '@northern.tech/store/store';
 import { setTenantsListState } from '@northern.tech/store/thunks';
 import dayjs from 'dayjs';
 
-import { LIMIT_THRESHOLD } from '../header/devicecount';
+import { LIMIT_THRESHOLD } from '../header/DeviceCount';
 import { ExpandedTenant } from './ExpandedTenant';
 import { Tenant } from './types';
 

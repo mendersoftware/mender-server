@@ -28,7 +28,7 @@ import { AppDispatch } from '@northern.tech/store/store';
 import { editTenantDeviceLimit, removeTenant } from '@northern.tech/store/thunks';
 import copy from 'copy-to-clipboard';
 
-import { DeviceCount } from '../header/devicecount';
+import { DeviceCount } from '../header/DeviceCount';
 import { Tenant } from './types';
 
 interface ExpandedTenantProps {

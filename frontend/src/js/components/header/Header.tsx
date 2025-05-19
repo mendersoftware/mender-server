@@ -84,10 +84,10 @@ import Tracking from '../../tracking';
 import Announcement from './Announcement';
 import DemoNotification from './DemoNotification';
 import DeploymentNotifications from './DeploymentNotifications';
+import { DeviceCount } from './DeviceCount';
 import DeviceNotifications from './DeviceNotifications';
 import OfferHeader from './OfferHeader';
 import TrialNotification from './TrialNotification';
-import { DeviceCount } from './devicecount';
 
 const { setShowFeedbackDialog } = storeActions;
 
