@@ -77,9 +77,12 @@ variables:
     value: "302.Release-information/03.Open-source-licenses/01.Mender-Server/docs.md"
 
 include:
+  - component: "gitlab.com/Northern.tech/Mender/mendertesting/commit-lint@master"
   - project: "Northern.tech/Mender/mendertesting"
     file:
       - ".gitlab-ci-github-status-updates.yml"
+      # QA-1046 Remove after hardening sign-off checks in the modern commit linter
+      - ".gitlab-ci-check-commits-signoffs.yml"
   - local: "/frontend/pipeline.yml"
   - local: "/.gitlab/merge-enterprise.yml"
     rules:
@@ -630,19 +633,6 @@ coveralls:done:
     - curl "https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN&carryforward=frontend-unit,frontend-e2e,frontend-e2e-enterprise,create-artifact-worker-unit,deployments-unit,deployments-acceptance,deviceauth-unit,deviceauth-acceptance,deviceconfig-unit,deviceconfig-acceptance,deviceconnect-unit,deviceconnect-acceptance,inventory-unit,inventory-acceptance,iot-manager-unit,iot-manager-acceptance,useradm-unit,useradm-acceptance,workflows-unit,workflows-acceptance,integration" -d "payload[build_num]=$CI_PIPELINE_ID&payload[status]=done"
   tags:
     - hetzner-amd-beefy
-
-lint:commit:
-  stage: lint
-  needs: []
-  image:
-    name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/commitlint/commitlint:latest
-    entrypoint: [""]
-  tags:
-    - hetzner-amd-beefy
-  before_script:
-    - npm install --global commitlint-plugin-selective-scope --save-dev
-  script:
-    - echo "${CI_COMMIT_MESSAGE}" | commitlint
 
 changelog:
   image: "registry.gitlab.com/northern.tech/mender/mender-test-containers:release-please-v1-master"
