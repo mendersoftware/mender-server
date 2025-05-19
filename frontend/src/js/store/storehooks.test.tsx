@@ -135,7 +135,7 @@ const appInitActions = [
   { type: getUserOrganization.fulfilled.type },
   { type: userActions.setGlobalSettings.type, payload: { ...defaultState.users.globalSettings } },
   { type: setOfflineThreshold.pending.type },
-  { type: appActions.setOfflineThreshold.type, payload: '2019-01-12T13:00:01.050Z' },
+  { type: appActions.setOfflineThreshold.type, payload: '2019-01-12T13:00:00.950Z' },
   { type: setOfflineThreshold.fulfilled.type },
   { type: userActions.setUserSettings.type, payload: { ...defaultState.users.userSettings } },
   { type: getGlobalSettings.fulfilled.type },
