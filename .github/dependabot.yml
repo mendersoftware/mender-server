@@ -62,6 +62,21 @@ updates:
           - "*"
     reviewers:
       - "mendersoftware/backend-dependabot-reviewers"
+    target_branch: main
+  - commit-message:
+      prefix: chore
+    directory: /backend
+    package-ecosystem: gomod
+    schedule:
+      interval: monthly
+    groups:
+      backend-golang-dependencies:
+        patterns:
+          - "*"
+    reviewers:
+      - "mendersoftware/backend-dependabot-reviewers"
+    target_branch: 4.0.x
+  - commit-message:
   - commit-message:
       prefix: chore
     directories:
