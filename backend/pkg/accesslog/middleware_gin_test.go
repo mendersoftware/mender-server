@@ -159,3 +159,13 @@ func TestMiddleware(t *testing.T) {
 		})
 	}
 }
+
+func TestFormatPathParams(t *testing.T) {
+	params := []gin.Param{
+		{Key: "foo", Value: "bar"},
+		{Key: "bar", Value: "baz"},
+	}
+	actual := formatPathParams(params)
+	assert.Equal(t, "foo=bar bar=baz", actual)
+	assert.Empty(t, formatPathParams(gin.Params{}))
+}
