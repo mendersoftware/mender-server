@@ -12,7 +12,6 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 // @ts-nocheck
-import { HELPTOOLTIPS } from '@northern.tech/helptips/HelpTooltips';
 import { getSessionInfo } from '@northern.tech/store/auth';
 import { emptyRole } from '@northern.tech/store/commonConstants';
 import { setOfflineThreshold } from '@northern.tech/store/thunks';
@@ -78,6 +77,8 @@ export const offlineThreshold = [
   { type: appActions.setOfflineThreshold.type, payload: '2019-01-12T13:00:00.900Z' },
   { type: setOfflineThreshold.fulfilled.type }
 ];
+
+const tooltipIds = ['foo', 'bar'];
 
 /* eslint-disable sonarjs/no-identical-functions */
 describe('user actions', () => {
@@ -653,7 +654,7 @@ describe('user actions', () => {
       { type: setAllTooltipsReadState.pending.type },
       {
         type: actions.setTooltipsState.type,
-        payload: { ...Object.values(HELPTOOLTIPS).reduce((accu, { id }) => ({ ...accu, [id]: { readState: 'testRead' } }), {}) }
+        payload: { ...tooltipIds.reduce((accu, id) => ({ ...accu, [id]: { readState: 'testRead' } }), {}) }
       },
       { type: saveUserSettings.pending.type },
       { type: getUserSettings.pending.type },
@@ -663,7 +664,7 @@ describe('user actions', () => {
       { type: saveUserSettings.fulfilled.type },
       { type: setAllTooltipsReadState.fulfilled.type }
     ];
-    await store.dispatch(setAllTooltipsReadState('testRead'));
+    await store.dispatch(setAllTooltipsReadState({ readState: 'testRead', tooltipIds }));
     const storeActions = store.getActions();
     expect(storeActions.length).toEqual(expectedActions.length);
     expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));

@@ -17,6 +17,7 @@ import { Help as HelpIcon } from '@mui/icons-material';
 import { ClickAwayListener, Tooltip } from '@mui/material';
 import { makeStyles, withStyles } from 'tss-react/mui';
 
+import { HELPTOOLTIPS } from '@northern.tech/helptips/HelpTooltips';
 import { READ_STATES, TIMEOUTS } from '@northern.tech/store/constants';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { toggle } from '@northern.tech/utils/helpers';
@@ -179,7 +180,7 @@ export const HelpTooltip = ({ icon = undefined, id, contentProps = {}, tooltip, 
     setTooltipReadState({ id, persist: true, readState: READ_STATES.read });
   }, [debouncedIsOpen, id, setTooltipReadState]);
 
-  const onReadAllClick = () => setAllTooltipsReadState(READ_STATES.read);
+  const onReadAllClick = () => setAllTooltipsReadState({ readState: READ_STATES.read, tooltipIds: Object.keys(HELPTOOLTIPS) });
 
   const title = SpecialComponent ? (
     <SpecialComponent device={device} {...contentProps} />
