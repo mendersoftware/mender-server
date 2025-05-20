@@ -667,12 +667,12 @@ exports[`MyOrganization Component > renders correctly 1`] = `
                     >
                       <div
                         class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary emotion-4"
-                        title="test"
+                        title="test...test"
                       >
                         <span
                           class="inventory-text tenant-token-text"
                         >
-                          test
+                          test...test
                         </span>
                          
                       </div>
