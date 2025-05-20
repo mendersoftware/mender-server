@@ -8,7 +8,7 @@ import { UserWorkspaceConfig, defineConfig } from 'vitest/config';
 export default defineConfig(() => {
   const isCi = process.env.CI;
   const cpuCount = cpus().length;
-  const threadCount = isCi ? cpuCount / 4 : undefined;
+  const threadCount = isCi ? cpuCount / 2 : undefined;
 
   return {
     plugins: [
