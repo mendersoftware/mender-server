@@ -1,75 +1,62 @@
 import react from '@vitejs/plugin-react';
-import { cpus } from 'os';
 import path from 'path';
 import svgr from 'vite-plugin-svgr';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { UserWorkspaceConfig, defineConfig } from 'vitest/config';
 
-export default defineConfig(() => {
-  const isCi = process.env.CI;
-  const cpuCount = cpus().length;
-  const threadCount = isCi ? cpuCount / 4 : undefined;
+export default defineConfig(
+  () =>
+    ({
+      plugins: [
+        react(),
+        svgr({
+          svgrOptions: {
+            ref: true,
+            svgo: false,
+            titleProp: true
+          },
+          include: '**/*.svg'
+        }),
+        tsconfigPaths({ root: path.resolve(__dirname) })
+      ],
 
-  return {
-    plugins: [
-      react(),
-      svgr({
-        svgrOptions: {
-          ref: true,
-          svgo: false,
-          titleProp: true
+      resolve: {
+        alias: [
+          {
+            find: '@northern.tech/store',
+            replacement: path.resolve(__dirname, 'src/js/store')
+          },
+          {
+            find: '@northern.tech/common-ui',
+            replacement: path.resolve(__dirname, 'src/js/common-ui')
+          },
+          {
+            find: '@northern.tech/helptips',
+            replacement: path.resolve(__dirname, 'src/js/helptips')
+          }
+        ]
+      },
+      server: {
+        port: 80,
+        middlewareMode: false
+      },
+      test: {
+        coverage: {
+          reporter: ['json', 'lcov'],
+          reportsDirectory: 'coverage'
         },
-        include: '**/*.svg'
-      }),
-      tsconfigPaths({ root: path.resolve(__dirname) })
-    ],
-
-    resolve: {
-      alias: [
-        {
-          find: '@northern.tech/store',
-          replacement: path.resolve(__dirname, 'src/js/store')
+        env: {
+          BABEL_ENV: 'test',
+          NODE_ENV: 'test',
+          PUBLIC_URL: '',
+          TZ: 'UTC'
         },
-        {
-          find: '@northern.tech/common-ui',
-          replacement: path.resolve(__dirname, 'src/js/common-ui')
-        },
-        {
-          find: '@northern.tech/helptips',
-          replacement: path.resolve(__dirname, 'src/js/helptips')
+        environment: 'jsdom',
+        globals: true,
+        setupFiles: './tests/setupTests.jsx',
+        fakeTimers: {
+          toFake: ['setTimeout', 'clearTimeout', 'Date']
         }
-      ]
-    },
-    server: {
-      port: 80,
-      middlewareMode: false
-    },
-    test: {
-      coverage: {
-        reporter: ['json', 'lcov'],
-        reportsDirectory: 'coverage'
-      },
-      env: {
-        BABEL_ENV: 'test',
-        NODE_ENV: 'test',
-        PUBLIC_URL: '',
-        TZ: 'UTC'
-      },
-      retry: 3,
-      environment: 'jsdom',
-      globals: true,
-      setupFiles: './tests/setupTests.jsx',
-      fakeTimers: {
-        toFake: ['setTimeout', 'clearTimeout', 'Date']
       }
-    },
-    pool: 'threads',
-    poolOptions: {
-      threads: {
-        minThreads: threadCount,
-        maxThreads: threadCount,
-        useAtomics: true
-      }
-    }
-  } as UserWorkspaceConfig;
-});
+    }) as UserWorkspaceConfig
+);
