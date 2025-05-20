@@ -55,7 +55,6 @@ export default defineConfig(() => {
         PUBLIC_URL: '',
         TZ: 'UTC'
       },
-      retry: 3,
       environment: 'jsdom',
       globals: true,
       setupFiles: './tests/setupTests.jsx',
