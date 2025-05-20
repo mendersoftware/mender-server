@@ -38,6 +38,7 @@ import {
 import { makeStyles } from 'tss-react/mui';
 
 import Search from '@northern.tech/common-ui/Search';
+import { HELPTOOLTIPS } from '@northern.tech/helptips/HelpTooltips';
 import storeActions from '@northern.tech/store/actions';
 import { READ_STATES, TIMEOUTS } from '@northern.tech/store/constants';
 import {
@@ -199,7 +200,8 @@ const AccountMenu = () => {
     dispatch(logoutUser()).then(() => window.location.replace('/ui/'));
   };
 
-  const onToggleTooltips = () => dispatch(setAllTooltipsReadState(showHelptips ? READ_STATES.read : READ_STATES.unread));
+  const onToggleTooltips = () =>
+    dispatch(setAllTooltipsReadState({ readState: showHelptips ? READ_STATES.read : READ_STATES.unread, tooltipIds: Object.keys(HELPTOOLTIPS) }));
 
   return (
     <>

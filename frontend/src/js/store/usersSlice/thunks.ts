@@ -14,7 +14,6 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 // @ts-nocheck
-import { HELPTOOLTIPS } from '@northern.tech/helptips/HelpTooltips';
 import storeActions from '@northern.tech/store/actions';
 import GeneralApi from '@northern.tech/store/api/general-api';
 import UsersApi from '@northern.tech/store/api/users-api';
@@ -775,8 +774,8 @@ export const setTooltipReadState = createAsyncThunk(`${sliceName}/setTooltipRead
   return Promise.all(tasks);
 });
 
-export const setAllTooltipsReadState = createAsyncThunk(`${sliceName}/toggleHelptips`, (readState = READ_STATES.read, { dispatch }) => {
-  const updatedTips = Object.keys(HELPTOOLTIPS).reduce((accu, id) => ({ ...accu, [id]: { readState } }), {});
+export const setAllTooltipsReadState = createAsyncThunk(`${sliceName}/toggleHelptips`, ({ readState = READ_STATES.read, tooltipIds }, { dispatch }) => {
+  const updatedTips = tooltipIds.reduce((accu, id) => ({ ...accu, [id]: { readState } }), {});
   return Promise.resolve(dispatch(actions.setTooltipsState(updatedTips))).then(() => dispatch(saveUserSettings()));
 });
 
