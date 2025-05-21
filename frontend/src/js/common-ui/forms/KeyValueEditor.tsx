@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { createRef, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Clear as ClearIcon, Add as ContentAddIcon } from '@mui/icons-material';
 import { Fab, FormControl, FormHelperText, IconButton, OutlinedInput } from '@mui/material';
@@ -41,8 +41,8 @@ export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHe
 
   useEffect(() => {
     const newInputs = Object.keys(initialInput).length
-      ? Object.entries(initialInput).map(([key, value]) => ({ helptip: inputHelpTipsMap[key.toLowerCase()], key, ref: createRef(), value }))
-      : [{ ...emptyInput, ref: createRef() }];
+      ? Object.entries(initialInput).map(([key, value]) => ({ helptip: inputHelpTipsMap[key.toLowerCase()], key, value }))
+      : [{ ...emptyInput }];
     setInputs(newInputs);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(initialInput), JSON.stringify(inputHelpTipsMap), reset]);
@@ -78,7 +78,7 @@ export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHe
   const reducePairs = listOfPairs => listOfPairs.reduce((accu, item) => ({ ...accu, ...(item.value ? { [item.key]: item.value } : {}) }), {});
 
   const addKeyValue = () => {
-    const changedInputs = [...inputs, { ...emptyInput, ref: createRef() }];
+    const changedInputs = [...inputs, { ...emptyInput }];
     setInputs(changedInputs);
     setError('');
   };
