@@ -455,13 +455,16 @@ export const getDeviceInfo = createAsyncThunk(`${sliceName}/getDeviceInfo`, (dev
   const { hasDeviceConfig, hasDeviceConnect, hasMonitor } = getTenantCapabilities(getState());
   const { canConfigure } = getUserCapabilities(getState());
   const integrations = getDeviceTwinIntegrations(getState());
-  let tasks = [dispatch(getDeviceAuth(deviceId)), ...integrations.map(integration => dispatch(getDeviceTwin({ deviceId, integration })))];
+  // Get full device identity details for single selected device
+  let tasks = [
+    dispatch(getDeviceAuth(deviceId)),
+    dispatch(getDeviceById(deviceId)),
+    ...integrations.map(integration => dispatch(getDeviceTwin({ deviceId, integration })))
+  ];
   if (hasDeviceConfig && canConfigure && [DEVICE_STATES.accepted, DEVICE_STATES.preauth].includes(device.status)) {
     tasks.push(dispatch(getDeviceConfig(deviceId)));
   }
   if (device.status === DEVICE_STATES.accepted) {
-    // Get full device identity details for single selected device
-    tasks.push(dispatch(getDeviceById(deviceId)));
     if (hasDeviceConnect) {
       tasks.push(dispatch(getDeviceConnect(deviceId)));
     }
