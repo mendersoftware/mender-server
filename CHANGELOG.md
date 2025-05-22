@@ -510,8 +510,127 @@ the same URL as deployments service.
 
   This was done by mistake when updating the Dockerfile for the monorepo.
 
+## Mender 3.7.11
 
+_Released 05.22.2025_
 
+### Changelogs
+
+#### create-artifact-worker (1.4.1)
+
+New changes in create-artifact-worker since 1.4.0:
+
+* Update `mender-artifact` binary used in the container to the
+  latest released to mitigate a set of CVEs in the Go standard library.
+  ([MEN-8337](https://northerntech.atlassian.net/browse/MEN-8337))
+* Upgrade container image `golang` to `1.24.3`
+* Upgrade container image `alpine` to `3.18.12`
+* Update golang dependencies
+
+  - github.com/spf13/cobra v1.8.0 -> v1.9.1
+  - github.com/spf13/viper v1.17.0 -> v1.20.1
+  - github.com/stretchr/testify v1.8.4 -> v1.10.0
+
+#### deployments-enterprise (4.6.3)
+
+New changes in deployments-enterprise since 4.6.2:
+
+* Upgrade container image `golang` to `1.23.9`
+
+#### deviceconnect (1.5.2)
+
+New changes in deviceconnect since 1.5.1:
+
+* Upgrade `golang` container image to `1.23.9`
+* Update go dependencies
+
+  - github.com/gin-gonic/gin v1.9.1 -> v1.10.0
+  - github.com/google/uuid v1.4.0 -> v1.6.0
+  - github.com/gorilla/websocket v1.5.1 -> v1.5.3
+  - github.com/mendersoftware/go-lib-micro v0.0.0-20231031082957-e2bce6ff3edd -> v0.0.0-20250319141021-adca5cc5e022
+  - github.com/nats-io/nats-server/v2 v2.10.4 -> v2.11.3
+  - github.com/nats-io/nats.go v1.31.0 -> v1.42.0
+  - github.com/stretchr/testify v1.8.4 -> v1.10.0
+  - github.com/urfave/cli v1.22.14 -> v1.22.16
+  - go.mongodb.org/mongo-driver v1.13.0 -> v1.17.3
+  - golang.org/x/sys v0.15.0 -> v0.33.0
+
+#### generate-delta-worker (1.1.2)
+
+New changes in generate-delta-worker since 1.1.1:
+
+* Update `mender-artifact` binary used in the container to the
+  latest released to mitigate a set of CVEs in the Go standard library.
+  ([MEN-8337](https://northerntech.atlassian.net/browse/MEN-8337))
+* Upgraded container image `golang` to `1.24.3-alpine3.21`
+* Upgraded container image `alpine` to `3.18.12`
+* Update golang dependencies
+
+  - github.com/spf13/cobra v1.8.0 -> v1.9.1
+  - github.com/spf13/viper v1.17.0 -> v1.20.1
+  - github.com/stretchr/testify v1.8.4 -> v1.10.0
+
+#### gui (3.7.4)
+
+New changes in gui since 3.7.3:
+
+* Upgrade container image `node` to `22.2.15`
+* Upgrade container image `nginx` to `1.27.5`
+
+#### integration (3.7.11)
+
+New changes in integration since 3.7.10:
+
+* Upgrade create-artifact-worker to 1.4.1.
+* Upgrade deployments-enterprise to 4.6.3.
+* Upgrade deployments to 4.6.3.
+* Upgrade deviceconnect to 1.5.2.
+* Upgrade generate-delta-worker to 1.1.2.
+* Upgrade gui to 3.7.4.
+* Upgrade integration to 3.7.11.
+* Upgrade tenantadm to 4.1.2.
+* Upgrade useradm-enterprise to 1.22.5.
+* Upgrade useradm to 1.22.5.
+
+#### useradm (1.22.5)
+
+New changes in useradm since 1.22.4:
+
+* Upgrade container image `golang` to `1.23.9-alpine3.20`
+* Upgrade go dependencies
+
+  - github.com/golang-jwt/jwt/v4 v4.5.0 -> v4.5.2
+  - github.com/google/uuid v1.4.0 -> v1.6.0
+  - github.com/mendersoftware/go-lib-micro v0.0.0-20231016090356-4769be2f2c88 -> v0.0.0-20250319141021-adca5cc5e022
+  - github.com/mendersoftware/go-lib-micro/mongo/codec v0.0.0-20231016090356-4769be2f2c88 -> v0.0.0-20250319141021-adca5cc5e022
+  - github.com/stretchr/testify v1.8.4 -> v1.10.0
+  - github.com/urfave/cli v1.22.14 -> v1.22.16
+  - go.mongodb.org/mongo-driver v1.13.1 -> v1.17.3
+  - golang.org/x/crypto v0.16.0 -> v0.38.0
+  - golang.org/x/term v0.15.0 -> v0.32.0
+
+#### useradm-enterprise (1.22.5)
+
+New changes in useradm-enterprise since 1.22.4:
+
+##### Bug Fixes
+
+* Fix GenerateTFASecret using insecure RNG
+
+##### Other
+
+* Upgrade container image `golang` to `1.23.9-alpine3.20`
+* Upgrade go dependencies
+
+  - github.com/golang-jwt/jwt/v4 v4.5.0 -> v4.5.2
+  - github.com/google/uuid v1.4.0 -> v1.6.0
+  - github.com/mendersoftware/go-lib-micro v0.0.0-20231016090356-4769be2f2c88 -> v0.0.0-20250319141021-adca5cc5e022
+  - github.com/mendersoftware/go-lib-micro/mongo/codec v0.0.0-20231016090356-4769be2f2c88 -> v0.0.0-20250319141021-adca5cc5e022
+  - github.com/stretchr/testify v1.8.4 -> v1.10.0
+  - github.com/urfave/cli v1.22.14 -> v1.22.16
+  - go.mongodb.org/mongo-driver v1.13.1 -> v1.17.3
+  - golang.org/x/crypto v0.16.0 -> v0.38.0
+  - golang.org/x/term v0.15.0 -> v0.32.0
 
 ## Mender 3.7.8
 
