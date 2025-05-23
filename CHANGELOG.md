@@ -1,4 +1,36 @@
 ---
+## 4.0.1 - 2025-05-19
+
+
+### Bug Fixes
+
+
+- *(gui)* Fixed an issue that would prevent showing unassigned static group devices
+([ME-519](https://northerntech.atlassian.net/browse/ME-519)) ([b595a57](https://github.com/mendersoftware/mender-server/commit/b595a574d2e3d2d4fb61757198007ff4bc308f56)) 
+
+- Race when provisioning and connecting a device
+([MEN-8164](https://northerntech.atlassian.net/browse/MEN-8164)) ([5535078](https://github.com/mendersoftware/mender-server/commit/5535078d027b213fb0ee6d37dd4c4934b075e51c)) 
+
+
+  If a device gets provisioned and submits a connection request while the
+  device is getting provisioned, the device might end up in an
+  inconsistent state where the connection status gets overwritten to
+  "unknown".
+  The issue was discovered in a test where the system was under load
+  and the device was running on the same network (artificially low RTT).
+- Ensure email is always encoded in lowercase when stored
+([MEN-8328](https://northerntech.atlassian.net/browse/MEN-8328)) ([0568d2e](https://github.com/mendersoftware/mender-server/commit/0568d2e09699961cb8aabc0faa16813a4928bc44)) 
+
+
+  Added a bson codec for model.Email that will ensure that emails are
+  always encoded in lowercase in the database to ensure case insensitive
+  queries.
+
+
+
+
+
+
 ## 4.0.0 - 2025-02-10
 
 
