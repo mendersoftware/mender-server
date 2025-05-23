@@ -12,12 +12,13 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { CSSProperties, ComponentType, useEffect, useState } from 'react';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 
 import { Clear as ClearIcon, Add as ContentAddIcon } from '@mui/icons-material';
 import { Fab, FormControl, FormHelperText, IconButton, OutlinedInput } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { yes } from '@northern.tech/store/constants';
+import Form from './Form';
 
 type HelptipProps = {
   [key: string]: any;
@@ -38,6 +39,8 @@ type InputLineItem = {
 
 const emptyInput: InputLineItem = { helptip: null, key: '', value: '' };
 
+const reducePairs = (pairs: InputLineItem[]) => (pairs || []).reduce((accu, item) => ({ ...accu, ...(item.value ? { [item.key]: item.value } : {}) }), {});
+
 const useStyles = makeStyles()(theme => ({
   spacer: { minWidth: theme.spacing(30) },
   helptip: { left: -35, top: 15, position: 'absolute' },
@@ -53,85 +56,85 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 
-export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHelpTipsMap = {}, onInputChange, onInputUpdate = yes, reset }) => {
+interface KeyValueFieldsProps {
+  disabled?: boolean;
+  errortext?: string;
+  inputHelpTipsMap: Record<string, { component: React.ComponentType<any>; props: any }>;
+  onInputChange: (value: Record<string, string>) => void;
+}
+
+const KeyValueFields = ({ disabled, errortext, inputHelpTipsMap, onInputChange }: KeyValueFieldsProps) => {
   const { classes } = useStyles();
-  const [inputs, setInputs] = useState([{ ...emptyInput }]);
-  const [error, setError] = useState('');
+  const {
+    control,
+    watch,
+    setValue,
+    formState: { errors },
+    trigger
+  } = useFormContext();
+
+  const { fields, append, remove, replace } = useFieldArray<{ inputs: InputLineItem[] }>({
+    control,
+    name: 'inputs',
+    rules: {
+      validate: {
+        noDuplicates: (inputs?: InputLineItem[]) => {
+          const keys = (inputs || []).map(item => item.key).filter(Boolean);
+          return new Set(keys).size === keys.length || 'Duplicate keys exist, only the last set value will be submitted';
+        }
+      }
+    }
+  });
+
+  const inputs = watch('inputs') as InputLineItem[];
 
   useEffect(() => {
-    const newInputs = Object.keys(initialInput).length
-      ? Object.entries(initialInput).map(([key, value]) => ({ helptip: inputHelpTipsMap[key.toLowerCase()], key, value }))
-      : [{ ...emptyInput }];
-    setInputs(newInputs);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(initialInput), JSON.stringify(inputHelpTipsMap), reset]);
-
-  const onClearClick = () => {
-    const changedInputs = [{ ...emptyInput }];
-    setInputs(changedInputs);
-    const inputObject = reducePairs(changedInputs);
+    const inputObject = reducePairs(inputs);
     onInputChange(inputObject);
-  };
+  }, [inputs, onInputChange]);
 
-  const updateInputs = (key, index, event) => {
-    const changedInputs = [...inputs];
-    const {
-      target: { value }
-    } = event;
-    changedInputs[index][key] = value;
-    changedInputs[index].helptip = null;
-    const normalizedKey = changedInputs[index].key.toLowerCase();
-    if (inputHelpTipsMap[normalizedKey]) {
-      changedInputs[index].helptip = inputHelpTipsMap[normalizedKey];
+  const onClearClick = () => replace([{ ...emptyInput }]);
+
+  const addKeyValue = () => append({ ...emptyInput });
+
+  const updateField = (index: number, field: 'key' | 'value', value: string) => {
+    setValue(`inputs.${index}.${field}`, value);
+    if (field === 'key') {
+      const normalizedKey = value.toLowerCase();
+      setValue(`inputs.${index}.helptip`, inputHelpTipsMap[normalizedKey]);
     }
-    setInputs(changedInputs);
-    onInputUpdate(reducePairsIndiscriminately(changedInputs));
-    const inputObject = reducePairs(changedInputs);
-    if (changedInputs.every(item => item.key && item.value) && changedInputs.length !== Object.keys(inputObject).length) {
-      setError('Duplicate keys exist, only the last set value will be submitted');
-    } else {
-      setError('');
-    }
-    onInputChange(inputObject);
-  };
-
-  const reducePairs = listOfPairs => listOfPairs.reduce((accu, item) => ({ ...accu, ...(item.value ? { [item.key]: item.value } : {}) }), {});
-
-  // have this for now, the intention is to move the editor to RHF and then we can reconsider this & the related usage in device config + preauth
-  const reducePairsIndiscriminately = listOfPairs => listOfPairs.reduce((accu, item) => ({ ...accu, [item.key]: item.value }), {});
-
-  const addKeyValue = () => {
-    const changedInputs = [...inputs, { ...emptyInput }];
-    setInputs(changedInputs);
-    setError('');
-  };
-
-  const removeInput = index => {
-    const changedInputs = [...inputs];
-    changedInputs.splice(index, 1);
-    setInputs(changedInputs);
-    const inputObject = reducePairs(changedInputs);
-    onInputChange(inputObject);
-    setError('');
+    trigger();
   };
 
   return (
     <div>
-      {inputs.map((input, index) => {
-        const hasError = Boolean(index === inputs.length - 1 && (errortext || error));
-        const hasRemovalDisabled = !(inputs[index].key && inputs[index].value);
+      {fields.map((field, index) => {
+        const hasError = Boolean(index === fields.length - 1 && (errortext || errors?.inputs?.root?.message));
+        const hasRemovalDisabled = !(inputs?.[index]?.key && inputs?.[index]?.value);
         const { component: Helptip = null, props: helptipProps = {} } = (inputs[index].helptip ?? {}) as InputHelptip;
         return (
-          <div className={`${classes.keyValueContainer} relative`} key={index}>
+          <div className={`${classes.keyValueContainer} relative`} key={field.id}>
             <FormControl>
-              <OutlinedInput disabled={disabled} value={input.key} placeholder="Key" onChange={e => updateInputs('key', index, e)} type="text" />
-              {hasError && <FormHelperText>{errortext || error}</FormHelperText>}
+              <OutlinedInput
+                disabled={disabled}
+                value={inputs?.[index]?.key || ''}
+                placeholder="Key"
+                onChange={e => updateField(index, 'key', e.target.value)}
+                type="text"
+              />
+              {hasError && <FormHelperText>{errortext || errors?.inputs?.root?.message}</FormHelperText>}
             </FormControl>
             <FormControl>
-              <OutlinedInput disabled={disabled} value={input.value} placeholder="Value" onChange={e => updateInputs('value', index, e)} type="text" />
+              <OutlinedInput
+                disabled={disabled}
+                value={inputs?.[index]?.value || ''}
+                placeholder="Value"
+                onChange={e => updateField(index, 'value', e.target.value)}
+                type="text"
+              />
             </FormControl>
-            {inputs.length > 1 && !hasRemovalDisabled ? (
-              <IconButton disabled={disabled} onClick={() => removeInput(index)} size="large">
+            {fields.length > 1 && !hasRemovalDisabled ? (
+              <IconButton disabled={disabled} onClick={() => remove(index)} size="large">
                 <ClearIcon fontSize="small" />
               </IconButton>
             ) : (
@@ -144,7 +147,7 @@ export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHe
       <div className={classes.keyValueContainer}>
         <div className={classes.spacer}>
           <Fab
-            disabled={disabled || !inputs[inputs.length - 1].key || !inputs[inputs.length - 1].value}
+            disabled={disabled || !inputs?.[fields.length - 1]?.key || !inputs?.[fields.length - 1]?.value}
             style={{ marginBottom: 10 }}
             color="secondary"
             size="small"
@@ -157,6 +160,23 @@ export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHe
         {inputs.length > 1 ? <a onClick={onClearClick}>clear all</a> : <div />}
       </div>
     </div>
+  );
+};
+
+export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHelpTipsMap = {}, onInputChange }) => {
+  const defaultValues = {
+    inputs: Object.keys(initialInput).length
+      ? Object.entries(initialInput).map(([key, value]) => ({ helptip: inputHelpTipsMap[key.toLowerCase()], key, value }))
+      : [{ ...emptyInput }]
+  };
+  const [initialValues] = useState(defaultValues);
+
+  const onFormSubmit = data => onInputChange(reducePairs(data.inputs));
+
+  return (
+    <Form autocomplete="off" defaultValues={defaultValues} id="key-value-editor" initialValues={initialValues} onSubmit={onFormSubmit}>
+      <KeyValueFields disabled={disabled} errortext={errortext} inputHelpTipsMap={inputHelpTipsMap} onInputChange={onInputChange} />
+    </Form>
   );
 };
 
