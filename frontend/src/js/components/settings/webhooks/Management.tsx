@@ -94,7 +94,7 @@ const columns: WebhookColumns = [
 
 export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
   const [selectedEvent, setSelectedEvent] = useState<Event>();
-  const { events, eventTotal } = useSelector(getWebhookEventInfo);
+  const { events, eventsTotal } = useSelector(getWebhookEventInfo);
   const { canDelta: canScopeWebhooks } = useSelector(getTenantCapabilities);
   const dispatch = useDispatch();
   const { classes } = useStyles();
@@ -148,7 +148,7 @@ export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
               classes={classes}
               columns={columns}
               events={events}
-              eventTotal={eventTotal}
+              eventsTotal={eventsTotal}
               getWebhookEvents={dispatchedGetWebhookEvents}
               setSelectedEvent={setSelectedEvent}
               webhook={webhook}

@@ -26,13 +26,13 @@ const { page: defaultPage, perPage: defaultPerPage } = DEVICE_LIST_DEFAULTS;
 interface WebhookActivityProps extends ClassesOverrides {
   columns: WebhookColumns;
   events?: Event[] | undefined;
-  eventTotal: number;
+  eventsTotal: number;
   getWebhookEvents: () => void;
   setSelectedEvent: SetStateAction<Event | undefined>;
   webhook: Webhook;
 }
 
-const WebhookActivity = ({ classes, columns, events = [], eventTotal, getWebhookEvents, setSelectedEvent, webhook }: WebhookActivityProps) => {
+const WebhookActivity = ({ classes, columns, events = [], eventsTotal, getWebhookEvents, setSelectedEvent, webhook }: WebhookActivityProps) => {
   const [page, setPage] = useState(defaultPage);
   const tableRef = useRef();
   const timer = useRef<ReturnType<typeof setInterval> | undefined>();
@@ -55,10 +55,10 @@ const WebhookActivity = ({ classes, columns, events = [], eventTotal, getWebhook
   return (
     <>
       <DetailsTable columns={mappedColumns} items={events} onItemClick={setSelectedEvent} tableRef={tableRef} />
-      {eventTotal > defaultPerPage && (
+      {eventsTotal > defaultPerPage && (
         <Pagination
           className="margin-top-none"
-          count={eventTotal ? eventTotal : defaultPerPage}
+          count={eventsTotal ? eventsTotal : defaultPerPage}
           showCountInfo={false}
           rowsPerPageOptions={[defaultPerPage]}
           page={page}
