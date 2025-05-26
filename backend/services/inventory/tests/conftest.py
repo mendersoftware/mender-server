@@ -15,7 +15,7 @@
 
 import logging
 
-import openapi_client as client
+import openapi_client as oas
 
 
 def pytest_addoption(parser):
@@ -33,7 +33,7 @@ def pytest_addoption(parser):
 def pytest_configure(config):
     lvl = logging.INFO
     host = config.getoption("host")
-    client.Configuration.set_default(client.Configuration(host=f"http://{host}"))
+    oas.Configuration.set_default(oas.Configuration(host=f"http://{host}"))
 
     # Setup default tokens for Api Clients
 
