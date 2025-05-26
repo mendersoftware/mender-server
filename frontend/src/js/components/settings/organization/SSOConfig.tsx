@@ -21,7 +21,8 @@ import { listItemTextClasses } from '@mui/material/ListItemText';
 import { makeStyles } from 'tss-react/mui';
 
 import ExpandableAttribute from '@northern.tech/common-ui/ExpandableAttribute';
-import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
+import { HELPTOOLTIPS } from '@northern.tech/common-ui/helptips/HelpTooltips';
+import { MenderHelpTooltip } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import { SSO_TYPES, XML_METADATA_FORMAT } from '@northern.tech/store/constants';
 import { toggle } from '@northern.tech/utils/helpers';
 

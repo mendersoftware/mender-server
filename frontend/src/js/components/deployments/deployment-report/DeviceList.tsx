@@ -23,9 +23,9 @@ import DetailsTable from '@northern.tech/common-ui/DetailsTable';
 import DeviceIdentityDisplay from '@northern.tech/common-ui/DeviceIdentity';
 import FileSize from '@northern.tech/common-ui/FileSize';
 import Loader from '@northern.tech/common-ui/Loader';
-import MenderTooltip from '@northern.tech/common-ui/MenderTooltip';
 import Pagination from '@northern.tech/common-ui/Pagination';
 import { MaybeTime } from '@northern.tech/common-ui/Time';
+import MenderTooltip from '@northern.tech/common-ui/helptips/MenderTooltip';
 import {
   DEVICE_LIST_DEFAULTS,
   canAccess as canShow,

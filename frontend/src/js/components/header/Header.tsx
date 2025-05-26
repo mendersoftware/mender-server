@@ -38,7 +38,7 @@ import {
 import { makeStyles } from 'tss-react/mui';
 
 import Search from '@northern.tech/common-ui/Search';
-import { HELPTOOLTIPS } from '@northern.tech/helptips/HelpTooltips';
+import { HELPTOOLTIPS } from '@northern.tech/common-ui/helptips/HelpTooltips';
 import storeActions from '@northern.tech/store/actions';
 import { READ_STATES, TIMEOUTS } from '@northern.tech/store/constants';
 import {

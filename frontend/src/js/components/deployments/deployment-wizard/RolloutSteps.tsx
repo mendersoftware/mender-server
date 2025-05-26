@@ -19,8 +19,8 @@ import { makeStyles } from 'tss-react/mui';
 
 import DocsLink from '@northern.tech/common-ui/DocsLink';
 import InfoText from '@northern.tech/common-ui/InfoText';
-import MenderTooltip from '@northern.tech/common-ui/MenderTooltip';
-import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
+import { HELPTOOLTIPS } from '@northern.tech/common-ui/helptips/HelpTooltips';
+import MenderTooltip, { MenderHelpTooltip } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import { TIMEOUTS } from '@northern.tech/store/constants';
 
 const useStyles = makeStyles()(theme => ({

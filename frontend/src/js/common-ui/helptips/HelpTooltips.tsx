@@ -11,16 +11,13 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import ConfigurationObject from '@northern.tech/common-ui/ConfigurationObject';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
-import { HelpTooltip } from '@northern.tech/common-ui/MenderTooltip';
 import storeActions from '@northern.tech/store/actions';
-import { READ_STATES, yes } from '@northern.tech/store/constants';
-import { getDeviceById, getFeatures, getTooltipsState } from '@northern.tech/store/selectors';
-import { setAllTooltipsReadState, setTooltipReadState } from '@northern.tech/store/thunks';
+import { getFeatures } from '@northern.tech/store/selectors';
 
 const { setSnackbar } = storeActions;
 
@@ -348,26 +345,4 @@ export const HELPTOOLTIPS = {
   webhookEvents: { id: 'webhookEvents', Component: WebhookEvents },
   webhooks: { id: 'webhooks', Component: Webhooks },
   webhookSecret: { id: 'webhookSecret', Component: WebhookSecret }
-};
-
-export const MenderHelpTooltip = props => {
-  const { id, contentProps = {} } = props;
-  const tooltipsById = useSelector(getTooltipsState);
-  const dispatch = useDispatch();
-  const device = useSelector(state => getDeviceById(state, contentProps.deviceId));
-  const { readState = READ_STATES.unread } = tooltipsById[id] || {};
-  const { Component, SpecialComponent, isRelevant = yes } = HELPTOOLTIPS[id];
-
-  const onSetTooltipReadState = useCallback((...args) => dispatch(setTooltipReadState(...args)), [dispatch]);
-  const onSetAllTooltipsReadState = state => dispatch(setAllTooltipsReadState(state));
-
-  return (
-    <HelpTooltip
-      setAllTooltipsReadState={onSetAllTooltipsReadState}
-      setTooltipReadState={onSetTooltipReadState}
-      device={device}
-      tooltip={{ Component, SpecialComponent, isRelevant, readState }}
-      {...props}
-    />
-  );
 };

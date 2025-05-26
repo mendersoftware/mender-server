@@ -23,7 +23,8 @@ import EnterpriseNotification, { DefaultUpgradeNotification } from '@northern.te
 import { ControlledSearch } from '@northern.tech/common-ui/Search';
 import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/Autocomplete';
 import { Filters } from '@northern.tech/common-ui/forms/Filters';
-import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
+import { HELPTOOLTIPS } from '@northern.tech/common-ui/helptips/HelpTooltips';
+import { MenderHelpTooltip } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import { BENEFITS, SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
 import { useLocationParams } from '@northern.tech/store/liststatehook';
 import {

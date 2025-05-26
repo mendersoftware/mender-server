@@ -16,7 +16,8 @@ import { useFormContext } from 'react-hook-form';
 
 import { ControlledCountrySelect } from '@northern.tech/common-ui/forms/CountrySelect';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
-import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
+import { HELPTOOLTIPS } from '@northern.tech/common-ui/helptips/HelpTooltips';
+import { MenderHelpTooltip } from '@northern.tech/common-ui/helptips/MenderTooltip';
 
 interface PlanExpandedFormProp {
   className: string;

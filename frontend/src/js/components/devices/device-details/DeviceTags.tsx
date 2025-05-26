@@ -19,7 +19,8 @@ import { Button } from '@mui/material';
 import ConfigurationObject from '@northern.tech/common-ui/ConfigurationObject';
 import { EditButton } from '@northern.tech/common-ui/Confirm';
 import KeyValueEditor from '@northern.tech/common-ui/forms/KeyValueEditor';
-import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
+import { HELPTOOLTIPS } from '@northern.tech/common-ui/helptips/HelpTooltips';
+import { MenderHelpTooltip } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import { getDeviceAttributes, setDeviceTags } from '@northern.tech/store/thunks';
 import { isEmpty, toggle } from '@northern.tech/utils/helpers';
 

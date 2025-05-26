@@ -18,7 +18,7 @@ import { List } from '@mui/material';
 
 import DocsLink from '@northern.tech/common-ui/DocsLink';
 import Loader from '@northern.tech/common-ui/Loader';
-import { MenderTooltipClickable } from '@northern.tech/common-ui/MenderTooltip';
+import { MenderTooltipClickable } from '@northern.tech/common-ui/helptips/MenderTooltip';
 
 export const DeviceInventoryLoader = () => (
   <List>

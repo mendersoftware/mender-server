@@ -20,7 +20,8 @@ import { makeStyles } from 'tss-react/mui';
 import Confirm from '@northern.tech/common-ui/Confirm';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
-import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
+import { HELPTOOLTIPS } from '@northern.tech/common-ui/helptips/HelpTooltips';
+import { MenderHelpTooltip } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import { BENEFITS, chartTypes, emptyChartSelection } from '@northern.tech/store/constants';
 import { toggle } from '@northern.tech/utils/helpers';
 

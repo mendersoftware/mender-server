@@ -22,7 +22,7 @@ import { TIMEOUTS } from '@northern.tech/store/constants';
 import { getDocsVersion, getFeatures } from '@northern.tech/store/selectors';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 
-import { MenderTooltipClickable } from './MenderTooltip';
+import { MenderTooltipClickable } from './helptips/MenderTooltip';
 
 const useStyles = makeStyles()(theme => ({
   iconAura: {

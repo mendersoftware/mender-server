@@ -21,8 +21,8 @@ import { makeStyles } from 'tss-react/mui';
 import DeviceIdentityDisplay from '@northern.tech/common-ui/DeviceIdentity';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
-import { MenderTooltipClickable } from '@northern.tech/common-ui/MenderTooltip';
 import { RelativeTime } from '@northern.tech/common-ui/Time';
+import { MenderTooltipClickable } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import storeActions from '@northern.tech/store/actions';
 import { DEVICE_STATES, EXTERNAL_PROVIDER, TIMEOUTS, yes } from '@northern.tech/store/constants';
 import {

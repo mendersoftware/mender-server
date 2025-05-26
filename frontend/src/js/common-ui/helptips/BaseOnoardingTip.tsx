@@ -23,12 +23,12 @@ import {
 import { buttonBaseClasses, buttonClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { OnboardingTooltip } from '@northern.tech/common-ui/MenderTooltip';
 import storeActions from '@northern.tech/store/actions';
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { toggle } from '@northern.tech/utils/helpers';
 
-import Tracking from '../tracking';
+import Tracking from '../../tracking';
+import { OnboardingTooltip } from './MenderTooltip';
 
 const { setShowDismissOnboardingTipsDialog } = storeActions;
 
