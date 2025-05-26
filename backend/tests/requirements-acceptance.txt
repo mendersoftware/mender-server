@@ -26,3 +26,4 @@ twisted
 tz
 urllib3<3
 websocket_client >= 0.57
+pydantic==2.11.5
