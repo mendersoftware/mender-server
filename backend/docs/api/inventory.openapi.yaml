@@ -1,0 +1,1739 @@
+openapi: 3.0.1
+info:
+  title: Device inventory
+  description: >
+    An API for uploading device attributes.
+
+
+    Devices can upload vendor-specific attributes (software/hardware info,
+    health checks, metrics, etc.) of various data types to the backend.
+  version: '1'
+
+tags:
+  - name: Inventory Device
+  - name: Inventory Internal
+  - name: Inventory Internal v2
+  - name: Inventory Management
+  - name: Inventory Management v2
+paths:
+  /api/devices/v1/inventory/device/attributes:
+    put:
+      tags:
+        - Inventory Devices
+      summary: Replace the set of attributes for a device
+      description: >
+        Replaces the attribute set for the authenticated device with the
+        provided one.
+
+        The device ID is retrieved from the authorization header.
+
+
+        This method replaces all the attributes with the new set:
+
+
+        * attributes not provided in the set are removed from the db
+
+
+        * the values of existing attributes are overwritten
+
+
+        * attributes assigned for the first time are automatically created
+      operationId: Replace Attributes
+      requestBody:
+        description: A list of attribute descriptors.
+        content:
+          application/json:
+            schema:
+              title: ListOfAttributes
+              type: array
+              example:
+                - name: ip_addr
+                  value: 1.2.3.4
+                  description: IP address
+                - name: mac_addr
+                  value: 00.01:02:03:04:05
+                  description: MAC address
+              items:
+                $ref: '#/components/schemas/Attribute'
+        required: true
+      responses:
+        '200':
+          description: Attributes were uploaded successfully.
+          content: {}
+        '400':
+          description: Missing/malformed request parameters or body.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+        '401':
+          description: The device is not authenticated.
+          content: {}
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+      security:
+        - DeviceJWT: []
+    patch:
+      tags:
+        - Inventory Devices
+      summary: Assign a set of attributes for a device
+      description: |
+        Saves the provided attribute set for the authenticated device.
+        The device ID is retrieved from the authorization header.
+
+        This method has upsert semantics:
+
+        * the values of existing attributes are overwritten
+
+        * attributes assigned for the first time are automatically created
+      operationId: Assign Attributes
+      requestBody:
+        description: A list of attribute descriptors.
+        content:
+          application/json:
+            schema:
+              title: ListOfAttributes
+              type: array
+              example:
+                - name: ip_addr
+                  value: 1.2.3.4
+                  description: IP address
+                - name: mac_addr
+                  value: 00.01:02:03:04:05
+                  description: MAC address
+              items:
+                $ref: '#/components/schemas/Attribute'
+        required: true
+      responses:
+        '200':
+          description: Attributes were uploaded successfully.
+          content: {}
+        '400':
+          description: Missing/malformed request parameters or body.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+        '401':
+          description: The device is not authenticated.
+          content: {}
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+      security:
+        - DeviceJWT: []
+  /api/internal/v1/inventory/health:
+    get:
+      tags:
+        - Inventory Internal
+      summary: Check the health of the service
+      operationId: Check Health
+      responses:
+        '204':
+          description: |
+            Service is healthy and all dependencies are up and running.
+          content: {}
+        '500':
+          description: |
+            Unexpected internal error
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+              example:
+                error: internal error
+                request_id: ffd712be-d697-4cb7-814b-88ff1e2eb5f6
+        '503':
+          description: >
+            Service unhealthy / not ready to accept traffic. At least one
+            dependency is not running.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+              example:
+                error: 'error reaching MongoDB: context deadline exceeded'
+                request_id: ffd712be-d697-4cb7-814b-88ff1e2eb5f6
+  /api/internal/v1/inventory/alive:
+    get:
+      tags:
+        - Inventory Internal
+      summary: >
+        Trivial endpoint that unconditionally returns an empty 200 response
+        whenever the API handler is running correctly.
+      operationId: Check Liveliness
+      responses:
+        '204':
+          description: Service is up and running.
+          content: {}
+        '500':
+          description: |
+            Inventory Internal error
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+  /api/internal/v1/inventory/tenants:
+    post:
+      tags:
+        - Inventory Internal
+      summary: Create tenant
+      description: |
+        Create a tenant with provided configuration.
+      operationId: Create Tenant
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TenantNew'
+        required: true
+      responses:
+        '201':
+          description: The tenant was created successfully.
+          content: {}
+        '400':
+          description: Missing or malformed request parameters.
+          content: {}
+        '500':
+          description: Unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+  /api/internal/v1/inventory/tenants/{tenant_id}/devices:
+    post:
+      tags:
+        - Inventory Internal
+      summary: Create a device resource with the supplied set of attributes
+      operationId: Initialize Device
+      parameters:
+        - name: tenant_id
+          in: path
+          description: ID of given tenant.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceNew'
+        required: true
+      responses:
+        '201':
+          description: The device was successfully created.
+          headers:
+            Location:
+              description: URI for the newly created 'Device' resource.
+              schema:
+                type: string
+          content: {}
+        '400':
+          description: Malformed request body. See error for details.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+  /api/internal/v1/inventory/tenants/{tenant_id}/devices/{device_id}:
+    delete:
+      tags:
+        - Inventory Internal
+      summary: Remove a device from the inventory service
+      operationId: Delete Device
+      parameters:
+        - name: tenant_id
+          in: path
+          description: ID of given tenant.
+          required: true
+          schema:
+            type: string
+        - name: device_id
+          in: path
+          description: ID of given device.
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Device removed
+          content: {}
+        '404':
+          description: The device was not found.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+  /api/internal/v1/inventory/tenants/{tenant_id}/devices/status/{status}:
+    post:
+      tags:
+        - Inventory Internal
+      summary: Update the status of a list of devices
+      description: |
+        An API end-point that allows to bulk update the status of a list
+        of devices.
+      operationId: Update Status of Devices
+      parameters:
+        - name: tenant_id
+          in: path
+          description: ID of given tenant.
+          required: true
+          schema:
+            type: string
+        - name: status
+          in: path
+          description: New status to set for the specified devices.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: List of devices.
+        content:
+          application/json:
+            schema:
+              type: array
+              description: A list of devices to update.
+              example:
+                - id: ff8f7099-d842-42f2-9d5b-46a9ad13f90a
+                  revision: 3
+                - id: 80f3ad8f-40f2-429a-8931-b47cebbbe9b3
+                  revision: 5
+              items:
+                $ref: '#/components/schemas/DeviceUpdate'
+        required: true
+      responses:
+        '200':
+          description: The operation completed successfully.
+          content: {}
+        '400':
+          description: Malformed request body. See error for details.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+        '409':
+          description: Write conflict, the request needs to be retried.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+  /api/internal/v1/inventory/tenants/{tenant_id}/device/{device_id}/attribute/scope/{scope}:
+    patch:
+      tags:
+        - Inventory Internal
+      summary: Update multiple inventory attributes in a single scope for a device
+      description: |
+        An API end-point that allows to  update the inventory attributes in
+        a single scope for a device.
+      operationId: Update Inventory for a Device
+      parameters:
+        - name: tenant_id
+          in: path
+          description: ID of given tenant.
+          required: true
+          schema:
+            type: string
+        - name: device_id
+          in: path
+          description: ID of given device.
+          required: true
+          schema:
+            type: string
+        - name: scope
+          in: path
+          description: Scope of the inventory attributes.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: List of inventory attributes to set.
+        content:
+          application/json:
+            schema:
+              type: array
+              description: A list of attribute descriptors.
+              items:
+                $ref: '#/components/schemas/Attribute'
+        required: true
+      responses:
+        '200':
+          description: Device inventory successfully updated.
+          content: {}
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+  /api/internal/v1/inventory/tenants/{tenant_id}/devices/{device_id}/groups:
+    get:
+      tags:
+        - Inventory Internal
+      summary: Get a list of groups the device belongs to
+      operationId: Get Device Groups
+      parameters:
+        - name: tenant_id
+          in: path
+          description: ID of given tenant.
+          required: true
+          schema:
+            type: string
+        - name: device_id
+          in: path
+          description: Device identifier.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: |
+            Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Groups'
+        '400':
+          description: >-
+            Missing or malformed request params or body. See the error message
+            for details.
+          content: {}
+        '404':
+          description: The device was not found.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+  /api/internal/v1/inventory/tenants/{tenant_id}/devices/{device_id}/reindex:
+    post:
+      tags:
+        - Inventory Internal
+      summary: Start reindexing device attributes.
+      operationId: Start Re-indexing
+      parameters:
+        - name: service
+          in: query
+          description: The name of the calling service.
+          schema:
+            type: string
+        - name: device_id
+          in: path
+          description: ID of the device that needs reindexing.
+          required: true
+          schema:
+            type: string
+        - name: tenant_id
+          in: path
+          description: ID of tenant owning the device.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Attributes have been re-indexed.
+          content: {}
+        '400':
+          description: Invalid Request.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+  /api/internal/v2/inventory/tenants/{tenant_id}/filters/search:
+    post:
+      tags:
+        - Inventory Internal v2
+      summary: Search device inventories based on attributes
+      description: |
+        Returns a paged collection of devices and their attributes.
+
+        It accepts optional filters and sort parameters as body parameters.
+      operationId: Search Device Inventories (internal)
+      parameters:
+        - name: tenant_id
+          in: path
+          description: Tenant ID.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: The search and sort parameters of the filter
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                page:
+                  type: number
+                  description: Starting page.
+                  format: integer
+                per_page:
+                  type: number
+                  description: Number of results per page.
+                  format: integer
+                device_ids:
+                  type: array
+                  description: List of device IDs
+                  items:
+                    type: string
+                    description: Attribute filter predicate
+                text:
+                  type: string
+                  description: Free-text search query
+                filters:
+                  type: array
+                  description: >-
+                    List of filter predicates, chained with boolean AND
+                    operators to build the search condition definition.
+                  items:
+                    $ref: '#/components/schemas/FilterPredicate'
+                sort:
+                  type: array
+                  description: List of ordered sort criterias
+                  items:
+                    $ref: '#/components/schemas/SortCriteria'
+                attributes:
+                  type: array
+                  description: List of attributes to select and return
+                  items:
+                    $ref: '#/components/schemas/SelectAttribute'
+        required: false
+      responses:
+        '200':
+          description: Successful response.
+          headers:
+            X-Total-Count:
+              description: >-
+                Custom header indicating the total number of devices for the
+                given query parameters
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                title: ListOfDevices
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeviceInventory'
+              example:
+                - id: >-
+                    291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
+                  attributes:
+                    - name: ip_addr
+                      scope: inventory
+                      value: 1.2.3.4
+                      description: IP address
+                    - name: mac_addr
+                      scope: inventory
+                      value: 00.01:02:03:04:05
+                      description: MAC address
+                  updated_ts: '2016-10-03T16:58:51.639Z'
+                - id: >-
+                    76f40e5956c699e327489213df4459d1923e1a806603def19d417d004a4a3ef
+                  attributes:
+                    - name: mac
+                      scope: inventory
+                      value: '00:01:02:03:04:05'
+                      description: MAC address
+                  updated_ts: '2016-10-04T18:24:21.432Z'
+        '400':
+          description: Missing or malformed request parameters. See error for details.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+  /api/management/v1/inventory/devices:
+    get:
+      tags:
+        - Inventory Management
+      summary: List devices inventories
+      description: |
+        Returns a paged collection of devices and their attributes.
+        Accepts optional search and sort parameters.
+
+        **Searching**
+        Searching by attributes values is accomplished by appending attribute
+        name/value pairs to the query string, e.g.:
+        `GET /devices?attr_name_1=foo&attr_name_2=100`
+      operationId: List Device Inventories
+      parameters:
+        - name: page
+          in: query
+          description: Starting page.
+          schema:
+            type: number
+            format: integer
+            default: 1
+        - name: per_page
+          in: query
+          description: Maximum number of results per page.
+          schema:
+            type: number
+            format: integer
+            default: 10
+        - name: sort
+          in: query
+          description: |
+            Sort devices by attribute.
+            The parameter is formatted as a comma-separated list of attribute
+            names and sort order.
+
+            The order direction (`ord`) must be either `asc` or `desc` for
+            ascending and descending respectively.
+            Defaults to `desc` if not specified.
+
+            For example: `?sort=attr1:asc,attr2:desc`
+            will sort by 'attr1' ascending, and then by 'attr2' descending.
+          schema:
+            type: string
+            format: attr[:ord][,attr[:ord]...]
+        - name: has_group
+          in: query
+          description: Limit result to devices assigned to a group.
+          schema:
+            type: boolean
+        - name: group
+          in: query
+          description: Limits result to devices in the given group.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response.
+          headers:
+            X-Total-Count:
+              description: Total number of devices found
+              schema:
+                type: string
+            Link:
+              description: >
+                Standard page navigation header, supported relations: 'first',
+                'next', and 'prev'.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                title: ListOfDevices
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeviceInventory'
+              example:
+                - id: >-
+                    291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
+                  attributes:
+                    - name: ip_addr
+                      scope: inventory
+                      value: 1.2.3.4
+                      description: IP address
+                    - name: mac_addr
+                      scope: inventory
+                      value: 00.01:02:03:04:05
+                      description: MAC address
+                  updated_ts: '2016-10-03T16:58:51.639Z'
+                - id: >-
+                    76f40e5956c699e327489213df4459d1923e1a806603def19d417d004a4a3ef
+                  attributes:
+                    - name: mac
+                      scope: inventory
+                      value: '00:01:02:03:04:05'
+                      description: MAC address
+                  updated_ts: '2016-10-04T18:24:21.432Z'
+        '400':
+          description: Missing or malformed request parameters.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+      security:
+        - ManagementJWT: []
+  /api/management/v1/inventory/devices/{id}:
+    get:
+      tags:
+        - Inventory Management
+      summary: Get a selected device's inventory
+      operationId: Get Device Inventory
+      parameters:
+        - name: id
+          in: path
+          description: Device identifier.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response - the device was found.
+          headers:
+            ETag:
+              description: >
+                Contains the device object's current ETag.
+
+                Applicable only to attributes with 'tags' scope, changing other
+                attributes doesn't affect the ETag.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceInventory'
+              example:
+                id: >-
+                  291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
+                attributes:
+                  - name: ip_addr
+                    scope: inventory
+                    value: 1.2.3.4
+                    description: IP address
+                  - name: mac_addr
+                    scope: inventory
+                    value: 00.01:02:03:04:05
+                    description: MAC address
+                  - name: environment
+                    scope: tags
+                    value: test
+                    description: Test environment
+                    timestamp: '2016-10-19T17:23:01.639Z'
+                updated_ts: '2016-10-03T16:58:51.639Z'
+        '404':
+          description: The device was not found.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+      security:
+        - ManagementJWT: []
+    delete:
+      tags:
+        - Inventory Management
+      summary: Remove selected device's inventory
+      operationId: Delete Device Inventory
+      parameters:
+        - name: id
+          in: path
+          description: Device identifier.
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Device removed
+          content: {}
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+      security:
+        - ManagementJWT: []
+  /api/management/v1/inventory/devices/{id}/tags:
+    put:
+      tags:
+        - Inventory Management
+      summary: Replace the set of tags for a device
+      description: |
+        Replaces the tags associated to the device.
+
+        This method replaces all the tags with the new set:
+        * it removes from the db the attributes not provided
+        * it overwrites the values of existing attributes
+        * it creates attributes assigned for the first time
+      operationId: Assign Tags
+      parameters:
+        - name: If-Match
+          in: header
+          description: >-
+            Contains the device object's current ETag, and performs the update
+            only if it matches the one stored in the database.
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Device identifier.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: A list of tags descriptors.
+        content:
+          application/json:
+            schema:
+              title: ListOfTags
+              type: array
+              example:
+                - name: location
+                  value: germany
+                  description: Germany region
+                - name: environment
+                  value: test
+              items:
+                $ref: '#/components/schemas/Tag'
+        required: true
+      responses:
+        '200':
+          description: Tags were updated successfully.
+          content: {}
+        '400':
+          description: >-
+            Missing or malformed request params or body. See the error message
+            for details.
+          content: {}
+        '404':
+          description: The device was not found.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+        '412':
+          description: ETag doesn't match.
+          content: {}
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+      security:
+        - ManagementJWT: []
+    patch:
+      tags:
+        - Inventory Management
+      summary: Adds a set of tags for a device
+      description: |
+        Saves the provided tags set for the authenticated device.
+
+        This method has upsert semantic:
+        * it overwrites the values of existing attributes
+        * it creates attributes assigned for the first time
+      operationId: Add Tags
+      parameters:
+        - name: If-Match
+          in: header
+          description: >-
+            Contains the device object's current ETag, and performs the update
+            only if it matches the one stored in the database.
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Device identifier.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: A list of tag descriptors.
+        content:
+          application/json:
+            schema:
+              title: ListOfTags
+              type: array
+              example:
+                - name: location
+                  value: germany
+                  description: Germany region
+                - name: environment
+                  value: test
+              items:
+                $ref: '#/components/schemas/Tag'
+        required: true
+      responses:
+        '200':
+          description: Tags were updated successfully.
+          content: {}
+        '400':
+          description: >-
+            Missing or malformed request params or body. See the error message
+            for details.
+          content: {}
+        '404':
+          description: The device was not found.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+        '412':
+          description: ETag doesn't match.
+          content: {}
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+      security:
+        - ManagementJWT: []
+  /api/management/v1/inventory/devices/{id}/group:
+    get:
+      tags:
+        - Inventory Management
+      summary: Get a selected device's group
+      operationId: Get Device Group
+      parameters:
+        - name: id
+          in: path
+          description: Device identifier.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: >
+            Successful response. If the device is not assigned to any group, the
+            'group' field will be set to 'null'.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+        '400':
+          description: >-
+            Missing or malformed request params or body. See the error message
+            for details.
+          content: {}
+        '404':
+          description: The device was not found.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+      security:
+        - ManagementJWT: []
+    put:
+      tags:
+        - Inventory Management
+      summary: Add a device to a group
+      description: |
+        Adds a device to a group.
+
+        Note that a given device can belong to at most one group.
+        If a device already belongs to some group, it will be moved
+        to the selected one.
+      operationId: Assign Group
+      parameters:
+        - name: id
+          in: path
+          description: Device identifier.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Group descriptor.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Group'
+        required: true
+      responses:
+        '204':
+          description: Success - the device was added to the group.
+          content: {}
+        '400':
+          description: >-
+            Missing or malformed request params or body. See the error message
+            for details.
+          content: {}
+        '404':
+          description: The device was not found.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+      security:
+        - ManagementJWT: []
+  /api/management/v1/inventory/devices/{id}/group/{name}:
+    delete:
+      tags:
+        - Inventory Management
+      summary: Remove a device from a group
+      description: |
+        Removes the device with identifier 'id' from the group 'group'.
+      operationId: Clear Group
+      parameters:
+        - name: id
+          in: path
+          description: Device identifier.
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          description: Group name.
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The device was successfully removed from the group.
+          content: {}
+        '404':
+          description: The device was not found or doesn't belong to the group.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+      security:
+        - ManagementJWT: []
+  /api/management/v1/inventory/groups:
+    get:
+      tags:
+        - Inventory Management
+      summary: List all groups existing device groups
+      operationId: List Groups
+      parameters:
+        - name: status
+          in: query
+          description: Show groups for devices with the given auth set status.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  title: ListOfGroupNames
+                  type: string
+                  description: Group name
+              example:
+                - staging
+                - testing
+                - production
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+      security:
+        - ManagementJWT: []
+  /api/management/v1/inventory/groups/{name}:
+    delete:
+      tags:
+        - Inventory Management
+      summary: Remove a device group
+      description: |
+        Removes a device group. This API provides a bulk alternative to
+        DELETE /devices/{id}/group/{name} for managing device groups.
+      operationId: Remove a Group
+      parameters:
+        - name: name
+          in: path
+          description: Group name.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                required:
+                  - updated_count
+                type: object
+                properties:
+                  updated_count:
+                    type: number
+                    description: >
+                      Number of devices for which the group was cleared
+                      sucessfully.
+                description: |
+                  JSON object listing how many devices were updated.
+              example:
+                updated_count: 2
+        '400':
+          description: Invalid request schema.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+        '404':
+          description: The group was not found.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+      security:
+        - ManagementJWT: []
+  /api/management/v1/inventory/groups/{name}/devices:
+    get:
+      tags:
+        - Inventory Management
+      summary: List the devices belonging to a given group
+      operationId: Get Devices in Group
+      parameters:
+        - name: page
+          in: query
+          description: Starting page.
+          schema:
+            type: integer
+            default: 1
+        - name: per_page
+          in: query
+          description: Maximum number of results per page.
+          schema:
+            type: integer
+            default: 10
+        - name: name
+          in: path
+          description: Group name.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          headers:
+            X-Total-Count:
+              description: >-
+                Custom header indicating the total number of devices in the
+                given group
+              schema:
+                type: string
+            Link:
+              description: Standard header, we support 'first', 'next', and 'prev'.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                title: ListOfIDs
+                type: array
+                items:
+                  type: string
+        '400':
+          description: Invalid request parameters.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+        '404':
+          description: The group was not found.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+      security:
+        - ManagementJWT: []
+    delete:
+      tags:
+        - Inventory Management
+      summary: Clear devices' group
+      description: |
+        Removes a list of devices from the specified group.
+      operationId: Remove Devices from Group
+      parameters:
+        - name: name
+          in: path
+          description: Group name.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: JSON list of device IDs to remove from the group.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                required:
+                  - updated_count
+                type: object
+                properties:
+                  updated_count:
+                    type: number
+                    description: >
+                      Number of devices for which the group was cleared
+                      sucessfully.
+                description: |
+                  JSON object listing how many devices were updated.
+              example:
+                updated_count: 2
+        '400':
+          description: Invalid request schema.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+        '404':
+          description: The group was not found.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+      security:
+        - ManagementJWT: []
+    patch:
+      tags:
+        - Inventory Management
+      summary: Add devices to group
+      description: |
+        Appends the list of devices in the request body to the given group.
+        For devices already present in the group the operation has no effect.
+      operationId: Add Devices to Group
+      parameters:
+        - name: name
+          in: path
+          description: Group name.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: JSON list of device IDs to append to the group.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                required:
+                  - matched_count
+                  - updated_count
+                type: object
+                properties:
+                  updated_count:
+                    type: number
+                    description: |
+                      Number of devices listed that changed group.
+                  matched_count:
+                    type: number
+                    description: >
+                      Number of devices listed that matched a valid device id
+                      internally.
+                description: |
+                  JSON object listing how many devices were updated.
+              example:
+                updated_count: 2
+                matched_count: 3
+        '400':
+          description: Invalid request schema.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+        '404':
+          description: The group was not found.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+      security:
+        - ManagementJWT: []
+  /api/management/v2/inventory/filters/attributes:
+    get:
+      tags:
+        - Inventory Management v2
+      summary: Get the list of filterable inventory attributes
+      description: >
+        Returns a list of filterable inventory attributes.
+
+
+        The list is sorted in descending order by the count of occurrences of
+        the
+
+        attribute in the inventory database, then in ascending order by scope
+        and name.
+
+
+        Limitations:
+         * The API considers up to a sample of 5,000 devices when aggregating the number of attributes.
+         * The API returns up to 500 unique attributes.
+      operationId: Get filterable attributes
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                title: List of filter attributes
+                type: array
+                items:
+                  $ref: '#/components/schemas/FilterAttribute'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+      security:
+        - ManagementJWT: []
+  /api/management/v2/inventory/filters/search:
+    post:
+      tags:
+        - Inventory Management v2
+      summary: Search devices based on inventory attributes
+      description: |
+        Returns a paged collection of devices and their attributes.
+
+        If multiple filter predicates are specified, the filters are
+        combined using boolean `and` operator.
+      operationId: Search Device Inventories
+      requestBody:
+        description: The search and sort parameters of the filter
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                page:
+                  type: number
+                  description: Starting page.
+                  format: integer
+                per_page:
+                  type: number
+                  description: Maximum number of results per page.
+                  format: integer
+                text:
+                  type: string
+                  description: Free-text search query
+                filters:
+                  type: array
+                  description: List of filter predicates.
+                  items:
+                    $ref: '#/components/schemas/FilterPredicate'
+                sort:
+                  type: array
+                  description: List of ordered sort criterias
+                  items:
+                    $ref: '#/components/schemas/SortCriteria'
+                attributes:
+                  type: array
+                  description: List of attributes to select and return
+                  items:
+                    $ref: '#/components/schemas/SelectAttribute'
+        required: false
+      responses:
+        '200':
+          description: Successful response.
+          headers:
+            X-Total-Count:
+              description: Total number of devices matched query.
+              schema:
+                type: string
+            Link:
+              description: >
+                Standard header used for page navigation, page relations:
+                'first', 'next' and 'prev'.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                title: ListOfDevices
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeviceInventory'
+              example:
+                - id: >-
+                    291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
+                  attributes:
+                    - name: ip_addr
+                      scope: inventory
+                      value: 1.2.3.4
+                      description: IP address
+                    - name: mac_addr
+                      scope: inventory
+                      value: 00.01:02:03:04:05
+                      description: MAC address
+                  updated_ts: '2016-10-03T16:58:51.639Z'
+                - id: >-
+                    76f40e5956c699e327489213df4459d1923e1a806603def19d417d004a4a3ef
+                  attributes:
+                    - name: mac
+                      scope: inventory
+                      value: '00:01:02:03:04:05'
+                      description: MAC address
+                  updated_ts: '2016-10-04T18:24:21.432Z'
+        '400':
+          description: Missing or malformed request parameters.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
+      security:
+        - ManagementJWT: []
+components:
+  schemas:
+    Attribute:
+      description: Attribute descriptor.
+      required:
+        - name
+        - value
+      type: object
+      properties:
+        name:
+          type: string
+          description: >
+            A human readable, unique attribute ID, e.g. 'device_type',
+            'ip_addr', 'cpu_load', etc.
+        scope:
+          type: string
+          description: |
+            The scope of the attribute.
+
+            Scope is a string and acts as namespace for the attribute name.
+        description:
+          type: string
+          description: Attribute description.
+        value:
+          type: string
+          description: |
+            The current value of the attribute.
+
+            Attribute type is implicit, inferred from the JSON type.
+
+            Supported types: number, string, array of numbers, array of strings.
+            Mixed arrays are not allowed.
+      example:
+        name: serial_no
+        scope: inventory
+        description: Serial number
+        value: '123456789'
+    TenantNew:
+      type: object
+      properties:
+        tenant_id:
+          type: string
+          description: ID of given tenant.
+      description: Tenant configuration.
+      example:
+        tenant_id: '1234'
+    DeviceNew:
+      required:
+        - id
+      type: object
+      properties:
+        id:
+          type: string
+          description: Mender-assigned unique ID.
+        updated_ts:
+          type: string
+          description: Timestamp of the most recent attribute update.
+        attributes:
+          type: array
+          description: A list of attribute descriptors.
+          items:
+            $ref: '#/components/schemas/Attribute'
+      example:
+        id: 291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
+        attributes:
+          - name: ip_addr
+            value: 1.2.3.4
+            description: IP address
+          - name: mac_addr
+            value: 00.01:02:03:04:05
+            description: MAC address
+    DeviceUpdate:
+      required:
+        - id
+        - revision
+      type: object
+      properties:
+        id:
+          type: string
+          description: Device identifier.
+        revision:
+          type: number
+          description: Device object revision.
+          format: integer
+      description: Object containing device id and device revision of the device to update.
+    Groups:
+      required:
+        - groups
+      type: object
+      properties:
+        groups:
+          type: array
+          description: List of device's groups.
+          items:
+            type: string
+      example:
+        groups:
+          - test
+          - production
+    SelectAttribute:
+      required:
+        - attribute
+        - scope
+      type: object
+      properties:
+        attribute:
+          type: string
+          description: Attribute name.
+        scope:
+          type: string
+          description: Attribute scope.
+      description: Inventory attribute
+      example:
+        attribute: serial_no
+        scope: inventory
+    FilterPredicate:
+      description: Attribute filter predicate
+      required:
+        - attribute
+        - scope
+        - type
+      type: object
+      properties:
+        attribute:
+          type: string
+          description: Attribute name.
+        scope:
+          type: string
+        type:
+          type: string
+          description: Type or operator of the filter predicate.
+          enum:
+            - $eq
+            - $in
+            - $nin
+        value:
+          type: string
+          description: |
+            The value of the attribute to be used in filtering.
+            Attribute type is implicit, inferred from the JSON type.
+      example:
+        attribute: serial_no
+        scope: inventory
+        type: $eq
+        value: '123456789'
+    SortCriteria:
+      description: Sort criteria definition
+      required:
+        - attribute
+        - order
+        - scope
+      type: object
+      properties:
+        attribute:
+          type: string
+          description: Attribute name.
+        scope:
+          type: string
+          description: Attribute scope.
+        order:
+          type: string
+          description: Order direction, ascending ("asc") or descending ("desc").
+          enum:
+            - asc
+            - desc
+      example:
+        attribute: serial_no
+        scope: inventory
+        order: asc
+    DeviceInventory:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Mender-assigned unique ID.
+        updated_ts:
+          type: string
+          description: Timestamp of the most recent attribute update.
+        attributes:
+          type: array
+          description: A list of attribute descriptors.
+          items:
+            $ref: '#/components/schemas/Attribute'
+      example:
+        id: 291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
+        attributes:
+          - name: ip_addr
+            scope: inventory
+            value: 1.2.3.4
+            description: IP address
+          - name: mac_addr
+            scope: inventory
+            value: 00.01:02:03:04:05
+            description: MAC address
+        updated_ts: '2016-10-03T16:58:51.639Z'
+    Tag:
+      required:
+        - name
+        - value
+      type: object
+      properties:
+        name:
+          type: string
+          description: >
+            Tag is an attribute with 'tags' scope.
+
+
+            A human readable, unique tag ID, e.g. 'location', 'environment',
+            etc.
+        description:
+          type: string
+          description: Tag description.
+        value:
+          type: string
+          description: The current value of the tag.
+        timestamp:
+          type: string
+          description: |
+            The date and time of last tag update in RFC3339 format.
+          format: date-time
+      description: Tag descriptor.
+      example:
+        name: environment
+        description: Test environment
+        value: test
+        timestamp: '2016-10-19T17:23:01.639Z'
+    Group:
+      required:
+        - group
+      type: object
+      properties:
+        group:
+          type: string
+          description: Device group.
+      example:
+        group: staging
+    FilterAttribute:
+      required:
+        - count
+        - name
+        - scope
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the attribute.
+        scope:
+          type: string
+          description: Scope of the attribute.
+        count:
+          type: integer
+          description: Number of occurrences of the attribute in the database.
+      description: Filterable attribute
+      example:
+        name: serial_no
+        scope: inventory
+        count: 10
+
+  securitySchemes:
+    DeviceJWT:
+      $ref: "components/common.yaml#/components/securitySchemes/DeviceJWT"
+    ManagementJWT:
+      $ref: "components/common.yaml#/components/securitySchemes/ManagementJWT"
