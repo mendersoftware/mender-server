@@ -160,9 +160,9 @@ components:
         request_id: f7881e82-0492-49fb-b459-795654e7188a
   securitySchemes:
     DeviceJWT:
-      type: apiKey
+      type: http
       description: |
         API token issued by Device Authentication service.
-        Format: 'Authorization: Bearer [JWT]'
-      name: Authorization
-      in: header
+        Format: 'Bearer [JWT]'
+      scheme: bearer
+      bearerFormat: JWT

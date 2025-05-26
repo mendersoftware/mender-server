@@ -315,9 +315,9 @@ components:
         order: asc
   securitySchemes:
     ManagementJWT:
-      type: apiKey
+      type: http
       description: |
         API token issued by User Authentication service.
         Format: 'Bearer [JWT]'
-      name: Authorization
-      in: header
+      scheme: bearer
+      bearerFormat: JWT
