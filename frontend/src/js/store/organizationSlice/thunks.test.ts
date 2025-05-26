@@ -498,7 +498,7 @@ describe('organization actions', () => {
         webhooks: {
           ...defaultState.organization.webhooks,
           events: existingEvents,
-          eventTotal: 2
+          eventsTotal: 2
         }
       }
     });
