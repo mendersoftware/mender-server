@@ -31,3 +31,7 @@ _testmain.go
 .vscode/launch.json
 .vscode/.browse.VC.db-shm
 .idea
+
+tests/openapi_client/*
+!tests/openapi_client/.openapi-generator.yaml
+tests/.openapi-generator
