@@ -11,50 +11,66 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
-from common import (
-    inventory_attributes,
-    management_client,
-    internal_client,
-    clean_db,
-    mongo,
-)
 
 import os
+
 import pytest
+
+import openapi_client as oas
+import openapi_client.exceptions as api_exceptions
+
+from client import make_authenticated_client
 
 
 @pytest.mark.usefixtures("clean_db")
 class TestGroupRemoving:
-    def test_delete_device(
-        self, management_client, internal_client, inventory_attributes
-    ):
+    def test_delete_device(self, inventory_attributes):
+        internal_client = oas.InventoryInternalApi()
+        management_client = oas.InventoryManagementApi(
+            make_authenticated_client(is_device=False)
+        )
         d1 = "".join([format(i, "02x") for i in os.urandom(128)])
-        internal_client.create_device(d1, inventory_attributes)
+        internal_client.initialize_device(
+            tenant_id="",
+            device_new=oas.DeviceNew(id=d1, attributes=inventory_attributes),
+        )
 
         g1 = "group-test-3"
 
-        management_client.addDeviceToGroup(
-            device=d1, group=management_client.group(group=g1)
+        management_client.add_devices_to_group(name=g1, request_body=[d1])
+        assert len(management_client.get_devices_in_group(g1)) == 1
+
+        management_client.remove_devices_from_group_with_http_info(
+            name=g1, request_body=[d1]
         )
-        assert len(management_client.getGroupDevices(g1)) == 1
 
-        management_client.deleteDeviceInGroup(device=d1, group=g1, expected_error=False)
-        assert len(management_client.getGroupDevices(g1, expected_error=True)) == 0
+        with pytest.raises(api_exceptions.NotFoundException):
+            management_client.get_devices_in_group(name=g1)
 
-    def test_delete_device_non_existent_1(self, management_client):
-        """ Delete non-existent device from non-existent group """
+    def test_delete_device_non_existent_1(self):
+        """Delete non-existent device from non-existent group"""
+        management_client = oas.InventoryManagementApi(
+            make_authenticated_client(is_device=False)
+        )
         g1 = "group-test-3-non-existent"
-        management_client.deleteDeviceInGroup(
-            device="404 device", group=g1, expected_error=True
+        rsp = management_client.remove_devices_from_group(
+            name=g1, request_body=["404-device"]
         )
+        assert rsp.updated_count is None or rsp.updated_count == 0
 
-    def test_delete_device_non_existent_2(
-        self, management_client, internal_client, inventory_attributes
-    ):
-        """ Delete existent device from non-existent group """
+    def test_delete_device_non_existent_2(self, inventory_attributes):
+        """Delete existent device from non-existent group"""
+        internal_client = oas.InventoryInternalApi()
+        management_client = oas.InventoryManagementApi(
+            make_authenticated_client(is_device=False)
+        )
         d1 = "".join([format(i, "02x") for i in os.urandom(128)])
-        internal_client.create_device(d1, inventory_attributes)
-
-        management_client.deleteDeviceInGroup(
-            device=d1, group="404 group", expected_error=True
+        internal_client.initialize_device(
+            tenant_id="",
+            device_new=oas.DeviceNew(id=d1, attributes=inventory_attributes),
         )
+
+        rsp = management_client.remove_devices_from_group(
+            name="404_group", request_body=[d1]
+        )
+        assert rsp.updated_count is None or rsp.updated_count == 0

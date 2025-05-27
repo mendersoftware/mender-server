@@ -11,140 +11,177 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
-from common import (
-    inventory_attributes,
-    management_client,
-    internal_client,
-    clean_db,
-    mongo,
-)
 
 import os
+
 import pytest
+
+import openapi_client as oas
+import openapi_client.exceptions as api_exceptions
+
+from client import make_authenticated_client
 
 
 @pytest.mark.usefixtures("clean_db")
 class TestGroupCreation:
-    def test_get_groups_is_empty(self, management_client):
-        assert len(management_client.getAllGroups()) == 0
+    def test_get_groups_is_empty(self):
+        management_client = oas.InventoryManagementApi(
+            make_authenticated_client(is_device=False)
+        )
+        assert len(management_client.list_groups()) == 0
 
-    def test_moving_device_group_1(
-        self, management_client, internal_client, inventory_attributes
-    ):
+    def test_moving_device_group_1(self, inventory_attributes):
         """
         Create 1 device and move it amung 2 different groups
         """
+        management_client = oas.InventoryManagementApi(
+            make_authenticated_client(is_device=False)
+        )
+        internal_client = oas.InventoryInternalApi()
         did = "some-device-id"
-        internal_client.create_device(did, inventory_attributes)
-        group = management_client.group(group="groupA")
-        management_client.addDeviceToGroup(group, did)
-        group_a_devs = management_client.getGroupDevices("groupA")
+        internal_client.initialize_device(
+            tenant_id="",
+            device_new=oas.DeviceNew(id=did, attributes=inventory_attributes),
+        )
+        management_client.add_devices_to_group(name="groupA", request_body=[did])
+        group_a_devs = management_client.get_devices_in_group(name="groupA")
         assert len(group_a_devs) == 1
 
-        group = management_client.group(group="groupB")
-        management_client.addDeviceToGroup(group=group, device=did)
+        management_client.add_devices_to_group(name="groupB", request_body=[did])
 
-        assert (
-            len(management_client.getGroupDevices("groupA", expected_error=True)) == 0
-        )
-        assert len(management_client.getGroupDevices("groupB")) == 1
+        with pytest.raises(api_exceptions.NotFoundException):
+            management_client.get_devices_in_group(name="groupA")
+        assert len(management_client.get_devices_in_group(name="groupB")) == 1
 
-    def test_moving_devices_1(
-        self, management_client, internal_client, inventory_attributes
-    ):
+    def test_moving_devices_1(self, inventory_attributes):
         """
         Create 2 devices and move them amoung 2 different groups
         """
+        management_client = oas.InventoryManagementApi(
+            make_authenticated_client(is_device=False)
+        )
+        internal_client = oas.InventoryInternalApi()
         did1 = "device-id-1"
         did2 = "device-id-2"
-        internal_client.create_device(did1, inventory_attributes)
-        internal_client.create_device(did2, inventory_attributes)
-
-        group = management_client.group(group="group-test-1")
-        management_client.addDeviceToGroup(group=group, device=did1)
-        management_client.addDeviceToGroup(group=group, device=did2)
-        assert len(management_client.getGroupDevices("group-test-1")) == 2
-
-        group = management_client.group(group="group-test-2")
-        management_client.addDeviceToGroup(group=group, device=did2)
-        assert len(management_client.getGroupDevices("group-test-1")) == 1
-        assert len(management_client.getGroupDevices("group-test-2")) == 1
-
-        management_client.addDeviceToGroup(group=group, device=did1)
-        assert (
-            len(management_client.getGroupDevices("group-test-1", expected_error=True))
-            == 0
+        internal_client.initialize_device(
+            tenant_id="",
+            device_new=oas.DeviceNew(id=did1, attributes=inventory_attributes),
         )
-        assert len(management_client.getGroupDevices("group-test-2")) == 2
-
-        group = management_client.group(group="group-test-1")
-        management_client.addDeviceToGroup(group=group, device=did1)
-        management_client.addDeviceToGroup(group=group, device=did2)
-        assert len(management_client.getGroupDevices("group-test-1")) == 2
-        assert (
-            len(management_client.getGroupDevices("group-test-2", expected_error=True))
-            == 0
+        internal_client.initialize_device(
+            tenant_id="",
+            device_new=oas.DeviceNew(id=did2, attributes=inventory_attributes),
         )
 
-    def test_get_groups(self, management_client, internal_client, inventory_attributes):
+        management_client.add_devices_to_group(
+            name="group-test-1", request_body=[did1, did2]
+        )
+        assert len(management_client.get_devices_in_group("group-test-1")) == 2
+
+        management_client.add_devices_to_group(name="group-test-2", request_body=[did2])
+        assert len(management_client.get_devices_in_group("group-test-1")) == 1
+        assert len(management_client.get_devices_in_group("group-test-2")) == 1
+
+        management_client.add_devices_to_group(name="group-test-2", request_body=[did1])
+        with pytest.raises(api_exceptions.NotFoundException):
+            management_client.get_devices_in_group("group-test-1")
+        assert len(management_client.get_devices_in_group("group-test-2")) == 2
+
+        management_client.add_devices_to_group(
+            name="group-test-1", request_body=[did1, did2]
+        )
+        assert len(management_client.get_devices_in_group("group-test-1")) == 2
+        with pytest.raises(api_exceptions.NotFoundException):
+            management_client.get_devices_in_group("group-test-2")
+
+    def test_get_groups(self, inventory_attributes):
+        management_client = oas.InventoryManagementApi(
+            make_authenticated_client(is_device=False)
+        )
+        internal_client = oas.InventoryInternalApi()
         for i in range(10):
-            group = management_client.group(group="group" + str(i))
+            group = f"group{i}"
             did = "".join([format(i, "02x") for i in os.urandom(128)])
-            internal_client.create_device(did, inventory_attributes)
-            management_client.addDeviceToGroup(group=group, device=did)
+            internal_client.initialize_device(
+                tenant_id="",
+                device_new=oas.DeviceNew(id=did, attributes=inventory_attributes),
+            )
+            management_client.add_devices_to_group(name=group, request_body=[did])
 
-        assert len(management_client.getAllGroups()) == 10
+        assert len(management_client.list_groups()) == 10
 
-    def test_get_groups_3(
-        self, management_client, internal_client, inventory_attributes
-    ):
+    def test_get_groups_3(self, inventory_attributes):
         """
-        Create 1 device, and move through 100 different groups
+        Create 1 device, and move through 10 different groups
         """
+        management_client = oas.InventoryManagementApi(
+            make_authenticated_client(is_device=False)
+        )
+        internal_client = oas.InventoryInternalApi()
 
         did = "some-device-id"
-        internal_client.create_device(did, inventory_attributes)
+        internal_client.initialize_device(
+            tenant_id="",
+            device_new=oas.DeviceNew(id=did, attributes=inventory_attributes),
+        )
         for i in range(10):
-            group = management_client.group(group="group" + str(i))
-            management_client.addDeviceToGroup(group, did)
+            group = f"group{i}"
+            management_client.add_devices_to_group(name=group, request_body=[did])
+        assert len(management_client.list_groups()) == 1
 
-        assert len(management_client.getAllGroups()) == 1
-
-    def test_has_group(self, management_client, internal_client, inventory_attributes):
+    def test_has_group(self, inventory_attributes):
         """
-            Verify has_group functionality
+        Verify has_group functionality
         """
+        management_client = oas.InventoryManagementApi(
+            make_authenticated_client(is_device=False)
+        )
+        internal_client = oas.InventoryInternalApi()
         did = "some-device-id"
-        internal_client.create_device(did, inventory_attributes)
-        assert len(management_client.getAllGroups()) == 0
-        assert len(management_client.getAllDevices(has_group=True)) == 0
+        internal_client.initialize_device(
+            tenant_id="",
+            device_new=oas.DeviceNew(id=did, attributes=inventory_attributes),
+        )
+        assert len(management_client.list_groups()) == 0
+        assert len(management_client.list_device_inventories(has_group=True)) == 0
 
-        group = management_client.group(group="has_group_test_1")
-        management_client.addDeviceToGroup(group=group, device=did)
-        assert len(management_client.getAllDevices(has_group=True)) == 1
+        management_client.add_devices_to_group(
+            name="has_group_test_1", request_body=[did]
+        )
+        assert len(management_client.list_device_inventories(has_group=True)) == 1
 
-        management_client.deleteDeviceInGroup(group="has_group_test_1", device=did)
-        assert len(management_client.getAllDevices(has_group=True)) == 0
+        management_client.remove_devices_from_group(
+            name="has_group_test_1", request_body=[did]
+        )
+        assert len(management_client.list_device_inventories(has_group=True)) == 0
 
-    def test_generic_groups_1(
-        self, management_client, internal_client, inventory_attributes
-    ):
+    def test_generic_groups_1(self, inventory_attributes):
+        management_client = oas.InventoryManagementApi(
+            make_authenticated_client(is_device=False)
+        )
+        internal_client = oas.InventoryInternalApi()
         total_groups = 10
         items_per_group = 2
         devices_in_groups = {}
 
         for i in range(total_groups):
-            group = management_client.group(group="group" + str(i))
-            for j in range(items_per_group):
+            group = f"group{i}"
+            for _ in range(items_per_group):
                 device = "".join([format(i, "02x") for i in os.urandom(128)])
-                internal_client.create_device(device, inventory_attributes)
+                internal_client.initialize_device(
+                    tenant_id="",
+                    device_new=oas.DeviceNew(
+                        id=device, attributes=inventory_attributes
+                    ),
+                )
                 devices_in_groups.setdefault(str(i), []).append(device)
-                management_client.addDeviceToGroup(group=group, device=device)
+                management_client.add_devices_to_group(
+                    name=group, request_body=[device]
+                )
 
-        assert len(management_client.getAllGroups()) == 10
+        all_groups = management_client.list_groups()
+        assert len(all_groups) == 10
 
-        groups = management_client.getAllGroups()
-        for idx, g in enumerate(groups):
-            assert sorted(management_client.getGroupDevices(g)) == sorted(
+        for idx, g in enumerate(all_groups):
+            assert sorted(management_client.get_devices_in_group(name=g)) == sorted(
                 devices_in_groups[str(idx)]
             )
