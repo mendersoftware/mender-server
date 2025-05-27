@@ -74,7 +74,7 @@ export const Organization = () => {
   const { isAdmin } = useSelector(getUserRoles);
   const canPreview = useSelector(getIsPreview);
   const { isHosted } = useSelector(getFeatures);
-  const org = useSelector(getOrganization);
+  const { id: tenantId, name: orgName, tenant_token = '' } = useSelector(getOrganization);
   const ssoConfig = useSelector(getSsoConfig);
   const dispatch = useDispatch();
   const { token } = useSelector(getCurrentSession);
@@ -129,7 +129,7 @@ export const Organization = () => {
       .then(report => createFileDownload(report, `Mender-license-report-${dayjs().format('YYYY-MM-DD')}`, token));
 
   const onTenantInfoClick = () => {
-    copy(`Organization: ${org.name}, Tenant ID: ${org.id}`);
+    copy(`Organization: ${orgName}, Tenant ID: ${tenantId}`);
     setSnackbar('Copied to clipboard');
   };
 
@@ -169,8 +169,8 @@ export const Organization = () => {
             action: { action: onTenantInfoClick, internal: true },
             description: (
               <div className={`clickable ${classes.tenantInfo}`} onClick={onTenantInfoClick}>
-                {org.name}
-                <span>({org.id})</span>
+                {orgName}
+                <span>({tenantId})</span>
               </div>
             )
           }}
@@ -187,7 +187,7 @@ export const Organization = () => {
                 dividerDisabled
                 key="org_token"
                 onExpansion={onTokenExpansion}
-                secondary={org.tenant_token}
+                secondary={showTokenWarning ? tenant_token : `${tenant_token.substring(0, 5)}...${tenant_token.substring(tenant_token.length - 5)}`}
                 textClasses={{ secondary: 'inventory-text tenant-token-text' }}
               />
               {showTokenWarning && (
@@ -200,7 +200,7 @@ export const Organization = () => {
               )}
             </>
           }
-          sideBarContent={<CopyTextToClipboard onCopy={onTokenExpansion} token={org.tenant_token} />}
+          sideBarContent={<CopyTextToClipboard onCopy={onTokenExpansion} token={tenant_token} />}
         />
       </List>
 
