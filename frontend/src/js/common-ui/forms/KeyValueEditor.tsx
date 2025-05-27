@@ -91,7 +91,8 @@ const KeyValueFields = ({ disabled, errortext, inputHelpTipsMap, onInputChange }
   useEffect(() => {
     const inputObject = reducePairs(inputs);
     onInputChange(inputObject);
-  }, [inputs, onInputChange]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(inputs), onInputChange]);
 
   const onClearClick = () => replace([{ ...emptyInput }]);
 
