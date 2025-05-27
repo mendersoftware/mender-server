@@ -12,74 +12,96 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
+
 import os
-from common import (
-    internal_client,
-    management_client,
-    mongo,
-    clean_db,
-    inventory_attributes,
-)
-import bravado
+
 import pytest
+
+import openapi_client as oas
+import openapi_client.exceptions as api_exceptions
+
+from client import make_authenticated_client
 
 
 class TestInternalApiTenantCreate:
-    def test_create_ok(self, internal_client, clean_db):
-
-        _, r = internal_client.create_tenant("foobar")
-        assert r.status_code == 201
+    def test_create_ok(self, clean_db):
+        internal_client = oas.InventoryInternalApi()
+        rsp = internal_client.create_tenant_with_http_info(
+            oas.TenantNew(tenant_id="foobar")
+        )
+        assert rsp.status_code == 201
 
         assert "inventory-foobar" in clean_db.list_database_names()
         assert "migration_info" in clean_db["inventory-foobar"].list_collection_names()
 
-    def test_create_twice(self, internal_client, clean_db):
-
-        _, r = internal_client.create_tenant("foobar")
-        assert r.status_code == 201
+    def test_create_twice(self, clean_db):
+        internal_client = oas.InventoryInternalApi()
+        rsp = internal_client.create_tenant_with_http_info(
+            oas.TenantNew(tenant_id="foobar")
+        )
+        assert rsp.status_code == 201
 
         # creating once more should not fail
-        _, r = internal_client.create_tenant("foobar")
-        assert r.status_code == 201
+        rsp = internal_client.create_tenant_with_http_info(
+            oas.TenantNew(tenant_id="foobar")
+        )
+        assert rsp.status_code == 201
 
-    def test_create_empty(self, internal_client):
-        try:
-            _, r = internal_client.create_tenant("")
-        except bravado.exception.HTTPError as e:
-            assert e.response.status_code == 400
+    def test_create_empty(self):
+        internal_client = oas.InventoryInternalApi()
+        with pytest.raises(api_exceptions.BadRequestException):
+            internal_client.create_tenant(oas.TenantNew(tenant_id=""))
 
 
 class TestInternalApiDeviceCreate:
     def test_create_ok(
-        self, internal_client, management_client, clean_db, inventory_attributes,
+        self,
+        clean_db,
+        inventory_attributes,
     ):
+        internal_client = oas.InventoryInternalApi()
+        management_client = oas.InventoryManagementApi(
+            make_authenticated_client(is_device=False)
+        )
         devid = "".join([format(i, "02x") for i in os.urandom(128)])
-        _, r = internal_client.create_device(
-            device_id=devid, attributes=inventory_attributes
+        r = internal_client.initialize_device_with_http_info(
+            tenant_id="",
+            device_new=oas.DeviceNew(id=devid, attributes=inventory_attributes),
         )
         assert r.status_code == 201
 
-        dev = management_client.getDevice(device_id=devid)
+        dev = management_client.get_device_inventory(id=devid)
 
         self._verify_inventory(inventory_attributes, dev.attributes)
 
     def test_create_twice_ok(
-        self, internal_client, management_client, clean_db, inventory_attributes,
+        self,
+        clean_db,
+        inventory_attributes,
     ):
+        internal_client = oas.InventoryInternalApi()
+        management_client = oas.InventoryManagementApi(
+            make_authenticated_client(is_device=False)
+        )
+
         # insert first device
         devid = "".join([format(i, "02x") for i in os.urandom(128)])
-        _, r = internal_client.create_device(
-            device_id=devid, attributes=inventory_attributes
+        rsp = internal_client.initialize_device_with_http_info(
+            tenant_id="",
+            device_new=oas.DeviceNew(id=devid, attributes=inventory_attributes),
         )
-        assert r.status_code == 201
+        assert rsp.status_code == 201
 
         # add extra attribute, modify existing
-        new_attr = management_client.inventoryAttribute(
-            name="new attr", value="new value", scope="inventory", description="desc",
+        new_attr = oas.Attribute(
+            name="new attr",
+            value=oas.AttributeValue("new value"),
+            scope="inventory",
+            description="desc",
         )
 
         existing = inventory_attributes[0]
-        existing.value = "newval"
+        existing.value = oas.AttributeValue("newval")
         existing.description = "newdesc"
 
         new_attrs = [new_attr, existing]
@@ -88,11 +110,13 @@ class TestInternalApiDeviceCreate:
         inventory_attributes.append(new_attr)
 
         # insert 'the same' device
-        _, r = internal_client.create_device(device_id=devid, attributes=new_attrs)
+        r = internal_client.initialize_device_with_http_info(
+            tenant_id="", device_new=oas.DeviceNew(id=devid, attributes=new_attrs)
+        )
         assert r.status_code == 201
 
         # verify update
-        dev = management_client.getDevice(devid)
+        dev = management_client.get_device_inventory(devid)
 
         self._verify_inventory(inventory_attributes, dev.attributes)
 
@@ -109,7 +133,7 @@ class TestInternalApiDeviceCreate:
                 for f in inventory
                 if (
                     f.name == e.name
-                    and f.value == e.value
+                    and f.value.actual_instance == e.value.actual_instance
                     and f.description == e.description
                 )
             ]

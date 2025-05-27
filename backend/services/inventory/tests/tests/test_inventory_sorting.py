@@ -11,50 +11,53 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
-from common import (
-    inventory_attributes,
-    management_client,
-    internal_client,
-    clean_db,
-    mongo,
-)
+
+import os
 
 import pytest
-import os
+
+import openapi_client as oas
+
+from client import make_authenticated_client
 
 
 @pytest.mark.usefixtures("clean_db")
 class TestInventorySorting:
-    def test_inventory_sorting(
-        self, management_client, internal_client, inventory_attributes
-    ):
+    def test_inventory_sorting(self, clean_db, inventory_attributes):
+        internal_client = oas.InventoryInternalApi()
+        management_client = oas.InventoryManagementApi(
+            make_authenticated_client(is_device=False)
+        )
+        assert len(management_client.list_groups()) == 0
         numbers = [100, 1000, 1, 999]
-
-        for n in range(20):
-            did = "".join([format(i, "02x") for i in os.urandom(128)])
-            internal_client.create_device(did, inventory_attributes)
 
         for n in numbers:
             it = list(inventory_attributes)
-            it.append(internal_client.Attribute(name="number", value=n))
+            it.append(oas.Attribute(name="number", value=oas.AttributeValue(n)))
 
             did = "".join([format(i, "02x") for i in os.urandom(128)])
-            internal_client.create_device(did, it)
+            internal_client.initialize_device(
+                tenant_id="", device_new=oas.DeviceNew(id=did, attributes=it)
+            )
 
         t = []
-        r = management_client.getAllDevices(sort="number:asc")
+        r = management_client.list_device_inventories(sort="number:asc")
         for deviceInventoryList in r:
+            if deviceInventoryList is None or deviceInventoryList.attributes is None:
+                continue
             for i in deviceInventoryList.attributes:
                 if i.name == "number":
-                    t.append(i.value)
+                    t.append(i.value.actual_instance)
 
         assert sorted(numbers) == t
 
         t = []
-        r = management_client.getAllDevices(sort="number:desc")
+        r = management_client.list_device_inventories(sort="number:desc")
         for deviceInventoryList in r:
+            if deviceInventoryList is None or deviceInventoryList.attributes is None:
+                continue
             for i in deviceInventoryList.attributes:
                 if i.name == "number":
-                    t.append(i.value)
+                    t.append(i.value.actual_instance)
 
         assert sorted(numbers, reverse=True) == t

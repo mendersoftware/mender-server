@@ -11,40 +11,36 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
-from common import (
-    inventory_attributes,
-    management_client,
-    management_client_v2,
-    internal_client,
-    clean_db,
-    mongo,
-)
 
-import bravado
 import pytest
+
+import openapi_client as oas
+
+from client import make_authenticated_client
 
 
 @pytest.mark.usefixtures("clean_db")
 class TestGetAttributes:
     def test_get_attributes(
         self,
-        management_client,
-        management_client_v2,
-        internal_client,
         inventory_attributes,
     ):
-        # NOTE: bravado request and response checks are enabled for management API v2 client
-        management_client_v2.getFiltersAttributes()
-        attributeList = []
-        attr = management_client.inventoryAttribute(
-            name="foo", value="bar", scope="inventory", description="baz"
-        )
-        attributeList.append(attr)
+        auth_client = make_authenticated_client(is_device=False)
+        internal_client = oas.InventoryInternalApi()
+        management_client_v2 = oas.InventoryManagementV2Api(auth_client)
+        assert len(management_client_v2.get_filterable_attributes()) == 0
 
         did = "some-device-id"
-        internal_client.create_device(did, attributeList)
-        res = management_client_v2.getFiltersAttributes()
-        for attr in res:
-            if attr.scope == "inventory":
-                assert res[0].name == "foo"
-                assert res[0].count == 1
+        internal_client.initialize_device(
+            tenant_id="",
+            device_new=oas.DeviceNew(id=did, attributes=inventory_attributes),
+        )
+        res = management_client_v2.get_filterable_attributes()
+
+        # Expected set of name/scope/count
+        expected = {(attr.name, attr.scope, 1) for attr in inventory_attributes}
+        # Add server side generated attribute
+        expected.add(("created_ts", "system", 1))
+
+        actual = {(attr.name, attr.scope, attr.count) for attr in res}
+        assert actual == expected

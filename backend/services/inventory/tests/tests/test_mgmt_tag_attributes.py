@@ -11,187 +11,223 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
-from common import (
-    inventory_attributes,
-    management_client,
-    internal_client,
-    clean_db,
-    mongo,
-)
 
-import bravado
+from typing import List
+
 import pytest
-import requests
 
-from client import DEFAULT_AUTH
+import openapi_client as oas
+import openapi_client.exceptions as api_exceptions
+
+from client import make_authenticated_client
 
 LIMIT_TAGS = 20
 
 
 @pytest.mark.usefixtures("clean_db")
 class TestTagAttributes:
-    def test_set_tag_attributes_without_etag(
-        self, management_client, internal_client, inventory_attributes
+    @classmethod
+    def check_tags(
+        cls,
+        client: oas.InventoryManagementApi,
+        device_id: str,
+        expected: List[oas.Tag],
     ):
-        did = "some-device-id"
-        internal_client.create_device(did, inventory_attributes)
-        tags = {"n_1": {"name": "n_1", "value": "v_1", "description": "desc_1"}}
-        tags_body = [tags["n_1"]]
-        management_client.updateTagAttributes(did, tags_body)
-
-        res = management_client.getDevice(did)
-        tags_attributes = []
-        for attr in res["attributes"]:
-            if attr["scope"] == "tags":
-                assert attr["name"] in tags
-                tags_attributes.append(attr)
-        assert len(tags_attributes) == len(tags)
-
-    def test_update_tag_attributes_without_etag(
-        self, management_client, internal_client, inventory_attributes
-    ):
-        did = "some-device-id"
-        internal_client.create_device(did, inventory_attributes)
-        tags = {
-            "n_1": {"name": "n_1", "value": "v_1", "description": "desc_1"},
-            "n_2": {"name": "n_2", "value": "v_2", "description": "desc_2"},
+        res = client.get_device_inventory(device_id)
+        assert res.attributes is not None
+        actual_tags = {
+            (tag.name, tag.value.actual_instance)
+            for tag in filter(lambda attr: attr.scope == "tags", res.attributes)
         }
-        tags_body = [tags["n_1"], tags["n_2"]]
-        management_client.updateTagAttributes(did, tags_body)
+        expected_tags = {(tag.name, tag.value) for tag in expected}
+        assert actual_tags == expected_tags
 
-        res = management_client.getDevice(did)
-        tags_attributes = []
-        for attr in res["attributes"]:
-            if attr["scope"] == "tags":
-                assert attr["name"] in tags
-                tags_attributes.append(attr)
-        assert len(tags_attributes) == len(tags_body)
-
-    def test_replace_tag_attributes_without_etag(
-        self, management_client, internal_client, inventory_attributes
-    ):
-        did = "some-device-id"
-        internal_client.create_device(did, inventory_attributes)
-        tags = {"n_3": {"name": "n_3", "value": "v_3", "description": "desc_3"}}
-        tags_body = [tags["n_3"]]
-        management_client.setTagAttributes(did, tags_body)
-
-        res = management_client.getDevice(did)
-        tags_attributes = []
-        for attr in res["attributes"]:
-            if attr["scope"] == "tags":
-                assert attr["name"] in tags
-                tags_attributes.append(attr)
-        assert len(tags_attributes) == len(tags_body)
-
-    def test_update_tag_attributes_with_etag(
-        self, management_client, internal_client, inventory_attributes
-    ):
-        did = "some-device-id"
-        tags = {"n_4": {"name": "n_4", "value": "v_4", "description": "desc_4"}}
-        tags_body = [tags["n_4"]]
-        internal_client.create_device(did, inventory_attributes)
-        management_client.updateTagAttributes(did, tags_body)
-
-        res = requests.get(
-            management_client.client.swagger_spec.api_url + "/devices/" + did,
-            headers={"Authorization":DEFAULT_AUTH},
+    def test_set_tag_attributes_without_etag(self, inventory_attributes):
+        internal_client = oas.InventoryInternalApi()
+        management_client = oas.InventoryManagementApi(
+            make_authenticated_client(is_device=False)
         )
-        etag_one = res.headers["Etag"]
-        management_client.setTagAttributes(did, tags_body, eTag=etag_one)
-        res = requests.get(
-            management_client.client.swagger_spec.api_url + "/devices/" + did,
-            headers={"Authorization":DEFAULT_AUTH},
+        did = "some-device-id"
+        internal_client.initialize_device(
+            tenant_id="",
+            device_new=oas.DeviceNew(id=did, attributes=inventory_attributes),
         )
-        etag_two = res.headers["Etag"]
-        assert etag_one != etag_two
+        tags = [oas.Tag(name="n1", value="v_1", description="desc_1")]
+        management_client.assign_tags(did, tags)
 
-        res = management_client.getDevice(did)
-        tags_attributes = []
-        for attr in res["attributes"]:
-            if attr["scope"] == "tags":
-                assert attr["name"] in tags
-                tags_attributes.append(attr)
-        assert len(tags_attributes) == len(tags_body)
+        TestTagAttributes.check_tags(management_client, did, tags)
 
-    def test_replace_tag_attributes_with_etag(
-        self, management_client, internal_client, inventory_attributes
-    ):
-        did = "some-device-id"
-        tags = {"n_4": {"name": "n_4", "value": "v_4", "description": "desc_4"}}
-        tags_body = [tags["n_4"]]
-        internal_client.create_device(did, inventory_attributes)
-        management_client.setTagAttributes(did, tags_body)
-
-        res = requests.get(
-            management_client.client.swagger_spec.api_url + "/devices/" + did,
-            headers={"Authorization":DEFAULT_AUTH},
+    def test_update_tag_attributes_without_etag(self, inventory_attributes):
+        internal_client = oas.InventoryInternalApi()
+        management_client = oas.InventoryManagementApi(
+            make_authenticated_client(is_device=False)
         )
-        etag_one = res.headers["Etag"]
-        management_client.setTagAttributes(did, tags_body, eTag=etag_one)
-        res = requests.get(
-            management_client.client.swagger_spec.api_url + "/devices/" + did,
-            headers={"Authorization":DEFAULT_AUTH},
+        did = "some-device-id"
+        internal_client.initialize_device(
+            tenant_id="",
+            device_new=oas.DeviceNew(id=did, attributes=inventory_attributes),
         )
-        etag_two = res.headers["Etag"]
-        assert etag_one != etag_two
-
-        res = management_client.getDevice(did)
-        tags_attributes = []
-        for attr in res["attributes"]:
-            if attr["scope"] == "tags":
-                assert attr["name"] in tags
-                tags_attributes.append(attr)
-        assert len(tags_attributes) == len(tags_body)
-
-    def test_update_tag_attributes_with_wrong_etag(
-        self, management_client, internal_client, inventory_attributes
-    ):
-        did = "some-device-id"
-        tags = {"n_5": {"name": "n_5", "value": "v_5", "description": "desc_5"}}
-        tags_body = [tags["n_5"]]
-        internal_client.create_device(did, inventory_attributes)
-        management_client.updateTagAttributes(did, tags_body)
-
-        fake_etag = "241496e0-cbbb-4a83-90e9-70b4dd0e645a"
-        try:
-            management_client.updateTagAttributes(did, tags_body, eTag=fake_etag)
-        except Exception as e:
-            assert str(e) == "412 Precondition Failed"
-        else:
-            raise Exception("did not raise expected exception")
-
-    def test_replace_tag_attributes_with_wrong_etag(
-        self, management_client, internal_client, inventory_attributes
-    ):
-        did = "some-device-id"
-        tags = {"n_6": {"name": "n_6", "value": "v_6", "description": "desc_6"}}
-        tags_body = [tags["n_6"]]
-        internal_client.create_device(did, inventory_attributes)
-        management_client.setTagAttributes(did, tags_body)
-
-        fake_etag = "241496e0-cbbb-4a83-90e9-70b4dd0e645a"
-        try:
-            management_client.setTagAttributes(did, tags_body, eTag=fake_etag)
-        except Exception as e:
-            assert str(e) == "412 Precondition Failed"
-        else:
-            raise Exception("did not raise expected exception")
-
-    def test_set_tags_fails_because_of_limits(
-        self, management_client, internal_client, inventory_attributes
-    ):
-        did = "some-device-id"
-        internal_client.create_device(did, inventory_attributes)
-        tags_body = [
-            {"name": "n_%d" % i, "value": "v_%d" % i} for i in range(LIMIT_TAGS + 1)
+        tags = [
+            oas.Tag(name="n_1", value="v_1", description="desc_1"),
+            oas.Tag(name="n_2", value="v_2", description="desc_2"),
         ]
-        with pytest.raises(bravado.exception.HTTPBadRequest):
-            management_client.updateTagAttributes(did, tags_body)
+        management_client.add_tags(did, tags)
 
-        res = management_client.getDevice(did)
-        tags_attributes = []
-        for attr in res["attributes"]:
-            if attr["scope"] == "tags":
-                tags_attributes.append(attr)
-        assert len(tags_attributes) == 0
+        TestTagAttributes.check_tags(management_client, did, tags)
+
+    def test_replace_tag_attributes_without_etag(self, inventory_attributes):
+        internal_client = oas.InventoryInternalApi()
+        management_client = oas.InventoryManagementApi(
+            make_authenticated_client(is_device=False)
+        )
+        did = "some-device-id"
+        internal_client.initialize_device(
+            tenant_id="",
+            device_new=oas.DeviceNew(id=did, attributes=inventory_attributes),
+        )
+        tags = [
+            oas.Tag(name="n_3", value="v_3", description="desc_3"),
+        ]
+        management_client.assign_tags(did, tags)
+
+        TestTagAttributes.check_tags(management_client, did, tags)
+
+    def test_update_tag_attributes_with_etag(self, inventory_attributes):
+        internal_client = oas.InventoryInternalApi()
+        management_client = oas.InventoryManagementApi(
+            make_authenticated_client(is_device=False)
+        )
+        did = "some-device-id"
+        internal_client.initialize_device(
+            tenant_id="",
+            device_new=oas.DeviceNew(id=did, attributes=inventory_attributes),
+        )
+        tags = [
+            oas.Tag(name="n_4", value="v_4", description="desc_4"),
+        ]
+        management_client.assign_tags(did, tags)
+
+        rsp = management_client.get_device_inventory_with_http_info(id=did)
+        assert rsp.headers is not None
+        assert "Etag" in rsp.headers
+        etag_one = rsp.headers.get("Etag")
+
+        tags_new = [
+            oas.Tag(name="n_5", value="v_5", description="desc_5"),
+        ]
+        management_client.add_tags(did, tags_new, if_match=etag_one)
+
+        rsp = management_client.get_device_inventory_with_http_info(id=did)
+        assert rsp.headers is not None
+        assert "Etag" in rsp.headers
+        etag_two = rsp.headers.get("Etag")
+        assert etag_one != etag_two
+
+        assert rsp.data.attributes is not None
+
+        actual_tags = {
+            tag.name
+            for tag in filter(lambda attr: attr.scope == "tags", rsp.data.attributes)
+        }
+        expected_tags = {tag.name for tag in tags_new + tags}
+        assert expected_tags == actual_tags
+
+    def test_replace_tag_attributes_with_etag(self, inventory_attributes):
+        internal_client = oas.InventoryInternalApi()
+        management_client = oas.InventoryManagementApi(
+            make_authenticated_client(is_device=False)
+        )
+        did = "some-device-id"
+        internal_client.initialize_device(
+            tenant_id="",
+            device_new=oas.DeviceNew(id=did, attributes=inventory_attributes),
+        )
+        tags = [
+            oas.Tag(name="n_4", value="v_4", description="desc_4"),
+        ]
+        management_client.assign_tags(did, tags)
+
+        rsp = management_client.get_device_inventory_with_http_info(id=did)
+        assert rsp.headers is not None
+        assert "Etag" in rsp.headers
+        etag_one = rsp.headers.get("Etag")
+
+        tags_new = [
+            oas.Tag(name="n_5", value="v_5", description="desc_5"),
+        ]
+        management_client.assign_tags(did, tags_new, if_match=etag_one)
+
+        rsp = management_client.get_device_inventory_with_http_info(id=did)
+        assert rsp.headers is not None
+        assert "Etag" in rsp.headers
+        etag_two = rsp.headers.get("Etag")
+        assert etag_one != etag_two
+
+        assert rsp.data.attributes is not None
+
+        actual_tags = {
+            tag.name
+            for tag in filter(lambda attr: attr.scope == "tags", rsp.data.attributes)
+        }
+        expected_tags = {tag.name for tag in tags_new}
+        assert expected_tags == actual_tags
+
+    def test_update_tag_attributes_with_wrong_etag(self, inventory_attributes):
+        internal_client = oas.InventoryInternalApi()
+        management_client = oas.InventoryManagementApi(
+            make_authenticated_client(is_device=False)
+        )
+        did = "some-device-id"
+        internal_client.initialize_device(
+            tenant_id="",
+            device_new=oas.DeviceNew(id=did, attributes=inventory_attributes),
+        )
+        tags = [
+            oas.Tag(name="n_5", value="v_5", description="desc_5"),
+        ]
+        try:
+            management_client.add_tags(did, tags, if_match="bad/tag")
+        except api_exceptions.ApiException as e:
+            assert (
+                e.status == 412
+            ), "Expected http status code 412 (Precondition Failed)"
+
+    def test_replace_tag_attributes_with_wrong_etag(self, inventory_attributes):
+        internal_client = oas.InventoryInternalApi()
+        management_client = oas.InventoryManagementApi(
+            make_authenticated_client(is_device=False)
+        )
+        did = "some-device-id"
+        internal_client.initialize_device(
+            tenant_id="",
+            device_new=oas.DeviceNew(id=did, attributes=inventory_attributes),
+        )
+        tags = [
+            oas.Tag(name="n_5", value="v_5", description="desc_5"),
+        ]
+        try:
+            management_client.assign_tags(did, tags, if_match="bad/tag")
+        except api_exceptions.ApiException as e:
+            assert (
+                e.status == 412
+            ), "Expected http status code 412 (Precondition Failed)"
+
+    def test_set_tags_fails_because_of_limits(self, inventory_attributes):
+        internal_client = oas.InventoryInternalApi()
+        management_client = oas.InventoryManagementApi(
+            make_authenticated_client(is_device=False)
+        )
+        did = "some-device-id"
+        internal_client.initialize_device(
+            tenant_id="",
+            device_new=oas.DeviceNew(id=did, attributes=inventory_attributes),
+        )
+        tags_body = [
+            oas.Tag(name=f"n_{i}", value=f"v_{i}") for i in range(LIMIT_TAGS + 1)
+        ]
+        with pytest.raises(api_exceptions.BadRequestException):
+            management_client.assign_tags(did, tags_body)
+        with pytest.raises(api_exceptions.BadRequestException):
+            management_client.add_tags(did, tags_body)
+
+        TestTagAttributes.check_tags(management_client, did, [])
