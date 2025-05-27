@@ -1498,19 +1498,39 @@ components:
           type: string
           description: Attribute description.
         value:
-          type: string
-          description: |
-            The current value of the attribute.
-
-            Attribute type is implicit, inferred from the JSON type.
-
-            Supported types: number, string, array of numbers, array of strings.
-            Mixed arrays are not allowed.
+          $ref: '#/components/schemas/AttributeValue'
       example:
         name: serial_no
         scope: inventory
         description: Serial number
-        value: '123456789'
+        value: "123456789"
+
+    AttributeValue:
+      description: |
+        The current value of the attribute.
+
+        Attribute type is implicit, inferred from the JSON type.
+
+        Supported types: number, string, array of numbers, array of strings.
+        Mixed arrays are not allowed.
+      oneOf:
+        - $ref: '#/components/schemas/AttributeValueString'
+        - $ref: '#/components/schemas/AttributeValueStringList'
+        - $ref: '#/components/schemas/AttributeValueNumber'
+        - $ref: '#/components/schemas/AttributeValueNumberList'
+    AttributeValueString:
+      type: string
+    AttributeValueNumber:
+      type: number
+    AttributeValueStringList:
+      type: array
+      items:
+        type: string
+    AttributeValueNumberList:
+      type: array
+      items:
+        type: number
+
     TenantNew:
       type: object
       properties:
