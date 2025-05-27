@@ -19,7 +19,8 @@ import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import Confirm from '@northern.tech/common-ui/Confirm';
-import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
+import { HELPTOOLTIPS } from '@northern.tech/common-ui/helptips/HelpTooltips';
+import { MenderHelpTooltip } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import { DEVICE_DISMISSAL_STATE, DEVICE_STATES, onboardingSteps } from '@northern.tech/store/constants';
 import { getAcceptedDevices, getDeviceLimit, getLimitMaxed, getUserCapabilities } from '@northern.tech/store/selectors';
 import { advanceOnboarding, deleteAuthset, updateDeviceAuth } from '@northern.tech/store/thunks';

@@ -24,8 +24,8 @@ import Confirm from '@northern.tech/common-ui/Confirm';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import LinedHeader from '@northern.tech/common-ui/LinedHeader';
 import LogDialog from '@northern.tech/common-ui/dialogs/Log';
-import BaseOnboardingTip from '@northern.tech/helptips/BaseOnoardingTip';
-import { DeploymentUploadFinished } from '@northern.tech/helptips/OnboardingTips';
+import BaseOnboardingTip from '@northern.tech/common-ui/helptips/BaseOnoardingTip';
+import { DeploymentUploadFinished } from '@northern.tech/common-ui/helptips/OnboardingTips';
 import storeActions from '@northern.tech/store/actions';
 import { AUDIT_LOGS_TYPES, DEPLOYMENT_STATES, DEPLOYMENT_TYPES, TIMEOUTS, deploymentStatesToSubstates } from '@northern.tech/store/constants';
 import {

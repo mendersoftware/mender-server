@@ -17,7 +17,8 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { HighlightOff as HighlightOffIcon } from '@mui/icons-material';
 import { FormHelperText, IconButton, MenuItem, Select, TextField } from '@mui/material';
 
-import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
+import { HELPTOOLTIPS } from '@northern.tech/common-ui/helptips/HelpTooltips';
+import { MenderHelpTooltip } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import { DEVICE_FILTERING_OPTIONS, TIMEOUTS, emptyFilter } from '@northern.tech/store/constants';
 
 import AttributeAutoComplete from './AttributeAutocomplete';

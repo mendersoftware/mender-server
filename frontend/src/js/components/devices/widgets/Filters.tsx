@@ -20,7 +20,7 @@ import { Button, Chip, Collapse } from '@mui/material';
 
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
-import MenderTooltip from '@northern.tech/common-ui/MenderTooltip';
+import MenderTooltip from '@northern.tech/common-ui/helptips/MenderTooltip';
 import storeActions from '@northern.tech/store/actions';
 import { BENEFITS, DEVICE_FILTERING_OPTIONS, emptyFilter } from '@northern.tech/store/constants';
 import {

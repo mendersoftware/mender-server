@@ -21,7 +21,7 @@ import { withStyles } from 'tss-react/mui';
 import { ADDONS, BENEFITS, PLANS } from '@northern.tech/store/constants';
 import { getTenantCapabilities } from '@northern.tech/store/selectors';
 
-import MenderTooltip, { MenderTooltipClickable } from './MenderTooltip';
+import MenderTooltip, { MenderTooltipClickable } from './helptips/MenderTooltip';
 
 const PlansTooltip = withStyles(MenderTooltip, ({ palette }) => ({
   arrow: {

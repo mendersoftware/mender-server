@@ -11,16 +11,20 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Help as HelpIcon } from '@mui/icons-material';
 import { ClickAwayListener, Tooltip } from '@mui/material';
 import { makeStyles, withStyles } from 'tss-react/mui';
 
-import { HELPTOOLTIPS } from '@northern.tech/helptips/HelpTooltips';
 import { READ_STATES, TIMEOUTS } from '@northern.tech/store/constants';
+import { getDeviceById, getTooltipsState } from '@northern.tech/store/selectors';
+import { setAllTooltipsReadState, setTooltipReadState } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
-import { toggle } from '@northern.tech/utils/helpers';
+import { toggle, yes } from '@northern.tech/utils/helpers';
+
+import { HELPTOOLTIPS } from './HelpTooltips';
 
 const useStyles = makeStyles()(theme => ({
   icon: {
@@ -200,5 +204,27 @@ export const HelpTooltip = ({ icon = undefined, id, contentProps = {}, tooltip, 
         <div className={`${classes.iconAura} ${className}`} />
       </div>
     </MenderTooltipClickable>
+  );
+};
+
+export const MenderHelpTooltip = props => {
+  const { id, contentProps = {} } = props;
+  const tooltipsById = useSelector(getTooltipsState);
+  const dispatch = useDispatch();
+  const device = useSelector(state => getDeviceById(state, contentProps.deviceId));
+  const { readState = READ_STATES.unread } = tooltipsById[id] || {};
+  const { Component, SpecialComponent, isRelevant = yes } = HELPTOOLTIPS[id];
+
+  const onSetTooltipReadState = useCallback((...args) => dispatch(setTooltipReadState(...args)), [dispatch]);
+  const onSetAllTooltipsReadState = state => dispatch(setAllTooltipsReadState(state));
+
+  return (
+    <HelpTooltip
+      setAllTooltipsReadState={onSetAllTooltipsReadState}
+      setTooltipReadState={onSetTooltipReadState}
+      device={device}
+      tooltip={{ Component, SpecialComponent, isRelevant, readState }}
+      {...props}
+    />
   );
 };

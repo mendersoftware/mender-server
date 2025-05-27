@@ -24,8 +24,8 @@ import { toggle } from '@northern.tech/utils/helpers';
 import { useWindowSize } from '@northern.tech/utils/resizehook';
 
 import Loader from './Loader';
-import MenderTooltip from './MenderTooltip';
 import Pagination from './Pagination';
+import MenderTooltip from './helptips/MenderTooltip';
 
 const { page: defaultPage, perPage: defaultPerPage } = DEVICE_LIST_DEFAULTS;
 

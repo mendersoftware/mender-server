@@ -19,10 +19,11 @@ import { Button } from '@mui/material';
 import { withStyles } from 'tss-react/mui';
 
 import Loader from '@northern.tech/common-ui/Loader';
-import { MenderTooltipClickable } from '@northern.tech/common-ui/MenderTooltip';
 import { DEVICE_STATES, onboardingSteps } from '@northern.tech/store/constants';
 import { getDemoDeviceAddress } from '@northern.tech/store/selectors';
 import { getDeviceById, getDevicesByStatus, setOnboardingComplete } from '@northern.tech/store/thunks';
+
+import { MenderTooltipClickable } from './MenderTooltip';
 
 export const CompletionButton = withStyles(Button, ({ palette }) => ({
   root: {

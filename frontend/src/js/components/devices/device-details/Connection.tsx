@@ -22,8 +22,8 @@ import { makeStyles } from 'tss-react/mui';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import Loader from '@northern.tech/common-ui/Loader';
-import MenderTooltip from '@northern.tech/common-ui/MenderTooltip';
 import Time from '@northern.tech/common-ui/Time';
+import MenderTooltip from '@northern.tech/common-ui/helptips/MenderTooltip';
 import storeActions from '@northern.tech/store/actions';
 import {
   ALL_DEVICES,

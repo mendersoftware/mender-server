@@ -19,7 +19,8 @@ import { makeStyles } from 'tss-react/mui';
 
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
-import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
+import { HELPTOOLTIPS } from '@northern.tech/common-ui/helptips/HelpTooltips';
+import { MenderHelpTooltip } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import { BENEFITS } from '@northern.tech/store/constants';
 import dayjs from 'dayjs';
 

@@ -33,7 +33,8 @@ import {
 import { makeStyles } from 'tss-react/mui';
 
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
-import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
+import { HELPTOOLTIPS } from '@northern.tech/common-ui/helptips/HelpTooltips';
+import { MenderHelpTooltip } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import { getReportingLimits } from '@northern.tech/store/thunks';
 import { toggle } from '@northern.tech/utils/helpers';
 

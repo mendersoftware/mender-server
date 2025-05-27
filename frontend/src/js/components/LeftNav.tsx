@@ -20,7 +20,7 @@ import { List, ListItem, ListItemText } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import DocsLink from '@northern.tech/common-ui/DocsLink';
-import MenderTooltip from '@northern.tech/common-ui/MenderTooltip';
+import MenderTooltip from '@northern.tech/common-ui/helptips/MenderTooltip';
 import storeActions from '@northern.tech/store/actions';
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { getFeatures, getUserCapabilities, getVersionInformation } from '@northern.tech/store/selectors';

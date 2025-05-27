@@ -30,7 +30,8 @@ import {
 import { makeStyles } from 'tss-react/mui';
 
 import DocsLink from '@northern.tech/common-ui/DocsLink';
-import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
+import { HELPTOOLTIPS } from '@northern.tech/common-ui/helptips/HelpTooltips';
+import { MenderHelpTooltip } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import { DEVICE_ONLINE_CUTOFF, TIMEOUTS, alertChannels, settingsKeys } from '@northern.tech/store/constants';
 import {
   getDeviceIdentityAttributes,

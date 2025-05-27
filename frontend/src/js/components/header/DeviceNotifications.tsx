@@ -18,7 +18,7 @@ import { Link } from 'react-router-dom';
 import { DeveloperBoard as DeveloperBoardIcon } from '@mui/icons-material';
 import { makeStyles } from 'tss-react/mui';
 
-import { MenderTooltipClickable } from '@northern.tech/common-ui/MenderTooltip';
+import { MenderTooltipClickable } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import pluralize from 'pluralize';
 
 import { DeviceLimitContact } from '../devices/dialogs/PreauthDialog';

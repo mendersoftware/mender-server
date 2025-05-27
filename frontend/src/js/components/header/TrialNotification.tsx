@@ -17,7 +17,7 @@ import { Link } from 'react-router-dom';
 import { InfoOutlined as InfoIcon, Payment } from '@mui/icons-material';
 import { Button } from '@mui/material';
 
-import { MenderTooltipClickable } from '@northern.tech/common-ui/MenderTooltip';
+import { MenderTooltipClickable } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import dayjs from 'dayjs';
 import durationDayJs from 'dayjs/plugin/duration';
 import pluralize from 'pluralize';

@@ -17,7 +17,8 @@ import { useSelector } from 'react-redux';
 import { Block as BlockIcon, CheckCircle as CheckCircleIcon, Check as CheckIcon } from '@mui/icons-material';
 import { Chip, Icon } from '@mui/material';
 
-import { HELPTOOLTIPS, MenderHelpTooltip } from '@northern.tech/helptips/HelpTooltips';
+import { HELPTOOLTIPS } from '@northern.tech/common-ui/helptips/HelpTooltips';
+import { MenderHelpTooltip } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import { DEVICE_STATES, onboardingSteps } from '@northern.tech/store/constants';
 import { getOnboardingState } from '@northern.tech/store/selectors';
 

@@ -33,10 +33,6 @@ export default defineConfig(() => {
         {
           find: '@northern.tech/common-ui',
           replacement: path.resolve(__dirname, 'src/js/common-ui')
-        },
-        {
-          find: '@northern.tech/helptips',
-          replacement: path.resolve(__dirname, 'src/js/helptips')
         }
       ]
     },
