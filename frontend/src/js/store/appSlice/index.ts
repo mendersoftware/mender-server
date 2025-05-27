@@ -147,15 +147,20 @@ export const appSlice = createSlice({
       };
     },
     setSnackbar: (state, { payload }) => {
-      let { message, autoHideDuration, action, preventClickToCopy = false } = payload;
       if (typeof payload === 'string' || payload instanceof String) {
-        message = payload;
+        state.snackbar = {
+          ...initialState.snackbar,
+          message: payload,
+          open: !!payload
+        };
+        return;
       }
+      const { message, autoHideDuration, action, preventClickToCopy = false } = payload;
       state.snackbar = {
         action,
         autoHideDuration,
         message,
-        open: message ? true : false,
+        open: !!message,
         preventClickToCopy
       };
     },

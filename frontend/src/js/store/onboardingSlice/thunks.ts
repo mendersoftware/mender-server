@@ -109,7 +109,7 @@ export const setOnboardingApproach = createAsyncThunk(`${sliceName}/setOnboardin
 );
 
 export const setOnboardingComplete = createAsyncThunk(`${sliceName}/setOnboardingComplete`, (value, { dispatch }) => {
-  let tasks = [Promise.resolve(dispatch(actions.setOnboardingComplete(value)))];
+  const tasks = [Promise.resolve(dispatch(actions.setOnboardingComplete(value)))];
   if (value) {
     tasks.push(Promise.resolve(dispatch(actions.setShowOnboardingHelp(false))));
     tasks.push(Promise.resolve(dispatch(advanceOnboarding(onboardingStepNames.DEPLOYMENTS_PAST_COMPLETED))));

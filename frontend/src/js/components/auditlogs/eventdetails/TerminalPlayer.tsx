@@ -251,7 +251,6 @@ export const TerminalPlayer = ({ className, item, sessionInitialized, token }) =
   };
 
   const onDownloadClick = () => {
-    // eslint-disable-next-line no-undef
     const text = generateHtml({ fit: XTERM_FIT_VERSION, search: XTERM_SEARCH_VERSION, xterm: XTERM_VERSION }, buffer);
     createFileDownload(text, 'terminalsession.html', token);
   };

@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 // material ui
 import { Autocomplete, TextField, createFilterOptions } from '@mui/material';
@@ -78,7 +78,7 @@ export const AttributeAutoComplete = ({ attributes, disabled = false, filter = e
   useEffect(() => {
     setKey(emptyFilter.key);
     setScope(emptyFilter.scope);
-    let attributesClean = attributes.map(attr => {
+    const attributesClean = attributes.map(attr => {
       if (!attr.category && attr.scope) {
         attr.category = attr.scope;
       }

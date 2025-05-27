@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate, useLocation, useParams } from 'react-router-dom';
 
@@ -101,9 +101,9 @@ export const Help = () => {
 
   let ComponentToShow = GetStarted;
   let breadcrumbs = '';
-  let routeParams = pathname.includes(helpPath) ? pathname.substring(pathname.indexOf(helpPath) + helpPath.length) : '';
+  const routeParams = pathname.includes(helpPath) ? pathname.substring(pathname.indexOf(helpPath) + helpPath.length) : '';
   if (routeParams) {
-    let splitsplat = routeParams.split('/');
+    const splitsplat = routeParams.split('/');
     let copyOfComponents = components;
 
     for (let i = 0; i < splitsplat.length; i++) {

@@ -11,8 +11,6 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React from 'react';
-
 import { deepmerge } from '@mui/utils';
 import { makeStyles } from 'tss-react/mui';
 
@@ -34,7 +32,7 @@ const useStyles = makeStyles()(theme => ({
 const mapLayerInformation = (key, value, i, path) => {
   const infoItems = key.split('.');
   let priority = i;
-  let title = infoItems[0];
+  const title = infoItems[0];
   if (softwareTitleMap[path]) {
     priority = softwareTitleMap[path].priority;
   }

@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -279,7 +279,6 @@ export const Authorized = ({
       window.sessionStorage.setItem('pendings-redirect', true);
       onDeviceStateSelectionChange(DEVICE_STATES.accepted);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [acceptedCount, allCount, pendingCount, onboardingState.complete, dispatch, onDeviceStateSelectionChange, dispatchedSetSnackbar]);
 
   useEffect(() => {
@@ -309,9 +308,9 @@ export const Authorized = ({
 
   useEffect(() => {
     Object.keys(availableIssueOptions).forEach(key => dispatch(getIssueCountsByType({ type: key, filters, group: selectedGroup, state: selectedState })));
-    availableIssueOptions[DEVICE_ISSUE_OPTIONS.authRequests.key]
-      ? dispatch(getIssueCountsByType({ type: DEVICE_ISSUE_OPTIONS.authRequests.key, options: { filters: [] } }))
-      : undefined;
+    if (availableIssueOptions[DEVICE_ISSUE_OPTIONS.authRequests.key]) {
+      dispatch(getIssueCountsByType({ type: DEVICE_ISSUE_OPTIONS.authRequests.key, options: { filters: [] } }));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedIssues.join(''), JSON.stringify(availableIssueOptions), selectedState, selectedGroup, dispatch, JSON.stringify(filters)]);
 
@@ -355,7 +354,7 @@ export const Authorized = ({
   const onPageLengthChange = perPage => dispatchDeviceListState({ perPage, page: 1, refreshTrigger: !refreshTrigger });
 
   const onSortChange = attribute => {
-    let changedSortCol = attribute.name;
+    const changedSortCol = attribute.name;
     let changedSortDown = sortDown === SORTING_OPTIONS.desc ? SORTING_OPTIONS.asc : SORTING_OPTIONS.desc;
     if (changedSortCol !== sortCol) {
       changedSortDown = SORTING_OPTIONS.desc;

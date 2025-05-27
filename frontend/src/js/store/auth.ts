@@ -34,7 +34,7 @@ export const getSessionInfo = () => {
     return { ...emptySession };
   }
   if (!sessionInfo.token) {
-    let jwtTokenFromCookie = cookies.get('JWT', { doNotParse: true }) ?? '';
+    const jwtTokenFromCookie = cookies.get('JWT', { doNotParse: true }) ?? '';
     if (jwtTokenFromCookie) {
       setSessionInfo({ token: jwtTokenFromCookie, undefined });
       sessionInfo.token = jwtTokenFromCookie;

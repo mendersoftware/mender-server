@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { FitAddon } from '@xterm/addon-fit';
 import { SearchAddon } from '@xterm/addon-search';
@@ -38,7 +38,7 @@ export const Xterm = ({ className, customKeyEventHandler, options = {}, onResize
   // const terminalRef = ref.current.terminalRef.current;
 
   useEffect(() => {
-    let { terminal, terminalRef } = xtermRef.current;
+    const { terminal, terminalRef } = xtermRef.current;
     // Setup the XTerm terminal.
     terminal.current = new Terminal({ ...defaultOptions, ...options });
     // Load addons
@@ -58,7 +58,7 @@ export const Xterm = ({ className, customKeyEventHandler, options = {}, onResize
     }
     return () => {
       // When the component unmounts dispose of the terminal and all of its listeners.
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+
       terminal.current.dispose();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps

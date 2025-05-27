@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { Button, FormControl, FormHelperText, TextField } from '@mui/material';
 
@@ -37,7 +37,8 @@ export const QuoteRequestForm = ({ addOns, currentPlan, isTrial, onSendMessage, 
 
   const isEnterpriseUpgrade = updatedPlan === 'enterprise';
   const isUpgrade = Object.keys(PLANS).indexOf(updatedPlan) > Object.keys(PLANS).indexOf(currentPlan);
-  let { note, title } = isEnterpriseUpgrade ? quoteRequest.enterprise : quoteRequest.default;
+  const request = isEnterpriseUpgrade ? quoteRequest.enterprise : quoteRequest.default;
+  let { title } = request;
   title = isTrial ? `2. ${title}` : title;
   return (
     <div className="flexbox column margin-bottom-large">
@@ -57,7 +58,7 @@ export const QuoteRequestForm = ({ addOns, currentPlan, isTrial, onSendMessage, 
       </div>
       <FormControl style={{ marginBottom: 30, marginTop: 0 }}>
         <FormHelperText>Your message</FormHelperText>
-        <TextField fullWidth multiline placeholder={note} value={message} onChange={e => setMessage(e.target.value)} />
+        <TextField fullWidth multiline placeholder={request.note} value={message} onChange={e => setMessage(e.target.value)} />
       </FormControl>
       <p>
         {isTrial || isEnterpriseUpgrade

@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { accordionClasses, accordionDetailsClasses, accordionSummaryClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
@@ -67,7 +67,7 @@ export const AuthsetList = ({ device, listRef, userCapabilities, ...remainingPro
 
   const availableColumns = defaultColumns.filter(column => column.canAccess({ userCapabilities }));
 
-  let groupedAuthsets = authsets.reduce(
+  const groupedAuthsets = authsets.reduce(
     // for each authset compare the device status and if it matches authset status, put it in correct list
     (accu, authset) => {
       if (authset.status === status) {

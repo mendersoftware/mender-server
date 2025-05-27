@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Add as AddIcon } from '@mui/icons-material';
@@ -109,7 +109,7 @@ export const Filters = ({ className = '', onGroupClick, open }) => {
     if (removedFilter.key === 'id') {
       resetIdFilter();
     }
-    let changedFilters = filters.filter(filter => !deepCompare(filter, removedFilter));
+    const changedFilters = filters.filter(filter => !deepCompare(filter, removedFilter));
     handleFilterChange(changedFilters);
   };
 

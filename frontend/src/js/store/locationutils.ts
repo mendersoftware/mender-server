@@ -46,7 +46,7 @@ const scopes = {
 };
 
 export const commonProcessor = searchParams => {
-  let params = new URLSearchParams(searchParams);
+  const params = new URLSearchParams(searchParams);
   const pageState = Object.entries(commonFields).reduce((accu, [key, { parse, select, target }]) => {
     const values = params.getAll(key);
     if (!values.length) {
@@ -80,7 +80,7 @@ export const commonProcessor = searchParams => {
 };
 
 const legacyDeviceQueryParse = (searchParams, filteringAttributes) => {
-  let params = new URLSearchParams(searchParams);
+  const params = new URLSearchParams(searchParams);
   const result = Object.keys(scopes).reduce((accu, scope) => ({ ...accu, [scope]: [] }), {});
   if (params.get('group')) {
     result.inventory.push({ ...emptyFilter, key: 'group', scope: 'inventory', operator: DEVICE_FILTERING_OPTIONS.$eq.key, value: params.get('group') });
@@ -106,7 +106,7 @@ const legacyDeviceQueryParse = (searchParams, filteringAttributes) => {
 };
 
 const scopedFilterParse = searchParams => {
-  let params = new URLSearchParams(searchParams);
+  const params = new URLSearchParams(searchParams);
   const filters = Object.keys(scopes).reduce(
     (accu, scope) => {
       accu[scope] = [];

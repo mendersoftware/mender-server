@@ -171,12 +171,12 @@ export const getAuditLogsCsvLink = createAsyncThunk(`${sliceName}/getAuditLogsCs
 
 export const setAuditlogsState = createAsyncThunk(`${sliceName}/setAuditlogsState`, (selectionState, { dispatch, getState }) => {
   const currentState = getAuditlogState(getState());
-  let nextState = {
+  const nextState = {
     ...currentState,
     ...selectionState,
     sort: { ...currentState.sort, ...selectionState.sort }
   };
-  let tasks = [];
+  const tasks = [];
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { isLoading: currentLoading, selectedIssue: currentIssue, ...currentRequestState } = currentState;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -267,7 +267,7 @@ export const removeTenant = createAsyncThunk(`${sliceName}/editDeviceLimit`, ({ 
 );
 export const getUserOrganization = createAsyncThunk(`${sliceName}/getUserOrganization`, (_, { dispatch, getState }) =>
   Api.get(`${tenantadmApiUrlv1}/user/tenant`).then(res => {
-    let tasks = [dispatch(actions.setOrganization(res.data))];
+    const tasks = [dispatch(actions.setOrganization(res.data))];
     const { addons, plan, trial } = res.data;
     const { token } = getCurrentSession(getState());
     const jwt = jwtDecode(token);
@@ -361,7 +361,7 @@ export const getWebhookEvents = createAsyncThunk(`${sliceName}/getWebhookEvents`
   return Api.get(`${iotManagerBaseURL}/events?page=${page}&per_page=${perPage}`)
     .catch(err => commonErrorHandler(err, 'There was an error retrieving activity for this integration', dispatch, commonErrorFallback))
     .then(({ data }) => {
-      let tasks = [
+      const tasks = [
         dispatch(
           actions.receiveWebhookEvents({
             value: isFollowUp ? getState().organization.webhooks.events : data,

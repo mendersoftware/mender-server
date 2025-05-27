@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Dropzone from 'react-dropzone';
 import { useDispatch } from 'react-redux';
 
@@ -30,7 +30,7 @@ export const FileUpload = ({ enableContentReading = true, fileNameSelection, onF
   const onDrop = (acceptedFiles, rejectedFiles) => {
     if (acceptedFiles.length) {
       if (enableContentReading) {
-        let reader = new FileReader();
+        const reader = new FileReader();
         reader.readAsBinaryString(acceptedFiles[0]);
         reader.fileName = acceptedFiles[0].name;
         reader.onload = () => {

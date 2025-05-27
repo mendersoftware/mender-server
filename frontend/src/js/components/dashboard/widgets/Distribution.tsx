@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Clear as ClearIcon, Settings, Square } from '@mui/icons-material';
@@ -171,7 +171,7 @@ const initDistribution = ({ data, theme }) => {
   const { items, otherCount, total } = data;
   const numberOfItems = items.length > chartColorPalette.length ? chartColorPalette.length - 1 : items.length;
   const colors = chartColorPalette.slice(0, numberOfItems).reverse();
-  let distribution = items.slice(0, colors.length).reduce(
+  const distribution = items.slice(0, colors.length).reduce(
     (accu, { key, count }, index) => [
       {
         x: key || '-',

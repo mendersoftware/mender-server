@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -136,7 +136,7 @@ export const CreateDeployment = props => {
       dispatch(getRelease(release.name));
     }
     dispatch(advanceOnboarding(onboardingSteps.SCHEDULING_GROUP_SELECTION));
-    let nextDeploymentObject = { deploymentDeviceCount: devices.length ? devices.length : 0 };
+    const nextDeploymentObject = { deploymentDeviceCount: devices.length ? devices.length : 0 };
     if (group === ALL_DEVICES) {
       dispatch(advanceOnboarding(onboardingSteps.SCHEDULING_ALL_DEVICES_SELECTION));
       nextDeploymentObject.deploymentDeviceCount = acceptedDeviceCount;

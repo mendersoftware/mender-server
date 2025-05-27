@@ -69,7 +69,7 @@ const reduceReceivedReleases = (releases, stateReleasesById) =>
 const findArtifactIndexInRelease = (releases, id) =>
   Object.values(releases).reduce(
     (accu, item) => {
-      let index = item.artifacts.findIndex(releaseArtifact => releaseArtifact.id === id);
+      const index = item.artifacts.findIndex(releaseArtifact => releaseArtifact.id === id);
       if (index > -1) {
         accu = { release: item, index };
       }
@@ -80,7 +80,7 @@ const findArtifactIndexInRelease = (releases, id) =>
 
 /* Artifacts */
 export const getArtifactInstallCount = createAsyncThunk(`${sliceName}/getArtifactInstallCount`, (id, { dispatch, getState }) => {
-  let { release, index } = findArtifactIndexInRelease(getReleasesById(getState()), id);
+  const { release, index } = findArtifactIndexInRelease(getReleasesById(getState()), id);
   if (!release || index === -1) {
     return;
   }
@@ -99,7 +99,9 @@ export const getArtifactInstallCount = createAsyncThunk(`${sliceName}/getArtifac
   })
     .catch(err => commonErrorHandler(err, `Retrieving artifact installation count failed:`, dispatch, commonErrorFallback))
     .then(({ headers }) => {
-      let { release, index } = findArtifactIndexInRelease(getReleasesById(getState()), id);
+      const foundRelease = findArtifactIndexInRelease(getReleasesById(getState()), id);
+      const index = foundRelease.index;
+      let release = foundRelease.release;
       if (!release || index === -1) {
         return;
       }
@@ -116,7 +118,9 @@ export const getArtifactInstallCount = createAsyncThunk(`${sliceName}/getArtifac
 
 export const getArtifactUrl = createAsyncThunk(`${sliceName}/getArtifactUrl`, (id, { dispatch, getState }) =>
   GeneralApi.get(`${deploymentsApiUrl}/artifacts/${id}/download`).then(response => {
-    let { release, index } = findArtifactIndexInRelease(getReleasesById(getState()), id);
+    const foundRelease = findArtifactIndexInRelease(getReleasesById(getState()), id);
+    const index = foundRelease.index;
+    let release = foundRelease.release;
     if (!release || index === -1) {
       return dispatch(getReleases());
     }
@@ -134,7 +138,7 @@ export const getArtifactUrl = createAsyncThunk(`${sliceName}/getArtifactUrl`, (i
 );
 
 export const createArtifact = createAsyncThunk(`${sliceName}/createArtifact`, ({ file, meta }, { dispatch }) => {
-  let formData = Object.entries(meta).reduce((accu, [key, value]) => {
+  const formData = Object.entries(meta).reduce((accu, [key, value]) => {
     if (Array.isArray(value)) {
       accu.append(key, value.join(','));
     } else if (value instanceof Object) {
@@ -175,7 +179,7 @@ export const createArtifact = createAsyncThunk(`${sliceName}/createArtifact`, ({
 });
 
 export const uploadArtifact = createAsyncThunk(`${sliceName}/uploadArtifact`, ({ file, meta }, { dispatch }) => {
-  let formData = new FormData();
+  const formData = new FormData();
   formData.append('size', file.size);
   formData.append('description', meta.description);
   formData.append('artifact', file);
@@ -213,7 +217,7 @@ export const editArtifact = createAsyncThunk(`${sliceName}/editArtifact`, ({ id,
     .catch(err => commonErrorHandler(err, `Artifact details couldn't be updated.`, dispatch))
     .then(() => {
       const state = getState();
-      let { release, index } = findArtifactIndexInRelease(getReleasesById(state), id);
+      const { release, index } = findArtifactIndexInRelease(getReleasesById(state), id);
       if (!release || index === -1) {
         return dispatch(getReleases());
       }
@@ -234,7 +238,7 @@ export const removeArtifact = createAsyncThunk(`${sliceName}/removeArtifact`, (i
   GeneralApi.delete(`${deploymentsApiUrl}/artifacts/${id}`)
     .then(() => {
       const state = getState();
-      let { release, index } = findArtifactIndexInRelease(getReleasesById(state), id);
+      const { release, index } = findArtifactIndexInRelease(getReleasesById(state), id);
       const releaseArtifacts = [...release.artifacts];
       releaseArtifacts.splice(index, 1);
       if (!releaseArtifacts.length) {
@@ -274,7 +278,7 @@ export const removeReleases = createAsyncThunk(`${sliceName}/removeReleases`, (r
 
 export const selectRelease = createAsyncThunk(`${sliceName}/selectRelease`, (release, { dispatch }) => {
   const name = release ? release.name || release : null;
-  let tasks = [dispatch(actions.selectedRelease(name))];
+  const tasks = [dispatch(actions.selectedRelease(name))];
   if (name) {
     tasks.push(dispatch(getRelease(name)));
   }
@@ -283,12 +287,12 @@ export const selectRelease = createAsyncThunk(`${sliceName}/selectRelease`, (rel
 
 export const setReleasesListState = createAsyncThunk(`${sliceName}/setReleasesListState`, (selectionState, { dispatch, getState }) => {
   const currentState = getState().releases.releasesList;
-  let nextState = {
+  const nextState = {
     ...currentState,
     ...selectionState,
     sort: { ...currentState.sort, ...selectionState.sort }
   };
-  let tasks = [];
+  const tasks = [];
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { isLoading: currentLoading, ...currentRequestState } = currentState;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -341,7 +345,7 @@ export const getReleases = createAsyncThunk(`${sliceName}/getReleases`, (passedC
       const state = getState().releases;
       const flatReleases = reduceReceivedReleases(receivedReleases, state.byId);
       const combinedReleases = { ...state.byId, ...flatReleases };
-      let tasks = [dispatch(actions.receiveReleases(combinedReleases))];
+      const tasks = [dispatch(actions.receiveReleases(combinedReleases))];
       const releaseListState = deductSearchState(receivedReleases, config, total, state);
       tasks.push(dispatch(actions.setReleaseListState(releaseListState)));
       return Promise.all(tasks);

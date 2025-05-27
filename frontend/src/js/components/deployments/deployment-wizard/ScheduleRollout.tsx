@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { FormControl, MenuItem, Select } from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers';
@@ -42,7 +42,7 @@ export const ScheduleRollout = ({ canSchedule, commonClasses, setDeploymentSetti
       setDeploymentSettings({ phases: [{ batch_size: 100, start_ts: value, delay: 0 }] });
     } else {
       //if there are existing phases, set the first phases to the new start time and adjust later phases in different function
-      let newPhases = phases;
+      const newPhases = phases;
       newPhases[0].start_ts = value;
       setDeploymentSettings({ phases: newPhases });
     }

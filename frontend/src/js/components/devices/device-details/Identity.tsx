@@ -11,8 +11,6 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React from 'react';
-
 import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
 import DeviceNameInput from '@northern.tech/common-ui/DeviceNameInput';
 import Time from '@northern.tech/common-ui/Time';
@@ -30,7 +28,7 @@ export const DeviceIdentity = ({ device, setSnackbar }) => {
 
   const { mac, ...remainingIdentity } = identity_data;
 
-  let content = {
+  const content = {
     ID: id || '-',
     ...(mac ? { mac } : {}),
     ...remainingIdentity

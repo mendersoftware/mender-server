@@ -27,7 +27,6 @@ export const latestSaasReleaseTag = 'saas-v2023.05.02';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-/* eslint-disable sonarjs/no-identical-functions */
 describe('app actions', () => {
   it('should handle different error message formats', async () => {
     const store = mockStore({ ...defaultState });

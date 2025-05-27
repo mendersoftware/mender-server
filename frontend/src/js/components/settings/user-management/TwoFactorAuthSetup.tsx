@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Collapse, Switch } from '@mui/material';
@@ -94,7 +94,11 @@ export const TwoFactorAuthSetup = () => {
     if (has2FA) {
       handle2FAState(twoFAStates.disabled);
     } else {
-      is2FAEnabled ? dispatch(disableUser2fa()) : handle2FAState(twoFAStates.unverified);
+      if (is2FAEnabled) {
+        dispatch(disableUser2fa());
+      } else {
+        handle2FAState(twoFAStates.unverified);
+      }
       setQrExpanded(!is2FAEnabled);
       setIs2FAEnabled(!is2FAEnabled);
     }

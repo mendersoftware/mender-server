@@ -11,7 +11,6 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React from 'react';
 import Linkify from 'react-linkify';
 
 import GeneralApi from '@northern.tech/store/api/general-api';
@@ -122,7 +121,7 @@ describe('App Component', () => {
       const DeviceActions = await import('@northern.tech/store/devicesSlice/thunks');
       const reportsSpy = vi.spyOn(DeviceActions, 'getReportsDataWithoutBackendSupport');
       window.localStorage.getItem.mockImplementation(name => (name === 'JWT' ? JSON.stringify({ token }) : undefined));
-      // eslint-disable-next-line
+
       const ui = <AppProviders basename="" />;
       const { baseElement, rerender } = testLibRender(ui);
       await waitFor(() => screen.queryByText('Software distribution'), { timeout: TIMEOUTS.fiveSeconds });

@@ -76,8 +76,8 @@ export const deploymentsSlice = createSlice({
       };
       state.byStatus[DEPLOYMENT_STATES.pending].total = state.byStatus[DEPLOYMENT_STATES.pending].total + 1;
       state.byStatus[DEPLOYMENT_STATES.pending].deploymentIds = [...state.byStatus.pending.deploymentIds, action.payload.id];
-      (state.selectionState[DEPLOYMENT_STATES.pending].selection = [action.payload.id, ...state.selectionState[DEPLOYMENT_STATES.pending].selection]),
-        (state.selectionState[DEPLOYMENT_STATES.pending].total = state.selectionState[DEPLOYMENT_STATES.pending].total + 1);
+      state.selectionState[DEPLOYMENT_STATES.pending].selection = [action.payload.id, ...state.selectionState[DEPLOYMENT_STATES.pending].selection];
+      state.selectionState[DEPLOYMENT_STATES.pending].total = state.selectionState[DEPLOYMENT_STATES.pending].total + 1;
     },
     removedDeployment: (state, action) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars

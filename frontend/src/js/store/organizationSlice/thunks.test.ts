@@ -73,7 +73,6 @@ const expectedSsoConfigs = [
 
 const oldHostname = window.location.hostname;
 
-/* eslint-disable sonarjs/no-identical-functions */
 describe('organization actions', () => {
   it('should handle different error message formats', async () => {
     const store = mockStore({ ...defaultState });
@@ -107,7 +106,7 @@ describe('organization actions', () => {
 
     expectations.forEach(({ hostname, location, result }) => {
       window.location = { ...window.location, hostname };
-      let targetLocation = getTargetLocation(location);
+      const targetLocation = getTargetLocation(location);
       expect(targetLocation).toBe(result ? `https://${result}` : result);
     });
 

@@ -25,7 +25,6 @@ import { changeNotificationSetting, getDeviceAlerts, getDeviceMonitorConfig, get
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-/* eslint-disable sonarjs/no-identical-functions */
 describe('monitor actions', () => {
   it('should handle device based alert retrieval', async () => {
     const store = mockStore({ ...defaultState });

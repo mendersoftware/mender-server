@@ -11,7 +11,6 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { Launch as LaunchIcon, ArrowDropDownCircleOutlined as ScrollDownIcon } from '@mui/icons-material';
@@ -88,7 +87,7 @@ export const DeploymentOverview = ({ creator, deployment, devicesById, idAttribu
     group: group || filter?.name,
     name
   });
-  let targetDevices = (
+  const targetDevices = (
     <Link {...defaultLinkProps} to={devicesLink}>
       {getDeploymentTargetText({ deployment, devicesById, idAttribute })}
       <LaunchIcon className="margin-left-small" fontSize="small" />

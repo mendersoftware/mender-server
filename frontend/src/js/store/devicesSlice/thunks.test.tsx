@@ -14,7 +14,6 @@
 // @ts-nocheck
 
 /*eslint import/namespace: ['error', { allowComputed: true }]*/
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { getSingleDeployment } from '@northern.tech/store/thunks';
@@ -165,7 +164,6 @@ const defaultResults = {
   ]
 };
 
-/* eslint-disable sonarjs/no-identical-functions */
 describe('selecting things', () => {
   it('should allow device list selections', async () => {
     const store = mockStore({ ...defaultState });
@@ -649,7 +647,7 @@ describe('device auth handling', () => {
   });
   it('should allow preauthorizing devices', async () => {
     const store = mockStore({ ...defaultState });
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     const expectedActions = [
       { type: preauthDevice.pending.type },
       { type: appActions.setSnackbar.type, payload: { message: 'Device was successfully added to the preauthorization list', autoHideDuration: 5000 } },
@@ -829,7 +827,7 @@ describe('static grouping related actions', () => {
   it('should allow device retrieval for static groups', async () => {
     const store = mockStore({ ...defaultState });
     const groupName = 'testGroup';
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     const { attributes, updated_ts, ...expectedDevice } = defaultState.devices.byId.a1;
     const expectedActions = [
       { type: getGroupDevices.pending.type },

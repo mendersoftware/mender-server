@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { Check as CheckIcon, DeveloperBoard as DeveloperBoardIcon } from '@mui/icons-material';
 import { Button } from '@mui/material';

@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Refresh as RefreshIcon } from '@mui/icons-material';
@@ -109,7 +109,7 @@ export const Progress = ({ abort, createClick, ...remainder }) => {
 
   const setupDeploymentsRefresh = useCallback(
     (refreshLength = currentRefreshDeploymentLength.current) => {
-      let tasks = [refreshDeployments(DEPLOYMENT_STATES.inprogress), refreshDeployments(DEPLOYMENT_STATES.pending)];
+      const tasks = [refreshDeployments(DEPLOYMENT_STATES.inprogress), refreshDeployments(DEPLOYMENT_STATES.pending)];
       if (!onboardingState.complete && !pastDeploymentsCount) {
         // retrieve past deployments outside of the regular refresh cycle to not change the selection state for past deployments
         dispatch(getDeploymentsByStatus({ status: DEPLOYMENT_STATES.finished, page: 1, perPage: 1, shouldSelect: false }));
