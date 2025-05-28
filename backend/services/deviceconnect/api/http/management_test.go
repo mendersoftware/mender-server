@@ -519,9 +519,10 @@ func TestManagementConnect(t *testing.T) {
 			assert.NoError(t, err)
 			_, _, err = conn.ReadMessage()
 			assert.Error(t, err)
-			assert.True(t, websocket.IsCloseError(err,
+			assert.Truef(t, websocket.IsCloseError(err,
 				websocket.CloseInternalServerErr),
-			)
+				"The error %s is not a close error with status %d",
+				err.Error(), websocket.CloseInternalServerErr)
 			conn.Close()
 
 			app.AssertExpectations(t)
