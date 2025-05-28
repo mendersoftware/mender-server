@@ -15,26 +15,14 @@ package utils
 
 import (
 	"net/http"
-	neturl "net/url"
 	"testing"
 
-	"github.com/ant0ine/go-json-rest/rest"
 	"github.com/stretchr/testify/assert"
 )
-
-func TestMsgQueryParmInvalid(t *testing.T) {
-	s := MsgQueryParmInvalid("testparam")
-	assert.Equal(t, "Can't parse param testparam", s)
-}
 
 func TestMsgQueryParmMissing(t *testing.T) {
 	s := MsgQueryParmMissing("testparam")
 	assert.Equal(t, "Missing required param testparam", s)
-}
-
-func TestMsgQueryParmLimit(t *testing.T) {
-	s := MsgQueryParmLimit("testparam")
-	assert.Equal(t, "Param testparam is out of bounds", s)
 }
 
 func TestMsgQueryParmOneOf(t *testing.T) {
@@ -42,17 +30,16 @@ func TestMsgQueryParmOneOf(t *testing.T) {
 	assert.Equal(t, "Param testparam must be one of [foo bar]", s)
 }
 
-func mockRequest(url string, has_scheme bool) *rest.Request {
+func mockRequest(url string, has_scheme bool) *http.Request {
 	req, _ := http.NewRequest("GET", url, nil)
 
 	if !has_scheme {
 		req.URL.Scheme = ""
 	}
 
-	return &rest.Request{Request: req, PathParams: nil, Env: nil}
+	return req
 }
-
-func mockPageRequest(url, page, per_page string) *rest.Request {
+func mockPageRequest(url, page, per_page string) *http.Request {
 	req := mockRequest(url, true)
 	reqUrl := req.URL
 	q := reqUrl.Query()
@@ -64,18 +51,6 @@ func mockPageRequest(url, page, per_page string) *rest.Request {
 	}
 	reqUrl.RawQuery = q.Encode()
 	return req
-}
-
-func TestMakeLink(t *testing.T) {
-	l := MakeLink("first", "resource", neturl.Values{}, 1, 10)
-	assert.Equal(t, "<resource?page=1&per_page=10>; rel=\"first\"", l)
-}
-
-func TestMakePageLinkHdrs(t *testing.T) {
-	url := "https://localhost:8080/base/url/resource?page=2&per_page=10"
-	req := mockRequest(url, true)
-	links := MakePageLinkHdrs(req, 2, 10, true)
-	assert.Len(t, links, 3)
 }
 
 func TestParseQueryParmUInt(t *testing.T) {
@@ -135,36 +110,4 @@ func TestParseQueryParmStrNotOneOf(t *testing.T) {
 	req := mockRequest(url, true)
 	_, err := ParseQueryParmStr(req, "test", true, []string{"testval"})
 	assert.NotNil(t, err)
-}
-
-func TestParsePagination(t *testing.T) {
-	url := "https://localhost:8080/resource"
-	req := mockPageRequest(url, "1", "10")
-	page, per_page, err := ParsePagination(req)
-	assert.Nil(t, err)
-	assert.Equal(t, uint64(1), page)
-	assert.Equal(t, uint64(10), per_page)
-}
-
-func TestParsePaginationInvalidPage(t *testing.T) {
-	url := "https://localhost:8080/resource"
-	req := mockPageRequest(url, "foo", "10")
-	_, _, err := ParsePagination(req)
-	assert.NotNil(t, err)
-}
-
-func TestParsePaginationInvalidPerPage(t *testing.T) {
-	url := "https://localhost:8080/resource"
-	req := mockPageRequest(url, "1", "bar")
-	_, _, err := ParsePagination(req)
-	assert.NotNil(t, err)
-}
-
-func TestParsePaginationDefault(t *testing.T) {
-	url := "https://localhost:8080/resource"
-	req := mockPageRequest(url, "", "")
-	page, per_page, err := ParsePagination(req)
-	assert.Nil(t, err)
-	assert.Equal(t, uint64(PageDefault), page)
-	assert.Equal(t, uint64(PerPageDefault), per_page)
 }

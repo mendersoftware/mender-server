@@ -30,7 +30,15 @@ from requests.utils import parse_header_links
 
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
+DEFAULT_AUTH = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibWVuZGVyLnBsYW4iOiJlbnRlcnByaXNlIn0.s27fi93Qik81WyBmDB5APE0DfGko7Pq8BImbp33-gy4"
 
+def default_auth(**kwargs):
+    if not "Authorization" in kwargs:
+        kwargs["Authorization"] = DEFAULT_AUTH
+
+    if not kwargs["Authorization"].startswith("Bearer "):
+        kwargs["Authorization"] = "Bearer " + kwargs["Authorization"]
+    return kwargs
 class ManagementClient:
     log = logging.getLogger("Client")
 
@@ -54,14 +62,16 @@ class ManagementClient:
         self.group = self.client.get_model("Group")
         self.inventoryAttribute = self.client.get_model("Attribute")
         self.inventoryAttributeTag = self.client.get_model("Tag")
+    
+    def deleteAllGroups(self, **kwargs):
+        kwargs = default_auth(**kwargs)
 
-    def deleteAllGroups(self):
-        groups = self.client.Management_API.List_Groups().result()[0]
+        groups = self.client.Management_API.List_Groups(**kwargs).result()[0]
         for g in groups:
             for d in self.getGroupDevices(g):
                 self.deleteDeviceInGroup(g, d)
 
-    def getAllDevices(self, page=1, sort=None, has_group=None, JWT="foo.bar.baz"):
+    def getAllDevices(self, page=1, sort=None, has_group=None, JWT=DEFAULT_AUTH):
         if not JWT.startswith("Bearer "):
             JWT = "Bearer " + JWT
         r, h = self.client.Management_API.List_Device_Inventories(
@@ -78,7 +88,7 @@ class ManagementClient:
         else:
             return r
 
-    def getDevice(self, device_id, Authorization="foo"):
+    def getDevice(self, device_id, Authorization=DEFAULT_AUTH):
         if not Authorization.startswith("Bearer "):
             Authorization = "Bearer " + Authorization
         r, _ = self.client.Management_API.Get_Device_Inventory(
@@ -86,26 +96,30 @@ class ManagementClient:
         ).result()
         return r
 
-    def updateTagAttributes(self, device_id, tags, eTag=None, JWT="foo.bar.baz"):
+    def updateTagAttributes(self, device_id, tags, eTag=None, JWT=DEFAULT_AUTH):
         r, _ = self.client.Management_API.Add_Tags(
             id=device_id, If_Match=eTag, tags=tags, Authorization=JWT,
         ).result()
         return r
 
-    def setTagAttributes(self, device_id, tags, eTag=None, JWT="foo.bar.baz"):
+    def setTagAttributes(self, device_id, tags, eTag=None, JWT=DEFAULT_AUTH):
         r, _ = self.client.Management_API.Assign_Tags(
             id=device_id, If_Match=eTag, tags=tags, Authorization=JWT,
         ).result()
         return r
 
-    def getAllGroups(self):
-        r, _ = self.client.Management_API.List_Groups().result()
+    def getAllGroups(self, **kwargs):
+        kwargs = default_auth(**kwargs)
+
+        r, _ = self.client.Management_API.List_Groups(**kwargs).result()
         return r
 
-    def getGroupDevices(self, group, expected_error=False):
+    def getGroupDevices(self, group, expected_error=False, **kwargs):
+
         try:
+            kwargs = default_auth(**kwargs)
             r = self.client.Management_API.Get_Devices_in_Group(
-                name=group, Authorization=False
+                name=group, **kwargs,
             ).result()
         except Exception as e:
             if expected_error:
@@ -116,10 +130,11 @@ class ManagementClient:
         else:
             return r[0]
 
-    def deleteDeviceInGroup(self, group, device, expected_error=False):
-        try:
+    def deleteDeviceInGroup(self, group, device, expected_error=False, **kwargs):
+        try:    
+            kwargs = default_auth(**kwargs)
             r = self.client.Management_API.Clear_Group(
-                id=device, name=group, Authorization=False
+                id=device, name=group, **kwargs
             ).result()
         except Exception:
             if expected_error:
@@ -130,7 +145,7 @@ class ManagementClient:
         else:
             return r
 
-    def addDeviceToGroup(self, group, device, expected_error=False, JWT="foo.bar.baz"):
+    def addDeviceToGroup(self, group, device, expected_error=False, JWT=DEFAULT_AUTH):
         if not JWT.startswith("Bearer "):
             JWT = "Bearer " + JWT
         try:
@@ -169,8 +184,9 @@ class ManagementClientV2:
             "http://%s/api/management/v2/inventory/" % host
         )
 
-    def getFiltersAttributes(self):
-        r, _ = self.client.Management_API.Get_filterable_attributes().result()
+    def getFiltersAttributes(self, **kwargs):
+        kwargs = default_auth(**kwargs)
+        r, _ = self.client.Management_API.Get_filterable_attributes(**kwargs).result()
         return r
 
 

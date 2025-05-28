@@ -16,9 +16,10 @@ package http
 
 import (
 	"encoding/json"
+	"mime"
+	"net/http/httptest"
 	"testing"
 
-	"github.com/ant0ine/go-json-rest/rest/test"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/mendersoftware/mender-server/services/inventory/utils"
@@ -30,24 +31,28 @@ type JSONResponseParams struct {
 	OutputHeaders    map[string][]string
 }
 
-func CheckRecordedResponse(t *testing.T, recorded *test.Recorded, params JSONResponseParams) {
+func CheckRecordedResponse(t *testing.T, recorder *httptest.ResponseRecorder, params JSONResponseParams) {
 
-	recorded.CodeIs(params.OutputStatus)
-	recorded.ContentTypeIsJson()
-
+	assert.Equal(t, params.OutputStatus, recorder.Code)
+	if recorder.Body.Len() > 0 &&
+		assert.Contains(t, recorder.HeaderMap, "Content-Type") {
+		contentType, _, err := mime.ParseMediaType(recorder.Header().Get("Content-Type"))
+		assert.NoError(t, err)
+		assert.Equal(t, "application/json", contentType)
+	}
 	if params.OutputBodyObject != nil {
-		assert.NotEmpty(t, recorded.Recorder.Body.String())
+		assert.NotEmpty(t, recorder.Body.String())
 
 		expectedJSON, err := json.Marshal(params.OutputBodyObject)
 		assert.NoError(t, err)
-		assert.JSONEq(t, string(expectedJSON), recorded.Recorder.Body.String())
+		assert.JSONEq(t, string(expectedJSON), recorder.Body.String())
 	} else {
-		assert.Empty(t, recorded.Recorder.Body.String())
+		assert.Empty(t, recorder.Body.String())
 	}
 
 	for name, valueArr := range params.OutputHeaders {
 		for _, value := range valueArr {
-			assert.True(t, utils.ContainsString(value, recorded.Recorder.HeaderMap[name]), "not found header with value: "+value)
+			assert.True(t, utils.ContainsString(value, recorder.HeaderMap[name]), "not found header with value: "+value)
 		}
 	}
 }

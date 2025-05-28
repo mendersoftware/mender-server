@@ -37,7 +37,7 @@ func MakeTestRequest(r *TestRequest) *http.Request {
 		}
 	}
 
-	if r.Body == nil {
+	if r.Body == nil || body == nil {
 		return req
 	}
 
