@@ -168,7 +168,7 @@ func restErrWithLogMsg(w rest.ResponseWriter, r *rest.Request, l *log.Logger,
 	w.WriteHeader(code)
 	err := w.WriteJson(ApiError{
 		Err:   msg,
-		ReqId: requestid.GetReqId(r),
+		ReqId: requestid.GetReqId(r.Request),
 	})
 	if err != nil {
 		panic(err)
