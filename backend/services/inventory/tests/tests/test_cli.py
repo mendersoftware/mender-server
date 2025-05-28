@@ -12,8 +12,6 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
-from common import cli, mongo, clean_db
-
 
 DB_NAME = "inventory"
 MIGRATION_COLLECTION = "migration_info"
