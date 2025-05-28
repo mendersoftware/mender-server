@@ -130,6 +130,10 @@ exports[`GlobalSettings Component > renders correctly 1`] = `
   color: #ab1000;
 }
 
+.emotion-4.Mui-focused {
+  color: #337a87;
+}
+
 .emotion-5 {
   line-height: 1.4375em;
   font-family: Lato,sans-serif;
@@ -461,6 +465,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
 
 .emotion-12.Mui-error {
   color: #ab1000;
+}
+
+.emotion-12.Mui-focused {
+  color: #337a87;
 }
 
 .emotion-13 {
@@ -894,10 +902,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   padding-bottom: 11px;
 }
 
-.emotion-30.undefined {
-  opacity: 1;
-}
-
 .emotion-30.active {
   background-color: #fff;
 }
@@ -1002,6 +1006,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
 
 .emotion-94.Mui-error {
   color: #ab1000;
+}
+
+.emotion-94.Mui-focused {
+  color: #337a87;
 }
 
 .emotion-95 {

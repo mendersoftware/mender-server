@@ -43,10 +43,6 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
   width: initial;
 }
 
-.emotion-1.undefined {
-  opacity: 1;
-}
-
 .emotion-1.active {
   background-color: #fff;
 }
@@ -137,10 +133,6 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
   background-clip: padding-box;
   padding-top: 11px;
   padding-bottom: 11px;
-}
-
-.emotion-6.undefined {
-  opacity: 1;
 }
 
 .emotion-6.active {
@@ -358,10 +350,6 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
   background-clip: padding-box;
   padding-top: 11px;
   padding-bottom: 11px;
-}
-
-.emotion-20.undefined {
-  opacity: 1;
 }
 
 .emotion-20.active {
@@ -1135,10 +1123,6 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
   width: initial;
 }
 
-.emotion-1.undefined {
-  opacity: 1;
-}
-
 .emotion-1.active {
   background-color: #fff;
 }
@@ -1229,10 +1213,6 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
   background-clip: padding-box;
   padding-top: 11px;
   padding-bottom: 11px;
-}
-
-.emotion-6.undefined {
-  opacity: 1;
 }
 
 .emotion-6.active {
@@ -1683,10 +1663,6 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
   background-clip: padding-box;
   padding-top: 11px;
   padding-bottom: 11px;
-}
-
-.emotion-38.undefined {
-  opacity: 1;
 }
 
 .emotion-38.active {

@@ -157,10 +157,6 @@ exports[`SamlConfig Component > renders correctly 1`] = `
   padding-bottom: 11px;
 }
 
-.emotion-3.undefined {
-  opacity: 1;
-}
-
 .emotion-3.active {
   background-color: #fff;
 }

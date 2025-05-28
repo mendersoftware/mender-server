@@ -323,6 +323,10 @@ exports[`Login Component > renders correctly 1`] = `
   color: #ab1000;
 }
 
+.emotion-15.Mui-focused {
+  color: #337a87;
+}
+
 .emotion-16 {
   line-height: 1.4375em;
   font-family: Lato,sans-serif;
@@ -604,6 +608,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-17:focus::-ms-input-
 
 .emotion-26.Mui-error {
   color: #ab1000;
+}
+
+.emotion-26.Mui-focused {
+  color: #337a87;
 }
 
 .emotion-27 {

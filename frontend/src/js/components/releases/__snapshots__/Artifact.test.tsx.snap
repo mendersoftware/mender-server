@@ -278,10 +278,6 @@ exports[`Artifact Component > renders correctly 1`] = `
   width: initial;
 }
 
-.emotion-10.undefined {
-  opacity: 1;
-}
-
 .emotion-10.active {
   background-color: #fff;
 }
@@ -372,10 +368,6 @@ exports[`Artifact Component > renders correctly 1`] = `
   background-clip: padding-box;
   padding-top: 11px;
   padding-bottom: 11px;
-}
-
-.emotion-15.undefined {
-  opacity: 1;
 }
 
 .emotion-15.active {
@@ -593,10 +585,6 @@ exports[`Artifact Component > renders correctly 1`] = `
   background-clip: padding-box;
   padding-top: 11px;
   padding-bottom: 11px;
-}
-
-.emotion-29.undefined {
-  opacity: 1;
 }
 
 .emotion-29.active {

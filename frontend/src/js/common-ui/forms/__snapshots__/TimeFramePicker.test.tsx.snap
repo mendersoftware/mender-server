@@ -63,6 +63,10 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
   color: #ab1000;
 }
 
+.emotion-1.Mui-focused {
+  color: #337a87;
+}
+
 .emotion-2 {
   line-height: 1.5;
   font-family: Lato,sans-serif;
@@ -412,6 +416,10 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
 
 .emotion-24.Mui-error {
   color: #ab1000;
+}
+
+.emotion-24.Mui-focused {
+  color: #337a87;
 }
 
 .emotion-26 {
