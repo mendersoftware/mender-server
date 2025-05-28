@@ -18,11 +18,11 @@ import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material';
 
 import { getConfiguredStore } from '@northern.tech/store/store';
+import { light as lightTheme } from '@northern.tech/themes/Mender';
 import { act, screen, render as testingLibRender } from '@testing-library/react';
 import { vi } from 'vitest';
 
 import { defaultState } from '../../../tests/mockData';
-import { light as lightTheme } from '../themes/Mender';
 import { PublicRoutes } from './routes';
 
 const theme = createTheme(lightTheme);

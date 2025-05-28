@@ -57,6 +57,7 @@ export default (env, argv) => {
         },
         {
           test: /\.(less|css)$/,
+          sideEffects: true,
           use: [
             rspack.CssExtractRspackPlugin.loader,
             {

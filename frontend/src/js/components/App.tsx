@@ -47,15 +47,15 @@ import {
 import { store } from '@northern.tech/store/store';
 import { parseEnvironmentInfo } from '@northern.tech/store/storehooks';
 import { logoutUser } from '@northern.tech/store/thunks';
+import { dark as darkTheme, light as lightTheme } from '@northern.tech/themes/Mender';
+import '@northern.tech/themes/Mender/styles/main.css';
+import { dark as nextDarkTheme, light as nextLightTheme } from '@northern.tech/themes/MenderNext';
 import { toggle } from '@northern.tech/utils/helpers';
 import { browserTracingIntegration, replayIntegration, setUser } from '@sentry/react';
 import Cookies from 'universal-cookie';
 
-import '../../less/main.less';
 import ErrorBoundary from '../ErrorBoundary';
 import { PrivateRoutes, PrivateSPRoutes, PublicRoutes } from '../config/routes';
-import { dark as darkTheme, light as lightTheme } from '../themes/Mender';
-import { dark as nextDarkTheme, light as nextLightTheme } from '../themes/MenderNext';
 import Tracking from '../tracking';
 import Footer from './Footer';
 import LeftNav from './LeftNav';

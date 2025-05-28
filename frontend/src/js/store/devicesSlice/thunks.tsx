@@ -56,6 +56,7 @@ import {
   mapTermsToFilters,
   progress
 } from '@northern.tech/store/utils';
+import { chartColorPalette } from '@northern.tech/themes/Mender';
 import { attributeDuplicateFilter, dateRangeToUnix, deepCompare, getSnackbarMessage } from '@northern.tech/utils/helpers';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { isCancel } from 'axios';
@@ -64,7 +65,6 @@ import { v4 as uuid } from 'uuid';
 
 import { actions, sliceName } from '.';
 import { routes } from '../../components/devices/BaseDevices';
-import { chartColorPalette } from '../../themes/Mender';
 import {
   DEVICE_STATES,
   deviceAuthV2,

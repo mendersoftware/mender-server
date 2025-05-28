@@ -22,13 +22,13 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { getSessionInfo } from '@northern.tech/store/auth';
 import { yes } from '@northern.tech/store/constants';
 import { getConfiguredStore } from '@northern.tech/store/store';
+import { light as lightTheme } from '@northern.tech/themes/Mender';
 import '@testing-library/jest-dom';
 import { act, cleanup, queryByRole, render, waitFor, within } from '@testing-library/react';
 import { setupServer } from 'msw/node';
 import { afterAll, afterEach, beforeAll, vi } from 'vitest';
 import { MessageChannel } from 'worker_threads';
 
-import { light as lightTheme } from '../src/js/themes/Mender';
 import handlers from './__mocks__/requestHandlers';
 import { defaultState, menderEnvironment, mockDate, token as mockToken } from './mockData';
 
