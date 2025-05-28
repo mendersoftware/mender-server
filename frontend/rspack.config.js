@@ -56,7 +56,7 @@ export default (env, argv) => {
           }
         },
         {
-          test: /\.(less|css)$/,
+          test: /\.css$/,
           sideEffects: true,
           use: [
             rspack.CssExtractRspackPlugin.loader,
@@ -80,8 +80,7 @@ export default (env, argv) => {
                 loader: 'css',
                 minify: true
               }
-            },
-            'less-loader'
+            }
           ]
         },
         {
