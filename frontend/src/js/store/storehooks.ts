@@ -141,7 +141,7 @@ export const useAppInit = userId => {
   const { hasMultitenancy, isHosted } = useSelector(getFeatures);
   const devicesByStatus = useSelector(getDevicesByStatusSelector);
   const onboardingState = useSelector(getOnboardingStateSelector);
-  let { columnSelection = [], trackingConsentGiven: hasTrackingEnabled, tooltips = {} } = useSelector(getUserSettingsSelector);
+  const { columnSelection = [], trackingConsentGiven: hasTrackingEnabled, tooltips = {} } = useSelector(getUserSettingsSelector);
   const { canManageUsers } = useSelector(getUserCapabilities);
   const { interval, intervalUnit } = useSelector(getOfflineThresholdSettings);
   const { id_attribute } = useSelector(getGlobalSettingsSelector);
@@ -151,7 +151,7 @@ export const useAppInit = userId => {
   const fullInitRunning = useRef(false);
 
   const retrieveCoreData = useCallback(() => {
-    let tasks = [
+    const tasks = [
       dispatch(parseEnvironmentInfo()),
       dispatch(getUserSettings()),
       dispatch(getGlobalSettings()),
@@ -186,7 +186,7 @@ export const useAppInit = userId => {
   }, [dispatch, isServiceProvider]);
 
   const interpretAppData = useCallback(() => {
-    let settings = {};
+    const settings = {};
     if (cookies.get('_ga') && typeof hasTrackingEnabled === 'undefined') {
       settings.trackingConsentGiven = true;
     }

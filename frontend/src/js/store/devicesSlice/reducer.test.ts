@@ -19,7 +19,7 @@ import { defaultState } from '../../../../tests/mockData';
 
 describe('device reducer', () => {
   it('should handle ADD_TO_GROUP', async () => {
-    let state = reducer(undefined, { type: actions.receivedGroups, payload: defaultState.devices.groups.byId });
+    const state = reducer(undefined, { type: actions.receivedGroups, payload: defaultState.devices.groups.byId });
     expect(reducer(state, { type: actions.addToGroup, payload: { group: 'testExtra', deviceIds: ['d1'] } }).groups.byId.testExtra.deviceIds).toHaveLength(1);
     expect(
       reducer(initialState, { type: actions.addToGroup, payload: { group: 'testGroup', deviceIds: ['123', '1243'] } }).groups.byId.testGroup.deviceIds

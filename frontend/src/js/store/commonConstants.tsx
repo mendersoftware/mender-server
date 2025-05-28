@@ -12,8 +12,6 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 // @ts-nocheck
-import React from 'react';
-
 import { mdiAws as AWS, mdiMicrosoftAzure as Azure } from '@mdi/js';
 
 export const DEVICE_LIST_DEFAULTS = {

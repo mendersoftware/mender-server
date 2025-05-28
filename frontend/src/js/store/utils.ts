@@ -90,7 +90,7 @@ export const filtersFilter = (item, index, array) => {
   return firstIndex === index;
 };
 
-export const listItemMapper = <T extends unknown>(
+export const listItemMapper = (
   byId: Record<string, T>,
   ids: string[],
   { cutOffSize = DEVICE_LIST_MAXIMUM_LENGTH, defaultObject = {} }: { cutOffSize?: number; defaultObject?: T }
@@ -146,7 +146,7 @@ export const preformatWithRequestID = (res, failMsg) => {
 
   try {
     if (res?.data && Object.keys(res.data).includes('request_id')) {
-      let shortRequestUUID = res.data['request_id'].substring(0, 8);
+      const shortRequestUUID = res.data['request_id'].substring(0, 8);
       return `${failMsg} [Request ID: ${shortRequestUUID}]`;
     }
   } catch (e) {

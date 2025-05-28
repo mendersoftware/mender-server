@@ -153,7 +153,7 @@ export const ProgressChartComponent = ({
 export const getDisplayablePhases = ({ currentPhase, currentProgressCount, phases, totalDeviceCount, totalFailureCount, totalSuccessCount }) =>
   phases.reduce(
     (accu, phase, index) => {
-      let displayablePhase = { ...phase };
+      const displayablePhase = { ...phase };
       // ongoing phases might not have a device_count yet - so we calculate it
       let expectedDeviceCountInPhase = Math.floor((totalDeviceCount / 100) * displayablePhase.batch_size) || displayablePhase.batch_size;
       // for phases with more successes than phase.device_count or more failures than phase.device_count we have to guess what phase to put them in =>
@@ -235,7 +235,7 @@ export const getDeploymentPhasesInfo = deployment => {
   } = groupDeploymentStats(deployment, deploymentPhases.length < 2);
   const totalDeviceCount = Math.max(device_count, max_devices);
 
-  let phases = deploymentPhases.length ? deploymentPhases : [{ id, device_count: totalSuccessCount, batch_size: 100, start_ts: created }];
+  const phases = deploymentPhases.length ? deploymentPhases : [{ id, device_count: totalSuccessCount, batch_size: 100, start_ts: created }];
   return {
     currentProgressCount,
     phases,

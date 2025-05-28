@@ -116,7 +116,7 @@ const deriveItemsAndPermissions = (
 ): { options?: DeriveOptions; roleItems: Record<string, UiPermission[]>; stateItems: Record<string, object> } => {
   const { disableEdit, filter } = options;
   let filteredStateItems: ItemScope[] = filter(stateItems).map(item => ({ title: item, notFound: false }));
-  let { itemSelections, deletedScopes } = Object.entries(roleItems).reduce<{ deletedScopes: ItemScope[]; itemSelections: ItemSelectionType[] }>(
+  const { itemSelections, deletedScopes } = Object.entries(roleItems).reduce<{ deletedScopes: ItemScope[]; itemSelections: ItemSelectionType[] }>(
     (accu, [scope, permissions]) => {
       const notFound = !filteredStateItems.some(({ title }) => title === scope);
       accu.itemSelections.push({

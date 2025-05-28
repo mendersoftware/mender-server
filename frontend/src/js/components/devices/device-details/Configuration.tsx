@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -261,7 +261,7 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
       setEditableConfig(reported);
       setChangedConfig(reported);
     }
-    let requests = [];
+    const requests = [];
     if (deployment_id && deployment.status !== DEPLOYMENT_STATES.finished) {
       requests.push(dispatch(abortDeployment(deployment_id)));
     }

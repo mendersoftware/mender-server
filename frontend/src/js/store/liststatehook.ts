@@ -68,11 +68,11 @@ export const defaultProcessors = {
 };
 
 export const useLocationParams = (key, extras, processors = defaultProcessors) => {
-  let [searchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
 
-  let value = useMemo(() => {
+  const value = useMemo(() => {
     const { pageState, params, sort } = processors.common.parse(searchParams);
     const extendedExtras = { ...extras, pageState, location };
     return {
@@ -83,7 +83,7 @@ export const useLocationParams = (key, extras, processors = defaultProcessors) =
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(extras), key, location.search, location.pathname, searchParams.toString()]);
 
-  let setValue = useCallback(
+  const setValue = useCallback(
     (newValue, options = {}) => {
       const pathname = processors[key].locate({ pageState: newValue.pageState, location });
       const searchQuery = [processors.common.format(newValue.pageState, extras), processors[key].format(newValue, extras)].filter(i => i).join('&');

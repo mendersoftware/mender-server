@@ -11,7 +11,6 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -70,7 +69,7 @@ export const Dashboard = () => {
     let redirect = params.route;
     if (params.route === 'deployments') {
       let query = params.open ? ['open=true'] : [];
-      params.id ? query.push(`id=${params.id}`) : undefined;
+      query = params.id ? [...query, `id=${params.id}`] : query;
       redirect = `/deployments/${params.tab || DEPLOYMENT_ROUTES.active.key}?${query.join('&')}`;
     }
     navigate(redirect);

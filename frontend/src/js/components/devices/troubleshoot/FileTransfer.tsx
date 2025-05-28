@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { FileCopy as CopyPasteIcon } from '@mui/icons-material';
@@ -60,7 +60,7 @@ export const FileTransfer = ({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    let destination = currentTab === 'download' ? downloadPath : uploadPath;
+    const destination = currentTab === 'download' ? downloadPath : uploadPath;
     const isValid = destination.length ? /^(?:\/|[a-z]+:\/\/)/.test(destination) : true;
     setIsValidDestination(isValid);
   }, [currentTab, downloadPath, uploadPath]);

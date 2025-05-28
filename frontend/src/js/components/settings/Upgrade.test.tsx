@@ -11,8 +11,6 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React from 'react';
-
 import { getSessionInfo } from '@northern.tech/store/auth';
 import { TIMEOUTS } from '@northern.tech/store/commonConstants';
 import { Elements } from '@stripe/react-stripe-js';
@@ -125,13 +123,13 @@ describe('Upgrade Component', () => {
     const upgradeButton = await screen.findByRole('button', { name: /upgrade/i });
     await user.click(upgradeButton);
 
-    let confirmButton = await screen.findByRole('button', { name: /confirm/i });
+    const confirmButton = await screen.findByRole('button', { name: /confirm/i });
     await user.click(confirmButton);
 
     await waitFor(() => {
       expect(localStorage.setItem).toBeCalledTimes(1);
     });
-    let localStorageState = localStorage.setItem.mock.calls[0][1];
+    const localStorageState = localStorage.setItem.mock.calls[0][1];
     window.localStorage.getItem.mockImplementation(() => localStorageState);
     rerender(<Upgrade />);
     await screen.getByRole('button', { name: /pending/i });

@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Dropzone from 'react-dropzone';
 
 // material ui
@@ -99,7 +99,7 @@ export const SSOEditor = ({ ssoItem, config, fileContent, hasSSOConfig, open, on
   const onCopyClick = () => copy(fileContent);
 
   const onDrop = acceptedFiles => {
-    let reader = new FileReader();
+    const reader = new FileReader();
     reader.fileName = acceptedFiles[0].name;
     reader.onerror = error => {
       console.log('Error: ', error);

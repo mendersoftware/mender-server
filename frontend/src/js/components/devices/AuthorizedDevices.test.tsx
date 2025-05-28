@@ -11,8 +11,6 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React from 'react';
-
 import { TIMEOUTS } from '@northern.tech/store/commonConstants';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -92,7 +90,7 @@ describe('AuthorizedDevices Component', () => {
         customColumns: [{ attribute: { name: attributeNames.checkInTime, scope: 'system' }, size: 220 }]
       }
     };
-    let ui = (
+    const ui = (
       <Authorized
         addDevicesToGroup={vi.fn}
         onGroupClick={vi.fn}

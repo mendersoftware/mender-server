@@ -22,7 +22,7 @@ export default (env, argv) => {
             replenishDefaultLicenseTexts: true
           })
         ]
-      : [new ESLintPlugin({ extensions: ['js', 'ts', 'tsx'] })];
+      : [new ESLintPlugin({ configType: 'flat', extensions: ['js', 'ts', 'tsx'] })];
   const { GIT_COMMIT_SHA, SENTRY_AUTH_TOKEN, SENTRY_ORG, SENTRY_URL } = process.env;
   if (SENTRY_URL && SENTRY_AUTH_TOKEN && argv.mode === 'production') {
     plugins.push(

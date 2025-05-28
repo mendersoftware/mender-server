@@ -116,7 +116,7 @@ export const getLatestReleaseInfo = createAsyncThunk(`${sliceName}/getLatestRele
 
 export const setSearchState = createAsyncThunk(`${sliceName}/setSearchState`, (searchState, { dispatch, getState }) => {
   const currentState = getSearchState(getState());
-  let nextState = {
+  const nextState = {
     ...currentState,
     ...searchState,
     sort: {
@@ -124,7 +124,7 @@ export const setSearchState = createAsyncThunk(`${sliceName}/setSearchState`, (s
       ...searchState.sort
     }
   };
-  let tasks = [];
+  const tasks = [];
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { isSearching: currentSearching, deviceIds: currentDevices, searchTotal: currentTotal, ...currentRequestState } = currentState;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

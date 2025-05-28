@@ -108,7 +108,7 @@ export const loginUser = createAsyncThunk(`${sliceName}/loginUser`, ({ stayLogge
         return;
       }
       // save token to local storage & set maxAge if noexpiry checkbox not checked
-      let now = new Date();
+      const now = new Date();
       now.setSeconds(now.getSeconds() + maxSessionAge);
       const expiresAt = stayLoggedIn ? undefined : now.toISOString();
       setSessionInfo({ token, expiresAt });
@@ -359,7 +359,7 @@ const permissionActionTypes = {
 
 const combinePermissions = (existingPermissions, additionalPermissions = {}) =>
   Object.entries(additionalPermissions).reduce((accu, [name, permissions]) => {
-    let maybeExistingPermissions = accu[name] || [];
+    const maybeExistingPermissions = accu[name] || [];
     accu[name] = [...permissions, ...maybeExistingPermissions].filter(duplicateFilter);
     return accu;
   }, existingPermissions);
@@ -371,7 +371,7 @@ const tryParseCustomPermission = permission => {
 };
 
 const customPermissionHandler = (accu, permission) => {
-  let processor = tryParseCustomPermission(permission);
+  const processor = tryParseCustomPermission(permission);
   return {
     ...accu,
     isCustom: accu.isCustom || processor.isCustom,
@@ -396,7 +396,7 @@ const isEmptyPermissionSet = permissionSet =>
 const parseRolePermissions = ({ permission_sets_with_scope = [], permissions = [] }, permissionSets) => {
   const preliminaryResult = permission_sets_with_scope.reduce(
     (accu, permissionSet) => {
-      let processor = permissionSets[permissionSet.name];
+      const processor = permissionSets[permissionSet.name];
       if (!processor) {
         return accu;
       }
@@ -668,13 +668,13 @@ export const saveGlobalSettings = createAsyncThunk(
     return dispatch(getGlobalSettings())
       .unwrap()
       .then(result => {
-        let updatedSettings = { ...getState().users.globalSettings, ...settings };
+        const updatedSettings = { ...getState().users.globalSettings, ...settings };
         if (getCurrentUser(getState()).verified) {
           updatedSettings['2fa'] = twoFAStates.enabled;
         } else {
           delete updatedSettings['2fa'];
         }
-        let tasks = [dispatch(actions.setGlobalSettings(updatedSettings))];
+        const tasks = [dispatch(actions.setGlobalSettings(updatedSettings))];
         const headers = result[result.length - 1] ? { 'If-Match': result[result.length - 1] } : {};
         return GeneralApi.post(`${useradmApiUrl}/settings`, updatedSettings, { headers })
           .then(() => {
@@ -767,7 +767,7 @@ export const revokeToken = createAsyncThunk(`${sliceName}/revokeToken`, (token, 
 );
 
 export const setTooltipReadState = createAsyncThunk(`${sliceName}/setTooltipReadState`, ({ persist, ...remainder }, { dispatch }) => {
-  let tasks = [dispatch(actions.setTooltipState(remainder))];
+  const tasks = [dispatch(actions.setTooltipState(remainder))];
   if (persist) {
     tasks.push(dispatch(saveUserSettings()));
   }

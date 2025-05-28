@@ -11,8 +11,6 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React from 'react';
-
 import { TwoColumnDataMultiple } from '@northern.tech/common-ui/ConfigurationObject';
 import Time from '@northern.tech/common-ui/Time';
 import { extractSoftware } from '@northern.tech/utils/helpers';

@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { Add as AddIcon, Cancel as CancelIcon } from '@mui/icons-material';
 import {
@@ -106,7 +106,7 @@ export const PhaseSettings = ({ classNames, deploymentObject, disabled, numberDe
 
   const { filter, phases = [] } = deploymentObject;
   const updateDelay = (value, index) => {
-    let newPhases = [...phases];
+    const newPhases = [...phases];
     // value must be at least 1
     value = Math.max(1, value);
     newPhases[index] = { ...newPhases[index], delay: value };
@@ -116,7 +116,7 @@ export const PhaseSettings = ({ classNames, deploymentObject, disabled, numberDe
   };
 
   const updateBatchSize = (value, index) => {
-    let newPhases = [...phases];
+    const newPhases = [...phases];
     value = Math.min(100, Math.max(1, value));
     newPhases[index] = {
       ...newPhases[index],
@@ -135,7 +135,7 @@ export const PhaseSettings = ({ classNames, deploymentObject, disabled, numberDe
   };
 
   const addPhase = () => {
-    let newPhases = [...phases];
+    const newPhases = [...phases];
     // assign new batch size to *previous* last batch
     const remainder = getRemainderPercent(newPhases);
     newPhases[newPhases.length - 1] = {
@@ -152,10 +152,10 @@ export const PhaseSettings = ({ classNames, deploymentObject, disabled, numberDe
   };
 
   const removePhase = index => {
-    let newPhases = [...phases];
+    const newPhases = [...phases];
     newPhases.splice(index, 1);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    let { batch_size, delay, ...newPhase } = newPhases[newPhases.length - 1]; // remove batch size from new last phase, use remainder
+    const { batch_size, delay, ...newPhase } = newPhases[newPhases.length - 1]; // remove batch size from new last phase, use remainder
     if (newPhases.length > 1) {
       newPhase.delay = delay;
     }
@@ -164,7 +164,7 @@ export const PhaseSettings = ({ classNames, deploymentObject, disabled, numberDe
   };
 
   const handleDelayToggle = (value, index) => {
-    let newPhases = [...phases];
+    const newPhases = [...phases];
     newPhases[index] = {
       ...newPhases[index],
       delayUnit: value
@@ -178,7 +178,7 @@ export const PhaseSettings = ({ classNames, deploymentObject, disabled, numberDe
   const disableAdd = !filter && (remainder / 100) * numberDevices <= 1;
   const startTime = phases.length ? phases[0].start_ts || new Date() : new Date();
   const mappedPhases = phases.map((phase, index) => {
-    let max = index > 0 ? 100 - phases[index - 1].batch_size : 100;
+    const max = index > 0 ? 100 - phases[index - 1].batch_size : 100;
     const deviceCount = getPhaseDeviceCount(numberDevices, phase.batch_size, remainder, index === phases.length - 1);
     const isEmptyPhase = deviceCount < 1;
     return (

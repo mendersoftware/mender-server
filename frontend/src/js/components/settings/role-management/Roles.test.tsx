@@ -11,8 +11,6 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React from 'react';
-
 import { ALL_DEVICES, ALL_RELEASES, TIMEOUTS } from '@northern.tech/store/constants';
 import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -49,7 +47,7 @@ describe('Roles Component', () => {
       const role = screen.getByText(/test description/i).parentElement;
       await user.click(within(role).getByText(/view details/i));
       await waitFor(() => expect(screen.getByText(/edit role/i)).toBeVisible());
-      let collapse = screen.getByText(/edit role/i).parentElement.parentElement.parentElement;
+      const collapse = screen.getByText(/edit role/i).parentElement.parentElement.parentElement;
       await user.click(screen.getByRole('button', { name: /delete/i }));
       expect(screen.queryByText(/delete the role/i)).toBeInTheDocument();
       const dialog = screen.getByText(/delete role\?/i).parentElement.parentElement;

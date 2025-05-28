@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 
@@ -146,7 +146,7 @@ export const DeviceGroups = () => {
       dispatch(setDeviceFilters(filters));
     }
     // preset selectedIssues and selectedId with empty values, in case if remain properties are missing them
-    let listState = { ...remainder };
+    const listState = { ...remainder };
     if (statusParam && (Object.values(DEVICE_STATES).some(state => state === statusParam) || statusParam === 'any')) {
       listState.state = statusParam;
     }
@@ -183,7 +183,7 @@ export const DeviceGroups = () => {
   };
 
   const createGroupFromDialog = (devices, group) => {
-    let request = fromFilters ? dispatch(addDynamicGroup({ groupName: group, filterPredicates: filters })) : dispatch(addStaticGroup({ group, devices }));
+    const request = fromFilters ? dispatch(addDynamicGroup({ groupName: group, filterPredicates: filters })) : dispatch(addStaticGroup({ group, devices }));
     return request.then(() => {
       // reached end of list
       setCreateGroupExplanation(false);

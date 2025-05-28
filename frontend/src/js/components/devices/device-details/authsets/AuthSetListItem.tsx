@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
 import { FileCopy as CopyPasteIcon } from '@mui/icons-material';
@@ -159,7 +159,7 @@ const AuthsetListItem = ({ authset, classes, columns, confirm, device, isExpande
   };
 
   const onRequestConfirm = status => {
-    let message = getConfirmationMessage(status, device, authset);
+    const message = getConfirmationMessage(status, device, authset);
     setConfirmMessage(message);
     setNewStatus(status);
     setShowKey(false);

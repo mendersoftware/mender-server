@@ -11,8 +11,6 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React from 'react';
-
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
@@ -194,7 +192,7 @@ describe('Deployments Component', () => {
     await user.click(screen.getByRole('button', { name: /advanced options/i }));
     await user.click(screen.getByRole('checkbox', { name: /maximum number of devices/i }));
     await waitFor(() => rerender(ui));
-    let accordion = screen.getByRole('checkbox', { name: /maximum number of devices/i }).parentElement.parentElement?.parentElement;
+    const accordion = screen.getByRole('checkbox', { name: /maximum number of devices/i }).parentElement.parentElement?.parentElement;
     const limitInput = within(accordion).getByRole('textbox');
     await user.clear(limitInput);
     await user.type(limitInput, '123');

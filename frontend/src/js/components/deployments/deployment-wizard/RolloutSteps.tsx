@@ -88,7 +88,7 @@ export const RolloutStepConnector = ({ disabled, step, onStepChange, release = {
     onStepChange({ ...step, action: step.action === stepActions.pause ? stepActions.continue : stepActions.pause });
   };
 
-  let stepModifier = { props: {}, toggleButton: undefined };
+  const stepModifier = { props: {}, toggleButton: undefined };
   if (onStepChange) {
     stepModifier.props = { onDelete: onTogglePauseClick };
     stepModifier.toggleButton = <Chip className={classes.chip} icon={<AddIcon />} label="Add a pause" color="primary" onClick={onTogglePauseClick} />;

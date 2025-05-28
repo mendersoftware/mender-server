@@ -103,7 +103,7 @@ const WebhookConfiguration = ({ onCancel, onSubmit }: { onCancel: () => void; on
 
   const onSubmitClick = useCallback(
     formState => {
-      let webhookConfig = {
+      const webhookConfig = {
         id: 'new',
         provider: EXTERNAL_PROVIDER.webhook.provider,
         credentials: {

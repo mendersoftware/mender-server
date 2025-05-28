@@ -199,8 +199,6 @@ const customRender = (ui, options = {}) => {
   return { store, ...render(ui, { wrapper: AllTheProviders, ...remainder }) };
 };
 
-// eslint-disable-next-line import/export
 export * from '@testing-library/react';
 // override render method
-// eslint-disable-next-line import/export
 export { customRender as render };

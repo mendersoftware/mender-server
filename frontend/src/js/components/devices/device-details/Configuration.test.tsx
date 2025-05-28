@@ -11,8 +11,6 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React from 'react';
-
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
@@ -88,7 +86,7 @@ describe('Configuration Component', () => {
 
   it('works as expected', async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    let preloadedState = {
+    const preloadedState = {
       ...defaultState,
       app: {
         ...defaultState.app,
@@ -120,7 +118,7 @@ describe('Configuration Component', () => {
         }
       }
     };
-    let ui = <Configuration device={preloadedState.devices.byId.a1} />;
+    const ui = <Configuration device={preloadedState.devices.byId.a1} />;
     const { rerender } = render(ui, { preloadedState });
     expect(screen.queryByRole('button', { name: /import configuration/i })).not.toBeInTheDocument();
     while (screen.queryByRole('button', { name: /edit/i })) {

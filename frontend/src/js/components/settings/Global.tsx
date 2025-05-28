@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -161,7 +161,6 @@ export const GlobalSettingsDialog = ({
       return;
     }
     saveGlobalSettings({ offlineThreshold: { interval: debouncedOfflineThreshold, intervalUnit: DEVICE_ONLINE_CUTOFF.intervalName }, notify: true });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [canManageUsers, debouncedOfflineThreshold, saveGlobalSettings]);
 
   useEffect(() => {

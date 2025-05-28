@@ -191,7 +191,7 @@ export const ItemSelection: FunctionComponent<IItemSelection> = ({ disabled, opt
 
   const onItemPermissionSelectChange = useCallback(
     (index, { attribute, ...change }) => {
-      let changedSelection = [...controlledFields];
+      const changedSelection = [...controlledFields];
       changedSelection[index] = { ...changedSelection[index], ...change };
       if (shouldExtendPermissionSelection(changedSelection, changedSelection[index], options)) {
         append(emptyItemSelection);

@@ -80,7 +80,6 @@ const state = {
 
 describe('TenantList', () => {
   it('renders correctly', () => {
-    // eslint-disable-next-line react/jsx-no-undef
     const { baseElement } = render(<TenantList />, {
       preloadedState: state
     });

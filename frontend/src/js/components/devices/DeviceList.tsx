@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { memo } from 'react';
+import { memo } from 'react';
 
 import { CommonList } from '@northern.tech/common-ui/List';
 import { deepCompare } from '@northern.tech/utils/helpers';
@@ -32,7 +32,7 @@ export const calculateResizeChange = ({ columnElements, columnHeaders, e, index,
 
   return relevantColumns.reduce((accu, element, columnIndex) => {
     const currentWidth = element.offsetWidth;
-    let column = { attribute: columnHeaders[columnIndex + 1].attribute, size: currentWidth };
+    const column = { attribute: columnHeaders[columnIndex + 1].attribute, size: currentWidth };
     if (canModifyNextColumn && index === columnIndex) {
       column.size = currentWidth + columnDelta;
     } else if (canModifyNextColumn && index + 1 === columnIndex) {

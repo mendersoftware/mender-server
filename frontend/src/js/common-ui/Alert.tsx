@@ -11,7 +11,6 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React from 'react';
 
 const Alert = ({ children, className, severity, style }) => (
   <div className={(className || '') + ' alert ' + (severity ? 'alert-' + severity : '')} style={style}>

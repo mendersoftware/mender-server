@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { memo, useCallback, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 
 // material ui
 import { Checkbox } from '@mui/material';
@@ -70,7 +70,7 @@ const DeviceListItem = ({ columnHeaders, listItem: device, listState: deviceList
       <DeviceIdentityDisplay device={device} isHovered={isHovering} />
       {/* we'll skip the first column, since this is the id and that gets resolved differently in the lines above */}
       {columnHeaders.slice(1).map((column, index) => {
-        let Component = column.component ? column.component : DefaultAttributeRenderer;
+        const Component = column.component ? column.component : DefaultAttributeRenderer;
         return <Component column={column} device={device} idAttribute={idAttribute} key={`column-${index}`} />;
       })}
     </div>

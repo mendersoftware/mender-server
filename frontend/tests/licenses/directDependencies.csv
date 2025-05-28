@@ -49,6 +49,7 @@
 "eslint-rspack-plugin","MIT","https://github.com/rspack-contrib/eslint-rspack-plugin"
 "eslint","MIT","https://github.com/eslint/eslint"
 "generate-password-browser","MIT","https://github.com/oliver-la/generate-password-browser"
+"globals","MIT","https://github.com/sindresorhus/globals"
 "husky","MIT","https://github.com/typicode/husky"
 "jsdom-worker","MIT","https://github.com/developit/jsdom-worker"
 "jwt-decode","MIT","https://github.com/auth0/jwt-decode"

@@ -39,4 +39,3 @@ describe('General API module', () => {
     expect(res.config.method === 'del' || res.config.method === 'delete').toBe(true);
   });
 });
-``;

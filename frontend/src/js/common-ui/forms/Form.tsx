@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { Button } from '@mui/material';
@@ -71,7 +71,7 @@ const tryApplyValidationEntry = (value, validations = [], validationResults = []
   try {
     // So the next line of code is actually:
     // validator.isLength('valueFromInput', 5)
-    if (!validator[validateMethod].apply(validator, args)) {
+    if (!validator[validateMethod](...args)) {
       return tryApplyValidationEntry(value, validations, [...validationResults, { errortext: getErrorMsg(validateMethod, tmpArgs), isValid: false }]);
     }
   } catch {
@@ -101,8 +101,8 @@ const runPasswordValidations = ({ required, value, validations, isValid, errorte
 };
 
 export const runValidations = ({ required, value, id, validations, wasMaybeTouched }) => {
-  let isValid = true;
-  let errortext = '';
+  const isValid = true;
+  const errortext = '';
   if (id && id.includes('password')) {
     return runPasswordValidations({ required, value, validations, isValid, errortext });
   } else {
