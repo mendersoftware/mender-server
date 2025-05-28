@@ -55,10 +55,6 @@ exports[`ArtifactPayload Component > renders correctly 1`] = `
   margin-right: 2vw;
 }
 
-.emotion-2.undefined {
-  opacity: 1;
-}
-
 .emotion-2.active {
   background-color: #fff;
 }

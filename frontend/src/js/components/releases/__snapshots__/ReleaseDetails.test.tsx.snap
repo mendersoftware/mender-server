@@ -182,10 +182,6 @@ exports[`ReleaseDetails Component > renders correctly 1`] = `
   padding-bottom: 11px;
 }
 
-.emotion-7.undefined {
-  opacity: 1;
-}
-
 .emotion-7.active {
   background-color: #fff;
 }
@@ -1030,10 +1026,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-21:focus::-ms-input-
   width: initial;
 }
 
-.emotion-36.undefined {
-  opacity: 1;
-}
-
 .emotion-36.active {
   background-color: #fff;
 }
@@ -1111,10 +1103,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-21:focus::-ms-input-
   background-clip: padding-box;
   padding-top: 11px;
   padding-bottom: 11px;
-}
-
-.emotion-55.undefined {
-  opacity: 1;
 }
 
 .emotion-55.active {

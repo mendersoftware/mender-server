@@ -204,6 +204,10 @@ exports[`Form Component > renders correctly 1`] = `
   color: #ab1000;
 }
 
+.emotion-6.Mui-focused {
+  color: #337a87;
+}
+
 .emotion-7 {
   line-height: 1.4375em;
   font-family: Lato,sans-serif;

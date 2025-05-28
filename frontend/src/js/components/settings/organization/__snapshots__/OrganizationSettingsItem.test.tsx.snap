@@ -32,10 +32,6 @@ exports[`OrganizationSettingsItem Component > renders correctly 1`] = `
   padding-bottom: 11px;
 }
 
-.emotion-0.undefined {
-  opacity: 1;
-}
-
 .emotion-0.active {
   background-color: #fff;
 }

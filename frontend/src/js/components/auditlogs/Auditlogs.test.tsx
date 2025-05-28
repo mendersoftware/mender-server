@@ -20,11 +20,11 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { getConfiguredStore } from '@northern.tech/store/store';
+import { light as lightTheme } from '@northern.tech/themes/Mender';
 import { act, prettyDOM, screen, render as testingLibRender, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { light as lightTheme } from '../../../../src/js/themes/Mender';
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render, selectMaterialUiSelectOption } from '../../../../tests/setupTests';
 import AuditLogs from './AuditLogs';

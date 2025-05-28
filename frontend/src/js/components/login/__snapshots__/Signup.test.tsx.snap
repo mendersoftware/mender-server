@@ -270,6 +270,10 @@ exports[`Signup Component > renders correctly 1`] = `
   color: #ab1000;
 }
 
+.emotion-14.Mui-focused {
+  color: #337a87;
+}
+
 .emotion-15 {
   line-height: 1.4375em;
   font-family: Lato,sans-serif;

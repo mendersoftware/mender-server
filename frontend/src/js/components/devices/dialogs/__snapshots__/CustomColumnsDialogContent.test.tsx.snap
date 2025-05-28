@@ -41,10 +41,6 @@ exports[`ColumnCustomizationDialogContent Component > renders correctly 1`] = `
   padding-bottom: 11px;
 }
 
-.emotion-1.undefined {
-  opacity: 1;
-}
-
 .emotion-1.active {
   background-color: #fff;
 }
@@ -399,6 +395,10 @@ exports[`ColumnCustomizationDialogContent Component > renders correctly 1`] = `
 
 .emotion-12.Mui-error {
   color: #ab1000;
+}
+
+.emotion-12.Mui-focused {
+  color: #337a87;
 }
 
 .emotion-13 {

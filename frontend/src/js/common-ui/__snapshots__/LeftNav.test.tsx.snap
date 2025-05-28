@@ -49,10 +49,6 @@ exports[`LeftNav Component > renders correctly 1`] = `
   padding-bottom: 11px;
 }
 
-.emotion-2.undefined {
-  opacity: 1;
-}
-
 .emotion-2.active {
   background-color: #fff;
 }

@@ -41,10 +41,6 @@ exports[`MyOrganization Component > renders correctly 1`] = `
   padding-bottom: 11px;
 }
 
-.emotion-1.undefined {
-  opacity: 1;
-}
-
 .emotion-1.active {
   background-color: #fff;
 }
@@ -221,10 +217,6 @@ exports[`MyOrganization Component > renders correctly 1`] = `
   padding-bottom: 8px;
   padding-top: 11px;
   padding-bottom: 11px;
-}
-
-.emotion-15.undefined {
-  opacity: 1;
 }
 
 .emotion-15.active {

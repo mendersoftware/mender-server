@@ -254,7 +254,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
               class="MuiFormControl-root MuiPickersTextField-root css-nvxb3-MuiFormControl-root-MuiPickersTextField-root"
             >
               <label
-                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1ls34dz-MuiFormLabel-root-MuiInputLabel-root"
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-11fencw-MuiFormLabel-root-MuiInputLabel-root"
                 data-shrink="true"
                 for=":rb:"
                 id=":rb:-label"
@@ -422,7 +422,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
               class="MuiFormControl-root MuiPickersTextField-root css-nvxb3-MuiFormControl-root-MuiPickersTextField-root"
             >
               <label
-                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1ls34dz-MuiFormLabel-root-MuiInputLabel-root"
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-11fencw-MuiFormLabel-root-MuiInputLabel-root"
                 data-shrink="true"
                 for=":rg:"
                 id=":rg:-label"
