@@ -43,9 +43,7 @@ import (
 
 type mockClock struct{}
 
-var (
-	mockTime = time.Date(2018, 01, 12, 22, 51, 48, 324000000, time.UTC)
-)
+var mockTime = time.Date(2018, 01, 12, 22, 51, 48, 324000000, time.UTC)
 
 func (m mockClock) Now() time.Time {
 	return mockTime
@@ -573,9 +571,9 @@ func TestGetSessionRecording(t *testing.T) {
 					var msg ws.ProtoMsg
 					e := msgpack.Unmarshal(recording, &msg)
 					assert.NoError(t, e)
-					//now, the WriteSessionRecords writes do the io.Writer passed in 3rd arg
-					//the ws.ProtoMsg structs, which represent a stream of bytes as well as
-					//control messages in order of playback.
+					// now, the WriteSessionRecords writes do the io.Writer passed in 3rd arg
+					// the ws.ProtoMsg structs, which represent a stream of bytes as well as
+					// control messages in order of playback.
 					var buffer bytes.Buffer
 
 					_, e = buffer.Write(rec)
@@ -648,6 +646,8 @@ func TestSetSessionRecording(t *testing.T) {
 				recordingExpire: tc.Expiration,
 			}
 			defer ds.DropDatabase()
+			ctx, cancel := context.WithTimeout(tc.Ctx, time.Minute)
+			defer cancel()
 
 			database := db.Client().Database(DbName)
 			collSess := database.Collection(RecordingsCollectionName)
@@ -657,7 +657,6 @@ func TestSetSessionRecording(t *testing.T) {
 					// Index for expiring old events
 					Keys: bson.D{{Key: "expire_ts", Value: 1}},
 					Options: mopts.Index().
-						SetBackground(true).
 						SetExpireAfterSeconds(int32(tc.Expiration.Seconds())).
 						SetName(IndexNameLogsExpire),
 				},
@@ -665,28 +664,52 @@ func TestSetSessionRecording(t *testing.T) {
 			idxView := collSess.Indexes()
 
 			_, err := idxView.CreateMany(tc.Ctx, indexModels)
+			if err != nil {
+				t.Errorf("failed to initialize indexes for test: %s", err.Error())
+				t.FailNow()
+				return
+			}
+			defer idxView.DropOne(ctx, IndexNameLogsExpire)
 
-			ds.InsertSessionRecording(tc.Ctx, tc.SessionID, tc.RecordingData)
-
-			if tc.Expire {
-				t.Logf("set expiration to: %ds, sleeping 60s (default check interval).",
-					int32(tc.Expiration.Seconds()))
-				time.Sleep(60 * time.Second)
+			err = ds.InsertSessionRecording(ctx, tc.SessionID, tc.RecordingData)
+			if err != nil {
+				t.Errorf("failed to initialize database: %s", err.Error())
+				return
 			}
 
 			var r model.Recording
-			res := collSess.FindOne(nil,
-				mstore.WithTenantID(tc.Ctx, bson.M{
-					dbFieldSessionID: tc.SessionID,
-				}),
-			)
-			assert.NotNil(t, res)
-
-			err = res.Decode(&r)
 			if tc.Expire {
-				assert.EqualError(t, err, "mongo: no documents in result")
+				t.Logf("set expiration to: %s, polling for %s",
+					tc.Expiration, time.Minute)
+				ticker := time.NewTicker(time.Second)
+				defer ticker.Stop()
+				for {
+					err := collSess.FindOne(ctx,
+						mstore.WithTenantID(tc.Ctx, bson.M{
+							dbFieldSessionID: tc.SessionID,
+						}),
+					).Decode(&r)
+					if errors.Is(err, mongo.ErrNoDocuments) {
+						// Pass
+						return
+					}
+					select {
+					case <-ticker.C:
+					case <-ctx.Done():
+						t.Error("Timeout waiting for document to expire")
+						t.Fail()
+						return
+					}
+				}
 			} else {
-				assert.Equal(t, tc.RecordingData, r.Recording)
+				err := collSess.FindOne(ctx,
+					mstore.WithTenantID(tc.Ctx, bson.M{
+						dbFieldSessionID: tc.SessionID,
+					}),
+				).Decode(&r)
+				if assert.NoError(t, err) {
+					assert.Equal(t, tc.RecordingData, r.Recording)
+				}
 			}
 		})
 	}
