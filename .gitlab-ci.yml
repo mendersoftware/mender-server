@@ -257,9 +257,11 @@ test:backend:unit:
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/mongo:6.0
       alias: mongo
+      command: [--quiet]
   variables:
     TEST_MONGO_URL: "mongodb://mongo"
     WORKFLOWS_MONGO_URL: "mongodb://mongo"
+    CI_DEBUG_SERVICES: "true" # FIXME: Temporary enable service logs
   before_script:
     - mkdir -p $GOCOVERDIR
   script:
