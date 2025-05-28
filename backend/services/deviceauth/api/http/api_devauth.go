@@ -23,11 +23,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
 
-	"github.com/mendersoftware/mender-server/pkg/accesslog"
-	"github.com/mendersoftware/mender-server/pkg/contenttype"
 	ctxhttpheader "github.com/mendersoftware/mender-server/pkg/context/httpheader"
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/requestid"
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/access"
@@ -37,37 +34,6 @@ import (
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 	"github.com/mendersoftware/mender-server/services/deviceauth/store"
 	"github.com/mendersoftware/mender-server/services/deviceauth/utils"
-)
-
-const (
-	apiUrlDevicesV1 = "/api/devices/v1/authentication"
-	uriAuthReqs     = "/auth_requests"
-
-	// internal API
-	apiUrlInternalV1      = "/api/internal/v1/devauth"
-	uriAlive              = "/alive"
-	uriHealth             = "/health"
-	uriTokenVerify        = "/tokens/verify"
-	uriTenantLimit        = "/tenant/:id/limits/:name"
-	uriTokens             = "/tokens"
-	uriTenants            = "/tenants"
-	uriTenantDevice       = "/tenants/:tid/devices/:did"
-	uriTenantDeviceStatus = "/tenants/:tid/devices/:did/status"
-	uriTenantDevices      = "/tenants/:tid/devices"
-	uriTenantDevicesCount = "/tenants/:tid/devices/count"
-
-	// management API v2
-	apiUrlManagementV2       = "/api/management/v2/devauth"
-	v2uriDevices             = "/devices"
-	v2uriDevicesCount        = "/devices/count"
-	v2uriDevicesSearch       = "/devices/search"
-	v2uriDevice              = "/devices/:id"
-	v2uriDeviceAuthSet       = "/devices/:id/auth/:aid"
-	v2uriDeviceAuthSetStatus = "/devices/:id/auth/:aid/status"
-	v2uriToken               = "/tokens/:id"
-	v2uriDevicesLimit        = "/limits/:name"
-
-	HdrAuthReqSign = "X-MEN-Signature"
 )
 
 const (
@@ -93,63 +59,6 @@ func NewDevAuthApiHandlers(devAuth devauth.App, db store.DataStore) *DevAuthApiH
 		app: devAuth,
 		db:  db,
 	}
-}
-
-func NewRouter(app devauth.App, db store.DataStore) http.Handler {
-	router := gin.New()
-	router.Use(accesslog.Middleware())
-	router.Use(requestid.Middleware())
-
-	d := NewDevAuthApiHandlers(app, db)
-
-	publicAPIs := router.Group(".")
-	publicAPIs.Use(identity.Middleware())
-
-	mgmtAPIV2 := publicAPIs.Group(apiUrlManagementV2)
-	devicesAPIs := router.Group(apiUrlDevicesV1)
-
-	// Devices API
-	devicesAPIs.Group(".").Use(contenttype.CheckJSON()).
-		POST(uriAuthReqs, d.SubmitAuthRequestHandler)
-
-	// API v2
-	mgmtAPIV2.GET(v2uriDevicesCount, d.GetDevicesCountHandler)
-	mgmtAPIV2.GET(v2uriDevices, d.GetDevicesV2Handler)
-	mgmtAPIV2.GET(v2uriDevice, d.GetDeviceV2Handler)
-	mgmtAPIV2.GET(v2uriDeviceAuthSetStatus, d.GetAuthSetStatusHandler)
-	mgmtAPIV2.GET(v2uriDevicesLimit, d.GetLimitHandler)
-	mgmtAPIV2.DELETE(v2uriDevice, d.DecommissionDeviceHandler)
-	mgmtAPIV2.DELETE(v2uriDeviceAuthSet, d.DeleteDeviceAuthSetHandler)
-	mgmtAPIV2.DELETE(v2uriToken, d.DeleteTokenHandler)
-	mgmtAPIV2.Group(".").Use(contenttype.CheckJSON()).
-		POST(v2uriDevices, d.PostDevicesV2Handler).
-		PUT(v2uriDeviceAuthSetStatus, d.UpdateDeviceStatusHandler).
-		POST(v2uriDevicesSearch, d.SearchDevicesV2Handler)
-
-	// automatically add Option routes for public endpoints
-	AutogenOptionsRoutes(router, AllowHeaderOptionsGenerator)
-
-	intrnlAPIV1 := router.Group(apiUrlInternalV1)
-
-	intrnlAPIV1.GET(uriAlive, d.AliveHandler)
-	intrnlAPIV1.GET(uriHealth, d.HealthCheckHandler)
-	intrnlAPIV1.GET(uriTokenVerify,
-		identity.Middleware(),
-		d.VerifyTokenHandler)
-	intrnlAPIV1.POST(uriTokenVerify,
-		identity.Middleware(),
-		d.VerifyTokenHandler)
-	intrnlAPIV1.DELETE(uriTokens, d.DeleteTokensHandler)
-	intrnlAPIV1.PUT(uriTenantLimit, d.PutTenantLimitHandler)
-	intrnlAPIV1.GET(uriTenantLimit, d.GetTenantLimitHandler)
-	intrnlAPIV1.DELETE(uriTenantLimit, d.DeleteTenantLimitHandler)
-	intrnlAPIV1.POST(uriTenants, d.ProvisionTenantHandler)
-	intrnlAPIV1.GET(uriTenantDeviceStatus, d.GetTenantDeviceStatus)
-	intrnlAPIV1.GET(uriTenantDevices, d.GetTenantDevicesHandler)
-	intrnlAPIV1.GET(uriTenantDevicesCount, d.GetTenantDevicesCountHandler)
-	intrnlAPIV1.DELETE(uriTenantDevice, d.DeleteDeviceHandler)
-
-	return router
 }
 
 func (i *DevAuthApiHandlers) AliveHandler(c *gin.Context) {
@@ -248,7 +157,6 @@ func (i *DevAuthApiHandlers) SubmitAuthRequestHandler(c *gin.Context) {
 		)
 		return
 	default:
-		c.Error(err)
 		rest.RenderInternalError(c, err)
 		return
 	}
