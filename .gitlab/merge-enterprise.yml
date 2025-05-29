@@ -62,33 +62,31 @@ merge-to-enterprise:
         "maintainer_can_modify": true
       }
       EOF
-    - |
-      if test -z "$(jq -r .number pull.json)"; then
+    - if test -z "$(jq -r .number pull.json)"; then
         # Pull request does not exist: Forcefully fast-forward fork branch and create one
-        git push -f "$GIT_REMOTE" "$CI_COMMIT_SHA:refs/heads/$PR_BRANCH"
-        wget --post-file pr_request_body.json \
-          --header "Authorization: Bearer $GITHUB_BOT_TOKEN_REPO_FULL" \
-          --header "Accept: application/vnd.github+json" \
-          --header "Content-Type: application/json" \
-          --header "X-GitHub-Api-Version: 2022-11-28" \
-          -O pull.json \
-          "https://api.github.com/repos/$GITHUB_REPOSITORY_ENTERPRISE/pulls"
-      else
-        echo "Pull request exists: $(jq -r .url pull.json)"
-        echo "Attempting to fast-forward"
-      fi
+    -   git push -f "$GIT_REMOTE" "$CI_COMMIT_SHA:refs/heads/$PR_BRANCH"
+    -   wget --post-file pr_request_body.json \
+    -     --header "Authorization: Bearer $GITHUB_BOT_TOKEN_REPO_FULL" \
+    -     --header "Accept: application/vnd.github+json" \
+    -     --header "Content-Type: application/json" \
+    -     --header "X-GitHub-Api-Version: 2022-11-28" \
+    -     -O pull.json \
+    -     "https://api.github.com/repos/$GITHUB_REPOSITORY_ENTERPRISE/pulls"
+    - else
+    -   echo "Pull request exists: $(jq -r .url pull.json)"
+    -   echo "Attempting to fast-forward"
+    - fi
     - PULL_NUMBER=$(jq -r .number pull.json)
-    - |
-      if ! git push "$GIT_REMOTE" "$CI_COMMIT_SHA:refs/heads/$PR_BRANCH"; then
+    - if ! git push "$GIT_REMOTE" "$CI_COMMIT_SHA:refs/heads/$PR_BRANCH"; then
         # Could not fast-forward PR, notify the author in the existing PR
-        wget --post-data "{\"body\": \"Tried to submit commits from @$GITHUB_USER, but this PR has commits ahead of $CI_COMMIT_BRANCH\"}" \
-          --header "Authorization: Bearer $GITHUB_BOT_TOKEN_REPO_FULL" \
-          --header "Accept: application/vnd.github+json" \
-          --header "Content-Type: application/json" \
-          --header "X-GitHub-Api-Version: 2022-11-28" \
-          "https://api.github.com/repos/$GITHUB_REPOSITORY_ENTERPRISE/issues/$PULL_NUMBER/comments"
-        exit 0;
-      fi
+    -   wget --post-data "{\"body\": \"Tried to submit commits from @$GITHUB_USER, but this PR has commits ahead of $CI_COMMIT_BRANCH\"}" \
+    -     --header "Authorization: Bearer $GITHUB_BOT_TOKEN_REPO_FULL" \
+    -     --header "Accept: application/vnd.github+json" \
+    -     --header "Content-Type: application/json" \
+    -     --header "X-GitHub-Api-Version: 2022-11-28" \
+    -     "https://api.github.com/repos/$GITHUB_REPOSITORY_ENTERPRISE/issues/$PULL_NUMBER/comments"
+    -   exit 0;
+    - fi
     # Add author as a reviewer
     - |
       wget --post-data "{\"reviewers\": [\"$GITHUB_USER\"]}" \
