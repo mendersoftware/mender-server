@@ -34,6 +34,7 @@ from client import SimpleInternalClient, SimpleManagementClient, BaseDevicesApiC
 import mockserver
 import orchestrator
 import os
+DEFAULT_AUTH = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibWVuZGVyLnBsYW4iOiJlbnRlcnByaXNlIn0.s27fi93Qik81WyBmDB5APE0DfGko7Pq8BImbp33-gy4"
 
 
 def get_keypair():
@@ -113,6 +114,7 @@ def device_auth_req(url, dauth, dev):
     headers = {
         "Content-type": "application/json",
         "X-MEN-Signature": sign,
+        "Authorization": DEFAULT_AUTH,
     }
     rsp = requests.post(url, headers=headers, data=data, verify=False)
     return rsp

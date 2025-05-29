@@ -78,7 +78,7 @@ func renderErrorWithMsg(w rest.ResponseWriter, r *rest.Request, status int, msg 
 	w.WriteHeader(status)
 	writeErr := w.WriteJson(map[string]string{
 		"error":      msg,
-		"request_id": requestid.GetReqId(r),
+		"request_id": requestid.GetReqId(r.Request),
 	})
 	if writeErr != nil {
 		panic(writeErr)

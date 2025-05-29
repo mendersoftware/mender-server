@@ -36,7 +36,7 @@ func RepackLoggerToContext(ctx context.Context, r *rest.Request) context.Context
 // requestid.FromContext(ctx).
 func RepackRequestIdToContext(ctx context.Context, r *rest.Request) context.Context {
 	return requestid.WithContext(ctx,
-		requestid.GetReqId(r))
+		requestid.GetReqId(r.Request))
 }
 
 // UpdateContextFunc is a function that can update context ctx using data from

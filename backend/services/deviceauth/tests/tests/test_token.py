@@ -163,6 +163,8 @@ class TestToken:
         assert "mender.device" in tclaims and tclaims["mender.device"] == True
 
     def test_token_verify_ok(self, internal_api, device_token, token_verify_url):
+        if not device_token.startswith("Bearer "):
+            device_token = "Bearer " + device_token
         return internal_api.verify_jwt(authorization=device_token)
 
     def test_token_verify_none(self, token_verify_url):
