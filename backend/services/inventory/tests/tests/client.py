@@ -12,182 +12,93 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
-import logging
+import json
 import os
 import socket
 
-from urllib import parse as urlparse
+from base64 import urlsafe_b64encode as b64encode
+from datetime import datetime, timedelta
+from typing import Union
+from uuid import uuid4
 
 import docker
-import pytest  # noqa
-import requests
 
-from bravado.client import SwaggerClient, RequestsClient
-from bravado.swagger_model import load_file
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
-from requests.utils import parse_header_links
+from cryptography.hazmat.primitives import hashes, hmac
+
+import openapi_client as oas
 
 
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+def generate_access_token(
+    subject: str = "00000000-0000-0000-0000-000000000000",
+    tenant_id: Union[str, None] = None,
+    is_device: bool = False,
+    key: Union[bytes, None] = None,
+) -> str:
+    """
+    Generate a JSON Web Token (JWT) for testing purposes within Mender Server.
 
-DEFAULT_AUTH = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibWVuZGVyLnBsYW4iOiJlbnRlcnByaXNlIn0.s27fi93Qik81WyBmDB5APE0DfGko7Pq8BImbp33-gy4"
+    Parameters:
+    -----------
+    subject : str, optional
+        The subject claim/identifier of the JWT. Defaults to "00000000-0000-0000-0000-000000000000".
+    tenant_id : str, optional
+        Tenant identifier for Mender tenant claim in the JWT. Defaults to "000000000000000000000000".
+    is_device : bool, optional
+        Boolean flag indicating if the token is for a device (True) or a user (False). Defaults to False.
+    key : bytes or None, optional
+        Secret key used to sign the JWT. If not provided, a random key will be generated.
 
-def default_auth(**kwargs):
-    if not "Authorization" in kwargs:
-        kwargs["Authorization"] = DEFAULT_AUTH
+    Returns:
+    -------
+    str
+        A signed JSON Web Token string containing various claims, including:
+        subject, tenant_id, expiration time (exp), etc.
+    """
+    if key is None:
+        key = os.urandom(32)
+    h = hmac.HMAC(key, hashes.SHA256())
+    iat = datetime.now()
+    exp = iat + timedelta(days=7)
+    hdr = {
+        "alg": "HS256",
+        "typ": "JWT",
+    }
+    claims = {
+        "jti": str(uuid4()),
+        "sub": subject,
+        "exp": int(exp.timestamp()),
+        "nbf": int(iat.timestamp()),
+        "iat": int(iat.timestamp()),
+        "mender.plan": "enterprise",
+        "mender.trial": False,
+        "mender.addons": [
+            {"name": "troubleshoot", "enabled": True},
+            {"name": "configure", "enabled": True},
+            {"name": "monitor", "enabled": True},
+        ],
+    }
+    if tenant_id is not None:
+        claims["mender.tenant"] = tenant_id
 
-    if not kwargs["Authorization"].startswith("Bearer "):
-        kwargs["Authorization"] = "Bearer " + kwargs["Authorization"]
-    return kwargs
-class ManagementClient:
-    log = logging.getLogger("Client")
-
-    def __init__(self, host, spec, api):
-        config = {
-            "also_return_response": True,
-            "validate_responses": False,
-            "validate_requests": False,
-            "validate_swagger_spec": True,
-            "use_models": True,
-        }
-
-        http_client = RequestsClient()
-        http_client.session.verify = False
-
-        self.client = SwaggerClient.from_spec(
-            load_file(spec), config=config, http_client=http_client,
-        )
-        self.client.swagger_spec.api_url = "http://%s/api/%s" % (host, api)
-
-        self.group = self.client.get_model("Group")
-        self.inventoryAttribute = self.client.get_model("Attribute")
-        self.inventoryAttributeTag = self.client.get_model("Tag")
-    
-    def deleteAllGroups(self, **kwargs):
-        kwargs = default_auth(**kwargs)
-
-        groups = self.client.Management_API.List_Groups(**kwargs).result()[0]
-        for g in groups:
-            for d in self.getGroupDevices(g):
-                self.deleteDeviceInGroup(g, d)
-
-    def getAllDevices(self, page=1, sort=None, has_group=None, JWT=DEFAULT_AUTH):
-        if not JWT.startswith("Bearer "):
-            JWT = "Bearer " + JWT
-        r, h = self.client.Management_API.List_Device_Inventories(
-            page=page, sort=sort, has_group=has_group, Authorization=JWT
-        ).result()
-        for i in parse_header_links(h.headers["link"]):
-            if i["rel"] == "next":
-                page = int(
-                    dict(urlparse.parse_qs(urlparse.urlsplit(i["url"]).query))["page"][
-                        0
-                    ]
-                )
-                return r + self.getAllDevices(page=page, sort=sort)
-        else:
-            return r
-
-    def getDevice(self, device_id, Authorization=DEFAULT_AUTH):
-        if not Authorization.startswith("Bearer "):
-            Authorization = "Bearer " + Authorization
-        r, _ = self.client.Management_API.Get_Device_Inventory(
-            id=device_id, Authorization=Authorization
-        ).result()
-        return r
-
-    def updateTagAttributes(self, device_id, tags, eTag=None, JWT=DEFAULT_AUTH):
-        r, _ = self.client.Management_API.Add_Tags(
-            id=device_id, If_Match=eTag, tags=tags, Authorization=JWT,
-        ).result()
-        return r
-
-    def setTagAttributes(self, device_id, tags, eTag=None, JWT=DEFAULT_AUTH):
-        r, _ = self.client.Management_API.Assign_Tags(
-            id=device_id, If_Match=eTag, tags=tags, Authorization=JWT,
-        ).result()
-        return r
-
-    def getAllGroups(self, **kwargs):
-        kwargs = default_auth(**kwargs)
-
-        r, _ = self.client.Management_API.List_Groups(**kwargs).result()
-        return r
-
-    def getGroupDevices(self, group, expected_error=False, **kwargs):
-
-        try:
-            kwargs = default_auth(**kwargs)
-            r = self.client.Management_API.Get_Devices_in_Group(
-                name=group, **kwargs,
-            ).result()
-        except Exception as e:
-            if expected_error:
-                return []
-            else:
-                pytest.fail()
-
-        else:
-            return r[0]
-
-    def deleteDeviceInGroup(self, group, device, expected_error=False, **kwargs):
-        try:    
-            kwargs = default_auth(**kwargs)
-            r = self.client.Management_API.Clear_Group(
-                id=device, name=group, **kwargs
-            ).result()
-        except Exception:
-            if expected_error:
-                return []
-            else:
-                pytest.fail()
-
-        else:
-            return r
-
-    def addDeviceToGroup(self, group, device, expected_error=False, JWT=DEFAULT_AUTH):
-        if not JWT.startswith("Bearer "):
-            JWT = "Bearer " + JWT
-        try:
-            r = self.client.Management_API.Assign_Group(
-                group=group, id=device, Authorization=JWT
-            ).result()
-        except Exception:
-            if expected_error:
-                return []
-            else:
-                pytest.fail()
-
-        else:
-            return r
+    if is_device:
+        claims["mender.device"] = True
+    else:
+        claims["mender.user"] = True
+    jwt = f"{b64encode(json.dumps(hdr).encode()).decode('ascii')}.{b64encode(json.dumps(claims).encode()).decode('ascii')}"
+    h.update(jwt.encode())
+    jwt_signed = f"{jwt}.{b64encode(h.finalize()).decode('ascii')}".replace("=", "")
+    return jwt_signed
 
 
-class ManagementClientV2:
-    log = logging.getLogger("Client")
-
-    def __init__(self, host, spec, api):
-        config = {
-            "also_return_response": True,
-            "validate_responses": True,
-            "validate_requests": True,
-            "validate_swagger_spec": True,
-            "use_models": True,
-        }
-
-        http_client = RequestsClient()
-        http_client.session.verify = False
-
-        self.client = SwaggerClient.from_spec(
-            load_file(spec), config=config, http_client=http_client,
-        )
-        self.client.swagger_spec.api_url = (
-            "http://%s/api/management/v2/inventory/" % host
-        )
-
-    def getFiltersAttributes(self, **kwargs):
-        kwargs = default_auth(**kwargs)
-        r, _ = self.client.Management_API.Get_filterable_attributes(**kwargs).result()
-        return r
+def make_authenticated_client(
+    tenant_id=None, is_device=False, subject="00000000-0000-0000-0000-000000000000"
+) -> oas.ApiClient:
+    cfg = oas.Configuration.get_default_copy()
+    cfg.access_token = generate_access_token(
+        tenant_id=tenant_id, subject=subject, is_device=is_device
+    )
+    client = oas.ApiClient(cfg)
+    return client
 
 
 class CliClient:
@@ -218,72 +129,3 @@ class CliClient:
 
         code, (stdout, stderr) = self.container.exec_run(cmd, demux=True, **kwargs)
         return code, stdout, stderr
-
-
-class ApiClient:
-
-    log = logging.getLogger("client.ApiClient")
-
-    def make_api_url(self, path):
-        return os.path.join(
-            self.api_url, path if not path.startswith("/") else path[1:]
-        )
-
-    def setup_swagger(self, host, spec):
-        config = {
-            "also_return_response": True,
-            "validate_responses": True,
-            "validate_requests": False,
-            "validate_swagger_spec": False,
-            "use_models": True,
-        }
-
-        self.http_client = RequestsClient()
-        self.http_client.session.verify = False
-
-        self.client = SwaggerClient.from_spec(
-            load_file(spec), config=config, http_client=self.http_client
-        )
-        self.client.swagger_spec.api_url = self.api_url
-
-    def __init__(self, host, spec):
-        self.setup_swagger(host, spec)
-
-
-class InternalApiClient(ApiClient):
-    log = logging.getLogger("client.InternalClient")
-
-    def __init__(self, host, spec):
-        self.api_url = "http://%s/api/internal/v1/inventory/" % host
-        super().__init__(host, spec)
-
-    def verify(self, token, uri="/api/management/1.0/auth/verify", method="POST"):
-        if not token.startswith("Bearer "):
-            token = "Bearer " + token
-        return self.client.auth.post_auth_verify(
-            **{
-                "Authorization": token,
-                "X-Forwarded-Uri": uri,
-                "X-Forwarded-Method": method,
-            }
-        ).result()
-
-    def DeviceNew(self, **kwargs):
-        return self.client.get_model("DeviceNew")(**kwargs)
-
-    def Attribute(self, **kwargs):
-        return self.client.get_model("Attribute")(**kwargs)
-
-    def create_tenant(self, tenant_id):
-        return self.client.Internal_API.Create_Tenant(
-            tenant={"tenant_id": tenant_id,}
-        ).result()
-
-    def create_device(self, device_id, attributes, description="test device"):
-        device = self.DeviceNew(
-            id=device_id, description=description, attributes=attributes
-        )
-
-        return self.client.Internal_API.Initialize_Device(
-            tenant_id="", device=device
-        ).result()

@@ -1,0 +1,27 @@
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Description of the error.
+      description: Error descriptor.
+      example:
+        error: missing Authorization header
+
+  securitySchemes:
+    DeviceJWT:
+      type: http
+      description: |
+        API token issued by Device Authentication service.
+        Format: 'Bearer [JWT]'
+      scheme: bearer
+      bearerFormat: JWT
+    ManagementJWT:
+      type: http
+      description: |
+        API token issued by User Authentication service.
+        Format: 'Bearer [JWT]'
+      scheme: bearer
+      bearerFormat: JWT

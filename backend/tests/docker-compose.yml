@@ -7,6 +7,8 @@ services:
     image: "${CI_REGISTRY_IMAGE:-localhost/backend-tester}:${CI_ACCEPTANCE_IMAGE_TAG:-acceptance}"
     build:
       dockerfile: Dockerfile.acceptance
+    environment:
+        PYTEST_ADDOPTS: "${PYTEST_ADDOPTS:-}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     working_dir: /testing

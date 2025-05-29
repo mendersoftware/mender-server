@@ -10,9 +10,6 @@ services:
     entrypoint:
       - pytest
       - --host=inventory:8080
-      - --internal-spec=/docs/internal_api.yml
-      - --management-spec=/docs/management_api.yml
-      - --management-v2-spec=/docs/management_api_v2.yml
       - --mongo-url=mongodb://mongo
   inventory:
     image: ${MENDER_IMAGE_REGISTRY:-docker.io}/${MENDER_IMAGE_REPOSITORY:-mendersoftware}/inventory:${MENDER_IMAGE_TAG_TEST:-test}
