@@ -21,13 +21,12 @@ import KeyValueEditor from './KeyValueEditor';
 
 describe('KeyValueEditor Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(
-      <KeyValueEditor deviceLimitWarning={<div>I should not be rendered/ undefined</div>} limitMaxed={false} onSubmit={vi.fn} onCancel={vi.fn} />
-    );
+    const { baseElement } = render(<KeyValueEditor onInputChange={vi.fn()} />);
     const view = baseElement.getElementsByClassName('MuiDialog-root')[0];
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
+
   const fabSelector = '.MuiFab-root';
   it('works as intended', async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });

@@ -11,11 +11,14 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import type { ComponentType, FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import ConfigurationObject from '@northern.tech/common-ui/ConfigurationObject';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
 import storeActions from '@northern.tech/store/actions';
+import { Device } from '@northern.tech/store/api/types/Device';
+import { READ_STATES } from '@northern.tech/store/constants';
 import { getFeatures } from '@northern.tech/store/selectors';
 
 const { setSnackbar } = storeActions;
@@ -151,7 +154,7 @@ const DeviceTypeTip = () => (
   </>
 );
 
-const TwoFactorNote = ({ className }) => (
+const TwoFactorNote = ({ className }: { className?: string }) => (
   <div className={className}>
     Two Factor Authentication is enabled for your account. If you haven&apos;t set up a 3rd party authentication app with a verification code, please contact an
     administrator.
@@ -291,7 +294,15 @@ const PlanUpgradeEmail = () => (
   </>
 );
 
-export const HELPTOOLTIPS = {
+export type HelpTooltipComponent = {
+  Component?: FC;
+  id: string;
+  isRelevant?: (props: { device?: Device }) => boolean;
+  readState?: keyof typeof READ_STATES;
+  SpecialComponent?: ComponentType<{ className?: string; device?: Device }>;
+};
+
+export const HELPTOOLTIPS: Record<string, HelpTooltipComponent> = {
   addGroup: { id: 'addGroup', Component: AddGroup },
   artifactUpload: { id: 'artifactUpload', Component: ArtifactUpload },
   attributeLimit: { id: 'attributeLimit', Component: AttributeLimit },

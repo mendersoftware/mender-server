@@ -11,10 +11,10 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 
 import ConfigurationObject from '@northern.tech/common-ui/ConfigurationObject';
 import { EditButton } from '@northern.tech/common-ui/Confirm';
@@ -22,7 +22,6 @@ import KeyValueEditor from '@northern.tech/common-ui/forms/KeyValueEditor';
 import { HELPTOOLTIPS } from '@northern.tech/common-ui/helptips/HelpTooltips';
 import { MenderHelpTooltip } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import { getDeviceAttributes, setDeviceTags } from '@northern.tech/store/thunks';
-import { isEmpty, toggle } from '@northern.tech/utils/helpers';
 
 import Tracking from '../../../tracking';
 import DeviceDataCollapse from './DeviceDataCollapse';
@@ -30,7 +29,7 @@ import DeviceDataCollapse from './DeviceDataCollapse';
 const NameTipComponent = props => <MenderHelpTooltip id={HELPTOOLTIPS.nameTagTip.id} {...props} />;
 
 const configHelpTipsMap = {
-  name: { component: NameTipComponent, position: 'right' }
+  name: { component: NameTipComponent }
 };
 
 export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
@@ -39,21 +38,10 @@ export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
   const [editableTags, setEditableTags] = useState();
   const [isEditDisabled, setIsEditDisabled] = useState(!canWriteDevices);
   const [isEditing, setIsEditing] = useState(false);
-  const [shouldUpdateEditor, setShouldUpdateEditor] = useState(false);
   const dispatch = useDispatch();
 
   const { tags = {} } = device;
   const hasTags = !!Object.keys(tags).length;
-
-  useEffect(() => {
-    setShouldUpdateEditor(toggle);
-  }, [isEditing]);
-
-  useEffect(() => {
-    if (canWriteDevices) {
-      setIsEditing(!hasTags);
-    }
-  }, [hasTags, canWriteDevices]);
 
   const onCancel = () => {
     setIsEditing(false);
@@ -78,13 +66,8 @@ export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
       .finally(() => setIsEditDisabled(false));
   };
 
-  const helpTipsMap = Object.entries(configHelpTipsMap).reduce((accu, [key, value]) => {
-    accu[key] = {
-      ...value,
-      props: { deviceId: device.id }
-    };
-    return accu;
-  }, {});
+  const isFullyDefined = Object.entries(changedTags).every(([key, value]) => !!key && !!value);
+
   return (
     <DeviceDataCollapse
       title={
@@ -103,19 +86,20 @@ export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
               disabled={isEditDisabled}
               errortext=""
               initialInput={editableTags}
-              inputHelpTipsMap={helpTipsMap}
+              inputHelpTipsMap={configHelpTipsMap}
               onInputChange={setChangedTags}
-              reset={shouldUpdateEditor}
             />
             <div className="flexbox center-aligned margin-bottom-small" style={{ justifyContent: 'flex-end' }}>
-              <Button className="margin-right-small" disabled={isEmpty(changedTags)} color="primary" onClick={onSubmit} variant="contained">
+              <Button className="margin-right-small" disabled={!isFullyDefined} color="primary" onClick={onSubmit} variant="contained">
                 Save
               </Button>
               <Button onClick={onCancel}>Cancel</Button>
             </div>
           </>
+        ) : hasTags ? (
+          <ConfigurationObject config={tags} setSnackbar={setSnackbar} />
         ) : (
-          hasTags && <ConfigurationObject config={tags} setSnackbar={setSnackbar} />
+          <Typography variant="subtitle2">No tags have been set for this device.</Typography>
         )}
       </div>
     </DeviceDataCollapse>
