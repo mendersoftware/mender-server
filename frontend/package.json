@@ -10,7 +10,7 @@
     "@monaco-editor/react": "4.7.0",
     "@mui/icons-material": "7.1.0",
     "@mui/material": "7.1.0",
-    "@mui/x-date-pickers": "8.2.0",
+    "@mui/x-date-pickers": "8.5.0",
     "@northern.tech/utils": "0.6.2",
     "@redux-devtools/extension": "3.3.0",
     "@reduxjs/toolkit": "2.7.0",
