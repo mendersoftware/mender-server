@@ -20,7 +20,9 @@ exports[`DeviceMonitoring Component > renders correctly 1`] = `
         data-mui-internal-clone-element="true"
       >
         <div
-          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault margin-left-small css-9vx59h-MuiChip-root-root-root"
+          class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault margin-left-small css-kjhc9-MuiButtonBase-root-MuiChip-root-root-root"
+          role="button"
+          tabindex="0"
         >
           <span
             class="MuiChip-label MuiChip-labelMedium css-1dybbl5-MuiChip-label"

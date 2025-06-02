@@ -16,6 +16,7 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
   border: 0;
   vertical-align: top;
   min-width: 240px;
+  max-width: 100%;
 }
 
 .emotion-1 {
