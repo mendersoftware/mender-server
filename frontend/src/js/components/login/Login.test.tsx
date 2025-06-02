@@ -48,6 +48,7 @@ describe('Login Component', () => {
     await user.type(screen.getByLabelText(/your email/i), 'something-2fa@example.com');
     const loginButton = screen.getByRole('button', { name: /Next/i });
     await user.click(loginButton);
+    await act(async () => vi.runAllTicks());
     await waitFor(() => expect(loginSpy).toHaveBeenCalled());
     await user.type(screen.getByLabelText(/password/i), 'mysecretpassword!123');
     expect(await screen.findByLabelText(/Two Factor Authentication Code/i)).not.toBeVisible();
