@@ -22,7 +22,9 @@ exports[`Auditlogs Component > renders correctly 1`] = `
           data-mui-internal-clone-element="true"
         >
           <div
-            class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault css-9vx59h-MuiChip-root-root-root"
+            class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault css-kjhc9-MuiButtonBase-root-MuiChip-root-root-root"
+            role="button"
+            tabindex="0"
           >
             <span
               class="MuiChip-label MuiChip-labelMedium css-1dybbl5-MuiChip-label"
@@ -251,7 +253,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
             style="flex-wrap: wrap; gap: 15px;"
           >
             <div
-              class="MuiFormControl-root MuiPickersTextField-root css-nvxb3-MuiFormControl-root-MuiPickersTextField-root"
+              class="MuiFormControl-root MuiPickersTextField-root css-1g025sc-MuiFormControl-root-MuiPickersTextField-root"
             >
               <label
                 class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-11fencw-MuiFormLabel-root-MuiInputLabel-root"
@@ -419,7 +421,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
               </div>
             </div>
             <div
-              class="MuiFormControl-root MuiPickersTextField-root css-nvxb3-MuiFormControl-root-MuiPickersTextField-root"
+              class="MuiFormControl-root MuiPickersTextField-root css-1g025sc-MuiFormControl-root-MuiPickersTextField-root"
             >
               <label
                 class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-11fencw-MuiFormLabel-root-MuiInputLabel-root"

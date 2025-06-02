@@ -550,6 +550,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   border: 0;
   vertical-align: top;
   min-width: 240px;
+  max-width: 100%;
 }
 
 .emotion-23 {
