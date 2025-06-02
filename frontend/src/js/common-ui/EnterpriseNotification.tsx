@@ -20,6 +20,7 @@ import { withStyles } from 'tss-react/mui';
 
 import { ADDONS, BENEFITS, PLANS } from '@northern.tech/store/constants';
 import { getTenantCapabilities } from '@northern.tech/store/selectors';
+import { yes } from '@northern.tech/utils/helpers';
 
 import MenderTooltip, { MenderTooltipClickable } from './helptips/MenderTooltip';
 
@@ -91,7 +92,7 @@ const EnterpriseNotification = ({ className = '', id = BENEFITS.default.id }) =>
       tooltipComponent={PlansTooltip}
       visibility={isOpen}
     >
-      <PlanChip className={className} label={PLANS[requiredPlan].name} />
+      <PlanChip className={className} onClick={yes} label={PLANS[requiredPlan].name} />
     </MenderTooltipClickable>
   );
 };
