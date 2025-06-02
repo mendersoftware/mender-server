@@ -67,20 +67,16 @@ export const PLANS: { [key in AvailablePlans]: Plan } = {
     id: 'os',
     name: 'Basic',
     offer: true,
-    price: '$32 / month',
+    price: '$34 / month',
     deviceCount: startingDeviceCount.os,
-    offerprice: '$23 / month for first 50 devices',
-    price2: 'for first 6 months;\n$29/month thereafter',
     features: ['Access to core features of Mender', 'Basic support']
   },
   professional: {
     id: 'professional',
     name: 'Professional',
     offer: true,
-    price: '$269 / month',
+    price: '$291 / month',
     deviceCount: startingDeviceCount.professional,
-    offerprice: '$200 / month for first 50 devices',
-    price2: 'for first 6 months;\n$249/month thereafter',
     features: ['Advanced OTA features', 'Higher priority support']
   },
   enterprise: {

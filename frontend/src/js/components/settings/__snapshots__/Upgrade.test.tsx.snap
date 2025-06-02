@@ -517,7 +517,7 @@ exports[`Upgrade Component > renders correctly 1`] = `
           Basic
         </p>
         <h2>
-          $32 / month
+          $34 / month
         </h2>
         <div
           class="margin-bottom"
@@ -611,7 +611,7 @@ exports[`Upgrade Component > renders correctly 1`] = `
           Professional
         </p>
         <h2>
-          $269 / month
+          $291 / month
         </h2>
         <div
           class="margin-bottom"
