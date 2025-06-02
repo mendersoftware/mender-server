@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 // material ui
@@ -48,10 +48,10 @@ export const PreauthDialog = ({ acceptedDevices, deviceLimit, limitMaxed, onCanc
   const [publicKey, setPublicKey] = useState(null);
   const dispatch = useDispatch();
 
-  const convertIdentityToJSON = jsonIdentity => {
+  const convertIdentityToJSON = useCallback(jsonIdentity => {
     setErrortext(null);
     setJsonIdentity(jsonIdentity);
-  };
+  }, []);
 
   const onHandleSubmit = shouldClose => {
     const authset = {

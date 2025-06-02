@@ -464,4 +464,4 @@ export const READ_STATES = {
   read: 'read',
   seen: 'seen',
   unread: 'unread'
-};
+} as const;
