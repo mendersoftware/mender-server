@@ -133,9 +133,8 @@ func RunServer(c config.Reader) error {
 		}
 	}
 
-	devauthapi := api_http.NewDevAuthApiHandlers(devauth, db)
+	apiHandler := api_http.NewRouter(devauth, db)
 
-	apiHandler, err := devauthapi.Build()
 	if err != nil {
 		return errors.Wrap(err, "device authentication API handlers setup failed")
 	}

@@ -15,10 +15,39 @@ package http
 
 import (
 	"net/http"
+
+	"github.com/mendersoftware/mender-server/services/deviceauth/devauth"
+	"github.com/mendersoftware/mender-server/services/deviceauth/store"
 )
 
 // thin API handler interface
 type ApiHandler interface {
 	// produce a rest.App with routing setup or an error
 	Build() (http.Handler, error)
+}
+
+type InternalAPI struct {
+	App devauth.App
+	Db  store.DataStore
+}
+
+// NewInternalHandler returns a new InternalAPI
+func NewInternalHandler(DevAuth devauth.App, db store.DataStore) *InternalAPI {
+	return &InternalAPI{
+		App: DevAuth,
+		Db:  db,
+	}
+}
+
+type ManagementAPI struct {
+	App devauth.App
+	Db  store.DataStore
+}
+
+// NewManagementHandler returns a new ManagementAPI
+func NewManagementHandler(DevAuth devauth.App, db store.DataStore) *ManagementAPI {
+	return &ManagementAPI{
+		App: DevAuth,
+		Db:  db,
+	}
 }

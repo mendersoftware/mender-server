@@ -279,7 +279,7 @@ func (d *DeploymentsApiHandlers) DeleteReleases(
 		w.WriteHeader(http.StatusConflict)
 		deleteErr := model.ReleasesDeleteError{
 			Error:             ErrReleaseUsedInActiveDeployment.Error(),
-			RequestID:         requestid.GetReqId(r),
+			RequestID:         requestid.GetReqId(r.Request),
 			ActiveDeployments: ids,
 		}
 		err = w.WriteJson(deleteErr)

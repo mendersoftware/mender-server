@@ -15,6 +15,7 @@ package requestid
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/ant0ine/go-json-rest/rest"
 )
@@ -26,7 +27,7 @@ const (
 )
 
 // GetReqId helper for retrieving current request Id
-func GetReqId(r *rest.Request) string {
+func GetReqId(r *http.Request) string {
 	return FromContext(r.Context())
 }
 
