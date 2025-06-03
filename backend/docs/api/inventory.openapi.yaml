@@ -59,7 +59,6 @@ paths:
       responses:
         '200':
           description: Attributes were uploaded successfully.
-          content: {}
         '400':
           description: Missing/malformed request parameters or body.
           content:
@@ -68,7 +67,10 @@ paths:
                 $ref: 'components/common.yaml#/components/schemas/Error'
         '401':
           description: The device is not authenticated.
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
         '500':
           description: Internal server error.
           content:
@@ -111,7 +113,6 @@ paths:
       responses:
         '200':
           description: Attributes were uploaded successfully.
-          content: {}
         '400':
           description: Missing/malformed request parameters or body.
           content:
@@ -120,7 +121,10 @@ paths:
                 $ref: 'components/common.yaml#/components/schemas/Error'
         '401':
           description: The device is not authenticated.
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
         '500':
           description: Internal server error.
           content:
@@ -139,7 +143,6 @@ paths:
         '204':
           description: |
             Service is healthy and all dependencies are up and running.
-          content: {}
         '500':
           description: |
             Unexpected internal error
@@ -172,7 +175,6 @@ paths:
       responses:
         '204':
           description: Service is up and running.
-          content: {}
         '500':
           description: |
             Inventory Internal error
@@ -197,10 +199,12 @@ paths:
       responses:
         '201':
           description: The tenant was created successfully.
-          content: {}
         '400':
           description: Missing or malformed request parameters.
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
         '500':
           description: Unexpected error.
           content:
@@ -234,7 +238,6 @@ paths:
               description: URI for the newly created 'Device' resource.
               schema:
                 type: string
-          content: {}
         '400':
           description: Malformed request body. See error for details.
           content:
@@ -269,7 +272,6 @@ paths:
       responses:
         '204':
           description: Device removed
-          content: {}
         '404':
           description: The device was not found.
           content:
@@ -322,7 +324,6 @@ paths:
       responses:
         '200':
           description: The operation completed successfully.
-          content: {}
         '400':
           description: Malformed request body. See error for details.
           content:
@@ -382,7 +383,6 @@ paths:
       responses:
         '200':
           description: Device inventory successfully updated.
-          content: {}
         '400':
           description: Bad request
           content:
@@ -426,7 +426,10 @@ paths:
           description: >-
             Missing or malformed request params or body. See the error message
             for details.
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
         '404':
           description: The device was not found.
           content:
@@ -466,7 +469,6 @@ paths:
       responses:
         '200':
           description: Attributes have been re-indexed.
-          content: {}
         '400':
           description: Invalid Request.
           content:
@@ -775,7 +777,6 @@ paths:
       responses:
         '204':
           description: Device removed
-          content: {}
         '500':
           description: Internal server error.
           content:
@@ -830,12 +831,14 @@ paths:
       responses:
         '200':
           description: Tags were updated successfully.
-          content: {}
         '400':
           description: >-
             Missing or malformed request params or body. See the error message
             for details.
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
         '404':
           description: The device was not found.
           content:
@@ -844,7 +847,10 @@ paths:
                 $ref: 'components/common.yaml#/components/schemas/Error'
         '412':
           description: ETag doesn't match.
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
         '500':
           description: Internal server error.
           content:
@@ -897,12 +903,14 @@ paths:
       responses:
         '200':
           description: Tags were updated successfully.
-          content: {}
         '400':
           description: >-
             Missing or malformed request params or body. See the error message
             for details.
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
         '404':
           description: The device was not found.
           content:
@@ -911,7 +919,10 @@ paths:
                 $ref: 'components/common.yaml#/components/schemas/Error'
         '412':
           description: ETag doesn't match.
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
         '500':
           description: Internal server error.
           content:
@@ -946,7 +957,10 @@ paths:
           description: >-
             Missing or malformed request params or body. See the error message
             for details.
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
         '404':
           description: The device was not found.
           content:
@@ -989,12 +1003,14 @@ paths:
       responses:
         '204':
           description: Success - the device was added to the group.
-          content: {}
         '400':
           description: >-
             Missing or malformed request params or body. See the error message
             for details.
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: 'components/common.yaml#/components/schemas/Error'
         '404':
           description: The device was not found.
           content:
@@ -1033,7 +1049,6 @@ paths:
       responses:
         '204':
           description: The device was successfully removed from the group.
-          content: {}
         '404':
           description: The device was not found or doesn't belong to the group.
           content:
