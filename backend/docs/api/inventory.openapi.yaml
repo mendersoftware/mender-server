@@ -10,16 +10,16 @@ info:
   version: '1'
 
 tags:
-  - name: Inventory Device
-  - name: Inventory Internal
+  - name: Inventory Devices v1
+  - name: Inventory Internal v1
   - name: Inventory Internal v2
-  - name: Inventory Management
+  - name: Inventory Management v1
   - name: Inventory Management v2
 paths:
   /api/devices/v1/inventory/device/attributes:
     put:
       tags:
-        - Inventory Devices
+        - Inventory Devices v1
       summary: Replace the set of attributes for a device
       description: >
         Replaces the attribute set for the authenticated device with the
@@ -79,7 +79,7 @@ paths:
         - DeviceJWT: []
     patch:
       tags:
-        - Inventory Devices
+        - Inventory Devices v1
       summary: Assign a set of attributes for a device
       description: |
         Saves the provided attribute set for the authenticated device.
@@ -132,7 +132,7 @@ paths:
   /api/internal/v1/inventory/health:
     get:
       tags:
-        - Inventory Internal
+        - Inventory Internal v1
       summary: Check the health of the service
       operationId: Check Health
       responses:
@@ -164,7 +164,7 @@ paths:
   /api/internal/v1/inventory/alive:
     get:
       tags:
-        - Inventory Internal
+        - Inventory Internal v1
       summary: >
         Trivial endpoint that unconditionally returns an empty 200 response
         whenever the API handler is running correctly.
@@ -183,7 +183,7 @@ paths:
   /api/internal/v1/inventory/tenants:
     post:
       tags:
-        - Inventory Internal
+        - Inventory Internal v1
       summary: Create tenant
       description: |
         Create a tenant with provided configuration.
@@ -210,7 +210,7 @@ paths:
   /api/internal/v1/inventory/tenants/{tenant_id}/devices:
     post:
       tags:
-        - Inventory Internal
+        - Inventory Internal v1
       summary: Create a device resource with the supplied set of attributes
       operationId: Initialize Device
       parameters:
@@ -250,7 +250,7 @@ paths:
   /api/internal/v1/inventory/tenants/{tenant_id}/devices/{device_id}:
     delete:
       tags:
-        - Inventory Internal
+        - Inventory Internal v1
       summary: Remove a device from the inventory service
       operationId: Delete Device
       parameters:
@@ -285,7 +285,7 @@ paths:
   /api/internal/v1/inventory/tenants/{tenant_id}/devices/status/{status}:
     post:
       tags:
-        - Inventory Internal
+        - Inventory Internal v1
       summary: Update the status of a list of devices
       description: |
         An API end-point that allows to bulk update the status of a list
@@ -344,7 +344,7 @@ paths:
   /api/internal/v1/inventory/tenants/{tenant_id}/device/{device_id}/attribute/scope/{scope}:
     patch:
       tags:
-        - Inventory Internal
+        - Inventory Internal v1
       summary: Update multiple inventory attributes in a single scope for a device
       description: |
         An API end-point that allows to  update the inventory attributes in
@@ -398,7 +398,7 @@ paths:
   /api/internal/v1/inventory/tenants/{tenant_id}/devices/{device_id}/groups:
     get:
       tags:
-        - Inventory Internal
+        - Inventory Internal v1
       summary: Get a list of groups the device belongs to
       operationId: Get Device Groups
       parameters:
@@ -442,7 +442,7 @@ paths:
   /api/internal/v1/inventory/tenants/{tenant_id}/devices/{device_id}/reindex:
     post:
       tags:
-        - Inventory Internal
+        - Inventory Internal v1
       summary: Start reindexing device attributes.
       operationId: Start Re-indexing
       parameters:
@@ -591,7 +591,7 @@ paths:
   /api/management/v1/inventory/devices:
     get:
       tags:
-        - Inventory Management
+        - Inventory Management v1
       summary: List devices inventories
       description: |
         Returns a paged collection of devices and their attributes.
@@ -702,7 +702,7 @@ paths:
   /api/management/v1/inventory/devices/{id}:
     get:
       tags:
-        - Inventory Management
+        - Inventory Management v1
       summary: Get a selected device's inventory
       operationId: Get Device Inventory
       parameters:
@@ -762,7 +762,7 @@ paths:
         - ManagementJWT: []
     delete:
       tags:
-        - Inventory Management
+        - Inventory Management v1
       summary: Remove selected device's inventory
       operationId: Delete Device Inventory
       parameters:
@@ -787,7 +787,7 @@ paths:
   /api/management/v1/inventory/devices/{id}/tags:
     put:
       tags:
-        - Inventory Management
+        - Inventory Management v1
       summary: Replace the set of tags for a device
       description: |
         Replaces the tags associated to the device.
@@ -855,7 +855,7 @@ paths:
         - ManagementJWT: []
     patch:
       tags:
-        - Inventory Management
+        - Inventory Management v1
       summary: Adds a set of tags for a device
       description: |
         Saves the provided tags set for the authenticated device.
@@ -923,7 +923,7 @@ paths:
   /api/management/v1/inventory/devices/{id}/group:
     get:
       tags:
-        - Inventory Management
+        - Inventory Management v1
       summary: Get a selected device's group
       operationId: Get Device Group
       parameters:
@@ -963,7 +963,7 @@ paths:
         - ManagementJWT: []
     put:
       tags:
-        - Inventory Management
+        - Inventory Management v1
       summary: Add a device to a group
       description: |
         Adds a device to a group.
@@ -1012,7 +1012,7 @@ paths:
   /api/management/v1/inventory/devices/{id}/group/{name}:
     delete:
       tags:
-        - Inventory Management
+        - Inventory Management v1
       summary: Remove a device from a group
       description: |
         Removes the device with identifier 'id' from the group 'group'.
@@ -1051,7 +1051,7 @@ paths:
   /api/management/v1/inventory/groups:
     get:
       tags:
-        - Inventory Management
+        - Inventory Management v1
       summary: List all groups existing device groups
       operationId: List Groups
       parameters:
@@ -1086,7 +1086,7 @@ paths:
   /api/management/v1/inventory/groups/{name}:
     delete:
       tags:
-        - Inventory Management
+        - Inventory Management v1
       summary: Remove a device group
       description: |
         Removes a device group. This API provides a bulk alternative to
@@ -1139,7 +1139,7 @@ paths:
   /api/management/v1/inventory/groups/{name}/devices:
     get:
       tags:
-        - Inventory Management
+        - Inventory Management v1
       summary: List the devices belonging to a given group
       operationId: Get Devices in Group
       parameters:
@@ -1204,7 +1204,7 @@ paths:
         - ManagementJWT: []
     delete:
       tags:
-        - Inventory Management
+        - Inventory Management v1
       summary: Clear devices' group
       description: |
         Removes a list of devices from the specified group.
@@ -1264,7 +1264,7 @@ paths:
         - ManagementJWT: []
     patch:
       tags:
-        - Inventory Management
+        - Inventory Management v1
       summary: Add devices to group
       description: |
         Appends the list of devices in the request body to the given group.
