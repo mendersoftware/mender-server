@@ -7,7 +7,7 @@ info:
 
     Devices can upload vendor-specific attributes (software/hardware info,
     health checks, metrics, etc.) of various data types to the backend.
-  version: '1'
+  version: "1"
 
 tags:
   - name: Inventory Devices v1
@@ -54,29 +54,29 @@ paths:
                   value: 00.01:02:03:04:05
                   description: MAC address
               items:
-                $ref: '#/components/schemas/Attribute'
+                $ref: "#/components/schemas/Attribute"
         required: true
       responses:
-        '200':
+        "200":
           description: Attributes were uploaded successfully.
-        '400':
+        "400":
           description: Missing/malformed request parameters or body.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '401':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "401":
           description: The device is not authenticated.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '500':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "500":
           description: Internal server error.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
+                $ref: "components/common.yaml#/components/schemas/Error"
       security:
         - DeviceJWT: []
     patch:
@@ -108,29 +108,29 @@ paths:
                   value: 00.01:02:03:04:05
                   description: MAC address
               items:
-                $ref: '#/components/schemas/Attribute'
+                $ref: "#/components/schemas/Attribute"
         required: true
       responses:
-        '200':
+        "200":
           description: Attributes were uploaded successfully.
-        '400':
+        "400":
           description: Missing/malformed request parameters or body.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '401':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "401":
           description: The device is not authenticated.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '500':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "500":
           description: Internal server error.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
+                $ref: "components/common.yaml#/components/schemas/Error"
       security:
         - DeviceJWT: []
   /api/internal/v1/inventory/health:
@@ -140,29 +140,29 @@ paths:
       summary: Check the health of the service
       operationId: Check Health
       responses:
-        '204':
+        "204":
           description: |
             Service is healthy and all dependencies are up and running.
-        '500':
+        "500":
           description: |
             Unexpected internal error
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
+                $ref: "components/common.yaml#/components/schemas/Error"
               example:
                 error: internal error
                 request_id: ffd712be-d697-4cb7-814b-88ff1e2eb5f6
-        '503':
+        "503":
           description: >
             Service unhealthy / not ready to accept traffic. At least one
             dependency is not running.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
+                $ref: "components/common.yaml#/components/schemas/Error"
               example:
-                error: 'error reaching MongoDB: context deadline exceeded'
+                error: "error reaching MongoDB: context deadline exceeded"
                 request_id: ffd712be-d697-4cb7-814b-88ff1e2eb5f6
   /api/internal/v1/inventory/alive:
     get:
@@ -173,15 +173,15 @@ paths:
         whenever the API handler is running correctly.
       operationId: Check Liveliness
       responses:
-        '204':
+        "204":
           description: Service is up and running.
-        '500':
+        "500":
           description: |
             Inventory Internal error
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
+                $ref: "components/common.yaml#/components/schemas/Error"
   /api/internal/v1/inventory/tenants:
     post:
       tags:
@@ -194,23 +194,23 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TenantNew'
+              $ref: "#/components/schemas/TenantNew"
         required: true
       responses:
-        '201':
+        "201":
           description: The tenant was created successfully.
-        '400':
+        "400":
           description: Missing or malformed request parameters.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '500':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "500":
           description: Unexpected error.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
+                $ref: "components/common.yaml#/components/schemas/Error"
   /api/internal/v1/inventory/tenants/{tenant_id}/devices:
     post:
       tags:
@@ -228,28 +228,28 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DeviceNew'
+              $ref: "#/components/schemas/DeviceNew"
         required: true
       responses:
-        '201':
+        "201":
           description: The device was successfully created.
           headers:
             Location:
               description: URI for the newly created 'Device' resource.
               schema:
                 type: string
-        '400':
+        "400":
           description: Malformed request body. See error for details.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '500':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "500":
           description: Internal server error.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
+                $ref: "components/common.yaml#/components/schemas/Error"
   /api/internal/v1/inventory/tenants/{tenant_id}/devices/{device_id}:
     delete:
       tags:
@@ -270,20 +270,20 @@ paths:
           schema:
             type: string
       responses:
-        '204':
+        "204":
           description: Device removed
-        '404':
+        "404":
           description: The device was not found.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '500':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "500":
           description: Internal server error.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
+                $ref: "components/common.yaml#/components/schemas/Error"
   /api/internal/v1/inventory/tenants/{tenant_id}/devices/status/{status}:
     post:
       tags:
@@ -319,29 +319,29 @@ paths:
                 - id: 80f3ad8f-40f2-429a-8931-b47cebbbe9b3
                   revision: 5
               items:
-                $ref: '#/components/schemas/DeviceUpdate'
+                $ref: "#/components/schemas/DeviceUpdate"
         required: true
       responses:
-        '200':
+        "200":
           description: The operation completed successfully.
-        '400':
+        "400":
           description: Malformed request body. See error for details.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '409':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "409":
           description: Write conflict, the request needs to be retried.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '500':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "500":
           description: Internal server error.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
+                $ref: "components/common.yaml#/components/schemas/Error"
   /api/internal/v1/inventory/tenants/{tenant_id}/device/{device_id}/attribute/scope/{scope}:
     patch:
       tags:
@@ -378,23 +378,23 @@ paths:
               type: array
               description: A list of attribute descriptors.
               items:
-                $ref: '#/components/schemas/Attribute'
+                $ref: "#/components/schemas/Attribute"
         required: true
       responses:
-        '200':
+        "200":
           description: Device inventory successfully updated.
-        '400':
+        "400":
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '500':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "500":
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
+                $ref: "components/common.yaml#/components/schemas/Error"
   /api/internal/v1/inventory/tenants/{tenant_id}/devices/{device_id}/groups:
     get:
       tags:
@@ -415,33 +415,33 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: |
             Successful response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Groups'
-        '400':
+                $ref: "#/components/schemas/Groups"
+        "400":
           description: >-
             Missing or malformed request params or body. See the error message
             for details.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '404':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "404":
           description: The device was not found.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '500':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "500":
           description: Internal server error.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
+                $ref: "components/common.yaml#/components/schemas/Error"
   /api/internal/v1/inventory/tenants/{tenant_id}/devices/{device_id}/reindex:
     post:
       tags:
@@ -467,20 +467,20 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Attributes have been re-indexed.
-        '400':
+        "400":
           description: Invalid Request.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '500':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "500":
           description: Internal server error.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
+                $ref: "components/common.yaml#/components/schemas/Error"
   /api/internal/v2/inventory/tenants/{tenant_id}/filters/search:
     post:
       tags:
@@ -528,20 +528,20 @@ paths:
                     List of filter predicates, chained with boolean AND
                     operators to build the search condition definition.
                   items:
-                    $ref: '#/components/schemas/FilterPredicate'
+                    $ref: "#/components/schemas/FilterPredicate"
                 sort:
                   type: array
                   description: List of ordered sort criterias
                   items:
-                    $ref: '#/components/schemas/SortCriteria'
+                    $ref: "#/components/schemas/SortCriteria"
                 attributes:
                   type: array
                   description: List of attributes to select and return
                   items:
-                    $ref: '#/components/schemas/SelectAttribute'
+                    $ref: "#/components/schemas/SelectAttribute"
         required: false
       responses:
-        '200':
+        "200":
           description: Successful response.
           headers:
             X-Total-Count:
@@ -556,7 +556,7 @@ paths:
                 title: ListOfDevices
                 type: array
                 items:
-                  $ref: '#/components/schemas/DeviceInventory'
+                  $ref: "#/components/schemas/DeviceInventory"
               example:
                 - id: >-
                     291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
@@ -569,27 +569,27 @@ paths:
                       scope: inventory
                       value: 00.01:02:03:04:05
                       description: MAC address
-                  updated_ts: '2016-10-03T16:58:51.639Z'
+                  updated_ts: "2016-10-03T16:58:51.639Z"
                 - id: >-
                     76f40e5956c699e327489213df4459d1923e1a806603def19d417d004a4a3ef
                   attributes:
                     - name: mac
                       scope: inventory
-                      value: '00:01:02:03:04:05'
+                      value: "00:01:02:03:04:05"
                       description: MAC address
-                  updated_ts: '2016-10-04T18:24:21.432Z'
-        '400':
+                  updated_ts: "2016-10-04T18:24:21.432Z"
+        "400":
           description: Missing or malformed request parameters. See error for details.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '500':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "500":
           description: Internal error.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
+                $ref: "components/common.yaml#/components/schemas/Error"
   /api/management/v1/inventory/devices:
     get:
       tags:
@@ -646,7 +646,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Successful response.
           headers:
             X-Total-Count:
@@ -665,7 +665,7 @@ paths:
                 title: ListOfDevices
                 type: array
                 items:
-                  $ref: '#/components/schemas/DeviceInventory'
+                  $ref: "#/components/schemas/DeviceInventory"
               example:
                 - id: >-
                     291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
@@ -678,27 +678,27 @@ paths:
                       scope: inventory
                       value: 00.01:02:03:04:05
                       description: MAC address
-                  updated_ts: '2016-10-03T16:58:51.639Z'
+                  updated_ts: "2016-10-03T16:58:51.639Z"
                 - id: >-
                     76f40e5956c699e327489213df4459d1923e1a806603def19d417d004a4a3ef
                   attributes:
                     - name: mac
                       scope: inventory
-                      value: '00:01:02:03:04:05'
+                      value: "00:01:02:03:04:05"
                       description: MAC address
-                  updated_ts: '2016-10-04T18:24:21.432Z'
-        '400':
+                  updated_ts: "2016-10-04T18:24:21.432Z"
+        "400":
           description: Missing or malformed request parameters.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '500':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "500":
           description: Internal error.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
+                $ref: "components/common.yaml#/components/schemas/Error"
       security:
         - ManagementJWT: []
   /api/management/v1/inventory/devices/{id}:
@@ -715,7 +715,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Successful response - the device was found.
           headers:
             ETag:
@@ -729,7 +729,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DeviceInventory'
+                $ref: "#/components/schemas/DeviceInventory"
               example:
                 id: >-
                   291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
@@ -746,20 +746,20 @@ paths:
                     scope: tags
                     value: test
                     description: Test environment
-                    timestamp: '2016-10-19T17:23:01.639Z'
-                updated_ts: '2016-10-03T16:58:51.639Z'
-        '404':
+                    timestamp: "2016-10-19T17:23:01.639Z"
+                updated_ts: "2016-10-03T16:58:51.639Z"
+        "404":
           description: The device was not found.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '500':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "500":
           description: Internal server error.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
+                $ref: "components/common.yaml#/components/schemas/Error"
       security:
         - ManagementJWT: []
     delete:
@@ -775,14 +775,14 @@ paths:
           schema:
             type: string
       responses:
-        '204':
+        "204":
           description: Device removed
-        '500':
+        "500":
           description: Internal server error.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
+                $ref: "components/common.yaml#/components/schemas/Error"
       security:
         - ManagementJWT: []
   /api/management/v1/inventory/devices/{id}/tags:
@@ -826,37 +826,37 @@ paths:
                 - name: environment
                   value: test
               items:
-                $ref: '#/components/schemas/Tag'
+                $ref: "#/components/schemas/Tag"
         required: true
       responses:
-        '200':
+        "200":
           description: Tags were updated successfully.
-        '400':
+        "400":
           description: >-
             Missing or malformed request params or body. See the error message
             for details.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '404':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "404":
           description: The device was not found.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '412':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "412":
           description: ETag doesn't match.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '500':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "500":
           description: Internal server error.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
+                $ref: "components/common.yaml#/components/schemas/Error"
       security:
         - ManagementJWT: []
     patch:
@@ -898,37 +898,37 @@ paths:
                 - name: environment
                   value: test
               items:
-                $ref: '#/components/schemas/Tag'
+                $ref: "#/components/schemas/Tag"
         required: true
       responses:
-        '200':
+        "200":
           description: Tags were updated successfully.
-        '400':
+        "400":
           description: >-
             Missing or malformed request params or body. See the error message
             for details.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '404':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "404":
           description: The device was not found.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '412':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "412":
           description: ETag doesn't match.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '500':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "500":
           description: Internal server error.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
+                $ref: "components/common.yaml#/components/schemas/Error"
       security:
         - ManagementJWT: []
   /api/management/v1/inventory/devices/{id}/group:
@@ -945,34 +945,34 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: >
             Successful response. If the device is not assigned to any group, the
             'group' field will be set to 'null'.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Group'
-        '400':
+                $ref: "#/components/schemas/Group"
+        "400":
           description: >-
             Missing or malformed request params or body. See the error message
             for details.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '404':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "404":
           description: The device was not found.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '500':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "500":
           description: Internal server error.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
+                $ref: "components/common.yaml#/components/schemas/Error"
       security:
         - ManagementJWT: []
     put:
@@ -998,31 +998,31 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Group'
+              $ref: "#/components/schemas/Group"
         required: true
       responses:
-        '204':
+        "204":
           description: Success - the device was added to the group.
-        '400':
+        "400":
           description: >-
             Missing or malformed request params or body. See the error message
             for details.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '404':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "404":
           description: The device was not found.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '500':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "500":
           description: Internal server error.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
+                $ref: "components/common.yaml#/components/schemas/Error"
       security:
         - ManagementJWT: []
   /api/management/v1/inventory/devices/{id}/group/{name}:
@@ -1047,20 +1047,20 @@ paths:
           schema:
             type: string
       responses:
-        '204':
+        "204":
           description: The device was successfully removed from the group.
-        '404':
+        "404":
           description: The device was not found or doesn't belong to the group.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '500':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "500":
           description: Internal error.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
+                $ref: "components/common.yaml#/components/schemas/Error"
       security:
         - ManagementJWT: []
   /api/management/v1/inventory/groups:
@@ -1076,7 +1076,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Successful response.
           content:
             application/json:
@@ -1090,12 +1090,12 @@ paths:
                 - staging
                 - testing
                 - production
-        '500':
+        "500":
           description: Internal server error.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
+                $ref: "components/common.yaml#/components/schemas/Error"
       security:
         - ManagementJWT: []
   /api/management/v1/inventory/groups/{name}:
@@ -1115,7 +1115,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Successful response
           content:
             application/json:
@@ -1131,24 +1131,24 @@ paths:
                   JSON object listing how many devices were updated.
               example:
                 updated_count: 2
-        '400':
+        "400":
           description: Invalid request schema.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '404':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "404":
           description: The group was not found.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '500':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "500":
           description: Internal server error.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
+                $ref: "components/common.yaml#/components/schemas/Error"
       security:
         - ManagementJWT: []
   /api/management/v1/inventory/groups/{name}/devices:
@@ -1177,7 +1177,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Successful response
           headers:
             X-Total-Count:
@@ -1197,24 +1197,24 @@ paths:
                 type: array
                 items:
                   type: string
-        '400':
+        "400":
           description: Invalid request parameters.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '404':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "404":
           description: The group was not found.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '500':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "500":
           description: Internal server error.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
+                $ref: "components/common.yaml#/components/schemas/Error"
       security:
         - ManagementJWT: []
     delete:
@@ -1241,7 +1241,7 @@ paths:
                 type: string
         required: true
       responses:
-        '200':
+        "200":
           description: Successful response
           content:
             application/json:
@@ -1257,24 +1257,24 @@ paths:
                   JSON object listing how many devices were updated.
               example:
                 updated_count: 2
-        '400':
+        "400":
           description: Invalid request schema.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '404':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "404":
           description: The group was not found.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '500':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "500":
           description: Internal server error.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
+                $ref: "components/common.yaml#/components/schemas/Error"
       security:
         - ManagementJWT: []
     patch:
@@ -1302,7 +1302,7 @@ paths:
                 type: string
         required: true
       responses:
-        '200':
+        "200":
           description: Successful response
           content:
             application/json:
@@ -1323,24 +1323,24 @@ paths:
               example:
                 updated_count: 2
                 matched_count: 3
-        '400':
+        "400":
           description: Invalid request schema.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '404':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "404":
           description: The group was not found.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '500':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "500":
           description: Internal server error.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
+                $ref: "components/common.yaml#/components/schemas/Error"
       security:
         - ManagementJWT: []
   /api/management/v2/inventory/filters/attributes:
@@ -1364,7 +1364,7 @@ paths:
          * The API returns up to 500 unique attributes.
       operationId: Get filterable attributes
       responses:
-        '200':
+        "200":
           description: Successful response.
           content:
             application/json:
@@ -1372,13 +1372,13 @@ paths:
                 title: List of filter attributes
                 type: array
                 items:
-                  $ref: '#/components/schemas/FilterAttribute'
-        '500':
+                  $ref: "#/components/schemas/FilterAttribute"
+        "500":
           description: Internal error.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
+                $ref: "components/common.yaml#/components/schemas/Error"
       security:
         - ManagementJWT: []
   /api/management/v2/inventory/filters/search:
@@ -1414,20 +1414,20 @@ paths:
                   type: array
                   description: List of filter predicates.
                   items:
-                    $ref: '#/components/schemas/FilterPredicate'
+                    $ref: "#/components/schemas/FilterPredicate"
                 sort:
                   type: array
                   description: List of ordered sort criterias
                   items:
-                    $ref: '#/components/schemas/SortCriteria'
+                    $ref: "#/components/schemas/SortCriteria"
                 attributes:
                   type: array
                   description: List of attributes to select and return
                   items:
-                    $ref: '#/components/schemas/SelectAttribute'
+                    $ref: "#/components/schemas/SelectAttribute"
         required: false
       responses:
-        '200':
+        "200":
           description: Successful response.
           headers:
             X-Total-Count:
@@ -1446,7 +1446,7 @@ paths:
                 title: ListOfDevices
                 type: array
                 items:
-                  $ref: '#/components/schemas/DeviceInventory'
+                  $ref: "#/components/schemas/DeviceInventory"
               example:
                 - id: >-
                     291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
@@ -1459,27 +1459,27 @@ paths:
                       scope: inventory
                       value: 00.01:02:03:04:05
                       description: MAC address
-                  updated_ts: '2016-10-03T16:58:51.639Z'
+                  updated_ts: "2016-10-03T16:58:51.639Z"
                 - id: >-
                     76f40e5956c699e327489213df4459d1923e1a806603def19d417d004a4a3ef
                   attributes:
                     - name: mac
                       scope: inventory
-                      value: '00:01:02:03:04:05'
+                      value: "00:01:02:03:04:05"
                       description: MAC address
-                  updated_ts: '2016-10-04T18:24:21.432Z'
-        '400':
+                  updated_ts: "2016-10-04T18:24:21.432Z"
+        "400":
           description: Missing or malformed request parameters.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
-        '500':
+                $ref: "components/common.yaml#/components/schemas/Error"
+        "500":
           description: Internal error.
           content:
             application/json:
               schema:
-                $ref: 'components/common.yaml#/components/schemas/Error'
+                $ref: "components/common.yaml#/components/schemas/Error"
       security:
         - ManagementJWT: []
 components:
@@ -1506,7 +1506,7 @@ components:
           type: string
           description: Attribute description.
         value:
-          $ref: '#/components/schemas/AttributeValue'
+          $ref: "#/components/schemas/AttributeValue"
       example:
         name: serial_no
         scope: inventory
@@ -1522,10 +1522,10 @@ components:
         Supported types: number, string, array of numbers, array of strings.
         Mixed arrays are not allowed.
       oneOf:
-        - $ref: '#/components/schemas/AttributeValueString'
-        - $ref: '#/components/schemas/AttributeValueStringList'
-        - $ref: '#/components/schemas/AttributeValueNumber'
-        - $ref: '#/components/schemas/AttributeValueNumberList'
+        - $ref: "#/components/schemas/AttributeValueString"
+        - $ref: "#/components/schemas/AttributeValueStringList"
+        - $ref: "#/components/schemas/AttributeValueNumber"
+        - $ref: "#/components/schemas/AttributeValueNumberList"
     AttributeValueString:
       type: string
     AttributeValueNumber:
@@ -1547,7 +1547,7 @@ components:
           description: ID of given tenant.
       description: Tenant configuration.
       example:
-        tenant_id: '1234'
+        tenant_id: "1234"
     DeviceNew:
       required:
         - id
@@ -1563,7 +1563,7 @@ components:
           type: array
           description: A list of attribute descriptors.
           items:
-            $ref: '#/components/schemas/Attribute'
+            $ref: "#/components/schemas/Attribute"
       example:
         id: 291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
         attributes:
@@ -1646,7 +1646,7 @@ components:
         attribute: serial_no
         scope: inventory
         type: $eq
-        value: '123456789'
+        value: "123456789"
     SortCriteria:
       description: Sort criteria definition
       required:
@@ -1684,7 +1684,7 @@ components:
           type: array
           description: A list of attribute descriptors.
           items:
-            $ref: '#/components/schemas/Attribute'
+            $ref: "#/components/schemas/Attribute"
       example:
         id: 291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
         attributes:
@@ -1696,7 +1696,7 @@ components:
             scope: inventory
             value: 00.01:02:03:04:05
             description: MAC address
-        updated_ts: '2016-10-03T16:58:51.639Z'
+        updated_ts: "2016-10-03T16:58:51.639Z"
     Tag:
       required:
         - name
@@ -1727,7 +1727,7 @@ components:
         name: environment
         description: Test environment
         value: test
-        timestamp: '2016-10-19T17:23:01.639Z'
+        timestamp: "2016-10-19T17:23:01.639Z"
     Group:
       required:
         - group
