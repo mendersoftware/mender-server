@@ -25,7 +25,7 @@ from client import make_authenticated_client
 
 class TestInternalApiTenantCreate:
     def test_create_ok(self, clean_db):
-        internal_client = oas.InventoryInternalApi()
+        internal_client = oas.InventoryInternalV1Api()
         rsp = internal_client.create_tenant_with_http_info(
             oas.TenantNew(tenant_id="foobar")
         )
@@ -35,7 +35,7 @@ class TestInternalApiTenantCreate:
         assert "migration_info" in clean_db["inventory-foobar"].list_collection_names()
 
     def test_create_twice(self, clean_db):
-        internal_client = oas.InventoryInternalApi()
+        internal_client = oas.InventoryInternalV1Api()
         rsp = internal_client.create_tenant_with_http_info(
             oas.TenantNew(tenant_id="foobar")
         )
@@ -48,7 +48,7 @@ class TestInternalApiTenantCreate:
         assert rsp.status_code == 201
 
     def test_create_empty(self):
-        internal_client = oas.InventoryInternalApi()
+        internal_client = oas.InventoryInternalV1Api()
         with pytest.raises(api_exceptions.BadRequestException):
             internal_client.create_tenant(oas.TenantNew(tenant_id=""))
 
@@ -59,8 +59,8 @@ class TestInternalApiDeviceCreate:
         clean_db,
         inventory_attributes,
     ):
-        internal_client = oas.InventoryInternalApi()
-        management_client = oas.InventoryManagementApi(
+        internal_client = oas.InventoryInternalV1Api()
+        management_client = oas.InventoryManagementV1Api(
             make_authenticated_client(is_device=False)
         )
         devid = "".join([format(i, "02x") for i in os.urandom(128)])
@@ -79,8 +79,8 @@ class TestInternalApiDeviceCreate:
         clean_db,
         inventory_attributes,
     ):
-        internal_client = oas.InventoryInternalApi()
-        management_client = oas.InventoryManagementApi(
+        internal_client = oas.InventoryInternalV1Api()
+        management_client = oas.InventoryManagementV1Api(
             make_authenticated_client(is_device=False)
         )
 

@@ -25,7 +25,7 @@ from client import make_authenticated_client
 @pytest.mark.usefixtures("clean_db")
 class TestGroupCreation:
     def test_get_groups_is_empty(self):
-        management_client = oas.InventoryManagementApi(
+        management_client = oas.InventoryManagementV1Api(
             make_authenticated_client(is_device=False)
         )
         assert len(management_client.list_groups()) == 0
@@ -34,10 +34,10 @@ class TestGroupCreation:
         """
         Create 1 device and move it amung 2 different groups
         """
-        management_client = oas.InventoryManagementApi(
+        management_client = oas.InventoryManagementV1Api(
             make_authenticated_client(is_device=False)
         )
-        internal_client = oas.InventoryInternalApi()
+        internal_client = oas.InventoryInternalV1Api()
         did = "some-device-id"
         internal_client.initialize_device(
             tenant_id="",
@@ -57,10 +57,10 @@ class TestGroupCreation:
         """
         Create 2 devices and move them amoung 2 different groups
         """
-        management_client = oas.InventoryManagementApi(
+        management_client = oas.InventoryManagementV1Api(
             make_authenticated_client(is_device=False)
         )
-        internal_client = oas.InventoryInternalApi()
+        internal_client = oas.InventoryInternalV1Api()
         did1 = "device-id-1"
         did2 = "device-id-2"
         internal_client.initialize_device(
@@ -94,10 +94,10 @@ class TestGroupCreation:
             management_client.get_devices_in_group("group-test-2")
 
     def test_get_groups(self, inventory_attributes):
-        management_client = oas.InventoryManagementApi(
+        management_client = oas.InventoryManagementV1Api(
             make_authenticated_client(is_device=False)
         )
-        internal_client = oas.InventoryInternalApi()
+        internal_client = oas.InventoryInternalV1Api()
         for i in range(10):
             group = f"group{i}"
             did = "".join([format(i, "02x") for i in os.urandom(128)])
@@ -113,10 +113,10 @@ class TestGroupCreation:
         """
         Create 1 device, and move through 10 different groups
         """
-        management_client = oas.InventoryManagementApi(
+        management_client = oas.InventoryManagementV1Api(
             make_authenticated_client(is_device=False)
         )
-        internal_client = oas.InventoryInternalApi()
+        internal_client = oas.InventoryInternalV1Api()
 
         did = "some-device-id"
         internal_client.initialize_device(
@@ -132,10 +132,10 @@ class TestGroupCreation:
         """
         Verify has_group functionality
         """
-        management_client = oas.InventoryManagementApi(
+        management_client = oas.InventoryManagementV1Api(
             make_authenticated_client(is_device=False)
         )
-        internal_client = oas.InventoryInternalApi()
+        internal_client = oas.InventoryInternalV1Api()
         did = "some-device-id"
         internal_client.initialize_device(
             tenant_id="",
@@ -155,10 +155,10 @@ class TestGroupCreation:
         assert len(management_client.list_device_inventories(has_group=True)) == 0
 
     def test_generic_groups_1(self, inventory_attributes):
-        management_client = oas.InventoryManagementApi(
+        management_client = oas.InventoryManagementV1Api(
             make_authenticated_client(is_device=False)
         )
-        internal_client = oas.InventoryInternalApi()
+        internal_client = oas.InventoryInternalV1Api()
         total_groups = 10
         items_per_group = 2
         devices_in_groups = {}

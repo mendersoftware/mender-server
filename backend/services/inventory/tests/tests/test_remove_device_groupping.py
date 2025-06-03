@@ -25,8 +25,8 @@ from client import make_authenticated_client
 @pytest.mark.usefixtures("clean_db")
 class TestGroupRemoving:
     def test_delete_device(self, inventory_attributes):
-        internal_client = oas.InventoryInternalApi()
-        management_client = oas.InventoryManagementApi(
+        internal_client = oas.InventoryInternalV1Api()
+        management_client = oas.InventoryManagementV1Api(
             make_authenticated_client(is_device=False)
         )
         d1 = "".join([format(i, "02x") for i in os.urandom(128)])
@@ -49,7 +49,7 @@ class TestGroupRemoving:
 
     def test_delete_device_non_existent_1(self):
         """Delete non-existent device from non-existent group"""
-        management_client = oas.InventoryManagementApi(
+        management_client = oas.InventoryManagementV1Api(
             make_authenticated_client(is_device=False)
         )
         g1 = "group-test-3-non-existent"
@@ -60,8 +60,8 @@ class TestGroupRemoving:
 
     def test_delete_device_non_existent_2(self, inventory_attributes):
         """Delete existent device from non-existent group"""
-        internal_client = oas.InventoryInternalApi()
-        management_client = oas.InventoryManagementApi(
+        internal_client = oas.InventoryInternalV1Api()
+        management_client = oas.InventoryManagementV1Api(
             make_authenticated_client(is_device=False)
         )
         d1 = "".join([format(i, "02x") for i in os.urandom(128)])

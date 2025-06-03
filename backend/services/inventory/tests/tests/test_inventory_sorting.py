@@ -24,8 +24,8 @@ from client import make_authenticated_client
 @pytest.mark.usefixtures("clean_db")
 class TestInventorySorting:
     def test_inventory_sorting(self, clean_db, inventory_attributes):
-        internal_client = oas.InventoryInternalApi()
-        management_client = oas.InventoryManagementApi(
+        internal_client = oas.InventoryInternalV1Api()
+        management_client = oas.InventoryManagementV1Api(
             make_authenticated_client(is_device=False)
         )
         assert len(management_client.list_groups()) == 0

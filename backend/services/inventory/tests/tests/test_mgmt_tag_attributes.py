@@ -29,7 +29,7 @@ class TestTagAttributes:
     @classmethod
     def check_tags(
         cls,
-        client: oas.InventoryManagementApi,
+        client: oas.InventoryManagementV1Api,
         device_id: str,
         expected: List[oas.Tag],
     ):
@@ -43,8 +43,8 @@ class TestTagAttributes:
         assert actual_tags == expected_tags
 
     def test_set_tag_attributes_without_etag(self, inventory_attributes):
-        internal_client = oas.InventoryInternalApi()
-        management_client = oas.InventoryManagementApi(
+        internal_client = oas.InventoryInternalV1Api()
+        management_client = oas.InventoryManagementV1Api(
             make_authenticated_client(is_device=False)
         )
         did = "some-device-id"
@@ -58,8 +58,8 @@ class TestTagAttributes:
         TestTagAttributes.check_tags(management_client, did, tags)
 
     def test_update_tag_attributes_without_etag(self, inventory_attributes):
-        internal_client = oas.InventoryInternalApi()
-        management_client = oas.InventoryManagementApi(
+        internal_client = oas.InventoryInternalV1Api()
+        management_client = oas.InventoryManagementV1Api(
             make_authenticated_client(is_device=False)
         )
         did = "some-device-id"
@@ -76,8 +76,8 @@ class TestTagAttributes:
         TestTagAttributes.check_tags(management_client, did, tags)
 
     def test_replace_tag_attributes_without_etag(self, inventory_attributes):
-        internal_client = oas.InventoryInternalApi()
-        management_client = oas.InventoryManagementApi(
+        internal_client = oas.InventoryInternalV1Api()
+        management_client = oas.InventoryManagementV1Api(
             make_authenticated_client(is_device=False)
         )
         did = "some-device-id"
@@ -93,8 +93,8 @@ class TestTagAttributes:
         TestTagAttributes.check_tags(management_client, did, tags)
 
     def test_update_tag_attributes_with_etag(self, inventory_attributes):
-        internal_client = oas.InventoryInternalApi()
-        management_client = oas.InventoryManagementApi(
+        internal_client = oas.InventoryInternalV1Api()
+        management_client = oas.InventoryManagementV1Api(
             make_authenticated_client(is_device=False)
         )
         did = "some-device-id"
@@ -133,8 +133,8 @@ class TestTagAttributes:
         assert expected_tags == actual_tags
 
     def test_replace_tag_attributes_with_etag(self, inventory_attributes):
-        internal_client = oas.InventoryInternalApi()
-        management_client = oas.InventoryManagementApi(
+        internal_client = oas.InventoryInternalV1Api()
+        management_client = oas.InventoryManagementV1Api(
             make_authenticated_client(is_device=False)
         )
         did = "some-device-id"
@@ -173,8 +173,8 @@ class TestTagAttributes:
         assert expected_tags == actual_tags
 
     def test_update_tag_attributes_with_wrong_etag(self, inventory_attributes):
-        internal_client = oas.InventoryInternalApi()
-        management_client = oas.InventoryManagementApi(
+        internal_client = oas.InventoryInternalV1Api()
+        management_client = oas.InventoryManagementV1Api(
             make_authenticated_client(is_device=False)
         )
         did = "some-device-id"
@@ -193,8 +193,8 @@ class TestTagAttributes:
             ), "Expected http status code 412 (Precondition Failed)"
 
     def test_replace_tag_attributes_with_wrong_etag(self, inventory_attributes):
-        internal_client = oas.InventoryInternalApi()
-        management_client = oas.InventoryManagementApi(
+        internal_client = oas.InventoryInternalV1Api()
+        management_client = oas.InventoryManagementV1Api(
             make_authenticated_client(is_device=False)
         )
         did = "some-device-id"
@@ -213,8 +213,8 @@ class TestTagAttributes:
             ), "Expected http status code 412 (Precondition Failed)"
 
     def test_set_tags_fails_because_of_limits(self, inventory_attributes):
-        internal_client = oas.InventoryInternalApi()
-        management_client = oas.InventoryManagementApi(
+        internal_client = oas.InventoryInternalV1Api()
+        management_client = oas.InventoryManagementV1Api(
             make_authenticated_client(is_device=False)
         )
         did = "some-device-id"

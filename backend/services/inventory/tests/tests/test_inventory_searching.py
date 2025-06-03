@@ -26,7 +26,7 @@ from client import make_authenticated_client
 class TestInventorySearching:
     def test_inventory_searching(self, inventory_attributes):
         api_client = make_authenticated_client(is_device=False)
-        internal_client = oas.InventoryInternalApi()
+        internal_client = oas.InventoryInternalV1Api()
         extra_inventory_items = {
             "users_logged_in": 100,
             "open_connections": 1231,

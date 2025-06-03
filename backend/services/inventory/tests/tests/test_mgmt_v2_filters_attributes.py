@@ -26,7 +26,7 @@ class TestGetAttributes:
         inventory_attributes,
     ):
         auth_client = make_authenticated_client(is_device=False)
-        internal_client = oas.InventoryInternalApi()
+        internal_client = oas.InventoryInternalV1Api()
         management_client_v2 = oas.InventoryManagementV2Api(auth_client)
         assert len(management_client_v2.get_filterable_attributes()) == 0
 
