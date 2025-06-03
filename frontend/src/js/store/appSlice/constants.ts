@@ -114,7 +114,7 @@ export const ADDONS: { [key in AvailableAddon]: Addon } = {
       deviceCount: startingDeviceCount.os
     },
     professional: {
-      price: '$65/month',
+      price: '$70/month',
       deviceCount: startingDeviceCount.professional
     },
     eligible: ['os', 'professional', 'enterprise']
@@ -125,11 +125,11 @@ export const ADDONS: { [key in AvailableAddon]: Addon } = {
     description: 'Expand your plan with device troubleshooting features',
     needs: ['hasDeviceConnect'],
     os: {
-      price: '$27/month',
+      price: '$28/month',
       deviceCount: startingDeviceCount.os
     },
     professional: {
-      price: '$72/month',
+      price: '$79/month',
       deviceCount: startingDeviceCount.professional
     },
     eligible: ['os', 'professional', 'enterprise']
@@ -144,7 +144,7 @@ export const ADDONS: { [key in AvailableAddon]: Addon } = {
       deviceCount: '-'
     },
     professional: {
-      price: '$86/month',
+      price: '$93/month',
       deviceCount: startingDeviceCount.professional
     },
     eligible: ['professional', 'enterprise']

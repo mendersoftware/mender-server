@@ -198,7 +198,7 @@ exports[`AddonSelection component > renders correctly 1`] = `
       >
         starting 
         <b>
-          $65/month
+          $70/month
         </b>
       </div>
       <button
@@ -236,7 +236,7 @@ exports[`AddonSelection component > renders correctly 1`] = `
       >
         starting 
         <b>
-          $86/month
+          $93/month
         </b>
       </div>
       <button
@@ -274,7 +274,7 @@ exports[`AddonSelection component > renders correctly 1`] = `
       >
         starting 
         <b>
-          $72/month
+          $79/month
         </b>
       </div>
       <button
