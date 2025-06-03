@@ -1,13 +1,12 @@
 openapi: 3.0.1
 info:
-  title: Device inventory
-  description: >
-    An API for uploading device attributes.
-
+  title: Device Inventory
+  description: |
+    API for providing and managing device inventory attributes.
 
     Devices can upload vendor-specific attributes (software/hardware info,
     health checks, metrics, etc.) of various data types to the backend.
-  version: "1"
+  version: "1.0.0"
 
 tags:
   - name: Inventory Devices v1
@@ -21,22 +20,13 @@ paths:
       tags:
         - Inventory Devices v1
       summary: Replace the set of attributes for a device
-      description: >
+      description: |
         Replaces the attribute set for the authenticated device with the
         provided one.
 
-        The device ID is retrieved from the authorization header.
-
-
         This method replaces all the attributes with the new set:
-
-
         * attributes not provided in the set are removed from the db
-
-
         * the values of existing attributes are overwritten
-
-
         * attributes assigned for the first time are automatically created
       operationId: Replace Attributes
       requestBody:
@@ -88,9 +78,7 @@ paths:
         The device ID is retrieved from the authorization header.
 
         This method has upsert semantics:
-
         * the values of existing attributes are overwritten
-
         * attributes assigned for the first time are automatically created
       operationId: Assign Attributes
       requestBody:
