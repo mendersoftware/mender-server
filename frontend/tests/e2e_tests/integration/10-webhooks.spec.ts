@@ -89,11 +89,8 @@ test.describe('Webhooks Functionality', () => {
 
     await page.getByRole('link', { name: /Devices/i }).click();
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
-    const editButton = page.locator('button:right-of(:text("Tags"))');
-    const hasTags = await editButton.isVisible();
-    if (hasTags) {
-      await page.getByRole('button', { name: /edit/i }).click();
-    }
+    await expect(page.getByText('Device information for')).toBeVisible();
+    await page.locator('button:near(:text("Tags"))').first().click();
     await page.getByPlaceholder(/key/i).fill('foo');
     await page.getByPlaceholder(/value/i).fill(`bar ${retry}`);
     await page.getByRole('button', { name: /save/i }).click();
