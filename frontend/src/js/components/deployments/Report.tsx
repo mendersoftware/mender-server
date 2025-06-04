@@ -219,8 +219,8 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
   let onboardingComponent = null;
   if (!onboardingState.complete && onboardingTooltipAnchor.current && finished) {
     const anchor = {
-      left: onboardingTooltipAnchor.current.offsetLeft + onboardingTooltipAnchor.current.offsetWidth + 15,
-      top: onboardingTooltipAnchor.current.offsetTop + onboardingTooltipAnchor.current.offsetHeight / 2
+      left: onboardingTooltipAnchor.current.offsetLeft + onboardingTooltipAnchor.current.offsetWidth + 55,
+      top: onboardingTooltipAnchor.current.offsetTop + onboardingTooltipAnchor.current.offsetHeight / 2 + 15
     };
     onboardingComponent = getOnboardingComponentFor(onboardingSteps.DEPLOYMENTS_COMPLETED, onboardingState, { anchor });
   }

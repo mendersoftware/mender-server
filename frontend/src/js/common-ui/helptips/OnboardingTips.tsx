@@ -113,7 +113,7 @@ export const SchedulingReleaseToDevices = ({ selectedDevice, selectedGroup, sele
 
 export const DeploymentsInprogress = () => <div>Your deployment is in progress. Click to view a report</div>;
 
-export const DeploymentUploadFinished = () => <div>Artifact upload is finished. Click to close the panel</div>;
+export const DeploymentUploadFinished = () => <div>Your deployment has finished. Click to close the panel</div>;
 
 export const DeploymentsPast = () => <div>Your deployment has finished, click here to view it</div>;
 
