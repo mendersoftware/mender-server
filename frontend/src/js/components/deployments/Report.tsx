@@ -24,10 +24,8 @@ import Confirm from '@northern.tech/common-ui/Confirm';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import LinedHeader from '@northern.tech/common-ui/LinedHeader';
 import LogDialog from '@northern.tech/common-ui/dialogs/Log';
-import BaseOnboardingTip from '@northern.tech/common-ui/helptips/BaseOnoardingTip';
-import { DeploymentUploadFinished } from '@northern.tech/common-ui/helptips/OnboardingTips';
 import storeActions from '@northern.tech/store/actions';
-import { AUDIT_LOGS_TYPES, DEPLOYMENT_STATES, DEPLOYMENT_TYPES, TIMEOUTS, deploymentStatesToSubstates } from '@northern.tech/store/constants';
+import { AUDIT_LOGS_TYPES, DEPLOYMENT_STATES, DEPLOYMENT_TYPES, TIMEOUTS, deploymentStatesToSubstates, onboardingSteps } from '@northern.tech/store/constants';
 import {
   getDeploymentRelease,
   getDevicesById,
@@ -42,6 +40,7 @@ import { statCollector } from '@northern.tech/store/utils';
 import { toggle } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
 
+import { getOnboardingComponentFor } from '../../utils/onboardingManager';
 import DeploymentStatus, { DeploymentPhaseNotification } from './deployment-report/DeploymentStatus';
 import DeviceList from './deployment-report/DeviceList';
 import DeploymentOverview from './deployment-report/Overview';
@@ -220,12 +219,10 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
   let onboardingComponent = null;
   if (!onboardingState.complete && onboardingTooltipAnchor.current && finished) {
     const anchor = {
-      left: onboardingTooltipAnchor.current.offsetLeft + onboardingTooltipAnchor.current.offsetWidth + 15,
-      top: onboardingTooltipAnchor.current.offsetTop + onboardingTooltipAnchor.current.offsetHeight / 2
+      left: onboardingTooltipAnchor.current.offsetLeft + onboardingTooltipAnchor.current.offsetWidth + 55,
+      top: onboardingTooltipAnchor.current.offsetTop + onboardingTooltipAnchor.current.offsetHeight / 2 + 15
     };
-    onboardingComponent = (
-      <BaseOnboardingTip id={onboardingState.progress} progress={onboardingState.progress} component={<DeploymentUploadFinished />} anchor={anchor} />
-    );
+    onboardingComponent = getOnboardingComponentFor(onboardingSteps.DEPLOYMENTS_COMPLETED, onboardingState, { anchor });
   }
 
   return (
