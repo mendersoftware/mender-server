@@ -26,7 +26,9 @@ from common import (
 @pytest.mark.usefixtures("clean_db")
 class TestLimits:
     def test_get_limit_default_limit(self, internal_api):
-        limit = internal_api.get_max_devices_limit("foo")
+        limit = internal_api.get_max_devices_limit(
+            "cd280942-852f-4527-9aba-746ee110a845"
+        )
         assert limit.limit == 0
 
     def test_put_limit(self, internal_api):
