@@ -26,6 +26,7 @@ export const onboardingSteps = {
   SCHEDULING_GROUP_SELECTION: 'scheduling-group-selection',
   SCHEDULING_RELEASE_TO_DEVICES: 'scheduling-release-to-devices',
   DEPLOYMENTS_INPROGRESS: 'deployments-inprogress',
+  DEPLOYMENTS_COMPLETED: 'deployments-completed',
   DEPLOYMENTS_PAST: 'deployments-past',
   DEPLOYMENTS_PAST_COMPLETED: 'deployments-past-completed',
   DEPLOYMENTS_PAST_COMPLETED_FAILURE: 'deployments-past-completed-failure',

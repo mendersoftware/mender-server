@@ -18,6 +18,7 @@ import OnboardingCompleteTip from '@northern.tech/common-ui/helptips/OnboardingC
 import {
   DashboardOnboardingPendings,
   DashboardOnboardingState,
+  DeploymentUploadFinished,
   DeploymentsInprogress,
   DeploymentsPast,
   DeploymentsPastCompletedFailure,
@@ -99,6 +100,10 @@ export const onboardingSteps = {
   [stepNames.DEPLOYMENTS_INPROGRESS]: {
     condition: {},
     component: DeploymentsInprogress
+  },
+  [stepNames.DEPLOYMENTS_COMPLETED]: {
+    condition: {},
+    component: DeploymentUploadFinished
   },
   [stepNames.DEPLOYMENTS_PAST]: {
     condition: { min: stepNames.DEPLOYMENTS_INPROGRESS, extra: () => !window.location.pathname.includes(DEPLOYMENT_STATES.finished) },
