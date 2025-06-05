@@ -777,6 +777,7 @@ release:mender-docs-changelog:saas:
     - export GITHUB_TOKEN=${GITHUB_CLI_TOKEN}
     - export CHANGELOG_SUFFIX="-saas"
     - cp .docs_header_saas.md .docs_header.md
+    - wget --output-document cliff.toml https://raw.githubusercontent.com/mendersoftware/mendertesting/master/utils/cliff.toml
 
 #
 # Helm version bump
