@@ -278,10 +278,10 @@ paths:
 
   /devices/{id}/auth/{aid}:
     delete:
-      operationId: Reject authentication
+      operationId: Remove authentication
       security:
         - ManagementJWT: []
-      summary: Remove the device authentication set
+      summary: Remove (dismiss) the device authentication set
       description: |
         Removes the device authentication set.
         Removing 'accepted' authentication set is equivalent

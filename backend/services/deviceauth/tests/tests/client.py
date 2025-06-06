@@ -182,7 +182,7 @@ class ManagementClient(SwaggerApiClient):
         )
 
     def delete_authset(self, devid, aid, **kwargs):
-        return self.client.reject_authentication(id=devid, aid=aid)
+        return self.client.remove_authentication(id=devid, aid=aid)
 
     def count_devices(self, status=None, **kwargs):
         count = self.client.count_devices(status=status, **kwargs)
