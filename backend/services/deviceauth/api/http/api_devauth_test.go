@@ -21,12 +21,9 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
-	"sync"
 	"testing"
 	"time"
 
-	"github.com/ant0ine/go-json-rest/rest"
-	"github.com/ant0ine/go-json-rest/rest/test"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -34,6 +31,7 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 	"github.com/mendersoftware/mender-server/pkg/rest_utils"
+	rtest "github.com/mendersoftware/mender-server/pkg/testing/rest"
 
 	mt "github.com/mendersoftware/mender-server/pkg/testing"
 
@@ -47,42 +45,39 @@ import (
 	mtest "github.com/mendersoftware/mender-server/services/deviceauth/utils/testing"
 )
 
-var restErrUpdateDone sync.Once
-
-func updateRestErrorFieldName() {
-	restErrUpdateDone.Do(func() {
-		rest.ErrorFieldName = "error"
-	})
-}
-
 func RestError(status string) string {
 	msg, _ := json.Marshal(map[string]interface{}{"error": status, "request_id": "test"})
 	return string(msg)
 }
 
-func runTestRequest(t *testing.T, handler http.Handler, req *http.Request, code int, body string) *test.Recorded {
+func runTestRequest(t *testing.T, handler http.Handler, req *http.Request, code int, body string) *httptest.ResponseRecorder {
 	req.Header.Add(requestid.RequestIdHeader, "test")
-	recorded := test.RunRequest(t, handler, req)
-	recorded.CodeIs(code)
-	recorded.BodyIs(body)
-	return recorded
+	r := httptest.NewRecorder()
+	handler.ServeHTTP(r, req)
+	assert.Equal(t, code, r.Code)
+	if body != "" {
+		assert.Equal(t, body, r.Body.String())
+	} else {
+		assert.Empty(t, r.Body.String())
+	}
+	return r
+}
+
+func runSimpleTestRequest(t *testing.T, handler http.Handler, req *http.Request) *mt.Recorded {
+	req.Header.Add(requestid.RequestIdHeader, "test")
+	r := httptest.NewRecorder()
+	handler.ServeHTTP(r, req)
+	return &mt.Recorded{
+		T:        t,
+		Recorder: r,
+	}
 }
 
 func makeMockApiHandler(t *testing.T, da devauth.App, db store.DataStore) http.Handler {
 	t.Helper()
-	handlers := NewDevAuthApiHandlers(da, db)
-	if handlers == nil {
-		t.Error("Failed to initalize API handlers")
-		t.FailNow()
-	}
-
-	apiHandler, err := handlers.Build()
-	if err != nil {
-		t.Errorf("Failed to build HTTP handlers: %s", err.Error())
-		t.FailNow()
-	}
-
-	return apiHandler
+	router := NewRouter(da, db)
+	assert.NotNil(t, router)
+	return router
 }
 
 // create an auth req that's optionally:
@@ -90,9 +85,12 @@ func makeMockApiHandler(t *testing.T, da devauth.App, db store.DataStore) http.H
 // - signed with a bogus test value
 // - not signed at all
 func makeAuthReq(payload interface{}, key crypto.PrivateKey, signature string, t *testing.T) *http.Request {
-	r := test.MakeSimpleRequest("POST",
-		"http://1.2.3.4/api/devices/v1/authentication/auth_requests",
-		payload)
+	r := rtest.MakeTestRequest(&rtest.TestRequest{
+		Method: "POST",
+		Path:   "http://localhost/api/devices/v1/authentication/auth_requests",
+		Body:   payload,
+		Auth:   true,
+	})
 
 	b, err := json.Marshal(payload)
 	if err != nil {
@@ -112,9 +110,8 @@ func makeAuthReq(payload interface{}, key crypto.PrivateKey, signature string, t
 func TestAliveHandler(t *testing.T) {
 	da := &mocks.App{}
 	apih := makeMockApiHandler(t, da, nil)
-	req, _ := http.NewRequest("GET", "http://localhost"+uriAlive, nil)
-	recorded := test.RunRequest(t, apih, req)
-	recorded.CodeIs(http.StatusNoContent)
+	req, _ := http.NewRequest("GET", "http://localhost"+apiUrlInternalV1+uriAlive, nil)
+	runTestRequest(t, apih, req, http.StatusNoContent, "")
 }
 
 func TestHealthCheck(t *testing.T) {
@@ -123,7 +120,7 @@ func TestHealthCheck(t *testing.T) {
 
 		AppError     error
 		ResponseCode int
-		ResponseBody interface{}
+		ResponseBody string
 	}{{
 		Name:         "ok",
 		ResponseCode: http.StatusNoContent,
@@ -132,10 +129,7 @@ func TestHealthCheck(t *testing.T) {
 
 		AppError:     errors.New("connection error"),
 		ResponseCode: http.StatusServiceUnavailable,
-		ResponseBody: rest_utils.ApiError{
-			Err:   "connection error",
-			ReqId: "test",
-		},
+		ResponseBody: RestError("connection error"),
 	}}
 
 	for _, tc := range testCases {
@@ -153,30 +147,17 @@ func TestHealthCheck(t *testing.T) {
 			api := makeMockApiHandler(t, uadm, nil)
 			req, _ := http.NewRequest(
 				"GET",
-				"http://localhost"+uriHealth,
+				"http://localhost"+apiUrlInternalV1+uriHealth,
 				nil,
 			)
 			req.Header.Set("X-MEN-RequestID", "test")
-			recorded := test.RunRequest(t, api, req)
-			recorded.CodeIs(tc.ResponseCode)
-			if tc.ResponseBody != nil {
-				b, _ := json.Marshal(tc.ResponseBody)
-				assert.JSONEq(t,
-					recorded.Recorder.Body.String(),
-					string(b),
-				)
-			} else {
-				recorded.BodyIs("")
-			}
+			runTestRequest(t, api, req, tc.ResponseCode, tc.ResponseBody)
 		})
 	}
 }
 
 func TestApiDevAuthSubmitAuthReq(t *testing.T) {
 	t.Parallel()
-
-	// enforce specific field naming in errors returned by API
-	updateRestErrorFieldName()
 
 	privkey := mtest.LoadPrivKey("testdata/private.pem")
 	pubkeyStr := mtest.LoadPubKeyStr("testdata/public.pem")
@@ -196,7 +177,7 @@ func TestApiDevAuthSubmitAuthReq(t *testing.T) {
 			"",
 			nil,
 			400,
-			RestError("failed to decode auth request: unexpected end of JSON input"),
+			RestError("failed to decode auth request: empty request body"),
 		},
 		{
 			//incomplete body
@@ -306,10 +287,10 @@ func TestApiDevAuthSubmitAuthReq(t *testing.T) {
 				privkey,
 				"",
 				t),
-			"dummytoken",
+			rtest.DEFAULT_AUTH,
 			nil,
 			200,
-			"dummytoken",
+			rtest.DEFAULT_AUTH,
 		},
 		{
 			//complete body + signature, auth ok, tenant token empty
@@ -321,10 +302,10 @@ func TestApiDevAuthSubmitAuthReq(t *testing.T) {
 				privkey,
 				"",
 				t),
-			"dummytoken",
+			rtest.DEFAULT_AUTH,
 			nil,
 			200,
-			"dummytoken",
+			rtest.DEFAULT_AUTH,
 		},
 		{
 			//complete body, invalid public key
@@ -337,7 +318,7 @@ func TestApiDevAuthSubmitAuthReq(t *testing.T) {
 				privkey,
 				"",
 				t),
-			"dummytoken",
+			rtest.DEFAULT_AUTH,
 			nil,
 			400,
 			RestError("invalid auth request: cannot decode public key"),
@@ -365,7 +346,7 @@ func TestApiDevAuthSubmitAuthReq(t *testing.T) {
 			recorded := runTestRequest(t, apih, tc.req, tc.code, tc.body)
 			if tc.code == http.StatusOK {
 				assert.Equal(t, "application/jwt",
-					recorded.Recorder.Result().Header.Get("Content-Type"))
+					recorded.Result().Header.Get("Content-Type"))
 			}
 		})
 	}
@@ -389,16 +370,13 @@ func NewJSONResponseIDChecker(status int, headers map[string]string, body interf
 	}
 }
 
-func (d *DevicePreauthReturnID) CheckHeaders(t *testing.T, recorded *test.Recorded) {
+func (d *DevicePreauthReturnID) CheckHeaders(t *testing.T, recorded *mt.Recorded) {
 	assert.Contains(t, recorded.Recorder.Result().Header, "Location")
 	assert.Contains(t, recorded.Recorder.Result().Header["Location"][0], "devices/")
 }
 
 func TestApiV2DevAuthPreauthDevice(t *testing.T) {
 	t.Parallel()
-
-	// enforce specific field naming in errors returned by API
-	updateRestErrorFieldName()
 
 	pubkeyStr := mtest.LoadPubKeyStr("testdata/public.pem")
 
@@ -477,7 +455,7 @@ func TestApiV2DevAuthPreauthDevice(t *testing.T) {
 			checker: mt.NewJSONResponse(
 				http.StatusBadRequest,
 				nil,
-				restError("failed to decode preauth request: EOF")),
+				restError("failed to decode preauth request: empty request body")),
 		},
 		"invalid public key": {
 			body: &preAuthReq{
@@ -534,15 +512,15 @@ func TestApiV2DevAuthPreauthDevice(t *testing.T) {
 			}
 
 			apih := makeMockApiHandler(t, da, nil)
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/management/v2/devauth/devices",
+				Body:   tc.body,
+				Auth:   true,
+			})
+			recorded := runSimpleTestRequest(t, apih, req)
 
-			//make request
-			req := makeReq("POST",
-				"http://1.2.3.4/api/management/v2/devauth/devices",
-				"",
-				tc.body)
-
-			recorded := test.RunRequest(t, apih, req)
-			mt.CheckResponse(t, tc.checker, recorded)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 			da.AssertExpectations(t)
 		})
 	}
@@ -606,8 +584,6 @@ func TestApiV2DevAuthUpdateStatusDevice(t *testing.T) {
 		mock.AnythingOfType("string")).Return(mockaction)
 
 	apih := makeMockApiHandler(t, da, nil)
-	// enforce specific field naming in errors returned by API
-	updateRestErrorFieldName()
 
 	accstatus := DevAuthApiStatus{"accepted"}
 	rejstatus := DevAuthApiStatus{"rejected"}
@@ -619,61 +595,88 @@ func TestApiV2DevAuthUpdateStatusDevice(t *testing.T) {
 		body string
 	}{
 		{
-			req: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/management/v2/devauth/devices/123/auth/456/status", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost/api/management/v2/devauth/devices/123/auth/456/status",
+				Auth:   true,
+			}),
 			code: http.StatusBadRequest,
-			body: RestError("failed to decode status data: JSON payload is empty"),
+			body: RestError("failed to decode status data: invalid request"),
 		},
 		{
-			req: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/management/v2/devauth/devices/123/auth/456/status",
-				DevAuthApiStatus{"foo"}),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost/api/management/v2/devauth/devices/123/auth/456/status",
+				Auth:   true,
+				Body:   DevAuthApiStatus{"foo"},
+			}),
 			code: http.StatusBadRequest,
 			body: RestError("incorrect device status"),
 		},
 		{
-			req: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/management/v2/devauth/devices/123/auth/456/status",
-				accstatus),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost/api/management/v2/devauth/devices/123/auth/456/status",
+				Auth:   true,
+				Body:   accstatus,
+			}),
 			code: http.StatusNoContent,
 		},
 		{
-			req: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/management/v2/devauth/devices/345/auth/678/status",
-				accstatus),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost/api/management/v2/devauth/devices/345/auth/678/status",
+				Auth:   true,
+				Body:   accstatus,
+			}),
 			code: http.StatusInternalServerError,
 			body: RestError("internal error"),
 		},
 		{
-			req: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/management/v2/devauth/devices/999/auth/123/status",
-				accstatus),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost/api/management/v2/devauth/devices/999/auth/123/status",
+				Auth:   true,
+				Body:   accstatus,
+			}),
 			code: http.StatusNotFound,
 			body: RestError(store.ErrDevNotFound.Error()),
 		},
 		{
-			req: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/management/v2/devauth/devices/123/auth/456/status",
-				rejstatus),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost/api/management/v2/devauth/devices/123/auth/456/status",
+				Auth:   true,
+				Body:   rejstatus,
+			}),
 			code: http.StatusNoContent,
 		},
 		{
-			req: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/management/v2/devauth/devices/123/auth/456/status",
-				penstatus),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost/api/management/v2/devauth/devices/123/auth/456/status",
+				Auth:   true,
+				Body:   penstatus,
+			}),
 			code: http.StatusNoContent,
 		},
 		{
-			req: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/management/v2/devauth/devices/234/auth/567/status",
-				penstatus),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost/api/management/v2/devauth/devices/234/auth/567/status",
+				Auth:   true,
+				Body:   penstatus,
+			}),
 			code: http.StatusBadRequest,
 			body: RestError("dev auth: dev ID and auth ID mismatch"),
 		},
 		{
-			req: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/management/v2/devauth/devices/567/auth/890/status",
-				accstatus),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost/api/management/v2/devauth/devices/567/auth/890/status",
+				Auth:   true,
+				Body:   accstatus,
+			}),
 			code: http.StatusUnprocessableEntity,
 			body: RestError("maximum number of accepted devices reached"),
 		},
@@ -693,9 +696,6 @@ func TestApiV2DevAuthUpdateStatusDevice(t *testing.T) {
 func TestApiDevAuthVerifyToken(t *testing.T) {
 	t.Parallel()
 
-	// enforce specific field naming in errors returned by API
-	updateRestErrorFieldName()
-
 	tcases := []struct {
 		req     *http.Request
 		code    int
@@ -704,75 +704,91 @@ func TestApiDevAuthVerifyToken(t *testing.T) {
 		err     error
 	}{
 		{
-			req: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v1/devauth/tokens/verify", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/internal/v1/devauth/tokens/verify",
+			}),
 			code: http.StatusUnauthorized,
 			body: RestError(ErrNoAuthHeader.Error()),
 			err:  nil,
 		},
 		{
-			req: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v1/devauth/tokens/verify", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/internal/v1/devauth/tokens/verify",
+			}),
 			code: 200,
 			headers: map[string]string{
-				"authorization": "dummytoken",
+				"authorization": rtest.DEFAULT_AUTH,
 			},
 			err: nil,
 		},
 		{
-			req: test.MakeSimpleRequest("GET",
-				"http://1.2.3.4/api/internal/v1/devauth/tokens/verify", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost/api/internal/v1/devauth/tokens/verify",
+			}),
 			code: 200,
 			headers: map[string]string{
-				"authorization": "dummytoken",
+				"authorization": rtest.DEFAULT_AUTH,
 			},
 			err: nil,
 		},
 		{
-			req: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v1/devauth/tokens/verify", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/internal/v1/devauth/tokens/verify",
+			}),
 			code: 429,
 			headers: map[string]string{
-				"authorization":      "dummytoken",
+				"authorization":      rtest.DEFAULT_AUTH,
 				"X-Forwarded-Method": "POST",
 				"X-Forwarded-Uri":    "/deployments/next",
 			},
 			err: cache.ErrTooManyRequests,
 		},
 		{
-			req: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v1/devauth/tokens/verify", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/internal/v1/devauth/tokens/verify",
+			}),
 			code: http.StatusForbidden,
 			headers: map[string]string{
-				"authorization": "dummytoken",
+				"authorization": rtest.DEFAULT_AUTH,
 			},
 			err: jwt.ErrTokenExpired,
 		},
 		{
-			req: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v1/devauth/tokens/verify", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/internal/v1/devauth/tokens/verify",
+			}),
 			code: http.StatusUnauthorized,
 			headers: map[string]string{
-				"authorization": "dummytoken",
+				"authorization": rtest.DEFAULT_AUTH,
 			},
 			err: jwt.ErrTokenInvalid,
 		},
 		{
-			req: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v1/devauth/tokens/verify", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/internal/v1/devauth/tokens/verify",
+			}),
 			code: http.StatusUnauthorized,
 			headers: map[string]string{
-				"authorization": "dummytoken",
+				"authorization": rtest.DEFAULT_AUTH,
 			},
 			err: store.ErrAuthSetNotFound,
 		},
 		{
-			req: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v1/devauth/tokens/verify", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/internal/v1/devauth/tokens/verify",
+			}),
 			code: 500,
 			body: RestError("internal error"),
 			headers: map[string]string{
-				"authorization": "dummytoken",
+				"authorization": rtest.DEFAULT_AUTH,
 			},
 			err: errors.New("some error that will only be logged"),
 		},
@@ -803,9 +819,6 @@ func TestApiDevAuthVerifyToken(t *testing.T) {
 func TestApiV2DevAuthDeleteToken(t *testing.T) {
 	t.Parallel()
 
-	// enforce specific field naming in errors returned by API
-	updateRestErrorFieldName()
-
 	tcases := []struct {
 		req  *http.Request
 		code int
@@ -813,20 +826,29 @@ func TestApiV2DevAuthDeleteToken(t *testing.T) {
 		err  error
 	}{
 		{
-			req: test.MakeSimpleRequest("DELETE",
-				"http://1.2.3.4/api/management/v2/devauth/tokens/foo", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "DELETE",
+				Path:   "http://localhost/api/management/v2/devauth/tokens/foo",
+				Auth:   true,
+			}),
 			code: http.StatusNoContent,
 			err:  nil,
 		},
 		{
-			req: test.MakeSimpleRequest("DELETE",
-				"http://1.2.3.4/api/management/v2/devauth/tokens/foo", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "DELETE",
+				Path:   "http://localhost/api/management/v2/devauth/tokens/foo",
+				Auth:   true,
+			}),
 			code: http.StatusNotFound,
 			err:  store.ErrTokenNotFound,
 		},
 		{
-			req: test.MakeSimpleRequest("DELETE",
-				"http://1.2.3.4/api/management/v2/devauth/tokens/foo", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "DELETE",
+				Path:   "http://localhost/api/management/v2/devauth/tokens/foo",
+				Auth:   true,
+			}),
 			code: http.StatusInternalServerError,
 			body: RestError("internal error"),
 			err:  errors.New("some error that will only be logged"),
@@ -853,9 +875,6 @@ func TestApiV2DevAuthDeleteToken(t *testing.T) {
 
 func TestApiV2GetDevice(t *testing.T) {
 	t.Parallel()
-
-	// enforce specific field naming in errors returned by API
-	updateRestErrorFieldName()
 
 	dev := &model.Device{
 		Id:     "foo",
@@ -886,8 +905,11 @@ func TestApiV2GetDevice(t *testing.T) {
 		body string
 	}{
 		{
-			req: test.MakeSimpleRequest("GET",
-				"http://1.2.3.4/api/management/v2/devauth/devices/foo", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost/api/management/v2/devauth/devices/foo",
+				Auth:   true,
+			}),
 			device: dev,
 			err:    nil,
 
@@ -895,8 +917,11 @@ func TestApiV2GetDevice(t *testing.T) {
 			body: string(asJSON(dev)),
 		},
 		{
-			req: test.MakeSimpleRequest("GET",
-				"http://1.2.3.4/api/management/v2/devauth/devices/bar", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost/api/management/v2/devauth/devices/bar",
+				Auth:   true,
+			}),
 			device: nil,
 			err:    store.ErrDevNotFound,
 
@@ -904,8 +929,11 @@ func TestApiV2GetDevice(t *testing.T) {
 			body: RestError("device not found"),
 		},
 		{
-			req: test.MakeSimpleRequest("GET",
-				"http://1.2.3.4/api/management/v2/devauth/devices/bar", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost/api/management/v2/devauth/devices/bar",
+				Auth:   true,
+			}),
 			device: nil,
 			err:    errors.New("generic error"),
 
@@ -957,6 +985,7 @@ func TestSearchDevices(t *testing.T) {
 			)
 			req.Header.Add("X-MEN-RequestID", "test")
 			req.Header.Set("Content-Type", "application/json")
+			req.Header.Set("Authorization", rtest.DEFAULT_AUTH)
 			return req
 		}(),
 		DeviceFilter: model.DeviceFilter{
@@ -990,6 +1019,7 @@ func TestSearchDevices(t *testing.T) {
 			)
 			req.Header.Add("X-MEN-RequestID", "test")
 			req.Header.Set("Content-Type", "application/json")
+			req.Header.Set("Authorization", rtest.DEFAULT_AUTH)
 			return req
 		}(),
 		DeviceFilter: model.DeviceFilter{
@@ -1024,6 +1054,7 @@ func TestSearchDevices(t *testing.T) {
 			)
 			req.Header.Add("X-MEN-RequestID", "test")
 			req.Header.Set("Content-Type", "application/json")
+			req.Header.Set("Authorization", rtest.DEFAULT_AUTH)
 			return req
 		}(),
 
@@ -1031,31 +1062,8 @@ func TestSearchDevices(t *testing.T) {
 		Headers:    http.Header{"X-Men-Requestid": []string{"test"}},
 		Body: func() []byte {
 			err := rest_utils.ApiError{
-				Err:   "Can't parse param per_page",
+				Err:   "invalid per_page query: \"many\"",
 				ReqId: "test",
-			}
-			b, _ := json.Marshal(err)
-			return b
-		}(),
-	}, {
-		Name: "error, bad Content-Type",
-
-		Request: func() *http.Request {
-			body := []byte(`id: 123456789012345678901234\nstatus: accepted`)
-			req, _ := http.NewRequest("POST",
-				"http://localhost/api/management/v2/devauth/devices/search",
-				bytes.NewReader(body),
-			)
-			req.Header.Add("X-MEN-RequestID", "test")
-			req.Header.Set("Content-Type", "application/yæml")
-			return req
-		}(),
-
-		StatusCode: http.StatusUnsupportedMediaType,
-		Headers:    http.Header{"X-Men-Requestid": []string{"test"}},
-		Body: func() []byte {
-			err := rest_utils.ApiError{
-				Err: "Bad Content-Type or charset, expected 'application/json'",
 			}
 			b, _ := json.Marshal(err)
 			return b
@@ -1071,6 +1079,7 @@ func TestSearchDevices(t *testing.T) {
 			)
 			req.Header.Add("X-MEN-RequestID", "test")
 			req.Header.Set("Content-Type", "application/json")
+			req.Header.Set("Authorization", rtest.DEFAULT_AUTH)
 			return req
 		}(),
 
@@ -1086,7 +1095,36 @@ func TestSearchDevices(t *testing.T) {
 			b, _ := json.Marshal(err)
 			return b
 		}(),
-	}}
+	},
+	/* This test case is irrelevant because the Content-Type is checked in the
+	   contenttype middleware.
+		{
+			Name: "error, bad Content-Type",
+
+			Request: func() *http.Request {
+				body := []byte(`id: 123456789012345678901234\nstatus: accepted`)
+				req, _ := http.NewRequest("POST",
+					"http://localhost/api/management/v2/devauth/devices/search",
+					bytes.NewReader(body),
+				)
+				req.Header.Add("X-MEN-RequestID", "test")
+				req.Header.Set("Content-Type", "application/yæml")
+				req.Header.Set("Authorization", rtest.DEFAULT_AUTH)
+				return req
+			}(),
+
+			StatusCode: http.StatusUnsupportedMediaType,
+			Headers:    http.Header{"X-Men-Requestid": []string{"test"}},
+			Body: func() []byte {
+				err := rest_utils.ApiError{
+					Err: "Bad Content-Type or charset, expected 'application/json'",
+				}
+				b, _ := json.Marshal(err)
+				return b
+			}(),
+		},
+	*/
+	}
 
 	for i := range testCases {
 		tc := testCases[i]
@@ -1101,9 +1139,9 @@ func TestSearchDevices(t *testing.T) {
 				).Return(tc.AppDevices, tc.AppError)
 			}
 			apih := makeMockApiHandler(t, app, nil)
-			w := httptest.NewRecorder()
-			apih.ServeHTTP(w, tc.Request)
-			assert.Equal(t, tc.StatusCode, w.Code)
+
+			w := runTestRequest(t, apih, tc.Request, tc.StatusCode, string(tc.Body))
+
 			rspHeader := w.Header()
 			for key, values := range tc.Headers {
 				if assert.Contains(t, rspHeader, key) {
@@ -1112,16 +1150,12 @@ func TestSearchDevices(t *testing.T) {
 					}
 				}
 			}
-			assert.Equal(t, string(tc.Body), w.Body.String())
 		})
 	}
 }
 
 func TestApiV2GetDevices(t *testing.T) {
 	t.Parallel()
-
-	// enforce specific field naming in errors returned by API
-	updateRestErrorFieldName()
 
 	devs := []model.Device{
 		{
@@ -1156,8 +1190,11 @@ func TestApiV2GetDevices(t *testing.T) {
 		limit   uint
 	}{
 		"ok": {
-			req: test.MakeSimpleRequest("GET",
-				"http://1.2.3.4/api/management/v2/devauth/devices", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost/api/management/v2/devauth/devices",
+				Auth:   true,
+			}),
 			code:    http.StatusOK,
 			devices: devs,
 			err:     nil,
@@ -1166,8 +1203,11 @@ func TestApiV2GetDevices(t *testing.T) {
 			body:    string(asJSON(devs)),
 		},
 		"no devices": {
-			req: test.MakeSimpleRequest("GET",
-				"http://1.2.3.4/api/management/v2/devauth/devices", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost/api/management/v2/devauth/devices",
+				Auth:   true,
+			}),
 			code:    http.StatusOK,
 			devices: []model.Device{},
 			skip:    0,
@@ -1178,8 +1218,11 @@ func TestApiV2GetDevices(t *testing.T) {
 		// this test does not check if the devices were skipped
 		// it is only checking if endpoint limits number of devices in the response
 		"limit number of devices": {
-			req: test.MakeSimpleRequest("GET",
-				"http://1.2.3.4/api/management/v2/devauth/devices?page=2&per_page=2", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost/api/management/v2/devauth/devices?page=2&per_page=2",
+				Auth:   true,
+			}),
 			devices: devs,
 			skip:    2,
 			limit:   3,
@@ -1188,8 +1231,11 @@ func TestApiV2GetDevices(t *testing.T) {
 			body: string(asJSON(devs[:2])),
 		},
 		"internal error": {
-			req: test.MakeSimpleRequest("GET",
-				"http://1.2.3.4/api/management/v2/devauth/devices?page=2&per_page=2", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost/api/management/v2/devauth/devices?page=2&per_page=2",
+				Auth:   true,
+			}),
 			skip:  2,
 			limit: 3,
 			code:  http.StatusInternalServerError,
@@ -1223,9 +1269,6 @@ func asJSON(sth interface{}) []byte {
 func TestApiV2DevAuthDecommissionDevice(t *testing.T) {
 	t.Parallel()
 
-	// enforce specific field naming in errors returned by API
-	updateRestErrorFieldName()
-
 	tcases := []struct {
 		req  *http.Request
 		code int
@@ -1233,20 +1276,29 @@ func TestApiV2DevAuthDecommissionDevice(t *testing.T) {
 		err  error
 	}{
 		{
-			req: test.MakeSimpleRequest("DELETE",
-				"http://1.2.3.4/api/management/v2/devauth/devices/foo", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "DELETE",
+				Path:   "http://localhost/api/management/v2/devauth/devices/foo",
+				Auth:   true,
+			}),
 			code: http.StatusNoContent,
 			err:  nil,
 		},
 		{
-			req: test.MakeSimpleRequest("DELETE",
-				"http://1.2.3.4/api/management/v2/devauth/devices/foo", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "DELETE",
+				Path:   "http://localhost/api/management/v2/devauth/devices/foo",
+				Auth:   true,
+			}),
 			code: http.StatusNotFound,
 			err:  store.ErrDevNotFound,
 		},
 		{
-			req: test.MakeSimpleRequest("DELETE",
-				"http://1.2.3.4/api/management/v2/devauth/devices/foo", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "DELETE",
+				Path:   "http://localhost/api/management/v2/devauth/devices/foo",
+				Auth:   true,
+			}),
 			code: http.StatusInternalServerError,
 			body: RestError("internal error"),
 			err:  errors.New("some error that will only be logged"),
@@ -1273,9 +1325,6 @@ func TestApiV2DevAuthDecommissionDevice(t *testing.T) {
 func TestApiDevAuthPutTenantLimit(t *testing.T) {
 	t.Parallel()
 
-	// enforce specific field naming in errors returned by API
-	updateRestErrorFieldName()
-
 	tcases := []struct {
 		req    *http.Request
 		code   int
@@ -1285,11 +1334,13 @@ func TestApiDevAuthPutTenantLimit(t *testing.T) {
 		err    error
 	}{
 		{
-			req: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/internal/v1/devauth/tenant/foo/limits/max_devices",
-				map[string]int{
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost/api/internal/v1/devauth/tenant/foo/limits/max_devices",
+				Body: map[string]int{
 					"limit": 123,
-				}),
+				},
+			}),
 			limit: model.Limit{
 				Name:  model.LimitMaxDeviceCount,
 				Value: 123,
@@ -1298,27 +1349,33 @@ func TestApiDevAuthPutTenantLimit(t *testing.T) {
 			code:   http.StatusNoContent,
 		},
 		{
-			req: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/internal/v1/devauth/tenant/foo/limits/max_devices",
-				[]string{"garbage"}),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost/api/internal/v1/devauth/tenant/foo/limits/max_devices",
+				Body:   []string{"garbage"},
+			}),
 			code: http.StatusBadRequest,
 			body: RestError("failed to decode limit request: json: cannot unmarshal array into Go value of type http.LimitValue"),
 		},
 		{
-			req: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/internal/v1/devauth/tenant/foo/limits/bogus-limit",
-				map[string]int{
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost/api/internal/v1/devauth/tenant/foo/limits/bogus-limit",
+				Body: map[string]int{
 					"limit": 123,
-				}),
+				},
+			}),
 			code: http.StatusBadRequest,
 			body: RestError("unsupported limit bogus-limit"),
 		},
 		{
-			req: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/internal/v1/devauth/tenant/foo/limits/max_devices",
-				map[string]int{
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost/api/internal/v1/devauth/tenant/foo/limits/max_devices",
+				Body: map[string]int{
 					"limit": 123,
-				}),
+				},
+			}),
 			tenant: "foo",
 			limit:  model.Limit{Name: model.LimitMaxDeviceCount, Value: 123},
 			code:   http.StatusInternalServerError,
@@ -1348,9 +1405,6 @@ func TestApiDevAuthPutTenantLimit(t *testing.T) {
 func TestApiDevAuthDeleteTenantLimit(t *testing.T) {
 	t.Parallel()
 
-	// enforce specific field naming in errors returned by API
-	updateRestErrorFieldName()
-
 	tcases := []struct {
 		req    *http.Request
 		code   int
@@ -1360,24 +1414,27 @@ func TestApiDevAuthDeleteTenantLimit(t *testing.T) {
 		err    error
 	}{
 		{
-			req: test.MakeSimpleRequest("DELETE",
-				"http://1.2.3.4/api/internal/v1/devauth/tenant/foo/limits/max_devices",
-				nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "DELETE",
+				Path:   "http://localhost/api/internal/v1/devauth/tenant/foo/limits/max_devices",
+			}),
 			limit:  model.LimitMaxDeviceCount,
 			tenant: "foo",
 			code:   http.StatusNoContent,
 		},
 		{
-			req: test.MakeSimpleRequest("DELETE",
-				"http://1.2.3.4/api/internal/v1/devauth/tenant/foo/limits/bogus-limit",
-				nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "DELETE",
+				Path:   "http://localhost/api/internal/v1/devauth/tenant/foo/limits/bogus-limit",
+			}),
 			code: http.StatusBadRequest,
 			body: RestError("unsupported limit bogus-limit"),
 		},
 		{
-			req: test.MakeSimpleRequest("DELETE",
-				"http://1.2.3.4/api/internal/v1/devauth/tenant/foo/limits/max_devices",
-				nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "DELETE",
+				Path:   "http://localhost/api/internal/v1/devauth/tenant/foo/limits/max_devices",
+			}),
 			tenant: "foo",
 			limit:  model.LimitMaxDeviceCount,
 			code:   http.StatusInternalServerError,
@@ -1406,9 +1463,6 @@ func TestApiDevAuthDeleteTenantLimit(t *testing.T) {
 
 func TestApiV2DevAuthGetLimit(t *testing.T) {
 	t.Parallel()
-
-	// enforce specific field naming in errors returned by API
-	updateRestErrorFieldName()
 
 	tcases := []struct {
 		limit string
@@ -1456,10 +1510,11 @@ func TestApiV2DevAuthGetLimit(t *testing.T) {
 		tc := tcases[i]
 		t.Run(fmt.Sprintf("tc %d", i), func(t *testing.T) {
 			t.Parallel()
-
-			req := test.MakeSimpleRequest("GET",
-				"http://1.2.3.4/api/management/v2/devauth/limits/"+tc.limit,
-				nil)
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost/api/management/v2/devauth/limits/" + tc.limit,
+				Auth:   true,
+			})
 
 			da := &mocks.App{}
 			da.On("GetLimit",
@@ -1475,9 +1530,6 @@ func TestApiV2DevAuthGetLimit(t *testing.T) {
 
 func TestApiDevAuthGetTenantLimit(t *testing.T) {
 	t.Parallel()
-
-	// enforce specific field naming in errors returned by API
-	updateRestErrorFieldName()
 
 	tcases := []struct {
 		limit    string
@@ -1529,15 +1581,13 @@ func TestApiDevAuthGetTenantLimit(t *testing.T) {
 		tc := tcases[i]
 		t.Run(fmt.Sprintf("tc %d", i), func(t *testing.T) {
 			t.Parallel()
-
-			req := test.MakeSimpleRequest("GET",
-				"http://1.2.3.4/api/internal/v1/devauth/tenant/"+
-					tc.tenantId+
-					"/limits/"+
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path: "http://localhost/api/internal/v1/devauth/tenant/" +
+					tc.tenantId +
+					"/limits/" +
 					tc.limit,
-
-				nil)
-
+			})
 			da := &mocks.App{}
 			da.On("GetTenantLimit",
 				mtest.ContextMatcher(),
@@ -1553,9 +1603,6 @@ func TestApiDevAuthGetTenantLimit(t *testing.T) {
 
 func TestApiV2DevAuthGetDevicesCount(t *testing.T) {
 	t.Parallel()
-
-	// enforce specific field naming in errors returned by API
-	updateRestErrorFieldName()
 
 	tcases := []struct {
 		req    *http.Request
@@ -1666,13 +1713,15 @@ func TestApiV2DevAuthGetDevicesCount(t *testing.T) {
 		t.Run(fmt.Sprintf("tc %d", i), func(t *testing.T) {
 			t.Parallel()
 
-			url := "http://1.2.3.4/api/management/v2/devauth/devices/count"
+			url := "http://localhost/api/management/v2/devauth/devices/count"
 			if tc.status != "" {
 				url += "?status=" + tc.status
 			}
-
-			req := test.MakeSimpleRequest("GET", url, nil)
-
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   url,
+				Auth:   true,
+			})
 			da := &mocks.App{}
 			da.On("GetDevCountByStatus",
 				mtest.ContextMatcher(),
@@ -1693,9 +1742,11 @@ func TestApiDevAuthPostTenants(t *testing.T) {
 		respBody   string
 	}{
 		"ok": {
-			req: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v1/devauth/tenants",
-				model.NewTenant{TenantId: "foo"}),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost/api/internal/v1/devauth/tenants",
+				Body:   model.NewTenant{TenantId: "foo"},
+			}),
 			respCode: 201,
 			respBody: "",
 		},
@@ -1711,21 +1762,8 @@ func TestApiDevAuthPostTenants(t *testing.T) {
 
 		apih := makeMockApiHandler(t, da, nil)
 
-		rest.ErrorFieldName = "error"
-
 		runTestRequest(t, apih, tc.req, tc.respCode, tc.respBody)
 	}
-}
-
-func makeReq(method, url, auth string, body interface{}) *http.Request {
-	req := test.MakeSimpleRequest(method, url, body)
-
-	if auth != "" {
-		req.Header.Set("Authorization", auth)
-	}
-	req.Header.Add(requestid.RequestIdHeader, "test")
-
-	return req
 }
 
 func restError(status string) map[string]interface{} {
@@ -1735,9 +1773,6 @@ func restError(status string) map[string]interface{} {
 func TestApiV2DevAuthDeleteDeviceAuthSet(t *testing.T) {
 	t.Parallel()
 
-	// enforce specific field naming in errors returned by API
-	updateRestErrorFieldName()
-
 	tcases := []struct {
 		req  *http.Request
 		code int
@@ -1745,20 +1780,29 @@ func TestApiV2DevAuthDeleteDeviceAuthSet(t *testing.T) {
 		err  error
 	}{
 		{
-			req: test.MakeSimpleRequest("DELETE",
-				"http://1.2.3.4/api/management/v2/devauth/devices/foo/auth/bar", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "DELETE",
+				Path:   "http://localhost/api/management/v2/devauth/devices/foo/auth/bar",
+				Auth:   true,
+			}),
 			code: http.StatusNoContent,
 			err:  nil,
 		},
 		{
-			req: test.MakeSimpleRequest("DELETE",
-				"http://1.2.3.4/api/management/v2/devauth/devices/foo/auth/bar", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "DELETE",
+				Path:   "http://localhost/api/management/v2/devauth/devices/foo/auth/bar",
+				Auth:   true,
+			}),
 			code: http.StatusNotFound,
 			err:  store.ErrAuthSetNotFound,
 		},
 		{
-			req: test.MakeSimpleRequest("DELETE",
-				"http://1.2.3.4/api/management/v2/devauth/devices/foo/auth/bar", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "DELETE",
+				Path:   "http://localhost/api/management/v2/devauth/devices/foo/auth/bar",
+				Auth:   true,
+			}),
 			code: http.StatusInternalServerError,
 			body: RestError("internal error"),
 			err:  errors.New("some error that will only be logged"),
@@ -1785,9 +1829,6 @@ func TestApiV2DevAuthDeleteDeviceAuthSet(t *testing.T) {
 
 func TestApiDeleteTokens(t *testing.T) {
 	t.Parallel()
-
-	// enforce specific field naming in errors returned by API
-	updateRestErrorFieldName()
 
 	tcases := map[string]struct {
 		tenantId string
@@ -1842,28 +1883,24 @@ func TestApiDeleteTokens(t *testing.T) {
 				Return(tc.devAuthErr)
 
 			//make request
-			url := fmt.Sprintf("http://1.2.3.4/api/internal/v1/devauth/tokens?tenant_id=%v&device_id=%v",
+			url := fmt.Sprintf("http://localhost/api/internal/v1/devauth/tokens?tenant_id=%v&device_id=%v",
 				tc.tenantId,
 				tc.deviceId)
 
-			req := makeReq("DELETE",
-				url,
-				"",
-				nil)
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "DELETE",
+				Path:   url,
+			})
 
 			apih := makeMockApiHandler(t, da, nil)
-
-			recorded := test.RunRequest(t, apih, req)
-			mt.CheckResponse(t, tc.checker, recorded)
+			recorded := runSimpleTestRequest(t, apih, req)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 		})
 	}
 }
 
 func TestApiDevAuthGetTenantDeviceStatus(t *testing.T) {
 	t.Parallel()
-
-	// enforce specific field naming in errors returned by API
-	updateRestErrorFieldName()
 
 	tcases := map[string]struct {
 		tid string
@@ -1931,11 +1968,12 @@ func TestApiDevAuthGetTenantDeviceStatus(t *testing.T) {
 		tc := tcases[i]
 		t.Run(fmt.Sprintf("tc %s", i), func(t *testing.T) {
 			t.Parallel()
-
-			req := makeReq("GET",
-				fmt.Sprintf("http://1.2.3.4/api/internal/v1/devauth/tenants/%s/devices/%s/status", tc.tid, tc.did),
-				"",
-				nil)
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path: fmt.Sprintf("http://localhost/api/internal/v1/devauth/tenants/%s/devices/%s/status",
+					tc.tid, tc.did),
+				Auth: true,
+			})
 
 			da := &mocks.App{}
 			da.On("GetTenantDeviceStatus",
@@ -1946,17 +1984,14 @@ func TestApiDevAuthGetTenantDeviceStatus(t *testing.T) {
 
 			apih := makeMockApiHandler(t, da, nil)
 
-			recorded := test.RunRequest(t, apih, req)
-			mt.CheckResponse(t, tc.checker, recorded)
+			recorded := runSimpleTestRequest(t, apih, req)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 		})
 	}
 }
 
 func TestApiDevAuthGetTenantDeviceCount(t *testing.T) {
 	t.Parallel()
-
-	// enforce specific field naming in errors returned by API
-	updateRestErrorFieldName()
 
 	tcases := map[string]struct {
 		tid    string
@@ -2012,11 +2047,12 @@ func TestApiDevAuthGetTenantDeviceCount(t *testing.T) {
 		tc := tcases[i]
 		t.Run(fmt.Sprintf("tc %s", i), func(t *testing.T) {
 			t.Parallel()
-
-			req := makeReq("GET",
-				fmt.Sprintf("http://1.2.3.4/api/internal/v1/devauth/tenants/%s/devices/count?status=%s", tc.tid, tc.status),
-				"",
-				nil)
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path: fmt.Sprintf("http://localhost/api/internal/v1/devauth/tenants/%s/devices/count?status=%s",
+					tc.tid, tc.status),
+				Auth: true,
+			})
 
 			da := &mocks.App{}
 			da.On("GetDevCountByStatus",
@@ -2026,13 +2062,13 @@ func TestApiDevAuthGetTenantDeviceCount(t *testing.T) {
 
 			apih := makeMockApiHandler(t, da, nil)
 
-			recorded := test.RunRequest(t, apih, req)
-			mt.CheckResponse(t, tc.checker, recorded)
+			recorded := runSimpleTestRequest(t, apih, req)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 		})
 	}
 }
 
-func ExtractHeader(hdr, val string, r *test.Recorded) string {
+func ExtractHeader(hdr, val string, r *mt.Recorded) string {
 	rec := r.Recorder
 	for _, v := range rec.Header()[hdr] {
 		if v == val {
@@ -2045,9 +2081,6 @@ func ExtractHeader(hdr, val string, r *test.Recorded) string {
 
 func TestApiGetTenantDevicesV2(t *testing.T) {
 	t.Parallel()
-
-	// enforce specific field naming in errors returned by API
-	updateRestErrorFieldName()
 
 	devs := []model.Device{
 		{
@@ -2085,8 +2118,10 @@ func TestApiGetTenantDevicesV2(t *testing.T) {
 		filterMatch interface{}
 	}{
 		"ok": {
-			req: test.MakeSimpleRequest("GET",
-				"http://1.2.3.4/api/internal/v1/devauth/tenants/powerpuff123/devices", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost/api/internal/v1/devauth/tenants/powerpuff123/devices",
+			}),
 			code:      http.StatusOK,
 			devices:   devs,
 			err:       nil,
@@ -2098,8 +2133,10 @@ func TestApiGetTenantDevicesV2(t *testing.T) {
 			filterMatch: mock.AnythingOfType("model.DeviceFilter"),
 		},
 		"ok with empty tenant ID": {
-			req: test.MakeSimpleRequest("GET",
-				"http://1.2.3.4/api/internal/v1/devauth/tenants//devices", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost/api/internal/v1/devauth/tenants//devices",
+			}),
 			code:      http.StatusOK,
 			devices:   devs,
 			err:       nil,
@@ -2111,8 +2148,10 @@ func TestApiGetTenantDevicesV2(t *testing.T) {
 			filterMatch: mock.AnythingOfType("model.DeviceFilter"),
 		},
 		"ok with IDs": {
-			req: test.MakeSimpleRequest("GET",
-				"http://1.2.3.4/api/internal/v1/devauth/tenants/powerpuff123/devices?id=id1&id=id2", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost/api/internal/v1/devauth/tenants/powerpuff123/devices?id=id1&id=id2",
+			}),
 			code:      http.StatusOK,
 			devices:   devs[:2],
 			err:       nil,
@@ -2128,8 +2167,10 @@ func TestApiGetTenantDevicesV2(t *testing.T) {
 			}),
 		},
 		"no devices": {
-			req: test.MakeSimpleRequest("GET",
-				"http://1.2.3.4/api/internal/v1/devauth/tenants/powerpuff123/devices", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost/api/internal/v1/devauth/tenants/powerpuff123/devices",
+			}),
 			code:      http.StatusOK,
 			devices:   []model.Device{},
 			skip:      0,
@@ -2143,8 +2184,10 @@ func TestApiGetTenantDevicesV2(t *testing.T) {
 		// this test does not check if the devices were skipped
 		// it is only checking if endpoint limits number of devices in the response
 		"limit number of devices": {
-			req: test.MakeSimpleRequest("GET",
-				"http://1.2.3.4/api/internal/v1/devauth/tenants/powerpuff123/devices?page=2&per_page=2", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost/api/internal/v1/devauth/tenants/powerpuff123/devices?page=2&per_page=2",
+			}),
 			devices: devs,
 			skip:    2,
 			limit:   3,
@@ -2156,8 +2199,10 @@ func TestApiGetTenantDevicesV2(t *testing.T) {
 			filterMatch: mock.AnythingOfType("model.DeviceFilter"),
 		},
 		"internal error": {
-			req: test.MakeSimpleRequest("GET",
-				"http://1.2.3.4/api/internal/v1/devauth/tenants/powerpuff123/devices?page=2&per_page=2", nil),
+			req: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost/api/internal/v1/devauth/tenants/powerpuff123/devices?page=2&per_page=2",
+			}),
 			skip:      2,
 			limit:     3,
 			code:      http.StatusInternalServerError,

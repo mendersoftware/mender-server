@@ -16,12 +16,16 @@ package utils
 
 import (
 	"io"
+	"net/http"
 	"strings"
 
-	"github.com/ant0ine/go-json-rest/rest"
+	"github.com/pkg/errors"
 )
 
-func ReadBodyRaw(r *rest.Request) ([]byte, error) {
+func ReadBodyRaw(r *http.Request) ([]byte, error) {
+	if r.Body == nil {
+		return nil, errors.New("empty request body")
+	}
 	content, err := io.ReadAll(r.Body)
 	r.Body.Close()
 	if err != nil {

@@ -14,14 +14,14 @@
 package http
 
 import (
-	"github.com/ant0ine/go-json-rest/rest"
+	"net/http"
 
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/api"
 )
 
-func ContextFromRequest(r *rest.Request) *api.RequestContext {
+func ContextFromRequest(r *http.Request) *api.RequestContext {
 	return &api.RequestContext{
 		ReqId: requestid.GetReqId(r),
 	}
