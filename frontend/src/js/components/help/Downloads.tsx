@@ -46,7 +46,7 @@ const architectures = {
 };
 
 const defaultArchitectures = [architectures.armhf, architectures.arm64, architectures.amd64];
-const defaultOSVersions = ['debian+buster', 'debian+bullseye', 'ubuntu+bionic', 'ubuntu+focal'];
+const defaultOSVersions = ['debian+bookworm', 'debian+bullseye', 'ubuntu+focal', 'ubuntu+jammy', 'ubuntu+noble'];
 
 const getVersion = (versions, id) => versions[id] || 'master';
 
