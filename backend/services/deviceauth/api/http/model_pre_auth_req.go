@@ -19,6 +19,7 @@ import (
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/google/uuid"
+	"github.com/pkg/errors"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 	"github.com/mendersoftware/mender-server/services/deviceauth/utils"
@@ -31,6 +32,10 @@ type preAuthReq struct {
 }
 
 func parsePreAuthReq(source io.Reader) (*preAuthReq, error) {
+	if source == nil {
+		return nil, errors.New("empty request body")
+	}
+
 	jd := json.NewDecoder(source)
 
 	var req preAuthReq

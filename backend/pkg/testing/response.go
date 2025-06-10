@@ -16,6 +16,7 @@ package testing
 import (
 	"encoding/json"
 	"mime"
+	"net/http/httptest"
 	"strings"
 	"testing"
 
@@ -23,7 +24,21 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func CheckResponse(t *testing.T, want ResponseChecker, have *test.Recorded) {
+type Recorded struct {
+	T        *testing.T
+	Recorder *httptest.ResponseRecorder
+}
+
+// temporary workaround to not break deployments service
+func CheckResponse(t *testing.T, want ResponseChecker, h *test.Recorded) {
+	have := Recorded(*h)
+	want.CheckStatus(t, &have)
+	want.CheckHeaders(t, &have)
+	want.CheckContentType(t, &have)
+	want.CheckBody(t, &have)
+}
+
+func CheckHTTPResponse(t *testing.T, want ResponseChecker, have *Recorded) {
 	want.CheckStatus(t, have)
 	want.CheckHeaders(t, have)
 	want.CheckContentType(t, have)
@@ -32,10 +47,10 @@ func CheckResponse(t *testing.T, want ResponseChecker, have *test.Recorded) {
 
 // ResponseChecker is a generic response checker, regardless of content-type.
 type ResponseChecker interface {
-	CheckStatus(t *testing.T, recorded *test.Recorded)
-	CheckHeaders(t *testing.T, recorded *test.Recorded)
-	CheckContentType(t *testing.T, recorded *test.Recorded)
-	CheckBody(t *testing.T, recorded *test.Recorded)
+	CheckStatus(t *testing.T, recorded *Recorded)
+	CheckHeaders(t *testing.T, recorded *Recorded)
+	CheckContentType(t *testing.T, recorded *Recorded)
+	CheckBody(t *testing.T, recorded *Recorded)
 }
 
 // BaseResponse is used for testing any response with a selected content type.
@@ -47,11 +62,16 @@ type BaseResponse struct {
 	Body        interface{}
 }
 
-func (b *BaseResponse) CheckStatus(t *testing.T, recorded *test.Recorded) {
-	recorded.CodeIs(b.Status)
+func (b *BaseResponse) CheckStatus(t *testing.T, recorded *Recorded) {
+	assert.Equal(t, b.Status, recorded.Recorder.Code)
 }
 
-func (b *BaseResponse) CheckContentType(t *testing.T, recorded *test.Recorded) {
+func (b *BaseResponse) CheckContentType(t *testing.T, recorded *Recorded) {
+	// skip requests that have no body
+	if b.Body == nil {
+		return
+	}
+
 	mediaType, params, _ := mime.ParseMediaType(recorded.Recorder.Header().Get("Content-Type"))
 	charset := params["charset"]
 
@@ -71,15 +91,15 @@ func (b *BaseResponse) CheckContentType(t *testing.T, recorded *test.Recorded) {
 	}
 }
 
-func (b *BaseResponse) CheckHeaders(t *testing.T, recorded *test.Recorded) {
+func (b *BaseResponse) CheckHeaders(t *testing.T, recorded *Recorded) {
 	for name, value := range b.Headers {
 		assert.Equal(t, value, recorded.Recorder.Header().Get(name))
 	}
 }
 
-func (b *BaseResponse) CheckBody(t *testing.T, recorded *test.Recorded) {
+func (b *BaseResponse) CheckBody(t *testing.T, recorded *Recorded) {
 	if b.Body != nil {
-		recorded.BodyIs(b.Body.(string))
+		assert.Equal(t, b.Body.(string), recorded.Recorder.Body.String())
 	}
 }
 
@@ -100,7 +120,7 @@ func NewJSONResponse(status int, headers map[string]string, body interface{}) *J
 	}
 }
 
-func (j *JSONResponse) CheckBody(t *testing.T, recorded *test.Recorded) {
+func (j *JSONResponse) CheckBody(t *testing.T, recorded *Recorded) {
 	if j.Body != nil {
 		assert.NotEmpty(t, recorded.Recorder.Body.String())
 		expected, err := json.Marshal(j.Body)
