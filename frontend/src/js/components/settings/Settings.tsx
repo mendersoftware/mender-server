@@ -48,9 +48,9 @@ const sectionMap = {
     canAccess: ({ organization: { service_provider }, userCapabilities: { canManageUsers } }) => !service_provider && canManageUsers
   },
   'my-profile': { component: SelfUserManagement, text: () => 'My profile', canAccess },
-  'organization-and-billing': {
+  'organization': {
     component: Organization,
-    text: () => 'Organization and billing',
+    text: () => 'Organization',
     canAccess: ({ hasMultitenancy }) => hasMultitenancy
   },
   'user-management': {

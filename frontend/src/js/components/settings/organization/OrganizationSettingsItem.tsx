@@ -11,52 +11,60 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Divider, ListItem, ListItemText } from '@mui/material';
+import type { ReactNode } from 'react';
+
+import { Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-const defaultItemProps = { alignItems: 'flex-start' };
+type OrganizationSettingsItemClasses = {
+  base: string;
+  content: string;
+  main: string;
+};
+
+interface OrganizationSettingsItemProps {
+  classes?: OrganizationSettingsItemClasses;
+  description?: string;
+  notification?: ReactNode;
+  secondary: string | ReactNode;
+  sideBarContent?: ReactNode;
+  title: string;
+}
+
 export const maxWidth = 500;
 
-const useStyles = makeStyles()(theme => ({
-  divider: { marginBottom: theme.spacing(), marginLeft: theme.spacing(-2), width: maxWidth },
-  text: { display: 'grid', width: '100%', marginBottom: theme.spacing() },
-  secondary: { display: 'grid', width: '100%', marginBottom: 0 }
+const useStyles = makeStyles()(({ spacing }) => ({
+  base: { gap: spacing(1) },
+  content: {
+    '> *': { maxWidth }
+  },
+  mainContent: {
+    alignItems: 'baseline',
+    display: 'grid',
+    gridTemplateColumns: '500px 1fr',
+    gridColumnGap: spacing(2),
+    maxWidth: 'initial'
+  }
 }));
 
-const OrganizationSettingsItem = ({ title, content: { action, description }, secondary, sideBarContent, notification }) => {
-  const { classes } = useStyles();
+const defaultClasses: OrganizationSettingsItemClasses = { base: '', content: '', main: '' };
 
-  const secondaryContent = secondary ? (
-    secondary
-  ) : (
-    <>
-      <div>{description}</div>
-      {action.internal ? (
-        <a className="align-right" onClick={action.action}>
-          {action.title}
-        </a>
-      ) : (
-        <a className="align-right" href={action.target} target="_blank" rel="noopener noreferrer">
-          {action.title}
-        </a>
-      )}
-    </>
-  );
+const OrganizationSettingsItem = ({ classes = defaultClasses, description, notification, secondary, sideBarContent, title }: OrganizationSettingsItemProps) => {
+  const { classes: localClasses } = useStyles();
   return (
-    <li className="margin-top-small org-settings-item">
-      <ListItem {...defaultItemProps} component="div" classes={{ root: 'flexbox column' }}>
-        <ListItemText
-          className={secondary ? classes.secondary : classes.text}
-          classes={{ secondary: secondary ? '' : 'two-columns' }}
-          primary={title}
-          secondaryTypographyProps={{ component: 'div' }}
-          secondary={<>{secondaryContent}</>}
-        />
-        <Divider className={classes.divider} />
-        {notification}
-      </ListItem>
-      {sideBarContent}
-    </li>
+    <div className={`flexbox column settings-item-base ${localClasses.base} margin-top-small ${classes.base ?? ''}`}>
+      <div className={`flexbox column settings-item-content ${localClasses.base} ${localClasses.content} ${classes.content ?? ''}`}>
+        <Typography variant="subtitle1">{title}</Typography>
+        {description && <Typography variant="body2">{description}</Typography>}
+        <div className={`settings-item-main-content ${localClasses.mainContent} ${classes.main ?? ''}`}>
+          <Typography variant="body2" component="div">
+            {secondary}
+          </Typography>
+          {sideBarContent}
+        </div>
+      </div>
+      {notification}
+    </div>
   );
 };
 
