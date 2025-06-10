@@ -133,8 +133,8 @@ func NewRouter(app inv.InventoryApp) http.Handler {
 		PATCH(uriDeviceTags, mgmtHandler.UpdateDeviceTagsHandler)
 
 	devicesAPIs.Group(".").Use(contenttype.CheckJSON()).
-		PATCH(uriAttributes, mgmtHandler.UpdateDeviceAttributesHandler).
-		PUT(uriAttributes, mgmtHandler.UpdateDeviceAttributesHandler)
+		PATCH(uriDeviceAttributes, mgmtHandler.UpdateDeviceAttributesHandler).
+		PUT(uriDeviceAttributes, mgmtHandler.UpdateDeviceAttributesHandler)
 
 	devicesAPILegacy.Group(".").Use(contenttype.CheckJSON()).
 		PATCH(uriAttributes, mgmtHandler.UpdateDeviceAttributesHandler).

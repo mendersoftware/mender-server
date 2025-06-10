@@ -1036,7 +1036,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		"no auth": {
 			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PATCH",
-				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
+				Path:   "http://localhost" + apiUrlDevicesV1 + uriDeviceAttributes,
 				Auth:   true,
 			}),
 			inventoryErr: nil,
@@ -1050,7 +1050,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		"invalid auth": {
 			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PATCH",
-				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
+				Path:   "http://localhost" + apiUrlDevicesV1 + uriDeviceAttributes,
 				Auth:   true,
 			}),
 			inHdrs: map[string]string{
@@ -1067,7 +1067,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		"empty body": {
 			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PATCH",
-				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
+				Path:   "http://localhost" + apiUrlDevicesV1 + uriDeviceAttributes,
 				Auth:   true,
 			}),
 			inHdrs: map[string]string{
@@ -1084,7 +1084,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		"garbled body": {
 			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PATCH",
-				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
+				Path:   "http://localhost" + apiUrlDevicesV1 + uriDeviceAttributes,
 				Auth:   true,
 				Body:   `{"foo": "bar"}`,
 			}),
@@ -1102,7 +1102,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		"body formatted ok, attribute name missing": {
 			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PATCH",
-				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
+				Path:   "http://localhost" + apiUrlDevicesV1 + uriDeviceAttributes,
 				Auth:   true,
 				Body: []model.DeviceAttribute{
 					{
@@ -1130,7 +1130,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		"body formatted ok, attribute value missing": {
 			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PATCH",
-				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
+				Path:   "http://localhost" + apiUrlDevicesV1 + uriDeviceAttributes,
 				Auth:   true,
 				Body: []model.DeviceAttribute{
 					{
@@ -1153,7 +1153,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		"body formatted ok, attributes ok (all fields)": {
 			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PATCH",
-				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
+				Path:   "http://localhost" + apiUrlDevicesV1 + uriDeviceAttributes,
 				Auth:   true,
 				Body: []model.DeviceAttribute{
 					{
@@ -1186,7 +1186,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		"body formatted ok, attributes ok (all fields), with scope": {
 			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PATCH",
-				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
+				Path:   "http://localhost" + apiUrlDevicesV1 + uriDeviceAttributes,
 				Auth:   true,
 				Body: []model.DeviceAttribute{
 					{
@@ -1221,7 +1221,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		"body formatted ok, attributes ok (all fields, arrays)": {
 			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PATCH",
-				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
+				Path:   "http://localhost" + apiUrlDevicesV1 + uriDeviceAttributes,
 				Auth:   true,
 				Body: []model.DeviceAttribute{
 					{
@@ -1250,7 +1250,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		"body formatted ok, attributes ok (values only)": {
 			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PATCH",
-				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
+				Path:   "http://localhost" + apiUrlDevicesV1 + uriDeviceAttributes,
 				Auth:   true,
 				Body: []model.DeviceAttribute{
 					{
@@ -1277,7 +1277,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		"body formatted ok, attributes ok, but values are empty": {
 			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PATCH",
-				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
+				Path:   "http://localhost" + apiUrlDevicesV1 + uriDeviceAttributes,
 				Auth:   true,
 				Body: []model.DeviceAttribute{
 					{
@@ -1304,7 +1304,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		"body formatted ok, attributes ok (all fields), inventory err": {
 			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PATCH",
-				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
+				Path:   "http://localhost" + apiUrlDevicesV1 + uriDeviceAttributes,
 				Auth:   true,
 				Body: []model.DeviceAttribute{
 					{
@@ -1333,7 +1333,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 		"body formatted ok, attributes ok (values only), PUT": {
 			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PATCH",
-				Path:   "http://localhost" + apiUrlDevicesV1 + uriAttributes,
+				Path:   "http://localhost" + apiUrlDevicesV1 + uriDeviceAttributes,
 				Auth:   true,
 				Body: []model.DeviceAttribute{
 					{
