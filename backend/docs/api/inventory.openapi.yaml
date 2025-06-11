@@ -494,13 +494,11 @@ paths:
               type: object
               properties:
                 page:
-                  type: number
+                  type: integer
                   description: Starting page.
-                  format: integer
                 per_page:
-                  type: number
+                  type: integer
                   description: Number of results per page.
-                  format: integer
                 device_ids:
                   type: array
                   description: List of device IDs
@@ -597,15 +595,13 @@ paths:
           in: query
           description: Starting page.
           schema:
-            type: number
-            format: integer
+            type: integer
             default: 1
         - name: per_page
           in: query
           description: Maximum number of results per page.
           schema:
-            type: number
-            format: integer
+            type: integer
             default: 10
         - name: sort
           in: query
@@ -1111,7 +1107,7 @@ paths:
                 type: object
                 properties:
                   updated_count:
-                    type: number
+                    type: integer
                     description: >
                       Number of devices for which the group was cleared
                       sucessfully.
@@ -1237,7 +1233,7 @@ paths:
                 type: object
                 properties:
                   updated_count:
-                    type: number
+                    type: integer
                     description: >
                       Number of devices for which the group was cleared
                       sucessfully.
@@ -1298,11 +1294,11 @@ paths:
                 type: object
                 properties:
                   updated_count:
-                    type: number
+                    type: integer
                     description: |
                       Number of devices listed that changed group.
                   matched_count:
-                    type: number
+                    type: integer
                     description: >
                       Number of devices listed that matched a valid device id
                       internally.
@@ -1388,13 +1384,11 @@ paths:
               type: object
               properties:
                 page:
-                  type: number
+                  type: integer
                   description: Starting page.
-                  format: integer
                 per_page:
-                  type: number
+                  type: integer
                   description: Maximum number of results per page.
-                  format: integer
                 text:
                   type: string
                   description: Free-text search query
@@ -1517,7 +1511,7 @@ components:
     AttributeValueString:
       type: string
     AttributeValueNumber:
-      type: number
+      type: integer
     AttributeValueStringList:
       type: array
       items:
@@ -1525,7 +1519,7 @@ components:
     AttributeValueNumberList:
       type: array
       items:
-        type: number
+        type: integer
 
     TenantNew:
       type: object
@@ -1571,9 +1565,8 @@ components:
           type: string
           description: Device identifier.
         revision:
-          type: number
+          type: integer
           description: Device object revision.
-          format: integer
       description: Object containing device id and device revision of the device to update.
     Groups:
       required:
