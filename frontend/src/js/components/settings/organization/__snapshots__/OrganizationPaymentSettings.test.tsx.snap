@@ -128,7 +128,7 @@ exports[`OrganizationPaymentSettings Component > renders correctly 1`] = `
     class=""
   >
     <div>
-      Payment card ending: **** 
+      Payment card ending: ****
       1234
     </div>
     <div>
