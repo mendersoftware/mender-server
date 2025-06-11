@@ -222,7 +222,7 @@ test.describe('Settings', () => {
     });
     test('allows billing profile editing', async ({ baseUrl, environment, page }) => {
       test.skip(environment !== 'staging');
-      await page.goto(`${baseUrl}ui/settings/organization-and-billing`);
+      await page.goto(`${baseUrl}ui/settings/billing`);
       await page.getByRole('button', { name: /edit/i }).click();
       await page.getByRole('textbox', { name: /address line 1/i }).fill('Gaustadalleen 12');
       await page.getByRole('textbox', { name: /state/i }).fill('Moss');
