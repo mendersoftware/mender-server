@@ -33,8 +33,8 @@ func (d *DevAuth) checkRateLimits(ctx context.Context) error {
 
 const rateLimitMax = uint64(1 << 50)
 
-func fmtEventID(tenantID, event string) string {
-	return fmt.Sprintf("tenant:%s:event:%s", tenantID, event)
+func fmtEventID(tenantID, deviceID, event string) string {
+	return fmt.Sprintf("tenant:%s:dev:%s:event:%s", tenantID, deviceID, event)
 }
 
 // rateLimitFromContext returns the burst quota given the context
@@ -43,7 +43,10 @@ func (d *DevAuth) RateLimitsFromContext(ctx context.Context) (
 	eventID string,
 	err error,
 ) {
-	var tenantID string = "default"
+	var (
+		tenantID string = "default"
+		deviceID string = "default"
+	)
 	var weight float64 = d.rateLimiterWeightDefault
 	id := identity.FromContext(ctx)
 	if id != nil {
@@ -52,6 +55,7 @@ func (d *DevAuth) RateLimitsFromContext(ctx context.Context) (
 		if w, ok := d.rateLimiterWeights[plan]; ok {
 			weight = w
 		}
+		deviceID = id.Subject
 	}
 	origUri := ctxhttpheader.FromContext(ctx, "X-Forwarded-Uri")
 	origUri = purgeUriArgs(origUri)
@@ -78,5 +82,5 @@ func (d *DevAuth) RateLimitsFromContext(ctx context.Context) (
 	} else {
 		limit = uint64(limitf64)
 	}
-	return limit, fmtEventID(tenantID, origUri), nil
+	return limit, fmtEventID(tenantID, deviceID, origUri), nil
 }
