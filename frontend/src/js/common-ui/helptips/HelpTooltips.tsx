@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import ConfigurationObject from '@northern.tech/common-ui/ConfigurationObject';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
+import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import storeActions from '@northern.tech/store/actions';
 import { Device } from '@northern.tech/store/api/types/Device';
 import { READ_STATES } from '@northern.tech/store/constants';
@@ -263,11 +264,7 @@ const AttributeLimit = () => {
   const { isHosted } = useSelector(getFeatures);
   return isHosted ? (
     <>
-      Expand to see the list of attributes currently in use. Please{' '}
-      <a href="mailto:support@mender.io" target="_blank" rel="noopener noreferrer">
-        contact our team
-      </a>{' '}
-      if your use case requires a different set of attributes.
+      Expand to see the list of attributes currently in use. Please <SupportLink variant="ourTeam" /> if your use case requires a different set of attributes.
     </>
   ) : (
     <>Expand to see the list of attributes currently in use.</>

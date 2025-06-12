@@ -21,6 +21,7 @@ import { makeStyles } from 'tss-react/mui';
 import { TwoColumns } from '@northern.tech/common-ui/ConfigurationObject';
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
+import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import actions from '@northern.tech/store/actions';
 import { generateTenantPathById } from '@northern.tech/store/locationutils';
 import { getOrganization, getSsoConfig } from '@northern.tech/store/selectors';
@@ -138,10 +139,7 @@ export const ExpandedTenant = (props: ExpandedTenantProps) => {
                 <FormHelperText className="info margin-top-none">
                   {spDeviceUtilization} devices assigned of maximum {spDeviceLimit} across all tenants.
                   <br />
-                  <a href="mailto:support@mender.io" target="_blank" rel="noopener noreferrer">
-                    Contact support
-                  </a>{' '}
-                  to increase your total limit
+                  <SupportLink className="capitalized-start" variant="support" /> to increase your total limit
                 </FormHelperText>
               </FormControl>
             ) : (
