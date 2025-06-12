@@ -22,6 +22,7 @@ import { makeStyles } from 'tss-react/mui';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import InfoText from '@northern.tech/common-ui/InfoText';
 import Loader from '@northern.tech/common-ui/Loader';
+import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { BENEFITS, TIMEOUTS } from '@northern.tech/store/constants';
 import { getDeploymentsConfig, saveDeltaDeploymentsConfig } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
@@ -215,11 +216,7 @@ export const ArtifactGenerationSettings = () => {
       ) : (
         <InfoText>
           <InfoOutlinedIcon style={{ fontSize: 14, margin: '0 4px 4px 0', verticalAlign: 'middle' }} />
-          Automatic delta artifacts generation is not enabled in your account. If you want to start using this feature,{' '}
-          <a href="mailto:support@mender.io" target="_blank" rel="noopener noreferrer">
-            contact our team
-          </a>
-          .
+          Automatic delta artifacts generation is not enabled in your account. If you want to start using this feature, <SupportLink variant="ourTeam" />.
         </InfoText>
       )}
     </div>

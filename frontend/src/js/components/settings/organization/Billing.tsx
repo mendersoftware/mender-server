@@ -22,6 +22,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import Alert from '@northern.tech/common-ui/Alert';
 import InfoText from '@northern.tech/common-ui/InfoText';
+import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { ADDONS, PLANS } from '@northern.tech/store/constants';
 import { getBillingProfile, getCard, getIsEnterprise, getOrganization, getUserRoles } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
@@ -64,13 +65,7 @@ export const DeviceLimitExpansionNotification = ({ isTrial }) => (
     <div className="muted" style={{ marginRight: 4 }}>
       To increase your device limit,{' '}
     </div>
-    {isTrial ? (
-      <Link to="/settings/upgrade">upgrade to a paid plan</Link>
-    ) : (
-      <a href="mailto:support@mender.io" target="_blank" rel="noopener noreferrer">
-        contact our sales team
-      </a>
-    )}
+    {isTrial ? <Link to="/settings/upgrade">upgrade to a paid plan</Link> : <SupportLink variant="salesTeam" />}
     <div className="muted">.</div>
   </div>
 );
@@ -222,9 +217,7 @@ export const Billing = () => {
           {isEnterprise ? (
             <InfoText>
               Enterprise plan payments are invoiced periodically to your organization. If you have any questions about your billing, <br /> please contact{' '}
-              <a href="mailto:support@mender.io" target="_blank" rel="noopener noreferrer">
-                support@mender.io
-              </a>
+              <SupportLink variant="email" />
             </InfoText>
           ) : billing ? (
             <div className="flexbox">
@@ -233,10 +226,7 @@ export const Billing = () => {
             </div>
           ) : (
             <InfoText>
-              Your account is not set up for automatic billing. If you believe this is a mistake, please contact{' '}
-              <a href="mailto:support@mender.io" target="_blank" rel="noopener noreferrer">
-                support@mender.io
-              </a>
+              Your account is not set up for automatic billing. If you believe this is a mistake, please contact <SupportLink variant="email" />
             </InfoText>
           )}
         </div>

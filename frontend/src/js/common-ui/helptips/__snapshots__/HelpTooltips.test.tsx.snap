@@ -15,17 +15,16 @@ exports[`Helptooltips Components > renders ArtifactUpload correctly 1`] = `Uploa
 
 exports[`Helptooltips Components > renders AttributeLimit correctly 1`] = `
 NodeList [
-  Expand to see the list of attributes currently in use. Please,
-   ,
+  Expand to see the list of attributes currently in use. Please ,
   <a
+    class=""
     href="mailto:support@mender.io"
     rel="noopener noreferrer"
     target="_blank"
   >
     contact our team
   </a>,
-   ,
-  if your use case requires a different set of attributes.,
+   if your use case requires a different set of attributes.,
 ]
 `;
 

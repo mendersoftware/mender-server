@@ -921,6 +921,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
                please contact
                
               <a
+                class=""
                 href="mailto:support@mender.io"
                 rel="noopener noreferrer"
                 target="_blank"
