@@ -14,6 +14,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { ConfirmUpgrade } from '@northern.tech/common-ui/dialogs/ConfirmUpgrade';
 import { AvailablePlans, PLANS, Plan } from '@northern.tech/store/constants';
 import { Addon } from '@northern.tech/store/organizationSlice/types';
@@ -59,9 +60,7 @@ export const addOnsToString = (addons: Addon[] = []) =>
 export const PricingContactNote = () => (
   <p>
     * Device limits can be adjusted on request; prices can change for larger limits. If you have any questions about the plan pricing or device limits,{' '}
-    <a href="mailto:support@mender.io" target="_blank" rel="noopener noreferrer">
-      contact our team.
-    </a>
+    <SupportLink variant="ourTeam" />.
   </p>
 );
 

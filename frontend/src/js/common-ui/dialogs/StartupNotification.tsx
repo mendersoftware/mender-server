@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Button, DialogActions, DialogContent, Divider } from '@mui/material';
 
+import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import storeActions from '@northern.tech/store/actions';
 import { DEVICE_ONLINE_CUTOFF, TIMEOUTS } from '@northern.tech/store/constants';
@@ -51,11 +52,7 @@ const OfflineThresholdContent = () => (
     We appreciate your understanding and cooperation as we implement these improvements. Our commitment to providing you with a reliable and high-performing
     platform remains our top priority.
     <Divider className="margin-top-small margin-bottom-small" />
-    If you have any questions or concerns regarding this change, please do not hesitate to{' '}
-    <a href="mailto:support@mender.io" target="_blank" rel="noopener noreferrer">
-      contact our team
-    </a>
-    .
+    If you have any questions or concerns regarding this change, please do not hesitate to <SupportLink variant="ourTeam" />.
   </>
 );
 
