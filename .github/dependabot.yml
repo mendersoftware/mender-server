@@ -19,16 +19,12 @@ updates:
         patterns:
           - "@emotion*"
           - "@mui*"
-    reviewers:
-      - "mendersoftware/frontend-dependabot-reviewers"
   - commit-message:
       prefix: chore
     directory: /frontend
     package-ecosystem: docker
     schedule:
       interval: monthly
-    reviewers:
-      - "mendersoftware/frontend-dependabot-reviewers"
   - commit-message:
       prefix: chore
     directory: /frontend/tests/e2e_tests
@@ -46,8 +42,6 @@ updates:
         exclude-patterns:
           - "@playwright*"
           - "playwright*"
-    reviewers:
-      - "mendersoftware/frontend-dependabot-reviewers"
 
   # backend part starts here
   - commit-message:
@@ -60,8 +54,6 @@ updates:
       backend-golang-dependencies:
         patterns:
           - "*"
-    reviewers:
-      - "mendersoftware/backend-dependabot-reviewers"
   - commit-message:
       prefix: chore
     directories:
@@ -82,8 +74,6 @@ updates:
       backend-docker-dependencies:
         patterns:
           - "*"
-    reviewers:
-      - "mendersoftware/backend-dependabot-reviewers"
   - commit-message:
       prefix: chore
     directory: /backend/tests
@@ -94,8 +84,6 @@ updates:
       backend-tests-docker-dependencies:
         patterns:
           - "*"
-    reviewers:
-      - "mendersoftware/backend-dependabot-reviewers"
   - commit-message:
       prefix: chore
     directories:
@@ -110,7 +98,5 @@ updates:
       backend-tests-python-dependencies:
         patterns:
           - "*"
-    reviewers:
-      - "mendersoftware/backend-dependabot-reviewers"
     ignore:
       - dependency-name: "bravado"
