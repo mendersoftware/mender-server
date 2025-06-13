@@ -131,7 +131,16 @@ test-acceptance-run: $(test_acceptance_run_deps)
 			acceptance-tester && \
 		docker compose -f tests/docker-compose.yml run \
 			--use-aliases \
-			acceptance-tester $(PYTEST_ARGS)
+			acceptance-tester $(PYTEST_ARGS); \
+		return_code=$$?; \
+		docker compose -f tests/docker-compose.yml down --remove-orphans -v; \
+		if [ -f "tests/docker-compose.cache.yml" ]; then \
+		  docker compose -f tests/docker-compose.cache.yml run \
+			--use-aliases \
+			acceptance-tester $(PYTEST_ARGS); \
+		  [ $$? -ne 0 ] && return_code=$$?; \
+		fi; \
+		exit $$return_code
 
 .PHONY: test-acceptance
 test-acceptance: docker-acceptance test-acceptance-run
