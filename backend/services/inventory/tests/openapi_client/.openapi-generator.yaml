@@ -1,0 +1,4 @@
+apiDocs: false
+modelDocs: false
+verbose: false
+generateSourceCodeOnly: true
