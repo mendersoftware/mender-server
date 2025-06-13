@@ -18,7 +18,7 @@ pytest==8.3.5
 pyyaml
 redis==6.2.0
 redo==3.0.0
-requests==2.32.3
+requests==2.32.4
 semver==3.0.4
 stripe
 tornado
