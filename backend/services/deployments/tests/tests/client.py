@@ -22,6 +22,7 @@ import os.path
 import random
 import socket
 
+import jwt
 from base64 import b64encode
 from datetime import datetime
 from collections import OrderedDict
@@ -33,11 +34,17 @@ import pytest  # noqa
 import pytz
 import requests
 
-from bravado.swagger_model import load_file
-from bravado.client import SwaggerClient, RequestsClient
-from bravado.exception import HTTPUnprocessableEntity
-
 from config import pytest_config
+
+from bson.objectid import ObjectId
+from base64 import b64encode
+from datetime import datetime, timedelta
+import hmac
+import uuid
+import management_v2 as mv2
+import management_v1 as mv1
+import devices_v1 as dv1
+import internal_v1 as iv1
 
 DEPLOYMENTS_BASE_URL = "http://{}/api/{}/v1/deployments"
 
@@ -56,35 +63,6 @@ class RequestsApiClient(requests.Session):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.verify = False
-
-
-class SwaggerApiClient(BaseApiClient):
-    """Class that it based on swagger spec. Swagger support is initialized on call
-    to setup_swagger(). Class has no constructor, hence can be used with Pytest"""
-
-    config = {
-        "also_return_response": True,
-        "validate_responses": True,
-        "validate_requests": False,
-        "validate_swagger_spec": False,
-        "use_models": True,
-    }
-
-    log = logging.getLogger("client.Client")
-    spec_option = "spec"
-
-    def __init__(self):
-        self.setup_swagger()
-
-    def setup_swagger(self):
-        self.http_client = RequestsClient()
-        self.http_client.session.verify = False
-
-        spec = pytest_config.getoption(self.spec_option)
-        self.client = SwaggerClient.from_spec(
-            load_file(spec), config=dict(self.config), http_client=self.http_client
-        )
-        self.client.swagger_spec.api_url = self.make_api_url()
 
 
 class ArtifactsClientError(Exception):
@@ -117,7 +95,9 @@ def create_authz(sub, is_user=True, tenant_id=None):
     return jwt
 
 
-class ArtifactsClient(SwaggerApiClient):
+class ArtifactsClient(BaseApiClient):
+    log = logging.getLogger("client.Client")
+
     def __init__(self, sub=None, tenant_id=None):
         if sub is None:
             sub = str(uuid4())
@@ -136,6 +116,9 @@ class ArtifactsClient(SwaggerApiClient):
             if entry in meta:
                 upload_meta[entry] = meta[entry]
         return upload_meta
+
+    def get_jwt(self):
+        return self._jwt
 
     def add_artifact(self, description="", size=0, data=None):
         """Create new artifact with provided upload data. Data must be a file like
@@ -232,51 +215,38 @@ class ArtifactsClient(SwaggerApiClient):
         return artid
 
     def delete_artifact(self, artid=""):
-        # delete it now (NOTE: not using bravado as bravado does not support
-        # DELETE)
-        rsp = requests.delete(
-            self.make_api_url(f"/artifacts/{artid}"),
-            verify=False,
-            headers={"Authorization": f"Bearer {self._jwt}"},
-        )
         try:
-            assert rsp.status_code == 204
-        except AssertionError:
-            raise ArtifactsClientError("delete failed", rsp)
+            management_v1_client(jwt=self._jwt).delete_artifact(id=artid)
+        except mv1.rest.ApiException as e:
+            raise ArtifactsClientError("delete failed", e.status)
 
     def list_artifacts(self):
-        # List artifacts. For use in tests that cannot use bravado
-        rsp = requests.get(
-            self.make_api_url("/artifacts"),
-            verify=False,
-            headers={"Authorization": f"Bearer {self._jwt}"},
-        )
+        rsp = management_v1_client(jwt=self._jwt).list_artifacts_with_http_info()
         try:
-            assert rsp.status_code == 200
+            assert rsp[1] == 200
         except AssertionError:
             raise ArtifactsClientError("get failed", rsp)
-        return rsp
+        return rsp[0]
 
     def show_artifact(self, artid=""):
-        # Show artifact. For use in tests that cannot use bravado
-        rsp = requests.get(
-            self.make_api_url(f"/artifacts/{artid}"),
-            verify=False,
-            headers={"Authorization": f"Bearer {self._jwt}"},
-        )
+        rsp = management_v1_client(jwt=self._jwt).show_artifact_with_http_info(id=artid)
         try:
-            assert rsp.status_code == 200
+            assert rsp[1] == 200
         except AssertionError:
             raise ArtifactsClientError("get failed", rsp)
-        return rsp
+        return rsp[0]
 
     @contextmanager
     def with_added_artifact(self, description="", size=0, data=None):
         """Acts as a context manager, adds artifact and yields artifact ID and deletes
         it upon completion"""
-        artid = self.add_artifact(description=description, size=size, data=data)
-        yield artid
-        self.delete_artifact(artid)
+        artid = None
+        try:
+            artid = self.add_artifact(description=description, size=size, data=data)
+            yield artid
+        finally:
+            if artid is not None:
+                self.delete_artifact(artid)
 
     class UploadURL:
         def __init__(self, identifier: str, uri: str, expire: str):
@@ -336,7 +306,9 @@ class SimpleArtifactsClient(ArtifactsClient):
         super().__init__()
 
 
-class DeploymentsClient(SwaggerApiClient):
+class DeploymentsClient(BaseApiClient):
+    log = logging.getLogger("client.Client")
+
     def __init__(self):
         self.api_url = DEPLOYMENTS_BASE_URL.format(
             pytest_config.getoption("host"), "management"
@@ -344,16 +316,12 @@ class DeploymentsClient(SwaggerApiClient):
         super().__init__()
 
     def make_new_deployment(self, *args, **kwargs):
-        NewDeployment = self.client.get_model("NewDeployment")
-        return NewDeployment(*args, **kwargs)
+        return mv1.NewDeployment(*args, **kwargs)
 
     def add_deployment(self, dep):
         """Posts new deployment `dep`"""
-        res = self.client.Management_API.Create_Deployment(
-            Authorization="foo", deployment=dep
-        ).result()
-        adapter = res[1]
-        loc = adapter.headers.get("Location", None)
+        r = management_v1_client(jwt="foo").create_deployment_with_http_info(dep)
+        loc = r[2]["Location"]
         depid = os.path.basename(loc)
 
         self.log.debug("added new deployment with ID: %s", depid)
@@ -361,9 +329,10 @@ class DeploymentsClient(SwaggerApiClient):
 
     def abort_deployment(self, depid):
         """Abort deployment with `ID `depid`"""
-        self.client.Management_API.Abort_Deployment(
-            Authorization="foo", deployment_id=depid, Status={"status": "aborted"},
-        ).result()
+        management_v1_client(jwt="foo").abort_deployment_with_http_info(
+            deployment_id=depid,
+            abort_deployment_request=mv1.AbortDeploymentRequest(status="aborted"),
+        )
 
     @contextmanager
     def with_added_deployment(self, dep):
@@ -373,13 +342,13 @@ class DeploymentsClient(SwaggerApiClient):
         yield depid
         try:
             self.abort_deployment(depid)
-        except HTTPUnprocessableEntity:
+        except mv1.rest.ApiException:
             self.log.warning("deployment: %s already finished", depid)
 
     def verify_deployment_stats(self, depid, expected):
-        stats = self.client.Management_API.Deployment_Status_Statistics(
-            Authorization="foo", deployment_id=depid
-        ).result()[0]
+        stats = management_v1_client(jwt="foo").deployment_status_statistics(
+            deployment_id=depid
+        )
         stat_names = [
             "success",
             "pending",
@@ -388,7 +357,7 @@ class DeploymentsClient(SwaggerApiClient):
             "installing",
             "rebooting",
             "noartifact",
-            "already-installed",
+            "already_installed",
             "aborted",
             "pause_before_installing",
             "pause_before_committing",
@@ -400,11 +369,11 @@ class DeploymentsClient(SwaggerApiClient):
             assert exp == current
 
 
-class DeviceClient(SwaggerApiClient):
+class DeviceClient(BaseApiClient):
     """Swagger based device API client. Can be used a Pytest base class"""
 
     spec_option = "device_spec"
-    logger_tag = "client.DeviceClient"
+    log = logging.getLogger("client.DeviceClient")
 
     def __init__(self):
         self.api_url = DEPLOYMENTS_BASE_URL.format(
@@ -414,26 +383,20 @@ class DeviceClient(SwaggerApiClient):
 
     def get_next_deployment(self, token="", artifact_name="", device_type=""):
         """Obtain next deployment"""
-        auth = "Bearer " + token
-        res = self.client.Device_API.Check_Update(
-            Authorization=auth, artifact_name=artifact_name, device_type=device_type,
-        ).result()
-
-        return res[0]
+        return devices_v1_client(jwt=token).check_update(
+            artifact_name=artifact_name, device_type=device_type
+        )
 
     def report_status(self, token="", devdepid=None, status=None):
         """Report device deployment status"""
-        auth = "Bearer " + token
-        res = self.client.Device_API.Update_Deployment_Status(
-            Authorization=auth, id=devdepid, Status={"status": status}
-        ).result()
+        res = devices_v1_client(jwt=token).update_deployment_status(
+            id=devdepid, deployment_status=dv1.DeploymentStatus(status=status)
+        )
         return res
 
     def upload_logs(self, token="", devdepid=None, logs=[]):
-        auth = "Bearer " + token
-        DeploymentLog = self.client.get_model("DeploymentLog")
         levels = ["info", "debug", "warn", "error", "other"]
-        dl = DeploymentLog(
+        dl = dv1.DeploymentLog(
             messages=[
                 {
                     "timestamp": pytz.utc.localize(datetime.now()),
@@ -443,9 +406,9 @@ class DeviceClient(SwaggerApiClient):
                 for l in logs
             ]
         )
-        res = self.client.Device_API.Report_Deployment_Log(
-            Authorization=auth, id=devdepid, Log=dl
-        ).result()
+        res = devices_v1_client(jwt=token).report_deployment_log(
+            id=devdepid, deployment_log=dl
+        )
         return res
 
 
@@ -513,9 +476,9 @@ class CliClient:
         return code, stdout, stderr
 
 
-class InternalApiClient(SwaggerApiClient):
+class InternalApiClient(BaseApiClient):
     spec_option = "internal_spec"
-    logger_tag = "client.InternalApiClient"
+    log = logging.getLogger("client.InternalApiClient")
 
     def __init__(self):
         self.api_url = DEPLOYMENTS_BASE_URL.format(
@@ -524,9 +487,13 @@ class InternalApiClient(SwaggerApiClient):
         super().__init__()
 
     def create_tenant(self, tenant_id):
-        return self.client.tenants.Create_Tenant(
-            tenant={"tenant_id": tenant_id}
-        ).result()
+        r = internal_v1_client().create_tenant_with_http_info(
+            new_tenant=iv1.NewTenant(tenant_id=tenant_id)
+        )
+        return r[1]
+
+    def get_jwt(self):
+        return self._jwt
 
     def add_artifact(
         self, tenant_id, description="", size=0, data=None, artifact_id=None
@@ -574,6 +541,82 @@ class InternalApiClient(SwaggerApiClient):
         return resp.json()
 
     def get_last_device_deployment_status(self, devices_ids, tenant_id):
-        return self.client.Internal_API.Get_last_device_deployment_status(
-            request={"device_ids": devices_ids}, tenant_id=tenant_id
-        ).result()
+        return internal_v1_client().get_last_device_deployment_status(
+            last_device_deployment_req=iv1.LastDeviceDeploymentReq(
+                device_ids=devices_ids
+            ),
+            tenant_id=tenant_id,
+        )
+
+
+def generate_jwt(tenant_id: str = "", subject: str = "", is_user: bool = True) -> str:
+    if len(subject) == 0:
+        subject = str(uuid.uuid4())
+
+    payload = {
+        "sub": subject,
+        "exp": datetime.utcnow()
+        + timedelta(hours=1),  # PyJWT will handle the time conversion
+        "mender.user": is_user,
+        "mender.device": not is_user,
+        "mender.tenant": tenant_id,
+    }
+
+    return jwt.encode(payload=payload, key="secretJWTkey", algorithm="HS256")
+
+
+def management_v2_client(tenant_id=None, user_id=None, host=None, jwt=None):
+    return management_client(mv2, "v2", tenant_id, user_id, host, jwt)
+
+
+def management_v1_client(tenant_id=None, user_id=None, host=None, jwt=None):
+    return management_client(mv1, "v1", tenant_id, user_id, host, jwt)
+
+
+def management_client(spec, v, tenant_id=None, user_id=None, host=None, jwt=None):
+    api_conf = spec.configuration.Configuration()
+    # api_conf=spec.Configuration.get_default()
+    if tenant_id is None:
+        tenant_id = str(ObjectId())
+    if not user_id:
+        user_id = str(uuid.uuid4())
+    if not jwt:
+        jwt = generate_jwt(tenant_id, user_id, is_user=True)
+    api_conf.access_token = jwt
+    api_conf.api_key = {"Authorization": "Bearer " + jwt}
+    if not host:
+        host = pytest_config.getoption("host")
+    api_conf.host = "http://" + host + "/api/management/" + v + "/deployments"
+    return spec.ManagementAPIClient(spec.ApiClient(configuration=api_conf))
+
+
+def devices_v1_client(tenant_id=None, device_id=None, host=None, jwt=None):
+    return device_client(dv1, "v1", tenant_id, device_id, host, jwt)
+
+
+def device_client(spec, v, tenant_id=None, device_id=None, host=None, jwt=None):
+    api_conf = spec.configuration.Configuration()
+    if tenant_id is None:
+        tenant_id = str(ObjectId())
+    if not device_id:
+        device_id = str(uuid.uuid4())
+    if not jwt:
+        jwt = generate_jwt(tenant_id, device_id, is_user=False)
+    api_conf.access_token = jwt
+    api_conf.api_key = {"Authorization": "Bearer " + jwt}
+    if not host:
+        host = pytest_config.getoption("host")
+    api_conf.host = "http://" + host + "/api/devices/" + v + "/deployments"
+    return spec.DeviceAPIClient(spec.ApiClient(configuration=api_conf))
+
+
+def internal_v1_client(host=None):
+    return internal_client(iv1, "v1", host)
+
+
+def internal_client(spec, v, host=None):
+    api_conf = spec.configuration.Configuration()
+    if not host:
+        host = pytest_config.getoption("host")
+    api_conf.host = "http://" + host + "/api/internal/" + v + "/deployments"
+    return spec.InternalAPIClient(spec.ApiClient(configuration=api_conf))

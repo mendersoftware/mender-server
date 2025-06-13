@@ -32,10 +32,9 @@ def pytest_addoption(parser):
         default="mender-inventory:8080",
         help="host running API",
     )
-    parser.addoption("--spec", default="../docs/management_api.yml")
-    parser.addoption("--device-spec", default="../docs/devices_api.yml")
-    parser.addoption("--internal-spec", default="../docs/internal_api.yml")
-    parser.addoption("--mongo-url", default="mongodb://mongo", help="Mongo URL (Connection string)")
+    parser.addoption(
+        "--mongo-url", default="mongodb://mongo", help="Mongo URL (Connection string)"
+    )
     parser.addoption(
         "--s3-bucket",
         default=os.environ.get("AWS_S3_BUCKET_NAME", "mender-artifact-storage"),
@@ -63,9 +62,6 @@ def pytest_configure(config):
     if config.getoption("verbose"):
         lvl = logging.DEBUG
     logging.basicConfig(level=lvl)
-    # configure bravado related loggers to be less verbose
-    logging.getLogger("swagger_spec_validator").setLevel(logging.INFO)
-    logging.getLogger("bravado_core").setLevel(logging.INFO)
 
     # capture global pytest cmdline config
     init(config)

@@ -52,30 +52,26 @@ paths:
         name: page
         schema:
           default: 1.0
-          format: integer
-          type: number
+          type: integer
       - description: Maximum number of results per page.
         in: query
         name: per_page
         schema:
           default: 20.0
-          format: integer
           maximum: 500
-          type: number
+          type: integer
       - description: List only deployments created before and equal to Unix timestamp
           (UTC)
         in: query
         name: created_before
         schema:
-          format: integer
-          type: number
+          type: integer
       - description: List only deployments created after and equal to Unix timestamp
           (UTC)
         in: query
         name: created_after
         schema:
-          format: integer
-          type: number
+          type: integer
       - description: |
           Supports sorting the deployments list by creation date.
         in: query
@@ -203,16 +199,14 @@ paths:
         name: page
         schema:
           default: 1.0
-          format: integer
-          type: number
+          type: integer
       - description: Maximum number of results per page.
         in: query
         name: per_page
         schema:
           default: 20.0
-          format: integer
           maximum: 500
-          type: number
+          type: integer
       - description: |
           Sort the release list by the specified field and direction.
         in: query
@@ -244,7 +238,6 @@ paths:
                   info:
                     format: mender
                     version: 3
-                  signed: false
                   updates:
                   - type_info:
                       type: rootfs-image
@@ -273,7 +266,6 @@ paths:
                   info:
                     format: mender
                     version: 3
-                  signed: false
                   updates:
                   - type_info:
                       type: rootfs-image
@@ -304,7 +296,6 @@ paths:
                   info:
                     format: mender
                     version: 3
-                  signed: false
                   updates:
                   - type_info:
                       type: rootfs-image
@@ -630,7 +621,6 @@ components:
         info:
           format: mender
           version: 3
-        signed: false
         updates:
         - type_info:
             type: rootfs-image
@@ -698,8 +688,7 @@ components:
         size:
           description: |
             Artifact total size in bytes - the size of the actual file that will be transferred to the device (compressed).
-          format: integer
-          type: number
+          type: integer
         modified:
           description: |
             Represents creation / last edition of any of the artifact properties.
@@ -747,7 +736,6 @@ components:
           info:
             format: mender
             version: 3
-          signed: false
           updates:
           - type_info:
               type: rootfs-image
@@ -776,7 +764,6 @@ components:
           info:
             format: mender
             version: 3
-          signed: false
           updates:
           - type_info:
               type: rootfs-image
