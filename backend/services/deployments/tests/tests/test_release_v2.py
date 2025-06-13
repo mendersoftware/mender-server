@@ -15,9 +15,8 @@
 
 import pytest
 
-import requests
-
 from client import DeploymentsClient
+from client import management_v2_client
 from common import (
     artifacts_added_from_data,
     artifacts_update_module_added_from_data,
@@ -32,6 +31,49 @@ from common import (
 
 from config import pytest_config
 import json
+
+import management_v2 as mv2
+from bson.objectid import ObjectId
+from base64 import b64encode
+from datetime import datetime, timedelta
+import hmac
+import uuid
+
+
+def generate_jwt(tenant_id: str = "", subject: str = "", is_user: bool = True) -> str:
+    if len(subject) == 0:
+        subject = str(uuid.uuid4())
+
+    hdr = {
+        "alg": "HS256",
+        "typ": "JWT",
+    }
+    hdr64 = (
+        b64encode(json.dumps(hdr).encode(), altchars=b"-_").decode("ascii").rstrip("=")
+    )
+
+    claims = {
+        "sub": subject,
+        "exp": (datetime.utcnow() + timedelta(hours=1)).isoformat("T"),
+        "mender.user": is_user,
+        "mender.device": not is_user,
+        "mender.tenant": tenant_id,
+    }
+    if is_user:
+        claims["mender.user"] = True
+    else:
+        claims["mender.device"] = True
+
+    claims64 = (
+        b64encode(json.dumps(claims).encode(), altchars=b"-_")
+        .decode("ascii")
+        .rstrip("=")
+    )
+
+    jwt = hdr64 + "." + claims64
+    sign = hmac.new(b"secretJWTkey", msg=jwt.encode(), digestmod="sha256")
+    sign64 = b64encode(sign.digest(), altchars=b"-_").decode("ascii").rstrip("=")
+    return jwt + "." + sign64
 
 
 class TestRelease:
@@ -48,63 +90,26 @@ class TestRelease:
                     ("bar", "device-type-2"),
                 ]
             ):
-                # this is a hack, since the swagger client is not prepared for the
-                # specifications of API v2 in a separate file, and we are supposed
-                # to move to openapi -- hence the fallback to requests.
-                patch_release_url = (
-                    "http://"
-                    + pytest_config.getoption("host")
-                    + f"/api/management/v2/deployments/deployments/releases/%s"
-                )
-                get_release_url = (
-                    "http://"
-                    + pytest_config.getoption("host")
-                    + f"/api/management/v2/deployments/deployments/releases?name=%s"
-                )
-                get_types_url = (
-                    "http://"
-                    + pytest_config.getoption("host")
-                    + f"/api/management/v2/deployments/releases/all/types"
-                )
                 release_name = "bar"
                 for release_notes in [
                     "New Release security fixes 2023",
                     "New Release security fixes 2024",
                 ]:
-                    r = requests.patch(
-                        patch_release_url % release_name,
-                        verify=False,
-                        headers={
-                            "Authorization": "Bearer foo",
-                            "Content-Type": "application/json",
-                        },
-                        data=json.dumps({"notes": release_notes}),
+                    management_v2_client(jwt="foo").update_release_information(
+                        release_name=release_name,
+                        release_update=mv2.ReleaseUpdate(notes=release_notes),
                     )
-                    assert r.status_code == 204
-                    r = requests.get(
-                        get_release_url % release_name,
-                        verify=False,
-                        headers={"Authorization": "Bearer foo"},
-                    )
-                    releases = json.loads(r.text)
-                    assert len(releases) > 0
-                    assert releases[0]["notes"] == release_notes
+                    release = management_v2_client(
+                        jwt="foo"
+                    ).get_release_with_given_name(release_name=release_name)
+                    assert release.notes == release_notes
 
-                r = requests.get(
-                    get_release_url % "foo",
-                    verify=False,
-                    headers={"Authorization": "Bearer foo"},
+                release = management_v2_client(jwt="foo").get_release_with_given_name(
+                    release_name="foo"
                 )
-                releases = json.loads(r.text)
-                assert len(releases) > 0
-                assert releases[0]["notes"] == ""
+                assert release.notes == ""
 
-                r = requests.get(
-                    get_types_url,
-                    verify=False,
-                    headers={"Authorization": "Bearer foo"},
-                )
-                types = json.loads(r.text)
+                types = management_v2_client(jwt="foo").list_release_types()
                 assert len(types) == 1
                 assert types[0] == "rootfs-image"
 
@@ -119,39 +124,13 @@ class TestRelease:
                     ("bar", "device-type-2", "directory"),
                 ]
             ):
-                # this is a hack, since the swagger client is not prepared for the
-                # specifications of API v2 in a separate file, and we are supposed
-                # to move to openapi -- hence the fallback to requests.
-                get_types_url = (
-                    "http://"
-                    + pytest_config.getoption("host")
-                    + f"/api/management/v2/deployments/releases/all/types"
-                )
-
-                r = requests.get(
-                    get_types_url,
-                    verify=False,
-                    headers={"Authorization": "Bearer foo"},
-                )
-                types = json.loads(r.text)
+                types = management_v2_client(jwt="foo").list_release_types()
                 assert len(types) > 0
                 assert types == ["rootfs-image", "app", "single-file", "directory"]
 
     @pytest.mark.usefixtures("clean_db", "clean_minio")
-    def test_get_all_releases_types(self, mongo, cli):
+    def test_get_all_releases_types_empty(self, mongo, cli):
         with Lock(MONGO_LOCK_FILE) as l:
             cli.migrate()
-            # this is a hack, since the swagger client is not prepared for the
-            # specifications of API v2 in a separate file, and we are supposed
-            # to move to openapi -- hence the fallback to requests.
-            get_types_url = (
-                "http://"
-                + pytest_config.getoption("host")
-                + f"/api/management/v2/deployments/releases/all/types"
-            )
-
-            r = requests.get(
-                get_types_url, verify=False, headers={"Authorization": "Bearer foo"},
-            )
-            types = json.loads(r.text)
-            assert types == []
+            types = management_v2_client(jwt="foo").list_release_types()
+            assert len(types) == 0
