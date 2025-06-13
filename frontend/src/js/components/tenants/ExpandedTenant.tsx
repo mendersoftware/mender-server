@@ -101,7 +101,7 @@ export const ExpandedTenant = (props: ExpandedTenantProps) => {
               control={<Checkbox color="primary" size="small" checked disabled />}
               label="Restrict to Service Provider’s Single Sign-On settings"
             />
-            <Link className={classes.ssoLink} to="/settings/organization-and-billing">
+            <Link className={classes.ssoLink} to="/settings/organization">
               View Single Sign-On settings
             </Link>
           </>

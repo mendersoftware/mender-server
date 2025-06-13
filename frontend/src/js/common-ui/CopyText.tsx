@@ -24,7 +24,13 @@ const useStyles = makeStyles()(() => ({
   copyNotification: { height: 15 }
 }));
 
-export const CopyTextToClipboard = ({ onCopy = yes, token }) => {
+interface CopyTextProps {
+  notify?: boolean;
+  onCopy?: () => void;
+  token: string;
+}
+
+export const CopyTextToClipboard = ({ notify = true, onCopy = yes, token }: CopyTextProps) => {
   const [copied, setCopied] = useState(false);
   const { classes } = useStyles();
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>();
@@ -42,7 +48,7 @@ export const CopyTextToClipboard = ({ onCopy = yes, token }) => {
       <CopyToClipboard text={token} onCopy={onCopied}>
         <Button startIcon={<CopyPasteIcon />}>Copy to clipboard</Button>
       </CopyToClipboard>
-      <p className={classes.copyNotification}>{copied && <span className="green fadeIn">Copied to clipboard.</span>}</p>
+      {notify && <p className={classes.copyNotification}>{copied && <span className="green fadeIn">Copied to clipboard.</span>}</p>}
     </div>
   );
 };

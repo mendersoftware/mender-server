@@ -211,7 +211,7 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
               <MenderHelpTooltip className="flexbox center-aligned" id={HELPTOOLTIPS.subTenantSSO.id} />
             </div>
             <div className="margin-top-x-small margin-bottom">
-              <Link to="/settings/organization-and-billing">View Single Sign-On settings</Link>
+              <Link to="/settings/organization">View Single Sign-On settings</Link>
             </div>
           </>
         )}

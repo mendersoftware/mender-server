@@ -227,13 +227,6 @@ const WebhookSecret = () => (
   </>
 );
 
-const TenantToken = () => (
-  <>
-    <h3>Organization token</h3>
-    This token is unique for your organization and ensures that only devices that you own are able to connect to your account.
-  </>
-);
-
 const SsoMetadata = () => <>Submit the metadata document from your Identity Provider</>;
 
 const ReleaseName = () => (
@@ -350,7 +343,6 @@ export const HELPTOOLTIPS: Record<string, HelpTooltipComponent> = {
   subTenantSSO: { id: 'subTenantSSO', Component: SubTenantSSO },
   tenantAdmin: { id: 'tenantAdmin', Component: TenantAdmin },
   tenantInitialAdmin: { id: 'tenantInitialAdmin', Component: TenantInitialAdmin },
-  tenantToken: { id: 'tenantToken', Component: TenantToken },
   twoFactorNote: { id: 'twoFactorNote', SpecialComponent: TwoFactorNote },
   webhookEvents: { id: 'webhookEvents', Component: WebhookEvents },
   webhooks: { id: 'webhooks', Component: Webhooks },

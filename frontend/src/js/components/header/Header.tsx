@@ -221,7 +221,7 @@ const AccountMenu = () => {
         </MenuItem>
         <Divider />
         {!!(multitenancy && name) && (
-          <MenuItem component={Link} dense to="/settings/organization-and-billing" onClick={handleClose} className={classes.organization}>
+          <MenuItem component={Link} dense to="/settings/organization" onClick={handleClose} className={classes.organization}>
             <div>
               <Typography variant="caption" className="muted">
                 My organization
