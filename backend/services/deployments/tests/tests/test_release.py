@@ -16,6 +16,7 @@ import pytest
 from uuid import uuid4
 
 from client import DeploymentsClient, ArtifactsClient
+from client import management_v1_client
 from common import (
     artifacts_added_from_data,
     artifact_bootstrap_from_data,
@@ -34,8 +35,8 @@ class TestRelease:
 
     @pytest.mark.usefixtures("clean_db")
     def test_releases_no_artifacts(self):
-        rsp = self.d.client.Management_API.List_Releases(Authorization="foo").result()
-        assert len(rsp[0]) == 0
+        rsp = management_v1_client(jwt="foo").list_releases()
+        assert len(rsp) == 0
 
     @pytest.mark.usefixtures("clean_minio", "clean_db")
     def test_get_all_releases(self):
@@ -47,30 +48,27 @@ class TestRelease:
                     ("bar", "device-type-2"),
                 ]
             ):
-                rsp = self.d.client.Management_API.List_Releases(
-                    Authorization="foo"
-                ).result()
-                res = rsp[0]
-                assert len(res) == 2
-                release1 = res[0]
-                release2 = res[1]
+                releases = management_v1_client(jwt="foo").list_releases()
+                assert len(releases) == 2
+                release1 = releases[0]
+                release2 = releases[1]
 
-                assert release1.Name == "bar"
-                assert len(release1.Artifacts) == 1
-                r1a = release1.Artifacts[0]
-                assert r1a["name"] == "bar"
-                assert r1a["device_types_compatible"] == ["device-type-2"]
+                assert release1.name == "bar"
+                assert len(release1.artifacts) == 1
+                r1a = release1.artifacts[0]
+                assert r1a.name == "bar"
+                assert r1a.device_types_compatible == ["device-type-2"]
 
-                assert release2.Name == "foo"
-                assert len(release2.Artifacts) == 2
+                assert release2.name == "foo"
+                assert len(release2.artifacts) == 2
 
-                r2a1 = release2.Artifacts[0]
-                r2a2 = release2.Artifacts[1]
+                r2a1 = release2.artifacts[0]
+                r2a2 = release2.artifacts[1]
                 l.unlock()
-                assert r2a1["name"] == "foo"
-                assert r2a1["device_types_compatible"] == ["device-type-1"]
-                assert r2a2["name"] == "foo"
-                assert r2a2["device_types_compatible"] == ["device-type-2"]
+                assert r2a1.name == "foo"
+                assert r2a1.device_types_compatible == ["device-type-1"]
+                assert r2a2.name == "foo"
+                assert r2a2.device_types_compatible == ["device-type-2"]
 
     @pytest.mark.usefixtures("clean_minio", "clean_db")
     def test_get_release_with_bootstrap_artifact(self):
@@ -90,28 +88,25 @@ class TestRelease:
             ) as art:
                 ac = ArtifactsClient()
                 ac.add_artifact(description, art.size, art)
-                rsp = self.d.client.Management_API.List_Releases(
-                    Authorization="foo"
-                ).result()
-                res = rsp[0]
-                assert len(res) == 1
-                release1 = res[0]
+                releases = management_v1_client(jwt="foo").list_releases()
+                assert len(releases) == 1
+                release1 = releases[0]
 
-                assert release1.Name == artifact_name
-                assert len(release1.Artifacts) == 1
-                r1a = release1.Artifacts[0]
-                assert r1a["name"] == artifact_name
-                assert device_type in r1a["device_types_compatible"]
+                assert release1.name == artifact_name
+                assert len(release1.artifacts) == 1
+                r1a = release1.artifacts[0]
+                assert r1a.name == artifact_name
+                assert device_type in r1a.device_types_compatible
                 provides_dict = dict(p.split(":") for p in provides)
                 for p in provides_dict:
-                    assert p in r1a["artifact_provides"]
+                    assert p in r1a.artifact_provides
                 for c in clears_provides:
-                    assert c in r1a["clears_artifact_provides"]
-                assert len(r1a["updates"]) == 1
-                r1au = r1a["updates"][0]
+                    assert c in r1a.clears_artifact_provides
+                assert len(r1a.updates) == 1
+                r1au = r1a.updates[0]
                 l.unlock()
-                assert r1au["files"] is None
-                assert r1au["type_info"]["type"] is None
+                assert r1au.files is None
+                assert r1au.type_info.type is None
 
     @pytest.mark.usefixtures("clean_minio", "clean_db")
     def test_get_releases_by_name(self):
@@ -123,18 +118,15 @@ class TestRelease:
                     ("bar", "device-type-2"),
                 ]
             ):
-                rsp = self.d.client.Management_API.List_Releases(
-                    Authorization="foo", name="bar"
-                ).result()
-                res = rsp[0]
-                assert len(res) == 1
-                release = res[0]
-                assert release.Name == "bar"
-                assert len(release.Artifacts) == 1
-                artifact = release.Artifacts[0]
+                releases = management_v1_client(jwt="foo").list_releases(name="bar")
+                assert len(releases) == 1
+                release = releases[0]
+                assert release.name == "bar"
+                assert len(release.artifacts) == 1
+                artifact = release.artifacts[0]
                 l.unlock()
-                assert artifact["name"] == "bar"
-                assert artifact["device_types_compatible"] == ["device-type-2"]
+                assert artifact.name == "bar"
+                assert artifact.device_types_compatible == ["device-type-2"]
 
     @pytest.mark.usefixtures("clean_minio", "clean_db")
     def test_get_releases_by_update_type(self):
@@ -146,42 +138,39 @@ class TestRelease:
                     ("bar", "device-type-2", "directory"),
                 ]
             ):
-                rsp = self.d.client.Management_API.List_Releases(
-                    Authorization="foo", update_type="app"
-                ).result()
-                res = rsp[0]
-                assert len(res) == 1
-                release = res[0]
-                assert release.Name == "foo"
-                assert len(release.Artifacts) > 0
-                artifact = release.Artifacts[0]
-                assert artifact["name"] == "foo"
-                assert artifact["device_types_compatible"] == ["device-type-1"]
+                releases = management_v1_client(jwt="foo").list_releases(
+                    update_type="app"
+                )
+                assert len(releases) == 1
+                release = releases[0]
+                assert release.name == "foo"
+                assert len(release.artifacts) > 0
+                artifact = release.artifacts[0]
+                assert artifact.name == "foo"
+                assert artifact.device_types_compatible == ["device-type-1"]
 
-                rsp = self.d.client.Management_API.List_Releases(
-                    Authorization="foo", update_type="single-file"
-                ).result()
-                res = rsp[0]
-                assert len(res) == 1
-                release = res[0]
-                assert release.Name == "foo"
-                assert len(release.Artifacts) > 0
-                artifact = release.Artifacts[1]
-                assert artifact["name"] == "foo"
-                assert artifact["device_types_compatible"] == ["device-type-2"]
+                releases = management_v1_client(jwt="foo").list_releases(
+                    update_type="single-file"
+                )
+                assert len(releases) == 1
+                release = releases[0]
+                assert release.name == "foo"
+                assert len(release.artifacts) > 0
+                artifact = release.artifacts[1]
+                assert artifact.name == "foo"
+                assert artifact.device_types_compatible == ["device-type-2"]
 
-                rsp = self.d.client.Management_API.List_Releases(
-                    Authorization="foo", update_type="directory"
-                ).result()
-                res = rsp[0]
-                assert len(res) == 1
-                release = res[0]
-                assert release.Name == "bar"
-                assert len(release.Artifacts) > 0
-                artifact = release.Artifacts[0]
+                releases = management_v1_client(jwt="foo").list_releases(
+                    update_type="directory"
+                )
+                assert len(releases) == 1
+                release = releases[0]
+                assert release.name == "bar"
+                assert len(release.artifacts) > 0
+                artifact = release.artifacts[0]
                 l.unlock()
-                assert artifact["name"] == "bar"
-                assert artifact["device_types_compatible"] == ["device-type-2"]
+                assert artifact.name == "bar"
+                assert artifact.device_types_compatible == ["device-type-2"]
 
     @pytest.mark.usefixtures("clean_minio", "clean_db")
     def test_get_releases_with_pagination_by_update_type(self):
@@ -193,42 +182,39 @@ class TestRelease:
                     ("bar", "device-type-2", "directory"),
                 ]
             ):
-                rsp = self.d.client.Management_API.List_Releases_with_pagination(
-                    Authorization="foo", update_type="app"
-                ).result()
-                res = rsp[0]
-                assert len(res) == 1
-                release = res[0]
-                assert release.Name == "foo"
-                assert len(release.Artifacts) > 0
-                artifact = release.Artifacts[0]
-                assert artifact["name"] == "foo"
-                assert artifact["device_types_compatible"] == ["device-type-1"]
+                releases = management_v1_client(
+                    jwt="foo"
+                ).list_releases_with_pagination(update_type="app")
+                assert len(releases) == 1
+                release = releases[0]
+                assert release.name == "foo"
+                assert len(release.artifacts) > 0
+                artifact = release.artifacts[0]
+                assert artifact.name == "foo"
+                assert artifact.device_types_compatible == ["device-type-1"]
 
-                rsp = self.d.client.Management_API.List_Releases_with_pagination(
-                    Authorization="foo", update_type="single-file"
-                ).result()
-                res = rsp[0]
-                assert len(res) == 1
-                release = res[0]
-                assert release.Name == "foo"
-                assert len(release.Artifacts) > 0
-                artifact = release.Artifacts[1]
-                assert artifact["name"] == "foo"
-                assert artifact["device_types_compatible"] == ["device-type-2"]
+                releases = management_v1_client(
+                    jwt="foo"
+                ).list_releases_with_pagination(update_type="single-file")
+                assert len(releases) == 1
+                release = releases[0]
+                assert release.name == "foo"
+                assert len(release.artifacts) > 0
+                artifact = release.artifacts[1]
+                assert artifact.name == "foo"
+                assert artifact.device_types_compatible == ["device-type-2"]
 
-                rsp = self.d.client.Management_API.List_Releases_with_pagination(
-                    Authorization="foo", update_type="directory"
-                ).result()
-                res = rsp[0]
-                assert len(res) == 1
-                release = res[0]
-                assert release.Name == "bar"
-                assert len(release.Artifacts) > 0
-                artifact = release.Artifacts[0]
+                releases = management_v1_client(
+                    jwt="foo"
+                ).list_releases_with_pagination(update_type="directory")
+                assert len(releases) == 1
+                release = releases[0]
+                assert release.name == "bar"
+                assert len(release.artifacts) > 0
+                artifact = release.artifacts[0]
                 l.unlock()
-                assert artifact["name"] == "bar"
-                assert artifact["device_types_compatible"] == ["device-type-2"]
+                assert artifact.name == "bar"
+                assert artifact.device_types_compatible == ["device-type-2"]
 
     @pytest.mark.usefixtures("clean_minio", "clean_db")
     def test_get_releases_by_name_no_result(self):
@@ -240,12 +226,9 @@ class TestRelease:
                     ("bar", "device-type-2"),
                 ]
             ):
-                rsp = self.d.client.Management_API.List_Releases(
-                    Authorization="foo", name="baz"
-                ).result()
-                res = rsp[0]
+                releases = management_v1_client(jwt="foo").list_releases(name="baz")
                 l.unlock()
-                assert len(res) == 0
+                assert len(releases) == 0
 
     @pytest.mark.usefixtures("clean_minio", "clean_db")
     def test_get_releases_paginated_by_name_no_result(self):
@@ -257,9 +240,8 @@ class TestRelease:
                     ("bar", "device-type-2"),
                 ]
             ):
-                rsp = self.d.client.Management_API.List_Releases_with_pagination(
-                    Authorization="foo", name="baz"
-                ).result()
-                res = rsp[0]
+                releases = management_v1_client(
+                    jwt="foo"
+                ).list_releases_with_pagination(name="baz")
                 l.unlock()
-                assert len(res) == 0
+                assert len(releases) == 0

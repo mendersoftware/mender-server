@@ -248,25 +248,6 @@ paths:
       tags:
       - Device API
 components:
-  responses:
-    NotFoundError:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Not Found.
-    InternalServerError:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Internal Server Error.
-    InvalidRequestError:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Invalid Request.
   schemas:
     Error:
       description: Error descriptor.
@@ -320,11 +301,12 @@ components:
           description: Deployment ID
           type: string
         artifact:
-          $ref: '#/components/schemas/DeploymentInstructions_artifact'
+          $ref: '#/components/schemas/DeploymentInstructionsArtifact'
       required:
       - artifact
       - id
       type: object
+      nullable: true
     DeploymentLog:
       example:
         messages:
@@ -338,12 +320,12 @@ components:
         messages:
           description: Array of log entries of a deployment
           items:
-            $ref: '#/components/schemas/DeploymentLog_messages_inner'
+            $ref: '#/components/schemas/DeploymentLogMessagesInner'
           type: array
       required:
       - messages
       type: object
-    DeploymentInstructions_artifact_source:
+    DeploymentInstructionsArtifactSource:
       properties:
         uri:
           description: URL to fetch the artifact from
@@ -354,12 +336,12 @@ components:
           format: date-time
           type: string
       type: object
-    DeploymentInstructions_artifact:
+    DeploymentInstructionsArtifact:
       properties:
         id:
           type: string
         source:
-          $ref: '#/components/schemas/DeploymentInstructions_artifact_source'
+          $ref: '#/components/schemas/DeploymentInstructionsArtifactSource'
         device_types_compatible:
           description: Compatible device types
           items:
@@ -372,7 +354,7 @@ components:
       - device_types_compatible
       - source
       type: object
-    DeploymentLog_messages_inner:
+    DeploymentLogMessagesInner:
       properties:
         timestamp:
           format: date-time

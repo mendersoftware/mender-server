@@ -2,4 +2,11 @@ __pycache__
 overlay/backend/services/*/tests/internal_api
 overlay/backend/services/*/tests/devices_api
 overlay/backend/services/*/tests/management_api
+backend/services/deployments/tests/devices_v1_*
+backend/services/deployments/tests/devices_v2_*
+backend/services/deployments/tests/internal_v1_*
+backend/services/deployments/tests/management_v1_*
+backend/services/deployments/tests/management_v2_*
+backend/services/deployments/tests/.openapi-generator-ignore
+backend/services/deployments/tests/.openapi-generator
 cliff.toml
