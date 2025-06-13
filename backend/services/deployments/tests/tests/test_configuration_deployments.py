@@ -18,7 +18,6 @@ import os
 import re
 import subprocess
 
-import bravado
 import pytest
 import requests
 
@@ -46,8 +45,8 @@ class TestInternalApiPostConfigurationDeployment:
     def test_ok(self, api_client_int, clean_db, mongo):
         with Lock(MONGO_LOCK_FILE) as l:
             tenant_id = str(ObjectId())
-            _, r = api_client_int.create_tenant(tenant_id)
-            assert r.status_code == 201
+            status_code = api_client_int.create_tenant(tenant_id)
+            assert status_code == 201
 
             dev = Device()
             inventory_add_dev(dev, tenant_id)
@@ -79,8 +78,8 @@ class TestInternalApiPostConfigurationDeployment:
     def test_fail_missing_name(self, api_client_int, clean_db):
         with Lock(MONGO_LOCK_FILE) as l:
             tenant_id = str(ObjectId())
-            _, r = api_client_int.create_tenant(tenant_id)
-            assert r.status_code == 201
+            status_code = api_client_int.create_tenant(tenant_id)
+            assert status_code == 201
 
             deployment_id = "foo"
             deployment_id = str(uuid4())
@@ -98,8 +97,8 @@ class TestInternalApiPostConfigurationDeployment:
     def test_fail_missing_configuration(self, api_client_int, clean_db):
         with Lock(MONGO_LOCK_FILE) as l:
             tenant_id = str(ObjectId())
-            _, r = api_client_int.create_tenant(tenant_id)
-            assert r.status_code == 201
+            status_code = api_client_int.create_tenant(tenant_id)
+            assert status_code == 201
 
             deployment_id = "foo"
             deployment_id = str(uuid4())
@@ -117,8 +116,8 @@ class TestInternalApiPostConfigurationDeployment:
     def test_fail_wrong_deployment_id(self, api_client_int, clean_db):
         with Lock(MONGO_LOCK_FILE) as l:
             tenant_id = str(ObjectId())
-            _, r = api_client_int.create_tenant(tenant_id)
-            assert r.status_code == 201
+            status_code = api_client_int.create_tenant(tenant_id)
+            assert status_code == 201
 
             dev = Device()
             inventory_add_dev(dev, tenant_id)
@@ -138,8 +137,8 @@ class TestInternalApiPostConfigurationDeployment:
     def test_fail_duplicate_deployment(self, api_client_int, clean_db):
         with Lock(MONGO_LOCK_FILE) as l:
             tenant_id = str(ObjectId())
-            _, r = api_client_int.create_tenant(tenant_id)
-            assert r.status_code == 201
+            status_code = api_client_int.create_tenant(tenant_id)
+            assert status_code == 201
 
             dev = Device()
             inventory_add_dev(dev, tenant_id)
@@ -185,8 +184,8 @@ class TestDevicesApiGetConfigurationDeploymentLink:
         # set up deployment
         with Lock(MONGO_LOCK_FILE) as l:
             tenant_id = str(ObjectId())
-            _, r = api_client_int.create_tenant(tenant_id)
-            assert r.status_code == 201
+            status_code = api_client_int.create_tenant(tenant_id)
+            assert status_code == 201
 
             deployment_id = str(uuid4())
 
@@ -215,13 +214,13 @@ class TestDevicesApiGetConfigurationDeploymentLink:
                 device_type=test_set["dev_type"],
             )
 
-            assert nextdep.artifact["artifact_name"] == test_set["name"]
-            assert nextdep.artifact["source"]["uri"] is not None
-            assert nextdep.artifact["source"]["expire"] is not None
-            assert nextdep.artifact["device_types_compatible"] == [test_set["dev_type"]]
+            assert nextdep.artifact.artifact_name == test_set["name"]
+            assert nextdep.artifact.source.uri is not None
+            assert nextdep.artifact.source.expire is not None
+            assert nextdep.artifact.device_types_compatible == [test_set["dev_type"]]
 
             # get/verify download contents
-            r = requests.get(nextdep.artifact["source"]["uri"], verify=False)
+            r = requests.get(nextdep.artifact.source.uri, verify=False)
             assert r.status_code == 200
 
             with open("/testing/out.mender", "wb+") as f:
@@ -242,8 +241,8 @@ class TestDevicesApiGetConfigurationDeploymentLink:
         # for reference - get a real, working link to an actual deployment
         with Lock(MONGO_LOCK_FILE) as l:
             tenant_id = str(ObjectId())
-            _, r = api_client_int.create_tenant(tenant_id)
-            assert r.status_code == 201
+            status_code = api_client_int.create_tenant(tenant_id)
+            assert status_code == 201
 
             deployment_id = str(uuid4())
             dev = Device()
@@ -264,7 +263,7 @@ class TestDevicesApiGetConfigurationDeploymentLink:
                 artifact_name="dontcare",
                 device_type="hammer",
             )
-            uri = nextdep.artifact["source"]["uri"]
+            uri = nextdep.artifact.source.uri
             qs = parse_qs(urlparse(uri).query)
 
             # now break the url in various ways
@@ -276,8 +275,8 @@ class TestDevicesApiGetConfigurationDeploymentLink:
 
             # wrong tenant in url (signature error)
             other_tenant_id = str(ObjectId())
-            _, r = api_client_int.create_tenant(other_tenant_id)
-            assert r.status_code == 201
+            status_code = api_client_int.create_tenant(other_tenant_id)
+            assert status_code == 201
 
             uri_bad_tenant = uri.replace(tenant_id, other_tenant_id)
             r = requests.get(uri_bad_tenant, verify=False)
@@ -356,8 +355,8 @@ class TestDeviceApiGetConfigurationDeploymentNext:
         # start with a valid deployment
         with Lock(MONGO_LOCK_FILE) as l:
             tenant_id = str(ObjectId())
-            _, r = api_client_int.create_tenant(tenant_id)
-            assert r.status_code == 201
+            status_code = api_client_int.create_tenant(tenant_id)
+            assert status_code == 201
 
             deployment_id = str(uuid4())
             dev = Device()
@@ -375,32 +374,44 @@ class TestDeviceApiGetConfigurationDeploymentNext:
             # try get upgrade
             # valid device id + type, but different tenant
             other_tenant_id = str(ObjectId())
-            _, r = api_client_int.create_tenant(other_tenant_id)
-            assert r.status_code == 201
+            status_code = api_client_int.create_tenant(other_tenant_id)
+            assert status_code == 201
 
             dc = SimpleDeviceClient()
-            nodep = dc.get_next_deployment(
-                dev.fake_token_mt(other_tenant_id),
-                artifact_name="dontcare",
-                device_type=dev.device_type,
-            )
+            nodep = {}
+            try:
+                dc.get_next_deployment(
+                    dev.fake_token_mt(other_tenant_id),
+                    artifact_name="dontcare",
+                    device_type=dev.device_type,
+                )
+            except ValueError:
+                nodep = None
             assert nodep is None
 
             # correct tenant, incorrect device id (but correct type)
             otherdev = Device()
-            nodep = dc.get_next_deployment(
-                otherdev.fake_token_mt(tenant_id),
-                artifact_name="dontcare",
-                device_type=dev.device_type,
-            )
+            nodep = {}
+            try:
+                dc.get_next_deployment(
+                    otherdev.fake_token_mt(tenant_id),
+                    artifact_name="dontcare",
+                    device_type=dev.device_type,
+                )
+            except ValueError:
+                nodep = None
             assert nodep is None
 
             # correct tenant, correct device id, incorrect type
-            nodep = dc.get_next_deployment(
-                otherdev.fake_token_mt(tenant_id),
-                artifact_name="dontcare",
-                device_type=otherdev.device_type,
-            )
+            nodep = {}
+            try:
+                dc.get_next_deployment(
+                    otherdev.fake_token_mt(tenant_id),
+                    artifact_name="dontcare",
+                    device_type=otherdev.device_type,
+                )
+            except:
+                nodep = None
             assert nodep is None
             l.unlock()
 
