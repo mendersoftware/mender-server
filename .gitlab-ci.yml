@@ -275,7 +275,6 @@ test:backend:unit:
 test:backend:acceptance:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
   extends: .build:base
-  resource_group: test_backend_acceptance
   stage: test
   rules:
     - changes:
