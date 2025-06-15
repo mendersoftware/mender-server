@@ -13,9 +13,7 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
-import bravado
 import pytest
-import requests
 import uuid
 
 from uuid import uuid4
@@ -33,13 +31,14 @@ from common import (
 )
 from client import SimpleArtifactsClient, ArtifactsClientError
 
+from client import internal_v1_client
+from internal_v1.rest import ApiException
+
 
 class TestInternalApiTenantCreate:
     def test_create_ok(self, api_client_int, clean_db):
         with Lock(MONGO_LOCK_FILE) as l:
-            _, r = api_client_int.create_tenant("foobar")
-            l.unlock()
-            assert r.status_code == 201
+            internal_v1_client().create_tenant({"tenant_id": "foobar"})
 
             assert "deployment_service-foobar" in clean_db.list_database_names()
             assert (
@@ -49,19 +48,17 @@ class TestInternalApiTenantCreate:
 
     def test_create_twice(self, api_client_int, clean_db):
         with Lock(MONGO_LOCK_FILE) as l:
-            _, r = api_client_int.create_tenant("foobar")
-            assert r.status_code == 201
+            internal_v1_client().create_tenant({"tenant_id": "foobar"})
 
             # creating once more should not fail
-            _, r = api_client_int.create_tenant("foobar")
-            assert r.status_code == 201
+            internal_v1_client().create_tenant({"tenant_id": "foobar"})
             l.unlock()
 
     def test_create_empty(self, api_client_int):
         try:
-            _, r = api_client_int.create_tenant("")
-        except bravado.exception.HTTPError as e:
-            assert e.response.status_code == 400
+            internal_v1_client().create_tenant({"tenant_id": ""})
+        except ApiException as e:
+            assert e.status == 400
 
     @pytest.mark.usefixtures("clean_minio")
     def test_artifacts_valid(self, api_client_int, mongo):
@@ -72,8 +69,7 @@ class TestInternalApiTenantCreate:
             data = b"foo_bar"
 
             tenant_id = str(ObjectId())
-            _, r = api_client_int.create_tenant(tenant_id)
-            assert r.status_code == 201
+            internal_v1_client().create_tenant({"tenant_id": tenant_id})
 
             # generate artifact
             with artifact_rootfs_from_data(
@@ -162,28 +158,31 @@ class TestInternalApiGetLastDeviceDeploymentStatus:
 
             for i in range(len(devices)):
                 devices_ids = [device_ids[i]]
-                r, c = api_client_int.get_last_device_deployment_status(devices_ids, "")
-                assert c.status_code == 200
-                r = r["device_deployment_last_statuses"]
+                r = internal_v1_client().get_last_device_deployment_status(
+                    "", {"device_ids": devices_ids}
+                )
+                r = r.device_deployment_last_statuses
                 assert len(r) == len(devices_ids)
-                assert r[0]["device_id"] == device_ids[i]
-                assert r[0]["device_deployment_id"] == device_deployment_id
-                assert r[0]["device_deployment_status"] == "success"
+                assert r[0].device_id == device_ids[i]
+                assert r[0].device_deployment_id == device_deployment_id
+                assert r[0].device_deployment_status == "success"
 
             mongo["deployment_service"].devices_last_status.delete_many({})
 
             for i in range(len(devices)):
                 mongo["deployment_service"].devices_last_status.insert_one(devices[i])
             devices_ids = device_ids
-            r, c = api_client_int.get_last_device_deployment_status(devices_ids, "")
-            assert c.status_code == 200
-            r = r["device_deployment_last_statuses"]
+            r = internal_v1_client().get_last_device_deployment_status(
+                "", {"device_ids": devices_ids}
+            )
+            r = r.device_deployment_last_statuses
             assert len(r) == len(device_ids)
 
             mongo["deployment_service"].devices_last_status.delete_many({})
             devices_ids = device_ids
-            r, c = api_client_int.get_last_device_deployment_status(devices_ids, "")
-            assert c.status_code == 200
-            r = r["device_deployment_last_statuses"]
+            r = internal_v1_client().get_last_device_deployment_status(
+                "", {"device_ids": devices_ids}
+            )
+            r = r.device_deployment_last_statuses
             assert len(r) == 0
             l.unlock()
