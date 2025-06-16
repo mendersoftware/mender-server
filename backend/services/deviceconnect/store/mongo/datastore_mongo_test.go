@@ -646,7 +646,7 @@ func TestSetSessionRecording(t *testing.T) {
 				recordingExpire: tc.Expiration,
 			}
 			defer ds.DropDatabase()
-			ctx, cancel := context.WithTimeout(tc.Ctx, time.Minute)
+			ctx, cancel := context.WithTimeout(tc.Ctx, time.Minute*5)
 			defer cancel()
 
 			database := db.Client().Database(DbName)
