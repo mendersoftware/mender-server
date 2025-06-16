@@ -15,54 +15,39 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // material ui
-import { Button, Checkbox, Collapse, DialogActions, DialogContent, FormControlLabel, List, MenuItem, Select } from '@mui/material';
+import { Alert, Button, Collapse, DialogActions, DialogContent, FormControlLabel, MenuItem, Select, Switch, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
-import ExpandableAttribute from '@northern.tech/common-ui/ExpandableAttribute';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
-import { HELPTOOLTIPS } from '@northern.tech/common-ui/helptips/HelpTooltips';
-import { MenderHelpTooltip } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import storeActions from '@northern.tech/store/actions';
 import { SSO_TYPES } from '@northern.tech/store/constants';
 import { getCurrentSession, getFeatures, getIsEnterprise, getIsPreview, getOrganization, getSsoConfig, getUserRoles } from '@northern.tech/store/selectors';
-import {
-  changeSsoConfig,
-  deleteSsoConfig,
-  downloadLicenseReport,
-  getSsoConfigs,
-  getUserBilling,
-  getUserOrganization,
-  storeSsoConfig
-} from '@northern.tech/store/thunks';
+import { changeSsoConfig, deleteSsoConfig, downloadLicenseReport, getSsoConfigs, getUserOrganization, storeSsoConfig } from '@northern.tech/store/thunks';
 import { createFileDownload, toggle } from '@northern.tech/utils/helpers';
-import copy from 'copy-to-clipboard';
 import dayjs from 'dayjs';
 
-import Billing from './Billing';
-import OrganizationSettingsItem, { maxWidth } from './OrganizationSettingsItem';
+import OrganizationSettingsItem from './OrganizationSettingsItem';
 import { SSOConfig } from './SSOConfig';
 
 const { setSnackbar } = storeActions;
 
-const useStyles = makeStyles()(theme => ({
-  deviceLimitBar: { backgroundColor: theme.palette.grey[500], margin: '15px 0' },
-  tenantInfo: { marginTop: 11, paddingBottom: 3, 'span': { marginLeft: theme.spacing(0.5), color: theme.palette.text.disabled } },
-  tenantToken: { width: `calc(${maxWidth}px - ${theme.spacing(4)})` },
-  tokenTitle: { paddingRight: 10 },
-  tokenExplanation: { margin: '1em 0' },
+const useStyles = makeStyles()(({ spacing }) => ({
+  orgInfo: { gap: spacing(2) },
   ssoSelect: { minWidth: 265 }
 }));
 
-export const OrgHeader = () => {
-  const { classes } = useStyles();
-  return (
-    <div className="flexbox center-aligned">
-      <div className={classes.tokenTitle}>Organization token</div>
-      <MenderHelpTooltip id={HELPTOOLTIPS.tenantToken.id} disableHoverListener={false} placement="top" />
-    </div>
-  );
-};
+// unlike the ExpandableAttribute, the token should not be visible by default - thus a separate component
+const TenantToken = ({ expanded, onClick, token }: { expanded: boolean; onClick: () => void; token: string }) => (
+  <>
+    <div className="tenant-token-text">{expanded ? token : `${token.substring(0, token.length / 2)}...`}</div>
+    {!expanded && (
+      <div className="clickable link-color margin-top-x-small margin-left-x-small" onClick={onClick}>
+        <b>Show more</b>
+      </div>
+    )}
+  </>
+);
 
 export const Organization = () => {
   const [hasSingleSignOn, setHasSingleSignOn] = useState(false);
@@ -82,7 +67,6 @@ export const Organization = () => {
   const { classes } = useStyles();
 
   useEffect(() => {
-    dispatch(getUserBilling());
     dispatch(getUserOrganization());
   }, [dispatch]);
 
@@ -129,11 +113,6 @@ export const Organization = () => {
       .unwrap()
       .then(report => createFileDownload(report, `Mender-license-report-${dayjs().format('YYYY-MM-DD')}`, token));
 
-  const onTenantInfoClick = () => {
-    copy(`Organization: ${orgName}, Tenant ID: ${tenantId}`);
-    setSnackbar('Copied to clipboard');
-  };
-
   const onSSOClick = () => {
     if (hasSingleSignOn) {
       setIsConfiguringSSO(false);
@@ -161,59 +140,35 @@ export const Organization = () => {
     });
 
   return (
-    <div className="margin-top-small">
-      <h2 className="margin-top-small">Organization and billing</h2>
-      <List>
+    <div style={{ maxWidth: 750 }}>
+      <Typography variant="h6">My organization</Typography>
+      <div className={`flexbox column ${classes.orgInfo}`}>
+        <OrganizationSettingsItem title="Organization ID" secondary={tenantId} sideBarContent={<CopyTextToClipboard notify={false} token={tenantId} />} />
+        <OrganizationSettingsItem title="Organization name" secondary={orgName} sideBarContent={<CopyTextToClipboard notify={false} token={orgName} />} />
         <OrganizationSettingsItem
-          title="Organization name"
-          content={{
-            action: { action: onTenantInfoClick, internal: true },
-            description: (
-              <div className={`clickable ${classes.tenantInfo}`} onClick={onTenantInfoClick}>
-                {orgName}
-                <span>({tenantId})</span>
-              </div>
+          title="Organization token"
+          description="The token is unique for your organization and ensures that only devices that you own are able to connect to your account."
+          secondary={<TenantToken expanded={showTokenWarning} onClick={onTokenExpansion} token={tenant_token} />}
+          sideBarContent={<CopyTextToClipboard notify={false} onCopy={onTokenExpansion} token={tenant_token} />}
+          notification={
+            showTokenWarning && (
+              <Alert severity="warning">
+                Do not share your organization token with others. Treat this token like a password, as it can be used to request authorization for new devices.
+              </Alert>
             )
-          }}
-        />
-        <OrganizationSettingsItem
-          title={<OrgHeader />}
-          content={{}}
-          secondary={
-            <>
-              <ExpandableAttribute
-                className={classes.tenantToken}
-                component="div"
-                disableGutters
-                dividerDisabled
-                key="org_token"
-                onExpansion={onTokenExpansion}
-                secondary={showTokenWarning ? tenant_token : `${tenant_token.substring(0, 5)}...${tenant_token.substring(tenant_token.length - 5)}`}
-                textClasses={{ secondary: 'inventory-text tenant-token-text' }}
-              />
-              {showTokenWarning && (
-                <p className="warning">
-                  <b>Important</b>
-                  <br />
-                  Do not share your organization token with others. Treat this token like a password, as it can be used to request authorization for new
-                  devices.
-                </p>
-              )}
-            </>
           }
-          sideBarContent={<CopyTextToClipboard onCopy={onTokenExpansion} token={tenant_token} />}
         />
-      </List>
-
-      {isEnterprise && isAdmin && (
-        <div>
-          <FormControlLabel
-            className="margin-bottom-small"
-            control={<Checkbox checked={!isResettingSSO && (hasSingleSignOn || isConfiguringSSO)} onChange={onSSOClick} />}
-            label="Enable Single Sign-On"
-          />
-        </div>
-      )}
+        {isEnterprise && isAdmin && (
+          <div>
+            <FormControlLabel
+              className="margin-bottom-small margin-left-none"
+              control={<Switch checked={!isResettingSSO && (hasSingleSignOn || isConfiguringSSO)} className="margin-left-small" onChange={onSSOClick} />}
+              label="Enable Single Sign-On"
+              labelPlacement="start"
+            />
+          </div>
+        )}
+      </div>
 
       {isConfiguringSSO && (
         <div>
@@ -252,8 +207,6 @@ export const Organization = () => {
           </Collapse>
         </div>
       )}
-
-      {isHosted && <Billing />}
       {(canPreview || !isHosted) && isEnterprise && isAdmin && (
         <Button className="margin-top" onClick={onDownloadReportClick} variant="contained">
           Download license report

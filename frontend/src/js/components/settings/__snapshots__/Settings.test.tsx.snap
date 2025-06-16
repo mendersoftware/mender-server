@@ -806,7 +806,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
     <a
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink settingsNav emotion-2"
       data-discover="true"
-      href="/settings/organization-and-billing"
+      href="/settings/organization"
     >
       <div
         class="MuiListItemText-root emotion-3"
@@ -814,7 +814,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
         <span
           class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-4"
         >
-          Organization and billing
+          Organization
         </span>
       </div>
     </a>

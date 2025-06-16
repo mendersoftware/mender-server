@@ -21,8 +21,8 @@ import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
-import { CancelSubscriptionAlert, CancelSubscriptionButton, DeviceLimitExpansionNotification, TrialExpirationNote } from './Billing';
-import MyOrganization, { OrgHeader } from './Organization';
+import { CancelSubscription, CancelSubscriptionAlert, DeviceLimitExpansionNotification, PlanDescriptor } from './Billing';
+import MyOrganization from './Organization';
 
 describe('MyOrganization Component', () => {
   let preloadedState;
@@ -122,7 +122,7 @@ describe('MyOrganization Component', () => {
 });
 
 describe('smaller components', () => {
-  [OrgHeader, TrialExpirationNote, DeviceLimitExpansionNotification, CancelSubscriptionAlert, CancelSubscriptionButton].forEach(Component => {
+  [PlanDescriptor, DeviceLimitExpansionNotification, CancelSubscriptionAlert, CancelSubscription].forEach(Component => {
     it(`renders ${Component.displayName || Component.name} correctly`, () => {
       const { baseElement } = render(
         <Component

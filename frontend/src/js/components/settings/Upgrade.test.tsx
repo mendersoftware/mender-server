@@ -31,7 +31,7 @@ const changeRequestBase = {
     requested_plan: 'Basic',
     user_message: ''
   },
-  tenantId: 1
+  tenantId: '1'
 };
 describe('smaller components', () => {
   [PricingContactNote].forEach(Component => {

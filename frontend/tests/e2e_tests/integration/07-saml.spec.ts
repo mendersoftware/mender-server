@@ -63,7 +63,7 @@ test.describe('SAML Login via sso/id/login', () => {
     idpServer.close();
     expect(response.ok()).toBeTruthy();
     const metadata = await response.text();
-    await page.goto(`${baseUrl}ui/settings/organization-and-billing`);
+    await page.goto(`${baseUrl}ui/settings/organization`);
     const isInitialized = await page.getByText('Entity ID').isVisible();
     if (!isInitialized) {
       // Check input[type="checkbox"]

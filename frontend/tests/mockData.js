@@ -536,7 +536,7 @@ export const defaultState = {
     organization: {
       ...initialOrganizationState.organization,
       addons: [],
-      id: 1,
+      id: '1',
       name: 'test',
       plan: 'os',
       trial: false

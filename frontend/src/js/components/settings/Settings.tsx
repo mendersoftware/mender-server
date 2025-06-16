@@ -34,6 +34,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import Global from './Global';
 import Integrations from './Integrations';
 import Upgrade from './Upgrade';
+import Billing from './organization/Billing';
 import Organization from './organization/Organization';
 import { RoleManagement } from './role-management/RoleManagement';
 import SelfUserManagement from './user-management/SelfUserManagement';
@@ -48,9 +49,9 @@ const sectionMap = {
     canAccess: ({ organization: { service_provider }, userCapabilities: { canManageUsers } }) => !service_provider && canManageUsers
   },
   'my-profile': { component: SelfUserManagement, text: () => 'My profile', canAccess },
-  'organization-and-billing': {
+  'organization': {
     component: Organization,
-    text: () => 'Organization and billing',
+    text: () => 'Organization',
     canAccess: ({ hasMultitenancy }) => hasMultitenancy
   },
   'user-management': {
@@ -68,6 +69,11 @@ const sectionMap = {
     text: () => 'Integrations',
     canAccess: ({ organization: { service_provider }, userRoles: { isAdmin } }) => !service_provider && isAdmin
   },
+  'billing': {
+    component: Billing,
+    text: () => 'Billing',
+    canAccess: ({ isHosted }) => isHosted
+  },
   upgrade: {
     component: Upgrade,
     icon: <PaymentIcon />,
@@ -78,7 +84,7 @@ const sectionMap = {
 
 export const Settings = () => {
   const currentUser = useSelector(getCurrentUser);
-  const { hasMultitenancy } = useSelector(getFeatures);
+  const { hasMultitenancy, isHosted } = useSelector(getFeatures);
   const organization = useSelector(getOrganization);
   const stripeAPIKey = useSelector(getStripeKey);
   const tenantCapabilities = useSelector(getTenantCapabilities);
@@ -103,7 +109,7 @@ export const Settings = () => {
   }, [stripeAPIKey]);
 
   const checkDenyAccess = item =>
-    currentUser.id && !item.canAccess({ currentUser, hasMultitenancy, organization, tenantCapabilities, userCapabilities, userRoles });
+    currentUser.id && !item.canAccess({ currentUser, hasMultitenancy, isHosted, organization, tenantCapabilities, userCapabilities, userRoles });
 
   const getCurrentSection = (sections, section = sectionParam) => {
     if (!sections.hasOwnProperty(section) || checkDenyAccess(sections[section])) {

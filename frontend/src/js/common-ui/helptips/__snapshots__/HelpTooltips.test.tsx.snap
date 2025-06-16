@@ -431,15 +431,6 @@ exports[`Helptooltips Components > renders TenantAdmin correctly 1`] = `Set the 
 
 exports[`Helptooltips Components > renders TenantInitialAdmin correctly 1`] = `The user that was assigned as admin for this tenant when it was created. There is a chance the admin user will have changed or this user no longer exists in this tenant.`;
 
-exports[`Helptooltips Components > renders TenantToken correctly 1`] = `
-NodeList [
-  <h3>
-    Organization token
-  </h3>,
-  This token is unique for your organization and ensures that only devices that you own are able to connect to your account.,
-]
-`;
-
 exports[`Helptooltips Components > renders TwoFactorNote correctly 1`] = `
 <div>
   Two Factor Authentication is enabled for your account. If you haven't set up a 3rd party authentication app with a verification code, please contact an administrator.
