@@ -1,3 +1,21 @@
-compose/ @mendersoftware/backend-dependabot-reviewers @mendersoftware/frontend-dependabot-reviewers
+# These owners will be the default owners for everything in
+# the repo. Unless a later match takes precedence,
+# @mendersoftware/backend-dependabot-reviewers
+# and @mendersoftware/frontend-dependabot-reviewers will be requested for
+# review when someone opens a pull request.
+* @mendersoftware/backend-dependabot-reviewers @mendersoftware/frontend-dependabot-reviewers
+
+# Order is important; the last matching pattern takes the most
+# precedence.
+
+# When someone opens a pull request that only
+# modifies files in the backend directory,
+# only @mendersoftware/backend-dependabot-reviewers
+# and not the global owners will be requested for a review.
 backend/ @mendersoftware/backend-dependabot-reviewers
+
+# When someone opens a pull request that only
+# modifies files in the frontend directory,
+# only @mendersoftware/frontend-dependabot-reviewers
+# and not the global owners will be requested for a review.
 frontend/ @mendersoftware/frontend-dependabot-reviewers
