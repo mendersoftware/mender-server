@@ -18,6 +18,7 @@ import { Link } from 'react-router-dom';
 import { buttonClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import Form from '@northern.tech/common-ui/forms/Form';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { passwordResetStart } from '@northern.tech/store/thunks';
@@ -107,11 +108,7 @@ const PasswordResetInfo = ({ email }: { email: string }) => (
       Return to login page
     </Link>
     <p>
-      If you still haven&apos;t received the email, check your spam folder or{' '}
-      <a href="mailto:support@mender.io" target="_blank" rel="noopener noreferrer">
-        contact support
-      </a>
-      .
+      If you still haven&apos;t received the email, check your spam folder or <SupportLink variant="support" />.
     </p>
   </>
 );

@@ -715,9 +715,9 @@ exports[`Billing Component > renders correctly 1`] = `
           <div
             class="MuiAlert-message emotion-5"
           >
-            Your account is not set up for automatic billing. If you believe this is a mistake, please contact
-             
+            Your account is not set up for automatic billing. If you believe this is a mistake, please contact 
             <a
+              class=""
               href="mailto:support@mender.io"
               rel="noopener noreferrer"
               target="_blank"

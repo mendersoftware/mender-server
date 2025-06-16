@@ -20,6 +20,7 @@ import { Error as ErrorIcon } from '@mui/icons-material';
 import { Alert, AlertTitle, Button, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { Tenant } from '@northern.tech/store/api/types/Tenant';
 import { ADDONS, PLANS } from '@northern.tech/store/constants';
 import { getBillingProfile, getCard, getDeviceLimit, getIsEnterprise, getOrganization, getUserRoles } from '@northern.tech/store/selectors';
@@ -130,13 +131,7 @@ export const DeviceLimitExpansionNotification = ({ isTrial }: { isTrial: boolean
     <div className="muted" style={{ marginRight: 4 }}>
       To increase your device limit,{' '}
     </div>
-    {isTrial ? (
-      <Link to="/settings/upgrade">upgrade to a paid plan</Link>
-    ) : (
-      <a href="mailto:support@mender.io" target="_blank" rel="noopener noreferrer">
-        contact our sales team
-      </a>
-    )}
+    {isTrial ? <Link to="/settings/upgrade">upgrade to a paid plan</Link> : <SupportLink variant="salesTeam" />}
     <div className="muted">.</div>
   </div>
 );
@@ -302,10 +297,7 @@ export const Billing = () => {
             )}
             {!billing && !isTrial && (
               <Alert severity="warning">
-                Your account is not set up for automatic billing. If you believe this is a mistake, please contact{' '}
-                <a href="mailto:support@mender.io" target="_blank" rel="noopener noreferrer">
-                  support@mender.io
-                </a>
+                Your account is not set up for automatic billing. If you believe this is a mistake, please contact <SupportLink variant="email" />
               </Alert>
             )}
           </>

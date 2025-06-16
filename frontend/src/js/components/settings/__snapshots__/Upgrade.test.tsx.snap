@@ -811,12 +811,14 @@ exports[`Upgrade Component > renders correctly 1`] = `
     * Device limits can be adjusted on request; prices can change for larger limits. If you have any questions about the plan pricing or device limits,
      
     <a
+      class=""
       href="mailto:support@mender.io"
       rel="noopener noreferrer"
       target="_blank"
     >
-      contact our team.
+      contact our team
     </a>
+    .
   </p>
   <h3
     class="margin-top-large"
@@ -956,11 +958,13 @@ exports[`smaller components > renders PricingContactNote correctly 1`] = `
   * Device limits can be adjusted on request; prices can change for larger limits. If you have any questions about the plan pricing or device limits,
    
   <a
+    class=""
     href="mailto:support@mender.io"
     rel="noopener noreferrer"
     target="_blank"
   >
-    contact our team.
+    contact our team
   </a>
+  .
 </p>
 `;
