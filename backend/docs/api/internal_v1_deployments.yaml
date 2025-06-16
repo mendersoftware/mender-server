@@ -149,6 +149,8 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: Internal Server Error.
       summary: Get storage limit and current storage usage for given tenant
+      tags:
+        - Internal API
     put:
       description: |
         Set storage limit for given tenant.
@@ -185,6 +187,8 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: Internal server error.
       summary: Set storage limit for given tenant
+      tags:
+        - Internal API
   /tenants:
     post:
       description: |
@@ -211,6 +215,8 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: Internal server error.
       summary: Provision a new tenant
+      tags:
+        - Internal API
   /tenants/{id}/deployments:
     get:
       description: |
@@ -244,22 +250,19 @@ paths:
         name: page
         schema:
           default: 1.0
-          format: integer
-          type: number
+          type: integer
       - description: List only deployments created before and equal to Unix timestamp
           (UTC)
         in: query
         name: created_before
         schema:
-          format: integer
-          type: number
+          type: integer
       - description: List only deployments created after and equal to Unix timestamp
           (UTC)
         in: query
         name: created_after
         schema:
-          format: integer
-          type: number
+          type: integer
       responses:
         "200":
           content:
@@ -289,6 +292,8 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: Invalid Request.
       summary: Get all deployments for specific tenant
+      tags:
+        - Internal API
   /tenants/{tenant_id}/deployments/devices:
     get:
       description: |
@@ -407,16 +412,14 @@ paths:
         name: page
         schema:
           default: 1.0
-          format: integer
-          type: number
+          type: integer
       - description: Maximum number of results per page.
         in: query
         name: per_page
         schema:
           default: 20.0
-          format: integer
           maximum: 20
-          type: number
+          type: integer
       responses:
         "200":
           content:
@@ -476,6 +479,8 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: Internal Server Error.
       summary: Upload mender artifact
+      tags:
+        - Internal API
   /tenants/{tenant_id}/configuration/deployments/{deployment_id}/devices/{device_id}:
     post:
       description: |
@@ -819,7 +824,6 @@ components:
               info:
                 format: mender
                 version: 3
-              signed: false
               updates:
               - type_info:
                   type: rootfs-image
@@ -828,7 +832,8 @@ components:
                   checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
                   size: 123
                   date: 2016-03-11T13:03:17.063+0000
-                meta_data: {}
+                meta_data:
+                  type: object
               artifact_provides:
                 artifact_name: test
                 rootfs-image.checksum: 32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99
@@ -873,7 +878,6 @@ components:
             info:
               format: mender
               version: 3
-            signed: false
             updates:
             - type_info:
                 type: rootfs-image
@@ -882,7 +886,8 @@ components:
                 checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
                 size: 123
                 date: 2016-03-11T13:03:17.063+0000
-              meta_data: {}
+              meta_data:
+                type: object
             artifact_provides:
               artifact_name: test
               rootfs-image.checksum: 32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99
@@ -921,7 +926,7 @@ components:
           description: Additional state information
           type: string
         image:
-          $ref: '#/components/schemas/DeviceWithImage_image'
+          $ref: '#/components/schemas/DeviceWithImageImage'
       required:
       - id
       - log
@@ -976,10 +981,12 @@ components:
             $ref: '#/components/schemas/UpdateFile'
           type: array
         meta_data:
-          description: |
-            meta_data is an object of unknown structure as this is dependent of update type (also custom defined by user)
-          properties: {}
-          type: object
+          $ref: '#/components/schemas/MetadataAny'
+      type: object
+    MetadataAny:
+      description: meta_data is an object of unknown structure as this is dependent of update type (also custom defined by user)
+      additionalProperties:
+        type: string
       type: object
     ArtifactInfo:
       description: |
@@ -1028,8 +1035,8 @@ components:
     LastDeviceDeploymentReq:
       example:
         device_ids:
-        - device_ids
-        - device_ids
+        - device_id1
+        - device_id2
       properties:
         device_ids:
           items:
@@ -1057,13 +1064,13 @@ components:
       required:
       - artifact
       type: object
-    DeviceWithImage_image_meta:
+    DeviceWithImageImageMeta:
       properties:
         description:
           description: Image description
           type: string
       type: object
-    DeviceWithImage_image_meta_artifact:
+    DeviceWithImageImageMetaArtifact:
       properties:
         name:
           type: string
@@ -1105,15 +1112,15 @@ components:
             type: string
           type: array
       type: object
-    DeviceWithImage_image:
+    DeviceWithImageImage:
       properties:
         id:
           description: Image ID
           type: string
         meta:
-          $ref: '#/components/schemas/DeviceWithImage_image_meta'
+          $ref: '#/components/schemas/DeviceWithImageImageMeta'
         meta_artifact:
-          $ref: '#/components/schemas/DeviceWithImage_image_meta_artifact'
+          $ref: '#/components/schemas/DeviceWithImageImageMetaArtifact'
         size:
           description: Image size in bytes
           type: integer

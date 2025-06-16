@@ -24,7 +24,6 @@ from os.path import basename
 from uuid import uuid4
 from hashlib import sha256
 
-import bravado
 import requests
 
 from client import ArtifactsClient, ArtifactsClientError
@@ -39,30 +38,29 @@ from common import (
     Lock,
     MONGO_LOCK_FILE,
 )
+from client import management_v1_client
+from management_v1.rest import ApiException
 
 
 class TestArtifact:
     ac = ArtifactsClient()
 
     def test_artifacts_all(self):
-        res = self.ac.client.Management_API.List_Artifacts().result()
+        res = management_v1_client().list_artifacts()
         self.ac.log.debug("result: %s", res)
 
     def test_artifacts_new_bogus_empty(self, clean_minio, clean_db):
         with Lock(MONGO_LOCK_FILE) as l:
             # try bogus image data
             try:
-                res = self.ac.client.Management_API.Upload_Artifact(
-                    Authorization="foo",
-                    size=100,
-                    artifact="".encode(),
-                    description="bar",
-                ).result()
-            except bravado.exception.HTTPError as e:
-                assert (
-                    sum(1 for x in clean_minio.objects.all()) == 0
+                res = (
+                    management_v1_client(jwt="foo")
+                    .upload_artifact(size=100, artifact="".encode(), description="bar",)
+                    .result()
                 )
-                assert e.response.status_code == 400
+            except ApiException as e:
+                assert sum(1 for x in clean_minio.objects.all()) == 0
+                assert e.status == 400
             else:
                 raise AssertionError("expected to fail")
 
@@ -79,9 +77,7 @@ class TestArtifact:
 
                 rsp = requests.post(self.ac.make_api_url("/artifacts"), files=files)
                 l.unlock()
-                assert (
-                    sum(1 for x in clean_minio.objects.all()) == 0
-                )
+                assert sum(1 for x in clean_minio.objects.all()) == 0
                 assert rsp.status_code == 400
 
     def test_artifacts_valid(self, clean_minio, clean_db):
@@ -99,13 +95,11 @@ class TestArtifact:
                 artid = self.ac.add_artifact(description, art.size, art)
 
                 # artifacts listing should not be empty now
-                res = self.ac.client.Management_API.List_Artifacts().result()
+                res = management_v1_client(jwt=self.ac.get_jwt()).list_artifacts()
                 self.ac.log.debug("result: %s", res)
-                assert len(res[0]) > 0
+                assert len(res) > 0
 
-                res = self.ac.client.Management_API.Show_Artifact(
-                    Authorization="foo", id=artid
-                ).result()[0]
+                res = management_v1_client(jwt="foo").show_artifact(id=artid)
                 self.ac.log.info("artifact: %s", res)
 
                 # verify its data
@@ -124,18 +118,14 @@ class TestArtifact:
                 # assert uf.signature
 
                 # try to fetch the update
-                res = self.ac.client.Management_API.Download_Artifact(
-                    Authorization="foo", id=artid
-                ).result()[0]
+                res = management_v1_client(jwt="foo").download_artifact(id=artid)
                 self.ac.log.info("download result %s", res)
                 assert res.uri
                 # fetch it now (disable SSL verification)
                 rsp = requests.get(res.uri, verify=False, stream=True)
 
                 assert rsp.status_code == 200
-                assert (
-                    sum(1 for x in clean_minio.objects.all()) == 1
-                )
+                assert sum(1 for x in clean_minio.objects.all()) == 1
 
                 # receive artifact and compare its checksum
                 dig = sha256()
@@ -156,11 +146,9 @@ class TestArtifact:
 
                 # should be unavailable now
                 try:
-                    res = self.ac.client.Management_API.Show_Artifact(
-                        Authorization="foo", id=artid
-                    ).result()
-                except bravado.exception.HTTPError as e:
-                    assert e.response.status_code == 404
+                    res = management_v1_client(jwt="foo").show_artifact(id=artid)
+                except ApiException as e:
+                    assert e.status == 404
                 else:
                     raise AssertionError("expected to fail")
             l.unlock()
@@ -179,37 +167,33 @@ class TestArtifact:
                 artid = self.ac.add_artifact(description, art.size, art)
 
                 # artifacts listing should not be empty now
-                res = self.ac.list_artifacts().json()
+                res = self.ac.list_artifacts()
                 self.ac.log.debug("result: %s", res)
-                assert len(res[0]) > 0
+                assert len(res) > 0
 
-                res = self.ac.show_artifact(artid).json()
+                res = self.ac.show_artifact(artid)
                 self.ac.log.debug("result: %s", res)
 
                 # verify its data
-                assert res["id"] == artid
-                assert res["name"] == artifact_name
-                assert res["description"] == description
-                assert res["size"] == int(art.size)
-                assert device_type in res["device_types_compatible"]
-                assert len(res["updates"]) == 1
-                update = res["updates"][0]
-                assert update["type_info"]["type"] is None
-                assert update["files"] is None
+                assert res.id == artid
+                assert res.name == artifact_name
+                assert res.description == description
+                assert res.size == int(art.size)
+                assert device_type in res.device_types_compatible
+                assert len(res.updates) == 1
+                update = res.updates[0]
+                assert update.type_info.type is None
+                assert update.files is None
 
                 # try to fetch the update
-                res = self.ac.client.Management_API.Download_Artifact(
-                    Authorization="foo", id=artid
-                ).result()[0]
+                res = management_v1_client(jwt="foo").download_artifact(id=artid)
                 self.ac.log.info("download result %s", res)
                 assert res.uri
                 # fetch it now (disable SSL verification)
                 rsp = requests.get(res.uri, verify=False, stream=True)
 
                 assert rsp.status_code == 200
-                assert (
-                    sum(1 for x in clean_minio.objects.all()) == 1
-                )
+                assert sum(1 for x in clean_minio.objects.all()) == 1
 
                 # receive artifact and compare its checksum
                 dig = sha256()
@@ -230,11 +214,9 @@ class TestArtifact:
 
                 # should be unavailable now
                 try:
-                    res = self.ac.client.Management_API.Show_Artifact(
-                        Authorization="foo", id=artid
-                    ).result()
-                except bravado.exception.HTTPError as e:
-                    assert e.response.status_code == 404
+                    res = management_v1_client(jwt="foo").show_artifact(id=artid)
+                except ApiException as e:
+                    assert e.status == 404
                 else:
                     raise AssertionError("expected to fail")
             l.unlock()
@@ -258,13 +240,11 @@ class TestArtifact:
                 artid = self.ac.add_artifact(description, art.size, art)
 
                 # artifacts listing should not be empty now
-                res = self.ac.client.Management_API.List_Artifacts().result()
+                res = management_v1_client(jwt="foo").list_artifacts()
                 self.ac.log.debug("result: %s", res)
-                assert len(res[0]) > 0
+                assert len(res) > 0
 
-                res = self.ac.client.Management_API.Show_Artifact(
-                    Authorization="foo", id=artid
-                ).result()[0]
+                res = management_v1_client(jwt="foo").show_artifact(id=artid)
                 self.ac.log.info("artifact: %s", res)
 
                 # verify its data
@@ -277,29 +257,25 @@ class TestArtifact:
                 update = res.updates[0]
                 assert len(update.files) == 1
                 uf = update.files[0]
-                assert uf["size"] == len(data)
-                assert uf["checksum"]
+                assert uf.size == len(data)
+                assert uf.checksum
             l.unlock()
 
     def test_single_artifact(self):
         # try with bogus image ID
         with Lock(MONGO_LOCK_FILE) as l:
             try:
-                res = self.ac.client.Management_API.Show_Artifact(
-                    Authorization="foo", id="foo"
-                ).result()
-            except bravado.exception.HTTPError as e:
-                assert e.response.status_code == 400
+                res = management_v1_client(jwt="foo").show_artifact(id="foo")
+            except ApiException as e:
+                assert e.status == 400
             else:
                 raise AssertionError("expected to fail")
 
             # try with nonexistent image ID
             try:
-                res = self.ac.client.Management_API.Show_Artifact(
-                    Authorization="foo", id=uuid4()
-                ).result()
-            except bravado.exception.HTTPError as e:
-                assert e.response.status_code == 404
+                res = management_v1_client(jwt="foo").show_artifact(id=str(uuid4()))
+            except ApiException as e:
+                assert e.status == 404
             else:
                 raise AssertionError("expected to fail")
             l.unlock()
