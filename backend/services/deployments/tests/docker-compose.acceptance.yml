@@ -9,9 +9,6 @@ services:
       - pytest
       - --host=deployments:8080
       - --inventory-host=inventory:8080
-      - --spec=/docs/management_api.yml
-      - --device-spec=/docs/devices_api.yml
-      - --internal-spec=/docs/internal_api.yml
       - --mongo-url=mongodb://mongo
       - --s3-bucket=mender
       - --s3-key-id=mender

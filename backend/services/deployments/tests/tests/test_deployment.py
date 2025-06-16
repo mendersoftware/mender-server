@@ -12,11 +12,10 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
-import io
+import pytest
 
 from uuid import uuid4
 
-import bravado
 import requests
 
 from client import (
@@ -32,6 +31,11 @@ from common import (
     mongo,
 )
 
+from client import management_v1_client
+from management_v1.rest import ApiException
+import devices_v1
+import management_v1
+
 
 class TestDeployment:
     d = DeploymentsClient()
@@ -44,18 +48,14 @@ class TestDeployment:
         )
 
     def test_deployments_get(self):
-        res = self.d.client.Management_API.List_Deployments(
-            Authorization="foo"
-        ).result()
+        res = management_v1_client(jwt="foo").list_deployments()
         self.d.log.debug("result: %s", res)
 
         # try with bogus image ID
         try:
-            res = self.d.client.Management_API.Show_Deployment(
-                Authorization="foo", id="foo"
-            ).result()
-        except bravado.exception.HTTPError as e:
-            assert e.response.status_code == 400
+            management_v1_client(jwt="foo").show_deployment(id="foo")
+        except ApiException as e:
+            assert e.status == 400
         else:
             raise AssertionError("expected to fail")
 
@@ -86,11 +86,9 @@ class TestDeployment:
         for newdep in baddeps:
             # try bogus image data
             try:
-                res = self.d.client.Management_API.Create_Deployment(
-                    Authorization="foo", deployment=newdep
-                ).result()
-            except bravado.exception.HTTPError as e:
-                assert e.response.status_code == 400
+                management_v1_client(jwt="foo").create_deployment(new_deployment=newdep)
+            except ApiException as e:
+                assert e.status == 400
             else:
                 raise AssertionError("expected to fail")
 
@@ -125,7 +123,7 @@ class TestDeployment:
                 ac.delete_artifact(artid)
             except ArtifactsClientError as ace:
                 #  artifact is used in deployment
-                assert ace.response.status_code == 409
+                assert ace.response == 409
             else:
                 raise AssertionError("expected to fail")
 
@@ -136,17 +134,15 @@ class TestDeployment:
                 device_type=dev.device_type,
             )
 
-            dep = self.d.client.Management_API.Show_Deployment(
-                Authorization="foo", id=depid
-            ).result()[0]
+            dep = management_v1_client(jwt="foo").show_deployment(id=depid)
             assert dep.artifact_name == artifact_name
             assert dep.id == depid
             assert dep.status == "pending"
 
             # fetch device status
-            depdevs = self.d.client.Management_API.List_All_Devices_in_Deployment(
-                Authorization="foo", deployment_id=depid
-            ).result()[0]
+            depdevs = management_v1_client(jwt="foo").list_all_devices_in_deployment(
+                deployment_id=depid
+            )
             assert len(depdevs) == 1
             depdev = depdevs[0]
             assert depdev.status == "pending"
@@ -159,9 +155,7 @@ class TestDeployment:
             self.d.abort_deployment(depid)
 
             # that it's 'finished' now
-            aborted_dep = self.d.client.Management_API.Show_Deployment(
-                Authorization="foo", id=depid
-            ).result()[0]
+            aborted_dep = management_v1_client(jwt="foo").show_deployment(id=depid)
             self.d.log.debug("deployment dep: %s", aborted_dep)
             assert aborted_dep.status == "finished"
 
@@ -169,9 +163,9 @@ class TestDeployment:
             self.d.verify_deployment_stats(depid, expected={"aborted": 1})
 
             # fetch device status
-            depdevs = self.d.client.Management_API.List_All_Devices_in_Deployment(
-                Authorization="foo", deployment_id=depid
-            ).result()[0]
+            depdevs = management_v1_client(jwt="foo").list_all_devices_in_deployment(
+                deployment_id=depid
+            )
             self.d.log.debug("deployment devices: %s", depdevs)
             assert len(depdevs) == 1
             depdev = depdevs[0]
@@ -205,8 +199,8 @@ class TestDeployment:
             # creating the same deployment again will fail
             try:
                 self.d.add_deployment(newdep)
-            except bravado.exception.HTTPError as err:
-                assert err.response.status_code == 409
+            except ApiException as e:
+                assert e.status == 409
             else:
                 raise AssertionError("expected to fail")
 
@@ -248,8 +242,8 @@ class TestDeployment:
         )
         try:
             self.d.add_deployment(newdep)
-        except bravado.exception.HTTPError as err:
-            assert err.response.status_code == 422
+        except ApiException as e:
+            assert e.status == 422
         else:
             raise AssertionError("expected to fail")
 
@@ -293,25 +287,22 @@ class TestDeployment:
                 )
 
             # check default 'page' and 'per_page' values
-            res = self.d.client.Management_API.List_Devices_in_Deployment(
-                Authorization="foo", deployment_id=dep_id
-            ).result()[0]
+            res = management_v1_client(jwt="foo").list_devices_in_deployment(
+                deployment_id=dep_id
+            )
             assert len(res) == default_per_page
 
             # check custom 'per_page'
-            res = self.d.client.Management_API.List_Devices_in_Deployment(
-                Authorization="foo", deployment_id=dep_id, per_page=devices_qty
-            ).result()[0]
+            res = management_v1_client(jwt="foo").list_devices_in_deployment(
+                deployment_id=dep_id, per_page=devices_qty
+            )
             assert len(res) == devices_qty
 
             # check 2nd page
             devices_qty_on_second_page = devices_qty - default_per_page
-            res = self.d.client.Management_API.List_Devices_in_Deployment(
-                Authorization="foo",
-                deployment_id=dep_id,
-                page=2,
-                per_page=default_per_page,
-            ).result()[0]
+            res = management_v1_client(jwt="foo").list_devices_in_deployment(
+                deployment_id=dep_id, page=2, per_page=default_per_page,
+            )
             assert len(res) == devices_qty_on_second_page
 
     def test_device_deployments_simple(self, mongo):
@@ -352,8 +343,8 @@ class TestDeployment:
                             artifact_name=artifact_name,
                             device_type=dev.device_type,
                         )
-                    except bravado.exception.HTTPError as err:
-                        assert 400 <= err.response.status_code < 500
+                    except devices_v1.rest.ApiException as e:
+                        assert e.status == 400
                     else:
                         raise AssertionError("expected to fail")
 
@@ -366,9 +357,7 @@ class TestDeployment:
                     self.d.log.info("device next: %s", nextdep)
                     assert nextdep
 
-                    assert (
-                        dev.device_type in nextdep.artifact["device_types_compatible"]
-                    )
+                    assert dev.device_type in nextdep.artifact.device_types_compatible
 
                     try:
                         # pretend our device type is different than expected
@@ -377,8 +366,8 @@ class TestDeployment:
                             artifact_name="different {}".format(artifact_name),
                             device_type="other {}".format(dev.device_type),
                         )
-                    except bravado.exception.HTTPError as err:
-                        assert err.response.status_code == 409
+                    except devices_v1.rest.ApiException as e:
+                        assert e.status == 409
                     else:
                         raise AssertionError("expected to fail")
 
@@ -421,16 +410,15 @@ class TestDeployment:
                     # NOTE: asking for a deployment while having it already
                     # installed is special in the sense that the status of
                     # deployment for this device will be marked as 'already-installed'
-                    nextdep = dc.get_next_deployment(
-                        dev.fake_token,
-                        artifact_name=artifact_name,
-                        device_type=dev.device_type,
-                    )
-                    self.d.log.info("device next: %s", nextdep)
-                    assert nextdep == None
+                    with pytest.raises(ValueError):
+                        dc.get_next_deployment(
+                            dev.fake_token,
+                            artifact_name=artifact_name,
+                            device_type=dev.device_type,
+                        )
                     # verify that device status was properly recorded
                     self.d.verify_deployment_stats(
-                        depid, expected={"already-installed": 1}
+                        depid, expected={"already_installed": 1}
                     )
         last_device_deployment_status = mongo[
             "deployment_service"
@@ -474,9 +462,7 @@ class TestDeployment:
                     self.d.log.info("device next: %s", nextdep)
                     assert nextdep
 
-                    assert (
-                        dev.device_type in nextdep.artifact["device_types_compatible"]
-                    )
+                    assert dev.device_type in nextdep.artifact.device_types_compatible
 
                     self.d.verify_deployment_stats(depid, expected={"pending": 1})
 
@@ -504,9 +490,7 @@ class TestDeployment:
                     assert againdep.id == nextdep.id
 
                     # deployment should be marked as inprogress
-                    dep = self.d.client.Management_API.Show_Deployment(
-                        Authorization="foo", id=depid
-                    ).result()[0]
+                    dep = management_v1_client(jwt="foo").show_deployment(id=depid)
                     assert dep.status == "inprogress"
 
                     # report final status
@@ -515,9 +499,7 @@ class TestDeployment:
                     )
                     self.d.verify_deployment_stats(depid, expected={"success": 1})
 
-                    dep = self.d.client.Management_API.Show_Deployment(
-                        Authorization="foo", id=depid
-                    ).result()[0]
+                    dep = management_v1_client(jwt="foo").show_deployment(id=depid)
                     assert dep.status == "finished"
 
                     # report failure as final status
@@ -527,12 +509,12 @@ class TestDeployment:
                     self.d.verify_deployment_stats(depid, expected={"failure": 1})
 
                     # deployment is finished, should get no more updates
-                    nodep = dc.get_next_deployment(
-                        dev.fake_token,
-                        artifact_name="other {}".format(artifact_name),
-                        device_type=dev.device_type,
-                    )
-                    assert nodep == None
+                    with pytest.raises(ValueError):
+                        dc.get_next_deployment(
+                            dev.fake_token,
+                            artifact_name="other {}".format(artifact_name),
+                            device_type=dev.device_type,
+                        )
 
                     # TODO: check this path; it looks like something which shouldn't be possible;
                     # TODO: update the test after verifying or fixing deployments service behavior
@@ -603,10 +585,12 @@ class TestDeployment:
                         dev.fake_token, nextdep.id, logs=["foo bar baz", "lorem ipsum"]
                     )
 
-                    rsp = self.d.client.Management_API.Get_Deployment_Log_for_Device(
-                        Authorization="foo", deployment_id=depid, device_id=dev.devid
-                    ).result()[1]
-                    logs = rsp.text
+                    rsp = management_v1_client(
+                        jwt="foo"
+                    ).get_deployment_log_for_device_with_http_info(
+                        deployment_id=depid, device_id=dev.devid
+                    )
+                    logs = rsp[0]
                     self.d.log.info("device logs\n%s", logs)
 
                     assert "lorem ipsum" in logs
