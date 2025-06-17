@@ -25,7 +25,7 @@ import { Tenant } from '@northern.tech/store/api/types/Tenant';
 import { ADDONS, PLANS } from '@northern.tech/store/constants';
 import { getBillingProfile, getCard, getDeviceLimit, getIsEnterprise, getOrganization, getUserRoles } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
-import { cancelRequest, getCurrentCard } from '@northern.tech/store/thunks';
+import { cancelRequest, getCurrentCard, getUserBilling } from '@northern.tech/store/thunks';
 import { toggle } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -242,6 +242,7 @@ export const Billing = () => {
 
   useEffect(() => {
     dispatch(getCurrentCard());
+    dispatch(getUserBilling());
   }, [dispatch]);
 
   const enabledAddOns = addons.filter(({ enabled }) => enabled).map(({ name }) => ADDONS[name].title);
