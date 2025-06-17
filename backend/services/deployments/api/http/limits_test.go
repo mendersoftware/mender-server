@@ -21,18 +21,17 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/ant0ine/go-json-rest/rest"
-	"github.com/ant0ine/go-json-rest/rest/test"
-	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
+	mt "github.com/mendersoftware/mender-server/pkg/testing"
+	rtest "github.com/mendersoftware/mender-server/pkg/testing/rest"
 	app_mocks "github.com/mendersoftware/mender-server/services/deployments/app/mocks"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 	store_mocks "github.com/mendersoftware/mender-server/services/deployments/store/mocks"
+	"github.com/mendersoftware/mender-server/services/deployments/utils/restutil"
 	"github.com/mendersoftware/mender-server/services/deployments/utils/restutil/view"
+	deployments_testing "github.com/mendersoftware/mender-server/services/deployments/utils/testing"
 )
-
-type routerTypeHandler func(pathExp string, handlerFunc rest.HandlerFunc) *rest.Route
 
 func contextMatcher() interface{} {
 	return mock.MatchedBy(func(_ context.Context) bool {
@@ -44,14 +43,14 @@ func TestGetLimits(t *testing.T) {
 	testCases := []struct {
 		name  string
 		code  int
-		body  string
+		body  map[string]interface{}
 		err   error
 		limit *model.Limit
 	}{
 		{
 			name: "storage",
 			code: http.StatusOK,
-			body: `{"limit":200,"usage":0}`,
+			body: map[string]interface{}{"limit": 200, "usage": 0},
 			limit: &model.Limit{
 				Name:  "storage",
 				Value: 200,
@@ -60,11 +59,13 @@ func TestGetLimits(t *testing.T) {
 		{
 			name: "storage",
 			code: http.StatusInternalServerError,
+			body: deployments_testing.RestError("internal error"),
 			err:  errors.New("failed"),
 		},
 		{
 			name: "foobar",
 			code: http.StatusBadRequest,
+			body: deployments_testing.RestError("unsupported limit foobar"),
 		},
 	}
 
@@ -77,21 +78,23 @@ func TestGetLimits(t *testing.T) {
 			app := &app_mocks.App{}
 
 			d := NewDeploymentsApiHandlers(store, restView, app)
-
-			api := setUpRestTest("/api/0.0.1/limits/:name", rest.Get, d.GetLimit)
+			router := setUpTestRouter()
+			router.GET("/api/0.0.1/limits/:name", d.GetLimit)
 
 			if tc.err != nil || tc.limit != nil {
 				app.On("GetLimit", contextMatcher(), tc.name).
 					Return(tc.limit, tc.err)
 			}
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost/api/0.0.1/limits/" + tc.name,
+			})
+			req.Header.Set("X-MEN-RequestID", "test")
+			checker := mt.NewJSONResponse(tc.code, nil, tc.body)
 
-			recorded := test.RunRequest(t, api.MakeHandler(),
-				test.MakeSimpleRequest("GET", "http://localhost/api/0.0.1/limits/"+tc.name,
-					nil))
-			recorded.CodeIs(tc.code)
-			if tc.code == http.StatusOK {
-				assert.JSONEq(t, tc.body, recorded.Recorder.Body.String())
-			}
+			recorded := restutil.RunRequest(t, router, req)
+
+			mt.CheckHTTPResponse(t, checker, recorded)
 
 			app.AssertExpectations(t)
 		})

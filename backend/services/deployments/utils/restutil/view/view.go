@@ -20,10 +20,9 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/ant0ine/go-json-rest/rest"
+	"github.com/gin-gonic/gin"
 
-	"github.com/mendersoftware/mender-server/pkg/log"
-	"github.com/mendersoftware/mender-server/pkg/requestid"
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 )
@@ -41,73 +40,56 @@ var (
 type RESTView struct {
 }
 
-func (p *RESTView) RenderSuccessPost(w rest.ResponseWriter, r *rest.Request, id string) {
-	w.Header().Add(
+func (p *RESTView) RenderSuccessPost(c *gin.Context, id string) {
+	c.Writer.Header().Add(
 		HttpHeaderLocation,
-		fmt.Sprintf("%s/%s", r.URL.Path, id),
+		fmt.Sprintf("%s/%s", c.Request.URL.Path, id),
 	)
-	w.WriteHeader(http.StatusCreated)
+	c.Status(http.StatusCreated)
 }
 
-func (p *RESTView) RenderSuccessGet(w rest.ResponseWriter, object interface{}) {
-	_ = w.WriteJson(object)
+func (p *RESTView) RenderSuccessGet(c *gin.Context, object interface{}) {
+	c.JSON(http.StatusOK, object)
 }
 
 func (p *RESTView) RenderError(
-	w rest.ResponseWriter,
-	r *rest.Request,
+	c *gin.Context,
 	err error,
 	status int,
-	l *log.Logger,
 ) {
-	l.Error(err.Error())
-	renderErrorWithMsg(w, r, status, err.Error())
+	rest.RenderError(c, status, err)
 }
 
 func (p *RESTView) RenderInternalError(
-	w rest.ResponseWriter,
-	r *rest.Request,
+	c *gin.Context,
 	err error,
-	l *log.Logger,
 ) {
-	l.F(log.Ctx{}).Error(err.Error())
-	renderErrorWithMsg(w, r, http.StatusInternalServerError, "internal error")
+	rest.RenderInternalError(c, err)
 }
 
-func renderErrorWithMsg(w rest.ResponseWriter, r *rest.Request, status int, msg string) {
-	w.WriteHeader(status)
-	writeErr := w.WriteJson(map[string]string{
-		"error":      msg,
-		"request_id": requestid.GetReqId(r.Request),
-	})
-	if writeErr != nil {
-		panic(writeErr)
-	}
+func (p *RESTView) RenderErrorNotFound(c *gin.Context) {
+	rest.RenderError(c, http.StatusNotFound, ErrNotFound)
 }
 
-func (p *RESTView) RenderErrorNotFound(w rest.ResponseWriter, r *rest.Request, l *log.Logger) {
-	p.RenderError(w, r, ErrNotFound, http.StatusNotFound, l)
+func (p *RESTView) RenderSuccessDelete(c *gin.Context) {
+	c.Status(http.StatusNoContent)
 }
 
-func (p *RESTView) RenderSuccessDelete(w rest.ResponseWriter) {
-	w.WriteHeader(http.StatusNoContent)
+func (p *RESTView) RenderSuccessPut(c *gin.Context) {
+	c.Status(http.StatusNoContent)
 }
 
-func (p *RESTView) RenderSuccessPut(w rest.ResponseWriter) {
-	w.WriteHeader(http.StatusNoContent)
-}
-
-func (p *RESTView) RenderNoUpdateForDevice(w rest.ResponseWriter) {
-	p.RenderEmptySuccessResponse(w)
+func (p *RESTView) RenderNoUpdateForDevice(c *gin.Context) {
+	p.RenderEmptySuccessResponse(c)
 }
 
 // Success response with no data aka. 204 No Content
-func (p *RESTView) RenderEmptySuccessResponse(w rest.ResponseWriter) {
-	w.WriteHeader(http.StatusNoContent)
+func (p *RESTView) RenderEmptySuccessResponse(c *gin.Context) {
+	c.Status(http.StatusNoContent)
 }
 
-func (p *RESTView) RenderDeploymentLog(w rest.ResponseWriter, dlog model.DeploymentLog) {
-	h, _ := w.(http.ResponseWriter)
+func (p *RESTView) RenderDeploymentLog(c *gin.Context, dlog model.DeploymentLog) {
+	h := c.Writer
 
 	h.Header().Set("Content-Type", "text/plain")
 	h.WriteHeader(http.StatusOK)

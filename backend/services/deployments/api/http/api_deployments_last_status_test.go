@@ -22,15 +22,15 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
-	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
-	"github.com/ant0ine/go-json-rest/rest"
-	"github.com/ant0ine/go-json-rest/rest/test"
-
+	mt "github.com/mendersoftware/mender-server/pkg/testing"
+	rtest "github.com/mendersoftware/mender-server/pkg/testing/rest"
 	mapp "github.com/mendersoftware/mender-server/services/deployments/app/mocks"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
+	"github.com/mendersoftware/mender-server/services/deployments/utils/restutil"
 	"github.com/mendersoftware/mender-server/services/deployments/utils/restutil/view"
+	deployments_testing "github.com/mendersoftware/mender-server/services/deployments/utils/testing"
 )
 
 func TestGetDeviceDeploymentLastStatus(t *testing.T) {
@@ -48,6 +48,7 @@ func TestGetDeviceDeploymentLastStatus(t *testing.T) {
 
 		AppError     error
 		ResponseCode int
+		RestErr      map[string]interface{}
 	}{
 		{
 			Name: "ok, device deployments list",
@@ -80,6 +81,7 @@ func TestGetDeviceDeploymentLastStatus(t *testing.T) {
 			},
 			AppError:     errors.New("some error"),
 			ResponseCode: http.StatusInternalServerError,
+			RestErr:      deployments_testing.RestError("internal error"),
 		},
 	}
 	for _, tc := range testCases {
@@ -97,25 +99,33 @@ func TestGetDeviceDeploymentLastStatus(t *testing.T) {
 
 			restView := new(view.RESTView)
 			d := NewDeploymentsApiHandlers(nil, restView, app)
-			api := setUpRestTest(
-				ApiUrlInternalDeviceDeploymentLastStatusDeployments,
-				rest.Post,
-				d.GetDeviceDeploymentLastStatus,
-			)
-			url := strings.ReplaceAll(ApiUrlInternalDeviceDeploymentLastStatusDeployments, "#tenant", tenantId)
+			router := setUpTestRouter()
+			router.POST(ApiUrlInternalDeviceDeploymentLastStatusDeployments,
+				d.GetDeviceDeploymentLastStatus)
+			url := strings.ReplaceAll(ApiUrlInternalDeviceDeploymentLastStatusDeployments, ":tenant", tenantId)
 			url = "http://localhost" + url
-			req := test.MakeSimpleRequest("POST", url, tc.InputBody)
 
-			recorded := test.RunRequest(t, api.MakeHandler(), req)
-			recorded.CodeIs(tc.ResponseCode)
-			assert.Equal(t, tc.ResponseCode, recorded.Recorder.Code)
-			if tc.ResponseCode == http.StatusOK {
-				recorded.ContentTypeIsJson()
-				var res model.DeviceDeploymentLastStatuses
-				recorded.DecodeJsonPayload(&res)
-				t.Logf("got: %+v", res)
-				assert.Equal(t, len(tc.Statuses), len(res.DeviceDeploymentLastStatuses))
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "POST",
+				Path:   url,
+				Body:   tc.InputBody,
+			})
+			var body interface{}
+			body = model.DeviceDeploymentLastStatuses{DeviceDeploymentLastStatuses: tc.Statuses}
+			if tc.RestErr != nil {
+				body = tc.RestErr
 			}
+
+			checker := mt.NewJSONResponse(tc.ResponseCode,
+				map[string]string{
+					"Content-Type": "application/json; charset=utf-8",
+				},
+				body)
+
+			recorded := restutil.RunRequest(t, router, req)
+
+			mt.CheckHTTPResponse(t, checker, recorded)
+
 		})
 	}
 }
