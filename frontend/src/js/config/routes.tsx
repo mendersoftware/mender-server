@@ -25,6 +25,7 @@ import PasswordReset from '../components/login/PasswordReset';
 import Signup from '../components/login/Signup';
 import Releases from '../components/releases/Releases';
 import Settings from '../components/settings/Settings';
+import { SubscriptionPage } from '../components/subscription/SubscriptionPage';
 import { TenantPage } from '../components/tenants/TenantPage';
 
 type RouteConfig = { element: ReactElement; isPublic?: boolean; path: string; title: string };
@@ -42,6 +43,7 @@ export const routeConfigs: RouteConfigs = {
   releases: { path: 'releases', element: <Releases />, title: 'Releases' },
   settings: { path: 'settings', element: <Settings />, title: 'Settings' },
   signup: { path: 'signup', element: <Signup />, title: 'Tenants', isPublic: true },
+  subscription: { path: 'subscription', element: <SubscriptionPage />, title: 'Upgrade your subscription' },
   tenants: { path: 'tenants', element: <TenantPage />, title: 'Tenants' }
 };
 
@@ -76,6 +78,7 @@ export const PrivateRoutes = () => (
       <Route path={routeConfigs.help.path} element={routeConfigs.help.element}>
         <Route path=":section" element={null} />
       </Route>
+      <Route path={routeConfigs.subscription.path} element={routeConfigs.subscription.element} />
       <Route path="*" element={routeConfigs.dashboard.element} />
     </Route>
   </Routes>
