@@ -342,7 +342,6 @@ def mongo(request):
 def clean_db(mongo):
     mongo_cleanup(mongo)
     yield mongo
-    mongo_cleanup(mongo)
 
 
 @pytest.fixture(scope="session")

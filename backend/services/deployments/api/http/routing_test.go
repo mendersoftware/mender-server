@@ -22,6 +22,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
+	rtest "github.com/mendersoftware/mender-server/pkg/testing/rest"
 	mapp "github.com/mendersoftware/mender-server/services/deployments/app/mocks"
 )
 
@@ -62,18 +63,19 @@ func TestNewRouter(t *testing.T) {
 			app := new(mapp.App)
 			defer app.AssertExpectations(t)
 
-			apiHandler, err := NewHandler(
+			apiHandler := NewRouter(
 				ctx,
 				app,
 				nil,
 				tc.cfg,
 			)
-			assert.NoError(t, err)
 
-			req, _ := http.NewRequest(
-				http.MethodPost,
-				"https://localhost:8443"+ApiUrlManagementArtifactsGenerate,
-				nil)
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: http.MethodPost,
+				Path: "https://localhost:8443" + ApiUrlManagement +
+					ApiUrlManagementArtifactsGenerate,
+				Auth: true,
+			})
 
 			w := httptest.NewRecorder()
 			apiHandler.ServeHTTP(w, req)
