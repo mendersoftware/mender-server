@@ -15,25 +15,32 @@ package restutil
 
 import (
 	"net/http"
+	"strings"
 
-	"github.com/ant0ine/go-json-rest/rest"
+	"github.com/gin-gonic/gin"
+
+	"github.com/mendersoftware/mender-server/services/inventory/utils"
 )
 
 const (
 	HttpHeaderAllow string = "Allow"
 )
 
-type CreateOptionsHandler func(methods ...string) rest.HandlerFunc
+type CreateOptionsHandler func(methods ...string) gin.HandlerFunc
 
 type OptionsHandler struct {
 	// Shared  reads, need locking of any write mathod is introduced.
 	methods map[string]bool
 }
 
+func supportsMethod(method string, methods []string) bool {
+	return utils.ContainsString(method, methods)
+}
+
 // NewOptionsHandler creates http handler object that will server OPTIONS method requests,
 // Accepts a list of http methods.
 // Adds information that it serves OPTIONS method automatically.
-func NewOptionsHandler(methods ...string) rest.HandlerFunc {
+func NewOptionsHandler(methods ...string) gin.HandlerFunc {
 	handler := &OptionsHandler{
 		methods: make(map[string]bool, len(methods)+1),
 	}
@@ -51,30 +58,34 @@ func NewOptionsHandler(methods ...string) rest.HandlerFunc {
 
 // Handle is a method for handling OPTIONS method requests.
 // This method is called concurrently while serving requests and should not modify self.
-func (o *OptionsHandler) handle(w rest.ResponseWriter, r *rest.Request) {
+func (o *OptionsHandler) handle(c *gin.Context) {
 	for method := range o.methods {
-		w.Header().Add(HttpHeaderAllow, method)
+		c.Writer.Header().Add(HttpHeaderAllow, method)
 	}
 }
 
 // AutogenOptionsRoutes automatically add OPTIONS method support for each defined route.
-func AutogenOptionsRoutes(createHandler CreateOptionsHandler, routes ...*rest.Route) []*rest.Route {
+func AutogenOptionsRoutes(createHandler CreateOptionsHandler, router *gin.Engine) {
 
+	routes := router.Routes()
 	methodGroups := make(map[string][]string, len(routes))
 
 	for _, route := range routes {
-		methods, ok := methodGroups[route.PathExp]
+		if strings.HasPrefix(route.Path, "/api/internal") {
+			continue
+		}
+		methods, ok := methodGroups[route.Path]
 		if !ok {
 			methods = make([]string, 0)
 		}
 
-		methodGroups[route.PathExp] = append(methods, route.HttpMethod)
+		methodGroups[route.Path] = append(methods, route.Method)
 	}
 
-	options := make([]*rest.Route, 0, len(methodGroups))
 	for route, methods := range methodGroups {
-		options = append(options, rest.Options(route, createHandler(methods...)))
+		// skip if there's a handler for OPTIONS already
+		if !supportsMethod(http.MethodOptions, methods) {
+			router.OPTIONS(route, createHandler(methods...))
+		}
 	}
-
-	return append(routes, options...)
 }

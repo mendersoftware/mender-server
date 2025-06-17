@@ -15,22 +15,20 @@
 package http
 
 import (
-	"github.com/ant0ine/go-json-rest/rest"
-
-	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/gin-gonic/gin"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 )
 
 type RESTView interface {
-	RenderSuccessGet(w rest.ResponseWriter, object interface{})
-	RenderError(w rest.ResponseWriter, r *rest.Request, err error, status int, l *log.Logger)
-	RenderInternalError(w rest.ResponseWriter, r *rest.Request, err error, l *log.Logger)
-	RenderNoUpdateForDevice(w rest.ResponseWriter)
-	RenderSuccessPost(w rest.ResponseWriter, r *rest.Request, id string)
-	RenderEmptySuccessResponse(w rest.ResponseWriter)
-	RenderErrorNotFound(w rest.ResponseWriter, r *rest.Request, l *log.Logger)
-	RenderDeploymentLog(w rest.ResponseWriter, dlog model.DeploymentLog)
-	RenderSuccessDelete(w rest.ResponseWriter)
-	RenderSuccessPut(w rest.ResponseWriter)
+	RenderSuccessGet(c *gin.Context, object interface{})
+	RenderError(c *gin.Context, err error, status int)
+	RenderInternalError(c *gin.Context, err error)
+	RenderNoUpdateForDevice(c *gin.Context)
+	RenderSuccessPost(c *gin.Context, id string)
+	RenderEmptySuccessResponse(c *gin.Context)
+	RenderErrorNotFound(c *gin.Context)
+	RenderDeploymentLog(c *gin.Context, dlog model.DeploymentLog)
+	RenderSuccessDelete(c *gin.Context)
+	RenderSuccessPut(c *gin.Context)
 }
