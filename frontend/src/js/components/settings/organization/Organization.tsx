@@ -34,7 +34,8 @@ const { setSnackbar } = storeActions;
 
 const useStyles = makeStyles()(({ spacing }) => ({
   orgInfo: { gap: spacing(2) },
-  ssoSelect: { minWidth: 265 }
+  ssoSelect: { minWidth: 265 },
+  tenantToken: { wordWrap: 'break-word' }
 }));
 
 // unlike the ExpandableAttribute, the token should not be visible by default - thus a separate component
@@ -146,6 +147,7 @@ export const Organization = () => {
         <OrganizationSettingsItem title="Organization ID" secondary={tenantId} sideBarContent={<CopyTextToClipboard notify={false} token={tenantId} />} />
         <OrganizationSettingsItem title="Organization name" secondary={orgName} sideBarContent={<CopyTextToClipboard notify={false} token={orgName} />} />
         <OrganizationSettingsItem
+          classes={{ base: '', content: '', main: classes.tenantToken }}
           title="Organization token"
           description="The token is unique for your organization and ensures that only devices that you own are able to connect to your account."
           secondary={<TenantToken expanded={showTokenWarning} onClick={onTokenExpansion} token={tenant_token} />}

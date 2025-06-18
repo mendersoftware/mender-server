@@ -19,7 +19,7 @@ import userEvent from '@testing-library/user-event';
 import MockDate from 'mockdate';
 import { vi } from 'vitest';
 
-import { defaultState, undefineds } from '../../../../../tests/mockData';
+import { defaultState, token, undefineds } from '../../../../../tests/mockData';
 import { render } from '../../../../../tests/setupTests';
 import { CancelSubscription, CancelSubscriptionAlert, DeviceLimitExpansionNotification, PlanDescriptor } from './Billing';
 import MyOrganization from './Organization';
@@ -73,7 +73,7 @@ describe('MyOrganization Component', () => {
             { enabled: true, name: 'monitor' }
           ],
           plan: 'enterprise',
-          tenant_token: 'test',
+          tenant_token: token,
           trial: true,
           trial_expiration: '2021-01-01T00:00:00Z'
         }
