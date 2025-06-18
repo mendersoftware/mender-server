@@ -526,7 +526,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
                 <div
                   class="tenant-token-text"
                 >
-                  te...
+                  test...
                 </div>
                 <div
                   class="clickable link-color margin-top-x-small margin-left-x-small"
