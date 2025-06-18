@@ -40,7 +40,7 @@ const useStyles = makeStyles()(({ spacing }) => ({
 // unlike the ExpandableAttribute, the token should not be visible by default - thus a separate component
 const TenantToken = ({ expanded, onClick, token }: { expanded: boolean; onClick: () => void; token: string }) => (
   <>
-    <div className="tenant-token-text">{expanded ? token : `${token.substring(0, token.length / 2)}...`}</div>
+    <div className="tenant-token-text">{expanded ? token : `${token.substring(0, 8)}...`}</div>
     {!expanded && (
       <div className="clickable link-color margin-top-x-small margin-left-x-small" onClick={onClick}>
         <b>Show more</b>
