@@ -185,7 +185,11 @@ exports[`MyOrganization Component > renders correctly 1`] = `
   margin-right: 8px;
 }
 
-.emotion-30 {
+.emotion-26 {
+  word-wrap: break-word;
+}
+
+.emotion-31 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -207,15 +211,15 @@ exports[`MyOrganization Component > renders correctly 1`] = `
   margin-top: 18px;
 }
 
-.emotion-30.Mui-disabled {
+.emotion-31.Mui-disabled {
   cursor: default;
 }
 
-.emotion-30 .MuiFormControlLabel-label.Mui-disabled {
+.emotion-31 .MuiFormControlLabel-label.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-31 {
+.emotion-32 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -234,13 +238,13 @@ exports[`MyOrganization Component > renders correctly 1`] = `
 }
 
 @media print {
-  .emotion-31 {
+  .emotion-32 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-32 {
+.emotion-33 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -284,79 +288,79 @@ exports[`MyOrganization Component > renders correctly 1`] = `
   transition: left 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-32::-moz-focus-inner {
+.emotion-33::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-32.Mui-disabled {
+.emotion-33.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-32 {
+  .emotion-33 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-32.Mui-checked {
+.emotion-33.Mui-checked {
   -webkit-transform: translateX(20px);
   -moz-transform: translateX(20px);
   -ms-transform: translateX(20px);
   transform: translateX(20px);
 }
 
-.emotion-32.Mui-disabled {
+.emotion-33.Mui-disabled {
   color: #d8ebe9;
 }
 
-.emotion-32.Mui-checked+.MuiSwitch-track {
+.emotion-33.Mui-checked+.MuiSwitch-track {
   opacity: 0.5;
 }
 
-.emotion-32.Mui-disabled+.MuiSwitch-track {
+.emotion-33.Mui-disabled+.MuiSwitch-track {
   opacity: 0.12;
 }
 
-.emotion-32 .MuiSwitch-input {
+.emotion-33 .MuiSwitch-input {
   left: -100%;
   width: 300%;
 }
 
-.emotion-32:hover {
+.emotion-33:hover {
   background-color: rgba(0, 0, 0, 0.04);
 }
 
 @media (hover: none) {
-  .emotion-32:hover {
+  .emotion-33:hover {
     background-color: transparent;
   }
 }
 
-.emotion-32.Mui-checked {
+.emotion-33.Mui-checked {
   color: #337a87;
 }
 
-.emotion-32.Mui-checked:hover {
+.emotion-33.Mui-checked:hover {
   background-color: rgba(51, 122, 135, 0.04);
 }
 
 @media (hover: none) {
-  .emotion-32.Mui-checked:hover {
+  .emotion-33.Mui-checked:hover {
     background-color: transparent;
   }
 }
 
-.emotion-32.Mui-checked.Mui-disabled {
+.emotion-33.Mui-checked.Mui-disabled {
   color: rgb(177, 204, 209);
 }
 
-.emotion-32.Mui-checked+.MuiSwitch-track {
+.emotion-33.Mui-checked+.MuiSwitch-track {
   background-color: #337a87;
 }
 
-.emotion-33 {
+.emotion-34 {
   cursor: inherit;
   position: absolute;
   opacity: 0;
@@ -369,7 +373,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
   z-index: 1;
 }
 
-.emotion-34 {
+.emotion-35 {
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
   background-color: currentColor;
   width: 20px;
@@ -377,7 +381,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
   border-radius: 50%;
 }
 
-.emotion-35 {
+.emotion-36 {
   height: 100%;
   width: 100%;
   border-radius: 7px;
@@ -388,7 +392,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
   opacity: 0.38;
 }
 
-.emotion-36 {
+.emotion-37 {
   margin: 0;
   line-height: 1.5;
   font-family: Lato,sans-serif;
@@ -518,7 +522,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
               The token is unique for your organization and ensures that only devices that you own are able to connect to your account.
             </p>
             <div
-              class="settings-item-main-content emotion-6 "
+              class="settings-item-main-content emotion-6 emotion-26"
             >
               <div
                 class="MuiTypography-root MuiTypography-body2 emotion-7"
@@ -526,7 +530,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
                 <div
                   class="tenant-token-text"
                 >
-                  test...
+                  eyJhbGci...
                 </div>
                 <div
                   class="clickable link-color margin-top-x-small margin-left-x-small"
@@ -565,28 +569,28 @@ exports[`MyOrganization Component > renders correctly 1`] = `
         </div>
         <div>
           <label
-            class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementStart margin-bottom-small margin-left-none emotion-30"
+            class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementStart margin-bottom-small margin-left-none emotion-31"
           >
             <span
-              class="MuiSwitch-root MuiSwitch-sizeMedium margin-left-small emotion-31"
+              class="MuiSwitch-root MuiSwitch-sizeMedium margin-left-small emotion-32"
             >
               <span
-                class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary emotion-32"
+                class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary emotion-33"
               >
                 <input
-                  class="PrivateSwitchBase-input MuiSwitch-input emotion-33"
+                  class="PrivateSwitchBase-input MuiSwitch-input emotion-34"
                   type="checkbox"
                 />
                 <span
-                  class="MuiSwitch-thumb emotion-34"
+                  class="MuiSwitch-thumb emotion-35"
                 />
               </span>
               <span
-                class="MuiSwitch-track emotion-35"
+                class="MuiSwitch-track emotion-36"
               />
             </span>
             <span
-              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-36"
+              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-37"
             >
               Enable Single Sign-On
             </span>
