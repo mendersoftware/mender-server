@@ -19,137 +19,148 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ant0ine/go-json-rest/rest"
-	"github.com/ant0ine/go-json-rest/rest/test"
+	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/mendersoftware/mender-server/pkg/log"
+	mt "github.com/mendersoftware/mender-server/pkg/testing"
+	rtest "github.com/mendersoftware/mender-server/pkg/testing/rest"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
+	"github.com/mendersoftware/mender-server/services/deployments/utils/restutil"
 )
 
 func TestRenderPost(t *testing.T) {
+	router := gin.New()
+	router.POST("/test", func(c *gin.Context) {
+		new(RESTView).RenderSuccessPost(c, "test_id")
+	})
 
-	router, err := rest.MakeRouter(rest.Post("/test", func(w rest.ResponseWriter, r *rest.Request) {
-		new(RESTView).RenderSuccessPost(w, r, "test_id")
-	}))
+	req := rtest.MakeTestRequest(&rtest.TestRequest{
+		Method: "POST",
+		Path:   "http://localhost/test",
+		Body:   "blah",
+	})
+	checker := mt.NewJSONResponse(
+		http.StatusCreated,
+		map[string]string{
+			HttpHeaderLocation: "/test/test_id",
+		},
+		nil,
+	)
+	recorded := restutil.RunRequest(t, router, req)
 
-	if err != nil {
-		assert.NoError(t, err)
-	}
-
-	api := rest.NewApi()
-	api.SetApp(router)
-
-	recorded := test.RunRequest(t, api.MakeHandler(),
-		test.MakeSimpleRequest("POST", "http://localhost/test", "blah"))
-
-	recorded.CodeIs(http.StatusCreated)
-	recorded.ContentTypeIsJson()
-	recorded.HeaderIs(HttpHeaderLocation, "/test/test_id")
+	mt.CheckHTTPResponse(t, checker, recorded)
 }
 
 func TestRenderSuccessGet(t *testing.T) {
 
-	router, err := rest.MakeRouter(rest.Get("/test", func(w rest.ResponseWriter, r *rest.Request) {
-		new(RESTView).RenderSuccessGet(w, "test")
-	}))
+	router := gin.New()
+	router.GET("/test", func(c *gin.Context) {
+		new(RESTView).RenderSuccessGet(c, "test")
+	})
 
-	if err != nil {
-		assert.NoError(t, err)
-	}
+	req := rtest.MakeTestRequest(&rtest.TestRequest{
+		Method: "GET",
+		Path:   "http://localhost/test",
+	})
+	checker := mt.NewJSONResponse(
+		http.StatusOK,
+		map[string]string{
+			"Content-type": "application/json; charset=utf-8",
+		},
+		"test",
+	)
+	recorded := restutil.RunRequest(t, router, req)
 
-	api := rest.NewApi()
-	api.SetApp(router)
-
-	recorded := test.RunRequest(t, api.MakeHandler(),
-		test.MakeSimpleRequest("GET", "http://localhost/test", nil))
-
-	recorded.CodeIs(http.StatusOK)
-	recorded.ContentTypeIsJson()
-	recorded.BodyIs(`"test"`)
+	mt.CheckHTTPResponse(t, checker, recorded)
 }
 
 func TestRenderSuccessDelete(t *testing.T) {
 
-	router, err := rest.MakeRouter(rest.Delete("/test", func(w rest.ResponseWriter, r *rest.Request) {
-		new(RESTView).RenderSuccessDelete(w)
-	}))
+	router := gin.New()
+	router.DELETE("/test", func(c *gin.Context) {
+		new(RESTView).RenderSuccessDelete(c)
+	})
 
-	if err != nil {
-		assert.NoError(t, err)
-	}
+	req := rtest.MakeTestRequest(&rtest.TestRequest{
+		Method: "DELETE",
+		Path:   "http://localhost/test",
+	})
+	checker := mt.NewJSONResponse(
+		http.StatusNoContent,
+		nil,
+		nil,
+	)
+	recorded := restutil.RunRequest(t, router, req)
 
-	api := rest.NewApi()
-	api.SetApp(router)
-
-	recorded := test.RunRequest(t, api.MakeHandler(),
-		test.MakeSimpleRequest("DELETE", "http://localhost/test", nil))
-
-	recorded.CodeIs(http.StatusNoContent)
+	mt.CheckHTTPResponse(t, checker, recorded)
 }
 
 func TestRenderSuccessPut(t *testing.T) {
 
-	router, err := rest.MakeRouter(rest.Put("/test", func(w rest.ResponseWriter, r *rest.Request) {
-		new(RESTView).RenderSuccessPut(w)
-	}))
+	router := gin.New()
+	router.PUT("/test", func(c *gin.Context) {
+		new(RESTView).RenderSuccessPut(c)
+	})
 
-	if err != nil {
-		assert.NoError(t, err)
-	}
+	req := rtest.MakeTestRequest(&rtest.TestRequest{
+		Method: "PUT",
+		Path:   "http://localhost/test",
+	})
+	checker := mt.NewJSONResponse(
+		http.StatusNoContent,
+		nil,
+		nil,
+	)
+	recorded := restutil.RunRequest(t, router, req)
 
-	api := rest.NewApi()
-	api.SetApp(router)
-
-	recorded := test.RunRequest(t, api.MakeHandler(),
-		test.MakeSimpleRequest("PUT", "http://localhost/test", nil))
-
-	recorded.CodeIs(http.StatusNoContent)
+	mt.CheckHTTPResponse(t, checker, recorded)
 }
 
 func TestRenderErrorNotFound(t *testing.T) {
 
-	router, err := rest.MakeRouter(rest.Get("/test", func(w rest.ResponseWriter, r *rest.Request) {
+	router := gin.New()
+	router.GET("/test", func(c *gin.Context) {
+		new(RESTView).RenderErrorNotFound(c)
+	})
 
-		l := log.New(log.Ctx{})
-		new(RESTView).RenderErrorNotFound(w, r, l)
-	}))
+	req := rtest.MakeTestRequest(&rtest.TestRequest{
+		Method: "GET",
+		Path:   "http://localhost/test",
+	})
+	checker := mt.NewJSONResponse(
+		http.StatusNotFound,
+		nil,
+		map[string]string{
+			"error": "Resource not found",
+		},
+	)
+	recorded := restutil.RunRequest(t, router, req)
 
-	if err != nil {
-		assert.NoError(t, err)
-	}
-
-	api := rest.NewApi()
-	api.SetApp(router)
-
-	recorded := test.RunRequest(t, api.MakeHandler(),
-		test.MakeSimpleRequest("GET", "http://localhost/test", nil))
-
-	recorded.CodeIs(http.StatusNotFound)
-	recorded.BodyIs(`{"error":"Resource not found","request_id":""}`)
+	mt.CheckHTTPResponse(t, checker, recorded)
 }
 
 func TestRenderNoUpdateForDevice(t *testing.T) {
 
 	t.Parallel()
 
-	router, err := rest.MakeRouter(rest.Get("/test", func(w rest.ResponseWriter, r *rest.Request) {
-		view := &RESTView{}
-		view.RenderNoUpdateForDevice(w)
-	}))
+	router := gin.New()
+	router.GET("/test", func(c *gin.Context) {
+		new(RESTView).RenderNoUpdateForDevice(c)
+	})
 
-	if err != nil {
-		assert.NoError(t, err)
-	}
+	req := rtest.MakeTestRequest(&rtest.TestRequest{
+		Method: "GET",
+		Path:   "http://localhost/test",
+	})
+	checker := mt.NewJSONResponse(
+		http.StatusNoContent,
+		nil,
+		nil,
+	)
+	recorded := restutil.RunRequest(t, router, req)
 
-	api := rest.NewApi()
-	api.SetApp(router)
-
-	recorded := test.RunRequest(t, api.MakeHandler(),
-		test.MakeSimpleRequest("GET", "http://localhost/test", nil))
-
-	recorded.CodeIs(http.StatusNoContent)
+	mt.CheckHTTPResponse(t, checker, recorded)
 }
 
 func parseTime(t *testing.T, value string) *time.Time {
@@ -204,20 +215,19 @@ func TestRenderDeploymentLog(t *testing.T) {
 	}
 
 	for _, tc := range tcs {
-		router, err := rest.MakeRouter(rest.Get("/test", func(w rest.ResponseWriter, r *rest.Request) {
-			view := &RESTView{}
-			view.RenderDeploymentLog(w, tc.Log)
-		}))
+		router := gin.New()
+		router.GET("/test", func(c *gin.Context) {
+			new(RESTView).RenderDeploymentLog(c, tc.Log)
+		})
 
-		assert.NoError(t, err)
+		req := rtest.MakeTestRequest(&rtest.TestRequest{
+			Method: "GET",
+			Path:   "http://localhost/test",
+		})
 
-		api := rest.NewApi()
-		api.SetApp(router)
+		recorded := restutil.RunRequest(t, router, req)
 
-		recorded := test.RunRequest(t, api.MakeHandler(),
-			test.MakeSimpleRequest("GET", "http://localhost/test", nil))
-
-		recorded.CodeIs(http.StatusOK)
+		assert.Equal(t, http.StatusOK, recorded.Recorder.Code)
 		assert.Equal(t, tc.Body, recorded.Recorder.Body.String())
 	}
 }

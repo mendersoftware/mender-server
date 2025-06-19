@@ -15,32 +15,21 @@
 package http
 
 import (
-	"io/ioutil"
+	"github.com/gin-gonic/gin"
 
-	"github.com/ant0ine/go-json-rest/rest"
-	"github.com/sirupsen/logrus"
-
+	"github.com/mendersoftware/mender-server/pkg/accesslog"
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
-	"github.com/mendersoftware/mender-server/pkg/requestlog"
 
 	dconfig "github.com/mendersoftware/mender-server/services/deployments/config"
 )
 
-func setUpRestTest(route string, routeType routerTypeHandler,
-	handler func(w rest.ResponseWriter, r *rest.Request)) *rest.Api {
+func setUpTestRouter() *gin.Engine {
+	router := gin.New()
+	router.Use(accesslog.Middleware())
+	router.Use(requestid.Middleware())
 
-	router, _ := rest.MakeRouter(routeType(route, handler))
-	api := rest.NewApi()
-	api.Use(
-		&requestlog.RequestLogMiddleware{
-			BaseLogger: &logrus.Logger{Out: ioutil.Discard},
-		},
-		&requestid.RequestIdMiddleware{},
-	)
-	api.SetApp(router)
-
-	return api
+	return router
 }
 
 func init() {

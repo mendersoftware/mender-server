@@ -48,12 +48,12 @@ class TestDeployment:
         )
 
     def test_deployments_get(self):
-        res = management_v1_client(jwt="foo").list_deployments()
+        res = management_v1_client(jwt=self.d.get_jwt()).list_deployments()
         self.d.log.debug("result: %s", res)
 
         # try with bogus image ID
         try:
-            management_v1_client(jwt="foo").show_deployment(id="foo")
+            management_v1_client(jwt=self.d.get_jwt()).show_deployment(id="foo")
         except ApiException as e:
             assert e.status == 400
         else:
@@ -86,7 +86,7 @@ class TestDeployment:
         for newdep in baddeps:
             # try bogus image data
             try:
-                management_v1_client(jwt="foo").create_deployment(new_deployment=newdep)
+                management_v1_client(jwt=self.d.get_jwt()).create_deployment(new_deployment=newdep)
             except ApiException as e:
                 assert e.status == 400
             else:
@@ -134,13 +134,13 @@ class TestDeployment:
                 device_type=dev.device_type,
             )
 
-            dep = management_v1_client(jwt="foo").show_deployment(id=depid)
+            dep = management_v1_client(jwt=ac.get_jwt()).show_deployment(id=depid)
             assert dep.artifact_name == artifact_name
             assert dep.id == depid
             assert dep.status == "pending"
 
             # fetch device status
-            depdevs = management_v1_client(jwt="foo").list_all_devices_in_deployment(
+            depdevs = management_v1_client(jwt=ac.get_jwt()).list_all_devices_in_deployment(
                 deployment_id=depid
             )
             assert len(depdevs) == 1
@@ -155,7 +155,7 @@ class TestDeployment:
             self.d.abort_deployment(depid)
 
             # that it's 'finished' now
-            aborted_dep = management_v1_client(jwt="foo").show_deployment(id=depid)
+            aborted_dep = management_v1_client(jwt=ac.get_jwt()).show_deployment(id=depid)
             self.d.log.debug("deployment dep: %s", aborted_dep)
             assert aborted_dep.status == "finished"
 
@@ -163,7 +163,7 @@ class TestDeployment:
             self.d.verify_deployment_stats(depid, expected={"aborted": 1})
 
             # fetch device status
-            depdevs = management_v1_client(jwt="foo").list_all_devices_in_deployment(
+            depdevs = management_v1_client(jwt=ac.get_jwt()).list_all_devices_in_deployment(
                 deployment_id=depid
             )
             self.d.log.debug("deployment devices: %s", depdevs)
@@ -287,20 +287,20 @@ class TestDeployment:
                 )
 
             # check default 'page' and 'per_page' values
-            res = management_v1_client(jwt="foo").list_devices_in_deployment(
+            res = management_v1_client(jwt=ac.get_jwt()).list_devices_in_deployment(
                 deployment_id=dep_id
             )
             assert len(res) == default_per_page
 
             # check custom 'per_page'
-            res = management_v1_client(jwt="foo").list_devices_in_deployment(
+            res = management_v1_client(jwt=ac.get_jwt()).list_devices_in_deployment(
                 deployment_id=dep_id, per_page=devices_qty
             )
             assert len(res) == devices_qty
 
             # check 2nd page
             devices_qty_on_second_page = devices_qty - default_per_page
-            res = management_v1_client(jwt="foo").list_devices_in_deployment(
+            res = management_v1_client(jwt=ac.get_jwt()).list_devices_in_deployment(
                 deployment_id=dep_id, page=2, per_page=default_per_page,
             )
             assert len(res) == devices_qty_on_second_page
@@ -344,7 +344,7 @@ class TestDeployment:
                             device_type=dev.device_type,
                         )
                     except devices_v1.rest.ApiException as e:
-                        assert e.status == 400
+                        assert e.status == 401
                     else:
                         raise AssertionError("expected to fail")
 
@@ -490,7 +490,7 @@ class TestDeployment:
                     assert againdep.id == nextdep.id
 
                     # deployment should be marked as inprogress
-                    dep = management_v1_client(jwt="foo").show_deployment(id=depid)
+                    dep = management_v1_client(jwt=ac.get_jwt()).show_deployment(id=depid)
                     assert dep.status == "inprogress"
 
                     # report final status
@@ -499,7 +499,7 @@ class TestDeployment:
                     )
                     self.d.verify_deployment_stats(depid, expected={"success": 1})
 
-                    dep = management_v1_client(jwt="foo").show_deployment(id=depid)
+                    dep = management_v1_client(jwt=ac.get_jwt()).show_deployment(id=depid)
                     assert dep.status == "finished"
 
                     # report failure as final status
@@ -586,7 +586,7 @@ class TestDeployment:
                     )
 
                     rsp = management_v1_client(
-                        jwt="foo"
+                        jwt=ac.get_jwt()
                     ).get_deployment_log_for_device_with_http_info(
                         deployment_id=depid, device_id=dev.devid
                     )

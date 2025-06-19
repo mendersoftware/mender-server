@@ -42,18 +42,11 @@ export const getSearchEndpoint = createSelector([getFeatures], ({ hasReporting }
   hasReporting ? `${reportingApiUrl}/devices/search` : `${inventoryApiUrlV2}/filters/search`
 );
 
-export const getUserRoles = createSelector(
-  [getCurrentUser, getRolesById, getIsEnterprise, getFeatures, getOrganization],
-  (currentUser, rolesById, isEnterprise, { isHosted, hasMultitenancy }, { plan = PLANS.os.id }) => {
-    const isAdmin = currentUser.roles?.length
-      ? currentUser.roles.some(role => role === rolesByName.admin)
-      : !(hasMultitenancy || isEnterprise || (isHosted && plan !== PLANS.os.id));
-    const uiPermissions = isAdmin
-      ? mapUserRolesToUiPermissions([rolesByName.admin], rolesById)
-      : mapUserRolesToUiPermissions(currentUser.roles || [], rolesById);
-    return { isAdmin, uiPermissions };
-  }
-);
+export const getUserRoles = createSelector([getCurrentUser, getRolesById, getIsEnterprise], (currentUser, rolesById, isEnterprise) => {
+  const isAdmin = currentUser.roles?.length ? currentUser.roles.some(role => role === rolesByName.admin) : !isEnterprise;
+  const uiPermissions = isAdmin ? mapUserRolesToUiPermissions([rolesByName.admin], rolesById) : mapUserRolesToUiPermissions(currentUser.roles || [], rolesById);
+  return { isAdmin, uiPermissions };
+});
 
 const hasPermission = (thing, permission) => Object.values(thing).some(permissions => permissions.includes(permission));
 
