@@ -24,7 +24,15 @@ import Pagination from '@northern.tech/common-ui/Pagination';
 import { RelativeTime } from '@northern.tech/common-ui/Time';
 import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_ROUTES, DEVICE_LIST_DEFAULTS, SORTING_OPTIONS, canAccess as canShow } from '@northern.tech/store/constants';
-import { getFeatures, getHasReleases, getReleaseListState, getReleasesList, getSelectedReleases, getUserCapabilities } from '@northern.tech/store/selectors';
+import {
+  getFeatures,
+  getHasReleases,
+  getIsUploading,
+  getReleaseListState,
+  getReleasesList,
+  getSelectedReleases,
+  getUserCapabilities
+} from '@northern.tech/store/selectors';
 import { removeReleases, selectRelease, setReleasesListState } from '@northern.tech/store/thunks';
 
 import { DeleteReleasesConfirmationDialog, ReleaseQuickActions } from './ReleaseDetails';
@@ -94,7 +102,7 @@ const EmptyState = ({ canUpload, className = '', dropzoneRef, uploading, onDrop,
 export const ReleasesList = ({ className = '', onFileUploadClick }) => {
   const repoRef = useRef();
   const dropzoneRef = useRef();
-  const uploading = useSelector(state => state.app.uploading);
+  const uploading = useSelector(getIsUploading);
   const releasesListState = useSelector(getReleaseListState);
   const {
     isLoading,
