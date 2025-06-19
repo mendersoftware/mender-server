@@ -41,7 +41,6 @@ interface SearchState {
 interface Upload {
   cancelSource: any;
   progress: number;
-  uploading: boolean;
 }
 
 export type SentryConfig = {
@@ -123,7 +122,7 @@ export const initialState: AppSliceType = {
   stripeAPIKey: '',
   trackerCode: '',
   uploadsById: {
-    // id: { uploading: false, progress: 0, cancelSource: undefined }
+    // id: { progress: 0, cancelSource: undefined }
   },
   newThreshold: getYesterday(),
   offlineThreshold: getYesterday(),
