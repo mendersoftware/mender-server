@@ -64,7 +64,6 @@ export const initialState = {
   reports: [
     // { items: [{ key: "someKey", count: 42  }], otherCount: 123, total: <otherCount + itemsCount> }
   ],
-  total: 0,
   limit: 0,
   groups: {
     byId: {
@@ -173,9 +172,6 @@ export const devicesSlice = createSlice({
     setDevicesCountByStatus: (state, action) => {
       const { count, status } = action.payload;
       state.byStatus[status].total = count;
-    },
-    setTotalDevices: (state, action) => {
-      state.total = action.payload;
     },
     setDeviceLimit: (state, action) => {
       state.limit = action.payload;
