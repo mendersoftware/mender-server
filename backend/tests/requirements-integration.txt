@@ -33,6 +33,6 @@ six==1.17.0
 stripe==12.0.1
 toml==0.10.2
 trustme==1.2.1
-urllib3==2.4.0
+urllib3==2.5.0
 websockets==15.0.1
 aiosmtpd==1.4.6
