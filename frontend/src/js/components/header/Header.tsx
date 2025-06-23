@@ -45,6 +45,7 @@ import {
   getAcceptedDevices,
   getCurrentSession,
   getCurrentUser,
+  getDeploymentsByStatus,
   getDeviceCountsByStatus,
   getDeviceLimit,
   getFeatures,
@@ -57,7 +58,8 @@ import {
   getSearchState,
   getShowHelptips,
   getUserRoles,
-  getUserSettings
+  getUserSettings,
+  getUserSettingsInitialized
 } from '@northern.tech/store/selectors';
 import { useAppInit } from '@northern.tech/store/storehooks';
 import {
@@ -295,12 +297,13 @@ export const Header = ({ isDarkMode }) => {
   const firstLoginAfterSignup = useSelector(getIsFirstLogin);
   const { feedbackCollectedAt, trackingConsentGiven: hasTrackingEnabled } = useSelector(getUserSettings);
   const { isAdmin } = useSelector(getUserRoles);
-  const inProgress = useSelector(state => state.deployments.byStatus.inprogress.total);
+  const { inprogress: inprogressDeployments } = useSelector(getDeploymentsByStatus);
+  const { total: inProgress } = inprogressDeployments;
   const isEnterprise = useSelector(getIsEnterprise);
   const { hasFeedbackEnabled, isDemoMode: demo, isHosted } = useSelector(getFeatures);
   const { isSearching, searchTerm, refreshTrigger } = useSelector(getSearchState);
   const { pending: pendingDevices } = useSelector(getDeviceCountsByStatus);
-  const userSettingInitialized = useSelector(state => state.users.settingsInitialized);
+  const userSettingInitialized = useSelector(getUserSettingsInitialized);
   const user = useSelector(getCurrentUser);
   const { token } = useSelector(getCurrentSession);
   const userId = useDebounce(user.id, TIMEOUTS.debounceDefault);
