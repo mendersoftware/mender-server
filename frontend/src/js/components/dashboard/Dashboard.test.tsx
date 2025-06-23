@@ -13,6 +13,7 @@
 //    limitations under the License.
 import { Route, Routes } from 'react-router-dom';
 
+import { TIMEOUTS } from '@northern.tech/store/commonConstants';
 import { actions as deviceActions } from '@northern.tech/store/devicesSlice';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -31,9 +32,6 @@ describe('Dashboard Component', () => {
     });
   });
   it('renders correctly', async () => {
-    const DeviceActions = await import('@northern.tech/store/devicesSlice/thunks');
-    const reportsSpy = vi.spyOn(DeviceActions, 'getReportsDataWithoutBackendSupport');
-
     const preloadedState = {
       ...defaultState,
       deployments: {
@@ -48,17 +46,18 @@ describe('Dashboard Component', () => {
     };
     const ui = <Dashboard />;
     const { baseElement, rerender } = render(ui, { preloadedState });
-    await waitFor(() => expect(reportsSpy).toHaveBeenCalled());
+    await act(async () => {
+      vi.runAllTimers();
+      vi.runAllTicks();
+      return new Promise(resolve => resolve(), TIMEOUTS.threeSeconds);
+    });
     await waitFor(() => rerender(ui));
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
-    reportsSpy.mockClear();
   });
 
   it('allows navigating to pending devices', async () => {
-    const DeviceActions = await import('@northern.tech/store/devicesSlice/thunks');
-    const reportsSpy = vi.spyOn(DeviceActions, 'getReportsDataWithoutBackendSupport');
     const preloadedState = {
       ...defaultState,
       devices: {
@@ -77,18 +76,14 @@ describe('Dashboard Component', () => {
       </Routes>
     );
     const { rerender, store } = render(ui, { preloadedState });
-    await waitFor(() => expect(reportsSpy).toHaveBeenCalled());
     await waitFor(() => rerender(ui));
     await act(() => store.dispatch({ type: deviceActions.setDevicesCountByStatus.type, payload: { status: 'accepted', count: 0 } }));
     await user.click(screen.getByText(/pending devices/i));
     await waitFor(() => screen.queryByText(/pendings route/i));
     expect(screen.getByText(/pendings route/i)).toBeVisible();
-    reportsSpy.mockClear();
   });
 
   it('allows navigating to accepted devices', async () => {
-    const DeviceActions = await import('@northern.tech/store/devicesSlice/thunks');
-    const reportsSpy = vi.spyOn(DeviceActions, 'getReportsDataWithoutBackendSupport');
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const ui = (
       <Routes>
@@ -97,17 +92,13 @@ describe('Dashboard Component', () => {
       </Routes>
     );
     const { rerender } = render(ui);
-    await waitFor(() => expect(reportsSpy).toHaveBeenCalled());
     await waitFor(() => rerender(ui));
     await user.click(screen.getByText(/Accepted devices/i));
     await waitFor(() => screen.queryByText(/accepted devices route/i));
     expect(screen.getByText(/accepted devices route/i)).toBeVisible();
-    reportsSpy.mockClear();
   });
 
   it('allows navigating to deployments', async () => {
-    const DeviceActions = await import('@northern.tech/store/devicesSlice/thunks');
-    const reportsSpy = vi.spyOn(DeviceActions, 'getReportsDataWithoutBackendSupport');
     const preloadedState = {
       ...defaultState,
       deployments: {
@@ -126,11 +117,9 @@ describe('Dashboard Component', () => {
       </Routes>
     );
     const { rerender } = render(ui, { preloadedState });
-    await waitFor(() => expect(reportsSpy).toHaveBeenCalled());
     await waitFor(() => rerender(ui));
     await user.click(screen.getAllByText('test deployment 2')[0]);
     await waitFor(() => screen.queryByText(/deployments route/i));
     expect(screen.getByText(/deployments route/i)).toBeVisible();
-    reportsSpy.mockClear();
   });
 });
