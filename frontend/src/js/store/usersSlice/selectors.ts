@@ -21,6 +21,7 @@ import { READ_STATES, twoFAStates } from './constants';
 export const getRolesById = state => state.users.rolesById;
 export const getTooltipsById = state => state.users.tooltips.byId;
 export const getGlobalSettings = state => state.users.globalSettings;
+export const getUserSettingsInitialized = state => state.users.settingsInitialized;
 
 const getCurrentUserId = state => state.users.currentUser;
 export const getUsersById = state => state.users.byId;
