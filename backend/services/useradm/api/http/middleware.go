@@ -32,8 +32,14 @@ func IsVerificationEndpoint(r *rest.Request) bool {
 	}
 }
 
+// Action combines info about the requested resourd + http method.
+type Action struct {
+	Resource string
+	Method   string
+}
+
 // ExtractResourceAction extracts resource action from the request url
-func ExtractResourceAction(r *rest.Request) (*authz.Action, error) {
+func ExtractResourceAction(r *http.Request) (*authz.Action, error) {
 	action := authz.Action{}
 
 	// extract original uri
@@ -59,4 +65,26 @@ func ExtractResourceAction(r *rest.Request) (*authz.Action, error) {
 	}
 
 	return &action, nil
+}
+
+// extracts JWT from authorization header
+func ExtractToken(req *http.Request) (string, error) {
+	const authHeaderName = "Authorization"
+	auth := req.Header.Get(authHeaderName)
+	if auth != "" {
+		auths := strings.Fields(auth)
+		if !strings.EqualFold(auths[0], "Bearer") || len(auths) < 2 {
+			return "", ErrInvalidAuthHeader
+		}
+		return auths[1], nil
+	}
+	cookie, err := req.Cookie("JWT")
+	if err != nil {
+		return "", ErrAuthzNoAuth
+	}
+	auth = cookie.Value
+	if auth == "" {
+		return "", ErrAuthzNoAuth
+	}
+	return auth, nil
 }

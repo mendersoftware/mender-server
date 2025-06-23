@@ -58,6 +58,10 @@ func middlewareWithLogger(c *gin.Context) {
 		ctx    = c.Request.Context()
 		l      = log.FromContext(ctx)
 	)
+	if FromContext(ctx) != nil {
+		c.Next()
+		return
+	}
 	jwt, err = ExtractJWTFromHeader(c.Request)
 	if err != nil {
 		goto exitUnauthorized

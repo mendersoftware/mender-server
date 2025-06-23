@@ -16,19 +16,19 @@ package http
 import (
 	"context"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
-	"github.com/ant0ine/go-json-rest/rest"
+	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 
 	"github.com/mendersoftware/mender-server/pkg/accesslog"
+	"github.com/mendersoftware/mender-server/pkg/contenttype"
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
-	"github.com/mendersoftware/mender-server/pkg/requestlog"
-	"github.com/mendersoftware/mender-server/pkg/rest_utils"
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 	"github.com/mendersoftware/mender-server/pkg/routing"
 
 	"github.com/mendersoftware/mender-server/services/useradm/authz"
@@ -40,26 +40,26 @@ import (
 
 const (
 	apiUrlManagementV1       = "/api/management/v1/useradm"
-	uriManagementAuthLogin   = apiUrlManagementV1 + "/auth/login"
-	uriManagementAuthLogout  = apiUrlManagementV1 + "/auth/logout"
-	uriManagementUser        = apiUrlManagementV1 + "/users/#id"
-	uriManagementUsers       = apiUrlManagementV1 + "/users"
-	uriManagementSettings    = apiUrlManagementV1 + "/settings"
-	uriManagementSettingsMe  = apiUrlManagementV1 + "/settings/me"
-	uriManagementTokens      = apiUrlManagementV1 + "/settings/tokens"
-	uriManagementToken       = apiUrlManagementV1 + "/settings/tokens/#id"
-	uriManagementPlans       = apiUrlManagementV1 + "/plans"
-	uriManagementPlanBinding = apiUrlManagementV1 + "/plan_binding"
+	uriManagementAuthLogin   = "/auth/login"
+	uriManagementAuthLogout  = "/auth/logout"
+	uriManagementUser        = "/users/:id"
+	uriManagementUsers       = "/users"
+	uriManagementSettings    = "/settings"
+	uriManagementSettingsMe  = "/settings/me"
+	uriManagementTokens      = "/settings/tokens"
+	uriManagementToken       = "/settings/tokens/:id"
+	uriManagementPlans       = "/plans"
+	uriManagementPlanBinding = "/plan_binding"
 
 	apiUrlInternalV1  = "/api/internal/v1/useradm"
-	uriInternalAlive  = apiUrlInternalV1 + "/alive"
-	uriInternalHealth = apiUrlInternalV1 + "/health"
+	uriInternalAlive  = "/alive"
+	uriInternalHealth = "/health"
 
-	uriInternalAuthVerify  = apiUrlInternalV1 + "/auth/verify"
-	uriInternalTenants     = apiUrlInternalV1 + "/tenants"
-	uriInternalTenantUsers = apiUrlInternalV1 + "/tenants/#id/users"
-	uriInternalTenantUser  = apiUrlInternalV1 + "/tenants/#id/users/#userid"
-	uriInternalTokens      = apiUrlInternalV1 + "/tokens"
+	uriInternalAuthVerify  = "/auth/verify"
+	uriInternalTenants     = "/tenants"
+	uriInternalTenantUsers = "/tenants/:id/users"
+	uriInternalTenantUser  = "/tenants/:id/users/:userid"
+	uriInternalTokens      = "/tokens"
 )
 
 const (
@@ -71,13 +71,28 @@ const (
 var (
 	ErrAuthHeader   = errors.New("invalid or missing auth header")
 	ErrUserNotFound = errors.New("user not found")
+
+	ErrAuthzUnauthorized = errors.New("unauthorized")
+	ErrAuthzNoAuth       = errors.New("authorization not present in header")
+	ErrInvalidAuthHeader = errors.New("malformed Authorization header")
+	ErrAuthzTokenInvalid = errors.New("invalid jwt")
 )
 
+func init() {
+	if mode := os.Getenv(gin.EnvGinMode); mode != "" {
+		gin.SetMode(mode)
+	} else {
+		gin.SetMode(gin.ReleaseMode)
+	}
+	gin.DisableConsoleColor()
+}
+
 type UserAdmApiHandlers struct {
-	userAdm useradm.App
-	db      store.DataStore
-	jwth    map[int]jwt.Handler
-	config  Config
+	userAdm    useradm.App
+	db         store.DataStore
+	jwth       map[int]jwt.Handler
+	config     Config
+	authorizer authz.Authorizer
 }
 
 type Config struct {
@@ -93,139 +108,154 @@ func NewUserAdmApiHandlers(
 	db store.DataStore,
 	jwth map[int]jwt.Handler,
 	config Config,
-) ApiHandler {
+	authorizer authz.Authorizer,
+) *UserAdmApiHandlers {
 	return &UserAdmApiHandlers{
-		userAdm: userAdm,
-		db:      db,
-		jwth:    jwth,
-		config:  config,
+		userAdm:    userAdm,
+		db:         db,
+		jwth:       jwth,
+		config:     config,
+		authorizer: authorizer,
 	}
 }
 
-func wrapMiddleware(middleware rest.Middleware, routes ...*rest.Route) []*rest.Route {
-	for _, route := range routes {
-		route.Func = middleware.MiddlewareFunc(route.Func)
-	}
-	return routes
-}
-
-func (i *UserAdmApiHandlers) Build(authorizer authz.Authorizer) (http.Handler, error) {
-	api := rest.NewApi()
-	api.Use(
-		// Apply common middlewares
-		&requestlog.RequestLogMiddleware{},
-		&accesslog.AccessLogMiddleware{
-			Format: accesslog.SimpleLogFormat,
-			DisableLog: func(statusCode int, r *rest.Request) bool {
-				if (r.URL.Path == uriInternalAlive ||
-					r.URL.Path == uriInternalHealth) &&
-					statusCode < 300 {
-					return true
-				}
-				return false
-			},
-		},
-		&requestid.RequestIdMiddleware{},
-		&rest.ContentTypeCheckerMiddleware{},
-	)
-	identityMiddleware := &identity.IdentityMiddleware{
-		UpdateLogger: true,
-	}
-	authzMiddleware := &authz.AuthzMiddleware{
-		Authz:              authorizer,
-		ResFunc:            ExtractResourceAction,
-		JWTHandlers:        i.jwth,
-		JWTFallbackHandler: i.config.JWTFallback,
-	}
-	internalRoutes := []*rest.Route{
-		rest.Get(uriInternalAlive, i.AliveHandler),
-		rest.Get(uriInternalHealth, i.HealthHandler),
-
-		rest.Get(uriInternalAuthVerify,
-			authzMiddleware.MiddlewareFunc(
-				identityMiddleware.MiddlewareFunc(i.AuthVerifyHandler),
-			),
-		),
-		rest.Post(uriInternalAuthVerify,
-			authzMiddleware.MiddlewareFunc(
-				identityMiddleware.MiddlewareFunc(i.AuthVerifyHandler),
-			),
-		),
-		rest.Post(uriInternalTenants, i.CreateTenantHandler),
-		rest.Post(uriInternalTenantUsers, i.CreateTenantUserHandler),
-		rest.Delete(uriInternalTenantUser, i.DeleteTenantUserHandler),
-		rest.Get(uriInternalTenantUsers, i.GetTenantUsersHandler),
-		rest.Delete(uriInternalTokens, i.DeleteTokensHandler),
-	}
-	mgmtRoutes := routing.AutogenOptionsRoutes([]*rest.Route{
-		rest.Post(uriManagementAuthLogin, i.AuthLoginHandler),
-		rest.Post(uriManagementAuthLogout, i.AuthLogoutHandler),
-		rest.Post(uriManagementUsers, i.AddUserHandler),
-		rest.Get(uriManagementUsers, i.GetUsersHandler),
-		rest.Get(uriManagementUser, i.GetUserHandler),
-		rest.Put(uriManagementUser, i.UpdateUserHandler),
-		rest.Delete(uriManagementUser, i.DeleteUserHandler),
-		rest.Post(uriManagementSettings, i.SaveSettingsHandler),
-		rest.Get(uriManagementSettings, i.GetSettingsHandler),
-		rest.Post(uriManagementSettingsMe, i.SaveSettingsMeHandler),
-		rest.Get(uriManagementSettingsMe, i.GetSettingsMeHandler),
-		rest.Post(uriManagementTokens, i.IssueTokenHandler),
-		rest.Get(uriManagementTokens, i.GetTokensHandler),
-		rest.Delete(uriManagementToken, i.DeleteTokenHandler),
-		// plans
-		rest.Get(uriManagementPlans, i.GetPlansHandler),
-		rest.Get(uriManagementPlanBinding, i.GetPlanBindingHandler),
-	}, routing.AllowHeaderOptionsGenerator)
-
-	// IdentityMiddleware is only applied to public APIs
-	mgmtRoutes = wrapMiddleware(identityMiddleware, mgmtRoutes...)
-
-	routes := append(mgmtRoutes, internalRoutes...)
-	app, err := rest.MakeRouter(routes...)
+// Getting nil means that a rest error has allready been renderd
+func (i *UserAdmApiHandlers) authTokenExtractor(c *gin.Context) *jwt.Token {
+	tokstr, err := ExtractToken(c.Request)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to create router")
+		rest.RenderError(c, http.StatusUnauthorized, err)
+		return nil
 	}
-	api.SetApp(app)
 
-	return api.MakeHandler(), nil
+	keyId := jwt.GetKeyId(tokstr)
+
+	if _, ok := i.jwth[keyId]; !ok {
+		// we have not found the corresponding handler for the key by id
+		// on purpose we do not return common.ErrKeyIdNotFound -- to not allow
+		// the enumeration attack
+		rest.RenderError(c, http.StatusUnauthorized, ErrAuthzTokenInvalid)
+		return nil
+	}
+
+	// parse token
+	token, err := i.jwth[keyId].FromJWT(tokstr)
+	if err != nil && i.config.JWTFallback != nil {
+		token, err = i.config.JWTFallback.FromJWT(tokstr)
+	}
+	if err != nil {
+		rest.RenderError(c, http.StatusUnauthorized, ErrAuthzTokenInvalid)
+		return nil
+	}
+
+	// extract resource action
+	action, err := ExtractResourceAction(c.Request)
+	if err != nil {
+		rest.RenderInternalError(c, err)
+		return nil
+	}
+
+	ctx := c.Request.Context()
+
+	//authorize, no authz = http 403
+	err = i.authorizer.Authorize(ctx, token, action.Resource, action.Method)
+	if err != nil {
+		if err == ErrAuthzUnauthorized {
+			rest.RenderError(c, http.StatusForbidden, ErrAuthzUnauthorized)
+		} else if err == ErrAuthzTokenInvalid {
+			rest.RenderError(c, http.StatusUnauthorized, ErrAuthzTokenInvalid)
+		} else {
+			rest.RenderInternalError(c, err)
+		}
+		return nil
+	}
+
+	return token
 }
 
-func (u *UserAdmApiHandlers) AliveHandler(w rest.ResponseWriter, r *rest.Request) {
-	w.WriteHeader(http.StatusNoContent)
+func MakeRouter(i *UserAdmApiHandlers) http.Handler {
+	router := gin.New()
+
+	router.Use(requestid.Middleware())
+	router.Use(accesslog.Middleware())
+
+	mgmt := router.Group(apiUrlManagementV1)
+
+	mgmt.POST(uriManagementAuthLogin, i.AuthLoginHandler)
+
+	mgmt.Use(identity.Middleware())
+
+	mgmt.GET(uriManagementUsers, i.GetUsersHandler)
+	mgmt.GET(uriManagementUser, i.GetUserHandler)
+	mgmt.GET(uriManagementSettings, i.GetSettingsHandler)
+	mgmt.GET(uriManagementSettingsMe, i.GetSettingsMeHandler)
+	mgmt.GET(uriManagementTokens, i.GetTokensHandler)
+	mgmt.GET(uriManagementPlans, i.GetPlansHandler)
+	mgmt.GET(uriManagementPlanBinding, i.GetPlanBindingHandler)
+	mgmt.DELETE(uriManagementUser, i.DeleteUserHandler)
+	mgmt.DELETE(uriManagementToken, i.DeleteTokenHandler)
+
+	mgmt.Group(".").Use(contenttype.CheckJSON()).
+		POST(uriManagementAuthLogout, i.AuthLogoutHandler).
+		POST(uriManagementUsers, i.AddUserHandler).
+		PUT(uriManagementUser, i.UpdateUserHandler).
+		POST(uriManagementSettings, i.SaveSettingsHandler).
+		POST(uriManagementSettingsMe, i.SaveSettingsMeHandler).
+		POST(uriManagementTokens, i.IssueTokenHandler)
+
+	routing.AutogenOptionsRoutes(router,
+		routing.AllowHeaderOptionsGenerator)
+
+	internal := router.Group(apiUrlInternalV1)
+
+	internal.GET(uriInternalAlive, i.AliveHandler)
+	internal.GET(uriInternalHealth, i.HealthHandler)
+
+	internal.GET(uriInternalAuthVerify, identity.Middleware(),
+		i.AuthVerifyHandler)
+	internal.POST(uriInternalAuthVerify, identity.Middleware(),
+		i.AuthVerifyHandler)
+
+	internal.POST(uriInternalTenants, i.CreateTenantHandler)
+	internal.POST(uriInternalTenantUsers, i.CreateTenantUserHandler)
+	internal.DELETE(uriInternalTenantUser, i.DeleteTenantUserHandler)
+	internal.GET(uriInternalTenantUsers, i.GetTenantUsersHandler)
+	internal.DELETE(uriInternalTokens, i.DeleteTokensHandler)
+
+	return router
 }
 
-func (u *UserAdmApiHandlers) HealthHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-	l := log.FromContext(ctx)
+func (u *UserAdmApiHandlers) AliveHandler(c *gin.Context) {
+	c.Status(http.StatusNoContent)
+}
+
+func (u *UserAdmApiHandlers) HealthHandler(c *gin.Context) {
+	ctx := c.Request.Context()
 	ctx, cancel := context.WithTimeout(ctx, defaultTimeout)
 	defer cancel()
 
 	err := u.userAdm.HealthCheck(ctx)
 	if err != nil {
-		rest_utils.RestErrWithLog(w, r, l, err, http.StatusServiceUnavailable)
+		rest.RenderError(c, http.StatusServiceUnavailable, err)
 		return
 	}
-	w.WriteHeader(http.StatusNoContent)
+	c.Status(http.StatusNoContent)
 }
 
-func (u *UserAdmApiHandlers) AuthLoginHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-
-	l := log.FromContext(ctx)
+func (u *UserAdmApiHandlers) AuthLoginHandler(c *gin.Context) {
+	ctx := c.Request.Context()
 
 	//parse auth header
-	user, pass, ok := r.BasicAuth()
+	user, pass, ok := c.Request.BasicAuth()
 	if !ok {
-		rest_utils.RestErrWithLog(w, r, l,
-			ErrAuthHeader, http.StatusUnauthorized)
+		rest.RenderError(c, http.StatusUnauthorized, ErrAuthHeader)
 		return
 	}
 	email := model.Email(strings.ToLower(user))
 
 	options := &useradm.LoginOptions{}
-	err := r.DecodeJsonPayload(options)
-	if err != nil && err != rest.ErrJsonPayloadEmpty {
-		rest_utils.RestErrWithLog(w, r, l, err, http.StatusBadRequest)
+	err := c.ShouldBindJSON(options)
+	if err != nil && c.Request.ContentLength != 0 {
+		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}
 
@@ -233,112 +263,108 @@ func (u *UserAdmApiHandlers) AuthLoginHandler(w rest.ResponseWriter, r *rest.Req
 	if err != nil {
 		switch {
 		case err == useradm.ErrUnauthorized || err == useradm.ErrTenantAccountSuspended:
-			rest_utils.RestErrWithLog(w, r, l, err, http.StatusUnauthorized)
+			rest.RenderError(c, http.StatusUnauthorized, err)
 		default:
-			rest_utils.RestErrWithLogInternal(w, r, l, err)
+			rest.RenderInternalError(c, err)
 		}
 		return
 	}
 
 	raw, err := u.userAdm.SignToken(ctx, token)
 	if err != nil {
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		rest.RenderInternalError(c, err)
 		return
 	}
 
-	writer := w.(http.ResponseWriter)
+	writer := c.Writer
 	writer.Header().Set("Content-Type", "application/jwt")
 	_, _ = writer.Write([]byte(raw))
 }
 
-func (u *UserAdmApiHandlers) AuthLogoutHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-	l := log.FromContext(ctx)
+func (u *UserAdmApiHandlers) AuthLogoutHandler(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	if tokenStr, err := authz.ExtractToken(r.Request); err == nil {
+	if tokenStr, err := authz.ExtractToken(c.Request); err == nil {
 		keyId := jwt.GetKeyId(tokenStr)
 		if _, ok := u.jwth[keyId]; !ok {
-			rest_utils.RestErrWithLogInternal(w, r, l, errors.New("internal error"))
+			rest.RenderInternalError(c, err)
 			return
 		}
 
 		token, err := u.jwth[keyId].FromJWT(tokenStr)
 		if err != nil {
-			rest_utils.RestErrWithLogInternal(w, r, l, err)
+			rest.RenderInternalError(c, err)
 			return
 		}
 		if err := u.userAdm.Logout(ctx, token); err != nil {
-			rest_utils.RestErrWithLogInternal(w, r, l, err)
+			rest.RenderInternalError(c, err)
 			return
 		}
 	}
 
-	w.WriteHeader(http.StatusAccepted)
+	c.Status(http.StatusAccepted)
 }
 
-func (u *UserAdmApiHandlers) AuthVerifyHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-
-	l := log.FromContext(ctx)
+func (u *UserAdmApiHandlers) AuthVerifyHandler(c *gin.Context) {
+	ctx := c.Request.Context()
 
 	// note that the request has passed through authz - the token is valid
-	token := authz.GetRequestToken(r.Env)
+	token := u.authTokenExtractor(c)
+	if token == nil {
+		return
+	}
 
 	err := u.userAdm.Verify(ctx, token)
 	if err != nil {
 		if err == useradm.ErrUnauthorized {
-			rest_utils.RestErrWithLog(w, r, l, useradm.ErrUnauthorized, http.StatusUnauthorized)
+			rest.RenderError(c, http.StatusUnauthorized, useradm.ErrUnauthorized)
 		} else {
-			rest_utils.RestErrWithLogInternal(w, r, l, err)
+			rest.RenderInternalError(c, err)
 		}
 		return
 	}
 
-	w.WriteHeader(http.StatusOK)
+	c.Status(http.StatusOK)
 }
 
-func (u *UserAdmApiHandlers) CreateTenantUserHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
+func (u *UserAdmApiHandlers) CreateTenantUserHandler(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	l := log.FromContext(ctx)
-
-	user, err := parseUserInternal(r)
+	user, err := parseUserInternal(c)
 	if err != nil {
-		rest_utils.RestErrWithLog(w, r, l, err, http.StatusBadRequest)
+		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}
 
-	tenantId := r.PathParam("id")
+	tenantId := c.Param("id")
 	if tenantId == "" {
-		rest_utils.RestErrWithLog(w, r, l, errors.New("Entity not found"), http.StatusNotFound)
+		rest.RenderError(c, http.StatusNotFound, errors.New("Entity not found"))
 		return
 	}
 	ctx = getTenantContext(ctx, tenantId)
 	err = u.userAdm.CreateUserInternal(ctx, user)
 	if err != nil {
 		if err == store.ErrDuplicateEmail {
-			rest_utils.RestErrWithLog(w, r, l, err, http.StatusUnprocessableEntity)
+			rest.RenderError(c, http.StatusUnprocessableEntity, err)
 		} else {
-			rest_utils.RestErrWithLogInternal(w, r, l, err)
+			rest.RenderInternalError(c, err)
 		}
 		return
 	}
 
-	w.WriteHeader(http.StatusCreated)
+	c.Status(http.StatusCreated)
 
 }
 
-func (u *UserAdmApiHandlers) AddUserHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
+func (u *UserAdmApiHandlers) AddUserHandler(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	l := log.FromContext(ctx)
-
-	user, err := parseUser(r)
+	user, err := parseUser(c)
 	if err != nil {
 		if err == model.ErrPasswordTooShort {
-			rest_utils.RestErrWithLog(w, r, l, err, http.StatusUnprocessableEntity)
+			rest.RenderError(c, http.StatusUnprocessableEntity, err)
 		} else {
-			rest_utils.RestErrWithLog(w, r, l, err, http.StatusBadRequest)
+			rest.RenderError(c, http.StatusBadRequest, err)
 		}
 		return
 	}
@@ -346,106 +372,101 @@ func (u *UserAdmApiHandlers) AddUserHandler(w rest.ResponseWriter, r *rest.Reque
 	err = u.userAdm.CreateUser(ctx, user)
 	if err != nil {
 		if err == store.ErrDuplicateEmail || err == useradm.ErrPassAndMailTooSimilar {
-			rest_utils.RestErrWithLog(w, r, l, err, http.StatusUnprocessableEntity)
+			rest.RenderError(c, http.StatusUnprocessableEntity, err)
 		} else {
-			rest_utils.RestErrWithLogInternal(w, r, l, err)
+			rest.RenderInternalError(c, err)
 		}
 		return
 	}
 
-	w.Header().Add("Location", "users/"+string(user.ID))
-	w.WriteHeader(http.StatusCreated)
+	c.Writer.Header().Add("Location", "users/"+string(user.ID))
+	c.Status(http.StatusCreated)
 
 }
 
-func (u *UserAdmApiHandlers) GetUsersHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
+func (u *UserAdmApiHandlers) GetUsersHandler(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	l := log.FromContext(ctx)
-
-	if err := r.ParseForm(); err != nil {
+	if err := c.Request.ParseForm(); err != nil {
 		err = errors.Wrap(err, "api: bad form parameters")
-		rest_utils.RestErrWithLog(w, r, l, err, http.StatusBadRequest)
+		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}
 
 	fltr := model.UserFilter{}
-	if err := fltr.ParseForm(r.Form); err != nil {
+	if err := fltr.ParseForm(c.Request.Form); err != nil {
 		err = errors.Wrap(err, "api: invalid form values")
-		rest_utils.RestErrWithLog(w, r, l, err, http.StatusBadRequest)
+		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}
 
 	users, err := u.userAdm.GetUsers(ctx, fltr)
 	if err != nil {
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		rest.RenderInternalError(c, err)
 		return
 	}
 
-	_ = w.WriteJson(users)
+	c.JSON(http.StatusOK, users)
 }
 
-func (u *UserAdmApiHandlers) GetTenantUsersHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
+func (u *UserAdmApiHandlers) GetTenantUsersHandler(c *gin.Context) {
+	ctx := c.Request.Context()
 	ctx = identity.WithContext(ctx, &identity.Identity{
-		Tenant: r.PathParam("id"),
+		Tenant: c.Param("id"),
 	})
-	r.Request = r.Request.WithContext(ctx)
-	u.GetUsersHandler(w, r)
+	c.Request = c.Request.WithContext(ctx)
+	u.GetUsersHandler(c)
 }
 
-func (u *UserAdmApiHandlers) GetUserHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
+func (u *UserAdmApiHandlers) GetUserHandler(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	l := log.FromContext(ctx)
-
-	id := r.PathParam("id")
+	id := c.Param("id")
 	user, err := u.userAdm.GetUser(ctx, id)
 	if err != nil {
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		rest.RenderInternalError(c, err)
 		return
 	}
 
 	if user == nil {
-		rest_utils.RestErrWithLog(w, r, l, ErrUserNotFound, 404)
+		rest.RenderError(c, http.StatusNotFound, ErrUserNotFound)
 		return
 	}
 
-	_ = w.WriteJson(user)
+	c.JSON(http.StatusOK, user)
 }
 
-func (u *UserAdmApiHandlers) UpdateUserHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
+func (u *UserAdmApiHandlers) UpdateUserHandler(c *gin.Context) {
+	ctx := c.Request.Context()
 	idty := identity.FromContext(ctx)
-	l := log.FromContext(ctx)
 
-	userUpdate, err := parseUserUpdate(r)
+	userUpdate, err := parseUserUpdate(c)
 	if err != nil {
 		if err == model.ErrPasswordTooShort {
-			rest_utils.RestErrWithLog(w, r, l, err, http.StatusUnprocessableEntity)
+			rest.RenderError(c, http.StatusUnprocessableEntity, err)
 		} else {
-			rest_utils.RestErrWithLog(w, r, l, err, http.StatusBadRequest)
+			rest.RenderError(c, http.StatusBadRequest, err)
 		}
 		return
 	}
 
 	// extract the token used to update the user
-	if tokenStr, err := authz.ExtractToken(r.Request); err == nil {
+	if tokenStr, err := authz.ExtractToken(c.Request); err == nil {
 		keyId := jwt.GetKeyId(tokenStr)
 		if _, ok := u.jwth[keyId]; !ok {
-			rest_utils.RestErrWithLogInternal(w, r, l, errors.New("internal error"))
+			rest.RenderInternalError(c, err)
 			return
 		}
 
 		token, err := u.jwth[keyId].FromJWT(tokenStr)
 		if err != nil {
-			rest_utils.RestErrWithLogInternal(w, r, l, err)
+			rest.RenderInternalError(c, err)
 			return
 		}
 		userUpdate.Token = token
 	}
 
-	id := r.PathParam("id")
+	id := c.Param("id")
 	if strings.EqualFold(id, "me") {
 		id = idty.Subject
 	}
@@ -456,56 +477,53 @@ func (u *UserAdmApiHandlers) UpdateUserHandler(w rest.ResponseWriter, r *rest.Re
 			useradm.ErrCurrentPasswordMismatch,
 			useradm.ErrPassAndMailTooSimilar,
 			useradm.ErrCannotModifyPassword:
-			rest_utils.RestErrWithLog(w, r, l, err, http.StatusUnprocessableEntity)
+			rest.RenderError(c, http.StatusUnprocessableEntity, err)
 		case store.ErrUserNotFound:
-			rest_utils.RestErrWithLog(w, r, l, err, http.StatusNotFound)
+			rest.RenderError(c, http.StatusNotFound, err)
 		case useradm.ErrETagMismatch:
-			rest_utils.RestErrWithLog(w, r, l, err, http.StatusConflict)
+			rest.RenderError(c, http.StatusConflict, err)
 		default:
-			rest_utils.RestErrWithLogInternal(w, r, l, err)
+			rest.RenderInternalError(c, err)
 		}
 	}
 
-	w.WriteHeader(http.StatusNoContent)
+	c.Status(http.StatusNoContent)
 }
 
-func (u *UserAdmApiHandlers) DeleteTenantUserHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
+func (u *UserAdmApiHandlers) DeleteTenantUserHandler(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	tenantId := r.PathParam("id")
+	tenantId := c.Param("id")
 	if tenantId != "" {
 		ctx = getTenantContext(ctx, tenantId)
 	}
 
-	l := log.FromContext(ctx)
-	err := u.userAdm.DeleteUser(ctx, r.PathParam("userid"))
+	err := u.userAdm.DeleteUser(ctx, c.Param("userid"))
 	if err != nil {
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		rest.RenderInternalError(c, err)
 		return
 	}
 
-	w.WriteHeader(http.StatusNoContent)
+	c.Status(http.StatusNoContent)
 }
 
-func (u *UserAdmApiHandlers) DeleteUserHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
+func (u *UserAdmApiHandlers) DeleteUserHandler(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	l := log.FromContext(ctx)
-
-	err := u.userAdm.DeleteUser(ctx, r.PathParam("id"))
+	err := u.userAdm.DeleteUser(ctx, c.Param("id"))
 	if err != nil {
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		rest.RenderInternalError(c, err)
 		return
 	}
 
-	w.WriteHeader(http.StatusNoContent)
+	c.Status(http.StatusNoContent)
 }
 
-func parseUser(r *rest.Request) (*model.User, error) {
+func parseUser(c *gin.Context) (*model.User, error) {
 	user := model.User{}
 
 	//decode body
-	err := r.DecodeJsonPayload(&user)
+	err := c.ShouldBindJSON(&user)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to decode request body")
 	}
@@ -517,11 +535,11 @@ func parseUser(r *rest.Request) (*model.User, error) {
 	return &user, nil
 }
 
-func parseUserInternal(r *rest.Request) (*model.UserInternal, error) {
+func parseUserInternal(c *gin.Context) (*model.UserInternal, error) {
 	user := model.UserInternal{}
 
 	//decode body
-	err := r.DecodeJsonPayload(&user)
+	err := c.ShouldBindJSON(&user)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to decode request body")
 	}
@@ -533,11 +551,11 @@ func parseUserInternal(r *rest.Request) (*model.UserInternal, error) {
 	return &user, nil
 }
 
-func parseUserUpdate(r *rest.Request) (*model.UserUpdate, error) {
+func parseUserUpdate(c *gin.Context) (*model.UserUpdate, error) {
 	userUpdate := model.UserUpdate{}
 
 	//decode body
-	err := r.DecodeJsonPayload(&userUpdate)
+	err := c.ShouldBindJSON(&userUpdate)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to decode request body")
 	}
@@ -549,20 +567,18 @@ func parseUserUpdate(r *rest.Request) (*model.UserUpdate, error) {
 	return &userUpdate, nil
 }
 
-func (u *UserAdmApiHandlers) CreateTenantHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-
-	l := log.FromContext(ctx)
+func (u *UserAdmApiHandlers) CreateTenantHandler(c *gin.Context) {
+	ctx := c.Request.Context()
 
 	var newTenant model.NewTenant
 
-	if err := r.DecodeJsonPayload(&newTenant); err != nil {
-		rest_utils.RestErrWithLog(w, r, l, err, http.StatusBadRequest)
+	if err := c.ShouldBindJSON(&newTenant); err != nil {
+		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}
 
 	if err := newTenant.Validate(); err != nil {
-		rest_utils.RestErrWithLog(w, r, l, err, http.StatusBadRequest)
+		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}
 
@@ -570,11 +586,11 @@ func (u *UserAdmApiHandlers) CreateTenantHandler(w rest.ResponseWriter, r *rest.
 		ID: newTenant.ID,
 	})
 	if err != nil {
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		rest.RenderInternalError(c, err)
 		return
 	}
 
-	w.WriteHeader(http.StatusCreated)
+	c.Status(http.StatusCreated)
 }
 
 func getTenantContext(ctx context.Context, tenantId string) context.Context {
@@ -592,72 +608,56 @@ func getTenantContext(ctx context.Context, tenantId string) context.Context {
 	return ctx
 }
 
-func (u *UserAdmApiHandlers) DeleteTokensHandler(w rest.ResponseWriter, r *rest.Request) {
+func (u *UserAdmApiHandlers) DeleteTokensHandler(c *gin.Context) {
 
-	ctx := r.Context()
+	ctx := c.Request.Context()
 
-	l := log.FromContext(ctx)
-
-	tenantId := r.URL.Query().Get("tenant_id")
+	tenantId := c.Request.URL.Query().Get("tenant_id")
 	if tenantId == "" {
-		rest_utils.RestErrWithLog(
-			w,
-			r,
-			l,
-			errors.New("tenant_id must be provided"),
-			http.StatusBadRequest,
-		)
+		rest.RenderError(c, http.StatusBadRequest, errors.New("tenant_id must be provided"))
 		return
 	}
-	userId := r.URL.Query().Get("user_id")
+	userId := c.Request.URL.Query().Get("user_id")
 
 	err := u.userAdm.DeleteTokens(ctx, tenantId, userId)
 	switch err {
 	case nil:
-		w.WriteHeader(http.StatusNoContent)
+		c.Status(http.StatusNoContent)
 	default:
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		rest.RenderInternalError(c, err)
 	}
 }
 
-func (u *UserAdmApiHandlers) SaveSettingsHandler(w rest.ResponseWriter, r *rest.Request) {
-	u.saveSettingsHandler(w, r, false)
+func (u *UserAdmApiHandlers) SaveSettingsHandler(c *gin.Context) {
+	u.saveSettingsHandler(c, false)
 }
 
-func (u *UserAdmApiHandlers) SaveSettingsMeHandler(w rest.ResponseWriter, r *rest.Request) {
-	u.saveSettingsHandler(w, r, true)
+func (u *UserAdmApiHandlers) SaveSettingsMeHandler(c *gin.Context) {
+	u.saveSettingsHandler(c, true)
 }
 
-func (u *UserAdmApiHandlers) saveSettingsHandler(w rest.ResponseWriter, r *rest.Request, me bool) {
-	ctx := r.Context()
-
-	l := log.FromContext(ctx)
+func (u *UserAdmApiHandlers) saveSettingsHandler(c *gin.Context, me bool) {
+	ctx := c.Request.Context()
 
 	settings := &model.Settings{}
-	err := r.DecodeJsonPayload(settings)
+	err := c.ShouldBindJSON(settings)
 	if err != nil {
-		rest_utils.RestErrWithLog(
-			w,
-			r,
-			l,
-			errors.New("cannot parse request body as json"),
-			http.StatusBadRequest,
-		)
+		rest.RenderError(c, http.StatusBadRequest, errors.New("cannot parse request body as json"))
 		return
 	}
 
 	if err := settings.Validate(); err != nil {
-		rest_utils.RestErrWithLog(w, r, l, err, http.StatusBadRequest)
+		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}
 
-	ifMatchHeader := r.Header.Get(hdrIfMatch)
+	ifMatchHeader := c.Request.Header.Get(hdrIfMatch)
 
 	settings.ETag = uuid.NewString()
 	if me {
 		id := identity.FromContext(ctx)
 		if id == nil {
-			rest_utils.RestErrWithLogInternal(w, r, l, errors.New("identity not present"))
+			rest.RenderInternalError(c, errors.New("identity not present"))
 			return
 		}
 		err = u.db.SaveUserSettings(ctx, id.Subject, settings, ifMatchHeader)
@@ -665,35 +665,33 @@ func (u *UserAdmApiHandlers) saveSettingsHandler(w rest.ResponseWriter, r *rest.
 		err = u.db.SaveSettings(ctx, settings, ifMatchHeader)
 	}
 	if err == store.ErrETagMismatch {
-		rest_utils.RestErrWithInfoMsg(w, r, l, err, http.StatusPreconditionFailed, err.Error())
+		rest.RenderError(c, http.StatusPreconditionFailed, err)
 		return
 	} else if err != nil {
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		rest.RenderInternalError(c, err)
 		return
 	}
 
-	w.WriteHeader(http.StatusCreated)
+	c.Status(http.StatusCreated)
 }
 
-func (u *UserAdmApiHandlers) GetSettingsHandler(w rest.ResponseWriter, r *rest.Request) {
-	u.getSettingsHandler(w, r, false)
+func (u *UserAdmApiHandlers) GetSettingsHandler(c *gin.Context) {
+	u.getSettingsHandler(c, false)
 }
 
-func (u *UserAdmApiHandlers) GetSettingsMeHandler(w rest.ResponseWriter, r *rest.Request) {
-	u.getSettingsHandler(w, r, true)
+func (u *UserAdmApiHandlers) GetSettingsMeHandler(c *gin.Context) {
+	u.getSettingsHandler(c, true)
 }
 
-func (u *UserAdmApiHandlers) getSettingsHandler(w rest.ResponseWriter, r *rest.Request, me bool) {
-	ctx := r.Context()
-
-	l := log.FromContext(ctx)
+func (u *UserAdmApiHandlers) getSettingsHandler(c *gin.Context, me bool) {
+	ctx := c.Request.Context()
 
 	var settings *model.Settings
 	var err error
 	if me {
 		id := identity.FromContext(ctx)
 		if id == nil {
-			rest_utils.RestErrWithLogInternal(w, r, l, errors.New("identity not present"))
+			rest.RenderInternalError(c, errors.New("identity not present"))
 			return
 		}
 		settings, err = u.db.GetUserSettings(ctx, id.Subject)
@@ -702,7 +700,7 @@ func (u *UserAdmApiHandlers) getSettingsHandler(w rest.ResponseWriter, r *rest.R
 	}
 
 	if err != nil {
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		rest.RenderInternalError(c, err)
 		return
 	} else if settings == nil {
 		settings = &model.Settings{
@@ -711,106 +709,76 @@ func (u *UserAdmApiHandlers) getSettingsHandler(w rest.ResponseWriter, r *rest.R
 	}
 
 	if settings.ETag != "" {
-		w.Header().Set(hdrETag, settings.ETag)
+		c.Writer.Header().Set(hdrETag, settings.ETag)
 	}
-	_ = w.WriteJson(settings)
+	c.JSON(http.StatusOK, settings)
 }
 
-func (u *UserAdmApiHandlers) IssueTokenHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-
-	l := log.FromContext(ctx)
+func (u *UserAdmApiHandlers) IssueTokenHandler(c *gin.Context) {
+	ctx := c.Request.Context()
 
 	var tokenRequest model.TokenRequest
 
-	if err := r.DecodeJsonPayload(&tokenRequest); err != nil {
-		rest_utils.RestErrWithLog(
-			w,
-			r,
-			l,
-			errors.New("cannot parse request body as json"),
-			http.StatusBadRequest,
-		)
+	if err := c.ShouldBindJSON(&tokenRequest); err != nil {
+		rest.RenderError(c, http.StatusBadRequest, errors.New("cannot parse request body as json"))
 		return
 	}
 	if err := tokenRequest.Validate(u.config.TokenMaxExpSeconds); err != nil {
-		rest_utils.RestErrWithLog(
-			w,
-			r,
-			l,
-			err,
-			http.StatusBadRequest,
-		)
+		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}
 
 	token, err := u.userAdm.IssuePersonalAccessToken(ctx, &tokenRequest)
 	switch err {
 	case nil:
-		writer := w.(http.ResponseWriter)
+		writer := c.Writer
 		writer.Header().Set("Content-Type", "application/jwt")
 		_, _ = writer.Write([]byte(token))
 	case useradm.ErrTooManyTokens:
-		rest_utils.RestErrWithLog(
-			w,
-			r,
-			l,
-			err,
-			http.StatusUnprocessableEntity,
-		)
+		rest.RenderError(c, http.StatusUnprocessableEntity, err)
 	case useradm.ErrDuplicateTokenName:
-		rest_utils.RestErrWithLog(
-			w,
-			r,
-			l,
-			err,
-			http.StatusConflict,
-		)
+		rest.RenderError(c, http.StatusConflict, err)
 	default:
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		rest.RenderInternalError(c, err)
 	}
 }
 
-func (u *UserAdmApiHandlers) GetTokensHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-	l := log.FromContext(ctx)
+func (u *UserAdmApiHandlers) GetTokensHandler(c *gin.Context) {
+	ctx := c.Request.Context()
 	id := identity.FromContext(ctx)
 	if id == nil {
-		rest_utils.RestErrWithLogInternal(w, r, l, errors.New("identity not present"))
+		rest.RenderInternalError(c, errors.New("identity not present"))
 		return
 	}
 
 	tokens, err := u.userAdm.GetPersonalAccessTokens(ctx, id.Subject)
 	if err != nil {
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		rest.RenderInternalError(c, err)
 		return
 	}
 
-	_ = w.WriteJson(tokens)
+	c.JSON(http.StatusOK, tokens)
 }
 
-func (u *UserAdmApiHandlers) DeleteTokenHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
+func (u *UserAdmApiHandlers) DeleteTokenHandler(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	l := log.FromContext(ctx)
-
-	err := u.userAdm.DeleteToken(ctx, r.PathParam("id"))
+	err := u.userAdm.DeleteToken(ctx, c.Param("id"))
 	if err != nil {
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		rest.RenderInternalError(c, err)
 		return
 	}
 
-	w.WriteHeader(http.StatusNoContent)
+	c.Status(http.StatusNoContent)
 }
 
 // plans and plan binding
 
-func (u *UserAdmApiHandlers) GetPlansHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-	l := log.FromContext(ctx)
-	page, perPage, err := rest_utils.ParsePagination(r)
+func (u *UserAdmApiHandlers) GetPlansHandler(c *gin.Context) {
+	ctx := c.Request.Context()
+	page, perPage, err := rest.ParsePagingParameters(c.Request)
 	if err != nil {
-		rest_utils.RestErrWithLog(w, r, l, err, http.StatusBadRequest)
+		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}
 
@@ -819,18 +787,17 @@ func (u *UserAdmApiHandlers) GetPlansHandler(w rest.ResponseWriter, r *rest.Requ
 		plans = []model.Plan{}
 	}
 
-	_ = w.WriteJson(plans)
+	c.JSON(http.StatusOK, plans)
 }
 
-func (u *UserAdmApiHandlers) GetPlanBindingHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-	l := log.FromContext(ctx)
+func (u *UserAdmApiHandlers) GetPlanBindingHandler(c *gin.Context) {
+	ctx := c.Request.Context()
 
 	planBinding, err := u.userAdm.GetPlanBinding(ctx)
 	if err != nil {
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		rest.RenderInternalError(c, err)
 		return
 	}
 
-	_ = w.WriteJson(planBinding)
+	c.JSON(http.StatusOK, planBinding)
 }
