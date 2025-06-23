@@ -12,6 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { Clear as ClearIcon, Settings, Square } from '@mui/icons-material';
@@ -20,11 +21,14 @@ import { makeStyles } from 'tss-react/mui';
 
 import Loader from '@northern.tech/common-ui/Loader';
 import { ALL_DEVICES, TIMEOUTS, chartTypes, rootfsImageVersion, softwareTitleMap } from '@northern.tech/store/constants';
+import { getDeviceReports, getGroupsById } from '@northern.tech/store/selectors';
+import { getReportDataWithoutBackendSupport, updateReportData } from '@northern.tech/store/thunks';
 import { ensureVersionString } from '@northern.tech/store/utils';
 import { chartColorPalette } from '@northern.tech/themes/Mender';
 import { isEmpty, toggle } from '@northern.tech/utils/helpers';
 import { VictoryBar, VictoryContainer, VictoryPie, VictoryStack } from 'victory';
 
+import BaseWidget from './BaseWidget';
 import { ChartEditWidget, Header, RemovalWidget } from './ChartAddition';
 
 const seriesOther = '__OTHER__';
@@ -201,45 +205,49 @@ const initDistribution = ({ data, theme }) => {
   return { distribution, totals };
 };
 
-export const DistributionReport = ({ data, getGroupDevices, groups, onClick, onSave, selection = {}, software: softwareTree }) => {
-  const {
-    attribute: attributeSelection,
-    group: groupSelection = '',
-    chartType: chartTypeSelection = chartTypes.bar.key,
-    software: softwareSelection = rootfsImageVersion
-  } = selection;
+export const DistributionReport = ({ onClick, onSave, selection = {}, software: softwareTree }) => {
+  const { attribute, chartType = chartTypes.bar.key, group, index: reportIndex, software: softwareSelection } = selection;
+  const software = softwareSelection || attribute || rootfsImageVersion;
   const [editing, setEditing] = useState(false);
   const [removing, setRemoving] = useState(false);
-  const [chartType, setChartType] = useState(chartTypes.bar.key);
-  const [software, setSoftware] = useState('');
-  const [group, setGroup] = useState('');
   const navigate = useNavigate();
   const { classes, theme } = useStyles();
+  const reportsData = useSelector(getDeviceReports);
+  const groupsById = useSelector(getGroupsById);
+  const dispatch = useDispatch();
+  const hasGroupDefinition = !!groupsById[group];
+  const report = reportsData[reportIndex];
+  const hasData = !isEmpty(report);
 
   useEffect(() => {
-    setSoftware(softwareSelection || attributeSelection);
-    setGroup(groupSelection);
-    setChartType(chartTypeSelection);
-    setRemoving(false);
-    getGroupDevices({ group: groupSelection, page: 1, perPage: 1 });
-  }, [attributeSelection, groupSelection, chartTypeSelection, softwareSelection, getGroupDevices]);
+    if (group && !hasGroupDefinition) {
+      return;
+    }
+    // this will retrieve device data and on repeat renders of the widget rely on stored data only - this increases the risk to miss data from the backend or
+    // device initiated data changes, but assumes this is preferable over repeat queries to the backend causing rate limiting
+    if (!hasData) {
+      dispatch(getReportDataWithoutBackendSupport(reportIndex));
+      return;
+    }
+    dispatch(updateReportData(reportIndex));
+  }, [dispatch, reportIndex, group, hasData, hasGroupDefinition]);
 
   const { distribution, totals } = useMemo(() => {
-    if (isEmpty(data)) {
+    if (isEmpty(report)) {
       return { distribution: [], totals: [] };
     }
-    return initDistribution({ data, theme });
+    return initDistribution({ data: report, theme });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(data), JSON.stringify(selection)]);
+  }, [JSON.stringify(report), JSON.stringify(selection)]);
 
   const onSliceClick = useCallback(
     (e, { datum: { x: target } }) => {
       if (target === seriesOther) {
         return;
       }
-      navigate(`/devices/accepted?inventory=${group ? `group:eq:${group}&` : ''}${ensureVersionString(software, attributeSelection)}:eq:${target}`);
+      navigate(`/devices/accepted?inventory=${group ? `group:eq:${group}&` : ''}${ensureVersionString(software, attribute)}:eq:${target}`);
     },
-    [attributeSelection, group, navigate, software]
+    [attribute, group, navigate, software]
   );
 
   const toggleRemoving = () => setRemoving(toggle);
@@ -247,9 +255,6 @@ export const DistributionReport = ({ data, getGroupDevices, groups, onClick, onS
   const onToggleEditClick = () => setEditing(toggle);
 
   const onSaveClick = selection => {
-    setChartType(selection.chartType);
-    setSoftware(selection.software);
-    setGroup(selection.group);
     onSave(selection);
     setEditing(false);
   };
@@ -264,20 +269,15 @@ export const DistributionReport = ({ data, getGroupDevices, groups, onClick, onS
     style: { data: { fill: ({ datum }) => datum.fill } },
     labels: () => null
   };
-  const couldHaveDevices = !group || groups[group]?.deviceIds.length;
+  const couldHaveDevices = !group || groupsById[group]?.deviceIds.length;
   if (removing) {
     return <RemovalWidget onCancel={toggleRemoving} onClick={onClick} />;
   }
   if (editing) {
-    return (
-      <ChartEditWidget
-        groups={groups}
-        onSave={onSaveClick}
-        onCancel={onToggleEditClick}
-        selection={{ ...selection, chartType, group, software }}
-        software={softwareTree}
-      />
-    );
+    return <ChartEditWidget groups={groupsById} onSave={onSaveClick} onCancel={onToggleEditClick} selection={selection} software={softwareTree} />;
+  }
+  if (!report) {
+    return <BaseWidget className="chart-widget flexbox centered" main={<Loader show />} />;
   }
   return (
     <div className="widget chart-widget">
