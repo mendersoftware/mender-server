@@ -34,7 +34,7 @@ import {
 } from '@northern.tech/store/constants';
 import {
   getAttrsEndpoint,
-  getCurrentUser,
+  getDeviceReportsForUser,
   getDeviceTwinIntegrations,
   getGlobalSettings,
   getIdAttribute,
@@ -81,9 +81,9 @@ import {
   getDeviceById as getDeviceByIdSelector,
   getDeviceFilters,
   getDeviceListState,
+  getDeviceReports,
   getDevicesById,
   getGroupsById,
-  getGroups as getGroupsSelector,
   getSelectedGroup
 } from './selectors';
 
