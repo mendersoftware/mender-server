@@ -11,6 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { TIMEOUTS } from '@northern.tech/store/constants';
+import { act } from '@testing-library/react';
 import { vi } from 'vitest';
 
 import { undefineds } from '../../../../../tests/mockData';
@@ -19,7 +21,19 @@ import { DistributionReport } from './Distribution';
 
 describe('Distribution Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<DistributionReport attribute="artifact_name" getGroupDevices={vi.fn()} group="test" devices={{}} groups={{}} />);
+    const { baseElement } = render(
+      <DistributionReport
+        onClick={vi.fn}
+        onSave={vi.fn}
+        selection={{ group: '', attribute: 'artifact_name', index: 0, type: 'distribution', chartType: 'pie' }}
+        software={{}}
+      />
+    );
+    await act(async () => {
+      vi.runAllTimers();
+      vi.runAllTicks();
+      return new Promise(resolve => resolve(), TIMEOUTS.oneSecond);
+    });
     const view = baseElement;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

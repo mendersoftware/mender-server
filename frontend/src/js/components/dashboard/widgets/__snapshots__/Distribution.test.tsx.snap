@@ -136,6 +136,91 @@ exports[`Distribution Component > renders correctly 1`] = `
   margin-right: 8px;
 }
 
+.emotion-6 {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  -webkit-column-gap: 16px;
+  column-gap: 16px;
+  margin-bottom: 16px;
+}
+
+.emotion-6>.flexbox.column>* {
+  height: 20px;
+}
+
+.emotion-6 .barchart .MuiLinearProgress-root {
+  background-color: #f7f7f7;
+}
+
+.emotion-6 .barchart .color-f7f7f7 .MuiLinearProgress-barColorPrimary {
+  background-color: #f7f7f7;
+}
+
+.emotion-6 .barchart .color-337a87 .MuiLinearProgress-barColorPrimary {
+  background-color: #337a87;
+}
+
+.emotion-6 .barchart .color-a31773 .MuiLinearProgress-barColorPrimary {
+  background-color: #a31773;
+}
+
+.emotion-6 .barchart .color-00859e .MuiLinearProgress-barColorPrimary {
+  background-color: #00859e;
+}
+
+.emotion-6 .barchart .color-14cfda .MuiLinearProgress-barColorPrimary {
+  background-color: #14cfda;
+}
+
+.emotion-6 .barchart .color-9bfff0 .MuiLinearProgress-barColorPrimary {
+  background-color: #9bfff0;
+}
+
+.emotion-6 .barchart .color-d5d5d5 .MuiLinearProgress-barColorPrimary {
+  background-color: #d5d5d5;
+}
+
+.emotion-7 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr max-content;
+  -webkit-column-gap: 16px;
+  column-gap: 16px;
+}
+
+.emotion-7.indicating {
+  grid-template-columns: min-content 1fr max-content;
+  -webkit-column-gap: 8px;
+  column-gap: 8px;
+}
+
+.emotion-8 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.3929rem;
+  font-size: 10px;
+  min-width: initial;
+  margin-left: 4px;
+}
+
+.emotion-8 iconButton {
+  margin-right: 8px;
+}
+
 <body>
   <div>
     <div
@@ -154,12 +239,12 @@ exports[`Distribution Component > renders correctly 1`] = `
             <svg
               aria-hidden="true"
               class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
-              data-testid="BarChartIcon"
+              data-testid="PieChartOutlineIcon"
               focusable="false"
               viewBox="0 0 24 24"
             >
               <path
-                d="M4 9h4v11H4zm12 4h4v7h-4zm-6-9h4v16h-4z"
+                d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2m1 2.07c3.61.45 6.48 3.33 6.93 6.93H13zM4 12c0-4.06 3.07-7.44 7-7.93v15.87c-3.93-.5-7-3.88-7-7.94m9 7.93V13h6.93c-.45 3.61-3.32 6.48-6.93 6.93"
               />
             </svg>
           </div>
@@ -207,7 +292,7 @@ exports[`Distribution Component > renders correctly 1`] = `
           class="flexbox space-between slightly-smaller"
         >
           <div>
-            Root filesystem
+            artifact_name
           </div>
           <div>
             All devices
@@ -215,9 +300,70 @@ exports[`Distribution Component > renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="muted flexbox centered"
+        class="emotion-6"
+        style="height: -30px;"
       >
-        There are no devices that match the selected criteria.
+        <div
+          class="flexbox column"
+        >
+          <div
+            class="clickable emotion-7 indicating"
+            title="undefined"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-8"
+              data-testid="SquareIcon"
+              focusable="false"
+              style="fill: #337a87;"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M3 3h18v18H3z"
+              />
+            </svg>
+            <div
+              class="text-overflow"
+            >
+              undefined
+            </div>
+            <div>
+              2
+            </div>
+          </div>
+        </div>
+        <div
+          class="VictoryContainer"
+          style="height: -30px; pointer-events: none; position: relative;"
+        >
+          <svg
+            height="400"
+            role="img"
+            style="width: 100%; height: 100%; pointer-events: all;"
+            viewBox="0 0 400 400"
+            width="400"
+          >
+            <g>
+              <path
+                d="M1.1787225441793275e-14,-192.5A192.5,192.5,0,1,1,-1.1787225441793275e-14,192.5A192.5,192.5,0,1,1,1.1787225441793275e-14,-192.5Z"
+                role="presentation"
+                shape-rendering="auto"
+                style="fill: #337a87; padding: 10px; stroke: transparent; stroke-width: 1;"
+                transform="translate(200, 192.5)"
+              />
+            </g>
+          </svg>
+          <div
+            style="width: 100%; height: 100%; z-index: 99; position: absolute; top: 0px; left: 0px;"
+          >
+            <svg
+              height="400"
+              style="width: 100%; height: 100%; overflow: visible;"
+              viewBox="0 0 400 400"
+              width="400"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>
