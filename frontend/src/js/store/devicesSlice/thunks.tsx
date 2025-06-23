@@ -28,13 +28,11 @@ import {
   TIMEOUTS,
   UNGROUPED_GROUP,
   auditLogsApiUrl,
-  defaultReports,
   headerNames,
   rootfsImageVersion
 } from '@northern.tech/store/constants';
 import {
   getAttrsEndpoint,
-  getCurrentUser,
   getDeviceReportsForUser,
   getDeviceTwinIntegrations,
   getGlobalSettings,
@@ -49,7 +47,6 @@ import { commonErrorFallback, commonErrorHandler } from '@northern.tech/store/st
 import { getDeviceMonitorConfig, getLatestDeviceAlerts, getSingleDeployment, saveGlobalSettings } from '@northern.tech/store/thunks';
 import {
   convertDeviceListStateToFilters,
-  ensureVersionString,
   extractErrorMessage,
   filtersFilter,
   mapDeviceAttributes,
@@ -57,7 +54,6 @@ import {
   mapTermsToFilters,
   progress
 } from '@northern.tech/store/utils';
-import { chartColorPalette } from '@northern.tech/themes/Mender';
 import { attributeDuplicateFilter, dateRangeToUnix, deepCompare, getSnackbarMessage } from '@northern.tech/utils/helpers';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { isCancel } from 'axios';
@@ -75,8 +71,7 @@ import {
   geoAttributes,
   inventoryApiUrl,
   inventoryApiUrlV2,
-  iotManagerBaseURL,
-  reportingApiUrl
+  iotManagerBaseURL
 } from './constants';
 import {
   getAcceptedDevices,
@@ -479,26 +474,6 @@ export const getDeviceInfo = createAsyncThunk(`${sliceName}/getDeviceInfo`, (dev
   return Promise.all(tasks);
 });
 
-export const deriveInactiveDevices = createAsyncThunk(`${sliceName}/deriveInactiveDevices`, (deviceIds, { dispatch, getState }) => {
-  const yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1);
-  const yesterdaysIsoString = yesterday.toISOString();
-  // now boil the list down to the ones that were not updated since yesterday
-  const devices = deviceIds.reduce(
-    (accu, id) => {
-      const device = getDeviceByIdSelector(getState(), id);
-      if (device && device.updated_ts > yesterdaysIsoString) {
-        accu.active.push(id);
-      } else {
-        accu.inactive.push(id);
-      }
-      return accu;
-    },
-    { active: [], inactive: [] }
-  );
-  return dispatch(actions.setInactiveDevices({ activeDeviceTotal: devices.active.length, inactiveDeviceTotal: devices.inactive.length }));
-});
-
 /*
     Device Auth + admission
   */
@@ -682,51 +657,6 @@ export const getDeviceAttributes = createAsyncThunk(`${sliceName}/getDeviceAttri
     return dispatch(actions.setFilterAttributes({ identityAttributes, inventoryAttributes, systemAttributes, tagAttributes }));
   })
 );
-
-export const getReportingLimits = createAsyncThunk(`${sliceName}/getReportingLimits`, (_, { dispatch }) =>
-  GeneralApi.get(`${reportingApiUrl}/devices/attributes`)
-    .catch(err => commonErrorHandler(err, `filterable attributes limit & usage could not be retrieved.`, dispatch, commonErrorFallback))
-    .then(({ data }) => {
-      const { attributes, count, limit } = data;
-      const groupedAttributes = attributeReducer(attributes);
-      return Promise.resolve(dispatch(actions.setFilterablesConfig({ count, limit, attributes: groupedAttributes })));
-    })
-);
-
-const getSingleReportData = (reportConfig, groups) => {
-  const { attribute, group, software = '' } = reportConfig;
-  const filters = [{ key: 'status', scope: 'identity', operator: DEVICE_FILTERING_OPTIONS.$eq.key, value: 'accepted' }];
-  if (group) {
-    const staticGroupFilter = { key: 'group', scope: 'system', operator: DEVICE_FILTERING_OPTIONS.$eq.key, value: group };
-    const { cleanedFilters: groupFilters } = getGroupFilters(group, groups);
-    filters.push(...(groupFilters.length ? groupFilters : [staticGroupFilter]));
-  }
-  const aggregationAttribute = ensureVersionString(software, attribute);
-  return GeneralApi.post(`${reportingApiUrl}/devices/aggregate`, {
-    aggregations: [{ attribute: aggregationAttribute, name: '*', scope: 'inventory', size: chartColorPalette.length }],
-    filters: mapFiltersToTerms(filters)
-  }).then(({ data }) => ({ data, reportConfig }));
-};
-
-export const getReportsData = createAsyncThunk(`${sliceName}/getReportsData`, (_, { dispatch, getState }) => {
-  const state = getState();
-  const currentUserId = getCurrentUser(state).id;
-  const reports =
-    getUserSettings(state).reports || getGlobalSettings(state)[`${currentUserId}-reports`] || (Object.keys(getDevicesById(state)).length ? defaultReports : []);
-  return Promise.all(reports.map(report => getSingleReportData(report, getState().devices.groups))).then(results => {
-    const devicesState = getState().devices;
-    const totalDeviceCount = devicesState.byStatus.accepted.total;
-    const newReports = results.map(({ data, reportConfig }) => {
-      const { items, other_count } = data[0];
-      const { attribute, group, software = '' } = reportConfig;
-      const dataCount = items.reduce((accu, item) => accu + item.count, 0);
-      // the following is needed to show reports including both old (artifact_name) & current style (rootfs-image.version) device software
-      const otherCount = !group && (software === rootfsImageVersion || attribute === 'artifact_name') ? totalDeviceCount - dataCount : other_count;
-      return { items, otherCount, total: otherCount + dataCount };
-    });
-    return Promise.resolve(dispatch(actions.setDeviceReports(newReports)));
-  });
-});
 
 const initializeDistributionData = (report, groups, devices, totalDeviceCount) => {
   const { attribute, group = '', software = '' } = report;
