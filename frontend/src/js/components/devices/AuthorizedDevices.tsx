@@ -35,7 +35,8 @@ import {
   getOnboardingState,
   getSelectedGroupInfo,
   getUserCapabilities,
-  getUserSettings
+  getUserSettings,
+  getUserSettingsInitialized
 } from '@northern.tech/store/selectors';
 import {
   advanceOnboarding,
@@ -197,7 +198,7 @@ export const Authorized = ({
   const filters = useSelector(getDeviceFilters);
   const idAttribute = useSelector(getIdAttribute);
   const onboardingState = useSelector(getOnboardingState);
-  const settingsInitialized = useSelector(state => state.users.settingsInitialized);
+  const settingsInitialized = useSelector(getUserSettingsInitialized);
   const userCapabilities = useSelector(getUserCapabilities);
   const dispatch = useDispatch();
   const dispatchedSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
