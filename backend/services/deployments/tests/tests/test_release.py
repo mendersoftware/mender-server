@@ -35,7 +35,7 @@ class TestRelease:
 
     @pytest.mark.usefixtures("clean_db")
     def test_releases_no_artifacts(self):
-        rsp = management_v1_client(jwt="foo").list_releases()
+        rsp = management_v1_client(jwt=self.d.get_jwt()).list_releases()
         assert len(rsp) == 0
 
     @pytest.mark.usefixtures("clean_minio", "clean_db")
@@ -48,7 +48,7 @@ class TestRelease:
                     ("bar", "device-type-2"),
                 ]
             ):
-                releases = management_v1_client(jwt="foo").list_releases()
+                releases = management_v1_client(jwt=self.d.get_jwt()).list_releases()
                 assert len(releases) == 2
                 release1 = releases[0]
                 release2 = releases[1]
@@ -88,7 +88,7 @@ class TestRelease:
             ) as art:
                 ac = ArtifactsClient()
                 ac.add_artifact(description, art.size, art)
-                releases = management_v1_client(jwt="foo").list_releases()
+                releases = management_v1_client(jwt=self.d.get_jwt()).list_releases()
                 assert len(releases) == 1
                 release1 = releases[0]
 
@@ -118,7 +118,7 @@ class TestRelease:
                     ("bar", "device-type-2"),
                 ]
             ):
-                releases = management_v1_client(jwt="foo").list_releases(name="bar")
+                releases = management_v1_client(jwt=self.d.get_jwt()).list_releases(name="bar")
                 assert len(releases) == 1
                 release = releases[0]
                 assert release.name == "bar"
@@ -138,7 +138,7 @@ class TestRelease:
                     ("bar", "device-type-2", "directory"),
                 ]
             ):
-                releases = management_v1_client(jwt="foo").list_releases(
+                releases = management_v1_client(jwt=self.d.get_jwt()).list_releases(
                     update_type="app"
                 )
                 assert len(releases) == 1
@@ -149,7 +149,7 @@ class TestRelease:
                 assert artifact.name == "foo"
                 assert artifact.device_types_compatible == ["device-type-1"]
 
-                releases = management_v1_client(jwt="foo").list_releases(
+                releases = management_v1_client(jwt=self.d.get_jwt()).list_releases(
                     update_type="single-file"
                 )
                 assert len(releases) == 1
@@ -160,7 +160,7 @@ class TestRelease:
                 assert artifact.name == "foo"
                 assert artifact.device_types_compatible == ["device-type-2"]
 
-                releases = management_v1_client(jwt="foo").list_releases(
+                releases = management_v1_client(jwt=self.d.get_jwt()).list_releases(
                     update_type="directory"
                 )
                 assert len(releases) == 1
@@ -183,7 +183,7 @@ class TestRelease:
                 ]
             ):
                 releases = management_v1_client(
-                    jwt="foo"
+                    jwt=self.d.get_jwt()
                 ).list_releases_with_pagination(update_type="app")
                 assert len(releases) == 1
                 release = releases[0]
@@ -194,7 +194,7 @@ class TestRelease:
                 assert artifact.device_types_compatible == ["device-type-1"]
 
                 releases = management_v1_client(
-                    jwt="foo"
+                    jwt=self.d.get_jwt()
                 ).list_releases_with_pagination(update_type="single-file")
                 assert len(releases) == 1
                 release = releases[0]
@@ -205,7 +205,7 @@ class TestRelease:
                 assert artifact.device_types_compatible == ["device-type-2"]
 
                 releases = management_v1_client(
-                    jwt="foo"
+                    jwt=self.d.get_jwt()
                 ).list_releases_with_pagination(update_type="directory")
                 assert len(releases) == 1
                 release = releases[0]
@@ -226,7 +226,7 @@ class TestRelease:
                     ("bar", "device-type-2"),
                 ]
             ):
-                releases = management_v1_client(jwt="foo").list_releases(name="baz")
+                releases = management_v1_client(jwt=self.d.get_jwt()).list_releases(name="baz")
                 l.unlock()
                 assert len(releases) == 0
 
@@ -241,7 +241,7 @@ class TestRelease:
                 ]
             ):
                 releases = management_v1_client(
-                    jwt="foo"
+                    jwt=self.d.get_jwt()
                 ).list_releases_with_pagination(name="baz")
                 l.unlock()
                 assert len(releases) == 0

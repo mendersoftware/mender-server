@@ -33,18 +33,18 @@ import (
 	"github.com/stretchr/testify/mock"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/requestid"
 	"github.com/mendersoftware/mender-server/pkg/rest_utils"
+	mt "github.com/mendersoftware/mender-server/pkg/testing"
+	rtest "github.com/mendersoftware/mender-server/pkg/testing/rest"
 
 	"github.com/mendersoftware/mender-server/services/deployments/app"
 	mapp "github.com/mendersoftware/mender-server/services/deployments/app/mocks"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 	"github.com/mendersoftware/mender-server/services/deployments/store"
+	"github.com/mendersoftware/mender-server/services/deployments/utils/restutil"
 	"github.com/mendersoftware/mender-server/services/deployments/utils/restutil/view"
+	deployments_testing "github.com/mendersoftware/mender-server/services/deployments/utils/testing"
 	h "github.com/mendersoftware/mender-server/services/deployments/utils/testing"
-
-	"github.com/ant0ine/go-json-rest/rest"
-	"github.com/ant0ine/go-json-rest/rest/test"
 )
 
 func TestAlive(t *testing.T) {
@@ -52,9 +52,10 @@ func TestAlive(t *testing.T) {
 
 	req, _ := http.NewRequest("GET", "http://localhost"+ApiUrlInternalAlive, nil)
 	d := NewDeploymentsApiHandlers(nil, nil, nil)
-	api := setUpRestTest(ApiUrlInternalAlive, rest.Get, d.AliveHandler)
-	recorded := test.RunRequest(t, api.MakeHandler(), req)
-	recorded.CodeIs(http.StatusNoContent)
+	router := setUpTestRouter()
+	router.GET(ApiUrlInternalAlive, d.AliveHandler)
+	recorded := restutil.RunRequest(t, router, req)
+	assert.Equal(t, http.StatusNoContent, recorded.Recorder.Code)
 }
 
 func TestHealthCheck(t *testing.T) {
@@ -89,10 +90,11 @@ func TestHealthCheck(t *testing.T) {
 					return false
 				}),
 			).Return(tc.AppError)
-			d := NewDeploymentsApiHandlers(nil, nil, app)
-			api := setUpRestTest(
+			restView := new(view.RESTView)
+			d := NewDeploymentsApiHandlers(nil, restView, app)
+			router := setUpTestRouter()
+			router.GET(
 				ApiUrlInternalHealth,
-				rest.Get,
 				d.HealthHandler,
 			)
 			req, _ := http.NewRequest(
@@ -100,15 +102,11 @@ func TestHealthCheck(t *testing.T) {
 				"http://localhost"+ApiUrlInternalHealth,
 				nil,
 			)
-			req.Header.Set("X-MEN-RequestID", "test")
-			recorded := test.RunRequest(t, api.MakeHandler(), req)
-			recorded.CodeIs(tc.ResponseCode)
-			if tc.ResponseBody != nil {
-				b, _ := json.Marshal(tc.ResponseBody)
-				assert.JSONEq(t, string(b), recorded.Recorder.Body.String())
-			} else {
-				recorded.BodyIs("")
-			}
+			recorded := restutil.RunRequest(t, router, req)
+
+			checker := mt.NewJSONResponse(tc.ResponseCode, nil, tc.ResponseBody)
+
+			mt.CheckHTTPResponse(t, checker, recorded)
 		})
 	}
 }
@@ -163,7 +161,7 @@ func TestDeploymentsPerTenantHandler(t *testing.T) {
 			queryString:  rest_utils.PerPageName + "=a",
 			responseCode: http.StatusBadRequest,
 			responseBody: rest_utils.ApiError{
-				Err:   "Can't parse param per_page",
+				Err:   "invalid per_page query: \"a\"",
 				ReqId: "test",
 			},
 		},
@@ -208,13 +206,14 @@ func TestDeploymentsPerTenantHandler(t *testing.T) {
 
 			restView := new(view.RESTView)
 			d := NewDeploymentsApiHandlers(nil, restView, app)
-			api := setUpRestTest(
+			router := setUpTestRouter()
+
+			router.GET(
 				ApiUrlInternalTenantDeployments,
-				rest.Get,
 				d.DeploymentsPerTenantHandler,
 			)
 
-			url := strings.Replace(ApiUrlInternalTenantDeployments, "#tenant", tc.tenant, 1)
+			url := strings.Replace(ApiUrlInternalTenantDeployments, ":tenant", tc.tenant, 1)
 			if tc.queryString != "" {
 				url = url + "?" + tc.queryString
 			}
@@ -224,14 +223,10 @@ func TestDeploymentsPerTenantHandler(t *testing.T) {
 				bytes.NewReader([]byte("")),
 			)
 			req.Header.Set("X-MEN-RequestID", "test")
-			recorded := test.RunRequest(t, api.MakeHandler(), req)
-			recorded.CodeIs(tc.responseCode)
-			if tc.responseBody != nil {
-				b, _ := json.Marshal(tc.responseBody)
-				assert.JSONEq(t, string(b), recorded.Recorder.Body.String())
-			} else {
-				recorded.BodyIs("")
-			}
+			recorded := restutil.RunRequest(t, router, req)
+			checker := mt.NewJSONResponse(tc.responseCode, nil, tc.responseBody)
+
+			mt.CheckHTTPResponse(t, checker, recorded)
 		})
 	}
 }
@@ -316,24 +311,25 @@ func TestUploadLink(t *testing.T) {
 		t.Run(tc.Name, func(t *testing.T) {
 			t.Parallel()
 			ctx := context.Background()
-			req, _ := http.NewRequest(
-				http.MethodPost,
-				"https://localhost:8443"+ApiUrlManagementArtifactsDirectUpload,
-				nil)
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: http.MethodPost,
+				Path: "https://localhost:8443" + ApiUrlManagement +
+					ApiUrlManagementArtifactsDirectUpload,
+				Auth: true,
+			})
 			app := tc.App(t)
 			defer app.AssertExpectations(t)
 
 			conf := NewConfig().
 				SetEnableDirectUpload(true)
-			apiHandler, err := NewHandler(
+
+			apiHandler := NewRouter(
 				ctx,
 				app,
 				nil,
 				conf,
 			)
-			if err != nil {
-				panic(err)
-			}
+
 			w := httptest.NewRecorder()
 			apiHandler.ServeHTTP(w, req)
 
@@ -387,7 +383,7 @@ func TestCompleteUpload(t *testing.T) {
 		StatusCode: http.StatusInternalServerError,
 		BodyAssertionFunc: func(t *testing.T, body string) bool {
 			return assert.Regexp(t,
-				`"error":"internal server error"`,
+				`"error":"internal error"`,
 				string(body),
 				"unexpected error response body",
 			)
@@ -410,7 +406,7 @@ func TestCompleteUpload(t *testing.T) {
 	}}
 	pathGen := func(id string) string {
 		return strings.ReplaceAll(
-			ApiUrlManagementArtifactsCompleteUpload, "#id", id,
+			ApiUrlManagement+ApiUrlManagementArtifactsCompleteUpload, ":id", id,
 		)
 	}
 
@@ -419,25 +415,22 @@ func TestCompleteUpload(t *testing.T) {
 		t.Run(tc.Name, func(t *testing.T) {
 			t.Parallel()
 			ctx := context.Background()
-			req, _ := http.NewRequest(
-				http.MethodPost,
-				"https://localhost:8443"+pathGen(tc.ID),
-				nil,
-			)
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: http.MethodPost,
+				Path:   "https://localhost:8443" + pathGen(tc.ID),
+				Auth:   true,
+			})
 			app := tc.App(t)
 			defer app.AssertExpectations(t)
 
 			conf := NewConfig().
 				SetEnableDirectUpload(true)
-			apiHandler, err := NewHandler(
+			apiHandler := NewRouter(
 				ctx,
 				app,
 				nil,
 				conf,
 			)
-			if err != nil {
-				panic(err)
-			}
 
 			w := httptest.NewRecorder()
 			apiHandler.ServeHTTP(w, req)
@@ -481,7 +474,7 @@ func TestPostDeployment(t *testing.T) {
 		Name:         "error: empty payload",
 		ResponseCode: http.StatusBadRequest,
 		ResponseBody: rest_utils.ApiError{
-			Err:   "Validating request body: JSON payload is empty",
+			Err:   "Validating request body: invalid request",
 			ReqId: "test",
 		},
 	}, {
@@ -568,29 +561,24 @@ func TestPostDeployment(t *testing.T) {
 			).Return("foo", tc.AppError)
 			restView := new(view.RESTView)
 			d := NewDeploymentsApiHandlers(nil, restView, app)
-			api := setUpRestTest(
+			router := setUpTestRouter()
+			router.POST(
 				ApiUrlManagementDeployments,
-				rest.Post,
 				d.PostDeployment,
 			)
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost" + ApiUrlManagementDeployments,
+				Body:   tc.InputBody,
+			})
 
-			req := test.MakeSimpleRequest(
-				"POST",
-				"http://localhost"+ApiUrlManagementDeployments,
-				tc.InputBody,
-			)
-			req.Header.Set("X-MEN-RequestID", "test")
-			recorded := test.RunRequest(t, api.MakeHandler(), req)
-			recorded.CodeIs(tc.ResponseCode)
-			if tc.ResponseLocationHeader != "" {
-				recorded.HeaderIs("Location", tc.ResponseLocationHeader)
-			}
-			if tc.ResponseBody != nil {
-				b, _ := json.Marshal(tc.ResponseBody)
-				assert.JSONEq(t, string(b), recorded.Recorder.Body.String())
-			} else {
-				recorded.BodyIs("")
-			}
+			recorded := restutil.RunRequest(t, router, req)
+			checker := mt.NewJSONResponse(tc.ResponseCode,
+				map[string]string{
+					"Location": tc.ResponseLocationHeader,
+				}, tc.ResponseBody)
+
+			mt.CheckHTTPResponse(t, checker, recorded)
 		})
 	}
 }
@@ -621,7 +609,7 @@ func TestPostDeploymentToGroup(t *testing.T) {
 		InputGroup:   "baz",
 		ResponseCode: http.StatusBadRequest,
 		ResponseBody: rest_utils.ApiError{
-			Err:   "Validating request body: JSON payload is empty",
+			Err:   "Validating request body: invalid request",
 			ReqId: "test",
 		},
 	}, {
@@ -691,29 +679,25 @@ func TestPostDeploymentToGroup(t *testing.T) {
 				app,
 				NewConfig().SetEnableDirectUpload(true),
 			)
-			api := setUpRestTest(
+			router := setUpTestRouter()
+			router.POST(
 				ApiUrlManagementDeploymentsGroup,
-				rest.Post,
 				d.DeployToGroup,
 			)
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost" + ApiUrlManagementDeployments + "/group/" + tc.InputGroup,
+				Body:   tc.InputBody,
+			})
 
-			req := test.MakeSimpleRequest(
-				"POST",
-				"http://localhost"+ApiUrlManagementDeployments+"/group/"+tc.InputGroup,
-				tc.InputBody,
-			)
-			req.Header.Set("X-MEN-RequestID", "test")
-			recorded := test.RunRequest(t, api.MakeHandler(), req)
-			recorded.CodeIs(tc.ResponseCode)
-			if tc.ResponseLocationHeader != "" {
-				recorded.HeaderIs("Location", tc.ResponseLocationHeader)
-			}
-			if tc.ResponseBody != nil {
-				b, _ := json.Marshal(tc.ResponseBody)
-				assert.JSONEq(t, string(b), recorded.Recorder.Body.String())
-			} else {
-				recorded.BodyIs("")
-			}
+			recorded := restutil.RunRequest(t, router, req)
+
+			checker := mt.NewJSONResponse(tc.ResponseCode,
+				map[string]string{
+					"Location": tc.ResponseLocationHeader,
+				}, tc.ResponseBody)
+
+			mt.CheckHTTPResponse(t, checker, recorded)
 		})
 	}
 }
@@ -723,7 +707,7 @@ func TestControllerPostConfigurationDeployment(t *testing.T) {
 	t.Parallel()
 
 	testCases := map[string]struct {
-		h.JSONResponseParams
+		JSONResponseParams *mt.JSONResponse
 
 		InputBodyObject interface{}
 
@@ -740,11 +724,10 @@ func TestControllerPostConfigurationDeployment(t *testing.T) {
 			InputTenantID:     "foo",
 			InputDeviceID:     "bar",
 			InputDeploymentID: "baz",
-			JSONResponseParams: h.JSONResponseParams{
-				OutputStatus:     http.StatusCreated,
-				OutputBodyObject: nil,
-				OutputHeaders:    map[string]string{"Location": "./deployments/baz"},
-			},
+			JSONResponseParams: mt.NewJSONResponse(
+				http.StatusCreated,
+				map[string]string{"Location": "./deployments/baz"},
+				nil),
 		},
 		"ok, object configuration encoding": {
 			InputBodyObject: map[string]interface{}{
@@ -754,31 +737,33 @@ func TestControllerPostConfigurationDeployment(t *testing.T) {
 			InputTenantID:     "foo",
 			InputDeviceID:     "bar",
 			InputDeploymentID: "baz",
-			JSONResponseParams: h.JSONResponseParams{
-				OutputStatus:     http.StatusCreated,
-				OutputBodyObject: nil,
-				OutputHeaders:    map[string]string{"Location": "./deployments/baz"},
-			},
+			JSONResponseParams: mt.NewJSONResponse(
+				http.StatusCreated,
+				map[string]string{"Location": "./deployments/baz"},
+				nil,
+			),
 		},
 		"ko, empty body": {
 			InputBodyObject:   nil,
 			InputTenantID:     "foo",
 			InputDeviceID:     "bar",
 			InputDeploymentID: "baz",
-			JSONResponseParams: h.JSONResponseParams{
-				OutputStatus:     http.StatusBadRequest,
-				OutputBodyObject: h.ErrorToErrStruct(errors.New("Validating request body: JSON payload is empty")),
-			},
+			JSONResponseParams: mt.NewJSONResponse(
+				http.StatusBadRequest,
+				nil,
+				h.ErrorToErrStruct(errors.New("Validating request body: invalid request")),
+			),
 		},
 		"ko, empty deployment": {
 			InputBodyObject:   &model.ConfigurationDeploymentConstructor{},
 			InputTenantID:     "foo",
 			InputDeviceID:     "bar",
 			InputDeploymentID: "baz",
-			JSONResponseParams: h.JSONResponseParams{
-				OutputStatus:     http.StatusBadRequest,
-				OutputBodyObject: h.ErrorToErrStruct(errors.New("Validating request body: configuration: cannot be blank; name: cannot be blank.")),
-			},
+			JSONResponseParams: mt.NewJSONResponse(
+				http.StatusBadRequest,
+				nil,
+				h.ErrorToErrStruct(errors.New("Validating request body: configuration: cannot be blank; name: cannot be blank.")),
+			),
 		},
 		"ko, internal error": {
 			InputBodyObject: &model.ConfigurationDeploymentConstructor{
@@ -789,10 +774,11 @@ func TestControllerPostConfigurationDeployment(t *testing.T) {
 			InputDeviceID:                           "bar",
 			InputDeploymentID:                       "baz",
 			InputCreateConfigurationDeploymentError: errors.New("model error"),
-			JSONResponseParams: h.JSONResponseParams{
-				OutputStatus:     http.StatusInternalServerError,
-				OutputBodyObject: h.ErrorToErrStruct(errors.New("internal error")),
-			},
+			JSONResponseParams: mt.NewJSONResponse(
+				http.StatusInternalServerError,
+				nil,
+				h.ErrorToErrStruct(errors.New("internal error")),
+			),
 		},
 		"ko, conflict": {
 			InputBodyObject: &model.ConfigurationDeploymentConstructor{
@@ -803,10 +789,11 @@ func TestControllerPostConfigurationDeployment(t *testing.T) {
 			InputDeviceID:                           "bar",
 			InputDeploymentID:                       "baz",
 			InputCreateConfigurationDeploymentError: app.ErrDuplicateDeployment,
-			JSONResponseParams: h.JSONResponseParams{
-				OutputStatus:     http.StatusConflict,
-				OutputBodyObject: h.ErrorToErrStruct(app.ErrDuplicateDeployment),
-			},
+			JSONResponseParams: mt.NewJSONResponse(
+				http.StatusConflict,
+				nil,
+				h.ErrorToErrStruct(app.ErrDuplicateDeployment),
+			),
 		},
 	}
 
@@ -821,23 +808,24 @@ func TestControllerPostConfigurationDeployment(t *testing.T) {
 				h.ContextMatcher(), mock.AnythingOfType("*model.ConfigurationDeploymentConstructor"),
 				tc.InputDeviceID, tc.InputDeploymentID).
 				Return(tc.InputDeploymentID, tc.InputCreateConfigurationDeploymentError)
-
-			api := setUpRestTest(
+			router := setUpTestRouter()
+			router.POST(
 				ApiUrlInternalDeviceConfigurationDeployments,
-				rest.Post,
 				d.PostDeviceConfigurationDeployment,
 			)
 
-			uri := strings.Replace(ApiUrlInternalDeviceConfigurationDeployments, "#tenant", tc.InputTenantID, 1)
-			uri = strings.Replace(uri, "#device_id", tc.InputDeviceID, 1)
-			uri = strings.Replace(uri, "#deployment_id", tc.InputDeploymentID, 1)
+			uri := strings.Replace(ApiUrlInternalDeviceConfigurationDeployments, ":tenant", tc.InputTenantID, 1)
+			uri = strings.Replace(uri, ":device_id", tc.InputDeviceID, 1)
+			uri = strings.Replace(uri, ":deployment_id", tc.InputDeploymentID, 1)
 
-			req := test.MakeSimpleRequest("POST", "http://localhost"+uri, tc.InputBodyObject)
-			req.Header.Add(requestid.RequestIdHeader, "test")
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "POST",
+				Path:   "http://localhost" + uri,
+				Body:   tc.InputBodyObject,
+			})
+			recorded := restutil.RunRequest(t, router, req)
 
-			recorded := test.RunRequest(t, api.MakeHandler(), req)
-
-			h.CheckRecordedResponse(t, recorded, tc.JSONResponseParams)
+			mt.CheckHTTPResponse(t, tc.JSONResponseParams, recorded)
 		})
 	}
 }
@@ -1160,13 +1148,11 @@ func TestDownloadConfiguration(t *testing.T) {
 			defer tc.App.AssertExpectations(t)
 			reqClone := tc.Request.Clone(context.Background())
 			handlers := NewDeploymentsApiHandlers(nil, &view.RESTView{}, tc.App, tc.Config)
-			routes := NewDeploymentsResourceRoutes(handlers)
-			router, _ := rest.MakeRouter(routes...)
-			api := rest.NewApi()
-			api.SetApp(router)
-			handler := api.MakeHandler()
+			router := setUpTestRouter()
+			NewDeploymentsResourceRoutes(router.Group("."), handlers)
+
 			w := httptest.NewRecorder()
-			handler.ServeHTTP(w, tc.Request)
+			router.ServeHTTP(w, tc.Request)
 
 			assert.Equal(t, tc.StatusCode, w.Code)
 			if tc.Error != nil {
@@ -1611,13 +1597,16 @@ func TestGetDeploymentForDevice(t *testing.T) {
 			}
 
 			handlers := NewDeploymentsApiHandlers(nil, &view.RESTView{}, tc.App, config)
-			routes := NewDeploymentsResourceRoutes(handlers)
-			router, _ := rest.MakeRouter(routes...)
-			api := rest.NewApi()
-			api.SetApp(router)
-			handler := api.MakeHandler()
+			router := setUpTestRouter()
+			router.GET(ApiUrlDevicesDeploymentsNext, handlers.GetDeploymentForDevice)
+			router.POST(ApiUrlDevicesDeploymentsNext,
+				handlers.GetDeploymentForDevice)
+
+			if strings.EqualFold(tc.Request.Method, http.MethodPost) {
+				tc.Request.Header.Set("Content-Type", "application/json")
+			}
 			w := httptest.NewRecorder()
-			handler.ServeHTTP(w, tc.Request)
+			router.ServeHTTP(w, tc.Request)
 
 			assert.Equal(t, tc.StatusCode, w.Code)
 			if tc.Error != nil {
@@ -1703,19 +1692,19 @@ func TestGetTenantStorageSettings(t *testing.T) {
 
 			restView := new(view.RESTView)
 			d := NewDeploymentsApiHandlers(nil, restView, app)
-			api := setUpRestTest(
+			router := setUpTestRouter()
+			router.GET(
 				ApiUrlInternalTenantStorageSettings,
-				rest.Get,
 				d.GetTenantStorageSettingsHandler,
 			)
-			url := strings.Replace(ApiUrlInternalTenantStorageSettings, "#tenant", tc.tenantID, -1)
+			url := strings.Replace(ApiUrlInternalTenantStorageSettings, ":tenant", tc.tenantID, -1)
 			req, _ := http.NewRequest(
 				"GET",
 				"http://localhost"+url,
 				nil,
 			)
-			recorded := test.RunRequest(t, api.MakeHandler(), req)
-			recorded.CodeIs(tc.httpStatus)
+			recorded := restutil.RunRequest(t, router, req)
+			assert.Equal(t, tc.httpStatus, recorded.Recorder.Code)
 
 			if tc.httpStatus == http.StatusOK {
 				settings := &model.StorageSettings{}
@@ -1840,24 +1829,24 @@ func TestPutTenantStorageSettings(t *testing.T) {
 
 			restView := new(view.RESTView)
 			d := NewDeploymentsApiHandlers(nil, restView, app)
-			api := setUpRestTest(
+			router := setUpTestRouter()
+			router.PUT(
 				ApiUrlInternalTenantStorageSettings,
-				rest.Put,
 				d.PutTenantStorageSettingsHandler,
 			)
 			body, _ := json.Marshal(tc.settings)
-			url := strings.Replace(ApiUrlInternalTenantStorageSettings, "#tenant", tc.tenantID, -1)
+			url := strings.Replace(ApiUrlInternalTenantStorageSettings, ":tenant", tc.tenantID, -1)
 			req, _ := http.NewRequest(
 				http.MethodPut,
 				"http://localhost"+url,
 				bytes.NewBuffer(body),
 			)
 
-			recorded := test.RunRequest(t, api.MakeHandler(), req)
+			recorded := restutil.RunRequest(t, router, req)
 			if recorded.Recorder.Code != tc.httpStatus {
 				fmt.Println(recorded.Recorder.Body)
 			}
-			recorded.CodeIs(tc.httpStatus)
+			assert.Equal(t, tc.httpStatus, recorded.Recorder.Code)
 		})
 	}
 }
@@ -1919,22 +1908,21 @@ func TestLookupDeployment(t *testing.T) {
 			).Return(tc.deployments, tc.count, tc.appError)
 			restView := new(view.RESTView)
 			d := NewDeploymentsApiHandlers(nil, restView, app)
-			api := setUpRestTest(
+			router := setUpTestRouter()
+			router.GET(
 				ApiUrlManagementDeployments,
-				rest.Get,
 				d.LookupDeployment,
 			)
 			url := "http://localhost" + ApiUrlManagementDeployments
 			if tc.sort != "" {
 				url = "http://localhost" + ApiUrlManagementDeployments + "?sort=" + tc.sort
 			}
-			req := test.MakeSimpleRequest(
-				"GET",
-				url,
-				"",
-			)
-			recorded := test.RunRequest(t, api.MakeHandler(), req)
-			recorded.CodeIs(tc.ResponseCode)
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   url,
+			})
+			recorded := restutil.RunRequest(t, router, req)
+			assert.Equal(t, tc.ResponseCode, recorded.Recorder.Code)
 		})
 	}
 }
@@ -1996,22 +1984,21 @@ func TestLookupDeploymentV2(t *testing.T) {
 			).Return(tc.deployments, tc.count, tc.appError)
 			restView := new(view.RESTView)
 			d := NewDeploymentsApiHandlers(nil, restView, app)
-			api := setUpRestTest(
+			router := setUpTestRouter()
+			router.GET(
 				ApiUrlManagementV2Deployments,
-				rest.Get,
 				d.LookupDeploymentV2,
 			)
 			url := "http://localhost" + ApiUrlManagementV2Deployments
 			if tc.sort != "" {
 				url = "http://localhost" + ApiUrlManagementV2Deployments + "?sort=" + tc.sort
 			}
-			req := test.MakeSimpleRequest(
-				"GET",
-				url,
-				"",
-			)
-			recorded := test.RunRequest(t, api.MakeHandler(), req)
-			recorded.CodeIs(tc.ResponseCode)
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   url,
+			})
+			recorded := restutil.RunRequest(t, router, req)
+			assert.Equal(t, tc.ResponseCode, recorded.Recorder.Code)
 		})
 	}
 }
@@ -2052,17 +2039,20 @@ func TestAbortDeviceDeployments(t *testing.T) {
 
 			restView := new(view.RESTView)
 			d := NewDeploymentsApiHandlers(nil, restView, app)
-			api := setUpRestTest(
+			router := setUpTestRouter()
+			router.DELETE(
 				ApiUrlManagementDeploymentsDeviceId,
-				rest.Delete,
 				d.AbortDeviceDeployments,
 			)
 			url := "http://localhost" + ApiUrlManagementDeploymentsDeviceId
-			url = strings.Replace(url, "#id", tc.deviceID, 1)
-			req := test.MakeSimpleRequest("DELETE", url, "")
+			url = strings.Replace(url, ":id", tc.deviceID, 1)
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "DELETE",
+				Path:   url,
+			})
 
-			recorded := test.RunRequest(t, api.MakeHandler(), req)
-			recorded.CodeIs(tc.responseCode)
+			recorded := restutil.RunRequest(t, router, req)
+			assert.Equal(t, tc.responseCode, recorded.Recorder.Code)
 		})
 	}
 }
@@ -2103,17 +2093,19 @@ func TestDeleteDeviceDeploymentsHistory(t *testing.T) {
 
 			restView := new(view.RESTView)
 			d := NewDeploymentsApiHandlers(nil, restView, app)
-			api := setUpRestTest(
+			router := setUpTestRouter()
+			router.DELETE(
 				ApiUrlManagementDeploymentsDeviceHistory,
-				rest.Delete,
 				d.DeleteDeviceDeploymentsHistory,
 			)
 			url := "http://localhost" + ApiUrlManagementDeploymentsDeviceHistory
-			url = strings.Replace(url, "#id", tc.deviceID, 1)
-			req := test.MakeSimpleRequest("DELETE", url, "")
-
-			recorded := test.RunRequest(t, api.MakeHandler(), req)
-			recorded.CodeIs(tc.responseCode)
+			url = strings.Replace(url, ":id", tc.deviceID, 1)
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "DELETE",
+				Path:   url,
+			})
+			recorded := restutil.RunRequest(t, router, req)
+			assert.Equal(t, tc.responseCode, recorded.Recorder.Code)
 		})
 	}
 }
@@ -2128,6 +2120,7 @@ func TestGetDeploymentsStats(t *testing.T) {
 		responseCode          int
 		mockedDeploymentStats []*model.DeploymentStats
 		mockedError           error
+		restErr               map[string]interface{}
 	}{
 		"OK - default success case": {
 			deploymentIDs: model.DeploymentIDs{[]string{testSHA}},
@@ -2143,16 +2136,19 @@ func TestGetDeploymentsStats(t *testing.T) {
 			deploymentIDs: model.DeploymentIDs{[]string{"imnotauuid"}},
 			responseCode:  http.StatusBadRequest,
 			mockedError:   nil,
+			restErr:       deployments_testing.RestError("0: must be a valid UUID."),
 		},
 		"Error - database error": {
 			deploymentIDs: model.DeploymentIDs{[]string{testSHA}},
 			responseCode:  http.StatusInternalServerError,
 			mockedError:   errors.New("checking deployment statistics for IDs"),
+			restErr:       deployments_testing.RestError("internal error"),
 		},
 		"Error - no deploymentStats found": {
 			deploymentIDs: model.DeploymentIDs{[]string{testSHA}},
 			responseCode:  http.StatusNotFound,
 			mockedError:   app.ErrModelDeploymentNotFound,
+			restErr:       deployments_testing.RestError(app.ErrModelDeploymentNotFound.Error()),
 		},
 	}
 
@@ -2168,22 +2164,30 @@ func TestGetDeploymentsStats(t *testing.T) {
 
 			restView := new(view.RESTView)
 			d := NewDeploymentsApiHandlers(nil, restView, app)
-			api := setUpRestTest(
+			router := setUpTestRouter()
+			router.POST(
 				ApiUrlManagementMultipleDeploymentsStatistics,
-				rest.Post,
 				d.GetDeploymentsStats,
 			)
 			url := "http://localhost" + ApiUrlManagementMultipleDeploymentsStatistics
-			req := test.MakeSimpleRequest("POST", url, tc.deploymentIDs)
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "POST",
+				Path:   url,
+				Body:   tc.deploymentIDs,
+			})
+			recorded := restutil.RunRequest(t, router, req)
 
-			recorded := test.RunRequest(t, api.MakeHandler(), req)
-			recorded.CodeIs(tc.responseCode)
-			recorded.ContentTypeIsJson()
-			res := []*model.DeploymentStats{}
-			recorded.DecodeJsonPayload(&res)
-			if tc.responseCode == http.StatusOK {
-				assert.Equal(t, tc.mockedDeploymentStats, res, "Unexpected response body")
+			var body interface{}
+			body = tc.mockedDeploymentStats
+			if tc.restErr != nil {
+				body = tc.restErr
 			}
+
+			checker := mt.NewJSONResponse(tc.responseCode,
+				map[string]string{"Content-Type": "application/json; charset=utf-8"},
+				body)
+
+			mt.CheckHTTPResponse(t, checker, recorded)
 		})
 	}
 }
@@ -2204,6 +2208,7 @@ func TestListDeviceDeployments(t *testing.T) {
 		deployments  []model.DeviceDeploymentListItem
 		count        int
 		err          error
+		restErr      map[string]interface{}
 	}{
 		"ok": {
 			deviceID: deviceID,
@@ -2278,21 +2283,19 @@ func TestListDeviceDeployments(t *testing.T) {
 			deviceID:     deviceID,
 			limit:        MaximumPerPageListDeviceDeployments + 1,
 			responseCode: http.StatusBadRequest,
-		},
-		"ko, empty device ID": {
-			deviceID:     "",
-			responseCode: http.StatusNotFound,
-			err:          errors.New("error"),
+			restErr:      deployments_testing.RestError("Param per_page is out of bounds"),
 		},
 		"ko, wrong limit": {
 			deviceID:     deviceID,
 			limit:        -10,
 			responseCode: http.StatusBadRequest,
+			restErr:      deployments_testing.RestError("invalid per_page query: value must be a non-zero positive integer"),
 		},
 		"ko, wrong status": {
 			deviceID:     deviceID,
 			status:       "dummy",
 			responseCode: http.StatusBadRequest,
+			restErr:      deployments_testing.RestError("status: must be a valid value"),
 		},
 		"ko, error": {
 			deviceID: deviceID,
@@ -2303,6 +2306,7 @@ func TestListDeviceDeployments(t *testing.T) {
 			responseCode: http.StatusInternalServerError,
 			count:        -1,
 			err:          errors.New("error"),
+			restErr:      deployments_testing.RestError("internal error"),
 		},
 	}
 
@@ -2324,29 +2328,37 @@ func TestListDeviceDeployments(t *testing.T) {
 
 			restView := new(view.RESTView)
 			d := NewDeploymentsApiHandlers(nil, restView, app)
-			api := setUpRestTest(
+			router := setUpTestRouter()
+			router.GET(
 				ApiUrlManagementDeploymentsDeviceId,
-				rest.Get,
 				d.ListDeviceDeployments,
 			)
 			url := "http://localhost" + ApiUrlManagementDeploymentsDeviceId
-			url = strings.Replace(url, "#id", tc.deviceID, 1)
+			url = strings.Replace(url, ":id", tc.deviceID, 1)
 			if tc.status != "" {
 				url = url + "?status=" + tc.status
 			}
 			if tc.limit != 0 {
 				url = url + fmt.Sprintf("?per_page=%d", tc.limit)
 			}
-			req := test.MakeSimpleRequest("GET", url, nil)
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   url,
+			})
 
-			recorded := test.RunRequest(t, api.MakeHandler(), req)
-			recorded.CodeIs(tc.responseCode)
-			recorded.ContentTypeIsJson()
-			res := []model.DeviceDeploymentListItem{}
-			recorded.DecodeJsonPayload(&res)
-			if tc.responseCode == http.StatusOK {
-				assert.Equal(t, tc.deployments, res, "Unexpected response body")
+			recorded := restutil.RunRequest(t, router, req)
+
+			var body interface{}
+			body = tc.deployments
+			if tc.restErr != nil {
+				body = tc.restErr
 			}
+
+			checker := mt.NewJSONResponse(tc.responseCode,
+				map[string]string{"Content-Type": "application/json; charset=utf-8"},
+				body)
+
+			mt.CheckHTTPResponse(t, checker, recorded)
 		})
 	}
 }
@@ -2364,6 +2376,7 @@ func TestListDeviceDeploymentsInternal(t *testing.T) {
 		deployments  []model.DeviceDeploymentListItem
 		count        int
 		err          error
+		restErr      map[string]interface{}
 	}{
 		"ok": {
 			deviceID: deviceID,
@@ -2438,21 +2451,19 @@ func TestListDeviceDeploymentsInternal(t *testing.T) {
 			deviceID:     deviceID,
 			limit:        MaximumPerPageListDeviceDeployments + 1,
 			responseCode: http.StatusBadRequest,
+			restErr:      deployments_testing.RestError("Param per_page is out of bounds"),
 		},
-		"ko, wrong device ID": {
-			deviceID:     "",
-			responseCode: http.StatusNotFound,
-			err:          errors.New("error"),
-		},
-		"ok, wrong limit": {
+		"ko, wrong limit": {
 			deviceID:     deviceID,
 			limit:        -10,
 			responseCode: http.StatusBadRequest,
+			restErr:      deployments_testing.RestError("invalid per_page query: value must be a non-zero positive integer"),
 		},
-		"ok, wrong status": {
+		"ko, wrong status": {
 			deviceID:     deviceID,
 			status:       "dummy",
 			responseCode: http.StatusBadRequest,
+			restErr:      deployments_testing.RestError("status: must be a valid value"),
 		},
 		"ko, error": {
 			deviceID: deviceID,
@@ -2463,6 +2474,7 @@ func TestListDeviceDeploymentsInternal(t *testing.T) {
 			responseCode: http.StatusInternalServerError,
 			count:        -1,
 			err:          errors.New("error"),
+			restErr:      deployments_testing.RestError("internal error"),
 		},
 	}
 
@@ -2487,30 +2499,36 @@ func TestListDeviceDeploymentsInternal(t *testing.T) {
 
 			restView := new(view.RESTView)
 			d := NewDeploymentsApiHandlers(nil, restView, app)
-			api := setUpRestTest(
+			router := setUpTestRouter()
+			router.GET(
 				ApiUrlInternalTenantDeploymentsDevice,
-				rest.Get,
 				d.ListDeviceDeploymentsInternal,
 			)
 			url := "http://localhost" + ApiUrlInternalTenantDeploymentsDevice
-			url = strings.Replace(url, "#tenant", tenantID, 1)
-			url = strings.Replace(url, "#id", tc.deviceID, 1)
+			url = strings.Replace(url, ":tenant", tenantID, 1)
+			url = strings.Replace(url, ":id", tc.deviceID, 1)
 			if tc.status != "" {
 				url = url + "?status=" + tc.status
 			}
 			if tc.limit != 0 {
 				url = url + fmt.Sprintf("?per_page=%d", tc.limit)
 			}
-			req := test.MakeSimpleRequest("GET", url, nil)
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   url,
+			})
 
-			recorded := test.RunRequest(t, api.MakeHandler(), req)
-			recorded.CodeIs(tc.responseCode)
-			recorded.ContentTypeIsJson()
-			res := []model.DeviceDeploymentListItem{}
-			recorded.DecodeJsonPayload(&res)
-			if tc.responseCode == http.StatusOK {
-				assert.Equal(t, tc.deployments, res, "Unexpected response body")
+			recorded := restutil.RunRequest(t, router, req)
+			var body interface{}
+			body = tc.deployments
+			if tc.restErr != nil {
+				body = tc.restErr
 			}
+			checker := mt.NewJSONResponse(tc.responseCode,
+				map[string]string{"Content-Type": "application/json; charset=utf-8"},
+				body)
+
+			mt.CheckHTTPResponse(t, checker, recorded)
 		})
 	}
 }
@@ -2528,6 +2546,7 @@ func TestListDeviceDeploymentsByIDsInternal(t *testing.T) {
 		deployments  []model.DeviceDeploymentListItem
 		count        int
 		err          error
+		restErr      map[string]interface{}
 	}{
 		"ok": {
 			ID: ID,
@@ -2588,20 +2607,24 @@ func TestListDeviceDeploymentsByIDsInternal(t *testing.T) {
 			ID:           ID,
 			limit:        MaximumPerPageListDeviceDeployments + 1,
 			responseCode: http.StatusBadRequest,
+			restErr:      deployments_testing.RestError("Param per_page is out of bounds"),
 		},
 		"ko, wrong ID": {
 			responseCode: http.StatusBadRequest,
 			err:          errors.New("error"),
+			restErr:      deployments_testing.RestError("id: cannot be blank"),
 		},
 		"ko, wrong limit": {
 			ID:           ID,
 			limit:        -10,
 			responseCode: http.StatusBadRequest,
+			restErr:      deployments_testing.RestError("invalid per_page query: value must be a non-zero positive integer"),
 		},
 		"ko, wrong status": {
 			ID:           ID,
 			status:       "dummy",
 			responseCode: http.StatusBadRequest,
+			restErr:      deployments_testing.RestError("status: must be a valid value"),
 		},
 		"ko, error": {
 			ID: ID,
@@ -2612,6 +2635,7 @@ func TestListDeviceDeploymentsByIDsInternal(t *testing.T) {
 			responseCode: http.StatusInternalServerError,
 			count:        -1,
 			err:          errors.New("error"),
+			restErr:      deployments_testing.RestError("internal error"),
 		},
 	}
 
@@ -2636,13 +2660,13 @@ func TestListDeviceDeploymentsByIDsInternal(t *testing.T) {
 
 			restView := new(view.RESTView)
 			d := NewDeploymentsApiHandlers(nil, restView, app)
-			api := setUpRestTest(
+			router := setUpTestRouter()
+			router.GET(
 				ApiUrlInternalTenantDeploymentsDevices,
-				rest.Get,
 				d.ListDeviceDeploymentsByIDsInternal,
 			)
 			url := "http://localhost" + ApiUrlInternalTenantDeploymentsDevices
-			url = strings.Replace(url, "#tenant", tenantID, 1) + "?"
+			url = strings.Replace(url, ":tenant", tenantID, 1) + "?"
 			if tc.ID != "" {
 				url = url + "id=" + tc.ID
 			}
@@ -2652,16 +2676,22 @@ func TestListDeviceDeploymentsByIDsInternal(t *testing.T) {
 			if tc.limit != 0 {
 				url = url + fmt.Sprintf("&per_page=%d", tc.limit)
 			}
-			req := test.MakeSimpleRequest("GET", url, nil)
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   url,
+			})
 
-			recorded := test.RunRequest(t, api.MakeHandler(), req)
-			recorded.CodeIs(tc.responseCode)
-			recorded.ContentTypeIsJson()
-			res := []model.DeviceDeploymentListItem{}
-			recorded.DecodeJsonPayload(&res)
-			if tc.responseCode == http.StatusOK {
-				assert.Equal(t, tc.deployments, res, "Unexpected response body")
+			recorded := restutil.RunRequest(t, router, req)
+			var body interface{}
+			body = tc.deployments
+			if tc.restErr != nil {
+				body = tc.restErr
 			}
+			checker := mt.NewJSONResponse(tc.responseCode,
+				map[string]string{"Content-Type": "application/json; charset=utf-8"},
+				body)
+
+			mt.CheckHTTPResponse(t, checker, recorded)
 		})
 	}
 }

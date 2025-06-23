@@ -210,10 +210,7 @@ func RunServer(ctx context.Context) error {
 	); err == nil {
 		apiConf.SetPresignSecret(key)
 	}
-	handler, err := api.NewHandler(ctx, app, ds, apiConf)
-	if err != nil {
-		return err
-	}
+	handler := api.NewRouter(ctx, app, ds, apiConf)
 
 	listen := c.GetString(dconfig.SettingListen)
 

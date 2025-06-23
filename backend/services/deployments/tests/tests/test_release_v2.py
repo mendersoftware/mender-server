@@ -95,21 +95,21 @@ class TestRelease:
                     "New Release security fixes 2023",
                     "New Release security fixes 2024",
                 ]:
-                    management_v2_client(jwt="foo").update_release_information(
+                    management_v2_client(jwt=self.d.get_jwt()).update_release_information(
                         release_name=release_name,
                         release_update=mv2.ReleaseUpdate(notes=release_notes),
                     )
                     release = management_v2_client(
-                        jwt="foo"
+                        jwt=self.d.get_jwt()
                     ).get_release_with_given_name(release_name=release_name)
                     assert release.notes == release_notes
 
-                release = management_v2_client(jwt="foo").get_release_with_given_name(
+                release = management_v2_client(jwt=self.d.get_jwt()).get_release_with_given_name(
                     release_name="foo"
                 )
                 assert release.notes == ""
 
-                types = management_v2_client(jwt="foo").list_release_types()
+                types = management_v2_client(jwt=self.d.get_jwt()).list_release_types()
                 assert len(types) == 1
                 assert types[0] == "rootfs-image"
 
@@ -124,7 +124,7 @@ class TestRelease:
                     ("bar", "device-type-2", "directory"),
                 ]
             ):
-                types = management_v2_client(jwt="foo").list_release_types()
+                types = management_v2_client(jwt=self.d.get_jwt()).list_release_types()
                 assert len(types) > 0
                 assert types == ["rootfs-image", "app", "single-file", "directory"]
 
@@ -132,5 +132,5 @@ class TestRelease:
     def test_get_all_releases_types_empty(self, mongo, cli):
         with Lock(MONGO_LOCK_FILE) as l:
             cli.migrate()
-            types = management_v2_client(jwt="foo").list_release_types()
+            types = management_v2_client(jwt=self.d.get_jwt()).list_release_types()
             assert len(types) == 0

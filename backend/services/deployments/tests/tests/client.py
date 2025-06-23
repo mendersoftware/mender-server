@@ -309,18 +309,24 @@ class SimpleArtifactsClient(ArtifactsClient):
 class DeploymentsClient(BaseApiClient):
     log = logging.getLogger("client.Client")
 
-    def __init__(self):
+    def __init__(self, sub=None, tenant_id=None):
+        if sub is None:
+            sub = str(uuid4())
+        self._jwt = create_authz(sub, tenant_id=tenant_id)
         self.api_url = DEPLOYMENTS_BASE_URL.format(
             pytest_config.getoption("host"), "management"
         )
         super().__init__()
-
+        
+    def get_jwt(self):
+            return self._jwt
+    
     def make_new_deployment(self, *args, **kwargs):
         return mv1.NewDeployment(*args, **kwargs)
 
     def add_deployment(self, dep):
         """Posts new deployment `dep`"""
-        r = management_v1_client(jwt="foo").create_deployment_with_http_info(dep)
+        r = management_v1_client(jwt=self.get_jwt()).create_deployment_with_http_info(dep)
         loc = r[2]["Location"]
         depid = os.path.basename(loc)
 
@@ -329,7 +335,7 @@ class DeploymentsClient(BaseApiClient):
 
     def abort_deployment(self, depid):
         """Abort deployment with `ID `depid`"""
-        management_v1_client(jwt="foo").abort_deployment_with_http_info(
+        management_v1_client(jwt=self.get_jwt()).abort_deployment_with_http_info(
             deployment_id=depid,
             abort_deployment_request=mv1.AbortDeploymentRequest(status="aborted"),
         )
@@ -346,7 +352,7 @@ class DeploymentsClient(BaseApiClient):
             self.log.warning("deployment: %s already finished", depid)
 
     def verify_deployment_stats(self, depid, expected):
-        stats = management_v1_client(jwt="foo").deployment_status_statistics(
+        stats = management_v1_client(jwt=self.get_jwt()).deployment_status_statistics(
             deployment_id=depid
         )
         stat_names = [
@@ -375,7 +381,10 @@ class DeviceClient(BaseApiClient):
     spec_option = "device_spec"
     log = logging.getLogger("client.DeviceClient")
 
-    def __init__(self):
+    def __init__(self, sub=None, tenant_id=None):
+        if sub is None:
+            sub = str(uuid4())
+        self._jwt = create_authz(sub, tenant_id=tenant_id)
         self.api_url = DEPLOYMENTS_BASE_URL.format(
             pytest_config.getoption("host"), "devices"
         )
