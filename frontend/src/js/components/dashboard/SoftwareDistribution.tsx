@@ -144,6 +144,7 @@ export const SoftwareDistribution = () => {
     const newReports = [...reports];
     newReports.splice(index, 1, change);
     dispatch(saveUserSettings({ reports: newReports }));
+    dispatch(getReportDataWithoutBackendSupport(index));
   };
 
   const removeReport = removedReport => dispatch(saveUserSettings({ reports: reports.filter(report => report !== removedReport) }));
