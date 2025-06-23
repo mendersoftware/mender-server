@@ -15,7 +15,18 @@ import React, { useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import { Add as AddIcon } from '@mui/icons-material';
-import { Button, FormControl, IconButton, InputLabel, ListSubheader, MenuItem, Select, iconButtonClasses, selectClasses, svgIconClasses } from '@mui/material';
+import {
+  FormControl,
+  IconButton,
+  InputLabel,
+  ListSubheader,
+  MenuItem,
+  Select,
+  iconButtonClasses,
+  selectClasses,
+  svgIconClasses,
+  useTheme
+} from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import Confirm from '@northern.tech/common-ui/Confirm';
@@ -97,12 +108,11 @@ const GroupSelect = ({ groups, name }) => {
   );
 };
 
-const themeSpacing = 8;
-const basePadding = 2 * themeSpacing;
-const getIndentation = level => ({ paddingLeft: basePadding + level * themeSpacing });
+const getIndentation = (level, theme) => ({ paddingLeft: theme.spacing(2) + level * theme.spacing() });
 
 const SoftwareSelect = ({ software, name }) => {
   const { control } = useFormContext();
+  const theme = useTheme();
   return (
     <FormControl className="margin-top-none">
       <InputLabel shrink id="software-select-label">
@@ -116,11 +126,11 @@ const SoftwareSelect = ({ software, name }) => {
           <Select labelId="software-select-label" label="Software" displayEmpty {...field}>
             {software.map(({ subheader, title, value, nestingLevel }) =>
               subheader ? (
-                <ListSubheader key={value} style={getIndentation(nestingLevel)}>
+                <ListSubheader key={value} style={getIndentation(nestingLevel, theme)}>
                   {subheader}
                 </ListSubheader>
               ) : (
-                <MenuItem key={value} style={getIndentation(nestingLevel)} value={value}>
+                <MenuItem key={value} style={getIndentation(nestingLevel, theme)} value={value}>
                   {title}
                 </MenuItem>
               )
