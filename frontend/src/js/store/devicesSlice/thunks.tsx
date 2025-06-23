@@ -35,6 +35,7 @@ import {
 import {
   getAttrsEndpoint,
   getCurrentUser,
+  getDeviceReportsForUser,
   getDeviceTwinIntegrations,
   getGlobalSettings,
   getIdAttribute,
@@ -78,12 +79,13 @@ import {
   reportingApiUrl
 } from './constants';
 import {
+  getAcceptedDevices,
   getDeviceById as getDeviceByIdSelector,
   getDeviceFilters,
   getDeviceListState,
+  getDeviceReports,
   getDevicesById,
   getGroupsById,
-  getGroups as getGroupsSelector,
   getSelectedGroup
 } from './selectors';
 
@@ -750,30 +752,43 @@ const initializeDistributionData = (report, groups, devices, totalDeviceCount) =
   return { items, otherCount, total: otherCount + dataCount };
 };
 
-export const deriveReportsData = createAsyncThunk(`${sliceName}/deriveReportsData`, (_, { dispatch, getState }) => {
-  const state = getState();
-  const {
-    groups: { byId: groupsById },
-    byId,
-    byStatus: {
-      accepted: { total }
-    }
-  } = state.devices;
-  const reports =
-    getUserSettings(state).reports || state.users.globalSettings[`${state.users.currentUser}-reports`] || (Object.keys(byId).length ? defaultReports : []);
-  const newReports = reports.map(report => initializeDistributionData(report, groupsById, byId, total));
+export const updateReportData = createAsyncThunk(`${sliceName}/updateReportData`, (reportIndex, { dispatch, getState }) => {
+  const reports = getDeviceReportsForUser(getState());
+  const report = reports[reportIndex];
+  const { group = '' } = report;
+  const devicesById = getDevicesById(getState());
+  const groups = getGroupsById(getState());
+  const acceptedDevices = getAcceptedDevices(getState());
+  const totalDeviceCount = groups[group] ? groups[group].total : acceptedDevices.total;
+
+  const reportsData = getDeviceReports(getState());
+  const newReports = [...reportsData];
+  newReports[reportIndex] = initializeDistributionData(report, groups, devicesById, totalDeviceCount);
   return Promise.resolve(dispatch(actions.setDeviceReports(newReports)));
 });
 
-export const getReportsDataWithoutBackendSupport = createAsyncThunk(`${sliceName}/getReportsDataWithoutBackendSupport`, (_, { dispatch, getState }) =>
-  Promise.all([dispatch(getAllDevicesByStatus(DEVICE_STATES.accepted)), dispatch(getGroups()), dispatch(getDynamicGroups())]).then(() => {
-    const { dynamic: dynamicGroups, static: staticGroups } = getGroupsSelector(getState());
-    return Promise.all([
-      ...staticGroups.map(({ groupId }) => dispatch(getAllGroupDevices(groupId))),
-      ...dynamicGroups.map(({ groupId }) => dispatch(getAllDynamicGroupDevices(groupId)))
-    ]).then(() => dispatch(deriveReportsData()));
-  })
-);
+export const getReportDataWithoutBackendSupport = createAsyncThunk(`${sliceName}/getReportDataWithoutBackendSupport`, (reportIndex, { dispatch, getState }) => {
+  const reports = getDeviceReportsForUser(getState());
+  const report = reports[reportIndex];
+  if (!report) {
+    return;
+  }
+  const { attribute, group = '', software = '' } = report;
+  const effectiveAttribute = software ? software : attribute;
+  const devicesById = getDevicesById(getState());
+  const acceptedDevices = getAcceptedDevices(getState());
+  const groups = getGroupsById(getState());
+  const { deviceIds = [], filters = [], total = 0 } = groups[group] || {};
+  let groupDevicesRequest = Promise.resolve({
+    payload: { groupName: '', group: { deviceIds: Object.keys(devicesById), total: Object.keys(devicesById).length } }
+  });
+  if (group && (!(deviceIds.length && total) || deviceIds.length !== total || !deviceIds.every(id => !!devicesById[id]))) {
+    groupDevicesRequest = filters.length ? dispatch(getAllDynamicGroupDevices(group)).unwrap() : dispatch(getAllGroupDevices(group)).unwrap();
+  } else if (!group && (acceptedDevices.deviceIds.length !== acceptedDevices.total || !acceptedDevices.deviceIds.every(id => !!devicesById[id]))) {
+    groupDevicesRequest = dispatch(getAllDevicesByStatus(DEVICE_STATES.accepted)).unwrap();
+  }
+  return groupDevicesRequest.then(() => dispatch(updateReportData(reportIndex)));
+});
 
 export const getDeviceConnect = createAsyncThunk(`${sliceName}/getDeviceConnect`, (id, { dispatch }) =>
   GeneralApi.get(`${deviceConnect}/devices/${id}`).then(({ data }) =>
