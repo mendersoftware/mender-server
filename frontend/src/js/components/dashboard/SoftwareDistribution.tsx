@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useCallback, useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { BarChart as BarChartIcon } from '@mui/icons-material';
@@ -118,6 +118,8 @@ export const SoftwareDistribution = () => {
   const hasUserSettingsInitialized = useSelector(getUserSettingsInitialized);
   const deviceRetrievalLimit = useSelector(state => state.deployments.deploymentDeviceLimit);
   const reportsData = useSelector(getDeviceReports);
+  const hasReportsData = reportsData.reduce((accu, report) => accu && !isEmpty(report), true);
+  const [visibleCount, setVisibleCount] = useState(hasReportsData ? reportsData.length : 1);
   const dispatch = useDispatch();
   const hasTooManyDevices = checkRequestLimitReached(reports, deviceRetrievalLimit, total);
 
@@ -126,13 +128,12 @@ export const SoftwareDistribution = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (hasReporting) {
-      dispatch(getReportsData());
-      return;
+    if (visibleCount < reports.length) {
+      // this is purely to stagger the device retrieval and reduce overlap between the repeated queries to the backend
+      const timeout = setTimeout(() => setVisibleCount(visibleCount + 1), TIMEOUTS.oneSecond);
+      return () => clearTimeout(timeout);
     }
-    dispatch(getReportsDataWithoutBackendSupport());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, hasReporting, JSON.stringify(reports)]);
+  }, [reports.length, visibleCount]);
 
   const addCurrentSelection = selection => {
     const newReports = [...reports, { ...defaultReports[0], ...selection }];
@@ -169,7 +170,7 @@ export const SoftwareDistribution = () => {
   }
   return hasDevices ? (
     <div className="dashboard margin-bottom-large">
-      {reports.map((report, index) => {
+      {reports.slice(0, visibleCount).map((report, index) => {
         const Component = reportTypes[report.type || defaultReportType];
         return (
           <Component
@@ -181,6 +182,11 @@ export const SoftwareDistribution = () => {
           />
         );
       })}
+      {visibleCount < reports.length && (
+        <div className="widget chart-widget flexbox centered">
+          <Loader show style={{ width: '100%' }} />
+        </div>
+      )}
       <ChartAdditionWidget groups={groups} onAdditionClick={addCurrentSelection} software={software} />
     </div>
   ) : (
