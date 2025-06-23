@@ -205,7 +205,27 @@ const initDistribution = ({ data, theme }) => {
   return { distribution, totals };
 };
 
-export const DistributionReport = ({ onClick, onSave, selection = {}, software: softwareTree }) => {
+interface DistributionReport {
+  attribute: string;
+  chartType: string;
+  group: string;
+  index: number;
+  software: string;
+  type: string;
+}
+
+type SoftwareLayer = {
+  [key: string]: SoftwareLayer | string;
+};
+
+interface DistributionReportProps {
+  onClick?: () => void;
+  onSave: (selection: Partial<DistributionReport>) => void;
+  selection?: Partial<DistributionReport>;
+  software?: SoftwareLayer;
+}
+
+export const DistributionReport = ({ onClick, onSave, selection = {}, software: softwareTree }: DistributionReportProps) => {
   const { attribute, chartType = chartTypes.bar.key, group, index: reportIndex, software: softwareSelection } = selection;
   const software = softwareSelection || attribute || rootfsImageVersion;
   const [editing, setEditing] = useState(false);

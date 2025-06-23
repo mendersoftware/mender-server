@@ -19,7 +19,7 @@ import { Typography } from '@mui/material';
 
 import Loader from '@northern.tech/common-ui/Loader';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
-import { MAX_PAGE_SIZE, TIMEOUTS, defaultReportType, defaultReports, rootfsImageVersion, softwareTitleMap } from '@northern.tech/store/constants';
+import { MAX_PAGE_SIZE, TIMEOUTS, defaultReports, rootfsImageVersion, softwareTitleMap } from '@northern.tech/store/constants';
 import {
   getAcceptedDevices,
   getAttributesList,
@@ -35,11 +35,7 @@ import { isEmpty } from '@northern.tech/utils/helpers';
 import { extractSoftwareInformation } from '../devices/device-details/InstalledSoftware';
 import BaseWidget from './widgets/BaseWidget';
 import ChartAdditionWidget from './widgets/ChartAddition';
-import DistributionReport from './widgets/Distribution';
-
-const reportTypes = {
-  distribution: DistributionReport
-};
+import { DistributionReport } from './widgets/Distribution';
 
 const getLayerKey = ({ title, key }, parent) => `${parent.length ? `${parent}.` : parent}${key.length <= title.length ? key : title}`;
 
@@ -171,18 +167,15 @@ export const SoftwareDistribution = () => {
   }
   return hasDevices ? (
     <div className="dashboard margin-bottom-large">
-      {reports.slice(0, visibleCount).map((report, index) => {
-        const Component = reportTypes[report.type || defaultReportType];
-        return (
-          <Component
-            key={`report-${report.group}-${index}`}
-            onClick={() => removeReport(report)}
-            onSave={change => onSaveChangedReport(change, index)}
-            selection={{ ...report, index }}
-            software={software}
-          />
-        );
-      })}
+      {reports.slice(0, visibleCount).map((report, index) => (
+        <DistributionReport
+          key={`report-${report.group}-${index}`}
+          onClick={() => removeReport(report)}
+          onSave={change => onSaveChangedReport(change, index)}
+          selection={{ ...report, index }}
+          software={software}
+        />
+      ))}
       {visibleCount < reports.length && (
         <div className="widget chart-widget flexbox centered">
           <Loader show style={{ width: '100%' }} />
