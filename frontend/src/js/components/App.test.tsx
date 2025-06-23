@@ -58,8 +58,6 @@ describe('App Component', () => {
   it(
     'renders correctly',
     async () => {
-      const DeviceActions = await import('@northern.tech/store/devicesSlice/thunks');
-      const reportsSpy = vi.spyOn(DeviceActions, 'getReportsDataWithoutBackendSupport');
       vi.spyOn(window.mender_environment, 'integrationVersion', 'get').mockImplementation(() => 'next');
       // vi.replaceProperty(window.mender_environment, 'integrationVersion', 'next');
 
@@ -68,7 +66,6 @@ describe('App Component', () => {
         preloadedState: { ...preloadedState, users: { ...preloadedState.users, currentSession: getSessionInfo() } }
       });
       await waitFor(() => expect(screen.queryByText(/see all deployments/i)).toBeInTheDocument(), { timeout: TIMEOUTS.threeSeconds });
-      await waitFor(() => expect(reportsSpy).toHaveBeenCalled(), { timeout: TIMEOUTS.threeSeconds });
       await waitFor(() => rerender(ui));
       const view = asFragment().querySelector('#app');
       await waitFor(() => expect(document.querySelector('.loaderContainer')).not.toBeInTheDocument());
@@ -85,8 +82,6 @@ describe('App Component', () => {
   it(
     'works as intended',
     async () => {
-      const DeviceActions = await import('@northern.tech/store/devicesSlice/thunks');
-      const reportsSpy = vi.spyOn(DeviceActions, 'getReportsDataWithoutBackendSupport');
       const currentSession = { expiresAt: new Date().toISOString(), token };
       window.localStorage.getItem.mockImplementation(name => (name === 'JWT' ? JSON.stringify(currentSession) : undefined));
 
@@ -94,7 +89,6 @@ describe('App Component', () => {
       const { rerender } = render(ui, {
         preloadedState: { ...preloadedState, users: { ...preloadedState.users, currentSession, currentUser: 'a1' } }
       });
-      await waitFor(() => expect(reportsSpy).toHaveBeenCalled(), { timeout: TIMEOUTS.threeSeconds });
       await act(async () => {
         vi.advanceTimersByTime(maxSessionAge * 1000 + 500);
         vi.runAllTicks();
@@ -108,8 +102,6 @@ describe('App Component', () => {
         vi.runOnlyPendingTimers();
         vi.runAllTicks();
       });
-
-      reportsSpy.mockClear();
       window.localStorage.getItem.mockReset();
     },
     20 * TIMEOUTS.oneSecond
@@ -118,8 +110,6 @@ describe('App Component', () => {
   it(
     'is embedded in working providers',
     async () => {
-      const DeviceActions = await import('@northern.tech/store/devicesSlice/thunks');
-      const reportsSpy = vi.spyOn(DeviceActions, 'getReportsDataWithoutBackendSupport');
       window.localStorage.getItem.mockImplementation(name => (name === 'JWT' ? JSON.stringify({ token }) : undefined));
 
       const ui = <AppProviders basename="" />;
@@ -127,7 +117,6 @@ describe('App Component', () => {
       await waitFor(() => screen.queryByText('Software distribution'), { timeout: TIMEOUTS.fiveSeconds });
       await waitFor(() => rerender(ui));
       await waitFor(() => expect(document.querySelector('.loaderContainer')).not.toBeInTheDocument());
-      await waitFor(() => expect(reportsSpy).toHaveBeenCalled(), { timeout: TIMEOUTS.fiveSeconds });
       const view = baseElement.lastElementChild;
       expect(view).toMatchSnapshot();
       expect(view).toEqual(expect.not.stringMatching(undefineds));

@@ -466,7 +466,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
   margin-right: 8px;
 }
 
-.emotion-19 {
+.emotion-21 {
   background-color: #f7f7f7;
   padding: 10px 20px;
   border-radius: 4px;
@@ -477,61 +477,61 @@ exports[`Dashboard Component > renders correctly 1`] = `
   min-height: 70px;
 }
 
-.emotion-19 .chart-container {
+.emotion-21 .chart-container {
   min-height: 70px;
 }
 
-.emotion-19 .progress-chart {
+.emotion-21 .progress-chart {
   min-height: 45px;
 }
 
-.emotion-19 .compact .progress-step,
-.emotion-19 .detailed .progress-step {
+.emotion-21 .compact .progress-step,
+.emotion-21 .detailed .progress-step {
   min-height: 45px;
 }
 
-.emotion-19 .progress-step,
-.emotion-19 .detailed .progress-step-total {
+.emotion-21 .progress-step,
+.emotion-21 .detailed .progress-step-total {
   position: absolute;
   border-right-style: none;
 }
 
-.emotion-19 .progress-step-total .progress-bar {
+.emotion-21 .progress-step-total .progress-bar {
   background-color: #d4e9e7;
 }
 
-.emotion-19 .progress-step-number {
+.emotion-21 .progress-step-number {
   -webkit-align-self: flex-start;
   -ms-flex-item-align: flex-start;
   align-self: flex-start;
   margin-top: -4px;
 }
 
-.emotion-19.minimal {
+.emotion-21.minimal {
   padding: initial;
 }
 
-.emotion-19.no-background {
+.emotion-21.no-background {
   background: none;
 }
 
-.emotion-19.stepped-progress .progress-step-total {
+.emotion-21.stepped-progress .progress-step-total {
   margin-left: -0.25%;
   width: 100.5%;
 }
 
-.emotion-19.stepped-progress .progress-step-total .progress-bar {
+.emotion-21.stepped-progress .progress-step-total .progress-bar {
   background-color: #fff;
   border: 1px solid #a9a9a9;
   border-radius: 2px;
   height: 12px;
 }
 
-.emotion-19.stepped-progress .detailed .progress-step {
+.emotion-21.stepped-progress .detailed .progress-step {
   min-height: 20px;
 }
 
-.emotion-22 {
+.emotion-26 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -542,32 +542,32 @@ exports[`Dashboard Component > renders correctly 1`] = `
   max-width: 500px;
 }
 
-.emotion-22>time {
+.emotion-26>time {
   -webkit-align-self: flex-end;
   -ms-flex-item-align: flex-end;
   align-self: flex-end;
   margin-right: 6px;
 }
 
-.emotion-24 {
+.emotion-28 {
   background: #fff;
   border-radius: 4px;
   padding: 4px;
 }
 
-.emotion-25 {
+.emotion-29 {
   -webkit-column-gap: 8px;
   column-gap: 8px;
   display: grid;
   grid-template-columns: repeat(auto-fit, 32px);
 }
 
-.emotion-25>div {
+.emotion-29>div {
   -webkit-column-gap: 4px;
   column-gap: 4px;
 }
 
-.emotion-25 .disabled {
+.emotion-29 .disabled {
   opacity: 0.1;
 }
 
@@ -769,6 +769,38 @@ exports[`Dashboard Component > renders correctly 1`] = `
           class="clickable emotion-14"
         >
           <div>
+            <div />
+            <div
+              class=""
+              title="Test"
+            >
+              Test
+            </div>
+          </div>
+          <div
+            class="flexbox center-aligned"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M12,10.5A1.5,1.5 0 0,1 13.5,12A1.5,1.5 0 0,1 12,13.5A1.5,1.5 0 0,1 10.5,12A1.5,1.5 0 0,1 12,10.5M7.5,10.5A1.5,1.5 0 0,1 9,12A1.5,1.5 0 0,1 7.5,13.5A1.5,1.5 0 0,1 6,12A1.5,1.5 0 0,1 7.5,10.5M16.5,10.5A1.5,1.5 0 0,1 18,12A1.5,1.5 0 0,1 16.5,13.5A1.5,1.5 0 0,1 15,12A1.5,1.5 0 0,1 16.5,10.5Z"
+              />
+            </svg>
+            <span
+              class="margin-left-small"
+            >
+              Queued to start
+            </span>
+          </div>
+        </div>
+        <div
+          class="clickable emotion-14"
+        >
+          <div>
             <div>
               r1
             </div>
@@ -842,6 +874,123 @@ exports[`Dashboard Component > renders correctly 1`] = `
           class="clickable emotion-14"
         >
           <div>
+            <div />
+            <div
+              class=""
+              title="Test"
+            >
+              Test
+            </div>
+          </div>
+          <div
+            class="relative emotion-21 minimal "
+          >
+            <div
+              class="chart-container"
+            >
+              <div
+                class="progress-chart relative detailed"
+              >
+                <div
+                  class="progress-step"
+                  style="left: 0%; width: 2%;"
+                >
+                  <div
+                    style="display: contents;"
+                  >
+                    <div
+                      class="progress-bar green"
+                      style="width: 0%;"
+                    />
+                    <div
+                      class="progress-bar warning"
+                      style="left: 0%; width: 0%;"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="progress-step"
+                  style="left: 2%; width: 3%;"
+                >
+                  <div
+                    style="display: contents;"
+                  >
+                    <div
+                      class="progress-bar green"
+                      style="width: 0%;"
+                    />
+                    <div
+                      class="progress-bar warning"
+                      style="left: 0%; width: 0%;"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="progress-step"
+                  style="left: 5%; width: 5%;"
+                >
+                  <div
+                    style="display: contents;"
+                  >
+                    <div
+                      class="progress-bar green"
+                      style="width: 0%;"
+                    />
+                    <div
+                      class="progress-bar warning"
+                      style="left: 0%; width: 0%;"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="progress-step"
+                  style="left: 10%; width: 5%;"
+                >
+                  <div
+                    style="display: contents;"
+                  >
+                    <div
+                      class="progress-bar green"
+                      style="width: 0%;"
+                    />
+                    <div
+                      class="progress-bar warning"
+                      style="left: 0%; width: 0%;"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="progress-step"
+                  style="left: 15%; width: 85%;"
+                >
+                  <div
+                    style="display: contents;"
+                  >
+                    <div
+                      class="progress-bar green"
+                      style="width: 0%;"
+                    />
+                    <div
+                      class="progress-bar warning"
+                      style="left: 0%; width: 0%;"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="progress-step relative flexbox progress-step-total"
+                >
+                  <div
+                    class="progress-bar"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="clickable emotion-14"
+        >
+          <div>
             <div>
               r1
             </div>
@@ -853,7 +1002,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="relative emotion-19 minimal "
+            class="relative emotion-21 minimal "
           >
             <div
               class="chart-container"
@@ -933,11 +1082,112 @@ exports[`Dashboard Component > renders correctly 1`] = `
           Finished
         </h5>
         <div
-          class="emotion-22"
+          class="emotion-26"
         >
           <time
             class="muted slightly-smaller"
-            datetime="2019-01-13T13:00:00+00:00"
+            datetime="2019-01-13T13:00:03+00:00"
+          >
+            2019-01-13 13:00
+          </time>
+          <div
+            class="clickable emotion-14"
+          >
+            <div>
+              <div />
+              <div
+                class=""
+                title="Test"
+              >
+                Test
+              </div>
+            </div>
+            <div
+              class="emotion-28"
+            >
+              <div
+                class="flexbox emotion-29 "
+              >
+                <div
+                  aria-label="Skipped"
+                  class="flexbox centered disabled"
+                  data-mui-internal-clone-element="true"
+                >
+                  <img
+                    src="/src/assets/img/skipped_status.png"
+                  />
+                  <div
+                    class="status"
+                  >
+                    0
+                  </div>
+                </div>
+                <div
+                  aria-label="Pending"
+                  class="flexbox centered disabled"
+                  data-mui-internal-clone-element="true"
+                >
+                  <img
+                    src="/src/assets/img/pending_status.png"
+                  />
+                  <div
+                    class="status"
+                  >
+                    0
+                  </div>
+                </div>
+                <div
+                  aria-label="In progress"
+                  class="flexbox centered disabled"
+                  data-mui-internal-clone-element="true"
+                >
+                  <img
+                    src="/src/assets/img/progress_status.png"
+                  />
+                  <div
+                    class="status"
+                  >
+                    0
+                  </div>
+                </div>
+                <div
+                  aria-label="Successful"
+                  class="flexbox centered disabled"
+                  data-mui-internal-clone-element="true"
+                >
+                  <img
+                    src="/src/assets/img/success_status.png"
+                  />
+                  <div
+                    class="status"
+                  >
+                    0
+                  </div>
+                </div>
+                <div
+                  aria-label="Failed"
+                  class="flexbox centered disabled"
+                  data-mui-internal-clone-element="true"
+                >
+                  <img
+                    src="/src/assets/img/error_status.png"
+                  />
+                  <div
+                    class="status"
+                  >
+                    0
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="emotion-26"
+        >
+          <time
+            class="muted slightly-smaller"
+            datetime="2019-01-13T13:00:03+00:00"
           >
             2019-01-13 13:00
           </time>
@@ -956,10 +1206,10 @@ exports[`Dashboard Component > renders correctly 1`] = `
               </div>
             </div>
             <div
-              class="emotion-24"
+              class="emotion-28"
             >
               <div
-                class="flexbox emotion-25 "
+                class="flexbox emotion-29 "
               >
                 <div
                   aria-label="Skipped"
@@ -1036,11 +1286,11 @@ exports[`Dashboard Component > renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="emotion-22"
+          class="emotion-26"
         >
           <time
             class="muted slightly-smaller"
-            datetime="2019-01-13T13:00:00+00:00"
+            datetime="2019-01-13T13:00:03+00:00"
           >
             2019-01-13 13:00
           </time>
@@ -1059,10 +1309,10 @@ exports[`Dashboard Component > renders correctly 1`] = `
               </div>
             </div>
             <div
-              class="emotion-24"
+              class="emotion-28"
             >
               <div
-                class="flexbox emotion-25 "
+                class="flexbox emotion-29 "
               >
                 <div
                   aria-label="Skipped"
