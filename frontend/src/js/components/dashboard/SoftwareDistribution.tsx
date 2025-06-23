@@ -15,28 +15,25 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { BarChart as BarChartIcon } from '@mui/icons-material';
+import { Typography } from '@mui/material';
 
-import { defaultReportType, defaultReports, rootfsImageVersion, softwareTitleMap } from '@northern.tech/store/constants';
+import Loader from '@northern.tech/common-ui/Loader';
+import { SupportLink } from '@northern.tech/common-ui/SupportLink';
+import { MAX_PAGE_SIZE, TIMEOUTS, defaultReportType, defaultReports, rootfsImageVersion, softwareTitleMap } from '@northern.tech/store/constants';
 import {
   getAcceptedDevices,
   getAttributesList,
   getDeviceReports,
   getDeviceReportsForUser,
-  getFeatures,
   getGroupsByIdWithoutUngrouped,
-  getIsEnterprise
+  getIsEnterprise,
+  getUserSettingsInitialized
 } from '@northern.tech/store/selectors';
-import {
-  getDeviceAttributes,
-  getGroupDevices,
-  getReportingLimits,
-  getReportsData,
-  getReportsDataWithoutBackendSupport,
-  saveUserSettings
-} from '@northern.tech/store/thunks';
+import { getDeviceAttributes, getReportDataWithoutBackendSupport, saveUserSettings } from '@northern.tech/store/thunks';
 import { isEmpty } from '@northern.tech/utils/helpers';
 
 import { extractSoftwareInformation } from '../devices/device-details/InstalledSoftware';
+import BaseWidget from './widgets/BaseWidget';
 import ChartAdditionWidget from './widgets/ChartAddition';
 import DistributionReport from './widgets/Distribution';
 
@@ -84,24 +81,49 @@ const listSoftware = attributes => {
   return (rootFs ? [rootFs, ...remainder] : remainder).flatMap(softwareLayer => generateLayer(softwareLayer));
 };
 
-export const SoftwareDistribution = () => {
-  const dispatch = useDispatch();
+const DeviceDataLimitWarning = () => (
+  <div className="dashboard margin-bottom-large">
+    <Typography variant="subtitle2">Device and Group Limit Exceeded</Typography>
+    <Typography variant="caption">
+      Your current number of devices and groups exceeds the limits of our present implementation. To ensure you continue to gain optimal insights and to better
+      understand your specific requirements, we encourage you to reach out to <SupportLink variant="ourTeam" />. By providing us with more details about your
+      use case, we can improve potential solutions to best accommodate your needs when the feature gets added to our backend.
+    </Typography>
+  </div>
+);
 
+const checkRequestLimitReached = (reports, deviceRetrievalLimit, total) => {
+  const requestLimit = deviceRetrievalLimit / MAX_PAGE_SIZE;
+  const { hasTooManyDevices } = reports.reduce(
+    (accu, report) => {
+      let { hasTooManyDevices, requestCounter } = accu;
+      // as the attribute per report can be different for a given group or for all devices, count them both
+      // + we assume smaller (sub 500 device) groups for now - the staggered widget rendering should allow some flexibility with the rate limits
+      requestCounter += report.group ? 1 : Math.ceil(total / MAX_PAGE_SIZE);
+      hasTooManyDevices = accu.hasTooManyDevices || accu.requestCounter > requestLimit;
+      return { hasTooManyDevices, requestCounter };
+    },
+    { hasTooManyDevices: false, requestCounter: 0 }
+  );
+  return hasTooManyDevices;
+};
+
+export const SoftwareDistribution = () => {
   const reports = useSelector(getDeviceReportsForUser);
   const groups = useSelector(getGroupsByIdWithoutUngrouped);
-  const { hasReporting } = useSelector(getFeatures);
   const attributes = useSelector(getAttributesList);
   const { total } = useSelector(getAcceptedDevices);
   const hasDevices = !!total;
   const isEnterprise = useSelector(getIsEnterprise);
+  const hasUserSettingsInitialized = useSelector(getUserSettingsInitialized);
+  const deviceRetrievalLimit = useSelector(state => state.deployments.deploymentDeviceLimit);
   const reportsData = useSelector(getDeviceReports);
+  const dispatch = useDispatch();
+  const hasTooManyDevices = checkRequestLimitReached(reports, deviceRetrievalLimit, total);
 
   useEffect(() => {
     dispatch(getDeviceAttributes());
-    if (hasReporting) {
-      dispatch(getReportingLimits());
-    }
-  }, [dispatch, hasReporting]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (hasReporting) {
@@ -125,10 +147,8 @@ export const SoftwareDistribution = () => {
 
   const removeReport = removedReport => dispatch(saveUserSettings({ reports: reports.filter(report => report !== removedReport) }));
 
-  const onGetGroupDevices = useCallback((...args) => dispatch(getGroupDevices(...args)), [dispatch]);
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const software = useMemo(() => listSoftware(hasReporting ? attributes : [rootfsImageVersion]), [JSON.stringify(attributes), hasReporting]);
+  const software = useMemo(() => listSoftware([rootfsImageVersion]), [JSON.stringify(attributes)]);
 
   if (!isEnterprise) {
     return (
@@ -137,7 +157,16 @@ export const SoftwareDistribution = () => {
       </div>
     );
   }
-
+  if (hasTooManyDevices) {
+    return <DeviceDataLimitWarning />;
+  }
+  if (!hasUserSettingsInitialized) {
+    return (
+      <div className="dashboard margin-bottom-large">
+        <BaseWidget className="chart-widget flexbox centered" main={<Loader show style={{ width: '100%' }} />} />
+      </div>
+    );
+  }
   return hasDevices ? (
     <div className="dashboard margin-bottom-large">
       {reports.map((report, index) => {
@@ -145,12 +174,9 @@ export const SoftwareDistribution = () => {
         return (
           <Component
             key={`report-${report.group}-${index}`}
-            data={reportsData[index]}
-            getGroupDevices={onGetGroupDevices}
-            groups={groups}
             onClick={() => removeReport(report)}
             onSave={change => onSaveChangedReport(change, index)}
-            selection={report}
+            selection={{ ...report, index }}
             software={software}
           />
         );
