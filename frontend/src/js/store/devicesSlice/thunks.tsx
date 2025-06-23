@@ -630,12 +630,7 @@ export const getAllDevicesByStatus = createAsyncThunk(`${sliceName}/getAllDevice
       if (total > perPage * page) {
         return getAllDevices(perPage, page + 1, deviceAccu.ids);
       }
-      const tasks = [dispatch(actions.setDevicesByStatus({ deviceIds: deviceAccu.ids, forceUpdate: true, status, total: deviceAccu.ids.length }))];
-      if (status === DEVICE_STATES.accepted && deviceAccu.ids.length === total) {
-        tasks.push(dispatch(deriveInactiveDevices(deviceAccu.ids)));
-        tasks.push(dispatch(deriveReportsData()));
-      }
-      return Promise.all(tasks);
+      return Promise.resolve();
     });
   return getAllDevices();
 });
