@@ -17,20 +17,7 @@ import (
 	"errors"
 	"net/http"
 	"strings"
-
-	"github.com/ant0ine/go-json-rest/rest"
-
-	"github.com/mendersoftware/mender-server/services/useradm/authz"
 )
-
-func IsVerificationEndpoint(r *rest.Request) bool {
-	if r.URL.Path == uriInternalAuthVerify &&
-		(r.Method == http.MethodPost || r.Method == http.MethodGet) {
-		return true
-	} else {
-		return false
-	}
-}
 
 // Action combines info about the requested resourd + http method.
 type Action struct {
@@ -39,8 +26,8 @@ type Action struct {
 }
 
 // ExtractResourceAction extracts resource action from the request url
-func ExtractResourceAction(r *http.Request) (*authz.Action, error) {
-	action := authz.Action{}
+func ExtractResourceAction(r *http.Request) (*Action, error) {
+	action := Action{}
 
 	// extract original uri
 	uri := r.Header.Get("X-Forwarded-Uri")

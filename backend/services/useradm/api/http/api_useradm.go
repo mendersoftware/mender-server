@@ -284,7 +284,7 @@ func (u *UserAdmApiHandlers) AuthLoginHandler(c *gin.Context) {
 func (u *UserAdmApiHandlers) AuthLogoutHandler(c *gin.Context) {
 	ctx := c.Request.Context()
 
-	if tokenStr, err := authz.ExtractToken(c.Request); err == nil {
+	if tokenStr, err := ExtractToken(c.Request); err == nil {
 		keyId := jwt.GetKeyId(tokenStr)
 		if _, ok := u.jwth[keyId]; !ok {
 			rest.RenderInternalError(c, err)
@@ -451,7 +451,7 @@ func (u *UserAdmApiHandlers) UpdateUserHandler(c *gin.Context) {
 	}
 
 	// extract the token used to update the user
-	if tokenStr, err := authz.ExtractToken(c.Request); err == nil {
+	if tokenStr, err := ExtractToken(c.Request); err == nil {
 		keyId := jwt.GetKeyId(tokenStr)
 		if _, ok := u.jwth[keyId]; !ok {
 			rest.RenderInternalError(c, err)
