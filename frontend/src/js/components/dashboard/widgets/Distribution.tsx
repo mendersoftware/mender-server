@@ -20,7 +20,7 @@ import { IconButton, LinearProgress, linearProgressClasses } from '@mui/material
 import { makeStyles } from 'tss-react/mui';
 
 import Loader from '@northern.tech/common-ui/Loader';
-import { ALL_DEVICES, TIMEOUTS, chartTypes, rootfsImageVersion, softwareTitleMap } from '@northern.tech/store/constants';
+import { ALL_DEVICES, TIMEOUTS, chartTypes, rootfsImageVersion, softwareIndicator, softwareTitleMap } from '@northern.tech/store/constants';
 import { getDeviceReports, getGroupsById } from '@northern.tech/store/selectors';
 import { getReportDataWithoutBackendSupport, updateReportData } from '@northern.tech/store/thunks';
 import { ensureVersionString } from '@northern.tech/store/utils';
@@ -225,6 +225,14 @@ interface DistributionReportProps {
   software?: SoftwareLayer;
 }
 
+const cleanSoftwareTitle = (software: string) => {
+  let cleanedSoftware = softwareTitleMap[software] ? softwareTitleMap[software].title : software;
+  cleanedSoftware = cleanedSoftware.endsWith(softwareIndicator)
+    ? cleanedSoftware.substring(0, cleanedSoftware.lastIndexOf(softwareIndicator))
+    : cleanedSoftware;
+  return cleanedSoftware;
+};
+
 export const DistributionReport = ({ onClick, onSave, selection = {}, software: softwareTree }: DistributionReportProps) => {
   const { attribute, chartType = chartTypes.bar.key, group, index: reportIndex, software: softwareSelection } = selection;
   const software = softwareSelection || attribute || rootfsImageVersion;
@@ -314,7 +322,7 @@ export const DistributionReport = ({ onClick, onSave, selection = {}, software: 
           </div>
         </div>
         <div className="flexbox space-between slightly-smaller">
-          <div>{softwareTitleMap[software] ? softwareTitleMap[software].title : software}</div>
+          <div>{cleanSoftwareTitle(software)}</div>
           <div>{group || ALL_DEVICES}</div>
         </div>
       </div>

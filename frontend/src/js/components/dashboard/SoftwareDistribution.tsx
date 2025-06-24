@@ -44,7 +44,7 @@ const generateLayer = (softwareLayer, parentKey = '', nestingLevel = 0) => {
   const suffix = title === key ? softwareIndicator : '';
   const layerKey = getLayerKey(softwareLayer, parentKey);
   const layerTitle = `${layerKey}${suffix}`;
-  let headerItems = [{ title, nestingLevel, value: layerKey }];
+  let headerItems = [{ title, nestingLevel, value: layerTitle }]; // this should be the case if there are no children == lowest level information, so we give the full version string
   if (softwareTitleMap[layerTitle]) {
     headerItems = [
       { subheader: title, nestingLevel, value: `${layerTitle}-subheader` },
@@ -146,7 +146,7 @@ export const SoftwareDistribution = () => {
   const removeReport = removedReport => dispatch(saveUserSettings({ reports: reports.filter(report => report !== removedReport) }));
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const software = useMemo(() => listSoftware([rootfsImageVersion]), [JSON.stringify(attributes)]);
+  const software = useMemo(() => listSoftware([rootfsImageVersion, ...attributes]), [JSON.stringify(attributes)]);
 
   if (!isEnterprise) {
     return (
