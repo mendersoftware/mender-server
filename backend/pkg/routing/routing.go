@@ -15,50 +15,52 @@ package routing
 
 import (
 	"net/http"
+	"strings"
 
-	"github.com/ant0ine/go-json-rest/rest"
+	"github.com/gin-gonic/gin"
 
-	"github.com/mendersoftware/mender-server/pkg/strings"
+	utils "github.com/mendersoftware/mender-server/pkg/strings"
 )
 
-type HttpOptionsGenerator func(methods []string) rest.HandlerFunc
+type HttpOptionsGenerator func(methods []string) gin.HandlerFunc
 
-func AllowHeaderOptionsGenerator(methods []string) rest.HandlerFunc {
+func AllowHeaderOptionsGenerator(methods []string) gin.HandlerFunc {
 	// return a dummy handler for now
-	return func(w rest.ResponseWriter, r *rest.Request) {
+	return func(c *gin.Context) {
 		for _, m := range methods {
-			w.Header().Add("Allow", m)
+			c.Writer.Header().Add("Allow", m)
 		}
 	}
 }
 
 func supportsMethod(method string, methods []string) bool {
-	return strings.ContainsString(method, methods)
+	return utils.ContainsString(method, methods)
 }
 
 // Automatically add OPTIONS method support for each defined route,
 // only if there's no OPTIONS handler for that route yet
-func AutogenOptionsRoutes(routes []*rest.Route, gen HttpOptionsGenerator) []*rest.Route {
+func AutogenOptionsRoutes(router *gin.Engine, gen HttpOptionsGenerator) {
 
+	routes := router.Routes()
 	methodGroups := make(map[string][]string, len(routes))
 
 	for _, route := range routes {
-		methods, ok := methodGroups[route.PathExp]
+		if strings.HasPrefix(route.Path, "/api/internal") {
+			continue
+		}
+		methods, ok := methodGroups[route.Path]
 		if !ok {
 			methods = make([]string, 0)
 		}
 
-		methodGroups[route.PathExp] = append(methods, route.HttpMethod)
+		methodGroups[route.Path] = append(methods, route.Method)
 	}
 
-	options := make([]*rest.Route, 0, len(methodGroups))
 	for route, methods := range methodGroups {
 		// skip if there's a handler for OPTIONS already
 		if !supportsMethod(http.MethodOptions, methods) {
-			options = append(options,
-				rest.Options(route, gen(methods)))
+			router.OPTIONS(route, gen(methods))
 		}
 	}
 
-	return append(routes, options...)
 }
