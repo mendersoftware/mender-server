@@ -19,7 +19,7 @@ import { Typography } from '@mui/material';
 
 import Loader from '@northern.tech/common-ui/Loader';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
-import { MAX_PAGE_SIZE, TIMEOUTS, defaultReports, rootfsImageVersion, softwareTitleMap } from '@northern.tech/store/constants';
+import { MAX_PAGE_SIZE, TIMEOUTS, defaultReports, rootfsImageVersion, softwareIndicator, softwareTitleMap } from '@northern.tech/store/constants';
 import {
   getAcceptedDevices,
   getAttributesList,
@@ -41,7 +41,7 @@ const getLayerKey = ({ title, key }, parent) => `${parent.length ? `${parent}.` 
 
 const generateLayer = (softwareLayer, parentKey = '', nestingLevel = 0) => {
   const { children, key, title } = softwareLayer;
-  const suffix = title === key ? '.version' : '';
+  const suffix = title === key ? softwareIndicator : '';
   const layerKey = getLayerKey(softwareLayer, parentKey);
   const layerTitle = `${layerKey}${suffix}`;
   let headerItems = [{ title, nestingLevel, value: layerKey }];
