@@ -13,7 +13,7 @@
 //    limitations under the License.
 import type { APIRequestContext, Browser, BrowserContext, Page } from '@playwright/test';
 import { runServer } from '@sidewinder1138/saml-idp';
-import { spawn } from 'child_process';
+import { exec, spawn } from 'child_process';
 import * as fs from 'fs';
 import { jwtDecode } from 'jwt-decode';
 import { authenticator } from 'otplib';
@@ -21,6 +21,7 @@ import * as path from 'path';
 import pixelmatch from 'pixelmatch';
 import { PNG } from 'pngjs';
 import { fileURLToPath } from 'url';
+import { promisify } from 'util';
 import { v4 as uuid } from 'uuid';
 
 import type { TestEnvironment } from '../fixtures/fixtures.ts';
@@ -29,6 +30,7 @@ import { startServer } from './webhookListener.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const execPromise = promisify(exec);
 
 export const getPeristentLoginInfo = () => {
   let loginInfo;
@@ -181,35 +183,43 @@ export const startDockerClient = async (baseUrl, token) => {
     `${projectRoot}/dockerClient/mender-connect-test.json:/etc/mender/mender-connect.conf`,
     'mendersoftware/mender-client-docker-addons:mender-master'
   ];
+
   console.log(`starting with token: ${token}`);
   console.log(`starting using: docker ${args.join(' ')}`);
-  const child = spawn('docker', args);
-  child.on('error', err => console.error(`${err}`));
-  child.on('message', err => console.error(`${err}`));
-  child.on('spawn', err => console.error(`${err}`));
-  // child.stdout.on('data', data => {
-  //   console.log(`stdout docker: ${data}`);
-  // });
-  child.stderr.on('data', data => {
-    console.error(`stderr docker: ${data}`);
-  });
-  child.on('close', code => {
-    console.log(`child process exited with code ${code}`);
-  });
-  return Promise.resolve();
+  try {
+    const { stdout, stderr } = await execPromise(`docker ${args.join(' ')}`); // TODO Dusan: Add timeout?
+    console.log(`stdout docker run: ${stdout}`);
+    if (stderr) {
+      console.error(`stderr docker run: ${stderr}`);
+    }
+
+    // TODO Dusan: Add container app health check?
+  } catch (error) {
+    console.error(`failed to start container connect-client: ${error.message}`);
+    // re-throw and reject the outer promise on error
+    throw error;
+  }
 };
 
 export const stopDockerClient = async () => {
   console.log('stopping: docker');
-  const child = spawn('docker stop connect-client && docker rm connect-client', {
-    shell: true
-  });
-  child.on('error', err => console.error(`${err}`));
-  child.on('message', err => console.error(`${err}`));
-  child.on('spawn', err => console.error(`${err}`));
-  child.stderr.on('data', data => console.error(`stderr docker: ${data}`));
-  child.on('close', code => console.log(`child process exited with code ${code}`));
-  return Promise.resolve();
+
+  try {
+    const { stdout, stderr } = await execPromise('docker rm --force connect-client'); // TODO Dusan: Add timeout?
+    console.log(`stdout docker force remove: ${stdout}`);
+    if (stderr) {
+      console.error(`stderr docker force remove: ${stderr}`);
+    }
+    console.log('connect-client stopped and removed successfully.');
+  } catch (error) {
+    if (error.message.includes('no such container')) {
+      // TODO, Dusan: do something else than reading the error message
+      console.log('connect-client container does not exist, no need to stop/remove.');
+    } else {
+      console.error(`Error stopping/removing connect-client: ${error.message}`);
+      // no re-throw here, as cleanup should be best-effort
+    }
+  }
 };
 
 export const login = async (username: string, password: string, baseUrl: string, request: APIRequestContext) => {
