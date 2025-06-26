@@ -2,7 +2,7 @@
 ## 4.0.1 - 2025-05-19
 
 
-### Bug Fixes
+### Bug fixes
 
 
 - *(gui)* Fixed an issue that would prevent showing unassigned static group devices
@@ -34,7 +34,7 @@
 ## 4.0.0 - 2025-02-10
 
 
-### Bug Fixes
+### Bug fixes
 
 
 - *(deployments)* Deprecate v1 endpoint for listing deployments
