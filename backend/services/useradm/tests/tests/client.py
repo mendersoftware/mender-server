@@ -94,11 +94,16 @@ class ManagementApiClient(ApiClient):
     log = logging.getLogger("client.ManagementClient")
     spec_option = "management_spec"
 
-    # default user auth - single user, single tenant
+    # default user auth
+    auth = {
+        "Authorization": "Bearer eyJhbGciOiAiRVMzODQiLCAidHlwIjogIkpXVCIsICJraWQiOiAiMSJ9."
+        + "eyJzdWIiOiAidGVzdCIsICJleHAiOiAxNzE1ODYzNzQ2fQ.JF3xXVtT-k49iopGYrG7WwMqZQaAz_QuL"
+        + "Wjr86NKN2LwcDMszfmcgE1f2kZYIhZ4LTnxB5DDSH0yp2esHoAb3Sya7K1f9rtdfgUl4t9zviclpsPqh6"
+        + "tcijgNiMswj4LD"
+    }
 
-    def __init__(self, host, swagger_spec, auth):
+    def __init__(self, host, swagger_spec):
         self.api_url = "http://%s/api/management/v1/useradm/" % host
-        self.auth = auth
         super().__init__(host, swagger_spec)
 
     def get_users(self, auth=None):

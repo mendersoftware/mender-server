@@ -102,7 +102,6 @@ def migrate(cli: CliClient, mongo: MongoClient):
 def api_client_mgmt(request):
     return ManagementApiClient(
         request.config.getoption("host"), request.config.getoption("management_spec"),
-        make_auth("foo", None),
     )
 
 
