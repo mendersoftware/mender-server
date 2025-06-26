@@ -261,6 +261,7 @@ publish:frontend:e2e-tests:
   needs:
     - job: test:frontend:acceptance
       artifacts: true
+  allow_failure: true # QA-925 - Coveralls servers are unreliable.
   variables:
     COVERALLS_SERVICE_JOB_NUMBER: frontend-e2e
     COVERALLS_FLAG_NAME: frontend-e2e
