@@ -486,6 +486,7 @@ publish:backend:coverage:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
   image: "golang:${GOLANG_VERSION}"
+  allow_failure: true # QA-925 - Coveralls servers are unreliable.
   variables:
     COVERALLS_TOKEN: "$COVERALLS_REPO_TOKEN"
   before_script:
@@ -628,6 +629,7 @@ publish:licenses:docs-site:
 coveralls:done:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/curlimages/curl
   stage: .post
+  allow_failure: true # QA-925 - Coveralls servers are unreliable.
   script:
     - curl "https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN&carryforward=frontend-unit,frontend-e2e,frontend-e2e-enterprise,create-artifact-worker-unit,deployments-unit,deployments-acceptance,deviceauth-unit,deviceauth-acceptance,deviceconfig-unit,deviceconfig-acceptance,deviceconnect-unit,deviceconnect-acceptance,inventory-unit,inventory-acceptance,iot-manager-unit,iot-manager-acceptance,useradm-unit,useradm-acceptance,workflows-unit,workflows-acceptance,integration" -d "payload[build_num]=$CI_PIPELINE_ID&payload[status]=done"
   tags:
