@@ -54,7 +54,8 @@ func MakeRouter(i *UserAdmApiHandlers) http.Handler {
 
 	mgmt := router.Group(apiUrlManagementV1)
 
-	mgmt.POST(uriManagementAuthLogin, i.AuthLoginHandler)
+	mgmt.Group(".").Use(contenttype.CheckJSON()).
+		POST(uriManagementAuthLogin, i.AuthLoginHandler)
 
 	mgmt.Use(identity.Middleware())
 
