@@ -2,6 +2,13 @@
 ## 4.0.1 - 2025-05-19
 
 
+### Security Fixes
+
+- Fixed CVE-2025-49603 - Improper access control of device groups in Mender Server.
+  See the official announcement for more information:
+  [mender.io/blog/cve-2025-49603-improper-access-control-of-device-groups-in-mender-server](https://mender.io/blog/cve-2025-49603-improper-access-control-of-device-groups-in-mender-server)
+
+
 ### Bug Fixes
 
 
