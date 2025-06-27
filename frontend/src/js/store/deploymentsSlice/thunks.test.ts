@@ -53,7 +53,7 @@ const deploymentsConfig = {
     inputWindow: 0,
     instructionBuffer: 0,
     sourceWindow: 0,
-    timeout: 0
+    timeout: -1
   },
   binaryDeltaLimits: {
     duplicatesWindow: DeploymentConstants.limitDefault,
