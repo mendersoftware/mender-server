@@ -208,8 +208,6 @@ const MenderArtifactUpload = () => (
 
 const SingleFileUpload = () => <>This will generate a single file application update Artifact, which requires some additional metadata to be entered.</>;
 
-const GlobalSettings = () => <>These settings apply to all users, so changes made here may affect other users&apos; experience.</>;
-
 const Webhooks = () => (
   <>Use webhooks to send data about device lifecycle events to third-party systems. Currently you can only have one integration set up at a time.</>
 );
@@ -323,7 +321,6 @@ export const HELPTOOLTIPS: Record<string, HelpTooltipComponent> = {
   deviceTypeTip: { id: 'deviceTypeTip', Component: DeviceTypeTip },
   expandArtifact: { id: 'expandArtifact', Component: ExpandArtifact },
   forceDeployment: { id: 'forceDeployment', Component: ForceDeployment },
-  globalSettings: { id: 'globalSettings', Component: GlobalSettings },
   groupDeployment: { id: 'groupDeployment', Component: GroupDeployment },
   menderArtifactUpload: { id: 'menderArtifactUpload', Component: MenderArtifactUpload },
   nameFilterTip: { id: 'nameFilterTip', Component: NameFilterTip },
