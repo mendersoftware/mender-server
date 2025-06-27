@@ -15,6 +15,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
@@ -27,6 +28,7 @@ import (
 	"golang.org/x/sys/unix"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
+	"github.com/mendersoftware/mender-server/pkg/config/ratelimits"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/redis"
 
@@ -148,6 +150,12 @@ func RunServer(c config.Reader) error {
 		ua = ua.WithTenantVerification(tc)
 	}
 
+	useradmapi := api_http.NewUserAdmApiHandlers(ua, db, jwtHandlers,
+		api_http.Config{
+			TokenMaxExpSeconds: c.GetInt(SettingTokenMaxExpirationSeconds),
+			JWTFallback:        jwtFallbackHandler,
+		}, authorizer)
+
 	redisConnStr := c.GetString(SettingRedisConnectionString)
 	if redisConnStr != "" {
 		l.Infof("setting up redis cache")
@@ -155,13 +163,16 @@ func RunServer(c config.Reader) error {
 		if err != nil {
 			return err
 		}
+		rateLimiter, err := ratelimits.SetupRedisRateLimits(
+			client, c.GetString(SettingRedisKeyPrefix), c,
+		)
+		if err != nil {
+			return fmt.Errorf("error configuring rate limits: %w", err)
+		}
+		useradmapi.WithAuthRatelimiter(rateLimiter.
+			WithRewriteRequests(true).
+			MiddlewareGin)
 	}
-
-	useradmapi := api_http.NewUserAdmApiHandlers(ua, db, jwtHandlers,
-		api_http.Config{
-			TokenMaxExpSeconds: c.GetInt(SettingTokenMaxExpirationSeconds),
-			JWTFallback:        jwtFallbackHandler,
-		}, authorizer)
 
 	handler := api_http.MakeRouter(useradmapi)
 

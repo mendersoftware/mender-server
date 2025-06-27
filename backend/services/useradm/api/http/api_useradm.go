@@ -50,11 +50,12 @@ var (
 )
 
 type UserAdmApiHandlers struct {
-	userAdm    useradm.App
-	db         store.DataStore
-	jwth       map[int]jwt.Handler
-	config     Config
-	authorizer authz.Authorizer
+	userAdm     useradm.App
+	db          store.DataStore
+	jwth        map[int]jwt.Handler
+	config      Config
+	authorizer  authz.Authorizer
+	ratelimiter gin.HandlerFunc
 }
 
 type Config struct {
@@ -79,6 +80,11 @@ func NewUserAdmApiHandlers(
 		config:     config,
 		authorizer: authorizer,
 	}
+}
+
+func (i *UserAdmApiHandlers) WithAuthRatelimiter(ratelimiter gin.HandlerFunc) *UserAdmApiHandlers {
+	i.ratelimiter = ratelimiter
+	return i
 }
 
 // Getting nil means that a rest error has allready been renderd
@@ -232,6 +238,13 @@ func (u *UserAdmApiHandlers) AuthVerifyHandler(c *gin.Context) {
 			rest.RenderInternalError(c, err)
 		}
 		return
+	}
+
+	if u.ratelimiter != nil {
+		u.ratelimiter(c)
+		if c.IsAborted() {
+			return
+		}
 	}
 
 	c.Status(http.StatusOK)
