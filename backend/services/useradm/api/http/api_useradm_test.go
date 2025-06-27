@@ -21,14 +21,13 @@ import (
 	"encoding/pem"
 	"fmt"
 	"net/http"
+	"net/http/httptest"
 	"net/url"
 	"os"
 	"strings"
 	"testing"
 	"time"
 
-	"github.com/ant0ine/go-json-rest/rest"
-	"github.com/ant0ine/go-json-rest/rest/test"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -37,6 +36,7 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 	"github.com/mendersoftware/mender-server/pkg/rest_utils"
 	mt "github.com/mendersoftware/mender-server/pkg/testing"
+	rtest "github.com/mendersoftware/mender-server/pkg/testing/rest"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
 
@@ -50,12 +50,25 @@ import (
 	mtesting "github.com/mendersoftware/mender-server/services/useradm/utils/testing"
 )
 
+func RunRequest(t *testing.T,
+	handler http.Handler,
+	request *http.Request) *mt.Recorded {
+
+	request.Header.Set("X-MEN-RequestID", "test")
+	w := httptest.NewRecorder()
+	handler.ServeHTTP(w, request)
+	return &mt.Recorded{T: t, Recorder: w}
+}
+
 func TestAlive(t *testing.T) {
 	api := makeMockApiHandler(t, nil, nil)
 	req, _ := http.NewRequest("GET", "http://localhost/api/internal/v1/useradm/alive", nil)
-	recorded := test.RunRequest(t, api, req)
-	recorded.CodeIs(http.StatusNoContent)
-	recorded.BodyIs("")
+	recorded := RunRequest(t, api, req)
+	checker := mt.NewJSONResponse(
+		http.StatusNoContent,
+		nil,
+		nil)
+	mt.CheckHTTPResponse(t, checker, recorded)
 }
 
 func TestHealthCheck(t *testing.T) {
@@ -94,21 +107,15 @@ func TestHealthCheck(t *testing.T) {
 			api := makeMockApiHandler(t, uadm, nil)
 			req, _ := http.NewRequest(
 				"GET",
-				"http://localhost"+uriInternalHealth,
+				"http://localhost"+apiUrlInternalV1+uriInternalHealth,
 				nil,
 			)
-			req.Header.Set("X-MEN-RequestID", "test")
-			recorded := test.RunRequest(t, api, req)
-			recorded.CodeIs(tc.ResponseCode)
-			if tc.ResponseBody != nil {
-				b, _ := json.Marshal(tc.ResponseBody)
-				assert.JSONEq(t,
-					recorded.Recorder.Body.String(),
-					string(b),
-				)
-			} else {
-				recorded.BodyIs("")
-			}
+			recorded := RunRequest(t, api, req)
+			checker := mt.NewJSONResponse(
+				tc.ResponseCode,
+				nil,
+				tc.ResponseBody)
+			mt.CheckHTTPResponse(t, checker, recorded)
 		})
 	}
 }
@@ -246,14 +253,14 @@ func TestUserAdmApiLogin(t *testing.T) {
 			uadm.On("SignToken", ctx, tc.uaToken).Return(tc.signed, tc.signErr)
 
 			//make mock request
-			req := makeReq("POST", "http://1.2.3.4/api/management/v1/useradm/auth/login",
+			req := makeReq("POST", "http://localhost/api/management/v1/useradm/auth/login",
 				tc.inAuthHeader, tc.inBody)
 
 			api := makeMockApiHandler(t, uadm, nil)
 
 			//test
-			recorded := test.RunRequest(t, api, req)
-			mt.CheckResponse(t, tc.checker, recorded)
+			recorded := RunRequest(t, api, req)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 		})
 	}
 }
@@ -305,7 +312,7 @@ func TestUserAdmApiLogout(t *testing.T) {
 
 			// make mock request
 			req := makeReq("POST",
-				"http://1.2.3.4/api/management/v1/useradm/auth/logout",
+				"http://localhost/api/management/v1/useradm/auth/logout",
 				"Bearer "+token,
 				nil,
 			)
@@ -313,8 +320,8 @@ func TestUserAdmApiLogout(t *testing.T) {
 			api := makeMockApiHandler(t, uadm, nil)
 
 			// test
-			recorded := test.RunRequest(t, api, req)
-			mt.CheckResponse(t, tc.checker, recorded)
+			recorded := RunRequest(t, api, req)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 		})
 	}
 }
@@ -330,8 +337,9 @@ func TestCreateUser(t *testing.T) {
 		checker mt.ResponseChecker
 	}{
 		"ok": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/management/v1/useradm/users",
+			inReq: makeReq("POST",
+				"http://localhost/api/management/v1/useradm/users",
+				rtest.DEFAULT_AUTH,
 				map[string]interface{}{
 					"email":    "foo@foo.com",
 					"password": "foobarbar",
@@ -345,8 +353,9 @@ func TestCreateUser(t *testing.T) {
 			),
 		},
 		"password too short": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/management/v1/useradm/users",
+			inReq: makeReq("POST",
+				"http://localhost/api/management/v1/useradm/users",
+				rtest.DEFAULT_AUTH,
 				map[string]interface{}{
 					"email":    "foo@foo.com",
 					"password": "foobar",
@@ -360,8 +369,9 @@ func TestCreateUser(t *testing.T) {
 			),
 		},
 		"duplicated email": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/management/v1/useradm/users",
+			inReq: makeReq("POST",
+				"http://localhost/api/management/v1/useradm/users",
+				rtest.DEFAULT_AUTH,
 				map[string]interface{}{
 					"email":    "foo@foo.com",
 					"password": "foobarbar",
@@ -376,8 +386,9 @@ func TestCreateUser(t *testing.T) {
 			),
 		},
 		"ok, email with ('+')": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/management/v1/useradm/users",
+			inReq: makeReq("POST",
+				"http://localhost/api/management/v1/useradm/users",
+				rtest.DEFAULT_AUTH,
 				map[string]interface{}{
 					"email":    "foo+@foo.com",
 					"password": "foobarbar",
@@ -391,8 +402,9 @@ func TestCreateUser(t *testing.T) {
 			),
 		},
 		"invalid email (non-ascii)": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/management/v1/useradm/users",
+			inReq: makeReq("POST",
+				"http://localhost/api/management/v1/useradm/users",
+				rtest.DEFAULT_AUTH,
 				map[string]interface{}{
 					"email":    "ąę@org.com",
 					"password": "foobarbar",
@@ -406,13 +418,14 @@ func TestCreateUser(t *testing.T) {
 			),
 		},
 		"no body": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/management/v1/useradm/users", nil),
+			inReq: makeReq("POST",
+				"http://localhost/api/management/v1/useradm/users",
+				rtest.DEFAULT_AUTH, nil),
 
 			checker: mt.NewJSONResponse(
 				http.StatusBadRequest,
 				nil,
-				restError("failed to decode request body: JSON payload is empty"),
+				restError("failed to decode request body: invalid request"),
 			),
 		},
 	}
@@ -427,10 +440,9 @@ func TestCreateUser(t *testing.T) {
 
 			api := makeMockApiHandler(t, uadm, nil)
 
-			tc.inReq.Header.Add(requestid.RequestIdHeader, "test")
-			recorded := test.RunRequest(t, api, tc.inReq)
+			recorded := RunRequest(t, api, tc.inReq)
 
-			mt.CheckResponse(t, tc.checker, recorded)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 		})
 	}
 }
@@ -448,8 +460,9 @@ func TestCreateUserForTenant(t *testing.T) {
 		propagate bool
 	}{
 		"ok": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v1/useradm/tenants/1/users",
+			inReq: makeReq("POST",
+				"http://localhost/api/internal/v1/useradm/tenants/1/users",
+				"",
 				map[string]interface{}{
 					"email":     "foo@foo.com",
 					"password":  "foobarbar",
@@ -465,8 +478,9 @@ func TestCreateUserForTenant(t *testing.T) {
 			propagate: true,
 		},
 		"ok, with password hash": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v1/useradm/tenants/1/users",
+			inReq: makeReq("POST",
+				"http://localhost/api/internal/v1/useradm/tenants/1/users",
+				"",
 				map[string]interface{}{
 					"email":         "foo@foo.com",
 					"password_hash": "foobarbar",
@@ -482,8 +496,9 @@ func TestCreateUserForTenant(t *testing.T) {
 			propagate: false,
 		},
 		"error, no pass or hash": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v1/useradm/tenants/1/users",
+			inReq: makeReq("POST",
+				"http://localhost/api/internal/v1/useradm/tenants/1/users",
+				"",
 				map[string]interface{}{
 					"email":     "foo@foo.com",
 					"propagate": true,
@@ -498,8 +513,9 @@ func TestCreateUserForTenant(t *testing.T) {
 			propagate: true,
 		},
 		"error, both pass and hash provided": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v1/useradm/tenants/1/users",
+			inReq: makeReq("POST",
+				"http://localhost/api/internal/v1/useradm/tenants/1/users",
+				"",
 				map[string]interface{}{
 					"email":         "foo@foo.com",
 					"password":      "foobarbar",
@@ -516,8 +532,9 @@ func TestCreateUserForTenant(t *testing.T) {
 			propagate: true,
 		},
 		"proagate false": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v1/useradm/tenants/1/users",
+			inReq: makeReq("POST",
+				"http://localhost/api/internal/v1/useradm/tenants/1/users",
+				"",
 				map[string]interface{}{
 					"email":     "foo@foo.com",
 					"password":  "foobarbar",
@@ -533,8 +550,9 @@ func TestCreateUserForTenant(t *testing.T) {
 			propagate: false,
 		},
 		"propagate default true": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v1/useradm/tenants/1/users",
+			inReq: makeReq("POST",
+				"http://localhost/api/internal/v1/useradm/tenants/1/users",
+				"",
 				map[string]interface{}{
 					"email":    "foo@foo.com",
 					"password": "foobarbar",
@@ -549,8 +567,9 @@ func TestCreateUserForTenant(t *testing.T) {
 			propagate: true,
 		},
 		"password too short": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v1/useradm/tenants/1/users",
+			inReq: makeReq("POST",
+				"http://localhost/api/internal/v1/useradm/tenants/1/users",
+				"",
 				map[string]interface{}{
 					"email":    "foo@foo.com",
 					"password": "foobar",
@@ -565,8 +584,9 @@ func TestCreateUserForTenant(t *testing.T) {
 			propagate: true,
 		},
 		"duplicated email": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v1/useradm/tenants/1/users",
+			inReq: makeReq("POST",
+				"http://localhost/api/internal/v1/useradm/tenants/1/users",
+				"",
 				map[string]interface{}{
 					"email":    "foo@foo.com",
 					"password": "foobarbar",
@@ -582,19 +602,21 @@ func TestCreateUserForTenant(t *testing.T) {
 			propagate: true,
 		},
 		"no body": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v1/useradm/tenants/1/users", nil),
+			inReq: makeReq("POST",
+				"http://localhost/api/internal/v1/useradm/tenants/1/users",
+				"", nil),
 
 			checker: mt.NewJSONResponse(
 				http.StatusBadRequest,
 				nil,
-				restError("failed to decode request body: JSON payload is empty"),
+				restError("failed to decode request body: invalid request"),
 			),
 			propagate: true,
 		},
 		"no tenant id": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/internal/v1/useradm/tenants//users",
+			inReq: makeReq("POST",
+				"http://localhost/api/internal/v1/useradm/tenants//users",
+				"",
 				map[string]interface{}{
 					"email":    "foo@foo.com",
 					"password": "foobarbar",
@@ -623,9 +645,9 @@ func TestCreateUserForTenant(t *testing.T) {
 			api := makeMockApiHandler(t, uadm, nil)
 
 			tc.inReq.Header.Add(requestid.RequestIdHeader, "test")
-			recorded := test.RunRequest(t, api, tc.inReq)
+			recorded := RunRequest(t, api, tc.inReq)
 
-			mt.CheckResponse(t, tc.checker, recorded)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 		})
 	}
 }
@@ -634,7 +656,7 @@ func TestUpdateUser(t *testing.T) {
 	t.Parallel()
 
 	// we setup authz, so a real token is needed
-	token := "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjQ0ODE4OTM5MD" +
+	token := "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjQ0ODE4OTM5MD" +
 		"AsImlzcyI6Im1lbmRlciIsInN1YiI6Ijc4MWVjMmMzLTM2YTYtNGMxNC05Mj" +
 		"E1LTc1Y2ZjZmQ4MzEzNiIsInNjcCI6Im1lbmRlci4qIiwiaWF0IjoxNDQ1Mj" +
 		"EyODAwLCJqdGkiOiI5NzM0Zjc1Mi0wOWZkLTQ2NmItYmNjYS04ZTFmNDQwN2" +
@@ -654,8 +676,9 @@ func TestUpdateUser(t *testing.T) {
 		checker mt.ResponseChecker
 	}{
 		"ok": {
-			inReq: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/management/v1/useradm/users/123",
+			inReq: makeReq("PUT",
+				"http://localhost/api/management/v1/useradm/users/123",
+				token,
 				map[string]interface{}{
 					"email":    "foo@foo.com",
 					"password": "foobarbar",
@@ -685,7 +708,7 @@ func TestUpdateUser(t *testing.T) {
 				req, _ := http.NewRequestWithContext(
 					ctx,
 					http.MethodPut,
-					"http://1.2.3.4/api/management/v1/useradm/users/me",
+					"http://localhost/api/management/v1/useradm/users/me",
 					bytes.NewReader(body))
 				req.Header.Set("Content-Type", "application/json")
 				return req
@@ -699,8 +722,8 @@ func TestUpdateUser(t *testing.T) {
 		},
 		"ok with jwt token": {
 			inReq: makeReq("PUT",
-				"http://1.2.3.4/api/management/v1/useradm/users/123",
-				"Bearer "+token,
+				"http://localhost/api/management/v1/useradm/users/123",
+				token,
 				map[string]interface{}{
 					"email":    "foo@foo.com",
 					"password": "foobarbar",
@@ -715,8 +738,9 @@ func TestUpdateUser(t *testing.T) {
 			),
 		},
 		"password too short": {
-			inReq: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/management/v1/useradm/users/123",
+			inReq: makeReq("PUT",
+				"http://localhost/api/management/v1/useradm/users/123",
+				token,
 				map[string]interface{}{
 					"email":    "foo@foo.com",
 					"password": "foobar",
@@ -731,8 +755,9 @@ func TestUpdateUser(t *testing.T) {
 			),
 		},
 		"duplicated email": {
-			inReq: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/management/v1/useradm/users/123",
+			inReq: makeReq("PUT",
+				"http://localhost/api/management/v1/useradm/users/123",
+				token,
 				map[string]interface{}{
 					"email": "foo@foo.com",
 				},
@@ -747,19 +772,21 @@ func TestUpdateUser(t *testing.T) {
 			),
 		},
 		"no body": {
-			inReq: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/management/v1/useradm/users/123", nil),
+			inReq: makeReq("PUT",
+				"http://localhost/api/management/v1/useradm/users/123",
+				token, nil),
 			userId: "123",
 
 			checker: mt.NewJSONResponse(
 				http.StatusBadRequest,
 				nil,
-				restError("failed to decode request body: JSON payload is empty"),
+				restError("failed to decode request body: invalid request"),
 			),
 		},
 		"incorrect body": {
-			inReq: test.MakeSimpleRequest("PUT",
-				"http://1.2.3.4/api/management/v1/useradm/users/123",
+			inReq: makeReq("PUT",
+				"http://localhost/api/management/v1/useradm/users/123",
+				token,
 				map[string]interface{}{
 					"id": "1234",
 				}),
@@ -786,9 +813,10 @@ func TestUpdateUser(t *testing.T) {
 				req, _ := http.NewRequestWithContext(
 					ctx,
 					http.MethodPut,
-					"http://1.2.3.4/api/management/v1/useradm/users/me",
+					"http://localhost/api/management/v1/useradm/users/me",
 					bytes.NewReader(body))
 				req.Header.Set("Content-Type", "application/json")
+				req.Header.Set("Authorization", token)
 				return req
 			}(),
 
@@ -822,19 +850,11 @@ func TestUpdateUser(t *testing.T) {
 			api := makeMockApiHandler(t, uadm, nil)
 
 			tc.inReq.Header.Add(requestid.RequestIdHeader, "test")
-			recorded := test.RunRequest(t, api, tc.inReq)
+			recorded := RunRequest(t, api, tc.inReq)
 
-			mt.CheckResponse(t, tc.checker, recorded)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 		})
 	}
-}
-
-func init() {
-	//this will override the framework's error resp to the desired one:
-	// {"error": "msg"}
-	// instead of:
-	// {"Error": "msg"}
-	rest.ErrorFieldName = "error"
 }
 
 func makeMockApiHandler(t *testing.T, uadm useradm.App, db store.DataStore) http.Handler {
@@ -851,10 +871,6 @@ func makeMockApiHandler(t *testing.T, uadm useradm.App, db store.DataStore) http
 
 	jwth := jwt.NewJWTHandlerRS256(key, 0)
 
-	// API handler
-	handlers := NewUserAdmApiHandlers(uadm, db, map[int]jwt.Handler{0: jwth}, Config{})
-	assert.NotNil(t, handlers)
-
 	// setup the authz middleware
 	authorizer := &mauthz.Authorizer{}
 	authorizer.On("Authorize",
@@ -865,13 +881,12 @@ func makeMockApiHandler(t *testing.T, uadm useradm.App, db store.DataStore) http
 	authorizer.On("WithLog",
 		mock.AnythingOfType("*log.Logger")).Return(authorizer)
 
-	handler, err := handlers.Build(authorizer)
-	if err != nil {
-		t.Errorf("failed to build handlers: %s", err.Error())
-		t.FailNow()
-	}
+	// API handler
+	handlers := NewUserAdmApiHandlers(uadm, db, map[int]jwt.Handler{0: jwth}, Config{}, authorizer)
+	assert.NotNil(t, handlers)
+	router := MakeRouter(handlers)
 
-	return handler
+	return router
 }
 
 func TestUserAdmApiPostVerify(t *testing.T) {
@@ -943,7 +958,7 @@ func TestUserAdmApiPostVerify(t *testing.T) {
 
 			//make request
 			req := makeReq("POST",
-				"http://1.2.3.4/api/internal/v1/useradm/auth/verify",
+				"http://localhost/api/internal/v1/useradm/auth/verify",
 				"Bearer "+token,
 				nil)
 
@@ -952,12 +967,12 @@ func TestUserAdmApiPostVerify(t *testing.T) {
 			req.Header.Add("X-Forwarded-Method", "POST")
 
 			//test
-			recorded := test.RunRequest(t, api, req)
-			mt.CheckResponse(t, tc.checker, recorded)
+			recorded := RunRequest(t, api, req)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 
 			//make request
 			req = makeReq("GET",
-				"http://1.2.3.4/api/internal/v1/useradm/auth/verify",
+				"http://localhost/api/internal/v1/useradm/auth/verify",
 				"Bearer "+token,
 				nil)
 
@@ -966,12 +981,12 @@ func TestUserAdmApiPostVerify(t *testing.T) {
 			req.Header.Add("X-Forwarded-Method", "GET")
 
 			//test
-			recorded = test.RunRequest(t, api, req)
-			mt.CheckResponse(t, tc.checker, recorded)
+			recorded = RunRequest(t, api, req)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 
 			//make request for forwarded request
 			req = makeReq("GET",
-				"http://1.2.3.4/api/internal/v1/useradm/auth/verify",
+				"http://localhost/api/internal/v1/useradm/auth/verify",
 				"Bearer "+token,
 				nil)
 
@@ -980,8 +995,8 @@ func TestUserAdmApiPostVerify(t *testing.T) {
 			req.Header.Add("X-Forwarded-Method", "POST")
 
 			//test
-			recorded = test.RunRequest(t, api, req)
-			mt.CheckResponse(t, tc.checker, recorded)
+			recorded = RunRequest(t, api, req)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 		})
 	}
 }
@@ -1115,14 +1130,14 @@ func TestUserAdmApiGetUsers(t *testing.T) {
 
 			//make request
 			req := makeReq("GET",
-				"http://1.2.3.4"+uriManagementUsers+"?"+
+				"http://localhost"+apiUrlManagementV1+uriManagementUsers+"?"+
 					tc.queryString,
 				"Bearer "+token,
 				nil)
 
 			//test
-			recorded := test.RunRequest(t, api, req)
-			mt.CheckResponse(t, tc.checker, recorded)
+			recorded := RunRequest(t, api, req)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 		})
 	}
 }
@@ -1243,10 +1258,10 @@ func TestUserAdmApiTenantsGetUsers(t *testing.T) {
 			api := makeMockApiHandler(t, uadm, nil)
 
 			//make request
-			repl := strings.NewReplacer("#id", tc.tenant)
+			repl := strings.NewReplacer(":id", tc.tenant)
 			req, _ := http.NewRequest(
 				"GET",
-				"http://localhost"+
+				"http://localhost"+apiUrlInternalV1+
 					repl.Replace(uriInternalTenantUsers),
 				nil,
 			)
@@ -1255,8 +1270,8 @@ func TestUserAdmApiTenantsGetUsers(t *testing.T) {
 			req.URL.RawQuery = tc.queryString
 
 			//test
-			recorded := test.RunRequest(t, api, req)
-			mt.CheckResponse(t, tc.checker, recorded)
+			recorded := RunRequest(t, api, req)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 		})
 	}
 }
@@ -1340,13 +1355,13 @@ func TestUserAdmApiGetUser(t *testing.T) {
 
 			//make request
 			req := makeReq("GET",
-				"http://1.2.3.4/api/management/v1/useradm/users/foo",
+				"http://localhost/api/management/v1/useradm/users/foo",
 				"Bearer "+token,
 				nil)
 
 			//test
-			recorded := test.RunRequest(t, api, req)
-			mt.CheckResponse(t, tc.checker, recorded)
+			recorded := RunRequest(t, api, req)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 		})
 	}
 }
@@ -1412,13 +1427,13 @@ func TestUserAdmApiDeleteTenantUser(t *testing.T) {
 
 			//make request
 			req := makeReq("DELETE",
-				"http://1.2.3.4/api/internal/v1/useradm/tenants/"+tc.tenantID+"/users/foo",
+				"http://localhost/api/internal/v1/useradm/tenants/"+tc.tenantID+"/users/foo",
 				"",
 				nil)
 
 			//test
-			recorded := test.RunRequest(t, api, req)
-			mt.CheckResponse(t, tc.checker, recorded)
+			recorded := RunRequest(t, api, req)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 		})
 	}
 }
@@ -1478,13 +1493,13 @@ func TestUserAdmApiDeleteUser(t *testing.T) {
 
 			//make request
 			req := makeReq("DELETE",
-				"http://1.2.3.4/api/management/v1/useradm/users/foo",
+				"http://localhost/api/management/v1/useradm/users/foo",
 				"Bearer "+token,
 				nil)
 
 			//test
-			recorded := test.RunRequest(t, api, req)
-			mt.CheckResponse(t, tc.checker, recorded)
+			recorded := RunRequest(t, api, req)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 		})
 	}
 }
@@ -1543,7 +1558,7 @@ func TestUserAdmApiCreateTenant(t *testing.T) {
 			checker: mt.NewJSONResponse(
 				http.StatusBadRequest,
 				nil,
-				restError("JSON payload is empty"),
+				restError("invalid request"),
 			),
 		},
 	}
@@ -1561,13 +1576,13 @@ func TestUserAdmApiCreateTenant(t *testing.T) {
 
 			//make request
 			req := makeReq(http.MethodPost,
-				"http://1.2.3.4/api/internal/v1/useradm/tenants",
+				"http://localhost/api/internal/v1/useradm/tenants",
 				"",
 				tc.body)
 
 			//test
-			recorded := test.RunRequest(t, api, req)
-			mt.CheckResponse(t, tc.checker, recorded)
+			recorded := RunRequest(t, api, req)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 		})
 	}
 }
@@ -1692,16 +1707,16 @@ func TestUserAdmApiSaveSettings(t *testing.T) {
 
 			//make request
 			req := makeReq(http.MethodPost,
-				"http://1.2.3.4/api/management/v1/useradm/settings",
-				"",
+				"http://localhost/api/management/v1/useradm/settings",
+				rtest.DEFAULT_AUTH,
 				tc.body)
 			if tc.etag != "" {
 				req.Header.Add(hdrETag, tc.etag)
 			}
 
 			//test
-			recorded := test.RunRequest(t, api, req)
-			mt.CheckResponse(t, tc.checker, recorded)
+			recorded := RunRequest(t, api, req)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 		})
 	}
 }
@@ -1781,28 +1796,31 @@ func TestUserAdmApiGetSettings(t *testing.T) {
 
 			//make request
 			req := makeReq(http.MethodGet,
-				"http://1.2.3.4/api/management/v1/useradm/settings",
-				"",
+				"http://localhost/api/management/v1/useradm/settings",
+				rtest.DEFAULT_AUTH,
 				nil)
 
 			//test
-			recorded := test.RunRequest(t, api, req)
-			mt.CheckResponse(t, tc.checker, recorded)
+			recorded := RunRequest(t, api, req)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 
 			if tc.dbSettings != nil && tc.dbSettings.ETag != "" {
-				recorded.HeaderIs(hdrETag, tc.dbSettings.ETag)
+				assert.Equal(t, tc.dbSettings.ETag, recorded.Recorder.Header().Get(hdrETag))
 			}
 		})
 	}
 }
 
 func makeReq(method, url, auth string, body interface{}) *http.Request {
-	req := test.MakeSimpleRequest(method, url, body)
+	req := rtest.MakeTestRequest(&rtest.TestRequest{
+		Method: method,
+		Path:   url,
+		Auth:   auth != "",
+		Token:  auth,
+		Body:   body,
+	})
 
-	if auth != "" {
-		req.Header.Set("Authorization", auth)
-	}
-	req.Header.Add(requestid.RequestIdHeader, "test")
+	req.Header.Set(requestid.RequestIdHeader, "test")
 
 	return req
 }
@@ -1875,13 +1893,13 @@ func TestUserAdmApiDeleteTokens(t *testing.T) {
 
 			//make request
 			req := makeReq("DELETE",
-				"http://1.2.3.4/api/internal/v1/useradm/tokens"+tc.params,
+				"http://localhost/api/internal/v1/useradm/tokens"+tc.params,
 				"",
 				nil)
 
 			//test
-			recorded := test.RunRequest(t, api, req)
-			mt.CheckResponse(t, tc.checker, recorded)
+			recorded := RunRequest(t, api, req)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 		})
 	}
 }
@@ -1897,8 +1915,9 @@ func TestIssueToken(t *testing.T) {
 		checker mt.ResponseChecker
 	}{
 		"ok": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/management/v1/useradm/settings/tokens",
+			inReq: makeReq("POST",
+				"http://localhost/api/management/v1/useradm/settings/tokens",
+				rtest.DEFAULT_AUTH,
 				map[string]interface{}{
 					"name":       "foo",
 					"expires_in": 3600,
@@ -1911,8 +1930,9 @@ func TestIssueToken(t *testing.T) {
 			},
 		},
 		"ok, never expiring token": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/management/v1/useradm/settings/tokens",
+			inReq: makeReq("POST",
+				"http://localhost/api/management/v1/useradm/settings/tokens",
+				rtest.DEFAULT_AUTH,
 				map[string]interface{}{
 					"name":       "foo",
 					"expires_in": 0,
@@ -1925,8 +1945,9 @@ func TestIssueToken(t *testing.T) {
 			},
 		},
 		"error: token with the same name already exist": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/management/v1/useradm/settings/tokens",
+			inReq: makeReq("POST",
+				"http://localhost/api/management/v1/useradm/settings/tokens",
+				rtest.DEFAULT_AUTH,
 				map[string]interface{}{
 					"name":       "foo",
 					"expires_in": 3600,
@@ -1939,8 +1960,9 @@ func TestIssueToken(t *testing.T) {
 				restError("Personal Access Token with a given name already exists")),
 		},
 		"error: too many tokens": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/management/v1/useradm/settings/tokens",
+			inReq: makeReq("POST",
+				"http://localhost/api/management/v1/useradm/settings/tokens",
+				rtest.DEFAULT_AUTH,
 				map[string]interface{}{
 					"name":       "foo",
 					"expires_in": 31536000,
@@ -1953,8 +1975,9 @@ func TestIssueToken(t *testing.T) {
 				restError("maximum number of personal acess tokens reached for this user")),
 		},
 		"error: expires_in too low": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/management/v1/useradm/settings/tokens",
+			inReq: makeReq("POST",
+				"http://localhost/api/management/v1/useradm/settings/tokens",
+				rtest.DEFAULT_AUTH,
 				map[string]interface{}{
 					"name":       "foo",
 					"expires_in": -1,
@@ -1966,8 +1989,9 @@ func TestIssueToken(t *testing.T) {
 				restError("expires_in: must be no less than 0.")),
 		},
 		"error: expires_in too high": {
-			inReq: test.MakeSimpleRequest("POST",
-				"http://1.2.3.4/api/management/v1/useradm/settings/tokens",
+			inReq: makeReq("POST",
+				"http://localhost/api/management/v1/useradm/settings/tokens",
+				rtest.DEFAULT_AUTH,
 				map[string]interface{}{
 					"name":       "foo",
 					"expires_in": 31536001,
@@ -1991,9 +2015,9 @@ func TestIssueToken(t *testing.T) {
 			api := makeMockApiHandler(t, uadm, nil)
 
 			tc.inReq.Header.Add(requestid.RequestIdHeader, "test")
-			recorded := test.RunRequest(t, api, tc.inReq)
+			recorded := RunRequest(t, api, tc.inReq)
 
-			mt.CheckResponse(t, tc.checker, recorded)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 		})
 	}
 }
@@ -2069,13 +2093,13 @@ func TestUserAdmApiGetTokens(t *testing.T) {
 
 			//make request
 			req := makeReq("GET",
-				"http://1.2.3.4"+uriManagementTokens,
+				"http://localhost"+apiUrlManagementV1+uriManagementTokens,
 				"",
 				nil)
 
 			//test
-			recorded := test.RunRequest(t, api, req.WithContext(ctx))
-			mt.CheckResponse(t, tc.checker, recorded)
+			recorded := RunRequest(t, api, req.WithContext(ctx))
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 		})
 	}
 }
@@ -2156,7 +2180,7 @@ func TestUserAdmApiGetPlans(t *testing.T) {
 			checker: mt.NewJSONResponse(
 				http.StatusBadRequest,
 				nil,
-				restError("Can't parse param page"),
+				restError("invalid page query: \"foo\""),
 			),
 		},
 		"error: wrong per_page": {
@@ -2165,7 +2189,7 @@ func TestUserAdmApiGetPlans(t *testing.T) {
 			checker: mt.NewJSONResponse(
 				http.StatusBadRequest,
 				nil,
-				restError("Can't parse param per_page"),
+				restError("invalid per_page query: \"foo\""),
 			),
 		},
 	}
@@ -2188,13 +2212,14 @@ func TestUserAdmApiGetPlans(t *testing.T) {
 
 			//make request
 			req := makeReq("GET",
-				"http://1.2.3.4"+uriManagementPlans+"?page="+tc.page+"&per_page="+tc.perPage,
+				"http://localhost"+apiUrlManagementV1+
+					uriManagementPlans+"?page="+tc.page+"&per_page="+tc.perPage,
 				"",
 				nil)
 
 			//test
-			recorded := test.RunRequest(t, api, req.WithContext(ctx))
-			mt.CheckResponse(t, tc.checker, recorded)
+			recorded := RunRequest(t, api, req.WithContext(ctx))
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 		})
 	}
 }
@@ -2253,13 +2278,13 @@ func TestUserAdmApiGetPlanBinding(t *testing.T) {
 
 			//make request
 			req := makeReq("GET",
-				"http://1.2.3.4"+uriManagementPlanBinding,
+				"http://localhost"+apiUrlManagementV1+uriManagementPlanBinding,
 				"",
 				nil)
 
 			//test
-			recorded := test.RunRequest(t, api, req.WithContext(ctx))
-			mt.CheckResponse(t, tc.checker, recorded)
+			recorded := RunRequest(t, api, req.WithContext(ctx))
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 		})
 	}
 }

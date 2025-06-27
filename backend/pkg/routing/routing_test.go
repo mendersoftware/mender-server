@@ -14,16 +14,21 @@
 package routing
 
 import (
+	"fmt"
 	"net/http"
+	"net/http/httptest"
 	"reflect"
 	"runtime"
 	"testing"
 
-	"github.com/ant0ine/go-json-rest/rest"
-	rtest "github.com/ant0ine/go-json-rest/rest/test"
+	"github.com/gin-gonic/gin"
+	"github.com/stretchr/testify/assert"
+
+	utils "github.com/mendersoftware/mender-server/pkg/strings"
 )
 
 func TestSupportsMethod(t *testing.T) {
+	t.Parallel()
 
 	var sets = []struct {
 		exp       bool
@@ -49,10 +54,12 @@ func TestSupportsMethod(t *testing.T) {
 		},
 	}
 
-	for _, tv := range sets {
-		if supportsMethod(tv.method, tv.supported) != tv.exp {
-			t.Errorf("failed case: %+v", tv)
-		}
+	for i, tv := range sets {
+		t.Run(fmt.Sprintf("tc %d", i), func(t *testing.T) {
+			if supportsMethod(tv.method, tv.supported) != tv.exp {
+				t.Errorf("failed case: %+v", tv)
+			}
+		})
 	}
 }
 
@@ -65,41 +72,43 @@ func funcName(f interface{}) string {
 }
 
 func TestAutogenOptionRoutes(t *testing.T) {
+	t.Parallel()
+
 	// make sure that dummy and options are different to prevent
 	// the compiler making this a single symbol
-	dummy := func(w rest.ResponseWriter, r *rest.Request) {
+	dummy := func(c *gin.Context) {
 		// dummy
-		w.WriteJson(struct {
+		c.JSON(http.StatusOK, struct {
 			x int
 		}{
 			2,
 		})
 	}
-	options := func(w rest.ResponseWriter, r *rest.Request) {
+	options := func(c *gin.Context) {
 		// dummy
-		w.WriteJson(struct {
+		c.JSON(http.StatusOK, struct {
 			x int
 		}{
 			1,
 		})
 	}
-	gen := func(methods []string) rest.HandlerFunc {
+	gen := func(methods []string) gin.HandlerFunc {
 		return options
 	}
 
-	routes := []*rest.Route{
-		// expecting rest.Options(..) to be added for /foo
-		rest.Get("/foo", dummy),
-		rest.Post("/foo", dummy),
+	router := gin.Default()
 
-		// no extra OPTIONS handler for /bar
-		rest.Get("/bar", dummy),
-		rest.Options("/bar", dummy),
-	}
+	// expecting rest.Options(..) to be added for /foo
+	router.GET("/foo", dummy)
+	router.POST("/foo", dummy)
 
-	augmented := AutogenOptionsRoutes(routes, gen)
+	// no extra OPTIONS handler for /bar
+	router.GET("/bar", dummy)
+	router.OPTIONS("/bar", dummy)
 
-	type expHandler map[string]rest.HandlerFunc
+	AutogenOptionsRoutes(router, gen)
+
+	type expHandler map[string]gin.HandlerFunc
 	exp := map[string]expHandler{
 		"/foo": {
 			http.MethodGet:     dummy,
@@ -113,48 +122,44 @@ func TestAutogenOptionRoutes(t *testing.T) {
 	}
 
 	// we're expecting 5 handlers in total
+	routes := router.Routes()
 	expCount := 5
-	if len(augmented) != expCount {
-		t.Errorf("got %d handlers instead of %d", len(augmented), expCount)
+	if len(routes) != expCount {
+		t.Errorf("got %d handlers instead of %d", len(routes), expCount)
 	}
 
-	for _, r := range augmented {
-		v, ok := exp[r.PathExp]
-		if ok != true {
-			t.Errorf("failed with route %+v, route not present", r)
-		}
+	for _, r := range routes {
+		v, ok := exp[r.Path]
+		assert.Equal(t, ok, true, "failed with route "+r.Path+", route not present")
 
-		h, ok := v[r.HttpMethod]
-		if ok != true {
-			t.Errorf("failed with route %+v, method not present", r)
-		}
+		h, ok := v[r.Method]
+		assert.Equal(t, ok, true, fmt.Sprintf("failed with route %s, method %s not present", r.Path, r.Method))
 
-		if funcName(r.Func) != funcName(h) {
-			t.Errorf("failed with route %+v, different handler", r)
-		}
+		assert.Equal(t, r.Handler, funcName(h), "failed with route "+r.Path+", different handler")
 	}
 }
 
 func TestAutogenOptionHeaders(t *testing.T) {
+	t.Parallel()
 
 	suppmeth := []string{
 		http.MethodGet,
 		http.MethodPut,
 	}
 
-	api := rest.NewApi()
-	api.Use(rest.DefaultDevStack...)
-	router, _ := rest.MakeRouter(
-		rest.Options("/test", AllowHeaderOptionsGenerator(suppmeth)),
+	router := gin.Default()
+
+	router.OPTIONS("/test", AllowHeaderOptionsGenerator(suppmeth))
+
+	req, _ := http.NewRequest(http.MethodOptions,
+		"http://localhost/test",
+		nil,
 	)
+	w := httptest.NewRecorder()
 
-	api.SetApp(router)
+	router.ServeHTTP(w, req)
 
-	rec := rtest.RunRequest(t, api.MakeHandler(),
-		rtest.MakeSimpleRequest(http.MethodOptions,
-			"http://1.2.3.4/test", nil))
-
-	allowmeth := rec.Recorder.HeaderMap[http.CanonicalHeaderKey("Allow")]
+	allowmeth := w.Header()[http.CanonicalHeaderKey("Allow")]
 
 	// expecting only 2 allowed methods (should OPTIONS be
 	// included in Allow too?)
@@ -163,14 +168,7 @@ func TestAutogenOptionHeaders(t *testing.T) {
 	}
 
 	for _, sh := range suppmeth {
-		var found bool
-		for _, s := range allowmeth {
-			if sh == s {
-				found = true
-				break
-			}
-		}
-		if !found {
+		if utils.ContainsString(sh, allowmeth) == false {
 			t.Errorf("supported method %s not in allowed: %+v",
 				sh, allowmeth)
 		}

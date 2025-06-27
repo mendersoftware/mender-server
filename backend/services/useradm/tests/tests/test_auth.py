@@ -90,9 +90,7 @@ class TestAuthLogout:
 
     def test_internal_error(self, api_client_mgmt, init_users):
         try:
-            _, r = api_client_mgmt.logout(
-                auth={"Authorization": "Bearer invalid-token"}
-            )
+            _, r = api_client_mgmt.logout()
         except bravado.exception.HTTPError as herr:
             assert herr.response.status_code == 500
 

@@ -95,10 +95,10 @@ class ManagementApiClient(ApiClient):
     spec_option = "management_spec"
 
     # default user auth - single user, single tenant
-    auth = {"Authorization": "Bearer foobarbaz"}
 
-    def __init__(self, host, swagger_spec):
+    def __init__(self, host, swagger_spec, auth):
         self.api_url = "http://%s/api/management/v1/useradm/" % host
+        self.auth = auth
         super().__init__(host, swagger_spec)
 
     def get_users(self, auth=None):

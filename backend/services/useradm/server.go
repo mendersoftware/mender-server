@@ -151,12 +151,9 @@ func RunServer(c config.Reader) error {
 		api_http.Config{
 			TokenMaxExpSeconds: c.GetInt(SettingTokenMaxExpirationSeconds),
 			JWTFallback:        jwtFallbackHandler,
-		})
+		}, authorizer)
 
-	handler, err := useradmapi.Build(authorizer)
-	if err != nil {
-		return errors.Wrap(err, "useradm API handlers setup failed")
-	}
+	handler := api_http.MakeRouter(useradmapi)
 
 	addr := c.GetString(SettingListen)
 	l.Printf("listening on %s", addr)

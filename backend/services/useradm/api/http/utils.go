@@ -17,24 +17,17 @@ import (
 	"errors"
 	"net/http"
 	"strings"
-
-	"github.com/ant0ine/go-json-rest/rest"
-
-	"github.com/mendersoftware/mender-server/services/useradm/authz"
 )
 
-func IsVerificationEndpoint(r *rest.Request) bool {
-	if r.URL.Path == uriInternalAuthVerify &&
-		(r.Method == http.MethodPost || r.Method == http.MethodGet) {
-		return true
-	} else {
-		return false
-	}
+// Action combines info about the requested resourd + http method.
+type Action struct {
+	Resource string
+	Method   string
 }
 
 // ExtractResourceAction extracts resource action from the request url
-func ExtractResourceAction(r *rest.Request) (*authz.Action, error) {
-	action := authz.Action{}
+func ExtractResourceAction(r *http.Request) (*Action, error) {
+	action := Action{}
 
 	// extract original uri
 	uri := r.Header.Get("X-Forwarded-Uri")
@@ -59,4 +52,26 @@ func ExtractResourceAction(r *rest.Request) (*authz.Action, error) {
 	}
 
 	return &action, nil
+}
+
+// extracts JWT from authorization header
+func ExtractToken(req *http.Request) (string, error) {
+	const authHeaderName = "Authorization"
+	auth := req.Header.Get(authHeaderName)
+	if auth != "" {
+		auths := strings.Fields(auth)
+		if !strings.EqualFold(auths[0], "Bearer") || len(auths) < 2 {
+			return "", ErrInvalidAuthHeader
+		}
+		return auths[1], nil
+	}
+	cookie, err := req.Cookie("JWT")
+	if err != nil {
+		return "", ErrAuthzNoAuth
+	}
+	auth = cookie.Value
+	if auth == "" {
+		return "", ErrAuthzNoAuth
+	}
+	return auth, nil
 }
