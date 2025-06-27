@@ -16,6 +16,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
@@ -26,6 +27,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/redis"
 
 	api_http "github.com/mendersoftware/mender-server/services/deviceauth/api/http"
 	"github.com/mendersoftware/mender-server/services/deviceauth/cache"
@@ -108,17 +110,19 @@ func RunServer(c config.Reader) error {
 	if cacheConnStr != "" {
 		l.Infof("setting up redis cache")
 
-		cache, err := cache.NewRedisCache(
-			context.TODO(),
-			cacheConnStr,
-			c.GetString(dconfig.SettingRedisKeyPrefix),
-			c.GetInt(dconfig.SettingRedisLimitsExpSec),
-		)
-
+		ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
+		redisClient, err := redis.ClientFromConnectionString(ctx, cacheConnStr)
+		cancel()
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to initialize redis client: %w", err)
 		}
 
+		redisKeyPrefix := c.GetString(dconfig.SettingRedisKeyPrefix)
+		cache := cache.NewRedisCache(
+			redisClient,
+			redisKeyPrefix,
+			c.GetInt(dconfig.SettingRedisLimitsExpSec),
+		)
 		devauth = devauth.WithCache(cache)
 	}
 
