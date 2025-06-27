@@ -28,7 +28,6 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
 	"github.com/mendersoftware/mender-server/pkg/plan"
-	"github.com/mendersoftware/mender-server/pkg/rate"
 	"github.com/mendersoftware/mender-server/pkg/ratelimits"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 
@@ -127,11 +126,6 @@ type DevAuth struct {
 	cache        cache.Cache
 	clock        utils.Clock
 	checker      access.Checker
-
-	// deviceRatelimiter is used to limit authenticated device requests
-	rateLimiter              rate.Limiter
-	rateLimiterWeights       map[string]float64
-	rateLimiterWeightDefault float64
 }
 
 type Config struct {
@@ -1283,8 +1277,6 @@ func (d *DevAuth) VerifyToken(ctx context.Context, raw string) error {
 
 	if err == cache.ErrTooManyRequests {
 		return err
-	} else if errRate := d.checkRateLimits(ctx); errRate != nil {
-		return errRate
 	}
 
 	if cachedToken != "" && raw == cachedToken {
@@ -1388,7 +1380,7 @@ func (d *DevAuth) cacheThrottleVerify(
 	origMethod,
 	origUri string,
 ) (string, error) {
-	if d.cache == nil || d.cTenant == nil {
+	if d.cache == nil {
 		return "", nil
 	}
 
@@ -1572,19 +1564,6 @@ func (d *DevAuth) WithTenantVerification(c tenant.ClientRunner) *DevAuth {
 
 func (d *DevAuth) WithCache(c cache.Cache) *DevAuth {
 	d.cache = c
-	return d
-}
-
-func (d *DevAuth) WithRatelimits(
-	rl rate.Limiter,
-	weights map[string]float64,
-	defaultQuota float64,
-) *DevAuth {
-	if rl != nil {
-		d.rateLimiter = rl
-		d.rateLimiterWeights = weights
-		d.rateLimiterWeightDefault = defaultQuota
-	}
 	return d
 }
 
