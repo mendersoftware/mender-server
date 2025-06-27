@@ -120,7 +120,7 @@ export const CreateDeployment = props => {
   const { classes } = useStyles();
 
   useEffect(() => {
-    dispatch(getReleases({ page: 1, perPage: 100, searchOnly: true }));
+    dispatch(getReleases({ page: 1, perPage: 100, searchOnly: true, searchTerm: '', selectedTags: [], type: '' }));
   }, [dispatch]);
 
   useEffect(() => {
