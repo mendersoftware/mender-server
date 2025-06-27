@@ -2,7 +2,6 @@ package devauth
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"strings"
 
@@ -13,16 +12,10 @@ import (
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 )
 
-// ErrNoRatelimits is returned by RateLimitsFromContext when there are no limits.
-var ErrNoRatelimits = errors.New("no ratelimits")
-
 func (d *DevAuth) checkRateLimits(ctx context.Context) error {
 	if d.rateLimiter != nil {
 		rsp, err := d.rateLimiter.Reserve(ctx)
 		if err != nil {
-			if errors.Is(err, ErrNoRatelimits) {
-				return nil
-			}
 			return err
 		} else if !rsp.OK() {
 			return cache.ErrTooManyRequests
@@ -31,15 +24,15 @@ func (d *DevAuth) checkRateLimits(ctx context.Context) error {
 	return nil
 }
 
-const rateLimitMax = uint64(1 << 50)
+const rateLimitMax = int64(1 << 50)
 
 func fmtEventID(tenantID, event string) string {
-	return fmt.Sprintf("tenant:%s:event:%s", tenantID, event)
+	return fmt.Sprintf("tenant:%s:ratelimit:%s", tenantID, event)
 }
 
 // rateLimitFromContext returns the burst quota given the context
 func (d *DevAuth) RateLimitsFromContext(ctx context.Context) (
-	limit uint64,
+	limit int64,
 	eventID string,
 	err error,
 ) {
@@ -61,9 +54,9 @@ func (d *DevAuth) RateLimitsFromContext(ctx context.Context) (
 	}
 	lim, err := d.GetLimit(ctx, model.LimitMaxDeviceCount)
 	if err != nil {
-		return 0, "", err
+		return -1, "", err
 	} else if lim.Value == 0 {
-		return 0, "", ErrNoRatelimits
+		return -1, "", nil
 	}
 	var limitf64 float64
 	if lim.Value >= uint64(rateLimitMax) {
@@ -76,7 +69,7 @@ func (d *DevAuth) RateLimitsFromContext(ctx context.Context) (
 	if limitf64 > float64(rateLimitMax) {
 		limit = rateLimitMax
 	} else {
-		limit = uint64(limitf64)
+		limit = int64(limitf64)
 	}
 	return limit, fmtEventID(tenantID, origUri), nil
 }

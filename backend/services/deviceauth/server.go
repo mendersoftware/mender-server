@@ -178,23 +178,21 @@ func setupRatelimits(
 	redisKeyPrefix string,
 	redisClient redis.Client,
 ) error {
-	if !c.GetBool(dconfig.SettingRatelimitsDevicesEnable) {
+	if !c.IsSet(dconfig.SettingRatelimitsQuotas) {
 		return nil
 	}
-	rateLimitKeyPrefix := fmt.Sprintf("%s:rate", redisKeyPrefix)
 	quotas := make(map[string]float64)
 	// quotas can be given as either "plan=quota plan2=quota2"
 	// or as a map of string -> float64
 	// Only the former can be backed by environment variables
-	quotaSlice := c.GetStringSlice(dconfig.SettingRatelimitsDevicesQuotaPlan)
+	quotaSlice := c.GetStringSlice(dconfig.SettingRatelimitsQuotas)
 	if len(quotaSlice) > 0 {
 		for i, keyValue := range quotaSlice {
 			key, value, ok := strings.Cut(keyValue, "=")
 			if !ok {
 				return fmt.Errorf(
-					`invalid config %s: value %v item #%d: `+
-						`missing key/value separator '='`,
-					dconfig.SettingRatelimitsDevicesQuotaPlan, quotaSlice, i+1,
+					`invalid config %s: value %v item #%d: missing key/value separator '='`,
+					dconfig.SettingRatelimitsQuotas, quotaSlice, i+1,
 				)
 			}
 			valueF64, err := strconv.ParseFloat(value, 64)
@@ -205,7 +203,12 @@ func setupRatelimits(
 		}
 	} else {
 		// Check for map in config file
-		quotaMap := c.GetStringMap(dconfig.SettingRatelimitsDevicesQuotaPlan)
+		quotaMap := c.GetStringMap(dconfig.SettingRatelimitsQuotas)
+		if len(quotaMap) == 0 {
+			return fmt.Errorf(
+				"invalid config value %s: cannot be empty",
+				dconfig.SettingRatelimitsQuotas)
+		}
 		for key, valueAny := range quotaMap {
 			rVal := reflect.ValueOf(valueAny)
 			if rVal.CanFloat() {
@@ -217,40 +220,40 @@ func setupRatelimits(
 			} else {
 				return fmt.Errorf(
 					"invalid config value %s[%s]: not a numeric value",
-					dconfig.SettingRatelimitsDevicesQuotaPlan, key,
+					dconfig.SettingRatelimitsQuotas, key,
 				)
 			}
 		}
 	}
 	for key := range quotas {
 		if quotas[key] < 0.0 {
-			return fmt.Errorf(
-				"invalid config value %s[%s]: must be a positive value",
-				dconfig.SettingRatelimitsDevicesQuotaPlan, key,
-			)
+			return fmt.Errorf("invalid config value %s[%s]: value must be a positive value",
+				dconfig.SettingRatelimitsQuotas, key)
 		}
 	}
-	defaultQuota := c.GetFloat64(dconfig.SettingRatelimitsDevicesQuotaDefault)
-	if defaultQuota < 0.0 {
-		return fmt.Errorf(
-			"invalid config value %s: must be a positive value",
-			dconfig.SettingRatelimitsDevicesQuotaDefault,
-		)
-	}
+	log.NewEmpty().Infof("using rate limit quotas: %v", quotas)
 
-	interval := c.GetDuration(dconfig.SettingRatelimitsDevicesInterval)
-	log.NewEmpty().Infof(
-		"using rate limit quotas: %v (default: %.2f) requests per %s",
-		quotas, defaultQuota, interval.Round(time.Second).String())
+	interval := c.GetDuration(dconfig.SettingRatelimitsInterval)
 	rateLimiter := redis.NewFixedWindowRateLimiter(redisClient,
-		rateLimitKeyPrefix,
-		interval,
-		devauth.RateLimitsFromContext,
+		func(ctx context.Context) (*redis.RatelimitParams, error) {
+			limit, eventID, err := devauth.RateLimitsFromContext(ctx)
+			if err != nil {
+				return nil, err
+			} else if limit < 0 {
+				return nil, nil
+			}
+			keyPrefix := redisKeyPrefix + ":" + eventID
+			return &redis.RatelimitParams{
+				Burst:     uint64(limit),
+				Interval:  interval,
+				KeyPrefix: keyPrefix,
+			}, nil
+		},
 	)
 	devauth.WithRatelimits(
 		rateLimiter,
 		quotas,
-		c.GetFloat64(dconfig.SettingRatelimitsDevicesQuotaDefault),
+		c.GetFloat64(dconfig.SettingRatelimitsQuotaDefault),
 	)
 	return nil
 }

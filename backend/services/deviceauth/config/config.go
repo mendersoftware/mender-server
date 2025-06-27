@@ -85,12 +85,11 @@ const (
 	// SettingRatelimits* configures adaptive rate limiting based on device limit.
 	// The `quota` sets the maximum average number of requests per device within
 	// `interval`.
-	SettingRatelimitsDevicesEnable              = "ratelimits.devices.enable"
-	SettingRatelimitsDevicesInterval            = "ratelimits.devices.interval"
-	SettingRatelimitsDevicesIntervalDefault     = time.Minute
-	SettingRatelimitsDevicesQuotaDefault        = "ratelimits.devices.quota_default"
-	SettingRatelimitsDevicesQuotaDefaultDefault = 1.0
-	SettingRatelimitsDevicesQuotaPlan           = "ratelimits.devices.quota_plan"
+	SettingRatelimitsInterval            = "ratelimits.interval"
+	SettingRatelimitsIntervalDefault     = time.Minute
+	SettingRatelimitsQuotaDefault        = "ratelimits.quota_default"
+	SettingRatelimitsQuotaDefaultDefault = 1.0
+	SettingRatelimitsQuotas              = "ratelimits.quota_plan"
 )
 
 var (
@@ -113,8 +112,7 @@ var (
 		{Key: SettingRedisLimitsExpSec, Value: SettingRedisLimitsExpSecDefault},
 		{Key: SettingRedisKeyPrefix, Value: SettingRedisKeyPrefixDefault},
 		{Key: SettingHaveAddons, Value: SettingHaveAddonsDefault},
-		{Key: SettingRatelimitsDevicesInterval, Value: SettingRatelimitsDevicesIntervalDefault},
-		{Key: SettingRatelimitsDevicesQuotaDefault,
-			Value: SettingRatelimitsDevicesQuotaDefaultDefault},
+		{Key: SettingRatelimitsInterval, Value: SettingRatelimitsIntervalDefault},
+		{Key: SettingRatelimitsQuotaDefault, Value: SettingRatelimitsQuotaDefaultDefault},
 	}
 )
