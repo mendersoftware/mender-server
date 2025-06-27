@@ -506,10 +506,7 @@ export const getDeviceCount = createAsyncThunk(`${sliceName}/getDeviceCount`, (s
     attributes: defaultAttributes
   }).then(response => {
     const count = Number(response.headers[headerNames.total]);
-    if (status) {
-      return dispatch(actions.setDevicesCountByStatus({ count, status }));
-    }
-    return dispatch(actions.setTotalDevices(count));
+    return dispatch(actions.setDevicesCountByStatus({ count, status }));
   })
 );
 
