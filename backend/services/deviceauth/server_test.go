@@ -24,16 +24,14 @@ func TestSetupRateLimits(t *testing.T) {
 		"ok/slice": {
 			Config: func() *viper.Viper {
 				cfg := viper.New()
-				cfg.Set(dconfig.SettingRatelimitsDevicesEnable, "true")
-				cfg.Set(dconfig.SettingRatelimitsDevicesQuotaPlan, "enterprise=1.5 professional=0.75 os=0.5")
+				cfg.Set(dconfig.SettingRatelimitsQuotas, "enterprise=1.5 professional=0.75 os=0.5")
 				return cfg
 			}(),
 		},
 		"ok/map": {
 			Config: func() *viper.Viper {
 				cfg := viper.New()
-				cfg.Set(dconfig.SettingRatelimitsDevicesEnable, "true")
-				cfg.Set(dconfig.SettingRatelimitsDevicesQuotaPlan, map[string]any{
+				cfg.Set(dconfig.SettingRatelimitsQuotas, map[string]any{
 					"enterprise":   float64(2.5),
 					"professional": int(2),
 					"os":           uint64(1),
@@ -50,52 +48,47 @@ func TestSetupRateLimits(t *testing.T) {
 		"error/negative value": {
 			Config: func() *viper.Viper {
 				cfg := viper.New()
-				cfg.Set(dconfig.SettingRatelimitsDevicesEnable, "true")
-				cfg.Set(dconfig.SettingRatelimitsDevicesQuotaPlan, map[string]any{"bad": -1.0})
+				cfg.Set(dconfig.SettingRatelimitsQuotas, map[string]any{"bad": -1.0})
 				return cfg
 			}(),
-			Error: fmt.Errorf("invalid config value %s[bad]: must be a positive value",
-				dconfig.SettingRatelimitsDevicesQuotaPlan),
+			Error: fmt.Errorf("invalid config value %s[bad]: value must be a positive value",
+				dconfig.SettingRatelimitsQuotas),
 		},
 		"error/slice without separator": {
 			Config: func() *viper.Viper {
 				cfg := viper.New()
-				cfg.Set(dconfig.SettingRatelimitsDevicesEnable, "true")
-				cfg.Set(dconfig.SettingRatelimitsDevicesQuotaPlan, "foo bar baz")
+				cfg.Set(dconfig.SettingRatelimitsQuotas, "foo bar baz")
 				return cfg
 			}(),
 			Error: fmt.Errorf("invalid config %s: value %v item #1: missing key/value separator '='",
-				dconfig.SettingRatelimitsDevicesQuotaPlan, []string{"foo", "bar", "baz"}),
+				dconfig.SettingRatelimitsQuotas, []string{"foo", "bar", "baz"}),
 		},
 		"error/not convertible to float": {
 			Config: func() *viper.Viper {
 				cfg := viper.New()
-				cfg.Set(dconfig.SettingRatelimitsDevicesEnable, "true")
-				cfg.Set(dconfig.SettingRatelimitsDevicesQuotaPlan, "enterprise=many")
+				cfg.Set(dconfig.SettingRatelimitsQuotas, "enterprise=many")
 				return cfg
 			}(),
 			Error: fmt.Errorf("error parsing quota value"),
 		},
+		"error/unexpected config type": {
+			Config: func() *viper.Viper {
+				cfg := viper.New()
+				cfg.Set(dconfig.SettingRatelimitsQuotas, "")
+				return cfg
+			}(),
+			Error: fmt.Errorf("invalid config value %s: cannot be empty",
+				dconfig.SettingRatelimitsQuotas),
+		},
 		"error/unexpected map type": {
 			Config: func() *viper.Viper {
 				cfg := viper.New()
-				cfg.Set(dconfig.SettingRatelimitsDevicesEnable, "true")
-				cfg.Set(dconfig.SettingRatelimitsDevicesQuotaPlan, map[string]any{"foo": "123"})
+				cfg.Set(dconfig.SettingRatelimitsQuotas, map[string]any{"foo": "123"})
 				return cfg
 			}(),
 			Error: fmt.Errorf("invalid config value %s[foo]: "+
 				"not a numeric value",
-				dconfig.SettingRatelimitsDevicesQuotaPlan),
-		},
-		"error/bad default quota": {
-			Config: func() *viper.Viper {
-				cfg := viper.New()
-				cfg.Set(dconfig.SettingRatelimitsDevicesEnable, "true")
-				cfg.Set(dconfig.SettingRatelimitsDevicesQuotaDefault, -1)
-				return cfg
-			}(),
-			Error: fmt.Errorf("invalid config value %s: must be a positive value",
-				dconfig.SettingRatelimitsDevicesQuotaDefault),
+				dconfig.SettingRatelimitsQuotas),
 		},
 	} {
 		tc := _tc
