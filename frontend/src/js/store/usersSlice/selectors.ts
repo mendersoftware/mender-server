@@ -32,8 +32,8 @@ export const getSelectedDeviceAttribute = createSelector([getUserSettings], ({ c
 );
 export const getIsDarkMode = createSelector([getUserSettings], ({ mode }) => isDarkMode(mode));
 
-export const getShowHelptips = createSelector([getTooltipsById], tooltips =>
-  Object.values(tooltips).reduce((accu, { readState }) => accu || readState === READ_STATES.unread, false)
+export const getReadAllHelptips = createSelector([getTooltipsById], tooltips =>
+  Object.values(tooltips).every(({ readState }) => readState === READ_STATES.read)
 );
 
 export const getTooltipsState = createSelector([getTooltipsById, getUserSettings], (byId, { tooltips = {} }) =>
