@@ -17,7 +17,6 @@ import { Link } from 'react-router-dom';
 
 import {
   Button,
-  Checkbox,
   FormControl,
   FormControlLabel,
   FormHelperText,
@@ -56,7 +55,6 @@ import ReportingLimits from './ReportingLimits';
 const maxWidth = 750;
 
 const useStyles = makeStyles()(theme => ({
-  confirmDeploy: { flexDirection: 'row' },
   formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(4) },
   threshold: {
     columnGap: theme.spacing(2),
@@ -205,10 +203,15 @@ export const GlobalSettingsDialog = ({
     };
   }, []);
 
-  const onNotificationSettingsClick = ({ target: { checked } }, channel) => {
-    setChannelSettings({ ...channelSettings, channel: { enabled: !checked } });
-    onChangeNotificationSetting({ enabled: !checked, channel });
-  };
+  const onNotificationSettingsClick = useCallback(
+    channel => {
+      const checked = channelSettings[channel].enabled;
+      setChannelSettings({ ...channelSettings, [channel]: { enabled: !checked } });
+      onChangeNotificationSetting({ enabled: !checked, channel });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [JSON.stringify(channelSettings)]
+  );
 
   const onChangeOfflineInterval = ({ target: { validity, value } }) => {
     if (validity.valid) {
@@ -218,31 +221,26 @@ export const GlobalSettingsDialog = ({
     setIntervalErrorText('Please enter a valid number between 1 and 1000.');
   };
 
-  const toggleDeploymentConfirmation = () => {
-    saveGlobalSettings({ needsDeploymentConfirmation: !needsDeploymentConfirmation });
-  };
+  const toggleDeploymentConfirmation = () => saveGlobalSettings({ needsDeploymentConfirmation: !needsDeploymentConfirmation });
 
   const onEditDeltaClick = () => setShowDeltaConfig(true);
 
   return (
     <div style={{ maxWidth }} className="margin-top-small">
-      <div className="flexbox center-aligned">
-        <h2 className="margin-top-small margin-right-small">Global settings</h2>
-        <MenderHelpTooltip id={HELPTOOLTIPS.globalSettings.id} placement="top" />
-      </div>
+      <Typography variant="h6">Global settings</Typography>
+      <Typography className="margin-top-x-small margin-bottom-large" variant="body2">
+        Global settings are applied organization-wide. Modifying these settings will affect all users.
+      </Typography>
       <div className={classes.formWrapper}>
         <IdAttributeSelection attributes={attributes} onCloseClick={onCloseClick} onSaveClick={onSaveClick} selectedAttribute={selectedAttribute} />
         {hasReporting && <ReportingLimits />}
         {canManageUsers && (
-          <FormControl className={classes.confirmDeploy} variant="standard">
-            <InputLabel shrink>Deployments</InputLabel>
-            <FormControlLabel
-              className="margin-left-none"
-              control={<Switch checked={needsDeploymentConfirmation} onClick={toggleDeploymentConfirmation} />}
-              label="Require confirmation on deployment creation"
-              labelPlacement="start"
-            />
-          </FormControl>
+          <ToggleSetting
+            title="Deployments confirmation"
+            description="Always require confirmation on deployment creation"
+            onClick={toggleDeploymentConfirmation}
+            value={needsDeploymentConfirmation}
+          />
         )}
         {canManageReleases && (
           <div>
@@ -265,16 +263,13 @@ export const GlobalSettingsDialog = ({
         {isAdmin &&
           hasMonitor &&
           Object.keys(alertChannels).map(channel => (
-            <FormControl key={channel} variant="standard">
-              <InputLabel className="capitalized-start" shrink id={`${channel}-notifications`}>
-                {channel} notifications
-              </InputLabel>
-              <FormControlLabel
-                control={<Checkbox checked={!channelSettings[channel].enabled} onChange={e => onNotificationSettingsClick(e, channel)} />}
-                label={`Mute ${channel} notifications`}
-              />
-              <FormHelperText>Mute {channel} notifications for deployment and monitoring issues for all users</FormHelperText>
-            </FormControl>
+            <ToggleSetting
+              key={channel}
+              value={channelSettings[channel].enabled}
+              onClick={() => onNotificationSettingsClick(channel)}
+              title={`${channel} notifications`}
+              description={`${channel} notifications for deployment and monitoring issues for all users`}
+            />
           ))}
 
         <FormControl variant="standard">
