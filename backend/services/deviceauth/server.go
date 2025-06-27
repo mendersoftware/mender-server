@@ -26,6 +26,7 @@ import (
 	"golang.org/x/sys/unix"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
+	"github.com/mendersoftware/mender-server/pkg/config/ratelimits"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/redis"
 
@@ -40,7 +41,7 @@ import (
 )
 
 func RunServer(c config.Reader) error {
-	var tenantadmAddr = c.GetString(dconfig.SettingTenantAdmAddr)
+	tenantadmAddr := c.GetString(dconfig.SettingTenantAdmAddr)
 
 	l := log.New(log.Ctx{})
 
@@ -102,6 +103,8 @@ func RunServer(c config.Reader) error {
 		devauth = devauth.WithTenantVerification(tc)
 	}
 
+	var apiOptions []api_http.Option
+
 	cacheConnStr := c.GetString(dconfig.SettingRedisConnectionString)
 	if cacheConnStr == "" {
 		// for backward compatibility check old redis_addr setting
@@ -124,13 +127,23 @@ func RunServer(c config.Reader) error {
 			c.GetInt(dconfig.SettingRedisLimitsExpSec),
 		)
 		devauth = devauth.WithCache(cache)
+
+		rateLimiter, err := ratelimits.SetupRedisRateLimits(
+			redisClient, c.GetString(dconfig.SettingRedisKeyPrefix), c,
+		)
+		if err != nil {
+			return fmt.Errorf("error configuring rate limits: %w", err)
+		}
+		if rateLimiter != nil {
+			apiOptions = append(apiOptions,
+				api_http.ConfigAuthVerifyRatelimits(
+					rateLimiter.WithRewriteRequests(true).MiddlewareGin,
+				),
+			)
+		}
 	}
 
-	apiHandler := api_http.NewRouter(devauth, db)
-
-	if err != nil {
-		return errors.Wrap(err, "device authentication API handlers setup failed")
-	}
+	apiHandler := api_http.NewRouter(devauth, db, apiOptions...)
 
 	addr := c.GetString(dconfig.SettingListen)
 	l.Printf("listening on %s", addr)
