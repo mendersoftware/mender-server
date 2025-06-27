@@ -23,8 +23,7 @@ import {
   Button,
   Chip,
   Divider,
-  IconButton,
-  ListItemSecondaryAction,
+  ListItemIcon,
   ListItemText,
   Menu,
   MenuItem,
@@ -256,11 +255,9 @@ const AccountMenu = () => {
         </MenuItem>
         <MenuItem onClick={onLogoutClick}>
           <ListItemText primary="Log out" />
-          <ListItemSecondaryAction>
-            <IconButton>
-              <ExitIcon className={classes.exitIcon} />
-            </IconButton>
-          </ListItemSecondaryAction>
+          <ListItemIcon>
+            <ExitIcon className={classes.exitIcon} />
+          </ListItemIcon>
         </MenuItem>
       </Menu>
     </>
