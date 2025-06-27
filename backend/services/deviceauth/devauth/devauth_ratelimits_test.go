@@ -68,7 +68,7 @@ func TestRateLimitParamsFromContext(t *testing.T) {
 		Store   func(t *testing.T) store.DataStore
 		Weights map[string]float64
 
-		ResultLimit   uint64
+		ResultLimit   int64
 		ResultEventID string
 		ResultError   error
 	}
