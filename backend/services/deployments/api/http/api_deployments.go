@@ -26,15 +26,15 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ant0ine/go-json-rest/rest"
 	"github.com/asaskevich/govalidator"
+	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
-	"github.com/mendersoftware/mender-server/pkg/requestlog"
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 	"github.com/mendersoftware/mender-server/pkg/rest_utils"
 
 	"github.com/mendersoftware/mender-server/services/deployments/app"
@@ -43,10 +43,6 @@ import (
 	"github.com/mendersoftware/mender-server/services/deployments/store"
 	"github.com/mendersoftware/mender-server/services/deployments/utils"
 )
-
-func init() {
-	rest.ErrorFieldName = "error"
-}
 
 const (
 	// 15 minutes
@@ -255,25 +251,24 @@ func NewDeploymentsApiHandlers(
 	}
 }
 
-func (d *DeploymentsApiHandlers) AliveHandler(w rest.ResponseWriter, r *rest.Request) {
-	w.WriteHeader(http.StatusNoContent)
+func (d *DeploymentsApiHandlers) AliveHandler(c *gin.Context) {
+	c.Status(http.StatusNoContent)
 }
 
-func (d *DeploymentsApiHandlers) HealthHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-	l := log.FromContext(ctx)
+func (d *DeploymentsApiHandlers) HealthHandler(c *gin.Context) {
+	ctx := c.Request.Context()
 	ctx, cancel := context.WithTimeout(ctx, defaultTimeout)
 	defer cancel()
 
 	err := d.app.HealthCheck(ctx)
 	if err != nil {
-		rest_utils.RestErrWithLog(w, r, l, err, http.StatusServiceUnavailable)
+		d.view.RenderError(c, err, http.StatusServiceUnavailable)
 		return
 	}
-	w.WriteHeader(http.StatusNoContent)
+	c.Status(http.StatusNoContent)
 }
 
-func getReleaseOrImageFilter(r *rest.Request, version listReleasesVersion,
+func getReleaseOrImageFilter(r *http.Request, version listReleasesVersion,
 	paginated bool) *model.ReleaseOrImageFilter {
 
 	q := r.URL.Query()
@@ -320,25 +315,24 @@ type limitResponse struct {
 	Usage uint64 `json:"usage"`
 }
 
-func (d *DeploymentsApiHandlers) GetLimit(w rest.ResponseWriter, r *rest.Request) {
-	l := requestlog.GetRequestLogger(r)
+func (d *DeploymentsApiHandlers) GetLimit(c *gin.Context) {
 
-	name := r.PathParam("name")
+	name := c.Param("name")
 
 	if !model.IsValidLimit(name) {
-		d.view.RenderError(w, r,
+		d.view.RenderError(c,
 			errors.Errorf("unsupported limit %s", name),
-			http.StatusBadRequest, l)
+			http.StatusBadRequest)
 		return
 	}
 
-	limit, err := d.app.GetLimit(r.Context(), name)
+	limit, err := d.app.GetLimit(c.Request.Context(), name)
 	if err != nil {
-		d.view.RenderInternalError(w, r, err, l)
+		d.view.RenderInternalError(c, err)
 		return
 	}
 
-	d.view.RenderSuccessGet(w, limitResponse{
+	d.view.RenderSuccessGet(c, limitResponse{
 		Limit: limit.Value,
 		Usage: 0, // TODO fill this when ready
 	})
@@ -346,128 +340,136 @@ func (d *DeploymentsApiHandlers) GetLimit(w rest.ResponseWriter, r *rest.Request
 
 // images
 
-func (d *DeploymentsApiHandlers) GetImage(w rest.ResponseWriter, r *rest.Request) {
-	l := requestlog.GetRequestLogger(r)
+func (d *DeploymentsApiHandlers) GetImage(c *gin.Context) {
 
-	id := r.PathParam("id")
+	id := c.Param("id")
 
 	if !govalidator.IsUUID(id) {
-		d.view.RenderError(w, r, ErrIDNotUUID, http.StatusBadRequest, l)
+		d.view.RenderError(c, ErrIDNotUUID, http.StatusBadRequest)
 		return
 	}
 
-	image, err := d.app.GetImage(r.Context(), id)
+	image, err := d.app.GetImage(c.Request.Context(), id)
 	if err != nil {
-		d.view.RenderInternalError(w, r, err, l)
+		d.view.RenderInternalError(c, err)
 		return
 	}
 
 	if image == nil {
-		d.view.RenderErrorNotFound(w, r, l)
+		d.view.RenderErrorNotFound(c)
 		return
 	}
 
-	d.view.RenderSuccessGet(w, image)
+	d.view.RenderSuccessGet(c, image)
 }
 
-func (d *DeploymentsApiHandlers) GetImages(w rest.ResponseWriter, r *rest.Request) {
-	l := requestlog.GetRequestLogger(r)
+func (d *DeploymentsApiHandlers) GetImages(c *gin.Context) {
 
-	defer redactReleaseName(r)
-	filter := getReleaseOrImageFilter(r, listReleasesV1, false)
+	defer redactReleaseName(c.Request)
+	filter := getReleaseOrImageFilter(c.Request, listReleasesV1, false)
 
-	list, _, err := d.app.ListImages(r.Context(), filter)
+	list, _, err := d.app.ListImages(c.Request.Context(), filter)
 	if err != nil {
-		d.view.RenderInternalError(w, r, err, l)
+		d.view.RenderInternalError(c, err)
 		return
 	}
 
-	d.view.RenderSuccessGet(w, list)
+	d.view.RenderSuccessGet(c, list)
 }
 
-func (d *DeploymentsApiHandlers) ListImages(w rest.ResponseWriter, r *rest.Request) {
-	l := requestlog.GetRequestLogger(r)
+func (d *DeploymentsApiHandlers) ListImages(c *gin.Context) {
 
-	defer redactReleaseName(r)
-	filter := getReleaseOrImageFilter(r, listReleasesV1, true)
+	defer redactReleaseName(c.Request)
+	filter := getReleaseOrImageFilter(c.Request, listReleasesV1, true)
 
-	list, totalCount, err := d.app.ListImages(r.Context(), filter)
+	list, totalCount, err := d.app.ListImages(c.Request.Context(), filter)
 	if err != nil {
-		d.view.RenderInternalError(w, r, err, l)
+		d.view.RenderInternalError(c, err)
 		return
 	}
 
 	hasNext := totalCount > int(filter.Page*filter.PerPage)
-	links := rest_utils.MakePageLinkHdrs(r, uint64(filter.Page), uint64(filter.PerPage), hasNext)
-	for _, l := range links {
-		w.Header().Add(hdrLink, l)
-	}
-	w.Header().Add(hdrTotalCount, strconv.Itoa(totalCount))
 
-	d.view.RenderSuccessGet(w, list)
+	hints := rest.NewPagingHints().
+		SetPage(int64(filter.Page)).
+		SetPerPage(int64(filter.PerPage)).
+		SetHasNext(hasNext).
+		SetTotalCount(int64(totalCount))
+
+	links, err := rest.MakePagingHeaders(c.Request, hints)
+	if err != nil {
+		d.view.RenderInternalError(c, err)
+		return
+	}
+
+	for _, l := range links {
+		c.Writer.Header().Add(hdrLink, l)
+	}
+	c.Writer.Header().Add(hdrTotalCount, strconv.Itoa(totalCount))
+
+	d.view.RenderSuccessGet(c, list)
 }
 
-func (d *DeploymentsApiHandlers) DownloadLink(w rest.ResponseWriter, r *rest.Request) {
-	l := requestlog.GetRequestLogger(r)
+func (d *DeploymentsApiHandlers) DownloadLink(c *gin.Context) {
 
-	id := r.PathParam("id")
+	id := c.Param("id")
 
 	if !govalidator.IsUUID(id) {
-		d.view.RenderError(w, r, ErrIDNotUUID, http.StatusBadRequest, l)
+		d.view.RenderError(c, ErrIDNotUUID, http.StatusBadRequest)
 		return
 	}
 
 	expireSeconds := config.Config.GetInt(dconfig.SettingsStorageDownloadExpireSeconds)
-	link, err := d.app.DownloadLink(r.Context(), id, time.Duration(expireSeconds)*time.Second)
+	link, err := d.app.DownloadLink(c.Request.Context(), id,
+		time.Duration(expireSeconds)*time.Second)
 	if err != nil {
-		d.view.RenderInternalError(w, r, err, l)
+		d.view.RenderInternalError(c, err)
 		return
 	}
 
 	if link == nil {
-		d.view.RenderErrorNotFound(w, r, l)
+		d.view.RenderErrorNotFound(c)
 		return
 	}
 
-	d.view.RenderSuccessGet(w, link)
+	d.view.RenderSuccessGet(c, link)
 }
 
-func (d *DeploymentsApiHandlers) UploadLink(w rest.ResponseWriter, r *rest.Request) {
-	l := requestlog.GetRequestLogger(r)
+func (d *DeploymentsApiHandlers) UploadLink(c *gin.Context) {
 
 	expireSeconds := config.Config.GetInt(dconfig.SettingsStorageUploadExpireSeconds)
 	link, err := d.app.UploadLink(
-		r.Context(),
+		c.Request.Context(),
 		time.Duration(expireSeconds)*time.Second,
 		d.config.EnableDirectUploadSkipVerify,
 	)
 	if err != nil {
-		d.view.RenderInternalError(w, r, err, l)
+		d.view.RenderInternalError(c, err)
 		return
 	}
 
 	if link == nil {
-		d.view.RenderErrorNotFound(w, r, l)
+		d.view.RenderErrorNotFound(c)
 		return
 	}
 
-	d.view.RenderSuccessGet(w, link)
+	d.view.RenderSuccessGet(c, link)
 }
 
 const maxMetadataSize = 2048
 
-func (d *DeploymentsApiHandlers) CompleteUpload(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
+func (d *DeploymentsApiHandlers) CompleteUpload(c *gin.Context) {
+	ctx := c.Request.Context()
 	l := log.FromContext(ctx)
 
-	artifactID := r.PathParam(ParamID)
+	artifactID := c.Param(ParamID)
 
 	var metadata *model.DirectUploadMetadata
 	if d.config.EnableDirectUploadSkipVerify {
 		var directMetadata model.DirectUploadMetadata
 		bodyBuffer := make([]byte, maxMetadataSize)
-		n, err := io.ReadFull(r.Body, bodyBuffer)
-		r.Body.Close()
+		n, err := io.ReadFull(c.Request.Body, bodyBuffer)
+		c.Request.Body.Close()
 		if err != nil && err != io.EOF && err != io.ErrUnexpectedEOF {
 			l.Errorf("error reading post body data: %s (read: %d)", err.Error(), n)
 		} else {
@@ -485,66 +487,60 @@ func (d *DeploymentsApiHandlers) CompleteUpload(w rest.ResponseWriter, r *rest.R
 	err := d.app.CompleteUpload(ctx, artifactID, d.config.EnableDirectUploadSkipVerify, metadata)
 	switch errors.Cause(err) {
 	case nil:
-		// w.Header().Set("Link", "FEAT: Upload status API")
-		w.WriteHeader(http.StatusAccepted)
+		// c.Writer.Header().Set("Link", "FEAT: Upload status API")
+		c.Status(http.StatusAccepted)
 	case app.ErrUploadNotFound:
-		d.view.RenderErrorNotFound(w, r, l)
+		d.view.RenderErrorNotFound(c)
 	default:
-		l.Error(err)
-		w.WriteHeader(http.StatusInternalServerError)
-		w.WriteJson(rest_utils.ApiError{ // nolint:errcheck
-			Err:   "internal server error",
-			ReqId: requestid.FromContext(ctx),
-		})
+		d.view.RenderInternalError(c, err)
 	}
 }
 
-func (d *DeploymentsApiHandlers) DownloadConfiguration(w rest.ResponseWriter, r *rest.Request) {
+func (d *DeploymentsApiHandlers) DownloadConfiguration(c *gin.Context) {
 	if d.config.PresignSecret == nil {
-		rest.NotFound(w, r)
+		d.view.RenderErrorNotFound(c)
 		return
 	}
 	var (
-		deviceID, _     = url.PathUnescape(r.PathParam(ParamDeviceID))
-		deviceType, _   = url.PathUnescape(r.PathParam(ParamDeviceType))
-		deploymentID, _ = url.PathUnescape(r.PathParam(ParamDeploymentID))
+		deviceID, _     = url.PathUnescape(c.Param(ParamDeviceID))
+		deviceType, _   = url.PathUnescape(c.Param(ParamDeviceType))
+		deploymentID, _ = url.PathUnescape(c.Param(ParamDeploymentID))
 	)
 	if deviceID == "" || deviceType == "" || deploymentID == "" {
-		rest.NotFound(w, r)
+		d.view.RenderErrorNotFound(c)
 		return
 	}
 
 	var (
 		tenantID string
-		l        = log.FromContext(r.Context())
-		q        = r.URL.Query()
+		q        = c.Request.URL.Query()
 		err      error
 	)
 	tenantID = q.Get(ParamTenantID)
-	sig := model.NewRequestSignature(r.Request, d.config.PresignSecret)
+	sig := model.NewRequestSignature(c.Request, d.config.PresignSecret)
 	if err = sig.Validate(); err != nil {
 		switch cause := errors.Cause(err); cause {
 		case model.ErrLinkExpired:
-			d.view.RenderError(w, r, cause, http.StatusForbidden, l)
+			d.view.RenderError(c, cause, http.StatusForbidden)
 		default:
-			d.view.RenderError(w, r,
+			d.view.RenderError(c,
 				errors.Wrap(err, "invalid request parameters"),
-				http.StatusBadRequest, l,
+				http.StatusBadRequest,
 			)
 		}
 		return
 	}
 
 	if !sig.VerifyHMAC256() {
-		d.view.RenderError(w, r,
+		d.view.RenderError(c,
 			errors.New("signature invalid"),
-			http.StatusForbidden, l,
+			http.StatusForbidden,
 		)
 		return
 	}
 
 	// Validate request signature
-	ctx := identity.WithContext(r.Context(), &identity.Identity{
+	ctx := identity.WithContext(c.Request.Context(), &identity.Identity{
 		Subject:  deviceID,
 		Tenant:   tenantID,
 		IsDevice: true,
@@ -554,109 +550,103 @@ func (d *DeploymentsApiHandlers) DownloadConfiguration(w rest.ResponseWriter, r 
 	if err != nil {
 		switch cause := errors.Cause(err); cause {
 		case app.ErrModelDeploymentNotFound:
-			d.view.RenderError(w, r,
+			d.view.RenderError(c,
 				errors.Errorf(
 					"deployment with id '%s' not found",
 					deploymentID,
 				),
-				http.StatusNotFound, l,
+				http.StatusNotFound,
 			)
 		default:
-			l.Error(err.Error())
-			d.view.RenderInternalError(w, r, err, l)
+			d.view.RenderInternalError(c, err)
 		}
 		return
 	}
 	artifactPayload, err := io.ReadAll(artifact)
 	if err != nil {
-		l.Error(err.Error())
-		d.view.RenderInternalError(w, r, err, l)
+		d.view.RenderInternalError(c, err)
 		return
 	}
 
-	rw := w.(http.ResponseWriter)
+	rw := c.Writer
 	hdr := rw.Header()
 	hdr.Set("Content-Disposition", `attachment; filename="artifact.mender"`)
 	hdr.Set("Content-Type", app.ArtifactContentType)
 	hdr.Set("Content-Length", strconv.Itoa(len(artifactPayload)))
-	rw.WriteHeader(http.StatusOK)
+	c.Status(http.StatusOK)
 	_, err = rw.Write(artifactPayload)
 	if err != nil {
 		// There's not anything we can do here in terms of the response.
-		l.Error(err.Error())
+		_ = c.Error(err)
 	}
 }
 
-func (d *DeploymentsApiHandlers) DeleteImage(w rest.ResponseWriter, r *rest.Request) {
-	l := requestlog.GetRequestLogger(r)
+func (d *DeploymentsApiHandlers) DeleteImage(c *gin.Context) {
 
-	id := r.PathParam("id")
+	id := c.Param("id")
 
 	if !govalidator.IsUUID(id) {
-		d.view.RenderError(w, r, ErrIDNotUUID, http.StatusBadRequest, l)
+		d.view.RenderError(c, ErrIDNotUUID, http.StatusBadRequest)
 		return
 	}
 
-	if err := d.app.DeleteImage(r.Context(), id); err != nil {
+	if err := d.app.DeleteImage(c.Request.Context(), id); err != nil {
 		switch err {
 		default:
-			d.view.RenderInternalError(w, r, err, l)
+			d.view.RenderInternalError(c, err)
 		case app.ErrImageMetaNotFound:
-			d.view.RenderErrorNotFound(w, r, l)
+			d.view.RenderErrorNotFound(c)
 		case app.ErrModelImageInActiveDeployment:
-			d.view.RenderError(w, r, ErrArtifactUsedInActiveDeployment, http.StatusConflict, l)
+			d.view.RenderError(c, ErrArtifactUsedInActiveDeployment, http.StatusConflict)
 		}
 		return
 	}
 
-	d.view.RenderSuccessDelete(w)
+	d.view.RenderSuccessDelete(c)
 }
 
-func (d *DeploymentsApiHandlers) EditImage(w rest.ResponseWriter, r *rest.Request) {
-	l := requestlog.GetRequestLogger(r)
+func (d *DeploymentsApiHandlers) EditImage(c *gin.Context) {
 
-	id := r.PathParam("id")
+	id := c.Param("id")
 
 	if !govalidator.IsUUID(id) {
-		d.view.RenderError(w, r, ErrIDNotUUID, http.StatusBadRequest, l)
+		d.view.RenderError(c, ErrIDNotUUID, http.StatusBadRequest)
 		return
 	}
 
-	constructor, err := getImageMetaFromBody(r)
+	constructor, err := getImageMetaFromBody(c)
 	if err != nil {
 		d.view.RenderError(
-			w,
-			r,
+			c,
 			errors.Wrap(err, "Validating request body"),
 			http.StatusBadRequest,
-			l,
 		)
 		return
 	}
 
-	found, err := d.app.EditImage(r.Context(), id, constructor)
+	found, err := d.app.EditImage(c.Request.Context(), id, constructor)
 	if err != nil {
 		if err == app.ErrModelImageUsedInAnyDeployment {
-			d.view.RenderError(w, r, err, http.StatusUnprocessableEntity, l)
+			d.view.RenderError(c, err, http.StatusUnprocessableEntity)
 			return
 		}
-		d.view.RenderInternalError(w, r, err, l)
+		d.view.RenderInternalError(c, err)
 		return
 	}
 
 	if !found {
-		d.view.RenderErrorNotFound(w, r, l)
+		d.view.RenderErrorNotFound(c)
 		return
 	}
 
-	d.view.RenderSuccessPut(w)
+	d.view.RenderSuccessPut(c)
 }
 
-func getImageMetaFromBody(r *rest.Request) (*model.ImageMeta, error) {
+func getImageMetaFromBody(c *gin.Context) (*model.ImageMeta, error) {
 
 	var constructor *model.ImageMeta
 
-	if err := r.DecodeJsonPayload(&constructor); err != nil {
+	if err := c.ShouldBindJSON(&constructor); err != nil {
 		return nil, err
 	}
 
@@ -671,22 +661,19 @@ func getImageMetaFromBody(r *rest.Request) (*model.ImageMeta, error) {
 // Request should be of type "multipart/form-data". The parts are
 // key/value pairs of metadata information except the last one,
 // which must contain the artifact file.
-func (d *DeploymentsApiHandlers) NewImage(w rest.ResponseWriter, r *rest.Request) {
-	d.newImageWithContext(r.Context(), w, r)
+func (d *DeploymentsApiHandlers) NewImage(c *gin.Context) {
+	d.newImageWithContext(c.Request.Context(), c)
 }
 
-func (d *DeploymentsApiHandlers) NewImageForTenantHandler(w rest.ResponseWriter, r *rest.Request) {
-	l := requestlog.GetRequestLogger(r)
+func (d *DeploymentsApiHandlers) NewImageForTenantHandler(c *gin.Context) {
 
-	tenantID := r.PathParam("tenant")
+	tenantID := c.Param("tenant")
 
 	if tenantID == "" {
-		rest_utils.RestErrWithLog(
-			w,
-			r,
-			l,
-			fmt.Errorf("missing tenant id in path"),
+		rest.RenderError(
+			c,
 			http.StatusBadRequest,
+			fmt.Errorf("missing tenant id in path"),
 		)
 		return
 	}
@@ -694,24 +681,22 @@ func (d *DeploymentsApiHandlers) NewImageForTenantHandler(w rest.ResponseWriter,
 	var ctx context.Context
 	if tenantID != "default" {
 		ident := &identity.Identity{Tenant: tenantID}
-		ctx = identity.WithContext(r.Context(), ident)
+		ctx = identity.WithContext(c.Request.Context(), ident)
 	} else {
-		ctx = r.Context()
+		ctx = c.Request.Context()
 	}
 
-	d.newImageWithContext(ctx, w, r)
+	d.newImageWithContext(ctx, c)
 }
 
 func (d *DeploymentsApiHandlers) newImageWithContext(
 	ctx context.Context,
-	w rest.ResponseWriter,
-	r *rest.Request,
+	c *gin.Context,
 ) {
-	l := requestlog.GetRequestLogger(r)
 
-	formReader, err := r.MultipartReader()
+	formReader, err := c.Request.MultipartReader()
 	if err != nil {
-		d.view.RenderError(w, r, err, http.StatusBadRequest, l)
+		d.view.RenderError(c, err, http.StatusBadRequest)
 		return
 	}
 
@@ -719,48 +704,39 @@ func (d *DeploymentsApiHandlers) newImageWithContext(
 	multipartUploadMsg, err := d.ParseMultipart(formReader)
 
 	if err != nil {
-		d.view.RenderError(w, r, err, http.StatusBadRequest, l)
+		d.view.RenderError(c, err, http.StatusBadRequest)
 		return
 	}
 
 	imgID, err := d.app.CreateImage(ctx, multipartUploadMsg)
 	if err == nil {
-		d.view.RenderSuccessPost(w, r, imgID)
+		d.view.RenderSuccessPost(c, imgID)
 		return
 	}
 	var cErr *model.ConflictError
 	if errors.As(err, &cErr) {
-		w.WriteHeader(http.StatusConflict)
 		_ = cErr.WithRequestID(requestid.FromContext(ctx))
-		err = w.WriteJson(cErr)
-		if err != nil {
-			l.Error(err)
-		} else {
-			l.Error(cErr.Error())
-		}
+		c.JSON(http.StatusConflict, cErr)
 		return
 	}
 	cause := errors.Cause(err)
 	switch cause {
 	default:
-		d.view.RenderInternalError(w, r, err, l)
+		d.view.RenderInternalError(c, err)
 		return
 	case app.ErrModelArtifactNotUnique:
-		l.Error(err.Error())
-		d.view.RenderError(w, r, cause, http.StatusUnprocessableEntity, l)
+		d.view.RenderError(c, cause, http.StatusUnprocessableEntity)
 		return
 	case app.ErrModelParsingArtifactFailed:
-		l.Error(err.Error())
-		d.view.RenderError(w, r, formatArtifactUploadError(err), http.StatusBadRequest, l)
+		d.view.RenderError(c, formatArtifactUploadError(err), http.StatusBadRequest)
 		return
 	case utils.ErrStreamTooLarge, ErrModelArtifactFileTooLarge:
-		d.view.RenderError(w, r, ErrModelArtifactFileTooLarge, http.StatusRequestEntityTooLarge, l)
+		d.view.RenderError(c, ErrModelArtifactFileTooLarge, http.StatusRequestEntityTooLarge)
 		return
 	case app.ErrModelMissingInputMetadata, app.ErrModelMissingInputArtifact,
 		app.ErrModelInvalidMetadata, app.ErrModelMultipartUploadMsgMalformed,
 		io.ErrUnexpectedEOF:
-		l.Error(err.Error())
-		d.view.RenderError(w, r, cause, http.StatusBadRequest, l)
+		d.view.RenderError(c, cause, http.StatusBadRequest)
 		return
 	}
 }
@@ -788,47 +764,43 @@ func formatArtifactUploadError(err error) error {
 // key/valyue pairs of metadata information except the last one,
 // which must contain the file containing the raw data to be processed
 // into an artifact.
-func (d *DeploymentsApiHandlers) GenerateImage(w rest.ResponseWriter, r *rest.Request) {
-	l := requestlog.GetRequestLogger(r)
+func (d *DeploymentsApiHandlers) GenerateImage(c *gin.Context) {
 
-	formReader, err := r.MultipartReader()
+	formReader, err := c.Request.MultipartReader()
 	if err != nil {
-		d.view.RenderError(w, r, err, http.StatusBadRequest, l)
+		d.view.RenderError(c, err, http.StatusBadRequest)
 		return
 	}
 
 	// parse multipart message
 	multipartMsg, err := d.ParseGenerateImageMultipart(formReader)
 	if err != nil {
-		d.view.RenderError(w, r, err, http.StatusBadRequest, l)
+		d.view.RenderError(c, err, http.StatusBadRequest)
 		return
 	}
 
-	tokenFields := strings.Fields(r.Header.Get("Authorization"))
+	tokenFields := strings.Fields(c.Request.Header.Get("Authorization"))
 	if len(tokenFields) == 2 && strings.EqualFold(tokenFields[0], "Bearer") {
 		multipartMsg.Token = tokenFields[1]
 	}
 
-	imgID, err := d.app.GenerateImage(r.Context(), multipartMsg)
+	imgID, err := d.app.GenerateImage(c.Request.Context(), multipartMsg)
 	cause := errors.Cause(err)
 	switch cause {
 	default:
-		d.view.RenderInternalError(w, r, err, l)
+		d.view.RenderInternalError(c, err)
 	case nil:
-		d.view.RenderSuccessPost(w, r, imgID)
+		d.view.RenderSuccessPost(c, imgID)
 	case app.ErrModelArtifactNotUnique:
-		l.Error(err.Error())
-		d.view.RenderError(w, r, cause, http.StatusUnprocessableEntity, l)
+		d.view.RenderError(c, cause, http.StatusUnprocessableEntity)
 	case app.ErrModelParsingArtifactFailed:
-		l.Error(err.Error())
-		d.view.RenderError(w, r, formatArtifactUploadError(err), http.StatusBadRequest, l)
+		d.view.RenderError(c, formatArtifactUploadError(err), http.StatusBadRequest)
 	case utils.ErrStreamTooLarge, ErrModelArtifactFileTooLarge:
-		d.view.RenderError(w, r, ErrModelArtifactFileTooLarge, http.StatusRequestEntityTooLarge, l)
+		d.view.RenderError(c, ErrModelArtifactFileTooLarge, http.StatusRequestEntityTooLarge)
 	case app.ErrModelMissingInputMetadata, app.ErrModelMissingInputArtifact,
 		app.ErrModelInvalidMetadata, app.ErrModelMultipartUploadMsgMalformed,
 		io.ErrUnexpectedEOF:
-		l.Error(err.Error())
-		d.view.RenderError(w, r, cause, http.StatusBadRequest, l)
+		d.view.RenderError(c, cause, http.StatusBadRequest)
 	}
 }
 
@@ -1021,20 +993,16 @@ ParseLoop:
 
 // deployments
 func (d *DeploymentsApiHandlers) createDeployment(
-	w rest.ResponseWriter,
-	r *rest.Request,
+	c *gin.Context,
 	ctx context.Context,
-	l *log.Logger,
 	group string,
 ) {
-	constructor, err := d.getDeploymentConstructorFromBody(r, group)
+	constructor, err := d.getDeploymentConstructorFromBody(c, group)
 	if err != nil {
 		d.view.RenderError(
-			w,
-			r,
+			c,
 			errors.Wrap(err, "Validating request body"),
 			http.StatusBadRequest,
-			l,
 		)
 		return
 	}
@@ -1042,47 +1010,45 @@ func (d *DeploymentsApiHandlers) createDeployment(
 	id, err := d.app.CreateDeployment(ctx, constructor)
 	switch err {
 	case nil:
-		location := fmt.Sprintf("%s/%s", ApiUrlManagementDeployments, id)
-		w.Header().Add("Location", location)
-		w.WriteHeader(http.StatusCreated)
+		location := fmt.Sprintf("%s/%s", ApiUrlManagement+ApiUrlManagementDeployments, id)
+		c.Writer.Header().Add("Location", location)
+		c.Status(http.StatusCreated)
 	case app.ErrNoArtifact:
-		d.view.RenderError(w, r, err, http.StatusUnprocessableEntity, l)
+		d.view.RenderError(c, err, http.StatusUnprocessableEntity)
 	case app.ErrNoDevices:
-		d.view.RenderError(w, r, err, http.StatusBadRequest, l)
+		d.view.RenderError(c, err, http.StatusBadRequest)
 	case app.ErrConflictingDeployment:
-		d.view.RenderError(w, r, err, http.StatusConflict, l)
+		d.view.RenderError(c, err, http.StatusConflict)
 	default:
-		d.view.RenderInternalError(w, r, err, l)
+		d.view.RenderInternalError(c, err)
 	}
 }
 
-func (d *DeploymentsApiHandlers) PostDeployment(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-	l := requestlog.GetRequestLogger(r)
+func (d *DeploymentsApiHandlers) PostDeployment(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	d.createDeployment(w, r, ctx, l, "")
+	d.createDeployment(c, ctx, "")
 }
 
-func (d *DeploymentsApiHandlers) DeployToGroup(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-	l := requestlog.GetRequestLogger(r)
+func (d *DeploymentsApiHandlers) DeployToGroup(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	group := r.PathParam("name")
+	group := c.Param("name")
 	if len(group) < 1 {
-		d.view.RenderError(w, r, ErrMissingGroupName, http.StatusBadRequest, l)
+		d.view.RenderError(c, ErrMissingGroupName, http.StatusBadRequest)
 	}
-	d.createDeployment(w, r, ctx, l, group)
+	d.createDeployment(c, ctx, group)
 }
 
 // parseDeviceConfigurationDeploymentPathParams parses expected params
 // and check if the params are not empty
-func parseDeviceConfigurationDeploymentPathParams(r *rest.Request) (string, string, string, error) {
-	tenantID := r.PathParam("tenant")
-	deviceID := r.PathParam(ParamDeviceID)
+func parseDeviceConfigurationDeploymentPathParams(c *gin.Context) (string, string, string, error) {
+	tenantID := c.Param("tenant")
+	deviceID := c.Param(ParamDeviceID)
 	if deviceID == "" {
 		return "", "", "", errors.New("device ID missing")
 	}
-	deploymentID := r.PathParam(ParamDeploymentID)
+	deploymentID := c.Param(ParamDeploymentID)
 	if deploymentID == "" {
 		return "", "", "", errors.New("deployment ID missing")
 	}
@@ -1091,12 +1057,12 @@ func parseDeviceConfigurationDeploymentPathParams(r *rest.Request) (string, stri
 
 // getConfigurationDeploymentConstructorFromBody extracts configuration
 // deployment constructor from the request body and validates it
-func getConfigurationDeploymentConstructorFromBody(r *rest.Request) (
+func getConfigurationDeploymentConstructorFromBody(c *gin.Context) (
 	*model.ConfigurationDeploymentConstructor, error) {
 
 	var constructor *model.ConfigurationDeploymentConstructor
 
-	if err := r.DecodeJsonPayload(&constructor); err != nil {
+	if err := c.ShouldBindJSON(&constructor); err != nil {
 		return nil, err
 	}
 
@@ -1109,29 +1075,25 @@ func getConfigurationDeploymentConstructorFromBody(r *rest.Request) (
 
 // device configuration deployment handler
 func (d *DeploymentsApiHandlers) PostDeviceConfigurationDeployment(
-	w rest.ResponseWriter,
-	r *rest.Request,
+	c *gin.Context,
 ) {
-	l := requestlog.GetRequestLogger(r)
 
 	// get path params
-	tenantID, deviceID, deploymentID, err := parseDeviceConfigurationDeploymentPathParams(r)
+	tenantID, deviceID, deploymentID, err := parseDeviceConfigurationDeploymentPathParams(c)
 	if err != nil {
-		rest_utils.RestErrWithLog(w, r, l, err, http.StatusBadRequest)
+		d.view.RenderError(c, err, http.StatusBadRequest)
 		return
 	}
 
 	// add tenant id to the context
-	ctx := identity.WithContext(r.Context(), &identity.Identity{Tenant: tenantID})
+	ctx := identity.WithContext(c.Request.Context(), &identity.Identity{Tenant: tenantID})
 
-	constructor, err := getConfigurationDeploymentConstructorFromBody(r)
+	constructor, err := getConfigurationDeploymentConstructorFromBody(c)
 	if err != nil {
 		d.view.RenderError(
-			w,
-			r,
+			c,
 			errors.Wrap(err, "Validating request body"),
 			http.StatusBadRequest,
-			l,
 		)
 		return
 	}
@@ -1139,23 +1101,23 @@ func (d *DeploymentsApiHandlers) PostDeviceConfigurationDeployment(
 	id, err := d.app.CreateDeviceConfigurationDeployment(ctx, constructor, deviceID, deploymentID)
 	switch err {
 	default:
-		d.view.RenderInternalError(w, r, err, l)
+		d.view.RenderInternalError(c, err)
 	case nil:
-		r.URL.Path = "./deployments"
-		d.view.RenderSuccessPost(w, r, id)
+		c.Request.URL.Path = "./deployments"
+		d.view.RenderSuccessPost(c, id)
 	case app.ErrDuplicateDeployment:
-		d.view.RenderError(w, r, err, http.StatusConflict, l)
+		d.view.RenderError(c, err, http.StatusConflict)
 	case app.ErrInvalidDeploymentID:
-		d.view.RenderError(w, r, err, http.StatusBadRequest, l)
+		d.view.RenderError(c, err, http.StatusBadRequest)
 	}
 }
 
 func (d *DeploymentsApiHandlers) getDeploymentConstructorFromBody(
-	r *rest.Request,
+	c *gin.Context,
 	group string,
 ) (*model.DeploymentConstructor, error) {
 	var constructor *model.DeploymentConstructor
-	if err := r.DecodeJsonPayload(&constructor); err != nil {
+	if err := c.ShouldBindJSON(&constructor); err != nil {
 		return nil, err
 	}
 
@@ -1168,126 +1130,118 @@ func (d *DeploymentsApiHandlers) getDeploymentConstructorFromBody(
 	return constructor, nil
 }
 
-func (d *DeploymentsApiHandlers) GetDeployment(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-	l := requestlog.GetRequestLogger(r)
+func (d *DeploymentsApiHandlers) GetDeployment(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	id := r.PathParam("id")
+	id := c.Param("id")
 
 	if !govalidator.IsUUID(id) {
-		d.view.RenderError(w, r, ErrIDNotUUID, http.StatusBadRequest, l)
+		d.view.RenderError(c, ErrIDNotUUID, http.StatusBadRequest)
 		return
 	}
 
 	deployment, err := d.app.GetDeployment(ctx, id)
 	if err != nil {
-		d.view.RenderInternalError(w, r, err, l)
+		d.view.RenderInternalError(c, err)
 		return
 	}
 
 	if deployment == nil {
-		d.view.RenderErrorNotFound(w, r, l)
+		d.view.RenderErrorNotFound(c)
 		return
 	}
 
-	d.view.RenderSuccessGet(w, deployment)
+	d.view.RenderSuccessGet(c, deployment)
 }
 
-func (d *DeploymentsApiHandlers) GetDeploymentStats(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-	l := requestlog.GetRequestLogger(r)
+func (d *DeploymentsApiHandlers) GetDeploymentStats(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	id := r.PathParam("id")
+	id := c.Param("id")
 
 	if !govalidator.IsUUID(id) {
-		d.view.RenderError(w, r, ErrIDNotUUID, http.StatusBadRequest, l)
+		d.view.RenderError(c, ErrIDNotUUID, http.StatusBadRequest)
 		return
 	}
 
 	stats, err := d.app.GetDeploymentStats(ctx, id)
 	if err != nil {
-		d.view.RenderInternalError(w, r, err, l)
+		d.view.RenderInternalError(c, err)
 		return
 	}
 
 	if stats == nil {
-		d.view.RenderErrorNotFound(w, r, l)
+		d.view.RenderErrorNotFound(c)
 		return
 	}
 
-	d.view.RenderSuccessGet(w, stats)
+	d.view.RenderSuccessGet(c, stats)
 }
 
-func (d *DeploymentsApiHandlers) GetDeploymentsStats(w rest.ResponseWriter, r *rest.Request) {
+func (d *DeploymentsApiHandlers) GetDeploymentsStats(c *gin.Context) {
 
-	ctx := r.Context()
-	l := requestlog.GetRequestLogger(r)
+	ctx := c.Request.Context()
 
 	ids := model.DeploymentIDs{}
-	if err := r.DecodeJsonPayload(&ids); err != nil {
-		d.view.RenderError(w, r, err, http.StatusBadRequest, l)
+	if err := c.ShouldBindJSON(&ids); err != nil {
+		d.view.RenderError(c, err, http.StatusBadRequest)
 		return
 	}
 
 	if len(ids.IDs) == 0 {
-		w.WriteHeader(http.StatusOK)
-		_ = w.WriteJson(struct{}{})
+		c.JSON(http.StatusOK, struct{}{})
 		return
 	}
 
 	if err := ids.Validate(); err != nil {
-		d.view.RenderError(w, r, err, http.StatusBadRequest, l)
+		d.view.RenderError(c, err, http.StatusBadRequest)
 		return
 	}
 
 	stats, err := d.app.GetDeploymentsStats(ctx, ids.IDs...)
 	if err != nil {
 		if errors.Is(err, app.ErrModelDeploymentNotFound) {
-			d.view.RenderError(w, r, err, http.StatusNotFound, l)
+			d.view.RenderError(c, err, http.StatusNotFound)
 			return
 		}
-		d.view.RenderInternalError(w, r, err, l)
+		d.view.RenderInternalError(c, err)
 		return
 	}
 
-	w.WriteHeader(http.StatusOK)
-
-	_ = w.WriteJson(stats)
+	c.JSON(http.StatusOK, stats)
 }
 
-func (d *DeploymentsApiHandlers) GetDeploymentDeviceList(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-	l := requestlog.GetRequestLogger(r)
+func (d *DeploymentsApiHandlers) GetDeploymentDeviceList(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	id := r.PathParam("id")
+	id := c.Param("id")
 
 	if !govalidator.IsUUID(id) {
-		d.view.RenderError(w, r, ErrIDNotUUID, http.StatusBadRequest, l)
+		d.view.RenderError(c, ErrIDNotUUID, http.StatusBadRequest)
 		return
 	}
 
 	deployment, err := d.app.GetDeployment(ctx, id)
 	if err != nil {
-		d.view.RenderInternalError(w, r, err, l)
+		d.view.RenderInternalError(c, err)
 		return
 	}
 
 	if deployment == nil {
-		d.view.RenderErrorNotFound(w, r, l)
+		d.view.RenderErrorNotFound(c)
 		return
 	}
 
-	d.view.RenderSuccessGet(w, deployment.DeviceList)
+	d.view.RenderSuccessGet(c, deployment.DeviceList)
 }
 
-func (d *DeploymentsApiHandlers) AbortDeployment(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-	l := requestlog.GetRequestLogger(r)
+func (d *DeploymentsApiHandlers) AbortDeployment(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	id := r.PathParam("id")
+	id := c.Param("id")
 
 	if !govalidator.IsUUID(id) {
-		d.view.RenderError(w, r, ErrIDNotUUID, http.StatusBadRequest, l)
+		d.view.RenderError(c, ErrIDNotUUID, http.StatusBadRequest)
 		return
 	}
 
@@ -1296,50 +1250,50 @@ func (d *DeploymentsApiHandlers) AbortDeployment(w rest.ResponseWriter, r *rest.
 		Status model.DeviceDeploymentStatus
 	}
 
-	err := r.DecodeJsonPayload(&status)
+	err := c.ShouldBindJSON(&status)
 	if err != nil {
-		d.view.RenderError(w, r, err, http.StatusBadRequest, l)
+		d.view.RenderError(c, err, http.StatusBadRequest)
 		return
 	}
 	// "aborted" is the only supported status
 	if status.Status != model.DeviceDeploymentStatusAborted {
-		d.view.RenderError(w, r, ErrUnexpectedDeploymentStatus, http.StatusBadRequest, l)
+		d.view.RenderError(c, ErrUnexpectedDeploymentStatus, http.StatusBadRequest)
 	}
 
+	l := log.FromContext(ctx)
 	l.Infof("Abort deployment: %s", id)
 
 	// Check if deployment is finished
 	isDeploymentFinished, err := d.app.IsDeploymentFinished(ctx, id)
 	if err != nil {
-		d.view.RenderInternalError(w, r, err, l)
+		d.view.RenderInternalError(c, err)
 		return
 	}
 	if isDeploymentFinished {
-		d.view.RenderError(w, r, ErrDeploymentAlreadyFinished, http.StatusUnprocessableEntity, l)
+		d.view.RenderError(c, ErrDeploymentAlreadyFinished, http.StatusUnprocessableEntity)
 		return
 	}
 
 	// Abort deployments for devices and update deployment stats
 	if err := d.app.AbortDeployment(ctx, id); err != nil {
-		d.view.RenderInternalError(w, r, err, l)
+		d.view.RenderInternalError(c, err)
 	}
 
-	d.view.RenderEmptySuccessResponse(w)
+	d.view.RenderEmptySuccessResponse(c)
 }
 
-func (d *DeploymentsApiHandlers) GetDeploymentForDevice(w rest.ResponseWriter, r *rest.Request) {
+func (d *DeploymentsApiHandlers) GetDeploymentForDevice(c *gin.Context) {
 	var (
 		installed *model.InstalledDeviceDeployment
-		ctx       = r.Context()
-		l         = requestlog.GetRequestLogger(r)
+		ctx       = c.Request.Context()
 		idata     = identity.FromContext(ctx)
 	)
 	if idata == nil {
-		d.view.RenderError(w, r, ErrMissingIdentity, http.StatusBadRequest, l)
+		d.view.RenderError(c, ErrMissingIdentity, http.StatusBadRequest)
 		return
 	}
 
-	q := r.URL.Query()
+	q := c.Request.URL.Query()
 	defer func() {
 		var reEncode bool = false
 		if name := q.Get(ParamArtifactName); name != "" {
@@ -1351,16 +1305,16 @@ func (d *DeploymentsApiHandlers) GetDeploymentForDevice(w rest.ResponseWriter, r
 			reEncode = true
 		}
 		if reEncode {
-			r.URL.RawQuery = q.Encode()
+			c.Request.URL.RawQuery = q.Encode()
 		}
 	}()
-	if strings.EqualFold(r.Method, http.MethodPost) {
+	if strings.EqualFold(c.Request.Method, http.MethodPost) {
 		// POST
 		installed = new(model.InstalledDeviceDeployment)
-		if err := r.DecodeJsonPayload(&installed); err != nil {
-			d.view.RenderError(w, r,
+		if err := c.ShouldBindJSON(&installed); err != nil {
+			d.view.RenderError(c,
 				errors.Wrap(err, "invalid schema"),
-				http.StatusBadRequest, l)
+				http.StatusBadRequest)
 			return
 		}
 	} else {
@@ -1372,7 +1326,7 @@ func (d *DeploymentsApiHandlers) GetDeploymentForDevice(w rest.ResponseWriter, r
 	}
 
 	if err := installed.Validate(); err != nil {
-		d.view.RenderError(w, r, err, http.StatusBadRequest, l)
+		d.view.RenderError(c, err, http.StatusBadRequest)
 		return
 	}
 
@@ -1380,40 +1334,38 @@ func (d *DeploymentsApiHandlers) GetDeploymentForDevice(w rest.ResponseWriter, r
 		DeviceProvides: installed,
 	}
 
-	d.getDeploymentForDevice(w, r, idata, request)
+	d.getDeploymentForDevice(c, idata, request)
 }
 
 func (d *DeploymentsApiHandlers) getDeploymentForDevice(
-	w rest.ResponseWriter,
-	r *rest.Request,
+	c *gin.Context,
 	idata *identity.Identity,
 	request *model.DeploymentNextRequest,
 ) {
-	ctx := r.Context()
-	l := requestlog.GetRequestLogger(r)
+	ctx := c.Request.Context()
 
 	deployment, err := d.app.GetDeploymentForDeviceWithCurrent(ctx, idata.Subject, request)
 	if err != nil {
 		if err == app.ErrConflictingRequestData {
-			d.view.RenderError(w, r, err, http.StatusConflict, l)
+			d.view.RenderError(c, err, http.StatusConflict)
 		} else {
-			d.view.RenderInternalError(w, r, err, l)
+			d.view.RenderInternalError(c, err)
 		}
 		return
 	}
 
 	if deployment == nil {
-		d.view.RenderNoUpdateForDevice(w)
+		d.view.RenderNoUpdateForDevice(c)
 		return
 	} else if deployment.Type == model.DeploymentTypeConfiguration {
 		// Generate pre-signed URL
 		var hostName string = d.config.PresignHostname
 		if hostName == "" {
-			if hostName = r.Header.Get(hdrForwardedHost); hostName == "" {
-				d.view.RenderInternalError(w, r,
+			if hostName = c.Request.Header.Get(hdrForwardedHost); hostName == "" {
+				d.view.RenderInternalError(c,
 					errors.New("presign.hostname not configured; "+
 						"unable to generate download link "+
-						" for configuration deployment"), l)
+						" for configuration deployment"))
 				return
 			}
 		}
@@ -1440,33 +1392,31 @@ func (d *DeploymentsApiHandlers) getDeploymentForDevice(
 		}
 	}
 
-	d.view.RenderSuccessGet(w, deployment)
+	d.view.RenderSuccessGet(c, deployment)
 }
 
 func (d *DeploymentsApiHandlers) PutDeploymentStatusForDevice(
-	w rest.ResponseWriter,
-	r *rest.Request,
+	c *gin.Context,
 ) {
-	ctx := r.Context()
-	l := requestlog.GetRequestLogger(r)
+	ctx := c.Request.Context()
 
-	did := r.PathParam("id")
+	did := c.Param("id")
 
 	idata := identity.FromContext(ctx)
 	if idata == nil {
-		d.view.RenderError(w, r, ErrMissingIdentity, http.StatusBadRequest, l)
+		d.view.RenderError(c, ErrMissingIdentity, http.StatusBadRequest)
 		return
 	}
 
 	// receive request body
 	var report model.StatusReport
 
-	err := r.DecodeJsonPayload(&report)
+	err := c.ShouldBindJSON(&report)
 	if err != nil {
-		d.view.RenderError(w, r, err, http.StatusBadRequest, l)
+		d.view.RenderError(c, err, http.StatusBadRequest)
 		return
 	}
-
+	l := log.FromContext(ctx)
 	l.Infof("status: %+v", report)
 	if err := d.app.UpdateDeviceDeploymentStatus(ctx, did,
 		idata.Subject, model.DeviceDeploymentState{
@@ -1475,29 +1425,27 @@ func (d *DeploymentsApiHandlers) PutDeploymentStatusForDevice(
 		}); err != nil {
 
 		if err == app.ErrDeploymentAborted || err == app.ErrDeviceDecommissioned {
-			d.view.RenderError(w, r, err, http.StatusConflict, l)
+			d.view.RenderError(c, err, http.StatusConflict)
 		} else if err == app.ErrStorageNotFound {
-			d.view.RenderErrorNotFound(w, r, l)
+			d.view.RenderErrorNotFound(c)
 		} else {
-			d.view.RenderInternalError(w, r, err, l)
+			d.view.RenderInternalError(c, err)
 		}
 		return
 	}
 
-	d.view.RenderEmptySuccessResponse(w)
+	d.view.RenderEmptySuccessResponse(c)
 }
 
 func (d *DeploymentsApiHandlers) GetDeviceStatusesForDeployment(
-	w rest.ResponseWriter,
-	r *rest.Request,
+	c *gin.Context,
 ) {
-	ctx := r.Context()
-	l := requestlog.GetRequestLogger(r)
+	ctx := c.Request.Context()
 
-	did := r.PathParam("id")
+	did := c.Param("id")
 
 	if !govalidator.IsUUID(did) {
-		d.view.RenderError(w, r, ErrIDNotUUID, http.StatusBadRequest, l)
+		d.view.RenderError(c, ErrIDNotUUID, http.StatusBadRequest)
 		return
 	}
 
@@ -1505,34 +1453,32 @@ func (d *DeploymentsApiHandlers) GetDeviceStatusesForDeployment(
 	if err != nil {
 		switch err {
 		case app.ErrModelDeploymentNotFound:
-			d.view.RenderError(w, r, err, http.StatusNotFound, l)
+			d.view.RenderError(c, err, http.StatusNotFound)
 			return
 		default:
-			d.view.RenderInternalError(w, r, ErrInternal, l)
+			d.view.RenderInternalError(c, err)
 			return
 		}
 	}
 
-	d.view.RenderSuccessGet(w, statuses)
+	d.view.RenderSuccessGet(c, statuses)
 }
 
 func (d *DeploymentsApiHandlers) GetDevicesListForDeployment(
-	w rest.ResponseWriter,
-	r *rest.Request,
+	c *gin.Context,
 ) {
-	ctx := r.Context()
-	l := requestlog.GetRequestLogger(r)
+	ctx := c.Request.Context()
 
-	did := r.PathParam("id")
+	did := c.Param("id")
 
 	if !govalidator.IsUUID(did) {
-		d.view.RenderError(w, r, ErrIDNotUUID, http.StatusBadRequest, l)
+		d.view.RenderError(c, ErrIDNotUUID, http.StatusBadRequest)
 		return
 	}
 
-	page, perPage, err := rest_utils.ParsePagination(r)
+	page, perPage, err := rest.ParsePagingParameters(c.Request)
 	if err != nil {
-		d.view.RenderError(w, r, err, http.StatusBadRequest, l)
+		d.view.RenderError(c, err, http.StatusBadRequest)
 		return
 	}
 
@@ -1541,11 +1487,11 @@ func (d *DeploymentsApiHandlers) GetDevicesListForDeployment(
 		Limit:        int(perPage),
 		DeploymentID: did,
 	}
-	if status := r.URL.Query().Get("status"); status != "" {
+	if status := c.Request.URL.Query().Get("status"); status != "" {
 		lq.Status = &status
 	}
 	if err = lq.Validate(); err != nil {
-		d.view.RenderError(w, r, err, http.StatusBadRequest, l)
+		d.view.RenderError(c, err, http.StatusBadRequest)
 		return
 	}
 
@@ -1553,21 +1499,32 @@ func (d *DeploymentsApiHandlers) GetDevicesListForDeployment(
 	if err != nil {
 		switch err {
 		case app.ErrModelDeploymentNotFound:
-			d.view.RenderError(w, r, err, http.StatusNotFound, l)
+			d.view.RenderError(c, err, http.StatusNotFound)
 			return
 		default:
-			d.view.RenderInternalError(w, r, ErrInternal, l)
+			d.view.RenderInternalError(c, err)
 			return
 		}
 	}
 
 	hasNext := totalCount > int(page*perPage)
-	links := rest_utils.MakePageLinkHdrs(r, page, perPage, hasNext)
-	for _, l := range links {
-		w.Header().Add(hdrLink, l)
+	hints := rest.NewPagingHints().
+		SetPage(page).
+		SetPerPage(perPage).
+		SetHasNext(hasNext).
+		SetTotalCount(int64(totalCount))
+
+	links, err := rest.MakePagingHeaders(c.Request, hints)
+	if err != nil {
+		d.view.RenderInternalError(c, err)
+		return
 	}
-	w.Header().Add(hdrTotalCount, strconv.Itoa(totalCount))
-	d.view.RenderSuccessGet(w, statuses)
+
+	for _, l := range links {
+		c.Writer.Header().Add(hdrLink, l)
+	}
+	c.Writer.Header().Add(hdrTotalCount, strconv.Itoa(totalCount))
+	d.view.RenderSuccessGet(c, statuses)
 }
 
 func ParseLookupQuery(vals url.Values) (model.Query, error) {
@@ -1666,26 +1623,25 @@ func parseEpochToTimestamp(epoch string) (time.Time, error) {
 	}
 }
 
-func (d *DeploymentsApiHandlers) LookupDeployment(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-	l := requestlog.GetRequestLogger(r)
-	q := r.URL.Query()
+func (d *DeploymentsApiHandlers) LookupDeployment(c *gin.Context) {
+	ctx := c.Request.Context()
+	q := c.Request.URL.Query()
 	defer func() {
 		if search := q.Get("search"); search != "" {
 			q.Set("search", Redacted)
-			r.URL.RawQuery = q.Encode()
+			c.Request.URL.RawQuery = q.Encode()
 		}
 	}()
 
 	query, err := ParseDeploymentLookupQueryV1(q)
 	if err != nil {
-		d.view.RenderError(w, r, err, http.StatusBadRequest, l)
+		d.view.RenderError(c, err, http.StatusBadRequest)
 		return
 	}
 
-	page, perPage, err := rest_utils.ParsePagination(r)
+	page, perPage, err := rest.ParsePagingParameters(c.Request)
 	if err != nil {
-		d.view.RenderError(w, r, err, http.StatusBadRequest, l)
+		d.view.RenderError(c, err, http.StatusBadRequest)
 		return
 	}
 	query.Skip = int((page - 1) * perPage)
@@ -1693,46 +1649,55 @@ func (d *DeploymentsApiHandlers) LookupDeployment(w rest.ResponseWriter, r *rest
 
 	deps, totalCount, err := d.app.LookupDeployment(ctx, query)
 	if err != nil {
-		d.view.RenderError(w, r, err, http.StatusBadRequest, l)
+		d.view.RenderError(c, err, http.StatusBadRequest)
 		return
 	}
-	w.Header().Add(hdrTotalCount, strconv.FormatInt(totalCount, 10))
+	c.Writer.Header().Add(hdrTotalCount, strconv.FormatInt(totalCount, 10))
 
 	len := len(deps)
 	hasNext := false
-	if uint64(len) > perPage {
+	if int64(len) > perPage {
 		hasNext = true
 		len = int(perPage)
 	}
 
-	links := rest_utils.MakePageLinkHdrs(r, page, perPage, hasNext)
+	hints := rest.NewPagingHints().
+		SetPage(page).
+		SetPerPage(perPage).
+		SetHasNext(hasNext).
+		SetTotalCount(int64(totalCount))
+
+	links, err := rest.MakePagingHeaders(c.Request, hints)
+	if err != nil {
+		d.view.RenderInternalError(c, err)
+		return
+	}
 	for _, l := range links {
-		w.Header().Add(hdrLink, l)
+		c.Writer.Header().Add(hdrLink, l)
 	}
 
-	d.view.RenderSuccessGet(w, deps[:len])
+	d.view.RenderSuccessGet(c, deps[:len])
 }
 
-func (d *DeploymentsApiHandlers) LookupDeploymentV2(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-	l := requestlog.GetRequestLogger(r)
-	q := r.URL.Query()
+func (d *DeploymentsApiHandlers) LookupDeploymentV2(c *gin.Context) {
+	ctx := c.Request.Context()
+	q := c.Request.URL.Query()
 	defer func() {
 		if q.Has("name") {
 			q["name"] = []string{Redacted}
-			r.URL.RawQuery = q.Encode()
+			c.Request.URL.RawQuery = q.Encode()
 		}
 	}()
 
 	query, err := ParseDeploymentLookupQueryV2(q)
 	if err != nil {
-		d.view.RenderError(w, r, err, http.StatusBadRequest, l)
+		d.view.RenderError(c, err, http.StatusBadRequest)
 		return
 	}
 
-	page, perPage, err := rest_utils.ParsePagination(r)
+	page, perPage, err := rest.ParsePagingParameters(c.Request)
 	if err != nil {
-		d.view.RenderError(w, r, err, http.StatusBadRequest, l)
+		d.view.RenderError(c, err, http.StatusBadRequest)
 		return
 	}
 	query.Skip = int((page - 1) * perPage)
@@ -1740,35 +1705,44 @@ func (d *DeploymentsApiHandlers) LookupDeploymentV2(w rest.ResponseWriter, r *re
 
 	deps, totalCount, err := d.app.LookupDeployment(ctx, query)
 	if err != nil {
-		d.view.RenderError(w, r, err, http.StatusBadRequest, l)
+		d.view.RenderError(c, err, http.StatusBadRequest)
 		return
 	}
-	w.Header().Add(hdrTotalCount, strconv.FormatInt(totalCount, 10))
+	c.Writer.Header().Add(hdrTotalCount, strconv.FormatInt(totalCount, 10))
 
 	len := len(deps)
 	hasNext := false
-	if uint64(len) > perPage {
+	if int64(len) > perPage {
 		hasNext = true
 		len = int(perPage)
 	}
 
-	links := rest_utils.MakePageLinkHdrs(r, page, perPage, hasNext)
+	hints := rest.NewPagingHints().
+		SetPage(page).
+		SetPerPage(perPage).
+		SetHasNext(hasNext).
+		SetTotalCount(int64(totalCount))
+
+	links, err := rest.MakePagingHeaders(c.Request, hints)
+	if err != nil {
+		d.view.RenderInternalError(c, err)
+		return
+	}
 	for _, l := range links {
-		w.Header().Add(hdrLink, l)
+		c.Writer.Header().Add(hdrLink, l)
 	}
 
-	d.view.RenderSuccessGet(w, deps[:len])
+	d.view.RenderSuccessGet(c, deps[:len])
 }
 
-func (d *DeploymentsApiHandlers) PutDeploymentLogForDevice(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-	l := requestlog.GetRequestLogger(r)
+func (d *DeploymentsApiHandlers) PutDeploymentLogForDevice(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	did := r.PathParam("id")
+	did := c.Param("id")
 
 	idata := identity.FromContext(ctx)
 	if idata == nil {
-		d.view.RenderError(w, r, ErrMissingIdentity, http.StatusBadRequest, l)
+		d.view.RenderError(c, ErrMissingIdentity, http.StatusBadRequest)
 		return
 	}
 
@@ -1776,9 +1750,9 @@ func (d *DeploymentsApiHandlers) PutDeploymentLogForDevice(w rest.ResponseWriter
 	// (un-)marshaling DeploymentLog to/from JSON
 	var log model.DeploymentLog
 
-	err := r.DecodeJsonPayload(&log)
+	err := c.ShouldBindJSON(&log)
 	if err != nil {
-		d.view.RenderError(w, r, err, http.StatusBadRequest, l)
+		d.view.RenderError(c, err, http.StatusBadRequest)
 		return
 	}
 
@@ -1786,124 +1760,117 @@ func (d *DeploymentsApiHandlers) PutDeploymentLogForDevice(w rest.ResponseWriter
 		did, log.Messages); err != nil {
 
 		if err == app.ErrModelDeploymentNotFound {
-			d.view.RenderError(w, r, err, http.StatusNotFound, l)
+			d.view.RenderError(c, err, http.StatusNotFound)
 		} else {
-			d.view.RenderInternalError(w, r, err, l)
+			d.view.RenderInternalError(c, err)
 		}
 		return
 	}
 
-	d.view.RenderEmptySuccessResponse(w)
+	d.view.RenderEmptySuccessResponse(c)
 }
 
-func (d *DeploymentsApiHandlers) GetDeploymentLogForDevice(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-	l := requestlog.GetRequestLogger(r)
+func (d *DeploymentsApiHandlers) GetDeploymentLogForDevice(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	did := r.PathParam("id")
-	devid := r.PathParam("devid")
+	did := c.Param("id")
+	devid := c.Param("devid")
 
 	depl, err := d.app.GetDeviceDeploymentLog(ctx, devid, did)
 
 	if err != nil {
-		d.view.RenderInternalError(w, r, err, l)
+		d.view.RenderInternalError(c, err)
 		return
 	}
 
 	if depl == nil {
-		d.view.RenderErrorNotFound(w, r, l)
+		d.view.RenderErrorNotFound(c)
 		return
 	}
 
-	d.view.RenderDeploymentLog(w, *depl)
+	d.view.RenderDeploymentLog(c, *depl)
 }
 
-func (d *DeploymentsApiHandlers) AbortDeviceDeployments(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-	l := requestlog.GetRequestLogger(r)
+func (d *DeploymentsApiHandlers) AbortDeviceDeployments(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	id := r.PathParam("id")
+	id := c.Param("id")
 	err := d.app.AbortDeviceDeployments(ctx, id)
 
 	switch err {
 	case nil, app.ErrStorageNotFound:
-		d.view.RenderEmptySuccessResponse(w)
+		d.view.RenderEmptySuccessResponse(c)
 	default:
-		d.view.RenderInternalError(w, r, err, l)
+		d.view.RenderInternalError(c, err)
 	}
 }
 
-func (d *DeploymentsApiHandlers) DeleteDeviceDeploymentsHistory(w rest.ResponseWriter,
-	r *rest.Request) {
-	ctx := r.Context()
-	l := requestlog.GetRequestLogger(r)
+func (d *DeploymentsApiHandlers) DeleteDeviceDeploymentsHistory(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	id := r.PathParam("id")
+	id := c.Param("id")
 	err := d.app.DeleteDeviceDeploymentsHistory(ctx, id)
 
 	switch err {
 	case nil, app.ErrStorageNotFound:
-		d.view.RenderEmptySuccessResponse(w)
+		d.view.RenderEmptySuccessResponse(c)
 	default:
-		d.view.RenderInternalError(w, r, err, l)
+		d.view.RenderInternalError(c, err)
 	}
 }
 
-func (d *DeploymentsApiHandlers) ListDeviceDeployments(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-	d.listDeviceDeployments(ctx, w, r, true)
+func (d *DeploymentsApiHandlers) ListDeviceDeployments(c *gin.Context) {
+	ctx := c.Request.Context()
+	d.listDeviceDeployments(ctx, c, true)
 }
 
-func (d *DeploymentsApiHandlers) ListDeviceDeploymentsInternal(w rest.ResponseWriter,
-	r *rest.Request) {
-	ctx := r.Context()
-	tenantID := r.PathParam("tenant")
+func (d *DeploymentsApiHandlers) ListDeviceDeploymentsInternal(c *gin.Context) {
+	ctx := c.Request.Context()
+	tenantID := c.Param("tenant")
 	if tenantID != "" {
-		ctx = identity.WithContext(r.Context(), &identity.Identity{
+		ctx = identity.WithContext(c.Request.Context(), &identity.Identity{
 			Tenant:   tenantID,
 			IsDevice: true,
 		})
 	}
-	d.listDeviceDeployments(ctx, w, r, true)
+	d.listDeviceDeployments(ctx, c, true)
 }
 
-func (d *DeploymentsApiHandlers) ListDeviceDeploymentsByIDsInternal(w rest.ResponseWriter,
-	r *rest.Request) {
-	ctx := r.Context()
-	tenantID := r.PathParam("tenant")
+func (d *DeploymentsApiHandlers) ListDeviceDeploymentsByIDsInternal(c *gin.Context) {
+	ctx := c.Request.Context()
+	tenantID := c.Param("tenant")
 	if tenantID != "" {
-		ctx = identity.WithContext(r.Context(), &identity.Identity{
+		ctx = identity.WithContext(c.Request.Context(), &identity.Identity{
 			Tenant:   tenantID,
 			IsDevice: true,
 		})
 	}
-	d.listDeviceDeployments(ctx, w, r, false)
+	d.listDeviceDeployments(ctx, c, false)
 }
 
 func (d *DeploymentsApiHandlers) listDeviceDeployments(ctx context.Context,
-	w rest.ResponseWriter, r *rest.Request, byDeviceID bool) {
-	l := requestlog.GetRequestLogger(r)
+	c *gin.Context, byDeviceID bool) {
 
 	did := ""
 	var IDs []string
 	if byDeviceID {
-		did = r.PathParam("id")
+		did = c.Param("id")
 	} else {
-		values := r.URL.Query()
+		values := c.Request.URL.Query()
 		if values.Has("id") && len(values["id"]) > 0 {
 			IDs = values["id"]
 		} else {
-			d.view.RenderError(w, r, ErrEmptyID, http.StatusBadRequest, l)
+			d.view.RenderError(c, ErrEmptyID, http.StatusBadRequest)
 			return
 		}
 	}
 
-	page, perPage, err := rest_utils.ParsePagination(r)
+	page, perPage, err := rest.ParsePagingParameters(c.Request)
 	if err == nil && perPage > MaximumPerPageListDeviceDeployments {
 		err = errors.New(rest_utils.MsgQueryParmLimit(ParamPerPage))
 	}
 	if err != nil {
-		d.view.RenderError(w, r, err, http.StatusBadRequest, l)
+		d.view.RenderError(c, err, http.StatusBadRequest)
 		return
 	}
 
@@ -1913,146 +1880,147 @@ func (d *DeploymentsApiHandlers) listDeviceDeployments(ctx context.Context,
 		DeviceID: did,
 		IDs:      IDs,
 	}
-	if status := r.URL.Query().Get("status"); status != "" {
+	if status := c.Request.URL.Query().Get("status"); status != "" {
 		lq.Status = &status
 	}
 	if err = lq.Validate(); err != nil {
-		d.view.RenderError(w, r, err, http.StatusBadRequest, l)
+		d.view.RenderError(c, err, http.StatusBadRequest)
 		return
 	}
 
 	deps, totalCount, err := d.app.GetDeviceDeploymentListForDevice(ctx, lq)
 	if err != nil {
-		d.view.RenderInternalError(w, r, err, l)
+		d.view.RenderInternalError(c, err)
 		return
 	}
-	w.Header().Add(hdrTotalCount, strconv.FormatInt(int64(totalCount), 10))
+	c.Writer.Header().Add(hdrTotalCount, strconv.FormatInt(int64(totalCount), 10))
 
 	hasNext := totalCount > lq.Skip+len(deps)
-	links := rest_utils.MakePageLinkHdrs(r, page, perPage, hasNext)
+
+	hints := rest.NewPagingHints().
+		SetPage(page).
+		SetPerPage(perPage).
+		SetHasNext(hasNext).
+		SetTotalCount(int64(totalCount))
+
+	links, err := rest.MakePagingHeaders(c.Request, hints)
+	if err != nil {
+		rest.RenderInternalError(c, err)
+		return
+	}
 	for _, l := range links {
-		w.Header().Add(hdrLink, l)
+		c.Writer.Header().Add(hdrLink, l)
 	}
 
-	d.view.RenderSuccessGet(w, deps)
+	d.view.RenderSuccessGet(c, deps)
 }
 
-func (d *DeploymentsApiHandlers) AbortDeviceDeploymentsInternal(w rest.ResponseWriter,
-	r *rest.Request) {
-	ctx := r.Context()
-	tenantID := r.PathParam("tenantID")
+func (d *DeploymentsApiHandlers) AbortDeviceDeploymentsInternal(c *gin.Context) {
+	ctx := c.Request.Context()
+	tenantID := c.Param("tenantID")
 	if tenantID != "" {
-		ctx = identity.WithContext(r.Context(), &identity.Identity{
+		ctx = identity.WithContext(c.Request.Context(), &identity.Identity{
 			Tenant:   tenantID,
 			IsDevice: true,
 		})
 	}
 
-	l := requestlog.GetRequestLogger(r)
-
-	id := r.PathParam("id")
+	id := c.Param("id")
 
 	// Decommission deployments for devices and update deployment stats
 	err := d.app.DecommissionDevice(ctx, id)
 
 	switch err {
 	case nil, app.ErrStorageNotFound:
-		d.view.RenderEmptySuccessResponse(w)
+		d.view.RenderEmptySuccessResponse(c)
 	default:
-		d.view.RenderInternalError(w, r, err, l)
+		d.view.RenderInternalError(c, err)
 
 	}
 }
 
 // tenants
 
-func (d *DeploymentsApiHandlers) ProvisionTenantsHandler(w rest.ResponseWriter, r *rest.Request) {
-	ctx := r.Context()
-	l := requestlog.GetRequestLogger(r)
+func (d *DeploymentsApiHandlers) ProvisionTenantsHandler(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	defer r.Body.Close()
+	defer c.Request.Body.Close()
 
-	tenant, err := model.ParseNewTenantReq(r.Body)
+	tenant, err := model.ParseNewTenantReq(c.Request.Body)
 	if err != nil {
-		rest_utils.RestErrWithLog(w, r, l, err, http.StatusBadRequest)
+		d.view.RenderError(c, err, http.StatusBadRequest)
 		return
 	}
 
 	err = d.app.ProvisionTenant(ctx, tenant.TenantId)
 	if err != nil {
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		d.view.RenderInternalError(c, err)
 		return
 	}
 
-	w.WriteHeader(http.StatusCreated)
+	c.Status(http.StatusCreated)
 }
 
 func (d *DeploymentsApiHandlers) DeploymentsPerTenantHandler(
-	w rest.ResponseWriter,
-	r *rest.Request,
+	c *gin.Context,
 ) {
-	tenantID := r.PathParam("tenant")
+	tenantID := c.Param("tenant")
 	if tenantID == "" {
-		l := requestlog.GetRequestLogger(r)
-		rest_utils.RestErrWithLog(w, r, l, errors.New("missing tenant ID"), http.StatusBadRequest)
+
+		d.view.RenderError(c, errors.New("missing tenant ID"), http.StatusBadRequest)
 		return
 	}
-
-	r.Request = r.WithContext(identity.WithContext(
-		r.Context(),
+	c.Request = c.Request.WithContext(identity.WithContext(
+		c.Request.Context(),
 		&identity.Identity{Tenant: tenantID},
 	))
-	d.LookupDeployment(w, r)
+	d.LookupDeployment(c)
 }
 
 func (d *DeploymentsApiHandlers) GetTenantStorageSettingsHandler(
-	w rest.ResponseWriter,
-	r *rest.Request,
+	c *gin.Context,
 ) {
-	l := requestlog.GetRequestLogger(r)
 
-	tenantID := r.PathParam("tenant")
+	tenantID := c.Param("tenant")
 
 	ctx := identity.WithContext(
-		r.Context(),
+		c.Request.Context(),
 		&identity.Identity{Tenant: tenantID},
 	)
 
 	settings, err := d.app.GetStorageSettings(ctx)
 	if err != nil {
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		d.view.RenderInternalError(c, err)
 		return
 	}
 
-	d.view.RenderSuccessGet(w, settings)
+	d.view.RenderSuccessGet(c, settings)
 }
 
 func (d *DeploymentsApiHandlers) PutTenantStorageSettingsHandler(
-	w rest.ResponseWriter,
-	r *rest.Request,
+	c *gin.Context,
 ) {
-	l := requestlog.GetRequestLogger(r)
 
-	defer r.Body.Close()
+	defer c.Request.Body.Close()
 
-	tenantID := r.PathParam("tenant")
+	tenantID := c.Param("tenant")
 
 	ctx := identity.WithContext(
-		r.Context(),
+		c.Request.Context(),
 		&identity.Identity{Tenant: tenantID},
 	)
 
-	settings, err := model.ParseStorageSettingsRequest(r.Body)
+	settings, err := model.ParseStorageSettingsRequest(c.Request.Body)
 	if err != nil {
-		rest_utils.RestErrWithLog(w, r, l, err, http.StatusBadRequest)
+		d.view.RenderError(c, err, http.StatusBadRequest)
 		return
 	}
 
 	err = d.app.SetStorageSettings(ctx, settings)
 	if err != nil {
-		rest_utils.RestErrWithLogInternal(w, r, l, err)
+		d.view.RenderInternalError(c, err)
 		return
 	}
 
-	w.WriteHeader(http.StatusNoContent)
+	c.Status(http.StatusNoContent)
 }

@@ -17,7 +17,6 @@ package http
 import (
 	"bytes"
 	"context"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
@@ -25,14 +24,13 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ant0ine/go-json-rest/rest"
-	"github.com/ant0ine/go-json-rest/rest/test"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 	mt "github.com/mendersoftware/mender-server/pkg/testing"
+	rtest "github.com/mendersoftware/mender-server/pkg/testing/rest"
 
 	"github.com/mendersoftware/mender-server/services/deployments/app"
 	mapp "github.com/mendersoftware/mender-server/services/deployments/app/mocks"
@@ -40,6 +38,7 @@ import (
 	dmodel "github.com/mendersoftware/mender-server/services/deployments/model"
 	fs_mocks "github.com/mendersoftware/mender-server/services/deployments/storage/mocks"
 	store_mocks "github.com/mendersoftware/mender-server/services/deployments/store/mocks"
+	"github.com/mendersoftware/mender-server/services/deployments/utils/restutil"
 	"github.com/mendersoftware/mender-server/services/deployments/utils/restutil/view"
 	deployments_testing "github.com/mendersoftware/mender-server/services/deployments/utils/testing"
 )
@@ -135,24 +134,24 @@ func TestGetReleases(t *testing.T) {
 			app := app.NewDeployments(store, fileStorage, 0, false)
 
 			c := NewDeploymentsApiHandlers(store, restView, app)
-
-			api := deployments_testing.SetUpTestApi("/api/management/v1/deployments/releases", rest.Get, c.GetReleases)
+			router := setUpTestRouter()
+			router.GET("/api/management/v1/deployments/releases", c.GetReleases)
 
 			reqUrl := "http://1.2.3.4/api/management/v1/deployments/releases"
 
 			if tc.filter != nil {
 				reqUrl += "?name=" + tc.filter.Name
 			}
-
-			req := test.MakeSimpleRequest("GET",
-				reqUrl,
-				nil)
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   reqUrl,
+			})
 
 			req.Header.Add(requestid.RequestIdHeader, "test")
 
-			recorded := test.RunRequest(t, api, req)
+			recorded := restutil.RunRequest(t, router, req)
 
-			mt.CheckResponse(t, tc.checker, recorded)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 		})
 	}
 }
@@ -241,20 +240,19 @@ func TestGetRelease(t *testing.T) {
 			).Return(tc.appRelease, tc.appErr)
 
 			c := NewDeploymentsApiHandlers(nil, restView, app)
-
-			api := deployments_testing.SetUpTestApi("/api/management/v2/deployments/releases/#name", rest.Get, c.GetRelease)
+			router := setUpTestRouter()
+			router.GET("/api/management/v2/deployments/releases/:name", c.GetRelease)
 
 			reqUrl := "http://1.2.3.4/api/management/v2/deployments/releases/" + tc.releaseName
 
-			req := test.MakeSimpleRequest("GET",
-				reqUrl,
-				nil)
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   reqUrl,
+			})
 
-			req.Header.Add(requestid.RequestIdHeader, "test")
+			recorded := restutil.RunRequest(t, router, req)
 
-			recorded := test.RunRequest(t, api, req)
-
-			mt.CheckResponse(t, tc.checker, recorded)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 		})
 	}
 }
@@ -347,10 +345,10 @@ func TestGetReleasesFilter(t *testing.T) {
 	for name, tc := range testCases {
 		t.Run(name, func(t *testing.T) {
 			reqUrl := "http://1.2.3.4/api/management/v1/deployments/releases"
-			req := &rest.Request{
-				Request: test.MakeSimpleRequest("GET", reqUrl+"?"+tc.queryString, nil),
-			}
-			req.Header.Add(requestid.RequestIdHeader, "test")
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   reqUrl + "?" + tc.queryString,
+			})
 			out := getReleaseOrImageFilter(req, tc.version, tc.paginated)
 			assert.Equal(t, out, tc.filter)
 		})
@@ -448,8 +446,8 @@ func TestListReleases(t *testing.T) {
 			app := app.NewDeployments(store, fileStorage, 0, false)
 
 			c := NewDeploymentsApiHandlers(store, restView, app)
-
-			api := deployments_testing.SetUpTestApi("/api/management/v1/deployments/releases/list", rest.Get, c.ListReleases)
+			router := setUpTestRouter()
+			router.GET("/api/management/v1/deployments/releases/list", c.ListReleases)
 
 			reqUrl := "http://1.2.3.4/api/management/v1/deployments/releases/list"
 
@@ -457,15 +455,14 @@ func TestListReleases(t *testing.T) {
 				reqUrl += "?name=" + tc.filter.Name
 			}
 
-			req := test.MakeSimpleRequest("GET",
-				reqUrl,
-				nil)
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   reqUrl,
+			})
 
-			req.Header.Add(requestid.RequestIdHeader, "test")
+			recorded := restutil.RunRequest(t, router, req)
 
-			recorded := test.RunRequest(t, api, req)
-
-			mt.CheckResponse(t, tc.checker, recorded)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 		})
 	}
 }
@@ -561,24 +558,24 @@ func TestListReleasesV2(t *testing.T) {
 			app := app.NewDeployments(store, fileStorage, 0, false)
 
 			c := NewDeploymentsApiHandlers(store, restView, app)
-
-			api := deployments_testing.SetUpTestApi(
-				"/api/management/v2/deployments/releases", rest.Get, c.ListReleasesV2)
+			router := setUpTestRouter()
+			router.GET("/api/management/v2/deployments/releases", c.ListReleasesV2)
 
 			reqUrl := "http://1.2.3.4/api/management/v2/deployments/releases"
 			if tc.filter != nil {
 				reqUrl += "?name=" + tc.filter.Name
 			}
 
-			req := test.MakeSimpleRequest("GET",
-				reqUrl,
-				nil)
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   reqUrl,
+			})
 
 			req.Header.Add(requestid.RequestIdHeader, "test")
 
-			recorded := test.RunRequest(t, api, req)
+			recorded := restutil.RunRequest(t, router, req)
 
-			mt.CheckResponse(t, tc.checker, recorded)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 		})
 	}
 }
@@ -598,17 +595,12 @@ func TestPutReleaseTags(t *testing.T) {
 	testCases := []testCase{{
 		Name: "ok",
 
-		Request: func() *http.Request {
-			b, _ := json.Marshal(model.Tags{"one", "one", "two", "three"})
-
-			req, _ := http.NewRequest(
-				http.MethodPut,
-				fmt.Sprintf("http://localhost:1234%s",
-					strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, "#name", "release-mc-release-face")),
-				bytes.NewReader(b),
-			)
-			return req
-		}(),
+		Request: rtest.MakeTestRequest(&rtest.TestRequest{
+			Method: http.MethodPut,
+			Path: fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
+				strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, ":name", "release-mc-release-face")),
+			Body: model.Tags{"one", "one", "two", "three"},
+		}),
 
 		App: func(t *testing.T, self *testCase) *mapp.App {
 			appie := new(mapp.App)
@@ -625,17 +617,12 @@ func TestPutReleaseTags(t *testing.T) {
 	}, {
 		Name: "error/internal",
 
-		Request: func() *http.Request {
-			b, _ := json.Marshal(model.Tags{"one", "two", "three"})
-
-			req, _ := http.NewRequest(
-				http.MethodPut,
-				fmt.Sprintf("http://localhost:1234%s",
-					strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, "#name", "release-mc-release-face")),
-				bytes.NewReader(b),
-			)
-			return req
-		}(),
+		Request: rtest.MakeTestRequest(&rtest.TestRequest{
+			Method: http.MethodPut,
+			Path: fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
+				strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, ":name", "release-mc-release-face")),
+			Body: model.Tags{"one", "two", "three"},
+		}),
 
 		App: func(t *testing.T, self *testCase) *mapp.App {
 			appie := new(mapp.App)
@@ -652,17 +639,12 @@ func TestPutReleaseTags(t *testing.T) {
 	}, {
 		Name: "error/too many unique tags",
 
-		Request: func() *http.Request {
-			b, _ := json.Marshal(model.Tags{"one", "two", "three"})
-
-			req, _ := http.NewRequest(
-				http.MethodPut,
-				fmt.Sprintf("http://localhost:1234%s",
-					strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, "#name", "release-mc-release-face")),
-				bytes.NewReader(b),
-			)
-			return req
-		}(),
+		Request: rtest.MakeTestRequest(&rtest.TestRequest{
+			Method: http.MethodPut,
+			Path: fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
+				strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, ":name", "release-mc-release-face")),
+			Body: model.Tags{"one", "two", "three"},
+		}),
 
 		App: func(t *testing.T, self *testCase) *mapp.App {
 			appie := new(mapp.App)
@@ -679,17 +661,12 @@ func TestPutReleaseTags(t *testing.T) {
 	}, {
 		Name: "error/release not found",
 
-		Request: func() *http.Request {
-			b, _ := json.Marshal(model.Tags{"one", "two", "three"})
-
-			req, _ := http.NewRequest(
-				http.MethodPut,
-				fmt.Sprintf("http://localhost:1234%s",
-					strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, "#name", "release-mc-release-face")),
-				bytes.NewReader(b),
-			)
-			return req
-		}(),
+		Request: rtest.MakeTestRequest(&rtest.TestRequest{
+			Method: http.MethodPut,
+			Path: fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
+				strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, ":name", "release-mc-release-face")),
+			Body: model.Tags{"one", "two", "three"},
+		}),
 
 		App: func(t *testing.T, self *testCase) *mapp.App {
 			appie := new(mapp.App)
@@ -711,14 +688,13 @@ func TestPutReleaseTags(t *testing.T) {
 			for i := range tags {
 				tags[i] = model.Tag("field" + strconv.Itoa(i))
 			}
-			b, _ := json.Marshal(tags)
 
-			req, _ := http.NewRequest(
-				http.MethodPut,
-				fmt.Sprintf("http://localhost:1234%s",
-					strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, "#name", "release-mc-release-face")),
-				bytes.NewReader(b),
-			)
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: http.MethodPut,
+				Path: fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
+					strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, ":name", "release-mc-release-face")),
+				Body: tags,
+			})
 			return req
 		}(),
 
@@ -735,14 +711,12 @@ func TestPutReleaseTags(t *testing.T) {
 			for i := range tags {
 				tags[i] = model.Tag("field")
 			}
-			b, _ := json.Marshal(tags)
-
-			req, _ := http.NewRequest(
-				http.MethodPut,
-				fmt.Sprintf("http://localhost:1234%s",
-					strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, "#name", "release-mc-release-face")),
-				bytes.NewReader(b),
-			)
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: http.MethodPut,
+				Path: fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
+					strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, ":name", "release-mc-release-face")),
+				Body: tags,
+			})
 			return req
 		}(),
 
@@ -760,16 +734,12 @@ func TestPutReleaseTags(t *testing.T) {
 		StatusCode: http.StatusNoContent,
 	}, {
 		Name: "error/malformed JSON",
-
-		Request: func() *http.Request {
-			req, _ := http.NewRequest(
-				http.MethodPut,
-				fmt.Sprintf("http://localhost:1234%s",
-					strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, "#name", "release-mc-release-face")),
-				bytes.NewReader([]byte("not json")),
-			)
-			return req
-		}(),
+		Request: rtest.MakeTestRequest(&rtest.TestRequest{
+			Method: http.MethodPut,
+			Path: fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
+				strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, ":name", "release-mc-release-face")),
+			Body: bytes.NewReader([]byte("not json")),
+		}),
 
 		App: func(t *testing.T, self *testCase) *mapp.App {
 			return new(mapp.App)
@@ -779,15 +749,12 @@ func TestPutReleaseTags(t *testing.T) {
 	}, {
 		Name: "error/empty release name",
 
-		Request: func() *http.Request {
-			req, _ := http.NewRequest(
-				http.MethodPut,
-				fmt.Sprintf("http://localhost:1234%s",
-					strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, "#name", "")),
-				bytes.NewReader([]byte("[]")),
-			)
-			return req
-		}(),
+		Request: rtest.MakeTestRequest(&rtest.TestRequest{
+			Method: http.MethodPut,
+			Path: fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
+				strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, ":name", "")),
+			Body: []byte("[]"),
+		}),
 
 		App: func(t *testing.T, self *testCase) *mapp.App {
 			return new(mapp.App)
@@ -803,16 +770,12 @@ func TestPutReleaseTags(t *testing.T) {
 			defer appie.AssertExpectations(t)
 
 			handlers := NewDeploymentsApiHandlers(nil, &view.RESTView{}, appie)
-			routes := ReleasesRoutes(handlers)
-			router, _ := rest.MakeRouter(routes...)
-			api := rest.NewApi()
-			api.SetApp(router)
-			handler := api.MakeHandler()
-			w := httptest.NewRecorder()
-			handler.ServeHTTP(w, tc.Request)
+			router := setUpTestRouter()
+			ReleasesRoutes(router.Group("."), handlers)
 
-			rsp := w.Result()
-			assert.Equal(t, tc.StatusCode, rsp.StatusCode,
+			w := httptest.NewRecorder()
+			router.ServeHTTP(w, tc.Request)
+			assert.Equal(t, tc.StatusCode, w.Code,
 				"unexpected status code from request")
 		})
 	}
@@ -829,6 +792,7 @@ func TestListReleaseTags(t *testing.T) {
 
 		StatusCode int
 		Tags       model.Tags
+		RestErr    map[string]interface{}
 	}
 
 	testCases := []testCase{{
@@ -837,9 +801,9 @@ func TestListReleaseTags(t *testing.T) {
 		Request: func() *http.Request {
 			req, _ := http.NewRequest(
 				http.MethodGet,
-				fmt.Sprintf("http://localhost:1234%s",
+				fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
 					strings.ReplaceAll(ApiUrlManagementV2ReleaseAllTags,
-						"#name", "release-mc-release-face"),
+						":name", "release-mc-release-face"),
 				),
 				nil,
 			)
@@ -862,9 +826,9 @@ func TestListReleaseTags(t *testing.T) {
 		Request: func() *http.Request {
 			req, _ := http.NewRequest(
 				http.MethodGet,
-				fmt.Sprintf("http://localhost:1234%s",
+				fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
 					strings.ReplaceAll(ApiUrlManagementV2ReleaseAllTags,
-						"#name", "release-mc-release-face"),
+						":name", "release-mc-release-face"),
 				),
 				nil,
 			)
@@ -880,15 +844,16 @@ func TestListReleaseTags(t *testing.T) {
 		},
 
 		StatusCode: http.StatusInternalServerError,
+		RestErr:    deployments_testing.RestError("internal error"),
 	}, {
 		Name: "error/internal",
 
 		Request: func() *http.Request {
 			req, _ := http.NewRequest(
 				http.MethodGet,
-				fmt.Sprintf("http://localhost:1234%s",
+				fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
 					strings.ReplaceAll(ApiUrlManagementV2ReleaseAllTags,
-						"#name", "release-mc-release-face"),
+						":name", "release-mc-release-face"),
 				),
 				nil,
 			)
@@ -904,6 +869,7 @@ func TestListReleaseTags(t *testing.T) {
 		},
 
 		StatusCode: http.StatusInternalServerError,
+		RestErr:    deployments_testing.RestError("internal error"),
 	}}
 
 	for i := range testCases {
@@ -913,24 +879,23 @@ func TestListReleaseTags(t *testing.T) {
 			defer appie.AssertExpectations(t)
 
 			handlers := NewDeploymentsApiHandlers(nil, &view.RESTView{}, appie)
-			routes := ReleasesRoutes(handlers)
-			router, _ := rest.MakeRouter(routes...)
-			api := rest.NewApi()
-			api.SetApp(router)
-			handler := api.MakeHandler()
-			w := httptest.NewRecorder()
-			handler.ServeHTTP(w, tc.Request)
+			router := setUpTestRouter()
+			ReleasesRoutes(router.Group("."), handlers)
 
-			rsp := w.Result()
-			assert.Equal(t, tc.StatusCode, rsp.StatusCode,
-				"unexpected status code from request")
-			if tc.Tags != nil {
-				var actual model.Tags
-				err := json.Unmarshal(w.Body.Bytes(), &actual)
-				if assert.NoError(t, err, "unexpected request body") {
-					assert.Equal(t, tc.Tags, actual)
-				}
+			recorded := restutil.RunRequest(t, router, tc.Request)
+			var body interface{}
+			body = tc.Tags
+			if tc.RestErr != nil {
+				body = tc.RestErr
 			}
+			checker := mt.NewJSONResponse(tc.StatusCode,
+				map[string]string{
+					"Content-Type": "application/json; charset=utf-8",
+				},
+				body)
+
+			mt.CheckHTTPResponse(t, checker, recorded)
+
 		})
 	}
 }
@@ -946,6 +911,7 @@ func TestGetReleasesUpdateTypes(t *testing.T) {
 
 		StatusCode int
 		Types      []string
+		RestErr    map[string]interface{}
 	}
 
 	testCases := []testCase{
@@ -955,7 +921,7 @@ func TestGetReleasesUpdateTypes(t *testing.T) {
 			Request: func() *http.Request {
 				req, _ := http.NewRequest(
 					http.MethodGet,
-					fmt.Sprintf("http://localhost:1234%s",
+					fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
 						ApiUrlManagementV2ReleaseAllUpdateTypes,
 					),
 					nil,
@@ -980,7 +946,7 @@ func TestGetReleasesUpdateTypes(t *testing.T) {
 			Request: func() *http.Request {
 				req, _ := http.NewRequest(
 					http.MethodGet,
-					fmt.Sprintf("http://localhost:1234%s",
+					fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
 						ApiUrlManagementV2ReleaseAllUpdateTypes,
 					),
 					nil,
@@ -992,11 +958,12 @@ func TestGetReleasesUpdateTypes(t *testing.T) {
 				appie := new(mapp.App)
 				appie.On("GetReleasesUpdateTypes",
 					contextMatcher()).
-					Return([]string{}, errors.New("internal"))
+					Return([]string{}, errors.New("internal error"))
 				return appie
 			},
 
 			StatusCode: http.StatusInternalServerError,
+			RestErr:    deployments_testing.RestError("internal error"),
 		},
 	}
 
@@ -1007,24 +974,22 @@ func TestGetReleasesUpdateTypes(t *testing.T) {
 			defer appie.AssertExpectations(t)
 
 			handlers := NewDeploymentsApiHandlers(nil, &view.RESTView{}, appie)
-			routes := ReleasesRoutes(handlers)
-			router, _ := rest.MakeRouter(routes...)
-			api := rest.NewApi()
-			api.SetApp(router)
-			handler := api.MakeHandler()
-			w := httptest.NewRecorder()
-			handler.ServeHTTP(w, tc.Request)
+			router := setUpTestRouter()
+			ReleasesRoutes(router.Group("."), handlers)
 
-			rsp := w.Result()
-			assert.Equal(t, tc.StatusCode, rsp.StatusCode,
-				"unexpected status code from request")
-			if tc.Types != nil {
-				var actual []string
-				err := json.Unmarshal(w.Body.Bytes(), &actual)
-				if assert.NoError(t, err, "unexpected request body") {
-					assert.Equal(t, tc.Types, actual)
-				}
+			recorded := restutil.RunRequest(t, router, tc.Request)
+			var body interface{}
+			body = tc.Types
+			if tc.RestErr != nil {
+				body = tc.RestErr
 			}
+			checker := mt.NewJSONResponse(tc.StatusCode,
+				map[string]string{
+					"Content-Type": "application/json; charset=utf-8",
+				},
+				body)
+
+			mt.CheckHTTPResponse(t, checker, recorded)
 		})
 	}
 }
@@ -1050,18 +1015,14 @@ func TestPatchRelease(t *testing.T) {
 		{
 			Name: "ok",
 
-			Request: func() *http.Request {
-				data, _ := json.Marshal(model.ReleasePatch{Notes: "New Release and fixes 2023"})
-				req, _ := http.NewRequest(
-					http.MethodPatch,
-					fmt.Sprintf("http://localhost:1234%s",
-						strings.ReplaceAll(ApiUrlManagementV2ReleasesName,
-							"#name", "release-mc-release-face"),
-					),
-					bytes.NewReader(data),
-				)
-				return req
-			}(),
+			Request: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: http.MethodPatch,
+				Path: fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
+					strings.ReplaceAll(ApiUrlManagementV2ReleasesName,
+						":name", "release-mc-release-face"),
+				),
+				Body: model.ReleasePatch{Notes: "New Release and fixes 2023"},
+			}),
 
 			App: func(t *testing.T, self *testCase) *mapp.App {
 				appie := new(mapp.App)
@@ -1077,19 +1038,14 @@ func TestPatchRelease(t *testing.T) {
 		},
 		{
 			Name: "error/notes too long",
-
-			Request: func() *http.Request {
-				data, _ := json.Marshal(model.ReleasePatch{Notes: model.Notes(longReleaseNotes)})
-				req, _ := http.NewRequest(
-					http.MethodPatch,
-					fmt.Sprintf("http://localhost:1234%s",
-						strings.ReplaceAll(ApiUrlManagementV2ReleasesName,
-							"#name", "release-mc-release-face"),
-					),
-					bytes.NewReader(data),
-				)
-				return req
-			}(),
+			Request: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: http.MethodPatch,
+				Path: fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
+					strings.ReplaceAll(ApiUrlManagementV2ReleasesName,
+						":name", "release-mc-release-face"),
+				),
+				Body: model.ReleasePatch{Notes: model.Notes(longReleaseNotes)},
+			}),
 
 			App: func(t *testing.T, self *testCase) *mapp.App {
 				appie := new(mapp.App)
@@ -1100,19 +1056,14 @@ func TestPatchRelease(t *testing.T) {
 		},
 		{
 			Name: "error/internal",
-
-			Request: func() *http.Request {
-				data, _ := json.Marshal(model.ReleasePatch{Notes: "New Release and fixes 2023"})
-				req, _ := http.NewRequest(
-					http.MethodPatch,
-					fmt.Sprintf("http://localhost:1234%s",
-						strings.ReplaceAll(ApiUrlManagementV2ReleasesName,
-							"#name", "release-mc-release-face"),
-					),
-					bytes.NewReader(data),
-				)
-				return req
-			}(),
+			Request: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: http.MethodPatch,
+				Path: fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
+					strings.ReplaceAll(ApiUrlManagementV2ReleasesName,
+						":name", "release-mc-release-face"),
+				),
+				Body: model.ReleasePatch{Notes: "New Release and fixes 2023"},
+			}),
 
 			App: func(t *testing.T, self *testCase) *mapp.App {
 				appie := new(mapp.App)
@@ -1135,13 +1086,10 @@ func TestPatchRelease(t *testing.T) {
 			defer appie.AssertExpectations(t)
 
 			handlers := NewDeploymentsApiHandlers(nil, &view.RESTView{}, appie)
-			routes := ReleasesRoutes(handlers)
-			router, _ := rest.MakeRouter(routes...)
-			api := rest.NewApi()
-			api.SetApp(router)
-			handler := api.MakeHandler()
+			router := setUpTestRouter()
+			ReleasesRoutes(router.Group("."), handlers)
 			w := httptest.NewRecorder()
-			handler.ServeHTTP(w, tc.Request)
+			router.ServeHTTP(w, tc.Request)
 
 			rsp := w.Result()
 			assert.Equal(t, tc.StatusCode, rsp.StatusCode,
@@ -1221,8 +1169,8 @@ func TestDeleteReleases(t *testing.T) {
 			defer appie.AssertExpectations(t)
 
 			c := NewDeploymentsApiHandlers(nil, restView, appie)
-
-			api := deployments_testing.SetUpTestApi(ApiUrlManagementV2Releases, rest.Delete, c.DeleteReleases)
+			router := setUpTestRouter()
+			router.DELETE(ApiUrlManagementV2Releases, c.DeleteReleases)
 
 			reqUrl := "http://1.2.3.4" + ApiUrlManagementV2Releases
 
@@ -1235,16 +1183,13 @@ func TestDeleteReleases(t *testing.T) {
 					reqUrl += "name=" + n
 				}
 			}
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "DELETE",
+				Path:   reqUrl,
+			})
 
-			req := test.MakeSimpleRequest("DELETE",
-				reqUrl,
-				nil)
-
-			req.Header.Add(requestid.RequestIdHeader, "test")
-
-			recorded := test.RunRequest(t, api, req)
-
-			mt.CheckResponse(t, tc.checker, recorded)
+			recorded := restutil.RunRequest(t, router, req)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 		})
 	}
 }

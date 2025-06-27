@@ -54,7 +54,7 @@ class TestArtifact:
             # try bogus image data
             try:
                 res = (
-                    management_v1_client(jwt="foo")
+                    management_v1_client(jwt=self.ac.get_jwt())
                     .upload_artifact(size=100, artifact="".encode(), description="bar",)
                     .result()
                 )
@@ -75,7 +75,10 @@ class TestArtifact:
                     }
                 )
 
-                rsp = requests.post(self.ac.make_api_url("/artifacts"), files=files)
+                rsp = requests.post(
+                    self.ac.make_api_url("/artifacts"), 
+                    files=files,
+                    headers={"Authorization":f"Bearer {self.ac.get_jwt()}"})
                 l.unlock()
                 assert sum(1 for x in clean_minio.objects.all()) == 0
                 assert rsp.status_code == 400
@@ -99,7 +102,7 @@ class TestArtifact:
                 self.ac.log.debug("result: %s", res)
                 assert len(res) > 0
 
-                res = management_v1_client(jwt="foo").show_artifact(id=artid)
+                res = management_v1_client(jwt=self.ac.get_jwt()).show_artifact(id=artid)
                 self.ac.log.info("artifact: %s", res)
 
                 # verify its data
@@ -118,7 +121,7 @@ class TestArtifact:
                 # assert uf.signature
 
                 # try to fetch the update
-                res = management_v1_client(jwt="foo").download_artifact(id=artid)
+                res = management_v1_client(jwt=self.ac.get_jwt()).download_artifact(id=artid)
                 self.ac.log.info("download result %s", res)
                 assert res.uri
                 # fetch it now (disable SSL verification)
@@ -146,7 +149,7 @@ class TestArtifact:
 
                 # should be unavailable now
                 try:
-                    res = management_v1_client(jwt="foo").show_artifact(id=artid)
+                    res = management_v1_client(jwt=self.ac.get_jwt()).show_artifact(id=artid)
                 except ApiException as e:
                     assert e.status == 404
                 else:
@@ -186,7 +189,7 @@ class TestArtifact:
                 assert update.files is None
 
                 # try to fetch the update
-                res = management_v1_client(jwt="foo").download_artifact(id=artid)
+                res = management_v1_client(jwt=self.ac.get_jwt()).download_artifact(id=artid)
                 self.ac.log.info("download result %s", res)
                 assert res.uri
                 # fetch it now (disable SSL verification)
@@ -214,7 +217,7 @@ class TestArtifact:
 
                 # should be unavailable now
                 try:
-                    res = management_v1_client(jwt="foo").show_artifact(id=artid)
+                    res = management_v1_client(jwt=self.ac.get_jwt()).show_artifact(id=artid)
                 except ApiException as e:
                     assert e.status == 404
                 else:
@@ -240,11 +243,11 @@ class TestArtifact:
                 artid = self.ac.add_artifact(description, art.size, art)
 
                 # artifacts listing should not be empty now
-                res = management_v1_client(jwt="foo").list_artifacts()
+                res = management_v1_client(jwt=self.ac.get_jwt()).list_artifacts()
                 self.ac.log.debug("result: %s", res)
                 assert len(res) > 0
 
-                res = management_v1_client(jwt="foo").show_artifact(id=artid)
+                res = management_v1_client(jwt=self.ac.get_jwt()).show_artifact(id=artid)
                 self.ac.log.info("artifact: %s", res)
 
                 # verify its data
@@ -265,7 +268,7 @@ class TestArtifact:
         # try with bogus image ID
         with Lock(MONGO_LOCK_FILE) as l:
             try:
-                res = management_v1_client(jwt="foo").show_artifact(id="foo")
+                res = management_v1_client(jwt=self.ac.get_jwt()).show_artifact(id="foo")
             except ApiException as e:
                 assert e.status == 400
             else:
@@ -273,7 +276,7 @@ class TestArtifact:
 
             # try with nonexistent image ID
             try:
-                res = management_v1_client(jwt="foo").show_artifact(id=str(uuid4()))
+                res = management_v1_client(jwt=self.ac.get_jwt()).show_artifact(id=str(uuid4()))
             except ApiException as e:
                 assert e.status == 404
             else:

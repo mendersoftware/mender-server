@@ -21,22 +21,21 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/ant0ine/go-json-rest/rest"
-	"github.com/ant0ine/go-json-rest/rest/test"
 	"github.com/pkg/errors"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
-	"github.com/mendersoftware/mender-server/pkg/requestid"
 	mt "github.com/mendersoftware/mender-server/pkg/testing"
 
+	rtest "github.com/mendersoftware/mender-server/pkg/testing/rest"
 	"github.com/mendersoftware/mender-server/services/deployments/app"
 	app_mocks "github.com/mendersoftware/mender-server/services/deployments/app/mocks"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 	dmodel "github.com/mendersoftware/mender-server/services/deployments/model"
 	store_mocks "github.com/mendersoftware/mender-server/services/deployments/store/mocks"
 	store_mongo "github.com/mendersoftware/mender-server/services/deployments/store/mongo"
+	"github.com/mendersoftware/mender-server/services/deployments/utils/restutil"
 	"github.com/mendersoftware/mender-server/services/deployments/utils/restutil/view"
 	deployments_testing "github.com/mendersoftware/mender-server/services/deployments/utils/testing"
 	h "github.com/mendersoftware/mender-server/services/deployments/utils/testing"
@@ -190,13 +189,14 @@ func TestPostArtifacts(t *testing.T) {
 			}
 
 			d := NewDeploymentsApiHandlers(store, restView, app)
-			api := setUpRestTest("/api/0.0.1/artifacts", rest.Post, d.NewImage)
+			router := setUpTestRouter()
+			router.POST("/api/0.0.1/artifacts", d.NewImage)
 			req := h.MakeMultipartRequest("POST", "http://localhost/api/0.0.1/artifacts",
 				tc.requestContentType, tc.requestBodyObject)
 			req.Header.Set("Authorization", HTTPHeaderAuthorizationBearer+" TOKEN")
 
 			w := httptest.NewRecorder()
-			api.MakeHandler().ServeHTTP(w, req)
+			router.ServeHTTP(w, req)
 			assert.Equal(t, tc.responseCode, w.Code)
 			if tc.responseBody == "" {
 				assert.Empty(t, w.Body.String())
@@ -398,13 +398,14 @@ func TestPostArtifactsInternal(t *testing.T) {
 			}
 
 			d := NewDeploymentsApiHandlers(store, restView, app)
-			api := setUpRestTest("/api/0.0.1/tenants/:tenant/artifacts", rest.Post, d.NewImageForTenantHandler)
+			router := setUpTestRouter()
+			router.POST("/api/0.0.1/tenants/:tenant/artifacts", d.NewImageForTenantHandler)
 			req := h.MakeMultipartRequest("POST", "http://localhost/api/0.0.1/tenants/default/artifacts",
 				tc.requestContentType, tc.requestBodyObject)
 			req.Header.Set("Authorization", HTTPHeaderAuthorizationBearer+" TOKEN")
 
 			w := httptest.NewRecorder()
-			api.MakeHandler().ServeHTTP(w, req)
+			router.ServeHTTP(w, req)
 			assert.Equal(t, tc.responseCode, w.Code, "unexpected HTTP status code")
 			if tc.responseBody == "" {
 				assert.Empty(t, w.Body.String(), "HTTP body not empty")
@@ -811,13 +812,14 @@ func TestPostArtifactsGenerate(t *testing.T) {
 			}
 
 			d := NewDeploymentsApiHandlers(store, restView, app)
-			api := setUpRestTest("/api/0.0.1/artifacts/generate", rest.Post, d.GenerateImage)
+			router := setUpTestRouter()
+			router.POST("/api/0.0.1/artifacts/generate", d.GenerateImage)
 			req := h.MakeMultipartRequest("POST", "http://localhost/api/0.0.1/artifacts/generate",
 				tc.requestContentType, tc.requestBodyObject)
 			req.Header.Set("Authorization", HTTPHeaderAuthorizationBearer+" TOKEN")
 
 			w := httptest.NewRecorder()
-			api.MakeHandler().ServeHTTP(w, req)
+			router.ServeHTTP(w, req)
 			assert.Equal(t, tc.responseCode, w.Code, "unexpected HTTP code")
 			if tc.responseBody == "" {
 				assert.Empty(t, w.Body.String(), "HTTP body not empty")
@@ -902,8 +904,8 @@ func TestGetImages(t *testing.T) {
 			).Return(tc.images, len(tc.images), tc.appError)
 
 			c := NewDeploymentsApiHandlers(nil, restView, app)
-
-			api := deployments_testing.SetUpTestApi("/api/management/v1/artifacts", rest.Get, c.GetImages)
+			router := setUpTestRouter()
+			router.GET("/api/management/v1/artifacts", c.GetImages)
 
 			reqUrl := "http://1.2.3.4/api/management/v1/artifacts"
 
@@ -911,15 +913,14 @@ func TestGetImages(t *testing.T) {
 				reqUrl += "?name=" + tc.filter.Name
 			}
 
-			req := test.MakeSimpleRequest("GET",
-				reqUrl,
-				nil)
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   reqUrl,
+			})
 
-			req.Header.Add(requestid.RequestIdHeader, "test")
+			recorded := restutil.RunRequest(t, router, req)
 
-			recorded := test.RunRequest(t, api, req)
-
-			mt.CheckResponse(t, tc.checker, recorded)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 		})
 	}
 }
@@ -994,8 +995,8 @@ func TestListImages(t *testing.T) {
 			).Return(tc.images, len(tc.images), tc.appError)
 
 			c := NewDeploymentsApiHandlers(nil, restView, app)
-
-			api := deployments_testing.SetUpTestApi("/api/management/v1/artifacts/list", rest.Get, c.ListImages)
+			router := setUpTestRouter()
+			router.GET("/api/management/v1/artifacts/list", c.ListImages)
 
 			reqUrl := "http://1.2.3.4/api/management/v1/artifacts/list"
 
@@ -1003,15 +1004,14 @@ func TestListImages(t *testing.T) {
 				reqUrl += "?name=" + tc.filter.Name
 			}
 
-			req := test.MakeSimpleRequest("GET",
-				reqUrl,
-				nil)
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   reqUrl,
+			})
 
-			req.Header.Add(requestid.RequestIdHeader, "test")
+			recorded := restutil.RunRequest(t, router, req)
 
-			recorded := test.RunRequest(t, api, req)
-
-			mt.CheckResponse(t, tc.checker, recorded)
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
 		})
 	}
 }

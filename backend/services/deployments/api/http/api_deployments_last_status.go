@@ -17,50 +17,43 @@ package http
 import (
 	"net/http"
 
+	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
 
-	"github.com/ant0ine/go-json-rest/rest"
-
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/requestlog"
-	"github.com/mendersoftware/mender-server/pkg/rest_utils"
+	"github.com/mendersoftware/mender-server/pkg/log"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 )
 
 // device deployments last status handler
 func (d *DeploymentsApiHandlers) GetDeviceDeploymentLastStatus(
-	w rest.ResponseWriter,
-	r *rest.Request,
+	c *gin.Context,
 ) {
-	l := requestlog.GetRequestLogger(r)
+	ctx := c.Request.Context()
+	l := log.FromContext(ctx)
 
 	l.Debugf("starting")
 
-	tenantId := r.PathParam("tenant")
+	tenantId := c.Param("tenant")
 	var req model.DeviceDeploymentLastStatusReq
-	if err := r.DecodeJsonPayload(&req); err != nil {
+	if err := c.ShouldBindJSON(&req); err != nil {
 		l.Errorf("error during DecodeJsonPayload: %s.", err.Error())
-		rest_utils.RestErrWithLog(
-			w,
-			r,
-			l,
+		d.view.RenderError(
+			c,
 			errors.Wrap(err, "cannot parse device ids array"),
 			http.StatusBadRequest,
 		)
 		return
 	} else if len(req.DeviceIds) == 0 {
-		rest_utils.RestErrWithLog(
-			w,
-			r,
-			l,
+		d.view.RenderError(
+			c,
 			errors.Wrap(err, "device ids array cannot be empty"),
 			http.StatusBadRequest,
 		)
 	}
 
 	l.Debugf("querying %d devices ids", len(req.DeviceIds))
-	ctx := r.Context()
 	if tenantId != "" {
 		ctx = identity.WithContext(
 			ctx,
@@ -72,10 +65,9 @@ func (d *DeploymentsApiHandlers) GetDeviceDeploymentLastStatus(
 	lastDeployments, err := d.app.GetDeviceDeploymentLastStatus(ctx, req.DeviceIds)
 	switch err {
 	default:
-		d.view.RenderInternalError(w, r, err, l)
+		d.view.RenderInternalError(c, err)
 	case nil:
 		l.Infof("outputting: %+v", lastDeployments)
-		w.WriteHeader(http.StatusOK)
-		_ = w.WriteJson(lastDeployments)
+		c.JSON(http.StatusOK, lastDeployments)
 	}
 }
