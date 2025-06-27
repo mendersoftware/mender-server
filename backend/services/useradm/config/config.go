@@ -54,6 +54,12 @@ const (
 	SettingDbUsername = "mongo_username"
 	SettingDbPassword = "mongo_password"
 
+	SettingRedisConnectionString        = "redis_connection_string"
+	SettingRedisConnectionStringDefault = ""
+
+	SettingRedisKeyPrefix        = "redis_key_prefix"
+	SettingRedisKeyPrefixDefault = "useradm:v1"
+
 	SettingLimitSessionsPerUser        = "limit_sessions_per_user"
 	SettingLimitSessionsPerUserDefault = 10
 
@@ -84,6 +90,8 @@ var (
 		{Key: SettingTenantAdmAddr, Value: SettingTenantAdmAddrDefault},
 		{Key: SettingDbSSL, Value: SettingDbSSLDefault},
 		{Key: SettingDbSSLSkipVerify, Value: SettingDbSSLSkipVerifyDefault},
+		{Key: SettingRedisConnectionString, Value: SettingRedisConnectionStringDefault},
+		{Key: SettingRedisKeyPrefix, Value: SettingRedisKeyPrefixDefault},
 		{Key: SettingLimitSessionsPerUser, Value: SettingLimitSessionsPerUserDefault},
 		{Key: SettingLimitTokensPerUser, Value: SettingLimitTokensPerUserDefault},
 		{Key: SettingTokenLastUsedUpdateFreqMinutes,

@@ -1,7 +1,6 @@
 # API server listen address
 # Defauls to: ":8080" which will listen on all avalable interfaces.
 listen: :8080
-
 # Private key path - used for JWT signing
 # Defaults to: /etc/useradm/rsa/private.pem
 # Overwrite with environment variable: USERADM_SERVER_PRIV_KEY_PATH
@@ -64,3 +63,38 @@ listen: :8080
 # Path to the file containing plan definitions
 # Defaults to: "/etc/useradm-enterprise/plans.yaml"
 # plan_definitions_path: "/etc/useradm-enterprise/plans.yaml"
+
+# Redis connection string
+#
+# connectionString URL format:
+# Standalone mode:
+# (redis|rediss|unix)://[<user>:<password>@](<host>|<socket path>)[:<port>[/<db_number>]][?option=value]
+# Cluster mode:
+# (redis|rediss|unix)[+srv]://[<user>:<password>@]<host1>[,<host2>[,...]][:<port>][?option=value]
+#
+# The following query parameters are also available:
+# client_name         string
+# conn_max_idle_time  duration
+# conn_max_lifetime   duration
+# dial_timeout        duration
+# max_idle_conns      int
+# max_retries         int
+# max_retry_backoff   duration
+# min_idle_conns      int
+# min_retry_backoff   duration
+# pool_fifo           bool
+# pool_size           int
+# pool_timeout        duration
+# protocol            int
+# read_timeout        duration
+# tls                 bool
+# write_timeout       duration
+#
+# Defaults to: "", which disables the Redis cache
+# Overwrite with environment variable: USERADM_REDIS_CONNECTION_STRING
+# redis_connection_string: ""
+
+# Redis key prefix
+# Defaults to: "useradm:v1"
+# Overwrite with environment variable: USERADM_REDIS_KEY_PREFIX
+# redis_key_prefix: ""
