@@ -61,7 +61,8 @@ describe('Deployments Component', () => {
       ...defaultState.releases,
       releasesList: {
         ...defaultState.releases.releasesList,
-        releaseIds: []
+        releaseIds: [],
+        selectedTags: ['123']
       }
     }
   };
@@ -116,7 +117,8 @@ describe('Deployments Component', () => {
           test: {
             ...defaultState.releases.byId.r1
           }
-        }
+        },
+        selectedTags: ['123']
       }
     };
     const ui = (
