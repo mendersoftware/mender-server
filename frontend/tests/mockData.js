@@ -609,7 +609,15 @@ export const defaultState = {
     },
     rolesInitialized: true,
     settingsInitialized: true,
-    userSettings: { columnSelection: [], onboarding: { something: 'here' }, tooltips: {} }
+    userSettings: {
+      columnSelection: [],
+      onboarding: { something: 'here' },
+      tooltips: {},
+      reports: [
+        { attribute: 'artifact_name', chartType: 'pie', group: null, software: 'rootfs-image.version', type: 'distribution' },
+        { attribute: 'artifact_name', chartType: 'bar', group: 'testGroup', software: 'artifact_name', type: 'distribution' }
+      ]
+    }
   }
 };
 

@@ -22,7 +22,8 @@ import {
   deploymentDisplayStates,
   deploymentStatesToSubstates,
   deploymentStatesToSubstatesWithSkipped,
-  emptyFilter
+  emptyFilter,
+  softwareIndicator
 } from './constants';
 
 // for some reason these functions can not be stored in the deviceConstants...
@@ -156,7 +157,7 @@ export const preformatWithRequestID = (res, failMsg) => {
 };
 
 export const ensureVersionString = (software, fallback) =>
-  software.length && software !== 'artifact_name' ? (software.endsWith('.version') ? software : `${software}.version`) : fallback;
+  software.length && software !== 'artifact_name' ? (software.endsWith(softwareIndicator) ? software : `${software}${softwareIndicator}`) : fallback;
 
 export const getComparisonCompatibleVersion = version => (isNaN(version.charAt(0)) && version !== 'next' ? 'master' : version);
 

@@ -2,6 +2,504 @@
 
 exports[`Devices Component > renders correctly 1`] = `
 .emotion-0 {
+  min-height: 30px;
+}
+
+.emotion-0 .MuiSvgIcon-root {
+  margin-left: 8px;
+}
+
+.emotion-1 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.3929rem;
+}
+
+.emotion-1 iconButton {
+  margin-right: 8px;
+}
+
+.emotion-2 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: inherit;
+  text-align: center;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  font-size: 1.3929rem;
+  padding: 8px;
+  border-radius: 50%;
+  color: rgba(0, 0, 0, 0.54);
+  -webkit-transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  --IconButton-hoverBg: rgba(0, 0, 0, 0.04);
+  padding: 5px;
+  font-size: 1.0446rem;
+  font-size: 1.2rem;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.emotion-2::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-2.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+@media print {
+  .emotion-2 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-2:hover {
+  background-color: var(--IconButton-hoverBg);
+}
+
+@media (hover: none) {
+  .emotion-2:hover {
+    background-color: transparent;
+  }
+}
+
+.emotion-2.Mui-disabled {
+  background-color: transparent;
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-2.MuiIconButton-loading {
+  color: transparent;
+}
+
+.emotion-3 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.1607rem;
+}
+
+.emotion-3 iconButton {
+  margin-right: 8px;
+}
+
+.emotion-6 {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  -webkit-column-gap: 16px;
+  column-gap: 16px;
+  margin-bottom: 16px;
+}
+
+.emotion-6>.flexbox.column>* {
+  height: 20px;
+}
+
+.emotion-6 .barchart .MuiLinearProgress-root {
+  background-color: #f7f7f7;
+}
+
+.emotion-6 .barchart .color-f7f7f7 .MuiLinearProgress-barColorPrimary {
+  background-color: #f7f7f7;
+}
+
+.emotion-6 .barchart .color-337a87 .MuiLinearProgress-barColorPrimary {
+  background-color: #337a87;
+}
+
+.emotion-6 .barchart .color-a31773 .MuiLinearProgress-barColorPrimary {
+  background-color: #a31773;
+}
+
+.emotion-6 .barchart .color-00859e .MuiLinearProgress-barColorPrimary {
+  background-color: #00859e;
+}
+
+.emotion-6 .barchart .color-14cfda .MuiLinearProgress-barColorPrimary {
+  background-color: #14cfda;
+}
+
+.emotion-6 .barchart .color-9bfff0 .MuiLinearProgress-barColorPrimary {
+  background-color: #9bfff0;
+}
+
+.emotion-6 .barchart .color-d5d5d5 .MuiLinearProgress-barColorPrimary {
+  background-color: #d5d5d5;
+}
+
+.emotion-7 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr max-content;
+  -webkit-column-gap: 16px;
+  column-gap: 16px;
+}
+
+.emotion-7.indicating {
+  grid-template-columns: min-content 1fr max-content;
+  -webkit-column-gap: 8px;
+  column-gap: 8px;
+}
+
+.emotion-8 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.3929rem;
+  font-size: 10px;
+  min-width: initial;
+  margin-left: 4px;
+}
+
+.emotion-8 iconButton {
+  margin-right: 8px;
+}
+
+.emotion-9 {
+  gap: 16px;
+}
+
+.emotion-10 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.3929rem;
+  color: #337a87;
+}
+
+.emotion-10 iconButton {
+  margin-right: 8px;
+}
+
+.emotion-10.read {
+  color: rgba(0, 0, 0, 0.38);
+}
+
+.emotion-11 {
+  position: absolute;
+  top: -5px;
+  bottom: 0;
+  left: -5px;
+  right: -5px;
+  border: 1px dashed #337a87;
+  border-radius: 50%;
+}
+
+.emotion-11.read {
+  border-color: rgba(0, 0, 0, 0.38);
+}
+
+.emotion-12 {
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+<div>
+  <div
+    class="dashboard margin-bottom-large"
+  >
+    <div
+      class="widget chart-widget"
+    >
+      <div
+        class="margin-bottom-small"
+      >
+        <div
+          class="flexbox space-between margin-bottom-small"
+        >
+          <div
+            class="flexbox center-aligned emotion-0"
+          >
+            Software distribution
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
+              data-testid="PieChartOutlineIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2m1 2.07c3.61.45 6.48 3.33 6.93 6.93H13zM4 12c0-4.06 3.07-7.44 7-7.93v15.87c-3.93-.5-7-3.88-7-7.94m9 7.93V13h6.93c-.45 3.61-3.32 6.48-6.93 6.93"
+              />
+            </svg>
+          </div>
+          <div
+            class="flexbox center-aligned"
+            style="z-index: 1;"
+          >
+            <button
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-2"
+              tabindex="0"
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-3"
+                data-testid="SettingsIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6"
+                />
+              </svg>
+            </button>
+            <button
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-2"
+              tabindex="0"
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-3"
+                data-testid="ClearIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div
+          class="flexbox space-between slightly-smaller"
+        >
+          <div>
+            Root filesystem
+          </div>
+          <div>
+            All devices
+          </div>
+        </div>
+      </div>
+      <div
+        class="emotion-6"
+        style="height: -30px;"
+      >
+        <div
+          class="flexbox column"
+        >
+          <div
+            class="clickable emotion-7 indicating"
+            title="undefined"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-8"
+              data-testid="SquareIcon"
+              focusable="false"
+              style="fill: #337a87;"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M3 3h18v18H3z"
+              />
+            </svg>
+            <div
+              class="text-overflow"
+            >
+              undefined
+            </div>
+            <div>
+              2
+            </div>
+          </div>
+        </div>
+        <div
+          class="VictoryContainer"
+          style="height: -30px; pointer-events: none; position: relative;"
+        >
+          <svg
+            height="400"
+            role="img"
+            style="width: 100%; height: 100%; pointer-events: all;"
+            viewBox="0 0 400 400"
+            width="400"
+          >
+            <g>
+              <path
+                d="M1.1787225441793275e-14,-192.5A192.5,192.5,0,1,1,-1.1787225441793275e-14,192.5A192.5,192.5,0,1,1,1.1787225441793275e-14,-192.5Z"
+                role="presentation"
+                shape-rendering="auto"
+                style="fill: #337a87; padding: 10px; stroke: transparent; stroke-width: 1;"
+                transform="translate(200, 192.5)"
+              />
+            </g>
+          </svg>
+          <div
+            style="width: 100%; height: 100%; z-index: 99; position: absolute; top: 0px; left: 0px;"
+          >
+            <svg
+              height="400"
+              style="width: 100%; height: 100%; overflow: visible;"
+              viewBox="0 0 400 400"
+              width="400"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="widget chart-widget flexbox centered"
+    >
+      <div
+        class="loaderContainer"
+        style="width: 100%;"
+      >
+        <div
+          class="  loader"
+        >
+          <span
+            class="dot dot_1"
+          />
+          <span
+            class="dot dot_2"
+          />
+          <span
+            class="dot dot_3"
+          />
+          <span
+            class="dot dot_4"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="widget"
+    >
+      <div
+        class="flexbox center-aligned  emotion-9"
+        style="align-items: end;"
+      >
+        <div
+          class=""
+          data-mui-internal-clone-element="true"
+        >
+          <div
+            class="relative"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-10"
+              data-testid="HelpIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
+              />
+            </svg>
+            <div
+              class="emotion-11 "
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="flexbox centered muted emotion-12"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
+          data-testid="AddIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"
+          />
+        </svg>
+        <span
+          class="emotion-12"
+        >
+          add a widget
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Devices Component > renders correctly for non-enterprise 1`] = `
+.emotion-0 {
   gap: 16px;
 }
 
@@ -321,7 +819,89 @@ exports[`Devices Component > renders correctly 1`] = `
 </div>
 `;
 
-exports[`Devices Component > renders correctly for enterprise 1`] = `
+exports[`Devices Component > renders correctly for too many devices 1`] = `
+.emotion-0 {
+  margin: 0;
+  font-family: Lato,sans-serif;
+  font-weight: 500;
+  font-size: 0.8125rem;
+  line-height: 1.57;
+}
+
+.emotion-1 {
+  margin: 0;
+  font-family: Lato,sans-serif;
+  font-weight: 400;
+  font-size: 0.6964rem;
+  line-height: 1.66;
+}
+
+<div>
+  <div
+    class="dashboard margin-bottom-large"
+  >
+    <h6
+      class="MuiTypography-root MuiTypography-subtitle2 emotion-0"
+    >
+      Device and Group Limit Exceeded
+    </h6>
+    <span
+      class="MuiTypography-root MuiTypography-caption emotion-1"
+    >
+      Your current number of devices and groups exceeds the limits of our present implementation. To ensure you continue to gain optimal insights and to better understand your specific requirements, we encourage you to reach out to 
+      <a
+        class=""
+        href="mailto:support@mender.io"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        contact our team
+      </a>
+      . By providing us with more details about your use case, we can improve potential solutions to best accommodate your needs when the feature gets added to our backend.
+    </span>
+  </div>
+</div>
+`;
+
+exports[`Devices Component > renders correctly while waiting for initialization 1`] = `
+<div>
+  <div
+    class="dashboard margin-bottom-large"
+  >
+    <div
+      class="widget chart-widget flexbox centered"
+    >
+      <div
+        class="widgetMainContent"
+      >
+        <div
+          class="loaderContainer"
+          style="width: 100%;"
+        >
+          <div
+            class="  loader"
+          >
+            <span
+              class="dot dot_1"
+            />
+            <span
+              class="dot dot_2"
+            />
+            <span
+              class="dot dot_3"
+            />
+            <span
+              class="dot dot_4"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Devices Component > renders correctly without data retrieval 1`] = `
 .emotion-0 {
   min-height: 30px;
 }
@@ -519,6 +1099,30 @@ exports[`Devices Component > renders correctly for enterprise 1`] = `
 }
 
 .emotion-8 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.3929rem;
+  font-size: 10px;
+  min-width: initial;
+  margin-left: 4px;
+}
+
+.emotion-8 iconButton {
+  margin-right: 8px;
+}
+
+.emotion-17 {
   position: relative;
   overflow: hidden;
   display: block;
@@ -528,13 +1132,13 @@ exports[`Devices Component > renders correctly for enterprise 1`] = `
 }
 
 @media print {
-  .emotion-8 {
+  .emotion-17 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-9 {
+.emotion-18 {
   width: 100%;
   position: absolute;
   left: 0;
@@ -548,11 +1152,11 @@ exports[`Devices Component > renders correctly for enterprise 1`] = `
   transition: transform .4s linear;
 }
 
-.emotion-10 {
+.emotion-19 {
   gap: 16px;
 }
 
-.emotion-11 {
+.emotion-20 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -570,15 +1174,15 @@ exports[`Devices Component > renders correctly for enterprise 1`] = `
   color: #337a87;
 }
 
-.emotion-11 iconButton {
+.emotion-20 iconButton {
   margin-right: 8px;
 }
 
-.emotion-11.read {
+.emotion-20.read {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-12 {
+.emotion-21 {
   position: absolute;
   top: -5px;
   bottom: 0;
@@ -588,11 +1192,11 @@ exports[`Devices Component > renders correctly for enterprise 1`] = `
   border-radius: 50%;
 }
 
-.emotion-12.read {
+.emotion-21.read {
   border-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-13 {
+.emotion-22 {
   font-size: 1rem;
   cursor: pointer;
 }
@@ -601,6 +1205,149 @@ exports[`Devices Component > renders correctly for enterprise 1`] = `
   <div
     class="dashboard margin-bottom-large"
   >
+    <div
+      class="widget chart-widget"
+    >
+      <div
+        class="margin-bottom-small"
+      >
+        <div
+          class="flexbox space-between margin-bottom-small"
+        >
+          <div
+            class="flexbox center-aligned emotion-0"
+          >
+            Software distribution
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
+              data-testid="PieChartOutlineIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2m1 2.07c3.61.45 6.48 3.33 6.93 6.93H13zM4 12c0-4.06 3.07-7.44 7-7.93v15.87c-3.93-.5-7-3.88-7-7.94m9 7.93V13h6.93c-.45 3.61-3.32 6.48-6.93 6.93"
+              />
+            </svg>
+          </div>
+          <div
+            class="flexbox center-aligned"
+            style="z-index: 1;"
+          >
+            <button
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-2"
+              tabindex="0"
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-3"
+                data-testid="SettingsIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6"
+                />
+              </svg>
+            </button>
+            <button
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-2"
+              tabindex="0"
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-3"
+                data-testid="ClearIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div
+          class="flexbox space-between slightly-smaller"
+        >
+          <div>
+            Root filesystem
+          </div>
+          <div>
+            All devices
+          </div>
+        </div>
+      </div>
+      <div
+        class="emotion-6"
+        style="height: -30px;"
+      >
+        <div
+          class="flexbox column"
+        >
+          <div
+            class="clickable emotion-7 indicating"
+            title="undefined"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-8"
+              data-testid="SquareIcon"
+              focusable="false"
+              style="fill: #337a87;"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M3 3h18v18H3z"
+              />
+            </svg>
+            <div
+              class="text-overflow"
+            >
+              undefined
+            </div>
+            <div>
+              2
+            </div>
+          </div>
+        </div>
+        <div
+          class="VictoryContainer"
+          style="height: -30px; pointer-events: none; position: relative;"
+        >
+          <svg
+            height="400"
+            role="img"
+            style="width: 100%; height: 100%; pointer-events: all;"
+            viewBox="0 0 400 400"
+            width="400"
+          >
+            <g>
+              <path
+                d="M1.1787225441793275e-14,-192.5A192.5,192.5,0,1,1,-1.1787225441793275e-14,192.5A192.5,192.5,0,1,1,1.1787225441793275e-14,-192.5Z"
+                role="presentation"
+                shape-rendering="auto"
+                style="fill: #337a87; padding: 10px; stroke: transparent; stroke-width: 1;"
+                transform="translate(200, 192.5)"
+              />
+            </g>
+          </svg>
+          <div
+            style="width: 100%; height: 100%; z-index: 99; position: absolute; top: 0px; left: 0px;"
+          >
+            <svg
+              height="400"
+              style="width: 100%; height: 100%; overflow: visible;"
+              viewBox="0 0 400 400"
+              width="400"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
     <div
       class="widget chart-widget"
     >
@@ -673,7 +1420,7 @@ exports[`Devices Component > renders correctly for enterprise 1`] = `
             artifact_name
           </div>
           <div>
-            All devices
+            testGroup
           </div>
         </div>
       </div>
@@ -685,12 +1432,12 @@ exports[`Devices Component > renders correctly for enterprise 1`] = `
         >
           <div
             class="clickable emotion-7 "
-            title="raspotifyInstaller"
+            title="undefined"
           >
             <div
               class="text-overflow"
             >
-              raspotifyInstaller
+              undefined
             </div>
             <div>
               2
@@ -703,19 +1450,19 @@ exports[`Devices Component > renders correctly for enterprise 1`] = `
           <div
             class="clickable flexbox column barchart"
             style="justify-content: center;"
-            title="raspotifyInstaller"
+            title="undefined"
           >
             <span
               aria-valuemax="100"
               aria-valuemin="0"
-              aria-valuenow="0"
-              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate color-337a87 emotion-8"
+              aria-valuenow="100"
+              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate color-337a87 emotion-17"
               role="progressbar"
               style="height: 8px;"
             >
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-9"
-                style="transform: translateX(-100%);"
+                class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-18"
+                style="transform: translateX(0%);"
               />
             </span>
           </div>
@@ -726,7 +1473,7 @@ exports[`Devices Component > renders correctly for enterprise 1`] = `
       class="widget"
     >
       <div
-        class="flexbox center-aligned  emotion-10"
+        class="flexbox center-aligned  emotion-19"
         style="align-items: end;"
       >
         <div
@@ -738,7 +1485,7 @@ exports[`Devices Component > renders correctly for enterprise 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-11"
+              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-20"
               data-testid="HelpIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -748,13 +1495,13 @@ exports[`Devices Component > renders correctly for enterprise 1`] = `
               />
             </svg>
             <div
-              class="emotion-12 "
+              class="emotion-21 "
             />
           </div>
         </div>
       </div>
       <div
-        class="flexbox centered muted emotion-13"
+        class="flexbox centered muted emotion-22"
       >
         <svg
           aria-hidden="true"
@@ -768,7 +1515,7 @@ exports[`Devices Component > renders correctly for enterprise 1`] = `
           />
         </svg>
         <span
-          class="emotion-13"
+          class="emotion-22"
         >
           add a widget
         </span>
