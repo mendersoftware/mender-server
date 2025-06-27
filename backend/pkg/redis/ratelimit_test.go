@@ -22,19 +22,21 @@ func TestFixedWindowRatelimit(t *testing.T) {
 			RedisURL)
 		t.FailNow()
 	}
-	params := FixedRatelimitParams(1)
 	tMicro := time.Now().UnixMicro()
-	rateLimiter := NewFixedWindowRateLimiter(client,
-		fmt.Sprintf("%s_%x", strings.ToLower(t.Name()), tMicro),
+	keyPrefix := fmt.Sprintf("%s_%x", strings.ToLower(t.Name()), tMicro)
+	rateLimiter := NewFixedWindowRateLimiter(client, keyPrefix,
 		time.Minute,
-		params)
+		1)
 
 	// Freeze time to avoid time to progress to next window.
 	nowFrozen := time.Now()
-	rateLimiter.(*fixedWindowRatelimiter).nowFunc = func() time.Time { return nowFrozen }
+	rateLimiter.nowFunc = func() time.Time { return nowFrozen }
 
-	if tokens, _ := rateLimiter.Tokens(ctx); tokens != 1 {
-		t.Errorf("expected token available after initialization, actual: %d", tokens)
+	count, _ := rateLimiter.client.Get(ctx, fixedWindowKey(
+		keyPrefix, "", epoch(nowFrozen, time.Minute),
+	)).Int64()
+	if count != 0 {
+		t.Errorf("expected zero count after initialization, actual: %d", count)
 	}
 
 	var reservations [2]rate.Reservation
@@ -51,10 +53,14 @@ func TestFixedWindowRatelimit(t *testing.T) {
 	if reservations[1].OK() {
 		t.Errorf("expected the second event to block, but didn't")
 	}
-	if remaining, err := rateLimiter.Tokens(ctx); err != nil {
+
+	count, err = rateLimiter.client.Get(ctx, fixedWindowKey(
+		keyPrefix, "", epoch(nowFrozen, time.Minute),
+	)).Int64()
+	if err != nil {
 		t.Errorf("unexpected error retrieving remaining tokens: %s", err.Error())
-	} else if remaining != 0 {
-		t.Errorf("expected 0 tokens remaining, actual: %d", remaining)
+	} else if count != 2 {
+		t.Errorf("expected count to be 2 after two calls to Reserve, actual: %d", count)
 	}
 
 	if reservations[0].Tokens() != 0 {
