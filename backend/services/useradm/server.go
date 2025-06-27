@@ -28,6 +28,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/redis"
 
 	api_http "github.com/mendersoftware/mender-server/services/useradm/api/http"
 	"github.com/mendersoftware/mender-server/services/useradm/client/tenant"
@@ -145,6 +146,15 @@ func RunServer(c config.Reader) error {
 		})
 
 		ua = ua.WithTenantVerification(tc)
+	}
+
+	redisConnStr := c.GetString(SettingRedisConnectionString)
+	if redisConnStr != "" {
+		l.Infof("setting up redis cache")
+		client, err := redis.ClientFromConnectionString(context.Background(), redisConnStr)
+		if err != nil {
+			return err
+		}
 	}
 
 	useradmapi := api_http.NewUserAdmApiHandlers(ua, db, jwtHandlers,
