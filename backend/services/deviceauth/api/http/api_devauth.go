@@ -46,18 +46,29 @@ var (
 )
 
 type DevAuthApiHandlers struct {
-	app devauth.App
-	db  store.DataStore
+	app         devauth.App
+	db          store.DataStore
+	rateLimiter gin.HandlerFunc
 }
 
 type DevAuthApiStatus struct {
 	Status string `json:"status"`
 }
 
-func NewDevAuthApiHandlers(devAuth devauth.App, db store.DataStore) *DevAuthApiHandlers {
+func NewDevAuthApiHandlers(
+	devAuth devauth.App,
+	db store.DataStore,
+	options ...Option,
+) *DevAuthApiHandlers {
+	var cfg Config
+	for _, opt := range options {
+		opt(&cfg)
+	}
+
 	return &DevAuthApiHandlers{
-		app: devAuth,
-		db:  db,
+		app:         devAuth,
+		db:          db,
+		rateLimiter: cfg.AuthVerifyRatelimits,
 	}
 }
 
@@ -396,6 +407,12 @@ func (i *DevAuthApiHandlers) VerifyTokenHandler(c *gin.Context) {
 			} else {
 				rest.RenderInternalError(c, err)
 			}
+			return
+		}
+	}
+	if i.rateLimiter != nil {
+		i.rateLimiter(c)
+		if c.IsAborted() {
 			return
 		}
 	}
