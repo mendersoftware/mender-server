@@ -174,7 +174,7 @@ export const getDisplayablePhases = ({ currentPhase, currentProgressCount, phase
         accu.countedProgress += possiblePhaseProgress;
       }
       displayablePhase.offset = accu.countedBatch;
-      const remainingWidth = 100 - (100 / totalDeviceCount) * accu.countedBatch;
+      const remainingWidth = 100 - accu.countedBatch; // countedBatch should be the summarized percentages of the phases so far
       displayablePhase.width = index === phases.length - 1 ? remainingWidth : displayablePhase.batch_size;
       accu.countedBatch += displayablePhase.batch_size;
       accu.countedFailures += possiblePhaseFailures;
