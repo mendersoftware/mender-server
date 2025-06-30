@@ -522,6 +522,85 @@ paths:
         500:
           $ref: "#/responses/InternalServerError"
 
+  /artifacts/list:
+    get:
+      operationId: List Artifacts with pagination
+      tags:
+      - Management API
+      security:
+      - ManagementJWT: []
+      summary: |
+        Lists known actifacts.
+      description: |
+        Returns a collection of all artifacts.
+      parameters:
+        - name: name
+          in: query
+          description: | 
+            Artifact(s) exact name(s) or prefix filter. 
+            Add `*` to the end for prefix matching.
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - name: description
+          in: query
+          description: Artifact exact description filter.
+          required: false
+          type: string
+        - name: device_type
+          in: query
+          description: Artifact device type filter.
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: Starting page.
+          required: false
+          type: number
+          format: integer
+          default: 1
+        - name: per_page
+          in: query
+          description: Maximum number of results per page.
+          required: false
+          type: number
+          format: integer
+          default: 20
+          maximum: 500
+        - name: sort
+          in: query
+          description: |
+            Sort the artifact list by the specified field and direction.
+          required: false
+          type: string
+          enum:
+            - name:asc
+            - name:desc
+            - modified:asc
+            - modified:desc
+          default: "name:asc"
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Artifact"
+          headers:
+            Link:
+              type: string
+              description: Standard header, we support 'first', 'next', and 'prev'.
+            X-Total-Count:
+              type: integer
+              description: Total number of releases matching query.
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        500:
+          $ref: "#/responses/InternalServerError"
 
 definitions:
   Artifact:

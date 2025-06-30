@@ -571,6 +571,105 @@ paths:
         Lists all release update types.
       tags:
       - Management API
+  /artifacts/list:
+    get:
+      description: |
+        Returns a collection of all artifacts.
+      operationId: List Artifacts with pagination
+      parameters:
+      - description: | 
+          Artifact(s) exact name(s) or prefix filter. 
+          Add `*` to the end for prefix matching.
+        in: query
+        name: name
+        schema:
+          type: array
+          items:
+            type: string
+        style: form
+        explode: true
+        examples:
+          Single Name:
+            value:
+              - foo
+          Multiple Names:
+            value:
+              - foo
+              - bar
+          Prefix Search:
+            value:
+              - foo*
+      - description: Artifact exact description filter.
+        in: query
+        name: description
+        schema:
+          type: string
+      - description: Artifact device type filter.
+        in: query
+        name: device_type
+        schema:
+          type: string
+      - description: Starting page.
+        in: query
+        name: page
+        schema:
+          default: 1
+          type: integer
+      - description: Maximum number of results per page.
+        in: query
+        name: per_page
+        schema:
+          default: 20
+          maximum: 500
+          type: integer
+      - description: |
+          Sort the artifact list by the specified field and direction.
+        in: query
+        name: sort
+        schema:
+          default: name:asc
+          enum:
+          - name:asc
+          - name:desc
+          - modified:asc
+          - modified:desc
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Artifact'
+                type: array
+          description: OK
+          headers:
+            X-Total-Count:
+              description: Total number of releases matching query.
+              schema:
+                type: integer
+            Link:
+              description: "Standard header, we support 'first', 'next', and 'prev'."
+              schema:
+                type: string
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error.
+      security:
+      - ManagementJWT: []
+      summary: |
+        Lists known actifacts.
+      tags:
+      - Management API
 components:
   responses:
     InvalidRequestError:
