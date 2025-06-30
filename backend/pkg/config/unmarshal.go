@@ -19,10 +19,22 @@ import (
 	"fmt"
 	"io"
 	"strings"
+	"time"
 
 	"github.com/go-viper/mapstructure/v2"
 	"github.com/pkg/errors"
 )
+
+type Duration time.Duration
+
+func (duration *Duration) UnmarshalText(b []byte) error {
+	d, err := time.ParseDuration(string(b))
+	if err != nil {
+		return err
+	}
+	*duration = Duration(d)
+	return nil
+}
 
 // UnmarshalSliceSetting will unmarshal an array of objects into the result T
 // using either newline separated json objects for strings (from env) or
