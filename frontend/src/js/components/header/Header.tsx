@@ -23,8 +23,7 @@ import {
   Button,
   Chip,
   Divider,
-  IconButton,
-  ListItemSecondaryAction,
+  ListItemIcon,
   ListItemText,
   Menu,
   MenuItem,
@@ -38,7 +37,6 @@ import {
 import { makeStyles } from 'tss-react/mui';
 
 import Search from '@northern.tech/common-ui/Search';
-import { HELPTOOLTIPS } from '@northern.tech/common-ui/helptips/HelpTooltips';
 import storeActions from '@northern.tech/store/actions';
 import { READ_STATES, TIMEOUTS } from '@northern.tech/store/constants';
 import {
@@ -54,8 +52,9 @@ import {
   getIsFirstLogin,
   getIsServiceProvider,
   getOrganization,
+  getReadAllHelptips,
   getSearchState,
-  getShowHelptips,
+  getTooltipsById,
   getUserRoles,
   getUserSettings
 } from '@northern.tech/store/selectors';
@@ -178,8 +177,9 @@ const useStyles = makeStyles()(theme => ({
 const AccountMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [tenantSwitcherShowing, setTenantSwitcherShowing] = useState(false);
-  const showHelptips = useSelector(getShowHelptips);
+  const hasReadHelptips = useSelector(getReadAllHelptips);
   const { email, tenants = [] } = useSelector(getCurrentUser);
+  const tooltips = useSelector(getTooltipsById);
   const { name } = useSelector(getOrganization);
   const isEnterprise = useSelector(getIsEnterprise);
   const { hasMultitenancy, isHosted } = useSelector(getFeatures);
@@ -201,7 +201,7 @@ const AccountMenu = () => {
   };
 
   const onToggleTooltips = () =>
-    dispatch(setAllTooltipsReadState({ readState: showHelptips ? READ_STATES.read : READ_STATES.unread, tooltipIds: Object.keys(HELPTOOLTIPS) }));
+    dispatch(setAllTooltipsReadState({ readState: hasReadHelptips ? READ_STATES.unread : READ_STATES.read, tooltipIds: Object.keys(tooltips) }));
 
   return (
     <>
@@ -249,17 +249,15 @@ const AccountMenu = () => {
         <MenuItem component={Link} to="/settings/global-settings" onClick={handleClose}>
           Settings
         </MenuItem>
-        <MenuItem onClick={onToggleTooltips}>{`Mark help tips as ${showHelptips ? '' : 'un'}read`}</MenuItem>
+        <MenuItem onClick={onToggleTooltips}>{`Mark help tips as ${hasReadHelptips ? 'un' : ''}read`}</MenuItem>
         <MenuItem component={Link} to="/help/get-started" onClick={handleClose}>
           Help & support
         </MenuItem>
         <MenuItem onClick={onLogoutClick}>
           <ListItemText primary="Log out" />
-          <ListItemSecondaryAction>
-            <IconButton>
-              <ExitIcon className={classes.exitIcon} />
-            </IconButton>
-          </ListItemSecondaryAction>
+          <ListItemIcon>
+            <ExitIcon className={classes.exitIcon} />
+          </ListItemIcon>
         </MenuItem>
       </Menu>
     </>
