@@ -1380,7 +1380,7 @@ func (d *DevAuth) cacheThrottleVerify(
 	origMethod,
 	origUri string,
 ) (string, error) {
-	if d.cache == nil {
+	if d.cache == nil || d.cTenant == nil {
 		return "", nil
 	}
 
