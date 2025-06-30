@@ -6,6 +6,7 @@ const commonScopes = [
   'deviceconnect',
   'inventory',
   'iot-manager',
+  'pkg',
   'reporting',
   'useradm',
   'workflows',
