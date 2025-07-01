@@ -1009,6 +1009,57 @@ func TestSearchDevices(t *testing.T) {
 			return b
 		}(),
 	}, {
+		Name: "ok, multiple devices",
+
+		Request: func() *http.Request {
+			body := []byte(`{"status":"accepted"}`)
+			req, _ := http.NewRequest("POST",
+				"http://localhost/api/management/v2/devauth/devices/search?per_page=1&page=2",
+				bytes.NewReader(body),
+			)
+			req.Header.Add("X-MEN-RequestID", "test")
+			req.Header.Set("Content-Type", "application/json")
+			req.Header.Set("Authorization", rtest.DEFAULT_AUTH)
+			return req
+		}(),
+		DeviceFilter: model.DeviceFilter{
+			Status: []string{"accepted"},
+		},
+		AppDevices: []model.Device{{
+			Id:        "123456789012345678901234",
+			Status:    "accepted",
+			CreatedTs: time.Unix(1606942069, 0),
+		}, {
+			Id:        "123456789012345678901235",
+			Status:    "accepted",
+			CreatedTs: time.Unix(1606942069, 0),
+		}, {
+			Id:        "123456789012345678901236",
+			Status:    "accepted",
+			CreatedTs: time.Unix(1606942069, 0),
+		}},
+
+		StatusCode: http.StatusOK,
+		Headers: http.Header{"X-Men-Requestid": []string{"test"},
+			"Link": []string{
+				"</api/management/v2/devauth/devices/search?page=1&per_page=1>; rel=\"first\"",
+				"</api/management/v2/devauth/devices/search?page=1&per_page=1>; rel=\"prev\"",
+				"</api/management/v2/devauth/devices/search?page=3&per_page=1>; rel=\"next\"",
+			}},
+		Body: func() []byte {
+			dev := []model.Device{{
+				Id:        "123456789012345678901234",
+				Status:    "accepted",
+				CreatedTs: time.Unix(1606942069, 0),
+			}, {
+				Id:        "123456789012345678901235",
+				Status:    "accepted",
+				CreatedTs: time.Unix(1606942069, 0),
+			}}
+			b, _ := json.Marshal(dev)
+			return b
+		}(),
+	}, {
 		Name: "ok, single device url-encoded post-form",
 
 		Request: func() *http.Request {
@@ -1223,7 +1274,7 @@ func TestApiV2GetDevices(t *testing.T) {
 				Path:   "http://localhost/api/management/v2/devauth/devices?page=2&per_page=2",
 				Auth:   true,
 			}),
-			devices: devs,
+			devices: devs[:2],
 			skip:    2,
 			limit:   3,
 			code:    http.StatusOK,
@@ -2188,11 +2239,11 @@ func TestApiGetTenantDevicesV2(t *testing.T) {
 				Method: "GET",
 				Path:   "http://localhost/api/internal/v1/devauth/tenants/powerpuff123/devices?page=2&per_page=2",
 			}),
-			devices: devs,
+			devices: devs[:2],
 			skip:    2,
 			limit:   3,
 			code:    http.StatusOK,
-			// reqquested 2 devices per page, so expect only 2
+			// requested 2 devices per page, so expect only 2
 			body:      string(asJSON(devs[:2])),
 			tenant_id: "powerpuff123",
 

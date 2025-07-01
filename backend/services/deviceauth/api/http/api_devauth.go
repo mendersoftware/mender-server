@@ -237,17 +237,18 @@ func (i *DevAuthApiHandlers) SearchDevicesV2Handler(c *gin.Context) {
 		return
 	}
 
-	numDevs := len(devs)
+	numDevs := int64(len(devs))
 	hasNext := false
-	if int64(numDevs) > perPage {
+
+	if numDevs > perPage {
 		hasNext = true
-		numDevs = int(perPage)
+		numDevs -= 1
 	}
+
 	hints := rest.NewPagingHints().
 		SetPage(page).
 		SetPerPage(perPage).
-		SetHasNext(hasNext).
-		SetTotalCount(int64(numDevs))
+		SetHasNext(hasNext)
 	links, err := rest.MakePagingHeaders(c.Request, hints)
 	if err != nil {
 		rest.RenderError(c, http.StatusBadRequest, err)
