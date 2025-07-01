@@ -68,11 +68,6 @@ export const Devices = ({ clickHandle }) => {
     refreshDevices();
   }, [refreshDevices]);
 
-  useEffect(() => {
-    refreshDevices();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(availableIssueOptions), refreshDevices]);
-
   const onConnectClick = () => {
     dispatch(setShowConnectingDialog(true));
     navigate('/devices/accepted');
