@@ -29,7 +29,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/mendersoftware/mender-server/pkg/apiclient"
-	"github.com/mendersoftware/mender-server/pkg/rest_utils"
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 
 	ct "github.com/mendersoftware/mender-server/services/useradm/client/testing"
 )
@@ -81,7 +81,7 @@ func TestCheckHealth(t *testing.T) {
 		Ctx:          context.Background(),
 		Error:        errors.New("*COUGH! COUGH!*"),
 		ResponseCode: http.StatusServiceUnavailable,
-		ResponseBody: rest_utils.ApiError{
+		ResponseBody: rest.Error{
 			Err: "*COUGH! COUGH!*",
 		},
 	}, {

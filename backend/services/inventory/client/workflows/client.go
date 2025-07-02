@@ -26,7 +26,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
-	"github.com/mendersoftware/mender-server/pkg/rest_utils"
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 
 	"github.com/mendersoftware/mender-server/services/inventory/model"
 	"github.com/mendersoftware/mender-server/services/inventory/utils"
@@ -128,7 +128,7 @@ func (c *client) StartReindex(ctx context.Context, deviceIDs []model.DeviceID) e
 
 func (c *client) CheckHealth(ctx context.Context) error {
 	var (
-		apiErr rest_utils.ApiError
+		apiErr rest.Error
 	)
 
 	if ctx == nil {

@@ -14,6 +14,12 @@
 
 package rest
 
+import (
+	"encoding/json"
+	"errors"
+	"io"
+)
+
 type Error struct {
 	Err       string `json:"error"`
 	RequestID string `json:"request_id,omitempty"`
@@ -21,4 +27,20 @@ type Error struct {
 
 func (err Error) Error() string {
 	return err.Err
+}
+
+func IsApiError(e error) bool {
+	var target *Error
+	return errors.As(e, &target)
+}
+
+func ParseApiError(source io.Reader) error {
+	jd := json.NewDecoder(source)
+
+	var aerr Error
+	if err := jd.Decode(&aerr); err != nil {
+		return err
+	}
+
+	return &aerr
 }

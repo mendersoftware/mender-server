@@ -27,8 +27,8 @@ const (
 	PerPageDefault = 20
 	PerPageMax     = 500
 
-	pageQueryParam    = "page"
-	perPageQueryParam = "per_page"
+	PageQueryParam    = "page"
+	PerPageQueryParam = "per_page"
 )
 
 var (
@@ -54,7 +54,7 @@ func ParsePagingParameters(r *http.Request) (int64, int64, error) {
 		page    int64
 		perPage int64
 	)
-	qPage := q.Get(pageQueryParam)
+	qPage := q.Get(PageQueryParam)
 	if qPage == "" {
 		page = 1
 	} else {
@@ -66,7 +66,7 @@ func ParsePagingParameters(r *http.Request) (int64, int64, error) {
 		}
 	}
 
-	qPerPage := q.Get(perPageQueryParam)
+	qPerPage := q.Get(PerPageQueryParam)
 	if qPerPage == "" {
 		perPage = PerPageDefault
 	} else {
@@ -153,15 +153,15 @@ func MakePagingHeaders(r *http.Request, hints ...*PagingHints) ([]string, error)
 	}
 	q := locationURL.Query()
 	// Ensure per_page is set
-	q.Set(perPageQueryParam, strconv.FormatInt(*hint.PerPage, 10))
+	q.Set(PerPageQueryParam, strconv.FormatInt(*hint.PerPage, 10))
 	links := make([]string, 0, 4)
-	q.Set(pageQueryParam, "1")
+	q.Set(PageQueryParam, "1")
 	locationURL.RawQuery = q.Encode()
 	links = append(links, fmt.Sprintf(
 		"<%s>; rel=\"first\"", locationURL.String(),
 	))
 	if (*hint.Page) > 1 {
-		q.Set(pageQueryParam, strconv.FormatInt(*hint.Page-1, 10))
+		q.Set(PageQueryParam, strconv.FormatInt(*hint.Page-1, 10))
 		locationURL.RawQuery = q.Encode()
 		links = append(links, fmt.Sprintf(
 			"<%s>; rel=\"prev\"", locationURL.String(),
@@ -173,20 +173,20 @@ func MakePagingHeaders(r *http.Request, hints ...*PagingHints) ([]string, error)
 		lastPage := (*hint.TotalCount-1) / *hint.PerPage + 1
 		if *hint.Page < lastPage {
 			// Add "next" link
-			q.Set(pageQueryParam, strconv.FormatUint(uint64(*hint.Page)+1, 10))
+			q.Set(PageQueryParam, strconv.FormatUint(uint64(*hint.Page)+1, 10))
 			locationURL.RawQuery = q.Encode()
 			links = append(links, fmt.Sprintf(
 				"<%s>; rel=\"next\"", locationURL.String(),
 			))
 		}
 		// Add "last" link
-		q.Set(pageQueryParam, strconv.FormatInt(lastPage, 10))
+		q.Set(PageQueryParam, strconv.FormatInt(lastPage, 10))
 		locationURL.RawQuery = q.Encode()
 		links = append(links, fmt.Sprintf(
 			"<%s>; rel=\"last\"", locationURL.String(),
 		))
 	} else if hint.HasNext != nil && *hint.HasNext {
-		q.Set(pageQueryParam, strconv.FormatUint(uint64(*hint.Page)+1, 10))
+		q.Set(PageQueryParam, strconv.FormatUint(uint64(*hint.Page)+1, 10))
 		locationURL.RawQuery = q.Encode()
 		links = append(links, fmt.Sprintf(
 			"<%s>; rel=\"next\"", locationURL.String(),
