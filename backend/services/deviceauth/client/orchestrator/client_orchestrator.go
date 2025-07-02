@@ -27,7 +27,7 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
-	"github.com/mendersoftware/mender-server/pkg/rest_utils"
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/utils"
 )
@@ -90,7 +90,7 @@ func NewClient(c Config) *Client {
 
 func (c *Client) CheckHealth(ctx context.Context) error {
 	var (
-		apiErr rest_utils.ApiError
+		apiErr rest.Error
 	)
 
 	if ctx == nil {
@@ -302,7 +302,7 @@ func (co *Client) SubmitDeviceLimitWarning(
 	defer rsp.Body.Close()
 	if rsp.StatusCode >= 400 {
 		var (
-			apiErr    = new(rest_utils.ApiError)
+			apiErr    = new(rest.Error)
 			jsDecoder = json.NewDecoder(rsp.Body)
 		)
 		err := jsDecoder.Decode(apiErr)

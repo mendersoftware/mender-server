@@ -29,7 +29,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
-	"github.com/mendersoftware/mender-server/pkg/rest_utils"
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 
 	ct "github.com/mendersoftware/mender-server/services/deviceauth/client/testing"
 )
@@ -116,9 +116,9 @@ func TestCheckHealth(t *testing.T) {
 		Name: "error, workflows unhealthy",
 
 		ResponseCode: http.StatusServiceUnavailable,
-		ResponseBody: rest_utils.ApiError{
-			Err:   "internal error",
-			ReqId: "test",
+		ResponseBody: rest.Error{
+			Err:       "internal error",
+			RequestID: "test",
 		},
 
 		Error: errors.New("internal error"),
@@ -328,9 +328,9 @@ func TestSubmitDeviceLimitWarning(t *testing.T) {
 					"Content-Type": []string{"application/json"},
 				},
 			}
-			b, _ := json.Marshal(rest_utils.ApiError{
-				Err:   "internal error",
-				ReqId: "foobar",
+			b, _ := json.Marshal(rest.Error{
+				Err:       "internal error",
+				RequestID: "foobar",
 			})
 			rsp.Body = ioutil.NopCloser(bytes.NewReader(b))
 			return rsp

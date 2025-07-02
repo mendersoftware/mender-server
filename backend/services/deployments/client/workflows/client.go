@@ -29,7 +29,7 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
-	"github.com/mendersoftware/mender-server/pkg/rest_utils"
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 
 	dconfig "github.com/mendersoftware/mender-server/services/deployments/config"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
@@ -80,7 +80,7 @@ type client struct {
 
 func (c *client) CheckHealth(ctx context.Context) error {
 	var (
-		apiErr rest_utils.ApiError
+		apiErr rest.Error
 		client http.Client
 	)
 

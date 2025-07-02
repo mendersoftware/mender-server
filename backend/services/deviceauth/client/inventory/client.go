@@ -27,7 +27,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/mendersoftware/mender-server/pkg/log"
-	"github.com/mendersoftware/mender-server/pkg/rest_utils"
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 	"github.com/mendersoftware/mender-server/services/deviceauth/utils"
@@ -77,7 +77,7 @@ func NewClient(urlBase string, skipVerify bool) *client {
 }
 
 func (c *client) CheckHealth(ctx context.Context) error {
-	var apiErr rest_utils.ApiError
+	var apiErr rest.Error
 
 	if ctx == nil {
 		ctx = context.Background()
