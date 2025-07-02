@@ -14,7 +14,6 @@
 package rbac
 
 import (
-	"github.com/ant0ine/go-json-rest/rest"
 	"github.com/gin-gonic/gin"
 )
 
@@ -25,20 +24,5 @@ func Middleware() gin.HandlerFunc {
 			ctx = WithContext(ctx, scope)
 			c.Request = c.Request.WithContext(ctx)
 		}
-	}
-}
-
-type RBACMiddleware struct {
-}
-
-func (mw *RBACMiddleware) MiddlewareFunc(h rest.HandlerFunc) rest.HandlerFunc {
-	return func(w rest.ResponseWriter, r *rest.Request) {
-		if scope := ExtractScopeFromHeader(r.Request); scope != nil {
-			ctx := r.Context()
-			ctx = WithContext(ctx, scope)
-			r.Request = r.WithContext(ctx)
-		}
-
-		h(w, r)
 	}
 }
