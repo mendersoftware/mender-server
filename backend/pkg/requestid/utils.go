@@ -16,8 +16,6 @@ package requestid
 import (
 	"context"
 	"net/http"
-
-	"github.com/ant0ine/go-json-rest/rest"
 )
 
 type requestIdKeyType int
@@ -32,9 +30,9 @@ func GetReqId(r *http.Request) string {
 }
 
 // SetReqId is a helper for setting request ID in request context
-func SetReqId(r *rest.Request, reqid string) *rest.Request {
+func SetReqId(r *http.Request, reqid string) *http.Request {
 	ctx := WithContext(r.Context(), reqid)
-	r.Request = r.Request.WithContext(ctx)
+	r = r.WithContext(ctx)
 	return r
 }
 

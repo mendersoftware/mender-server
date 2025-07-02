@@ -24,8 +24,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/mendersoftware/mender-server/pkg/rest_utils"
-
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 )
 
@@ -66,7 +65,7 @@ func NewClient(baseURL string) Client {
 
 func (c *client) CheckHealth(ctx context.Context) error {
 	var (
-		apiErr rest_utils.ApiError
+		apiErr rest.Error
 		client http.Client
 	)
 

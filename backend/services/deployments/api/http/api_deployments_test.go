@@ -33,7 +33,7 @@ import (
 	"github.com/stretchr/testify/mock"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/rest_utils"
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 	mt "github.com/mendersoftware/mender-server/pkg/testing"
 	rtest "github.com/mendersoftware/mender-server/pkg/testing/rest"
 
@@ -56,6 +56,7 @@ func TestAlive(t *testing.T) {
 	router.GET(ApiUrlInternalAlive, d.AliveHandler)
 	recorded := restutil.RunRequest(t, router, req)
 	assert.Equal(t, http.StatusNoContent, recorded.Recorder.Code)
+
 }
 
 func TestHealthCheck(t *testing.T) {
@@ -74,9 +75,9 @@ func TestHealthCheck(t *testing.T) {
 		Name:         "error: app unhealthy",
 		AppError:     errors.New("*COUGH! COUGH!*"),
 		ResponseCode: http.StatusServiceUnavailable,
-		ResponseBody: rest_utils.ApiError{
-			Err:   "*COUGH! COUGH!*",
-			ReqId: "test",
+		ResponseBody: rest.Error{
+			Err:       "*COUGH! COUGH!*",
+			RequestID: "test",
 		},
 	}}
 	for _, tc := range testCases {
@@ -127,7 +128,7 @@ func TestDeploymentsPerTenantHandler(t *testing.T) {
 		"ok": {
 			tenant: "tenantID",
 			query: &model.Query{
-				Limit: rest_utils.PerPageDefault + 1,
+				Limit: rest.PerPageDefault + 1,
 				Sort:  model.SortDirectionDescending,
 			},
 			deployments:  []*model.Deployment{},
@@ -137,7 +138,7 @@ func TestDeploymentsPerTenantHandler(t *testing.T) {
 		},
 		"ok with pagination": {
 			tenant:      "tenantID",
-			queryString: rest_utils.PerPageName + "=50&" + rest_utils.PageName + "=2",
+			queryString: rest.PerPageQueryParam + "=50&" + rest.PageQueryParam + "=2",
 			query: &model.Query{
 				Skip:  50,
 				Limit: 51,
@@ -151,42 +152,42 @@ func TestDeploymentsPerTenantHandler(t *testing.T) {
 		"ko, missing tenant ID": {
 			tenant:       "",
 			responseCode: http.StatusBadRequest,
-			responseBody: rest_utils.ApiError{
-				Err:   "missing tenant ID",
-				ReqId: "test",
+			responseBody: rest.Error{
+				Err:       "missing tenant ID",
+				RequestID: "test",
 			},
 		},
 		"ko, error in pagination": {
 			tenant:       "tenantID",
-			queryString:  rest_utils.PerPageName + "=a",
+			queryString:  rest.PerPageQueryParam + "=a",
 			responseCode: http.StatusBadRequest,
-			responseBody: rest_utils.ApiError{
-				Err:   "invalid per_page query: \"a\"",
-				ReqId: "test",
+			responseBody: rest.Error{
+				Err:       "invalid per_page query: \"a\"",
+				RequestID: "test",
 			},
 		},
 		"ko, error in filters": {
 			tenant:       "tenantID",
 			queryString:  "created_before=a",
 			responseCode: http.StatusBadRequest,
-			responseBody: rest_utils.ApiError{
-				Err:   "timestamp parsing failed for created_before parameter: invalid timestamp: a",
-				ReqId: "test",
+			responseBody: rest.Error{
+				Err:       "timestamp parsing failed for created_before parameter: invalid timestamp: a",
+				RequestID: "test",
 			},
 		},
 		"ko, error in LookupDeployment": {
 			tenant: "tenantID",
 			query: &model.Query{
-				Limit: rest_utils.PerPageDefault + 1,
+				Limit: rest.PerPageDefault + 1,
 				Sort:  model.SortDirectionDescending,
 			},
 			appError:     errors.New("generic error"),
 			deployments:  []*model.Deployment{},
 			count:        0,
 			responseCode: http.StatusBadRequest,
-			responseBody: rest_utils.ApiError{
-				Err:   "generic error",
-				ReqId: "test",
+			responseBody: rest.Error{
+				Err:       "generic error",
+				RequestID: "test",
 			},
 		},
 	}
@@ -473,9 +474,9 @@ func TestPostDeployment(t *testing.T) {
 	}, {
 		Name:         "error: empty payload",
 		ResponseCode: http.StatusBadRequest,
-		ResponseBody: rest_utils.ApiError{
-			Err:   "Validating request body: invalid request",
-			ReqId: "test",
+		ResponseBody: rest.Error{
+			Err:       "Validating request body: invalid request",
+			RequestID: "test",
 		},
 	}, {
 		Name: "error: app error",
@@ -486,9 +487,9 @@ func TestPostDeployment(t *testing.T) {
 		},
 		AppError:     errors.New("some error"),
 		ResponseCode: http.StatusInternalServerError,
-		ResponseBody: rest_utils.ApiError{
-			Err:   "internal error",
-			ReqId: "test",
+		ResponseBody: rest.Error{
+			Err:       "internal error",
+			RequestID: "test",
 		},
 	}, {
 		Name: "error: app error: no devices",
@@ -499,9 +500,9 @@ func TestPostDeployment(t *testing.T) {
 		},
 		AppError:     app.ErrNoDevices,
 		ResponseCode: http.StatusBadRequest,
-		ResponseBody: rest_utils.ApiError{
-			Err:   app.ErrNoDevices.Error(),
-			ReqId: "test",
+		ResponseBody: rest.Error{
+			Err:       app.ErrNoDevices.Error(),
+			RequestID: "test",
 		},
 	}, {
 		Name: "error: app error: conflict",
@@ -512,9 +513,9 @@ func TestPostDeployment(t *testing.T) {
 		},
 		AppError:     app.ErrConflictingDeployment,
 		ResponseCode: http.StatusConflict,
-		ResponseBody: rest_utils.ApiError{
-			Err:   app.ErrConflictingDeployment.Error(),
-			ReqId: "test",
+		ResponseBody: rest.Error{
+			Err:       app.ErrConflictingDeployment.Error(),
+			RequestID: "test",
 		},
 	}, {
 		Name: "error: conflict",
@@ -525,9 +526,9 @@ func TestPostDeployment(t *testing.T) {
 			AllDevices:   true,
 		},
 		ResponseCode: http.StatusBadRequest,
-		ResponseBody: rest_utils.ApiError{
-			Err:   "Validating request body: Invalid deployments definition: list of devices provided togheter with all_devices flag",
-			ReqId: "test",
+		ResponseBody: rest.Error{
+			Err:       "Validating request body: Invalid deployments definition: list of devices provided togheter with all_devices flag",
+			RequestID: "test",
 		},
 	}, {
 		Name: "error: no devices",
@@ -536,9 +537,9 @@ func TestPostDeployment(t *testing.T) {
 			ArtifactName: "bar",
 		},
 		ResponseCode: http.StatusBadRequest,
-		ResponseBody: rest_utils.ApiError{
-			Err:   "Validating request body: Invalid deployments definition: provide list of devices or set all_devices flag",
-			ReqId: "test",
+		ResponseBody: rest.Error{
+			Err:       "Validating request body: Invalid deployments definition: provide list of devices or set all_devices flag",
+			RequestID: "test",
 		},
 	}}
 	var constructor *model.DeploymentConstructor
@@ -608,9 +609,9 @@ func TestPostDeploymentToGroup(t *testing.T) {
 		Name:         "error: empty payload",
 		InputGroup:   "baz",
 		ResponseCode: http.StatusBadRequest,
-		ResponseBody: rest_utils.ApiError{
-			Err:   "Validating request body: invalid request",
-			ReqId: "test",
+		ResponseBody: rest.Error{
+			Err:       "Validating request body: invalid request",
+			RequestID: "test",
 		},
 	}, {
 		Name: "error: conflict",
@@ -622,9 +623,9 @@ func TestPostDeploymentToGroup(t *testing.T) {
 		},
 		InputGroup:   "baz",
 		ResponseCode: http.StatusBadRequest,
-		ResponseBody: rest_utils.ApiError{
-			Err:   "Validating request body: The deployment for group constructor should have neither list of devices nor all_devices flag set",
-			ReqId: "test",
+		ResponseBody: rest.Error{
+			Err:       "Validating request body: The deployment for group constructor should have neither list of devices nor all_devices flag set",
+			RequestID: "test",
 		},
 	}, {
 		Name: "error: app error",
@@ -635,9 +636,9 @@ func TestPostDeploymentToGroup(t *testing.T) {
 		InputGroup:   "baz",
 		AppError:     errors.New("some error"),
 		ResponseCode: http.StatusInternalServerError,
-		ResponseBody: rest_utils.ApiError{
-			Err:   "internal error",
-			ReqId: "test",
+		ResponseBody: rest.Error{
+			Err:       "internal error",
+			RequestID: "test",
 		},
 	}, {
 		Name: "error: app error: no devices",
@@ -648,9 +649,9 @@ func TestPostDeploymentToGroup(t *testing.T) {
 		InputGroup:   "baz",
 		AppError:     app.ErrNoDevices,
 		ResponseCode: http.StatusBadRequest,
-		ResponseBody: rest_utils.ApiError{
-			Err:   app.ErrNoDevices.Error(),
-			ReqId: "test",
+		ResponseBody: rest.Error{
+			Err:       app.ErrNoDevices.Error(),
+			RequestID: "test",
 		},
 	}}
 	var constructor *model.DeploymentConstructor
@@ -1156,7 +1157,7 @@ func TestDownloadConfiguration(t *testing.T) {
 
 			assert.Equal(t, tc.StatusCode, w.Code)
 			if tc.Error != nil {
-				var apiErr rest_utils.ApiError
+				var apiErr rest.Error
 				err := json.Unmarshal(w.Body.Bytes(), &apiErr)
 				if assert.NoError(t, err) {
 					assert.EqualError(t, &apiErr, tc.Error.Error())
@@ -1610,7 +1611,7 @@ func TestGetDeploymentForDevice(t *testing.T) {
 
 			assert.Equal(t, tc.StatusCode, w.Code)
 			if tc.Error != nil {
-				var apiErr rest_utils.ApiError
+				var apiErr rest.Error
 				err := json.Unmarshal(w.Body.Bytes(), &apiErr)
 				if assert.NoError(t, err) {
 					assert.EqualError(t, &apiErr, tc.Error.Error())
@@ -1866,7 +1867,7 @@ func TestLookupDeployment(t *testing.T) {
 		{
 			Name: "ok, discending",
 			query: &model.Query{
-				Limit: rest_utils.PerPageDefault + 1,
+				Limit: rest.PerPageDefault + 1,
 				Sort:  model.SortDirectionDescending,
 			},
 			deployments:  []*model.Deployment{},
@@ -1877,7 +1878,7 @@ func TestLookupDeployment(t *testing.T) {
 		{
 			Name: "ok, ascending",
 			query: &model.Query{
-				Limit: rest_utils.PerPageDefault + 1,
+				Limit: rest.PerPageDefault + 1,
 				Sort:  model.SortDirectionAscending,
 			},
 			deployments:  []*model.Deployment{},
@@ -1888,7 +1889,7 @@ func TestLookupDeployment(t *testing.T) {
 		{
 			Name: "ok, default",
 			query: &model.Query{
-				Limit: rest_utils.PerPageDefault + 1,
+				Limit: rest.PerPageDefault + 1,
 				Sort:  model.SortDirectionDescending,
 			},
 			deployments:  []*model.Deployment{},
@@ -1942,7 +1943,7 @@ func TestLookupDeploymentV2(t *testing.T) {
 		{
 			Name: "ok, discending",
 			query: &model.Query{
-				Limit: rest_utils.PerPageDefault + 1,
+				Limit: rest.PerPageDefault + 1,
 				Sort:  model.SortDirectionDescending,
 			},
 			deployments:  []*model.Deployment{},
@@ -1953,7 +1954,7 @@ func TestLookupDeploymentV2(t *testing.T) {
 		{
 			Name: "ok, ascending",
 			query: &model.Query{
-				Limit: rest_utils.PerPageDefault + 1,
+				Limit: rest.PerPageDefault + 1,
 				Sort:  model.SortDirectionAscending,
 			},
 			deployments:  []*model.Deployment{},
@@ -1964,7 +1965,7 @@ func TestLookupDeploymentV2(t *testing.T) {
 		{
 			Name: "ok, default",
 			query: &model.Query{
-				Limit: rest_utils.PerPageDefault + 1,
+				Limit: rest.PerPageDefault + 1,
 				Sort:  model.SortDirectionDescending,
 			},
 			deployments:  []*model.Deployment{},
@@ -2283,7 +2284,7 @@ func TestListDeviceDeployments(t *testing.T) {
 			deviceID:     deviceID,
 			limit:        MaximumPerPageListDeviceDeployments + 1,
 			responseCode: http.StatusBadRequest,
-			restErr:      deployments_testing.RestError("Param per_page is out of bounds"),
+			restErr:      deployments_testing.RestError("invalid per_page query: value must be a non-zero positive integer"),
 		},
 		"ko, wrong limit": {
 			deviceID:     deviceID,
@@ -2451,7 +2452,7 @@ func TestListDeviceDeploymentsInternal(t *testing.T) {
 			deviceID:     deviceID,
 			limit:        MaximumPerPageListDeviceDeployments + 1,
 			responseCode: http.StatusBadRequest,
-			restErr:      deployments_testing.RestError("Param per_page is out of bounds"),
+			restErr:      deployments_testing.RestError("invalid per_page query: value must be a non-zero positive integer"),
 		},
 		"ko, wrong limit": {
 			deviceID:     deviceID,
@@ -2607,7 +2608,7 @@ func TestListDeviceDeploymentsByIDsInternal(t *testing.T) {
 			ID:           ID,
 			limit:        MaximumPerPageListDeviceDeployments + 1,
 			responseCode: http.StatusBadRequest,
-			restErr:      deployments_testing.RestError("Param per_page is out of bounds"),
+			restErr:      deployments_testing.RestError("invalid per_page query: value must be a non-zero positive integer"),
 		},
 		"ko, wrong ID": {
 			responseCode: http.StatusBadRequest,

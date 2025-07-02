@@ -19,6 +19,10 @@ import (
 	"fmt"
 	"net"
 	"net/http"
+	"os"
+	"path"
+	"runtime"
+	"strconv"
 	"strings"
 	"time"
 
@@ -27,12 +31,69 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/netutils"
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
+)
+
+const (
+	StatusClientClosedConnection = 499
+
+	// nolint:lll
+	DefaultLogFormat = "%t %S\033[0m \033[36;1m%Dμs\033[0m \"%r\" \033[1;30m%u \"%{User-Agent}i\"\033[0m"
+	SimpleLogFormat  = "%s %Dμs %r %u %{User-Agent}i"
+
+	envProxyDepth = "ACCESSLOG_PROXY_DEPTH"
 )
 
 type AccessLogger struct {
 	DisableLog   func(c *gin.Context) bool
 	ClientIPHook func(r *http.Request) net.IP
+}
+
+func getClientIPFromEnv() func(r *http.Request) net.IP {
+	if proxyDepthEnv, ok := os.LookupEnv(envProxyDepth); ok {
+		proxyDepth, err := strconv.ParseUint(proxyDepthEnv, 10, 8)
+		if err == nil {
+			return func(r *http.Request) net.IP {
+				return netutils.GetIPFromXFFDepth(r, int(proxyDepth))
+			}
+		}
+	}
+	return nil
+}
+
+const MaxTraceback = 32
+
+func collectTrace() string {
+	var (
+		trace     [MaxTraceback]uintptr
+		traceback strings.Builder
+	)
+	// Skip 4
+	// = accesslog.LogFunc
+	// + accesslog.collectTrace
+	// + runtime.Callers
+	// + runtime.gopanic
+	n := runtime.Callers(4, trace[:])
+	frames := runtime.CallersFrames(trace[:n])
+	for frame, more := frames.Next(); frame.PC != 0 &&
+		n >= 0; frame, more = frames.Next() {
+		funcName := frame.Function
+		if funcName == "" {
+			fmt.Fprint(&traceback, "???\n")
+		} else {
+			fmt.Fprintf(&traceback, "%s@%s:%d",
+				frame.Function,
+				path.Base(frame.File),
+				frame.Line,
+			)
+		}
+		if more {
+			fmt.Fprintln(&traceback)
+		}
+		n--
+	}
+	return traceback.String()
 }
 
 func formatPathParams(params gin.Params) string {

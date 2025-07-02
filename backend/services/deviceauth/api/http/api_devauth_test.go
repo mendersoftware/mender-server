@@ -30,7 +30,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
-	"github.com/mendersoftware/mender-server/pkg/rest_utils"
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 	rtest "github.com/mendersoftware/mender-server/pkg/testing/rest"
 
 	mt "github.com/mendersoftware/mender-server/pkg/testing"
@@ -1061,9 +1061,9 @@ func TestSearchDevices(t *testing.T) {
 		StatusCode: http.StatusBadRequest,
 		Headers:    http.Header{"X-Men-Requestid": []string{"test"}},
 		Body: func() []byte {
-			err := rest_utils.ApiError{
-				Err:   "invalid per_page query: \"many\"",
-				ReqId: "test",
+			err := rest.Error{
+				Err:       "invalid per_page query: \"many\"",
+				RequestID: "test",
 			}
 			b, _ := json.Marshal(err)
 			return b
@@ -1086,11 +1086,11 @@ func TestSearchDevices(t *testing.T) {
 		StatusCode: http.StatusBadRequest,
 		Headers:    http.Header{"X-Men-Requestid": []string{"test"}},
 		Body: func() []byte {
-			err := rest_utils.ApiError{
+			err := rest.Error{
 				Err: "api: malformed request body: " +
 					"invalid character '{' looking for " +
 					"beginning of object key string",
-				ReqId: "test",
+				RequestID: "test",
 			}
 			b, _ := json.Marshal(err)
 			return b
@@ -1116,7 +1116,7 @@ func TestSearchDevices(t *testing.T) {
 			StatusCode: http.StatusUnsupportedMediaType,
 			Headers:    http.Header{"X-Men-Requestid": []string{"test"}},
 			Body: func() []byte {
-				err := rest_utils.ApiError{
+				err := rest.Error{
 					Err: "Bad Content-Type or charset, expected 'application/json'",
 				}
 				b, _ := json.Marshal(err)
@@ -1199,7 +1199,7 @@ func TestApiV2GetDevices(t *testing.T) {
 			devices: devs,
 			err:     nil,
 			skip:    0,
-			limit:   rest_utils.PerPageDefault + 1,
+			limit:   rest.PerPageDefault + 1,
 			body:    string(asJSON(devs)),
 		},
 		"no devices": {
@@ -1211,7 +1211,7 @@ func TestApiV2GetDevices(t *testing.T) {
 			code:    http.StatusOK,
 			devices: []model.Device{},
 			skip:    0,
-			limit:   rest_utils.PerPageDefault + 1,
+			limit:   rest.PerPageDefault + 1,
 			err:     nil,
 			body:    "[]",
 		},
@@ -2126,7 +2126,7 @@ func TestApiGetTenantDevicesV2(t *testing.T) {
 			devices:   devs,
 			err:       nil,
 			skip:      0,
-			limit:     rest_utils.PerPageDefault + 1,
+			limit:     rest.PerPageDefault + 1,
 			body:      string(asJSON(devs)),
 			tenant_id: "powerpuff123",
 
@@ -2141,7 +2141,7 @@ func TestApiGetTenantDevicesV2(t *testing.T) {
 			devices:   devs,
 			err:       nil,
 			skip:      0,
-			limit:     rest_utils.PerPageDefault + 1,
+			limit:     rest.PerPageDefault + 1,
 			body:      string(asJSON(devs)),
 			tenant_id: "powerpuff123",
 
@@ -2156,7 +2156,7 @@ func TestApiGetTenantDevicesV2(t *testing.T) {
 			devices:   devs[:2],
 			err:       nil,
 			skip:      0,
-			limit:     rest_utils.PerPageDefault + 1,
+			limit:     rest.PerPageDefault + 1,
 			body:      string(asJSON(devs[:2])),
 			tenant_id: "powerpuff123",
 
@@ -2174,7 +2174,7 @@ func TestApiGetTenantDevicesV2(t *testing.T) {
 			code:      http.StatusOK,
 			devices:   []model.Device{},
 			skip:      0,
-			limit:     rest_utils.PerPageDefault + 1,
+			limit:     rest.PerPageDefault + 1,
 			err:       nil,
 			body:      "[]",
 			tenant_id: "powerpuff123",

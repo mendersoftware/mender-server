@@ -34,7 +34,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
-	"github.com/mendersoftware/mender-server/pkg/rest_utils"
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 	mt "github.com/mendersoftware/mender-server/pkg/testing"
 	rtest "github.com/mendersoftware/mender-server/pkg/testing/rest"
 
@@ -86,9 +86,9 @@ func TestHealthCheck(t *testing.T) {
 
 		AppError:     errors.New("connection error"),
 		ResponseCode: http.StatusServiceUnavailable,
-		ResponseBody: rest_utils.ApiError{
-			Err:   "connection error",
-			ReqId: "test",
+		ResponseBody: rest.Error{
+			Err:       "connection error",
+			RequestID: "test",
 		},
 	}}
 
