@@ -19,8 +19,6 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/ant0ine/go-json-rest/rest"
-	"github.com/ant0ine/go-json-rest/rest/test"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
@@ -87,50 +85,4 @@ func TestGinMiddleware(t *testing.T) {
 			}
 		})
 	}
-}
-
-func TestRequestIdMiddlewareWithReqID(t *testing.T) {
-	api := rest.NewApi()
-
-	api.Use(&RequestIdMiddleware{})
-
-	reqid := "4420a5b9-dbf2-4e5d-8b4f-3cf2013d04af"
-	api.SetApp(rest.AppSimple(func(w rest.ResponseWriter, r *rest.Request) {
-		assert.Equal(t, reqid, FromContext(r.Context()))
-		w.WriteJson(map[string]string{"foo": "bar"})
-	}))
-
-	handler := api.MakeHandler()
-
-	req := test.MakeSimpleRequest("GET", "http://localhost/", nil)
-	req.Header.Set(RequestIdHeader, reqid)
-
-	recorded := test.RunRequest(t, handler, req)
-	recorded.CodeIs(200)
-	recorded.ContentTypeIsJson()
-	recorded.HeaderIs(RequestIdHeader, reqid)
-
-}
-
-func TestRequestIdMiddlewareNoReqID(t *testing.T) {
-	api := rest.NewApi()
-
-	api.Use(&RequestIdMiddleware{})
-
-	api.SetApp(rest.AppSimple(func(w rest.ResponseWriter, r *rest.Request) {
-		reqid := FromContext(r.Context())
-		_, err := uuid.Parse(reqid)
-		assert.NoError(t, err)
-		w.WriteJson(map[string]string{"foo": "bar"})
-	}))
-
-	handler := api.MakeHandler()
-
-	req := test.MakeSimpleRequest("GET", "http://localhost/", nil)
-	recorded := test.RunRequest(t, handler, req)
-	recorded.CodeIs(200)
-	recorded.ContentTypeIsJson()
-	outReqIdStr := recorded.Recorder.HeaderMap.Get(RequestIdHeader)
-	_, err := uuid.Parse(outReqIdStr)
-	assert.NoError(t, err)
 }
