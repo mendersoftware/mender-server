@@ -163,6 +163,7 @@ func doMain(args []string) error {
 
 		// Enable setting conig values by environment variables
 		config.Config.SetEnvPrefix("USERADM")
+		config.Config.SetEnvKeyReplacer(strings.NewReplacer(".", "_", "-", "_"))
 		config.Config.AutomaticEnv()
 
 		if config.Config.IsSet(SettingPlanDefinitions) {
