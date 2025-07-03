@@ -39,6 +39,15 @@ func AllowHeaderOptionsGenerator(methods []string) gin.HandlerFunc {
 	}
 }
 
+func rewritePathPrefix(old, new string) gin.HandlerFunc {
+	n := len(old)
+	return func(ctx *gin.Context) {
+		if strings.HasPrefix(ctx.Request.URL.Path, old) {
+			ctx.Request.URL.Path = new + ctx.Request.URL.Path[n:]
+		}
+	}
+}
+
 func supportsMethod(method string, methods []string) bool {
 	return utils.ContainsString(method, methods)
 }
@@ -116,6 +125,7 @@ func NewRouter(app inv.InventoryApp) http.Handler {
 	mgmtAPIV2.Group(".").Use(contenttype.CheckJSON()).
 		POST(urlFiltersSearch, mgmtHandler.FiltersSearchHandler)
 
+	mgmtAPIV1Legacy.Use(rewritePathPrefix(apiUrlLegacy, apiUrlManagementV1))
 	mgmtAPIV1Legacy.GET(uriDevices, mgmtHandler.GetDevicesHandler)
 	mgmtAPIV1Legacy.GET(uriDevice, mgmtHandler.GetDeviceHandler)
 	mgmtAPIV1Legacy.GET(uriDeviceGroups, mgmtHandler.GetDeviceGroupHandler)
@@ -136,6 +146,7 @@ func NewRouter(app inv.InventoryApp) http.Handler {
 		PATCH(uriAttributes, mgmtHandler.UpdateDeviceAttributesHandler).
 		PUT(uriAttributes, mgmtHandler.UpdateDeviceAttributesHandler)
 
+	devicesAPILegacy.Use(rewritePathPrefix(apiUrlLegacy, apiUrlManagementV1))
 	devicesAPILegacy.Group(".").Use(contenttype.CheckJSON()).
 		PATCH(uriAttributes, mgmtHandler.UpdateDeviceAttributesHandler).
 		PUT(uriAttributes, mgmtHandler.UpdateDeviceAttributesHandler)
