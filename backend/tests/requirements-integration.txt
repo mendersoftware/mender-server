@@ -12,7 +12,7 @@ idna==3.10
 iniconfig==2.1.0
 kubernetes==32.0.1
 packaging==25.0
-Pillow==11.2.1
+Pillow==11.3.0
 pluggy==1.6.0
 py==1.11.0
 pycparser==2.22
