@@ -13,10 +13,10 @@
 //    limitations under the License.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import {
   Button,
-  Checkbox,
   FormControl,
   FormControlLabel,
   FormHelperText,
@@ -25,26 +25,29 @@ import {
   Select,
   Switch,
   TextField,
+  Typography,
   textFieldClasses
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import DocsLink from '@northern.tech/common-ui/DocsLink';
-import { HELPTOOLTIPS } from '@northern.tech/common-ui/helptips/HelpTooltips';
-import { MenderHelpTooltip } from '@northern.tech/common-ui/helptips/MenderTooltip';
-import { DEVICE_ONLINE_CUTOFF, TIMEOUTS, alertChannels, settingsKeys } from '@northern.tech/store/constants';
+import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
+import { SupportLink } from '@northern.tech/common-ui/SupportLink';
+import { BENEFITS, DEVICE_ONLINE_CUTOFF, TIMEOUTS, alertChannels, settingsKeys } from '@northern.tech/store/constants';
 import {
   getDeviceIdentityAttributes,
   getFeatures,
   getGlobalSettings as getGlobalSettingsSelector,
   getIdAttribute,
   getOfflineThresholdSettings,
+  getOrganization,
   getTenantCapabilities,
   getUserCapabilities,
   getUserRoles
 } from '@northern.tech/store/selectors';
 import { changeNotificationSetting, getDeviceAttributes, getGlobalSettings, saveGlobalSettings } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
+import { yes } from '@northern.tech/utils/helpers';
 
 import ArtifactGenerationSettings from './ArtifactGeneration';
 import ReportingLimits from './ReportingLimits';
@@ -52,7 +55,6 @@ import ReportingLimits from './ReportingLimits';
 const maxWidth = 750;
 
 const useStyles = makeStyles()(theme => ({
-  confirmDeploy: { flexDirection: 'row' },
   formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(4) },
   threshold: {
     columnGap: theme.spacing(2),
@@ -123,6 +125,34 @@ export const IdAttributeSelection = ({ attributes, dialog = false, onCloseClick,
   );
 };
 
+const ToggleSetting = ({
+  description,
+  disabled = false,
+  title,
+  onClick,
+  value
+}: {
+  description?: string;
+  disabled?: boolean;
+  onClick: () => void;
+  title: string;
+  value: boolean;
+}) => (
+  <div className="flexbox column">
+    <FormControl variant="standard">
+      <FormControlLabel
+        disabled={disabled}
+        classes={{ label: 'capitalized-start' }}
+        className="margin-left-none align-self-start"
+        control={<Switch className="margin-left-small" checked={value} onClick={onClick} />}
+        label={title}
+        labelPlacement="start"
+      />
+    </FormControl>
+    {!!description && <Typography variant="body2">{description}</Typography>}
+  </div>
+);
+
 export const GlobalSettingsDialog = ({
   attributes,
   hasReporting,
@@ -141,12 +171,15 @@ export const GlobalSettingsDialog = ({
   const [channelSettings, setChannelSettings] = useState(notificationChannelSettings);
   const [currentInterval, setCurrentInterval] = useState(offlineThresholdSettings.interval);
   const [intervalErrorText, setIntervalErrorText] = useState('');
+  const [showDeltaConfig, setShowDeltaConfig] = useState(false);
   const debouncedOfflineThreshold = useDebounce(currentInterval, TIMEOUTS.threeSeconds);
   const timer = useRef(false);
   const { classes } = useStyles();
   const { needsDeploymentConfirmation = false } = settings;
-  const { canDelta, hasMonitor } = tenantCapabilities;
+  const { hasMonitor, isEnterprise } = tenantCapabilities;
   const { canManageReleases, canManageUsers } = userCapabilities;
+  const { trial: isTrial = true } = useSelector(getOrganization);
+  const { hasDelta: hasDeltaArtifactGeneration } = useSelector(state => state.deployments.config) ?? {};
 
   useEffect(() => {
     setChannelSettings(notificationChannelSettings);
@@ -170,10 +203,15 @@ export const GlobalSettingsDialog = ({
     };
   }, []);
 
-  const onNotificationSettingsClick = ({ target: { checked } }, channel) => {
-    setChannelSettings({ ...channelSettings, channel: { enabled: !checked } });
-    onChangeNotificationSetting({ enabled: !checked, channel });
-  };
+  const onNotificationSettingsClick = useCallback(
+    channel => {
+      const checked = channelSettings[channel].enabled;
+      setChannelSettings({ ...channelSettings, [channel]: { enabled: !checked } });
+      onChangeNotificationSetting({ enabled: !checked, channel });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [JSON.stringify(channelSettings)]
+  );
 
   const onChangeOfflineInterval = ({ target: { validity, value } }) => {
     if (validity.valid) {
@@ -183,44 +221,55 @@ export const GlobalSettingsDialog = ({
     setIntervalErrorText('Please enter a valid number between 1 and 1000.');
   };
 
-  const toggleDeploymentConfirmation = () => {
-    saveGlobalSettings({ needsDeploymentConfirmation: !needsDeploymentConfirmation });
-  };
+  const toggleDeploymentConfirmation = () => saveGlobalSettings({ needsDeploymentConfirmation: !needsDeploymentConfirmation });
+
+  const onEditDeltaClick = () => setShowDeltaConfig(true);
 
   return (
     <div style={{ maxWidth }} className="margin-top-small">
-      <div className="flexbox center-aligned">
-        <h2 className="margin-top-small margin-right-small">Global settings</h2>
-        <MenderHelpTooltip id={HELPTOOLTIPS.globalSettings.id} placement="top" />
-      </div>
+      <Typography variant="h6">Global settings</Typography>
+      <Typography className="margin-top-x-small margin-bottom-large" variant="body2">
+        Global settings are applied organization-wide. Modifying these settings will affect all users.
+      </Typography>
       <div className={classes.formWrapper}>
         <IdAttributeSelection attributes={attributes} onCloseClick={onCloseClick} onSaveClick={onSaveClick} selectedAttribute={selectedAttribute} />
         {hasReporting && <ReportingLimits />}
         {canManageUsers && (
-          <FormControl className={classes.confirmDeploy} variant="standard">
-            <InputLabel shrink>Deployments</InputLabel>
-            <FormControlLabel
-              className="margin-left-none"
-              control={<Switch checked={needsDeploymentConfirmation} onClick={toggleDeploymentConfirmation} />}
-              label="Require confirmation on deployment creation"
-              labelPlacement="start"
-            />
-          </FormControl>
+          <ToggleSetting
+            title="Deployments confirmation"
+            description="Always require confirmation on deployment creation"
+            onClick={toggleDeploymentConfirmation}
+            value={needsDeploymentConfirmation}
+          />
         )}
-        {canManageReleases && canDelta && <ArtifactGenerationSettings />}
+        {canManageReleases && (
+          <div>
+            <div className="flexbox">
+              <ToggleSetting title="Delta Artifacts generation" disabled onClick={yes} value={hasDeltaArtifactGeneration} />
+              <EnterpriseNotification className="margin-left-small" id={BENEFITS.deltaGeneration.id} />
+            </div>
+            <Button className="margin-top-small" disabled={!(isEnterprise && hasDeltaArtifactGeneration)} onClick={onEditDeltaClick} variant="outlined">
+              Edit configuration
+            </Button>
+            {!isEnterprise && (
+              <Typography variant="body2">
+                Automatic delta artifacts generation is not enabled in your account. If you want to start using this feature, <SupportLink variant="ourTeam" />{' '}
+                or <Link to="/settings/upgrade">upgrade</Link>
+                {isTrial ? '' : ' to Mender Enterprise'}.
+              </Typography>
+            )}
+          </div>
+        )}
         {isAdmin &&
           hasMonitor &&
           Object.keys(alertChannels).map(channel => (
-            <FormControl key={channel} variant="standard">
-              <InputLabel className="capitalized-start" shrink id={`${channel}-notifications`}>
-                {channel} notifications
-              </InputLabel>
-              <FormControlLabel
-                control={<Checkbox checked={!channelSettings[channel].enabled} onChange={e => onNotificationSettingsClick(e, channel)} />}
-                label={`Mute ${channel} notifications`}
-              />
-              <FormHelperText>Mute {channel} notifications for deployment and monitoring issues for all users</FormHelperText>
-            </FormControl>
+            <ToggleSetting
+              key={channel}
+              value={channelSettings[channel].enabled}
+              onClick={() => onNotificationSettingsClick(channel)}
+              title={`${channel} notifications`}
+              description={`${channel} notifications for deployment and monitoring issues for all users`}
+            />
           ))}
 
         <FormControl variant="standard">
@@ -243,6 +292,7 @@ export const GlobalSettingsDialog = ({
           <FormHelperText>Choose how long a device can go without reporting to the server before it is considered “offline”.</FormHelperText>
         </FormControl>
       </div>
+      <ArtifactGenerationSettings open={showDeltaConfig} onClose={() => setShowDeltaConfig(false)} />
     </div>
   );
 };

@@ -163,7 +163,13 @@ export const deploymentHandlers = [
     return new HttpResponse(null, { status: 529 });
   }),
   http.get(`${deploymentsApiUrl}/config`, () => HttpResponse.json(defaultDeploymentConfig)),
-  http.put(`${deploymentsApiUrl}/config/binary_delta`, () => new HttpResponse(null, { status: 200 })),
+  http.put(`${deploymentsApiUrl}/config/binary_delta`, async ({ request }) => {
+    const { xdelta_args = {} } = await request.json();
+    if (xdelta_args.source_window_size === 55) {
+      return new HttpResponse(null, { status: 530 });
+    }
+    return new HttpResponse(null, { status: 200 });
+  }),
   http.get(`${deploymentsApiUrl}/deployments/devices/:deviceId`, ({ params: { deviceId } }) => {
     if (deviceId === defaultState.devices.byId.a1.id) {
       return new HttpResponse(
