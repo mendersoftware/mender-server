@@ -41,6 +41,9 @@ func (duration *Duration) UnmarshalText(b []byte) error {
 // an array of objects (using json struct tag) for any configuration source
 // that is able to express a slice of objects.
 func UnmarshalSliceSetting[T any](c Reader, path string, result *[]T) error {
+	if result == nil {
+		return errors.New("cannot unmarshal setting to nil result")
+	}
 	value := c.Get(path)
 	var err error
 	switch cfg := value.(type) {
