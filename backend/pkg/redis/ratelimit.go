@@ -15,49 +15,54 @@ func NewFixedWindowRateLimiter(
 	client Client,
 	keyPrefix string,
 	interval time.Duration,
-	limitFromContext RatelimitParamsFunc,
-) rate.Limiter {
-	return &fixedWindowRatelimiter{
-		client:     client,
-		paramsFunc: limitFromContext,
-		nowFunc:    time.Now,
-		keyPrefix:  keyPrefix,
-		interval:   interval,
+	quota int64,
+) *FixedWindowRateLimiter {
+	return &FixedWindowRateLimiter{
+		client:    client,
+		nowFunc:   time.Now,
+		keyPrefix: keyPrefix,
+		interval:  interval,
+		quota:     quota,
 	}
 }
 
-type RatelimitParamsFunc func(context.Context) (burst uint64, eventID string, err error)
+var (
+	_ rate.Limiter      = &FixedWindowRateLimiter{}
+	_ rate.EventLimiter = &FixedWindowRateLimiter{}
+)
 
-func FixedRatelimitParams(burst uint64) RatelimitParamsFunc {
-	return func(ctx context.Context) (uint64, string, error) {
-		return burst, "", nil
-	}
-}
-
-type fixedWindowRatelimiter struct {
-	client     Client
-	paramsFunc RatelimitParamsFunc
-	nowFunc    func() time.Time
-	keyPrefix  string
+// FixedWindowRateLimiter implements a version of the algorithm described
+// at https://redis.io/glossary/rate-limiting/
+type FixedWindowRateLimiter struct {
+	client    Client
+	nowFunc   func() time.Time
+	keyPrefix string
 
 	interval time.Duration
+	quota    int64
 }
 
+// simpleReservation is a straight forward implementation of the
+// rate.Reservation interface.
 type simpleReservation struct {
-	ok     bool
-	tokens uint64
-	delay  time.Duration
+	// tokens count the number of tokens (events) remaining after
+	// reservation has been made.
+	tokens int64
+	// delay is the time the client would need to wait for a token (event)
+	// to become available. If 0 or negative, the reservation is accepted
+	// that is, (*simpleReservation).OK() == true.
+	delay time.Duration
 }
 
 func (r *simpleReservation) OK() bool {
-	return r.ok
+	return r.delay <= 0
 }
 
 func (r *simpleReservation) Delay() time.Duration {
 	return r.delay
 }
 
-func (r *simpleReservation) Tokens() uint64 {
+func (r *simpleReservation) Tokens() int64 {
 	return r.tokens
 }
 
@@ -69,61 +74,45 @@ func fixedWindowKey(prefix, eventID string, epoch int64) string {
 	if prefix == "" {
 		prefix = "ratelimit"
 	}
-	return fmt.Sprintf("%s:id:%s:e:%d:c", prefix, eventID, epoch)
+	if eventID == "" {
+		return fmt.Sprintf("%s:e:%d:c", prefix, epoch)
+	} else {
+		return fmt.Sprintf("%s:%s:e:%d:c", prefix, eventID, epoch)
+	}
 }
 
-func (rl *fixedWindowRatelimiter) Reserve(ctx context.Context) (rate.Reservation, error) {
+func (rl *FixedWindowRateLimiter) ReserveEvent(
+	ctx context.Context,
+	eventID string,
+) (rate.Reservation, error) {
 	now := rl.nowFunc()
-	burst, eventID, err := rl.paramsFunc(ctx)
-	if err != nil {
-		return nil, err
-	}
 	epoch := epoch(now, rl.interval)
 	key := fixedWindowKey(rl.keyPrefix, eventID, epoch)
-	count := uint64(1)
+	count := int64(1)
 
-	err = rl.client.SetArgs(ctx, key, count, redis.SetArgs{
+	err := rl.client.SetArgs(ctx, key, count, redis.SetArgs{
 		TTL:  rl.interval,
 		Mode: `NX`,
 	}).Err()
 	if errors.Is(err, redis.Nil) {
-		count, err = rl.client.Incr(ctx, key).Uint64()
+		count, err = rl.client.Incr(ctx, key).Result()
 	}
 	if err != nil {
 		return nil, fmt.Errorf("redis: error computing rate limit: %w", err)
 	}
-	if count <= burst {
+	if count <= rl.quota {
 		return &simpleReservation{
 			delay:  0,
-			ok:     true,
-			tokens: burst - count,
+			tokens: rl.quota - count,
 		}, nil
 	}
 	return &simpleReservation{
 		delay: now.Sub(time.UnixMilli((epoch + 1) *
 			rl.interval.Milliseconds())),
-		ok:     false,
 		tokens: 0,
 	}, nil
 }
 
-func (rl *fixedWindowRatelimiter) Tokens(ctx context.Context) (uint64, error) {
-	burst, eventID, err := rl.paramsFunc(ctx)
-	if err != nil {
-		return 0, err
-	}
-	count, err := rl.client.Get(ctx,
-		fixedWindowKey(rl.keyPrefix,
-			eventID,
-			epoch(rl.nowFunc(), rl.interval),
-		),
-	).Uint64()
-	if errors.Is(err, redis.Nil) {
-		return burst, nil
-	} else if err != nil {
-		return 0, fmt.Errorf("redis: error getting free tokens: %w", err)
-	} else if count > burst {
-		return 0, nil
-	}
-	return burst - count, nil
+func (rl *FixedWindowRateLimiter) Reserve(ctx context.Context) (rate.Reservation, error) {
+	return rl.ReserveEvent(ctx, "")
 }
