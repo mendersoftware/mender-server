@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+
 	"github.com/mendersoftware/mender-server/pkg/accesslog"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 )
@@ -59,12 +60,12 @@ func newHTTPLimiterForTesting(t *testing.T) *HTTPLimiter {
 	httpLimiter.AddRateLimitGroup(NewEventLimiter(1, time.Microsecond), "fast", `fast`)
 	httpLimiter.AddRateLimitGroup(NewEventLimiter(5, time.Hour), "sub", `{{with .Identity }}{{.Subject}}{{end}}`)
 
-	httpLimiter.MatchHTTPPattern("/slow/", "slow")
-	httpLimiter.MatchHTTPPattern("POST /slow/superslow", "superslow")
-	httpLimiter.MatchHTTPPattern("/fast/", "fast")
-	httpLimiter.MatchHTTPPattern("/group/", `{{ .Header.Get "X-Test-Group"}}`)
-	httpLimiter.MatchHTTPPattern("/subject/", `sub`)
-	httpLimiter.MatchHTTPPattern("/bad_template/", `{{.Foobar}}`)
+	httpLimiter.AddMatchExpression("/slow/", "slow")
+	httpLimiter.AddMatchExpression("POST /slow/superslow", "superslow")
+	httpLimiter.AddMatchExpression("/fast/", "fast")
+	httpLimiter.AddMatchExpression("/group/", `{{ .Header.Get "X-Test-Group"}}`)
+	httpLimiter.AddMatchExpression("/subject/", `sub`)
+	httpLimiter.AddMatchExpression("/bad_template/", `{{.Foobar}}`)
 	return httpLimiter
 }
 
