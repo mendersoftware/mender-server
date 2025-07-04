@@ -23,6 +23,10 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 )
 
+var (
+	ErrTooLarge = errors.New("http: request body too large")
+)
+
 func RenderError(c *gin.Context, code int, err error) {
 	ctx := c.Request.Context()
 	_ = c.Error(err)
