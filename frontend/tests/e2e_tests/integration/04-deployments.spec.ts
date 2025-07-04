@@ -17,7 +17,7 @@ import isBetween from 'dayjs/plugin/isBetween.js';
 
 import test, { expect } from '../fixtures/fixtures';
 import { getTokenFromStorage } from '../utils/commands';
-import { selectors, timeouts } from '../utils/constants';
+import { releaseTag, selectors, timeouts } from '../utils/constants';
 
 dayjs.extend(isBetween);
 
@@ -43,6 +43,15 @@ test.describe('Deployments', () => {
     await page.getByRole('tab', { name: /finished/i }).click();
     await checkTimeFilter(page, 'From');
     await checkTimeFilter(page, 'To', true);
+  });
+  test('ensure release page filters are not used on deployment creation', async ({ baseUrl, page }) => {
+    await page.getByPlaceholder(/select tags/i).fill(`${releaseTag.toLowerCase()},`);
+    await page.goto(`${baseUrl}ui/deployments`);
+    await page.getByRole('button', { name: /create a deployment/i }).click();
+    await page.waitForSelector(selectors.releaseSelect, { timeout: timeouts.fiveSeconds });
+    const releaseSelect = await page.getByPlaceholder(/select a release/i);
+    await releaseSelect.focus();
+    await expect(page.locator(`#deployment-release-selection-listbox li:has-text('mender-demo-artifact')`));
   });
   test('allows shortcut deployments', async ({ page }) => {
     // create an artifact to download first
