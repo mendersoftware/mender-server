@@ -25,4 +25,8 @@ func TestRewriteForwardedRequest(t *testing.T) {
 	if rf.URL.Path != "/bar/baz" {
 		t.Errorf("unexpected path in forwraded request: %s (actual) != /bar/baz", rf.URL.Path)
 	}
+
+	if r := RewriteForwardedRequest(nil); r != nil {
+		t.Errorf("unexpected result rewriting nil request: %v", *r)
+	}
 }
