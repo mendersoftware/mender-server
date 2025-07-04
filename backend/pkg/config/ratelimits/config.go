@@ -24,6 +24,14 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/redis"
 )
 
+type ConfigDisabledError struct {
+	Path string
+}
+
+func (err *ConfigDisabledError) Error() string {
+	return fmt.Sprintf("configuration %q disabled", err.Path)
+}
+
 func init() {
 	config.Config.SetDefault(SettingRatelimitsAuthDefaultInterval, "1m")
 	config.Config.SetDefault(SettingRatelimitsAuthDefaultQuota, "120")
@@ -79,7 +87,9 @@ func SetupRedisRateLimits(
 	c config.Reader,
 ) (*rate.HTTPLimiter, error) {
 	if !c.GetBool(SettingRatelimitsAuthEnable) {
-		return nil, nil
+		return nil, &ConfigDisabledError{
+			Path: SettingRatelimitsAuthEnable,
+		}
 	}
 	lims, err := LoadRatelimits(c)
 	if err != nil {
@@ -109,7 +119,7 @@ func SetupRedisRateLimits(
 		}
 	}
 	for _, expr := range lims.MatchExpressions {
-		err = mux.MatchHTTPPattern(expr.APIPattern, expr.GroupExpression)
+		err = mux.AddMatchExpression(expr.APIPattern, expr.GroupExpression)
 		if err != nil {
 			return nil, fmt.Errorf("error setting up match patterns: %w", err)
 		}
