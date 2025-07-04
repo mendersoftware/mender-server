@@ -2,37 +2,72 @@ package rate
 
 import (
 	"bytes"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"math"
 	"net/http"
+	"strconv"
 	"text/template"
+	"time"
 
 	"github.com/gin-gonic/gin"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/requestid"
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 )
 
-var ErrTooManyRequests = errors.New("too many requests")
+// TooManyRequestsError is the error type returned when hitting the rate
+// limits.
+type TooManyRequestsError struct {
+	Delay time.Duration
+}
 
-type limiterGroup struct {
+func (err *TooManyRequestsError) Error() string {
+	return "too many requests"
+}
+
+type templateEventLimiter struct {
 	limiter       EventLimiter
 	eventTemplate *template.Template
 }
 
+// HTTPLimiter combines a set of EventLimiter (groups) and a http.ServeMux
+// for routing API endpoints to a EventLimiter.
+//
+// Every EventLimiter comes with an eventTemplate for grouping events by
+// a Go template expression. The data to the Go template can be customized by
+// calling WithTemplateDataFunc and WithTemplateFuncs.
+//
+// Additional routes are added by calling MatchHTTPPattern which accepts a HTTP
+// pattern and a target group which also accepts Go template expressions.
+//
+// The HTTPLimiter implements both the standard http.Handler and
+// gin.HandlerFunc (see (*HTTPLimiter).MiddlewareGin) for use with either the
+// standard library or as a middleware for the gin-gonic framework.
 type HTTPLimiter struct {
-	templateData  func(r *http.Request) any
-	template      *template.Template
-	mux           *http.ServeMux
-	DefaultGroup  *limiterGroup
-	limiterGroups map[string]*limiterGroup
+	// rootTemplate stores the root Template that is inherited by all
+	// template string parameters (event and group strings).
+	rootTemplate *template.Template
+	// templateDataCallback is a callback that is called before executing
+	// template strings and should output the template data used.
+	//
+	// See defaultTemplateData.
+	templateDataCallback func(r *http.Request) any
 
+	// httpMux implements the request router to a ratelimiter match instance
+	httpMux *http.ServeMux
+
+	// defaultLimiter is the default rate limiter if no group matches.
+	defaultLimiter *templateEventLimiter
+	// limiterGroups maps the group name to rate limiters.
+	limiterGroups map[string]*templateEventLimiter
+
+	// rewriteRequests decides whether to autmatically rewrite the request
+	// URL using X-Forwarded-* headers.
 	rewriteRequests bool
 }
 
+// defaultTemplateData is the default callback for executing template strings.
 func defaultTemplateData(r *http.Request) any {
 	id := identity.FromContext(r.Context())
 	ctx := map[string]any{
@@ -42,30 +77,36 @@ func defaultTemplateData(r *http.Request) any {
 	return ctx
 }
 
-func NewHTTPLimiter(eventLimiter EventLimiter, eventTemplate string) (*HTTPLimiter, error) {
-	template, err := template.New("").Parse(eventTemplate)
+// NewHTTPLimiter initializes a new HTTPLimiter using defaultLimiter as the
+// default ratelimiter using defaultEventTemplate for grouping events.
+// See HTTPLimiter.
+func NewHTTPLimiter(
+	defaultLimiter EventLimiter,
+	defaultEventTemplate string,
+) (*HTTPLimiter, error) {
+	template, err := template.New("").Parse(defaultEventTemplate)
 	if err != nil {
 		return nil, fmt.Errorf("invalid eventTemplate: %w", err)
 	}
 	return &HTTPLimiter{
-		template:     template.New("").Option("missingkey=zero"),
-		mux:          http.NewServeMux(),
-		templateData: defaultTemplateData,
-		DefaultGroup: &limiterGroup{
-			limiter:       eventLimiter,
+		rootTemplate:         template.New("").Option("missingkey=zero"),
+		httpMux:              http.NewServeMux(),
+		templateDataCallback: defaultTemplateData,
+		defaultLimiter: &templateEventLimiter{
+			limiter:       defaultLimiter,
 			eventTemplate: template,
 		},
-		limiterGroups: make(map[string]*limiterGroup),
+		limiterGroups: make(map[string]*templateEventLimiter),
 	}, nil
 }
 
 func (h *HTTPLimiter) WithTemplateDataFunc(f func(*http.Request) any) *HTTPLimiter {
-	h.templateData = f
+	h.templateDataCallback = f
 	return h
 }
 
 func (h *HTTPLimiter) WithTemplateFuncs(funcs map[string]any) *HTTPLimiter {
-	h.template.Funcs(funcs)
+	h.rootTemplate.Funcs(funcs)
 	return h
 }
 
@@ -75,21 +116,21 @@ func (h *HTTPLimiter) WithRewriteRequests(rewrite bool) *HTTPLimiter {
 }
 
 func (h *HTTPLimiter) AddRateLimitGroup(limiter EventLimiter, group, eventTemplate string) error {
-	t, err := h.template.Clone()
+	t, err := h.rootTemplate.Clone()
 	if err == nil {
 		_, err = t.Parse(eventTemplate)
 	}
 	if err != nil {
 		return fmt.Errorf("failed to compile event template: %w", err)
 	}
-	h.limiterGroups[group] = &limiterGroup{
+	h.limiterGroups[group] = &templateEventLimiter{
 		limiter:       limiter,
 		eventTemplate: t,
 	}
 	return nil
 }
 
-func (h *HTTPLimiter) MatchHTTPPattern(
+func (h *HTTPLimiter) AddMatchExpression(
 	pattern, groupTemplate string,
 ) error {
 	var (
@@ -98,7 +139,7 @@ func (h *HTTPLimiter) MatchHTTPPattern(
 	)
 	if groupTemplate != "" {
 		// Compile eventTemplate:
-		t, err = h.template.Clone()
+		t, err = h.rootTemplate.Clone()
 		if err == nil {
 			_, err = t.Parse(groupTemplate)
 		}
@@ -106,80 +147,84 @@ func (h *HTTPLimiter) MatchHTTPPattern(
 			return fmt.Errorf("error parsing group_template: %w", err)
 		}
 	}
-	limiterHandle := handle{
+	limiterMatcher := matcher{
 		HTTPLimiter:   h,
 		groupTemplate: t,
 	}
-	h.mux.Handle(pattern, limiterHandle)
+	h.httpMux.Handle(pattern, limiterMatcher)
 	return nil
 }
 
-type handle struct {
+// matcher is the HTTPHandle
+type matcher struct {
 	*HTTPLimiter
 	groupTemplate *template.Template
+}
+
+func (h *HTTPLimiter) handleRequest(r *http.Request) error {
+	if h.rewriteRequests {
+		r = rest.RewriteForwardedRequest(r)
+	}
+	res, err := h.Reserve(r)
+	if err != nil {
+		return err
+	}
+	if res == nil || res.OK() {
+		return nil
+	} else {
+		return &TooManyRequestsError{
+			Delay: res.Delay(),
+		}
+	}
+}
+
+func handleError(w http.ResponseWriter, err error) {
+	var tooManyRequests *TooManyRequestsError
+	status := http.StatusInternalServerError
+	hdr := w.Header()
+	hdr.Set("Content-Type", "application/json")
+	if errors.As(err, &tooManyRequests) {
+		status = http.StatusTooManyRequests
+		retryAfter := int64(math.Ceil(tooManyRequests.Delay.Abs().Seconds()))
+		hdr.Set("Retry-After", strconv.FormatInt(retryAfter, 10))
+	}
+	w.WriteHeader(status)
 }
 
 // ServeHTTP implements a basic http.Handler so that handler can be used
 // as a handler for the mux. It will only write on errors and is expected
 // to continue to the actual handler on success.
 func (h *HTTPLimiter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	ctx := r.Context()
-	if h.rewriteRequests {
-		r = rest.RewriteForwardedRequest(r)
-	}
-	res, err := h.Reserve(r)
+	err := h.handleRequest(r)
 	if err != nil {
-		hdr := w.Header()
-		hdr.Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusInternalServerError)
-		_ = json.NewEncoder(w).Encode(rest.Error{
-			Err:       "internal server error",
-			RequestID: requestid.FromContext(ctx),
-		})
-		return
-	}
-	if res == nil || res.OK() {
-		return
-	} else {
-		hdr := w.Header()
-		hdr.Set("Content-Type", "application/json")
-		retryAfter := math.Ceil(res.Delay().Abs().Seconds())
-		hdr.Set("Retry-After", fmt.Sprint(retryAfter))
-		w.WriteHeader(http.StatusTooManyRequests)
-		_ = json.NewEncoder(w).Encode(rest.Error{
-			Err:       ErrTooManyRequests.Error(),
-			RequestID: requestid.FromContext(ctx),
-		})
+		handleError(w, err)
 	}
 }
 
+// MiddlewareGin implements rate limiting as a middleware for gin-gonic
+// web framework.
 func (h *HTTPLimiter) MiddlewareGin(c *gin.Context) {
-	r := c.Request
-	if h.rewriteRequests {
-		r = rest.RewriteForwardedRequest(r)
-	}
-	res, err := h.Reserve(r)
+	err := h.handleRequest(c.Request)
 	if err != nil {
-		rest.RenderInternalError(c, err)
-		c.Abort()
-	}
-	if res == nil || res.OK() {
-		c.Next()
-	} else {
-		retryAfter := math.Ceil(res.Delay().Abs().Seconds())
-		c.Header("Retry-After", fmt.Sprint(retryAfter))
-		rest.RenderError(c, http.StatusTooManyRequests, ErrTooManyRequests)
+		c.Error(err)
+		handleError(c.Writer, err)
 		c.Abort()
 	}
 }
+
+type okReservation struct{}
+
+func (k okReservation) OK() bool             { return true }
+func (k okReservation) Delay() time.Duration { return 0 }
+func (k okReservation) Tokens() int64        { return math.MaxInt64 }
 
 func (m *HTTPLimiter) Reserve(r *http.Request) (Reservation, error) {
 	var b bytes.Buffer
-	limiter := m.DefaultGroup
-	templateData := m.templateData(r)
+	eventLimiter := m.defaultLimiter
+	templateData := m.templateDataCallback(r)
 	ctx := r.Context()
-	h, _ := m.mux.Handler(r)
-	hh, ok := h.(handle)
+	h, _ := m.httpMux.Handler(r)
+	hh, ok := h.(matcher)
 	if ok {
 		if hh.groupTemplate != nil {
 			err := hh.groupTemplate.Execute(&b, templateData)
@@ -188,17 +233,17 @@ func (m *HTTPLimiter) Reserve(r *http.Request) (Reservation, error) {
 			}
 			group := m.limiterGroups[b.String()]
 			if group != nil {
-				limiter = group
+				eventLimiter = group
 			}
 			b.Reset()
 		}
 	}
-	err := limiter.eventTemplate.Execute(&b, templateData)
+	err := eventLimiter.eventTemplate.Execute(&b, templateData)
 	if err != nil {
 		return nil, fmt.Errorf("error executing template for event ID: %w", err)
 	}
-	if limiter == nil {
-		return nil, nil
+	if eventLimiter == nil {
+		return okReservation{}, nil
 	}
-	return limiter.limiter.ReserveEvent(ctx, b.String())
+	return eventLimiter.limiter.ReserveEvent(ctx, b.String())
 }
