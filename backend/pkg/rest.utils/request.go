@@ -19,12 +19,21 @@ import (
 	"net/url"
 )
 
+const (
+	HeaderForwardedURI    = "X-Forwarded-Uri"
+	HeaderForwardedHost   = "X-Forwarded-Host"
+	HeaderForwardedMethod = "X-Forwarded-Method"
+)
+
 // RewriteForwardedRequest makes a shallow clone of request and replaces
 // the URL and Method with X-Forwarded-* headers.
 func RewriteForwardedRequest(request *http.Request) *http.Request {
+	if request == nil {
+		return nil
+	}
 	newRequest := new(http.Request)
 	*newRequest = *request
-	uri := request.Header.Get("X-Forwarded-Uri")
+	uri := request.Header.Get(HeaderForwardedURI)
 	if uri != "" {
 		var err error
 		newRequest.URL, err = url.ParseRequestURI(uri)
@@ -36,11 +45,11 @@ func RewriteForwardedRequest(request *http.Request) *http.Request {
 		newRequest.URL = new(url.URL)
 		*newRequest.URL = *request.URL
 	}
-	host := request.Header.Get("X-Forwarded-Host")
+	host := request.Header.Get(HeaderForwardedHost)
 	if host != "" {
 		newRequest.URL.Host = host
 	}
-	method := request.Header.Get("X-Forwarded-Method")
+	method := request.Header.Get(HeaderForwardedMethod)
 	if method != "" {
 		newRequest.Method = method
 	}
