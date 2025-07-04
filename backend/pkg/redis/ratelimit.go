@@ -42,14 +42,20 @@ type FixedWindowRateLimiter struct {
 	quota    int64
 }
 
+// simpleReservation is a straight forward implementation of the
+// rate.Reservation interface.
 type simpleReservation struct {
-	ok     bool
+	// tokens count the number of tokens (events) remaining after
+	// reservation has been made.
 	tokens int64
-	delay  time.Duration
+	// delay is the time the client would need to wait for a token (event)
+	// to become available. If 0 or negative, the reservation is accepted
+	// that is, (*simpleReservation).OK() == true.
+	delay time.Duration
 }
 
 func (r *simpleReservation) OK() bool {
-	return r.ok
+	return r.delay <= 0
 }
 
 func (r *simpleReservation) Delay() time.Duration {
@@ -97,14 +103,12 @@ func (rl *FixedWindowRateLimiter) ReserveEvent(
 	if count <= rl.quota {
 		return &simpleReservation{
 			delay:  0,
-			ok:     true,
 			tokens: rl.quota - count,
 		}, nil
 	}
 	return &simpleReservation{
 		delay: now.Sub(time.UnixMilli((epoch + 1) *
 			rl.interval.Milliseconds())),
-		ok:     false,
 		tokens: 0,
 	}, nil
 }
