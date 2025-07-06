@@ -347,19 +347,17 @@ export const getDeploymentsConfig = createAsyncThunk(`${sliceName}/getDeployment
     const oldConfig = getState().deployments.config;
     const { delta = {} } = data;
     const { binary_delta = {}, binary_delta_limits = {} } = delta;
-    const { xdelta_args = {}, timeout: timeoutConfig = oldConfig.binaryDelta.timeout } = binary_delta;
-    const { xdelta_args_limits = {}, timeout: timeoutLimit = oldConfig.binaryDeltaLimits.timeout } = binary_delta_limits;
+    const { xdelta_args = {} } = binary_delta;
+    const { xdelta_args_limits = {} } = binary_delta_limits;
     const config = {
       ...oldConfig,
       hasDelta: Boolean(delta.enabled),
       binaryDelta: {
         ...oldConfig.binaryDelta,
-        timeout: timeoutConfig,
         ...mapExternalDeltaConfig(xdelta_args)
       },
       binaryDeltaLimits: {
         ...oldConfig.binaryDeltaLimits,
-        timeout: timeoutLimit,
         ...mapExternalDeltaConfig(xdelta_args_limits)
       }
     };
@@ -382,7 +380,6 @@ const deepClean = source =>
 
 export const saveDeltaDeploymentsConfig = createAsyncThunk(`${sliceName}/saveDeltaDeploymentsConfig`, (config, { dispatch, getState }) => {
   const configChange = {
-    timeout: config.timeout,
     xdelta_args: deltaAttributeMappings.reduce((accu, { here, there }) => {
       if (config[here] !== undefined) {
         accu[there] = config[here];

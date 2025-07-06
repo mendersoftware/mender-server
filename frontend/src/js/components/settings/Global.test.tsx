@@ -11,10 +11,6 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { TIMEOUTS } from '@northern.tech/store/constants';
-import { act, screen, waitFor } from '@testing-library/react';
-import { vi } from 'vitest';
-
 import { defaultState, undefineds } from '../../../../tests/mockData';
 import { render } from '../../../../tests/setupTests';
 import Global from './Global';
@@ -47,8 +43,6 @@ const preloadedState = {
 describe('GlobalSettings Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(<Global />, { preloadedState });
-    await act(async () => vi.advanceTimersByTime(TIMEOUTS.refreshDefault));
-    await waitFor(() => expect(screen.getByText(/xDelta3/i)).toBeVisible());
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
