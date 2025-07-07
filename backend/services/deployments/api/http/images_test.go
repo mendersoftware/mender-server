@@ -1015,3 +1015,105 @@ func TestListImages(t *testing.T) {
 		})
 	}
 }
+
+func TestListImagesV2(t *testing.T) {
+	testCases := map[string]struct {
+		filter   *dmodel.ImageFilter
+		images   []*model.Image
+		appError error
+		checker  mt.ResponseChecker
+	}{
+		"ok": {
+			filter: &dmodel.ImageFilter{Page: 1, PerPage: 20, Limit: 21},
+			images: []*dmodel.Image{
+				{
+					Id:   "1",
+					Size: 1000,
+				},
+			},
+			checker: mt.NewJSONResponse(
+				http.StatusOK,
+				nil,
+				[]*dmodel.Image{
+					{
+						Id:   "1",
+						Size: 1000,
+					},
+				},
+			),
+		},
+		"ok, empty": {
+			filter: &dmodel.ImageFilter{Page: 1, PerPage: 20, Limit: 21},
+			images: []*dmodel.Image{},
+			checker: mt.NewJSONResponse(
+				http.StatusOK,
+				nil,
+				[]*dmodel.Image{},
+			),
+		},
+		"ok, filter": {
+			filter: &dmodel.ImageFilter{
+				ExactNames: []string{"foo"},
+				Page:       1,
+				PerPage:    20,
+				Limit:      21,
+			},
+			images: []*dmodel.Image{},
+			checker: mt.NewJSONResponse(
+				http.StatusOK,
+				nil,
+				[]*dmodel.Image{},
+			),
+		},
+		"error: generic": {
+			filter:   &dmodel.ImageFilter{Page: 1, PerPage: 20, Limit: 21},
+			images:   []*dmodel.Image{},
+			appError: errors.New("database error"),
+			checker: mt.NewJSONResponse(
+				http.StatusInternalServerError,
+				nil,
+				deployments_testing.RestError("internal error"),
+			),
+		},
+	}
+
+	for name := range testCases {
+		tc := testCases[name]
+
+		t.Run(name, func(t *testing.T) {
+			restView := new(view.RESTView)
+			app := &app_mocks.App{}
+			defer app.AssertExpectations(t)
+
+			app.On("ListImagesV2",
+				deployments_testing.ContextMatcher(),
+				tc.filter,
+			).Return(tc.images, tc.appError)
+
+			c := NewDeploymentsApiHandlers(nil, restView, app)
+			router := setUpTestRouter()
+			router.GET("/api/management/v2/artifacts", c.ListImagesV2)
+
+			reqUrl := "http://1.2.3.4/api/management/v2/artifacts"
+
+			if tc.filter != nil && tc.filter.ExactNames != nil {
+				reqUrl += "?"
+				for i, name := range tc.filter.ExactNames {
+					reqUrl += "name=" + name
+					if i != len(tc.filter.ExactNames)-1 {
+						reqUrl += "&"
+					}
+				}
+			}
+
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   reqUrl,
+			})
+
+			recorded := restutil.RunRequest(t, router, req)
+
+			mt.CheckHTTPResponse(t, tc.checker, recorded)
+		})
+	}
+}

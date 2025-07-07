@@ -321,6 +321,56 @@ func getReleaseOrImageFilter(r *http.Request, version listReleasesVersion,
 	return filter
 }
 
+func getImageFilter(c *gin.Context, paginated bool) *model.ImageFilter {
+
+	q := c.Request.URL.Query()
+
+	names := c.QueryArray(ParamName)
+
+	var exactNames []string
+	var namePrefixes []string
+
+	for _, name := range names {
+		if strings.HasSuffix(name, `\*`) {
+			name = strings.TrimSuffix(name, `\*`) + "*"
+			exactNames = append(exactNames, name)
+		} else if strings.HasSuffix(name, "*") {
+			namePrefixes = append(namePrefixes, strings.TrimSuffix(name, `*`))
+		} else {
+			exactNames = append(exactNames, name)
+		}
+	}
+
+	filter := &model.ImageFilter{
+		ExactNames:   exactNames,
+		NamePrefixes: namePrefixes,
+		Description:  q.Get(ParamDescription),
+		DeviceType:   q.Get(ParamDeviceType),
+	}
+
+	if paginated {
+		// filter.Sort = q.Get(ParamSort)
+		if page := q.Get(ParamPage); page != "" {
+			if i, err := strconv.Atoi(page); err == nil {
+				filter.Page = i
+			}
+		}
+		if perPage := q.Get(ParamPerPage); perPage != "" {
+			if i, err := strconv.Atoi(perPage); err == nil {
+				filter.PerPage = i
+			}
+		}
+		if filter.Page <= 0 {
+			filter.Page = 1
+		}
+		if filter.PerPage <= 0 || filter.PerPage > MaximumPerPage {
+			filter.PerPage = DefaultPerPage
+		}
+	}
+
+	return filter
+}
+
 type limitResponse struct {
 	Limit uint64 `json:"limit"`
 	Usage uint64 `json:"usage"`
@@ -419,6 +469,50 @@ func (d *DeploymentsApiHandlers) ListImages(c *gin.Context) {
 	c.Writer.Header().Add(hdrTotalCount, strconv.Itoa(totalCount))
 
 	d.view.RenderSuccessGet(c, list)
+}
+
+func (d *DeploymentsApiHandlers) ListImagesV2(c *gin.Context) {
+
+	defer redactReleaseName(c.Request)
+	filter := getImageFilter(c, true)
+
+	if err := filter.Validate(); err != nil {
+		d.view.RenderError(c, errors.Wrap(err, "invalid filter"), http.StatusBadRequest)
+		return
+	}
+
+	// add one more item to the limit to check if there is a next page.
+	filter.Limit = filter.PerPage + 1
+
+	list, err := d.app.ListImagesV2(c.Request.Context(), filter)
+	if err != nil {
+		d.view.RenderInternalError(c, err)
+		return
+	}
+
+	length := len(list)
+	hasNext := false
+	if length > filter.PerPage {
+		hasNext = true
+		length = filter.PerPage
+	}
+
+	hints := rest.NewPagingHints().
+		SetPage(int64(filter.Page)).
+		SetPerPage(int64(filter.PerPage)).
+		SetHasNext(hasNext)
+
+	links, err := rest.MakePagingHeaders(c.Request, hints)
+	if err != nil {
+		d.view.RenderInternalError(c, err)
+		return
+	}
+
+	for _, l := range links {
+		c.Writer.Header().Add(hdrLink, l)
+	}
+
+	d.view.RenderSuccessGet(c, list[:length])
 }
 
 func (d *DeploymentsApiHandlers) DownloadLink(c *gin.Context) {

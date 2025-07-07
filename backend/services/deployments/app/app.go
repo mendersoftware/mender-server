@@ -126,6 +126,10 @@ type App interface {
 		ctx context.Context,
 		filters *model.ReleaseOrImageFilter,
 	) ([]*model.Image, int, error)
+	ListImagesV2(
+		ctx context.Context,
+		filters *model.ImageFilter,
+	) ([]*model.Image, error)
 	DownloadLink(ctx context.Context, imageID string,
 		expire time.Duration) (*model.Link, error)
 	UploadLink(
@@ -731,6 +735,22 @@ func (d *Deployments) ListImages(
 	}
 
 	return imageList, count, nil
+}
+
+func (d *Deployments) ListImagesV2(
+	ctx context.Context,
+	filters *model.ImageFilter,
+) ([]*model.Image, error) {
+	imageList, err := d.db.ListImagesV2(ctx, filters)
+	if err != nil {
+		return nil, errors.Wrap(err, "Searching for image metadata")
+	}
+
+	if imageList == nil {
+		return make([]*model.Image, 0), nil
+	}
+
+	return imageList, nil
 }
 
 // EditObject allows editing only if image have not been used yet in any deployment.
