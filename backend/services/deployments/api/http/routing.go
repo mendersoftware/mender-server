@@ -139,10 +139,12 @@ func NewImagesResourceRoutes(router *gin.RouterGroup,
 		return
 	}
 	mgmtV1 := router.Group(ApiUrlManagement)
+	mgmtV2 := router.Group(ApiUrlManagementV2)
 
 	artifcatType := contenttype.Middleware("multipart/form-data", "multipart/mixed")
 
 	mgmtV1.GET(ApiUrlManagementArtifacts, controller.GetImages)
+	mgmtV2.GET(ApiUrlManagementArtifacts, controller.ListImagesV2)
 	mgmtV1.GET(ApiUrlManagementArtifactsList, controller.ListImages)
 	mgmtV1.GET(ApiUrlManagementArtifactsId, controller.GetImage)
 	mgmtV1.GET(ApiUrlManagementArtifactsIdDownload, controller.DownloadLink)

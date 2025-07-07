@@ -315,3 +315,13 @@ func (p *ProvidesIdx) UnmarshalBSONValue(t bsontype.Type, b []byte) error {
 
 	return nil
 }
+
+type ImageFilter struct {
+	ExactNames   []string
+	NamePrefixes []string
+	Description  string
+	DeviceType   string
+	Page         int
+	PerPage      int
+	Sort         string
+}
