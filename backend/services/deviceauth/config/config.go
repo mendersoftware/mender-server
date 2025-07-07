@@ -79,6 +79,10 @@ const (
 	// Has no effect if not running in multi-tenancy context.
 	SettingHaveAddons        = "have_addons"
 	SettingHaveAddonsDefault = false
+
+	// Max Request body size
+	SettingMaxRequestSize        = "request_size_limit"
+	SettingMaxRequestSizeDefault = 1024 * 1024 // 1 MiB
 )
 
 var (
@@ -101,5 +105,6 @@ var (
 		{Key: SettingRedisLimitsExpSec, Value: SettingRedisLimitsExpSecDefault},
 		{Key: SettingRedisKeyPrefix, Value: SettingRedisKeyPrefixDefault},
 		{Key: SettingHaveAddons, Value: SettingHaveAddonsDefault},
+		{Key: SettingMaxRequestSize, Value: SettingMaxRequestSizeDefault},
 	}
 )
