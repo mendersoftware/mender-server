@@ -21,6 +21,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/contenttype"
 	"github.com/mendersoftware/mender-server/pkg/identity"
+	"github.com/mendersoftware/mender-server/pkg/requestsize"
 	"github.com/mendersoftware/mender-server/pkg/routing"
 	"github.com/mendersoftware/mender-server/services/inventory/inv"
 	"github.com/mendersoftware/mender-server/services/inventory/utils"
@@ -78,8 +79,34 @@ func AutogenOptionsRoutes(router *gin.Engine, gen HttpOptionsGenerator) {
 
 }
 
-func NewRouter(app inv.InventoryApp) http.Handler {
+type Config struct {
+	MaxRequestSize int64
+}
+
+func NewConfig() *Config {
+	return &Config{
+		MaxRequestSize: 1024 * 1024,
+	}
+}
+
+type Option func(c *Config)
+
+func SetMaxRequestSize(size int64) Option {
+	return func(c *Config) {
+		c.MaxRequestSize = size
+	}
+}
+
+func NewRouter(app inv.InventoryApp, options ...Option) http.Handler {
+	config := NewConfig()
+	for _, option := range options {
+		if option != nil {
+			option(config)
+		}
+	}
+
 	router := routing.NewGinRouter()
+	router.Use(requestsize.Middleware(config.MaxRequestSize))
 
 	mgmtHandler := NewManagementHandler(app)
 
