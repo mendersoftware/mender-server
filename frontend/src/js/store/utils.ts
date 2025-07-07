@@ -208,7 +208,7 @@ export const groupDeploymentStats = (deployment, withSkipped) => {
     ...result,
     // don't include 'pending' as inprogress, as all remaining devices will be pending - we don't discriminate based on phase membership
     inprogress: statCollector(groupStates.inprogress, stats),
-    pending: (deployment.max_devices ? deployment.max_devices - deployment.device_count : 0) + statCollector(groupStates.pending, stats),
+    pending: statCollector(groupStates.pending, stats),
     successes: statCollector(groupStates.successes, stats),
     failures: statCollector(groupStates.failures, stats),
     paused: statCollector(groupStates.paused, stats)

@@ -137,7 +137,7 @@ describe('generateDeploymentGroupDetails function', () => {
 
 describe('deployment stats grouping functions', () => {
   it('groups correctly based on deployment stats', async () => {
-    let deployment = {
+    const deployment = {
       statistics: {
         status: {
           aborted: 2,
@@ -155,8 +155,6 @@ describe('deployment stats grouping functions', () => {
       }
     };
     expect(groupDeploymentStats(deployment)).toEqual({ inprogress: 5, paused: 0, pending: 2, successes: 3, failures: 4 });
-    deployment = { ...deployment, max_devices: 100, device_count: 10 };
-    expect(groupDeploymentStats(deployment)).toEqual({ inprogress: 5, paused: 0, pending: 92, successes: 3, failures: 4 });
   });
   it('groups correctly based on deployment devices states', async () => {
     const deployment = {
