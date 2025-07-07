@@ -63,6 +63,8 @@ type Config struct {
 	TokenMaxExpSeconds int
 
 	JWTFallback jwt.Handler
+
+	MaxRequestSize int64
 }
 
 // return an ApiHandler for user administration and authentiacation app
