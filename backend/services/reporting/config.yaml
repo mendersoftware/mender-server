@@ -139,3 +139,9 @@ nats_uri: "nats://mender-nats:4222"
 # Overwrite with environment variable: REPORTING_INVENTORY_ADDR
 
 # inventory_addr: "http://mender-inventory:8080/"
+
+# Maximum allowed size for HTTP request bodies (in bytes)
+# Defaults to: 1048576 (1 MiB)
+# Overwrite with environment variable: REPORTING_REQUEST_SIZE_LIMIT
+
+# request_size_limit: 1048576
