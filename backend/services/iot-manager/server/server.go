@@ -65,7 +65,8 @@ func InitAndRun(conf config.Reader, dataStore store.DataStore) error {
 
 	router := api.NewRouter(azureIotManagerApp,
 		api.NewConfig().
-			SetClient(httpClient),
+			SetClient(httpClient).
+			SetMaxRequestSize(int64(conf.GetInt(dconfig.SettingMaxRequestSize))),
 	)
 
 	var listen = conf.GetString(dconfig.SettingListen)
