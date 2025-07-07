@@ -51,7 +51,7 @@ test.describe('Deployments', () => {
     await page.waitForSelector(selectors.releaseSelect, { timeout: timeouts.fiveSeconds });
     const releaseSelect = await page.getByPlaceholder(/select a release/i);
     await releaseSelect.focus();
-    await expect(page.locator(`#deployment-release-selection-listbox li:has-text('mender-demo-artifact')`));
+    await expect(page.locator(`#deployment-release-selection-listbox li:has-text('mender-demo-artifact')`)).toBeVisible();
   });
   test('allows shortcut deployments', async ({ page }) => {
     // create an artifact to download first
