@@ -47,7 +47,11 @@ func InitAndRun(dataStore store.DataStore) error {
 		},
 	)
 
-	router := api.NewRouter(appl)
+	options := []api.Option{
+		api.SetMaxRequestSize(int64(config.Config.GetInt(SettingMaxRequestSize))),
+	}
+
+	router := api.NewRouter(appl, options...)
 
 	var listen = config.Config.GetString(SettingListen)
 	srv := &http.Server{
