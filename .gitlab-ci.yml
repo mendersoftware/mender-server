@@ -23,6 +23,7 @@ variables:
   DOCKER_PLATFORM:
     value: "linux/amd64,linux/arm64"
     description: "Platforms to build container images"
+  FF_TIMESTAMPS: true
 
   RULES_CHANGES_COMPARE_TO_REF:
     value: "refs/heads/main"

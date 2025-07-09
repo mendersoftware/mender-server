@@ -5,6 +5,7 @@ variables:
   FRONTEND_REPOSITORY: mendersoftware/gui
   DOCS_VERSION: development
   MENDER_IMAGE_GUI: ${MENDER_IMAGE_REGISTRY}/${MENDER_IMAGE_REPOSITORY}/gui:${MENDER_IMAGE_TAG}
+  FF_TIMESTAMPS: true
 
 test:frontend:lint:
   stage: test
@@ -190,7 +191,7 @@ build:frontend:docker:
     - !reference [.requires-docker]
     - !reference [.dind-login]
     - apk add --no-cache bash git jq wget
-    - docker pull ${MENDER_IMAGE_GUI}
+    - docker pull --quiet ${MENDER_IMAGE_GUI}
     # If branch is not protected, use upstream main
     # Otherwise use the local pipeline reference.
     - |
