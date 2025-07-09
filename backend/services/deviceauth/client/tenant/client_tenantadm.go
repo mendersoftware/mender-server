@@ -23,7 +23,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/mendersoftware/mender-server/pkg/log"
-	"github.com/mendersoftware/mender-server/pkg/rest_utils"
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/utils"
 )
@@ -91,7 +91,7 @@ func NewClient(c Config) *Client {
 
 func (c *Client) CheckHealth(ctx context.Context) error {
 	var (
-		apiErr rest_utils.ApiError
+		apiErr rest.Error
 	)
 
 	if ctx == nil {
@@ -154,8 +154,8 @@ func (tc *Client) VerifyToken(ctx context.Context, token string) (*Tenant, error
 	switch rsp.StatusCode {
 
 	case http.StatusUnauthorized: // 401, verification result negative
-		apiErr := rest_utils.ParseApiError(rsp.Body)
-		if !rest_utils.IsApiError(apiErr) {
+		apiErr := rest.ParseApiError(rsp.Body)
+		if !rest.IsApiError(apiErr) {
 			return nil, errors.Errorf("failed to parse tenantadm api error response")
 		}
 
@@ -246,7 +246,7 @@ func (tc *Client) GetTenantUsers(ctx context.Context, tenantID string) ([]User, 
 	}
 	defer rsp.Body.Close()
 	if rsp.StatusCode >= 400 {
-		var APIErr = new(rest_utils.ApiError)
+		var APIErr = new(rest.Error)
 		jsDecoder := json.NewDecoder(rsp.Body)
 		err = jsDecoder.Decode(APIErr)
 		if err != nil {

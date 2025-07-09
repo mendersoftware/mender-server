@@ -20,22 +20,12 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ant0ine/go-json-rest/rest/test"
 	"github.com/stretchr/testify/assert"
 )
 
 type Recorded struct {
 	T        *testing.T
 	Recorder *httptest.ResponseRecorder
-}
-
-// temporary workaround to not break deployments service
-func CheckResponse(t *testing.T, want ResponseChecker, h *test.Recorded) {
-	have := Recorded(*h)
-	want.CheckStatus(t, &have)
-	want.CheckHeaders(t, &have)
-	want.CheckContentType(t, &have)
-	want.CheckBody(t, &have)
 }
 
 func CheckHTTPResponse(t *testing.T, want ResponseChecker, have *Recorded) {

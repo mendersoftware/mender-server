@@ -35,7 +35,6 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
-	"github.com/mendersoftware/mender-server/pkg/rest_utils"
 
 	"github.com/mendersoftware/mender-server/services/deployments/app"
 	dconfig "github.com/mendersoftware/mender-server/services/deployments/config"
@@ -1867,7 +1866,7 @@ func (d *DeploymentsApiHandlers) listDeviceDeployments(ctx context.Context,
 
 	page, perPage, err := rest.ParsePagingParameters(c.Request)
 	if err == nil && perPage > MaximumPerPageListDeviceDeployments {
-		err = errors.New(rest_utils.MsgQueryParmLimit(ParamPerPage))
+		err = rest.ErrQueryParmLimit(ParamPerPage)
 	}
 	if err != nil {
 		d.view.RenderError(c, err, http.StatusBadRequest)

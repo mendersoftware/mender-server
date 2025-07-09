@@ -18,6 +18,7 @@ import (
 	"context"
 	"net/http"
 	"net/url"
+	"os"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -93,6 +94,15 @@ const (
 	ApiUrlInternalDeviceDeploymentLastStatusDeployments = "/tenants/:tenant/devices/deployments" +
 		"/last"
 )
+
+func init() {
+	if mode := os.Getenv(gin.EnvGinMode); mode != "" {
+		gin.SetMode(mode)
+	} else {
+		gin.SetMode(gin.ReleaseMode)
+	}
+	gin.DisableConsoleColor()
+}
 
 // NewRouter defines all REST API routes.
 func NewRouter(

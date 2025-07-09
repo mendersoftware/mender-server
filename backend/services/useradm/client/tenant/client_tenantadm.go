@@ -25,7 +25,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/mendersoftware/mender-server/pkg/apiclient"
-	"github.com/mendersoftware/mender-server/pkg/rest_utils"
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 )
 
 const (
@@ -109,7 +109,7 @@ func NewClient(conf Config) *Client {
 func (c *Client) CheckHealth(ctx context.Context) error {
 	var (
 		client http.Client
-		apiErr rest_utils.ApiError
+		apiErr rest.Error
 		cancel context.CancelFunc
 	)
 
