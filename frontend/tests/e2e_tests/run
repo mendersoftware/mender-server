@@ -121,7 +121,14 @@ run_tests() {
         # to the playwright packages as we rely on the prebuilt
         # mender-test-containers image
         docker compose run gui-tests-runner \
-          /bin/sh -c 'npm i && npx playwright install chromium && npm run test -- --project=chromium'
+          /bin/sh -c '
+            npm i && 
+              if ! npx playwright install chromium > playwright-install.log 2>&1; then
+                echo "Playwright dependencies installation failed:"
+                cat playwright-install.log
+                exit 1
+              fi &&
+            npm run test -- --project=chromium'
     else
         if test -z "$VISUAL"; then
           npm run test
