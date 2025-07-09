@@ -21,8 +21,10 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/rbac"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
+	"github.com/mendersoftware/mender-server/pkg/requestsize"
 
 	"github.com/mendersoftware/mender-server/services/reporting/app/reporting"
+	dconfig "github.com/mendersoftware/mender-server/services/reporting/config"
 )
 
 // API URL used by the HTTP router
@@ -41,15 +43,40 @@ const (
 	URIInventorySearchInternal = "/tenants/:tenant_id/devices/search"
 )
 
+type Config struct {
+	MaxRequestSize int64
+}
+
+func NewConfig() *Config {
+	return &Config{
+		MaxRequestSize: dconfig.SettingMaxRequestSizeDefault,
+	}
+}
+
+type Option func(c *Config)
+
+func SetMaxRequestSize(size int64) Option {
+	return func(c *Config) {
+		c.MaxRequestSize = size
+	}
+}
+
 // NewRouter returns the gin router
-func NewRouter(reporting reporting.App) *gin.Engine {
+func NewRouter(reporting reporting.App, options ...Option) *gin.Engine {
+	config := NewConfig()
+	for _, option := range options {
+		if option != nil {
+			option(config)
+		}
+	}
+
 	gin.SetMode(gin.ReleaseMode)
 	gin.DisableConsoleColor()
 
 	router := gin.New()
 	router.Use(accesslog.Middleware())
-	router.Use(gin.Recovery())
 	router.Use(requestid.Middleware())
+	router.Use(requestsize.Middleware(config.MaxRequestSize))
 
 	internal := NewInternalController(reporting)
 	internalAPI := router.Group(URIInternal)

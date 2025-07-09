@@ -27,6 +27,7 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
+	"github.com/mendersoftware/mender-server/pkg/requestsize"
 
 	"github.com/mendersoftware/mender-server/services/deployments/app"
 	"github.com/mendersoftware/mender-server/services/deployments/store"
@@ -139,6 +140,9 @@ func NewImagesResourceRoutes(router *gin.RouterGroup,
 		return
 	}
 	mgmtV1 := router.Group(ApiUrlManagement)
+	mgmtV1NoSizeLimit := mgmtV1.Group(".")
+
+	mgmtV1.Use(requestsize.Middleware(cfg.MaxRequestSize))
 
 	artifcatType := contenttype.Middleware("multipart/form-data", "multipart/mixed")
 
@@ -148,7 +152,7 @@ func NewImagesResourceRoutes(router *gin.RouterGroup,
 	mgmtV1.GET(ApiUrlManagementArtifactsIdDownload, controller.DownloadLink)
 	if !controller.config.DisableNewReleasesFeature {
 		mgmtV1.DELETE(ApiUrlManagementArtifactsId, controller.DeleteImage)
-		mgmtV1.Group(".").Use(artifcatType).
+		mgmtV1NoSizeLimit.Group(".").Use(artifcatType).
 			POST(ApiUrlManagementArtifacts, controller.NewImage).
 			POST(ApiUrlManagementArtifactsGenerate, controller.GenerateImage)
 		mgmtV1.Group(".").Use(contenttype.CheckJSON()).
@@ -157,7 +161,7 @@ func NewImagesResourceRoutes(router *gin.RouterGroup,
 	} else {
 		mgmtV1.DELETE(ApiUrlManagementArtifactsId, ServiceUnavailable)
 
-		mgmtV1.Group(".").Use(artifcatType).
+		mgmtV1NoSizeLimit.Group(".").Use(artifcatType).
 			POST(ApiUrlManagementArtifacts, ServiceUnavailable).
 			POST(ApiUrlManagementArtifactsGenerate, ServiceUnavailable)
 		mgmtV1.PUT(ApiUrlManagementArtifactsId, ServiceUnavailable)
