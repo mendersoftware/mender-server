@@ -69,7 +69,7 @@ SP_TENANT=tenant-demo@example.com
 PASSWORD=mysecretpassword!123
 
 run_tests() {
-    docker compose down -v --remove-orphans && docker compose up -d
+    docker compose down -v --remove-orphans && docker compose up --quiet-pull -d
     declare retries=5
 
     if [[ $ENTERPRISE -eq 1 ]]; then
