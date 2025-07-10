@@ -571,6 +571,97 @@ paths:
         Lists all release update types.
       tags:
       - Management API
+  /artifacts:
+    get:
+      description: |
+        Returns a collection of all artifacts sorted by name.
+      operationId: List Artifacts with pagination
+      parameters:
+      - description: |
+          Artifact(s) name(s) filter.
+          Multiple names can be provided (e.g., `?name=foo&name=bar`).
+          Supports exact matching or prefix matching by adding `*` to the end (e.g., `foo*`).
+        in: query
+        name: name
+        schema:
+          type: array
+          items:
+            type: string
+        style: form
+        explode: true
+        examples:
+          single:
+            summary: Get artifact with the given name.
+            value:
+              - foo
+          multi:
+            summary: Get artifact matching multiple names by repeating the query parameter.
+            value:
+              - foo
+              - bar
+          prefix:
+            summary: Get artifact with the specified prefix
+            value:
+              - foo*
+      - description: |
+          Artifact description filter.
+          Supports exact matching or prefix matching by adding `*` to the end (e.g., `foo*`).
+        in: query
+        name: description
+        schema:
+          type: string
+      - description: |
+          Artifact device type filter.
+          Supports exact matching or prefix matching by adding `*` to the end (e.g., `foo*`).
+        in: query
+        name: device_type
+        schema:
+          type: string
+      - description: Starting page.
+        in: query
+        name: page
+        schema:
+          default: 1
+          type: integer
+      - description: Maximum number of results per page.
+        in: query
+        name: per_page
+        schema:
+          default: 20
+          maximum: 500
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Artifact'
+                type: array
+          description: OK
+          headers:
+            Link:
+              description: "Standard header, we support 'first', 'next', and 'prev'."
+              schema:
+                type: string
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error.
+      security:
+      - ManagementJWT: []
+      summary: |
+        Lists known artifacts.
+      tags:
+      - Management API
 components:
   responses:
     InvalidRequestError:

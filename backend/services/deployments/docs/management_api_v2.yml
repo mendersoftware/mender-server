@@ -522,6 +522,75 @@ paths:
         500:
           $ref: "#/responses/InternalServerError"
 
+  /artifacts:
+    get:
+      operationId: List Artifacts with pagination
+      tags:
+      - Management API
+      security:
+      - ManagementJWT: []
+      summary: |
+        Lists known artifacts.
+      description: |
+        Returns a collection of all artifacts sorted by name.
+      parameters:
+        - name: name
+          in: query
+          description: | 
+            Artifact(s) name(s) filter.
+            Multiple names can be provided (e.g., `?name=foo&name=bar`).
+            Supports exact matching or prefix matching by adding `*` to the end (e.g., `foo*`).
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - name: description
+          in: query
+          description: |
+            Artifact description filter.
+            Supports exact matching or prefix matching by adding `*` to the end (e.g., `foo*`).
+          required: false
+          type: string
+        - name: device_type
+          in: query
+          description: |
+            Artifact device type filter.
+            Supports exact matching or prefix matching by adding `*` to the end (e.g., `foo*`).
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: Starting page.
+          required: false
+          type: number
+          format: integer
+          default: 1
+        - name: per_page
+          in: query
+          description: Maximum number of results per page.
+          required: false
+          type: number
+          format: integer
+          default: 20
+          maximum: 500
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Artifact"
+          headers:
+            Link:
+              type: string
+              description: Standard header, we support 'first', 'next', and 'prev'.
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        500:
+          $ref: "#/responses/InternalServerError"
 
 definitions:
   Artifact:
