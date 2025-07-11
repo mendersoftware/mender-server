@@ -266,7 +266,7 @@ test:backend:unit:
   script:
     - |
       make -C backend test-unit \
-        TESTFLAGS="-cover -coverprofile=${GOCOVERDIR}/\$(COMPONENT)-unit.cover"
+        TESTFLAGS="-parallel 1 -cover -coverprofile=${GOCOVERDIR}/\$(COMPONENT)-unit.cover"
   artifacts:
     expire_in: 1w
     when: on_success
