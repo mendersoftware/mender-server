@@ -1,7 +1,6 @@
 # API server listen address
 # Defauls to: ":8080" which will listen on all avalable interfaces.
 listen: :8080
-
 # Private key path - used for JWT signing
 # Defaults to: /etc/useradm/rsa/private.pem
 # Overwrite with environment variable: USERADM_SERVER_PRIV_KEY_PATH
@@ -64,3 +63,79 @@ listen: :8080
 # Path to the file containing plan definitions
 # Defaults to: "/etc/useradm-enterprise/plans.yaml"
 # plan_definitions_path: "/etc/useradm-enterprise/plans.yaml"
+
+# Redis connection string
+#
+# connectionString URL format:
+# Standalone mode:
+# (redis|rediss|unix)://[<user>:<password>@](<host>|<socket path>)[:<port>[/<db_number>]][?option=value]
+# Cluster mode:
+# (redis|rediss|unix)[+srv]://[<user>:<password>@]<host1>[,<host2>[,...]][:<port>][?option=value]
+#
+# The following query parameters are also available:
+# client_name         string
+# conn_max_idle_time  duration
+# conn_max_lifetime   duration
+# dial_timeout        duration
+# max_idle_conns      int
+# max_retries         int
+# max_retry_backoff   duration
+# min_idle_conns      int
+# min_retry_backoff   duration
+# pool_fifo           bool
+# pool_size           int
+# pool_timeout        duration
+# protocol            int
+# read_timeout        duration
+# tls                 bool
+# write_timeout       duration
+#
+# Defaults to: "", which disables the Redis cache
+# Overwrite with environment variable: USERADM_REDIS_CONNECTION_STRING
+# redis_connection_string: ""
+
+# Redis key prefix
+# Defaults to: "useradm:v1"
+# Overwrite with environment variable: USERADM_REDIS_KEY_PREFIX
+# redis_key_prefix: ""
+
+# ratelimits:
+#  # auth configures ratelimits for authenticated requests.
+#   auth:
+#     # enable rate limiting also requires redis_connection_string to be effective.
+#     enable: false
+#     # default rate limit group is the default ratelimiting parameters used when
+#     # no group `match`es the expressions.
+#     default:
+#       quota: 100    # number of request per
+#       interval: 60s # interval
+#       # event_expression is a go template for grouping requests.
+#       # The following attributes are available in the context:
+#       # Identity - contains a subset of the JWT claims:
+#         - .Subject  (jwt:"sub")          string
+#         - .Tenant   (jwt:"mender.tenant) string
+#         - .Plan     (jwt:"mender.plan)   string
+#         - .Addons   (jwt:"mender.addons) struct{Enabled bool; Name string}
+#         - .IsUser   (jwt:"mender.user)   bool
+#         - .IsDevice (jwt:"mender.device) bool
+#         - .Trial    (jwt:"mender.trial)  bool
+#       event_expression: "{{with .Identity}}{{.Subject}}{{end}}"
+#     # groups specify rate limiting groups that overrides the parameters in the
+#     # default group.
+#     groups: []
+#     # Example:
+#     # - name: "slow"
+#     #   quota: 1
+#     #   interval: 30s
+#     #   event_expression: "{{with .Identity}}{{.Tenant}}{{end}}"
+#     # match specifies matching expressions for mapping API requests to rate
+#     # limiting groups.
+#     match: []
+#     # Example:
+#     #   # api_pattern specifies an API path pattern as defined by http.ServeMux
+#     #   # https://pkg.go.dev/net/http#hdr-Patterns-ServeMux
+#     # - api_pattern: /api/management/v1/useradm/slow/api
+#     #   # group_expression defines the group for this matching expression.
+#     #   # a group can be selected dynamically using Go templates.
+#     #   # The template context is the same as ratelimits.default.event_expression
+#     #   group_expression: "slow"

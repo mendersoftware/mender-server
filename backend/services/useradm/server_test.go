@@ -17,15 +17,20 @@ import (
 	"testing"
 
 	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/services/useradm/config"
+	"github.com/spf13/viper"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestAddPrivateKeys(t *testing.T) {
 	l := log.New(log.Ctx{})
-	handlers, err := addPrivateKeys(l, "user/testdata", "private\\.id\\.([0-9]*)\\.pem")
+	c := viper.New()
+	c.Set(config.SettingServerPrivKeyPath, "./user/testdata/private-826.pem")
+	c.Set(config.SettingServerPrivKeyFileNamePattern, "private\\.id\\.([0-9]*)\\.pem")
+	handlers, fallbackHandler, err := loadJWTHandlers(c, l)
 	assert.NoError(t, err)
-	assert.Equal(t, 10, len(handlers)) // there are 10 keys matching the pattern
+	assert.Len(t, handlers, 11) // there are 10 keys matching the pattern + default key
 	assert.Contains(t, handlers, 1024)
 	assert.Contains(t, handlers, 13102)
 	assert.Contains(t, handlers, 14211)
@@ -36,4 +41,5 @@ func TestAddPrivateKeys(t *testing.T) {
 	assert.Contains(t, handlers, 5539)
 	assert.Contains(t, handlers, 826)
 	assert.Contains(t, handlers, 9478)
+	assert.Nil(t, fallbackHandler)
 }
