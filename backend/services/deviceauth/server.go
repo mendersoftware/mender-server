@@ -16,6 +16,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
@@ -25,7 +26,9 @@ import (
 	"golang.org/x/sys/unix"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
+	"github.com/mendersoftware/mender-server/pkg/config/ratelimits"
 	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/redis"
 
 	api_http "github.com/mendersoftware/mender-server/services/deviceauth/api/http"
 	"github.com/mendersoftware/mender-server/services/deviceauth/cache"
@@ -38,7 +41,7 @@ import (
 )
 
 func RunServer(c config.Reader) error {
-	var tenantadmAddr = c.GetString(dconfig.SettingTenantAdmAddr)
+	tenantadmAddr := c.GetString(dconfig.SettingTenantAdmAddr)
 
 	l := log.New(log.Ctx{})
 
@@ -100,6 +103,8 @@ func RunServer(c config.Reader) error {
 		devauth = devauth.WithTenantVerification(tc)
 	}
 
+	var apiOptions []api_http.Option
+
 	cacheConnStr := c.GetString(dconfig.SettingRedisConnectionString)
 	if cacheConnStr == "" {
 		// for backward compatibility check old redis_addr setting
@@ -108,25 +113,37 @@ func RunServer(c config.Reader) error {
 	if cacheConnStr != "" {
 		l.Infof("setting up redis cache")
 
-		cache, err := cache.NewRedisCache(
-			context.TODO(),
-			cacheConnStr,
-			c.GetString(dconfig.SettingRedisKeyPrefix),
-			c.GetInt(dconfig.SettingRedisLimitsExpSec),
-		)
-
+		ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
+		redisClient, err := redis.ClientFromConnectionString(ctx, cacheConnStr)
+		cancel()
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to initialize redis client: %w", err)
 		}
 
+		redisKeyPrefix := c.GetString(dconfig.SettingRedisKeyPrefix)
+		cache := cache.NewRedisCache(
+			redisClient,
+			redisKeyPrefix,
+			c.GetInt(dconfig.SettingRedisLimitsExpSec),
+		)
 		devauth = devauth.WithCache(cache)
+
+		rateLimiter, err := ratelimits.SetupRedisRateLimits(
+			redisClient, c.GetString(dconfig.SettingRedisKeyPrefix), c,
+		)
+		if err != nil {
+			return fmt.Errorf("error configuring rate limits: %w", err)
+		}
+		if rateLimiter != nil {
+			apiOptions = append(apiOptions,
+				api_http.ConfigAuthVerifyRatelimits(
+					rateLimiter.WithRewriteRequests(true).MiddlewareGin,
+				),
+			)
+		}
 	}
 
-	apiHandler := api_http.NewRouter(devauth, db)
-
-	if err != nil {
-		return errors.Wrap(err, "device authentication API handlers setup failed")
-	}
+	apiHandler := api_http.NewRouter(devauth, db, apiOptions...)
 
 	addr := c.GetString(dconfig.SettingListen)
 	l.Printf("listening on %s", addr)
