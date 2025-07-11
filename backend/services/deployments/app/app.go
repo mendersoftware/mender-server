@@ -126,6 +126,10 @@ type App interface {
 		ctx context.Context,
 		filters *model.ReleaseOrImageFilter,
 	) ([]*model.Image, int, error)
+	ListImagesV2(
+		ctx context.Context,
+		filters *model.ImageFilter,
+	) ([]*model.Image, int, error)
 	DownloadLink(ctx context.Context, imageID string,
 		expire time.Duration) (*model.Link, error)
 	UploadLink(
@@ -722,6 +726,22 @@ func (d *Deployments) ListImages(
 	filters *model.ReleaseOrImageFilter,
 ) ([]*model.Image, int, error) {
 	imageList, count, err := d.db.ListImages(ctx, filters)
+	if err != nil {
+		return nil, 0, errors.Wrap(err, "Searching for image metadata")
+	}
+
+	if imageList == nil {
+		return make([]*model.Image, 0), 0, nil
+	}
+
+	return imageList, count, nil
+}
+
+func (d *Deployments) ListImagesV2(
+	ctx context.Context,
+	filters *model.ImageFilter,
+) ([]*model.Image, int, error) {
+	imageList, count, err := d.db.ListImagesV2(ctx, filters)
 	if err != nil {
 		return nil, 0, errors.Wrap(err, "Searching for image metadata")
 	}

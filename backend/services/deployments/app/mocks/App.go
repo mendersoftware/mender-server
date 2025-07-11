@@ -922,6 +922,43 @@ func (_m *App) ListImages(ctx context.Context, filters *model.ReleaseOrImageFilt
 	return r0, r1, r2
 }
 
+// ListImagesV2 provides a mock function with given fields: ctx, filters
+func (_m *App) ListImagesV2(ctx context.Context, filters *model.ImageFilter) ([]*model.Image, int, error) {
+	ret := _m.Called(ctx, filters)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListImagesV2")
+	}
+
+	var r0 []*model.Image
+	var r1 int
+	var r2 error
+	if rf, ok := ret.Get(0).(func(context.Context, *model.ImageFilter) ([]*model.Image, int, error)); ok {
+		return rf(ctx, filters)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, *model.ImageFilter) []*model.Image); ok {
+		r0 = rf(ctx, filters)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]*model.Image)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, *model.ImageFilter) int); ok {
+		r1 = rf(ctx, filters)
+	} else {
+		r1 = ret.Get(1).(int)
+	}
+
+	if rf, ok := ret.Get(2).(func(context.Context, *model.ImageFilter) error); ok {
+		r2 = rf(ctx, filters)
+	} else {
+		r2 = ret.Error(2)
+	}
+
+	return r0, r1, r2
+}
+
 // ListReleaseTags provides a mock function with given fields: ctx
 func (_m *App) ListReleaseTags(ctx context.Context) (model.Tags, error) {
 	ret := _m.Called(ctx)

@@ -1284,6 +1284,138 @@ func (db *DataStoreMongo) ListImages(
 	return images, int(count), nil
 }
 
+/*
+// This could be used in the future to support sorting
+
+	func getImagesSortFieldAndOrder(filt *model.ImageFilter) (string, int) {
+		if filt != nil && filt.Sort != "" {
+			sortParts := strings.SplitN(filt.Sort, ":", 2)
+			if len(sortParts) == 2 &&
+				(sortParts[0] == "name" ||
+					sortParts[0] == "modified" ||
+					sortParts[0] == "artifacts_count" ||
+					sortParts[0] == "tags") {
+				sortField := sortParts[0]
+				sortOrder := 1
+				if sortParts[1] == model.SortDirectionDescending {
+					sortOrder = -1
+				}
+				return sortField, sortOrder
+			}
+		}
+		return "", 0
+	}
+*/
+func (db *DataStoreMongo) ListImagesV2(
+	ctx context.Context,
+	filt *model.ImageFilter,
+) ([]*model.Image, int, error) {
+	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
+	collImg := database.Collection(CollectionImages)
+
+	filters := bson.M{}
+
+	if filt != nil {
+
+		var nameFilter []interface{}
+		// Check for exact names
+		for _, name := range filt.ExactNames {
+			nameFilter = append(nameFilter, bson.M{
+				StorageKeyImageName: name,
+			})
+		}
+		// Check for prefixes
+		for _, name := range filt.NamePrefixes {
+			nameFilter = append(nameFilter, bson.M{
+				StorageKeyImageName: bson.M{
+					"$regex": primitive.Regex{
+						Pattern: "^" + regexp.QuoteMeta(name) + ".*",
+						Options: "i",
+					},
+				},
+			})
+		}
+		if len(nameFilter) > 0 {
+			filters["$or"] = nameFilter
+		}
+
+		if filt.Description != "" {
+			if strings.HasSuffix(filt.Description, "*") {
+				description := strings.TrimSuffix(filt.Description, "*")
+				filters[StorageKeyImageDescription] = bson.M{
+					"$regex": primitive.Regex{
+						Pattern: "^" + regexp.QuoteMeta(description) + ".*",
+						Options: "i",
+					},
+				}
+			} else {
+				filters[StorageKeyImageDescription] = filt.Description
+			}
+		}
+
+		if filt.DeviceType != "" {
+			if strings.HasSuffix(filt.DeviceType, "*") {
+				deviceType := strings.TrimSuffix(filt.DeviceType, "*")
+				filters[StorageKeyImageDeviceTypes] = bson.M{
+					"$regex": primitive.Regex{
+						Pattern: "^" + regexp.QuoteMeta(deviceType) + ".*",
+						Options: "i",
+					},
+				}
+			} else {
+				filters[StorageKeyImageDeviceTypes] = filt.DeviceType
+			}
+		}
+	}
+
+	projection := bson.M{
+		StorageKeyImageDependsIdx:  0,
+		StorageKeyImageProvidesIdx: 0,
+	}
+	findOptions := &mopts.FindOptions{}
+	findOptions.SetProjection(projection)
+	if filt != nil && filt.Page > 0 && filt.PerPage > 0 {
+		findOptions.SetSkip(int64((filt.Page - 1) * filt.PerPage))
+		findOptions.SetLimit(int64(filt.PerPage))
+	}
+	/*
+		sortField, sortOrder := getImagesSortFieldAndOrder(filt)
+		if sortField == "" || sortField == "name" {
+			sortField = StorageKeyImageName
+		}
+		if sortOrder == 0 {
+			sortOrder = 1
+		}
+	*/
+	sortField := StorageKeyImageName
+	sortOrder := 1
+	findOptions.SetSort(bson.D{
+		{Key: sortField, Value: sortOrder},
+		{Key: "_id", Value: sortOrder},
+	})
+
+	cursor, err := collImg.Find(ctx, filters, findOptions)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	// NOTE: cursor.All closes the cursor before returning
+	var images []*model.Image
+	if err := cursor.All(ctx, &images); err != nil {
+		if err == mongo.ErrNoDocuments {
+			return nil, 0, nil
+		}
+		return nil, 0, err
+	}
+
+	count, err := collImg.CountDocuments(ctx, filters)
+	if err != nil {
+		return nil, -1, ErrDevicesCountFailed
+	}
+
+	return images, int(count), nil
+}
+
 func (db *DataStoreMongo) DeleteImagesByNames(ctx context.Context, names []string) error {
 	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
 	collDevs := database.Collection(CollectionImages)
