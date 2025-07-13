@@ -289,7 +289,8 @@ export const GlobalSettingsDialog = ({
             label={<div className="capitalized-start">{DEVICE_ONLINE_CUTOFF.intervalName}</div>}
           />
           {!!intervalErrorText && <FormHelperText className="warning">{intervalErrorText}</FormHelperText>}
-          <FormHelperText>Choose how long a device can go without reporting to the server before it is considered “offline”.</FormHelperText>
+          <FormHelperText>Choose how long a device can go without reporting to the server before it is considered &quot;offline&quot;.</FormHelperText>
+          <FormHelperText>Please note that due to the internal update intervals, a device may appear offline in certain rare cases despite the fact that it has talked to the server. Keep in mind that the granuality of this check is 24h and sometimes it maybe required to wait for all the statuses to propagate.</FormHelperText>
         </FormControl>
       </div>
       <ArtifactGenerationSettings open={showDeltaConfig} onClose={() => setShowDeltaConfig(false)} />

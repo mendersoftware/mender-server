@@ -1836,7 +1836,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-52:focus::-ms-input-
       <p
         class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-56"
       >
-        Choose how long a device can go without reporting to the server before it is considered “offline”.
+        Choose how long a device can go without reporting to the server before it is considered &quot;offline&quot;.
+      </p>
+      <p
+        class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-56"
+      >
+        Please note that due to the internal update intervals, a device may appear offline in certain rare cases despite the fact that it has talked to the server. Keep in mind that the granuality of this check is 24h and sometimes it maybe required to wait for all the statuses to propagate.
       </p>
     </div>
   </div>
