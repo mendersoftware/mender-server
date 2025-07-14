@@ -14,6 +14,7 @@
 package routing
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
@@ -24,6 +25,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 	utils "github.com/mendersoftware/mender-server/pkg/strings"
 )
 
@@ -173,4 +175,48 @@ func TestAutogenOptionHeaders(t *testing.T) {
 				sh, allowmeth)
 		}
 	}
+}
+
+func TestNoMethod(t *testing.T) {
+	t.Parallel()
+
+	router := NewGinRouter()
+
+	router.GET("/foo", func(c *gin.Context) {
+		c.Status(http.StatusOK)
+	})
+
+	req, _ := http.NewRequest(http.MethodDelete,
+		"http://localhost/foo",
+		nil,
+	)
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusMethodNotAllowed, w.Code)
+	var err rest.Error
+	_ = json.Unmarshal(w.Body.Bytes(), &err)
+
+	assert.Equal(t, "method not allowed", err.Err)
+}
+
+func TestNoRoute(t *testing.T) {
+	t.Parallel()
+
+	router := NewGinRouter()
+	router.GET("/foo", func(c *gin.Context) {
+		c.Status(http.StatusOK)
+	})
+
+	req, _ := http.NewRequest(http.MethodDelete,
+		"http://localhost/bar",
+		nil,
+	)
+
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusNotFound, w.Code)
+	var err rest.Error
+	_ = json.Unmarshal(w.Body.Bytes(), &err)
+
+	assert.Equal(t, "not found", err.Err)
 }
