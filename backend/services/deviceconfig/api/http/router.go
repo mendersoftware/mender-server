@@ -16,13 +16,9 @@ package http
 
 import (
 	"net/http"
-	"os"
 
-	"github.com/gin-gonic/gin"
-
-	"github.com/mendersoftware/mender-server/pkg/accesslog"
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/requestid"
+	"github.com/mendersoftware/mender-server/pkg/routing"
 
 	"github.com/mendersoftware/mender-server/services/deviceconfig/app"
 )
@@ -49,15 +45,6 @@ const (
 	URIHealth = "/health"
 )
 
-func init() {
-	if mode := os.Getenv(gin.EnvGinMode); mode != "" {
-		gin.SetMode(mode)
-	} else {
-		gin.SetMode(gin.ReleaseMode)
-	}
-	gin.DisableConsoleColor()
-}
-
 type APIHandler struct {
 	App app.App
 }
@@ -70,11 +57,7 @@ func NewAPIHandler(app app.App) *APIHandler {
 
 // NewRouter initializes a new gin.Engine as a http.Handler
 func NewRouter(app app.App) http.Handler {
-	router := gin.New()
-	// accesslog provides logging of http responses and recovery on panic.
-	router.Use(accesslog.Middleware())
-	// requestid attaches X-Men-Requestid header to context
-	router.Use(requestid.Middleware())
+	router := routing.NewGinRouter()
 
 	apiHandler := NewAPIHandler(app)
 

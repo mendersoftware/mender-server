@@ -17,10 +17,9 @@ package http
 import (
 	"github.com/gin-gonic/gin"
 
-	"github.com/mendersoftware/mender-server/pkg/accesslog"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/rbac"
-	"github.com/mendersoftware/mender-server/pkg/requestid"
+	"github.com/mendersoftware/mender-server/pkg/routing"
 
 	"github.com/mendersoftware/mender-server/services/reporting/app/reporting"
 )
@@ -43,13 +42,8 @@ const (
 
 // NewRouter returns the gin router
 func NewRouter(reporting reporting.App) *gin.Engine {
-	gin.SetMode(gin.ReleaseMode)
-	gin.DisableConsoleColor()
 
-	router := gin.New()
-	router.Use(accesslog.Middleware())
-	router.Use(gin.Recovery())
-	router.Use(requestid.Middleware())
+	router := routing.NewGinRouter()
 
 	internal := NewInternalController(reporting)
 	internalAPI := router.Group(URIInternal)

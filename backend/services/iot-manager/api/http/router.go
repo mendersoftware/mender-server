@@ -23,11 +23,11 @@ import (
 	"github.com/gin-gonic/gin/binding"
 	"github.com/pkg/errors"
 
-	"github.com/mendersoftware/mender-server/pkg/accesslog"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
+	"github.com/mendersoftware/mender-server/pkg/routing"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/app"
 )
@@ -93,15 +93,11 @@ func NewRouter(
 	config ...*Config,
 ) *gin.Engine {
 	conf := NewConfig(config...)
-	gin.SetMode(gin.ReleaseMode)
-	gin.DisableConsoleColor()
 	handler := NewAPIHandler(app, conf)
 	internal := (*InternalHandler)(handler)
 	management := (*ManagementHandler)(handler)
 
-	router := gin.New()
-	router.Use(accesslog.Middleware())
-	router.Use(requestid.Middleware())
+	router := routing.NewGinRouter()
 
 	router.NoRoute(handler.NoRoute)
 

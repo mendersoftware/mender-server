@@ -15,15 +15,13 @@ package http
 
 import (
 	"net/http"
-	"os"
 	"strings"
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/mendersoftware/mender-server/pkg/accesslog"
 	"github.com/mendersoftware/mender-server/pkg/contenttype"
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/requestid"
+	"github.com/mendersoftware/mender-server/pkg/routing"
 	"github.com/mendersoftware/mender-server/services/inventory/inv"
 	"github.com/mendersoftware/mender-server/services/inventory/utils"
 )
@@ -80,19 +78,8 @@ func AutogenOptionsRoutes(router *gin.Engine, gen HttpOptionsGenerator) {
 
 }
 
-func init() {
-	if mode := os.Getenv(gin.EnvGinMode); mode != "" {
-		gin.SetMode(mode)
-	} else {
-		gin.SetMode(gin.ReleaseMode)
-	}
-	gin.DisableConsoleColor()
-}
-
 func NewRouter(app inv.InventoryApp) http.Handler {
-	router := gin.New()
-	router.Use(accesslog.Middleware())
-	router.Use(requestid.Middleware())
+	router := routing.NewGinRouter()
 
 	mgmtHandler := NewManagementHandler(app)
 

@@ -2,14 +2,9 @@ package http
 
 import (
 	"net/http"
-	"os"
 
-	"github.com/gin-gonic/gin"
-
-	"github.com/mendersoftware/mender-server/pkg/accesslog"
 	"github.com/mendersoftware/mender-server/pkg/contenttype"
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/requestid"
 	"github.com/mendersoftware/mender-server/pkg/routing"
 )
 
@@ -37,20 +32,8 @@ const (
 	uriInternalTokens      = "/tokens"
 )
 
-func init() {
-	if mode := os.Getenv(gin.EnvGinMode); mode != "" {
-		gin.SetMode(mode)
-	} else {
-		gin.SetMode(gin.ReleaseMode)
-	}
-	gin.DisableConsoleColor()
-}
-
 func MakeRouter(i *UserAdmApiHandlers) http.Handler {
-	router := gin.New()
-
-	router.Use(requestid.Middleware())
-	router.Use(accesslog.Middleware())
+	router := routing.NewGinRouter()
 
 	mgmt := router.Group(apiUrlManagementV1)
 
