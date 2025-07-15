@@ -33,7 +33,7 @@ export const SubscriptionAddon = (props: AddonProps) => {
           disabled={disabled}
           value={checked}
           onChange={(event, checked) => onChange(addon.id, checked)}
-          control={<Checkbox className="padding-none margin-x-small" checked={checked} />}
+          control={<Checkbox name={addon.id} className="padding-none margin-x-small" checked={checked} />}
           label={addon.title}
         />
         <Typography className="margin-top-x-small margin-bottom-x-small" variant="body2">
