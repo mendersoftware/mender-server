@@ -14,12 +14,10 @@
 package requestid
 
 import (
-	"github.com/ant0ine/go-json-rest/rest"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 
 	"github.com/mendersoftware/mender-server/pkg/log"
-	"github.com/mendersoftware/mender-server/pkg/requestlog"
 )
 
 const RequestIdHeader = "X-MEN-RequestID"
@@ -68,37 +66,5 @@ func Middleware(opts ...*MiddlewareOptions) gin.HandlerFunc {
 		}
 		c.Header(RequestIdHeader, requestID)
 		c.Request = c.Request.WithContext(ctx)
-	}
-}
-
-// RequestIdMiddleware sets the X-MEN-RequestID header if it's not present,
-// and adds the request id to the request logger's context.
-type RequestIdMiddleware struct {
-}
-
-// MiddlewareFunc makes RequestIdMiddleware implement the Middleware interface.
-func (mw *RequestIdMiddleware) MiddlewareFunc(h rest.HandlerFunc) rest.HandlerFunc {
-	return func(w rest.ResponseWriter, r *rest.Request) {
-		logger := requestlog.GetRequestLogger(r)
-
-		reqId := r.Header.Get(RequestIdHeader)
-		if reqId == "" {
-			uid, _ := uuid.NewRandom()
-			reqId = uid.String()
-		}
-
-		r = SetReqId(r, reqId)
-
-		// enrich log context
-		if logger != nil {
-			logger = logger.F(log.Ctx{"request_id": reqId})
-			r = requestlog.SetRequestLogger(r, logger)
-		}
-
-		//return the reuqest ID in response too, the client can log it
-		//for end-to-end req tracing
-		w.Header().Add(RequestIdHeader, reqId)
-
-		h(w, r)
 	}
 }

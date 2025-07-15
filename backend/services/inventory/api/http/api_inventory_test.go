@@ -34,7 +34,6 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
-	"github.com/mendersoftware/mender-server/pkg/rest_utils"
 	rtest "github.com/mendersoftware/mender-server/pkg/testing/rest"
 
 	inventory "github.com/mendersoftware/mender-server/services/inventory/inv"
@@ -151,9 +150,9 @@ func TestHealthCheck(t *testing.T) {
 			if tc.HTTPCode == 204 {
 				assert.Empty(t, w.Body)
 			} else {
-				apiErr := rest_utils.ApiError{
-					Err:   tc.AppError.Error(),
-					ReqId: "test",
+				apiErr := rest.Error{
+					Err:       tc.AppError.Error(),
+					RequestID: "test",
 				}
 				b, _ := json.Marshal(apiErr)
 				assert.JSONEq(t,

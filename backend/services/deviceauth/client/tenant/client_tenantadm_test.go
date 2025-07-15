@@ -29,9 +29,8 @@ import (
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/mendersoftware/mender-server/pkg/rest_utils"
-
 	"github.com/mendersoftware/mender-server/pkg/ratelimits"
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 
 	ct "github.com/mendersoftware/mender-server/services/deviceauth/client/testing"
 )
@@ -118,9 +117,9 @@ func TestCheckHealth(t *testing.T) {
 		Name: "error, workflows unhealthy",
 
 		ResponseCode: http.StatusServiceUnavailable,
-		ResponseBody: rest_utils.ApiError{
-			Err:   "internal error",
-			ReqId: "test",
+		ResponseBody: rest.Error{
+			Err:       "internal error",
+			RequestID: "test",
 		},
 
 		Error: errors.New("internal error"),
@@ -455,9 +454,9 @@ func TestGetTenantUsers(t *testing.T) {
 			rsp := &http.Response{
 				StatusCode: http.StatusBadRequest,
 			}
-			b, _ := json.Marshal(rest_utils.ApiError{
-				Err:   "internal error",
-				ReqId: "test",
+			b, _ := json.Marshal(rest.Error{
+				Err:       "internal error",
+				RequestID: "test",
 			})
 			body := ioutil.NopCloser(bytes.NewReader(b))
 			rsp.Body = body

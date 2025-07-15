@@ -30,7 +30,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
-	"github.com/mendersoftware/mender-server/pkg/rest_utils"
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 )
@@ -68,9 +68,9 @@ func TestCheckHealth(t *testing.T) {
 		Name: "error, workflows unhealthy",
 
 		ResponseCode: http.StatusServiceUnavailable,
-		ResponseBody: rest_utils.ApiError{
-			Err:   "internal error",
-			ReqId: "test",
+		ResponseBody: rest.Error{
+			Err:       "internal error",
+			RequestID: "test",
 		},
 
 		Error: errors.New("internal error"),
