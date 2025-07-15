@@ -33,6 +33,7 @@ import pluralize from 'pluralize';
 
 import { PlanExpanded } from '../PlanExpanded';
 import CancelRequestDialog from '../dialogs/CancelRequest';
+import { BillingDetails } from './BillingDetails';
 import OrganizationSettingsItem from './OrganizationSettingsItem';
 
 const useStyles = makeStyles()(theme => ({
@@ -165,28 +166,6 @@ export const CancelSubscription = ({ handleCancelSubscription, isTrial }) => (
   </div>
 );
 
-const Address = props => {
-  const {
-    address: { city, country, line1, postal_code },
-    name,
-    email
-  } = props;
-
-  const displayNames = new Intl.DisplayNames('en', { type: 'region' });
-  return (
-    <div>
-      <div>
-        <b>{name}</b>
-      </div>
-      <div>{line1}</div>
-      <div>
-        {postal_code}, {city}
-      </div>
-      {country && <div>{displayNames.of(country) || ''}</div>}
-      <div>{email}</div>
-    </div>
-  );
-};
 export const CardDetails = props => {
   const { card, containerClass } = props;
   return (
@@ -284,24 +263,7 @@ export const Billing = () => {
             .
           </Typography>
         ) : (
-          <>
-            {billing && (
-              <div>
-                <div className="flexbox">
-                  {billing.address && <Address address={billing.address} email={billing.email} name={billing.name} />}
-                  {card && <CardDetails card={card} containerClass={billing.address ? 'margin-left-x-large' : ''} />}
-                </div>
-                <Button className="margin-top-x-small" onClick={() => setChangeBilling(true)} size="small">
-                  Edit
-                </Button>
-              </div>
-            )}
-            {!billing && !isTrial && (
-              <Alert severity="warning">
-                Your account is not set up for automatic billing. If you believe this is a mistake, please contact <SupportLink variant="email" />
-              </Alert>
-            )}
-          </>
+          <BillingDetails setChangeBilling={setChangeBilling} />
         )}
       </div>
       {billing && changeBilling && <PlanExpanded isEdit onCloseClick={() => setChangeBilling(false)} currentBillingProfile={billing} card={card} />}
