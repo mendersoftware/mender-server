@@ -46,7 +46,7 @@ export const SubscriptionAddon = (props: AddonProps) => {
         )}
       </CardContent>
       <CardActions className="padding-small padding-top-none">
-        <a href="http://mender.io" target="_blank" rel="noreferrer">
+        <a href={`https://mender.io/pricing/add-ons/${addon.id}`} target="_blank" rel="noreferrer">
           Learn More
         </a>
       </CardActions>
