@@ -21,6 +21,7 @@ export const getAuditlogState = state => state.organization.auditlog.selectionSt
 export const getAuditLog = state => state.organization.auditlog.events;
 export const getAuditLogSelectionState = state => state.organization.auditlog.selectionState;
 export const getBillingProfile = (state: RootState) => state.organization.organization.billing_profile;
+export const getSubscription = (state: RootState) => state.organization.organization.subscription;
 export const getCard = (state: RootState) => state.organization.card;
 export const getSsoConfig = ({ organization: { ssoConfigs = [] } }) => ssoConfigs[0];
 export const getTenantsList = state => state.organization.tenantList;

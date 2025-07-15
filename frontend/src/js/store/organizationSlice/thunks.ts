@@ -284,6 +284,20 @@ export const getUserBilling = createAsyncThunk(`${sliceName}/getUserBilling`, (_
   Api.get(`${tenantadmApiUrlv2}/billing/profile`).then(res => dispatch(actions.setBillingProfile(res.data)))
 );
 
+export const getUserSubscription = createAsyncThunk(`${sliceName}/getUserSubscription`, (_, { dispatch }) => {
+  const tasks = [dispatch(getBillingPreview({ preview_mode: 'next' })).unwrap(), dispatch(getCurrentSubscription()).unwrap()];
+  Promise.all(tasks).then(([currentPreview, currentSubscription]) => dispatch(actions.setSubscription({ ...currentPreview, ...currentSubscription })));
+});
+
+//Can also be used to get current subscription when no products supplied
+export const getBillingPreview = createAsyncThunk(`${sliceName}/getBillingPreview`, order =>
+  Api.post(`${tenantadmApiUrlv2}/billing/subscription/invoices/preview`, order).then(res => res.data)
+);
+
+export const getCurrentSubscription = createAsyncThunk(`${sliceName}/getCurrentSubscription`, () =>
+  Api.get(`${tenantadmApiUrlv2}/billing/subscription`).then(res => res.data)
+);
+
 export const sendSupportMessage = createAsyncThunk(`${sliceName}/sendSupportMessage`, (content, { dispatch }) =>
   Api.post(`${tenantadmApiUrlv2}/contact/support`, content)
     .catch(err => commonErrorHandler(err, 'There was an error sending your request', dispatch, commonErrorFallback))
