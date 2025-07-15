@@ -254,6 +254,14 @@ export const editBillingProfile = createAsyncThunk(
       .catch(err => commonErrorHandler(err, `Failed to change billing profile`, dispatch))
       .then(() => Promise.all([dispatch(setSnackbar('Billing Profile was changed successfully')), dispatch(getUserBilling())]))
 );
+export const createBillingProfile = createAsyncThunk(
+  `${sliceName}/createBillingProfileEmail`,
+  ({ billingProfile }: { billingProfile: BillingProfile }, { dispatch }) =>
+    Api.post(`${tenantadmApiUrlv2}/billing/profile`, billingProfile)
+      .catch(err => commonErrorHandler(err, `Failed to create billing profile`, dispatch))
+      .then(() => Promise.all([dispatch(setSnackbar('Billing Profile was created successfully')), dispatch(getUserBilling())]))
+);
+
 export const removeTenant = createAsyncThunk(`${sliceName}/editDeviceLimit`, ({ id }: { id: string }, { dispatch }) =>
   Api.post(`${tenantadmApiUrlv2}/tenants/${id}/remove/start`)
     .catch(err => commonErrorHandler(err, `There was an error removing the tenant`, dispatch))
@@ -296,6 +304,12 @@ export const getBillingPreview = createAsyncThunk(`${sliceName}/getBillingPrevie
 
 export const getCurrentSubscription = createAsyncThunk(`${sliceName}/getCurrentSubscription`, () =>
   Api.get(`${tenantadmApiUrlv2}/billing/subscription`).then(res => res.data)
+);
+
+export const requestPlanUpgrade = createAsyncThunk(`${sliceName}/requestPlanUpgrade`, (order, { dispatch }) =>
+  Api.post(`${tenantadmApiUrlv2}/billing/subscription`, order)
+    .catch(err => commonErrorHandler(err, 'There was an error sending your request', dispatch, commonErrorFallback))
+    .then(() => Promise.all([setTimeout(() => dispatch(getDeviceLimit()), TIMEOUTS.threeSeconds), dispatch(getUserOrganization())]))
 );
 
 export const sendSupportMessage = createAsyncThunk(`${sliceName}/sendSupportMessage`, (content, { dispatch }) =>
