@@ -15,10 +15,14 @@ package routing
 
 import (
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/gin-gonic/gin"
 
+	"github.com/mendersoftware/mender-server/pkg/accesslog"
+	"github.com/mendersoftware/mender-server/pkg/requestid"
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 	utils "github.com/mendersoftware/mender-server/pkg/strings"
 )
 
@@ -63,4 +67,42 @@ func AutogenOptionsRoutes(router *gin.Engine, gen HttpOptionsGenerator) {
 		}
 	}
 
+}
+
+func handleNoRoute(c *gin.Context) {
+	c.JSON(http.StatusNotFound, rest.Error{
+		Err:       "not found",
+		RequestID: requestid.FromContext(c.Request.Context()),
+	})
+}
+
+func handleNoMethod(c *gin.Context) {
+	c.JSON(http.StatusMethodNotAllowed, rest.Error{
+		Err:       "method not allowed",
+		RequestID: requestid.FromContext(c.Request.Context()),
+	})
+}
+
+func SwitchToReleaseMode() {
+	if mode := os.Getenv(gin.EnvGinMode); mode != "" {
+		gin.SetMode(mode)
+	} else {
+		gin.SetMode(gin.ReleaseMode)
+	}
+	gin.DisableConsoleColor()
+}
+
+func NewGinRouter() *gin.Engine {
+	SwitchToReleaseMode()
+
+	router := gin.New()
+
+	router.HandleMethodNotAllowed = true
+	router.NoMethod(handleNoMethod)
+	router.NoRoute(handleNoRoute)
+
+	router.Use(accesslog.Middleware())
+	router.Use(requestid.Middleware())
+
+	return router
 }

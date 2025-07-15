@@ -27,7 +27,7 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/contenttype"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
-	"github.com/mendersoftware/mender-server/pkg/requestid"
+	"github.com/mendersoftware/mender-server/pkg/routing"
 
 	"github.com/mendersoftware/mender-server/services/deployments/app"
 	"github.com/mendersoftware/mender-server/services/deployments/store"
@@ -111,8 +111,7 @@ func NewRouter(
 	ds store.DataStore,
 	cfg *Config,
 ) http.Handler {
-	router := gin.New()
-	router.Use(requestid.Middleware())
+	router := routing.NewGinRouter()
 	// Create and configure API handlers
 	//
 	// Encode base64 secret in either std or URL encoding ignoring padding.
@@ -124,7 +123,6 @@ func NewRouter(
 	internalAPIs := router.Group(ApiUrlInternal)
 
 	publicAPIs := router.Group(".")
-	publicAPIs.Use(accesslog.Middleware())
 
 	withAuth := publicAPIs.Group(".")
 	withAuth.Use(identity.Middleware())

@@ -15,11 +15,9 @@
 package http
 
 import (
-	"context"
-
 	"github.com/gin-gonic/gin"
 
-	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/routing"
 
 	"github.com/mendersoftware/mender-server/services/workflows/client/nats"
 	"github.com/mendersoftware/mender-server/services/workflows/store"
@@ -40,15 +38,8 @@ const (
 
 // NewRouter returns the gin router
 func NewRouter(dataStore store.DataStore, nats nats.Client) *gin.Engine {
-	gin.SetMode(gin.ReleaseMode)
-	gin.DisableConsoleColor()
 
-	router := gin.New()
-	ctx := context.Background()
-	l := log.FromContext(ctx)
-
-	router.Use(routerLogger(l))
-	router.Use(gin.Recovery())
+	router := routing.NewGinRouter()
 
 	status := NewStatusController()
 	router.GET(APIURLStatus, status.Status)

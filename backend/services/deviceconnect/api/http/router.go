@@ -19,9 +19,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/mendersoftware/mender-server/pkg/accesslog"
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/requestid"
+	"github.com/mendersoftware/mender-server/pkg/routing"
 
 	"github.com/mendersoftware/mender-server/services/deviceconnect/app"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/client/nats"
@@ -68,16 +67,12 @@ func NewRouter(
 	natsClient nats.Client,
 	config *RouterConfig,
 ) (*gin.Engine, error) {
-	gin.SetMode(gin.ReleaseMode)
-	gin.DisableConsoleColor()
 
-	router := gin.New()
-	router.Use(accesslog.Middleware())
+	router := routing.NewGinRouter()
 	router.Use(identity.Middleware(
 		identity.NewMiddlewareOptions().
 			SetPathRegex(`^/api/(devices|management)/v[0-9]/`),
 	))
-	router.Use(requestid.Middleware())
 
 	gracefulShutdownTimeout := time.Duration(0)
 	if config != nil && config.GracefulShutdownTimeout > gracefulShutdownTimeout {

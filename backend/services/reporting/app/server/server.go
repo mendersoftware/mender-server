@@ -23,8 +23,6 @@ import (
 
 	"golang.org/x/sys/unix"
 
-	"github.com/gin-gonic/gin"
-
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
 
@@ -33,14 +31,6 @@ import (
 	dconfig "github.com/mendersoftware/mender-server/services/reporting/config"
 	"github.com/mendersoftware/mender-server/services/reporting/store"
 )
-
-func init() {
-	if mode := os.Getenv(gin.EnvGinMode); mode != "" {
-		gin.SetMode(mode)
-	} else {
-		gin.SetMode(gin.ReleaseMode)
-	}
-}
 
 // InitAndRun initializes the server and runs it
 func InitAndRun(conf config.Reader, store store.Store, ds store.DataStore) error {
