@@ -11,28 +11,34 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Button, Card, CardContent, CardHeader, Chip, Divider, Typography } from '@mui/material';
+import { Button, Card, CardContent, CardHeader, Chip, Divider, Skeleton, Typography } from '@mui/material';
 
 import { AvailableAddon, Plan } from '@northern.tech/store/appSlice/constants';
+
+import { PreviewPrice } from './SubscriptionPage';
+import { formatPrice } from './utils';
 
 interface SubscriptionSummaryProps {
   addons: Record<AvailableAddon, boolean>;
   deviceLimit: number;
   isNew: boolean;
+  isPreviewLoading?: boolean;
+  onAction?: () => void;
   plan: Plan;
+  previewPrice: PreviewPrice;
+  readOnly?: boolean;
   title: string;
 }
-const amountFormatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 });
+const NumberSkeleton = () => <Skeleton width={35} height={26} />;
 
 export const SubscriptionSummary = (props: SubscriptionSummaryProps) => {
-  const { plan, deviceLimit, addons, title, isNew } = props;
+  const { plan, deviceLimit, addons, title, isNew, isPreviewLoading, readOnly, onAction, previewPrice } = props;
   const enabledAddons = Object.entries(addons)
     .filter(([addon, enabled]) => enabled && addon)
     .map(([addon]) => addon);
-  const devicePrice = deviceLimit * plan.name.length;
-  const addonPrice = deviceLimit * 10;
+  const outlinedProps = { variant: 'outlined' as const, className: 'padding' };
   return (
-    <Card variant="outlined" className="padding margin-left-x-large" sx={{ minWidth: '320px' }}>
+    <Card style={{ minWidth: '320px' }} {...(readOnly ? { elevation: 0 } : outlinedProps)}>
       <CardHeader
         className="padding-none"
         title={
@@ -48,7 +54,7 @@ export const SubscriptionSummary = (props: SubscriptionSummaryProps) => {
             <Typography variant="body2">Plan: {plan.name}</Typography>
             <Typography variant="body1">Devices: x {deviceLimit}</Typography>
           </div>
-          <Typography variant="subtitle1">{amountFormatter.format(devicePrice)}</Typography>
+          <Typography variant="subtitle1">{isPreviewLoading ? <NumberSkeleton /> : formatPrice(previewPrice.plan)}</Typography>
         </div>
         {enabledAddons.length > 0 && (
           <div className="margin-top-small margin-bottom-small">
@@ -61,20 +67,24 @@ export const SubscriptionSummary = (props: SubscriptionSummaryProps) => {
                   </Typography>
                   <Typography variant="body2">x {deviceLimit} devices</Typography>
                 </div>
-                <Typography variant="subtitle1">{amountFormatter.format(addonPrice)}</Typography>
+                <Typography variant="subtitle1">
+                  {isPreviewLoading || !previewPrice.addons[addon] ? <NumberSkeleton /> : formatPrice(previewPrice.addons[addon])}
+                </Typography>
               </div>
             ))}
           </div>
         )}
         <Divider variant="middle" className="margin-none" />
-        <div className="flexbox space-between margin-top-small margin-bottom-small">
+        <div className="flexbox space-between margin-top-small">
           <Typography variant="subtitle1">Monthly price</Typography>
-          <Typography variant="subtitle1">{amountFormatter.format(addonPrice * enabledAddons.length + devicePrice)} </Typography>
+          <Typography variant="h5">{isPreviewLoading ? <NumberSkeleton /> : formatPrice(previewPrice.total)} </Typography>
         </div>
       </CardContent>
-      <Button sx={{ textTransform: 'none' }} disabled={!isNew} variant="contained" fullWidth>
-        Upgrade now
-      </Button>
+      {!readOnly && (
+        <Button className="margin-top-small" disabled={!isNew} variant="contained" onClick={onAction} fullWidth>
+          Upgrade now
+        </Button>
+      )}
     </Card>
   );
 };
