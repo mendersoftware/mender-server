@@ -284,6 +284,11 @@ export const getUserBilling = createAsyncThunk(`${sliceName}/getUserBilling`, (_
   Api.get(`${tenantadmApiUrlv2}/billing/profile`).then(res => dispatch(actions.setBillingProfile(res.data)))
 );
 
+export const getUserSubscription = createAsyncThunk(`${sliceName}/getUserSubscription`, (_, { dispatch }) => {
+  const tasks = [dispatch(getBillingPreview({ preview_mode: 'next' })).unwrap(), dispatch(getCurrentSubscription()).unwrap()];
+  Promise.all(tasks).then(([currentPreview, currentSubscription]) => dispatch(actions.setSubscription({ ...currentPreview, ...currentSubscription })));
+});
+
 export const sendSupportMessage = createAsyncThunk(`${sliceName}/sendSupportMessage`, (content, { dispatch }) =>
   Api.post(`${tenantadmApiUrlv2}/contact/support`, content)
     .catch(err => commonErrorHandler(err, 'There was an error sending your request', dispatch, commonErrorFallback))
