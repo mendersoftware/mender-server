@@ -105,6 +105,7 @@ export interface Organization extends Tenant {
   api_limits: ApiLimits;
   created_at: string;
   id: string;
+  isLoaded: boolean;
   name: string;
   status: 'active' | 'inactive';
   tenant_token: string;
