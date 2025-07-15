@@ -43,7 +43,7 @@ export const SubscriptionPage = () => {
   const dispatch = useAppDispatch();
   const currentDeviceLimit = useSelector(getDeviceLimit);
   const org = useSelector(getOrganization);
-  const { addons: orgAddOns = [], plan: currentPlan = PLANS.os.id as AvailablePlans, trial: isTrial = true } = org;
+  const { addons: orgAddOns = [], plan: currentPlan = PLANS.os.id as AvailablePlans, trial: isTrial = true, isLoaded: isOrgLoaded } = org;
   const plan = Object.values(PLANS).find(plan => plan.id === (isTrial ? PLANS.os.id : currentPlan));
   const enabledAddons = useMemo(() => orgAddOns.filter(addon => addon.enabled), [orgAddOns]);
   const currentPlanId = plan ? plan.id : null;
