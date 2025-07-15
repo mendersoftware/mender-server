@@ -11,6 +11,12 @@ variables:
   DOCKER_BUILDKITARGS:
     value: '--driver-opt "image=moby/buildkit:v0.17.3"' # QA-823
     description: "Optional buildkit args for docker build"
+  DOCKER_HOST:
+    value: 'tcp://docker:2375'
+    description: "Required to run dind inside k8s runners"
+  DOCKER_TLS_CERTDIR:
+    value: ''
+    description: "Required to run dind inside k8s runners"
   SKOPEO_VERSION:
     value: "v1.16.1"
     description: "Version of skopeo to use for publishing images"
@@ -101,7 +107,7 @@ stages:
 
 default:
   tags:
-    - hetzner-amd-beefy
+    - k8s
   retry:
     max: 2
     when:
@@ -109,7 +115,7 @@ default:
       - stuck_or_timeout_failure
 
 .requires-docker: &requires-docker
-  - DOCKER_RETRY_SLEEP_S=2
+  - DOCKER_RETRY_SLEEP_S=10 # wait longer for k8s workers
   - DOCKER_RUNNING=false
   - for try in 4 3 2 1; do
   -  docker ps && DOCKER_RUNNING=true
@@ -142,8 +148,6 @@ default:
   stage: build
   extends: .build:base
   needs: []
-  tags:
-    - hetzner-amd-beefy
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
@@ -160,7 +164,6 @@ default:
       docker context create ci;
       docker builder create ${DOCKER_BUILDKITARGS} --name ci-builder ci;
       export DOCKER_BUILDARGS="${DOCKER_BUILDARGS} --builder=ci-builder";
-      unset DOCKER_HOST;
       fi
 
 build:backend:docker:
@@ -197,8 +200,6 @@ build:backend:docker-acceptance:
 test:backend:static:
   stage: test
   needs: []
-  tags:
-    - hetzner-amd-beefy
   rules:
     - changes:
         paths: ["backend/**/*.go", "backend/go.mod", ".gitlab-ci.yml"]
@@ -253,8 +254,6 @@ test:backend:unit:
       when: on_success
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
-  tags:
-    - hetzner-amd-ax42
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/mongo:6.0
       alias: mongo
@@ -284,8 +283,6 @@ test:backend:acceptance:
       when: on_success
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
-  tags:
-    - hetzner-amd-ax42
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
       alias: docker
@@ -315,9 +312,6 @@ test:backend:integration:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
   stage: test
   extends: .build:base
-  variables:
-    DOCKER_HOST: tcp://docker:2375
-    DOCKER_TLS_CERTDIR: ""
   rules:
     - changes:
         paths: ["backend/**/*", ".gitlab-ci.yml"]
@@ -325,8 +319,6 @@ test:backend:integration:
       when: on_success
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
-  tags:
-    - k8s
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
       alias: docker
@@ -509,8 +501,6 @@ publish:backend:coverage:
 
 publish:backend:docker:
   stage: publish
-  tags:
-    - hetzner-amd-beefy
   image:
     name: quay.io/skopeo/stable:${SKOPEO_VERSION}
     # https://docs.gitlab.com/ee/ci/docker/using_docker_images.html#override-the-entrypoint-of-an-image
@@ -563,8 +553,6 @@ publish:backend:docker:
 
 publish:backend:licenses:
   stage: publish
-  tags:
-    - hetzner-amd-beefy
   rules:
     - changes:
         paths: ["backend/**/*"]
@@ -594,8 +582,6 @@ publish:backend:licenses:
 
 publish:licenses:docs-site:
   stage: .post
-  tags:
-    - hetzner-amd-beefy
   rules:
     # Only make available for stable branches
     - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/'
