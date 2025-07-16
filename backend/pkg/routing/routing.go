@@ -106,3 +106,16 @@ func NewGinRouter() *gin.Engine {
 
 	return router
 }
+
+// New Gin router without any middlewares
+func NewMinimalGinRouter() *gin.Engine {
+	SwitchToReleaseMode()
+
+	router := gin.New()
+
+	router.HandleMethodNotAllowed = true
+	router.NoMethod(handleNoMethod)
+	router.NoRoute(handleNoRoute)
+
+	return router
+}
