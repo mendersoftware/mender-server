@@ -50,7 +50,6 @@ import {
   getRoles,
   getUserOrganization,
   getUserSettings,
-  getUserSubscription,
   saveGlobalSettings,
   saveUserSettings
 } from './thunks';
@@ -161,7 +160,6 @@ export const useAppInit = userId => {
     const multitenancy = hasMultitenancy || isHosted || isEnterprise;
     if (multitenancy) {
       tasks.push(dispatch(getUserOrganization()));
-      tasks.push(dispatch(getUserSubscription()));
     }
     return Promise.all(tasks);
   }, [dispatch, hasMultitenancy, isHosted, isEnterprise]);
