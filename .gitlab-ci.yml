@@ -12,11 +12,17 @@ variables:
     value: '--driver-opt "image=moby/buildkit:v0.17.3"' # QA-823
     description: "Optional buildkit args for docker build"
   DOCKER_HOST:
-    value: 'tcp://docker:2375'
-    description: "Required to run dind inside k8s runners"
+    value: 'tcp://docker:2376'
+    description: "Required to run dind inside k8s runners with TLS"
   DOCKER_TLS_CERTDIR:
-    value: ''
-    description: "Required to run dind inside k8s runners"
+    value: '/certs'
+    description: "The cert dir inside the gitlab runner. Don't change this."
+  DOCKER_TLS_VERIFY:
+    value: 1
+    description: "Enable TLS verification for docker in dind"
+  DOCKER_CERT_PATH:
+    value: "$DOCKER_TLS_CERTDIR/client"
+    description: "Used for docker entrypoints. See https://gitlab.com/gitlab-org/gitlab-runner/-/issues/4125"
   SKOPEO_VERSION:
     value: "v1.16.1"
     description: "Version of skopeo to use for publishing images"
@@ -323,7 +329,7 @@ test:backend:integration:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
       alias: docker
       variables:
-        HEALTHCHECK_TCP_PORT: "2375"
+        HEALTHCHECK_TCP_PORT: "2376"
   needs:
     - job: build:backend:docker
       artifacts: false
@@ -408,9 +414,6 @@ test:prep:
     CI: 1
     DEVICE_TYPE: qemux86-64
     DOCKER_CERT_PATH: /certs/client
-    DOCKER_HOST: tcp://docker:2376
-    DOCKER_TLS_CERTDIR: '/certs'
-    DOCKER_TLS_VERIFY: 1
     TEST_ENVIRONMENT: staging
   before_script:
     - mv mender-stress-test-client frontend/tests/e2e_tests/
