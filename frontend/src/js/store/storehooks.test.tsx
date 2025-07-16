@@ -15,6 +15,8 @@
 import { Provider } from 'react-redux';
 
 import {
+  getBillingPreview,
+  getCurrentSubscription,
   getDeploymentsByStatus,
   getDeviceAttributes,
   getDeviceLimit,
@@ -25,6 +27,7 @@ import {
   getIntegrations,
   getReleases,
   getUserOrganization,
+  getUserSubscription,
   tenantDataDivergedMessage
 } from '@northern.tech/store/thunks';
 import { renderHook, waitFor } from '@testing-library/react';
@@ -33,7 +36,7 @@ import { thunk } from 'redux-thunk';
 import { vi } from 'vitest';
 
 import { inventoryDevice } from '../../../tests/__mocks__/deviceHandlers';
-import { defaultState, receivedPermissionSets, receivedRoles, userId } from '../../../tests/mockData';
+import { defaultState, invoicePreviewBasic, receivedPermissionSets, receivedRoles, subscriptionBasic, userId } from '../../../tests/mockData';
 import { actions as appActions } from './appSlice';
 import { getLatestReleaseInfo, setOfflineThreshold } from './appSlice/thunks';
 import { latestSaasReleaseTag } from './appSlice/thunks.test';
@@ -109,6 +112,10 @@ const appInitActions = [
   { type: getGlobalSettings.pending.type },
   { type: appActions.setFirstLoginAfterSignup.type, payload: false },
   { type: getUserOrganization.pending.type },
+  { type: getUserSubscription.pending.type },
+  { type: getBillingPreview.pending.type },
+  { type: getCurrentSubscription.pending.type },
+  { type: getUserSubscription.fulfilled.type },
   {
     type: appActions.setVersionInformation.type,
     payload: {
@@ -132,6 +139,9 @@ const appInitActions = [
   { type: appActions.setAnnouncement.type, payload: tenantDataDivergedMessage },
   { type: getLatestReleaseInfo.fulfilled.type },
   { type: getUserOrganization.fulfilled.type },
+  { type: getCurrentSubscription.fulfilled.type },
+  { type: getBillingPreview.fulfilled.type },
+  { type: organizationActions.setSubscription.type, payload: { ...invoicePreviewBasic, ...subscriptionBasic } },
   { type: userActions.setGlobalSettings.type, payload: { ...defaultState.users.globalSettings } },
   { type: setOfflineThreshold.pending.type },
   { type: appActions.setOfflineThreshold.type, payload: '2019-01-12T13:00:00.950Z' },
@@ -271,11 +281,6 @@ const appInitActions = [
   },
   { type: getDevicesWithAuth.fulfilled.type },
   { type: getDevicesWithAuth.fulfilled.type },
-  { type: releasesActions.receiveReleases.type, payload: defaultState.releases.byId },
-  {
-    type: releasesActions.setReleaseListState.type,
-    payload: { ...defaultState.releases.releasesList, releaseIds: [defaultState.releases.byId.r1.name], page: 42 }
-  },
   {
     type: deviceActions.receivedDevices.type,
     payload: {
@@ -284,6 +289,11 @@ const appInitActions = [
     }
   },
   { type: getDevicesWithAuth.pending.type },
+  { type: releasesActions.receiveReleases.type, payload: defaultState.releases.byId },
+  {
+    type: releasesActions.setReleaseListState.type,
+    payload: { ...defaultState.releases.releasesList, releaseIds: [defaultState.releases.byId.r1.name], page: 42 }
+  },
   { type: getDevicesByStatus.fulfilled.type },
   { type: getDevicesByStatus.fulfilled.type },
   { type: getReleases.fulfilled.type },
@@ -291,7 +301,6 @@ const appInitActions = [
   { type: userActions.receivedPermissionSets.type, payload: receivedPermissionSets },
   { type: getPermissionSets.fulfilled.type },
   { type: userActions.receivedRoles.type, payload: receivedRoles },
-  { type: userActions.finishedRoleInitialization.type, payload: true },
   {
     type: deviceActions.receivedDevices.type,
     payload: {
@@ -299,6 +308,7 @@ const appInitActions = [
       [defaultState.devices.byId.b1.id]: { ...defaultState.devices.byId.b1, group: undefined, isNew: false, isOffline: true, monitor: {}, tags: {} }
     }
   },
+  { type: userActions.finishedRoleInitialization.type, payload: true },
   { type: getRoles.fulfilled.type },
   { type: getDevicesWithAuth.fulfilled.type },
   { type: getDevicesByStatus.fulfilled.type },
