@@ -35,6 +35,7 @@ export const initialState: OrganizationState = {
     }
   },
   organization: {
+    isLoaded: false
     // id, name, status, tenant_token, plan
   },
   auditlog: {
@@ -85,7 +86,10 @@ export const organizationSlice = createSlice({
       state.intentId = action.payload;
     },
     setOrganization: (state, action) => {
-      state.organization = { ...state.organization, ...action.payload };
+      state.organization = { ...state.organization, ...action.payload, isLoaded: true };
+    },
+    setSubscription: (state, action) => {
+      state.organization.subscription = { ...state.organization.subscription, ...action.payload };
     },
     setBillingProfile: (state, action) => {
       state.organization.billing_profile = action.payload;
