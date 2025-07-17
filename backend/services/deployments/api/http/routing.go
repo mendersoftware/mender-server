@@ -42,59 +42,64 @@ const (
 	ApiUrlManagement = "/api/management/v1/deployments"
 	ApiUrlDevices    = "/api/devices/v1/deployments"
 
-	ApiUrlManagementArtifacts               = "/artifacts"
-	ApiUrlManagementArtifactsList           = "/artifacts/list"
-	ApiUrlManagementArtifactsGenerate       = "/artifacts/generate"
-	ApiUrlManagementArtifactsDirectUpload   = "/artifacts/directupload"
+	ApiUrlManagementArtifacts               = ApiUrlManagement + "/artifacts"
+	ApiUrlManagementArtifactsList           = ApiUrlManagement + "/artifacts/list"
+	ApiUrlManagementArtifactsGenerate       = ApiUrlManagement + "/artifacts/generate"
+	ApiUrlManagementArtifactsDirectUpload   = ApiUrlManagement + "/artifacts/directupload"
 	ApiUrlManagementArtifactsCompleteUpload = ApiUrlManagementArtifactsDirectUpload +
 		"/:id/complete"
-	ApiUrlManagementArtifactsId         = "/artifacts/:id"
-	ApiUrlManagementArtifactsIdDownload = "/artifacts/:id/download"
+	ApiUrlManagementArtifactsId         = ApiUrlManagement + "/artifacts/:id"
+	ApiUrlManagementArtifactsIdDownload = ApiUrlManagement + "/artifacts/:id/download"
 
-	ApiUrlManagementDeployments                   = "/deployments"
-	ApiUrlManagementMultipleDeploymentsStatistics = "/deployments/statistics/list"
-	ApiUrlManagementDeploymentsGroup              = "/deployments/group/:name"
-	ApiUrlManagementDeploymentsId                 = "/deployments/:id"
-	ApiUrlManagementDeploymentsStatistics         = "/deployments/:id/statistics"
-	ApiUrlManagementDeploymentsStatus             = "/deployments/:id/status"
-	ApiUrlManagementDeploymentsDevices            = "/deployments/:id/devices"
-	ApiUrlManagementDeploymentsDevicesList        = "/deployments/:id/devices/list"
-	ApiUrlManagementDeploymentsLog                = "/deployments/:id/devices/:devid/log"
-	ApiUrlManagementDeploymentsDeviceId           = "/deployments/devices/:id"
-	ApiUrlManagementDeploymentsDeviceHistory      = "/deployments/devices/:id/history"
-	ApiUrlManagementDeploymentsDeviceList         = "/deployments/:id/device_list"
+	ApiUrlManagementDeployments                   = ApiUrlManagement + "/deployments"
+	ApiUrlManagementMultipleDeploymentsStatistics = ApiUrlManagement +
+		"/deployments/statistics/list"
+	ApiUrlManagementDeploymentsGroup       = ApiUrlManagement + "/deployments/group/:name"
+	ApiUrlManagementDeploymentsId          = ApiUrlManagement + "/deployments/:id"
+	ApiUrlManagementDeploymentsStatistics  = ApiUrlManagement + "/deployments/:id/statistics"
+	ApiUrlManagementDeploymentsStatus      = ApiUrlManagement + "/deployments/:id/status"
+	ApiUrlManagementDeploymentsDevices     = ApiUrlManagement + "/deployments/:id/devices"
+	ApiUrlManagementDeploymentsDevicesList = ApiUrlManagement + "/deployments/:id/devices/list"
+	ApiUrlManagementDeploymentsLog         = ApiUrlManagement +
+		"/deployments/:id/devices/:devid/log"
+	ApiUrlManagementDeploymentsDeviceId      = ApiUrlManagement + "/deployments/devices/:id"
+	ApiUrlManagementDeploymentsDeviceHistory = ApiUrlManagement + "/deployments/devices/:id/history"
+	ApiUrlManagementDeploymentsDeviceList    = ApiUrlManagement + "/deployments/:id/device_list"
 
-	ApiUrlManagementReleases     = "/deployments/releases"
-	ApiUrlManagementReleasesList = "/deployments/releases/list"
+	ApiUrlManagementReleases     = ApiUrlManagement + "/deployments/releases"
+	ApiUrlManagementReleasesList = ApiUrlManagement + "/deployments/releases/list"
 
-	ApiUrlManagementLimitsName = "/limits/:name"
+	ApiUrlManagementLimitsName = ApiUrlManagement + "/limits/:name"
 
 	ApiUrlManagementV2                      = "/api/management/v2/deployments"
-	ApiUrlManagementV2Releases              = "/deployments/releases"
+	ApiUrlManagementV2Artifacts             = ApiUrlManagementV2 + "/artifacts"
+	ApiUrlManagementV2Releases              = ApiUrlManagementV2 + "/deployments/releases"
 	ApiUrlManagementV2ReleasesName          = ApiUrlManagementV2Releases + "/:name"
 	ApiUrlManagementV2ReleaseTags           = ApiUrlManagementV2Releases + "/:name/tags"
-	ApiUrlManagementV2ReleaseAllTags        = "/releases/all/tags"
-	ApiUrlManagementV2ReleaseAllUpdateTypes = "/releases/all/types"
-	ApiUrlManagementV2Deployments           = "/deployments"
+	ApiUrlManagementV2ReleaseAllTags        = ApiUrlManagementV2 + "/releases/all/tags"
+	ApiUrlManagementV2ReleaseAllUpdateTypes = ApiUrlManagementV2 + "/releases/all/types"
+	ApiUrlManagementV2Deployments           = ApiUrlManagementV2 + "/deployments"
 
-	ApiUrlDevicesDeploymentsNext  = "/device/deployments/next"
-	ApiUrlDevicesDeploymentStatus = "/device/deployments/:id/status"
-	ApiUrlDevicesDeploymentsLog   = "/device/deployments/:id/log"
-	ApiUrlDevicesDownloadConfig   = "/download/configuration" +
-		"/:deployment_id/:device_type/:device_id"
+	ApiUrlDevicesDeploymentsNext  = ApiUrlDevices + "/device/deployments/next"
+	ApiUrlDevicesDeploymentStatus = ApiUrlDevices + "/device/deployments/:id/status"
+	ApiUrlDevicesDeploymentsLog   = ApiUrlDevices + "/device/deployments/:id/log"
+	ApiUrlDevicesDownloadConfig   = ApiUrlDevices +
+		"/download/configuration/:deployment_id/:device_type/:device_id"
 
-	ApiUrlInternalAlive                          = "/alive"
-	ApiUrlInternalHealth                         = "/health"
-	ApiUrlInternalTenants                        = "/tenants"
-	ApiUrlInternalTenantDeployments              = "/tenants/:tenant/deployments"
-	ApiUrlInternalTenantDeploymentsDevices       = "/tenants/:tenant/deployments/devices"
-	ApiUrlInternalTenantDeploymentsDevice        = "/tenants/:tenant/deployments/devices/:id"
-	ApiUrlInternalTenantArtifacts                = "/tenants/:tenant/artifacts"
-	ApiUrlInternalTenantStorageSettings          = "/tenants/:tenant/storage/settings"
-	ApiUrlInternalDeviceConfigurationDeployments = "/tenants/:tenant/configuration/deployments" +
-		"/:deployment_id/devices/:device_id"
-	ApiUrlInternalDeviceDeploymentLastStatusDeployments = "/tenants/:tenant/devices/deployments" +
-		"/last"
+	ApiUrlInternalAlive                    = ApiUrlInternal + "/alive"
+	ApiUrlInternalHealth                   = ApiUrlInternal + "/health"
+	ApiUrlInternalTenants                  = ApiUrlInternal + "/tenants"
+	ApiUrlInternalTenantDeployments        = ApiUrlInternal + "/tenants/:tenant/deployments"
+	ApiUrlInternalTenantDeploymentsDevices = ApiUrlInternal + "/tenants/:tenant/deployments/devices"
+	ApiUrlInternalTenantDeploymentsDevice  = ApiUrlInternal +
+		"/tenants/:tenant/deployments/devices/:id"
+	ApiUrlInternalTenantArtifacts       = ApiUrlInternal + "/tenants/:tenant/artifacts"
+	ApiUrlInternalTenantStorageSettings = ApiUrlInternal +
+		"/tenants/:tenant/storage/settings"
+	ApiUrlInternalDeviceConfigurationDeployments = ApiUrlInternal +
+		"/tenants/:tenant/configuration/deployments/:deployment_id/devices/:device_id"
+	ApiUrlInternalDeviceDeploymentLastStatusDeployments = ApiUrlInternal +
+		"/tenants/:tenant/devices/deployments/last"
 )
 
 func init() {
@@ -113,6 +118,9 @@ func NewRouter(
 	ds store.DataStore,
 	cfg *Config,
 ) http.Handler {
+	if cfg == nil {
+		cfg = NewConfig()
+	}
 	router := routing.NewMinimalGinRouter()
 	// Create and configure API handlers
 	//
@@ -120,27 +128,25 @@ func NewRouter(
 	deploymentsHandlers := NewDeploymentsApiHandlers(
 		ds, new(view.RESTView), app, cfg,
 	)
+	router.Use(requestid.Middleware())
+	requestLimit := requestsize.Middleware(cfg.MaxRequestSize)
+	accesslogDefault := accesslog.Middleware()
+	accesslogSupressed := accesslog.AccessLogger{
+		DisableLog: func(c *gin.Context) bool {
+			return c.Writer.Status() < 300
+		}}.Middleware
 
-	// Routing
-	internalAPIs := router.Group(ApiUrlInternal)
+	// Setup routing groups
+	routerHealthz := router.Group("", accesslogSupressed, requestLimit)
+	routerOpen := router.Group("", accesslogDefault, requestLimit)
+	routerAuth := router.Group("", accesslogDefault, identity.Middleware(), requestLimit)
+	routerAuthNoLimit := router.Group("", accesslogDefault, identity.Middleware())
 
-	publicAPIs := router.Group(".")
-	publicAPIs.Use(accesslog.Middleware())
-	publicAPIs.Use(requestid.Middleware())
-
-	withAuth := publicAPIs.Group(".")
-	withAuth.Use(identity.Middleware())
-
-	NewImagesResourceRoutes(withAuth, deploymentsHandlers, cfg)
-
-	// The rest of the public APIs does not need custom request size limits
-	publicAPIs.Use(requestsize.Middleware(cfg.MaxRequestSize))
-	withAuth.Use(requestsize.Middleware(cfg.MaxRequestSize))
-
-	NewDeploymentsResourceRoutes(publicAPIs, deploymentsHandlers)
-	NewLimitsResourceRoutes(withAuth, deploymentsHandlers)
-	InternalRoutes(internalAPIs, deploymentsHandlers)
-	ReleasesRoutes(withAuth, deploymentsHandlers)
+	NewImagesResourceRoutes(routerAuth, routerAuthNoLimit, deploymentsHandlers, cfg)
+	NewDeploymentsResourceRoutes(routerAuth, routerOpen, deploymentsHandlers)
+	NewLimitsResourceRoutes(routerAuth, deploymentsHandlers)
+	InternalRoutes(routerOpen, routerHealthz, deploymentsHandlers)
+	ReleasesRoutes(routerAuth, deploymentsHandlers)
 
 	restutil.AutogenOptionsRoutes(
 		restutil.NewOptionsHandler,
@@ -149,47 +155,39 @@ func NewRouter(
 	return router
 }
 
-func NewImagesResourceRoutes(router *gin.RouterGroup,
+func NewImagesResourceRoutes(router, routerNoLimit *gin.RouterGroup,
 	controller *DeploymentsApiHandlers, cfg *Config) {
 
 	if controller == nil {
 		return
 	}
-	mgmtV1 := router.Group(ApiUrlManagement)
-	mgmtV2 := router.Group(ApiUrlManagementV2)
-
-	mgmtV1Artifacts := mgmtV1.Group(".")
-
-	artifactSizeLimit := requestsize.Middleware(cfg.MaxImageSize)
-	generateDataSizeLimit := requestsize.Middleware(cfg.MaxGenerateDataSize)
-
-	mgmtV1.Use(requestsize.Middleware(cfg.MaxRequestSize))
-	mgmtV2.Use(requestsize.Middleware(cfg.MaxRequestSize))
 
 	artifactType := contenttype.Middleware("multipart/form-data", "multipart/mixed")
 
-	mgmtV1.GET(ApiUrlManagementArtifacts, controller.GetImages)
-	mgmtV2.GET(ApiUrlManagementArtifacts, controller.ListImagesV2)
-	mgmtV1.GET(ApiUrlManagementArtifactsList, controller.ListImages)
-	mgmtV1.GET(ApiUrlManagementArtifactsId, controller.GetImage)
-	mgmtV1.GET(ApiUrlManagementArtifactsIdDownload, controller.DownloadLink)
+	router.GET(ApiUrlManagementArtifacts, controller.GetImages)
+	router.GET(ApiUrlManagementV2Artifacts, controller.ListImagesV2)
+	router.GET(ApiUrlManagementArtifactsList, controller.ListImages)
+	router.GET(ApiUrlManagementArtifactsId, controller.GetImage)
+	router.GET(ApiUrlManagementArtifactsIdDownload, controller.DownloadLink)
 	if !controller.config.DisableNewReleasesFeature {
-		mgmtV1.DELETE(ApiUrlManagementArtifactsId, controller.DeleteImage)
-		mgmtV1Artifacts.Group(".").Use(artifactType).
+		router.DELETE(ApiUrlManagementArtifactsId, controller.DeleteImage)
+		routerNoLimit.Group("", artifactType).
 			POST(ApiUrlManagementArtifacts,
-				artifactSizeLimit, controller.NewImage).
+				requestsize.Middleware(cfg.MaxImageSize),
+				controller.NewImage).
 			POST(ApiUrlManagementArtifactsGenerate,
-				generateDataSizeLimit, controller.GenerateImage)
-		mgmtV1.Group(".").Use(contenttype.CheckJSON()).
+				requestsize.Middleware(cfg.MaxGenerateDataSize),
+				controller.GenerateImage)
+		router.Group("", contenttype.CheckJSON()).
 			PUT(ApiUrlManagementArtifactsId, controller.EditImage)
 
 	} else {
-		mgmtV1.DELETE(ApiUrlManagementArtifactsId, ServiceUnavailable)
+		router.DELETE(ApiUrlManagementArtifactsId, ServiceUnavailable)
 
-		mgmtV1Artifacts.Group(".").Use(artifactType).
+		router.Group("", artifactType).
 			POST(ApiUrlManagementArtifacts, ServiceUnavailable).
 			POST(ApiUrlManagementArtifactsGenerate, ServiceUnavailable)
-		mgmtV1.PUT(ApiUrlManagementArtifactsId, ServiceUnavailable)
+		router.PUT(ApiUrlManagementArtifactsId, ServiceUnavailable)
 
 	}
 	if !controller.config.DisableNewReleasesFeature && cfg.EnableDirectUpload {
@@ -202,7 +200,7 @@ func NewImagesResourceRoutes(router *gin.RouterGroup,
 				"direct upload enabled SkipVerify",
 			)
 		}
-		mgmtV1.Group(".").Use(contenttype.CheckJSON()).
+		router.Group("", contenttype.CheckJSON()).
 			POST(ApiUrlManagementArtifactsDirectUpload,
 				controller.UploadLink).
 			POST(ApiUrlManagementArtifactsCompleteUpload,
@@ -210,59 +208,44 @@ func NewImagesResourceRoutes(router *gin.RouterGroup,
 	}
 }
 
-func NewDeploymentsResourceRoutes(router *gin.RouterGroup, controller *DeploymentsApiHandlers) {
+func NewDeploymentsResourceRoutes(
+	groupAuthz *gin.RouterGroup,
+	groupOpen *gin.RouterGroup,
+	controller *DeploymentsApiHandlers,
+) {
 
 	if controller == nil {
 		return
 	}
-	mgmtV1 := router.Group(ApiUrlManagement)
-	mgmtV1.Use(identity.Middleware())
-	mgmtV2 := router.Group(ApiUrlManagementV2)
-	mgmtV2.Use(identity.Middleware())
 
-	mgmtV1.GET(ApiUrlManagementDeployments, controller.LookupDeployment)
-	mgmtV2.GET(ApiUrlManagementV2Deployments, controller.LookupDeploymentV2)
-	mgmtV1.GET(ApiUrlManagementDeploymentsId, controller.GetDeployment)
-	mgmtV1.GET(ApiUrlManagementDeploymentsStatistics, controller.GetDeploymentStats)
-	mgmtV1.GET(ApiUrlManagementDeploymentsDevices,
-		controller.GetDeviceStatusesForDeployment)
-	mgmtV1.GET(ApiUrlManagementDeploymentsDevicesList,
-		controller.GetDevicesListForDeployment)
-	mgmtV1.GET(ApiUrlManagementDeploymentsLog,
-		controller.GetDeploymentLogForDevice)
-	mgmtV1.GET(ApiUrlManagementDeploymentsDeviceId,
-		controller.ListDeviceDeployments)
-	mgmtV1.GET(ApiUrlManagementDeploymentsDeviceList,
-		controller.GetDeploymentDeviceList)
+	// nolint:lll
+	groupAuthz.
+		GET(ApiUrlManagementDeployments, controller.LookupDeployment).
+		GET(ApiUrlManagementV2Deployments, controller.LookupDeploymentV2).
+		GET(ApiUrlManagementDeploymentsId, controller.GetDeployment).
+		GET(ApiUrlManagementDeploymentsStatistics, controller.GetDeploymentStats).
+		GET(ApiUrlManagementDeploymentsDevices, controller.GetDeviceStatusesForDeployment).
+		GET(ApiUrlManagementDeploymentsDevicesList, controller.GetDevicesListForDeployment).
+		GET(ApiUrlManagementDeploymentsLog, controller.GetDeploymentLogForDevice).
+		GET(ApiUrlManagementDeploymentsDeviceId, controller.ListDeviceDeployments).
+		GET(ApiUrlManagementDeploymentsDeviceList, controller.GetDeploymentDeviceList).
+		DELETE(ApiUrlManagementDeploymentsDeviceId, controller.AbortDeviceDeployments).
+		DELETE(ApiUrlManagementDeploymentsDeviceHistory, controller.DeleteDeviceDeploymentsHistory)
 
-	mgmtV1.DELETE(ApiUrlManagementDeploymentsDeviceId,
-		controller.AbortDeviceDeployments)
-	mgmtV1.DELETE(ApiUrlManagementDeploymentsDeviceHistory,
-		controller.DeleteDeviceDeploymentsHistory)
-
-	mgmtV1.Group(".").Use(contenttype.CheckJSON()).
+	// nolint:lll
+	groupAuthz.Group("", contenttype.CheckJSON()).
 		POST(ApiUrlManagementDeployments, controller.PostDeployment).
 		POST(ApiUrlManagementDeploymentsGroup, controller.DeployToGroup).
-		POST(ApiUrlManagementMultipleDeploymentsStatistics,
-			controller.GetDeploymentsStats).
+		POST(ApiUrlManagementMultipleDeploymentsStatistics, controller.GetDeploymentsStats).
 		PUT(ApiUrlManagementDeploymentsStatus, controller.AbortDeployment)
 
-	// Devices
-	devices := router.Group(ApiUrlDevices)
+	groupOpen.GET(ApiUrlDevicesDownloadConfig, controller.DownloadConfiguration)
 
-	devices.GET(ApiUrlDevicesDownloadConfig,
-		controller.DownloadConfiguration)
-
-	devices.Use(identity.Middleware())
-
-	devices.GET(ApiUrlDevicesDeploymentsNext, controller.GetDeploymentForDevice)
-	devices.Group(".").Use(contenttype.CheckJSON()).
-		POST(ApiUrlDevicesDeploymentsNext,
-			controller.GetDeploymentForDevice).
-		PUT(ApiUrlDevicesDeploymentStatus,
-			controller.PutDeploymentStatusForDevice).
-		PUT(ApiUrlDevicesDeploymentsLog,
-			controller.PutDeploymentLogForDevice)
+	groupAuthz.GET(ApiUrlDevicesDeploymentsNext, controller.GetDeploymentForDevice)
+	groupAuthz.Group("", contenttype.CheckJSON()).
+		POST(ApiUrlDevicesDeploymentsNext, controller.GetDeploymentForDevice).
+		PUT(ApiUrlDevicesDeploymentStatus, controller.PutDeploymentStatusForDevice).
+		PUT(ApiUrlDevicesDeploymentsLog, controller.PutDeploymentLogForDevice)
 
 }
 
@@ -277,79 +260,65 @@ func NewLimitsResourceRoutes(router *gin.RouterGroup, controller *DeploymentsApi
 
 }
 
-func InternalRoutes(router *gin.RouterGroup, controller *DeploymentsApiHandlers) {
+func InternalRoutes(
+	routerOpen *gin.RouterGroup,
+	routerHealthz *gin.RouterGroup,
+	controller *DeploymentsApiHandlers,
+) {
 	if controller == nil {
 		return
-	}
-	accesslogErrorsOnly := accesslog.AccessLogger{
-		DisableLog: func(c *gin.Context) bool {
-			if c.Writer.Status()/100 == 2 {
-				// 2XX
-				return true
-			}
-			return false
-		},
 	}
 	// Health Check
 	// Skiping logging 2XX status code requests to decrease	noise
-	router.GET(ApiUrlInternalAlive, accesslogErrorsOnly.Middleware,
-		requestid.Middleware(),
-		controller.AliveHandler)
-	router.GET(ApiUrlInternalHealth, accesslogErrorsOnly.Middleware,
-		requestid.Middleware(),
-		controller.HealthHandler)
+	routerHealthz.GET(ApiUrlInternalAlive, controller.AliveHandler)
+	routerHealthz.GET(ApiUrlInternalHealth, controller.HealthHandler)
 
-	router.Use(accesslog.Middleware())
-	router.Use(requestid.Middleware())
-
-	router.POST(ApiUrlInternalTenants, controller.ProvisionTenantsHandler)
-	router.GET(ApiUrlInternalTenantDeployments, controller.DeploymentsPerTenantHandler)
-	router.GET(ApiUrlInternalTenantDeploymentsDevices,
+	routerOpen.POST(ApiUrlInternalTenants, controller.ProvisionTenantsHandler)
+	routerOpen.GET(ApiUrlInternalTenantDeployments, controller.DeploymentsPerTenantHandler)
+	routerOpen.GET(ApiUrlInternalTenantDeploymentsDevices,
 		controller.ListDeviceDeploymentsByIDsInternal)
-	router.GET(ApiUrlInternalTenantDeploymentsDevice,
+	routerOpen.GET(ApiUrlInternalTenantDeploymentsDevice,
 		controller.ListDeviceDeploymentsInternal)
-	router.DELETE(ApiUrlInternalTenantDeploymentsDevice,
+	routerOpen.DELETE(ApiUrlInternalTenantDeploymentsDevice,
 		controller.AbortDeviceDeploymentsInternal)
 	// per-tenant storage settings
-	router.GET(ApiUrlInternalTenantStorageSettings, controller.GetTenantStorageSettingsHandler)
-	router.PUT(ApiUrlInternalTenantStorageSettings, controller.PutTenantStorageSettingsHandler)
+	routerOpen.GET(ApiUrlInternalTenantStorageSettings, controller.GetTenantStorageSettingsHandler)
+	routerOpen.PUT(ApiUrlInternalTenantStorageSettings, controller.PutTenantStorageSettingsHandler)
 
 	// Configuration deployments (internal)
-	router.POST(ApiUrlInternalDeviceConfigurationDeployments,
+	routerOpen.POST(ApiUrlInternalDeviceConfigurationDeployments,
 		controller.PostDeviceConfigurationDeployment)
 
 	// Last device deployment status deployments (internal)
-	router.POST(ApiUrlInternalDeviceDeploymentLastStatusDeployments,
+	routerOpen.POST(ApiUrlInternalDeviceDeploymentLastStatusDeployments,
 		controller.GetDeviceDeploymentLastStatus)
 
 	if !controller.config.DisableNewReleasesFeature {
-		router.POST(ApiUrlInternalTenantArtifacts, controller.NewImageForTenantHandler)
+		routerOpen.POST(ApiUrlInternalTenantArtifacts, controller.NewImageForTenantHandler)
 	} else {
-		router.POST(ApiUrlInternalTenantArtifacts, ServiceUnavailable)
+		routerOpen.POST(ApiUrlInternalTenantArtifacts, ServiceUnavailable)
 	}
 }
 
-func ReleasesRoutes(router *gin.RouterGroup, controller *DeploymentsApiHandlers) {
+func ReleasesRoutes(routerAuth *gin.RouterGroup, controller *DeploymentsApiHandlers) {
 	if controller == nil {
 		return
 	}
-	mgmtV1 := router.Group(ApiUrlManagement)
-	mgmtV2 := router.Group(ApiUrlManagementV2)
 
 	if controller.config.DisableNewReleasesFeature {
-		mgmtV1.GET(ApiUrlManagementReleases, controller.GetReleases)
-		mgmtV1.GET(ApiUrlManagementReleasesList, controller.ListReleases)
+		routerAuth.GET(ApiUrlManagementReleases, controller.GetReleases)
+		routerAuth.GET(ApiUrlManagementReleasesList, controller.ListReleases)
 
 	} else {
 
-		mgmtV1.GET(ApiUrlManagementReleases, controller.GetReleases)
-		mgmtV1.GET(ApiUrlManagementReleasesList, controller.ListReleases)
-		mgmtV2.GET(ApiUrlManagementV2Releases, controller.ListReleasesV2)
-		mgmtV2.GET(ApiUrlManagementV2ReleasesName, controller.GetRelease)
-		mgmtV2.GET(ApiUrlManagementV2ReleaseAllTags, controller.GetReleaseTagKeys)
-		mgmtV2.GET(ApiUrlManagementV2ReleaseAllUpdateTypes, controller.GetReleasesUpdateTypes)
-		mgmtV2.DELETE(ApiUrlManagementV2Releases, controller.DeleteReleases)
-		mgmtV2.Group(".").Use(contenttype.CheckJSON()).
+		routerAuth.GET(ApiUrlManagementReleases, controller.GetReleases)
+		routerAuth.GET(ApiUrlManagementReleasesList, controller.ListReleases)
+		routerAuth.GET(ApiUrlManagementV2Releases, controller.ListReleasesV2)
+		routerAuth.GET(ApiUrlManagementV2ReleasesName, controller.GetRelease)
+		routerAuth.GET(ApiUrlManagementV2ReleaseAllTags, controller.GetReleaseTagKeys)
+		routerAuth.GET(ApiUrlManagementV2ReleaseAllUpdateTypes, controller.GetReleasesUpdateTypes)
+		routerAuth.DELETE(ApiUrlManagementV2Releases, controller.DeleteReleases)
+		routerAuth.Group("", contenttype.CheckJSON()).
 			PUT(ApiUrlManagementV2ReleaseTags, controller.PutReleaseTags).
 			PATCH(ApiUrlManagementV2ReleasesName, controller.PatchRelease)
 
@@ -362,7 +331,7 @@ func FMTConfigURL(scheme, hostname, deploymentID, deviceType, deviceID string) s
 		":"+ParamDeviceType, url.PathEscape(deviceType),
 		":"+ParamDeviceID, url.PathEscape(deviceID),
 	)
-	return scheme + "://" + hostname + ApiUrlDevices + repl.Replace(ApiUrlDevicesDownloadConfig)
+	return scheme + "://" + hostname + repl.Replace(ApiUrlDevicesDownloadConfig)
 }
 
 func ServiceUnavailable(c *gin.Context) {
