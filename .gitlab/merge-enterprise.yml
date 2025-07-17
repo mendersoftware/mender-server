@@ -46,16 +46,17 @@ merge-to-enterprise:
              git pull --no-rebase --no-ff git@github.com:${GITHUB_REPOSITORY_ENTERPRISE} refs/heads/${PR_BRANCH}
          \`\`\`
       2. Resolve any conflicts (if any).
-      3. Remove the \`[NOCI]\` prefix in the PR title to start the pipeline
-      4. Push the changes to this branch.
+      3. Push the changes to this branch.
          \`\`\`bash
          git push git@github.com:${GITHUB_REPOSITORY_ENTERPRISE} ${CI_COMMIT_BRANCH}:refs/heads/${PR_BRANCH}
          \`\`\`
+      4. Move from draft to "Ready to review"
       EOF
     - |
       cat > pr_request_body.json << EOF
       {
-        "title": "[NOCI] Merge branch $PR_BRANCH to enterprise",
+        "title": "Merge branch $PR_BRANCH to enterprise",
+        "draft": true,
         "base": "$CI_COMMIT_BRANCH",
         "head": "$GITHUB_ORG:$PR_BRANCH",
         "body": $(cat pr_body.txt | jq -sR tostring),
