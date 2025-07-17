@@ -81,6 +81,7 @@ func RunServer(c config.Reader) error {
 		api_http.Config{
 			TokenMaxExpSeconds: c.GetInt(SettingTokenMaxExpirationSeconds),
 			JWTFallback:        jwtFallbackHandler,
+			MaxRequestSize:     int64(c.GetInt(SettingMaxRequestSize)),
 		}, authorizer)
 
 	redisConnStr := c.GetString(SettingRedisConnectionString)

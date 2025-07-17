@@ -139,3 +139,9 @@ listen: :8080
 #     #   # a group can be selected dynamically using Go templates.
 #     #   # The template context is the same as ratelimits.default.event_expression
 #     #   group_expression: "slow"
+
+# Maximum allowed size for HTTP request bodies (in bytes)
+# Defaults to: 1048576 (1 MiB)
+# Overwrite with environment variable: USERADM_REQUEST_SIZE_LIMIT
+
+# request_size_limit: 1048576

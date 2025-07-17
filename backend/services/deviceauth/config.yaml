@@ -152,3 +152,9 @@
 #    Defaults to: false
 #    Overwrite with environment variable: DEVICEAUTH_HAVE_ADDONS
 # have_addons: false
+
+# Maximum allowed size for HTTP request bodies (in bytes)
+# Defaults to: 1048576 (1 MiB)
+# Overwrite with environment variable: DEVICEAUTH_REQUEST_SIZE_LIMIT
+
+# request_size_limit: 1048576

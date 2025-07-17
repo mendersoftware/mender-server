@@ -18,9 +18,11 @@ import (
 	"net/http"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
+	"github.com/mendersoftware/mender-server/pkg/requestsize"
 	"github.com/mendersoftware/mender-server/pkg/routing"
 
 	"github.com/mendersoftware/mender-server/services/deviceconfig/app"
+	dconfig "github.com/mendersoftware/mender-server/services/deviceconfig/config"
 )
 
 // API URL used by the HTTP router
@@ -55,9 +57,35 @@ func NewAPIHandler(app app.App) *APIHandler {
 	}
 }
 
+type Config struct {
+	MaxRequestSize int64
+}
+
+func NewConfig() *Config {
+	return &Config{
+		MaxRequestSize: dconfig.SettingMaxRequestSizeDefault,
+	}
+}
+
+type Option func(c *Config)
+
+func SetMaxRequestSize(size int64) Option {
+	return func(c *Config) {
+		c.MaxRequestSize = size
+	}
+}
+
 // NewRouter initializes a new gin.Engine as a http.Handler
-func NewRouter(app app.App) http.Handler {
+func NewRouter(app app.App, options ...Option) http.Handler {
+	config := NewConfig()
+	for _, option := range options {
+		if option != nil {
+			option(config)
+		}
+	}
+
 	router := routing.NewGinRouter()
+	router.Use(requestsize.Middleware(config.MaxRequestSize))
 
 	apiHandler := NewAPIHandler(app)
 

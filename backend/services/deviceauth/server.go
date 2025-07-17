@@ -121,12 +121,9 @@ func RunServer(c config.Reader) error {
 
 		devauth = devauth.WithCache(cache)
 	}
-
-	apiHandler := api_http.NewRouter(devauth, db)
-
-	if err != nil {
-		return errors.Wrap(err, "device authentication API handlers setup failed")
-	}
+	apiHandler := api_http.NewRouter(devauth, db,
+		api_http.SetMaxRequestSize(int64(c.GetInt(dconfig.SettingMaxRequestSize))),
+	)
 
 	addr := c.GetString(dconfig.SettingListen)
 	l.Printf("listening on %s", addr)

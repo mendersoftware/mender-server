@@ -20,6 +20,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
+	"github.com/mendersoftware/mender-server/pkg/requestsize"
 	"github.com/mendersoftware/mender-server/pkg/routing"
 
 	"github.com/mendersoftware/mender-server/services/deviceconnect/app"
@@ -59,6 +60,7 @@ const (
 
 type RouterConfig struct {
 	GracefulShutdownTimeout time.Duration
+	MaxRequestSize          int64
 }
 
 // NewRouter returns the gin router
@@ -73,6 +75,10 @@ func NewRouter(
 		identity.NewMiddlewareOptions().
 			SetPathRegex(`^/api/(devices|management)/v[0-9]/`),
 	))
+
+	if config != nil {
+		router.Use(requestsize.Middleware(config.MaxRequestSize))
+	}
 
 	gracefulShutdownTimeout := time.Duration(0)
 	if config != nil && config.GracefulShutdownTimeout > gracefulShutdownTimeout {

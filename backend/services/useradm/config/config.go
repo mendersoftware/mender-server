@@ -74,6 +74,10 @@ const (
 
 	SettingPlanDefinitions        = "plan_definitions_path"
 	SettingPlanDefinitionsDefault = "/etc/useradm/plans.yaml"
+
+	// Max Request body size
+	SettingMaxRequestSize        = "request_size_limit"
+	SettingMaxRequestSizeDefault = 1024 * 1024 // 1 MiB
 )
 
 var (
@@ -100,5 +104,6 @@ var (
 			Value: SettingTokenMaxExpirationSecondsDefault},
 		{Key: SettingPlanDefinitions,
 			Value: SettingPlanDefinitionsDefault},
+		{Key: SettingMaxRequestSize, Value: SettingMaxRequestSizeDefault},
 	}
 )

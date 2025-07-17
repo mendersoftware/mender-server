@@ -47,6 +47,10 @@ const (
 
 	SettingOrchestratorAddr        = "orchestrator_addr"
 	SettingOrchestratorAddrDefault = "http://mender-workflows-server:8080"
+
+	// Max Request body size
+	SettingMaxRequestSize        = "request_size_limit"
+	SettingMaxRequestSizeDefault = 1024 * 1024 // 1 MiB
 )
 
 var (
@@ -60,5 +64,6 @@ var (
 		{Key: SettingDevicemonitorAddr, Value: SettingDevicemonitorAddrDefault},
 		{Key: SettingEnableReporting, Value: SettingEnableReportingDefault},
 		{Key: SettingOrchestratorAddr, Value: SettingOrchestratorAddrDefault},
+		{Key: SettingMaxRequestSize, Value: SettingMaxRequestSizeDefault},
 	}
 )

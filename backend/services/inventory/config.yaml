@@ -49,3 +49,9 @@ mongo: mongo-inventory:27017
 # Defaults to: http://mender-workflows-server:8080
 # Overwrite with environment variable: INVENTORY_ORCHESTRATOR_ADDR
 # orchestrator_addr: http://mender-workflows-server:8080
+
+# Maximum allowed size for HTTP request bodies (in bytes)
+# Defaults to: 1048576 (1 MiB)
+# Overwrite with environment variable: INVENTORY_REQUEST_SIZE_LIMIT
+
+# request_size_limit: 1048576

@@ -882,7 +882,8 @@ func makeMockApiHandler(t *testing.T, uadm useradm.App, db store.DataStore) http
 		mock.AnythingOfType("*log.Logger")).Return(authorizer)
 
 	// API handler
-	handlers := NewUserAdmApiHandlers(uadm, db, map[int]jwt.Handler{0: jwth}, Config{}, authorizer)
+	handlers := NewUserAdmApiHandlers(uadm, db, map[int]jwt.Handler{0: jwth},
+		Config{MaxRequestSize: 1024 * 1024}, authorizer)
 	assert.NotNil(t, handlers)
 	router := MakeRouter(handlers)
 

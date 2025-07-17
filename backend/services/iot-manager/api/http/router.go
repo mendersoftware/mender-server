@@ -26,10 +26,12 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
+	"github.com/mendersoftware/mender-server/pkg/requestsize"
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 	"github.com/mendersoftware/mender-server/pkg/routing"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/app"
+	dconfig "github.com/mendersoftware/mender-server/services/iot-manager/config"
 )
 
 // API URL used by the HTTP router
@@ -64,13 +66,15 @@ const (
 )
 
 type Config struct {
-	Client *http.Client
+	Client         *http.Client
+	MaxRequestSize int64
 }
 
 // NewConfig initializes a new empty config and optionally merges the
 // configurations provided as argument.
 func NewConfig(configs ...*Config) *Config {
 	var config = new(Config)
+	config.MaxRequestSize = dconfig.SettingMaxRequestSizeDefault
 	for _, conf := range configs {
 		if conf == nil {
 			continue
@@ -78,12 +82,19 @@ func NewConfig(configs ...*Config) *Config {
 		if conf.Client != nil {
 			config.Client = conf.Client
 		}
+		if conf.MaxRequestSize > 0 {
+			config.MaxRequestSize = conf.MaxRequestSize
+		}
 	}
 	return config
 }
 
 func (conf *Config) SetClient(client *http.Client) *Config {
 	conf.Client = client
+	return conf
+}
+func (conf *Config) SetMaxRequestSize(size int64) *Config {
+	conf.MaxRequestSize = size
 	return conf
 }
 
@@ -99,7 +110,7 @@ func NewRouter(
 
 	router := routing.NewGinRouter()
 
-	router.NoRoute(handler.NoRoute)
+	router.Use(requestsize.Middleware(conf.MaxRequestSize))
 
 	internalAPI := router.Group(APIURLInternal)
 	internalAPI.GET(APIURLAlive, handler.Alive)

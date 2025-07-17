@@ -5,6 +5,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/contenttype"
 	"github.com/mendersoftware/mender-server/pkg/identity"
+	"github.com/mendersoftware/mender-server/pkg/requestsize"
 	"github.com/mendersoftware/mender-server/pkg/routing"
 )
 
@@ -34,6 +35,7 @@ const (
 
 func MakeRouter(i *UserAdmApiHandlers) http.Handler {
 	router := routing.NewGinRouter()
+	router.Use(requestsize.Middleware(i.config.MaxRequestSize))
 
 	mgmt := router.Group(apiUrlManagementV1)
 

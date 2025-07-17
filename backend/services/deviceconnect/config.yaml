@@ -71,3 +71,9 @@ mongo_dbname: deviceconnect
 # Defaults to: 60s
 # Overwrite with environment variable DEVICECONNECT_GRACEFUL_SHUTDOWN_TIMEOUT
 # graceful_shutdown_timeout: 60s
+
+# Maximum allowed size for HTTP request bodies (in bytes)
+# Defaults to: 1048576 (1 MiB)
+# Overwrite with environment variable: DEVICECONNECT_REQUEST_SIZE_LIMIT
+
+# request_size_limit: 1048576

@@ -84,6 +84,10 @@ const (
 	// graceful shutdown timeout.
 	SettingGracefulShutdownTimeout        = "graceful_shutdown_timeout"
 	SettingGracefulShutdownTimeoutDefault = "60s"
+
+	// Max Request body size
+	SettingMaxRequestSize        = "request_size_limit"
+	SettingMaxRequestSizeDefault = 1024 * 1024 // 1 MiB
 )
 
 var (
@@ -101,5 +105,6 @@ var (
 		{Key: SettingRecordingExpireSec, Value: SettingRecordingExpireDefault},
 		{Key: SettingWSAllowedOrigins, Value: SettingWSAllowedOriginsDefault},
 		{Key: SettingGracefulShutdownTimeout, Value: SettingGracefulShutdownTimeoutDefault},
+		{Key: SettingMaxRequestSize, Value: SettingMaxRequestSizeDefault},
 	}
 )
