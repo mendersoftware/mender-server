@@ -32,6 +32,7 @@ import (
 
 const (
 	ArtifactFileSuffix = ".mender"
+	MaximumPerPage     = 500
 )
 
 var (
@@ -314,4 +315,38 @@ func (p *ProvidesIdx) UnmarshalBSONValue(t bsontype.Type, b []byte) error {
 	}
 
 	return nil
+}
+
+type ImageFilter struct {
+	ExactNames   []string
+	NamePrefixes []string
+	Description  string
+	DeviceType   string
+	Page         int
+	PerPage      int
+	Sort         string
+	Limit        int
+}
+
+func (filter ImageFilter) Validate() error {
+	if len(filter.ExactNames) > 0 && len(filter.NamePrefixes) > 0 {
+		return errors.New("cannot filter by both exact names and name prefix")
+	}
+	return validation.ValidateStruct(&filter,
+		validation.Field(&filter.ExactNames,
+			validation.Length(0, 100),
+			validation.Each(lengthLessThan4096)),
+
+		validation.Field(&filter.NamePrefixes,
+			validation.Length(0, 1),
+			validation.Each(lengthLessThan4096)),
+
+		validation.Field(&filter.Description, lengthLessThan4096),
+		validation.Field(&filter.DeviceType, lengthLessThan4096),
+
+		validation.Field(&filter.Page, validation.Min(1)),
+		validation.Field(&filter.PerPage, validation.Min(1), validation.Max(MaximumPerPage)),
+
+		// validation.Field(&filter.Sort, validation.In("name", "modified")),
+	)
 }

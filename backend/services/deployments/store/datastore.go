@@ -59,6 +59,7 @@ type DataStore interface {
 		deviceTypesCompatible []string) (bool, error)
 	DeleteImage(ctx context.Context, id string) error
 	ListImages(ctx context.Context, filt *model.ReleaseOrImageFilter) ([]*model.Image, int, error)
+	ListImagesV2(ctx context.Context, filt *model.ImageFilter) ([]*model.Image, error)
 	DeleteImagesByNames(ctx context.Context, names []string) error
 
 	//artifact getter

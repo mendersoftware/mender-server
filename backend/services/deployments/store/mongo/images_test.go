@@ -348,14 +348,7 @@ func TestArtifactUpdate(t *testing.T) {
 	assert.Equal(t, img.ImageMeta.Description, imgFromDB.ImageMeta.Description)
 }
 
-func TestListImages(t *testing.T) {
-	if testing.Short() {
-		t.Skip("skipping TestListImages in short mode.")
-	}
-
-	// Make sure we start test with empty database
-	db.Wipe()
-
+func makeTestImages(t *testing.T) (*DataStoreMongo, []*model.Image) {
 	inputImgs := []*model.Image{
 		{
 			Id: "6d4f6e27-c3bb-438c-ad9c-d9de30e59d80",
@@ -381,7 +374,7 @@ func TestListImages(t *testing.T) {
 				DeviceTypesCompatible: []string{"foo"},
 				Updates:               []model.Update{},
 			},
-			Modified: timePtr("2010-09-22T22:02:00+00:00"),
+			Modified: timePtr("2010-09-22T22:01:00+00:00"),
 		},
 		{
 			Id: "6d4f6e27-c3bb-438c-ad9c-d9de30e59d82",
@@ -394,12 +387,12 @@ func TestListImages(t *testing.T) {
 				DeviceTypesCompatible: []string{"bar, baz"},
 				Updates:               []model.Update{},
 			},
-			Modified: timePtr("2010-09-22T22:01:00+00:00"),
+			Modified: timePtr("2010-09-22T22:02:00+00:00"),
 		},
 		{
 			Id: "6d4f6e27-c3bb-438c-ad9c-d9de30e59d83",
 			ImageMeta: &model.ImageMeta{
-				Description: "description",
+				Description: `description*`,
 			},
 
 			ArtifactMeta: &model.ArtifactMeta{
@@ -407,7 +400,7 @@ func TestListImages(t *testing.T) {
 				DeviceTypesCompatible: []string{"bork"},
 				Updates:               []model.Update{},
 			},
-			Modified: timePtr("2010-09-22T22:04:00+00:00"),
+			Modified: timePtr("2010-09-22T22:03:00+00:00"),
 		},
 		{
 			Id: "6d4f6e27-c3bb-438c-ad9c-d9de30e59d84",
@@ -420,7 +413,19 @@ func TestListImages(t *testing.T) {
 				DeviceTypesCompatible: []string{"bar", "baz"},
 				Updates:               []model.Update{},
 			},
-			Modified: timePtr("2010-09-22T22:03:00+00:00"),
+			Modified: timePtr("2010-09-22T22:04:00+00:00"),
+		}, {
+			Id: "6d4f6e27-c3bb-438c-ad9c-d9de30e59d85",
+			ImageMeta: &model.ImageMeta{
+				Description: "foo",
+			},
+
+			ArtifactMeta: &model.ArtifactMeta{
+				Name:                  "Not an app",
+				DeviceTypesCompatible: []string{"bork1"},
+				Updates:               []model.Update{},
+			},
+			Modified: timePtr("2010-09-22T22:05:00+00:00"),
 		},
 	}
 
@@ -444,6 +449,18 @@ func TestListImages(t *testing.T) {
 			img.ArtifactMeta.Depends["device_type"].(bson.A)[i] = devType
 		}
 	}
+	return ds, inputImgs
+}
+
+func TestListImages(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skipping TestListImages in short mode.")
+	}
+
+	// Make sure we start test with empty database
+	db.Wipe()
+	ctx := context.Background()
+	ds, inputImgs := makeTestImages(t)
 
 	testCases := map[string]struct {
 		filter *model.ReleaseOrImageFilter
@@ -462,8 +479,9 @@ func TestListImages(t *testing.T) {
 				inputImgs[3],
 				inputImgs[1],
 				inputImgs[4],
+				inputImgs[5],
 			},
-			imagesCount: 5,
+			imagesCount: 6,
 		},
 		"ok, description": {
 			filter: &model.ReleaseOrImageFilter{
@@ -493,25 +511,27 @@ func TestListImages(t *testing.T) {
 			},
 			images: []*model.Image{
 				inputImgs[0],
-				inputImgs[2],
 				inputImgs[1],
-				inputImgs[4],
+				inputImgs[2],
 				inputImgs[3],
+				inputImgs[4],
+				inputImgs[5],
 			},
-			imagesCount: 5,
+			imagesCount: 6,
 		},
 		"ok, sort by modified desc": {
 			filter: &model.ReleaseOrImageFilter{
 				Sort: "modified:desc",
 			},
 			images: []*model.Image{
-				inputImgs[3],
+				inputImgs[5],
 				inputImgs[4],
-				inputImgs[1],
+				inputImgs[3],
 				inputImgs[2],
+				inputImgs[1],
 				inputImgs[0],
 			},
-			imagesCount: 5,
+			imagesCount: 6,
 		},
 		"ok, by device type": {
 			filter: &model.ReleaseOrImageFilter{
@@ -519,8 +539,9 @@ func TestListImages(t *testing.T) {
 			},
 			images: []*model.Image{
 				inputImgs[3],
+				inputImgs[5],
 			},
-			imagesCount: 1,
+			imagesCount: 2,
 		},
 		"ok, by name": {
 			filter: &model.ReleaseOrImageFilter{
@@ -564,6 +585,154 @@ func TestListImages(t *testing.T) {
 			}
 			assert.Equal(t, tc.images, images)
 			assert.Equal(t, tc.imagesCount, count)
+		})
+	}
+}
+
+func TestListV2Images(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skipping TestListImages in short mode.")
+	}
+
+	// Make sure we start test with empty database
+	db.Wipe()
+	ctx := context.Background()
+	ds, inputImgs := makeTestImages(t)
+
+	testCases := map[string]struct {
+		filter *model.ImageFilter
+
+		images      []*model.Image
+		imagesCount int
+		err         error
+	}{
+		"ok, all": {
+			filter: &model.ImageFilter{},
+			images: []*model.Image{
+				inputImgs[0],
+				inputImgs[2],
+				inputImgs[3],
+				inputImgs[1],
+				inputImgs[4],
+				inputImgs[5],
+			},
+			imagesCount: 6,
+		},
+		"ok, description": {
+			filter: &model.ImageFilter{
+				Description: "extended description",
+			},
+			images: []*model.Image{
+				inputImgs[4],
+			},
+			imagesCount: 1,
+		},
+		"ok, by device type": {
+			filter: &model.ImageFilter{
+				DeviceType: "bork",
+			},
+			images: []*model.Image{
+				inputImgs[3],
+			},
+			imagesCount: 1,
+		},
+		"ok, by exact name": {
+			filter: &model.ImageFilter{
+				ExactNames: []string{"App1 v1.0"},
+			},
+			images: []*model.Image{
+				inputImgs[0],
+				inputImgs[2],
+				inputImgs[3],
+			},
+			imagesCount: 3,
+		},
+		"ok, by multiple exact names": {
+			filter: &model.ImageFilter{
+				ExactNames: []string{"App1 v1.0", "App2 v0.1"},
+			},
+			images: []*model.Image{
+				inputImgs[0],
+				inputImgs[2],
+				inputImgs[3],
+				inputImgs[1],
+				inputImgs[4],
+			},
+			imagesCount: 5,
+		},
+		"ok, by name prefix": {
+			filter: &model.ImageFilter{
+				NamePrefixes: []string{"App1"},
+			},
+			images: []*model.Image{
+				inputImgs[0],
+				inputImgs[2],
+				inputImgs[3],
+			},
+			imagesCount: 3,
+		},
+		"ok, by prefix description": {
+			filter: &model.ImageFilter{
+				Description: "des*",
+			},
+			images: []*model.Image{
+				inputImgs[0],
+				inputImgs[2],
+				inputImgs[3],
+				inputImgs[1],
+			},
+			imagesCount: 4,
+		},
+		"ok, by prefix decvice type ": {
+			filter: &model.ImageFilter{
+				DeviceType: "bork*",
+			},
+			images: []*model.Image{
+				inputImgs[3],
+				inputImgs[5],
+			},
+			imagesCount: 2,
+		},
+		"ok, by name, page 2": {
+			filter: &model.ImageFilter{
+				ExactNames: []string{"App2 v0.1"},
+				Page:       2,
+				PerPage:    1,
+			},
+			images: []*model.Image{
+				inputImgs[4],
+			},
+			imagesCount: 1,
+		},
+		"ok, not found": {
+			filter: &model.ImageFilter{
+				ExactNames: []string{"App3 v1.0"},
+			},
+			images:      nil,
+			imagesCount: 0,
+		},
+		"ok, by description with escape character": {
+			filter: &model.ImageFilter{
+				Description: `description\*`,
+			},
+			images: []*model.Image{
+				inputImgs[3],
+			},
+			imagesCount: 1,
+		},
+	}
+
+	for name, tc := range testCases {
+		t.Run(name, func(t *testing.T) {
+			images, err := ds.ListImagesV2(ctx, tc.filter)
+
+			if tc.err != nil {
+				assert.EqualError(t, tc.err, err.Error())
+			} else {
+				assert.NoError(t, err)
+			}
+			assert.Equal(t, tc.images, images)
+			assert.Equal(t, tc.imagesCount, len(images))
 		})
 	}
 }
