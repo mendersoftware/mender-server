@@ -27,6 +27,7 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/contenttype"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/requestid"
 	"github.com/mendersoftware/mender-server/pkg/routing"
 
 	"github.com/mendersoftware/mender-server/services/deployments/app"
@@ -111,7 +112,7 @@ func NewRouter(
 	ds store.DataStore,
 	cfg *Config,
 ) http.Handler {
-	router := routing.NewGinRouter()
+	router := routing.NewMinimalGinRouter()
 	// Create and configure API handlers
 	//
 	// Encode base64 secret in either std or URL encoding ignoring padding.
@@ -123,6 +124,8 @@ func NewRouter(
 	internalAPIs := router.Group(ApiUrlInternal)
 
 	publicAPIs := router.Group(".")
+	publicAPIs.Use(accesslog.Middleware())
+	publicAPIs.Use(requestid.Middleware())
 
 	withAuth := publicAPIs.Group(".")
 	withAuth.Use(identity.Middleware())
@@ -272,11 +275,14 @@ func InternalRoutes(router *gin.RouterGroup, controller *DeploymentsApiHandlers)
 	// Health Check
 	// Skiping logging 2XX status code requests to decrease	noise
 	router.GET(ApiUrlInternalAlive, accesslogErrorsOnly.Middleware,
+		requestid.Middleware(),
 		controller.AliveHandler)
 	router.GET(ApiUrlInternalHealth, accesslogErrorsOnly.Middleware,
+		requestid.Middleware(),
 		controller.HealthHandler)
 
 	router.Use(accesslog.Middleware())
+	router.Use(requestid.Middleware())
 
 	router.POST(ApiUrlInternalTenants, controller.ProvisionTenantsHandler)
 	router.GET(ApiUrlInternalTenantDeployments, controller.DeploymentsPerTenantHandler)
