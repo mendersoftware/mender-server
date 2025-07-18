@@ -88,6 +88,10 @@ const (
 	// Max Request body size
 	SettingMaxRequestSize        = "request_size_limit"
 	SettingMaxRequestSizeDefault = 1024 * 1024 // 1 MiB
+
+	// Max Upload size
+	SettingMaxFileUploadSize        = "file_upload_limit"
+	SettingMaxFileUploadSizeDefault = 1024 * 1024 * 1024 // 1 GiB
 )
 
 var (
@@ -106,5 +110,6 @@ var (
 		{Key: SettingWSAllowedOrigins, Value: SettingWSAllowedOriginsDefault},
 		{Key: SettingGracefulShutdownTimeout, Value: SettingGracefulShutdownTimeoutDefault},
 		{Key: SettingMaxRequestSize, Value: SettingMaxRequestSizeDefault},
+		{Key: SettingMaxFileUploadSize, Value: SettingMaxFileUploadSizeDefault},
 	}
 )
