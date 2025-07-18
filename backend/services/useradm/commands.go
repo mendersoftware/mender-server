@@ -68,9 +68,11 @@ func commandCreateUser(
 		}
 	}
 
-	u := model.User{
-		Email:    username,
-		Password: password,
+	u := model.UserInternal{
+		User: model.User{
+			Email:    username,
+			Password: password,
+		},
 	}
 
 	if userId != "" {
@@ -100,11 +102,11 @@ func commandCreateUser(
 		})
 	}
 
-	if err := ua.CreateUser(ctx, &u); err != nil {
+	if err := ua.CreateUserInternal(ctx, &u); err != nil {
 		return errors.Wrap(err, "creating user failed")
 	}
 
-	fmt.Printf("%s\n", u.ID)
+	fmt.Println(u.ID)
 
 	return nil
 }
