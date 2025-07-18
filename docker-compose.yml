@@ -344,7 +344,7 @@ services:
           - s3.docker.mender.io
 
   mongo:
-    image: mongo:7.0
+    image: mongo:8.0
     ulimits:
       nofile:
         soft: 64000
