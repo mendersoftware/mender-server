@@ -328,11 +328,6 @@ func (h ManagementController) websocketWriter(
 	defer writerFinalizer(conn, &err, l)
 
 	// handle the ping-pong connection health check
-	if err != nil {
-		l.Error(err)
-		return err
-	}
-
 	conn.SetPingHandler(func(msg string) error {
 		if err != nil {
 			return err

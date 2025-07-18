@@ -19,6 +19,7 @@ import (
 	"encoding/binary"
 	"encoding/json"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -39,6 +40,8 @@ import (
 )
 
 var (
+	// Time allowed to read the next pong message from the peer.
+	pongWait = time.Minute
 	// Seconds allowed to write a message to the peer.
 	writeWait = time.Second * 10
 )
@@ -230,16 +233,17 @@ func (h DeviceController) connectWSWriter(
 		conn.Close()
 	}()
 
-	// handle the ping-pong connection health check
-	if err != nil {
-		l.Error(err)
-		return err
-	}
+	// send periodic ping messages to keep the connection alive
+	pingPeriod := (pongWait * 9) / 10
+	ticker := time.NewTicker(pingPeriod)
+	defer ticker.Stop()
+	conn.SetPongHandler(func(string) error {
+		ticker.Reset(pingPeriod)
+		return conn.SetReadDeadline(time.Now().Add(pongWait))
+	})
 
 	conn.SetPingHandler(func(msg string) error {
-		if err != nil {
-			return err
-		}
+		ticker.Reset(pingPeriod)
 		return conn.WriteControl(
 			websocket.PongMessage,
 			[]byte(msg),
@@ -255,9 +259,15 @@ Loop:
 				l.Error(err)
 				break Loop
 			}
+			ticker.Reset(pingPeriod)
 		case <-ctx.Done():
 			err = errors.New("connection closed by the server")
 			break Loop
+		case <-ticker.C:
+			if pingErr := websocketPing(conn); pingErr != nil {
+				err = errors.Wrap(pingErr, "failed to send a ping")
+				break Loop
+			}
 		case err := <-errChan:
 			return err
 		}
@@ -349,4 +359,13 @@ func (h DeviceController) ConnectServeWS(
 			return err
 		}
 	}
+}
+
+func websocketPing(conn *websocket.Conn) error {
+	pongWaitString := strconv.Itoa(int(pongWait.Seconds()))
+	return conn.WriteControl(
+		websocket.PingMessage,
+		[]byte(pongWaitString),
+		time.Now().Add(writeWait),
+	)
 }
