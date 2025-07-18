@@ -18,6 +18,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/bcrypt"
 
@@ -299,18 +300,8 @@ func (ua *UserAdm) CreateUserInternal(ctx context.Context, u *model.UserInternal
 func (ua *UserAdm) doCreateUser(ctx context.Context, u *model.User, propagate bool) error {
 	var tenantErr error
 
-	if u.ID == "" {
-		//technically one of the functions down the oid.NewUUIDv4() stack can panic,
-		//so what we could do is: wrap around it and recover and fall back
-		//to non-rand based generation (NewUUIDv5(u.Email)).
-		//on the other hand if rand failed maybe it is a good idea t not continue
-		//after all.
-		//the previous call to NewUUIDv5 produced exact the same ids for same
-		//emails, which leads to problems once user changes the email address,
-		//and then the old email is used in the new user creation.
-		id := oid.NewUUIDv4()
-		u.ID = id.String()
-	}
+	// Generate a unique user ID for the new user
+	u.ID = uuid.NewString()
 
 	id := identity.FromContext(ctx)
 	if ua.verifyTenant && propagate {
