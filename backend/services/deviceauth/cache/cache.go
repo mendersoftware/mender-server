@@ -63,7 +63,6 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/ratelimits"
-	mredis "github.com/mendersoftware/mender-server/pkg/redis"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 	"github.com/mendersoftware/mender-server/services/deviceauth/utils"
@@ -147,23 +146,17 @@ type RedisCache struct {
 }
 
 func NewRedisCache(
-	ctx context.Context,
-	connectionString string,
+	redisClient redis.Cmdable,
 	prefix string,
 	limitsExpireSec int,
-) (*RedisCache, error) {
-	c, err := mredis.ClientFromConnectionString(ctx, connectionString)
-	if err != nil {
-		return nil, err
-	}
-
+) *RedisCache {
 	return &RedisCache{
-		c:               c,
+		c:               redisClient,
 		LimitsExpireSec: limitsExpireSec,
 		prefix:          prefix,
 		DefaultExpire:   time.Hour * 3,
 		clock:           utils.NewClock(),
-	}, err
+	}
 }
 
 func (rl *RedisCache) WithClock(c utils.Clock) *RedisCache {

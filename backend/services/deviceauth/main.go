@@ -233,6 +233,7 @@ func doMain(args []string) {
 
 		// Enable setting config values by environment variables
 		config.Config.SetEnvPrefix("DEVICEAUTH")
+		config.Config.SetEnvKeyReplacer(strings.NewReplacer(".", "_", "-", "_"))
 		config.Config.AutomaticEnv()
 
 		return nil

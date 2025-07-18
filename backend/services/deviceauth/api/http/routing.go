@@ -21,7 +21,6 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/contenttype"
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/requestsize"
 	"github.com/mendersoftware/mender-server/pkg/routing"
 	dconfig "github.com/mendersoftware/mender-server/services/deviceauth/config"
 	"github.com/mendersoftware/mender-server/services/deviceauth/devauth"
@@ -78,7 +77,6 @@ func supportsMethod(method string, methods []string) bool {
 // Automatically add OPTIONS method support for each defined route,
 // only if there's no OPTIONS handler for that route yet
 func AutogenOptionsRoutes(router *gin.Engine, gen HttpOptionsGenerator) {
-
 	routes := router.Routes()
 	methodGroups := make(map[string][]string, len(routes))
 
@@ -100,11 +98,11 @@ func AutogenOptionsRoutes(router *gin.Engine, gen HttpOptionsGenerator) {
 			router.OPTIONS(route, gen(methods))
 		}
 	}
-
 }
 
 type Config struct {
-	MaxRequestSize int64
+	AuthVerifyRatelimits gin.HandlerFunc
+	MaxRequestSize       int64
 }
 
 func NewConfig() *Config {
@@ -121,18 +119,22 @@ func SetMaxRequestSize(size int64) Option {
 	}
 }
 
+func ConfigAuthVerifyRatelimits(handler gin.HandlerFunc) Option {
+	return func(c *Config) {
+		c.AuthVerifyRatelimits = handler
+	}
+}
+
 func NewRouter(app devauth.App, db store.DataStore, options ...Option) http.Handler {
-	config := NewConfig()
+	router := routing.NewGinRouter()
+	cfg := new(Config)
 	for _, option := range options {
 		if option != nil {
-			option(config)
+			option(cfg)
 		}
 	}
 
-	router := routing.NewGinRouter()
-	router.Use(requestsize.Middleware(config.MaxRequestSize))
-
-	d := NewDevAuthApiHandlers(app, db)
+	d := NewDevAuthApiHandlers(app, db, options...)
 
 	publicAPIs := router.Group(".")
 	publicAPIs.Use(identity.Middleware())
@@ -165,12 +167,11 @@ func NewRouter(app devauth.App, db store.DataStore, options ...Option) http.Hand
 
 	intrnlAPIV1.GET(uriAlive, d.AliveHandler)
 	intrnlAPIV1.GET(uriHealth, d.HealthCheckHandler)
-	intrnlAPIV1.GET(uriTokenVerify,
-		identity.Middleware(),
-		d.VerifyTokenHandler)
-	intrnlAPIV1.POST(uriTokenVerify,
-		identity.Middleware(),
-		d.VerifyTokenHandler)
+
+	intrnlAPIV1.Group(".").
+		Use(identity.Middleware()).
+		GET(uriTokenVerify, d.VerifyTokenHandler).
+		POST(uriTokenVerify, d.VerifyTokenHandler)
 	intrnlAPIV1.DELETE(uriTokens, d.DeleteTokensHandler)
 	intrnlAPIV1.PUT(uriTenantLimit, d.PutTenantLimitHandler)
 	intrnlAPIV1.GET(uriTenantLimit, d.GetTenantLimitHandler)

@@ -147,11 +147,51 @@
 # Overwrite with environment variable: DEVICEAUTH_REDIS_LIMITS_EXPIRE_SEC
 # redis_limits_expire_sec: "1800"
 
-
 #    Enable addon feature restrictions.
 #    Defaults to: false
 #    Overwrite with environment variable: DEVICEAUTH_HAVE_ADDONS
 # have_addons: false
+
+# ratelimits:
+#   # auth configures ratelimits for authenticated requests.
+#   auth:
+#     # enable rate limiting also requires redis_connection_string to be effective.
+#     enable: false
+#     # default rate limit group is the default ratelimiting parameters used when
+#     # no group `match`es the expressions.
+#     default:
+#       quota: 100    # number of request per
+#       interval: 60s # interval
+#       # event_expression is a go template for grouping requests.
+#       # The following attributes are available in the context:
+#       # Identity - contains a subset of the JWT claims:
+#         - .Subject  (jwt:"sub")          string
+#         - .Tenant   (jwt:"mender.tenant) string
+#         - .Plan     (jwt:"mender.plan)   string
+#         - .Addons   (jwt:"mender.addons) struct{Enabled bool; Name string}
+#         - .IsUser   (jwt:"mender.user)   bool
+#         - .IsDevice (jwt:"mender.device) bool
+#         - .Trial    (jwt:"mender.trial)  bool
+#       event_expression: "{{with .Identity}}{{.Subject}}{{end}}"
+#     # groups specify rate limiting groups that overrides the parameters in the
+#     # default group.
+#     groups: []
+#     # Example:
+#     # - name: "inventory"
+#     #   quota: 1
+#     #   interval: 60s
+#     #   event_expression: "{{with .Identity}}{{.Subject}}{{end}}"
+#     # match specifies matching expressions for mapping API requests to rate
+#     # limiting groups.
+#     match: []
+#     # Example:
+#     #   # api_pattern specifies an API path pattern as defined by http.ServeMux
+#     #   # https://pkg.go.dev/net/http#hdr-Patterns-ServeMux
+#     # - api_pattern: PATCH /api/devices/v1/inventory/device/attributes
+#     #   # group_expression defines the group for this matching expression.
+#     #   # a group can be selected dynamically using Go templates.
+#     #   # The template context is the same as ratelimits.default.event_expression
+#     #   group_expression: "inventory"
 
 # Maximum allowed size for HTTP request bodies (in bytes)
 # Defaults to: 1048576 (1 MiB)
