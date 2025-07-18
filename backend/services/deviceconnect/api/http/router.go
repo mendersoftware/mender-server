@@ -20,6 +20,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
+	"github.com/mendersoftware/mender-server/pkg/requestsize"
 	"github.com/mendersoftware/mender-server/pkg/routing"
 
 	"github.com/mendersoftware/mender-server/services/deviceconnect/app"
@@ -59,6 +60,8 @@ const (
 
 type RouterConfig struct {
 	GracefulShutdownTimeout time.Duration
+	MaxRequestSize          int64
+	MaxFileSize             int64
 }
 
 // NewRouter returns the gin router
@@ -73,6 +76,13 @@ func NewRouter(
 		identity.NewMiddlewareOptions().
 			SetPathRegex(`^/api/(devices|management)/v[0-9]/`),
 	))
+
+	publicAPI := router.Group(".")
+	fileLimit := publicAPI.Group(".")
+	if config != nil {
+		publicAPI.Use(requestsize.Middleware(config.MaxRequestSize))
+		fileLimit.Use(requestsize.Middleware(config.MaxFileSize))
+	}
 
 	gracefulShutdownTimeout := time.Duration(0)
 	if config != nil && config.GracefulShutdownTimeout > gracefulShutdownTimeout {
@@ -89,19 +99,19 @@ func NewRouter(
 	router.POST(APIURLInternalDevicesIDSendInventory, internal.SendInventory)
 
 	device := NewDeviceController(app, natsClient)
-	router.GET(APIURLDevicesConnect, device.Connect)
-	router.POST(APIURLInternalDevices, device.Provision)
-	router.DELETE(APIURLInternalDevicesID, device.Delete)
+	publicAPI.GET(APIURLDevicesConnect, device.Connect)
+	publicAPI.POST(APIURLInternalDevices, device.Provision)
+	publicAPI.DELETE(APIURLInternalDevicesID, device.Delete)
 
 	management := NewManagementController(app, natsClient)
-	router.GET(APIURLManagementDevice, management.GetDevice)
-	router.GET(APIURLManagementDeviceConnect, management.Connect)
-	router.GET(APIURLManagementDeviceDownload, management.DownloadFile)
-	router.HEAD(APIURLManagementDeviceDownload, management.DownloadFile)
-	router.POST(APIURLManagementDeviceCheckUpdate, management.CheckUpdate)
-	router.POST(APIURLManagementDeviceSendInventory, management.SendInventory)
-	router.PUT(APIURLManagementDeviceUpload, management.UploadFile)
-	router.GET(APIURLManagementPlayback, management.Playback)
+	publicAPI.GET(APIURLManagementDevice, management.GetDevice)
+	publicAPI.GET(APIURLManagementDeviceConnect, management.Connect)
+	publicAPI.GET(APIURLManagementDeviceDownload, management.DownloadFile)
+	publicAPI.HEAD(APIURLManagementDeviceDownload, management.DownloadFile)
+	publicAPI.POST(APIURLManagementDeviceCheckUpdate, management.CheckUpdate)
+	publicAPI.POST(APIURLManagementDeviceSendInventory, management.SendInventory)
+	fileLimit.PUT(APIURLManagementDeviceUpload, management.UploadFile)
+	publicAPI.GET(APIURLManagementPlayback, management.Playback)
 
 	return router, nil
 }

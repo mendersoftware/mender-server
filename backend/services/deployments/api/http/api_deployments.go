@@ -138,6 +138,9 @@ type Config struct {
 	MaxImageSize        int64
 	MaxGenerateDataSize int64
 
+	// RequestSize is the maximum request body size
+	MaxRequestSize int64
+
 	EnableDirectUpload bool
 	// EnableDirectUploadSkipVerify allows turning off the verification of uploaded artifacts
 	EnableDirectUploadSkipVerify bool
@@ -154,6 +157,7 @@ func NewConfig() *Config {
 		PresignScheme:       "https",
 		MaxImageSize:        DefaultMaxImageSize,
 		MaxGenerateDataSize: DefaultMaxGenerateDataSize,
+		MaxRequestSize:      dconfig.SettingMaxRequestSizeDefault,
 	}
 }
 
@@ -202,6 +206,11 @@ func (conf *Config) SetDisableNewReleasesFeature(disable bool) *Config {
 	return conf
 }
 
+func (conf *Config) SetMaxRequestSize(size int64) *Config {
+	conf.MaxRequestSize = size
+	return conf
+}
+
 type DeploymentsApiHandlers struct {
 	view   RESTView
 	store  store.DataStore
@@ -237,6 +246,9 @@ func NewDeploymentsApiHandlers(
 		}
 		if c.MaxGenerateDataSize > 0 {
 			conf.MaxGenerateDataSize = c.MaxGenerateDataSize
+		}
+		if c.MaxRequestSize > 0 {
+			conf.MaxRequestSize = c.MaxRequestSize
 		}
 		conf.DisableNewReleasesFeature = c.DisableNewReleasesFeature
 		conf.EnableDirectUpload = c.EnableDirectUpload

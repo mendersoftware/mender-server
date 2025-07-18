@@ -27,6 +27,8 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/contenttype"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/requestid"
+	"github.com/mendersoftware/mender-server/pkg/requestsize"
 	"github.com/mendersoftware/mender-server/pkg/routing"
 
 	"github.com/mendersoftware/mender-server/services/deployments/app"
@@ -111,7 +113,7 @@ func NewRouter(
 	ds store.DataStore,
 	cfg *Config,
 ) http.Handler {
-	router := routing.NewGinRouter()
+	router := routing.NewMinimalGinRouter()
 	// Create and configure API handlers
 	//
 	// Encode base64 secret in either std or URL encoding ignoring padding.
@@ -123,11 +125,18 @@ func NewRouter(
 	internalAPIs := router.Group(ApiUrlInternal)
 
 	publicAPIs := router.Group(".")
+	publicAPIs.Use(accesslog.Middleware())
+	publicAPIs.Use(requestid.Middleware())
 
 	withAuth := publicAPIs.Group(".")
 	withAuth.Use(identity.Middleware())
 
 	NewImagesResourceRoutes(withAuth, deploymentsHandlers, cfg)
+
+	// The rest of the public APIs does not need custom request size limits
+	publicAPIs.Use(requestsize.Middleware(cfg.MaxRequestSize))
+	withAuth.Use(requestsize.Middleware(cfg.MaxRequestSize))
+
 	NewDeploymentsResourceRoutes(publicAPIs, deploymentsHandlers)
 	NewLimitsResourceRoutes(withAuth, deploymentsHandlers)
 	InternalRoutes(internalAPIs, deploymentsHandlers)
@@ -147,8 +156,14 @@ func NewImagesResourceRoutes(router *gin.RouterGroup,
 		return
 	}
 	mgmtV1 := router.Group(ApiUrlManagement)
+	mgmtV1Artifacts := mgmtV1.Group(".")
 
-	artifcatType := contenttype.Middleware("multipart/form-data", "multipart/mixed")
+	artifactSizeLimit := requestsize.Middleware(cfg.MaxImageSize)
+	generateDataSizeLimit := requestsize.Middleware(cfg.MaxGenerateDataSize)
+
+	mgmtV1.Use(requestsize.Middleware(cfg.MaxRequestSize))
+
+	artifactType := contenttype.Middleware("multipart/form-data", "multipart/mixed")
 
 	mgmtV1.GET(ApiUrlManagementArtifacts, controller.GetImages)
 	mgmtV1.GET(ApiUrlManagementArtifactsList, controller.ListImages)
@@ -156,16 +171,18 @@ func NewImagesResourceRoutes(router *gin.RouterGroup,
 	mgmtV1.GET(ApiUrlManagementArtifactsIdDownload, controller.DownloadLink)
 	if !controller.config.DisableNewReleasesFeature {
 		mgmtV1.DELETE(ApiUrlManagementArtifactsId, controller.DeleteImage)
-		mgmtV1.Group(".").Use(artifcatType).
-			POST(ApiUrlManagementArtifacts, controller.NewImage).
-			POST(ApiUrlManagementArtifactsGenerate, controller.GenerateImage)
+		mgmtV1Artifacts.Group(".").Use(artifactType).
+			POST(ApiUrlManagementArtifacts,
+				artifactSizeLimit, controller.NewImage).
+			POST(ApiUrlManagementArtifactsGenerate,
+				generateDataSizeLimit, controller.GenerateImage)
 		mgmtV1.Group(".").Use(contenttype.CheckJSON()).
 			PUT(ApiUrlManagementArtifactsId, controller.EditImage)
 
 	} else {
 		mgmtV1.DELETE(ApiUrlManagementArtifactsId, ServiceUnavailable)
 
-		mgmtV1.Group(".").Use(artifcatType).
+		mgmtV1Artifacts.Group(".").Use(artifactType).
 			POST(ApiUrlManagementArtifacts, ServiceUnavailable).
 			POST(ApiUrlManagementArtifactsGenerate, ServiceUnavailable)
 		mgmtV1.PUT(ApiUrlManagementArtifactsId, ServiceUnavailable)
@@ -272,11 +289,14 @@ func InternalRoutes(router *gin.RouterGroup, controller *DeploymentsApiHandlers)
 	// Health Check
 	// Skiping logging 2XX status code requests to decrease	noise
 	router.GET(ApiUrlInternalAlive, accesslogErrorsOnly.Middleware,
+		requestid.Middleware(),
 		controller.AliveHandler)
 	router.GET(ApiUrlInternalHealth, accesslogErrorsOnly.Middleware,
+		requestid.Middleware(),
 		controller.HealthHandler)
 
 	router.Use(accesslog.Middleware())
+	router.Use(requestid.Middleware())
 
 	router.POST(ApiUrlInternalTenants, controller.ProvisionTenantsHandler)
 	router.GET(ApiUrlInternalTenantDeployments, controller.DeploymentsPerTenantHandler)

@@ -57,7 +57,11 @@ func RunServer(c config.Reader) error {
 		return err
 	}
 
-	handler := api_http.NewRouter(inv)
+	options := []api_http.Option{
+		api_http.SetMaxRequestSize(config.Config.GetInt64(SettingMaxRequestSize)),
+	}
+
+	handler := api_http.NewRouter(inv, options...)
 	if err != nil {
 		return errors.Wrap(err, "inventory API handlers setup failed")
 	}

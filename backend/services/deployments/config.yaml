@@ -360,3 +360,10 @@ presign:
 # Overwrite with environment variable: DEPLOYMENTS_REPORTING_ADDR
 
 #reporting_addr: "http://mender-reporting:8080"
+
+# Maximum allowed size for HTTP request bodies (in bytes)
+# Does not apply for artifacts generation (defaults to storage.max_image_size and storage.max_generate_data_size).
+# Defaults to: 1048576 (1 MiB)
+# Overwrite with environment variable: DEPLOYMENTS_REQUEST_SIZE_LIMIT
+
+# request_size_limit: 1048576

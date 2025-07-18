@@ -99,6 +99,10 @@ const (
 	// SettingWebhooksTimeoutSecondsDefault define the default timeout
 	// in seconds for webhook requests.
 	SettingWebhooksTimeoutSecondsDefault = "10" // 10 seconds
+
+	// Max Request body size
+	SettingMaxRequestSize        = "request_size_limit"
+	SettingMaxRequestSizeDefault = 1024 * 1024 // 1 MiB
 )
 
 var (
@@ -115,5 +119,6 @@ var (
 		{Key: SettingDomainWhitelist, Value: SettingDomainWhitelistDefault},
 		{Key: SettingEventExpirationTimeout, Value: SettingEventExpirationTimeoutDefault},
 		{Key: SettingWebhooksTimeoutSeconds, Value: SettingWebhooksTimeoutSecondsDefault},
+		{Key: SettingMaxRequestSize, Value: SettingMaxRequestSizeDefault},
 	}
 )

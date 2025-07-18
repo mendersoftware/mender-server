@@ -22,6 +22,7 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/contenttype"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/routing"
+	dconfig "github.com/mendersoftware/mender-server/services/deviceauth/config"
 	"github.com/mendersoftware/mender-server/services/deviceauth/devauth"
 	"github.com/mendersoftware/mender-server/services/deviceauth/store"
 	"github.com/mendersoftware/mender-server/services/deviceauth/utils"
@@ -101,9 +102,22 @@ func AutogenOptionsRoutes(router *gin.Engine, gen HttpOptionsGenerator) {
 
 type Config struct {
 	AuthVerifyRatelimits gin.HandlerFunc
+	MaxRequestSize       int64
+}
+
+func NewConfig() *Config {
+	return &Config{
+		MaxRequestSize: dconfig.SettingMaxRequestSizeDefault,
+	}
 }
 
 type Option func(c *Config)
+
+func SetMaxRequestSize(size int64) Option {
+	return func(c *Config) {
+		c.MaxRequestSize = size
+	}
+}
 
 func ConfigAuthVerifyRatelimits(handler gin.HandlerFunc) Option {
 	return func(c *Config) {
@@ -115,7 +129,9 @@ func NewRouter(app devauth.App, db store.DataStore, options ...Option) http.Hand
 	router := routing.NewGinRouter()
 	cfg := new(Config)
 	for _, option := range options {
-		option(cfg)
+		if option != nil {
+			option(cfg)
+		}
 	}
 
 	d := NewDevAuthApiHandlers(app, db, options...)

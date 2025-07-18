@@ -81,6 +81,7 @@ func RunServer(c config.Reader) error {
 		api_http.Config{
 			TokenMaxExpSeconds: c.GetInt(SettingTokenMaxExpirationSeconds),
 			JWTFallback:        jwtFallbackHandler,
+			MaxRequestSize:     int64(c.GetInt(SettingMaxRequestSize)),
 		}, authorizer)
 
 	redisConnStr := c.GetString(SettingRedisConnectionString)
@@ -94,11 +95,15 @@ func RunServer(c config.Reader) error {
 			client, c.GetString(SettingRedisKeyPrefix), c,
 		)
 		if err != nil {
-			return fmt.Errorf("error configuring rate limits: %w", err)
+			var configDisabled *ratelimits.ConfigDisabledError
+			if !errors.As(err, &configDisabled) {
+				return fmt.Errorf("error configuring rate limits: %w", err)
+			}
+		} else {
+			useradmapi.WithAuthRatelimiter(rateLimiter.
+				WithRewriteRequests(true).
+				MiddlewareGin)
 		}
-		useradmapi.WithAuthRatelimiter(rateLimiter.
-			WithRewriteRequests(true).
-			MiddlewareGin)
 	}
 
 	handler := api_http.MakeRouter(useradmapi)

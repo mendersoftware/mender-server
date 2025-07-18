@@ -151,6 +151,10 @@ const (
 	// migrations on the artifacts and releases collections.
 	SettingDisableNewReleasesFeature        = "disable_new_releases_feature"
 	SettingDisableNewReleasesFeatureDefault = false
+
+	// Max Request body size
+	SettingMaxRequestSize        = "request_size_limit"
+	SettingMaxRequestSizeDefault = 1024 * 1024 // 1 MiB
 )
 
 const (
@@ -313,5 +317,6 @@ var (
 		{Key: SettingPresignHost, Value: SettingPresignHostDefault},
 		{Key: SettingPresignScheme, Value: SettingPresignSchemeDefault},
 		{Key: SettingDisableNewReleasesFeature, Value: SettingDisableNewReleasesFeatureDefault},
+		{Key: SettingMaxRequestSize, Value: SettingMaxRequestSizeDefault},
 	}
 )

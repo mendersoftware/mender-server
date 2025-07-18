@@ -64,6 +64,8 @@ func InitAndRun(conf config.Reader, dataStore store.DataStore) error {
 	gracefulShutdownTimeout := conf.GetDuration(dconfig.SettingGracefulShutdownTimeout)
 	router, err := api.NewRouter(deviceConnectApp, natsClient, &api.RouterConfig{
 		GracefulShutdownTimeout: gracefulShutdownTimeout,
+		MaxRequestSize:          config.Config.GetInt64(dconfig.SettingMaxRequestSize),
+		MaxFileSize:             config.Config.GetInt64(dconfig.SettingMaxFileUploadSize),
 	})
 	if err != nil {
 		l.Fatal(err)

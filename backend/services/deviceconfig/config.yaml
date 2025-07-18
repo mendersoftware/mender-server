@@ -47,3 +47,9 @@ workflows_url: http://mender-workflows-server:8080
 # Defaults to: false (disabled)
 # Overwrite with environment variable: DEVICECONFIG_ENABLE_AUDIT
 enable_audit: false
+
+# Maximum allowed size for HTTP request bodies (in bytes)
+# Defaults to: 1048576 (1 MiB)
+# Overwrite with environment variable: DEVICECONFIG_REQUEST_SIZE_LIMIT
+
+# request_size_limit: 1048576

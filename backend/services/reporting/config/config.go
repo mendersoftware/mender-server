@@ -151,6 +151,10 @@ const (
 	SettingDebugLog = "debug_log"
 	// SettingDebugLogDefault is the default value for the debug log enabling
 	SettingDebugLogDefault = false
+
+	// Max Request body size
+	SettingMaxRequestSize        = "request_size_limit"
+	SettingMaxRequestSizeDefault = 1024 * 1024 // 1 MiB
 )
 
 var (
@@ -183,5 +187,6 @@ var (
 		{Key: SettingReindexMaxTimeMsec, Value: SettingReindexMaxTimeMsecDefault},
 		{Key: SettingReindexBatchSize, Value: SettingReindexBatchSizeDefault},
 		{Key: SettingWorkerConcurrency, Value: SettingWorkerConcurrencyDefault},
+		{Key: SettingMaxRequestSize, Value: SettingMaxRequestSizeDefault},
 	}
 )

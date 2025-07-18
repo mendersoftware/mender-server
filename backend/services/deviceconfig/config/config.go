@@ -73,6 +73,10 @@ const (
 	// SettingEnableAudit enables auditing of configuration events.
 	SettingEnableAudit        = "enable_audit"
 	SettingEnableAuditDefault = false
+
+	// Max Request body size
+	SettingMaxRequestSize        = "request_size_limit"
+	SettingMaxRequestSizeDefault = 1024 * 1024 // 1 MiB
 )
 
 var (
@@ -88,5 +92,6 @@ var (
 		{Key: SettingEnableAudit, Value: SettingEnableAuditDefault},
 		{Key: SettingInventoryURL, Value: SettingInventoryURLDefault},
 		{Key: SettingInventoryTimeout, Value: SettingInventoryTimeoutDefault},
+		{Key: SettingMaxRequestSize, Value: SettingMaxRequestSizeDefault},
 	}
 )

@@ -123,7 +123,9 @@ func RunServer(c config.Reader) error {
 			)
 		}
 	}
-
+	apiOptions = append(apiOptions, api_http.SetMaxRequestSize(
+		int64(c.GetInt(dconfig.SettingMaxRequestSize)),
+	))
 	apiHandler := api_http.NewRouter(devauth, db, apiOptions...)
 
 	addr := c.GetString(dconfig.SettingListen)
