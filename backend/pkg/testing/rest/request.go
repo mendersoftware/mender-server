@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"strings"
 )
 
 const DEFAULT_AUTH = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
@@ -22,7 +23,14 @@ type TestRequest struct {
 
 func MakeTestRequest(r *TestRequest) *http.Request {
 	var body io.Reader
-	if r.Body != nil {
+	switch t := r.Body.(type) {
+	case nil:
+		break
+	case []byte:
+		body = bytes.NewReader(t)
+	case string:
+		body = strings.NewReader(t)
+	default:
 		bodyJSON, _ := json.Marshal(r.Body)
 		body = bytes.NewReader(bodyJSON)
 	}

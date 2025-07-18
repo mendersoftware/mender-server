@@ -1021,7 +1021,7 @@ func (d *DeploymentsApiHandlers) createDeployment(
 	id, err := d.app.CreateDeployment(ctx, constructor)
 	switch err {
 	case nil:
-		location := fmt.Sprintf("%s/%s", ApiUrlManagement+ApiUrlManagementDeployments, id)
+		location := fmt.Sprintf("%s/%s", ApiUrlManagementDeployments, id)
 		c.Writer.Header().Add("Location", location)
 		c.Status(http.StatusCreated)
 	case app.ErrNoArtifact:

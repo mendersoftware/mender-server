@@ -17,7 +17,6 @@ package http
 import (
 	"bytes"
 	"context"
-	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"strconv"
@@ -597,8 +596,8 @@ func TestPutReleaseTags(t *testing.T) {
 
 		Request: rtest.MakeTestRequest(&rtest.TestRequest{
 			Method: http.MethodPut,
-			Path: fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
-				strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, ":name", "release-mc-release-face")),
+			Path: "http://localhost:1234" +
+				strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, ":name", "release-mc-release-face"),
 			Body: model.Tags{"one", "one", "two", "three"},
 		}),
 
@@ -619,8 +618,8 @@ func TestPutReleaseTags(t *testing.T) {
 
 		Request: rtest.MakeTestRequest(&rtest.TestRequest{
 			Method: http.MethodPut,
-			Path: fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
-				strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, ":name", "release-mc-release-face")),
+			Path: "http://localhost:1234" +
+				strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, ":name", "release-mc-release-face"),
 			Body: model.Tags{"one", "two", "three"},
 		}),
 
@@ -641,8 +640,8 @@ func TestPutReleaseTags(t *testing.T) {
 
 		Request: rtest.MakeTestRequest(&rtest.TestRequest{
 			Method: http.MethodPut,
-			Path: fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
-				strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, ":name", "release-mc-release-face")),
+			Path: "http://localhost:1234" +
+				strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, ":name", "release-mc-release-face"),
 			Body: model.Tags{"one", "two", "three"},
 		}),
 
@@ -663,8 +662,8 @@ func TestPutReleaseTags(t *testing.T) {
 
 		Request: rtest.MakeTestRequest(&rtest.TestRequest{
 			Method: http.MethodPut,
-			Path: fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
-				strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, ":name", "release-mc-release-face")),
+			Path: "http://localhost:1234" +
+				strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, ":name", "release-mc-release-face"),
 			Body: model.Tags{"one", "two", "three"},
 		}),
 
@@ -691,8 +690,8 @@ func TestPutReleaseTags(t *testing.T) {
 
 			req := rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: http.MethodPut,
-				Path: fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
-					strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, ":name", "release-mc-release-face")),
+				Path: "http://localhost:1234" +
+					strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, ":name", "release-mc-release-face"),
 				Body: tags,
 			})
 			return req
@@ -713,8 +712,8 @@ func TestPutReleaseTags(t *testing.T) {
 			}
 			req := rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: http.MethodPut,
-				Path: fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
-					strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, ":name", "release-mc-release-face")),
+				Path: "http://localhost:1234" +
+					strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, ":name", "release-mc-release-face"),
 				Body: tags,
 			})
 			return req
@@ -736,8 +735,8 @@ func TestPutReleaseTags(t *testing.T) {
 		Name: "error/malformed JSON",
 		Request: rtest.MakeTestRequest(&rtest.TestRequest{
 			Method: http.MethodPut,
-			Path: fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
-				strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, ":name", "release-mc-release-face")),
+			Path: "http://localhost:1234" +
+				strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, ":name", "release-mc-release-face"),
 			Body: bytes.NewReader([]byte("not json")),
 		}),
 
@@ -751,8 +750,8 @@ func TestPutReleaseTags(t *testing.T) {
 
 		Request: rtest.MakeTestRequest(&rtest.TestRequest{
 			Method: http.MethodPut,
-			Path: fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
-				strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, ":name", "")),
+			Path: "http://localhost:1234" +
+				strings.ReplaceAll(ApiUrlManagementV2ReleaseTags, ":name", ""),
 			Body: []byte("[]"),
 		}),
 
@@ -801,10 +800,9 @@ func TestListReleaseTags(t *testing.T) {
 		Request: func() *http.Request {
 			req, _ := http.NewRequest(
 				http.MethodGet,
-				fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
+				"http://localhost:1234"+
 					strings.ReplaceAll(ApiUrlManagementV2ReleaseAllTags,
 						":name", "release-mc-release-face"),
-				),
 				nil,
 			)
 			return req
@@ -826,10 +824,9 @@ func TestListReleaseTags(t *testing.T) {
 		Request: func() *http.Request {
 			req, _ := http.NewRequest(
 				http.MethodGet,
-				fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
+				"http://localhost:1234"+
 					strings.ReplaceAll(ApiUrlManagementV2ReleaseAllTags,
 						":name", "release-mc-release-face"),
-				),
 				nil,
 			)
 			return req
@@ -851,10 +848,9 @@ func TestListReleaseTags(t *testing.T) {
 		Request: func() *http.Request {
 			req, _ := http.NewRequest(
 				http.MethodGet,
-				fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
+				"http://localhost:1234"+
 					strings.ReplaceAll(ApiUrlManagementV2ReleaseAllTags,
 						":name", "release-mc-release-face"),
-				),
 				nil,
 			)
 			return req
@@ -921,9 +917,8 @@ func TestGetReleasesUpdateTypes(t *testing.T) {
 			Request: func() *http.Request {
 				req, _ := http.NewRequest(
 					http.MethodGet,
-					fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
+					"http://localhost:1234"+
 						ApiUrlManagementV2ReleaseAllUpdateTypes,
-					),
 					nil,
 				)
 				return req
@@ -946,9 +941,8 @@ func TestGetReleasesUpdateTypes(t *testing.T) {
 			Request: func() *http.Request {
 				req, _ := http.NewRequest(
 					http.MethodGet,
-					fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
+					"http://localhost:1234"+
 						ApiUrlManagementV2ReleaseAllUpdateTypes,
-					),
 					nil,
 				)
 				return req
@@ -1017,10 +1011,9 @@ func TestPatchRelease(t *testing.T) {
 
 			Request: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: http.MethodPatch,
-				Path: fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
+				Path: "http://localhost:1234" +
 					strings.ReplaceAll(ApiUrlManagementV2ReleasesName,
 						":name", "release-mc-release-face"),
-				),
 				Body: model.ReleasePatch{Notes: "New Release and fixes 2023"},
 			}),
 
@@ -1040,10 +1033,9 @@ func TestPatchRelease(t *testing.T) {
 			Name: "error/notes too long",
 			Request: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: http.MethodPatch,
-				Path: fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
+				Path: "http://localhost:1234" +
 					strings.ReplaceAll(ApiUrlManagementV2ReleasesName,
 						":name", "release-mc-release-face"),
-				),
 				Body: model.ReleasePatch{Notes: model.Notes(longReleaseNotes)},
 			}),
 
@@ -1058,10 +1050,9 @@ func TestPatchRelease(t *testing.T) {
 			Name: "error/internal",
 			Request: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: http.MethodPatch,
-				Path: fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
+				Path: "http://localhost:1234" +
 					strings.ReplaceAll(ApiUrlManagementV2ReleasesName,
 						":name", "release-mc-release-face"),
-				),
 				Body: model.ReleasePatch{Notes: "New Release and fixes 2023"},
 			}),
 

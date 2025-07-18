@@ -178,7 +178,7 @@ func TestUserAdmApiLogin(t *testing.T) {
 			checker: mt.NewJSONResponse(
 				http.StatusBadRequest,
 				nil,
-				restError("json: cannot unmarshal string into Go value of type useradm.LoginOptions")),
+				restError("invalid character 'd' looking for beginning of value")),
 		},
 		"error: unauthorized": {
 			//"email:pass"
