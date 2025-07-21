@@ -887,6 +887,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
+  line-height: 1.5;
   color: #1f1f20;
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
@@ -3266,6 +3267,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
+  line-height: 1.5;
   color: #1f1f20;
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
