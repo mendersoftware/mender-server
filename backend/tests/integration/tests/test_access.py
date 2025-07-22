@@ -50,7 +50,7 @@ def device_connect_insert_device(mongo, device_id, tenant_id, status="connected"
             "_id": device_id,
             "tenant_id": tenant_id,
             "created_ts": "2022-10-26T16:28:18.796Z",
-            "status": "connected",
+            "status": "disconnected",
             "updated_ts": "2022-10-26T16:28:51.031Z",
         }
     )
@@ -110,7 +110,7 @@ class _TestAccessBase:
         if forbid:
             assert res.status_code == 403
         else:
-            assert res.status_code == 408 or res.status_code == 404
+            assert res.status_code in [404, 409]
 
         res = devconn.with_auth(auth).call(
             "PUT",
