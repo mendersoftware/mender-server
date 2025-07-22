@@ -20,8 +20,11 @@ import tempfile
 import uuid
 import os
 import subprocess
+
 from contextlib import contextmanager
-from typing import List
+from datetime import datetime, timedelta
+from typing import Generator, List
+
 
 import docker
 import redo
@@ -656,3 +659,20 @@ class MockedHttp:
         for i in r.json():
             all_requests_recorded.append(i['body']['json'])
         return all_requests_recorded
+
+
+def retry(
+    period: timedelta = timedelta(milliseconds=100),
+    timeout: timedelta = timedelta(minutes=2),
+) -> Generator[datetime]:
+    if timeout < period:
+        raise ValueError(f"retry period {period} is larger than timeout {timeout}")
+
+    now = datetime.now()
+    last_attempt = now + timeout
+    yield now
+    while now <= last_attempt:
+        delay = min(period, last_attempt - now)
+        time.sleep(delay.total_seconds())
+        now = datetime.now()
+        yield now
