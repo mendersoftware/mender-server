@@ -19,6 +19,8 @@ import json
 import uuid
 import requests
 
+from datetime import timedelta
+
 from testutils.api.client import ApiClient
 from testutils.infra.cli import CliUseradm, CliDeviceauth
 from testutils.infra.container_manager.kubernetes_manager import isK8S
@@ -42,6 +44,7 @@ from testutils.common import (
     change_authset_status,
     wait_until_healthy,
     useExistingTenant,
+    retry,
 )
 
 
@@ -731,17 +734,14 @@ class TestDeviceMgmtBase:
         assert r.status_code == 204
 
         # only verify the device is gone
-        count = 5
-        while count > 0:
+        for _ in retry(timeout=timedelta(seconds=10)):
             r = devapim.with_auth(utoken).call(
                 "GET", deviceauth.URL_DEVICE, path_params={"id": dev_pending.id}
             )
             if r.status_code == 404:
                 break
-            # need to wait while workflows worker executes the job
-            time.sleep(1)
-            count -= 1
-        assert r.status_code == 404
+        else:
+            raise TimeoutError("timeout waiting for device auth to be deleted")
 
         # log in an accepted device
         dev_acc = filter_and_page_devs(devs_authsets, status="accepted")[0]
@@ -772,17 +772,14 @@ class TestDeviceMgmtBase:
         assert r.status_code == 401
 
         # verify the device is gone
-        count = 5
-        while count > 0:
+        for _ in retry(timeout=timedelta(seconds=10)):
             r = devapim.with_auth(utoken).call(
                 "GET", deviceauth.URL_DEVICE, path_params={"id": dev_acc.id}
             )
             if r.status_code == 404:
                 break
-            # need to wait while workflows worker executes the job
-            time.sleep(1)
-            count -= 1
-        assert r.status_code == 404
+        else:
+            raise TimeoutError("timeout waiting for device auth to be deleted")
 
     def do_test_delete_device_not_found(self, devs_authsets, user):
         ua = ApiClient(useradm.URL_MGMT)
@@ -1109,7 +1106,6 @@ class TestAuthsetMgmtBase:
                 assert r.status_code == 401
 
             # device should also be provisioned in inventory
-            time.sleep(1)
             self.verify_dev_provisioned(dev, utoken)
 
     def do_test_put_status_reject(self, devs_authsets, user, tenant_token=""):
@@ -1348,10 +1344,8 @@ class TestAuthsetMgmtBase:
             compare_aset(aset, api_aset)
 
         # verify in inventory
-        wait_sec = 5
-        while wait_sec > 0:
+        for _ in retry():
             try:
-                time.sleep(1)
                 invm = ApiClient(inventory.URL_MGMT)
 
                 r = invm.with_auth(utoken).call(
@@ -1367,10 +1361,9 @@ class TestAuthsetMgmtBase:
 
                 break
             except AssertionError:
-                wait_sec -= 1
                 continue
-
-        assert wait_sec != 0, "waiting for state 'noauth' in inventory timed out"
+        else:
+            raise TimeoutError("waiting for state 'noauth' in inventory timed out")
 
     def compute_dev_status(self, authsets):
         if len(authsets) == 0:
@@ -1395,11 +1388,15 @@ class TestAuthsetMgmtBase:
     def verify_dev_provisioned(self, dev, utoken):
         invm = ApiClient(inventory.URL_MGMT)
 
-        r = invm.with_auth(utoken).call(
-            "GET", inventory.URL_DEVICE, path_params={"id": dev.id}
-        )
-        assert r.status_code == 200
-        assert r.json() is not None
+        for _ in retry():
+            r = invm.with_auth(utoken).call(
+                "GET", inventory.URL_DEVICE, path_params={"id": dev.id}
+            )
+            if r.status_code == 200:
+                assert r.json() is not None
+                break
+        else:
+            raise TimeoutError("timeout waiting for device to get provisioned")
 
 
 class TestAuthsetMgmt(TestAuthsetMgmtBase):
