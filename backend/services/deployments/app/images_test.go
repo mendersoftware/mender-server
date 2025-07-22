@@ -21,6 +21,7 @@ import (
 	"errors"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/mendersoftware/mender-artifact/areader"
@@ -701,6 +702,170 @@ func TestGenerateConfigurationImage(t *testing.T) {
 					assert.Equal(t, metadata, actual)
 				}
 			}
+		})
+	}
+
+}
+func strTotimePtr(timeStr string) *time.Time {
+	t, _ := time.Parse(time.RFC3339, timeStr)
+	t = t.UTC()
+	return &t
+}
+
+var testImgs = []*model.Image{
+	{
+		Id: "6d4f6e27-c3bb-438c-ad9c-d9de30e59d80",
+		ImageMeta: &model.ImageMeta{
+			Description: "description",
+		},
+
+		ArtifactMeta: &model.ArtifactMeta{
+			Name:                  "App1 v1.0",
+			DeviceTypesCompatible: []string{"foo"},
+			Updates:               []model.Update{},
+		},
+		Modified: strTotimePtr("2010-09-22T22:00:00+00:00"),
+	},
+	{
+		Id: "6d4f6e27-c3bb-438c-ad9c-d9de30e59d81",
+		ImageMeta: &model.ImageMeta{
+			Description: "description",
+		},
+
+		ArtifactMeta: &model.ArtifactMeta{
+			Name:                  "App2 v0.1",
+			DeviceTypesCompatible: []string{"foo"},
+			Updates:               []model.Update{},
+		},
+		Modified: strTotimePtr("2010-09-22T22:02:00+00:00"),
+	},
+	{
+		Id: "6d4f6e27-c3bb-438c-ad9c-d9de30e59d82",
+		ImageMeta: &model.ImageMeta{
+			Description: "description",
+		},
+
+		ArtifactMeta: &model.ArtifactMeta{
+			Name:                  "App1 v1.0",
+			DeviceTypesCompatible: []string{"bar, baz"},
+			Updates:               []model.Update{},
+		},
+		Modified: strTotimePtr("2010-09-22T22:01:00+00:00"),
+	},
+	{
+		Id: "6d4f6e27-c3bb-438c-ad9c-d9de30e59d83",
+		ImageMeta: &model.ImageMeta{
+			Description: "description",
+		},
+
+		ArtifactMeta: &model.ArtifactMeta{
+			Name:                  "App1 v1.0",
+			DeviceTypesCompatible: []string{"bork"},
+			Updates:               []model.Update{},
+		},
+		Modified: strTotimePtr("2010-09-22T22:04:00+00:00"),
+	},
+	{
+		Id: "6d4f6e27-c3bb-438c-ad9c-d9de30e59d84",
+		ImageMeta: &model.ImageMeta{
+			Description: "extended description",
+		},
+
+		ArtifactMeta: &model.ArtifactMeta{
+			Name:                  "App2 v0.1",
+			DeviceTypesCompatible: []string{"bar", "baz"},
+			Updates:               []model.Update{},
+		},
+		Modified: strTotimePtr("2010-09-22T22:03:00+00:00"),
+	},
+}
+
+func TestListImages(t *testing.T) {
+	testCases := []struct {
+		Name string
+
+		Images     []*model.Image
+		StoreError error
+	}{
+		{
+			Name:       "ok",
+			Images:     testImgs,
+			StoreError: nil,
+		},
+		{
+			Name:   "ok, no image",
+			Images: []*model.Image{},
+		},
+		{
+			Name:       "error",
+			Images:     nil,
+			StoreError: errors.New("some error"),
+		},
+	}
+
+	for i := range testCases {
+		tc := testCases[i]
+		t.Run(tc.Name, func(t *testing.T) {
+			t.Parallel()
+			ctx := context.Background()
+			ds := new(mocks.DataStore)
+			defer ds.AssertExpectations(t)
+			imgFilter := model.ReleaseOrImageFilter{}
+			ds.On("ListImages", ctx, &imgFilter).
+				Return(tc.Images, len(tc.Images), tc.StoreError)
+
+			d := NewDeployments(ds, nil, 0, false)
+
+			images, count, err := d.ListImages(ctx, &imgFilter)
+
+			assert.Equal(t, tc.Images, images)
+			assert.Equal(t, len(tc.Images), count)
+			assert.ErrorIs(t, err, tc.StoreError)
+		})
+	}
+}
+
+func TestListImagesV2(t *testing.T) {
+	testCases := []struct {
+		Name string
+
+		Images     []*model.Image
+		StoreError error
+	}{
+		{
+			Name:       "ok",
+			Images:     testImgs,
+			StoreError: nil,
+		},
+		{
+			Name:   "ok, no image",
+			Images: []*model.Image{},
+		},
+		{
+			Name:       "error",
+			Images:     nil,
+			StoreError: errors.New("some error"),
+		},
+	}
+
+	for i := range testCases {
+		tc := testCases[i]
+		t.Run(tc.Name, func(t *testing.T) {
+			t.Parallel()
+			ctx := context.Background()
+			ds := new(mocks.DataStore)
+			defer ds.AssertExpectations(t)
+			imgFilter := model.ImageFilter{}
+			ds.On("ListImagesV2", ctx, &imgFilter).
+				Return(tc.Images, tc.StoreError)
+
+			d := NewDeployments(ds, nil, 0, false)
+
+			images, err := d.ListImagesV2(ctx, &imgFilter)
+
+			assert.Equal(t, tc.Images, images)
+			assert.Equal(t, len(tc.Images), len(images))
+			assert.ErrorIs(t, err, tc.StoreError)
 		})
 	}
 }
