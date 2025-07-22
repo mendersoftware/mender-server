@@ -1296,8 +1296,13 @@ paths:
       - Management API
   /artifacts/list:
     get:
+      deprecated: true
       description: |
         Returns a collection of all artifacts.
+
+        DEPRECATED: _since Tue Jul 22 2025_ we deprecated the endpoint due to performance issues.
+        Please use the v2 /artifacts endpoint instead.
+        In the new endpoint, we support exact and prefix matching for the various fields
       operationId: List Artifacts with pagination
       parameters:
       - description: Artifact name filter.
