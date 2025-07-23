@@ -21,7 +21,7 @@ from testutils.api import useradm
 from testutils.api.client import ApiClient
 from testutils.infra.smtpd_mock import smtp_server
 
-from testutils.common import clean_mongo, create_org, mongo
+from testutils.common import create_org
 
 
 class TestVerifyEmailEnterprise:

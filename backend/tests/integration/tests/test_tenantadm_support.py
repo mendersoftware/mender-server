@@ -23,11 +23,7 @@ from testutils.api.client import ApiClient
 from testutils.infra.container_manager.kubernetes_manager import isK8S
 from testutils.infra.smtpd_mock import smtp_server
 
-from testutils.common import (
-    clean_mongo,
-    create_org,
-    mongo,
-)
+from testutils.common import create_org
 
 api_tadm_v2 = ApiClient(tenantadm_v2.URL_MGMT, host=tenantadm_v2.HOST, schema="http://")
 api_useradm = ApiClient(useradm.URL_MGMT)

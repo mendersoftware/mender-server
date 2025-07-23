@@ -25,8 +25,6 @@ import testutils.api.inventory as inventory
 from testutils.infra.cli import CliTenantadm, CliUseradm, CliDeviceauth
 from testutils.common import (
     Device,
-    mongo,
-    clean_mongo,
     create_org,
     create_random_authset,
     change_authset_status,

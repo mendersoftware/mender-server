@@ -12,7 +12,6 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
-from typing import Optional
 import pytest
 import logging
 import uuid
@@ -20,7 +19,6 @@ import time
 
 from testutils.api import (
     deviceauth,
-    deviceconfig,
     iot_manager as iot,
     useradm,
 )
@@ -30,10 +28,7 @@ from testutils.common import (
     Device,
     User,
     MockedHttp,
-    create_org,
     create_user,
-    clean_mongo,
-    mongo,
     make_device_with_inventory,
     decommission_device,
     submit_inventory,

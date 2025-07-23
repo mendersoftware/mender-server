@@ -25,9 +25,6 @@ import testutils.api.inventory as inventory
 import testutils.api.inventory_v2 as inventory_v2
 
 from testutils.common import (
-    mongo,
-    clean_mongo,
-    mongo_cleanup,
     create_user,
     create_org,
     make_accepted_device,

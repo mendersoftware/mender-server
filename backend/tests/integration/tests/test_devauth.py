@@ -13,11 +13,9 @@
 #    limitations under the License.
 import pytest
 import random
-import time
 import base64
 import json
 import uuid
-import requests
 
 from datetime import timedelta
 
@@ -34,8 +32,6 @@ import testutils.util.crypto as crypto
 from testutils.common import (
     Device,
     Authset,
-    mongo,
-    clean_mongo,
     create_user,
     create_org,
     create_random_authset,

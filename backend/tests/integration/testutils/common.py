@@ -44,23 +44,6 @@ from testutils.infra.cli import CliUseradm, CliTenantadm
 from testutils.infra.device import MenderDevice, MenderDeviceGroup
 
 
-@pytest.fixture(scope="session")
-def mongo():
-    return MongoClient("mender-mongo:27017")
-
-
-@pytest.fixture(scope="function")
-def clean_mongo(mongo):
-    """Fixture setting up a clean (i.e. empty database). Yields
-    pymongo.MongoClient connected to the DB."""
-    mongo_cleanup(mongo)
-    yield mongo.client
-
-
-def mongo_cleanup(mongo):
-    mongo.cleanup()
-
-
 class User:
     def __init__(self, id, name, pwd, roles=[]):
         self.name = name

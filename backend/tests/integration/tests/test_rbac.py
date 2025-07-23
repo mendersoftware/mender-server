@@ -14,7 +14,6 @@
 import json
 import logging
 import pytest
-import time
 import uuid
 
 import testutils.api.deployments as deployments
@@ -24,9 +23,6 @@ import testutils.api.deviceconfig as deviceconfig
 from testutils.common import (
     create_org,
     create_user,
-    make_accepted_device,
-    mongo,
-    clean_mongo,
     update_tenant,
     setup_tenant_devices,
 )

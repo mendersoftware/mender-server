@@ -27,7 +27,7 @@ from testutils.infra.smtpd_mock import smtp_server
 from testutils.api.client import ApiClient
 from testutils.infra.cli import CliUseradm, CliTenantadm
 import testutils.api.useradm as useradm
-from testutils.common import mongo, clean_mongo, create_org, create_user, User, Tenant
+from testutils.common import create_org, create_user, User, Tenant
 
 uadm = ApiClient(useradm.URL_MGMT)
 

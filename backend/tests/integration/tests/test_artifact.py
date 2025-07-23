@@ -29,8 +29,6 @@ from testutils.api import (
 from testutils.common import (
     create_org,
     create_user,
-    mongo,
-    clean_mongo,
     get_mender_artifact,
     make_accepted_device,
 )

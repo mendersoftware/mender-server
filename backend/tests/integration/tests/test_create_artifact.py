@@ -21,7 +21,7 @@ from json import dumps
 
 from testutils.api.client import ApiClient
 from testutils.api import deployments, useradm
-from testutils.common import create_org, create_user, mongo, clean_mongo
+from testutils.common import create_org, create_user
 
 
 class TestCreateArtifactBase:

@@ -23,7 +23,6 @@ import requests
 import yaml
 
 from testutils.api.client import GATEWAY_HOSTNAME
-from testutils.infra.container_manager.kubernetes_manager import isK8S
 
 logging.basicConfig(format="%(asctime)s %(message)s")
 logger = logging.getLogger("test_api_endpoints")

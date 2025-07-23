@@ -21,8 +21,6 @@ import testutils.api.tenantadm as tenantadm
 import testutils.api.deployments as deployments
 from testutils.common import (
     Device,
-    mongo,
-    clean_mongo,
     create_org,
     create_random_authset,
     change_authset_status,
