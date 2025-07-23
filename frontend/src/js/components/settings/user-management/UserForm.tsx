@@ -148,28 +148,28 @@ export const PasswordLabel = () => (
   </div>
 );
 
-const UserIdentifier = ({ isEnterprise, onHasUserId }) => {
+const UserIdentifier = ({ userIdAllowed, onHasUserId }) => {
   const value = useWatch({ name: 'email', defaultValue: '' });
 
   useEffect(() => {
-    if (isEnterprise) {
+    if (userIdAllowed) {
       onHasUserId(isUUID(value));
     }
-  }, [isEnterprise, value, onHasUserId]);
+  }, [userIdAllowed, value, onHasUserId]);
 
   return (
     <TextInput
       hint="Email"
-      label={isEnterprise ? 'Email or User ID' : 'Email'}
+      label={userIdAllowed ? 'Email or User ID' : 'Email'}
       id="email"
-      validations={isEnterprise ? 'isLength:1,isUUID||isEmail,trim' : 'isLength:1,trim'}
+      validations={userIdAllowed ? 'isLength:1,isUUID||isEmail,trim' : 'isLength:1,trim'}
       required
       autocomplete="off"
     />
   );
 };
 
-export const UserForm = ({ closeDialog, currentUser, canManageUsers, isEnterprise, roles, submit }) => {
+export const UserForm = ({ closeDialog, currentUser, canManageUsers, isEnterprise, roles, submit, isTrial }) => {
   const [hadRoleChanges, setHadRoleChanges] = useState(false);
   const [selectedRoles, setSelectedRoles] = useState();
   const [isAddingExistingUser, setIsAddingExistingUser] = useState(false);
@@ -201,7 +201,7 @@ export const UserForm = ({ closeDialog, currentUser, canManageUsers, isEnterpris
           showButtons={true}
           autocomplete="off"
         >
-          <UserIdentifier isEnterprise={isEnterprise} onHasUserId={setIsAddingExistingUser} />
+          <UserIdentifier userIdAllowed={isEnterprise && !isTrial} onHasUserId={setIsAddingExistingUser} />
           <Collapse in={!isAddingExistingUser}>
             <PasswordInput
               id="password"
