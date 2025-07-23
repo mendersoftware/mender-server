@@ -27,9 +27,6 @@ from testutils.api import iot_manager
 from testutils.common import (
     create_org,
     create_user,
-    make_accepted_device,
-    mongo,
-    clean_mongo,
     update_tenant,
     setup_tenant_devices,
     get_mender_artifact,

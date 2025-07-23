@@ -16,11 +16,9 @@ import json
 import pytest
 import uuid
 import os
-import os.path
 import time
-from datetime import datetime
 
-from testutils.common import Tenant, User, update_tenant, create_user
+from testutils.common import Tenant, User, update_tenant, create_user, create_org
 from testutils.infra.cli import CliTenantadm
 from testutils.api.client import ApiClient
 import testutils.api.deviceconnect as deviceconnect
@@ -30,12 +28,6 @@ import testutils.api.useradm as useradm
 import testutils.api.tenantadm as tenantadm
 import testutils.api.tenantadm_v2 as tenantadm_v2
 import testutils.integration.stripe as stripeutils
-
-from testutils.common import (
-    clean_mongo,
-    create_org,
-    mongo,
-)
 
 logger = logging.getLogger("testAccess")
 
@@ -50,7 +42,7 @@ def device_connect_insert_device(mongo, device_id, tenant_id, status="connected"
             "_id": device_id,
             "tenant_id": tenant_id,
             "created_ts": "2022-10-26T16:28:18.796Z",
-            "status": "connected",
+            "status": "disconnected",
             "updated_ts": "2022-10-26T16:28:51.031Z",
         }
     )
@@ -110,7 +102,7 @@ class _TestAccessBase:
         if forbid:
             assert res.status_code == 403
         else:
-            assert res.status_code == 408 or res.status_code == 404
+            assert res.status_code in [404, 409]
 
         res = devconn.with_auth(auth).call(
             "PUT",

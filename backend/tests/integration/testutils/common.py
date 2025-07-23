@@ -20,8 +20,11 @@ import tempfile
 import uuid
 import os
 import subprocess
+
 from contextlib import contextmanager
-from typing import List
+from datetime import datetime, timedelta
+from typing import Generator, List
+
 
 import docker
 import redo
@@ -39,23 +42,6 @@ from testutils.infra.container_manager.kubernetes_manager import isK8S
 from testutils.infra.mongo import MongoClient
 from testutils.infra.cli import CliUseradm, CliTenantadm
 from testutils.infra.device import MenderDevice, MenderDeviceGroup
-
-
-@pytest.fixture(scope="session")
-def mongo():
-    return MongoClient("mender-mongo:27017")
-
-
-@pytest.fixture(scope="function")
-def clean_mongo(mongo):
-    """Fixture setting up a clean (i.e. empty database). Yields
-    pymongo.MongoClient connected to the DB."""
-    mongo_cleanup(mongo)
-    yield mongo.client
-
-
-def mongo_cleanup(mongo):
-    mongo.cleanup()
 
 
 class User:
@@ -656,3 +642,20 @@ class MockedHttp:
         for i in r.json():
             all_requests_recorded.append(i['body']['json'])
         return all_requests_recorded
+
+
+def retry(
+    period: timedelta = timedelta(milliseconds=100),
+    timeout: timedelta = timedelta(minutes=2),
+) -> Generator[datetime]:
+    if timeout < period:
+        raise ValueError(f"retry period {period} is larger than timeout {timeout}")
+
+    now = datetime.now()
+    last_attempt = now + timeout
+    yield now
+    while now <= last_attempt:
+        delay = min(period, last_attempt - now)
+        time.sleep(delay.total_seconds())
+        now = datetime.now()
+        yield now

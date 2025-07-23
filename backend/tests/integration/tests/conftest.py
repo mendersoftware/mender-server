@@ -16,6 +16,8 @@ import subprocess
 
 from urllib.parse import urlparse
 
+from testutils.infra.mongo import MongoClient
+
 # See https://docs.pytest.org/en/latest/writing_plugins.html#assertion-rewriting
 pytest.register_assert_rewrite("testutils")
 
@@ -60,3 +62,20 @@ def get_endpoint_url():
     finally:
         for p, _ in processes.values():
             p.terminate()
+
+
+@pytest.fixture(scope="session")
+def mongo():
+    return MongoClient("mender-mongo:27017")
+
+
+@pytest.fixture(scope="function")
+def clean_mongo(mongo):
+    """Fixture setting up a clean (i.e. empty database). Yields
+    pymongo.MongoClient connected to the DB."""
+    mongo_cleanup(mongo)
+    yield mongo.client
+
+
+def mongo_cleanup(mongo):
+    mongo.cleanup()

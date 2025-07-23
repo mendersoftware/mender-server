@@ -32,16 +32,11 @@ from testutils.api.client import ApiClient
 from testutils.common import (
     create_org,
     create_user,
-    clean_mongo,
-    mongo_cleanup,
-    mongo,
     get_mender_artifact,
-    make_accepted_device,
     make_accepted_devices,
     make_device_with_inventory,
     submit_inventory,
     useExistingTenant,
-    Tenant,
 )
 from testutils.infra.container_manager.kubernetes_manager import isK8S
 

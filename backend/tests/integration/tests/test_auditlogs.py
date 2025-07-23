@@ -15,7 +15,6 @@
 import pytest
 import uuid
 import os
-import json
 import time
 import urllib.parse
 from datetime import datetime
@@ -23,15 +22,13 @@ from typing import Dict, List, Optional, Tuple
 
 import redo
 
-from testutils.infra.cli import CliUseradm, CliTenantadm, CliDeployments
+from testutils.infra.cli import CliUseradm, CliDeployments
 from testutils.common import (
     Device,
     Tenant,
     User,
     create_org,
     create_user,
-    mongo,
-    clean_mongo,
     get_mender_artifact,
     update_tenant,
     make_pending_device,
@@ -42,7 +39,6 @@ from testutils.common import (
 from testutils.api.client import ApiClient
 import testutils.api.deviceauth as deviceauth
 import testutils.api.useradm as useradm
-import testutils.api.inventory as inventory
 import testutils.api.deployments as deployments_v1
 import testutils.api.auditlogs as auditlogs
 

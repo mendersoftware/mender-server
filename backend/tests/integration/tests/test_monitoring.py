@@ -22,14 +22,9 @@ from datetime import datetime
 from testutils.api import useradm, devicemonitor, deviceauth, inventory
 from testutils.api.client import ApiClient
 from testutils.common import (
-    clean_mongo,
-    create_authset,
     create_org,
-    create_random_authset,
     create_user,
     make_accepted_device,
-    make_pending_device,
-    mongo,
 )
 from testutils.infra.cli import CliUseradm, CliDeviceauth, CliDeviceMonitor
 from testutils.infra.smtpd_mock import smtp_server

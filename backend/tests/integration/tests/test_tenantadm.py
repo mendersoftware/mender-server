@@ -21,10 +21,6 @@ from redo import retrier
 
 from testutils.infra import cli
 from testutils import api
-from testutils.common import (
-    mongo,
-    mongo_cleanup,
-)
 
 logger = logging.getLogger(__name__)
 

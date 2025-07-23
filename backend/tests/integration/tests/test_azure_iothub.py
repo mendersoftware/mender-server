@@ -42,9 +42,7 @@ from testutils.common import (
     create_user,
     create_user_test_setup,
     create_tenant_test_setup,
-    clean_mongo,
     make_accepted_device,
-    mongo,
 )
 
 

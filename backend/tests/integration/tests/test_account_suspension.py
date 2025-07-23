@@ -12,7 +12,6 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 import pytest
-import time
 import uuid
 
 from testutils.api.client import ApiClient
@@ -22,13 +21,11 @@ import testutils.api.tenantadm as tenantadm
 import testutils.api.deployments as deployments
 from testutils.common import (
     Device,
-    mongo,
-    clean_mongo,
     create_org,
     create_random_authset,
     change_authset_status,
+    retry,
 )
-
 
 @pytest.fixture(scope="function")
 def tenants(clean_mongo):
@@ -81,8 +78,6 @@ class TestAccountSuspensionEnterprise:
             r = uc.call("POST", useradm.URL_LOGIN, auth=(u.name, u.pwd))
             assert r.status_code == 200
 
-        assert r.status_code == 200
-
         # suspend tenant
         r = tc.call(
             "PUT",
@@ -92,12 +87,16 @@ class TestAccountSuspensionEnterprise:
         )
         assert r.status_code == 200
 
-        time.sleep(10)
-
         # none of tenant's users can log in
-        for u in tenants[0].users:
-            r = uc.call("POST", useradm.URL_LOGIN, auth=(u.name, u.pwd))
-            assert r.status_code == 401
+        for _ in retry():
+            response_statuses = [
+                uc.call("POST", useradm.URL_LOGIN, auth=(u.name, u.pwd)).status_code
+                for u in tenants[0].users
+            ]
+            if all([status == 401 for status in response_statuses]):
+                break
+        else:
+            raise TimeoutError("Timeout waiting for tenant to get suspended")
 
         # but other users still can
         for u in tenants[1].users:
@@ -130,11 +129,13 @@ class TestAccountSuspensionEnterprise:
         )
         assert r.status_code == 200
 
-        time.sleep(10)
-
-        # check token is rejected
-        r = dc.with_auth(token).call("GET", deviceauth.URL_MGMT_DEVICES)
-        assert r.status_code == 401
+        for _ in retry():
+            # check token is rejected
+            r = dc.with_auth(token).call("GET", deviceauth.URL_MGMT_DEVICES)
+            if r.status_code == 401:
+                break
+        else:
+            raise TimeoutError("timeout waiting for device sessions to be suspended")
 
     def test_accepted_dev_cant_authenticate(self, tenants_users_devices):
         dacd = ApiClient(deviceauth.URL_DEVICES)
@@ -162,20 +163,21 @@ class TestAccountSuspensionEnterprise:
         )
         assert r.status_code == 200
 
-        time.sleep(10)
+        for _ in retry():
+            # try requesting auth
+            body, sighdr = deviceauth.auth_req(
+                aset.id_data,
+                aset.pubkey,
+                aset.privkey,
+                tenants_users_devices[0].tenant_token,
+            )
+            r = dacd.call("POST", deviceauth.URL_AUTH_REQS, body, headers=sighdr)
 
-        # try requesting auth
-        body, sighdr = deviceauth.auth_req(
-            aset.id_data,
-            aset.pubkey,
-            aset.privkey,
-            tenants_users_devices[0].tenant_token,
-        )
-
-        r = dacd.call("POST", deviceauth.URL_AUTH_REQS, body, headers=sighdr)
-
-        assert r.status_code == 401
-        assert r.json()["error"] == "Account suspended"
+            if r.status_code == 401:
+                assert r.json()["error"] == "Account suspended"
+                break
+        else:
+            raise TimeoutError("timeout waiting for device to be suspended")
 
     def test_authenticated_dev_is_rejected(self, tenants_users_devices):
         dacd = ApiClient(deviceauth.URL_DEVICES)
@@ -223,12 +225,14 @@ class TestAccountSuspensionEnterprise:
         )
         assert r.status_code == 200
 
-        time.sleep(10)
-
-        # check device is rejected
-        r = dc.with_auth(dtoken).call(
-            "GET",
-            deployments.URL_NEXT,
-            qs_params={"device_type": "foo", "artifact_name": "bar"},
-        )
-        assert r.status_code == 401
+        for _ in retry():
+            # check device is rejected
+            r = dc.with_auth(dtoken).call(
+                "GET",
+                deployments.URL_NEXT,
+                qs_params={"device_type": "foo", "artifact_name": "bar"},
+            )
+            if r.status_code == 401:
+                break
+        else:
+            raise TimeoutError("timeout waiting for device to get rejected")
