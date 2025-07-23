@@ -20,7 +20,15 @@ import { Button, Chip, DialogActions, DialogContent } from '@mui/material';
 
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import storeActions from '@northern.tech/store/actions';
-import { getCurrentUser, getFeatures, getIsEnterprise, getRelevantRoles, getUserCapabilities, getUsersList } from '@northern.tech/store/selectors';
+import {
+  getCurrentUser,
+  getFeatures,
+  getIsEnterprise,
+  getOrganization,
+  getRelevantRoles,
+  getUserCapabilities,
+  getUsersList
+} from '@northern.tech/store/selectors';
 import { addUserToCurrentTenant, createUser, editUser, getUserList, passwordResetStart, removeUser } from '@northern.tech/store/thunks';
 
 import { UserDefinition } from './UserDefinition';
@@ -68,6 +76,7 @@ export const UserManagement = () => {
   const currentUser = useSelector(getCurrentUser);
   const roles = useSelector(getRelevantRoles);
   const users = useSelector(getUsersList);
+  const { trial: isTrial } = useSelector(getOrganization);
   const props = {
     canManageUsers,
     addUser: id => dispatch(addUserToCurrentTenant(id)),
@@ -78,7 +87,8 @@ export const UserManagement = () => {
     isHosted,
     removeUser: id => dispatch(removeUser(id)),
     roles,
-    users
+    users,
+    isTrial
   };
 
   useEffect(() => {
