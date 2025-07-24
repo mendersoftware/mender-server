@@ -81,6 +81,7 @@
     "eslint-rspack-plugin": "^4.2.1",
     "globals": "16.3.0",
     "husky": "9.1.7",
+    "jsdom": "^26.1.0",
     "jsdom-worker": "0.3.0",
     "lint-staged": "16.1.2",
     "mockdate": "^3.0.5",
