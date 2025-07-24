@@ -499,6 +499,9 @@ func TestManagementConnect(t *testing.T) {
 			}
 
 			conn, _, err = websocket.DefaultDialer.Dial(url, headers)
+			if err != nil {
+				t.Fatalf("error reopening websocket connection: %s", err.Error())
+			}
 			app.On("PrepareUserSession",
 				mock.MatchedBy(func(_ context.Context) bool {
 					return true
