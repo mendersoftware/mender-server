@@ -90,11 +90,10 @@ def create_test_artifacts(utoken: str,
     return artifact_names
 
 def compare_artifact_names(artifacts, expected_names):
-    if len(artifacts) != len(expected_names):
-        return False
+    assert len(artifacts) == len(expected_names)
 
     actual_names = [artifact["name"] for artifact in artifacts]
-    return expected_names == actual_names
+    assert expected_names == actual_names
 
 def create_tenant_test_setup(
     user_name, tenant_name, nr_deployments=3, nr_devices=100, plan="os"
@@ -2432,7 +2431,7 @@ class _TestDeploymentsArtifactBase(object):
         )
         assert r.status_code == 200
         artifacts = r.json()
-        assert compare_artifact_names(
+        compare_artifact_names(
             artifacts, test_artifacts
         )
         
@@ -2443,7 +2442,7 @@ class _TestDeploymentsArtifactBase(object):
         )
         assert r.status_code == 200
         artifacts = r.json()
-        assert compare_artifact_names(
+        compare_artifact_names(
             artifacts, test_artifacts[1:2]
         )
 
@@ -2454,7 +2453,7 @@ class _TestDeploymentsArtifactBase(object):
         )
         assert r.status_code == 200
         artifacts = r.json()
-        assert compare_artifact_names(
+        compare_artifact_names(
             artifacts, test_artifacts[1:3]
         )
 
@@ -2465,7 +2464,7 @@ class _TestDeploymentsArtifactBase(object):
         )
         assert r.status_code == 200
         artifacts = r.json()
-        assert compare_artifact_names(
+        compare_artifact_names(
             artifacts, test_artifacts[2:4]
         )
         
@@ -2490,7 +2489,7 @@ class _TestDeploymentsArtifactBase(object):
         )
         assert r.status_code == 200
         artifacts = r.json()
-        assert compare_artifact_names(
+        compare_artifact_names(
             artifacts, test_artifacts[0:2]
         )
 
@@ -2501,7 +2500,7 @@ class _TestDeploymentsArtifactBase(object):
         )
         assert r.status_code == 200
         artifacts = r.json()
-        assert compare_artifact_names(
+        compare_artifact_names(
             artifacts, test_artifacts[2:4]
         )
 
@@ -2512,7 +2511,7 @@ class _TestDeploymentsArtifactBase(object):
         )
         assert r.status_code == 200
         artifacts = r.json()
-        assert compare_artifact_names(
+        compare_artifact_names(
             artifacts, test_artifacts[1:2]
         )
         
@@ -2523,7 +2522,7 @@ class _TestDeploymentsArtifactBase(object):
         )
         assert r.status_code == 200
         artifacts = r.json()
-        assert compare_artifact_names(
+        compare_artifact_names(
             artifacts, test_artifacts[2:4]
         )
 
@@ -2534,7 +2533,7 @@ class _TestDeploymentsArtifactBase(object):
         )
         assert r.status_code == 200
         artifacts = r.json()
-        assert compare_artifact_names(
+        compare_artifact_names(
             artifacts, test_artifacts[3:4]
         )
 
