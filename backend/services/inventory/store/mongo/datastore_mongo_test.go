@@ -1641,7 +1641,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 	}
 
 	//single create timestamp for all inserted devs
-	createdTs := time.Now()
+	testStart := time.Now()
 
 	testCases := map[string]struct {
 		devs []model.Device
@@ -1679,7 +1679,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 							Scope:       model.AttrScopeInventory,
 						},
 					},
-					CreatedTs: createdTs,
+					CreatedTs: testStart,
 				},
 			},
 			inDevID: model.DeviceID("0003"),
@@ -1715,7 +1715,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 							Value:       "0003-newsn",
 						},
 					},
-					CreatedTs: createdTs,
+					CreatedTs: testStart,
 				},
 			},
 
@@ -1739,7 +1739,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 							Scope:       model.AttrScopeInventory,
 						},
 					},
-					CreatedTs: createdTs,
+					CreatedTs: testStart,
 				},
 			},
 			inDevID: model.DeviceID("0003"),
@@ -1774,7 +1774,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						Value:       "0003-newsn",
 					},
 				},
-				CreatedTs: createdTs,
+				CreatedTs: testStart,
 			}},
 
 			scope: model.AttrScopeInventory,
@@ -1797,7 +1797,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 							Scope:       model.AttrScopeInventory,
 						},
 					},
-					CreatedTs: createdTs,
+					CreatedTs: testStart,
 				},
 			},
 			inDevID: model.DeviceID("0003"),
@@ -1826,7 +1826,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						Value:       "0003-newsn",
 					},
 				},
-				CreatedTs: createdTs,
+				CreatedTs: testStart,
 			}},
 
 			scope: model.AttrScopeInventory,
@@ -1849,7 +1849,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 							Scope:       model.AttrScopeInventory,
 						},
 					},
-					CreatedTs: createdTs,
+					CreatedTs: testStart,
 				},
 			},
 			inDevID: model.DeviceID("0003"),
@@ -1879,7 +1879,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						Value:       "0003-newsn",
 					},
 				},
-				CreatedTs: createdTs,
+				CreatedTs: testStart,
 			}},
 			scope: model.AttrScopeInventory,
 		},
@@ -1901,7 +1901,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 							Scope:       model.AttrScopeInventory,
 						},
 					},
-					CreatedTs: createdTs,
+					CreatedTs: testStart,
 				},
 			},
 			inDevID: model.DeviceID("0003"),
@@ -1929,7 +1929,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						Value:       "0003-sn",
 					},
 				},
-				CreatedTs: createdTs,
+				CreatedTs: testStart,
 			}},
 			scope: model.AttrScopeInventory,
 		},
@@ -1951,7 +1951,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 							Scope:       model.AttrScopeInventory,
 						},
 					},
-					CreatedTs: createdTs,
+					CreatedTs: testStart,
 				},
 			},
 			inDevID: model.DeviceID("0003"),
@@ -1979,7 +1979,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						Value:       "0003-newsn",
 					},
 				},
-				CreatedTs: createdTs,
+				CreatedTs: testStart,
 			}},
 			scope: model.AttrScopeInventory,
 		},
@@ -2001,7 +2001,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 							Scope:       model.AttrScopeInventory,
 						},
 					},
-					CreatedTs: createdTs,
+					CreatedTs: testStart,
 				},
 			},
 			inDevID: model.DeviceID("0003"),
@@ -2029,7 +2029,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						Value:       primitive.A{"0003-sn-1", "0003-sn-2"},
 					},
 				},
-				CreatedTs: createdTs,
+				CreatedTs: testStart,
 			}},
 			scope: model.AttrScopeInventory,
 		},
@@ -2051,7 +2051,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 							Scope:       model.AttrScopeInventory,
 						},
 					},
-					CreatedTs: createdTs,
+					CreatedTs: testStart,
 				},
 			},
 			inDevID: model.DeviceID("0003"),
@@ -2096,7 +2096,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						Description: strPtr("foo"),
 					},
 				},
-				CreatedTs: createdTs,
+				CreatedTs: testStart,
 			}},
 			scope: model.AttrScopeInventory,
 		},
@@ -2118,7 +2118,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 							Scope:       model.AttrScopeInventory,
 						},
 					},
-					CreatedTs: createdTs,
+					CreatedTs: testStart,
 				},
 			},
 			inDevID: model.DeviceID("0003"),
@@ -2166,7 +2166,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						Description: strPtr("foo"),
 					},
 				},
-				CreatedTs: createdTs,
+				CreatedTs: testStart,
 			}},
 			scope: model.AttrScopeInventory,
 		},
@@ -2174,7 +2174,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 			devs: []model.Device{
 				{
 					ID:        model.DeviceID("0003"),
-					CreatedTs: createdTs,
+					CreatedTs: testStart,
 				},
 			},
 			inDevID: model.DeviceID("0003"),
@@ -2209,7 +2209,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						Description: strPtr("mac addr"),
 					},
 				},
-				CreatedTs: createdTs,
+				CreatedTs: testStart,
 			}},
 			scope: model.AttrScopeInventory,
 		},
@@ -2217,7 +2217,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 			devs: []model.Device{
 				{
 					ID:        model.DeviceID("0003"),
-					CreatedTs: createdTs,
+					CreatedTs: testStart,
 				},
 			},
 			inDevID: model.DeviceID("0003"),
@@ -2252,7 +2252,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						Description: strPtr("mac addr"),
 					},
 				},
-				CreatedTs: createdTs,
+				CreatedTs: testStart,
 			}},
 			scope: model.AttrScopeInventory,
 		},
@@ -2278,7 +2278,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						Value:       primitive.A{"1.2.3.4", "1.2.3.5"},
 					},
 				},
-				CreatedTs: createdTs,
+				CreatedTs: testStart,
 			}},
 			scope: model.AttrScopeInventory,
 		},
@@ -2302,7 +2302,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						Value: primitive.A{"1.2.3.4", "1.2.3.5"},
 					},
 				},
-				CreatedTs: createdTs,
+				CreatedTs: testStart,
 			}},
 			scope: model.AttrScopeInventory,
 		},
@@ -2339,7 +2339,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						Description: strPtr("mac addr"),
 					},
 				},
-				CreatedTs: createdTs,
+				CreatedTs: testStart,
 			}},
 			scope: model.AttrScopeInventory,
 		},
@@ -2368,7 +2368,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 							Scope:       model.AttrScopeTags,
 						},
 					},
-					CreatedTs: createdTs,
+					CreatedTs: testStart,
 				},
 			},
 			inDevID: model.DeviceID("0003"),
@@ -2397,7 +2397,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 							Scope:       model.AttrScopeTags,
 						},
 					},
-					CreatedTs: createdTs,
+					CreatedTs: testStart,
 				},
 			},
 			scope:              model.AttrScopeTags,
@@ -2422,7 +2422,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 							Scope:       model.AttrScopeTags,
 						},
 					},
-					CreatedTs: createdTs,
+					CreatedTs: testStart,
 				},
 			},
 			inDevID: model.DeviceID("0003"),
@@ -2451,7 +2451,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 							Scope:       model.AttrScopeTags,
 						},
 					},
-					CreatedTs: createdTs,
+					CreatedTs: testStart,
 				},
 			},
 
@@ -2477,7 +2477,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 							Scope:       model.AttrScopeTags,
 						},
 					},
-					CreatedTs: createdTs,
+					CreatedTs: testStart,
 				},
 			},
 			inDevID: model.DeviceID("0003"),
@@ -2506,7 +2506,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 							Scope:       model.AttrScopeTags,
 						},
 					},
-					CreatedTs: createdTs,
+					CreatedTs: testStart,
 				},
 			},
 
@@ -2602,17 +2602,21 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 							dev.Attributes,
 						)
 					}
-					// check timestamp validity
-					// note that mongo stores time with lower
-					// precision- custom comparison
-					assert.Condition(t,
+					// Check if updated_ts is later (or equal) than created_ts
+					assert.Conditionf(t,
 						func() bool {
-							if devs[i].UpdatedTs == nil {
+							if devs[i].UpdatedTs == nil || devs[i].UpdatedTs.IsZero() {
 								return true
 							} else {
-								return devs[i].UpdatedTs.After(dev.CreatedTs)
+								return devs[i].UpdatedTs.Equal(devs[i].CreatedTs) || devs[i].UpdatedTs.After(devs[i].CreatedTs)
 							}
-						})
+						}, "updated timestamp (%s) is before created timestamp (%s)", devs[i].UpdatedTs, devs[i].CreatedTs)
+					// Check if created_ts is sane
+					assert.Truef(t,
+						devs[i].CreatedTs.After(testStart) ||
+							testStart.Sub(devs[i].CreatedTs).Abs() < time.Second,
+						"The created timestamp %s is before the start of this test %s",
+						devs[i].CreatedTs, testStart)
 				}
 			}
 		})
