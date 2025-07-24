@@ -60,6 +60,41 @@ def upload_image(filename, auth_token, description="abc"):
     )
     assert r.status_code == 201
 
+def create_test_artifacts(utoken: str, 
+    number_artifacts: int = 3,
+    name: str = "test-artifact",
+    description: str = "abc"):
+ 
+    if number_artifacts < 1:
+        return []
+
+    artifact_names = []
+
+    with get_mender_artifact(
+            "test-artifact",
+        ) as artifact:
+            upload_image(artifact, utoken, description)
+            artifact_names.append("test-artifact")
+
+    for i in range(number_artifacts - 1):
+        artifact_name = f"{name}-{i}"
+        description = f"{description}-{i}"
+        devicetype = f"arm1-{i}"
+        with get_mender_artifact(
+            artifact_name,
+            device_types=[devicetype],
+        ) as artifact:
+            upload_image(artifact, utoken, description)
+            artifact_names.append(artifact_name)
+
+    return artifact_names
+
+def compare_artifact_names(artifacts, expected_names):
+    if len(artifacts) != len(expected_names):
+        return False
+
+    actual_names = [artifact["name"] for artifact in artifacts]
+    return expected_names == actual_names
 
 def create_tenant_test_setup(
     user_name, tenant_name, nr_deployments=3, nr_devices=100, plan="os"
@@ -2303,7 +2338,7 @@ class TestDynamicDeploymentsEnterprise:
             assert dep["status"] == "finished"
 
 
-class _TestDeploymentsShowArtifactSizeBase(object):
+class _TestDeploymentsArtifactBase(object):
     def do_test_show_artifact_size(self, clean_mongo, user_token, devs):
         api_mgmt_dep = ApiClient(deployments.URL_MGMT)
 
@@ -2373,16 +2408,157 @@ class _TestDeploymentsShowArtifactSizeBase(object):
             assert len(dd) == 1
             assert dd[0]["device"]["image"]["size"] == artifact_size
 
+    def do_list_artifacts_v2(self, clean_mongo, user_token, test_artifacts):
+        api_dep_v2 = ApiClient(deployments_v2.URL_MGMT)
+        # we allready have the test-artifact.mender with name "deployments-phase-testing"
+
+        # our artifacts list:
+        #  ├─ deployments-phase-testing 
+        #  │   ├─ device_type: ["qemux86-64"]
+        #  │   └─ description: "abc"
+        #  ├─ test-artifact 
+        #  │   ├─ device_type: ["arm1"]
+        #  │   └─ description: "abc"
+        #  ├─ test-artifact-0
+        #  │   ├─ device_type: ["arm1-0"]
+        #  │   └─ description: "abc-0"
+        #  └─ test-artifact-1
+        #      ├─ device_type: ["arm1-1"]
+        #      └─ description: "abc-1"
+
+        # check that artifacts are created
+        r = api_dep_v2.with_auth(user_token).call(
+            "GET", deployments_v2.URL_ARTIFACTS
+        )
+        assert r.status_code == 200
+        artifacts = r.json()
+        assert compare_artifact_names(
+            artifacts, test_artifacts
+        )
+        
+        # search for single exact name
+        r = api_dep_v2.with_auth(user_token).call(
+            "GET", deployments_v2.URL_ARTIFACTS +
+            "?name=test-artifact"
+        )
+        assert r.status_code == 200
+        artifacts = r.json()
+        assert compare_artifact_names(
+            artifacts, test_artifacts[1:2]
+        )
+
+        # search for multiple exact names
+        r = api_dep_v2.with_auth(user_token).call(
+            "GET", deployments_v2.URL_ARTIFACTS +
+            "?name=test-artifact&name=test-artifact-0"
+        )
+        assert r.status_code == 200
+        artifacts = r.json()
+        assert compare_artifact_names(
+            artifacts, test_artifacts[1:3]
+        )
+
+        # search for names with prefix
+        r = api_dep_v2.with_auth(user_token).call(
+            "GET", deployments_v2.URL_ARTIFACTS +
+            "?name=test-artifact-*"
+        )
+        assert r.status_code == 200
+        artifacts = r.json()
+        assert compare_artifact_names(
+            artifacts, test_artifacts[2:4]
+        )
+        
+        # search for names with prefix and exact name
+        r = api_dep_v2.with_auth(user_token).call(
+            "GET", deployments_v2.URL_ARTIFACTS +
+            "?name=deployments-phase-testing&name=test-artifact-*"
+        )
+        assert r.status_code == 400
+
+        # search for multiple prefix
+        r = api_dep_v2.with_auth(user_token).call(
+            "GET", deployments_v2.URL_ARTIFACTS +
+            "?name=test*&name=test-artifact-*"
+        )
+        assert r.status_code == 400
+
+        # search for exact description 
+        r = api_dep_v2.with_auth(user_token).call(
+            "GET", deployments_v2.URL_ARTIFACTS +
+            "?description=abc"
+        )
+        assert r.status_code == 200
+        artifacts = r.json()
+        assert compare_artifact_names(
+            artifacts, test_artifacts[0:2]
+        )
+
+        # search for description with prefix
+        r = api_dep_v2.with_auth(user_token).call(
+            "GET", deployments_v2.URL_ARTIFACTS +
+            "?description=abc-*"
+        )
+        assert r.status_code == 200
+        artifacts = r.json()
+        assert compare_artifact_names(
+            artifacts, test_artifacts[2:4]
+        )
+
+        # search for exact device type
+        r = api_dep_v2.with_auth(user_token).call(
+            "GET", deployments_v2.URL_ARTIFACTS +
+            "?device_type=arm1"
+        )
+        assert r.status_code == 200
+        artifacts = r.json()
+        assert compare_artifact_names(
+            artifacts, test_artifacts[1:2]
+        )
+        
+        # search for device type with prefix
+        r = api_dep_v2.with_auth(user_token).call(
+            "GET", deployments_v2.URL_ARTIFACTS +
+            "?device_type=arm1-*"
+        )
+        assert r.status_code == 200
+        artifacts = r.json()
+        assert compare_artifact_names(
+            artifacts, test_artifacts[2:4]
+        )
+
+        # test pagination
+        r = api_dep_v2.with_auth(user_token).call(
+            "GET", deployments_v2.URL_ARTIFACTS +
+            "?page=2&per_page=3"
+        )
+        assert r.status_code == 200
+        artifacts = r.json()
+        assert compare_artifact_names(
+            artifacts, test_artifacts[3:4]
+        )
+
+
 
 @pytest.mark.storage_test
-class TestDeploymentShowArtifactSizeOpenSource(_TestDeploymentsShowArtifactSizeBase):
+class TestDeploymentArtifactOpenSource(_TestDeploymentsArtifactBase):
     def test_show_artifact_size(self, clean_mongo):
         _user, user_token, devs = setup_devices_and_management_st(10)
         self.do_test_show_artifact_size(clean_mongo, user_token, devs)
+    def test_list_artifacts_v2(self, clean_mongo):
+        _user, user_token, devs = setup_devices_and_management_st()
+        artifacts = create_test_artifacts(utoken=user_token)
+        artifacts.insert(0, "deployments-phase-testing")
+        self.do_list_artifacts_v2(clean_mongo, user_token, artifacts)
 
 
 @pytest.mark.storage_test
-class TestDeploymentShowArtifactSizeEnterprise(_TestDeploymentsShowArtifactSizeBase):
+class TestDeploymentArtifactEnterprise(_TestDeploymentsArtifactBase):
     def test_show_artifact_size(self, clean_mongo):
         _user, _tenant, user_token, devs = setup_devices_and_management_mt(10)
         self.do_test_show_artifact_size(clean_mongo, user_token, devs)
+    def test_list_artifacts_v2(self, clean_mongo):
+        _user, _tenant, user_token, devs = setup_devices_and_management_mt(10)
+        artifacts = create_test_artifacts(utoken=user_token)
+        artifacts.insert(0, "deployments-phase-testing")
+        self.do_list_artifacts_v2(clean_mongo, user_token, artifacts)
