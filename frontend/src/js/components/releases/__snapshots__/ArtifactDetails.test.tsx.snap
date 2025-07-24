@@ -1969,7 +1969,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
     >
       <button
         aria-expanded="true"
-        class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded MuiAccordionSummary-gutters emotion-21"
+        class="MuiButtonBase-root Mui-focusVisible Mui-focusVisible MuiAccordionSummary-root Mui-expanded MuiAccordionSummary-gutters emotion-21"
         tabindex="0"
         type="button"
       >
@@ -1999,7 +1999,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
     </h3>
     <div
       class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered emotion-33"
-      style="min-height: 0px; height: auto; transition-duration: 0ms;"
+      style="min-height: 0px; height: auto; transition-duration: 0ms; transition-timing-function: undefined;"
     >
       <div
         class="MuiCollapse-wrapper MuiCollapse-vertical emotion-25"

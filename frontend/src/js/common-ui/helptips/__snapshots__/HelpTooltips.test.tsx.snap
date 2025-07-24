@@ -369,8 +369,6 @@ NodeList [
 ]
 `;
 
-exports[`Helptooltips Components > renders GlobalSettings correctly 1`] = `These settings apply to all users, so changes made here may affect other users' experience.`;
-
 exports[`Helptooltips Components > renders GroupDeployment correctly 1`] = `The deployment will skip any devices in the group that are already on the target Release version, or that have an incompatible device type.`;
 
 exports[`Helptooltips Components > renders MenderArtifactUpload correctly 1`] = `
