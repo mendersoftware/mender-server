@@ -285,6 +285,7 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
     setIsUpdatingConfig(true);
     setUpdateFailed(false);
     return dispatch(setDeviceConfig({ deviceId: device.id, config: changedConfig }))
+      .unwrap()
       .then(() =>
         dispatch(applyDeviceConfig({ deviceId: device.id, configDeploymentConfiguration: { retries: 0 }, isDefault: isSetAsDefault, config: changedConfig }))
       )
