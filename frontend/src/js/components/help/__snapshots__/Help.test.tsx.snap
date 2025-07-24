@@ -658,6 +658,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
+  line-height: 1.5;
   color: rgba(10, 10, 11, 0.78);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
@@ -879,6 +880,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
+  line-height: 1.5;
   color: rgba(10, 10, 11, 0.78);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;

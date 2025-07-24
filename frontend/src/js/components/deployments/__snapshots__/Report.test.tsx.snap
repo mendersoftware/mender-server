@@ -184,7 +184,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                   />
                 </svg>
                 <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault margin-left uppercased css-fg4g8-MuiChip-root-chip"
+                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault margin-left uppercased css-afnd0b-MuiChip-root-chip"
                 >
                   <span
                     class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
@@ -611,7 +611,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     aria-expanded="false"
                     aria-haspopup="listbox"
                     
-                    class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-mmygx2-MuiSelect-select-MuiInputBase-input"
+                    class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
                     
                     role="combobox"
                     tabindex="0"
@@ -628,7 +628,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-ozirs8-MuiSvgIcon-root-MuiSelect-icon"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-h5hq1r-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -863,7 +863,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Complete
             </div>
             <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1pin8ay-MuiChip-root-phaseIndex"
+              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-744hzm-MuiChip-root-phaseIndex"
             >
               <span
                 class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
@@ -1106,7 +1106,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                   />
                 </svg>
                 <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault margin-left uppercased css-fg4g8-MuiChip-root-chip"
+                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault margin-left uppercased css-afnd0b-MuiChip-root-chip"
                 >
                   <span
                     class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
@@ -1543,7 +1543,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     aria-expanded="false"
                     aria-haspopup="listbox"
                     
-                    class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-mmygx2-MuiSelect-select-MuiInputBase-input"
+                    class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
                     
                     role="combobox"
                     tabindex="0"
@@ -1560,7 +1560,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-ozirs8-MuiSvgIcon-root-MuiSelect-icon"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-h5hq1r-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -1880,7 +1880,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Begins in 17 days 23 h 59 m
             </div>
             <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1pin8ay-MuiChip-root-phaseIndex"
+              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-744hzm-MuiChip-root-phaseIndex"
             >
               <span
                 class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
@@ -1933,7 +1933,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Begins in 21 days 22 h 45 m
             </div>
             <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1pin8ay-MuiChip-root-phaseIndex"
+              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-744hzm-MuiChip-root-phaseIndex"
             >
               <span
                 class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
@@ -1986,7 +1986,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Begins in 22 days 22 h 45 m
             </div>
             <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1pin8ay-MuiChip-root-phaseIndex"
+              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-744hzm-MuiChip-root-phaseIndex"
             >
               <span
                 class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
@@ -2039,7 +2039,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Begins in 23 days 22 h 45 m
             </div>
             <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1pin8ay-MuiChip-root-phaseIndex"
+              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-744hzm-MuiChip-root-phaseIndex"
             >
               <span
                 class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
@@ -2092,7 +2092,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Begins in 08 days 12 h 45 m
             </div>
             <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1pin8ay-MuiChip-root-phaseIndex"
+              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-744hzm-MuiChip-root-phaseIndex"
             >
               <span
                 class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"

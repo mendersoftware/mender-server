@@ -22,7 +22,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
           data-mui-internal-clone-element="true"
         >
           <div
-            class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault css-kjhc9-MuiButtonBase-root-MuiChip-root-root-root"
+            class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault css-1t1kimc-MuiButtonBase-root-MuiChip-root-root-root"
             role="button"
             tabindex="0"
           >
@@ -99,10 +99,10 @@ exports[`Auditlogs Component > renders correctly 1`] = `
                 </div>
                 <fieldset
                   aria-hidden="true"
-                  class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+                  class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
                 >
                   <legend
-                    class="css-w4cd9x"
+                    class="css-1nf2c5d-MuiNotchedOutlined-root"
                   >
                     <span
                       aria-hidden="true"
@@ -173,10 +173,10 @@ exports[`Auditlogs Component > renders correctly 1`] = `
                 </div>
                 <fieldset
                   aria-hidden="true"
-                  class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+                  class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
                 >
                   <legend
-                    class="css-w4cd9x"
+                    class="css-1nf2c5d-MuiNotchedOutlined-root"
                   >
                     <span
                       aria-hidden="true"
@@ -223,10 +223,10 @@ exports[`Auditlogs Component > renders correctly 1`] = `
                 />
                 <fieldset
                   aria-hidden="true"
-                  class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+                  class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
                 >
                   <legend
-                    class="css-w4cd9x"
+                    class="css-1nf2c5d-MuiNotchedOutlined-root"
                   >
                     <span
                       aria-hidden="true"
@@ -850,7 +850,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
                 aria-expanded="false"
                 aria-haspopup="listbox"
                 
-                class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-mmygx2-MuiSelect-select-MuiInputBase-input"
+                class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
                 
                 role="combobox"
                 tabindex="0"
@@ -867,7 +867,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
               />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-ozirs8-MuiSvgIcon-root-MuiSelect-icon"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-h5hq1r-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
                 data-testid="ArrowDropDownIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
