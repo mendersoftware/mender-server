@@ -36,7 +36,6 @@ import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { BENEFITS, DEVICE_ONLINE_CUTOFF, TIMEOUTS, alertChannels, settingsKeys } from '@northern.tech/store/constants';
 import {
   getDeviceIdentityAttributes,
-  getFeatures,
   getGlobalSettings as getGlobalSettingsSelector,
   getIdAttribute,
   getOfflineThresholdSettings,
@@ -50,7 +49,6 @@ import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { yes } from '@northern.tech/utils/helpers';
 
 import ArtifactGenerationSettings from './ArtifactGeneration';
-import ReportingLimits from './ReportingLimits';
 
 const maxWidth = 750;
 
@@ -155,7 +153,6 @@ const ToggleSetting = ({
 
 export const GlobalSettingsDialog = ({
   attributes,
-  hasReporting,
   isAdmin,
   notificationChannelSettings,
   offlineThresholdSettings,
@@ -233,7 +230,6 @@ export const GlobalSettingsDialog = ({
       </Typography>
       <div className={classes.formWrapper}>
         <IdAttributeSelection attributes={attributes} onCloseClick={onCloseClick} onSaveClick={onSaveClick} selectedAttribute={selectedAttribute} />
-        {hasReporting && <ReportingLimits />}
         {canManageUsers && (
           <ToggleSetting
             title="Deployments confirmation"
@@ -300,7 +296,6 @@ export const GlobalSettingsDialog = ({
 export const GlobalSettingsContainer = ({ closeDialog, dialog }) => {
   const dispatch = useDispatch();
   const attributes = useSelector(getDeviceIdentityAttributes);
-  const { hasReporting } = useSelector(getFeatures);
   const { isAdmin } = useSelector(getUserRoles);
   const notificationChannelSettings = useSelector(state => state.monitor.settings.global.channels);
   const offlineThresholdSettings = useSelector(getOfflineThresholdSettings);
@@ -354,7 +349,6 @@ export const GlobalSettingsContainer = ({ closeDialog, dialog }) => {
   return (
     <GlobalSettingsDialog
       attributes={attributes}
-      hasReporting={hasReporting}
       isAdmin={isAdmin}
       notificationChannelSettings={notificationChannelSettings}
       offlineThresholdSettings={offlineThresholdSettings}

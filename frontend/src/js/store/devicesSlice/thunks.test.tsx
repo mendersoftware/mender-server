@@ -58,8 +58,6 @@ import {
   getGroupDevices,
   getGroups,
   getReportDataWithoutBackendSupport,
-  getReportingLimits,
-  getReportsData,
   getSessionDetails,
   getSystemDevices,
   preauthDevice,
@@ -347,81 +345,6 @@ describe('overall device information retrieval', () => {
       expect(key).toBeTruthy();
       expect(value).toBeTruthy();
     });
-  });
-  it('should allow attribute config + limit retrieval and group results', async () => {
-    const store = mockStore({ ...defaultState });
-    const expectedActions = [
-      { type: getReportingLimits.pending.type },
-      {
-        type: actions.setFilterablesConfig.type,
-        payload: {
-          attributes: {
-            identity: ['status', 'mac'],
-            inventory: [
-              'artifact_name',
-              'cpu_model',
-              'device_type',
-              'hostname',
-              'ipv4_wlan0',
-              'ipv6_wlan0',
-              'kernel',
-              'mac_eth0',
-              'mac_wlan0',
-              'mem_total_kB',
-              'mender_bootloader_integration',
-              'mender_client_version',
-              'network_interfaces',
-              'os',
-              'rootfs_type'
-            ],
-            system: ['created_ts', 'updated_ts', 'group']
-          },
-          count: 20,
-          limit: 100
-        }
-      },
-      { type: getReportingLimits.fulfilled.type }
-    ];
-    await store.dispatch(getReportingLimits());
-    const storeActions = store.getActions();
-    expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
-  });
-
-  it('should allow getting device aggregation data for use in the dashboard/ reports', async () => {
-    const store = mockStore({
-      ...defaultState,
-      devices: { ...defaultState.devices, byStatus: { ...defaultState.devices.byStatus, accepted: { ...defaultState.devices.byStatus.accepted, total: 50 } } }
-    });
-    const expectedActions = [
-      { type: getReportsData.pending.type },
-      {
-        type: actions.setDeviceReports.type,
-        payload: [
-          {
-            items: [
-              { count: 6, key: 'test' },
-              { count: 1, key: 'original' }
-            ],
-            otherCount: 43,
-            total: 50
-          },
-          {
-            items: [
-              { count: 6, key: 'test' },
-              { count: 1, key: 'original' }
-            ],
-            otherCount: 42,
-            total: 49
-          }
-        ]
-      },
-      { type: getReportsData.fulfilled.type }
-    ];
-    await store.dispatch(getReportsData());
-    const storeActions = store.getActions();
-    expect(storeActions.length).toEqual(expectedActions.length);
-    expectedActions.forEach((action, index) => expect(storeActions[index]).toMatchObject(action));
   });
   it('should allow getting device aggregation data for use in the dashboard/ reports even if the reporting service is not ready', async () => {
     const groupName = 'testGroup';
