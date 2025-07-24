@@ -11774,7 +11774,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
   <div
     aria-hidden="true"
     class="MuiBackdrop-root MuiModal-backdrop emotion-1"
-    style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
   />
   <div
     data-testid="sentinelStart"
@@ -11783,11 +11783,11 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
   <div
     class="MuiDialog-container MuiDialog-scrollPaper emotion-2"
     role="presentation"
-    style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     tabindex="-1"
   >
     <div
-      aria-labelledby=":rj:"
+      aria-labelledby=":rv:"
       aria-modal="true"
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm emotion-3"
       role="dialog"
@@ -11804,7 +11804,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
           >
             <span
               class="MuiTypography-root MuiTypography-overline MuiPickersToolbar-title emotion-7"
-              id=":rj:"
+              id=":rv:"
             >
               Select date & time
             </span>
@@ -11955,7 +11955,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                   >
                     <div
                       class="MuiPickersCalendarHeader-label emotion-34"
-                      id=":rs:-grid-label"
+                      id=":r18:-grid-label"
                       style="opacity: 1;"
                     >
                       January 2019
@@ -11964,7 +11964,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                 </div>
                 <div
                   class="MuiPickersArrowSwitcher-root emotion-35"
-                  style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+                  style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
                 >
                   <button
                     aria-label="Previous month"
@@ -12018,7 +12018,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                   style="opacity: 1;"
                 >
                   <div
-                    aria-labelledby=":rs:-grid-label"
+                    aria-labelledby=":r18:-grid-label"
                     class="MuiDayCalendar-root emotion-42"
                     role="grid"
                   >
@@ -13935,7 +13935,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
   <div
     aria-hidden="true"
     class="MuiBackdrop-root MuiModal-backdrop emotion-1"
-    style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
   />
   <div
     data-testid="sentinelStart"
@@ -13944,11 +13944,11 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
   <div
     class="MuiDialog-container MuiDialog-scrollPaper emotion-2"
     role="presentation"
-    style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     tabindex="-1"
   >
     <div
-      aria-labelledby=":r14:"
+      aria-labelledby=":r1h:"
       aria-modal="true"
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm emotion-3"
       role="dialog"
@@ -13965,7 +13965,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
           >
             <span
               class="MuiTypography-root MuiTypography-overline MuiPickersToolbar-title emotion-7"
-              id=":r14:"
+              id=":r1h:"
             >
               Select date & time
             </span>
@@ -14116,7 +14116,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                   >
                     <div
                       class="MuiPickersCalendarHeader-label emotion-34"
-                      id=":r1d:-grid-label"
+                      id=":r1q:-grid-label"
                       style="opacity: 1;"
                     >
                       January 2019
@@ -14125,7 +14125,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                 </div>
                 <div
                   class="MuiPickersArrowSwitcher-root emotion-35"
-                  style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+                  style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
                 >
                   <button
                     aria-label="Previous month"
@@ -14179,7 +14179,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                   style="opacity: 1;"
                 >
                   <div
-                    aria-labelledby=":r1d:-grid-label"
+                    aria-labelledby=":r1q:-grid-label"
                     class="MuiDayCalendar-root emotion-42"
                     role="grid"
                   >

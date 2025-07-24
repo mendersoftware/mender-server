@@ -301,7 +301,6 @@ exports[`Distribution Component > renders correctly 1`] = `
       </div>
       <div
         class="emotion-6"
-        style="height: -30px;"
       >
         <div
           class="flexbox column"
@@ -334,7 +333,7 @@ exports[`Distribution Component > renders correctly 1`] = `
         </div>
         <div
           class="VictoryContainer"
-          style="height: -30px; pointer-events: none; position: relative;"
+          style="pointer-events: none; position: relative;"
         >
           <svg
             height="400"

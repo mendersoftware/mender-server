@@ -659,8 +659,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
       <label
         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-3"
         data-shrink="true"
-        for=":r3:"
-        id=":r3:-label"
+        for=":r5:"
+        id=":r5:-label"
       >
         Azure IoT Hub connection string
       </label>
@@ -671,7 +671,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
           aria-invalid="false"
           class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputMultiline emotion-5"
           disabled=""
-          id=":r3:"
+          id=":r5:"
           style="height: 0px; overflow: hidden;"
         >
           something
@@ -763,8 +763,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
         <label
           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-20"
           data-shrink="false"
-          for=":r6:"
-          id=":r6:-label"
+          for=":r8:"
+          id=":r8:-label"
         >
           Key ID
         </label>
@@ -775,7 +775,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
             aria-invalid="false"
             class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputMultiline emotion-5"
             disabled=""
-            id=":r6:"
+            id=":r8:"
             style="height: 0px; overflow: hidden;"
           />
           <textarea
@@ -805,8 +805,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
         <label
           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-20"
           data-shrink="false"
-          for=":r7:"
-          id=":r7:-label"
+          for=":r9:"
+          id=":r9:-label"
         >
           Key Secret
         </label>
@@ -817,7 +817,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
             aria-invalid="false"
             class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputMultiline emotion-5"
             disabled=""
-            id=":r7:"
+            id=":r9:"
             style="height: 0px; overflow: hidden;"
           />
           <textarea
@@ -847,8 +847,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
         <label
           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-20"
           data-shrink="false"
-          for=":r8:"
-          id=":r8:-label"
+          for=":ra:"
+          id=":ra:-label"
         >
           Region
         </label>
@@ -859,7 +859,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
             aria-invalid="false"
             class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputMultiline emotion-5"
             disabled=""
-            id=":r8:"
+            id=":ra:"
             style="height: 0px; overflow: hidden;"
           />
           <textarea
@@ -889,8 +889,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
         <label
           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-20"
           data-shrink="false"
-          for=":r9:"
-          id=":r9:-label"
+          for=":rb:"
+          id=":rb:-label"
         >
           Device Policy Name
         </label>
@@ -901,7 +901,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
             aria-invalid="false"
             class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputMultiline emotion-5"
             disabled=""
-            id=":r9:"
+            id=":rb:"
             style="height: 0px; overflow: hidden;"
           />
           <textarea
