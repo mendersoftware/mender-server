@@ -1,4 +1,28 @@
 ---
+## 4.0.2 - 2025-07-24
+
+
+### Bug fixes
+
+
+- *(useradm)* Always generate a unique user ID for newly created users
+([MEN-8514](https://northerntech.atlassian.net/browse/MEN-8514)) ([aa30855](https://github.com/mendersoftware/mender-server/commit/aa308552935b4859f3afad93b9bb4b8be4dbe3fe)) 
+
+
+
+
+
+### Security
+
+
+- Bump mender-artifact to the latest version
+ ([0cca94e](https://github.com/mendersoftware/mender-server/commit/0cca94eacaabab49c9b2c0c65c101f58624c88e5)) 
+
+
+
+
+
+
 ## 4.0.1 - 2025-05-19
 
 
