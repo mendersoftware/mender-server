@@ -165,7 +165,7 @@ exports[`CardSection Component > renders correctly 1`] = `
       tabindex="-1"
       type="submit"
     >
-      Sign up
+      Confirm Subscription
     </button>
   </div>
   <div
