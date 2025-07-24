@@ -60,11 +60,11 @@ def upload_image(filename, auth_token, description="abc"):
     )
     assert r.status_code == 201
 
-def create_test_artifacts(utoken: str, 
+def create_test_artifacts(utoken: str,
     number_artifacts: int = 3,
     name: str = "test-artifact",
     description: str = "abc"):
- 
+
     if number_artifacts < 1:
         return []
 
@@ -2412,10 +2412,10 @@ class _TestDeploymentsArtifactBase(object):
         # we allready have the test-artifact.mender with name "deployments-phase-testing"
 
         # our artifacts list:
-        #  ├─ deployments-phase-testing 
+        #  ├─ deployments-phase-testing
         #  │   ├─ device_type: ["qemux86-64"]
         #  │   └─ description: "abc"
-        #  ├─ test-artifact 
+        #  ├─ test-artifact
         #  │   ├─ device_type: ["arm1"]
         #  │   └─ description: "abc"
         #  ├─ test-artifact-0
@@ -2434,7 +2434,7 @@ class _TestDeploymentsArtifactBase(object):
         compare_artifact_names(
             artifacts, test_artifacts
         )
-        
+
         # search for single exact name
         r = api_dep_v2.with_auth(user_token).call(
             "GET", deployments_v2.URL_ARTIFACTS +
@@ -2467,7 +2467,7 @@ class _TestDeploymentsArtifactBase(object):
         compare_artifact_names(
             artifacts, test_artifacts[2:4]
         )
-        
+
         # search for names with prefix and exact name
         r = api_dep_v2.with_auth(user_token).call(
             "GET", deployments_v2.URL_ARTIFACTS +
@@ -2482,7 +2482,7 @@ class _TestDeploymentsArtifactBase(object):
         )
         assert r.status_code == 400
 
-        # search for exact description 
+        # search for exact description
         r = api_dep_v2.with_auth(user_token).call(
             "GET", deployments_v2.URL_ARTIFACTS +
             "?description=abc"
@@ -2514,7 +2514,7 @@ class _TestDeploymentsArtifactBase(object):
         compare_artifact_names(
             artifacts, test_artifacts[1:2]
         )
-        
+
         # search for device type with prefix
         r = api_dep_v2.with_auth(user_token).call(
             "GET", deployments_v2.URL_ARTIFACTS +
