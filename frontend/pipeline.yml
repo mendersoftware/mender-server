@@ -361,6 +361,8 @@ publish:frontend:sentry:finalize:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/getsentry/sentry-cli
   stage: .post
   rules:
+    - if: $SENTRY_AUTH_TOKEN == null
+      when: never
     - if: $CI_COMMIT_REF_PROTECTED == "true" && $CI_COMMIT_REF_NAME == "main"
       when: on_success
   allow_failure: true
