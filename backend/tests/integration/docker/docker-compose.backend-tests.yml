@@ -39,6 +39,7 @@ services:
     environment:
       GOCOVERDIR: /cover
       IOT_MANAGER_DOMAIN_WHITELIST: "*.azure-devices.net *.iot.*.amazonaws.com integration-tester"
+      IOT_MANAGER_DOMAIN_SKIPVERIFY: "true"
     user: ${UID:-0}:${GID:-0}
     volumes:
       - ${GOCOVERDIR:-cover}:/cover
