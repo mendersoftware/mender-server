@@ -13,10 +13,10 @@
 #    limitations under the License.
 
 import os
+import re
 
 import pymongo
 import pytest
-import requests
 
 from client import CliIoTManager, MMockAPIClient, ManagementAPIClient
 
@@ -39,24 +39,26 @@ def clean_mmock(request):
     return mmock
 
 
-def mongo_cleanup(mgo: pymongo.MongoClient):
-    dirty_dbs = [
-        db["name"]
-        for db in mgo.list_databases(
-            filter={"name": {"$nin": ["admin", "config", "local"]}, "empty": False}
-        )
-    ]
-    for db in dirty_dbs:
-        for coll in mgo[db].list_collections(
-            filter={
-                "name": {"$ne": "migration_info"},
-                "$or": [
-                    {"options.capped": {"$exists": False}},
-                    {"options.capped": False},
-                ],
-            }
-        ):
-            mgo[db][coll["name"]].delete_many({})
+def mongo_cleanup(mongo: pymongo.MongoClient):
+    dbs = mongo.list_databases(
+        filter={"name": {"$nin": ["admin", "config", "local", "workflows"]}},
+        nameOnly=True,
+    )
+    for db_name in (db["name"] for db in dbs):
+        if re.match(r"^(deployment_service|inventory)-[0-9a-f]{24}", db_name):
+            mongo.drop_database(db_name)
+        else:
+            db = mongo[db_name]
+            for coll in db.list_collection_names(
+                filter={
+                    "name": {"$ne": "migration_info"},
+                    "$or": [
+                        {"options.capped": {"$exists": False}},
+                        {"options.capped": False},
+                    ],
+                }
+            ):
+                db[coll].delete_many({})
 
 
 @pytest.fixture(scope="function")
