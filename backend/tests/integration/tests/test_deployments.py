@@ -13,13 +13,17 @@
 #    limitations under the License.
 import pytest
 import multiprocessing as mp
+import json
 import os
 import random
 import time
 import uuid
 import logging
 
+from base64 import urlsafe_b64decode
 from datetime import datetime, timedelta
+
+from pymongo import MongoClient
 
 import testutils.api.deviceauth as deviceauth
 import testutils.api.useradm as useradm
@@ -60,15 +64,22 @@ def upload_image(filename, auth_token, description="abc"):
     )
     assert r.status_code == 201
 
-def create_test_artifacts(utoken: str,
+
+def create_test_artifacts(
+    utoken: str,
+    mongo_client: MongoClient,
     number_artifacts: int = 3,
     name: str = "test-artifact",
-    description: str = "abc"):
-
+    description: str = "abc",
+):
     if number_artifacts < 1:
         return []
 
     artifact_names = []
+    claims_b64 = utoken.split(".")[1]
+    claims_b64 += "=" * ((3 - len(claims_b64)) % 3)  # Add padding
+    claims = json.loads(urlsafe_b64decode(claims_b64).decode())
+    tenant_id = claims.get("mender.tenant")
 
     with get_mender_artifact(
             "test-artifact",
@@ -87,7 +98,27 @@ def create_test_artifacts(utoken: str,
             upload_image(artifact, utoken, description)
             artifact_names.append(artifact_name)
 
-    return artifact_names
+    db_name = f"deployment_service-{tenant_id}" if tenant_id else "deployment_service"
+    artifacts = [
+        {
+            "name": doc["meta_artifact"]["name"],
+            "description": doc["meta"].get("description"),
+            "device_types": doc["meta_artifact"]["depends"]["device_type"],
+        }
+        for doc in mongo_client[db_name]
+        .images.find(
+            {},
+            {
+                "meta_artifact.name": 1,
+                "meta_artifact.depends.device_type": 1,
+                "meta.description": 1,
+            },
+        )
+        .sort({"meta_artifact.name": 1})
+    ]
+
+    return artifacts
+
 
 def compare_artifact_names(artifacts, expected_names):
     assert len(artifacts) == len(expected_names)
@@ -2432,7 +2463,7 @@ class _TestDeploymentsArtifactBase(object):
         assert r.status_code == 200
         artifacts = r.json()
         compare_artifact_names(
-            artifacts, test_artifacts
+            artifacts, [artifact["name"] for artifact in test_artifacts]
         )
 
         # search for single exact name
@@ -2442,9 +2473,7 @@ class _TestDeploymentsArtifactBase(object):
         )
         assert r.status_code == 200
         artifacts = r.json()
-        compare_artifact_names(
-            artifacts, test_artifacts[1:2]
-        )
+        compare_artifact_names(artifacts, ["test-artifact"])
 
         # search for multiple exact names
         r = api_dep_v2.with_auth(user_token).call(
@@ -2453,9 +2482,7 @@ class _TestDeploymentsArtifactBase(object):
         )
         assert r.status_code == 200
         artifacts = r.json()
-        compare_artifact_names(
-            artifacts, test_artifacts[1:3]
-        )
+        compare_artifact_names(artifacts, ["test-artifact", "test-artifact-0"])
 
         # search for names with prefix
         r = api_dep_v2.with_auth(user_token).call(
@@ -2465,7 +2492,12 @@ class _TestDeploymentsArtifactBase(object):
         assert r.status_code == 200
         artifacts = r.json()
         compare_artifact_names(
-            artifacts, test_artifacts[2:4]
+            artifacts,
+            [
+                artifact["name"]
+                for artifact in test_artifacts
+                if artifact["name"].startswith("test-artifact-")
+            ],
         )
 
         # search for names with prefix and exact name
@@ -2490,7 +2522,12 @@ class _TestDeploymentsArtifactBase(object):
         assert r.status_code == 200
         artifacts = r.json()
         compare_artifact_names(
-            artifacts, test_artifacts[0:2]
+            artifacts,
+            [
+                artifact["name"]
+                for artifact in test_artifacts
+                if artifact.get("description") == "abc"
+            ],
         )
 
         # search for description with prefix
@@ -2501,7 +2538,12 @@ class _TestDeploymentsArtifactBase(object):
         assert r.status_code == 200
         artifacts = r.json()
         compare_artifact_names(
-            artifacts, test_artifacts[2:4]
+            artifacts,
+            [
+                artifact["name"]
+                for artifact in test_artifacts
+                if artifact.get("description", "").startswith("abc-")
+            ],
         )
 
         # search for exact device type
@@ -2512,7 +2554,12 @@ class _TestDeploymentsArtifactBase(object):
         assert r.status_code == 200
         artifacts = r.json()
         compare_artifact_names(
-            artifacts, test_artifacts[1:2]
+            artifacts,
+            [
+                artifact["name"]
+                for artifact in test_artifacts
+                if "arm1" in artifact.get("device_types")
+            ],
         )
 
         # search for device type with prefix
@@ -2523,7 +2570,14 @@ class _TestDeploymentsArtifactBase(object):
         assert r.status_code == 200
         artifacts = r.json()
         compare_artifact_names(
-            artifacts, test_artifacts[2:4]
+            artifacts,
+            [
+                artifact["name"]
+                for artifact in test_artifacts
+                if any(
+                    [typ.startswith("arm1-") for typ in artifact.get("device_types")]
+                )
+            ],
         )
 
         # test pagination
@@ -2534,7 +2588,11 @@ class _TestDeploymentsArtifactBase(object):
         assert r.status_code == 200
         artifacts = r.json()
         compare_artifact_names(
-            artifacts, test_artifacts[3:4]
+            artifacts,
+            [
+                artifact["name"]
+                for artifact in test_artifacts[3 : min(6, len(test_artifacts))]
+            ],
         )
 
 
@@ -2546,8 +2604,7 @@ class TestDeploymentArtifactOpenSource(_TestDeploymentsArtifactBase):
         self.do_test_show_artifact_size(clean_mongo, user_token, devs)
     def test_list_artifacts_v2(self, clean_mongo):
         _user, user_token, devs = setup_devices_and_management_st()
-        artifacts = create_test_artifacts(utoken=user_token)
-        artifacts.insert(0, "deployments-phase-testing")
+        artifacts = create_test_artifacts(utoken=user_token, mongo_client=clean_mongo)
         self.do_list_artifacts_v2(clean_mongo, user_token, artifacts)
 
 
@@ -2558,6 +2615,5 @@ class TestDeploymentArtifactEnterprise(_TestDeploymentsArtifactBase):
         self.do_test_show_artifact_size(clean_mongo, user_token, devs)
     def test_list_artifacts_v2(self, clean_mongo):
         _user, _tenant, user_token, devs = setup_devices_and_management_mt(10)
-        artifacts = create_test_artifacts(utoken=user_token)
-        artifacts.insert(0, "deployments-phase-testing")
+        artifacts = create_test_artifacts(utoken=user_token, mongo_client=clean_mongo)
         self.do_list_artifacts_v2(clean_mongo, user_token, artifacts)
