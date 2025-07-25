@@ -1,5 +1,8 @@
 {
   "nodeModulesDir": "auto",
+  "imports": {
+    "license-checker-rseidelsohn": "npm:license-checker-rseidelsohn@4.2.10"
+  },
   "tasks": {
     "licenseCheck": "deno run --allow-read --allow-write --allow-run addLicense.js",
     "licenseFormatting": "deno run --allow-read --allow-write --allow-net formatLicenses.ts",
