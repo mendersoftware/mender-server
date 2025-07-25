@@ -13,6 +13,7 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 import json
+import re
 import pytest
 import uuid
 from datetime import datetime, timedelta
@@ -22,8 +23,6 @@ from typing import List
 from pymongo import MongoClient
 
 from client import CliClient, ManagementApiClient, InternalApiClient
-
-import tenantadm
 
 
 TENANT_ONE: str = "tenant1id"
@@ -77,11 +76,26 @@ def mongo(request):
     return MongoClient(request.config.getoption("mongo_url"))
 
 
-def mongo_cleanup(mongo):
-    dbs = mongo.list_database_names()
-    dbs = [d for d in dbs if d not in ["local", "admin", "config"]]
-    for d in dbs:
-        mongo.drop_database(d)
+def mongo_cleanup(mongo: MongoClient):
+    dbs = mongo.list_databases(
+        filter={"name": {"$nin": ["admin", "config", "local", "workflows"]}},
+        nameOnly=True,
+    )
+    for db_name in (db["name"] for db in dbs):
+        if re.match(r"^(deployment_service|inventory)-[0-9A-Za-z]+", db_name):
+            mongo.drop_database(db_name)
+        else:
+            db = mongo[db_name]
+            for coll in db.list_collection_names(
+                filter={
+                    "name": {"$ne": "migration_info"},
+                    "$or": [
+                        {"options.capped": {"$exists": False}},
+                        {"options.capped": False},
+                    ],
+                }
+            ):
+                db[coll].delete_many({})
 
 
 @pytest.fixture(scope="session")
