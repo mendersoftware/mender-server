@@ -317,16 +317,18 @@ class DeploymentsClient(BaseApiClient):
             pytest_config.getoption("host"), "management"
         )
         super().__init__()
-        
+
     def get_jwt(self):
-            return self._jwt
-    
+        return self._jwt
+
     def make_new_deployment(self, *args, **kwargs):
         return mv1.NewDeployment(*args, **kwargs)
 
     def add_deployment(self, dep):
         """Posts new deployment `dep`"""
-        r = management_v1_client(jwt=self.get_jwt()).create_deployment_with_http_info(dep)
+        r = management_v1_client(jwt=self.get_jwt()).create_deployment_with_http_info(
+            dep
+        )
         loc = r[2]["Location"]
         depid = os.path.basename(loc)
 

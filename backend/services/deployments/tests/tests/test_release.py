@@ -118,7 +118,9 @@ class TestRelease:
                     ("bar", "device-type-2"),
                 ]
             ):
-                releases = management_v1_client(jwt=self.d.get_jwt()).list_releases(name="bar")
+                releases = management_v1_client(jwt=self.d.get_jwt()).list_releases(
+                    name="bar"
+                )
                 assert len(releases) == 1
                 release = releases[0]
                 assert release.name == "bar"
@@ -226,7 +228,9 @@ class TestRelease:
                     ("bar", "device-type-2"),
                 ]
             ):
-                releases = management_v1_client(jwt=self.d.get_jwt()).list_releases(name="baz")
+                releases = management_v1_client(jwt=self.d.get_jwt()).list_releases(
+                    name="baz"
+                )
                 l.unlock()
                 assert len(releases) == 0
 

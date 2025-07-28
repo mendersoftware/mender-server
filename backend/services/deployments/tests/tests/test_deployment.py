@@ -86,7 +86,9 @@ class TestDeployment:
         for newdep in baddeps:
             # try bogus image data
             try:
-                management_v1_client(jwt=self.d.get_jwt()).create_deployment(new_deployment=newdep)
+                management_v1_client(jwt=self.d.get_jwt()).create_deployment(
+                    new_deployment=newdep
+                )
             except ApiException as e:
                 assert e.status == 400
             else:
@@ -140,9 +142,9 @@ class TestDeployment:
             assert dep.status == "pending"
 
             # fetch device status
-            depdevs = management_v1_client(jwt=ac.get_jwt()).list_all_devices_in_deployment(
-                deployment_id=depid
-            )
+            depdevs = management_v1_client(
+                jwt=ac.get_jwt()
+            ).list_all_devices_in_deployment(deployment_id=depid)
             assert len(depdevs) == 1
             depdev = depdevs[0]
             assert depdev.status == "pending"
@@ -155,7 +157,9 @@ class TestDeployment:
             self.d.abort_deployment(depid)
 
             # that it's 'finished' now
-            aborted_dep = management_v1_client(jwt=ac.get_jwt()).show_deployment(id=depid)
+            aborted_dep = management_v1_client(jwt=ac.get_jwt()).show_deployment(
+                id=depid
+            )
             self.d.log.debug("deployment dep: %s", aborted_dep)
             assert aborted_dep.status == "finished"
 
@@ -163,9 +167,9 @@ class TestDeployment:
             self.d.verify_deployment_stats(depid, expected={"aborted": 1})
 
             # fetch device status
-            depdevs = management_v1_client(jwt=ac.get_jwt()).list_all_devices_in_deployment(
-                deployment_id=depid
-            )
+            depdevs = management_v1_client(
+                jwt=ac.get_jwt()
+            ).list_all_devices_in_deployment(deployment_id=depid)
             self.d.log.debug("deployment devices: %s", depdevs)
             assert len(depdevs) == 1
             depdev = depdevs[0]
@@ -490,7 +494,9 @@ class TestDeployment:
                     assert againdep.id == nextdep.id
 
                     # deployment should be marked as inprogress
-                    dep = management_v1_client(jwt=ac.get_jwt()).show_deployment(id=depid)
+                    dep = management_v1_client(jwt=ac.get_jwt()).show_deployment(
+                        id=depid
+                    )
                     assert dep.status == "inprogress"
 
                     # report final status
@@ -499,7 +505,9 @@ class TestDeployment:
                     )
                     self.d.verify_deployment_stats(depid, expected={"success": 1})
 
-                    dep = management_v1_client(jwt=ac.get_jwt()).show_deployment(id=depid)
+                    dep = management_v1_client(jwt=ac.get_jwt()).show_deployment(
+                        id=depid
+                    )
                     assert dep.status == "finished"
 
                     # report failure as final status

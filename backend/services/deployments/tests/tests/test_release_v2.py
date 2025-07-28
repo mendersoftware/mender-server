@@ -95,7 +95,9 @@ class TestRelease:
                     "New Release security fixes 2023",
                     "New Release security fixes 2024",
                 ]:
-                    management_v2_client(jwt=self.d.get_jwt()).update_release_information(
+                    management_v2_client(
+                        jwt=self.d.get_jwt()
+                    ).update_release_information(
                         release_name=release_name,
                         release_update=mv2.ReleaseUpdate(notes=release_notes),
                     )
@@ -104,9 +106,9 @@ class TestRelease:
                     ).get_release_with_given_name(release_name=release_name)
                     assert release.notes == release_notes
 
-                release = management_v2_client(jwt=self.d.get_jwt()).get_release_with_given_name(
-                    release_name="foo"
-                )
+                release = management_v2_client(
+                    jwt=self.d.get_jwt()
+                ).get_release_with_given_name(release_name="foo")
                 assert release.notes == ""
 
                 types = management_v2_client(jwt=self.d.get_jwt()).list_release_types()
