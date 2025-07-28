@@ -2,6 +2,8 @@ merge-to-enterprise:
   stage: ".pre"
   rules:
     # Only run for open-source protected branches.
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
     - if: >-
         $CI_PROJECT_NAME == "mender-server" &&
         $CI_COMMIT_REF_PROTECTED == "true" &&
