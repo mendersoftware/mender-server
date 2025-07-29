@@ -80,27 +80,15 @@ func defaultTemplateData(r *http.Request) any {
 	return ctx
 }
 
-// NewHTTPLimiter initializes a new HTTPLimiter using defaultLimiter as the
-// default ratelimiter using defaultEventTemplate for grouping events.
-// See HTTPLimiter.
-func NewHTTPLimiter(
-	defaultLimiter EventLimiter,
-	defaultEventTemplate string,
-) (*HTTPLimiter, error) {
-	template, err := template.New("").Parse(defaultEventTemplate)
-	if err != nil {
-		return nil, fmt.Errorf("invalid eventTemplate: %w", err)
-	}
+// NewHTTPLimiter initializes an empty HTTPLimiter.
+// The limiter is built by calling AddRateLimitGroup and AddMatchExpression.
+func NewHTTPLimiter() *HTTPLimiter {
 	return &HTTPLimiter{
 		rootTemplate:         template.New("").Option("missingkey=zero"),
 		httpMux:              http.NewServeMux(),
 		templateDataCallback: defaultTemplateData,
-		defaultLimiter: &templateEventLimiter{
-			limiter:       defaultLimiter,
-			eventTemplate: template,
-		},
-		limiterGroups: make(map[string]*templateEventLimiter),
-	}, nil
+		limiterGroups:        make(map[string]*templateEventLimiter),
+	}
 }
 
 func (h *HTTPLimiter) WithTemplateDataFunc(f func(*http.Request) any) *HTTPLimiter {
@@ -133,6 +121,8 @@ func (h *HTTPLimiter) AddRateLimitGroup(limiter EventLimiter, group, eventTempla
 	return nil
 }
 
+// AddMatchExpression creates a new route using pattern to apply the
+// rate limiter that is matched by groupTemplate Go Template.
 func (h *HTTPLimiter) AddMatchExpression(
 	pattern, groupTemplate string,
 ) error {
@@ -140,15 +130,13 @@ func (h *HTTPLimiter) AddMatchExpression(
 		t   *template.Template
 		err error
 	)
-	if groupTemplate != "" {
-		// Compile eventTemplate:
-		t, err = h.rootTemplate.Clone()
-		if err == nil {
-			_, err = t.Parse(groupTemplate)
-		}
-		if err != nil {
-			return fmt.Errorf("error parsing group_template: %w", err)
-		}
+	// Compile eventTemplate:
+	t, err = h.rootTemplate.Clone()
+	if err == nil {
+		_, err = t.Parse(groupTemplate)
+	}
+	if err != nil {
+		return fmt.Errorf("error parsing group_template: %w", err)
 	}
 	limiterMatcher := matcher{
 		HTTPLimiter:   h,
@@ -228,23 +216,24 @@ func (k okReservation) Tokens() int64        { return math.MaxInt64 }
 
 func (m *HTTPLimiter) Reserve(r *http.Request) (Reservation, error) {
 	var b bytes.Buffer
-	eventLimiter := m.defaultLimiter
+	var eventLimiter *templateEventLimiter
 	templateData := m.templateDataCallback(r)
 	ctx := r.Context()
 	h, _ := m.httpMux.Handler(r)
 	hh, ok := h.(matcher)
-	if ok {
-		if hh.groupTemplate != nil {
-			err := hh.groupTemplate.Execute(&b, templateData)
-			if err != nil {
-				return nil, fmt.Errorf("error executing ratelimit group template: %w", err)
-			}
-			eventLimiter = m.limiterGroups[b.String()]
-			if eventLimiter == nil {
-				return okReservation{}, nil
-			}
-			b.Reset()
+	if ok && hh.groupTemplate != nil {
+		err := hh.groupTemplate.Execute(&b, templateData)
+		if err != nil {
+			return nil, fmt.Errorf("error executing ratelimit group template: %w", err)
 		}
+		eventLimiter = m.limiterGroups[b.String()]
+		if eventLimiter == nil {
+			return okReservation{}, nil
+		}
+		b.Reset()
+	} else {
+		// If no ratelimiter is found, skip rate limits.
+		return okReservation{}, nil
 	}
 	err := eventLimiter.eventTemplate.Execute(&b, templateData)
 	if err != nil {

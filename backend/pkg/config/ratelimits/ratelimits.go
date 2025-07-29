@@ -17,9 +17,6 @@ package ratelimits
 import "github.com/mendersoftware/mender-server/pkg/config"
 
 type RatelimitConfig struct {
-	// DefaultGroup configures the fallback ratelimiter when the MatchExpressions
-	// does not match any groups.
-	DefaultGroup RatelimitParams `json:"default"`
 	// RatelimitGroups configures the ratelimiter parameters for a named ratelimit
 	// group.
 	RatelimitGroups []RatelimitGroupParams `json:"groups"`
