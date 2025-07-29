@@ -60,14 +60,17 @@ type HTTPLimiter struct {
 	// httpMux implements the request router to a ratelimiter match instance
 	httpMux *http.ServeMux
 
-	// defaultLimiter is the default rate limiter if no group matches.
-	defaultLimiter *templateEventLimiter
 	// limiterGroups maps the group name to rate limiters.
 	limiterGroups map[string]*templateEventLimiter
 
 	// rewriteRequests decides whether to autmatically rewrite the request
 	// URL using X-Forwarded-* headers.
 	rewriteRequests bool
+
+	// fallbackReservation is the reservation returned when no rules
+	// matches. It is either returning a constant OK Reservation (default)
+	// or Reject all requests if WithRejectUnmatched is set.
+	fallbackReservation Reservation
 }
 
 // defaultTemplateData is the default callback for executing template strings.
@@ -88,6 +91,7 @@ func NewHTTPLimiter() *HTTPLimiter {
 		httpMux:              http.NewServeMux(),
 		templateDataCallback: defaultTemplateData,
 		limiterGroups:        make(map[string]*templateEventLimiter),
+		fallbackReservation:  okReservation{},
 	}
 }
 
@@ -103,6 +107,11 @@ func (h *HTTPLimiter) WithTemplateFuncs(funcs map[string]any) *HTTPLimiter {
 
 func (h *HTTPLimiter) WithRewriteRequests(rewrite bool) *HTTPLimiter {
 	h.rewriteRequests = rewrite
+	return h
+}
+
+func (h *HTTPLimiter) WithRejectUnmatched() *HTTPLimiter {
+	h.fallbackReservation = rejectReservation{}
 	return h
 }
 
@@ -214,6 +223,12 @@ func (k okReservation) OK() bool             { return true }
 func (k okReservation) Delay() time.Duration { return 0 }
 func (k okReservation) Tokens() int64        { return math.MaxInt64 }
 
+type rejectReservation struct{}
+
+func (k rejectReservation) OK() bool             { return false }
+func (k rejectReservation) Delay() time.Duration { return math.MaxInt64 }
+func (k rejectReservation) Tokens() int64        { return -1 }
+
 func (m *HTTPLimiter) Reserve(r *http.Request) (Reservation, error) {
 	var b bytes.Buffer
 	var eventLimiter *templateEventLimiter
@@ -228,12 +243,11 @@ func (m *HTTPLimiter) Reserve(r *http.Request) (Reservation, error) {
 		}
 		eventLimiter = m.limiterGroups[b.String()]
 		if eventLimiter == nil {
-			return okReservation{}, nil
+			return m.fallbackReservation, nil
 		}
 		b.Reset()
 	} else {
-		// If no ratelimiter is found, skip rate limits.
-		return okReservation{}, nil
+		return m.fallbackReservation, nil
 	}
 	err := eventLimiter.eventTemplate.Execute(&b, templateData)
 	if err != nil {

@@ -17,6 +17,12 @@ package ratelimits
 import "github.com/mendersoftware/mender-server/pkg/config"
 
 type RatelimitConfig struct {
+	// RejectUnmatched rejects requests that does not resolve to a
+	// ratelimit group. That is, if either there's no APIPattern matching
+	// the request or if the GroupExpression does not match a
+	// RatelimitGroups.
+	// Defaults to false - disable ratelimiting for unmatched requests.
+	RejectUnmatched bool
 	// RatelimitGroups configures the ratelimiter parameters for a named ratelimit
 	// group.
 	RatelimitGroups []RatelimitGroupParams `json:"groups"`

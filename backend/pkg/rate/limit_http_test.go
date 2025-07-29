@@ -50,17 +50,15 @@ func (lim *eventLimiter) ReserveEvent(ctx context.Context, eventID string) (Rese
 
 func newHTTPLimiterForTesting(t *testing.T) *HTTPLimiter {
 	t.Helper()
-	httpLimiter, err := NewHTTPLimiter(NewEventLimiter(10, time.Hour*24), `{{ .Header.Get "X-Userid" }}`)
-	if err != nil {
-		t.Errorf("unexpected error initializing HTTPLimiter: %s", err)
-		return nil
-	}
+	httpLimiter := NewHTTPLimiter()
+	httpLimiter.AddRateLimitGroup(NewEventLimiter(10, time.Hour*24), "default", `{{ .Header.Get "X-Userid" }}`)
 	httpLimiter.AddRateLimitGroup(NewEventLimiter(1, time.Hour), "slow", `slow`)
 	httpLimiter.AddRateLimitGroup(NewEventLimiter(1, time.Hour*24), "superslow", `superslow`)
 	httpLimiter.AddRateLimitGroup(NewEventLimiter(1, time.Microsecond), "fast", `fast`)
 	httpLimiter.AddRateLimitGroup(NewEventLimiter(5, time.Hour), "sub", `{{with .Identity }}{{.Subject}}{{end}}`)
 	httpLimiter.AddRateLimitGroup(NewEventLimiter(5, time.Hour), "bad_event", `{{.Foo.Bar | index 123}}`)
 
+	httpLimiter.AddMatchExpression("/", "default")
 	httpLimiter.AddMatchExpression("/slow/", "slow")
 	httpLimiter.AddMatchExpression("POST /slow/superslow", "superslow")
 	httpLimiter.AddMatchExpression("/fast/", "fast")

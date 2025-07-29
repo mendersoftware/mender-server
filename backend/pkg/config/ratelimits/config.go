@@ -46,11 +46,12 @@ func init() {
 }
 
 const (
-	SettingRatelimits           = "ratelimits"
-	SettingRatelimitsAuth       = SettingRatelimits + ".auth"
-	SettingRatelimitsAuthEnable = SettingRatelimitsAuth + ".enable"
-	SettingRatelimitsAuthGroups = SettingRatelimitsAuth + ".groups"
-	SettingRatelimitsAuthMatch  = SettingRatelimitsAuth + ".match"
+	SettingRatelimits                    = "ratelimits"
+	SettingRatelimitsAuth                = SettingRatelimits + ".auth"
+	SettingRatelimitsAuthEnable          = SettingRatelimitsAuth + ".enable"
+	SettingRatelimitsAuthGroups          = SettingRatelimitsAuth + ".groups"
+	SettingRatelimitsAuthMatch           = SettingRatelimitsAuth + ".match"
+	SettingRatelimitsAuthRejectUnmatched = SettingRatelimitsAuth + ".reject_unmatched"
 
 	paramName                   = "name"
 	paramNameDefault            = "default"
@@ -69,7 +70,9 @@ func LoadRatelimits(c config.Reader) (*RatelimitConfig, error) {
 	if !c.GetBool(SettingRatelimitsAuthEnable) {
 		return nil, nil
 	}
-	ratelimitConfig := new(RatelimitConfig)
+	ratelimitConfig := &RatelimitConfig{
+		RejectUnmatched: c.GetBool(SettingRatelimitsAuthRejectUnmatched),
+	}
 	err := config.UnmarshalSliceSetting(c,
 		SettingRatelimitsAuthGroups,
 		&ratelimitConfig.RatelimitGroups,
@@ -104,6 +107,9 @@ func SetupRedisRateLimits(
 	}
 	log.NewEmpty().Debugf("loaded rate limit configuration: %v", lims)
 	mux := rate.NewHTTPLimiter()
+	if c.GetBool(SettingRatelimitsAuthRejectUnmatched) {
+		mux.WithRejectUnmatched()
+	}
 	for _, group := range lims.RatelimitGroups {
 		groupPrefix := fmt.Sprintf("%s:rate:g:%s", keyPrefix, group.Name)
 		limiter := redis.NewFixedWindowRateLimiter(
