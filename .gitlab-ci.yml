@@ -644,6 +644,9 @@ changelog:
     # Only run for protected branches (main and maintenance branches)
     - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/'
       when: never
+      # QA-1073: Trigger main release candidates manually for open source
+    - if: $CI_PROJECT_NAME == "mender-server" && $CI_BRANCH_NAME == "main"
+      when: manual
     - if: $CI_COMMIT_REF_PROTECTED == "true" && $CI_COMMIT_BRANCH != ""
   before_script:
     # Setting up git
