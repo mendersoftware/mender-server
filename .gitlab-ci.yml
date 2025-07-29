@@ -647,6 +647,7 @@ changelog:
       # QA-1073: Trigger main release candidates manually for open source
     - if: $CI_PROJECT_NAME == "mender-server" && $CI_BRANCH_NAME == "main"
       when: manual
+      allow_failure: true
     - if: $CI_COMMIT_REF_PROTECTED == "true" && $CI_COMMIT_BRANCH != ""
   before_script:
     # Setting up git
