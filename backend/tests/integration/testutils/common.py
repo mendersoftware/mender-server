@@ -647,7 +647,7 @@ class MockedHttp:
 def retry(
     period: timedelta = timedelta(milliseconds=100),
     timeout: timedelta = timedelta(minutes=2),
-) -> Generator[datetime]:
+) -> Generator[datetime, None, None]:
     if timeout < period:
         raise ValueError(f"retry period {period} is larger than timeout {timeout}")
 
