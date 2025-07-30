@@ -1,0 +1,534 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Subscription Summary component > renders correctly 1`] = `
+.emotion-0 {
+  background-color: #fff;
+  color: rgba(10, 10, 11, 0.78);
+  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+.emotion-1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 16px;
+}
+
+.emotion-2 {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.MuiTypography-root:where(.emotion-2 .MuiCardHeader-title) {
+  display: block;
+}
+
+.MuiTypography-root:where(.emotion-2 .MuiCardHeader-subheader) {
+  display: block;
+}
+
+.emotion-3 {
+  margin: 0;
+  font-family: Lato,sans-serif;
+  font-weight: 400;
+  font-size: 1.3929rem;
+  line-height: 1.334;
+}
+
+.emotion-4 {
+  margin: 0;
+  font-family: Lato,sans-serif;
+  font-weight: 400;
+  font-size: 0.9286rem;
+  line-height: 1.75;
+}
+
+.emotion-5 {
+  max-width: 100%;
+  font-family: Lato,sans-serif;
+  font-size: 0.7545rem;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  height: 32px;
+  color: rgba(10, 10, 11, 0.78);
+  background-color: rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  white-space: nowrap;
+  -webkit-transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  cursor: unset;
+  outline: 0;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  border: 0;
+  padding: 0;
+  vertical-align: middle;
+  box-sizing: border-box;
+  height: 24px;
+  background-color: #337a87;
+  color: #fff;
+  background-color: transparent;
+  border: 1px solid #f7f7f7;
+  color: #337a87;
+  border: 1px solid rgba(51, 122, 135, 0.7);
+}
+
+.emotion-5.Mui-disabled {
+  opacity: 0.38;
+  pointer-events: none;
+}
+
+.emotion-5 .MuiChip-avatar {
+  margin-left: 5px;
+  margin-right: -6px;
+  width: 24px;
+  height: 24px;
+  color: #bcbcbc;
+  font-size: 0.6964rem;
+}
+
+.emotion-5 .MuiChip-avatarColorPrimary {
+  color: #fff;
+  background-color: rgb(35, 85, 94);
+}
+
+.emotion-5 .MuiChip-avatarColorSecondary {
+  color: #fff;
+  background-color: rgb(65, 10, 46);
+}
+
+.emotion-5 .MuiChip-avatarSmall {
+  margin-left: 4px;
+  margin-right: -4px;
+  width: 18px;
+  height: 18px;
+  font-size: 0.5804rem;
+}
+
+.emotion-5 .MuiChip-icon {
+  margin-left: 5px;
+  margin-right: -6px;
+}
+
+.emotion-5 .MuiChip-deleteIcon {
+  -webkit-tap-highlight-color: transparent;
+  color: rgba(10, 10, 11, 0.26);
+  font-size: 22px;
+  cursor: pointer;
+  margin: 0 5px 0 -6px;
+}
+
+.emotion-5 .MuiChip-deleteIcon:hover {
+  color: rgba(10, 10, 11, 0.4);
+}
+
+.emotion-5 .MuiChip-icon {
+  font-size: 18px;
+  margin-left: 4px;
+  margin-right: -4px;
+}
+
+.emotion-5 .MuiChip-deleteIcon {
+  font-size: 16px;
+  margin-right: 4px;
+  margin-left: -4px;
+}
+
+.emotion-5 .MuiChip-deleteIcon {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.emotion-5 .MuiChip-deleteIcon:hover,
+.emotion-5 .MuiChip-deleteIcon:active {
+  color: #fff;
+}
+
+.emotion-5 .MuiChip-icon {
+  color: #bcbcbc;
+}
+
+.emotion-5 .MuiChip-icon {
+  color: inherit;
+}
+
+.emotion-5.MuiChip-clickable:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.emotion-5.Mui-focusVisible {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+.emotion-5 .MuiChip-avatar {
+  margin-left: 4px;
+}
+
+.emotion-5 .MuiChip-avatarSmall {
+  margin-left: 2px;
+}
+
+.emotion-5 .MuiChip-icon {
+  margin-left: 4px;
+}
+
+.emotion-5 .MuiChip-iconSmall {
+  margin-left: 2px;
+}
+
+.emotion-5 .MuiChip-deleteIcon {
+  margin-right: 5px;
+}
+
+.emotion-5 .MuiChip-deleteIconSmall {
+  margin-right: 3px;
+}
+
+.emotion-5.MuiChip-clickable:hover {
+  background-color: rgba(51, 122, 135, 0.04);
+}
+
+.emotion-5.Mui-focusVisible {
+  background-color: rgba(51, 122, 135, 0.12);
+}
+
+.emotion-5 .MuiChip-deleteIcon {
+  color: rgba(51, 122, 135, 0.7);
+}
+
+.emotion-5 .MuiChip-deleteIcon:hover,
+.emotion-5 .MuiChip-deleteIcon:active {
+  color: #337a87;
+}
+
+.emotion-6 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 12px;
+  padding-right: 12px;
+  white-space: nowrap;
+  padding-left: 11px;
+  padding-right: 11px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-left: 7px;
+  padding-right: 7px;
+}
+
+.emotion-7 {
+  padding: 16px;
+}
+
+.emotion-7:last-child {
+  padding-bottom: 24px;
+}
+
+.emotion-8 {
+  margin: 0;
+  font-family: Lato,sans-serif;
+  font-weight: 400;
+  font-size: 0.8125rem;
+  line-height: 1.43;
+}
+
+.emotion-9 {
+  margin: 0;
+  line-height: 1.5;
+  font-family: Lato,sans-serif;
+  font-weight: 400;
+  font-size: 0.9286rem;
+}
+
+.emotion-12 {
+  margin: 0;
+  line-height: 1.5;
+  font-family: Lato,sans-serif;
+  font-weight: 400;
+  font-size: 0.9286rem;
+  text-transform: capitalize;
+}
+
+.emotion-15 {
+  margin: 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  border-width: 0;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.12);
+  border-bottom-width: thin;
+  margin-left: 16px;
+  margin-right: 16px;
+}
+
+.emotion-18 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: inherit;
+  font-family: Lato,sans-serif;
+  font-weight: 500;
+  font-size: 0.8125rem;
+  line-height: 1.75;
+  text-transform: uppercase;
+  min-width: 64px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 4px;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  color: var(--variant-containedColor);
+  background-color: var(--variant-containedBg);
+  box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
+  --variant-textColor: #337a87;
+  --variant-outlinedColor: #337a87;
+  --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
+  --variant-containedColor: #fff;
+  --variant-containedBg: #337a87;
+  width: 100%;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.emotion-18::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-18.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+@media print {
+  .emotion-18 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-18:hover {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-18.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-18:hover {
+  box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
+}
+
+@media (hover: none) {
+  .emotion-18:hover {
+    box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
+  }
+}
+
+.emotion-18:active {
+  box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
+}
+
+.emotion-18.Mui-focusVisible {
+  box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
+}
+
+.emotion-18.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+  box-shadow: none;
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+@media (hover: hover) {
+  .emotion-18:hover {
+    --variant-containedBg: rgb(35, 85, 94);
+    --variant-textBg: rgba(51, 122, 135, 0.04);
+    --variant-outlinedBorder: #337a87;
+    --variant-outlinedBg: rgba(51, 122, 135, 0.04);
+  }
+}
+
+.emotion-18.MuiButton-loading {
+  color: transparent;
+}
+
+.emotion-18:hover {
+  colors: #337a87;
+}
+
+.emotion-18.MuiButton-text {
+  color: rgba(10, 10, 11, 0.78);
+}
+
+<div>
+  <div
+    class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root padding emotion-0"
+    style="min-width: 320px;"
+  >
+    <div
+      class="MuiCardHeader-root padding-none emotion-1"
+    >
+      <div
+        class="MuiCardHeader-content emotion-2"
+      >
+        <span
+          class="MuiTypography-root MuiTypography-h5 MuiCardHeader-title emotion-3"
+        >
+          <div
+            class="flexbox space-between"
+          >
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle1 emotion-4"
+            >
+              your subscription 
+            </h6>
+            <div
+              class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-outlinedPrimary emotion-5"
+            >
+              <span
+                class="MuiChip-label MuiChip-labelSmall emotion-6"
+              >
+                New
+              </span>
+            </div>
+          </div>
+        </span>
+      </div>
+    </div>
+    <div
+      class="MuiCardContent-root padding-none emotion-7"
+    >
+      <div
+        class="flexbox space-between margin-top-small margin-bottom-small"
+      >
+        <div>
+          <p
+            class="MuiTypography-root MuiTypography-body2 emotion-8"
+          >
+            Plan: 
+            Basic
+          </p>
+          <p
+            class="MuiTypography-root MuiTypography-body1 emotion-9"
+          >
+            Devices: x 
+            50
+          </p>
+        </div>
+        <h6
+          class="MuiTypography-root MuiTypography-subtitle1 emotion-4"
+        >
+          $32
+        </h6>
+      </div>
+      <div
+        class="margin-top-small margin-bottom-small"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 emotion-8"
+        >
+          Add-ons
+        </p>
+        <div
+          class="flexbox space-between"
+        >
+          <div>
+            <p
+              class="MuiTypography-root MuiTypography-body1 emotion-12"
+            >
+              configure
+            </p>
+            <p
+              class="MuiTypography-root MuiTypography-body2 emotion-8"
+            >
+              x 
+              50
+               devices
+            </p>
+          </div>
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle1 emotion-4"
+          >
+            $10
+          </h6>
+        </div>
+      </div>
+      <hr
+        class="MuiDivider-root MuiDivider-middle margin-none emotion-15"
+      />
+      <div
+        class="flexbox space-between margin-top-small"
+      >
+        <h6
+          class="MuiTypography-root MuiTypography-subtitle1 emotion-4"
+        >
+          Monthly price
+        </h6>
+        <h5
+          class="MuiTypography-root MuiTypography-h5 emotion-3"
+        >
+          $42
+           
+        </h5>
+      </div>
+    </div>
+    <button
+      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-fullWidth margin-top-small emotion-18"
+      tabindex="0"
+      type="button"
+    >
+      Upgrade now
+    </button>
+  </div>
+</div>
+`;
