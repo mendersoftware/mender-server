@@ -21,14 +21,20 @@ import { Alert, AlertTitle, Button, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
-import { Tenant } from '@northern.tech/store/api/types/Tenant';
 import { ADDONS, PLANS } from '@northern.tech/store/constants';
-import { getBillingProfile, getCard, getDeviceLimit, getIsEnterprise, getOrganization, getUserRoles } from '@northern.tech/store/selectors';
+import {
+  getBillingProfile,
+  getCard,
+  getDeviceLimit,
+  getHasCurrentPricing,
+  getIsEnterprise,
+  getOrganization,
+  getUserRoles
+} from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { cancelRequest, getCurrentCard, getUserBilling } from '@northern.tech/store/thunks';
 import { toggle } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import pluralize from 'pluralize';
 
 import { PlanExpanded } from '../PlanExpanded';
@@ -51,13 +57,8 @@ const useStyles = makeStyles()(theme => ({
   wrapper: { gap: theme.spacing(2) }
 }));
 
-dayjs.extend(relativeTime);
-
-const newPricingIntroduction = dayjs('2025-06-03T00:00');
-
-const OldTenantPriceIncreaseNote = ({ organization }: { organization: Tenant }) => {
-  const { id = '' } = organization;
-  const hasCurrentPricing = dayjs(parseInt(id.substring(0, 8), 16) * 1000) >= newPricingIntroduction; // we can't rely on the signup date as it doesn't exist for older tenants
+const OldTenantPriceIncreaseNote = () => {
+  const hasCurrentPricing = useSelector(getHasCurrentPricing); // we can't rely on the signup date as it doesn't exist for older tenants
   if (hasCurrentPricing) {
     return null;
   }
@@ -132,7 +133,7 @@ export const DeviceLimitExpansionNotification = ({ isTrial }: { isTrial: boolean
     <div className="muted" style={{ marginRight: 4 }}>
       To increase your device limit,{' '}
     </div>
-    {isTrial ? <Link to="/settings/upgrade">upgrade to a paid plan</Link> : <SupportLink variant="salesTeam" />}
+    {isTrial ? <Link to="/subscription">upgrade to a paid plan</Link> : <SupportLink variant="salesTeam" />}
     <div className="muted">.</div>
   </div>
 );
@@ -195,7 +196,7 @@ const UpgradeNote = ({ isTrial }) => {
         <Button component={Link} to="https://mender.io/pricing/plans" target="_blank" rel="noopener noreferrer" size="small">
           Compare all plans
         </Button>
-        <Button color="primary" component={Link} to="/settings/upgrade" size="small" variant="contained">
+        <Button color="primary" component={Link} to="/subscription" size="small" variant="contained">
           Upgrade
         </Button>
       </div>
@@ -243,7 +244,7 @@ export const Billing = () => {
     <div style={{ maxWidth: 750 }}>
       <Typography variant="h6">Billing</Typography>
       <div className={`flexbox column ${classes.wrapper}`}>
-        <OldTenantPriceIncreaseNote organization={organization} />
+        <OldTenantPriceIncreaseNote />
         <OrganizationSettingsItem
           title="Current plan"
           secondary={<PlanDescriptor plan={planName} isTrial={isTrial} trialExpiration={trial_expiration} deviceLimit={deviceLimit} />}

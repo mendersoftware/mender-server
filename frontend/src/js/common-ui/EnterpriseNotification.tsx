@@ -47,7 +47,7 @@ const PlanChip = withStyles(Chip, ({ palette }) => ({
 
 export const DefaultUpgradeNotification = props => (
   <div {...props}>
-    This feature is not available on your plan. <Link to="/settings/upgrade">Upgrade</Link> to enable it
+    This feature is not available on your plan. <Link to="/subscription">Upgrade</Link> to enable it
   </div>
 );
 
@@ -82,7 +82,7 @@ const EnterpriseNotification = ({ className = '', id = BENEFITS.default.id }) =>
         <div>
           {content}
           <div className="flexbox space-between margin-top-small">
-            <Link to="/settings/upgrade">Upgrade now</Link>
+            <Link to="/subscription">Upgrade now</Link>
             <span className="link" onClick={() => setIsOpen(false)}>
               Close
             </span>
