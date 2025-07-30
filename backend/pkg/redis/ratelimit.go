@@ -54,15 +54,15 @@ type simpleReservation struct {
 	delay time.Duration
 }
 
-func (r *simpleReservation) OK() bool {
-	return r.delay <= 0
+func (r simpleReservation) OK() bool {
+	return r.tokens >= 0
 }
 
-func (r *simpleReservation) Delay() time.Duration {
+func (r simpleReservation) Delay() time.Duration {
 	return r.delay
 }
 
-func (r *simpleReservation) Tokens() int64 {
+func (r simpleReservation) Tokens() int64 {
 	return r.tokens
 }
 
@@ -100,17 +100,14 @@ func (rl *FixedWindowRateLimiter) ReserveEvent(
 	if err != nil {
 		return nil, fmt.Errorf("redis: error computing rate limit: %w", err)
 	}
-	if count <= rl.quota {
-		return &simpleReservation{
-			delay:  0,
-			tokens: rl.quota - count,
-		}, nil
+	res := simpleReservation{
+		tokens: rl.quota - count,
 	}
-	return &simpleReservation{
-		delay: now.Sub(time.UnixMilli((epoch + 1) *
-			rl.interval.Milliseconds())),
-		tokens: 0,
-	}, nil
+	if res.tokens < 0 {
+		nextEpoch := time.UnixMilli((epoch + 1) * rl.interval.Milliseconds())
+		res.delay = nextEpoch.Sub(now)
+	}
+	return res, nil
 }
 
 func (rl *FixedWindowRateLimiter) Reserve(ctx context.Context) (rate.Reservation, error) {
