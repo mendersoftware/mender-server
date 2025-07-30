@@ -295,7 +295,7 @@ exports[`EnterpriseNotification Component > works as expected 1`] = `
     >
       <a
         data-discover="true"
-        href="/settings/upgrade"
+        href="/subscription"
       >
         Upgrade now
       </a>

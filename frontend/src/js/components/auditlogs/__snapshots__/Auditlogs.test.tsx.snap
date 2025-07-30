@@ -960,7 +960,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
         This feature is not available on your plan. 
         <a
           data-discover="true"
-          href="/settings/upgrade"
+          href="/subscription"
         >
           Upgrade
         </a>
