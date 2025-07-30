@@ -279,18 +279,17 @@ const appInitActions = [
     }
   },
   { type: getDevicesWithAuth.pending.type },
+  { type: getDevicesByStatus.fulfilled.type },
+  { type: getDevicesByStatus.fulfilled.type },
   { type: releasesActions.receiveReleases.type, payload: defaultState.releases.byId },
   {
     type: releasesActions.setReleaseListState.type,
     payload: { ...defaultState.releases.releasesList, releaseIds: [defaultState.releases.byId.r1.name], page: 42 }
   },
-  { type: getDevicesByStatus.fulfilled.type },
-  { type: getDevicesByStatus.fulfilled.type },
   { type: getReleases.fulfilled.type },
 
   { type: userActions.receivedPermissionSets.type, payload: receivedPermissionSets },
   { type: getPermissionSets.fulfilled.type },
-  { type: userActions.receivedRoles.type, payload: receivedRoles },
   {
     type: deviceActions.receivedDevices.type,
     payload: {
@@ -298,9 +297,10 @@ const appInitActions = [
       [defaultState.devices.byId.b1.id]: { ...defaultState.devices.byId.b1, group: undefined, isNew: false, isOffline: true, monitor: {}, tags: {} }
     }
   },
+  { type: userActions.receivedRoles.type, payload: receivedRoles },
   { type: userActions.finishedRoleInitialization.type, payload: true },
-  { type: getRoles.fulfilled.type },
   { type: getDevicesWithAuth.fulfilled.type },
+  { type: getRoles.fulfilled.type },
   { type: getDevicesByStatus.fulfilled.type },
   {
     type: deviceActions.addGroup.type,

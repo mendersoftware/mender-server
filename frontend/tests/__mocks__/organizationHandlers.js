@@ -159,6 +159,8 @@ export const organizationHandlers = [
     return new HttpResponse(null, { status: 200 });
   }),
   http.patch(`${tenantadmApiUrlv2}/billing/profile`, () => new HttpResponse(null, { status: 200 })),
+  http.post(`${tenantadmApiUrlv2}/billing/profile`, () => new HttpResponse(null, { status: 200 })),
+  http.post(`${tenantadmApiUrlv2}/billing/subscription`, () => new HttpResponse(null, { status: 202 })),
   http.post(`${tenantadmApiUrlv2}/billing/subscription/invoices/preview`, () => HttpResponse.json(invoicePreviewBasic)),
   http.get(`${tenantadmApiUrlv2}/billing/subscription`, () => HttpResponse.json(subscriptionBasic)),
   http.get(`${auditLogsApiUrl}/logs`, ({ request }) => {
