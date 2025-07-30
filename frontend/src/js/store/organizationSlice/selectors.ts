@@ -14,6 +14,8 @@
 import { EXTERNAL_PROVIDER } from '@northern.tech/store/constants';
 import { RootState } from '@northern.tech/store/store';
 import { createSelector } from '@reduxjs/toolkit';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
 export const getOrganization = (state: RootState) => state.organization.organization;
 export const getExternalIntegrations = state => state.organization.externalDeviceIntegrations;
@@ -47,3 +49,11 @@ export const getAuditLogEntry = createSelector([getAuditLog, getAuditLogSelectio
   const [eventAction, eventTime] = atob(selectedId).split('|');
   return events.find(item => item.action === eventAction && item.time === eventTime);
 });
+
+dayjs.extend(relativeTime);
+const newPricingIntroduction = dayjs('2025-06-03T00:00');
+
+export const getHasCurrentPricing = createSelector(
+  [getOrganization],
+  ({ id }) => !!id && dayjs(parseInt(id.substring(0, 8), 16) * 1000) >= newPricingIntroduction
+);

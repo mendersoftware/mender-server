@@ -250,7 +250,7 @@ export const GlobalSettingsDialog = ({
             {!isEnterprise && (
               <Typography variant="body2">
                 Automatic delta artifacts generation is not enabled in your account. If you want to start using this feature, <SupportLink variant="ourTeam" />{' '}
-                or <Link to="/settings/upgrade">upgrade</Link>
+                or <Link to="/subscription">upgrade</Link>
                 {isTrial ? '' : ' to Mender Enterprise'}.
               </Typography>
             )}
