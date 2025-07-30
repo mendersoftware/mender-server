@@ -916,7 +916,7 @@ exports[`smaller components > renders DeviceLimitExpansionNotification correctly
   </div>
   <a
     data-discover="true"
-    href="/settings/upgrade"
+    href="/subscription"
   >
     upgrade to a paid plan
   </a>
