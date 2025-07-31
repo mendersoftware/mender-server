@@ -23,6 +23,8 @@ import { getDeviceById, getSessionDetails } from '@northern.tech/store/thunks';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 
+import DeviceDetails, { DetailInformation } from './DeviceDetails';
+
 dayjs.extend(duration);
 
 export interface SessionDetailsEventProps {
@@ -102,3 +104,15 @@ export const useSessionDetails = (auditLogItem: AuditLog): UseSessionDetailsRetu
     sessionMeta
   };
 };
+
+interface SessionInfoProps extends Omit<UseSessionDetailsReturn, 'sessionDetails' | 'isLoading'> {
+  onClose: () => void;
+  title: string;
+}
+
+export const SessionInfo = ({ device, idAttribute, sessionMeta, onClose, canReadDevices, title }: SessionInfoProps) => (
+  <div className="flexbox column margin-small" style={{ minWidth: 'min-content' }}>
+    {canReadDevices && <DeviceDetails device={device} idAttribute={idAttribute} onClose={onClose} />}
+    <DetailInformation title={title} details={sessionMeta} />
+  </div>
+);

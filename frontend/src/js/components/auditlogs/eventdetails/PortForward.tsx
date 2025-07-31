@@ -13,22 +13,17 @@
 //    limitations under the License.
 import Loader from '@northern.tech/common-ui/Loader';
 
-import DeviceDetails, { DetailInformation } from './DeviceDetails';
-import { SessionDetailsEventProps, useSessionDetails } from './utils';
+import { SessionDetailsEventProps, SessionInfo, useSessionDetails } from './utils';
 
 export const PortForward = ({ item, onClose }: SessionDetailsEventProps) => {
-  const { canReadDevices, isLoading, device, idAttribute, sessionMeta } = useSessionDetails(item);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { sessionDetails, isLoading, ...sessionMetaDetails } = useSessionDetails(item);
 
   if (isLoading) {
     return <Loader show={true} />;
   }
 
-  return (
-    <div className="flexbox column margin-small" style={{ minWidth: 'min-content' }}>
-      {canReadDevices && <DeviceDetails device={device} idAttribute={idAttribute} onClose={onClose} />}
-      <DetailInformation title="port forwarding" details={sessionMeta} />
-    </div>
-  );
+  return <SessionInfo {...sessionMetaDetails} onClose={onClose} title="port forwarding" />;
 };
 
 export default PortForward;
