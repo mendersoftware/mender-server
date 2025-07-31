@@ -591,7 +591,7 @@ func TestApiInventoryAddDevice(t *testing.T) {
 			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost/api/internal/v1/inventory/tenants/1/devices",
-				Body:   "foo bar",
+				Body:   `"foo bar"`,
 			}),
 			inventoryErr: nil,
 			JSONResponseParams: JSONResponseParams{
@@ -1080,7 +1080,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 			scope: model.AttrScopeInventory,
 		},
 
-		"garbled body": {
+		"invalid json type": {
 			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PATCH",
 				Path:   "http://localhost" + apiUrlDevicesV1 + uriDeviceAttributes,
@@ -1093,7 +1093,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 			inventoryErr: nil,
 			resp: JSONResponseParams{
 				OutputStatus:     http.StatusBadRequest,
-				OutputBodyObject: RestError("failed to decode request body: json: cannot unmarshal string into Go value of type []model.DeviceAttribute"),
+				OutputBodyObject: RestError("failed to decode request body: json: cannot unmarshal object into Go value of type []model.DeviceAttribute"),
 			},
 			scope: model.AttrScopeInventory,
 		},
@@ -1488,7 +1488,7 @@ func TestApiInventoryUpsertAttributesInternal(t *testing.T) {
 			inventoryErr: nil,
 			resp: JSONResponseParams{
 				OutputStatus:     http.StatusBadRequest,
-				OutputBodyObject: RestError("failed to decode request body: json: cannot unmarshal string into Go value of type []model.DeviceAttribute"),
+				OutputBodyObject: RestError("failed to decode request body: json: cannot unmarshal object into Go value of type []model.DeviceAttribute"),
 			},
 		},
 
@@ -3034,7 +3034,7 @@ func TestApiInventoryInternalDevicesStatus(t *testing.T) {
 		},
 
 		"error, payload not expected": {
-			inputDevices: "sneaky wool carpet",
+			inputDevices: `"sneaky wool carpet"`,
 			tenantID:     tenantId,
 			status:       acceptedStatus,
 			resp: JSONResponseParams{
@@ -3778,7 +3778,7 @@ func TestApiParseSearchParams(t *testing.T) {
 				Auth:   true,
 				Body:   "invalid json",
 			}),
-			err: errors.New("failed to decode request body: json: cannot unmarshal string into Go value of type model.SearchParams"),
+			err: errors.New("failed to decode request body: invalid character 'i' looking for beginning of value"),
 		},
 	}
 
