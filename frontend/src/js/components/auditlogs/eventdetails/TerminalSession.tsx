@@ -16,12 +16,11 @@ import { useSelector } from 'react-redux';
 import Loader from '@northern.tech/common-ui/Loader';
 import { getCurrentSession } from '@northern.tech/store/selectors';
 
-import DeviceDetails, { DetailInformation } from './DeviceDetails';
 import TerminalPlayer from './TerminalPlayer';
-import { SessionDetailsEventProps, useSessionDetails } from './utils';
+import { SessionDetailsEventProps, SessionInfo, useSessionDetails } from './utils';
 
 export const TerminalSession = ({ item, onClose }: SessionDetailsEventProps) => {
-  const { canReadDevices, isLoading, device, idAttribute, sessionMeta } = useSessionDetails(item);
+  const { sessionDetails, isLoading, ...sessionMetaDetails } = useSessionDetails(item);
   const { token } = useSelector(getCurrentSession);
 
   if (isLoading) {
@@ -31,10 +30,7 @@ export const TerminalSession = ({ item, onClose }: SessionDetailsEventProps) => 
   return (
     <div className="flexbox" style={{ flexWrap: 'wrap' }}>
       <TerminalPlayer className="flexbox column margin-top" item={item} sessionInitialized={!!sessionDetails} token={token} />
-      <div className="flexbox column margin-small" style={{ minWidth: 'min-content' }}>
-        {canReadDevices && <DeviceDetails device={device} idAttribute={idAttribute} onClose={onClose} />}
-        <DetailInformation title="session" details={sessionMeta} />
-      </div>
+      <SessionInfo {...sessionMetaDetails} onClose={onClose} title="session" />
     </div>
   );
 };
