@@ -185,9 +185,9 @@ exports[`PortForward Component > renders correctly 1`] = `
         class="flexbox "
       >
         <time
-          datetime="2019-01-13T13:00:00+00:00"
+          datetime="2019-01-01T12:10:22+00:00"
         >
-          2019-01-13 13:00
+          2019-01-01 12:10
         </time>
       </div>
       <div
@@ -201,9 +201,9 @@ exports[`PortForward Component > renders correctly 1`] = `
         class="flexbox "
       >
         <time
-          datetime="2019-01-13T13:00:00+00:00"
+          datetime="2019-01-01T12:16:22+00:00"
         >
-          2019-01-13 13:00
+          2019-01-01 12:16
         </time>
       </div>
       <div
@@ -217,9 +217,9 @@ exports[`PortForward Component > renders correctly 1`] = `
         class="flexbox "
       >
         <div
-          title="00:00:00:000"
+          title="00:05:59:998"
         >
-          00:00:00:000
+          00:05:59:998
         </div>
       </div>
       <div
