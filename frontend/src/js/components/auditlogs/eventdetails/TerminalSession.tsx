@@ -11,58 +11,22 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Loader from '@northern.tech/common-ui/Loader';
-import Time from '@northern.tech/common-ui/Time';
-import { getAuditlogDevice, getCurrentSession, getIdAttribute, getUserCapabilities } from '@northern.tech/store/selectors';
-import { getDeviceById, getSessionDetails } from '@northern.tech/store/thunks';
-import dayjs from 'dayjs';
-import durationDayJs from 'dayjs/plugin/duration';
+import { getCurrentSession } from '@northern.tech/store/selectors';
 
 import DeviceDetails, { DetailInformation } from './DeviceDetails';
 import TerminalPlayer from './TerminalPlayer';
+import { SessionDetailsEventProps, useSessionDetails } from './utils';
 
-dayjs.extend(durationDayJs);
-
-export const TerminalSession = ({ item, onClose }) => {
-  const [sessionDetails, setSessionDetails] = useState();
-  const dispatch = useDispatch();
-  const { action, actor, meta, object = {}, time } = item;
-  const { canReadDevices } = useSelector(getUserCapabilities);
-  const device = useSelector(getAuditlogDevice);
-  const idAttribute = useSelector(getIdAttribute);
+export const TerminalSession = ({ item, onClose }: SessionDetailsEventProps) => {
+  const { canReadDevices, isLoading, device, idAttribute, sessionMeta } = useSessionDetails(item);
   const { token } = useSelector(getCurrentSession);
 
-  useEffect(() => {
-    if (canReadDevices) {
-      dispatch(getDeviceById(object.id));
-    }
-    dispatch(
-      getSessionDetails({
-        sessionId: meta.session_id[0],
-        deviceId: object.id,
-        userId: actor.id,
-        startDate: action.startsWith('open') ? time : undefined,
-        endDate: action.startsWith('close') ? time : undefined
-      })
-    )
-      .unwrap()
-      .then(setSessionDetails);
-  }, [action, actor.id, canReadDevices, dispatch, meta.session_id, object.id, time]);
-
-  if (!sessionDetails || (canReadDevices && !device)) {
+  if (isLoading) {
     return <Loader show={true} />;
   }
-
-  const sessionMeta = {
-    'Session ID': item.meta.session_id[0],
-    'Start time': <Time value={sessionDetails.start} />,
-    'End time': <Time value={sessionDetails.end} />,
-    'Duration': dayjs.duration(dayjs(sessionDetails.end).diff(sessionDetails.start)).format('HH:mm:ss:SSS'),
-    User: item.actor.email
-  };
 
   return (
     <div className="flexbox" style={{ flexWrap: 'wrap' }}>

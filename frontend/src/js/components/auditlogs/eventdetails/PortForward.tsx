@@ -11,54 +11,17 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
 import Loader from '@northern.tech/common-ui/Loader';
-import Time from '@northern.tech/common-ui/Time';
-import { getAuditlogDevice, getIdAttribute, getUserCapabilities } from '@northern.tech/store/selectors';
-import { getDeviceById, getSessionDetails } from '@northern.tech/store/thunks';
-import dayjs from 'dayjs';
-import duration from 'dayjs/plugin/duration';
 
 import DeviceDetails, { DetailInformation } from './DeviceDetails';
+import { SessionDetailsEventProps, useSessionDetails } from './utils';
 
-dayjs.extend(duration);
+export const PortForward = ({ item, onClose }: SessionDetailsEventProps) => {
+  const { canReadDevices, isLoading, device, idAttribute, sessionMeta } = useSessionDetails(item);
 
-export const PortForward = ({ item, onClose }) => {
-  const [sessionDetails, setSessionDetails] = useState();
-  const dispatch = useDispatch();
-  const { action, actor, meta, object = {}, time } = item;
-  const { canReadDevices } = useSelector(getUserCapabilities);
-  const device = useSelector(getAuditlogDevice);
-  const idAttribute = useSelector(getIdAttribute);
-
-  useEffect(() => {
-    if (canReadDevices) {
-      dispatch(getDeviceById(object.id));
-    }
-    dispatch(
-      getSessionDetails({
-        sessionId: meta.session_id[0],
-        deviceId: object.id,
-        userId: actor.id,
-        startDate: action.startsWith('open') ? time : undefined,
-        endDate: action.startsWith('close') ? time : undefined
-      })
-    ).then(setSessionDetails);
-  }, [action, actor.id, canReadDevices, dispatch, meta.session_id, object.id, time]);
-
-  if (!sessionDetails || (canReadDevices && !device)) {
+  if (isLoading) {
     return <Loader show={true} />;
   }
-
-  const sessionMeta = {
-    'Session ID': item.meta.session_id[0],
-    'Start time': <Time value={sessionDetails.start} />,
-    'End time': <Time value={sessionDetails.end} />,
-    'Duration': dayjs.duration(dayjs(sessionDetails.end).diff(sessionDetails.start)).format('HH:mm:ss:SSS'),
-    User: item.actor.email
-  };
 
   return (
     <div className="flexbox column margin-small" style={{ minWidth: 'min-content' }}>
