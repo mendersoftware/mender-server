@@ -33,35 +33,45 @@ func (err *ConfigDisabledError) Error() string {
 }
 
 func init() {
-	config.Config.SetDefault(SettingRatelimitsAuthDefaultInterval, "1m")
-	config.Config.SetDefault(SettingRatelimitsAuthDefaultQuota, "120")
-	config.Config.SetDefault(SettingRatelimitsAuthDefaultEventExpression,
-		"{{with .Identity}}{{.Subject}}{{end}}")
+	config.Config.SetDefault(SettingRatelimitsAuthGroups, []any{map[string]any{
+		paramName:            paramNameDefault,
+		paramQuota:           paramQuotaDefault,
+		paramInterval:        paramIntervalDefault,
+		paramEventExpression: paramEventExpressionDefault,
+	}})
+	config.Config.SetDefault(SettingRatelimitsAuthMatch, []any{map[string]any{
+		paramPattern: "/", // Catch all
+		paramGroup:   paramNameDefault,
+	}})
 }
 
 const (
-	SettingRatelimits                           = "ratelimits"
-	SettingRatelimitsAuth                       = SettingRatelimits + ".auth"
-	SettingRatelimitsAuthEnable                 = SettingRatelimitsAuth + ".enable"
-	SettingRatelimitsAuthGroups                 = SettingRatelimitsAuth + ".groups"
-	SettingRatelimitsAuthMatch                  = SettingRatelimitsAuth + ".match"
-	SettingRatelimitsAuthDefault                = SettingRatelimitsAuth + ".default"
-	SettingRatelimitsAuthDefaultQuota           = SettingRatelimitsAuthDefault + ".quota"
-	SettingRatelimitsAuthDefaultInterval        = SettingRatelimitsAuthDefault + ".interval"
-	SettingRatelimitsAuthDefaultEventExpression = SettingRatelimitsAuthDefault +
-		".event_expression"
+	SettingRatelimits                    = "ratelimits"
+	SettingRatelimitsAuth                = SettingRatelimits + ".auth"
+	SettingRatelimitsAuthEnable          = SettingRatelimitsAuth + ".enable"
+	SettingRatelimitsAuthGroups          = SettingRatelimitsAuth + ".groups"
+	SettingRatelimitsAuthMatch           = SettingRatelimitsAuth + ".match"
+	SettingRatelimitsAuthRejectUnmatched = SettingRatelimitsAuth + ".reject_unmatched"
+
+	paramName                   = "name"
+	paramNameDefault            = "default"
+	paramQuota                  = "quota"
+	paramQuotaDefault           = int64(300)
+	paramInterval               = "interval"
+	paramIntervalDefault        = time.Minute
+	paramEventExpression        = "event_expression"
+	paramEventExpressionDefault = `{{with .Identity}}{{.Subject}}{{end}}`
+
+	paramPattern = "api_pattern"
+	paramGroup   = "group_expression"
 )
 
 func LoadRatelimits(c config.Reader) (*RatelimitConfig, error) {
 	if !c.GetBool(SettingRatelimitsAuthEnable) {
 		return nil, nil
 	}
-	ratelimitConfig := RatelimitConfig{
-		DefaultGroup: RatelimitParams{
-			Quota:           int64(c.GetInt(SettingRatelimitsAuthDefaultQuota)),
-			Interval:        config.Duration(c.GetDuration(SettingRatelimitsAuthDefaultInterval)),
-			EventExpression: c.GetString(SettingRatelimitsAuthDefaultEventExpression),
-		},
+	ratelimitConfig := &RatelimitConfig{
+		RejectUnmatched: c.GetBool(SettingRatelimitsAuthRejectUnmatched),
 	}
 	err := config.UnmarshalSliceSetting(c,
 		SettingRatelimitsAuthGroups,
@@ -78,7 +88,7 @@ func LoadRatelimits(c config.Reader) (*RatelimitConfig, error) {
 	if err != nil {
 		return nil, fmt.Errorf("error loading rate limit match expressions: %w", err)
 	}
-	return &ratelimitConfig, nil
+	return ratelimitConfig, nil
 }
 
 func SetupRedisRateLimits(
@@ -96,17 +106,9 @@ func SetupRedisRateLimits(
 		return nil, err
 	}
 	log.NewEmpty().Debugf("loaded rate limit configuration: %v", lims)
-	defaultPrefix := fmt.Sprintf("%s:rate:default", keyPrefix)
-	defaultLimiter := redis.NewFixedWindowRateLimiter(
-		redisClient, defaultPrefix,
-		time.Duration(lims.DefaultGroup.Interval), lims.DefaultGroup.Quota,
-	)
-	mux, err := rate.NewHTTPLimiter(
-		defaultLimiter,
-		c.GetString(SettingRatelimitsAuthDefaultEventExpression),
-	)
-	if err != nil {
-		return nil, fmt.Errorf("error setting up rate limits: %w", err)
+	mux := rate.NewHTTPLimiter()
+	if c.GetBool(SettingRatelimitsAuthRejectUnmatched) {
+		mux.WithRejectUnmatched()
 	}
 	for _, group := range lims.RatelimitGroups {
 		groupPrefix := fmt.Sprintf("%s:rate:g:%s", keyPrefix, group.Name)

@@ -157,41 +157,58 @@
 #   auth:
 #     # enable rate limiting also requires redis_connection_string to be effective.
 #     enable: false
-#     # default rate limit group is the default ratelimiting parameters used when
-#     # no group `match`es the expressions.
-#     default:
-#       quota: 100    # number of request per
-#       interval: 60s # interval
-#       # event_expression is a go template for grouping requests.
-#       # The following attributes are available in the context:
-#       # Identity - contains a subset of the JWT claims:
-#         - .Subject  (jwt:"sub")          string
-#         - .Tenant   (jwt:"mender.tenant) string
-#         - .Plan     (jwt:"mender.plan)   string
-#         - .Addons   (jwt:"mender.addons) struct{Enabled bool; Name string}
-#         - .IsUser   (jwt:"mender.user)   bool
-#         - .IsDevice (jwt:"mender.device) bool
-#         - .Trial    (jwt:"mender.trial)  bool
-#       event_expression: "{{with .Identity}}{{.Subject}}{{end}}"
+#     # reject_unmatched rejects requests that does not resolve to a
+#     # ratelimit group. That is, if either there's no api_pattern matching
+#     # the request or if the group_expression does not match a group.
+#     # Defaults to false - disable ratelimiting for unmatched requests.
+#     reject_unmatched: false
 #     # groups specify rate limiting groups that overrides the parameters in the
 #     # default group.
-#     groups: []
-#     # Example:
-#     # - name: "inventory"
+#     groups:
+#         # name defines the name of the group. The name is used in
+#         # match.group_expression to match an api_pattern with a group.
+#       - name: default
+#         # interval is the time interval when the rate limiter resets.
+#         interval: 1m
+#         # quota is the number of requests allowed in an interval.
+#         quota: 300
+#         # event_expression is a go template for grouping requests.
+#         # The following attributes are available in the context:
+#         # Identity - contains a subset of the JWT claims:
+#         # .Subject  (jwt:"sub")          string
+#         # .Tenant   (jwt:"mender.tenant") string
+#         # .Plan     (jwt:"mender.plan")   string
+#         # .Addons   (jwt:"mender.addons") []struct{Enabled bool; Name string}
+#         # .IsUser   (jwt:"mender.user")   bool
+#         # .IsDevice (jwt:"mender.device") bool
+#         # .Trial    (jwt:"mender.trial")  bool
+#         event_expression: "{{with .Identity}}{{.Subject}}{{end}}"
+#         # More example groups:
+#     # - name: "example_slow_group_by_tenant"
 #     #   quota: 1
-#     #   interval: 60s
-#     #   event_expression: "{{with .Identity}}{{.Subject}}{{end}}"
+#     #   interval: 30s
+#     #   event_expression: "{{with .Identity}}{{.Tenant}}{{end}}"
 #     # match specifies matching expressions for mapping API requests to rate
 #     # limiting groups.
-#     match: []
-#     # Example:
-#     #   # api_pattern specifies an API path pattern as defined by http.ServeMux
-#     #   # https://pkg.go.dev/net/http#hdr-Patterns-ServeMux
-#     # - api_pattern: PATCH /api/devices/v1/inventory/device/attributes
-#     #   # group_expression defines the group for this matching expression.
-#     #   # a group can be selected dynamically using Go templates.
-#     #   # The template context is the same as ratelimits.default.event_expression
-#     #   group_expression: "inventory"
+#     match:
+#         # api_pattern specifies an API path pattern as defined by http.ServeMux
+#         # https://pkg.go.dev/net/http#hdr-Patterns-ServeMux
+#       - api_pattern: /
+#         # group_expression defines  the group for this matching expression.
+#         # A group can be selected dynamically using Go templates or statically
+#         # with a literal string.
+#         # See group.event_expression for template context attributes.
+#         group_expression: "default"
+#         # More example match rules:
+#     # - api_pattern: /api/devices/v1/deployments/expample/slow/api/
+#     #   group_expression: "example_slow_group_by_tenant"
+#     # - api_pattern: /api/devices/v2/devauth/expample/slow/api/
+#     #   group_expression: >
+#     #     {{-if .Identity.Trial-}}
+#     #     example_slow_group_by_tenant
+#     #     {{-else-}}
+#     #     default
+#     #     {{-end-}}
 
 # Maximum allowed size for HTTP request bodies (in bytes)
 # Defaults to: 1048576 (1 MiB)
