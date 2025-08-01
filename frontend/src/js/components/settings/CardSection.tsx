@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 
 import { Button } from '@mui/material';
 
@@ -28,14 +28,16 @@ import stripeImage from '../../../assets/img/powered_by_stripe.png';
 const { setSnackbar } = storeActions;
 
 interface CardSectionProps {
+  infoText?: string;
   isSignUp: boolean;
   isValid?: boolean;
   onCardConfirmed: () => void;
   onClose?: () => void;
   onSubmit: () => Promise<void>;
   organization: Organization;
+  summary?: ReactNode | false;
 }
-export const CardSection = ({ isSignUp, onClose, organization, onSubmit, onCardConfirmed, isValid = true }: CardSectionProps) => {
+export const CardSection = ({ isSignUp, onClose, organization, onSubmit, onCardConfirmed, isValid = true, infoText, summary }: CardSectionProps) => {
   const stripe = useStripe();
   const elements = useElements();
   const [errors, setErrors] = useState(false);
@@ -105,16 +107,14 @@ export const CardSection = ({ isSignUp, onClose, organization, onSubmit, onCardC
         <img src={stripeImage} />
       </div>
 
-      {isSignUp && <InfoText>Billing will be scheduled monthly, starting from today. You can cancel at any time.</InfoText>}
-
+      {isSignUp && <InfoText>{infoText ? infoText : 'Billing will be scheduled monthly, starting from today. You can cancel at any time.'}</InfoText>}
+      {summary}
       <div className="flexbox center-aligned margin-top-small">
-        {!isSignUp && (
-          <Button type="reset" disabled={loading} style={{ marginRight: 15 }}>
-            Cancel
-          </Button>
-        )}
+        <Button type="reset" disabled={loading} style={{ marginRight: 15 }} onClick={onCancel}>
+          Cancel
+        </Button>
         <Button variant="contained" color="secondary" type="submit" disabled={errors || loading || empty || !isValid}>
-          {isSignUp ? 'Sign up' : 'Save'}
+          {isSignUp ? 'Confirm Subscription' : 'Save'}
         </Button>
       </div>
       <Loader show={loading} />

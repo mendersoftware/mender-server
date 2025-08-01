@@ -23,7 +23,7 @@ import {
 } from '@northern.tech/store/constants';
 import { HttpResponse, http } from 'msw';
 
-import { defaultState, webhookEvents } from '../mockData';
+import { defaultState, invoicePreviewBasic, subscriptionBasic, webhookEvents } from '../mockData';
 
 const releasesSample = {
   lts: ['3.3'],
@@ -159,6 +159,10 @@ export const organizationHandlers = [
     return new HttpResponse(null, { status: 200 });
   }),
   http.patch(`${tenantadmApiUrlv2}/billing/profile`, () => new HttpResponse(null, { status: 200 })),
+  http.post(`${tenantadmApiUrlv2}/billing/profile`, () => new HttpResponse(null, { status: 200 })),
+  http.post(`${tenantadmApiUrlv2}/billing/subscription`, () => new HttpResponse(null, { status: 202 })),
+  http.post(`${tenantadmApiUrlv2}/billing/subscription/invoices/preview`, () => HttpResponse.json(invoicePreviewBasic)),
+  http.get(`${tenantadmApiUrlv2}/billing/subscription`, () => HttpResponse.json(subscriptionBasic)),
   http.get(`${auditLogsApiUrl}/logs`, ({ request }) => {
     const { searchParams } = new URL(request.url);
     const perPage = Number(searchParams.get('per_page'));

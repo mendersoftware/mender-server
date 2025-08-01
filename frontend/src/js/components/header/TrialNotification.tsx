@@ -28,7 +28,7 @@ const TrialInformation = () => (
     <h3>Trial plan</h3>
     <p>You&apos;re using the trial version of Mender – it&apos;s free for up to 10 devices for 12 months.</p>
     <p>
-      <Link to="/settings/upgrade">Upgrade to a plan</Link> to add more devices and continue using Mender after the trial expires.
+      <Link to="/subscription">Upgrade to a plan</Link> to add more devices and continue using Mender after the trial expires.
     </p>
     <p>
       Or compare the plans at {/* eslint-disable-next-line react/jsx-no-target-blank */}
@@ -52,7 +52,7 @@ const TrialNotification = ({ iconClassName, sectionClassName, expiration }) => {
           Trial plan
         </>
       </MenderTooltipClickable>
-      <Button className={iconClassName} component={Link} startIcon={<Payment />} to="/settings/upgrade">
+      <Button className={iconClassName} component={Link} startIcon={<Payment />} to="/subscription">
         Upgrade now
       </Button>
 
