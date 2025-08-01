@@ -1,4 +1,4 @@
-// Copyright 2023 Northern.tech AS
+// Copyright 2025 Northern.tech AS
 //
 //	Licensed under the Apache License, Version 2.0 (the "License");
 //	you may not use this file except in compliance with the License.
@@ -538,12 +538,7 @@ func TestUserAdmDoCreateUser(t *testing.T) {
 	testCases := map[string]struct {
 		inUser model.User
 
-		withTenantVerification     bool
-		propagate                  bool
-		tenantCreateUserErr        error
-		tenantDeleteUserErr        error
-		shouldVerifyTenant         bool
-		shouldCompensateTenantUser bool
+		withTenantVerification bool
 
 		dbUser       *model.User
 		dbGetUserErr error
@@ -557,10 +552,8 @@ func TestUserAdmDoCreateUser(t *testing.T) {
 				Email:    "foo@bar.com",
 				Password: "correcthorsebatterystaple",
 			},
-			dbErr:              nil,
-			outErr:             nil,
-			propagate:          true,
-			shouldVerifyTenant: false,
+			dbErr:  nil,
+			outErr: nil,
 		},
 		"ok, multitenant": {
 			inUser: model.User{
@@ -569,105 +562,9 @@ func TestUserAdmDoCreateUser(t *testing.T) {
 			},
 
 			withTenantVerification: true,
-			propagate:              true,
-			tenantCreateUserErr:    nil,
-			shouldVerifyTenant:     true,
 
 			dbErr:  nil,
 			outErr: nil,
-		},
-		"ok, multitenant, progate: false": {
-			inUser: model.User{
-				Email:    "foo@bar.com",
-				Password: "correcthorsebatterystaple",
-			},
-
-			withTenantVerification: true,
-			propagate:              false,
-			tenantCreateUserErr:    nil,
-			shouldVerifyTenant:     false,
-
-			dbErr:  nil,
-			outErr: nil,
-		},
-		"error, multitenant: duplicate user": {
-			inUser: model.User{
-				Email:    "foo@bar.com",
-				Password: "correcthorsebatterystaple",
-			},
-
-			withTenantVerification: true,
-			propagate:              true,
-			tenantCreateUserErr:    ct.ErrDuplicateUser,
-			shouldVerifyTenant:     true,
-			dbUser: &model.User{
-				ID:       "1234",
-				Email:    "foo@bar.com",
-				Password: `$2a$10$wMW4kC6o1fY87DokgO.lDektJO7hBXydf4B.yIWmE8hR9jOiO8way`,
-			},
-
-			dbErr:  nil,
-			outErr: errors.New("user with a given email already exists"),
-		},
-		"error, multitenant: duplicate user, no user in useradm": {
-			inUser: model.User{
-				Email:    "foo@bar.com",
-				Password: "correcthorsebatterystaple",
-			},
-
-			withTenantVerification:     true,
-			propagate:                  true,
-			tenantCreateUserErr:        ct.ErrDuplicateUser,
-			shouldVerifyTenant:         true,
-			shouldCompensateTenantUser: true,
-
-			dbErr:  nil,
-			outErr: errors.New("tenant data out of sync: user with the same name already exists"),
-		},
-		"error, multitenant: duplicate user, no user in useradm, compensate error": {
-			inUser: model.User{
-				Email:    "foo@bar.com",
-				Password: "correcthorsebatterystaple",
-			},
-
-			withTenantVerification:     true,
-			propagate:                  true,
-			tenantCreateUserErr:        ct.ErrDuplicateUser,
-			tenantDeleteUserErr:        errors.New("delate user error"),
-			shouldVerifyTenant:         true,
-			shouldCompensateTenantUser: true,
-
-			dbErr:  nil,
-			outErr: errors.New("tenant data out of sync: faield to delete tenant user: delate user error"),
-		},
-		"error, multitenant: duplicate user, get user error": {
-			inUser: model.User{
-				Email:    "foo@bar.com",
-				Password: "correcthorsebatterystaple",
-			},
-
-			withTenantVerification: true,
-			propagate:              true,
-			shouldVerifyTenant:     true,
-			tenantCreateUserErr:    ct.ErrDuplicateUser,
-
-			dbGetUserErr: errors.New("db error"),
-			dbErr:        nil,
-			outErr:       errors.New("tenant data out of sync: failed to get user from db: db error"),
-		},
-		"error, multitenant: generic": {
-			inUser: model.User{
-				Email:    "foo@bar.com",
-				Password: "correcthorsebatterystaple",
-			},
-
-			withTenantVerification: true,
-			propagate:              true,
-			tenantCreateUserErr:    errors.New("http 500"),
-			shouldVerifyTenant:     true,
-
-			dbErr:  nil,
-			outErr: errors.New("useradm: failed to create user in tenantadm: http 500"),
 		},
 		"db error: duplicate email": {
 			inUser: model.User{
@@ -683,8 +580,6 @@ func TestUserAdmDoCreateUser(t *testing.T) {
 				Password: "correcthorsebatterystaple",
 			},
 			withTenantVerification: true,
-			propagate:              true,
-			shouldVerifyTenant:     true,
 			dbErr:                  store.ErrDuplicateEmail,
 			outErr:                 store.ErrDuplicateEmail,
 		},
@@ -696,33 +591,6 @@ func TestUserAdmDoCreateUser(t *testing.T) {
 			dbErr: errors.New("no reachable servers"),
 
 			outErr: errors.New("useradm: failed to create user in the db: no reachable servers"),
-		},
-		"db error, multitenant: general": {
-			inUser: model.User{
-				Email:    "foo@bar.com",
-				Password: "correcthorsebatterystaple",
-			},
-			withTenantVerification:     true,
-			propagate:                  true,
-			shouldVerifyTenant:         true,
-			shouldCompensateTenantUser: true,
-
-			dbErr:  errors.New("no reachable servers"),
-			outErr: errors.New("useradm: failed to create user in the db: no reachable servers"),
-		},
-		"db error, multitenant: general, compensate error": {
-			inUser: model.User{
-				Email:    "foo@bar.com",
-				Password: "correcthorsebatterystaple",
-			},
-			withTenantVerification:     true,
-			propagate:                  true,
-			shouldVerifyTenant:         true,
-			shouldCompensateTenantUser: true,
-			tenantDeleteUserErr:        errors.New("delate user error"),
-
-			dbErr:  errors.New("no reachable servers"),
-			outErr: errors.New("useradm: failed to create user in the db: faield to delete tenant user: delate user error: no reachable servers"),
 		},
 	}
 
@@ -747,26 +615,11 @@ func TestUserAdmDoCreateUser(t *testing.T) {
 			}
 			ctx = identity.WithContext(ctx, id)
 
-			if tc.shouldVerifyTenant {
-				cTenant.On("CreateUser",
-					ContextMatcher(),
-					mock.AnythingOfType("*tenant.User"),
-					&apiclient.HttpApi{}).
-					Return(tc.tenantCreateUserErr)
-
-				if tc.shouldCompensateTenantUser {
-					cTenant.On("DeleteUser",
-						ContextMatcher(),
-						mock.AnythingOfType("string"), mock.AnythingOfType("string"),
-						&apiclient.HttpApi{}).
-						Return(tc.tenantDeleteUserErr)
-				}
-			}
 			if tc.withTenantVerification {
 				useradm = useradm.WithTenantVerification(cTenant)
 			}
 
-			err := useradm.doCreateUser(ctx, &tc.inUser, tc.propagate)
+			err := useradm.doCreateUser(ctx, &tc.inUser)
 
 			if tc.outErr != nil {
 				assert.EqualError(t, err, tc.outErr.Error())

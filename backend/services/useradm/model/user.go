@@ -1,4 +1,4 @@
-// Copyright 2022 Northern.tech AS
+// Copyright 2025 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -162,7 +162,6 @@ func (u User) Validate() error {
 type UserInternal struct {
 	User
 	PasswordHash string `json:"password_hash,omitempty" bson:"-"`
-	Propagate    *bool  `json:"propagate,omitempty" bson:"-"`
 }
 
 func (u UserInternal) Validate() error {
@@ -170,11 +169,6 @@ func (u UserInternal) Validate() error {
 		u.Password != "" && u.PasswordHash != "" {
 		return errors.New("password *or* password_hash must be provided")
 	} else if u.PasswordHash != "" {
-		if u.ShouldPropagate() {
-			return errors.New(
-				"password_hash is not supported with 'propagate'; use 'password' instead",
-			)
-		}
 		u.User.Password = u.PasswordHash
 		defer func() { u.User.Password = "" }()
 	}
@@ -182,10 +176,6 @@ func (u UserInternal) Validate() error {
 	return validation.ValidateStruct(&u,
 		validation.Field(&u.User),
 	)
-}
-
-func (u UserInternal) ShouldPropagate() bool {
-	return u.Propagate == nil || *u.Propagate
 }
 
 type UserUpdate struct {

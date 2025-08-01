@@ -1,4 +1,4 @@
-// Copyright 2022 Northern.tech AS
+// Copyright 2025 Northern.tech AS
 //
 //	Licensed under the Apache License, Version 2.0 (the "License");
 //	you may not use this file except in compliance with the License.
@@ -60,7 +60,6 @@ type Config struct {
 type ClientRunner interface {
 	CheckHealth(ctx context.Context) error
 	GetTenant(ctx context.Context, username string, client apiclient.HttpRunner) (*Tenant, error)
-	CreateUser(ctx context.Context, user *User, client apiclient.HttpRunner) error
 	UpdateUser(
 		ctx context.Context,
 		tenantId,
@@ -185,44 +184,6 @@ func (c *Client) GetTenant(
 		return nil, nil
 	default:
 		return nil, errors.Errorf("got unexpected number of tenants: %v", len(tenants))
-	}
-}
-
-func (c *Client) CreateUser(ctx context.Context, user *User, client apiclient.HttpRunner) error {
-	// prepare request body
-	userJson, err := json.Marshal(user)
-	if err != nil {
-		return errors.Wrap(err, "failed to prepare body for POST /users")
-	}
-
-	reader := bytes.NewReader(userJson)
-
-	req, err := http.NewRequest(http.MethodPost,
-		JoinURL(c.conf.TenantAdmAddr, UsersUri),
-		reader)
-	if err != nil {
-		return errors.Wrap(err, "failed to create request for POST /users")
-	}
-
-	req.Header.Set("Content-Type", "application/json")
-
-	ctx, cancel := context.WithTimeout(ctx, c.conf.Timeout)
-	defer cancel()
-
-	// send
-	rsp, err := client.Do(req.WithContext(ctx))
-	if err != nil {
-		return errors.Wrap(err, "POST /users request failed")
-	}
-	defer rsp.Body.Close()
-
-	switch rsp.StatusCode {
-	case http.StatusCreated:
-		return nil
-	case http.StatusUnprocessableEntity:
-		return ErrDuplicateUser
-	default:
-		return errors.Errorf("POST /users request failed with unexpected status %v", rsp.StatusCode)
 	}
 }
 

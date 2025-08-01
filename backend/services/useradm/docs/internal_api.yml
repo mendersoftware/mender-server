@@ -375,9 +375,8 @@ definitions:
         type: string
       propagate:
         description: |
-          When propagate is true, the useradm will propagate user information
-          to tenantadm, otherwise no request to tenantadm will be made.
-          Defaults to true.
+          This paramter is deprecated _since Thu Jul 6 2023_, the propagation of user information to tenantadm is disabled
+          permanently.
         type: boolean
     required:
       - email

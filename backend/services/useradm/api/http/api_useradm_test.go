@@ -1,4 +1,4 @@
-// Copyright 2023 Northern.tech AS
+// Copyright 2025 Northern.tech AS
 //
 //	Licensed under the Apache License, Version 2.0 (the "License");
 //	you may not use this file except in compliance with the License.
@@ -456,100 +456,8 @@ func TestCreateUserForTenant(t *testing.T) {
 		createUserErr error
 
 		checker mt.ResponseChecker
-
-		propagate bool
 	}{
 		"ok": {
-			inReq: makeReq("POST",
-				"http://localhost/api/internal/v1/useradm/tenants/1/users",
-				"",
-				map[string]interface{}{
-					"email":     "foo@foo.com",
-					"password":  "foobarbar",
-					"propagate": true,
-				},
-			),
-
-			checker: mt.NewJSONResponse(
-				http.StatusCreated,
-				nil,
-				nil,
-			),
-			propagate: true,
-		},
-		"ok, with password hash": {
-			inReq: makeReq("POST",
-				"http://localhost/api/internal/v1/useradm/tenants/1/users",
-				"",
-				map[string]interface{}{
-					"email":         "foo@foo.com",
-					"password_hash": "foobarbar",
-					"propagate":     false,
-				},
-			),
-
-			checker: mt.NewJSONResponse(
-				http.StatusCreated,
-				nil,
-				nil,
-			),
-			propagate: false,
-		},
-		"error, no pass or hash": {
-			inReq: makeReq("POST",
-				"http://localhost/api/internal/v1/useradm/tenants/1/users",
-				"",
-				map[string]interface{}{
-					"email":     "foo@foo.com",
-					"propagate": true,
-				},
-			),
-
-			checker: mt.NewJSONResponse(
-				http.StatusBadRequest,
-				nil,
-				restError("password *or* password_hash must be provided"),
-			),
-			propagate: true,
-		},
-		"error, both pass and hash provided": {
-			inReq: makeReq("POST",
-				"http://localhost/api/internal/v1/useradm/tenants/1/users",
-				"",
-				map[string]interface{}{
-					"email":         "foo@foo.com",
-					"password":      "foobarbar",
-					"password_hash": "foobarbar",
-					"propagate":     true,
-				},
-			),
-
-			checker: mt.NewJSONResponse(
-				http.StatusBadRequest,
-				nil,
-				restError("password *or* password_hash must be provided"),
-			),
-			propagate: true,
-		},
-		"proagate false": {
-			inReq: makeReq("POST",
-				"http://localhost/api/internal/v1/useradm/tenants/1/users",
-				"",
-				map[string]interface{}{
-					"email":     "foo@foo.com",
-					"password":  "foobarbar",
-					"propagate": false,
-				},
-			),
-
-			checker: mt.NewJSONResponse(
-				http.StatusCreated,
-				nil,
-				nil,
-			),
-			propagate: false,
-		},
-		"propagate default true": {
 			inReq: makeReq("POST",
 				"http://localhost/api/internal/v1/useradm/tenants/1/users",
 				"",
@@ -564,7 +472,54 @@ func TestCreateUserForTenant(t *testing.T) {
 				nil,
 				nil,
 			),
-			propagate: true,
+		},
+		"ok, with password hash": {
+			inReq: makeReq("POST",
+				"http://localhost/api/internal/v1/useradm/tenants/1/users",
+				"",
+				map[string]interface{}{
+					"email":         "foo@foo.com",
+					"password_hash": "foobarbar",
+				},
+			),
+
+			checker: mt.NewJSONResponse(
+				http.StatusCreated,
+				nil,
+				nil,
+			),
+		},
+		"error, no pass or hash": {
+			inReq: makeReq("POST",
+				"http://localhost/api/internal/v1/useradm/tenants/1/users",
+				"",
+				map[string]interface{}{
+					"email": "foo@foo.com",
+				},
+			),
+
+			checker: mt.NewJSONResponse(
+				http.StatusBadRequest,
+				nil,
+				restError("password *or* password_hash must be provided"),
+			),
+		},
+		"error, both pass and hash provided": {
+			inReq: makeReq("POST",
+				"http://localhost/api/internal/v1/useradm/tenants/1/users",
+				"",
+				map[string]interface{}{
+					"email":         "foo@foo.com",
+					"password":      "foobarbar",
+					"password_hash": "foobarbar",
+				},
+			),
+
+			checker: mt.NewJSONResponse(
+				http.StatusBadRequest,
+				nil,
+				restError("password *or* password_hash must be provided"),
+			),
 		},
 		"password too short": {
 			inReq: makeReq("POST",
@@ -581,7 +536,6 @@ func TestCreateUserForTenant(t *testing.T) {
 				nil,
 				restError("User: "+model.ErrPasswordTooShort.Error()+"."),
 			),
-			propagate: true,
 		},
 		"duplicated email": {
 			inReq: makeReq("POST",
@@ -599,7 +553,6 @@ func TestCreateUserForTenant(t *testing.T) {
 				nil,
 				restError(store.ErrDuplicateEmail.Error()),
 			),
-			propagate: true,
 		},
 		"no body": {
 			inReq: makeReq("POST",
@@ -611,7 +564,6 @@ func TestCreateUserForTenant(t *testing.T) {
 				nil,
 				restError("failed to decode request body: invalid request"),
 			),
-			propagate: true,
 		},
 		"no tenant id": {
 			inReq: makeReq("POST",
@@ -628,7 +580,6 @@ func TestCreateUserForTenant(t *testing.T) {
 				nil,
 				restError("Entity not found"),
 			),
-			propagate: true,
 		},
 	}
 
