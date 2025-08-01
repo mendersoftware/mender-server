@@ -20,7 +20,7 @@ import { makeStyles } from 'tss-react/mui';
 import Confirm from '@northern.tech/common-ui/Confirm';
 import InfoHint from '@northern.tech/common-ui/InfoHint';
 import { EXTERNAL_PROVIDER, TIMEOUTS } from '@northern.tech/store/constants';
-import { getExternalIntegrations, getIsPreview, getWebhooks } from '@northern.tech/store/selectors';
+import { getExternalIntegrations, getIsPreview } from '@northern.tech/store/selectors';
 import { changeIntegration, createIntegration, deleteIntegration, getIntegrations } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { customSort } from '@northern.tech/utils/helpers';
@@ -198,12 +198,18 @@ const determineAvailableIntegrations = (integrations, isPreRelease) =>
     return accu;
   }, []);
 
+const IntegrationsContainer = ({ children }: { children: ReactNode }) => (
+  <div>
+    <h2 className="margin-top-small">Integrations</h2>
+    {children}
+  </div>
+);
+
 export const Integrations = () => {
   const [availableIntegrations, setAvailableIntegrations] = useState([]);
   const [configuredIntegrations, setConfiguredIntegrations] = useState([]);
   const [isConfiguringWebhook, setIsConfiguringWebhook] = useState(false);
   const integrations = useSelector(getExternalIntegrations);
-  const webhooks = useSelector(getWebhooks);
   const isPreRelease = useSelector(getIsPreview);
   const dispatch = useDispatch();
 
@@ -247,10 +253,27 @@ export const Integrations = () => {
     dispatch(changeIntegration(integration));
   };
 
-  const canAddIntegration = !integrations.length && !webhooks.length;
+  const isConfiguring = configuredIntegrations.some(({ id }) => id === 'new');
+  if (!!availableIntegrations.length && !integrations.length && !isConfiguring) {
+    return (
+      <IntegrationsContainer>
+        <FormControl>
+          <InputLabel id="integration-select-label">Add an integration</InputLabel>
+          <Select className={classes.select} label="Add an integration" labelId="integration-select-label" onChange={onConfigureIntegration} value="">
+            {availableIntegrations.map(item => (
+              <MenuItem key={item.provider} value={item.provider}>
+                {item.title}
+              </MenuItem>
+            ))}
+            <MenuItem value="webhook">Webhooks</MenuItem>
+          </Select>
+        </FormControl>
+        {isConfiguringWebhook && <WebhookConfiguration onCancel={onCancelClick} onSubmit={onSaveClick} />}
+      </IntegrationsContainer>
+    );
+  }
   return (
-    <div>
-      <h2 className="margin-top-small">Integrations</h2>
+    <IntegrationsContainer>
       {configuredIntegrations.map((integration, index) => (
         <IntegrationConfiguration
           key={integration.provider}
@@ -262,25 +285,10 @@ export const Integrations = () => {
         />
       ))}
       <Webhooks />
-      {canAddIntegration ? (
-        !!availableIntegrations.length && (
-          <FormControl>
-            <InputLabel id="integration-select-label">Add an integration</InputLabel>
-            <Select className={classes.select} label="Add an integration" labelId="integration-select-label" onChange={onConfigureIntegration} value="">
-              {availableIntegrations.map(item => (
-                <MenuItem key={item.provider} value={item.provider}>
-                  {item.title}
-                </MenuItem>
-              ))}
-              {!webhooks.length && <MenuItem value="webhook">Webhooks</MenuItem>}
-            </Select>
-          </FormControl>
-        )
-      ) : (
+      {!isConfiguring && (
         <InfoHint content="You can only have one active integration at a time. To use a different integration, you'll need to delete the current one first." />
       )}
-      {isConfiguringWebhook && <WebhookConfiguration onCancel={onCancelClick} onSubmit={onSaveClick} />}
-    </div>
+    </IntegrationsContainer>
   );
 };
 
