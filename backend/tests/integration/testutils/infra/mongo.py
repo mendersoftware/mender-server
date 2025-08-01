@@ -12,6 +12,8 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
+import re
+
 from pymongo import MongoClient as PyMongoClient
 from testutils.infra.container_manager.kubernetes_manager import isK8S
 
@@ -26,4 +28,9 @@ class MongoClient:
         dbs = self.client.list_database_names()
         dbs = [d for d in dbs if d not in ["local", "admin", "config", "workflows"]]
         for d in dbs:
-            self.client.drop_database(d)
+            if re.match(r"^(deployment_service|inventory)-[0-9a-f]{24}", d):
+                self.client.drop_database(d)
+            else:
+                db = self.client[d]
+                for coll in db.list_collection_names():
+                    db[coll].delete_many({})
