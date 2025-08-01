@@ -136,6 +136,9 @@ const generateTypeIndex = async () => {
 };
 
 const mergedContent = await processFiles(join(rootDir, 'backend', 'services'));
+mergedContent.components.schemas.AuditLogObject = { ...mergedContent.components.schemas.Object };
+delete mergedContent.components.schemas.Object;
+mergedContent.components.schemas.AuditLog.properties.object['$ref'] = '#/components/schemas/AuditLogObject';
 await generate({ input: mergedContent, output: join(rootDir, 'generated') });
 await Deno.writeTextFile(join(rootDir, 'combined.yml'), stringify(mergedContent));
 await generateTypeIndex();
