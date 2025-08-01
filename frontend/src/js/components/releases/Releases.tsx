@@ -139,7 +139,6 @@ const Header = ({ canUpload, releasesListState, setReleasesListState, onUploadCl
               Component: ControlledAutoComplete,
               componentProps: {
                 autoHighlight: true,
-                autoSelect: true,
                 filterSelectedOptions: true,
                 freeSolo: true,
                 handleHomeEndKeys: true,
