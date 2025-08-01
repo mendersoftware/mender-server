@@ -1,4 +1,4 @@
-// Copyright 2022 Northern.tech AS
+// Copyright 2025 Northern.tech AS
 //
 //	Licensed under the Apache License, Version 2.0 (the "License");
 //	you may not use this file except in compliance with the License.
@@ -199,57 +199,6 @@ func TestGetTenant(t *testing.T) {
 				assert.Equal(t, GetTenantsUri, rd.Url.Path)
 				assert.Equal(t, "GET", rd.Method)
 				assert.Equal(t, tc.tenant, tenant)
-			}
-			s.Close()
-		})
-	}
-}
-
-func TestCreateUser(t *testing.T) {
-	t.Parallel()
-
-	testCases := map[string]struct {
-		status int
-		err    error
-	}{
-		"ok": {
-			status: http.StatusCreated,
-			err:    nil,
-		},
-		"error: duplicate user": {
-			status: http.StatusUnprocessableEntity,
-			err:    ErrDuplicateUser,
-		},
-		"error: generic": {
-			status: http.StatusInternalServerError,
-			err:    errors.New("POST /users request failed with unexpected status 500"),
-		},
-	}
-
-	for name := range testCases {
-		tc := testCases[name]
-		t.Run(name, func(t *testing.T) {
-			t.Parallel()
-
-			s, rd := ct.NewMockServer(tc.status, nil)
-
-			c := NewClient(Config{
-				TenantAdmAddr: s.URL,
-			})
-
-			user := &User{
-				ID:       "foo",
-				Name:     "foo@bar.com",
-				TenantID: "foo-tenant",
-			}
-
-			err := c.CreateUser(context.Background(), user, &apiclient.HttpApi{})
-			if tc.err != nil {
-				assert.EqualError(t, err, tc.err.Error())
-			} else {
-				assert.NoError(t, err)
-				assert.Equal(t, UsersUri, rd.Url.Path)
-				assert.Equal(t, "POST", rd.Method)
 			}
 			s.Close()
 		})

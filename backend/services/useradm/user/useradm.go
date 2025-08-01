@@ -1,4 +1,4 @@
-// Copyright 2023 Northern.tech AS
+// Copyright 2025 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -283,7 +283,7 @@ func (ua *UserAdm) CreateUser(ctx context.Context, u *model.User) error {
 	// Generate a unique user ID for the new user
 	u.ID = uuid.NewString()
 
-	return ua.doCreateUser(ctx, u, true)
+	return ua.doCreateUser(ctx, u)
 }
 
 func (ua *UserAdm) CreateUserInternal(ctx context.Context, u *model.UserInternal) error {
@@ -297,10 +297,10 @@ func (ua *UserAdm) CreateUserInternal(ctx context.Context, u *model.UserInternal
 		u.Password = string(hash)
 	}
 
-	return ua.doCreateUser(ctx, &u.User, u.ShouldPropagate())
+	return ua.doCreateUser(ctx, &u.User)
 }
 
-func (ua *UserAdm) doCreateUser(ctx context.Context, u *model.User, propagate bool) error {
+func (ua *UserAdm) doCreateUser(ctx context.Context, u *model.User) error {
 	var tenantErr error
 
 	if u.ID == "" {
@@ -309,19 +309,6 @@ func (ua *UserAdm) doCreateUser(ctx context.Context, u *model.User, propagate bo
 	}
 
 	id := identity.FromContext(ctx)
-	if ua.verifyTenant && propagate {
-		tenantErr = ua.cTenant.CreateUser(ctx,
-			&tenant.User{
-				ID:       u.ID,
-				Name:     string(u.Email),
-				TenantID: id.Tenant,
-			},
-			ua.clientGetter())
-
-		if tenantErr != nil && tenantErr != tenant.ErrDuplicateUser {
-			return errors.Wrap(tenantErr, "useradm: failed to create user in tenantadm")
-		}
-	}
 
 	if tenantErr == tenant.ErrDuplicateUser {
 		// check if the user exists in useradm
@@ -346,17 +333,6 @@ func (ua *UserAdm) doCreateUser(ctx context.Context, u *model.User, propagate bo
 	if err := ua.db.CreateUser(ctx, u); err != nil {
 		if err == store.ErrDuplicateEmail {
 			return err
-		}
-		if ua.verifyTenant && propagate {
-			// if the user could not be created in the useradm database
-			// try to remove the user from tenantadm
-			if compensateErr := ua.compensateTenantUser(
-				ctx,
-				u.ID,
-				id.Tenant,
-			); compensateErr != nil {
-				err = errors.Wrap(err, compensateErr.Error())
-			}
 		}
 
 		return errors.Wrap(err, "useradm: failed to create user in the db")
