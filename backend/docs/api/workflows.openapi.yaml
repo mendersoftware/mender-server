@@ -1,0 +1,425 @@
+openapi: 3.0.1
+info:
+  title: Workflows
+  description: |
+    An API for workflow management.
+    Intended for use by other services.
+  version: "1"
+servers:
+- url: http://mender-workflows:8080/
+paths:
+  /status:
+    get:
+      summary: Check if service API is alive and serving requests
+      operationId: Check Liveliness
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+              example:
+                status: ok
+        "500":
+          $ref: '#/components/responses/InternalServerError'
+  /health:
+    get:
+      summary: Check if service and all operational dependencies are healthy.
+      operationId: Check Health
+      responses:
+        "204":
+          description: Service is healthy.
+          content: {}
+        "502":
+          description: Service is temporarily unavailable (currently unhealthy).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          $ref: '#/components/responses/InternalServerError'
+  /api/v1/workflow/{name}:
+    post:
+      summary: Start a new workflow
+      description: |
+        Starts a new workflow given by the name path-parameter.
+      operationId: Start Workflow
+      parameters:
+      - name: name
+        in: path
+        description: Workflow identifier.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Contains the definition of the job to be started.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/InputParameter'
+        required: true
+      responses:
+        "201":
+          description: Workflow created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+        "400":
+          $ref: '#/components/responses/InvalidRequestError'
+        "404":
+          $ref: '#/components/responses/NotFoundError'
+  /api/v1/workflow/{name}/batch:
+    post:
+      summary: Start a batch of workflows
+      description: |
+        Starts a new workflow given by the name path-parameter.
+      operationId: Start Batch Workflows
+      parameters:
+      - name: name
+        in: path
+        description: Workflow identifier.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Contains the definition of the job to be started.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InputParameter'
+        required: true
+      responses:
+        "201":
+          description: Workflows created successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    error:
+                      type: string
+        "400":
+          $ref: '#/components/responses/InvalidRequestError'
+        "404":
+          $ref: '#/components/responses/NotFoundError'
+  /api/v1/workflow/{name}/{id}:
+    get:
+      summary: Gets the workflow status for the given id.
+      description: |
+        Gets the workflow status for the given workflow name and id provided
+        by the path parameters.
+      operationId: Workflow Status
+      parameters:
+      - name: name
+        in: path
+        description: Workflow identifier.
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Job identifier
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobStatus'
+        "404":
+          $ref: '#/components/responses/NotFoundError'
+  /api/v1/metadata/workflows:
+    get:
+      summary: Get all workflow definitions
+      operationId: List Workflows
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Workflow'
+    post:
+      summary: Register a new workflow
+      operationId: Register Workflow
+      requestBody:
+        description: Workflow definition.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Workflow'
+        required: true
+      responses:
+        "201":
+          description: Successful response.
+          content: {}
+        "400":
+          $ref: '#/components/responses/InvalidRequestError'
+        "409":
+          $ref: '#/components/responses/ConflictError'
+  /api/v1/jobs/{id}:
+    get:
+      summary: Gets the job for the given id.
+      description: |
+        Gets the job object for the given job id.
+      operationId: Job Structure
+      parameters:
+      - name: id
+        in: path
+        description: Job identifier
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobObject'
+        "404":
+          $ref: '#/components/responses/NotFoundError'
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Description of the error.
+      description: Error descriptor.
+      example:
+        error: "failed: JSON payload is empty"
+    CLIParams:
+      type: object
+      properties:
+        command:
+          type: array
+          items:
+            type: string
+        executionTimeOut:
+          type: integer
+      description: CLI parameters
+    HTTPParams:
+      type: object
+      properties:
+        uri:
+          type: string
+        method:
+          type: string
+        contentType:
+          type: string
+        body:
+          type: string
+        json:
+          type: object
+          properties: {}
+        headers:
+          type: object
+          properties: {}
+        statusCodes:
+          type: array
+          items:
+            type: integer
+        connectionTimeOut:
+          type: integer
+        readTimeOut:
+          type: integer
+      description: HTTP parameters
+    Task:
+      required:
+      - name
+      - type
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        retries:
+          type: integer
+        retryDelaySeconds:
+          type: integer
+        requires:
+          type: array
+          items:
+            type: string
+        cli:
+          $ref: '#/components/schemas/CLIParams'
+        http:
+          $ref: '#/components/schemas/HTTPParams'
+      description: Task definition
+    Workflow:
+      required:
+      - name
+      - tasks
+      - version
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        version:
+          type: integer
+        schemaversion:
+          type: integer
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+        inputParameters:
+          type: array
+          items:
+            type: string
+    InputParameter:
+      required:
+      - name
+      - value
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+      example:
+        name: key
+        value: parameter
+    TaskResultCLI:
+      type: object
+      properties:
+        command:
+          type: array
+          items:
+            type: string
+        output:
+          type: string
+        error:
+          type: string
+        exitCode:
+          type: integer
+    TaskResultHTTPRequest:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        body:
+          type: string
+    TaskResultHTTPResponse:
+      type: object
+      properties:
+        uri:
+          type: string
+        method:
+          type: string
+        headers:
+          type: array
+          items:
+            type: string
+        body:
+          type: string
+    TaskResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+        cli:
+          $ref: '#/components/schemas/TaskResultCLI'
+        request:
+          $ref: '#/components/schemas/TaskResultHTTPRequest'
+        response:
+          $ref: '#/components/schemas/TaskResultHTTPResponse'
+    JobStatus:
+      type: object
+      properties:
+        id:
+          type: string
+        workflowName:
+          type: string
+        inputParameters:
+          type: array
+          items:
+            $ref: '#/components/schemas/InputParameter'
+        status:
+          type: string
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskResult'
+    JobObject:
+      type: object
+      properties:
+        id:
+          type: string
+        workflowName:
+          type: string
+        inputParameters:
+          type: array
+          items:
+            $ref: '#/components/schemas/InputParameter'
+        status:
+          type: string
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskResult'
+        insert_time:
+          type: string
+          format: date-time
+        version:
+          type: string
+  responses:
+    NotFoundError:
+      description: Not Found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ConflictError:
+      description: "Conflict, record already exists."
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InvalidRequestError:
+      description: Invalid Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
