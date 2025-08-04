@@ -81,13 +81,10 @@ test:frontend:unit:
     - cd frontend
     - npm ci
     - npm run test -- --reporter=default --reporter=junit --outputFile.junit=./junit.xml --coverage
-  after_script:
-    - mkdir logs && cp frontend/logs/* logs/
   artifacts:
     expire_in: 2w
     paths:
       - frontend/coverage
-      - logs
     reports:
       junit: frontend/junit.xml
     when: always
@@ -204,7 +201,6 @@ build:frontend:docker:
     paths:
       - frontend/coverage
       - frontend/screenshots
-      - frontend/logs
       - frontend/junit
     reports:
       junit:
