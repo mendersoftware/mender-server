@@ -129,21 +129,6 @@ export const ADDONS: { [key in AvailableAddon]: Addon } = {
     },
     eligible: ['os', 'professional', 'enterprise']
   },
-  troubleshoot: {
-    id: 'troubleshoot',
-    title: 'Troubleshoot',
-    description: 'Detect and analyze health issues of devices, services and applications. Set up alerts so you can act quickly.',
-    needs: ['hasDeviceConnect'],
-    os: {
-      price: '$28/month',
-      deviceCount: startingDeviceCount.os
-    },
-    professional: {
-      price: '$79/month',
-      deviceCount: startingDeviceCount.professional
-    },
-    eligible: ['os', 'professional', 'enterprise']
-  },
   monitor: {
     id: 'monitor',
     title: 'Monitor',
@@ -158,6 +143,21 @@ export const ADDONS: { [key in AvailableAddon]: Addon } = {
       deviceCount: startingDeviceCount.professional
     },
     eligible: ['professional', 'enterprise']
+  },
+  troubleshoot: {
+    id: 'troubleshoot',
+    title: 'Troubleshoot',
+    description: 'Detect and analyze health issues of devices, services and applications. Set up alerts so you can act quickly.',
+    needs: ['hasDeviceConnect'],
+    os: {
+      price: '$28/month',
+      deviceCount: startingDeviceCount.os
+    },
+    professional: {
+      price: '$79/month',
+      deviceCount: startingDeviceCount.professional
+    },
+    eligible: ['os', 'professional', 'enterprise']
   }
 };
 
