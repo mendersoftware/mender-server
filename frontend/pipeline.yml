@@ -212,7 +212,7 @@ build:frontend:docker:
 test:frontend:acceptance:
   extends: .template:test:frontend:acceptance
   script:
-    - GUI_REPOSITORY=$(pwd)/frontend SERVER_ROOT=$(pwd) ./frontend/tests/e2e_tests/run
+    - ./frontend/tests/e2e_tests/run
 
 test:frontend:acceptance:enterprise:
   extends: .template:test:frontend:acceptance
@@ -225,7 +225,7 @@ test:frontend:acceptance:enterprise:
     - unset MENDER_IMAGE_REGISTRY MENDER_IMAGE_REPOSITORY
     - export MENDER_IMAGE_TAG=main
     - docker login -u $REGISTRY_MENDER_IO_USERNAME -p $REGISTRY_MENDER_IO_PASSWORD registry.mender.io
-    - GUI_REPOSITORY=$(pwd)/frontend SERVER_ROOT=$(pwd) ./frontend/tests/e2e_tests/run --enterprise
+    - ./frontend/tests/e2e_tests/run --enterprise
 
 .template:publish:frontend:tests:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/${NODE_IMAGE}
