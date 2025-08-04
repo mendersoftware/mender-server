@@ -15,7 +15,7 @@ import { DiffTerm, diff } from 'https://deno.land/x/diff_kit@v2.0.4/mod.ts';
 import { parseArgs } from 'jsr:@std/cli/parse-args';
 import { dirname, fromFileUrl, join, resolve as resolvePath } from 'jsr:@std/path';
 // import { dirname, fromFileUrl, resolve as resolvePath } from 'jsr:@std/path/mod.ts';
-import { asCSV, asSummary, init } from 'npm:license-checker-rseidelsohn@4.2.10';
+import { asCSV, asSummary, init } from 'license-checker-rseidelsohn';
 
 const licenseFile = 'directDependencies.csv';
 const licenseFileLocation = resolvePath(dirname(fromFileUrl(Deno.mainModule)), licenseFile);
