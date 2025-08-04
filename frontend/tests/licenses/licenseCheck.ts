@@ -31,7 +31,7 @@ const usageMessage = [
   ''
 ].join('\n');
 
-const collectUsedLicenses = () => new Promise((resolve, reject) => init({ direct: 0, start: '.' }, (err, packages) => (err ? reject(err) : resolve(packages))));
+const collectUsedLicenses = (root: string) => new Promise((resolve, reject) => init({ direct: 0, start: root }, (err, packages) => (err ? reject(err) : resolve(packages))));
 
 const createPackageData = packageData => ({ licenses: packageData.licenses ?? 'unknown', repository: packageData.repository || packageData.url || '' });
 
@@ -49,8 +49,8 @@ const simplifyPackageData = packages =>
     return accu;
   }, {});
 
-const checkLicenses = () =>
-  collectUsedLicenses()
+const checkLicenses = (root: string = '.') =>
+  collectUsedLicenses(root)
     .then(simplifyPackageData)
     .then(async packages => {
       const existing = await Deno.readTextFile(licenseFileLocation);
@@ -59,8 +59,8 @@ const checkLicenses = () =>
       Deno.exit(existing === current ? 0 : 1);
     });
 
-const writeLicenseFile = () =>
-  collectUsedLicenses()
+const writeLicenseFile = (root: string = '.') =>
+  collectUsedLicenses(root)
     .then(simplifyPackageData)
     .then(async packages => {
       const newPackageData = `${asCSV(packages)}\n`;
@@ -82,7 +82,7 @@ await checkGeneratedLicenses(passedRoot);
 
 const hasUnknownFlag = Object.keys(flags).some(option => !knownOptions.find(({ key }) => option === key));
 if (flags.update) {
-  await writeLicenseFile();
+  await writeLicenseFile(passedRoot);
   Deno.exit(0);
 }
 if (flags.help || hasUnknownFlag) {
@@ -90,8 +90,8 @@ if (flags.help || hasUnknownFlag) {
   Deno.exit(0);
 }
 if (flags.summary) {
-  const result = await collectUsedLicenses();
+  const result = await collectUsedLicenses(passedRoot);
   console.log(asSummary(result));
   Deno.exit(0);
 }
-checkLicenses();
+checkLicenses(passedRoot);
