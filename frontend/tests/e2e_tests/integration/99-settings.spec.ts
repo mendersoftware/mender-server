@@ -91,13 +91,16 @@ test.describe('Settings', () => {
       const wasUpgraded = await page.isVisible(`css=#limit >> text=250`);
       test.skip(wasUpgraded, 'looks like the account was upgraded already, continue with the remaining tests');
       await page.getByText('Upgrade now').click();
-      await page.getByRole('button', { name: 'subscribe' }).nth(1).click();
+      await page.getByRole('radio', { name: 'Professional' }).click();
+      await page.getByRole('button', { name: 'Upgrade now' }).click();
+
       await page.getByRole('textbox', { name: /address line 1/i }).fill('Blindernveien');
       await page.getByRole('textbox', { name: /state/i }).fill('Oslo');
       await page.getByRole('textbox', { name: /city/i }).fill('Oslo');
       await page.getByRole('textbox', { name: /zip or postal code/i }).fill('12345');
       await page.getByLabel('Country').fill('Norw');
       await page.getByRole('option', { name: 'Norway' }).click();
+      await page.getByRole('button', { name: 'Save Billing profile' }).click();
 
       await page.waitForSelector('.StripeElement iframe');
       const frameHandle = await page.$('.StripeElement iframe');
@@ -106,7 +109,7 @@ test.describe('Settings', () => {
       await stripeFrame.fill('[name="exp-date"]', '1232');
       await stripeFrame.fill('[name="cvc"]', '123');
       await stripeFrame.fill('[name="postal"]', '12345');
-      await page.click(`button:has-text('Sign up')`);
+      await page.click(`button:has-text('Confirm subscription')`);
       await page.getByText(/Card confirmed./i).waitFor({ timeout: timeouts.tenSeconds });
       await page.getByText(/ You have successfully subscribed to the professional/i).waitFor({ timeout: timeouts.fifteenSeconds });
 
