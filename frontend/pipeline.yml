@@ -43,7 +43,7 @@ test:frontend:license-headers:
     - git diff --exit-code frontend/tests
 
 test:frontend:licenses:
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/denoland/deno:debian-1.46.3
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/denoland/deno:debian-2.0.2
   stage: test
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^(staging|saas-[a-zA-Z0-9.]+)$/
