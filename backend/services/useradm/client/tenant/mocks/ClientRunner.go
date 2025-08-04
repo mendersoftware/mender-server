@@ -49,24 +49,6 @@ func (_m *ClientRunner) CheckHealth(ctx context.Context) error {
 	return r0
 }
 
-// CreateUser provides a mock function with given fields: ctx, user, client
-func (_m *ClientRunner) CreateUser(ctx context.Context, user *tenant.User, client apiclient.HttpRunner) error {
-	ret := _m.Called(ctx, user, client)
-
-	if len(ret) == 0 {
-		panic("no return value specified for CreateUser")
-	}
-
-	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, *tenant.User, apiclient.HttpRunner) error); ok {
-		r0 = rf(ctx, user, client)
-	} else {
-		r0 = ret.Error(0)
-	}
-
-	return r0
-}
-
 // DeleteUser provides a mock function with given fields: ctx, tenantId, clientId, client
 func (_m *ClientRunner) DeleteUser(ctx context.Context, tenantId string, clientId string, client apiclient.HttpRunner) error {
 	ret := _m.Called(ctx, tenantId, clientId, client)

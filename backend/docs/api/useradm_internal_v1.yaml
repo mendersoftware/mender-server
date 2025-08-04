@@ -412,9 +412,8 @@ components:
         propagate:
           type: boolean
           description: |
-            When propagate is true, the useradm will propagate user information
-            to tenantadm, otherwise no request to tenantadm will be made.
-            Defaults to true.
+            This paramter is deprecated _since Thu Jul 6 2023_, the propagation
+            of user information to tenantadm is disabled permanently.
       description: New user descriptor.
       example:
         email: user@acme.com
