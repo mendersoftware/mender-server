@@ -50,7 +50,13 @@ const professionalReq300WithMonitor = {
 };
 describe('Subscription Summary component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<SubscriptionPage />);
+    //
+    const { baseElement } = render(<SubscriptionPage />, {
+      preloadedState: {
+        ...defaultState,
+        organization: { ...defaultState.organization, organization: { ...defaultState.organization.organization, id: '6863115e67294908fbbd6dd0' } }
+      }
+    });
     const view = baseElement.lastElementChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

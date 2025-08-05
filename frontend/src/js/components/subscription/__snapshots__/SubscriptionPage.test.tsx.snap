@@ -793,7 +793,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
 }
 
 <div>
-  <div>
+  <div
+    style="padding-bottom: 15%;"
+  >
     <h4
       class="MuiTypography-root MuiTypography-h4 margin-bottom-large emotion-0"
     >

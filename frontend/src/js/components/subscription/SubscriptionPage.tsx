@@ -82,7 +82,7 @@ export const SubscriptionPage = () => {
   const [isPreviewLoading, setIsPreviewLoading] = useState(false);
   const [showUpgradeDrawer, setShowUpgradeDrawer] = useState(false);
   const [loadingFinished, setLoadingFinished] = useState(!stripeAPIKey);
-
+  const [currentPricingChecked, setCurrentPricingChecked] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const currentDeviceLimit = useSelector(getDeviceLimit);
@@ -96,11 +96,14 @@ export const SubscriptionPage = () => {
   const debouncedLimit = useDebounce(limit, TIMEOUTS.debounceDefault);
 
   // redirect customers paying old price to billing page to see the alert
+  //TODO: remove after september 1st
   useEffect(() => {
-    if (org.id && !isTrial && !hasCurrentPricing) {
+    if (isOrgLoaded && !isTrial && !hasCurrentPricing) {
       navigate('/settings/billing');
+    } else if (isOrgLoaded) {
+      setCurrentPricingChecked(true);
     }
-  }, [isTrial, navigate, hasCurrentPricing, org]);
+  }, [isTrial, navigate, hasCurrentPricing, isOrgLoaded]);
 
   //Fetch Billing profile & subscription
   useEffect(() => {
@@ -248,8 +251,9 @@ export const SubscriptionPage = () => {
     (!isTrial && !!enabledAddons.find(enabled => enabled.name === addon.id)) || !addon.eligible.includes(selectedPlan.id);
   const selectedAddonsLength = Object.values(selectedAddons).reduce((acc, curr) => acc + Number(curr), 0);
   const isNew = currentPlanId !== selectedPlan.id || enabledAddons.length < selectedAddonsLength || debouncedLimit > currentDeviceLimit || isTrial;
+  if (!currentPricingChecked) return null;
   return (
-    <div>
+    <div style={{ paddingBottom: '15%' }}>
       <Typography variant="h4" className="margin-bottom-large">
         Upgrade your subscription
       </Typography>

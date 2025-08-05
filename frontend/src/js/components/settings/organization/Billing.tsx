@@ -57,26 +57,20 @@ const useStyles = makeStyles()(theme => ({
   wrapper: { gap: theme.spacing(2) }
 }));
 
-const OldTenantPriceIncreaseNote = () => {
-  const hasCurrentPricing = useSelector(getHasCurrentPricing); // we can't rely on the signup date as it doesn't exist for older tenants
-  if (hasCurrentPricing) {
-    return null;
-  }
-  return (
-    <Alert className="margin-top-small" severity="info">
-      <AlertTitle>Upcoming price changes</AlertTitle>
-      Please note: your subscription will remain at the current price until <b>September 1st</b>, when updated pricing takes effect. To see how the new pricing
-      will affect you, see our{' '}
-      <a href="https://mender.io/pricing/price-calculator" target="_blank" rel="noopener noreferrer">
-        price calculator
-      </a>
-      . In the meantime if you’d like to adjust your plan, please contact{' '}
-      <a href="mailto:support@mender.io" target="_blank" rel="noopener noreferrer">
-        support@mender.io
-      </a>
-    </Alert>
-  );
-};
+const OldTenantPriceIncreaseNote = () => (
+  <Alert className="margin-top-small" severity="info">
+    <AlertTitle>Upcoming price changes</AlertTitle>
+    Please note: your subscription will remain at the current price until <b>September 1st</b>, when updated pricing takes effect. To see how the new pricing
+    will affect you, see our{' '}
+    <a href="https://mender.io/pricing/price-calculator" target="_blank" rel="noopener noreferrer">
+      price calculator
+    </a>
+    . In the meantime if you’d like to adjust your plan, please contact{' '}
+    <a href="mailto:support@mender.io" target="_blank" rel="noopener noreferrer">
+      support@mender.io
+    </a>
+  </Alert>
+);
 
 const AddOnDescriptor = ({ addOns = [], isTrial }: { addOns: string[]; isTrial: boolean }) => {
   if (!addOns.length) {
@@ -214,6 +208,7 @@ export const Billing = () => {
   const card = useSelector(getCard);
   const deviceLimit = useSelector(getDeviceLimit);
   const billing = useSelector(getBillingProfile);
+  const hasCurrentPricing = useSelector(getHasCurrentPricing);
   const { addons = [], plan: currentPlan = PLANS.os.id, trial: isTrial, trial_expiration } = organization;
   const dispatch = useAppDispatch();
   const { classes } = useStyles();
@@ -244,13 +239,13 @@ export const Billing = () => {
     <div style={{ maxWidth: 750 }}>
       <Typography variant="h6">Billing</Typography>
       <div className={`flexbox column ${classes.wrapper}`}>
-        <OldTenantPriceIncreaseNote />
+        {!hasCurrentPricing && <OldTenantPriceIncreaseNote />}
         <OrganizationSettingsItem
           title="Current plan"
           secondary={<PlanDescriptor plan={planName} isTrial={isTrial} trialExpiration={trial_expiration} deviceLimit={deviceLimit} />}
         />
         <OrganizationSettingsItem title="Current Add-ons" secondary={<AddOnDescriptor addOns={enabledAddOns} isTrial={isTrial} />} />
-        {!isEnterprise && <UpgradeNote isTrial={isTrial} />}
+        {!isEnterprise && hasCurrentPricing && <UpgradeNote isTrial={isTrial} />}
         <Typography className="margin-top-small" variant="subtitle1">
           Billing details
         </Typography>
