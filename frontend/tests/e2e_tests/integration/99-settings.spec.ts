@@ -85,13 +85,19 @@ test.describe('Settings', () => {
     });
   });
   test.describe('account upgrades', () => {
-    test('allows upgrading to Professional', async ({ baseUrl, context, environment, page, password, request, username }) => {
+    test('allows subscribing to Basic', async ({ baseUrl, context, environment, page, password, request, username }) => {
       test.skip(environment !== 'staging');
       await page.waitForTimeout(timeouts.default);
       const wasUpgraded = await page.isVisible(`css=#limit >> text=250`);
       test.skip(wasUpgraded, 'looks like the account was upgraded already, continue with the remaining tests');
       await page.getByText('Upgrade now').click();
-      await page.getByRole('radio', { name: 'Professional' }).click();
+
+      const deviceInput = page.getByRole('spinbutton', { name: 'Number of devices' });
+      await deviceInput.focus();
+      // Increase by 2 steps (50 => 150)
+      await page.keyboard.press('ArrowUp');
+      await page.keyboard.press('ArrowUp');
+
       await page.getByRole('button', { name: 'Upgrade now' }).click();
 
       await page.getByRole('textbox', { name: /address line 1/i }).fill('Blindernveien');
@@ -111,16 +117,45 @@ test.describe('Settings', () => {
       await stripeFrame.fill('[name="postal"]', '12345');
       await page.click(`button:has-text('Confirm subscription')`);
       await page.getByText(/Card confirmed./i).waitFor({ timeout: timeouts.tenSeconds });
-      await page.getByText(/ You have successfully subscribed to the professional/i).waitFor({ timeout: timeouts.fifteenSeconds });
+      await page.getByText(/ You have successfully subscribed to the basic/i).waitFor({ timeout: timeouts.fifteenSeconds });
 
       // overwrite the existing auth info to remove the notification to log out & in again to update the session info
       const newPage = await prepareNewPage({ baseUrl, context, password, request, username });
       await newPage.context().storageState({ path: storagePath });
     });
+
+    test('allows upgrading to Professional', async ({ baseUrl, context, environment, password, request, username }) => {
+      test.skip(environment !== 'staging');
+      const page = await prepareNewPage({ baseUrl, context, password, request, username });
+      const wasUpgraded = await page.isVisible(`css=#limit >> text=350`);
+      test.skip(wasUpgraded, 'looks like the account was upgraded already, continue with the remaining tests');
+      await page.goto(`${baseUrl}ui/subscription`);
+
+      const deviceNumberInput = page.getByRole('spinbutton', { name: 'Number of devices' });
+      await deviceNumberInput.fill('310');
+      await page.waitForTimeout(timeouts.default);
+      await expect(deviceNumberInput).toHaveValue('350');
+
+      await page.getByRole('radio', { name: 'Professional' }).click();
+
+      await page.waitForTimeout(timeouts.default);
+
+      await page.getByRole('checkbox', { name: 'Troubleshoot' }).click();
+
+      await page.getByRole('button', { name: 'Upgrade now' }).click();
+      await page.waitForTimeout(timeouts.default);
+
+      await expect(page.getByText('$979')).toBeVisible();
+      await page.click(`button:has-text('Confirm subscription')`);
+      await page.getByText(/ You have successfully subscribed to the professional/i).waitFor({ timeout: timeouts.fifteenSeconds });
+
+      const newPage = await prepareNewPage({ baseUrl, context, password, request, username });
+      await newPage.context().storageState({ path: storagePath });
+    });
     test('allows higher device limits once upgraded', async ({ baseUrl, environment, page }) => {
       test.skip(environment !== 'staging');
-      await page.waitForSelector(`css=#limit >> text=250`, { timeout: timeouts.default });
-      await expect(page.locator(`css=#limit >> text=250`)).toBeVisible();
+      await page.waitForSelector(`css=#limit >> text=350`, { timeout: timeouts.default });
+      await expect(page.locator(`css=#limit >> text=350`)).toBeVisible();
       const token = await tenantTokenRetrieval(baseUrl, page);
       await startClient(baseUrl, token, 50);
       await page.goto(`${baseUrl}ui/devices`);
