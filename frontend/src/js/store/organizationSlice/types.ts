@@ -100,6 +100,31 @@ export interface BillingProfile {
   name: string;
 }
 
+interface Product {
+  addons: { name: string }[];
+  name: string;
+  quantity: number;
+}
+
+interface SubscriptionLine {
+  amount: number;
+  currency: string;
+  description: string;
+  price_id: string;
+  quantity: number;
+}
+export interface Subscription {
+  currency: string;
+  id: string;
+  lines: SubscriptionLine[];
+  period_end: string;
+  period_start: string;
+  plan: string;
+  products: Product[];
+  status: string;
+  total: number;
+}
+
 export interface Organization extends Tenant {
   addons: Addon[];
   api_limits: ApiLimits;
@@ -107,5 +132,6 @@ export interface Organization extends Tenant {
   id: string;
   name: string;
   status: 'active' | 'inactive';
+  subscription: Subscription;
   tenant_token: string;
 }

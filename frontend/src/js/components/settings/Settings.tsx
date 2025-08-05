@@ -23,6 +23,7 @@ import { TIMEOUTS, canAccess } from '@northern.tech/store/constants';
 import {
   getCurrentUser,
   getFeatures,
+  getHasCurrentPricing,
   getOrganization,
   getStripeKey,
   getTenantCapabilities,
@@ -31,9 +32,9 @@ import {
 } from '@northern.tech/store/selectors';
 import { Elements } from '@stripe/react-stripe-js';
 
+import { SubscriptionPage } from '../subscription/SubscriptionPage';
 import Global from './Global';
 import Integrations from './Integrations';
-import Upgrade from './Upgrade';
 import Billing from './organization/Billing';
 import Organization from './organization/Organization';
 import { RoleManagement } from './role-management/RoleManagement';
@@ -74,11 +75,11 @@ const sectionMap = {
     text: () => 'Billing',
     canAccess: ({ isHosted }) => isHosted
   },
-  upgrade: {
-    component: Upgrade,
+  subscribe: {
+    component: SubscriptionPage,
     icon: <PaymentIcon />,
     text: ({ organization: { trial } }) => (trial ? 'Upgrade to a plan' : 'Upgrades and add-ons'),
-    canAccess: ({ hasMultitenancy, organization: { service_provider } }) => !service_provider && hasMultitenancy
+    canAccess: ({ hasMultitenancy, organization: { service_provider }, hasCurrentPricing }) => !service_provider && hasMultitenancy && hasCurrentPricing
   }
 };
 
@@ -90,6 +91,8 @@ export const Settings = () => {
   const tenantCapabilities = useSelector(getTenantCapabilities);
   const userCapabilities = useSelector(getUserCapabilities);
   const userRoles = useSelector(getUserRoles);
+  const hasCurrentPricing = useSelector(getHasCurrentPricing);
+
   const [loadingFinished, setLoadingFinished] = useState(!stripeAPIKey);
   const { section: sectionParam } = useParams();
 
@@ -109,7 +112,8 @@ export const Settings = () => {
   }, [stripeAPIKey]);
 
   const checkDenyAccess = item =>
-    currentUser.id && !item.canAccess({ currentUser, hasMultitenancy, isHosted, organization, tenantCapabilities, userCapabilities, userRoles });
+    currentUser.id &&
+    !item.canAccess({ currentUser, hasMultitenancy, isHosted, organization, tenantCapabilities, userCapabilities, userRoles, hasCurrentPricing });
 
   const getCurrentSection = (sections, section = sectionParam) => {
     if (!sections.hasOwnProperty(section) || checkDenyAccess(sections[section])) {

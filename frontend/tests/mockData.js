@@ -85,6 +85,40 @@ export const accessTokens = [
   { id: 'some-id-1', expiration_date: '2022-06-02T11:11:21.725Z', name: 'some-name-1' },
   { id: 'some-id-2', expiration_date: '2022-06-02T11:11:21.725Z', last_used: '2022-06-02T11:05:21.725Z', name: 'some-name-2' }
 ];
+export const invoicePreviewBasic = {
+  id: 'upcoming_in_1RlAkbFlFfXikjZVOHK5VQx0',
+  period_start: '2025-07-15T15:25:22Z',
+  period_end: '2025-08-15T15:25:22Z',
+  total: 3200,
+  currency: 'usd',
+  lines: [
+    {
+      description: '50 device × Mender Basic (Tier 1 at $0.00 / month)',
+      amount: 0,
+      currency: 'usd',
+      quantity: 50,
+      price_id: 'price_1PYktlFlFfXikjZVh2aNHp7i'
+    },
+    {
+      description: 'Mender Basic (Tier 1 at $32.00 / month)',
+      amount: 3200,
+      currency: 'usd',
+      quantity: 0,
+      price_id: 'price_1PYktlFlFfXikjZVh2aNHp7i'
+    }
+  ]
+};
+export const subscriptionBasic = {
+  id: 'sub_1RlAjOFlFfXikjZVj5BvpJE4',
+  status: 'active',
+  plan: 'os',
+  products: [
+    {
+      name: 'mender_standard',
+      quantity: 50
+    }
+  ]
+};
 
 export const webhookEvents = [
   {
