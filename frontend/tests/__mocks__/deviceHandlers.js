@@ -312,5 +312,5 @@ export const deviceHandlers = [
     `${deviceConnect}/devices/:deviceId/upload`,
     ({ params: { deviceId } }) => new HttpResponse(null, { status: defaultState.devices.byId[deviceId] ? 200 : 517 })
   ),
-  http.get(`${deviceAuthV2}/reports/devices`, () => HttpResponse.text('test,report'))
+  http.get(`${deviceAuthV2}/license`, () => HttpResponse.text('test,report'))
 ];
