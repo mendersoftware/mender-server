@@ -24,49 +24,47 @@ const stripePreview = {
       description: '50 device × Mender Basic (Tier 1 at $0.00 / month)',
       amount: 0,
       currency: 'usd',
-      quantity: 50,
-      price_id: 'price_1abc'
+      quantity: 50
     },
     {
       description: 'Mender Basic (Tier 1 at $32.00 / month)',
       amount: 3200,
       currency: 'usd',
-      quantity: 0,
-      price_id: 'price_1abc'
+      quantity: 0
     },
     {
       description: '50 device × Mender Configure (Tier 1 at $0.00 / month)',
       amount: 0,
+      addon: 'configure',
       currency: 'usd',
-      quantity: 50,
-      price_id: 'price_1PYl8wFlFfXikjZVIlqZ6zYr'
+      quantity: 50
     },
     {
       description: 'Mender Configure (Tier 1 at $10.00 / month)',
       amount: 1000,
+      addon: 'configure',
       currency: 'usd',
-      quantity: 0,
-      price_id: 'price_1PYl8wFlFfXikjZVIlqZ6zYr'
+      quantity: 0
     },
     {
       description: '50 device × Mender Troubleshoot (Tier 1 at $0.00 / month)',
       amount: 0,
+      addon: 'troubleshoot',
       currency: 'usd',
-      quantity: 50,
-      price_id: 'price_1PYkxZFlFfXikjZVJYRaUPld'
+      quantity: 50
     },
     {
       description: 'Mender Troubleshoot (Tier 1 at $20.00 / month)',
       amount: 2000,
+      addon: 'troubleshoot',
       currency: 'usd',
-      quantity: 0,
-      price_id: 'price_1PYkxZFlFfXikjZVJYRaUPld'
+      quantity: 0
     }
   ]
 };
 describe('subscription utils', () => {
   it('stripe subscription preview', async () => {
-    const result = parseSubscriptionPreview(stripePreview.lines, 'basic');
+    const result = parseSubscriptionPreview(stripePreview.lines);
     expect(result.plan).toEqual(3200);
     expect(result.addons.configure).toEqual(1000);
     expect(result.addons.troubleshoot).toEqual(2000);

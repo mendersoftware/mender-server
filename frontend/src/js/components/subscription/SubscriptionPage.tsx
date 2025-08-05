@@ -188,7 +188,7 @@ export const SubscriptionPage = () => {
     };
     setOrder({ plan: order.plan, products: order.products });
 
-    dispatch(getBillingPreview({ ...order, planName: selectedPlan.name.toLowerCase() }))
+    dispatch(getBillingPreview(order))
       .unwrap()
       .then(previewPrice => setPreviewPrice(previewPrice))
       .finally(() => setIsPreviewLoading(false));

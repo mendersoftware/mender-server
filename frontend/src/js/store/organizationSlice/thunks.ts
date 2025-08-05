@@ -300,9 +300,9 @@ export const getUserSubscription = createAsyncThunk(`${sliceName}/getUserSubscri
 });
 
 //Can also be used to get current subscription when no products supplied
-export const getBillingPreview = createAsyncThunk(`${sliceName}/getBillingPreview`, ({ planName, ...order }) =>
+export const getBillingPreview = createAsyncThunk(`${sliceName}/getBillingPreview`, order =>
   Api.post(`${tenantadmApiUrlv2}/billing/subscription/invoices/preview`, order).then(({ data }) =>
-    order.preview_mode === 'recurring' ? { ...parseSubscriptionPreview(data.lines, planName), total: data.total } : data
+    order.preview_mode === 'recurring' ? { ...parseSubscriptionPreview(data.lines), total: data.total } : data
   )
 );
 

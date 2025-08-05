@@ -33,7 +33,6 @@ const enterpriseReq = {
 
 const professionalReq = {
   plan: 'professional',
-  planName: 'professional',
 
   preview_mode: 'recurring',
   products: [
