@@ -17,7 +17,7 @@ import { Settings as SettingsIcon, Sort as SortIcon } from '@mui/icons-material'
 import { Checkbox } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { DEVICE_LIST_DEFAULTS, SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/commonConstants';
+import { DEVICE_LIST_DEFAULTS, IdAttribute, SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
 import { SortOptions } from '@northern.tech/store/organizationSlice/types';
 import { isDarkMode } from '@northern.tech/store/utils';
 import { toggle } from '@northern.tech/utils/helpers';
@@ -68,10 +68,6 @@ interface ListState {
   // isLoading: boolean;
 }
 
-interface IdAttribute {
-  attribute: string;
-  scope: string;
-}
 type wID = { id: string };
 
 interface CommonListProps<T extends wID> {
