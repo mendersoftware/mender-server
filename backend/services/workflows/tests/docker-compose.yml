@@ -5,6 +5,11 @@ services:
     extends:
       file: ../../../tests/docker-compose.yml
       service: acceptance-tester
+    build:
+      context: ../../../tests/
+    command: # FIXME(QA-733): Align dockerfile with open source
+      - -k
+      - not test_create_artifacts
     volumes:
       - ".:/testing"
     depends_on:
