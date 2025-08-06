@@ -100,6 +100,11 @@ func doMain(args []string) {
 						Usage:  "Skip migrating the database",
 						EnvVar: "WORKFLOWS_MIGRATION_SKIP_DATABASE",
 					},
+					cli.BoolFlag{
+						Name:   "nats-force",
+						Usage:  "Force the the consumers to migrate from push to pull mode",
+						EnvVar: "WORKFLOWS_MIGRATION_FORCE_NATS",
+					},
 				},
 			},
 			{
@@ -262,10 +267,19 @@ func cmdMigrate(args *cli.Context) error {
 	if !args.Bool("skip-nats") {
 		var nc nats.Client
 		nc, err = getNatsClient()
-		if err == nil {
-			if err = initJetstream(nc, true, true); err == nil {
-				err = initJetstream(nc, false, true)
+		if err != nil {
+			return err
+		}
+		if args.Bool("nats-force") {
+			durableName := config.Config.GetString(dconfig.SettingNatsSubscriberDurable)
+			// delete the consumer if it is push based
+			err := nc.DeleteConsumerByMode(durableName, nats.PushMode)
+			if err != nil {
+				return err
 			}
+		}
+		if err = initJetstream(nc, true, true); err == nil {
+			err = initJetstream(nc, false, true)
 		}
 
 	}
