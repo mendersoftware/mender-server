@@ -352,7 +352,7 @@ export const requestPlanChange = createAsyncThunk(
 );
 
 export const downloadLicenseReport = createAsyncThunk(`${sliceName}/downloadLicenseReport`, (_, { dispatch }) =>
-  Api.get(`${deviceAuthV2}/reports/devices`)
+  Api.get(`${deviceAuthV2}/license`)
     .catch(err => commonErrorHandler(err, 'There was an error downloading the report', dispatch, commonErrorFallback))
     .then(res => res.data)
 );
