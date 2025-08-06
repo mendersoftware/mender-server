@@ -42,8 +42,9 @@ type workerGroup struct {
 	input        <-chan *natsio.Msg
 	notifyPeriod time.Duration
 
-	client nats.Client
-	store  store.DataStore
+	subType natsio.SubscriptionType
+	client  nats.Client
+	store   store.DataStore
 }
 
 func NewWorkGroup(
@@ -51,6 +52,7 @@ func NewWorkGroup(
 	notifyPeriod time.Duration,
 	nc nats.Client,
 	ds store.DataStore,
+	subType natsio.SubscriptionType,
 ) *workerGroup {
 	return &workerGroup{
 		done:      make(chan struct{}),
@@ -60,6 +62,7 @@ func NewWorkGroup(
 		notifyPeriod: notifyPeriod,
 		client:       nc,
 		store:        ds,
+		subType:      subType,
 	}
 }
 
@@ -80,7 +83,7 @@ func (w *workerGroup) TermID() int32 {
 	return w.termID
 }
 
-func (w *workerGroup) RunWorker(ctx context.Context) {
+func (w *workerGroup) RunWorker(ctx context.Context, readyChan chan struct{}) {
 	id := atomic.AddInt32(&w.workerCount, 1)
 	l := log.FromContext(ctx)
 	l = l.F(log.Ctx{"worker_id": id})
@@ -117,18 +120,23 @@ func (w *workerGroup) RunWorker(ctx context.Context) {
 	l.Info("worker starting up")
 	// workerSidecar is responsible for notifying the broker about slow workflows
 	go w.workerSidecar(ctx, sidecarChan, sidecarDone)
-	w.workerMain(ctx, sidecarChan, sidecarDone)
+	w.workerMain(ctx, sidecarChan, sidecarDone, readyChan)
 }
 
 func (w *workerGroup) workerMain(
 	ctx context.Context,
 	sidecarChan chan *natsio.Msg,
 	sidecarDone chan struct{},
+	readyChan chan struct{},
 ) {
 	l := log.FromContext(ctx)
 	ctxDone := ctx.Done()
 	timeoutTimer := newStoppedTimer()
 	for {
+		if w.subType == natsio.PullSubscription {
+			// send signal to the fetcher goroutine
+			readyChan <- struct{}{}
+		}
 		var (
 			msg    *natsio.Msg
 			isOpen bool

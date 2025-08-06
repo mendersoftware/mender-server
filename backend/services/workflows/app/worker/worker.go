@@ -79,11 +79,13 @@ func InitAndRun(
 	}
 
 	jobChan := make(chan *natsio.Msg, concurrency)
-	unsubscribe, err := natsClient.JetStreamSubscribe(
+	readyChan := make(chan struct{}, concurrency)
+	sub, err := natsClient.JetStreamSubscribe(
 		ctx,
 		subject,
 		durableName,
 		jobChan,
+		readyChan,
 	)
 	if err != nil {
 		return errors.Wrap(err, "failed to subscribe to the nats JetStream")
@@ -93,9 +95,9 @@ func InitAndRun(
 	signal.Notify(quit, unix.SIGINT, unix.SIGTERM)
 
 	// Spawn worker pool
-	wg := NewWorkGroup(jobChan, notifyPeriod, natsClient, dataStore)
+	wg := NewWorkGroup(jobChan, notifyPeriod, natsClient, dataStore, sub.Type())
 	for i := 0; i < concurrency; i++ {
-		go wg.RunWorker(ctx)
+		go wg.RunWorker(ctx, readyChan)
 	}
 
 	// Run until a SIGTERM or SIGINT is received or one of the workers
@@ -108,12 +110,13 @@ func InitAndRun(
 	case <-ctx.Done():
 		err = ctx.Err()
 	}
-	errSub := unsubscribe()
+	errSub := sub.Unsubscribe()
 	if errSub != nil {
 		l.Errorf("error unsubscribing from Jetstream: %s", errSub.Error())
 	}
 	// Notify workers that we're done
 	close(jobChan)
+	close(readyChan)
 	if err == nil {
 		l.Infof("waiting up to %s for all workers to finish", cfg.AckWait)
 		select {
