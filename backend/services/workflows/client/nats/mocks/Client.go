@@ -52,6 +52,24 @@ func (_m *Client) CreateConsumer(name string, upsert bool, config nats.ConsumerC
 	return r0
 }
 
+// DeleteConsumerByMode provides a mock function with given fields: name, mode
+func (_m *Client) DeleteConsumerByMode(name string, mode nats.ConsumerMode) error {
+	ret := _m.Called(name, mode)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteConsumerByMode")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(string, nats.ConsumerMode) error); ok {
+		r0 = rf(name, mode)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // GetConsumerConfig provides a mock function with given fields: name
 func (_m *Client) GetConsumerConfig(name string) (*nats.ConsumerConfig, error) {
 	ret := _m.Called(name)
@@ -136,29 +154,29 @@ func (_m *Client) JetStreamPublish(_a0 string, _a1 []byte) error {
 	return r0
 }
 
-// JetStreamSubscribe provides a mock function with given fields: ctx, subj, durable, q
-func (_m *Client) JetStreamSubscribe(ctx context.Context, subj string, durable string, q chan *nats_go.Msg) (nats.UnsubscribeFunc, error) {
-	ret := _m.Called(ctx, subj, durable, q)
+// JetStreamSubscribe provides a mock function with given fields: ctx, subj, durable, q, readyChan
+func (_m *Client) JetStreamSubscribe(ctx context.Context, subj string, durable string, q chan *nats_go.Msg, readyChan chan struct{}) (*nats_go.Subscription, error) {
+	ret := _m.Called(ctx, subj, durable, q, readyChan)
 
 	if len(ret) == 0 {
 		panic("no return value specified for JetStreamSubscribe")
 	}
 
-	var r0 nats.UnsubscribeFunc
+	var r0 *nats_go.Subscription
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, string, string, chan *nats_go.Msg) (nats.UnsubscribeFunc, error)); ok {
-		return rf(ctx, subj, durable, q)
+	if rf, ok := ret.Get(0).(func(context.Context, string, string, chan *nats_go.Msg, chan struct{}) (*nats_go.Subscription, error)); ok {
+		return rf(ctx, subj, durable, q, readyChan)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, string, string, chan *nats_go.Msg) nats.UnsubscribeFunc); ok {
-		r0 = rf(ctx, subj, durable, q)
+	if rf, ok := ret.Get(0).(func(context.Context, string, string, chan *nats_go.Msg, chan struct{}) *nats_go.Subscription); ok {
+		r0 = rf(ctx, subj, durable, q, readyChan)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(nats.UnsubscribeFunc)
+			r0 = ret.Get(0).(*nats_go.Subscription)
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, string, string, chan *nats_go.Msg) error); ok {
-		r1 = rf(ctx, subj, durable, q)
+	if rf, ok := ret.Get(1).(func(context.Context, string, string, chan *nats_go.Msg, chan struct{}) error); ok {
+		r1 = rf(ctx, subj, durable, q, readyChan)
 	} else {
 		r1 = ret.Error(1)
 	}
