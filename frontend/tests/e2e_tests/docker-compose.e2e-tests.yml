@@ -19,8 +19,7 @@ configs:
 services:
   gui-tests-runner:
     image: mendersoftware/mender-test-containers:gui-e2e-testing
-    deploy:
-      replicas: 0
+    command: ['tail', '-f', '/dev/null']
     environment:
       - TEST_ENVIRONMENT
       - NODE_TLS_REJECT_UNAUTHORIZED=0

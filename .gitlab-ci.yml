@@ -417,7 +417,6 @@ test:prep:
     CI: 1
     DEVICE_TYPE: qemux86-64
     DOCKER_CERT_PATH: /certs/client
-    TEST_ENVIRONMENT: staging
   before_script:
     - mv mender-stress-test-client frontend/tests/e2e_tests/
     - cd frontend/tests/e2e_tests
@@ -439,7 +438,7 @@ test:staging-deployment:chrome:
   extends: .template:test:staging-deployment
   script:
     - npx playwright install chromium
-    - npm run test -- --project=chromium
+    - npm run script -- --environment=staging --project=chromium
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
       when: delayed
@@ -449,7 +448,7 @@ test:staging-deployment:firefox:
   extends: .template:test:staging-deployment
   script:
     - npx playwright install firefox
-    - npm run test -- --project=firefox
+    - npm run test -- --environment=staging --project=firefox
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
       when: delayed
@@ -460,7 +459,7 @@ test:staging-deployment:webkit:
   allow_failure: true
   script:
     - npx playwright install webkit
-    - npm run test -- --project=webkit
+    - npm run test -- --environment=staging --project=webkit
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
       when: delayed

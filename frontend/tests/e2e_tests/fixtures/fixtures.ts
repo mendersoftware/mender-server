@@ -22,7 +22,7 @@ type DemoArtifactVersionInfo = {
   updateVersion: string;
 };
 
-export type TestEnvironment = 'enterprise' | 'staging' | 'localhost';
+export type TestEnvironment = 'enterprise' | 'staging' | 'os';
 
 type TestFixtures = {
   baseUrl: string;
@@ -57,7 +57,7 @@ const test = (process.env.TEST_ENVIRONMENT === 'staging' ? nonCoveredTest : cove
   },
   // eslint-disable-next-line no-empty-pattern
   environment: async ({}, use) => {
-    const environment = (process.env.TEST_ENVIRONMENT ? process.env.TEST_ENVIRONMENT : 'localhost') as TestEnvironment;
+    const environment = (process.env.TEST_ENVIRONMENT ? process.env.TEST_ENVIRONMENT : 'os') as TestEnvironment;
     await use(environment);
   },
   spTenantUsername: async ({ environment }, use) => {
