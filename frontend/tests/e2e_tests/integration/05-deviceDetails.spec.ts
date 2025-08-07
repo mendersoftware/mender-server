@@ -118,8 +118,8 @@ test.describe('Device details', () => {
     test('can open a terminal', async ({ browserName, page }) => {
       await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
       await page.getByText(/troubleshooting/i).click();
-      // the deviceconnect connection might not be established right away
-      await page.getByText(/Session status/i).waitFor({ timeout: timeouts.tenSeconds });
+      // the deviceconnect connection might not be established right away + polling interval is 10s on device details
+      await page.getByText(/Session status/i).waitFor({ timeout: 3 * timeouts.tenSeconds });
       const connectionButton = await page.getByRole('button', { name: /connect/i });
       await connectionButton.first().click();
       await page.getByText('Connection with the device established').waitFor({ timeout: timeouts.tenSeconds });
