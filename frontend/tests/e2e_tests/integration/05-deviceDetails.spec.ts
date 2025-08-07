@@ -78,8 +78,9 @@ test.describe('Device details', () => {
 
   test('can be filtered into non-existence by numerical comparison', async ({ environment, page }) => {
     test.skip(!isEnterpriseOrStaging(environment), 'not available in OS');
-    test.setTimeout(2 * timeouts.fifteenSeconds);
+    test.setTimeout(timeouts.fifteenSeconds);
     await page.getByRole('button', { name: /filters/i }).click();
+    await page.getByText(/professional/i).waitFor({ state: 'hidden' }); // assume once the plan indicator tag is gone, filters can be used without problems
     await page.getByLabel(/attribute/i).fill('mem_total_kB');
     await page.getByText(/equals/i).click();
     await page.waitForTimeout(timeouts.default);
