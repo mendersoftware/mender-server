@@ -17,6 +17,7 @@
 "@reduxjs/toolkit","MIT","https://github.com/reduxjs/redux-toolkit"
 "@rspack/cli","MIT","https://github.com/web-infra-dev/rspack"
 "@rspack/core","MIT","https://github.com/web-infra-dev/rspack"
+"@rspack/plugin-react-refresh","MIT","https://github.com/rspack-contrib/rspack-plugin-react-refresh"
 "@sentry/react","MIT","https://github.com/getsentry/sentry-javascript"
 "@sentry/webpack-plugin","MIT","https://github.com/getsentry/sentry-javascript-bundler-plugins"
 "@stripe/react-stripe-js","MIT","https://github.com/stripe/react-stripe-js"
