@@ -134,7 +134,7 @@ test.describe('Device details', () => {
       // NB! screenshots should only be taken by running the docker composition (as in CI) - never in open mode,
       // as the resizing option on `allowSizeMismatch` only pads the screenshot with transparent pixels until
       // the larger size is met (when diffing screenshots of multiple sizes) and does not scale to fit!
-      const elementHandle = await page.$(selectors.terminalElement);
+      const elementHandle = await page.locator(selectors.terminalElement);
       expect(elementHandle).toBeTruthy();
       if (['chromium', 'webkit'].includes(browserName)) {
         // this should ensure a repeatable position across test runners
@@ -149,15 +149,15 @@ test.describe('Device details', () => {
         const { pass } = compareImages(expectedPath, screenShotPath);
         expect(pass).toBeTruthy();
 
-        const terminalText = await page.locator(`css=${selectors.terminalText}`);
-        await terminalText.fill('top');
-        await page.keyboard.press('Enter');
+        const terminalTextInput = await page.locator(selectors.terminalText);
+        await terminalTextInput.fill('top');
+        await terminalTextInput.press('Enter');
         await page.waitForTimeout(timeouts.default);
 
         await elementHandle.screenshot({ path: screenShotPath });
         const { pass: pass2 } = compareImages(expectedPath, screenShotPath);
         expect(pass2).not.toBeTruthy();
-        await page.keyboard.press('q');
+        await terminalTextInput.press('q');
       }
     });
   });
