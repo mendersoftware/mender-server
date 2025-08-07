@@ -84,88 +84,6 @@ test.describe('Settings', () => {
       await page.getByText(/in a year/i).waitFor();
     });
   });
-  test.describe('account upgrades', () => {
-    test('allows subscribing to Basic', async ({ baseUrl, context, environment, page, password, request, username }) => {
-      test.skip(environment !== 'staging');
-      await page.waitForTimeout(timeouts.default);
-      const wasUpgraded = await page.isVisible(`css=#limit >> text=250`);
-      test.skip(wasUpgraded, 'looks like the account was upgraded already, continue with the remaining tests');
-      await page.getByText('Upgrade now').click();
-
-      const deviceInput = page.getByRole('spinbutton', { name: 'Number of devices' });
-      await deviceInput.focus();
-      // Increase by 2 steps (50 => 150)
-      await page.keyboard.press('ArrowUp');
-      await page.keyboard.press('ArrowUp');
-
-      await page.getByRole('button', { name: 'Upgrade now' }).click();
-
-      await page.getByRole('textbox', { name: /address line 1/i }).fill('Blindernveien');
-      await page.getByRole('textbox', { name: /state/i }).fill('Oslo');
-      await page.getByRole('textbox', { name: /city/i }).fill('Oslo');
-      await page.getByRole('textbox', { name: /zip or postal code/i }).fill('12345');
-      await page.getByLabel('Country').fill('Norw');
-      await page.getByRole('option', { name: 'Norway' }).click();
-      await page.getByRole('button', { name: 'Save Billing profile' }).click();
-
-      await page.waitForSelector('.StripeElement iframe');
-      const frameHandle = await page.$('.StripeElement iframe');
-      const stripeFrame = await frameHandle.contentFrame();
-      await stripeFrame.fill('[name="cardnumber"]', '4242424242424242');
-      await stripeFrame.fill('[name="exp-date"]', '1232');
-      await stripeFrame.fill('[name="cvc"]', '123');
-      await stripeFrame.fill('[name="postal"]', '12345');
-      await page.click(`button:has-text('Confirm subscription')`);
-      await page.getByText(/Card confirmed./i).waitFor({ timeout: timeouts.tenSeconds });
-      await page.getByText(/ You have successfully subscribed to the basic/i).waitFor({ timeout: timeouts.fifteenSeconds });
-
-      // overwrite the existing auth info to remove the notification to log out & in again to update the session info
-      const newPage = await prepareNewPage({ baseUrl, context, password, request, username });
-      await newPage.context().storageState({ path: storagePath });
-    });
-
-    test('allows upgrading to Professional', async ({ baseUrl, context, environment, password, request, username }) => {
-      test.skip(environment !== 'staging');
-      const page = await prepareNewPage({ baseUrl, context, password, request, username });
-      const wasUpgraded = await page.isVisible(`css=#limit >> text=350`);
-      test.skip(wasUpgraded, 'looks like the account was upgraded already, continue with the remaining tests');
-      await page.goto(`${baseUrl}ui/subscription`);
-
-      const deviceNumberInput = page.getByRole('spinbutton', { name: 'Number of devices' });
-      await deviceNumberInput.fill('310');
-      await page.waitForTimeout(timeouts.default);
-      await expect(deviceNumberInput).toHaveValue('350');
-
-      await page.getByRole('radio', { name: 'Professional' }).click();
-
-      await page.waitForTimeout(timeouts.default);
-
-      await page.getByRole('checkbox', { name: 'Troubleshoot' }).click();
-
-      await page.getByRole('button', { name: 'Upgrade now' }).click();
-      await page.waitForTimeout(timeouts.default);
-
-      await expect(page.getByRole('heading', { name: '$777' })).toBeVisible();
-      await page.click(`button:has-text('Confirm subscription')`);
-      await page.getByText(/ You have successfully subscribed to the professional/i).waitFor({ timeout: timeouts.fifteenSeconds });
-
-      const newPage = await prepareNewPage({ baseUrl, context, password, request, username });
-      await newPage.context().storageState({ path: storagePath });
-    });
-    test('allows higher device limits once upgraded', async ({ baseUrl, environment, page }) => {
-      test.skip(environment !== 'staging');
-      await page.waitForSelector(`css=#limit >> text=350`, { timeout: timeouts.default });
-      await expect(page.locator(`css=#limit >> text=350`)).toBeVisible();
-      const token = await tenantTokenRetrieval(baseUrl, page);
-      await startClient(baseUrl, token, 50);
-      await page.goto(`${baseUrl}ui/devices`);
-      await page.getByRole('link', { name: /pending/i }).waitFor({ timeout: timeouts.fifteenSeconds });
-      await expect(async () => {
-        const pendingNotification = await page.getByRole('link', { name: /pending/i }).innerText();
-        expect(Number(pendingNotification.split(' ')[0])).toBeGreaterThan(10);
-      }).toPass({ timeout: timeouts.sixtySeconds });
-    });
-  });
 
   test.describe('2FA setup', () => {
     test('supports regular 2fa setup', async ({ baseUrl, environment, page }) => {
@@ -262,28 +180,6 @@ test.describe('Settings', () => {
       await page.getByRole('button', { name: /change email/i }).click();
       await expect(page.getByLabel(/current password/i)).toBeVisible();
     });
-    test('allows billing profile editing', async ({ baseUrl, environment, page }) => {
-      test.skip(environment !== 'staging');
-      await page.goto(`${baseUrl}ui/settings/billing`);
-      await page.getByRole('button', { name: /edit/i }).click();
-      await page.getByRole('textbox', { name: /address line 1/i }).fill('Gaustadalleen 12');
-      await page.getByRole('textbox', { name: /state/i }).fill('Moss');
-      await page.getByRole('textbox', { name: /city/i }).fill('Moss');
-      await page.getByRole('textbox', { name: /zip or postal code/i }).fill('54321');
-      await page.getByLabel('Country').fill('Pol');
-      await page.getByRole('option', { name: 'Poland' }).click();
-      await page.getByRole('button', { name: /edit/i }).click();
-
-      await page.waitForSelector('.StripeElement iframe');
-      const frameHandle = await page.$('.StripeElement iframe');
-      const stripeFrame = await frameHandle.contentFrame();
-      await stripeFrame.fill('[name="cardnumber"]', '4242424242424242');
-      await stripeFrame.fill('[name="exp-date"]', '0134');
-      await stripeFrame.fill('[name="cvc"]', '333');
-      await stripeFrame.fill('[name="postal"]', '02040');
-      await page.click(`button:has-text('Save')`);
-      await expect(page.getByText('Gaustadalleen 12')).toBeVisible();
-    });
     test('allows changing the password', async ({ browserName, page, username, password }) => {
       test.skip(browserName === 'webkit');
       await page.getByRole('button', { name: username }).click();
@@ -333,6 +229,105 @@ test.describe('Settings', () => {
       const { token: newToken } = await login(username, password, baseUrl, request);
       expect(newToken).toBeTruthy();
       await page.context().close();
+    });
+  });
+
+  test.describe('account upgrades', () => {
+    test.beforeEach(({ environment }) => {
+      test.skip(environment !== 'staging');
+    });
+    test('allows subscribing to Basic', async ({ page }) => {
+      const wasUpgraded = await page.isVisible(`css=#limit >> text=250`);
+      test.skip(wasUpgraded, 'looks like the account was upgraded already, continue with the remaining tests');
+      await page.getByText('Upgrade now').click();
+
+      const deviceInput = page.getByRole('spinbutton', { name: 'Number of devices' });
+      await deviceInput.focus();
+      // Increase by 2 steps (50 => 150)
+      await page.keyboard.press('ArrowUp');
+      await page.keyboard.press('ArrowUp');
+
+      await page.getByRole('button', { name: 'Upgrade now' }).click();
+
+      await page.getByRole('textbox', { name: /address line 1/i }).fill('Blindernveien');
+      await page.getByRole('textbox', { name: /state/i }).fill('Oslo');
+      await page.getByRole('textbox', { name: /city/i }).fill('Oslo');
+      await page.getByRole('textbox', { name: /zip or postal code/i }).fill('12345');
+      await page.getByLabel('Country').fill('Norw');
+      await page.getByRole('option', { name: 'Norway' }).click();
+      await page.getByRole('button', { name: 'Save Billing profile' }).click();
+
+      await page.waitForSelector('.StripeElement iframe');
+      const frameHandle = await page.$('.StripeElement iframe');
+      const stripeFrame = await frameHandle.contentFrame();
+      await stripeFrame.fill('[name="cardnumber"]', '4242424242424242');
+      await stripeFrame.fill('[name="exp-date"]', '1232');
+      await stripeFrame.fill('[name="cvc"]', '123');
+      await stripeFrame.fill('[name="postal"]', '12345');
+      await page.getByRole('button', { name: /Confirm subscription/i }).click();
+      await page.getByText(/Card confirmed./i).waitFor({ timeout: timeouts.tenSeconds });
+      await page.getByText(/ You have successfully subscribed to the basic/i).waitFor({ timeout: timeouts.fifteenSeconds });
+    });
+
+    test('allows upgrading to Professional', async ({ baseUrl, browser, password, request, username }) => {
+      const page = await prepareNewPage({ baseUrl, browser, password, request, username });
+      const wasUpgraded = await page.isVisible(`css=#limit >> text=350`);
+      test.skip(wasUpgraded, 'looks like the account was upgraded already, continue with the remaining tests');
+      await page.goto(`${baseUrl}ui/subscription`);
+
+      const deviceNumberInput = page.getByRole('spinbutton', { name: 'Number of devices' });
+      await deviceNumberInput.fill('310');
+      await page.waitForTimeout(timeouts.default);
+      await expect(deviceNumberInput).toHaveValue('350');
+
+      await page.getByRole('radio', { name: 'Professional' }).click();
+
+      await page.waitForTimeout(timeouts.default);
+
+      await page.getByRole('checkbox', { name: 'Troubleshoot' }).click();
+
+      await page.getByRole('button', { name: 'Upgrade now' }).click();
+      await page.waitForTimeout(timeouts.default);
+
+      await expect(page.getByRole('heading', { name: '$777' })).toBeVisible();
+      await page.getByRole('button', { name: /Confirm subscription/i }).click();
+
+      await page.getByText(/ You have successfully subscribed to the professional/i).waitFor({ timeout: timeouts.fifteenSeconds });
+    });
+    test('allows higher device limits once upgraded', async ({ baseUrl, browser, password, request, username }) => {
+      const page = await prepareNewPage({ baseUrl, browser, password, request, username });
+      await page.waitForSelector(`css=#limit >> text=350`, { timeout: timeouts.default });
+      await expect(page.locator(`css=#limit >> text=350`)).toBeVisible();
+      const token = await tenantTokenRetrieval(baseUrl, page);
+      await startClient(baseUrl, token, 50);
+      await page.goto(`${baseUrl}ui/devices`);
+      await page.getByRole('link', { name: /pending/i }).waitFor({ timeout: timeouts.sixtySeconds });
+      await expect(async () => {
+        const pendingNotification = await page.getByRole('link', { name: /pending/i }).innerText();
+        expect(Number(pendingNotification.split(' ')[0])).toBeGreaterThan(10);
+      }).toPass({ timeout: timeouts.sixtySeconds });
+    });
+    test('allows billing profile editing', async ({ baseUrl, browser, password, request, username }) => {
+      const page = await prepareNewPage({ baseUrl, browser, password, request, username });
+      await page.goto(`${baseUrl}ui/settings/billing`);
+      await page.getByRole('button', { name: /edit/i }).click();
+      await page.getByRole('textbox', { name: /address line 1/i }).fill('Gaustadalleen 12');
+      await page.getByRole('textbox', { name: /state/i }).fill('Moss');
+      await page.getByRole('textbox', { name: /city/i }).fill('Moss');
+      await page.getByRole('textbox', { name: /zip or postal code/i }).fill('54321');
+      await page.getByLabel('Country').fill('Pol');
+      await page.getByRole('option', { name: 'Poland' }).click();
+      await page.getByRole('button', { name: /edit/i }).click();
+
+      await page.waitForSelector('.StripeElement iframe');
+      const frameHandle = await page.$('.StripeElement iframe');
+      const stripeFrame = await frameHandle.contentFrame();
+      await stripeFrame.fill('[name="cardnumber"]', '4242424242424242');
+      await stripeFrame.fill('[name="exp-date"]', '0134');
+      await stripeFrame.fill('[name="cvc"]', '333');
+      await stripeFrame.fill('[name="postal"]', '02040');
+      await page.getByRole('button', { name: /save/i }).click();
+      await expect(page.getByText('Gaustadalleen 12')).toBeVisible();
     });
   });
 });
