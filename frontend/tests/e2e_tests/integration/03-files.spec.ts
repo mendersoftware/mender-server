@@ -235,6 +235,7 @@ test.describe('Files', () => {
     await page.click(selectors.placeholderExample, { clickCount: 3 });
     await page.getByPlaceholder(/installed-by-single-file/i).fill(`/tmp/${fileName}`);
     await page.getByRole('button', { name: /upload/i }).click();
+    await page.getByText(/Upload successful/i).waitFor({ timeout: timeouts.fiveSeconds });
     await page.getByRole('tab', { name: /download/i }).click();
     await page.getByPlaceholder(/\/home\/mender/i).fill(`/tmp/${fileName}`);
     const [download] = await Promise.all([page.waitForEvent('download'), page.click('button:text("Download"):below(:text("file on the device"))')]);

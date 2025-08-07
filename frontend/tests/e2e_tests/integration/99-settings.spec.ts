@@ -223,6 +223,8 @@ test.describe('Settings', () => {
       await isLoggedIn(page);
       await page.goto(`${baseUrl}ui/settings/my-account`);
       await page.getByText(/Enable Two Factor/).click();
+      const failureNotification = await page.getByText(/There was an error disabling/i);
+      await expect(failureNotification).not.toBeVisible();
       await page.waitForTimeout(timeouts.default);
       await context.close();
     });

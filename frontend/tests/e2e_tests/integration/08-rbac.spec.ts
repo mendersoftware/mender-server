@@ -53,6 +53,7 @@ test.describe('RBAC functionality', () => {
       await page.press('body', 'Escape');
       await dialog.getByRole('button', { name: /submit/i }).scrollIntoViewIfNeeded();
       await dialog.getByRole('button', { name: /submit/i }).click();
+      await page.getByText(/role was created/i).waitFor();
     });
     test('allows role creation for release tags', async ({ environment, page }) => {
       test.skip(!isEnterpriseOrStaging(environment));
