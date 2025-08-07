@@ -1,22 +1,8 @@
 {
     "name": "decommission_device",
     "description": "Removes device info from all services.",
-    "version": 10,
+    "version": 11,
     "tasks": [
-        {
-            "name": "delete_device_inventory",
-            "type": "http",
-            "retries": 3,
-            "http": {
-                "uri": "http://${env.INVENTORY_ADDR|mender-inventory:8080}/api/internal/v1/inventory/tenants/${encoding=url;workflow.input.tenant_id}/devices/${encoding=url;workflow.input.device_id}",
-                "method": "DELETE",
-                "headers": {
-                    "X-MEN-RequestID": "${workflow.input.request_id}"
-                },
-                "connectionTimeOut": 8000,
-                "readTimeOut": 8000
-            }
-        },
         {
             "name": "delete_device_deployments",
             "type": "http",
@@ -84,6 +70,20 @@
                     204,
                     404
                 ]
+            }
+        },
+        {
+            "name": "delete_device_inventory",
+            "type": "http",
+            "retries": 3,
+            "http": {
+                "uri": "http://${env.INVENTORY_ADDR|mender-inventory:8080}/api/internal/v1/inventory/tenants/${encoding=url;workflow.input.tenant_id}/devices/${encoding=url;workflow.input.device_id}",
+                "method": "DELETE",
+                "headers": {
+                    "X-MEN-RequestID": "${workflow.input.request_id}"
+                },
+                "connectionTimeOut": 8000,
+                "readTimeOut": 8000
             }
         },
         {
