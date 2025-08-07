@@ -119,7 +119,9 @@ func RunServer(c config.Reader) error {
 		devauth = devauth.WithCache(srvCache)
 		if rateLimits != nil {
 			apiOptions = append(apiOptions,
-				api_http.ConfigAuthVerifyRatelimits(rateLimits.MiddlewareGin),
+				api_http.ConfigAuthVerifyRatelimits(rateLimits.
+					WithRewriteRequests(true).
+					MiddlewareGin),
 			)
 		}
 	}
