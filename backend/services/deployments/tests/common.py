@@ -19,6 +19,7 @@ import logging
 import os
 import abc
 import random
+import re
 import string
 import json
 import pytest
@@ -376,21 +377,26 @@ def clean_minio(s3_bucket):
     return s3_bucket
 
 
-def mongo_cleanup(mongo):
-    dbs = mongo.list_database_names()
-    dbs = [
-        d
-        for d in dbs
-        if d not in ["local", "admin", "config", "deployment_service", "workflows"]
-    ]
-    for d in dbs:
-        mongo.drop_database(d)
-    db = mongo["deployment_service"]
-    collections = db.list_collection_names()
-    for c in collections:
-        if c == "migration_info":
-            continue
-        db[c].delete_many({})
+def mongo_cleanup(mongo: MongoClient):
+    dbs = mongo.list_databases(
+        filter={"name": {"$nin": ["admin", "config", "local", "workflows"]}},
+        nameOnly=True,
+    )
+    for db_name in (db["name"] for db in dbs):
+        if re.match(r"^(deployment_service|inventory)-[0-9A-Za-z]+", db_name):
+            mongo.drop_database(db_name)
+        else:
+            db = mongo[db_name]
+            for coll in db.list_collection_names(
+                filter={
+                    "name": {"$ne": "migration_info"},
+                    "$or": [
+                        {"options.capped": {"$exists": False}},
+                        {"options.capped": False},
+                    ],
+                }
+            ):
+                db[coll].delete_many({})
 
 
 @pytest.fixture(scope="session")

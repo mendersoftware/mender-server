@@ -42,6 +42,7 @@ services:
     environment:
       IOT_MANAGER_AES_ENCRYPTION_KEY: "+mg+KXQM8/7A+uqs1bJzfH0KW9NclMEVRjkmqhfpjDg="
       IOT_MANAGER_DOMAIN_WHITELIST: "*.azure-devices.net mmock"
+      IOT_MANAGER_DOMAIN_SKIPVERIFY: "true"
       # FIXME: Update mmock `host` in request conditions
       IOT_MANAGER_DEVICEAUTH_URL: "http://mender-device-auth:8080"
       IOT_MANAGER_WORKFLOWS_URL: "http://mender-workflows-server:8080"

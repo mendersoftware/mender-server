@@ -73,9 +73,5 @@ def mongo():
 def clean_mongo(mongo):
     """Fixture setting up a clean (i.e. empty database). Yields
     pymongo.MongoClient connected to the DB."""
-    mongo_cleanup(mongo)
-    yield mongo.client
-
-
-def mongo_cleanup(mongo):
     mongo.cleanup()
+    yield mongo.client
