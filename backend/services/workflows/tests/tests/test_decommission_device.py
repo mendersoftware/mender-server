@@ -73,25 +73,6 @@ def do_decommission_device(mmock_url, workflows_url, tenant_id):
         {
             "request": {
                 "scheme": "http",
-                "host": "mender-inventory",
-                "port": "8080",
-                "method": "DELETE",
-                "path": "/api/internal/v1/inventory/tenants/" + tenant_id + "/devices/"
-                + device_id,
-                "queryStringParameters": {},
-                "fragment": "",
-                "headers": {
-                    "Accept-Encoding": ["gzip"],
-                    "User-Agent": ["Go-http-client/1.1"],
-                    "X-Men-Requestid": [request_id],
-                },
-                "cookies": {},
-                "body": "",
-            },
-        },
-        {
-            "request": {
-                "scheme": "http",
                 "host": "mender-deployments",
                 "port": "8080",
                 "method": "DELETE",
@@ -138,6 +119,25 @@ def do_decommission_device(mmock_url, workflows_url, tenant_id):
                 "path": "/api/internal/v1/deviceconfig/tenants/"
                 + tenant_id
                 + "/devices/"
+                + device_id,
+                "queryStringParameters": {},
+                "fragment": "",
+                "headers": {
+                    "Accept-Encoding": ["gzip"],
+                    "User-Agent": ["Go-http-client/1.1"],
+                    "X-Men-Requestid": [request_id],
+                },
+                "cookies": {},
+                "body": "",
+            },
+        },
+        {
+            "request": {
+                "scheme": "http",
+                "host": "mender-inventory",
+                "port": "8080",
+                "method": "DELETE",
+                "path": "/api/internal/v1/inventory/tenants/" + tenant_id + "/devices/"
                 + device_id,
                 "queryStringParameters": {},
                 "fragment": "",
