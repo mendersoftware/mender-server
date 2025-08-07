@@ -145,7 +145,7 @@ test.describe('Settings', () => {
       await page.getByRole('button', { name: 'Upgrade now' }).click();
       await page.waitForTimeout(timeouts.default);
 
-      await expect(page.getByText('$979')).toBeVisible();
+      await expect(page.getByRole('heading', { name: '$777' })).toBeVisible();
       await page.click(`button:has-text('Confirm subscription')`);
       await page.getByText(/ You have successfully subscribed to the professional/i).waitFor({ timeout: timeouts.fifteenSeconds });
 
