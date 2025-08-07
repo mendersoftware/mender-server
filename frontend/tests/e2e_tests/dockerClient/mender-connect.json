@@ -4,5 +4,8 @@
   "Terminal": {
     "Height": 24,
     "Width": 128
+  },
+  "Sessions": {
+    "MaxPerUser": 24
   }
 }

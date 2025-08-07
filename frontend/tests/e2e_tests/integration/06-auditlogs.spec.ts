@@ -106,7 +106,10 @@ test.describe('Auditlogs', () => {
     const { pass } = compareImages(expectedPath, screenShotPath);
     expect(pass).toBeTruthy();
     await terminalText.fill('top');
-    await page.keyboard.press('Enter');
+    await terminalText.press('Enter');
+    await terminalText.press('q');
+    await terminalText.fill('exit');
+    await terminalText.press('Enter');
     await page.waitForTimeout(timeouts.oneSecond);
     await page.click('[aria-label="close"]'); // short-form
     await navbar.getByRole('link', { name: /audit log/i }).click();

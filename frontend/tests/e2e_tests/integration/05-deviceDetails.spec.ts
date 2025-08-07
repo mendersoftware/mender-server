@@ -109,48 +109,56 @@ test.describe('Device details', () => {
     await expect(pagination).toBeVisible();
   });
 
-  test('can open a terminal', async ({ browserName, page }) => {
-    await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
-    await page.getByText(/troubleshooting/i).click();
-    // the deviceconnect connection might not be established right away
-    await page.getByText(/Session status/i).waitFor({ timeout: timeouts.tenSeconds });
-    const connectionButton = await page.getByRole('button', { name: /connect/i });
-    await connectionButton.first().click();
-    await page.getByText('Connection with the device established').waitFor({ timeout: timeouts.tenSeconds });
-    await expect(page.locator('.terminal.xterm .xterm-screen')).toBeVisible();
+  test.describe('Terminal interactions', () => {
+    test.afterEach(async ({ page }) => {
+      const terminalTextInput = await page.locator(selectors.terminalText);
+      await terminalTextInput.fill('exit');
+      await terminalTextInput.press('Enter');
+    });
+    test('can open a terminal', async ({ browserName, page }) => {
+      await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
+      await page.getByText(/troubleshooting/i).click();
+      // the deviceconnect connection might not be established right away
+      await page.getByText(/Session status/i).waitFor({ timeout: timeouts.tenSeconds });
+      const connectionButton = await page.getByRole('button', { name: /connect/i });
+      await connectionButton.first().click();
+      await page.getByText('Connection with the device established').waitFor({ timeout: timeouts.tenSeconds });
+      await expect(page.locator('.terminal.xterm .xterm-screen')).toBeVisible();
 
-    // the terminal content might take a bit to get painted - thus the waiting
-    await page.click(selectors.terminalElement, { timeout: timeouts.default });
+      // the terminal content might take a bit to get painted - thus the waiting
+      await page.click(selectors.terminalElement, { timeout: timeouts.default });
 
-    // the terminal content differs a bit depending on the device id, thus the higher threshold allowed
-    // NB! without the screenshot-name argument the options don't seem to be applied
-    // NB! screenshots should only be taken by running the docker composition (as in CI) - never in open mode,
-    // as the resizing option on `allowSizeMismatch` only pads the screenshot with transparent pixels until
-    // the larger size is met (when diffing screenshots of multiple sizes) and does not scale to fit!
-    const elementHandle = await page.$(selectors.terminalElement);
-    expect(elementHandle).toBeTruthy();
-    if (['chromium', 'webkit'].includes(browserName)) {
-      // this should ensure a repeatable position across test runners
-      await page.locator('.MuiDrawer-paper').hover();
-      await page.mouse.wheel(0, -100);
-      await elementHandle.scrollIntoViewIfNeeded();
+      // the terminal content differs a bit depending on the device id, thus the higher threshold allowed
+      // NB! without the screenshot-name argument the options don't seem to be applied
+      // NB! screenshots should only be taken by running the docker composition (as in CI) - never in open mode,
+      // as the resizing option on `allowSizeMismatch` only pads the screenshot with transparent pixels until
+      // the larger size is met (when diffing screenshots of multiple sizes) and does not scale to fit!
+      const elementHandle = await page.$(selectors.terminalElement);
+      expect(elementHandle).toBeTruthy();
+      if (['chromium', 'webkit'].includes(browserName)) {
+        // this should ensure a repeatable position across test runners
+        await page.locator('.MuiDrawer-paper').hover();
+        await page.mouse.wheel(0, -100);
+        await elementHandle.scrollIntoViewIfNeeded();
 
-      const screenShotPath = path.join(__dirname, '..', 'test-results', 'diffs', 'terminalContent-actual.png');
-      await elementHandle.screenshot({ path: screenShotPath });
+        const screenShotPath = path.join(__dirname, '..', 'test-results', 'diffs', 'terminalContent-actual.png');
+        await elementHandle.screenshot({ path: screenShotPath });
 
-      const expectedPath = path.join(__dirname, '..', 'fixtures', terminalReferenceFileMap[browserName] ?? terminalReferenceFileMap.default);
-      const { pass } = compareImages(expectedPath, screenShotPath);
-      expect(pass).toBeTruthy();
+        const expectedPath = path.join(__dirname, '..', 'fixtures', terminalReferenceFileMap[browserName] ?? terminalReferenceFileMap.default);
+        const { pass } = compareImages(expectedPath, screenShotPath);
+        expect(pass).toBeTruthy();
 
-      const terminalText = await page.locator(`css=${selectors.terminalText}`);
-      await terminalText.fill('top');
-      await page.keyboard.press('Enter');
-      await page.waitForTimeout(timeouts.default);
+        const terminalText = await page.locator(`css=${selectors.terminalText}`);
+        await terminalText.fill('top');
+        await page.keyboard.press('Enter');
+        await page.waitForTimeout(timeouts.default);
 
-      await elementHandle.screenshot({ path: screenShotPath });
-      const { pass: pass2 } = compareImages(expectedPath, screenShotPath);
-      expect(pass2).not.toBeTruthy();
-    }
+        await elementHandle.screenshot({ path: screenShotPath });
+        const { pass: pass2 } = compareImages(expectedPath, screenShotPath);
+        expect(pass2).not.toBeTruthy();
+        await page.keyboard.press('q');
+      }
+    });
   });
 
   test('can trigger on device updates', async ({ page }) => {
