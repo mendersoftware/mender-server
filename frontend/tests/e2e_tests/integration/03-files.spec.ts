@@ -31,12 +31,26 @@ const fileLocation = `fixtures/${fileName}`;
 
 test.describe('Files', () => {
   let navbar;
+  test.beforeAll(async () => {
+    // download a fresh version of the demo artifact
+    const response = await fetch(demoArtifactLocation);
+    const buffer = await response.arrayBuffer();
+    fs.writeFileSync(fileLocation, Buffer.from(buffer));
+  });
   test.beforeEach(async ({ browserName, page }) => {
     navbar = page.locator('.leftFixed.leftNav');
     await navbar.getByRole('link', { name: /Releases/i }).click({ force: browserName === 'webkit' });
   });
 
-  test('allows file removal', async ({ page }) => {
+  test('allows file removal', async ({ page, environment }) => {
+    if (!isEnterpriseOrStaging(environment)) {
+      const uploadButton = await page.getByRole('button', { name: /upload/i });
+      await uploadButton.click();
+      const drawer = page.locator(`.MuiDialog-paper`);
+      await drawer.locator('.dropzone input').setInputFiles(fileLocation);
+      await drawer.getByRole('button', { name: /Upload/i }).click();
+      await page.getByText(/mender-demo-artifact/i).waitFor();
+    }
     await page.getByRole('checkbox').first().click();
     await page.click('.MuiSpeedDial-fab');
     await page.getByLabel(/delete release/i).click();
@@ -46,10 +60,6 @@ test.describe('Files', () => {
   });
 
   test('allows file uploads', async ({ page }) => {
-    // download a fresh version of the demo artifact and upload in any case (even though)
-    const response = await fetch(demoArtifactLocation);
-    const buffer = await response.arrayBuffer();
-    fs.writeFileSync(fileLocation, Buffer.from(buffer));
     const uploadButton = await page.getByRole('button', { name: /upload/i });
     await uploadButton.click();
     const drawer = page.locator(`.MuiDialog-paper`);
