@@ -1,4 +1,5 @@
 import { rspack } from '@rspack/core';
+import ReactRefreshPlugin from '@rspack/plugin-react-refresh';
 import { sentryWebpackPlugin } from '@sentry/webpack-plugin';
 import autoprefixer from 'autoprefixer';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
@@ -12,6 +13,8 @@ const require = createRequire(import.meta.url);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const publicPath = '/ui/';
+
 export default (env, argv) => {
   const plugins =
     argv.mode === 'production'
@@ -22,7 +25,17 @@ export default (env, argv) => {
             replenishDefaultLicenseTexts: true
           })
         ]
-      : [new ESLintPlugin({ configType: 'flat', extensions: ['js', 'ts', 'tsx'] })];
+      : [
+          new ESLintPlugin({
+            configType: 'flat',
+            extensions: ['js', 'ts', 'tsx'],
+            failOnWarning: false,
+            failOnError: false,
+            emitWarning: true,
+            emitError: true
+          }),
+          new ReactRefreshPlugin()
+        ];
   const { GIT_COMMIT_SHA, SENTRY_AUTH_TOKEN, SENTRY_ORG, SENTRY_URL } = process.env;
   if (SENTRY_URL && SENTRY_AUTH_TOKEN && argv.mode === 'production') {
     plugins.push(
@@ -41,6 +54,31 @@ export default (env, argv) => {
     devtool: 'source-map',
     node: {
       global: true
+    },
+    devServer: {
+      host: '0.0.0.0',
+      port: 8080,
+      hot: 'only',
+      liveReload: false,
+      server: 'https',
+      static: [{ directory: path.join(__dirname, 'dist'), publicPath: '/ui', serveIndex: false }],
+      allowedHosts: 'all',
+      historyApiFallback: {
+        index: `${publicPath}index.html`,
+        verbose: true,
+        rewrites: [
+          { from: /^\/ui\/env\.js$/, to: false },
+          { from: /^\/ui\/.*$/, to: `${publicPath}index.html` }
+        ]
+      },
+      devMiddleware: { publicPath, writeToDisk: false },
+      setupMiddlewares: (middlewares, devServer) => {
+        devServer.app.get(['/tags.json', '/versions.json'], (req, res) =>
+          res.sendFile(path.join(__dirname, `dist${req.path}`), err => err && res.status(404).send('File not found'))
+        );
+        return middlewares;
+      },
+      proxy: [{ context: ['/api'], target: 'https://docker.mender.io', secure: false, changeOrigin: true }]
     },
     entry: './src/js/main.tsx',
     module: {
@@ -100,12 +138,12 @@ export default (env, argv) => {
       filename: '[name].min.js',
       hashFunction: 'xxhash64',
       path: path.resolve(__dirname, 'dist'),
-      publicPath: '/ui/',
+      publicPath,
       sourceMapFilename: '[file].map'
     },
     plugins: [
       new CleanWebpackPlugin({
-        cleanOnceBeforeBuildPatterns: ['**/*', '!env.js'],
+        cleanOnceBeforeBuildPatterns: ['**/*', '!env.js', '!tags.json', '!versions.json'],
         cleanAfterEveryBuildPatterns: ['!assets/fonts/*', '!assets/img/*']
       }),
       new rspack.CopyRspackPlugin({
