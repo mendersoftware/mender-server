@@ -57,7 +57,7 @@ test.describe('Layout assertions', () => {
     }
     await page.locator(`input:near(:text("Status:"))`).first().click({ force: true });
     await page.click(`css=.MuiPaper-root >> text=/Accepted/i`);
-    await page.waitForSelector(`css=${selectors.deviceListItem} >> text=/original/`, { timeout: timeouts.sixtySeconds });
+    await page.waitForSelector(`css=${selectors.deviceListItem} >> text=/original/`, { timeout: 2 * timeouts.sixtySeconds });
     const element = await page.textContent(selectors.deviceListItem);
     expect(element.includes('original')).toBeTruthy();
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();

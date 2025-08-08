@@ -39,6 +39,8 @@ export const getPeristentLoginInfo = () => {
   } catch {
     loginInfo = { username: process.env.STAGING_USER ?? `${uuid()}@example.com`, password: process.env.STAGING_PASSWORD ?? uuid() };
   }
+  process.env.STAGING_USER = loginInfo.username;
+  process.env.STAGING_PASSWORD = loginInfo.password;
   fs.writeFileSync('loginInfo.json', JSON.stringify(loginInfo));
   return loginInfo;
 };
@@ -52,6 +54,8 @@ export const getStorageState = location => {
   } catch {
     storageState = { username: process.env.STAGING_USER ?? `${uuid()}@example.com`, password: process.env.STAGING_PASSWORD ?? uuid() };
   }
+  process.env.STAGING_USER = storageState.username;
+  process.env.STAGING_PASSWORD = storageState.password;
   return storageState;
 };
 

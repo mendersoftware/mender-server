@@ -25,7 +25,7 @@ test.describe('Webhooks Functionality', () => {
     test.skip(environment === 'staging');
     server = startWebhookServer();
   });
-  test.afterAll(() => server.close());
+  test.afterAll(() => server?.close());
   test('allows configuring basic webhooks', async ({ baseUrl, environment, page }) => {
     test.skip(environment === 'staging');
     await page.goto(`${baseUrl}ui/settings`);

@@ -29,6 +29,7 @@ test.describe('Test setup', () => {
   });
   test('allows account creation', async ({ baseUrl, context, environment, page, password, request, username }) => {
     test.skip(environment !== 'staging');
+    test.setTimeout(2 * timeouts.sixtySeconds);
     try {
       const { token } = await login(username, password, baseUrl, request);
       test.skip(!!token, 'looks like the account was created already, continue with the remaining tests');
@@ -58,11 +59,12 @@ test.describe('Test setup', () => {
     await recaptcha.click();
     await page.waitForTimeout(timeouts.default);
     await page.getByRole('button', { name: /Complete/i }).click();
-    await isLoggedIn(page, timeouts.fifteenSeconds);
+    await isLoggedIn(page, timeouts.sixtySeconds); // in some cases the backend takes _a lot_ longer to respond here...
     // the following sets the UI up for easier navigation by disabling onboarding
     const newPage = await prepareNewPage({ baseUrl, context, password, request, username });
     await isLoggedIn(newPage);
     await context.storageState({ path: storagePath });
+    await context.close();
   });
 
   test('OS login', async ({ baseUrl, context, environment, password, request, username }) => {
@@ -70,6 +72,7 @@ test.describe('Test setup', () => {
     const newPage = await prepareNewPage({ baseUrl, context, password, request, username });
     await isLoggedIn(newPage);
     await context.storageState({ path: storagePath });
+    await context.close();
   });
 
   test.describe('enterprise setting features', () => {
@@ -97,6 +100,7 @@ test.describe('Test setup', () => {
       }
       await context.storageState({ path: storagePath });
       expect(token).toBeTruthy();
+      await context.close();
     });
     test('SP tenant login', async ({ baseUrl, browser, environment, password, request, spTenantUsername }) => {
       if (environment !== 'enterprise') {

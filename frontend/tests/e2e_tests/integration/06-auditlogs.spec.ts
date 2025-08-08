@@ -106,7 +106,10 @@ test.describe('Auditlogs', () => {
     const { pass } = compareImages(expectedPath, screenShotPath);
     expect(pass).toBeTruthy();
     await terminalText.fill('top');
-    await page.keyboard.press('Enter');
+    await terminalText.press('Enter');
+    await terminalText.press('q');
+    await terminalText.fill('exit');
+    await terminalText.press('Enter');
     await page.waitForTimeout(timeouts.oneSecond);
     await page.click('[aria-label="close"]'); // short-form
     await navbar.getByRole('link', { name: /audit log/i }).click();
@@ -133,5 +136,6 @@ test.describe('Auditlogs', () => {
     await localPage.goto(`file://${downloadTargetPath}.html`);
     await expect(localPage.getByText('Terminal playback')).toBeVisible();
     await localPage.getByRole('button', { name: /start/i }).click();
+    await localPage.context().close();
   });
 });
