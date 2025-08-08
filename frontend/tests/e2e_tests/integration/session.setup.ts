@@ -64,6 +64,7 @@ test.describe('Test setup', () => {
     const newPage = await prepareNewPage({ baseUrl, context, password, request, username });
     await isLoggedIn(newPage);
     await context.storageState({ path: storagePath });
+    await context.close();
   });
 
   test('OS login', async ({ baseUrl, context, environment, password, request, username }) => {
@@ -71,6 +72,7 @@ test.describe('Test setup', () => {
     const newPage = await prepareNewPage({ baseUrl, context, password, request, username });
     await isLoggedIn(newPage);
     await context.storageState({ path: storagePath });
+    await context.close();
   });
 
   test.describe('enterprise setting features', () => {
@@ -98,6 +100,7 @@ test.describe('Test setup', () => {
       }
       await context.storageState({ path: storagePath });
       expect(token).toBeTruthy();
+      await context.close();
     });
     test('SP tenant login', async ({ baseUrl, browser, environment, password, request, spTenantUsername }) => {
       if (environment !== 'enterprise') {

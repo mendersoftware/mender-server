@@ -267,6 +267,7 @@ test.describe('Settings', () => {
       await page.getByRole('button', { name: /Confirm subscription/i }).click();
       await page.getByText(/Card confirmed./i).waitFor({ timeout: timeouts.tenSeconds });
       await page.getByText(/ You have successfully subscribed to the basic/i).waitFor({ timeout: timeouts.fifteenSeconds });
+      await page.waitForTimeout(timeouts.default); // the tenant state seems to not be populated right away, so the explicit wait to increase chances of the follow up test succeeding
     });
 
     test('allows upgrading to Professional', async ({ baseUrl, browser, password, request, username }) => {
@@ -293,6 +294,7 @@ test.describe('Settings', () => {
       await page.getByRole('button', { name: /Confirm subscription/i }).click();
 
       await page.getByText(/ You have successfully subscribed to the professional/i).waitFor({ timeout: timeouts.fifteenSeconds });
+      await page.context().close();
     });
     test('allows higher device limits once upgraded', async ({ baseUrl, browser, password, request, username }) => {
       const page = await prepareNewPage({ baseUrl, browser, password, request, username });
@@ -306,6 +308,7 @@ test.describe('Settings', () => {
         const pendingNotification = await page.getByRole('link', { name: /pending/i }).innerText();
         expect(Number(pendingNotification.split(' ')[0])).toBeGreaterThan(10);
       }).toPass({ timeout: timeouts.sixtySeconds });
+      await page.context().close();
     });
     test('allows billing profile editing', async ({ baseUrl, browser, password, request, username }) => {
       const page = await prepareNewPage({ baseUrl, browser, password, request, username });
@@ -328,6 +331,7 @@ test.describe('Settings', () => {
       await stripeFrame.fill('[name="postal"]', '02040');
       await page.getByRole('button', { name: /save/i }).click();
       await expect(page.getByText('Gaustadalleen 12')).toBeVisible();
+      await page.context().close();
     });
   });
 });

@@ -136,5 +136,6 @@ test.describe('Auditlogs', () => {
     await localPage.goto(`file://${downloadTargetPath}.html`);
     await expect(localPage.getByText('Terminal playback')).toBeVisible();
     await localPage.getByRole('button', { name: /start/i }).click();
+    await localPage.context().close();
   });
 });
