@@ -72,9 +72,8 @@ func TestNewRouter(t *testing.T) {
 
 			req := rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: http.MethodPost,
-				Path: "https://localhost:8443" + ApiUrlManagement +
-					ApiUrlManagementArtifactsGenerate,
-				Auth: true,
+				Path:   "https://localhost:8443" + ApiUrlManagementArtifactsGenerate,
+				Auth:   true,
 			})
 
 			w := httptest.NewRecorder()
