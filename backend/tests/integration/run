@@ -68,9 +68,6 @@ usage() {
 }
 
 TEST_SUITES=("open")
-if [ -d "${MENDER_SERVER_PATH}/backend/services/auditlogs" ]; then
-    TEST_SUITES=("enterprise")
-fi
 
 parse_args() {
     while [ $# -gt 0 ]; do
