@@ -95,7 +95,7 @@ test.describe('Settings', () => {
         // moving on
       }
       test.skip(tfaSecret, 'looks like the account is already 2fa enabled, continue with the remaining tests');
-      await page.goto(`${baseUrl}ui/settings/my-account`);
+      await page.goto(`${baseUrl}ui/settings/my-profile`);
       await page.getByText(/Enable Two Factor/).click();
       await page.waitForSelector('.margin-top img');
       const qrCode = await page.$eval('.margin-top img', (el: HTMLImageElement) => el.src);
@@ -141,7 +141,7 @@ test.describe('Settings', () => {
       await page.getByLabel(/Two Factor Authentication Code/i).fill(newToken);
       await page.getByRole('button', { name: /next/i }).click();
       await isLoggedIn(page);
-      await page.goto(`${baseUrl}ui/settings/my-account`);
+      await page.goto(`${baseUrl}ui/settings/my-profile`);
       await page.getByText(/Enable Two Factor/).click();
       const failureNotification = await page.getByText(/There was an error disabling/i);
       await expect(failureNotification).not.toBeVisible();
@@ -176,7 +176,7 @@ test.describe('Settings', () => {
       await userCreationButton.waitFor();
     });
     test('allows email changes', async ({ baseUrl, page }) => {
-      await page.goto(`${baseUrl}ui/settings/my-account`);
+      await page.goto(`${baseUrl}ui/settings/my-profile`);
       await page.getByRole('button', { name: /change email/i }).click();
       await expect(page.getByLabel(/current password/i)).toBeVisible();
     });

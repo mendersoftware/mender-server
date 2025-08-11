@@ -98,7 +98,7 @@ test.describe('Multi tenant access', () => {
     const hasUserAlready = await page.getByText(secondaryUser).isVisible();
     test.skip(hasUserAlready, `${secondaryUser} was added in a previous run, but success notification wasn't caught`);
     const newPage = await prepareNewPage({ baseUrl, browser, password, request, username: secondaryUser });
-    await newPage.goto(`${baseUrl}ui/settings/my-account`);
+    await newPage.goto(`${baseUrl}ui/settings/my-profile`);
     await newPage
       .getByText(/User ID/i)
       .locator('..')
