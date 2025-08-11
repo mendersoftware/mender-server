@@ -383,20 +383,17 @@ def mongo_cleanup(mongo: MongoClient):
         nameOnly=True,
     )
     for db_name in (db["name"] for db in dbs):
-        if re.match(r"^(deployment_service|inventory)-[0-9A-Za-z]+", db_name):
-            mongo.drop_database(db_name)
-        else:
-            db = mongo[db_name]
-            for coll in db.list_collection_names(
-                filter={
-                    "name": {"$ne": "migration_info"},
-                    "$or": [
-                        {"options.capped": {"$exists": False}},
-                        {"options.capped": False},
-                    ],
-                }
-            ):
-                db[coll].delete_many({})
+        db = mongo[db_name]
+        for coll in db.list_collection_names(
+            filter={
+                "name": {"$ne": "migration_info"},
+                "$or": [
+                    {"options.capped": {"$exists": False}},
+                    {"options.capped": False},
+                ],
+            }
+        ):
+            db[coll].delete_many({})
 
 
 @pytest.fixture(scope="session")
