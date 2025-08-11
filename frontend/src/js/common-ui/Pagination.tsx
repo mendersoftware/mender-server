@@ -92,10 +92,14 @@ const Pagination = props => {
   );
 };
 
-const areEqual = (prevProps, nextProps) =>
-  Math.floor(prevProps.count / prevProps.rowsPerPage) === Math.floor(nextProps.count / nextProps.rowsPerPage) &&
-  prevProps.page === nextProps.page &&
-  prevProps.rowsPerPage === nextProps.rowsPerPage &&
-  prevProps.disabled === nextProps.disabled;
+export const areEqual = (prevProps, nextProps) => {
+  if (prevProps.page !== nextProps.page || prevProps.rowsPerPage !== nextProps.rowsPerPage || prevProps.disabled !== nextProps.disabled) {
+    return false;
+  }
 
+  const pageStart = (prevProps.page - 1) * prevProps.rowsPerPage;
+  const pageEnd = pageStart + prevProps.rowsPerPage;
+
+  return Math.min(prevProps.count, pageEnd) === Math.min(nextProps.count, pageEnd);
+};
 export default memo(Pagination, areEqual);

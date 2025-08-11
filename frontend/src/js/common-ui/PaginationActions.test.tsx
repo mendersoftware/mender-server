@@ -16,7 +16,7 @@ import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
 import { render } from '../../../tests/setupTests';
-import { TablePaginationActions } from './Pagination';
+import { TablePaginationActions, areEqual } from './Pagination';
 
 describe('TablePaginationActions Component', () => {
   it('paginates properly', async () => {
@@ -56,5 +56,18 @@ describe('TablePaginationActions Component', () => {
     expect(changeListener).toHaveBeenCalled();
     expect(screen.getByText('9981-10000 of 2000000')).toBeInTheDocument();
     expect(screen.getAllByRole('button')[1]).toBeDisabled();
+  });
+});
+
+describe('areEqual function', () => {
+  it('should prevent rerenders when items are added to later pages', () => {
+    const prevProps = { count: 901, page: 1, rowsPerPage: 20 };
+    const nextProps = { count: 916, page: 1, rowsPerPage: 20 };
+    expect(areEqual(prevProps, nextProps)).toBe(true);
+  });
+  it('should rerender when items affect the current page', () => {
+    const prevProps = { count: 1, page: 1, rowsPerPage: 20 };
+    const nextProps = { count: 16, page: 1, rowsPerPage: 20 };
+    expect(areEqual(prevProps, nextProps)).toBe(false);
   });
 });

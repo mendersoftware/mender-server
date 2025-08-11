@@ -32,21 +32,23 @@ const checkTimeFilter = async (page: Page, name: string, isSetToday?: boolean) =
 };
 
 test.describe('Deployments', () => {
-  test.beforeEach(async ({ baseUrl, page }) => {
-    await page.goto(`${baseUrl}ui/devices`);
+  let navbar;
+  test.beforeEach(async ({ page }) => {
+    navbar = page.locator('.leftFixed.leftNav');
+    await navbar.getByRole('link', { name: /devices/i }).click();
     await page.waitForTimeout(timeouts.default);
-    await page.goto(`${baseUrl}ui/releases`);
+    await navbar.getByRole('link', { name: /releases/i }).click();
     await page.waitForTimeout(timeouts.default);
   });
-  test('check time filters before deployment', async ({ baseUrl, page }) => {
-    await page.goto(`${baseUrl}ui/deployments`);
+  test('check time filters before deployment', async ({ page }) => {
+    await navbar.getByRole('link', { name: /deployments/i }).click();
     await page.getByRole('tab', { name: /finished/i }).click();
     await checkTimeFilter(page, 'From');
     await checkTimeFilter(page, 'To', true);
   });
-  test('ensure release page filters are not used on deployment creation', async ({ baseUrl, page }) => {
+  test('ensure release page filters are not used on deployment creation', async ({ page }) => {
     await page.getByPlaceholder(/select tags/i).fill(`${releaseTag.toLowerCase()},`);
-    await page.goto(`${baseUrl}ui/deployments`);
+    await navbar.getByRole('link', { name: /deployments/i }).click();
     await page.getByRole('button', { name: /create a deployment/i }).click();
     await page.waitForSelector(selectors.releaseSelect, { timeout: timeouts.fiveSeconds });
     const releaseSelect = await page.getByPlaceholder(/select a release/i);
@@ -68,8 +70,6 @@ test.describe('Deployments', () => {
     await creationButton.click();
     await page.waitForSelector(selectors.deploymentListItem, { timeout: timeouts.tenSeconds });
     await page.getByRole('tab', { name: /finished/i }).click();
-    await checkTimeFilter(page, 'From', true);
-    await checkTimeFilter(page, 'To', true);
     await page.waitForSelector(selectors.deploymentListItemContent, { timeout: timeouts.sixtySeconds });
     const datetime = await page.getAttribute(`${selectors.deploymentListItemContent} time`, 'datetime');
     const time = dayjs(datetime);
@@ -78,8 +78,8 @@ test.describe('Deployments', () => {
     expect(time.isBetween(earlier, now));
   });
 
-  test('allows shortcut device deployments', async ({ baseUrl, page }) => {
-    await page.goto(`${baseUrl}ui/devices`);
+  test('allows shortcut device deployments', async ({ page }) => {
+    await navbar.getByRole('link', { name: /devices/i }).click();
     // create an artifact to download first
     await page.getByText(/original/i).click();
     await page.click('.MuiSpeedDial-fab');
@@ -100,6 +100,8 @@ test.describe('Deployments', () => {
     await creationButton.click();
     await expect(page.getByText(/Select a Release to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds });
     await page.getByRole('tab', { name: /finished/i }).click();
+    await checkTimeFilter(page, 'From', true);
+    await checkTimeFilter(page, 'To', true);
     await page.waitForSelector(selectors.deploymentListItemContent, { timeout: timeouts.sixtySeconds });
     const datetime = await page.getAttribute(`${selectors.deploymentListItemContent} time`, 'datetime');
     const time = dayjs(datetime);
@@ -109,7 +111,7 @@ test.describe('Deployments', () => {
   });
 
   test('allows group deployments', async ({ page }) => {
-    await page.click(`a:has-text('Deployments')`);
+    await navbar.getByRole('link', { name: /deployments/i }).click();
     await page.click(`button:has-text('Create a deployment')`);
 
     await page.waitForSelector(selectors.releaseSelect, { timeout: timeouts.fiveSeconds });

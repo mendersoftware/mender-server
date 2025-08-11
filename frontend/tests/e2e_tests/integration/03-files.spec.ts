@@ -31,38 +31,69 @@ const fileLocation = `fixtures/${fileName}`;
 
 test.describe('Files', () => {
   let navbar;
+  test.beforeAll(async () => {
+    // download a fresh version of the demo artifact
+    const response = await fetch(demoArtifactLocation);
+    const buffer = await response.arrayBuffer();
+    fs.writeFileSync(fileLocation, Buffer.from(buffer));
+  });
   test.beforeEach(async ({ browserName, page }) => {
     navbar = page.locator('.leftFixed.leftNav');
     await navbar.getByRole('link', { name: /Releases/i }).click({ force: browserName === 'webkit' });
   });
 
-  test('allows file uploads', async ({ page }) => {
-    // download a fresh version of the demo artifact and upload in any case (even though)
-    const response = await fetch(demoArtifactLocation);
-    const buffer = await response.arrayBuffer();
-    fs.writeFileSync(fileLocation, Buffer.from(buffer));
-    const uploadButton = await page.getByRole('button', { name: /upload/i });
-    await uploadButton.click();
-    const drawer = page.locator(`.MuiDialog-paper`);
-    await drawer.locator('.dropzone input').setInputFiles(fileLocation);
-    await drawer.getByRole('button', { name: /Upload/i }).click();
-    await page.getByText(/last modified/i).waitFor();
-  });
-
-  test('allows file removal', async ({ page }) => {
+  test('allows file removal', async ({ page, environment }) => {
+    if (!isEnterpriseOrStaging(environment)) {
+      const uploadButton = await page.getByRole('button', { name: /upload/i });
+      await uploadButton.click();
+      const drawer = page.locator(`.MuiDialog-paper`);
+      await drawer.locator('.dropzone input').setInputFiles(fileLocation);
+      await drawer.getByRole('button', { name: /Upload/i }).click();
+      await page.getByText(/mender-demo-artifact/i).waitFor();
+    }
     await page.getByRole('checkbox').first().click();
     await page.click('.MuiSpeedDial-fab');
     await page.getByLabel(/delete release/i).click();
     await expect(page.getByText(/will be deleted/i)).toBeVisible();
     await page.getByRole('button', { name: /delete/i }).click();
     await expect(page.getByText(/There are no Releases yet/i)).toBeVisible();
-    // now restore the demo artifact
+  });
+
+  test('allows file uploads', async ({ page }) => {
     const uploadButton = await page.getByRole('button', { name: /upload/i });
     await uploadButton.click();
     const drawer = page.locator(`.MuiDialog-paper`);
     await drawer.locator('.dropzone input').setInputFiles(fileLocation);
     await drawer.getByRole('button', { name: /Upload/i }).click();
     await page.getByText(/last modified/i).waitFor();
+  });
+
+  test('allows artifact downloads', async ({ demoArtifactVersion, page, request }) => {
+    await page.getByText(/mender-demo-artifact/i).click();
+    await page.click('.expandButton');
+    const downloadButton = await page.getByText(/download artifact/i);
+    await expect(downloadButton).toBeVisible();
+    const [download] = await Promise.all([page.waitForEvent('download'), downloadButton.click()]);
+    let downloadTargetPath;
+    const downloadError = await download.failure();
+    if (downloadError) {
+      const downloadUrl = download.url();
+      const response = await request.get(downloadUrl);
+      const fileData = await response.body();
+      downloadTargetPath = `./${download.suggestedFilename()}`;
+      fs.writeFileSync(downloadTargetPath, fileData);
+    } else {
+      downloadTargetPath = await download.path();
+    }
+    const stdout = execSync(`mender-artifact read --no-progress ${downloadTargetPath}`);
+    const artifactInfo = parse(stdout.toString());
+    // Parse artifact header to check that artifact name matches
+    const artifactName = artifactInfo['Mender Artifact'].Name;
+    expect(artifactName).toMatch(/^mender-demo-artifact/);
+    const versionInfo = artifactName.substring(artifactName.indexOf(expectedArtifactName) + expectedArtifactName.length + 1);
+    expect(versionInfo).toEqual(demoArtifactVersion.artifactVersion);
+    const { 'data-partition.mender-demo-artifact.version': updateVersion } = artifactInfo.Updates[0].Provides;
+    expect(updateVersion).toEqual(demoArtifactVersion.updateVersion);
   });
 
   test('allows artifact generation', async ({ baseUrl, browserName, page, request }) => {
@@ -195,34 +226,6 @@ test.describe('Files', () => {
   //       })
   // })
 
-  test('allows artifact downloads', async ({ demoArtifactVersion, page, request }) => {
-    await page.getByText(/mender-demo-artifact/i).click();
-    await page.click('.expandButton');
-    const downloadButton = await page.getByText(/download artifact/i);
-    await expect(downloadButton).toBeVisible();
-    const [download] = await Promise.all([page.waitForEvent('download'), downloadButton.click()]);
-    let downloadTargetPath;
-    const downloadError = await download.failure();
-    if (downloadError) {
-      const downloadUrl = download.url();
-      const response = await request.get(downloadUrl);
-      const fileData = await response.body();
-      downloadTargetPath = `./${download.suggestedFilename()}`;
-      fs.writeFileSync(downloadTargetPath, fileData);
-    } else {
-      downloadTargetPath = await download.path();
-    }
-    const stdout = execSync(`mender-artifact read --no-progress ${downloadTargetPath}`);
-    const artifactInfo = parse(stdout.toString());
-    // Parse artifact header to check that artifact name matches
-    const artifactName = artifactInfo['Mender Artifact'].Name;
-    expect(artifactName).toMatch(/^mender-demo-artifact/);
-    const versionInfo = artifactName.substring(artifactName.indexOf(expectedArtifactName) + expectedArtifactName.length + 1);
-    expect(versionInfo).toEqual(demoArtifactVersion.artifactVersion);
-    const { 'data-partition.mender-demo-artifact.version': updateVersion } = artifactInfo.Updates[0].Provides;
-    expect(updateVersion).toEqual(demoArtifactVersion.updateVersion);
-  });
-
   test('allows file transfer', async ({ browserName, environment, page }) => {
     // TODO adjust test to better work with webkit, for now it should be good enough to assume file transfers work there too if the remote terminal works
     test.skip(!isEnterpriseOrStaging(environment) || ['webkit'].includes(browserName));
@@ -235,6 +238,7 @@ test.describe('Files', () => {
     await page.click(selectors.placeholderExample, { clickCount: 3 });
     await page.getByPlaceholder(/installed-by-single-file/i).fill(`/tmp/${fileName}`);
     await page.getByRole('button', { name: /upload/i }).click();
+    await page.getByText(/Upload successful/i).waitFor({ timeout: timeouts.fiveSeconds });
     await page.getByRole('tab', { name: /download/i }).click();
     await page.getByPlaceholder(/\/home\/mender/i).fill(`/tmp/${fileName}`);
     const [download] = await Promise.all([page.waitForEvent('download'), page.click('button:text("Download"):below(:text("file on the device"))')]);
