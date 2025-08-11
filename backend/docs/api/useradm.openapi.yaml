@@ -6,12 +6,18 @@ info:
     All responses from the API will contain 'X-MEN-RequestID' header with server-side generated request ID.
   version: "1"
 servers:
-- url: https://hosted.mender.io/api/management/v1/useradm
+- url: https://hosted.mender.io
+  description: Management server
+- url: http://mender-useradm:8080
+  description: Internal server
+tags:
+  - name: Useradm Internal API
+  - name: Useradm Management API v1
 paths:
-  /auth/login:
+  /api/management/v1/useradm/auth/login:
     post:
       tags:
-      - Management API
+      - Useradm Management API v1
       summary: Log in to Mender
       description: |
         Accepts user credentials via standard Basic Auth, and returns a
@@ -72,10 +78,10 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
       - Login: []
-  /auth/logout:
+  /api/management/v1/useradm/auth/logout:
     post:
       tags:
-      - Management API
+      - Useradm Management API v1
       summary: Log out from Mender
       description: |
         Invalidates the JWT token of the current user.
@@ -105,13 +111,13 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
       - ManagementJWT: []
-  /users:
+  /api/management/v1/useradm/users:
     get:
       tags:
-      - Management API
+      - Useradm Management API v1
       summary: |
         List all users registered under the tenant owning the JWT.
-      operationId: List Users
+      operationId: List Users Management
       parameters:
       - name: id
         in: query
@@ -176,10 +182,10 @@ paths:
       - ManagementJWT: []
     post:
       tags:
-      - Management API
+      - Useradm Management API v1
       summary: |
         Create a new user under the tenant owning the JWT.
-      operationId: Create User
+      operationId: Create User Management
       requestBody:
         description: New user data.
         content:
@@ -225,10 +231,10 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
       - ManagementJWT: []
-  /users/{id}:
+  /api/management/v1/useradm/users/{id}:
     get:
       tags:
-      - Management API
+      - Useradm Management API v1
       summary: Get user information
       operationId: Show User
       parameters:
@@ -268,7 +274,7 @@ paths:
       - ManagementJWT: []
     put:
       tags:
-      - Management API
+      - Useradm Management API v1
       summary: Update user information
       operationId: Update User
       parameters:
@@ -328,7 +334,7 @@ paths:
       - ManagementJWT: []
     delete:
       tags:
-      - Management API
+      - Useradm Management API v1
       summary: Remove user from the system
       operationId: Remove User
       parameters:
@@ -357,10 +363,10 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
       - ManagementJWT: []
-  /settings:
+  /api/management/v1/useradm/settings:
     get:
       tags:
-      - Management API
+      - Useradm Management API v1
       summary: Get global user settings
       operationId: Show User Settings
       responses:
@@ -393,7 +399,7 @@ paths:
       - ManagementJWT: []
     post:
       tags:
-      - Management API
+      - Useradm Management API v1
       summary: Set global user settings
       description: |
         Create global user settings or replace existing settings with provided object.
@@ -441,10 +447,10 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
       - ManagementJWT: []
-  /settings/me:
+  /api/management/v1/useradm/settings/me:
     get:
       tags:
-      - Management API
+      - Useradm Management API v1
       summary: Get user settings for the current user
       operationId: Show My User Settings
       responses:
@@ -477,7 +483,7 @@ paths:
       - ManagementJWT: []
     post:
       tags:
-      - Management API
+      - Useradm Management API v1
       summary: Set user settings for the current user
       description: |
         Create current user settings or replace existing settings with provided object.
@@ -525,10 +531,10 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
       - ManagementJWT: []
-  /settings/tokens:
+  /api/management/v1/useradm/settings/tokens:
     get:
       tags:
-      - Management API
+      - Useradm Management API v1
       summary: Get user Personal Access Tokens
       operationId: List User Personal Access Tokens
       responses:
@@ -558,7 +564,7 @@ paths:
       - ManagementJWT: []
     post:
       tags:
-      - Management API
+      - Useradm Management API v1
       summary: Create new Personal Access Token
       description: |
         Create new Personal Access Token with given name and expiration.
@@ -614,10 +620,10 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
       - ManagementJWT: []
-  /settings/tokens/{id}:
+  /api/management/v1/useradm/settings/tokens/{id}:
     delete:
       tags:
-      - Management API
+      - Useradm Management API v1
       summary: Revoke Personal Access Token
       operationId: Revoke Personal Access Token
       parameters:
@@ -646,10 +652,10 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
       - ManagementJWT: []
-  /plans:
+  /api/management/v1/useradm/plans:
     get:
       tags:
-      - Management API
+      - Useradm Management API v1
       summary: Get list of available plans
       operationId: List Plans
       parameters:
@@ -692,10 +698,10 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
       - ManagementJWT: []
-  /plan_binding:
+  /api/management/v1/useradm/plan_binding:
     get:
       tags:
-      - Management API
+      - Useradm Management API v1
       summary: Get plan and limits information for current tenant
       operationId: Show Plan And Limits
       responses:
@@ -720,6 +726,346 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
       - ManagementJWT: []
+  /api/internal/v1/useradm/health:
+    get:
+      tags:
+      - Useradm Internal API
+      summary: Check the health of the service
+      operationId: Check Health
+      responses:
+        "204":
+          description: |
+            Service is healthy and all dependencies are up and running.
+          content: {}
+        "500":
+          description: |
+            Unexpected internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: internal error
+                request_id: ffd712be-d697-4cb7-814b-88ff1e2eb5f6
+        "503":
+          description: |
+            Service unhealthy / not ready to accept traffic. At least one dependency is not running.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: "error reaching MongoDB: context deadline exceeded"
+                request_id: ffd712be-d697-4cb7-814b-88ff1e2eb5f6
+  /api/internal/v1/useradm/alive:
+    get:
+      tags:
+      - Useradm Internal API
+      summary: |
+        Trivial endpoint that unconditionally returns an empty 200 response whenever the API handler is running correctly.
+      operationId: Check Liveliness
+      responses:
+        "204":
+          description: Service is up and running.
+          content: {}
+        "500":
+          description: |
+            Internal API error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/internal/v1/useradm/auth/verify:
+    post:
+      tags:
+      - Useradm Internal API
+      summary: Check the validity of a token
+      description: |
+        Besides the basic validity check, checks the token expiration time and user-initiated token revocation.
+        Services which intend to use it should be correctly set up in the gateway's configuration.
+      operationId: Verify JWT
+      parameters:
+      - name: Authorization
+        in: header
+        description: The token in base64-encoded form.
+        required: true
+        schema:
+          type: string
+          format: "Bearer [token]"
+      - name: X-Forwarded-Uri
+        in: header
+        description: |
+          URI the original request was sent to, the URI is expected to have
+          at least 4 components, eg. /api/management/1.0/foo/bar
+        required: true
+        schema:
+          type: string
+          format: HTTP path
+      - name: X-Forwarded-Method
+        in: header
+        description: HTTP method used when accessing the original URI
+        required: true
+        schema:
+          type: string
+          enum:
+          - GET
+          - PUT
+          - POST
+          - DELETE
+      responses:
+        "200":
+          description: The token is valid.
+          content: {}
+        "400":
+          description: Missing or malformed request parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "401":
+          description: "Verification failed, authentication should not be granted."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "403":
+          description: Token has expired - apply for a new one.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/internal/v1/useradm/tenants:
+    post:
+      tags:
+      - Useradm Internal API
+      summary: Create a tenant with provided configuration.
+      operationId: Create Tenant
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TenantNew'
+        required: true
+      responses:
+        "201":
+          description: The tenant was created successfully.
+          content: {}
+        "400":
+          description: Missing or malformed request parameters.
+          content: {}
+        "500":
+          description: Unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/internal/v1/useradm/tenants/{tenant_id}/users:
+    get:
+      tags:
+      - Useradm Internal API
+      summary: |
+        List all users registered under the tenant owning the JWT.
+      operationId: List Users Internal
+      parameters:
+      - name: tenant_id
+        in: path
+        description: Tenant ID.
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: query
+        description: |
+          Limit result by user ID, can be repeated to include multiple users in the query.
+        schema:
+          type: string
+      - name: email
+        in: query
+        description: |
+          Limit result by user email, can be repeated to include multiple users in the query.
+        schema:
+          type: string
+      - name: created_after
+        in: query
+        description: |
+          Filter users created after timestamp (UNIX timestamp).
+        schema:
+          type: integer
+      - name: created_before
+        in: query
+        description: |
+          Filter users created before timestamp (UNIX timestamp).
+        schema:
+          type: integer
+      - name: updated_after
+        in: query
+        description: |
+          Filter users updated after timestamp (UNIX timestamp).
+        schema:
+          type: integer
+      - name: updated_before
+        in: query
+        description: |
+          Filter users updated before timestamp (UNIX timestamp).
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                title: ListOfUsers
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        "401":
+          description: |
+            The user cannot be granted authentication.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+      - Useradm Internal API
+      summary: Create user
+      operationId: Create User Internal
+      parameters:
+      - name: tenant_id
+        in: path
+        description: Tenant ID.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: New user data.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserNewInternal'
+        required: true
+      responses:
+        "201":
+          description: The user was successfully created.
+          content: {}
+        "400":
+          description: |
+            The request body is malformed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: |
+            Tenant with given ID does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "422":
+          description: |
+            User name or ID is duplicated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/internal/v1/useradm/tenants/{tenant_id}/users/{user_id}:
+    delete:
+      tags:
+      - Useradm Internal API
+      summary: Delete a user
+      description: |
+        Remove a user from the tenant.
+      operationId: Delete User Internal
+      parameters:
+      - name: tenant_id
+        in: path
+        description: Tenant ID.
+        required: true
+        schema:
+          type: string
+      - name: user_id
+        in: path
+        description: User ID.
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: User deleted.
+          content: {}
+        "400":
+          description: |
+            Invalid parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/internal/v1/useradm/tokens:
+    delete:
+      tags:
+      - Useradm Internal API
+      summary: Delete all user tokens
+      description: |
+        This endpoint is designed to be used for tenant account suspension purpose.
+        When only tenant_id parameter is set, tokens for all tenant users will be removed.
+        It is also possible to remove tokens for user with given user_id by setting
+        optional user_id parameter.
+      operationId: Revoke User Tokens
+      parameters:
+      - name: tenant_id
+        in: query
+        description: Tenant ID.
+        required: true
+        schema:
+          type: string
+      - name: user_id
+        in: query
+        description: User ID.
+        schema:
+          type: string
+      responses:
+        "204":
+          description: Tokens deleted.
+          content: {}
+        "400":
+          description: |
+            Invalid parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
   schemas:
     LoginOptions:
@@ -743,6 +1089,27 @@ components:
         password:
           type: string
           description: Password.
+      description: New user descriptor.
+      example:
+        email: user@acme.com
+        password: mypass1234
+    UserNewInternal:
+      required:
+      - email
+      - password
+      type: object
+      properties:
+        email:
+          type: string
+          description: A unique email address. Non-ascii characters are invalid.
+        password:
+          type: string
+          description: Password.
+        propagate:
+          type: boolean
+          description: |
+            This paramter is deprecated _since Thu Jul 6 2023_, the propagation
+            of user information to tenantadm is disabled permanently.
       description: New user descriptor.
       example:
         email: user@acme.com
@@ -956,6 +1323,15 @@ components:
           devices: 10
           users: 2
           audit_logs_days: 2
+    TenantNew:
+      type: object
+      properties:
+        tenant_id:
+          type: string
+          description: ID of given tenant.
+      description: Tenant configuration.
+      example:
+        tenant_id: "1234"
   securitySchemes:
     Login:
       type: http
