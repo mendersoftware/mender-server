@@ -314,7 +314,7 @@ func TestUploadLink(t *testing.T) {
 			ctx := context.Background()
 			req := rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: http.MethodPost,
-				Path: "https://localhost:8443" + ApiUrlManagement +
+				Path: "https://localhost:8443" +
 					ApiUrlManagementArtifactsDirectUpload,
 				Auth: true,
 			})
@@ -407,7 +407,7 @@ func TestCompleteUpload(t *testing.T) {
 	}}
 	pathGen := func(id string) string {
 		return strings.ReplaceAll(
-			ApiUrlManagement+ApiUrlManagementArtifactsCompleteUpload, ":id", id,
+			ApiUrlManagementArtifactsCompleteUpload, ":id", id,
 		)
 	}
 
@@ -550,6 +550,9 @@ func TestPostDeployment(t *testing.T) {
 			constructor = nil
 		}
 		t.Run(tc.Name, func(t *testing.T) {
+			ctx := identity.WithContext(context.Background(), &identity.Identity{
+				Subject: "tester",
+			})
 			app := &mapp.App{}
 			app.On("CreateDeployment", mock.MatchedBy(
 				func(ctx interface{}) bool {
@@ -560,18 +563,13 @@ func TestPostDeployment(t *testing.T) {
 				}),
 				constructor,
 			).Return("foo", tc.AppError)
-			restView := new(view.RESTView)
-			d := NewDeploymentsApiHandlers(nil, restView, app)
-			router := setUpTestRouter()
-			router.POST(
-				ApiUrlManagementDeployments,
-				d.PostDeployment,
-			)
+			router := NewRouter(ctx, app, nil, NewConfig())
 			req := rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "POST",
 				Path:   "http://localhost" + ApiUrlManagementDeployments,
 				Body:   tc.InputBody,
 			})
+			req = req.WithContext(ctx)
 
 			recorded := restutil.RunRequest(t, router, req)
 			checker := mt.NewJSONResponse(tc.ResponseCode,
@@ -1148,9 +1146,7 @@ func TestDownloadConfiguration(t *testing.T) {
 			t.Parallel()
 			defer tc.App.AssertExpectations(t)
 			reqClone := tc.Request.Clone(context.Background())
-			handlers := NewDeploymentsApiHandlers(nil, &view.RESTView{}, tc.App, tc.Config)
-			router := setUpTestRouter()
-			NewDeploymentsResourceRoutes(router.Group("."), handlers)
+			router := NewRouter(context.Background(), tc.App, nil, tc.Config)
 
 			w := httptest.NewRecorder()
 			router.ServeHTTP(w, tc.Request)
