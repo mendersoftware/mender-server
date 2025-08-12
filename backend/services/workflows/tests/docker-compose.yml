@@ -5,9 +5,6 @@ services:
     extends:
       file: ../../../tests/docker-compose.yml
       service: acceptance-tester
-    command: # FIXME(QA-733): Align dockerfile with open source
-      - -k
-      - not test_create_artifacts
     volumes:
       - ".:/testing"
     depends_on:
@@ -78,7 +75,7 @@ services:
       HAVE_DEVICECONFIG: 1
       GOCOVERDIR: /cover
       DEPLOYMENTS_ADDR: "mender-deployments:8080"
-      DEVICE-AUTH_ADDR: "mender-device-auth:8080"
+      DEVICEAUTH_ADDR: "mender-device-auth:8080"
       INVENTORY_ADDR: "mender-inventory:8080"
       TENANTADM_ADDR: "mender-tenantadm:8080"
       USERADM_ADDR: "mender-useradm:8080"
