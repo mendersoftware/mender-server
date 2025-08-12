@@ -32,5 +32,13 @@ class MongoClient:
                 self.client.drop_database(d)
             else:
                 db = self.client[d]
-                for coll in db.list_collection_names():
+                for coll in db.list_collection_names(
+                    filter={
+                        "name": {"$ne": "migration_info"},
+                        "$or": [
+                            {"options.capped": {"$exists": False}},
+                            {"options.capped": False},
+                        ],
+                    }
+                ):
                     db[coll].delete_many({})
