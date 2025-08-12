@@ -312,11 +312,7 @@ def add_devices_to_tenant(tenant, dev_inventories):
 
     return tenant
 
-
-@pytest.mark.skipif(
-    useExistingTenant(), reason="not feasible to test with existing tenant",
-)
-class TestDeviceFilteringEnterprise:
+class DeviceFilteringTests:
     @property
     def logger(self):
         try:
@@ -325,6 +321,275 @@ class TestDeviceFilteringEnterprise:
             self._logger = logging.getLogger(self.__class__.__name__)
         return self._logger
 
+    def do_test_search_v2(self, user_token, devices, additional_test_cases = []):
+        assert user_token
+        assert len(devices) > 0
+
+        test_cases = [
+            {
+                "name": "Test $eq single match",
+                "request": {
+                    "filters": [
+                        {
+                            "type": "$eq",
+                            "attribute": "idx",
+                            "value": 1,
+                            "scope": "inventory",
+                        }
+                    ],
+                },
+                "status_code": 200,
+                "response": [
+                    {
+                        "id": str(devices[1].id),
+                        "attributes": dict_to_inventoryattrs(
+                            devices[1].inventory, scope="inventory"
+                        ),
+                    }
+                ],
+            },
+            {
+                "name": "Test $eq no-match",
+                "request": {
+                    "filters": [
+                        {
+                            "type": "$eq",
+                            "attribute": "id_data",
+                            "value": "illegal_data",
+                            "scope": "inventory",
+                        }
+                    ],
+                },
+                "status_code": 200,
+                "response": [],
+            },
+            {
+                "name": "Test $nin, sort by descending idx",
+                "request": {
+                    "filters": [
+                        {
+                            "type": "$nin",
+                            "attribute": "artifact",
+                            "value": ["v3"],
+                            "scope": "inventory",
+                        },
+                    ],
+                    "sort": [
+                        {"attribute": "idx", "scope": "inventory", "order": "desc"},
+                    ],
+                },
+                "status_code": 200,
+                "response": [
+                    {
+                        "id": dev.id,
+                        "attributes": dict_to_inventoryattrs(
+                            dev.inventory, scope="inventory"
+                        ),
+                    }
+                    # The following is just the python expression of the
+                    # above operation.
+                    for dev in sorted(
+                        filter(
+                            lambda dev: "v3" not in dev.inventory["artifact"],
+                            devices,
+                        ),
+                        key=lambda dev: dev.inventory["idx"],
+                        reverse=True,
+                    )
+                ],
+            },
+            {
+                "name": "Error - missing type parameter",
+                "request": {
+                    "filters": [
+                        {
+                            "attribute": "artifact",
+                            "value": "v1",
+                            "scope": "inventory",
+                        },
+                    ],
+                },
+                "status_code": 400,
+            },
+            {
+                "name": "Error - invalid filter scope",
+                "request": {
+                    "filters": [
+                     {
+                            "type": "$eq",
+                            "attribute": "idx",
+                            "value": 1,
+                            "scope": "user_defined",
+                        }
+                    ],
+                },
+                "status_code": 400,
+            },
+            {
+                "name": "Error - invalid sort scope",
+                "request": {
+                    "filters": [
+                        {
+                            "type": "$eq",
+                            "attribute": "idx",
+                            "value": 1,
+                            "scope": "inventory",
+                        }
+                    ],
+                    "sort":[
+                        {"attribute": "idx", "scope": "user_defined", "order": "desc"},
+                    ]
+                },
+                "status_code": 400,
+            },
+            {
+                "name": "Error - invalid attribute scope",
+                "request": {
+                    "filters": [
+                        {
+                            "type": "$eq",
+                            "attribute": "idx",
+                            "value": 1,
+                            "scope": "inventory",
+                        }
+                    ],
+                    "attributes":[
+                        { "attribute": "idx", "scope": "user_defined" },
+                    ]
+                },
+                "status_code": 400,
+            },
+            {
+                "name": "Error - invalid filter scope with path",
+                "request": {
+                    "filters": [
+                        {
+                            "type": "$eq",
+                            "attribute": "idx",
+                            "value": 1,
+                            "scope": "../../../../Windows/system.ini",
+                        },
+                    ],
+                },
+                "status_code": 400,
+            },
+            {
+                "name": "Error - valid mongo query unsupported operation",
+                "request": {
+                    "filters": [
+                        {
+                            "type": "$type",
+                            "attribute": "artifact",
+                            "value": ["int", "string", "array"],
+                            "scope": "inventory",
+                        },
+                    ],
+                },
+                "status_code": 400,
+            },
+        ] + additional_test_cases
+
+        invm_v2 = ApiClient(inventory_v2.URL_MGMT)
+        for test_case in test_cases:
+            self.do_search_test_case(invm_v2, inventory_v2.URL_SEARCH, user_token, test_case)
+
+    def do_search_test_case(self, client, url, token, test_case):
+        self.logger.info("Running test case: %s" % test_case["name"])
+        rsp = client.with_auth(token).call(
+            "POST", url, test_case["request"]
+        )
+        assert rsp.status_code == test_case["status_code"], (
+            "Unexpected status code (%d) from /filters/search response: %s"
+            % (rsp.status_code, rsp.text)
+        )
+
+        if rsp.status_code == 200 and "response" in test_case:
+            body = rsp.json()
+            if body is None:
+                body = []
+            self.logger.info(test_case["response"])
+            self.logger.info(body)
+            assert len(test_case["response"]) == len(body), (
+                "Unexpected number of results: %s != %s"
+                % (
+                    [dev["id"] for dev in test_case["response"]],
+                    [dev["id"] for dev in body],
+                )
+            )
+
+            if len(test_case["response"]) > 0:
+                if "sort" not in test_case["request"]:
+                    body = sorted(body, key=lambda dev: dev["id"])
+                    test_case["response"] = sorted(
+                        test_case["response"], key=lambda dev: dev["id"]
+                    )
+
+                for i, dev in enumerate(test_case["response"]):
+                    assert (
+                        dev["id"] == body[i]["id"]
+                    ), "Unexpected device in response"
+                    assert_device_attributes(dev, body[i])
+
+class TestDeviceFiltering(DeviceFilteringTests):
+    @pytest.fixture(autouse=True)
+    def setup_user_and_devices(self, clean_mongo):
+        uuidv4 = str(uuid.uuid4())
+        username, password = (
+            "some.user+" + uuidv4 + "@example.com",
+            "secretsecret",
+        )
+        user = create_user(username, password)
+
+        useradmm = ApiClient(useradm.URL_MGMT)
+        self.user_token = useradmm.call("POST", useradm.URL_LOGIN, auth=(user.name, user.pwd)).text
+        assert self.user_token != ""
+
+        self.devices = self.add_devices(self.user_token, [
+            {"artifact": ["v1"], "idx": 0},
+            {"artifact": ["v1"], "idx": 1},
+            {"artifact": ["v1"], "idx": 2},
+        ])
+
+    def test_search_v2(self):
+        self.do_test_search_v2(self.user_token, self.devices)
+
+    def test_search_v2_internal(self):
+        """
+        This endpoint technically exists in open-source, but
+        the URL expects a "tenant_id" parameter in the
+        URL ("tenants" is a concept that doesn't exist in open-source)
+        and when one isn't specified, the implementation is
+        identical to search_v2 above afaict.
+
+        As such, I see no need to maintain tests for this endpoint.
+        """
+
+    def add_devices(self, user_token, dev_inventories):
+        devauthd = ApiClient(deviceauth.URL_DEVICES)
+        devauthm = ApiClient(deviceauth.URL_MGMT)
+        invd = ApiClient(inventory.URL_DEV)
+
+        devices = []
+        for inv in dev_inventories:
+            device = make_accepted_device(
+                devauthd, devauthm, user_token
+            )
+
+            attrs = dict_to_inventoryattrs(inv)
+            rsp = invd.with_auth(device.token).call(
+                "PATCH", inventory.URL_DEVICE_ATTRIBUTES, body=attrs
+            )
+            assert rsp.status_code == 200
+            device.inventory = inv
+
+            devices.append(device)
+
+        return devices
+
+@pytest.mark.skipif(
+    useExistingTenant(), reason="not feasible to test with existing tenant",
+)
+class TestDeviceFilteringEnterprise(DeviceFilteringTests):
     @pytest.fixture(autouse=True)
     def setup_tenants(self, clean_mongo):
         # Initialize tenants and devices
@@ -391,44 +656,9 @@ class TestDeviceFilteringEnterprise:
         )
 
     def test_search_v2(self):
-        test_cases = [
-            {
-                "name": "Test $eq single match",
-                "request": {
-                    "filters": [
-                        {
-                            "type": "$eq",
-                            "attribute": "idx",
-                            "value": 1,
-                            "scope": "inventory",
-                        }
-                    ],
-                },
-                "status_code": 200,
-                "response": [
-                    {
-                        "id": str(self.tenant_ent.devices[1].id),
-                        "attributes": dict_to_inventoryattrs(
-                            self.tenant_ent.devices[1].inventory, scope="inventory"
-                        ),
-                    }
-                ],
-            },
-            {
-                "name": "Test $eq no-match",
-                "request": {
-                    "filters": [
-                        {
-                            "type": "$eq",
-                            "attribute": "id_data",
-                            "value": "illegal_data",
-                            "scope": "inventory",
-                        }
-                    ],
-                },
-                "status_code": 200,
-                "response": [],
-            },
+        # Some filter `types` (like $gte and $exists)
+        # are only supported in enterprise
+        enterprise_only_test_cases = [
             {
                 "name": "Test $lt -> $gte range-match",
                 "request": {
@@ -509,108 +739,10 @@ class TestDeviceFilteringEnterprise:
                         reverse=True,
                     )
                 ],
-            },
-            {
-                "name": "Test $nin, sort by descending idx",
-                "request": {
-                    "filters": [
-                        {
-                            "type": "$nin",
-                            "attribute": "artifact",
-                            "value": ["v3"],
-                            "scope": "inventory",
-                        },
-                    ],
-                    "sort": [
-                        {"attribute": "idx", "scope": "inventory", "order": "desc"},
-                    ],
-                },
-                "status_code": 200,
-                "response": [
-                    {
-                        "id": dev.id,
-                        "attributes": dict_to_inventoryattrs(
-                            dev.inventory, scope="inventory"
-                        ),
-                    }
-                    # The following is just the python expression of the
-                    # above operation.
-                    for dev in sorted(
-                        filter(
-                            lambda dev: "v3" not in dev.inventory["artifact"],
-                            self.tenant_ent.devices,
-                        ),
-                        key=lambda dev: dev.inventory["idx"],
-                        reverse=True,
-                    )
-                ],
-            },
-            {
-                "name": "Error - missing type parameter",
-                "request": {
-                    "filters": [
-                        {
-                            "attribute": "artifact",
-                            "value": ["v1"],
-                            "scope": "inventory",
-                        },
-                    ],
-                },
-                "status_code": 400,
-            },
-            {
-                "name": "Error - valid mongo query unsupported operation",
-                "request": {
-                    "filters": [
-                        {
-                            "type": "$type",
-                            "attribute": "artifact",
-                            "value": ["int", "string", "array"],
-                            "scope": "inventory",
-                        },
-                    ],
-                },
-                "status_code": 400,
-            },
+            }
         ]
-        invm_v2 = ApiClient(inventory_v2.URL_MGMT)
 
-        for test_case in test_cases:
-            self.logger.info("Running test case: %s" % test_case["name"])
-            rsp = invm_v2.with_auth(self.tenant_ent.api_token).call(
-                "POST", inventory_v2.URL_SEARCH, test_case["request"]
-            )
-            assert rsp.status_code == test_case["status_code"], (
-                "Unexpected status code (%d) from /filters/search response: %s"
-                % (rsp.status_code, rsp.text)
-            )
-
-            if rsp.status_code == 200 and "response" in test_case:
-                body = rsp.json()
-                if body is None:
-                    body = []
-                self.logger.info(test_case["response"])
-                self.logger.info(body)
-                assert len(test_case["response"]) == len(body), (
-                    "Unexpected number of results: %s != %s"
-                    % (
-                        [dev["id"] for dev in test_case["response"]],
-                        [dev["id"] for dev in body],
-                    )
-                )
-
-                if len(test_case["response"]) > 0:
-                    if "sort" not in test_case["request"]:
-                        body = sorted(body, key=lambda dev: dev["id"])
-                        test_case["response"] = sorted(
-                            test_case["response"], key=lambda dev: dev["id"]
-                        )
-
-                    for i, dev in enumerate(test_case["response"]):
-                        assert (
-                            dev["id"] == body[i]["id"]
-                        ), "Unexpected device in response"
-                        assert_device_attributes(dev, body[i])
+        self.do_test_search_v2(self.tenant_ent.users[0].token, self.tenant_ent.devices, enterprise_only_test_cases)
 
     def test_search_v2_internal(self):
         """
@@ -657,80 +789,6 @@ class TestDeviceFilteringEnterprise:
                 "tenant_id": self.tenant_ent.id,
                 "status_code": 200,
                 "response": [],
-            },
-            {
-                "name": "Test $lt -> $gte range-match",
-                "request": {
-                    "filters": [
-                        {
-                            "type": "$lt",
-                            "attribute": "idx",
-                            "value": 5,
-                            "scope": "inventory",
-                        },
-                        {
-                            "type": "$gte",
-                            "attribute": "idx",
-                            "value": 1,
-                            "scope": "inventory",
-                        },
-                    ],
-                    "sort": [
-                        {"attribute": "idx", "scope": "inventory", "order": "asc"}
-                    ],
-                },
-                "tenant_id": self.tenant_pro.id,
-                "status_code": 200,
-                "response": [
-                    {
-                        "id": dev.id,
-                        "attributes": dict_to_inventoryattrs(
-                            dev.inventory, scope="inventory"
-                        ),
-                    }
-                    for dev in self.tenant_pro.devices[1:5]
-                ],
-            },
-            {
-                "name": "Test $exists -> $in, descending sort",
-                "request": {
-                    "filters": [
-                        {
-                            "type": "$exists",
-                            "attribute": "py3",
-                            "value": True,
-                            "scope": "inventory",
-                        },
-                        {
-                            "type": "$in",
-                            "attribute": "py3",
-                            "value": ["3.5", "3.7"],
-                            "scope": "inventory",
-                        },
-                    ],
-                    "sort": [
-                        {"attribute": "idx", "scope": "inventory", "order": "desc"}
-                    ],
-                },
-                "status_code": 200,
-                "tenant_id": self.tenant_ent.id,
-                "response": [
-                    {
-                        "id": dev.id,
-                        "attributes": dict_to_inventoryattrs(
-                            dev.inventory, scope="inventory"
-                        ),
-                    }
-                    for dev in sorted(
-                        filter(
-                            lambda dev: "py3" in dev.inventory
-                            and dev.inventory["py3"] in ["3.5", "3.7"],
-                            self.tenant_ent.devices,
-                        ),
-                        key=lambda dev: dev.inventory["idx"],
-                        reverse=True,
-                    )
-                ],
             },
             {
                 "name": "Test $nin, sort by descending idx",
@@ -820,45 +878,15 @@ class TestDeviceFilteringEnterprise:
                 "status_code": 400,
             },
         ]
+
         invm_v2 = ApiClient(
             inventory_v2.URL_INTERNAL, host=inventory_v2.HOST, schema="http://"
         )
-
         for test_case in test_cases:
-            self.logger.info("Running test case: %s" % test_case["name"])
-            rsp = invm_v2.call(
-                "POST",
-                inventory_v2.URL_SEARCH_INTERNAL.format(
-                    tenant_id=test_case["tenant_id"]
-                ),
-                test_case["request"],
+            url = inventory_v2.URL_SEARCH_INTERNAL.format(
+                tenant_id=test_case["tenant_id"]
             )
-            assert rsp.status_code == test_case["status_code"], (
-                "Unexpected status code (%d) from %s response: %s"
-                % (rsp.status_code, rsp.url, rsp.text)
-            )
-
-            if rsp.status_code == 200 and "response" in test_case:
-                body = rsp.json()
-                if body is None:
-                    body = []
-                assert len(body) == len(test_case["response"]), (
-                    "Unexpected number of results: %s != %s"
-                    % (test_case["response"], body)
-                )
-
-                if len(test_case["response"]) > 0:
-                    if "sort" not in test_case["request"]:
-                        body = sorted(body, key=lambda dev: dev["id"])
-                        test_case["response"] = sorted(
-                            test_case["response"], key=lambda dev: dev["id"]
-                        )
-
-                    for i, dev in enumerate(test_case["response"]):
-                        assert (
-                            dev["id"] == body[i]["id"]
-                        ), "Unexpected device in response"
-                        assert_device_attributes(dev, body[i])
+            self.do_search_test_case(invm_v2, url, "", test_case)
 
     def test_saved_filters(self):
         """
