@@ -36,7 +36,6 @@ cat >/var/www/mender-gui/dist/env.js <<EOF
     },
     hostAddress: "$HOSTNAME",
     hostedAnnouncement: "$ANNOUNCEMENT",
-    isDemoMode: "$DEMO",
     features: {
       hasAuditlogs: "$HAVE_AUDITLOGS",
       hasDeviceConfig: "$HAVE_DEVICECONFIG",

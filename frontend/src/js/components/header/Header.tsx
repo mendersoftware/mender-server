@@ -84,7 +84,6 @@ import whiteEnterpriseLogo from '../../../assets/img/whiteheaderlogo-enterprise.
 import whiteLogo from '../../../assets/img/whiteheaderlogo.png';
 import Tracking from '../../tracking';
 import Announcement from './Announcement';
-import DemoNotification from './DemoNotification';
 import DeploymentNotifications from './DeploymentNotifications';
 import { DeviceCount } from './DeviceCount';
 import DeviceNotifications from './DeviceNotifications';
@@ -298,7 +297,7 @@ export const Header = ({ isDarkMode }) => {
   const { inprogress: inprogressDeployments } = useSelector(getDeploymentsByStatus);
   const { total: inProgress } = inprogressDeployments;
   const isEnterprise = useSelector(getIsEnterprise);
-  const { hasFeedbackEnabled, isDemoMode: demo, isHosted } = useSelector(getFeatures);
+  const { hasFeedbackEnabled, isHosted } = useSelector(getFeatures);
   const { isSearching, searchTerm, refreshTrigger } = useSelector(getSearchState);
   const { pending: pendingDevices } = useSelector(getDeviceCountsByStatus);
   const userSettingInitialized = useSelector(getUserSettingsInitialized);
@@ -385,7 +384,6 @@ export const Header = ({ isDarkMode }) => {
           <Link to="/">
             <img id="logo" src={headerLogo} />
           </Link>
-          {demo && <DemoNotification iconClassName={classes.demoAnnouncementIcon} sectionClassName={classes.demoTrialAnnouncement} />}
           {organization.trial && (
             <TrialNotification
               expiration={organization.trial_expiration}
