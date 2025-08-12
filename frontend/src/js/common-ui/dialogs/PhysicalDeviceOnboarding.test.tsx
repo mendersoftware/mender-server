@@ -50,7 +50,6 @@ describe('PhysicalDeviceOnboarding Component', () => {
             ipAddress="test.address"
             isEnterprise={false}
             isHosted={true}
-            isDemoMode={false}
             onboardingState={{ complete: false, showTips: true }}
             onSelect={vi.fn}
             selection="raspberrypi7"

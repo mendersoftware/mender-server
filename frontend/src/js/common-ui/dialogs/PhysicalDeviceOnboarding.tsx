@@ -179,7 +179,7 @@ export const PhysicalDeviceOnboarding = ({ progress }) => {
   });
   const ipAddress = useSelector(getHostAddress);
   const isEnterprise = useSelector(getIsEnterprise);
-  const { isDemoMode, isHosted } = useSelector(getFeatures);
+  const { isHosted } = useSelector(getFeatures);
   const isPreRelease = useSelector(getIsPreview);
   const onboardingState = useSelector(getOnboardingState);
   const { tenant_token: tenantToken } = useSelector(getOrganization);
@@ -215,7 +215,6 @@ export const PhysicalDeviceOnboarding = ({ progress }) => {
       ipAddress={ipAddress}
       isEnterprise={isEnterprise}
       isHosted={isHosted}
-      isDemoMode={isDemoMode}
       isPreRelease={isPreRelease}
       onboardingState={onboardingState}
       onSelect={onSelect}
