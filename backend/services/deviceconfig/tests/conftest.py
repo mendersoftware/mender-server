@@ -63,12 +63,23 @@ def mongo():
     return pymongo.MongoClient("mongodb://mender-mongo")
 
 
-def mongo_cleanup(client):
-    dbs = client.list_database_names()
-    for db in dbs:
-        if db in ["local", "admin", "config"]:
-            continue
-        client.drop_database(db)
+def mongo_cleanup(mongo: pymongo.MongoClient):
+    dbs = mongo.list_databases(
+        filter={"name": {"$nin": ["admin", "config", "local", "workflows"]}},
+        nameOnly=True,
+    )
+    for db_name in (db["name"] for db in dbs):
+        db = mongo[db_name]
+        for coll in db.list_collection_names(
+            filter={
+                "name": {"$ne": "migration_info"},
+                "$or": [
+                    {"options.capped": {"$exists": False}},
+                    {"options.capped": False},
+                ],
+            }
+        ):
+            db[coll].delete_many({})
 
 
 @pytest.fixture(scope="function")

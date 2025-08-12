@@ -34,6 +34,7 @@ from client import SimpleInternalClient, SimpleManagementClient, BaseDevicesApiC
 import mockserver
 import orchestrator
 import os
+
 DEFAULT_AUTH = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibWVuZGVyLnBsYW4iOiJlbnRlcnByaXNlIn0.s27fi93Qik81WyBmDB5APE0DfGko7Pq8BImbp33-gy4"
 
 
@@ -165,11 +166,23 @@ def mongo(request):
     return MongoClient(request.config.getoption("mongo_url"))
 
 
-def mongo_cleanup(mongo):
-    dbs = mongo.list_database_names()
-    dbs = [d for d in dbs if d not in ["local", "admin", "config"]]
-    for d in dbs:
-        mongo.drop_database(d)
+def mongo_cleanup(mongo: MongoClient):
+    dbs = mongo.list_databases(
+        filter={"name": {"$nin": ["admin", "config", "local", "workflows"]}},
+        nameOnly=True,
+    )
+    for db_name in (db["name"] for db in dbs):
+        db = mongo[db_name]
+        for coll in db.list_collection_names(
+            filter={
+                "name": {"$ne": "migration_info"},
+                "$or": [
+                    {"options.capped": {"$exists": False}},
+                    {"options.capped": False},
+                ],
+            }
+        ):
+            db[coll].delete_many({})
 
 
 @pytest.fixture(scope="function")
@@ -199,7 +212,8 @@ def management_api(request):
 @pytest.fixture(scope="session")
 def internal_api(request):
     yield SimpleInternalClient(
-        request.config.getoption("--host"), request.config.getoption("--spec"),
+        request.config.getoption("--host"),
+        request.config.getoption("--spec"),
     )
 
 
