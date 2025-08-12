@@ -57,13 +57,12 @@ def do_decommission_device(mmock_url, workflows_url, tenant_id):
         assert type(response) is dict
         if response["status"] == "done":
             break
+    else:
+        raise TimeoutError("timeout waiting for workflow to finish")
     # verify the status
     assert {"name": "request_id", "value": request_id} in response["inputParameters"]
     assert {"name": "device_id", "value": device_id} in response["inputParameters"]
-    # assert response["status"] == "done"
-    # assert len(response["results"]) == 4
-    # assert response["results"][0]["success"] == True
-    # assert response["results"][0]["httpResponse"]["statusCode"] == 204
+    assert response["status"] == "done"
     # #  verify the mock server has been correctly called
     res = requests.get(mmock_url + "/api/request/all")
     assert res.status_code == 200
@@ -71,87 +70,127 @@ def do_decommission_device(mmock_url, workflows_url, tenant_id):
     # assert len(response) == 4
     expected = [
         {
-            "request": {
-                "scheme": "http",
-                "host": "mender-deployments",
-                "port": "8080",
-                "method": "DELETE",
-                "path": "/api/internal/v1/deployments/tenants/" + tenant_id + "/deployments/devices/"
-                + device_id,
-                "queryStringParameters": {},
-                "fragment": "",
-                "headers": {
-                    "Accept-Encoding": ["gzip"],
-                    "User-Agent": ["Go-http-client/1.1"],
-                    "X-Men-Requestid": [request_id],
-                },
-                "cookies": {},
-                "body": "",
+            "scheme": "http",
+            "host": "mender-deployments",
+            "port": "8080",
+            "method": "DELETE",
+            "path": "/api/internal/v1/deployments/tenants/"
+            + tenant_id
+            + "/deployments/devices/"
+            + device_id,
+            "queryStringParameters": {},
+            "fragment": "",
+            "headers": {
+                "Accept-Encoding": ["gzip"],
+                "User-Agent": ["Go-http-client/1.1"],
+                "X-Men-Requestid": [request_id],
             },
+            "cookies": {},
+            "body": "",
         },
         {
-            "request": {
-                "scheme": "http",
-                "host": "mender-deviceconnect",
-                "port": "8080",
-                "method": "DELETE",
-                "path": "/api/internal/v1/deviceconnect/tenants/"
-                + tenant_id
-                + "/devices/"
-                + device_id,
-                "queryStringParameters": {},
-                "fragment": "",
-                "headers": {
-                    "Accept-Encoding": ["gzip"],
-                    "User-Agent": ["Go-http-client/1.1"],
-                    "X-Men-Requestid": [request_id],
-                },
-                "cookies": {},
-                "body": "",
+            "scheme": "http",
+            "host": "mender-deviceconnect",
+            "port": "8080",
+            "method": "DELETE",
+            "path": "/api/internal/v1/deviceconnect/tenants/"
+            + tenant_id
+            + "/devices/"
+            + device_id,
+            "queryStringParameters": {},
+            "fragment": "",
+            "headers": {
+                "Accept-Encoding": ["gzip"],
+                "User-Agent": ["Go-http-client/1.1"],
+                "X-Men-Requestid": [request_id],
             },
+            "cookies": {},
+            "body": "",
         },
         {
-            "request": {
-                "scheme": "http",
-                "host": "mender-deviceconfig",
-                "port": "8080",
-                "method": "DELETE",
-                "path": "/api/internal/v1/deviceconfig/tenants/"
-                + tenant_id
-                + "/devices/"
-                + device_id,
-                "queryStringParameters": {},
-                "fragment": "",
-                "headers": {
-                    "Accept-Encoding": ["gzip"],
-                    "User-Agent": ["Go-http-client/1.1"],
-                    "X-Men-Requestid": [request_id],
-                },
-                "cookies": {},
-                "body": "",
+            "scheme": "http",
+            "host": "mender-deviceconfig",
+            "port": "8080",
+            "method": "DELETE",
+            "path": "/api/internal/v1/deviceconfig/tenants/"
+            + tenant_id
+            + "/devices/"
+            + device_id,
+            "queryStringParameters": {},
+            "fragment": "",
+            "headers": {
+                "Accept-Encoding": ["gzip"],
+                "User-Agent": ["Go-http-client/1.1"],
+                "X-Men-Requestid": [request_id],
             },
+            "cookies": {},
+            "body": "",
         },
         {
-            "request": {
-                "scheme": "http",
-                "host": "mender-inventory",
-                "port": "8080",
-                "method": "DELETE",
-                "path": "/api/internal/v1/inventory/tenants/" + tenant_id + "/devices/"
-                + device_id,
-                "queryStringParameters": {},
-                "fragment": "",
-                "headers": {
-                    "Accept-Encoding": ["gzip"],
-                    "User-Agent": ["Go-http-client/1.1"],
-                    "X-Men-Requestid": [request_id],
-                },
-                "cookies": {},
-                "body": "",
+            "body": "",
+            "cookies": {},
+            "fragment": "",
+            "headers": {
+                "Accept-Encoding": [
+                    "gzip",
+                ],
+                "User-Agent": [
+                    "Go-http-client/1.1",
+                ],
+                "X-Men-Requestid": [
+                    "1234567890",
+                ],
             },
+            "host": "mender-iot-manager",
+            "method": "DELETE",
+            "path": f"/api/internal/v1/iot-manager/tenants/{tenant_id}/devices/{device_id}",
+            "port": "8080",
+            "queryStringParameters": {},
+            "scheme": "http",
+        },
+        {
+            "body": "",
+            "cookies": {},
+            "fragment": "",
+            "headers": {
+                "Accept-Encoding": [
+                    "gzip",
+                ],
+                "User-Agent": [
+                    "Go-http-client/1.1",
+                ],
+                "X-Men-Requestid": [
+                    "1234567890",
+                ],
+            },
+            "host": "mender-inventory",
+            "method": "DELETE",
+            "path": f"/api/internal/v1/inventory/tenants/{tenant_id}/devices/{device_id}",
+            "port": "8080",
+            "queryStringParameters": {},
+            "scheme": "http",
+        },
+        {
+            "body": "",
+            "cookies": {},
+            "fragment": "",
+            "headers": {
+                "Accept-Encoding": [
+                    "gzip",
+                ],
+                "User-Agent": [
+                    "Go-http-client/1.1",
+                ],
+                "X-Men-Requestid": [
+                    "1234567890",
+                ],
+            },
+            "host": "mender-device-auth",
+            "method": "DELETE",
+            "path": f"/api/internal/v1/devauth/tenants/{tenant_id}/devices/{device_id}",
+            "port": "8080",
+            "queryStringParameters": {},
+            "scheme": "http",
         },
     ]
-    assert expected[0]["request"] == response[0]["request"]
-    assert expected[1]["request"] == response[1]["request"]
-    assert expected[2]["request"] == response[2]["request"]
-    assert expected[3]["request"] == response[3]["request"]
+    assert expected == [actual["request"] for actual in response]
