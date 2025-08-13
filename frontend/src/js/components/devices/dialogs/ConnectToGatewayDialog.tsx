@@ -17,7 +17,8 @@ import { Button, DialogActions, DialogContent } from '@mui/material';
 import CopyCode from '@northern.tech/common-ui/CopyCode';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
-import { getDebConfigurationCode } from '@northern.tech/utils/helpers';
+
+import { getDebConfigurationCode } from '../../../utils/helpers';
 
 export const ConnectToGatewayDialog = ({ gatewayIp, isPreRelease, onCancel, tenantToken, token }) => (
   <BaseDialog open title="Connecting a device to a gateway" fullWidth maxWidth="md" onClose={onCancel}>
