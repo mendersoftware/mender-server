@@ -42,6 +42,7 @@ type workerGroup struct {
 	input        <-chan *natsio.Msg
 	notifyPeriod time.Duration
 
+	sub    *natsio.Subscription
 	client nats.Client
 	store  store.DataStore
 }
@@ -51,6 +52,7 @@ func NewWorkGroup(
 	notifyPeriod time.Duration,
 	nc nats.Client,
 	ds store.DataStore,
+	sub *natsio.Subscription,
 ) *workerGroup {
 	return &workerGroup{
 		done:      make(chan struct{}),
@@ -60,6 +62,7 @@ func NewWorkGroup(
 		notifyPeriod: notifyPeriod,
 		client:       nc,
 		store:        ds,
+		sub:          sub,
 	}
 }
 
@@ -117,7 +120,50 @@ func (w *workerGroup) RunWorker(ctx context.Context) {
 	l.Info("worker starting up")
 	// workerSidecar is responsible for notifying the broker about slow workflows
 	go w.workerSidecar(ctx, sidecarChan, sidecarDone)
-	w.workerMain(ctx, sidecarChan, sidecarDone)
+	switch w.sub.Type() {
+	case natsio.PullSubscription:
+		w.pullWorkerMain(ctx, sidecarChan, sidecarDone)
+	case natsio.ChanSubscription:
+		w.workerMain(ctx, sidecarChan, sidecarDone)
+	default:
+		l.Error("unsupported consumer type")
+	}
+}
+
+func (w *workerGroup) pullWorkerMain(
+	ctx context.Context,
+	sidecarChan chan *natsio.Msg,
+	sidecarDone chan struct{},
+) {
+	l := log.FromContext(ctx)
+	timeoutTimer := newStoppedTimer()
+	for {
+		var msg *natsio.Msg
+		select {
+		case <-ctx.Done():
+			return
+		case <-sidecarDone:
+			return
+		default:
+			msgs, err := w.sub.Fetch(1, natsio.MaxWait(1*time.Second))
+			if err != nil {
+				if errors.Is(err, natsio.ErrTimeout) {
+					continue
+				}
+				l.Errorf("failed to fetch message: %s", err)
+				return
+			}
+			if len(msgs) == 0 {
+				continue
+			}
+			msg = msgs[0]
+		}
+
+		stop := w.doWokerJob(ctx, sidecarChan, sidecarDone, timeoutTimer, msg)
+		if stop {
+			return
+		}
+	}
 }
 
 func (w *workerGroup) workerMain(
@@ -125,7 +171,6 @@ func (w *workerGroup) workerMain(
 	sidecarChan chan *natsio.Msg,
 	sidecarDone chan struct{},
 ) {
-	l := log.FromContext(ctx)
 	ctxDone := ctx.Done()
 	timeoutTimer := newStoppedTimer()
 	for {
@@ -144,54 +189,68 @@ func (w *workerGroup) workerMain(
 		case <-ctxDone:
 			return
 		}
-
-		// Notify the sidecar routine about the new message
-		select {
-		case sidecarChan <- msg:
-
-		case <-timeoutTimer.After(w.notifyPeriod / 8):
-			l.Warn("timeout notifying sidecar routine about message")
-
-		case <-sidecarDone:
+		stop := w.doWokerJob(ctx, sidecarChan, sidecarDone, timeoutTimer, msg)
+		if stop {
 			return
-		case <-ctxDone:
-			return
-		}
-
-		job := &model.Job{}
-		err := json.Unmarshal(msg.Data, job)
-		if err != nil {
-			l.Error(errors.Wrap(err, "failed to unmarshall message"))
-			if err := msg.Term(); err != nil {
-				l.Error(errors.Wrap(err, "failed to term the message"))
-			}
-			continue
-		}
-		// process the job
-		l.Infof("processing job %s workflow %s", job.ID, job.WorkflowName)
-		err = processJob(ctx, job, w.store, w.client)
-		if err != nil {
-			l.Errorf("error processing job: %s", err.Error())
-		} else {
-			l.Infof("finished job %s workflow %s", job.ID, job.WorkflowName)
-		}
-		// stop the in progress ticker and ack the message
-		select {
-		case sidecarChan <- nil:
-
-		case <-timeoutTimer.After(w.notifyPeriod):
-			l.Errorf("timeout notifying sidecar about job completion")
-
-		case <-ctxDone:
-			return
-		case <-sidecarDone:
-			return
-		}
-		// Release message
-		if err := msg.AckSync(); err != nil {
-			l.Error(errors.Wrap(err, "failed to ack the message"))
 		}
 	}
+}
+
+func (w *workerGroup) doWokerJob(
+	ctx context.Context,
+	sidecarChan chan *natsio.Msg,
+	sidecarDone chan struct{},
+	timeoutTimer *reusableTimer,
+	msg *natsio.Msg) (stop bool) {
+	l := log.FromContext(ctx)
+	ctxDone := ctx.Done()
+	// Notify the sidecar routine about the new message
+	select {
+	case sidecarChan <- msg:
+
+	case <-timeoutTimer.After(w.notifyPeriod / 8):
+		l.Warn("timeout notifying sidecar routine about message")
+
+	case <-sidecarDone:
+		return true
+	case <-ctxDone:
+		return true
+	}
+
+	job := &model.Job{}
+	err := json.Unmarshal(msg.Data, job)
+	if err != nil {
+		l.Error(errors.Wrap(err, "failed to unmarshall message"))
+		if err := msg.Term(); err != nil {
+			l.Error(errors.Wrap(err, "failed to term the message"))
+		}
+		return false
+	}
+	// process the job
+	l.Infof("processing job %s workflow %s", job.ID, job.WorkflowName)
+	err = processJob(ctx, job, w.store, w.client)
+	if err != nil {
+		l.Errorf("error processing job: %s", err.Error())
+	} else {
+		l.Infof("finished job %s workflow %s", job.ID, job.WorkflowName)
+	}
+	// stop the in progress ticker and ack the message
+	select {
+	case sidecarChan <- nil:
+
+	case <-timeoutTimer.After(w.notifyPeriod):
+		l.Errorf("timeout notifying sidecar about job completion")
+
+	case <-ctxDone:
+		return true
+	case <-sidecarDone:
+		return true
+	}
+	// Release message
+	if err := msg.AckSync(); err != nil {
+		l.Error(errors.Wrap(err, "failed to ack the message"))
+	}
+	return false
 }
 
 // workerSidecar helps notifying the NATS server about slow workflows.

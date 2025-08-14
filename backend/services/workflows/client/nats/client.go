@@ -16,24 +16,25 @@ package nats
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"time"
 
 	natsio "github.com/nats-io/nats.go"
+	"github.com/pkg/errors"
 
 	"github.com/mendersoftware/mender-server/pkg/log"
 )
 
+type ConsumerMode int
+
 const (
+	PushMode = ConsumerMode(iota)
+	PullMode
+
 	// Set reconnect buffer size in bytes (10 MB)
 	reconnectBufSize = 10 * 1024 * 1024
 	// Set reconnect interval to 1 second
 	reconnectWaitTime = 1 * time.Second
-)
-
-var (
-	ErrIncompatibleConsumer = errors.New("nats: cannot subscribe to a pull consumer")
 )
 
 type UnsubscribeFunc func() error
@@ -53,8 +54,9 @@ type Client interface {
 		subj,
 		durable string,
 		q chan *natsio.Msg,
-	) (UnsubscribeFunc, error)
+	) (*natsio.Subscription, error)
 	JetStreamPublish(string, []byte) error
+	DeleteConsumerByMode(name string, mode ConsumerMode) error
 }
 
 // NewClient returns a new nats client
@@ -150,10 +152,6 @@ func (c *client) JetStreamCreateStream(streamName string) error {
 	return nil
 }
 
-func noop() error {
-	return nil
-}
-
 type ConsumerConfig struct {
 	// Filter expression for which topics this consumer covers.
 	Filter string
@@ -190,10 +188,23 @@ func (cfg ConsumerConfig) Validate() error {
 
 const consumerVersionString = "workflows/v1"
 
-func (cfg ConsumerConfig) toNats(name string, deliverSubject string) *natsio.ConsumerConfig {
-	if deliverSubject == "" {
-		deliverSubject = natsio.NewInbox()
+func (cfg ConsumerConfig) toNats(
+	name string,
+	deliverSubject string,
+	mode ConsumerMode) *natsio.ConsumerConfig {
+	switch mode {
+	case PushMode:
+		if deliverSubject == "" {
+			deliverSubject = natsio.NewInbox()
+		}
+	case PullMode:
+		fallthrough
+	default:
+		// defaults to pull mode
+		deliverSubject = ""
+		cfg.MaxDeliver = 0
 	}
+
 	return &natsio.ConsumerConfig{
 		Name:         name, // To preserve behavior of the internal library,
 		Durable:      name, // the consumer-, durable- and delivery group name
@@ -235,7 +246,7 @@ func (c *client) GetConsumerConfig(name string) (*ConsumerConfig, error) {
 func (c *client) CreateConsumer(name string, upsert bool, config ConsumerConfig) error {
 	consumerInfo, err := c.js.ConsumerInfo(c.streamName, name)
 	if errors.Is(err, natsio.ErrConsumerNotFound) {
-		_, err = c.js.AddConsumer(c.streamName, config.toNats(name, ""))
+		_, err = c.js.AddConsumer(c.streamName, config.toNats(name, "", PullMode))
 		var apiErr *natsio.APIError
 		if err == nil {
 			return nil
@@ -250,11 +261,11 @@ func (c *client) CreateConsumer(name string, upsert bool, config ConsumerConfig)
 	}
 	if upsert {
 		if consumerInfo.Config.DeliverSubject == "" {
-			return ErrIncompatibleConsumer
+			return nil
 		}
 		_, err = c.js.UpdateConsumer(
 			c.streamName,
-			config.toNats(name, consumerInfo.Config.DeliverSubject),
+			config.toNats(name, consumerInfo.Config.DeliverSubject, PushMode),
 		)
 		if err == nil {
 			return nil
@@ -268,21 +279,68 @@ func (c *client) JetStreamSubscribe(
 	ctx context.Context,
 	subj, durable string,
 	q chan *natsio.Msg,
-) (UnsubscribeFunc, error) {
-	sub, err := c.js.ChanQueueSubscribe(subj, durable, q,
-		natsio.Bind(c.streamName, durable),
-		natsio.ManualAck(),
-		natsio.Context(ctx),
-	)
+) (*natsio.Subscription, error) {
+	var err error
+	var sub *natsio.Subscription
+	mode, err := c.getConsumerMode(durable)
 	if err != nil {
-		return noop, err
+		return nil, err
 	}
 
-	return sub.Unsubscribe, nil
+	if mode == PullMode {
+		sub, err = c.js.PullSubscribe(subj, durable,
+			natsio.Bind(c.streamName, durable),
+			natsio.ManualAck(),
+			natsio.Context(ctx),
+		)
+	} else {
+		sub, err = c.js.ChanQueueSubscribe(subj, durable, q,
+			natsio.Bind(c.streamName, durable),
+			natsio.ManualAck(),
+			natsio.Context(ctx),
+		)
+	}
+	if err != nil {
+		return nil, err
+	}
+
+	return sub, nil
 }
 
 // JetStreamPublish publishes a message to the given subject
 func (c *client) JetStreamPublish(subj string, data []byte) error {
 	_, err := c.js.Publish(subj, data)
 	return err
+}
+
+func (c *client) getConsumerMode(name string) (ConsumerMode, error) {
+	consumerInfo, err := c.js.ConsumerInfo(c.streamName, name)
+	if err != nil {
+		return -1, err
+	}
+	// for now let assume that if it is not pull then it is push
+	if consumerInfo.Config.DeliverSubject == "" {
+		return PullMode, nil
+	}
+	return PushMode, nil
+}
+
+// DeleteModeConsumer deletes the consumer if its mode matches the given mode
+func (c *client) DeleteConsumerByMode(name string, mode ConsumerMode) error {
+	currentMode, err := c.getConsumerMode(name)
+	if errors.Is(err, natsio.ErrConsumerNotFound) {
+		return nil
+	} else if err != nil {
+		return err
+
+	}
+
+	if currentMode == mode {
+		err = c.js.DeleteConsumer(c.streamName, name)
+		if err != nil {
+			return errors.Wrap(err, "faild to delete consumer")
+		}
+	}
+
+	return nil
 }

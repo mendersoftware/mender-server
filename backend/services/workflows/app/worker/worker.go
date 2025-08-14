@@ -79,7 +79,7 @@ func InitAndRun(
 	}
 
 	jobChan := make(chan *natsio.Msg, concurrency)
-	unsubscribe, err := natsClient.JetStreamSubscribe(
+	sub, err := natsClient.JetStreamSubscribe(
 		ctx,
 		subject,
 		durableName,
@@ -93,7 +93,7 @@ func InitAndRun(
 	signal.Notify(quit, unix.SIGINT, unix.SIGTERM)
 
 	// Spawn worker pool
-	wg := NewWorkGroup(jobChan, notifyPeriod, natsClient, dataStore)
+	wg := NewWorkGroup(jobChan, notifyPeriod, natsClient, dataStore, sub)
 	for i := 0; i < concurrency; i++ {
 		go wg.RunWorker(ctx)
 	}
@@ -108,7 +108,7 @@ func InitAndRun(
 	case <-ctx.Done():
 		err = ctx.Err()
 	}
-	errSub := unsubscribe()
+	errSub := sub.Unsubscribe()
 	if errSub != nil {
 		l.Errorf("error unsubscribing from Jetstream: %s", errSub.Error())
 	}
