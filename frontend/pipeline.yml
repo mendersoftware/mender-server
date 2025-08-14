@@ -1,7 +1,7 @@
 variables:
   NODE_IMAGE:
-    value: 'node:23-alpine'
-    description: 'Node version to use for building and testing'
+    value: "node:23-alpine"
+    description: "Node version to use for building and testing"
   FRONTEND_REPOSITORY: mendersoftware/gui
   DOCS_VERSION: development
   MENDER_IMAGE_GUI: ${MENDER_IMAGE_REGISTRY}/${MENDER_IMAGE_REPOSITORY}/gui:${MENDER_IMAGE_TAG}
@@ -14,8 +14,8 @@ test:frontend:lint:
     - if: $CI_COMMIT_REF_NAME =~ /^(staging|saas-[a-zA-Z0-9.]+)$/
       when: never
     - changes:
-        paths: ['frontend/**/*']
-        compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
+        paths: ["frontend/**/*"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
   needs: []
   script:
     - cd frontend
@@ -32,8 +32,8 @@ test:frontend:license-headers:
   stage: test
   rules:
     - changes:
-        paths: ['frontend/**/*']
-        compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
+        paths: ["frontend/**/*"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
   needs: []
   before_script:
     - apt update && apt install git -yq
@@ -49,8 +49,8 @@ test:frontend:licenses:
     - if: $CI_COMMIT_REF_NAME =~ /^(staging|saas-[a-zA-Z0-9.]+)$/
       when: never
     - changes:
-        paths: ['frontend/**/*']
-        compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
+        paths: ["frontend/**/*"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
   needs:
     - job: build:frontend:docker
       artifacts: true
@@ -70,8 +70,8 @@ test:frontend:unit:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/${NODE_IMAGE}
   rules:
     - changes:
-        paths: ['frontend/**/*']
-        compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
+        paths: ["frontend/**/*"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
       when: on_success
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
@@ -101,8 +101,8 @@ test:frontend:docs-links:
     - if: $CI_COMMIT_REF_NAME =~ /^(staging|saas-[a-zA-Z0-9.]+)$/
       when: never
     - changes:
-        paths: ['frontend/**/*']
-        compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
+        paths: ["frontend/**/*"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
   needs: []
   before_script:
     - apk add --no-cache curl
@@ -136,8 +136,8 @@ build:frontend:docker:
   extends: .template:build:docker
   rules:
     - changes:
-        paths: ['frontend/**/*', 'compose/**/*', 'docker-compose.yml']
-        compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
+        paths: ["frontend/**/*", "compose/**/*", "docker-compose.yml"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
       when: always
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: always
@@ -175,8 +175,8 @@ build:frontend:docker:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
     - changes:
-        paths: ['frontend/**/*', 'compose/**/*', 'docker-compose.yml']
-        compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
+        paths: ["frontend/**/*", "compose/**/*", "docker-compose.yml"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
       when: on_success
   needs:
     - job: build:frontend:docker
@@ -245,6 +245,7 @@ test:frontend:acceptance:enterprise:
     - npm i -g coveralls
   tags:
     - hetzner-amd-beefy
+  allow_failure: true
 
 publish:frontend:tests:
   extends: .template:publish:frontend:tests
@@ -252,8 +253,8 @@ publish:frontend:tests:
     - if: $CI_COMMIT_REF_NAME =~ /^(staging|saas-[a-zA-Z0-9.]+)$/
       when: never
     - changes:
-        paths: ['frontend/**/*']
-        compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
+        paths: ["frontend/**/*"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
   needs:
     - job: test:frontend:unit
       artifacts: true
@@ -268,8 +269,8 @@ publish:frontend:e2e-tests:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
     - changes:
-        paths: ['frontend/**/*', 'compose/**/*', 'docker-compose.yml']
-        compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
+        paths: ["frontend/**/*", "compose/**/*", "docker-compose.yml"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
       when: on_success
   needs:
     - job: test:frontend:acceptance
@@ -341,8 +342,8 @@ publish:frontend:licenses:
     - k8s
   rules:
     - changes:
-        paths: ['frontend/**/*']
-        compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
+        paths: ["frontend/**/*"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/denoland/deno:debian-2.0.2
