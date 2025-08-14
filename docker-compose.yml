@@ -44,15 +44,15 @@ services:
       traefik.http.services.deployments.loadBalancer.server.port: "8080"
       traefik.http.routers.deploymentsDL.middlewares: "sec-headers@file"
       traefik.http.routers.deploymentsDL.rule: >-
-        PathRegexp(`/api/devices/v[0-9]+/deployments/download`)
+        PathRegexp(`/api/devices/v[0-9a-z]+/deployments/download`)
       traefik.http.routers.deploymentsDL.service: deployments
       traefik.http.routers.deploymentsDev.middlewares: "devStack@file"
       traefik.http.routers.deploymentsDev.rule: >-
-        PathRegexp(`/api/devices/v[0-9]+/deployments`)
+        PathRegexp(`/api/devices/v[0-9a-z]+/deployments`)
       traefik.http.routers.deploymentsDev.service: deployments
       traefik.http.routers.deploymentsMgmt.middlewares: "mgmtStack@file"
       traefik.http.routers.deploymentsMgmt.rule: >-
-        PathRegexp(`/api/management/v[0-9]+/deployments`)
+        PathRegexp(`/api/management/v[0-9a-z]+/deployments`)
       traefik.http.routers.deploymentsMgmt.service: deployments
     networks:
       default:
@@ -80,11 +80,11 @@ services:
       traefik.http.services.deviceauth.loadBalancer.server.port: "8080"
       traefik.http.routers.deviceauthDev.middlewares: "compression@file"
       traefik.http.routers.deviceauthDev.rule: >-
-        PathRegexp(`/api/devices/v[0-9]+/authentication`)
+        PathRegexp(`/api/devices/v[0-9a-z]+/authentication`)
       traefik.http.routers.deviceauthDev.service: deviceauth
       traefik.http.routers.deviceauthMgmt.middlewares: "mgmtStack@file"
       traefik.http.routers.deviceauthMgmt.rule: >-
-        PathRegexp(`/api/management/v[0-9]+/devauth`)
+        PathRegexp(`/api/management/v[0-9a-z]+/devauth`)
       traefik.http.routers.deviceauthMgmt.service: deviceauth
     networks:
       default:
@@ -108,11 +108,11 @@ services:
       traefik.http.services.deviceconfig.loadBalancer.server.port: "8080"
       traefik.http.routers.deviceconfigDev.middlewares: "devStack@file"
       traefik.http.routers.deviceconfigDev.rule: >-
-        PathRegexp(`/api/devices/v[0-9]+/deviceconfig`)
+        PathRegexp(`/api/devices/v[0-9a-z]+/deviceconfig`)
       traefik.http.routers.deviceconfigDev.service: deviceconfig
       traefik.http.routers.deviceconfigMgmt.middlewares: "mgmtStack@file"
       traefik.http.routers.deviceconfigMgmt.rule: >-
-        PathRegexp(`/api/management/v[0-9]+/deviceconfig`)
+        PathRegexp(`/api/management/v[0-9a-z]+/deviceconfig`)
       traefik.http.routers.deviceconfigMgmt.service: deviceconfig
     networks:
       default:
@@ -138,11 +138,11 @@ services:
       traefik.http.services.deviceconnect.loadBalancer.server.port: "8080"
       traefik.http.routers.deviceconnectDev.middlewares: "devStack@file"
       traefik.http.routers.deviceconnectDev.rule: >-
-        PathRegexp(`/api/devices/v[0-9]+/deviceconnect`)
+        PathRegexp(`/api/devices/v[0-9a-z]+/deviceconnect`)
       traefik.http.routers.deviceconnectDev.service: deviceconnect
       traefik.http.routers.deviceconnectMgmt.middlewares: "mgmtStack@file"
       traefik.http.routers.deviceconnectMgmt.rule: >-
-        PathRegexp(`/api/management/v[0-9]+/deviceconnect`)
+        PathRegexp(`/api/management/v[0-9a-z]+/deviceconnect`)
       traefik.http.routers.deviceconnectMgmt.service: deviceconnect
     networks:
       default:
@@ -233,7 +233,7 @@ services:
       traefik.http.services.iot-manager.loadBalancer.server.port: "8080"
       traefik.http.routers.iot-managerMgmt.middlewares: "mgmtStack@file"
       traefik.http.routers.iot-managerMgmt.rule: >-
-        PathRegexp(`/api/management/v[0-9]+/iot-manager`)
+        PathRegexp(`/api/management/v[0-9a-z]+/iot-manager`)
       traefik.http.routers.iot-managerMgmt.service: iot-manager
     networks:
       default:
@@ -256,13 +256,13 @@ services:
       traefik.http.services.useradm.loadBalancer.server.port: "8080"
       traefik.http.routers.useradm.middlewares: "mgmtStack@file"
       traefik.http.routers.useradm.rule: >-
-        PathRegexp(`/api/management/v[0-9]+/useradm`)
+        PathRegexp(`/api/management/v[0-9a-z]+/useradm`)
       traefik.http.routers.useradm.service: useradm
       traefik.http.routers.userauth.middlewares: >-
         compression@file,sec-headers@file
       traefik.http.routers.userauth.rule: >-
-        !PathRegexp(`/api/management/v[0-9]+/useradm/auth/logout`) &&
-        PathRegexp(`/api/management/v[0-9]+/useradm/(auth|oauth2|oidc)`)
+        !PathRegexp(`/api/management/v[0-9a-z]+/useradm/auth/logout`) &&
+        PathRegexp(`/api/management/v[0-9a-z]+/useradm/(auth|oauth2|oidc)`)
       traefik.http.routers.userauth.service: useradm
     networks:
       default:

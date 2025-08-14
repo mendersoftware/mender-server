@@ -18,7 +18,7 @@ services:
       traefik.http.services.auditlogs.loadBalancer.server.port: "8080"
       traefik.http.routers.auditlogs.middlewares: "mgmtStack@file"
       traefik.http.routers.auditlogs.rule: >-
-        PathRegexp(`/api/management/v[0-9]+/auditlogs`)
+        PathRegexp(`/api/management/v[0-9a-z]+/auditlogs`)
       traefik.http.routers.auditlogs.service: auditlogs
     networks:
       default:
@@ -75,11 +75,11 @@ services:
       traefik.http.services.devicemonitor.loadBalancer.server.port: "8080"
       traefik.http.routers.devicemonitorDev.middlewares: "devStack@file"
       traefik.http.routers.devicemonitorDev.rule: >-
-        PathRegexp(`/api/devices/v[0-9]+/devicemonitor`)
+        PathRegexp(`/api/devices/v[0-9a-z]+/devicemonitor`)
       traefik.http.routers.devicemonitorDev.service: devicemonitor
       traefik.http.routers.devicemonitorMgmt.middlewares: "mgmtStack@file"
       traefik.http.routers.devicemonitorMgmt.rule: >-
-        PathRegexp(`/api/management/v[0-9]+/devicemonitor`)
+        PathRegexp(`/api/management/v[0-9a-z]+/devicemonitor`)
       traefik.http.routers.devicemonitorMgmt.service: devicemonitor
     networks:
       default:
@@ -146,13 +146,13 @@ services:
       traefik.http.services.tenantadm.loadBalancer.server.port: "8080"
       traefik.http.routers.tenantadm.middlewares: "mgmtStack@file"
       traefik.http.routers.tenantadm.rule: >-
-        PathRegexp(`/api/management/v[0-9]/tenantadm`)
+        PathRegexp(`/api/management/v[0-9a-z]/tenantadm`)
       traefik.http.routers.tenantadm.service: tenantadm
       traefik.http.routers.signup.middlewares: >-
         compression@file,sec-headers@file
       traefik.http.routers.signup.rule: >-
-        (Method(`OPTIONS`) || Method(`POST`)) && PathRegexp(`/api/management/v[0-9]+/tenantadm/tenants/signup`) ||
-        (Method(`OPTIONS`) || Method(`POST`)) && PathRegexp(`/api/management/v[0-9]+/tenantadm/tenants/trial`)
+        (Method(`OPTIONS`) || Method(`POST`)) && PathRegexp(`/api/management/v[0-9a-z]+/tenantadm/tenants/signup`) ||
+        (Method(`OPTIONS`) || Method(`POST`)) && PathRegexp(`/api/management/v[0-9a-z]+/tenantadm/tenants/trial`)
       traefik.http.routers.signup.service: tenantadm
     networks:
       default:
