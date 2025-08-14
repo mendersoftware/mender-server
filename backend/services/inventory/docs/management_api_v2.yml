@@ -251,6 +251,7 @@ definitions:
       scope:
         type: string
         description: Scope of the attribute.
+        enum: [system, identity, inventory, monitor, tags]
       count:
         type: integer
         description: Number of occurrences of the attribute in the database.
@@ -272,6 +273,7 @@ definitions:
         description: Attribute name.
       scope:
         type: string
+        enum: [system, identity, inventory, monitor, tags]
       type:
         type: string
         description: Type or operator of the filter predicate.
@@ -300,6 +302,7 @@ definitions:
       scope:
         type: string
         description: Attribute scope.
+        enum: [system, identity, inventory, monitor, tags]
     example:
       attribute: "serial_no"
       scope: "inventory"
@@ -318,6 +321,7 @@ definitions:
       scope:
         type: string
         description: Attribute scope.
+        enum: [system, identity, inventory, monitor, tags]
       order:
         type: string
         description: Order direction, ascending ("asc") or descending ("desc").
