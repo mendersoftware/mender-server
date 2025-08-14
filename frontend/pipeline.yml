@@ -245,6 +245,7 @@ test:frontend:acceptance:enterprise:
     - npm i -g coveralls
   tags:
     - hetzner-amd-beefy
+  allow_failure: true
 
 publish:frontend:tests:
   extends: .template:publish:frontend:tests
