@@ -32,7 +32,7 @@ func TestSearchParams(t *testing.T) {
 			params: &SearchParams{
 				Filters: []FilterPredicate{
 					{
-						Scope:     "scope",
+						Scope:     "system",
 						Attribute: "attribute",
 						Type:      "$eq",
 						Value:     "value",
@@ -44,7 +44,7 @@ func TestSearchParams(t *testing.T) {
 			params: &SearchParams{
 				Filters: []FilterPredicate{
 					{
-						Scope:     "scope",
+						Scope:     "system",
 						Attribute: "attribute",
 						Type:      "$in",
 						Value:     []string{"value1", "value2"},
@@ -56,7 +56,7 @@ func TestSearchParams(t *testing.T) {
 			params: &SearchParams{
 				Filters: []FilterPredicate{
 					{
-						Scope:     "scope",
+						Scope:     "system",
 						Attribute: "attribute",
 						Type:      "$nin",
 						Value:     []string{"value1", "value2"},
@@ -68,7 +68,7 @@ func TestSearchParams(t *testing.T) {
 			params: &SearchParams{
 				Filters: []FilterPredicate{
 					{
-						Scope: "scope",
+						Scope: "system",
 						Type:  "$eq",
 						Value: "value",
 					},
@@ -80,7 +80,7 @@ func TestSearchParams(t *testing.T) {
 			params: &SearchParams{
 				Filters: []FilterPredicate{
 					{
-						Scope:     "scope",
+						Scope:     "system",
 						Attribute: "attribute",
 						Type:      "$regex",
 						Value:     "value",
@@ -93,25 +93,57 @@ func TestSearchParams(t *testing.T) {
 			params: &SearchParams{
 				Sort: []SortCriteria{
 					{
-						Scope:     "scope",
+						Scope:     "system",
 						Attribute: "attribute",
 						Order:     "asc",
 					},
 				},
 			},
 		},
-		"ko, sort": {
+		"ko, sort, missing attribute": {
 			params: &SearchParams{
 				Sort: []SortCriteria{
 					{
-						Scope: "scope",
+						Scope: "system",
 						Order: "asc",
 					},
 				},
 			},
 			err: errors.New("attribute: cannot be blank."),
 		},
+		"ko, sort, invalid scope": {
+			params: &SearchParams{
+				Sort: []SortCriteria{
+					{
+						Scope:     "scope",
+						Order:     "asc",
+						Attribute: "attribute",
+					},
+				},
+			},
+			err: errors.New("scope: must be one of system, identity, inventory, monitor, tags."),
+		},
 		"ok, attributes": {
+			params: &SearchParams{
+				Attributes: []SelectAttribute{
+					{
+						Scope:     "system",
+						Attribute: "attribute",
+					},
+				},
+			},
+		},
+		"ko, attributes, missing attribute": {
+			params: &SearchParams{
+				Attributes: []SelectAttribute{
+					{
+						Scope: "system",
+					},
+				},
+			},
+			err: errors.New("attribute: cannot be blank."),
+		},
+		"ko, attributes, invalid scope": {
 			params: &SearchParams{
 				Attributes: []SelectAttribute{
 					{
@@ -120,16 +152,7 @@ func TestSearchParams(t *testing.T) {
 					},
 				},
 			},
-		},
-		"ko, attributes": {
-			params: &SearchParams{
-				Attributes: []SelectAttribute{
-					{
-						Scope: "scope",
-					},
-				},
-			},
-			err: errors.New("attribute: cannot be blank."),
+			err: errors.New("scope: must be one of system, identity, inventory, monitor, tags."),
 		},
 	}
 
@@ -155,7 +178,7 @@ func TestFilter(t *testing.T) {
 				Name: "name",
 				Terms: []FilterPredicate{
 					{
-						Scope:     "scope",
+						Scope:     "system",
 						Attribute: "attribute",
 						Type:      "$eq",
 						Value:     "",
@@ -178,13 +201,27 @@ func TestFilter(t *testing.T) {
 				Name: "name",
 				Terms: []FilterPredicate{
 					{
-						Scope: "scope",
+						Scope: "system",
 						Type:  "$eq",
 						Value: "",
 					},
 				},
 			},
 			err: errors.New("validation failed for term: attribute: cannot be blank."),
+		},
+		"ko, scope": {
+			filter: &Filter{
+				Name: "name",
+				Terms: []FilterPredicate{
+					{
+						Scope:     "scope",
+						Type:      "$eq",
+						Attribute: "attribute",
+						Value:     "value",
+					},
+				},
+			},
+			err: errors.New("validation failed for term: scope: must be one of system, identity, inventory, monitor, tags."),
 		},
 	}
 

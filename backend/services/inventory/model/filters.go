@@ -14,17 +14,16 @@
 package model
 
 import (
+	"slices"
+	"strings"
+
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/pkg/errors"
 )
 
-var validSelectors = []interface{}{
-	"$eq",
-	"$in",
-	"$nin",
-}
-
+var validSelectors = []interface{}{"$eq", "$in", "$nin"}
 var validSortOrders = []interface{}{"asc", "desc"}
+var validScopes = []string{"system", "identity", "inventory", "monitor", "tags"}
 
 type SearchParams struct {
 	Page       int               `json:"page"`
@@ -43,21 +42,30 @@ type Filter struct {
 }
 
 type FilterPredicate struct {
-	Scope     string      `json:"scope" bson:"scope"`
+	Scope     Scope       `json:"scope" bson:"scope"`
 	Attribute string      `json:"attribute" bson:"attribute"`
 	Type      string      `json:"type" bson:"type"`
 	Value     interface{} `json:"value" bson:"value"`
 }
 
 type SortCriteria struct {
-	Scope     string `json:"scope"`
+	Scope     Scope  `json:"scope"`
 	Attribute string `json:"attribute"`
 	Order     string `json:"order"`
 }
 
 type SelectAttribute struct {
-	Scope     string `json:"scope" bson:"scope"`
+	Scope     Scope  `json:"scope" bson:"scope"`
 	Attribute string `json:"attribute" bson:"attribute"`
+}
+
+type Scope string
+
+func (s Scope) Validate() error {
+	if !slices.Contains(validScopes, string(s)) {
+		return errors.Errorf("must be one of %s", strings.Join(validScopes, ", "))
+	}
+	return nil
 }
 
 func (sp SearchParams) Validate() error {

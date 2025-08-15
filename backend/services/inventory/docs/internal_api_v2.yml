@@ -135,6 +135,7 @@ definitions:
             The scope of the attribute.
 
             Scope is a string and acts as namespace for the attribute name.
+        enum: [system, identity, inventory, monitor, tags]
       description:
         type: string
         description: Attribute description.
@@ -209,6 +210,7 @@ definitions:
             The scope of the attribute.
 
             Scope is a string and acts as namespace for the attribute name.
+        enum: [system, identity, inventory, monitor, tags]
       attribute:
         type: string
         description: |
@@ -254,6 +256,7 @@ definitions:
       scope:
         type: string
         description: Attribute scope.
+        enum: [system, identity, inventory, monitor, tags]
     example:
       attribute: "serial_no"
       scope: "inventory"
@@ -272,6 +275,7 @@ definitions:
             The scope of the attribute.
 
             Scope is a string and acts as namespace for the attribute name.
+        enum: [system, identity, inventory, monitor, tags]
       attribute:
         type: string
         description: |

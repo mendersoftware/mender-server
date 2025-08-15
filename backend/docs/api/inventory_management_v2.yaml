@@ -159,11 +159,7 @@ components:
           description: |
             A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc.
         scope:
-          type: string
-          description: |
-            The scope of the attribute.
-
-            Scope is a string and acts as namespace for the attribute name.
+          $ref: '#/components/schemas/Scope'
         description:
           type: string
           description: Attribute description.
@@ -232,8 +228,7 @@ components:
           type: string
           description: Name of the attribute.
         scope:
-          type: string
-          description: Scope of the attribute.
+          $ref: '#/components/schemas/Scope'
         count:
           type: integer
           description: Number of occurrences of the attribute in the database.
@@ -253,7 +248,7 @@ components:
           type: string
           description: Attribute name.
         scope:
-          type: string
+          $ref: '#/components/schemas/Scope'
         type:
           type: string
           description: Type or operator of the filter predicate.
@@ -282,8 +277,7 @@ components:
           type: string
           description: Attribute name.
         scope:
-          type: string
-          description: Attribute scope.
+          $ref: '#/components/schemas/Scope'
       description: Inventory attribute
       example:
         attribute: serial_no
@@ -299,8 +293,7 @@ components:
           type: string
           description: Attribute name.
         scope:
-          type: string
-          description: Attribute scope.
+          $ref: '#/components/schemas/Scope'
         order:
           type: string
           description: "Order direction, ascending (\"asc\") or descending (\"desc\"\
@@ -313,6 +306,24 @@ components:
         attribute: serial_no
         scope: inventory
         order: asc
+    Scope:
+      type: string
+      description: |
+        The scope of the attribute.
+
+        Scope is a string and acts as namespace for the attribute name.
+
+        * __inventory__: Attributes reported by the device.
+        * __system__: Attributes populated by the mender-server.
+        * __identity__: Device's identity attributes provided in the device's auth request.
+        * __monitor__: Attributes populated by the monitoring add-on.
+        * __tags__: User-defined attributes associated with the device.
+      enum:
+        - system
+        - identity
+        - inventory
+        - monitor
+        - tags
   securitySchemes:
     ManagementJWT:
       type: apiKey
