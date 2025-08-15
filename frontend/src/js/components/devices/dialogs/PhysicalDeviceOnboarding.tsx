@@ -19,6 +19,9 @@ import { InfoOutlined as InfoIcon } from '@mui/icons-material';
 import { Autocomplete, TextField } from '@mui/material';
 import { createFilterOptions } from '@mui/material/useAutocomplete';
 
+import CopyCode from '@northern.tech/common-ui/CopyCode';
+import DocsLink from '@northern.tech/common-ui/DocsLink';
+import { MenderTooltipClickable } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import { EXTERNAL_PROVIDER, onboardingSteps } from '@northern.tech/store/constants';
 import {
   getCurrentSession,
@@ -34,11 +37,9 @@ import {
 import { advanceOnboarding, setOnboardingApproach, setOnboardingDeviceType } from '@northern.tech/store/thunks';
 import { versionCompare } from '@northern.tech/utils/helpers';
 
-import { getDebConfigurationCode } from '../../utils/helpers';
-import CopyCode from '../CopyCode';
-import DocsLink from '../DocsLink';
-import { HELPTOOLTIPS } from '../helptips/HelpTooltips';
-import { MenderHelpTooltip, MenderTooltipClickable } from '../helptips/MenderTooltip';
+import { getDebConfigurationCode } from '../../../utils/helpers';
+import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
+import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 
 const filter = createFilterOptions();
 

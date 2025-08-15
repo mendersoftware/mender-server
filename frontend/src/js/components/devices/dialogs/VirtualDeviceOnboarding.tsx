@@ -14,11 +14,10 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import CopyCode from '@northern.tech/common-ui/CopyCode';
+import DocsLink from '@northern.tech/common-ui/DocsLink';
 import { getFeatures, getOrganization } from '@northern.tech/store/selectors';
 import { setOnboardingApproach } from '@northern.tech/store/thunks';
-
-import CopyCode from '../CopyCode';
-import DocsLink from '../DocsLink';
 
 export const getDemoDeviceCreationCommand = (tenantToken, demoArtifactPort) =>
   tenantToken

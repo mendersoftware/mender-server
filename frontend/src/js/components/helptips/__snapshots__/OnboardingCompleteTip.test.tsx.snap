@@ -22,7 +22,6 @@ exports[`OnboardingCompleteTip Component > renders correctly 1`] = `
   z-index: 1500;
   pointer-events: none;
   pointer-events: auto;
-  opacity: 0.9;
 }
 
 .emotion-2 {
@@ -36,13 +35,12 @@ exports[`OnboardingCompleteTip Component > renders correctly 1`] = `
   margin: 2px;
   word-wrap: break-word;
   font-weight: 500;
-  background-color: #1976d2;
+  background-color: #fff;
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
-  color: #9e9e9e;
-  font-size: 14px;
-  max-width: 350px;
-  padding: 12px 18px;
-  width: 350px;
+  color: rgba(0, 0, 0, 0.87);
+  padding: 16px;
+  font-size: small;
+  max-width: 600px;
 }
 
 .MuiTooltip-popper[data-popper-placement*="left"] .emotion-2 {
@@ -71,26 +69,9 @@ exports[`OnboardingCompleteTip Component > renders correctly 1`] = `
   margin-left: 14px;
 }
 
-.emotion-2 a {
-  color: #9e9e9e;
-}
-
-.emotion-2.MuiTooltip-tooltipPlacementTop {
-  margin-left: 30px;
-  margin-bottom: 0;
-  margin-top: calc(30 + 12px);
-}
-
-.emotion-2.MuiTooltip-tooltipPlacementRight {
-  margin-top: 15px;
-}
-
-.emotion-2.MuiTooltip-tooltipPlacementBottom {
-  margin-left: 30px;
-}
-
-.emotion-2.MuiTooltip-tooltipPlacementLeft {
-  margin-top: 15px;
+.emotion-2 info {
+  max-width: 300px;
+  background-color: #9e9e9e;
 }
 
 .emotion-3 {

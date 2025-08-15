@@ -23,8 +23,6 @@ import EnterpriseNotification, { DefaultUpgradeNotification } from '@northern.te
 import { ControlledSearch } from '@northern.tech/common-ui/Search';
 import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/Autocomplete';
 import { Filters } from '@northern.tech/common-ui/forms/Filters';
-import { HELPTOOLTIPS } from '@northern.tech/common-ui/helptips/HelpTooltips';
-import { MenderHelpTooltip } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import { BENEFITS, SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
 import { useLocationParams } from '@northern.tech/store/liststatehook';
 import {
@@ -41,6 +39,8 @@ import { getExistingReleaseTags, getReleases, getUpdateTypes, selectRelease, set
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 import pluralize from 'pluralize';
 
+import { HELPTOOLTIPS } from '../helptips/HelpTooltips';
+import { MenderHelpTooltip } from '../helptips/MenderTooltip';
 import ReleaseDetails from './ReleaseDetails';
 import ReleasesList from './ReleasesList';
 import AddArtifactDialog from './dialogs/AddArtifact';
