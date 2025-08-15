@@ -257,7 +257,7 @@ test.describe('Settings', () => {
       await stripeFrame.fill('[name="exp-date"]', '1232');
       await stripeFrame.fill('[name="cvc"]', '123');
       await stripeFrame.fill('[name="postal"]', '12345');
-      await page.click(`button:has-text('Sign up')`);
+      await page.getByRole('button', { name: /Confirm Subscription/i }).click();
       await page.getByText(/Card confirmed./i).waitFor({ timeout: timeouts.tenSeconds });
       await page.getByText(/ You have successfully subscribed to the professional/i).waitFor({ timeout: timeouts.fifteenSeconds });
 
