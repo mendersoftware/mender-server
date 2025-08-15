@@ -14,12 +14,11 @@
 
 interface DebConfigurationProps {
   deviceType?: string;
-  hasMonitor: boolean;
+  hasMonitor?: boolean;
   ipAddress?: string;
-  isHosted: boolean;
-  isOnboarding: boolean;
-  isPreRelease: boolean;
-  isTrial: boolean;
+  isHosted?: boolean;
+  isPreRelease?: boolean;
+  isTrial?: boolean;
   tenantToken?: string;
   token: string;
 }
@@ -37,13 +36,9 @@ const getSetupArgs = ({ deviceType = 'generic-armv6', ipAddress, tenantToken, is
   menderSetupArgs = tenantToken ? `${menderSetupArgs} --tenant-token $TENANT_TOKEN` : menderSetupArgs;
   // in production we use polling intervals from the client examples: https://github.com/mendersoftware/mender/blob/master/examples/mender.conf.production
   menderSetupArgs = isTrial ? `${menderSetupArgs} --demo` : `${menderSetupArgs} --retry-poll 300 --update-poll 1800 --inventory-poll 28800`;
-  if (isTrial) {
-    // Demo installation, either OS os Enterprise. Install demo cert and add IP to /etc/hosts
-    menderSetupArgs = `${menderSetupArgs}${ipAddress ? ` --server-ip ${ipAddress}` : ''}`;
-  } else {
-    // Production installation, either OS, HM, or Enterprise
-    menderSetupArgs = `${menderSetupArgs} --server-url https://${window.location.hostname} --server-cert=""`;
-  }
+  menderSetupArgs = ipAddress
+    ? `${menderSetupArgs} --server-ip ${ipAddress}` // we still need to forward the ipAddress when showing the snippets for a gateway setup
+    : `${menderSetupArgs} --server-url https://${window.location.hostname} --server-cert=""`;
   return menderSetupArgs;
 };
 

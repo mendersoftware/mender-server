@@ -64,7 +64,7 @@ describe('getDebConfigurationCode function', () => {
         deviceType: 'raspberrypi3',
         hasMonitor: true,
         isHosted: true,
-        isOnboarding: true,
+        isTrial: true,
         tenantToken: 'token',
         token: 'omnomnom'
       });
@@ -78,7 +78,7 @@ wget -O- https://get.mender.io | sudo bash -s -- --demo --commercial --jwt-token
       code = getDebConfigurationCode({
         deviceType: 'raspberrypi3',
         isHosted: true,
-        isOnboarding: true,
+        isTrial: true,
         tenantToken: 'token',
         token: 'omnomnom'
       });
@@ -103,7 +103,7 @@ wget -O- https://get.mender.io | sudo bash -s -- --demo --jwt-token $JWT_TOKEN -
         deviceType: 'raspberrypi3',
         hasMonitor: true,
         isHosted: true,
-        isOnboarding: true,
+        isTrial: true,
         isPreRelease: true,
         tenantToken: 'token',
         token: 'omnomnom'
@@ -124,23 +124,20 @@ wget -O- https://get.mender.io/staging | sudo bash -s -- --demo -c experimental 
     });
     afterEach(postTestCleanUp);
 
-    it('should contain sane information for enterprise demo on-prem calls', async () => {
+    it('should contain sane information for on-prem gateway install calls', async () => {
       code = getDebConfigurationCode({
         ipAddress: '1.2.3.4',
-        isTrial: true,
         tenantToken: 'token',
         token: 'omnomnom',
         deviceType: 'raspberrypi3'
       });
       expect(code).toMatch(
         `TENANT_TOKEN="token"
-wget -O- https://get.mender.io | sudo bash -s -- --demo --force-mender-client4 -- --quiet --device-type "raspberrypi3" --tenant-token $TENANT_TOKEN --demo --server-ip 1.2.3.4`
+wget -O- https://get.mender.io | sudo bash -s -- --demo --force-mender-client4 -- --quiet --device-type "raspberrypi3" --tenant-token $TENANT_TOKEN --retry-poll 300 --update-poll 1800 --inventory-poll 28800 --server-ip 1.2.3.4`
       );
     });
-    it('should contain sane information for enterprise production on-prem calls', async () => {
+    it('should contain sane information for regular on-prem calls', async () => {
       code = getDebConfigurationCode({
-        ipAddress: '1.2.3.4',
-        isTrial: false,
         tenantToken: 'token',
         deviceType: 'raspberrypi3'
       });
@@ -158,22 +155,8 @@ wget -O- https://get.mender.io | sudo bash -s -- --demo --force-mender-client4 -
       };
     });
     afterEach(postTestCleanUp);
-
-    it('should contain sane information for OS demo on-prem calls', async () => {
+    it('should contain sane information for OS on-prem calls', async () => {
       code = getDebConfigurationCode({
-        ipAddress: '1.2.3.4',
-        isTrial: true,
-        tenantToken: 'token',
-        token: 'omnomnom',
-        deviceType: 'raspberrypi3'
-      });
-      expect(code).toMatch(
-        `wget -O- https://get.mender.io | sudo bash -s -- --demo --force-mender-client4 -- --quiet --device-type "raspberrypi3" --tenant-token $TENANT_TOKEN --demo --server-ip 1.2.3.4`
-      );
-    });
-    it('should contain sane information for OS production on-prem calls', async () => {
-      code = getDebConfigurationCode({
-        ipAddress: '1.2.3.4',
         isTrial: false,
         tenantToken: 'token',
         token: 'omnomnom',

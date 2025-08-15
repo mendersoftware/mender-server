@@ -147,8 +147,8 @@ export const DeviceTypeSelectionStep = ({
   );
 };
 
-export const InstallationStep = ({ advanceOnboarding, selection, onboardingState, ...remainingProps }) => {
-  const codeToCopy = getDebConfigurationCode({ ...remainingProps, deviceType: selection, isOnboarding: !onboardingState.complete });
+export const InstallationStep = ({ advanceOnboarding, selection, ...remainingProps }) => {
+  const codeToCopy = getDebConfigurationCode({ ...remainingProps, deviceType: selection });
   return (
     <>
       <h4>Log into your device and install the Mender client</h4>
