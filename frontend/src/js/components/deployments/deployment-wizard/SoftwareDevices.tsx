@@ -22,8 +22,6 @@ import { makeStyles } from 'tss-react/mui';
 import AsyncAutocomplete from '@northern.tech/common-ui/AsyncAutocomplete';
 import { getDeviceIdentityText } from '@northern.tech/common-ui/DeviceIdentity';
 import InfoText from '@northern.tech/common-ui/InfoText';
-import { HELPTOOLTIPS } from '@northern.tech/common-ui/helptips/HelpTooltips';
-import { MenderHelpTooltip } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import { ALL_DEVICES, ATTRIBUTE_SCOPES, DEPLOYMENT_TYPES, DEVICE_FILTERING_OPTIONS, DEVICE_STATES } from '@northern.tech/store/constants';
 import { formatDeviceSearch } from '@northern.tech/store/locationutils';
 import { getReleases, getSystemDevices } from '@northern.tech/store/thunks';
@@ -31,6 +29,9 @@ import { stringToBoolean } from '@northern.tech/utils/helpers';
 import { useWindowSize } from '@northern.tech/utils/resizehook';
 import pluralize from 'pluralize';
 import isUUID from 'validator/lib/isUUID';
+
+import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
+import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 
 const useStyles = makeStyles()(theme => ({
   infoStyle: {
