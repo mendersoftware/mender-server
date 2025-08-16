@@ -15,8 +15,8 @@ import { EXTERNAL_PROVIDER } from '@northern.tech/store/constants';
 import { act, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
 
-import { token, undefineds } from '../../../../tests/mockData';
-import { render } from '../../../../tests/setupTests';
+import { token, undefineds } from '../../../../../tests/mockData';
+import { render } from '../../../../../tests/setupTests';
 import PhysicalDeviceOnboarding, { ConvertedImageNote, DeviceTypeSelectionStep, ExternalProviderTip, InstallationStep } from './PhysicalDeviceOnboarding';
 
 const oldHostname = window.location.hostname;
@@ -50,7 +50,6 @@ describe('PhysicalDeviceOnboarding Component', () => {
             ipAddress="test.address"
             isEnterprise={false}
             isHosted={true}
-            isDemoMode={false}
             onboardingState={{ complete: false, showTips: true }}
             onSelect={vi.fn}
             selection="raspberrypi7"

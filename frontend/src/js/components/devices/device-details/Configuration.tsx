@@ -27,8 +27,6 @@ import Loader from '@northern.tech/common-ui/Loader';
 import Time from '@northern.tech/common-ui/Time';
 import LogDialog from '@northern.tech/common-ui/dialogs/Log';
 import KeyValueEditor from '@northern.tech/common-ui/forms/KeyValueEditor';
-import { HELPTOOLTIPS } from '@northern.tech/common-ui/helptips/HelpTooltips';
-import { MenderHelpTooltip } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import storeActions from '@northern.tech/store/actions';
 import { BENEFITS, DEPLOYMENT_ROUTES, DEPLOYMENT_STATES, DEVICE_STATES, TIMEOUTS } from '@northern.tech/store/constants';
 import { getDeviceConfigDeployment, getTenantCapabilities, getUserCapabilities } from '@northern.tech/store/selectors';
@@ -45,6 +43,8 @@ import { groupDeploymentDevicesStats, groupDeploymentStats } from '@northern.tec
 import { deepCompare, isEmpty, toggle } from '@northern.tech/utils/helpers';
 
 import Tracking from '../../../tracking';
+import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
+import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 import ConfigImportDialog from './ConfigImportDialog';
 import DeviceDataCollapse from './DeviceDataCollapse';
 

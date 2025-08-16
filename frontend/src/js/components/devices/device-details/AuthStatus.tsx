@@ -17,13 +17,13 @@ import { useSelector } from 'react-redux';
 import { Block as BlockIcon, CheckCircle as CheckCircleIcon, Check as CheckIcon } from '@mui/icons-material';
 import { Chip, Icon } from '@mui/material';
 
-import { HELPTOOLTIPS } from '@northern.tech/common-ui/helptips/HelpTooltips';
-import { MenderHelpTooltip } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import { DEVICE_STATES, onboardingSteps } from '@northern.tech/store/constants';
 import { getOnboardingState } from '@northern.tech/store/selectors';
 
 import pendingIcon from '../../../../assets/img/pending_status.png';
 import { getOnboardingComponentFor } from '../../../utils/onboardingManager';
+import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
+import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 import DeviceDataCollapse from './DeviceDataCollapse';
 import Authsets from './authsets/AuthSets';
 

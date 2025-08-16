@@ -19,9 +19,11 @@ import { makeStyles } from 'tss-react/mui';
 
 import DocsLink from '@northern.tech/common-ui/DocsLink';
 import InfoText from '@northern.tech/common-ui/InfoText';
-import { HELPTOOLTIPS } from '@northern.tech/common-ui/helptips/HelpTooltips';
-import MenderTooltip, { MenderHelpTooltip } from '@northern.tech/common-ui/helptips/MenderTooltip';
+import MenderTooltip from '@northern.tech/common-ui/helptips/MenderTooltip';
 import { TIMEOUTS } from '@northern.tech/store/constants';
+
+import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
+import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 
 const useStyles = makeStyles()(theme => ({
   chip: { marginLeft: theme.spacing(-3), marginRight: theme.spacing(-3) },

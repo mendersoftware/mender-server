@@ -25,7 +25,6 @@ import { makeStyles } from 'tss-react/mui';
 
 import SharedSnackbar from '@northern.tech/common-ui/SharedSnackbar';
 import ConfirmDismissHelptips from '@northern.tech/common-ui/dialogs/ConfirmDismissHelpTips';
-import DeviceConnectionDialog from '@northern.tech/common-ui/dialogs/DeviceConnectionDialog';
 import FeedbackDialog from '@northern.tech/common-ui/dialogs/Feedback';
 import StartupNotificationDialog from '@northern.tech/common-ui/dialogs/StartupNotification';
 import storeActions from '@northern.tech/store/actions';
@@ -61,6 +60,7 @@ import Footer from './Footer';
 import LeftNav from './LeftNav';
 import SearchResult from './SearchResult';
 import Uploads from './Uploads';
+import DeviceConnectionDialog from './devices/dialogs/DeviceConnectionDialog';
 import Header from './header/Header';
 
 const { receivedActivationCode, setShowConnectingDialog, setSnackbar } = storeActions;

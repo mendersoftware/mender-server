@@ -15,7 +15,6 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
-import { ConfirmUpgrade } from '@northern.tech/common-ui/dialogs/ConfirmUpgrade';
 import { AvailablePlans, PLANS, Plan } from '@northern.tech/store/constants';
 import { Addon } from '@northern.tech/store/organizationSlice/types';
 import { getFeatures, getOrganization } from '@northern.tech/store/selectors';
@@ -23,6 +22,7 @@ import { useAppDispatch } from '@northern.tech/store/store';
 import { requestPlanChange } from '@northern.tech/store/thunks';
 
 import AddOnSelection from './AddonSelection';
+import { ConfirmUpgrade } from './ConfirmUpgrade';
 import { EnterpriseRequestExpanded } from './EnterpriseRequestExpanded';
 import { PlanExpanded } from './PlanExpanded';
 import PlanSelection from './PlanSelection';

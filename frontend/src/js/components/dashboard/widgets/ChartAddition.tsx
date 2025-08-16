@@ -33,10 +33,11 @@ import Confirm from '@northern.tech/common-ui/Confirm';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import Form from '@northern.tech/common-ui/forms/Form';
-import { HELPTOOLTIPS } from '@northern.tech/common-ui/helptips/HelpTooltips';
-import { MenderHelpTooltip } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import { BENEFITS, chartTypes, emptyChartSelection } from '@northern.tech/store/constants';
 import { toggle } from '@northern.tech/utils/helpers';
+
+import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
+import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 
 const fontSize = 'smaller';
 

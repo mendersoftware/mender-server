@@ -26,8 +26,6 @@ import Form from '@northern.tech/common-ui/forms/Form';
 import FormCheckbox from '@northern.tech/common-ui/forms/FormCheckbox';
 import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
-import { HELPTOOLTIPS } from '@northern.tech/common-ui/helptips/HelpTooltips';
-import { MenderHelpTooltip } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import Api from '@northern.tech/store/api/general-api';
 import { TIMEOUTS, rolesByName, useradmApiUrlv1 } from '@northern.tech/store/constants';
 import { getOrganization, getSsoConfig } from '@northern.tech/store/selectors';
@@ -35,6 +33,8 @@ import { useAppDispatch } from '@northern.tech/store/store';
 import { addTenant, getSsoConfigs } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 
+import { HELPTOOLTIPS } from '../helptips/HelpTooltips';
+import { MenderHelpTooltip } from '../helptips/MenderTooltip';
 import { PasswordLabel } from '../settings/user-management/UserForm';
 
 interface TenantCreateFormProps {

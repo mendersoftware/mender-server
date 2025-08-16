@@ -34,8 +34,6 @@ import { EditableLongText } from '@northern.tech/common-ui/EditableLongText';
 import FileSize from '@northern.tech/common-ui/FileSize';
 import { RelativeTime } from '@northern.tech/common-ui/Time';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
-import { HELPTOOLTIPS } from '@northern.tech/common-ui/helptips/HelpTooltips';
-import { MenderHelpTooltip } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';
 import { generateReleasesPath } from '@northern.tech/store/locationutils';
@@ -46,6 +44,8 @@ import { useWindowSize } from '@northern.tech/utils/resizehook';
 import copy from 'copy-to-clipboard';
 import pluralize from 'pluralize';
 
+import { HELPTOOLTIPS } from '../helptips/HelpTooltips';
+import { MenderHelpTooltip } from '../helptips/MenderTooltip';
 import Artifact from './Artifact';
 import RemoveArtifactDialog from './dialogs/RemoveArtifact';
 

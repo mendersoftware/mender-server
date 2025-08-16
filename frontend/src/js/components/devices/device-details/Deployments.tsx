@@ -22,13 +22,13 @@ import Confirm from '@northern.tech/common-ui/Confirm';
 import InfoHint from '@northern.tech/common-ui/InfoHint';
 import Pagination from '@northern.tech/common-ui/Pagination';
 import { MaybeTime } from '@northern.tech/common-ui/Time';
-import { HELPTOOLTIPS } from '@northern.tech/common-ui/helptips/HelpTooltips';
-import { MenderHelpTooltip } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import { getToken } from '@northern.tech/store/auth';
 import { DEVICE_LIST_DEFAULTS, deploymentStatesToSubstates, deploymentsApiUrl } from '@northern.tech/store/constants';
 import { getDeviceDeployments, resetDeviceDeployments } from '@northern.tech/store/thunks';
 import { createDownload } from '@northern.tech/utils/helpers';
 
+import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
+import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 import { DeviceStateSelection } from '../widgets/DeviceStateSelection';
 
 const useStyles = makeStyles()(theme => ({
