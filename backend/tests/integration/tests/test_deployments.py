@@ -898,9 +898,16 @@ class _TestDeploymentsBase(object):
             "artifact_name": "deployments-phase-testing",
             "devices": [dev.id for dev in devs],
         }
-        api_mgmt_dep.with_auth(user_token).call(
+        res = api_mgmt_dep.with_auth(user_token).call(
             "POST", deployments.URL_DEPLOYMENTS, deployment_req
         )
+        assert res.status_code == 201
+        depid = res.headers["Location"].split("/")[-1]
+        stats = get_stats(depid, user_token)
+        # after creating static deployment
+        # all devices should be pending in stats
+        verify_stats(stats, {"pending": len(devs)})
+
         for dev in devs:
             status_code = try_update(dev)
             assert status_code == 200
@@ -937,9 +944,16 @@ class _TestDeploymentsBase(object):
             "artifact_name": "deployments-phase-testing",
             "all_devices": True,
         }
-        rep = api_mgmt_dep.with_auth(user_token).call(
+        res = api_mgmt_dep.with_auth(user_token).call(
             "POST", deployments.URL_DEPLOYMENTS, deployment_req
         )
+        assert res.status_code == 201
+        depid = res.headers["Location"].split("/")[-1]
+        stats = get_stats(depid, user_token)
+        # after creating static deployment for all devices,
+        # all devices should be pending in stats
+        verify_stats(stats, {"pending": len(devs)})
+
         for dev in devs:
             status_code = try_update(dev)
             assert status_code == 200
@@ -2148,6 +2162,11 @@ class TestDynamicDeploymentsEnterprise:
             user.utoken,
             max_devices=10,
         )
+
+        # after creating deployment with max_devices set
+        # all devices should be pending in stats
+        stats = get_stats(dep["id"], user.utoken)
+        verify_stats(stats, {"pending": 10})
 
         devs = [
             make_device_with_inventory(
