@@ -306,6 +306,8 @@ services:
     environment:
       WORKFLOWS_MONGO_URL: "mongodb://mongo"
       WORKFLOWS_NATS_URI: "nats://nats"
+      HAVE_DEVICECONFIG: "1"
+      HAVE_DEVICECONNECT: "1"
     networks:
       default:
         aliases: [mender-workflows]
