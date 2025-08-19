@@ -91,7 +91,7 @@ const shortenFileName = name => {
   return name;
 };
 
-const singleFileLimit = 512 * 1024 ** 2; //512MiB
+const singleFileLimit = 256 * 1024 ** 2; //256MiB
 const menderFileLimit = 10 * 1024 ** 3; //10GiB
 const reFilename = new RegExp(/^[\w\-.,]+$/);
 
@@ -103,7 +103,7 @@ const validateFile = ({ name, size }: File): string => {
   } else if (isMenderArtifact(name) && size > menderFileLimit) {
     return 'Only artifacts smaller than 10GiB are supported.';
   } else if (!isMenderArtifact(name) && size > singleFileLimit) {
-    return 'Artifact generation is only supported for files smaller than 512MiB.';
+    return 'Artifact generation is only supported for files smaller than 256MiB.';
   }
   return '';
 };
