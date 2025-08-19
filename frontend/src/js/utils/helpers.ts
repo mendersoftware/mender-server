@@ -24,22 +24,21 @@ interface DebConfigurationProps {
 }
 
 const getInstallScriptArgs = ({ isHosted, isPreRelease, hasMonitor }: Partial<DebConfigurationProps>) => {
-  let installScriptArgs = '--demo';
-  installScriptArgs = isPreRelease ? `${installScriptArgs} -c experimental` : installScriptArgs;
-  installScriptArgs = isHosted && hasMonitor ? `${installScriptArgs} --commercial` : installScriptArgs;
-  installScriptArgs = isHosted ? `${installScriptArgs} --jwt-token $JWT_TOKEN` : installScriptArgs;
-  return installScriptArgs;
+  const installScriptArgs = ['--demo'];
+  if (isPreRelease) installScriptArgs.push('-c experimental');
+  if (isHosted && hasMonitor) installScriptArgs.push('--commercial');
+  if (isHosted) installScriptArgs.push('--jwt-token $JWT_TOKEN');
+  return installScriptArgs.join(' ');
 };
 
 const getSetupArgs = ({ deviceType = 'generic-armv6', ipAddress, tenantToken, isTrial }: Partial<DebConfigurationProps>) => {
-  let menderSetupArgs = `--quiet --device-type "${deviceType}"`;
-  menderSetupArgs = tenantToken ? `${menderSetupArgs} --tenant-token $TENANT_TOKEN` : menderSetupArgs;
+  const menderSetupArgs = ['--quiet', `--device-type "${deviceType}"`];
+  if (tenantToken) menderSetupArgs.push('--tenant-token $TENANT_TOKEN');
   // in production we use polling intervals from the client examples: https://github.com/mendersoftware/mender/blob/master/examples/mender.conf.production
-  menderSetupArgs = isTrial ? `${menderSetupArgs} --demo` : `${menderSetupArgs} --retry-poll 300 --update-poll 1800 --inventory-poll 28800`;
-  menderSetupArgs = ipAddress
-    ? `${menderSetupArgs} --server-ip ${ipAddress}` // we still need to forward the ipAddress when showing the snippets for a gateway setup
-    : `${menderSetupArgs} --server-url https://${window.location.hostname} --server-cert=""`;
-  return menderSetupArgs;
+  menderSetupArgs.push(isTrial ? '--demo' : '--retry-poll 300 --update-poll 1800 --inventory-poll 28800');
+  // we still need to forward the ipAddress when showing the snippets for a gateway setup
+  menderSetupArgs.push(ipAddress ? `--server-ip ${ipAddress}` : `--server-url https://${window.location.hostname} --server-cert=""`);
+  return menderSetupArgs.join(' ');
 };
 
 const installComponents = '--force-mender-client4';
