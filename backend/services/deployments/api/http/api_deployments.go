@@ -49,7 +49,7 @@ const (
 	// 10 Mb
 	MaxFormParamSize           = 1024 * 1024             // 1MiB
 	DefaultMaxImageSize        = 10 * 1024 * 1024 * 1024 // 10GiB
-	DefaultMaxGenerateDataSize = 512 * 1024 * 1024       // 512MiB
+	DefaultMaxGenerateDataSize = 256 * 1024 * 1024       // 256MiB
 
 	// Pagination
 	DefaultPerPage                      = 20

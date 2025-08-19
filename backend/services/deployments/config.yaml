@@ -115,9 +115,9 @@ storage:
 
     # storage.max_generate_data_size: Maximum data size for requests to 
     # generate artifacts.
-    # Defaults to: 512MiB
+    # Defaults to: 256MiB
     # Overwrite with environment variable: DEPLOYMENTS_STORAGE_MAX_GENERATE_DATA_SIZE
-    # max_generate_data_size: 536870912
+    # max_generate_data_size: 268435456
 
     # Download link expiry duration
     # Number of second a presigned download URL is valid

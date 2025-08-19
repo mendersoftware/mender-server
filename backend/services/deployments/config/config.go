@@ -47,7 +47,7 @@ const (
 	SettingStorageMaxImageSize           = SettingStorage + ".max_image_size"
 	SettingStorageMaxImageSizeDefault    = 10 * 1024 * 1024 * 1024 // 10 GiB
 	SettingStorageMaxGenerateSize        = SettingStorage + ".max_generate_data_size"
-	SettingStorageMaxGenerateSizeDefault = 512 * 1024 * 1024 // 512 MiB
+	SettingStorageMaxGenerateSizeDefault = 256 * 1024 * 1024 // 256 MiB
 
 	SettingStorageProxyURI = SettingStorage + ".proxy_uri"
 
