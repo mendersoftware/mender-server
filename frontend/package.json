@@ -30,10 +30,10 @@
     "msgpack5": "6.0.2",
     "mui-markdown": "^2.0.3",
     "pluralize": "8.0.0",
-    "react": "^18.3.1",
+    "react": "^19.1.1",
     "react-big-calendar": "1.19.4",
     "react-copy-to-clipboard": "5.1.0",
-    "react-dom": "^18.3.1",
+    "react-dom": "^19.1.1",
     "react-dropzone": "14.3.8",
     "react-ga4": "2.1.0",
     "react-google-recaptcha": "3.1.0",
@@ -102,6 +102,11 @@
     "vm-browserify": "1.1.2",
     "webpack-license-plugin": "^4.5.1",
     "yarn": "1.22.22"
+  },
+  "overrides": {
+    "react-copy-to-clipboard": {
+      "react": "^19.x"
+    }
   },
   "browserslist": [
     ">0.2%",
