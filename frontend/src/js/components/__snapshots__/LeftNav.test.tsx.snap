@@ -2,8 +2,7 @@
 
 exports[`LeftNav Component > renders correctly 1`] = `
 .emotion-0 {
-  background-color: #f7f7f7;
-  border-right: 1px solid #e6f2f1;
+  border-right: 1px solid #e0e0e0;
 }
 
 .emotion-1 {
@@ -38,23 +37,7 @@ exports[`LeftNav Component > renders correctly 1`] = `
   padding-bottom: 8px;
   padding-left: 16px;
   padding-right: 16px;
-  padding-top: 11px;
-  padding-bottom: 11px;
   padding: 22px 16px 22px 42px;
-}
-
-.emotion-2.active {
-  background-color: #fff;
-}
-
-.emotion-2.leftNav.active {
-  border-top: 1px solid #d4e9e7;
-  border-bottom: 1px solid #d4e9e7;
-}
-
-.emotion-2.navLink,
-.emotion-2.navLink .MuiListItemText-root {
-  color: #969696;
 }
 
 .emotion-3 {
@@ -64,9 +47,6 @@ exports[`LeftNav Component > renders correctly 1`] = `
   min-width: 0;
   margin-top: 4px;
   margin-bottom: 4px;
-  margin-top: 0;
-  margin-bottom: 0;
-  color: rgba(10, 10, 11, 0.78);
 }
 
 .MuiTypography-root:where(.emotion-3 .MuiListItemText-primary) {
@@ -79,10 +59,11 @@ exports[`LeftNav Component > renders correctly 1`] = `
 
 .emotion-4 {
   margin: 0;
-  line-height: 1.5;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
 }
 
 .emotion-17 {
@@ -122,23 +103,7 @@ exports[`LeftNav Component > renders correctly 1`] = `
   padding-bottom: 8px;
   padding-left: 16px;
   padding-right: 16px;
-  padding-top: 11px;
-  padding-bottom: 11px;
   padding: 16px 16px 16px 42px;
-}
-
-.emotion-18.active {
-  background-color: #fff;
-}
-
-.emotion-18.leftNav.active {
-  border-top: 1px solid #d4e9e7;
-  border-bottom: 1px solid #d4e9e7;
-}
-
-.emotion-18.navLink,
-.emotion-18.navLink .MuiListItemText-root {
-  color: #969696;
 }
 
 .emotion-22 {
@@ -150,9 +115,6 @@ exports[`LeftNav Component > renders correctly 1`] = `
   margin-bottom: 4px;
   margin-top: 6px;
   margin-bottom: 6px;
-  margin-top: 0;
-  margin-bottom: 0;
-  color: rgba(10, 10, 11, 0.78);
 }
 
 .MuiTypography-root:where(.emotion-22 .MuiListItemText-primary) {
@@ -165,11 +127,12 @@ exports[`LeftNav Component > renders correctly 1`] = `
 
 .emotion-24 {
   margin: 0;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.43;
-  color: rgba(0, 0, 0, 0.54);
+  letter-spacing: 0.01071em;
+  color: rgba(0, 0, 0, 0.6);
   line-height: 2em;
 }
 
@@ -177,7 +140,7 @@ exports[`LeftNav Component > renders correctly 1`] = `
   font-size: 13px;
   position: relative;
   top: 6px;
-  color: #337a87;
+  color: #1976d2;
 }
 
 <div

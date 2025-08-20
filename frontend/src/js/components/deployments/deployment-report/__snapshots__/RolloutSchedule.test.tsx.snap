@@ -2,7 +2,7 @@
 
 exports[`RolloutSchedule Component > renders correctly 1`] = `
 .emotion-0 {
-  border-bottom: 1px solid #d4e9e7;
+  border-bottom: 1px solid #fafafa;
 }
 
 .emotion-0 span {
@@ -10,7 +10,7 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
 }
 
 .emotion-1 .key>b {
-  background-color: #f7f7f7;
+  background-color: #bdbdbd;
   color: rgba(0, 0, 0, 0.87);
 }
 
@@ -28,17 +28,13 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
+  font-size: 1.5rem;
   margin-left: 32px;
   margin-right: 32px;
 }
 
-.emotion-2 iconButton {
-  margin-right: 8px;
-}
-
 .emotion-4 {
-  background-color: #f7f7f7;
+  background-color: #bdbdbd;
   padding: 10px 20px;
   border-radius: 4px;
   -webkit-box-pack: center;
@@ -68,7 +64,7 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
 }
 
 .emotion-4 .progress-step-total .progress-bar {
-  background-color: #d4e9e7;
+  background-color: #fafafa;
 }
 
 .emotion-4 .progress-step-number {
@@ -93,7 +89,7 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
 
 .emotion-4.stepped-progress .progress-step-total .progress-bar {
   background-color: #fff;
-  border: 1px solid #a9a9a9;
+  border: 1px solid #424242;
   border-radius: 2px;
   height: 12px;
 }
@@ -111,8 +107,8 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
 
 .emotion-6 {
   max-width: 100%;
-  font-family: Lato,sans-serif;
-  font-size: 0.7545rem;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-size: 0.8125rem;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -127,7 +123,7 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
   justify-content: center;
   height: 32px;
   line-height: 1.5;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
   white-space: nowrap;
@@ -159,18 +155,18 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
   margin-right: -6px;
   width: 24px;
   height: 24px;
-  color: #bcbcbc;
-  font-size: 0.6964rem;
+  color: #616161;
+  font-size: 0.75rem;
 }
 
 .emotion-6 .MuiChip-avatarColorPrimary {
   color: #fff;
-  background-color: rgb(35, 85, 94);
+  background-color: #1565c0;
 }
 
 .emotion-6 .MuiChip-avatarColorSecondary {
   color: #fff;
-  background-color: rgb(65, 10, 46);
+  background-color: #7b1fa2;
 }
 
 .emotion-6 .MuiChip-avatarSmall {
@@ -178,7 +174,7 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
   margin-right: -4px;
   width: 18px;
   height: 18px;
-  font-size: 0.5804rem;
+  font-size: 0.625rem;
 }
 
 .emotion-6 .MuiChip-icon {
@@ -188,14 +184,14 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
 
 .emotion-6 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
-  color: rgba(10, 10, 11, 0.26);
+  color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
   cursor: pointer;
   margin: 0 5px 0 -6px;
 }
 
 .emotion-6 .MuiChip-deleteIcon:hover {
-  color: rgba(10, 10, 11, 0.4);
+  color: rgba(0, 0, 0, 0.4);
 }
 
 .emotion-6 .MuiChip-icon {
@@ -211,7 +207,7 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
 }
 
 .emotion-6 .MuiChip-icon {
-  color: #bcbcbc;
+  color: #616161;
 }
 
 .emotion-7 {
