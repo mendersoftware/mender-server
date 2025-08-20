@@ -12,12 +12,15 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
+import * as StoreThunks from '@northern.tech/store/thunks';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
 import { Billing } from './Billing';
+
+vi.mock('@northern.tech/store/thunks', { spy: true });
 
 const preloadedState = {
   organization: {
@@ -77,10 +80,9 @@ describe('Billing Component', () => {
   });
 
   it('supports modifying billing profile', async () => {
-    const OrganizationActions = await import('@northern.tech/store/organizationSlice/thunks');
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const { editBillingProfile: editProfileAction } = StoreThunks;
     const ui = <Billing />;
-    const editProfileAction = vi.spyOn(OrganizationActions, 'editBillingProfile');
     render(ui, { preloadedState });
     expect(screen.getByText(/1234, test city/i)).toBeVisible();
     await act(async () => await user.click(screen.getByRole('button', { name: /edit/i })));
