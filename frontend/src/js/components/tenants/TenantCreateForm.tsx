@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -26,11 +26,10 @@ import Form from '@northern.tech/common-ui/forms/Form';
 import FormCheckbox from '@northern.tech/common-ui/forms/FormCheckbox';
 import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
-import Api from '@northern.tech/store/api/general-api';
-import { TIMEOUTS, rolesByName, useradmApiUrlv1 } from '@northern.tech/store/constants';
+import { TIMEOUTS, rolesByName } from '@northern.tech/store/constants';
 import { getOrganization, getSsoConfig } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
-import { addTenant, getSsoConfigs } from '@northern.tech/store/thunks';
+import { addTenant, checkEmailExists, getSsoConfigs } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 
 import { HELPTOOLTIPS } from '../helptips/HelpTooltips';
@@ -60,7 +59,7 @@ const useStyles = makeStyles()(theme => ({
 
 interface UserInputsProps {
   adminExists: boolean;
-  setAdminExists: Dispatch<SetStateAction<boolean>>;
+  checkEmailExists: (email: string) => Promise<void>;
 }
 
 const userExistsInfo =
@@ -68,12 +67,8 @@ const userExistsInfo =
 const newUserInfo = 'This will create a new user as admin of the new tenant.';
 
 const UserInputs = (props: UserInputsProps) => {
-  const { setAdminExists, adminExists } = props;
+  const { checkEmailExists, adminExists } = props;
   const [emailInfoText, setEmailInfoText] = useState<string>('');
-  const checkEmailExists = async (email: string) => {
-    const response = await Api.get(`${useradmApiUrlv1}/users/exists?email=${encodeURIComponent(email)}`);
-    return response.data.exists;
-  };
 
   const { watch, getFieldState, setValue } = useFormContext();
 
@@ -85,19 +80,21 @@ const UserInputs = (props: UserInputsProps) => {
     if (!debouncedEmail || isInvalidEmail) {
       return;
     }
-    const existingEmailCheck = async () => {
-      const exists = await checkEmailExists(debouncedEmail);
-      if (exists) {
-        setAdminExists(true);
-        setEmailInfoText(userExistsInfo);
-        setValue('password', '');
-      } else {
-        setAdminExists(false);
-        setEmailInfoText(newUserInfo);
-      }
-    };
-    existingEmailCheck();
-  }, [debouncedEmail, getFieldState, setAdminExists, setValue]);
+    checkEmailExists(debouncedEmail);
+  }, [debouncedEmail, getFieldState, checkEmailExists]);
+
+  useEffect(() => {
+    const { invalid: isInvalidEmail } = getFieldState('email');
+    if (!debouncedEmail || isInvalidEmail) {
+      return;
+    }
+    if (adminExists) {
+      setEmailInfoText(userExistsInfo);
+      setValue('password', '');
+      return;
+    }
+    setEmailInfoText(newUserInfo);
+  }, [debouncedEmail, getFieldState, setValue, adminExists]);
 
   return (
     <>
@@ -146,6 +143,14 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
     dispatch(getSsoConfigs());
   }, [dispatch]);
 
+  const onCheckEmailExists = useCallback(
+    async (email: string) => {
+      const exists = await dispatch(checkEmailExists(email)).unwrap();
+      setAdminExists(exists);
+    },
+    [dispatch]
+  );
+
   const submitNewTenant = useCallback(
     async data => {
       const { email, password, device_limit, send_reset_password, sso, ...remainder } = data;
@@ -186,7 +191,7 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
           </Alert>
         )}
         <TextInput required validations="isLength:3,trim" id="name" hint="Name" label="Name" />
-        <UserInputs adminExists={adminExists} setAdminExists={setAdminExists} />
+        <UserInputs adminExists={adminExists} checkEmailExists={onCheckEmailExists} />
         <div className="flexbox center-aligned">
           <TextInput
             required
