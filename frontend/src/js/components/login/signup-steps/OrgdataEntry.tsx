@@ -21,7 +21,8 @@ import DocsLink from '@northern.tech/common-ui/DocsLink';
 import Form from '@northern.tech/common-ui/forms/Form';
 import FormCheckbox from '@northern.tech/common-ui/forms/FormCheckbox';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
-import { locations } from '@northern.tech/store/constants';
+
+import { locationMap } from '../Login';
 
 export type OrgData = {
   captcha: string | null;
@@ -63,7 +64,7 @@ const OrgDataContent = ({
           render={({ field }) => (
             <Select
               renderValue={selected => {
-                const { icon: Icon, title } = locations[selected];
+                const { icon: Icon, title } = locationMap[selected];
                 return (
                   <div className="flexbox center-aligned">
                     {title} <Icon className={classes.locationIcon} />
@@ -72,7 +73,7 @@ const OrgDataContent = ({
               }}
               {...field}
             >
-              {Object.entries(locations).map(([key, { icon: Icon, title }]) => (
+              {Object.entries(locationMap).map(([key, { icon: Icon, title }]) => (
                 <MenuItem key={key} value={key}>
                   {title} <Icon className={classes.locationIcon} />
                 </MenuItem>
