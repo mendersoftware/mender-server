@@ -14,6 +14,7 @@
 import { defaultState } from '@/testUtils';
 import { render } from '@/testUtils';
 import { TIMEOUTS, rolesByName } from '@northern.tech/store/constants';
+import * as StoreThunks from '@northern.tech/store/thunks';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -21,6 +22,8 @@ import { expect, vi } from 'vitest';
 
 import { TenantCreateForm } from './TenantCreateForm';
 import { TenantPage } from './TenantPage';
+
+vi.mock('@northern.tech/store/thunks', { spy: true });
 
 describe('TenantsForm', () => {
   it('renders correctly', async () => {
@@ -32,9 +35,8 @@ describe('TenantsForm', () => {
   });
 
   it('works as expected', { timeout: TIMEOUTS.refreshDefault }, async () => {
-    const OrganizationActions = await import('@northern.tech/store/organizationSlice/thunks');
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    const submitTenantSpy = vi.spyOn(OrganizationActions, 'addTenant');
+    const { addTenant: submitTenantSpy } = StoreThunks;
 
     const newChildTenant = { name: 'ChildTenant', email: 'child+123@example.com', password: 'MySecurePassword2025', dev: '2' };
     const preloadedState = {

@@ -15,12 +15,15 @@ import { defaultState, render } from '@/testUtils';
 import { Tenant } from '@northern.tech/store/api/types/Tenant';
 import { getSessionInfo } from '@northern.tech/store/auth';
 import { initialState as initialOrganizationState } from '@northern.tech/store/organizationSlice';
+import * as StoreThunks from '@northern.tech/store/thunks';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
 import { ExpandedTenant } from './ExpandedTenant';
+
+vi.mock('@northern.tech/store/thunks', { spy: true });
 
 const state = {
   ...defaultState,
@@ -73,7 +76,7 @@ describe('ExpandedTenant', () => {
   });
   it('works as intended', async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    const editDeviceLimit = vi.spyOn(OrganizationActions, 'editTenantDeviceLimit');
+    const { editTenantDeviceLimit: editDeviceLimit } = StoreThunks;
 
     const newLimit = '5';
     render(<ExpandedTenant onCloseClick={vi.fn} tenant={tenant} />, {

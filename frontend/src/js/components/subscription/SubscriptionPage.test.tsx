@@ -13,12 +13,15 @@
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
 import { ADDONS, PLANS, TIMEOUTS } from '@northern.tech/store/constants';
+import * as StoreThunks from '@northern.tech/store/thunks';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
 import { SubscriptionPage } from './SubscriptionPage';
+
+vi.mock('@northern.tech/store/thunks', { spy: true });
 
 const enterpriseReq = {
   content: {
@@ -63,9 +66,7 @@ describe('Subscription Summary component', () => {
 
   it('allows signing up', { timeout: 2 * TIMEOUTS.fiveSeconds }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    const organizationActions = await import('@northern.tech/store/organizationSlice/thunks');
-    const getBillingPreview = vi.spyOn(organizationActions, 'getBillingPreview');
-    const requestEnterprise = vi.spyOn(organizationActions, 'requestPlanChange');
+    const { getBillingPreview, requestPlanChange: requestEnterprise } = StoreThunks;
     const ui = <SubscriptionPage />;
     render(ui, {
       preloadedState: {

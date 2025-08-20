@@ -13,6 +13,7 @@
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
 import { PLANS } from '@northern.tech/store/appSlice/constants';
+import * as StoreThunks from '@northern.tech/store/thunks';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
@@ -21,6 +22,8 @@ import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
 import { SubscriptionDrawer } from './SubscriptionDrawer';
+
+vi.mock('@northern.tech/store/thunks', { spy: true });
 
 const createBillingProfileReq = {
   billingProfile: {
@@ -126,8 +129,7 @@ describe('Subscription Summary component', () => {
     const stripe = loadStripe();
 
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    const organizationActions = await import('@northern.tech/store/organizationSlice/thunks');
-    const createBillingProfile = vi.spyOn(organizationActions, 'createBillingProfile');
+    const { createBillingProfile } = StoreThunks;
     const ui = (
       <Elements stripe={stripe}>
         <SubscriptionDrawer
@@ -179,8 +181,7 @@ describe('Subscription Summary component', () => {
     const stripe = loadStripe();
 
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    const organizationActions = await import('@northern.tech/store/organizationSlice/thunks');
-    const requestPlanUpgrade = vi.spyOn(organizationActions, 'requestPlanUpgrade');
+    const { requestPlanUpgrade } = StoreThunks;
     const ui = (
       <Elements stripe={stripe}>
         <SubscriptionDrawer

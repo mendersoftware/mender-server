@@ -12,11 +12,14 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
+import * as StoreThunks from '@northern.tech/store/thunks';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
 
 import TerminalSession from './TerminalSession';
+
+vi.mock('@northern.tech/store/thunks', { spy: true });
 
 describe('TerminalSession Component', () => {
   let socketSpyFactory;
@@ -37,9 +40,7 @@ describe('TerminalSession Component', () => {
     socketSpyFactory.mockReset();
   });
   it('renders correctly', async () => {
-    const DeviceActions = await import('@northern.tech/store/devicesSlice/thunks');
-
-    const sessionSpy = vi.spyOn(DeviceActions, 'getSessionDetails');
+    const { getSessionDetails: sessionSpy } = StoreThunks;
     const ui = <TerminalSession item={defaultState.organization.auditlog.events[2]} />;
     const { baseElement, rerender } = render(ui, {
       preloadedState: {
