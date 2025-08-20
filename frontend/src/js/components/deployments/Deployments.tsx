@@ -32,7 +32,7 @@ import {
 import { abortDeployment, advanceOnboarding, getDynamicGroups, getGroups, setDeploymentsState } from '@northern.tech/store/thunks';
 import { getISOStringBoundaries } from '@northern.tech/utils/helpers';
 import { useWindowSize } from '@northern.tech/utils/resizehook';
-import { isUUID } from 'validator';
+import validator from 'validator';
 
 import { getOnboardingComponentFor } from '../../utils/onboardingManager';
 import CreateDeployment from './CreateDeployment';
@@ -41,6 +41,7 @@ import Past from './PastDeployments';
 import Report from './Report';
 import Scheduled from './ScheduledDeployments';
 
+const { isUUID } = validator;
 const { setSnackbar } = storeActions;
 
 const routes = {

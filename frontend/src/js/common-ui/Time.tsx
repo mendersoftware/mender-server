@@ -16,7 +16,7 @@ import { useEffect, useState } from 'react';
 import { Tooltip } from '@mui/material';
 
 import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
+import relativeTime from 'dayjs/plugin/relativeTime.js';
 import pluralize from 'pluralize';
 
 const defaultDateFormat = 'YYYY-MM-DD';
