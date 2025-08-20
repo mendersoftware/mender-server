@@ -13,8 +13,7 @@
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
 import GeneralApi from '@northern.tech/store/api/general-api';
-import { TIMEOUTS } from '@northern.tech/store/commonConstants';
-import { apiUrl } from '@northern.tech/store/constants';
+import { TIMEOUTS, apiUrl } from '@northern.tech/store/constants';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { act, prettyDOM, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
