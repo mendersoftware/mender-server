@@ -69,10 +69,11 @@ exports[`Deployments Component > renders correctly 1`] = `
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.25;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   max-width: 360px;
   min-width: 90px;
@@ -88,8 +89,7 @@ exports[`Deployments Component > renders correctly 1`] = `
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
-  color: rgba(0, 0, 0, 0.54);
-  text-transform: none;
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .emotion-3::-moz-focus-inner {
@@ -109,7 +109,7 @@ exports[`Deployments Component > renders correctly 1`] = `
 }
 
 .emotion-3.Mui-selected {
-  color: #337a87;
+  color: #1976d2;
 }
 
 .emotion-3.Mui-disabled {
@@ -123,7 +123,7 @@ exports[`Deployments Component > renders correctly 1`] = `
   width: 100%;
   -webkit-transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  background-color: #337a87;
+  background-color: #1976d2;
 }
 
 .emotion-7 {
@@ -159,10 +159,11 @@ exports[`Deployments Component > renders correctly 1`] = `
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.75;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   min-width: 64px;
   padding: 6px 16px;
@@ -173,16 +174,13 @@ exports[`Deployments Component > renders correctly 1`] = `
   color: var(--variant-containedColor);
   background-color: var(--variant-containedBg);
   box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
-  --variant-textColor: #5d0f43;
-  --variant-outlinedColor: #5d0f43;
-  --variant-outlinedBorder: rgba(93, 15, 67, 0.5);
+  --variant-textColor: #9c27b0;
+  --variant-outlinedColor: #9c27b0;
+  --variant-outlinedBorder: rgba(156, 39, 176, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #5d0f43;
+  --variant-containedBg: #9c27b0;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 2px;
-  font-size: 14px;
-  font-weight: bold;
 }
 
 .emotion-7::-moz-focus-inner {
@@ -236,10 +234,10 @@ exports[`Deployments Component > renders correctly 1`] = `
 
 @media (hover: hover) {
   .emotion-7:hover {
-    --variant-containedBg: rgb(65, 10, 46);
-    --variant-textBg: rgba(93, 15, 67, 0.04);
-    --variant-outlinedBorder: #5d0f43;
-    --variant-outlinedBg: rgba(93, 15, 67, 0.04);
+    --variant-containedBg: #7b1fa2;
+    --variant-textBg: rgba(156, 39, 176, 0.04);
+    --variant-outlinedBorder: #9c27b0;
+    --variant-outlinedBg: rgba(156, 39, 176, 0.04);
   }
 }
 
@@ -247,16 +245,8 @@ exports[`Deployments Component > renders correctly 1`] = `
   color: transparent;
 }
 
-.emotion-7:hover {
-  colors: #337a87;
-}
-
-.emotion-7.MuiButton-text {
-  color: rgba(10, 10, 11, 0.78);
-}
-
 .emotion-8 {
-  border-bottom: 1px solid #d4e9e7;
+  border-bottom: 1px solid #fafafa;
 }
 
 .emotion-8 span {
@@ -268,7 +258,7 @@ exports[`Deployments Component > renders correctly 1`] = `
 }
 
 .emotion-11 {
-  background-color: #f7f7f7;
+  background-color: #bdbdbd;
   padding: 10px 20px;
   border-radius: 4px;
   -webkit-box-pack: center;
@@ -298,7 +288,7 @@ exports[`Deployments Component > renders correctly 1`] = `
 }
 
 .emotion-11 .progress-step-total .progress-bar {
-  background-color: #d4e9e7;
+  background-color: #fafafa;
 }
 
 .emotion-11 .progress-step-number {
@@ -323,7 +313,7 @@ exports[`Deployments Component > renders correctly 1`] = `
 
 .emotion-11.stepped-progress .progress-step-total .progress-bar {
   background-color: #fff;
-  border: 1px solid #a9a9a9;
+  border: 1px solid #424242;
   border-radius: 2px;
   height: 12px;
 }
@@ -379,10 +369,11 @@ exports[`Deployments Component > renders correctly 1`] = `
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.75;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   min-width: 64px;
   padding: 6px 16px;
@@ -393,18 +384,15 @@ exports[`Deployments Component > renders correctly 1`] = `
   color: var(--variant-containedColor);
   background-color: var(--variant-containedBg);
   box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
-  --variant-textColor: #337a87;
-  --variant-outlinedColor: #337a87;
-  --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
+  --variant-textColor: #1976d2;
+  --variant-outlinedColor: #1976d2;
+  --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #337a87;
+  --variant-containedBg: #1976d2;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 2px;
-  font-size: 14px;
-  font-weight: bold;
   background-color: transparent;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
   justify-self: center;
   text-transform: none;
 }
@@ -460,10 +448,10 @@ exports[`Deployments Component > renders correctly 1`] = `
 
 @media (hover: hover) {
   .emotion-13:hover {
-    --variant-containedBg: rgb(35, 85, 94);
-    --variant-textBg: rgba(51, 122, 135, 0.04);
-    --variant-outlinedBorder: #337a87;
-    --variant-outlinedBg: rgba(51, 122, 135, 0.04);
+    --variant-containedBg: #1565c0;
+    --variant-textBg: rgba(25, 118, 210, 0.04);
+    --variant-outlinedBorder: #1976d2;
+    --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
 }
 
@@ -472,16 +460,8 @@ exports[`Deployments Component > renders correctly 1`] = `
 }
 
 .emotion-13:hover {
-  colors: #337a87;
-}
-
-.emotion-13.MuiButton-text {
-  color: rgba(10, 10, 11, 0.78);
-}
-
-.emotion-13:hover {
   background-color: transparent;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .emotion-14 {
@@ -521,7 +501,7 @@ exports[`Deployments Component > renders correctly 1`] = `
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
-  font-size: 1.3929rem;
+  font-size: 1.5rem;
   padding: 8px;
   border-radius: 50%;
   color: rgba(0, 0, 0, 0.54);
@@ -529,9 +509,7 @@ exports[`Deployments Component > renders correctly 1`] = `
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   --IconButton-hoverBg: rgba(0, 0, 0, 0.04);
   padding: 12px;
-  font-size: 1.625rem;
-  font-size: 1.2rem;
-  color: rgba(0, 0, 0, 0.54);
+  font-size: 1.75rem;
 }
 
 .emotion-14::-moz-focus-inner {
@@ -583,11 +561,7 @@ exports[`Deployments Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-}
-
-.emotion-15 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
 }
 
 .emotion-25 {
@@ -607,23 +581,17 @@ exports[`Deployments Component > renders correctly 1`] = `
   font-size: inherit;
 }
 
-.emotion-25 iconButton {
-  margin-right: 8px;
-}
-
 .emotion-29 {
   border-color: rgba(0, 0, 0, 0.06);
-  background-color: #fdfdfd;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .emotion-29 .dashboard-header span {
-  background-color: #fdfdfd;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .emotion-29 .MuiButtonBase-root {
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
 }
 
 <div
@@ -992,10 +960,7 @@ exports[`Deployments Component > renders correctly 1`] = `
                 </span>
                 <div
                   class="text-overflow emotion-9"
-                  title="r1"
-                >
-                  r1
-                </div>
+                />
               </div>
               <div>
                 <span
@@ -1057,7 +1022,7 @@ exports[`Deployments Component > renders correctly 1`] = `
                 <div
                   class="align-right column-defined"
                 >
-                  1
+                  0
                 </div>
               </div>
               <div>
@@ -1081,7 +1046,7 @@ exports[`Deployments Component > renders correctly 1`] = `
                       >
                         <div
                           class="progress-bar"
-                          style="width: 100%; background-color: rgb(170, 170, 170);"
+                          style="width: 1%; background-color: rgb(170, 170, 170);"
                         />
                         <div
                           style="display: contents;"
@@ -1608,10 +1573,7 @@ exports[`Deployments Component > renders correctly 1`] = `
                 </span>
                 <div
                   class="text-overflow "
-                  title="r1"
-                >
-                  r1
-                </div>
+                />
               </div>
               <div>
                 <span
@@ -1673,7 +1635,7 @@ exports[`Deployments Component > renders correctly 1`] = `
                 <div
                   class="align-right column-defined"
                 >
-                  1
+                  0
                 </div>
               </div>
               <div>
@@ -1697,7 +1659,7 @@ exports[`Deployments Component > renders correctly 1`] = `
                       >
                         <div
                           class="progress-bar"
-                          style="width: 100%; background-color: rgb(170, 170, 170);"
+                          style="width: 1%; background-color: rgb(170, 170, 170);"
                         />
                         <div
                           style="display: contents;"

@@ -6,28 +6,28 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
     class=""
   >
     <h6
-      class="MuiTypography-root MuiTypography-subtitle1 margin-bottom css-opuhgx-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-subtitle1 margin-bottom css-1i3tsf3-MuiTypography-root"
     >
       Generated Delta Artifacts
     </h6>
     <table
-      class="MuiTable-root margin-bottom css-19k175z-MuiTable-root-table"
+      class="MuiTable-root margin-bottom css-1fvfwwm-MuiTable-root-table"
     >
       <thead
         class="MuiTableHead-root css-f2jk7z-MuiTableHead-root-header"
       >
         <tr
-          class="MuiTableRow-root MuiTableRow-head css-1iwsoa3-MuiTableRow-root"
+          class="MuiTableRow-root MuiTableRow-head css-1xtozoh-MuiTableRow-root"
         >
           <th
-            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader css-1549o8m-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader css-1orzuox-MuiTableCell-root"
             scope="col"
             style="width: 20%;"
           >
             To version
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon true css-1j3vvli-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon true css-1umw9bq-MuiSvgIcon-root"
               data-testid="SortIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -38,14 +38,14 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
             </svg>
           </th>
           <th
-            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader css-1549o8m-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader css-1orzuox-MuiTableCell-root"
             scope="col"
             style="width: 20%;"
           >
             From version
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon true css-1j3vvli-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon true css-1umw9bq-MuiSvgIcon-root"
               data-testid="SortIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -56,21 +56,21 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
             </svg>
           </th>
           <th
-            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable css-1549o8m-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable css-1orzuox-MuiTableCell-root"
             scope="col"
             style="width: 25%;"
           >
             Device types compatible
           </th>
           <th
-            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader css-1549o8m-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader css-1orzuox-MuiTableCell-root"
             scope="col"
             style="width: 10%;"
           >
             Started
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon selected true css-1j3vvli-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon selected true css-1umw9bq-MuiSvgIcon-root"
               data-testid="SortIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -81,14 +81,14 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
             </svg>
           </th>
           <th
-            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader css-1549o8m-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader css-1orzuox-MuiTableCell-root"
             scope="col"
             style="width: 20%;"
           >
             Status
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon true css-1j3vvli-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon true css-1umw9bq-MuiSvgIcon-root"
               data-testid="SortIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -99,7 +99,7 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
             </svg>
           </th>
           <th
-            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable css-1549o8m-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable css-1orzuox-MuiTableCell-root"
             scope="col"
             style="width: 5%;"
           />
@@ -109,10 +109,10 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
         class="MuiTableBody-root css-gmh7jj-MuiTableBody-root"
       >
         <tr
-          class="MuiTableRow-root MuiTableRow-hover clickable css-1iwsoa3-MuiTableRow-root"
+          class="MuiTableRow-root MuiTableRow-hover clickable css-1xtozoh-MuiTableRow-root"
         >
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-15kh05q-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
           >
             <a
               data-discover="true"
@@ -122,7 +122,7 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
             </a>
           </td>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-15kh05q-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
           >
             <a
               data-discover="true"
@@ -132,12 +132,12 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
             </a>
           </td>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-15kh05q-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
           >
             qemux86-64
           </td>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-15kh05q-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
           >
             <time
               datetime="2022-07-11T20:49:00+00:00"
@@ -146,7 +146,7 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
             </time>
           </td>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-15kh05q-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
           >
             <div
               class="capitalized-start"
@@ -157,25 +157,25 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
               aria-valuemax="100"
               aria-valuemin="0"
               aria-valuenow="100"
-              class="MuiLinearProgress-root MuiLinearProgress-colorSuccess MuiLinearProgress-determinate absolute full-width css-1kaulsh-MuiLinearProgress-root"
+              class="MuiLinearProgress-root MuiLinearProgress-colorSuccess MuiLinearProgress-determinate absolute full-width css-usppja-MuiLinearProgress-root"
               role="progressbar"
               style="bottom: 0px;"
             >
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorSuccess MuiLinearProgress-bar1Determinate css-1i2fr5i-MuiLinearProgress-bar1"
+                class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorSuccess MuiLinearProgress-bar1Determinate css-1c6qn6j-MuiLinearProgress-bar1"
                 style="transform: translateX(0%);"
               />
             </span>
           </td>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-15kh05q-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
           />
         </tr>
         <tr
-          class="MuiTableRow-root MuiTableRow-hover clickable css-1iwsoa3-MuiTableRow-root"
+          class="MuiTableRow-root MuiTableRow-hover clickable css-1xtozoh-MuiTableRow-root"
         >
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-15kh05q-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
           >
             <a
               data-discover="true"
@@ -185,7 +185,7 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
             </a>
           </td>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-15kh05q-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
           >
             <a
               data-discover="true"
@@ -195,12 +195,12 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
             </a>
           </td>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-15kh05q-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
           >
             raspberrypi0w, raspberrypi0-wifi, raspberrypi3, raspberrypi4
           </td>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-15kh05q-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
           >
             <time
               datetime="2022-07-11T20:49:00+00:00"
@@ -209,7 +209,7 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
             </time>
           </td>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-15kh05q-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
           >
             <div
               class="capitalized-start"
@@ -220,18 +220,18 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
               aria-valuemax="100"
               aria-valuemin="0"
               aria-valuenow="100"
-              class="MuiLinearProgress-root MuiLinearProgress-colorSecondary MuiLinearProgress-determinate absolute full-width css-14n68pu-MuiLinearProgress-root"
+              class="MuiLinearProgress-root MuiLinearProgress-colorSecondary MuiLinearProgress-determinate absolute full-width css-12omkhz-MuiLinearProgress-root"
               role="progressbar"
               style="bottom: 0px;"
             >
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorSecondary MuiLinearProgress-bar1Determinate css-1jyv3jb-MuiLinearProgress-bar1"
+                class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorSecondary MuiLinearProgress-bar1Determinate css-sselmm-MuiLinearProgress-bar1"
                 style="transform: translateX(0%);"
               />
             </span>
           </td>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-15kh05q-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
           />
         </tr>
       </tbody>
@@ -240,7 +240,7 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
       class="flexbox"
     >
       <div
-        class="MuiTablePagination-root flexbox margin-top margin-top-none css-15pl5qu-MuiTablePagination-root"
+        class="MuiTablePagination-root flexbox margin-top margin-top-none css-7mt0f-MuiTablePagination-root"
       >
         <div
           class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-1gak8h1-MuiToolbar-root-MuiTablePagination-toolbar"
@@ -249,20 +249,20 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
             class="MuiTablePagination-spacer flexbox no-basis css-1wtxofq-MuiTablePagination-spacer"
           />
           <p
-            class="MuiTablePagination-selectLabel css-15wkzhc-MuiTablePagination-selectLabel"
-            
+            class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
+            id="«r2»"
           >
             Rows
           </p>
           <div
-            class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiSelect-root MuiTablePagination-input css-11kq5w2-MuiInputBase-root-MuiTablePagination-select"
+            class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiSelect-root MuiTablePagination-input css-oegngy-MuiInputBase-root-MuiTablePagination-select"
           >
             <div
               aria-expanded="false"
               aria-haspopup="listbox"
-              
+              aria-labelledby="«r2» «r1»"
               class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
-              
+              id="«r1»"
               role="combobox"
               tabindex="0"
             >
@@ -278,7 +278,7 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
             />
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-h5hq1r-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-ug7h84-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
               data-testid="ArrowDropDownIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -289,7 +289,7 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
             </svg>
           </div>
           <p
-            class="MuiTablePagination-displayedRows css-uam3tq-MuiTablePagination-displayedRows"
+            class="MuiTablePagination-displayedRows css-11cfq65-MuiTablePagination-displayedRows"
           />
           <div
             class="flexbox center-aligned"
@@ -299,14 +299,14 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
             </div>
             <button
               aria-label="prev"
-              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
+              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-154kngp-MuiButtonBase-root-MuiIconButton-root"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1j3vvli-MuiSvgIcon-root"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                 data-testid="KeyboardArrowLeftIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -319,14 +319,14 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
             <div>
               <button
                 aria-label="next"
-                class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
+                class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-154kngp-MuiButtonBase-root-MuiIconButton-root"
                 disabled=""
                 tabindex="-1"
                 type="button"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1j3vvli-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                   data-testid="KeyboardArrowRightIcon"
                   focusable="false"
                   viewBox="0 0 24 24"

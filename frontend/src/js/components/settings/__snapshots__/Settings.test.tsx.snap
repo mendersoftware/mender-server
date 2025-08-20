@@ -915,8 +915,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
           <label
             class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-28"
             data-shrink="true"
-            for=":r0:"
-            id=":r0:-label"
+            for="«r0»"
+            id="«r0»-label"
           >
             User ID
           </label>
@@ -927,7 +927,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
               aria-invalid="false"
               class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-30"
               disabled=""
-              id=":r0:"
+              id="«r0»"
               type="text"
               value="a1"
             />
@@ -986,8 +986,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
           <label
             class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-28"
             data-shrink="true"
-            for=":r2:"
-            id=":r2:-label"
+            for="«r2»"
+            id="«r2»-label"
           >
             Email
           </label>
@@ -998,7 +998,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
               aria-invalid="false"
               class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-30"
               disabled=""
-              id=":r2:"
+              id="«r2»"
               type="text"
               value="a@b.com"
             />
@@ -1034,8 +1034,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
           <label
             class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-28"
             data-shrink="true"
-            for=":r4:"
-            id=":r4:-label"
+            for="«r4»"
+            id="«r4»-label"
           >
             Password
           </label>
@@ -1046,7 +1046,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
               aria-invalid="false"
               class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-30"
               disabled=""
-              id=":r4:"
+              id="«r4»"
               type="password"
               value="********"
             />

@@ -55,11 +55,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-}
-
-.emotion-2 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
 }
 
 .emotion-3 {
@@ -95,10 +91,11 @@ exports[`Dashboard Component > renders correctly 1`] = `
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.75;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   min-height: 36px;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -111,9 +108,9 @@ exports[`Dashboard Component > renders correctly 1`] = `
   z-index: 1050;
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
   color: rgba(0, 0, 0, 0.87);
-  background-color: #e6f2f1;
+  background-color: #e0e0e0;
   color: #fff;
-  background-color: #337a87;
+  background-color: #1976d2;
   top: -28px;
   right: 16px;
   z-index: 1;
@@ -147,7 +144,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
 
 @media (hover: none) {
   .emotion-3:hover {
-    background-color: #e6f2f1;
+    background-color: #e0e0e0;
   }
 }
 
@@ -156,12 +153,12 @@ exports[`Dashboard Component > renders correctly 1`] = `
 }
 
 .emotion-3:hover {
-  background-color: rgb(35, 85, 94);
+  background-color: #1565c0;
 }
 
 @media (hover: none) {
   .emotion-3:hover {
-    background-color: #337a87;
+    background-color: #1976d2;
   }
 }
 
@@ -209,8 +206,8 @@ exports[`Dashboard Component > renders correctly 1`] = `
   text-decoration: none;
   color: inherit;
   max-width: 100%;
-  font-family: Lato,sans-serif;
-  font-size: 0.7545rem;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-size: 0.8125rem;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -225,7 +222,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
   justify-content: center;
   height: 32px;
   line-height: 1.5;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
   white-space: nowrap;
@@ -279,18 +276,18 @@ exports[`Dashboard Component > renders correctly 1`] = `
   margin-right: -6px;
   width: 24px;
   height: 24px;
-  color: #bcbcbc;
-  font-size: 0.6964rem;
+  color: #616161;
+  font-size: 0.75rem;
 }
 
 .emotion-6 .MuiChip-avatarColorPrimary {
   color: #fff;
-  background-color: rgb(35, 85, 94);
+  background-color: #1565c0;
 }
 
 .emotion-6 .MuiChip-avatarColorSecondary {
   color: #fff;
-  background-color: rgb(65, 10, 46);
+  background-color: #7b1fa2;
 }
 
 .emotion-6 .MuiChip-avatarSmall {
@@ -298,7 +295,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
   margin-right: -4px;
   width: 18px;
   height: 18px;
-  font-size: 0.5804rem;
+  font-size: 0.625rem;
 }
 
 .emotion-6 .MuiChip-icon {
@@ -308,18 +305,18 @@ exports[`Dashboard Component > renders correctly 1`] = `
 
 .emotion-6 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
-  color: rgba(10, 10, 11, 0.26);
+  color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
   cursor: pointer;
   margin: 0 5px 0 -6px;
 }
 
 .emotion-6 .MuiChip-deleteIcon:hover {
-  color: rgba(10, 10, 11, 0.4);
+  color: rgba(0, 0, 0, 0.4);
 }
 
 .emotion-6 .MuiChip-icon {
-  color: #bcbcbc;
+  color: #616161;
 }
 
 .emotion-6:hover {
@@ -364,12 +361,8 @@ exports[`Dashboard Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-  color: #337a87;
-}
-
-.emotion-8 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
+  color: #1976d2;
 }
 
 .emotion-8.read {
@@ -382,7 +375,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
   bottom: 0;
   left: -5px;
   right: -5px;
-  border: 1px dashed #337a87;
+  border: 1px dashed #1976d2;
   border-radius: 50%;
 }
 
@@ -416,7 +409,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
 
 @media (min-width:1536px) {
   .emotion-13 {
-    border-left: 1px solid #e9e9e9;
+    border-left: 1px solid #9e9e9e;
     margin-top: -16px;
     padding-left: 48px;
     padding-top: 16px;
@@ -432,7 +425,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  background-color: #f7f7f7;
+  background-color: #bdbdbd;
   border-radius: 8px;
   -webkit-column-gap: 16px;
   column-gap: 16px;
@@ -463,12 +456,8 @@ exports[`Dashboard Component > renders correctly 1`] = `
   font-size: inherit;
 }
 
-.emotion-15 iconButton {
-  margin-right: 8px;
-}
-
 .emotion-21 {
-  background-color: #f7f7f7;
+  background-color: #bdbdbd;
   padding: 10px 20px;
   border-radius: 4px;
   -webkit-box-pack: center;
@@ -498,7 +487,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
 }
 
 .emotion-21 .progress-step-total .progress-bar {
-  background-color: #d4e9e7;
+  background-color: #fafafa;
 }
 
 .emotion-21 .progress-step-number {
@@ -523,7 +512,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
 
 .emotion-21.stepped-progress .progress-step-total .progress-bar {
   background-color: #fff;
-  border: 1px solid #a9a9a9;
+  border: 1px solid #424242;
   border-radius: 2px;
   height: 12px;
 }

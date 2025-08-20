@@ -3,10 +3,11 @@
 exports[`Billing Component > renders correctly 1`] = `
 .emotion-0 {
   margin: 0;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 1.1607rem;
+  font-size: 1.25rem;
   line-height: 1.6;
+  letter-spacing: 0.0075em;
 }
 
 .emotion-1 {
@@ -23,10 +24,11 @@ exports[`Billing Component > renders correctly 1`] = `
 
 .emotion-5 {
   margin: 0;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
+  font-size: 1rem;
   line-height: 1.75;
+  letter-spacing: 0.00938em;
 }
 
 .emotion-6 {
@@ -42,14 +44,15 @@ exports[`Billing Component > renders correctly 1`] = `
 
 .emotion-7 {
   margin: 0;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.43;
+  letter-spacing: 0.01071em;
 }
 
 .emotion-14 {
-  background-color: #d8ebe9;
+  background-color: #f5f5f5;
   border-radius: 4px;
   padding: 16px;
   padding-top: 0;
@@ -92,10 +95,11 @@ exports[`Billing Component > renders correctly 1`] = `
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.75;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   min-width: 64px;
   padding: 6px 16px;
@@ -106,19 +110,15 @@ exports[`Billing Component > renders correctly 1`] = `
   padding: 6px 8px;
   color: var(--variant-textColor);
   background-color: var(--variant-textBg);
-  --variant-textColor: #337a87;
-  --variant-outlinedColor: #337a87;
-  --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
+  --variant-textColor: #1976d2;
+  --variant-outlinedColor: #1976d2;
+  --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #337a87;
+  --variant-containedBg: #1976d2;
   padding: 4px 5px;
-  font-size: 0.7545rem;
+  font-size: 0.8125rem;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 2px;
-  font-size: 14px;
-  font-weight: bold;
-  padding: 10px 15px;
 }
 
 .emotion-23::-moz-focus-inner {
@@ -148,23 +148,15 @@ exports[`Billing Component > renders correctly 1`] = `
 
 @media (hover: hover) {
   .emotion-23:hover {
-    --variant-containedBg: rgb(35, 85, 94);
-    --variant-textBg: rgba(51, 122, 135, 0.04);
-    --variant-outlinedBorder: #337a87;
-    --variant-outlinedBg: rgba(51, 122, 135, 0.04);
+    --variant-containedBg: #1565c0;
+    --variant-textBg: rgba(25, 118, 210, 0.04);
+    --variant-outlinedBorder: #1976d2;
+    --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
 }
 
 .emotion-23.MuiButton-loading {
   color: transparent;
-}
-
-.emotion-23:hover {
-  colors: #337a87;
-}
-
-.emotion-23.MuiButton-text {
-  color: rgba(10, 10, 11, 0.78);
 }
 
 .emotion-24 {
@@ -200,10 +192,11 @@ exports[`Billing Component > renders correctly 1`] = `
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.75;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   min-width: 64px;
   padding: 6px 16px;
@@ -214,18 +207,15 @@ exports[`Billing Component > renders correctly 1`] = `
   color: var(--variant-containedColor);
   background-color: var(--variant-containedBg);
   box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
-  --variant-textColor: #337a87;
-  --variant-outlinedColor: #337a87;
-  --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
+  --variant-textColor: #1976d2;
+  --variant-outlinedColor: #1976d2;
+  --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #337a87;
+  --variant-containedBg: #1976d2;
   padding: 4px 10px;
-  font-size: 0.7545rem;
+  font-size: 0.8125rem;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 2px;
-  font-size: 14px;
-  font-weight: bold;
 }
 
 .emotion-24::-moz-focus-inner {
@@ -279,10 +269,10 @@ exports[`Billing Component > renders correctly 1`] = `
 
 @media (hover: hover) {
   .emotion-24:hover {
-    --variant-containedBg: rgb(35, 85, 94);
-    --variant-textBg: rgba(51, 122, 135, 0.04);
-    --variant-outlinedBorder: #337a87;
-    --variant-outlinedBg: rgba(51, 122, 135, 0.04);
+    --variant-containedBg: #1565c0;
+    --variant-textBg: rgba(25, 118, 210, 0.04);
+    --variant-outlinedBorder: #1976d2;
+    --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
 }
 
@@ -290,26 +280,19 @@ exports[`Billing Component > renders correctly 1`] = `
   color: transparent;
 }
 
-.emotion-24:hover {
-  colors: #337a87;
-}
-
-.emotion-24.MuiButton-text {
-  color: rgba(10, 10, 11, 0.78);
-}
-
 .emotion-26 {
   background-color: #fff;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 4px;
   box-shadow: var(--Paper-shadow);
   background-image: var(--Paper-overlay);
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.43;
+  letter-spacing: 0.01071em;
   background-color: transparent;
   display: -webkit-box;
   display: -webkit-flex;
@@ -352,10 +335,6 @@ exports[`Billing Component > renders correctly 1`] = `
   font-size: inherit;
 }
 
-.emotion-28 iconButton {
-  margin-right: 8px;
-}
-
 .emotion-29 {
   padding: 8px 0;
   min-width: 0;
@@ -364,11 +343,12 @@ exports[`Billing Component > renders correctly 1`] = `
 
 .emotion-30 {
   margin: 0;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 1.1607rem;
+  font-size: 1.25rem;
   line-height: 1.6;
-  color: #ab1000;
+  letter-spacing: 0.0075em;
+  color: #d32f2f;
 }
 
 .emotion-32 {
@@ -404,10 +384,11 @@ exports[`Billing Component > renders correctly 1`] = `
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.75;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   min-width: 64px;
   padding: 6px 16px;
@@ -420,16 +401,13 @@ exports[`Billing Component > renders correctly 1`] = `
   border-color: var(--variant-outlinedBorder, currentColor);
   background-color: var(--variant-outlinedBg);
   color: var(--variant-outlinedColor);
-  --variant-textColor: #ab1000;
-  --variant-outlinedColor: #ab1000;
-  --variant-outlinedBorder: rgba(171, 16, 0, 0.5);
+  --variant-textColor: #d32f2f;
+  --variant-outlinedColor: #d32f2f;
+  --variant-outlinedBorder: rgba(211, 47, 47, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #ab1000;
+  --variant-containedBg: #d32f2f;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 2px;
-  font-size: 14px;
-  font-weight: bold;
 }
 
 .emotion-32::-moz-focus-inner {
@@ -463,23 +441,15 @@ exports[`Billing Component > renders correctly 1`] = `
 
 @media (hover: hover) {
   .emotion-32:hover {
-    --variant-containedBg: #770b00;
-    --variant-textBg: rgba(171, 16, 0, 0.04);
-    --variant-outlinedBorder: #ab1000;
-    --variant-outlinedBg: rgba(171, 16, 0, 0.04);
+    --variant-containedBg: #c62828;
+    --variant-textBg: rgba(211, 47, 47, 0.04);
+    --variant-outlinedBorder: #d32f2f;
+    --variant-outlinedBg: rgba(211, 47, 47, 0.04);
   }
 }
 
 .emotion-32.MuiButton-loading {
   color: transparent;
-}
-
-.emotion-32:hover {
-  colors: #337a87;
-}
-
-.emotion-32.MuiButton-text {
-  color: rgba(10, 10, 11, 0.78);
 }
 
 <body>

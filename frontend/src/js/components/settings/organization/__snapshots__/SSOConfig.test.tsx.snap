@@ -50,10 +50,11 @@ exports[`SamlConfig Component > renders correctly 1`] = `
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.75;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   min-width: 64px;
   padding: 6px 16px;
@@ -64,17 +65,13 @@ exports[`SamlConfig Component > renders correctly 1`] = `
   padding: 6px 8px;
   color: var(--variant-textColor);
   background-color: var(--variant-textBg);
-  --variant-textColor: #337a87;
-  --variant-outlinedColor: #337a87;
-  --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
+  --variant-textColor: #1976d2;
+  --variant-outlinedColor: #1976d2;
+  --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #337a87;
+  --variant-containedBg: #1976d2;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 2px;
-  font-size: 14px;
-  font-weight: bold;
-  padding: 10px 15px;
 }
 
 .emotion-1::-moz-focus-inner {
@@ -104,23 +101,15 @@ exports[`SamlConfig Component > renders correctly 1`] = `
 
 @media (hover: hover) {
   .emotion-1:hover {
-    --variant-containedBg: rgb(35, 85, 94);
-    --variant-textBg: rgba(51, 122, 135, 0.04);
-    --variant-outlinedBorder: #337a87;
-    --variant-outlinedBg: rgba(51, 122, 135, 0.04);
+    --variant-containedBg: #1565c0;
+    --variant-textBg: rgba(25, 118, 210, 0.04);
+    --variant-outlinedBorder: #1976d2;
+    --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
 }
 
 .emotion-1.MuiButton-loading {
   color: transparent;
-}
-
-.emotion-1:hover {
-  colors: #337a87;
-}
-
-.emotion-1.MuiButton-text {
-  color: rgba(10, 10, 11, 0.78);
 }
 
 .emotion-2 {
@@ -153,22 +142,6 @@ exports[`SamlConfig Component > renders correctly 1`] = `
   text-align: left;
   padding-top: 8px;
   padding-bottom: 8px;
-  padding-top: 11px;
-  padding-bottom: 11px;
-}
-
-.emotion-3.active {
-  background-color: #fff;
-}
-
-.emotion-3.leftNav.active {
-  border-top: 1px solid #d4e9e7;
-  border-bottom: 1px solid #d4e9e7;
-}
-
-.emotion-3.navLink,
-.emotion-3.navLink .MuiListItemText-root {
-  color: #969696;
 }
 
 .emotion-4 {
@@ -180,9 +153,6 @@ exports[`SamlConfig Component > renders correctly 1`] = `
   margin-bottom: 4px;
   margin-top: 6px;
   margin-bottom: 6px;
-  margin-top: 0;
-  margin-bottom: 0;
-  color: rgba(10, 10, 11, 0.78);
 }
 
 .MuiTypography-root:where(.emotion-4 .MuiListItemText-primary) {
@@ -195,19 +165,21 @@ exports[`SamlConfig Component > renders correctly 1`] = `
 
 .emotion-5 {
   margin: 0;
-  line-height: 1.5;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
 }
 
 .emotion-6 {
   margin: 0;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.43;
-  color: rgba(0, 0, 0, 0.54);
+  letter-spacing: 0.01071em;
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .emotion-7 {
@@ -224,11 +196,7 @@ exports[`SamlConfig Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.1607rem;
-}
-
-.emotion-7 iconButton {
-  margin-right: 8px;
+  font-size: 1.25rem;
 }
 
 <div>

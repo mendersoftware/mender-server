@@ -15,17 +15,13 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-}
-
-.emotion-0 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
 }
 
 .emotion-1 {
   max-width: 100%;
-  font-family: Lato,sans-serif;
-  font-size: 0.7545rem;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-size: 0.8125rem;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -40,7 +36,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   justify-content: center;
   height: 32px;
   line-height: 1.5;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
   white-space: nowrap;
@@ -55,7 +51,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   vertical-align: middle;
   box-sizing: border-box;
   height: 24px;
-  background-color: #337a87;
+  background-color: #1976d2;
   color: #fff;
 }
 
@@ -69,18 +65,18 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   margin-right: -6px;
   width: 24px;
   height: 24px;
-  color: #bcbcbc;
-  font-size: 0.6964rem;
+  color: #616161;
+  font-size: 0.75rem;
 }
 
 .emotion-1 .MuiChip-avatarColorPrimary {
   color: #fff;
-  background-color: rgb(35, 85, 94);
+  background-color: #1565c0;
 }
 
 .emotion-1 .MuiChip-avatarColorSecondary {
   color: #fff;
-  background-color: rgb(65, 10, 46);
+  background-color: #7b1fa2;
 }
 
 .emotion-1 .MuiChip-avatarSmall {
@@ -88,7 +84,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   margin-right: -4px;
   width: 18px;
   height: 18px;
-  font-size: 0.5804rem;
+  font-size: 0.625rem;
 }
 
 .emotion-1 .MuiChip-icon {
@@ -98,14 +94,14 @@ exports[`AuthStatus Component > renders correctly 1`] = `
 
 .emotion-1 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
-  color: rgba(10, 10, 11, 0.26);
+  color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
   cursor: pointer;
   margin: 0 5px 0 -6px;
 }
 
 .emotion-1 .MuiChip-deleteIcon:hover {
-  color: rgba(10, 10, 11, 0.4);
+  color: rgba(0, 0, 0, 0.4);
 }
 
 .emotion-1 .MuiChip-icon {
@@ -130,7 +126,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
 }
 
 .emotion-1 .MuiChip-icon {
-  color: #bcbcbc;
+  color: #616161;
 }
 
 .emotion-1 .MuiChip-icon {
@@ -148,7 +144,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
 }
 
 .emotion-3 {
-  background-color: #f7f7f7;
+  background-color: #03a9f4;
   margin-bottom: 16px;
   min-width: 700px;
   padding: 16px;
@@ -168,12 +164,8 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-  color: #337a87;
-}
-
-.emotion-4 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
+  color: #1976d2;
 }
 
 .emotion-4.read {
@@ -186,7 +178,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   bottom: 0;
   left: -5px;
   right: -5px;
-  border: 1px dashed #337a87;
+  border: 1px dashed #1976d2;
   border-radius: 50%;
 }
 
@@ -196,7 +188,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
 
 .emotion-6 .header,
 .emotion-6 .MuiAccordion-root {
-  border-bottom: 1px solid #cfcfcf;
+  border-bottom: 1px solid #757575;
 }
 
 .emotion-6 .columnHeader,
@@ -222,7 +214,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
 
 .emotion-8 {
   background-color: #fff;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   box-shadow: var(--Paper-shadow);
@@ -231,10 +223,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   -webkit-transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   overflow-anchor: none;
-  border: none;
-  box-shadow: none;
-  padding: 0;
-  background-color: #d4e9e7;
+  background-color: #03a9f4;
 }
 
 .emotion-8::before {
@@ -276,15 +265,6 @@ exports[`AuthStatus Component > renders correctly 1`] = `
 
 .emotion-8.Mui-expanded {
   margin: 16px 0;
-}
-
-.emotion-8:before {
-  display: none;
-}
-
-.emotion-8.Mui-expanded {
-  margin: auto;
-  background-color: #f7f7f7;
 }
 
 .emotion-8:before {
@@ -351,8 +331,6 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   padding: 0px 16px;
   -webkit-transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  margin-bottom: 0;
-  height: 48px;
 }
 
 .emotion-10::-moz-focus-inner {
@@ -387,11 +365,6 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   min-height: 64px;
 }
 
-.emotion-10.Mui-expanded {
-  height: 48px;
-  min-height: 48px;
-}
-
 .emotion-11 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -405,22 +378,10 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   margin: 12px 0;
   -webkit-transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
 }
 
 .emotion-11.Mui-expanded {
   margin: 20px 0;
-}
-
-.emotion-11.Mui-expanded {
-  margin: 0;
-}
-
-.emotion-11>:last-child {
-  padding-right: 12px;
 }
 
 .emotion-14 {
@@ -445,9 +406,6 @@ exports[`AuthStatus Component > renders correctly 1`] = `
 
 .emotion-18 {
   padding: 8px 16px 16px;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
 }
 
 .emotion-28 {
@@ -491,10 +449,11 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.75;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   min-width: 64px;
   padding: 6px 16px;
@@ -505,17 +464,13 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   padding: 6px 8px;
   color: var(--variant-textColor);
   background-color: var(--variant-textBg);
-  --variant-textColor: #5d0f43;
-  --variant-outlinedColor: #5d0f43;
-  --variant-outlinedBorder: rgba(93, 15, 67, 0.5);
+  --variant-textColor: #9c27b0;
+  --variant-outlinedColor: #9c27b0;
+  --variant-outlinedBorder: rgba(156, 39, 176, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #5d0f43;
+  --variant-containedBg: #9c27b0;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 2px;
-  font-size: 14px;
-  font-weight: bold;
-  padding: 10px 15px;
 }
 
 .emotion-29::-moz-focus-inner {
@@ -545,23 +500,15 @@ exports[`AuthStatus Component > renders correctly 1`] = `
 
 @media (hover: hover) {
   .emotion-29:hover {
-    --variant-containedBg: rgb(65, 10, 46);
-    --variant-textBg: rgba(93, 15, 67, 0.04);
-    --variant-outlinedBorder: #5d0f43;
-    --variant-outlinedBg: rgba(93, 15, 67, 0.04);
+    --variant-containedBg: #7b1fa2;
+    --variant-textBg: rgba(156, 39, 176, 0.04);
+    --variant-outlinedBorder: #9c27b0;
+    --variant-outlinedBg: rgba(156, 39, 176, 0.04);
   }
 }
 
 .emotion-29.MuiButton-loading {
   color: transparent;
-}
-
-.emotion-29:hover {
-  colors: #337a87;
-}
-
-.emotion-29.MuiButton-text {
-  color: rgba(10, 10, 11, 0.78);
 }
 
 <div
