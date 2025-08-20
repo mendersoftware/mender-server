@@ -14,7 +14,7 @@
 import { Route, Routes } from 'react-router-dom';
 
 import { defaultState, render } from '@/testUtils';
-import { TIMEOUTS } from '@northern.tech/store/commonConstants';
+import { TIMEOUTS } from '@northern.tech/store/constants';
 import { actions as deviceActions } from '@northern.tech/store/devicesSlice';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor } from '@testing-library/react';

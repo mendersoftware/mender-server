@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
 import { getSessionInfo } from '@northern.tech/store/auth';
-import { TIMEOUTS } from '@northern.tech/store/commonConstants';
+import { TIMEOUTS } from '@northern.tech/store/constants';
 import { token as mockToken, undefineds } from '@northern.tech/testing/mockData';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
