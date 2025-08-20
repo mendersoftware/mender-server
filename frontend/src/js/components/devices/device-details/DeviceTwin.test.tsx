@@ -13,11 +13,11 @@
 //    limitations under the License.
 import { Provider } from 'react-redux';
 
+import { defaultState, render } from '@/testUtils';
+import { undefineds } from '@northern.tech/testing/mockData';
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 
-import { defaultState, undefineds } from '../../../../../tests/mockData';
-import { render } from '../../../../../tests/setupTests';
 import DeviceTwin, { Title, TwinError, TwinSyncStatus } from './DeviceTwin';
 
 const mockStore = configureStore([thunk]);

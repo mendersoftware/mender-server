@@ -13,10 +13,10 @@
 //    limitations under the License.
 import React from 'react';
 
+import { render } from '@/testUtils';
+import { undefineds } from '@northern.tech/testing/mockData';
 import { vi } from 'vitest';
 
-import { undefineds } from '../../../../../tests/mockData';
-import { render } from '../../../../../tests/setupTests';
 import { Terminal } from './Terminal';
 
 describe('Terminal Component', () => {

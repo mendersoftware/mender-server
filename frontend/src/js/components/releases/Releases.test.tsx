@@ -11,15 +11,15 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { defaultState, render } from '@/testUtils';
 import GeneralApi from '@northern.tech/store/api/general-api';
 import { TIMEOUTS } from '@northern.tech/store/commonConstants';
 import { apiUrl } from '@northern.tech/store/constants';
+import { undefineds } from '@northern.tech/testing/mockData';
 import { act, prettyDOM, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { defaultState, undefineds } from '../../../../tests/mockData';
-import { render } from '../../../../tests/setupTests';
 import Releases from './Releases';
 
 describe('Releases Component', () => {

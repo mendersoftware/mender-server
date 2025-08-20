@@ -13,14 +13,15 @@
 //    limitations under the License.
 import { Provider } from 'react-redux';
 
+import { defaultState, render } from '@/testUtils';
+import { undefineds } from '@northern.tech/testing/mockData';
+import { selectMaterialUiSelectOption } from '@northern.tech/testing/utils';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 import { vi } from 'vitest';
 
-import { defaultState, undefineds } from '../../../../../tests/mockData';
-import { render, selectMaterialUiSelectOption } from '../../../../../tests/setupTests';
 import Deployments from './Deployments';
 
 const mockStore = configureStore([thunk]);
