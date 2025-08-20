@@ -13,6 +13,7 @@
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
 import { ALL_DEVICES, ALL_RELEASES, TIMEOUTS } from '@northern.tech/store/constants';
+import * as StoreThunks from '@northern.tech/store/thunks';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { selectMaterialUiSelectOption } from '@northern.tech/testing/utils';
 import { act, screen, waitFor, within } from '@testing-library/react';
@@ -20,6 +21,8 @@ import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
 import Roles from './RoleManagement';
+
+vi.mock('@northern.tech/store/thunks', { spy: true });
 
 describe('Roles Component', () => {
   it('renders correctly', async () => {
@@ -30,10 +33,8 @@ describe('Roles Component', () => {
   });
 
   it('works as intended', { timeout: 3 * TIMEOUTS.fiveSeconds }, async () => {
-    const UserActions = await import('@northern.tech/store/usersSlice/thunks');
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    const editRoleSpy = vi.spyOn(UserActions, 'editRole');
-    const removeRoleSpy = vi.spyOn(UserActions, 'removeRole');
+    const { editRole: editRoleSpy, removeRole: removeRoleSpy } = StoreThunks;
     const preloadedState = {
       ...defaultState,
       releases: {
@@ -42,7 +43,6 @@ describe('Roles Component', () => {
       }
     };
     render(<Roles />, { preloadedState });
-
     const role = screen.getByText(/test description/i).parentElement;
     await user.click(within(role).getByText(/view details/i));
     await waitFor(() => expect(screen.getByText(/edit role/i)).toBeVisible());

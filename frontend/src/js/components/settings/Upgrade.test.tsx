@@ -14,6 +14,7 @@
 import { defaultState, render } from '@/testUtils';
 import { getSessionInfo } from '@northern.tech/store/auth';
 import { TIMEOUTS } from '@northern.tech/store/constants';
+import * as StoreThunks from '@northern.tech/store/thunks';
 import { token as mockToken, undefineds } from '@northern.tech/testing/mockData';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
@@ -22,6 +23,8 @@ import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
 import Upgrade, { PricingContactNote } from './Upgrade';
+
+vi.mock('@northern.tech/store/thunks', { spy: true });
 
 const changeRequestBase = {
   content: {
@@ -112,8 +115,7 @@ describe('Upgrade Component', () => {
     expect(input.value).toEqual('Norway');
   });
   it('upgrade works as intended', async () => {
-    const OrganizationActions = await import('@northern.tech/store/organizationSlice/thunks');
-    const professionalRequest = vi.spyOn(OrganizationActions, 'requestPlanChange');
+    const { requestPlanChange: professionalRequest } = StoreThunks;
 
     const storageMock = vi.spyOn(Storage.prototype, 'setItem');
     Storage.prototype.setItem = vi.fn();
@@ -139,8 +141,7 @@ describe('Upgrade Component', () => {
   });
 
   it('adding addon works as intended', async () => {
-    const OrganizationActions = await import('@northern.tech/store/organizationSlice/thunks');
-    const addonRequest = vi.spyOn(OrganizationActions, 'requestPlanChange');
+    const { requestPlanChange: addonRequest } = StoreThunks;
 
     const storageMock = vi.spyOn(Storage.prototype, 'setItem');
     Storage.prototype.setItem = vi.fn();
@@ -179,8 +180,7 @@ describe('Upgrade Component', () => {
     }
   };
   it('enterprise request works as intended', { timeout: 2 * TIMEOUTS.fiveSeconds }, async () => {
-    const OrganizationActions = await import('@northern.tech/store/organizationSlice/thunks');
-    const enterpriseRequest = vi.spyOn(OrganizationActions, 'requestPlanChange');
+    const { requestPlanChange: enterpriseRequest } = StoreThunks;
     window.localStorage.getItem.mockImplementation(name => (name === 'JWT' ? JSON.stringify({ token: mockToken }) : null));
     vi.spyOn(Storage.prototype, 'setItem');
     Storage.prototype.setItem = vi.fn();

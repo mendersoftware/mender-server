@@ -14,12 +14,15 @@
 import { defaultState, render } from '@/testUtils';
 import GeneralApi from '@northern.tech/store/api/general-api';
 import { TIMEOUTS, apiUrl } from '@northern.tech/store/constants';
+import * as StoreThunks from '@northern.tech/store/thunks';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { act, prettyDOM, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
 import Releases from './Releases';
+
+vi.mock('@northern.tech/store/thunks', { spy: true });
 
 describe('Releases Component', () => {
   it('renders correctly', async () => {
@@ -84,9 +87,8 @@ describe('Releases Component', () => {
     });
   });
   it('can delete releases from the list', async () => {
-    const ReleaseActions = await import('@northern.tech/store/releasesSlice/thunks');
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    const deleteReleasesSpy = vi.spyOn(ReleaseActions, 'removeReleases');
+    const { removeReleases: deleteReleasesSpy } = StoreThunks;
     const deletionSpy = vi.spyOn(GeneralApi, 'delete');
     const ui = <Releases />;
     const { rerender, container } = render(ui);

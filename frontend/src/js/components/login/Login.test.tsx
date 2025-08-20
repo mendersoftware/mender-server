@@ -13,12 +13,15 @@
 //    limitations under the License.
 import { defaultState } from '@/testUtils';
 import { render } from '@/testUtils';
+import * as StoreThunks from '@northern.tech/store/thunks';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
 import Login from './Login';
+
+vi.mock('@northern.tech/store/thunks', { spy: true });
 
 const preloadedState = {
   ...defaultState,
@@ -41,9 +44,8 @@ describe('Login Component', () => {
 
   it('works as intended', async () => {
     window.localStorage.getItem.mockImplementation(() => null);
-    const UserActions = await import('@northern.tech/store/thunks');
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    const loginSpy = vi.spyOn(UserActions, 'loginUser');
+    const { loginUser: loginSpy } = StoreThunks;
     const ui = <Login />;
     const { rerender } = render(ui, { preloadedState });
     await user.type(screen.getByLabelText(/your email/i), 'something-2fa@example.com');

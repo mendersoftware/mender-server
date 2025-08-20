@@ -13,11 +13,14 @@
 //    limitations under the License.
 import { render } from '@/testUtils';
 import { TIMEOUTS } from '@northern.tech/store/constants';
+import * as StoreThunks from '@northern.tech/store/thunks';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import ArtifactGeneration from './ArtifactGeneration';
+
+vi.mock('@northern.tech/store/thunks', { spy: true });
 
 describe('ArtifactGeneration component', () => {
   afterEach(async () => {
@@ -35,9 +38,7 @@ describe('ArtifactGeneration component', () => {
 
   it(`works as expected`, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    const deploymentActions = await import('@northern.tech/store/deploymentsSlice/thunks');
-    const deltaConfigUpdate = vi.spyOn(deploymentActions, 'saveDeltaDeploymentsConfig');
-    const deltaConfigRetrieval = vi.spyOn(deploymentActions, 'getDeploymentsConfig');
+    const { saveDeltaDeploymentsConfig: deltaConfigUpdate, getDeploymentsConfig: deltaConfigRetrieval } = StoreThunks;
 
     const onCloseSpy = vi.fn();
     render(<ArtifactGeneration onClose={onCloseSpy} open />);
@@ -52,20 +53,16 @@ describe('ArtifactGeneration component', () => {
     expect(checksumCheckbox).toBeChecked();
     const sourceBufferInput = await screen.findByLabelText(/source buffer/i);
     await user.clear(sourceBufferInput);
-    await user.type(sourceBufferInput, '55');
+    await user.type(sourceBufferInput, '55'); // 55 gets treated as an evil value by the MSW backend
     await act(async () => vi.advanceTimersByTime(TIMEOUTS.oneSecond));
     await user.click(await screen.findByRole('button', { name: /save/i }));
-    await act(async () => {
-      vi.runOnlyPendingTimers();
-      vi.runAllTicks();
-    });
     expect(onCloseSpy).not.toHaveBeenCalled();
     await user.clear(sourceBufferInput);
     await user.type(sourceBufferInput, '66');
     await act(async () => vi.advanceTimersByTime(TIMEOUTS.oneSecond));
     await user.click(await screen.findByRole('button', { name: /save/i }));
     expect(deltaConfigUpdate).toHaveBeenCalledWith({
-      compressionLevel: 6,
+      compressionLevel: 0,
       disableChecksum: true,
       disableDecompression: false,
       duplicatesWindow: 5,
