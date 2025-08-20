@@ -39,7 +39,9 @@ import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { BENEFITS, rolesById, rolesByName, uiPermissionsById } from '@northern.tech/store/constants';
 import pluralize from 'pluralize';
-import { isUUID } from 'validator';
+import validator from 'validator';
+
+const { isUUID } = validator;
 
 const useStyles = makeStyles()(theme => ({
   formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(2), paddingTop: theme.spacing(4) }
