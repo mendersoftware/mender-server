@@ -37,22 +37,6 @@ exports[`ColumnCustomizationDialogContent Component > renders correctly 1`] = `
   padding-bottom: 8px;
   padding-left: 16px;
   padding-right: 16px;
-  padding-top: 11px;
-  padding-bottom: 11px;
-}
-
-.emotion-1.active {
-  background-color: #fff;
-}
-
-.emotion-1.leftNav.active {
-  border-top: 1px solid #d4e9e7;
-  border-bottom: 1px solid #d4e9e7;
-}
-
-.emotion-1.navLink,
-.emotion-1.navLink .MuiListItemText-root {
-  color: #969696;
 }
 
 .emotion-2 {
@@ -69,11 +53,7 @@ exports[`ColumnCustomizationDialogContent Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-}
-
-.emotion-2 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
 }
 
 .emotion-3 {
@@ -113,7 +93,7 @@ exports[`ColumnCustomizationDialogContent Component > renders correctly 1`] = `
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
-  font-size: 1.3929rem;
+  font-size: 1.5rem;
   padding: 8px;
   border-radius: 50%;
   color: rgba(0, 0, 0, 0.54);
@@ -121,9 +101,7 @@ exports[`ColumnCustomizationDialogContent Component > renders correctly 1`] = `
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   --IconButton-hoverBg: rgba(0, 0, 0, 0.04);
   padding: 5px;
-  font-size: 1.0446rem;
-  font-size: 1.2rem;
-  color: rgba(0, 0, 0, 0.54);
+  font-size: 1.125rem;
 }
 
 .emotion-3::-moz-focus-inner {
@@ -175,12 +153,8 @@ exports[`ColumnCustomizationDialogContent Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
+  font-size: 1.5rem;
   color: rgba(0, 0, 0, 0.26);
-}
-
-.emotion-4 iconButton {
-  margin-right: 8px;
 }
 
 .emotion-9 {
@@ -197,7 +171,6 @@ exports[`ColumnCustomizationDialogContent Component > renders correctly 1`] = `
   margin: 0;
   border: 0;
   vertical-align: top;
-  min-width: 240px;
 }
 
 .emotion-10.Mui-focused .MuiAutocomplete-clearIndicator {
@@ -349,18 +322,17 @@ exports[`ColumnCustomizationDialogContent Component > renders correctly 1`] = `
   border: 0;
   vertical-align: top;
   width: 100%;
-  min-width: 240px;
 }
 
 .emotion-12 {
-  color: rgba(0, 0, 0, 0.54);
-  line-height: 1.4375em;
-  font-family: Lato,sans-serif;
+  color: rgba(0, 0, 0, 0.6);
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
+  font-size: 1rem;
+  line-height: 1.4375em;
+  letter-spacing: 0.00938em;
   padding: 0;
   position: relative;
-  color: rgba(0, 0, 0, 0.54);
   display: block;
   transform-origin: top left;
   white-space: nowrap;
@@ -386,7 +358,7 @@ exports[`ColumnCustomizationDialogContent Component > renders correctly 1`] = `
 }
 
 .emotion-12.Mui-focused {
-  color: #337a87;
+  color: #1976d2;
 }
 
 .emotion-12.Mui-disabled {
@@ -394,19 +366,16 @@ exports[`ColumnCustomizationDialogContent Component > renders correctly 1`] = `
 }
 
 .emotion-12.Mui-error {
-  color: #ab1000;
-}
-
-.emotion-12.Mui-focused {
-  color: #337a87;
+  color: #d32f2f;
 }
 
 .emotion-13 {
-  line-height: 1.4375em;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
-  color: rgba(10, 10, 11, 0.78);
+  font-size: 1rem;
+  line-height: 1.4375em;
+  letter-spacing: 0.00938em;
+  color: rgba(0, 0, 0, 0.87);
   box-sizing: border-box;
   position: relative;
   cursor: text;
@@ -430,7 +399,7 @@ exports[`ColumnCustomizationDialogContent Component > renders correctly 1`] = `
 }
 
 .emotion-13:hover .MuiOutlinedInput-notchedOutline {
-  border-color: rgba(10, 10, 11, 0.78);
+  border-color: rgba(0, 0, 0, 0.87);
 }
 
 @media (hover: none) {
@@ -444,11 +413,11 @@ exports[`ColumnCustomizationDialogContent Component > renders correctly 1`] = `
 }
 
 .emotion-13.Mui-focused .MuiOutlinedInput-notchedOutline {
-  border-color: #337a87;
+  border-color: #1976d2;
 }
 
 .emotion-13.Mui-error .MuiOutlinedInput-notchedOutline {
-  border-color: #ab1000;
+  border-color: #d32f2f;
 }
 
 .emotion-13.Mui-disabled .MuiOutlinedInput-notchedOutline {
@@ -597,15 +566,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
-  font-size: 1.3929rem;
+  font-size: 1.5rem;
   padding: 8px;
   border-radius: 50%;
   color: rgba(0, 0, 0, 0.54);
   -webkit-transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   --IconButton-hoverBg: rgba(0, 0, 0, 0.04);
-  font-size: 1.2rem;
-  color: rgba(0, 0, 0, 0.54);
   margin-right: -2px;
   padding: 4px;
   visibility: hidden;
@@ -660,11 +627,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.1607rem;
-}
-
-.emotion-17 iconButton {
-  margin-right: 8px;
+  font-size: 1.25rem;
 }
 
 .emotion-18 {
@@ -715,12 +678,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
     You can select columns of inventory data to display in the device list table. Drag to change the order.
   </p>
   <div
-    data-rfd-droppable-context-id=":r1:"
+    data-rfd-droppable-context-id="«r1»"
     data-rfd-droppable-id="droppable-list"
   >
     <li
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding flexbox space-between margin-right-large emotion-1"
-      data-rfd-draggable-context-id=":r1:"
+      data-rfd-draggable-context-id="«r1»"
       data-rfd-draggable-id="name"
     >
       <div>
@@ -731,9 +694,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
         style="width: 80px;"
       >
         <div
-          aria-describedby="rfd-hidden-text-:r1:-hidden-text-:r2:"
+          aria-describedby="rfd-hidden-text-«r1»-hidden-text-«r2»"
           class="flexbox centered"
-          data-rfd-drag-handle-context-id=":r1:"
+          data-rfd-drag-handle-context-id="«r1»"
           data-rfd-drag-handle-draggable-id="name"
           draggable="false"
           role="button"
@@ -772,7 +735,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
     </li>
     <li
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding flexbox space-between margin-right-large emotion-1"
-      data-rfd-draggable-context-id=":r1:"
+      data-rfd-draggable-context-id="«r1»"
       data-rfd-draggable-id="id"
     >
       <div>
@@ -783,9 +746,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
         style="width: 80px;"
       >
         <div
-          aria-describedby="rfd-hidden-text-:r1:-hidden-text-:r2:"
+          aria-describedby="rfd-hidden-text-«r1»-hidden-text-«r2»"
           class="flexbox centered"
-          data-rfd-drag-handle-context-id=":r1:"
+          data-rfd-drag-handle-context-id="«r1»"
           data-rfd-drag-handle-draggable-id="id"
           draggable="false"
           role="button"

@@ -3,8 +3,8 @@
 exports[`RolloutSteps Component > renders correctly 1`] = `
 .emotion-0 {
   max-width: 100%;
-  font-family: Lato,sans-serif;
-  font-size: 0.7545rem;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-size: 0.8125rem;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -19,7 +19,7 @@ exports[`RolloutSteps Component > renders correctly 1`] = `
   justify-content: center;
   height: 32px;
   line-height: 1.5;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
   white-space: nowrap;
@@ -34,7 +34,7 @@ exports[`RolloutSteps Component > renders correctly 1`] = `
   vertical-align: middle;
   box-sizing: border-box;
   background-color: transparent;
-  border: 1px solid #f7f7f7;
+  border: 1px solid #bdbdbd;
   min-width: 88px;
 }
 
@@ -48,18 +48,18 @@ exports[`RolloutSteps Component > renders correctly 1`] = `
   margin-right: -6px;
   width: 24px;
   height: 24px;
-  color: #bcbcbc;
-  font-size: 0.6964rem;
+  color: #616161;
+  font-size: 0.75rem;
 }
 
 .emotion-0 .MuiChip-avatarColorPrimary {
   color: #fff;
-  background-color: rgb(35, 85, 94);
+  background-color: #1565c0;
 }
 
 .emotion-0 .MuiChip-avatarColorSecondary {
   color: #fff;
-  background-color: rgb(65, 10, 46);
+  background-color: #7b1fa2;
 }
 
 .emotion-0 .MuiChip-avatarSmall {
@@ -67,7 +67,7 @@ exports[`RolloutSteps Component > renders correctly 1`] = `
   margin-right: -4px;
   width: 18px;
   height: 18px;
-  font-size: 0.5804rem;
+  font-size: 0.625rem;
 }
 
 .emotion-0 .MuiChip-icon {
@@ -77,18 +77,18 @@ exports[`RolloutSteps Component > renders correctly 1`] = `
 
 .emotion-0 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
-  color: rgba(10, 10, 11, 0.26);
+  color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
   cursor: pointer;
   margin: 0 5px 0 -6px;
 }
 
 .emotion-0 .MuiChip-deleteIcon:hover {
-  color: rgba(10, 10, 11, 0.4);
+  color: rgba(0, 0, 0, 0.4);
 }
 
 .emotion-0 .MuiChip-icon {
-  color: #bcbcbc;
+  color: #616161;
 }
 
 .emotion-0.MuiChip-clickable:hover {
@@ -144,14 +144,14 @@ exports[`RolloutSteps Component > renders correctly 1`] = `
 }
 
 .emotion-4 {
-  background-color: rgba(0, 0, 0, 0.54);
+  background-color: rgba(0, 0, 0, 0.6);
   height: 3px;
   width: 100%;
   margin-right: -8px;
 }
 
 .emotion-4 svg {
-  color: rgba(0, 0, 0, 0.54);
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .emotion-5 {
@@ -168,15 +168,11 @@ exports[`RolloutSteps Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.1607rem;
-}
-
-.emotion-5 iconButton {
-  margin-right: 8px;
+  font-size: 1.25rem;
 }
 
 .emotion-6 {
-  border-left: #e9e9e9 dashed 1px;
+  border-left: #9e9e9e dashed 1px;
   height: 48px;
   margin: 4px;
   margin-top: -10px;
@@ -216,8 +212,8 @@ exports[`RolloutSteps Component > renders correctly 1`] = `
   text-decoration: none;
   color: inherit;
   max-width: 100%;
-  font-family: Lato,sans-serif;
-  font-size: 0.7545rem;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-size: 0.8125rem;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -232,7 +228,7 @@ exports[`RolloutSteps Component > renders correctly 1`] = `
   justify-content: center;
   height: 32px;
   line-height: 1.5;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
   white-space: nowrap;
@@ -246,7 +242,7 @@ exports[`RolloutSteps Component > renders correctly 1`] = `
   padding: 0;
   vertical-align: middle;
   box-sizing: border-box;
-  background-color: #337a87;
+  background-color: #1976d2;
   color: #fff;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -284,18 +280,18 @@ exports[`RolloutSteps Component > renders correctly 1`] = `
   margin-right: -6px;
   width: 24px;
   height: 24px;
-  color: #bcbcbc;
-  font-size: 0.6964rem;
+  color: #616161;
+  font-size: 0.75rem;
 }
 
 .emotion-7 .MuiChip-avatarColorPrimary {
   color: #fff;
-  background-color: rgb(35, 85, 94);
+  background-color: #1565c0;
 }
 
 .emotion-7 .MuiChip-avatarColorSecondary {
   color: #fff;
-  background-color: rgb(65, 10, 46);
+  background-color: #7b1fa2;
 }
 
 .emotion-7 .MuiChip-avatarSmall {
@@ -303,7 +299,7 @@ exports[`RolloutSteps Component > renders correctly 1`] = `
   margin-right: -4px;
   width: 18px;
   height: 18px;
-  font-size: 0.5804rem;
+  font-size: 0.625rem;
 }
 
 .emotion-7 .MuiChip-icon {
@@ -313,14 +309,14 @@ exports[`RolloutSteps Component > renders correctly 1`] = `
 
 .emotion-7 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
-  color: rgba(10, 10, 11, 0.26);
+  color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
   cursor: pointer;
   margin: 0 5px 0 -6px;
 }
 
 .emotion-7 .MuiChip-deleteIcon:hover {
-  color: rgba(10, 10, 11, 0.4);
+  color: rgba(0, 0, 0, 0.4);
 }
 
 .emotion-7 .MuiChip-deleteIcon {
@@ -333,7 +329,7 @@ exports[`RolloutSteps Component > renders correctly 1`] = `
 }
 
 .emotion-7 .MuiChip-icon {
-  color: #bcbcbc;
+  color: #616161;
 }
 
 .emotion-7 .MuiChip-icon {
@@ -354,7 +350,7 @@ exports[`RolloutSteps Component > renders correctly 1`] = `
 
 .emotion-7:hover,
 .emotion-7.Mui-focusVisible {
-  background-color: rgb(35, 85, 94);
+  background-color: #1565c0;
 }
 
 .emotion-8 {
@@ -371,11 +367,7 @@ exports[`RolloutSteps Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-}
-
-.emotion-8 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
 }
 
 .emotion-9 {
@@ -609,8 +601,8 @@ exports[`RolloutSteps Component > renders correctly 1`] = `
 exports[`RolloutSteps Component > renders correctly 2`] = `
 .emotion-0 {
   max-width: 100%;
-  font-family: Lato,sans-serif;
-  font-size: 0.7545rem;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-size: 0.8125rem;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -625,7 +617,7 @@ exports[`RolloutSteps Component > renders correctly 2`] = `
   justify-content: center;
   height: 32px;
   line-height: 1.5;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
   white-space: nowrap;
@@ -640,7 +632,7 @@ exports[`RolloutSteps Component > renders correctly 2`] = `
   vertical-align: middle;
   box-sizing: border-box;
   background-color: transparent;
-  border: 1px solid #f7f7f7;
+  border: 1px solid #bdbdbd;
   min-width: 88px;
 }
 
@@ -654,18 +646,18 @@ exports[`RolloutSteps Component > renders correctly 2`] = `
   margin-right: -6px;
   width: 24px;
   height: 24px;
-  color: #bcbcbc;
-  font-size: 0.6964rem;
+  color: #616161;
+  font-size: 0.75rem;
 }
 
 .emotion-0 .MuiChip-avatarColorPrimary {
   color: #fff;
-  background-color: rgb(35, 85, 94);
+  background-color: #1565c0;
 }
 
 .emotion-0 .MuiChip-avatarColorSecondary {
   color: #fff;
-  background-color: rgb(65, 10, 46);
+  background-color: #7b1fa2;
 }
 
 .emotion-0 .MuiChip-avatarSmall {
@@ -673,7 +665,7 @@ exports[`RolloutSteps Component > renders correctly 2`] = `
   margin-right: -4px;
   width: 18px;
   height: 18px;
-  font-size: 0.5804rem;
+  font-size: 0.625rem;
 }
 
 .emotion-0 .MuiChip-icon {
@@ -683,18 +675,18 @@ exports[`RolloutSteps Component > renders correctly 2`] = `
 
 .emotion-0 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
-  color: rgba(10, 10, 11, 0.26);
+  color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
   cursor: pointer;
   margin: 0 5px 0 -6px;
 }
 
 .emotion-0 .MuiChip-deleteIcon:hover {
-  color: rgba(10, 10, 11, 0.4);
+  color: rgba(0, 0, 0, 0.4);
 }
 
 .emotion-0 .MuiChip-icon {
-  color: #bcbcbc;
+  color: #616161;
 }
 
 .emotion-0.MuiChip-clickable:hover {
@@ -750,14 +742,14 @@ exports[`RolloutSteps Component > renders correctly 2`] = `
 }
 
 .emotion-4 {
-  background-color: rgba(0, 0, 0, 0.54);
+  background-color: rgba(0, 0, 0, 0.6);
   height: 3px;
   width: 100%;
   margin-right: -8px;
 }
 
 .emotion-4 svg {
-  color: rgba(0, 0, 0, 0.54);
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .emotion-5 {
@@ -774,15 +766,11 @@ exports[`RolloutSteps Component > renders correctly 2`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.1607rem;
-}
-
-.emotion-5 iconButton {
-  margin-right: 8px;
+  font-size: 1.25rem;
 }
 
 .emotion-6 {
-  border-left: #e9e9e9 dashed 1px;
+  border-left: #9e9e9e dashed 1px;
   height: 48px;
   margin: 4px;
   margin-top: -10px;
@@ -822,8 +810,8 @@ exports[`RolloutSteps Component > renders correctly 2`] = `
   text-decoration: none;
   color: inherit;
   max-width: 100%;
-  font-family: Lato,sans-serif;
-  font-size: 0.7545rem;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-size: 0.8125rem;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -838,7 +826,7 @@ exports[`RolloutSteps Component > renders correctly 2`] = `
   justify-content: center;
   height: 32px;
   line-height: 1.5;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
   white-space: nowrap;
@@ -852,7 +840,7 @@ exports[`RolloutSteps Component > renders correctly 2`] = `
   padding: 0;
   vertical-align: middle;
   box-sizing: border-box;
-  background-color: #337a87;
+  background-color: #1976d2;
   color: #fff;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -890,18 +878,18 @@ exports[`RolloutSteps Component > renders correctly 2`] = `
   margin-right: -6px;
   width: 24px;
   height: 24px;
-  color: #bcbcbc;
-  font-size: 0.6964rem;
+  color: #616161;
+  font-size: 0.75rem;
 }
 
 .emotion-7 .MuiChip-avatarColorPrimary {
   color: #fff;
-  background-color: rgb(35, 85, 94);
+  background-color: #1565c0;
 }
 
 .emotion-7 .MuiChip-avatarColorSecondary {
   color: #fff;
-  background-color: rgb(65, 10, 46);
+  background-color: #7b1fa2;
 }
 
 .emotion-7 .MuiChip-avatarSmall {
@@ -909,7 +897,7 @@ exports[`RolloutSteps Component > renders correctly 2`] = `
   margin-right: -4px;
   width: 18px;
   height: 18px;
-  font-size: 0.5804rem;
+  font-size: 0.625rem;
 }
 
 .emotion-7 .MuiChip-icon {
@@ -919,14 +907,14 @@ exports[`RolloutSteps Component > renders correctly 2`] = `
 
 .emotion-7 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
-  color: rgba(10, 10, 11, 0.26);
+  color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
   cursor: pointer;
   margin: 0 5px 0 -6px;
 }
 
 .emotion-7 .MuiChip-deleteIcon:hover {
-  color: rgba(10, 10, 11, 0.4);
+  color: rgba(0, 0, 0, 0.4);
 }
 
 .emotion-7 .MuiChip-deleteIcon {
@@ -939,7 +927,7 @@ exports[`RolloutSteps Component > renders correctly 2`] = `
 }
 
 .emotion-7 .MuiChip-icon {
-  color: #bcbcbc;
+  color: #616161;
 }
 
 .emotion-7 .MuiChip-icon {
@@ -960,7 +948,7 @@ exports[`RolloutSteps Component > renders correctly 2`] = `
 
 .emotion-7:hover,
 .emotion-7.Mui-focusVisible {
-  background-color: rgb(35, 85, 94);
+  background-color: #1565c0;
 }
 
 .emotion-8 {
@@ -977,11 +965,7 @@ exports[`RolloutSteps Component > renders correctly 2`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-}
-
-.emotion-8 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
 }
 
 .emotion-9 {

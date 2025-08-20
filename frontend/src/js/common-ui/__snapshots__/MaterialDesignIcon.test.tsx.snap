@@ -18,10 +18,6 @@ exports[`MaterialDesignIcon Component > renders correctly 1`] = `
   font-size: inherit;
 }
 
-.emotion-0 iconButton {
-  margin-right: 8px;
-}
-
 <svg
   aria-hidden="true"
   class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-0"

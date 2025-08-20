@@ -14,10 +14,10 @@ exports[`LeftNav Component > renders correctly 1`] = `
   box-sizing: border-box;
   line-height: 48px;
   list-style: none;
-  color: rgba(0, 0, 0, 0.54);
-  font-family: Lato,sans-serif;
+  color: rgba(0, 0, 0, 0.6);
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   padding-left: 16px;
   padding-right: 16px;
 }
@@ -45,34 +45,18 @@ exports[`LeftNav Component > renders correctly 1`] = `
   padding-bottom: 8px;
   padding-left: 16px;
   padding-right: 16px;
-  padding-top: 11px;
-  padding-bottom: 11px;
-}
-
-.emotion-2.active {
-  background-color: #fff;
-}
-
-.emotion-2.leftNav.active {
-  border-top: 1px solid #d4e9e7;
-  border-bottom: 1px solid #d4e9e7;
-}
-
-.emotion-2.navLink,
-.emotion-2.navLink .MuiListItemText-root {
-  color: #969696;
 }
 
 .emotion-2.navLink .MuiListItemText-root {
-  color: #969696;
+  color: #212121;
 }
 
 .emotion-2.navLink.active .MuiListItemText-root {
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .emotion-2.active {
-  background: #f7f7f7;
+  background: #bdbdbd;
 }
 
 .emotion-3 {
@@ -82,9 +66,6 @@ exports[`LeftNav Component > renders correctly 1`] = `
   min-width: 0;
   margin-top: 4px;
   margin-bottom: 4px;
-  margin-top: 0;
-  margin-bottom: 0;
-  color: rgba(10, 10, 11, 0.78);
 }
 
 .MuiTypography-root:where(.emotion-3 .MuiListItemText-primary) {
@@ -100,15 +81,16 @@ exports[`LeftNav Component > renders correctly 1`] = `
 }
 
 .emotion-3 .MuiListItemText-primary:hover {
-  color: #337a87;
+  color: #1976d2;
 }
 
 .emotion-4 {
   margin: 0;
-  line-height: 1.5;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
 }
 
 .emotion-5 {

@@ -11,10 +11,11 @@ exports[`OrganizationSettingsItem Component > renders correctly 1`] = `
 
 .emotion-3 {
   margin: 0;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
+  font-size: 1rem;
   line-height: 1.75;
+  letter-spacing: 0.00938em;
 }
 
 .emotion-4 {
@@ -30,10 +31,11 @@ exports[`OrganizationSettingsItem Component > renders correctly 1`] = `
 
 .emotion-5 {
   margin: 0;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.43;
+  letter-spacing: 0.01071em;
 }
 
 <div
