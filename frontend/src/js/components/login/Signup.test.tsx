@@ -15,15 +15,15 @@ import { Route, Routes } from 'react-router-dom';
 
 import { render } from '@/testUtils';
 import { TIMEOUTS } from '@northern.tech/store/constants';
+import * as StoreThunks from '@northern.tech/store/thunks';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Cookies from 'universal-cookie';
 import { vi } from 'vitest';
 
 import Signup from './Signup';
 
-const cookies = new Cookies();
+vi.mock('@northern.tech/store/thunks', { spy: true });
 
 describe('Signup Component', () => {
   it('renders correctly', async () => {
@@ -36,6 +36,8 @@ describe('Signup Component', () => {
 
   it('allows signing up', async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const { setFirstLoginAfterSignup: firstLoginSpy } = StoreThunks;
+
     const ui = (
       <>
         <Signup />
@@ -65,12 +67,13 @@ describe('Signup Component', () => {
     expect(screen.getByRole('button', { name: /complete signup/i })).toBeDisabled();
     await user.click(screen.getByRole('checkbox', { name: /by checking this you agree to our/i }));
     await waitFor(() => expect(screen.getByRole('button', { name: /complete signup/i })).toBeEnabled());
-    const cookiesSet = vi.spyOn(cookies, 'set');
     await user.click(screen.getByRole('button', { name: /complete signup/i }));
     await waitFor(() => expect(container.querySelector('.loaderContainer')).toBeVisible());
     await act(async () => vi.advanceTimersByTime(TIMEOUTS.refreshDefault));
-    await waitFor(() =>
-      expect(cookiesSet).toHaveBeenCalledWith('firstLoginAfterSignup', true, { domain: '.mender.io', maxAge: 60, path: '/', sameSite: false })
-    );
+    await act(async () => {
+      vi.runAllTicks();
+      vi.runAllTimers();
+    });
+    await waitFor(() => expect(firstLoginSpy).toHaveBeenCalled());
   }, 10000);
 });

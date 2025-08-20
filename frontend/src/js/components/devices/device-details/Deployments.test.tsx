@@ -14,6 +14,7 @@
 import { Provider } from 'react-redux';
 
 import { defaultState, render } from '@/testUtils';
+import * as StoreThunks from '@northern.tech/store/thunks';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { selectMaterialUiSelectOption } from '@northern.tech/testing/utils';
 import { screen } from '@testing-library/react';
@@ -24,6 +25,8 @@ import { vi } from 'vitest';
 
 import Deployments from './Deployments';
 
+vi.mock('@northern.tech/store/thunks', { spy: true });
+
 const mockStore = configureStore([thunk]);
 let store;
 
@@ -32,8 +35,7 @@ describe('Deployments Component', () => {
     store = mockStore({ ...defaultState });
   });
   it('renders correctly', async () => {
-    const DeploymentActions = await import('@northern.tech/store/deploymentsSlice/thunks');
-    const getDeploymentsSpy = vi.spyOn(DeploymentActions, 'getDeviceDeployments');
+    const { getDeviceDeployments: getDeploymentsSpy } = StoreThunks;
 
     const deviceDeployments = [
       {

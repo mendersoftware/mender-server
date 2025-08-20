@@ -13,12 +13,15 @@
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
 import { TIMEOUTS } from '@northern.tech/store/constants';
+import * as StoreThunks from '@northern.tech/store/thunks';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
 import AddArtifact from './AddArtifact';
+
+vi.mock('@northern.tech/store/thunks', { spy: true });
 
 describe('AddArtifact Component', () => {
   const preloadedState = { ...defaultState, onboarding: { ...defaultState.onboarding, complete: true } };
@@ -30,10 +33,9 @@ describe('AddArtifact Component', () => {
   });
 
   it('allows uploading a mender artifact', async () => {
-    const releaseActions = await import('@northern.tech/store/releasesSlice/thunks');
+    const { uploadArtifact: uploadSpy } = StoreThunks;
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const menderFile = new File(['testContent'], 'test.mender');
-    const uploadSpy = vi.spyOn(releaseActions, 'uploadArtifact');
 
     const ui = <AddArtifact onUploadStarted={vi.fn} releases={Object.values(defaultState.releases.byId)} />;
     const { rerender } = render(ui, { preloadedState });
@@ -52,10 +54,9 @@ describe('AddArtifact Component', () => {
   });
 
   it('allows creating a mender artifact', { timeout: TIMEOUTS.refreshDefault }, async () => {
-    const releaseActions = await import('@northern.tech/store/releasesSlice/thunks');
+    const { createArtifact: creationSpy } = StoreThunks;
 
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    const creationSpy = vi.spyOn(releaseActions, 'createArtifact');
 
     const menderFile = new File(['testContent plain'], 'testFile.txt');
     const ui = <AddArtifact onUploadStarted={vi.fn} releases={Object.values(defaultState.releases.byId)} />;
