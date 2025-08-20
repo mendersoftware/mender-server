@@ -20,7 +20,7 @@ import { Alert, Button, FormControl, FormControlLabel, FormHelperText, Radio, Ra
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { ADDONS, Addon, AvailableAddon, AvailablePlans, PLANS, Plan } from '@northern.tech/store/appSlice/constants';
 import { getStripeKey } from '@northern.tech/store/appSlice/selectors';
-import { TIMEOUTS } from '@northern.tech/store/commonConstants';
+import { TIMEOUTS } from '@northern.tech/store/constants';
 import { getDeviceLimit } from '@northern.tech/store/devicesSlice/selectors';
 import { getOrganization } from '@northern.tech/store/organizationSlice/selectors';
 import { getBillingPreview, getCurrentCard, getUserBilling, getUserSubscription, requestPlanChange } from '@northern.tech/store/organizationSlice/thunks';
