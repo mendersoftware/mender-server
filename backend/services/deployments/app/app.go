@@ -1165,6 +1165,7 @@ func (d *Deployments) CreateDeviceConfigurationDeployment(
 
 	deployment.DeviceList = []string{deviceID}
 	deployment.MaxDevices = 1
+	deployment.Stats[model.DeviceDeploymentStatusPendingStr] = deployment.MaxDevices
 	deployment.Configuration = []byte(constructor.Configuration)
 	deployment.Type = model.DeploymentTypeConfiguration
 
@@ -1228,6 +1229,7 @@ func (d *Deployments) CreateDeployment(ctx context.Context,
 	deployment.Artifacts = getArtifactIDs(artifacts)
 	deployment.DeviceList = constructor.Devices
 	deployment.MaxDevices = len(constructor.Devices)
+	deployment.Stats[model.DeviceDeploymentStatusPendingStr] = deployment.MaxDevices
 	deployment.Type = model.DeploymentTypeSoftware
 	deployment.Filter = getDeploymentFilter(constructor)
 	if len(constructor.Group) > 0 {
@@ -1480,30 +1482,6 @@ func (d *Deployments) createDeviceDeploymentWithStatus(
 	if err := d.db.InsertDeviceDeployment(ctx, deviceDeployment,
 		prevStatus == model.DeviceDeploymentStatusNull); err != nil {
 		return nil, err
-	}
-
-	if prevStatus != status {
-		beforeStatus := deployment.GetStatus()
-		// after inserting new device deployment update deployment stats
-		// in the database, and update deployment status
-		deployment.Stats, err = d.db.UpdateStatsInc(
-			ctx, deployment.Id,
-			prevStatus, status,
-		)
-		if err != nil {
-			return nil, err
-		}
-		newStatus := deployment.GetStatus()
-		if beforeStatus != newStatus {
-			err = d.db.SetDeploymentStatus(
-				ctx, deployment.Id,
-				newStatus, time.Now(),
-			)
-			if err != nil {
-				return nil, errors.Wrap(err,
-					"failed to update deployment status")
-			}
-		}
 	}
 
 	if !status.Active() {
