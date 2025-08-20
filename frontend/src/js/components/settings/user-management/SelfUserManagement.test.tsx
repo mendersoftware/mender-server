@@ -11,14 +11,14 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { defaultState, render } from '@/testUtils';
 import { getSessionInfo } from '@northern.tech/store/auth';
 import { yes } from '@northern.tech/store/constants';
+import { undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 
-import { defaultState, undefineds } from '../../../../../tests/mockData';
-import { render } from '../../../../../tests/setupTests';
 import SelfUserManagement from './SelfUserManagement';
 
 describe('SelfUserManagement Component', () => {
@@ -59,6 +59,7 @@ describe('SelfUserManagement Component', () => {
     await user.type(input, 'test@test');
     expect(screen.getByText(/enter a valid email address/i)).toBeInTheDocument();
     await user.type(input, '.com');
+    await act(async () => vi.runAllTicks());
     expect(screen.queryByText(/enter a valid email address/i)).not.toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: /cancel/i }));
 

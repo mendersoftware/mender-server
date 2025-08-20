@@ -14,13 +14,13 @@
 import { Provider } from 'react-redux';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
+import { render } from '@/testUtils';
 import { getConfiguredStore } from '@northern.tech/store/store';
+import { undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, render as testingLibRender, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { undefineds } from '../../../../tests/mockData';
-import { render } from '../../../../tests/setupTests';
 import Password from './Password';
 import PasswordReset from './PasswordReset';
 

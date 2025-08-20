@@ -12,10 +12,10 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { formRenderWrapper } from '@northern.tech/common-ui/forms/helpers';
+import { undefineds } from '@northern.tech/testing/mockData';
 import { act } from '@testing-library/react';
 import { vi } from 'vitest';
 
-import { undefineds } from '../../../../../tests/mockData';
 import { UserDataEntry } from './UserdataEntry';
 
 describe('Login Component', () => {

@@ -11,13 +11,13 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { defaultState, render } from '@/testUtils';
 import { EXTERNAL_PROVIDER, TIMEOUTS } from '@northern.tech/store/constants';
+import { undefineds, webhookEvents } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { defaultState, undefineds, webhookEvents } from '../../../../../tests/mockData';
-import { render } from '../../../../../tests/setupTests';
 import WebhookConfiguration from './Configuration';
 import Webhooks from './Webhooks';
 
