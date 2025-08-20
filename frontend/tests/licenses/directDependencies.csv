@@ -10,6 +10,8 @@
 "@mui/x-date-pickers","MIT","https://github.com/mui/mui-x"
 "@northern.tech/eslint-config","Apache-2.0","https://github.com/NorthernTechHQ/nt-gui"
 "@northern.tech/prettier-config","Apache-2.0","https://github.com/NorthernTechHQ/nt-gui"
+"@northern.tech/store","Apache-2.0","https://github.com/NorthernTechHQ/nt-gui"
+"@northern.tech/testing","Apache-2.0","https://github.com/NorthernTechHQ/nt-gui"
 "@northern.tech/themes","Apache-2.0","https://github.com/NorthernTechHQ/nt-gui"
 "@northern.tech/typescript-config","Apache-2.0","https://github.com/NorthernTechHQ/nt-gui"
 "@northern.tech/utils","Apache-2.0","https://github.com/NorthernTechHQ/nt-gui"
