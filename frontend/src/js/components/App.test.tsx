@@ -13,16 +13,16 @@
 //    limitations under the License.
 import Linkify from 'react-linkify';
 
+import { defaultState, render } from '@/testUtils';
 import GeneralApi from '@northern.tech/store/api/general-api';
 import { getSessionInfo, maxSessionAge } from '@northern.tech/store/auth';
 import { TIMEOUTS } from '@northern.tech/store/constants';
+import { mockDate, token, undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, render as testLibRender, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import 'jsdom-worker';
 import { vi } from 'vitest';
 
-import { defaultState, mockDate, token, undefineds } from '../../../tests/mockData';
-import { render } from '../../../tests/setupTests';
 import App, { AppProviders } from './App';
 
 const preloadedState = {

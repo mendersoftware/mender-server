@@ -29,8 +29,8 @@ import FeedbackDialog from '@northern.tech/common-ui/dialogs/Feedback';
 import StartupNotificationDialog from '@northern.tech/common-ui/dialogs/StartupNotification';
 import storeActions from '@northern.tech/store/actions';
 import { SentryConfig } from '@northern.tech/store/appSlice';
-import { getSessionInfo, maxSessionAge, updateMaxAge } from '@northern.tech/store/auth';
-import { DARK_MODE, LIGHT_MODE, TIMEOUTS } from '@northern.tech/store/constants';
+import { getSessionInfo, updateMaxAge } from '@northern.tech/store/auth';
+import { DARK_MODE, LIGHT_MODE, TIMEOUTS, maxSessionAge } from '@northern.tech/store/constants';
 import {
   getCommit,
   getCurrentSession,

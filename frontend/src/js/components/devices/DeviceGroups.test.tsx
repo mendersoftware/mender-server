@@ -13,11 +13,11 @@
 //    limitations under the License.
 import { useLocation, useSearchParams } from 'react-router-dom';
 
+import { defaultState, render } from '@/testUtils';
+import { undefineds } from '@northern.tech/testing/mockData';
 import { act, prettyDOM } from '@testing-library/react';
 import { vi } from 'vitest';
 
-import { defaultState, undefineds } from '../../../../tests/mockData';
-import { render } from '../../../../tests/setupTests';
 import DeviceGroups from './DeviceGroups';
 
 const preloadedState = {

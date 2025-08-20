@@ -11,16 +11,16 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { defaultState, render } from '@/testUtils';
 import { getSessionInfo } from '@northern.tech/store/auth';
 import { TIMEOUTS } from '@northern.tech/store/commonConstants';
+import { token as mockToken, undefineds } from '@northern.tech/testing/mockData';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { defaultState, token as mockToken, undefineds } from '../../../../tests/mockData';
-import { render } from '../../../../tests/setupTests';
 import Upgrade, { PricingContactNote } from './Upgrade';
 
 const changeRequestBase = {
