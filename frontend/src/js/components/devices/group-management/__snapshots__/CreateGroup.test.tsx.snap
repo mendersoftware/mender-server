@@ -64,7 +64,7 @@ exports[`CreateGroup Component > renders correctly 1`] = `
 
 .emotion-3 {
   background-color: #fff;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 4px;
@@ -100,10 +100,11 @@ exports[`CreateGroup Component > renders correctly 1`] = `
 
 .emotion-4 {
   margin: 0;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 1.1607rem;
+  font-size: 1.25rem;
   line-height: 1.6;
+  letter-spacing: 0.0075em;
   padding: 16px 24px;
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
@@ -272,18 +273,17 @@ exports[`CreateGroup Component > renders correctly 1`] = `
   border: 0;
   vertical-align: top;
   width: 100%;
-  min-width: 240px;
 }
 
 .emotion-8 {
-  color: rgba(0, 0, 0, 0.54);
-  line-height: 1.4375em;
-  font-family: Lato,sans-serif;
+  color: rgba(0, 0, 0, 0.6);
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
+  font-size: 1rem;
+  line-height: 1.4375em;
+  letter-spacing: 0.00938em;
   padding: 0;
   position: relative;
-  color: rgba(0, 0, 0, 0.54);
   display: block;
   transform-origin: top left;
   white-space: nowrap;
@@ -309,7 +309,7 @@ exports[`CreateGroup Component > renders correctly 1`] = `
 }
 
 .emotion-8.Mui-focused {
-  color: #337a87;
+  color: #1976d2;
 }
 
 .emotion-8.Mui-disabled {
@@ -317,19 +317,16 @@ exports[`CreateGroup Component > renders correctly 1`] = `
 }
 
 .emotion-8.Mui-error {
-  color: #ab1000;
-}
-
-.emotion-8.Mui-focused {
-  color: #337a87;
+  color: #d32f2f;
 }
 
 .emotion-9 {
-  line-height: 1.4375em;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
-  color: rgba(10, 10, 11, 0.78);
+  font-size: 1rem;
+  line-height: 1.4375em;
+  letter-spacing: 0.00938em;
+  color: rgba(0, 0, 0, 0.87);
   box-sizing: border-box;
   position: relative;
   cursor: text;
@@ -352,7 +349,7 @@ exports[`CreateGroup Component > renders correctly 1`] = `
 }
 
 .emotion-9:hover .MuiOutlinedInput-notchedOutline {
-  border-color: rgba(10, 10, 11, 0.78);
+  border-color: rgba(0, 0, 0, 0.87);
 }
 
 @media (hover: none) {
@@ -366,11 +363,11 @@ exports[`CreateGroup Component > renders correctly 1`] = `
 }
 
 .emotion-9.Mui-focused .MuiOutlinedInput-notchedOutline {
-  border-color: #337a87;
+  border-color: #1976d2;
 }
 
 .emotion-9.Mui-error .MuiOutlinedInput-notchedOutline {
-  border-color: #ab1000;
+  border-color: #d32f2f;
 }
 
 .emotion-9.Mui-disabled .MuiOutlinedInput-notchedOutline {
@@ -513,11 +510,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
 }
 
 .emotion-13 {
-  color: rgba(0, 0, 0, 0.54);
-  font-family: Lato,sans-serif;
+  color: rgba(0, 0, 0, 0.6);
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.6964rem;
+  font-size: 0.75rem;
   line-height: 1.66;
+  letter-spacing: 0.03333em;
   text-align: left;
   margin-top: 3px;
   margin-right: 0;
@@ -530,7 +528,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
 }
 
 .emotion-13.Mui-error {
-  color: #ab1000;
+  color: #d32f2f;
 }
 
 .emotion-14 {
@@ -589,10 +587,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.75;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   min-width: 64px;
   padding: 6px 16px;
@@ -603,17 +602,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
   padding: 6px 8px;
   color: var(--variant-textColor);
   background-color: var(--variant-textBg);
-  --variant-textColor: #337a87;
-  --variant-outlinedColor: #337a87;
-  --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
+  --variant-textColor: #1976d2;
+  --variant-outlinedColor: #1976d2;
+  --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #337a87;
+  --variant-containedBg: #1976d2;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 2px;
-  font-size: 14px;
-  font-weight: bold;
-  padding: 10px 15px;
 }
 
 .emotion-15::-moz-focus-inner {
@@ -643,23 +638,15 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
 
 @media (hover: hover) {
   .emotion-15:hover {
-    --variant-containedBg: rgb(35, 85, 94);
-    --variant-textBg: rgba(51, 122, 135, 0.04);
-    --variant-outlinedBorder: #337a87;
-    --variant-outlinedBg: rgba(51, 122, 135, 0.04);
+    --variant-containedBg: #1565c0;
+    --variant-textBg: rgba(25, 118, 210, 0.04);
+    --variant-outlinedBorder: #1976d2;
+    --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
 }
 
 .emotion-15.MuiButton-loading {
   color: transparent;
-}
-
-.emotion-15:hover {
-  colors: #337a87;
-}
-
-.emotion-15.MuiButton-text {
-  color: rgba(10, 10, 11, 0.78);
 }
 
 .emotion-16 {
@@ -695,10 +682,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.75;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   min-width: 64px;
   padding: 6px 16px;
@@ -709,16 +697,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
   color: var(--variant-containedColor);
   background-color: var(--variant-containedBg);
   box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
-  --variant-textColor: #337a87;
-  --variant-outlinedColor: #337a87;
-  --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
+  --variant-textColor: #1976d2;
+  --variant-outlinedColor: #1976d2;
+  --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #337a87;
+  --variant-containedBg: #1976d2;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 2px;
-  font-size: 14px;
-  font-weight: bold;
 }
 
 .emotion-16::-moz-focus-inner {
@@ -772,23 +757,15 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
 
 @media (hover: hover) {
   .emotion-16:hover {
-    --variant-containedBg: rgb(35, 85, 94);
-    --variant-textBg: rgba(51, 122, 135, 0.04);
-    --variant-outlinedBorder: #337a87;
-    --variant-outlinedBg: rgba(51, 122, 135, 0.04);
+    --variant-containedBg: #1565c0;
+    --variant-textBg: rgba(25, 118, 210, 0.04);
+    --variant-outlinedBorder: #1976d2;
+    --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
 }
 
 .emotion-16.MuiButton-loading {
   color: transparent;
-}
-
-.emotion-16:hover {
-  colors: #337a87;
-}
-
-.emotion-16.MuiButton-text {
-  color: rgba(10, 10, 11, 0.78);
 }
 
 <div
@@ -811,7 +788,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
     tabindex="-1"
   >
     <div
-      aria-labelledby=":r1:"
+      aria-labelledby="«r1»"
       aria-modal="true"
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm MuiDialog-paperFullWidth emotion-3"
       role="dialog"
@@ -819,7 +796,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
     >
       <h2
         class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-4"
-        id=":r1:"
+        id="«r1»"
       >
         Add devices to group
       </h2>

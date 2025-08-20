@@ -3,34 +3,38 @@
 exports[`Subscription Summary component > renders correctly 1`] = `
 .emotion-0 {
   margin: 0;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 1.9732rem;
+  font-size: 2.125rem;
   line-height: 1.235;
+  letter-spacing: 0.00735em;
 }
 
 .emotion-1 {
   margin: 0;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.43;
+  letter-spacing: 0.01071em;
 }
 
 .emotion-2 {
   margin: 0;
-  line-height: 1.5;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
 }
 
 .emotion-3 {
   margin: 0;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
+  font-size: 1rem;
   line-height: 1.75;
+  letter-spacing: 0.00938em;
 }
 
 .emotion-4 {
@@ -47,7 +51,6 @@ exports[`Subscription Summary component > renders correctly 1`] = `
   margin: 0;
   border: 0;
   vertical-align: top;
-  min-width: 240px;
 }
 
 .emotion-5 {
@@ -81,7 +84,6 @@ exports[`Subscription Summary component > renders correctly 1`] = `
   -webkit-tap-highlight-color: transparent;
   margin-left: -11px;
   margin-right: 16px;
-  margin-top: 18px;
 }
 
 .emotion-6.Mui-disabled {
@@ -127,7 +129,7 @@ exports[`Subscription Summary component > renders correctly 1`] = `
   color: inherit;
   padding: 9px;
   border-radius: 50%;
-  color: rgba(0, 0, 0, 0.54);
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .emotion-7::-moz-focus-inner {
@@ -151,11 +153,11 @@ exports[`Subscription Summary component > renders correctly 1`] = `
 }
 
 .emotion-7:hover {
-  background-color: rgba(51, 122, 135, 0.04);
+  background-color: rgba(25, 118, 210, 0.04);
 }
 
 .emotion-7.Mui-checked {
-  color: #337a87;
+  color: #1976d2;
 }
 
 @media (hover: none) {
@@ -199,15 +201,11 @@ exports[`Subscription Summary component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
+  font-size: 1.5rem;
   -webkit-transform: scale(1);
   -moz-transform: scale(1);
   -ms-transform: scale(1);
   transform: scale(1);
-}
-
-.emotion-10 iconButton {
-  margin-right: 8px;
 }
 
 .emotion-11 {
@@ -224,7 +222,7 @@ exports[`Subscription Summary component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
+  font-size: 1.5rem;
   left: 0;
   position: absolute;
   -webkit-transform: scale(0);
@@ -241,10 +239,6 @@ exports[`Subscription Summary component > renders correctly 1`] = `
   transition: transform 150ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
 }
 
-.emotion-11 iconButton {
-  margin-right: 8px;
-}
-
 .emotion-18 {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -259,7 +253,7 @@ exports[`Subscription Summary component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
+  font-size: 1.5rem;
   left: 0;
   position: absolute;
   -webkit-transform: scale(0);
@@ -268,10 +262,6 @@ exports[`Subscription Summary component > renders correctly 1`] = `
   transform: scale(0);
   -webkit-transition: -webkit-transform 150ms cubic-bezier(0.4, 0, 1, 1) 0ms;
   transition: transform 150ms cubic-bezier(0.4, 0, 1, 1) 0ms;
-}
-
-.emotion-18 iconButton {
-  margin-right: 8px;
 }
 
 .emotion-29 {
@@ -289,7 +279,6 @@ exports[`Subscription Summary component > renders correctly 1`] = `
   border: 0;
   vertical-align: top;
   width: 100%;
-  min-width: 240px;
 }
 
 .emotion-30 {
@@ -307,18 +296,17 @@ exports[`Subscription Summary component > renders correctly 1`] = `
   border: 0;
   vertical-align: top;
   width: 100%;
-  min-width: 240px;
 }
 
 .emotion-31 {
-  color: rgba(0, 0, 0, 0.54);
-  line-height: 1.4375em;
-  font-family: Lato,sans-serif;
+  color: rgba(0, 0, 0, 0.6);
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
+  font-size: 1rem;
+  line-height: 1.4375em;
+  letter-spacing: 0.00938em;
   padding: 0;
   position: relative;
-  color: rgba(0, 0, 0, 0.54);
   display: block;
   transform-origin: top left;
   white-space: nowrap;
@@ -368,7 +356,7 @@ exports[`Subscription Summary component > renders correctly 1`] = `
 }
 
 .emotion-31.Mui-focused {
-  color: #337a87;
+  color: #1976d2;
 }
 
 .emotion-31.Mui-disabled {
@@ -376,19 +364,16 @@ exports[`Subscription Summary component > renders correctly 1`] = `
 }
 
 .emotion-31.Mui-error {
-  color: #ab1000;
-}
-
-.emotion-31.Mui-focused {
-  color: #337a87;
+  color: #d32f2f;
 }
 
 .emotion-32 {
-  line-height: 1.4375em;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
-  color: rgba(10, 10, 11, 0.78);
+  font-size: 1rem;
+  line-height: 1.4375em;
+  letter-spacing: 0.00938em;
+  color: rgba(0, 0, 0, 0.87);
   box-sizing: border-box;
   position: relative;
   cursor: text;
@@ -411,7 +396,7 @@ exports[`Subscription Summary component > renders correctly 1`] = `
 }
 
 .emotion-32:hover .MuiOutlinedInput-notchedOutline {
-  border-color: rgba(10, 10, 11, 0.78);
+  border-color: rgba(0, 0, 0, 0.87);
 }
 
 @media (hover: none) {
@@ -425,11 +410,11 @@ exports[`Subscription Summary component > renders correctly 1`] = `
 }
 
 .emotion-32.Mui-focused .MuiOutlinedInput-notchedOutline {
-  border-color: #337a87;
+  border-color: #1976d2;
 }
 
 .emotion-32.Mui-error .MuiOutlinedInput-notchedOutline {
-  border-color: #ab1000;
+  border-color: #d32f2f;
 }
 
 .emotion-32.Mui-disabled .MuiOutlinedInput-notchedOutline {
@@ -577,11 +562,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
 }
 
 .emotion-36 {
-  color: rgba(0, 0, 0, 0.54);
-  font-family: Lato,sans-serif;
+  color: rgba(0, 0, 0, 0.6);
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.6964rem;
+  font-size: 0.75rem;
   line-height: 1.66;
+  letter-spacing: 0.03333em;
   text-align: left;
   margin-top: 3px;
   margin-right: 0;
@@ -596,21 +582,22 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
 }
 
 .emotion-36.Mui-error {
-  color: #ab1000;
+  color: #d32f2f;
 }
 
 .emotion-37 {
   background-color: #fff;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 4px;
   box-shadow: var(--Paper-shadow);
   background-image: var(--Paper-overlay);
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.43;
+  letter-spacing: 0.01071em;
   background-color: transparent;
   display: -webkit-box;
   display: -webkit-flex;
@@ -653,10 +640,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
   font-size: inherit;
 }
 
-.emotion-39 iconButton {
-  margin-right: 8px;
-}
-
 .emotion-40 {
   padding: 8px 0;
   min-width: 0;
@@ -665,7 +648,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
 
 .emotion-42 {
   background-color: #fff;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 4px;
@@ -716,8 +699,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
   color: inherit;
   padding: 9px;
   border-radius: 50%;
-  color: rgba(0, 0, 0, 0.54);
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .emotion-45::-moz-focus-inner {
@@ -737,12 +719,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
 }
 
 .emotion-45:hover {
-  background-color: rgba(51, 122, 135, 0.04);
+  background-color: rgba(25, 118, 210, 0.04);
 }
 
 .emotion-45.Mui-checked,
 .emotion-45.MuiCheckbox-indeterminate {
-  color: #337a87;
+  color: #1976d2;
 }
 
 .emotion-45.Mui-disabled {
@@ -769,11 +751,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-}
-
-.emotion-47 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
 }
 
 .emotion-50 {
@@ -1002,8 +980,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
               <label
                 class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined emotion-31"
                 data-shrink="true"
-                for=":r2:"
-                id=":r2:-label"
+                for="«r2»"
+                id="«r2»-label"
               >
                 Number of devices
               </label>
@@ -1013,7 +991,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
                 <input
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall emotion-33"
-                  id=":r2:"
+                  id="«r2»"
                   min="50"
                   step="50"
                   type="number"
@@ -1126,7 +1104,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
               <p
                 class="MuiTypography-root MuiTypography-body2 margin-top-x-small margin-bottom-x-small emotion-1"
               >
-                Seamlessly configure applications and devices remotely – configure each device to its environment.
+                Expand your plan with device configuration features
               </p>
             </div>
             <div
@@ -1184,7 +1162,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
               <p
                 class="MuiTypography-root MuiTypography-body2 margin-top-x-small margin-bottom-x-small emotion-1"
               >
-                Secure, remote access to your devices – quickly diagnose and fix issues in real time.
+                Expand your plan with device monitoring features
               </p>
               <div
                 class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standardInfo MuiAlert-standard margin-bottom-x-small emotion-37"
@@ -1268,7 +1246,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
               <p
                 class="MuiTypography-root MuiTypography-body2 margin-top-x-small margin-bottom-x-small emotion-1"
               >
-                Detect and analyze health issues of devices, services and applications. Set up alerts so you can act quickly.
+                Expand your plan with device troubleshooting features
               </p>
             </div>
             <div

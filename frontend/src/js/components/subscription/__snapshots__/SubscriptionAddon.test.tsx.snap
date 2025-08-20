@@ -3,7 +3,7 @@
 exports[`Subscription Summary component > renders correctly 1`] = `
 .emotion-0 {
   background-color: #fff;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 4px;
@@ -33,7 +33,6 @@ exports[`Subscription Summary component > renders correctly 1`] = `
   -webkit-tap-highlight-color: transparent;
   margin-left: -11px;
   margin-right: 16px;
-  margin-top: 18px;
 }
 
 .emotion-2.Mui-disabled {
@@ -79,8 +78,7 @@ exports[`Subscription Summary component > renders correctly 1`] = `
   color: inherit;
   padding: 9px;
   border-radius: 50%;
-  color: rgba(0, 0, 0, 0.54);
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .emotion-3::-moz-focus-inner {
@@ -100,12 +98,12 @@ exports[`Subscription Summary component > renders correctly 1`] = `
 }
 
 .emotion-3:hover {
-  background-color: rgba(51, 122, 135, 0.04);
+  background-color: rgba(25, 118, 210, 0.04);
 }
 
 .emotion-3.Mui-checked,
 .emotion-3.MuiCheckbox-indeterminate {
-  color: #337a87;
+  color: #1976d2;
 }
 
 .emotion-3.Mui-disabled {
@@ -145,27 +143,25 @@ exports[`Subscription Summary component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-}
-
-.emotion-5 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
 }
 
 .emotion-6 {
   margin: 0;
-  line-height: 1.5;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
 }
 
 .emotion-7 {
   margin: 0;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.43;
+  letter-spacing: 0.01071em;
 }
 
 .emotion-8 {
@@ -226,7 +222,7 @@ exports[`Subscription Summary component > renders correctly 1`] = `
       <p
         class="MuiTypography-root MuiTypography-body2 margin-top-x-small margin-bottom-x-small emotion-7"
       >
-        Seamlessly configure applications and devices remotely – configure each device to its environment.
+        Expand your plan with device configuration features
       </p>
     </div>
     <div

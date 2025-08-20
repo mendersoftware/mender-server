@@ -15,15 +15,15 @@ exports[`QuoteRequestForm component > renders correctly 1`] = `
   margin: 0;
   border: 0;
   vertical-align: top;
-  min-width: 240px;
 }
 
 .emotion-1 {
-  color: rgba(0, 0, 0, 0.54);
-  font-family: Lato,sans-serif;
+  color: rgba(0, 0, 0, 0.6);
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.6964rem;
+  font-size: 0.75rem;
   line-height: 1.66;
+  letter-spacing: 0.03333em;
   text-align: left;
   margin-top: 3px;
   margin-right: 0;
@@ -38,7 +38,7 @@ exports[`QuoteRequestForm component > renders correctly 1`] = `
 }
 
 .emotion-1.Mui-error {
-  color: #ab1000;
+  color: #d32f2f;
 }
 
 .emotion-2 {
@@ -56,15 +56,15 @@ exports[`QuoteRequestForm component > renders correctly 1`] = `
   border: 0;
   vertical-align: top;
   width: 100%;
-  min-width: 240px;
 }
 
 .emotion-3 {
-  line-height: 1.4375em;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
-  color: rgba(10, 10, 11, 0.78);
+  font-size: 1rem;
+  line-height: 1.4375em;
+  letter-spacing: 0.00938em;
+  color: rgba(0, 0, 0, 0.87);
   box-sizing: border-box;
   position: relative;
   cursor: text;
@@ -89,7 +89,7 @@ exports[`QuoteRequestForm component > renders correctly 1`] = `
 }
 
 .emotion-3:hover .MuiOutlinedInput-notchedOutline {
-  border-color: rgba(10, 10, 11, 0.78);
+  border-color: rgba(0, 0, 0, 0.87);
 }
 
 @media (hover: none) {
@@ -103,11 +103,11 @@ exports[`QuoteRequestForm component > renders correctly 1`] = `
 }
 
 .emotion-3.Mui-focused .MuiOutlinedInput-notchedOutline {
-  border-color: #337a87;
+  border-color: #1976d2;
 }
 
 .emotion-3.Mui-error .MuiOutlinedInput-notchedOutline {
-  border-color: #ab1000;
+  border-color: #d32f2f;
 }
 
 .emotion-3.Mui-disabled .MuiOutlinedInput-notchedOutline {
@@ -274,10 +274,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.75;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   min-width: 64px;
   padding: 6px 16px;
@@ -288,16 +289,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
   color: var(--variant-containedColor);
   background-color: var(--variant-containedBg);
   box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
-  --variant-textColor: #5d0f43;
-  --variant-outlinedColor: #5d0f43;
-  --variant-outlinedBorder: rgba(93, 15, 67, 0.5);
+  --variant-textColor: #9c27b0;
+  --variant-outlinedColor: #9c27b0;
+  --variant-outlinedBorder: rgba(156, 39, 176, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #5d0f43;
+  --variant-containedBg: #9c27b0;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 2px;
-  font-size: 14px;
-  font-weight: bold;
 }
 
 .emotion-8::-moz-focus-inner {
@@ -351,23 +349,15 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
 
 @media (hover: hover) {
   .emotion-8:hover {
-    --variant-containedBg: rgb(65, 10, 46);
-    --variant-textBg: rgba(93, 15, 67, 0.04);
-    --variant-outlinedBorder: #5d0f43;
-    --variant-outlinedBg: rgba(93, 15, 67, 0.04);
+    --variant-containedBg: #7b1fa2;
+    --variant-textBg: rgba(156, 39, 176, 0.04);
+    --variant-outlinedBorder: #9c27b0;
+    --variant-outlinedBg: rgba(156, 39, 176, 0.04);
   }
 }
 
 .emotion-8.MuiButton-loading {
   color: transparent;
-}
-
-.emotion-8:hover {
-  colors: #337a87;
-}
-
-.emotion-8.MuiButton-text {
-  color: rgba(10, 10, 11, 0.78);
 }
 
 <div
@@ -406,7 +396,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
         <textarea
           aria-invalid="false"
           class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline emotion-4"
-          id=":r1:"
+          id="«r1»"
           placeholder="If you have any notes about your requirements or device fleet size, leave a message and we'll respond as soon as we can"
           style="height: 0px; overflow: hidden;"
         />

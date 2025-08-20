@@ -6,7 +6,7 @@ exports[`Deployments Component > renders correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  background-color: #f7f7f7;
+  background-color: #bdbdbd;
   border-radius: 8px;
   -webkit-column-gap: 16px;
   column-gap: 16px;
@@ -37,12 +37,8 @@ exports[`Deployments Component > renders correctly 1`] = `
   font-size: inherit;
 }
 
-.emotion-1 iconButton {
-  margin-right: 8px;
-}
-
 .emotion-3 {
-  background-color: #f7f7f7;
+  background-color: #bdbdbd;
   padding: 10px 20px;
   border-radius: 4px;
   -webkit-box-pack: center;
@@ -72,7 +68,7 @@ exports[`Deployments Component > renders correctly 1`] = `
 }
 
 .emotion-3 .progress-step-total .progress-bar {
-  background-color: #d4e9e7;
+  background-color: #fafafa;
 }
 
 .emotion-3 .progress-step-number {
@@ -97,7 +93,7 @@ exports[`Deployments Component > renders correctly 1`] = `
 
 .emotion-3.stepped-progress .progress-step-total .progress-bar {
   background-color: #fff;
-  border: 1px solid #a9a9a9;
+  border: 1px solid #424242;
   border-radius: 2px;
   height: 12px;
 }

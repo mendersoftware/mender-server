@@ -94,7 +94,7 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
 }
 
 .emotion-1.Mui-disabled {
-  color: #d8ebe9;
+  color: #f5f5f5;
 }
 
 .emotion-1.Mui-checked+.MuiSwitch-track {
@@ -121,11 +121,11 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
 }
 
 .emotion-1.Mui-checked {
-  color: #337a87;
+  color: #1976d2;
 }
 
 .emotion-1.Mui-checked:hover {
-  background-color: rgba(51, 122, 135, 0.04);
+  background-color: rgba(25, 118, 210, 0.04);
 }
 
 @media (hover: none) {
@@ -135,11 +135,11 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
 }
 
 .emotion-1.Mui-checked.Mui-disabled {
-  color: rgb(177, 204, 209);
+  color: rgb(167, 202, 237);
 }
 
 .emotion-1.Mui-checked+.MuiSwitch-track {
-  background-color: #337a87;
+  background-color: #1976d2;
 }
 
 .emotion-2 {

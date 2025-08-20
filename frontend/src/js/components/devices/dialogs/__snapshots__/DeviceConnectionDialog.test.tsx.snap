@@ -64,7 +64,7 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
 
 .emotion-3 {
   background-color: #fff;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 4px;
@@ -99,10 +99,11 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
 
 .emotion-4 {
   margin: 0;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 1.1607rem;
+  font-size: 1.25rem;
   line-height: 1.6;
+  letter-spacing: 0.0075em;
   padding: 16px 24px;
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
@@ -124,14 +125,15 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
 
 .emotion-6 {
   margin: 0;
-  line-height: 1.5;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
 }
 
 .emotion-7 {
-  background-color: #f7f7f7;
+  background-color: #f5f5f5;
 }
 
 .emotion-7 .os-list img {
@@ -141,10 +143,11 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
 
 .emotion-8 {
   margin: 0;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
+  font-size: 1rem;
   line-height: 1.75;
+  letter-spacing: 0.00938em;
 }
 
 .emotion-10 {
@@ -180,10 +183,11 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.75;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   min-width: 64px;
   padding: 6px 16px;
@@ -194,16 +198,13 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
   color: var(--variant-containedColor);
   background-color: var(--variant-containedBg);
   box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
-  --variant-textColor: #5d0f43;
-  --variant-outlinedColor: #5d0f43;
-  --variant-outlinedBorder: rgba(93, 15, 67, 0.5);
+  --variant-textColor: #9c27b0;
+  --variant-outlinedColor: #9c27b0;
+  --variant-outlinedBorder: rgba(156, 39, 176, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #5d0f43;
+  --variant-containedBg: #9c27b0;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 2px;
-  font-size: 14px;
-  font-weight: bold;
 }
 
 .emotion-10::-moz-focus-inner {
@@ -257,23 +258,15 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
 
 @media (hover: hover) {
   .emotion-10:hover {
-    --variant-containedBg: rgb(65, 10, 46);
-    --variant-textBg: rgba(93, 15, 67, 0.04);
-    --variant-outlinedBorder: #5d0f43;
-    --variant-outlinedBg: rgba(93, 15, 67, 0.04);
+    --variant-containedBg: #7b1fa2;
+    --variant-textBg: rgba(156, 39, 176, 0.04);
+    --variant-outlinedBorder: #9c27b0;
+    --variant-outlinedBg: rgba(156, 39, 176, 0.04);
   }
 }
 
 .emotion-10.MuiButton-loading {
   color: transparent;
-}
-
-.emotion-10:hover {
-  colors: #337a87;
-}
-
-.emotion-10.MuiButton-text {
-  color: rgba(10, 10, 11, 0.78);
 }
 
 .emotion-11 {
@@ -284,10 +277,11 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
 
 .emotion-12 {
   margin: 0;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
+  font-size: 1rem;
   line-height: 1.75;
+  letter-spacing: 0.00938em;
   margin-bottom: 0.35em;
 }
 
@@ -298,11 +292,12 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
 
 .emotion-15 {
   margin: 0;
-  line-height: 1.5;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
-  color: rgba(0, 0, 0, 0.54);
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .emotion-16 {
@@ -338,10 +333,11 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.75;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   min-width: 64px;
   padding: 6px 16px;
@@ -352,19 +348,15 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
   padding: 6px 8px;
   color: var(--variant-textColor);
   background-color: var(--variant-textBg);
-  --variant-textColor: #337a87;
-  --variant-outlinedColor: #337a87;
-  --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
+  --variant-textColor: #1976d2;
+  --variant-outlinedColor: #1976d2;
+  --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #337a87;
+  --variant-containedBg: #1976d2;
   padding: 4px 5px;
-  font-size: 0.7545rem;
+  font-size: 0.8125rem;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 2px;
-  font-size: 14px;
-  font-weight: bold;
-  padding: 10px 15px;
 }
 
 .emotion-16::-moz-focus-inner {
@@ -394,23 +386,15 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
 
 @media (hover: hover) {
   .emotion-16:hover {
-    --variant-containedBg: rgb(35, 85, 94);
-    --variant-textBg: rgba(51, 122, 135, 0.04);
-    --variant-outlinedBorder: #337a87;
-    --variant-outlinedBg: rgba(51, 122, 135, 0.04);
+    --variant-containedBg: #1565c0;
+    --variant-textBg: rgba(25, 118, 210, 0.04);
+    --variant-outlinedBorder: #1976d2;
+    --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
 }
 
 .emotion-16.MuiButton-loading {
   color: transparent;
-}
-
-.emotion-16:hover {
-  colors: #337a87;
-}
-
-.emotion-16.MuiButton-text {
-  color: rgba(10, 10, 11, 0.78);
 }
 
 .emotion-20 {
@@ -441,22 +425,6 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
   width: 100%;
   box-sizing: border-box;
   text-align: left;
-  padding-top: 11px;
-  padding-bottom: 11px;
-}
-
-.emotion-21.active {
-  background-color: #fff;
-}
-
-.emotion-21.leftNav.active {
-  border-top: 1px solid #d4e9e7;
-  border-bottom: 1px solid #d4e9e7;
-}
-
-.emotion-21.navLink,
-.emotion-21.navLink .MuiListItemText-root {
-  color: #969696;
 }
 
 .emotion-24 {
@@ -496,12 +464,8 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-  color: #337a87;
-}
-
-.emotion-25 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
+  color: #1976d2;
 }
 
 .emotion-25.read {
@@ -514,7 +478,7 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
   bottom: 0;
   left: -5px;
   right: -5px;
-  border: 1px dashed #337a87;
+  border: 1px dashed #1976d2;
   border-radius: 50%;
 }
 
@@ -555,10 +519,11 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.75;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   min-width: 64px;
   padding: 6px 16px;
@@ -569,17 +534,13 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
   padding: 6px 8px;
   color: var(--variant-textColor);
   background-color: var(--variant-textBg);
-  --variant-textColor: #337a87;
-  --variant-outlinedColor: #337a87;
-  --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
+  --variant-textColor: #1976d2;
+  --variant-outlinedColor: #1976d2;
+  --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #337a87;
+  --variant-containedBg: #1976d2;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 2px;
-  font-size: 14px;
-  font-weight: bold;
-  padding: 10px 15px;
 }
 
 .emotion-27::-moz-focus-inner {
@@ -609,23 +570,15 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
 
 @media (hover: hover) {
   .emotion-27:hover {
-    --variant-containedBg: rgb(35, 85, 94);
-    --variant-textBg: rgba(51, 122, 135, 0.04);
-    --variant-outlinedBorder: #337a87;
-    --variant-outlinedBg: rgba(51, 122, 135, 0.04);
+    --variant-containedBg: #1565c0;
+    --variant-textBg: rgba(25, 118, 210, 0.04);
+    --variant-outlinedBorder: #1976d2;
+    --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
 }
 
 .emotion-27.MuiButton-loading {
   color: transparent;
-}
-
-.emotion-27:hover {
-  colors: #337a87;
-}
-
-.emotion-27.MuiButton-text {
-  color: rgba(10, 10, 11, 0.78);
 }
 
 <div
@@ -648,7 +601,7 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
     tabindex="-1"
   >
     <div
-      aria-labelledby=":r1:"
+      aria-labelledby="«r1»"
       aria-modal="true"
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm emotion-3"
       role="dialog"
@@ -656,7 +609,7 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
     >
       <h2
         class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-4"
-        id=":r1:"
+        id="«r1»"
       >
         Connecting a device
       </h2>
