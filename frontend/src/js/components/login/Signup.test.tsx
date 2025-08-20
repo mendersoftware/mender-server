@@ -13,14 +13,14 @@
 //    limitations under the License.
 import { Route, Routes } from 'react-router-dom';
 
+import { render } from '@/testUtils';
 import { TIMEOUTS } from '@northern.tech/store/commonConstants';
+import { undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Cookies from 'universal-cookie';
 import { vi } from 'vitest';
 
-import { undefineds } from '../../../../tests/mockData';
-import { render } from '../../../../tests/setupTests';
 import Signup from './Signup';
 
 const cookies = new Cookies();

@@ -11,14 +11,13 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { ADDONS, PLANS } from '@northern.tech/store/appSlice/constants';
-import { TIMEOUTS } from '@northern.tech/store/commonConstants';
+import { defaultState, render } from '@/testUtils';
+import { ADDONS, PLANS, TIMEOUTS } from '@northern.tech/store/constants';
+import { undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { defaultState, undefineds } from '../../../../tests/mockData';
-import { render } from '../../../../tests/setupTests';
 import { SubscriptionPage } from './SubscriptionPage';
 
 const enterpriseReq = {

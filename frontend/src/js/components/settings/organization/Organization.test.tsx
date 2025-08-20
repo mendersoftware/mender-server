@@ -13,14 +13,14 @@
 //    limitations under the License.
 import { drawerClasses } from '@mui/material';
 
+import { defaultState, render } from '@/testUtils';
 import { getSessionInfo } from '@northern.tech/store/auth';
+import { token, undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import MockDate from 'mockdate';
 import { vi } from 'vitest';
 
-import { defaultState, token, undefineds } from '../../../../../tests/mockData';
-import { render } from '../../../../../tests/setupTests';
 import { CancelSubscription, CancelSubscriptionAlert, DeviceLimitExpansionNotification, PlanDescriptor } from './Billing';
 import MyOrganization from './Organization';
 

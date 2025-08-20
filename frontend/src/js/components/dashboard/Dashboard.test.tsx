@@ -13,14 +13,14 @@
 //    limitations under the License.
 import { Route, Routes } from 'react-router-dom';
 
+import { defaultState, render } from '@/testUtils';
 import { TIMEOUTS } from '@northern.tech/store/commonConstants';
 import { actions as deviceActions } from '@northern.tech/store/devicesSlice';
+import { undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { defaultState, undefineds } from '../../../../tests/mockData';
-import { render } from '../../../../tests/setupTests';
 import { Dashboard } from './Dashboard';
 
 describe('Dashboard Component', () => {

@@ -14,14 +14,15 @@
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
+import { defaultState, render } from '@/testUtils';
 import GeneralApi from '@northern.tech/store/api/general-api';
 import { ALL_DEVICES, TIMEOUTS } from '@northern.tech/store/constants';
+import { mockDate, undefineds } from '@northern.tech/testing/mockData';
+import { selectMaterialUiSelectOption } from '@northern.tech/testing/utils';
 import { act, fireEvent, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { defaultState, mockDate, undefineds } from '../../../../tests/mockData';
-import { render, selectMaterialUiSelectOption } from '../../../../tests/setupTests';
 import Deployments from './Deployments';
 
 const defaultLocationProps = { location: { search: 'startDate=2019-01-01' }, match: {} };

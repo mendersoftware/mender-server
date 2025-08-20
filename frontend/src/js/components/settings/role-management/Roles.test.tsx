@@ -11,13 +11,14 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { defaultState, render } from '@/testUtils';
 import { ALL_DEVICES, ALL_RELEASES, TIMEOUTS } from '@northern.tech/store/constants';
+import { undefineds } from '@northern.tech/testing/mockData';
+import { selectMaterialUiSelectOption } from '@northern.tech/testing/utils';
 import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { defaultState, undefineds } from '../../../../../tests/mockData';
-import { render, selectMaterialUiSelectOption } from '../../../../../tests/setupTests';
 import Roles from './RoleManagement';
 
 describe('Roles Component', () => {

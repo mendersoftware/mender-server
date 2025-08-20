@@ -14,12 +14,13 @@
 import { Provider } from 'react-redux';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
+import { defaultState } from '@/testUtils';
 import { getSessionInfo } from '@northern.tech/store/auth';
 import { getConfiguredStore } from '@northern.tech/store/store';
+import { undefineds } from '@northern.tech/testing/mockData';
 import { act, render as testingLibRender } from '@testing-library/react';
 import { vi } from 'vitest';
 
-import { defaultState, undefineds } from '../../../../tests/mockData';
 import Settings from './Settings';
 
 describe('Settings Component', () => {

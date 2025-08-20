@@ -11,16 +11,15 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { defaultState, render } from '@/testUtils';
 import { Tenant } from '@northern.tech/store/api/types/Tenant';
 import { getSessionInfo } from '@northern.tech/store/auth';
 import { initialState as initialOrganizationState } from '@northern.tech/store/organizationSlice';
-import * as OrganizationActions from '@northern.tech/store/thunks';
+import { undefineds } from '@northern.tech/testing/mockData';
 import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { defaultState, undefineds } from '../../../../tests/mockData';
-import { render } from '../../../../tests/setupTests';
 import { ExpandedTenant } from './ExpandedTenant';
 
 const state = {

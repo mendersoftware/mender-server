@@ -14,11 +14,11 @@
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
+import { defaultState, render } from '@/testUtils';
+import { undefineds } from '@northern.tech/testing/mockData';
 import { act } from '@testing-library/react';
 import { vi } from 'vitest';
 
-import { defaultState, undefineds } from '../../../../tests/mockData';
-import { render } from '../../../../tests/setupTests';
 import { Past } from './PastDeployments';
 
 const state = {

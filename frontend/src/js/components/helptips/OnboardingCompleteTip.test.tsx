@@ -14,11 +14,12 @@
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 
+import { defaultState } from '@/testUtils';
 import { getConfiguredStore } from '@northern.tech/store/store';
+import { undefineds } from '@northern.tech/testing/mockData';
 import { act, render as testingLibRender, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
 
-import { defaultState, undefineds } from '../../../../tests/mockData';
 import OnboardingCompleteTip from './OnboardingCompleteTip';
 
 describe('OnboardingCompleteTip Component', () => {

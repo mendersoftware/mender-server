@@ -11,10 +11,10 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { render } from '@/testUtils';
 import { DEVICE_STATES } from '@northern.tech/store/constants';
+import { adminUserCapabilities, undefineds } from '@northern.tech/testing/mockData';
 
-import { adminUserCapabilities, undefineds } from '../../../../../../tests/mockData';
-import { render } from '../../../../../../tests/setupTests';
 import AuthsetList from './AuthSetList';
 
 describe('AuthsetList Component', () => {
