@@ -728,52 +728,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   color: rgba(10, 10, 11, 0.78);
 }
 
-.emotion-31 {
-  color: rgba(0, 0, 0, 0.54);
-  line-height: 1.4375em;
+.emotion-30 {
+  margin: 0;
   font-family: Lato,sans-serif;
   font-weight: 400;
   font-size: 0.9286rem;
-  padding: 0;
-  position: relative;
-  color: rgba(0, 0, 0, 0.54);
-  display: block;
-  transform-origin: top left;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-  -webkit-transform: translate(0, 20px) scale(1);
-  -moz-transform: translate(0, 20px) scale(1);
-  -ms-transform: translate(0, 20px) scale(1);
-  transform: translate(0, 20px) scale(1);
-  -webkit-transform: translate(0, -1.5px) scale(0.75);
-  -moz-transform: translate(0, -1.5px) scale(0.75);
-  -ms-transform: translate(0, -1.5px) scale(0.75);
-  transform: translate(0, -1.5px) scale(0.75);
-  transform-origin: top left;
-  max-width: 133%;
-  -webkit-transition: color 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,-webkit-transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,max-width 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
-  transition: color 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,max-width 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
-}
-
-.emotion-31.Mui-focused {
-  color: #337a87;
-}
-
-.emotion-31.Mui-disabled {
-  color: rgba(0, 0, 0, 0.38);
-}
-
-.emotion-31.Mui-error {
-  color: #ab1000;
-}
-
-.emotion-31.Mui-focused {
-  color: #337a87;
+  line-height: 1.75;
 }
 
 .emotion-32 {
@@ -1004,6 +964,27 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-35:focus::-ms-input-
   color: #ab1000;
 }
 
+.emotion-48 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.1607rem;
+}
+
+.emotion-48 iconButton {
+  margin-right: 8px;
+}
+
 <div
   class="margin-top-small"
   style="max-width: 750px;"
@@ -1112,7 +1093,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-35:focus::-ms-input-
         class="MuiFormControl-root emotion-3"
       >
         <label
-          class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementStart margin-left-none align-self-start emotion-13"
+          class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementStart align-self-start margin-left-none margin-top-none emotion-13"
         >
           <span
             class="MuiSwitch-root MuiSwitch-sizeMedium margin-left-small emotion-14"
@@ -1140,14 +1121,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-35:focus::-ms-input-
         </label>
       </div>
       <p
-        class="MuiTypography-root MuiTypography-body2 emotion-1"
+        class="MuiTypography-root MuiTypography-body2 margin-top-x-small emotion-1"
       >
         Always require confirmation on deployment creation
       </p>
     </div>
     <div>
       <div
-        class="flexbox"
+        class="flexbox center-aligned"
       >
         <div
           class="flexbox column"
@@ -1156,7 +1137,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-35:focus::-ms-input-
             class="MuiFormControl-root emotion-3"
           >
             <label
-              class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementStart margin-left-none align-self-start emotion-13"
+              class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementStart align-self-start margin-left-none margin-top-none emotion-13"
             >
               <span
                 class="MuiSwitch-root MuiSwitch-sizeMedium margin-left-small emotion-14"
@@ -1197,64 +1178,124 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-35:focus::-ms-input-
         Edit configuration
       </button>
     </div>
-    <div
-      class="MuiFormControl-root emotion-3"
-    >
-      <label
-        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-standard MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-standard emotion-31"
-        data-shrink="true"
+    <div>
+      <h6
+        class="MuiTypography-root MuiTypography-subtitle1 margin-bottom-small emotion-30"
       >
         Offline threshold
-      </label>
-      <label
-        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-32"
+      </h6>
+      <div
+        class="MuiFormControl-root emotion-3"
       >
-        <div
-          class="MuiFormControl-root MuiTextField-root emotion-33"
+        <label
+          class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-32"
         >
           <div
-            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-34"
+            class="MuiFormControl-root MuiTextField-root emotion-33"
           >
-            <input
-              aria-invalid="false"
-              class="MuiInputBase-input MuiOutlinedInput-input emotion-35"
-              id=":r3:"
-              max="1000"
-              min="1"
-              type="number"
-              value="1"
-            />
-            <fieldset
-              aria-hidden="true"
-              class="MuiOutlinedInput-notchedOutline emotion-9"
+            <div
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-34"
             >
-              <legend
-                class="emotion-37"
+              <input
+                aria-invalid="false"
+                class="MuiInputBase-input MuiOutlinedInput-input emotion-35"
+                id=":r3:"
+                max="1000"
+                min="1"
+                type="number"
+                value="1"
+              />
+              <fieldset
+                aria-hidden="true"
+                class="MuiOutlinedInput-notchedOutline emotion-9"
               >
-                <span
-                  aria-hidden="true"
-                  class="notranslate"
+                <legend
+                  class="emotion-37"
                 >
-                  ​
-                </span>
-              </legend>
-            </fieldset>
+                  <span
+                    aria-hidden="true"
+                    class="notranslate"
+                  >
+                    ​
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
           </div>
-        </div>
-        <span
-          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-19"
-        >
-          <div
-            class="capitalized-start"
+          <span
+            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-19"
           >
-            days
-          </div>
-        </span>
-      </label>
-      <p
-        class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-39"
+            <div
+              class="capitalized-start"
+            >
+              days
+            </div>
+          </span>
+        </label>
+        <p
+          class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-39"
+        >
+          Choose how long a device can go without reporting to the server before it is considered “offline”.
+        </p>
+      </div>
+    </div>
+    <div
+      class="flexbox column"
+    >
+      <div
+        class="MuiFormControl-root emotion-3"
       >
-        Choose how long a device can go without reporting to the server before it is considered “offline”.
+        <label
+          class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementStart align-self-start margin-left-none margin-top-none emotion-13"
+        >
+          <span
+            class="MuiSwitch-root MuiSwitch-sizeMedium margin-left-small emotion-14"
+          >
+            <span
+              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary emotion-15"
+            >
+              <input
+                class="PrivateSwitchBase-input MuiSwitch-input emotion-16"
+                type="checkbox"
+              />
+              <span
+                class="MuiSwitch-thumb emotion-17"
+              />
+            </span>
+            <span
+              class="MuiSwitch-track emotion-18"
+            />
+          </span>
+          <span
+            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label capitalized-start emotion-19"
+          >
+            <div
+              class="flexbox center-aligned"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small emotion-48"
+                data-testid="AutoAwesomeOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="m19 9 1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25zm0 6-1.25 2.75L15 19l2.75 1.25L19 23l1.25-2.75L23 19l-2.75-1.25zm-7.5-5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12zm-1.51 3.49L9 15.17l-.99-2.18L5.83 12l2.18-.99L9 8.83l.99 2.18 2.18.99z"
+                />
+              </svg>
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle1 emotion-30"
+              >
+                AI features (experimental)
+              </h6>
+            </div>
+          </span>
+        </label>
+      </div>
+      <p
+        class="MuiTypography-root MuiTypography-body2 margin-top-x-small emotion-1"
+      >
+        Enable AI features for all users. We'll try to remove any sensitive details, such as URLs and timestamps, before sending your data for AI analysis. AI features are rate limited to 50 requests per day. 
       </p>
     </div>
   </div>
