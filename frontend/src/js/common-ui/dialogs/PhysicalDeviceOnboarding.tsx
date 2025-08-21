@@ -32,8 +32,9 @@ import {
   getTenantCapabilities
 } from '@northern.tech/store/selectors';
 import { advanceOnboarding, setOnboardingApproach, setOnboardingDeviceType } from '@northern.tech/store/thunks';
-import { getDebConfigurationCode, versionCompare } from '@northern.tech/utils/helpers';
+import { versionCompare } from '@northern.tech/utils/helpers';
 
+import { getDebConfigurationCode } from '../../utils/helpers';
 import CopyCode from '../CopyCode';
 import DocsLink from '../DocsLink';
 import { HELPTOOLTIPS } from '../helptips/HelpTooltips';
@@ -146,8 +147,8 @@ export const DeviceTypeSelectionStep = ({
   );
 };
 
-export const InstallationStep = ({ advanceOnboarding, selection, onboardingState, ...remainingProps }) => {
-  const codeToCopy = getDebConfigurationCode({ ...remainingProps, deviceType: selection, isOnboarding: !onboardingState.complete });
+export const InstallationStep = ({ advanceOnboarding, selection, ...remainingProps }) => {
+  const codeToCopy = getDebConfigurationCode({ ...remainingProps, deviceType: selection });
   return (
     <>
       <h4>Log into your device and install the Mender client</h4>
@@ -179,7 +180,7 @@ export const PhysicalDeviceOnboarding = ({ progress }) => {
   });
   const ipAddress = useSelector(getHostAddress);
   const isEnterprise = useSelector(getIsEnterprise);
-  const { isDemoMode, isHosted } = useSelector(getFeatures);
+  const { isHosted } = useSelector(getFeatures);
   const isPreRelease = useSelector(getIsPreview);
   const onboardingState = useSelector(getOnboardingState);
   const { tenant_token: tenantToken } = useSelector(getOrganization);
@@ -215,7 +216,6 @@ export const PhysicalDeviceOnboarding = ({ progress }) => {
       ipAddress={ipAddress}
       isEnterprise={isEnterprise}
       isHosted={isHosted}
-      isDemoMode={isDemoMode}
       isPreRelease={isPreRelease}
       onboardingState={onboardingState}
       onSelect={onSelect}
