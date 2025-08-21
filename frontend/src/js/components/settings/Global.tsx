@@ -142,13 +142,17 @@ const ToggleSetting = ({
       <FormControlLabel
         disabled={disabled}
         classes={{ label: 'capitalized-start' }}
-        className="margin-left-none align-self-start"
+        className="align-self-start margin-left-none margin-top-none"
         control={<Switch className="margin-left-small" checked={value} onClick={onClick} />}
         label={title}
         labelPlacement="start"
       />
     </FormControl>
-    {!!description && <Typography variant="body2">{description}</Typography>}
+    {!!description && (
+      <Typography className="margin-top-x-small" variant="body2">
+        {description}
+      </Typography>
+    )}
   </div>
 );
 
@@ -244,7 +248,7 @@ export const GlobalSettingsDialog = ({
         )}
         {canManageReleases && (
           <div>
-            <div className="flexbox">
+            <div className="flexbox center-aligned">
               <ToggleSetting title="Delta Artifacts generation" disabled onClick={yes} value={hasDeltaArtifactGeneration} />
               <EnterpriseNotification className="margin-left-small" id={BENEFITS.deltaGeneration.id} />
             </div>
@@ -252,7 +256,7 @@ export const GlobalSettingsDialog = ({
               Edit configuration
             </Button>
             {!isEnterprise && (
-              <Typography variant="body2">
+              <Typography className="margin-top-small" variant="body2">
                 Automatic delta artifacts generation is not enabled in your account. If you want to start using this feature, <SupportLink variant="ourTeam" />{' '}
                 or <Link to="/subscription">upgrade</Link>
                 {isTrial ? '' : ' to Mender Enterprise'}.
@@ -271,26 +275,29 @@ export const GlobalSettingsDialog = ({
               description={`${channel} notifications for deployment and monitoring issues for all users`}
             />
           ))}
-
-        <FormControl variant="standard">
-          <InputLabel shrink>Offline threshold</InputLabel>
-          <FormControlLabel
-            className={classes.threshold}
-            control={
-              <TextField
-                type="number"
-                onChange={onChangeOfflineInterval}
-                slotProps={{ htmlInput: { min: '1', max: '1000' } }}
-                error={!!intervalErrorText}
-                value={currentInterval}
-                variant="outlined"
-              />
-            }
-            label={<div className="capitalized-start">{DEVICE_ONLINE_CUTOFF.intervalName}</div>}
-          />
-          {!!intervalErrorText && <FormHelperText className="warning">{intervalErrorText}</FormHelperText>}
-          <FormHelperText>Choose how long a device can go without reporting to the server before it is considered “offline”.</FormHelperText>
-        </FormControl>
+        <div>
+          <Typography className="margin-bottom-small" variant="subtitle1">
+            Offline threshold
+          </Typography>
+          <FormControl variant="standard">
+            <FormControlLabel
+              className={classes.threshold}
+              control={
+                <TextField
+                  type="number"
+                  onChange={onChangeOfflineInterval}
+                  slotProps={{ htmlInput: { min: '1', max: '1000' } }}
+                  error={!!intervalErrorText}
+                  value={currentInterval}
+                  variant="outlined"
+                />
+              }
+              label={<div className="capitalized-start">{DEVICE_ONLINE_CUTOFF.intervalName}</div>}
+            />
+            {!!intervalErrorText && <FormHelperText className="warning">{intervalErrorText}</FormHelperText>}
+            <FormHelperText>Choose how long a device can go without reporting to the server before it is considered “offline”.</FormHelperText>
+          </FormControl>
+        </div>
         <ToggleSetting
           value={isAiEnabled}
           onClick={() => onToggleAiClick(isAiEnabled)}
