@@ -17,8 +17,8 @@ GIT_ROOT := $(shell git rev-parse --show-toplevel)
 MAKEDIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 DOCFILES := $(wildcard docs/*_api.yml)
 
-GOFILES := $(shell find -name '*.go' -not -name '_test.go')
-GOTESTFILES := $(shell find -name '_test.go')
+GOFILES := $(shell find ./ -name '*.go' -not -name '_test.go')
+GOTESTFILES := $(shell find ./ -name '_test.go')
 CGO_ENABLED ?= 0
 GOARCH ?= $(shell go env GOARCH)
 GOOS ?= $(shell go env GOOS)
