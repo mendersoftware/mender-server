@@ -38,6 +38,7 @@ cat >/var/www/mender-gui/dist/env.js <<EOF
     hostedAnnouncement: "$ANNOUNCEMENT",
     isDemoMode: "$DEMO",
     features: {
+      hasAiEnabled: "$HAVE_AI_ENABLED",
       hasAuditlogs: "$HAVE_AUDITLOGS",
       hasDeviceConfig: "$HAVE_DEVICECONFIG",
       hasDeviceConnect: "$HAVE_DEVICECONNECT",

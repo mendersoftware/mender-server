@@ -87,6 +87,7 @@ export const initialState: AppSliceType = {
   },
   // return boolean rather than organization details
   features: {
+    hasAiEnabled: false,
     hasAuditlogs: false,
     hasDeltaProgress: false,
     hasMultitenancy: false,
