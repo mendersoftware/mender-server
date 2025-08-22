@@ -6,7 +6,7 @@ MENDER_PUBLISH_REGISTRY ?= docker.io
 MENDER_PUBLISH_REPOSTIORY ?= mendersoftware
 MENDER_PUBLISH_TAG ?= $(MENDER_IMAGE_TAG)
 
-SERVICES = $(subst services,,$(subst /,,$(wildcard services/*/)))
+SERVICES = $(subst services,,$(subst /,,$(sort $(dir $(wildcard services/*/)))))
 BUILD_TARGETS := $(addsuffix -build, $(SERVICES))
 TEST_TARGETS := $(addsuffix -test, $(SERVICES))
 TEST_UNIT_TARGETS := $(addsuffix -test-unit, $(SERVICES))
