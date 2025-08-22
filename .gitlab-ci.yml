@@ -455,17 +455,6 @@ test:staging-deployment:firefox:
       when: delayed
       start_in: 10 minutes
 
-test:staging-deployment:webkit:
-  extends: .template:test:staging-deployment
-  allow_failure: true
-  script:
-    - npx playwright install webkit
-    - npm run test -- --project=webkit
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-      when: delayed
-      start_in: 15 minutes
-
 publish:backend:coverage:
   stage: publish
   needs:
