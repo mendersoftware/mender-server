@@ -21,11 +21,11 @@ import { listItemTextClasses } from '@mui/material/ListItemText';
 import { makeStyles } from 'tss-react/mui';
 
 import ExpandableAttribute from '@northern.tech/common-ui/ExpandableAttribute';
-import { HELPTOOLTIPS } from '@northern.tech/common-ui/helptips/HelpTooltips';
-import { MenderHelpTooltip } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import { SSO_TYPES, XML_METADATA_FORMAT } from '@northern.tech/store/constants';
 import { toggle } from '@northern.tech/utils/helpers';
 
+import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
+import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 import { maxWidth } from './OrganizationSettingsItem';
 import SSOEditor from './SSOEditor';
 

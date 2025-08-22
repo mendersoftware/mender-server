@@ -20,9 +20,9 @@ import { makeStyles } from 'tss-react/mui';
 import ChipSelect from '@northern.tech/common-ui/ChipSelect';
 import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
-import { HELPTOOLTIPS } from '@northern.tech/common-ui/helptips/HelpTooltips';
-import { MenderHelpTooltip } from '@northern.tech/common-ui/helptips/MenderTooltip';
 
+import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
+import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 import { FileInformation } from './FileInformation';
 
 const defaultVersion = '1.0.0';

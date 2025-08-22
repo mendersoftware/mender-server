@@ -14,8 +14,8 @@
 import { act } from '@testing-library/react';
 import { vi } from 'vitest';
 
-import { undefineds } from '../../../../tests/mockData';
-import { render } from '../../../../tests/setupTests';
+import { undefineds } from '../../../../../tests/mockData';
+import { render } from '../../../../../tests/setupTests';
 import VirtualDeviceOnboarding, { getDemoDeviceCreationCommand } from './VirtualDeviceOnboarding';
 
 describe('VirtualDeviceOnboarding Component', () => {
