@@ -11,10 +11,11 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import { AutoAwesomeOutlined as AutoAwesomeIcon } from '@mui/icons-material';
 import {
   Button,
   FormControl,
@@ -133,7 +134,7 @@ const ToggleSetting = ({
   description?: string;
   disabled?: boolean;
   onClick: () => void;
-  title: string;
+  title: string | ReactNode;
   value: boolean;
 }) => (
   <div className="flexbox column">
@@ -172,7 +173,8 @@ export const GlobalSettingsDialog = ({
   const debouncedOfflineThreshold = useDebounce(currentInterval, TIMEOUTS.threeSeconds);
   const timer = useRef(false);
   const { classes } = useStyles();
-  const { needsDeploymentConfirmation = false } = settings;
+  const { aiFeatures = {}, needsDeploymentConfirmation = false } = settings;
+  const { enabled: isAiEnabled } = aiFeatures;
   const { hasMonitor, isEnterprise } = tenantCapabilities;
   const { canManageReleases, canManageUsers } = userCapabilities;
   const { trial: isTrial = true } = useSelector(getOrganization);
@@ -221,6 +223,8 @@ export const GlobalSettingsDialog = ({
   const toggleDeploymentConfirmation = () => saveGlobalSettings({ needsDeploymentConfirmation: !needsDeploymentConfirmation });
 
   const onEditDeltaClick = () => setShowDeltaConfig(true);
+
+  const onToggleAiClick = current => saveGlobalSettings({ aiFeatures: { enabled: !current } });
 
   return (
     <div style={{ maxWidth }} className="margin-top-small">
@@ -287,6 +291,17 @@ export const GlobalSettingsDialog = ({
           {!!intervalErrorText && <FormHelperText className="warning">{intervalErrorText}</FormHelperText>}
           <FormHelperText>Choose how long a device can go without reporting to the server before it is considered “offline”.</FormHelperText>
         </FormControl>
+        <ToggleSetting
+          value={isAiEnabled}
+          onClick={() => onToggleAiClick(isAiEnabled)}
+          title={
+            <div className="flexbox center-aligned">
+              <AutoAwesomeIcon className="margin-right-x-small" fontSize="small" color={isAiEnabled ? 'secondary' : 'inherit'} />
+              <Typography variant="subtitle1">AI features (experimental)</Typography>
+            </div>
+          }
+          description="Enable AI features for all users. We'll try to remove any sensitive details, such as URLs and timestamps, before sending your data for AI analysis. AI features are rate limited to 50 requests per day. "
+        />
       </div>
       <ArtifactGenerationSettings open={showDeltaConfig} onClose={() => setShowDeltaConfig(false)} />
     </div>

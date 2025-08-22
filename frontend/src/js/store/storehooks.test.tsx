@@ -289,7 +289,6 @@ const appInitActions = [
   { type: getReleases.fulfilled.type },
 
   { type: userActions.receivedPermissionSets.type, payload: receivedPermissionSets },
-  { type: getPermissionSets.fulfilled.type },
   {
     type: deviceActions.receivedDevices.type,
     payload: {
@@ -297,10 +296,10 @@ const appInitActions = [
       [defaultState.devices.byId.b1.id]: { ...defaultState.devices.byId.b1, group: undefined, isNew: false, isOffline: true, monitor: {}, tags: {} }
     }
   },
+  { type: getPermissionSets.fulfilled.type },
   { type: userActions.receivedRoles.type, payload: receivedRoles },
-  { type: userActions.finishedRoleInitialization.type, payload: true },
   { type: getDevicesWithAuth.fulfilled.type },
-  { type: getRoles.fulfilled.type },
+  { type: userActions.finishedRoleInitialization.type, payload: true },
   { type: getDevicesByStatus.fulfilled.type },
   {
     type: deviceActions.addGroup.type,
@@ -311,6 +310,7 @@ const appInitActions = [
       }
     }
   },
+  { type: getRoles.fulfilled.type },
   { type: getGroups.fulfilled.type },
   { type: deviceActions.setDeviceListState.type, payload: { selectedAttributes: [] } },
   { type: userActions.setTooltipsState.type, payload: {} },
