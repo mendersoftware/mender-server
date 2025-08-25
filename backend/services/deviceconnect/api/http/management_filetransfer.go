@@ -591,6 +591,8 @@ func (h ManagementController) uploadFileResponseHandleInboundMessages(
 	msgChan chan *natsio.Msg, errorChan chan error,
 	latestAckOffsets chan int64,
 ) {
+	l := log.FromContext(c.Request.Context())
+	defer l.SimpleRecovery()
 	var latestAckOffset int64
 	deviceTopic := model.GetDeviceSubject(params.TenantID, params.Device.ID)
 	for {

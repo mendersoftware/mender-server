@@ -14,14 +14,10 @@
 package accesslog
 
 import (
-	"fmt"
 	"net"
 	"net/http"
 	"os"
-	"path"
-	"runtime"
 	"strconv"
-	"strings"
 
 	"github.com/mendersoftware/mender-server/pkg/netutils"
 )
@@ -42,38 +38,4 @@ func getClientIPFromEnv() func(r *http.Request) net.IP {
 		}
 	}
 	return nil
-}
-
-const MaxTraceback = 32
-
-func collectTrace() string {
-	var (
-		trace     [MaxTraceback]uintptr
-		traceback strings.Builder
-	)
-	// Skip 4
-	// = accesslog.LogFunc
-	// + accesslog.collectTrace
-	// + runtime.Callers
-	// + runtime.gopanic
-	n := runtime.Callers(4, trace[:])
-	frames := runtime.CallersFrames(trace[:n])
-	for frame, more := frames.Next(); frame.PC != 0 &&
-		n >= 0; frame, more = frames.Next() {
-		funcName := frame.Function
-		if funcName == "" {
-			fmt.Fprint(&traceback, "???\n")
-		} else {
-			fmt.Fprintf(&traceback, "%s@%s:%d",
-				frame.Function,
-				path.Base(frame.File),
-				frame.Line,
-			)
-		}
-		if more {
-			fmt.Fprintln(&traceback)
-		}
-		n--
-	}
-	return traceback.String()
 }

@@ -206,6 +206,8 @@ func (h DeviceController) connectWSWriter(
 	errChan <-chan error,
 ) (err error) {
 	l := log.FromContext(ctx)
+	defer l.SimpleRecovery(
+		log.NewRecoveryOption().WithError(err))
 	defer func() {
 		if err != nil {
 			if !websocket.IsUnexpectedCloseError(err) {

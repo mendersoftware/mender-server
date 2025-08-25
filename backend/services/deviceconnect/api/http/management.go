@@ -271,6 +271,9 @@ func (h ManagementController) Playback(c *gin.Context) {
 		bufio.NewWriterSize(io.Discard, app.RecorderBufferSize))
 
 	go func() {
+		defer l.SimpleRecovery(
+			log.NewRecoveryOption().
+				WithChannel(errChan))
 		err = h.app.GetSessionRecording(ctx,
 			sessionID,
 			app.NewPlayback(deviceChan, sleepMilliseconds))
@@ -325,6 +328,10 @@ func (h ManagementController) websocketWriter(
 	controlRecorderBuffered *bufio.Writer,
 ) (err error) {
 	l := log.FromContext(ctx)
+	defer l.SimpleRecovery(
+		log.NewRecoveryOption().
+			WithError(err))
+
 	defer writerFinalizer(conn, &err, l)
 
 	// handle the ping-pong connection health check

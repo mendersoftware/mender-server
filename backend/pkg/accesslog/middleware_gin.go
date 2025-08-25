@@ -73,7 +73,7 @@ func (a AccessLogger) LogFunc(
 		lc.addFields(logCtx)
 	}
 	if r := recover(); r != nil {
-		trace := collectTrace()
+		trace := log.CollectTrace()
 		logCtx["trace"] = trace
 		logCtx["panic"] = r
 
