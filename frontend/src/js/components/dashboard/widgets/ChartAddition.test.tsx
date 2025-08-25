@@ -14,7 +14,7 @@
 import { defaultState, render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { selectMaterialUiSelectOption } from '@northern.tech/testing/utils';
-import { screen } from '@testing-library/react';
+import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
@@ -45,6 +45,7 @@ describe('ChartAdditionWidget Component', () => {
     await selectMaterialUiSelectOption(element, 'testGroup', user);
     await user.click(screen.getByRole('button', { name: /Save/i }));
     expect(submitCheck).toHaveBeenCalled();
+    await act(async () => vi.runAllTicks());
     expect(screen.queryByText(/Device group/i)).not.toBeInTheDocument();
   });
 });

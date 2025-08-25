@@ -102,7 +102,7 @@ describe('App Component', () => {
         vi.runOnlyPendingTimers();
         vi.runAllTicks();
       });
-      window.localStorage.getItem.mockReset();
+      window.localStorage.getItem.mockRestore();
     },
     20 * TIMEOUTS.oneSecond
   );
@@ -110,8 +110,6 @@ describe('App Component', () => {
   it(
     'is embedded in working providers',
     async () => {
-      window.localStorage.getItem.mockImplementation(name => (name === 'JWT' ? JSON.stringify({ token }) : undefined));
-
       const ui = <AppProviders basename="" />;
       const { baseElement, rerender } = testLibRender(ui);
       await waitFor(() => screen.queryByText('Software distribution'), { timeout: TIMEOUTS.fiveSeconds });
@@ -120,14 +118,12 @@ describe('App Component', () => {
       const view = baseElement.lastElementChild;
       expect(view).toMatchSnapshot();
       expect(view).toEqual(expect.not.stringMatching(undefineds));
-      window.localStorage.getItem.mockReset();
     },
     10 * TIMEOUTS.oneSecond
   );
   it(
     'allows offline threshold migration',
     async () => {
-      window.localStorage.getItem.mockImplementation(name => (name === 'JWT' ? JSON.stringify({ token }) : undefined));
       const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
       const ui = <App />;
       render(ui, {
@@ -158,6 +154,7 @@ describe('App Component', () => {
       expect(post).toHaveBeenCalledWith(
         '/api/management/v1/useradm/settings',
         {
+          '2fa': 'enabled',
           id_attribute: { attribute: 'mac', scope: 'identity' },
           previousFilters: [],
           offlineThreshold: { interval: 1, intervalUnit: 'days' }
