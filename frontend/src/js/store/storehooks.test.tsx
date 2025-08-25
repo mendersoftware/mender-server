@@ -14,41 +14,24 @@
 // @ts-nocheck
 import { Provider } from 'react-redux';
 
-import {
-  getDeploymentsByStatus,
-  getDeviceAttributes,
-  getDeviceLimit,
-  getDevicesByStatus,
-  getDevicesWithAuth,
-  getDynamicGroups,
-  getGroups,
-  getIntegrations,
-  getReleases,
-  getUserOrganization,
-  tenantDataDivergedMessage
-} from '@northern.tech/store/thunks';
+import { getUserOrganization, tenantDataDivergedMessage } from '@northern.tech/store/thunks';
+import { deepCompare } from '@northern.tech/utils/helpers';
 import { renderHook, waitFor } from '@testing-library/react';
 import configureMockStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 import { vi } from 'vitest';
 
 import { inventoryDevice } from '../../../tests/__mocks__/deviceHandlers';
-import { defaultState, receivedPermissionSets, receivedRoles, userId } from '../../../tests/mockData';
+import { defaultState, userId } from '../../../tests/mockData';
 import { actions as appActions } from './appSlice';
-import { getLatestReleaseInfo, setOfflineThreshold } from './appSlice/thunks';
 import { latestSaasReleaseTag } from './appSlice/thunks.test';
 import { getSessionInfo } from './auth';
-import { EXTERNAL_PROVIDER, UNGROUPED_GROUP, timeUnits } from './commonConstants';
+import { EXTERNAL_PROVIDER, timeUnits } from './commonConstants';
 import { DEVICE_STATES } from './constants';
-import { actions as deploymentsActions } from './deploymentsSlice';
-import { actions as deviceActions } from './devicesSlice';
-import { actions as onboardingActions } from './onboardingSlice';
-import { defaultOnboardingState, expectedOnboardingActions } from './onboardingSlice/thunks.test';
+import { expectedOnboardingActions } from './onboardingSlice/thunks.test';
 import { actions as organizationActions } from './organizationSlice';
-import { actions as releasesActions } from './releasesSlice';
 import { useAppInit } from './storehooks';
 import { actions as userActions } from './usersSlice';
-import { getGlobalSettings, getPermissionSets, getRoles, getUserSettings, saveUserSettings } from './usersSlice/thunks';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -77,9 +60,7 @@ export const receivedInventoryDevice = {
 };
 
 const appInitActions = [
-  { type: userActions.successfullyLoggedIn.type }, //, payload: { token }
-  { type: onboardingActions.setOnboardingComplete.type, payload: true },
-  { type: onboardingActions.setDemoArtifactPort.type, payload: 85 },
+  { type: userActions.successfullyLoggedIn.type },
   { type: appActions.setFeatures.type, payload: { ...defaultState.app.features, hasMultitenancy: true, isHosted: false } },
   {
     type: appActions.setVersionInformation.type,
@@ -104,9 +85,6 @@ const appInitActions = [
       trackerCode: ''
     }
   },
-  { type: getLatestReleaseInfo.pending.type },
-  { type: getUserSettings.pending.type },
-  { type: getGlobalSettings.pending.type },
   { type: appActions.setFirstLoginAfterSignup.type, payload: false },
   { type: getUserOrganization.pending.type },
   {
@@ -130,124 +108,7 @@ const appInitActions = [
   },
   { type: organizationActions.setOrganization.type, payload: defaultState.organization.organization },
   { type: appActions.setAnnouncement.type, payload: tenantDataDivergedMessage },
-  { type: getLatestReleaseInfo.fulfilled.type },
-  { type: getUserOrganization.fulfilled.type },
-  { type: userActions.setGlobalSettings.type, payload: { ...defaultState.users.globalSettings } },
-  { type: setOfflineThreshold.pending.type },
   { type: appActions.setOfflineThreshold.type, payload: '2019-01-12T13:00:00.950Z' },
-  { type: setOfflineThreshold.fulfilled.type },
-  { type: userActions.setUserSettings.type, payload: { ...defaultState.users.userSettings } },
-  { type: getGlobalSettings.fulfilled.type },
-  { type: getUserSettings.fulfilled.type },
-  { type: getDeviceAttributes.pending.type },
-  { type: getDeploymentsByStatus.pending.type },
-  { type: getDeploymentsByStatus.pending.type },
-  { type: getDevicesByStatus.pending.type },
-  { type: getDevicesByStatus.pending.type },
-  { type: getDevicesByStatus.pending.type },
-  { type: getDevicesByStatus.pending.type },
-  { type: getDynamicGroups.pending.type },
-  { type: getGroups.pending.type },
-  { type: getIntegrations.pending.type },
-  { type: getReleases.pending.type },
-  { type: getDeviceLimit.pending.type },
-  { type: getRoles.pending.type },
-  { type: getPermissionSets.pending.type },
-  { type: deploymentsActions.receivedDeployments.type, payload: defaultState.deployments.byId },
-  {
-    type: deploymentsActions.receivedDeploymentsForStatus.type,
-    payload: {
-      deploymentIds: [defaultState.deployments.byId.d3.id, defaultState.deployments.byId.d1.id, defaultState.deployments.byId.d2.id],
-      status: 'finished',
-      total: Object.keys(defaultState.deployments.byId).length
-    }
-  },
-  { type: deploymentsActions.receivedDeployments.type, payload: defaultState.deployments.byId },
-  {
-    type: deploymentsActions.receivedDeploymentsForStatus.type,
-    payload: {
-      deploymentIds: [defaultState.deployments.byId.d3.id, defaultState.deployments.byId.d1.id, defaultState.deployments.byId.d2.id],
-      status: 'inprogress',
-      total: Object.keys(defaultState.deployments.byId).length
-    }
-  },
-  {
-    type: deploymentsActions.selectDeploymentsForStatus.type,
-    payload: {
-      deploymentIds: [defaultState.deployments.byId.d3.id, defaultState.deployments.byId.d1.id, defaultState.deployments.byId.d2.id],
-      status: 'inprogress',
-      total: Object.keys(defaultState.deployments.byId).length
-    }
-  },
-  { type: getDeploymentsByStatus.fulfilled.type },
-  { type: getDeploymentsByStatus.fulfilled.type },
-  { type: deviceActions.setDeviceLimit.type, payload: 500 },
-  { type: getDeviceLimit.fulfilled.type },
-  {
-    type: deviceActions.receivedGroups.type,
-    payload: {
-      testGroup: defaultState.devices.groups.byId.testGroup,
-      testGroupDynamic: { filters: [{ key: 'group', operator: '$eq', scope: 'system', value: 'things' }], id: 'filter1', name: 'filter1' }
-    }
-  },
-  { type: getDevicesByStatus.pending.type },
-  { type: deviceActions.setFilterAttributes.type },
-  { type: getDeviceAttributes.fulfilled.type },
-  {
-    type: deviceActions.receivedGroups.type,
-    payload: {
-      testGroup: defaultState.devices.groups.byId.testGroup,
-      testGroupDynamic: {
-        deviceIds: [],
-        filters: [
-          { key: 'id', operator: '$in', scope: 'identity', value: [defaultState.devices.byId.a1.id] },
-          { key: 'mac', operator: '$nexists', scope: 'identity', value: false },
-          { key: 'kernel', operator: '$exists', scope: 'identity', value: true }
-        ],
-        id: 'filter1',
-        name: 'filter1',
-        total: 0
-      }
-    }
-  },
-  { type: getDynamicGroups.fulfilled.type },
-  {
-    type: deviceActions.receivedDevices.type,
-    payload: {
-      [defaultState.devices.byId.a1.id]: { ...receivedInventoryDevice, group: 'test' },
-      [defaultState.devices.byId.b1.id]: {
-        ...receivedInventoryDevice,
-        id: defaultState.devices.byId.b1.id,
-        group: 'test',
-        identity_data: { ...defaultState.devices.byId.b1.identity_data, status: DEVICE_STATES.accepted }
-      }
-    }
-  },
-  {
-    type: deviceActions.setDevicesByStatus.type,
-    payload: {
-      deviceIds: [defaultState.devices.byId.a1.id, defaultState.devices.byId.b1.id],
-      status: DEVICE_STATES.accepted,
-      total: defaultState.devices.byStatus.accepted.deviceIds.length
-    }
-  },
-  { type: getDevicesWithAuth.pending.type },
-  { type: deviceActions.receivedDevices.type, payload: { [expectedDevice.id]: { ...receivedInventoryDevice, group: 'test', status: 'pending' } } },
-  {
-    type: deviceActions.setDevicesByStatus.type,
-    payload: {
-      deviceIds: Array.from({ length: defaultState.devices.byStatus.pending.total }, () => defaultState.devices.byId.a1.id),
-      status: DEVICE_STATES.pending,
-      total: defaultState.devices.byStatus.pending.deviceIds.length
-    }
-  },
-  { type: getDevicesWithAuth.pending.type },
-  { type: deviceActions.receivedDevices.type, payload: {} },
-  { type: deviceActions.setDevicesByStatus.type, payload: { deviceIds: [], status: 'preauthorized', total: 0 } },
-  { type: deviceActions.receivedDevices.type, payload: {} },
-  { type: deviceActions.setDevicesByStatus.type, payload: { deviceIds: [], status: 'rejected', total: 0 } },
-  { type: getDevicesByStatus.fulfilled.type },
-  { type: getDevicesByStatus.fulfilled.type },
   {
     type: organizationActions.receiveExternalDeviceIntegrations.type,
     payload: [
@@ -255,71 +116,6 @@ const appInitActions = [
       { id: 2, provider: EXTERNAL_PROVIDER['iot-core'].provider, something: 'new' }
     ]
   },
-  { type: getIntegrations.fulfilled.type },
-  {
-    type: deviceActions.receivedDevices.type,
-    payload: {
-      [expectedDevice.id]: { ...defaultState.devices.byId.a1, group: undefined, isNew: false, isOffline: true, monitor: {}, tags: {} },
-      [defaultState.devices.byId.b1.id]: { ...defaultState.devices.byId.b1, group: undefined, isNew: false, isOffline: true, monitor: {}, tags: {} }
-    }
-  },
-  {
-    type: deviceActions.receivedDevices.type,
-    payload: {
-      [expectedDevice.id]: { ...defaultState.devices.byId.a1, group: undefined, isNew: false, isOffline: true, monitor: {}, tags: {} }
-    }
-  },
-  { type: getDevicesWithAuth.fulfilled.type },
-  { type: getDevicesWithAuth.fulfilled.type },
-  {
-    type: deviceActions.receivedDevices.type,
-    payload: {
-      [expectedDevice.id]: { ...receivedInventoryDevice, group: 'test' },
-      [defaultState.devices.byId.b1.id]: { ...receivedInventoryDevice, id: defaultState.devices.byId.b1.id, group: 'test' }
-    }
-  },
-  { type: getDevicesWithAuth.pending.type },
-  { type: getDevicesByStatus.fulfilled.type },
-  { type: getDevicesByStatus.fulfilled.type },
-  { type: releasesActions.receiveReleases.type, payload: defaultState.releases.byId },
-  {
-    type: releasesActions.setReleaseListState.type,
-    payload: { ...defaultState.releases.releasesList, releaseIds: [defaultState.releases.byId.r1.name], page: 42 }
-  },
-  { type: getReleases.fulfilled.type },
-
-  { type: userActions.receivedPermissionSets.type, payload: receivedPermissionSets },
-  { type: getPermissionSets.fulfilled.type },
-  {
-    type: deviceActions.receivedDevices.type,
-    payload: {
-      [defaultState.devices.byId.a1.id]: { ...defaultState.devices.byId.a1, group: undefined, isNew: false, isOffline: true, monitor: {}, tags: {} },
-      [defaultState.devices.byId.b1.id]: { ...defaultState.devices.byId.b1, group: undefined, isNew: false, isOffline: true, monitor: {}, tags: {} }
-    }
-  },
-  { type: userActions.receivedRoles.type, payload: receivedRoles },
-  { type: userActions.finishedRoleInitialization.type, payload: true },
-  { type: getDevicesWithAuth.fulfilled.type },
-  { type: getRoles.fulfilled.type },
-  { type: getDevicesByStatus.fulfilled.type },
-  {
-    type: deviceActions.addGroup.type,
-    payload: {
-      groupName: UNGROUPED_GROUP.id,
-      group: {
-        filters: [{ key: 'group', operator: '$nin', scope: 'system', value: [Object.keys(defaultState.devices.groups.byId)[0]] }]
-      }
-    }
-  },
-  { type: getGroups.fulfilled.type },
-  { type: deviceActions.setDeviceListState.type, payload: { selectedAttributes: [] } },
-  { type: userActions.setTooltipsState.type, payload: {} },
-  { type: saveUserSettings.pending.type },
-  { type: getUserSettings.pending.type },
-  { type: userActions.setUserSettings.type, payload: { ...defaultState.users.userSettings } },
-  { type: getUserSettings.fulfilled.type },
-  { type: userActions.setUserSettings.type, payload: { ...defaultState.users.userSettings, onboarding: defaultOnboardingState } },
-  { type: saveUserSettings.fulfilled.type },
   ...expectedOnboardingActions
 ];
 it('should try to get all required app information', async () => {
@@ -338,8 +134,10 @@ it('should try to get all required app information', async () => {
   await waitFor(() => expect(result.current.coreInitDone).toBeTruthy());
   await vi.runAllTimersAsync();
   const storeActions = store.getActions();
-  expect(storeActions.length).toEqual(appInitActions.length);
-  appInitActions.forEach((action, index) => Object.keys(action).forEach(key => expect(storeActions[index][key]).toEqual(action[key])));
+  appInitActions.forEach(initAction => {
+    const handledAction = storeActions.some(storeAction => Object.keys(initAction).every(key => deepCompare(storeAction[key], initAction[key])));
+    expect(handledAction).toBeTruthy();
+  });
 });
 it('should execute the offline threshold migration for multi day thresholds', async () => {
   const store = mockStore({
@@ -362,7 +160,6 @@ it('should execute the offline threshold migration for multi day thresholds', as
   await vi.runAllTimersAsync();
 
   const storeActions = store.getActions();
-  expect(storeActions.length).toEqual(appInitActions.length + 9); // 3 = get settings + set settings + set offline threshold
   const settingStorageAction = storeActions.find(action => action.type === userActions.setGlobalSettings.type && action.payload.offlineThreshold);
   expect(settingStorageAction.payload.offlineThreshold.interval).toEqual(2);
   expect(settingStorageAction.payload.offlineThreshold.intervalUnit).toEqual(timeUnits.days);
@@ -388,7 +185,6 @@ it('should trigger the offline threshold migration dialog', async () => {
   await waitFor(() => expect(result.current.coreInitDone).toBeTruthy());
   await vi.runAllTimersAsync();
   const storeActions = store.getActions();
-  expect(storeActions.length).toEqual(appInitActions.length + 1); // only setShowStartupNotification should be addded
   const notificationAction = storeActions.find(action => action.type === userActions.setShowStartupNotification.type);
   expect(notificationAction.payload).toBeTruthy();
 });

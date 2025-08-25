@@ -61,6 +61,7 @@ dayjs.extend(durationDayJs);
 const { setDeviceListState, setFirstLoginAfterSignup, setTooltipsState, setShowStartupNotification } = storeActions;
 
 const featureFlags = [
+  'hasAiEnabled',
   'hasAuditlogs',
   'hasMultitenancy',
   'hasDeltaProgress',

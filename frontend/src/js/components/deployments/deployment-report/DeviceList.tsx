@@ -14,6 +14,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import { AutoAwesomeOutlined as AutoAwesomeIcon } from '@mui/icons-material';
 // material ui
 import { Button, LinearProgress } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
@@ -191,14 +192,19 @@ const deviceListColumns = [
   {
     key: 'log',
     title: '',
-    render: ({ device: { id, log }, viewLog }) => (log ? <Button onClick={() => viewLog(id)}>View log</Button> : null),
+    render: ({ canAi, device: { id, log }, viewLog }) =>
+      log ? (
+        <Button endIcon={canAi ? <AutoAwesomeIcon /> : null} onClick={() => viewLog(id)} size="small">
+          View log
+        </Button>
+      ) : null,
     canShow
   }
 ];
 
 const ValueFileSize = ({ value, ...props }) => <FileSize fileSize={value} {...props} />;
 
-export const DeploymentDeviceList = ({ deployment, getDeploymentDevices, idAttribute, selectedDevices, userCapabilities, viewLog }) => {
+export const DeploymentDeviceList = ({ canAi, deployment, getDeploymentDevices, idAttribute, selectedDevices, userCapabilities, viewLog }) => {
   const [currentPage, setCurrentPage] = useState(defaultPage);
   const [isLoading, setIsLoading] = useState(false);
   const [perPage, setPerPage] = useState(10);
@@ -221,7 +227,7 @@ export const DeploymentDeviceList = ({ deployment, getDeploymentDevices, idAttri
   }, [currentPage, deployment.id, deployment.status, getDeploymentDevices, JSON.stringify(statistics.status), perPage]);
 
   const columns = deviceListColumns.reduce((accu, column) => (column.canShow({ deployment }) ? [...accu, { ...column, extras: { idAttribute } }] : accu), []);
-  const items = selectedDevices.map(device => ({ device, id: device.id, idAttribute, userCapabilities, viewLog }));
+  const items = selectedDevices.map(device => ({ canAi, device, id: device.id, idAttribute, userCapabilities, viewLog }));
   return (
     <>
       <DetailsTable className={classes.table} columns={columns} items={items} />

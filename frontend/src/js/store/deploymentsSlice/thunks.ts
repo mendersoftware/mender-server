@@ -15,7 +15,7 @@
 /*eslint import/namespace: ['error', { allowComputed: true }]*/
 import storeActions from '@northern.tech/store/actions';
 import GeneralApi from '@northern.tech/store/api/general-api';
-import { DEVICE_LIST_DEFAULTS, SORTING_OPTIONS, TIMEOUTS, headerNames } from '@northern.tech/store/constants';
+import { DEVICE_LIST_DEFAULTS, SORTING_OPTIONS, TIMEOUTS, apiRoot, headerNames } from '@northern.tech/store/constants';
 import { getDevicesById, getGlobalSettings, getOrganization, getUserCapabilities } from '@northern.tech/store/selectors';
 import { commonErrorHandler } from '@northern.tech/store/store';
 import { getDeviceAuth, getDeviceById, saveGlobalSettings } from '@northern.tech/store/thunks';
@@ -404,3 +404,16 @@ export const saveDeltaDeploymentsConfig = createAsyncThunk(`${sliceName}/saveDel
       return Promise.all([dispatch(actions.setDeploymentsConfig(newConfig)), dispatch(setSnackbar('Settings saved successfully'))]);
     });
 });
+
+export const generateDeploymentLogAnalysis = createAsyncThunk(
+  `${sliceName}/generateDeploymentLogAnalysis`,
+  ({ deploymentId, deviceId }, { dispatch, rejectWithValue }) =>
+    GeneralApi.get(`${apiRoot}/v1alpha1/deployments/deployments/${deploymentId}/devices/${deviceId}/log/explain`)
+      .then(({ data: result }) => Promise.resolve(result))
+      .catch(err => {
+        if (err.response.status === 429) {
+          return rejectWithValue(err.response);
+        }
+        commonErrorHandler(err, 'There was an error analysing the deployment log:', dispatch);
+      })
+);
