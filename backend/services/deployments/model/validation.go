@@ -22,6 +22,7 @@ var (
 	// Initialize validation rules once.
 	lengthIn0To200  = validation.Length(0, 200)
 	lengthIn1To4096 = validation.Length(1, 4096)
+	lengthIn1To256  = validation.Length(1, 256)
 
 	lengthLessThan4096 = validation.Length(0, 4096)
 )
