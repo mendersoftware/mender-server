@@ -126,7 +126,7 @@ export const AiLogAnalysis = ({ deployment, deviceId }: AiLogAnalysisProps) => {
   const { aiFeatures = {} } = useSelector(getGlobalSettings);
   const { isAdmin } = useSelector(getUserRoles);
 
-  const { enabled: isAiEnabled = true } = aiFeatures;
+  const { enabled: isAiEnabled } = aiFeatures;
   const slideOutRef = useRef<HTMLDivElement | null>(null);
 
   const onGenerateAnalysisClick = async () => {

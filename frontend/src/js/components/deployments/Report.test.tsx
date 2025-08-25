@@ -41,6 +41,11 @@ const deploymentsState = {
   }
 };
 
+const usersState = {
+  ...defaultState.users,
+  globalSettings: { ...defaultState.users.globalSettings, aiFeatures: { enabled: true } }
+};
+
 describe('DeploymentReport Component', () => {
   afterEach(cleanup);
 
@@ -110,7 +115,8 @@ describe('DeploymentReport Component', () => {
               isHosted: true
             }
           },
-          deployments: deploymentsState
+          deployments: deploymentsState,
+          users: usersState
         }
       });
       await user.click(screen.getByRole('button', { name: /View log/i }));
@@ -142,7 +148,8 @@ describe('DeploymentReport Component', () => {
               ...defaultState.deployments.byId,
               'rate-limited-deployment': { ...deploymentsState.byId.d1, id: 'rate-limited-deployment' }
             }
-          }
+          },
+          users: usersState
         }
       });
       await user.click(screen.getByRole('button', { name: /View log/i }));
@@ -166,7 +173,8 @@ describe('DeploymentReport Component', () => {
               isHosted: true
             }
           },
-          deployments: deploymentsState
+          deployments: deploymentsState,
+          users: usersState
         }
       });
 
