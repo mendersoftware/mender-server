@@ -29,13 +29,19 @@ import { getGlobalSettings, getUserRoles } from '@northern.tech/store/selectors'
 import { useAppDispatch } from '@northern.tech/store/store';
 import { generateDeploymentLogAnalysis } from '@northern.tech/store/thunks';
 import copy from 'copy-to-clipboard';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration.js';
+import relativeTime from 'dayjs/plugin/relativeTime.js';
 import { MarkdownToJSX } from 'markdown-to-jsx';
 import MuiMarkdown, { defaultOverrides } from 'mui-markdown';
 
 import Tracking from '../../../tracking';
 
+dayjs.extend(duration);
+dayjs.extend(relativeTime);
+
 const useStyles = makeStyles()(theme => ({
-  alert: { display: 'inline-flex' },
+  alert: { display: 'inline-flex', marginBottom: theme.spacing(2) },
   analysisResult: {
     backgroundColor: alpha(theme.palette.secondary.light, 0.08),
     border: `1px solid ${theme.palette.secondary.light}`,
@@ -140,7 +146,8 @@ export const AiLogAnalysis = ({ deployment, deviceId }: AiLogAnalysisProps) => {
       console.error('Error generating analysis:', error);
       setIsAnalyzing(false);
       if (error.status === 429) {
-        setAnalysisError('You have reached your limit of 50 AI requests per day. Please try again in about 12 hours.');
+        const waitingTime = dayjs.duration(error.request.getResponseHeader('Retry-After'), 'seconds').humanize();
+        setAnalysisError(`You have reached your limit of 50 AI requests per day. Please try again in about ${waitingTime}.`);
         return;
       }
       setAnalysisError('Failed to generate analysis. Please try again.');
