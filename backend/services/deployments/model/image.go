@@ -269,8 +269,12 @@ type MultipartGenerateImageMsg struct {
 
 func (msg MultipartGenerateImageMsg) Validate() error {
 	if err := validation.ValidateStruct(&msg,
-		validation.Field(&msg.Name, validation.Required),
-		validation.Field(&msg.DeviceTypesCompatible, validation.Required),
+		validation.Field(&msg.Name, validation.Required, lengthIn1To256),
+		validation.Field(
+			&msg.DeviceTypesCompatible,
+			validation.Required,
+			validation.Each(lengthIn1To256),
+		),
 		validation.Field(&msg.Type, validation.Required),
 	); err != nil {
 		return err
