@@ -31,7 +31,7 @@ export const defaultState = {
   onboarding: { ...onboardingMockState },
   organization: { ...organizationMockState },
   releases: { ...releasesMockState },
-  users: { ...usersMockState }
+  users: { ...usersMockState, rolesInitialized: true }
 };
 
 const customRender = (ui, options = {}) => {
