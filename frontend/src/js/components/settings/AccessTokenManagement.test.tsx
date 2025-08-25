@@ -43,7 +43,7 @@ const preloadedState = {
   }
 };
 
-describe('UserManagement Component', () => {
+describe('AccessTokenManagement Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(<AccessTokenManagement />, { preloadedState });
     const view = baseElement.firstChild.firstChild;
