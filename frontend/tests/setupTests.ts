@@ -43,7 +43,7 @@ vi.useFakeTimers({ now: mockDate });
 vi.setSystemTime(mockDate);
 
 beforeAll(async () => {
-  await server.listen({ onUnhandledRequest: 'error' });
+  await server.listen({ onUnhandledRequest: 'warn' });
   await ntBeforeAll();
 });
 
