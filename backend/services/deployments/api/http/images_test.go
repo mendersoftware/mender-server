@@ -15,10 +15,12 @@
 package http
 
 import (
+	"crypto/rand"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"strconv"
+	"strings"
 	"testing"
 
 	"github.com/pkg/errors"
@@ -422,7 +424,11 @@ func TestPostArtifactsInternal(t *testing.T) {
 
 func TestPostArtifactsGenerate(t *testing.T) {
 	imageBody := []byte("123456790")
-
+	randomStringOfLength := func(length int) string {
+		b := make([]byte, (length/2 + 1))
+		rand.Read(b)
+		return fmt.Sprintf("%x", b)[:length]
+	}
 	testCases := []struct {
 		requestBodyObject        []h.Part
 		requestContentType       string
@@ -780,6 +786,162 @@ func TestPostArtifactsGenerate(t *testing.T) {
 			requestContentType:       "multipart/form-data",
 			responseCode:             http.StatusBadRequest,
 			responseBody:             "failed to read form value 'size'",
+			appGenerateImage:         false,
+			appGenerateImageResponse: "",
+			appGenerateImageError:    nil,
+		},
+		{
+			requestBodyObject: []h.Part{
+				{
+					FieldName:  "name",
+					FieldValue: randomStringOfLength(257),
+				},
+				{
+					FieldName:  "description",
+					FieldValue: "description",
+				},
+				{
+					FieldName:  "size",
+					FieldValue: "1024",
+				},
+				{
+					FieldName:  "device_types_compatible",
+					FieldValue: "Beagle Bone",
+				},
+				{
+					FieldName:  "type",
+					FieldValue: "single_file",
+				},
+				{
+					FieldName:  "args",
+					FieldValue: "args",
+				},
+				{
+					FieldName:   "file",
+					ContentType: "application/octet-stream",
+					ImageData:   imageBody,
+				},
+			},
+			requestContentType:       "multipart/form-data",
+			responseCode:             http.StatusBadRequest,
+			responseBody:             "invalid form parameters: name: the length must be between 1 and 256",
+			appGenerateImage:         false,
+			appGenerateImageResponse: "",
+			appGenerateImageError:    nil,
+		},
+		{
+			requestBodyObject: []h.Part{
+				{
+					FieldName:  "name",
+					FieldValue: "name",
+				},
+				{
+					FieldName:  "description",
+					FieldValue: "description",
+				},
+				{
+					FieldName:  "size",
+					FieldValue: "1024",
+				},
+				{
+					FieldName:  "device_types_compatible",
+					FieldValue: randomStringOfLength(257),
+				},
+				{
+					FieldName:  "type",
+					FieldValue: "single_file",
+				},
+				{
+					FieldName:  "args",
+					FieldValue: "args",
+				},
+				{
+					FieldName:   "file",
+					ContentType: "application/octet-stream",
+					ImageData:   imageBody,
+				},
+			},
+			requestContentType:       "multipart/form-data",
+			responseCode:             http.StatusBadRequest,
+			responseBody:             "invalid form parameters: device_types_compatible: (0: the length must be between 1 and 256.)",
+			appGenerateImage:         false,
+			appGenerateImageResponse: "",
+			appGenerateImageError:    nil,
+		},
+		{
+			requestBodyObject: []h.Part{
+				{
+					FieldName:  "name",
+					FieldValue: "name",
+				},
+				{
+					FieldName:  "description",
+					FieldValue: "description",
+				},
+				{
+					FieldName:  "size",
+					FieldValue: "1024",
+				},
+				{
+					FieldName:  "device_types_compatible",
+					FieldValue: strings.Join(strings.Split(randomStringOfLength(257), ""), ","),
+				},
+				{
+					FieldName:  "type",
+					FieldValue: "single_file",
+				},
+				{
+					FieldName:  "args",
+					FieldValue: "args",
+				},
+				{
+					FieldName:   "file",
+					ContentType: "application/octet-stream",
+					ImageData:   imageBody,
+				},
+			},
+			requestContentType:       "multipart/form-data",
+			responseCode:             http.StatusBadRequest,
+			responseBody:             "invalid form parameters: device_types_compatible: the length must be between 1 and 256.",
+			appGenerateImage:         false,
+			appGenerateImageResponse: "",
+			appGenerateImageError:    nil,
+		},
+		{
+			requestBodyObject: []h.Part{
+				{
+					FieldName:  "name",
+					FieldValue: "name",
+				},
+				{
+					FieldName:  "description",
+					FieldValue: "description",
+				},
+				{
+					FieldName:  "size",
+					FieldValue: "1024",
+				},
+				{
+					FieldName:  "device_types_compatible",
+					FieldValue: "Beagle Bone",
+				},
+				{
+					FieldName:  "type",
+					FieldValue: randomStringOfLength(257),
+				},
+				{
+					FieldName:  "args",
+					FieldValue: "args",
+				},
+				{
+					FieldName:   "file",
+					ContentType: "application/octet-stream",
+					ImageData:   imageBody,
+				},
+			},
+			requestContentType:       "multipart/form-data",
+			responseCode:             http.StatusBadRequest,
+			responseBody:             "invalid form parameters: type: the length must be between 1 and 256",
 			appGenerateImage:         false,
 			appGenerateImageResponse: "",
 			appGenerateImageError:    nil,
