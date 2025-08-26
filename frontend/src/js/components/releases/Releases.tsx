@@ -19,7 +19,7 @@ import { Button, Tab, Tabs, TextField, inputBaseClasses, outlinedInputClasses } 
 import { makeStyles } from 'tss-react/mui';
 
 import ChipSelect from '@northern.tech/common-ui/ChipSelect';
-import EnterpriseNotification, { DefaultUpgradeNotification } from '@northern.tech/common-ui/EnterpriseNotification';
+import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { ControlledSearch } from '@northern.tech/common-ui/Search';
 import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/Autocomplete';
 import { Filters } from '@northern.tech/common-ui/forms/Filters';
@@ -27,7 +27,6 @@ import { BENEFITS, SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/consta
 import { useLocationParams } from '@northern.tech/store/liststatehook';
 import {
   getHasReleases,
-  getIsEnterprise,
   getReleaseListState,
   getReleaseTags,
   getReleasesList,
@@ -41,20 +40,12 @@ import pluralize from 'pluralize';
 
 import { HELPTOOLTIPS } from '../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../helptips/MenderTooltip';
+import { DeltaProgress } from './DeltaGeneration';
 import ReleaseDetails from './ReleaseDetails';
 import ReleasesList from './ReleasesList';
 import AddArtifactDialog from './dialogs/AddArtifact';
 
 const refreshArtifactsLength = 60000;
-
-const DeltaProgress = ({ className = '' }) => {
-  const isEnterprise = useSelector(getIsEnterprise);
-  return (
-    <div className={`dashboard-placeholder ${className}`} style={{ display: 'grid', placeContent: 'center' }}>
-      {isEnterprise ? 'There is no automatic delta artifacts generation running.' : <DefaultUpgradeNotification />}
-    </div>
-  );
-};
 
 const DeltaTitle = () => (
   <div className="flexbox center-aligned">
