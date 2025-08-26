@@ -726,9 +726,12 @@ export const getDeviceConnect = createAsyncThunk(`${sliceName}/getDeviceConnect`
 
 const updateTypeMap = { deploymentUpdate: 'check-update', inventoryUpdate: 'send-inventory' };
 export const triggerDeviceUpdate = createAsyncThunk(`${sliceName}/triggerDeviceUpdate`, ({ id, type }, { dispatch }) =>
-  GeneralApi.post(`${deviceConnect}/devices/${id}/${updateTypeMap[type] ?? updateTypeMap.deploymentUpdate}`).then(
-    () => new Promise(resolve => setTimeout(() => resolve(dispatch(getDeviceById(id))), TIMEOUTS.threeSeconds))
-  )
+  GeneralApi.post(`${deviceConnect}/devices/${id}/${updateTypeMap[type] ?? updateTypeMap.deploymentUpdate}`)
+    .catch(err => commonErrorHandler(err, `The request couldn’t be sent.`, dispatch))
+    .then(() => {
+      dispatch(setSnackbar('Request has been sent.'));
+      return new Promise(resolve => setTimeout(() => resolve(dispatch(getDeviceById(id))), TIMEOUTS.threeSeconds));
+    })
 );
 
 export const getSessionDetails = createAsyncThunk(`${sliceName}/getSessionDetails`, ({ sessionId, deviceId, userId, startDate, endDate }) => {
