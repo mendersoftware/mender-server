@@ -15,7 +15,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import { render } from '@/testUtils';
 import { TIMEOUTS } from '@northern.tech/store/constants';
-import * as StoreThunks from '@northern.tech/store/thunks';
+import { getIsFirstLogin } from '@northern.tech/store/selectors';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -36,7 +36,6 @@ describe('Signup Component', () => {
 
   it('allows signing up', async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    const { setFirstLoginAfterSignup: firstLoginSpy } = StoreThunks;
 
     const ui = (
       <>
@@ -46,7 +45,7 @@ describe('Signup Component', () => {
         </Routes>
       </>
     );
-    const { container } = render(ui);
+    const { container, store } = render(ui);
     expect(screen.getByText('Sign up with:')).toBeInTheDocument();
     await user.type(screen.getByLabelText(/Email/i), 'test@example.com');
     const passwordInput = screen.getByLabelText('Password *');
@@ -70,10 +69,8 @@ describe('Signup Component', () => {
     await user.click(screen.getByRole('button', { name: /complete signup/i }));
     await waitFor(() => expect(container.querySelector('.loaderContainer')).toBeVisible());
     await act(async () => vi.advanceTimersByTime(TIMEOUTS.refreshDefault));
-    await act(async () => {
-      vi.runAllTicks();
-      vi.runAllTimers();
-    });
-    await waitFor(() => expect(firstLoginSpy).toHaveBeenCalled());
+    // we can't await the cookie setting anymore as we have no connection to the universal cookie instance used in the store,
+    // so the store state + reliance on store tests should be the closest we can get to a successful expectation
+    await waitFor(() => expect(getIsFirstLogin(store.getState())).toBeTruthy());
   }, 10000);
 });
