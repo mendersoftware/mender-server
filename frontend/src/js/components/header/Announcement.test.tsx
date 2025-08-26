@@ -13,10 +13,10 @@
 //    limitations under the License.
 import Linkify from 'react-linkify';
 
+import { render } from '@/testUtils';
+import { undefineds } from '@northern.tech/testing/mockData';
 import { vi } from 'vitest';
 
-import { undefineds } from '../../../../tests/mockData';
-import { render } from '../../../../tests/setupTests';
 import Announcement from './Announcement';
 
 vi.mock('react-linkify');

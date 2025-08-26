@@ -28,7 +28,9 @@ import { getReleases, getSystemDevices } from '@northern.tech/store/thunks';
 import { stringToBoolean } from '@northern.tech/utils/helpers';
 import { useWindowSize } from '@northern.tech/utils/resizehook';
 import pluralize from 'pluralize';
-import isUUID from 'validator/lib/isUUID';
+import validator from 'validator';
+
+const { isUUID } = validator;
 
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';

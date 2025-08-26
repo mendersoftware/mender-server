@@ -21,7 +21,7 @@ import { getAuditlogDevice, getIdAttribute, getUserCapabilities } from '@norther
 import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeviceById, getSessionDetails } from '@northern.tech/store/thunks';
 import dayjs from 'dayjs';
-import duration from 'dayjs/plugin/duration';
+import duration from 'dayjs/plugin/duration.js';
 
 import DeviceDetails, { DetailInformation } from './DeviceDetails';
 

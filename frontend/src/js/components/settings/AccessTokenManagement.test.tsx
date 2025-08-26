@@ -11,13 +11,16 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { defaultState, render } from '@/testUtils';
+import * as StoreThunks from '@northern.tech/store/thunks';
+import { accessTokens, undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { accessTokens, defaultState, undefineds } from '../../../../tests/mockData';
-import { render } from '../../../../tests/setupTests';
 import AccessTokenManagement, { AccessTokenCreationDialog, AccessTokenRevocationDialog } from './AccessTokenManagement';
+
+vi.mock('@northern.tech/store/thunks', { spy: true });
 
 const preloadedState = {
   ...defaultState,
@@ -40,7 +43,7 @@ const preloadedState = {
   }
 };
 
-describe('UserManagement Component', () => {
+describe('AccessTokenManagement Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(<AccessTokenManagement />, { preloadedState });
     const view = baseElement.firstChild.firstChild;
@@ -48,13 +51,11 @@ describe('UserManagement Component', () => {
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
   it('works as expected', async () => {
-    const UserActions = await import('@northern.tech/store/usersSlice/thunks');
-    const getSpy = vi.spyOn(UserActions, 'getTokens');
-    const createSpy = vi.spyOn(UserActions, 'generateToken');
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const { getTokens: getSpy, generateToken: createSpy } = StoreThunks;
+    getSpy.mockReset();
     const ui = <AccessTokenManagement />;
     const { rerender } = render(ui, { preloadedState });
-    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-
     await user.click(screen.getByRole('button', { name: /generate a token/i }));
     const generateButton = screen.getByRole('button', { name: /create token/i });
     expect(generateButton).toBeDisabled();
@@ -63,12 +64,12 @@ describe('UserManagement Component', () => {
     await user.click(generateButton);
     await waitFor(() => rerender(ui));
     expect(createSpy).toHaveBeenCalledWith({ expiresIn: 31536000, name: 'somename' });
-    await waitFor(() => expect(getSpy).toHaveBeenCalledTimes(1));
     await act(async () => {
       vi.runOnlyPendingTimers();
       vi.runAllTicks();
     });
     await waitFor(() => rerender(ui));
+    await waitFor(() => expect(getSpy).toHaveBeenCalledTimes(1));
     expect(screen.queryByRole('button', { name: /create token/i })).not.toBeInTheDocument();
     expect(screen.getByRole('button', { name: /close/i })).toBeInTheDocument();
     expect(screen.getByText('aNewToken')).toBeInTheDocument();

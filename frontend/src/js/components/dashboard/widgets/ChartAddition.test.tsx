@@ -11,12 +11,13 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { screen } from '@testing-library/react';
+import { defaultState, render } from '@/testUtils';
+import { undefineds } from '@northern.tech/testing/mockData';
+import { selectMaterialUiSelectOption } from '@northern.tech/testing/utils';
+import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { defaultState, undefineds } from '../../../../../tests/mockData';
-import { render, selectMaterialUiSelectOption } from '../../../../../tests/setupTests';
 import ChartAdditionWidget from './ChartAddition';
 
 const software = [
@@ -44,6 +45,7 @@ describe('ChartAdditionWidget Component', () => {
     await selectMaterialUiSelectOption(element, 'testGroup', user);
     await user.click(screen.getByRole('button', { name: /Save/i }));
     expect(submitCheck).toHaveBeenCalled();
+    await act(async () => vi.runAllTicks());
     expect(screen.queryByText(/Device group/i)).not.toBeInTheDocument();
   });
 });

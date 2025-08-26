@@ -11,11 +11,11 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { TIMEOUTS } from '@northern.tech/store/commonConstants';
+import { render } from '@/testUtils';
+import { TIMEOUTS } from '@northern.tech/store/constants';
 import { act, screen, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
 
-import { render } from '../../../tests/setupTests';
 import { InputErrorNotification } from './InputErrorNotification';
 
 describe('InfoHint Component', () => {

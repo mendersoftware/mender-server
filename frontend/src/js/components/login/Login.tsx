@@ -28,6 +28,8 @@ import { loginUser, logoutUser } from '@northern.tech/store/thunks';
 import { clearAllRetryTimers } from '@northern.tech/utils/retrytimer';
 import Cookies from 'universal-cookie';
 
+import FlagEU from '../../../assets/img/flag-eu.svg';
+import FlagUS from '../../../assets/img/flag-us.svg';
 import LoginLogo from '../../../assets/img/loginlogo.svg';
 import VeryMuch from '../../../assets/img/verymuch.svg';
 import { LoginForm } from './LoginForm';
@@ -38,8 +40,8 @@ const { setSnackbar } = storeActions;
 const cookies = new Cookies();
 
 export const locationMap = {
-  eu: { ...locations.eu, fallback: locations.us },
-  us: { ...locations.us, fallback: locations.eu }
+  eu: { ...locations.eu, icon: FlagEU, fallback: locations.us },
+  us: { ...locations.us, icon: FlagUS, fallback: locations.eu }
 };
 
 const useStyles = makeStyles()(theme => {
@@ -65,7 +67,7 @@ const useStyles = makeStyles()(theme => {
       }
     },
     background: {
-      background: theme.palette.background.darkBlue ?? theme.palette.purple.A700,
+      background: theme.palette.background.darkBlue ?? theme.palette.purple?.A700 ?? theme.palette.info.main,
       padding: '40px 65px',
       borderTopLeftRadius: backgroundRadius,
       borderBottomRightRadius: backgroundRadius,

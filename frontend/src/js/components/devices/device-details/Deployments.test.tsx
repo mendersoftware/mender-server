@@ -13,15 +13,19 @@
 //    limitations under the License.
 import { Provider } from 'react-redux';
 
+import { defaultState, render } from '@/testUtils';
+import * as StoreThunks from '@northern.tech/store/thunks';
+import { undefineds } from '@northern.tech/testing/mockData';
+import { selectMaterialUiSelectOption } from '@northern.tech/testing/utils';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 import { vi } from 'vitest';
 
-import { defaultState, undefineds } from '../../../../../tests/mockData';
-import { render, selectMaterialUiSelectOption } from '../../../../../tests/setupTests';
 import Deployments from './Deployments';
+
+vi.mock('@northern.tech/store/thunks', { spy: true });
 
 const mockStore = configureStore([thunk]);
 let store;
@@ -31,8 +35,7 @@ describe('Deployments Component', () => {
     store = mockStore({ ...defaultState });
   });
   it('renders correctly', async () => {
-    const DeploymentActions = await import('@northern.tech/store/deploymentsSlice/thunks');
-    const getDeploymentsSpy = vi.spyOn(DeploymentActions, 'getDeviceDeployments');
+    const { getDeviceDeployments: getDeploymentsSpy } = StoreThunks;
 
     const deviceDeployments = [
       {

@@ -14,18 +14,21 @@
 import { Provider } from 'react-redux';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
+import { render } from '@/testUtils';
 import { getConfiguredStore } from '@northern.tech/store/store';
+import * as StoreThunks from '@northern.tech/store/thunks';
+import { undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, render as testingLibRender, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { undefineds } from '../../../../tests/mockData';
-import { render } from '../../../../tests/setupTests';
 import Password from './Password';
 import PasswordReset from './PasswordReset';
 
 const goodPassword = 'mysecretpassword!123';
 const badPassword = 'mysecretpassword!546';
+
+vi.mock('@northern.tech/store/thunks', { spy: true });
 
 describe('PasswordReset Component', () => {
   let store;
@@ -42,9 +45,8 @@ describe('PasswordReset Component', () => {
   });
 
   it('works as intended', async () => {
-    const UserActions = await import('@northern.tech/store/usersSlice/thunks');
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    const completeSpy = vi.spyOn(UserActions, 'passwordResetComplete');
+    const { passwordResetComplete: completeSpy } = StoreThunks;
 
     const secretHash = 'leHash';
 
