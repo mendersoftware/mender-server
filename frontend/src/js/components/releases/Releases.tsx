@@ -92,7 +92,7 @@ const Header = ({ canUpload, releasesListState, setReleasesListState, onUploadCl
             <Tab key={key} label={<Title />} value={key} />
           ))}
         </Tabs>
-        {canUpload && (
+        {canUpload && tab !== 'delta' && (
           <div className="flexbox center-aligned">
             <Button color="secondary" className={classes.uploadButton} onClick={onUploadClick} startIcon={<CloudUpload fontSize="small" />} variant="contained">
               Upload
