@@ -62,6 +62,7 @@
 "mockdate","MIT","https://github.com/boblauer/MockDate"
 "msgpack5","MIT","https://github.com/mcollina/msgpack5"
 "msw","MIT","https://github.com/mswjs/msw"
+"mui-markdown","MIT","https://github.com/HPouyanmehr/mui-markdown"
 "pluralize","MIT","https://github.com/blakeembrey/pluralize"
 "postcss-loader","MIT","https://github.com/webpack-contrib/postcss-loader"
 "prettier","MIT","https://github.com/prettier/prettier"

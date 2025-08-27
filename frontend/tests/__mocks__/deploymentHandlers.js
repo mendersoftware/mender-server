@@ -196,5 +196,29 @@ export const deploymentHandlers = [
     }
     return new HttpResponse(null, { status: 529 });
   }),
-  http.delete(`${deploymentsApiUrl}/deployments/devices/:deviceId/history`, () => new HttpResponse(null, { status: 204 }))
+  http.delete(`${deploymentsApiUrl}/deployments/devices/:deviceId/history`, () => new HttpResponse(null, { status: 204 })),
+  http.get(`/api/management/v1alpha1/deployments/deployments/:deploymentId/devices/:deviceId/log/explain`, ({ params: { deploymentId, deviceId } }) => {
+    if (defaultState.deployments.byId[deploymentId] && defaultState.deployments.byId[deploymentId].devices[deviceId]) {
+      const mockAnalysis = `## Summary
+The deployment failed during the artifact download phase. The device was unable to establish a secure connection to the artifact repository.
+
+## Key Issues
+1. **Network connectivity issues** - Connection timeout occurred
+2. **SSL/TLS certificate verification failed** - Invalid certificate chain
+3. **Artifact verification failed** - Checksum mismatch detected
+
+## Recommendations
+- Check network connectivity between device and artifact repository
+- Verify SSL certificates are properly configured
+- Ensure artifact integrity before deployment`;
+      return HttpResponse.text(mockAnalysis);
+    }
+    if (deploymentId === 'rate-limited-deployment') {
+      return new HttpResponse(JSON.stringify({ error: 'Rate limit exceeded' }), { status: 429 });
+    }
+    if (deploymentId === 'error-deployment') {
+      return new HttpResponse(JSON.stringify({ error: 'Analysis failed' }), { status: 500 });
+    }
+    return new HttpResponse(null, { status: 404 });
+  })
 ];

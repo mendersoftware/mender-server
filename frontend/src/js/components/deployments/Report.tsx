@@ -23,13 +23,14 @@ import ConfigurationObject from '@northern.tech/common-ui/ConfigurationObject';
 import Confirm from '@northern.tech/common-ui/Confirm';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import LinedHeader from '@northern.tech/common-ui/LinedHeader';
-import LogDialog from '@northern.tech/common-ui/dialogs/Log';
 import storeActions from '@northern.tech/store/actions';
 import { AUDIT_LOGS_TYPES, DEPLOYMENT_STATES, DEPLOYMENT_TYPES, TIMEOUTS, deploymentStatesToSubstates, onboardingSteps } from '@northern.tech/store/constants';
 import {
   getDeploymentRelease,
   getDevicesById,
+  getFeatures,
   getIdAttribute,
+  getIsPreview,
   getOnboardingState,
   getSelectedDeploymentData,
   getTenantCapabilities,
@@ -43,6 +44,7 @@ import copy from 'copy-to-clipboard';
 import { getOnboardingComponentFor } from '../../utils/onboardingManager';
 import DeploymentStatus, { DeploymentPhaseNotification } from './deployment-report/DeploymentStatus';
 import DeviceList from './deployment-report/DeviceList';
+import LogDialog from './deployment-report/Log';
 import DeploymentOverview from './deployment-report/Overview';
 import RolloutSchedule from './deployment-report/RolloutSchedule';
 
@@ -88,6 +90,8 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
   const devicesById = useSelector(getDevicesById);
   const idAttribute = useSelector(getIdAttribute);
   const release = useSelector(getDeploymentRelease);
+  const { hasAiEnabled, isHosted } = useSelector(getFeatures);
+  const isPreview = useSelector(getIsPreview);
   const tenantCapabilities = useSelector(getTenantCapabilities);
   const userCapabilities = useSelector(getUserCapabilities);
   const onboardingState = useSelector(getOnboardingState);
@@ -106,6 +110,7 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
   const { devices = {}, device_count = 0, totalDeviceCount: totalDevices, statistics = {}, type: deploymentType } = deployment;
   const { status: stats = {} } = statistics;
   const totalDeviceCount = totalDevices ?? device_count;
+  const canAi = isHosted && (isPreview || hasAiEnabled);
 
   const refreshDeployment = useCallback(() => {
     if (!deployment.id) {
@@ -188,7 +193,6 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
     dispatch(setSnackbar('Link copied to clipboard'));
   };
 
-  const { log: logData } = devices[deviceId] || {};
   const finished = deployment.finished || deployment.status === DEPLOYMENT_STATES.finished;
   const isConfigurationDeployment = deploymentType === DEPLOYMENT_TYPES.configuration;
   let config = {};
@@ -208,6 +212,7 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
   };
 
   const props = {
+    canAi,
     deployment,
     getDeploymentDevices: useCallback((...args) => dispatch(getDeploymentDevices(...args)), [dispatch]),
     idAttribute,
@@ -282,13 +287,7 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
           onAbort={abort}
           innerRef={rolloutSchedule}
         />
-        {Boolean(deviceId.length) && (
-          <LogDialog
-            context={{ device: deviceId, releaseName: deployment.artifact_name, date: deployment.finished }}
-            logData={logData}
-            onClose={() => setDeviceId('')}
-          />
-        )}
+        {Boolean(deviceId.length) && <LogDialog canAi={canAi} deviceId={deviceId} deployment={deployment} onClose={() => setDeviceId('')} />}
       </div>
       <Divider className={classes.divider} light />
     </Drawer>

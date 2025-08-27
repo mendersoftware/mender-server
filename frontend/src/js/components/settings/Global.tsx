@@ -11,10 +11,11 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import { AutoAwesomeOutlined as AutoAwesomeIcon } from '@mui/icons-material';
 import {
   Button,
   FormControl,
@@ -133,7 +134,7 @@ const ToggleSetting = ({
   description?: string;
   disabled?: boolean;
   onClick: () => void;
-  title: string;
+  title: string | ReactNode;
   value: boolean;
 }) => (
   <div className="flexbox column">
@@ -141,13 +142,17 @@ const ToggleSetting = ({
       <FormControlLabel
         disabled={disabled}
         classes={{ label: 'capitalized-start' }}
-        className="margin-left-none align-self-start"
+        className="align-self-start margin-left-none margin-top-none"
         control={<Switch className="margin-left-small" checked={value} onClick={onClick} />}
         label={title}
         labelPlacement="start"
       />
     </FormControl>
-    {!!description && <Typography variant="body2">{description}</Typography>}
+    {!!description && (
+      <Typography className="margin-top-x-small" variant="body2">
+        {description}
+      </Typography>
+    )}
   </div>
 );
 
@@ -172,7 +177,8 @@ export const GlobalSettingsDialog = ({
   const debouncedOfflineThreshold = useDebounce(currentInterval, TIMEOUTS.threeSeconds);
   const timer = useRef(false);
   const { classes } = useStyles();
-  const { needsDeploymentConfirmation = false } = settings;
+  const { aiFeatures = {}, needsDeploymentConfirmation = false } = settings;
+  const { enabled: isAiEnabled } = aiFeatures;
   const { hasMonitor, isEnterprise } = tenantCapabilities;
   const { canManageReleases, canManageUsers } = userCapabilities;
   const { trial: isTrial = true } = useSelector(getOrganization);
@@ -222,6 +228,8 @@ export const GlobalSettingsDialog = ({
 
   const onEditDeltaClick = () => setShowDeltaConfig(true);
 
+  const onToggleAiClick = current => saveGlobalSettings({ aiFeatures: { enabled: !current } });
+
   return (
     <div style={{ maxWidth }} className="margin-top-small">
       <Typography variant="h6">Global settings</Typography>
@@ -240,7 +248,7 @@ export const GlobalSettingsDialog = ({
         )}
         {canManageReleases && (
           <div>
-            <div className="flexbox">
+            <div className="flexbox center-aligned">
               <ToggleSetting title="Delta Artifacts generation" disabled onClick={yes} value={hasDeltaArtifactGeneration} />
               <EnterpriseNotification className="margin-left-small" id={BENEFITS.deltaGeneration.id} />
             </div>
@@ -248,7 +256,7 @@ export const GlobalSettingsDialog = ({
               Edit configuration
             </Button>
             {!isEnterprise && (
-              <Typography variant="body2">
+              <Typography className="margin-top-small" variant="body2">
                 Automatic delta artifacts generation is not enabled in your account. If you want to start using this feature, <SupportLink variant="ourTeam" />{' '}
                 or <Link to="/subscription">upgrade</Link>
                 {isTrial ? '' : ' to Mender Enterprise'}.
@@ -267,26 +275,40 @@ export const GlobalSettingsDialog = ({
               description={`${channel} notifications for deployment and monitoring issues for all users`}
             />
           ))}
-
-        <FormControl variant="standard">
-          <InputLabel shrink>Offline threshold</InputLabel>
-          <FormControlLabel
-            className={classes.threshold}
-            control={
-              <TextField
-                type="number"
-                onChange={onChangeOfflineInterval}
-                slotProps={{ htmlInput: { min: '1', max: '1000' } }}
-                error={!!intervalErrorText}
-                value={currentInterval}
-                variant="outlined"
-              />
-            }
-            label={<div className="capitalized-start">{DEVICE_ONLINE_CUTOFF.intervalName}</div>}
-          />
-          {!!intervalErrorText && <FormHelperText className="warning">{intervalErrorText}</FormHelperText>}
-          <FormHelperText>Choose how long a device can go without reporting to the server before it is considered “offline”.</FormHelperText>
-        </FormControl>
+        <div>
+          <Typography className="margin-bottom-small" variant="subtitle1">
+            Offline threshold
+          </Typography>
+          <FormControl variant="standard">
+            <FormControlLabel
+              className={classes.threshold}
+              control={
+                <TextField
+                  type="number"
+                  onChange={onChangeOfflineInterval}
+                  slotProps={{ htmlInput: { min: '1', max: '1000' } }}
+                  error={!!intervalErrorText}
+                  value={currentInterval}
+                  variant="outlined"
+                />
+              }
+              label={<div className="capitalized-start">{DEVICE_ONLINE_CUTOFF.intervalName}</div>}
+            />
+            {!!intervalErrorText && <FormHelperText className="warning">{intervalErrorText}</FormHelperText>}
+            <FormHelperText>Choose how long a device can go without reporting to the server before it is considered “offline”.</FormHelperText>
+          </FormControl>
+        </div>
+        <ToggleSetting
+          value={isAiEnabled}
+          onClick={() => onToggleAiClick(isAiEnabled)}
+          title={
+            <div className="flexbox center-aligned">
+              <AutoAwesomeIcon className="margin-right-x-small" fontSize="small" color={isAiEnabled ? 'secondary' : 'inherit'} />
+              <Typography variant="subtitle1">AI features (experimental)</Typography>
+            </div>
+          }
+          description="Enable AI features for all users. We'll try to remove any sensitive details, such as URLs and timestamps, before sending your data for AI analysis. AI features are rate limited to 50 requests per day. "
+        />
       </div>
       <ArtifactGenerationSettings open={showDeltaConfig} onClose={() => setShowDeltaConfig(false)} />
     </div>
