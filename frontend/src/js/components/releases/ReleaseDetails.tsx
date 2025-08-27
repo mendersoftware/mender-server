@@ -337,7 +337,7 @@ export const ReleaseDetails = () => {
       <DrawerTitle
         title={
           <>
-            Release information for <i className="margin-left-small margin-right-small">{releaseName}</i>
+            Release information for <div className="margin-left-small margin-right-small">{releaseName}</div>
           </>
         }
         onLinkCopy={copyLinkToClipboard}

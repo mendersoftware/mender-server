@@ -1773,11 +1773,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-21:focus::-ms-input-
         class="capitalized-start flexbox center-aligned"
       >
         Release information for 
-        <i
+        <div
           class="margin-left-small margin-right-small"
         >
           r1
-        </i>
+        </div>
       </h3>
       <button
         class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-1"
