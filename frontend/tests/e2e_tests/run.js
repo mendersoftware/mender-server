@@ -62,8 +62,8 @@ const defaultCredentials = {
 const getCredentials = config => {
   const credentials = {
     ...defaultCredentials,
-    password: config.password,
-    user: config.user
+    password: config.password ?? defaultCredentials.password,
+    user: config.user ?? defaultCredentials.user
   };
   if (config.environment === environments.staging) {
     credentials.user = config.user ?? `${uuid()}@example.com`;
