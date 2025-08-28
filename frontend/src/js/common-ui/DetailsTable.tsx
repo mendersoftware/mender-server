@@ -72,8 +72,13 @@ export const DetailsTable = ({
               <Checkbox indeterminate={false} checked={selectedRows.length === items.length} onChange={onSelectAllClick} />
             </TableCell>
           )}
-          {columns.map(({ extras, key, renderTitle, sortable, title }) => (
-            <TableCell key={key} className={`columnHeader ${sortable ? '' : 'nonSortable'}`} onClick={() => (sortable ? onChangeSorting(key) : null)}>
+          {columns.map(({ extras, key, renderTitle, sortable, title, cellProps = {} }) => (
+            <TableCell
+              key={key}
+              className={`columnHeader ${sortable ? '' : 'nonSortable'}`}
+              onClick={() => (sortable ? onChangeSorting(key) : null)}
+              {...cellProps}
+            >
               {renderTitle ? renderTitle(extras) : title}
               {sortable && <SortIcon className={`sortIcon ${sort.key === key ? 'selected' : ''} ${(sort.direction === SORTING_OPTIONS.desc).toString()}`} />}
             </TableCell>
