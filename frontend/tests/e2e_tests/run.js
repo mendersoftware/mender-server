@@ -66,8 +66,8 @@ const getCredentials = config => {
     user: config.user
   };
   if (config.environment === environments.staging) {
-    credentials.user = process.env.STAGING_USER ?? `${uuid()}@example.com`;
-    credentials.password = process.env.STAGING_PASSWORD ?? uuid();
+    credentials.user = config.user ?? `${uuid()}@example.com`;
+    credentials.password = config.password ?? uuid();
   }
   return credentials;
 };
@@ -85,8 +85,8 @@ const createConfig = (options = {}) => {
     project: options.project || defaults.project,
     serverRoot,
     skipCleanup: options.skipCleanup || false,
-    user: options.user || defaultCredentials.user,
-    password: options.password || defaultCredentials.password
+    user: options.user,
+    password: options.password
   };
 
   const composeFiles = [join(serverRoot, 'docker-compose.yml'), join(guiRepository, 'tests/e2e_tests/docker-compose.e2e-tests.yml')];
@@ -322,6 +322,9 @@ const runTests = async config => {
 
   if (config.local || config.environment === environments.staging) {
     const testScript = config.visual ? 'test-visual-new' : 'test';
+    const { user, password } = getCredentials(config);
+    process.env.STAGING_USER = process.env.STAGING_USER || user;
+    process.env.STAGING_PASSWORD = process.env.STAGING_PASSWORD || password;
     await withSpinner(
       `🏃 Executing ${chalk.cyan(testScript)} with ${chalk.cyan(config.project)}...`,
       async () =>
@@ -467,7 +470,6 @@ const main = async () => {
     program.help();
     return;
   }
-
   validateConfiguration(config);
   showConfiguration(config);
   setEnvironmentValues(config);
