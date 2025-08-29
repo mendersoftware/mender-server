@@ -446,14 +446,14 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   width: 100%;
 }
 
-.emotion-17 {
+.emotion-18 {
   padding: 8px 16px 16px;
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
 }
 
-.emotion-26 {
+.emotion-28 {
   -webkit-box-pack: end;
   -ms-flex-pack: end;
   -webkit-justify-content: flex-end;
@@ -461,7 +461,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   margin-top: 16px;
 }
 
-.emotion-27 {
+.emotion-29 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -521,33 +521,33 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   padding: 10px 15px;
 }
 
-.emotion-27::-moz-focus-inner {
+.emotion-29::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-27.Mui-disabled {
+.emotion-29.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-27 {
+  .emotion-29 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-27:hover {
+.emotion-29:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-27.Mui-disabled {
+.emotion-29.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-27:hover {
+  .emotion-29:hover {
     --variant-containedBg: rgb(65, 10, 46);
     --variant-textBg: rgba(93, 15, 67, 0.04);
     --variant-outlinedBorder: #5d0f43;
@@ -555,15 +555,15 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   }
 }
 
-.emotion-27.MuiButton-loading {
+.emotion-29.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-27:hover {
+.emotion-29:hover {
   colors: #337a87;
 }
 
-.emotion-27.MuiButton-text {
+.emotion-29.MuiButton-text {
   color: rgba(10, 10, 11, 0.78);
 }
 
@@ -745,11 +745,11 @@ exports[`AuthStatus Component > renders correctly 1`] = `
                 class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-16"
               >
                 <div
-                  class="MuiAccordion-region"
+                  class="MuiAccordion-region emotion-17"
                   role="region"
                 >
                   <div
-                    class="MuiAccordionDetails-root emotion-17"
+                    class="MuiAccordionDetails-root emotion-18"
                   >
                     <div
                       style="flex-grow: 1;"
@@ -826,11 +826,11 @@ exports[`AuthStatus Component > renders correctly 1`] = `
                 class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-16"
               >
                 <div
-                  class="MuiAccordion-region"
+                  class="MuiAccordion-region emotion-17"
                   role="region"
                 >
                   <div
-                    class="MuiAccordionDetails-root emotion-17"
+                    class="MuiAccordionDetails-root emotion-18"
                   >
                     <div
                       style="flex-grow: 1;"
@@ -849,10 +849,10 @@ exports[`AuthStatus Component > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="flexbox emotion-26"
+      class="flexbox emotion-28"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary emotion-27"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary emotion-29"
         tabindex="0"
         type="button"
       >

@@ -602,14 +602,14 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
   width: 100%;
 }
 
-.emotion-11 {
+.emotion-12 {
   padding: 8px 16px 16px;
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
 }
 
-.emotion-12 {
+.emotion-13 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -683,28 +683,28 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
   border: 1px solid #f7f7f7;
 }
 
-.emotion-12::-moz-focus-inner {
+.emotion-13::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-12.Mui-disabled {
+.emotion-13.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-12 {
+  .emotion-13 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-12.Mui-disabled {
+.emotion-13.Mui-disabled {
   opacity: 0.38;
   pointer-events: none;
 }
 
-.emotion-12 .MuiChip-avatar {
+.emotion-13 .MuiChip-avatar {
   margin-left: 5px;
   margin-right: -6px;
   width: 24px;
@@ -713,17 +713,17 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
   font-size: 0.6964rem;
 }
 
-.emotion-12 .MuiChip-avatarColorPrimary {
+.emotion-13 .MuiChip-avatarColorPrimary {
   color: #fff;
   background-color: rgb(35, 85, 94);
 }
 
-.emotion-12 .MuiChip-avatarColorSecondary {
+.emotion-13 .MuiChip-avatarColorSecondary {
   color: #fff;
   background-color: rgb(65, 10, 46);
 }
 
-.emotion-12 .MuiChip-avatarSmall {
+.emotion-13 .MuiChip-avatarSmall {
   margin-left: 4px;
   margin-right: -4px;
   width: 18px;
@@ -731,12 +731,12 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
   font-size: 0.5804rem;
 }
 
-.emotion-12 .MuiChip-icon {
+.emotion-13 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
 }
 
-.emotion-12 .MuiChip-deleteIcon {
+.emotion-13 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
   color: rgba(10, 10, 11, 0.26);
   font-size: 22px;
@@ -744,63 +744,63 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
   margin: 0 5px 0 -6px;
 }
 
-.emotion-12 .MuiChip-deleteIcon:hover {
+.emotion-13 .MuiChip-deleteIcon:hover {
   color: rgba(10, 10, 11, 0.4);
 }
 
-.emotion-12 .MuiChip-icon {
+.emotion-13 .MuiChip-icon {
   color: #bcbcbc;
 }
 
-.emotion-12.Mui-focusVisible {
+.emotion-13.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-.emotion-12:hover {
+.emotion-13:hover {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-12.Mui-focusVisible {
+.emotion-13.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-.emotion-12:active {
+.emotion-13:active {
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-12.MuiChip-clickable:hover {
+.emotion-13.MuiChip-clickable:hover {
   background-color: rgba(0, 0, 0, 0.04);
 }
 
-.emotion-12.Mui-focusVisible {
+.emotion-13.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-12 .MuiChip-avatar {
+.emotion-13 .MuiChip-avatar {
   margin-left: 4px;
 }
 
-.emotion-12 .MuiChip-avatarSmall {
+.emotion-13 .MuiChip-avatarSmall {
   margin-left: 2px;
 }
 
-.emotion-12 .MuiChip-icon {
+.emotion-13 .MuiChip-icon {
   margin-left: 4px;
 }
 
-.emotion-12 .MuiChip-iconSmall {
+.emotion-13 .MuiChip-iconSmall {
   margin-left: 2px;
 }
 
-.emotion-12 .MuiChip-deleteIcon {
+.emotion-13 .MuiChip-deleteIcon {
   margin-right: 5px;
 }
 
-.emotion-12 .MuiChip-deleteIconSmall {
+.emotion-13 .MuiChip-deleteIconSmall {
   margin-right: 3px;
 }
 
-.emotion-14 {
+.emotion-15 {
   overflow: hidden;
   text-overflow: ellipsis;
   padding-left: 12px;
@@ -810,7 +810,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
   padding-right: 11px;
 }
 
-.emotion-92 {
+.emotion-93 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -827,11 +827,11 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
   font-size: 1.1607rem;
 }
 
-.emotion-92 iconButton {
+.emotion-93 iconButton {
   margin-right: 8px;
 }
 
-.emotion-109 {
+.emotion-111 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -903,28 +903,28 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
   cursor: pointer;
 }
 
-.emotion-109::-moz-focus-inner {
+.emotion-111::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-109.Mui-disabled {
+.emotion-111.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-109 {
+  .emotion-111 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-109.Mui-disabled {
+.emotion-111.Mui-disabled {
   opacity: 0.38;
   pointer-events: none;
 }
 
-.emotion-109 .MuiChip-avatar {
+.emotion-111 .MuiChip-avatar {
   margin-left: 5px;
   margin-right: -6px;
   width: 24px;
@@ -933,17 +933,17 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
   font-size: 0.6964rem;
 }
 
-.emotion-109 .MuiChip-avatarColorPrimary {
+.emotion-111 .MuiChip-avatarColorPrimary {
   color: #fff;
   background-color: rgb(35, 85, 94);
 }
 
-.emotion-109 .MuiChip-avatarColorSecondary {
+.emotion-111 .MuiChip-avatarColorSecondary {
   color: #fff;
   background-color: rgb(65, 10, 46);
 }
 
-.emotion-109 .MuiChip-avatarSmall {
+.emotion-111 .MuiChip-avatarSmall {
   margin-left: 4px;
   margin-right: -4px;
   width: 18px;
@@ -951,12 +951,12 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
   font-size: 0.5804rem;
 }
 
-.emotion-109 .MuiChip-icon {
+.emotion-111 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
 }
 
-.emotion-109 .MuiChip-deleteIcon {
+.emotion-111 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
   color: rgba(10, 10, 11, 0.26);
   font-size: 22px;
@@ -964,31 +964,31 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
   margin: 0 5px 0 -6px;
 }
 
-.emotion-109 .MuiChip-deleteIcon:hover {
+.emotion-111 .MuiChip-deleteIcon:hover {
   color: rgba(10, 10, 11, 0.4);
 }
 
-.emotion-109 .MuiChip-icon {
+.emotion-111 .MuiChip-icon {
   color: #bcbcbc;
 }
 
-.emotion-109.Mui-focusVisible {
+.emotion-111.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-.emotion-109:hover {
+.emotion-111:hover {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-109.Mui-focusVisible {
+.emotion-111.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-.emotion-109:active {
+.emotion-111:active {
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-111 {
+.emotion-113 {
   overflow: hidden;
   text-overflow: ellipsis;
   padding-left: 12px;
@@ -1065,15 +1065,15 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
           class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
         >
           <div
-            class="MuiAccordion-region"
+            class="MuiAccordion-region emotion-11"
             role="region"
           >
             <div
-              class="MuiAccordionDetails-root emotion-11"
+              class="MuiAccordionDetails-root emotion-12"
             >
               <div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -1089,7 +1089,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     debian+bookworm - armhf
                   </span>
@@ -1107,7 +1107,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -1123,7 +1123,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     debian+bookworm - arm64
                   </span>
@@ -1141,7 +1141,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -1157,7 +1157,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     debian+bookworm - amd64
                   </span>
@@ -1175,7 +1175,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -1191,7 +1191,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     debian+bullseye - armhf
                   </span>
@@ -1209,7 +1209,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -1225,7 +1225,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     debian+bullseye - arm64
                   </span>
@@ -1243,7 +1243,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -1259,7 +1259,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     debian+bullseye - amd64
                   </span>
@@ -1277,7 +1277,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -1293,7 +1293,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+focal - armhf
                   </span>
@@ -1311,7 +1311,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -1327,7 +1327,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+focal - arm64
                   </span>
@@ -1345,7 +1345,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -1361,7 +1361,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+focal - amd64
                   </span>
@@ -1379,7 +1379,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -1395,7 +1395,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+jammy - armhf
                   </span>
@@ -1413,7 +1413,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -1429,7 +1429,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+jammy - arm64
                   </span>
@@ -1447,7 +1447,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -1463,7 +1463,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+jammy - amd64
                   </span>
@@ -1481,7 +1481,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -1497,7 +1497,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+noble - armhf
                   </span>
@@ -1515,7 +1515,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -1531,7 +1531,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+noble - arm64
                   </span>
@@ -1549,7 +1549,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -1565,7 +1565,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+noble - amd64
                   </span>
@@ -1588,7 +1588,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   mender-client-dev
                 </h5>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -1604,7 +1604,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     debian+bookworm - all
                   </span>
@@ -1622,7 +1622,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -1638,7 +1638,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     debian+bullseye - all
                   </span>
@@ -1656,7 +1656,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -1672,7 +1672,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+focal - all
                   </span>
@@ -1690,7 +1690,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -1706,7 +1706,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+jammy - all
                   </span>
@@ -1724,7 +1724,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -1740,7 +1740,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+noble - all
                   </span>
@@ -1768,7 +1768,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-92"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-93"
                   data-testid="LaunchIcon"
                   focusable="false"
                   style="vertical-align: text-bottom;"
@@ -1847,15 +1847,15 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
           class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
         >
           <div
-            class="MuiAccordion-region"
+            class="MuiAccordion-region emotion-11"
             role="region"
           >
             <div
-              class="MuiAccordionDetails-root emotion-11"
+              class="MuiAccordionDetails-root emotion-12"
             >
               <div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -1871,7 +1871,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     MacOs
                   </span>
@@ -1889,7 +1889,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-filledDefault margin-bottom-small margin-right-small emotion-109"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-filledDefault margin-bottom-small margin-right-small emotion-111"
                   role="button"
                   tabindex="0"
                 >
@@ -1905,7 +1905,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-111"
+                    class="MuiChip-label MuiChip-labelMedium emotion-113"
                   >
                     Unix
                   </span>
@@ -1933,7 +1933,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-92"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-93"
                   data-testid="LaunchIcon"
                   focusable="false"
                   style="vertical-align: text-bottom;"
@@ -2012,15 +2012,15 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
           class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
         >
           <div
-            class="MuiAccordion-region"
+            class="MuiAccordion-region emotion-11"
             role="region"
           >
             <div
-              class="MuiAccordionDetails-root emotion-11"
+              class="MuiAccordionDetails-root emotion-12"
             >
               <div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -2036,7 +2036,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     Mender Binary Delta generator and Update Module
                   </span>
@@ -2064,7 +2064,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-92"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-93"
                   data-testid="LaunchIcon"
                   focusable="false"
                   style="vertical-align: text-bottom;"
@@ -2143,15 +2143,15 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
           class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
         >
           <div
-            class="MuiAccordion-region"
+            class="MuiAccordion-region emotion-11"
             role="region"
           >
             <div
-              class="MuiAccordionDetails-root emotion-11"
+              class="MuiAccordionDetails-root emotion-12"
             >
               <div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -2167,7 +2167,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     MacOs
                   </span>
@@ -2185,7 +2185,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-filledDefault margin-bottom-small margin-right-small emotion-109"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-filledDefault margin-bottom-small margin-right-small emotion-111"
                   role="button"
                   tabindex="0"
                 >
@@ -2201,7 +2201,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-111"
+                    class="MuiChip-label MuiChip-labelMedium emotion-113"
                   >
                     Unix
                   </span>
@@ -2229,7 +2229,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-92"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-93"
                   data-testid="LaunchIcon"
                   focusable="false"
                   style="vertical-align: text-bottom;"
@@ -2308,15 +2308,15 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
           class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
         >
           <div
-            class="MuiAccordion-region"
+            class="MuiAccordion-region emotion-11"
             role="region"
           >
             <div
-              class="MuiAccordionDetails-root emotion-11"
+              class="MuiAccordionDetails-root emotion-12"
             >
               <div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -2332,7 +2332,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     debian+bookworm - all
                   </span>
@@ -2350,7 +2350,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -2366,7 +2366,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     debian+bullseye - all
                   </span>
@@ -2384,7 +2384,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -2400,7 +2400,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+focal - all
                   </span>
@@ -2418,7 +2418,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -2434,7 +2434,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+jammy - all
                   </span>
@@ -2452,7 +2452,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -2468,7 +2468,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+noble - all
                   </span>
@@ -2491,7 +2491,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   mender-configure-demo
                 </h5>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -2507,7 +2507,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     debian+bookworm - all
                   </span>
@@ -2525,7 +2525,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -2541,7 +2541,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     debian+bullseye - all
                   </span>
@@ -2559,7 +2559,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -2575,7 +2575,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+focal - all
                   </span>
@@ -2593,7 +2593,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -2609,7 +2609,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+jammy - all
                   </span>
@@ -2627,7 +2627,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -2643,7 +2643,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+noble - all
                   </span>
@@ -2666,7 +2666,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   mender-configure-timezone
                 </h5>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -2682,7 +2682,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     debian+bookworm - all
                   </span>
@@ -2700,7 +2700,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -2716,7 +2716,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     debian+bullseye - all
                   </span>
@@ -2734,7 +2734,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -2750,7 +2750,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+focal - all
                   </span>
@@ -2768,7 +2768,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -2784,7 +2784,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+jammy - all
                   </span>
@@ -2802,7 +2802,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -2818,7 +2818,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+noble - all
                   </span>
@@ -2846,7 +2846,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-92"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-93"
                   data-testid="LaunchIcon"
                   focusable="false"
                   style="vertical-align: text-bottom;"
@@ -2925,15 +2925,15 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
           class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
         >
           <div
-            class="MuiAccordion-region"
+            class="MuiAccordion-region emotion-11"
             role="region"
           >
             <div
-              class="MuiAccordionDetails-root emotion-11"
+              class="MuiAccordionDetails-root emotion-12"
             >
               <div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -2949,7 +2949,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     debian+bookworm - armhf
                   </span>
@@ -2967,7 +2967,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -2983,7 +2983,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     debian+bookworm - arm64
                   </span>
@@ -3001,7 +3001,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -3017,7 +3017,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     debian+bookworm - amd64
                   </span>
@@ -3035,7 +3035,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -3051,7 +3051,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     debian+bullseye - armhf
                   </span>
@@ -3069,7 +3069,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -3085,7 +3085,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     debian+bullseye - arm64
                   </span>
@@ -3103,7 +3103,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -3119,7 +3119,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     debian+bullseye - amd64
                   </span>
@@ -3137,7 +3137,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -3153,7 +3153,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+focal - armhf
                   </span>
@@ -3171,7 +3171,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -3187,7 +3187,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+focal - arm64
                   </span>
@@ -3205,7 +3205,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -3221,7 +3221,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+focal - amd64
                   </span>
@@ -3239,7 +3239,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -3255,7 +3255,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+jammy - armhf
                   </span>
@@ -3273,7 +3273,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -3289,7 +3289,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+jammy - arm64
                   </span>
@@ -3307,7 +3307,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -3323,7 +3323,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+jammy - amd64
                   </span>
@@ -3341,7 +3341,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -3357,7 +3357,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+noble - armhf
                   </span>
@@ -3375,7 +3375,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -3391,7 +3391,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+noble - arm64
                   </span>
@@ -3409,7 +3409,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -3425,7 +3425,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+noble - amd64
                   </span>
@@ -3453,7 +3453,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-92"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-93"
                   data-testid="LaunchIcon"
                   focusable="false"
                   style="vertical-align: text-bottom;"
@@ -3532,15 +3532,15 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
           class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
         >
           <div
-            class="MuiAccordion-region"
+            class="MuiAccordion-region emotion-11"
             role="region"
           >
             <div
-              class="MuiAccordionDetails-root emotion-11"
+              class="MuiAccordionDetails-root emotion-12"
             >
               <div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -3556,7 +3556,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     Mender Convert
                   </span>
@@ -3584,7 +3584,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-92"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-93"
                   data-testid="LaunchIcon"
                   focusable="false"
                   style="vertical-align: text-bottom;"
@@ -3663,15 +3663,15 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
           class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
         >
           <div
-            class="MuiAccordion-region"
+            class="MuiAccordion-region emotion-11"
             role="region"
           >
             <div
-              class="MuiAccordionDetails-root emotion-11"
+              class="MuiAccordionDetails-root emotion-12"
             >
               <div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -3687,7 +3687,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     debian+bookworm - armhf
                   </span>
@@ -3705,7 +3705,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -3721,7 +3721,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     debian+bookworm - arm64
                   </span>
@@ -3739,7 +3739,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -3755,7 +3755,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     debian+bookworm - amd64
                   </span>
@@ -3773,7 +3773,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -3789,7 +3789,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     debian+bullseye - armhf
                   </span>
@@ -3807,7 +3807,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -3823,7 +3823,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     debian+bullseye - arm64
                   </span>
@@ -3841,7 +3841,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -3857,7 +3857,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     debian+bullseye - amd64
                   </span>
@@ -3875,7 +3875,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -3891,7 +3891,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+focal - armhf
                   </span>
@@ -3909,7 +3909,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -3925,7 +3925,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+focal - arm64
                   </span>
@@ -3943,7 +3943,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -3959,7 +3959,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+focal - amd64
                   </span>
@@ -3977,7 +3977,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -3993,7 +3993,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+jammy - armhf
                   </span>
@@ -4011,7 +4011,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -4027,7 +4027,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+jammy - arm64
                   </span>
@@ -4045,7 +4045,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -4061,7 +4061,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+jammy - amd64
                   </span>
@@ -4079,7 +4079,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -4095,7 +4095,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+noble - armhf
                   </span>
@@ -4113,7 +4113,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -4129,7 +4129,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+noble - arm64
                   </span>
@@ -4147,7 +4147,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -4163,7 +4163,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+noble - amd64
                   </span>
@@ -4191,7 +4191,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-92"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-93"
                   data-testid="LaunchIcon"
                   focusable="false"
                   style="vertical-align: text-bottom;"
@@ -4270,15 +4270,15 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
           class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
         >
           <div
-            class="MuiAccordion-region"
+            class="MuiAccordion-region emotion-11"
             role="region"
           >
             <div
-              class="MuiAccordionDetails-root emotion-11"
+              class="MuiAccordionDetails-root emotion-12"
             >
               <div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -4294,7 +4294,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     debian+bookworm - all
                   </span>
@@ -4312,7 +4312,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -4328,7 +4328,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     debian+bullseye - all
                   </span>
@@ -4346,7 +4346,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -4362,7 +4362,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+focal - all
                   </span>
@@ -4380,7 +4380,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -4396,7 +4396,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+jammy - all
                   </span>
@@ -4414,7 +4414,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-12"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
                   role="button"
                   tabindex="0"
                 >
@@ -4430,7 +4430,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-14"
+                    class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
                     ubuntu+noble - all
                   </span>
@@ -4458,7 +4458,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-92"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-93"
                   data-testid="LaunchIcon"
                   focusable="false"
                   style="vertical-align: text-bottom;"
@@ -4487,7 +4487,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
        
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-92"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-93"
         data-testid="LaunchIcon"
         focusable="false"
         style="vertical-align: text-bottom;"
