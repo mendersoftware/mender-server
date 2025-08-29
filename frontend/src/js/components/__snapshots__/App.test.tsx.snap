@@ -455,6 +455,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
+  text-transform: none;
   font-family: Red Hat Display;
   font-weight: 500;
   font-size: 0.875rem;
@@ -469,13 +470,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   padding: 6px 8px;
   color: var(--variant-textColor);
   background-color: var(--variant-textBg);
-  --variant-textColor: #970f57;
-  --variant-outlinedColor: #970f57;
-  --variant-outlinedBorder: rgba(151, 15, 87, 0.5);
+  --variant-textColor: #1d8faf;
+  --variant-outlinedColor: #1d8faf;
+  --variant-outlinedBorder: rgba(29, 143, 175, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #970f57;
+  --variant-containedBg: #1d8faf;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  text-transform: none;
   text-transform: none;
   height: 100%;
   text-transform: none;
@@ -508,10 +510,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
 
 @media (hover: hover) {
   .emotion-17:hover {
-    --variant-containedBg: #820f50;
-    --variant-textBg: rgba(151, 15, 87, 0.04);
-    --variant-outlinedBorder: #970f57;
-    --variant-outlinedBg: rgba(151, 15, 87, 0.04);
+    --variant-containedBg: #015969;
+    --variant-textBg: rgba(29, 143, 175, 0.04);
+    --variant-outlinedBorder: #1d8faf;
+    --variant-outlinedBg: rgba(29, 143, 175, 0.04);
   }
 }
 
@@ -760,6 +762,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
+  text-transform: none;
   font-family: Red Hat Display;
   font-weight: 500;
   font-size: 0.875rem;
@@ -873,6 +876,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
+  text-transform: none;
   max-width: 100%;
   font-family: Red Hat Display;
   font-size: 0.8125rem;
@@ -1419,7 +1423,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
             </svg>
           </a>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-17"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary emotion-17"
+            color="secondary"
             tabindex="0"
             type="button"
           >
@@ -1647,6 +1652,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
             >
               <a
                 class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary absolute emotion-50"
+                color="secondary"
                 data-discover="true"
                 href="/devices/pending"
                 tabindex="0"
@@ -1714,6 +1720,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                 >
                   <div
                     class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault emotion-53"
+                    color="secondary"
                     role="button"
                     tabindex="0"
                   >
@@ -2837,6 +2844,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
+  text-transform: none;
   font-family: Red Hat Display;
   font-weight: 500;
   font-size: 0.875rem;
@@ -2851,13 +2859,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   padding: 6px 8px;
   color: var(--variant-textColor);
   background-color: var(--variant-textBg);
-  --variant-textColor: #970f57;
-  --variant-outlinedColor: #970f57;
-  --variant-outlinedBorder: rgba(151, 15, 87, 0.5);
+  --variant-textColor: #1d8faf;
+  --variant-outlinedColor: #1d8faf;
+  --variant-outlinedBorder: rgba(29, 143, 175, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #970f57;
+  --variant-containedBg: #1d8faf;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  text-transform: none;
   text-transform: none;
   height: 100%;
   text-transform: none;
@@ -2890,10 +2899,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
 
 @media (hover: hover) {
   .emotion-14:hover {
-    --variant-containedBg: #820f50;
-    --variant-textBg: rgba(151, 15, 87, 0.04);
-    --variant-outlinedBorder: #970f57;
-    --variant-outlinedBg: rgba(151, 15, 87, 0.04);
+    --variant-containedBg: #015969;
+    --variant-textBg: rgba(29, 143, 175, 0.04);
+    --variant-outlinedBorder: #1d8faf;
+    --variant-outlinedBg: rgba(29, 143, 175, 0.04);
   }
 }
 
@@ -3142,6 +3151,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
+  text-transform: none;
   font-family: Red Hat Display;
   font-weight: 500;
   font-size: 0.875rem;
@@ -3255,6 +3265,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
+  text-transform: none;
   max-width: 100%;
   font-family: Red Hat Display;
   font-size: 0.8125rem;
@@ -3617,7 +3628,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
           </svg>
         </a>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-14"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary emotion-14"
+          color="secondary"
           tabindex="0"
           type="button"
         >
@@ -3844,6 +3856,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
           >
             <a
               class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary absolute emotion-47"
+              color="secondary"
               data-discover="true"
               href="/devices/pending"
               tabindex="0"
@@ -3911,6 +3924,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
               >
                 <div
                   class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault emotion-50"
+                  color="secondary"
                   role="button"
                   tabindex="0"
                 >
