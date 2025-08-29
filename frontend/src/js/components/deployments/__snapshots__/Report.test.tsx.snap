@@ -36,12 +36,12 @@ exports[`DeploymentReport Component > renders correctly 1`] = `
           >
             Deployment 
             details
-            <i
+            <div
               class="margin-left-small margin-right-small"
             >
               ID: 
               d1
-            </i>
+            </div>
           </h3>
           <button
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
@@ -982,12 +982,12 @@ exports[`DeploymentReport Component > renders correctly for phased inprogress 1`
           >
             Deployment 
             details
-            <i
+            <div
               class="margin-left-small margin-right-small"
             >
               ID: 
               d3
-            </i>
+            </div>
           </h3>
           <button
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
