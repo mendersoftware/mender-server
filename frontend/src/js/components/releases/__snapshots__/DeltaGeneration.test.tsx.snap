@@ -1,0 +1,366 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`DeltaProgress Component > renders correctly 1`] = `
+"<div>
+  <div
+    class=""
+  >
+    <h6
+      class="MuiTypography-root MuiTypography-subtitle1 margin-bottom css-opuhgx-MuiTypography-root"
+    >
+      Generated Delta Artifacts
+    </h6>
+    <table
+      class="MuiTable-root margin-bottom css-19k175z-MuiTable-root-table"
+    >
+      <thead
+        class="MuiTableHead-root css-f2jk7z-MuiTableHead-root-header"
+      >
+        <tr
+          class="MuiTableRow-root MuiTableRow-head css-1iwsoa3-MuiTableRow-root"
+        >
+          <th
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader css-1549o8m-MuiTableCell-root"
+            scope="col"
+            style="width: 20%;"
+          >
+            To version
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon true css-1j3vvli-MuiSvgIcon-root"
+              data-testid="SortIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M3 18h6v-2H3zM3 6v2h18V6zm0 7h12v-2H3z"
+              />
+            </svg>
+          </th>
+          <th
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader css-1549o8m-MuiTableCell-root"
+            scope="col"
+            style="width: 20%;"
+          >
+            From version
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon true css-1j3vvli-MuiSvgIcon-root"
+              data-testid="SortIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M3 18h6v-2H3zM3 6v2h18V6zm0 7h12v-2H3z"
+              />
+            </svg>
+          </th>
+          <th
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable css-1549o8m-MuiTableCell-root"
+            scope="col"
+            style="width: 25%;"
+          >
+            Device types compatible
+          </th>
+          <th
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader css-1549o8m-MuiTableCell-root"
+            scope="col"
+            style="width: 10%;"
+          >
+            Started
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon selected true css-1j3vvli-MuiSvgIcon-root"
+              data-testid="SortIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M3 18h6v-2H3zM3 6v2h18V6zm0 7h12v-2H3z"
+              />
+            </svg>
+          </th>
+          <th
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader css-1549o8m-MuiTableCell-root"
+            scope="col"
+            style="width: 20%;"
+          >
+            Status
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon true css-1j3vvli-MuiSvgIcon-root"
+              data-testid="SortIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M3 18h6v-2H3zM3 6v2h18V6zm0 7h12v-2H3z"
+              />
+            </svg>
+          </th>
+          <th
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable css-1549o8m-MuiTableCell-root"
+            scope="col"
+            style="width: 5%;"
+          />
+        </tr>
+      </thead>
+      <tbody
+        class="MuiTableBody-root css-gmh7jj-MuiTableBody-root"
+      >
+        <tr
+          class="MuiTableRow-root MuiTableRow-hover clickable css-1iwsoa3-MuiTableRow-root"
+        >
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-15kh05q-MuiTableCell-root"
+          >
+            <a
+              data-discover="true"
+              href="/releases/mender-demo-artifact-3.3.1"
+            >
+              mender-demo-artifact-3.3.1
+            </a>
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-15kh05q-MuiTableCell-root"
+          >
+            <a
+              data-discover="true"
+              href="/releases/mender-demo-artifact-3.2.1"
+            >
+              mender-demo-artifact-3.2.1
+            </a>
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-15kh05q-MuiTableCell-root"
+          >
+            qemux86-64
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-15kh05q-MuiTableCell-root"
+          >
+            <time
+              datetime="2022-07-11T20:49:00+00:00"
+            >
+              2022-07-11 20:49
+            </time>
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-15kh05q-MuiTableCell-root"
+          >
+            <div
+              class="capitalized-start"
+            >
+              success
+            </div>
+            <span
+              aria-valuemax="100"
+              aria-valuemin="0"
+              aria-valuenow="100"
+              class="MuiLinearProgress-root MuiLinearProgress-colorSuccess MuiLinearProgress-determinate absolute full-width css-1kaulsh-MuiLinearProgress-root"
+              role="progressbar"
+              style="bottom: 0px;"
+            >
+              <span
+                class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorSuccess MuiLinearProgress-bar1Determinate css-1i2fr5i-MuiLinearProgress-bar1"
+                style="transform: translateX(0%);"
+              />
+            </span>
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-15kh05q-MuiTableCell-root"
+          />
+        </tr>
+        <tr
+          class="MuiTableRow-root MuiTableRow-hover clickable css-1iwsoa3-MuiTableRow-root"
+        >
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-15kh05q-MuiTableCell-root"
+          >
+            <a
+              data-discover="true"
+              href="/releases/mender-demo-artifact-3.3.1"
+            >
+              mender-demo-artifact-3.3.1
+            </a>
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-15kh05q-MuiTableCell-root"
+          >
+            <a
+              data-discover="true"
+              href="/releases/mender-demo-artifact-3.3.0"
+            >
+              mender-demo-artifact-3.3.0
+            </a>
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-15kh05q-MuiTableCell-root"
+          >
+            raspberrypi0w, raspberrypi0-wifi, raspberrypi3, raspberrypi4
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-15kh05q-MuiTableCell-root"
+          >
+            <time
+              datetime="2022-07-11T20:49:00+00:00"
+            >
+              2022-07-11 20:49
+            </time>
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-15kh05q-MuiTableCell-root"
+          >
+            <div
+              class="capitalized-start"
+            >
+              failed
+            </div>
+            <span
+              aria-valuemax="100"
+              aria-valuemin="0"
+              aria-valuenow="100"
+              class="MuiLinearProgress-root MuiLinearProgress-colorSecondary MuiLinearProgress-determinate absolute full-width css-14n68pu-MuiLinearProgress-root"
+              role="progressbar"
+              style="bottom: 0px;"
+            >
+              <span
+                class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorSecondary MuiLinearProgress-bar1Determinate css-1jyv3jb-MuiLinearProgress-bar1"
+                style="transform: translateX(0%);"
+              />
+            </span>
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-15kh05q-MuiTableCell-root"
+          />
+        </tr>
+      </tbody>
+    </table>
+    <div
+      class="flexbox"
+    >
+      <div
+        class="MuiTablePagination-root flexbox margin-top margin-top-none css-15pl5qu-MuiTablePagination-root"
+      >
+        <div
+          class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-1gak8h1-MuiToolbar-root-MuiTablePagination-toolbar"
+        >
+          <div
+            class="MuiTablePagination-spacer flexbox no-basis css-1wtxofq-MuiTablePagination-spacer"
+          />
+          <p
+            class="MuiTablePagination-selectLabel css-15wkzhc-MuiTablePagination-selectLabel"
+            
+          >
+            Rows
+          </p>
+          <div
+            class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiSelect-root MuiTablePagination-input css-11kq5w2-MuiInputBase-root-MuiTablePagination-select"
+          >
+            <div
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              
+              class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
+              
+              role="combobox"
+              tabindex="0"
+            >
+              20
+            </div>
+            <input
+              aria-hidden="true"
+              aria-invalid="false"
+              class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
+              name="pagination"
+              tabindex="-1"
+              value="20"
+            />
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-h5hq1r-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
+              data-testid="ArrowDropDownIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M7 10l5 5 5-5z"
+              />
+            </svg>
+          </div>
+          <p
+            class="MuiTablePagination-displayedRows css-uam3tq-MuiTablePagination-displayedRows"
+          />
+          <div
+            class="flexbox center-aligned"
+          >
+            <div>
+              1-2 of 2
+            </div>
+            <button
+              aria-label="prev"
+              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
+              disabled=""
+              tabindex="-1"
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1j3vvli-MuiSvgIcon-root"
+                data-testid="KeyboardArrowLeftIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M15.41 16.59 10.83 12l4.58-4.59L14 6l-6 6 6 6z"
+                />
+              </svg>
+            </button>
+            <div>
+              <button
+                aria-label="next"
+                class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
+                disabled=""
+                tabindex="-1"
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1j3vvli-MuiSvgIcon-root"
+                  data-testid="KeyboardArrowRightIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="loaderContainer"
+      >
+        <div
+          class="small  loader"
+        >
+          <span
+            class="dot dot_1"
+          />
+          <span
+            class="dot dot_2"
+          />
+          <span
+            class="dot dot_3"
+          />
+          <span
+            class="dot dot_4"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>"
+`;
