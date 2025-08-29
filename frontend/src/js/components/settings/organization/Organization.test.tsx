@@ -113,9 +113,9 @@ describe('MyOrganization Component', () => {
     await user.click(screen.getByRole('button', { name: 'close' }));
     await waitFor(() => rerender(ui));
     await waitFor(() => expect(document.querySelector(`.${drawerClasses.root}`)).not.toBeInTheDocument());
-    await waitFor(() => expect(screen.getByRole('checkbox')).toBeChecked());
+    await waitFor(() => expect(screen.getByRole('switch')).toBeChecked());
     while (screen.queryByText(/entity id/i)) {
-      await user.click(screen.getByRole('checkbox'));
+      await user.click(screen.getByRole('switch'));
       await user.click(screen.getByRole('button', { name: /save/i }));
     }
   });
