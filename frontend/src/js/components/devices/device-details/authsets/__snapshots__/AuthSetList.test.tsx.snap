@@ -375,7 +375,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
   width: 100%;
 }
 
-.emotion-11 {
+.emotion-12 {
   padding: 8px 16px 16px;
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
@@ -481,11 +481,11 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
           >
             <div
-              class="MuiAccordion-region"
+              class="MuiAccordion-region emotion-11"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-11"
+                class="MuiAccordionDetails-root emotion-12"
               >
                 <div
                   style="flex-grow: 1;"
@@ -567,11 +567,11 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
           >
             <div
-              class="MuiAccordion-region"
+              class="MuiAccordion-region emotion-11"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-11"
+                class="MuiAccordionDetails-root emotion-12"
               >
                 <div
                   style="flex-grow: 1;"
@@ -653,11 +653,11 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
           >
             <div
-              class="MuiAccordion-region"
+              class="MuiAccordion-region emotion-11"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-11"
+                class="MuiAccordionDetails-root emotion-12"
               >
                 <div
                   style="flex-grow: 1;"
@@ -734,11 +734,11 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
           >
             <div
-              class="MuiAccordion-region"
+              class="MuiAccordion-region emotion-11"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-11"
+                class="MuiAccordionDetails-root emotion-12"
               >
                 <div
                   style="flex-grow: 1;"
@@ -815,11 +815,11 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
           >
             <div
-              class="MuiAccordion-region"
+              class="MuiAccordion-region emotion-11"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-11"
+                class="MuiAccordionDetails-root emotion-12"
               >
                 <div
                   style="flex-grow: 1;"
@@ -896,11 +896,11 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
           >
             <div
-              class="MuiAccordion-region"
+              class="MuiAccordion-region emotion-11"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-11"
+                class="MuiAccordionDetails-root emotion-12"
               >
                 <div
                   style="flex-grow: 1;"
@@ -973,11 +973,11 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
           >
             <div
-              class="MuiAccordion-region"
+              class="MuiAccordion-region emotion-11"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-11"
+                class="MuiAccordionDetails-root emotion-12"
               >
                 <div
                   style="flex-grow: 1;"
@@ -1050,11 +1050,11 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
           >
             <div
-              class="MuiAccordion-region"
+              class="MuiAccordion-region emotion-11"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-11"
+                class="MuiAccordionDetails-root emotion-12"
               >
                 <div
                   style="flex-grow: 1;"
@@ -1127,11 +1127,11 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
           >
             <div
-              class="MuiAccordion-region"
+              class="MuiAccordion-region emotion-11"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-11"
+                class="MuiAccordionDetails-root emotion-12"
               >
                 <div
                   style="flex-grow: 1;"
@@ -1204,11 +1204,11 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
           >
             <div
-              class="MuiAccordion-region"
+              class="MuiAccordion-region emotion-11"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-11"
+                class="MuiAccordionDetails-root emotion-12"
               >
                 <div
                   style="flex-grow: 1;"
@@ -1281,11 +1281,11 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
           >
             <div
-              class="MuiAccordion-region"
+              class="MuiAccordion-region emotion-11"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-11"
+                class="MuiAccordionDetails-root emotion-12"
               >
                 <div
                   style="flex-grow: 1;"
@@ -1358,11 +1358,11 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
           >
             <div
-              class="MuiAccordion-region"
+              class="MuiAccordion-region emotion-11"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-11"
+                class="MuiAccordionDetails-root emotion-12"
               >
                 <div
                   style="flex-grow: 1;"

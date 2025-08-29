@@ -855,6 +855,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
       >
         <input
           class="PrivateSwitchBase-input MuiSwitch-input emotion-20"
+          role="switch"
           type="checkbox"
         />
         <span

@@ -1103,6 +1103,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-35:focus::-ms-input-
             >
               <input
                 class="PrivateSwitchBase-input MuiSwitch-input emotion-16"
+                role="switch"
                 type="checkbox"
               />
               <span
@@ -1151,6 +1152,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-35:focus::-ms-input-
                     checked=""
                     class="PrivateSwitchBase-input MuiSwitch-input emotion-16"
                     disabled=""
+                    role="switch"
                     type="checkbox"
                   />
                   <span
@@ -1256,6 +1258,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-35:focus::-ms-input-
             >
               <input
                 class="PrivateSwitchBase-input MuiSwitch-input emotion-16"
+                role="switch"
                 type="checkbox"
               />
               <span
