@@ -169,7 +169,7 @@ build:frontend:docker:
 
 .template:test:frontend:acceptance:
   stage: test
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/mendersoftware/mender-test-containers:gui-e2e-testing
   extends: .build:base
   rules:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
@@ -188,10 +188,9 @@ build:frontend:docker:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
       alias: docker
   before_script:
+    - curl -fsSL https://get.docker.com | sh
     - !reference [.requires-docker]
     - !reference [.dind-login]
-    - apk add --no-cache bash git jq wget
-    - docker pull --quiet ${MENDER_IMAGE_GUI}
     # If branch is not protected, use upstream main
     # Otherwise use the local pipeline reference.
     - |
@@ -199,6 +198,7 @@ build:frontend:docker:
         unset MENDER_IMAGE_REGISTRY MENDER_IMAGE_REPOSITORY
         export MENDER_IMAGE_TAG=main
       fi
+    - npm i --prefix frontend/tests/e2e_tests
   artifacts:
     expire_in: 2w
     paths:
@@ -216,12 +216,10 @@ build:frontend:docker:
 test:frontend:acceptance:
   extends: .template:test:frontend:acceptance
   script:
-    - GUI_REPOSITORY=$(pwd)/frontend SERVER_ROOT=$(pwd) ./frontend/tests/e2e_tests/run
+    - npm run script --prefix frontend/tests/e2e_tests -- --environment os
 
 test:frontend:acceptance:enterprise:
   extends: .template:test:frontend:acceptance
-  variables:
-    TEST_ENVIRONMENT: enterprise
   rules:
     # This job can only run on protected branches
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
@@ -229,7 +227,7 @@ test:frontend:acceptance:enterprise:
     - unset MENDER_IMAGE_REGISTRY MENDER_IMAGE_REPOSITORY
     - export MENDER_IMAGE_TAG=main
     - docker login -u $REGISTRY_MENDER_IO_USERNAME -p $REGISTRY_MENDER_IO_PASSWORD registry.mender.io
-    - GUI_REPOSITORY=$(pwd)/frontend SERVER_ROOT=$(pwd) ./frontend/tests/e2e_tests/run --enterprise
+    - npm run script --prefix frontend/tests/e2e_tests -- --environment enterprise
 
 .template:publish:frontend:tests:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/${NODE_IMAGE}
