@@ -141,11 +141,7 @@ const useStyles = makeStyles()(theme => ({
   },
   exitIcon: { color: theme.palette.grey[600], fill: theme.palette.grey[600] },
   header: {
-    minHeight: 'unset',
-    paddingLeft: theme.spacing(4),
-    paddingRight: theme.spacing(5),
-    width: '100%',
-    borderBottom: `1px solid ${theme.palette.grey[100]}`,
+    borderBottom: `1px solid ${theme.palette.divider}`,
     display: 'grid',
     '#logo': {
       minWidth: 142,
@@ -154,16 +150,9 @@ const useStyles = makeStyles()(theme => ({
     }
   },
   headerSection: {
-    height: 24,
-    fontSize: '14px',
-    color: theme.palette.grey[600],
-    margin: '14px 0',
-    paddingLeft: theme.spacing(4.5),
-    paddingRight: theme.spacing(4.5),
-    borderRight: `1px solid ${theme.palette.grey[300]}`,
     display: 'flex',
     alignItems: 'center',
-    lineHeight: 'initial',
+    height: theme.spacing(3),
     '&:hover': {
       color: theme.palette.grey[700]
     }
@@ -175,7 +164,7 @@ const useStyles = makeStyles()(theme => ({
   search: { alignSelf: 'center' }
 }));
 
-const AccountMenu = () => {
+const AccountMenu = ({ className }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [tenantSwitcherShowing, setTenantSwitcherShowing] = useState(false);
   const hasReadHelptips = useSelector(getReadAllHelptips);
@@ -206,7 +195,11 @@ const AccountMenu = () => {
 
   return (
     <>
-      <Button className={classes.dropDown} onClick={e => setAnchorEl(e.currentTarget)} startIcon={<AccountCircleIcon className={classes.buttonColor} />}>
+      <Button
+        className={`${className} ${classes.dropDown}`}
+        onClick={e => setAnchorEl(e.currentTarget)}
+        startIcon={<AccountCircleIcon className={classes.buttonColor} />}
+      >
         {email}
       </Button>
       <Menu
@@ -407,8 +400,10 @@ export const Header = ({ isDarkMode }) => {
             <Search className={classes.search} isSearching={isSearching} searchTerm={searchTerm} onSearch={onSearch} trigger={refreshTrigger} />
             <div className="flexbox center-aligned">
               <DeviceNotifications className={classes.headerSection} pending={pendingDevices} total={acceptedDevices} limit={deviceLimit} />
+              <Divider className={`margin-left-small margin-right-small ${classes.headerSection}`} orientation="vertical" />
               <DeploymentNotifications className={classes.headerSection} inprogress={inProgress} />
-              <AccountMenu />
+              <Divider className={`margin-left-small margin-right-small ${classes.headerSection}`} orientation="vertical" />
+              <AccountMenu className={classes.headerSection} />
             </div>
           </>
         )}
