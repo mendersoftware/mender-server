@@ -132,11 +132,13 @@ export const Signup = () => {
       plan: 'enterprise',
       ts: captchaTimestamp
     };
-    return dispatch(createOrganizationTrial(signup)).catch(() => {
-      setFormValues({ ...formValues, ...formData, captcha: '' });
-      setIsStarting(true);
-      setLoading(false);
-    });
+    return dispatch(createOrganizationTrial(signup))
+      .unwrap()
+      .catch(() => {
+        setFormValues({ ...formValues, ...formData, captcha: '' });
+        setIsStarting(true);
+        setLoading(false);
+      });
   };
 
   const onUserDataSubmit = (formData: UserData) => {

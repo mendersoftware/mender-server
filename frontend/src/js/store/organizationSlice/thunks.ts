@@ -77,10 +77,13 @@ export const createOrganizationTrial = createAsyncThunk(`${sliceName}/createOrga
   const target = `${targetLocation}${tenantadmApiUrlv2}/tenants/trial`;
   return Api.postUnauthorized(target, data)
     .catch(err => {
-      if (err.response.status >= 400 && err.response.status < 500) {
+      if (err.response?.status >= 400 && err.response?.status < 500) {
         dispatch(setSnackbar({ message: err.response.data.error, autoHideDuration: TIMEOUTS.fiveSeconds }));
-        return Promise.reject(err);
+      } else {
+        // This handles "timeouts", "general connectivity" and "500 - Internal Server Error" errors
+        dispatch(setSnackbar({ message: 'There was an error creating your account', autoHideDuration: TIMEOUTS.fiveSeconds }));
       }
+      return Promise.reject(err);
     })
     .then(({ headers }) => {
       cookies.remove('oauth');
