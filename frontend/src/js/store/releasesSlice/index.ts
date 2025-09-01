@@ -219,6 +219,9 @@ export const releaseSlice = createSlice({
     },
     setDeltaJobsListState: (state, action) => {
       state.deltaJobsList = { ...state.deltaJobsList, ...action.payload };
+    },
+    setSelectedJob: (state, action) => {
+      state.selectedJob = action.payload;
     }
   }
 });

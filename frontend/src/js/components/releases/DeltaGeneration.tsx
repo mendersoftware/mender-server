@@ -25,13 +25,13 @@ import Pagination from '@northern.tech/common-ui/Pagination';
 import { MaybeTime } from '@northern.tech/common-ui/Time';
 import storeActions from '@northern.tech/store/actions';
 import { DEVICE_LIST_DEFAULTS, SORTING_OPTIONS } from '@northern.tech/store/constants';
-import { getDeltaJobsById, getDeltaJobsListState, getIsEnterprise } from '@northern.tech/store/selectors';
+import { getDeltaJobsById, getDeltaJobsListState, getIsEnterprise, getSelectedJob } from '@northern.tech/store/selectors';
 import { getDeltaGenerationJobs } from '@northern.tech/store/thunks';
 import { formatTime } from '@northern.tech/utils/helpers';
 
-import DeltaGenerationDetailsDrawer, { DeltaJobsListItem, StatusIndicator } from './DeltaGenerationDetailsDrawer';
+import DeltaGenerationDetailsDrawer, { StatusIndicator } from './DeltaGenerationDetailsDrawer';
 
-const { setDeltaJobsListState } = storeActions;
+const { setDeltaJobsListState, setSelectedJob } = storeActions;
 
 const useStyles = makeStyles()(() => ({
   table: {
@@ -93,7 +93,7 @@ export const DeltaProgress = ({ className = '' }) => {
   const isEnterprise = useSelector(getIsEnterprise);
   const { jobIds, total, sort, page = defaultPage, perPage = defaultPerPage } = useSelector(getDeltaJobsListState);
   const byId = useSelector(getDeltaJobsById);
-  const [selectedJob, setSelectedJob] = useState<DeltaJobsListItem | null>(null);
+  const selectedJob = useSelector(getSelectedJob);
   const [isLoading, setIsLoading] = useState(false);
   const { classes } = useStyles();
 
@@ -125,7 +125,9 @@ export const DeltaProgress = ({ className = '' }) => {
     [dispatch, perPage]
   );
 
-  const onCloseDetailsDrawer = () => setSelectedJob(null);
+  const onJobSelect = useCallback(selection => dispatch(setSelectedJob(selection.id)), [dispatch]);
+
+  const onCloseDetailsDrawer = () => onJobSelect(null);
 
   if (!isEnterprise) {
     return (
@@ -153,7 +155,7 @@ export const DeltaProgress = ({ className = '' }) => {
         columns={deltaJobColumns}
         items={jobsList}
         onChangeSorting={onChangeSorting}
-        onItemClick={setSelectedJob}
+        onItemClick={onJobSelect}
         sort={sort}
       />
       <div className="flexbox">
@@ -167,7 +169,7 @@ export const DeltaProgress = ({ className = '' }) => {
         />
         <Loader show={isLoading} small />
       </div>
-      <DeltaGenerationDetailsDrawer jobId={selectedJob?.id} open={!!selectedJob} onClose={onCloseDetailsDrawer} />
+      <DeltaGenerationDetailsDrawer jobId={selectedJob.id} open={!!selectedJob.id} onClose={onCloseDetailsDrawer} />
     </div>
   );
 };

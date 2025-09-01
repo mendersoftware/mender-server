@@ -40,3 +40,5 @@ export const getSelectedReleases = createSelector([getReleaseListState, getRelea
 export const getDeltaJobsListState = (state: RootState) => state.releases.deltaJobsList;
 export const getDeltaJobsById = (state: RootState) => state.releases.deltaJobs;
 export const getDeltaJobById = createSelector([getDeltaJobsById, (_, jobId) => jobId], (byId, jobId: string) => byId[jobId]);
+const getSelectedJobId = (state: RootState) => state.releases.selectedJob;
+export const getSelectedJob = createSelector([getDeltaJobsById, getSelectedJobId], (byId, jobId) => byId[jobId || '']);
