@@ -132,7 +132,7 @@ exports[`Releases Component > renders correctly 1`] = `
               Release name
             </h5>
             <div
-              class="MuiFormControl-root MuiTextField-root css-1f2jaah-MuiFormControl-root-MuiTextField-root-nameSearch"
+              class="MuiFormControl-root MuiTextField-root css-1fcjm1w-MuiFormControl-root-MuiTextField-root-nameSearch"
             >
               <div
                 class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedStart css-uf2sy4-MuiInputBase-root-MuiOutlinedInput-root"
