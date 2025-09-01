@@ -37,7 +37,7 @@ const useStyles = makeStyles()(theme => ({
     }
   },
   accordion: {
-    backgroundColor: theme.palette.grey[50],
+    backgroundColor: theme.palette.background.lightgrey ? theme.palette.grey[50] : theme.palette.info.light,
     '&:before': { display: 'none' },
     '&$expanded': { margin: 'auto' },
     [`.columns-4 .${accordionSummaryClasses.content}`]: {

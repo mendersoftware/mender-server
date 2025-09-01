@@ -32,10 +32,7 @@ import Authsetlist from './AuthSetList';
 const useStyles = makeStyles()(theme => ({
   decommission: { justifyContent: 'flex-end', marginTop: theme.spacing(2) },
   wrapper: {
-    backgroundColor: theme.palette.grey[400],
-    borderColor: theme.palette.grey[500],
-    borderStyle: 'solid',
-    borderWidth: 1,
+    backgroundColor: theme.palette.background.lightgrey ? theme.palette.grey[400] : theme.palette.info.light,
     marginBottom: theme.spacing(2),
     minWidth: 700,
     padding: theme.spacing(2)
