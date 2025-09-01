@@ -73,7 +73,11 @@ const useStyles = makeStyles()(theme => ({
   searchNote: { minHeight: '1.8rem' },
   tabContainer: { alignSelf: 'flex-start' },
   uploadButton: { minWidth: 164, marginRight: theme.spacing(2) },
-  nameSearch: { [`.${inputBaseClasses.root}.${outlinedInputClasses.root}`]: { paddingTop: theme.spacing(), paddingBottom: theme.spacing() } }
+  nameSearch: {
+    [`.${inputBaseClasses.root}.${outlinedInputClasses.root}`]: {
+      padding: theme.palette.background.lightgrey ? `${theme.spacing()} 0 ${theme.spacing()} 14px` : ''
+    }
+  }
 }));
 
 const Header = ({ canUpload, releasesListState, setReleasesListState, onUploadClick }) => {
