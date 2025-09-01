@@ -62,7 +62,7 @@ import { Devices, ReleasesWarning, Software } from './deployment-wizard/Software
 
 const useStyles = makeStyles()(theme => ({
   accordion: {
-    backgroundColor: theme.palette.grey[400],
+    backgroundColor: theme.palette.background.lightgrey ? theme.palette.grey[400] : theme.palette.info.light,
     marginTop: theme.spacing(4),
     '&:before': {
       display: 'none'
