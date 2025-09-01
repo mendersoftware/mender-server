@@ -23,6 +23,7 @@ import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotificat
 import { ControlledSearch } from '@northern.tech/common-ui/Search';
 import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/Autocomplete';
 import { Filters } from '@northern.tech/common-ui/forms/Filters';
+import storeActions from '@northern.tech/store/actions';
 import { BENEFITS, SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
 import { useLocationParams } from '@northern.tech/store/liststatehook';
 import {
@@ -44,6 +45,8 @@ import { DeltaProgress } from './DeltaGeneration';
 import ReleaseDetails from './ReleaseDetails';
 import ReleasesList from './ReleasesList';
 import AddArtifactDialog from './dialogs/AddArtifact';
+
+const { setSelectedJob } = storeActions;
 
 const refreshArtifactsLength = 60000;
 
@@ -193,9 +196,12 @@ export const Releases = () => {
   ]);
 
   useEffect(() => {
-    const { selectedRelease, tags, ...remainder } = locationParams;
+    const { selectedRelease, selectedJob, tags, ...remainder } = locationParams;
     if (selectedRelease) {
       dispatch(selectRelease(selectedRelease));
+    }
+    if (selectedJob) {
+      dispatch(setSelectedJob(selectedJob));
     }
     dispatch(setReleasesListState({ ...remainder, selectedTags: tags }));
     clearInterval(artifactTimer.current);
