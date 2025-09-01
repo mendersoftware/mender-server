@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 // material ui
-import { List, ListItem, ListItemText } from '@mui/material';
+import { List, ListItem, ListItemText, Typography, listClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import DocsLink from '@northern.tech/common-ui/DocsLink';
@@ -46,14 +46,22 @@ const listItems = [
 ];
 
 const useStyles = makeStyles()(theme => ({
-  licenseLink: { fontSize: '13px', position: 'relative', top: '6px', color: theme.palette.primary.main },
-  infoList: { padding: 0, position: 'absolute', bottom: 30, left: 0, right: 0 },
+  licenseLink: { fontWeight: 'inherit' },
   list: {
-    backgroundColor: theme.palette.background.lightgrey,
-    borderRight: `1px solid ${theme.palette.grey[300]}`
+    backgroundColor: theme.palette.background.lightgrey ? theme.palette.background.lightgrey : theme.palette.grey[100],
+    borderRight: `1px solid ${theme.palette.divider}`,
+    [`.${listClasses.root}`]: { paddingTop: 0 }
   },
-  navLink: { padding: '22px 16px 22px 42px' },
-  listItem: { padding: '16px 16px 16px 42px' },
+  navLink: {
+    padding: theme.spacing(3.5),
+    color: theme.palette.text.primary,
+    [`&.active`]: {
+      backgroundColor: theme.palette.background.default,
+      borderTop: `1px solid ${theme.palette.divider}`,
+      borderBottom: `1px solid ${theme.palette.divider}`
+    }
+  },
+  lowerList: { gap: theme.spacing() },
   versions: { display: 'grid', gridTemplateColumns: 'max-content max-content', columnGap: theme.spacing() }
 }));
 
@@ -150,48 +158,42 @@ export const LeftNav = () => {
   const userCapabilities = useSelector(getUserCapabilities);
 
   return (
-    <div className={`leftFixed leftNav ${classes.list}`}>
-      <List style={{ padding: 0 }}>
+    <div className={`leftFixed leftNav flexbox column space-between ${classes.list}`}>
+      <List>
         {listItems.reduce((accu, item, index) => {
           if (!item.canAccess({ userCapabilities })) {
             return accu;
           }
           accu.push(
             <ListItem
-              className={`navLink leftNav ${classes.navLink}`}
+              className={`navLink leftNav ${classes.navLink} padding-left-large`}
               component={NavLink}
               end={item.path === ''}
               key={index}
               ref={item.path === routeConfigs.releases.path ? releasesRef : null}
               to={`/${item.path}`}
             >
-              <ListItemText primary={item.title} style={{ textTransform: 'uppercase' }} />
+              <ListItemText primary={item.title} />
             </ListItem>
           );
           return accu;
         }, [])}
       </List>
-      <List className={classes.infoList}>
-        <ListItem className={`navLink leftNav ${classes.listItem}`} component={NavLink} to={`/${routeConfigs.help.path}`}>
-          <ListItemText primary={routeConfigs.help.title} />
-        </ListItem>
-        <ListItem className={classes.listItem}>
-          <ListItemText
-            primary={<VersionInfo />}
-            secondary={
-              <>
-                <DocsLink
-                  className={classes.licenseLink}
-                  path={`release-information/release-notes-changelog/${getDocsLocation({ isEnterprise, isHosted })}`}
-                  title="Release information"
-                />
-                <br />
-                <DocsLink className={classes.licenseLink} path="release-information/open-source-licenses" title="License information" />
-              </>
-            }
-            slotProps={{ secondary: { lineHeight: '2em' } }}
+      <List className={`flexbox column padding-left-large padding-bottom ${classes.lowerList}`}>
+        <NavLink to={`/${routeConfigs.help.path}`}>
+          <Typography variant="body2">{routeConfigs.help.title}</Typography>
+        </NavLink>
+        <VersionInfo />
+        <Typography variant="body2">
+          <DocsLink
+            className={classes.licenseLink}
+            path={`release-information/release-notes-changelog/${getDocsLocation({ isEnterprise, isHosted })}`}
+            title="Release information"
           />
-        </ListItem>
+        </Typography>
+        <Typography variant="body2">
+          <DocsLink className={classes.licenseLink} path="release-information/open-source-licenses" title="License information" />
+        </Typography>
       </List>
     </div>
   );
