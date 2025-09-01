@@ -15,22 +15,14 @@ import { Link } from 'react-router-dom';
 
 // material ui
 import { Refresh as RefreshIcon } from '@mui/icons-material';
-import { makeStyles } from 'tss-react/mui';
 
 import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';
 
-const useStyles = makeStyles()(theme => ({
-  icon: { color: theme.palette.grey[500], margin: '0 7px 0 10px', top: '5px', fontSize: '20px' }
-}));
-
-const DeploymentNotifications = ({ className = '', inprogress }) => {
-  const { classes } = useStyles();
-  return (
-    <Link to={DEPLOYMENT_ROUTES.active.route} className={className}>
-      <span>{inprogress}</span>
-      <RefreshIcon className={`flip-horizontal ${classes.icon}`} />
-    </Link>
-  );
-};
+const DeploymentNotifications = ({ className = '', inprogress }) => (
+  <Link to={DEPLOYMENT_ROUTES.active.route} className={className}>
+    <RefreshIcon className="flip-horizontal margin-right-x-small" fontSize="small" />
+    <div>{inprogress}</div>
+  </Link>
+);
 
 export default DeploymentNotifications;

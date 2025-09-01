@@ -48,9 +48,9 @@ const DeviceNotifications = ({ className = '', total, limit, pending }) => {
   const content = (
     <>
       <Link to="/devices" className={`flexbox center-aligned ${warning ? 'warning' : approaching ? 'approaching' : ''}`}>
-        <span>{total.toLocaleString()}</span>
-        {!!limit && <span id="limit">/{limit.toLocaleString()}</span>}
-        <DeveloperBoardIcon style={{ margin: '0 7px 0 10px', fontSize: 20 }} />
+        <DeveloperBoardIcon className="margin-right-x-small" fontSize="small" />
+        <div>{total.toLocaleString()}</div>
+        {!!limit && <div id="limit">/{limit.toLocaleString()}</div>}
       </Link>
       {pending ? (
         <Link to="/devices/pending" className={limit && limit < pending + total ? 'warning margin-left-x-small' : 'margin-left-x-small'}>
