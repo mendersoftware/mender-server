@@ -3,7 +3,11 @@
 exports[`LeftNav Component > renders correctly 1`] = `
 .emotion-0 {
   background-color: #f7f7f7;
-  border-right: 1px solid #e6f2f1;
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.emotion-0 .MuiList-root {
+  padding-top: 0;
 }
 
 .emotion-1 {
@@ -40,7 +44,8 @@ exports[`LeftNav Component > renders correctly 1`] = `
   padding-right: 16px;
   padding-top: 11px;
   padding-bottom: 11px;
-  padding: 22px 16px 22px 42px;
+  padding: 28px;
+  color: rgba(10, 10, 11, 0.78);
 }
 
 .emotion-2.active {
@@ -55,6 +60,12 @@ exports[`LeftNav Component > renders correctly 1`] = `
 .emotion-2.navLink,
 .emotion-2.navLink .MuiListItemText-root {
   color: #969696;
+}
+
+.emotion-2.active {
+  background-color: #fff;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 .emotion-3 {
@@ -92,110 +103,35 @@ exports[`LeftNav Component > renders correctly 1`] = `
   position: relative;
   padding-top: 8px;
   padding-bottom: 8px;
-  padding: 0;
-  position: absolute;
-  bottom: 30px;
-  left: 0;
-  right: 0;
+  gap: 8px;
 }
 
 .emotion-18 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: start;
-  -ms-flex-pack: start;
-  -webkit-justify-content: flex-start;
-  justify-content: flex-start;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  position: relative;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  width: 100%;
-  box-sizing: border-box;
-  text-align: left;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 16px;
-  padding-right: 16px;
-  padding-top: 11px;
-  padding-bottom: 11px;
-  padding: 16px 16px 16px 42px;
-}
-
-.emotion-18.active {
-  background-color: #fff;
-}
-
-.emotion-18.leftNav.active {
-  border-top: 1px solid #d4e9e7;
-  border-bottom: 1px solid #d4e9e7;
-}
-
-.emotion-18.navLink,
-.emotion-18.navLink .MuiListItemText-root {
-  color: #969696;
-}
-
-.emotion-22 {
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-  min-width: 0;
-  margin-top: 4px;
-  margin-bottom: 4px;
-  margin-top: 6px;
-  margin-bottom: 6px;
-  margin-top: 0;
-  margin-bottom: 0;
-  color: rgba(10, 10, 11, 0.78);
-}
-
-.MuiTypography-root:where(.emotion-22 .MuiListItemText-primary) {
-  display: block;
-}
-
-.MuiTypography-root:where(.emotion-22 .MuiListItemText-secondary) {
-  display: block;
-}
-
-.emotion-24 {
   margin: 0;
   font-family: Lato,sans-serif;
   font-weight: 400;
   font-size: 0.8125rem;
   line-height: 1.43;
-  color: rgba(0, 0, 0, 0.54);
-  line-height: 2em;
 }
 
-.emotion-25 {
-  font-size: 13px;
-  position: relative;
-  top: 6px;
-  color: #337a87;
+.emotion-20 {
+  font-weight: inherit;
 }
 
 <div
-  class="leftFixed leftNav emotion-0"
+  class="leftFixed leftNav flexbox column space-between emotion-0"
 >
   <ul
     class="MuiList-root MuiList-padding emotion-1"
-    style="padding: 0px;"
   >
     <a
       aria-current="page"
-      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-2 active"
+      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-2 active"
       data-discover="true"
       href="/"
     >
       <div
         class="MuiListItemText-root emotion-3"
-        style="text-transform: uppercase;"
       >
         <span
           class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-4"
@@ -205,13 +141,12 @@ exports[`LeftNav Component > renders correctly 1`] = `
       </div>
     </a>
     <a
-      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-2"
+      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-2"
       data-discover="true"
       href="/devices"
     >
       <div
         class="MuiListItemText-root emotion-3"
-        style="text-transform: uppercase;"
       >
         <span
           class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-4"
@@ -221,13 +156,12 @@ exports[`LeftNav Component > renders correctly 1`] = `
       </div>
     </a>
     <a
-      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-2"
+      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-2"
       data-discover="true"
       href="/releases"
     >
       <div
         class="MuiListItemText-root emotion-3"
-        style="text-transform: uppercase;"
       >
         <span
           class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-4"
@@ -237,13 +171,12 @@ exports[`LeftNav Component > renders correctly 1`] = `
       </div>
     </a>
     <a
-      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-2"
+      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-2"
       data-discover="true"
       href="/deployments"
     >
       <div
         class="MuiListItemText-root emotion-3"
-        style="text-transform: uppercase;"
       >
         <span
           class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-4"
@@ -253,13 +186,12 @@ exports[`LeftNav Component > renders correctly 1`] = `
       </div>
     </a>
     <a
-      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-2"
+      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-2"
       data-discover="true"
       href="/auditlog"
     >
       <div
         class="MuiListItemText-root emotion-3"
-        style="text-transform: uppercase;"
       >
         <span
           class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-4"
@@ -270,62 +202,49 @@ exports[`LeftNav Component > renders correctly 1`] = `
     </a>
   </ul>
   <ul
-    class="MuiList-root MuiList-padding emotion-17"
+    class="MuiList-root MuiList-padding flexbox column padding-left-large padding-bottom emotion-17"
   >
     <a
-      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-18"
+      class=""
       data-discover="true"
       href="/help"
     >
-      <div
-        class="MuiListItemText-root emotion-3"
+      <p
+        class="MuiTypography-root MuiTypography-body2 emotion-18"
       >
-        <span
-          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-4"
-        >
-          Help & support
-        </span>
-      </div>
+        Help & support
+      </p>
     </a>
-    <li
-      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-18"
+    <div
+      class="clickable slightly-smaller"
+      data-mui-internal-clone-element="true"
     >
-      <div
-        class="MuiListItemText-root MuiListItemText-multiline emotion-22"
+      Version: latest
+    </div>
+    <p
+      class="MuiTypography-root MuiTypography-body2 emotion-18"
+    >
+      <a
+        class="emotion-20"
+        href="https://docs.mender.io/release-information/release-notes-changelog/hosted-mender"
+        rel="noopener"
+        target="_blank"
       >
-        <span
-          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-4"
-        >
-          <div
-            class="clickable slightly-smaller"
-            data-mui-internal-clone-element="true"
-          >
-            Version: latest
-          </div>
-        </span>
-        <p
-          class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary emotion-24"
-        >
-          <a
-            class="emotion-25"
-            href="https://docs.mender.io/release-information/release-notes-changelog/hosted-mender"
-            rel="noopener"
-            target="_blank"
-          >
-            Release information
-          </a>
-          <br />
-          <a
-            class="emotion-25"
-            href="https://docs.mender.io/release-information/open-source-licenses"
-            rel="noopener"
-            target="_blank"
-          >
-            License information
-          </a>
-        </p>
-      </div>
-    </li>
+        Release information
+      </a>
+    </p>
+    <p
+      class="MuiTypography-root MuiTypography-body2 emotion-18"
+    >
+      <a
+        class="emotion-20"
+        href="https://docs.mender.io/release-information/open-source-licenses"
+        rel="noopener"
+        target="_blank"
+      >
+        License information
+      </a>
+    </p>
   </ul>
 </div>
 `;
