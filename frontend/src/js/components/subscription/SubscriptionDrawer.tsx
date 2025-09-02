@@ -106,7 +106,7 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
           setNextPayment(next.total);
         });
     }
-  }, [dispatch]);
+  }, [dispatch, isTrial, order]);
   const handleBillingProfileEdit = async values => {
     const { email, name, state, city, line1, postal_code } = values;
     const code: string = values.country.code ? values.country.code : values.country;
@@ -165,11 +165,12 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
           classes={classes}
           submitRef={formSubmitRef}
           onSubmit={handleBillingProfileEdit}
-          handleCancel={!isTrial && (() => setIsEdit(false))}
+          handleCancel={billing && (() => setIsEdit(false))}
           defaultValues={formInitialValues}
-          submitLabel="Save Billing profile"
-          showButtons={!updatingCard}
+          submitLabel="Save Billing details"
+          showButtons
           autocomplete="off"
+          validationMode="onSubmit"
         >
           <PlanExpandedForm className={classes.formWrapper} setIsValid={setIsValid} />
         </Form>
