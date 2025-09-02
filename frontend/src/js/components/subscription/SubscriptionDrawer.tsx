@@ -165,11 +165,12 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
           classes={classes}
           submitRef={formSubmitRef}
           onSubmit={handleBillingProfileEdit}
-          handleCancel={!isTrial && (() => setIsEdit(false))}
+          handleCancel={billing && (() => setIsEdit(false))}
           defaultValues={formInitialValues}
-          submitLabel="Save Billing profile"
-          showButtons={!updatingCard}
+          submitLabel="Save Billing details"
+          showButtons
           autocomplete="off"
+          validateOnSubmitMode
         >
           <PlanExpandedForm className={classes.formWrapper} setIsValid={setIsValid} />
         </Form>
