@@ -22,12 +22,10 @@ import (
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/bcrypt"
 
-	"github.com/mendersoftware/mender-server/pkg/apiclient"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
 
-	"github.com/mendersoftware/mender-server/services/useradm/client/tenant"
 	"github.com/mendersoftware/mender-server/services/useradm/common"
 	"github.com/mendersoftware/mender-server/services/useradm/jwt"
 	"github.com/mendersoftware/mender-server/services/useradm/model"
@@ -116,29 +114,19 @@ type Config struct {
 	PrivateKeyFileNamePattern string
 }
 
-type ApiClientGetter func() apiclient.HttpRunner
-
-func simpleApiClientGetter() apiclient.HttpRunner {
-	return &apiclient.HttpApi{}
-}
-
 type UserAdm struct {
 	// JWT serialized/deserializer
-	jwtHandlers  map[int]jwt.Handler
-	db           store.DataStore
-	config       Config
-	verifyTenant bool
-	cTenant      tenant.ClientRunner
-	clientGetter ApiClientGetter
+	jwtHandlers map[int]jwt.Handler
+	db          store.DataStore
+	config      Config
 }
 
 func NewUserAdm(jwtHandlers map[int]jwt.Handler, db store.DataStore, config Config) *UserAdm {
 
 	return &UserAdm{
-		jwtHandlers:  jwtHandlers,
-		db:           db,
-		config:       config,
-		clientGetter: simpleApiClientGetter,
+		jwtHandlers: jwtHandlers,
+		db:          db,
+		config:      config,
 	}
 }
 
@@ -146,13 +134,6 @@ func (u *UserAdm) HealthCheck(ctx context.Context) error {
 	err := u.db.Ping(ctx)
 	if err != nil {
 		return errors.Wrap(err, "error reaching MongoDB")
-	}
-
-	if u.verifyTenant {
-		err = u.cTenant.CheckHealth(ctx)
-		if err != nil {
-			return errors.Wrap(err, "Tenantadm service unhealthy")
-		}
 	}
 
 	return nil
@@ -165,26 +146,6 @@ func (u *UserAdm) Login(ctx context.Context, email model.Email, pass string,
 
 	if email == "" {
 		return nil, ErrUnauthorized
-	}
-
-	if u.verifyTenant {
-		// check the user's tenant
-		tenant, err := u.cTenant.GetTenant(ctx, string(email), u.clientGetter())
-
-		if err != nil {
-			return nil, errors.Wrap(err, "failed to check user's tenant")
-		}
-
-		if tenant == nil {
-			return nil, ErrUnauthorized
-		}
-
-		if tenant.Status == TenantStatusSuspended {
-			return nil, ErrTenantAccountSuspended
-		}
-
-		ident.Tenant = tenant.ID
-		ctx = identity.WithContext(ctx, &ident)
 	}
 
 	//get user
@@ -301,33 +262,9 @@ func (ua *UserAdm) CreateUserInternal(ctx context.Context, u *model.UserInternal
 }
 
 func (ua *UserAdm) doCreateUser(ctx context.Context, u *model.User) error {
-	var tenantErr error
-
 	if u.ID == "" {
 		// Generate a unique user ID for the new user
 		u.ID = uuid.NewString()
-	}
-
-	id := identity.FromContext(ctx)
-
-	if tenantErr == tenant.ErrDuplicateUser {
-		// check if the user exists in useradm
-		// if the user does not exists then we should try to remove the user from tenantadm
-		user, err := ua.db.GetUserByEmail(ctx, u.Email)
-		if err != nil {
-			return errors.Wrap(err, "tenant data out of sync: failed to get user from db")
-		}
-		if user == nil {
-			if compensateErr := ua.compensateTenantUser(
-				ctx,
-				u.ID,
-				id.Tenant,
-			); compensateErr != nil {
-				tenantErr = compensateErr
-			}
-			return errors.Wrap(tenantErr, "tenant data out of sync")
-		}
-		return store.ErrDuplicateEmail
 	}
 
 	if err := ua.db.CreateUser(ctx, u); err != nil {
@@ -338,15 +275,6 @@ func (ua *UserAdm) doCreateUser(ctx context.Context, u *model.User) error {
 		return errors.Wrap(err, "useradm: failed to create user in the db")
 	}
 
-	return nil
-}
-
-func (ua *UserAdm) compensateTenantUser(ctx context.Context, userId, tenantId string) error {
-	err := ua.cTenant.DeleteUser(ctx, tenantId, userId, ua.clientGetter())
-
-	if err != nil {
-		return errors.Wrap(err, "faield to delete tenant user")
-	}
 	return nil
 }
 
@@ -417,29 +345,6 @@ func (ua *UserAdm) UpdateUser(ctx context.Context, id string, userUpdate *model.
 		return ErrETagMismatch
 	}
 
-	if len(userUpdate.Email) > 0 && userUpdate.Email != user.Email {
-		if ua.verifyTenant {
-			err := ua.cTenant.UpdateUser(ctx,
-				idty.Tenant,
-				id,
-				&tenant.UserUpdate{
-					Name: string(userUpdate.Email),
-				},
-				ua.clientGetter())
-
-			switch err {
-			case nil:
-				break
-			case tenant.ErrDuplicateUser:
-				return store.ErrDuplicateEmail
-			case tenant.ErrUserNotFound:
-				return store.ErrUserNotFound
-			default:
-				return errors.Wrap(err, "useradm: failed to update user in tenantadm")
-			}
-		}
-	}
-
 	if utils.CheckIfPassSimilarToEmail(user, userUpdate) {
 		return ErrPassAndMailTooSimilar
 	}
@@ -476,16 +381,6 @@ func (ua *UserAdm) Verify(ctx context.Context, token *jwt.Token) error {
 	if !token.Claims.User {
 		l.Errorf("not a user token")
 		return ErrUnauthorized
-	}
-
-	if ua.verifyTenant {
-		if token.Claims.Tenant == "" {
-			l.Errorf("Token has no tenant claim")
-			return jwt.ErrTokenInvalid
-		}
-	} else if token.Claims.Tenant != "" {
-		l.Errorf("Unexpected tenant claim: %s in the token", token.Claims.Tenant)
-		return jwt.ErrTokenInvalid
 	}
 
 	user, err := ua.db.GetUserById(ctx, token.Claims.Subject.String())
@@ -543,15 +438,6 @@ func (ua *UserAdm) GetUser(ctx context.Context, id string) (*model.User, error) 
 }
 
 func (ua *UserAdm) DeleteUser(ctx context.Context, id string) error {
-	if ua.verifyTenant {
-		identity := identity.FromContext(ctx)
-		err := ua.cTenant.DeleteUser(ctx, identity.Tenant, id, ua.clientGetter())
-
-		if err != nil {
-			return errors.Wrap(err, "useradm: failed to delete user in tenantadm")
-		}
-	}
-
 	err := ua.db.DeleteUser(ctx, id)
 	if err != nil {
 		return errors.Wrap(err, "useradm: failed to delete user")
@@ -564,14 +450,6 @@ func (ua *UserAdm) DeleteUser(ctx context.Context, id string) error {
 	}
 
 	return nil
-}
-
-// WithTenantVerification produces a UserAdm instance which enforces
-// tenant verification vs the tenantadm service upon /login.
-func (u *UserAdm) WithTenantVerification(c tenant.ClientRunner) *UserAdm {
-	u.verifyTenant = true
-	u.cTenant = c
-	return u
 }
 
 func (u *UserAdm) CreateTenant(ctx context.Context, tenant model.NewTenant) error {

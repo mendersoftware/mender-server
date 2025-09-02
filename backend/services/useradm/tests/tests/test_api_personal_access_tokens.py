@@ -32,7 +32,6 @@ from common import (
 )
 import bravado
 import pytest
-import tenantadm
 
 
 class TestManagementApiPostTokenBase:
