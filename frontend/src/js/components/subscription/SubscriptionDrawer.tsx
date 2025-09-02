@@ -152,10 +152,10 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
   return (
     <Drawer anchor="right" open={true} PaperProps={{ style: { minWidth: '50vw' } }}>
       <DrawerTitle title={currentSubscription ? `Upgrade your subscription` : `Subscribe to Mender ${selectedPlan.name}`} onClose={onClose} />
-      <Divider className="margin-bottom" />
+      <Divider className="margin-bottom-small" />
       {selectedPlan && (
-        <div className="margin-bottom">
-          Complete checkout to subscribe to <b>{selectedPlan.name}</b> at <b> {previewPrice ? formatPrice(previewPrice.total) : ''}</b>
+        <div className="margin-bottom-large">
+          Complete checkout to subscribe to Mender <b>{selectedPlan.name}</b> at <b> {previewPrice ? formatPrice(previewPrice.total) : ''}</b>
         </div>
       )}
 
@@ -227,11 +227,11 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
       {!isTrial && summary}
       {nextPayment > 0 && currentSubscription && currentPlanId ? (
         <div className={classes.formWrapper}>
-          <p>
+          <Typography variant="body2">
             You’re currently subscribed to {PLANS[currentPlanId].name} at {formatPrice(currentSubscription.total)}/month. On your next payment, you&#39;ll be
             charged for any days used under your current rate, and the rest will be billed at your new subscription rate. The total amount for your next payment
             will be {formatPrice(nextPayment)}.
-          </p>
+          </Typography>
           {error && (
             <Alert icon={<ErrorOutlineIcon />} severity="error">
               There was an issue while processing your order. Please try again, or contact <SupportLink variant="email" />.
