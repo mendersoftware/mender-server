@@ -255,7 +255,7 @@ test.describe('Settings', () => {
       await page.getByRole('textbox', { name: /zip or postal code/i }).fill('12345');
       await page.getByLabel('Country').fill('Norw');
       await page.getByRole('option', { name: 'Norway' }).click();
-      await page.getByRole('button', { name: 'Save Billing profile' }).click();
+      await page.getByRole('button', { name: 'Save Billing details' }).click();
 
       await page.waitForSelector('.StripeElement iframe');
       const frameHandle = await page.$('.StripeElement iframe');
