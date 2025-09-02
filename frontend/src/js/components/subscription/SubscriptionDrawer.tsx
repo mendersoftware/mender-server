@@ -246,7 +246,7 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
               onClick={() => upgradePlanSubmit()}
               color="secondary"
               variant="contained"
-              disabled={(isEdit && !isValid) || loading}
+              disabled={isEdit || loading || updatingCard}
             >
               Confirm Subscription
             </Button>
