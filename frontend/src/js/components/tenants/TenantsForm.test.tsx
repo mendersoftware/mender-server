@@ -75,6 +75,7 @@ describe('TenantsForm', () => {
         name: newChildTenant.name,
         device_limit: Number(newChildTenant.dev),
         binary_delta: true,
+        restrict_sso_to_parent: false,
         sso: false
       })
     );
