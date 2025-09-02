@@ -86,7 +86,7 @@ const options: PlaywrightTestConfig = {
     ...contextArgs,
     contextOptions: contextArgs,
     screenshot: 'only-on-failure',
-    trace: 'retain-on-failure',
+    trace: 'on',
     video: 'retain-on-failure',
     // headless: false,
     launchOptions
