@@ -63,15 +63,10 @@ interface AiLogAnalysisProps {
 }
 
 const Header = () => (
-  <>
-    <div className="flexbox center-aligned">
-      <AutoAwesomeIcon color="secondary" className="margin-right-small" />
-      <Typography variant="h6">AI summary (experimental)</Typography>
-    </div>
-    <Typography variant="body2" color="text.primary" className="margin-top-small margin-bottom-small">
-      Analyze the deployment log with AI. The log data will be anonymized and processed to provide insights into any issues that occurred during the update.
-    </Typography>
-  </>
+  <div className="flexbox center-aligned margin-bottom-small">
+    <AutoAwesomeIcon color="secondary" className="margin-right-small" />
+    <Typography variant="h6">AI summary (experimental)</Typography>
+  </div>
 );
 
 const FeedbackSection = () => {
