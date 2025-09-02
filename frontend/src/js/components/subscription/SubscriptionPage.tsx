@@ -107,11 +107,11 @@ export const SubscriptionPage = () => {
 
   //Fetch Billing profile & subscription
   useEffect(() => {
+    dispatch(getUserBilling());
     if (isTrial) {
       return;
     }
     dispatch(getCurrentCard());
-    dispatch(getUserBilling());
     dispatch(getUserSubscription());
   }, [isTrial, dispatch]);
 
