@@ -22,8 +22,6 @@ import (
 	model "github.com/mendersoftware/mender-server/services/deviceauth/model"
 	mock "github.com/stretchr/testify/mock"
 
-	ratelimits "github.com/mendersoftware/mender-server/pkg/ratelimits"
-
 	time "time"
 )
 
@@ -43,24 +41,6 @@ func (_m *Cache) CacheCheckInTime(ctx context.Context, t *time.Time, tid string,
 	var r0 error
 	if rf, ok := ret.Get(0).(func(context.Context, *time.Time, string, string) error); ok {
 		r0 = rf(ctx, t, tid, id)
-	} else {
-		r0 = ret.Error(0)
-	}
-
-	return r0
-}
-
-// CacheLimits provides a mock function with given fields: ctx, l, tid, id, idtype
-func (_m *Cache) CacheLimits(ctx context.Context, l ratelimits.ApiLimits, tid string, id string, idtype string) error {
-	ret := _m.Called(ctx, l, tid, id, idtype)
-
-	if len(ret) == 0 {
-		panic("no return value specified for CacheLimits")
-	}
-
-	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, ratelimits.ApiLimits, string, string, string) error); ok {
-		r0 = rf(ctx, l, tid, id, idtype)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -212,36 +192,6 @@ func (_m *Cache) GetLimit(ctx context.Context, name string) (*model.Limit, error
 	return r0, r1
 }
 
-// GetLimits provides a mock function with given fields: ctx, tid, id, idtype
-func (_m *Cache) GetLimits(ctx context.Context, tid string, id string, idtype string) (*ratelimits.ApiLimits, error) {
-	ret := _m.Called(ctx, tid, id, idtype)
-
-	if len(ret) == 0 {
-		panic("no return value specified for GetLimits")
-	}
-
-	var r0 *ratelimits.ApiLimits
-	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, string, string, string) (*ratelimits.ApiLimits, error)); ok {
-		return rf(ctx, tid, id, idtype)
-	}
-	if rf, ok := ret.Get(0).(func(context.Context, string, string, string) *ratelimits.ApiLimits); ok {
-		r0 = rf(ctx, tid, id, idtype)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*ratelimits.ApiLimits)
-		}
-	}
-
-	if rf, ok := ret.Get(1).(func(context.Context, string, string, string) error); ok {
-		r1 = rf(ctx, tid, id, idtype)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
-}
-
 // SetLimit provides a mock function with given fields: ctx, limit
 func (_m *Cache) SetLimit(ctx context.Context, limit *model.Limit) error {
 	ret := _m.Called(ctx, limit)
@@ -278,9 +228,9 @@ func (_m *Cache) SuspendTenant(ctx context.Context, tid string) error {
 	return r0
 }
 
-// Throttle provides a mock function with given fields: ctx, rawToken, l, tid, id, idtype, url, action
-func (_m *Cache) Throttle(ctx context.Context, rawToken string, l ratelimits.ApiLimits, tid string, id string, idtype string, url string, action string) (string, error) {
-	ret := _m.Called(ctx, rawToken, l, tid, id, idtype, url, action)
+// Throttle provides a mock function with given fields: ctx, rawToken, tid, id, idtype, url, action
+func (_m *Cache) Throttle(ctx context.Context, rawToken string, tid string, id string, idtype string, url string, action string) (string, error) {
+	ret := _m.Called(ctx, rawToken, tid, id, idtype, url, action)
 
 	if len(ret) == 0 {
 		panic("no return value specified for Throttle")
@@ -288,17 +238,17 @@ func (_m *Cache) Throttle(ctx context.Context, rawToken string, l ratelimits.Api
 
 	var r0 string
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, string, ratelimits.ApiLimits, string, string, string, string, string) (string, error)); ok {
-		return rf(ctx, rawToken, l, tid, id, idtype, url, action)
+	if rf, ok := ret.Get(0).(func(context.Context, string, string, string, string, string, string) (string, error)); ok {
+		return rf(ctx, rawToken, tid, id, idtype, url, action)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, string, ratelimits.ApiLimits, string, string, string, string, string) string); ok {
-		r0 = rf(ctx, rawToken, l, tid, id, idtype, url, action)
+	if rf, ok := ret.Get(0).(func(context.Context, string, string, string, string, string, string) string); ok {
+		r0 = rf(ctx, rawToken, tid, id, idtype, url, action)
 	} else {
 		r0 = ret.Get(0).(string)
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, string, ratelimits.ApiLimits, string, string, string, string, string) error); ok {
-		r1 = rf(ctx, rawToken, l, tid, id, idtype, url, action)
+	if rf, ok := ret.Get(1).(func(context.Context, string, string, string, string, string, string) error); ok {
+		r1 = rf(ctx, rawToken, tid, id, idtype, url, action)
 	} else {
 		r1 = ret.Error(1)
 	}

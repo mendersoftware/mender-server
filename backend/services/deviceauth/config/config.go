@@ -46,12 +46,6 @@ const (
 	SettingEnableReporting        = "enable_reporting"
 	SettingEnableReportingDefault = false
 
-	SettingTenantAdmAddr        = "tenantadm_addr"
-	SettingTenantAdmAddrDefault = ""
-
-	SettingDefaultTenantToken        = "default_tenant_token"
-	SettingDefaultTenantTokenDefault = ""
-
 	SettingServerPrivKeyPath        = "server_priv_key_path"
 	SettingServerPrivKeyPathDefault = "/etc/deviceauth/rsa/private.pem"
 
@@ -75,11 +69,6 @@ const (
 
 	SettingRedisAddr = "redis_addr"
 
-	// SettingHaveAddons is a feature toggle for using addon restrictions.
-	// Has no effect if not running in multi-tenancy context.
-	SettingHaveAddons        = "have_addons"
-	SettingHaveAddonsDefault = false
-
 	// Max Request body size
 	SettingMaxRequestSize        = "request_size_limit"
 	SettingMaxRequestSizeDefault = 1024 * 1024 // 1 MiB
@@ -94,8 +83,6 @@ var (
 		{Key: SettingInventoryAddr, Value: SettingInventoryAddrDefault},
 		{Key: SettingOrchestratorAddr, Value: SettingOrchestratorAddrDefault},
 		{Key: SettingEnableReporting, Value: SettingEnableReportingDefault},
-		{Key: SettingTenantAdmAddr, Value: SettingTenantAdmAddrDefault},
-		{Key: SettingDefaultTenantToken, Value: SettingDefaultTenantTokenDefault},
 		{Key: SettingServerPrivKeyPath, Value: SettingServerPrivKeyPathDefault},
 		{Key: SettingServerFallbackPrivKeyPath, Value: SettingServerFallbackPrivKeyPathDefault},
 		{Key: SettingJWTIssuer, Value: SettingJWTIssuerDefault},
@@ -104,7 +91,6 @@ var (
 		{Key: SettingDbSSLSkipVerify, Value: SettingDbSSLSkipVerifyDefault},
 		{Key: SettingRedisLimitsExpSec, Value: SettingRedisLimitsExpSecDefault},
 		{Key: SettingRedisKeyPrefix, Value: SettingRedisKeyPrefixDefault},
-		{Key: SettingHaveAddons, Value: SettingHaveAddonsDefault},
 		{Key: SettingMaxRequestSize, Value: SettingMaxRequestSizeDefault},
 	}
 )
