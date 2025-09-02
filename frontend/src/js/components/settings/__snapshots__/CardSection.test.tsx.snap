@@ -274,33 +274,12 @@ exports[`CardSection Component > renders correctly 1`] = `
       Cancel
     </button>
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-2"
-      disabled=""
-      tabindex="-1"
+      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-2"
+      tabindex="0"
       type="submit"
     >
       Confirm Subscription
     </button>
-  </div>
-  <div
-    class="loaderContainer shrunk"
-  >
-    <div
-      class="  loader"
-    >
-      <span
-        class="dot dot_1"
-      />
-      <span
-        class="dot dot_2"
-      />
-      <span
-        class="dot dot_3"
-      />
-      <span
-        class="dot dot_4"
-      />
-    </div>
   </div>
 </form>
 `;

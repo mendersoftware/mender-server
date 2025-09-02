@@ -14,89 +14,14 @@ exports[`Billing Component > renders correctly 1`] = `
 }
 
 .emotion-2 {
-  background-color: #fff;
-  color: rgba(10, 10, 11, 0.78);
-  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 4px;
-  box-shadow: var(--Paper-shadow);
-  background-image: var(--Paper-overlay);
-  font-family: Lato,sans-serif;
-  font-weight: 400;
-  font-size: 0.8125rem;
-  line-height: 1.43;
-  background-color: transparent;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  padding: 6px 16px;
-  color: rgb(1, 67, 97);
-  background-color: rgb(229, 246, 253);
-}
-
-.emotion-2 .MuiAlert-icon {
-  color: #0288d1;
-}
-
-.emotion-3 {
-  margin-right: 12px;
-  padding: 7px 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  font-size: 22px;
-  opacity: 0.9;
-}
-
-.emotion-4 {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  fill: currentColor;
-  font-size: inherit;
-}
-
-.emotion-4 iconButton {
-  margin-right: 8px;
-}
-
-.emotion-5 {
-  padding: 8px 0;
-  min-width: 0;
-  overflow: auto;
-}
-
-.emotion-6 {
-  margin: 0;
-  line-height: 1.5;
-  font-family: Lato,sans-serif;
-  font-weight: 400;
-  font-size: 0.9286rem;
-  margin-bottom: 0.35em;
-  font-weight: 500;
-  margin-top: -2px;
-}
-
-.emotion-7 {
   gap: 8px;
 }
 
-.emotion-9>* {
+.emotion-4>* {
   max-width: 500px;
 }
 
-.emotion-10 {
+.emotion-5 {
   margin: 0;
   font-family: Lato,sans-serif;
   font-weight: 400;
@@ -104,7 +29,7 @@ exports[`Billing Component > renders correctly 1`] = `
   line-height: 1.75;
 }
 
-.emotion-11 {
+.emotion-6 {
   -webkit-align-items: baseline;
   -webkit-box-align: baseline;
   -ms-flex-align: baseline;
@@ -115,7 +40,7 @@ exports[`Billing Component > renders correctly 1`] = `
   max-width: initial;
 }
 
-.emotion-12 {
+.emotion-7 {
   margin: 0;
   font-family: Lato,sans-serif;
   font-weight: 400;
@@ -123,7 +48,257 @@ exports[`Billing Component > renders correctly 1`] = `
   line-height: 1.43;
 }
 
-.emotion-20 {
+.emotion-14 {
+  background-color: #d8ebe9;
+  border-radius: 4px;
+  padding: 16px;
+  padding-top: 0;
+}
+
+.emotion-20.settings-item-main-content {
+  grid-template-columns: 1fr;
+}
+
+.emotion-23 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: inherit;
+  font-family: Lato,sans-serif;
+  font-weight: 500;
+  font-size: 0.8125rem;
+  line-height: 1.75;
+  text-transform: uppercase;
+  min-width: 64px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 4px;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  padding: 6px 8px;
+  color: var(--variant-textColor);
+  background-color: var(--variant-textBg);
+  --variant-textColor: #337a87;
+  --variant-outlinedColor: #337a87;
+  --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
+  --variant-containedColor: #fff;
+  --variant-containedBg: #337a87;
+  padding: 4px 5px;
+  font-size: 0.7545rem;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 15px;
+}
+
+.emotion-23::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-23.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+@media print {
+  .emotion-23 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-23:hover {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-23.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+@media (hover: hover) {
+  .emotion-23:hover {
+    --variant-containedBg: rgb(35, 85, 94);
+    --variant-textBg: rgba(51, 122, 135, 0.04);
+    --variant-outlinedBorder: #337a87;
+    --variant-outlinedBg: rgba(51, 122, 135, 0.04);
+  }
+}
+
+.emotion-23.MuiButton-loading {
+  color: transparent;
+}
+
+.emotion-23:hover {
+  colors: #337a87;
+}
+
+.emotion-23.MuiButton-text {
+  color: rgba(10, 10, 11, 0.78);
+}
+
+.emotion-24 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: inherit;
+  font-family: Lato,sans-serif;
+  font-weight: 500;
+  font-size: 0.8125rem;
+  line-height: 1.75;
+  text-transform: uppercase;
+  min-width: 64px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 4px;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  color: var(--variant-containedColor);
+  background-color: var(--variant-containedBg);
+  box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
+  --variant-textColor: #337a87;
+  --variant-outlinedColor: #337a87;
+  --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
+  --variant-containedColor: #fff;
+  --variant-containedBg: #337a87;
+  padding: 4px 10px;
+  font-size: 0.7545rem;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.emotion-24::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-24.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+@media print {
+  .emotion-24 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-24:hover {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-24.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-24:hover {
+  box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
+}
+
+@media (hover: none) {
+  .emotion-24:hover {
+    box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
+  }
+}
+
+.emotion-24:active {
+  box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
+}
+
+.emotion-24.Mui-focusVisible {
+  box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
+}
+
+.emotion-24.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+  box-shadow: none;
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+@media (hover: hover) {
+  .emotion-24:hover {
+    --variant-containedBg: rgb(35, 85, 94);
+    --variant-textBg: rgba(51, 122, 135, 0.04);
+    --variant-outlinedBorder: #337a87;
+    --variant-outlinedBg: rgba(51, 122, 135, 0.04);
+  }
+}
+
+.emotion-24.MuiButton-loading {
+  color: transparent;
+}
+
+.emotion-24:hover {
+  colors: #337a87;
+}
+
+.emotion-24.MuiButton-text {
+  color: rgba(10, 10, 11, 0.78);
+}
+
+.emotion-26 {
   background-color: #fff;
   color: rgba(10, 10, 11, 0.78);
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -145,11 +320,49 @@ exports[`Billing Component > renders correctly 1`] = `
   background-color: rgb(255, 244, 229);
 }
 
-.emotion-20 .MuiAlert-icon {
+.emotion-26 .MuiAlert-icon {
   color: #ed6c02;
 }
 
-.emotion-24 {
+.emotion-27 {
+  margin-right: 12px;
+  padding: 7px 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 22px;
+  opacity: 0.9;
+}
+
+.emotion-28 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: inherit;
+}
+
+.emotion-28 iconButton {
+  margin-right: 8px;
+}
+
+.emotion-29 {
+  padding: 8px 0;
+  min-width: 0;
+  overflow: auto;
+}
+
+.emotion-30 {
   margin: 0;
   font-family: Lato,sans-serif;
   font-weight: 500;
@@ -158,7 +371,7 @@ exports[`Billing Component > renders correctly 1`] = `
   color: #ab1000;
 }
 
-.emotion-26 {
+.emotion-32 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -219,37 +432,37 @@ exports[`Billing Component > renders correctly 1`] = `
   font-weight: bold;
 }
 
-.emotion-26::-moz-focus-inner {
+.emotion-32::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-26.Mui-disabled {
+.emotion-32.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-26 {
+  .emotion-32 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-26:hover {
+.emotion-32:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-26.Mui-disabled {
+.emotion-32.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-26.Mui-disabled {
+.emotion-32.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-26:hover {
+  .emotion-32:hover {
     --variant-containedBg: #770b00;
     --variant-textBg: rgba(171, 16, 0, 0.04);
     --variant-outlinedBorder: #ab1000;
@@ -257,15 +470,15 @@ exports[`Billing Component > renders correctly 1`] = `
   }
 }
 
-.emotion-26.MuiButton-loading {
+.emotion-32.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-26:hover {
+.emotion-32:hover {
   colors: #337a87;
 }
 
-.emotion-26.MuiButton-text {
+.emotion-32.MuiButton-text {
   color: rgba(10, 10, 11, 0.78);
 }
 
@@ -283,73 +496,21 @@ exports[`Billing Component > renders correctly 1`] = `
         class="flexbox column emotion-1"
       >
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standardInfo MuiAlert-standard margin-top-small emotion-2"
-          role="alert"
-          style="--Paper-shadow: none;"
+          class="flexbox column settings-item-base emotion-2 margin-top-small "
         >
           <div
-            class="MuiAlert-icon emotion-3"
-          >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-4"
-              data-testid="InfoOutlinedIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20, 12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10, 10 0 0,0 12,2M11,17H13V11H11V17Z"
-              />
-            </svg>
-          </div>
-          <div
-            class="MuiAlert-message emotion-5"
-          >
-            <div
-              class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom MuiAlertTitle-root emotion-6"
-            >
-              Upcoming price changes
-            </div>
-            Please note: your subscription will remain at the current price until 
-            <b>
-              September 1st
-            </b>
-            , when updated pricing takes effect. To see how the new pricing will affect you, see our
-             
-            <a
-              href="https://mender.io/pricing/price-calculator"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              price calculator
-            </a>
-            . In the meantime if you’d like to adjust your plan, please contact
-             
-            <a
-              href="mailto:support@mender.io"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              support@mender.io
-            </a>
-          </div>
-        </div>
-        <div
-          class="flexbox column settings-item-base emotion-7 margin-top-small "
-        >
-          <div
-            class="flexbox column settings-item-content emotion-7 emotion-9 "
+            class="flexbox column settings-item-content emotion-2 emotion-4 "
           >
             <h6
-              class="MuiTypography-root MuiTypography-subtitle1 emotion-10"
+              class="MuiTypography-root MuiTypography-subtitle1 emotion-5"
             >
               Current plan
             </h6>
             <div
-              class="settings-item-main-content emotion-11 "
+              class="settings-item-main-content emotion-6 "
             >
               <div
-                class="MuiTypography-root MuiTypography-body2 emotion-12"
+                class="MuiTypography-root MuiTypography-body2 emotion-7"
               >
                 You're currently on the 
                 <b>
@@ -369,43 +530,90 @@ exports[`Billing Component > renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="flexbox column settings-item-base emotion-7 margin-top-small "
+          class="flexbox column settings-item-base emotion-2 margin-top-small "
         >
           <div
-            class="flexbox column settings-item-content emotion-7 emotion-9 "
+            class="flexbox column settings-item-content emotion-2 emotion-4 "
           >
             <h6
-              class="MuiTypography-root MuiTypography-subtitle1 emotion-10"
+              class="MuiTypography-root MuiTypography-subtitle1 emotion-5"
             >
               Current Add-ons
             </h6>
             <div
-              class="settings-item-main-content emotion-11 "
+              class="settings-item-main-content emotion-6 "
             >
               <div
-                class="MuiTypography-root MuiTypography-body2 emotion-12"
+                class="MuiTypography-root MuiTypography-body2 emotion-7"
               >
                 You currently don't have any add-ons
               </div>
             </div>
           </div>
         </div>
+        <div
+          class="emotion-14"
+        >
+          <div
+            class="flexbox column settings-item-base emotion-2 margin-top-small "
+          >
+            <div
+              class="flexbox column settings-item-content emotion-2 emotion-4 "
+            >
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle1 emotion-5"
+              >
+                Upgrade now
+              </h6>
+              <div
+                class="settings-item-main-content emotion-6 emotion-20"
+              >
+                <div
+                  class="MuiTypography-root MuiTypography-body2 emotion-7"
+                >
+                  Upgrade to access more features, increase your device limit, and enhance your subscription with Add-ons.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="flexbox center-aligned margin-top-x-small emotion-1"
+          >
+            <a
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary emotion-23"
+              href="https://mender.io/pricing/plans"
+              rel="noopener noreferrer"
+              tabindex="0"
+              target="_blank"
+            >
+              Compare all plans
+            </a>
+            <a
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorPrimary emotion-24"
+              data-discover="true"
+              href="/subscription"
+              tabindex="0"
+            >
+              Upgrade
+            </a>
+          </div>
+        </div>
         <h6
-          class="MuiTypography-root MuiTypography-subtitle1 margin-top-small emotion-10"
+          class="MuiTypography-root MuiTypography-subtitle1 margin-top-small emotion-5"
         >
           Billing details
         </h6>
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-standardWarning MuiAlert-standard emotion-20"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-standardWarning MuiAlert-standard emotion-26"
           role="alert"
           style="--Paper-shadow: none;"
         >
           <div
-            class="MuiAlert-icon emotion-3"
+            class="MuiAlert-icon emotion-27"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-4"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
               data-testid="ReportProblemOutlinedIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -416,7 +624,7 @@ exports[`Billing Component > renders correctly 1`] = `
             </svg>
           </div>
           <div
-            class="MuiAlert-message emotion-5"
+            class="MuiAlert-message emotion-29"
           >
             Your account is not set up for automatic billing. If you believe this is a mistake, please contact 
             <a
@@ -435,18 +643,18 @@ exports[`Billing Component > renders correctly 1`] = `
         style="gap: 8px;"
       >
         <h6
-          class="MuiTypography-root MuiTypography-h6 emotion-24"
+          class="MuiTypography-root MuiTypography-h6 emotion-30"
         >
           Delete account
         </h6>
         <p
-          class="MuiTypography-root MuiTypography-body2 emotion-12"
+          class="MuiTypography-root MuiTypography-body2 emotion-7"
         >
           Once you delete your account, it cannot be undone. Please be certain.
         </p>
         <div>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError emotion-26"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError emotion-32"
             tabindex="0"
             type="button"
           >

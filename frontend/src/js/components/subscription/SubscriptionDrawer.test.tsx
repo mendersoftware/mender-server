@@ -103,14 +103,18 @@ const preloadedState = {
 
 describe('Subscription Summary component', () => {
   it('renders correctly', async () => {
+    const stripe = loadStripe();
+
     const { baseElement } = render(
-      <SubscriptionDrawer
-        organization={defaultState.organization.organization}
-        onClose={vi.fn()}
-        plan={PLANS.os}
-        addons={{ monitor: false, configure: false, troubleshoot: false }}
-        isTrial={true}
-      />
+      <Elements stripe={stripe}>
+        <SubscriptionDrawer
+          organization={defaultState.organization.organization}
+          onClose={vi.fn()}
+          plan={PLANS.os}
+          addons={{ monitor: false, configure: false, troubleshoot: false }}
+          isTrial={true}
+        />
+      </Elements>
     );
     const view = baseElement.lastElementChild;
     expect(view).toMatchSnapshot();
@@ -145,7 +149,7 @@ describe('Subscription Summary component', () => {
     expect(screen.getByText(/Subscribe to Mender Basic/i)).toBeVisible();
     await act(async () => vi.runOnlyPendingTimers());
 
-    const input = screen.getByLabelText<HTMLInputElement>('Country');
+    const input = screen.getByLabelText<HTMLInputElement>('Country or region');
 
     const addressInput = screen.getByRole('textbox', { name: /address line 1/i });
     const stateInput = screen.getByRole('textbox', { name: /state/i });
@@ -166,7 +170,7 @@ describe('Subscription Summary component', () => {
 
     expect(input.value).toEqual('Poland');
 
-    await act(async () => await user.click(screen.getByRole('button', { name: /Save Billing profile/i })));
+    await act(async () => await user.click(screen.getByRole('button', { name: /Save Billing details/i })));
 
     await waitFor(() => expect(createBillingProfile).toHaveBeenCalledWith(createBillingProfileReq));
   }, 10000);
