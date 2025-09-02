@@ -22,7 +22,7 @@ import { ADDONS, Addon, AvailableAddon, AvailablePlans, PLANS, Plan } from '@nor
 import { getStripeKey } from '@northern.tech/store/appSlice/selectors';
 import { TIMEOUTS } from '@northern.tech/store/commonConstants';
 import { getDeviceLimit } from '@northern.tech/store/devicesSlice/selectors';
-import { getOrganization } from '@northern.tech/store/organizationSlice/selectors';
+import { getHasCurrentPricing, getOrganization } from '@northern.tech/store/organizationSlice/selectors';
 import { getBillingPreview, getCurrentCard, getUserBilling, getUserSubscription, requestPlanChange } from '@northern.tech/store/organizationSlice/thunks';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
@@ -86,6 +86,7 @@ export const SubscriptionPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const currentDeviceLimit = useSelector(getDeviceLimit);
+  const hasCurrentPricing = useSelector(getHasCurrentPricing);
   const org = useSelector(getOrganization);
   const { addons: orgAddOns = [], plan: currentPlan = PLANS.os.id as AvailablePlans, trial: isTrial = true, id: orgId } = org;
   const isOrgLoaded = !!orgId;
@@ -95,14 +96,14 @@ export const SubscriptionPage = () => {
   const debouncedLimit = useDebounce(limit, TIMEOUTS.debounceDefault);
 
   // redirect customers paying old price to billing page to see the alert
-  //TODO: remove after september 1st AND the backend is ready
+  //TODO: remove after september 1st
   useEffect(() => {
-    //    if (isOrgLoaded && !isTrial && !hasCurrentPricing) {
-    navigate('/settings/upgrade');
-    //    } else if (isOrgLoaded) {
-    setCurrentPricingChecked(true);
-    //    }
-  }, [navigate]);
+    if (isOrgLoaded && !isTrial && !hasCurrentPricing) {
+      navigate('/settings/billing');
+    } else if (isOrgLoaded) {
+      setCurrentPricingChecked(true);
+    }
+  }, [isTrial, navigate, hasCurrentPricing, isOrgLoaded]);
 
   //Fetch Billing profile & subscription
   useEffect(() => {
