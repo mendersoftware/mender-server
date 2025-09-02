@@ -61,6 +61,7 @@ const (
 	// Header Constants
 	hdrTotalCount    = "X-Total-Count"
 	hdrLink          = "Link"
+	hdrLocation      = "Location"
 	hdrForwardedHost = "X-Forwarded-Host"
 )
 
@@ -1115,8 +1116,8 @@ func (d *DeploymentsApiHandlers) createDeployment(
 	id, err := d.app.CreateDeployment(ctx, constructor)
 	switch err {
 	case nil:
-		location := fmt.Sprintf("%s/%s", ApiUrlManagement+ApiUrlManagementDeployments, id)
-		c.Writer.Header().Add("Location", location)
+		location := fmt.Sprintf("%s/%s", ApiUrlManagementDeployments, id)
+		c.Writer.Header().Add(hdrLocation, location)
 		c.Status(http.StatusCreated)
 	case app.ErrNoArtifact:
 		d.view.RenderError(c, err, http.StatusUnprocessableEntity)
