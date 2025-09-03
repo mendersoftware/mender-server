@@ -298,8 +298,8 @@ export const getUserBilling = createAsyncThunk(`${sliceName}/getUserBilling`, (_
 );
 
 export const getUserSubscription = createAsyncThunk(`${sliceName}/getUserSubscription`, (_, { dispatch }) => {
-  const tasks = [dispatch(getBillingPreview({ preview_mode: 'next' })).unwrap(), dispatch(getCurrentSubscription()).unwrap()];
-  Promise.all(tasks).then(([currentPreview, currentSubscription]) => dispatch(actions.setSubscription({ ...currentPreview, ...currentSubscription })));
+  const tasks = [dispatch(getBillingPreview({ preview_mode: 'next' })), dispatch(getCurrentSubscription()).unwrap()];
+  return Promise.all(tasks).then(([currentPreview, currentSubscription]) => dispatch(actions.setSubscription({ ...currentPreview, ...currentSubscription })));
 });
 
 //Can also be used to get current subscription when no products supplied
@@ -310,7 +310,11 @@ export const getBillingPreview = createAsyncThunk(`${sliceName}/getBillingPrevie
 );
 
 export const getCurrentSubscription = createAsyncThunk(`${sliceName}/getCurrentSubscription`, () =>
-  Api.get(`${tenantadmApiUrlv2}/billing/subscription`).then(res => res.data)
+  Api.get(`${tenantadmApiUrlv2}/billing/subscription`).then(res => res.data).catch(e=> {
+    if (e.response && e.response.status === 404){
+      throw new Error('Request failed with status code 404')
+    }
+  })
 );
 
 const successMessage = (planId: string) =>
