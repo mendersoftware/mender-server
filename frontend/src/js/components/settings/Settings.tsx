@@ -23,7 +23,6 @@ import { TIMEOUTS, canAccess } from '@northern.tech/store/constants';
 import {
   getCurrentUser,
   getFeatures,
-  getHasCurrentPricing,
   getOrganization,
   getStripeKey,
   getTenantCapabilities,
@@ -79,7 +78,7 @@ const sectionMap = {
     component: SubscriptionPage,
     icon: <PaymentIcon />,
     text: ({ organization: { trial } }) => (trial ? 'Upgrade to a plan' : 'Upgrades and add-ons'),
-    canAccess: ({ hasMultitenancy, organization: { service_provider }, hasCurrentPricing }) => !service_provider && hasMultitenancy && hasCurrentPricing
+    canAccess: ({ hasMultitenancy, organization: { service_provider } }) => !service_provider && hasMultitenancy
   }
 };
 
@@ -91,7 +90,6 @@ export const Settings = () => {
   const tenantCapabilities = useSelector(getTenantCapabilities);
   const userCapabilities = useSelector(getUserCapabilities);
   const userRoles = useSelector(getUserRoles);
-  const hasCurrentPricing = useSelector(getHasCurrentPricing);
 
   const [loadingFinished, setLoadingFinished] = useState(!stripeAPIKey);
   const { section: sectionParam } = useParams();
@@ -112,8 +110,7 @@ export const Settings = () => {
   }, [stripeAPIKey]);
 
   const checkDenyAccess = item =>
-    currentUser.id &&
-    !item.canAccess({ currentUser, hasMultitenancy, isHosted, organization, tenantCapabilities, userCapabilities, userRoles, hasCurrentPricing });
+    currentUser.id && !item.canAccess({ currentUser, hasMultitenancy, isHosted, organization, tenantCapabilities, userCapabilities, userRoles });
 
   const getCurrentSection = (sections, section = sectionParam) => {
     if (!sections.hasOwnProperty(section) || checkDenyAccess(sections[section])) {

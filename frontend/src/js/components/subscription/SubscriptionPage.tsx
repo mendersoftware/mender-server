@@ -13,7 +13,6 @@
 //    limitations under the License.
 import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 
 import { Alert, Button, FormControl, FormControlLabel, FormHelperText, Radio, RadioGroup, TextField, Typography } from '@mui/material';
 
@@ -22,7 +21,7 @@ import { ADDONS, Addon, AvailableAddon, AvailablePlans, PLANS, Plan } from '@nor
 import { getStripeKey } from '@northern.tech/store/appSlice/selectors';
 import { TIMEOUTS } from '@northern.tech/store/commonConstants';
 import { getDeviceLimit } from '@northern.tech/store/devicesSlice/selectors';
-import { getHasCurrentPricing, getOrganization } from '@northern.tech/store/organizationSlice/selectors';
+import { getOrganization } from '@northern.tech/store/organizationSlice/selectors';
 import { getBillingPreview, getCurrentCard, getUserBilling, getUserSubscription, requestPlanChange } from '@northern.tech/store/organizationSlice/thunks';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
@@ -82,11 +81,8 @@ export const SubscriptionPage = () => {
   const [isPreviewLoading, setIsPreviewLoading] = useState(false);
   const [showUpgradeDrawer, setShowUpgradeDrawer] = useState(false);
   const [loadingFinished, setLoadingFinished] = useState(!stripeAPIKey);
-  const [currentPricingChecked, setCurrentPricingChecked] = useState(false);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const currentDeviceLimit = useSelector(getDeviceLimit);
-  const hasCurrentPricing = useSelector(getHasCurrentPricing);
   const org = useSelector(getOrganization);
   const { addons: orgAddOns = [], plan: currentPlan = PLANS.os.id as AvailablePlans, trial: isTrial = true, id: orgId } = org;
   const isOrgLoaded = !!orgId;
@@ -94,16 +90,6 @@ export const SubscriptionPage = () => {
   const enabledAddons = useMemo(() => orgAddOns.filter(addon => addon.enabled), [orgAddOns]);
   const currentPlanId = plan.id;
   const debouncedLimit = useDebounce(limit, TIMEOUTS.debounceDefault);
-
-  // redirect customers paying old price to billing page to see the alert
-  //TODO: remove after september 1st
-  useEffect(() => {
-    if (isOrgLoaded && !isTrial && !hasCurrentPricing) {
-      navigate('/settings/billing');
-    } else if (isOrgLoaded) {
-      setCurrentPricingChecked(true);
-    }
-  }, [isTrial, navigate, hasCurrentPricing, isOrgLoaded]);
 
   //Fetch Billing profile & subscription
   useEffect(() => {
@@ -251,7 +237,6 @@ export const SubscriptionPage = () => {
     (!isTrial && !!enabledAddons.find(enabled => enabled.name === addon.id)) || !addon.eligible.includes(selectedPlan.id);
   const selectedAddonsLength = Object.values(selectedAddons).reduce((acc, curr) => acc + Number(curr), 0);
   const isNew = currentPlanId !== selectedPlan.id || enabledAddons.length < selectedAddonsLength || debouncedLimit > currentDeviceLimit || isTrial;
-  if (!currentPricingChecked) return null;
   return (
     <div style={{ paddingBottom: '15%' }}>
       <Typography variant="h4" className="margin-bottom-large">
