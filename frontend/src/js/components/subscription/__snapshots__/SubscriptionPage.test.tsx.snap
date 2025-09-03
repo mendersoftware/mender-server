@@ -1064,9 +1064,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
             class="MuiAlert-message emotion-40"
           >
             <div>
-              For over 
-              1000
-               devices, please contact 
+              If you want to reduce your device limit, please contact 
               <a
                 class=""
                 href="mailto:support@mender.io"
@@ -1075,7 +1073,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
               >
                 support@mender.io
               </a>
-               for pricing.
+              .
             </div>
           </div>
         </div>

@@ -46,7 +46,7 @@ const contactReasons = {
     id: 'reduceLimit',
     alert: (
       <div>
-        For over {enterpriseDeviceCount} devices, please contact <SupportLink variant="email" /> for pricing.
+        If you want to reduce your device limit, please contact <SupportLink variant="email" />.
       </div>
     )
   },
@@ -54,7 +54,7 @@ const contactReasons = {
     id: 'overLimit',
     alert: (
       <div>
-        If you want to reduce your device limit, please contact <SupportLink variant="email" />.
+        For over {enterpriseDeviceCount} devices, please contact <SupportLink variant="email" /> for pricing.
       </div>
     )
   }
