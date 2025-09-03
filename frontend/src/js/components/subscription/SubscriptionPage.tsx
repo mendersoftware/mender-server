@@ -80,6 +80,7 @@ export const SubscriptionPage = () => {
   const stripeAPIKey = useSelector(getStripeKey);
   const [isPreviewLoading, setIsPreviewLoading] = useState(false);
   const [showUpgradeDrawer, setShowUpgradeDrawer] = useState(false);
+  const [specialHandling, setSpecialHandling] = useState(false);
   const [loadingFinished, setLoadingFinished] = useState(!stripeAPIKey);
   const dispatch = useAppDispatch();
   const currentDeviceLimit = useSelector(getDeviceLimit);
@@ -98,7 +99,12 @@ export const SubscriptionPage = () => {
       return;
     }
     dispatch(getCurrentCard());
-    dispatch(getUserSubscription());
+    //We need to handle special enterprise-like agreements
+    dispatch(getUserSubscription()).unwrap().catch((error) => {
+      if (!isTrial && error.message && error.message.includes('404')){
+        setSpecialHandling(true)
+      }
+    });
   }, [isTrial, dispatch]);
 
   //Loading stripe Component
@@ -118,11 +124,11 @@ export const SubscriptionPage = () => {
   }, [stripeAPIKey]);
 
   useEffect(() => {
-    if (plan) {
+    if (plan && !specialHandling) {
       setSelectedPlan(plan);
     }
     setLimit(updatedLimit => (currentDeviceLimit && updatedLimit < currentDeviceLimit ? currentDeviceLimit : updatedLimit));
-  }, [plan, currentDeviceLimit]);
+  }, [plan, currentDeviceLimit, specialHandling]);
 
   useEffect(() => {
     const newSelectedAddons = enabledAddons.reduce(
@@ -133,10 +139,10 @@ export const SubscriptionPage = () => {
       {} as Record<AvailableAddon, boolean>
     );
     setSelectedAddons(newSelectedAddons);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [enabledAddons]);
+  }, [enabledAddons, isTrial]);
 
   useEffect(() => {
+    if (specialHandling) return;
     if (debouncedLimit >= enterpriseDeviceCount) {
       setContactReason(contactReasons.overLimit.id);
       setLimit(enterpriseDeviceCount);
@@ -268,7 +274,7 @@ export const SubscriptionPage = () => {
               {Object.values(PLANS).map((plan, index) => (
                 <FormControlLabel
                   key={plan.id}
-                  disabled={!isTrial && planOrder.indexOf(currentPlan) > index}
+                  disabled={(!isTrial && planOrder.indexOf(currentPlan) > index) && !specialHandling}
                   value={plan.id}
                   control={<Radio />}
                   label={plan.name}
@@ -279,7 +285,7 @@ export const SubscriptionPage = () => {
           <Typography variant="body2" style={{ minHeight: '56px' }}>
             {selectedPlan.description}
           </Typography>
-          {selectedPlan.id !== PLANS.enterprise.id && (
+          {selectedPlan.id !== PLANS.enterprise.id && !specialHandling &&(
             <>
               <Typography variant="subtitle1" className="margin-top">
                 2. Set a device limit
@@ -299,11 +305,11 @@ export const SubscriptionPage = () => {
                 </div>
                 <FormHelperText className="info margin-top-none">{inputHelperText}</FormHelperText>
               </FormControl>
-              {contactReason && <ContactReasonAlert reason={contactReason} />}
             </>
           )}
+          {contactReason && <ContactReasonAlert reason={contactReason} />}
           <Typography variant="subtitle1" className="margin-top">
-            {selectedPlan.id === PLANS.enterprise.id ? 2 : 3}. Choose Add-ons
+            {(selectedPlan.id === PLANS.enterprise.id) || specialHandling ? 2 : 3}. Choose Add-ons
           </Typography>
           <div className="margin-top-x-small">
             {Object.values(ADDONS).map(addon => (
@@ -311,18 +317,18 @@ export const SubscriptionPage = () => {
                 selectedPlan={selectedPlan}
                 key={addon.id}
                 addon={addon}
-                disabled={isAddonDisabled(addon)}
+                disabled={isAddonDisabled(addon) && !specialHandling}
                 checked={selectedAddons[addon.id]}
                 onChange={onSelectAddon}
               />
             ))}
           </div>
-          {enabledAddons.length > 0 && !isTrial && (
+          {enabledAddons.length > 0 && !isTrial && !specialHandling && (
             <Typography variant="body2" className="margin-bottom">
               To remove active Add-ons from your plan, please contact <SupportLink variant="email" />
             </Typography>
           )}
-          {selectedPlan.id === PLANS.enterprise.id && (
+          {(selectedPlan.id === PLANS.enterprise.id || specialHandling) && (
             <>
               <Typography variant="subtitle1" className="margin-top">
                 3. Request a quote
@@ -356,7 +362,7 @@ export const SubscriptionPage = () => {
           )}
         </div>
         <div>
-          {selectedPlan.id !== PLANS.enterprise.id && previewPrice && (
+          {selectedPlan.id !== PLANS.enterprise.id && previewPrice && !specialHandling && (
             <div className="margin-top margin-left-x-large">
               <SubscriptionSummary
                 isPreviewLoading={isPreviewLoading}

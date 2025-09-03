@@ -297,9 +297,11 @@ export const getUserBilling = createAsyncThunk(`${sliceName}/getUserBilling`, (_
   Api.get(`${tenantadmApiUrlv2}/billing/profile`).then(res => dispatch(actions.setBillingProfile(res.data)))
 );
 
-export const getUserSubscription = createAsyncThunk(`${sliceName}/getUserSubscription`, (_, { dispatch }) => {
-  const tasks = [dispatch(getBillingPreview({ preview_mode: 'next' })).unwrap(), dispatch(getCurrentSubscription()).unwrap()];
-  Promise.all(tasks).then(([currentPreview, currentSubscription]) => dispatch(actions.setSubscription({ ...currentPreview, ...currentSubscription })));
+export const getUserSubscription = createAsyncThunk(`${sliceName}/getUserSubscription`, async (_, { dispatch }) => {
+  // We need to fetch current subscription first to ensure non-stripe customers handled right
+  const currentSubscription = await dispatch(getCurrentSubscription()).unwrap();
+  const currentPreview = await dispatch(getBillingPreview({ preview_mode: 'next' })).unwrap();
+  return dispatch(actions.setSubscription({ ...currentPreview, ...currentSubscription }));
 });
 
 //Can also be used to get current subscription when no products supplied
@@ -310,7 +312,14 @@ export const getBillingPreview = createAsyncThunk(`${sliceName}/getBillingPrevie
 );
 
 export const getCurrentSubscription = createAsyncThunk(`${sliceName}/getCurrentSubscription`, () =>
-  Api.get(`${tenantadmApiUrlv2}/billing/subscription`).then(res => res.data)
+  Api.get(`${tenantadmApiUrlv2}/billing/subscription`)
+    .then(res => res.data)
+    .catch(err => {
+      if (err.response && err.response.status === 404) {
+        throw new Error('Request failed with status code 404');
+      }
+      return commonErrorHandler(err, 'There was an error retrieving your current subscription', dispatch, commonErrorFallback);
+    })
 );
 
 const successMessage = (planId: string) =>
