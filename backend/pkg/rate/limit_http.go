@@ -187,6 +187,10 @@ func handleError(ctx context.Context, w http.ResponseWriter, err error) {
 		status = http.StatusTooManyRequests
 		retryAfter := int64(math.Ceil(tooManyRequests.Delay.Abs().Seconds()))
 		hdr.Set("Retry-After", strconv.FormatInt(retryAfter, 10))
+	} else {
+		// Mask all internal error.
+		// Caller must handle further processing (logging) of the underlying message.
+		err = errors.New("internal error")
 	}
 	w.WriteHeader(status)
 	b, _ := json.Marshal(rest.Error{
