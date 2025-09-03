@@ -20,20 +20,27 @@ import { makeStyles } from 'tss-react/mui';
 
 import { TIMEOUTS } from '@northern.tech/store/constants';
 
-const buttonStyle = { float: 'right', margin: '-20px 0 0 10px' };
-
 const useStyles = makeStyles()(theme => ({
+  button: { float: 'right', marginRight: theme.spacing(-2), marginTop: theme.spacing(-0.25) },
   code: {
-    border: '1px solid',
-    borderColor: theme.palette.background.lightgrey,
-    backgroundColor: theme.palette.background.lightgrey
+    backgroundColor: theme.palette.background.lightgrey ? theme.palette.background.lightgrey : theme.palette.grey[100],
+    fontFamily: 'monospace',
+    borderRadius: theme.spacing(0.5),
+    padding: theme.spacing(2),
+    overflowY: 'auto',
+    position: 'relative',
+    whiteSpace: 'pre-line'
+  },
+  copyable: {
+    whiteSpace: 'pre-wrap',
+    wordBreak: 'break-word'
   }
 }));
 
 export const Code = ({ className = '', children, style = {} }) => {
   const { classes } = useStyles();
   return (
-    <div className={`code ${classes.code} ${className}`} style={style}>
+    <div className={`${classes.code} ${className}`} style={style}>
       {children}
     </div>
   );
@@ -41,6 +48,7 @@ export const Code = ({ className = '', children, style = {} }) => {
 
 export const CopyCode = ({ code, onCopy, withDescription }) => {
   const [copied, setCopied] = useState(false);
+  const { classes } = useStyles();
 
   const onCopied = (_text, result) => {
     setCopied(result);
@@ -55,16 +63,16 @@ export const CopyCode = ({ code, onCopy, withDescription }) => {
       <Code>
         <CopyToClipboard text={code} onCopy={onCopied}>
           {withDescription ? (
-            <Button style={buttonStyle} startIcon={<CopyPasteIcon />}>
+            <Button className={classes.button} startIcon={<CopyPasteIcon />} title="Copy to clipboard">
               Copy to clipboard
             </Button>
           ) : (
-            <IconButton style={buttonStyle} size="large">
+            <IconButton className={classes.button} size="large" title="Copy to clipboard">
               <CopyPasteIcon />
             </IconButton>
           )}
         </CopyToClipboard>
-        <span style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{code}</span>
+        <span className={classes.copyable}>{code}</span>
       </Code>
       <p>{copied && <span className="green fadeIn">Copied to clipboard.</span>}</p>
     </>
