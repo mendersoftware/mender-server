@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { InfoOutlined as InfoIcon } from '@mui/icons-material';
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, TextField, Typography } from '@mui/material';
 import { createFilterOptions } from '@mui/material/useAutocomplete';
 
 import CopyCode from '@northern.tech/common-ui/CopyCode';
@@ -44,16 +44,16 @@ import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 const filter = createFilterOptions();
 
 const types = [
-  { title: 'Raspberry Pi 3', value: 'raspberrypi3' },
-  { title: 'Raspberry Pi 4', value: 'raspberrypi4' }
+  { title: 'raspberrypi3', value: 'raspberrypi3' },
+  { title: 'raspberrypi4', value: 'raspberrypi4' }
 ];
 
 export const ConvertedImageNote = () => (
-  <p>
+  <Typography variant="body1">
     We prepared an image, ready for Mender, for you to start with. You can find it in the{' '}
     <DocsLink path="get-started/preparation/prepare-a-raspberry-pi-device" title="Prepare a Raspberry Pi device" /> documentation, which also contains
     instructions for initial device setup. Once you&apos;re done flashing you can go ahead and proceed to the next step.
-  </p>
+  </Typography>
 );
 
 const IntegrationsLink = () => (
@@ -71,12 +71,11 @@ export const ExternalProviderTip = ({ hasExternalIntegration, integrationProvide
       <div style={{ maxWidth: 350 }}>
         {hasExternalIntegration ? (
           <p>
-            Devices added here will be automatically integrated with the <i>{EXTERNAL_PROVIDER[integrationProvider].title}</i> you set in the{' '}
-            <IntegrationsLink />.
+            Devices added here will be automatically integrated with the {EXTERNAL_PROVIDER[integrationProvider].title} you set in the <IntegrationsLink />.
           </p>
         ) : (
           <p>
-            To connect your devices with <i>{EXTERNAL_PROVIDER[integrationProvider].title}</i>, go to <IntegrationsLink /> and set up the integration.
+            To connect your devices with {EXTERNAL_PROVIDER[integrationProvider].title}, go to <IntegrationsLink /> and set up the integration.
           </p>
         )}
       </div>
@@ -99,10 +98,16 @@ export const DeviceTypeSelectionStep = ({
   const hasExternalIntegrationSupport = versionCompare(version, '3.2') > -1;
   return (
     <>
-      <h4>Enter your device type</h4>
-      <p>Setting this attribute on the device ensures that the device will only receive updates for compatible software releases.</p>
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'max-content 50px 150px', placeItems: 'end center' }}>
+      <Typography variant="subtitle1" gutterBottom>
+        Enter your device type
+      </Typography>
+      <Typography variant="body1" gutterBottom>
+        Setting this attribute on the device ensures that the device will only receive updates for compatible software releases.
+      </Typography>
+      <div
+        className="margin-top-small margin-bottom-small"
+        style={{ display: 'grid', gridTemplateColumns: 'max-content max-content 150px', alignItems: 'center', gap: 16 }}
+      >
         <Autocomplete
           id="device-type-selection"
           autoSelect
@@ -152,15 +157,17 @@ export const InstallationStep = ({ advanceOnboarding, selection, ...remainingPro
   const codeToCopy = getDebConfigurationCode({ ...remainingProps, deviceType: selection });
   return (
     <>
-      <h4>Log into your device and install the Mender client</h4>
-      <p>
+      <Typography variant="subtitle1" gutterBottom>
+        Log into your device and install the Mender client
+      </Typography>
+      <Typography className="margin-bottom-small" variant="body1">
         Copy & paste and run this command <b>on your device</b>:
-      </p>
+      </Typography>
       <CopyCode code={codeToCopy} onCopy={() => advanceOnboarding(onboardingSteps.DASHBOARD_ONBOARDING_START)} withDescription={true} />
-      <p>This downloads the Mender client on the device, sets the configuration and starts the client.</p>
-      <p>
-        Once the client has started, your device will attempt to connect to the server. It will then appear in your Pending devices tab and you can continue.
-      </p>
+      <Typography variant="body1">
+        This downloads the Mender client on the device, sets the configuration and starts the client. Once the client has started, your device will attempt to
+        connect to the server. It will then appear in your Pending devices tab and you can continue.
+      </Typography>
     </>
   );
 };
