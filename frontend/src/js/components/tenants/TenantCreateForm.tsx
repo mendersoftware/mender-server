@@ -148,8 +148,8 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
 
   const submitNewTenant = useCallback(
     async data => {
-      const { email, password, device_limit, send_reset_password, ...remainder } = data;
-      let selectionState = { device_limit: Number(device_limit), ...remainder };
+      const { email, password, device_limit, send_reset_password, sso, ...remainder } = data;
+      let selectionState = { device_limit: Number(device_limit), restrict_sso_to_parent: sso, sso, ...remainder };
       if (adminExists) {
         selectionState = { users: [{ role: rolesByName.admin, email }], ...selectionState };
       } else {
