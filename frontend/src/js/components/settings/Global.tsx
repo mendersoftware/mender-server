@@ -18,6 +18,7 @@ import { Link } from 'react-router-dom';
 import { AutoAwesomeOutlined as AutoAwesomeIcon } from '@mui/icons-material';
 import {
   Button,
+  Checkbox,
   FormControl,
   FormControlLabel,
   FormHelperText,
@@ -37,8 +38,10 @@ import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { BENEFITS, DEVICE_ONLINE_CUTOFF, TIMEOUTS, alertChannels, settingsKeys } from '@northern.tech/store/constants';
 import {
   getDeviceIdentityAttributes,
+  getFeatures,
   getGlobalSettings as getGlobalSettingsSelector,
   getIdAttribute,
+  getIsPreview,
   getOfflineThresholdSettings,
   getOrganization,
   getTenantCapabilities,
@@ -178,11 +181,13 @@ export const GlobalSettingsDialog = ({
   const timer = useRef(false);
   const { classes } = useStyles();
   const { aiFeatures = {}, needsDeploymentConfirmation = false } = settings;
-  const { enabled: isAiEnabled } = aiFeatures;
+  const { enabled: isAiEnabled, trainingEnabled: isAiTrainingEnabled } = aiFeatures;
   const { hasMonitor, isEnterprise } = tenantCapabilities;
   const { canManageReleases, canManageUsers } = userCapabilities;
   const { trial: isTrial = true } = useSelector(getOrganization);
   const { hasDelta: hasDeltaArtifactGeneration } = useSelector(state => state.deployments.config) ?? {};
+  const { hasAiEnabled } = useSelector(getFeatures);
+  const isPreview = useSelector(getIsPreview);
 
   useEffect(() => {
     setChannelSettings(notificationChannelSettings);
@@ -228,7 +233,12 @@ export const GlobalSettingsDialog = ({
 
   const onEditDeltaClick = () => setShowDeltaConfig(true);
 
-  const onToggleAiClick = current => saveGlobalSettings({ aiFeatures: { enabled: !current } });
+  const onToggleAiClick = useCallback(current => saveGlobalSettings({ aiFeatures: { ...aiFeatures, enabled: !current } }), [aiFeatures, saveGlobalSettings]);
+
+  const onToggleAiTrainingClick = useCallback(
+    ({ target: { checked } }) => saveGlobalSettings({ aiFeatures: { ...aiFeatures, trainingEnabled: checked } }),
+    [aiFeatures, saveGlobalSettings]
+  );
 
   return (
     <div style={{ maxWidth }} className="margin-top-small">
@@ -298,17 +308,26 @@ export const GlobalSettingsDialog = ({
             <FormHelperText>Choose how long a device can go without reporting to the server before it is considered “offline”.</FormHelperText>
           </FormControl>
         </div>
-        <ToggleSetting
-          value={isAiEnabled}
-          onClick={() => onToggleAiClick(isAiEnabled)}
-          title={
-            <div className="flexbox center-aligned">
-              <AutoAwesomeIcon className="margin-right-x-small" fontSize="small" color={isAiEnabled ? 'secondary' : 'inherit'} />
-              <Typography variant="subtitle1">AI features (experimental)</Typography>
-            </div>
-          }
-          description="Enable AI features for all users. We'll try to remove any sensitive details, such as URLs and timestamps, before sending your data for AI analysis. AI features are rate limited to 50 requests per day. "
-        />
+        {(isPreview || hasAiEnabled) && (
+          <div>
+            <ToggleSetting
+              value={isAiEnabled}
+              onClick={() => onToggleAiClick(isAiEnabled)}
+              title={
+                <div className="flexbox center-aligned">
+                  <AutoAwesomeIcon className="margin-right-x-small" fontSize="small" color={isAiEnabled ? 'secondary' : 'inherit'} />
+                  <Typography variant="subtitle1">AI features (experimental)</Typography>
+                </div>
+              }
+              description="Enable AI features for all users. We'll try to remove any sensitive details, such as URLs and timestamps, before sending your data for AI analysis. AI features are rate limited to 50 requests per day. "
+            />
+            <FormControlLabel
+              control={<Checkbox disabled={!isAiEnabled} checked={isAiTrainingEnabled} onChange={onToggleAiTrainingClick} />}
+              label="Allow us to use data for training"
+            />
+            <Typography variant="body2">This allows us to enhance the responses you get, collect your feedback, and refine the AI model.</Typography>
+          </div>
+        )}
       </div>
       <ArtifactGenerationSettings open={showDeltaConfig} onClose={() => setShowDeltaConfig(false)} />
     </div>

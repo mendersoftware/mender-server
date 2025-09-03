@@ -985,6 +985,126 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-35:focus::-ms-input-
   margin-right: 8px;
 }
 
+.emotion-51 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  cursor: pointer;
+  vertical-align: middle;
+  -webkit-tap-highlight-color: transparent;
+  margin-left: -11px;
+  margin-right: 16px;
+  margin-top: 18px;
+}
+
+.emotion-51.Mui-disabled {
+  cursor: default;
+}
+
+.emotion-51 .MuiFormControlLabel-label.Mui-disabled {
+  color: rgba(0, 0, 0, 0.38);
+}
+
+.emotion-52 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: inherit;
+  padding: 9px;
+  border-radius: 50%;
+  color: rgba(0, 0, 0, 0.54);
+  color: rgba(10, 10, 11, 0.78);
+}
+
+.emotion-52::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-52.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+@media print {
+  .emotion-52 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-52:hover {
+  background-color: rgba(51, 122, 135, 0.04);
+}
+
+.emotion-52.Mui-checked,
+.emotion-52.MuiCheckbox-indeterminate {
+  color: #337a87;
+}
+
+.emotion-52.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+@media (hover: none) {
+  .emotion-52:hover {
+    background-color: transparent;
+  }
+}
+
+.emotion-54 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.3929rem;
+}
+
+.emotion-54 iconButton {
+  margin-right: 8px;
+}
+
 <div
   class="margin-top-small"
   style="max-width: 750px;"
@@ -1241,64 +1361,103 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-35:focus::-ms-input-
         </p>
       </div>
     </div>
-    <div
-      class="flexbox column"
-    >
+    <div>
       <div
-        class="MuiFormControl-root emotion-3"
+        class="flexbox column"
       >
-        <label
-          class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementStart align-self-start margin-left-none margin-top-none emotion-13"
+        <div
+          class="MuiFormControl-root emotion-3"
         >
-          <span
-            class="MuiSwitch-root MuiSwitch-sizeMedium margin-left-small emotion-14"
+          <label
+            class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementStart align-self-start margin-left-none margin-top-none emotion-13"
           >
             <span
-              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary emotion-15"
+              class="MuiSwitch-root MuiSwitch-sizeMedium margin-left-small emotion-14"
             >
-              <input
-                class="PrivateSwitchBase-input MuiSwitch-input emotion-16"
-                role="switch"
-                type="checkbox"
-              />
               <span
-                class="MuiSwitch-thumb emotion-17"
+                class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary emotion-15"
+              >
+                <input
+                  class="PrivateSwitchBase-input MuiSwitch-input emotion-16"
+                  role="switch"
+                  type="checkbox"
+                />
+                <span
+                  class="MuiSwitch-thumb emotion-17"
+                />
+              </span>
+              <span
+                class="MuiSwitch-track emotion-18"
               />
             </span>
             <span
-              class="MuiSwitch-track emotion-18"
-            />
-          </span>
-          <span
-            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label capitalized-start emotion-19"
-          >
-            <div
-              class="flexbox center-aligned"
+              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label capitalized-start emotion-19"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small emotion-48"
-                data-testid="AutoAwesomeOutlinedIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
+              <div
+                class="flexbox center-aligned"
               >
-                <path
-                  d="m19 9 1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25zm0 6-1.25 2.75L15 19l2.75 1.25L19 23l1.25-2.75L23 19l-2.75-1.25zm-7.5-5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12zm-1.51 3.49L9 15.17l-.99-2.18L5.83 12l2.18-.99L9 8.83l.99 2.18 2.18.99z"
-                />
-              </svg>
-              <h6
-                class="MuiTypography-root MuiTypography-subtitle1 emotion-30"
-              >
-                AI features (experimental)
-              </h6>
-            </div>
-          </span>
-        </label>
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small emotion-48"
+                  data-testid="AutoAwesomeOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="m19 9 1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25zm0 6-1.25 2.75L15 19l2.75 1.25L19 23l1.25-2.75L23 19l-2.75-1.25zm-7.5-5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12zm-1.51 3.49L9 15.17l-.99-2.18L5.83 12l2.18-.99L9 8.83l.99 2.18 2.18.99z"
+                  />
+                </svg>
+                <h6
+                  class="MuiTypography-root MuiTypography-subtitle1 emotion-30"
+                >
+                  AI features (experimental)
+                </h6>
+              </div>
+            </span>
+          </label>
+        </div>
+        <p
+          class="MuiTypography-root MuiTypography-body2 margin-top-x-small emotion-1"
+        >
+          Enable AI features for all users. We'll try to remove any sensitive details, such as URLs and timestamps, before sending your data for AI analysis. AI features are rate limited to 50 requests per day. 
+        </p>
       </div>
-      <p
-        class="MuiTypography-root MuiTypography-body2 margin-top-x-small emotion-1"
+      <label
+        class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-51"
       >
-        Enable AI features for all users. We'll try to remove any sensitive details, such as URLs and timestamps, before sending your data for AI analysis. AI features are rate limited to 50 requests per day. 
+        <span
+          aria-disabled="true"
+          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium emotion-52"
+          tabindex="-1"
+        >
+          <input
+            class="PrivateSwitchBase-input emotion-16"
+            data-indeterminate="false"
+            disabled=""
+            type="checkbox"
+          />
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-54"
+            data-testid="CheckBoxOutlineBlankIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+            />
+          </svg>
+        </span>
+        <span
+          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-19"
+        >
+          Allow us to use data for training
+        </span>
+      </label>
+      <p
+        class="MuiTypography-root MuiTypography-body2 emotion-1"
+      >
+        This allows us to enhance the responses you get, collect your feedback, and refine the AI model.
       </p>
     </div>
   </div>
