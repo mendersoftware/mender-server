@@ -137,6 +137,19 @@ export const getArtifactUrl = createAsyncThunk(`${sliceName}/getArtifactUrl`, (i
   })
 );
 
+const pollLocation = async (location, attempt = 1, maxAttempts = 5, delay = TIMEOUTS.oneSecond) => {
+  try {
+    await GeneralApi.get(location);
+    return Promise.resolve();
+  } catch {
+    if (attempt >= maxAttempts) {
+      throw new Error(`Couldn't get ${location} after ${maxAttempts} attempts`);
+    }
+    await new Promise(resolve => setTimeout(resolve, delay));
+    return pollLocation(location, attempt + 1, maxAttempts, delay);
+  }
+};
+
 export const createArtifact = createAsyncThunk(`${sliceName}/createArtifact`, ({ file, meta }, { dispatch }) => {
   const formData = Object.entries(meta).reduce((accu, [key, value]) => {
     if (Array.isArray(value)) {
@@ -162,13 +175,19 @@ export const createArtifact = createAsyncThunk(`${sliceName}/createArtifact`, ({
       cancelSource.signal
     )
   ])
-    .then(() => {
-      setTimeout(() => {
-        dispatch(getReleases());
-        dispatch(selectRelease(file.name));
-      }, TIMEOUTS.oneSecond);
-      return Promise.resolve(dispatch(setSnackbar({ message: 'Upload successful', autoHideDuration: TIMEOUTS.fiveSeconds })));
+    .then(tasks => {
+      const generateResponse = tasks[tasks.length - 1];
+      const generateLocation = generateResponse.headers[headerNames.location] as string;
+      const location = generateLocation.replace('/generate', '');
+      return pollLocation(location);
     })
+    .then(() =>
+      Promise.all([
+        dispatch(getReleases()),
+        dispatch(selectRelease(meta.name)),
+        dispatch(setSnackbar({ message: 'Upload successful', autoHideDuration: TIMEOUTS.fiveSeconds }))
+      ])
+    )
     .catch(err => {
       if (isCancel(err)) {
         return dispatch(setSnackbar({ message: 'The artifact generation has been cancelled', autoHideDuration: TIMEOUTS.fiveSeconds }));
