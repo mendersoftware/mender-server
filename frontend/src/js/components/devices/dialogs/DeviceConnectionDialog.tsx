@@ -15,11 +15,10 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, DialogActions, DialogContent } from '@mui/material';
+import { Button, DialogActions, DialogContent, List, ListItem, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import DocsLink from '@northern.tech/common-ui/DocsLink';
-import InfoText from '@northern.tech/common-ui/InfoText';
 import Loader from '@northern.tech/common-ui/Loader';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import { DEVICE_STATES, TIMEOUTS, onboardingSteps } from '@northern.tech/store/constants';
@@ -36,9 +35,18 @@ import VirtualDeviceOnboarding from './VirtualDeviceOnboarding';
 
 const useStyles = makeStyles()(theme => ({
   rpiQuickstart: {
-    backgroundColor: theme.palette.background.lightgrey
+    backgroundColor: theme.palette.background.lightgrey ? theme.palette.background.lightgrey : theme.palette.grey[100],
+    '.os-list img': {
+      height: 80,
+      margin: theme.spacing(2)
+    }
   },
-  virtualLogo: { height: 40, marginLeft: theme.spacing(2) }
+  virtualLogo: { height: 40, marginLeft: theme.spacing(2) },
+  deviceSection: {
+    border: `1px solid ${theme.palette.divider}`,
+    borderRadius: theme.spacing(0.5),
+    gap: theme.spacing(1)
+  }
 }));
 
 const docsLinks = [
@@ -47,47 +55,48 @@ const docsLinks = [
 ];
 
 const MenderHubReference = () => (
-  <p className="padding-bottom-none">
+  <Typography variant="body1">
     Or visit {/* eslint-disable-next-line react/jsx-no-target-blank */}
     <a href="https://hub.mender.io/c/board-integrations" target="_blank" rel="noopener">
       Mender Hub
     </a>{' '}
     and search integrations for your device and OS.
-  </p>
+  </Typography>
 );
 
 const OnPremDeviceConnectionExplainer = ({ isEnterprise }) => (
   <>
-    <p>
+    <Typography variant="body1">
       You can connect almost any device and Linux OS with Mender, but to make things simple during evaluation we recommend you to get started with a Debian
       based setup. This also works with a Raspberry Pi as a test device.
       <br />
       Follow the <DocsLink path="client-installation/install-with-debian-package" title="installation instructions" /> for Debian packages and select the{' '}
       {isEnterprise ? 'Enterprise' : 'Demo'} server tab to configure the client.
-    </p>
-    <div>For operating system updates, see the documentation to integrate the following with Mender:</div>
-    <ul>
+      <br />
+      For operating system updates, see the documentation to integrate the following with Mender:
+    </Typography>
+    <List>
       {docsLinks.map(item => (
-        <li key={item.key}>
+        <ListItem key={item.key} disablePadding className="padding-top-none padding-bottom-none">
           <DocsLink path={item.target} title={item.title} />
-        </li>
+        </ListItem>
       ))}
-    </ul>
+    </List>
     <MenderHubReference />
   </>
 );
 
-const DeviceConnectionExplainer = ({ hasMonitor, setOnDevice, setVirtualDevice }) => {
+const DeviceConnectionExplainer = ({ setOnDevice, setVirtualDevice }) => {
   const { classes } = useStyles();
   return (
     <>
-      <p>
+      <Typography variant="body1">
         You can connect almost any device and Linux OS with Mender, but to make things simple during evaluation we recommend you use a Raspberry Pi as a test
         device.
-      </p>
-      <div className={`padding-small padding-top-none rpi-quickstart ${classes.rpiQuickstart}`}>
-        <h3>Raspberry Pi quick start</h3>
-        <p>We&apos;ll walk you through the steps to connect a Raspberry Pi and deploy your first update with Mender.</p>
+      </Typography>
+      <div className={`margin-top-small padding-small rpi-quickstart ${classes.rpiQuickstart}`}>
+        <Typography variant="subtitle1">Raspberry Pi quick start</Typography>
+        <Typography variant="body1">We&apos;ll walk you through the steps to connect a Raspberry Pi and deploy your first update with Mender.</Typography>
         <div className="flexbox column centered">
           <div className="flexbox centered os-list">
             {[raspberryPi, raspberryPi4].map((tile, index) => (
@@ -95,40 +104,48 @@ const DeviceConnectionExplainer = ({ hasMonitor, setOnDevice, setVirtualDevice }
             ))}
           </div>
           <Button variant="contained" color="secondary" onClick={() => setOnDevice(true)}>
-            Get Started
+            Get started
           </Button>
         </div>
       </div>
-      <div className="two-columns margin-top">
-        <div className="padding-small padding-top-none">
+      <div className="two-columns margin-top-small">
+        <div className={`padding-small padding-bottom-none flexbox column ${classes.deviceSection}`}>
           <div className="flexbox center-aligned">
-            <h3>Use a virtual device</h3>
+            <Typography variant="subtitle1" gutterBottom>
+              Use a virtual device
+            </Typography>
             <img src={docker} className={classes.virtualLogo} />
           </div>
-          <p className="margin-top-none">Don&apos;t have a Raspberry Pi?</p>
-          <p>You can use our Docker-run virtual device to go through the same tutorial.</p>
-          {hasMonitor && (
-            <InfoText className="slightly-smaller">
+          <Typography variant="body1">
+            Don&apos;t have a Raspberry Pi?
+            <br />
+            You can use our Docker-run virtual device to go through the same tutorial.
+          </Typography>
+          <div>
+            <Typography variant="body1" color="text.secondary">
               If you want to evaluate our commercial components such as mender-monitor, please use a physical device instead as the virtual client does not
               support these components at this time.
-            </InfoText>
-          )}
-          <a onClick={() => setVirtualDevice(true)}>Try a virtual device</a>
+            </Typography>
+            <Button variant="text" size="small" onClick={() => setVirtualDevice(true)}>
+              Try a virtual device
+            </Button>
+          </div>
         </div>
-        <div className="padding-small padding-top-none">
-          <h3>Other devices</h3>
-          <div>See the documentation to integrate the following with Mender:</div>
-          <ul>
+        <div className={`padding-small ${classes.deviceSection}`}>
+          <Typography variant="subtitle1" gutterBottom>
+            Other devices
+          </Typography>
+          <Typography variant="body1">See the documentation to integrate the following with Mender:</Typography>
+          <List>
             {docsLinks.map(item => (
-              <li key={item.key}>
+              <ListItem key={item.key} disablePadding className="padding-top-none padding-bottom-none">
                 <DocsLink path={item.target} title={item.title} />
-              </li>
+              </ListItem>
             ))}
-          </ul>
+          </List>
           <MenderHubReference />
         </div>
       </div>
-      <MenderHelpTooltip id={HELPTOOLTIPS.deviceSupportTip.id} style={{ position: 'absolute', bottom: '2.5%', left: '88%' }} />
     </>
   );
 };
@@ -140,7 +157,7 @@ export const DeviceConnectionDialog = ({ onCancel }) => {
   const { pending: pendingCount } = useSelector(getDeviceCountsByStatus);
   const [pendingDevicesCount] = useState(pendingCount);
   const [hasMoreDevices, setHasMoreDevices] = useState(false);
-  const { isEnterprise, hasMonitor } = useSelector(getTenantCapabilities);
+  const { isEnterprise } = useSelector(getTenantCapabilities);
   const { isHosted } = useSelector(getFeatures);
   const { complete: onboardingComplete, deviceType: onboardingDeviceType } = useSelector(getOnboardingState);
   const dispatch = useDispatch();
@@ -176,7 +193,7 @@ export const DeviceConnectionDialog = ({ onCancel }) => {
     setProgress(progress + 1);
   };
 
-  let content = <DeviceConnectionExplainer hasMonitor={hasMonitor} setOnDevice={setOnDevice} setVirtualDevice={setVirtualDevice} />;
+  let content = <DeviceConnectionExplainer setOnDevice={setOnDevice} setVirtualDevice={setVirtualDevice} />;
   if (onDevice) {
     content = <PhysicalDeviceOnboarding progress={progress} />;
   } else if (virtualDevice) {
@@ -189,16 +206,18 @@ export const DeviceConnectionDialog = ({ onCancel }) => {
     setTimeout(onCancel, TIMEOUTS.twoSeconds);
   }
 
+  const isPhysicalAndNotFinal = progress < 2 && (!virtualDevice || progress < 1);
   return (
     <BaseDialog open title="Connecting a device" maxWidth="sm" onClose={onCancel}>
-      <DialogContent className="onboard-dialog padding-bottom-none margin-left margin-right">{content}</DialogContent>
+      <DialogContent>{content}</DialogContent>
       <DialogActions>
-        <Button onClick={onCancel}>Cancel</Button>
-        <div style={{ flexGrow: 1 }} />
-        {(onDevice || virtualDevice) && (
-          <div>
-            <Button onClick={onBackClick}>Back</Button>
-            {progress < 2 && (!virtualDevice || progress < 1) ? (
+        {onDevice || virtualDevice ? (
+          <>
+            {isPhysicalAndNotFinal && <Button onClick={onCancel}>Cancel</Button>}
+            <Button onClick={onBackClick} variant="outlined">
+              Back
+            </Button>
+            {isPhysicalAndNotFinal ? (
               <Button variant="contained" disabled={!(virtualDevice || (onDevice && onboardingDeviceType))} onClick={onAdvance}>
                 Next
               </Button>
@@ -212,7 +231,13 @@ export const DeviceConnectionDialog = ({ onCancel }) => {
                 {onboardingComplete ? 'Close' : 'Waiting for device'}
               </Button>
             )}
-          </div>
+          </>
+        ) : (
+          <>
+            <MenderHelpTooltip id={HELPTOOLTIPS.deviceSupportTip.id} style={{ marginLeft: 20 }} />
+            <div style={{ flexGrow: 1 }} />
+            <Button onClick={onCancel}>Cancel</Button>
+          </>
         )}
       </DialogActions>
     </BaseDialog>
