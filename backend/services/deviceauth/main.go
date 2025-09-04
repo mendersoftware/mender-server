@@ -30,7 +30,6 @@ import (
 
 	cinv "github.com/mendersoftware/mender-server/services/deviceauth/client/inventory"
 	"github.com/mendersoftware/mender-server/services/deviceauth/client/orchestrator"
-	"github.com/mendersoftware/mender-server/services/deviceauth/client/tenant"
 	"github.com/mendersoftware/mender-server/services/deviceauth/cmd"
 	dconfig "github.com/mendersoftware/mender-server/services/deviceauth/config"
 	"github.com/mendersoftware/mender-server/services/deviceauth/store/mongo"
@@ -176,24 +175,6 @@ func doMain(args []string) {
 			},
 
 			Action: cmdMaintenance,
-		}, {
-			Name:  "check-device-limits",
-			Usage: "Warn users if user is approaching device limit",
-			Description: "Loops through all tenant databases and " +
-				"checks if the number of devices is over a " +
-				"threshold of the allowed limit and sends an " +
-				"email asking the user to upgrade or decomission" +
-				"unused devices.",
-			Flags: []cli.Flag{
-				cli.Float64Flag{
-					Name:  "threshold, t",
-					Value: 90.0,
-					Usage: "Threshold in percent (%) of " +
-						"device limit that trigger " +
-						"email event.",
-				},
-			},
-			Action: cmdCheckDeviceLimits,
 		},
 		{
 			Name:  "version",
@@ -254,10 +235,6 @@ func cmdServer(args *cli.Context) error {
 
 	if args.Bool("automigrate") {
 		db = db.WithAutomigrate().(*mongo.DataStoreMongo)
-	}
-
-	if config.Config.Get(dconfig.SettingTenantAdmAddr) != "" {
-		db = db.WithMultitenant()
 	}
 
 	ctx := context.Background()
@@ -382,27 +359,4 @@ func makeDataStoreConfig() mongo.DataStoreMongoConfig {
 		Password: config.Config.GetString(dconfig.SettingDbPassword),
 	}
 
-}
-
-func cmdCheckDeviceLimits(args *cli.Context) error {
-	mgoConf := makeDataStoreConfig()
-	ds, err := mongo.NewDataStoreMongo(mgoConf)
-	if err != nil {
-		return errors.Wrap(err, "cmd: failed to initialize DataStore client")
-	}
-	// Initialize tenantadm and workflows clients.
-	tadm := tenant.NewClient(tenant.Config{
-		TenantAdmAddr: config.Config.GetString(
-			dconfig.SettingTenantAdmAddr,
-		),
-	})
-	wflows := orchestrator.NewClient(orchestrator.Config{
-		OrchestratorAddr: config.Config.GetString(
-			dconfig.SettingOrchestratorAddr,
-		),
-	})
-	return cmd.CheckDeviceLimits(
-		args.Float64("threshold"),
-		ds, tadm, wflows,
-	)
 }

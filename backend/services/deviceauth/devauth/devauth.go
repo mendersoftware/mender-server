@@ -28,14 +28,12 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
 	"github.com/mendersoftware/mender-server/pkg/plan"
-	"github.com/mendersoftware/mender-server/pkg/ratelimits"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/access"
 	"github.com/mendersoftware/mender-server/services/deviceauth/cache"
 	"github.com/mendersoftware/mender-server/services/deviceauth/client/inventory"
 	"github.com/mendersoftware/mender-server/services/deviceauth/client/orchestrator"
-	"github.com/mendersoftware/mender-server/services/deviceauth/client/tenant"
 	"github.com/mendersoftware/mender-server/services/deviceauth/jwt"
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 	"github.com/mendersoftware/mender-server/services/deviceauth/store"
@@ -115,17 +113,15 @@ type App interface {
 }
 
 type DevAuth struct {
-	db           store.DataStore
-	invClient    inventory.Client
-	cOrch        orchestrator.ClientRunner
-	cTenant      tenant.ClientRunner
-	jwt          jwt.Handler
-	jwtFallback  jwt.Handler
-	verifyTenant bool
-	config       Config
-	cache        cache.Cache
-	clock        utils.Clock
-	checker      access.Checker
+	db          store.DataStore
+	invClient   inventory.Client
+	cOrch       orchestrator.ClientRunner
+	jwt         jwt.Handler
+	jwtFallback jwt.Handler
+	config      Config
+	cache       cache.Cache
+	clock       utils.Clock
+	checker     access.Checker
 }
 
 type Config struct {
@@ -152,14 +148,13 @@ func NewDevAuth(d store.DataStore, co orchestrator.ClientRunner,
 	}
 
 	return &DevAuth{
-		db:           d,
-		invClient:    inventory.NewClient(config.InventoryAddr, false),
-		cOrch:        co,
-		jwt:          jwt,
-		verifyTenant: false,
-		config:       config,
-		clock:        utils.NewClock(),
-		checker:      checker,
+		db:        d,
+		invClient: inventory.NewClient(config.InventoryAddr, false),
+		cOrch:     co,
+		jwt:       jwt,
+		config:    config,
+		clock:     utils.NewClock(),
+		checker:   checker,
 	}
 }
 
@@ -175,12 +170,6 @@ func (d *DevAuth) HealthCheck(ctx context.Context) error {
 	err = d.cOrch.CheckHealth(ctx)
 	if err != nil {
 		return errors.Wrap(err, "Workflows service unhealthy")
-	}
-	if d.verifyTenant {
-		err = d.cTenant.CheckHealth(ctx)
-		if err != nil {
-			return errors.Wrap(err, "Tenantadm service unhealthy")
-		}
 	}
 	return nil
 }
@@ -210,7 +199,6 @@ func (d *DevAuth) setDeviceIdentity(ctx context.Context, dev *model.Device, tena
 		ctx,
 		orchestrator.UpdateDeviceInventoryReq{
 			RequestId:  requestid.FromContext(ctx),
-			TenantId:   tenantId,
 			DeviceId:   dev.Id,
 			Scope:      "identity",
 			Attributes: string(attrJson),
@@ -283,85 +271,12 @@ func (d *DevAuth) signToken(ctx context.Context) jwt.SignFunc {
 	}
 }
 
-func (d *DevAuth) doVerifyTenant(ctx context.Context, token string) (*tenant.Tenant, error) {
-	t, err := d.cTenant.VerifyToken(ctx, token)
-	if err != nil {
-		if tenant.IsErrTokenVerificationFailed(err) {
-			return nil, MakeErrDevAuthUnauthorized(err)
-		}
-
-		return nil, errors.Wrap(err, "request to verify tenant token failed")
-	}
-
-	return t, nil
-}
-
-func (d *DevAuth) getTenantWithDefault(
-	ctx context.Context,
-	tenantToken,
-	defaultToken string,
-) (context.Context, *tenant.Tenant, error) {
-	l := log.FromContext(ctx)
-
-	if tenantToken == "" && defaultToken == "" {
-		return nil, nil, MakeErrDevAuthUnauthorized(errors.New("tenant token missing"))
-	}
-
-	var t *tenant.Tenant
-	var err error
-
-	// try the provided token
-	// but continue on errors and maybe try the default token
-	if tenantToken != "" {
-		t, err = d.doVerifyTenant(ctx, tenantToken)
-		if err != nil {
-			l.Errorf("Failed to verify supplied tenant token: %s", err.Error())
-		}
-	}
-
-	// if we still haven't selected a tenant - the token didn't work
-	// try the default one
-	if t == nil && defaultToken != "" {
-		t, err = d.doVerifyTenant(ctx, defaultToken)
-		if err != nil {
-			l.Errorf("Failed to verify default tenant token: %s", err.Error())
-		}
-	}
-
-	// none of the tokens worked
-	if err != nil {
-		if tenant.IsErrTokenVerificationFailed(err) {
-			return ctx, nil, MakeErrDevAuthUnauthorized(err)
-		}
-		return ctx, nil, err
-	}
-
-	tCtx := identity.WithContext(ctx, &identity.Identity{
-		Subject: "internal",
-		Tenant:  t.ID,
-	})
-
-	return tCtx, t, nil
-}
-
 func (d *DevAuth) SubmitAuthRequest(ctx context.Context, r *model.AuthReq) (string, error) {
 	l := log.FromContext(ctx)
 
-	var tenant *tenant.Tenant
 	var err error
 
-	if d.verifyTenant {
-		ctx, tenant, err = d.getTenantWithDefault(ctx, r.TenantToken, d.config.DefaultTenantToken)
-		if err != nil {
-			return "", err
-		}
-	} else {
-		// ignore identity data when tenant verification is off
-		// it's possible that the device will provide old auth token or old tenant token
-		// in the authorization header;
-		// in that case we need to wipe identity data from the context
-		ctx = identity.WithContext(ctx, nil)
-	}
+	ctx = identity.WithContext(ctx, nil)
 
 	// first, try to handle preauthorization
 	authSet, err := d.processPreAuthRequest(ctx, r)
@@ -400,15 +315,8 @@ func (d *DevAuth) SubmitAuthRequest(ctx context.Context, r *model.AuthReq) (stri
 			Device:   true,
 		}}
 
-		if d.verifyTenant {
-			token.Claims.Tenant = tenant.ID
-			token.Claims.Plan = tenant.Plan
-			token.Claims.Addons = tenant.Addons
-			token.Claims.Trial = tenant.Trial
-		} else {
-			token.Claims.Plan = plan.PlanEnterprise
-			token.Addons = addons.AllAddonsEnabled
-		}
+		token.Claims.Plan = plan.PlanEnterprise
+		token.Addons = addons.AllAddonsEnabled
 
 		// sign and encode as JWT
 		raw, err := token.MarshalJWT(d.signToken(ctx))
@@ -1214,22 +1122,6 @@ func (d *DevAuth) RevokeToken(ctx context.Context, tokenID string) error {
 	return err
 }
 
-func verifyTenantClaim(ctx context.Context, verifyTenant bool, tenant string) error {
-	l := log.FromContext(ctx)
-
-	if verifyTenant {
-		if tenant == "" {
-			l.Errorf("No tenant claim in the token")
-			return jwt.ErrTokenInvalid
-		}
-	} else if tenant != "" {
-		l.Errorf("Unexpected tenant claim: %s in the token", tenant)
-		return jwt.ErrTokenInvalid
-	}
-
-	return nil
-}
-
 func (d *DevAuth) validateJWTToken(ctx context.Context, jti oid.ObjectID, raw string) error {
 	err := d.jwt.Validate(raw)
 	if err != nil && d.jwtFallback != nil {
@@ -1259,10 +1151,7 @@ func (d *DevAuth) VerifyToken(ctx context.Context, raw string) error {
 		return jwt.ErrTokenInvalid
 	}
 
-	err = verifyTenantClaim(ctx, d.verifyTenant, token.Claims.Tenant)
-	if err == nil {
-		err = d.checker.ValidateWithContext(ctx)
-	}
+	err = d.checker.ValidateWithContext(ctx)
 	if err != nil {
 		return err
 	}
@@ -1274,10 +1163,6 @@ func (d *DevAuth) VerifyToken(ctx context.Context, raw string) error {
 	// throttle and try fetch token from cache - if cached, it was
 	// already verified against the db checks below, we trust it
 	cachedToken, err := d.cacheThrottleVerify(ctx, token, raw, origMethod, origUri)
-
-	if err == cache.ErrTooManyRequests {
-		return err
-	}
 
 	if cachedToken != "" && raw == cachedToken {
 		// update device check-in time
@@ -1380,22 +1265,13 @@ func (d *DevAuth) cacheThrottleVerify(
 	origMethod,
 	origUri string,
 ) (string, error) {
-	if d.cache == nil || d.cTenant == nil {
+	if d.cache == nil {
 		return "", nil
-	}
-
-	// try get cached/precomputed limits
-	limits, err := d.getApiLimits(ctx,
-		token.Claims.Tenant,
-		token.Claims.Subject.String())
-	if err != nil {
-		return "", err
 	}
 
 	// apply throttling and fetch cached token
 	cached, err := d.cache.Throttle(ctx,
 		originalRaw,
-		*limits,
 		token.Claims.Tenant,
 		token.Claims.Subject.String(),
 		cache.IdTypeDevice,
@@ -1420,40 +1296,6 @@ func (d *DevAuth) cacheSetToken(ctx context.Context, token *jwt.Token, raw strin
 		expireIn)
 }
 
-func (d *DevAuth) getApiLimits(
-	ctx context.Context,
-	tid,
-	did string,
-) (*ratelimits.ApiLimits, error) {
-	limits, err := d.cache.GetLimits(ctx, tid, did, cache.IdTypeDevice)
-	if err != nil {
-		return nil, err
-	}
-
-	if limits != nil {
-		return limits, nil
-	}
-
-	dev, err := d.db.GetDeviceById(ctx, did)
-	if err != nil {
-		return nil, err
-	}
-
-	t, err := d.cTenant.GetTenant(ctx, tid)
-	if err != nil {
-		return nil, errors.Wrap(err, "request to get tenant failed")
-	}
-	if t == nil {
-		return nil, errors.New("tenant not found")
-	}
-
-	finalLimits := apiLimitsOverride(t.ApiLimits.DeviceLimits, dev.ApiLimits)
-
-	err = d.cache.CacheLimits(ctx, finalLimits, tid, did, cache.IdTypeDevice)
-
-	return &finalLimits, err
-}
-
 func (d *DevAuth) cacheDeleteToken(ctx context.Context, did string) error {
 	if d.cache == nil {
 		return nil
@@ -1466,42 +1308,6 @@ func (d *DevAuth) cacheDeleteToken(ctx context.Context, did string) error {
 	tid := idData.Tenant
 
 	return d.cache.DeleteToken(ctx, tid, did, cache.IdTypeDevice)
-}
-
-// TODO move to 'ratelimits', as ApiLimits methods maybe?
-func apiLimitsOverride(src, dest ratelimits.ApiLimits) ratelimits.ApiLimits {
-	// override only if not default
-	if dest.ApiQuota.MaxCalls != 0 && dest.ApiQuota.IntervalSec != 0 {
-		src.ApiQuota.MaxCalls = dest.ApiQuota.MaxCalls
-		src.ApiQuota.IntervalSec = dest.ApiQuota.IntervalSec
-	}
-
-	out := make([]ratelimits.ApiBurst, len(src.ApiBursts))
-	copy(out, src.ApiBursts)
-
-	for _, bdest := range dest.ApiBursts {
-		found := false
-		for i, bsrc := range src.ApiBursts {
-			if bdest.Action == bsrc.Action &&
-				bdest.Uri == bsrc.Uri {
-				out[i].MinIntervalSec = bdest.MinIntervalSec
-				found = true
-			}
-		}
-
-		if !found {
-			out = append(out,
-				ratelimits.ApiBurst{
-					Action:         bdest.Action,
-					Uri:            bdest.Uri,
-					MinIntervalSec: bdest.MinIntervalSec,
-				},
-			)
-		}
-	}
-
-	src.ApiBursts = out
-	return src
 }
 
 func (d *DevAuth) GetLimit(ctx context.Context, name string) (*model.Limit, error) {
@@ -1550,15 +1356,6 @@ func (d *DevAuth) GetTenantLimit(
 
 func (d *DevAuth) WithJWTFallbackHandler(handler jwt.Handler) *DevAuth {
 	d.jwtFallback = handler
-	return d
-}
-
-// WithTenantVerification will force verification of tenant token with tenant
-// administrator when processing device authentication requests. Returns an
-// updated devauth.
-func (d *DevAuth) WithTenantVerification(c tenant.ClientRunner) *DevAuth {
-	d.cTenant = c
-	d.verifyTenant = true
 	return d
 }
 

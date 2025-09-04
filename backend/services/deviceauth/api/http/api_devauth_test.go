@@ -35,8 +35,6 @@ import (
 
 	mt "github.com/mendersoftware/mender-server/pkg/testing"
 
-	"github.com/mendersoftware/mender-server/services/deviceauth/cache"
-	"github.com/mendersoftware/mender-server/services/deviceauth/client/tenant"
 	"github.com/mendersoftware/mender-server/services/deviceauth/devauth"
 	"github.com/mendersoftware/mender-server/services/deviceauth/devauth/mocks"
 	"github.com/mendersoftware/mender-server/services/deviceauth/jwt"
@@ -254,9 +252,8 @@ func TestApiDevAuthSubmitAuthReq(t *testing.T) {
 				t),
 			"",
 			devauth.MakeErrDevAuthUnauthorized(
-				tenant.MakeErrTokenVerificationFailed(
-					errors.New("account suspended"),
-				)),
+				errors.New("account suspended"),
+			),
 			401,
 			RestError("account suspended"),
 		},
@@ -733,19 +730,6 @@ func TestApiDevAuthVerifyToken(t *testing.T) {
 				"authorization": rtest.DEFAULT_AUTH,
 			},
 			err: nil,
-		},
-		{
-			req: rtest.MakeTestRequest(&rtest.TestRequest{
-				Method: "POST",
-				Path:   "http://localhost/api/internal/v1/devauth/tokens/verify",
-			}),
-			code: 429,
-			headers: map[string]string{
-				"authorization":      rtest.DEFAULT_AUTH,
-				"X-Forwarded-Method": "POST",
-				"X-Forwarded-Uri":    "/deployments/next",
-			},
-			err: cache.ErrTooManyRequests,
 		},
 		{
 			req: rtest.MakeTestRequest(&rtest.TestRequest{

@@ -42,9 +42,6 @@ const (
 	SettingDb        = "mongo"
 	SettingDbDefault = "mongo-useradm"
 
-	SettingTenantAdmAddr        = "tenantadm_addr"
-	SettingTenantAdmAddrDefault = ""
-
 	SettingDbSSL        = "mongo_ssl"
 	SettingDbSSLDefault = false
 
@@ -91,7 +88,6 @@ var (
 		{Key: SettingJWTIssuer, Value: SettingJWTIssuerDefault},
 		{Key: SettingJWTExpirationTimeout, Value: SettingJWTExpirationTimeoutDefault},
 		{Key: SettingDb, Value: SettingDbDefault},
-		{Key: SettingTenantAdmAddr, Value: SettingTenantAdmAddrDefault},
 		{Key: SettingDbSSL, Value: SettingDbSSLDefault},
 		{Key: SettingDbSSLSkipVerify, Value: SettingDbSSLSkipVerifyDefault},
 		{Key: SettingRedisConnectionString, Value: SettingRedisConnectionStringDefault},

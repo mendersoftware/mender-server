@@ -25,8 +25,6 @@ from common import (
     explode_jwt,
     clean_migrated_db,
     clean_db,
-    get_fake_tenantadm_addr,
-    make_fake_tenant_token,
     mongo,
     cli,
     management_api,
@@ -38,49 +36,9 @@ import orchestrator
 import mockserver
 
 
-@contextmanager
-def mock_tenantadm_auth(tenant_addons=[]):
-    def tenantadm_handler(req):
-        auth = req.headers["Authorization"]
-        # jwt = <header (base64)>.<claims (base64)>.<signature (base64)>
-        jwt_b64 = auth.split(".")
-        if len(jwt_b64) > 1:
-            print(jwt_b64)
-            # Convert base64 from url- to std-encoding and append padding
-            claims_b64 = jwt_b64[1].replace("+", "-").replace("?", "_")
-            # Add padding
-            claims_b64 += "=" * (-len(claims_b64) % 4)
-            # Decode claims
-            claims = base64.b64decode(claims_b64)
-            d = json.loads(claims)
-            tenant_id = d["mender.tenant"]
-            return (
-                200,
-                {},
-                {
-                    "id": tenant_id,
-                    "name": "Acme",
-                    "addons": [
-                        {"name": addon, "enabled": True} for addon in tenant_addons
-                    ],
-                },
-            )
-        else:
-            return (500, {}, {})
-
-    with mockserver.run_fake(
-        get_fake_tenantadm_addr(),
-        handlers=[
-            ("POST", "/api/internal/v1/tenantadm/tenants/verify", tenantadm_handler)
-        ],
-    ) as srv:
-        yield srv
-
-
 def request_token(device, dev_auth, url, tenant_addons=[]):
-    with mock_tenantadm_auth(tenant_addons):
-        rsp = device_auth_req(url, dev_auth, device)
-        assert rsp.status_code == 200
+    rsp = device_auth_req(url, dev_auth, device)
+    assert rsp.status_code == 200
 
     dev_auth.parse_rsp_payload(device, rsp.text)
     return device.token
@@ -101,10 +59,9 @@ def accept_device(device_api, management_api, tenant_token=None):
     if tenant_token is not None:
         kwargs["Authorization"] = "Bearer " + tenant_token
     with orchestrator.run_fake_for_device_id(1) as server:
-        with mock_tenantadm_auth():
-            # poke devauth so that device appears
-            rsp = device_auth_req(url, da, d)
-            assert rsp.status_code == 401
+        # poke devauth so that device appears
+        rsp = device_auth_req(url, da, d)
+        assert rsp.status_code == 401
 
         # try to find our devices in all devices listing
         dev = management_api.find_device_by_identity(d.identity, **kwargs)

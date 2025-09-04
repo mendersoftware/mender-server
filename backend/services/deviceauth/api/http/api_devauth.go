@@ -28,7 +28,6 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/access"
-	"github.com/mendersoftware/mender-server/services/deviceauth/cache"
 	"github.com/mendersoftware/mender-server/services/deviceauth/devauth"
 	"github.com/mendersoftware/mender-server/services/deviceauth/jwt"
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
@@ -399,8 +398,6 @@ func (i *DevAuthApiHandlers) VerifyTokenHandler(c *gin.Context) {
 			code = http.StatusForbidden
 		case store.ErrTokenNotFound, store.ErrAuthSetNotFound, jwt.ErrTokenInvalid:
 			code = http.StatusUnauthorized
-		case cache.ErrTooManyRequests:
-			code = http.StatusTooManyRequests
 		default:
 			if _, ok := e.(access.PermissionError); ok {
 				rest.RenderError(c, http.StatusForbidden, e)

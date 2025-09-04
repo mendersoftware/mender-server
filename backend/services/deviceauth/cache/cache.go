@@ -12,31 +12,6 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-// Package cache introduces API throttling based
-// on redis, and functions for auth token management.
-//
-// Throttling mechanisms
-//
-// 1. Quota enforcement
-//
-// Based on https://redislabs.com/redis-best-practices/basic-rate-limiting/, but with a flexible
-// interval (ratelimits.ApiQuota.IntervalSec).
-// Current usage for a device lives under key:
-//
-// `tenant:<tid>:version<tenant_key_version>:device:<did>:quota:<interval_num>: <num_reqs>`
-//
-// expiring in the defined time window.
-//
-// 2. Burst control
-//
-// Implemented with a simple single key:
-//
-// `tenant:<tid>:version<tenant_key_version>:device:<did>:burst:<action>:<url>: <last_req_ts>`
-//
-// expiring in ratelimits.ApiBurst.MinIntervalSec.
-// The value is not really important, just the existence of the key
-// means the burst was exceeded.
-//
 // Token Management
 //
 // Tokens are expected at:
@@ -54,7 +29,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"strconv"
 	"time"
 
 	"github.com/pkg/errors"
@@ -62,10 +36,8 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
-	"github.com/mendersoftware/mender-server/pkg/ratelimits"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
-	"github.com/mendersoftware/mender-server/services/deviceauth/utils"
 )
 
 const (
@@ -78,22 +50,18 @@ const (
 var (
 	ErrNoPositiveInteger = errors.New("must be a positive integer")
 	ErrNegativeInteger   = errors.New("cannot be a negative integer")
-
-	ErrTooManyRequests = errors.New("too many requests")
 )
 
 //go:generate ../../../utils/mockgen.sh
 type Cache interface {
-	// Throttle applies desired api limits and retrieves a cached token.
+	// Throttle retrieves a cached token.
 	// These ops are bundled because the implementation will pipeline them for a single network
 	// roundtrip for max performance.
 	// Returns:
 	// - the token (if any)
-	// - potentially ErrTooManyRequests (other errors: internal)
 	Throttle(
 		ctx context.Context,
 		rawToken string,
-		l ratelimits.ApiLimits,
 		tid,
 		id,
 		idtype,
@@ -113,12 +81,6 @@ type Cache interface {
 	SetLimit(ctx context.Context, limit *model.Limit) error
 	// DeleteLimit evicts the limit with the given name from cache
 	DeleteLimit(ctx context.Context, name string) error
-
-	// GetLimits fetches limits for 'id'
-	GetLimits(ctx context.Context, tid, id, idtype string) (*ratelimits.ApiLimits, error)
-
-	// CacheLimits saves limits for 'id'
-	CacheLimits(ctx context.Context, l ratelimits.ApiLimits, tid, id, idtype string) error
 
 	// CacheCheckInTime caches the last device check in time
 	CacheCheckInTime(ctx context.Context, t *time.Time, tid, id string) error
@@ -142,7 +104,6 @@ type RedisCache struct {
 	prefix          string
 	LimitsExpireSec int
 	DefaultExpire   time.Duration
-	clock           utils.Clock
 }
 
 func NewRedisCache(
@@ -155,13 +116,7 @@ func NewRedisCache(
 		LimitsExpireSec: limitsExpireSec,
 		prefix:          prefix,
 		DefaultExpire:   time.Hour * 3,
-		clock:           utils.NewClock(),
 	}
-}
-
-func (rl *RedisCache) WithClock(c utils.Clock) *RedisCache {
-	rl.clock = c
-	return rl
 }
 
 func (rl *RedisCache) keyLimit(tenantID, name string) string {
@@ -217,20 +172,13 @@ func (rl *RedisCache) DeleteLimit(ctx context.Context, name string) error {
 func (rl *RedisCache) Throttle(
 	ctx context.Context,
 	rawToken string,
-	l ratelimits.ApiLimits,
 	tid,
 	id,
 	idtype,
 	url,
 	action string,
 ) (string, error) {
-	now := rl.clock.Now().Unix()
-
 	var tokenGet *redis.StringCmd
-	var quotaInc *redis.IntCmd
-	var quotaExp *redis.BoolCmd
-	var burstGet *redis.StringCmd
-	var burstSet *redis.StatusCmd
 
 	pipe := rl.c.Pipeline()
 
@@ -239,17 +187,9 @@ func (rl *RedisCache) Throttle(
 		return "", err
 	}
 
-	// queue quota/burst control and token fetching
+	// queue token fetching
 	// for piped execution
-	quotaInc, quotaExp = rl.pipeQuota(ctx, pipe, l, tid, id, idtype, now, version)
 	tokenGet = rl.pipeToken(ctx, pipe, tid, id, idtype, version)
-
-	burstGet, burstSet = rl.pipeBurst(ctx,
-		pipe,
-		l,
-		tid, id, idtype,
-		url, action,
-		now, version)
 
 	_, err = pipe.Exec(ctx)
 	if err != nil && !isErrRedisNil(err) {
@@ -258,16 +198,6 @@ func (rl *RedisCache) Throttle(
 
 	// collect quota/burst control and token fetch results
 	tok, err := rl.checkToken(tokenGet, rawToken)
-	if err != nil {
-		return "", err
-	}
-
-	err = rl.checkQuota(l, quotaInc, quotaExp)
-	if err != nil {
-		return "", err
-	}
-
-	err = rl.checkBurst(burstGet, burstSet)
 	if err != nil {
 		return "", err
 	}
@@ -306,101 +236,6 @@ func (rl *RedisCache) checkToken(cmd *redis.StringCmd, raw string) (string, erro
 	}
 }
 
-func (rl *RedisCache) pipeQuota(
-	ctx context.Context,
-	pipe redis.Pipeliner,
-	l ratelimits.ApiLimits,
-	tid,
-	id,
-	idtype string,
-	now int64,
-	version int,
-) (*redis.IntCmd, *redis.BoolCmd) {
-	var incr *redis.IntCmd
-	var expire *redis.BoolCmd
-
-	// not a default/empty quota
-	if l.ApiQuota.MaxCalls != 0 {
-		intvl := int64(now / int64(l.ApiQuota.IntervalSec))
-		keyQuota := rl.KeyQuota(tid, id, idtype, strconv.FormatInt(intvl, 10), version)
-		incr = pipe.Incr(ctx, keyQuota)
-		expire = pipe.Expire(ctx, keyQuota, time.Duration(l.ApiQuota.IntervalSec)*time.Second)
-	}
-
-	return incr, expire
-}
-
-func (rl *RedisCache) checkQuota(
-	l ratelimits.ApiLimits,
-	incr *redis.IntCmd,
-	expire *redis.BoolCmd,
-) error {
-	if incr == nil && expire == nil {
-		return nil
-	}
-
-	err := incr.Err()
-	if err != nil && !isErrRedisNil(err) {
-		return err
-	}
-
-	err = expire.Err()
-	if err != nil {
-		return err
-	}
-
-	quota := incr.Val()
-	if quota > int64(l.ApiQuota.MaxCalls) {
-		return ErrTooManyRequests
-	}
-
-	return nil
-}
-
-func (rl *RedisCache) pipeBurst(ctx context.Context,
-	pipe redis.Pipeliner,
-	l ratelimits.ApiLimits,
-	tid, id, idtype, url, action string,
-	now int64, version int) (*redis.StringCmd, *redis.StatusCmd) {
-	var get *redis.StringCmd
-	var set *redis.StatusCmd
-
-	for _, b := range l.ApiBursts {
-		if b.Action == action &&
-			b.Uri == url &&
-			b.MinIntervalSec != 0 {
-
-			intvl := int64(now / int64(b.MinIntervalSec))
-			keyBurst := rl.KeyBurst(
-				tid, id, idtype, url, action, strconv.FormatInt(intvl, 10), version)
-
-			get = pipe.Get(ctx, keyBurst)
-			set = pipe.Set(ctx, keyBurst, now, time.Duration(b.MinIntervalSec)*time.Second)
-		}
-	}
-
-	return get, set
-}
-
-func (rl *RedisCache) checkBurst(get *redis.StringCmd, set *redis.StatusCmd) error {
-	if get != nil && set != nil {
-		err := get.Err()
-
-		// no error means burst was found/hit
-		if err == nil {
-			return ErrTooManyRequests
-		}
-
-		if isErrRedisNil(err) {
-			return nil
-		}
-
-		return err
-	}
-
-	return nil
-}
-
 func (rl *RedisCache) CacheToken(
 	ctx context.Context,
 	tid,
@@ -428,86 +263,9 @@ func (rl *RedisCache) DeleteToken(ctx context.Context, tid, id, idtype string) e
 	return res.Err()
 }
 
-func (rl *RedisCache) GetLimits(
-	ctx context.Context,
-	tid,
-	id,
-	idtype string,
-) (*ratelimits.ApiLimits, error) {
-	version, err := rl.getTenantKeyVersion(ctx, tid)
-	if err != nil {
-		return nil, err
-	}
-
-	res := rl.c.Get(ctx, rl.KeyLimits(tid, id, idtype, version))
-
-	if res.Err() != nil {
-		if isErrRedisNil(res.Err()) {
-			return nil, nil
-		}
-		return nil, res.Err()
-	}
-
-	var limits ratelimits.ApiLimits
-
-	err = json.Unmarshal([]byte(res.Val()), &limits)
-	if err != nil {
-		return nil, err
-	}
-
-	return &limits, nil
-}
-
-func (rl *RedisCache) CacheLimits(
-	ctx context.Context,
-	l ratelimits.ApiLimits,
-	tid,
-	id,
-	idtype string,
-) error {
-	enc, err := json.Marshal(l)
-	if err != nil {
-		return err
-	}
-
-	version, err := rl.getTenantKeyVersion(ctx, tid)
-	if err != nil {
-		return err
-	}
-
-	res := rl.c.Set(
-		ctx,
-		rl.KeyLimits(tid, id, idtype, version),
-		enc,
-		time.Duration(rl.LimitsExpireSec)*time.Second,
-	)
-
-	return res.Err()
-}
-
-func (rl *RedisCache) KeyQuota(tid, id, idtype, intvlNum string, version int) string {
-	return fmt.Sprintf(
-		"%s:tenant:%s:version:%d:%s:%s:quota:%s",
-		rl.prefix, tid, version, idtype, id, intvlNum)
-}
-
-func (rl *RedisCache) KeyBurst(
-	tid, id, idtype, url, action, intvlNum string, version int,
-) string {
-	return fmt.Sprintf(
-		"%s:tenant:%s:version:%d:%s:%s:burst:%s:%s:%s",
-		rl.prefix, tid, version, idtype, id, url, action, intvlNum)
-}
-
 func (rl *RedisCache) KeyToken(tid, id, idtype string, version int) string {
 	return fmt.Sprintf(
 		"%s:tenant:%s:version:%d:%s:%s:tok",
-		rl.prefix, tid, version, idtype, id)
-}
-
-func (rl *RedisCache) KeyLimits(tid, id, idtype string, version int) string {
-	return fmt.Sprintf(
-		"%s:tenant:%s:version:%d:%s:%s:limits",
 		rl.prefix, tid, version, idtype, id)
 }
 
@@ -526,13 +284,6 @@ func (rl *RedisCache) KeyTenantVersion(tid string) string {
 // it's routinely returned e.g. from GET, or pipelines containing it
 func isErrRedisNil(e error) bool {
 	return errors.Is(e, redis.Nil)
-}
-
-// TODO: move to go-lib-micro/ratelimits
-func LimitsEmpty(l *ratelimits.ApiLimits) bool {
-	return l.ApiQuota.MaxCalls == 0 &&
-		l.ApiQuota.IntervalSec == 0 &&
-		len(l.ApiBursts) == 0
 }
 
 func (rl *RedisCache) CacheCheckInTime(

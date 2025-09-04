@@ -60,18 +60,6 @@
 
 # enable_reporting: false
 
-# Tenant administration service address (optional)
-# Defaults to: none
-# Overwrite with environment variable: DEVICEAUTH_TENANTADM_ADDR
-
-# tenantadm_addr:  http://tenantadm
-
-# Default tenant token, for devices that don't supply one (optional)
-# Defaults to: none
-# Overwrite with environment variable: DEVICEAUTH_DEFAULT_TENANT_TOKEN
-
-# default_tenant_token:  <VALID_TENANT_TOKEN>
-
 # Private key path - used for JWT signing
 # Defaults to: /etc/deviceauth/rsa/private.pem
 # Overwrite with environment variable: DEVICEAUTH_SERVER_PRIV_KEY_PATH

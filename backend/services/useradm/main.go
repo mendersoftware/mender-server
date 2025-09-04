@@ -208,9 +208,6 @@ func runServer(args *cli.Context) error {
 		db = db.WithAutomigrate()
 	}
 
-	if config.Config.Get(SettingTenantAdmAddr) != "" {
-		db = db.WithMultitenant()
-	}
 	err = db.Migrate(ctx, mongo.DbVersion)
 	if err != nil {
 		return cli.NewExitError(
