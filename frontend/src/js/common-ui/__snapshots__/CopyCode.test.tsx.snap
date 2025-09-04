@@ -2,9 +2,13 @@
 
 exports[`CopyCode Component > renders correctly 1`] = `
 .emotion-0 {
-  border: 1px solid;
-  border-color: #f7f7f7;
   background-color: #f7f7f7;
+  font-family: monospace;
+  border-radius: 4px;
+  padding: 16px;
+  overflow-y: auto;
+  position: relative;
+  white-space: pre-line;
 }
 
 .emotion-1 {
@@ -55,6 +59,9 @@ exports[`CopyCode Component > renders correctly 1`] = `
   font-size: 1.625rem;
   font-size: 1.2rem;
   color: rgba(0, 0, 0, 0.54);
+  float: right;
+  margin-right: -16px;
+  margin-top: -2px;
 }
 
 .emotion-1::-moz-focus-inner {
@@ -113,15 +120,20 @@ exports[`CopyCode Component > renders correctly 1`] = `
   margin-right: 8px;
 }
 
+.emotion-3 {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 <body>
   <div>
     <div
-      class="code emotion-0 "
+      class="emotion-0 "
     >
       <button
         class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-1"
-        style="float: right; margin: -20px 0px 0px 10px;"
         tabindex="0"
+        title="Copy to clipboard"
         type="button"
       >
         <svg
@@ -137,7 +149,7 @@ exports[`CopyCode Component > renders correctly 1`] = `
         </svg>
       </button>
       <span
-        style="white-space: pre-wrap; word-break: break-word;"
+        class="emotion-3"
       >
         sudo it all!
       </span>
