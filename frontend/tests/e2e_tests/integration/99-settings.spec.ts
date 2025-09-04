@@ -71,13 +71,14 @@ test.describe('Settings', () => {
       await tokenGenerationButton.click();
       await page.getByPlaceholder(/Name/i).fill(tokenName);
       await page.getByRole('button', { name: /Create token/i }).click();
-      await page.click('.code .MuiSvgIcon-root');
+      const copyButton = page.getByRole('button', { name: /copy to clipboard/i });
+      await copyButton.click();
       await page.getByText(/copied to clipboard/i).waitFor();
       let token = '';
       if (browserName === 'chromium') {
         token = await page.evaluate(() => navigator.clipboard.readText());
       } else {
-        token = await page.innerText('.code');
+        token = await copyButton.locator('..').locator('span').innerText();
       }
       expect(token).toBeTruthy();
       await page.getByRole('button', { name: /Close/i }).click();
