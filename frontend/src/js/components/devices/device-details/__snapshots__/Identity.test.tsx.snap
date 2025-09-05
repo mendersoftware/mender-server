@@ -79,7 +79,9 @@ exports[`DeviceIdentity Component > renders correctly 1`] = `
   animation-name: mui-auto-fill-cancel;
   -webkit-animation-duration: 10ms;
   animation-duration: 10ms;
+  padding-top: 1px;
   padding: 16.5px 14px;
+  padding: 8.5px 14px;
   padding-right: 0;
 }
 
@@ -389,10 +391,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-2:focus::-ms-input-p
         </b>
       </div>
       <div
-        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-adornedEnd emotion-1"
+        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-sizeSmall MuiInputBase-adornedEnd emotion-1"
       >
         <input
-          class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputAdornedEnd emotion-2"
+          class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedEnd emotion-2"
           disabled=""
           id="a1-id-input"
           placeholder="a1..."
@@ -618,7 +620,9 @@ exports[`DeviceIdentity Component > renders correctly without a mac 1`] = `
   animation-name: mui-auto-fill-cancel;
   -webkit-animation-duration: 10ms;
   animation-duration: 10ms;
+  padding-top: 1px;
   padding: 16.5px 14px;
+  padding: 8.5px 14px;
   padding-right: 0;
 }
 
@@ -928,10 +932,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-2:focus::-ms-input-p
         </b>
       </div>
       <div
-        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-adornedEnd emotion-1"
+        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-sizeSmall MuiInputBase-adornedEnd emotion-1"
       >
         <input
-          class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputAdornedEnd emotion-2"
+          class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedEnd emotion-2"
           disabled=""
           id="c1-id-input"
           placeholder="c1..."
