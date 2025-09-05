@@ -20,7 +20,7 @@
   "homepage": "https://mender.io",
   "devDependencies": {
     "@bgotink/playwright-coverage": "^0.3.0",
-    "@playwright/test": "1.50.1",
+    "@playwright/test": "1.55.0",
     "@sidewinder1138/saml-idp": "^1.4.0",
     "axios": "^1.7.9",
     "dayjs": "^1.11.13",
@@ -30,7 +30,7 @@
     "otplib": "^12.0.1",
     "pixelmatch": "^6.0.0",
     "playwright": "^1.45.0",
-    "playwright-chromium": "1.50.1",
+    "playwright-chromium": "1.55.0",
     "pngjs": "7.0.0",
     "typescript": "^5.7.3",
     "uuid": "^11.0.5",
