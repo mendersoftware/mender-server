@@ -93,7 +93,7 @@ variables:
     value: "302.Release-information/03.Open-source-licenses/01.Mender-Server/docs.md"
 
 include:
-  - component: "gitlab.com/Northern.tech/Mender/mendertesting/commit-lint@master"
+  # - component: "gitlab.com/Northern.tech/Mender/mendertesting/commit-lint@master"
   - project: "Northern.tech/Mender/mendertesting"
     file:
       - ".gitlab-ci-github-status-updates.yml"
