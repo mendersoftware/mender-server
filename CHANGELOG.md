@@ -1,4 +1,65 @@
 ---
+## 4.0.2 - 2025-09-05
+
+
+### Bug fixes
+
+
+- *(useradm)* Always generate a unique user ID for newly created users
+([MEN-8514](https://northerntech.atlassian.net/browse/MEN-8514)) ([aa30855](https://github.com/mendersoftware/mender-server/commit/aa308552935b4859f3afad93b9bb4b8be4dbe3fe)) 
+
+
+
+
+
+### Security
+
+
+- Bump mender-artifact to the latest version
+ ([0cca94e](https://github.com/mendersoftware/mender-server/commit/0cca94eacaabab49c9b2c0c65c101f58624c88e5)) 
+- Bump the playwright group
+ ([4e92def](https://github.com/mendersoftware/mender-server/commit/4e92def1a295a4c43068fda67dda3b844939e334)) 
+
+
+  Bumps the playwright group in /frontend/tests/e2e_tests with 3 updates: [@playwright/test](https://github.com/microsoft/playwright), [playwright](https://github.com/microsoft/playwright) and [playwright-chromium](https://github.com/microsoft/playwright).
+  
+  
+  Updates `@playwright/test` from 1.50.1 to 1.55.0
+  - [Release notes](https://github.com/microsoft/playwright/releases)
+  - [Commits](https://github.com/microsoft/playwright/compare/v1.50.1...v1.55.0)
+  
+  Updates `playwright` from 1.50.1 to 1.55.0
+  - [Release notes](https://github.com/microsoft/playwright/releases)
+  - [Commits](https://github.com/microsoft/playwright/compare/v1.50.1...v1.55.0)
+  
+  Updates `playwright-chromium` from 1.50.1 to 1.55.0
+  - [Release notes](https://github.com/microsoft/playwright/releases)
+  - [Commits](https://github.com/microsoft/playwright/compare/v1.50.1...v1.55.0)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: "@playwright/test"
+    dependency-version: 1.55.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: playwright
+  - dependency-name: playwright
+    dependency-version: 1.55.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: playwright
+  - dependency-name: playwright-chromium
+    dependency-version: 1.55.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: playwright
+  ...
+
+
+
+
+
+
 ## 4.0.1 - 2025-05-19
 
 
