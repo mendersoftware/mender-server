@@ -23,10 +23,30 @@ paths:
         Returns a paged collection of devices and their attributes.
         Accepts optional search and sort parameters.
 
-        **Searching**
+        **Searching**<br/>
         Searching by attributes values is accomplished by appending attribute
-        name/value pairs to the query string, e.g.:
-        `GET /devices?attr_name_1=foo&attr_name_2=100`
+        filters in the form `{scope}/{name}={value}` to the query string.
+
+        Supported values for scope are:
+          * __inventory__: Attributes reported by the device.
+          * __system__: Attributes populated by the mender-server.
+          * __identity__: Device's identity attributes provided in the device's auth request.
+          * __monitor__: Attributes populated by the monitoring add-on.
+          * __tags__: User-defined attributes associated with the device.
+
+        Using an unsupported value for __scope__ will produce no results from this API except
+        when no scope is present, in which case scope defaults to inventory.
+
+        Examples:
+        ```
+        # Search for devices with inventory attribute `attr_name_1` and tag attribute `attr_name_2`
+        GET /devices?inventory/attr_name_1=foo&tags/attr_name_2=100
+
+        # Search devices by attribute without scope (inventory scope is used)
+        GET /devices?attr_name_1=foo
+        ```
+
+
       operationId: List Device Inventories
       parameters:
       - name: page
