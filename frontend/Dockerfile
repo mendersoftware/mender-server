@@ -5,7 +5,7 @@ RUN npm ci
 COPY . ./
 RUN npm run build
 
-FROM nginxinc/nginx-unprivileged:1.27.5-alpine3.21-slim AS unprivileged
+FROM nginxinc/nginx-unprivileged:1.28.0-alpine3.21-slim AS unprivileged
 EXPOSE 8090
 WORKDIR /var/www/mender-gui/dist
 ARG GIT_COMMIT_TAG
