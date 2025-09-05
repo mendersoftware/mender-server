@@ -19,12 +19,14 @@ updates:
         patterns:
           - "@emotion*"
           - "@mui*"
+    target-branch: main
   - commit-message:
       prefix: chore
     directory: /frontend
     package-ecosystem: docker
     schedule:
       interval: monthly
+    target-branch: main
   - commit-message:
       prefix: chore
     directory: /frontend/tests/e2e_tests
@@ -42,6 +44,53 @@ updates:
         exclude-patterns:
           - "@playwright*"
           - "playwright*"
+    target-branch: main
+  # maintenance branch - 4.0.x
+  - commit-message:
+      prefix: chore
+    directory: /frontend
+    open-pull-requests-limit: 20
+    package-ecosystem: npm
+    schedule:
+      interval: monthly
+    groups:
+      development-dependencies:
+        dependency-type: development
+      production-dependencies:
+        dependency-type: production
+        exclude-patterns:
+          - "@emotion*"
+          - "@mui*"
+      mui:
+        patterns:
+          - "@emotion*"
+          - "@mui*"
+    target-branch: 4.0.x
+  - commit-message:
+      prefix: chore
+    directory: /frontend
+    package-ecosystem: docker
+    schedule:
+      interval: monthly
+    target-branch: 4.0.x
+  - commit-message:
+      prefix: chore
+    directory: /frontend/tests/e2e_tests
+    open-pull-requests-limit: 10
+    package-ecosystem: npm
+    schedule:
+      interval: monthly
+    groups:
+      playwright:
+        patterns:
+          - "@playwright*"
+          - "playwright*"
+      e2e-test-dependencies:
+        dependency-type: development
+        exclude-patterns:
+          - "@playwright*"
+          - "playwright*"
+    target-branch: 4.0.x
 
   # backend part starts here
   - commit-message:
@@ -54,6 +103,7 @@ updates:
       backend-golang-dependencies:
         patterns:
           - "*"
+    target-branch: main
   - commit-message:
       prefix: chore
     directories:
@@ -74,6 +124,7 @@ updates:
       backend-docker-dependencies:
         patterns:
           - "*"
+    target-branch: main
   - commit-message:
       prefix: chore
     directory: /backend/tests
@@ -84,6 +135,7 @@ updates:
       backend-tests-docker-dependencies:
         patterns:
           - "*"
+    target-branch: main
   - commit-message:
       prefix: chore
     directories:
@@ -100,3 +152,65 @@ updates:
           - "*"
     ignore:
       - dependency-name: "bravado"
+    target-branch: main
+  # maintenance branch - 4.0.x
+  - commit-message:
+      prefix: chore
+    directory: /backend
+    package-ecosystem: gomod
+    schedule:
+      interval: monthly
+    groups:
+      backend-golang-dependencies:
+        patterns:
+          - "*"
+    target-branch: 4.0.x
+  - commit-message:
+      prefix: chore
+    directories:
+      - /backend/services/create-artifact-worker
+      - /backend/services/deployments
+      - /backend/services/deviceauth
+      - /backend/services/deviceconfig
+      - /backend/services/deviceconnect
+      - /backend/services/inventory
+      - /backend/services/iot-manager
+      - /backend/services/reporting
+      - /backend/services/useradm
+      - /backend/services/workflows
+    package-ecosystem: docker
+    schedule:
+      interval: monthly
+    groups:
+      backend-docker-dependencies:
+        patterns:
+          - "*"
+    target-branch: 4.0.x
+  - commit-message:
+      prefix: chore
+    directory: /backend/tests
+    package-ecosystem: docker
+    schedule:
+      interval: monthly
+    groups:
+      backend-tests-docker-dependencies:
+        patterns:
+          - "*"
+    target-branch: 4.0.x
+  - commit-message:
+      prefix: chore
+    directories:
+      - /backend/tests
+      - /backend/services/deviceconnect/tests
+      - /backend/services/iot-manager/tests
+      - /backend/services/reporting/tests
+    package-ecosystem: pip
+    schedule:
+      interval: monthly
+    groups:
+      backend-tests-python-dependencies:
+        patterns:
+          - "*"
+    ignore:
+      - dependency-name: "bravado"
+    target-branch: 4.0.x
