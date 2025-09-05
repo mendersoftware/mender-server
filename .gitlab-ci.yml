@@ -652,7 +652,6 @@ publish:backend:docker:
   rules:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
-    - when: never
   before_script:
     - skopeo login --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - skopeo login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD docker.io
