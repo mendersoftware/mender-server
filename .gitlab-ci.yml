@@ -922,10 +922,10 @@ mender-helm-version-bump:staging:
   resource_group: mender-helm
   stage: deploy-staging
   variables:
-    GITHUB_HELM_REPO: "mendersoftware/mender-helm"
+    GITHUB_HELM_REPO: "NorthernTechHQ/nt-boilerplate-pipeline"
     # A space-separated list of 'service_name:helm_key'
     SERVICES: "create-artifact-worker:create_artifact_worker deployments:deployments deviceauth:device_auth deviceconfig:deviceconfig deviceconnect:deviceconnect gui:gui inventory:inventory iot-manager:iot_manager useradm:useradm workflows:workflows"
-    CHART_DIR: "mender"
+    CHART_DIR: "helm/mender"
     SYNC_ENVIRONMENT: staging
     HELM_PATCH_VERSION: ${CI_PIPELINE_ID}-staging # pre-release version for trigger staging only deploy
   rules:
@@ -939,9 +939,9 @@ mender-helm-version-bump:branch:
   resource_group: mender-helm-${CI_COMMIT_REF_SLUG}
   stage: deploy-staging
   variables:
-    GITHUB_HELM_REPO: "mendersoftware/mender-helm"
+    GITHUB_HELM_REPO: "NorthernTechHQ/nt-boilerplate-pipeline"
     # A space-separated list of 'service_name:helm_key'
     SERVICES: "create-artifact-worker:create_artifact_worker deployments:deployments deviceauth:device_auth deviceconfig:deviceconfig deviceconnect:deviceconnect gui:gui inventory:inventory iot-manager:iot_manager useradm:useradm workflows:workflows"
-    CHART_DIR: "mender"
+    CHART_DIR: "helm/mender"
   rules:
     - if: $CI_COMMIT_BRANCH && $CI_COMMIT_REF_NAME != 'main'
