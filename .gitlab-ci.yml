@@ -658,13 +658,14 @@ publish:backend:docker:
       if [ "$CI_COMMIT_REF_PROTECTED" == "true" ]; then
         export MENDER_PUBLISH_REGISTRY="docker.io"
         echo "INFO: Protected branch. Publishing to public registry: ${MENDER_PUBLISH_REGISTRY}"
+        skopeo login --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD $CI_REGISTRY
+        skopeo login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD docker.io
       else
         export MENDER_PUBLISH_REGISTRY="${CI_REGISTRY}"
         export MENDER_PUBLISH_REPOSITORY="${MENDER_IMAGE_REPOSITORY}"
         echo "INFO: Unprotected branch. Publishing to internal registry: ${MENDER_PUBLISH_REGISTRY}/${MENDER_PUBLISH_REPOSITORY}"
+        skopeo login --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD $CI_REGISTRY
       fi
-    - skopeo login --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - skopeo login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD docker.io
     - dnf install -y make git-core
     - export MENDER_PUBLISH_TAG="${CI_COMMIT_REF_NAME}"
   script:
