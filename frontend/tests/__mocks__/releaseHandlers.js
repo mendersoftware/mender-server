@@ -18,6 +18,7 @@ import { HttpResponse, http } from 'msw';
 import { defaultState, releasesList } from '../mockData';
 
 export const releaseHandlers = [
+  http.get(`${deploymentsApiUrl}/artifacts/:id`, () => new HttpResponse(null, { status: 200 })),
   http.get(`${deploymentsApiUrl}/artifacts/:id/download`, () => HttpResponse.json({ uri: 'https://testlocation.com/artifact.mender' })),
   http.delete(
     `${deploymentsApiUrl}/artifacts/:id`,
@@ -27,7 +28,13 @@ export const releaseHandlers = [
     const { description } = await request.json();
     return new HttpResponse(null, { status: id === defaultState.releases.byId.r1.artifacts[0].id && description ? 200 : 592 });
   }),
-  http.post(`${deploymentsApiUrl}/artifacts/generate`, () => new HttpResponse(null, { status: 200 })),
+  http.post(
+    `${deploymentsApiUrl}/artifacts/generate`,
+    () =>
+      new HttpResponse(null, {
+        headers: { [headerNames.location]: `${deploymentsApiUrl}/artifacts/generate/${defaultState.releases.byId.r1.artifacts[0].id}`, status: 201 }
+      })
+  ),
   http.post(`${deploymentsApiUrl}/artifacts`, () => new HttpResponse(null, { status: 200 })),
   http.get(`${deploymentsApiUrlV2}/deployments/releases`, async ({ request }) => {
     const { searchParams } = new URL(request.url);
