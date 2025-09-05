@@ -149,9 +149,13 @@ exports[`EventDetailsDrawer Component > renders correctly 1`] = `
 }
 
 .emotion-4 {
-  border: 1px solid;
-  border-color: #f7f7f7;
   background-color: #f7f7f7;
+  font-family: monospace;
+  border-radius: 4px;
+  padding: 16px;
+  overflow-y: auto;
+  position: relative;
+  white-space: pre-line;
 }
 
 <div
@@ -202,7 +206,7 @@ exports[`EventDetailsDrawer Component > renders correctly 1`] = `
     class="MuiDivider-root MuiDivider-fullWidth emotion-3"
   />
   <div
-    class="code emotion-4 "
+    class="emotion-4 "
   >
     change1
   </div>
