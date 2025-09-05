@@ -649,9 +649,10 @@ publish:backend:docker:
     name: quay.io/skopeo/stable:${SKOPEO_VERSION}
     # https://docs.gitlab.com/ee/ci/docker/using_docker_images.html#override-the-entrypoint-of-an-image
     entrypoint: [""]
-  rules:
-    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-      when: on_success
+  rules:  # This job will run for any branch or tag, but not for maintenance branches
+    - if: '$CI_COMMIT_REF_NAME =~ /^\d+\.\d+\.x$/'
+      when: never
+    - if: $CI_COMMIT_TAG || $CI_COMMIT_BRANCH
   before_script:
     - skopeo login --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - skopeo login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD docker.io
