@@ -866,7 +866,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
     <a
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink settingsNav emotion-2"
       data-discover="true"
-      href="/settings/upgrade"
+      href="/settings/subscribe"
     >
       <div
         class="MuiListItemText-root emotion-3"

@@ -131,10 +131,11 @@ export const Form = ({
   onSubmit,
   showButtons,
   submitLabel,
-  submitRef
+  submitRef,
+  validateOnSubmitMode = false
 }) => {
   const { classes: internalClasses } = useStyles();
-  const methods = useForm({ mode: 'onChange', defaultValues });
+  const methods = useForm({ mode: validateOnSubmitMode ? 'onSubmit' : 'onChange', defaultValues });
   const {
     handleSubmit,
     formState: { isValid },
@@ -162,7 +163,7 @@ export const Form = ({
                 Cancel
               </Button>
             )}
-            <Button variant="contained" type="submit" disabled={!isValid} color={buttonColor}>
+            <Button variant="contained" type="submit" disabled={!isValid && !validateOnSubmitMode} color={buttonColor}>
               {submitLabel}
             </Button>
           </div>
