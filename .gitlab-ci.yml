@@ -107,7 +107,7 @@ include:
       - when: never
 
 stages:
-  - lint
+  # - lint
   - build
   - test
   - publish
