@@ -94,19 +94,17 @@ variables:
 
 include:
   - component: "gitlab.com/Northern.tech/Mender/mendertesting/commit-lint@master"
-    rules:
-      - when: never
   - project: "Northern.tech/Mender/mendertesting"
     file:
       - ".gitlab-ci-github-status-updates.yml"
       # QA-1046 Remove after hardening sign-off checks in the modern commit linter
       - ".gitlab-ci-check-commits-signoffs.yml"
-    rules:
-      - when: never
   - local: "/frontend/pipeline.yml"
-    rules:
-      - when: never
   - local: "/.gitlab/merge-enterprise.yml"
+    rules:
+      - if: '$CI_PROJECT_NAME == "mender-server"'
+        when: always
+      - when: never
 
 stages:
   - lint
@@ -360,11 +358,11 @@ build:backend:docker:
   extends: .template:build:docker
   rules:
     - changes:
-        paths: ["backend/**/*"]
+        paths: ["backend/**/*", ".gitlab-ci.yml"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
       when: always
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-      when: on_success
+      when: always
   script:
     # FIXME: Only exporting deployments build stage to run unit tests
     #        We're assuming the images have consistent GOTOOLCHAIN.
@@ -601,18 +599,6 @@ test:staging-deployment:firefox:
   script:
     - npx playwright install firefox
     - npm run test -- --project=firefox
-  rules:
-    - when: never
-
-#
-# Run e2e tests on staging using Webkit
-#
-test:staging-deployment:webkit:
-  extends: .template:test:staging-deployment
-  allow_failure: true
-  script:
-    - npx playwright install webkit
-    - npm run test -- --project=webkit
   rules:
     - when: never
 
