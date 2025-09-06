@@ -401,8 +401,8 @@ export const generateDeploymentsPath = ({ pageState }) => {
 };
 
 const releasesRoot = '/releases';
-export const formatReleases = ({ pageState: { searchTerm, selectedTags = [], tab, type } }) =>
-  Object.entries({ name: searchTerm, tab, type })
+export const formatReleases = ({ pageState: { id, searchTerm, selectedTags = [], tab, type } }) =>
+  Object.entries({ name: searchTerm, tab, type, id })
     .reduce(
       (accu, [key, value]) => (value ? [...accu, `${key}=${value}`] : accu),
       selectedTags.map(tag => `tag=${tag}`)
@@ -418,10 +418,13 @@ export const parseReleasesQuery = (queryParams, extraProps) => {
   const tags = queryParams.has('tag') ? queryParams.getAll('tag') : [];
   const type = queryParams.has('type') ? queryParams.get('type') : '';
   let selectedRelease = decodeURIComponent(extraProps.location.pathname.substring(releasesRoot.length + 1));
-  if (!selectedRelease && extraProps.pageState.id?.length) {
+  let selectedJob;
+  if (extraProps.pageState?.id?.length && tab === 'delta') {
+    selectedJob = extraProps.pageState.id[0];
+  } else if (!selectedRelease && extraProps.pageState?.id?.length) {
     selectedRelease = extraProps.pageState.id[0];
   }
-  return { searchTerm: name, selectedRelease, tab, tags, type };
+  return { searchTerm: name, selectedJob, selectedRelease, tab, tags, type };
 };
 
 const tenantsRoot = '/tenants';
