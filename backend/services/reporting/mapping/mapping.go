@@ -225,5 +225,5 @@ func fieldsToAttributes(attrs []string) map[string]string {
 
 func shouldMapScope(scope, attribute string) bool {
 	return scope != model.ScopeSystem &&
-		!(scope == model.ScopeIdentity && attribute == model.AttrNameStatus)
+		(scope != model.ScopeIdentity || attribute != model.AttrNameStatus)
 }

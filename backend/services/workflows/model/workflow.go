@@ -60,9 +60,9 @@ func GetWorkflowsFromPath(path string) map[string]*Workflow {
 	}
 
 	for _, f := range files {
-		if !(strings.HasSuffix(f.Name(), ".json") ||
-			strings.HasSuffix(f.Name(), ".yml") ||
-			strings.HasSuffix(f.Name(), ".yaml")) {
+		if !strings.HasSuffix(f.Name(), ".json") &&
+			!strings.HasSuffix(f.Name(), ".yml") &&
+			!strings.HasSuffix(f.Name(), ".yaml") {
 			continue
 		}
 		fn := filepath.Join(path, f.Name())
