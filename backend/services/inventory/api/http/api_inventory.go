@@ -1084,10 +1084,8 @@ func (i *InternalAPI) ReindexDeviceDataHandler(c *gin.Context) {
 		return
 	}
 
-	alertsPresent := false
-	if alertsCount > 0 {
-		alertsPresent = true
-	}
+	alertsPresent := alertsCount > 0
+
 	attrs := model.DeviceAttributes{
 		model.DeviceAttribute{
 			Name:  model.AttrNameNumberOfAlerts,
