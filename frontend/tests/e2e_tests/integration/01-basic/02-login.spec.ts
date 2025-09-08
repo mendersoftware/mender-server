@@ -11,9 +11,9 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import test, { expect } from '../fixtures/fixtures.ts';
-import { baseUrlToDomain, isLoggedIn, prepareCookies, processLoginForm } from '../utils/commands.ts';
-import { cookieConsentCookie, emptyStorageState, selectors, timeouts } from '../utils/constants.ts';
+import test, { expect } from '../../fixtures/fixtures';
+import { baseUrlToDomain, isLoggedIn, prepareCookies, processLoginForm } from '../../utils/commands';
+import { cookieConsentCookie, emptyStorageState, selectors, timeouts } from '../../utils/constants';
 
 test.use({ storageState: { ...emptyStorageState } });
 

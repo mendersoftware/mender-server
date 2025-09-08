@@ -11,9 +11,9 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import test, { expect } from '../fixtures/fixtures.ts';
-import { baseUrlToDomain, getTokenFromStorage, prepareCookies, prepareNewPage, processLoginForm } from '../utils/commands.ts';
-import { spStoragePath, switchTenantStoragePath, timeouts } from '../utils/constants.ts';
+import test, { expect } from '../../fixtures/fixtures';
+import { baseUrlToDomain, getTokenFromStorage, prepareCookies, prepareNewPage, processLoginForm } from '../../utils/commands';
+import { spStoragePath, switchTenantStoragePath, timeouts } from '../../utils/constants';
 
 const tenant = {
   name: 'Child Tenant',
