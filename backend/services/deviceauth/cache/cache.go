@@ -102,7 +102,7 @@ type Cache interface {
 	) (string, error)
 
 	// CacheToken caches the token under designated key, with expiration
-	CacheToken(ctx context.Context, tid, id, idtype, token string, expireSec time.Duration) error
+	CacheToken(ctx context.Context, tid, id, idtype, token string, expire time.Duration) error
 
 	// DeleteToken deletes the token for 'id'
 	DeleteToken(ctx context.Context, tid, id, idtype string) error
