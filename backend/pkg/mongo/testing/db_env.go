@@ -25,16 +25,16 @@ import (
 type dbClientFromEnv mongo.Client
 
 // CTX is required for testing.DBTestRunner
-func (self *dbClientFromEnv) CTX() context.Context {
+func (dbc *dbClientFromEnv) CTX() context.Context {
 	return context.TODO()
 }
 
-func (self *dbClientFromEnv) Client() *mongo.Client {
-	return (*mongo.Client)(self)
+func (dbc *dbClientFromEnv) Client() *mongo.Client {
+	return (*mongo.Client)(dbc)
 }
 
-func (self *dbClientFromEnv) Wipe() {
-	client := self.Client()
+func (dbc *dbClientFromEnv) Wipe() {
+	client := dbc.Client()
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
 	defer cancel()
 	names, err := client.ListDatabaseNames(ctx, bson.D{})
