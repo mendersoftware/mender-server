@@ -15,9 +15,9 @@ import type { Page } from '@playwright/test';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween.js';
 
-import test, { expect } from '../fixtures/fixtures';
-import { getTokenFromStorage } from '../utils/commands';
-import { releaseTag, selectors, timeouts } from '../utils/constants';
+import test, { expect } from '../../fixtures/fixtures';
+import { getTokenFromStorage } from '../../utils/commands';
+import { releaseTag, selectors, timeouts } from '../../utils/constants';
 
 dayjs.extend(isBetween);
 

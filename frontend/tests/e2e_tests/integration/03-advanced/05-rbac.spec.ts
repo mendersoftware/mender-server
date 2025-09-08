@@ -11,9 +11,9 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import test, { expect } from '../fixtures/fixtures.ts';
-import { isEnterpriseOrStaging, prepareNewPage } from '../utils/commands.ts';
-import { releaseTag, selectors, timeouts } from '../utils/constants.ts';
+import test, { expect } from '../../fixtures/fixtures';
+import { isEnterpriseOrStaging, prepareNewPage } from '../../utils/commands';
+import { releaseTag, selectors, timeouts } from '../../utils/constants';
 
 const releaseRoles = [
   { name: 'test-releases-role', permissions: ['Read'], tag: undefined },
