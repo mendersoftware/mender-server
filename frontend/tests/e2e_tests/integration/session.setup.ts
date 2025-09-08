@@ -14,9 +14,9 @@
 import { expect } from '@playwright/test';
 import * as fs from 'fs';
 
-import test from '../fixtures/fixtures.ts';
-import { isEnterpriseOrStaging, isLoggedIn, login, prepareNewPage, startDockerClient, stopDockerClient, tenantTokenRetrieval } from '../utils/commands.ts';
-import { emptyStorageState, selectors, spStoragePath, storageFolder, storagePath, switchTenantStoragePath, timeouts } from '../utils/constants.ts';
+import test from '../fixtures/fixtures';
+import { isEnterpriseOrStaging, isLoggedIn, login, prepareNewPage, startDockerClient, stopDockerClient, tenantTokenRetrieval } from '../utils/commands';
+import { emptyStorageState, selectors, spStoragePath, storageFolder, storagePath, switchTenantStoragePath, timeouts } from '../utils/constants';
 
 const pollDeployment = async ({
   location,

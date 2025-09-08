@@ -15,7 +15,7 @@ import * as fs from 'fs';
 import jsQR from 'jsqr';
 import { PNG } from 'pngjs';
 
-import test, { expect } from '../fixtures/fixtures.ts';
+import test, { expect } from '../../fixtures/fixtures';
 import {
   baseUrlToDomain,
   generateOtp,
@@ -26,8 +26,8 @@ import {
   processLoginForm,
   startClient,
   tenantTokenRetrieval
-} from '../utils/commands.ts';
-import { emptyStorageState, selectors, storagePath, timeouts } from '../utils/constants.ts';
+} from '../../utils/commands';
+import { emptyStorageState, selectors, storagePath, timeouts } from '../../utils/constants';
 
 test.describe('Settings', () => {
   test.describe('access token feature', () => {
