@@ -17,7 +17,8 @@ import { useSelector } from 'react-redux';
 import { Alert, Button, FormControl, FormControlLabel, FormHelperText, Radio, RadioGroup, TextField, Typography } from '@mui/material';
 
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
-import { ADDONS, Addon, AvailableAddon, AvailablePlans, PLANS, Plan } from '@northern.tech/store/appSlice/constants';
+import { AddonSelect } from '@northern.tech/common-ui/forms/AddonSelect';
+import { ADDONS, Addon, AddonId, AvailableAddon, AvailablePlans, PLANS, Plan } from '@northern.tech/store/appSlice/constants';
 import { getStripeKey } from '@northern.tech/store/appSlice/selectors';
 import { TIMEOUTS } from '@northern.tech/store/commonConstants';
 import { getDeviceLimit } from '@northern.tech/store/devicesSlice/selectors';
@@ -100,11 +101,13 @@ export const SubscriptionPage = () => {
     }
     dispatch(getCurrentCard());
     //We need to handle special enterprise-like agreements
-    dispatch(getUserSubscription()).unwrap().catch((error) => {
-      if (!isTrial && error.message && error.message.includes('404')){
-        setSpecialHandling(true)
-      }
-    });
+    dispatch(getUserSubscription())
+      .unwrap()
+      .catch(error => {
+        if (!isTrial && error.message && error.message.includes('404')) {
+          setSpecialHandling(true);
+        }
+      });
   }, [isTrial, dispatch]);
 
   //Loading stripe Component
@@ -235,7 +238,9 @@ export const SubscriptionPage = () => {
     setEnterpriseMessage('');
     onSendRequest(message, requestedAddons.join(', '));
   };
-
+  const onSelectEnterpriseAddon = (addons: AddonId[]) => {
+    setSelectedAddons(addons.reduce((acc, curr) => ({ ...acc, [curr]: true }), {}));
+  };
   const onSelectAddon = (addon: AvailableAddon, selected: boolean) => {
     setSelectedAddons({ ...selectedAddons, [addon]: selected });
   };
@@ -274,7 +279,7 @@ export const SubscriptionPage = () => {
               {Object.values(PLANS).map((plan, index) => (
                 <FormControlLabel
                   key={plan.id}
-                  disabled={(!isTrial && planOrder.indexOf(currentPlan) > index) && !specialHandling}
+                  disabled={!isTrial && planOrder.indexOf(currentPlan) > index && !specialHandling}
                   value={plan.id}
                   control={<Radio />}
                   label={plan.name}
@@ -285,7 +290,7 @@ export const SubscriptionPage = () => {
           <Typography variant="body2" style={{ minHeight: '56px' }}>
             {selectedPlan.description}
           </Typography>
-          {selectedPlan.id !== PLANS.enterprise.id && !specialHandling &&(
+          {selectedPlan.id !== PLANS.enterprise.id && !specialHandling && (
             <>
               <Typography variant="subtitle1" className="margin-top">
                 2. Set a device limit
@@ -307,23 +312,32 @@ export const SubscriptionPage = () => {
               </FormControl>
             </>
           )}
-          {contactReason && <ContactReasonAlert reason={contactReason} />}
+          {contactReason && selectedPlan.id !== PLANS.enterprise.id && <ContactReasonAlert reason={contactReason} />}
           <Typography variant="subtitle1" className="margin-top">
-            {(selectedPlan.id === PLANS.enterprise.id) || specialHandling ? 2 : 3}. Choose Add-ons
+            {selectedPlan.id === PLANS.enterprise.id || specialHandling ? 2 : 3}. Choose Add-ons
           </Typography>
           <div className="margin-top-x-small">
-            {Object.values(ADDONS).map(addon => (
-              <SubscriptionAddon
-                selectedPlan={selectedPlan}
-                key={addon.id}
-                addon={addon}
-                disabled={isAddonDisabled(addon) && !specialHandling}
-                checked={selectedAddons[addon.id]}
-                onChange={onSelectAddon}
+            {selectedPlan.id === PLANS.enterprise.id || specialHandling ? (
+              <AddonSelect
+                initialState={Object.entries(selectedAddons)
+                  .map(([key, enabled]) => (enabled ? (key as AvailableAddon) : ''))
+                  .filter(key => !!key)}
+                onChange={onSelectEnterpriseAddon}
               />
-            ))}
+            ) : (
+              Object.values(ADDONS).map(addon => (
+                <SubscriptionAddon
+                  selectedPlan={selectedPlan}
+                  key={addon.id}
+                  addon={addon}
+                  disabled={isAddonDisabled(addon) && !specialHandling}
+                  checked={selectedAddons[addon.id]}
+                  onChange={onSelectAddon}
+                />
+              ))
+            )}
           </div>
-          {enabledAddons.length > 0 && !isTrial && !specialHandling && (
+          {enabledAddons.length > 0 && !isTrial && !specialHandling && selectedPlan.id !== PLANS.enterprise.id && (
             <Typography variant="body2" className="margin-bottom">
               To remove active Add-ons from your plan, please contact <SupportLink variant="email" />
             </Typography>
