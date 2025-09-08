@@ -17,6 +17,7 @@ usage() {
     echo -e "\t--local-visual    \texecute tests in visual mode (implies --local)"
     echo -e "\t-f=<FILE>         \tspecify custom compose file(s); default files will not be used,"
     echo -e "\t--enterprise      \tuse enterprise"
+    echo -e "\t--qemu-client     \trun tests with qemu client instead of regular docker client"
     echo -e "\t                  \tmake sure to specify all files you need"
     echo ""
     echo -e "examples:"
@@ -52,6 +53,11 @@ parse_args(){
             --local-visual)
               LOCAL="yay"
               VISUAL="yay"
+              shift
+            ;;
+            --qemu-client)
+              export COMPOSE_FILE="${COMPOSE_FILE}:${GUI_REPOSITORY}/tests/e2e_tests/docker-compose.e2e-tests.rofs.yml"
+              export USE_QEMU_CLIENT=1
               shift
             ;;
             -f)
@@ -108,6 +114,11 @@ run_tests() {
         export TENANT_TOKEN
         # start a new client, using the obtained tenant token - starting it later (in the test suite) would require docker access in the test runner
         docker compose run -d client
+        clientContainerId=$(docker ps -q --filter "ancestor=mendersoftware/mender-client-qemu-rofs:mender-master" | head -1)
+        CLIENT_IP=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $clientContainerId)
+        echo "Client container found: ID: $clientContainerId, IP: $CLIENT_IP"
+        export CLIENT_IP
+
     else
       docker compose exec useradm /usr/bin/useradm \
         create-user \
@@ -117,18 +128,24 @@ run_tests() {
     declare retries=5
 
     if test -z "$LOCAL"; then
+        PLAYWRIGHT_CONFIG=""
+        if [[ $USE_QEMU_CLIENT -eq 1 ]]; then
+            PLAYWRIGHT_CONFIG="--config=playwright-qemu.config.ts --project=qemu-tests"
+        else
+            PLAYWRIGHT_CONFIG="--project=chromium"
+        fi
         # 'npm install && npx playwright install' are needed to help with updates
         # to the playwright packages as we rely on the prebuilt
         # mender-test-containers image
-        docker compose run gui-tests-runner \
-          /bin/sh -c '
-            npm i && 
+        docker compose run -e CLIENT_IP gui-tests-runner \
+          /bin/sh -c "
+            npm i &&
               if ! npx playwright install chromium > playwright-install.log 2>&1; then
-                echo "Playwright dependencies installation failed:"
+                echo 'Playwright dependencies installation failed:'
                 cat playwright-install.log
                 exit 1
               fi &&
-            npm run test -- --project=chromium'
+            npx playwright test $PLAYWRIGHT_CONFIG"
     else
         if test -z "$VISUAL"; then
           npm run test
@@ -144,6 +161,24 @@ cleanup(){
     logdir=${GUI_REPOSITORY}/logs
     tmppath=${logdir}/gui_e2e_tests.txt
     mkdir -p "$logdir"
+
+    # Capture client logs for debugging
+    echo "=== Container status ===" > "${logdir}/client-debug.log"
+    docker compose ps >> "${logdir}/client-debug.log" 2>&1 || true
+    echo "=== All containers ===" >> "${logdir}/client-debug.log"
+    docker ps -a | grep client >> "${logdir}/client-debug.log" 2>&1 || true
+
+    # Try multiple approaches to get client logs
+    echo "=== Client logs (compose) ===" > "${logdir}/client.log"
+    docker compose logs client >> "${logdir}/client.log" 2>&1 || true
+
+    # Try getting logs by container name/ID if compose service doesn't work
+    client_container=$(docker ps -a --format "{{.Names}}" | grep client | head -1)
+    if [ -n "$client_container" ]; then
+        echo "=== Client logs (container: $client_container) ===" >> "${logdir}/client.log"
+        docker logs "$client_container" >> "${logdir}/client.log" 2>&1 || true
+    fi
+
     test $rc -ne 0 && \
       echo "-- tests failed, dumping logs to $tmppath" && \
       docker compose logs > $tmppath

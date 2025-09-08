@@ -352,3 +352,75 @@ export const startIdpServer = ({ acsUrl = 'https://example.com/acs', metadataLoc
   );
 
 export const startWebhookServer = startServer;
+
+export const extractArtifactFromDevice = async (targetHost: string, outputPath: string): Promise<void> =>
+  new Promise((resolve, reject) => {
+    console.log(`Extracting artifact from QEMU at ${targetHost}:8822`);
+
+    const child = spawn('mender-artifact', [
+      'write',
+      'rootfs-image',
+      '--no-progress',
+      '--ssh-args',
+      '-o StrictHostKeyChecking=no',
+      '--ssh-args',
+      '-o UserKnownHostsFile=/dev/null',
+      '--ssh-args',
+      '-o ConnectTimeout=15',
+      '--ssh-args',
+      '-o ConnectionAttempts=3',
+      '--ssh-args',
+      '-p 8822',
+      '--artifact-name',
+      'snapshot-test',
+      '--device-type',
+      'qemux86-64',
+      '--output-path',
+      outputPath,
+      '--file',
+      `ssh://root@${targetHost}:8822`
+    ]);
+
+    child.stdout.on('data', data => console.log(`mender-artifact: ${data}`));
+    child.stderr.on('data', data => console.error(`mender-artifact: ${data}`));
+
+    child.on('error', err => reject(err));
+    child.on('close', code => {
+      if (code === 0) {
+        resolve();
+      } else {
+        reject(new Error(`mender-artifact failed with code ${code}`));
+      }
+    });
+  });
+
+export const modifyArtifactChecksum = async (inputPath: string, outputPath: string): Promise<void> =>
+  new Promise((resolve, reject) => {
+    fs.copyFileSync(inputPath, outputPath);
+
+    const child = spawn('mender-artifact', [
+      'modify',
+      '--provides',
+      `rootfs-image.checksum:${Date.now()}-modified`,
+      '--artifact-name',
+      'snapshot-modified',
+      outputPath
+    ]);
+
+    child.stdout.on('data', data => console.log(`mender-artifact modify stdout: ${data}`));
+    child.stderr.on('data', data => console.error(`mender-artifact modify stderr: ${data}`));
+
+    child.on('error', err => {
+      console.error(`mender-artifact modify error: ${err}`);
+      reject(err);
+    });
+
+    child.on('close', code => {
+      if (code === 0) {
+        console.log(`Artifact modification completed successfully`);
+        resolve();
+      } else {
+        reject(new Error(`mender-artifact modify process exited with code ${code}`));
+      }
+    });
+  });

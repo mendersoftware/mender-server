@@ -1,0 +1,18 @@
+services:
+  gui-tests-runner:
+    volumes:
+      - ${GUI_REPOSITORY}/tests/e2e_tests/playwright-qemu.config.ts:/e2e/playwright-qemu.config.ts
+
+  client:
+    image: mendersoftware/mender-client-qemu-rofs:mender-master
+    environment:
+      - SERVER_URL=https://docker.mender.io
+      - TENANT_TOKEN
+    ports:
+      - "8822:8822"  # Expose QEMU SSH port from container
+    hostname: qemu-client
+    networks:
+      default:
+        aliases:
+          - qemu-client
+          - client-device
