@@ -1,6 +1,6 @@
 attrs==25.3.0
 azure-iot-hub==2.7.0
-boto3==1.40.21
+boto3==1.40.24
 certifi==2025.8.3
 cffi==1.17.1
 chardet==5.2.0
@@ -19,7 +19,7 @@ pycparser==2.22
 pymongo==4.14.1
 pyotp==2.9.0
 pyparsing==3.2.3
-pytest==8.4.1
+pytest==8.4.2
 pytest-forked==1.6.0
 pytest-html==4.1.1
 pytest-httpserver==1.1.3
