@@ -17,6 +17,88 @@ import { HttpResponse, http } from 'msw';
 
 import { defaultState, releasesList } from '../mockData';
 
+const deltaJobs = {
+  'delta-job-1': {
+    id: 'delta-job-1',
+    to_release: 'mender-demo-artifact-3.3.1',
+    from_release: 'mender-demo-artifact-3.2.1',
+    to_version: 'mender-demo-artifact-3.3.1',
+    from_version: 'mender-demo-artifact-3.2.1',
+    device_types_compatible: ['qemux86-64'],
+    started: '2022-07-11T20:49:00.000Z',
+    status: 'success'
+  },
+  'delta-job-2': {
+    id: 'delta-job-2',
+    to_release: 'mender-demo-artifact-3.3.1',
+    from_release: 'mender-demo-artifact-3.3.0',
+    to_version: 'mender-demo-artifact-3.3.1',
+    from_version: 'mender-demo-artifact-3.3.0',
+    device_types_compatible: ['raspberrypi0w', 'raspberrypi0-wifi', 'raspberrypi3', 'raspberrypi4'],
+    started: '2022-07-11T20:49:00.000Z',
+    status: 'failed'
+  },
+  'delta-job-3': {
+    id: 'delta-job-3',
+    to_release: 'mender-demo-artifact-3.3.1',
+    from_release: 'mender-demo-artifact-3.3.0',
+    to_version: 'mender-demo-artifact-3.3.1',
+    from_version: 'mender-demo-artifact-3.3.0',
+    device_types_compatible: ['beaglebone', 'beaglebone-yocto', 'beaglebone-yocto'],
+    started: '2022-07-11T20:49:00.000Z',
+    status: 'pending'
+  },
+  'delta-job-4': {
+    id: 'delta-job-4',
+    to_release: 'mender-demo-artifact-3.2.0',
+    from_release: 'mender-demo-artifact-3.1.0',
+    to_version: 'mender-demo-artifact-3.2.0',
+    from_version: 'mender-demo-artifact-3.1.0',
+    device_types_compatible: ['qemux86-64'],
+    started: '2022-07-10T15:30:00.000Z',
+    status: 'artifact_uploaded'
+  }
+};
+
+const mockDeltaJobDetails = {
+  'delta-job-1': {
+    ...deltaJobs['delta-job-1'],
+    delta_artifact_size: 1024000,
+    deployment_id: 'd1',
+    devices_types_compatible: ['qemux86-64'],
+    exit_code: 0,
+    log: 'Delta generation started at 2022-07-11T20:49:00.000Z\nProcessing artifacts...\nDelta generation completed successfully at 2022-07-11T20:52:15.000Z',
+    to_artifact_size: 2048000
+  },
+  'delta-job-2': {
+    ...deltaJobs['delta-job-2'],
+    delta_artifact_size: null,
+    deployment_id: 'd2',
+    devices_types_compatible: ['raspberrypi0w', 'raspberrypi0-wifi', 'raspberrypi3', 'raspberrypi4'],
+    exit_code: 1,
+    log: 'Delta generation started at 2022-07-11T20:49:00.000Z\nError: incompatible artifact types\nDelta generation failed at 2022-07-11T20:51:30.000Z',
+    to_artifact_size: 3072000
+  },
+  'delta-job-3': {
+    ...deltaJobs['delta-job-3'],
+    delta_artifact_size: null,
+    deployment_id: 'd3',
+    devices_types_compatible: ['beaglebone', 'beaglebone-yocto'],
+    exit_code: null,
+    log: 'Delta generation started at 2022-07-11T20:49:00.000Z\nQueued for processing...',
+    to_artifact_size: 2560000
+  },
+  'delta-job-4': {
+    ...deltaJobs['delta-job-4'],
+    delta_artifact_size: 512000,
+    deployment_id: 'd1',
+    devices_types_compatible: ['qemux86-64'],
+    exit_code: 0,
+    log: 'Delta generation started at 2022-07-10T15:30:00.000Z\nProcessing artifacts...\nArtifact uploaded successfully at 2022-07-10T15:45:20.000Z',
+    to_artifact_size: 1536000
+  }
+};
+
 export const releaseHandlers = [
   http.get(`${deploymentsApiUrl}/artifacts/:id`, () => new HttpResponse(null, { status: 200 })),
   http.get(`${deploymentsApiUrl}/artifacts/:id/download`, () => HttpResponse.json({ uri: 'https://testlocation.com/artifact.mender' })),
@@ -72,5 +154,16 @@ export const releaseHandlers = [
   http.patch(`${deploymentsApiUrlV2}/deployments/releases/:name`, async ({ params: { name }, request }) => {
     const { notes } = await request.json();
     return new HttpResponse(null, { status: name && notes.length ? 200 : 594 });
+  }),
+  http.get(`${deploymentsApiUrlV2}/deployments/releases/delta/jobs`, () => {
+    const jobs = Object.values(deltaJobs);
+    return new HttpResponse(JSON.stringify(jobs), { headers: { [headerNames.total]: jobs.length } });
+  }),
+  http.get(`${deploymentsApiUrlV2}/deployments/releases/delta/jobs/:jobId`, ({ params: { jobId } }) => {
+    const jobDetails = mockDeltaJobDetails[jobId];
+    if (jobDetails) {
+      return HttpResponse.json(jobDetails);
+    }
+    return new HttpResponse(null, { status: 404 });
   })
 ];

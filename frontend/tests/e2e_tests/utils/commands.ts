@@ -23,9 +23,9 @@ import { PNG } from 'pngjs';
 import { fileURLToPath } from 'url';
 import { v4 as uuid } from 'uuid';
 
-import type { TestEnvironment } from '../fixtures/fixtures.ts';
-import { emptyStorageState, selectors, storagePath, timeouts } from './constants.ts';
-import { startServer } from './webhookListener.ts';
+import type { TestEnvironment } from '../fixtures/fixtures';
+import { emptyStorageState, selectors, storagePath, timeouts } from './constants';
+import { startServer } from './webhookListener';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

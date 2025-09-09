@@ -1,0 +1,21 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`DeltaProgress Component > renders correctly 1`] = `
+"<div>
+  <div
+    class="dashboard-placeholder "
+    style="display: grid; place-content: center;"
+  >
+    <div>
+      This feature is not available on your plan. 
+      <a
+        data-discover="true"
+        href="/subscription"
+      >
+        Upgrade
+      </a>
+       to enable it
+    </div>
+  </div>
+</div>"
+`;

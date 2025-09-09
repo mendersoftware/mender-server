@@ -17,6 +17,7 @@ usage() {
     echo -e "\t--local-visual    \texecute tests in visual mode (implies --local)"
     echo -e "\t-f=<FILE>         \tspecify custom compose file(s); default files will not be used,"
     echo -e "\t--enterprise      \tuse enterprise"
+    echo -e "\t--qemu-client     \trun tests with qemu client instead of regular docker client"
     echo -e "\t                  \tmake sure to specify all files you need"
     echo ""
     echo -e "examples:"
@@ -52,6 +53,11 @@ parse_args(){
             --local-visual)
               LOCAL="yay"
               VISUAL="yay"
+              shift
+            ;;
+            --qemu-client)
+              export COMPOSE_FILE="${COMPOSE_FILE}:${GUI_REPOSITORY}/tests/e2e_tests/docker-compose.e2e-tests.rofs.yml"
+              export USE_QEMU_CLIENT=1
               shift
             ;;
             -f)
@@ -117,18 +123,24 @@ run_tests() {
     declare retries=5
 
     if test -z "$LOCAL"; then
+        PLAYWRIGHT_CONFIG=""
+        if [[ $USE_QEMU_CLIENT -eq 1 ]]; then
+            PLAYWRIGHT_CONFIG="--config=playwright-qemu.config.ts --project=qemu-tests"
+        else
+            PLAYWRIGHT_CONFIG="--project=chromium"
+        fi
         # 'npm install && npx playwright install' are needed to help with updates
         # to the playwright packages as we rely on the prebuilt
         # mender-test-containers image
         docker compose run gui-tests-runner \
-          /bin/sh -c '
-            npm i && 
+          /bin/sh -c "
+            npm i &&
               if ! npx playwright install chromium > playwright-install.log 2>&1; then
-                echo "Playwright dependencies installation failed:"
+                echo 'Playwright dependencies installation failed:'
                 cat playwright-install.log
                 exit 1
               fi &&
-            npm run test -- --project=chromium'
+            npx playwright test $PLAYWRIGHT_CONFIG"
     else
         if test -z "$VISUAL"; then
           npm run test

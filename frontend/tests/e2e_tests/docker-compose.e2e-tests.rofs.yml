@@ -1,0 +1,3 @@
+services:
+  client:
+    image: mendersoftware/mender-client-qemu-rofs:mender-master

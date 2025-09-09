@@ -15,7 +15,7 @@ import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { AutoAwesomeOutlined as AutoAwesomeIcon } from '@mui/icons-material';
+import { AutoAwesomeOutlined as AutoAwesomeIcon, Edit as EditIcon } from '@mui/icons-material';
 import {
   Button,
   Checkbox,
@@ -50,7 +50,6 @@ import {
 } from '@northern.tech/store/selectors';
 import { changeNotificationSetting, getDeviceAttributes, getGlobalSettings, saveGlobalSettings } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
-import { yes } from '@northern.tech/utils/helpers';
 
 import ArtifactGenerationSettings from './ArtifactGeneration';
 
@@ -259,10 +258,16 @@ export const GlobalSettingsDialog = ({
         {canManageReleases && (
           <div>
             <div className="flexbox center-aligned">
-              <ToggleSetting title="Delta Artifacts generation" disabled onClick={yes} value={hasDeltaArtifactGeneration} />
+              <Typography variant="subtitle1">Delta Artifacts generation</Typography>
               <EnterpriseNotification className="margin-left-small" id={BENEFITS.deltaGeneration.id} />
             </div>
-            <Button className="margin-top-small" disabled={!(isEnterprise && hasDeltaArtifactGeneration)} onClick={onEditDeltaClick} variant="outlined">
+            <Button
+              className="margin-top-x-small"
+              disabled={!(isEnterprise && hasDeltaArtifactGeneration)}
+              onClick={onEditDeltaClick}
+              variant="text"
+              endIcon={<EditIcon />}
+            >
               Edit configuration
             </Button>
             {!isEnterprise && (
