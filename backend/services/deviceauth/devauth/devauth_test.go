@@ -36,8 +36,6 @@ import (
 	minv "github.com/mendersoftware/mender-server/services/deviceauth/client/inventory/mocks"
 	"github.com/mendersoftware/mender-server/services/deviceauth/client/orchestrator"
 	morchestrator "github.com/mendersoftware/mender-server/services/deviceauth/client/orchestrator/mocks"
-	"github.com/mendersoftware/mender-server/services/deviceauth/client/tenant"
-	mtenant "github.com/mendersoftware/mender-server/services/deviceauth/client/tenant/mocks"
 	"github.com/mendersoftware/mender-server/services/deviceauth/jwt"
 	mjwt "github.com/mendersoftware/mender-server/services/deviceauth/jwt/mocks"
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
@@ -59,7 +57,6 @@ func TestHealthCheck(t *testing.T) {
 		DataStoreError error
 		InventoryError error
 		WorkflowsError error
-		TenantAdmError error
 	}{{
 		Name: "ok",
 	}, {
@@ -74,10 +71,6 @@ func TestHealthCheck(t *testing.T) {
 	}, {
 		Name:           "error, workflows",
 		WorkflowsError: errors.New("connection error"),
-	}, {
-		Name:           "error, tenantadm",
-		MultiTenant:    true,
-		TenantAdmError: errors.New("connection error"),
 	}}
 
 	for _, tc := range testCases {
@@ -86,20 +79,12 @@ func TestHealthCheck(t *testing.T) {
 			defer cancel()
 
 			db := &mstore.DataStore{}
-			ta := &mtenant.ClientRunner{}
 			wf := &morchestrator.ClientRunner{}
 			inv := &minv.Client{}
 			devauth := NewDevAuth(db, wf, nil, Config{})
 			devauth.invClient = inv
 			switch {
 			default:
-				fallthrough
-			case tc.TenantAdmError != nil:
-				if tc.MultiTenant {
-					ta.On("CheckHealth", ctx).
-						Return(tc.TenantAdmError)
-					devauth.WithTenantVerification(ta)
-				}
 				fallthrough
 			case tc.WorkflowsError != nil:
 				wf.On("CheckHealth", ctx).
@@ -131,18 +116,12 @@ func TestHealthCheck(t *testing.T) {
 					"Workflows service unhealthy: "+
 						tc.WorkflowsError.Error(),
 				)
-			case tc.TenantAdmError != nil:
-				assert.EqualError(t, err,
-					"Tenantadm service unhealthy: "+
-						tc.TenantAdmError.Error(),
-				)
 			default:
 				assert.NoError(t, err)
 			}
 			db.AssertExpectations(t)
 			inv.AssertExpectations(t)
 			wf.AssertExpectations(t)
-			ta.AssertExpectations(t)
 		})
 	}
 }
@@ -191,10 +170,6 @@ func TestDevAuthSubmitAuthRequest(t *testing.T) {
 		addAuthSetErr error
 
 		devAdmErr error
-
-		tenantVerify                 bool
-		tenantVerificationErr        error
-		tenantVerificationDefaultErr error
 
 		config Config
 
@@ -311,17 +286,6 @@ func TestDevAuthSubmitAuthRequest(t *testing.T) {
 			err: errors.New("failed to locate device auth set"),
 		},
 		{
-			//new device - tenant token verification failed
-			desc: "new device, tenant token verification fail",
-
-			inReq: req,
-
-			err: errors.New("dev auth: unauthorized: tenant token verification failed: account suspended"),
-
-			tenantVerify:          true,
-			tenantVerificationErr: errors.New("tenant token verification failed: account suspended"),
-		},
-		{
 			//new device - valid default tenant token present, but given tenant token verification failed
 			desc: "new device, valid default tenant token present, but given tenant token verification fail",
 
@@ -339,54 +303,9 @@ func TestDevAuthSubmitAuthRequest(t *testing.T) {
 			addDeviceErr:  store.ErrObjectExists,
 			addAuthSetErr: store.ErrObjectExists,
 
-			tenantVerify:          true,
-			tenantVerificationErr: errors.New("tenant not found"),
-
 			updateDeviceStatus: true,
 
 			err: ErrDevAuthUnauthorized,
-		},
-		{
-			//new device - both given and default tenant token verification fail
-			desc: "new device, both given and default tenant token verification fail",
-
-			inReq: req,
-
-			config: Config{
-				DefaultTenantToken: "bogustoken",
-			},
-
-			err: errors.New("dev auth: unauthorized: tenant token verification failed: account suspended"),
-
-			tenantVerify:                 true,
-			tenantVerificationErr:        errors.New("tenant token verification failed: account suspended"),
-			tenantVerificationDefaultErr: errors.New("tenant token verification failed: account suspended"),
-		},
-		{
-			//new device - tenant token verification failed because of other reasons
-			desc: "new device, tenant token other fail",
-
-			inReq: req,
-
-			err: errors.New("request to verify tenant token failed: something something failed"),
-
-			tenantVerify:          true,
-			tenantVerificationErr: errors.New("something something failed"),
-		},
-		{
-			//new device - tenant token required but not provided
-			desc: "new device, missing but required tenant token",
-
-			inReq: model.AuthReq{
-				IdData:      idData,
-				TenantToken: "",
-				PubKey:      pubKey,
-			},
-
-			err: MakeErrDevAuthUnauthorized(errors.New("tenant token missing")),
-
-			tenantVerify:          true,
-			tenantVerificationErr: errors.New("should not be called"),
 		},
 		{
 			// a known device with a correct tenant token
@@ -406,7 +325,6 @@ func TestDevAuthSubmitAuthRequest(t *testing.T) {
 			addDeviceErr:  store.ErrObjectExists,
 			addAuthSetErr: store.ErrObjectExists,
 
-			tenantVerify:       true,
 			updateDeviceStatus: true,
 
 			err: ErrDevAuthUnauthorized,
@@ -432,7 +350,6 @@ func TestDevAuthSubmitAuthRequest(t *testing.T) {
 			addDeviceErr:  store.ErrObjectExists,
 			addAuthSetErr: store.ErrObjectExists,
 
-			tenantVerify:       true,
 			updateDeviceStatus: true,
 
 			err: ErrDevAuthUnauthorized,
@@ -472,7 +389,6 @@ func TestDevAuthSubmitAuthRequest(t *testing.T) {
 			getDevByIdKey: pubKey,
 			getDevByKeyId: devId,
 
-			tenantVerify:          true,
 			updateDeviceStatus:    true,
 			updateDeviceInventory: true,
 
@@ -504,7 +420,6 @@ func TestDevAuthSubmitAuthRequest(t *testing.T) {
 			getDevByIdKey: pubKey,
 			getDevByKeyId: devId,
 
-			tenantVerify:          true,
 			updateDeviceStatus:    true,
 			updateDeviceInventory: true,
 
@@ -521,17 +436,6 @@ func TestDevAuthSubmitAuthRequest(t *testing.T) {
 
 			// match context in mocks
 			ctxMatcher := mtesting.ContextMatcher()
-
-			if tc.tenantVerify {
-				// context must carry identity information if
-				// tenant verification is enabled, also it must
-				// be set up with http Authorization header to
-				// use in outgoing requests (via
-				// go-lib-micro/context/httpheader packaage)
-				ctxMatcher = mock.MatchedBy(func(c context.Context) bool {
-					return assert.NotNil(t, identity.FromContext(c))
-				})
-			}
 
 			db := mstore.DataStore{}
 			db.On("AddDevice",
@@ -624,11 +528,7 @@ func TestDevAuthSubmitAuthRequest(t *testing.T) {
 					t.Logf("token: %v", jt)
 					devUUID := oid.FromString(devId)
 					return assert.NotNil(t, jt) &&
-						assert.Equal(t, devUUID, jt.Claims.Subject) &&
-						(tc.tenantVerify == false ||
-							assert.Equal(t, "foobar", jt.Claims.Tenant)) &&
-						(tc.tenantVerify == false ||
-							assert.Equal(t, tc.trial, jt.Claims.Trial))
+						assert.Equal(t, devUUID, jt.Claims.Subject)
 				})).
 				Return("dummytoken", nil)
 
@@ -650,27 +550,6 @@ func TestDevAuthSubmitAuthRequest(t *testing.T) {
 			}
 
 			devauth := NewDevAuth(&db, &co, &jwth, tc.config)
-
-			if tc.tenantVerify {
-				ct := mtenant.ClientRunner{}
-				if tc.inReq.TenantToken != "" {
-					ct.On("VerifyToken",
-						mtesting.ContextMatcher(),
-						tc.inReq.TenantToken).
-						Return(
-							&tenant.Tenant{ID: "foobar", Trial: tc.trial},
-							tc.tenantVerificationErr)
-				}
-				if tc.config.DefaultTenantToken != "" {
-					ct.On("VerifyToken",
-						mtesting.ContextMatcher(),
-						tc.config.DefaultTenantToken).
-						Return(
-							&tenant.Tenant{},
-							tc.tenantVerificationDefaultErr)
-				}
-				devauth = devauth.WithTenantVerification(&ct)
-			}
 
 			res, err := devauth.SubmitAuthRequest(ctx, &tc.inReq)
 
@@ -1853,7 +1732,6 @@ func TestDevAuthVerifyToken(t *testing.T) {
 
 		updateDeviceErr error
 
-		tenantVerify       bool
 		willUpdateDevice   bool
 		jwtHandlerFallback bool
 	}{
@@ -1965,22 +1843,6 @@ func TestDevAuthVerifyToken(t *testing.T) {
 					Subject: oid.NewUUIDv5("foo"),
 				},
 			},
-
-			tenantVerify: true,
-		},
-		{
-			tokenString:     "missing-tenant-claim",
-			tokenOtherError: jwt.ErrTokenInvalid,
-
-			jwToken: &jwt.Token{
-				Claims: jwt.Claims{
-					ID:      oid.NewUUIDv5("missing-tenant"),
-					Subject: oid.NewUUIDv5("foo"),
-					Device:  true,
-				},
-			},
-
-			tenantVerify: true,
 		},
 		{
 			tokenString: "with fallback",
@@ -2047,10 +1909,6 @@ func TestDevAuthVerifyToken(t *testing.T) {
 				jaFallback.On("Validate", tc.tokenString).Return(tc.fallbackValidateErr)
 
 				devauth = devauth.WithJWTFallbackHandler(jaFallback)
-			}
-			if tc.tenantVerify {
-				// ok to pass nil tenantadm client here
-				devauth = devauth.WithTenantVerification(nil)
 			}
 
 			ja.On("FromJWT", tc.tokenString).Return(
@@ -2119,7 +1977,6 @@ func TestDevAuthVerifyTokenWithCache(t *testing.T) {
 	token := &jwt.Token{
 		Claims: jwt.Claims{
 			Subject: oid.NewUUIDv5("device"),
-			Tenant:  "tenant",
 			Device:  true,
 			ExpiresAt: jwt.Time{
 				Time: time.Unix(nowUnix+1000, 0),
@@ -2145,7 +2002,6 @@ func TestDevAuthVerifyTokenWithCache(t *testing.T) {
 		dev          *model.Device
 		getDeviceErr error
 
-		tenant       *tenant.Tenant
 		getTenantErr error
 
 		cacheTokenErr  error
@@ -2179,21 +2035,6 @@ func TestDevAuthVerifyTokenWithCache(t *testing.T) {
 			willGetCheckInTime:   true,
 			willCacheCheckInTime: true,
 			willUpdateDevice:     true,
-		},
-		"token cached, but limits exceeded - early return": {
-			tokenString: "valid",
-			cachedToken: "valid",
-			throttleErr: cache.ErrTooManyRequests,
-
-			cacheGetLimits:    &ratelimits.ApiLimits{},
-			cacheGetLimitsErr: nil,
-
-			willVerifyDb:   false,
-			willCacheToken: false,
-
-			outErr: cache.ErrTooManyRequests,
-
-			willCallThrottle: true,
 		},
 		"throttle transient error - swallow error, proceed with standard db verification flow: success, cache token": {
 			tokenString: "valid",
@@ -2259,163 +2100,9 @@ func TestDevAuthVerifyTokenWithCache(t *testing.T) {
 
 			willCallThrottle: true,
 		},
-		"limits not in cache, db/service hit for limits (success)": {
-			tokenString: "valid",
-			cachedToken: "valid",
-
-			cacheGetLimits:    nil,
-			cacheGetLimitsErr: nil,
-
-			dev: &model.Device{
-				ApiLimits: ratelimits.ApiLimits{
-					ApiBursts: []ratelimits.ApiBurst{},
-				},
-			},
-			tenant: &tenant.Tenant{
-				ApiLimits: tenant.TenantApiLimits{
-					DeviceLimits: ratelimits.ApiLimits{
-						ApiBursts: []ratelimits.ApiBurst{},
-					},
-				},
-			},
-
-			willCallThrottle:     true,
-			willVerifyDb:         false,
-			willCacheToken:       false,
-			willFetchLimits:      true,
-			willGetCheckInTime:   true,
-			willCacheCheckInTime: true,
-			willUpdateDevice:     true,
-		},
-		"limits mgmt errors won't stop processing - 'get cached limits' failed": {
-			tokenString: "valid",
-
-			cacheGetLimits:    nil,
-			cacheGetLimitsErr: errors.New("internal"),
-
-			auth: &model.AuthSet{
-				Id:     oid.NewUUIDv5("foo").String(),
-				Status: model.DevStatusAccepted,
-			},
-
-			dev: &model.Device{
-				ApiLimits: ratelimits.ApiLimits{
-					ApiBursts: []ratelimits.ApiBurst{},
-				},
-			},
-
-			tenant: &tenant.Tenant{
-				ApiLimits: tenant.TenantApiLimits{
-					DeviceLimits: ratelimits.ApiLimits{
-						ApiBursts: []ratelimits.ApiBurst{},
-					},
-				},
-			},
-
-			willCallThrottle:     false,
-			willVerifyDb:         true,
-			willCacheToken:       true,
-			willFetchLimits:      false,
-			willGetCheckInTime:   true,
-			willCacheCheckInTime: true,
-			willUpdateDevice:     true,
-		},
-		"limits mgmt errors won't stop processing - 'get tenant' failed": {
-			tokenString: "valid",
-
-			cacheGetLimits:    nil,
-			cacheGetLimitsErr: nil,
-
-			auth: &model.AuthSet{
-				Id:     oid.NewUUIDv5("foo").String(),
-				Status: model.DevStatusAccepted,
-			},
-
-			dev: &model.Device{
-				ApiLimits: ratelimits.ApiLimits{
-					ApiBursts: []ratelimits.ApiBurst{},
-				},
-			},
-
-			getTenantErr: errors.New("internal error"),
-
-			willCallThrottle:     false,
-			willVerifyDb:         true,
-			willCacheToken:       true,
-			willFetchLimits:      true,
-			willGetCheckInTime:   true,
-			willCacheCheckInTime: true,
-			willUpdateDevice:     true,
-		},
-		"limits mgmt errors won't stop processing - tenant not found": {
-			tokenString: "valid",
-
-			cacheGetLimits:    nil,
-			cacheGetLimitsErr: nil,
-
-			auth: &model.AuthSet{
-				Id:     oid.NewUUIDv5("foo").String(),
-				Status: model.DevStatusAccepted,
-			},
-
-			dev: &model.Device{
-				ApiLimits: ratelimits.ApiLimits{
-					ApiBursts: []ratelimits.ApiBurst{},
-				},
-			},
-
-			getTenantErr: errors.New("internal error"),
-
-			checkInTime:       nil,
-			getCheckInTimeErr: nil,
-
-			willCallThrottle:     false,
-			willVerifyDb:         true,
-			willCacheToken:       true,
-			willFetchLimits:      true,
-			willGetCheckInTime:   true,
-			willCacheCheckInTime: true,
-			willUpdateDevice:     true,
-		},
-		"limits mgmt errors won't stop processing - 'cache limits' failed": {
-			tokenString: "valid",
-
-			cacheGetLimits:    nil,
-			cacheGetLimitsErr: nil,
-
-			auth: &model.AuthSet{
-				Id:     oid.NewUUIDv5("foo").String(),
-				Status: model.DevStatusAccepted,
-			},
-
-			dev: &model.Device{
-				ApiLimits: ratelimits.ApiLimits{
-					ApiBursts: []ratelimits.ApiBurst{},
-				},
-			},
-
-			tenant: &tenant.Tenant{
-				ApiLimits: tenant.TenantApiLimits{
-					DeviceLimits: ratelimits.ApiLimits{
-						ApiBursts: []ratelimits.ApiBurst{},
-					},
-				},
-			},
-
-			cacheLimitsErr: errors.New("redis error"),
-
-			willCallThrottle:     false,
-			willVerifyDb:         true,
-			willCacheToken:       true,
-			willFetchLimits:      true,
-			willGetCheckInTime:   true,
-			willCacheCheckInTime: true,
-			willUpdateDevice:     true,
-		},
 	}
 
 	for n, tc := range testCases {
-		tc := tc
 		t.Run(fmt.Sprintf("tc %s", n), func(t *testing.T) {
 			t.Parallel()
 
@@ -2428,9 +2115,7 @@ func TestDevAuthVerifyTokenWithCache(t *testing.T) {
 
 			devauth := NewDevAuth(db, co, ja, Config{})
 			devauth = devauth.WithCache(c)
-			tclient := &mtenant.ClientRunner{}
 
-			devauth = devauth.WithTenantVerification(tclient)
 			devauth = devauth.WithClock(mclock)
 
 			co.On("SubmitUpdateDeviceInventoryJob", ctx,
@@ -2444,12 +2129,6 @@ func TestDevAuthVerifyTokenWithCache(t *testing.T) {
 				}, nil)
 
 			ja.On("Validate", tc.tokenString).Return(nil)
-
-			c.On("GetLimits",
-				ctx,
-				token.Claims.Tenant,
-				token.Claims.Subject.String(),
-				cache.IdTypeDevice).Return(tc.cacheGetLimits, tc.cacheGetLimitsErr)
 
 			if tc.willGetCheckInTime {
 				c.On("GetCheckInTime",
@@ -2476,7 +2155,6 @@ func TestDevAuthVerifyTokenWithCache(t *testing.T) {
 				c.On("Throttle",
 					ctx,
 					tc.tokenString,
-					mock.AnythingOfType("ratelimits.ApiLimits"),
 					token.Claims.Tenant,
 					token.Claims.Subject.String(),
 					cache.IdTypeDevice,
@@ -2515,28 +2193,8 @@ func TestDevAuthVerifyTokenWithCache(t *testing.T) {
 			if tc.willFetchLimits {
 				db.On("GetDeviceById", ctx,
 					token.Claims.Subject.String()).Return(tc.dev, tc.getDeviceErr)
-
-				if tc.getDeviceErr == nil {
-					tclient.On("GetTenant",
-						ctx,
-						token.Claims.Tenant).
-						Return(tc.tenant, tc.getTenantErr)
-				}
-
-				if tc.getDeviceErr == nil && tc.getTenantErr == nil {
-					c.On("CacheLimits",
-						ctx,
-						apiLimitsOverride(tc.dev.ApiLimits, tc.tenant.ApiLimits.DeviceLimits),
-						token.Claims.Tenant,
-						token.Claims.Subject.String(),
-						cache.IdTypeDevice).Return(tc.cacheLimitsErr)
-				} else {
-					c.AssertNotCalled(t, "CacheLimits")
-				}
 			} else {
 				db.AssertNotCalled(t, "GetDeviceById")
-				tclient.AssertNotCalled(t, "GetTenant")
-				c.AssertNotCalled(t, "CacheLimits")
 			}
 			if tc.willUpdateDevice {
 				db.On("UpdateDevice", ctx,
@@ -3539,227 +3197,6 @@ func TestGetTenantDeviceStatus(t *testing.T) {
 				assert.NoError(t, err)
 				assert.Equal(t, tc.outStatus, *status)
 			}
-		})
-	}
-}
-
-func TestApiLimitsOverride(t *testing.T) {
-	t.Parallel()
-
-	testCases := []struct {
-		base     ratelimits.ApiLimits
-		override ratelimits.ApiLimits
-
-		out ratelimits.ApiLimits
-	}{
-		{
-			// some values over defaults - all overriden
-			base: ratelimits.ApiLimits{
-				ApiQuota:  ratelimits.ApiQuota{},
-				ApiBursts: []ratelimits.ApiBurst{},
-			},
-			override: ratelimits.ApiLimits{
-				ApiQuota: ratelimits.ApiQuota{
-					MaxCalls:    100,
-					IntervalSec: 60,
-				},
-				ApiBursts: []ratelimits.ApiBurst{
-					{
-						Action:         "POST",
-						Uri:            "deployments/next",
-						MinIntervalSec: 10,
-					},
-				},
-			},
-			out: ratelimits.ApiLimits{
-				ApiQuota: ratelimits.ApiQuota{
-					MaxCalls:    100,
-					IntervalSec: 60,
-				},
-				ApiBursts: []ratelimits.ApiBurst{
-					{
-						Action:         "POST",
-						Uri:            "deployments/next",
-						MinIntervalSec: 10,
-					},
-				},
-			},
-		},
-		{
-			// defaults over some values - none overriden
-			base: ratelimits.ApiLimits{
-				ApiQuota: ratelimits.ApiQuota{
-					MaxCalls:    100,
-					IntervalSec: 60,
-				},
-				ApiBursts: []ratelimits.ApiBurst{
-					{
-						Action:         "POST",
-						Uri:            "deployments/next",
-						MinIntervalSec: 10,
-					},
-				},
-			},
-			override: ratelimits.ApiLimits{
-				ApiQuota:  ratelimits.ApiQuota{},
-				ApiBursts: []ratelimits.ApiBurst{},
-			},
-			out: ratelimits.ApiLimits{
-				ApiQuota: ratelimits.ApiQuota{
-					MaxCalls:    100,
-					IntervalSec: 60,
-				},
-				ApiBursts: []ratelimits.ApiBurst{
-					{
-						Action:         "POST",
-						Uri:            "deployments/next",
-						MinIntervalSec: 10,
-					},
-				},
-			},
-		},
-		{
-			// override particular burst
-			base: ratelimits.ApiLimits{
-				ApiQuota: ratelimits.ApiQuota{
-					MaxCalls:    10,
-					IntervalSec: 3600,
-				},
-				ApiBursts: []ratelimits.ApiBurst{
-					{
-						Action:         "POST",
-						Uri:            "deployments/next",
-						MinIntervalSec: 10,
-					},
-				},
-			},
-			override: ratelimits.ApiLimits{
-				ApiBursts: []ratelimits.ApiBurst{
-					{
-						Action:         "POST",
-						Uri:            "deployments/next",
-						MinIntervalSec: 100,
-					},
-				},
-			},
-			out: ratelimits.ApiLimits{
-				ApiQuota: ratelimits.ApiQuota{
-					MaxCalls:    10,
-					IntervalSec: 3600,
-				},
-				ApiBursts: []ratelimits.ApiBurst{
-					{
-						Action:         "POST",
-						Uri:            "deployments/next",
-						MinIntervalSec: 100,
-					},
-				},
-			},
-		},
-		{
-			// add burst
-			base: ratelimits.ApiLimits{
-				ApiQuota: ratelimits.ApiQuota{
-					MaxCalls:    10,
-					IntervalSec: 3600,
-				},
-				ApiBursts: []ratelimits.ApiBurst{
-					{
-						Action:         "POST",
-						Uri:            "deployments/next",
-						MinIntervalSec: 10,
-					},
-				},
-			},
-			override: ratelimits.ApiLimits{
-				ApiBursts: []ratelimits.ApiBurst{
-					{
-						Action:         "PATCH",
-						Uri:            "inventory/attributes",
-						MinIntervalSec: 60,
-					},
-				},
-			},
-			out: ratelimits.ApiLimits{
-				ApiQuota: ratelimits.ApiQuota{
-					MaxCalls:    10,
-					IntervalSec: 3600,
-				},
-				ApiBursts: []ratelimits.ApiBurst{
-					{
-						Action:         "POST",
-						Uri:            "deployments/next",
-						MinIntervalSec: 10,
-					},
-					{
-						Action:         "PATCH",
-						Uri:            "inventory/attributes",
-						MinIntervalSec: 60,
-					},
-				},
-			},
-		},
-		{
-			// override and add burst
-			base: ratelimits.ApiLimits{
-				ApiQuota: ratelimits.ApiQuota{
-					MaxCalls:    10,
-					IntervalSec: 3600,
-				},
-				ApiBursts: []ratelimits.ApiBurst{
-					{
-						Action:         "POST",
-						Uri:            "deployments/next",
-						MinIntervalSec: 10,
-					},
-				},
-			},
-			override: ratelimits.ApiLimits{
-				ApiQuota: ratelimits.ApiQuota{
-					MaxCalls:    100,
-					IntervalSec: 60,
-				},
-				ApiBursts: []ratelimits.ApiBurst{
-					{
-						Action:         "POST",
-						Uri:            "deployments/next",
-						MinIntervalSec: 100,
-					},
-					{
-						Action:         "PATCH",
-						Uri:            "inventory/attributes",
-						MinIntervalSec: 60,
-					},
-				},
-			},
-			out: ratelimits.ApiLimits{
-				ApiQuota: ratelimits.ApiQuota{
-					MaxCalls:    100,
-					IntervalSec: 60,
-				},
-				ApiBursts: []ratelimits.ApiBurst{
-					{
-						Action:         "POST",
-						Uri:            "deployments/next",
-						MinIntervalSec: 100,
-					},
-					{
-						Action:         "PATCH",
-						Uri:            "inventory/attributes",
-						MinIntervalSec: 60,
-					},
-				},
-			},
-		},
-	}
-
-	for n := range testCases {
-		tc := testCases[n]
-		t.Run(fmt.Sprintf("tc %d", n), func(t *testing.T) {
-			t.Parallel()
-
-			out := apiLimitsOverride(tc.base, tc.override)
-			assert.Equal(t, tc.out, out)
 		})
 	}
 }

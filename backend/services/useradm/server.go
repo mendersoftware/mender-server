@@ -33,7 +33,6 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/redis"
 
 	api_http "github.com/mendersoftware/mender-server/services/useradm/api/http"
-	"github.com/mendersoftware/mender-server/services/useradm/client/tenant"
 	"github.com/mendersoftware/mender-server/services/useradm/common"
 	. "github.com/mendersoftware/mender-server/services/useradm/config"
 	"github.com/mendersoftware/mender-server/services/useradm/jwt"
@@ -66,16 +65,6 @@ func RunServer(c config.Reader) error {
 			PrivateKeyPath:                 c.GetString(SettingServerPrivKeyPath),
 			PrivateKeyFileNamePattern:      c.GetString(SettingServerPrivKeyFileNamePattern),
 		})
-
-	if tadmAddr := c.GetString(SettingTenantAdmAddr); tadmAddr != "" {
-		l.Infof("settting up tenant verification")
-
-		tc := tenant.NewClient(tenant.Config{
-			TenantAdmAddr: tadmAddr,
-		})
-
-		ua = ua.WithTenantVerification(tc)
-	}
 
 	useradmapi := api_http.NewUserAdmApiHandlers(ua, db, jwtHandlers,
 		api_http.Config{

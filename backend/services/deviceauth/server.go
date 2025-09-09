@@ -34,7 +34,6 @@ import (
 	api_http "github.com/mendersoftware/mender-server/services/deviceauth/api/http"
 	"github.com/mendersoftware/mender-server/services/deviceauth/cache"
 	"github.com/mendersoftware/mender-server/services/deviceauth/client/orchestrator"
-	"github.com/mendersoftware/mender-server/services/deviceauth/client/tenant"
 	dconfig "github.com/mendersoftware/mender-server/services/deviceauth/config"
 	"github.com/mendersoftware/mender-server/services/deviceauth/devauth"
 	"github.com/mendersoftware/mender-server/services/deviceauth/jwt"
@@ -42,8 +41,6 @@ import (
 )
 
 func RunServer(c config.Reader) error {
-	tenantadmAddr := c.GetString(dconfig.SettingTenantAdmAddr)
-
 	l := log.New(log.Ctx{})
 
 	db, err := mongo.NewDataStoreMongo(
@@ -83,25 +80,15 @@ func RunServer(c config.Reader) error {
 		orchestrator.NewClient(orchClientConf),
 		jwtHandler,
 		devauth.Config{
-			Issuer:             c.GetString(dconfig.SettingJWTIssuer),
-			ExpirationTime:     int64(c.GetInt(dconfig.SettingJWTExpirationTimeout)),
-			DefaultTenantToken: c.GetString(dconfig.SettingDefaultTenantToken),
-			InventoryAddr:      config.Config.GetString(dconfig.SettingInventoryAddr),
+			Issuer:         c.GetString(dconfig.SettingJWTIssuer),
+			ExpirationTime: int64(c.GetInt(dconfig.SettingJWTExpirationTimeout)),
+			InventoryAddr:  config.Config.GetString(dconfig.SettingInventoryAddr),
 
 			EnableReporting: config.Config.GetBool(dconfig.SettingEnableReporting),
-			HaveAddons: config.Config.GetBool(dconfig.SettingHaveAddons) &&
-				tenantadmAddr != "",
 		})
 
 	if jwtFallbackHandler != nil {
 		devauth = devauth.WithJWTFallbackHandler(jwtFallbackHandler)
-	}
-
-	if tenantadmAddr != "" {
-		tc := tenant.NewClient(tenant.Config{
-			TenantAdmAddr: tenantadmAddr,
-		})
-		devauth = devauth.WithTenantVerification(tc)
 	}
 
 	var apiOptions []api_http.Option

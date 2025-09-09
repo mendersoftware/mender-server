@@ -15,7 +15,6 @@ package useradm
 
 import (
 	"context"
-	"net/http"
 	"strconv"
 	"testing"
 	"time"
@@ -27,13 +26,9 @@ import (
 	"github.com/stretchr/testify/mock"
 	"golang.org/x/crypto/bcrypt"
 
-	"github.com/mendersoftware/mender-server/pkg/apiclient"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
 
-	"github.com/mendersoftware/mender-server/services/useradm/client/tenant"
-	ct "github.com/mendersoftware/mender-server/services/useradm/client/tenant"
-	mct "github.com/mendersoftware/mender-server/services/useradm/client/tenant/mocks"
 	"github.com/mendersoftware/mender-server/services/useradm/jwt"
 	mjwt "github.com/mendersoftware/mender-server/services/useradm/jwt/mocks"
 	"github.com/mendersoftware/mender-server/services/useradm/model"
@@ -46,21 +41,12 @@ func TestHealthCheck(t *testing.T) {
 	testCases := []struct {
 		Name string
 
-		MultiTenant    bool
 		DataStoreError error
-		TenantAdmError error
 	}{{
 		Name: "ok",
 	}, {
-		Name:        "ok, multitenant",
-		MultiTenant: true,
-	}, {
 		Name:           "error, datastore unhealthy",
 		DataStoreError: errors.New("connection refused"),
-	}, {
-		Name:           "error, tenantadm unhealthy",
-		MultiTenant:    true,
-		TenantAdmError: errors.New("connection refused"),
 	}}
 
 	for _, tc := range testCases {
@@ -72,23 +58,12 @@ func TestHealthCheck(t *testing.T) {
 			db := &mstore.DataStore{}
 			db.On("Ping", ctx).Return(tc.DataStoreError)
 			useradm := NewUserAdm(nil, db, Config{})
-			if tc.MultiTenant {
-				cTenant := &mct.ClientRunner{}
-				cTenant.On("CheckHealth", ctx).
-					Return(tc.TenantAdmError)
-				useradm = useradm.WithTenantVerification(cTenant)
-			}
 			err := useradm.HealthCheck(ctx)
 			switch {
 			case tc.DataStoreError != nil:
 				assert.EqualError(t, err,
 					"error reaching MongoDB: "+
 						tc.DataStoreError.Error(),
-				)
-			case tc.TenantAdmError != nil && tc.MultiTenant:
-				assert.EqualError(t, err,
-					"Tenantadm service unhealthy: "+
-						tc.TenantAdmError.Error(),
 				)
 			default:
 				assert.NoError(t, err)
@@ -146,10 +121,6 @@ func TestUserAdmLogin(t *testing.T) {
 		inPassword string
 		noExpiry   bool
 
-		verifyTenant bool
-		tenant       *ct.Tenant
-		tenantErr    error
-
 		dbUser    *model.User
 		dbUserErr error
 
@@ -180,90 +151,6 @@ func TestUserAdmLogin(t *testing.T) {
 					Scope:   scope.All,
 				},
 			},
-
-			config: Config{
-				Issuer:                "foobar",
-				ExpirationTimeSeconds: 10,
-				LimitSessionsPerUser:  sessionTokensLimit,
-			},
-		},
-		"ok, multitenant": {
-			inEmail:    "foo@bar.com",
-			inPassword: "correcthorsebatterystaple",
-
-			verifyTenant: true,
-			tenant: &ct.Tenant{
-				ID:   "TenantID1",
-				Name: "tenant1",
-			},
-			tenantErr: nil,
-
-			dbUser: &model.User{
-				ID:       oid.NewUUIDv5("1234").String(),
-				Email:    "foo@bar.com",
-				Password: `$2a$10$wMW4kC6o1fY87DokgO.lDektJO7hBXydf4B.yIWmE8hR9jOiO8way`,
-			},
-			dbUserErr: nil,
-			// error for updating login_ts is suppressed
-			dbUpdateErr: errors.New("internal error"),
-
-			outErr: nil,
-			outToken: &jwt.Token{
-				Claims: jwt.Claims{
-					Subject: oid.NewUUIDv5("1234"),
-					Scope:   scope.All,
-					Tenant:  "TenantID1",
-				},
-			},
-
-			config: Config{
-				Issuer:                "foobar",
-				ExpirationTimeSeconds: 10,
-				LimitSessionsPerUser:  sessionTokensLimit,
-			},
-		},
-		"error, multitenant: tenant not found": {
-			inEmail:    "foo@bar.com",
-			inPassword: "correcthorsebatterystaple",
-
-			verifyTenant: true,
-			tenant:       nil,
-			tenantErr:    nil,
-
-			outErr:   ErrUnauthorized,
-			outToken: nil,
-		},
-		"error, multitenant: tenant verification error": {
-			inEmail:    "foo@bar.com",
-			inPassword: "correcthorsebatterystaple",
-
-			verifyTenant: true,
-			tenant:       nil,
-			tenantErr:    errors.New("some error"),
-
-			outErr:   errors.New("failed to check user's tenant: some error"),
-			outToken: nil,
-		},
-		"error, multitenant: tenant account suspended": {
-			inEmail:    "foo@bar.com",
-			inPassword: "correcthorsebatterystaple",
-
-			verifyTenant: true,
-			tenant: &ct.Tenant{
-				ID:     "TenantID1",
-				Name:   "tenant1",
-				Status: "suspended",
-			},
-			tenantErr: nil,
-
-			dbUser: &model.User{
-				ID:       oid.NewUUIDv5("1234").String(),
-				Email:    "foo@bar.com",
-				Password: `$2a$10$wMW4kC6o1fY87DokgO.lDektJO7hBXydf4B.yIWmE8hR9jOiO8way`,
-			},
-			dbUserErr: nil,
-
-			outErr: ErrTenantAccountSuspended,
 
 			config: Config{
 				Issuer:                "foobar",
@@ -387,12 +274,6 @@ func TestUserAdmLogin(t *testing.T) {
 			}
 
 			useradm := NewUserAdm(nil, db, tc.config)
-			if tc.verifyTenant {
-				cTenant := &mct.ClientRunner{}
-				cTenant.On("GetTenant", ContextMatcher(), string(tc.inEmail), &apiclient.HttpApi{}).
-					Return(tc.tenant, tc.tenantErr)
-				useradm = useradm.WithTenantVerification(cTenant)
-			}
 
 			token, err := useradm.Login(ctx, tc.inEmail, tc.inPassword, &LoginOptions{
 				NoExpiry: tc.noExpiry,
@@ -518,9 +399,7 @@ func TestUserAdmCreateUser(t *testing.T) {
 			}
 			useradm := NewUserAdm(nil, db, Config{})
 
-			id := &identity.Identity{
-				Tenant: "foo",
-			}
+			id := &identity.Identity{}
 			ctx = identity.WithContext(ctx, id)
 
 			err := useradm.CreateUser(ctx, &tc.inUser)
@@ -538,8 +417,6 @@ func TestUserAdmDoCreateUser(t *testing.T) {
 	testCases := map[string]struct {
 		inUser model.User
 
-		withTenantVerification bool
-
 		dbUser       *model.User
 		dbGetUserErr error
 
@@ -555,17 +432,6 @@ func TestUserAdmDoCreateUser(t *testing.T) {
 			dbErr:  nil,
 			outErr: nil,
 		},
-		"ok, multitenant": {
-			inUser: model.User{
-				Email:    "foo@bar.com",
-				Password: "correcthorsebatterystaple",
-			},
-
-			withTenantVerification: true,
-
-			dbErr:  nil,
-			outErr: nil,
-		},
 		"db error: duplicate email": {
 			inUser: model.User{
 				Email:    "foo@bar.com",
@@ -573,15 +439,6 @@ func TestUserAdmDoCreateUser(t *testing.T) {
 			},
 			dbErr:  store.ErrDuplicateEmail,
 			outErr: store.ErrDuplicateEmail,
-		},
-		"db error, multitenant: duplicate email": {
-			inUser: model.User{
-				Email:    "foo@bar.com",
-				Password: "correcthorsebatterystaple",
-			},
-			withTenantVerification: true,
-			dbErr:                  store.ErrDuplicateEmail,
-			outErr:                 store.ErrDuplicateEmail,
 		},
 		"db error: general": {
 			inUser: model.User{
@@ -608,16 +465,9 @@ func TestUserAdmDoCreateUser(t *testing.T) {
 				Return(tc.dbUser, tc.dbGetUserErr)
 
 			useradm := NewUserAdm(nil, db, Config{})
-			cTenant := &mct.ClientRunner{}
 
-			id := &identity.Identity{
-				Tenant: "foo",
-			}
+			id := &identity.Identity{}
 			ctx = identity.WithContext(ctx, id)
-
-			if tc.withTenantVerification {
-				useradm = useradm.WithTenantVerification(cTenant)
-			}
 
 			err := useradm.doCreateUser(ctx, &tc.inUser)
 
@@ -627,7 +477,6 @@ func TestUserAdmDoCreateUser(t *testing.T) {
 				assert.NoError(t, err)
 			}
 
-			cTenant.AssertExpectations(t)
 		})
 	}
 
@@ -644,9 +493,6 @@ func TestUserAdmUpdateUser(t *testing.T) {
 		inUserUpdate   model.UserUpdate
 		getUserById    *model.User
 		getUserByIdErr error
-
-		verifyTenant bool
-		tenantErr    error
 
 		dbErr error
 
@@ -690,25 +536,6 @@ func TestUserAdmUpdateUser(t *testing.T) {
 				Password: hashPassword("current"),
 			},
 
-			verifyTenant: true,
-			tenantErr:    nil,
-
-			dbErr:  nil,
-			outErr: nil,
-		},
-		"ok, multitenant": {
-			inUserUpdate: model.UserUpdate{
-				Email:           "foo@bar.com",
-				Password:        "correcthorsebatterystaple",
-				CurrentPassword: "current",
-			},
-			getUserById: &model.User{
-				Password: hashPassword("current"),
-			},
-
-			verifyTenant: true,
-			tenantErr:    nil,
-
 			dbErr:  nil,
 			outErr: nil,
 		},
@@ -726,54 +553,6 @@ func TestUserAdmUpdateUser(t *testing.T) {
 
 			dbErr:  nil,
 			outErr: ErrPassAndMailTooSimilar,
-		},
-		"error, multitenant: duplicate user": {
-			inUserUpdate: model.UserUpdate{
-				Email:           "foo@bar.com",
-				Password:        "correcthorsebatterystaple",
-				CurrentPassword: "current",
-			},
-			getUserById: &model.User{
-				Password: hashPassword("current"),
-			},
-
-			verifyTenant: true,
-			tenantErr:    ct.ErrDuplicateUser,
-
-			dbErr:  nil,
-			outErr: errors.New("user with a given email already exists"),
-		},
-		"error, multitenant: not found": {
-			inUserUpdate: model.UserUpdate{
-				Email:           "foo@bar.com",
-				Password:        "correcthorsebatterystaple",
-				CurrentPassword: "current",
-			},
-			getUserById: &model.User{
-				Password: hashPassword("current"),
-			},
-
-			verifyTenant: true,
-			tenantErr:    ct.ErrUserNotFound,
-
-			dbErr:  nil,
-			outErr: errors.New("user not found"),
-		},
-		"error, multitenant: generic": {
-			inUserUpdate: model.UserUpdate{
-				Email:           "foo@bar.com",
-				Password:        "correcthorsebatterystaple",
-				CurrentPassword: "current",
-			},
-			getUserById: &model.User{
-				Password: hashPassword("current"),
-			},
-
-			verifyTenant: true,
-			tenantErr:    errors.New("http 500"),
-
-			dbErr:  nil,
-			outErr: errors.New("useradm: failed to update user in tenantadm: http 500"),
 		},
 		"db error: duplicate email": {
 			inUserUpdate: model.UserUpdate{
@@ -867,8 +646,7 @@ func TestUserAdmUpdateUser(t *testing.T) {
 
 			if tc.getUserByIdErr == nil && tc.outErr != ErrCurrentPasswordMismatch &&
 				tc.outErr != ErrPassAndMailTooSimilar &&
-				(len(tc.inUserUpdate.Password) == 0 || tc.getUserById != nil) &&
-				(!tc.verifyTenant || tc.tenantErr == nil) {
+				(len(tc.inUserUpdate.Password) == 0 || tc.getUserById != nil) {
 				db.On("UpdateUser",
 					ContextMatcher(),
 					userID,
@@ -894,26 +672,6 @@ func TestUserAdmUpdateUser(t *testing.T) {
 
 			useradm := NewUserAdm(nil, db, Config{})
 
-			if tc.verifyTenant {
-				id := &identity.Identity{
-					Tenant:  "foo",
-					Subject: userID,
-				}
-				ctx = identity.WithContext(ctx, id)
-
-				cTenant := &mct.ClientRunner{}
-				defer cTenant.AssertExpectations(t)
-
-				cTenant.On("UpdateUser",
-					ContextMatcher(),
-					mock.AnythingOfType("string"),
-					mock.AnythingOfType("string"),
-					mock.AnythingOfType("*tenant.UserUpdate"),
-					&apiclient.HttpApi{}).
-					Return(tc.tenantErr)
-				useradm = useradm.WithTenantVerification(cTenant)
-			}
-
 			err := useradm.UpdateUser(ctx, userID, &tc.inUserUpdate)
 
 			if tc.outErr != nil {
@@ -932,16 +690,13 @@ func TestUserAdmUpdateUser(t *testing.T) {
 		ID         string
 		UserUpdate *model.UserUpdate
 
-		DataStore       func(t *testing.T, self *testCase) *mstore.DataStore
-		TenantadmClient func(t *testing.T, self *testCase) *mct.ClientRunner
-
-		Error error
+		DataStore func(t *testing.T, self *testCase) *mstore.DataStore
+		Error     error
 	}
 	tcs := []testCase{{
 		Name: "changing password of other user not allowed",
 
 		CTX: identity.WithContext(context.Background(), &identity.Identity{
-			Tenant:  "000000000000000000000000",
 			Subject: "36481319-7986-4bd9-9621-f143fc42bcca",
 		}),
 		ID: "0db11a0e-afac-4d73-aa6b-ccd857019553",
@@ -960,7 +715,6 @@ func TestUserAdmUpdateUser(t *testing.T) {
 		Name: "entity tag mismatch/on user lookup",
 
 		CTX: identity.WithContext(context.Background(), &identity.Identity{
-			Tenant:  "000000000000000000000000",
 			Subject: "36481319-7986-4bd9-9621-f143fc42bcca",
 		}),
 		ID: "0db11a0e-afac-4d73-aa6b-ccd857019553",
@@ -979,7 +733,6 @@ func TestUserAdmUpdateUser(t *testing.T) {
 		Name: "entity tag mismatch/on user update",
 
 		CTX: identity.WithContext(context.Background(), &identity.Identity{
-			Tenant:  "000000000000000000000000",
 			Subject: "36481319-7986-4bd9-9621-f143fc42bcca",
 		}),
 		ID: "0db11a0e-afac-4d73-aa6b-ccd857019553",
@@ -996,27 +749,13 @@ func TestUserAdmUpdateUser(t *testing.T) {
 
 			return ds
 		},
-		TenantadmClient: func(t *testing.T, self *testCase) *mct.ClientRunner {
-			tnc := new(mct.ClientRunner)
-			tnc.On("UpdateUser",
-				self.CTX,
-				"000000000000000000000000",
-				self.ID,
-				&tenant.UserUpdate{
-					Name: string(self.UserUpdate.Email),
-				},
-				mock.AnythingOfType("*http.Client")).
-				Return(nil)
-			return tnc
-		},
 		Error: ErrETagMismatch,
 	}}
 	for i := range tcs {
 		tc := tcs[i]
 		t.Run(tc.Name, func(t *testing.T) {
 			var (
-				ds  *mstore.DataStore
-				tnc *mct.ClientRunner
+				ds *mstore.DataStore
 			)
 			if tc.DataStore != nil {
 				ds = tc.DataStore(t, &tc)
@@ -1024,20 +763,9 @@ func TestUserAdmUpdateUser(t *testing.T) {
 				ds = new(mstore.DataStore)
 			}
 			defer ds.AssertExpectations(t)
-			if tc.TenantadmClient != nil {
-				tnc = tc.TenantadmClient(t, &tc)
-			} else {
-				tnc = new(mct.ClientRunner)
-			}
-			defer tnc.AssertExpectations(t)
 
 			app := UserAdm{
-				verifyTenant: true,
-				cTenant:      tnc,
-				db:           ds,
-				clientGetter: func() apiclient.HttpRunner {
-					return new(http.Client)
-				},
+				db: ds,
 			}
 
 			err := app.UpdateUser(tc.CTX, tc.ID, tc.UserUpdate)
@@ -1316,23 +1044,12 @@ func TestUserAdmDeleteUser(t *testing.T) {
 	t.Parallel()
 
 	testCases := map[string]struct {
-		verifyTenant      bool
-		tenantErr         error
 		dbDeleteUserErr   error
 		dbDeleteTokensErr error
 		err               error
 	}{
 		"ok": {
 			err: nil,
-		},
-		"ok, multitenant": {
-			verifyTenant: true,
-			err:          nil,
-		},
-		"multitenant, tenantadm error": {
-			verifyTenant: true,
-			tenantErr:    errors.New("http 500"),
-			err:          errors.New("useradm: failed to delete user in tenantadm: http 500"),
 		},
 		"error deleting user": {
 			dbDeleteUserErr: errors.New("db connection failed"),
@@ -1357,20 +1074,6 @@ func TestUserAdmDeleteUser(t *testing.T) {
 			db.On("DeleteTokensByUserId", ContextMatcher(), "foo").Return(tc.dbDeleteTokensErr)
 
 			useradm := NewUserAdm(nil, db, Config{})
-			if tc.verifyTenant {
-				id := &identity.Identity{
-					Tenant: "bar",
-				}
-				ctx = identity.WithContext(ctx, id)
-
-				cTenant := &mct.ClientRunner{}
-				cTenant.On("DeleteUser",
-					ContextMatcher(),
-					"bar", "foo",
-					&apiclient.HttpApi{}).
-					Return(tc.tenantErr)
-				useradm = useradm.WithTenantVerification(cTenant)
-			}
 
 			err := useradm.DeleteUser(ctx, "foo")
 
@@ -1519,7 +1222,6 @@ func TestUserAdmSetPassword(t *testing.T) {
 			}
 
 			useradm := NewUserAdm(nil, db, Config{})
-			cTenant := &mct.ClientRunner{}
 
 			err := useradm.SetPassword(ctx, model.UserUpdate{Email: tc.inUser.Email, Password: "new-password", Token: tc.currentToken})
 
@@ -1529,7 +1231,6 @@ func TestUserAdmSetPassword(t *testing.T) {
 				assert.NoError(t, err)
 			}
 
-			cTenant.AssertExpectations(t)
 			db.AssertExpectations(t)
 		})
 	}
@@ -2079,14 +1780,7 @@ func TestUserAdmMultipleKeys(t *testing.T) {
 				Return(nil)
 
 			useradm := NewUserAdm(handlersByKeyId, db, config)
-			cTenant := &mct.ClientRunner{}
-			cTenant.On("GetTenant", ContextMatcher(), string(tc.inEmail), &apiclient.HttpApi{}).
-				Return(&ct.Tenant{
-					ID:     "5abcb6de7a673a0001287c71",
-					Name:   "tenant1",
-					Status: "active",
-				}, nil)
-			useradm = useradm.WithTenantVerification(cTenant)
+
 			loginToken, err := useradm.Login(ctx, tc.inEmail, tc.inPassword, &LoginOptions{})
 			db.On("GetTokenById", ContextMatcher(), mock.AnythingOfType("oid.ObjectID")).
 				Return(loginToken, nil)
