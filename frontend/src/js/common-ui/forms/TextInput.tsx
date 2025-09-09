@@ -32,7 +32,9 @@ export const TextInput = ({
   type,
   validations = '',
   numericValidations = {},
-  value: passedValue = ''
+  value: passedValue = '',
+  requiredRendered = true,
+  width = 400
 }) => {
   const {
     clearErrors,
@@ -58,9 +60,13 @@ export const TextInput = ({
     <Controller
       name={id}
       control={control}
-      rules={{ required, validate, ...numericValidations }}
+      rules={{ required: required ? `${label} is required` : false, validate, ...numericValidations }}
       render={({ field: { value, onChange, onBlur, ref }, fieldState: { error } }) => (
-        <FormControl className={`${className} ${required ? 'required' : ''}`} error={Boolean(error?.message || errors[errorKey])} style={{ width: 400 }}>
+        <FormControl
+          className={`${className} ${required && requiredRendered ? 'required' : ''}`}
+          error={Boolean(error?.message || errors[errorKey])}
+          style={{ width }}
+        >
           <InputLabel htmlFor={id} {...InputLabelProps}>
             {label}
           </InputLabel>

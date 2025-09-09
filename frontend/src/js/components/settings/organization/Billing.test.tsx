@@ -84,7 +84,7 @@ describe('Billing Component', () => {
     render(ui, { preloadedState });
     expect(screen.getByText(/1234, test city/i)).toBeVisible();
     await act(async () => await user.click(screen.getByRole('button', { name: /edit/i })));
-    const input = screen.getByLabelText<HTMLInputElement>('Country');
+    const input = screen.getByLabelText<HTMLInputElement>('Country or region');
 
     const addressInput = screen.getByRole('textbox', { name: /address line 1/i });
     const stateInput = screen.getByRole('textbox', { name: /state/i });

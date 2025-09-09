@@ -14,11 +14,10 @@
 import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 
+import { Typography } from '@mui/material';
+
 import { ControlledCountrySelect } from '@northern.tech/common-ui/forms/CountrySelect';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
-
-import { HELPTOOLTIPS } from '../helptips/HelpTooltips';
-import { MenderHelpTooltip } from '../helptips/MenderTooltip';
 
 interface PlanExpandedFormProp {
   className: string;
@@ -34,21 +33,28 @@ export const PlanExpandedForm = (props: PlanExpandedFormProp) => {
       setIsValid(formState.isValid);
     }
   }, [formState, setIsValid]);
-
+  const commonInputProps = {
+    requiredRender: false,
+    width: 500,
+    required: true
+  };
   return (
-    <div className={className}>
-      <div className="flexbox center-aligned">
-        <TextInput hint="Billing email" label="Billing email" id="email" required validations="isEmail,trim" />
-        <MenderHelpTooltip className="required" id={HELPTOOLTIPS.planUpgradeEmail.id} />
+    <>
+      <div className={className}>
+        <Typography variant="subtitle1">Your billing details</Typography>
+        <TextInput {...commonInputProps} hint="Company name" label="Company name" id="name" validations="isLength:2,trim" />
+        <TextInput {...commonInputProps} hint="Billing email" label="Billing email" id="email" validations="isEmail,trim" />
       </div>
-      <TextInput hint="Company name" label="Company name" id="name" required validations="isLength:2,trim" />
-
-      <h4>Billing address</h4>
-      <TextInput hint="Address line 1" label="Address line 1" required id="line1" validations="isLength:3,trim" />
-      <TextInput hint="State" label="State" required id="state" validations="isLength:2,trim" />
-      <TextInput hint="City" label="City" required id="city" validations="isLength:2,trim" />
-      <TextInput hint="Zip or Postal code" required label="Zip or Postal code" id="postal_code" validations="isLength:4,trim" />
-      <ControlledCountrySelect required id="country" />
-    </div>
+      <Typography variant="subtitle2" className="margin-top margin-bottom-x-small">
+        Address
+      </Typography>
+      <div className={className}>
+        <TextInput {...commonInputProps} hint="Address line 1" label="Address line 1" id="line1" validations="isLength:3,trim" />
+        <TextInput {...commonInputProps} hint="State" label="State" id="state" validations="isLength:2,trim" />
+        <TextInput {...commonInputProps} hint="City" label="City" id="city" validations="isLength:2,trim" />
+        <TextInput {...commonInputProps} hint="Zip or Postal code" label="Zip or Postal code" id="postal_code" validations="isLength:4,trim" />
+        <ControlledCountrySelect required id="country" />
+      </div>
+    </>
   );
 };

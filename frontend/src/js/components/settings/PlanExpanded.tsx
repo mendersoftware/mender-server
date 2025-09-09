@@ -109,13 +109,7 @@ export const PlanExpanded = (props: ProfileEditProps | PlanProps) => {
         <PlanExpandedForm className={classes.formWrapper} setIsValid={setIsValid} />
       </Form>
       {isEdit ? (
-        <OrganizationPaymentSettings
-          className={classes.formWrapper}
-          onComplete={handleUpgrade}
-          updatingCard={updatingCard}
-          setUpdatingCard={setUpdatingCard}
-          isValid={isValid}
-        />
+        <OrganizationPaymentSettings className={classes.formWrapper} onComplete={handleUpgrade} updatingCard={updatingCard} setUpdatingCard={setUpdatingCard} />
       ) : (
         isValid &&
         organization && (

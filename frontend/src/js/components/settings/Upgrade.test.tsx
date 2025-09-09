@@ -104,8 +104,8 @@ describe('Upgrade Component', () => {
     await user.type(await screen.getByRole('textbox', { name: /state/i }), 'Oslo');
     await user.type(await screen.getByRole('textbox', { name: /city/i }), 'Oslo');
     await act(async () => await user.type(await screen.getByRole('textbox', { name: /zip or postal code/i }), '1234'));
-    const countryAutoComplete = await screen.getByRole('combobox', { name: /country/i });
-    const input = await screen.getByLabelText('Country');
+    const countryAutoComplete = await screen.getByRole('combobox', { name: /country or region/i });
+    const input = await screen.getByLabelText('Country or region');
     await user.type(countryAutoComplete, 'Norw');
     await user.keyboard('[ArrowUp]');
     await act(async () => await user.keyboard('[Enter]'));

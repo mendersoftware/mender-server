@@ -25,13 +25,14 @@ import { CardDetails } from './Billing';
 
 interface OrganizationPaymentSettingsProps {
   className: string;
-  isValid: boolean;
+  disabled?: boolean;
+  omitHeader?: boolean;
   onComplete?: () => void;
   setUpdatingCard: (updatingCard: boolean) => void;
   updatingCard: boolean;
 }
 export const OrganizationPaymentSettings = (props: OrganizationPaymentSettingsProps) => {
-  const { className, onComplete, isValid, updatingCard, setUpdatingCard } = props;
+  const { className, onComplete, updatingCard, setUpdatingCard, disabled, omitHeader } = props;
   const card = useSelector(getCard);
   const organization = useSelector(getOrganization);
   const dispatch = useAppDispatch();
@@ -47,17 +48,19 @@ export const OrganizationPaymentSettings = (props: OrganizationPaymentSettingsPr
 
   return (
     <div className={className}>
-      <div className="flexbox center-aligned margin-top">
-        <h5 className="margin-top-none margin-bottom-none margin-right-small">{updatingCard ? 'Edit payment card' : 'Payment card'}</h5>
-        <Button onClick={() => setUpdatingCard(!updatingCard)}>{updatingCard ? 'cancel' : 'edit'}</Button>
-      </div>
+      {!omitHeader && (
+        <div className="flexbox center-aligned margin-top">
+          <h5 className="margin-top-none margin-bottom-none margin-right-small">{updatingCard ? 'Edit payment card' : 'Payment card'}</h5>
+          <Button onClick={() => setUpdatingCard(!updatingCard)}>{updatingCard ? 'cancel' : 'edit'}</Button>
+        </div>
+      )}
       {updatingCard ? (
         <CardSection
+          disabled={disabled}
           isSignUp={false}
           organization={organization}
           onClose={() => setUpdatingCard(false)}
           onCardConfirmed={onCardConfirm}
-          isValid={isValid}
           onSubmit={() => dispatch(startCardUpdate()).unwrap()}
           beforeCardSubmit={() => dispatch(startCardUpdate()).unwrap()}
         />

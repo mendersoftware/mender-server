@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useSelector } from 'react-redux';
 
-import { Alert, Button } from '@mui/material';
+import { Alert, Button, Typography } from '@mui/material';
 
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { getBillingProfile, getCard, getOrganization } from '@northern.tech/store/organizationSlice/selectors';
@@ -26,25 +26,22 @@ const Address = props => {
     name,
     email
   } = props;
-
   const displayNames = new Intl.DisplayNames('en', { type: 'region' });
   return (
     <div>
-      <div>
-        <b>{name}</b>
-      </div>
-      <div>{line1}</div>
-      <div>
+      <Typography color="text.secondary">{name}</Typography>
+      <Typography>{line1}</Typography>
+      <Typography>
         {postal_code}, {city}
-      </div>
-      {country && <div>{displayNames.of(country) || ''}</div>}
-      <div>{email}</div>
+      </Typography>
+      {country && <Typography>{displayNames.of(country) || ''}</Typography>}
+      <Typography>{email}</Typography>
     </div>
   );
 };
 
 export const BillingDetails = props => {
-  const { setChangeBilling, hideCard } = props;
+  const { setChangeBilling, hideCard, editDisabled } = props;
   const card = useSelector(getCard);
   const organization = useSelector(getOrganization);
   const billing = useSelector(getBillingProfile);
@@ -58,7 +55,7 @@ export const BillingDetails = props => {
             {billing.address && <Address address={billing.address} email={billing.email} name={billing.name} />}
             {card && !hideCard && <CardDetails card={card} containerClass={billing.address ? 'margin-left-x-large' : ''} />}
           </div>
-          <Button className="margin-top-x-small" onClick={() => setChangeBilling(true)} size="small">
+          <Button disabled={editDisabled} variant="outlined" className="margin-top-x-small" onClick={() => setChangeBilling(true)}>
             Edit
           </Button>
         </div>
