@@ -25,8 +25,6 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
 
-	"github.com/mendersoftware/mender-server/services/useradm/client/tenant"
-	. "github.com/mendersoftware/mender-server/services/useradm/config"
 	"github.com/mendersoftware/mender-server/services/useradm/model"
 	"github.com/mendersoftware/mender-server/services/useradm/store/mongo"
 	useradm "github.com/mendersoftware/mender-server/services/useradm/user"
@@ -89,18 +87,6 @@ func commandCreateUser(
 	}
 
 	ua := useradm.NewUserAdm(nil, db, useradm.Config{})
-	if tadmAddr := c.GetString(SettingTenantAdmAddr); tadmAddr != "" {
-		l.Infof("setting up tenant verification")
-
-		tc := tenant.NewClient(tenant.Config{
-			TenantAdmAddr: tadmAddr,
-		})
-
-		ua = ua.WithTenantVerification(tc)
-		ctx = identity.WithContext(ctx, &identity.Identity{
-			Tenant: tenantId,
-		})
-	}
 
 	if err := ua.CreateUserInternal(ctx, &u); err != nil {
 		return errors.Wrap(err, "creating user failed")

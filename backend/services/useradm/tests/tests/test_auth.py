@@ -32,7 +32,6 @@ from common import (
 from mockserver import run_fake
 import bravado
 import pytest
-import tenantadm
 from base64 import urlsafe_b64encode
 
 

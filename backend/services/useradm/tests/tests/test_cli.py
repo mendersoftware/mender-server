@@ -27,7 +27,6 @@ from common import (
 import bravado
 import pytest
 import semver
-import tenantadm
 
 
 class Migration:

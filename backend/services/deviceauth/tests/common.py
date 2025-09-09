@@ -222,24 +222,6 @@ def device_api(request):
     yield BaseDevicesApiClient(request.config.getoption("--host"))
 
 
-def make_fake_tenant_token(tenant):
-    """make_fake_tenant_token will generate a JWT-like tenant token which looks
-    like this: 'fake.<base64 JSON encoded claims>.fake-sig'. The claims are:
-    issuer (Mender), subject (fake-tenant), mender.tenant (foobar)
-    """
-    claims = {
-        "iss": "Mender",
-        "sub": "fake-tenant",
-        "mender.tenant": tenant,
-    }
-
-    # serialize claims to JSON, encode as base64 and strip padding to be
-    # compatible with JWT
-    enc = urlsafe_b64encode(json.dumps(claims).encode()).decode().strip("==")
-
-    return "fake." + enc + ".fake-sig"
-
-
 def make_devices(device_api, devcount=1, tenant_token=""):
     url = device_api.auth_requests_url
 
@@ -268,10 +250,6 @@ def devices(device_api, clean_migrated_db, request):
         devcount = int(request.param)
 
     yield make_devices(device_api, devcount)
-
-
-def get_fake_tenantadm_addr():
-    return os.environ.get("FAKE_TENANTADM_ADDR", "0.0.0.0:9999")
 
 
 def get_fake_workflows_addr():

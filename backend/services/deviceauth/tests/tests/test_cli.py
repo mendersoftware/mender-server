@@ -27,11 +27,9 @@ from common import (
     cli,
     device_api,
     device_auth_req,
-    get_fake_tenantadm_addr,
     get_fake_workflows_addr,
     internal_api,
     make_devices,
-    make_fake_tenant_token,
     management_api,
     mongo,
 )
