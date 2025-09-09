@@ -20,7 +20,7 @@ import { testDirBase } from './utils/constants';
 const options: PlaywrightTestConfig = {
   forbidOnly: !!process.env.CI,
   projects: [
-    { name: 'setup-qemu', testMatch: /.*\.setup\.ts/, use: { ...devices['Desktop Chrome'], viewport, permissions: ['clipboard-read'] } },
+    { name: 'setup-chromium', testMatch: /.*\.setup\.ts/, use: { ...devices['Desktop Chrome'], viewport, permissions: ['clipboard-read'] } },
     { name: 'basic-qemu', testDir: `${testDirBase}/01-basic`, use: projectParamsByBrowser.chrome, dependencies: ['setup-chromium'], workers: 4 },
     { name: 'qemu-tests', testDir: `${testDirBase}/04-qemu-dependent`, use: projectParamsByBrowser.chrome, dependencies: ['setup-chromium'], workers: 1 }
   ],

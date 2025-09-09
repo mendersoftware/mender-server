@@ -11,14 +11,18 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import test, { expect } from '../../fixtures/fixtures';
-import { expectedArtifactName, selectors, timeouts } from '../../utils/constants';
+import * as fs from 'fs';
+import * as path from 'path';
 
-const fileName = `${expectedArtifactName}.mender`;
-const fileLocation = `fixtures/${fileName}`;
+import test, { expect } from '../../fixtures/fixtures';
+import { extractArtifactFromDevice, modifyArtifactChecksum } from '../../utils/commands';
+import { selectors, timeouts } from '../../utils/constants';
+
+const qemuDeviceType = 'qemux86-64';
 
 test.describe('Devices', () => {
   let navbar;
+
   test.beforeEach(async ({ page }) => {
     navbar = page.locator('.leftFixed.leftNav');
   });
@@ -44,40 +48,83 @@ test.describe('Devices', () => {
     }
     await page.locator(`input:near(:text("Status:"))`).first().click({ force: true });
     await page.click(`css=.MuiPaper-root >> text=/Accepted/i`);
-    await page.waitForSelector(`css=${selectors.deviceListItem} >> text=/original/`, { timeout: 2 * timeouts.sixtySeconds });
+    await page.waitForSelector(`css=${selectors.deviceListItem} >> text=/${qemuDeviceType}/`, { timeout: 2 * timeouts.sixtySeconds });
     const element = await page.textContent(selectors.deviceListItem);
-    expect(element.includes('original')).toBeTruthy();
+    expect(element.includes(qemuDeviceType)).toBeTruthy();
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
     await page.getByText(/Device information for/i).waitFor();
     await expect(page.getByText('Authentication status')).toBeVisible();
   });
 
-  test('allows file uploads', async ({ page }) => {
+  test('extract delta', async ({ page }) => {
+    test.setTimeout(12 * timeouts.sixtySeconds);
+    const extractedArtifactPath = path.resolve('fixtures/extracted-snapshot.mender');
+    const modifiedArtifactPath = path.resolve('fixtures/modified-snapshot.mender');
+    const { CLIENT_IP: targetHost = 'qemu-client' } = process.env;
+
+    try {
+      await extractArtifactFromDevice(targetHost, extractedArtifactPath);
+      await modifyArtifactChecksum(extractedArtifactPath, modifiedArtifactPath);
+    } catch (error) {
+      console.error('Failed to extract and modify artifact:', error);
+      throw error;
+    }
+    expect(fs.existsSync(extractedArtifactPath)).toBeTruthy();
+    expect(fs.existsSync(modifiedArtifactPath)).toBeTruthy();
+
     await navbar.getByRole('link', { name: /Releases/i }).click();
     const uploadButton = await page.getByRole('button', { name: /upload/i });
     await uploadButton.click();
     const drawer = page.locator(`.MuiDialog-paper`);
-    await drawer.locator('.dropzone input').setInputFiles(fileLocation);
+
+    await drawer.locator('.dropzone input').setInputFiles(extractedArtifactPath);
     await drawer.getByRole('button', { name: /Upload/i }).click();
+    await page.waitForTimeout(timeouts.sixtySeconds);
     await page.getByText(/last modified/i).waitFor();
+
+    await page.getByRole('button', { name: /upload/i }).click();
+    const drawer2 = page.locator(`.MuiDialog-paper`);
+    await drawer2.locator('.dropzone input').setInputFiles(modifiedArtifactPath);
+    await drawer2.getByRole('button', { name: /Upload/i }).click();
+    await page.waitForTimeout(timeouts.sixtySeconds);
+    await page.getByText(/last modified/i).waitFor();
+
+    if (fs.existsSync(extractedArtifactPath)) {
+      fs.unlinkSync(extractedArtifactPath);
+    }
+    if (fs.existsSync(modifiedArtifactPath)) {
+      fs.unlinkSync(modifiedArtifactPath);
+    }
   });
 
   test('allows shortcut device deployments', async ({ page }) => {
+    test.setTimeout(12 * timeouts.sixtySeconds);
     await navbar.getByRole('link', { name: /devices/i }).click();
-    // create an artifact to download first
-    await page.getByText(/original/i).click();
+    await page.getByText(/qemu/i).click();
     await page.click('.MuiSpeedDial-fab');
     await page.click('[aria-label="create-deployment"]');
     await page.waitForSelector(selectors.releaseSelect, { timeout: timeouts.fiveSeconds });
     const releaseSelect = await page.getByPlaceholder(/select a release/i);
     await releaseSelect.focus();
-    await releaseSelect.fill('mender-demo');
+    await releaseSelect.fill('snapshot-test');
     await page.click(`#deployment-release-selection-listbox li`);
-    await page.getByRole('button', { name: 'Clear' }).click();
-    const textContent = await releaseSelect.textContent();
-    expect(textContent).toBeFalsy();
+    const creationButton = await page.getByRole('button', { name: /create deployment/i });
+    await creationButton.scrollIntoViewIfNeeded();
+    await creationButton.click();
+    await expect(page.getByText(/Select a Release to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds });
+    await page.getByText('finished').click();
+    await page.waitForSelector(selectors.deploymentListItemContent, { timeout: 10 * timeouts.sixtySeconds });
+  });
+
+  test('allows shortcut device deployments 2', async ({ page }) => {
+    await navbar.getByRole('link', { name: /devices/i }).click();
+    await page.getByText(/qemu/i).click();
+    await page.click('.MuiSpeedDial-fab');
+    await page.click('[aria-label="create-deployment"]');
+    await page.waitForSelector(selectors.releaseSelect, { timeout: timeouts.fiveSeconds });
+    const releaseSelect = await page.getByPlaceholder(/select a release/i);
     await releaseSelect.focus();
-    await releaseSelect.fill('mender-demo');
+    await releaseSelect.fill('snapshot-modified');
     await page.click(`#deployment-release-selection-listbox li`);
     const creationButton = await page.getByRole('button', { name: /create deployment/i });
     await creationButton.scrollIntoViewIfNeeded();
@@ -87,6 +134,13 @@ test.describe('Devices', () => {
   });
 
   test('shows delta generation', async ({ page }) => {
+    await navbar.getByRole('link', { name: /deployments/i }).click();
+    await page.waitForSelector(selectors.deploymentListItemContent);
+    await page.getByRole('button', { name: /view details/i }).click();
+    await page.waitForTimeout(timeouts.default);
+    await page.getByRole('button', { name: /close/i }).click();
+    await page.getByText('finished').click();
+    await page.waitForSelector(selectors.deploymentListItemContent);
     await navbar.getByRole('link', { name: /Releases/i }).click();
     await page.getByRole('tab', { name: /delta/i }).click();
     await page.getByText(/to version/i).waitFor({ timeout: timeouts.sixtySeconds });
