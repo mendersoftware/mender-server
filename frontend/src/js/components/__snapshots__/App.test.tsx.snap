@@ -118,6 +118,17 @@ exports[`App Component > is embedded in working providers 1`] = `
   align-self: center;
 }
 
+.emotion-5 .MuiInputBase-input {
+  padding: 14px;
+}
+
+.emotion-5 .MuiInputLabel-root {
+  -webkit-transform: translate(14px, 14px) scale(1);
+  -moz-transform: translate(14px, 14px) scale(1);
+  -ms-transform: translate(14px, 14px) scale(1);
+  transform: translate(14px, 14px) scale(1);
+}
+
 .emotion-6 {
   font-family: Red Hat Text;
   font-weight: 400;
@@ -171,12 +182,16 @@ exports[`App Component > is embedded in working providers 1`] = `
   border-color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-6:hover {
-  border-color: #000;
+.emotion-6 .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(0, 0, 0, 0.42);
 }
 
-.emotion-6.Mui-disabled {
-  border-color: #000;
+.emotion-6:hover .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(0, 0, 0, 0.65);
+}
+
+.emotion-6.Mui-disabled .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(0, 0, 0, 0.42);
 }
 
 .emotion-7 {
@@ -451,7 +466,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   text-decoration: none;
   color: inherit;
   text-transform: none;
-  font-family: Red Hat Display;
+  font-family: Red Hat Text;
   font-weight: 500;
   font-size: 0.875rem;
   line-height: 1.75;
@@ -645,7 +660,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
 
 .emotion-40 {
   margin: 0;
-  font-family: Red Hat Display;
+  font-family: Red Hat Text;
   font-weight: 400;
   font-size: 0.875rem;
   line-height: 1.43;
@@ -746,7 +761,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   text-decoration: none;
   color: inherit;
   text-transform: none;
-  font-family: Red Hat Display;
+  font-family: Red Hat Text;
   font-weight: 500;
   font-size: 0.875rem;
   line-height: 1.75;
@@ -861,7 +876,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   color: inherit;
   text-transform: none;
   max-width: 100%;
-  font-family: Red Hat Display;
+  font-family: Red Hat Text;
   font-size: 0.8125rem;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -897,6 +912,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;
+  box-shadow: none;
   background-color: #f4f4f5;
   color: #9c9c9d;
   text-transform: uppercase;
@@ -2480,6 +2496,17 @@ exports[`App Component > renders correctly 1`] = `
   align-self: center;
 }
 
+.emotion-2 .MuiInputBase-input {
+  padding: 14px;
+}
+
+.emotion-2 .MuiInputLabel-root {
+  -webkit-transform: translate(14px, 14px) scale(1);
+  -moz-transform: translate(14px, 14px) scale(1);
+  -ms-transform: translate(14px, 14px) scale(1);
+  transform: translate(14px, 14px) scale(1);
+}
+
 .emotion-3 {
   font-family: Red Hat Text;
   font-weight: 400;
@@ -2533,12 +2560,16 @@ exports[`App Component > renders correctly 1`] = `
   border-color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-3:hover {
-  border-color: #000;
+.emotion-3 .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(0, 0, 0, 0.42);
 }
 
-.emotion-3.Mui-disabled {
-  border-color: #000;
+.emotion-3:hover .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(0, 0, 0, 0.65);
+}
+
+.emotion-3.Mui-disabled .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(0, 0, 0, 0.42);
 }
 
 .emotion-4 {
@@ -2813,7 +2844,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   text-decoration: none;
   color: inherit;
   text-transform: none;
-  font-family: Red Hat Display;
+  font-family: Red Hat Text;
   font-weight: 500;
   font-size: 0.875rem;
   line-height: 1.75;
@@ -3007,7 +3038,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
 
 .emotion-37 {
   margin: 0;
-  font-family: Red Hat Display;
+  font-family: Red Hat Text;
   font-weight: 400;
   font-size: 0.875rem;
   line-height: 1.43;
@@ -3108,7 +3139,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   text-decoration: none;
   color: inherit;
   text-transform: none;
-  font-family: Red Hat Display;
+  font-family: Red Hat Text;
   font-weight: 500;
   font-size: 0.875rem;
   line-height: 1.75;
@@ -3223,7 +3254,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   color: inherit;
   text-transform: none;
   max-width: 100%;
-  font-family: Red Hat Display;
+  font-family: Red Hat Text;
   font-size: 0.8125rem;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -3259,6 +3290,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;
+  box-shadow: none;
   background-color: #f4f4f5;
   color: #9c9c9d;
   text-transform: uppercase;
