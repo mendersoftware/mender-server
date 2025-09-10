@@ -2,12 +2,32 @@
 
 exports[`VirtualDeviceOnboarding Component > renders correctly 1`] = `
 .emotion-0 {
-  border: 1px solid;
-  border-color: #f7f7f7;
-  background-color: #f7f7f7;
+  margin: 0;
+  font-family: Lato,sans-serif;
+  font-weight: 400;
+  font-size: 0.9286rem;
+  line-height: 1.75;
 }
 
 .emotion-1 {
+  margin: 0;
+  line-height: 1.5;
+  font-family: Lato,sans-serif;
+  font-weight: 400;
+  font-size: 0.9286rem;
+}
+
+.emotion-3 {
+  background-color: #f7f7f7;
+  font-family: monospace;
+  border-radius: 4px;
+  padding: 16px;
+  overflow-y: auto;
+  position: relative;
+  white-space: pre-line;
+}
+
+.emotion-4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -65,35 +85,38 @@ exports[`VirtualDeviceOnboarding Component > renders correctly 1`] = `
   font-size: 14px;
   font-weight: bold;
   padding: 10px 15px;
+  float: right;
+  margin-right: -16px;
+  margin-top: -2px;
 }
 
-.emotion-1::-moz-focus-inner {
+.emotion-4::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-1.Mui-disabled {
+.emotion-4.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-1 {
+  .emotion-4 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-1:hover {
+.emotion-4:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-1.Mui-disabled {
+.emotion-4.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-1:hover {
+  .emotion-4:hover {
     --variant-containedBg: rgb(35, 85, 94);
     --variant-textBg: rgba(51, 122, 135, 0.04);
     --variant-outlinedBorder: #337a87;
@@ -101,29 +124,29 @@ exports[`VirtualDeviceOnboarding Component > renders correctly 1`] = `
   }
 }
 
-.emotion-1.MuiButton-loading {
+.emotion-4.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-1:hover {
+.emotion-4:hover {
   colors: #337a87;
 }
 
-.emotion-1.MuiButton-text {
+.emotion-4.MuiButton-text {
   color: rgba(10, 10, 11, 0.78);
 }
 
-.emotion-2 {
+.emotion-5 {
   display: inherit;
   margin-right: 8px;
   margin-left: -4px;
 }
 
-.emotion-2>*:nth-of-type(1) {
+.emotion-5>*:nth-of-type(1) {
   font-size: 20px;
 }
 
-.emotion-3 {
+.emotion-6 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -140,50 +163,54 @@ exports[`VirtualDeviceOnboarding Component > renders correctly 1`] = `
   font-size: 1.3929rem;
 }
 
-.emotion-3 iconButton {
+.emotion-6 iconButton {
   margin-right: 8px;
 }
 
+.emotion-7 {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 <div>
-  <div>
-    <b>
-      1. Get Docker Engine
-    </b>
-    <p>
-      If you do not have it already, please install Docker on your local machine.
-    </p>
-    <p>
-      For example if you are using Ubuntu follow this tutorial:
-       
-      <a
-        href="https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/
-      </a>
-    </p>
-  </div>
-  <p>
-    <b>
-      2. Copy & paste and run the following command to start the virtual device:
-    </b>
+  <h6
+    class="MuiTypography-root MuiTypography-subtitle1 emotion-0"
+  >
+    1. Get Docker Engine
+  </h6>
+  <p
+    class="MuiTypography-root MuiTypography-body1 emotion-1"
+  >
+    If you do not have it already, please install Docker on your local machine. For example if you are using Ubuntu follow this tutorial:
+     
+    <a
+      href="https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/
+    </a>
   </p>
+  <h6
+    class="MuiTypography-root MuiTypography-subtitle1 emotion-0"
+  >
+    2. Copy & paste and run the following command to start the virtual device:
+  </h6>
   <div
-    class="code emotion-0 "
+    class="emotion-3 "
   >
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-1"
-      style="float: right; margin: -20px 0px 0px 10px;"
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-4"
       tabindex="0"
+      title="Copy to clipboard"
       type="button"
     >
       <span
-        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-2"
+        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-5"
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-3"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-6"
           data-testid="FileCopyIcon"
           focusable="false"
           viewBox="0 0 24 24"
@@ -196,17 +223,17 @@ exports[`VirtualDeviceOnboarding Component > renders correctly 1`] = `
       Copy to clipboard
     </button>
     <span
-      style="white-space: pre-wrap; word-break: break-word;"
+      class="emotion-7"
     >
       ./demo --client up
     </span>
   </div>
   <p />
-  <p>
-    The device should appear in the Pending devices view in a couple of minutes.
-  </p>
-  <p>
-    Visit 
+  <p
+    class="MuiTypography-root MuiTypography-body1 emotion-1"
+  >
+    The device should appear in the Pending devices view in a couple of minutes. Visit
+     
     <a
       class=""
       href="https://docs.mender.io/get-started/preparation/prepare-a-virtual-device"

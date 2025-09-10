@@ -14,6 +14,8 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { Typography } from '@mui/material';
+
 import CopyCode from '@northern.tech/common-ui/CopyCode';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
 import { getFeatures, getOrganization } from '@northern.tech/store/selectors';
@@ -39,35 +41,32 @@ export const VirtualDeviceOnboarding = () => {
   return (
     <div>
       {isHosted ? (
-        <div>
-          <b>1. Get Docker Engine</b>
-          <p>If you do not have it already, please install Docker on your local machine.</p>
-          <p>
-            For example if you are using Ubuntu follow this tutorial:{' '}
+        <>
+          <Typography variant="subtitle1">1. Get Docker Engine</Typography>
+          <Typography variant="body1">
+            If you do not have it already, please install Docker on your local machine. For example if you are using Ubuntu follow this tutorial:{' '}
             <a href="https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/" target="_blank" rel="noopener noreferrer">
               https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/
             </a>
-          </p>
-        </div>
+          </Typography>
+        </>
       ) : (
-        <div>
-          <b>1. Prerequisites</b>
-          <p>
+        <>
+          <Typography variant="subtitle1">1. Prerequisites</Typography>
+          <Typography variant="body1">
             As you are running Mender on-premise, for these instructions we assume that you already have Docker installed and the Mender integration environment
             up and running on your machine.
-          </p>
-          <p>To start a virtual device, change directory into the folder where you cloned Mender integration.</p>
-        </div>
+            <br />
+            To start a virtual device, change directory into the folder where you cloned Mender integration.
+          </Typography>
+        </>
       )}
-      <p>
-        <b>2. Copy & paste and run the following command to start the virtual device:</b>
-      </p>
+      <Typography variant="subtitle1">2. Copy & paste and run the following command to start the virtual device:</Typography>
       <CopyCode code={codeToCopy} withDescription={true} />
-      <p>The device should appear in the Pending devices view in a couple of minutes.</p>
-      <p>
-        Visit <DocsLink path="get-started/preparation/prepare-a-virtual-device" title="our documentation" /> for more information on managing the virtual
-        device.
-      </p>
+      <Typography variant="body1">
+        The device should appear in the Pending devices view in a couple of minutes. Visit{' '}
+        <DocsLink path="get-started/preparation/prepare-a-virtual-device" title="our documentation" /> for more information on managing the virtual device.
+      </Typography>
     </div>
   );
 };
