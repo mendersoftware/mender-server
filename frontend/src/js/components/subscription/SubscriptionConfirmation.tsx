@@ -43,7 +43,7 @@ export const SubscriptionConfirmation = (props: SubscriptionConfirmationProps) =
       setCount(prevCount => prevCount - 1);
     }, 1000);
 
-    return () => clearInterval(timer); // Cleanup on unmount or count change
+    return () => clearInterval(timer);
   }, [count, willLogout]);
 
   return (
