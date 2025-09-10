@@ -31,14 +31,14 @@ const (
 	// Set reconnect buffer size in bytes (10 MB)
 	reconnectBufSize = 10 * 1024 * 1024
 	// Set reconnect interval to 1 second
-	reconnectWaitTimeSeconds = 1 * time.Second
+	reconnectWaitTime = 1 * time.Second
 	// Set the number of redeliveries for a message
 	maxRedeliverCount = 3
 	// Set the number of inflight messages; setting it to 1 we explicitly
 	// tell the NATS server that we want to process jobs serially, one by one
 	maxAckPending = 10
 	// Set the ACK wait
-	ackWaitSeconds = 30 * time.Second
+	ackWait = 30 * time.Second
 
 	replicas = 2
 )
@@ -66,7 +66,7 @@ type Client interface {
 func NewClient(url string) (Client, error) {
 	natsClient, err := nats.Connect(url,
 		nats.ReconnectBufSize(reconnectBufSize),
-		nats.ReconnectWait(reconnectWaitTimeSeconds),
+		nats.ReconnectWait(reconnectWaitTime),
 	)
 	if err != nil {
 		return nil, err
@@ -103,7 +103,7 @@ func (c *client) Migrate(ctx context.Context, sub, dur string, recreate bool) er
 		Description:   "reporting/v2", // pull mode
 		FilterSubject: sub,
 		AckPolicy:     nats.AckExplicitPolicy,
-		AckWait:       ackWaitSeconds,
+		AckWait:       ackWait,
 		MaxAckPending: maxAckPending,
 		MaxDeliver:    maxRedeliverCount,
 		Replicas:      replicas,

@@ -305,8 +305,8 @@ func (i *inventory) needsUpsert(
 			}
 			attributeChanged := true
 			for _, deviceAttribute := range device.Attributes {
-				if !(attribute.Scope == deviceAttribute.Scope &&
-					attribute.Name == deviceAttribute.Name) {
+				if attribute.Scope != deviceAttribute.Scope ||
+					attribute.Name != deviceAttribute.Name {
 					continue
 				}
 				if _, ok := deviceAttribute.Value.(primitive.A); ok {

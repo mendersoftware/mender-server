@@ -29,7 +29,6 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
-	_ "github.com/mendersoftware/mender-server/pkg/log"
 
 	"github.com/mendersoftware/mender-server/services/reporting/model"
 	"github.com/mendersoftware/mender-server/services/reporting/store"

@@ -34,7 +34,7 @@ const (
 )
 
 var (
-	timeoutSec = 900 * time.Second
+	timeout = 900 * time.Second
 )
 
 type Deployments interface {
@@ -70,7 +70,7 @@ func (d *deployments) UploadArtifactInternal(
 	tid,
 	desc string,
 ) error {
-	ctx, cancel := context.WithTimeout(ctx, timeoutSec)
+	ctx, cancel := context.WithTimeout(ctx, timeout)
 	defer cancel()
 
 	artifact, err := os.Open(fpath)

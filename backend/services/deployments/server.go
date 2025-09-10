@@ -193,9 +193,9 @@ func RunServer(ctx context.Context) error {
 
 	// Setup API Router configuration
 	base64Repl := strings.NewReplacer("-", "+", "_", "/", "=", "")
-	expireSec := c.GetDuration(dconfig.SettingPresignExpireSeconds)
+	expire := c.GetDuration(dconfig.SettingPresignExpireSeconds)
 	apiConf := api.NewConfig().
-		SetPresignExpire(time.Second * expireSec).
+		SetPresignExpire(time.Second * expire).
 		SetPresignHostname(c.GetString(dconfig.SettingPresignHost)).
 		SetPresignScheme(c.GetString(dconfig.SettingPresignScheme)).
 		SetMaxImageSize(c.GetInt64(dconfig.SettingStorageMaxImageSize)).
