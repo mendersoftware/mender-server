@@ -250,13 +250,17 @@ test.describe('Settings', () => {
 
       await page.getByRole('button', { name: 'Upgrade now' }).click();
 
-      await page.getByRole('textbox', { name: /address line 1/i }).fill('Blindernveien');
-      await page.getByRole('textbox', { name: /state/i }).fill('Oslo');
-      await page.getByRole('textbox', { name: /city/i }).fill('Oslo');
-      await page.getByRole('textbox', { name: /zip or postal code/i }).fill('12345');
-      await page.getByLabel('Country').fill('Norw');
-      await page.getByRole('option', { name: 'Norway' }).click();
-      await page.getByRole('button', { name: 'Save Billing details' }).click();
+      const addressInput = await page.getByRole('textbox', { name: /address line 1/i });
+      const hasNoBillingDetails = await addressInput.isVisible();
+      if (hasNoBillingDetails) {
+        await addressInput.fill('Blindernveien');
+        await page.getByRole('textbox', { name: /state/i }).fill('Oslo');
+        await page.getByRole('textbox', { name: /city/i }).fill('Oslo');
+        await page.getByRole('textbox', { name: /zip or postal code/i }).fill('12345');
+        await page.getByLabel('Country').fill('Norw');
+        await page.getByRole('option', { name: 'Norway' }).click();
+        await page.getByRole('button', { name: 'Save Billing details' }).click();
+      }
 
       await page.waitForSelector('.StripeElement iframe');
       const frameHandle = await page.$('.StripeElement iframe');
