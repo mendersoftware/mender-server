@@ -27,15 +27,13 @@ import { makeStyles } from 'tss-react/mui';
 import { SparkleAnimation } from '@northern.tech/common-ui/Sparkles';
 import { getGlobalSettings, getUserRoles } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
-import { generateDeploymentLogAnalysis } from '@northern.tech/store/thunks';
+import { generateDeploymentLogAnalysis, submitUserFeedback } from '@northern.tech/store/thunks';
 import copy from 'copy-to-clipboard';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration.js';
 import relativeTime from 'dayjs/plugin/relativeTime.js';
 import { MarkdownToJSX } from 'markdown-to-jsx';
 import MuiMarkdown, { defaultOverrides } from 'mui-markdown';
-
-import Tracking from '../../../tracking';
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -69,13 +67,11 @@ const Header = () => (
   </div>
 );
 
-const FeedbackSection = () => {
+const FeedbackSection = ({ deploymentId, deviceId }) => {
   const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
-
+  const dispatch = useAppDispatch();
   const handleFeedback = isHelpful => {
-    const verdict = isHelpful ? 'helpful' : 'not helpful';
-    // TODO: adjust this to rely on a backend endpoint once we have a suitable one
-    Tracking.event({ category: 'experiments', action: `deployment log summary ${verdict}` });
+    dispatch(submitUserFeedback({ formId: 'feat.ai', feedback: { useful: isHelpful, deployment_id: deploymentId, device_id: deviceId }}))
     setFeedbackSubmitted(true);
   };
 
@@ -194,7 +190,7 @@ export const AiLogAnalysis = ({ deployment, deviceId }: AiLogAnalysisProps) => {
                   </div>
                 </>
                 <div className="flexbox center-aligned space-between">
-                  <FeedbackSection />
+                  <FeedbackSection deploymentId={deployment.id} deviceId={deviceId} />
                   <Typography variant="body2" color="text.secondary">
                     AI-generated information can be inaccurate, so always verify it before taking action.
                   </Typography>
