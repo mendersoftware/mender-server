@@ -13,9 +13,11 @@
 //    limitations under the License.
 import { makeStyles } from 'tss-react/mui';
 
+const northernTechBlue = '#28aee4';
+
 const useStyles = makeStyles()(theme => ({
   footer: {
-    background: theme.palette.brand?.northernTech || theme.palette.primary.main,
+    background: northernTechBlue,
     display: 'grid',
     minHeight: theme.mixins.toolbar.minHeight,
     gridTemplateColumns: '1fr max-content max-content',

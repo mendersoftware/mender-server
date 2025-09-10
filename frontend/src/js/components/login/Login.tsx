@@ -65,7 +65,7 @@ const useStyles = makeStyles()(theme => {
       }
     },
     background: {
-      background: theme.palette.background.darkBlue ?? theme.palette.purple.A700,
+      background: '#284d68', // a specific dark blue, unrelated to other brand colours
       padding: '40px 65px',
       borderTopLeftRadius: backgroundRadius,
       borderBottomRightRadius: backgroundRadius,
