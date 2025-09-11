@@ -6,6 +6,7 @@ variables:
   DOCS_VERSION: development
   MENDER_IMAGE_GUI: ${MENDER_IMAGE_REGISTRY}/${MENDER_IMAGE_REPOSITORY}/gui:${MENDER_IMAGE_TAG}
   FF_TIMESTAMPS: true
+  FRONTEND_DIR: ${CI_PROJECT_DIR}/frontend
 
 test:frontend:lint:
   stage: test
@@ -18,10 +19,9 @@ test:frontend:lint:
         compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
   needs: []
   script:
-    - cd frontend
-    - npm ci --cache .npm --prefer-offline
-    - cd tests/e2e_tests && npm ci && cd ../..
-    - npm run lint
+    - npm ci --prefix ${FRONTEND_DIR} --cache ${FRONTEND_DIR}/.npm --prefer-offline
+    - npm ci --prefix ${FRONTEND_DIR}/tests/e2e_tests
+    - npm run lint --prefix ${FRONTEND_DIR}
   tags:
     - k8s
 
@@ -38,12 +38,12 @@ test:frontend:license-headers:
   before_script:
     - apt update && apt install git -yq
   script:
-    - deno task --cwd frontend/scripts licenseCheck --rootDir $(pwd)
-    - git diff --exit-code frontend/src
-    - git diff --exit-code frontend/tests
+    - deno task --cwd ${FRONTEND_DIR}/scripts licenseCheck --rootDir ${CI_PROJECT_DIR}
+    - git diff --exit-code ${FRONTEND_DIR}/src
+    - git diff --exit-code ${FRONTEND_DIR}/tests
 
 test:frontend:licenses:
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/denoland/deno:debian-1.46.3
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/denoland/deno:debian-2.0.2
   stage: test
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^(staging|saas-[a-zA-Z0-9.]+)$/
@@ -55,13 +55,12 @@ test:frontend:licenses:
     - job: build:frontend:docker
       artifacts: true
   before_script:
-    - cd frontend
     - apt-get update && apt-get install -yq curl
     - curl -fsSL https://deb.nodesource.com/setup_23.x | bash
     - apt-get install -yq nodejs
-    - npm ci
+    - npm ci --prefix ${FRONTEND_DIR}
   script:
-    - deno run --allow-env --allow-read --allow-sys tests/licenses/licenseCheck.ts --rootDir $(pwd)
+    - deno run --allow-env --allow-read --allow-sys --config ${FRONTEND_DIR}/scripts/deno.json ${FRONTEND_DIR}/tests/licenses/licenseCheck.ts --rootDir ${FRONTEND_DIR}
   tags:
     - k8s
 
@@ -78,18 +77,14 @@ test:frontend:unit:
   needs: []
   timeout: 10 minutes
   script:
-    - cd frontend
-    - npm ci
-    - npm run test -- --reporter=default --reporter=junit --outputFile.junit=./junit.xml --coverage
-  after_script:
-    - mkdir logs && cp frontend/logs/* logs/
+    - npm ci --prefix ${FRONTEND_DIR}
+    - npm run test --prefix ${FRONTEND_DIR} -- --reporter=default --reporter=junit --outputFile.junit=${FRONTEND_DIR}/junit/junit.xml --coverage
   artifacts:
     expire_in: 2w
     paths:
-      - frontend/coverage
-      - logs
+      - ${FRONTEND_DIR}/coverage
     reports:
-      junit: frontend/junit.xml
+      junit: ${FRONTEND_DIR}/junit/junit.xml
     when: always
   tags:
     - k8s
@@ -106,9 +101,8 @@ test:frontend:docs-links:
   needs: []
   before_script:
     - apk add --no-cache curl
-    - cd frontend
   script:
-    - links=$(grep -r docs.mender.io src/ | grep -v snapshots | sed -e 's,\${docsVersion},'${DOCS_VERSION}'/,g' | sed -e 's,\${path},''/,g' | egrep -o 'https?://[^ `"]+' | sort | uniq)
+    - links=$(grep -r docs.mender.io ${FRONTEND_DIR}/src/ | grep -v snapshots | sed -e 's,\${docsVersion},'${DOCS_VERSION}'/,g' | sed -e 's,\${path},''/,g' | egrep -o 'https?://[^ `"]+' | sort | uniq)
     - error=0
     - |
       for url in $links; do
@@ -142,11 +136,13 @@ build:frontend:docker:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: always
   script:
-    - cd frontend
-    - if test -z "${DOCKER_PLATFORM}"; then
-    - docker context create ci;
-    - fi
-    - docker buildx create ${DOCKER_BUILDKITARGS} --name gui-builder --driver=docker-container ci
+    - |
+      if test -z "${DOCKER_PLATFORM}"; then
+        docker context create ci;
+      fi
+    - docker buildx create ${DOCKER_BUILDKITARGS}
+      --name gui-builder
+      --driver=docker-container ci
     # build production target
     - docker build
       --tag ${MENDER_IMAGE_GUI}
@@ -159,13 +155,15 @@ build:frontend:docker:
       --platform ${DOCKER_PLATFORM:-linux/amd64}
       --provenance false
       --push
-      .
+      ${FRONTEND_DIR}
     - docker context use ci
-    - docker run --rm --entrypoint "/bin/sh" -v $(pwd):/extract ${MENDER_IMAGE_GUI} -c "cp licenses.json /extract/"
+    - docker run --rm --entrypoint "/bin/sh"
+      -v ${FRONTEND_DIR}:/extract ${MENDER_IMAGE_GUI}
+      -c "cp licenses.json /extract/"
   artifacts:
     expire_in: 1w
     paths:
-      - frontend/licenses.json
+      - ${FRONTEND_DIR}/licenses.json
 
 .template:test:frontend:acceptance:
   stage: test
@@ -202,13 +200,12 @@ build:frontend:docker:
   artifacts:
     expire_in: 2w
     paths:
-      - frontend/coverage
-      - frontend/screenshots
-      - frontend/logs
-      - frontend/junit
+      - ${FRONTEND_DIR}/coverage
+      - ${FRONTEND_DIR}/screenshots
+      - ${FRONTEND_DIR}/junit
     reports:
       junit:
-        - frontend/junit/results.xml
+        - ${FRONTEND_DIR}/junit/results.xml
     when: always
   tags:
     - hetzner-amd-ax42
@@ -216,7 +213,7 @@ build:frontend:docker:
 test:frontend:acceptance:
   extends: .template:test:frontend:acceptance
   script:
-    - GUI_REPOSITORY=$(pwd)/frontend SERVER_ROOT=$(pwd) ./frontend/tests/e2e_tests/run
+    - ${FRONTEND_DIR}/tests/e2e_tests/run
 
 test:frontend:acceptance:enterprise:
   extends: .template:test:frontend:acceptance
@@ -229,7 +226,7 @@ test:frontend:acceptance:enterprise:
     - unset MENDER_IMAGE_REGISTRY MENDER_IMAGE_REPOSITORY
     - export MENDER_IMAGE_TAG=main
     - docker login -u $REGISTRY_MENDER_IO_USERNAME -p $REGISTRY_MENDER_IO_PASSWORD registry.mender.io
-    - GUI_REPOSITORY=$(pwd)/frontend SERVER_ROOT=$(pwd) ./frontend/tests/e2e_tests/run --enterprise
+    - ${FRONTEND_DIR}/tests/e2e_tests/run --enterprise
 
 .template:publish:frontend:tests:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/${NODE_IMAGE}
@@ -261,7 +258,7 @@ publish:frontend:tests:
   script:
     - export COVERALLS_SERVICE_JOB_NUMBER=frontend-unit
     - export COVERALLS_FLAG_NAME=frontend-unit
-    - coveralls < frontend/coverage/lcov.info
+    - coveralls < ${FRONTEND_DIR}/coverage/lcov.info
 
 publish:frontend:e2e-tests:
   extends: .template:publish:frontend:tests
@@ -280,8 +277,8 @@ publish:frontend:e2e-tests:
     COVERALLS_SERVICE_JOB_NUMBER: frontend-e2e
     COVERALLS_FLAG_NAME: frontend-e2e
   script:
-    - sed -i -re 's/(^[SF:]+[../]+)(.*)$/SF:\2/' frontend/coverage/lcov.info
-    - coveralls < frontend/coverage/lcov.info
+    - sed -i -re 's/(^[SF:]+[../]+)(.*)$/SF:\2/' ${FRONTEND_DIR}/coverage/lcov.info
+    - coveralls < ${FRONTEND_DIR}/coverage/lcov.info
 
 publish:frontend:e2e-tests:enterprise:
   extends: publish:frontend:e2e-tests
@@ -351,12 +348,12 @@ publish:frontend:licenses:
     - job: build:frontend:docker
       artifacts: true
   script:
-    - deno task --cwd frontend/scripts licenseFormatting --rootDir $(pwd)
+    - deno task --cwd ${FRONTEND_DIR}/scripts licenseFormatting --rootDir ${CI_PROJECT_DIR}
   artifacts:
     when: on_success
     expire_in: 1w
     paths:
-      - frontend/licenses.md
+      - ${FRONTEND_DIR}/licenses.md
 
 publish:frontend:sentry:finalize:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/getsentry/sentry-cli
