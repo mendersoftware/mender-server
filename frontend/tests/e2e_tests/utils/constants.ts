@@ -34,9 +34,10 @@ export const selectors = {
 
 export const releaseTag = 'sometag';
 
-export const storagePath = 'storage/storage.json';
-export const spStoragePath = 'storage/sp-tenant-storage.json';
-export const switchTenantStoragePath = 'storage/switch-tenant-storage.json';
+export const storageFolder = 'storage';
+export const storagePath = `${storageFolder}/storage.json`;
+export const spStoragePath = `${storageFolder}/sp-tenant-storage.json`;
+export const switchTenantStoragePath = `${storageFolder}/switch-tenant-storage.json`;
 
 const oneSecond = 1000;
 export const timeouts = {
