@@ -281,21 +281,23 @@ test.describe('Settings', () => {
       test.skip(wasUpgraded, 'looks like the account was upgraded already, continue with the remaining tests');
       await page.goto(`${baseUrl}ui/subscription`);
 
+      // many timeouts sprinkled in here to avoid hitting the very strict rate limits for billing endpoints
+      await page.waitForTimeout(timeouts.oneSecond);
       const deviceNumberInput = page.getByRole('spinbutton', { name: 'Number of devices' });
       await deviceNumberInput.fill('310');
+
       await page.waitForTimeout(timeouts.default);
       await expect(deviceNumberInput).toHaveValue('350');
 
       await page.getByRole('radio', { name: 'Professional' }).click();
 
-      await page.waitForTimeout(timeouts.default);
-
+      await page.waitForTimeout(timeouts.oneSecond);
       await page.getByRole('checkbox', { name: 'Troubleshoot' }).click();
 
+      await page.waitForTimeout(timeouts.oneSecond);
       await page.getByRole('button', { name: 'Upgrade now' }).click();
-      await page.waitForTimeout(timeouts.default);
 
-      await expect(page.getByRole('heading', { name: '$777' })).toBeVisible();
+      await page.getByRole('heading', { name: '$777' }).waitFor({ timeout: timeouts.default });
       await page.getByRole('button', { name: /Confirm subscription/i }).click();
 
       await page.getByText(/ You have successfully subscribed to the professional/i).waitFor({ timeout: timeouts.fifteenSeconds });
