@@ -7,6 +7,7 @@
     "url": "git+https://github.com/mendersoftware/integration.git"
   },
   "scripts": {
+    "script": "node run.js",
     "test": "npx playwright test --workers 1",
     "test-visual": "PWDEBUG=1 npx playwright test --workers 1",
     "test-visual-new": "npx playwright test --ui --workers 1"
@@ -22,15 +23,21 @@
     "@bgotink/playwright-coverage": "^0.3.2",
     "@playwright/test": "1.55.0",
     "@sidewinder1138/saml-idp": "^1.4.0",
+    "chalk": "^5.5.0",
+    "commander": "^14.0.0",
     "dayjs": "^1.11.18",
+    "docker-compose": "^1.2.0",
+    "inquirer": "^12.9.1",
     "jsqr": "1.4.0",
     "jwt-decode": "^4.0.0",
     "md5": "^2.3.0",
+    "ora": "^8.2.0",
     "otplib": "^12.0.1",
     "pixelmatch": "^7.1.0",
     "pngjs": "7.0.0",
     "typescript": "^5.9.2",
     "uuid": "^11.1.0",
+    "validator": "^13.15.15",
     "yaml": "^2.8.1"
   }
 }
