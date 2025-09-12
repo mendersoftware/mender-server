@@ -29,11 +29,11 @@ const useStyles = makeStyles()(theme => ({
     padding: theme.spacing(2),
     overflowY: 'auto',
     position: 'relative',
-    whiteSpace: 'pre-line'
-  },
-  copyable: {
-    whiteSpace: 'pre-wrap',
-    wordBreak: 'break-word'
+    whiteSpace: 'pre-line',
+    '.copyable-content': {
+      whiteSpace: 'pre-wrap',
+      wordBreak: 'break-word'
+    }
   }
 }));
 
@@ -72,7 +72,7 @@ export const CopyCode = ({ code, onCopy, withDescription }) => {
             </IconButton>
           )}
         </CopyToClipboard>
-        <span className={classes.copyable}>{code}</span>
+        <span className="copyable-content">{code}</span>
       </Code>
       <p>{copied && <span className="green fadeIn">Copied to clipboard.</span>}</p>
     </>
