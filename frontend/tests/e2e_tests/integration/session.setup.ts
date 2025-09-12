@@ -16,10 +16,13 @@ import * as fs from 'fs';
 
 import test from '../fixtures/fixtures.ts';
 import { isEnterpriseOrStaging, isLoggedIn, login, prepareNewPage, startDockerClient, stopDockerClient, tenantTokenRetrieval } from '../utils/commands.ts';
-import { emptyStorageState, selectors, spStoragePath, storagePath, switchTenantStoragePath, timeouts } from '../utils/constants.ts';
+import { emptyStorageState, selectors, spStoragePath, storageFolder, storagePath, switchTenantStoragePath, timeouts } from '../utils/constants.ts';
 
 test.describe('Test setup', () => {
   test.beforeAll(async () => {
+    if (!fs.existsSync(storageFolder)) {
+      fs.mkdirSync(storageFolder, { recursive: true });
+    }
     try {
       fs.unlinkSync('loginInfo.json');
       await stopDockerClient();
