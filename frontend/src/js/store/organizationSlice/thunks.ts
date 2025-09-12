@@ -293,8 +293,11 @@ export const getUserOrganization = createAsyncThunk(`${sliceName}/getUserOrganiz
     return Promise.all(tasks);
   })
 );
+
 export const getUserBilling = createAsyncThunk(`${sliceName}/getUserBilling`, (_, { dispatch }) =>
-  Api.get(`${tenantadmApiUrlv2}/billing/profile`).then(res => dispatch(actions.setBillingProfile(res.data)))
+  Api.get(`${tenantadmApiUrlv2}/billing/profile`)
+    .catch(err => commonErrorHandler(err, 'There was an error getting your billing profile:', dispatch, commonErrorFallback))
+    .then(res => dispatch(actions.setBillingProfile(res.data)))
 );
 
 export const getUserSubscription = createAsyncThunk(`${sliceName}/getUserSubscription`, async (_, { dispatch }) => {
@@ -306,9 +309,9 @@ export const getUserSubscription = createAsyncThunk(`${sliceName}/getUserSubscri
 
 //Can also be used to get current subscription when no products supplied
 export const getBillingPreview = createAsyncThunk(`${sliceName}/getBillingPreview`, order =>
-  Api.post(`${tenantadmApiUrlv2}/billing/subscription/invoices/preview`, order).then(({ data }) =>
-    order.preview_mode === 'recurring' ? { ...parseSubscriptionPreview(data.lines), total: data.total } : data
-  )
+  Api.post(`${tenantadmApiUrlv2}/billing/subscription/invoices/preview`, order)
+    .catch(err => commonErrorHandler(err, 'There was an error getting your billing information:', dispatch, commonErrorFallback))
+    .then(({ data }) => (order.preview_mode === 'recurring' ? { ...parseSubscriptionPreview(data.lines), total: data.total } : data))
 );
 
 export const getCurrentSubscription = createAsyncThunk(`${sliceName}/getCurrentSubscription`, () =>
