@@ -78,7 +78,7 @@ test.describe('Settings', () => {
       if (browserName === 'chromium') {
         token = await page.evaluate(() => navigator.clipboard.readText());
       } else {
-        token = await copyButton.locator('..').locator('span').innerText();
+        token = await copyButton.locator('..').locator('.copyable-content').innerText();
       }
       expect(token).toBeTruthy();
       await page.getByRole('button', { name: /Close/i }).click();
