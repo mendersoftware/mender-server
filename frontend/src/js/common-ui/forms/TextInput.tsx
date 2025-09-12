@@ -61,37 +61,45 @@ export const TextInput = ({
       name={id}
       control={control}
       rules={{ required: required ? `${label} is required` : false, validate, ...numericValidations }}
-      render={({ field: { value, onChange, onBlur, ref }, fieldState: { error } }) => (
-        <FormControl
-          className={`${className} ${required && requiredRendered ? 'required' : ''}`}
-          error={Boolean(error?.message || errors[errorKey])}
-          style={{ width }}
-        >
-          <InputLabel htmlFor={id} {...InputLabelProps}>
-            {label}
-          </InputLabel>
-          <OutlinedInput
-            autoComplete={autocomplete}
-            id={id}
-            label={label}
-            name={id}
-            disabled={disabled}
-            inputRef={inputRef => {
-              ref(inputRef);
-              if (controlRef) {
-                controlRef.current = inputRef;
-              }
-            }}
-            value={value ?? passedValue}
-            onChange={({ target: { value } }) => onChange(value)}
-            onBlur={onBlur}
-            placeholder={hint}
-            type={type}
-            {...InputProps}
-          />
-          <FormHelperText>{(errors[errorKey] || error)?.message}</FormHelperText>
-        </FormControl>
-      )}
+      render={({ field: { value, onChange, onBlur, ref }, fieldState: { error } }) => {
+        const { onBlur: externalOnBlur, ...restInputProps } = InputProps;
+        return (
+          <FormControl
+            className={`${className} ${required && requiredRendered ? 'required' : ''}`}
+            error={Boolean(error?.message || errors[errorKey])}
+            style={{ width }}
+          >
+            <InputLabel htmlFor={id} {...InputLabelProps}>
+              {label}
+            </InputLabel>
+            <OutlinedInput
+              autoComplete={autocomplete}
+              id={id}
+              label={label}
+              name={id}
+              disabled={disabled}
+              inputRef={inputRef => {
+                ref(inputRef);
+                if (controlRef) {
+                  controlRef.current = inputRef;
+                }
+              }}
+              value={value ?? passedValue}
+              onChange={({ target: { value } }) => onChange(value)}
+              onBlur={e => {
+                onBlur(e);
+                if (externalOnBlur) {
+                  externalOnBlur(e);
+                }
+              }}
+              placeholder={hint}
+              type={type}
+              {...restInputProps}
+            />
+            <FormHelperText>{(errors[errorKey] || error)?.message}</FormHelperText>
+          </FormControl>
+        );
+      }}
     />
   );
 };
