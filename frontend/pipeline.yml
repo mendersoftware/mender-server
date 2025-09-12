@@ -295,8 +295,6 @@ publish:frontend:e2e-tests:enterprise:
 
 publish:frontend:docker:
   extends: publish:backend:docker
-  variables:
-    MENDER_PUBLISH_REGISTRY: docker.io
   script:
     - export MENDER_PUBLISH_IMAGE="${MENDER_PUBLISH_REGISTRY}/${FRONTEND_REPOSITORY}"
     - echo "About to publish ${DOCKER_TAG} to ${MENDER_PUBLISH_IMAGE}:${MENDER_PUBLISH_TAG}"
