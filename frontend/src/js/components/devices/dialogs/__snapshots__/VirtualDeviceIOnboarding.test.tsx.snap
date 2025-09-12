@@ -27,6 +27,11 @@ exports[`VirtualDeviceOnboarding Component > renders correctly 1`] = `
   white-space: pre-line;
 }
 
+.emotion-3 .copyable-content {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 .emotion-4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -167,11 +172,6 @@ exports[`VirtualDeviceOnboarding Component > renders correctly 1`] = `
   margin-right: 8px;
 }
 
-.emotion-7 {
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
 <div>
   <h6
     class="MuiTypography-root MuiTypography-subtitle1 emotion-0"
@@ -223,7 +223,7 @@ exports[`VirtualDeviceOnboarding Component > renders correctly 1`] = `
       Copy to clipboard
     </button>
     <span
-      class="emotion-7"
+      class="copyable-content"
     >
       ./demo --client up
     </span>

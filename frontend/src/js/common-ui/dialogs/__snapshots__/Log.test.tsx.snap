@@ -132,6 +132,11 @@ exports[`LogDialog Component > renders correctly 1`] = `
   white-space: pre-line;
 }
 
+.emotion-6 .copyable-content {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 .emotion-7 {
   display: -webkit-box;
   display: -webkit-flex;

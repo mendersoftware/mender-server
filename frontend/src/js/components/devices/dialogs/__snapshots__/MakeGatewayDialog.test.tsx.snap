@@ -133,6 +133,11 @@ exports[`CreateGroupExplainerContent Component > renders correctly 1`] = `
   white-space: pre-line;
 }
 
+.emotion-6 .copyable-content {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 .emotion-7 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -274,11 +279,6 @@ exports[`CreateGroupExplainerContent Component > renders correctly 1`] = `
 }
 
 .emotion-10 {
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
-.emotion-11 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -297,11 +297,11 @@ exports[`CreateGroupExplainerContent Component > renders correctly 1`] = `
   flex: 0 0 auto;
 }
 
-.emotion-11>:not(style)~:not(style) {
+.emotion-10>:not(style)~:not(style) {
   margin-left: 8px;
 }
 
-.emotion-12 {
+.emotion-11 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -361,33 +361,33 @@ exports[`CreateGroupExplainerContent Component > renders correctly 1`] = `
   padding: 10px 15px;
 }
 
-.emotion-12::-moz-focus-inner {
+.emotion-11::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-12.Mui-disabled {
+.emotion-11.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-12 {
+  .emotion-11 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-12:hover {
+.emotion-11:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-12.Mui-disabled {
+.emotion-11.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-12:hover {
+  .emotion-11:hover {
     --variant-containedBg: rgb(35, 85, 94);
     --variant-textBg: rgba(51, 122, 135, 0.04);
     --variant-outlinedBorder: #337a87;
@@ -395,19 +395,19 @@ exports[`CreateGroupExplainerContent Component > renders correctly 1`] = `
   }
 }
 
-.emotion-12.MuiButton-loading {
+.emotion-11.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-12:hover {
+.emotion-11:hover {
   colors: #337a87;
 }
 
-.emotion-12.MuiButton-text {
+.emotion-11.MuiButton-text {
   color: rgba(10, 10, 11, 0.78);
 }
 
-.emotion-13 {
+.emotion-12 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -466,57 +466,57 @@ exports[`CreateGroupExplainerContent Component > renders correctly 1`] = `
   font-weight: bold;
 }
 
-.emotion-13::-moz-focus-inner {
+.emotion-12::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-13.Mui-disabled {
+.emotion-12.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-13 {
+  .emotion-12 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-13:hover {
+.emotion-12:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-13.Mui-disabled {
+.emotion-12.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-13:hover {
+.emotion-12:hover {
   box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 
 @media (hover: none) {
-  .emotion-13:hover {
+  .emotion-12:hover {
     box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
   }
 }
 
-.emotion-13:active {
+.emotion-12:active {
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-13.Mui-focusVisible {
+.emotion-12.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-13.Mui-disabled {
+.emotion-12.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-13:hover {
+  .emotion-12:hover {
     --variant-containedBg: rgb(65, 10, 46);
     --variant-textBg: rgba(93, 15, 67, 0.04);
     --variant-outlinedBorder: #5d0f43;
@@ -524,15 +524,15 @@ exports[`CreateGroupExplainerContent Component > renders correctly 1`] = `
   }
 }
 
-.emotion-13.MuiButton-loading {
+.emotion-12.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-13:hover {
+.emotion-12:hover {
   colors: #337a87;
 }
 
-.emotion-13.MuiButton-text {
+.emotion-12.MuiButton-text {
   color: rgba(10, 10, 11, 0.78);
 }
 
@@ -611,7 +611,7 @@ exports[`CreateGroupExplainerContent Component > renders correctly 1`] = `
             Copy to clipboard
           </button>
           <span
-            class="emotion-10"
+            class="copyable-content"
           >
             JWT_TOKEN='veryTest'
 
@@ -633,10 +633,10 @@ wget -O- https://get.mender.io | sudo bash -s -- --jwt-token $JWT_TOKEN mender-g
         </p>
       </div>
       <div
-        class="MuiDialogActions-root MuiDialogActions-spacing emotion-11"
+        class="MuiDialogActions-root MuiDialogActions-spacing emotion-10"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-12"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-11"
           tabindex="0"
           type="button"
         >
@@ -646,7 +646,7 @@ wget -O- https://get.mender.io | sudo bash -s -- --jwt-token $JWT_TOKEN mender-g
           style="flex-grow: 1;"
         />
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-13"
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-12"
           tabindex="0"
           type="button"
         >
