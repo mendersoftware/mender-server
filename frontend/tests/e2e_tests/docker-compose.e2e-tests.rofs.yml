@@ -9,10 +9,4 @@ services:
       - SERVER_URL=https://docker.mender.io
       - TENANT_TOKEN
     ports:
-      - "8822:8822"  # Expose QEMU SSH port from container
-    hostname: qemu-client
-    networks:
-      default:
-        aliases:
-          - qemu-client
-          - client-device
+      - '8822:8822'
