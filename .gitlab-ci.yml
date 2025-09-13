@@ -448,7 +448,7 @@ test:staging-deployment:firefox:
   extends: .template:test:staging-deployment
   script:
     - npx playwright install firefox
-    - npm run test -- --environment=staging --project=firefox
+    - npm run script -- --environment=staging --project=firefox
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
       when: delayed
