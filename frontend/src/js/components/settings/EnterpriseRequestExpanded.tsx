@@ -11,12 +11,12 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useState } from 'react';
-
-import { Button, Drawer, FormControl, FormHelperText, TextField } from '@mui/material';
+import { Drawer } from '@mui/material';
 
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import { AddonSelect } from '@northern.tech/common-ui/forms/AddonSelect';
+import Form from '@northern.tech/common-ui/forms/Form';
+import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { AddonId } from '@northern.tech/store/constants';
 import { Addon } from '@northern.tech/store/organizationSlice/types';
 
@@ -28,10 +28,10 @@ interface EnterpriseRequestExpandedProps {
   onSendRequest: (e: { message: string; selectedAddons: AddonId[] }) => void;
 }
 
+const defaultValues = { message: '', selectedAddons: [] };
+
 export const EnterpriseRequestExpanded = (props: EnterpriseRequestExpandedProps) => {
   const { onSendRequest, onClose, addons } = props;
-  const [message, setMessage] = useState('');
-  const [selectedAddons, setSelectedAddons] = useState<AddonId[]>(addons.map(addon => addon.name));
   return (
     <Drawer anchor="right" open={true} PaperProps={{ style: { minWidth: '75vw' } }}>
       <DrawerTitle onClose={onClose} title="Request for Mender Enterprise" />
@@ -39,23 +39,28 @@ export const EnterpriseRequestExpanded = (props: EnterpriseRequestExpandedProps)
         <div className="margin-top-large">
           Get in touch with our team to request a quote for <b>Mender Enterprise.</b>
         </div>
-        <FormControl className="margin-top-none margin-bottom" style={{ maxWidth: '550px' }}>
-          <FormHelperText>Your message</FormHelperText>
-          <TextField fullWidth multiline placeholder={note} value={message} onChange={e => setMessage(e.target.value)} />
-        </FormControl>
-        <AddonSelect initialState={selectedAddons} onChange={setSelectedAddons} />
-        <div className="margin-top margin-bottom">
-          <Button onClick={onClose}>Cancel</Button>
-          <Button
-            className="margin-left-small"
-            color="secondary"
-            disabled={!message}
-            onClick={() => onSendRequest({ message, selectedAddons })}
-            variant="contained"
-          >
-            Submit request
-          </Button>
-        </div>
+        <Form
+          onSubmit={onSendRequest}
+          handleCancel={onClose}
+          submitLabel="Submit request"
+          showButtons={true}
+          initialValues={{ message: '', selectedAddons: addons.map(addon => addon.name) }}
+          defaultValues={defaultValues}
+          buttonColor="secondary"
+        >
+          <TextInput
+            id="message"
+            label="Your message"
+            fullWidth
+            multiline
+            placeholder={note}
+            validations="isLength:1"
+            required
+            className="margin-top-none margin-bottom"
+            style={{ maxWidth: '550px' }}
+          />
+          <AddonSelect name="selectedAddons" />
+        </Form>
       </div>
     </Drawer>
   );
