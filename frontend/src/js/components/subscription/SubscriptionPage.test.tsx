@@ -95,9 +95,13 @@ describe('Subscription Summary component', () => {
     await waitFor(() => expect(deviceLimit).toHaveValue(PLANS.professional.minimalDeviceCount));
     // Monitor addon should not be disabled for Professional Plan
     expect(monitorAddonCheckbox).not.toBeDisabled();
+    await waitFor(() => expect(getBillingPreview).toHaveBeenCalled());
     expect(getBillingPreview).toHaveBeenCalledWith(professionalReq);
-    await user.clear(deviceLimit);
-    await user.type(deviceLimit, '255');
+    await act(async () => {
+      await user.clear(deviceLimit);
+      await user.type(deviceLimit, '255');
+      await user.tab();
+    });
     await act(async () => vi.runOnlyPendingTimers());
     await waitFor(() => expect(deviceLimit).toHaveValue(300));
     await act(async () => vi.runOnlyPendingTimers());
