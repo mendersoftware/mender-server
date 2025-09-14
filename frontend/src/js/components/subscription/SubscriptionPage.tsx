@@ -15,7 +15,8 @@ import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
-import { Alert, Button, FormControl, FormControlLabel, FormHelperText, Radio, RadioGroup, Typography } from '@mui/material';
+import { Alert, Button, FormControl, FormControlLabel, FormHelperText, Radio, RadioGroup, Typography, outlinedInputClasses } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { AddonSelect } from '@northern.tech/common-ui/forms/AddonSelect';
@@ -34,6 +35,14 @@ import { SubscriptionSummary } from './SubscriptionSummary';
 
 let stripePromise = null;
 export type PreviewPrice = { addons: { [key in AvailableAddon]: number }; plan: number; total: number };
+
+const useStyles = makeStyles()(() => ({
+  messageInput: {
+    [`.${outlinedInputClasses.notchedOutline} > legend`]: {
+      maxWidth: '100%'
+    }
+  }
+}));
 
 const DIVISIBILITY_STEP = 50;
 const enterpriseDeviceCount = PLANS.enterprise.minimalDeviceCount;
@@ -207,6 +216,8 @@ const SubscriptionForm = ({ onShowUpgradeDrawer, onUpdateFormValues, previewPric
   const isAddonDisabled = (addon: Addon) =>
     (!isTrial && !!enabledAddons.find(enabled => enabled.name === addon.id)) || !addon.eligible.includes(selectedPlan.id);
 
+  const { classes } = useStyles();
+
   return (
     <div className="flexbox">
       <div style={{ maxWidth: '550px' }}>
@@ -304,7 +315,7 @@ const SubscriptionForm = ({ onShowUpgradeDrawer, onUpdateFormValues, previewPric
                 id="enterpriseMessage"
                 label="Your message"
                 InputLabelProps={{ shrink: true }}
-                InputProps={{ multiline: true, placeholder: enterpriseRequestPlaceholder, slotProps: { inputLabel: { shrink: true } } }}
+                InputProps={{ className: classes.messageInput, multiline: true, placeholder: enterpriseRequestPlaceholder }}
                 width="100%"
               />
             </div>
