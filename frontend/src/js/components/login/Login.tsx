@@ -38,6 +38,7 @@ const { setSnackbar } = storeActions;
 const cookies = new Cookies();
 
 export const locationMap = {
+  cn: { ...locations.cn, fallback: locations.us },
   eu: { ...locations.eu, fallback: locations.us },
   us: { ...locations.us, fallback: locations.eu }
 };

@@ -13,6 +13,7 @@
 //    limitations under the License.
 import { BarChart as BarChartIcon, PieChartOutline as PieChartIcon } from '@mui/icons-material';
 
+import FlagCN from '../../../assets/img/flag-cn.svg';
 import FlagEU from '../../../assets/img/flag-eu.svg';
 import FlagUS from '../../../assets/img/flag-us.svg';
 
@@ -44,6 +45,7 @@ export const defaultReports = [{ ...emptyChartSelection, group: null, attribute:
 export const BEGINNING_OF_TIME = '2016-01-01T00:00:00.000Z';
 
 export const locations = {
+  cn: { key: 'cn', title: 'China', location: 'cn.hosted.mender.io', icon: FlagCN },
   eu: { key: 'eu', title: 'EU', location: 'eu.hosted.mender.io', icon: FlagEU },
   us: { key: 'us', title: 'US', location: 'hosted.mender.io', icon: FlagUS }
 };
