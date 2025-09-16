@@ -93,7 +93,7 @@ variables:
     value: "302.Release-information/03.Open-source-licenses/01.Mender-Server/docs.md"
 
 include:
-  - component: "gitlab.com/Northern.tech/Mender/mendertesting/commit-lint@master"
+  # - component: "gitlab.com/Northern.tech/Mender/mendertesting/commit-lint@master"
   - project: "Northern.tech/Mender/mendertesting"
     file:
       - ".gitlab-ci-github-status-updates.yml"
@@ -107,7 +107,7 @@ include:
       - when: never
 
 stages:
-  - lint
+  # - lint
   - build
   - test
   - publish
@@ -122,6 +122,8 @@ default:
     when:
       - runner_system_failure
       - stuck_or_timeout_failure
+
+# TEMPLATES #
 
 .requires-docker: &requires-docker
   - DOCKER_RETRY_SLEEP_S=10 # wait longer for k8s workers
@@ -175,231 +177,6 @@ default:
       export DOCKER_BUILDARGS="${DOCKER_BUILDARGS} --builder=ci-builder";
       fi
 
-build:backend:docker:
-  extends: .template:build:docker
-  rules:
-    - changes:
-        paths: ["backend/**/*", ".gitlab-ci.yml"]
-        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
-      when: always
-    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-      when: always
-  script:
-    # FIXME: Only exporting deployments build stage to run unit tests
-    #        We're assuming the images have consistent GOTOOLCHAIN.
-    #        Will be fixed once we optimize to template based pipeline.
-    - |-
-      make -C backend/services/deployments docker \
-        DOCKER_BUILDARGS="${DOCKER_BUILDARGS} --target builder" \
-        MENDER_IMAGE_TAG=${MENDER_IMAGE_TAG_BUILDER}
-    - make -C backend docker
-
-build:backend:docker-acceptance:
-  extends: build:backend:docker
-  before_script:
-    - *requires-docker
-    - apk add make bash git
-    - *dind-login
-    # We're only building acceptance test images for CI runner platform.
-    - unset DOCKER_PLATFORM
-  script:
-    # NOTE: Only build for test platform (default) for the acceptance test images
-    - make -C backend docker-acceptance
-
-test:backend:static:
-  stage: test
-  needs: []
-  rules:
-    - changes:
-        paths: ["backend/**/*.go", "backend/go.mod", ".gitlab-ci.yml"]
-        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
-  image: "golangci/golangci-lint:${IMAGE_GOLANGCI_VERSION}"
-  script:
-    - cd backend
-    - golangci-lint run -v
-
-test:backend:validate-open-api:
-  stage: test
-  needs: []
-  rules:
-    - changes:
-        paths: ["backend/**/docs/*.yml", "backend/docs/api/*.yaml", ".gitlab-ci.yml"]
-        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
-      when: on_success
-    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-      when: on_success
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/alpine:${ALPINE_VERSION}
-  before_script:
-    - apk add --no-cache curl
-    - curl -L https://raw.github.com/stoplightio/spectral/master/scripts/install.sh -o install.sh
-    - sh install.sh
-  script:
-    - |
-      cat > .spectral.yaml << EOF
-      extends: [['spectral:oas', all]]
-      parserOptions:
-        incompatibleValues: 1
-      EOF
-    - spectral lint -v -D -f text backend/services/**/docs/*.yml backend/docs/api/*.yaml
-    - spectral lint -v -D -f junit -o spectral-report.xml backend/services/**/docs/*.yml backend/docs/api/*.yml
-  artifacts:
-    when: always
-    expire_in: 2 weeks
-    reports:
-      junit: $CI_PROJECT_DIR/spectral-report.xml
-
-test:backend:unit:
-  # FIXME: Using deployments build stage since we're running all tests
-  image: "${CI_REGISTRY_IMAGE}/deployments:${MENDER_IMAGE_TAG_BUILDER}"
-  stage: test
-  needs:
-    - job: build:backend:docker
-      artifacts: false
-  resource_group: test_backend_unit
-  rules:
-    - changes:
-        paths: ["backend/**/*.go", "backend/go.mod", ".gitlab-ci.yml"]
-        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
-      when: on_success
-    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-      when: on_success
-  services:
-    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/mongo:${MONGO_VERSION}
-      alias: mongo
-  variables:
-    TEST_MONGO_URL: "mongodb://mongo"
-    WORKFLOWS_MONGO_URL: "mongodb://mongo"
-  before_script:
-    - mkdir -p $GOCOVERDIR
-  script:
-    - |
-      make -C backend test-unit \
-        TESTFLAGS="-cover -coverprofile=${GOCOVERDIR}/\$(COMPONENT)-unit.cover"
-  artifacts:
-    expire_in: 1w
-    when: on_success
-    paths:
-      - ${GOCOVERDIR}/*-unit.cover
-
-test:backend:acceptance:
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
-  extends: .build:base
-  stage: test
-  rules:
-    - changes:
-        paths: ["backend/**/*", ".gitlab-ci.yml"]
-        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
-      when: on_success
-    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-      when: on_success
-  services:
-    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
-      alias: docker
-  needs:
-    - job: build:backend:docker
-      artifacts: false
-    - job: build:backend:docker-acceptance
-      artifacts: false
-  before_script:
-    - *requires-docker
-    - apk add make bash git
-    - *dind-login
-    - make -C backend -j 4 docker-pull
-    - make -C backend -j 4 docker-pull MENDER_IMAGE_TAG=${MENDER_IMAGE_TAG_TEST}
-    - mkdir -p $GOCOVERDIR
-  script:
-    # NOTE: Setting GOCOVERDIR this way will group the coverage report per
-    #       service (using make variable: COMPONENT).
-    - make -C backend test-acceptance GOCOVERDIR="${GOCOVERDIR}/\$(COMPONENT)-acceptance"
-  artifacts:
-    expire_in: 1w
-    when: on_success
-    paths:
-      - ${GOCOVERDIR}/*-acceptance
-
-test:backend:integration:
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
-  stage: test
-  extends: .build:base
-  rules:
-    - changes:
-        paths: ["backend/**/*", ".gitlab-ci.yml"]
-        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
-      when: on_success
-    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-      when: on_success
-  services:
-    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
-      alias: docker
-      variables:
-        HEALTHCHECK_TCP_PORT: "2376"
-  needs:
-    - job: build:backend:docker
-      artifacts: false
-    - job: build:backend:docker-acceptance
-      artifacts: false
-  before_script:
-    - *requires-docker
-    - apk add make bash git curl
-    - *dind-login
-    - mkdir -p ${GOCOVERDIR}/integration
-    - make -C backend -j 4 docker-pull MENDER_IMAGE_TAG=$MENDER_IMAGE_TAG_TEST
-  script:
-    - make -C backend test-integration
-      GOCOVERDIR=${GOCOVERDIR}/integration
-      MENDER_IMAGE_TAG=$MENDER_IMAGE_TAG_TEST
-  artifacts:
-    expire_in: 1w
-    when: always
-    paths:
-      - ${GOCOVERDIR}/integration
-      - backend/logs.*
-      - backend/results_integration_*.xml
-      - backend/report_integration_*.html
-    reports:
-      junit: backend/results_integration_*.xml
-
-test:integration:
-  stage: test
-  needs:
-    - job: build:backend:docker
-      artifacts: false
-    - job: build:frontend:docker
-      artifacts: false
-  rules:
-    - if: $CI_COMMIT_REF_PROTECTED == "true"
-      when: manual
-      allow_failure: true
-  variables:
-    # NOTE: Cannot use indirect values based off CI_* since these will be
-    #       expanded in the downstream project context.
-    MENDER_SERVER_REGISTRY: "${CI_REGISTRY}"
-    MENDER_SERVER_REPOSITORY: "northern.tech/mender/${CI_PROJECT_NAME}"
-    MENDER_SERVER_TAG: "build-${CI_COMMIT_SHA}"
-    PYTEST_ADDOPTS: "-k 'not Enterprise'"
-    RUN_TESTS_FULL_INTEGRATION: "true"
-  trigger:
-    project: "Northern.tech/Mender/integration"
-
-test:prep:
-  stage: test
-  extends: .build:base
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-      when: on_success
-  services:
-    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
-      alias: docker
-  script:
-    - docker run --rm --entrypoint "/bin/sh" -v $(pwd):/extract mendersoftware/mender-stress-test-client:master -c "cp mender-stress-test-client /extract/"
-  artifacts:
-    paths:
-      - mender-stress-test-client
-    expire_in: 2w
-  tags:
-    - hetzner-amd-beefy
-
 .template:test:staging-deployment:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/mendersoftware/mender-test-containers:gui-e2e-testing
   stage: .post
@@ -434,26 +211,399 @@ test:prep:
   tags:
     - hetzner-amd-beefy-privileged
 
+#
+# Helm version bump
+#
+.helm-version-bump:
+  needs:
+    - job: publish:backend:docker
+      artifacts: true
+    # - job: publish:frontend:docker
+    #   artifacts: true
+  rules: # This job will run for any branch or tag, but not for maintenance branches.
+    - if: '$CI_COMMIT_REF_NAME =~ /^\d+\.\d+\.x$/'
+      when: never
+    - if: $CI_COMMIT_TAG || $CI_COMMIT_BRANCH
+  allow_failure: true
+  tags:
+    - hetzner-amd-beefy
+  image: registry.gitlab.com/northern.tech/mender/mender-test-containers:aws-k8s-v1-master
+  variables:
+    HELM_PATCH_VERSION: ${CI_PIPELINE_ID}
+    SYNC_ENVIRONMENT: ${CI_COMMIT_REF_SLUG}
+  before_script:
+    - git config --global user.email "${GITHUB_USER_EMAIL}"
+    - git config --global user.name "${GITHUB_USER_NAME}"
+    - export DIGESTS_FOLDER=$(pwd)/.digests
+    - export PROJECT_FOLDER=$(pwd)
+  script:
+    - git clone https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_HELM_REPO} /tmp/helm
+    - cd /tmp/helm
+    - | # Set the target branch and target chart directory
+      if [[ "${SYNC_ENVIRONMENT}" == "staging" ]]; then
+        export TARGET_BRANCH="staging"
+        export TARGET_CHART_DIR="${CHART_DIR}" # For staging, we modify the main chart
+      else
+        export TARGET_BRANCH="dev/${SYNC_ENVIRONMENT}"
+        export TARGET_CHART_DIR="dev/${SYNC_ENVIRONMENT}"
+      fi
+      echo "INFO: Target branch in Helm repo will be '${TARGET_BRANCH}'"
+      echo "INFO: Target chart directory will be '${TARGET_CHART_DIR}'"
+    - git remote add github-${CI_JOB_ID} https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_HELM_REPO}
+    - |
+      if git ls-remote --exit-code --heads "https://ignored:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_HELM_REPO}" "$TARGET_BRANCH"; then
+        echo "INFO: Branch ${TARGET_BRANCH} exists in Helm repo. Checking it out."
+        git fetch github-${CI_JOB_ID} ${TARGET_BRANCH}:overlay-version-bump-${CI_JOB_ID}
+      else
+        echo "INFO: Branch ${TARGET_BRANCH} does not exist in Helm repo. Creating it from 'staging' branch."
+        git fetch github-${CI_JOB_ID} staging:overlay-version-bump-${CI_JOB_ID}
+      fi
+    - git checkout overlay-version-bump-${CI_JOB_ID}
+    - | # Create the target directory and copy the chart
+      if [ "${TARGET_CHART_DIR}" != "${CHART_DIR}" ]; then
+        mkdir -p "${TARGET_CHART_DIR}"
+        cp -r "${CHART_DIR}/." "${TARGET_CHART_DIR}/"
+      fi
+    - echo "INFO - checking values files"
+    - test -e ${TARGET_CHART_DIR}/values.yaml || ( echo "ERROR - ${TARGET_CHART_DIR}/values.yaml doesn't exist" ; exit 1 )
+    - test -e ${TARGET_CHART_DIR}/Chart.yaml || ( echo "ERROR - ${TARGET_CHART_DIR}/Chart.yaml doesn't exist" ; exit 1 )
+    - |
+      for SERVICE_MAPPING in $(echo ${SERVICES}); do
+        CONTAINER=$(echo "${SERVICE_MAPPING}" | cut -d':' -f1)
+        CONTAINER_KEY=$(echo "${SERVICE_MAPPING}" | cut -d':' -f2)
+        if [[ -n "${CI_COMMIT_TAG}" ]]; then
+          # For tag pipelines, use the Git tag as the image tag.
+          export THIS_TAG="${CI_COMMIT_TAG}"
+        else
+          # For branch pipelines, use the branch slug + image digest for uniqueness.
+          export THIS_TAG="${CI_COMMIT_REF_SLUG}@$(cat ${DIGESTS_FOLDER}/${CONTAINER})"
+        fi
+        echo "INFO - container ${CONTAINER} image identifier is: ${THIS_TAG}"
+        if [ -z "${THIS_TAG}" ]; then
+          echo "ERROR - can't find tag for container ${CONTAINER}"
+          exit 1
+        fi
+        echo "INFO - bumping version ${THIS_TAG} to ${CONTAINER} image tag"
+        THIS_KEY=".${CONTAINER_KEY}.image.tag" THIS_VALUE="${THIS_TAG}" yq -i 'eval(strenv(THIS_KEY)) = strenv(THIS_VALUE)' ${TARGET_CHART_DIR}/values.yaml
+        if [[ "${CONTAINER}" == "gui" ]]; then
+          THIS_KEY=".${CONTAINER_KEY}.image.registry" THIS_VALUE="${HELM_MENDER_PUBLISH_REGISTRY}" yq -i 'eval(strenv(THIS_KEY)) = strenv(THIS_VALUE)' ${TARGET_CHART_DIR}/values.yaml
+          THIS_KEY=".${CONTAINER_KEY}.image.repository" THIS_VALUE="${HELM_MENDER_PUBLISH_REPOSITORY}" yq -i 'eval(strenv(THIS_KEY)) = strenv(THIS_VALUE)' ${TARGET_CHART_DIR}/values.yaml
+        fi
+      done
+    - git add ${TARGET_CHART_DIR}/values.yaml
+    - echo "DEBUG - display values file content"
+    - cat ${TARGET_CHART_DIR}/values.yaml
+    - echo "INFO - bumping helm chart version"
+    - FULL_VERSION=$(yq ".version" ${TARGET_CHART_DIR}/Chart.yaml)
+    - MAJOR_VERSION=$(echo $FULL_VERSION | cut -f1 -d.)
+    - MINOR_VERSION=$(echo $FULL_VERSION | cut -f2 -d.)
+    - PATCH_VERSION=$(echo $FULL_VERSION | cut -f3 -d. | cut -f1 -d\-)
+    - THIS_VALUE="${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}-${HELM_PATCH_VERSION}" yq -i '.version = strenv(THIS_VALUE)' ${TARGET_CHART_DIR}/Chart.yaml
+    - git add ${TARGET_CHART_DIR}/Chart.yaml
+    - cat ${TARGET_CHART_DIR}/Chart.yaml
+    - | # Generate and commit the HelmRelease manifest for the dev branch env
+      if [ "${TARGET_CHART_DIR}" != "${CHART_DIR}" ]; then
+        HELMRELEASE_DIR="releases/dev"
+        mkdir -p "${HELMRELEASE_DIR}"
+        HELMRELEASE_NAME="mender-$(echo ${TARGET_CHART_DIR} | sed 's|/|-|g')"
+        HELMRELEASE_FILE="${HELMRELEASE_DIR}/${HELMRELEASE_NAME}.yaml"
+
+        echo "INFO - Generating HelmRelease manifest at ${HELMRELEASE_FILE}"
+
+        cat << EOF > "${HELMRELEASE_FILE}"
+        apiVersion: helm.toolkit.fluxcd.io/v2beta1
+        kind: HelmRelease
+        metadata:
+          name: ${HELMRELEASE_NAME}
+          namespace: mender-dev # TODO: namespace per branch env?
+        spec:
+          interval: 5m
+          chart:
+            spec:
+              chart: ./${TARGET_CHART_DIR}
+              sourceRef:
+                kind: GitRepository
+                name: mender-helm # TODO: is this correct?
+                namespace: flux-system
+              version: "${THIS_VALUE}"
+          releaseName: ${HELMRELEASE_NAME}
+        EOF
+
+        git add "${HELMRELEASE_FILE}"
+      fi
+    - git commit --signoff --message "[CI/CD] bump helm chart"
+    - |
+      for retry in $(seq 5); do
+        if git push github-${CI_JOB_ID} overlay-version-bump-${CI_JOB_ID}:${TARGET_BRANCH}; then
+          exit 0
+        fi
+        git fetch github-${CI_JOB_ID} ${TARGET_BRANCH}
+        git rebase github-${CI_JOB_ID}/${TARGET_BRANCH}
+        sleep ${TIMEOUT_SECONDS:-5}
+      done
+      echo "ERROR - can't push to github"
+      exit 1
+  after_script:
+    - git remote remove github-${CI_JOB_ID}
+    - cd ${PROJECT_FOLDER}
+    - rm -rf /tmp/helm
+
+# JOBS #
+
+#
+# Build backend services docker images
+#
+build:backend:docker:
+  extends: .template:build:docker
+  rules:
+    - changes:
+        paths: ["backend/**/*", ".gitlab-ci.yml"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
+      when: always
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+      when: always
+  script:
+    # FIXME: Only exporting deployments build stage to run unit tests
+    #        We're assuming the images have consistent GOTOOLCHAIN.
+    #        Will be fixed once we optimize to template based pipeline.
+    - |-
+      make -C backend/services/deployments docker \
+        DOCKER_BUILDARGS="${DOCKER_BUILDARGS} --target builder" \
+        MENDER_IMAGE_TAG=${MENDER_IMAGE_TAG_BUILDER}
+    - make -C backend docker
+
+#
+# Build backend services docker images for acceptance tests
+#
+build:backend:docker-acceptance:
+  extends: build:backend:docker
+  rules:
+    - when: never
+  before_script:
+    - *requires-docker
+    - apk add make bash git
+    - *dind-login
+    # We're only building acceptance test images for CI runner platform.
+    - unset DOCKER_PLATFORM
+  script:
+    # NOTE: Only build for test platform (default) for the acceptance test images
+    - make -C backend docker-acceptance
+
+#
+# Run backend static analysis
+#
+test:backend:static:
+  stage: test
+  needs: []
+  rules:
+    - when: never
+  image: "golangci/golangci-lint:${IMAGE_GOLANGCI_VERSION}"
+  script:
+    - cd backend
+    - golangci-lint run -v
+
+#
+# Validate backend OpenAPI specifications
+#
+test:backend:validate-open-api:
+  stage: test
+  needs: []
+  rules:
+    - when: never
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/alpine:${ALPINE_VERSION}
+  before_script:
+    - apk add --no-cache curl
+    - curl -L https://raw.github.com/stoplightio/spectral/master/scripts/install.sh -o install.sh
+    - sh install.sh
+  script:
+    - |
+      cat > .spectral.yaml << EOF
+      extends: [['spectral:oas', all]]
+      parserOptions:
+        incompatibleValues: 1
+      EOF
+    - spectral lint -v -D -f text backend/services/**/docs/*.yml backend/docs/api/*.yaml
+    - spectral lint -v -D -f junit -o spectral-report.xml backend/services/**/docs/*.yml backend/docs/api/*.yml
+  artifacts:
+    when: always
+    expire_in: 2 weeks
+    reports:
+      junit: $CI_PROJECT_DIR/spectral-report.xml
+
+#
+# Run backend unit tests
+#
+test:backend:unit:
+  # FIXME: Using deployments build stage since we're running all tests
+  image: "${CI_REGISTRY_IMAGE}/deployments:${MENDER_IMAGE_TAG_BUILDER}"
+  stage: test
+  needs:
+    - job: build:backend:docker
+      artifacts: false
+  resource_group: test_backend_unit
+  rules:
+    - when: never
+  services:
+    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/mongo:${MONGO_VERSION}
+      alias: mongo
+  variables:
+    TEST_MONGO_URL: "mongodb://mongo"
+    WORKFLOWS_MONGO_URL: "mongodb://mongo"
+  before_script:
+    - mkdir -p $GOCOVERDIR
+  script:
+    - |
+      make -C backend test-unit \
+        TESTFLAGS="-cover -coverprofile=${GOCOVERDIR}/\$(COMPONENT)-unit.cover"
+  artifacts:
+    expire_in: 1w
+    when: on_success
+    paths:
+      - ${GOCOVERDIR}/*-unit.cover
+
+#
+# Run backend acceptance tests
+#
+test:backend:acceptance:
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
+  extends: .build:base
+  stage: test
+  rules:
+    - when: never
+  services:
+    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
+      alias: docker
+  needs:
+    - job: build:backend:docker
+      artifacts: false
+    - job: build:backend:docker-acceptance
+      artifacts: false
+  before_script:
+    - *requires-docker
+    - apk add make bash git
+    - *dind-login
+    - make -C backend -j 4 docker-pull
+    - make -C backend -j 4 docker-pull MENDER_IMAGE_TAG=${MENDER_IMAGE_TAG_TEST}
+    - mkdir -p $GOCOVERDIR
+  script:
+    # NOTE: Setting GOCOVERDIR this way will group the coverage report per
+    #       service (using make variable: COMPONENT).
+    - make -C backend test-acceptance GOCOVERDIR="${GOCOVERDIR}/\$(COMPONENT)-acceptance"
+  artifacts:
+    expire_in: 1w
+    when: on_success
+    paths:
+      - ${GOCOVERDIR}/*-acceptance
+
+#
+# Run backend integration tests
+#
+test:backend:integration:
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
+  stage: test
+  extends: .build:base
+  rules:
+    - when: never
+  services:
+    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
+      alias: docker
+      variables:
+        HEALTHCHECK_TCP_PORT: "2376"
+  needs:
+    - job: build:backend:docker
+      artifacts: false
+    - job: build:backend:docker-acceptance
+      artifacts: false
+  before_script:
+    - *requires-docker
+    - apk add make bash git curl
+    - *dind-login
+    - mkdir -p ${GOCOVERDIR}/integration
+    - make -C backend -j 4 docker-pull MENDER_IMAGE_TAG=$MENDER_IMAGE_TAG_TEST
+  script:
+    - make -C backend test-integration
+      GOCOVERDIR=${GOCOVERDIR}/integration
+      MENDER_IMAGE_TAG=$MENDER_IMAGE_TAG_TEST
+  artifacts:
+    expire_in: 1w
+    when: always
+    paths:
+      - ${GOCOVERDIR}/integration
+      - backend/logs.*
+      - backend/results_integration_*.xml
+      - backend/report_integration_*.html
+    reports:
+      junit: backend/results_integration_*.xml
+
+#
+# Trigger full integration test pipeline
+#
+test:integration:
+  stage: test
+  needs:
+    - job: build:backend:docker
+      artifacts: false
+    - job: build:frontend:docker
+      artifacts: false
+  rules:
+    - when: never
+  variables:
+    # NOTE: Cannot use indirect values based off CI_* since these will be
+    #       expanded in the downstream project context.
+    MENDER_SERVER_REGISTRY: "${CI_REGISTRY}"
+    MENDER_SERVER_REPOSITORY: "northern.tech/mender/${CI_PROJECT_NAME}"
+    MENDER_SERVER_TAG: "build-${CI_COMMIT_SHA}"
+    PYTEST_ADDOPTS: "-k 'not Enterprise'"
+    RUN_TESTS_FULL_INTEGRATION: "true"
+  trigger:
+    project: "Northern.tech/Mender/integration"
+
+#
+# Prepare artifacts for staging deployment tests
+#
+test:prep:
+  stage: test
+  extends: .build:base
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker
+  rules:
+    - when: never
+  services:
+    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
+      alias: docker
+  script:
+    - docker run --rm --entrypoint "/bin/sh" -v $(pwd):/extract mendersoftware/mender-stress-test-client:master -c "cp mender-stress-test-client /extract/"
+  artifacts:
+    paths:
+      - mender-stress-test-client
+    expire_in: 2w
+  tags:
+    - hetzner-amd-beefy
+
+#
+# Run e2e tests on staging using Chrome
+#
 test:staging-deployment:chrome:
   extends: .template:test:staging-deployment
   script:
     - npx playwright install chromium
     - npm run script -- --environment=staging --project=chromium
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-      when: delayed
-      start_in: 3 minutes
+    - when: never
 
+#
+# Run e2e tests on staging using Firefox
+#
 test:staging-deployment:firefox:
   extends: .template:test:staging-deployment
   script:
     - npx playwright install firefox
     - npm run script -- --environment=staging --project=firefox
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-      when: delayed
-      start_in: 10 minutes
+    - when: never
 
+#
+# Publish backend code coverage to Coveralls
+#
 publish:backend:coverage:
   stage: publish
   needs:
@@ -467,12 +617,7 @@ publish:backend:coverage:
       artifacts: true
       optional: true
   rules:
-    - changes:
-        paths: ["backend/**/*"]
-        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
-      when: on_success
-    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-      when: on_success
+    - when: never
   image: "golang:${GOLANG_VERSION}"
   allow_failure: true # QA-925 - Coveralls servers are unreliable.
   variables:
@@ -494,19 +639,32 @@ publish:backend:coverage:
           -coverprofile="${coverpath}"
       done
 
+#
+# Publish backend docker images
+#
 publish:backend:docker:
   stage: publish
   image:
     name: quay.io/skopeo/stable:${SKOPEO_VERSION}
     # https://docs.gitlab.com/ee/ci/docker/using_docker_images.html#override-the-entrypoint-of-an-image
     entrypoint: [""]
-  rules:
-    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-      when: on_success
-    - when: never
+  rules:  # This job will run for any branch or tag, but not for maintenance branches
+    - if: '$CI_COMMIT_REF_NAME =~ /^\d+\.\d+\.x$/'
+      when: never
+    - if: $CI_COMMIT_TAG || $CI_COMMIT_BRANCH
   before_script:
-    - skopeo login --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - skopeo login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD docker.io
+    - |
+      if [ "$CI_COMMIT_REF_PROTECTED" == "true" ]; then
+        export MENDER_PUBLISH_REGISTRY="docker.io"
+        echo "INFO: Protected branch. Publishing to public registry: ${MENDER_PUBLISH_REGISTRY}"
+        skopeo login --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD $CI_REGISTRY
+        skopeo login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD docker.io
+      else
+        export MENDER_PUBLISH_REGISTRY="${CI_REGISTRY}"
+        export MENDER_PUBLISH_REPOSITORY="${MENDER_IMAGE_REPOSITORY}"
+        echo "INFO: Unprotected branch. Publishing to internal registry: ${MENDER_PUBLISH_REGISTRY}/${MENDER_PUBLISH_REPOSITORY}"
+        skopeo login --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD $CI_REGISTRY
+      fi
     - dnf install -y make git-core
     - export MENDER_PUBLISH_TAG="${CI_COMMIT_REF_NAME}"
   script:
@@ -546,14 +704,13 @@ publish:backend:docker:
     paths:
       - .digests
 
+#
+# Check and report backend licenses
+#
 publish:backend:licenses:
   stage: publish
   rules:
-    - changes:
-        paths: ["backend/**/*"]
-        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
-    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-      when: on_success
+    - when: never
   image: golang:${GOLANG_VERSION}
   variables:
     GOFLAGS: -tags=nopkcs11
@@ -575,12 +732,13 @@ publish:backend:licenses:
     paths:
       - backend/licenses.md
 
+#
+# Publish open-source licenses to the documentation website
+#
 publish:licenses:docs-site:
   stage: .post
   rules:
-    # Only make available for stable branches
-    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/'
-      allow_failure: true
+    - when: never
   image: "registry.gitlab.com/northern.tech/mender/mender-test-containers:release-please-v1-master"
   needs:
     - job: publish:backend:licenses
@@ -608,15 +766,23 @@ publish:licenses:docs-site:
   after_script:
     - git remote remove licenses-${CI_JOB_ID}
 
+#
+# Notify Coveralls that all parallel jobs are finished
+#
 coveralls:done:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/curlimages/curl
   stage: .post
+  rules:
+    - when: never
   allow_failure: true # QA-925 - Coveralls servers are unreliable.
   script:
     - curl "https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN&carryforward=frontend-unit,frontend-e2e,frontend-e2e-enterprise,create-artifact-worker-unit,deployments-unit,deployments-acceptance,deviceauth-unit,deviceauth-acceptance,deviceconfig-unit,deviceconfig-acceptance,deviceconnect-unit,deviceconnect-acceptance,inventory-unit,inventory-acceptance,iot-manager-unit,iot-manager-acceptance,useradm-unit,useradm-acceptance,workflows-unit,workflows-acceptance,integration" -d "payload[build_num]=$CI_PIPELINE_ID&payload[status]=done"
   tags:
     - hetzner-amd-beefy
 
+#
+# Generate changelog and create a release PR
+#
 changelog:
   image: "registry.gitlab.com/northern.tech/mender/mender-test-containers:release-please-v1-master"
   stage: changelog
@@ -629,14 +795,7 @@ changelog:
   tags:
     - hetzner-amd-beefy
   rules:
-    # Only run for protected branches (main and maintenance branches)
-    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/'
-      when: never
-      # QA-1073: Trigger main release candidates manually for open source
-    - if: $CI_PROJECT_NAME == "mender-server" && $CI_COMMIT_BRANCH == "main"
-      when: manual
-      allow_failure: true
-    - if: $CI_COMMIT_REF_PROTECTED == "true" && $CI_COMMIT_BRANCH != ""
+    - when: never
   before_script:
     # Setting up git
     - git config --global user.email "${GITHUB_USER_EMAIL}"
@@ -687,18 +846,16 @@ changelog:
   after_script:
     - git remote remove github-${CI_JOB_ID}
 
+#
+# Create a GitHub release
+#
 release:github:
   image: "registry.gitlab.com/northern.tech/mender/mender-test-containers:release-please-v1-master"
   stage: .post
   tags:
     - hetzner-amd-beefy
   rules:
-    # Only make available for protected branches (main and maintenance branches)
-    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/'
-      when: never
-    - if: $CI_COMMIT_REF_PROTECTED == "true" && $CI_COMMIT_BRANCH != ""
-      when: manual
-      allow_failure: true
+    - when: never
   needs:
     - job: changelog
   script:
@@ -707,15 +864,16 @@ release:github:
       --repo-url=${GITHUB_REPO_URL}
       --target-branch=${CI_COMMIT_REF_NAME}
 
+#
+# Update the changelog on the Mender documentation website
+#
 release:mender-docs-changelog:
   image: "registry.gitlab.com/northern.tech/mender/mender-test-containers:release-please-v1-master"
   stage: .post
   tags:
     - hetzner-amd-beefy
   rules:
-    # Only make available for stable branches
-    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/'
-      allow_failure: true
+    - when: never
   before_script:
     # Setting up git
     - git config --global user.email "${GITHUB_USER_EMAIL}"
@@ -746,16 +904,15 @@ release:mender-docs-changelog:
     - git push origin changelog-${CI_JOB_ID}
     - gh pr create --title "Update CHANGELOG${CHANGELOG_SUFFIX}.md for $CI_PROJECT_NAME" --body "Automated change to the CHANGELOG${CHANGELOG_SUFFIX}.md file" --base master --head changelog-${CI_JOB_ID}
 
+#
+# Update the changelog on the Mender documentation website for SaaS releases
+#
 release:mender-docs-changelog:saas:
   extends: release:mender-docs-changelog
   variables:
     CHANGELOG_REMOTE_FILE: "12.Hosted-Mender/docs.md"
   rules:
-    - if: '$CI_PROJECT_NAME == "mender-server"'
-      when: never
-    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+(?:-saas\.*\d*)?$/'
-    - if: '$CI_COMMIT_REF_NAME =~ /^\d+\.\d+\.x$/' # Disabled on Maintenance branches
-      when: never
+    - when: never
   before_script:
     # Setting up git
     - git config --global user.email "${GITHUB_USER_EMAIL}"
@@ -767,121 +924,33 @@ release:mender-docs-changelog:saas:
     - wget --output-document cliff.toml https://raw.githubusercontent.com/mendersoftware/mendertesting/master/utils/cliff.toml
 
 #
-# Helm version bump
-#
-.helm-version-bump:
-  needs:
-    - job: publish:backend:docker
-      artifacts: true
-    - job: publish:frontend:docker
-      artifacts: true
-  rules:
-    - if: $CI_COMMIT_REF_PROTECTED == "true" && $CI_COMMIT_REF_NAME == "main"
-      when: on_success
-    - if: $CI_COMMIT_TAG =~ "/^v\d+\.\d+\.\d+(?:-rc(?:[\.\d]*))*$/"
-      when: on_success
-    - if: '$CI_COMMIT_REF_NAME =~ /^\d+\.\d+\.x$/' # Disabled on Maintenance branches
-      when: never
-  allow_failure: true
-  tags:
-    - hetzner-amd-beefy
-  image: registry.gitlab.com/northern.tech/mender/mender-test-containers:aws-k8s-v1-master
-  variables:
-    HELM_PATCH_VERSION: ${CI_PIPELINE_ID}
-  before_script:
-    - git config --global user.email "${GITHUB_USER_EMAIL}"
-    - git config --global user.name "${GITHUB_USER_NAME}"
-    - export DIGESTS_FOLDER=$(pwd)/.digests
-    - export PROJECT_FOLDER=$(pwd)
-  script:
-    - git clone https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_HELM_REPO} /tmp/helm
-    - cd /tmp/helm
-    - git remote add github-${CI_JOB_ID} https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_HELM_REPO}
-    - git fetch github-${CI_JOB_ID} ${SYNC_ENVIRONMENT:-staging}:overlay-version-bump-${CI_JOB_ID}
-    - git checkout overlay-version-bump-${CI_JOB_ID}
-    - echo "INFO - checking values files"
-    - test -e ${CHART_DIR}/values-${SYNC_ENVIRONMENT}.yaml || ( echo "ERROR - ${CHART_DIR}/values-${SYNC_ENVIRONMENT}.yaml doesn't exists" ; exit 1 )
-    - test -e ${CHART_DIR}/Chart.yaml || ( echo "ERROR - ${CHART_DIR}/Chart.yaml doesn't exists" ; exit 1 )
-    - |
-      for CONTAINER in $(echo ${SERVICES}); do
-        if [[ "${CI_COMMIT_REF_NAME}" == "main" ]]; then
-          export THIS_TAG="main@$(cat ${DIGESTS_FOLDER}/${CONTAINER})"
-          echo "INFO - container ${CONTAINER} SHA is: ${THIS_TAG}"
-        else
-          export THIS_TAG="${CI_COMMIT_TAG}"
-        fi
-        if [ -z "${THIS_TAG}" ]; then
-          echo "ERROR - can't find tag for container ${CONTAINER}"
-          exit 1
-        fi
-        echo "INFO - bumping version ${THIS_TAG} to ${CONTAINER} image tag"
-        CONTAINER_KEY=${CONTAINER}
-        if [[ "${CHART_DIR}" == "mender" ]]; then
-          case ${CONTAINER} in
-            deviceauth)
-              CONTAINER_KEY="device_auth"
-              ;;
-            create-artifact-worker)
-              CONTAINER_KEY="create_artifact_worker"
-              ;;
-            generate-delta-worker)
-              CONTAINER_KEY="generate_delta_worker"
-              ;;
-            iot-manager)
-              CONTAINER_KEY="iot_manager"
-              ;;
-          esac
-        elif [[ "${CHART_DIR}" == "alvaldi" ]]; then
-          case ${CONTAINER} in
-            iot-manager)
-              CONTAINER_KEY="iotManager"
-              ;;
-          esac
-        fi
-        THIS_KEY=".${CONTAINER_KEY}.image.tag" THIS_VALUE="${THIS_TAG}" yq -i 'eval(strenv(THIS_KEY)) = strenv(THIS_VALUE)' ${CHART_DIR}/values-${SYNC_ENVIRONMENT}.yaml
-        if [[ "${CONTAINER}" == "gui" ]]; then
-          THIS_KEY=".${CONTAINER_KEY}.image.registry" THIS_VALUE="${HELM_MENDER_PUBLISH_REGISTRY}" yq -i 'eval(strenv(THIS_KEY)) = strenv(THIS_VALUE)' ${CHART_DIR}/values-${SYNC_ENVIRONMENT}.yaml
-          THIS_KEY=".${CONTAINER_KEY}.image.repository" THIS_VALUE="${HELM_MENDER_PUBLISH_REPOSITORY}" yq -i 'eval(strenv(THIS_KEY)) = strenv(THIS_VALUE)' ${CHART_DIR}/values-${SYNC_ENVIRONMENT}.yaml
-        fi
-      done
-    - git add ${CHART_DIR}/values-${SYNC_ENVIRONMENT}.yaml
-    - echo "DEBUG - display values file content"
-    - cat ${CHART_DIR}/values-${SYNC_ENVIRONMENT}.yaml
-    - echo "INFO - bumping helm chart version"
-    - FULL_VERSION=$(yq ".version" ${CHART_DIR}/Chart.yaml)
-    - MAJOR_VERSION=$(echo $FULL_VERSION | cut -f1 -d.)
-    - MINOR_VERSION=$(echo $FULL_VERSION | cut -f2 -d.)
-    - PATCH_VERSION=$(echo $FULL_VERSION | cut -f3 -d. | cut -f1 -d\-)
-    - THIS_VALUE="${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}-${HELM_PATCH_VERSION}" yq -i '.version = strenv(THIS_VALUE)' ${CHART_DIR}/Chart.yaml
-    - git add ${CHART_DIR}/Chart.yaml
-    - cat ${CHART_DIR}/Chart.yaml
-    - git commit --signoff --message "[CI/CD] bump helm chart"
-    - |
-      for retry in $(seq 5); do
-        if git push github-${CI_JOB_ID} overlay-version-bump-${CI_JOB_ID}:${SYNC_ENVIRONMENT:-staging}; then
-          exit 0
-        fi
-        git fetch github-${CI_JOB_ID} ${SYNC_ENVIRONMENT:-staging}
-        git rebase github-${CI_JOB_ID}/${SYNC_ENVIRONMENT:-staging}
-        sleep ${TIMEOUT_SECONDS:-5}
-      done
-      echo "ERROR - can't push to github"
-      exit 1
-  after_script:
-    - git remote remove github-${CI_JOB_ID}
-    - cd ${PROJECT_FOLDER}
-    - rm -rf /tmp/helm
-
-#
-# Mender Helm Rolling release
+# Mender Helm Rolling release for staging
 #
 mender-helm-version-bump:staging:
   extends: .helm-version-bump
   resource_group: mender-helm
   stage: deploy-staging
   variables:
-    GITHUB_HELM_REPO: "mendersoftware/mender-helm"
-    SERVICES: gui
-    CHART_DIR: "mender"
+    GITHUB_HELM_REPO: "NorthernTechHQ/nt-boilerplate-pipeline"
+    # A space-separated list of 'service_name:helm_key'
+    SERVICES: "create-artifact-worker:create_artifact_worker deployments:deployments deviceauth:device_auth deviceconfig:deviceconfig deviceconnect:deviceconnect gui:gui inventory:inventory iot-manager:iot_manager useradm:useradm workflows:workflows"
+    CHART_DIR: "helm/mender"
     SYNC_ENVIRONMENT: staging
     HELM_PATCH_VERSION: ${CI_PIPELINE_ID}-staging # pre-release version for trigger staging only deploy
+  rules:
+    - if: $CI_COMMIT_REF_NAME == 'main'
+
+#
+# Mender Helm Rolling release for branches
+#
+mender-helm-version-bump:branch:
+  extends: .helm-version-bump
+  resource_group: mender-helm-${CI_COMMIT_REF_SLUG}
+  stage: deploy-staging
+  variables:
+    GITHUB_HELM_REPO: "NorthernTechHQ/nt-boilerplate-pipeline"
+    # A space-separated list of 'service_name:helm_key'
+    SERVICES: "create-artifact-worker:create_artifact_worker deployments:deployments deviceauth:device_auth deviceconfig:deviceconfig deviceconnect:deviceconnect gui:gui inventory:inventory iot-manager:iot_manager useradm:useradm workflows:workflows"
+    CHART_DIR: "helm/mender"
+  rules:
+    - if: $CI_COMMIT_BRANCH && $CI_COMMIT_REF_NAME != 'main'
