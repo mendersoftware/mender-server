@@ -18,7 +18,7 @@ import { cleanUp, getToken } from '../auth';
 import { TIMEOUTS } from '../constants';
 
 const unauthorizedRedirect = error => {
-  if (!isCancel(error) && error.response?.status === 401 && getToken()) {
+  if (!isCancel(error) && error.response?.status === 401 && getToken() && !window.location.pathname.endsWith('/subscription')) {
     cleanUp();
     window.location.replace('/ui/');
   }
