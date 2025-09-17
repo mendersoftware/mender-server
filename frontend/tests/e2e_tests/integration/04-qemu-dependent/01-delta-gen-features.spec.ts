@@ -126,6 +126,8 @@ test.describe('Devices', () => {
     await releaseSelect.focus();
     await releaseSelect.fill('snapshot-modified');
     await page.click(`#deployment-release-selection-listbox li`);
+    await page.getByRole('button', { name: /advanced options/i }).click();
+    await page.getByRole('checkbox', { name: /delta artifacts/i }).click();
     const creationButton = await page.getByRole('button', { name: /create deployment/i });
     await creationButton.scrollIntoViewIfNeeded();
     await creationButton.click();
