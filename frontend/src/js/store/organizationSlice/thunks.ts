@@ -17,7 +17,6 @@ import Api from '@northern.tech/store/api/general-api';
 import {
   AvailablePlans,
   DEVICE_LIST_DEFAULTS,
-  PLANS,
   SORTING_OPTIONS,
   TENANT_LIST_DEFAULT,
   TIMEOUTS,
@@ -322,19 +321,10 @@ export const getCurrentSubscription = createAsyncThunk(`${sliceName}/getCurrentS
     })
 );
 
-const successMessage = (planId: string) =>
-  `Thank you! You have successfully subscribed to the ${PLANS[planId].name} plan.  You can view and edit your billing details on the Organization and billing page.`;
-
 export const requestPlanUpgrade = createAsyncThunk(`${sliceName}/requestPlanUpgrade`, (order, { dispatch }) =>
   Api.post(`${tenantadmApiUrlv2}/billing/subscription`, order)
     .catch(err => commonErrorHandler(err, 'There was an error sending your request', dispatch, commonErrorFallback))
-    .then(() =>
-      Promise.all([
-        dispatch(setSnackbar(successMessage(order.plan))),
-        setTimeout(() => dispatch(getDeviceLimit()), TIMEOUTS.threeSeconds),
-        dispatch(getUserOrganization())
-      ])
-    )
+    .then(() => Promise.all([setTimeout(() => dispatch(getDeviceLimit()), TIMEOUTS.threeSeconds), dispatch(getUserOrganization())]))
 );
 
 export const sendSupportMessage = createAsyncThunk(`${sliceName}/sendSupportMessage`, (content, { dispatch }) =>
