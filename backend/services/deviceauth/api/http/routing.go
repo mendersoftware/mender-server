@@ -21,7 +21,9 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/contenttype"
 	"github.com/mendersoftware/mender-server/pkg/identity"
+	"github.com/mendersoftware/mender-server/pkg/requestsize"
 	"github.com/mendersoftware/mender-server/pkg/routing"
+
 	dconfig "github.com/mendersoftware/mender-server/services/deviceauth/config"
 	"github.com/mendersoftware/mender-server/services/deviceauth/devauth"
 	"github.com/mendersoftware/mender-server/services/deviceauth/store"
@@ -132,6 +134,9 @@ func NewRouter(app devauth.App, db store.DataStore, options ...Option) http.Hand
 		if option != nil {
 			option(cfg)
 		}
+	}
+	if cfg.MaxRequestSize > 0 {
+		router.Use(requestsize.Middleware(cfg.MaxRequestSize))
 	}
 
 	d := NewDevAuthApiHandlers(app, db, options...)
