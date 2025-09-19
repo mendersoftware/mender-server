@@ -18,6 +18,34 @@ import test from '../fixtures/fixtures.ts';
 import { isEnterpriseOrStaging, isLoggedIn, login, prepareNewPage, startDockerClient, stopDockerClient, tenantTokenRetrieval } from '../utils/commands.ts';
 import { emptyStorageState, selectors, spStoragePath, storageFolder, storagePath, switchTenantStoragePath, timeouts } from '../utils/constants.ts';
 
+const pollDeployment = async ({
+  location,
+  attempt = 1,
+  maxAttempts = 5,
+  delay = timeouts.tenSeconds
+}: {
+  attempt: number;
+  delay: number;
+  location: string;
+  maxAttempts: number;
+}) => {
+  const response = await fetch(location);
+  const versionInfo = response.headers.get('x-mender-version')?.split('-') || [];
+  const pipelineId = versionInfo.length ? Number(versionInfo[1]) : 0;
+  const currentPipeline = Number(process.env.CI_PIPELINE_ID);
+  if (pipelineId === currentPipeline) {
+    return Promise.resolve();
+  } else if (pipelineId > currentPipeline) {
+    process.env.ALLOWED_TO_FAIL = '1';
+    return Promise.resolve();
+  }
+  if (attempt >= maxAttempts) {
+    throw new Error(`Couldn't get ${location} after ${maxAttempts} attempts`);
+  }
+  await new Promise(resolve => setTimeout(resolve, delay));
+  return pollDeployment({ location, attempt: attempt + 1, maxAttempts, delay });
+};
+
 test.describe('Test setup', () => {
   test.beforeAll(async () => {
     if (!fs.existsSync(storageFolder)) {
@@ -32,7 +60,10 @@ test.describe('Test setup', () => {
   });
   test('allows account creation', async ({ baseUrl, context, environment, page, password, request, username }) => {
     test.skip(environment !== 'staging');
-    test.setTimeout(2 * timeouts.sixtySeconds);
+    test.setTimeout(6 * timeouts.sixtySeconds);
+    await pollDeployment({ location: baseUrl, attempt: 1, maxAttempts: 6, delay: 3 * timeouts.tenSeconds }); // give max 6 * 30s to see a version update, same as current CI job delay
+    // wait a little extra to allow rollout to complete if we happen to poll the first replica in a deployment
+    await new Promise(resolve => setTimeout(resolve, 3 * timeouts.tenSeconds));
     try {
       const { token } = await login(username, password, baseUrl, request);
       test.skip(!!token, 'looks like the account was created already, continue with the remaining tests');
