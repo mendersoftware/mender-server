@@ -104,7 +104,7 @@ type PlanBinding struct {
 
 func ValidatePlanName(name string) error {
 	//plan of no name is not accepted
-	if !(len(name) > 0) {
+	if len(name) == 0 {
 		return errors.New("plan name cannot be empty")
 	}
 

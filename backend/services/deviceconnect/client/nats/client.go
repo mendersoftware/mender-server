@@ -18,7 +18,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/nats-io/nats.go"
 	natsio "github.com/nats-io/nats.go"
 
 	"github.com/mendersoftware/mender-server/pkg/log"
@@ -56,21 +55,21 @@ func NewClientWithDefaults(url string) (Client, error) {
 	l := log.FromContext(ctx)
 
 	natsClient, err := NewClient(url,
-		func(o *nats.Options) error {
+		func(o *natsio.Options) error {
 			o.AllowReconnect = true
 			o.MaxReconnect = -1
 			o.ReconnectBufSize = reconnectBufSize
 			o.ReconnectWait = reconnectWaitTime
 			o.RetryOnFailedConnect = true
-			o.ClosedCB = func(_ *nats.Conn) {
+			o.ClosedCB = func(_ *natsio.Conn) {
 				l.Info("nats client closed the connection")
 			}
-			o.DisconnectedErrCB = func(_ *nats.Conn, e error) {
+			o.DisconnectedErrCB = func(_ *natsio.Conn, e error) {
 				if e != nil {
 					l.Warnf("nats client disconnected, err: %v", e)
 				}
 			}
-			o.ReconnectedCB = func(_ *nats.Conn) {
+			o.ReconnectedCB = func(_ *natsio.Conn) {
 				l.Warn("nats client reconnected")
 			}
 			return nil

@@ -26,7 +26,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 	mopts "go.mongodb.org/mongo-driver/mongo/options"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
@@ -415,7 +414,7 @@ func (db *DataStoreMongo) GetAllJobs(
 	ctx context.Context, page int64, perPage int64) ([]model.Job, int64, error) {
 	collection := db.client.Database(db.dbName).
 		Collection(JobsCollectionName)
-	findOptions := &options.FindOptions{}
+	findOptions := &mopts.FindOptions{}
 	findOptions.SetSkip(int64((page - 1) * perPage))
 	findOptions.SetLimit(int64(perPage))
 	sortField := bson.M{}

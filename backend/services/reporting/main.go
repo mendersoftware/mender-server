@@ -27,7 +27,6 @@ import (
 	"github.com/urfave/cli"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
-	"github.com/mendersoftware/mender-server/pkg/log"
 	mlog "github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/version"
 
@@ -264,7 +263,7 @@ func getStore(args *cli.Context) (store.Store, error) {
 		return nil, err
 	}
 	ctx := context.Background()
-	l := log.FromContext(ctx)
+	l := mlog.FromContext(ctx)
 	for i := 0; i < opensearchMaxWaitingTime; i++ {
 		err = store.Ping(ctx)
 		if err == nil {

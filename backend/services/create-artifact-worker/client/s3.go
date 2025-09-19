@@ -50,7 +50,7 @@ func NewStorage(skipSsl bool) Storage {
 }
 
 func (s *storage) Download(ctx context.Context, url, path string) error {
-	ctx, cancel := context.WithTimeout(ctx, timeoutSec)
+	ctx, cancel := context.WithTimeout(ctx, timeout)
 	defer cancel()
 
 	req, err := http.NewRequest(http.MethodGet, url, nil)
@@ -95,7 +95,7 @@ func (s *storage) Download(ctx context.Context, url, path string) error {
 }
 
 func (s *storage) Delete(ctx context.Context, url string) error {
-	ctx, cancel := context.WithTimeout(ctx, timeoutSec)
+	ctx, cancel := context.WithTimeout(ctx, timeout)
 	defer cancel()
 
 	req, err := http.NewRequest(http.MethodDelete, url, nil)
