@@ -259,7 +259,10 @@ export const DeltaGenerationDetailsDrawer = ({ jobId, onClose, open }: DeltaGene
     dispatch(setSnackbar('Link copied to clipboard'));
   };
 
-  const combinedData: EnhancedJobDetailsItem = useMemo(() => {
+  const combinedData: EnhancedJobDetailsItem | undefined = useMemo(() => {
+    if (!deltaJob) {
+      return;
+    }
     const { log, started, to_artifact_size, delta_artifact_size, to_release, to_version, from_release, from_version } = deltaJob;
     const finished = getFinishedTimeFromLog(log);
     const totalTime = getTotalTime(started, finished);
@@ -274,6 +277,10 @@ export const DeltaGenerationDetailsDrawer = ({ jobId, onClose, open }: DeltaGene
       dataSaved
     };
   }, [deltaJob]);
+
+  if (!combinedData) {
+    return null;
+  }
 
   const staticDetailsLeft = {
     'To Release': <PageLink area="releases" target={combinedData.toRelease} />,

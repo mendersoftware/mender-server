@@ -169,7 +169,7 @@ export const DeltaProgress = ({ className = '' }) => {
         />
         <Loader show={isLoading} small />
       </div>
-      <DeltaGenerationDetailsDrawer jobId={selectedJob.id} open={!!selectedJob.id} onClose={onCloseDetailsDrawer} />
+      <DeltaGenerationDetailsDrawer jobId={selectedJob?.id} open={!!selectedJob?.id} onClose={onCloseDetailsDrawer} />
     </div>
   );
 };
