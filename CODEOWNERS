@@ -1,21 +1,12 @@
-# These owners will be the default owners for everything in
-# the repo. Unless a later match takes precedence,
-# @mendersoftware/backend-dependabot-reviewers
-# and @mendersoftware/frontend-dependabot-reviewers will be requested for
-# review when someone opens a pull request.
-* @mendersoftware/backend-dependabot-reviewers @mendersoftware/frontend-dependabot-reviewers
+# Dependency updates
 
-# Order is important; the last matching pattern takes the most
-# precedence.
+go.mod @mendersoftware/backend-dependabot-reviewers
+go.sum @mendersoftware/backend-dependabot-reviewers
+*requirements*.txt @mendersoftware/backend-dependabot-reviewers
+package.json @mendersoftware/frontend-dependabot-reviewers
+package-lock.json @mendersoftware/frontend-dependabot-reviewers
+docker-compose.yml @mendersoftware/backend-dependabot-reviewers
+compose/docker-compose.*.yml @mendersoftware/backend-dependabot-reviewers
 
-# When someone opens a pull request that only
-# modifies files in the backend directory,
-# only @mendersoftware/backend-dependabot-reviewers
-# and not the global owners will be requested for a review.
-backend/ @mendersoftware/backend-dependabot-reviewers
-
-# When someone opens a pull request that only
-# modifies files in the frontend directory,
-# only @mendersoftware/frontend-dependabot-reviewers
-# and not the global owners will be requested for a review.
-frontend/ @mendersoftware/frontend-dependabot-reviewers
+backend/Dockerfile* @mendersoftware/backend-dependabot-reviewers
+frontend/Dockerfile* @mendersoftware/frontend-dependabot-reviewers
