@@ -105,6 +105,16 @@ func makeAuthReq(payload interface{}, key crypto.PrivateKey, signature string, t
 	return r
 }
 
+func TestNewRouter_EntityTooLarge(t *testing.T) {
+	da := &mocks.App{}
+	apih := NewRouter(da, nil, SetMaxRequestSize(1024))
+	body := bytes.NewReader(bytes.Repeat([]byte("4KiB"), 1024))
+	req, _ := http.NewRequest("POST", "http://localhost/", body)
+	err := &http.MaxBytesError{Limit: 1024}
+	b, _ := json.Marshal(rest.Error{Err: err.Error(), RequestID: "test"})
+	runTestRequest(t, apih, req, http.StatusRequestEntityTooLarge, string(b))
+}
+
 func TestAliveHandler(t *testing.T) {
 	da := &mocks.App{}
 	apih := makeMockApiHandler(t, da, nil)
