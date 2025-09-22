@@ -528,5 +528,8 @@ try {
   } else {
     console.log(chalk.red('💥 Test runner failed!'));
   }
+  if (process.env.ALLOWED_TO_FAIL) {
+    process.exit(464); // would equate to `incompatible protocol` as in test version & deployed version have diverged slightly - so failures might be tolerable
+  }
   process.exit(exitCode);
 }

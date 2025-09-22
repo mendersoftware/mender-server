@@ -433,6 +433,8 @@ test:prep:
     when: always
   tags:
     - hetzner-amd-beefy-privileged
+  allow_failure:
+    exit_codes: 464
 
 test:staging-deployment:chrome:
   extends: .template:test:staging-deployment
