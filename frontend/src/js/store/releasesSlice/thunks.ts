@@ -433,7 +433,7 @@ export const getDeltaGenerationJobs = createAsyncThunk(`${sliceName}/getDeltaGen
   const sortParam = sortKey && sortDirection ? `&sort=${sortKey}:${sortDirection}` : '';
   return GeneralApi.get(`${deploymentsApiUrlV2}/deployments/releases/delta/jobs?page=${page}&per_page=${perPage}${sortParam}`)
     .then(({ data, headers }) => {
-      const total = Number(headers[headerNames.total]);
+      const total = Number(headers[headerNames.total]) || data.length;
       const result = { jobs: data, total };
       return Promise.all([dispatch(actions.receivedDeltaJobs(result)), result]);
     })
