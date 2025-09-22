@@ -28,6 +28,9 @@ import { loginUser, logoutUser } from '@northern.tech/store/thunks';
 import { clearAllRetryTimers } from '@northern.tech/utils/retrytimer';
 import Cookies from 'universal-cookie';
 
+import FlagCN from '../../../assets/img/flag-cn.svg';
+import FlagEU from '../../../assets/img/flag-eu.svg';
+import FlagUS from '../../../assets/img/flag-us.svg';
 import LoginLogo from '../../../assets/img/loginlogo.svg';
 import VeryMuch from '../../../assets/img/verymuch.svg';
 import { LoginForm } from './LoginForm';
@@ -38,8 +41,9 @@ const { setSnackbar } = storeActions;
 const cookies = new Cookies();
 
 export const locationMap = {
-  eu: { ...locations.eu, fallback: locations.us },
-  us: { ...locations.us, fallback: locations.eu }
+  cn: { ...locations.cn, icon: FlagCN, fallback: locations.us },
+  eu: { ...locations.eu, icon: FlagEU, fallback: locations.us },
+  us: { ...locations.us, icon: FlagUS, fallback: locations.eu }
 };
 
 const useStyles = makeStyles()(theme => {
