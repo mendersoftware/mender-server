@@ -1,4 +1,903 @@
 ---
+## 4.0.2 - 2025-09-22
+
+
+### Bug fixes
+
+
+- *(useradm)* Always generate a unique user ID for newly created users
+([MEN-8514](https://northerntech.atlassian.net/browse/MEN-8514)) ([aa30855](https://github.com/mendersoftware/mender-server/commit/aa308552935b4859f3afad93b9bb4b8be4dbe3fe)) 
+
+
+
+
+
+### Security
+
+
+- Bump mender-artifact to the latest version
+ ([0cca94e](https://github.com/mendersoftware/mender-server/commit/0cca94eacaabab49c9b2c0c65c101f58624c88e5)) 
+- Bump the playwright group
+ ([4e92def](https://github.com/mendersoftware/mender-server/commit/4e92def1a295a4c43068fda67dda3b844939e334)) 
+
+
+  Bumps the playwright group in /frontend/tests/e2e_tests with 3 updates: [@playwright/test](https://github.com/microsoft/playwright), [playwright](https://github.com/microsoft/playwright) and [playwright-chromium](https://github.com/microsoft/playwright).
+  
+  
+  Updates `@playwright/test` from 1.50.1 to 1.55.0
+  - [Release notes](https://github.com/microsoft/playwright/releases)
+  - [Commits](https://github.com/microsoft/playwright/compare/v1.50.1...v1.55.0)
+  
+  Updates `playwright` from 1.50.1 to 1.55.0
+  - [Release notes](https://github.com/microsoft/playwright/releases)
+  - [Commits](https://github.com/microsoft/playwright/compare/v1.50.1...v1.55.0)
+  
+  Updates `playwright-chromium` from 1.50.1 to 1.55.0
+  - [Release notes](https://github.com/microsoft/playwright/releases)
+  - [Commits](https://github.com/microsoft/playwright/compare/v1.50.1...v1.55.0)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: "@playwright/test"
+    dependency-version: 1.55.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: playwright
+  - dependency-name: playwright
+    dependency-version: 1.55.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: playwright
+  - dependency-name: playwright-chromium
+    dependency-version: 1.55.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: playwright
+  ...
+- Bump node in /frontend
+ ([28c1d42](https://github.com/mendersoftware/mender-server/commit/28c1d42a5a40106ff96ad6ebd91e5124a475b427)) 
+
+
+  Bumps node from 23.11.1-alpine3.20 to 24.1.0-alpine3.20.
+  
+  ---
+  updated-dependencies:
+  - dependency-name: node
+    dependency-version: 24.1.0-alpine3.20
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+  ...
+- Bump nginxinc/nginx-unprivileged in /frontend
+ ([5e77340](https://github.com/mendersoftware/mender-server/commit/5e77340bc075d8f5a17ca4bed8aa59f20a7808dc)) 
+
+
+  Bumps nginxinc/nginx-unprivileged from 1.27.5-alpine3.21-slim to 1.28.0-alpine3.21-slim.
+  
+  ---
+  updated-dependencies:
+  - dependency-name: nginxinc/nginx-unprivileged
+    dependency-version: 1.28.0-alpine3.21-slim
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+  ...
+- Bump the e2e-test-dependencies group
+ ([26e3558](https://github.com/mendersoftware/mender-server/commit/26e355826dbb3c1819a8a5bbde2b036db2cd8dd0)) 
+
+
+  Bumps the e2e-test-dependencies group in /frontend/tests/e2e_tests with 7 updates:
+  
+  | Package | From | To |
+  | --- | --- | --- |
+  | [@bgotink/playwright-coverage](https://github.com/bgotink/playwright-coverage) | `0.3.0` | `0.3.2` |
+  | [axios](https://github.com/axios/axios) | `1.7.9` | `1.11.0` |
+  | [dayjs](https://github.com/iamkun/dayjs) | `1.11.13` | `1.11.18` |
+  | [pixelmatch](https://github.com/mapbox/pixelmatch) | `6.0.0` | `7.1.0` |
+  | [typescript](https://github.com/microsoft/TypeScript) | `5.7.3` | `5.9.2` |
+  | [uuid](https://github.com/uuidjs/uuid) | `11.0.5` | `11.1.0` |
+  | [yaml](https://github.com/eemeli/yaml) | `2.7.0` | `2.8.1` |
+  
+  
+  Updates `@bgotink/playwright-coverage` from 0.3.0 to 0.3.2
+  - [Commits](https://github.com/bgotink/playwright-coverage/compare/v0.3.0...v0.3.2)
+  
+  Updates `axios` from 1.7.9 to 1.11.0
+  - [Release notes](https://github.com/axios/axios/releases)
+  - [Changelog](https://github.com/axios/axios/blob/v1.x/CHANGELOG.md)
+  - [Commits](https://github.com/axios/axios/compare/v1.7.9...v1.11.0)
+  
+  Updates `dayjs` from 1.11.13 to 1.11.18
+  - [Release notes](https://github.com/iamkun/dayjs/releases)
+  - [Changelog](https://github.com/iamkun/dayjs/blob/v1.11.18/CHANGELOG.md)
+  - [Commits](https://github.com/iamkun/dayjs/compare/v1.11.13...v1.11.18)
+  
+  Updates `pixelmatch` from 6.0.0 to 7.1.0
+  - [Release notes](https://github.com/mapbox/pixelmatch/releases)
+  - [Commits](https://github.com/mapbox/pixelmatch/compare/v6.0.0...v7.1.0)
+  
+  Updates `typescript` from 5.7.3 to 5.9.2
+  - [Release notes](https://github.com/microsoft/TypeScript/releases)
+  - [Changelog](https://github.com/microsoft/TypeScript/blob/main/azure-pipelines.release-publish.yml)
+  - [Commits](https://github.com/microsoft/TypeScript/compare/v5.7.3...v5.9.2)
+  
+  Updates `uuid` from 11.0.5 to 11.1.0
+  - [Release notes](https://github.com/uuidjs/uuid/releases)
+  - [Changelog](https://github.com/uuidjs/uuid/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/uuidjs/uuid/compare/v11.0.5...v11.1.0)
+  
+  Updates `yaml` from 2.7.0 to 2.8.1
+  - [Release notes](https://github.com/eemeli/yaml/releases)
+  - [Commits](https://github.com/eemeli/yaml/compare/v2.7.0...v2.8.1)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: "@bgotink/playwright-coverage"
+    dependency-version: 0.3.2
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: e2e-test-dependencies
+  - dependency-name: axios
+    dependency-version: 1.11.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: e2e-test-dependencies
+  - dependency-name: dayjs
+    dependency-version: 1.11.18
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: e2e-test-dependencies
+  - dependency-name: pixelmatch
+    dependency-version: 7.1.0
+    dependency-type: direct:development
+    update-type: version-update:semver-major
+    dependency-group: e2e-test-dependencies
+  - dependency-name: typescript
+    dependency-version: 5.9.2
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: e2e-test-dependencies
+  - dependency-name: uuid
+    dependency-version: 11.1.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: e2e-test-dependencies
+  - dependency-name: yaml
+    dependency-version: 2.8.1
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: e2e-test-dependencies
+  ...
+- Bump the backend-docker-dependencies group across 10 directories with 2 updates
+ ([dacc542](https://github.com/mendersoftware/mender-server/commit/dacc5428e1feafae93935550cdf21ff8a9bc4219)) 
+
+
+  Bumps the backend-docker-dependencies group with 2 updates in the /backend/services/create-artifact-worker directory: golang and alpine.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/deployments directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/deviceauth directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/deviceconfig directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/deviceconnect directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/inventory directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/iot-manager directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/reporting directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/useradm directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/workflows directory: golang.
+  
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `alpine` from 3.21.3 to 3.22.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  ---
+  updated-dependencies:
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: alpine
+    dependency-version: 3.22.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  ...
+
+
+
+
+
+
 ## 4.0.1 - 2025-05-19
 
 
