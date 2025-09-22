@@ -784,6 +784,8 @@ exports[`smaller components > renders CancelSubscriptionAlert correctly 1`] = `
   padding: 6px 16px;
   color: rgba(37, 6, 26, 0.075);
   background-color: rgba(238, 231, 236, 0.075);
+  background-color: rgb(250, 243, 242);
+  color: rgba(10, 10, 11, 0.78);
 }
 
 .emotion-0 .MuiAlert-icon {
