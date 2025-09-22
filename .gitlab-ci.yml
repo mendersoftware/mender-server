@@ -433,6 +433,8 @@ test:prep:
     when: always
   tags:
     - hetzner-amd-beefy-privileged
+  allow_failure:
+    exit_codes: 464
 
 test:staging-deployment:chrome:
   extends: .template:test:staging-deployment
@@ -441,8 +443,6 @@ test:staging-deployment:chrome:
     - npm run script -- --environment=staging --project=chromium
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
-      when: delayed
-      start_in: 3 minutes
 
 test:staging-deployment:firefox:
   extends: .template:test:staging-deployment
