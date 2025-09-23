@@ -44,7 +44,7 @@
     "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/assetsTransformer.js"
   },
   "transformIgnorePatterns": [
-    "<rootDir>/node_modules/(?!xterm-for-react|node-fetch|jsdom-worker|data-uri-to-buffer|fetch-blob|formdata-polyfill|@northern.tech/utils)"
+    "<rootDir>/node_modules/(?!xterm-for-react|node-fetch|jsdom-worker|data-uri-to-buffer|fetch-blob|formdata-polyfill|@northern.tech/utils|msw|until-async)"
   ],
   "moduleNameMapper": {
     "\\.(css|less)$": "<rootDir>/tests/cssTransform.js",
