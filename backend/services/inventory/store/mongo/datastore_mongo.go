@@ -305,7 +305,7 @@ func (db *DataStoreMongo) UpsertDevicesAttributesWithRevision(
 	devices []model.DeviceUpdate,
 	attrs model.DeviceAttributes,
 ) (*model.UpdateResult, error) {
-	return db.upsertAttributes(ctx, devices, attrs, false, true, "", "")
+	return db.upsertAttributes(ctx, devices, attrs, false, true, "", "", nil)
 }
 
 func (db *DataStoreMongo) UpsertDevicesAttributesWithUpdated(
@@ -316,15 +316,25 @@ func (db *DataStoreMongo) UpsertDevicesAttributesWithUpdated(
 	etag string,
 ) (*model.UpdateResult, error) {
 	withUpdated := scope == model.AttrScopeInventory
-	return db.upsertAttributes(ctx, makeDevsWithIds(ids), attrs, withUpdated, false, scope, etag)
+	return db.upsertAttributes(
+		ctx, makeDevsWithIds(ids),
+		attrs, withUpdated,
+		false, scope,
+		etag, nil,
+	)
 }
 
 func (db *DataStoreMongo) UpsertDevicesAttributes(
 	ctx context.Context,
 	ids []model.DeviceID,
 	attrs model.DeviceAttributes,
+	notModifiedAfter *time.Time,
 ) (*model.UpdateResult, error) {
-	return db.upsertAttributes(ctx, makeDevsWithIds(ids), attrs, false, false, "", "")
+	return db.upsertAttributes(
+		ctx, makeDevsWithIds(ids), attrs,
+		false, false, "",
+		"", notModifiedAfter,
+	)
 }
 
 func makeDevsWithIds(ids []model.DeviceID) []model.DeviceUpdate {
@@ -407,6 +417,9 @@ func (db *DataStoreMongo) upsertAttributes(
 		if etag != "" {
 			filter[etagField] = bson.M{"$eq": etag}
 		}
+		if notModifiedAfter != nil {
+			filter["attributes.system-"+DbDevUpdatedTs+".value"] = bson.M{"$lte": notModifiedAfter}
+		}
 
 		update = bson.M{
 			"$set":         update,
@@ -443,6 +456,9 @@ func (db *DataStoreMongo) upsertAttributes(
 			if withRevision {
 				filter[DbDevRevision] = bson.M{"$lt": dev.Revision}
 				update[DbDevRevision] = dev.Revision
+			}
+			if notModifiedAfter != nil {
+				filter[DbDevUpdatedTs] = bson.M{"$lte": notModifiedAfter}
 			}
 			umod.Update = bson.M{
 				"$set":         update,
