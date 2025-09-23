@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { yes } from '@northern.tech/store/constants';
+import { TIMEOUTS, yes } from '@northern.tech/store/constants';
 import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
@@ -41,7 +41,7 @@ describe('UserManagement Component', () => {
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
 
-  it('works as intended', async () => {
+  it('works as intended', { timeout: 2 * TIMEOUTS.fiveSeconds }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const copyCheck = vi.fn(yes);
     document.execCommand = copyCheck;

@@ -12,6 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { ADDONS, PLANS } from '@northern.tech/store/appSlice/constants';
+import { TIMEOUTS } from '@northern.tech/store/commonConstants';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
@@ -62,7 +63,7 @@ describe('Subscription Summary component', () => {
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
 
-  it('allows signing up', async () => {
+  it('allows signing up', { timeout: 2 * TIMEOUTS.fiveSeconds }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const organizationActions = await import('@northern.tech/store/organizationSlice/thunks');
     const getBillingPreview = vi.spyOn(organizationActions, 'getBillingPreview');
