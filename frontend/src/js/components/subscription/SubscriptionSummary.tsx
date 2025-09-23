@@ -19,7 +19,7 @@ import { PreviewPrice } from './SubscriptionPage';
 import { formatPrice } from './utils';
 
 interface SubscriptionSummaryProps {
-  addons: Record<AvailableAddon, boolean>;
+  addons: AvailableAddon[];
   deviceLimit: number;
   isNew: boolean;
   isPreviewLoading?: boolean;
@@ -32,10 +32,7 @@ interface SubscriptionSummaryProps {
 const NumberSkeleton = () => <Skeleton width={35} height={26} />;
 
 export const SubscriptionSummary = (props: SubscriptionSummaryProps) => {
-  const { plan, deviceLimit, addons, title, isNew, isPreviewLoading, readOnly, onAction, previewPrice } = props;
-  const enabledAddons = Object.entries(addons)
-    .filter(([addon, enabled]) => enabled && addon)
-    .map(([addon]) => addon);
+  const { plan, deviceLimit, addons: enabledAddons, title, isNew, isPreviewLoading, readOnly, onAction, previewPrice } = props;
   const outlinedProps = { variant: 'outlined' as const, className: 'padding' };
   return (
     <Card style={{ minWidth: '320px' }} {...(readOnly ? { elevation: 0 } : outlinedProps)}>

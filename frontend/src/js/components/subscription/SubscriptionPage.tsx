@@ -377,12 +377,7 @@ export const SubscriptionPage = () => {
 
   const initialValues: FormData = {
     selectedPlan: plan.id,
-    selectedAddons: enabledAddons.reduce((acc, addon) => {
-      if (addon.enabled && !isTrial) {
-        acc.push(addon.name as AddonId);
-      }
-      return acc;
-    }, []),
+    selectedAddons: enabledAddons.filter(({ enabled }) => enabled && !isTrial).map(({ name }) => name),
     limit: Math.max(currentDeviceLimit || 0, plan.minimalDeviceCount),
     enterpriseMessage: ''
   };
