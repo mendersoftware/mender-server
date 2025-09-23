@@ -48,7 +48,8 @@ type InventoryApp interface {
 	ListDevices(ctx context.Context, q store.ListQuery) ([]model.Device, int, error)
 	GetDevice(ctx context.Context, id model.DeviceID) (*model.Device, error)
 	AddDevice(ctx context.Context, d *model.Device) error
-	UpsertAttributes(ctx context.Context, id model.DeviceID, attrs model.DeviceAttributes) error
+	UpsertAttributes(ctx context.Context, id model.DeviceID, attrs model.DeviceAttributes,
+		notModifiedAfter *time.Time) error
 	UpsertAttributesWithUpdated(
 		ctx context.Context,
 		id model.DeviceID,
@@ -218,9 +219,10 @@ func (i *inventory) UpsertAttributes(
 	ctx context.Context,
 	id model.DeviceID,
 	attrs model.DeviceAttributes,
+	notModifiedAfter *time.Time,
 ) error {
 	res, err := i.db.UpsertDevicesAttributes(
-		ctx, []model.DeviceID{id}, attrs,
+		ctx, []model.DeviceID{id}, attrs, notModifiedAfter,
 	)
 	if err != nil {
 		return errors.Wrap(err, "failed to upsert attributes in db")
