@@ -343,13 +343,13 @@ func (db *DataStoreMongo) upsertAttributes(
 	withRevision bool,
 	scope string,
 	etag string,
+	notModifiedAfter *time.Time,
 ) (*model.UpdateResult, error) {
 	const systemScope = DbDevAttributes + "." + model.AttrScopeSystem
 	const createdField = systemScope + "-" + model.AttrNameCreated
 	const etagField = model.AttrNameTagsEtag
 	var (
 		result *model.UpdateResult
-		filter interface{}
 		err    error
 	)
 
@@ -439,22 +439,14 @@ func (db *DataStoreMongo) upsertAttributes(
 		models := make([]mongo.WriteModel, len(devices))
 		for i, dev := range devices {
 			umod := mongo.NewUpdateOneModel()
+			filter := bson.M{"_id": dev.Id}
 			if withRevision {
-				filter = bson.M{
-					"_id":         dev.Id,
-					DbDevRevision: bson.M{"$lt": dev.Revision},
-				}
+				filter[DbDevRevision] = bson.M{"$lt": dev.Revision}
 				update[DbDevRevision] = dev.Revision
-				umod.Update = bson.M{
-					"$set":         update,
-					"$setOnInsert": oninsert,
-				}
-			} else {
-				filter = map[string]interface{}{"_id": dev.Id}
-				umod.Update = bson.M{
-					"$set":         update,
-					"$setOnInsert": oninsert,
-				}
+			}
+			umod.Update = bson.M{
+				"$set":         update,
+				"$setOnInsert": oninsert,
 			}
 			umod.Filter = filter
 			umod.SetUpsert(true)
