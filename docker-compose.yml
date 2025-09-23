@@ -312,7 +312,7 @@ services:
       default:
         aliases: [mender-workflows]
   traefik:
-    image: traefik:v3.1
+    image: traefik:3.5
     command:
       - --api=true
       - --api.insecure=true
@@ -358,7 +358,7 @@ services:
         aliases: [mender-mongo]
 
   nats:
-    image: nats:2.10
+    image: nats:2.11
     command: [-js]
     networks:
       default:
