@@ -23,6 +23,7 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/urfave/cli"
+	"golang.org/x/time/rate"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
@@ -175,6 +176,21 @@ func doMain(args []string) {
 			},
 
 			Action: cmdMaintenance,
+			Subcommands: cli.Commands{{
+				Name:  "propagate-inventory",
+				Usage: "Propagates identity data and status to inventory service",
+				Flags: []cli.Flag{
+					cli.DurationFlag{
+						Name: "timeout",
+					},
+					cli.Float64Flag{
+						Name:  "rate-limit",
+						Value: 100.0,
+						Usage: "Rate limit (devices per second)",
+					},
+				},
+				Action: cmdPropagateInventory,
+			}},
 		},
 		{
 			Name:  "version",
@@ -291,6 +307,28 @@ func cmdPropagateStatusesInventory(args *cli.Context) error {
 		args.Bool("dry-run"))
 	if err != nil {
 		return cli.NewExitError(err, 7)
+	}
+	return nil
+}
+
+func cmdPropagateInventory(args *cli.Context) error {
+	ctx := context.Background()
+	if args.IsSet("timeout") {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, args.Duration("timeout"))
+		defer cancel()
+	}
+	db, err := mongo.NewDataStoreMongo(makeDataStoreConfig())
+	if err != nil {
+		return err
+	}
+
+	inv := config.Config.GetString(dconfig.SettingInventoryAddr)
+	c := cinv.NewClient(inv, false)
+	rateLimiter := rate.NewLimiter(rate.Limit(args.Float64("rate-limit")), 1)
+	err = cmd.MaintenanceSyncDeviceInventory(ctx, db, c, rateLimiter)
+	if err != nil {
+		return cli.NewExitError(err, 1)
 	}
 	return nil
 }

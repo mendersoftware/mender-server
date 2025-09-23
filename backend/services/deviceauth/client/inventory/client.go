@@ -41,6 +41,8 @@ const (
 	defaultTimeout = 10 * time.Second
 )
 
+var ErrPreconditionsFailed = errors.New("preconditions failed")
+
 //go:generate ../../../../utils/mockgen.sh
 type Client interface {
 	CheckHealth(ctx context.Context) error
@@ -55,6 +57,13 @@ type Client interface {
 		tenantId,
 		deviceId string,
 		idData map[string]interface{},
+	) error
+	SetDeviceIdentityIfUnmodifiedSince(
+		ctx context.Context,
+		tenantId,
+		deviceId string,
+		idData map[string]interface{},
+		unmodifiedSince time.Time,
 	) error
 }
 
@@ -164,15 +173,16 @@ func (c *client) SetDeviceStatus(
 	return nil
 }
 
-func (c *client) SetDeviceIdentity(
+func (c *client) setDeviceIdentityIfUnmodifiedSince(
 	ctx context.Context,
-	tenantId,
-	deviceId string,
+	tenantID,
+	deviceID string,
 	idData map[string]interface{},
+	unmodifiedSince *time.Time,
 ) error {
 	l := log.FromContext(ctx)
 
-	if deviceId == "" {
+	if deviceID == "" {
 		return errors.New("device id is needed")
 	}
 
@@ -210,8 +220,8 @@ func (c *client) SetDeviceIdentity(
 	rd := bytes.NewReader(body)
 
 	url := utils.JoinURL(c.urlBase, urlSetDeviceAttribute)
-	url = strings.Replace(url, "#tid", tenantId, 1)
-	url = strings.Replace(url, "#did", deviceId, 1)
+	url = strings.Replace(url, "#tid", tenantID, 1)
+	url = strings.Replace(url, "#did", deviceID, 1)
 	url = strings.Replace(url, "#scope", "identity", 1)
 
 	req, err := http.NewRequest(http.MethodPatch, url, rd)
@@ -221,6 +231,12 @@ func (c *client) SetDeviceIdentity(
 
 	req.Header.Set("X-MEN-Source", "deviceauth")
 	req.Header.Set("Content-Type", "application/json")
+	if unmodifiedSince != nil {
+		// UTC is not part of RFC1123 / need to rename to GMT
+		req.Header.Set("If-Unmodified-Since", unmodifiedSince.
+			In(time.FixedZone("GMT", 0)).
+			Format(time.RFC1123))
+	}
 
 	ctx, cancel := context.WithTimeout(ctx, defaultTimeout)
 	defer cancel()
@@ -231,7 +247,12 @@ func (c *client) SetDeviceIdentity(
 	}
 	defer rsp.Body.Close()
 
-	if rsp.StatusCode != http.StatusOK {
+	switch rsp.StatusCode {
+	case http.StatusOK:
+		return nil
+	case http.StatusPreconditionFailed:
+		return ErrPreconditionsFailed
+	default:
 		body, err := io.ReadAll(rsp.Body)
 		if err != nil {
 			body = []byte("<failed to read>")
@@ -242,6 +263,23 @@ func (c *client) SetDeviceIdentity(
 		return errors.Errorf(
 			"%s %s request failed with status %v", req.Method, req.URL, rsp.Status)
 	}
+}
 
-	return nil
+func (c *client) SetDeviceIdentity(
+	ctx context.Context,
+	tenantID,
+	deviceID string,
+	idData map[string]interface{},
+) error {
+	return c.setDeviceIdentityIfUnmodifiedSince(ctx, tenantID, deviceID, idData, nil)
+}
+
+func (c *client) SetDeviceIdentityIfUnmodifiedSince(
+	ctx context.Context,
+	tenantID,
+	deviceID string,
+	idData map[string]interface{},
+	unmodifiedSince time.Time,
+) error {
+	return c.setDeviceIdentityIfUnmodifiedSince(ctx, tenantID, deviceID, idData, &unmodifiedSince)
 }
