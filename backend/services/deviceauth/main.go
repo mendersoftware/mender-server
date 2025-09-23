@@ -236,7 +236,11 @@ func doMain(args []string) {
 		return nil
 	}
 
-	_ = app.Run(args)
+	err := app.Run(args)
+	if err != nil {
+		log.NewEmpty().Fatal(err)
+		os.Exit(1)
+	}
 }
 
 func cmdServer(args *cli.Context) error {
