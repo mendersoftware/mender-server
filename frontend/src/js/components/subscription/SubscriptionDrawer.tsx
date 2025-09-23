@@ -47,7 +47,7 @@ import { SubscriptionSummary } from './SubscriptionSummary';
 import { formatPrice } from './utils';
 
 interface SubscriptionDrawerProps {
-  addons: Record<AvailableAddon, boolean>;
+  addons: AvailableAddon[];
   currentPlanId?: string;
   isTrial?: boolean;
   onClose: () => void;
@@ -145,7 +145,7 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
         plan={props.plan}
         title="Your new subscription"
         isNew={false}
-        addons={props.addons || {}}
+        addons={props.addons}
         deviceLimit={order.products[0].quantity}
         readOnly
       />
