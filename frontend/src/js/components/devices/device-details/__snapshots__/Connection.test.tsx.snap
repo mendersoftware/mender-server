@@ -39,6 +39,7 @@ exports[`DeviceConnection Component renders correctly 1`] = `
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
+  line-height: 1.5;
   color: rgba(10, 10, 11, 0.78);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
@@ -252,6 +253,7 @@ exports[`DeviceConnection Component renders correctly when connected 1`] = `
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
+  line-height: 1.5;
   color: rgba(10, 10, 11, 0.78);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
@@ -1475,7 +1477,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
           >
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-7"
-              id=":ri:"
               tabindex="0"
               type="button"
             >
@@ -1487,7 +1488,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
           >
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-9"
-              id=":rj:"
               tabindex="0"
               type="button"
             >
@@ -1498,7 +1498,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
               class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-9"
               data-discover="true"
               href="/auditlog?objectType=device&objectId=a1&startDate=2016-01-01T00:00:00.000Z"
-              id=":rk:"
               tabindex="0"
             >
               View Session Logs for this device
@@ -1523,7 +1522,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
               style="overflow: hidden;"
             >
               <div
-                class="MuiTabs-flexContainer emotion-14"
+                class="MuiTabs-list MuiTabs-flexContainer emotion-14"
                 role="tablist"
               >
                 <button
@@ -1621,7 +1620,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
                   <input
                     aria-invalid="false"
                     class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd emotion-24"
-                    id=":rl:"
+                    id=":rr:"
                     placeholder="Example: /opt/installed-by-single-file"
                     type="text"
                     value=""
@@ -1633,7 +1632,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
                       aria-label="Paste"
                       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-26"
                       data-mui-internal-clone-element="true"
-                      id=":rn:"
                       tabindex="0"
                       type="button"
                     >
@@ -1670,7 +1668,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-30"
                 disabled=""
-                id=":ro:"
                 tabindex="-1"
                 type="button"
               >
@@ -1724,6 +1721,7 @@ exports[`DeviceConnection Component renders correctly when disconnected 1`] = `
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
+  line-height: 1.5;
   color: rgba(10, 10, 11, 0.78);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;

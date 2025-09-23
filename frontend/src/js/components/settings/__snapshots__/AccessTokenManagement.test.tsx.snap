@@ -888,7 +888,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
 }
 
 <div
-  aria-labelledby=":rl:"
+  aria-labelledby=":ro:"
   aria-modal="true"
   class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm emotion-0"
   role="dialog"
@@ -896,7 +896,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
 >
   <h2
     class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-1"
-    id=":rl:"
+    id=":ro:"
   >
     Create new token
   </h2>
@@ -914,7 +914,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
             aria-invalid="false"
             class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-5"
             disabled=""
-            id=":rm:"
+            id=":rp:"
             placeholder="Name"
             type="text"
             value=""
@@ -942,7 +942,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
         class="MuiFormControl-root emotion-8"
       >
         <label
-          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-9"
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-9"
           data-shrink="true"
           id="token-expiration-label"
         >
@@ -1014,7 +1014,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
       >
         <button
           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-18"
-          id=":ro:"
           style="float: right; margin: -20px 0px 0px 10px;"
           tabindex="0"
           type="button"
@@ -1051,7 +1050,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
     <button
       class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-21"
       disabled=""
-      id=":rp:"
       tabindex="-1"
       type="button"
     >
@@ -1252,7 +1250,7 @@ exports[`UserManagement Component renders AccessTokenRevocationDialog correctly 
 }
 
 <div
-  aria-labelledby=":rq:"
+  aria-labelledby=":ru:"
   aria-modal="true"
   class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm emotion-0"
   role="dialog"
@@ -1260,7 +1258,7 @@ exports[`UserManagement Component renders AccessTokenRevocationDialog correctly 
 >
   <h2
     class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-1"
-    id=":rq:"
+    id=":ru:"
   >
     Revoke token
   </h2>
@@ -1278,7 +1276,6 @@ exports[`UserManagement Component renders AccessTokenRevocationDialog correctly 
   >
     <button
       class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-4"
-      id=":rr:"
       tabindex="0"
       type="button"
     >
@@ -1286,7 +1283,6 @@ exports[`UserManagement Component renders AccessTokenRevocationDialog correctly 
     </button>
     <button
       class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-4"
-      id=":rs:"
       tabindex="0"
       type="button"
     >
@@ -1417,7 +1413,6 @@ exports[`UserManagement Component renders correctly 1`] = `
   </p>
   <button
     class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-1"
-    id=":r0:"
     tabindex="0"
     type="button"
   >
