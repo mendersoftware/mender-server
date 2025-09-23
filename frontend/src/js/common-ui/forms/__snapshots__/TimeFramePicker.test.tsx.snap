@@ -486,14 +486,14 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
       <label
         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-1"
         data-shrink="false"
-        for=":r3:"
-        id=":r3:-label"
+        for=":r2:"
+        id=":r2:-label"
       >
         From
       </label>
       <div
         aria-invalid="false"
-        aria-labelledby=":r3:-label"
+        aria-labelledby=":r2:-label"
         class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedEnd emotion-2"
         role="group"
       >
@@ -512,7 +512,6 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
             <span
               aria-disabled="false"
               aria-label="Year"
-              aria-labelledby=":r2:-year"
               aria-readonly="false"
               aria-valuemax="9999"
               aria-valuemin="0"
@@ -521,7 +520,6 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
               autocorrect="off"
               class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent emotion-6"
               contenteditable="true"
-              id=":r2:-year"
               inputmode="numeric"
               role="spinbutton"
               spellcheck="false"
@@ -545,7 +543,6 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
             <span
               aria-disabled="false"
               aria-label="Month"
-              aria-labelledby=":r2:-month"
               aria-readonly="false"
               aria-valuemax="12"
               aria-valuemin="1"
@@ -554,7 +551,6 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
               autocorrect="off"
               class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent emotion-6"
               contenteditable="true"
-              id=":r2:-month"
               inputmode="numeric"
               role="spinbutton"
               spellcheck="false"
@@ -578,7 +574,6 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
             <span
               aria-disabled="false"
               aria-label="Day"
-              aria-labelledby=":r2:-day"
               aria-readonly="false"
               aria-valuemax="31"
               aria-valuemin="1"
@@ -587,7 +582,6 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
               autocorrect="off"
               class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent emotion-6"
               contenteditable="true"
-              id=":r2:-day"
               inputmode="numeric"
               role="spinbutton"
               spellcheck="false"
@@ -640,7 +634,7 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
           aria-hidden="true"
           aria-label="From"
           class="MuiPickersInputBase-input MuiPickersOutlinedInput-input emotion-22"
-          id=":r3:"
+          id=":r2:"
           tabindex="-1"
           value=""
         />
@@ -652,14 +646,14 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
       <label
         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-24"
         data-shrink="true"
-        for=":r8:"
-        id=":r8:-label"
+        for=":r6:"
+        id=":r6:-label"
       >
         To
       </label>
       <div
         aria-invalid="false"
-        aria-labelledby=":r8:-label"
+        aria-labelledby=":r6:-label"
         class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedEnd emotion-2"
         role="group"
       >
@@ -678,7 +672,6 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
             <span
               aria-disabled="false"
               aria-label="Year"
-              aria-labelledby=":r7:-year"
               aria-readonly="false"
               aria-valuemax="9999"
               aria-valuemin="0"
@@ -687,7 +680,6 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
               autocorrect="off"
               class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent emotion-6"
               contenteditable="true"
-              id=":r7:-year"
               inputmode="numeric"
               role="spinbutton"
               spellcheck="false"
@@ -711,7 +703,6 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
             <span
               aria-disabled="false"
               aria-label="Month"
-              aria-labelledby=":r7:-month"
               aria-readonly="false"
               aria-valuemax="12"
               aria-valuemin="1"
@@ -721,7 +712,6 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
               autocorrect="off"
               class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent emotion-6"
               contenteditable="true"
-              id=":r7:-month"
               inputmode="numeric"
               role="spinbutton"
               spellcheck="false"
@@ -745,7 +735,6 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
             <span
               aria-disabled="false"
               aria-label="Day"
-              aria-labelledby=":r7:-day"
               aria-readonly="false"
               aria-valuemax="31"
               aria-valuemin="1"
@@ -755,7 +744,6 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
               autocorrect="off"
               class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent emotion-6"
               contenteditable="true"
-              id=":r7:-day"
               inputmode="numeric"
               role="spinbutton"
               spellcheck="false"
@@ -808,7 +796,7 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
           aria-hidden="true"
           aria-label="To"
           class="MuiPickersInputBase-input MuiPickersOutlinedInput-input emotion-22"
-          id=":r8:"
+          id=":r6:"
           tabindex="-1"
           value="2019-01-13"
         />
