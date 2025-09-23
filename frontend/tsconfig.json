@@ -1,7 +1,6 @@
 {
   "extends": "@northern.tech/typescript-config/react-app.json",
   "compilerOptions": {
-    "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
       "@northern.tech/store/*": ["src/js/store/*"],

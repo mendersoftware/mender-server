@@ -12,7 +12,6 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 // @ts-nocheck
-
 /*eslint import/namespace: ['error', { allowComputed: true }]*/
 import reducer, { actions, initialState } from '.';
 import { defaultState } from '../../../../tests/mockData';

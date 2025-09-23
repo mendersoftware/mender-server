@@ -12,7 +12,6 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 // @ts-nocheck
-
 /*eslint import/namespace: ['error', { allowComputed: true }]*/
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -987,10 +986,10 @@ describe('device retrieval ', () => {
       { type: getDeviceById.pending.type },
       { type: getDeviceConnect.pending.type },
       { type: actions.receivedDevices.type, payload: { [id]: { ...expectedDevice, id } } },
-      { type: actions.receivedDevice.type, payload: { attributes, id } },
       { type: getDevicesWithAuth.fulfilled.type },
-      { type: getDeviceById.fulfilled.type },
+      { type: actions.receivedDevice.type, payload: { attributes, id } },
       { type: getDeviceAuth.fulfilled.type },
+      { type: getDeviceById.fulfilled.type },
       { type: actions.receivedDevice.type, payload: { connect_status: 'connected', connect_updated_ts: updated_ts, id } },
       { type: getDeviceConnect.fulfilled.type },
       { type: actions.receivedDevice.type, payload: expectedDevice },
