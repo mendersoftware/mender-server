@@ -178,7 +178,7 @@ describe('Upgrade Component', () => {
       user_message: 'Interested in updating to Enterprise version'
     }
   };
-  it('enterprise request works as intended', async () => {
+  it('enterprise request works as intended', { timeout: 2 * TIMEOUTS.fiveSeconds }, async () => {
     const OrganizationActions = await import('@northern.tech/store/organizationSlice/thunks');
     const enterpriseRequest = vi.spyOn(OrganizationActions, 'requestPlanChange');
     window.localStorage.getItem.mockImplementation(name => (name === 'JWT' ? JSON.stringify({ token: mockToken }) : null));

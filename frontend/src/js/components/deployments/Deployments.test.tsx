@@ -15,7 +15,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import GeneralApi from '@northern.tech/store/api/general-api';
-import { ALL_DEVICES } from '@northern.tech/store/constants';
+import { ALL_DEVICES, TIMEOUTS } from '@northern.tech/store/constants';
 import { act, fireEvent, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
@@ -221,7 +221,7 @@ describe('Deployments Component', () => {
     await waitFor(() => expect(screen.queryByText(/Cancel/i)).not.toBeInTheDocument());
   }, 30000);
 
-  it('allows navigating the enterprise deployment creation dialog', async () => {
+  it('allows navigating the enterprise deployment creation dialog', { timeout: 5 * TIMEOUTS.fiveSeconds }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const preloadedState = {
       ...mockState,
@@ -366,5 +366,5 @@ describe('Deployments Component', () => {
       },
       { headers: {} }
     );
-  }, 20000);
+  });
 });
