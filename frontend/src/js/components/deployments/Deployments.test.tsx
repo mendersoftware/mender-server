@@ -298,7 +298,6 @@ describe('Deployments Component', () => {
     const thirdPhase = screen.getByText(/Phase 3/i).parentElement.parentElement.parentElement;
     expect(within(thirdPhase).getByText(/Phases must have at least 1 device/i)).toBeTruthy();
     fireEvent.change(within(thirdPhase).getByDisplayValue(10), { target: { value: '20' } });
-    await user.click(screen.getByRole('checkbox', { name: /save as default/i }));
     const retrySelect = document.querySelector('#deployment-retries-selection');
     await user.click(retrySelect);
     await user.keyboard(specialKeys.ArrowDown);
@@ -361,7 +360,6 @@ describe('Deployments Component', () => {
             { batch_size: undefined, start_ts: 3 }
           ]
         ],
-        retries: 1,
         hasDeployments: true
       },
       { headers: {} }

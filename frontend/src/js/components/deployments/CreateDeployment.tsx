@@ -110,7 +110,6 @@ export const CreateDeployment = props => {
   const dispatch = useDispatch();
 
   const isCreating = useRef(false);
-  const [hasNewRetryDefault, setHasNewRetryDefault] = useState(false);
   const [isChecking, setIsChecking] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const navigate = useNavigate();
@@ -177,7 +176,6 @@ export const CreateDeployment = props => {
     navigate(location); // lgtm [js/client-side-unvalidated-url-redirection]
   };
 
-  const onSaveRetriesSetting = hasNewRetryDefault => setHasNewRetryDefault(hasNewRetryDefault);
 
   const closeWizard = () => {
     cleanUpDeploymentsStatus();
@@ -216,7 +214,7 @@ export const CreateDeployment = props => {
     if (!isOnboardingComplete) {
       dispatch(advanceOnboarding(onboardingSteps.SCHEDULING_RELEASE_TO_DEVICES));
     }
-    return dispatch(createDeployment({ newDeployment, hasNewRetryDefault }))
+    return dispatch(createDeployment({ newDeployment }))
       .then(() => {
         // successfully retrieved new deployment
         cleanUpDeploymentsStatus();
@@ -259,8 +257,6 @@ export const CreateDeployment = props => {
     releasesById,
     commonClasses: classes,
     deploymentObject: deploymentSettings,
-    hasNewRetryDefault,
-    onSaveRetriesSetting,
     open: false,
     setDeploymentSettings
   };

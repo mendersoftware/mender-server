@@ -115,7 +115,7 @@ const trackDeploymentCreation = (totalDeploymentCount, hasDeployments, trial_exp
 };
 
 const MAX_PREVIOUS_PHASES_COUNT = 5;
-export const createDeployment = createAsyncThunk(`${sliceName}/createDeployment`, ({ newDeployment, hasNewRetryDefault = false }, { dispatch, getState }) => {
+export const createDeployment = createAsyncThunk(`${sliceName}/createDeployment`, ({ newDeployment }, { dispatch, getState }) => {
   let request;
   if (newDeployment.filter_id) {
     request = GeneralApi.post(`${deploymentsApiUrlV2}/deployments`, newDeployment);
@@ -147,9 +147,9 @@ export const createDeployment = createAsyncThunk(`${sliceName}/createDeployment`
       trackDeploymentCreation(totalDeploymentCount, hasDeployments, trial_expiration);
       const { canManageUsers } = getUserCapabilities(getState());
       if (canManageUsers) {
-        const { phases, retries } = newDeployment;
-        const { previousPhases = [], retries: previousRetries = 0 } = getGlobalSettings(getState());
-        const newSettings = { retries: hasNewRetryDefault ? retries : previousRetries, hasDeployments: true };
+        const { phases } = newDeployment;
+        const { previousPhases = [] } = getGlobalSettings(getState());
+        const newSettings = { hasDeployments: true };
         if (phases) {
           const standardPhases = standardizePhases(phases);
           const prevPhases = previousPhases.map(standardizePhases);

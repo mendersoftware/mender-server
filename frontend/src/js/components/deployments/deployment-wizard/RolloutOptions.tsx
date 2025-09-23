@@ -12,8 +12,9 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
-import { Autocomplete, Checkbox, Collapse, FormControl, FormControlLabel, FormGroup, TextField } from '@mui/material';
+import { Autocomplete, Checkbox, Collapse, FormControl, FormControlLabel, FormGroup, FormHelperText, TextField } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
@@ -100,19 +101,11 @@ export const RolloutOptions = ({ deploymentObject, isEnterprise, setDeploymentSe
   );
 };
 
-export const Retries = ({
-  canRetry,
-  commonClasses,
-  deploymentObject,
-  hasNewRetryDefault = false,
-  onSaveRetriesSetting,
-  previousRetries,
-  setDeploymentSettings
-}) => {
+export const Retries = ({ canRetry, commonClasses, deploymentObject, previousRetries, setDeploymentSettings }) => {
   const { retries } = deploymentObject;
   const { classes } = useStyles();
 
-  const [currentAttempts, setCurrentAttempts] = useState(Number(retries ?? previousRetries ?? 0) + 1);
+  const [currentAttempts, setCurrentAttempts] = useState(Number(retries ?? previousRetries ?? 0));
   const debouncedAttempts = useDebounce(currentAttempts, TIMEOUTS.debounceShort);
 
   useEffect(() => {
@@ -132,8 +125,6 @@ export const Retries = ({
     }
     setCurrentAttempts(formatValue(value));
   };
-
-  const onSaveRetriesSettingClick = (_, checked) => onSaveRetriesSetting(checked);
 
   return (
     <>
@@ -166,16 +157,15 @@ export const Retries = ({
                   input: { ...params.InputProps }
                 }}
                 type="number"
+                placeholder={`${previousRetries + 1}`}
               />
             )}
             value={currentAttempts}
           />
-          <FormControlLabel
-            className={classes.defaultBox}
-            control={<Checkbox checked={hasNewRetryDefault} onChange={onSaveRetriesSettingClick} />}
-            label="Save as default"
-          />
         </FormGroup>
+        <FormHelperText>
+          Default retry attempts: {previousRetries}. You can change the organization-wide default in the <Link to="/settings/global-settings">settings</Link>.
+        </FormHelperText>
       </FormControl>
     </>
   );

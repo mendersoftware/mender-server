@@ -176,8 +176,10 @@ export const GlobalSettingsDialog = ({
   const [channelSettings, setChannelSettings] = useState(notificationChannelSettings);
   const [currentInterval, setCurrentInterval] = useState(offlineThresholdSettings.interval);
   const [intervalErrorText, setIntervalErrorText] = useState('');
+  const [currentRetries, setCurrentRetries] = useState(Number(settings.retries ?? 0));
   const [showDeltaConfig, setShowDeltaConfig] = useState(false);
   const debouncedOfflineThreshold = useDebounce(currentInterval, TIMEOUTS.threeSeconds);
+  const debouncedRetries = useDebounce(currentRetries, TIMEOUTS.threeSeconds);
   const timer = useRef(false);
   const { classes } = useStyles();
   const { aiFeatures = {}, needsDeploymentConfirmation = false } = settings;
@@ -198,11 +200,19 @@ export const GlobalSettingsDialog = ({
   }, [offlineThresholdSettings.interval]);
 
   useEffect(() => {
+    setCurrentRetries(Number(settings.retries ?? 0));
+  }, [settings.retries]);
+
+  useEffect(() => {
     if (!window.sessionStorage.getItem(settingsKeys.initialized) || !timer.current || !canManageUsers) {
       return;
     }
-    saveGlobalSettings({ offlineThreshold: { interval: debouncedOfflineThreshold, intervalUnit: DEVICE_ONLINE_CUTOFF.intervalName }, notify: true });
-  }, [canManageUsers, debouncedOfflineThreshold, saveGlobalSettings]);
+    saveGlobalSettings({
+      offlineThreshold: { interval: debouncedOfflineThreshold, intervalUnit: DEVICE_ONLINE_CUTOFF.intervalName },
+      retries: Number(debouncedRetries),
+      notify: true
+    });
+  }, [canManageUsers, debouncedOfflineThreshold, debouncedRetries, saveGlobalSettings]);
 
   useEffect(() => {
     const initTimer = setTimeout(() => (timer.current = true), TIMEOUTS.fiveSeconds);
@@ -227,6 +237,12 @@ export const GlobalSettingsDialog = ({
       return setIntervalErrorText('');
     }
     setIntervalErrorText('Please enter a valid number between 1 and 1000.');
+  };
+
+  const onChangeRetryAttempts = ({ target: { validity, value } }) => {
+    if (validity.valid) {
+      setCurrentRetries(value || 0);
+    }
   };
 
   const toggleDeploymentConfirmation = () => saveGlobalSettings({ needsDeploymentConfirmation: !needsDeploymentConfirmation });
@@ -255,6 +271,31 @@ export const GlobalSettingsDialog = ({
             onClick={toggleDeploymentConfirmation}
             value={needsDeploymentConfirmation}
           />
+        )}
+        {canManageUsers && (
+          <div>
+            <Typography className="margin-bottom-small" variant="subtitle1">
+              Default deployment retry attempts
+            </Typography>
+            <FormControl variant="standard">
+              <FormControlLabel
+                className={classes.threshold}
+                control={
+                  <TextField
+                    type="number"
+                    onChange={onChangeRetryAttempts}
+                    slotProps={{ htmlInput: { min: '0', max: '100' } }}
+                    value={currentRetries}
+                    variant="outlined"
+                  />
+                }
+                label={<div className="capitalized-start">attempts</div>}
+              />
+              <FormHelperText>
+                Set the default number of retry attempts for deployments. Users can override this setting when creating individual deployments.
+              </FormHelperText>
+            </FormControl>
+          </div>
         )}
         {canManageReleases && (
           <div>

@@ -4277,146 +4277,26 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
 }
 
 .emotion-18 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  cursor: pointer;
-  vertical-align: middle;
-  -webkit-tap-highlight-color: transparent;
-  margin-left: -11px;
-  margin-right: 16px;
-  margin-top: 18px;
-  margin-top: 0;
-  margin-bottom: -15px;
+  color: rgba(0, 0, 0, 0.54);
+  font-family: Lato,sans-serif;
+  font-weight: 400;
+  font-size: 0.6964rem;
+  line-height: 1.66;
+  text-align: left;
+  margin-top: 3px;
+  margin-right: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+  margin-left: 14px;
+  margin-right: 14px;
 }
 
 .emotion-18.Mui-disabled {
-  cursor: default;
-}
-
-.emotion-18 .MuiFormControlLabel-label.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-19 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  position: relative;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-  background-color: transparent;
-  outline: 0;
-  border: 0;
-  margin: 0;
-  border-radius: 0;
-  padding: 0;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  vertical-align: middle;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  color: inherit;
-  padding: 9px;
-  border-radius: 50%;
-  color: rgba(0, 0, 0, 0.54);
-  color: rgba(10, 10, 11, 0.78);
-}
-
-.emotion-19::-moz-focus-inner {
-  border-style: none;
-}
-
-.emotion-19.Mui-disabled {
-  pointer-events: none;
-  cursor: default;
-}
-
-@media print {
-  .emotion-19 {
-    -webkit-print-color-adjust: exact;
-    color-adjust: exact;
-  }
-}
-
-.emotion-19:hover {
-  background-color: rgba(51, 122, 135, 0.04);
-}
-
-.emotion-19.Mui-checked,
-.emotion-19.MuiCheckbox-indeterminate {
-  color: #337a87;
-}
-
-.emotion-19.Mui-disabled {
-  color: rgba(0, 0, 0, 0.26);
-}
-
-@media (hover: none) {
-  .emotion-19:hover {
-    background-color: transparent;
-  }
-}
-
-.emotion-20 {
-  cursor: inherit;
-  position: absolute;
-  opacity: 0;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  margin: 0;
-  padding: 0;
-  z-index: 1;
-}
-
-.emotion-21 {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  fill: currentColor;
-  font-size: 1.3929rem;
-}
-
-.emotion-21 iconButton {
-  margin-right: 8px;
-}
-
-.emotion-22 {
-  margin: 0;
-  line-height: 1.5;
-  font-family: Lato,sans-serif;
-  font-weight: 400;
-  font-size: 0.9286rem;
+.emotion-18.Mui-error {
+  color: #ab1000;
 }
 
 <div>
@@ -4518,10 +4398,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
               class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiAutocomplete-input MuiAutocomplete-inputFocused emotion-15"
               disabled=""
               id="deployment-retries-selection"
+              placeholder="1"
               role="combobox"
               spellcheck="false"
               type="number"
-              value="1"
+              value=""
             />
             <fieldset
               aria-hidden="true"
@@ -4541,39 +4422,21 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
           </div>
         </div>
       </div>
-      <label
-        class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-18"
-      >
-        <span
-          aria-disabled="true"
-          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium emotion-19"
-          tabindex="-1"
-        >
-          <input
-            class="PrivateSwitchBase-input emotion-20"
-            data-indeterminate="false"
-            disabled=""
-            type="checkbox"
-          />
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-21"
-            data-testid="CheckBoxOutlineBlankIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-            />
-          </svg>
-        </span>
-        <span
-          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-22"
-        >
-          Save as default
-        </span>
-      </label>
     </div>
+    <p
+      class="MuiFormHelperText-root Mui-disabled MuiFormHelperText-sizeMedium MuiFormHelperText-contained emotion-18"
+    >
+      Default retry attempts: 
+      0
+      . You can change the organization-wide default in the 
+      <a
+        data-discover="true"
+        href="/settings/global-settings"
+      >
+        settings
+      </a>
+      .
+    </p>
   </div>
 </div>
 `;
@@ -5453,146 +5316,26 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
 }
 
 .emotion-18 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  cursor: pointer;
-  vertical-align: middle;
-  -webkit-tap-highlight-color: transparent;
-  margin-left: -11px;
-  margin-right: 16px;
-  margin-top: 18px;
-  margin-top: 0;
-  margin-bottom: -15px;
+  color: rgba(0, 0, 0, 0.54);
+  font-family: Lato,sans-serif;
+  font-weight: 400;
+  font-size: 0.6964rem;
+  line-height: 1.66;
+  text-align: left;
+  margin-top: 3px;
+  margin-right: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+  margin-left: 14px;
+  margin-right: 14px;
 }
 
 .emotion-18.Mui-disabled {
-  cursor: default;
-}
-
-.emotion-18 .MuiFormControlLabel-label.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-19 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  position: relative;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-  background-color: transparent;
-  outline: 0;
-  border: 0;
-  margin: 0;
-  border-radius: 0;
-  padding: 0;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  vertical-align: middle;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  color: inherit;
-  padding: 9px;
-  border-radius: 50%;
-  color: rgba(0, 0, 0, 0.54);
-  color: rgba(10, 10, 11, 0.78);
-}
-
-.emotion-19::-moz-focus-inner {
-  border-style: none;
-}
-
-.emotion-19.Mui-disabled {
-  pointer-events: none;
-  cursor: default;
-}
-
-@media print {
-  .emotion-19 {
-    -webkit-print-color-adjust: exact;
-    color-adjust: exact;
-  }
-}
-
-.emotion-19:hover {
-  background-color: rgba(51, 122, 135, 0.04);
-}
-
-.emotion-19.Mui-checked,
-.emotion-19.MuiCheckbox-indeterminate {
-  color: #337a87;
-}
-
-.emotion-19.Mui-disabled {
-  color: rgba(0, 0, 0, 0.26);
-}
-
-@media (hover: none) {
-  .emotion-19:hover {
-    background-color: transparent;
-  }
-}
-
-.emotion-20 {
-  cursor: inherit;
-  position: absolute;
-  opacity: 0;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  margin: 0;
-  padding: 0;
-  z-index: 1;
-}
-
-.emotion-21 {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  fill: currentColor;
-  font-size: 1.3929rem;
-}
-
-.emotion-21 iconButton {
-  margin-right: 8px;
-}
-
-.emotion-22 {
-  margin: 0;
-  line-height: 1.5;
-  font-family: Lato,sans-serif;
-  font-weight: 400;
-  font-size: 0.9286rem;
+.emotion-18.Mui-error {
+  color: #ab1000;
 }
 
 <div>
@@ -5694,10 +5437,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
               class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiAutocomplete-input MuiAutocomplete-inputFocused emotion-15"
               disabled=""
               id="deployment-retries-selection"
+              placeholder="1"
               role="combobox"
               spellcheck="false"
               type="number"
-              value="1"
+              value=""
             />
             <fieldset
               aria-hidden="true"
@@ -5717,39 +5461,21 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
           </div>
         </div>
       </div>
-      <label
-        class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-18"
-      >
-        <span
-          aria-disabled="true"
-          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium emotion-19"
-          tabindex="-1"
-        >
-          <input
-            class="PrivateSwitchBase-input emotion-20"
-            data-indeterminate="false"
-            disabled=""
-            type="checkbox"
-          />
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-21"
-            data-testid="CheckBoxOutlineBlankIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-            />
-          </svg>
-        </span>
-        <span
-          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-22"
-        >
-          Save as default
-        </span>
-      </label>
     </div>
+    <p
+      class="MuiFormHelperText-root Mui-disabled MuiFormHelperText-sizeMedium MuiFormHelperText-contained emotion-18"
+    >
+      Default retry attempts: 
+      0
+      . You can change the organization-wide default in the 
+      <a
+        data-discover="true"
+        href="/settings/global-settings"
+      >
+        settings
+      </a>
+      .
+    </p>
   </div>
 </div>
 `;
