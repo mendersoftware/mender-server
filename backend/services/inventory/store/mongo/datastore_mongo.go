@@ -358,6 +358,7 @@ func (db *DataStoreMongo) upsertAttributes(
 	const systemScope = DbDevAttributes + "." + model.AttrScopeSystem
 	const createdField = systemScope + "-" + model.AttrNameCreated
 	const etagField = model.AttrNameTagsEtag
+	const updatedTS = "attributes.system-" + DbDevUpdatedTs + ".value"
 	var (
 		result *model.UpdateResult
 		err    error
@@ -418,7 +419,10 @@ func (db *DataStoreMongo) upsertAttributes(
 			filter[etagField] = bson.M{"$eq": etag}
 		}
 		if notModifiedAfter != nil {
-			filter["attributes.system-"+DbDevUpdatedTs+".value"] = bson.M{"$lte": notModifiedAfter}
+			filter["$or"] = []bson.M{
+				{updatedTS: bson.M{"$lte": notModifiedAfter}},
+				{updatedTS: bson.M{"$exists": false}},
+			}
 		}
 
 		update = bson.M{
@@ -458,7 +462,10 @@ func (db *DataStoreMongo) upsertAttributes(
 				update[DbDevRevision] = dev.Revision
 			}
 			if notModifiedAfter != nil {
-				filter[DbDevUpdatedTs] = bson.M{"$lte": notModifiedAfter}
+				filter["$or"] = []bson.M{
+					{updatedTS: bson.M{"$lte": notModifiedAfter}},
+					{updatedTS: bson.M{"$exists": false}},
+				}
 			}
 			umod.Update = bson.M{
 				"$set":         update,

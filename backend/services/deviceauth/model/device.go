@@ -33,6 +33,7 @@ const (
 
 	DevKeyId           = "_id"
 	DevKeyIdData       = "id_data"
+	DevKeyIdDataStruct = "id_data_struct"
 	DevKeyIdDataSha256 = "id_data_sha256"
 	DevKeyStatus       = "status"
 )
