@@ -612,8 +612,14 @@ coveralls:done:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/curlimages/curl
   stage: .post
   allow_failure: true # QA-925 - Coveralls servers are unreliable.
+  before_script:
+    - curl -sfLO https://github.com/coverallsapp/coverage-reporter/releases/latest/download/coveralls-linux-$(uname -m).tar.gz
+    - curl -sfL https://github.com/coverallsapp/coverage-reporter/releases/latest/download/coveralls-checksums.txt | grep "coveralls-linux-$(uname -m).tar.gz" | sha256sum -c
+    - mkdir -p $HOME/bin
+    - tar -xzvf ./coveralls-linux-$(uname -m).tar.gz -C $HOME/bin
+    - export PATH="$PATH:$HOME/bin"
   script:
-    - curl -fgs "https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN&carryforward=all&payload[status]=done"
+    - coveralls done -n
   tags:
     - hetzner-amd-beefy
 
