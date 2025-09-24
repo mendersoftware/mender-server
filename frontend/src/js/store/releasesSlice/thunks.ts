@@ -435,7 +435,7 @@ export const getDeltaGenerationJobs = createAsyncThunk(`${sliceName}/getDeltaGen
     .then(({ data, headers }) => {
       const total = Number(headers[headerNames.total]) || data.length;
       const result = { jobs: data, total };
-      return Promise.all([dispatch(actions.receivedDeltaJobs(result)), result]);
+      return dispatch(actions.receivedDeltaJobs(result));
     })
     .catch(err => commonErrorHandler(err, 'There was an error retrieving delta generation jobs:', dispatch));
 });
