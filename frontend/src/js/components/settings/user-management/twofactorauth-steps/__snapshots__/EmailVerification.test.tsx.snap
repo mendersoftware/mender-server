@@ -142,7 +142,6 @@ exports[`EmailVerification Component renders correctly 1`] = `
     >
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-0"
-        id=":r0:"
         style="margin-top: 20px; margin-right: 30px;"
         tabindex="0"
         type="button"

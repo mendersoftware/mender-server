@@ -182,6 +182,7 @@ exports[`CreateGroupExplainer Component renders correctly 1`] = `
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
+  line-height: 1.5;
   color: rgba(10, 10, 11, 0.78);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
@@ -322,6 +323,7 @@ exports[`CreateGroupExplainer Component renders correctly 1`] = `
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
+  line-height: 1.5;
   color: rgba(10, 10, 11, 0.78);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
@@ -747,7 +749,7 @@ exports[`CreateGroupExplainer Component renders correctly 1`] = `
     tabindex="-1"
   >
     <div
-      aria-labelledby=":r0:"
+      aria-labelledby=":r1:"
       aria-modal="true"
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthMd MuiDialog-paperFullWidth emotion-3"
       role="dialog"
@@ -755,7 +757,7 @@ exports[`CreateGroupExplainer Component renders correctly 1`] = `
     >
       <h2
         class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-4"
-        id=":r0:"
+        id=":r1:"
         style="margin-left: 15px;"
       >
         Creating a group
@@ -912,7 +914,6 @@ exports[`CreateGroupExplainer Component renders correctly 1`] = `
       >
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-23"
-          id=":r3:"
           tabindex="0"
           type="button"
         >

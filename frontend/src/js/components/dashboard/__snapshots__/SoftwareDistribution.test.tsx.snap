@@ -22,6 +22,7 @@ exports[`Devices Component renders correctly 1`] = `
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
+  line-height: 1.5;
   color: rgba(10, 10, 11, 0.78);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
@@ -564,7 +565,6 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
           >
             <button
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-2"
-              id=":r2:"
               tabindex="0"
               type="button"
             >
@@ -582,7 +582,6 @@ exports[`Devices Component renders correctly for enterprise 1`] = `
             </button>
             <button
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-2"
-              id=":r3:"
               tabindex="0"
               type="button"
             >

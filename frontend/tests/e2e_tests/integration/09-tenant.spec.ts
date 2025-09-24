@@ -53,7 +53,7 @@ test.describe('Tenant Functionality', () => {
     await page.getByRole('button', { name: /edit device limit/i }).click();
     await page.getByTestId('dev-limit-input').fill('12');
     await page.getByRole('button', { name: /save/i }).click();
-    await page.getByTestId('CloseIcon').click();
+    await page.getByLabel('close').click();
     await expect(page.getByText('0/12')).toBeVisible();
   });
   test('tenant removal', async ({ loggedInTenantPage: page }) => {

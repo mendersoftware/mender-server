@@ -49,7 +49,7 @@ describe('TimeframePicker Component', () => {
         <TimeframePicker tonight={new Date().toISOString()} />
       </LocalizationProvider>
     );
-    const endDatePicker = screen.getByLabelText(/to/i);
+    const endDatePicker = screen.getByLabelText(/to/i, { selector: 'input' });
     expect(endDatePicker).toBeInTheDocument();
     expect(endDatePicker).toHaveValue('January 13th');
   });

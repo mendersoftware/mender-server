@@ -197,6 +197,7 @@ exports[`CreateDeployment Component smaller components renders DeviceLimit corre
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
+  line-height: 1.5;
   color: rgba(10, 10, 11, 0.78);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
@@ -1050,6 +1051,7 @@ exports[`CreateDeployment Component smaller components renders DeviceLimit corre
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
+  line-height: 1.5;
   color: rgba(10, 10, 11, 0.78);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
@@ -2202,7 +2204,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
               <button
                 aria-label="Open"
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-popupIndicator emotion-6"
-                id=":r10:"
                 tabindex="-1"
                 title="Open"
                 type="button"
@@ -2737,7 +2738,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
               <button
                 aria-label="Open"
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-popupIndicator emotion-6"
-                id=":r13:"
                 tabindex="-1"
                 title="Open"
                 type="button"
@@ -3424,6 +3424,7 @@ exports[`CreateDeployment Component smaller components renders Retries correctly
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
+  line-height: 1.5;
   color: rgba(10, 10, 11, 0.78);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
@@ -3564,6 +3565,7 @@ exports[`CreateDeployment Component smaller components renders Retries correctly
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
+  line-height: 1.5;
   color: rgba(10, 10, 11, 0.78);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
@@ -4530,6 +4532,7 @@ exports[`CreateDeployment Component smaller components renders Retries correctly
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
+  line-height: 1.5;
   color: rgba(10, 10, 11, 0.78);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
@@ -4670,6 +4673,7 @@ exports[`CreateDeployment Component smaller components renders Retries correctly
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
+  line-height: 1.5;
   color: rgba(10, 10, 11, 0.78);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
@@ -5778,6 +5782,7 @@ exports[`CreateDeployment Component smaller components renders RolloutOptions co
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
+  line-height: 1.5;
   color: rgba(10, 10, 11, 0.78);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
@@ -5918,6 +5923,7 @@ exports[`CreateDeployment Component smaller components renders RolloutOptions co
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
+  line-height: 1.5;
   color: rgba(10, 10, 11, 0.78);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
@@ -6211,6 +6217,7 @@ exports[`CreateDeployment Component smaller components renders RolloutOptions co
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
+  line-height: 1.5;
   color: rgba(10, 10, 11, 0.78);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
@@ -6812,6 +6819,7 @@ exports[`CreateDeployment Component smaller components renders RolloutOptions co
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
+  line-height: 1.5;
   color: rgba(10, 10, 11, 0.78);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
@@ -6952,6 +6960,7 @@ exports[`CreateDeployment Component smaller components renders RolloutOptions co
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
+  line-height: 1.5;
   color: rgba(10, 10, 11, 0.78);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
@@ -7245,6 +7254,7 @@ exports[`CreateDeployment Component smaller components renders RolloutOptions co
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
+  line-height: 1.5;
   color: rgba(10, 10, 11, 0.78);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
@@ -7426,6 +7436,7 @@ exports[`CreateDeployment Component smaller components renders RolloutOptions co
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
+  line-height: 1.5;
   color: rgba(10, 10, 11, 0.78);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
@@ -8071,6 +8082,7 @@ exports[`CreateDeployment Component smaller components renders RolloutPatternSel
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
+  line-height: 1.5;
   color: rgba(10, 10, 11, 0.78);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
@@ -8211,6 +8223,7 @@ exports[`CreateDeployment Component smaller components renders RolloutPatternSel
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
+  line-height: 1.5;
   color: rgba(10, 10, 11, 0.78);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
@@ -9105,6 +9118,7 @@ exports[`CreateDeployment Component smaller components renders RolloutPatternSel
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
+  line-height: 1.5;
   color: rgba(10, 10, 11, 0.78);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
@@ -9245,6 +9259,7 @@ exports[`CreateDeployment Component smaller components renders RolloutPatternSel
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
+  line-height: 1.5;
   color: rgba(10, 10, 11, 0.78);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
@@ -10020,7 +10035,7 @@ exports[`CreateDeployment Component smaller components renders ScheduleRollout c
 }
 
 .emotion-3 {
-  grid-column: 2;
+  grid-column: 2/4;
   grid-row: 2;
   display: -webkit-box;
   display: -webkit-flex;
@@ -10719,10 +10734,6 @@ exports[`CreateDeployment Component smaller components renders ScheduleRollout c
   -ms-flex-direction: column;
   flex-direction: column;
   margin: 0 auto;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
@@ -10752,6 +10763,7 @@ exports[`CreateDeployment Component smaller components renders ScheduleRollout c
   width: 56px;
   padding: 0;
   overflow: hidden;
+  scrollbar-width: thin;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -10774,12 +10786,6 @@ exports[`CreateDeployment Component smaller components renders ScheduleRollout c
 
 .emotion-69:not(:first-of-type) {
   border-left: 1px solid rgba(0, 0, 0, 0.12);
-}
-
-.emotion-69::after {
-  display: block;
-  content: "";
-  height: calc(100% - 40px - 6px);
 }
 
 .emotion-70 {
@@ -11097,8 +11103,8 @@ exports[`CreateDeployment Component smaller components renders ScheduleRollout c
 }
 
 <div
-  aria-labelledby=":r1f:-label"
-  class="MuiPopper-root MuiPickersPopper-root emotion-0"
+  aria-labelledby=":r1r:-label"
+  class="MuiPopper-root MuiPickerPopper-root emotion-0"
   data-popper-escaped=""
   data-popper-placement="bottom-start"
   data-popper-reference-hidden=""
@@ -11110,7 +11116,7 @@ exports[`CreateDeployment Component smaller components renders ScheduleRollout c
     tabindex="0"
   />
   <div
-    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPickersPopper-paper emotion-1"
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPickerPopper-paper emotion-1"
     style="--Paper-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12); opacity: 1; transform: scale(1, 1); transition: opacity 0ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 0ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     tabindex="-1"
   >
@@ -11136,7 +11142,7 @@ exports[`CreateDeployment Component smaller components renders ScheduleRollout c
               >
                 <div
                   class="MuiPickersCalendarHeader-label emotion-8"
-                  id=":r1i:-grid-label"
+                  id=":r1u:-grid-label"
                   style="opacity: 1;"
                 >
                   January 2019
@@ -11151,7 +11157,6 @@ exports[`CreateDeployment Component smaller components renders ScheduleRollout c
                 aria-label="Previous month"
                 class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-edgeEnd MuiIconButton-sizeMedium MuiPickersArrowSwitcher-button MuiPickersArrowSwitcher-previousIconButton emotion-10"
                 disabled=""
-                id=":r1j:"
                 tabindex="-1"
                 title="Previous month"
                 type="button"
@@ -11175,7 +11180,6 @@ exports[`CreateDeployment Component smaller components renders ScheduleRollout c
                 aria-label="Next month"
                 class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-edgeStart MuiIconButton-sizeMedium MuiPickersArrowSwitcher-button MuiPickersArrowSwitcher-nextIconButton emotion-13"
                 disabled=""
-                id=":r1k:"
                 tabindex="-1"
                 title="Next month"
                 type="button"
@@ -11201,7 +11205,7 @@ exports[`CreateDeployment Component smaller components renders ScheduleRollout c
               style="opacity: 1;"
             >
               <div
-                aria-labelledby=":r1i:-grid-label"
+                aria-labelledby=":r1u:-grid-label"
                 class="MuiDayCalendar-root emotion-16"
                 role="grid"
               >
@@ -12085,7 +12089,13 @@ exports[`CreateDeployment Component smaller components renders ScheduleRollout c
       >
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-109"
-          id=":r1l:"
+          tabindex="0"
+          type="button"
+        >
+          Cancel
+        </button>
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-109"
           tabindex="0"
           type="button"
         >
@@ -12149,7 +12159,7 @@ exports[`CreateDeployment Component smaller components renders ScheduleRollout c
 }
 
 .emotion-3 {
-  grid-column: 2;
+  grid-column: 2/4;
   grid-row: 2;
   display: -webkit-box;
   display: -webkit-flex;
@@ -12848,10 +12858,6 @@ exports[`CreateDeployment Component smaller components renders ScheduleRollout c
   -ms-flex-direction: column;
   flex-direction: column;
   margin: 0 auto;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
@@ -12881,6 +12887,7 @@ exports[`CreateDeployment Component smaller components renders ScheduleRollout c
   width: 56px;
   padding: 0;
   overflow: hidden;
+  scrollbar-width: thin;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -12903,12 +12910,6 @@ exports[`CreateDeployment Component smaller components renders ScheduleRollout c
 
 .emotion-69:not(:first-of-type) {
   border-left: 1px solid rgba(0, 0, 0, 0.12);
-}
-
-.emotion-69::after {
-  display: block;
-  content: "";
-  height: calc(100% - 40px - 6px);
 }
 
 .emotion-70 {
@@ -13226,8 +13227,8 @@ exports[`CreateDeployment Component smaller components renders ScheduleRollout c
 }
 
 <div
-  aria-labelledby=":r1p:-label"
-  class="MuiPopper-root MuiPickersPopper-root emotion-0"
+  aria-labelledby=":r27:-label"
+  class="MuiPopper-root MuiPickerPopper-root emotion-0"
   data-popper-escaped=""
   data-popper-placement="bottom-start"
   data-popper-reference-hidden=""
@@ -13239,7 +13240,7 @@ exports[`CreateDeployment Component smaller components renders ScheduleRollout c
     tabindex="0"
   />
   <div
-    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPickersPopper-paper emotion-1"
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPickerPopper-paper emotion-1"
     style="--Paper-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12); opacity: 1; transform: scale(1, 1); transition: opacity 0ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 0ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     tabindex="-1"
   >
@@ -13265,7 +13266,7 @@ exports[`CreateDeployment Component smaller components renders ScheduleRollout c
               >
                 <div
                   class="MuiPickersCalendarHeader-label emotion-8"
-                  id=":r1s:-grid-label"
+                  id=":r2a:-grid-label"
                   style="opacity: 1;"
                 >
                   January 2019
@@ -13280,7 +13281,6 @@ exports[`CreateDeployment Component smaller components renders ScheduleRollout c
                 aria-label="Previous month"
                 class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-edgeEnd MuiIconButton-sizeMedium MuiPickersArrowSwitcher-button MuiPickersArrowSwitcher-previousIconButton emotion-10"
                 disabled=""
-                id=":r1t:"
                 tabindex="-1"
                 title="Previous month"
                 type="button"
@@ -13304,7 +13304,6 @@ exports[`CreateDeployment Component smaller components renders ScheduleRollout c
                 aria-label="Next month"
                 class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-edgeStart MuiIconButton-sizeMedium MuiPickersArrowSwitcher-button MuiPickersArrowSwitcher-nextIconButton emotion-13"
                 disabled=""
-                id=":r1u:"
                 tabindex="-1"
                 title="Next month"
                 type="button"
@@ -13330,7 +13329,7 @@ exports[`CreateDeployment Component smaller components renders ScheduleRollout c
               style="opacity: 1;"
             >
               <div
-                aria-labelledby=":r1s:-grid-label"
+                aria-labelledby=":r2a:-grid-label"
                 class="MuiDayCalendar-root emotion-16"
                 role="grid"
               >
@@ -14214,7 +14213,13 @@ exports[`CreateDeployment Component smaller components renders ScheduleRollout c
       >
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-109"
-          id=":r1v:"
+          tabindex="0"
+          type="button"
+        >
+          Cancel
+        </button>
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-109"
           tabindex="0"
           type="button"
         >

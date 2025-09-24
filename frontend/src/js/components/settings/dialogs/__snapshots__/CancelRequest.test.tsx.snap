@@ -1227,7 +1227,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-65:focus::-ms-input-
       >
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-73"
-          id=":r2:"
           tabindex="0"
           type="button"
         >
@@ -1239,7 +1238,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-65:focus::-ms-input-
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-74"
           disabled=""
-          id=":r3:"
           tabindex="-1"
           type="button"
         >
