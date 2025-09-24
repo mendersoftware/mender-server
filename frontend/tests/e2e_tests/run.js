@@ -552,19 +552,18 @@ const cleanup = async (exitCode = 0) => {
 
   if (exitCode !== 0) {
     try {
-      console.log(chalk.yellow(`📋 Tests failed, dumping logs to ${chalk.cyan(logPath)}`));
-      const logs = await composeLogs(config);
       mkdirSync(logDir, { recursive: true });
-      writeFileSync(logPath, logs);
-
       // the client gets often started outside of the compose setup, so track it down by name
       console.log(chalk.yellow(`📋 Capturing client logs to ${chalk.cyan(clientLogPath)}`));
-      const containerNames = await runCommand('docker', ['ps', '-a', '--format', '{{.Names}}'], config);
+      const containerNames = await runCommand('docker', ['ps', '-a', `--format={{.Names}}`], config);
       const clientContainer = containerNames.split('\n').find(name => name.includes('client'));
       if (clientContainer) {
         const clientLog = await runCommand('docker', ['logs', clientContainer], config);
         writeFileSync(clientLogPath, clientLog);
       }
+      console.log(chalk.yellow(`📋 Tests failed, dumping logs to ${chalk.cyan(logPath)}`));
+      const logs = await composeLogs(config);
+      writeFileSync(logPath, logs);
     } catch (error) {
       console.error(chalk.red('💥 Failed to dump logs:'), error);
     }
@@ -587,11 +586,19 @@ process.on('SIGINT', initiateShutDownSequence('SIGINT'));
 
 process.on('SIGTERM', initiateShutDownSequence('SIGTERM'));
 
+const errorLogCutoffLength = 200;
 let exitCode = 0;
 try {
   await main();
 } catch (error) {
-  console.error(chalk.red('\n💥 Error:'), JSON.stringify(error));
+  const errorMessage = JSON.stringify(error);
+  const logDir = join(config.guiRepository, 'logs');
+  mkdirSync(logDir, { recursive: true });
+  const errorPath = join(logDir, 'error.txt');
+  console.error(chalk.red('\n💥 Error:', errorMessage.length < errorLogCutoffLength ? errorMessage : `will be dumped to ${errorPath}`));
+  if (errorMessage.length >= errorLogCutoffLength) {
+    writeFileSync(errorPath, errorMessage);
+  }
   exitCode = 1;
 } finally {
   await withSpinner('🧹 Cleanup', async () => await cleanup(exitCode), 'so sparkling clean', 'clean up failed');
