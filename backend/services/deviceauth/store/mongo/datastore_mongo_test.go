@@ -2966,6 +2966,62 @@ func TestStoreGetDeviceById(t *testing.T) {
 	}
 }
 
+func TestListAllDevices(t *testing.T) {
+	const tenantID = "123456789012345678901234"
+	ctx := context.Background()
+	ds := getDb(ctx)
+	makeDevicesWithStatuses(ctx, t, ds, 5, 4, 3, 2, 1)
+	ctxTenant := identity.WithContext(ctx, &identity.Identity{Tenant: tenantID})
+	makeDevicesWithStatuses(ctxTenant, t, ds, 10, 9, 8, 7, 6)
+
+	t.Run("ok/all attributes", func(t *testing.T) {
+		t.Parallel()
+		countByTenantID := map[string]int{}
+		for dev, err := range ds.ListAllDevices(ctx) {
+			assert.NoError(t, err)
+			assert.NotEmpty(t, dev.Id)
+			assert.NotEmpty(t, dev.IdData)
+			assert.NotEmpty(t, dev.IdDataStruct)
+			assert.NotEmpty(t, dev.IdDataSha256)
+			assert.NotEmpty(t, dev.Status)
+			if c, ok := countByTenantID[dev.TenantID]; ok {
+				countByTenantID[dev.TenantID] = c + 1
+			} else {
+				countByTenantID[dev.TenantID] = 1
+			}
+		}
+		assert.Len(t, countByTenantID, 2, "unexpected number of different tenant IDs")
+		assert.Equal(t, 15, countByTenantID[""])
+		assert.Equal(t, 40, countByTenantID[tenantID])
+	})
+	t.Run("ok/selected attributes", func(t *testing.T) {
+		t.Parallel()
+		count := 0
+		for dev, err := range ds.ListAllDevices(ctx, dbFieldID, dbFieldStatus) {
+			assert.NoError(t, err)
+			assert.NotEmpty(t, dev.Id)
+			assert.NotEmpty(t, dev.Status)
+			// rest is empty
+			assert.Empty(t, dev.IdData)
+			assert.Empty(t, dev.IdDataStruct)
+			assert.Empty(t, dev.IdDataSha256)
+			count++
+		}
+		assert.Equal(t, 55, count, "unexpected number of records")
+	})
+	t.Run("error/context cancelled", func(t *testing.T) {
+		t.Parallel()
+		cancelledCtx, cancel := context.WithCancel(ctx)
+		cancel()
+		for _, err := range ds.ListAllDevices(cancelledCtx) {
+			if assert.ErrorIs(t, err, context.Canceled) {
+				break
+			}
+			t.Fatal("this code should be unreachable")
+		}
+	})
+}
+
 func getIdDataHash(idData string) []byte {
 	hash := sha256.New()
 	hash.Write([]byte(idData))
