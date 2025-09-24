@@ -20,9 +20,50 @@ import { SortOptions } from '../organizationSlice/types';
 
 export const sliceName = 'releases';
 
+// TODO: take the following from the types package once synced
+enum DeltaJobDetailsItemStatus {
+  PENDING = 'pending',
+  QUEUED = 'queued',
+  SUCCESS = 'success',
+  FAILED = 'failed',
+  ARTIFACT_UPLOADED = 'artifact_uploaded'
+}
+
+type DeltaJobDetailsItem = {
+  delta_artifact_size?: number;
+  deployment_id?: string;
+  devices_types_compatible?: Array<string>;
+  exit_code?: number;
+  from_release?: string;
+  log?: string;
+  status?: DeltaJobDetailsItemStatus;
+  to_artifact_size?: number;
+  to_release?: string;
+};
+
+type DeltaJobsListItem = {
+  delta_job_id?: string;
+  devices_types_compatible?: Array<string>;
+  from_version?: string;
+  id?: string;
+  started?: string;
+  status?: DeltaJobDetailsItemStatus;
+  to_version?: string;
+};
+
+type EnhancedJobDetailsItem = DeltaJobDetailsItem & DeltaJobsListItem;
+
 type ReleaseSliceType = {
   artifacts: never[];
   byId: Record<string, Release>;
+  deltaJobs: Record<string, EnhancedJobDetailsItem>;
+  deltaJobsList: {
+    jobIds: string[];
+    page: number;
+    perPage: number;
+    sort?: SortOptions;
+    total: 0;
+  };
   releasesList: {
     isLoading?: boolean;
     page: number;
@@ -38,6 +79,7 @@ type ReleaseSliceType = {
     total: number;
     type: string;
   };
+  selectedJob: string | null;
   selectedRelease: string | null;
   tags: string[];
   updateTypes: string[];
@@ -82,6 +124,23 @@ export const initialState: ReleaseSliceType = {
     }
     */
   },
+  deltaJobs: {
+    /*
+      [jobId]: {
+        id: '',
+        ...
+      }
+      */
+  },
+  deltaJobsList: {
+    ...DEVICE_LIST_DEFAULTS,
+    jobIds: [],
+    total: 0,
+    sort: {
+      direction: SORTING_OPTIONS.desc,
+      key: 'started'
+    }
+  },
   releasesList: {
     ...DEVICE_LIST_DEFAULTS,
     searchedIds: [],
@@ -100,6 +159,7 @@ export const initialState: ReleaseSliceType = {
   },
   tags: [],
   updateTypes: [],
+  selectedJob: null,
   /*
    * Return single release with corresponding Artifacts
    */
@@ -134,6 +194,34 @@ export const releaseSlice = createSlice({
     },
     setReleaseListState: (state, action) => {
       state.releasesList = action.payload;
+    },
+    receivedDeltaJobs: (state, action) => {
+      const { jobs, total } = action.payload;
+      state.deltaJobs = jobs.reduce(
+        (accu, job) => {
+          accu[job.id] = {
+            ...accu[job.id],
+            ...job
+          };
+          return accu;
+        },
+        { ...state.deltaJobs }
+      );
+      state.deltaJobsList.jobIds = jobs.map(job => job.id);
+      state.deltaJobsList.total = total;
+    },
+    receivedDeltaJobDetails: (state, action) => {
+      const job = action.payload;
+      state.deltaJobs[job.id] = {
+        ...state.deltaJobs[job.id],
+        ...job
+      };
+    },
+    setDeltaJobsListState: (state, action) => {
+      state.deltaJobsList = { ...state.deltaJobsList, ...action.payload };
+    },
+    setSelectedJob: (state, action) => {
+      state.selectedJob = action.payload;
     }
   }
 });

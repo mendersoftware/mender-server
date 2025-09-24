@@ -426,3 +426,22 @@ export const getUpdateTypes = createAsyncThunk(`${sliceName}/getReleaseTypes`, (
     .catch(err => commonErrorHandler(err, `Existing update types couldn't be retrieved.`, dispatch))
     .then(({ data: types }) => Promise.resolve(dispatch(actions.receiveReleaseTypes(types))))
 );
+
+export const getDeltaGenerationJobs = createAsyncThunk(`${sliceName}/getDeltaGenerationJobs`, (options = {}, { dispatch }) => {
+  const { page = defaultPage, perPage = defaultPerPage, sort = {} } = options;
+  const { key: sortKey, direction: sortDirection } = sort;
+  const sortParam = sortKey && sortDirection ? `&sort=${sortKey}:${sortDirection}` : '';
+  return GeneralApi.get(`${deploymentsApiUrlV2}/deployments/releases/delta/jobs?page=${page}&per_page=${perPage}${sortParam}`)
+    .then(({ data, headers }) => {
+      const total = Number(headers[headerNames.total]) || data.length;
+      const result = { jobs: data, total };
+      return Promise.all([dispatch(actions.receivedDeltaJobs(result)), result]);
+    })
+    .catch(err => commonErrorHandler(err, 'There was an error retrieving delta generation jobs:', dispatch));
+});
+
+export const getDeltaGenerationJobDetails = createAsyncThunk(`${sliceName}/getDeltaGenerationJobDetails`, (jobId, { dispatch }) =>
+  GeneralApi.get(`${deploymentsApiUrlV2}/deployments/releases/delta/jobs/${jobId}`)
+    .then(({ data }) => dispatch(actions.receivedDeltaJobDetails(data)))
+    .catch(err => commonErrorHandler(err, 'There was an error retrieving delta generation job details:', dispatch))
+);
