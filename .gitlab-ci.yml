@@ -613,7 +613,7 @@ coveralls:done:
   stage: .post
   allow_failure: true # QA-925 - Coveralls servers are unreliable.
   script:
-    - curl "https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN&carryforward=all&payload[status]=done"
+    - curl -fgs "https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN&carryforward=all&payload[status]=done"
   tags:
     - hetzner-amd-beefy
 
