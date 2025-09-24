@@ -1,0 +1,5 @@
+repo_name: mendersoftware/mender-server
+
+carryforward: all
+
+parallel: true
