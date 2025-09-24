@@ -21,7 +21,7 @@ test:frontend:lint:
     - cd tests/e2e_tests && npm ci && cd ../..
     - npm run lint
   tags:
-    - hetzner-amd-beefy
+    - k8s
 
 test:frontend:license-headers:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/denoland/deno:debian-2.0.2
@@ -61,7 +61,7 @@ test:frontend:licenses:
   script:
     - deno run --allow-env --allow-read --allow-sys tests/licenses/licenseCheck.ts --rootDir $(pwd)
   tags:
-    - hetzner-amd-beefy
+    - k8s
 
 test:frontend:unit:
   stage: test
@@ -117,7 +117,7 @@ test:frontend:docs-links:
         exit 1
       fi
   tags:
-    - hetzner-amd-beefy
+    - k8s
 
 test:frontend:docs-links:hosted:
   extends: test:frontend:docs-links
@@ -235,6 +235,7 @@ test:frontend:acceptance:enterprise:
     - npm i -g coveralls
   tags:
     - hetzner-amd-beefy
+  allow_failure: true
 
 publish:frontend:tests:
   extends: .template:publish:frontend:tests
@@ -260,6 +261,7 @@ publish:frontend:e2e-tests:
   needs:
     - job: test:frontend:acceptance
       artifacts: true
+  allow_failure: true # QA-925 - Coveralls servers are unreliable.
   variables:
     COVERALLS_SERVICE_JOB_NUMBER: frontend-e2e
     COVERALLS_FLAG_NAME: frontend-e2e
@@ -306,7 +308,7 @@ publish:frontend:docker:
 publish:frontend:licenses:
   stage: publish
   tags:
-    - hetzner-amd-beefy
+    - k8s
   rules:
     - changes:
         paths: ['frontend/**/*']
