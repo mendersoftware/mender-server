@@ -271,7 +271,7 @@ test.describe('Settings', () => {
       await stripeFrame.fill('[name="postal"]', '12345');
       await page.getByRole('button', { name: /Confirm subscription/i }).click();
       await page.getByText(/Card confirmed./i).waitFor({ timeout: timeouts.tenSeconds });
-      await page.getByText(/ You have successfully subscribed to the basic/i).waitFor({ timeout: timeouts.fifteenSeconds });
+      await page.getByText(/Your subscription has been successfully updated to Mender Basic/i).waitFor({ timeout: timeouts.fifteenSeconds });
       await page.waitForTimeout(timeouts.default); // the tenant state seems to not be populated right away, so the explicit wait to increase chances of the follow up test succeeding
     });
 
@@ -298,7 +298,7 @@ test.describe('Settings', () => {
       await expect(page.getByRole('heading', { name: '$777' })).toBeVisible();
       await page.getByRole('button', { name: /Confirm subscription/i }).click();
 
-      await page.getByText(/ You have successfully subscribed to the professional/i).waitFor({ timeout: timeouts.fifteenSeconds });
+      await page.getByText(/Your subscription has been successfully updated to Mender Professional/i).waitFor({ timeout: timeouts.fifteenSeconds });
       await page.context().close();
     });
     test('allows higher device limits once upgraded', async ({ baseUrl, browser, password, request, username }) => {

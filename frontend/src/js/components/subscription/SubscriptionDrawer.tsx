@@ -41,6 +41,7 @@ import { PlanExpandedForm } from '../settings/PlanExpandedForm';
 import { CardDetails } from '../settings/organization/Billing';
 import { BillingDetails } from '../settings/organization/BillingDetails';
 import OrganizationPaymentSettings from '../settings/organization/OrganizationPaymentSettings';
+import { SubscriptionConfirmation } from './SubscriptionConfirmation';
 import { PreviewPrice } from './SubscriptionPage';
 import { SubscriptionSummary } from './SubscriptionSummary';
 import { formatPrice } from './utils';
@@ -82,6 +83,8 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
   const [formInitialValues, setFormInitialValues] = useState(initialValues);
   const [isValid, setIsValid] = useState(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [successConfirmationShown, setSuccessConfirmationShown] = useState(false);
+
   const [nextPayment, setNextPayment] = useState(0);
   const [updatingCard, setUpdatingCard] = useState(false);
   const dispatch = useAppDispatch();
@@ -122,7 +125,7 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
       setLoading(true);
       setError(false);
       await dispatch(requestPlanUpgrade(order));
-      onClose();
+      setSuccessConfirmationShown(true);
     } catch (e) {
       console.error(e);
       setError(true);
@@ -255,6 +258,14 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
         </div>
       ) : (
         currentSubscription && <Loader show />
+      )}
+      {successConfirmationShown && previewPrice && (
+        <SubscriptionConfirmation
+          devices={order.products[0].quantity}
+          plan={selectedPlan}
+          price={previewPrice?.total}
+          orderedAddons={order.products[0].addons}
+        />
       )}
     </Drawer>
   );

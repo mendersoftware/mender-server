@@ -74,7 +74,7 @@ const sectionMap = {
     text: () => 'Billing',
     canAccess: ({ isHosted }) => isHosted
   },
-  subscribe: {
+  subscription: {
     component: SubscriptionPage,
     icon: <PaymentIcon />,
     text: ({ organization: { trial } }) => (trial ? 'Upgrade to a plan' : 'Upgrades and add-ons'),
