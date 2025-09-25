@@ -178,7 +178,8 @@ class ManagementClient(SwaggerApiClient):
         self, devid, headers={}, x_men_request_id="", authorization=""
     ):
         return self.client.decommission_device(
-            id=devid, x_men_request_id=x_men_request_id,
+            id=devid,
+            x_men_request_id=x_men_request_id,
         )
 
     def delete_authset(self, devid, aid, **kwargs):
@@ -259,6 +260,11 @@ class CliClient:
             },
             limit=1,
         )[0]
+
+    def __call__(self, *args, **kwargs):
+        cmd = [self.exec_path] + list(args)
+        code, (stdout, stderr) = self.device_auth.exec_run(cmd, demux=True)
+        return code, stdout, stderr
 
     def migrate(self, tenant=None, **kwargs):
         cmd = [self.exec_path, "migrate"]
