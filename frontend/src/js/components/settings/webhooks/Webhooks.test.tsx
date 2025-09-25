@@ -87,7 +87,7 @@ describe('Webhooks Component', () => {
     await waitFor(() => expect(screen.queryByText(/webhook details/i)).toBeNull());
   });
 
-  it('can be configured', { timeout: TIMEOUTS.refreshDefault }, async () => {
+  it('can be configured', { timeout: 3 * TIMEOUTS.fiveSeconds }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const onSubmit = vi.fn();
     render(<WebhookConfiguration onSubmit={onSubmit} />);
