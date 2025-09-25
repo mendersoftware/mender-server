@@ -189,11 +189,6 @@ func (c *client) setDeviceIdentityIfUnmodifiedSince(
 	attributes := make([]model.DeviceAttribute, len(idData))
 	i := 0
 	for name, value := range idData {
-		if name == "status" {
-			//we have to forbid the client to override attribute status in identity scope
-			//since it stands for status of a device (as in: accepted, rejected, preauthorized)
-			continue
-		}
 		attribute := model.DeviceAttribute{
 			Name:        name,
 			Description: nil,
@@ -265,6 +260,9 @@ func (c *client) setDeviceIdentityIfUnmodifiedSince(
 	}
 }
 
+// SetDeviceIdentity updates the inventory attributes under the identity scope.
+// WARN: Make sure the attribute with name 'status' is handled properly as it
+// should always reflect the current device status.
 func (c *client) SetDeviceIdentity(
 	ctx context.Context,
 	tenantID,
@@ -274,6 +272,10 @@ func (c *client) SetDeviceIdentity(
 	return c.setDeviceIdentityIfUnmodifiedSince(ctx, tenantID, deviceID, idData, nil)
 }
 
+// SetDeviceIdentityIfUnmodifiedSince updates the inventory attributes under
+// the identity scope if the inventory did not change since unmodifiedSince.
+// WARN: Make sure the attribute with name 'status' is handled properly as it
+// should always reflect the current device status.
 func (c *client) SetDeviceIdentityIfUnmodifiedSince(
 	ctx context.Context,
 	tenantID,
