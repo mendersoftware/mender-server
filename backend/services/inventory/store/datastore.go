@@ -17,6 +17,7 @@ package store
 import (
 	"context"
 	"errors"
+	"time"
 
 	"github.com/mendersoftware/mender-server/services/inventory/model"
 )
@@ -79,6 +80,7 @@ type DataStore interface {
 		ctx context.Context,
 		ids []model.DeviceID,
 		attrs model.DeviceAttributes,
+		notModifiedAfter *time.Time,
 	) (*model.UpdateResult, error)
 
 	// UpsertRemoveDeviceAttributes provides an interface to replace the

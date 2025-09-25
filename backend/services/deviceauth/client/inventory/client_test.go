@@ -305,14 +305,6 @@ func TestClientSetDeviceIdentity(t *testing.T) {
 
 			code: http.StatusBadRequest,
 		},
-		"error: status attribute is reserved": {
-			did: "dsfgr32r23-dfgst34gsdf-34gs-sdgf34",
-			didData: map[string]interface{}{
-				"status": "accepted",
-			},
-
-			err: errors.New("no attributes to update"),
-		},
 		"error: no device id": {
 
 			err: errors.New("device id is needed"),

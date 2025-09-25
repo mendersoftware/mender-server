@@ -28,6 +28,8 @@ import (
 
 	store "github.com/mendersoftware/mender-server/services/inventory/store"
 
+	time "time"
+
 	workflows "github.com/mendersoftware/mender-server/services/inventory/client/workflows"
 )
 
@@ -539,17 +541,17 @@ func (_m *InventoryApp) UpdateDevicesGroup(ctx context.Context, ids []model.Devi
 	return r0, r1
 }
 
-// UpsertAttributes provides a mock function with given fields: ctx, id, attrs
-func (_m *InventoryApp) UpsertAttributes(ctx context.Context, id model.DeviceID, attrs model.DeviceAttributes) error {
-	ret := _m.Called(ctx, id, attrs)
+// UpsertAttributes provides a mock function with given fields: ctx, id, attrs, notModifiedAfter
+func (_m *InventoryApp) UpsertAttributes(ctx context.Context, id model.DeviceID, attrs model.DeviceAttributes, notModifiedAfter *time.Time) error {
+	ret := _m.Called(ctx, id, attrs, notModifiedAfter)
 
 	if len(ret) == 0 {
 		panic("no return value specified for UpsertAttributes")
 	}
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, model.DeviceID, model.DeviceAttributes) error); ok {
-		r0 = rf(ctx, id, attrs)
+	if rf, ok := ret.Get(0).(func(context.Context, model.DeviceID, model.DeviceAttributes, *time.Time) error); ok {
+		r0 = rf(ctx, id, attrs, notModifiedAfter)
 	} else {
 		r0 = ret.Error(0)
 	}

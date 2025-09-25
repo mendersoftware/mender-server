@@ -20,10 +20,14 @@ from contextlib import contextmanager
 import pytest
 
 import mockserver
+
+from client import CliClient
 from common import (
     DevAuthorizer,
     Device,
+    devices,
     clean_db,
+    clean_migrated_db,
     cli,
     device_api,
     device_auth_req,
@@ -31,6 +35,7 @@ from common import (
     internal_api,
     make_devices,
     management_api,
+    make_devices,
     mongo,
 )
 
@@ -141,3 +146,19 @@ class TestCliMigrate:
         code, _, _ = cli.migrate()
         assert code == 0
         TestMigration.verify(cli, mongo, DB_NAME, "2.0.0")
+
+
+class TestCliMaintenance:
+    @pytest.mark.parametrize("devices", [50], indirect=True)
+    def test_sync_identity(self, devices, clean_db, cli: CliClient):
+        assert clean_db.inventory.devices.count_documents({}) == 0
+        code, _, _ = cli("maintenance", "propagate-inventory")
+        assert code == 0
+        assert clean_db.inventory.devices.count_documents({}) == 50
+        for device in clean_db.inventory.devices.find():
+            assert device.get("attributes", {}).get("identity-status") is not None, (
+                "Status property not propagated to inventory service"
+            )
+            assert device.get("attributes", {}).get("identity-mac") is not None, (
+                "Status property not propagated to inventory service"
+            )

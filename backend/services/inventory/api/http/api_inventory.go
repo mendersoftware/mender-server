@@ -504,6 +504,7 @@ func (i *ManagementAPI) updateDeviceAttributes(
 func (i *InternalAPI) PatchDeviceAttributesInternalHandler(
 	c *gin.Context,
 ) {
+	var notModifiedAfter *time.Time
 	ctx := c.Request.Context()
 	tenantId := c.Param("tenant_id")
 	ctx = getTenantContext(ctx, tenantId)
@@ -519,6 +520,15 @@ func (i *InternalAPI) PatchDeviceAttributesInternalHandler(
 		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}
+	if notModifiedAfterValue := c.GetHeader("If-Unmodified-Since"); notModifiedAfterValue != "" {
+		parsed, err := time.Parse(time.RFC1123, notModifiedAfterValue)
+		if err != nil {
+			rest.RenderError(c, http.StatusBadRequest,
+				fmt.Errorf("invalid header If-Unmodified-Since: %w", err))
+			return
+		}
+		notModifiedAfter = &parsed
+	}
 	for i := range attrs {
 		attrs[i].Scope = c.Param("scope")
 		if attrs[i].Name == checkInTimeParamName && attrs[i].Scope == checkInTimeParamScope {
@@ -532,11 +542,17 @@ func (i *InternalAPI) PatchDeviceAttributesInternalHandler(
 	}
 
 	//upsert the attributes
-	err = i.App.UpsertAttributes(ctx, model.DeviceID(deviceId), attrs)
+	err = i.App.UpsertAttributes(ctx, model.DeviceID(deviceId), attrs, notModifiedAfter)
 	cause := errors.Cause(err)
 	switch cause {
 	case store.ErrNoAttrName:
 		rest.RenderError(c, http.StatusBadRequest, cause)
+		return
+	case store.ErrWriteConflict:
+		// Write conflict is only returned by the database if the filter conditions
+		// does not match and trigger an insert on an existing device ID.
+		// Therefore If-Unmodified-Since precondition failed.
+		rest.RenderError(c, http.StatusPreconditionFailed, cause)
 		return
 	}
 	if err != nil {
@@ -1100,7 +1116,7 @@ func (i *InternalAPI) ReindexDeviceDataHandler(c *gin.Context) {
 	}
 
 	// upsert monitor attributes
-	err = i.App.UpsertAttributes(ctx, model.DeviceID(deviceId), attrs)
+	err = i.App.UpsertAttributes(ctx, model.DeviceID(deviceId), attrs, nil)
 	cause := errors.Cause(err)
 	switch cause {
 	case store.ErrNoAttrName:

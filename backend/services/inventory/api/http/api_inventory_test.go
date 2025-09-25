@@ -1732,6 +1732,7 @@ func TestApiInventoryUpsertAttributesInternal(t *testing.T) {
 					return true
 				},
 			),
+			(*time.Time)(nil),
 		).Return(tc.inventoryErr)
 
 		apih := makeMockApiHandler(t, &inv)
@@ -4170,6 +4171,7 @@ func TestApiInventoryInternalReindex(t *testing.T) {
 							return true
 						},
 					),
+					(*time.Time)(nil),
 				).Return(tc.upsertAttributesErr)
 			}
 			if tc.callsCheckAlerts {

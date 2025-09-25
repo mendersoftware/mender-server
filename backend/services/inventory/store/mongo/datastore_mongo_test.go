@@ -1582,7 +1582,7 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 				if withUpdated {
 					_, err = d.UpsertDevicesAttributesWithUpdated(ctx, tc.inDevIDs, tc.inAttrs, tc.inScope, "")
 				} else {
-					_, err = d.UpsertDevicesAttributes(ctx, tc.inDevIDs, tc.inAttrs)
+					_, err = d.UpsertDevicesAttributes(ctx, tc.inDevIDs, tc.inAttrs, nil)
 				}
 				if tc.err != nil {
 					assert.EqualError(t, err, tc.err.Error())
