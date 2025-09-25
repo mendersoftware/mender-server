@@ -46,7 +46,7 @@ type Client interface {
 	Close()
 	StreamName() string
 	IsConnected() bool
-	JetStreamCreateStream(streamName string) error
+	JetStreamCreateStream(streamName string, opts ...StreamOption) error
 	GetConsumerConfig(name string) (*ConsumerConfig, error)
 	CreateConsumer(name string, upsert bool, config ConsumerConfig) error
 	JetStreamSubscribe(
@@ -130,21 +130,33 @@ func (c *client) IsConnected() bool {
 	return c.nats.IsConnected()
 }
 
+type StreamOption func(*natsio.StreamConfig)
+
+func SetReplicas(replicas int) StreamOption {
+	return func(c *natsio.StreamConfig) {
+		c.Replicas = replicas
+	}
+}
+
 // JetStreamCreateStream creates a stream
-func (c *client) JetStreamCreateStream(streamName string) error {
+func (c *client) JetStreamCreateStream(streamName string, opts ...StreamOption) error {
 	stream, err := c.js.StreamInfo(streamName)
 	if err != nil && err != natsio.ErrStreamNotFound {
 		return err
 	}
 	if stream == nil {
-		_, err = c.js.AddStream(&natsio.StreamConfig{
+		cfg := &natsio.StreamConfig{
 			Name:      streamName,
 			NoAck:     false,
 			MaxAge:    24 * time.Hour,
 			Retention: natsio.WorkQueuePolicy,
 			Storage:   natsio.FileStorage,
 			Subjects:  []string{streamName + ".>"},
-		})
+		}
+		for _, opt := range opts {
+			opt(cfg)
+		}
+		_, err = c.js.AddStream(cfg)
 		if err != nil {
 			return err
 		}

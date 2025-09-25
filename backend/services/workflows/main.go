@@ -184,8 +184,10 @@ func getNatsClient() (nats.Client, error) {
 
 func initJetstream(nc nats.Client, producer, upsert bool) (err error) {
 	durableName := config.Config.GetString(dconfig.SettingNatsSubscriberDurable)
+	replicas := config.Config.GetInt(dconfig.SettingNatsJetStreamReplicas)
 	if producer {
-		err = nc.JetStreamCreateStream(nc.StreamName())
+		err = nc.JetStreamCreateStream(nc.StreamName(),
+			nats.SetReplicas(replicas))
 		if err != nil {
 			return err
 		}
