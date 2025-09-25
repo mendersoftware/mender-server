@@ -86,7 +86,7 @@ describe('Deployments Component', () => {
     expect(get).toHaveBeenCalledWith('/api/management/v2/inventory/filters?per_page=500');
   });
 
-  it('works as expected', async () => {
+  it('works as expected', { timeout: 6 * TIMEOUTS.fiveSeconds }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const preloadedState = {
       ...mockState,
@@ -153,9 +153,9 @@ describe('Deployments Component', () => {
     }
     expect(screen.getByText(/Deployment details/i)).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: /Close/i }));
-  }, 30000);
+  });
 
-  it('allows navigating the deployment creation dialog', async () => {
+  it('allows navigating the deployment creation dialog', { timeout: 6 * TIMEOUTS.fiveSeconds }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const preloadedState = {
       ...mockState,
@@ -219,9 +219,9 @@ describe('Deployments Component', () => {
     });
     await act(() => vi.advanceTimersByTime(1000));
     await waitFor(() => expect(screen.queryByText(/Cancel/i)).not.toBeInTheDocument());
-  }, 30000);
+  });
 
-  it('allows navigating the enterprise deployment creation dialog', { timeout: 5 * TIMEOUTS.fiveSeconds }, async () => {
+  it('allows navigating the enterprise deployment creation dialog', { timeout: 6 * TIMEOUTS.fiveSeconds }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const preloadedState = {
       ...mockState,

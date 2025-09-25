@@ -43,7 +43,7 @@ describe('AuthorizedDevices Component', () => {
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
 
-  it('behaves as expected', { timeout: TIMEOUTS.refreshDefault }, async () => {
+  it('behaves as expected', { timeout: 3 * TIMEOUTS.fiveSeconds }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const DeviceActions = await import('@northern.tech/store/devicesSlice/thunks');
     const UserActions = await import('@northern.tech/store/usersSlice/thunks');

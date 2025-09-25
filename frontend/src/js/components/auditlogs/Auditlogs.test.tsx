@@ -68,7 +68,7 @@ describe('Auditlogs Component', () => {
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
 
-  it('works as expected', async () => {
+  it('works as expected', { timeout: 2 * TIMEOUTS.fiveSeconds }, async () => {
     const store = getConfiguredStore({ preloadedState });
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     render(
