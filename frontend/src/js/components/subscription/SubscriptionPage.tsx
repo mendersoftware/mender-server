@@ -127,7 +127,9 @@ const SubscriptionForm = ({ onShowUpgradeDrawer, onUpdateFormValues, previewPric
   const [isPreviewLoading, setIsPreviewLoading] = useState(false);
 
   const selectedAddonsLength = selectedAddons.length;
-  const isNew = currentPlanId !== selectedPlan.id || enabledAddons.length < selectedAddonsLength || debouncedLimit > currentDeviceLimit || isTrial;
+  const isNew =
+    debouncedLimit >= currentDeviceLimit &&
+    (currentPlanId !== selectedPlan.id || enabledAddons.length < selectedAddonsLength || debouncedLimit > currentDeviceLimit || isTrial);
   const couldGetPreview = isOrgLoaded && !specialHandling && selectedPlan.id !== PLANS.enterprise.id;
 
   useEffect(() => {
