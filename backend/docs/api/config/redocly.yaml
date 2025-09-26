@@ -1,0 +1,6 @@
+decorators:
+  server-adjustments/add-servers: on
+  server-adjustments/remove-servers: on
+
+plugins:
+  - plugin.js
