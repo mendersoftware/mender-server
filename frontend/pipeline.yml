@@ -229,6 +229,19 @@ test:frontend:acceptance:enterprise:
     - docker login -u $REGISTRY_MENDER_IO_USERNAME -p $REGISTRY_MENDER_IO_PASSWORD registry.mender.io
     - npm run script --prefix frontend/tests/e2e_tests -- --environment enterprise
 
+test:frontend:acceptance:enterprise:qemu:
+  extends: .template:test:frontend:acceptance
+  variables:
+    TEST_ENVIRONMENT: enterprise
+  rules:
+    # This job can only run on protected branches
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+  script:
+    - unset MENDER_IMAGE_REGISTRY MENDER_IMAGE_REPOSITORY
+    - export MENDER_IMAGE_TAG=main
+    - docker login -u $REGISTRY_MENDER_IO_USERNAME -p $REGISTRY_MENDER_IO_PASSWORD registry.mender.io
+    - npm run script --prefix frontend/tests/e2e_tests -- --environment enterprise --variant qemu
+
 .template:publish:frontend:tests:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/${NODE_IMAGE}
   stage: publish

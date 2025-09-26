@@ -13,9 +13,9 @@
 //    limitations under the License.
 import { Server } from 'net';
 
-import test, { expect } from '../fixtures/fixtures.ts';
-import { startWebhookServer } from '../utils/commands.ts';
-import { selectors, timeouts } from '../utils/constants.ts';
+import test, { expect } from '../../fixtures/fixtures';
+import { startWebhookServer } from '../../utils/commands';
+import { selectors, timeouts } from '../../utils/constants';
 
 const baseWebhookLocation = 'http://docker.mender.io:9000/webhooks';
 
