@@ -1,0 +1,11 @@
+openapi: 3.0.1
+info:
+  description: |
+    Combined API specification for the features of the different Mender backend services, suitable for code generation applications
+  contact:
+    name: support@mender.io
+  title: Mender API
+  version: "1"
+servers:
+  - url: https://hosted.mender.io/
+paths: {}

@@ -1,0 +1,14 @@
+openapi: 3.0.1
+info:
+  title: Common Security Schemes
+  version: "1.0"
+  description: Shared security schemes used across API specifications
+paths: {}
+components:
+  securitySchemes:
+    ManagementJWT:
+      type: http
+      description: |
+        API token issued by User Authentication service.
+      scheme: bearer
+      bearerFormat: JWT
