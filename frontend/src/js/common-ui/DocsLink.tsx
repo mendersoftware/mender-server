@@ -14,7 +14,7 @@
 import { forwardRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { Description as DescriptionIcon } from '@mui/icons-material';
+import { Description as DescriptionIcon, Launch as LaunchIcon } from '@mui/icons-material';
 import { Chip, Collapse, chipClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
@@ -117,6 +117,8 @@ export const DocsTooltip = ({ anchor = {}, id = '', ...props }) => {
     </MenderTooltipClickable>
   );
 };
+
+export const InlineLaunchIcon = () => <LaunchIcon style={{ verticalAlign: 'sub' }} fontSize="small" />;
 
 export const DocsLink = forwardRef(({ children, className = '', path, title = '', ...remainder }, ref) => {
   const docsVersion = useSelector(getDocsVersion);
