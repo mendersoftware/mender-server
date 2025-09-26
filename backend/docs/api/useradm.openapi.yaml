@@ -240,7 +240,7 @@ paths:
       parameters:
       - name: id
         in: path
-        description: User id. Set to "me" for the current user.
+        description: User id.
         required: true
         schema:
           type: string
@@ -280,7 +280,7 @@ paths:
       parameters:
       - name: id
         in: path
-        description: User id. Set to "me" for the current user.
+        description: User id.
         required: true
         schema:
           type: string
@@ -351,6 +351,92 @@ paths:
         "401":
           description: |
             The user cannot be granted authentication.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - ManagementJWT: []
+  /api/management/v1/useradm/users/me:
+    get:
+      tags:
+      - Useradm Management API v1
+      summary: Get user information
+      operationId: Show Own User Data
+      responses:
+        "200":
+          description: Successful response - a user information is returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "401":
+          description: |
+            The user cannot be granted authentication.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: The user was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - ManagementJWT: []
+    put:
+      tags:
+      - Useradm Management API v1
+      summary: Update own user information
+      operationId: Update Own User Data
+      requestBody:
+        description: Updated user data.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+        required: true
+      responses:
+        "204":
+          description: User information updated.
+          content: {}
+        "400":
+          description: |
+            The request body is malformed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "401":
+          description: |
+            The user cannot be granted authentication.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: |
+            The user does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "422":
+          description: |
+            The email address is duplicated or the password is too short.
           content:
             application/json:
               schema:
@@ -743,7 +829,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ErrorInternalAPI'
               example:
                 error: internal error
                 request_id: ffd712be-d697-4cb7-814b-88ff1e2eb5f6
@@ -753,7 +839,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ErrorInternalAPI'
               example:
                 error: "error reaching MongoDB: context deadline exceeded"
                 request_id: ffd712be-d697-4cb7-814b-88ff1e2eb5f6
@@ -774,7 +860,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ErrorInternalAPI'
   /api/internal/v1/useradm/auth/verify:
     post:
       tags:
@@ -839,7 +925,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ErrorInternalAPI'
   /api/internal/v1/useradm/tenants:
     post:
       tags:
@@ -864,7 +950,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ErrorInternalAPI'
   /api/internal/v1/useradm/tenants/{tenant_id}/users:
     get:
       tags:
@@ -937,7 +1023,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ErrorInternalAPI'
     post:
       tags:
       - Useradm Internal API
@@ -987,7 +1073,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ErrorInternalAPI'
   /api/internal/v1/useradm/tenants/{tenant_id}/users/{user_id}:
     delete:
       tags:
@@ -1025,7 +1111,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ErrorInternalAPI'
   /api/internal/v1/useradm/tokens:
     delete:
       tags:
@@ -1065,7 +1151,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ErrorInternalAPI'
 components:
   schemas:
     LoginOptions:
@@ -1228,6 +1314,15 @@ components:
       example:
         error: missing Authorization header
         request_id: f7881e82-0492-49fb-b459-795654e7188a
+    ErrorInternalAPI:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Description of the error.
+      description: Error descriptor.
+      example:
+        error: internal error
     Settings:
       type: object
       description: User settings.
