@@ -44,7 +44,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
       security:
       - ManagementJWT: []
   /filters/search:
@@ -136,16 +136,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
           description: Internal error.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
       security:
       - ManagementJWT: []
 components:
+  securitySchemes:
+    ManagementJWT:
+      $ref: './common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'
   schemas:
     Attribute:
       required:
@@ -204,19 +207,6 @@ components:
           value: 00.01:02:03:04:05
           description: MAC address
         updated_ts: 2016-10-03T16:58:51.639Z
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Description of the error.
-        request_id:
-          type: string
-          description: Request ID (same as in X-MEN-RequestID header).
-      description: Error descriptor.
-      example:
-        error: "failed to decode device group data: JSON payload is empty"
-        request_id: f7881e82-0492-49fb-b459-795654e7188a
     FilterAttribute:
       required:
       - count
@@ -324,11 +314,3 @@ components:
         - inventory
         - monitor
         - tags
-  securitySchemes:
-    ManagementJWT:
-      type: apiKey
-      description: |
-        API token issued by User Authentication service.
-        Format: 'Bearer [JWT]'
-      name: Authorization
-      in: header

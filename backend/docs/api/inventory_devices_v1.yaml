@@ -55,13 +55,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
           description: Internal server error.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
       security:
       - DeviceJWT: []
     patch:
@@ -107,13 +107,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
           description: Internal server error.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
       security:
       - DeviceJWT: []
 components:
@@ -145,19 +145,6 @@ components:
         name: ip_addr_eth
         description: Device IP address on ethernet interface
         value: 127.0.0.1
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Description of the error.
-        request_id:
-          type: string
-          description: Request ID (same as in X-MEN-RequestID header).
-      description: Error descriptor.
-      example:
-        error: "failed to decode request body: JSON payload is empty"
-        request_id: f7881e82-0492-49fb-b459-795654e7188a
   securitySchemes:
     DeviceJWT:
       type: apiKey

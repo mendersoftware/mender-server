@@ -22,7 +22,7 @@ paths:
                 error: internal error
                 request_id: ffd712be-d697-4cb7-814b-88ff1e2eb5f6
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: |
             Unexpected internal error
         "503":
@@ -32,7 +32,7 @@ paths:
                 error: "error reaching MongoDB: context deadline exceeded"
                 request_id: ffd712be-d697-4cb7-814b-88ff1e2eb5f6
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: |
             Service unhealthy / not ready to accept traffic. At least one dependency is not running.
       summary: Check the health of the service
@@ -49,7 +49,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: |
             Internal API error
       summary: |
@@ -79,7 +79,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Internal error.
       summary: Get storage setting for a given tenant
       tags:
@@ -111,13 +111,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: The request body is malformed.
         "500":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Internal server error.
       summary: Set storage settings for a given tenant
       tags:
@@ -146,7 +146,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Internal Server Error.
       summary: Get storage limit and current storage usage for given tenant
       tags:
@@ -177,14 +177,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: |
             The request body is malformed.
         "500":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Internal server error.
       summary: Set storage limit for given tenant
       tags:
@@ -212,7 +212,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Internal server error.
       summary: Provision a new tenant
       tags:
@@ -289,7 +289,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Invalid Request.
       summary: Get all deployments for specific tenant
       tags:
@@ -332,7 +332,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Internal server error.
       summary: Return the Deployments history entries for the specified IDs
       tags:
@@ -363,7 +363,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Internal server error.
       summary: Remove device from all deployments
       tags:
@@ -433,7 +433,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Internal server error.
       summary: Return the Deployments history for a Device
       tags:
@@ -470,13 +470,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Invalid Request.
         "500":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Internal Server Error.
       summary: Upload mender artifact
       tags:
@@ -527,19 +527,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Invalid Request.
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: The deployment with a given id already exists.
         "500":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Internal Server Error.
       summary: Create a configuration deployment
       tags:
@@ -573,13 +573,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Invalid Request.
         "500":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Internal Server Error.
       summary: Get status of the last device devployment
       tags:
@@ -590,25 +590,25 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: './common/schemas.yaml#/components/schemas/Error'
       description: Not Found.
     InternalServerError:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: './common/schemas.yaml#/components/schemas/Error'
       description: Internal Server Error.
     InvalidRequestError:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: './common/schemas.yaml#/components/schemas/Error'
       description: Invalid Request.
     UnprocessableEntityError:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: './common/schemas.yaml#/components/schemas/Error'
       description: Unprocessable Entity.
   schemas:
     NewTenant:
@@ -618,19 +618,6 @@ components:
       properties:
         tenant_id:
           description: New tenant's ID.
-          type: string
-      type: object
-    Error:
-      description: Error descriptor.
-      example:
-        error: error message
-        request_id: f7881e82-0492-49fb-b459-795654e7188a
-      properties:
-        error:
-          description: Description of the error.
-          type: string
-        request_id:
-          description: Request ID (same as in X-MEN-RequestID header).
           type: string
       type: object
     StorageSettings:
