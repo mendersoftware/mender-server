@@ -128,11 +128,7 @@ paths:
           description: Device removed
           content: {}
         "404":
-          description: The device was not found.
-          content:
-            '*/*':
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
   /tenants/{tenant_id}/devices/status/{status}:
@@ -280,11 +276,7 @@ paths:
             message for details.
           content: {}
         "404":
-          description: The device was not found.
-          content:
-            '*/*':
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
   /tenants/{tenant_id}/devices/{device_id}/reindex:

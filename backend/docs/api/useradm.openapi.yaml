@@ -247,11 +247,7 @@ paths:
               schema:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
         "404":
-          description: The user was not found.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -294,12 +290,7 @@ paths:
               schema:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
         "404":
-          description: |
-            The user does not exist.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "422":
           description: |
             The email address is duplicated, the password is too short
@@ -360,11 +351,7 @@ paths:
               schema:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
         "404":
-          description: The user was not found.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -400,12 +387,7 @@ paths:
               schema:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
         "404":
-          description: |
-            The user does not exist.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "422":
           description: |
             The email address is duplicated or the password is too short.
@@ -987,12 +969,7 @@ paths:
               schema:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
         "404":
-          description: |
-            Tenant with given ID does not exist.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "422":
           description: |
             User name or ID is duplicated.
