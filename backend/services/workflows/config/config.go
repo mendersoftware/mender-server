@@ -58,7 +58,11 @@ const (
 	SettingNatsConsumerMaxPending        = SettingNatsConsumer + ".max_pending"
 	SettingNatsConsumerMaxPendingDefault = 1000
 
-	// SettingMongo is the config key for the mongo URL
+	SettingNatsJetStream                = SettingsNats + ".stream"
+	SettingNatsJetStreamReplicas        = SettingNatsJetStream + ".replicas"
+	SettingNatsJetStreamReplicasDefault = 3
+
+	// SettingMongo is the config key for the mongo URLz
 	SettingMongo = "mongo-url"
 	// SettingMongoDefault is the default value for the mongo URL
 	SettingMongoDefault = "mongodb://mender-mongo:27017"
@@ -122,6 +126,7 @@ var (
 		{Key: SettingNatsStreamName, Value: SettingNatsStreamNameDefault},
 		{Key: SettingNatsSubscriberTopic, Value: SettingNatsSubscriberTopicDefault},
 		{Key: SettingNatsSubscriberDurable, Value: SettingNatsSubscriberDurableDefault},
+		{Key: SettingNatsJetStreamReplicas, Value: SettingNatsJetStreamReplicasDefault},
 		{Key: SettingMongo, Value: SettingMongoDefault},
 		{Key: SettingDbName, Value: SettingDbNameDefault},
 		{Key: SettingDbSSL, Value: SettingDbSSLDefault},
