@@ -68,11 +68,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Conflicting request data provided.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - DeviceJWT: []
       summary: Get next update
@@ -121,11 +117,7 @@ paths:
           content: {}
           description: Status already set to aborted.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - DeviceJWT: []
       summary: Update the device deployment status
@@ -167,11 +159,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Not Found.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - DeviceJWT: []
       summary: Upload the device deployment log
@@ -236,11 +224,7 @@ paths:
           content: {}
           description: The download link has expired or the signature is invalid.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security: []
       summary: |
         Internally generated download link for deploying device configurations.

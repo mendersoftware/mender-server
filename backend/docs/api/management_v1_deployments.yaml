@@ -109,11 +109,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Find all deployments
@@ -169,11 +165,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unprocessable Entity.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Create a deployment
@@ -245,11 +237,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Not Found.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
@@ -316,11 +304,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unprocessable Entity.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Create a deployment for a group of devices
@@ -358,11 +342,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Not Found.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Get the details of a selected deployment
@@ -422,11 +402,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unprocessable Entity.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Abort the deployment
@@ -475,11 +451,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Not Found.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
@@ -519,11 +491,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Not Found.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
@@ -599,11 +567,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Not Found.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
@@ -657,11 +621,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Not Found.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Get the list of device IDs being part of the deployment.
@@ -739,11 +699,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal server error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Abort all the active and pending Deployments for a Device
@@ -811,11 +767,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal server error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Return the Deployments history for a Device
@@ -846,11 +798,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Reset the Device Deployments history
@@ -990,11 +938,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
@@ -1174,11 +1118,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
@@ -1227,11 +1167,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
@@ -1284,11 +1220,7 @@ paths:
           description: |
             An artifact with the same name and matching dependency requirements already exists.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Upload mender artifact
@@ -1370,11 +1302,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
@@ -1398,11 +1326,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: "Request link for uploading artifact directly to the storage backend.\
@@ -1446,11 +1370,7 @@ paths:
                 $ref: '#/components/schemas/CompleteDirectUpload404Response'
           description: A pending direct upload with the given ID was not found.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: "Notify the server that the direct upload is completed to make it available\
@@ -1493,11 +1413,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Upload raw data to generate a new artifact
@@ -1540,11 +1456,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Artifact used by active deployment.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Delete the artifact
@@ -1616,11 +1528,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Not Found.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Get the details of a selected artifact
@@ -1673,11 +1581,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unprocessable Entity.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Update description of a selected artifact
@@ -1724,11 +1628,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Not Found.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Get the download link of a selected artifact
@@ -1754,11 +1654,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Get storage limit and current storage usage
