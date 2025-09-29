@@ -183,11 +183,7 @@ paths:
                   timestamp: 2016-10-19T17:23:01.639Z
                 updated_ts: 2016-10-03T16:58:51.639Z
         "404":
-          description: The device was not found.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -263,11 +259,7 @@ paths:
             message for details.
           content: {}
         "404":
-          description: The device was not found.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "412":
           description: ETag doesn't match.
           content: {}
@@ -324,11 +316,7 @@ paths:
             message for details.
           content: {}
         "404":
-          description: The device was not found.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "412":
           description: ETag doesn't match.
           content: {}
@@ -362,11 +350,7 @@ paths:
             message for details.
           content: {}
         "404":
-          description: The device was not found.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -405,11 +389,7 @@ paths:
             message for details.
           content: {}
         "404":
-          description: The device was not found.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -521,11 +501,7 @@ paths:
               schema:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
         "404":
-          description: The group was not found.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -582,11 +558,7 @@ paths:
               schema:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
         "404":
-          description: The group was not found.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -639,11 +611,7 @@ paths:
               schema:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
         "404":
-          description: The group was not found.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -703,11 +671,7 @@ paths:
               schema:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
         "404":
-          description: The group was not found.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:

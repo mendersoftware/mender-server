@@ -360,11 +360,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Not Found.
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
