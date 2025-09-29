@@ -103,19 +103,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: "Bad request, see error message for details."
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Internal Server Error.
       security:
       - ManagementJWT: []
@@ -144,13 +144,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: "Bad request, see error message for details."
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "409":
           content:
@@ -162,7 +162,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Internal Server Error.
       security:
       - ManagementJWT: []
@@ -332,13 +332,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Internal Server Error.
       security:
       - ManagementJWT: []
@@ -369,19 +369,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Not Found.
         "500":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Internal Server Error.
       security:
       - ManagementJWT: []
@@ -414,19 +414,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: "Bad request, see error message for details."
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Internal Server Error.
       security:
       - ManagementJWT: []
@@ -465,13 +465,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: "Bad request, see error message for details."
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "409":
           content:
@@ -480,13 +480,13 @@ paths:
                 error: the total number of unique tags has been exceeded
                 request_id: f7881e82-0492-49fb-b459-795654e7188a
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Too many unique tag keys in use.
         "500":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Internal Server Error.
       security:
       - ManagementJWT: []
@@ -508,13 +508,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: "Bad request, see error message for details."
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "409":
           content:
@@ -523,13 +523,13 @@ paths:
                 error: the total number of unique tags has been exceeded
                 request_id: f7881e82-0492-49fb-b459-795654e7188a
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Too many unique tag keys in use.
         "500":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Internal Server Error.
       security:
       - ManagementJWT: []
@@ -551,19 +551,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: "Bad request, see error message for details."
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Internal Server Error.
       security:
       - ManagementJWT: []
@@ -648,13 +648,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Internal Server Error.
       security:
       - ManagementJWT: []
@@ -668,19 +668,19 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: './common/schemas.yaml#/components/schemas/Error'
       description: "Bad request, see error message for details."
     UnauthorizedError:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: './common/schemas.yaml#/components/schemas/Error'
       description: Unauthorized.
     NotFoundError:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: './common/schemas.yaml#/components/schemas/Error'
       description: Not Found.
     ConflictError:
       content:
@@ -692,14 +692,17 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: './common/schemas.yaml#/components/schemas/Error'
       description: Unprocessable Entity.
     InternalServerError:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: './common/schemas.yaml#/components/schemas/Error'
       description: Internal Server Error.
+  securitySchemes:
+    ManagementJWT:
+      $ref: './common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'
   schemas:
     Artifact:
       description: Detailed artifact.
@@ -958,19 +961,6 @@ components:
       items:
         type: string
       type: array
-    Error:
-      description: Error descriptor.
-      example:
-        error: "failed to decode device group data: JSON payload is empty"
-        request_id: f7881e82-0492-49fb-b459-795654e7188a
-      properties:
-        error:
-          description: Description of the error.
-          type: string
-        request_id:
-          description: Request ID (same as in X-MEN-RequestID header).
-          type: string
-      type: object
     FilterPredicate:
       description: Attribute filter predicate
       example:
@@ -1354,11 +1344,3 @@ components:
           description: Request ID (same as in X-MEN-RequestID header).
           type: string
       type: object
-  securitySchemes:
-    ManagementJWT:
-      description: |
-        API token issued by User Authentication service.
-        Format: 'Bearer [JWT]'
-      in: header
-      name: Authorization
-      type: apiKey

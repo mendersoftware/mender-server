@@ -41,7 +41,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
           $ref: '#/components/responses/InternalServerError'
   /api/v1/workflow/{name}:
@@ -210,15 +210,6 @@ paths:
           $ref: '#/components/responses/NotFoundError'
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Description of the error.
-      description: Error descriptor.
-      example:
-        error: "failed: JSON payload is empty"
     CLIParams:
       type: object
       properties:
@@ -403,23 +394,23 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: './common/schemas.yaml#/components/schemas/Error'
     ConflictError:
       description: "Conflict, record already exists."
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: './common/schemas.yaml#/components/schemas/Error'
     InternalServerError:
       description: Internal Server Error.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: './common/schemas.yaml#/components/schemas/Error'
     InvalidRequestError:
       description: Invalid Request.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: './common/schemas.yaml#/components/schemas/Error'
 

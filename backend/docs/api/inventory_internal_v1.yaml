@@ -25,7 +25,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
             application/json:
               example:
                 error: internal error
@@ -36,7 +36,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
             application/json:
               example:
                 error: "error reaching MongoDB: context deadline exceeded"
@@ -58,7 +58,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
   /tenants:
     post:
       tags:
@@ -85,7 +85,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
   /tenants/{tenant_id}/devices:
     post:
       tags:
@@ -119,13 +119,13 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
           description: Internal server error.
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
   /tenants/{tenant_id}/devices/{device_id}:
     delete:
       tags:
@@ -154,13 +154,13 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
           description: Internal server error.
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
   /tenants/{tenant_id}/devices/status/{status}:
     post:
       tags:
@@ -207,19 +207,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
         "409":
           description: "Write conflict, the request needs to be retried."
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
           description: Internal server error.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
   /tenants/{tenant_id}/device/{device_id}/attribute/scope/{scope}:
     patch:
       tags:
@@ -269,15 +269,15 @@ paths:
           description: Device inventory successfully updated.
           content: {}
         "400":
-          $ref: '#/components/schemas/Error'
+          $ref: './common/schemas.yaml#/components/schemas/Error'
         412:
           description: "Precondition failed: If-Unmodified-Since condition not met"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
-          $ref: '#/components/schemas/Error'
+          $ref: './common/schemas.yaml#/components/schemas/Error'
   /tenants/{tenant_id}/devices/{device_id}/groups:
     get:
       tags:
@@ -314,13 +314,13 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
           description: Internal server error.
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
   /tenants/{tenant_id}/devices/{device_id}/reindex:
     post:
       tags:
@@ -354,24 +354,15 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
           description: Internal server error.
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Description of the error.
-      description: Error descriptor.
-      example:
-        error: missing Authorization header
     TenantNew:
       type: object
       properties:
