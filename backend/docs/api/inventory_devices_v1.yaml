@@ -57,11 +57,7 @@ paths:
               schema:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - DeviceJWT: []
     patch:
@@ -109,11 +105,7 @@ paths:
               schema:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - DeviceJWT: []
 components:

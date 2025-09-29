@@ -135,11 +135,7 @@ paths:
               schema:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
-          description: Internal error.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
   /devices/{id}:
@@ -193,11 +189,7 @@ paths:
               schema:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
     delete:
@@ -217,11 +209,7 @@ paths:
           description: Device removed
           content: {}
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
   /devices/{id}/tags:
@@ -284,11 +272,7 @@ paths:
           description: ETag doesn't match.
           content: {}
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
     patch:
@@ -349,11 +333,7 @@ paths:
           description: ETag doesn't match.
           content: {}
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
   /devices/{id}/group:
@@ -388,11 +368,7 @@ paths:
               schema:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
     put:
@@ -435,11 +411,7 @@ paths:
               schema:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
   /devices/{id}/group/{name}:
@@ -474,11 +446,7 @@ paths:
               schema:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
-          description: Internal error.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
   /groups:
@@ -509,11 +477,7 @@ paths:
               - testing
               - production
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
   /groups/{name}:
@@ -563,11 +527,7 @@ paths:
               schema:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
   /groups/{name}/devices:
@@ -628,11 +588,7 @@ paths:
               schema:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
     delete:
@@ -689,11 +645,7 @@ paths:
               schema:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
     patch:
@@ -757,11 +709,7 @@ paths:
               schema:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
 components:

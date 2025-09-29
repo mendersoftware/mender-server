@@ -27,7 +27,7 @@ paths:
               example:
                 status: ok
         "500":
-          $ref: '#/components/responses/InternalServerError'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
   /health:
     get:
       summary: Check if service and all operational dependencies are healthy.
@@ -43,7 +43,7 @@ paths:
               schema:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
-          $ref: '#/components/responses/InternalServerError'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
   /api/v1/workflow/{name}:
     post:
       summary: Start a new workflow
@@ -397,12 +397,6 @@ components:
             $ref: './common/schemas.yaml#/components/schemas/Error'
     ConflictError:
       description: "Conflict, record already exists."
-      content:
-        application/json:
-          schema:
-            $ref: './common/schemas.yaml#/components/schemas/Error'
-    InternalServerError:
-      description: Internal Server Error.
       content:
         application/json:
           schema:
