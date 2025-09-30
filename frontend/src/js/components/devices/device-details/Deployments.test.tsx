@@ -11,48 +11,34 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Provider } from 'react-redux';
-
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import configureStore from 'redux-mock-store';
-import { thunk } from 'redux-thunk';
 import { vi } from 'vitest';
 
 import { defaultState, undefineds } from '../../../../../tests/mockData';
 import { render, selectMaterialUiSelectOption } from '../../../../../tests/setupTests';
 import Deployments from './Deployments';
 
-const mockStore = configureStore([thunk]);
-let store;
+const deviceDeployments = [
+  {
+    id: 'deployment123',
+    created: '2021-07-08T17:56:49.366Z',
+    deviceId: 'a1',
+    finished: '2021-07-08T17:58:38.23Z',
+    log: true,
+    status: 'failure',
+    release: 'some-release',
+    deploymentStatus: 'inprogress',
+    target: 'ALL THE DEVICES'
+  }
+];
 
 describe('Deployments Component', () => {
-  beforeEach(() => {
-    store = mockStore({ ...defaultState });
-  });
   it('renders correctly', async () => {
     const DeploymentActions = await import('@northern.tech/store/deploymentsSlice/thunks');
     const getDeploymentsSpy = vi.spyOn(DeploymentActions, 'getDeviceDeployments');
 
-    const deviceDeployments = [
-      {
-        id: 'someId',
-        created: '2021-07-08T17:56:49.366Z',
-        deviceId: 'somne-id',
-        finished: '2021-07-08T17:58:38.23Z',
-        log: true,
-        status: 'failure',
-        release: 'some-release',
-        deploymentStatus: 'inprogress',
-        target: 'ALL THE DEVICES'
-      }
-    ];
-
-    const { baseElement } = render(
-      <Provider store={store}>
-        <Deployments device={{ ...defaultState.devices.byId.a1, deploymentsCount: 4, deviceDeployments }} />\
-      </Provider>
-    );
+    const { baseElement } = render(<Deployments device={{ ...defaultState.devices.byId.a1, deploymentsCount: 4, deviceDeployments }} />);
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
@@ -61,5 +47,20 @@ describe('Deployments Component', () => {
 
     await selectMaterialUiSelectOption(screen.getByText(/any/i), /in progress/i, user);
     expect(getDeploymentsSpy).toHaveBeenLastCalledWith({ deviceId: 'a1', filterSelection: ['downloading', 'installing', 'rebooting'], page: 1, perPage: 10 });
+  });
+
+  it('retrieves deployment data when clicking the log button', async () => {
+    const DeploymentActions = await import('@northern.tech/store/deploymentsSlice/thunks');
+    const getDeviceLogSpy = vi.spyOn(DeploymentActions, 'getDeviceLog');
+    const getSingleDeploymentSpy = vi.spyOn(DeploymentActions, 'getSingleDeployment');
+
+    render(<Deployments device={{ ...defaultState.devices.byId.a1, deploymentsCount: 1, deviceDeployments }} />);
+
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const logButton = screen.getByRole('button', { name: /log/i });
+    await user.click(logButton);
+
+    expect(getDeviceLogSpy).toHaveBeenCalledWith({ deploymentId: 'deployment123', deviceId: 'a1' });
+    expect(getSingleDeploymentSpy).toHaveBeenCalledWith('deployment123');
   });
 });

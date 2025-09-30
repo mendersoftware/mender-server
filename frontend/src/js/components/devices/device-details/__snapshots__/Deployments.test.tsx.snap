@@ -1158,7 +1158,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
           >
             <a
               data-discover="true"
-              href="/deployments/undefined?id=someId&open=true"
+              href="/deployments/undefined?id=deployment123&open=true"
             >
               View deployment
             </a>

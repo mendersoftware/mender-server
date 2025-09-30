@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Button, Table, TableBody, TableCell, TableHead, TableRow, buttonClasses, tableCellClasses } from '@mui/material';
@@ -23,10 +23,11 @@ import InfoHint from '@northern.tech/common-ui/InfoHint';
 import Pagination from '@northern.tech/common-ui/Pagination';
 import { MaybeTime } from '@northern.tech/common-ui/Time';
 import { getToken } from '@northern.tech/store/auth';
-import { DEVICE_LIST_DEFAULTS, deploymentStatesToSubstates, deploymentsApiUrl } from '@northern.tech/store/constants';
-import { getDeviceDeployments, resetDeviceDeployments } from '@northern.tech/store/thunks';
-import { createDownload } from '@northern.tech/utils/helpers';
+import { DEVICE_LIST_DEFAULTS, deploymentStatesToSubstates } from '@northern.tech/store/constants';
+import { getDeploymentById as getDeploymentByIdSelector, getFeatures, getIsPreview } from '@northern.tech/store/selectors';
+import { getDeviceDeployments, getDeviceLog, getSingleDeployment, resetDeviceDeployments } from '@northern.tech/store/thunks';
 
+import LogDialog from '../../deployments/deployment-report/Log';
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 import { DeviceStateSelection } from '../widgets/DeviceStateSelection';
@@ -69,20 +70,7 @@ const columns = [
   {
     content: '',
     key: 'log',
-    Component: ({ deviceDeployment: { id, log, deviceId }, token }) =>
-      log && (
-        <Button
-          onClick={() =>
-            createDownload(
-              ` ${window.location.origin}${deploymentsApiUrl}/deployments/${id}/devices/${deviceId}/log`,
-              `device_${deviceId}_deployment_${id}.log`,
-              token
-            )
-          }
-        >
-          Log
-        </Button>
-      )
+    Component: ({ deviceDeployment: { id, log }, onLogClick }) => log && <Button onClick={() => onLogClick(id)}>Log</Button>
   },
   {
     content: '',
@@ -91,7 +79,7 @@ const columns = [
   }
 ];
 
-const History = ({ className, items, page, perPage, setPage, setPerPage, total }) => {
+const History = ({ className, items, onLogClick, page, perPage, setPage, setPerPage, total }) => {
   const token = getToken();
   const onChangeRowsPerPage = perPage => {
     setPage(1);
@@ -118,7 +106,7 @@ const History = ({ className, items, page, perPage, setPage, setPerPage, total }
             <TableRow className={item.deleted ? 'deleted' : ''} key={item.id}>
               {columns.map(({ key, Component }) => (
                 <TableCell key={`${item.id}-${key}`}>
-                  <Component token={token} deviceDeployment={item} />
+                  <Component token={token} deviceDeployment={item} onLogClick={onLogClick} />
                 </TableCell>
               ))}
             </TableRow>
@@ -154,8 +142,13 @@ export const Deployments = ({ device }) => {
   const [page, setPage] = useState(DEVICE_LIST_DEFAULTS.page);
   const [perPage, setPerPage] = useState(10);
   const [isChecking, setIsChecking] = useState(false);
+  const [showsDeploymentLogForId, setShowsDeploymentLogForId] = useState('');
   const { classes } = useStyles();
+  const { hasAiEnabled, isHosted } = useSelector(getFeatures);
+  const isPreview = useSelector(getIsPreview);
+  const canAi = isHosted && (isPreview || hasAiEnabled);
   const dispatch = useDispatch();
+  const deployment = useSelector(state => getDeploymentByIdSelector(state, showsDeploymentLogForId));
 
   useEffect(() => {
     if (!device?.id) {
@@ -164,6 +157,14 @@ export const Deployments = ({ device }) => {
     const filterSelection = deploymentStates[filters[0]].values;
     dispatch(getDeviceDeployments({ deviceId: device.id, filterSelection, page, perPage }));
   }, [device.id, dispatch, filters, page, perPage]);
+
+  useEffect(() => {
+    if (!showsDeploymentLogForId) {
+      return;
+    }
+    dispatch(getDeviceLog({ deploymentId: showsDeploymentLogForId, deviceId: device.id }));
+    dispatch(getSingleDeployment(showsDeploymentLogForId));
+  }, [device.id, dispatch, showsDeploymentLogForId]);
 
   const onSelectStatus = status => setFilters([status]);
 
@@ -187,6 +188,7 @@ export const Deployments = ({ device }) => {
           <History
             className={classes.table}
             items={deviceDeployments}
+            onLogClick={setShowsDeploymentLogForId}
             page={page}
             perPage={perPage}
             setPage={setPage}
@@ -208,6 +210,9 @@ export const Deployments = ({ device }) => {
             </Button>
           </div>
         </>
+      )}
+      {showsDeploymentLogForId && deployment && (
+        <LogDialog canAi={canAi} deployment={deployment} deviceId={device.id} onClose={() => setShowsDeploymentLogForId('')} />
       )}
     </div>
   );
