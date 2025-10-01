@@ -8,6 +8,7 @@
             "name": "reindex_inventory",
             "type": "http",
             "retries": 3,
+            "retrydelayseconds": 3,
             "http": {
                 "uri": "http://${env.INVENTORY_ADDR|mender-inventory:8080}/api/internal/v1/inventory/tenants/${encoding=url;workflow.input.tenant_id}/devices/${encoding=url;workflow.input.device_id}/reindex?service=${encoding=url;workflow.input.service}",
                 "method": "POST",

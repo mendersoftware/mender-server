@@ -8,6 +8,7 @@
             "name": "submit_configuration",
             "type": "http",
             "retries": 3,
+            "retrydelayseconds": 3,
             "http": {
                 "requires": [
                     "${env.HAVE_DEVICECONFIG}"
@@ -32,6 +33,7 @@
             "name": "deploy_configuration",
             "type": "http",
             "retries": 3,
+            "retrydelayseconds": 3,
             "http": {
                 "requires": [
                     "${env.HAVE_DEVICECONFIG}"

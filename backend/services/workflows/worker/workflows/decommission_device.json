@@ -7,6 +7,7 @@
             "name": "delete_device_deployments",
             "type": "http",
             "retries": 3,
+            "retrydelayseconds": 3,
             "http": {
                 "uri": "http://${env.DEPLOYMENTS_ADDR|mender-deployments:8080}/api/internal/v1/deployments/tenants/${encoding=url;workflow.input.tenant_id}/deployments/devices/${encoding=url;workflow.input.device_id}",
                 "method": "DELETE",
@@ -21,6 +22,7 @@
             "name": "delete_device_deviceconnect",
             "type": "http",
             "retries": 3,
+            "retrydelayseconds": 3,
             "requires": [
                 "${env.HAVE_DEVICECONNECT}"
             ],
@@ -39,6 +41,7 @@
             "name": "delete_device_deviceconfig",
             "type": "http",
             "retries": 3,
+            "retrydelayseconds": 3,
             "requires": [
                 "${env.HAVE_DEVICECONFIG}"
             ],
@@ -57,6 +60,7 @@
             "name": "delete_iot_device",
             "type": "http",
             "retries": 3,
+            "retrydelayseconds": 3,
             "http": {
                 "uri": "http://${env.IOT_MANAGER_ADDR|mender-iot-manager:8080}/api/internal/v1/iot-manager/tenants/${encoding=url;workflow.input.tenant_id}/devices/${encoding=url;workflow.input.device_id}",
                 "method": "DELETE",
@@ -76,6 +80,7 @@
             "name": "delete_device_inventory",
             "type": "http",
             "retries": 3,
+            "retrydelayseconds": 3,
             "http": {
                 "uri": "http://${env.INVENTORY_ADDR|mender-inventory:8080}/api/internal/v1/inventory/tenants/${encoding=url;workflow.input.tenant_id}/devices/${encoding=url;workflow.input.device_id}",
                 "method": "DELETE",
@@ -90,6 +95,7 @@
             "name": "delete_device_auth",
             "type": "http",
             "retries": 3,
+            "retrydelayseconds": 3,
             "http": {
                 "uri": "http://${env.DEVICEAUTH_ADDR|mender-device-auth:8080}/api/internal/v1/devauth/tenants/${encoding=url;workflow.input.tenant_id}/devices/${encoding=url;workflow.input.device_id}",
                 "method": "DELETE",

@@ -8,6 +8,7 @@
             "name": "reindex_reporting",
             "type": "nats",
             "retries": 3,
+            "retrydelayseconds": 3,
             "nats": {
                 "subject": "reporting",
                 "data": {
