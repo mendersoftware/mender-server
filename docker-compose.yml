@@ -359,7 +359,7 @@ services:
         aliases: [mender-mongo]
 
   nats:
-    image: nats:2.11
+    image: nats:2.12
     command: [-js]
     networks:
       default:
