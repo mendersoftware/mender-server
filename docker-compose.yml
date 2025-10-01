@@ -67,6 +67,7 @@ services:
     command: [server, --automigrate]
     depends_on:
       - mongo
+      - inventory
     environment:
       DEVICEAUTH_INVENTORY_ADDR: http://inventory:8080
       DEVICEAUTH_ORCHESTRATOR_ADDR: http://workflows:8080

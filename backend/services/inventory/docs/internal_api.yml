@@ -207,6 +207,11 @@ paths:
         An API end-point that allows to  update the inventory attributes in
         a single scope for a device.
       parameters:
+        - name: If-Unmodified-Since
+          in: header
+          description: Skips updating the device if modified after the given RFC1123 timestamp.
+          required: false
+          type: string
         - name: tenant_id
           in: path
           description: ID of given tenant.
@@ -238,6 +243,10 @@ paths:
           description: Device inventory successfully updated.
         400:
           $ref: '#/definitions/Error'
+        412:
+          description: "Precondition failed: If-Unmodified-Since condition not met"
+          schema:
+            $ref: '#/definitions/Error'
         500:
           $ref: '#/definitions/Error'
 

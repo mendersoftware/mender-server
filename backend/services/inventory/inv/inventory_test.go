@@ -327,7 +327,8 @@ func TestInventoryUpsertAttributes(t *testing.T) {
 			db.On("UpsertDevicesAttributes",
 				ctx,
 				mock.AnythingOfType("[]model.DeviceID"),
-				mock.AnythingOfType("model.DeviceAttributes")).
+				mock.AnythingOfType("model.DeviceAttributes"),
+				(*time.Time)(nil)).
 				Return(tc.datastoreRes, tc.datastoreError)
 			if tc.datastoreError == nil {
 				db.On("UpdateDeviceText",
@@ -338,7 +339,7 @@ func TestInventoryUpsertAttributes(t *testing.T) {
 			}
 
 			i := invForTest(db)
-			err := i.UpsertAttributes(ctx, "devid", model.DeviceAttributes{})
+			err := i.UpsertAttributes(ctx, "devid", model.DeviceAttributes{}, nil)
 
 			if tc.outError != nil {
 				if assert.Error(t, err) {

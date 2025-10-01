@@ -17,6 +17,7 @@ package mongo
 import (
 	"context"
 	"crypto/tls"
+	"iter"
 	"strings"
 	"time"
 
@@ -24,6 +25,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	mopts "go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo/readpref"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
@@ -1072,4 +1074,47 @@ func (db *DataStoreMongo) ListTenantsIds(
 		ids[i] = id.(string)
 	}
 	return ids, nil
+}
+
+func (db *DataStoreMongo) ListAllDevices(
+	ctx context.Context,
+	fields ...string,
+) iter.Seq2[*model.Device, error] {
+	collDevs := db.client.
+		Database(DbName).
+		Collection(DbDevicesColl,
+			mopts.Collection().
+				SetReadPreference(readpref.SecondaryPreferred()))
+
+	findOpts := mopts.Find()
+	if len(fields) > 0 {
+		projection := make(bson.D, 0, len(fields))
+		for _, key := range fields {
+			projection = append(projection, bson.E{Key: key, Value: 1})
+		}
+		findOpts.SetProjection(projection)
+	}
+
+	cur, err := collDevs.Find(ctx, bson.D{}, findOpts)
+	if err != nil {
+		return func(yield func(*model.Device, error) bool) {
+			yield(nil, err)
+		}
+	}
+	return func(yield func(*model.Device, error) bool) {
+		defer cur.Close(ctx)
+		for cur.Next(ctx) {
+			var dev model.Device
+			err := cur.Decode(&dev)
+			if err != nil {
+				if !yield(nil, err) {
+					return
+				}
+			} else {
+				if !yield(&dev, nil) {
+					return
+				}
+			}
+		}
+	}
 }

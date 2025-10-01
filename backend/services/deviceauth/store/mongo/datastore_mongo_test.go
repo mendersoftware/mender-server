@@ -16,14 +16,17 @@ package mongo
 import (
 	"context"
 	"crypto/sha256"
+	"encoding/json"
 	"fmt"
 	"math/rand"
 	"sort"
 	"strconv"
 	"strings"
+	"sync/atomic"
 	"testing"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/pkg/errors"
 
 	"github.com/stretchr/testify/assert"
@@ -2187,27 +2190,21 @@ func TestStoreGetDevCountByStatus(t *testing.T) {
 		t.Run(fmt.Sprintf("tc %d", i), func(t *testing.T) {
 			db := getDb(ctx)
 
-			devs := getDevsWithStatuses(tc.accepted, tc.preauthorized, tc.pending, tc.rejected, tc.noauth)
-
-			// populate DB with a set of devices
-			for d, set := range devs {
-				err := db.AddDevice(ctx, *d)
-				assert.NoError(t, err)
-
-				for _, s := range set {
-					err := db.AddAuthSet(ctx, s)
-					assert.NoError(t, err)
-				}
-			}
+			makeDevicesWithStatuses(ctx, t, db, tc.accepted, tc.preauthorized, tc.pending, tc.rejected, tc.noauth)
 
 			cntAcc, err := db.GetDevCountByStatus(ctx, "accepted")
-			cntPre, err := db.GetDevCountByStatus(ctx, "preauthorized")
-			cntPen, err := db.GetDevCountByStatus(ctx, "pending")
-			cntRej, err := db.GetDevCountByStatus(ctx, "rejected")
-			cntNoauth, err := db.GetDevCountByStatus(ctx, "noauth")
-			cntAll, err := db.GetDevCountByStatus(ctx, "")
-
 			assert.NoError(t, err)
+			cntPre, err := db.GetDevCountByStatus(ctx, "preauthorized")
+			assert.NoError(t, err)
+			cntPen, err := db.GetDevCountByStatus(ctx, "pending")
+			assert.NoError(t, err)
+			cntRej, err := db.GetDevCountByStatus(ctx, "rejected")
+			assert.NoError(t, err)
+			cntNoauth, err := db.GetDevCountByStatus(ctx, "noauth")
+			assert.NoError(t, err)
+			cntAll, err := db.GetDevCountByStatus(ctx, "")
+			assert.NoError(t, err)
+
 			assert.Equal(t, tc.accepted, cntAcc)
 			assert.Equal(t, tc.preauthorized, cntPre)
 			assert.Equal(t, tc.pending, cntPen)
@@ -2218,12 +2215,17 @@ func TestStoreGetDevCountByStatus(t *testing.T) {
 	}
 }
 
+var devicesCreated uint32
+
 // generate a list of devices having the desired number of total accepted/preauthorized/pending/rejected/noauth devices
 // auth sets for these devs will generated semi-randomly to aggregate to a given device's target status
-func getDevsWithStatuses(accepted, preauthorized, pending, rejected, noauth int) map[*model.Device][]model.AuthSet {
+func makeDevicesWithStatuses(ctx context.Context, t *testing.T, ds store.DataStore,
+	accepted, preauthorized, pending, rejected, noauth int) []model.Device {
 	total := accepted + preauthorized + pending + rejected + noauth
 
-	res := make(map[*model.Device][]model.AuthSet)
+	res := make([]model.Device, 0, total)
+	ctx, cancel := context.WithTimeout(ctx, time.Minute)
+	defer cancel()
 
 	for i := 0; i < total; i++ {
 		status := "pending"
@@ -2236,19 +2238,33 @@ func getDevsWithStatuses(accepted, preauthorized, pending, rejected, noauth int)
 		} else if i < (accepted + rejected + preauthorized + noauth) {
 			status = "noauth"
 		}
-		dev, sets := getDevWithStatus(i, status)
-		res[dev] = sets
+		dev, sets := getDevWithStatus(int(atomic.AddUint32(&devicesCreated, 1)), status)
+		err := ds.AddDevice(ctx, *dev)
+		if err != nil {
+			t.Fatalf("error initializing device in data set: %s", err.Error())
+		}
+		for _, set := range sets {
+			err := ds.AddAuthSet(ctx, set)
+			if err != nil {
+				t.Fatalf("error initializing data set: %s", err.Error())
+			}
+		}
+
+		res = append(res, *dev)
 	}
 
 	return res
 }
 
 func getDevWithStatus(id int, status string) (*model.Device, []model.AuthSet) {
-	iddata := fmt.Sprintf("foo-%04d", id)
+	idData := map[string]any{"foo": fmt.Sprintf("%04d", id)}
+	b, _ := json.Marshal(idData)
+	idDataRaw := string(b)
 	dev := model.Device{
-		Id:           fmt.Sprintf("%d", id),
-		IdData:       iddata,
-		IdDataSha256: getIdDataHash(iddata),
+		Id:           uuid.NewSHA1(uuid.NameSpaceOID, []byte(strconv.Itoa(id))).String(),
+		IdData:       idDataRaw,
+		IdDataSha256: getIdDataHash(idDataRaw),
+		IdDataStruct: idData,
 		Status:       status,
 	}
 
@@ -2256,13 +2272,64 @@ func getDevWithStatus(id int, status string) (*model.Device, []model.AuthSet) {
 	if status != "noauth" {
 		asets = getAuthSetsForStatus(&dev, status)
 	}
+	dev.AuthSets = asets
 
 	return &dev, asets
 }
 
+var (
+	_ = [...]string{`-----BEGIN PRIVATE KEY-----
+MC4CAQAwBQYDK2VwBCIEIIChmJQokUs/m2DHzCrIMbY+dRHZYdVa9jqkb+zs/KAC
+-----END PRIVATE KEY-----`,
+		`-----BEGIN PRIVATE KEY-----
+MIG2AgEAMBAGByqGSM49AgEGBSuBBAAiBIGeMIGbAgEBBDCmY+i0e1SoAaOOAkOR
+9QAm9hpbTWdIo3Xuq7k7EiunRlbivLfRs3KwI1a1F2uxukehZANiAAQyJBWltf7o
+ReNkBW4erlmWqLURN5cG2SDzxjsB52C0FjEI7PvtLdzpo7v5WafbXBt9EvA3hsgy
+czxzpl1kSwBZy6DUAwWCiQM/hdcVFj3ALYbtYS0MgedUS+TWpCXFkYo=
+-----END PRIVATE KEY-----`,
+		`-----BEGIN PRIVATE KEY-----
+MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBAL9EwIo5kULzoSR0
+qemoFNykafmX4f5DcN64pd4m2zlMd1uW311Ftu2GCuWX8Gwd639m8tNOprhPz/U0
+nQp9IzEoU38kDMF3DwQQSIO+6nlwMkusu+BsX8NDjC6p+n30nChxnaGJoe1WOb45
+qTkXGhShpW4tjS6iQPOZfPtZURpLAgMBAAECgYEAgeqOKZVOoL5hLyT7IJWljfUz
+cnCC9bUTXoTnTUzxTSsuS4zgLTekOBP7JNYeXSG5izD/MR5USg8UPwa8wJodIyLF
+Fi1sarm+z3dnig/ptkvwP46b+iY5ZtpSV05XhNAQLHB4Bsh2X2uYq8XSUr1HmlsZ
+Kv6iJRaf9hqfIm+vUrkCQQDn2GElf9bZ/O+sIXbuYjkak6BMFilQNZ9NXZoaozPn
+FTo6SVZGmDxtbAzU9pdcnzzh+V0bh4YU0QLNN/oWUxG9AkEA0zIjkGIkACS+6jAj
+tkH/WgQeIZd6PdyOFv1ThPeoO0OJ+BEoKVeR7IMkbNihWeXUDAAb/4m6j05W/8F3
+BfcopwJBALJmGNKfHTcd31rHYVmrcR9XK0iA4QdcS5lfhh4rKNwOxIBnQCEQMadN
+Nk6E9RGLYnDLze5KCU1pS0uYYDLfds0CQDMv18bKwob2YP9Jo54s6MLcdKEXoZ0U
+s6uGwpNbov6aI/pnziAXBVsZfd6TsqejOH2gGSkaLIlHJ3bdYQelG8kCQQCopLBh
+bT0Nk4J1Ysouo1f5dUWLRjo3Ir6RIONHCGF7AchEU9h8TQDunYIYW6RFoV1B6XRO
+KgRJKUTz+Xh6EhYU
+-----END PRIVATE KEY-----`,
+		`-----BEGIN PRIVATE KEY-----
+MC4CAQAwBQYDK2VwBCIEIF3gje8BmvEMpmdOIu+vKbj91+XpAmKXhMM88zIZ5Yzj
+-----END PRIVATE KEY-----`,
+	}
+	testPublicKeys = [...]string{
+		`-----BEGIN PUBLIC KEY-----
+MCowBQYDK2VwAyEAIAkNo+1BMVd45Vy3R663XL1rzi15nsOxkw22fHYU1ss=
+-----END PUBLIC KEY-----`, `-----BEGIN PUBLIC KEY-----
+MHYwEAYHKoZIzj0CAQYFK4EEACIDYgAEMiQVpbX+6EXjZAVuHq5Zlqi1ETeXBtkg
+88Y7AedgtBYxCOz77S3c6aO7+Vmn21wbfRLwN4bIMnM8c6ZdZEsAWcug1AMFgokD
+P4XXFRY9wC2G7WEtDIHnVEvk1qQlxZGK
+-----END PUBLIC KEY-----`,
+		`-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC/RMCKOZFC86EkdKnpqBTcpGn5
+l+H+Q3DeuKXeJts5THdblt9dRbbthgrll/BsHet/ZvLTTqa4T8/1NJ0KfSMxKFN/
+JAzBdw8EEEiDvup5cDJLrLvgbF/DQ4wuqfp99JwocZ2hiaHtVjm+Oak5FxoUoaVu
+LY0uokDzmXz7WVEaSwIDAQAB
+-----END PUBLIC KEY-----`,
+		`-----BEGIN PUBLIC KEY-----
+MCowBQYDK2VwAyEAXovydKq230BtJq/7WVh+8On5be8JyOlDiMlBP4lttbw=
+-----END PUBLIC KEY-----`,
+	}
+)
+
 // create a semi-random list of auth sets resultng in a desired device status
 func getAuthSetsForStatus(dev *model.Device, status string) []model.AuthSet {
-	n := rand.Intn(4) + 1
+	n := rand.Intn(len(testPublicKeys)) + 1
 
 	asets := make([]model.AuthSet, 0, n)
 
@@ -2270,11 +2337,17 @@ func getAuthSetsForStatus(dev *model.Device, status string) []model.AuthSet {
 	// with some accepted/pending, depending on the target status
 	for i := 0; i < n; i++ {
 		set := model.AuthSet{
-			IdData:    dev.IdData,
-			PubKey:    fmt.Sprintf("%s-%04d", dev.IdData, i),
-			DeviceId:  dev.Id,
-			Timestamp: uto.TimePtr(time.Now()),
-			Status:    "rejected",
+			Id: uuid.NewSHA1(uuid.NameSpaceOID,
+				fmt.Appendf(nil, "%d-%s", i, dev.Id),
+			).String(),
+			DeviceId:     dev.Id,
+			IdData:       dev.IdData,
+			IdDataSha256: dev.IdDataSha256,
+			IdDataStruct: dev.IdDataStruct,
+			PubKey:       testPublicKeys[i],
+			Timestamp:    uto.TimePtr(time.Now()),
+			Status:       "rejected",
+			TenantID:     dev.TenantID,
 		}
 		asets = append(asets, set)
 	}
@@ -2891,6 +2964,62 @@ func TestStoreGetDeviceById(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestListAllDevices(t *testing.T) {
+	const tenantID = "123456789012345678901234"
+	ctx := context.Background()
+	ds := getDb(ctx)
+	makeDevicesWithStatuses(ctx, t, ds, 5, 4, 3, 2, 1)
+	ctxTenant := identity.WithContext(ctx, &identity.Identity{Tenant: tenantID})
+	makeDevicesWithStatuses(ctxTenant, t, ds, 10, 9, 8, 7, 6)
+
+	t.Run("ok/all attributes", func(t *testing.T) {
+		t.Parallel()
+		countByTenantID := map[string]int{}
+		for dev, err := range ds.ListAllDevices(ctx) {
+			assert.NoError(t, err)
+			assert.NotEmpty(t, dev.Id)
+			assert.NotEmpty(t, dev.IdData)
+			assert.NotEmpty(t, dev.IdDataStruct)
+			assert.NotEmpty(t, dev.IdDataSha256)
+			assert.NotEmpty(t, dev.Status)
+			if c, ok := countByTenantID[dev.TenantID]; ok {
+				countByTenantID[dev.TenantID] = c + 1
+			} else {
+				countByTenantID[dev.TenantID] = 1
+			}
+		}
+		assert.Len(t, countByTenantID, 2, "unexpected number of different tenant IDs")
+		assert.Equal(t, 15, countByTenantID[""])
+		assert.Equal(t, 40, countByTenantID[tenantID])
+	})
+	t.Run("ok/selected attributes", func(t *testing.T) {
+		t.Parallel()
+		count := 0
+		for dev, err := range ds.ListAllDevices(ctx, dbFieldID, dbFieldStatus) {
+			assert.NoError(t, err)
+			assert.NotEmpty(t, dev.Id)
+			assert.NotEmpty(t, dev.Status)
+			// rest is empty
+			assert.Empty(t, dev.IdData)
+			assert.Empty(t, dev.IdDataStruct)
+			assert.Empty(t, dev.IdDataSha256)
+			count++
+		}
+		assert.Equal(t, 55, count, "unexpected number of records")
+	})
+	t.Run("error/context cancelled", func(t *testing.T) {
+		t.Parallel()
+		cancelledCtx, cancel := context.WithCancel(ctx)
+		cancel()
+		for _, err := range ds.ListAllDevices(cancelledCtx) {
+			if assert.ErrorIs(t, err, context.Canceled) {
+				break
+			}
+			t.Fatal("this code should be unreachable")
+		}
+	})
 }
 
 func getIdDataHash(idData string) []byte {

@@ -344,6 +344,10 @@ func updateDevicesIdData(
 
 		if !dryRun {
 			for _, d := range devices {
+				// we have to forbid the client to override attribute status in
+				// identity scope since it stands for status of a device
+				// (as in: accepted, rejected, preauthorized)
+				d.IdDataStruct["status"] = d.Status
 				err := c.SetDeviceIdentity(ctx, tenant, d.Id, d.IdDataStruct)
 				if err != nil {
 					return err
