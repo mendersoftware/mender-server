@@ -13,9 +13,9 @@
 //    limitations under the License.
 import dns from 'node:dns';
 
-import test, { expect } from '../fixtures/fixtures.ts';
-import { getTokenFromStorage, isEnterpriseOrStaging, isLoggedIn, startIdpServer } from '../utils/commands.ts';
-import { timeouts } from '../utils/constants.ts';
+import test, { expect } from '../../fixtures/fixtures';
+import { getTokenFromStorage, isEnterpriseOrStaging, isLoggedIn, startIdpServer } from '../../utils/commands';
+import { timeouts } from '../../utils/constants';
 
 dns.setDefaultResultOrder('ipv4first');
 

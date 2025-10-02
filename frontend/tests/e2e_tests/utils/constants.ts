@@ -12,6 +12,8 @@
 //    See the License for the specific language governing permissions and
 import type { BrowserContextOptions } from '@playwright/test';
 
+export const testDirBase = 'integration';
+
 //    limitations under the License.
 const deviceListItem = '.deviceListItem';
 export const selectors = {
@@ -31,6 +33,8 @@ export const selectors = {
   terminalElement: '.terminal.xterm',
   terminalText: '.terminal.xterm textarea'
 };
+
+export const expectedArtifactName = 'mender-demo-artifact';
 
 export const releaseTag = 'sometag';
 

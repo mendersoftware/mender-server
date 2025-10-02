@@ -16,9 +16,9 @@ import * as path from 'path';
 import * as readline from 'readline';
 import { fileURLToPath } from 'url';
 
-import test, { expect } from '../fixtures/fixtures.ts';
-import { compareImages, isEnterpriseOrStaging } from '../utils/commands.ts';
-import { selectors, timeouts } from '../utils/constants.ts';
+import test, { expect } from '../../fixtures/fixtures';
+import { compareImages, isEnterpriseOrStaging } from '../../utils/commands';
+import { selectors, timeouts } from '../../utils/constants';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

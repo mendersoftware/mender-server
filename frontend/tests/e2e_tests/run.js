@@ -52,6 +52,11 @@ const defaults = {
   environment: environments.os
 };
 
+const testSuiteVariants = {
+  regular: 'regular',
+  qemu: 'qemu'
+};
+
 const defaultCredentials = {
   user: 'mender-demo@example.com',
   user2: 'demo-secondary@example.com',
@@ -86,7 +91,8 @@ const createConfig = (options = {}) => {
     serverRoot,
     skipCleanup: options.skipCleanup || false,
     user: options.user,
-    password: options.password
+    password: options.password,
+    variant: options.variant
   };
 
   const composeFiles = [join(serverRoot, 'docker-compose.yml'), join(guiRepository, 'tests/e2e_tests/docker-compose.e2e-tests.yml')];
@@ -99,6 +105,9 @@ const createConfig = (options = {}) => {
   if (baseConfig.environment === environments.enterprise) {
     composeFiles.push(join(baseConfig.serverRoot, 'compose/docker-compose.enterprise.yml'));
     composeFiles.push(join(baseConfig.guiRepository, 'tests/e2e_tests/docker-compose.e2e-tests.enterprise.yml'));
+  }
+  if (baseConfig.variant === testSuiteVariants.qemu) {
+    composeFiles.push(join(baseConfig.guiRepository, 'tests/e2e_tests/docker-compose.e2e-tests.rofs.yml'));
   }
 
   return { ...baseConfig, composeFiles };
@@ -164,6 +173,16 @@ const promptForConfiguration = async () => {
         if (!input) return true;
         return validator.isURL(input) || 'Not a valid URL';
       }
+    },
+    {
+      type: 'variant',
+      name: 'variant',
+      message: 'Special variant to be run',
+      choices: [
+        { name: 'Regular test sets', value: testSuiteVariants.regular },
+        { name: 'QEMU dependent tests', value: testSuiteVariants.qemu }
+      ],
+      default: testSuiteVariants.regular
     }
   ]);
 
@@ -247,8 +266,22 @@ const composeLogs = async config =>
 
 const runCommand = (command, args = [], config, options = {}) =>
   new Promise((resolve, reject) => {
-    const child = spawn(command, args, { stdio: 'inherit', env: { ...process.env, TEST_ENVIRONMENT: config.environment }, ...options });
-    child.on('close', code => (code === 0 ? resolve(code) : reject(new Error(`Command failed with exit code ${code}`))));
+    let stdout = '';
+    let stderr = '';
+    const child = spawn(command, args, {
+      stdio: ['inherit', 'pipe', 'pipe'],
+      env: { ...process.env, TEST_ENVIRONMENT: config.environment },
+      ...options
+    });
+    child.stdout.on('data', data => (stdout += data.toString()));
+    child.stderr.on('data', data => (stderr += data.toString()));
+    child.on('close', code => {
+      if (code === 0) {
+        resolve(stdout.trim());
+      } else {
+        reject(new Error(`Command failed with exit code ${code}: ${stderr}`));
+      }
+    });
     child.on('error', reject);
   });
 
@@ -303,7 +336,7 @@ const setupEnterprise = async config => {
   await removeOldClient(config);
   const tenantId = await createTenant({ ...credentials, name: 'test' }, config, ['configure', 'monitor', 'troubleshoot']);
   await setupTenantToken(tenantId, config);
-  await composeRun('client', '/entrypoint.sh', config, { commandOptions: ['-d'] });
+  await composeRun('client', [], config, { commandOptions: ['-d'] });
   await createServiceProviderTenant(credentials, config);
 
   console.log(chalk.green('🎉 Enterprise setup completed successfully!\n'));
@@ -315,6 +348,25 @@ const setupOS = async config => {
   const credentials = getCredentials(config);
   await composeExec('useradm', `useradm create-user --username ${credentials.user} --password ${credentials.password}`, config);
   console.log(chalk.green('🎉 OS setup completed successfully!\n'));
+};
+
+const setupQemuClient = async config => {
+  let clientIp = '';
+  await withSpinner(
+    `🔎 getting QEMU client address...`,
+    async () => {
+      const clientContainers = await runCommand('docker', ['ps', '-q', '--filter', 'label=com.docker.compose.service=client'], config);
+      const clientContainerId = clientContainers.split('\n')[0].trim();
+      if (!clientContainerId) {
+        throw new Error('No client container found');
+      }
+      clientIp = await runCommand('docker', ['inspect', '--format={{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}', clientContainerId], config);
+      console.log(`Client container found: ID: ${clientContainerId}, IP: ${clientIp}`);
+    },
+    'QEMU client container found',
+    'QEMU client is in hiding, good luck!'
+  );
+  process.env.CLIENT_IP = clientIp;
 };
 
 const runTests = async config => {
@@ -345,15 +397,23 @@ const runTests = async config => {
     } else {
       await setupOS(config);
     }
+    if (config.variant === testSuiteVariants.qemu) {
+      await setupQemuClient(config);
+    }
   } catch (error) {
     console.error(chalk.red(`💥 ${config.environment} setup failed:`, JSON.stringify(error)));
     throw error;
   }
-  console.log(chalk.yellow(`🐳 Running tests in docker using ${chalk.cyan(config.project)}...`));
+  let playwrightConfig = `--project=${config.project}`;
+  if (config.variant === testSuiteVariants.qemu) {
+    playwrightConfig = '--config=playwright-qemu.config.ts --project=qemu-tests';
+  }
+  console.log(chalk.yellow(`🐳 Running tests in docker using ${chalk.cyan(config.project)}/${chalk.blue(config.variant)}...`));
 
   await composeExec('gui-tests-runner', `npm install`, config);
   await composeExec('gui-tests-runner', `npx playwright install ${config.project}`, config);
-  await composeExec('gui-tests-runner', `npm run test -- --project=${config.project}`, config, {
+
+  await composeExec('gui-tests-runner', `npm run test -- ${playwrightConfig} `, config, {
     callback: (data, source) => (source === 'stderr' ? console.error(chalk.red(data.toString())) : console.log(chalk.white(data.toString())))
   });
 };
@@ -371,6 +431,7 @@ program
   .option('-i, --interactive', 'Run in interactive mode with prompts')
   .option('--user <email>', 'User email to use')
   .option('--password <password>', 'User password to use')
+  .option('--variant <variant>', `Special test variant to be run (one of ${Object.keys(testSuiteVariants)})`)
   .option('--base-url <url>', 'Location to run tests against')
   .option('--no-banner', 'Skip the banner display')
   .addHelpText(
@@ -447,6 +508,7 @@ const validateConfiguration = config => {
 const showConfiguration = config => {
   console.log(chalk.green('\n📋 Configuration Summary:'));
   console.log(`   Environment: ${config.environment}`);
+  console.log(`   Variant: ${config.variant}`);
   console.log(`   Execution: ${config.local ? (config.visual ? chalk.magenta('Local Visual') : chalk.cyan('Local')) : chalk.blue('Docker')}`);
   console.log(`   Browser: ${chalk.cyan(config.project)}`);
   console.log(`   Cleanup: ${config.skipCleanup ? chalk.red('Skip') : chalk.green('Auto')}`);
@@ -486,12 +548,21 @@ const main = async () => {
 const cleanup = async (exitCode = 0) => {
   const logDir = join(config.guiRepository, 'logs');
   const logPath = join(logDir, 'gui_e2e_tests.txt');
+  const clientLogPath = join(logDir, 'client.log');
 
   if (exitCode !== 0) {
     try {
+      mkdirSync(logDir, { recursive: true });
+      // the client gets often started outside of the compose setup, so track it down by name
+      console.log(chalk.yellow(`📋 Capturing client logs to ${chalk.cyan(clientLogPath)}`));
+      const containerNames = await runCommand('docker', ['ps', '-a', `--format={{.Names}}`], config);
+      const clientContainer = containerNames.split('\n').find(name => name.includes('client'));
+      if (clientContainer) {
+        const clientLog = await runCommand('docker', ['logs', clientContainer], config);
+        writeFileSync(clientLogPath, clientLog);
+      }
       console.log(chalk.yellow(`📋 Tests failed, dumping logs to ${chalk.cyan(logPath)}`));
       const logs = await composeLogs(config);
-      mkdirSync(logDir, { recursive: true });
       writeFileSync(logPath, logs);
     } catch (error) {
       console.error(chalk.red('💥 Failed to dump logs:'), error);
@@ -515,11 +586,19 @@ process.on('SIGINT', initiateShutDownSequence('SIGINT'));
 
 process.on('SIGTERM', initiateShutDownSequence('SIGTERM'));
 
+const errorLogCutoffLength = 200;
 let exitCode = 0;
 try {
   await main();
 } catch (error) {
-  console.error(chalk.red('\n💥 Error:'), JSON.stringify(error));
+  const errorMessage = JSON.stringify(error);
+  const logDir = join(config.guiRepository, 'logs');
+  mkdirSync(logDir, { recursive: true });
+  const errorPath = join(logDir, 'error.txt');
+  console.error(chalk.red('\n💥 Error:', errorMessage.length < errorLogCutoffLength ? errorMessage : `will be dumped to ${errorPath}`));
+  if (errorMessage.length >= errorLogCutoffLength) {
+    writeFileSync(errorPath, errorMessage);
+  }
   exitCode = 1;
 } finally {
   await withSpinner('🧹 Cleanup', async () => await cleanup(exitCode), 'so sparkling clean', 'clean up failed');

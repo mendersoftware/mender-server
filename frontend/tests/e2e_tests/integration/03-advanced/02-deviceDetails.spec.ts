@@ -14,9 +14,9 @@
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 
-import test, { expect } from '../fixtures/fixtures.ts';
-import { compareImages, isEnterpriseOrStaging } from '../utils/commands.ts';
-import { selectors, timeouts } from '../utils/constants.ts';
+import test, { expect } from '../../fixtures/fixtures';
+import { compareImages } from '../../utils/commands';
+import { selectors, timeouts } from '../../utils/constants';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -25,8 +25,6 @@ const terminalReferenceFileMap = {
   default: 'terminalContent.png',
   webkit: 'terminalContent-webkit.png'
 };
-
-const rootfs = 'rootfs-image.version';
 
 test.describe('Device details', () => {
   test.beforeEach(async ({ baseUrl, page }) => {
@@ -40,74 +38,6 @@ test.describe('Device details', () => {
     await expect(expandedDevice.getByText(/hostname/).first()).toBeVisible();
     await expandedDevice.getByRole('tab', { name: /software/i }).click();
     await expect(expandedDevice.getByText(demoDeviceName)).toBeVisible();
-  });
-
-  test('can be found', async ({ demoDeviceName, page }) => {
-    const searchField = await page.getByPlaceholder(/search devices/i);
-    await searchField.fill(demoDeviceName);
-    await page.waitForSelector(selectors.deviceListItem);
-    const slideOut = await page.locator('.MuiPaper-root');
-    await expect(slideOut.locator(`:text("${demoDeviceName}"):below(:text("clear search"))`)).toBeVisible();
-    await expect(slideOut.getByText('1-1 of 1')).toBeVisible();
-    await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
-    await page.getByText(/device information/i).waitFor();
-    await expect(page.getByText(/Authorization sets/i)).toBeVisible();
-    await page.click('[aria-label="close"]');
-    await expect(page.getByText(/table options/i)).toBeVisible();
-    await page.getByText(/releases/i).click();
-    await searchField.press('Enter');
-    await expect(page.getByText(/device found/i)).toBeVisible();
-  });
-
-  test('can be filtered', async ({ browserName, demoDeviceName, page }) => {
-    test.setTimeout(2 * timeouts.fifteenSeconds);
-    await page.getByRole('button', { name: /filters/i }).click();
-    await page.getByLabel(/attribute/i).fill(rootfs);
-    const nameInput = await page.getByLabel(/value/i);
-    await nameInput.fill(demoDeviceName);
-    await page.getByRole('button', { name: /Add a rule/i }).waitFor();
-    await nameInput.press('Enter');
-    if (browserName === 'webkit') {
-      await page.waitForTimeout(timeouts.fiveSeconds);
-    }
-    const filterChip = await page.getByRole('button', { name: `${rootfs} = ${demoDeviceName}` });
-    await filterChip.waitFor({ timeout: timeouts.fiveSeconds });
-    await expect(filterChip).toBeVisible();
-    await page.waitForSelector(selectors.deviceListItem);
-  });
-
-  test('can be filtered into non-existence by numerical comparison', async ({ environment, page }) => {
-    test.skip(!isEnterpriseOrStaging(environment), 'not available in OS');
-    test.setTimeout(timeouts.fifteenSeconds);
-    await page.getByRole('button', { name: /filters/i }).click();
-    await page.getByText(/professional/i).waitFor({ state: 'hidden' }); // assume once the plan indicator tag is gone, filters can be used without problems
-    await page.getByLabel(/attribute/i).fill('mem_total_kB');
-    await page.getByText(/equals/i).click();
-    await page.waitForTimeout(timeouts.default);
-    await page.getByRole('option', { name: '>=' }).click();
-    await page.getByLabel(/value/i).fill('1000000000');
-    await page.getByRole('button', { name: /Add a rule/i }).waitFor();
-    await page.getByText('No devices found').waitFor({ timeout: timeouts.fiveSeconds });
-  });
-
-  test('can be filtered into non-existence', async ({ environment, page }) => {
-    test.skip(!isEnterpriseOrStaging(environment), 'not available in OS');
-    test.setTimeout(2 * timeouts.fifteenSeconds);
-    await page.getByRole('button', { name: /filters/i }).click();
-    await page.getByLabel(/attribute/i).fill(rootfs);
-    await page.getByText(/equals/i).click();
-    await page.waitForTimeout(timeouts.default);
-    await page.getByRole('option', { name: `doesn't exist` }).click();
-    await page.getByRole('button', { name: /Add a rule/i }).waitFor();
-    await page.getByRole('button', { name: /Add a rule/i }).click();
-    await expect(page.getByRole('button', { name: `${rootfs} doesn't exist` })).toBeVisible();
-    await page.getByText('No devices found').waitFor({ timeout: timeouts.fiveSeconds });
-    await expect(page.getByText('No devices found')).toBeVisible();
-    await page.getByText(/clear filter/i).click();
-    await page.waitForSelector(selectors.deviceListItem);
-    const pagination = await page.getByText('1-1');
-    await pagination.waitFor({ timeout: timeouts.default });
-    await expect(pagination).toBeVisible();
   });
 
   test.describe('Terminal interactions', () => {
@@ -145,7 +75,7 @@ test.describe('Device details', () => {
         const screenShotPath = path.join(__dirname, '..', 'test-results', 'diffs', 'terminalContent-actual.png');
         await elementHandle.screenshot({ path: screenShotPath });
 
-        const expectedPath = path.join(__dirname, '..', 'fixtures', terminalReferenceFileMap[browserName] ?? terminalReferenceFileMap.default);
+        const expectedPath = path.join(__dirname, '..', '..', 'fixtures', terminalReferenceFileMap[browserName] ?? terminalReferenceFileMap.default);
         const { pass } = compareImages(expectedPath, screenShotPath);
         expect(pass).toBeTruthy();
 

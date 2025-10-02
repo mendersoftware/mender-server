@@ -15,16 +15,14 @@ import { execSync } from 'child_process';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween.js';
 import * as fs from 'fs';
-import md5 from 'md5';
 import { parse } from 'yaml';
 
-import test, { expect } from '../fixtures/fixtures.ts';
-import { getTokenFromStorage, isEnterpriseOrStaging, tagRelease } from '../utils/commands.ts';
-import { releaseTag, selectors, timeouts } from '../utils/constants.ts';
+import test, { expect } from '../../fixtures/fixtures';
+import { getTokenFromStorage, isEnterpriseOrStaging, tagRelease } from '../../utils/commands';
+import { expectedArtifactName, releaseTag, selectors, timeouts } from '../../utils/constants';
 
 dayjs.extend(isBetween);
 
-const expectedArtifactName = 'mender-demo-artifact';
 const fileName = `${expectedArtifactName}.mender`;
 const demoArtifactLocation = `https://dgsbl4vditpls.cloudfront.net/${fileName}`;
 const fileLocation = `fixtures/${fileName}`;
@@ -225,26 +223,4 @@ test.describe('Files', () => {
   //         })
   //       })
   // })
-
-  test('allows file transfer', async ({ browserName, environment, page }) => {
-    // TODO adjust test to better work with webkit, for now it should be good enough to assume file transfers work there too if the remote terminal works
-    test.skip(!isEnterpriseOrStaging(environment) || ['webkit'].includes(browserName));
-    await navbar.getByRole('link', { name: /Devices/i }).click();
-    await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
-    await page.getByText(/troubleshooting/i).click();
-    // the deviceconnect connection might not be established right away
-    await page.waitForSelector(`text=/Session status/i`, { timeout: timeouts.tenSeconds });
-    await page.locator('.dropzone input').setInputFiles(`fixtures/${fileName}`);
-    await page.click(selectors.placeholderExample, { clickCount: 3 });
-    await page.getByPlaceholder(/installed-by-single-file/i).fill(`/tmp/${fileName}`);
-    await page.getByRole('button', { name: /upload/i }).click();
-    await page.getByText(/Upload successful/i).waitFor({ timeout: timeouts.fiveSeconds });
-    await page.getByRole('tab', { name: /download/i }).click();
-    await page.getByPlaceholder(/\/home\/mender/i).fill(`/tmp/${fileName}`);
-    const [download] = await Promise.all([page.waitForEvent('download'), page.click('button:text("Download"):below(:text("file on the device"))')]);
-    const downloadTargetPath = await download.path();
-    const newFile = await fs.readFileSync(downloadTargetPath);
-    const testFile = await fs.readFileSync(`fixtures/${fileName}`);
-    expect(md5(newFile)).toEqual(md5(testFile));
-  });
 });

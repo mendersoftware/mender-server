@@ -16,20 +16,20 @@ import { devices } from '@playwright/test';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 
-import { storagePath } from './utils/constants';
+import { storagePath, testDirBase } from './utils/constants';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const viewport: ViewportSize = { width: 1600, height: 900 };
+export const viewport: ViewportSize = { width: 1600, height: 900 };
 
-const contextArgs = {
+export const contextArgs = {
   acceptDownloads: true,
   ignoreHTTPSErrors: true,
   viewport
 };
 
-const launchOptions: LaunchOptions = {
+export const launchOptions: LaunchOptions = {
   ...contextArgs,
   args: process.env.TEST_ENVIRONMENT === 'staging' ? [] : ['--disable-dev-shm-usage', '--disable-web-security'],
   slowMo: process.env.TEST_ENVIRONMENT === 'staging' ? undefined : 50
@@ -38,19 +38,34 @@ const launchOptions: LaunchOptions = {
   // executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 };
 
+export const projectParamsByBrowser = {
+  chrome: { ...devices['Desktop Chrome'], storageState: storagePath, permissions: ['clipboard-read'], viewport },
+  firefox: { ...devices['Desktop Firefox'], storageState: storagePath, viewport },
+  webkit: { ...devices['Desktop Safari'], storageState: storagePath, viewport }
+};
+
 const options: PlaywrightTestConfig = {
   forbidOnly: !!process.env.CI,
   projects: [
     { name: 'setup-chromium', testMatch: /.*\.setup\.ts/, use: { ...devices['Desktop Chrome'], viewport, permissions: ['clipboard-read'] } },
     { name: 'setup-firefox', testMatch: /.*\.setup\.ts/, use: { ...devices['Desktop Firefox'], viewport } },
     { name: 'setup-webkit', testMatch: /.*\.setup\.ts/, use: { ...devices['Desktop Safari'], viewport } },
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'], storageState: storagePath, permissions: ['clipboard-read'], viewport },
-      dependencies: ['setup-chromium']
-    },
-    { name: 'firefox', use: { ...devices['Desktop Firefox'], storageState: storagePath, viewport }, dependencies: ['setup-firefox'] },
-    { name: 'webkit', use: { ...devices['Desktop Safari'], storageState: storagePath, viewport }, dependencies: ['setup-webkit'] }
+
+    { name: 'basic-chromium', testDir: `${testDirBase}/01-basic`, use: projectParamsByBrowser.chrome, dependencies: ['setup-chromium'], workers: 4 },
+    { name: 'basic-firefox', testDir: `${testDirBase}/01-basic`, use: projectParamsByBrowser.firefox, dependencies: ['setup-firefox'], workers: 4 },
+    { name: 'basic-webkit', testDir: `${testDirBase}/01-basic`, use: projectParamsByBrowser.webkit, dependencies: ['setup-webkit'], workers: 4 },
+
+    { name: 'baseline-chromium', testDir: `${testDirBase}/02-baseline`, use: projectParamsByBrowser.chrome, dependencies: ['setup-chromium'], workers: 4 },
+    { name: 'baseline-firefox', testDir: `${testDirBase}/02-baseline`, use: projectParamsByBrowser.firefox, dependencies: ['setup-firefox'], workers: 4 },
+    { name: 'baseline-webkit', testDir: `${testDirBase}/02-baseline`, use: projectParamsByBrowser.webkit, dependencies: ['setup-webkit'], workers: 4 },
+
+    { name: 'advanced-chromium', testDir: `${testDirBase}/03-advanced`, use: projectParamsByBrowser.chrome, dependencies: ['baseline-chromium'], workers: 1 },
+    { name: 'advanced-firefox', testDir: `${testDirBase}/03-advanced`, use: projectParamsByBrowser.firefox, dependencies: ['baseline-firefox'], workers: 1 },
+    { name: 'advanced-webkit', testDir: `${testDirBase}/03-advanced`, use: projectParamsByBrowser.webkit, dependencies: ['baseline-webkit'], workers: 1 },
+
+    { name: 'chromium', testDir: `${testDirBase}/09-risky`, use: projectParamsByBrowser.chrome, dependencies: ['advanced-chromium'], workers: 1 },
+    { name: 'firefox', testDir: `${testDirBase}/09-risky`, use: projectParamsByBrowser.firefox, dependencies: ['advanced-firefox'], workers: 1 },
+    { name: 'webkit', testDir: `${testDirBase}/09-risky`, use: projectParamsByBrowser.webkit, dependencies: ['advanced-webkit'], workers: 1 }
   ],
   reporter: process.env.CI
     ? [
@@ -80,7 +95,8 @@ const options: PlaywrightTestConfig = {
     : 'line',
   // Two retries for each test.
   retries: 2,
-  testDir: 'integration',
+  testDir: testDirBase,
+  testIgnore: '**/.*-qemu-dependent/**',
   timeout: 60000,
   use: {
     ...contextArgs,
