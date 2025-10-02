@@ -226,7 +226,7 @@ test:frontend:acceptance:enterprise:
   script:
     - unset MENDER_IMAGE_REGISTRY MENDER_IMAGE_REPOSITORY
     - export MENDER_IMAGE_TAG=main
-    - docker login -u $REGISTRY_MENDER_IO_USERNAME -p $REGISTRY_MENDER_IO_PASSWORD registry.mender.io
+    - docker login -u "$REGISTRY_MENDER_IO_USERNAME" -p "$REGISTRY_MENDER_IO_PASSWORD" registry.mender.io
     - npm run script --prefix frontend/tests/e2e_tests -- --environment enterprise
 
 test:frontend:acceptance:enterprise:qemu:
@@ -239,7 +239,7 @@ test:frontend:acceptance:enterprise:qemu:
   script:
     - unset MENDER_IMAGE_REGISTRY MENDER_IMAGE_REPOSITORY
     - export MENDER_IMAGE_TAG=main
-    - docker login -u $REGISTRY_MENDER_IO_USERNAME -p $REGISTRY_MENDER_IO_PASSWORD registry.mender.io
+    - docker login -u "$REGISTRY_MENDER_IO_USERNAME" -p "$REGISTRY_MENDER_IO_PASSWORD" registry.mender.io
     - npm run script --prefix frontend/tests/e2e_tests -- --environment enterprise --variant qemu
 
 .template:publish:frontend:tests:
