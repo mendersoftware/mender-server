@@ -212,7 +212,7 @@ describe('Deployments Component', () => {
       devices: undefined,
       filter_id: 'filter1',
       group: 'testGroupDynamic',
-      max_devices: '123',
+      max_devices: 123,
       name: 'testGroupDynamic',
       phases: undefined,
       update_control_map: undefined

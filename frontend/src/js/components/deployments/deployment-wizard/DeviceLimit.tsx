@@ -39,15 +39,15 @@ export const DeviceLimit = props => {
 
   const [shouldLimit, setShouldLimit] = useState(false);
   const [error, setError] = useState('');
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(numberDevices);
 
   const { classes } = useStyles();
 
   const debouncedValue = useDebounce(value, TIMEOUTS.debounceDefault);
 
   useEffect(() => {
-    if (debouncedValue > 1) {
-      setDeploymentSettings({ maxDevices: debouncedValue });
+    if (debouncedValue >= 1) {
+      setDeploymentSettings({ maxDevices: Number(debouncedValue) });
     }
   }, [debouncedValue, setDeploymentSettings]);
 
@@ -96,7 +96,7 @@ export const DeviceLimit = props => {
         <div className={classes.limitSelection}>
           Finish deployment after{' '}
           <FormControl error={!!error}>
-            <OutlinedInput value={value} placeholder={String(numberDevices)} onChange={handleLimitChange} type="text" />
+            <OutlinedInput value={value} onChange={handleLimitChange} type="text" />
             <FormHelperText>{error}</FormHelperText>
           </FormControl>
           devices have attempted to apply the update
