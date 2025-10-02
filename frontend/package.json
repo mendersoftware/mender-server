@@ -108,6 +108,9 @@
     "webpack-license-plugin": "^4.5.1",
     "yarn": "1.22.22"
   },
+  "overrides": {
+    "monaco-editor": "0.52.2"
+  },
   "browserslist": [
     ">0.2%",
     "last 5 versions",
