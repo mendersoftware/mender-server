@@ -21,6 +21,11 @@ export const getDeploymentsByStatus = state => state.deployments.byStatus;
 export const getSelectedDeploymentDeviceIds = state => state.deployments.selectedDeviceIds;
 export const getDeploymentsSelectionState = state => state.deployments.selectionState;
 
+export const getDeploymentById = createSelector(
+  [getDeploymentsById, (_, deploymentId) => deploymentId],
+  (deploymentsById, deploymentId = '') => deploymentsById[deploymentId]
+);
+
 export const getMappedDeploymentSelection = createSelector(
   [getDeploymentsSelectionState, (_, deploymentsState) => deploymentsState, getDeploymentsById],
   (selectionState, deploymentsState, deploymentsById) => {
