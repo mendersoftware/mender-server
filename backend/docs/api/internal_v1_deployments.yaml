@@ -9,7 +9,7 @@ servers:
 paths:
   /health:
     get:
-      operationId: Check Health
+      operationId: Deployments Internal Check Health
       responses:
         "204":
           content: {}
@@ -32,7 +32,7 @@ paths:
       - Internal API
   /alive:
     get:
-      operationId: Check Liveliness
+      operationId: Deployments Internal Check Liveliness
       responses:
         "204":
           content: {}
@@ -106,7 +106,7 @@ paths:
       description: |
         Get storage limit and current storage usage for given tenant.
         If the limit value is 0 it means storage space is unlimited
-      operationId: Get Storage Usage
+      operationId: Deployments Internal Get Storage Usage
       parameters:
       - description: Tenant ID
         in: path
@@ -164,7 +164,7 @@ paths:
     post:
       description: |
         Sets up all tenant-related infrastructure, e.g. a migrated tenant's database.
-      operationId: Create Tenant
+      operationId: Deployments Internal Create Tenant
       requestBody:
         content:
           application/json:
@@ -330,7 +330,7 @@ paths:
     get:
       description: |
         Return the Deployments history for the specified Device, listing all its Deployments.
-      operationId: List Deployments for a Device
+      operationId: Deployments Internal List Deployments for a Device
       parameters:
       - description: Tenant ID
         in: path
@@ -438,7 +438,7 @@ paths:
         Deploy configuration to a specified device.
         The artifact will be auto-generated based on the configuration object
         provided with the deployment constructor.
-      operationId: Create Deployment
+      operationId: Deployments Internal Create Deployment
       parameters:
       - description: Tenant identifier.
         in: path

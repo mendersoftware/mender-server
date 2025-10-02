@@ -731,7 +731,7 @@ paths:
       tags:
       - Useradm Internal API
       summary: Check the health of the service
-      operationId: Check Health
+      operationId: Useradm Check Health
       responses:
         "204":
           description: |
@@ -763,7 +763,7 @@ paths:
       - Useradm Internal API
       summary: |
         Trivial endpoint that unconditionally returns an empty 200 response whenever the API handler is running correctly.
-      operationId: Check Liveliness
+      operationId: Useradm Check Liveliness
       responses:
         "204":
           description: Service is up and running.
@@ -845,7 +845,7 @@ paths:
       tags:
       - Useradm Internal API
       summary: Create a tenant with provided configuration.
-      operationId: Create Tenant
+      operationId: Useradm Create Tenant
       requestBody:
         content:
           application/json:

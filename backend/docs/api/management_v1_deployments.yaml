@@ -19,7 +19,7 @@ paths:
         DEPRECATED: _since Mon Oct 21 2024_ we deprecated the endpoint due to an issue with the "search" query
           behavior. Please use the v2 /deployments/deployments endpoint instead.
           In the new endpoint, we replaced search parameter with the "id" and "name" parameters.
-      operationId: List Deployments
+      operationId: Deployments V1 List Deployments
       parameters:
       - description: Deployment status filter.
         in: query
@@ -123,7 +123,7 @@ paths:
         considered finished successfully as well as receive status of `noartifact`.
         If there is no artifacts for the deployment, deployment will not be created
         and the 422 Unprocessable Entity status code will be returned.
-      operationId: Create Deployment
+      operationId: Deployments Create Deployment
       requestBody:
         content:
           application/json:
@@ -680,7 +680,7 @@ paths:
     get:
       description: |
         Return the Deployments history for the specified Device, listing all its Deployments.
-      operationId: List Deployments for a Device
+      operationId: Deployments List Deployments for a Device
       parameters:
       - description: System wide device identifier
         in: path
@@ -927,7 +927,7 @@ paths:
         DEPRECATED: _since Sep 24 2023_ due to a mismatch in the capitalization of the fields of the response
         body and lack of support for advanced filters and sorting, we have deprecated this
         endpoint. Please use the v2 /deployments/releases end-point instead.
-      operationId: List Releases with pagination
+      operationId: Deployments V1 List Releases with pagination
       parameters:
       - description: Release name filter.
         in: query
@@ -1207,7 +1207,7 @@ paths:
         DEPRECATED: _since Tue Jul 22 2025_ we deprecated the endpoint due to performance issues.
         Please use the v2 /artifacts endpoint instead.
         In the new endpoint, we support exact and prefix matching for the various fields
-      operationId: List Artifacts with pagination
+      operationId: Deployments V1 List Artifacts with pagination
       parameters:
       - description: Artifact name filter.
         in: query
@@ -1595,7 +1595,7 @@ paths:
       description: |
         Get storage limit and current storage usage for currently logged in user.
         If the limit value is 0 it means there is no limit for storage for logged in user.
-      operationId: Get Storage Usage
+      operationId: Deployments Get Storage Usage
       responses:
         "200":
           content:

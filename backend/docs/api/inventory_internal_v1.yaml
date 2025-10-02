@@ -13,7 +13,7 @@ paths:
       tags:
       - Internal API
       summary: Check the health of the service
-      operationId: Check Health
+      operationId: Inventory Internal Check Health
       responses:
         "204":
           description: |
@@ -38,7 +38,7 @@ paths:
       - Internal API
       summary: |
         Trivial endpoint that unconditionally returns an empty 200 response whenever the API handler is running correctly.
-      operationId: Check Liveliness
+      operationId: Inventory Internal Check Liveliness
       responses:
         "204":
           description: Service is up and running.
@@ -52,7 +52,7 @@ paths:
       summary: Create tenant
       description: |
         Create a tenant with provided configuration.
-      operationId: Create Tenant
+      operationId: Inventory Internal Create Tenant
       requestBody:
         content:
           '*/*':

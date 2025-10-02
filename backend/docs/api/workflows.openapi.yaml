@@ -11,7 +11,7 @@ paths:
   /status:
     get:
       summary: Check if service API is alive and serving requests
-      operationId: Check Liveliness
+      operationId: Workflows Check Liveliness
       responses:
         "200":
           description: Successful response.
@@ -31,7 +31,7 @@ paths:
   /health:
     get:
       summary: Check if service and all operational dependencies are healthy.
-      operationId: Check Health
+      operationId: Workflows Check Health
       responses:
         "204":
           description: Service is healthy.

@@ -53,7 +53,7 @@ paths:
 
         If multiple filter predicates are specified, the filters are
         combined using boolean `and` operator.
-      operationId: Search Device Inventories
+      operationId: Inventory V2 Search Device Inventories
       requestBody:
         description: The search and sort parameters of the filter
         content:

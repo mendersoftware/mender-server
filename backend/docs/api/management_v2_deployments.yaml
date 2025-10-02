@@ -15,7 +15,7 @@ paths:
         deployment identifiers, and multiple names to get the multiple deployments you cannot mix
         the ids and names in a one query expecting to get deployments that match both names or ids.
         The endpoint will return the deployments that match the ids and the name, if combined.
-      operationId: List Deployments
+      operationId: Deployments V2 List Deployments
       parameters:
       - description: |
           Deployment identifier. You can provide it multiple times to query a set of deployments.
@@ -165,7 +165,7 @@ paths:
       description: |
         Returns a collection of releases, allows filtering by release name and sorting
         by name or last modification date.
-      operationId: List Releases with pagination
+      operationId: Deployments V2 List Releases with pagination
       parameters:
       - description: Release name filter.
         in: query
@@ -539,7 +539,7 @@ paths:
     get:
       description: |
         Returns a collection of all artifacts sorted by name.
-      operationId: List Artifacts with pagination
+      operationId: Deployments V2 List Artifacts with pagination
       parameters:
       - description: |
           Artifact(s) name(s) filter.

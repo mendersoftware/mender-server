@@ -17,7 +17,7 @@ paths:
         Returns a paged collection of devices and their attributes.
 
         It accepts optional filters and sort parameters as body parameters.
-      operationId: Search Device Inventories
+      operationId: Inventory Internal V2 Search Device Inventories
       parameters:
       - name: tenant_id
         in: path
