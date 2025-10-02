@@ -12,12 +12,13 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import type { Dispatch, SetStateAction } from 'react';
+import { useEffect, useRef } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { MenuItem, Select } from '@mui/material';
+import { MenuItem, Select, Typography } from '@mui/material';
 
-import DocsLink from '@northern.tech/common-ui/DocsLink';
+import { DocsLink, InlineLaunchIcon } from '@northern.tech/common-ui/DocsLink';
 import Form from '@northern.tech/common-ui/forms/Form';
 import FormCheckbox from '@northern.tech/common-ui/forms/FormCheckbox';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
@@ -39,7 +40,14 @@ const OrgDataContent = ({
   setCaptchaTimestamp
 }: Pick<OrgDataProps, 'classes' | 'emailVerified' | 'recaptchaSiteKey' | 'setCaptchaTimestamp'>) => {
   const { control, register, setValue, trigger } = useFormContext();
+  const inputRef = useRef<HTMLInputElement | undefined>();
   const captchaFieldName = 'captcha';
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
 
   const handleCaptchaChange = value => {
     setCaptchaTimestamp(new Date().getTime());
@@ -49,14 +57,33 @@ const OrgDataContent = ({
 
   return (
     <>
-      <TextInput hint="Company or organization name *" label="Company or organization name *" id="name" required validations="isLength:1,trim" />
+      <Typography variant="subtitle1" className="margin-bottom-x-small">
+        Set an organization name
+      </Typography>
+      <TextInput
+        controlRef={inputRef}
+        id="name"
+        label="Your organization name"
+        hint="Your organization name"
+        required
+        requiredRendered={false}
+        validations="isLength:1,trim"
+      />
       {!emailVerified && <TextInput hint="Email *" label="Email *" id="email" required validations="isLength:1,isEmail,trim" />}
       <div className={classes.locationSelect}>
+        <Typography variant="subtitle1">Hosting region</Typography>
         <div className="flexbox center-aligned slightly-smaller margin-bottom-x-small">
-          <p className="margin-bottom-none margin-top-none muted" style={{ marginRight: 4 }}>
-            Choose a hosting region for your account.
-          </p>
-          <DocsLink path="general/hosted-mender-regions" title="Learn more" />
+          <Typography variant="body2" className="margin-bottom-none margin-top-none margin-right-x-small">
+            Choose a hosting region for your account.{' '}
+            <DocsLink
+              path="general/hosted-mender-regions"
+              title={
+                <>
+                  Learn more <InlineLaunchIcon />
+                </>
+              }
+            />
+          </Typography>
         </div>
         <Controller
           name="location"
@@ -88,13 +115,12 @@ const OrgDataContent = ({
           <label htmlFor="tos">
             By checking this you agree to our {/* eslint-disable-next-line react/jsx-no-target-blank */}
             <a href="https://northern.tech/legal/hosted-mender-agreement-northern-tech-as.pdf" target="_blank" rel="noopener">
-              Terms of service
+              Terms of service <InlineLaunchIcon />
             </a>{' '}
             and {/* eslint-disable-next-line react/jsx-no-target-blank */}
             <a href="https://northern.tech/legal/privacy-policy" target="_blank" rel="noopener">
-              Privacy Policy
+              Privacy Policy <InlineLaunchIcon />
             </a>{' '}
-            *
           </label>
         }
         required={true}
@@ -129,7 +155,7 @@ export const OrgDataEntry = (props: OrgDataProps) => {
   const { classes, initialValues, loading, handleSignup, ...remainder } = props;
   return (
     <Form
-      className={`flexbox column centered ${classes.orgData}`}
+      className={classes.orgData}
       id="signup-org-data"
       buttonColor="primary"
       defaultValues={defaultValues}
@@ -138,12 +164,8 @@ export const OrgDataEntry = (props: OrgDataProps) => {
       showButtons={!loading}
       submitLabel="Complete signup"
     >
-      <h1>Setting up your Account</h1>
-      <h2 className="margin-bottom-large">
-        To finish creating your account,
-        <br />
-        please fill in a few details
-      </h2>
+      <h1>Create your Account</h1>
+      <h2 className="margin-bottom-large">Complete the options below to finish creating your Mender account</h2>
       <OrgDataContent classes={classes} {...remainder} />
     </Form>
   );

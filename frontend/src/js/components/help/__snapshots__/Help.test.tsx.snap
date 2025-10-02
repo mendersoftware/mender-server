@@ -245,7 +245,7 @@ exports[`Help Component > renders correctly 1`] = `
               class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-17"
               data-testid="LaunchIcon"
               focusable="false"
-              style="vertical-align: text-bottom;"
+              style="vertical-align: sub;"
               viewBox="0 0 24 24"
             >
               <path
@@ -273,7 +273,7 @@ exports[`Help Component > renders correctly 1`] = `
               class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-17"
               data-testid="LaunchIcon"
               focusable="false"
-              style="vertical-align: text-bottom;"
+              style="vertical-align: sub;"
               viewBox="0 0 24 24"
             >
               <path
@@ -296,7 +296,7 @@ exports[`Help Component > renders correctly 1`] = `
               class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-17"
               data-testid="LaunchIcon"
               focusable="false"
-              style="vertical-align: text-bottom;"
+              style="vertical-align: sub;"
               viewBox="0 0 24 24"
             >
               <path
@@ -323,7 +323,7 @@ exports[`Help Component > renders correctly 1`] = `
               class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-17"
               data-testid="LaunchIcon"
               focusable="false"
-              style="vertical-align: text-bottom;"
+              style="vertical-align: sub;"
               viewBox="0 0 24 24"
             >
               <path
@@ -4547,7 +4547,7 @@ exports[`Help Component > static components > renders GettingStarted correctly 1
         class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-0"
         data-testid="LaunchIcon"
         focusable="false"
-        style="vertical-align: text-bottom;"
+        style="vertical-align: sub;"
         viewBox="0 0 24 24"
       >
         <path
@@ -4575,7 +4575,7 @@ exports[`Help Component > static components > renders GettingStarted correctly 1
         class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-0"
         data-testid="LaunchIcon"
         focusable="false"
-        style="vertical-align: text-bottom;"
+        style="vertical-align: sub;"
         viewBox="0 0 24 24"
       >
         <path
@@ -4598,7 +4598,7 @@ exports[`Help Component > static components > renders GettingStarted correctly 1
         class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-0"
         data-testid="LaunchIcon"
         focusable="false"
-        style="vertical-align: text-bottom;"
+        style="vertical-align: sub;"
         viewBox="0 0 24 24"
       >
         <path
@@ -4625,7 +4625,7 @@ exports[`Help Component > static components > renders GettingStarted correctly 1
         class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-0"
         data-testid="LaunchIcon"
         focusable="false"
-        style="vertical-align: text-bottom;"
+        style="vertical-align: sub;"
         viewBox="0 0 24 24"
       >
         <path

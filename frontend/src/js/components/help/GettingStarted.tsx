@@ -11,11 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Launch as LaunchIcon } from '@mui/icons-material';
-
-import DocsLink from '@northern.tech/common-ui/DocsLink';
-
-const InlineLaunchIcon = () => <LaunchIcon style={{ 'verticalAlign': 'text-bottom' }} fontSize="small" />;
+import { DocsLink, InlineLaunchIcon } from '@northern.tech/common-ui/DocsLink';
 
 const GettingStarted = () => (
   <div>
