@@ -247,7 +247,6 @@ exports[`SamlConfig Component renders correctly 1`] = `
     >
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-1"
-        id=":r1:"
         tabindex="0"
         type="button"
       >

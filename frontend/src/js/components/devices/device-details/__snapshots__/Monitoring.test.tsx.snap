@@ -20,7 +20,7 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
         data-mui-internal-clone-element="true"
       >
         <div
-          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault margin-left-small css-9vx59h-MuiChip-root-root-root"
+          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault margin-left-small css-1c1rqqu-MuiChip-root-root-root"
         >
           <span
             class="MuiChip-label MuiChip-labelMedium css-1dybbl5-MuiChip-label"
@@ -34,7 +34,7 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
       class="flexbox centered"
     >
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault css-17svi73-MuiChip-root-addOnPill"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault css-19tyjh9-MuiChip-root-addOnPill"
       >
         <span
           class="MuiChip-label MuiChip-labelMedium css-1dybbl5-MuiChip-label"
@@ -135,7 +135,7 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
         />
         <p
           class="MuiTablePagination-selectLabel css-15wkzhc-MuiTablePagination-selectLabel"
-          id=":r2:"
+          id=":r4:"
         >
           Rows
         </p>
@@ -145,9 +145,9 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
           <div
             aria-expanded="false"
             aria-haspopup="listbox"
-            aria-labelledby=":r2: :r1:"
-            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-mmygx2-MuiSelect-select-MuiInputBase-input"
-            id=":r1:"
+            aria-labelledby=":r4: :r3:"
+            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
+            id=":r3:"
             role="combobox"
             tabindex="0"
           >
@@ -163,7 +163,7 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
           />
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-ozirs8-MuiSvgIcon-root-MuiSelect-icon"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-h5hq1r-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
             data-testid="ArrowDropDownIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -184,7 +184,6 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
           </div>
           <button
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
-            id=":r4:"
             tabindex="0"
             type="button"
           >
@@ -203,7 +202,6 @@ exports[`DeviceMonitoring Component renders correctly 1`] = `
           <div>
             <button
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
-              id=":r5:"
               tabindex="0"
               type="button"
             >

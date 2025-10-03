@@ -719,12 +719,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
     You can select columns of inventory data to display in the device list table. Drag to change the order.
   </p>
   <div
-    data-rfd-droppable-context-id=":r0:"
+    data-rfd-droppable-context-id=":r1:"
     data-rfd-droppable-id="droppable-list"
   >
     <li
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding flexbox space-between margin-right-large emotion-1"
-      data-rfd-draggable-context-id=":r0:"
+      data-rfd-draggable-context-id=":r1:"
       data-rfd-draggable-id="name"
     >
       <div>
@@ -735,9 +735,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
         style="width: 80px;"
       >
         <div
-          aria-describedby="rfd-hidden-text-:r0:-hidden-text-:r1:"
+          aria-describedby="rfd-hidden-text-:r1:-hidden-text-:r2:"
           class="flexbox centered"
-          data-rfd-drag-handle-context-id=":r0:"
+          data-rfd-drag-handle-context-id=":r1:"
           data-rfd-drag-handle-draggable-id="name"
           draggable="false"
           role="button"
@@ -757,7 +757,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
         </div>
         <button
           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-3"
-          id=":r4:"
           tabindex="0"
           type="button"
         >
@@ -777,7 +776,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
     </li>
     <li
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding flexbox space-between margin-right-large emotion-1"
-      data-rfd-draggable-context-id=":r0:"
+      data-rfd-draggable-context-id=":r1:"
       data-rfd-draggable-id="id"
     >
       <div>
@@ -788,9 +787,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
         style="width: 80px;"
       >
         <div
-          aria-describedby="rfd-hidden-text-:r0:-hidden-text-:r1:"
+          aria-describedby="rfd-hidden-text-:r1:-hidden-text-:r2:"
           class="flexbox centered"
-          data-rfd-drag-handle-context-id=":r0:"
+          data-rfd-drag-handle-context-id=":r1:"
           data-rfd-drag-handle-draggable-id="id"
           draggable="false"
           role="button"
@@ -810,7 +809,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
         </div>
         <button
           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-3"
-          id=":r6:"
           tabindex="0"
           type="button"
         >
@@ -839,7 +837,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
         class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root emotion-11"
       >
         <label
-          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-12"
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-12"
           data-shrink="false"
           for="filter-selection"
           id="filter-selection-label"
@@ -868,7 +866,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
             <button
               aria-label="Clear"
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-clearIndicator emotion-16"
-              id=":r9:"
               tabindex="-1"
               title="Clear"
               type="button"

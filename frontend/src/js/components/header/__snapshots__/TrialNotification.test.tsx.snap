@@ -163,7 +163,6 @@ exports[`DeviceNotifications Component renders correctly 1`] = `
     class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-1"
     data-discover="true"
     href="/settings/upgrade"
-    id=":r1:"
     tabindex="0"
   >
     <span
@@ -349,7 +348,6 @@ exports[`DeviceNotifications Component renders correctly with an expiration date
     class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-1"
     data-discover="true"
     href="/settings/upgrade"
-    id=":r3:"
     tabindex="0"
   >
     <span

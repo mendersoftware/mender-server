@@ -605,7 +605,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-13:focus::-ms-input-
         style="overflow: hidden;"
       >
         <div
-          class="MuiTabs-flexContainer emotion-3"
+          class="MuiTabs-list MuiTabs-flexContainer emotion-3"
           role="tablist"
         >
           <button
@@ -703,7 +703,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-13:focus::-ms-input-
             <input
               aria-invalid="false"
               class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd emotion-13"
-              id=":r0:"
+              id=":r1:"
               placeholder="Example: /opt/installed-by-single-file"
               type="text"
               value=""
@@ -715,7 +715,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-13:focus::-ms-input-
                 aria-label="Paste"
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-15"
                 data-mui-internal-clone-element="true"
-                id=":r2:"
                 tabindex="0"
                 type="button"
               >
@@ -752,7 +751,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-13:focus::-ms-input-
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-19"
           disabled=""
-          id=":r3:"
           tabindex="-1"
           type="button"
         >

@@ -387,7 +387,7 @@ exports[`ColumnCustomizationDialog Component renders correctly 1`] = `
     tabindex="-1"
   >
     <div
-      aria-labelledby=":r0:"
+      aria-labelledby=":r1:"
       aria-modal="true"
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm emotion-3"
       role="dialog"
@@ -395,7 +395,7 @@ exports[`ColumnCustomizationDialog Component renders correctly 1`] = `
     >
       <h2
         class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-4"
-        id=":r0:"
+        id=":r1:"
       >
         Customize Columns
       </h2>
@@ -424,7 +424,6 @@ exports[`ColumnCustomizationDialog Component renders correctly 1`] = `
       >
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-6"
-          id=":r1:"
           tabindex="0"
           type="button"
         >
@@ -432,7 +431,6 @@ exports[`ColumnCustomizationDialog Component renders correctly 1`] = `
         </button>
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-7"
-          id=":r2:"
           tabindex="0"
           type="button"
         >

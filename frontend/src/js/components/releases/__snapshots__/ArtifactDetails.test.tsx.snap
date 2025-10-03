@@ -545,7 +545,7 @@ exports[`ArtifactDetails Component renders correctly 1`] = `
   width: 100%;
 }
 
-.emotion-27 {
+.emotion-28 {
   padding: 8px 16px 16px;
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
@@ -554,7 +554,7 @@ exports[`ArtifactDetails Component renders correctly 1`] = `
   padding: 0;
 }
 
-.emotion-28 {
+.emotion-29 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -614,33 +614,33 @@ exports[`ArtifactDetails Component renders correctly 1`] = `
   padding: 10px 15px;
 }
 
-.emotion-28::-moz-focus-inner {
+.emotion-29::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-28.Mui-disabled {
+.emotion-29.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-28 {
+  .emotion-29 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-28:hover {
+.emotion-29:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-28.Mui-disabled {
+.emotion-29.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-28:hover {
+  .emotion-29:hover {
     --variant-containedBg: rgb(35, 85, 94);
     --variant-textBg: rgba(51, 122, 135, 0.04);
     --variant-outlinedBorder: #337a87;
@@ -648,25 +648,25 @@ exports[`ArtifactDetails Component renders correctly 1`] = `
   }
 }
 
-.emotion-28.MuiButton-loading {
+.emotion-29.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-28:hover {
+.emotion-29:hover {
   colors: #337a87;
 }
 
-.emotion-28.MuiButton-text {
+.emotion-29.MuiButton-text {
   color: rgba(10, 10, 11, 0.78);
 }
 
-.emotion-29 {
+.emotion-30 {
   display: inherit;
   margin-right: 8px;
   margin-left: -4px;
 }
 
-.emotion-29>*:nth-of-type(1) {
+.emotion-30>*:nth-of-type(1) {
   font-size: 20px;
 }
 
@@ -722,7 +722,6 @@ exports[`ArtifactDetails Component renders correctly 1`] = `
             </div>
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary emotion-11"
-              id=":r0:"
               style="padding: 5px;"
               tabindex="0"
               type="button"
@@ -825,11 +824,11 @@ exports[`ArtifactDetails Component renders correctly 1`] = `
           class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-26"
         >
           <div
-            class="MuiAccordion-region"
+            class="MuiAccordion-region emotion-27"
             role="region"
           >
             <div
-              class="MuiAccordionDetails-root emotion-27"
+              class="MuiAccordionDetails-root emotion-28"
             />
           </div>
         </div>
@@ -841,16 +840,15 @@ exports[`ArtifactDetails Component renders correctly 1`] = `
     style="max-width: fit-content;"
   >
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-28"
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-29"
       disabled=""
       download="test.mender"
-      id=":r1:"
       tabindex="-1"
       target="_blank"
       type="button"
     >
       <span
-        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-29"
+        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-30"
       >
         <svg
           aria-hidden="true"
@@ -868,13 +866,12 @@ exports[`ArtifactDetails Component renders correctly 1`] = `
       Download Artifact
     </button>
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-28"
-      id=":r2:"
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-29"
       tabindex="0"
       type="button"
     >
       <span
-        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-29"
+        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-30"
       >
         <svg
           aria-hidden="true"

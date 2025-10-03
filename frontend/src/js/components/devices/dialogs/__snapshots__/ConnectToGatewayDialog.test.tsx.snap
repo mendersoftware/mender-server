@@ -438,7 +438,7 @@ exports[`ConnectToGatewayDialog Component renders correctly 1`] = `
     tabindex="-1"
   >
     <div
-      aria-labelledby=":r0:"
+      aria-labelledby=":r1:"
       aria-modal="true"
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthMd MuiDialog-paperFullWidth emotion-3"
       role="dialog"
@@ -446,7 +446,7 @@ exports[`ConnectToGatewayDialog Component renders correctly 1`] = `
     >
       <h2
         class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-4"
-        id=":r0:"
+        id=":r1:"
       >
         Connecting a device to a gateway
       </h2>
@@ -459,7 +459,6 @@ exports[`ConnectToGatewayDialog Component renders correctly 1`] = `
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-7"
-            id=":r1:"
             style="float: right; margin: -20px 0px 0px 10px;"
             tabindex="0"
             type="button"
@@ -508,7 +507,6 @@ wget -O- https://get.mender.io | sudo bash -s -- --demo --force-mender-client4 -
       >
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-7"
-          id=":r2:"
           tabindex="0"
           type="button"
         >
@@ -519,7 +517,6 @@ wget -O- https://get.mender.io | sudo bash -s -- --demo --force-mender-client4 -
         />
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-12"
-          id=":r3:"
           tabindex="0"
           type="button"
         >

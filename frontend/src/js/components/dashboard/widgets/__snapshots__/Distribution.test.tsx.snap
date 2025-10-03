@@ -169,7 +169,6 @@ exports[`PendingDevices Component renders correctly 1`] = `
           >
             <button
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-2"
-              id=":r0:"
               tabindex="0"
               type="button"
             >
@@ -187,7 +186,6 @@ exports[`PendingDevices Component renders correctly 1`] = `
             </button>
             <button
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-2"
-              id=":r1:"
               tabindex="0"
               type="button"
             >

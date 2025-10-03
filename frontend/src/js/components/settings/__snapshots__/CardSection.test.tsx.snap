@@ -162,7 +162,6 @@ exports[`GlobalSettings Component renders correctly 1`] = `
     <button
       class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-1"
       disabled=""
-      id=":r0:"
       tabindex="-1"
       type="submit"
     >
