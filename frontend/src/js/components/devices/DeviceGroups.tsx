@@ -15,12 +15,11 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 
-import { AddCircle as AddIcon } from '@mui/icons-material';
 import { DialogContent } from '@mui/material';
 
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import storeActions from '@northern.tech/store/actions';
-import { DEVICE_FILTERING_OPTIONS, DEVICE_ISSUE_OPTIONS, DEVICE_STATES, SORTING_OPTIONS, emptyFilter, onboardingSteps } from '@northern.tech/store/constants';
+import { DEVICE_FILTERING_OPTIONS, DEVICE_STATES, SORTING_OPTIONS, emptyFilter, onboardingSteps } from '@northern.tech/store/constants';
 import { useLocationParams } from '@northern.tech/store/liststatehook';
 import {
   getAcceptedDevices,
@@ -50,7 +49,6 @@ import {
   updateDynamicGroup
 } from '@northern.tech/store/thunks';
 import { toggle } from '@northern.tech/utils/helpers';
-import pluralize from 'pluralize';
 
 import { getOnboardingComponentFor } from '../../utils/onboardingManager';
 import Global from '../settings/Global';
@@ -85,12 +83,10 @@ export const DeviceGroups = () => {
   const { groupNames, ...groupsByType } = useSelector(getGroupsSelector);
   const groups = groupNames;
   const { total: acceptedCount = 0 } = useSelector(getAcceptedDevices);
-  const authRequestCount = useSelector(state => state.monitor.issueCounts.byType[DEVICE_ISSUE_OPTIONS.authRequests.key].total);
   const canPreview = useSelector(getIsPreview);
   const deviceLimit = useSelector(getDeviceLimit);
   const deviceListState = useSelector(state => state.devices.deviceList);
   const features = useSelector(getFeatures);
-  const { hasReporting } = features;
   const filters = useSelector(getDeviceFilters);
   const limitMaxed = useSelector(getLimitMaxed);
   const { pending: pendingCount } = useSelector(getDeviceCountsByStatus);
@@ -237,11 +233,6 @@ export const DeviceGroups = () => {
     dispatch(setDeviceListState({ page: 1, refreshTrigger: !refreshTrigger, selection: [] }));
   };
 
-  const onShowAuthRequestDevicesClick = () => {
-    dispatch(setDeviceFilters([]));
-    dispatch(setDeviceListState({ selectedIssues: [DEVICE_ISSUE_OPTIONS.authRequests.key], page: 1 }));
-  };
-
   const toggleGroupRemoval = () => setRemoveGroup(toggle);
 
   const toggleMakeGatewayClick = () => setShowMakeGateway(toggle);
@@ -271,12 +262,6 @@ export const DeviceGroups = () => {
           Devices
         </h3>
         <span className="flexbox space-between margin-left-large margin-right center-aligned padding-top-small">
-          {hasReporting && !!authRequestCount && (
-            <a className="flexbox center-aligned margin-right-large" onClick={onShowAuthRequestDevicesClick}>
-              <AddIcon fontSize="small" style={{ marginRight: 6 }} />
-              {authRequestCount} new device authentication {pluralize('request', authRequestCount)}
-            </a>
-          )}
           {!!pendingCount && !selectedGroup && selectedState !== DEVICE_STATES.pending ? (
             <DeviceStatusNotification deviceCount={pendingCount} state={DEVICE_STATES.pending} onClick={onShowDeviceStateClick} />
           ) : (
