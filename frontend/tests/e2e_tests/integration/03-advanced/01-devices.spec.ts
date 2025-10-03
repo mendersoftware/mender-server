@@ -120,7 +120,7 @@ test.describe('Devices', () => {
     await page.getByLabel(/attribute/i).fill(rootfs);
     const nameInput = await page.getByLabel(/value/i);
     await nameInput.fill(demoDeviceName);
-    await page.getByRole('button', { name: /Add a rule/i }).waitFor();
+    await page.waitForTimeout(timeouts.default);
     await nameInput.press('Enter');
     if (browserName === 'webkit') {
       await page.waitForTimeout(timeouts.fiveSeconds);
@@ -128,6 +128,8 @@ test.describe('Devices', () => {
     const filterChip = await page.getByRole('button', { name: `${rootfs} = ${demoDeviceName}` });
     await filterChip.waitFor({ timeout: timeouts.fiveSeconds });
     await expect(filterChip).toBeVisible();
+    const resetButton = await page.getByRole('button', { name: /clear filter/i });
+    await expect(resetButton).toBeEnabled();
     await page.waitForSelector(selectors.deviceListItem);
   });
 
@@ -141,7 +143,8 @@ test.describe('Devices', () => {
     await page.waitForTimeout(timeouts.default);
     await page.getByRole('option', { name: '>', exact: true }).click();
     await page.getByLabel(/value/i).fill('1000000000');
-    await page.getByRole('button', { name: /Add a rule/i }).waitFor();
+    const resetButton = await page.getByRole('button', { name: /clear filter/i });
+    await expect(resetButton).toBeEnabled();
     await page.getByText('No devices found').waitFor({ timeout: timeouts.fiveSeconds });
   });
 
@@ -153,6 +156,8 @@ test.describe('Devices', () => {
     await page.getByText(/equals/i).click();
     await page.waitForTimeout(timeouts.default);
     await page.getByRole('option', { name: `doesn't exist`, exact: true }).click();
+    const resetButton = await page.getByRole('button', { name: /clear filter/i });
+    await expect(resetButton).toBeEnabled();
     await page.getByRole('button', { name: /Add a rule/i }).waitFor();
     await page.getByRole('button', { name: /Add a rule/i }).click();
     await expect(page.getByRole('button', { name: `${rootfs} doesn't exist` })).toBeVisible();
