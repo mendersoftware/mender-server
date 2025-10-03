@@ -139,7 +139,7 @@ exports[`DeviceMonitoring Component > renders correctly 1`] = `
           class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
           id="_r_4_"
         >
-          Rows
+          Rows per page:
         </p>
         <div
           class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiSelect-root MuiTablePagination-input css-oegngy-MuiInputBase-root-MuiTablePagination-select"
@@ -178,14 +178,30 @@ exports[`DeviceMonitoring Component > renders correctly 1`] = `
         <p
           class="MuiTablePagination-displayedRows css-11cfq65-MuiTablePagination-displayedRows"
         />
-        <div
-          class="flexbox center-aligned"
+        <div>
+          21-40 of 9001
+        </div>
+        <button
+          aria-label="prev"
+          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge margin-left-small css-154kngp-MuiButtonBase-root-MuiIconButton-root"
+          tabindex="0"
+          type="button"
         >
-          <div>
-            21-40 of 9001
-          </div>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+            data-testid="KeyboardArrowLeftIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M15.41 16.59 10.83 12l4.58-4.59L14 6l-6 6 6 6z"
+            />
+          </svg>
+        </button>
+        <div>
           <button
-            aria-label="prev"
+            aria-label="next"
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-154kngp-MuiButtonBase-root-MuiIconButton-root"
             tabindex="0"
             type="button"
@@ -193,35 +209,15 @@ exports[`DeviceMonitoring Component > renders correctly 1`] = `
             <svg
               aria-hidden="true"
               class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-              data-testid="KeyboardArrowLeftIcon"
+              data-testid="KeyboardArrowRightIcon"
               focusable="false"
               viewBox="0 0 24 24"
             >
               <path
-                d="M15.41 16.59 10.83 12l4.58-4.59L14 6l-6 6 6 6z"
+                d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"
               />
             </svg>
           </button>
-          <div>
-            <button
-              aria-label="next"
-              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-154kngp-MuiButtonBase-root-MuiIconButton-root"
-              tabindex="0"
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-                data-testid="KeyboardArrowRightIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"
-                />
-              </svg>
-            </button>
-          </div>
         </div>
       </div>
     </div>

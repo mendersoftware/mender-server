@@ -221,7 +221,11 @@ exports[`Devices Component > renders correctly 1`] = `
   gap: 16px;
 }
 
-.emotion-11 {
+.emotion-11:hover svg {
+  color: #1565c0;
+}
+
+.emotion-12 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -239,11 +243,11 @@ exports[`Devices Component > renders correctly 1`] = `
   color: #1976d2;
 }
 
-.emotion-11.read {
+.emotion-12.read {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-12 {
+.emotion-13 {
   position: absolute;
   top: -5px;
   bottom: 0;
@@ -253,11 +257,15 @@ exports[`Devices Component > renders correctly 1`] = `
   border-radius: 50%;
 }
 
-.emotion-12.read {
+.emotion-13.read {
   border-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-13 {
+.emotion-13:hover {
+  border-color: #1565c0;
+}
+
+.emotion-14 {
   font-size: 1rem;
   cursor: pointer;
 }
@@ -399,11 +407,11 @@ exports[`Devices Component > renders correctly 1`] = `
           data-mui-internal-clone-element="true"
         >
           <div
-            class="relative"
+            class="relative emotion-11"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-11"
+              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-12"
               data-testid="HelpIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -413,13 +421,13 @@ exports[`Devices Component > renders correctly 1`] = `
               />
             </svg>
             <div
-              class="emotion-12 "
+              class="emotion-13 "
             />
           </div>
         </div>
       </div>
       <div
-        class="flexbox centered muted emotion-13"
+        class="flexbox centered muted emotion-14"
       >
         <svg
           aria-hidden="true"
@@ -433,7 +441,7 @@ exports[`Devices Component > renders correctly 1`] = `
           />
         </svg>
         <span
-          class="emotion-13"
+          class="emotion-14"
         >
           add a widget
         </span>
@@ -623,7 +631,11 @@ exports[`Devices Component > renders correctly for non-enterprise 1`] = `
   white-space: nowrap;
 }
 
-.emotion-3 {
+.emotion-3:hover svg {
+  color: #1565c0;
+}
+
+.emotion-4 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -641,11 +653,11 @@ exports[`Devices Component > renders correctly for non-enterprise 1`] = `
   color: #1976d2;
 }
 
-.emotion-3.read {
+.emotion-4.read {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-4 {
+.emotion-5 {
   position: absolute;
   top: -5px;
   bottom: 0;
@@ -655,16 +667,20 @@ exports[`Devices Component > renders correctly for non-enterprise 1`] = `
   border-radius: 50%;
 }
 
-.emotion-4.read {
+.emotion-5.read {
   border-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-5 {
+.emotion-5:hover {
+  border-color: #1565c0;
+}
+
+.emotion-6 {
   font-size: 1rem;
   cursor: pointer;
 }
 
-.emotion-6 {
+.emotion-7 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -713,11 +729,11 @@ exports[`Devices Component > renders correctly for non-enterprise 1`] = `
           data-mui-internal-clone-element="true"
         >
           <div
-            class="relative"
+            class="relative emotion-3"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-3"
+              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-4"
               data-testid="HelpIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -727,17 +743,17 @@ exports[`Devices Component > renders correctly for non-enterprise 1`] = `
               />
             </svg>
             <div
-              class="emotion-4 "
+              class="emotion-5 "
             />
           </div>
         </div>
       </div>
       <div
-        class="flexbox centered muted emotion-5"
+        class="flexbox centered muted emotion-6"
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-6"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-7"
           data-testid="AddIcon"
           focusable="false"
           viewBox="0 0 24 24"
@@ -747,7 +763,7 @@ exports[`Devices Component > renders correctly for non-enterprise 1`] = `
           />
         </svg>
         <span
-          class="emotion-5"
+          class="emotion-6"
         >
           add a widget
         </span>
@@ -762,7 +778,11 @@ exports[`Devices Component > renders correctly for too many devices 1`] = `
   gap: 16px;
 }
 
-.emotion-1 {
+.emotion-1:hover svg {
+  color: #1565c0;
+}
+
+.emotion-2 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -780,11 +800,11 @@ exports[`Devices Component > renders correctly for too many devices 1`] = `
   color: #1976d2;
 }
 
-.emotion-1.read {
+.emotion-2.read {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-2 {
+.emotion-3 {
   position: absolute;
   top: -5px;
   bottom: 0;
@@ -794,16 +814,20 @@ exports[`Devices Component > renders correctly for too many devices 1`] = `
   border-radius: 50%;
 }
 
-.emotion-2.read {
+.emotion-3.read {
   border-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-3 {
+.emotion-3:hover {
+  border-color: #1565c0;
+}
+
+.emotion-4 {
   font-size: 1rem;
   cursor: pointer;
 }
 
-.emotion-4 {
+.emotion-5 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -861,11 +885,11 @@ exports[`Devices Component > renders correctly for too many devices 1`] = `
           data-mui-internal-clone-element="true"
         >
           <div
-            class="relative"
+            class="relative emotion-1"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-1"
+              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-2"
               data-testid="HelpIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -875,17 +899,17 @@ exports[`Devices Component > renders correctly for too many devices 1`] = `
               />
             </svg>
             <div
-              class="emotion-2 "
+              class="emotion-3 "
             />
           </div>
         </div>
       </div>
       <div
-        class="flexbox centered muted emotion-3"
+        class="flexbox centered muted emotion-4"
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-4"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-5"
           data-testid="AddIcon"
           focusable="false"
           viewBox="0 0 24 24"
@@ -895,7 +919,7 @@ exports[`Devices Component > renders correctly for too many devices 1`] = `
           />
         </svg>
         <span
-          class="emotion-3"
+          class="emotion-4"
         >
           add a widget
         </span>
@@ -1164,7 +1188,11 @@ exports[`Devices Component > renders correctly without data retrieval 1`] = `
   gap: 16px;
 }
 
-.emotion-11 {
+.emotion-11:hover svg {
+  color: #1565c0;
+}
+
+.emotion-12 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -1182,11 +1210,11 @@ exports[`Devices Component > renders correctly without data retrieval 1`] = `
   color: #1976d2;
 }
 
-.emotion-11.read {
+.emotion-12.read {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-12 {
+.emotion-13 {
   position: absolute;
   top: -5px;
   bottom: 0;
@@ -1196,11 +1224,15 @@ exports[`Devices Component > renders correctly without data retrieval 1`] = `
   border-radius: 50%;
 }
 
-.emotion-12.read {
+.emotion-13.read {
   border-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-13 {
+.emotion-13:hover {
+  border-color: #1565c0;
+}
+
+.emotion-14 {
   font-size: 1rem;
   cursor: pointer;
 }
@@ -1342,11 +1374,11 @@ exports[`Devices Component > renders correctly without data retrieval 1`] = `
           data-mui-internal-clone-element="true"
         >
           <div
-            class="relative"
+            class="relative emotion-11"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-11"
+              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-12"
               data-testid="HelpIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -1356,13 +1388,13 @@ exports[`Devices Component > renders correctly without data retrieval 1`] = `
               />
             </svg>
             <div
-              class="emotion-12 "
+              class="emotion-13 "
             />
           </div>
         </div>
       </div>
       <div
-        class="flexbox centered muted emotion-13"
+        class="flexbox centered muted emotion-14"
       >
         <svg
           aria-hidden="true"
@@ -1376,7 +1408,7 @@ exports[`Devices Component > renders correctly without data retrieval 1`] = `
           />
         </svg>
         <span
-          class="emotion-13"
+          class="emotion-14"
         >
           add a widget
         </span>

@@ -180,7 +180,11 @@ exports[`ChartAdditionWidget Component > renders correctly 1`] = `
   white-space: nowrap;
 }
 
-.emotion-3 {
+.emotion-3:hover svg {
+  color: #1565c0;
+}
+
+.emotion-4 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -198,11 +202,11 @@ exports[`ChartAdditionWidget Component > renders correctly 1`] = `
   color: #1976d2;
 }
 
-.emotion-3.read {
+.emotion-4.read {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-4 {
+.emotion-5 {
   position: absolute;
   top: -5px;
   bottom: 0;
@@ -212,16 +216,20 @@ exports[`ChartAdditionWidget Component > renders correctly 1`] = `
   border-radius: 50%;
 }
 
-.emotion-4.read {
+.emotion-5.read {
   border-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-5 {
+.emotion-5:hover {
+  border-color: #1565c0;
+}
+
+.emotion-6 {
   font-size: 1rem;
   cursor: pointer;
 }
 
-.emotion-6 {
+.emotion-7 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -268,11 +276,11 @@ exports[`ChartAdditionWidget Component > renders correctly 1`] = `
           data-mui-internal-clone-element="true"
         >
           <div
-            class="relative"
+            class="relative emotion-3"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-3"
+              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-4"
               data-testid="HelpIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -282,17 +290,17 @@ exports[`ChartAdditionWidget Component > renders correctly 1`] = `
               />
             </svg>
             <div
-              class="emotion-4 "
+              class="emotion-5 "
             />
           </div>
         </div>
       </div>
       <div
-        class="flexbox centered muted emotion-5"
+        class="flexbox centered muted emotion-6"
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-6"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-7"
           data-testid="AddIcon"
           focusable="false"
           viewBox="0 0 24 24"
@@ -302,7 +310,7 @@ exports[`ChartAdditionWidget Component > renders correctly 1`] = `
           />
         </svg>
         <span
-          class="emotion-5"
+          class="emotion-6"
         >
           add a widget
         </span>

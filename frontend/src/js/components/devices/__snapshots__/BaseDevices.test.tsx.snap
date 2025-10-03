@@ -47,7 +47,7 @@ exports[`smaller components > renders DeviceSoftware correctly 1`] = `
 exports[`smaller components > renders DeviceStatusRenderer correctly 1`] = `
 <div>
   <div
-    class="margin-right-small"
+    class="margin-right-small capitalized"
   >
     accepted
   </div>

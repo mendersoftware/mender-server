@@ -103,6 +103,10 @@ exports[`DeviceStatus Component > renders correctly 1`] = `
   color: #616161;
 }
 
+.emotion-0 .MuiChip-icon {
+  color: inherit;
+}
+
 .emotion-0.MuiChip-clickable:hover {
   background-color: rgba(0, 0, 0, 0.04);
 }
@@ -136,7 +140,42 @@ exports[`DeviceStatus Component > renders correctly 1`] = `
 }
 
 .emotion-1 {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-size: 1.25rem;
+  line-height: 1;
   border-radius: 50%;
+  overflow: hidden;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #fff;
+  background-color: #bdbdbd;
+  width: 18px;
+  height: 18px;
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+.emotion-1.MuiChip-icon {
+  font-size: x-small;
 }
 
 .emotion-2 {
@@ -155,24 +194,18 @@ exports[`DeviceStatus Component > renders correctly 1`] = `
 
 <div
   aria-label="This device has a new auth request. This can happen if the device's public key changes. Click on the row to see more details"
-  class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorDefault MuiChip-outlinedDefault deviceStatus margin-right-small emotion-0"
+  class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorText.primary MuiChip-outlinedText.primary margin-right-small capitalized emotion-0"
   data-mui-internal-clone-element="true"
 >
   <div
-    class="flexbox centered notificationCounter MuiBox-root emotion-1"
+    class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault MuiChip-icon MuiChip-iconSmall MuiChip-iconColorText.primary emotion-1"
   >
-    <div>
-      1
-    </div>
+    1
   </div>
   <span
     class="MuiChip-label MuiChip-labelSmall emotion-2"
   >
-    <div
-      class="uppercased"
-    >
-      new request
-    </div>
+    new request
   </span>
 </div>
 `;

@@ -125,506 +125,19 @@ exports[`CreateGroupExplainer Component > renders correctly 1`] = `
 }
 
 .emotion-6 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  padding: 25px;
+  padding-right: 16px;
 }
 
 .emotion-7 {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  fill: currentColor;
-  font-size: 1.25rem;
-  color: #7b7b7b;
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.75;
+  letter-spacing: 0.00938em;
 }
 
 .emotion-8 {
-  max-width: 100%;
-}
-
-.emotion-11 {
-  gap: 16px;
-}
-
-.emotion-12 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  position: relative;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-  background-color: transparent;
-  outline: 0;
-  border: 0;
-  margin: 0;
-  border-radius: 0;
-  padding: 0;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  vertical-align: middle;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  color: inherit;
-  max-width: 100%;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-size: 0.8125rem;
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  height: 32px;
-  line-height: 1.5;
-  color: rgba(0, 0, 0, 0.87);
-  background-color: rgba(0, 0, 0, 0.08);
-  border-radius: 16px;
-  white-space: nowrap;
-  -webkit-transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  cursor: unset;
-  outline: 0;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  border: 0;
-  padding: 0;
-  vertical-align: middle;
-  box-sizing: border-box;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  cursor: pointer;
-  background-color: #f7fafb;
-  color: rgba(0, 0, 0, 0.38);
-  text-transform: uppercase;
-  background-color: #f7fafb;
-  color: rgba(0, 0, 0, 0.38);
-  text-transform: uppercase;
-}
-
-.emotion-12::-moz-focus-inner {
-  border-style: none;
-}
-
-.emotion-12.Mui-disabled {
-  pointer-events: none;
-  cursor: default;
-}
-
-@media print {
-  .emotion-12 {
-    -webkit-print-color-adjust: exact;
-    color-adjust: exact;
-  }
-}
-
-.emotion-12.Mui-disabled {
-  opacity: 0.38;
-  pointer-events: none;
-}
-
-.emotion-12 .MuiChip-avatar {
-  margin-left: 5px;
-  margin-right: -6px;
-  width: 24px;
-  height: 24px;
-  color: #616161;
-  font-size: 0.75rem;
-}
-
-.emotion-12 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-12 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-12 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
-.emotion-12 .MuiChip-icon {
-  margin-left: 5px;
-  margin-right: -6px;
-}
-
-.emotion-12 .MuiChip-deleteIcon {
-  -webkit-tap-highlight-color: transparent;
-  color: rgba(0, 0, 0, 0.26);
-  font-size: 22px;
-  cursor: pointer;
-  margin: 0 5px 0 -6px;
-}
-
-.emotion-12 .MuiChip-deleteIcon:hover {
-  color: rgba(0, 0, 0, 0.4);
-}
-
-.emotion-12 .MuiChip-icon {
-  color: #616161;
-}
-
-.emotion-12:hover {
-  background-color: rgba(0, 0, 0, 0.12);
-}
-
-.emotion-12.Mui-focusVisible {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-.emotion-12:active {
-  box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
-}
-
-.emotion-12:hover {
-  font-weight: bold;
-}
-
-.emotion-12:hover {
-  font-weight: bold;
-}
-
-.emotion-13 {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-left: 12px;
-  padding-right: 12px;
-  white-space: nowrap;
-}
-
-.emotion-14 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  position: relative;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-  background-color: transparent;
-  outline: 0;
-  border: 0;
-  margin: 0;
-  border-radius: 0;
-  padding: 0;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  vertical-align: middle;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  color: inherit;
-  max-width: 100%;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-size: 0.8125rem;
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  height: 32px;
-  line-height: 1.5;
-  color: rgba(0, 0, 0, 0.87);
-  background-color: rgba(0, 0, 0, 0.08);
-  border-radius: 16px;
-  white-space: nowrap;
-  -webkit-transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  cursor: unset;
-  outline: 0;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  border: 0;
-  padding: 0;
-  vertical-align: middle;
-  box-sizing: border-box;
-  background-color: #1976d2;
-  color: #fff;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  cursor: pointer;
-  background-color: transparent;
-  border: 1px solid #bdbdbd;
-  color: #1976d2;
-  border: 1px solid rgba(25, 118, 210, 0.7);
-  border-style: dashed;
-}
-
-.emotion-14::-moz-focus-inner {
-  border-style: none;
-}
-
-.emotion-14.Mui-disabled {
-  pointer-events: none;
-  cursor: default;
-}
-
-@media print {
-  .emotion-14 {
-    -webkit-print-color-adjust: exact;
-    color-adjust: exact;
-  }
-}
-
-.emotion-14.Mui-disabled {
-  opacity: 0.38;
-  pointer-events: none;
-}
-
-.emotion-14 .MuiChip-avatar {
-  margin-left: 5px;
-  margin-right: -6px;
-  width: 24px;
-  height: 24px;
-  color: #616161;
-  font-size: 0.75rem;
-}
-
-.emotion-14 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-14 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-14 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
-.emotion-14 .MuiChip-icon {
-  margin-left: 5px;
-  margin-right: -6px;
-}
-
-.emotion-14 .MuiChip-deleteIcon {
-  -webkit-tap-highlight-color: transparent;
-  color: rgba(0, 0, 0, 0.26);
-  font-size: 22px;
-  cursor: pointer;
-  margin: 0 5px 0 -6px;
-}
-
-.emotion-14 .MuiChip-deleteIcon:hover {
-  color: rgba(0, 0, 0, 0.4);
-}
-
-.emotion-14 .MuiChip-deleteIcon {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.emotion-14 .MuiChip-deleteIcon:hover,
-.emotion-14 .MuiChip-deleteIcon:active {
-  color: #fff;
-}
-
-.emotion-14 .MuiChip-icon {
-  color: #616161;
-}
-
-.emotion-14 .MuiChip-icon {
-  color: inherit;
-}
-
-.emotion-14.Mui-focusVisible {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-.emotion-14.Mui-focusVisible {
-  background: #1565c0;
-}
-
-.emotion-14:hover {
-  background-color: rgba(0, 0, 0, 0.12);
-}
-
-.emotion-14.Mui-focusVisible {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-.emotion-14:active {
-  box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
-}
-
-.emotion-14:hover,
-.emotion-14.Mui-focusVisible {
-  background-color: #1565c0;
-}
-
-.emotion-14.MuiChip-clickable:hover {
-  background-color: rgba(0, 0, 0, 0.04);
-}
-
-.emotion-14.Mui-focusVisible {
-  background-color: rgba(0, 0, 0, 0.12);
-}
-
-.emotion-14 .MuiChip-avatar {
-  margin-left: 4px;
-}
-
-.emotion-14 .MuiChip-avatarSmall {
-  margin-left: 2px;
-}
-
-.emotion-14 .MuiChip-icon {
-  margin-left: 4px;
-}
-
-.emotion-14 .MuiChip-iconSmall {
-  margin-left: 2px;
-}
-
-.emotion-14 .MuiChip-deleteIcon {
-  margin-right: 5px;
-}
-
-.emotion-14 .MuiChip-deleteIconSmall {
-  margin-right: 3px;
-}
-
-.emotion-14.MuiChip-clickable:hover {
-  background-color: rgba(25, 118, 210, 0.04);
-}
-
-.emotion-14.Mui-focusVisible {
-  background-color: rgba(25, 118, 210, 0.12);
-}
-
-.emotion-14 .MuiChip-deleteIcon {
-  color: rgba(25, 118, 210, 0.7);
-}
-
-.emotion-14 .MuiChip-deleteIcon:hover,
-.emotion-14 .MuiChip-deleteIcon:active {
-  color: #1976d2;
-}
-
-.emotion-14 .MuiChip-deleteIcon {
-  font-size: smaller;
-}
-
-.emotion-14.not-hovering {
-  border-color: transparent;
-  color: rgba(0, 0, 0, 0.38);
-}
-
-.emotion-14.not-hovering .MuiChip-deleteIcon {
-  color: rgba(0, 0, 0, 0.38);
-}
-
-.emotion-14.not-hovering .MuiChip-label {
-  padding-left: 0;
-  visibility: collapse;
-}
-
-.emotion-15 {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-left: 12px;
-  padding-right: 12px;
-  white-space: nowrap;
-  padding-left: 11px;
-  padding-right: 11px;
-}
-
-.emotion-16 {
-  height: 0;
-  overflow: hidden;
-  -webkit-transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  height: auto;
-  width: 0;
-  -webkit-transition: width 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: width 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  visibility: hidden;
-}
-
-.emotion-17 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  width: 100%;
-  width: auto;
-  height: 100%;
-}
-
-.emotion-18 {
-  width: 100%;
-  width: auto;
-  height: 100%;
-}
-
-.emotion-19 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -639,23 +152,202 @@ exports[`CreateGroupExplainer Component > renders correctly 1`] = `
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
   font-size: 1.25rem;
+  margin-left: 8px;
 }
 
-.emotion-20 {
-  position: absolute;
-  top: -6px;
-  bottom: -4px;
-  left: -7px;
-  right: -6.5px;
-  border: 1px dashed rgba(0, 0, 0, 0.38);
-  border-radius: 50%;
+.emotion-9 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
 }
 
-.emotion-20.hovering {
-  border-color: transparent;
+.emotion-10 {
+  max-width: 100%;
 }
 
-.emotion-22 {
+.emotion-14 {
+  gap: 16px;
+}
+
+.emotion-15 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: inherit;
+  max-width: 100%;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-size: 0.8125rem;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  height: 32px;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.87);
+  background-color: rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  white-space: nowrap;
+  -webkit-transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  cursor: unset;
+  outline: 0;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  border: 0;
+  padding: 0;
+  vertical-align: middle;
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+  background-color: #f7fafb;
+  color: rgba(0, 0, 0, 0.38);
+  text-transform: uppercase;
+  background-color: #f7fafb;
+  color: rgba(0, 0, 0, 0.38);
+  text-transform: uppercase;
+}
+
+.emotion-15::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-15.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+@media print {
+  .emotion-15 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-15.Mui-disabled {
+  opacity: 0.38;
+  pointer-events: none;
+}
+
+.emotion-15 .MuiChip-avatar {
+  margin-left: 5px;
+  margin-right: -6px;
+  width: 24px;
+  height: 24px;
+  color: #616161;
+  font-size: 0.75rem;
+}
+
+.emotion-15 .MuiChip-avatarColorPrimary {
+  color: #fff;
+  background-color: #1565c0;
+}
+
+.emotion-15 .MuiChip-avatarColorSecondary {
+  color: #fff;
+  background-color: #7b1fa2;
+}
+
+.emotion-15 .MuiChip-avatarSmall {
+  margin-left: 4px;
+  margin-right: -4px;
+  width: 18px;
+  height: 18px;
+  font-size: 0.625rem;
+}
+
+.emotion-15 .MuiChip-icon {
+  margin-left: 5px;
+  margin-right: -6px;
+}
+
+.emotion-15 .MuiChip-deleteIcon {
+  -webkit-tap-highlight-color: transparent;
+  color: rgba(0, 0, 0, 0.26);
+  font-size: 22px;
+  cursor: pointer;
+  margin: 0 5px 0 -6px;
+}
+
+.emotion-15 .MuiChip-deleteIcon:hover {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-15 .MuiChip-icon {
+  color: #616161;
+}
+
+.emotion-15:hover {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+.emotion-15.Mui-focusVisible {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.emotion-15:active {
+  box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
+}
+
+.emotion-15:hover {
+  font-weight: bold;
+}
+
+.emotion-15:hover {
+  font-weight: bold;
+}
+
+.emotion-16 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 12px;
+  padding-right: 12px;
+  white-space: nowrap;
+}
+
+.emotion-19 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -674,11 +366,11 @@ exports[`CreateGroupExplainer Component > renders correctly 1`] = `
   flex: 0 0 auto;
 }
 
-.emotion-22>:not(style)~:not(style) {
+.emotion-19>:not(style)~:not(style) {
   margin-left: 8px;
 }
 
-.emotion-23 {
+.emotion-20 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -735,33 +427,33 @@ exports[`CreateGroupExplainer Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-23::-moz-focus-inner {
+.emotion-20::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-23.Mui-disabled {
+.emotion-20.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-23 {
+  .emotion-20 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-23:hover {
+.emotion-20:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-23.Mui-disabled {
+.emotion-20.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-23:hover {
+  .emotion-20:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -769,7 +461,7 @@ exports[`CreateGroupExplainer Component > renders correctly 1`] = `
   }
 }
 
-.emotion-23.MuiButton-loading {
+.emotion-20.MuiButton-loading {
   color: transparent;
 }
 
@@ -820,149 +512,112 @@ exports[`CreateGroupExplainer Component > renders correctly 1`] = `
               <div
                 class="flexbox center-aligned margin-bottom"
               >
+                <h6
+                  class="MuiTypography-root MuiTypography-subtitle1 emotion-7"
+                >
+                  Static group
+                </h6>
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-7"
-                  data-testid="LockOutlinedIcon"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-8"
+                  data-testid="LockIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
                 >
                   <path
-                    d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2M9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9zm9 14H6V10h12zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2"
+                    d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2m-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2m3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1z"
                   />
                 </svg>
-                <div
-                  class="bold margin-left-small"
-                >
-                  Static group
-                </div>
               </div>
               <p
-                class="help-content"
+                class="MuiTypography-root MuiTypography-body1 emotion-9"
               >
                 Select specific devices to add them to a static group. Filter to find devices in the 'All devices' UI, check the devices you want to add, and click the action button to assign them to a group.
               </p>
             </div>
             <img
-              class="emotion-8"
+              class="emotion-10"
               src="/src/assets/img/static-group-creation.gif"
             />
           </div>
           <div
-            class="two-columns emotion-6 non-enterprise"
+            class="two-columns emotion-6"
           >
             <div
               class="margin-right-large"
             >
               <div
-                class="flexbox center-aligned margin-bottom"
+                class="flexbox center-aligned space-between margin-bottom"
               >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-7"
-                  data-testid="AutorenewIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M12 6v3l4-4-4-4v3c-4.42 0-8 3.58-8 8 0 1.57.46 3.03 1.24 4.26L6.7 14.8c-.45-.83-.7-1.79-.7-2.8 0-3.31 2.69-6 6-6m6.76 1.74L17.3 9.2c.44.84.7 1.79.7 2.8 0 3.31-2.69 6-6 6v-3l-4 4 4 4v-3c4.42 0 8-3.58 8-8 0-1.57-.46-3.03-1.24-4.26"
-                  />
-                </svg>
-                <div
-                  class="bold margin-left-small margin-right"
+                <h6
+                  class="MuiTypography-root MuiTypography-subtitle1 flexbox center-aligned emotion-7"
                 >
                   Dynamic group
-                </div>
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right emotion-8"
+                    data-testid="SyncOutlinedIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8m0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4z"
+                    />
+                  </svg>
+                </h6>
                 <div
-                  class="flexbox center-aligned margin-left-small emotion-11"
+                  class="flexbox center-aligned margin-left-small emotion-14"
                 >
                   <div
                     class=""
                     data-mui-internal-clone-element="true"
                   >
                     <div
-                      class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault emotion-12"
+                      class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault emotion-15"
                       role="button"
                       tabindex="0"
                     >
                       <span
-                        class="MuiChip-label MuiChip-labelMedium emotion-13"
+                        class="MuiChip-label MuiChip-labelMedium emotion-16"
                       >
                         Enterprise
                       </span>
                     </div>
                   </div>
-                  <div
-                    class=""
-                    data-mui-internal-clone-element="true"
-                  >
-                    <div
-                      class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-clickable MuiChip-clickableColorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-outlinedPrimary not-hovering emotion-14"
-                      role="button"
-                      tabindex="0"
-                    >
-                      <span
-                        class="MuiChip-label MuiChip-labelMedium emotion-15"
-                      >
-                        <div
-                          class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-16"
-                          style="min-width: 0px;"
-                        >
-                          <div
-                            class="MuiCollapse-wrapper MuiCollapse-horizontal emotion-17"
-                          >
-                            <div
-                              class="MuiCollapse-wrapperInner MuiCollapse-horizontal emotion-18"
-                            >
-                              Learn more
-                            </div>
-                          </div>
-                        </div>
-                      </span>
-                      <div
-                        class="relative MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorPrimary MuiChip-deleteIconOutlinedColorPrimary"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-19"
-                          data-testid="DescriptionIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm2 16H8v-2h8zm0-4H8v-2h8zm-3-5V3.5L18.5 9z"
-                          />
-                        </svg>
-                        <div
-                          class="emotion-20 not-hovering"
-                        />
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
               <p
-                class="help-content"
+                class="MuiTypography-root MuiTypography-body1 emotion-9"
               >
                 You can set filters based on device attributes, and save them as a group. At any point in time, all devices that match the filters will be part of this group. This means that new devices will automatically join the group if they match the filters.
+                 
+                <a
+                  class=""
+                  href="https://docs.mender.io/overview/device-group#dynamic-group"
+                  rel="noopener"
+                  target="_blank"
+                >
+                  Learn more
+                </a>
+                 about dynamic groups.
               </p>
             </div>
             <img
-              class="emotion-8"
+              class="emotion-10"
               src="/src/assets/img/dynamic-group-creation.gif"
             />
           </div>
         </div>
       </div>
       <div
-        class="MuiDialogActions-root MuiDialogActions-spacing emotion-22"
+        class="MuiDialogActions-root MuiDialogActions-spacing emotion-19"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-23"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-20"
           tabindex="0"
           type="button"
         >
-          Close
+          Cancel
         </button>
       </div>
     </div>
