@@ -7,7 +7,7 @@ exports[`DeviceList Component > renders correctly 1`] = `
     style="grid-template-columns: minmax(150px, 1.5fr) minmax(150px, 1.5fr) minmax(150px, 1.5fr) minmax(150px, 1fr);"
   >
     <div
-      class="header css-nsqcrh-header"
+      class="header css-1agd6tp-header"
     >
       <div
         class="deviceListRow"
@@ -15,8 +15,8 @@ exports[`DeviceList Component > renders correctly 1`] = `
         <div
           class="columnHeader flexbox space-between relative"
         >
-          <div
-            class="flexbox center-aligned"
+          <p
+            class="MuiTypography-root MuiTypography-body1 flexbox center-aligned css-152d8e8-MuiTypography-root"
           />
           <div
             class="flexbox center-aligned full-height"
@@ -33,8 +33,8 @@ exports[`DeviceList Component > renders correctly 1`] = `
         <div
           class="columnHeader flexbox space-between relative"
         >
-          <div
-            class="flexbox center-aligned"
+          <p
+            class="MuiTypography-root MuiTypography-body1 flexbox center-aligned css-152d8e8-MuiTypography-root"
           />
           <div
             class="flexbox center-aligned full-height"
@@ -51,8 +51,8 @@ exports[`DeviceList Component > renders correctly 1`] = `
         <div
           class="columnHeader flexbox space-between relative"
         >
-          <div
-            class="flexbox center-aligned"
+          <p
+            class="MuiTypography-root MuiTypography-body1 flexbox center-aligned css-152d8e8-MuiTypography-root"
           />
           <div
             class="flexbox center-aligned full-height"
@@ -61,8 +61,8 @@ exports[`DeviceList Component > renders correctly 1`] = `
         <div
           class="columnHeader flexbox space-between relative"
         >
-          <div
-            class="flexbox center-aligned"
+          <p
+            class="MuiTypography-root MuiTypography-body1 flexbox center-aligned css-152d8e8-MuiTypography-root"
           />
           <div
             class="flexbox center-aligned full-height"
@@ -74,7 +74,7 @@ exports[`DeviceList Component > renders correctly 1`] = `
       class="body"
     />
     <div
-      class="footer flexbox margin-top"
+      class="footer flexbox margin-top-small"
     >
       <div
         class="MuiTablePagination-root flexbox margin-top margin-top-none css-15pl5qu-MuiTablePagination-root"
@@ -89,7 +89,7 @@ exports[`DeviceList Component > renders correctly 1`] = `
             class="MuiTablePagination-selectLabel css-15wkzhc-MuiTablePagination-selectLabel"
             
           >
-            Rows
+            Rows per page:
           </p>
           <div
             class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiSelect-root MuiTablePagination-input css-11kq5w2-MuiInputBase-root-MuiTablePagination-select"
@@ -128,51 +128,47 @@ exports[`DeviceList Component > renders correctly 1`] = `
           <p
             class="MuiTablePagination-displayedRows css-uam3tq-MuiTablePagination-displayedRows"
           />
-          <div
-            class="flexbox center-aligned"
+          <div>
+            1-20 of 50
+          </div>
+          <button
+            aria-label="prev"
+            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge margin-left-small css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
+            disabled=""
+            tabindex="-1"
+            type="button"
           >
-            <div>
-              1-20 of 50
-            </div>
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1j3vvli-MuiSvgIcon-root"
+              data-testid="KeyboardArrowLeftIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M15.41 16.59 10.83 12l4.58-4.59L14 6l-6 6 6 6z"
+              />
+            </svg>
+          </button>
+          <div>
             <button
-              aria-label="prev"
-              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
-              disabled=""
-              tabindex="-1"
+              aria-label="next"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
+              tabindex="0"
               type="button"
             >
               <svg
                 aria-hidden="true"
                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1j3vvli-MuiSvgIcon-root"
-                data-testid="KeyboardArrowLeftIcon"
+                data-testid="KeyboardArrowRightIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
               >
                 <path
-                  d="M15.41 16.59 10.83 12l4.58-4.59L14 6l-6 6 6 6z"
+                  d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"
                 />
               </svg>
             </button>
-            <div>
-              <button
-                aria-label="next"
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
-                tabindex="0"
-                type="button"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1j3vvli-MuiSvgIcon-root"
-                  data-testid="KeyboardArrowRightIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"
-                  />
-                </svg>
-              </button>
-            </div>
           </div>
         </div>
       </div>
