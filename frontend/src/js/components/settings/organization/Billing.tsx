@@ -27,12 +27,15 @@ import { useAppDispatch } from '@northern.tech/store/store';
 import { cancelRequest, getCurrentCard, getUserBilling } from '@northern.tech/store/thunks';
 import { toggle } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime.js';
 import pluralize from 'pluralize';
 
 import { PlanExpanded } from '../PlanExpanded';
 import CancelRequestDialog from '../dialogs/CancelRequest';
 import { BillingDetails } from './BillingDetails';
 import OrganizationSettingsItem from './OrganizationSettingsItem';
+
+dayjs.extend(relativeTime);
 
 const useStyles = makeStyles()(theme => ({
   fullWidthUpgrade: {
