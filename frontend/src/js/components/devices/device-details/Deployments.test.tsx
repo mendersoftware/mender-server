@@ -11,12 +11,14 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { defaultState, render } from '@/testUtils';
+import * as StoreThunks from '@northern.tech/store/thunks';
+import { undefineds } from '@northern.tech/testing/mockData';
+import { selectMaterialUiSelectOption } from '@northern.tech/testing/utils';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { defaultState, undefineds } from '../../../../../tests/mockData';
-import { render, selectMaterialUiSelectOption } from '../../../../../tests/setupTests';
 import Deployments from './Deployments';
 
 const deviceDeployments = [
@@ -33,10 +35,11 @@ const deviceDeployments = [
   }
 ];
 
+vi.mock('@northern.tech/store/thunks', { spy: true });
+
 describe('Deployments Component', () => {
   it('renders correctly', async () => {
-    const DeploymentActions = await import('@northern.tech/store/deploymentsSlice/thunks');
-    const getDeploymentsSpy = vi.spyOn(DeploymentActions, 'getDeviceDeployments');
+    const { getDeviceDeployments: getDeploymentsSpy } = StoreThunks;
 
     const { baseElement } = render(<Deployments device={{ ...defaultState.devices.byId.a1, deploymentsCount: 4, deviceDeployments }} />);
     const view = baseElement.firstChild.firstChild;
@@ -50,7 +53,7 @@ describe('Deployments Component', () => {
   });
 
   it('retrieves deployment data when clicking the log button', async () => {
-    const DeploymentActions = await import('@northern.tech/store/deploymentsSlice/thunks');
+    const DeploymentActions = await import('@northern.tech/store/thunks');
     const getDeviceLogSpy = vi.spyOn(DeploymentActions, 'getDeviceLog');
     const getSingleDeploymentSpy = vi.spyOn(DeploymentActions, 'getSingleDeployment');
 

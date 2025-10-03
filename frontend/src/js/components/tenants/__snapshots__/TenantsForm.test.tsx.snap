@@ -36,7 +36,7 @@ exports[`TenantsForm > renders correctly 1`] = `
 
 .emotion-2 {
   background-color: #fff;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   box-shadow: var(--Paper-shadow);
@@ -59,9 +59,6 @@ exports[`TenantsForm > renders correctly 1`] = `
   top: 0;
   outline: 0;
   right: 0;
-  min-width: 40vw;
-  max-width: 80vw;
-  padding: 30px 75px 5%;
 }
 
 .emotion-3 {
@@ -101,7 +98,7 @@ exports[`TenantsForm > renders correctly 1`] = `
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
-  font-size: 1.3929rem;
+  font-size: 1.5rem;
   padding: 8px;
   border-radius: 50%;
   color: rgba(0, 0, 0, 0.54);
@@ -109,9 +106,7 @@ exports[`TenantsForm > renders correctly 1`] = `
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   --IconButton-hoverBg: rgba(0, 0, 0, 0.04);
   padding: 12px;
-  font-size: 1.625rem;
-  font-size: 1.2rem;
-  color: rgba(0, 0, 0, 0.54);
+  font-size: 1.75rem;
 }
 
 .emotion-3::-moz-focus-inner {
@@ -163,11 +158,7 @@ exports[`TenantsForm > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-}
-
-.emotion-4 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
 }
 
 .emotion-5 {
@@ -214,18 +205,17 @@ exports[`TenantsForm > renders correctly 1`] = `
   margin: 0;
   border: 0;
   vertical-align: top;
-  min-width: 240px;
 }
 
 .emotion-8 {
-  color: rgba(0, 0, 0, 0.54);
-  line-height: 1.4375em;
-  font-family: Lato,sans-serif;
+  color: rgba(0, 0, 0, 0.6);
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
+  font-size: 1rem;
+  line-height: 1.4375em;
+  letter-spacing: 0.00938em;
   padding: 0;
   position: relative;
-  color: rgba(0, 0, 0, 0.54);
   display: block;
   transform-origin: top left;
   white-space: nowrap;
@@ -251,7 +241,7 @@ exports[`TenantsForm > renders correctly 1`] = `
 }
 
 .emotion-8.Mui-focused {
-  color: #337a87;
+  color: #1976d2;
 }
 
 .emotion-8.Mui-disabled {
@@ -259,19 +249,16 @@ exports[`TenantsForm > renders correctly 1`] = `
 }
 
 .emotion-8.Mui-error {
-  color: #ab1000;
-}
-
-.emotion-8.Mui-focused {
-  color: #337a87;
+  color: #d32f2f;
 }
 
 .emotion-9 {
-  line-height: 1.4375em;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
-  color: rgba(10, 10, 11, 0.78);
+  font-size: 1rem;
+  line-height: 1.4375em;
+  letter-spacing: 0.00938em;
+  color: rgba(0, 0, 0, 0.87);
   box-sizing: border-box;
   position: relative;
   cursor: text;
@@ -293,7 +280,7 @@ exports[`TenantsForm > renders correctly 1`] = `
 }
 
 .emotion-9:hover .MuiOutlinedInput-notchedOutline {
-  border-color: rgba(10, 10, 11, 0.78);
+  border-color: rgba(0, 0, 0, 0.87);
 }
 
 @media (hover: none) {
@@ -307,11 +294,11 @@ exports[`TenantsForm > renders correctly 1`] = `
 }
 
 .emotion-9.Mui-focused .MuiOutlinedInput-notchedOutline {
-  border-color: #337a87;
+  border-color: #1976d2;
 }
 
 .emotion-9.Mui-error .MuiOutlinedInput-notchedOutline {
-  border-color: #ab1000;
+  border-color: #d32f2f;
 }
 
 .emotion-9.Mui-disabled .MuiOutlinedInput-notchedOutline {
@@ -454,11 +441,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
 }
 
 .emotion-13 {
-  color: rgba(0, 0, 0, 0.54);
-  font-family: Lato,sans-serif;
+  color: rgba(0, 0, 0, 0.6);
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.6964rem;
+  font-size: 0.75rem;
   line-height: 1.66;
+  letter-spacing: 0.03333em;
   text-align: left;
   margin-top: 3px;
   margin-right: 0;
@@ -473,7 +461,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
 }
 
 .emotion-13.Mui-error {
-  color: #ab1000;
+  color: #d32f2f;
 }
 
 .emotion-21 {
@@ -490,12 +478,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-  color: #337a87;
-}
-
-.emotion-21 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
+  color: #1976d2;
 }
 
 .emotion-21.read {
@@ -508,7 +492,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
   bottom: 0;
   left: -5px;
   right: -5px;
-  border: 1px dashed #337a87;
+  border: 1px dashed #1976d2;
   border-radius: 50%;
 }
 
@@ -517,14 +501,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
 }
 
 .emotion-24 {
-  color: rgba(0, 0, 0, 0.54);
-  line-height: 1.4375em;
-  font-family: Lato,sans-serif;
+  color: rgba(0, 0, 0, 0.6);
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
+  font-size: 1rem;
+  line-height: 1.4375em;
+  letter-spacing: 0.00938em;
   padding: 0;
   position: relative;
-  color: rgba(0, 0, 0, 0.54);
   display: block;
   transform-origin: top left;
   white-space: nowrap;
@@ -566,7 +550,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
 }
 
 .emotion-24.Mui-focused {
-  color: #337a87;
+  color: #1976d2;
 }
 
 .emotion-24.Mui-disabled {
@@ -574,11 +558,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
 }
 
 .emotion-24.Mui-error {
-  color: #ab1000;
-}
-
-.emotion-24.Mui-focused {
-  color: #337a87;
+  color: #d32f2f;
 }
 
 .emotion-25 {
@@ -595,19 +575,16 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.1607rem;
-}
-
-.emotion-25 iconButton {
-  margin-right: 8px;
+  font-size: 1.25rem;
 }
 
 .emotion-26 {
-  line-height: 1.4375em;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
-  color: rgba(10, 10, 11, 0.78);
+  font-size: 1rem;
+  line-height: 1.4375em;
+  letter-spacing: 0.00938em;
+  color: rgba(0, 0, 0, 0.87);
   box-sizing: border-box;
   position: relative;
   cursor: text;
@@ -630,7 +607,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
 }
 
 .emotion-26:hover .MuiOutlinedInput-notchedOutline {
-  border-color: rgba(10, 10, 11, 0.78);
+  border-color: rgba(0, 0, 0, 0.87);
 }
 
 @media (hover: none) {
@@ -644,11 +621,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
 }
 
 .emotion-26.Mui-focused .MuiOutlinedInput-notchedOutline {
-  border-color: #337a87;
+  border-color: #1976d2;
 }
 
 .emotion-26.Mui-error .MuiOutlinedInput-notchedOutline {
-  border-color: #ab1000;
+  border-color: #d32f2f;
 }
 
 .emotion-26.Mui-disabled .MuiOutlinedInput-notchedOutline {
@@ -824,10 +801,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.75;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   min-width: 64px;
   padding: 6px 16px;
@@ -838,17 +816,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
   padding: 6px 8px;
   color: var(--variant-textColor);
   background-color: var(--variant-textBg);
-  --variant-textColor: #337a87;
-  --variant-outlinedColor: #337a87;
-  --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
+  --variant-textColor: #1976d2;
+  --variant-outlinedColor: #1976d2;
+  --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #337a87;
+  --variant-containedBg: #1976d2;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 2px;
-  font-size: 14px;
-  font-weight: bold;
-  padding: 10px 15px;
 }
 
 .emotion-35::-moz-focus-inner {
@@ -878,23 +852,15 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
 
 @media (hover: hover) {
   .emotion-35:hover {
-    --variant-containedBg: rgb(35, 85, 94);
-    --variant-textBg: rgba(51, 122, 135, 0.04);
-    --variant-outlinedBorder: #337a87;
-    --variant-outlinedBg: rgba(51, 122, 135, 0.04);
+    --variant-containedBg: #1565c0;
+    --variant-textBg: rgba(25, 118, 210, 0.04);
+    --variant-outlinedBorder: #1976d2;
+    --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
 }
 
 .emotion-35.MuiButton-loading {
   color: transparent;
-}
-
-.emotion-35:hover {
-  colors: #337a87;
-}
-
-.emotion-35.MuiButton-text {
-  color: rgba(10, 10, 11, 0.78);
 }
 
 .emotion-36 {
@@ -911,7 +877,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
   -webkit-tap-highlight-color: transparent;
   margin-left: -11px;
   margin-right: 16px;
-  margin-top: 18px;
 }
 
 .emotion-36.Mui-disabled {
@@ -957,8 +922,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
   color: inherit;
   padding: 9px;
   border-radius: 50%;
-  color: rgba(0, 0, 0, 0.54);
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .emotion-37::-moz-focus-inner {
@@ -978,12 +942,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
 }
 
 .emotion-37:hover {
-  background-color: rgba(51, 122, 135, 0.04);
+  background-color: rgba(25, 118, 210, 0.04);
 }
 
 .emotion-37.Mui-checked,
 .emotion-37.MuiCheckbox-indeterminate {
-  color: #337a87;
+  color: #1976d2;
 }
 
 .emotion-37.Mui-disabled {
@@ -1011,10 +975,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
 
 .emotion-40 {
   margin: 0;
-  line-height: 1.5;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
 }
 
 .emotion-41 {
@@ -1031,7 +996,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
   margin: 0;
   border: 0;
   vertical-align: top;
-  min-width: 240px;
   margin-top: 10px;
   max-width: 150px;
   min-width: 130px;
@@ -1092,10 +1056,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.75;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   min-width: 64px;
   padding: 6px 16px;
@@ -1106,17 +1071,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
   padding: 6px 8px;
   color: var(--variant-textColor);
   background-color: var(--variant-textBg);
-  --variant-textColor: #337a87;
-  --variant-outlinedColor: #337a87;
-  --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
+  --variant-textColor: #1976d2;
+  --variant-outlinedColor: #1976d2;
+  --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #337a87;
+  --variant-containedBg: #1976d2;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 2px;
-  font-size: 14px;
-  font-weight: bold;
-  padding: 10px 15px;
   margin-right: 8px;
 }
 
@@ -1147,23 +1108,15 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
 
 @media (hover: hover) {
   .emotion-59:hover {
-    --variant-containedBg: rgb(35, 85, 94);
-    --variant-textBg: rgba(51, 122, 135, 0.04);
-    --variant-outlinedBorder: #337a87;
-    --variant-outlinedBg: rgba(51, 122, 135, 0.04);
+    --variant-containedBg: #1565c0;
+    --variant-textBg: rgba(25, 118, 210, 0.04);
+    --variant-outlinedBorder: #1976d2;
+    --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
 }
 
 .emotion-59.MuiButton-loading {
   color: transparent;
-}
-
-.emotion-59:hover {
-  colors: #337a87;
-}
-
-.emotion-59.MuiButton-text {
-  color: rgba(10, 10, 11, 0.78);
 }
 
 .emotion-60 {
@@ -1199,10 +1152,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.75;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   min-width: 64px;
   padding: 6px 16px;
@@ -1213,16 +1167,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
   color: var(--variant-containedColor);
   background-color: var(--variant-containedBg);
   box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
-  --variant-textColor: #5d0f43;
-  --variant-outlinedColor: #5d0f43;
-  --variant-outlinedBorder: rgba(93, 15, 67, 0.5);
+  --variant-textColor: #9c27b0;
+  --variant-outlinedColor: #9c27b0;
+  --variant-outlinedBorder: rgba(156, 39, 176, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #5d0f43;
+  --variant-containedBg: #9c27b0;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 2px;
-  font-size: 14px;
-  font-weight: bold;
 }
 
 .emotion-60::-moz-focus-inner {
@@ -1276,23 +1227,15 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
 
 @media (hover: hover) {
   .emotion-60:hover {
-    --variant-containedBg: rgb(65, 10, 46);
-    --variant-textBg: rgba(93, 15, 67, 0.04);
-    --variant-outlinedBorder: #5d0f43;
-    --variant-outlinedBg: rgba(93, 15, 67, 0.04);
+    --variant-containedBg: #7b1fa2;
+    --variant-textBg: rgba(156, 39, 176, 0.04);
+    --variant-outlinedBorder: #9c27b0;
+    --variant-outlinedBg: rgba(156, 39, 176, 0.04);
   }
 }
 
 .emotion-60.MuiButton-loading {
   color: transparent;
-}
-
-.emotion-60:hover {
-  colors: #337a87;
-}
-
-.emotion-60.MuiButton-text {
-  color: rgba(10, 10, 11, 0.78);
 }
 
 <body

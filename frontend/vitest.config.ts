@@ -27,12 +27,12 @@ export default defineConfig(() => {
     resolve: {
       alias: [
         {
-          find: '@northern.tech/store',
-          replacement: path.resolve(__dirname, 'src/js/store')
-        },
-        {
           find: '@northern.tech/common-ui',
           replacement: path.resolve(__dirname, 'src/js/common-ui')
+        },
+        {
+          find: '@/testUtils',
+          replacement: path.resolve(__dirname, 'tests', 'testUtils')
         }
       ]
     },
@@ -53,7 +53,7 @@ export default defineConfig(() => {
       },
       environment: 'jsdom',
       globals: true,
-      setupFiles: './tests/setupTests.jsx',
+      setupFiles: path.resolve(__dirname, 'tests', 'setupTests.ts'),
       fakeTimers: {
         toFake: ['setTimeout', 'clearTimeout', 'Date']
       }

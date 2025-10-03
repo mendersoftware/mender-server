@@ -11,8 +11,9 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { defaultState, undefineds } from '../../../../../tests/mockData';
-import { render } from '../../../../../tests/setupTests';
+import { defaultState, render } from '@/testUtils';
+import { undefineds } from '@northern.tech/testing/mockData';
+
 import { PhaseProgress, PhaseProgressDisplay } from './PhaseProgress';
 
 describe('PhaseProgress Component', () => {

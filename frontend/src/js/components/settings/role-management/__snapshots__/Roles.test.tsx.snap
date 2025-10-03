@@ -39,8 +39,8 @@ exports[`Roles Component > renders correctly 1`] = `
   text-decoration: none;
   color: inherit;
   max-width: 100%;
-  font-family: Lato,sans-serif;
-  font-size: 0.7545rem;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-size: 0.8125rem;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -55,7 +55,7 @@ exports[`Roles Component > renders correctly 1`] = `
   justify-content: center;
   height: 32px;
   line-height: 1.5;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
   white-space: nowrap;
@@ -109,18 +109,18 @@ exports[`Roles Component > renders correctly 1`] = `
   margin-right: -6px;
   width: 24px;
   height: 24px;
-  color: #bcbcbc;
-  font-size: 0.6964rem;
+  color: #616161;
+  font-size: 0.75rem;
 }
 
 .emotion-1 .MuiChip-avatarColorPrimary {
   color: #fff;
-  background-color: rgb(35, 85, 94);
+  background-color: #1565c0;
 }
 
 .emotion-1 .MuiChip-avatarColorSecondary {
   color: #fff;
-  background-color: rgb(65, 10, 46);
+  background-color: #7b1fa2;
 }
 
 .emotion-1 .MuiChip-avatarSmall {
@@ -128,7 +128,7 @@ exports[`Roles Component > renders correctly 1`] = `
   margin-right: -4px;
   width: 18px;
   height: 18px;
-  font-size: 0.5804rem;
+  font-size: 0.625rem;
 }
 
 .emotion-1 .MuiChip-icon {
@@ -138,18 +138,18 @@ exports[`Roles Component > renders correctly 1`] = `
 
 .emotion-1 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
-  color: rgba(10, 10, 11, 0.26);
+  color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
   cursor: pointer;
   margin: 0 5px 0 -6px;
 }
 
 .emotion-1 .MuiChip-deleteIcon:hover {
-  color: rgba(10, 10, 11, 0.4);
+  color: rgba(0, 0, 0, 0.4);
 }
 
 .emotion-1 .MuiChip-icon {
-  color: #bcbcbc;
+  color: #616161;
 }
 
 .emotion-1:hover {
@@ -214,8 +214,8 @@ exports[`Roles Component > renders correctly 1`] = `
   text-decoration: none;
   color: inherit;
   max-width: 100%;
-  font-family: Lato,sans-serif;
-  font-size: 0.7545rem;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-size: 0.8125rem;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -230,7 +230,7 @@ exports[`Roles Component > renders correctly 1`] = `
   justify-content: center;
   height: 32px;
   line-height: 1.5;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
   white-space: nowrap;
@@ -244,7 +244,7 @@ exports[`Roles Component > renders correctly 1`] = `
   padding: 0;
   vertical-align: middle;
   box-sizing: border-box;
-  background-color: #337a87;
+  background-color: #1976d2;
   color: #fff;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -253,9 +253,9 @@ exports[`Roles Component > renders correctly 1`] = `
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;
   background-color: transparent;
-  border: 1px solid #f7f7f7;
-  color: #337a87;
-  border: 1px solid rgba(51, 122, 135, 0.7);
+  border: 1px solid #bdbdbd;
+  color: #1976d2;
+  border: 1px solid rgba(25, 118, 210, 0.7);
   border-style: dashed;
 }
 
@@ -285,18 +285,18 @@ exports[`Roles Component > renders correctly 1`] = `
   margin-right: -6px;
   width: 24px;
   height: 24px;
-  color: #bcbcbc;
-  font-size: 0.6964rem;
+  color: #616161;
+  font-size: 0.75rem;
 }
 
 .emotion-3 .MuiChip-avatarColorPrimary {
   color: #fff;
-  background-color: rgb(35, 85, 94);
+  background-color: #1565c0;
 }
 
 .emotion-3 .MuiChip-avatarColorSecondary {
   color: #fff;
-  background-color: rgb(65, 10, 46);
+  background-color: #7b1fa2;
 }
 
 .emotion-3 .MuiChip-avatarSmall {
@@ -304,7 +304,7 @@ exports[`Roles Component > renders correctly 1`] = `
   margin-right: -4px;
   width: 18px;
   height: 18px;
-  font-size: 0.5804rem;
+  font-size: 0.625rem;
 }
 
 .emotion-3 .MuiChip-icon {
@@ -314,14 +314,14 @@ exports[`Roles Component > renders correctly 1`] = `
 
 .emotion-3 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
-  color: rgba(10, 10, 11, 0.26);
+  color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
   cursor: pointer;
   margin: 0 5px 0 -6px;
 }
 
 .emotion-3 .MuiChip-deleteIcon:hover {
-  color: rgba(10, 10, 11, 0.4);
+  color: rgba(0, 0, 0, 0.4);
 }
 
 .emotion-3 .MuiChip-deleteIcon {
@@ -334,7 +334,7 @@ exports[`Roles Component > renders correctly 1`] = `
 }
 
 .emotion-3 .MuiChip-icon {
-  color: #bcbcbc;
+  color: #616161;
 }
 
 .emotion-3 .MuiChip-icon {
@@ -346,7 +346,7 @@ exports[`Roles Component > renders correctly 1`] = `
 }
 
 .emotion-3.Mui-focusVisible {
-  background: rgb(35, 85, 94);
+  background: #1565c0;
 }
 
 .emotion-3:hover {
@@ -363,7 +363,7 @@ exports[`Roles Component > renders correctly 1`] = `
 
 .emotion-3:hover,
 .emotion-3.Mui-focusVisible {
-  background-color: rgb(35, 85, 94);
+  background-color: #1565c0;
 }
 
 .emotion-3.MuiChip-clickable:hover {
@@ -399,20 +399,20 @@ exports[`Roles Component > renders correctly 1`] = `
 }
 
 .emotion-3.MuiChip-clickable:hover {
-  background-color: rgba(51, 122, 135, 0.04);
+  background-color: rgba(25, 118, 210, 0.04);
 }
 
 .emotion-3.Mui-focusVisible {
-  background-color: rgba(51, 122, 135, 0.12);
+  background-color: rgba(25, 118, 210, 0.12);
 }
 
 .emotion-3 .MuiChip-deleteIcon {
-  color: rgba(51, 122, 135, 0.7);
+  color: rgba(25, 118, 210, 0.7);
 }
 
 .emotion-3 .MuiChip-deleteIcon:hover,
 .emotion-3 .MuiChip-deleteIcon:active {
-  color: #337a87;
+  color: #1976d2;
 }
 
 .emotion-3 .MuiChip-deleteIcon {
@@ -485,11 +485,7 @@ exports[`Roles Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.1607rem;
-}
-
-.emotion-8 iconButton {
-  margin-right: 8px;
+  font-size: 1.25rem;
 }
 
 .emotion-9 {
@@ -514,12 +510,13 @@ exports[`Roles Component > renders correctly 1`] = `
 }
 
 .emotion-10 caption {
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.43;
+  letter-spacing: 0.01071em;
   padding: 16px;
-  color: rgba(0, 0, 0, 0.54);
+  color: rgba(0, 0, 0, 0.6);
   text-align: left;
   caption-side: bottom;
 }
@@ -552,30 +549,27 @@ exports[`Roles Component > renders correctly 1`] = `
 }
 
 .emotion-12.Mui-selected {
-  background-color: rgba(51, 122, 135, 0.08);
+  background-color: rgba(25, 118, 210, 0.08);
 }
 
 .emotion-12.Mui-selected:hover {
-  background-color: rgba(51, 122, 135, 0.12);
+  background-color: rgba(25, 118, 210, 0.12);
 }
 
 .emotion-13 {
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.43;
+  letter-spacing: 0.01071em;
   display: table-cell;
   vertical-align: inherit;
   border-bottom: 1px solid rgba(224, 224, 224, 1);
   text-align: left;
   padding: 16px;
-  color: rgba(10, 10, 11, 0.78);
-  line-height: 1.3929rem;
+  color: rgba(0, 0, 0, 0.87);
+  line-height: 1.5rem;
   font-weight: 500;
-  padding: 0px 24px 0px 24px;
-  height: 48px;
-  height: 56px;
-  line-height: 1.15rem;
 }
 
 .emotion-16 {
@@ -583,18 +577,17 @@ exports[`Roles Component > renders correctly 1`] = `
 }
 
 .emotion-18 {
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.43;
+  letter-spacing: 0.01071em;
   display: table-cell;
   vertical-align: inherit;
   border-bottom: 1px solid rgba(224, 224, 224, 1);
   text-align: left;
   padding: 16px;
-  color: rgba(10, 10, 11, 0.78);
-  padding: 0px 24px 0px 24px;
-  height: 48px;
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .emotion-47 {
@@ -631,8 +624,8 @@ exports[`Roles Component > renders correctly 1`] = `
   text-decoration: none;
   color: inherit;
   max-width: 100%;
-  font-family: Lato,sans-serif;
-  font-size: 0.7545rem;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-size: 0.8125rem;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -647,7 +640,7 @@ exports[`Roles Component > renders correctly 1`] = `
   justify-content: center;
   height: 32px;
   line-height: 1.5;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
   white-space: nowrap;
@@ -661,7 +654,7 @@ exports[`Roles Component > renders correctly 1`] = `
   padding: 0;
   vertical-align: middle;
   box-sizing: border-box;
-  background-color: #337a87;
+  background-color: #1976d2;
   color: #fff;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -697,18 +690,18 @@ exports[`Roles Component > renders correctly 1`] = `
   margin-right: -6px;
   width: 24px;
   height: 24px;
-  color: #bcbcbc;
-  font-size: 0.6964rem;
+  color: #616161;
+  font-size: 0.75rem;
 }
 
 .emotion-47 .MuiChip-avatarColorPrimary {
   color: #fff;
-  background-color: rgb(35, 85, 94);
+  background-color: #1565c0;
 }
 
 .emotion-47 .MuiChip-avatarColorSecondary {
   color: #fff;
-  background-color: rgb(65, 10, 46);
+  background-color: #7b1fa2;
 }
 
 .emotion-47 .MuiChip-avatarSmall {
@@ -716,7 +709,7 @@ exports[`Roles Component > renders correctly 1`] = `
   margin-right: -4px;
   width: 18px;
   height: 18px;
-  font-size: 0.5804rem;
+  font-size: 0.625rem;
 }
 
 .emotion-47 .MuiChip-icon {
@@ -726,14 +719,14 @@ exports[`Roles Component > renders correctly 1`] = `
 
 .emotion-47 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
-  color: rgba(10, 10, 11, 0.26);
+  color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
   cursor: pointer;
   margin: 0 5px 0 -6px;
 }
 
 .emotion-47 .MuiChip-deleteIcon:hover {
-  color: rgba(10, 10, 11, 0.4);
+  color: rgba(0, 0, 0, 0.4);
 }
 
 .emotion-47 .MuiChip-deleteIcon {
@@ -746,7 +739,7 @@ exports[`Roles Component > renders correctly 1`] = `
 }
 
 .emotion-47 .MuiChip-icon {
-  color: #bcbcbc;
+  color: #616161;
 }
 
 .emotion-47 .MuiChip-icon {
@@ -767,7 +760,7 @@ exports[`Roles Component > renders correctly 1`] = `
 
 .emotion-47:hover,
 .emotion-47.Mui-focusVisible {
-  background-color: rgb(35, 85, 94);
+  background-color: #1565c0;
 }
 
 .emotion-48 {
@@ -784,11 +777,7 @@ exports[`Roles Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-}
-
-.emotion-48 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
 }
 
 <div>

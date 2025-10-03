@@ -15,14 +15,10 @@ exports[`ScheduledDeployments Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-  fill: #f7f7f7;
+  font-size: 1.5rem;
+  fill: #bdbdbd;
   width: 111px;
   height: 111px;
-}
-
-.emotion-0 iconButton {
-  margin-right: 8px;
 }
 
 <div

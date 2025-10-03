@@ -45,10 +45,11 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.75;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   min-width: 64px;
   padding: 6px 16px;
@@ -59,16 +60,13 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
   color: var(--variant-containedColor);
   background-color: var(--variant-containedBg);
   box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
-  --variant-textColor: #5d0f43;
-  --variant-outlinedColor: #5d0f43;
-  --variant-outlinedBorder: rgba(93, 15, 67, 0.5);
+  --variant-textColor: #9c27b0;
+  --variant-outlinedColor: #9c27b0;
+  --variant-outlinedBorder: rgba(156, 39, 176, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #5d0f43;
+  --variant-containedBg: #9c27b0;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 2px;
-  font-size: 14px;
-  font-weight: bold;
 }
 
 .emotion-2::-moz-focus-inner {
@@ -122,23 +120,15 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
 
 @media (hover: hover) {
   .emotion-2:hover {
-    --variant-containedBg: rgb(65, 10, 46);
-    --variant-textBg: rgba(93, 15, 67, 0.04);
-    --variant-outlinedBorder: #5d0f43;
-    --variant-outlinedBg: rgba(93, 15, 67, 0.04);
+    --variant-containedBg: #7b1fa2;
+    --variant-textBg: rgba(156, 39, 176, 0.04);
+    --variant-outlinedBorder: #9c27b0;
+    --variant-outlinedBg: rgba(156, 39, 176, 0.04);
   }
 }
 
 .emotion-2.MuiButton-loading {
   color: transparent;
-}
-
-.emotion-2:hover {
-  colors: #337a87;
-}
-
-.emotion-2.MuiButton-text {
-  color: rgba(10, 10, 11, 0.78);
 }
 
 .emotion-3 {
@@ -174,10 +164,11 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.75;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   min-width: 64px;
   padding: 6px 16px;
@@ -188,17 +179,13 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
   padding: 6px 8px;
   color: var(--variant-textColor);
   background-color: var(--variant-textBg);
-  --variant-textColor: #337a87;
-  --variant-outlinedColor: #337a87;
-  --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
+  --variant-textColor: #1976d2;
+  --variant-outlinedColor: #1976d2;
+  --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #337a87;
+  --variant-containedBg: #1976d2;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 2px;
-  font-size: 14px;
-  font-weight: bold;
-  padding: 10px 15px;
 }
 
 .emotion-3::-moz-focus-inner {
@@ -228,23 +215,15 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
 
 @media (hover: hover) {
   .emotion-3:hover {
-    --variant-containedBg: rgb(35, 85, 94);
-    --variant-textBg: rgba(51, 122, 135, 0.04);
-    --variant-outlinedBorder: #337a87;
-    --variant-outlinedBg: rgba(51, 122, 135, 0.04);
+    --variant-containedBg: #1565c0;
+    --variant-textBg: rgba(25, 118, 210, 0.04);
+    --variant-outlinedBorder: #1976d2;
+    --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
 }
 
 .emotion-3.MuiButton-loading {
   color: transparent;
-}
-
-.emotion-3:hover {
-  colors: #337a87;
-}
-
-.emotion-3.MuiButton-text {
-  color: rgba(10, 10, 11, 0.78);
 }
 
 .emotion-4 {
@@ -271,11 +250,7 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-}
-
-.emotion-5 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
 }
 
 <div
@@ -532,11 +507,7 @@ exports[`DeviceTwin Component > renders sub component TwinError correctly 1`] = 
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.1607rem;
-}
-
-.emotion-2 iconButton {
-  margin-right: 8px;
+  font-size: 1.25rem;
 }
 
 <p
@@ -583,15 +554,11 @@ exports[`DeviceTwin Component > renders sub component TwinSyncStatus correctly 1
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-}
-
-.emotion-0 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
 }
 
 <div
-  class="padding,css-1hs2uht-diffStatus"
+  class="padding,css-exo45b-diffStatus"
 >
   <svg
     aria-hidden="true"
@@ -625,11 +592,7 @@ exports[`DeviceTwin Component > renders sub component TwinSyncStatus correctly 2
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-}
-
-.emotion-0 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
 }
 
 <div
@@ -694,11 +657,7 @@ exports[`DeviceTwin Component > renders sub component TwinSyncStatus correctly 3
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.1607rem;
-}
-
-.emotion-2 iconButton {
-  margin-right: 8px;
+  font-size: 1.25rem;
 }
 
 <p

@@ -18,13 +18,10 @@ import { Alert, Button, FormControl, FormControlLabel, FormHelperText, Radio, Ra
 
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { AddonSelect } from '@northern.tech/common-ui/forms/AddonSelect';
-import { ADDONS, Addon, AddonId, AvailableAddon, AvailablePlans, PLANS, Plan } from '@northern.tech/store/appSlice/constants';
-import { getStripeKey } from '@northern.tech/store/appSlice/selectors';
-import { TIMEOUTS } from '@northern.tech/store/commonConstants';
-import { getDeviceLimit } from '@northern.tech/store/devicesSlice/selectors';
-import { getOrganization } from '@northern.tech/store/organizationSlice/selectors';
-import { getBillingPreview, getCurrentCard, getUserBilling, getUserSubscription, requestPlanChange } from '@northern.tech/store/organizationSlice/thunks';
+import { ADDONS, Addon, AddonId, AvailableAddon, AvailablePlans, PLANS, Plan, TIMEOUTS } from '@northern.tech/store/constants';
+import { getDeviceLimit, getOrganization, getStripeKey } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
+import { getBillingPreview, getCurrentCard, getUserBilling, getUserSubscription, requestPlanChange } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { Elements } from '@stripe/react-stripe-js';
 

@@ -15,17 +15,13 @@ exports[`DeviceConnection Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.1607rem;
-}
-
-.emotion-0 iconButton {
-  margin-right: 8px;
+  font-size: 1.25rem;
 }
 
 .emotion-1 {
   max-width: 100%;
-  font-family: Lato,sans-serif;
-  font-size: 0.7545rem;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-size: 0.8125rem;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -40,7 +36,7 @@ exports[`DeviceConnection Component > renders correctly 1`] = `
   justify-content: center;
   height: 32px;
   line-height: 1.5;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
   white-space: nowrap;
@@ -67,18 +63,18 @@ exports[`DeviceConnection Component > renders correctly 1`] = `
   margin-right: -6px;
   width: 24px;
   height: 24px;
-  color: #bcbcbc;
-  font-size: 0.6964rem;
+  color: #616161;
+  font-size: 0.75rem;
 }
 
 .emotion-1 .MuiChip-avatarColorPrimary {
   color: #fff;
-  background-color: rgb(35, 85, 94);
+  background-color: #1565c0;
 }
 
 .emotion-1 .MuiChip-avatarColorSecondary {
   color: #fff;
-  background-color: rgb(65, 10, 46);
+  background-color: #7b1fa2;
 }
 
 .emotion-1 .MuiChip-avatarSmall {
@@ -86,7 +82,7 @@ exports[`DeviceConnection Component > renders correctly 1`] = `
   margin-right: -4px;
   width: 18px;
   height: 18px;
-  font-size: 0.5804rem;
+  font-size: 0.625rem;
 }
 
 .emotion-1 .MuiChip-icon {
@@ -96,18 +92,18 @@ exports[`DeviceConnection Component > renders correctly 1`] = `
 
 .emotion-1 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
-  color: rgba(10, 10, 11, 0.26);
+  color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
   cursor: pointer;
   margin: 0 5px 0 -6px;
 }
 
 .emotion-1 .MuiChip-deleteIcon:hover {
-  color: rgba(10, 10, 11, 0.4);
+  color: rgba(0, 0, 0, 0.4);
 }
 
 .emotion-1 .MuiChip-icon {
-  color: #bcbcbc;
+  color: #616161;
 }
 
 .emotion-2 {
@@ -229,17 +225,13 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.1607rem;
-}
-
-.emotion-0 iconButton {
-  margin-right: 8px;
+  font-size: 1.25rem;
 }
 
 .emotion-1 {
   max-width: 100%;
-  font-family: Lato,sans-serif;
-  font-size: 0.7545rem;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-size: 0.8125rem;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -254,7 +246,7 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   justify-content: center;
   height: 32px;
   line-height: 1.5;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
   white-space: nowrap;
@@ -281,18 +273,18 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   margin-right: -6px;
   width: 24px;
   height: 24px;
-  color: #bcbcbc;
-  font-size: 0.6964rem;
+  color: #616161;
+  font-size: 0.75rem;
 }
 
 .emotion-1 .MuiChip-avatarColorPrimary {
   color: #fff;
-  background-color: rgb(35, 85, 94);
+  background-color: #1565c0;
 }
 
 .emotion-1 .MuiChip-avatarColorSecondary {
   color: #fff;
-  background-color: rgb(65, 10, 46);
+  background-color: #7b1fa2;
 }
 
 .emotion-1 .MuiChip-avatarSmall {
@@ -300,7 +292,7 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   margin-right: -4px;
   width: 18px;
   height: 18px;
-  font-size: 0.5804rem;
+  font-size: 0.625rem;
 }
 
 .emotion-1 .MuiChip-icon {
@@ -310,18 +302,18 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
 
 .emotion-1 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
-  color: rgba(10, 10, 11, 0.26);
+  color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
   cursor: pointer;
   margin: 0 5px 0 -6px;
 }
 
 .emotion-1 .MuiChip-deleteIcon:hover {
-  color: rgba(10, 10, 11, 0.4);
+  color: rgba(0, 0, 0, 0.4);
 }
 
 .emotion-1 .MuiChip-icon {
-  color: #bcbcbc;
+  color: #616161;
 }
 
 .emotion-2 {
@@ -360,7 +352,6 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
 }
 
 .emotion-6 {
-  background: rgba(33, 36, 41, 0.25);
   display: grid;
   place-content: center;
 }
@@ -398,10 +389,11 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.75;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   min-width: 64px;
   padding: 6px 16px;
@@ -412,16 +404,13 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   color: var(--variant-containedColor);
   background-color: var(--variant-containedBg);
   box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
-  --variant-textColor: #5d0f43;
-  --variant-outlinedColor: #5d0f43;
-  --variant-outlinedBorder: rgba(93, 15, 67, 0.5);
+  --variant-textColor: #9c27b0;
+  --variant-outlinedColor: #9c27b0;
+  --variant-outlinedBorder: rgba(156, 39, 176, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #5d0f43;
+  --variant-containedBg: #9c27b0;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 2px;
-  font-size: 14px;
-  font-weight: bold;
 }
 
 .emotion-7::-moz-focus-inner {
@@ -475,23 +464,15 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
 
 @media (hover: hover) {
   .emotion-7:hover {
-    --variant-containedBg: rgb(65, 10, 46);
-    --variant-textBg: rgba(93, 15, 67, 0.04);
-    --variant-outlinedBorder: #5d0f43;
-    --variant-outlinedBg: rgba(93, 15, 67, 0.04);
+    --variant-containedBg: #7b1fa2;
+    --variant-textBg: rgba(156, 39, 176, 0.04);
+    --variant-outlinedBorder: #9c27b0;
+    --variant-outlinedBg: rgba(156, 39, 176, 0.04);
   }
 }
 
 .emotion-7.MuiButton-loading {
   color: transparent;
-}
-
-.emotion-7:hover {
-  colors: #337a87;
-}
-
-.emotion-7.MuiButton-text {
-  color: rgba(10, 10, 11, 0.78);
 }
 
 .emotion-8 {
@@ -531,10 +512,11 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.75;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   min-width: 64px;
   padding: 6px 16px;
@@ -545,17 +527,13 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   padding: 6px 8px;
   color: var(--variant-textColor);
   background-color: var(--variant-textBg);
-  --variant-textColor: #337a87;
-  --variant-outlinedColor: #337a87;
-  --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
+  --variant-textColor: #1976d2;
+  --variant-outlinedColor: #1976d2;
+  --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #337a87;
+  --variant-containedBg: #1976d2;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 2px;
-  font-size: 14px;
-  font-weight: bold;
-  padding: 10px 15px;
 }
 
 .emotion-9::-moz-focus-inner {
@@ -585,23 +563,15 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
 
 @media (hover: hover) {
   .emotion-9:hover {
-    --variant-containedBg: rgb(35, 85, 94);
-    --variant-textBg: rgba(51, 122, 135, 0.04);
-    --variant-outlinedBorder: #337a87;
-    --variant-outlinedBg: rgba(51, 122, 135, 0.04);
+    --variant-containedBg: #1565c0;
+    --variant-textBg: rgba(25, 118, 210, 0.04);
+    --variant-outlinedBorder: #1976d2;
+    --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
 }
 
 .emotion-9.MuiButton-loading {
   color: transparent;
-}
-
-.emotion-9:hover {
-  colors: #337a87;
-}
-
-.emotion-9.MuiButton-text {
-  color: rgba(10, 10, 11, 0.78);
 }
 
 .emotion-11 {
@@ -675,10 +645,11 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.25;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   max-width: 360px;
   min-width: 90px;
@@ -694,8 +665,7 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
-  color: rgba(0, 0, 0, 0.54);
-  text-transform: none;
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .emotion-15::-moz-focus-inner {
@@ -715,7 +685,7 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
 }
 
 .emotion-15.Mui-selected {
-  color: #337a87;
+  color: #1976d2;
 }
 
 .emotion-15.Mui-disabled {
@@ -729,7 +699,7 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   width: 100%;
   -webkit-transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  background-color: #337a87;
+  background-color: #1976d2;
 }
 
 .emotion-18 {
@@ -757,11 +727,7 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-}
-
-.emotion-20 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
 }
 
 .emotion-21 {
@@ -789,15 +755,15 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   border: 0;
   vertical-align: top;
   width: 100%;
-  min-width: 240px;
 }
 
 .emotion-23 {
-  line-height: 1.4375em;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
-  color: rgba(10, 10, 11, 0.78);
+  font-size: 1rem;
+  line-height: 1.4375em;
+  letter-spacing: 0.00938em;
+  color: rgba(0, 0, 0, 0.87);
   box-sizing: border-box;
   position: relative;
   cursor: text;
@@ -821,7 +787,7 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
 }
 
 .emotion-23:hover .MuiOutlinedInput-notchedOutline {
-  border-color: rgba(10, 10, 11, 0.78);
+  border-color: rgba(0, 0, 0, 0.87);
 }
 
 @media (hover: none) {
@@ -835,11 +801,11 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
 }
 
 .emotion-23.Mui-focused .MuiOutlinedInput-notchedOutline {
-  border-color: #337a87;
+  border-color: #1976d2;
 }
 
 .emotion-23.Mui-error .MuiOutlinedInput-notchedOutline {
-  border-color: #ab1000;
+  border-color: #d32f2f;
 }
 
 .emotion-23.Mui-disabled .MuiOutlinedInput-notchedOutline {
@@ -993,15 +959,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
-  font-size: 1.3929rem;
+  font-size: 1.5rem;
   padding: 8px;
   border-radius: 50%;
   color: rgba(0, 0, 0, 0.54);
   -webkit-transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   --IconButton-hoverBg: rgba(0, 0, 0, 0.04);
-  font-size: 1.2rem;
-  color: rgba(0, 0, 0, 0.54);
 }
 
 .emotion-26::-moz-focus-inner {
@@ -1100,10 +1064,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.75;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   min-width: 64px;
   padding: 6px 16px;
@@ -1114,16 +1079,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
   color: var(--variant-containedColor);
   background-color: var(--variant-containedBg);
   box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
-  --variant-textColor: #337a87;
-  --variant-outlinedColor: #337a87;
-  --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
+  --variant-textColor: #1976d2;
+  --variant-outlinedColor: #1976d2;
+  --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #337a87;
+  --variant-containedBg: #1976d2;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 2px;
-  font-size: 14px;
-  font-weight: bold;
 }
 
 .emotion-30::-moz-focus-inner {
@@ -1177,23 +1139,15 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
 
 @media (hover: hover) {
   .emotion-30:hover {
-    --variant-containedBg: rgb(35, 85, 94);
-    --variant-textBg: rgba(51, 122, 135, 0.04);
-    --variant-outlinedBorder: #337a87;
-    --variant-outlinedBg: rgba(51, 122, 135, 0.04);
+    --variant-containedBg: #1565c0;
+    --variant-textBg: rgba(25, 118, 210, 0.04);
+    --variant-outlinedBorder: #1976d2;
+    --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
 }
 
 .emotion-30.MuiButton-loading {
   color: transparent;
-}
-
-.emotion-30:hover {
-  colors: #337a87;
-}
-
-.emotion-30.MuiButton-text {
-  color: rgba(10, 10, 11, 0.78);
 }
 
 <div>
@@ -1620,7 +1574,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
                   <input
                     aria-invalid="false"
                     class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd emotion-24"
-                    id=":rr:"
+                    id="«rr»"
                     placeholder="Example: /opt/installed-by-single-file"
                     type="text"
                     value=""
@@ -1697,17 +1651,13 @@ exports[`DeviceConnection Component > renders correctly when disconnected 1`] = 
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.1607rem;
-}
-
-.emotion-0 iconButton {
-  margin-right: 8px;
+  font-size: 1.25rem;
 }
 
 .emotion-1 {
   max-width: 100%;
-  font-family: Lato,sans-serif;
-  font-size: 0.7545rem;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-size: 0.8125rem;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1722,7 +1672,7 @@ exports[`DeviceConnection Component > renders correctly when disconnected 1`] = 
   justify-content: center;
   height: 32px;
   line-height: 1.5;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
   white-space: nowrap;
@@ -1749,18 +1699,18 @@ exports[`DeviceConnection Component > renders correctly when disconnected 1`] = 
   margin-right: -6px;
   width: 24px;
   height: 24px;
-  color: #bcbcbc;
-  font-size: 0.6964rem;
+  color: #616161;
+  font-size: 0.75rem;
 }
 
 .emotion-1 .MuiChip-avatarColorPrimary {
   color: #fff;
-  background-color: rgb(35, 85, 94);
+  background-color: #1565c0;
 }
 
 .emotion-1 .MuiChip-avatarColorSecondary {
   color: #fff;
-  background-color: rgb(65, 10, 46);
+  background-color: #7b1fa2;
 }
 
 .emotion-1 .MuiChip-avatarSmall {
@@ -1768,7 +1718,7 @@ exports[`DeviceConnection Component > renders correctly when disconnected 1`] = 
   margin-right: -4px;
   width: 18px;
   height: 18px;
-  font-size: 0.5804rem;
+  font-size: 0.625rem;
 }
 
 .emotion-1 .MuiChip-icon {
@@ -1778,18 +1728,18 @@ exports[`DeviceConnection Component > renders correctly when disconnected 1`] = 
 
 .emotion-1 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
-  color: rgba(10, 10, 11, 0.26);
+  color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
   cursor: pointer;
   margin: 0 5px 0 -6px;
 }
 
 .emotion-1 .MuiChip-deleteIcon:hover {
-  color: rgba(10, 10, 11, 0.4);
+  color: rgba(0, 0, 0, 0.4);
 }
 
 .emotion-1 .MuiChip-icon {
-  color: #bcbcbc;
+  color: #616161;
 }
 
 .emotion-2 {
@@ -1818,20 +1768,17 @@ exports[`DeviceConnection Component > renders correctly when disconnected 1`] = 
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.1607rem;
-  margin-right: 8px;
-}
-
-.emotion-4 iconButton {
+  font-size: 1.25rem;
   margin-right: 8px;
 }
 
 .emotion-5 {
   margin: 0;
-  line-height: 1.5;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
   text-transform: none;
   text-align: left;
 }
@@ -1956,20 +1903,17 @@ exports[`tiny DeviceConnection components > renders DeviceConnectionMissingNote 
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.1607rem;
-  margin-right: 8px;
-}
-
-.emotion-0 iconButton {
+  font-size: 1.25rem;
   margin-right: 8px;
 }
 
 .emotion-1 {
   margin: 0;
-  line-height: 1.5;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
   text-transform: none;
   text-align: left;
 }
@@ -2024,20 +1968,17 @@ exports[`tiny DeviceConnection components > renders DeviceDisconnectedNote corre
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.1607rem;
-  margin-right: 8px;
-}
-
-.emotion-0 iconButton {
+  font-size: 1.25rem;
   margin-right: 8px;
 }
 
 .emotion-1 {
   margin: 0;
-  line-height: 1.5;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
   text-transform: none;
   text-align: left;
 }
@@ -2098,11 +2039,7 @@ exports[`tiny DeviceConnection components > renders PortForwardLink correctly 1`
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.1607rem;
-}
-
-.emotion-0 iconButton {
-  margin-right: 8px;
+  font-size: 1.25rem;
 }
 
 <div>

@@ -56,7 +56,7 @@ exports[`Uploads Component > renders correctly 1`] = `
 
 .emotion-3 {
   background-color: #fff;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   box-shadow: var(--Paper-shadow);
@@ -84,15 +84,12 @@ exports[`Uploads Component > renders correctly 1`] = `
   right: 0;
   height: auto;
   max-height: 100%;
-  min-width: 40vw;
-  max-width: 80vw;
-  padding: 30px 75px 5%;
 }
 
 .emotion-4 {
   background-color: #fff;
-  border-color: #e6f2f1;
-  color: #cfcfcf;
+  border-color: #e0e0e0;
+  color: #757575;
   display: grid;
   grid-template-rows: 30px 30px;
   grid-template-columns: 1fr 60px;
@@ -113,8 +110,8 @@ exports[`Uploads Component > renders correctly 1`] = `
   display: block;
   height: 4px;
   z-index: 0;
-  background-color: rgb(177, 204, 209);
-  background-color: #cfcfcf;
+  background-color: rgb(167, 202, 237);
+  background-color: #757575;
   grid-column: 1;
   margin: 15px 0;
 }
@@ -135,7 +132,7 @@ exports[`Uploads Component > renders correctly 1`] = `
   -webkit-transition: -webkit-transform 0.2s linear;
   transition: transform 0.2s linear;
   transform-origin: left;
-  background-color: #337a87;
+  background-color: #1976d2;
   -webkit-transition: -webkit-transform .4s linear;
   transition: transform .4s linear;
 }
@@ -177,7 +174,7 @@ exports[`Uploads Component > renders correctly 1`] = `
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
-  font-size: 1.3929rem;
+  font-size: 1.5rem;
   padding: 8px;
   border-radius: 50%;
   color: rgba(0, 0, 0, 0.54);
@@ -185,9 +182,7 @@ exports[`Uploads Component > renders correctly 1`] = `
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   --IconButton-hoverBg: rgba(0, 0, 0, 0.04);
   padding: 12px;
-  font-size: 1.625rem;
-  font-size: 1.2rem;
-  color: rgba(0, 0, 0, 0.54);
+  font-size: 1.75rem;
 }
 
 .emotion-7::-moz-focus-inner {
@@ -239,11 +234,7 @@ exports[`Uploads Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-}
-
-.emotion-8 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
 }
 
 <body

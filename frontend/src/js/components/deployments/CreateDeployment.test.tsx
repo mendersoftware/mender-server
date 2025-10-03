@@ -14,10 +14,10 @@
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
+import { defaultState, render } from '@/testUtils';
+import { undefineds } from '@northern.tech/testing/mockData';
 import { vi } from 'vitest';
 
-import { defaultState, undefineds } from '../../../../tests/mockData';
-import { render } from '../../../../tests/setupTests';
 import CreateDeployment from './CreateDeployment';
 import { DeviceLimit } from './deployment-wizard/DeviceLimit';
 import { RolloutPatternSelection, getPhaseDeviceCount, getRemainderPercent, validatePhases } from './deployment-wizard/PhaseSettings';

@@ -11,15 +11,17 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { ADDONS, PLANS } from '@northern.tech/store/appSlice/constants';
-import { TIMEOUTS } from '@northern.tech/store/commonConstants';
+import { defaultState, render } from '@/testUtils';
+import { ADDONS, PLANS, TIMEOUTS } from '@northern.tech/store/constants';
+import * as StoreThunks from '@northern.tech/store/thunks';
+import { undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { defaultState, undefineds } from '../../../../tests/mockData';
-import { render } from '../../../../tests/setupTests';
 import { SubscriptionPage } from './SubscriptionPage';
+
+vi.mock('@northern.tech/store/thunks', { spy: true });
 
 const enterpriseReq = {
   content: {
@@ -34,7 +36,6 @@ const enterpriseReq = {
 
 const professionalReq = {
   plan: 'professional',
-
   preview_mode: 'recurring',
   products: [
     {
@@ -65,9 +66,7 @@ describe('Subscription Summary component', () => {
 
   it('allows signing up', { timeout: 2 * TIMEOUTS.fiveSeconds }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    const organizationActions = await import('@northern.tech/store/organizationSlice/thunks');
-    const getBillingPreview = vi.spyOn(organizationActions, 'getBillingPreview');
-    const requestEnterprise = vi.spyOn(organizationActions, 'requestPlanChange');
+    const { getBillingPreview, requestPlanChange: requestEnterprise } = StoreThunks;
     const ui = <SubscriptionPage />;
     render(ui, {
       preloadedState: {

@@ -11,13 +11,16 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { defaultState, render } from '@/testUtils';
 import { TIMEOUTS, chartTypes, rootfsImageVersion } from '@northern.tech/store/constants';
+import * as StoreThunks from '@northern.tech/store/thunks';
+import { undefineds } from '@northern.tech/testing/mockData';
 import { act, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
 
-import { defaultState, undefineds } from '../../../../tests/mockData';
-import { render } from '../../../../tests/setupTests';
 import SoftwareDistribution from './SoftwareDistribution';
+
+vi.mock('@northern.tech/store/thunks', { spy: true });
 
 const preloadedState = {
   ...defaultState,
@@ -45,9 +48,7 @@ const preloadedState = {
 
 describe('Devices Component', () => {
   it('renders correctly', async () => {
-    const DeviceActions = await import('@northern.tech/store/devicesSlice/thunks');
-    const reportsSpy = vi.spyOn(DeviceActions, 'getReportDataWithoutBackendSupport');
-    const reportsUpdateSpy = vi.spyOn(DeviceActions, 'updateReportData');
+    const { getReportDataWithoutBackendSupport: reportsSpy, updateReportData: reportsUpdateSpy } = StoreThunks;
 
     const ui = <SoftwareDistribution />;
 
@@ -67,9 +68,7 @@ describe('Devices Component', () => {
   });
 
   it('renders correctly without data retrieval', async () => {
-    const DeviceActions = await import('@northern.tech/store/devicesSlice/thunks');
-    const reportsSpy = vi.spyOn(DeviceActions, 'getReportDataWithoutBackendSupport');
-    const reportsUpdateSpy = vi.spyOn(DeviceActions, 'updateReportData');
+    const { getReportDataWithoutBackendSupport: reportsSpy, updateReportData: reportsUpdateSpy } = StoreThunks;
 
     const ui = <SoftwareDistribution />;
     const { baseElement, rerender } = render(ui, {
