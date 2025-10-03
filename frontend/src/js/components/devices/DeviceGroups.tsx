@@ -15,7 +15,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 
-import { DialogContent } from '@mui/material';
+import { DialogContent, Typography } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import storeActions from '@northern.tech/store/actions';
@@ -64,6 +65,20 @@ import DeviceAdditionWidget from './widgets/DeviceAdditionWidget';
 
 const { setDeviceFilters, setShowConnectingDialog } = storeActions;
 
+const useStyles = makeStyles()(theme => ({
+  container: {
+    '&.tab-container': {
+      minHeight: 'max-content',
+      paddingTop: theme.spacing(2)
+    }
+  },
+  header: {
+    display: 'grid',
+    gridTemplateColumns: '1fr max-content',
+    alignItems: 'center'
+  }
+}));
+
 export const DeviceGroups = () => {
   const [createGroupExplanation, setCreateGroupExplanation] = useState(false);
   const [fromFilters, setFromFilters] = useState(false);
@@ -96,6 +111,7 @@ export const DeviceGroups = () => {
   const dispatch = useDispatch();
   const isInitialized = useRef(false);
   const location = useLocation();
+  const { classes } = useStyles();
 
   const [locationParams, setLocationParams] = useLocationParams('devices', {
     filteringAttributes,
@@ -257,11 +273,9 @@ export const DeviceGroups = () => {
   }
   return (
     <>
-      <div className="tab-container with-sub-panels" style={{ paddingTop: 0, paddingBottom: 45, minHeight: 'max-content', alignContent: 'center' }}>
-        <h3 className="flexbox center-aligned" style={{ marginBottom: 0, marginTop: 0, flexWrap: 'wrap' }}>
-          Devices
-        </h3>
-        <span className="flexbox space-between margin-left-large margin-right center-aligned padding-top-small">
+      <div className={`flexbox center-aligned tab-container with-sub-panels margin-bottom ${classes.container}`}>
+        <Typography variant="h5">Devices</Typography>
+        <span className={`margin-right ${classes.header}`}>
           {!!pendingCount && !selectedGroup && selectedState !== DEVICE_STATES.pending ? (
             <DeviceStatusNotification deviceCount={pendingCount} state={DEVICE_STATES.pending} onClick={onShowDeviceStateClick} />
           ) : (
