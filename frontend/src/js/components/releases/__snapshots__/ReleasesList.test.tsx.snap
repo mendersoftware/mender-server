@@ -758,7 +758,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-29:focus::-ms-input-
         />
         <p
           class="MuiTablePagination-selectLabel emotion-27"
-          id=":r2:"
+          id=":r3:"
         >
           Rows
         </p>
@@ -768,9 +768,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-29:focus::-ms-input-
           <div
             aria-expanded="false"
             aria-haspopup="listbox"
-            aria-labelledby=":r2: :r1:"
+            aria-labelledby=":r3: :r2:"
             class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input emotion-29"
-            id=":r1:"
+            id=":r2:"
             role="combobox"
             tabindex="0"
           >
@@ -806,9 +806,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-29:focus::-ms-input-
             1-1 of 1
           </div>
           <button
+            aria-label="prev"
             class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge emotion-33"
             disabled=""
-            id=":r4:"
             tabindex="-1"
             type="button"
           >
@@ -826,9 +826,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-29:focus::-ms-input-
           </button>
           <div>
             <button
+              aria-label="next"
               class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge emotion-33"
               disabled=""
-              id=":r5:"
               tabindex="-1"
               type="button"
             >

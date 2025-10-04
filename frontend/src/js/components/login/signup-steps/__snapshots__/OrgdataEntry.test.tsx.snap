@@ -840,7 +840,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
         style="width: 400px;"
       >
         <label
-          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-6"
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-6"
           data-shrink="false"
           for="password"
         />
@@ -860,7 +860,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
           >
             <button
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-10"
-              id=":r0:"
               tabindex="0"
               type="button"
             >
@@ -918,7 +917,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
     style="width: 400px;"
   >
     <label
-      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-6"
+      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-6"
       data-shrink="false"
       for="textbox"
     />
@@ -959,7 +958,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
     <button
       class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-23"
       disabled=""
-      id=":r1:"
       tabindex="-1"
       type="submit"
     />
@@ -1643,7 +1641,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
       style="width: 400px;"
     >
       <label
-        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-1"
+        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-1"
         data-shrink="false"
         for="name"
       >
@@ -1683,7 +1681,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
       style="width: 400px;"
     >
       <label
-        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-1"
+        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-1"
         data-shrink="false"
         for="email"
       >

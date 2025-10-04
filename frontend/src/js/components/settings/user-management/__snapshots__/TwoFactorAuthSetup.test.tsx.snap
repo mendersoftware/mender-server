@@ -198,6 +198,7 @@ exports[`TwoFactorAuthSetup Component renders correctly 1`] = `
       >
         <input
           class="PrivateSwitchBase-input MuiSwitch-input emotion-2"
+          role="switch"
           type="checkbox"
         />
         <span

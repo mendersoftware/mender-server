@@ -22,7 +22,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
           data-mui-internal-clone-element="true"
         >
           <div
-            class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault css-9vx59h-MuiChip-root-root-root"
+            class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault css-1c1rqqu-MuiChip-root-root-root"
           >
             <span
               class="MuiChip-label MuiChip-labelMedium css-1dybbl5-MuiChip-label"
@@ -65,7 +65,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
                   autocapitalize="none"
                   autocomplete="off"
                   class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
-                  id=":r1:"
+                  id=":r2:"
                   placeholder="Select a user"
                   role="combobox"
                   spellcheck="false"
@@ -78,7 +78,6 @@ exports[`Auditlogs Component renders correctly 1`] = `
                   <button
                     aria-label="Clear"
                     class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-clearIndicator css-4ganoy-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-clearIndicator"
-                    id=":r3:"
                     tabindex="-1"
                     title="Clear"
                     type="button"
@@ -98,10 +97,10 @@ exports[`Auditlogs Component renders correctly 1`] = `
                 </div>
                 <fieldset
                   aria-hidden="true"
-                  class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+                  class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
                 >
                   <legend
-                    class="css-w4cd9x"
+                    class="css-1nf2c5d-MuiNotchedOutlined-root"
                   >
                     <span
                       aria-hidden="true"
@@ -140,7 +139,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
                   autocapitalize="none"
                   autocomplete="off"
                   class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
-                  id=":r4:"
+                  id=":r5:"
                   placeholder="Type"
                   role="combobox"
                   spellcheck="false"
@@ -153,7 +152,6 @@ exports[`Auditlogs Component renders correctly 1`] = `
                   <button
                     aria-label="Open"
                     class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-popupIndicator css-16ba7z5-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-popupIndicator"
-                    id=":r6:"
                     tabindex="-1"
                     title="Open"
                     type="button"
@@ -173,10 +171,10 @@ exports[`Auditlogs Component renders correctly 1`] = `
                 </div>
                 <fieldset
                   aria-hidden="true"
-                  class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+                  class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
                 >
                   <legend
-                    class="css-w4cd9x"
+                    class="css-1nf2c5d-MuiNotchedOutlined-root"
                   >
                     <span
                       aria-hidden="true"
@@ -214,7 +212,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
                   autocomplete="off"
                   class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiAutocomplete-input MuiAutocomplete-inputFocused css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
                   disabled=""
-                  id=":r7:"
+                  id=":r8:"
                   placeholder="-"
                   role="combobox"
                   spellcheck="false"
@@ -223,10 +221,10 @@ exports[`Auditlogs Component renders correctly 1`] = `
                 />
                 <fieldset
                   aria-hidden="true"
-                  class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+                  class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
                 >
                   <legend
-                    class="css-w4cd9x"
+                    class="css-1nf2c5d-MuiNotchedOutlined-root"
                   >
                     <span
                       aria-hidden="true"
@@ -253,36 +251,96 @@ exports[`Auditlogs Component renders correctly 1`] = `
             style="flex-wrap: wrap; gap: 15px;"
           >
             <div
-              class="MuiFormControl-root MuiTextField-root css-1vx5ov0-MuiFormControl-root-MuiTextField-root"
+              class="MuiFormControl-root MuiPickersTextField-root css-1g025sc-MuiFormControl-root-MuiPickersTextField-root"
             >
               <label
-                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-11fencw-MuiFormLabel-root-MuiInputLabel-root"
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-11fencw-MuiFormLabel-root-MuiInputLabel-root"
                 data-shrink="true"
-                for=":r9:"
-                id=":r9:-label"
+                for=":ra:"
+                id=":ra:-label"
               >
                 From
               </label>
               <div
-                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1qo6i3u-MuiInputBase-root-MuiOutlinedInput-root"
+                aria-invalid="false"
+                aria-labelledby=":ra:-label"
+                class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedEnd css-z0tynf-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
+                role="group"
               >
-                <input
-                  aria-invalid="false"
-                  autocomplete="off"
-                  class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
-                  id=":r9:"
-                  inputmode="text"
-                  placeholder="MMMM DD"
-                  type="text"
-                  value="January 13th"
-                />
+                <div
+                  class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer css-bz76h2-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer-MuiPickersOutlinedInput-sectionsContainer"
+                  contenteditable="false"
+                  tabindex="0"
+                >
+                  <span
+                    class="MuiPickersSectionList-section css-156l81f-MuiPickersSectionList-section-MuiPickersInputBase-section"
+                    data-sectionindex="0"
+                  >
+                    <span
+                      class="MuiPickersInputBase-sectionBefore css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+                    />
+                    <span
+                      aria-disabled="false"
+                      aria-label="Month"
+                      aria-readonly="false"
+                      aria-valuemax="12"
+                      aria-valuemin="1"
+                      aria-valuenow="1"
+                      aria-valuetext="January"
+                      autocapitalize="off"
+                      autocorrect="off"
+                      class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-k0qp40-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+                      contenteditable="true"
+                      inputmode="text"
+                      role="spinbutton"
+                      spellcheck="false"
+                      tabindex="0"
+                    >
+                      January
+                    </span>
+                    <span
+                      class="MuiPickersInputBase-sectionAfter css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+                    >
+                       
+                    </span>
+                  </span>
+                  <span
+                    class="MuiPickersSectionList-section css-156l81f-MuiPickersSectionList-section-MuiPickersInputBase-section"
+                    data-sectionindex="1"
+                  >
+                    <span
+                      class="MuiPickersInputBase-sectionBefore css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+                    />
+                    <span
+                      aria-disabled="false"
+                      aria-label="Day"
+                      aria-readonly="false"
+                      aria-valuemax="31"
+                      aria-valuemin="1"
+                      aria-valuenow="13"
+                      aria-valuetext="13th"
+                      autocapitalize="off"
+                      autocorrect="off"
+                      class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-k0qp40-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+                      contenteditable="true"
+                      inputmode="numeric"
+                      role="spinbutton"
+                      spellcheck="false"
+                      tabindex="-1"
+                    >
+                      13th
+                    </span>
+                    <span
+                      class="MuiPickersInputBase-sectionAfter css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+                    />
+                  </span>
+                </div>
                 <div
                   class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-elo8k2-MuiInputAdornment-root"
                 >
                   <button
                     aria-label="Choose date, selected date is Jan 13, 2019"
                     class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-sonn5k-MuiButtonBase-root-MuiIconButton-root"
-                    id=":rb:"
                     tabindex="0"
                     type="button"
                   >
@@ -301,49 +359,118 @@ exports[`Auditlogs Component renders correctly 1`] = `
                 </div>
                 <fieldset
                   aria-hidden="true"
-                  class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+                  class="MuiPickersOutlinedInput-notchedOutline css-lqwr9g-MuiPickersOutlinedInput-notchedOutline"
                 >
                   <legend
-                    class="css-w1u3ce"
+                    class="css-kg5swy"
                   >
-                    <span>
+                    <span
+                      class="css-xr247o"
+                    >
                       From
                     </span>
                   </legend>
                 </fieldset>
+                <input
+                  aria-hidden="true"
+                  class="MuiPickersInputBase-input MuiPickersOutlinedInput-input css-31lcvl-MuiPickersInputBase-input"
+                  id=":ra:"
+                  tabindex="-1"
+                  value="January 13th"
+                />
               </div>
             </div>
             <div
-              class="MuiFormControl-root MuiTextField-root css-1vx5ov0-MuiFormControl-root-MuiTextField-root"
+              class="MuiFormControl-root MuiPickersTextField-root css-1g025sc-MuiFormControl-root-MuiPickersTextField-root"
             >
               <label
-                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-11fencw-MuiFormLabel-root-MuiInputLabel-root"
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-11fencw-MuiFormLabel-root-MuiInputLabel-root"
                 data-shrink="true"
-                for=":rc:"
-                id=":rc:-label"
+                for=":rd:"
+                id=":rd:-label"
               >
                 To
               </label>
               <div
-                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1qo6i3u-MuiInputBase-root-MuiOutlinedInput-root"
+                aria-invalid="false"
+                aria-labelledby=":rd:-label"
+                class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedEnd css-z0tynf-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
+                role="group"
               >
-                <input
-                  aria-invalid="false"
-                  autocomplete="off"
-                  class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
-                  id=":rc:"
-                  inputmode="text"
-                  placeholder="MMMM DD"
-                  type="text"
-                  value="January 13th"
-                />
+                <div
+                  class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer css-bz76h2-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer-MuiPickersOutlinedInput-sectionsContainer"
+                  contenteditable="false"
+                  tabindex="0"
+                >
+                  <span
+                    class="MuiPickersSectionList-section css-156l81f-MuiPickersSectionList-section-MuiPickersInputBase-section"
+                    data-sectionindex="0"
+                  >
+                    <span
+                      class="MuiPickersInputBase-sectionBefore css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+                    />
+                    <span
+                      aria-disabled="false"
+                      aria-label="Month"
+                      aria-readonly="false"
+                      aria-valuemax="12"
+                      aria-valuemin="1"
+                      aria-valuenow="1"
+                      aria-valuetext="January"
+                      autocapitalize="off"
+                      autocorrect="off"
+                      class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-k0qp40-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+                      contenteditable="true"
+                      inputmode="text"
+                      role="spinbutton"
+                      spellcheck="false"
+                      tabindex="0"
+                    >
+                      January
+                    </span>
+                    <span
+                      class="MuiPickersInputBase-sectionAfter css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+                    >
+                       
+                    </span>
+                  </span>
+                  <span
+                    class="MuiPickersSectionList-section css-156l81f-MuiPickersSectionList-section-MuiPickersInputBase-section"
+                    data-sectionindex="1"
+                  >
+                    <span
+                      class="MuiPickersInputBase-sectionBefore css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+                    />
+                    <span
+                      aria-disabled="false"
+                      aria-label="Day"
+                      aria-readonly="false"
+                      aria-valuemax="31"
+                      aria-valuemin="1"
+                      aria-valuenow="13"
+                      aria-valuetext="13th"
+                      autocapitalize="off"
+                      autocorrect="off"
+                      class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-k0qp40-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+                      contenteditable="true"
+                      inputmode="numeric"
+                      role="spinbutton"
+                      spellcheck="false"
+                      tabindex="-1"
+                    >
+                      13th
+                    </span>
+                    <span
+                      class="MuiPickersInputBase-sectionAfter css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+                    />
+                  </span>
+                </div>
                 <div
                   class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-elo8k2-MuiInputAdornment-root"
                 >
                   <button
                     aria-label="Choose date, selected date is Jan 13, 2019"
                     class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-sonn5k-MuiButtonBase-root-MuiIconButton-root"
-                    id=":re:"
                     tabindex="0"
                     type="button"
                   >
@@ -362,16 +489,25 @@ exports[`Auditlogs Component renders correctly 1`] = `
                 </div>
                 <fieldset
                   aria-hidden="true"
-                  class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+                  class="MuiPickersOutlinedInput-notchedOutline css-lqwr9g-MuiPickersOutlinedInput-notchedOutline"
                 >
                   <legend
-                    class="css-w1u3ce"
+                    class="css-kg5swy"
                   >
-                    <span>
+                    <span
+                      class="css-xr247o"
+                    >
                       To
                     </span>
                   </legend>
                 </fieldset>
+                <input
+                  aria-hidden="true"
+                  class="MuiPickersInputBase-input MuiPickersOutlinedInput-input css-31lcvl-MuiPickersInputBase-input"
+                  id=":rd:"
+                  tabindex="-1"
+                  value="January 13th"
+                />
               </div>
             </div>
           </div>
@@ -404,7 +540,6 @@ exports[`Auditlogs Component renders correctly 1`] = `
       </div>
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary css-kvtsny-MuiButtonBase-root-MuiButton-root"
-        id=":rf:"
         style="margin-left: 15px;"
         tabindex="0"
         type="button"
@@ -626,7 +761,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
             />
             <p
               class="MuiTablePagination-selectLabel css-15wkzhc-MuiTablePagination-selectLabel"
-              id=":rh:"
+              id=":ri:"
             >
               Rows
             </p>
@@ -636,9 +771,9 @@ exports[`Auditlogs Component renders correctly 1`] = `
               <div
                 aria-expanded="false"
                 aria-haspopup="listbox"
-                aria-labelledby=":rh: :rg:"
-                class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-mmygx2-MuiSelect-select-MuiInputBase-input"
-                id=":rg:"
+                aria-labelledby=":ri: :rh:"
+                class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
+                id=":rh:"
                 role="combobox"
                 tabindex="0"
               >
@@ -654,7 +789,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
               />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-ozirs8-MuiSvgIcon-root-MuiSelect-icon"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-h5hq1r-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
                 data-testid="ArrowDropDownIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -674,9 +809,9 @@ exports[`Auditlogs Component renders correctly 1`] = `
                 1-3 of 3
               </div>
               <button
+                aria-label="prev"
                 class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
                 disabled=""
-                id=":rj:"
                 tabindex="-1"
                 type="button"
               >
@@ -694,9 +829,9 @@ exports[`Auditlogs Component renders correctly 1`] = `
               </button>
               <div>
                 <button
+                  aria-label="next"
                   class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
                   disabled=""
-                  id=":rk:"
                   tabindex="-1"
                   type="button"
                 >

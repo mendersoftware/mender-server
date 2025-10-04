@@ -57,11 +57,11 @@ export const TablePaginationActions = ({ count, page = 0, onPageChange, rowsPerP
   return (
     <div className="flexbox center-aligned">
       {showCountInfo && <div>{`${(pageNo - paginationIndex) * rowsPerPage + 1}-${Math.min(pageNo * rowsPerPage, count)} of ${count}`}</div>}
-      <IconButton onClick={() => setPageNo(pageNo - 1)} disabled={pageNo === paginationIndex} size="large">
+      <IconButton onClick={() => setPageNo(pageNo - 1)} disabled={pageNo === paginationIndex} size="large" aria-label="prev">
         <KeyboardArrowLeft />
       </IconButton>
       <MaybeWrapper disabled={isAtPaginationLimit}>
-        <IconButton onClick={() => setPageNo(pageNo + 1)} disabled={pageNo >= pages || isAtPaginationLimit} size="large">
+        <IconButton onClick={() => setPageNo(pageNo + 1)} disabled={pageNo >= pages || isAtPaginationLimit} size="large" aria-label="next">
           <KeyboardArrowRight />
         </IconButton>
       </MaybeWrapper>

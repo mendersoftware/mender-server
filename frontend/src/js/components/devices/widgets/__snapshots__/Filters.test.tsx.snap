@@ -949,6 +949,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
   -webkit-justify-content: center;
   justify-content: center;
   height: 32px;
+  line-height: 1.5;
   color: rgba(10, 10, 11, 0.78);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
@@ -1073,7 +1074,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                 class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root emotion-4"
               >
                 <label
-                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-5"
+                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-5"
                   data-shrink="false"
                   for="filter-selection"
                   id="filter-selection-label"
@@ -1102,7 +1103,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                     <button
                       aria-label="Clear"
                       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-clearIndicator emotion-9"
-                      id=":r2:"
                       tabindex="-1"
                       title="Clear"
                       type="button"
@@ -1185,10 +1185,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
               class="MuiFormControl-root MuiTextField-root emotion-19"
             >
               <label
-                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-5"
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-5"
                 data-shrink="false"
-                for=":r4:"
-                id=":r4:-label"
+                for=":r5:"
+                id=":r5:-label"
               >
                 Value
               </label>
@@ -1198,7 +1198,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                 <input
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input emotion-22"
-                  id=":r4:"
+                  id=":r5:"
                   type="text"
                   value=""
                 />

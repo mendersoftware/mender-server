@@ -210,7 +210,6 @@ exports[`ArtifactUpload Component renders correctly 1`] = `
     </div>
     <button
       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-3"
-      id=":r0:"
       tabindex="0"
       type="button"
     >

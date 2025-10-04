@@ -596,7 +596,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-1:focus::-ms-input-p
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary emotion-6"
-            id=":r1:"
             style="background-color: transparent;"
             tabindex="0"
             type="button"
@@ -621,7 +620,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-1:focus::-ms-input-p
         </div>
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-9"
-          id=":r2:"
           style="text-transform: none;"
           tabindex="0"
           type="button"

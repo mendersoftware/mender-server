@@ -641,7 +641,7 @@ exports[`Deployments Component renders correctly 1`] = `
           style="overflow: hidden; margin-bottom: 0px;"
         >
           <div
-            class="MuiTabs-flexContainer emotion-2"
+            class="MuiTabs-list MuiTabs-flexContainer emotion-2"
             role="tablist"
           >
             <a
@@ -683,7 +683,6 @@ exports[`Deployments Component renders correctly 1`] = `
       </div>
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-7"
-        id=":r0:"
         style="height: 100%;"
         tabindex="0"
         type="button"
@@ -888,7 +887,6 @@ exports[`Deployments Component renders correctly 1`] = `
               </div>
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-13"
-                id=":r3:"
                 tabindex="0"
                 type="button"
               >
@@ -898,7 +896,6 @@ exports[`Deployments Component renders correctly 1`] = `
                 aria-label="Abort"
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge columnHeader emotion-14"
                 data-mui-internal-clone-element="true"
-                id=":r5:"
                 tabindex="0"
                 type="button"
               >
@@ -1022,7 +1019,6 @@ exports[`Deployments Component renders correctly 1`] = `
               </div>
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-13"
-                id=":r8:"
                 tabindex="0"
                 type="button"
               >
@@ -1032,7 +1028,6 @@ exports[`Deployments Component renders correctly 1`] = `
                 aria-label="Abort"
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge columnHeader emotion-14"
                 data-mui-internal-clone-element="true"
-                id=":ra:"
                 tabindex="0"
                 type="button"
               >
@@ -1270,7 +1265,6 @@ exports[`Deployments Component renders correctly 1`] = `
               </div>
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-13"
-                id=":rd:"
                 tabindex="0"
                 type="button"
               >
@@ -1280,7 +1274,6 @@ exports[`Deployments Component renders correctly 1`] = `
                 aria-label="Abort"
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge columnHeader emotion-14"
                 data-mui-internal-clone-element="true"
-                id=":rf:"
                 tabindex="0"
                 type="button"
               >
@@ -1404,7 +1397,6 @@ exports[`Deployments Component renders correctly 1`] = `
               </div>
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-13"
-                id=":ri:"
                 tabindex="0"
                 type="button"
               >
@@ -1414,7 +1406,6 @@ exports[`Deployments Component renders correctly 1`] = `
                 aria-label="Abort"
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge columnHeader emotion-14"
                 data-mui-internal-clone-element="true"
-                id=":rk:"
                 tabindex="0"
                 type="button"
               >
