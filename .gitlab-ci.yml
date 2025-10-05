@@ -256,7 +256,8 @@ test:backend:combine-api:
   extends: .template:combine-api
   script:
     - redocly join --prefix-tags-with-filename root.openapi.yaml *.yaml -o openapi.tmp.yaml
-    - redocly bundle openapi.tmp.yaml --config config/redocly.yaml -o dist/openapi.new.yaml
+    - redocly bundle openapi.tmp.yaml --config config/redocly.yaml -o dist/openapi.yaml
+    - git diff --exit-code dist/openapi.yaml
   allow_failure: false
 
 test:backend:validate-open-api:
