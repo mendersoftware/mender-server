@@ -5,10 +5,8 @@ info:
     Intended for use by the web GUI.
   title: Deployments
   version: "1"
-servers:
-- url: https://hosted.mender.io/api/management/v1/deployments
 paths:
-  /deployments:
+  /api/management/v1/deployments/deployments:
     get:
       deprecated: true
       description: |
@@ -171,7 +169,7 @@ paths:
       summary: Create a deployment
       tags:
       - Management API
-  /deployments/statistics/list:
+  /api/management/v1/deployments/deployments/statistics/list:
     post:
       operationId: Deployment Status Statistics List
       requestBody:
@@ -240,7 +238,7 @@ paths:
         Get status count for all devices in the listed deployments (plural).
       tags:
       - Management API
-  /deployments/group/{name}:
+  /api/management/v1/deployments/deployments/group/{name}:
     post:
       description: |
         Deploy software to devices belonging to the specified group.
@@ -306,7 +304,7 @@ paths:
       summary: Create a deployment for a group of devices
       tags:
       - Management API
-  /deployments/{id}:
+  /api/management/v1/deployments/deployments/{id}:
     get:
       description: |
         Returns the details of a particular deployment.
@@ -340,7 +338,7 @@ paths:
       summary: Get the details of a selected deployment
       tags:
       - Management API
-  /deployments/{deployment_id}/status:
+  /api/management/v1/deployments/deployments/{deployment_id}/status:
     put:
       description: |
         Abort an ongoing deployment. For devices included in this deployment it means that:
@@ -396,7 +394,7 @@ paths:
       summary: Abort the deployment
       tags:
       - Management API
-  /deployments/{deployment_id}/statistics:
+  /api/management/v1/deployments/deployments/{deployment_id}/statistics:
     get:
       operationId: Deployment Status Statistics
       parameters:
@@ -442,7 +440,7 @@ paths:
         Get status count for all devices in a deployment.
       tags:
       - Management API
-  /deployments/{deployment_id}/devices:
+  /api/management/v1/deployments/deployments/{deployment_id}/devices:
     get:
       deprecated: true
       operationId: List All Devices in Deployment
@@ -480,7 +478,7 @@ paths:
         /deployments/{deployment_id}/devices/list end-point instead.
       tags:
       - Management API
-  /deployments/{deployment_id}/devices/list:
+  /api/management/v1/deployments/deployments/{deployment_id}/devices/list:
     get:
       operationId: List Devices in Deployment
       parameters:
@@ -554,7 +552,7 @@ paths:
         this deployment.
       tags:
       - Management API
-  /deployments/{id}/device_list:
+  /api/management/v1/deployments/deployments/{id}/device_list:
     get:
       operationId: List Device IDs in Deployment
       parameters:
@@ -599,7 +597,7 @@ paths:
       summary: Get the list of device IDs being part of the deployment.
       tags:
       - Management API
-  /deployments/{deployment_id}/devices/{device_id}/log:
+  /api/management/v1/deployments/deployments/{deployment_id}/devices/{device_id}/log:
     get:
       description: |
         The response body for this endpoint include the device's deployment logs
@@ -648,7 +646,7 @@ paths:
       summary: Get the log of a selected device's deployment
       tags:
       - Management API
-  /deployments/devices/{id}:
+  /api/management/v1/deployments/deployments/devices/{id}:
     delete:
       description: |
         Abort all the active and pending Deployments for the specified Device.
@@ -745,7 +743,7 @@ paths:
       summary: Return the Deployments history for a Device
       tags:
       - Management API
-  /deployments/devices/{id}/history:
+  /api/management/v1/deployments/deployments/devices/{id}/history:
     delete:
       description: |
         Mark as logically deleted the completed Device Deployments records for the given device.
@@ -776,7 +774,7 @@ paths:
       summary: Reset the Device Deployments history
       tags:
       - Management API
-  /deployments/releases:
+  /api/management/v1/deployments/deployments/releases:
     get:
       deprecated: true
       description: |
@@ -917,7 +915,7 @@ paths:
         List releases
       tags:
       - Management API
-  /deployments/releases/list:
+  /api/management/v1/deployments/deployments/releases/list:
     get:
       deprecated: true
       description: |
@@ -1097,7 +1095,7 @@ paths:
         List releases with pagination
       tags:
       - Management API
-  /artifacts:
+  /api/management/v1/deployments/artifacts:
     get:
       deprecated: true
       description: |
@@ -1198,7 +1196,7 @@ paths:
       summary: Upload mender artifact
       tags:
       - Management API
-  /artifacts/list:
+  /api/management/v1/deployments/artifacts/list:
     get:
       deprecated: true
       description: |
@@ -1281,7 +1279,7 @@ paths:
         List known artifacts
       tags:
       - Management API
-  /artifacts/directupload:
+  /api/management/v1/deployments/artifacts/directupload:
     post:
       operationId: Request Direct Upload
       responses:
@@ -1305,7 +1303,7 @@ paths:
         \ This is an on-prem endpoint only, not available on Hosted Mender."
       tags:
       - Management API
-  /artifacts/directupload/{id}/complete:
+  /api/management/v1/deployments/artifacts/directupload/{id}/complete:
     post:
       operationId: Complete Direct Upload
       parameters:
@@ -1351,7 +1349,7 @@ paths:
         \ This is an on-prem endpoint only, not available on Hosted Mender."
       tags:
       - Management API
-  /artifacts/generate:
+  /api/management/v1/deployments/artifacts/generate:
     post:
       description: |
         Generate a new Mender artifact from raw data and meta data. Multipart request with meta and raw file.
@@ -1391,7 +1389,7 @@ paths:
       summary: Upload raw data to generate a new artifact
       tags:
       - Management API
-  /artifacts/{id}:
+  /api/management/v1/deployments/artifacts/{id}:
     delete:
       description: |
         Deletes the artifact from file and artifacts storage.
@@ -1547,7 +1545,7 @@ paths:
       summary: Update description of a selected artifact
       tags:
       - Management API
-  /artifacts/{id}/download:
+  /api/management/v1/deployments/artifacts/{id}/download:
     get:
       description: |
         Generates signed URL for downloading artifact file. URI can be used only
@@ -1590,7 +1588,7 @@ paths:
       summary: Get the download link of a selected artifact
       tags:
       - Management API
-  /limits/storage:
+  /api/management/v1/deployments/limits/storage:
     get:
       description: |
         Get storage limit and current storage usage for currently logged in user.

@@ -11,10 +11,8 @@ info:
     * search devices by attribute value
     * use the results to create and manage device groups for the purpose of deployment scheduling
   version: "1"
-servers:
-- url: https://hosted.mender.io/api/management/v1/inventory
 paths:
-  /devices:
+  /api/management/v1/inventory/devices:
     get:
       tags:
       - Management API
@@ -138,7 +136,7 @@ paths:
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
-  /devices/{id}:
+  /api/management/v1/inventory/devices/{id}:
     get:
       tags:
       - Management API
@@ -208,7 +206,7 @@ paths:
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
-  /devices/{id}/tags:
+  /api/management/v1/inventory/devices/{id}/tags:
     put:
       tags:
       - Management API
@@ -324,7 +322,7 @@ paths:
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
-  /devices/{id}/group:
+  /api/management/v1/inventory/devices/{id}/group:
     get:
       tags:
       - Management API
@@ -394,7 +392,7 @@ paths:
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
-  /devices/{id}/group/{name}:
+  /api/management/v1/inventory/devices/{id}/group/{name}:
     delete:
       tags:
       - Management API
@@ -429,7 +427,7 @@ paths:
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
-  /groups:
+  /api/management/v1/inventory/groups:
     get:
       tags:
       - Management API
@@ -460,7 +458,7 @@ paths:
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
-  /groups/{name}:
+  /api/management/v1/inventory/groups/{name}:
     delete:
       tags:
       - Management API
@@ -506,7 +504,7 @@ paths:
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
-  /groups/{name}/devices:
+  /api/management/v1/inventory/groups/{name}/devices:
     get:
       tags:
       - Management API

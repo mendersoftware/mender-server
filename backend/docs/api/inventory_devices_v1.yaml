@@ -6,10 +6,8 @@ info:
 
     Devices can upload vendor-specific attributes (software/hardware info, health checks, metrics, etc.) of various data types to the backend.
   version: "1"
-servers:
-- url: https://hosted.mender.io/api/devices/v1/inventory
 paths:
-  /device/attributes:
+  /api/devices/v1/inventory/device/attributes:
     put:
       tags:
       - Device API

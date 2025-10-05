@@ -5,10 +5,8 @@ info:
     An API for inventory-based filters management and device search.
     Not exposed via the API Gateway - intended for internal use only.
   version: "1"
-servers:
-- url: http://mender-inventory:8080/api/internal/v2/inventory
 paths:
-  /tenants/{tenant_id}/filters/search:
+  /api/internal/v2/inventory/tenants/{tenant_id}/filters/search:
     post:
       tags:
       - Internal API

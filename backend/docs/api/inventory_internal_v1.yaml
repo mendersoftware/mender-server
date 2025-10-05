@@ -5,10 +5,8 @@ info:
     An API for device attribute management and device grouping.
     Not exposed via the API Gateway - intended for internal use only.
   version: "1"
-servers:
-- url: http://mender-inventory:8080/api/internal/v1/inventory
 paths:
-  /health:
+  /api/internal/v1/inventory/health:
     get:
       tags:
       - Internal API
@@ -32,7 +30,7 @@ paths:
               example:
                 error: "error reaching MongoDB: context deadline exceeded"
                 request_id: ffd712be-d697-4cb7-814b-88ff1e2eb5f6
-  /alive:
+  /api/internal/v1/inventory/alive:
     get:
       tags:
       - Internal API
@@ -45,7 +43,7 @@ paths:
           content: {}
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
-  /tenants:
+  /api/internal/v1/inventory/tenants:
     post:
       tags:
       - Internal API
@@ -68,7 +66,7 @@ paths:
           content: {}
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
-  /tenants/{tenant_id}/devices:
+  /api/internal/v1/inventory/tenants/{tenant_id}/devices:
     post:
       tags:
       - Internal API
@@ -104,7 +102,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
-  /tenants/{tenant_id}/devices/{device_id}:
+  /api/internal/v1/inventory/tenants/{tenant_id}/devices/{device_id}:
     delete:
       tags:
       - Internal API
@@ -131,7 +129,7 @@ paths:
           $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
-  /tenants/{tenant_id}/devices/status/{status}:
+  /api/internal/v1/inventory/tenants/{tenant_id}/devices/status/{status}:
     post:
       tags:
       - Internal API
@@ -186,7 +184,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
-  /tenants/{tenant_id}/device/{device_id}/attribute/scope/{scope}:
+  /api/internal/v1/inventory/tenants/{tenant_id}/device/{device_id}/attribute/scope/{scope}:
     patch:
       tags:
       - Internal API
@@ -244,7 +242,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
-  /tenants/{tenant_id}/devices/{device_id}/groups:
+  /api/internal/v1/inventory/tenants/{tenant_id}/devices/{device_id}/groups:
     get:
       tags:
       - Internal API
@@ -279,7 +277,7 @@ paths:
           $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
-  /tenants/{tenant_id}/devices/{device_id}/reindex:
+  /api/internal/v1/inventory/tenants/{tenant_id}/devices/{device_id}/reindex:
     post:
       tags:
       - Internal API

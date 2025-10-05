@@ -11,10 +11,8 @@ info:
     * search devices by inventory scoped attribute value
     * use the results to create and manage device groups for deployment scheduling
   version: "2"
-servers:
-- url: https://hosted.mender.io/api/management/v2/inventory
 paths:
-  /filters/attributes:
+  /api/management/v2/inventory/filters/attributes:
     get:
       tags:
       - Management API
@@ -43,7 +41,7 @@ paths:
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
-  /filters/search:
+  /api/management/v2/inventory/filters/search:
     post:
       tags:
       - Management API

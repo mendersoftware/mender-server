@@ -5,10 +5,8 @@ info:
     Intended for use by the web UI.
   title: Deployments v2
   version: "2"
-servers:
-- url: https://hosted.mender.io/api/management/v2/deployments
 paths:
-  /deployments:
+  /api/management/v2/deployments/deployments:
     get:
       description: |
         Returns a filtered collection of deployments in the system. While you can provide multiple
@@ -118,7 +116,7 @@ paths:
       summary: List all the deployments matching the specified filter parameters
       tags:
       - Management API
-  /deployments/releases:
+  /api/management/v2/deployments/deployments/releases:
     delete:
       description: |
         Deletes releases with names provided in the message body.
@@ -334,7 +332,7 @@ paths:
         List releases
       tags:
       - Management API
-  /deployments/releases/{release_name}:
+  /api/management/v2/deployments/deployments/releases/{release_name}:
     get:
       description: |
         Returns the release with given name.
@@ -410,7 +408,7 @@ paths:
         Update selected fields of the Release object.
       tags:
       - Management API
-  /deployments/releases/{release_name}/tags:
+  /api/management/v2/deployments/deployments/releases/{release_name}/tags:
     put:
       description: |
         Assigns tags to a release. The tags associated with the release will be
@@ -466,7 +464,7 @@ paths:
         Update and replace the tags of a release.
       tags:
       - Management API
-  /releases/all/tags:
+  /api/management/v2/deployments/releases/all/tags:
     get:
       operationId: List Release Tags
       responses:
@@ -505,7 +503,7 @@ paths:
         Lists all available tags for releases.
       tags:
       - Management API
-  /releases/all/types:
+  /api/management/v2/deployments/releases/all/types:
     get:
       operationId: List Release Types
       responses:
@@ -535,7 +533,7 @@ paths:
         Lists all release update types.
       tags:
       - Management API
-  /artifacts:
+  /api/management/v2/deployments/artifacts:
     get:
       description: |
         Returns a collection of all artifacts sorted by name.

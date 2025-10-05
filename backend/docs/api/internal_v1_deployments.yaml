@@ -4,10 +4,8 @@ info:
     Internal API of deployments service
   title: Deployments Internal API
   version: "1"
-servers:
-- url: http://mender-deployments:8080/api/internal/v1/deployments
 paths:
-  /health:
+  /api/internal/v1/deployments/health:
     get:
       operationId: Deployments Internal Check Health
       responses:
@@ -30,7 +28,7 @@ paths:
       summary: Check the health of the service
       tags:
       - Internal API
-  /alive:
+  /api/internal/v1/deployments/alive:
     get:
       operationId: Deployments Internal Check Liveliness
       responses:
@@ -43,7 +41,7 @@ paths:
         Trivial endpoint that unconditionally returns an empty 204 response whenever the API handler is running correctly.
       tags:
       - Internal API
-  /tenants/{id}/storage/settings:
+  /api/internal/v1/deployments/tenants/{id}/storage/settings:
     get:
       description: |
         Returns an object with per tenant storage layer specific settings.
@@ -101,7 +99,7 @@ paths:
       summary: Set storage settings for a given tenant
       tags:
       - Internal API
-  /tenants/{id}/limits/storage:
+  /api/internal/v1/deployments/tenants/{id}/limits/storage:
     get:
       description: |
         Get storage limit and current storage usage for given tenant.
@@ -160,7 +158,7 @@ paths:
       summary: Set storage limit for given tenant
       tags:
         - Internal API
-  /tenants:
+  /api/internal/v1/deployments/tenants:
     post:
       description: |
         Sets up all tenant-related infrastructure, e.g. a migrated tenant's database.
@@ -184,7 +182,7 @@ paths:
       summary: Provision a new tenant
       tags:
         - Internal API
-  /tenants/{id}/deployments:
+  /api/internal/v1/deployments/tenants/{id}/deployments:
     get:
       description: |
         Returns a filtered collection of deployments in the system,
@@ -261,7 +259,7 @@ paths:
       summary: Get all deployments for specific tenant
       tags:
         - Internal API
-  /tenants/{tenant_id}/deployments/devices:
+  /api/internal/v1/deployments/tenants/{tenant_id}/deployments/devices:
     get:
       description: |
         Return the Deployments history entries for the specified IDs
@@ -300,7 +298,7 @@ paths:
       summary: Return the Deployments history entries for the specified IDs
       tags:
       - Internal API
-  /tenants/{tenant_id}/deployments/devices/{id}:
+  /api/internal/v1/deployments/tenants/{tenant_id}/deployments/devices/{id}:
     delete:
       description: Set 'decommissioned' status to all pending device deployments for
         a given device
@@ -393,7 +391,7 @@ paths:
       summary: Return the Deployments history for a Device
       tags:
       - Internal API
-  /tenants/{id}/artifacts:
+  /api/internal/v1/deployments/tenants/{id}/artifacts:
     post:
       description: |
         Upload mender artifact to a specific tenant. Multipart request with meta and artifact.
@@ -432,7 +430,7 @@ paths:
       summary: Upload mender artifact
       tags:
         - Internal API
-  /tenants/{tenant_id}/configuration/deployments/{deployment_id}/devices/{device_id}:
+  /api/internal/v1/deployments/tenants/{tenant_id}/configuration/deployments/{deployment_id}/devices/{device_id}:
     post:
       description: |
         Deploy configuration to a specified device.
@@ -491,7 +489,7 @@ paths:
       summary: Create a configuration deployment
       tags:
       - Internal API
-  /tenants/{tenant_id}/devices/deployments/last:
+  /api/internal/v1/deployments/tenants/{tenant_id}/devices/deployments/last:
     post:
       description: |
         Return the status of the last unsucessful device deployment.

@@ -6,10 +6,8 @@ info:
     Devices can get new updates and send information about current deployment status.
   title: Deployments
   version: "1"
-servers:
-- url: https://hosted.mender.io/api/devices/v1/deployments
 paths:
-  /device/deployments/next:
+  /api/devices/v1/deployments/device/deployments/next:
     get:
       description: |
         On success, either an empty response or a DeploymentInstructions object
@@ -70,7 +68,7 @@ paths:
       summary: Get next update
       tags:
       - Device API
-  /device/deployments/{id}/status:
+  /api/devices/v1/deployments/device/deployments/{id}/status:
     put:
       description: |
         Updates the status of a deployment on a particular device. Final status
@@ -115,7 +113,7 @@ paths:
       summary: Update the device deployment status
       tags:
       - Device API
-  /device/deployments/{id}/log:
+  /api/devices/v1/deployments/device/deployments/{id}/log:
     put:
       description: |
         Set the log of a selected deployment. Messages are split by line in the payload.
@@ -153,7 +151,7 @@ paths:
       summary: Upload the device deployment log
       tags:
       - Device API
-  /download/configuration/{deployment_id}/{device_type}/{device_id}:
+  /api/devices/v1/deployments/download/configuration/{deployment_id}/{device_type}/{device_id}:
     get:
       operationId: Fetch Configuration
       parameters:
