@@ -39,7 +39,7 @@ paths:
                 value: 00.01:02:03:04:05
                 description: MAC address
               items:
-                $ref: '#/components/schemas/Attribute'
+                $ref: './common/schemas.yaml#/components/schemas/Attribute'
         required: true
       responses:
         "200":
@@ -87,7 +87,7 @@ paths:
                 value: 00.01:02:03:04:05
                 description: MAC address
               items:
-                $ref: '#/components/schemas/Attribute'
+                $ref: './common/schemas.yaml#/components/schemas/Attribute'
         required: true
       responses:
         "200":
@@ -107,34 +107,6 @@ paths:
       security:
       - DeviceJWT: []
 components:
-  schemas:
-    Attribute:
-      required:
-      - name
-      - value
-      type: object
-      properties:
-        name:
-          type: string
-          description: |
-            A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc.
-        description:
-          type: string
-          description: Attribute description.
-        value:
-          type: string
-          description: |
-            The current value of the attribute.
-
-            Attribute type is implicit, inferred from the JSON type.
-
-            Supported types: number, string, array of numbers, array of strings.
-            Mixed type arrays are not allowed.
-      description: Attribute descriptor.
-      example:
-        name: ip_addr_eth
-        description: Device IP address on ethernet interface
-        value: 127.0.0.1
   securitySchemes:
     DeviceJWT:
       type: apiKey

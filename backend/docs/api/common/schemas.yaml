@@ -40,3 +40,352 @@ components:
         - inventory
         - monitor
         - tags
+    StorageLimit:
+      description: Tenant account storage limit and storage usage.
+      example:
+        limit: 1073741824
+        usage: 536870912
+      properties:
+        limit:
+          description: |
+            Storage limit in bytes. If set to 0 - there is no limit for storage.
+          type: integer
+        usage:
+          description: |
+            Current storage usage in bytes.
+          type: integer
+      required:
+        - limit
+        - usage
+      type: object
+    Attribute:
+      description: Attribute descriptor.
+      example:
+        name: ip_addr_eth
+        description: Device IP address on ethernet interface
+        value: 127.0.0.1
+      required:
+        - name
+        - value
+      type: object
+      properties:
+        name:
+          type: string
+          description: |
+            A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc.
+        description:
+          type: string
+          description: Attribute description.
+        value:
+          type: string
+          description: |
+            The current value of the attribute.
+
+            Attribute type is implicit, inferred from the JSON type.
+
+            Supported types: number, string, array of numbers, array of strings.
+            Mixed type arrays are not allowed.
+    AttributeV2:
+      description: Attribute descriptor with scope (v2 APIs).
+      example:
+        name: serial_no
+        scope: inventory
+        description: Serial number
+        value: "123456789"
+      required:
+        - name
+        - scope
+        - value
+      type: object
+      properties:
+        name:
+          type: string
+          description: |
+            A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc.
+        scope:
+          $ref: '#/components/schemas/Scope'
+        description:
+          type: string
+          description: Attribute description.
+        value:
+          type: string
+          description: |
+            The current value of the attribute.
+
+            Attribute type is implicit, inferred from the JSON type.
+
+            Supported types: number, string, array of numbers, array of strings.
+            Mixed arrays are not allowed.
+    ArtifactTypeInfo:
+      description: |
+        Information about update type.
+      properties:
+        type:
+          description: "Note that for emtpy Artifacts, the type is 'null'"
+          type: string
+      type: object
+    SortCriteria:
+      description: Sort criteria definition
+      example:
+        attribute: serial_no
+        scope: inventory
+        order: asc
+      required:
+        - attribute
+        - order
+        - scope
+      type: object
+      properties:
+        attribute:
+          type: string
+          description: Attribute name.
+        scope:
+          $ref: '#/components/schemas/Scope'
+        order:
+          type: string
+          description: Sort order.
+          enum:
+            - asc
+            - desc
+    DeviceWithImageImageMetaArtifact:
+      properties:
+        name:
+          type: string
+        device_types_compatible:
+          description: An array of compatible device types.
+          items:
+            type: string
+          type: array
+        info:
+          $ref: '#/components/schemas/ArtifactInfo'
+        signed:
+          description: Idicates if artifact is signed or not.
+          type: boolean
+        updates:
+          items:
+            $ref: '#/components/schemas/Update'
+          type: array
+        artifact_provides:
+          additionalProperties:
+            type: string
+          description: |
+            List of Artifact provides.
+
+            Map of key/value pairs, where both keys and values are strings.
+          type: object
+        artifact_depends:
+          additionalProperties:
+            items:
+              type: string
+            type: array
+          description: |
+            List of Artifact depends.
+
+            Map of key/value pairs, where keys are strings and values are lists of strings.
+          type: object
+        clears_artifact_provides:
+          description: List of Clear Artifact provides.
+          items:
+            type: string
+          type: array
+      type: object
+    ArtifactInfo:
+      description: Information about artifact format and version.
+      properties:
+        format:
+          type: string
+        version:
+          type: integer
+      type: object
+    FilterPredicate:
+      required:
+      - attribute
+      - scope
+      - type
+      - value
+      type: object
+      properties:
+        scope:
+          $ref: '#/components/schemas/Scope'
+        attribute:
+          type: string
+          description: |
+            Name of the attribute to be queried for filtering.
+        type:
+          type: string
+          description: Type or operator of the filter predicate.
+          enum:
+          - $eq
+          - $in
+          - $nin
+        value:
+          type: string
+          description: |
+            The value of the attribute to be used in filtering.
+
+            Attribute type is implicit, inferred from the JSON type.
+
+            Supported types: number, string, array of numbers, array of strings.
+            Mixed arrays are not allowed.
+
+            The $exists operator expects a boolean value: true means the specified
+            attribute exists, false means the specified attribute doesn't exist.
+
+            The $regex operator expects a string as a Perl compatible regular expression
+            (PCRE), automatically anchored by ^. If the regular expression is not valid,
+            the filter will produce no results. If you need to specify options and flags,
+            you can provide the full regex in the format of /regex/flags, for example
+            `/[a-z]+/i`.
+      description: Attribute filter predicate
+      example:
+        type: $eq
+        attribute: serial_no
+        scope: inventory
+        value: "123456789"
+    UpdateFile:
+      description: |
+        Information about particular update file.
+      properties:
+        name:
+          type: string
+        checksum:
+          type: string
+        size:
+          type: integer
+        date:
+          format: date-time
+          type: string
+      type: object
+    Update:
+      description: |
+        Single updated to be applied.
+      properties:
+        type_info:
+          $ref: '#/components/schemas/ArtifactTypeInfo'
+        files:
+          items:
+            $ref: '#/components/schemas/UpdateFile'
+          type: array
+        meta_data:
+          description: meta_data is an object of unknown structure as this is dependent of update type (also custom defined by user)
+          additionalProperties: true
+          type: object
+      type: object
+    DeviceStatus:
+      enum:
+      - failure
+      - aborted
+      - pause_before_installing
+      - pause_before_committing
+      - pause_before_rebooting
+      - downloading
+      - installing
+      - rebooting
+      - pending
+      - success
+      - noartifact
+      - already-installed
+      - decommissioned
+      type: string
+    DeviceWithImageImageMeta:
+      properties:
+        description:
+          description: Image description
+          type: string
+      type: object
+    DeviceWithImageImage:
+      properties:
+        id:
+          description: Image ID
+          type: string
+        meta:
+          $ref: '#/components/schemas/DeviceWithImageImageMeta'
+        meta_artifact:
+          $ref: '#/components/schemas/DeviceWithImageImageMetaArtifact'
+        size:
+          description: Image size in bytes
+          type: integer
+        modified:
+          description: Creation / last edition of any of the artifact properties
+          format: date-time
+          type: string
+      type: object
+    DeviceWithImage:
+      example:
+        id: 00a0c91e6-7dec-11d0-a765-f81d4faebf6
+        finished: 2016-03-11T13:03:17.063493443Z
+        status: installing
+        created: 2016-02-11T13:03:17.063493443Z
+        started: 2016-02-12T13:03:17.063493443Z
+        device_type: Raspberry Pi 3
+        log: false
+        state: installing
+        substate: installing.enter;script:foo-bar
+        image:
+          id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+          name: Application 1.0.0
+          meta:
+            description: Johns Monday test build
+          meta_artifact:
+            name: Application 1.0.0
+            device_types_compatible:
+            - Beagle Bone
+            info:
+              format: mender
+              version: 3
+            updates:
+            - type_info:
+                type: rootfs-image
+              files:
+              - name: rootfs-image-1
+                checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
+                size: 123
+                date: 2016-03-11T13:03:17.063+0000
+              meta_data: {}
+            artifact_provides:
+              artifact_name: test
+              rootfs-image.checksum: 32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99
+              rootfs-image.version: test
+            artifact_depends:
+              device_type:
+              - test
+            clears_artifact_provides:
+            - rootfs-image.*
+          size: 36891648
+          modified: 2016-03-11T13:03:17.063493443Z
+      properties:
+        id:
+          description: Device identifier.
+          type: string
+        status:
+          $ref: '#/components/schemas/DeviceStatus'
+        created:
+          format: date-time
+          type: string
+        started:
+          format: date-time
+          type: string
+        finished:
+          format: date-time
+          type: string
+        deleted:
+          format: date-time
+          type: string
+        device_type:
+          type: string
+        log:
+          description: Availability of the device's deployment log.
+          type: boolean
+        state:
+          description: State reported by device
+          type: string
+        substate:
+          description: Additional state information
+          type: string
+        image:
+          $ref: '#/components/schemas/DeviceWithImageImage'
+      required:
+      - id
+      - log
+      - status
+      type: object

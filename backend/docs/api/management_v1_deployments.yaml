@@ -82,7 +82,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Deployment'
+                  $ref: '#/components/schemas/DeploymentV1'
                 type: array
           description: Successful response.
           headers:
@@ -321,7 +321,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Deployment'
+                $ref: '#/components/schemas/DeploymentV1'
           description: Successful response.
         "401":
           content:
@@ -422,7 +422,7 @@ paths:
                 pause_before_rebooting: 1
                 pause_before_committing: 1
               schema:
-                $ref: '#/components/schemas/DeploymentStatusStatistics'
+                $ref: '#/components/schemas/StatisticsV1'
           description: OK
         "401":
           content:
@@ -457,7 +457,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/DeviceWithImage'
+                  $ref: './common/schemas.yaml#/components/schemas/DeviceWithImage'
                 type: array
           description: OK
         "401":
@@ -529,7 +529,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/DeviceWithImage'
+                  $ref: './common/schemas.yaml#/components/schemas/DeviceWithImage'
                 type: array
           description: OK
         "401":
@@ -727,7 +727,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/DeviceDeployment'
+                  $ref: '#/components/schemas/DeviceDeploymentV1'
                 type: array
           description: OK
         "401":
@@ -828,7 +828,8 @@ paths:
                       checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
                       size: 123
                       date: 2016-03-11T13:03:17.063+0000
-                    meta_data: []
+                    meta_data:
+                      type: object
                   artifact_provides:
                     artifact_name: test
                     rootfs-image.checksum: 32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99
@@ -899,7 +900,7 @@ paths:
                   size: 36891648
                   modified: 2016-03-11T13:03:17.063493443Z
               schema:
-                $ref: '#/components/schemas/Releases'
+                $ref: '#/components/schemas/ReleasesV1'
           description: Successful response.
         "401":
           content:
@@ -1070,7 +1071,7 @@ paths:
                   size: 36891648
                   modified: 2016-03-11T13:03:17.063493443Z
               schema:
-                $ref: '#/components/schemas/Releases'
+                $ref: '#/components/schemas/ReleasesV1'
           description: Successful response.
           headers:
             X-Total-Count:
@@ -1127,7 +1128,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Artifact'
+                  $ref: '#/components/schemas/ArtifactV1'
                 type: array
           description: OK
         "401":
@@ -1253,7 +1254,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Artifact'
+                  $ref: '#/components/schemas/ArtifactV1'
                 type: array
           description: OK
           headers:
@@ -1473,7 +1474,7 @@ paths:
                 size: 36891648
                 modified: 2016-03-11T13:03:17.063493443Z
               schema:
-                $ref: '#/components/schemas/Artifact'
+                $ref: '#/components/schemas/ArtifactV1'
           description: Successful response.
         "400":
           content:
@@ -1512,7 +1513,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ArtifactUpdate'
+              $ref: '#/components/schemas/ArtifactUpdateV1'
         required: false
       responses:
         "204":
@@ -1599,7 +1600,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StorageLimit'
+                $ref: './common/schemas.yaml#/components/schemas/StorageLimit'
           description: Successful response.
         "401":
           content:
@@ -1615,43 +1616,6 @@ paths:
       tags:
       - Management API
 components:
-  responses:
-    NotFoundError:
-      content:
-        application/json:
-          schema:
-            $ref: './common/schemas.yaml#/components/schemas/Error'
-      description: Not Found.
-    InternalServerError:
-      content:
-        application/json:
-          schema:
-            $ref: './common/schemas.yaml#/components/schemas/Error'
-      description: Internal Server Error.
-    InvalidRequestError:
-      content:
-        application/json:
-          schema:
-            $ref: './common/schemas.yaml#/components/schemas/Error'
-      description: Invalid Request.
-    ConflictError:
-      content:
-        application/json:
-          schema:
-            $ref: './common/schemas.yaml#/components/schemas/Error'
-      description: An active deployment with the same parameters already exists.
-    UnauthorizedError:
-      content:
-        application/json:
-          schema:
-            $ref: './common/schemas.yaml#/components/schemas/Error'
-      description: Unauthorized.
-    UnprocessableEntityError:
-      content:
-        application/json:
-          schema:
-            $ref: './common/schemas.yaml#/components/schemas/Error'
-      description: Unprocessable Entity.
   securitySchemes:
     ManagementJWT:
       $ref: './common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'
@@ -1726,7 +1690,7 @@ components:
       - artifact_name
       - name
       type: object
-    Deployment:
+    DeploymentV1:
       example:
         created: 2016-02-11T13:03:17.063493443Z
         status: finished
@@ -1786,9 +1750,9 @@ components:
             with the deployment constructor.
           type: string
         statistics:
-          $ref: '#/components/schemas/DeploymentStatistics'
+          $ref: '#/components/schemas/DeploymentStatisticsV1'
         filter:
-          $ref: '#/components/schemas/Filter'
+          $ref: '#/components/schemas/FilterV1'
       required:
       - artifact_name
       - created
@@ -1797,10 +1761,10 @@ components:
       - name
       - status
       type: object
-    DeploymentStatistics:
+    DeploymentStatisticsV1:
       properties:
         status:
-          $ref: '#/components/schemas/DeploymentStatusStatistics'
+          $ref: '#/components/schemas/StatisticsV1'
         total_size:
           description: |
             Sum of sizes (in bytes) of all artifacts assigned to all device deployments,
@@ -1809,7 +1773,7 @@ components:
             its size will be counted multiple times.
           type: integer
       type: object
-    DeploymentStatusStatistics:
+    StatisticsV1:
       example:
         success: 3
         pending: 1
@@ -1875,131 +1839,7 @@ components:
       - rebooting
       - success
       type: object
-    Device:
-      example:
-        id: 00a0c91e6-7dec-11d0-a765-f81d4faebf6
-        finished: 2016-03-11T13:03:17.063493443Z
-        status: installing
-        created: 2016-02-11T13:03:17.063493443Z
-        started: 2016-02-12T13:03:17.063493443Z
-        device_type: Raspberry Pi 3
-        log: false
-        state: installing
-        substate: installing.enter;script:foo-bar
-      properties:
-        id:
-          description: Device identifier.
-          type: string
-        status:
-          $ref: '#/components/schemas/DeviceStatus'
-        created:
-          format: date-time
-          type: string
-        started:
-          format: date-time
-          type: string
-        finished:
-          format: date-time
-          type: string
-        deleted:
-          format: date-time
-          type: string
-        device_type:
-          type: string
-        log:
-          description: Availability of the device's deployment log.
-          type: boolean
-        state:
-          description: State reported by device
-          type: string
-        substate:
-          description: Additional state information
-          type: string
-      required:
-      - id
-      - log
-      - status
-      type: object
-    DeviceWithImage:
-      example:
-        id: 00a0c91e6-7dec-11d0-a765-f81d4faebf6
-        finished: 2016-03-11T13:03:17.063493443Z
-        status: installing
-        created: 2016-02-11T13:03:17.063493443Z
-        started: 2016-02-12T13:03:17.063493443Z
-        device_type: Raspberry Pi 3
-        log: false
-        state: installing
-        substate: installing.enter;script:foo-bar
-        image:
-          id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
-          name: Application 1.0.0
-          meta:
-            description: Johns Monday test build
-          meta_artifact:
-            name: Application 1.0.0
-            device_types_compatible:
-            - Beagle Bone
-            info:
-              format: mender
-              version: 3
-            updates:
-            - type_info:
-                type: rootfs-image
-              files:
-              - name: rootfs-image-1
-                checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
-                size: 123
-                date: 2016-03-11T13:03:17.063+0000
-              meta_data: []
-            artifact_provides:
-              artifact_name: test
-              rootfs-image.checksum: 32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99
-              rootfs-image.version: test
-            artifact_depends:
-              device_type:
-              - test
-            clears_artifact_provides:
-            - rootfs-image.*
-          size: 36891648
-          modified: 2016-03-11T13:03:17.063493443Z
-      properties:
-        id:
-          description: Device identifier.
-          type: string
-        status:
-          $ref: '#/components/schemas/DeviceStatus'
-        created:
-          format: date-time
-          type: string
-        started:
-          format: date-time
-          type: string
-        finished:
-          format: date-time
-          type: string
-        deleted:
-          format: date-time
-          type: string
-        device_type:
-          type: string
-        log:
-          description: Availability of the device's deployment log.
-          type: boolean
-        state:
-          description: State reported by device
-          type: string
-        substate:
-          description: Additional state information
-          type: string
-        image:
-          $ref: '#/components/schemas/DeviceWithImageImage'
-      required:
-      - id
-      - log
-      - status
-      type: object
-    DeviceDeployment:
+    DeviceDeploymentV1:
       example:
         id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
         deployment:
@@ -2039,7 +1879,8 @@ components:
                   checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
                   size: 123
                   date: 2016-03-11T13:03:17.063+0000
-                meta_data: []
+                meta_data:
+                  type: object
               artifact_provides:
                 artifact_name: test
                 rootfs-image.checksum: 32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99
@@ -2055,14 +1896,14 @@ components:
         id:
           type: string
         deployment:
-          $ref: '#/components/schemas/Deployment'
+          $ref: '#/components/schemas/DeploymentV1'
         device:
-          $ref: '#/components/schemas/DeviceWithImage'
+          $ref: './common/schemas.yaml#/components/schemas/DeviceWithImage'
       required:
       - deployment
       - device
       type: object
-    ArtifactUpdate:
+    ArtifactUpdateV1:
       description: Artifact information update.
       example:
         description: Some description
@@ -2070,36 +1911,7 @@ components:
         description:
           type: string
       type: object
-    ArtifactTypeInfo:
-      description: |
-        Information about update type.
-      example:
-        type: type
-      properties:
-        type:
-          description: "Note that for emtpy Artifacts, the type is 'null'"
-          type: string
-      type: object
-    UpdateFile:
-      description: |
-        Information about particular update file.
-      example:
-        date: 2000-01-23T04:56:07.000+00:00
-        size: 6
-        name: name
-        checksum: checksum
-      properties:
-        name:
-          type: string
-        checksum:
-          type: string
-        size:
-          type: integer
-        date:
-          format: date-time
-          type: string
-      type: object
-    Update:
+    UpdateV1:
       description: |
         Single updated to be applied.
       example:
@@ -2117,26 +1929,17 @@ components:
           checksum: checksum
       properties:
         type_info:
-          $ref: '#/components/schemas/ArtifactTypeInfo'
+          $ref: './common/schemas.yaml#/components/schemas/ArtifactTypeInfo'
         files:
           items:
-            $ref: '#/components/schemas/UpdateFile'
+            $ref: './common/schemas.yaml#/components/schemas/UpdateFile'
           type: array
         meta_data:
           items:
             $ref: '#/components/schemas/MetadataAny'
           type: array
       type: object
-    ArtifactInfo:
-      description: |
-        Information about artifact format and version.
-      properties:
-        format:
-          type: string
-        version:
-          type: integer
-      type: object
-    Artifact:
+    ArtifactV1:
       description: Detailed artifact.
       example:
         id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
@@ -2180,13 +1983,13 @@ components:
             type: string
           type: array
         info:
-          $ref: '#/components/schemas/ArtifactInfo'
+          $ref: './common/schemas.yaml#/components/schemas/ArtifactInfo'
         signed:
           description: Idicates if artifact is signed or not.
           type: boolean
         updates:
           items:
-            $ref: '#/components/schemas/Update'
+            $ref: '#/components/schemas/UpdateV1'
           type: array
         artifact_provides:
           additionalProperties:
@@ -2262,46 +2065,12 @@ components:
       - id
       - uri
       type: object
-    DeviceStatus:
-      enum:
-      - failure
-      - aborted
-      - pause_before_installing
-      - pause_before_committing
-      - pause_before_rebooting
-      - downloading
-      - installing
-      - rebooting
-      - pending
-      - success
-      - noartifact
-      - already-installed
-      - decommissioned
-      type: string
-    StorageLimit:
-      description: Tenant account storage limit and storage usage.
-      example:
-        limit: 1073741824
-        usage: 536870912
-      properties:
-        limit:
-          description: |
-            Storage limit in bytes. If set to 0 - there is no limit for storage.
-          type: integer
-        usage:
-          description: |
-            Current storage usage in bytes.
-          type: integer
-      required:
-      - limit
-      - usage
-      type: object
-    Releases:
+    ReleasesV1:
       description: List of releases
       items:
-        $ref: '#/components/schemas/Release'
+        $ref: '#/components/schemas/ReleaseV1'
       type: array
-    Release:
+    ReleaseV1:
       description: Groups artifacts with the same release name into a single resource.
       example:
         name: my-app-v1.0.1
@@ -2375,7 +2144,7 @@ components:
         Artifacts:
           description: List of artifacts for this release.
           items:
-            $ref: '#/components/schemas/Artifact'
+            $ref: '#/components/schemas/ArtifactV1'
           type: array
         ArtifactsCount:
           description: |-
@@ -2431,7 +2200,7 @@ components:
         updates:
           description: List of updates for this artifact.
           items:
-            $ref: '#/components/schemas/Update'
+            $ref: '#/components/schemas/UpdateV1'
           type: array
       type: object
     DeploymentIdentifier:
@@ -2447,7 +2216,7 @@ components:
             type: string
           type: array
       type: object
-    FilterPredicate:
+    FilterPredicateV1:
       description: Attribute filter predicate
       example:
         type: $eq
@@ -2493,7 +2262,7 @@ components:
       - type
       - value
       type: object
-    Filter:
+    FilterV1:
       description: |
         Filter built based on devices targeted by the deployment.
       example:
@@ -2505,7 +2274,7 @@ components:
       properties:
         terms:
           items:
-            $ref: '#/components/schemas/FilterPredicate'
+            $ref: '#/components/schemas/FilterPredicateV1'
           type: array
       required:
       - terms
@@ -2531,7 +2300,7 @@ components:
           description: The deployment ID
           type: string
         stats:
-          $ref: '#/components/schemas/DeploymentStatusStatistics'
+          $ref: '#/components/schemas/StatisticsV1'
       type: object
     AbortDeploymentRequest:
       properties:
@@ -2605,71 +2374,6 @@ components:
       - file
       - name
       - type
-      type: object
-    DeviceWithImageImageMeta:
-      properties:
-        description:
-          description: Image description
-          type: string
-      type: object
-    DeviceWithImageImageMetaArtifact:
-      properties:
-        name:
-          type: string
-        device_types_compatible:
-          description: An array of compatible device types.
-          items:
-            type: string
-          type: array
-        info:
-          $ref: '#/components/schemas/ArtifactInfo'
-        signed:
-          description: Idicates if artifact is signed or not.
-          type: boolean
-        updates:
-          items:
-            $ref: '#/components/schemas/Update'
-          type: array
-        artifact_provides:
-          additionalProperties:
-            type: string
-          description: |
-            List of Artifact provides.
-
-            Map of key/value pairs, where both keys and values are strings.
-          type: object
-        artifact_depends:
-          additionalProperties:
-            items:
-              type: string
-            type: array
-          description: |
-            List of Artifact depends.
-
-            Map of key/value pairs, where keys are strings and values are lists of strings.
-          type: object
-        clears_artifact_provides:
-          description: List of Clear Artifact provides.
-          items:
-            type: string
-          type: array
-      type: object
-    DeviceWithImageImage:
-      properties:
-        id:
-          description: Image ID
-          type: string
-        meta:
-          $ref: '#/components/schemas/DeviceWithImageImageMeta'
-        meta_artifact:
-          $ref: '#/components/schemas/DeviceWithImageImageMetaArtifact'
-        size:
-          description: Image size in bytes
-          type: integer
-        modified:
-          description: Creation / last edition of any of the artifact properties
-          format: date-time
-          type: string
       type: object
     MetadataAny:
       description: meta_data is an object of unknown structure as this is dependent of update type (also custom defined by user)

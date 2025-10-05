@@ -85,7 +85,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Deployment'
+                  $ref: '#/components/schemas/DeploymentV2'
                 type: array
           description: Successful response.
           headers:
@@ -307,7 +307,7 @@ paths:
                   size: 36891648
                   modified: 2016-03-11T13:03:17.063493443Z
               schema:
-                $ref: '#/components/schemas/Releases'
+                $ref: '#/components/schemas/ReleasesV2'
           description: Successful response.
           headers:
             X-Total-Count:
@@ -349,7 +349,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Release'
+                $ref: '#/components/schemas/ReleaseV2'
           description: Successful response.
         "401":
           content:
@@ -598,7 +598,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Artifact'
+                  $ref: '#/components/schemas/ArtifactV2'
                 type: array
           description: OK
           headers:
@@ -621,48 +621,11 @@ paths:
       tags:
       - Management API
 components:
-  responses:
-    InvalidRequestError:
-      content:
-        application/json:
-          schema:
-            $ref: './common/schemas.yaml#/components/schemas/Error'
-      description: "Bad request, see error message for details."
-    UnauthorizedError:
-      content:
-        application/json:
-          schema:
-            $ref: './common/schemas.yaml#/components/schemas/Error'
-      description: Unauthorized.
-    NotFoundError:
-      content:
-        application/json:
-          schema:
-            $ref: './common/schemas.yaml#/components/schemas/Error'
-      description: Not Found.
-    ConflictError:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ReleasesDeleteError'
-      description: Conflict.
-    UnprocessableEntityError:
-      content:
-        application/json:
-          schema:
-            $ref: './common/schemas.yaml#/components/schemas/Error'
-      description: Unprocessable Entity.
-    InternalServerError:
-      content:
-        application/json:
-          schema:
-            $ref: './common/schemas.yaml#/components/schemas/Error'
-      description: Internal Server Error.
   securitySchemes:
     ManagementJWT:
       $ref: './common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'
   schemas:
-    Artifact:
+    ArtifactV2:
       description: Detailed artifact.
       example:
         id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
@@ -706,13 +669,13 @@ components:
             type: string
           type: array
         info:
-          $ref: '#/components/schemas/ArtifactInfo'
+          $ref: './common/schemas.yaml#/components/schemas/ArtifactInfo'
         signed:
           description: Idicates if artifact is signed or not.
           type: boolean
         updates:
           items:
-            $ref: '#/components/schemas/Update'
+            $ref: '#/components/schemas/UpdateV2'
           type: array
         artifact_provides:
           additionalProperties:
@@ -753,29 +716,12 @@ components:
       - modified
       - name
       type: object
-    ArtifactInfo:
-      description: |
-        Information about artifact format and version.
-      properties:
-        format:
-          type: string
-        version:
-          type: integer
-      type: object
-    ArtifactTypeInfo:
-      description: |
-        Information about update type.
-      properties:
-        type:
-          description: "Note that for emtpy Artifacts, the type is 'null'"
-          type: string
-      type: object
-    Releases:
+    ReleasesV2:
       description: List of releases
       items:
-        $ref: '#/components/schemas/Release'
+        $ref: '#/components/schemas/ReleaseV2'
       type: array
-    Release:
+    ReleaseV2:
       description: Groups artifacts with the same release name into a single resource.
       example:
         name: my-app-v1.0.1
@@ -849,7 +795,7 @@ components:
         artifacts:
           description: List of artifacts for this release.
           items:
-            $ref: '#/components/schemas/Artifact'
+            $ref: '#/components/schemas/ArtifactV2'
           type: array
         tags:
           description: |-
@@ -881,15 +827,15 @@ components:
       items:
         type: string
       type: array
-    Update:
+    UpdateV2:
       description: |
         Single updated to be applied.
       properties:
         type_info:
-          $ref: '#/components/schemas/ArtifactTypeInfo'
+          $ref: './common/schemas.yaml#/components/schemas/ArtifactTypeInfo'
         files:
           items:
-            $ref: '#/components/schemas/UpdateFile'
+            $ref: './common/schemas.yaml#/components/schemas/UpdateFile'
           type: array
         meta_data:
           description: |
@@ -900,26 +846,12 @@ components:
             type: object
           type: array
       type: object
-    UpdateFile:
-      description: |
-        Information about particular update file.
-      properties:
-        name:
-          type: string
-        checksum:
-          type: string
-        size:
-          type: integer
-        date:
-          format: date-time
-          type: string
-      type: object
     UpdateTypes:
       description: Update types as present in the images.
       items:
         type: string
       type: array
-    FilterPredicate:
+    FilterPredicateV2:
       description: Attribute filter predicate
       example:
         type: $eq
@@ -965,7 +897,7 @@ components:
       - type
       - value
       type: object
-    Filter:
+    FilterV2:
       description: Inventory filter assigned to the deployment
       example:
         id: myfilter
@@ -986,7 +918,7 @@ components:
           type: string
         terms:
           items:
-            $ref: '#/components/schemas/FilterPredicate'
+            $ref: '#/components/schemas/FilterPredicateV2'
           type: array
       required:
       - id
@@ -1018,7 +950,7 @@ components:
             Number of devices which already requested an update within this phase.
           type: integer
       type: object
-    DeploymentStatusStatistics:
+    StatisticsV2:
       example:
         success: 3
         pending: 1
@@ -1084,10 +1016,10 @@ components:
       - rebooting
       - success
       type: object
-    DeploymentStatistics:
+    DeploymentStatisticsV2:
       properties:
         status:
-          $ref: '#/components/schemas/DeploymentStatusStatistics'
+          $ref: '#/components/schemas/StatisticsV2'
         total_size:
           description: |
             Sum of sizes (in bytes) of all artifacts assigned to all device deployments,
@@ -1096,7 +1028,7 @@ components:
             its size will be counted multiple times.
           type: integer
       type: object
-    Deployment:
+    DeploymentV2:
       example:
         created: 2016-02-11T13:03:17.063493443Z
         status: finished
@@ -1185,7 +1117,7 @@ components:
             Flag indicating if the deployment is dynamic or not.
           type: boolean
         filter:
-          $ref: '#/components/schemas/Filter'
+          $ref: '#/components/schemas/FilterV2'
         type:
           enum:
           - configuration
@@ -1201,7 +1133,7 @@ components:
             The flag idicating if the autogeneration of delta artifacts is enabled for a given deployment.
           type: boolean
         statistics:
-          $ref: '#/components/schemas/DeploymentStatistics'
+          $ref: '#/components/schemas/DeploymentStatisticsV2'
       required:
       - artifact_name
       - created
