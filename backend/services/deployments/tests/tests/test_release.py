@@ -186,7 +186,7 @@ class TestRelease:
             ):
                 releases = management_v1_client(
                     jwt=self.d.get_jwt()
-                ).list_releases_with_pagination(update_type="app")
+                ).deployments_v1_list_releases_with_pagination(update_type="app")
                 assert len(releases) == 1
                 release = releases[0]
                 assert release.name == "foo"
@@ -197,7 +197,7 @@ class TestRelease:
 
                 releases = management_v1_client(
                     jwt=self.d.get_jwt()
-                ).list_releases_with_pagination(update_type="single-file")
+                ).deployments_v1_list_releases_with_pagination(update_type="single-file")
                 assert len(releases) == 1
                 release = releases[0]
                 assert release.name == "foo"
@@ -208,7 +208,7 @@ class TestRelease:
 
                 releases = management_v1_client(
                     jwt=self.d.get_jwt()
-                ).list_releases_with_pagination(update_type="directory")
+                ).deployments_v1_list_releases_with_pagination(update_type="directory")
                 assert len(releases) == 1
                 release = releases[0]
                 assert release.name == "bar"
@@ -246,6 +246,6 @@ class TestRelease:
             ):
                 releases = management_v1_client(
                     jwt=self.d.get_jwt()
-                ).list_releases_with_pagination(name="baz")
+                ).deployments_v1_list_releases_with_pagination(name="baz")
                 l.unlock()
                 assert len(releases) == 0

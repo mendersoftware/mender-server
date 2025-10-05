@@ -38,7 +38,7 @@ from internal_v1.rest import ApiException
 class TestInternalApiTenantCreate:
     def test_create_ok(self, api_client_int, clean_db):
         with Lock(MONGO_LOCK_FILE) as l:
-            internal_v1_client().create_tenant({"tenant_id": "foobar"})
+            internal_v1_client().deployments_internal_create_tenant({"tenant_id": "foobar"})
 
             assert "deployment_service-foobar" in clean_db.list_database_names()
             assert (
@@ -48,15 +48,15 @@ class TestInternalApiTenantCreate:
 
     def test_create_twice(self, api_client_int, clean_db):
         with Lock(MONGO_LOCK_FILE) as l:
-            internal_v1_client().create_tenant({"tenant_id": "foobar"})
+            internal_v1_client().deployments_internal_create_tenant({"tenant_id": "foobar"})
 
             # creating once more should not fail
-            internal_v1_client().create_tenant({"tenant_id": "foobar"})
+            internal_v1_client().deployments_internal_create_tenant({"tenant_id": "foobar"})
             l.unlock()
 
     def test_create_empty(self, api_client_int):
         try:
-            internal_v1_client().create_tenant({"tenant_id": ""})
+            internal_v1_client().deployments_internal_create_tenant({"tenant_id": ""})
         except ApiException as e:
             assert e.status == 400
 
@@ -69,7 +69,7 @@ class TestInternalApiTenantCreate:
             data = b"foo_bar"
 
             tenant_id = str(ObjectId())
-            internal_v1_client().create_tenant({"tenant_id": tenant_id})
+            internal_v1_client().deployments_internal_create_tenant({"tenant_id": tenant_id})
 
             # generate artifact
             with artifact_rootfs_from_data(

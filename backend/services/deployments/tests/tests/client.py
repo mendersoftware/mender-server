@@ -326,7 +326,7 @@ class DeploymentsClient(BaseApiClient):
 
     def add_deployment(self, dep):
         """Posts new deployment `dep`"""
-        r = management_v1_client(jwt=self.get_jwt()).create_deployment_with_http_info(
+        r = management_v1_client(jwt=self.get_jwt()).deployments_create_deployment_with_http_info(
             dep
         )
         loc = r[2]["Location"]
@@ -498,7 +498,7 @@ class InternalApiClient(BaseApiClient):
         super().__init__()
 
     def create_tenant(self, tenant_id):
-        r = internal_v1_client().create_tenant_with_http_info(
+        r = internal_v1_client().deployments_internal_create_tenant_with_http_info(
             new_tenant=iv1.NewTenant(tenant_id=tenant_id)
         )
         return r[1]
@@ -597,7 +597,7 @@ def management_client(spec, v, tenant_id=None, user_id=None, host=None, jwt=None
     api_conf.api_key = {"Authorization": "Bearer " + jwt}
     if not host:
         host = pytest_config.getoption("host")
-    api_conf.host = "http://" + host + "/api/management/" + v + "/deployments"
+    api_conf.host = "http://" + host
     return spec.ManagementAPIClient(spec.ApiClient(configuration=api_conf))
 
 
@@ -617,7 +617,7 @@ def device_client(spec, v, tenant_id=None, device_id=None, host=None, jwt=None):
     api_conf.api_key = {"Authorization": "Bearer " + jwt}
     if not host:
         host = pytest_config.getoption("host")
-    api_conf.host = "http://" + host + "/api/devices/" + v + "/deployments"
+    api_conf.host = "http://" + host
     return spec.DeviceAPIClient(spec.ApiClient(configuration=api_conf))
 
 
@@ -629,5 +629,5 @@ def internal_client(spec, v, host=None):
     api_conf = spec.configuration.Configuration()
     if not host:
         host = pytest_config.getoption("host")
-    api_conf.host = "http://" + host + "/api/internal/" + v + "/deployments"
+    api_conf.host = "http://" + host
     return spec.InternalAPIClient(spec.ApiClient(configuration=api_conf))
