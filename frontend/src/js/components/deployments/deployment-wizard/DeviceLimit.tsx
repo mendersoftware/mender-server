@@ -52,13 +52,6 @@ export const DeviceLimit = props => {
   }, [debouncedValue, setDeploymentSettings]);
 
   useEffect(() => {
-    if (!shouldLimit) {
-      return;
-    }
-    setValue(numberDevices);
-  }, [numberDevices, shouldLimit]);
-
-  useEffect(() => {
     if (!filter) {
       setDeploymentSettings({ maxDevices: 0 });
     }
@@ -74,7 +67,9 @@ export const DeviceLimit = props => {
 
   const onToggleLimit = (_, checked) => {
     setShouldLimit(checked);
-    if (!checked) {
+    if (checked) {
+      setValue(numberDevices);
+    } else {
       setDeploymentSettings({ maxDevices: 0 });
     }
   };
