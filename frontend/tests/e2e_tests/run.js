@@ -269,21 +269,32 @@ const runCommand = (command, args = [], config, options = {}) =>
   new Promise((resolve, reject) => {
     let stdout = '';
     let stderr = '';
-    const child = spawn(command, args, {
-      stdio: ['inherit', 'pipe', 'pipe'],
-      env: { ...process.env, TEST_ENVIRONMENT: config.environment },
-      ...options
-    });
+    const child = spawn(command, args, { stdio: ['inherit', 'pipe', 'pipe'], env: { ...process.env, TEST_ENVIRONMENT: config.environment }, ...options });
     child.stdout.on('data', data => (stdout += data.toString()));
     child.stderr.on('data', data => (stderr += data.toString()));
+
+    const cleanup = () => {
+      const index = currentProcesses.indexOf(child);
+      if (index > -1) {
+        currentProcesses.splice(index, 1);
+      }
+    };
+
     child.on('close', code => {
       if (code === 0) {
         resolve(stdout.trim());
       } else {
+        cleanup();
         reject(new Error(`Command failed with exit code ${code}: ${stderr}`));
       }
     });
-    child.on('error', reject);
+
+    child.on('error', error => {
+      cleanup();
+      reject(error);
+    });
+
+    currentProcesses.push(child);
   });
 
 const removeOldClient = async config =>
@@ -524,6 +535,8 @@ const showConfiguration = config => {
 };
 
 let config; // need to keep this global for SIGINT & -TERM
+let currentProcesses = [];
+let shutdownInProgress = false;
 
 const main = async () => {
   program.parse();
@@ -546,7 +559,29 @@ const main = async () => {
   console.log(chalk.green('\n🎉 All tests completed successfully!\n'));
 };
 
+const killTestProcesses = () => {
+  console.log(chalk.yellow('🔪 Terminating remaining processes...'));
+  currentProcesses.forEach(child => {
+    if (child?.killed) {
+      return;
+    }
+    try {
+      child.kill('SIGTERM');
+      setTimeout(() => {
+        // clean up without compromise after grace period 🔪🔪🔪
+        if (!child.killed) {
+          child.kill('SIGKILL');
+        }
+      }, 3000);
+    } catch (error) {
+      console.log(chalk.yellow(`Warning: Failed to kill process ${child.pid}: ${error.message}`));
+    }
+  });
+  currentProcesses = [];
+};
+
 const cleanup = async (exitCode = 0) => {
+  killTestProcesses();
   const logDir = join(config.guiRepository, 'logs');
   const logPath = join(logDir, 'gui_e2e_tests.txt');
   const clientLogPath = join(logDir, 'client.log');
@@ -578,8 +613,14 @@ const cleanup = async (exitCode = 0) => {
 };
 
 const initiateShutDownSequence = signal => async () => {
+  if (shutdownInProgress) {
+    console.log(chalk.yellow(`\n⚡ Shutdown already in progress...`));
+    return;
+  }
+  shutdownInProgress = true;
   console.log(chalk.yellow(`\n⚡ Received ${signal}, cleaning up...`));
   await cleanup(1);
+  killTestProcesses();
   process.exit(1);
 };
 
