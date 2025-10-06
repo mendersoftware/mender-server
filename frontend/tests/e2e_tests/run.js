@@ -47,14 +47,15 @@ const environments = {
   staging: 'staging'
 };
 
-const defaults = {
-  project: projects.chromium,
-  environment: environments.os
-};
-
 const testSuiteVariants = {
   regular: 'regular',
   qemu: 'qemu'
+};
+
+const defaults = {
+  project: projects.chromium,
+  environment: environments.os,
+  variant: testSuiteVariants.regular
 };
 
 const defaultCredentials = {
@@ -431,7 +432,7 @@ program
   .option('-i, --interactive', 'Run in interactive mode with prompts')
   .option('--user <email>', 'User email to use')
   .option('--password <password>', 'User password to use')
-  .option('--variant <variant>', `Special test variant to be run (one of ${Object.keys(testSuiteVariants)})`)
+  .option('--variant <variant>', `Special test variant to be run (one of ${Object.keys(testSuiteVariants)})`, defaults.variant)
   .option('--base-url <url>', 'Location to run tests against')
   .option('--no-banner', 'Skip the banner display')
   .addHelpText(
