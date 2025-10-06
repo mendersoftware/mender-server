@@ -4,6 +4,8 @@ info:
     Internal API of deployments service
   title: Deployments Internal API
   version: "1"
+tags:
+  - name: Internal API
 paths:
   /api/internal/v1/deployments/health:
     get:

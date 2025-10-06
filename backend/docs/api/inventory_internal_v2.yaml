@@ -5,6 +5,8 @@ info:
     An API for inventory-based filters management and device search.
     Not exposed via the API Gateway - intended for internal use only.
   version: "1"
+tags:
+  - name: Internal API
 paths:
   /api/internal/v2/inventory/tenants/{tenant_id}/filters/search:
     post:

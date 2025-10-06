@@ -11,6 +11,8 @@ info:
     * search devices by attribute value
     * use the results to create and manage device groups for the purpose of deployment scheduling
   version: "1"
+tags:
+  - name: Management API
 paths:
   /api/management/v1/inventory/devices:
     get:

@@ -5,6 +5,8 @@ info:
     Intended for use by the web UI.
   title: Deployments v2
   version: "2"
+tags:
+  - name: Management API
 paths:
   /api/management/v2/deployments/deployments:
     get:

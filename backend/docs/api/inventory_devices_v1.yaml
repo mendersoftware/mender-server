@@ -6,6 +6,8 @@ info:
 
     Devices can upload vendor-specific attributes (software/hardware info, health checks, metrics, etc.) of various data types to the backend.
   version: "1"
+tags:
+  - name: Device API
 paths:
   /api/devices/v1/inventory/device/attributes:
     put:

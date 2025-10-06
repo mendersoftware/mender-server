@@ -6,6 +6,8 @@ info:
     Devices can get new updates and send information about current deployment status.
   title: Deployments
   version: "1"
+tags:
+  - name: Device API
 paths:
   /api/devices/v1/deployments/device/deployments/next:
     get:

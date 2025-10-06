@@ -11,6 +11,8 @@ info:
     * search devices by inventory scoped attribute value
     * use the results to create and manage device groups for deployment scheduling
   version: "2"
+tags:
+  - name: Management API
 paths:
   /api/management/v2/inventory/filters/attributes:
     get:
