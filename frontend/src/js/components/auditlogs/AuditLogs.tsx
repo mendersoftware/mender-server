@@ -14,6 +14,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import EnterpriseNotification, { DefaultUpgradeNotification } from '@northern.tech/common-ui/EnterpriseNotification';
@@ -33,7 +34,6 @@ import { getAuditLogs, getAuditLogsCsvLink, getUserList, setAuditlogsState } fro
 import { createDownload, getISOStringBoundaries } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
 
-import historyImage from '../../../assets/img/history.png';
 import { HELPTOOLTIPS } from '../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../helptips/MenderTooltip';
 import AuditLogsFilter from './AuditLogsFilter';
@@ -266,10 +266,9 @@ export const AuditLogs = () => {
         />
       )}
       {!(isLoading || total) && hasAuditlogs && (
-        <div className="dashboard-placeholder">
-          <p>No log entries were found.</p>
-          <p>Try adjusting the filters.</p>
-          <img src={historyImage} alt="Past" />
+        <div className="dashboard-placeholder margin-top">
+          <Typography>No log entries were found.</Typography>
+          <Typography>Try adjusting the filters to show more entries.</Typography>
         </div>
       )}
       {!hasAuditlogs && (
