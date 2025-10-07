@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { TextField } from '@mui/material';
 
@@ -46,7 +46,20 @@ const autoSelectProps = {
   renderOption
 };
 
-export const AuditLogsFilter = ({ groups, users, selectionState, disabled, onFiltersChange, detailsReset, auditLogsTypes, dirtyField, setDirtyField }) => {
+const LOG_RETENTION_PERIOD = 90;
+
+export const AuditLogsFilter = ({
+  groups,
+  users,
+  selectionState,
+  disabled,
+  isHosted,
+  onFiltersChange,
+  detailsReset,
+  auditLogsTypes,
+  dirtyField,
+  setDirtyField
+}) => {
   const { detail, endDate, user, startDate, type } = selectionState;
   const [date] = useState(getISOStringBoundaries(new Date()));
   const { start: today, end: tonight } = date;
@@ -56,6 +69,16 @@ export const AuditLogsFilter = ({ groups, users, selectionState, disabled, onFil
     User: Object.values(users)
   };
   const detailOptions = typeOptionsMap[type?.title] ?? [];
+
+  const shouldShowRetentionText = useCallback(
+    ({ startDate }) => {
+      const cutOffDate = new Date();
+      cutOffDate.setDate(cutOffDate.getDate() - LOG_RETENTION_PERIOD);
+      const then = cutOffDate.toISOString().replace('Z', '');
+      return isHosted && startDate < then;
+    },
+    [isHosted]
+  );
 
   return (
     <ClickFilter disabled={disabled}>
@@ -106,7 +129,9 @@ export const AuditLogsFilter = ({ groups, users, selectionState, disabled, onFil
             title: 'Start time',
             Component: TimeframePicker,
             componentProps: {
-              tonight
+              tonight,
+              helperText: 'Audit logs are retained for a limited period of time, which means that older events might not be shown.',
+              hasHelperText: shouldShowRetentionText
             }
           }
         ]}

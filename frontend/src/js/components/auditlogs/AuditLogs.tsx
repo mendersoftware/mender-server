@@ -25,6 +25,7 @@ import {
   getAuditLogEntry,
   getAuditLogSelectionState,
   getCurrentSession,
+  getFeatures,
   getGroupNames,
   getIsServiceProvider,
   getTenantCapabilities,
@@ -75,6 +76,7 @@ export const AuditLogs = () => {
   const dispatch = useDispatch();
   const events = useSelector(getAuditLog);
   const eventItem = useSelector(getAuditLogEntry);
+  const { isHosted } = useSelector(getFeatures);
   const groups = useSelector(getGroupNames);
   const selectionState = useSelector(getAuditLogSelectionState);
   const userCapabilities = useSelector(getUserCapabilities);
@@ -239,6 +241,7 @@ export const AuditLogs = () => {
           disabled={!hasAuditlogs}
           onFiltersChange={onFiltersChange}
           detailsReset={detailsReset}
+          isHosted={isHosted}
           selectionState={selectionState}
           auditLogsTypes={auditLogsTypes}
           dirtyField={dirtyField}
