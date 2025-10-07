@@ -118,17 +118,24 @@ func (_m *Client) IsConnected() bool {
 	return r0
 }
 
-// JetStreamCreateStream provides a mock function with given fields: streamName
-func (_m *Client) JetStreamCreateStream(streamName string) error {
-	ret := _m.Called(streamName)
+// JetStreamCreateStream provides a mock function with given fields: streamName, opts
+func (_m *Client) JetStreamCreateStream(streamName string, opts ...nats.StreamOption) error {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, streamName)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
 
 	if len(ret) == 0 {
 		panic("no return value specified for JetStreamCreateStream")
 	}
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(string) error); ok {
-		r0 = rf(streamName)
+	if rf, ok := ret.Get(0).(func(string, ...nats.StreamOption) error); ok {
+		r0 = rf(streamName, opts...)
 	} else {
 		r0 = ret.Error(0)
 	}
