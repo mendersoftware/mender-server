@@ -827,7 +827,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
         class="MuiDialogContent-root emotion-5"
       >
         <div
-          class="MuiAutocomplete-root emotion-6"
+          class="MuiAutocomplete-root margin-top-x-small emotion-6"
         >
           <div
             class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root emotion-7"
