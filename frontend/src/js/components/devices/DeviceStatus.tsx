@@ -12,75 +12,83 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { Error as ErrorIcon, ReportProblemOutlined } from '@mui/icons-material';
-import { Box, Chip, Tooltip } from '@mui/material';
+import { Avatar, Chip, Tooltip, chipClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { DEVICE_STATES } from '@northern.tech/store/constants';
 import pluralize from 'pluralize';
 
+const NumberIcon = ({ className, value }) => <Avatar className={className}>{value}</Avatar>;
+
+const WarningIcon = <ReportProblemOutlined fontSize="small" />;
+
 const statusTypes = {
-  default: { severity: 'none', notification: {} },
+  default: { color: 'text.primary', icon: <ErrorIcon />, label: '', notification: { default: '' } },
   authRequests: {
-    severity: 'default',
+    color: 'text.primary',
+    icon: <NumberIcon className="" value={null} />,
+    label: '',
     notification: {
       [DEVICE_STATES.accepted]: `This device has a new auth request. This can happen if the device's public key changes. Click on the row to see more details`,
       [DEVICE_STATES.pending]: `This device has a new auth request. Inspect its identity details, then check it to accept it.`
     }
   },
   monitor: {
-    severity: 'warning',
+    color: 'error',
+    icon: WarningIcon,
+    label: 'monitoring',
     notification: {
       default: `This device has reported an issue. Click on the row to see more details`
     }
   },
   offline: {
-    severity: 'error',
+    color: 'warning',
+    icon: WarningIcon,
+    label: 'offline',
     notification: { default: 'This device has not communicated with the Mender backend for a while. Click on the row to see more details' }
-  },
-  updateFailed: { severity: 'warning', notification: {} }
+  }
 };
 
-const NumberIcon = props => (
-  <Box borderRadius="50%" className="flexbox centered notificationCounter">
-    <div>{props.value}</div>
-  </Box>
-);
-
 const useStyles = makeStyles()(theme => ({
-  warningIcon: {
-    width: 14,
-    height: 14,
-    color: theme.palette.grey[600]
+  numberIcon: {
+    width: 18,
+    height: 18,
+    backgroundColor: theme.palette.divider,
+    [`&.${chipClasses.icon}`]: {
+      fontSize: 'x-small'
+    }
   }
 }));
 
 const DeviceStatus = ({ device: { auth_sets = [], isOffline, monitor = {}, status: deviceStatus } }) => {
-  let notification = statusTypes.default.notification[deviceStatus] ?? '';
   const { classes } = useStyles();
-  let label;
-  let icon = <ErrorIcon />;
-  const WarningIcon = <ReportProblemOutlined style={{ marginLeft: 5 }} classes={{ root: classes.warningIcon }} />;
+  let color = statusTypes.default.color;
+  let label = statusTypes.default.label;
+  let icon = statusTypes.default.icon;
+  let notification = statusTypes.default.notification.default;
 
   const pendingAuthSetsCount = auth_sets.filter(item => item.status === DEVICE_STATES.pending).length;
   if (pendingAuthSetsCount) {
-    icon = <NumberIcon value={pendingAuthSetsCount} />;
+    icon = <NumberIcon className={classes.numberIcon} value={pendingAuthSetsCount} />;
     notification = statusTypes.authRequests.notification[deviceStatus] ?? statusTypes.authRequests.notification[DEVICE_STATES.accepted];
     label = `new ${pluralize('request', pendingAuthSetsCount)}`;
   } else if (Object.values(monitor).some(i => i)) {
-    icon = WarningIcon;
+    color = statusTypes.monitor.color;
+    icon = statusTypes.monitor.icon;
+    label = statusTypes.monitor.label;
     notification = statusTypes.monitor.notification.default;
-    label = 'monitoring';
   } else if (isOffline) {
-    icon = WarningIcon;
+    color = statusTypes.offline.color;
+    icon = statusTypes.offline.icon;
+    label = statusTypes.offline.label;
     notification = statusTypes.offline.notification.default;
-    label = 'offline';
   }
   return label ? (
     <Tooltip arrow title={notification} placement="bottom">
-      <Chip variant="outlined" size="small" icon={icon} label={<div className="uppercased">{label}</div>} className="deviceStatus margin-right-small" />
+      <Chip className="margin-right-small capitalized" size="small" color={color} icon={icon} label={label} variant="outlined" />
     </Tooltip>
   ) : (
-    <div className="margin-right-small">{deviceStatus}</div>
+    <div className="margin-right-small capitalized">{deviceStatus}</div>
   );
 };
 
