@@ -58,7 +58,13 @@ const useStyles = makeStyles()(theme => ({
     alignContent: 'center',
     '> button': { justifySelf: 'flex-start', marginTop: theme.spacing(4) }
   },
-  orgData: { display: 'grid', placeContent: 'center', gridTemplateColumns: 'min-content', '.button-wrapper': { alignSelf: 'end' } },
+  orgData: {
+    alignItems: 'start',
+    display: 'grid',
+    placeContent: 'center',
+    gridTemplateColumns: 400,
+    '.button-wrapper': { width: '100%', 'button': { width: '100%' } }
+  },
   promo: {
     background: theme.palette.grey[400],
     gridTemplateRows: 'min-content min-content min-content',
