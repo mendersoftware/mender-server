@@ -28,10 +28,11 @@ const useStyles = makeStyles()(theme => ({
     padding: `10px ${theme.spacing(3)} ${theme.spacing(3)}`,
     rowGap: theme.spacing(2),
     '.filter-item': {
-      display: 'grid'
+      display: 'grid',
+      gridTemplateRows: 'minmax(50px, max-content) 1fr'
     },
     '.filter-item > div': {
-      alignSelf: 'end'
+      alignSelf: 'baseline'
     }
   },
   filterReset: { right: theme.spacing(3) }
