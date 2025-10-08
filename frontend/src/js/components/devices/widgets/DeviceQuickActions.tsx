@@ -105,7 +105,7 @@ const defaultActions = {
     title: (pluralized, count) => `Create deployment for ${pluralize('this', count)} ${pluralized}`,
     action: ({ onCreateDeployment, selection }) => onCreateDeployment(selection),
     checkRelevance: ({ device, userCapabilities: { canDeploy, canReadReleases } }) =>
-      canDeploy && canReadReleases && device && device.status === DEVICE_STATES.accepted
+      canDeploy && canReadReleases && device && device.status === DEVICE_STATES.accepted && device.attributes?.device_type?.length
   }
 };
 
