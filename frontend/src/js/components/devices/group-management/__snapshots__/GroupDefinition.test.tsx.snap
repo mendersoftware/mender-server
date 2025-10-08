@@ -418,7 +418,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
 
 <div>
   <div
-    class="MuiAutocomplete-root emotion-0"
+    class="MuiAutocomplete-root margin-top-x-small emotion-0"
   >
     <div
       class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root emotion-1"

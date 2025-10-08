@@ -68,6 +68,7 @@ export const GroupDefinition = ({ isCreationDynamic, groups, newGroup, onInputCh
     <>
       <Autocomplete
         id="group-creation-selection"
+        className="margin-top-x-small"
         autoSelect
         freeSolo
         filterSelectedOptions
