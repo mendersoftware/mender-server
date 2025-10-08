@@ -80,6 +80,14 @@ export const prepareCookies = async (context: BrowserContext, domain: string, us
   return context;
 };
 
+const ensureFeedbackDisabled = async ({ baseUrl, page }: { baseUrl: string; page: Page }) => {
+  const today = new Date();
+  const response = await page.request.get(`${baseUrl}api/management/v1/useradm/settings/me`);
+  const data = await response.json();
+  await page.request.post(`${baseUrl}api/management/v1/useradm/settings/me`, { data: { ...data, feedbackCollectedAt: today.toISOString().split('T')[0] } });
+  return page;
+};
+
 export const prepareNewPage = async ({
   baseUrl,
   browser,
@@ -109,7 +117,8 @@ export const prepareNewPage = async ({
     window.localStorage.setItem('JWT', JSON.stringify({ token }));
     window.localStorage.setItem(`onboardingComplete`, 'true');
   }, logInResult.token);
-  const page = await context.newPage();
+  let page = await context.newPage();
+  page = await ensureFeedbackDisabled({ baseUrl, page });
   await page.goto(`${baseUrl}ui/`);
   return page;
 };

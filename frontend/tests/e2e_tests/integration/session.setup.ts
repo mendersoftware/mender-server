@@ -94,7 +94,7 @@ test.describe('Test setup', () => {
     await page.waitForTimeout(timeouts.default);
     await page.getByRole('button', { name: /Complete/i }).click();
     await isLoggedIn(page, timeouts.sixtySeconds); // in some cases the backend takes _a lot_ longer to respond here...
-    // the following sets the UI up for easier navigation by disabling onboarding
+    // the following sets the UI up for easier navigation by disabling onboarding & feedback collection
     const newPage = await prepareNewPage({ baseUrl, context, password, request, username });
     await isLoggedIn(newPage);
     await context.storageState({ path: storagePath });
