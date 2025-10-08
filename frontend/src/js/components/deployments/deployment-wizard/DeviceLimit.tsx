@@ -18,7 +18,8 @@ import { makeStyles } from 'tss-react/mui';
 
 import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
-import { TIMEOUTS } from '@northern.tech/store/commonConstants';
+import { DeploymentDeployments, Device, Filter, NewDeploymentPhase } from '@northern.tech/store/api/types';
+import { TIMEOUTS } from '@northern.tech/store/constants';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 import validator from 'validator';
 
@@ -32,9 +33,29 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 
-export const DeviceLimit = props => {
-  const { setDeploymentSettings, deploymentObject = {} } = props;
-  const { deploymentDeviceCount = 0, deploymentDeviceIds = [], filter } = deploymentObject;
+export type DeploymentSettings = Partial<{
+  delta: boolean;
+  deploymentDeviceCount: number;
+  deploymentDeviceIds: string[];
+  devices: Array<Device>;
+  filter: Filter;
+  forceDeploy: boolean;
+  group: string;
+  maxDevices: number;
+  phases: Array<NewDeploymentPhase>;
+  release: string;
+  retries: number;
+  update_control_map: DeploymentDeployments['update_control_map'];
+}>;
+
+export const DeviceLimit = ({
+  deploymentObject,
+  setDeploymentSettings
+}: {
+  deploymentObject: Pick<DeploymentSettings, 'deploymentDeviceCount' | 'deploymentDeviceIds' | 'filter'>;
+  setDeploymentSettings: (settings: DeploymentSettings) => void;
+}) => {
+  const { deploymentDeviceCount = 0, deploymentDeviceIds = [], filter } = deploymentObject ?? {};
   const numberDevices = deploymentDeviceCount ? deploymentDeviceCount : deploymentDeviceIds ? deploymentDeviceIds.length : 0;
 
   const [shouldLimit, setShouldLimit] = useState(false);
@@ -52,13 +73,6 @@ export const DeviceLimit = props => {
   }, [debouncedValue, setDeploymentSettings]);
 
   useEffect(() => {
-    if (!shouldLimit) {
-      return;
-    }
-    setValue(numberDevices);
-  }, [numberDevices, shouldLimit]);
-
-  useEffect(() => {
     if (!filter) {
       setDeploymentSettings({ maxDevices: 0 });
     }
@@ -74,7 +88,9 @@ export const DeviceLimit = props => {
 
   const onToggleLimit = (_, checked) => {
     setShouldLimit(checked);
-    if (!checked) {
+    if (checked) {
+      setValue(numberDevices);
+    } else {
       setDeploymentSettings({ maxDevices: 0 });
     }
   };
