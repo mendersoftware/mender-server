@@ -267,11 +267,28 @@ const composeLogs = async config =>
 
 const runCommand = (command, args = [], config, options = {}) =>
   new Promise((resolve, reject) => {
+    const { quiet = true, ...remainderOptions } = options;
     let stdout = '';
     let stderr = '';
-    const child = spawn(command, args, { stdio: ['inherit', 'pipe', 'pipe'], env: { ...process.env, TEST_ENVIRONMENT: config.environment }, ...options });
-    child.stdout.on('data', data => (stdout += data.toString()));
-    child.stderr.on('data', data => (stderr += data.toString()));
+    const child = spawn(command, args, {
+      stdio: ['inherit', 'pipe', 'pipe'],
+      env: { ...process.env, TEST_ENVIRONMENT: config.environment },
+      ...remainderOptions
+    });
+    child.stdout.on('data', data => {
+      const text = data.toString();
+      stdout += text;
+      if (!quiet) {
+        process.stdout.write(text);
+      }
+    });
+    child.stderr.on('data', data => {
+      const text = data.toString();
+      stderr += text;
+      if (!quiet) {
+        process.stdout.write(text);
+      }
+    });
 
     const cleanup = () => {
       const index = currentProcesses.indexOf(child);
@@ -393,7 +410,10 @@ const runTests = async config => {
     await withSpinner(
       `🏃 Executing ${chalk.cyan(testScript)} with ${chalk.cyan(config.project)}...`,
       async () =>
-        await runCommand('npm', ['run', testScript, '--', `--project=${config.project}`], config, { cwd: join(config.guiRepository, 'tests/e2e_tests') }),
+        await runCommand('npm', ['run', testScript, '--', `--project=${config.project}`], config, {
+          cwd: join(config.guiRepository, 'tests/e2e_tests'),
+          quiet: false
+        }),
       'Local tests completed',
       'Local tests failed'
     );
