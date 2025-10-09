@@ -47,14 +47,15 @@ const environments = {
   staging: 'staging'
 };
 
-const defaults = {
-  project: projects.chromium,
-  environment: environments.os
-};
-
 const testSuiteVariants = {
   regular: 'regular',
   qemu: 'qemu'
+};
+
+const defaults = {
+  project: projects.chromium,
+  environment: environments.os,
+  variant: testSuiteVariants.regular
 };
 
 const defaultCredentials = {
@@ -266,23 +267,51 @@ const composeLogs = async config =>
 
 const runCommand = (command, args = [], config, options = {}) =>
   new Promise((resolve, reject) => {
+    const { quiet = true, ...remainderOptions } = options;
     let stdout = '';
     let stderr = '';
     const child = spawn(command, args, {
       stdio: ['inherit', 'pipe', 'pipe'],
       env: { ...process.env, TEST_ENVIRONMENT: config.environment },
-      ...options
+      ...remainderOptions
     });
-    child.stdout.on('data', data => (stdout += data.toString()));
-    child.stderr.on('data', data => (stderr += data.toString()));
+    child.stdout.on('data', data => {
+      const text = data.toString();
+      stdout += text;
+      if (!quiet) {
+        process.stdout.write(text);
+      }
+    });
+    child.stderr.on('data', data => {
+      const text = data.toString();
+      stderr += text;
+      if (!quiet) {
+        process.stdout.write(text);
+      }
+    });
+
+    const cleanup = () => {
+      const index = currentProcesses.indexOf(child);
+      if (index > -1) {
+        currentProcesses.splice(index, 1);
+      }
+    };
+
     child.on('close', code => {
       if (code === 0) {
         resolve(stdout.trim());
       } else {
+        cleanup();
         reject(new Error(`Command failed with exit code ${code}: ${stderr}`));
       }
     });
-    child.on('error', reject);
+
+    child.on('error', error => {
+      cleanup();
+      reject(error);
+    });
+
+    currentProcesses.push(child);
   });
 
 const removeOldClient = async config =>
@@ -381,7 +410,10 @@ const runTests = async config => {
     await withSpinner(
       `🏃 Executing ${chalk.cyan(testScript)} with ${chalk.cyan(config.project)}...`,
       async () =>
-        await runCommand('npm', ['run', testScript, '--', `--project=${config.project}`], config, { cwd: join(config.guiRepository, 'tests/e2e_tests') }),
+        await runCommand('npm', ['run', testScript, '--', `--project=${config.project}`], config, {
+          cwd: join(config.guiRepository, 'tests/e2e_tests'),
+          quiet: false
+        }),
       'Local tests completed',
       'Local tests failed'
     );
@@ -431,7 +463,7 @@ program
   .option('-i, --interactive', 'Run in interactive mode with prompts')
   .option('--user <email>', 'User email to use')
   .option('--password <password>', 'User password to use')
-  .option('--variant <variant>', `Special test variant to be run (one of ${Object.keys(testSuiteVariants)})`)
+  .option('--variant <variant>', `Special test variant to be run (one of ${Object.keys(testSuiteVariants)})`, defaults.variant)
   .option('--base-url <url>', 'Location to run tests against')
   .option('--no-banner', 'Skip the banner display')
   .addHelpText(
@@ -523,6 +555,8 @@ const showConfiguration = config => {
 };
 
 let config; // need to keep this global for SIGINT & -TERM
+let currentProcesses = [];
+let shutdownInProgress = false;
 
 const main = async () => {
   program.parse();
@@ -545,7 +579,29 @@ const main = async () => {
   console.log(chalk.green('\n🎉 All tests completed successfully!\n'));
 };
 
+const killTestProcesses = () => {
+  console.log(chalk.yellow('🔪 Terminating remaining processes...'));
+  currentProcesses.forEach(child => {
+    if (child?.killed) {
+      return;
+    }
+    try {
+      child.kill('SIGTERM');
+      setTimeout(() => {
+        // clean up without compromise after grace period 🔪🔪🔪
+        if (!child.killed) {
+          child.kill('SIGKILL');
+        }
+      }, 3000);
+    } catch (error) {
+      console.log(chalk.yellow(`Warning: Failed to kill process ${child.pid}: ${error.message}`));
+    }
+  });
+  currentProcesses = [];
+};
+
 const cleanup = async (exitCode = 0) => {
+  killTestProcesses();
   const logDir = join(config.guiRepository, 'logs');
   const logPath = join(logDir, 'gui_e2e_tests.txt');
   const clientLogPath = join(logDir, 'client.log');
@@ -577,8 +633,14 @@ const cleanup = async (exitCode = 0) => {
 };
 
 const initiateShutDownSequence = signal => async () => {
+  if (shutdownInProgress) {
+    console.log(chalk.yellow(`\n⚡ Shutdown already in progress...`));
+    return;
+  }
+  shutdownInProgress = true;
   console.log(chalk.yellow(`\n⚡ Received ${signal}, cleaning up...`));
   await cleanup(1);
+  killTestProcesses();
   process.exit(1);
 };
 
