@@ -12,8 +12,8 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 // material ui
-import { InfoOutlined as InfoIcon } from '@mui/icons-material';
-import { List, ListItemButton, ListItemIcon, ListItemText, ListSubheader } from '@mui/material';
+import { Info as InfoIcon } from '@mui/icons-material';
+import { Button, List, ListItemButton, ListItemText, ListSubheader, Typography, listItemButtonClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { ALL_DEVICES } from '@northern.tech/store/constants';
@@ -23,14 +23,20 @@ import { MenderHelpTooltip } from '../helptips/MenderTooltip';
 
 const useStyles = makeStyles()(theme => ({
   header: {
-    color: theme.palette.grey[800],
-    height: theme.spacing(6)
+    height: theme.spacing(6),
+    '&.heading-lined span': {
+      padding: 0,
+      minWidth: 70,
+      background: theme.palette.background.default
+    },
+    '.group-border': {
+      background: theme.palette.divider
+    }
   },
-  groupBorder: {
-    background: theme.palette.grey[50]
-  },
-  groupHeading: {
-    background: theme.palette.background.default
+  list: {
+    [`.${listItemButtonClasses.root}.Mui-selected`]: {
+      backgroundColor: theme.palette.action.selected
+    }
   }
 }));
 
@@ -38,27 +44,28 @@ export const GroupsSubheader = ({ heading }) => {
   const { classes } = useStyles();
   return (
     <ListSubheader classes={{ root: 'heading-lined' }} className={classes.header} disableGutters disableSticky key="static-groups-sub">
-      <span className={classes.groupHeading}>{heading}</span>
-      <div className={classes.groupBorder} />
+      <span>{heading}</span>
+      <div className="group-border" />
     </ListSubheader>
   );
 };
 
 export const GroupItem = ({ changeGroup, groupname, selectedGroup, name }) => (
   <ListItemButton classes={{ root: 'grouplist' }} selected={name === selectedGroup || groupname === selectedGroup} onClick={() => changeGroup(name)}>
-    <ListItemText primary={decodeURIComponent(name)} />
+    <ListItemText className="margin-left" primary={decodeURIComponent(name)} />
   </ListItemButton>
 );
 
 export const Groups = ({ acceptedCount, changeGroup, className, groups, openGroupDialog, selectedGroup }) => {
+  const { classes } = useStyles();
   const { dynamic: dynamicGroups, static: staticGroups, ungrouped } = groups;
   return (
     <div className={className}>
       <div className="flexbox margin-bottom-small margin-top-small">
-        <div className="muted">Groups</div>
-        {!!(acceptedCount && staticGroups.length + dynamicGroups.length <= 1) && <MenderHelpTooltip id={HELPTOOLTIPS.addGroup.id} className="margin-left" />}
+        <Typography variant="subtitle1">Groups</Typography>
+        {!!acceptedCount && <MenderHelpTooltip id={HELPTOOLTIPS.addGroup.id} className="margin-left-small" />}
       </div>
-      <List>
+      <List className={classes.list}>
         <ListItemButton classes={{ root: 'grouplist' }} key="All" selected={!selectedGroup} onClick={() => changeGroup()}>
           <ListItemText primary={ALL_DEVICES} />
         </ListItemButton>
@@ -74,13 +81,10 @@ export const Groups = ({ acceptedCount, changeGroup, className, groups, openGrou
           ungrouped.map(({ groupId, name }, index) => (
             <GroupItem changeGroup={changeGroup} groupname={name} key={name + index} name={groupId} selectedGroup={selectedGroup} />
           ))}
-        <ListItemButton classes={{ root: 'grouplist' }} style={{ marginTop: 30 }} onClick={openGroupDialog}>
-          <ListItemIcon>
-            <InfoIcon />
-          </ListItemIcon>
-          <ListItemText primary="Create a group" />
-        </ListItemButton>
       </List>
+      <Button className="margin-top" startIcon={<InfoIcon />} onClick={openGroupDialog} color="inherit">
+        Create a group
+      </Button>
     </div>
   );
 };
