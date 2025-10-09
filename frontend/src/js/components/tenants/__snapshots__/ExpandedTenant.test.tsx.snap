@@ -555,7 +555,9 @@ exports[`ExpandedTenant > renders correctly 1`] = `
             Tenant Information for child2
           </h3>
           <button
+            aria-label="Copy link"
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-3"
+            data-mui-internal-clone-element="true"
             tabindex="0"
             type="button"
           >

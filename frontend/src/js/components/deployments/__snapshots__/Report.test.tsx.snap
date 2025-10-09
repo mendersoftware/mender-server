@@ -46,7 +46,9 @@ exports[`DeploymentReport Component > renders correctly 1`] = `
             </div>
           </h3>
           <button
+            aria-label="Copy link"
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
+            data-mui-internal-clone-element="true"
             tabindex="0"
             type="button"
           >
@@ -994,7 +996,9 @@ exports[`DeploymentReport Component > renders correctly for phased inprogress 1`
             </div>
           </h3>
           <button
+            aria-label="Copy link"
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-y28hhu-MuiButtonBase-root-MuiIconButton-root"
+            data-mui-internal-clone-element="true"
             tabindex="0"
             type="button"
           >

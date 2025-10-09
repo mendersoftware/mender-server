@@ -14,7 +14,7 @@
 import { FunctionComponent, ReactNode } from 'react';
 
 import { Close as CloseIcon, Link as LinkIcon } from '@mui/icons-material';
-import { IconButton } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 
 interface DrawerTitleProps {
   onClose: () => void;
@@ -29,9 +29,11 @@ export const DrawerTitle: FunctionComponent<DrawerTitleProps> = ({ onClose, onLi
     <div className="flexbox center-aligned">
       <h3 className="capitalized-start flexbox center-aligned">{title}</h3>
       {onLinkCopy && (
-        <IconButton onClick={onLinkCopy} size="large">
-          <LinkIcon />
-        </IconButton>
+        <Tooltip title="Copy link">
+          <IconButton onClick={onLinkCopy} size="large">
+            <LinkIcon />
+          </IconButton>
+        </Tooltip>
       )}
       {postTitle}
     </div>
