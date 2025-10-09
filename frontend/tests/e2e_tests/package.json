@@ -8,7 +8,7 @@
   },
   "scripts": {
     "script": "node run.js",
-    "test": "npx playwright test --workers 1",
+    "test": "npx playwright test",
     "test-visual": "PWDEBUG=1 npx playwright test --workers 1",
     "test-visual-new": "npx playwright test --ui --workers 1"
   },
