@@ -5,13 +5,11 @@ info:
     An API for workflow management.
     Intended for use by other services.
   version: "1"
-servers:
-- url: http://mender-workflows:8080/
 paths:
   /status:
     get:
       summary: Check if service API is alive and serving requests
-      operationId: Check Liveliness
+      operationId: Workflows Check Liveliness
       responses:
         "200":
           description: Successful response.
@@ -27,11 +25,11 @@ paths:
               example:
                 status: ok
         "500":
-          $ref: '#/components/responses/InternalServerError'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
   /health:
     get:
       summary: Check if service and all operational dependencies are healthy.
-      operationId: Check Health
+      operationId: Workflows Check Health
       responses:
         "204":
           description: Service is healthy.
@@ -41,9 +39,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
-          $ref: '#/components/responses/InternalServerError'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
   /api/v1/workflow/{name}:
     post:
       summary: Start a new workflow
@@ -79,9 +77,9 @@ paths:
                   name:
                     type: string
         "400":
-          $ref: '#/components/responses/InvalidRequestError'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "404":
-          $ref: '#/components/responses/NotFoundError'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
   /api/v1/workflow/{name}/batch:
     post:
       summary: Start a batch of workflows
@@ -123,9 +121,9 @@ paths:
                     error:
                       type: string
         "400":
-          $ref: '#/components/responses/InvalidRequestError'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "404":
-          $ref: '#/components/responses/NotFoundError'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
   /api/v1/workflow/{name}/{id}:
     get:
       summary: Gets the workflow status for the given id.
@@ -154,7 +152,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/JobStatus'
         "404":
-          $ref: '#/components/responses/NotFoundError'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
   /api/v1/metadata/workflows:
     get:
       summary: Get all workflow definitions
@@ -183,9 +181,9 @@ paths:
           description: Successful response.
           content: {}
         "400":
-          $ref: '#/components/responses/InvalidRequestError'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "409":
-          $ref: '#/components/responses/ConflictError'
+          $ref: './common/responses.yaml#/components/responses/ConflictError'
   /api/v1/jobs/{id}:
     get:
       summary: Gets the job for the given id.
@@ -207,18 +205,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/JobObject'
         "404":
-          $ref: '#/components/responses/NotFoundError'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Description of the error.
-      description: Error descriptor.
-      example:
-        error: "failed: JSON payload is empty"
     CLIParams:
       type: object
       properties:
@@ -397,29 +386,3 @@ components:
           format: date-time
         version:
           type: string
-  responses:
-    NotFoundError:
-      description: Not Found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ConflictError:
-      description: "Conflict, record already exists."
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Internal Server Error.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InvalidRequestError:
-      description: Invalid Request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-

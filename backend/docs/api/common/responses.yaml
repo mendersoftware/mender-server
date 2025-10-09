@@ -1,0 +1,32 @@
+openapi: 3.0.1
+info:
+  title: Common Responses
+  version: "1.0"
+  description: Shared response definitions used across API specifications
+paths: {}
+components:
+  responses:
+    InternalServerError:
+      description: Internal Server Error.
+      content:
+        application/json:
+          schema:
+            $ref: "./schemas.yaml#/components/schemas/Error"
+    NotFound:
+      description: Not Found.
+      content:
+        application/json:
+          schema:
+            $ref: "./schemas.yaml#/components/schemas/Error"
+    InvalidRequestError:
+      description: Invalid Request.
+      content:
+        application/json:
+          schema:
+            $ref: "./schemas.yaml#/components/schemas/Error"
+    ConflictError:
+      description: Conflict.
+      content:
+        application/json:
+          schema:
+            $ref: "./schemas.yaml#/components/schemas/Error"

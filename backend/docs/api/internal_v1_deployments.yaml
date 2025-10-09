@@ -4,27 +4,19 @@ info:
     Internal API of deployments service
   title: Deployments Internal API
   version: "1"
-servers:
-- url: http://mender-deployments:8080/api/internal/v1/deployments
+tags:
+  - name: Internal API
 paths:
-  /health:
+  /api/internal/v1/deployments/health:
     get:
-      operationId: Check Health
+      operationId: Deployments Internal Check Health
       responses:
         "204":
           content: {}
           description: |
             Service is healthy and all dependencies are up and running.
         "500":
-          content:
-            application/json:
-              example:
-                error: internal error
-                request_id: ffd712be-d697-4cb7-814b-88ff1e2eb5f6
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: |
-            Unexpected internal error
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
         "503":
           content:
             application/json:
@@ -32,31 +24,26 @@ paths:
                 error: "error reaching MongoDB: context deadline exceeded"
                 request_id: ffd712be-d697-4cb7-814b-88ff1e2eb5f6
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: |
             Service unhealthy / not ready to accept traffic. At least one dependency is not running.
       summary: Check the health of the service
       tags:
       - Internal API
-  /alive:
+  /api/internal/v1/deployments/alive:
     get:
-      operationId: Check Liveliness
+      operationId: Deployments Internal Check Liveliness
       responses:
         "204":
           content: {}
           description: Service is up and running.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: |
-            Internal API error
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       summary: |
         Trivial endpoint that unconditionally returns an empty 204 response whenever the API handler is running correctly.
       tags:
       - Internal API
-  /tenants/{id}/storage/settings:
+  /api/internal/v1/deployments/tenants/{id}/storage/settings:
     get:
       description: |
         Returns an object with per tenant storage layer specific settings.
@@ -76,11 +63,7 @@ paths:
                 $ref: '#/components/schemas/StorageSettings'
           description: Successful response with all available settings.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       summary: Get storage setting for a given tenant
       tags:
       - Internal API
@@ -111,23 +94,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: The request body is malformed.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal server error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       summary: Set storage settings for a given tenant
       tags:
       - Internal API
-  /tenants/{id}/limits/storage:
+  /api/internal/v1/deployments/tenants/{id}/limits/storage:
     get:
       description: |
         Get storage limit and current storage usage for given tenant.
         If the limit value is 0 it means storage space is unlimited
-      operationId: Get Storage Usage
+      operationId: Deployments Internal Get Storage Usage
       parameters:
       - description: Tenant ID
         in: path
@@ -143,11 +122,7 @@ paths:
                 $ref: '#/components/schemas/StorageUsage'
           description: Successful response.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       summary: Get storage limit and current storage usage for given tenant
       tags:
         - Internal API
@@ -167,7 +142,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/StorageLimit'
+              $ref: './common/schemas.yaml#/components/schemas/StorageLimit'
         required: true
       responses:
         "204":
@@ -177,23 +152,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: |
             The request body is malformed.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal server error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       summary: Set storage limit for given tenant
       tags:
         - Internal API
-  /tenants:
+  /api/internal/v1/deployments/tenants:
     post:
       description: |
         Sets up all tenant-related infrastructure, e.g. a migrated tenant's database.
-      operationId: Create Tenant
+      operationId: Deployments Internal Create Tenant
       requestBody:
         content:
           application/json:
@@ -209,15 +180,11 @@ paths:
           content: {}
           description: Bad request.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal server error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       summary: Provision a new tenant
       tags:
         - Internal API
-  /tenants/{id}/deployments:
+  /api/internal/v1/deployments/tenants/{id}/deployments:
     get:
       description: |
         Returns a filtered collection of deployments in the system,
@@ -277,7 +244,7 @@ paths:
                 device_count: 10
               schema:
                 items:
-                  $ref: '#/components/schemas/Deployment'
+                  $ref: '#/components/schemas/DeploymentV1Internal'
                 type: array
           description: Successful response.
           headers:
@@ -289,12 +256,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Invalid Request.
       summary: Get all deployments for specific tenant
       tags:
         - Internal API
-  /tenants/{tenant_id}/deployments/devices:
+  /api/internal/v1/deployments/tenants/{tenant_id}/deployments/devices:
     get:
       description: |
         Return the Deployments history entries for the specified IDs
@@ -329,15 +296,11 @@ paths:
           content: {}
           description: Bad request.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal server error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       summary: Return the Deployments history entries for the specified IDs
       tags:
       - Internal API
-  /tenants/{tenant_id}/deployments/devices/{id}:
+  /api/internal/v1/deployments/tenants/{tenant_id}/deployments/devices/{id}:
     delete:
       description: Set 'decommissioned' status to all pending device deployments for
         a given device
@@ -360,18 +323,14 @@ paths:
           content: {}
           description: Device was removed
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal server error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       summary: Remove device from all deployments
       tags:
       - Internal API
     get:
       description: |
         Return the Deployments history for the specified Device, listing all its Deployments.
-      operationId: List Deployments for a Device
+      operationId: Deployments Internal List Deployments for a Device
       parameters:
       - description: Tenant ID
         in: path
@@ -430,15 +389,11 @@ paths:
                 type: array
           description: OK
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal server error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       summary: Return the Deployments history for a Device
       tags:
       - Internal API
-  /tenants/{id}/artifacts:
+  /api/internal/v1/deployments/tenants/{id}/artifacts:
     post:
       description: |
         Upload mender artifact to a specific tenant. Multipart request with meta and artifact.
@@ -470,24 +425,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Invalid Request.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       summary: Upload mender artifact
       tags:
         - Internal API
-  /tenants/{tenant_id}/configuration/deployments/{deployment_id}/devices/{device_id}:
+  /api/internal/v1/deployments/tenants/{tenant_id}/configuration/deployments/{deployment_id}/devices/{device_id}:
     post:
       description: |
         Deploy configuration to a specified device.
         The artifact will be auto-generated based on the configuration object
         provided with the deployment constructor.
-      operationId: Create Deployment
+      operationId: Deployments Internal Create Deployment
       parameters:
       - description: Tenant identifier.
         in: path
@@ -527,24 +478,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Invalid Request.
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: The deployment with a given id already exists.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       summary: Create a configuration deployment
       tags:
       - Internal API
-  /tenants/{tenant_id}/devices/deployments/last:
+  /api/internal/v1/deployments/tenants/{tenant_id}/devices/deployments/last:
     post:
       description: |
         Return the status of the last unsucessful device deployment.
@@ -573,43 +520,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Invalid Request.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       summary: Get status of the last device devployment
       tags:
       - Internal API
 components:
-  responses:
-    NotFoundError:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Not Found.
-    InternalServerError:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Internal Server Error.
-    InvalidRequestError:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Invalid Request.
-    UnprocessableEntityError:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Unprocessable Entity.
   schemas:
     NewTenant:
       description: New tenant descriptor.
@@ -618,19 +536,6 @@ components:
       properties:
         tenant_id:
           description: New tenant's ID.
-          type: string
-      type: object
-    Error:
-      description: Error descriptor.
-      example:
-        error: error message
-        request_id: f7881e82-0492-49fb-b459-795654e7188a
-      properties:
-        error:
-          description: Description of the error.
-          type: string
-        request_id:
-          description: Request ID (same as in X-MEN-RequestID header).
           type: string
       type: object
     StorageSettings:
@@ -715,19 +620,7 @@ components:
       - limit
       - usage
       type: object
-    StorageLimit:
-      description: Tenant account storage limit
-      example:
-        limit: 1073741824
-      properties:
-        limit:
-          description: |
-            Storage limit in bytes. If set to 0 - there is no limit for storage.
-          type: integer
-      required:
-      - limit
-      type: object
-    Deployment:
+    DeploymentV1Internal:
       example:
         created: 2016-02-11T13:03:17.063493443Z
         status: finished
@@ -833,7 +726,7 @@ components:
                   size: 123
                   date: 2016-03-11T13:03:17.063+0000
                 meta_data:
-                  type: object
+                  $ref: '#/components/schemas/MetadataAny'
               artifact_provides:
                 artifact_name: test
                 rootfs-image.checksum: 32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99
@@ -849,153 +742,17 @@ components:
         id:
           type: string
         deployment:
-          $ref: '#/components/schemas/Deployment'
+          $ref: '#/components/schemas/DeploymentV1Internal'
         device:
-          $ref: '#/components/schemas/DeviceWithImage'
+          $ref: './common/schemas.yaml#/components/schemas/DeviceWithImage'
       required:
       - deployment
       - device
-      type: object
-    DeviceWithImage:
-      example:
-        id: 00a0c91e6-7dec-11d0-a765-f81d4faebf6
-        finished: 2016-03-11T13:03:17.063493443Z
-        status: installing
-        created: 2016-02-11T13:03:17.063493443Z
-        device_type: Raspberry Pi 3
-        log: false
-        state: installing
-        substate: installing.enter;script:foo-bar
-        image:
-          id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
-          name: Application 1.0.0
-          meta:
-            description: Johns Monday test build
-          meta_artifact:
-            name: Application 1.0.0
-            device_types_compatible:
-            - Beagle Bone
-            info:
-              format: mender
-              version: 3
-            updates:
-            - type_info:
-                type: rootfs-image
-              files:
-              - name: rootfs-image-1
-                checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
-                size: 123
-                date: 2016-03-11T13:03:17.063+0000
-              meta_data:
-                type: object
-            artifact_provides:
-              artifact_name: test
-              rootfs-image.checksum: 32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99
-              rootfs-image.version: test
-            artifact_depends:
-              device_type:
-              - test
-            clears_artifact_provides:
-            - rootfs-image.*
-          size: 36891648
-          modified: 2016-03-11T13:03:17.063493443Z
-      properties:
-        id:
-          description: Device identifier.
-          type: string
-        status:
-          $ref: '#/components/schemas/DeviceStatus'
-        created:
-          format: date-time
-          type: string
-        finished:
-          format: date-time
-          type: string
-        deleted:
-          format: date-time
-          type: string
-        device_type:
-          type: string
-        log:
-          description: Availability of the device's deployment log.
-          type: boolean
-        state:
-          description: State reported by device
-          type: string
-        substate:
-          description: Additional state information
-          type: string
-        image:
-          $ref: '#/components/schemas/DeviceWithImageImage'
-      required:
-      - id
-      - log
-      - status
-      type: object
-    DeviceStatus:
-      enum:
-      - failure
-      - aborted
-      - pause_before_installing
-      - pause_before_committing
-      - pause_before_rebooting
-      - downloading
-      - installing
-      - rebooting
-      - pending
-      - success
-      - noartifact
-      - already-installed
-      - decommissioned
-      type: string
-    ArtifactTypeInfo:
-      description: |
-        Information about update type.
-      properties:
-        type:
-          description: "Note that for emtpy Artifacts, the type is 'null'"
-          type: string
-      type: object
-    UpdateFile:
-      description: |
-        Information about particular update file.
-      properties:
-        name:
-          type: string
-        checksum:
-          type: string
-        size:
-          type: integer
-        date:
-          format: date-time
-          type: string
-      type: object
-    Update:
-      description: |
-        Single updated to be applied.
-      properties:
-        type_info:
-          $ref: '#/components/schemas/ArtifactTypeInfo'
-        files:
-          items:
-            $ref: '#/components/schemas/UpdateFile'
-          type: array
-        meta_data:
-          $ref: '#/components/schemas/MetadataAny'
       type: object
     MetadataAny:
       description: meta_data is an object of unknown structure as this is dependent of update type (also custom defined by user)
       additionalProperties:
         type: string
-      type: object
-    ArtifactInfo:
-      description: |
-        Information about artifact format and version.
-      properties:
-        format:
-          type: string
-        version:
-          type: integer
       type: object
     LastDeviceDeploymentsStatuses:
       example:
@@ -1063,69 +820,4 @@ components:
           type: string
       required:
       - artifact
-      type: object
-    DeviceWithImageImageMeta:
-      properties:
-        description:
-          description: Image description
-          type: string
-      type: object
-    DeviceWithImageImageMetaArtifact:
-      properties:
-        name:
-          type: string
-        device_types_compatible:
-          description: An array of compatible device types.
-          items:
-            type: string
-          type: array
-        info:
-          $ref: '#/components/schemas/ArtifactInfo'
-        signed:
-          description: Idicates if artifact is signed or not.
-          type: boolean
-        updates:
-          items:
-            $ref: '#/components/schemas/Update'
-          type: array
-        artifact_provides:
-          additionalProperties:
-            type: string
-          description: |
-            List of Artifact provides.
-
-            Map of key/value pairs, where both keys and values are strings.
-          type: object
-        artifact_depends:
-          additionalProperties:
-            items:
-              type: string
-            type: array
-          description: |
-            List of Artifact depends.
-
-            Map of key/value pairs, where keys are strings and values are lists of strings.
-          type: object
-        clears_artifact_provides:
-          description: List of Clear Artifact provides.
-          items:
-            type: string
-          type: array
-      type: object
-    DeviceWithImageImage:
-      properties:
-        id:
-          description: Image ID
-          type: string
-        meta:
-          $ref: '#/components/schemas/DeviceWithImageImageMeta'
-        meta_artifact:
-          $ref: '#/components/schemas/DeviceWithImageImageMetaArtifact'
-        size:
-          description: Image size in bytes
-          type: integer
-        modified:
-          description: Creation / last edition of any of the artifact properties
-          format: date-time
-          type: string
       type: object

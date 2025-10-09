@@ -6,10 +6,10 @@ info:
 
     Devices can upload vendor-specific attributes (software/hardware info, health checks, metrics, etc.) of various data types to the backend.
   version: "1"
-servers:
-- url: https://hosted.mender.io/api/devices/v1/inventory
+tags:
+  - name: Device API
 paths:
-  /device/attributes:
+  /api/devices/v1/inventory/device/attributes:
     put:
       tags:
       - Device API
@@ -41,7 +41,7 @@ paths:
                 value: 00.01:02:03:04:05
                 description: MAC address
               items:
-                $ref: '#/components/schemas/Attribute'
+                $ref: './common/schemas.yaml#/components/schemas/Attribute'
         required: true
       responses:
         "200":
@@ -55,13 +55,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - DeviceJWT: []
     patch:
@@ -93,7 +89,7 @@ paths:
                 value: 00.01:02:03:04:05
                 description: MAC address
               items:
-                $ref: '#/components/schemas/Attribute'
+                $ref: './common/schemas.yaml#/components/schemas/Attribute'
         required: true
       responses:
         "200":
@@ -107,57 +103,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - DeviceJWT: []
 components:
-  schemas:
-    Attribute:
-      required:
-      - name
-      - value
-      type: object
-      properties:
-        name:
-          type: string
-          description: |
-            A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc.
-        description:
-          type: string
-          description: Attribute description.
-        value:
-          type: string
-          description: |
-            The current value of the attribute.
-
-            Attribute type is implicit, inferred from the JSON type.
-
-            Supported types: number, string, array of numbers, array of strings.
-            Mixed type arrays are not allowed.
-      description: Attribute descriptor.
-      example:
-        name: ip_addr_eth
-        description: Device IP address on ethernet interface
-        value: 127.0.0.1
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Description of the error.
-        request_id:
-          type: string
-          description: Request ID (same as in X-MEN-RequestID header).
-      description: Error descriptor.
-      example:
-        error: "failed to decode request body: JSON payload is empty"
-        request_id: f7881e82-0492-49fb-b459-795654e7188a
   securitySchemes:
     DeviceJWT:
       type: apiKey

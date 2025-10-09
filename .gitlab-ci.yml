@@ -218,6 +218,48 @@ test:backend:static:
     - cd backend
     - golangci-lint run -v
 
+.template:combine-api:
+  stage: test
+  needs: []
+  rules:
+    - changes:
+        paths: ["backend/docs/api/*.yaml"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
+      when: on_success
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/node
+  before_script:
+    - npm install -g @redocly/cli@2.2.2
+    - cd backend/docs/api
+  artifacts:
+    when: always
+    expire_in: 2 weeks
+    paths:
+      - backend/docs/api/
+
+# try to generate per service files
+test:backend:combine-per-service-api:
+  extends: .template:combine-api
+  script:
+    - redocly join root.openapi.yaml auditlogs_*.yaml -o auditlogs.tmp.yml && redocly bundle auditlogs.tmp.yml -o auditlogs.combined.yml || true
+    - redocly join root.openapi.yaml *_deployments.yaml -o deployments.tmp.yml && redocly bundle deployments.tmp.yml -o deployments.combined.yml || true
+    - redocly join root.openapi.yaml deviceauth*.yaml -o deviceauth.tmp.yml && redocly bundle deviceauth.tmp.yml -o deviceauth.combined.yml || true
+    - redocly join root.openapi.yaml deviceconfig*.yaml -o deviceconfig.tmp.yml && redocly bundle deviceconfig.tmp.yml -o deviceconfig.combined.yml || true
+    - redocly join root.openapi.yaml deviceconnect*.yaml -o deviceconnect.tmp.yml && redocly bundle deviceconnect.tmp.yml -o deviceconnect.combined.yml || true
+    - redocly join root.openapi.yaml inventory*.yaml -o inventory.tmp.yml && redocly bundle inventory.tmp.yml -o inventory.combined.yml || true
+    - redocly join root.openapi.yaml iot-manager*.yaml -o iot-manager.tmp.yml && redocly bundle iot-manager.tmp.yml -o iot-manager.combined.yml || true
+    - redocly join root.openapi.yaml tenantadm/*.yaml -o tenantadm.tmp.yml && redocly bundle tenantadm.tmp.yml -o tenantadm.combined.yml || true
+    - redocly join root.openapi.yaml useradm*.yaml -o useradm.tmp.yml && redocly bundle useradm.tmp.yml -o useradm.combined.yml || true
+    - redocly join root.openapi.yaml workflows*.yaml -o workflows.tmp.yml && redocly bundle workflows.tmp.yml -o workflows.combined.yml || true
+  allow_failure: true # being explicit for now as the combination doesn't yet work
+
+test:backend:combine-api:
+  extends: .template:combine-api
+  script:
+    - redocly join --prefix-tags-with-filename root.openapi.yaml *.yaml -o openapi.tmp.yaml
+    - redocly bundle openapi.tmp.yaml --config config/redocly.yaml -o dist/openapi.yaml
+    - git diff --exit-code dist/openapi.yaml
+  allow_failure: false
+
 test:backend:validate-open-api:
   stage: test
   needs: []
@@ -241,7 +283,7 @@ test:backend:validate-open-api:
         incompatibleValues: 1
       EOF
     - spectral lint -v -D -f text backend/services/**/docs/*.yml backend/docs/api/*.yaml
-    - spectral lint -v -D -f junit -o spectral-report.xml backend/services/**/docs/*.yml backend/docs/api/*.yml
+    - spectral lint -v -D -f junit -o spectral-report.xml backend/services/**/docs/*.yml backend/docs/api/*.yaml
   artifacts:
     when: always
     expire_in: 2 weeks

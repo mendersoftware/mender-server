@@ -11,10 +11,10 @@ info:
     * search devices by attribute value
     * use the results to create and manage device groups for the purpose of deployment scheduling
   version: "1"
-servers:
-- url: https://hosted.mender.io/api/management/v1/inventory
+tags:
+  - name: Management API
 paths:
-  /devices:
+  /api/management/v1/inventory/devices:
     get:
       tags:
       - Management API
@@ -108,7 +108,7 @@ paths:
                 title: ListOfDevices
                 type: array
                 items:
-                  $ref: '#/components/schemas/DeviceInventory'
+                  $ref: '#/components/schemas/DeviceInventoryV1'
               example:
               - id: 291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
                 attributes:
@@ -133,16 +133,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
-          description: Internal error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
-  /devices/{id}:
+  /api/management/v1/inventory/devices/{id}:
     get:
       tags:
       - Management API
@@ -168,7 +164,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DeviceInventory'
+                $ref: '#/components/schemas/DeviceInventoryV1'
               example:
                 id: 291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
                 attributes:
@@ -187,17 +183,9 @@ paths:
                   timestamp: 2016-10-19T17:23:01.639Z
                 updated_ts: 2016-10-03T16:58:51.639Z
         "404":
-          description: The device was not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
     delete:
@@ -217,14 +205,10 @@ paths:
           description: Device removed
           content: {}
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
-  /devices/{id}/tags:
+  /api/management/v1/inventory/devices/{id}/tags:
     put:
       tags:
       - Management API
@@ -275,20 +259,12 @@ paths:
             message for details.
           content: {}
         "404":
-          description: The device was not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "412":
           description: ETag doesn't match.
           content: {}
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
     patch:
@@ -340,23 +316,15 @@ paths:
             message for details.
           content: {}
         "404":
-          description: The device was not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "412":
           description: ETag doesn't match.
           content: {}
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
-  /devices/{id}/group:
+  /api/management/v1/inventory/devices/{id}/group:
     get:
       tags:
       - Management API
@@ -382,17 +350,9 @@ paths:
             message for details.
           content: {}
         "404":
-          description: The device was not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
     put:
@@ -429,20 +389,12 @@ paths:
             message for details.
           content: {}
         "404":
-          description: The device was not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
-  /devices/{id}/group/{name}:
+  /api/management/v1/inventory/devices/{id}/group/{name}:
     delete:
       tags:
       - Management API
@@ -472,16 +424,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
-          description: Internal error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
-  /groups:
+  /api/management/v1/inventory/groups:
     get:
       tags:
       - Management API
@@ -509,14 +457,10 @@ paths:
               - testing
               - production
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
-  /groups/{name}:
+  /api/management/v1/inventory/groups/{name}:
     delete:
       tags:
       - Management API
@@ -555,22 +499,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
         "404":
-          description: The group was not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
-  /groups/{name}/devices:
+  /api/management/v1/inventory/groups/{name}/devices:
     get:
       tags:
       - Management API
@@ -620,19 +556,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
         "404":
-          description: The group was not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
     delete:
@@ -681,19 +609,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
         "404":
-          description: The group was not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
     patch:
@@ -749,24 +669,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
         "404":
-          description: The group was not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
 components:
+  securitySchemes:
+    ManagementJWT:
+      $ref: './common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'
   schemas:
-    Attribute:
+    AttributeV1:
       required:
       - name
       - scope
@@ -836,7 +751,7 @@ components:
         description: Test environment
         value: test
         timestamp: 2016-10-19T17:23:01.639Z
-    DeviceInventory:
+    DeviceInventoryV1:
       type: object
       properties:
         id:
@@ -849,7 +764,7 @@ components:
           type: array
           description: A list of attribute descriptors.
           items:
-            $ref: '#/components/schemas/Attribute'
+            $ref: '#/components/schemas/AttributeV1'
       example:
         id: 291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
         attributes:
@@ -872,24 +787,3 @@ components:
           description: Device group.
       example:
         group: staging
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Description of the error.
-        request_id:
-          type: string
-          description: Request ID (same as in X-MEN-RequestID header).
-      description: Error descriptor.
-      example:
-        error: "failed to decode device group data: JSON payload is empty"
-        request_id: f7881e82-0492-49fb-b459-795654e7188a
-  securitySchemes:
-    ManagementJWT:
-      type: apiKey
-      description: |
-        API token issued by User Authentication service.
-        Format: 'Bearer [JWT]'
-      name: Authorization
-      in: header

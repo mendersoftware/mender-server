@@ -5,10 +5,10 @@ info:
     Intended for use by the web GUI.
   title: Deployments
   version: "1"
-servers:
-- url: https://hosted.mender.io/api/management/v1/deployments
+tags:
+  - name: Management API
 paths:
-  /deployments:
+  /api/management/v1/deployments/deployments:
     get:
       deprecated: true
       description: |
@@ -19,7 +19,7 @@ paths:
         DEPRECATED: _since Mon Oct 21 2024_ we deprecated the endpoint due to an issue with the "search" query
           behavior. Please use the v2 /deployments/deployments endpoint instead.
           In the new endpoint, we replaced search parameter with the "id" and "name" parameters.
-      operationId: List Deployments
+      operationId: Deployments V1 List Deployments
       parameters:
       - description: Deployment status filter.
         in: query
@@ -84,7 +84,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Deployment'
+                  $ref: '#/components/schemas/DeploymentV1'
                 type: array
           description: Successful response.
           headers:
@@ -100,20 +100,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Invalid Request.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Find all deployments
@@ -127,7 +123,7 @@ paths:
         considered finished successfully as well as receive status of `noartifact`.
         If there is no artifacts for the deployment, deployment will not be created
         and the 422 Unprocessable Entity status code will be returned.
-      operationId: Create Deployment
+      operationId: Deployments Create Deployment
       requestBody:
         content:
           application/json:
@@ -148,38 +144,34 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Invalid Request.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: An active deployment with the same parameters already exists.
         "422":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unprocessable Entity.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Create a deployment
       tags:
       - Management API
-  /deployments/statistics/list:
+  /api/management/v1/deployments/deployments/statistics/list:
     post:
       operationId: Deployment Status Statistics List
       requestBody:
@@ -230,33 +222,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Invalid Request.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Not Found.
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
         Get status count for all devices in the listed deployments (plural).
       tags:
       - Management API
-  /deployments/group/{name}:
+  /api/management/v1/deployments/deployments/group/{name}:
     post:
       description: |
         Deploy software to devices belonging to the specified group.
@@ -295,38 +279,34 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Invalid Request.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: An active deployment with the same parameters already exists.
         "422":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unprocessable Entity.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Create a deployment for a group of devices
       tags:
       - Management API
-  /deployments/{id}:
+  /api/management/v1/deployments/deployments/{id}:
     get:
       description: |
         Returns the details of a particular deployment.
@@ -343,32 +323,24 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Deployment'
+                $ref: '#/components/schemas/DeploymentV1'
           description: Successful response.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Not Found.
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Get the details of a selected deployment
       tags:
       - Management API
-  /deployments/{deployment_id}/status:
+  /api/management/v1/deployments/deployments/{deployment_id}/status:
     put:
       description: |
         Abort an ongoing deployment. For devices included in this deployment it means that:
@@ -401,38 +373,30 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Invalid Request.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Not Found.
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "422":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unprocessable Entity.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Abort the deployment
       tags:
       - Management API
-  /deployments/{deployment_id}/statistics:
+  /api/management/v1/deployments/deployments/{deployment_id}/statistics:
     get:
       operationId: Deployment Status Statistics
       parameters:
@@ -460,33 +424,25 @@ paths:
                 pause_before_rebooting: 1
                 pause_before_committing: 1
               schema:
-                $ref: '#/components/schemas/DeploymentStatusStatistics'
+                $ref: '#/components/schemas/StatisticsV1'
           description: OK
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Not Found.
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
         Get status count for all devices in a deployment.
       tags:
       - Management API
-  /deployments/{deployment_id}/devices:
+  /api/management/v1/deployments/deployments/{deployment_id}/devices:
     get:
       deprecated: true
       operationId: List All Devices in Deployment
@@ -503,27 +459,19 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/DeviceWithImage'
+                  $ref: './common/schemas.yaml#/components/schemas/DeviceWithImage'
                 type: array
           description: OK
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Not Found.
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
@@ -532,7 +480,7 @@ paths:
         /deployments/{deployment_id}/devices/list end-point instead.
       tags:
       - Management API
-  /deployments/{deployment_id}/devices/list:
+  /api/management/v1/deployments/deployments/{deployment_id}/devices/list:
     get:
       operationId: List Devices in Deployment
       parameters:
@@ -583,27 +531,19 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/DeviceWithImage'
+                  $ref: './common/schemas.yaml#/components/schemas/DeviceWithImage'
                 type: array
           description: OK
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Not Found.
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
@@ -614,7 +554,7 @@ paths:
         this deployment.
       tags:
       - Management API
-  /deployments/{id}/device_list:
+  /api/management/v1/deployments/deployments/{id}/device_list:
     get:
       operationId: List Device IDs in Deployment
       parameters:
@@ -642,32 +582,24 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Invalid Request.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Not Found.
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Get the list of device IDs being part of the deployment.
       tags:
       - Management API
-  /deployments/{deployment_id}/devices/{device_id}/log:
+  /api/management/v1/deployments/deployments/{deployment_id}/devices/{device_id}/log:
     get:
       description: |
         The response body for this endpoint include the device's deployment logs
@@ -697,26 +629,26 @@ paths:
           content:
             text/plain:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "404":
           content:
             text/plain:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Not Found.
         "500":
           content:
             text/plain:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Internal Server Error.
       security:
       - ManagementJWT: []
       summary: Get the log of a selected device's deployment
       tags:
       - Management API
-  /deployments/devices/{id}:
+  /api/management/v1/deployments/deployments/devices/{id}:
     delete:
       description: |
         Abort all the active and pending Deployments for the specified Device.
@@ -736,14 +668,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal server error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Abort all the active and pending Deployments for a Device
@@ -752,7 +680,7 @@ paths:
     get:
       description: |
         Return the Deployments history for the specified Device, listing all its Deployments.
-      operationId: List Deployments for a Device
+      operationId: Deployments List Deployments for a Device
       parameters:
       - description: System wide device identifier
         in: path
@@ -801,27 +729,23 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/DeviceDeployment'
+                  $ref: '#/components/schemas/DeviceDeploymentV1'
                 type: array
           description: OK
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal server error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Return the Deployments history for a Device
       tags:
       - Management API
-  /deployments/devices/{id}/history:
+  /api/management/v1/deployments/deployments/devices/{id}/history:
     delete:
       description: |
         Mark as logically deleted the completed Device Deployments records for the given device.
@@ -843,20 +767,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Reset the Device Deployments history
       tags:
       - Management API
-  /deployments/releases:
+  /api/management/v1/deployments/deployments/releases:
     get:
       deprecated: true
       description: |
@@ -910,7 +830,8 @@ paths:
                       checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
                       size: 123
                       date: 2016-03-11T13:03:17.063+0000
-                    meta_data: []
+                    meta_data:
+                      type: object
                   artifact_provides:
                     artifact_name: test
                     rootfs-image.checksum: 32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99
@@ -981,27 +902,23 @@ paths:
                   size: 36891648
                   modified: 2016-03-11T13:03:17.063493443Z
               schema:
-                $ref: '#/components/schemas/Releases'
+                $ref: '#/components/schemas/ReleasesV1'
           description: Successful response.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
         List releases
       tags:
       - Management API
-  /deployments/releases/list:
+  /api/management/v1/deployments/deployments/releases/list:
     get:
       deprecated: true
       description: |
@@ -1011,7 +928,7 @@ paths:
         DEPRECATED: _since Sep 24 2023_ due to a mismatch in the capitalization of the fields of the response
         body and lack of support for advanced filters and sorting, we have deprecated this
         endpoint. Please use the v2 /deployments/releases end-point instead.
-      operationId: List Releases with pagination
+      operationId: Deployments V1 List Releases with pagination
       parameters:
       - description: Release name filter.
         in: query
@@ -1156,7 +1073,7 @@ paths:
                   size: 36891648
                   modified: 2016-03-11T13:03:17.063493443Z
               schema:
-                $ref: '#/components/schemas/Releases'
+                $ref: '#/components/schemas/ReleasesV1'
           description: Successful response.
           headers:
             X-Total-Count:
@@ -1171,21 +1088,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
         List releases with pagination
       tags:
       - Management API
-  /artifacts:
+  /api/management/v1/deployments/artifacts:
     get:
       deprecated: true
       description: |
@@ -1217,21 +1130,17 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Artifact'
+                  $ref: '#/components/schemas/ArtifactV1'
                 type: array
           description: OK
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
@@ -1262,13 +1171,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Invalid Request.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "409":
           content:
@@ -1284,17 +1193,13 @@ paths:
           description: |
             An artifact with the same name and matching dependency requirements already exists.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Upload mender artifact
       tags:
       - Management API
-  /artifacts/list:
+  /api/management/v1/deployments/artifacts/list:
     get:
       deprecated: true
       description: |
@@ -1303,7 +1208,7 @@ paths:
         DEPRECATED: _since Tue Jul 22 2025_ we deprecated the endpoint due to performance issues.
         Please use the v2 /artifacts endpoint instead.
         In the new endpoint, we support exact and prefix matching for the various fields
-      operationId: List Artifacts with pagination
+      operationId: Deployments V1 List Artifacts with pagination
       parameters:
       - description: Artifact name filter.
         in: query
@@ -1351,7 +1256,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Artifact'
+                  $ref: '#/components/schemas/ArtifactV1'
                 type: array
           description: OK
           headers:
@@ -1367,21 +1272,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
         List known artifacts
       tags:
       - Management API
-  /artifacts/directupload:
+  /api/management/v1/deployments/artifacts/directupload:
     post:
       operationId: Request Direct Upload
       responses:
@@ -1395,21 +1296,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: "Request link for uploading artifact directly to the storage backend.\
         \ This is an on-prem endpoint only, not available on Hosted Mender."
       tags:
       - Management API
-  /artifacts/directupload/{id}/complete:
+  /api/management/v1/deployments/artifacts/directupload/{id}/complete:
     post:
       operationId: Complete Direct Upload
       parameters:
@@ -1434,7 +1331,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "404":
           content:
@@ -1446,11 +1343,7 @@ paths:
                 $ref: '#/components/schemas/CompleteDirectUpload404Response'
           description: A pending direct upload with the given ID was not found.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: "Notify the server that the direct upload is completed to make it available\
@@ -1459,7 +1352,7 @@ paths:
         \ This is an on-prem endpoint only, not available on Hosted Mender."
       tags:
       - Management API
-  /artifacts/generate:
+  /api/management/v1/deployments/artifacts/generate:
     post:
       description: |
         Generate a new Mender artifact from raw data and meta data. Multipart request with meta and raw file.
@@ -1484,26 +1377,22 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Invalid Request.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Upload raw data to generate a new artifact
       tags:
       - Management API
-  /artifacts/{id}:
+  /api/management/v1/deployments/artifacts/{id}:
     delete:
       description: |
         Deletes the artifact from file and artifacts storage.
@@ -1525,26 +1414,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Not Found.
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Artifact used by active deployment.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Delete the artifact
@@ -1595,32 +1476,24 @@ paths:
                 size: 36891648
                 modified: 2016-03-11T13:03:17.063493443Z
               schema:
-                $ref: '#/components/schemas/Artifact'
+                $ref: '#/components/schemas/ArtifactV1'
           description: Successful response.
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Invalid Request.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Not Found.
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Get the details of a selected artifact
@@ -1642,7 +1515,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ArtifactUpdate'
+              $ref: '#/components/schemas/ArtifactUpdateV1'
         required: false
       responses:
         "204":
@@ -1652,38 +1525,30 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Invalid Request.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Not Found.
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "422":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unprocessable Entity.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Update description of a selected artifact
       tags:
       - Management API
-  /artifacts/{id}/download:
+  /api/management/v1/deployments/artifacts/{id}/download:
     get:
       description: |
         Generates signed URL for downloading artifact file. URI can be used only
@@ -1709,115 +1574,54 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Invalid Request.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Not Found.
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Get the download link of a selected artifact
       tags:
       - Management API
-  /limits/storage:
+  /api/management/v1/deployments/limits/storage:
     get:
       description: |
         Get storage limit and current storage usage for currently logged in user.
         If the limit value is 0 it means there is no limit for storage for logged in user.
-      operationId: Get Storage Usage
+      operationId: Deployments Get Storage Usage
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StorageLimit'
+                $ref: './common/schemas.yaml#/components/schemas/StorageLimit'
           description: Successful response.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Get storage limit and current storage usage
       tags:
       - Management API
 components:
-  responses:
-    NotFoundError:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Not Found.
-    InternalServerError:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Internal Server Error.
-    InvalidRequestError:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Invalid Request.
-    ConflictError:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: An active deployment with the same parameters already exists.
-    UnauthorizedError:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Unauthorized.
-    UnprocessableEntityError:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Unprocessable Entity.
+  securitySchemes:
+    ManagementJWT:
+      $ref: './common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'
   schemas:
-    Error:
-      description: Error descriptor.
-      example:
-        error: "failed to decode request body: JSON payload is empty"
-        request_id: f7881e82-0492-49fb-b459-795654e7188a
-      properties:
-        error:
-          description: Description of the error.
-          type: string
-        request_id:
-          description: Request ID (same as in X-MEN-RequestID header).
-          type: string
-      required:
-      - error
-      type: object
     ErrorExt:
       description: Error descriptor with additional metadata.
       example:
@@ -1888,7 +1692,7 @@ components:
       - artifact_name
       - name
       type: object
-    Deployment:
+    DeploymentV1:
       example:
         created: 2016-02-11T13:03:17.063493443Z
         status: finished
@@ -1948,9 +1752,9 @@ components:
             with the deployment constructor.
           type: string
         statistics:
-          $ref: '#/components/schemas/DeploymentStatistics'
+          $ref: '#/components/schemas/DeploymentStatisticsV1'
         filter:
-          $ref: '#/components/schemas/Filter'
+          $ref: '#/components/schemas/FilterV1'
       required:
       - artifact_name
       - created
@@ -1959,10 +1763,10 @@ components:
       - name
       - status
       type: object
-    DeploymentStatistics:
+    DeploymentStatisticsV1:
       properties:
         status:
-          $ref: '#/components/schemas/DeploymentStatusStatistics'
+          $ref: '#/components/schemas/StatisticsV1'
         total_size:
           description: |
             Sum of sizes (in bytes) of all artifacts assigned to all device deployments,
@@ -1971,7 +1775,7 @@ components:
             its size will be counted multiple times.
           type: integer
       type: object
-    DeploymentStatusStatistics:
+    StatisticsV1:
       example:
         success: 3
         pending: 1
@@ -2037,131 +1841,7 @@ components:
       - rebooting
       - success
       type: object
-    Device:
-      example:
-        id: 00a0c91e6-7dec-11d0-a765-f81d4faebf6
-        finished: 2016-03-11T13:03:17.063493443Z
-        status: installing
-        created: 2016-02-11T13:03:17.063493443Z
-        started: 2016-02-12T13:03:17.063493443Z
-        device_type: Raspberry Pi 3
-        log: false
-        state: installing
-        substate: installing.enter;script:foo-bar
-      properties:
-        id:
-          description: Device identifier.
-          type: string
-        status:
-          $ref: '#/components/schemas/DeviceStatus'
-        created:
-          format: date-time
-          type: string
-        started:
-          format: date-time
-          type: string
-        finished:
-          format: date-time
-          type: string
-        deleted:
-          format: date-time
-          type: string
-        device_type:
-          type: string
-        log:
-          description: Availability of the device's deployment log.
-          type: boolean
-        state:
-          description: State reported by device
-          type: string
-        substate:
-          description: Additional state information
-          type: string
-      required:
-      - id
-      - log
-      - status
-      type: object
-    DeviceWithImage:
-      example:
-        id: 00a0c91e6-7dec-11d0-a765-f81d4faebf6
-        finished: 2016-03-11T13:03:17.063493443Z
-        status: installing
-        created: 2016-02-11T13:03:17.063493443Z
-        started: 2016-02-12T13:03:17.063493443Z
-        device_type: Raspberry Pi 3
-        log: false
-        state: installing
-        substate: installing.enter;script:foo-bar
-        image:
-          id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
-          name: Application 1.0.0
-          meta:
-            description: Johns Monday test build
-          meta_artifact:
-            name: Application 1.0.0
-            device_types_compatible:
-            - Beagle Bone
-            info:
-              format: mender
-              version: 3
-            updates:
-            - type_info:
-                type: rootfs-image
-              files:
-              - name: rootfs-image-1
-                checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
-                size: 123
-                date: 2016-03-11T13:03:17.063+0000
-              meta_data: []
-            artifact_provides:
-              artifact_name: test
-              rootfs-image.checksum: 32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99
-              rootfs-image.version: test
-            artifact_depends:
-              device_type:
-              - test
-            clears_artifact_provides:
-            - rootfs-image.*
-          size: 36891648
-          modified: 2016-03-11T13:03:17.063493443Z
-      properties:
-        id:
-          description: Device identifier.
-          type: string
-        status:
-          $ref: '#/components/schemas/DeviceStatus'
-        created:
-          format: date-time
-          type: string
-        started:
-          format: date-time
-          type: string
-        finished:
-          format: date-time
-          type: string
-        deleted:
-          format: date-time
-          type: string
-        device_type:
-          type: string
-        log:
-          description: Availability of the device's deployment log.
-          type: boolean
-        state:
-          description: State reported by device
-          type: string
-        substate:
-          description: Additional state information
-          type: string
-        image:
-          $ref: '#/components/schemas/DeviceWithImageImage'
-      required:
-      - id
-      - log
-      - status
-      type: object
-    DeviceDeployment:
+    DeviceDeploymentV1:
       example:
         id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
         deployment:
@@ -2201,7 +1881,8 @@ components:
                   checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
                   size: 123
                   date: 2016-03-11T13:03:17.063+0000
-                meta_data: []
+                meta_data:
+                  type: object
               artifact_provides:
                 artifact_name: test
                 rootfs-image.checksum: 32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99
@@ -2217,14 +1898,14 @@ components:
         id:
           type: string
         deployment:
-          $ref: '#/components/schemas/Deployment'
+          $ref: '#/components/schemas/DeploymentV1'
         device:
-          $ref: '#/components/schemas/DeviceWithImage'
+          $ref: './common/schemas.yaml#/components/schemas/DeviceWithImage'
       required:
       - deployment
       - device
       type: object
-    ArtifactUpdate:
+    ArtifactUpdateV1:
       description: Artifact information update.
       example:
         description: Some description
@@ -2232,36 +1913,7 @@ components:
         description:
           type: string
       type: object
-    ArtifactTypeInfo:
-      description: |
-        Information about update type.
-      example:
-        type: type
-      properties:
-        type:
-          description: "Note that for emtpy Artifacts, the type is 'null'"
-          type: string
-      type: object
-    UpdateFile:
-      description: |
-        Information about particular update file.
-      example:
-        date: 2000-01-23T04:56:07.000+00:00
-        size: 6
-        name: name
-        checksum: checksum
-      properties:
-        name:
-          type: string
-        checksum:
-          type: string
-        size:
-          type: integer
-        date:
-          format: date-time
-          type: string
-      type: object
-    Update:
+    UpdateV1:
       description: |
         Single updated to be applied.
       example:
@@ -2279,26 +1931,17 @@ components:
           checksum: checksum
       properties:
         type_info:
-          $ref: '#/components/schemas/ArtifactTypeInfo'
+          $ref: './common/schemas.yaml#/components/schemas/ArtifactTypeInfo'
         files:
           items:
-            $ref: '#/components/schemas/UpdateFile'
+            $ref: './common/schemas.yaml#/components/schemas/UpdateFile'
           type: array
         meta_data:
           items:
             $ref: '#/components/schemas/MetadataAny'
           type: array
       type: object
-    ArtifactInfo:
-      description: |
-        Information about artifact format and version.
-      properties:
-        format:
-          type: string
-        version:
-          type: integer
-      type: object
-    Artifact:
+    ArtifactV1:
       description: Detailed artifact.
       example:
         id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
@@ -2342,13 +1985,13 @@ components:
             type: string
           type: array
         info:
-          $ref: '#/components/schemas/ArtifactInfo'
+          $ref: './common/schemas.yaml#/components/schemas/ArtifactInfo'
         signed:
           description: Idicates if artifact is signed or not.
           type: boolean
         updates:
           items:
-            $ref: '#/components/schemas/Update'
+            $ref: '#/components/schemas/UpdateV1'
           type: array
         artifact_provides:
           additionalProperties:
@@ -2424,46 +2067,12 @@ components:
       - id
       - uri
       type: object
-    DeviceStatus:
-      enum:
-      - failure
-      - aborted
-      - pause_before_installing
-      - pause_before_committing
-      - pause_before_rebooting
-      - downloading
-      - installing
-      - rebooting
-      - pending
-      - success
-      - noartifact
-      - already-installed
-      - decommissioned
-      type: string
-    StorageLimit:
-      description: Tenant account storage limit and storage usage.
-      example:
-        limit: 1073741824
-        usage: 536870912
-      properties:
-        limit:
-          description: |
-            Storage limit in bytes. If set to 0 - there is no limit for storage.
-          type: integer
-        usage:
-          description: |
-            Current storage usage in bytes.
-          type: integer
-      required:
-      - limit
-      - usage
-      type: object
-    Releases:
+    ReleasesV1:
       description: List of releases
       items:
-        $ref: '#/components/schemas/Release'
+        $ref: '#/components/schemas/ReleaseV1'
       type: array
-    Release:
+    ReleaseV1:
       description: Groups artifacts with the same release name into a single resource.
       example:
         name: my-app-v1.0.1
@@ -2537,7 +2146,7 @@ components:
         Artifacts:
           description: List of artifacts for this release.
           items:
-            $ref: '#/components/schemas/Artifact'
+            $ref: '#/components/schemas/ArtifactV1'
           type: array
         ArtifactsCount:
           description: |-
@@ -2593,7 +2202,7 @@ components:
         updates:
           description: List of updates for this artifact.
           items:
-            $ref: '#/components/schemas/Update'
+            $ref: '#/components/schemas/UpdateV1'
           type: array
       type: object
     DeploymentIdentifier:
@@ -2609,7 +2218,7 @@ components:
             type: string
           type: array
       type: object
-    FilterPredicate:
+    FilterPredicateV1:
       description: Attribute filter predicate
       example:
         type: $eq
@@ -2655,7 +2264,7 @@ components:
       - type
       - value
       type: object
-    Filter:
+    FilterV1:
       description: |
         Filter built based on devices targeted by the deployment.
       example:
@@ -2667,7 +2276,7 @@ components:
       properties:
         terms:
           items:
-            $ref: '#/components/schemas/FilterPredicate'
+            $ref: '#/components/schemas/FilterPredicateV1'
           type: array
       required:
       - terms
@@ -2693,7 +2302,7 @@ components:
           description: The deployment ID
           type: string
         stats:
-          $ref: '#/components/schemas/DeploymentStatusStatistics'
+          $ref: '#/components/schemas/StatisticsV1'
       type: object
     AbortDeploymentRequest:
       properties:
@@ -2768,81 +2377,8 @@ components:
       - name
       - type
       type: object
-    DeviceWithImageImageMeta:
-      properties:
-        description:
-          description: Image description
-          type: string
-      type: object
-    DeviceWithImageImageMetaArtifact:
-      properties:
-        name:
-          type: string
-        device_types_compatible:
-          description: An array of compatible device types.
-          items:
-            type: string
-          type: array
-        info:
-          $ref: '#/components/schemas/ArtifactInfo'
-        signed:
-          description: Idicates if artifact is signed or not.
-          type: boolean
-        updates:
-          items:
-            $ref: '#/components/schemas/Update'
-          type: array
-        artifact_provides:
-          additionalProperties:
-            type: string
-          description: |
-            List of Artifact provides.
-
-            Map of key/value pairs, where both keys and values are strings.
-          type: object
-        artifact_depends:
-          additionalProperties:
-            items:
-              type: string
-            type: array
-          description: |
-            List of Artifact depends.
-
-            Map of key/value pairs, where keys are strings and values are lists of strings.
-          type: object
-        clears_artifact_provides:
-          description: List of Clear Artifact provides.
-          items:
-            type: string
-          type: array
-      type: object
-    DeviceWithImageImage:
-      properties:
-        id:
-          description: Image ID
-          type: string
-        meta:
-          $ref: '#/components/schemas/DeviceWithImageImageMeta'
-        meta_artifact:
-          $ref: '#/components/schemas/DeviceWithImageImageMetaArtifact'
-        size:
-          description: Image size in bytes
-          type: integer
-        modified:
-          description: Creation / last edition of any of the artifact properties
-          format: date-time
-          type: string
-      type: object
     MetadataAny:
       description: meta_data is an object of unknown structure as this is dependent of update type (also custom defined by user)
       additionalProperties:
         type: string
       type: object
-  securitySchemes:
-    ManagementJWT:
-      description: |
-        API token issued by User Authentication service.
-        Format: 'Bearer [JWT]'
-      in: header
-      name: Authorization
-      type: apiKey

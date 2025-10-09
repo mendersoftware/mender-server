@@ -5,17 +5,17 @@ info:
     Intended for use by the web UI.
   title: Deployments v2
   version: "2"
-servers:
-- url: https://hosted.mender.io/api/management/v2/deployments
+tags:
+  - name: Management API
 paths:
-  /deployments:
+  /api/management/v2/deployments/deployments:
     get:
       description: |
         Returns a filtered collection of deployments in the system. While you can provide multiple
         deployment identifiers, and multiple names to get the multiple deployments you cannot mix
         the ids and names in a one query expecting to get deployments that match both names or ids.
         The endpoint will return the deployments that match the ids and the name, if combined.
-      operationId: List Deployments
+      operationId: Deployments V2 List Deployments
       parameters:
       - description: |
           Deployment identifier. You can provide it multiple times to query a set of deployments.
@@ -87,7 +87,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Deployment'
+                  $ref: '#/components/schemas/DeploymentV2'
                 type: array
           description: Successful response.
           headers:
@@ -103,26 +103,22 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: "Bad request, see error message for details."
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: List all the deployments matching the specified filter parameters
       tags:
       - Management API
-  /deployments/releases:
+  /api/management/v2/deployments/deployments/releases:
     delete:
       description: |
         Deletes releases with names provided in the message body.
@@ -144,13 +140,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: "Bad request, see error message for details."
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "409":
           content:
@@ -159,11 +155,7 @@ paths:
                 $ref: '#/components/schemas/ReleasesDeleteError'
           description: Conflict.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Delete the releases with given names
@@ -173,7 +165,7 @@ paths:
       description: |
         Returns a collection of releases, allows filtering by release name and sorting
         by name or last modification date.
-      operationId: List Releases with pagination
+      operationId: Deployments V2 List Releases with pagination
       parameters:
       - description: Release name filter.
         in: query
@@ -317,7 +309,7 @@ paths:
                   size: 36891648
                   modified: 2016-03-11T13:03:17.063493443Z
               schema:
-                $ref: '#/components/schemas/Releases'
+                $ref: '#/components/schemas/ReleasesV2'
           description: Successful response.
           headers:
             X-Total-Count:
@@ -332,21 +324,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
         List releases
       tags:
       - Management API
-  /deployments/releases/{release_name}:
+  /api/management/v2/deployments/deployments/releases/{release_name}:
     get:
       description: |
         Returns the release with given name.
@@ -363,26 +351,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Release'
+                $ref: '#/components/schemas/ReleaseV2'
           description: Successful response.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Not Found.
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
@@ -414,27 +394,23 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: "Bad request, see error message for details."
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
         Update selected fields of the Release object.
       tags:
       - Management API
-  /deployments/releases/{release_name}/tags:
+  /api/management/v2/deployments/deployments/releases/{release_name}/tags:
     put:
       description: |
         Assigns tags to a release. The tags associated with the release will be
@@ -465,13 +441,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: "Bad request, see error message for details."
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "409":
           content:
@@ -480,21 +456,17 @@ paths:
                 error: the total number of unique tags has been exceeded
                 request_id: f7881e82-0492-49fb-b459-795654e7188a
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Too many unique tag keys in use.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
         Update and replace the tags of a release.
       tags:
       - Management API
-  /releases/all/tags:
+  /api/management/v2/deployments/releases/all/tags:
     get:
       operationId: List Release Tags
       responses:
@@ -508,13 +480,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: "Bad request, see error message for details."
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "409":
           content:
@@ -523,21 +495,17 @@ paths:
                 error: the total number of unique tags has been exceeded
                 request_id: f7881e82-0492-49fb-b459-795654e7188a
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Too many unique tag keys in use.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
         Lists all available tags for releases.
       tags:
       - Management API
-  /releases/all/types:
+  /api/management/v2/deployments/releases/all/types:
     get:
       operationId: List Release Types
       responses:
@@ -551,31 +519,27 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: "Bad request, see error message for details."
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
         Lists all release update types.
       tags:
       - Management API
-  /artifacts:
+  /api/management/v2/deployments/artifacts:
     get:
       description: |
         Returns a collection of all artifacts sorted by name.
-      operationId: List Artifacts with pagination
+      operationId: Deployments V2 List Artifacts with pagination
       parameters:
       - description: |
           Artifact(s) name(s) filter.
@@ -636,7 +600,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Artifact'
+                  $ref: '#/components/schemas/ArtifactV2'
                 type: array
           description: OK
           headers:
@@ -648,14 +612,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
@@ -663,45 +623,11 @@ paths:
       tags:
       - Management API
 components:
-  responses:
-    InvalidRequestError:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: "Bad request, see error message for details."
-    UnauthorizedError:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Unauthorized.
-    NotFoundError:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Not Found.
-    ConflictError:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ReleasesDeleteError'
-      description: Conflict.
-    UnprocessableEntityError:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Unprocessable Entity.
-    InternalServerError:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Internal Server Error.
+  securitySchemes:
+    ManagementJWT:
+      $ref: './common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'
   schemas:
-    Artifact:
+    ArtifactV2:
       description: Detailed artifact.
       example:
         id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
@@ -745,13 +671,13 @@ components:
             type: string
           type: array
         info:
-          $ref: '#/components/schemas/ArtifactInfo'
+          $ref: './common/schemas.yaml#/components/schemas/ArtifactInfo'
         signed:
           description: Idicates if artifact is signed or not.
           type: boolean
         updates:
           items:
-            $ref: '#/components/schemas/Update'
+            $ref: '#/components/schemas/UpdateV2'
           type: array
         artifact_provides:
           additionalProperties:
@@ -792,29 +718,12 @@ components:
       - modified
       - name
       type: object
-    ArtifactInfo:
-      description: |
-        Information about artifact format and version.
-      properties:
-        format:
-          type: string
-        version:
-          type: integer
-      type: object
-    ArtifactTypeInfo:
-      description: |
-        Information about update type.
-      properties:
-        type:
-          description: "Note that for emtpy Artifacts, the type is 'null'"
-          type: string
-      type: object
-    Releases:
+    ReleasesV2:
       description: List of releases
       items:
-        $ref: '#/components/schemas/Release'
+        $ref: '#/components/schemas/ReleaseV2'
       type: array
-    Release:
+    ReleaseV2:
       description: Groups artifacts with the same release name into a single resource.
       example:
         name: my-app-v1.0.1
@@ -888,7 +797,7 @@ components:
         artifacts:
           description: List of artifacts for this release.
           items:
-            $ref: '#/components/schemas/Artifact'
+            $ref: '#/components/schemas/ArtifactV2'
           type: array
         tags:
           description: |-
@@ -920,15 +829,15 @@ components:
       items:
         type: string
       type: array
-    Update:
+    UpdateV2:
       description: |
         Single updated to be applied.
       properties:
         type_info:
-          $ref: '#/components/schemas/ArtifactTypeInfo'
+          $ref: './common/schemas.yaml#/components/schemas/ArtifactTypeInfo'
         files:
           items:
-            $ref: '#/components/schemas/UpdateFile'
+            $ref: './common/schemas.yaml#/components/schemas/UpdateFile'
           type: array
         meta_data:
           description: |
@@ -939,39 +848,12 @@ components:
             type: object
           type: array
       type: object
-    UpdateFile:
-      description: |
-        Information about particular update file.
-      properties:
-        name:
-          type: string
-        checksum:
-          type: string
-        size:
-          type: integer
-        date:
-          format: date-time
-          type: string
-      type: object
     UpdateTypes:
       description: Update types as present in the images.
       items:
         type: string
       type: array
-    Error:
-      description: Error descriptor.
-      example:
-        error: "failed to decode device group data: JSON payload is empty"
-        request_id: f7881e82-0492-49fb-b459-795654e7188a
-      properties:
-        error:
-          description: Description of the error.
-          type: string
-        request_id:
-          description: Request ID (same as in X-MEN-RequestID header).
-          type: string
-      type: object
-    FilterPredicate:
+    FilterPredicateV2:
       description: Attribute filter predicate
       example:
         type: $eq
@@ -1017,7 +899,7 @@ components:
       - type
       - value
       type: object
-    Filter:
+    FilterV2:
       description: Inventory filter assigned to the deployment
       example:
         id: myfilter
@@ -1038,7 +920,7 @@ components:
           type: string
         terms:
           items:
-            $ref: '#/components/schemas/FilterPredicate'
+            $ref: '#/components/schemas/FilterPredicateV2'
           type: array
       required:
       - id
@@ -1070,7 +952,7 @@ components:
             Number of devices which already requested an update within this phase.
           type: integer
       type: object
-    DeploymentStatusStatistics:
+    StatisticsV2:
       example:
         success: 3
         pending: 1
@@ -1136,10 +1018,10 @@ components:
       - rebooting
       - success
       type: object
-    DeploymentStatistics:
+    DeploymentStatisticsV2:
       properties:
         status:
-          $ref: '#/components/schemas/DeploymentStatusStatistics'
+          $ref: '#/components/schemas/StatisticsV2'
         total_size:
           description: |
             Sum of sizes (in bytes) of all artifacts assigned to all device deployments,
@@ -1148,7 +1030,7 @@ components:
             its size will be counted multiple times.
           type: integer
       type: object
-    Deployment:
+    DeploymentV2:
       example:
         created: 2016-02-11T13:03:17.063493443Z
         status: finished
@@ -1237,7 +1119,7 @@ components:
             Flag indicating if the deployment is dynamic or not.
           type: boolean
         filter:
-          $ref: '#/components/schemas/Filter'
+          $ref: '#/components/schemas/FilterV2'
         type:
           enum:
           - configuration
@@ -1253,7 +1135,7 @@ components:
             The flag idicating if the autogeneration of delta artifacts is enabled for a given deployment.
           type: boolean
         statistics:
-          $ref: '#/components/schemas/DeploymentStatistics'
+          $ref: '#/components/schemas/DeploymentStatisticsV2'
       required:
       - artifact_name
       - created
@@ -1261,79 +1143,6 @@ components:
       - id
       - name
       - status
-      type: object
-    NewDeploymentV2:
-      example:
-        name: production
-        artifact_name: Application 0.0.1
-        filter_id: 00a0c91e6-7dec-11d0-a765-f81d4faebf6
-        phases:
-        - batch_size: 5
-          start_ts: 2020-07-06T17:04:49.114046203+02:00
-        - batch_size: 15
-          start_ts: 2020-07-06T18:04:49.114046203+02:00
-        - start_ts: 2020-07-06T19:04:49.114046203+02:00
-        retries: 3
-      properties:
-        name:
-          type: string
-        artifact_name:
-          type: string
-        filter_id:
-          description: ID of a filter from inventory service.
-          type: string
-        phases:
-          description: |
-            Phased rollout feature is available only to Enterprise users.
-          items:
-            $ref: '#/components/schemas/NewDeploymentPhase'
-          type: array
-        retries:
-          description: "The number of times a device can retry the deployment in case\
-            \ of failure, defaults to 0"
-          type: integer
-        max_devices:
-          description: |
-            max_devices denotes a limit on a number of completed deployments (failed or successful) above which the dynamic deployment will be finished
-          type: integer
-        update_control_map:
-          additionalProperties: true
-          description: |
-            A valid JSON object defining the update control map.
-            *NOTE*: Available only in the Enterprise plan.
-          type: object
-          x-mender-plan:
-          - enterprise
-        autogenerate_delta:
-          default: false
-          description: |
-            The flag idicating if the autogeneration of delta artifacts is enabled for a given deployment.
-          type: boolean
-      required:
-      - artifact_name
-      - filter_id
-      - name
-      type: object
-    NewDeploymentPhase:
-      example:
-        start_ts: 2019-07-07T21:10:17.063493443Z
-        batch_size: 5
-      properties:
-        batch_size:
-          description: |
-            Percentage of devices to update in the phase.
-            This field is optional for the last phase.
-            The last phase will contain the rest of the devices.
-            Note that if the percentage of devices entered does not add up to a whole number of devices it is rounded down, and in the case it is rounded down to zero, a 400 error will be returned.
-            This is mostly a concern when the deployment consists of a low number of devices, like say 5 percent of 11 devices will round to zero, and an error is returned by the server.
-            In the case of dynamic deployment, the number of devices for each phase is being calculated based on the initial number of devices matching the filter.
-          type: integer
-        start_ts:
-          description: |
-            Start date of a phase.
-            Can be skipped for the first phase of a new deployment definition ('start immediately').
-          format: date-time
-          type: string
       type: object
     ReleasesDeleteError:
       description: Releases used by active deployment.
@@ -1354,11 +1163,3 @@ components:
           description: Request ID (same as in X-MEN-RequestID header).
           type: string
       type: object
-  securitySchemes:
-    ManagementJWT:
-      description: |
-        API token issued by User Authentication service.
-        Format: 'Bearer [JWT]'
-      in: header
-      name: Authorization
-      type: apiKey

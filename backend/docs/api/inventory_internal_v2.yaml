@@ -5,10 +5,10 @@ info:
     An API for inventory-based filters management and device search.
     Not exposed via the API Gateway - intended for internal use only.
   version: "1"
-servers:
-- url: http://mender-inventory:8080/api/internal/v2/inventory
+tags:
+  - name: Internal API
 paths:
-  /tenants/{tenant_id}/filters/search:
+  /api/internal/v2/inventory/tenants/{tenant_id}/filters/search:
     post:
       tags:
       - Internal API
@@ -17,7 +17,7 @@ paths:
         Returns a paged collection of devices and their attributes.
 
         It accepts optional filters and sort parameters as body parameters.
-      operationId: Search Device Inventories
+      operationId: Inventory Internal V2 Search Device Inventories
       parameters:
       - name: tenant_id
         in: path
@@ -54,12 +54,12 @@ paths:
                   description: "List of filter predicates, chained with boolean AND\
                     \ operators to build the search condition definition."
                   items:
-                    $ref: '#/components/schemas/FilterPredicate'
+                    $ref: './common/schemas.yaml#/components/schemas/FilterPredicate'
                 sort:
                   type: array
                   description: List of ordered sort criterias
                   items:
-                    $ref: '#/components/schemas/SortCriteria'
+                    $ref: './common/schemas.yaml#/components/schemas/SortCriteria'
                 attributes:
                   type: array
                   description: List of attributes to select and return
@@ -106,46 +106,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
-          description: Internal error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 components:
   schemas:
-    Attribute:
-      required:
-      - name
-      - scope
-      - value
-      type: object
-      properties:
-        name:
-          type: string
-          description: |
-            A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc.
-        scope:
-          $ref: '#/components/schemas/Scope'
-        description:
-          type: string
-          description: Attribute description.
-        value:
-          type: string
-          description: |
-            The current value of the attribute.
-
-            Attribute type is implicit, inferred from the JSON type.
-
-            Supported types: number, string, array of numbers, array of strings.
-            Mixed arrays are not allowed.
-      description: Attribute descriptor.
-      example:
-        name: serial_no
-        scope: inventory
-        description: Serial number
-        value: "123456789"
     DeviceInventory:
       type: object
       properties:
@@ -159,7 +124,7 @@ components:
           type: array
           description: A list of attribute descriptors.
           items:
-            $ref: '#/components/schemas/Attribute'
+            $ref: './common/schemas.yaml#/components/schemas/AttributeV2'
       example:
         id: 291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
         attributes:
@@ -172,64 +137,6 @@ components:
           value: 00.01:02:03:04:05
           description: MAC address
         updated_ts: 2016-10-03T16:58:51.639Z
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Description of the error.
-        request_id:
-          type: string
-          description: Request ID (same as in X-MEN-RequestID header).
-      description: Error descriptor.
-      example:
-        error: "failed to decode device group data: JSON payload is empty"
-        request_id: f7881e82-0492-49fb-b459-795654e7188a
-    FilterPredicate:
-      required:
-      - attribute
-      - scope
-      - type
-      - value
-      type: object
-      properties:
-        scope:
-          $ref: '#/components/schemas/Scope'
-        attribute:
-          type: string
-          description: |
-            Name of the attribute to be queried for filtering.
-        type:
-          type: string
-          description: Type or operator of the filter predicate.
-          enum:
-          - $eq
-          - $in
-          - $nin
-        value:
-          type: string
-          description: |
-            The value of the attribute to be used in filtering.
-
-            Attribute type is implicit, inferred from the JSON type.
-
-            Supported types: number, string, array of numbers, array of strings.
-            Mixed arrays are not allowed.
-
-            The $exists operator expects a boolean value: true means the specified
-            attribute exists, false means the specified attribute doesn't exist.
-
-            The $regex operator expects a string as a Perl compatible regular expression
-            (PCRE), automatically anchored by ^. If the regular expression is not valid,
-            the filter will produce no results. If you need to specify options and flags,
-            you can provide the full regex in the format of /regex/flags, for example
-            `/[a-z]+/i`.
-      description: Attribute filter predicate
-      example:
-        type: $eq
-        attribute: serial_no
-        scope: inventory
-        value: "123456789"
     SelectAttribute:
       required:
       - attribute
@@ -245,33 +152,6 @@ components:
       example:
         attribute: serial_no
         scope: inventory
-    SortCriteria:
-      required:
-      - attribute
-      - order
-      - scope
-      type: object
-      properties:
-        scope:
-          $ref: '#/components/schemas/Scope'
-        attribute:
-          type: string
-          description: |
-            Name of the attribute to be queried for filtering.
-        order:
-          type: string
-          description: |
-            Order direction, ascending or descending.
-
-            Defaults to ascending.
-          enum:
-          - asc
-          - desc
-      description: Sort criteria definition
-      example:
-        attribute: serial_no
-        scope: inventory
-        order: asc
     Scope:
       type: string
       description: |

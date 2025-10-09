@@ -48,7 +48,7 @@ class TestDeployment:
         )
 
     def test_deployments_get(self):
-        res = management_v1_client(jwt=self.d.get_jwt()).list_deployments()
+        res = management_v1_client(jwt=self.d.get_jwt()).deployments_v1_list_deployments()
         self.d.log.debug("result: %s", res)
 
         # try with bogus image ID
@@ -86,7 +86,7 @@ class TestDeployment:
         for newdep in baddeps:
             # try bogus image data
             try:
-                management_v1_client(jwt=self.d.get_jwt()).create_deployment(
+                management_v1_client(jwt=self.d.get_jwt()).deployments_create_deployment(
                     new_deployment=newdep
                 )
             except ApiException as e:
