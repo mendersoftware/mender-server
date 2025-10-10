@@ -1,0 +1,135 @@
+openapi: 3.0.0
+info:
+  version: '1.0'
+  title: Device Authentication
+  description: |
+    An API for device authentication handling. Intended for use by devices.
+servers:
+  - url: https://hosted.mender.io/api/devices/v1/authentication
+
+security:
+  - DeviceJWT: []
+
+paths:
+  /auth_requests:
+    post:
+      summary: Submit an authentication request
+      description: |
+        The device presents its unique identity data and public key, and signs the request with its private key.
+        If the request is valid and the device is known to the system, a valid JWT authentication token is issued.
+
+        Unless the device is pre-authorized, the very first authentication request from a device will
+        always result in a 'HTTP 401 Unauthorized' response. At the same time, the identity data is recorded for
+        later inspection by the user, who can then explicitly accept or reject the device via the web GUI.
+        A subsequent authentication request will reflect this decision.
+
+        Note that when the JWT expires, the device must renew the JWT by sending a new authentication request.
+      operationId: Authenticate Device
+      tags:
+        - Device API
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthRequest'
+      parameters:
+        - name: X-MEN-Signature
+          in: header
+          required: true
+          description: |
+            Request signature.
+            The request signature depends on the public key submitted in the AuthRequest.
+            A summary of signature algorithms and format follows:
+            | Type       | Digest              | Format                   | Algorithm    |
+            |------------|---------------------|--------------------------|--------------|
+            | RSA        | SHA256(AuthRequest) | Base64(Signature)        | [RFC2313]    |
+            | ECDSA      | SHA256(AuthRequest) | Base64(ASN.1(SEQ{R, S})) | [ANSI x9.62] |
+            | Ed25519    | AuthRequest         | Base64(Signature)        | [RFC8032]    |
+            *Remark:*
+            For ECDSA, the signature constitutes two integers (R and S)
+            in which case the binary signature is taken as the ASN.1 sequence of
+            the two numbers in the given order.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Authentication successful - a new JWT is issued and returned.
+          content:
+            application/json:
+              schema:
+                type: string
+                example: |
+                  eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE0NzYxMTkxMzYsImp0aSI6Ijg1NGIzMTA5LTQ4NjItNGEyNS1hMWZiLWYxMTE2MWNlN2E4NCIsImlzcyI6Ik1lbmRlciIsInN1YiI6IjlmNzM2YmNiMjhiZmFhOTg5YjVmNWUxNDA5ZGJmMGVhYzdhNjYxMjZiNjMyZDAzYWYwZmUzNGFjMjhiZjRhNzIifQ.PArg_WuoQkOiJ4kDoHYbQRjnxykeF1lIlsgJfUryhivnip2AHz5bkxxaxF20XTq9mIzSDonTSukfOtkaxJTZXjCMHjgh50iwa6_pUivIYWsIJW2O9t_M9T_SC-7Xu7IhE_iKQFb2NXxVfAG4nZKrheUM4MJBt8SxCawT2EOPopiLeIC6MOFBu_sPa9RsagKSZCRaLTBWVhmEGbfn19tLOX3Z06DZql61G-VY-YuyOlBjpEsCc4HiA1cXIdncCZKugrONOa44_m4yx0VsgRg4jCd2VO-Is-A96Jw3zkZshoD2cPXVSKAhFdhHja447ftuYYRq9kIQghKi3hfsPgyFZQ
+        '400':
+          description: Missing or malformed request parameters or body.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: "missing required parameter: id_data"
+                request_id: "f7881e82-0492-49fb-b459-795654e7188f"
+        '401':
+          description: The device cannot be granted authentication. See the error message for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: "device unauthorized"
+                request_id: "f7881e82-0492-49fb-b459-795654e7188a"
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: "internal error"
+                request_id: "f7881e82-0492-49fb-b459-795654e7188d"
+
+components:
+  securitySchemes:
+    DeviceJWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        API token issued by Device Authentication service.
+        Format: 'Authorization: Bearer [JWT]'
+  schemas:
+    AuthRequest:
+      type: object
+      required:
+        - id_data
+        - pubkey
+      properties:
+        id_data:
+          type: string
+          description: Vendor-specific JSON representation of the device identity data (MACs, serial numbers, etc.).
+        pubkey:
+          type: string
+          description: >
+            The device's public key (PEM encoding), generated by the device or
+            pre-provisioned by the vendor. Currently supported public algorithms
+            are: RSA, Ed25519 and ECDSA P-256.
+        tenant_token:
+          type: string
+          description: Tenant token.
+      example:
+        id_data: '{"mac":"00:01:02:03:04:05"}'
+        pubkey: "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzogVU7RGDilbsoUt/DdH\nVJvcepl0A5+xzGQ50cq1VE/Dyyy8Zp0jzRXCnnu9nu395mAFSZGotZVr+sWEpO3c\nyC3VmXdBZmXmQdZqbdD/GuixJOYfqta2ytbIUPRXFN7/I7sgzxnXWBYXYmObYvdP\nokP0mQanY+WKxp7Q16pt1RoqoAd0kmV39g13rFl35muSHbSBoAW3GBF3gO+mF5Ty\n1ddp/XcgLOsmvNNjY+2HOD5F/RX0fs07mWnbD7x+xz7KEKjF+H7ZpkqCwmwCXaf0\niyYyh1852rti3Afw4mDxuVSD7sd9ggvYMc0QHIpQNkD4YWOhNiE1AB0zH57VbUYG\nUwIDAQAB\n-----END PUBLIC KEY-----\n"
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Description of the error.
+        request_id:
+          type: string
+          description: Request ID (same as in X-MEN-RequestID header).
+      example:
+        error: "error description goes here"
+        request_id: "f7881e82-0492-49fb-b459-795654e71877"
+
