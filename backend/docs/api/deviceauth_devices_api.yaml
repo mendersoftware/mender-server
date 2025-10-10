@@ -4,14 +4,14 @@ info:
   title: Device Authentication
   description: |
     An API for device authentication handling. Intended for use by devices.
-servers:
-  - url: https://hosted.mender.io/api/devices/v1/authentication
+tags:
+  - name: Device API
 
 security:
   - DeviceJWT: []
 
 paths:
-  /auth_requests:
+  /api/devices/v1/authentication/auth_requests:
     post:
       summary: Submit an authentication request
       description: |

@@ -7,9 +7,6 @@ info:
 
   version: "1"
 
-servers:
-  - url: https://hosted.mender.io/api/devices/v1/deviceconnect
-
 # Global security definitions
 security:
   - DeviceJWT: []
@@ -19,7 +16,7 @@ tags:
 
 paths:
 
-  /connect:
+  /api/devices/v1/deviceconnect/connect:
     get:
       tags:
         - Device API

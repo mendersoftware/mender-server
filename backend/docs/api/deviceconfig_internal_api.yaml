@@ -8,14 +8,11 @@ info:
 
   version: "1"
 
-servers:
-  - url: http://mender-deviceconfig:8080/api/internal/v1/deviceconfig
-
 tags:
   - name: Internal API
 
 paths:
-  /health:
+  /api/internal/v1/deviceconfig/health:
     get:
       tags:
         - Internal API
@@ -37,7 +34,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /alive:
+  /api/internal/v1/deviceconfig/alive:
     get:
       tags:
         - Internal API
@@ -53,7 +50,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /tenants:
+  /api/internal/v1/deviceconfig/tenants:
     post:
       tags:
         - Internal API
@@ -72,7 +69,7 @@ paths:
         500:
           $ref: '#/components/responses/InternalServerError'
 
-  /tenants/{tenantId}:
+  /api/internal/v1/deviceconfig/tenants/{tenantId}:
     delete:
       operationId: "Delete Tenant"
       tags:
@@ -91,7 +88,7 @@ paths:
         500:
           $ref: '#/components/responses/InternalServerError'
 
-  /tenants/{tenantId}/devices:
+  /api/internal/v1/deviceconfig/tenants/{tenantId}/devices:
     post:
       tags:
         - Internal API
@@ -117,7 +114,7 @@ paths:
         500:
           $ref: '#/components/responses/InternalServerError'
 
-  /tenants/{tenantId}/devices/{deviceId}:
+  /api/internal/v1/deviceconfig/tenants/{tenantId}/devices/{deviceId}:
     delete:
       tags:
         - Internal API
@@ -143,7 +140,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 
 
-  /tenants/{tenantId}/configurations/device/{deviceId}/deploy:
+  /api/internal/v1/deviceconfig/tenants/{tenantId}/configurations/device/{deviceId}/deploy:
     post:
       operationId: Deploy Device Configuration
       tags:

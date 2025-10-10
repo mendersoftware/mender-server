@@ -3,10 +3,10 @@ info:
   version: "2.0"
   title: Device Authentication
   description: An API for device authentication handling.
-servers:
-  - url: https://hosted.mender.io/api/management/v2/devauth/
+tags:
+  - name: Management API
 paths:
-  /devices:
+  /api/management/v2/devauth/devices:
     get:
       operationId: List Devices
       security:
@@ -127,7 +127,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /devices/search:
+  /api/management/v2/devauth/devices/search:
     post:
       operationId: Search Devices
       security:
@@ -210,7 +210,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /devices/{id}:
+  /api/management/v2/devauth/devices/{id}:
     get:
       operationId: Get Device
       security:
@@ -276,7 +276,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /devices/{id}/auth/{aid}:
+  /api/management/v2/devauth/devices/{id}/auth/{aid}:
     delete:
       operationId: Remove authentication
       security:
@@ -321,7 +321,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /devices/{id}/auth/{aid}/status:
+  /api/management/v2/devauth/devices/{id}/auth/{aid}/status:
     put:
       operationId: Set Authentication Status
       security:
@@ -424,7 +424,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /devices/count:
+  /api/management/v2/devauth/devices/count:
     get:
       operationId: Count Devices
       security:
@@ -462,7 +462,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /tokens/{id}:
+  /api/management/v2/devauth/tokens/{id}:
     delete:
       operationId: Revoke API Token
       security:
@@ -498,7 +498,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /limits/max_devices:
+  /api/management/v2/devauth/limits/max_devices:
     get:
       operationId: Get Device Limit
       security:

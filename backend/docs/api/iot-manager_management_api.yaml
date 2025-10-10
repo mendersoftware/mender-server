@@ -8,9 +8,6 @@ info:
 
   version: "1"
 
-servers:
-  - url: https://hosted.mender.io/api/management/v1/iot-manager
-
 # Global security definitions
 security:
   - ManagementJWT: []
@@ -19,7 +16,7 @@ tags:
   - name: Management API
 
 paths:
-  /integrations:
+  /api/management/v1/iot-manager/integrations:
     get:
       operationId: List integrations
       summary: List all configured integrations
@@ -86,7 +83,7 @@ paths:
         500:
           $ref: '#/components/responses/InternalServerError'
 
-  /integrations/{id}:
+  /api/management/v1/iot-manager/integrations/{id}:
     delete:
       operationId: Remove integration
       summary: Remove a cloud integration
@@ -112,7 +109,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 
 
-  /integrations/{id}/credentials:
+  /api/management/v1/iot-manager/integrations/{id}/credentials:
     put:
       operationId: Set integration credentials
       summary: Replace the credentials associated with the integration.
@@ -145,7 +142,7 @@ paths:
         500:
           $ref: '#/components/responses/InternalServerError'
 
-  /devices/{deviceId}:
+  /api/management/v1/iot-manager/devices/{deviceId}:
     delete:
       operationId: Unregister device integrations
       summary: Removes all associated cloud integrations for the device.
@@ -177,7 +174,7 @@ paths:
         500:
           $ref: '#/components/responses/InternalServerError'
 
-  /devices/{deviceId}/state:
+  /api/management/v1/iot-manager/devices/{deviceId}/state:
     get:
       operationId: Get Device States
       summary: Gets the desired and reported state of a device
@@ -213,7 +210,7 @@ paths:
         500:
           $ref: '#/components/responses/InternalServerError'
 
-  /devices/{deviceId}/state/{integrationId}:
+  /api/management/v1/iot-manager/devices/{deviceId}/state/{integrationId}:
     put:
       operationId: Replace State
       summary: Replaces the (desired) cloud state of the device for the given integration
@@ -290,7 +287,7 @@ paths:
         500:
           $ref: '#/components/responses/InternalServerError'
 
-  /events:
+  /api/management/v1/iot-manager/events:
     get:
       operationId: List events
       summary: List all stored events

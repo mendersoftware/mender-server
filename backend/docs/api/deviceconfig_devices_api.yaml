@@ -7,9 +7,6 @@ info:
 
   version: "1"
 
-servers:
-  - url: https://hosted.mender.io/api/devices/v1/deviceconfig
-
 # Global security definitions
 security:
   - DeviceJWT: []
@@ -18,7 +15,7 @@ tags:
   - name: Device API
 
 paths:
-  /configuration:
+  /api/devices/v1/deviceconfig/configuration:
     get:
       operationId: Get Device Configuration
       tags:

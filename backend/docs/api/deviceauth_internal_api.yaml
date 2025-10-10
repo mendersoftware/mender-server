@@ -5,10 +5,10 @@ info:
   description: |
     An API for device authentication handling. Not exposed via the API Gateway,
     internal use only.
-servers:
-  - url: http://mender-deviceauth:8080/api/internal/v1/devauth/
+tags:
+  - name: Internal API
 paths:
-  /alive:
+  /api/internal/v1/devauth/alive:
     get:
       operationId: Check Liveliness
       tags:
@@ -27,7 +27,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /health:
+  /api/internal/v1/devauth/health:
     get:
       operationId: Check Health
       tags:
@@ -63,7 +63,7 @@ paths:
                     error: "error reaching MongoDB: context deadline exceeded"
                     request_id: "ffd712be-d697-4cb7-814b-88ff1e2eb5f6"
 
-  /tokens/verify:
+  /api/internal/v1/devauth/tokens/verify:
     post:
       operationId: Verify JWT
       tags:
@@ -96,7 +96,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /tokens:
+  /api/internal/v1/devauth/tokens:
     delete:
       operationId: Revoke Device Tokens
       tags:
@@ -138,7 +138,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /tenant/{tenant_id}/limits/max_devices:
+  /api/internal/v1/devauth/tenant/{tenant_id}/limits/max_devices:
     get:
       operationId: Get Device Limit
       tags:
@@ -225,7 +225,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /tenants:
+  /api/internal/v1/devauth/tenants:
     post:
       operationId: Create Tenant
       tags:
@@ -251,7 +251,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /tenants/{tid}/devices/{did}:
+  /api/internal/v1/devauth/tenants/{tid}/devices/{did}:
     delete:
       operationId: Delete Device
       tags:
@@ -280,7 +280,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /tenants/{tid}/devices/{did}/external:
+  /api/internal/v1/devauth/tenants/{tid}/devices/{did}/external:
     put:
       operationId: Set external identity
       tags:
@@ -317,7 +317,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /tenants/{tid}/devices/{did}/status:
+  /api/internal/v1/devauth/tenants/{tid}/devices/{did}/status:
     get:
       operationId: Device Status
       tags:
@@ -364,7 +364,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /tenants/{tid}/devices:
+  /api/internal/v1/devauth/tenants/{tid}/devices:
     get:
       operationId: List Devices
       tags:
@@ -442,7 +442,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /tenants/{tid}/devices/count:
+  /api/internal/v1/devauth/tenants/{tid}/devices/count:
     get:
       operationId: Count Devices
       summary: Count number of devices, optionally filtered by status.

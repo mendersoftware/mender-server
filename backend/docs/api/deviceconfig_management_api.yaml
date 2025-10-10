@@ -8,9 +8,6 @@ info:
 
   version: "1"
 
-servers:
-  - url: https://hosted.mender.io/api/management/v1/deviceconfig
-
 # Global security definitions
 security:
   - ManagementJWT: []
@@ -19,7 +16,7 @@ tags:
   - name: Management API
 
 paths:
-  /configurations/device/{deviceId}:
+  /api/management/v1/deviceconfig/configurations/device/{deviceId}:
     get:
       operationId: Get Device Configuration
       tags:
@@ -91,7 +88,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /configurations/device/{deviceId}/deploy:
+  /api/management/v1/deviceconfig/configurations/device/{deviceId}/deploy:
     post:
       operationId: Deploy Device Configuration
       tags:

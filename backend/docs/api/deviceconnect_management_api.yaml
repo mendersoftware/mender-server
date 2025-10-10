@@ -8,9 +8,6 @@ info:
 
   version: "1"
 
-servers:
-  - url: https://hosted.mender.io/api/management/v1/deviceconnect
-
 # Global security definitions
 security:
   - ManagementJWT: []
@@ -19,7 +16,7 @@ tags:
   - name: Management API
 
 paths:
-  /devices/{id}:
+  /api/management/v1/deviceconnect/devices/{id}:
     get:
       tags:
         - Management API
@@ -53,7 +50,7 @@ paths:
                 request_id: "eed14d55-d996-42cd-8248-e806663810aa"
         500:
           $ref: '#/components/responses/InternalServerError'
-  /devices/{id}/check-update:
+  /api/management/v1/deviceconnect/devices/{id}/check-update:
     post:
       tags:
         - Management API
@@ -87,7 +84,7 @@ paths:
         500:
           $ref: '#/components/responses/InternalServerError'
 
-  /devices/{id}/connect:
+  /api/management/v1/deviceconnect/devices/{id}/connect:
     get:
       tags:
         - Management API
@@ -144,7 +141,7 @@ paths:
         500:
           $ref: '#/components/responses/InternalServerError'
 
-  /devices/{id}/download:
+  /api/management/v1/deviceconnect/devices/{id}/download:
     get:
       tags:
         - Management API
@@ -210,7 +207,7 @@ paths:
         500:
           $ref: '#/components/responses/InternalServerError'
 
-  /devices/{id}/send-inventory:
+  /api/management/v1/deviceconnect/devices/{id}/send-inventory:
     post:
       tags:
         - Management API
@@ -245,7 +242,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 
 
-  /sessions/{session_id}/playback:
+  /api/management/v1/deviceconnect/sessions/{session_id}/playback:
     get:
       tags:
         - Management API
@@ -307,7 +304,7 @@ paths:
         500:
           $ref: '#/components/responses/InternalServerError'
 
-  /devices/{id}/upload:
+  /api/management/v1/deviceconnect/devices/{id}/upload:
     put:
       tags:
         - Management API
