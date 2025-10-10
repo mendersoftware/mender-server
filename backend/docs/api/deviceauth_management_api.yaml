@@ -8,7 +8,7 @@ tags:
 paths:
   /api/management/v2/devauth/devices:
     get:
-      operationId: List Devices
+      operationId: DeviceAuth Management List Devices
       security:
         - ManagementJWT: []
       summary: List devices sorted by age and optionally filter on device status.
@@ -67,20 +67,12 @@ paths:
               description: Standard header, we support 'first', 'next', and 'prev'.
               schema:
                 type: string
-        '400':
-          description: Missing/malformed request params.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+        "400":
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+        "500":
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
     post:
-      operationId: Preauthorize
+      operationId: DeviceAuth Management Preauthorize
       security:
         - ManagementJWT: []
       summary: Submit a preauthorized device.
@@ -108,28 +100,20 @@ paths:
               description: URL of the newly created device.
               schema:
                 type: string
-        '400':
-          description: Missing/malformed request params.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+        "400":
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         '409':
           description: Device already exists. Response contains conflicting device.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Device'
-        '500':
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+        "500":
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
   /api/management/v2/devauth/devices/search:
     post:
-      operationId: Search Devices
+      operationId: DeviceAuth Management Search Devices
       security:
         - ManagementJWT: []
       summary: Query for devices. Returns a list of matching devices with AuthSets sorted by age.
@@ -197,22 +181,14 @@ paths:
               description: Pagination link header, we support 'first', 'next', and 'prev'.
               schema:
                 type: string
-        '400':
-          description: Missing/malformed request params.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+        "400":
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+        "500":
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
   /api/management/v2/devauth/devices/{id}:
     get:
-      operationId: Get Device
+      operationId: DeviceAuth Management Get Device
       security:
         - ManagementJWT: []
       summary: Get a particular device.
@@ -233,20 +209,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Device'
-        '404':
-          description: Device not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+        "404":
+          $ref: './common/responses.yaml#/components/responses/NotFound'
+        "500":
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
     delete:
-      operationId: Decommission device
+      operationId: DeviceAuth Management Decommission device
       security:
         - ManagementJWT: []
       summary: Remove device and associated authentication set
@@ -263,22 +231,14 @@ paths:
       responses:
         '204':
           description: Device decommissioned.
-        '404':
-          description: Device not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+        "404":
+          $ref: './common/responses.yaml#/components/responses/NotFound'
+        "500":
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
   /api/management/v2/devauth/devices/{id}/auth/{aid}:
     delete:
-      operationId: Remove authentication
+      operationId: DeviceAuth Management Remove authentication
       security:
         - ManagementJWT: []
       summary: Remove (dismiss) the device authentication set
@@ -308,22 +268,14 @@ paths:
       responses:
         '204':
           description: Device authentication set deleted.
-        '404':
-          description: Device authentication set not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+        "404":
+          $ref: './common/responses.yaml#/components/responses/NotFound'
+        "500":
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
   /api/management/v2/devauth/devices/{id}/auth/{aid}/status:
     put:
-      operationId: Set Authentication Status
+      operationId: DeviceAuth Management Set Authentication Status
       security:
         - ManagementJWT: []
       summary: Update the device authentication set status
@@ -359,32 +311,20 @@ paths:
       responses:
         '204':
           description: The device authentication data set status was successfully updated.
-        '400':
-          description: Bad request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: The device was not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+        "400":
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+        "404":
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         '422':
           description: Request cannot be fulfilled e.g. due to exceeded limit on maximum accepted devices (see error message).
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
+        "500":
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
     get:
-      operationId: Get Authentication Status
+      operationId: DeviceAuth Management Get Authentication Status
       security:
         - ManagementJWT: []
       summary: Get the device authentication set status
@@ -411,22 +351,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Status'
-        '404':
-          description: The device was not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+        "404":
+          $ref: './common/responses.yaml#/components/responses/NotFound'
+        "500":
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
   /api/management/v2/devauth/devices/count:
     get:
-      operationId: Count Devices
+      operationId: DeviceAuth Management Count Devices
       security:
         - ManagementJWT: []
       summary: Count number of devices, optionally filtered by status.
@@ -449,22 +381,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Count'
-        '400':
-          description: Missing/malformed request params.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+        "400":
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+        "500":
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
   /api/management/v2/devauth/tokens/{id}:
     delete:
-      operationId: Revoke API Token
+      operationId: DeviceAuth Management Revoke API Token
       security:
         - ManagementJWT: []
       summary: Revoke JWT with given id
@@ -485,22 +409,14 @@ paths:
       responses:
         '204':
           description: The token was successfully deleted.
-        '404':
-          description: The token was not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+        "404":
+          $ref: './common/responses.yaml#/components/responses/NotFound'
+        "500":
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
   /api/management/v2/devauth/limits/max_devices:
     get:
-      operationId: Get Device Limit
+      operationId: DeviceAuth Management Get Device Limit
       security:
         - ManagementJWT: []
       summary: Obtain limit of accepted devices.
@@ -515,21 +431,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Limit'
-        '500':
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+        "500":
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
 components:
   securitySchemes:
     ManagementJWT:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-      description: >-
-        JWT token issued by 'POST /api/management/v1/useradm/auth/login'
+      $ref: './common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'
 
   parameters:
     RequestId:
@@ -640,13 +548,6 @@ components:
           type: integer
       example:
         count: 42
-    Error:
-      description: Error descriptor
-      type: object
-      properties:
-        error:
-          description: Description of the error
-          type: string
     PreAuthSet:
       type: object
       properties:
@@ -692,4 +593,3 @@ components:
         mac: "00:01:02:03:04:05"
         sku: "My Device 1"
         sn: "SN1234567890"
-

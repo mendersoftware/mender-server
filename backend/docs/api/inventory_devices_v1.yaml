@@ -48,8 +48,7 @@ paths:
           description: Attributes were uploaded successfully.
           content: {}
         "401":
-          description: The device is not authenticated.
-          content: {}
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "400":
           $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "500":
@@ -92,8 +91,7 @@ paths:
           description: Attributes were uploaded successfully.
           content: {}
         "401":
-          description: The device is not authenticated.
-          content: {}
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "400":
           $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "500":

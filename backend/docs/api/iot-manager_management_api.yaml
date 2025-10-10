@@ -18,7 +18,7 @@ tags:
 paths:
   /api/management/v1/iot-manager/integrations:
     get:
-      operationId: List integrations
+      operationId: IoTManager Management List integrations
       summary: List all configured integrations
       tags:
         - Management API
@@ -47,16 +47,16 @@ paths:
                 items:
                     $ref: '#/components/schemas/Integration'
         400:
-          $ref: '#/components/responses/InvalidRequestError'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         401:
-          $ref: '#/components/responses/UnauthorizedError'
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         403:
-          $ref: '#/components/responses/ForbiddenError'
+          $ref: './common/responses.yaml#/components/responses/ForbiddenError'
         500:
-          $ref: '#/components/responses/InternalServerError'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
     post:
-      operationId: Register integration
+      operationId: IoTManager Management Register integration
       summary: Register a new cloud integration
       tags:
         - Management API
@@ -75,17 +75,17 @@ paths:
               schema:
                 type: string
         400:
-          $ref: '#/components/responses/InvalidRequestError'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         401:
-          $ref: '#/components/responses/UnauthorizedError'
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         403:
-          $ref: '#/components/responses/ForbiddenError'
+          $ref: './common/responses.yaml#/components/responses/ForbiddenError'
         500:
-          $ref: '#/components/responses/InternalServerError'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
   /api/management/v1/iot-manager/integrations/{id}:
     delete:
-      operationId: Remove integration
+      operationId: IoTManager Management Remove integration
       summary: Remove a cloud integration
       tags:
         - Management API
@@ -100,18 +100,18 @@ paths:
         204:
           description: Integration unregistered successfully.
         400:
-          $ref: '#/components/responses/InvalidRequestError'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         401:
-          $ref: '#/components/responses/UnauthorizedError'
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         403:
-          $ref: '#/components/responses/ForbiddenError'
+          $ref: './common/responses.yaml#/components/responses/ForbiddenError'
         500:
-          $ref: '#/components/responses/InternalServerError'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
 
   /api/management/v1/iot-manager/integrations/{id}/credentials:
     put:
-      operationId: Set integration credentials
+      operationId: IoTManager Management Set integration credentials
       summary: Replace the credentials associated with the integration.
       tags:
         - Management API
@@ -132,19 +132,19 @@ paths:
         204:
           description: Credentials updated successfully.
         400:
-          $ref: '#/components/responses/InvalidRequestError'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         401:
-          $ref: '#/components/responses/UnauthorizedError'
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         403:
-          $ref: '#/components/responses/ForbiddenError'
+          $ref: './common/responses.yaml#/components/responses/ForbiddenError'
         404:
-          $ref: '#/components/responses/NotFoundError'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         500:
-          $ref: '#/components/responses/InternalServerError'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
   /api/management/v1/iot-manager/devices/{deviceId}:
     delete:
-      operationId: Unregister device integrations
+      operationId: IoTManager Management Unregister device integrations
       summary: Removes all associated cloud integrations for the device.
       description: >-
         Removes all associated cloud integrations for the device, but
@@ -166,17 +166,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/DeviceState'
         401:
-          $ref: '#/components/responses/UnauthorizedError'
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         403:
-          $ref: '#/components/responses/ForbiddenError'
+          $ref: './common/responses.yaml#/components/responses/ForbiddenError'
         404:
-          $ref: '#/components/responses/NotFoundError'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         500:
-          $ref: '#/components/responses/InternalServerError'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
   /api/management/v1/iot-manager/devices/{deviceId}/state:
     get:
-      operationId: Get Device States
+      operationId: IoTManager Management Get Device States
       summary: Gets the desired and reported state of a device
       tags:
         - Management API
@@ -202,17 +202,17 @@ paths:
                 additionalProperties:
                   $ref: '#/components/schemas/DeviceState'
         401:
-          $ref: '#/components/responses/UnauthorizedError'
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         404:
-          $ref: '#/components/responses/NotFoundError'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         403:
-          $ref: '#/components/responses/ForbiddenError'
+          $ref: './common/responses.yaml#/components/responses/ForbiddenError'
         500:
-          $ref: '#/components/responses/InternalServerError'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
   /api/management/v1/iot-manager/devices/{deviceId}/state/{integrationId}:
     put:
-      operationId: Replace State
+      operationId: IoTManager Management Replace State
       summary: Replaces the (desired) cloud state of the device for the given integration
       tags:
         - Management API
@@ -243,18 +243,18 @@ paths:
               schema:
                 $ref: '#/components/schemas/DeviceState'
         400:
-          $ref: '#/components/responses/InvalidRequestError'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         401:
-          $ref: '#/components/responses/UnauthorizedError'
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         403:
-          $ref: '#/components/responses/ForbiddenError'
+          $ref: './common/responses.yaml#/components/responses/ForbiddenError'
         409:
-          $ref: '#/components/responses/ConflictError'
+          $ref: './common/responses.yaml#/components/responses/ConflictError'
         500:
-          $ref: '#/components/responses/InternalServerError'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
     get:
-      operationId: Get Device State
+      operationId: IoTManager Management Get Device State
       summary: Gets the desired and reported state of a device from an integration
       tags:
         - Management API
@@ -279,17 +279,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/DeviceState'
         401:
-          $ref: '#/components/responses/UnauthorizedError'
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         404:
-          $ref: '#/components/responses/NotFoundError'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         403:
-          $ref: '#/components/responses/ForbiddenError'
+          $ref: './common/responses.yaml#/components/responses/ForbiddenError'
         500:
-          $ref: '#/components/responses/InternalServerError'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
   /api/management/v1/iot-manager/events:
     get:
-      operationId: List events
+      operationId: IoTManager Management List events
       summary: List all stored events
       tags:
         - Management API
@@ -326,24 +326,18 @@ paths:
                 items:
                     $ref: '#/components/schemas/Event'
         400:
-          $ref: '#/components/responses/InvalidRequestError'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         401:
-          $ref: '#/components/responses/UnauthorizedError'
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         403:
-          $ref: '#/components/responses/ForbiddenError'
+          $ref: './common/responses.yaml#/components/responses/ForbiddenError'
         500:
-          $ref: '#/components/responses/InternalServerError'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
 components:
   securitySchemes:
     ManagementJWT:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-      description: |
-        JWT token issued by 'POST /api/management/v1/useradm/auth/login'
-
-        The JWT can be alternatively passed as a cookie named "JWT".
+      $ref: './common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'
 
   schemas:
     Integration:
@@ -470,21 +464,6 @@ components:
       required:
         - http
 
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Description of the error.
-        request_id:
-          type: string
-          description:
-            Request ID passed with the request X-Men-Requestid header
-            or generated by the server.
-      description: Error descriptor.
-      example:
-        error: "<error description>"
-        request_id: "eed14d55-d996-42cd-8248-e806663810a8"
 
     Event:
       type: object
@@ -590,64 +569,3 @@ components:
           type: string
           description: >-
             The creation timestamp of the authentication set.
-
-  responses:
-    InternalServerError:
-      description: Internal Server Error.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error: "internal error"
-            request_id: "eed14d55-d996-42cd-8248-e806663810a8"
-
-    InvalidRequestError:
-      description: Invalid Request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error: "bad request parameters"
-            request_id: "eed14d55-d996-42cd-8248-e806663810a8"
-
-    UnauthorizedError:
-      description: The user does not have authorization to access resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error: "Unauthorized"
-            request_id: "eed14d55-d996-42cd-8248-e806663810a8"
-
-    ForbiddenError:
-      description: The user is not permitted to access the resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error: "Forbidden"
-            request_id: "eed14d55-d996-42cd-8248-e806663810a8"
-
-    ConflictError:
-      description: Conflict when updating the resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error: "Conflict"
-            request_id: "eed14d55-d996-42cd-8248-e806663810a8"
-
-    NotFoundError:
-      description: Resource not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error: "not found"
-            request_id: "eed14d55-d996-42cd-8248-e806663810a8"

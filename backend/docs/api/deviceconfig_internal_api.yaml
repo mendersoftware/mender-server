@@ -17,44 +17,32 @@ paths:
       tags:
         - Internal API
       summary: Get health status of service
-      operationId: Check Health
+      operationId: DeviceConfig Internal Check Health
       responses:
         204:
           description: Service is healthy.
-        400:
-          description: Invalid Request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        500:
-          description: Internal Server Error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+        "400":
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+        "500":
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
   /api/internal/v1/deviceconfig/alive:
     get:
       tags:
         - Internal API
       summary: Get service liveliness status.
-      operationId: Check Liveliness
+      operationId: DeviceConfig Internal Check Liveliness
       responses:
         204:
           description: Service is up and serving requests.
-        500:
-          description: Internal Server Error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+        "500":
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
   /api/internal/v1/deviceconfig/tenants:
     post:
       tags:
         - Internal API
-      operationId: Provision tenant
+      operationId: DeviceConfig Internal Provision tenant
       summary: Initialize internal state for a new tenant
       requestBody:
         content:
@@ -65,13 +53,13 @@ paths:
         201:
           description: Tenant initialized successfully.
         400:
-          $ref: '#/components/responses/InvalidRequestError'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         500:
-          $ref: '#/components/responses/InternalServerError'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
   /api/internal/v1/deviceconfig/tenants/{tenantId}:
     delete:
-      operationId: "Delete Tenant"
+      operationId: "DeviceConfig Internal Delete Tenant"
       tags:
         - Internal API
       summary: Delete all the data for given tenant.
@@ -86,13 +74,13 @@ paths:
         204:
           description: All the tenant data have been successfully deleted.
         500:
-          $ref: '#/components/responses/InternalServerError'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
   /api/internal/v1/deviceconfig/tenants/{tenantId}/devices:
     post:
       tags:
         - Internal API
-      operationId: Provision device
+      operationId: DeviceConfig Internal Provision device
       summary: Register a new device with the deviceconfig service.
       parameters:
         - in: path
@@ -110,15 +98,15 @@ paths:
         201:
           description: Device was provisioned successfully.
         400:
-          $ref: '#/components/responses/InvalidRequestError'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         500:
-          $ref: '#/components/responses/InternalServerError'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
   /api/internal/v1/deviceconfig/tenants/{tenantId}/devices/{deviceId}:
     delete:
       tags:
         - Internal API
-      operationId: Decommission device
+      operationId: DeviceConfig Internal Decommission device
       summary: Remove a device from the deviceconfig service.
       parameters:
         - in: path
@@ -137,12 +125,12 @@ paths:
         204:
           description: Device was deleted successfully
         500:
-          $ref: '#/components/responses/InternalServerError'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
 
   /api/internal/v1/deviceconfig/tenants/{tenantId}/configurations/device/{deviceId}/deploy:
     post:
-      operationId: Deploy Device Configuration
+      operationId: DeviceConfig Internal Deploy Device Configuration
       tags:
         - Internal API
       summary: Deploy the device's configuration
@@ -171,44 +159,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NewConfigurationDeploymentResponse'
-        400:
-          description: Bad Request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        404:
-          description: Not Found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        500:
-          description: Internal Server Error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+        "400":
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+        "404":
+          $ref: './common/responses.yaml#/components/responses/NotFound'
+        "500":
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
 
 components:
 
   schemas:
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Description of the error.
-        request_id:
-          type: string
-          description:
-            Request ID passed with the request X-MEN-RequestID header
-            or generated by the server.
-      description: Error descriptor.
-      example:
-        error: "<error description>"
-        request_id: "eed14d55-d996-42cd-8248-e806663810a8"
 
     NewTenant:
       type: object
@@ -250,25 +211,3 @@ components:
         deployment_id:
           type: string
           description: Deployment ID
-
-
-  responses:
-    InternalServerError:
-      description: Internal Server Error.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error: "internal error"
-            request_id: "eed14d55-d996-42cd-8248-e806663810a8"
-
-    InvalidRequestError:
-      description: Invalid Request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error: "bad request parameters"
-            request_id: "eed14d55-d996-42cd-8248-e806663810a8"

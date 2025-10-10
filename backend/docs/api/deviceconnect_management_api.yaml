@@ -20,7 +20,7 @@ paths:
     get:
       tags:
         - Management API
-      operationId: Get device
+      operationId: DeviceConnect Management Get device
       summary: Fetch the state of a device.
       parameters:
         - in: path
@@ -38,23 +38,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/DeviceState'
         400:
-          $ref: '#/components/responses/InvalidRequestError'
-        404:
-          description: Device not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                error: "Device not found"
-                request_id: "eed14d55-d996-42cd-8248-e806663810aa"
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+        "404":
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         500:
-          $ref: '#/components/responses/InternalServerError'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
   /api/management/v1/deviceconnect/devices/{id}/check-update:
     post:
       tags:
         - Management API
-      operationId: Check Update
+      operationId: DeviceConnect Management Check Update
       summary: Trigger check-update for the Mender client running on the device
       parameters:
         - in: path
@@ -68,27 +61,19 @@ paths:
         202:
           description: Accepted
         400:
-          $ref: '#/components/responses/InvalidRequestError'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         404:
-          description: Device not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        409:
-          description: Device not connected.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
+        "409":
+          $ref: './common/responses.yaml#/components/responses/ConflictError'
         500:
-          $ref: '#/components/responses/InternalServerError'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
   /api/management/v1/deviceconnect/devices/{id}/connect:
     get:
       tags:
         - Management API
-      operationId: Connect
+      operationId: DeviceConnect Management Connect
       summary: Establish permanent connection with device
       parameters:
         - in: path
@@ -131,21 +116,17 @@ paths:
           description: |
             Successful response - change to websocket protocol.
         400:
-          $ref: '#/components/responses/InvalidRequestError'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         404:
-          description: Device not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         500:
-          $ref: '#/components/responses/InternalServerError'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
   /api/management/v1/deviceconnect/devices/{id}/download:
     get:
       tags:
         - Management API
-      operationId: Download
+      operationId: DeviceConnect Management Download
       summary: Download a file from the device
       parameters:
         - in: path
@@ -191,27 +172,19 @@ paths:
                 type: string
                 format: binary
         400:
-          $ref: '#/components/responses/InvalidRequestError'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         404:
-          description: Device not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        409:
-          description: Device not connected.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
+        "409":
+          $ref: './common/responses.yaml#/components/responses/ConflictError'
         500:
-          $ref: '#/components/responses/InternalServerError'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
   /api/management/v1/deviceconnect/devices/{id}/send-inventory:
     post:
       tags:
         - Management API
-      operationId: Send Inventory
+      operationId: DeviceConnect Management Send Inventory
       summary: Trigger send-inventory for the Mender client running on the device
       parameters:
         - in: path
@@ -225,28 +198,20 @@ paths:
         202:
           description: Accepted
         400:
-          $ref: '#/components/responses/InvalidRequestError'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         404:
-          description: Device not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        409:
-          description: Device not connected.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
+        "409":
+          $ref: './common/responses.yaml#/components/responses/ConflictError'
         500:
-          $ref: '#/components/responses/InternalServerError'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
 
   /api/management/v1/deviceconnect/sessions/{session_id}/playback:
     get:
       tags:
         - Management API
-      operationId: Playback
+      operationId: DeviceConnect Management Playback
       summary: Establish a connection for playing back a session
       parameters:
         - in: path
@@ -294,21 +259,17 @@ paths:
           description: |
             Successful response - change to websocket protocol.
         400:
-          $ref: '#/components/responses/InvalidRequestError'
-        404:
-          description: Session not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+        "404":
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         500:
-          $ref: '#/components/responses/InternalServerError'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
   /api/management/v1/deviceconnect/devices/{id}/upload:
     put:
       tags:
         - Management API
-      operationId: Upload
+      operationId: DeviceConnect Management Upload
       summary: Upload a file to the device
       parameters:
         - in: path
@@ -327,32 +288,18 @@ paths:
         201:
           description: The file was successfully uploaded
         400:
-          $ref: '#/components/responses/InvalidRequestError'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         404:
-          description: Device not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        409:
-          description: Device not connected.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/NotFound'
+        "409":
+          $ref: './common/responses.yaml#/components/responses/ConflictError'
         500:
-          $ref: '#/components/responses/InternalServerError'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
 components:
   securitySchemes:
     ManagementJWT:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-      description: |
-        JWT token issued by 'POST /api/management/v1/useradm/auth/login'
-
-        The JWT can be alternatively passed as a cookie named "JWT".
+      $ref: './common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'
 
   schemas:
     DeviceState:
@@ -378,21 +325,6 @@ components:
           format: date-time
           type: string
 
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Description of the error.
-        request_id:
-          type: string
-          description:
-            Request ID passed with the request X-MEN-RequestID header
-            or generated by the server.
-      description: Error descriptor.
-      example:
-        error: "<error description>"
-        request_id: "eed14d55-d996-42cd-8248-e806663810a8"
 
     FileUpload:
       type: object
@@ -414,24 +346,3 @@ components:
           format: binary
       required:
         - path
-
-  responses:
-    InternalServerError:
-      description: Internal Server Error.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error: "internal error"
-            request_id: "eed14d55-d996-42cd-8248-e806663810a8"
-
-    InvalidRequestError:
-      description: Invalid Request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error: "bad request parameters"
-            request_id: "eed14d55-d996-42cd-8248-e806663810a8"

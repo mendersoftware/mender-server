@@ -10,7 +10,7 @@ tags:
 paths:
   /api/internal/v1/devauth/alive:
     get:
-      operationId: Check Liveliness
+      operationId: DeviceAuth Internal Check Liveliness
       tags:
         - Internal API
       summary: >
@@ -19,17 +19,12 @@ paths:
       responses:
         '204':
           description: Service is up and running
-        '500':
-          description: >
-            Internal API error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+        "500":
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
   /api/internal/v1/devauth/health:
     get:
-      operationId: Check Health
+      operationId: DeviceAuth Internal Check Health
       tags:
         - Internal API
       summary: Check the health of the service
@@ -37,18 +32,8 @@ paths:
         '204':
           description: >
             Service is healthy and all dependencies are up and running.
-        '500':
-          description: >
-            Unexpected internal error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                example1:
-                  value:
-                    error: "internal error"
-                    request_id: "ffd712be-d697-4cb7-814b-88ff1e2eb5f6"
+        "500":
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
         '503':
           description: >
             Service unhealthy / not ready to accept traffic. At least one
@@ -56,7 +41,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
               examples:
                 example2:
                   value:
@@ -65,7 +50,7 @@ paths:
 
   /api/internal/v1/devauth/tokens/verify:
     post:
-      operationId: Verify JWT
+      operationId: DeviceAuth Internal Verify JWT
       tags:
         - Internal API
       summary: Check the validity of a token
@@ -84,21 +69,16 @@ paths:
         '200':
           description: The token is valid.
         '400':
-          description: Missing or malformed request parameters.
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         '401':
-          description: Verification failed, authentication should not be granted.
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         '403':
-          description: Token has expired - apply for a new one.
+          $ref: ./common/responses.yaml#/components/responses/ForbiddenError
         '500':
-          description: Unexpected error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/devauth/tokens:
     delete:
-      operationId: Revoke Device Tokens
+      operationId: DeviceAuth Internal Revoke Device Tokens
       tags:
         - Internal API
       summary: Delete device tokens
@@ -125,22 +105,14 @@ paths:
       responses:
         '204':
           description: Tokens deleted.
-        '400':
-          description: Invalid parameters. See error message for details.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+        "400":
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+        "500":
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
   /api/internal/v1/devauth/tenant/{tenant_id}/limits/max_devices:
     get:
-      operationId: Get Device Limit
+      operationId: DeviceAuth Internal Get Device Limit
       tags:
         - Internal API
       summary: Max device count limit
@@ -158,20 +130,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Limit'
-        '400':
-          description: Invalid parameters. See error message for details.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+        "400":
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+        "500":
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
     put:
-      operationId: Update Device Limit
+      operationId: DeviceAuth Internal Update Device Limit
       tags:
         - Internal API
       summary: Update max device count limit
@@ -192,19 +156,11 @@ paths:
         '204':
           description: Limit information updated.
         '400':
-          description: The request body is malformed.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         '500':
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
     delete:
-      operationId: Clear Device Limit
+      operationId: DeviceAuth Internal Clear Device Limit
       tags:
         - Internal API
       summary: Remove max device count limit
@@ -218,16 +174,12 @@ paths:
       responses:
         '204':
           description: Limit information deleted.
-        '500':
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+        "500":
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
   /api/internal/v1/devauth/tenants:
     post:
-      operationId: Create Tenant
+      operationId: DeviceAuth Internal Create Tenant
       tags:
         - Internal API
       summary: Provision a new tenant
@@ -243,17 +195,12 @@ paths:
         '201':
           description: Tenant was successfully provisioned.
         '400':
-          description: Bad request.
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         '500':
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/devauth/tenants/{tid}/devices/{did}:
     delete:
-      operationId: Delete Device
+      operationId: DeviceAuth Internal Delete Device
       tags:
         - Internal API
       summary: "Delete a device from deviceauth service."
@@ -272,17 +219,12 @@ paths:
         '201':
           description: Device deleted successfully.
         '400':
-          description: Bad request.
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         '500':
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/devauth/tenants/{tid}/devices/{did}/external:
     put:
-      operationId: Set external identity
+      operationId: DeviceAuth Internal Set external identity
       tags:
         - Internal API
       summary: "Replace the external identity of a device."
@@ -309,17 +251,12 @@ paths:
         '204':
           description: Device identity updated successfully.
         '400':
-          description: Bad request.
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         '500':
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/devauth/tenants/{tid}/devices/{did}/status:
     get:
-      operationId: Device Status
+      operationId: DeviceAuth Internal Device Status
       tags:
         - Internal API
       summary: Get the status of a tenant's device
@@ -345,28 +282,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Status'
-        '400':
-          description: Invalid parameters. See error message for details.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: Tenant or device not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+        "400":
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+        "404":
+          $ref: './common/responses.yaml#/components/responses/NotFound'
+        "500":
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
   /api/internal/v1/devauth/tenants/{tid}/devices:
     get:
-      operationId: List Devices
+      operationId: DeviceAuth Internal List Devices
       tags:
         - Internal API
       summary: Get a list of tenant's devices.
@@ -429,22 +354,14 @@ paths:
               description: Standard header, we support 'first', 'next', and 'prev'.
               schema:
                 type: string
-        '400':
-          description: Missing/malformed request params.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+        "400":
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+        "500":
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
   /api/internal/v1/devauth/tenants/{tid}/devices/count:
     get:
-      operationId: Count Devices
+      operationId: DeviceAuth Internal Count Devices
       summary: Count number of devices, optionally filtered by status.
       tags:
         - Internal API
@@ -469,18 +386,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Count'
-        '400':
-          description: Missing/malformed request params.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+        "400":
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+        "500":
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 
 components:
   schemas:
@@ -501,18 +410,6 @@ components:
         - limit
       example:
         limit: 123
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Description of the error.
-        request_id:
-          type: string
-          description: Request ID (same as in X-MEN-RequestID header).
-      example:
-        error: "failed to decode request body: JSON payload is empty"
-        request_id: "f7881e82-0492-49fb-b459-795654e7188a"
     Status:
       type: object
       properties:
@@ -638,4 +535,3 @@ components:
         mac: "00:01:02:03:04:05"
         sku: "My Device 1"
         sn: "SN1234567890"
- 
