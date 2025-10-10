@@ -55,9 +55,9 @@ const options: PlaywrightTestConfig = {
     { name: 'basic-firefox', testDir: `${testDirBase}/01-basic`, use: projectParamsByBrowser.firefox, dependencies: ['setup-firefox'], workers: 4 },
     { name: 'basic-webkit', testDir: `${testDirBase}/01-basic`, use: projectParamsByBrowser.webkit, dependencies: ['setup-webkit'], workers: 4 },
 
-    { name: 'baseline-chromium', testDir: `${testDirBase}/02-baseline`, use: projectParamsByBrowser.chrome, dependencies: ['setup-chromium'], workers: 4 },
-    { name: 'baseline-firefox', testDir: `${testDirBase}/02-baseline`, use: projectParamsByBrowser.firefox, dependencies: ['setup-firefox'], workers: 4 },
-    { name: 'baseline-webkit', testDir: `${testDirBase}/02-baseline`, use: projectParamsByBrowser.webkit, dependencies: ['setup-webkit'], workers: 4 },
+    { name: 'baseline-chromium', testDir: `${testDirBase}/02-baseline`, use: projectParamsByBrowser.chrome, dependencies: ['basic-chromium'], workers: 4 },
+    { name: 'baseline-firefox', testDir: `${testDirBase}/02-baseline`, use: projectParamsByBrowser.firefox, dependencies: ['basic-firefox'], workers: 4 },
+    { name: 'baseline-webkit', testDir: `${testDirBase}/02-baseline`, use: projectParamsByBrowser.webkit, dependencies: ['basic-webkit'], workers: 4 },
 
     { name: 'advanced-chromium', testDir: `${testDirBase}/03-advanced`, use: projectParamsByBrowser.chrome, dependencies: ['baseline-chromium'], workers: 1 },
     { name: 'advanced-firefox', testDir: `${testDirBase}/03-advanced`, use: projectParamsByBrowser.firefox, dependencies: ['baseline-firefox'], workers: 1 },
