@@ -223,7 +223,7 @@ paths:
           content: {}
         "400":
           $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
-        412:
+        "412":
           description: "Precondition failed: If-Unmodified-Since condition not met"
           content:
             application/json:
