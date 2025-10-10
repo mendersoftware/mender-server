@@ -135,7 +135,7 @@ test.describe('Deployments', () => {
   });
   test('deployment pagination', async ({ baseUrl, page, request }) => {
     const token = await getTokenFromStorage(baseUrl);
-    const pendingDeploymentRequests = Array.from({ length: 50 }, (_, index) => ({
+    const pendingDeploymentRequests = Array.from({ length: 60 }, (_, index) => ({
       artifact_name: 'terminalImage',
       all_devices: true,
       max_devices: index,
