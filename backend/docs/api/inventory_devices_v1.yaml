@@ -51,11 +51,7 @@ paths:
           description: The device is not authenticated.
           content: {}
         "400":
-          description: Missing/malformed request parameters or body.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -99,11 +95,7 @@ paths:
           description: The device is not authenticated.
           content: {}
         "400":
-          description: Missing/malformed request parameters or body.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:

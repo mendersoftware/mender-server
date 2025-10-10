@@ -97,11 +97,7 @@ paths:
               schema:
                 type: string
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
           content:
             application/json:
@@ -141,11 +137,7 @@ paths:
               schema:
                 type: string
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
           content:
             application/json:
@@ -219,11 +211,7 @@ paths:
                 type: array
           description: OK
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
           content:
             application/json:
@@ -276,11 +264,7 @@ paths:
               schema:
                 type: string
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
           content:
             application/json:
@@ -370,11 +354,7 @@ paths:
           content: {}
           description: Status updated successfully.
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
           content:
             application/json:
@@ -579,11 +559,7 @@ paths:
                 type: array
           description: Successful response.
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
           content:
             application/json:
@@ -632,17 +608,9 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
           description: Unauthorized.
         "404":
-          content:
-            text/plain:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Not Found.
+          $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
-          content:
-            text/plain:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Get the log of a selected device's deployment
@@ -1168,11 +1136,7 @@ paths:
               schema:
                 type: string
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
           content:
             application/json:
@@ -1374,11 +1338,7 @@ paths:
               schema:
                 type: string
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
           content:
             application/json:
@@ -1479,11 +1439,7 @@ paths:
                 $ref: '#/components/schemas/ArtifactV1'
           description: Successful response.
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
           content:
             application/json:
@@ -1522,11 +1478,7 @@ paths:
           content: {}
           description: The artifact metadata updated successfully.
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
           content:
             application/json:
@@ -1571,11 +1523,7 @@ paths:
                 $ref: '#/components/schemas/ArtifactLink'
           description: Successful response.
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
           content:
             application/json:

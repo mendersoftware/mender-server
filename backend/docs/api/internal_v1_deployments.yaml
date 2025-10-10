@@ -91,11 +91,7 @@ paths:
           content: {}
           description: Settings updated.
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: The request body is malformed.
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       summary: Set storage settings for a given tenant
@@ -149,12 +145,7 @@ paths:
           content: {}
           description: Limit information updated.
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: |
-            The request body is malformed.
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       summary: Set storage limit for given tenant
@@ -177,8 +168,7 @@ paths:
           content: {}
           description: Tenant was successfully provisioned.
         "400":
-          content: {}
-          description: Bad request.
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       summary: Provision a new tenant
@@ -253,11 +243,7 @@ paths:
               schema:
                 type: integer
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
       summary: Get all deployments for specific tenant
       tags:
         - Internal API
@@ -293,8 +279,7 @@ paths:
                 type: array
           description: OK
         "400":
-          content: {}
-          description: Bad request.
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       summary: Return the Deployments history entries for the specified IDs
@@ -422,11 +407,7 @@ paths:
               schema:
                 type: string
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       summary: Upload mender artifact
@@ -475,17 +456,9 @@ paths:
               schema:
                 type: string
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "409":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: The deployment with a given id already exists.
+          $ref: './common/responses.yaml#/components/responses/ConflictError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       summary: Create a configuration deployment
@@ -517,11 +490,7 @@ paths:
                 $ref: '#/components/schemas/LastDeviceDeploymentsStatuses'
           description: List of device deployment statuses returned.
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       summary: Get status of the last device devployment

@@ -92,11 +92,7 @@ paths:
             Request has been accepted and the JWT token has been invalidated.
           content: {}
         "400":
-          description: "Bad request, see error message for details."
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
           description: Unauthorized.
           content:
@@ -195,12 +191,7 @@ paths:
                 type: string
           content: {}
         "400":
-          description: |
-            The request body is malformed.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
           description: |
             The user cannot be granted authentication.
@@ -276,12 +267,7 @@ paths:
           description: User information updated.
           content: {}
         "400":
-          description: |
-            The request body is malformed.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
           description: |
             The user cannot be granted authentication.
@@ -373,12 +359,7 @@ paths:
           description: User information updated.
           content: {}
         "400":
-          description: |
-            The request body is malformed.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
           description: |
             The user cannot be granted authentication.
@@ -455,12 +436,7 @@ paths:
           description: User settings set.
           content: {}
         "400":
-          description: |
-            The request body is malformed.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
           description: |
             The user cannot be granted authentication.
@@ -531,12 +507,7 @@ paths:
           description: User settings set.
           content: {}
         "400":
-          description: |
-            The request body is malformed.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
           description: |
             The user cannot be granted authentication.
@@ -738,22 +709,14 @@ paths:
             Service is healthy and all dependencies are up and running.
           content: {}
         "500":
-          description: |
-            Unexpected internal error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorInternalAPI'
-              example:
-                error: internal error
-                request_id: ffd712be-d697-4cb7-814b-88ff1e2eb5f6
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
         "503":
           description: |
             Service unhealthy / not ready to accept traffic. At least one dependency is not running.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorInternalAPI'
+                $ref: './common/schemas.yaml#/components/schemas/Error'
               example:
                 error: "error reaching MongoDB: context deadline exceeded"
                 request_id: ffd712be-d697-4cb7-814b-88ff1e2eb5f6
@@ -769,12 +732,7 @@ paths:
           description: Service is up and running.
           content: {}
         "500":
-          description: |
-            Internal API error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorInternalAPI'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
   /api/internal/v1/useradm/auth/verify:
     post:
       tags:
@@ -817,11 +775,7 @@ paths:
           description: The token is valid.
           content: {}
         "400":
-          description: Missing or malformed request parameters.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
           description: "Verification failed, authentication should not be granted."
           content:
@@ -835,11 +789,7 @@ paths:
               schema:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
-          description: Unexpected error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorInternalAPI'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
   /api/internal/v1/useradm/tenants:
     post:
       tags:
@@ -857,14 +807,9 @@ paths:
           description: The tenant was created successfully.
           content: {}
         "400":
-          description: Missing or malformed request parameters.
-          content: {}
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "500":
-          description: Unexpected error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorInternalAPI'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
   /api/internal/v1/useradm/tenants/{tenant_id}/users:
     get:
       tags:
@@ -933,11 +878,7 @@ paths:
               schema:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorInternalAPI'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
     post:
       tags:
       - Useradm Internal API
@@ -962,12 +903,7 @@ paths:
           description: The user was successfully created.
           content: {}
         "400":
-          description: |
-            The request body is malformed.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "404":
           $ref: './common/responses.yaml#/components/responses/NotFound'
         "422":
@@ -978,11 +914,7 @@ paths:
               schema:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorInternalAPI'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
   /api/internal/v1/useradm/tenants/{tenant_id}/users/{user_id}:
     delete:
       tags:
@@ -1009,18 +941,9 @@ paths:
           description: User deleted.
           content: {}
         "400":
-          description: |
-            Invalid parameters.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorInternalAPI'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
   /api/internal/v1/useradm/tokens:
     delete:
       tags:
@@ -1049,18 +972,9 @@ paths:
           description: Tokens deleted.
           content: {}
         "400":
-          description: |
-            Invalid parameters.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "500":
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorInternalAPI'
+          $ref: './common/responses.yaml#/components/responses/InternalServerError'
 components:
   schemas:
     LoginOptions:
@@ -1210,15 +1124,6 @@ components:
         last_used: 2022-07-05T11:11:35.725Z
         expiration_date: 2023-10-16T07:28:34.725Z
         created_ts: 2022-07-05T11:03:27.725Z
-    ErrorInternalAPI:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Description of the error.
-      description: Error descriptor.
-      example:
-        error: internal error
     Settings:
       type: object
       description: User settings.

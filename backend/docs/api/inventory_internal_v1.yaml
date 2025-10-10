@@ -64,8 +64,7 @@ paths:
           description: The tenant was created successfully.
           content: {}
         "400":
-          description: Missing or malformed request parameters.
-          content: {}
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
   /api/internal/v1/inventory/tenants/{tenant_id}/devices:
@@ -97,11 +96,7 @@ paths:
                 type: string
           content: {}
         "400":
-          description: Malformed request body. See error for details.
-          content:
-            '*/*':
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
   /api/internal/v1/inventory/tenants/{tenant_id}/devices/{device_id}:
@@ -173,17 +168,9 @@ paths:
           description: The operation completed successfully.
           content: {}
         "400":
-          description: Malformed request body. See error for details.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "409":
-          description: "Write conflict, the request needs to be retried."
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/ConflictError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
   /api/internal/v1/inventory/tenants/{tenant_id}/device/{device_id}/attribute/scope/{scope}:
@@ -235,7 +222,7 @@ paths:
           description: Device inventory successfully updated.
           content: {}
         "400":
-          $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         412:
           description: "Precondition failed: If-Unmodified-Since condition not met"
           content:
@@ -272,9 +259,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Groups'
         "400":
-          description: Missing or malformed request params or body. See the error
-            message for details.
-          content: {}
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "404":
           $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
@@ -308,11 +293,7 @@ paths:
           description: Attributes have been re-indexed.
           content: {}
         "400":
-          description: Invalid Request.
-          content:
-            '*/*':
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
 components:
