@@ -36,7 +36,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DeviceState'
+                $ref: '#/components/schemas/ConnectionState'
         400:
           $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "404":
@@ -302,7 +302,7 @@ components:
       $ref: './common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'
 
   schemas:
-    DeviceState:
+    ConnectionState:
       type: object
       properties:
         device_id:

@@ -90,7 +90,7 @@ paths:
           content: {}
           description: Status updated successfully.
         "400":
-           $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "404":
           $ref: './common/responses.yaml#/components/responses/NotFound'
         "409":

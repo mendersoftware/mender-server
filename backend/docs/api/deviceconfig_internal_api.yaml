@@ -1,213 +1,155 @@
 openapi: 3.0.3
-
 info:
   title: Device configure
-  description: |
-    Internal API for managing persistent device connections.
-    Intended for use by the web GUI.
-
-  version: "1"
-
+  description: 'Internal API for managing persistent device connections.
+    Intended for use by the web GUI.'
+  version: '1'
 tags:
-  - name: Internal API
-
+- name: Internal API
 paths:
   /api/internal/v1/deviceconfig/health:
     get:
       tags:
-        - Internal API
+      - Internal API
       summary: Get health status of service
       operationId: DeviceConfig Internal Check Health
       responses:
         204:
           description: Service is healthy.
-        "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-
+        '400':
+          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+        '500':
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/deviceconfig/alive:
     get:
       tags:
-        - Internal API
+      - Internal API
       summary: Get service liveliness status.
       operationId: DeviceConfig Internal Check Liveliness
       responses:
         204:
           description: Service is up and serving requests.
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-
+        '500':
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/deviceconfig/tenants:
     post:
       tags:
-        - Internal API
+      - Internal API
       operationId: DeviceConfig Internal Provision tenant
       summary: Initialize internal state for a new tenant
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewTenant'
+              $ref: ./common/schemas.yaml#/components/schemas/NewTenant
       responses:
         201:
           description: Tenant initialized successfully.
         400:
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
         500:
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/deviceconfig/tenants/{tenantId}:
     delete:
-      operationId: "DeviceConfig Internal Delete Tenant"
+      operationId: DeviceConfig Internal Delete Tenant
       tags:
-        - Internal API
+      - Internal API
       summary: Delete all the data for given tenant.
       parameters:
-        - in: path
-          name: tenantId
-          schema:
-            type: string
-          required: true
-          description: ID of tenant.
+      - in: path
+        name: tenantId
+        schema:
+          type: string
+        required: true
+        description: ID of tenant.
       responses:
         204:
           description: All the tenant data have been successfully deleted.
         500:
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/deviceconfig/tenants/{tenantId}/devices:
     post:
       tags:
-        - Internal API
+      - Internal API
       operationId: DeviceConfig Internal Provision device
       summary: Register a new device with the deviceconfig service.
       parameters:
-        - in: path
-          name: tenantId
-          schema:
-            type: string
-          required: true
-          description: ID of tenant the device belongs to.
+      - in: path
+        name: tenantId
+        schema:
+          type: string
+        required: true
+        description: ID of tenant the device belongs to.
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewDevice'
+              $ref: './common/schemas.yaml#/components/schemas/ProvisionDevice'
       responses:
         201:
           description: Device was provisioned successfully.
         400:
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
         500:
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/deviceconfig/tenants/{tenantId}/devices/{deviceId}:
     delete:
       tags:
-        - Internal API
+      - Internal API
       operationId: DeviceConfig Internal Decommission device
       summary: Remove a device from the deviceconfig service.
       parameters:
-        - in: path
-          name: tenantId
-          schema:
-            type: string
-          required: true
-          description: ID of tenant the device belongs to.
-        - in: path
-          name: deviceId
-          schema:
-            type: string
-          required: true
-          description: ID of the target device.
+      - in: path
+        name: tenantId
+        schema:
+          type: string
+        required: true
+        description: ID of tenant the device belongs to.
+      - in: path
+        name: deviceId
+        schema:
+          type: string
+        required: true
+        description: ID of the target device.
       responses:
         204:
           description: Device was deleted successfully
         500:
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-
-
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/deviceconfig/tenants/{tenantId}/configurations/device/{deviceId}/deploy:
     post:
       operationId: DeviceConfig Internal Deploy Device Configuration
       tags:
-        - Internal API
+      - Internal API
       summary: Deploy the device's configuration
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewConfigurationDeployment'
+              $ref: './deviceconfig_management_api.yaml#/components/schemas/NewConfigurationDeployment'
       parameters:
-        - in: path
-          name: deviceId
-          schema:
-            type: string
-          required: true
-          description: ID of the device.
-        - in: path
-          name: tenantId
-          schema:
-            type: string
-          required: true
-          description: ID of the tenant.
+      - in: path
+        name: deviceId
+        schema:
+          type: string
+        required: true
+        description: ID of the device.
+      - in: path
+        name: tenantId
+        schema:
+          type: string
+        required: true
+        description: ID of the tenant.
       responses:
         200:
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NewConfigurationDeploymentResponse'
-        "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
-        "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-
-
-components:
-
-  schemas:
-
-    NewTenant:
-      type: object
-      properties:
-        tenant_id:
-          type: string
-          description: ID of new tenant.
-      required:
-        - tenant_id
-
-    NewDevice:
-      type: object
-      properties:
-        device_id:
-          type: string
-          format: uuid
-          description: ID of the new device.
-      required:
-        - device_id
-
-    NewConfigurationDeployment:
-      type: object
-      properties:
-        retries:
-          type: integer
-          description: The number of times a device can retry the deployment in case of failure, defaults to 0
-          default: 0
-        update_control_map:
-          x-mender-plan: ["enterprise"]
-          type: object
-          additionalProperties: true
-          description: |
-              A valid JSON object defining the update control map.
-              *NOTE*: Available only in the Enterprise plan.
-
-    NewConfigurationDeploymentResponse:
-      type: object
-      properties:
-        deployment_id:
-          type: string
-          description: Deployment ID
+                $ref: './deviceconfig_management_api.yaml#/components/schemas/NewConfigurationDeploymentResponse'
+        '400':
+          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+        '404':
+          $ref: ./common/responses.yaml#/components/responses/NotFound
+        '500':
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError

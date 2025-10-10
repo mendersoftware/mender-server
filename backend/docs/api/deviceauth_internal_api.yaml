@@ -1,70 +1,63 @@
 openapi: 3.0.0
 info:
-  version: '0.1.0'
+  version: 0.1.0
   title: Device Authentication
-  description: |
-    An API for device authentication handling. Not exposed via the API Gateway,
-    internal use only.
+  description: 'An API for device authentication handling. Not exposed via the API
+    Gateway, internal use only.'
 tags:
-  - name: Internal API
+- name: Internal API
 paths:
   /api/internal/v1/devauth/alive:
     get:
       operationId: DeviceAuth Internal Check Liveliness
       tags:
-        - Internal API
-      summary: >
-        Trivial endpoint that unconditionally returns an empty 204 response
-        whenever the API handler is running correctly.
+      - Internal API
+      summary: 'Trivial endpoint that unconditionally returns an empty 204 response
+        whenever the API handler is running correctly.'
       responses:
         '204':
           description: Service is up and running
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-
+        '500':
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/devauth/health:
     get:
       operationId: DeviceAuth Internal Check Health
       tags:
-        - Internal API
+      - Internal API
       summary: Check the health of the service
       responses:
         '204':
-          description: >
-            Service is healthy and all dependencies are up and running.
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          description: 'Service is healthy and all dependencies are up and running.'
+        '500':
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
         '503':
-          description: >
-            Service unhealthy / not ready to accept traffic. At least one
-            dependency is not running.
+          description: 'Service unhealthy / not ready to accept traffic. At least
+            one dependency is not running.'
           content:
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: ./common/schemas.yaml#/components/schemas/Error
               examples:
                 example2:
                   value:
-                    error: "error reaching MongoDB: context deadline exceeded"
-                    request_id: "ffd712be-d697-4cb7-814b-88ff1e2eb5f6"
-
+                    error: 'error reaching MongoDB: context deadline exceeded'
+                    request_id: ffd712be-d697-4cb7-814b-88ff1e2eb5f6
   /api/internal/v1/devauth/tokens/verify:
     post:
       operationId: DeviceAuth Internal Verify JWT
       tags:
-        - Internal API
+      - Internal API
       summary: Check the validity of a token
-      description: |
-        Besides the basic validity check, checks the token expiration time and
-        user-initiated token revocation. Services which intend to use it should
-        be correctly set up in the gateway's configuration.
+      description: 'Besides the basic validity check, checks the token expiration
+        time and user-initiated token revocation. Services which intend to use it should
+        be correctly set up in the gateway''s configuration.'
       parameters:
-        - name: Authorization
-          in: header
-          description: The token in base64-encoded form.
-          required: true
-          schema:
-            type: string
+      - name: Authorization
+        in: header
+        description: The token in base64-encoded form.
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: The token is valid.
@@ -80,78 +73,76 @@ paths:
     delete:
       operationId: DeviceAuth Internal Revoke Device Tokens
       tags:
-        - Internal API
+      - Internal API
       summary: Delete device tokens
-      description: |
-        This endpoint is designed to be used for device decommissioning
+      description: 'This endpoint is designed to be used for device decommissioning
         and tenant account suspension purpose.
         For device decommissioning purpose both tenant_id and device_id parameters
         must be set. When both tenant_id and device_id parameters are set,
         all tokens will be deleted for device with given device_id.
         For tenant account suspension purpose only tenant_id parameter must be set.
         When device_id parameter is not set (only tenant_id parameter is set)
-        all tokens for all tenant devices will be deleted.
+        all tokens for all tenant devices will be deleted.'
       parameters:
-        - name: tenant_id
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: device_id
-          in: query
-          required: false
-          schema:
-            type: string
+      - name: tenant_id
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: device_id
+        in: query
+        required: false
+        schema:
+          type: string
       responses:
         '204':
           description: Tokens deleted.
-        "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-
+        '400':
+          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+        '500':
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/devauth/tenant/{tenant_id}/limits/max_devices:
     get:
       operationId: DeviceAuth Internal Get Device Limit
       tags:
-        - Internal API
+      - Internal API
       summary: Max device count limit
       parameters:
-        - name: tenant_id
-          description: Tenant ID.
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: tenant_id
+        description: Tenant ID.
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: Successful response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Limit'
-        "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+                $ref: ./deviceauth_management_api.yaml#/components/schemas/Limit
+        '400':
+          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+        '500':
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
     put:
       operationId: DeviceAuth Internal Update Device Limit
       tags:
-        - Internal API
+      - Internal API
       summary: Update max device count limit
       parameters:
-        - name: tenant_id
-          description: Tenant ID.
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: tenant_id
+        description: Tenant ID.
+        in: path
+        required: true
+        schema:
+          type: string
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Limit'
+              $ref: ./deviceauth_management_api.yaml#/components/schemas/Limit
       responses:
         '204':
           description: Limit information updated.
@@ -162,35 +153,34 @@ paths:
     delete:
       operationId: DeviceAuth Internal Clear Device Limit
       tags:
-        - Internal API
+      - Internal API
       summary: Remove max device count limit
       parameters:
-        - name: tenant_id
-          description: Tenant ID.
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: tenant_id
+        description: Tenant ID.
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '204':
           description: Limit information deleted.
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-
+        '500':
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/devauth/tenants:
     post:
       operationId: DeviceAuth Internal Create Tenant
       tags:
-        - Internal API
+      - Internal API
       summary: Provision a new tenant
-      description: |
-          Sets up all tenant-related infrastructure, e.g. a migrated tenant's database.
+      description: 'Sets up all tenant-related infrastructure, e.g. a migrated tenant''s
+        database.'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewTenant'
+              $ref: ./common/schemas.yaml#/components/schemas/NewTenant
       responses:
         '201':
           description: Tenant was successfully provisioned.
@@ -202,19 +192,19 @@ paths:
     delete:
       operationId: DeviceAuth Internal Delete Device
       tags:
-        - Internal API
-      summary: "Delete a device from deviceauth service."
+      - Internal API
+      summary: Delete a device from deviceauth service.
       parameters:
-        - name: tid
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: did
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: tid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: did
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '201':
           description: Device deleted successfully.
@@ -226,21 +216,21 @@ paths:
     put:
       operationId: DeviceAuth Internal Set external identity
       tags:
-        - Internal API
-      summary: "Replace the external identity of a device."
+      - Internal API
+      summary: Replace the external identity of a device.
       parameters:
-        - name: tid
-          in: path
-          description: Tenant identifier.
-          required: true
-          schema:
-            type: string
-        - name: did
-          in: path
-          description: Device identifier.
-          required: true
-          schema:
-            type: string
+      - name: tid
+        in: path
+        description: Tenant identifier.
+        required: true
+        schema:
+          type: string
+      - name: did
+        in: path
+        description: Device identifier.
+        required: true
+        schema:
+          type: string
       requestBody:
         required: true
         content:
@@ -258,88 +248,86 @@ paths:
     get:
       operationId: DeviceAuth Internal Device Status
       tags:
-        - Internal API
+      - Internal API
       summary: Get the status of a tenant's device
-      description: |
-          Returns the overall status of the device, computed over the statuses of its various authsets.
+      description: 'Returns the overall status of the device, computed over the statuses
+        of its various authsets.'
       parameters:
-        - name: tid
-          in: path
-          description: Tenant identifier.
-          required: true
-          schema:
-            type: string
-        - name: did
-          in: path
-          description: Device identifier.
-          required: true
-          schema:
-            type: string
+      - name: tid
+        in: path
+        description: Tenant identifier.
+        required: true
+        schema:
+          type: string
+      - name: did
+        in: path
+        description: Device identifier.
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: Success.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Status'
-        "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
-        "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-
+                $ref: ./deviceauth_management_api.yaml#/components/schemas/Status
+        '400':
+          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+        '404':
+          $ref: ./common/responses.yaml#/components/responses/NotFound
+        '500':
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/devauth/tenants/{tid}/devices:
     get:
       operationId: DeviceAuth Internal List Devices
       tags:
-        - Internal API
+      - Internal API
       summary: Get a list of tenant's devices.
-      description: |
-        Provides a list of tenant's devices, sorted by creation date, with optional device status filter.
+      description: 'Provides a list of tenant''s devices, sorted by creation date,
+        with optional device status filter.'
       parameters:
-        - name: tid
-          in: path
-          description: Tenant identifier.
-          required: true
-          schema:
+      - name: tid
+        in: path
+        description: Tenant identifier.
+        required: true
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: 'Device status filter. If not specified, all devices are listed.'
+        required: false
+        schema:
+          type: string
+          enum:
+          - pending
+          - accepted
+          - rejected
+          - preauthorized
+          - noauth
+      - name: id
+        in: query
+        description: Device ID filter. Can be repeated to query a set of devices.
+        required: false
+        schema:
+          type: array
+          items:
             type: string
-        - name: status
-          in: query
-          description: |
-            Device status filter. If not specified, all devices are listed.
-          required: false
-          schema:
-            type: string
-            enum:
-              - pending
-              - accepted
-              - rejected
-              - preauthorized
-              - noauth
-        - name: id
-          in: query
-          description: Device ID filter. Can be repeated to query a set of devices.
-          required: false
-          schema:
-            type: array
-            items:
-              type: string
-        - name: page
-          in: query
-          description: Results page number.
-          required: false
-          schema:
-            type: integer
-            default: 1
-        - name: per_page
-          in: query
-          description: Maximum number of results per page.
-          required: false
-          schema:
-            type: integer
-            default: 20
-            maximum: 500
+      - name: page
+        in: query
+        description: Results page number.
+        required: false
+        schema:
+          type: integer
+          default: 1
+      - name: per_page
+        in: query
+        description: Maximum number of results per page.
+        required: false
+        schema:
+          type: integer
+          default: 20
+          maximum: 500
       responses:
         '200':
           description: An array of devices.
@@ -348,190 +336,66 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Device'
+                  $ref: ./deviceauth_management_api.yaml#/components/schemas/Device
           headers:
             Link:
               description: Standard header, we support 'first', 'next', and 'prev'.
               schema:
                 type: string
-        "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-
+        '400':
+          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+        '500':
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/devauth/tenants/{tid}/devices/count:
     get:
       operationId: DeviceAuth Internal Count Devices
       summary: Count number of devices, optionally filtered by status.
       tags:
-        - Internal API
+      - Internal API
       parameters:
-        - name: tid
-          in: path
-          description: Tenant identifier.
-          required: true
-          schema:
-            type: string
-        - name: status
-          in: query
-          description: |
-            Device status filter, one of 'pending', 'accepted', 'rejected', 'noauth'. Default is 'all devices'.
-          required: false
-          schema:
-            type: string
+      - name: tid
+        in: path
+        description: Tenant identifier.
+        required: true
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: 'Device status filter, one of ''pending'', ''accepted'', ''rejected'',
+          ''noauth''. Default is ''all devices''.'
+        required: false
+        schema:
+          type: string
       responses:
         '200':
           description: Device count.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Count'
-        "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-
+                $ref: ./deviceauth_management_api.yaml#/components/schemas/Count
+        '400':
+          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+        '500':
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
 components:
   schemas:
-    NewTenant:
-      type: object
-      properties:
-        tenant_id:
-          type: string
-          description: New tenant's ID.
-      example:
-        tenant_id: "58be8208dd77460001fe0d78"
-    Limit:
-      type: object
-      properties:
-        limit:
-          type: integer
-      required:
-        - limit
-      example:
-        limit: 123
-    Status:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-            - pending
-            - accepted
-            - rejected
-            - preauthorized
-            - noauth
-      required:
-        - status
-      example:
-        status: "accepted"
-    Device:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Mender assigned Device ID.
-        identity_data:
-          $ref: "#/components/schemas/IdentityData"
-        status:
-          type: string
-          enum:
-            - pending
-            - accepted
-            - rejected
-            - preauthorized
-            - noauth
-        created_ts:
-          type: string
-          format: datetime
-          description: Created timestamp
-        updated_ts:
-          type: string
-          format: datetime
-          description: Updated timestamp
-        check_in_time:
-          type: string
-          format: date-time
-          description: |
-            Time when accepted device contacted server for the last time.
-        auth_sets:
-          type: array
-          items:
-            $ref: "#/components/schemas/AuthSet"
-        decommissioning:
-          type: boolean
-          description: Devices that are part of ongoing decommissioning process will return True
     ExternalDevice:
       type: object
-      description: "External device descriptor"
+      description: External device descriptor
       properties:
         id:
           type: string
-          description: "ID assigned by external provider"
+          description: ID assigned by external provider
         name:
           type: string
-          description: "Name of the device"
+          description: Name of the device
         provider:
           type: string
-          description: "Name of the external provider"
+          description: Name of the external provider
         id_data:
           type: string
-          description: "Optional custom ID data"
+          description: Optional custom ID data
       required:
-        - id
-        - name
-        - provider
-    AuthSet:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Authentication data set ID.
-        pubkey:
-          type: string
-          description: >
-            The device's public key (PEM encoding), generated by the device or
-            pre-provisioned by the vendor. Currently supported public algorithms
-            are: RSA, Ed25519 and ECDSA P-256.
-        identity_data:
-          $ref: "#/components/schemas/IdentityData"
-        status:
-          type: string
-          enum:
-            - pending
-            - accepted
-            - rejected
-            - preauthorized
-        ts:
-          type: string
-          format: datetime
-          description: Created timestamp
-    Count:
-      type: object
-      properties:
-        count:
-          description: The count of requested items.
-          type: integer
-      example:
-        count: 42
-    IdentityData:
-      type: object
-      description: |
-        Device identity attributes, in the form of a JSON structure.
-        The attributes are completely vendor-specific, the provided ones are just an example.
-        In reference implementation structure contains vendor-selected fields,
-        such as MACs, serial numbers, etc.
-      properties:
-        mac:
-          description: MAC address.
-          type: string
-        sku:
-          description: Stock keeping unit.
-          type: string
-        sn:
-          description: Serial number.
-          type: string
-      example:
-        mac: "00:01:02:03:04:05"
-        sku: "My Device 1"
-        sn: "SN1234567890"
+      - id
+      - name
+      - provider

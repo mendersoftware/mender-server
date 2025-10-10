@@ -1,58 +1,58 @@
 openapi: 3.0.0
 info:
-  version: "2.0"
+  version: '2.0'
   title: Device Authentication
   description: An API for device authentication handling.
 tags:
-  - name: Management API
+- name: Management API
 paths:
   /api/management/v2/devauth/devices:
     get:
       operationId: DeviceAuth Management List Devices
       security:
-        - ManagementJWT: []
+      - ManagementJWT: []
       summary: List devices sorted by age and optionally filter on device status.
       tags:
-        - Management API
+      - Management API
       parameters:
-        - name: status
-          in: query
-          description: Device status filter. If not specified, all devices are listed.
-          required: false
-          schema:
+      - name: status
+        in: query
+        description: Device status filter. If not specified, all devices are listed.
+        required: false
+        schema:
+          type: string
+          enum:
+          - pending
+          - accepted
+          - rejected
+          - preauthorized
+          - noauth
+      - name: id
+        in: query
+        description: Device ID filter. Can be repeated to query a set of devices.
+        required: false
+        schema:
+          type: array
+          items:
             type: string
-            enum:
-              - pending
-              - accepted
-              - rejected
-              - preauthorized
-              - noauth
-        - name: id
-          in: query
-          description: Device ID filter. Can be repeated to query a set of devices.
-          required: false
-          schema:
-            type: array
-            items:
-              type: string
-          style: form
-          explode: true
-        - name: page
-          in: query
-          description: Results page number
-          required: false
-          schema:
-            type: integer
-            default: 1
-        - name: per_page
-          in: query
-          description: Maximum number of results per page.
-          required: false
-          schema:
-            type: integer
-            default: 20
-            maximum: 500
-        - $ref: '#/components/parameters/RequestId'
+        style: form
+        explode: true
+      - name: page
+        in: query
+        description: Results page number
+        required: false
+        schema:
+          type: integer
+          default: 1
+      - name: per_page
+        in: query
+        description: Maximum number of results per page.
+        required: false
+        schema:
+          type: integer
+          default: 20
+          maximum: 500
+      - $ref: '#/components/parameters/RequestId'
       responses:
         '200':
           description: An array of devices.
@@ -67,25 +67,23 @@ paths:
               description: Standard header, we support 'first', 'next', and 'prev'.
               schema:
                 type: string
-        "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+        '400':
+          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+        '500':
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
     post:
       operationId: DeviceAuth Management Preauthorize
       security:
-        - ManagementJWT: []
+      - ManagementJWT: []
       summary: Submit a preauthorized device.
-      description: |
-        Authorize a device identity with the server backend. On success the
-        device identity is marked as 'preauthorized', and once the device
-        connects and sends it's first authentication request the device
-        automatically become 'accepted' without explicit user intervention.
-
+      description: 'Authorize a device identity with the server backend. On success
+        the device identity is marked as ''preauthorized'', and once the device
+        connects and sends it''s first authentication request the device
+        automatically become ''accepted'' without explicit user intervention.'
       tags:
-        - Management API
+      - Management API
       parameters:
-        - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/RequestId'
       requestBody:
         required: true
         content:
@@ -100,47 +98,46 @@ paths:
               description: URL of the newly created device.
               schema:
                 type: string
-        "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+        '400':
+          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
         '409':
           description: Device already exists. Response contains conflicting device.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Device'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-
+        '500':
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
   /api/management/v2/devauth/devices/search:
     post:
       operationId: DeviceAuth Management Search Devices
       security:
-        - ManagementJWT: []
-      summary: Query for devices. Returns a list of matching devices with AuthSets sorted by age.
+      - ManagementJWT: []
+      summary: Query for devices. Returns a list of matching devices with AuthSets
+        sorted by age.
       tags:
-        - Management API
+      - Management API
       parameters:
-        - name: page
-          in: query
-          description: Results page number
-          required: false
-          schema:
-            type: integer
-            default: 1
-        - name: per_page
-          in: query
-          description: Maximum number of results per page.
-          required: false
-          schema:
-            type: integer
-            default: 20
-            maximum: 500
-        - $ref: '#/components/parameters/RequestId'
+      - name: page
+        in: query
+        description: Results page number
+        required: false
+        schema:
+          type: integer
+          default: 1
+      - name: per_page
+        in: query
+        description: Maximum number of results per page.
+        required: false
+        schema:
+          type: integer
+          default: 20
+          maximum: 500
+      - $ref: '#/components/parameters/RequestId'
       requestBody:
         required: true
-        description: |
-          Device status filter.
-          All properties can be either a single string or an array of strings.
+        description: 'Device status filter.
+          All properties can be either a single string or an array of strings.'
         content:
           application/json:
             schema:
@@ -148,21 +145,20 @@ paths:
               properties:
                 status:
                   type: array
-                  description: >-
-                    Device status filter. Can be an array for querying devices
-                    from multiple device statuses.
+                  description: Device status filter. Can be an array for querying
+                    devices from multiple device statuses.
                   items:
                     type: string
                     enum:
-                      - pending
-                      - accepted
-                      - rejected
-                      - preauthorized
-                      - noauth
+                    - pending
+                    - accepted
+                    - rejected
+                    - preauthorized
+                    - noauth
                 id:
                   type: array
-                  description: >-
-                    Device ID filter. Can be a string for querying for a single device.
+                  description: Device ID filter. Can be a string for querying for
+                    a single device.
                   items:
                     type: string
                     description: Device ID
@@ -178,30 +174,30 @@ paths:
                   $ref: '#/components/schemas/Device'
           headers:
             Link:
-              description: Pagination link header, we support 'first', 'next', and 'prev'.
+              description: Pagination link header, we support 'first', 'next', and
+                'prev'.
               schema:
                 type: string
-        "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-
+        '400':
+          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+        '500':
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
   /api/management/v2/devauth/devices/{id}:
     get:
       operationId: DeviceAuth Management Get Device
       security:
-        - ManagementJWT: []
+      - ManagementJWT: []
       summary: Get a particular device.
       tags:
-        - Management API
+      - Management API
       parameters:
-        - name: id
-          in: path
-          description: Device identifier.
-          required: true
-          schema:
-            type: string
-        - $ref: '#/components/parameters/RequestId'
+      - name: id
+        in: path
+        description: Device identifier.
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/RequestId'
       responses:
         '200':
           description: Device found.
@@ -209,99 +205,95 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Device'
-        "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+        '404':
+          $ref: ./common/responses.yaml#/components/responses/NotFound
+        '500':
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
     delete:
       operationId: DeviceAuth Management Decommission device
       security:
-        - ManagementJWT: []
+      - ManagementJWT: []
       summary: Remove device and associated authentication set
       tags:
-        - Management API
+      - Management API
       parameters:
-        - name: id
-          in: path
-          description: Device identifier.
-          required: true
-          schema:
-            type: string
-        - $ref: '#/components/parameters/RequestId'
+      - name: id
+        in: path
+        description: Device identifier.
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/RequestId'
       responses:
         '204':
           description: Device decommissioned.
-        "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-
+        '404':
+          $ref: ./common/responses.yaml#/components/responses/NotFound
+        '500':
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
   /api/management/v2/devauth/devices/{id}/auth/{aid}:
     delete:
       operationId: DeviceAuth Management Remove authentication
       security:
-        - ManagementJWT: []
+      - ManagementJWT: []
       summary: Remove (dismiss) the device authentication set
-      description: |
-        Removes the device authentication set.
-        Removing 'accepted' authentication set is equivalent
+      description: 'Removes the device authentication set.
+        Removing ''accepted'' authentication set is equivalent
         to rejecting device and removing authentication set.
         If there is only one authentication set for the device
-        and the device is 'preauthorized' then the device
-        will also be deleted.
+        and the device is ''preauthorized'' then the device
+        will also be deleted.'
       tags:
-        - Management API
+      - Management API
       parameters:
-        - name: id
-          in: path
-          description: Device identifier.
-          required: true
-          schema:
-            type: string
-        - name: aid
-          in: path
-          description: Authentication data set identifier.
-          required: true
-          schema:
-            type: string
-        - $ref: '#/components/parameters/RequestId'
+      - name: id
+        in: path
+        description: Device identifier.
+        required: true
+        schema:
+          type: string
+      - name: aid
+        in: path
+        description: Authentication data set identifier.
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/RequestId'
       responses:
         '204':
           description: Device authentication set deleted.
-        "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-
+        '404':
+          $ref: ./common/responses.yaml#/components/responses/NotFound
+        '500':
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
   /api/management/v2/devauth/devices/{id}/auth/{aid}/status:
     put:
       operationId: DeviceAuth Management Set Authentication Status
       security:
-        - ManagementJWT: []
+      - ManagementJWT: []
       summary: Update the device authentication set status
-      description: |
-        Sets the status of an authentication data set of selected value.
+      description: 'Sets the status of an authentication data set of selected value.
         Valid state transitions:
-        - 'pending' -> 'accepted'
-        - 'pending' -> 'rejected'
-        - 'rejected' -> 'accepted'
-        - 'accepted' -> 'rejected'
+        - ''pending'' -> ''accepted''
+        - ''pending'' -> ''rejected''
+        - ''rejected'' -> ''accepted''
+        - ''accepted'' -> ''rejected'''
       tags:
-        - Management API
+      - Management API
       parameters:
-        - name: id
-          in: path
-          description: Device identifier.
-          required: true
-          schema:
-            type: string
-        - name: aid
-          in: path
-          description: Authentication data set identifier.
-          required: true
-          schema:
-            type: string
-        - $ref: '#/components/parameters/RequestId'
+      - name: id
+        in: path
+        description: Device identifier.
+        required: true
+        schema:
+          type: string
+      - name: aid
+        in: path
+        description: Authentication data set identifier.
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/RequestId'
       requestBody:
         required: true
         content:
@@ -310,70 +302,73 @@ paths:
               $ref: '#/components/schemas/Status'
       responses:
         '204':
-          description: The device authentication data set status was successfully updated.
-        "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
-        "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          description: The device authentication data set status was successfully
+            updated.
+        '400':
+          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+        '404':
+          $ref: ./common/responses.yaml#/components/responses/NotFound
         '422':
-          description: Request cannot be fulfilled e.g. due to exceeded limit on maximum accepted devices (see error message).
+          description: Request cannot be fulfilled e.g. due to exceeded limit on maximum
+            accepted devices (see error message).
           content:
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+                $ref: ./common/schemas.yaml#/components/schemas/Error
+        '500':
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
     get:
       operationId: DeviceAuth Management Get Authentication Status
       security:
-        - ManagementJWT: []
+      - ManagementJWT: []
       summary: Get the device authentication set status
       tags:
-        - Management API
+      - Management API
       parameters:
-        - name: id
-          in: path
-          description: Device identifier.
-          required: true
-          schema:
-            type: string
-        - name: aid
-          in: path
-          description: Authentication data set identifier.
-          required: true
-          schema:
-            type: string
-        - $ref: '#/components/parameters/RequestId'
+      - name: id
+        in: path
+        description: Device identifier.
+        required: true
+        schema:
+          type: string
+      - name: aid
+        in: path
+        description: Authentication data set identifier.
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/RequestId'
       responses:
         '200':
-          description: Successful response - the device's authentication set status is returned.
+          description: Successful response - the device's authentication set status
+            is returned.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Status'
-        "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-
+        '404':
+          $ref: ./common/responses.yaml#/components/responses/NotFound
+        '500':
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
   /api/management/v2/devauth/devices/count:
     get:
       operationId: DeviceAuth Management Count Devices
       security:
-        - ManagementJWT: []
+      - ManagementJWT: []
       summary: Count number of devices, optionally filtered by status.
       tags:
-        - Management API
+      - Management API
       parameters:
-        - name: status
-          in: query
-          description: |
-            Device status filter, one of 'pending', 'accepted', 'rejected', 'noauth', 'preauthorized'.
-            Default is 'all devices', meaning devices with any of these statuses will be counted.
-          required: false
-          schema:
-            type: string
-        - $ref: '#/components/parameters/RequestId'
+      - name: status
+        in: query
+        description: 'Device status filter, one of ''pending'', ''accepted'', ''rejected'',
+          ''noauth'', ''preauthorized''.
+          Default is ''all devices'', meaning devices with any of these statuses will
+          be counted.'
+        required: false
+        schema:
+          type: string
+      - $ref: '#/components/parameters/RequestId'
       responses:
         '200':
           description: Device count.
@@ -381,49 +376,46 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Count'
-        "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-
+        '400':
+          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+        '500':
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
   /api/management/v2/devauth/tokens/{id}:
     delete:
       operationId: DeviceAuth Management Revoke API Token
       security:
-        - ManagementJWT: []
+      - ManagementJWT: []
       summary: Revoke JWT with given id
-      description: |
-        Deletes the token, effectively revoking it. The device must
+      description: 'Deletes the token, effectively revoking it. The device must
         apply for a new one with a new authentication request.
-        The token 'id' corresponds to the standard 'jti' claim.
+        The token ''id'' corresponds to the standard ''jti'' claim.'
       tags:
-        - Management API
+      - Management API
       parameters:
-        - name: id
-          in: path
-          description: Unique token identifier('jti').
-          required: true
-          schema:
-            type: string
-        - $ref: '#/components/parameters/RequestId'
+      - name: id
+        in: path
+        description: Unique token identifier('jti').
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/RequestId'
       responses:
         '204':
           description: The token was successfully deleted.
-        "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-
+        '404':
+          $ref: ./common/responses.yaml#/components/responses/NotFound
+        '500':
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
   /api/management/v2/devauth/limits/max_devices:
     get:
       operationId: DeviceAuth Management Get Device Limit
       security:
-        - ManagementJWT: []
+      - ManagementJWT: []
       summary: Obtain limit of accepted devices.
       tags:
-        - Management API
+      - Management API
       parameters:
-        - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/RequestId'
       responses:
         '200':
           description: Usage statistics and limits.
@@ -431,14 +423,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Limit'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-
+        '500':
+          $ref: ./common/responses.yaml#/components/responses/InternalServerError
 components:
   securitySchemes:
     ManagementJWT:
-      $ref: './common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'
-
+      $ref: ./common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT
   parameters:
     RequestId:
       name: X-MEN-RequestID
@@ -447,7 +437,6 @@ components:
       description: A request identification
       schema:
         type: string
-
   schemas:
     Status:
       description: Admission status of the device.
@@ -456,14 +445,14 @@ components:
         status:
           type: string
           enum:
-            - pending
-            - accepted
-            - rejected
-            - preauthorized
+          - pending
+          - accepted
+          - rejected
+          - preauthorized
       required:
-        - status
+      - status
       example:
-        status: "accepted"
+        status: accepted
     Limit:
       description: Limit definition
       type: object
@@ -471,7 +460,7 @@ components:
         limit:
           type: integer
       required:
-        - limit
+      - limit
       example:
         limit: 123
     Device:
@@ -485,11 +474,11 @@ components:
         status:
           type: string
           enum:
-            - pending
-            - accepted
-            - rejected
-            - preauthorized
-            - noauth
+          - pending
+          - accepted
+          - rejected
+          - preauthorized
+          - noauth
         created_ts:
           type: string
           format: date-time
@@ -505,40 +494,11 @@ components:
         auth_sets:
           type: array
           items:
-            $ref: '#/components/schemas/AuthSet'
+            $ref: ./common/schemas.yaml#/components/schemas/AuthSet
         decommissioning:
           type: boolean
-          description: Devices that are part of ongoing decomissioning process will return True
-    AuthSet:
-      description: Authentication data set
-      type: object
-      properties:
-        id:
-          type: string
-          description: Authentication data set ID.
-        pubkey:
-          type: string
-          description: >
-            The device's public key (PEM encoding). generated by the device or
-            pre-provisioned by the vendor. Currently supported public algorithms
-            are: RSA, Ed25519 and ECDSA P-256.
-        identity_data:
-          $ref: '#/components/schemas/IdentityData'
-        status:
-          type: string
-          enum:
-            - pending
-            - accepted
-            - rejected
-            - preauthorized
-            - noauth
-        ts:
-          type: string
-          format: date-time
-          description: Created timestamp
-        device_id:
-          type: string
-          description: Device ID connected to authentication data set
+          description: Devices that are part of ongoing decomissioning process will
+            return True
     Count:
       description: Counter type
       type: object
@@ -553,31 +513,40 @@ components:
       properties:
         force:
           type: boolean
-          description: Indicates that despite the device having any authsets the preauthorization should proceed.
+          description: Indicates that despite the device having any authsets the preauthorization
+            should proceed.
         identity_data:
           $ref: '#/components/schemas/IdentityData'
         pubkey:
           type: string
-          description: |
-            The device's public key (PEM encoding), generated by the device or
-            pre-provisioned by the vendor. Currently supported public algorithms
-            are: RSA, Ed25519 and ECDSA P-256.
+          description: 'The device''s public key (PEM encoding), generated by the
+            device or pre-provisioned by the vendor. Currently supported public algorithms
+            are: RSA, Ed25519 and ECDSA P-256.'
       required:
-        - identity_data
-        - pubkey
+      - identity_data
+      - pubkey
       example:
         identity_data:
-          mac: "00:01:02:03:04:05"
-          sku: "My Device 1"
-          sn: "SN1234567890"
-        pubkey: "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzogVU7RGDilbsoUt/DdH\nVJvcepl0A5+xzGQ50cq1VE/Dyyy8Zp0jzRXCnnu9nu395mAFSZGotZVr+sWEpO3c\nyC3VmXdBZmXmQdZqbdD/GuixJOYfqta2ytbIUPRXFN7/I7sgzxnXWBYXYmObYvdP\nokP0mQanY+WKxp7Q16pt1RoqoAd0kmV39g13rFl35muSHbSBoAW3GBF3gO+mF5Ty\n1ddp/XcgLOsmvNNjY+2HOD5F/RX0fs07mWnbD7x+xz7KEKjF+H7ZpkqCwmwCXaf0\niyYyh1852rti3Afw4mDxuVSD7sd9ggvYMc0QHIpQNkD4YWOhNiE1AB0zH57VbUYG\nUwIDAQAB\n-----END PUBLIC KEY-----\n"
-    IdentityData:
-      description: |
-        Device identity attributes, in the form of a JSON structure.
+          mac: 00:01:02:03:04:05
+          sku: My Device 1
+          sn: SN1234567890
+        pubkey: '-----BEGIN PUBLIC KEY-----
+          MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzogVU7RGDilbsoUt/DdH
+          VJvcepl0A5+xzGQ50cq1VE/Dyyy8Zp0jzRXCnnu9nu395mAFSZGotZVr+sWEpO3c
+          yC3VmXdBZmXmQdZqbdD/GuixJOYfqta2ytbIUPRXFN7/I7sgzxnXWBYXYmObYvdP
+          okP0mQanY+WKxp7Q16pt1RoqoAd0kmV39g13rFl35muSHbSBoAW3GBF3gO+mF5Ty
+          1ddp/XcgLOsmvNNjY+2HOD5F/RX0fs07mWnbD7x+xz7KEKjF+H7ZpkqCwmwCXaf0
+          iyYyh1852rti3Afw4mDxuVSD7sd9ggvYMc0QHIpQNkD4YWOhNiE1AB0zH57VbUYG
+          UwIDAQAB
+          -----END PUBLIC KEY-----
 
-        The attributes are completely vendor-specific, the provided ones are just an example.
+          '
+    IdentityData:
+      description: 'Device identity attributes, in the form of a JSON structure.
+        The attributes are completely vendor-specific, the provided ones are just
+        an example.
         In reference implementation structure contains vendor-selected fields,
-        such as MACs, serial numbers, etc.
+        such as MACs, serial numbers, etc.'
       type: object
       properties:
         mac:
@@ -590,6 +559,6 @@ components:
           description: Serial number.
           type: string
       example:
-        mac: "00:01:02:03:04:05"
-        sku: "My Device 1"
-        sn: "SN1234567890"
+        mac: 00:01:02:03:04:05
+        sku: My Device 1
+        sn: SN1234567890
