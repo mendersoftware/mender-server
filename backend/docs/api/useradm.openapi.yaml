@@ -94,11 +94,7 @@ paths:
         "400":
           $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          description: Unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -158,12 +154,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/User'
         "401":
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -193,12 +184,7 @@ paths:
         "400":
           $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "422":
           description: |
             The email address is duplicated, password is too short or current password doesn't match.
@@ -231,12 +217,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
         "401":
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
           $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
@@ -269,12 +250,7 @@ paths:
         "400":
           $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
           $ref: './common/responses.yaml#/components/responses/NotFound'
         "422":
@@ -306,12 +282,7 @@ paths:
           description: User removed.
           content: {}
         "401":
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -330,12 +301,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
         "401":
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
           $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
@@ -361,12 +327,7 @@ paths:
         "400":
           $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
           $ref: './common/responses.yaml#/components/responses/NotFound'
         "422":
@@ -400,12 +361,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Settings'
         "401":
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -438,12 +394,7 @@ paths:
         "400":
           $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "412":
           description: ETag doesn't match.
           content: {}
@@ -471,12 +422,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Settings'
         "401":
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -509,12 +455,7 @@ paths:
         "400":
           $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "412":
           description: ETag doesn't match.
           content: {}
@@ -539,12 +480,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/PersonalAccessToken'
         "401":
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -579,12 +515,7 @@ paths:
               schema:
                 $ref: './common/schemas.yaml#/components/schemas/Error'
         "401":
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "409":
           description: |
             Personal Access Token with the same name already exists.
@@ -621,12 +552,7 @@ paths:
           description: Token removed.
           content: {}
         "401":
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -663,12 +589,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Plan'
         "401":
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -687,12 +608,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/PlanBindingDetails'
         "401":
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -871,12 +787,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/User'
         "401":
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
     post:

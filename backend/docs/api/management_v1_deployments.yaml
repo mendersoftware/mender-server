@@ -99,11 +99,7 @@ paths:
         "400":
           $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -139,11 +135,7 @@ paths:
         "400":
           $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "409":
           content:
             application/json:
@@ -213,11 +205,7 @@ paths:
         "400":
           $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
           $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
@@ -266,11 +254,7 @@ paths:
         "400":
           $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "409":
           content:
             application/json:
@@ -310,11 +294,7 @@ paths:
                 $ref: '#/components/schemas/DeploymentV1'
           description: Successful response.
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
           $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
@@ -356,11 +336,7 @@ paths:
         "400":
           $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
           $ref: './common/responses.yaml#/components/responses/NotFound'
         "422":
@@ -407,11 +383,7 @@ paths:
                 $ref: '#/components/schemas/StatisticsV1'
           description: OK
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
           $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
@@ -443,11 +415,7 @@ paths:
                 type: array
           description: OK
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
           $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
@@ -515,11 +483,7 @@ paths:
                 type: array
           description: OK
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
           $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
@@ -561,11 +525,7 @@ paths:
         "400":
           $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
           $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
@@ -602,11 +562,7 @@ paths:
                 type: string
           description: "Successful response, including the logs in text/plain format."
         "401":
-          content:
-            text/plain:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
           $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
@@ -633,11 +589,7 @@ paths:
           content: {}
           description: Operation completed successfully.
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -701,11 +653,7 @@ paths:
                 type: array
           description: OK
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -732,11 +680,7 @@ paths:
           content: {}
           description: Operation completed successfully.
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -873,11 +817,7 @@ paths:
                 $ref: '#/components/schemas/ReleasesV1'
           description: Successful response.
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -1053,11 +993,7 @@ paths:
               schema:
                 type: string
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -1102,11 +1038,7 @@ paths:
                 type: array
           description: OK
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -1138,11 +1070,7 @@ paths:
         "400":
           $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "409":
           content:
             application/json:
@@ -1233,11 +1161,7 @@ paths:
               schema:
                 type: string
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -1257,11 +1181,7 @@ paths:
                 $ref: '#/components/schemas/ArtifactUploadLink'
           description: OK
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -1292,11 +1212,7 @@ paths:
           content: {}
           description: Accepted
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
           content:
             application/json:
@@ -1340,11 +1256,7 @@ paths:
         "400":
           $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -1371,11 +1283,7 @@ paths:
           content: {}
           description: The artifact deleted successfully.
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
           $ref: './common/responses.yaml#/components/responses/NotFound'
         "409":
@@ -1441,11 +1349,7 @@ paths:
         "400":
           $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
           $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
@@ -1480,11 +1384,7 @@ paths:
         "400":
           $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
           $ref: './common/responses.yaml#/components/responses/NotFound'
         "422":
@@ -1525,11 +1425,7 @@ paths:
         "400":
           $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
           $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
@@ -1553,11 +1449,7 @@ paths:
                 $ref: './common/schemas.yaml#/components/schemas/StorageLimit'
           description: Successful response.
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
