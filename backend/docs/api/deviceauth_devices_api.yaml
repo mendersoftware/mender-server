@@ -71,12 +71,7 @@ paths:
 components:
   securitySchemes:
     DeviceJWT:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-      description: |
-        API token issued by Device Authentication service.
-        Format: 'Authorization: Bearer [JWT]'
+      $ref: './common/securitySchemes.yaml#/components/securitySchemes/DeviceJWT'
   schemas:
     AuthRequest:
       type: object

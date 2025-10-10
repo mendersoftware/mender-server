@@ -83,10 +83,4 @@ paths:
 components:
   securitySchemes:
     DeviceJWT:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-      description: |
-        JWT token issued by 'POST /api/devices/v1/authentication/auth_requests'
-
-  schemas:
+      $ref: './common/securitySchemes.yaml#/components/securitySchemes/DeviceJWT'

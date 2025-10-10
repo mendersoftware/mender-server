@@ -309,9 +309,4 @@ components:
       type: object
   securitySchemes:
     DeviceJWT:
-      description: |
-        API token issued by Device Authentication service.
-        Format: 'Authorization: Bearer [JWT]'
-      in: header
-      name: Authorization
-      type: apiKey
+      $ref: './common/securitySchemes.yaml#/components/securitySchemes/DeviceJWT'
