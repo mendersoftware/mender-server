@@ -80,11 +80,14 @@ export const prepareCookies = async (context: BrowserContext, domain: string, us
   return context;
 };
 
-const ensureFeedbackDisabled = async ({ baseUrl, page }: { baseUrl: string; page: Page }) => {
+const ensureFeedbackDisabled = async ({ baseUrl, page, token }: { baseUrl: string; page: Page; token: string }) => {
   const today = new Date();
-  const response = await page.request.get(`${baseUrl}api/management/v1/useradm/settings/me`);
+  const response = await page.request.get(`${baseUrl}api/management/v1/useradm/settings/me`, { headers: { Authorization: `Bearer ${token}` } });
   const data = await response.json();
-  await page.request.post(`${baseUrl}api/management/v1/useradm/settings/me`, { data: { ...data, feedbackCollectedAt: today.toISOString().split('T')[0] } });
+  await page.request.post(`${baseUrl}api/management/v1/useradm/settings/me`, {
+    data: { ...data, feedbackCollectedAt: today.toISOString().split('T')[0] },
+    headers: { Authorization: `Bearer ${token}` }
+  });
   return page;
 };
 
@@ -118,7 +121,7 @@ export const prepareNewPage = async ({
     window.localStorage.setItem(`onboardingComplete`, 'true');
   }, logInResult.token);
   let page = await context.newPage();
-  page = await ensureFeedbackDisabled({ baseUrl, page });
+  page = await ensureFeedbackDisabled({ baseUrl, page, token: logInResult.token });
   await page.goto(`${baseUrl}ui/`);
   return page;
 };
