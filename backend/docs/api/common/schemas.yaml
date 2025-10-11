@@ -389,3 +389,46 @@ components:
       - log
       - status
       type: object
+    NewTenant:
+      type: object
+      properties:
+        tenant_id:
+          type: string
+          description: ID of new tenant.
+      required:
+        - tenant_id
+    AuthSet:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique ID of the authentication set.
+        device_id:
+          type: string
+          description: The unique ID of the device the authentication set belongs.
+        identity_data:
+          type: object
+          description: The device's identity data.
+          additionalProperties: true
+        pubkey:
+          type: string
+          description: >-
+            PEM-encoded public key of the device authentication set.
+        status:
+          type: string
+          description: >-
+            Authorization status of the set.
+        ts:
+          type: string
+          format: date-time
+          description: >-
+            The creation timestamp of the authentication set.
+    ProvisionDevice:
+      type: object
+      properties:
+        device_id:
+          type: string
+          format: uuid
+          description: ID of the new device.
+      required:
+      - device_id

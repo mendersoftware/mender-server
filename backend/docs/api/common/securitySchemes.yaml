@@ -12,3 +12,10 @@ components:
         API token issued by User Authentication service.
       scheme: bearer
       bearerFormat: JWT
+    DeviceJWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        API token issued by Device Authentication service.
+        Format: 'Authorization: Bearer [JWT]'

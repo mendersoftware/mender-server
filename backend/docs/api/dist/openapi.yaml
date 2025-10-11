@@ -13,6 +13,24 @@ servers:
 tags:
   - name: root.openapi_root.openapi_Mender API
     x-displayName: Mender API
+  - name: deviceauth_devices_api_Device API
+    x-displayName: Device API
+  - name: deviceauth_internal_api_Internal API
+    x-displayName: Internal API
+  - name: deviceauth_management_api_Management API
+    x-displayName: Management API
+  - name: deviceconfig_devices_api_Device API
+    x-displayName: Device API
+  - name: deviceconfig_internal_api_Internal API
+    x-displayName: Internal API
+  - name: deviceconfig_management_api_Management API
+    x-displayName: Management API
+  - name: deviceconnect_devices_api_Device API
+    x-displayName: Device API
+  - name: deviceconnect_internal_api_Internal API
+    x-displayName: Internal API
+  - name: deviceconnect_management_api_Management API
+    x-displayName: Management API
   - name: devices_v1_deployments_Device API
     x-displayName: Device API
   - name: internal_v1_deployments_Internal API
@@ -27,6 +45,10 @@ tags:
     x-displayName: Management API
   - name: inventory_management_v2_Management API
     x-displayName: Management API
+  - name: iot-manager_internal_api_Internal API
+    x-displayName: Internal API
+  - name: iot-manager_management_api_Management API
+    x-displayName: Management API
   - name: management_v1_deployments_Management API
     x-displayName: Management API
   - name: management_v2_deployments_Management API
@@ -40,6 +62,1593 @@ tags:
   - name: workflows.openapi_other
     x-displayName: other
 paths:
+  /api/devices/v1/authentication/auth_requests:
+    post:
+      summary: Submit an authentication request
+      description: |
+        The device presents its unique identity data and public key, and signs the request with its private key.
+        If the request is valid and the device is known to the system, a valid JWT authentication token is issued.
+
+        Unless the device is pre-authorized, the very first authentication request from a device will
+        always result in a 'HTTP 401 Unauthorized' response. At the same time, the identity data is recorded for
+        later inspection by the user, who can then explicitly accept or reject the device via the web GUI.
+        A subsequent authentication request will reflect this decision.
+
+        Note that when the JWT expires, the device must renew the JWT by sending a new authentication request.
+      operationId: DeviceAuth Authenticate Device
+      tags:
+        - deviceauth_devices_api_Device API
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthRequest'
+      parameters:
+        - name: X-MEN-Signature
+          in: header
+          required: true
+          description: |
+            Request signature.
+            The request signature depends on the public key submitted in the AuthRequest.
+            A summary of signature algorithms and format follows:
+            | Type       | Digest              | Format                   | Algorithm    |
+            |------------|---------------------|--------------------------|--------------|
+            | RSA        | SHA256(AuthRequest) | Base64(Signature)        | [RFC2313]    |
+            | ECDSA      | SHA256(AuthRequest) | Base64(ASN.1(SEQ{R, S})) | [ANSI x9.62] |
+            | Ed25519    | AuthRequest         | Base64(Signature)        | [RFC8032]    |
+            *Remark:*
+            For ECDSA, the signature constitutes two integers (R and S)
+            in which case the binary signature is taken as the ASN.1 sequence of
+            the two numbers in the given order.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Authentication successful - a new JWT is issued and returned.
+          content:
+            application/json:
+              schema:
+                type: string
+                example: |
+                  eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE0NzYxMTkxMzYsImp0aSI6Ijg1NGIzMTA5LTQ4NjItNGEyNS1hMWZiLWYxMTE2MWNlN2E4NCIsImlzcyI6Ik1lbmRlciIsInN1YiI6IjlmNzM2YmNiMjhiZmFhOTg5YjVmNWUxNDA5ZGJmMGVhYzdhNjYxMjZiNjMyZDAzYWYwZmUzNGFjMjhiZjRhNzIifQ.PArg_WuoQkOiJ4kDoHYbQRjnxykeF1lIlsgJfUryhivnip2AHz5bkxxaxF20XTq9mIzSDonTSukfOtkaxJTZXjCMHjgh50iwa6_pUivIYWsIJW2O9t_M9T_SC-7Xu7IhE_iKQFb2NXxVfAG4nZKrheUM4MJBt8SxCawT2EOPopiLeIC6MOFBu_sPa9RsagKSZCRaLTBWVhmEGbfn19tLOX3Z06DZql61G-VY-YuyOlBjpEsCc4HiA1cXIdncCZKugrONOa44_m4yx0VsgRg4jCd2VO-Is-A96Jw3zkZshoD2cPXVSKAhFdhHja447ftuYYRq9kIQghKi3hfsPgyFZQ
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - DeviceJWT: []
+  /api/internal/v1/devauth/alive:
+    get:
+      operationId: DeviceAuth Internal Check Liveliness
+      tags:
+        - deviceauth_internal_api_Internal API
+      summary: Trivial endpoint that unconditionally returns an empty 204 response whenever the API handler is running correctly.
+      responses:
+        '204':
+          description: Service is up and running
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/internal/v1/devauth/health:
+    get:
+      operationId: DeviceAuth Internal Check Health
+      tags:
+        - deviceauth_internal_api_Internal API
+      summary: Check the health of the service
+      responses:
+        '204':
+          description: Service is healthy and all dependencies are up and running.
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          description: Service unhealthy / not ready to accept traffic. At least one dependency is not running.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example2:
+                  value:
+                    error: 'error reaching MongoDB: context deadline exceeded'
+                    request_id: ffd712be-d697-4cb7-814b-88ff1e2eb5f6
+  /api/internal/v1/devauth/tokens/verify:
+    post:
+      operationId: DeviceAuth Internal Verify JWT
+      tags:
+        - deviceauth_internal_api_Internal API
+      summary: Check the validity of a token
+      description: Besides the basic validity check, checks the token expiration time and user-initiated token revocation. Services which intend to use it should be correctly set up in the gateway's configuration.
+      parameters:
+        - name: Authorization
+          in: header
+          description: The token in base64-encoded form.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The token is valid.
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/internal/v1/devauth/tokens:
+    delete:
+      operationId: DeviceAuth Internal Revoke Device Tokens
+      tags:
+        - deviceauth_internal_api_Internal API
+      summary: Delete device tokens
+      description: This endpoint is designed to be used for device decommissioning and tenant account suspension purpose. For device decommissioning purpose both tenant_id and device_id parameters must be set. When both tenant_id and device_id parameters are set, all tokens will be deleted for device with given device_id. For tenant account suspension purpose only tenant_id parameter must be set. When device_id parameter is not set (only tenant_id parameter is set) all tokens for all tenant devices will be deleted.
+      parameters:
+        - name: tenant_id
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: device_id
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Tokens deleted.
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/internal/v1/devauth/tenant/{tenant_id}/limits/max_devices:
+    get:
+      operationId: DeviceAuth Internal Get Device Limit
+      tags:
+        - deviceauth_internal_api_Internal API
+      summary: Max device count limit
+      parameters:
+        - name: tenant_id
+          description: Tenant ID.
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Limit'
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      operationId: DeviceAuth Internal Update Device Limit
+      tags:
+        - deviceauth_internal_api_Internal API
+      summary: Update max device count limit
+      parameters:
+        - name: tenant_id
+          description: Tenant ID.
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Limit'
+      responses:
+        '204':
+          description: Limit information updated.
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      operationId: DeviceAuth Internal Clear Device Limit
+      tags:
+        - deviceauth_internal_api_Internal API
+      summary: Remove max device count limit
+      parameters:
+        - name: tenant_id
+          description: Tenant ID.
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Limit information deleted.
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/internal/v1/devauth/tenants:
+    post:
+      operationId: DeviceAuth Internal Create Tenant
+      tags:
+        - deviceauth_internal_api_Internal API
+      summary: Provision a new tenant
+      description: Sets up all tenant-related infrastructure, e.g. a migrated tenant's database.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewTenant'
+      responses:
+        '201':
+          description: Tenant was successfully provisioned.
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/internal/v1/devauth/tenants/{tid}/devices/{did}:
+    delete:
+      operationId: DeviceAuth Internal Delete Device
+      tags:
+        - deviceauth_internal_api_Internal API
+      summary: Delete a device from deviceauth service.
+      parameters:
+        - name: tid
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: did
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Device deleted successfully.
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/internal/v1/devauth/tenants/{tid}/devices/{did}/external:
+    put:
+      operationId: DeviceAuth Internal Set external identity
+      tags:
+        - deviceauth_internal_api_Internal API
+      summary: Replace the external identity of a device.
+      parameters:
+        - name: tid
+          in: path
+          description: Tenant identifier.
+          required: true
+          schema:
+            type: string
+        - name: did
+          in: path
+          description: Device identifier.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExternalDevice'
+      responses:
+        '204':
+          description: Device identity updated successfully.
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/internal/v1/devauth/tenants/{tid}/devices/{did}/status:
+    get:
+      operationId: DeviceAuth Internal Device Status
+      tags:
+        - deviceauth_internal_api_Internal API
+      summary: Get the status of a tenant's device
+      description: Returns the overall status of the device, computed over the statuses of its various authsets.
+      parameters:
+        - name: tid
+          in: path
+          description: Tenant identifier.
+          required: true
+          schema:
+            type: string
+        - name: did
+          in: path
+          description: Device identifier.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/internal/v1/devauth/tenants/{tid}/devices:
+    get:
+      operationId: DeviceAuth Internal List Devices
+      tags:
+        - deviceauth_internal_api_Internal API
+      summary: Get a list of tenant's devices.
+      description: Provides a list of tenant's devices, sorted by creation date, with optional device status filter.
+      parameters:
+        - name: tid
+          in: path
+          description: Tenant identifier.
+          required: true
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: Device status filter. If not specified, all devices are listed.
+          required: false
+          schema:
+            type: string
+            enum:
+              - pending
+              - accepted
+              - rejected
+              - preauthorized
+              - noauth
+        - name: id
+          in: query
+          description: Device ID filter. Can be repeated to query a set of devices.
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: page
+          in: query
+          description: Results page number.
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: per_page
+          in: query
+          description: Maximum number of results per page.
+          required: false
+          schema:
+            type: integer
+            default: 20
+            maximum: 500
+      responses:
+        '200':
+          description: An array of devices.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Device'
+          headers:
+            Link:
+              description: Standard header, we support 'first', 'next', and 'prev'.
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/internal/v1/devauth/tenants/{tid}/devices/count:
+    get:
+      operationId: DeviceAuth Internal Count Devices
+      summary: Count number of devices, optionally filtered by status.
+      tags:
+        - deviceauth_internal_api_Internal API
+      parameters:
+        - name: tid
+          in: path
+          description: Tenant identifier.
+          required: true
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: Device status filter, one of 'pending', 'accepted', 'rejected', 'noauth'. Default is 'all devices'.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Device count.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Count'
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/management/v2/devauth/devices:
+    get:
+      operationId: DeviceAuth Management List Devices
+      security:
+        - ManagementJWT: []
+      summary: List devices sorted by age and optionally filter on device status.
+      tags:
+        - deviceauth_management_api_Management API
+      parameters:
+        - name: status
+          in: query
+          description: Device status filter. If not specified, all devices are listed.
+          required: false
+          schema:
+            type: string
+            enum:
+              - pending
+              - accepted
+              - rejected
+              - preauthorized
+              - noauth
+        - name: id
+          in: query
+          description: Device ID filter. Can be repeated to query a set of devices.
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        - name: page
+          in: query
+          description: Results page number
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: per_page
+          in: query
+          description: Maximum number of results per page.
+          required: false
+          schema:
+            type: integer
+            default: 20
+            maximum: 500
+        - $ref: '#/components/parameters/RequestId'
+      responses:
+        '200':
+          description: An array of devices.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Device'
+          headers:
+            Link:
+              description: Standard header, we support 'first', 'next', and 'prev'.
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      operationId: DeviceAuth Management Preauthorize
+      security:
+        - ManagementJWT: []
+      summary: Submit a preauthorized device.
+      description: Authorize a device identity with the server backend. On success the device identity is marked as 'preauthorized', and once the device connects and sends it's first authentication request the device automatically become 'accepted' without explicit user intervention.
+      tags:
+        - deviceauth_management_api_Management API
+      parameters:
+        - $ref: '#/components/parameters/RequestId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PreAuthSet'
+      responses:
+        '201':
+          description: Device submitted.
+          headers:
+            Location:
+              description: URL of the newly created device.
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '409':
+          description: Device already exists. Response contains conflicting device.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/management/v2/devauth/devices/search:
+    post:
+      operationId: DeviceAuth Management Search Devices
+      security:
+        - ManagementJWT: []
+      summary: Query for devices. Returns a list of matching devices with AuthSets sorted by age.
+      tags:
+        - deviceauth_management_api_Management API
+      parameters:
+        - name: page
+          in: query
+          description: Results page number
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: per_page
+          in: query
+          description: Maximum number of results per page.
+          required: false
+          schema:
+            type: integer
+            default: 20
+            maximum: 500
+        - $ref: '#/components/parameters/RequestId'
+      requestBody:
+        required: true
+        description: Device status filter. All properties can be either a single string or an array of strings.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: array
+                  description: Device status filter. Can be an array for querying devices from multiple device statuses.
+                  items:
+                    type: string
+                    enum:
+                      - pending
+                      - accepted
+                      - rejected
+                      - preauthorized
+                      - noauth
+                id:
+                  type: array
+                  description: Device ID filter. Can be a string for querying for a single device.
+                  items:
+                    type: string
+                    description: Device ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                description: Array of devices
+                items:
+                  $ref: '#/components/schemas/Device'
+          headers:
+            Link:
+              description: Pagination link header, we support 'first', 'next', and 'prev'.
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/management/v2/devauth/devices/{id}:
+    get:
+      operationId: DeviceAuth Management Get Device
+      security:
+        - ManagementJWT: []
+      summary: Get a particular device.
+      tags:
+        - deviceauth_management_api_Management API
+      parameters:
+        - name: id
+          in: path
+          description: Device identifier.
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/RequestId'
+      responses:
+        '200':
+          description: Device found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      operationId: DeviceAuth Management Decommission device
+      security:
+        - ManagementJWT: []
+      summary: Remove device and associated authentication set
+      tags:
+        - deviceauth_management_api_Management API
+      parameters:
+        - name: id
+          in: path
+          description: Device identifier.
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/RequestId'
+      responses:
+        '204':
+          description: Device decommissioned.
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/management/v2/devauth/devices/{id}/auth/{aid}:
+    delete:
+      operationId: DeviceAuth Management Remove authentication
+      security:
+        - ManagementJWT: []
+      summary: Remove (dismiss) the device authentication set
+      description: Removes the device authentication set. Removing 'accepted' authentication set is equivalent to rejecting device and removing authentication set. If there is only one authentication set for the device and the device is 'preauthorized' then the device will also be deleted.
+      tags:
+        - deviceauth_management_api_Management API
+      parameters:
+        - name: id
+          in: path
+          description: Device identifier.
+          required: true
+          schema:
+            type: string
+        - name: aid
+          in: path
+          description: Authentication data set identifier.
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/RequestId'
+      responses:
+        '204':
+          description: Device authentication set deleted.
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/management/v2/devauth/devices/{id}/auth/{aid}/status:
+    put:
+      operationId: DeviceAuth Management Set Authentication Status
+      security:
+        - ManagementJWT: []
+      summary: Update the device authentication set status
+      description: 'Sets the status of an authentication data set of selected value. Valid state transitions: - ''pending'' -> ''accepted'' - ''pending'' -> ''rejected'' - ''rejected'' -> ''accepted'' - ''accepted'' -> ''rejected'''
+      tags:
+        - deviceauth_management_api_Management API
+      parameters:
+        - name: id
+          in: path
+          description: Device identifier.
+          required: true
+          schema:
+            type: string
+        - name: aid
+          in: path
+          description: Authentication data set identifier.
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/RequestId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Status'
+      responses:
+        '204':
+          description: The device authentication data set status was successfully updated.
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          description: Request cannot be fulfilled e.g. due to exceeded limit on maximum accepted devices (see error message).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    get:
+      operationId: DeviceAuth Management Get Authentication Status
+      security:
+        - ManagementJWT: []
+      summary: Get the device authentication set status
+      tags:
+        - deviceauth_management_api_Management API
+      parameters:
+        - name: id
+          in: path
+          description: Device identifier.
+          required: true
+          schema:
+            type: string
+        - name: aid
+          in: path
+          description: Authentication data set identifier.
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/RequestId'
+      responses:
+        '200':
+          description: Successful response - the device's authentication set status is returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/management/v2/devauth/devices/count:
+    get:
+      operationId: DeviceAuth Management Count Devices
+      security:
+        - ManagementJWT: []
+      summary: Count number of devices, optionally filtered by status.
+      tags:
+        - deviceauth_management_api_Management API
+      parameters:
+        - name: status
+          in: query
+          description: Device status filter, one of 'pending', 'accepted', 'rejected', 'noauth', 'preauthorized'. Default is 'all devices', meaning devices with any of these statuses will be counted.
+          required: false
+          schema:
+            type: string
+        - $ref: '#/components/parameters/RequestId'
+      responses:
+        '200':
+          description: Device count.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Count'
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/management/v2/devauth/tokens/{id}:
+    delete:
+      operationId: DeviceAuth Management Revoke API Token
+      security:
+        - ManagementJWT: []
+      summary: Revoke JWT with given id
+      description: Deletes the token, effectively revoking it. The device must apply for a new one with a new authentication request. The token 'id' corresponds to the standard 'jti' claim.
+      tags:
+        - deviceauth_management_api_Management API
+      parameters:
+        - name: id
+          in: path
+          description: Unique token identifier('jti').
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/RequestId'
+      responses:
+        '204':
+          description: The token was successfully deleted.
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/management/v2/devauth/limits/max_devices:
+    get:
+      operationId: DeviceAuth Management Get Device Limit
+      security:
+        - ManagementJWT: []
+      summary: Obtain limit of accepted devices.
+      tags:
+        - deviceauth_management_api_Management API
+      parameters:
+        - $ref: '#/components/parameters/RequestId'
+      responses:
+        '200':
+          description: Usage statistics and limits.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Limit'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/devices/v1/deviceconfig/configuration:
+    get:
+      operationId: DeviceConfig Get Device Configuration
+      tags:
+        - deviceconfig_devices_api_Device API
+      summary: Query the configuration store; retrieve all key-value pairs
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceAPIConfiguration'
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - DeviceJWT: []
+    put:
+      operationId: DeviceConfig Report Device Configuration
+      tags:
+        - deviceconfig_devices_api_Device API
+      summary: Set a key-value pair store, updating if existing, removing if empty
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceAPIConfiguration'
+      responses:
+        '204':
+          description: Created
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - DeviceJWT: []
+  /api/internal/v1/deviceconfig/health:
+    get:
+      tags:
+        - deviceconfig_internal_api_Internal API
+      summary: Get health status of service
+      operationId: DeviceConfig Internal Check Health
+      responses:
+        '204':
+          description: Service is healthy.
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/internal/v1/deviceconfig/alive:
+    get:
+      tags:
+        - deviceconfig_internal_api_Internal API
+      summary: Get service liveliness status.
+      operationId: DeviceConfig Internal Check Liveliness
+      responses:
+        '204':
+          description: Service is up and serving requests.
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/internal/v1/deviceconfig/tenants:
+    post:
+      tags:
+        - deviceconfig_internal_api_Internal API
+      operationId: DeviceConfig Internal Provision tenant
+      summary: Initialize internal state for a new tenant
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewTenant'
+      responses:
+        '201':
+          description: Tenant initialized successfully.
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/internal/v1/deviceconfig/tenants/{tenantId}:
+    delete:
+      operationId: DeviceConfig Internal Delete Tenant
+      tags:
+        - deviceconfig_internal_api_Internal API
+      summary: Delete all the data for given tenant.
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+          required: true
+          description: ID of tenant.
+      responses:
+        '204':
+          description: All the tenant data have been successfully deleted.
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/internal/v1/deviceconfig/tenants/{tenantId}/devices:
+    post:
+      tags:
+        - deviceconfig_internal_api_Internal API
+      operationId: DeviceConfig Internal Provision device
+      summary: Register a new device with the deviceconfig service.
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+          required: true
+          description: ID of tenant the device belongs to.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProvisionDevice'
+      responses:
+        '201':
+          description: Device was provisioned successfully.
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/internal/v1/deviceconfig/tenants/{tenantId}/devices/{deviceId}:
+    delete:
+      tags:
+        - deviceconfig_internal_api_Internal API
+      operationId: DeviceConfig Internal Decommission device
+      summary: Remove a device from the deviceconfig service.
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+          required: true
+          description: ID of tenant the device belongs to.
+        - in: path
+          name: deviceId
+          schema:
+            type: string
+          required: true
+          description: ID of the target device.
+      responses:
+        '204':
+          description: Device was deleted successfully
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/internal/v1/deviceconfig/tenants/{tenantId}/configurations/device/{deviceId}/deploy:
+    post:
+      operationId: DeviceConfig Internal Deploy Device Configuration
+      tags:
+        - deviceconfig_internal_api_Internal API
+      summary: Deploy the device's configuration
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewConfigurationDeployment'
+      parameters:
+        - in: path
+          name: deviceId
+          schema:
+            type: string
+          required: true
+          description: ID of the device.
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+          required: true
+          description: ID of the tenant.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewConfigurationDeploymentResponse'
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/management/v1/deviceconfig/configurations/device/{deviceId}:
+    get:
+      operationId: DeviceConfig Management Get Device Configuration
+      tags:
+        - deviceconfig_management_api_Management API
+      summary: Get the device's configuration
+      parameters:
+        - in: path
+          name: deviceId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ID of the device to query.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceConfiguration'
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - ManagementJWT: []
+    put:
+      operationId: DeviceConfig Management Set Device Configuration
+      tags:
+        - deviceconfig_management_api_Management API
+      summary: Set the device's configuration
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ManagementAPIConfiguration'
+      parameters:
+        - in: path
+          name: deviceId
+          schema:
+            type: string
+          required: true
+          description: ID of the device to query.
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - ManagementJWT: []
+  /api/management/v1/deviceconfig/configurations/device/{deviceId}/deploy:
+    post:
+      operationId: DeviceConfig Management Deploy Device Configuration
+      tags:
+        - deviceconfig_management_api_Management API
+      summary: Deploy the device's configuration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewConfigurationDeployment'
+      parameters:
+        - in: path
+          name: deviceId
+          schema:
+            type: string
+          required: true
+          description: ID of the device.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewConfigurationDeploymentResponse'
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - ManagementJWT: []
+  /api/devices/v1/deviceconnect/connect:
+    get:
+      tags:
+        - deviceconnect_devices_api_Device API
+      operationId: DeviceConnect Connect
+      summary: Connect the device and make it available to the server.
+      description: Calling /connect will upgrade the connection to a persistent websocket connection and make the device available to the management API. The device must provide DeviceJWT identity either as Authorization (Bearer) header or as a cookie named 'JWT'.
+      parameters:
+        - in: header
+          name: Connection
+          schema:
+            type: string
+            enum:
+              - Upgrade
+          description: Standard websocket request header.
+        - in: header
+          name: Upgrade
+          schema:
+            type: string
+            format: base64
+            enum:
+              - websocket
+          description: Standard websocket request header.
+        - in: header
+          name: Sec-Websocket-Key
+          schema:
+            type: string
+            format: base64
+          description: Standard websocket request header.
+        - in: header
+          name: Sec-Websocket-Version
+          schema:
+            type: integer
+            enum:
+              - 13
+          description: Standard websocket request header.
+      responses:
+        '101':
+          description: |
+            Successful response - change to websocket protocol.
+          headers:
+            Sec-Websocket-Accept:
+              schema:
+                type: string
+                format: base64
+              description: Standard websocket upgrade response header.
+            Upgrade:
+              schema:
+                type: string
+                enum:
+                  - websocket
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - DeviceJWT: []
+  /api/internal/v1/deviceconnect/health:
+    get:
+      tags:
+        - deviceconnect_internal_api_Internal API
+      summary: Get health status of service
+      operationId: DeviceConnect Internal Check Health
+      responses:
+        '204':
+          description: Service is healthy.
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/internal/v1/deviceconnect/alive:
+    get:
+      tags:
+        - deviceconnect_internal_api_Internal API
+      summary: Get service liveliness status.
+      operationId: DeviceConnect Internal Check Liveliness
+      responses:
+        '204':
+          description: Service is up and serving requests.
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/internal/v1/deviceconnect/shutdown:
+    get:
+      tags:
+        - deviceconnect_internal_api_Internal API
+      summary: Shutdown the service.
+      operationId: DeviceConnect Internal Shutdown
+      responses:
+        '202':
+          description: The service started the graceful shutdown procedure.
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/internal/v1/deviceconnect/tenants/{tenantId}:
+    delete:
+      operationId: Delete Tenant
+      tags:
+        - deviceconnect_internal_api_Internal API
+      summary: Delete all the data for given tenant.
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+          required: true
+          description: ID of tenant.
+      responses:
+        '204':
+          description: All the tenant data have been successfully deleted.
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/internal/v1/deviceconnect/tenants/{tenantId}/devices:
+    post:
+      tags:
+        - deviceconnect_internal_api_Internal API
+      operationId: DeviceConnect Internal Provision device
+      summary: Register a new device with the deviceconnect service.
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+          required: true
+          description: ID of tenant the device belongs to.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProvisionDevice'
+      responses:
+        '201':
+          description: Device was provisioned successfully.
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/internal/v1/deviceconnect/tenants/{tenantId}/devices/{deviceId}:
+    delete:
+      tags:
+        - deviceconnect_internal_api_Internal API
+      operationId: DeviceConnect Internal Decomission device
+      summary: Remove a device from the deviceconnect service.
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+          required: true
+          description: ID of tenant the device belongs to.
+        - in: path
+          name: deviceId
+          schema:
+            type: string
+          required: true
+          description: ID of the target device.
+      responses:
+        '202':
+          description: Device was deleted successfully
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/internal/v1/deviceconnect/tenants/{tenantId}/devices/{deviceId}/check-update:
+    post:
+      tags:
+        - deviceconnect_internal_api_Internal API
+      operationId: DeviceConnect Internal Check Update
+      summary: Trigger check-update for the Mender client running on the device
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+          required: true
+          description: ID of tenant the device belongs to.
+        - in: path
+          name: deviceId
+          required: true
+          schema:
+            type: string
+          description: ID for the target device.
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/internal/v1/deviceconnect/tenants/{tenantId}/devices/{deviceId}/send-inventory:
+    post:
+      tags:
+        - deviceconnect_internal_api_Internal API
+      operationId: DeviceConnect Internal Send Inventory
+      summary: Trigger send-inventory for the Mender client running on the device
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+          required: true
+          description: ID of tenant the device belongs to.
+        - in: path
+          name: deviceId
+          required: true
+          schema:
+            type: string
+          description: ID for the target device.
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/management/v1/deviceconnect/devices/{id}:
+    get:
+      tags:
+        - deviceconnect_management_api_Management API
+      operationId: DeviceConnect Management Get device
+      summary: Fetch the state of a device.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: ID of the device.
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectionState'
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - ManagementJWT: []
+  /api/management/v1/deviceconnect/devices/{id}/check-update:
+    post:
+      tags:
+        - deviceconnect_management_api_Management API
+      operationId: DeviceConnect Management Check Update
+      summary: Trigger check-update for the Mender client running on the device
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: ID of the device.
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - ManagementJWT: []
+  /api/management/v1/deviceconnect/devices/{id}/connect:
+    get:
+      tags:
+        - deviceconnect_management_api_Management API
+      operationId: DeviceConnect Management Connect
+      summary: Establish permanent connection with device
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: ID of the device.
+        - in: header
+          name: Connection
+          schema:
+            type: string
+            enum:
+              - Upgrade
+          description: Standard websocket request header.
+        - in: header
+          name: Upgrade
+          schema:
+            type: string
+            format: base64
+            enum:
+              - websocket
+          description: Standard websocket request header.
+        - in: header
+          name: Sec-Websocket-Key
+          schema:
+            type: string
+            format: base64
+          description: Standard websocket request header.
+        - in: header
+          name: Sec-Websocket-Version
+          schema:
+            type: integer
+            enum:
+              - 13
+          description: Standard websocket request header.
+      responses:
+        '101':
+          description: |
+            Successful response - change to websocket protocol.
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - ManagementJWT: []
+  /api/management/v1/deviceconnect/devices/{id}/download:
+    get:
+      tags:
+        - deviceconnect_management_api_Management API
+      operationId: DeviceConnect Management Download
+      summary: Download a file from the device
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: ID of the device.
+        - in: query
+          name: path
+          required: true
+          schema:
+            type: string
+          description: Path of the file on the device.
+      responses:
+        '200':
+          description: The content of the file will be returned in the response body
+          headers:
+            X-MEN-File-Path:
+              schema:
+                type: string
+              description: The path of the file on the device
+            X-MEN-File-UID:
+              schema:
+                type: integer
+              description: The numerical UID of the file on the device
+            X-MEN-File-GID:
+              schema:
+                type: integer
+              description: The numerical GID of the file on the device
+            X-MEN-File-Mode:
+              schema:
+                type: string
+              description: The octal representation of the mode of the file on the device
+            X-MEN-File-Size:
+              schema:
+                type: integer
+              description: The size of the file on the device
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - ManagementJWT: []
+  /api/management/v1/deviceconnect/devices/{id}/send-inventory:
+    post:
+      tags:
+        - deviceconnect_management_api_Management API
+      operationId: DeviceConnect Management Send Inventory
+      summary: Trigger send-inventory for the Mender client running on the device
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: ID of the device.
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - ManagementJWT: []
+  /api/management/v1/deviceconnect/sessions/{session_id}/playback:
+    get:
+      tags:
+        - deviceconnect_management_api_Management API
+      operationId: DeviceConnect Management Playback
+      summary: Establish a connection for playing back a session
+      parameters:
+        - in: path
+          name: session_id
+          required: true
+          schema:
+            type: string
+          description: ID for the session to play back.
+        - in: query
+          name: sleep_ms
+          required: false
+          schema:
+            type: integer
+          description: Time in millisconds to sleep between the subsequent playback data writes.
+        - in: header
+          name: Connection
+          schema:
+            type: string
+            enum:
+              - Upgrade
+          description: Standard websocket request header.
+        - in: header
+          name: Upgrade
+          schema:
+            type: string
+            format: base64
+            enum:
+              - websocket
+          description: Standard websocket request header.
+        - in: header
+          name: Sec-Websocket-Key
+          schema:
+            type: string
+            format: base64
+          description: Standard websocket request header.
+        - in: header
+          name: Sec-Websocket-Version
+          schema:
+            type: integer
+            enum:
+              - 13
+          description: Standard websocket request header.
+      responses:
+        '101':
+          description: |
+            Successful response - change to websocket protocol.
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - ManagementJWT: []
+  /api/management/v1/deviceconnect/devices/{id}/upload:
+    put:
+      tags:
+        - deviceconnect_management_api_Management API
+      operationId: DeviceConnect Management Upload
+      summary: Upload a file to the device
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: ID of the device.
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FileUpload'
+      responses:
+        '201':
+          description: The file was successfully uploaded
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - ManagementJWT: []
   /api/devices/v1/deployments/device/deployments/next:
     get:
       description: |
@@ -446,12 +2055,12 @@ paths:
           content:
             application/json:
               example:
-                - created: '2016-02-11T13:03:17.063493443Z'
+                - created: '2016-02-11 13:03:17.063493+00:00'
                   status: finished
                   name: production
                   artifact_name: Application 0.0.1
                   id: 00a0c91e6-7dec-11d0-a765-f81d4faebf6
-                  finished: '2016-03-11T13:03:17.063493443Z'
+                  finished: '2016-03-11 13:03:17.063493+00:00'
                   device_count: 10
               schema:
                 items:
@@ -662,7 +2271,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewConfigurationDeployment'
+              $ref: '#/components/schemas/ConfigurationDeploymentRequest'
         description: New deployment that needs to be created.
         required: true
       responses:
@@ -756,8 +2365,7 @@ paths:
         '400':
           $ref: '#/components/responses/InvalidRequestError'
         '401':
-          description: The device is not authenticated.
-          content: {}
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -800,8 +2408,7 @@ paths:
         '400':
           $ref: '#/components/responses/InvalidRequestError'
         '401':
-          description: The device is not authenticated.
-          content: {}
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -1933,6 +3540,470 @@ paths:
                   updated_ts: '2016-10-04T18:24:21.432Z'
         '400':
           $ref: '#/components/responses/InvalidRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - ManagementJWT: []
+  /api/internal/v1/iot-manager/health:
+    get:
+      tags:
+        - iot-manager_internal_api_Internal API
+      summary: Get health status of service
+      operationId: IoTManager Internal Check Health
+      responses:
+        '204':
+          description: Service is healthy.
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/internal/v1/iot-manager/alive:
+    get:
+      tags:
+        - iot-manager_internal_api_Internal API
+      summary: Get service liveliness status.
+      operationId: IoTManager Internal Check Liveliness
+      responses:
+        '204':
+          description: Service is up and serving requests.
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/internal/v1/iot-manager/tenants/{tenantId}/devices:
+    post:
+      tags:
+        - iot-manager_internal_api_Internal API
+      operationId: IoTManager Internal Provision device
+      summary: Register a new device with the deviceconfig service.
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+          required: true
+          description: ID of tenant the device belongs to.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewDevice'
+        required: true
+      responses:
+        '202':
+          description: The device provisioning event was accepted and will be processed asynchronously.
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '409':
+          description: A device with the same ID already exists in Iot Hub.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/internal/v1/iot-manager/tenants/{tenantId}:
+    delete:
+      tags:
+        - iot-manager_internal_api_Internal API
+      operationId: IoTManager Internal Delete tenant
+      summary: Delete all data belonging to a given tenant.
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+          required: true
+          description: ID of tenant to remove.
+      responses:
+        '204':
+          description: The removal of tenant data was successful.
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/internal/v1/iot-manager/tenants/{tenantId}/devices/{deviceId}:
+    delete:
+      tags:
+        - iot-manager_internal_api_Internal API
+      operationId: IoTManager Internal Decommission device
+      summary: Remove a device from Iot Hub.
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+          required: true
+          description: ID of tenant the device belongs to.
+        - in: path
+          name: deviceId
+          schema:
+            type: string
+          required: true
+          description: ID of the target device.
+      responses:
+        '202':
+          description: The device decomissioning event was accepted and will be processed asynchronously.
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/internal/v1/iot-manager/tenants/{tenantId}/bulk/devices/status/{status}:
+    put:
+      operationId: IoTManager Internal Update device statuses
+      tags:
+        - iot-manager_internal_api_Internal API
+      summary: Update device statuses in bulk.
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+          required: true
+          description: ID of tenant the device belongs to.
+        - in: path
+          name: status
+          schema:
+            type: string
+            enum:
+              - accepted
+              - noauth
+              - pending
+              - preauthorized
+              - rejected
+          required: true
+          description: The status of the device
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              description: List of devices to update. Up to 100 devices can be processed per request.
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Device ID.
+                required:
+                  - id
+        required: true
+      responses:
+        '202':
+          description: The device status update bulk event was accepted and will be processed asynchronously.
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/management/v1/iot-manager/integrations:
+    get:
+      operationId: IoTManager Management List integrations
+      summary: List all configured integrations
+      tags:
+        - iot-manager_management_api_Management API
+      parameters:
+        - name: page
+          in: query
+          description: Page number.
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: per_page
+          in: query
+          description: Number of results per page.
+          required: false
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: OK. Returns list of integrations.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Integration'
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - ManagementJWT: []
+    post:
+      operationId: IoTManager Management Register integration
+      summary: Register a new cloud integration
+      tags:
+        - iot-manager_management_api_Management API
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Integration'
+        required: true
+      responses:
+        '201':
+          description: Integration registered.
+          headers:
+            Location:
+              description: URL of the newly registered integration.
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - ManagementJWT: []
+  /api/management/v1/iot-manager/integrations/{id}:
+    delete:
+      operationId: IoTManager Management Remove integration
+      summary: Remove a cloud integration
+      tags:
+        - iot-manager_management_api_Management API
+      parameters:
+        - name: id
+          in: path
+          description: Integration identifier.
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Integration unregistered successfully.
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - ManagementJWT: []
+  /api/management/v1/iot-manager/integrations/{id}/credentials:
+    put:
+      operationId: IoTManager Management Set integration credentials
+      summary: Replace the credentials associated with the integration.
+      tags:
+        - iot-manager_management_api_Management API
+      parameters:
+        - name: id
+          in: path
+          description: Integration identifier.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Credentials'
+        required: true
+      responses:
+        '204':
+          description: Credentials updated successfully.
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - ManagementJWT: []
+  /api/management/v1/iot-manager/devices/{deviceId}:
+    delete:
+      operationId: IoTManager Management Unregister device integrations
+      summary: Removes all associated cloud integrations for the device.
+      description: Removes all associated cloud integrations for the device, but does not clean up any external state.
+      tags:
+        - iot-manager_management_api_Management API
+      parameters:
+        - name: deviceId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique ID of the device.
+      responses:
+        '204':
+          description: OK. Device successfully unregistered.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceState'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - ManagementJWT: []
+  /api/management/v1/iot-manager/devices/{deviceId}/state:
+    get:
+      operationId: IoTManager Management Get Device States
+      summary: Gets the desired and reported state of a device
+      tags:
+        - iot-manager_management_api_Management API
+      parameters:
+        - name: deviceId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique ID of the device.
+      responses:
+        '200':
+          description: OK. Returns device reported and desired states for all integrations.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Mapping from integration ID to DeviceState objects for all applicable integrations.
+                additionalProperties:
+                  $ref: '#/components/schemas/DeviceState'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - ManagementJWT: []
+  /api/management/v1/iot-manager/devices/{deviceId}/state/{integrationId}:
+    put:
+      operationId: IoTManager Management Replace State
+      summary: Replaces the (desired) cloud state of the device for the given integration
+      tags:
+        - iot-manager_management_api_Management API
+      parameters:
+        - name: deviceId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique ID of the device.
+        - name: integrationId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique ID of the integration.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceState'
+        required: true
+      responses:
+        '200':
+          description: OK. Returns the updated device state.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceState'
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - ManagementJWT: []
+    get:
+      operationId: IoTManager Management Get Device State
+      summary: Gets the desired and reported state of a device from an integration
+      tags:
+        - iot-manager_management_api_Management API
+      parameters:
+        - name: deviceId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique ID of the device.
+        - name: integrationId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique ID of the integration.
+      responses:
+        '200':
+          description: OK. Returns device reported and desired state for the integration.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceState'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - ManagementJWT: []
+  /api/management/v1/iot-manager/events:
+    get:
+      operationId: IoTManager Management List events
+      summary: List all stored events
+      tags:
+        - iot-manager_management_api_Management API
+      parameters:
+        - name: page
+          in: query
+          description: Page number.
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: per_page
+          in: query
+          description: Number of results per page.
+          required: false
+          schema:
+            type: integer
+            default: 20
+        - name: integration_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+          required: false
+          description: The unique ID of the integration to get the events from.
+      responses:
+        '200':
+          description: OK. Returns list of events.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -5019,7 +7090,325 @@ paths:
       tags:
         - workflows.openapi_other
 components:
+  securitySchemes:
+    DeviceJWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        API token issued by Device Authentication service.
+        Format: 'Authorization: Bearer [JWT]'
+    ManagementJWT:
+      type: http
+      description: |
+        API token issued by User Authentication service.
+      scheme: bearer
+      bearerFormat: JWT
+    Login:
+      type: http
+      scheme: basic
   schemas:
+    AuthRequest:
+      type: object
+      required:
+        - id_data
+        - pubkey
+      properties:
+        id_data:
+          type: string
+          description: Vendor-specific JSON representation of the device identity data (MACs, serial numbers, etc.).
+        pubkey:
+          type: string
+          description: |
+            The device's public key (PEM encoding), generated by the device or pre-provisioned by the vendor. Currently supported public algorithms are: RSA, Ed25519 and ECDSA P-256.
+        tenant_token:
+          type: string
+          description: Tenant token.
+      example:
+        id_data: '{"mac":"00:01:02:03:04:05"}'
+        pubkey: |
+          -----BEGIN PUBLIC KEY-----
+          MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzogVU7RGDilbsoUt/DdH
+          VJvcepl0A5+xzGQ50cq1VE/Dyyy8Zp0jzRXCnnu9nu395mAFSZGotZVr+sWEpO3c
+          yC3VmXdBZmXmQdZqbdD/GuixJOYfqta2ytbIUPRXFN7/I7sgzxnXWBYXYmObYvdP
+          okP0mQanY+WKxp7Q16pt1RoqoAd0kmV39g13rFl35muSHbSBoAW3GBF3gO+mF5Ty
+          1ddp/XcgLOsmvNNjY+2HOD5F/RX0fs07mWnbD7x+xz7KEKjF+H7ZpkqCwmwCXaf0
+          iyYyh1852rti3Afw4mDxuVSD7sd9ggvYMc0QHIpQNkD4YWOhNiE1AB0zH57VbUYG
+          UwIDAQAB
+          -----END PUBLIC KEY-----
+    Error:
+      description: Error descriptor.
+      example:
+        error: error message
+        request_id: f7881e82-0492-49fb-b459-795654e7188a
+      properties:
+        error:
+          description: Description of the error.
+          type: string
+        request_id:
+          description: Request ID (same as in X-MEN-RequestID header).
+          type: string
+      required:
+        - error
+      type: object
+    ExternalDevice:
+      type: object
+      description: External device descriptor
+      properties:
+        id:
+          type: string
+          description: ID assigned by external provider
+        name:
+          type: string
+          description: Name of the device
+        provider:
+          type: string
+          description: Name of the external provider
+        id_data:
+          type: string
+          description: Optional custom ID data
+      required:
+        - id
+        - name
+        - provider
+    Limit:
+      description: Limit definition
+      type: object
+      properties:
+        limit:
+          type: integer
+      required:
+        - limit
+      example:
+        limit: 123
+    NewTenant:
+      type: object
+      properties:
+        tenant_id:
+          type: string
+          description: ID of new tenant.
+      required:
+        - tenant_id
+    Status:
+      description: Admission status of the device.
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - pending
+            - accepted
+            - rejected
+            - preauthorized
+      required:
+        - status
+      example:
+        status: accepted
+    IdentityData:
+      description: Device identity attributes, in the form of a JSON structure. The attributes are completely vendor-specific, the provided ones are just an example. In reference implementation structure contains vendor-selected fields, such as MACs, serial numbers, etc.
+      type: object
+      properties:
+        mac:
+          description: MAC address.
+          type: string
+        sku:
+          description: Stock keeping unit.
+          type: string
+        sn:
+          description: Serial number.
+          type: string
+      example:
+        mac: '00:01:02:03:04:05'
+        sku: My Device 1
+        sn: SN1234567890
+    AuthSet:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique ID of the authentication set.
+        device_id:
+          type: string
+          description: The unique ID of the device the authentication set belongs.
+        identity_data:
+          type: object
+          description: The device's identity data.
+          additionalProperties: true
+        pubkey:
+          type: string
+          description: PEM-encoded public key of the device authentication set.
+        status:
+          type: string
+          description: Authorization status of the set.
+        ts:
+          type: string
+          format: date-time
+          description: The creation timestamp of the authentication set.
+    Device:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Mender assigned Device ID.
+        identity_data:
+          $ref: '#/components/schemas/IdentityData'
+        status:
+          type: string
+          enum:
+            - pending
+            - accepted
+            - rejected
+            - preauthorized
+            - noauth
+        created_ts:
+          type: string
+          format: date-time
+          description: Created timestamp
+        updated_ts:
+          type: string
+          format: date-time
+          description: Updated timestamp
+        check_in_time:
+          type: string
+          format: date-time
+          description: Time when accepted device contacted server for the last time.
+        auth_sets:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthSet'
+        decommissioning:
+          type: boolean
+          description: Devices that are part of ongoing decomissioning process will return True
+    Count:
+      description: Counter type
+      type: object
+      properties:
+        count:
+          description: The count of requested items.
+          type: integer
+      example:
+        count: 42
+    PreAuthSet:
+      type: object
+      properties:
+        force:
+          type: boolean
+          description: Indicates that despite the device having any authsets the preauthorization should proceed.
+        identity_data:
+          $ref: '#/components/schemas/IdentityData'
+        pubkey:
+          type: string
+          description: 'The device''s public key (PEM encoding), generated by the device or pre-provisioned by the vendor. Currently supported public algorithms are: RSA, Ed25519 and ECDSA P-256.'
+      required:
+        - identity_data
+        - pubkey
+      example:
+        identity_data:
+          mac: '00:01:02:03:04:05'
+          sku: My Device 1
+          sn: SN1234567890
+        pubkey: |
+          -----BEGIN PUBLIC KEY----- MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzogVU7RGDilbsoUt/DdH VJvcepl0A5+xzGQ50cq1VE/Dyyy8Zp0jzRXCnnu9nu395mAFSZGotZVr+sWEpO3c yC3VmXdBZmXmQdZqbdD/GuixJOYfqta2ytbIUPRXFN7/I7sgzxnXWBYXYmObYvdP okP0mQanY+WKxp7Q16pt1RoqoAd0kmV39g13rFl35muSHbSBoAW3GBF3gO+mF5Ty 1ddp/XcgLOsmvNNjY+2HOD5F/RX0fs07mWnbD7x+xz7KEKjF+H7ZpkqCwmwCXaf0 iyYyh1852rti3Afw4mDxuVSD7sd9ggvYMc0QHIpQNkD4YWOhNiE1AB0zH57VbUYG UwIDAQAB -----END PUBLIC KEY-----
+    DeviceAPIConfiguration:
+      type: object
+      additionalProperties:
+        type: string
+    ProvisionDevice:
+      type: object
+      properties:
+        device_id:
+          type: string
+          format: uuid
+          description: ID of the new device.
+      required:
+        - device_id
+    NewConfigurationDeployment:
+      type: object
+      properties:
+        retries:
+          type: integer
+          description: The number of times a device can retry the deployment in case of failure, defaults to 0
+          default: 0
+        update_control_map:
+          x-mender-plan:
+            - enterprise
+          type: object
+          additionalProperties: true
+          description: |
+            A valid JSON object defining the update control map.
+            *NOTE*: Available only in the Enterprise plan.
+    NewConfigurationDeploymentResponse:
+      type: object
+      properties:
+        deployment_id:
+          type: string
+          description: Deployment ID
+    ManagementAPIConfiguration:
+      type: object
+      additionalProperties:
+        type: string
+    DeviceConfiguration:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        configured:
+          $ref: '#/components/schemas/ManagementAPIConfiguration'
+        reported:
+          $ref: '#/components/schemas/ManagementAPIConfiguration'
+        deployment_id:
+          description: ID of the latest configuration deployment
+          type: string
+          format: uuid
+        reported_ts:
+          type: string
+          format: date-time
+        updated_ts:
+          type: string
+          format: date-time
+    ConnectionState:
+      type: object
+      properties:
+        device_id:
+          type: string
+          format: uuid
+          description: Device ID.
+        status:
+          type: string
+          enum:
+            - connected
+            - disconnected
+            - unknown
+          description: Device status.
+        updated_ts:
+          description: Server-side timestamp of the last device information update.
+          format: date-time
+          type: string
+        created_ts:
+          description: Server-side timestamp of the device creation.
+          format: date-time
+          type: string
+    FileUpload:
+      type: object
+      properties:
+        path:
+          type: string
+          description: The destination path on the device
+        uid:
+          type: integer
+          description: The numerical UID of the file on the device
+        gid:
+          type: integer
+          description: The numerical GID of the file on the device
+        mode:
+          type: string
+          description: The octal representation of the mode of the file on the device
+        file:
+          type: string
+          format: binary
+      required:
+        - path
     DeploymentStatus:
       example:
         status: success
@@ -5126,30 +7515,6 @@ components:
         - message
         - timestamp
       type: object
-    Error:
-      description: Error descriptor.
-      example:
-        error: error message
-        request_id: f7881e82-0492-49fb-b459-795654e7188a
-      properties:
-        error:
-          description: Description of the error.
-          type: string
-        request_id:
-          description: Request ID (same as in X-MEN-RequestID header).
-          type: string
-      required:
-        - error
-      type: object
-    NewTenant:
-      description: New tenant descriptor.
-      example:
-        tenant_id: 58be8208dd77460001fe0d78
-      properties:
-        tenant_id:
-          description: New tenant's ID.
-          type: string
-      type: object
     StorageSettings:
       description: Per tenant storage settings.
       example:
@@ -5233,12 +7598,12 @@ components:
       type: object
     DeploymentV1Internal:
       example:
-        created: '2016-02-11T13:03:17.063493443Z'
+        created: '2016-02-11 13:03:17.063493+00:00'
         status: finished
         name: production
         artifact_name: Application 0.0.1
         id: 00a0c91e6-7dec-11d0-a765-f81d4faebf6
-        finished: '2016-03-11T13:03:17.063493443Z'
+        finished: '2016-03-11 13:03:17.063493+00:00'
       properties:
         created:
           format: date-time
@@ -5277,7 +7642,7 @@ components:
         - name
         - status
       type: object
-    NewConfigurationDeployment:
+    ConfigurationDeploymentRequest:
       example:
         name: config-1.1
         configuration: '{"foo":"bar"}'
@@ -5305,14 +7670,14 @@ components:
           name: production
           artifact_name: Application 0.0.1
           status: inprogress
-          created: '2016-02-11T13:03:17.063493443Z'
+          created: '2016-02-11 13:03:17.063493+00:00'
           device_count: 100
         device:
           id: 00a0c91e6-7dec-11d0-a765-f81d4faebf6
           device_type: Raspberry Pi 3
           status: installing
-          finished: '2016-03-11T13:03:17.063493443Z'
-          created: '2016-02-11T13:03:17.063493443Z'
+          finished: '2016-03-11 13:03:17.063493+00:00'
+          created: '2016-02-11 13:03:17.063493+00:00'
           state: installing
           substate: installing.enter;script:foo-bar
           log: false
@@ -5348,7 +7713,7 @@ components:
               clears_artifact_provides:
                 - rootfs-image.*
             size: 36891648
-            modified: '2016-03-11T13:03:17.063493443Z'
+            modified: '2016-03-11 13:03:17.063493+00:00'
       properties:
         id:
           type: string
@@ -6027,6 +8392,200 @@ components:
         name: serial_no
         scope: inventory
         count: 10
+    NewDevice:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the new device.
+        status:
+          type: string
+          enum:
+            - accepted
+            - noauth
+            - pending
+            - preauthorized
+            - rejected
+          description: Authorization status for the device.
+        auth_sets:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthSet'
+        created_ts:
+          type: string
+          format: date-time
+          description: The creation timestamp of the device.
+      required:
+        - id
+    Integration:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: A unique integration identifier generated by the mender server
+        provider:
+          type: string
+          enum:
+            - iot-hub
+            - iot-core
+            - webhook
+        credentials:
+          $ref: '#/components/schemas/Credentials'
+        description:
+          type: string
+          description: A short human readable description (max 1024 characters).
+      required:
+        - provider
+        - credentials
+    Credentials:
+      allOf:
+        - type: object
+          properties:
+            type:
+              description: The credential type
+              type: string
+              enum:
+                - aws
+                - sas
+                - http
+          required:
+            - type
+        - oneOf:
+            - $ref: '#/components/schemas/AWSCredentials'
+            - $ref: '#/components/schemas/AzureSharedAccessSecret'
+            - $ref: '#/components/schemas/HTTP'
+      discriminator:
+        propertyName: type
+        mapping:
+          aws: '#/components/schemas/AWSCredentials'
+          sas: '#/components/schemas/AzureSharedAccessSecret'
+          http: '#/components/schemas/HTTP'
+    AWSCredentials:
+      type: object
+      description: AWS credentials in the form of access key id and secret access key, a region and a device policy name.
+      properties:
+        aws:
+          type: object
+          properties:
+            access_key_id:
+              type: string
+            secret_access_key:
+              type: string
+            region:
+              type: string
+            device_policy_name:
+              type: string
+          required:
+            - access_key_id
+            - secret_access_key
+            - region
+            - device_policy_name
+      required:
+        - aws
+    AzureSharedAccessSecret:
+      type: object
+      description: Shared Access Secret is an authentication mechanism in the form of a connection string for Azure IoT Hub.
+      properties:
+        connection_string:
+          type: string
+      required:
+        - connection_string
+    DeviceState:
+      type: object
+      properties:
+        desired:
+          description: The desired state for the device, as reported by the cloud/user.
+          additionalProperties: true
+        reported:
+          description: State reported by the device, this cannot be changed from the cloud.
+          additionalProperties: true
+    HTTP:
+      type: object
+      description: HTTP Webhook configuration.
+      properties:
+        http:
+          type: object
+          properties:
+            url:
+              type: string
+              description: The destination URL for the webhook. The webhook will send POST requests with event details to this target URL.
+            secret:
+              type: string
+              description: An optional secret used to verify the integrity of the payload. The string must be in hexadecimal format.
+              pattern: '[0-9a-f]{1,64}'
+          required:
+            - url
+      required:
+        - http
+    Event:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: A unique event identifier generated by the Mender server
+        type:
+          type: string
+          enum:
+            - device-provisioned
+            - device-decommissioned
+            - device-status-changed
+          description: Type of the event
+        delivery_statuses:
+          type: array
+          items:
+            type: object
+            properties:
+              integration_id:
+                type: string
+                description: The ID of the integration the status belongs.
+              success:
+                type: boolean
+                description: Whether the event hook was executed successfully.
+              status_code:
+                type: integer
+                description: The (HTTP) status code of the hook.
+              error:
+                type: string
+                description: An error message if the hook failed.
+            required:
+              - integration_id
+              - success
+        time:
+          type: string
+          format: date-time
+          description: Creation timestamp
+        data:
+          oneOf:
+            - $ref: '#/components/schemas/DeviceAuthEvent'
+          discriminator:
+            propertyName: type
+            mapping:
+              device-provisioned: '#/components/schemas/DeviceAuthEvent'
+              device-decommissioned: '#/components/schemas/DeviceAuthEvent'
+              device-status-changed: '#/components/schemas/DeviceAuthEvent'
+    DeviceAuthEvent:
+      type: object
+      description: 'DeviceAuthEvent describes an event that relates to changes to a device''s authentication data. The properties included depends on the event type: device provisioning includes the entire device with the accepted authentication set, status change events only includes the device id and the new status, and device decommissioning will only include the device id.'
+      properties:
+        id:
+          type: string
+          description: Device unique ID.
+        status:
+          type: string
+          description: The authentication status of the device.
+        auth_sets:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthSet'
+        created_ts:
+          type: string
+          format: date-time
+          description: The time the device was initialized in Mender.
+      required:
+        - id
     ErrorExt:
       description: Error descriptor with additional metadata.
       example:
@@ -7729,23 +10288,6 @@ components:
           format: date-time
         version:
           type: string
-  securitySchemes:
-    DeviceJWT:
-      type: apiKey
-      description: |
-        API token issued by Device Authentication service.
-        Format: 'Authorization: Bearer [JWT]'
-      name: Authorization
-      in: header
-    ManagementJWT:
-      type: http
-      description: |
-        API token issued by User Authentication service.
-      scheme: bearer
-      bearerFormat: JWT
-    Login:
-      type: http
-      scheme: basic
   responses:
     InvalidRequestError:
       description: Invalid Request.
@@ -7753,6 +10295,27 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    UnauthorizedError:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: The user is not permitted to access the resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: Forbidden
+            request_id: eed14d55-d996-42cd-8248-e806663810a8
     NotFound:
       description: Not Found.
       content:
@@ -7765,23 +10328,34 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Internal Server Error.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    UnauthorizedError:
-      description: Unauthorized.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+  parameters:
+    RequestId:
+      name: X-MEN-RequestID
+      in: header
+      required: false
+      description: A request identification
+      schema:
+        type: string
 x-tagGroups:
   - name: Mender API
     tags:
       - root.openapi_Mender API
       - root.openapi_root.openapi_Mender API
+  - name: Device Authentication
+    tags:
+      - deviceauth_devices_api_Device API
+      - deviceauth_internal_api_Internal API
+      - deviceauth_management_api_Management API
+  - name: Device configure
+    tags:
+      - deviceconfig_devices_api_Device API
+      - deviceconfig_internal_api_Internal API
+      - deviceconfig_management_api_Management API
+  - name: Device connect
+    tags:
+      - deviceconnect_devices_api_Device API
+      - deviceconnect_internal_api_Internal API
+      - deviceconnect_management_api_Management API
   - name: Deployments
     tags:
       - devices_v1_deployments_Device API
@@ -7798,6 +10372,10 @@ x-tagGroups:
     tags:
       - inventory_internal_v2_Internal API
       - inventory_management_v2_Management API
+  - name: IoT Manager
+    tags:
+      - iot-manager_internal_api_Internal API
+      - iot-manager_management_api_Management API
   - name: Deployments v2
     tags:
       - management_v2_deployments_Management API
