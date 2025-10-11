@@ -50,19 +50,11 @@ paths:
           content: {}
           description: No updates for device.
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "404":
           $ref: './common/responses.yaml#/components/responses/NotFound'
         "409":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Conflicting request data provided.
+          $ref: './common/responses.yaml#/components/responses/ConflictError'
         "500":
           $ref: './common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -98,11 +90,7 @@ paths:
           content: {}
           description: Status updated successfully.
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Invalid Request.
+           $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "404":
           $ref: './common/responses.yaml#/components/responses/NotFound'
         "409":
@@ -139,11 +127,7 @@ paths:
           content: {}
           description: The deployment log uploaded successfully.
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "404":
           $ref: './common/responses.yaml#/components/responses/NotFound'
         "500":
@@ -203,11 +187,7 @@ paths:
                 type: string
           description: Successful response
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
         "403":
           content: {}
           description: The download link has expired or the signature is invalid.

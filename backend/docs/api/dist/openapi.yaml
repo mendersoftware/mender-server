@@ -81,19 +81,11 @@ paths:
           content: {}
           description: No updates for device.
         '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: '#/components/responses/InvalidRequestError'
         '404':
           $ref: '#/components/responses/NotFound'
         '409':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Conflicting request data provided.
+          $ref: '#/components/responses/ConflictError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -129,11 +121,7 @@ paths:
           content: {}
           description: Status updated successfully.
         '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: '#/components/responses/InvalidRequestError'
         '404':
           $ref: '#/components/responses/NotFound'
         '409':
@@ -170,11 +158,7 @@ paths:
           content: {}
           description: The deployment log uploaded successfully.
         '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: '#/components/responses/InvalidRequestError'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -234,11 +218,7 @@ paths:
                 type: string
           description: Successful response
         '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: '#/components/responses/InvalidRequestError'
         '403':
           content: {}
           description: The download link has expired or the signature is invalid.
@@ -334,11 +314,7 @@ paths:
           content: {}
           description: Settings updated.
         '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The request body is malformed.
+          $ref: '#/components/responses/InvalidRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       summary: Set storage settings for a given tenant
@@ -392,12 +368,7 @@ paths:
           content: {}
           description: Limit information updated.
         '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: |
-            The request body is malformed.
+          $ref: '#/components/responses/InvalidRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       summary: Set storage limit for given tenant
@@ -420,8 +391,7 @@ paths:
           content: {}
           description: Tenant was successfully provisioned.
         '400':
-          content: {}
-          description: Bad request.
+          $ref: '#/components/responses/InvalidRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       summary: Provision a new tenant
@@ -494,11 +464,7 @@ paths:
               schema:
                 type: integer
         '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: '#/components/responses/InvalidRequestError'
       summary: Get all deployments for specific tenant
       tags:
         - internal_v1_deployments_Internal API
@@ -533,8 +499,7 @@ paths:
                 type: array
           description: OK
         '400':
-          content: {}
-          description: Bad request.
+          $ref: '#/components/responses/InvalidRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       summary: Return the Deployments history entries for the specified IDs
@@ -661,11 +626,7 @@ paths:
               schema:
                 type: string
         '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: '#/components/responses/InvalidRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       summary: Upload mender artifact
@@ -714,17 +675,9 @@ paths:
               schema:
                 type: string
         '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: '#/components/responses/InvalidRequestError'
         '409':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The deployment with a given id already exists.
+          $ref: '#/components/responses/ConflictError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       summary: Create a configuration deployment
@@ -756,11 +709,7 @@ paths:
                 $ref: '#/components/schemas/LastDeviceDeploymentsStatuses'
           description: List of device deployment statuses returned.
         '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: '#/components/responses/InvalidRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       summary: Get status of the last device devployment
@@ -805,11 +754,7 @@ paths:
           description: Attributes were uploaded successfully.
           content: {}
         '400':
-          description: Missing/malformed request parameters or body.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/InvalidRequestError'
         '401':
           description: The device is not authenticated.
           content: {}
@@ -853,11 +798,7 @@ paths:
           description: Attributes were uploaded successfully.
           content: {}
         '400':
-          description: Missing/malformed request parameters or body.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/InvalidRequestError'
         '401':
           description: The device is not authenticated.
           content: {}
@@ -921,8 +862,7 @@ paths:
           description: The tenant was created successfully.
           content: {}
         '400':
-          description: Missing or malformed request parameters.
-          content: {}
+          $ref: '#/components/responses/InvalidRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
   /api/internal/v1/inventory/tenants/{tenant_id}/devices:
@@ -954,11 +894,7 @@ paths:
                 type: string
           content: {}
         '400':
-          description: Malformed request body. See error for details.
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/InvalidRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
   /api/internal/v1/inventory/tenants/{tenant_id}/devices/{device_id}:
@@ -1030,17 +966,9 @@ paths:
           description: The operation completed successfully.
           content: {}
         '400':
-          description: Malformed request body. See error for details.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/InvalidRequestError'
         '409':
-          description: Write conflict, the request needs to be retried.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/ConflictError'
         '500':
           $ref: '#/components/responses/InternalServerError'
   /api/internal/v1/inventory/tenants/{tenant_id}/device/{device_id}/attribute/scope/{scope}:
@@ -1092,7 +1020,7 @@ paths:
           description: Device inventory successfully updated.
           content: {}
         '400':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/InvalidRequestError'
         '412':
           description: 'Precondition failed: If-Unmodified-Since condition not met'
           content:
@@ -1129,8 +1057,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Groups'
         '400':
-          description: Missing or malformed request params or body. See the error message for details.
-          content: {}
+          $ref: '#/components/responses/InvalidRequestError'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -1164,11 +1091,7 @@ paths:
           description: Attributes have been re-indexed.
           content: {}
         '400':
-          description: Invalid Request.
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/InvalidRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
   /api/internal/v2/inventory/tenants/{tenant_id}/filters/search:
@@ -1263,11 +1186,7 @@ paths:
                       description: MAC address
                   updated_ts: '2016-10-04T18:24:21.432Z'
         '400':
-          description: Missing or malformed request parameters. See error for details.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/InvalidRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
   /api/management/v1/inventory/devices:
@@ -1383,11 +1302,7 @@ paths:
                       description: MAC address
                   updated_ts: '2016-10-04T18:24:21.432Z'
         '400':
-          description: Missing or malformed request parameters.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/InvalidRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -1508,8 +1423,7 @@ paths:
           description: Tags were updated successfully.
           content: {}
         '400':
-          description: Missing or malformed request params or body. See the error message for details.
-          content: {}
+          $ref: '#/components/responses/InvalidRequestError'
         '404':
           $ref: '#/components/responses/NotFound'
         '412':
@@ -1563,8 +1477,7 @@ paths:
           description: Tags were updated successfully.
           content: {}
         '400':
-          description: Missing or malformed request params or body. See the error message for details.
-          content: {}
+          $ref: '#/components/responses/InvalidRequestError'
         '404':
           $ref: '#/components/responses/NotFound'
         '412':
@@ -1596,8 +1509,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Group'
         '400':
-          description: Missing or malformed request params or body. See the error message for details.
-          content: {}
+          $ref: '#/components/responses/InvalidRequestError'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -1634,8 +1546,7 @@ paths:
           description: Success - the device was added to the group.
           content: {}
         '400':
-          description: Missing or malformed request params or body. See the error message for details.
-          content: {}
+          $ref: '#/components/responses/InvalidRequestError'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -1743,11 +1654,7 @@ paths:
               example:
                 updated_count: 2
         '400':
-          description: Invalid request schema.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/InvalidRequestError'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -1799,11 +1706,7 @@ paths:
                 items:
                   type: string
         '400':
-          description: Invalid request parameters.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/InvalidRequestError'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -1852,11 +1755,7 @@ paths:
               example:
                 updated_count: 2
         '400':
-          description: Invalid request schema.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/InvalidRequestError'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -1912,11 +1811,7 @@ paths:
                 updated_count: 2
                 matched_count: 3
         '400':
-          description: Invalid request schema.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/InvalidRequestError'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -2037,11 +1932,7 @@ paths:
                       description: MAC address
                   updated_ts: '2016-10-04T18:24:21.432Z'
         '400':
-          description: Missing or malformed request parameters.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/InvalidRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -2133,17 +2024,9 @@ paths:
               schema:
                 type: string
         '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: '#/components/responses/InvalidRequestError'
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -2177,17 +2060,9 @@ paths:
               schema:
                 type: string
         '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: '#/components/responses/InvalidRequestError'
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '409':
           content:
             application/json:
@@ -2255,17 +2130,9 @@ paths:
                 type: array
           description: OK
         '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: '#/components/responses/InvalidRequestError'
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -2312,17 +2179,9 @@ paths:
               schema:
                 type: string
         '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: '#/components/responses/InvalidRequestError'
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '409':
           content:
             application/json:
@@ -2362,11 +2221,7 @@ paths:
                 $ref: '#/components/schemas/DeploymentV1'
           description: Successful response.
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -2406,17 +2261,9 @@ paths:
           content: {}
           description: Status updated successfully.
         '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: '#/components/responses/InvalidRequestError'
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '404':
           $ref: '#/components/responses/NotFound'
         '422':
@@ -2463,11 +2310,7 @@ paths:
                 $ref: '#/components/schemas/StatisticsV1'
           description: OK
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -2499,11 +2342,7 @@ paths:
                 type: array
           description: OK
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -2571,11 +2410,7 @@ paths:
                 type: array
           description: OK
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -2615,17 +2450,9 @@ paths:
                 type: array
           description: Successful response.
         '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: '#/components/responses/InvalidRequestError'
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -2662,23 +2489,11 @@ paths:
                 type: string
           description: Successful response, including the logs in text/plain format.
         '401':
-          content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '404':
-          content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Not Found.
+          $ref: '#/components/responses/NotFound'
         '500':
-          content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error.
+          $ref: '#/components/responses/InternalServerError'
       security:
         - ManagementJWT: []
       summary: Get the log of a selected device's deployment
@@ -2701,11 +2516,7 @@ paths:
           content: {}
           description: Operation completed successfully.
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -2769,11 +2580,7 @@ paths:
                 type: array
           description: OK
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -2800,11 +2607,7 @@ paths:
           content: {}
           description: Operation completed successfully.
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -2941,11 +2744,7 @@ paths:
                 $ref: '#/components/schemas/ReleasesV1'
           description: Successful response.
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -3121,11 +2920,7 @@ paths:
               schema:
                 type: string
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -3170,11 +2965,7 @@ paths:
                 type: array
           description: OK
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -3204,17 +2995,9 @@ paths:
               schema:
                 type: string
         '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: '#/components/responses/InvalidRequestError'
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '409':
           content:
             application/json:
@@ -3305,11 +3088,7 @@ paths:
               schema:
                 type: string
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -3329,11 +3108,7 @@ paths:
                 $ref: '#/components/schemas/ArtifactUploadLink'
           description: OK
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -3363,11 +3138,7 @@ paths:
           content: {}
           description: Accepted
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '404':
           content:
             application/json:
@@ -3406,17 +3177,9 @@ paths:
               schema:
                 type: string
         '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: '#/components/responses/InvalidRequestError'
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -3443,11 +3206,7 @@ paths:
           content: {}
           description: The artifact deleted successfully.
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '404':
           $ref: '#/components/responses/NotFound'
         '409':
@@ -3511,17 +3270,9 @@ paths:
                 $ref: '#/components/schemas/ArtifactV1'
           description: Successful response.
         '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: '#/components/responses/InvalidRequestError'
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -3554,17 +3305,9 @@ paths:
           content: {}
           description: The artifact metadata updated successfully.
         '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: '#/components/responses/InvalidRequestError'
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '404':
           $ref: '#/components/responses/NotFound'
         '422':
@@ -3603,17 +3346,9 @@ paths:
                 $ref: '#/components/schemas/ArtifactLink'
           description: Successful response.
         '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid Request.
+          $ref: '#/components/responses/InvalidRequestError'
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -3637,11 +3372,7 @@ paths:
                 $ref: '#/components/schemas/StorageLimit'
           description: Successful response.
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -3739,17 +3470,9 @@ paths:
               schema:
                 type: string
         '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Bad request, see error message for details.
+          $ref: '#/components/responses/InvalidRequestError'
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -3776,17 +3499,9 @@ paths:
           content: {}
           description: Releases deleted successfully.
         '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Bad request, see error message for details.
+          $ref: '#/components/responses/InvalidRequestError'
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '409':
           content:
             application/json:
@@ -3960,11 +3675,7 @@ paths:
               schema:
                 type: string
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -3993,11 +3704,7 @@ paths:
                 $ref: '#/components/schemas/ReleaseV2'
           description: Successful response.
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -4030,17 +3737,9 @@ paths:
           content: {}
           description: Successful response.
         '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Bad request, see error message for details.
+          $ref: '#/components/responses/InvalidRequestError'
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -4077,17 +3776,9 @@ paths:
           content: {}
           description: Successful response.
         '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Bad request, see error message for details.
+          $ref: '#/components/responses/InvalidRequestError'
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '409':
           content:
             application/json:
@@ -4116,17 +3807,9 @@ paths:
                 $ref: '#/components/schemas/Tags'
           description: Successful response.
         '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Bad request, see error message for details.
+          $ref: '#/components/responses/InvalidRequestError'
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '409':
           content:
             application/json:
@@ -4155,17 +3838,9 @@ paths:
                 $ref: '#/components/schemas/UpdateTypes'
           description: Successful response.
         '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Bad request, see error message for details.
+          $ref: '#/components/responses/InvalidRequestError'
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -4248,11 +3923,7 @@ paths:
               schema:
                 type: string
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized.
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -4339,17 +4010,9 @@ paths:
             Request has been accepted and the JWT token has been invalidated.
           content: {}
         '400':
-          description: Bad request, see error message for details.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/InvalidRequestError'
         '401':
-          description: Unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -4409,12 +4072,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/User'
         '401':
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -4442,19 +4100,9 @@ paths:
                 type: string
           content: {}
         '400':
-          description: |
-            The request body is malformed.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/InvalidRequestError'
         '401':
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/UnauthorizedError'
         '422':
           description: |
             The email address is duplicated, password is too short or current password doesn't match.
@@ -4487,12 +4135,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
         '401':
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/UnauthorizedError'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -4523,19 +4166,9 @@ paths:
           description: User information updated.
           content: {}
         '400':
-          description: |
-            The request body is malformed.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/InvalidRequestError'
         '401':
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/UnauthorizedError'
         '404':
           $ref: '#/components/responses/NotFound'
         '422':
@@ -4567,12 +4200,7 @@ paths:
           description: User removed.
           content: {}
         '401':
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -4591,12 +4219,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
         '401':
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/UnauthorizedError'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -4620,19 +4243,9 @@ paths:
           description: User information updated.
           content: {}
         '400':
-          description: |
-            The request body is malformed.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/InvalidRequestError'
         '401':
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/UnauthorizedError'
         '404':
           $ref: '#/components/responses/NotFound'
         '422':
@@ -4666,12 +4279,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Settings'
         '401':
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -4701,19 +4309,9 @@ paths:
           description: User settings set.
           content: {}
         '400':
-          description: |
-            The request body is malformed.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/InvalidRequestError'
         '401':
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/UnauthorizedError'
         '412':
           description: ETag doesn't match.
           content: {}
@@ -4741,12 +4339,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Settings'
         '401':
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -4776,19 +4369,9 @@ paths:
           description: User settings set.
           content: {}
         '400':
-          description: |
-            The request body is malformed.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/InvalidRequestError'
         '401':
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/UnauthorizedError'
         '412':
           description: ETag doesn't match.
           content: {}
@@ -4813,12 +4396,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/PersonalAccessToken'
         '401':
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -4853,12 +4431,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         '401':
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/UnauthorizedError'
         '409':
           description: |
             Personal Access Token with the same name already exists.
@@ -4895,12 +4468,7 @@ paths:
           description: Token removed.
           content: {}
         '401':
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -4937,12 +4505,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Plan'
         '401':
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -4961,12 +4524,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/PlanBindingDetails'
         '401':
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -4983,22 +4541,14 @@ paths:
             Service is healthy and all dependencies are up and running.
           content: {}
         '500':
-          description: |
-            Unexpected internal error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorInternalAPI'
-              example:
-                error: internal error
-                request_id: ffd712be-d697-4cb7-814b-88ff1e2eb5f6
+          $ref: '#/components/responses/InternalServerError'
         '503':
           description: |
             Service unhealthy / not ready to accept traffic. At least one dependency is not running.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorInternalAPI'
+                $ref: '#/components/schemas/Error'
               example:
                 error: 'error reaching MongoDB: context deadline exceeded'
                 request_id: ffd712be-d697-4cb7-814b-88ff1e2eb5f6
@@ -5014,12 +4564,7 @@ paths:
           description: Service is up and running.
           content: {}
         '500':
-          description: |
-            Internal API error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorInternalAPI'
+          $ref: '#/components/responses/InternalServerError'
   /api/internal/v1/useradm/auth/verify:
     post:
       tags:
@@ -5062,11 +4607,7 @@ paths:
           description: The token is valid.
           content: {}
         '400':
-          description: Missing or malformed request parameters.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/InvalidRequestError'
         '401':
           description: Verification failed, authentication should not be granted.
           content:
@@ -5080,11 +4621,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         '500':
-          description: Unexpected error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorInternalAPI'
+          $ref: '#/components/responses/InternalServerError'
   /api/internal/v1/useradm/tenants:
     post:
       tags:
@@ -5102,14 +4639,9 @@ paths:
           description: The tenant was created successfully.
           content: {}
         '400':
-          description: Missing or malformed request parameters.
-          content: {}
+          $ref: '#/components/responses/InvalidRequestError'
         '500':
-          description: Unexpected error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorInternalAPI'
+          $ref: '#/components/responses/InternalServerError'
   /api/internal/v1/useradm/tenants/{tenant_id}/users:
     get:
       tags:
@@ -5171,18 +4703,9 @@ paths:
                 items:
                   $ref: '#/components/schemas/User'
         '401':
-          description: |
-            The user cannot be granted authentication.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorInternalAPI'
+          $ref: '#/components/responses/InternalServerError'
     post:
       tags:
         - useradm.openapi_Useradm Internal API
@@ -5207,12 +4730,7 @@ paths:
           description: The user was successfully created.
           content: {}
         '400':
-          description: |
-            The request body is malformed.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/InvalidRequestError'
         '404':
           $ref: '#/components/responses/NotFound'
         '422':
@@ -5223,11 +4741,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         '500':
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorInternalAPI'
+          $ref: '#/components/responses/InternalServerError'
   /api/internal/v1/useradm/tenants/{tenant_id}/users/{user_id}:
     delete:
       tags:
@@ -5254,18 +4768,9 @@ paths:
           description: User deleted.
           content: {}
         '400':
-          description: |
-            Invalid parameters.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/InvalidRequestError'
         '500':
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorInternalAPI'
+          $ref: '#/components/responses/InternalServerError'
   /api/internal/v1/useradm/tokens:
     delete:
       tags:
@@ -5294,18 +4799,9 @@ paths:
           description: Tokens deleted.
           content: {}
         '400':
-          description: |
-            Invalid parameters.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/InvalidRequestError'
         '500':
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorInternalAPI'
+          $ref: '#/components/responses/InternalServerError'
   /status:
     get:
       summary: Check if service API is alive and serving requests
@@ -7960,15 +7456,6 @@ components:
         last_used: '2022-07-05T11:11:35.725Z'
         expiration_date: '2023-10-16T07:28:34.725Z'
         created_ts: '2022-07-05T11:03:27.725Z'
-    ErrorInternalAPI:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Description of the error.
-      description: Error descriptor.
-      example:
-        error: internal error
     Settings:
       type: object
       description: User settings.
@@ -8260,8 +7747,20 @@ components:
       type: http
       scheme: basic
   responses:
+    InvalidRequestError:
+      description: Invalid Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     NotFound:
       description: Not Found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ConflictError:
+      description: Conflict.
       content:
         application/json:
           schema:
@@ -8272,29 +7771,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Error:
-      description: Error descriptor.
-      example:
-        error: error message
-        request_id: f7881e82-0492-49fb-b459-795654e7188a
-      properties:
-        error:
-          description: Description of the error.
-          type: string
-        request_id:
-          description: Request ID (same as in X-MEN-RequestID header).
-          type: string
-      required:
-        - error
-      type: object
-    InvalidRequestError:
-      description: Invalid Request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ConflictError:
-      description: Conflict.
+    UnauthorizedError:
+      description: Unauthorized.
       content:
         application/json:
           schema:
