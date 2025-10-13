@@ -5,7 +5,7 @@ info:
     Intended for use by the web GUI.'
   version: '1'
 tags:
-- name: Internal API
+  - name: Internal API
 paths:
   /api/internal/v1/deviceconfig/health:
     get:

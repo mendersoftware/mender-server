@@ -5,7 +5,7 @@ info:
   description: 'An API for device authentication handling. Not exposed via the API
     Gateway, internal use only.'
 tags:
-- name: Internal API
+  - name: Internal API
 paths:
   /api/internal/v1/devauth/alive:
     get:

@@ -4,7 +4,7 @@ info:
   title: Device Authentication
   description: An API for device authentication handling.
 tags:
-- name: Management API
+  - name: Management API
 paths:
   /api/management/v2/devauth/devices:
     get:

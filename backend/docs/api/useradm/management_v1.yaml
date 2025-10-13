@@ -6,13 +6,13 @@ info:
     All responses from the API will contain 'X-MEN-RequestID' header with server-side generated request ID.
   version: "1"
 tags:
-  - name: Useradm Management API v1
+  - name: Management API
 
 paths:
   /api/management/v1/useradm/auth/login:
     post:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Log in to Mender
       description: |
         Accepts user credentials via standard Basic Auth, and returns a
@@ -76,7 +76,7 @@ paths:
   /api/management/v1/useradm/auth/logout:
     post:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Log out from Mender
       description: |
         Invalidates the JWT token of the current user.
@@ -97,7 +97,7 @@ paths:
   /api/management/v1/useradm/users:
     get:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: |
         List all users registered under the tenant owning the JWT.
       operationId: List Users Management
@@ -156,7 +156,7 @@ paths:
       - ManagementJWT: []
     post:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: |
         Create a new user under the tenant owning the JWT.
       operationId: Create User Management
@@ -194,7 +194,7 @@ paths:
   /api/management/v1/useradm/users/{id}:
     get:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Get user information
       operationId: Show User
       parameters:
@@ -221,7 +221,7 @@ paths:
       - ManagementJWT: []
     put:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Update user information
       operationId: Update User
       parameters:
@@ -262,7 +262,7 @@ paths:
       - ManagementJWT: []
     delete:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Remove user from the system
       operationId: Remove User
       parameters:
@@ -285,7 +285,7 @@ paths:
   /api/management/v1/useradm/users/me:
     get:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Get user information
       operationId: Show Own User Data
       responses:
@@ -305,7 +305,7 @@ paths:
       - ManagementJWT: []
     put:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Update own user information
       operationId: Update Own User Data
       requestBody:
@@ -339,7 +339,7 @@ paths:
   /api/management/v1/useradm/settings:
     get:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Get global user settings
       operationId: Show User Settings
       responses:
@@ -363,7 +363,7 @@ paths:
       - ManagementJWT: []
     post:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Set global user settings
       description: |
         Create global user settings or replace existing settings with provided object.
@@ -400,7 +400,7 @@ paths:
   /api/management/v1/useradm/settings/me:
     get:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Get user settings for the current user
       operationId: Show My User Settings
       responses:
@@ -424,7 +424,7 @@ paths:
       - ManagementJWT: []
     post:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Set user settings for the current user
       description: |
         Create current user settings or replace existing settings with provided object.
@@ -461,7 +461,7 @@ paths:
   /api/management/v1/useradm/settings/tokens:
     get:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Get user Personal Access Tokens
       operationId: List User Personal Access Tokens
       responses:
@@ -482,7 +482,7 @@ paths:
       - ManagementJWT: []
     post:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Create new Personal Access Token
       description: |
         Create new Personal Access Token with given name and expiration.
@@ -532,7 +532,7 @@ paths:
   /api/management/v1/useradm/settings/tokens/{id}:
     delete:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Revoke Personal Access Token
       operationId: Revoke Personal Access Token
       parameters:
@@ -555,7 +555,7 @@ paths:
   /api/management/v1/useradm/plans:
     get:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Get list of available plans
       operationId: List Plans
       parameters:
@@ -592,7 +592,7 @@ paths:
   /api/management/v1/useradm/plan_binding:
     get:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Get plan and limits information for current tenant
       operationId: Show Plan And Limits
       responses:

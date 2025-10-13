@@ -4,7 +4,7 @@ info:
   description: 'Internal API for managing IoT Cloud integrations.'
   version: '1'
 tags:
-- name: Internal API
+  - name: Internal API
 paths:
   /api/internal/v1/iot-manager/health:
     get:

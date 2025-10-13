@@ -8,7 +8,7 @@ info:
     '
   version: '1'
 tags:
-- name: Internal API
+  - name: Internal API
 paths:
   /api/internal/v1/deviceconnect/health:
     get:

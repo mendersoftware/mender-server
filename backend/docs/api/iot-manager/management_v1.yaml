@@ -7,7 +7,7 @@ info:
 security:
 - ManagementJWT: []
 tags:
-- name: Management API
+  - name: Management API
 paths:
   /api/management/v1/iot-manager/integrations:
     get:
