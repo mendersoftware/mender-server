@@ -18,7 +18,7 @@ paths:
         '204':
           description: Service is up and running
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/devauth/health:
     get:
       operationId: DeviceAuth Internal Check Health
@@ -29,14 +29,14 @@ paths:
         '204':
           description: 'Service is healthy and all dependencies are up and running.'
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
         '503':
           description: 'Service unhealthy / not ready to accept traffic. At least
             one dependency is not running.'
           content:
             application/json:
               schema:
-                $ref: ./common/schemas.yaml#/components/schemas/Error
+                $ref: ../common/schemas.yaml#/components/schemas/Error
               examples:
                 example2:
                   value:
@@ -62,13 +62,13 @@ paths:
         '200':
           description: The token is valid.
         '400':
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         '401':
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         '403':
-          $ref: ./common/responses.yaml#/components/responses/ForbiddenError
+          $ref: ../common/responses.yaml#/components/responses/ForbiddenError
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/devauth/tokens:
     delete:
       operationId: DeviceAuth Internal Revoke Device Tokens
@@ -98,9 +98,9 @@ paths:
         '204':
           description: Tokens deleted.
         '400':
-          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/devauth/tenant/{tenant_id}/limits/max_devices:
     get:
       operationId: DeviceAuth Internal Get Device Limit
@@ -120,11 +120,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./deviceauth_management_api.yaml#/components/schemas/Limit
+                $ref: ./management_v2.yaml#/components/schemas/Limit
         '400':
-          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
     put:
       operationId: DeviceAuth Internal Update Device Limit
       tags:
@@ -142,14 +142,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ./deviceauth_management_api.yaml#/components/schemas/Limit
+              $ref: ./management_v2.yaml#/components/schemas/Limit
       responses:
         '204':
           description: Limit information updated.
         '400':
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         '500':
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
     delete:
       operationId: DeviceAuth Internal Clear Device Limit
       tags:
@@ -166,7 +166,7 @@ paths:
         '204':
           description: Limit information deleted.
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/devauth/tenants:
     post:
       operationId: DeviceAuth Internal Create Tenant
@@ -180,14 +180,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ./common/schemas.yaml#/components/schemas/NewTenant
+              $ref: ../common/schemas.yaml#/components/schemas/NewTenant
       responses:
         '201':
           description: Tenant was successfully provisioned.
         '400':
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/devauth/tenants/{tid}/devices/{did}:
     delete:
       operationId: DeviceAuth Internal Delete Device
@@ -209,9 +209,9 @@ paths:
         '201':
           description: Device deleted successfully.
         '400':
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/devauth/tenants/{tid}/devices/{did}/external:
     put:
       operationId: DeviceAuth Internal Set external identity
@@ -241,9 +241,9 @@ paths:
         '204':
           description: Device identity updated successfully.
         '400':
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/devauth/tenants/{tid}/devices/{did}/status:
     get:
       operationId: DeviceAuth Internal Device Status
@@ -271,13 +271,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./deviceauth_management_api.yaml#/components/schemas/Status
+                $ref: ./management_v2.yaml#/components/schemas/Status
         '400':
-          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
         '404':
-          $ref: ./common/responses.yaml#/components/responses/NotFound
+          $ref: ../common/responses.yaml#/components/responses/NotFound
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/devauth/tenants/{tid}/devices:
     get:
       operationId: DeviceAuth Internal List Devices
@@ -336,16 +336,16 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ./deviceauth_management_api.yaml#/components/schemas/Device
+                  $ref: ./management_v2.yaml#/components/schemas/Device
           headers:
             Link:
               description: Standard header, we support 'first', 'next', and 'prev'.
               schema:
                 type: string
         '400':
-          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/devauth/tenants/{tid}/devices/count:
     get:
       operationId: DeviceAuth Internal Count Devices
@@ -372,11 +372,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./deviceauth_management_api.yaml#/components/schemas/Count
+                $ref: ./management_v2.yaml#/components/schemas/Count
         '400':
-          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
 components:
   schemas:
     ExternalDevice:

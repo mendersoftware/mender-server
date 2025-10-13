@@ -50,13 +50,13 @@ paths:
           content: {}
           description: No updates for device.
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "409":
-          $ref: './common/responses.yaml#/components/responses/ConflictError'
+          $ref: '../common/responses.yaml#/components/responses/ConflictError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - DeviceJWT: []
       summary: Get next update
@@ -90,14 +90,14 @@ paths:
           content: {}
           description: Status updated successfully.
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "409":
           content: {}
           description: Status already set to aborted.
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - DeviceJWT: []
       summary: Update the device deployment status
@@ -127,11 +127,11 @@ paths:
           content: {}
           description: The deployment log uploaded successfully.
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - DeviceJWT: []
       summary: Upload the device deployment log
@@ -187,12 +187,12 @@ paths:
                 type: string
           description: Successful response
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "403":
           content: {}
           description: The download link has expired or the signature is invalid.
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security: []
       summary: |
         Internally generated download link for deploying device configurations.
@@ -309,4 +309,4 @@ components:
       type: object
   securitySchemes:
     DeviceJWT:
-      $ref: './common/securitySchemes.yaml#/components/securitySchemes/DeviceJWT'
+      $ref: '../common/securitySchemes.yaml#/components/securitySchemes/DeviceJWT'

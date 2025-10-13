@@ -54,28 +54,28 @@ paths:
           content:
             application/jwt:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
         "401":
           description: Unauthorized.
           content:
             application/jwt:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
         "500":
           description: Internal server error.
           content:
             application/jwt:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
       security:
       - Login: []
   /api/management/v1/useradm/auth/logout:
@@ -92,11 +92,11 @@ paths:
             Request has been accepted and the JWT token has been invalidated.
           content: {}
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
   /api/management/v1/useradm/users:
@@ -154,9 +154,9 @@ paths:
                 items:
                   $ref: '#/components/schemas/User'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
     post:
@@ -182,18 +182,18 @@ paths:
                 type: string
           content: {}
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "422":
           description: |
             The email address is duplicated, password is too short or current password doesn't match.
           content:
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
   /api/management/v1/useradm/users/{id}:
@@ -217,11 +217,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
     put:
@@ -248,11 +248,11 @@ paths:
           description: User information updated.
           content: {}
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "422":
           description: |
             The email address is duplicated, the password is too short
@@ -260,9 +260,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
     delete:
@@ -282,9 +282,9 @@ paths:
           description: User removed.
           content: {}
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
   /api/management/v1/useradm/users/me:
@@ -301,11 +301,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
     put:
@@ -325,20 +325,20 @@ paths:
           description: User information updated.
           content: {}
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "422":
           description: |
             The email address is duplicated or the password is too short.
           content:
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
   /api/management/v1/useradm/settings:
@@ -361,9 +361,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Settings'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
     post:
@@ -392,14 +392,14 @@ paths:
           description: User settings set.
           content: {}
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "412":
           description: ETag doesn't match.
           content: {}
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
   /api/management/v1/useradm/settings/me:
@@ -422,9 +422,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Settings'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
     post:
@@ -453,14 +453,14 @@ paths:
           description: User settings set.
           content: {}
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "412":
           description: ETag doesn't match.
           content: {}
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
   /api/management/v1/useradm/settings/tokens:
@@ -480,9 +480,9 @@ paths:
                 items:
                   $ref: '#/components/schemas/PersonalAccessToken'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
     post:
@@ -513,25 +513,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "409":
           description: |
             Personal Access Token with the same name already exists.
           content:
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
         "422":
           description: |
             Maximum number of Personal Acess Tokens reached for this user.
           content:
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
   /api/management/v1/useradm/settings/tokens/{id}:
@@ -552,9 +552,9 @@ paths:
           description: Token removed.
           content: {}
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
   /api/management/v1/useradm/plans:
@@ -589,9 +589,9 @@ paths:
                 items:
                   $ref: '#/components/schemas/Plan'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
   /api/management/v1/useradm/plan_binding:
@@ -608,9 +608,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/PlanBindingDetails'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
   /api/internal/v1/useradm/health:
@@ -625,14 +625,14 @@ paths:
             Service is healthy and all dependencies are up and running.
           content: {}
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
         "503":
           description: |
             Service unhealthy / not ready to accept traffic. At least one dependency is not running.
           content:
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
               example:
                 error: "error reaching MongoDB: context deadline exceeded"
                 request_id: ffd712be-d697-4cb7-814b-88ff1e2eb5f6
@@ -648,7 +648,7 @@ paths:
           description: Service is up and running.
           content: {}
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
   /api/internal/v1/useradm/auth/verify:
     post:
       tags:
@@ -691,21 +691,21 @@ paths:
           description: The token is valid.
           content: {}
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
           description: "Verification failed, authentication should not be granted."
           content:
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
         "403":
           description: Token has expired - apply for a new one.
           content:
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
   /api/internal/v1/useradm/tenants:
     post:
       tags:
@@ -723,9 +723,9 @@ paths:
           description: The tenant was created successfully.
           content: {}
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
   /api/internal/v1/useradm/tenants/{tenant_id}/users:
     get:
       tags:
@@ -787,9 +787,9 @@ paths:
                 items:
                   $ref: '#/components/schemas/User'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
     post:
       tags:
       - Useradm Internal API
@@ -814,18 +814,18 @@ paths:
           description: The user was successfully created.
           content: {}
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "422":
           description: |
             User name or ID is duplicated.
           content:
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
   /api/internal/v1/useradm/tenants/{tenant_id}/users/{user_id}:
     delete:
       tags:
@@ -852,9 +852,9 @@ paths:
           description: User deleted.
           content: {}
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
   /api/internal/v1/useradm/tokens:
     delete:
       tags:
@@ -883,9 +883,9 @@ paths:
           description: Tokens deleted.
           content: {}
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
 components:
   schemas:
     LoginOptions:
@@ -1144,4 +1144,4 @@ components:
       type: http
       scheme: basic
     ManagementJWT:
-      $ref: './common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'
+      $ref: '../common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'

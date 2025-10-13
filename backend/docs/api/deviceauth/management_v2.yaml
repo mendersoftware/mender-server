@@ -68,9 +68,9 @@ paths:
               schema:
                 type: string
         '400':
-          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
     post:
       operationId: DeviceAuth Management Preauthorize
       security:
@@ -99,7 +99,7 @@ paths:
               schema:
                 type: string
         '400':
-          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
         '409':
           description: Device already exists. Response contains conflicting device.
           content:
@@ -107,7 +107,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Device'
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/management/v2/devauth/devices/search:
     post:
       operationId: DeviceAuth Management Search Devices
@@ -179,9 +179,9 @@ paths:
               schema:
                 type: string
         '400':
-          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/management/v2/devauth/devices/{id}:
     get:
       operationId: DeviceAuth Management Get Device
@@ -206,9 +206,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Device'
         '404':
-          $ref: ./common/responses.yaml#/components/responses/NotFound
+          $ref: ../common/responses.yaml#/components/responses/NotFound
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
     delete:
       operationId: DeviceAuth Management Decommission device
       security:
@@ -228,9 +228,9 @@ paths:
         '204':
           description: Device decommissioned.
         '404':
-          $ref: ./common/responses.yaml#/components/responses/NotFound
+          $ref: ../common/responses.yaml#/components/responses/NotFound
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/management/v2/devauth/devices/{id}/auth/{aid}:
     delete:
       operationId: DeviceAuth Management Remove authentication
@@ -263,9 +263,9 @@ paths:
         '204':
           description: Device authentication set deleted.
         '404':
-          $ref: ./common/responses.yaml#/components/responses/NotFound
+          $ref: ../common/responses.yaml#/components/responses/NotFound
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/management/v2/devauth/devices/{id}/auth/{aid}/status:
     put:
       operationId: DeviceAuth Management Set Authentication Status
@@ -305,18 +305,18 @@ paths:
           description: The device authentication data set status was successfully
             updated.
         '400':
-          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
         '404':
-          $ref: ./common/responses.yaml#/components/responses/NotFound
+          $ref: ../common/responses.yaml#/components/responses/NotFound
         '422':
           description: Request cannot be fulfilled e.g. due to exceeded limit on maximum
             accepted devices (see error message).
           content:
             application/json:
               schema:
-                $ref: ./common/schemas.yaml#/components/schemas/Error
+                $ref: ../common/schemas.yaml#/components/schemas/Error
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
     get:
       operationId: DeviceAuth Management Get Authentication Status
       security:
@@ -347,9 +347,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Status'
         '404':
-          $ref: ./common/responses.yaml#/components/responses/NotFound
+          $ref: ../common/responses.yaml#/components/responses/NotFound
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/management/v2/devauth/devices/count:
     get:
       operationId: DeviceAuth Management Count Devices
@@ -377,9 +377,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Count'
         '400':
-          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/management/v2/devauth/tokens/{id}:
     delete:
       operationId: DeviceAuth Management Revoke API Token
@@ -403,9 +403,9 @@ paths:
         '204':
           description: The token was successfully deleted.
         '404':
-          $ref: ./common/responses.yaml#/components/responses/NotFound
+          $ref: ../common/responses.yaml#/components/responses/NotFound
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/management/v2/devauth/limits/max_devices:
     get:
       operationId: DeviceAuth Management Get Device Limit
@@ -424,11 +424,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/Limit'
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
 components:
   securitySchemes:
     ManagementJWT:
-      $ref: ./common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT
+      $ref: ../common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT
   parameters:
     RequestId:
       name: X-MEN-RequestID
@@ -494,7 +494,7 @@ components:
         auth_sets:
           type: array
           items:
-            $ref: ./common/schemas.yaml#/components/schemas/AuthSet
+            $ref: ../common/schemas.yaml#/components/schemas/AuthSet
         decommissioning:
           type: boolean
           description: Devices that are part of ongoing decomissioning process will

@@ -40,13 +40,13 @@ paths:
                 items:
                   $ref: '#/components/schemas/Integration'
         400:
-          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
         401:
-          $ref: ./common/responses.yaml#/components/responses/UnauthorizedError
+          $ref: ../common/responses.yaml#/components/responses/UnauthorizedError
         403:
-          $ref: ./common/responses.yaml#/components/responses/ForbiddenError
+          $ref: ../common/responses.yaml#/components/responses/ForbiddenError
         500:
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
     post:
       operationId: IoTManager Management Register integration
       summary: Register a new cloud integration
@@ -67,13 +67,13 @@ paths:
               schema:
                 type: string
         400:
-          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
         401:
-          $ref: ./common/responses.yaml#/components/responses/UnauthorizedError
+          $ref: ../common/responses.yaml#/components/responses/UnauthorizedError
         403:
-          $ref: ./common/responses.yaml#/components/responses/ForbiddenError
+          $ref: ../common/responses.yaml#/components/responses/ForbiddenError
         500:
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/management/v1/iot-manager/integrations/{id}:
     delete:
       operationId: IoTManager Management Remove integration
@@ -91,13 +91,13 @@ paths:
         204:
           description: Integration unregistered successfully.
         400:
-          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
         401:
-          $ref: ./common/responses.yaml#/components/responses/UnauthorizedError
+          $ref: ../common/responses.yaml#/components/responses/UnauthorizedError
         403:
-          $ref: ./common/responses.yaml#/components/responses/ForbiddenError
+          $ref: ../common/responses.yaml#/components/responses/ForbiddenError
         500:
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/management/v1/iot-manager/integrations/{id}/credentials:
     put:
       operationId: IoTManager Management Set integration credentials
@@ -121,15 +121,15 @@ paths:
         204:
           description: Credentials updated successfully.
         400:
-          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
         401:
-          $ref: ./common/responses.yaml#/components/responses/UnauthorizedError
+          $ref: ../common/responses.yaml#/components/responses/UnauthorizedError
         403:
-          $ref: ./common/responses.yaml#/components/responses/ForbiddenError
+          $ref: ../common/responses.yaml#/components/responses/ForbiddenError
         404:
-          $ref: ./common/responses.yaml#/components/responses/NotFound
+          $ref: ../common/responses.yaml#/components/responses/NotFound
         500:
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/management/v1/iot-manager/devices/{deviceId}:
     delete:
       operationId: IoTManager Management Unregister device integrations
@@ -153,13 +153,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/DeviceState'
         401:
-          $ref: ./common/responses.yaml#/components/responses/UnauthorizedError
+          $ref: ../common/responses.yaml#/components/responses/UnauthorizedError
         403:
-          $ref: ./common/responses.yaml#/components/responses/ForbiddenError
+          $ref: ../common/responses.yaml#/components/responses/ForbiddenError
         404:
-          $ref: ./common/responses.yaml#/components/responses/NotFound
+          $ref: ../common/responses.yaml#/components/responses/NotFound
         500:
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/management/v1/iot-manager/devices/{deviceId}/state:
     get:
       operationId: IoTManager Management Get Device States
@@ -185,13 +185,13 @@ paths:
                 additionalProperties:
                   $ref: '#/components/schemas/DeviceState'
         401:
-          $ref: ./common/responses.yaml#/components/responses/UnauthorizedError
+          $ref: ../common/responses.yaml#/components/responses/UnauthorizedError
         404:
-          $ref: ./common/responses.yaml#/components/responses/NotFound
+          $ref: ../common/responses.yaml#/components/responses/NotFound
         403:
-          $ref: ./common/responses.yaml#/components/responses/ForbiddenError
+          $ref: ../common/responses.yaml#/components/responses/ForbiddenError
         500:
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/management/v1/iot-manager/devices/{deviceId}/state/{integrationId}:
     put:
       operationId: IoTManager Management Replace State
@@ -225,15 +225,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/DeviceState'
         400:
-          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
         401:
-          $ref: ./common/responses.yaml#/components/responses/UnauthorizedError
+          $ref: ../common/responses.yaml#/components/responses/UnauthorizedError
         403:
-          $ref: ./common/responses.yaml#/components/responses/ForbiddenError
+          $ref: ../common/responses.yaml#/components/responses/ForbiddenError
         409:
-          $ref: ./common/responses.yaml#/components/responses/ConflictError
+          $ref: ../common/responses.yaml#/components/responses/ConflictError
         500:
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
     get:
       operationId: IoTManager Management Get Device State
       summary: Gets the desired and reported state of a device from an integration
@@ -260,13 +260,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/DeviceState'
         401:
-          $ref: ./common/responses.yaml#/components/responses/UnauthorizedError
+          $ref: ../common/responses.yaml#/components/responses/UnauthorizedError
         404:
-          $ref: ./common/responses.yaml#/components/responses/NotFound
+          $ref: ../common/responses.yaml#/components/responses/NotFound
         403:
-          $ref: ./common/responses.yaml#/components/responses/ForbiddenError
+          $ref: ../common/responses.yaml#/components/responses/ForbiddenError
         500:
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/management/v1/iot-manager/events:
     get:
       operationId: IoTManager Management List events
@@ -305,17 +305,17 @@ paths:
                 items:
                   $ref: '#/components/schemas/Event'
         400:
-          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
         401:
-          $ref: ./common/responses.yaml#/components/responses/UnauthorizedError
+          $ref: ../common/responses.yaml#/components/responses/UnauthorizedError
         403:
-          $ref: ./common/responses.yaml#/components/responses/ForbiddenError
+          $ref: ../common/responses.yaml#/components/responses/ForbiddenError
         500:
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
 components:
   securitySchemes:
     ManagementJWT:
-      $ref: ./common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT
+      $ref: ../common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT
   schemas:
     Integration:
       type: object
@@ -487,7 +487,7 @@ components:
         auth_sets:
           type: array
           items:
-            $ref: ./common/schemas.yaml#/components/schemas/AuthSet
+            $ref: ../common/schemas.yaml#/components/schemas/AuthSet
         created_ts:
           type: string
           format: date-time

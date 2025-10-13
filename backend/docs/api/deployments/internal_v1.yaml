@@ -18,7 +18,7 @@ paths:
 
             '
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
         '503':
           content:
             application/json:
@@ -26,7 +26,7 @@ paths:
                 error: 'error reaching MongoDB: context deadline exceeded'
                 request_id: ffd712be-d697-4cb7-814b-88ff1e2eb5f6
               schema:
-                $ref: ./common/schemas.yaml#/components/schemas/Error
+                $ref: ../common/schemas.yaml#/components/schemas/Error
           description: 'Service unhealthy / not ready to accept traffic. At least
             one dependency is not running.
 
@@ -42,7 +42,7 @@ paths:
           content: {}
           description: Service is up and running.
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
       summary: 'Trivial endpoint that unconditionally returns an empty 204 response
         whenever the API handler is running correctly.
 
@@ -70,7 +70,7 @@ paths:
                 $ref: '#/components/schemas/StorageSettings'
           description: Successful response with all available settings.
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
       summary: Get storage setting for a given tenant
       tags:
       - Internal API
@@ -98,9 +98,9 @@ paths:
           content: {}
           description: Settings updated.
         '400':
-          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
       summary: Set storage settings for a given tenant
       tags:
       - Internal API
@@ -127,7 +127,7 @@ paths:
                 $ref: '#/components/schemas/StorageUsage'
           description: Successful response.
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
       summary: Get storage limit and current storage usage for given tenant
       tags:
       - Internal API
@@ -149,16 +149,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ./common/schemas.yaml#/components/schemas/StorageLimit
+              $ref: ../common/schemas.yaml#/components/schemas/StorageLimit
         required: true
       responses:
         '204':
           content: {}
           description: Limit information updated.
         '400':
-          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
       summary: Set storage limit for given tenant
       tags:
       - Internal API
@@ -173,7 +173,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ./common/schemas.yaml#/components/schemas/NewTenant
+              $ref: ../common/schemas.yaml#/components/schemas/NewTenant
         description: New tenant descriptor.
         required: true
       responses:
@@ -181,9 +181,9 @@ paths:
           content: {}
           description: Tenant was successfully provisioned.
         '400':
-          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
       summary: Provision a new tenant
       tags:
       - Internal API
@@ -259,7 +259,7 @@ paths:
               schema:
                 type: integer
         '400':
-          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
       summary: Get all deployments for specific tenant
       tags:
       - Internal API
@@ -296,9 +296,9 @@ paths:
                 type: array
           description: OK
         '400':
-          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
       summary: Return the Deployments history entries for the specified IDs
       tags:
       - Internal API
@@ -325,7 +325,7 @@ paths:
           content: {}
           description: Device was removed
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
       summary: Remove device from all deployments
       tags:
       - Internal API
@@ -393,7 +393,7 @@ paths:
                 type: array
           description: OK
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
       summary: Return the Deployments history for a Device
       tags:
       - Internal API
@@ -429,9 +429,9 @@ paths:
               schema:
                 type: string
         '400':
-          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
       summary: Upload mender artifact
       tags:
       - Internal API
@@ -481,11 +481,11 @@ paths:
               schema:
                 type: string
         '400':
-          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
         '409':
-          $ref: ./common/responses.yaml#/components/responses/ConflictError
+          $ref: ../common/responses.yaml#/components/responses/ConflictError
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
       summary: Create a configuration deployment
       tags:
       - Internal API
@@ -516,9 +516,9 @@ paths:
                 $ref: '#/components/schemas/LastDeviceDeploymentsStatuses'
           description: List of device deployment statuses returned.
         '400':
-          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
       summary: Get status of the last device devployment
       tags:
       - Internal API
@@ -738,7 +738,7 @@ components:
         deployment:
           $ref: '#/components/schemas/DeploymentV1Internal'
         device:
-          $ref: ./common/schemas.yaml#/components/schemas/DeviceWithImage
+          $ref: ../common/schemas.yaml#/components/schemas/DeviceWithImage
       required:
       - deployment
       - device

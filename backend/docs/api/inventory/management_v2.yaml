@@ -40,7 +40,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/FilterAttribute'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
   /api/management/v2/inventory/filters/search:
@@ -76,12 +76,12 @@ paths:
                   type: array
                   description: List of filter predicates.
                   items:
-                    $ref: './common/schemas.yaml#/components/schemas/FilterPredicate'
+                    $ref: '../common/schemas.yaml#/components/schemas/FilterPredicate'
                 sort:
                   type: array
                   description: List of ordered sort criterias
                   items:
-                    $ref: './common/schemas.yaml#/components/schemas/SortCriteria'
+                    $ref: '../common/schemas.yaml#/components/schemas/SortCriteria'
                 attributes:
                   type: array
                   description: List of attributes to select and return
@@ -128,15 +128,15 @@ paths:
                   description: MAC address
                 updated_ts: 2016-10-04T18:24:21.432Z
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
 components:
   securitySchemes:
     ManagementJWT:
-      $ref: './common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'
+      $ref: '../common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'
   schemas:
     DeviceInventory:
       type: object
@@ -151,7 +151,7 @@ components:
           type: array
           description: A list of attribute descriptors.
           items:
-            $ref: './common/schemas.yaml#/components/schemas/AttributeV2'
+            $ref: '../common/schemas.yaml#/components/schemas/AttributeV2'
       example:
         id: 291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
         attributes:

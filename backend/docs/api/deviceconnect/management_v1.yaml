@@ -38,11 +38,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/ConnectionState'
         400:
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         500:
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
   /api/management/v1/deviceconnect/devices/{id}/check-update:
     post:
       tags:
@@ -61,13 +61,13 @@ paths:
         202:
           description: Accepted
         400:
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         404:
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "409":
-          $ref: './common/responses.yaml#/components/responses/ConflictError'
+          $ref: '../common/responses.yaml#/components/responses/ConflictError'
         500:
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
 
   /api/management/v1/deviceconnect/devices/{id}/connect:
     get:
@@ -116,11 +116,11 @@ paths:
           description: |
             Successful response - change to websocket protocol.
         400:
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         404:
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         500:
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
 
   /api/management/v1/deviceconnect/devices/{id}/download:
     get:
@@ -172,13 +172,13 @@ paths:
                 type: string
                 format: binary
         400:
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         404:
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "409":
-          $ref: './common/responses.yaml#/components/responses/ConflictError'
+          $ref: '../common/responses.yaml#/components/responses/ConflictError'
         500:
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
 
   /api/management/v1/deviceconnect/devices/{id}/send-inventory:
     post:
@@ -198,13 +198,13 @@ paths:
         202:
           description: Accepted
         400:
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         404:
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "409":
-          $ref: './common/responses.yaml#/components/responses/ConflictError'
+          $ref: '../common/responses.yaml#/components/responses/ConflictError'
         500:
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
 
 
   /api/management/v1/deviceconnect/sessions/{session_id}/playback:
@@ -259,11 +259,11 @@ paths:
           description: |
             Successful response - change to websocket protocol.
         400:
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         500:
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
 
   /api/management/v1/deviceconnect/devices/{id}/upload:
     put:
@@ -288,18 +288,18 @@ paths:
         201:
           description: The file was successfully uploaded
         400:
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         404:
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "409":
-          $ref: './common/responses.yaml#/components/responses/ConflictError'
+          $ref: '../common/responses.yaml#/components/responses/ConflictError'
         500:
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
 
 components:
   securitySchemes:
     ManagementJWT:
-      $ref: './common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'
+      $ref: '../common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'
 
   schemas:
     ConnectionState:

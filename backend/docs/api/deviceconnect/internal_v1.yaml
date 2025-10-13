@@ -20,9 +20,9 @@ paths:
         204:
           description: Service is healthy.
         '400':
-          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/deviceconnect/alive:
     get:
       tags:
@@ -33,7 +33,7 @@ paths:
         204:
           description: Service is up and serving requests.
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/deviceconnect/shutdown:
     get:
       tags:
@@ -44,7 +44,7 @@ paths:
         202:
           description: The service started the graceful shutdown procedure.
         '500':
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/deviceconnect/tenants/{tenantId}:
     delete:
       operationId: Delete Tenant
@@ -62,7 +62,7 @@ paths:
         204:
           description: All the tenant data have been successfully deleted.
         500:
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/deviceconnect/tenants/{tenantId}/devices:
     post:
       tags:
@@ -80,14 +80,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: './common/schemas.yaml#/components/schemas/ProvisionDevice'
+              $ref: '../common/schemas.yaml#/components/schemas/ProvisionDevice'
       responses:
         201:
           description: Device was provisioned successfully.
         400:
-          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
         500:
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/deviceconnect/tenants/{tenantId}/devices/{deviceId}:
     delete:
       tags:
@@ -111,7 +111,7 @@ paths:
         202:
           description: Device was deleted successfully
         500:
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/deviceconnect/tenants/{tenantId}/devices/{deviceId}/check-update:
     post:
       tags:
@@ -135,13 +135,13 @@ paths:
         202:
           description: Accepted
         400:
-          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
         '404':
-          $ref: ./common/responses.yaml#/components/responses/NotFound
+          $ref: ../common/responses.yaml#/components/responses/NotFound
         '409':
-          $ref: ./common/responses.yaml#/components/responses/ConflictError
+          $ref: ../common/responses.yaml#/components/responses/ConflictError
         500:
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
   /api/internal/v1/deviceconnect/tenants/{tenantId}/devices/{deviceId}/send-inventory:
     post:
       tags:
@@ -165,10 +165,10 @@ paths:
         202:
           description: Accepted
         400:
-          $ref: ./common/responses.yaml#/components/responses/InvalidRequestError
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
         '404':
-          $ref: ./common/responses.yaml#/components/responses/NotFound
+          $ref: ../common/responses.yaml#/components/responses/NotFound
         '409':
-          $ref: ./common/responses.yaml#/components/responses/ConflictError
+          $ref: ../common/responses.yaml#/components/responses/ConflictError
         500:
-          $ref: ./common/responses.yaml#/components/responses/InternalServerError
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError

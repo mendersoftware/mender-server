@@ -75,12 +75,12 @@ paths:
                   - websocket
 
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
 
 
 components:
   securitySchemes:
     DeviceJWT:
-      $ref: './common/securitySchemes.yaml#/components/securitySchemes/DeviceJWT'
+      $ref: '../common/securitySchemes.yaml#/components/securitySchemes/DeviceJWT'
