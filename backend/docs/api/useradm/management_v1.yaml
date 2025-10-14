@@ -1,23 +1,18 @@
 openapi: 3.0.1
 info:
-  title: User administration and authentication
+  title: User Administration
   description: |
     An API for user administration and user authentication handling. Intended for use by the web GUI.
     All responses from the API will contain 'X-MEN-RequestID' header with server-side generated request ID.
   version: "1"
-servers:
-- url: https://hosted.mender.io
-  description: Management server
-- url: http://mender-useradm:8080
-  description: Internal server
 tags:
-  - name: Useradm Internal API
-  - name: Useradm Management API v1
+  - name: Management API
+
 paths:
   /api/management/v1/useradm/auth/login:
     post:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Log in to Mender
       description: |
         Accepts user credentials via standard Basic Auth, and returns a
@@ -54,34 +49,34 @@ paths:
           content:
             application/jwt:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
         "401":
           description: Unauthorized.
           content:
             application/jwt:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
         "500":
           description: Internal server error.
           content:
             application/jwt:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
       security:
       - Login: []
   /api/management/v1/useradm/auth/logout:
     post:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Log out from Mender
       description: |
         Invalidates the JWT token of the current user.
@@ -92,17 +87,17 @@ paths:
             Request has been accepted and the JWT token has been invalidated.
           content: {}
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
   /api/management/v1/useradm/users:
     get:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: |
         List all users registered under the tenant owning the JWT.
       operationId: List Users Management
@@ -154,14 +149,14 @@ paths:
                 items:
                   $ref: '#/components/schemas/User'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
     post:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: |
         Create a new user under the tenant owning the JWT.
       operationId: Create User Management
@@ -182,24 +177,24 @@ paths:
                 type: string
           content: {}
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "422":
           description: |
             The email address is duplicated, password is too short or current password doesn't match.
           content:
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
   /api/management/v1/useradm/users/{id}:
     get:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Get user information
       operationId: Show User
       parameters:
@@ -217,16 +212,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
     put:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Update user information
       operationId: Update User
       parameters:
@@ -248,11 +243,11 @@ paths:
           description: User information updated.
           content: {}
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "422":
           description: |
             The email address is duplicated, the password is too short
@@ -260,14 +255,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
     delete:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Remove user from the system
       operationId: Remove User
       parameters:
@@ -282,15 +277,15 @@ paths:
           description: User removed.
           content: {}
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
   /api/management/v1/useradm/users/me:
     get:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Get user information
       operationId: Show Own User Data
       responses:
@@ -301,16 +296,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
     put:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Update own user information
       operationId: Update Own User Data
       requestBody:
@@ -325,26 +320,26 @@ paths:
           description: User information updated.
           content: {}
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "422":
           description: |
             The email address is duplicated or the password is too short.
           content:
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
   /api/management/v1/useradm/settings:
     get:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Get global user settings
       operationId: Show User Settings
       responses:
@@ -361,14 +356,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/Settings'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
     post:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Set global user settings
       description: |
         Create global user settings or replace existing settings with provided object.
@@ -392,20 +387,20 @@ paths:
           description: User settings set.
           content: {}
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "412":
           description: ETag doesn't match.
           content: {}
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
   /api/management/v1/useradm/settings/me:
     get:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Get user settings for the current user
       operationId: Show My User Settings
       responses:
@@ -422,14 +417,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/Settings'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
     post:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Set user settings for the current user
       description: |
         Create current user settings or replace existing settings with provided object.
@@ -453,20 +448,20 @@ paths:
           description: User settings set.
           content: {}
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "412":
           description: ETag doesn't match.
           content: {}
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
   /api/management/v1/useradm/settings/tokens:
     get:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Get user Personal Access Tokens
       operationId: List User Personal Access Tokens
       responses:
@@ -480,14 +475,14 @@ paths:
                 items:
                   $ref: '#/components/schemas/PersonalAccessToken'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
     post:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Create new Personal Access Token
       description: |
         Create new Personal Access Token with given name and expiration.
@@ -513,31 +508,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "409":
           description: |
             Personal Access Token with the same name already exists.
           content:
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
         "422":
           description: |
             Maximum number of Personal Acess Tokens reached for this user.
           content:
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
   /api/management/v1/useradm/settings/tokens/{id}:
     delete:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Revoke Personal Access Token
       operationId: Revoke Personal Access Token
       parameters:
@@ -552,15 +547,15 @@ paths:
           description: Token removed.
           content: {}
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
   /api/management/v1/useradm/plans:
     get:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Get list of available plans
       operationId: List Plans
       parameters:
@@ -589,15 +584,15 @@ paths:
                 items:
                   $ref: '#/components/schemas/Plan'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
   /api/management/v1/useradm/plan_binding:
     get:
       tags:
-      - Useradm Management API v1
+      - Management API
       summary: Get plan and limits information for current tenant
       operationId: Show Plan And Limits
       responses:
@@ -608,284 +603,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/PlanBindingDetails'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
-  /api/internal/v1/useradm/health:
-    get:
-      tags:
-      - Useradm Internal API
-      summary: Check the health of the service
-      operationId: Useradm Check Health
-      responses:
-        "204":
-          description: |
-            Service is healthy and all dependencies are up and running.
-          content: {}
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-        "503":
-          description: |
-            Service unhealthy / not ready to accept traffic. At least one dependency is not running.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-              example:
-                error: "error reaching MongoDB: context deadline exceeded"
-                request_id: ffd712be-d697-4cb7-814b-88ff1e2eb5f6
-  /api/internal/v1/useradm/alive:
-    get:
-      tags:
-      - Useradm Internal API
-      summary: |
-        Trivial endpoint that unconditionally returns an empty 200 response whenever the API handler is running correctly.
-      operationId: Useradm Check Liveliness
-      responses:
-        "204":
-          description: Service is up and running.
-          content: {}
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-  /api/internal/v1/useradm/auth/verify:
-    post:
-      tags:
-      - Useradm Internal API
-      summary: Check the validity of a token
-      description: |
-        Besides the basic validity check, checks the token expiration time and user-initiated token revocation.
-        Services which intend to use it should be correctly set up in the gateway's configuration.
-      operationId: Verify JWT
-      parameters:
-      - name: Authorization
-        in: header
-        description: The token in base64-encoded form.
-        required: true
-        schema:
-          type: string
-          format: "Bearer [token]"
-      - name: X-Forwarded-Uri
-        in: header
-        description: |
-          URI the original request was sent to, the URI is expected to have
-          at least 4 components, eg. /api/management/1.0/foo/bar
-        required: true
-        schema:
-          type: string
-          format: HTTP path
-      - name: X-Forwarded-Method
-        in: header
-        description: HTTP method used when accessing the original URI
-        required: true
-        schema:
-          type: string
-          enum:
-          - GET
-          - PUT
-          - POST
-          - DELETE
-      responses:
-        "200":
-          description: The token is valid.
-          content: {}
-        "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
-        "401":
-          description: "Verification failed, authentication should not be granted."
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-        "403":
-          description: Token has expired - apply for a new one.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-  /api/internal/v1/useradm/tenants:
-    post:
-      tags:
-      - Useradm Internal API
-      summary: Create a tenant with provided configuration.
-      operationId: Useradm Create Tenant
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TenantNew'
-        required: true
-      responses:
-        "201":
-          description: The tenant was created successfully.
-          content: {}
-        "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-  /api/internal/v1/useradm/tenants/{tenant_id}/users:
-    get:
-      tags:
-      - Useradm Internal API
-      summary: |
-        List all users registered under the tenant owning the JWT.
-      operationId: List Users Internal
-      parameters:
-      - name: tenant_id
-        in: path
-        description: Tenant ID.
-        required: true
-        schema:
-          type: string
-      - name: id
-        in: query
-        description: |
-          Limit result by user ID, can be repeated to include multiple users in the query.
-        schema:
-          type: string
-      - name: email
-        in: query
-        description: |
-          Limit result by user email, can be repeated to include multiple users in the query.
-        schema:
-          type: string
-      - name: created_after
-        in: query
-        description: |
-          Filter users created after timestamp (UNIX timestamp).
-        schema:
-          type: integer
-      - name: created_before
-        in: query
-        description: |
-          Filter users created before timestamp (UNIX timestamp).
-        schema:
-          type: integer
-      - name: updated_after
-        in: query
-        description: |
-          Filter users updated after timestamp (UNIX timestamp).
-        schema:
-          type: integer
-      - name: updated_before
-        in: query
-        description: |
-          Filter users updated before timestamp (UNIX timestamp).
-        schema:
-          type: integer
-      responses:
-        "200":
-          description: Successful response.
-          content:
-            application/json:
-              schema:
-                title: ListOfUsers
-                type: array
-                items:
-                  $ref: '#/components/schemas/User'
-        "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-    post:
-      tags:
-      - Useradm Internal API
-      summary: Create user
-      operationId: Create User Internal
-      parameters:
-      - name: tenant_id
-        in: path
-        description: Tenant ID.
-        required: true
-        schema:
-          type: string
-      requestBody:
-        description: New user data.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserNewInternal'
-        required: true
-      responses:
-        "201":
-          description: The user was successfully created.
-          content: {}
-        "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
-        "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
-        "422":
-          description: |
-            User name or ID is duplicated.
-          content:
-            application/json:
-              schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-  /api/internal/v1/useradm/tenants/{tenant_id}/users/{user_id}:
-    delete:
-      tags:
-      - Useradm Internal API
-      summary: Delete a user
-      description: |
-        Remove a user from the tenant.
-      operationId: Delete User Internal
-      parameters:
-      - name: tenant_id
-        in: path
-        description: Tenant ID.
-        required: true
-        schema:
-          type: string
-      - name: user_id
-        in: path
-        description: User ID.
-        required: true
-        schema:
-          type: string
-      responses:
-        "204":
-          description: User deleted.
-          content: {}
-        "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-  /api/internal/v1/useradm/tokens:
-    delete:
-      tags:
-      - Useradm Internal API
-      summary: Delete all user tokens
-      description: |
-        This endpoint is designed to be used for tenant account suspension purpose.
-        When only tenant_id parameter is set, tokens for all tenant users will be removed.
-        It is also possible to remove tokens for user with given user_id by setting
-        optional user_id parameter.
-      operationId: Revoke User Tokens
-      parameters:
-      - name: tenant_id
-        in: query
-        description: Tenant ID.
-        required: true
-        schema:
-          type: string
-      - name: user_id
-        in: query
-        description: User ID.
-        schema:
-          type: string
-      responses:
-        "204":
-          description: Tokens deleted.
-          content: {}
-        "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+
 components:
   schemas:
     LoginOptions:
@@ -909,27 +632,6 @@ components:
         password:
           type: string
           description: Password.
-      description: New user descriptor.
-      example:
-        email: user@acme.com
-        password: mypass1234
-    UserNewInternal:
-      required:
-      - email
-      - password
-      type: object
-      properties:
-        email:
-          type: string
-          description: A unique email address. Non-ascii characters are invalid.
-        password:
-          type: string
-          description: Password.
-        propagate:
-          type: boolean
-          description: |
-            This paramter is deprecated _since Thu Jul 6 2023_, the propagation
-            of user information to tenantadm is disabled permanently.
       description: New user descriptor.
       example:
         email: user@acme.com
@@ -1130,18 +832,9 @@ components:
           devices: 10
           users: 2
           audit_logs_days: 2
-    TenantNew:
-      type: object
-      properties:
-        tenant_id:
-          type: string
-          description: ID of given tenant.
-      description: Tenant configuration.
-      example:
-        tenant_id: "1234"
   securitySchemes:
     Login:
       type: http
       scheme: basic
     ManagementJWT:
-      $ref: './common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'
+      $ref: '../common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'

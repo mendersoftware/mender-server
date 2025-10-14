@@ -1,0 +1,496 @@
+openapi: 3.0.3
+info:
+  title: IoT Manager
+  description: 'API for managing IoT Cloud integrations.
+    Intended for use by the web GUI'
+  version: '1'
+security:
+- ManagementJWT: []
+tags:
+  - name: Management API
+paths:
+  /api/management/v1/iot-manager/integrations:
+    get:
+      operationId: IoTManager Management List integrations
+      summary: List all configured integrations
+      tags:
+      - Management API
+      parameters:
+      - name: page
+        in: query
+        description: Page number.
+        required: false
+        schema:
+          type: integer
+          default: 1
+      - name: per_page
+        in: query
+        description: Number of results per page.
+        required: false
+        schema:
+          type: integer
+          default: 20
+      responses:
+        200:
+          description: OK. Returns list of integrations.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Integration'
+        400:
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
+        401:
+          $ref: ../common/responses.yaml#/components/responses/UnauthorizedError
+        403:
+          $ref: ../common/responses.yaml#/components/responses/ForbiddenError
+        500:
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
+    post:
+      operationId: IoTManager Management Register integration
+      summary: Register a new cloud integration
+      tags:
+      - Management API
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Integration'
+        required: true
+      responses:
+        201:
+          description: Integration registered.
+          headers:
+            Location:
+              description: URL of the newly registered integration.
+              schema:
+                type: string
+        400:
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
+        401:
+          $ref: ../common/responses.yaml#/components/responses/UnauthorizedError
+        403:
+          $ref: ../common/responses.yaml#/components/responses/ForbiddenError
+        500:
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
+  /api/management/v1/iot-manager/integrations/{id}:
+    delete:
+      operationId: IoTManager Management Remove integration
+      summary: Remove a cloud integration
+      tags:
+      - Management API
+      parameters:
+      - name: id
+        in: path
+        description: Integration identifier.
+        required: true
+        schema:
+          type: string
+      responses:
+        204:
+          description: Integration unregistered successfully.
+        400:
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
+        401:
+          $ref: ../common/responses.yaml#/components/responses/UnauthorizedError
+        403:
+          $ref: ../common/responses.yaml#/components/responses/ForbiddenError
+        500:
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
+  /api/management/v1/iot-manager/integrations/{id}/credentials:
+    put:
+      operationId: IoTManager Management Set integration credentials
+      summary: Replace the credentials associated with the integration.
+      tags:
+      - Management API
+      parameters:
+      - name: id
+        in: path
+        description: Integration identifier.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Credentials'
+        required: true
+      responses:
+        204:
+          description: Credentials updated successfully.
+        400:
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
+        401:
+          $ref: ../common/responses.yaml#/components/responses/UnauthorizedError
+        403:
+          $ref: ../common/responses.yaml#/components/responses/ForbiddenError
+        404:
+          $ref: ../common/responses.yaml#/components/responses/NotFound
+        500:
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
+  /api/management/v1/iot-manager/devices/{deviceId}:
+    delete:
+      operationId: IoTManager Management Unregister device integrations
+      summary: Removes all associated cloud integrations for the device.
+      description: Removes all associated cloud integrations for the device, but does
+        not clean up any external state.
+      tags:
+      - Management API
+      parameters:
+      - name: deviceId
+        in: path
+        schema:
+          type: string
+        required: true
+        description: The unique ID of the device.
+      responses:
+        204:
+          description: OK. Device successfully unregistered.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceState'
+        401:
+          $ref: ../common/responses.yaml#/components/responses/UnauthorizedError
+        403:
+          $ref: ../common/responses.yaml#/components/responses/ForbiddenError
+        404:
+          $ref: ../common/responses.yaml#/components/responses/NotFound
+        500:
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
+  /api/management/v1/iot-manager/devices/{deviceId}/state:
+    get:
+      operationId: IoTManager Management Get Device States
+      summary: Gets the desired and reported state of a device
+      tags:
+      - Management API
+      parameters:
+      - name: deviceId
+        in: path
+        schema:
+          type: string
+        required: true
+        description: The unique ID of the device.
+      responses:
+        200:
+          description: OK. Returns device reported and desired states for all integrations.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Mapping from integration ID to DeviceState objects for
+                  all applicable integrations.
+                additionalProperties:
+                  $ref: '#/components/schemas/DeviceState'
+        401:
+          $ref: ../common/responses.yaml#/components/responses/UnauthorizedError
+        404:
+          $ref: ../common/responses.yaml#/components/responses/NotFound
+        403:
+          $ref: ../common/responses.yaml#/components/responses/ForbiddenError
+        500:
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
+  /api/management/v1/iot-manager/devices/{deviceId}/state/{integrationId}:
+    put:
+      operationId: IoTManager Management Replace State
+      summary: Replaces the (desired) cloud state of the device for the given integration
+      tags:
+      - Management API
+      parameters:
+      - name: deviceId
+        in: path
+        schema:
+          type: string
+        required: true
+        description: The unique ID of the device.
+      - name: integrationId
+        in: path
+        schema:
+          type: string
+        required: true
+        description: The unique ID of the integration.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceState'
+        required: true
+      responses:
+        200:
+          description: OK. Returns the updated device state.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceState'
+        400:
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
+        401:
+          $ref: ../common/responses.yaml#/components/responses/UnauthorizedError
+        403:
+          $ref: ../common/responses.yaml#/components/responses/ForbiddenError
+        409:
+          $ref: ../common/responses.yaml#/components/responses/ConflictError
+        500:
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
+    get:
+      operationId: IoTManager Management Get Device State
+      summary: Gets the desired and reported state of a device from an integration
+      tags:
+      - Management API
+      parameters:
+      - name: deviceId
+        in: path
+        schema:
+          type: string
+        required: true
+        description: The unique ID of the device.
+      - name: integrationId
+        in: path
+        schema:
+          type: string
+        required: true
+        description: The unique ID of the integration.
+      responses:
+        200:
+          description: OK. Returns device reported and desired state for the integration.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceState'
+        401:
+          $ref: ../common/responses.yaml#/components/responses/UnauthorizedError
+        404:
+          $ref: ../common/responses.yaml#/components/responses/NotFound
+        403:
+          $ref: ../common/responses.yaml#/components/responses/ForbiddenError
+        500:
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
+  /api/management/v1/iot-manager/events:
+    get:
+      operationId: IoTManager Management List events
+      summary: List all stored events
+      tags:
+      - Management API
+      parameters:
+      - name: page
+        in: query
+        description: Page number.
+        required: false
+        schema:
+          type: integer
+          default: 1
+      - name: per_page
+        in: query
+        description: Number of results per page.
+        required: false
+        schema:
+          type: integer
+          default: 20
+      - name: integration_id
+        in: query
+        schema:
+          type: string
+          format: uuid
+        required: false
+        description: The unique ID of the integration to get the events from.
+      responses:
+        200:
+          description: OK. Returns list of events.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+        400:
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
+        401:
+          $ref: ../common/responses.yaml#/components/responses/UnauthorizedError
+        403:
+          $ref: ../common/responses.yaml#/components/responses/ForbiddenError
+        500:
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
+components:
+  securitySchemes:
+    ManagementJWT:
+      $ref: ../common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT
+  schemas:
+    Integration:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: A unique integration identifier generated by the mender server
+        provider:
+          type: string
+          enum:
+          - iot-hub
+          - iot-core
+          - webhook
+        credentials:
+          $ref: '#/components/schemas/Credentials'
+        description:
+          type: string
+          description: 'A short human readable description (max 1024 characters).'
+      required:
+      - provider
+      - credentials
+    Credentials:
+      allOf:
+      - type: object
+        properties:
+          type:
+            description: The credential type
+            type: string
+            enum:
+            - aws
+            - sas
+            - http
+        required:
+        - type
+      - oneOf:
+        - $ref: '#/components/schemas/AWSCredentials'
+        - $ref: '#/components/schemas/AzureSharedAccessSecret'
+        - $ref: '#/components/schemas/HTTP'
+      discriminator:
+        propertyName: type
+        mapping:
+          aws: '#/components/schemas/AWSCredentials'
+          sas: '#/components/schemas/AzureSharedAccessSecret'
+          http: '#/components/schemas/HTTP'
+    AWSCredentials:
+      type: object
+      description: 'AWS credentials in the form of access key id and secret access
+        key, a region and a device policy name.'
+      properties:
+        aws:
+          type: object
+          properties:
+            access_key_id:
+              type: string
+            secret_access_key:
+              type: string
+            region:
+              type: string
+            device_policy_name:
+              type: string
+          required:
+          - access_key_id
+          - secret_access_key
+          - region
+          - device_policy_name
+      required:
+      - aws
+    AzureSharedAccessSecret:
+      type: object
+      description: 'Shared Access Secret is an authentication mechanism in the form
+        of a connection string for Azure IoT Hub.'
+      properties:
+        connection_string:
+          type: string
+      required:
+      - connection_string
+    DeviceState:
+      type: object
+      properties:
+        desired:
+          description: 'The desired state for the device, as reported by the cloud/user.'
+          additionalProperties: true
+        reported:
+          description: 'State reported by the device, this cannot be changed from
+            the cloud.'
+          additionalProperties: true
+    HTTP:
+      type: object
+      description: 'HTTP Webhook configuration.'
+      properties:
+        http:
+          type: object
+          properties:
+            url:
+              type: string
+              description: The destination URL for the webhook. The webhook will send
+                POST requests with event details to this target URL.
+            secret:
+              type: string
+              description: An optional secret used to verify the integrity of the
+                payload. The string must be in hexadecimal format.
+              pattern: '[0-9a-f]{1,64}'
+          required:
+          - url
+      required:
+      - http
+    Event:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: A unique event identifier generated by the Mender server
+        type:
+          type: string
+          enum:
+          - device-provisioned
+          - device-decommissioned
+          - device-status-changed
+          description: Type of the event
+        delivery_statuses:
+          type: array
+          items:
+            type: object
+            properties:
+              integration_id:
+                type: string
+                description: The ID of the integration the status belongs.
+              success:
+                type: boolean
+                description: Whether the event hook was executed successfully.
+              status_code:
+                type: integer
+                description: The (HTTP) status code of the hook.
+              error:
+                type: string
+                description: An error message if the hook failed.
+            required:
+            - integration_id
+            - success
+        time:
+          type: string
+          format: date-time
+          description: Creation timestamp
+        data:
+          oneOf:
+          - $ref: '#/components/schemas/DeviceAuthEvent'
+          discriminator:
+            propertyName: type
+            mapping:
+              device-provisioned: '#/components/schemas/DeviceAuthEvent'
+              device-decommissioned: '#/components/schemas/DeviceAuthEvent'
+              device-status-changed: '#/components/schemas/DeviceAuthEvent'
+    DeviceAuthEvent:
+      type: object
+      description: 'DeviceAuthEvent describes an event that relates to changes to
+        a device''s authentication data. The properties included depends on the event
+        type: device provisioning includes the entire device with the accepted authentication
+        set, status change events only includes the device id and the new status,
+        and device decommissioning will only include the device id.'
+      properties:
+        id:
+          type: string
+          description: Device unique ID.
+        status:
+          type: string
+          description: The authentication status of the device.
+        auth_sets:
+          type: array
+          items:
+            $ref: ../common/schemas.yaml#/components/schemas/AuthSet
+        created_ts:
+          type: string
+          format: date-time
+          description: The time the device was initialized in Mender.
+      required:
+      - id

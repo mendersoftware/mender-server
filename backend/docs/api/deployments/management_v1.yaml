@@ -97,11 +97,11 @@ paths:
               schema:
                 type: string
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Find all deployments
@@ -133,23 +133,23 @@ paths:
               schema:
                 type: string
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "409":
           content:
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
           description: An active deployment with the same parameters already exists.
         "422":
           content:
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
           description: Unprocessable Entity.
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Create a deployment
@@ -203,13 +203,13 @@ paths:
                 type: array
           description: OK
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
@@ -252,23 +252,23 @@ paths:
               schema:
                 type: string
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "409":
           content:
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
           description: An active deployment with the same parameters already exists.
         "422":
           content:
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
           description: Unprocessable Entity.
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Create a deployment for a group of devices
@@ -294,11 +294,11 @@ paths:
                 $ref: '#/components/schemas/DeploymentV1'
           description: Successful response.
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Get the details of a selected deployment
@@ -334,19 +334,19 @@ paths:
           content: {}
           description: Status updated successfully.
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "422":
           content:
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
           description: Unprocessable Entity.
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Abort the deployment
@@ -383,11 +383,11 @@ paths:
                 $ref: '#/components/schemas/StatisticsV1'
           description: OK
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
@@ -411,15 +411,15 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: './common/schemas.yaml#/components/schemas/DeviceWithImage'
+                  $ref: '../common/schemas.yaml#/components/schemas/DeviceWithImage'
                 type: array
           description: OK
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
@@ -479,15 +479,15 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: './common/schemas.yaml#/components/schemas/DeviceWithImage'
+                  $ref: '../common/schemas.yaml#/components/schemas/DeviceWithImage'
                 type: array
           description: OK
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
@@ -523,13 +523,13 @@ paths:
                 type: array
           description: Successful response.
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Get the list of device IDs being part of the deployment.
@@ -562,11 +562,11 @@ paths:
                 type: string
           description: "Successful response, including the logs in text/plain format."
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Get the log of a selected device's deployment
@@ -589,9 +589,9 @@ paths:
           content: {}
           description: Operation completed successfully.
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Abort all the active and pending Deployments for a Device
@@ -653,9 +653,9 @@ paths:
                 type: array
           description: OK
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Return the Deployments history for a Device
@@ -680,9 +680,9 @@ paths:
           content: {}
           description: Operation completed successfully.
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Reset the Device Deployments history
@@ -817,9 +817,9 @@ paths:
                 $ref: '#/components/schemas/ReleasesV1'
           description: Successful response.
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
@@ -993,9 +993,9 @@ paths:
               schema:
                 type: string
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
@@ -1038,9 +1038,9 @@ paths:
                 type: array
           description: OK
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
@@ -1068,9 +1068,9 @@ paths:
               schema:
                 type: string
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "409":
           content:
             application/json:
@@ -1085,7 +1085,7 @@ paths:
           description: |
             An artifact with the same name and matching dependency requirements already exists.
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Upload mender artifact
@@ -1161,9 +1161,9 @@ paths:
               schema:
                 type: string
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
@@ -1181,9 +1181,9 @@ paths:
                 $ref: '#/components/schemas/ArtifactUploadLink'
           description: OK
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: "Request link for uploading artifact directly to the storage backend.\
@@ -1212,7 +1212,7 @@ paths:
           content: {}
           description: Accepted
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
           content:
             application/json:
@@ -1223,7 +1223,7 @@ paths:
                 $ref: '#/components/schemas/CompleteDirectUpload404Response'
           description: A pending direct upload with the given ID was not found.
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: "Notify the server that the direct upload is completed to make it available\
@@ -1254,11 +1254,11 @@ paths:
               schema:
                 type: string
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Upload raw data to generate a new artifact
@@ -1283,17 +1283,17 @@ paths:
           content: {}
           description: The artifact deleted successfully.
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "409":
           content:
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
           description: Artifact used by active deployment.
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Delete the artifact
@@ -1347,13 +1347,13 @@ paths:
                 $ref: '#/components/schemas/ArtifactV1'
           description: Successful response.
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Get the details of a selected artifact
@@ -1382,19 +1382,19 @@ paths:
           content: {}
           description: The artifact metadata updated successfully.
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "422":
           content:
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
           description: Unprocessable Entity.
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Update description of a selected artifact
@@ -1423,13 +1423,13 @@ paths:
                 $ref: '#/components/schemas/ArtifactLink'
           description: Successful response.
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Get the download link of a selected artifact
@@ -1446,12 +1446,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/StorageLimit'
+                $ref: '../common/schemas.yaml#/components/schemas/StorageLimit'
           description: Successful response.
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Get storage limit and current storage usage
@@ -1460,7 +1460,7 @@ paths:
 components:
   securitySchemes:
     ManagementJWT:
-      $ref: './common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'
+      $ref: '../common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'
   schemas:
     ErrorExt:
       description: Error descriptor with additional metadata.
@@ -1740,7 +1740,7 @@ components:
         deployment:
           $ref: '#/components/schemas/DeploymentV1'
         device:
-          $ref: './common/schemas.yaml#/components/schemas/DeviceWithImage'
+          $ref: '../common/schemas.yaml#/components/schemas/DeviceWithImage'
       required:
       - deployment
       - device
@@ -1771,10 +1771,10 @@ components:
           checksum: checksum
       properties:
         type_info:
-          $ref: './common/schemas.yaml#/components/schemas/ArtifactTypeInfo'
+          $ref: '../common/schemas.yaml#/components/schemas/ArtifactTypeInfo'
         files:
           items:
-            $ref: './common/schemas.yaml#/components/schemas/UpdateFile'
+            $ref: '../common/schemas.yaml#/components/schemas/UpdateFile'
           type: array
         meta_data:
           items:
@@ -1825,7 +1825,7 @@ components:
             type: string
           type: array
         info:
-          $ref: './common/schemas.yaml#/components/schemas/ArtifactInfo'
+          $ref: '../common/schemas.yaml#/components/schemas/ArtifactInfo'
         signed:
           description: Idicates if artifact is signed or not.
           type: boolean

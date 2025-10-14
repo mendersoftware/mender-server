@@ -100,11 +100,11 @@ paths:
               schema:
                 type: string
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: List all the deployments matching the specified filter parameters
@@ -129,9 +129,9 @@ paths:
           content: {}
           description: Releases deleted successfully.
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "409":
           content:
             application/json:
@@ -139,7 +139,7 @@ paths:
                 $ref: '#/components/schemas/ReleasesDeleteError'
           description: Conflict.
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: Delete the releases with given names
@@ -305,9 +305,9 @@ paths:
               schema:
                 type: string
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
@@ -334,11 +334,11 @@ paths:
                 $ref: '#/components/schemas/ReleaseV2'
           description: Successful response.
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "404":
-          $ref: './common/responses.yaml#/components/responses/NotFound'
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
@@ -367,11 +367,11 @@ paths:
           content: {}
           description: Successful response.
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
@@ -406,9 +406,9 @@ paths:
           content: {}
           description: Successful response.
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "409":
           content:
             application/json:
@@ -416,10 +416,10 @@ paths:
                 error: the total number of unique tags has been exceeded
                 request_id: f7881e82-0492-49fb-b459-795654e7188a
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
           description: Too many unique tag keys in use.
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
@@ -437,9 +437,9 @@ paths:
                 $ref: '#/components/schemas/Tags'
           description: Successful response.
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "409":
           content:
             application/json:
@@ -447,10 +447,10 @@ paths:
                 error: the total number of unique tags has been exceeded
                 request_id: f7881e82-0492-49fb-b459-795654e7188a
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
           description: Too many unique tag keys in use.
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
@@ -468,11 +468,11 @@ paths:
                 $ref: '#/components/schemas/UpdateTypes'
           description: Successful response.
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
@@ -553,9 +553,9 @@ paths:
               schema:
                 type: string
         "401":
-          $ref: './common/responses.yaml#/components/responses/UnauthorizedError'
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - ManagementJWT: []
       summary: |
@@ -565,7 +565,7 @@ paths:
 components:
   securitySchemes:
     ManagementJWT:
-      $ref: './common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'
+      $ref: '../common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'
   schemas:
     ArtifactV2:
       description: Detailed artifact.
@@ -611,7 +611,7 @@ components:
             type: string
           type: array
         info:
-          $ref: './common/schemas.yaml#/components/schemas/ArtifactInfo'
+          $ref: '../common/schemas.yaml#/components/schemas/ArtifactInfo'
         signed:
           description: Idicates if artifact is signed or not.
           type: boolean
@@ -774,10 +774,10 @@ components:
         Single updated to be applied.
       properties:
         type_info:
-          $ref: './common/schemas.yaml#/components/schemas/ArtifactTypeInfo'
+          $ref: '../common/schemas.yaml#/components/schemas/ArtifactTypeInfo'
         files:
           items:
-            $ref: './common/schemas.yaml#/components/schemas/UpdateFile'
+            $ref: '../common/schemas.yaml#/components/schemas/UpdateFile'
           type: array
         meta_data:
           description: |

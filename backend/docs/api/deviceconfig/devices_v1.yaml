@@ -1,0 +1,64 @@
+openapi: 3.0.3
+
+info:
+  title: Device configure
+  description: |
+    Device facing API for managing persistent device connections.
+
+  version: "1"
+
+# Global security definitions
+security:
+  - DeviceJWT: []
+
+tags:
+  - name: Device API
+
+paths:
+  /api/devices/v1/deviceconfig/configuration:
+    get:
+      operationId: DeviceConfig Get Device Configuration
+      tags:
+        - Device API
+      summary: Query the configuration store; retrieve all key-value pairs
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceAPIConfiguration'
+        "400":
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
+        "404":
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
+        "500":
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+    put:
+      operationId: DeviceConfig Report Device Configuration
+      tags:
+        - Device API
+      summary: Set a key-value pair store, updating if existing, removing if empty
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceAPIConfiguration'
+      responses:
+        204:
+          description: Created
+        "400":
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
+        "500":
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+
+components:
+  securitySchemes:
+    DeviceJWT:
+      $ref: '../common/securitySchemes.yaml#/components/securitySchemes/DeviceJWT'
+
+  schemas:
+    DeviceAPIConfiguration:
+      type: object
+      additionalProperties:
+        type: string

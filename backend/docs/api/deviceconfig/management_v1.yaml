@@ -1,0 +1,156 @@
+openapi: 3.0.3
+
+info:
+  title: Device configure
+  description: |
+    API for managing device configuration.
+    Intended for use by the web GUI
+
+  version: "1"
+
+# Global security definitions
+security:
+  - ManagementJWT: []
+
+tags:
+  - name: Management API
+
+paths:
+  /api/management/v1/deviceconfig/configurations/device/{deviceId}:
+    get:
+      operationId: DeviceConfig Management Get Device Configuration
+      tags:
+        - Management API
+      summary: Get the device's configuration
+      parameters:
+        - in: path
+          name: deviceId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ID of the device to query.
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceConfiguration'
+        "400":
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
+        "404":
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
+        "500":
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+    put:
+      operationId: DeviceConfig Management Set Device Configuration
+      tags:
+        - Management API
+      summary: Set the device's configuration
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ManagementAPIConfiguration'
+      parameters:
+        - in: path
+          name: deviceId
+          schema:
+            type: string
+          required: true
+          description: ID of the device to query.
+      responses:
+        204:
+          description: Success
+        "400":
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
+        "500":
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+
+  /api/management/v1/deviceconfig/configurations/device/{deviceId}/deploy:
+    post:
+      operationId: DeviceConfig Management Deploy Device Configuration
+      tags:
+        - Management API
+      summary: Deploy the device's configuration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewConfigurationDeployment'
+      parameters:
+        - in: path
+          name: deviceId
+          schema:
+            type: string
+          required: true
+          description: ID of the device.
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewConfigurationDeploymentResponse'
+        "400":
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
+        "404":
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
+        "500":
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+
+components:
+  securitySchemes:
+    ManagementJWT:
+      $ref: '../common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'
+
+  schemas:
+    ManagementAPIConfiguration:
+      type: object
+      additionalProperties:
+        type: string
+
+    NewConfigurationDeployment:
+      type: object
+      properties:
+        retries:
+          type: integer
+          description: The number of times a device can retry the deployment in case of failure, defaults to 0
+          default: 0
+        update_control_map:
+          x-mender-plan: ["enterprise"]
+          type: object
+          additionalProperties: true
+          description: |
+              A valid JSON object defining the update control map.
+              *NOTE*: Available only in the Enterprise plan.
+
+    NewConfigurationDeploymentResponse:
+      type: object
+      properties:
+        deployment_id:
+          type: string
+          description: Deployment ID
+
+    DeviceConfiguration:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        configured:
+          $ref: '#/components/schemas/ManagementAPIConfiguration'
+        reported:
+          $ref: '#/components/schemas/ManagementAPIConfiguration'
+        deployment_id:
+          description: ID of the latest configuration deployment
+          type: string
+          format: uuid
+        reported_ts:
+          type: string
+          format: date-time
+        updated_ts:
+          type: string
+          format: date-time

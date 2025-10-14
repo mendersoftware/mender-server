@@ -1,0 +1,348 @@
+openapi: 3.0.3
+
+info:
+  title: Device connect
+  description: |
+    API for managing persistent device connections.
+    Intended for use by the web GUI
+
+  version: "1"
+
+# Global security definitions
+security:
+  - ManagementJWT: []
+
+tags:
+  - name: Management API
+
+paths:
+  /api/management/v1/deviceconnect/devices/{id}:
+    get:
+      tags:
+        - Management API
+      operationId: DeviceConnect Management Get device
+      summary: Fetch the state of a device.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: ID of the device.
+      responses:
+        200:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectionState'
+        400:
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
+        "404":
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
+        500:
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+  /api/management/v1/deviceconnect/devices/{id}/check-update:
+    post:
+      tags:
+        - Management API
+      operationId: DeviceConnect Management Check Update
+      summary: Trigger check-update for the Mender client running on the device
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: ID of the device.
+      responses:
+        202:
+          description: Accepted
+        400:
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
+        404:
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
+        "409":
+          $ref: '../common/responses.yaml#/components/responses/ConflictError'
+        500:
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+
+  /api/management/v1/deviceconnect/devices/{id}/connect:
+    get:
+      tags:
+        - Management API
+      operationId: DeviceConnect Management Connect
+      summary: Establish permanent connection with device
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: ID of the device.
+        - in: header
+          name: Connection
+          schema:
+            type: string
+            enum:
+              - Upgrade
+          description: Standard websocket request header.
+        - in: header
+          name: Upgrade
+          schema:
+            type: string
+            format: base64
+            enum:
+              - websocket
+          description: Standard websocket request header.
+        - in: header
+          name: Sec-Websocket-Key
+          schema:
+            type: string
+            format: base64
+          description: Standard websocket request header.
+        - in: header
+          name: Sec-Websocket-Version
+          schema:
+            type: integer
+            enum:
+              - 13
+          description: Standard websocket request header.
+      responses:
+        101:
+          description: |
+            Successful response - change to websocket protocol.
+        400:
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
+        404:
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
+        500:
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+
+  /api/management/v1/deviceconnect/devices/{id}/download:
+    get:
+      tags:
+        - Management API
+      operationId: DeviceConnect Management Download
+      summary: Download a file from the device
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: ID of the device.
+        - in: query
+          name: path
+          required: true
+          schema:
+            type: string
+          description: Path of the file on the device.
+      responses:
+        200:
+          description: The content of the file will be returned in the response body
+          headers:
+            X-MEN-File-Path:
+              schema:
+                type: string
+              description: The path of the file on the device
+            X-MEN-File-UID:
+              schema:
+                type: integer
+              description: The numerical UID of the file on the device
+            X-MEN-File-GID:
+              schema:
+                type: integer
+              description: The numerical GID of the file on the device
+            X-MEN-File-Mode:
+              schema:
+                type: string
+              description: The octal representation of the mode of the file on the device
+            X-MEN-File-Size:
+              schema:
+                type: integer
+              description: The size of the file on the device
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        400:
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
+        404:
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
+        "409":
+          $ref: '../common/responses.yaml#/components/responses/ConflictError'
+        500:
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+
+  /api/management/v1/deviceconnect/devices/{id}/send-inventory:
+    post:
+      tags:
+        - Management API
+      operationId: DeviceConnect Management Send Inventory
+      summary: Trigger send-inventory for the Mender client running on the device
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: ID of the device.
+      responses:
+        202:
+          description: Accepted
+        400:
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
+        404:
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
+        "409":
+          $ref: '../common/responses.yaml#/components/responses/ConflictError'
+        500:
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+
+
+  /api/management/v1/deviceconnect/sessions/{session_id}/playback:
+    get:
+      tags:
+        - Management API
+      operationId: DeviceConnect Management Playback
+      summary: Establish a connection for playing back a session
+      parameters:
+        - in: path
+          name: session_id
+          required: true
+          schema:
+            type: string
+          description: ID for the session to play back.
+        - in: query
+          name: sleep_ms
+          required: false
+          schema:
+            type: integer
+          description: Time in millisconds to sleep between the subsequent playback data writes.
+        - in: header
+          name: Connection
+          schema:
+            type: string
+            enum:
+              - Upgrade
+          description: Standard websocket request header.
+        - in: header
+          name: Upgrade
+          schema:
+            type: string
+            format: base64
+            enum:
+              - websocket
+          description: Standard websocket request header.
+        - in: header
+          name: Sec-Websocket-Key
+          schema:
+            type: string
+            format: base64
+          description: Standard websocket request header.
+        - in: header
+          name: Sec-Websocket-Version
+          schema:
+            type: integer
+            enum:
+              - 13
+          description: Standard websocket request header.
+      responses:
+        101:
+          description: |
+            Successful response - change to websocket protocol.
+        400:
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
+        "404":
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
+        500:
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+
+  /api/management/v1/deviceconnect/devices/{id}/upload:
+    put:
+      tags:
+        - Management API
+      operationId: DeviceConnect Management Upload
+      summary: Upload a file to the device
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: ID of the device.
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FileUpload'
+      responses:
+        201:
+          description: The file was successfully uploaded
+        400:
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
+        404:
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
+        "409":
+          $ref: '../common/responses.yaml#/components/responses/ConflictError'
+        500:
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+
+components:
+  securitySchemes:
+    ManagementJWT:
+      $ref: '../common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'
+
+  schemas:
+    ConnectionState:
+      type: object
+      properties:
+        device_id:
+          type: string
+          format: uuid
+          description: Device ID.
+        status:
+          type: string
+          enum:
+            - connected
+            - disconnected
+            - unknown
+          description: Device status.
+        updated_ts:
+          description: Server-side timestamp of the last device information update.
+          format: date-time
+          type: string
+        created_ts:
+          description: Server-side timestamp of the device creation.
+          format: date-time
+          type: string
+
+
+    FileUpload:
+      type: object
+      properties:
+        path:
+          type: string
+          description: The destination path on the device
+        uid:
+          type: integer
+          description: The numerical UID of the file on the device
+        gid:
+          type: integer
+          description: The numerical GID of the file on the device
+        mode:
+          type: string
+          description: The octal representation of the mode of the file on the device
+        file:
+          type: string
+          format: binary
+      required:
+        - path

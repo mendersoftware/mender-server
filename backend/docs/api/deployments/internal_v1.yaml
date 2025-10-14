@@ -1,32 +1,36 @@
 openapi: 3.0.1
 info:
-  description: |
-    Internal API of deployments service
+  description: 'Internal API of deployments service
+
+    '
   title: Deployments Internal API
-  version: "1"
+  version: '1'
 tags:
-  - name: Internal API
+- name: Internal API
 paths:
   /api/internal/v1/deployments/health:
     get:
       operationId: Deployments Internal Check Health
       responses:
-        "204":
+        '204':
           content: {}
-          description: |
-            Service is healthy and all dependencies are up and running.
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-        "503":
+          description: 'Service is healthy and all dependencies are up and running.
+
+            '
+        '500':
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
+        '503':
           content:
             application/json:
               example:
-                error: "error reaching MongoDB: context deadline exceeded"
+                error: 'error reaching MongoDB: context deadline exceeded'
                 request_id: ffd712be-d697-4cb7-814b-88ff1e2eb5f6
               schema:
-                $ref: './common/schemas.yaml#/components/schemas/Error'
-          description: |
-            Service unhealthy / not ready to accept traffic. At least one dependency is not running.
+                $ref: ../common/schemas.yaml#/components/schemas/Error
+          description: 'Service unhealthy / not ready to accept traffic. At least
+            one dependency is not running.
+
+            '
       summary: Check the health of the service
       tags:
       - Internal API
@@ -34,19 +38,22 @@ paths:
     get:
       operationId: Deployments Internal Check Liveliness
       responses:
-        "204":
+        '204':
           content: {}
           description: Service is up and running.
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-      summary: |
-        Trivial endpoint that unconditionally returns an empty 204 response whenever the API handler is running correctly.
+        '500':
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
+      summary: 'Trivial endpoint that unconditionally returns an empty 204 response
+        whenever the API handler is running correctly.
+
+        '
       tags:
       - Internal API
   /api/internal/v1/deployments/tenants/{id}/storage/settings:
     get:
-      description: |
-        Returns an object with per tenant storage layer specific settings.
+      description: 'Returns an object with per tenant storage layer specific settings.
+
+        '
       operationId: Get Storage Settings
       parameters:
       - description: Tenant ID
@@ -56,14 +63,14 @@ paths:
         schema:
           type: string
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/StorageSettings'
           description: Successful response with all available settings.
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+        '500':
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
       summary: Get storage setting for a given tenant
       tags:
       - Internal API
@@ -82,26 +89,28 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/StorageSettings'
-        description: |-
-          Settings to set.
-          If set to null or an empty object, the tenant will use the default settings.
+        description: 'Settings to set.
+
+          If set to null or an empty object, the tenant will use the default settings.'
         required: false
       responses:
-        "204":
+        '204':
           content: {}
           description: Settings updated.
-        "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+        '400':
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
+        '500':
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
       summary: Set storage settings for a given tenant
       tags:
       - Internal API
   /api/internal/v1/deployments/tenants/{id}/limits/storage:
     get:
-      description: |
-        Get storage limit and current storage usage for given tenant.
+      description: 'Get storage limit and current storage usage for given tenant.
+
         If the limit value is 0 it means storage space is unlimited
+
+        '
       operationId: Deployments Internal Get Storage Usage
       parameters:
       - description: Tenant ID
@@ -111,21 +120,23 @@ paths:
         schema:
           type: string
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/StorageUsage'
           description: Successful response.
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+        '500':
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
       summary: Get storage limit and current storage usage for given tenant
       tags:
-        - Internal API
+      - Internal API
     put:
-      description: |
-        Set storage limit for given tenant.
+      description: 'Set storage limit for given tenant.
+
         If the limit value is 0 it means storage space is unlimited
+
+        '
       operationId: Set Storage Limit
       parameters:
       - description: Tenant ID
@@ -138,48 +149,53 @@ paths:
         content:
           application/json:
             schema:
-              $ref: './common/schemas.yaml#/components/schemas/StorageLimit'
+              $ref: ../common/schemas.yaml#/components/schemas/StorageLimit
         required: true
       responses:
-        "204":
+        '204':
           content: {}
           description: Limit information updated.
-        "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+        '400':
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
+        '500':
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
       summary: Set storage limit for given tenant
       tags:
-        - Internal API
+      - Internal API
   /api/internal/v1/deployments/tenants:
     post:
-      description: |
-        Sets up all tenant-related infrastructure, e.g. a migrated tenant's database.
+      description: 'Sets up all tenant-related infrastructure, e.g. a migrated tenant''s
+        database.
+
+        '
       operationId: Deployments Internal Create Tenant
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewTenant'
+              $ref: ../common/schemas.yaml#/components/schemas/NewTenant
         description: New tenant descriptor.
         required: true
       responses:
-        "201":
+        '201':
           content: {}
           description: Tenant was successfully provisioned.
-        "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+        '400':
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
+        '500':
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
       summary: Provision a new tenant
       tags:
-        - Internal API
+      - Internal API
   /api/internal/v1/deployments/tenants/{id}/deployments:
     get:
-      description: |
-        Returns a filtered collection of deployments in the system,
-        including active and historical. If both 'status' and 'query' are
+      description: 'Returns a filtered collection of deployments in the system,
+
+        including active and historical. If both ''status'' and ''query'' are
+
         not specified, all devices are listed.
+
+        '
       operationId: Get Deployments
       parameters:
       - description: Tenant ID
@@ -221,16 +237,16 @@ paths:
         schema:
           type: integer
       responses:
-        "200":
+        '200':
           content:
             application/json:
               example:
-              - created: 2016-02-11T13:03:17.063493443Z
+              - created: 2016-02-11 13:03:17.063493+00:00
                 status: finished
                 name: production
                 artifact_name: Application 0.0.1
                 id: 00a0c91e6-7dec-11d0-a765-f81d4faebf6
-                finished: 2016-03-11T13:03:17.063493443Z
+                finished: 2016-03-11 13:03:17.063493+00:00
                 device_count: 10
               schema:
                 items:
@@ -242,15 +258,16 @@ paths:
               description: Total number of deployments matching query.
               schema:
                 type: integer
-        "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+        '400':
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
       summary: Get all deployments for specific tenant
       tags:
-        - Internal API
+      - Internal API
   /api/internal/v1/deployments/tenants/{tenant_id}/deployments/devices:
     get:
-      description: |
-        Return the Deployments history entries for the specified IDs
+      description: 'Return the Deployments history entries for the specified IDs
+
+        '
       operationId: List Device Deployments entries
       parameters:
       - description: Tenant ID
@@ -270,7 +287,7 @@ paths:
           type: array
         style: form
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
@@ -278,10 +295,10 @@ paths:
                   $ref: '#/components/schemas/DeviceDeployment'
                 type: array
           description: OK
-        "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+        '400':
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
+        '500':
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
       summary: Return the Deployments history entries for the specified IDs
       tags:
       - Internal API
@@ -304,17 +321,19 @@ paths:
         schema:
           type: string
       responses:
-        "204":
+        '204':
           content: {}
           description: Device was removed
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+        '500':
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
       summary: Remove device from all deployments
       tags:
       - Internal API
     get:
-      description: |
-        Return the Deployments history for the specified Device, listing all its Deployments.
+      description: 'Return the Deployments history for the specified Device, listing
+        all its Deployments.
+
+        '
       operationId: Deployments Internal List Deployments for a Device
       parameters:
       - description: Tenant ID
@@ -365,7 +384,7 @@ paths:
           maximum: 20
           type: integer
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
@@ -373,19 +392,22 @@ paths:
                   $ref: '#/components/schemas/DeviceDeployment'
                 type: array
           description: OK
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+        '500':
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
       summary: Return the Deployments history for a Device
       tags:
       - Internal API
   /api/internal/v1/deployments/tenants/{id}/artifacts:
     post:
-      description: |
-        Upload mender artifact to a specific tenant. Multipart request with meta and artifact.
+      description: 'Upload mender artifact to a specific tenant. Multipart request
+        with meta and artifact.
+
         Supports artifact [versions v1, v2, v3](https://docs.mender.io/overview/artifact#versions).
+
+        '
       operationId: Upload artifact
       parameters:
-      - description: "Tenant ID, or \"default\" if running in non-multitenant setup"
+      - description: Tenant ID, or "default" if running in non-multitenant setup
         in: path
         name: id
         required: true
@@ -398,7 +420,7 @@ paths:
               $ref: '#/components/schemas/Upload_artifact_request'
         required: true
       responses:
-        "201":
+        '201':
           content: {}
           description: Artifact uploaded.
           headers:
@@ -406,19 +428,22 @@ paths:
               description: URL of the newly uploaded artifact.
               schema:
                 type: string
-        "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+        '400':
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
+        '500':
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
       summary: Upload mender artifact
       tags:
-        - Internal API
+      - Internal API
   /api/internal/v1/deployments/tenants/{tenant_id}/configuration/deployments/{deployment_id}/devices/{device_id}:
     post:
-      description: |
-        Deploy configuration to a specified device.
+      description: 'Deploy configuration to a specified device.
+
         The artifact will be auto-generated based on the configuration object
+
         provided with the deployment constructor.
+
+        '
       operationId: Deployments Internal Create Deployment
       parameters:
       - description: Tenant identifier.
@@ -443,11 +468,11 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewConfigurationDeployment'
+              $ref: '#/components/schemas/ConfigurationDeploymentRequest'
         description: New deployment that needs to be created.
         required: true
       responses:
-        "201":
+        '201':
           content: {}
           description: New configuration deployment created.
           headers:
@@ -455,19 +480,20 @@ paths:
               description: URL of the newly created deployment.
               schema:
                 type: string
-        "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
-        "409":
-          $ref: './common/responses.yaml#/components/responses/ConflictError'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+        '400':
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
+        '409':
+          $ref: ../common/responses.yaml#/components/responses/ConflictError
+        '500':
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
       summary: Create a configuration deployment
       tags:
       - Internal API
   /api/internal/v1/deployments/tenants/{tenant_id}/devices/deployments/last:
     post:
-      description: |
-        Return the status of the last unsucessful device deployment.
+      description: 'Return the status of the last unsucessful device deployment.
+
+        '
       operationId: Get last device deployment status
       parameters:
       - description: Tenant identifier.
@@ -483,30 +509,21 @@ paths:
               $ref: '#/components/schemas/LastDeviceDeploymentReq'
         required: true
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/LastDeviceDeploymentsStatuses'
           description: List of device deployment statuses returned.
-        "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+        '400':
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
+        '500':
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
       summary: Get status of the last device devployment
       tags:
       - Internal API
 components:
   schemas:
-    NewTenant:
-      description: New tenant descriptor.
-      example:
-        tenant_id: 58be8208dd77460001fe0d78
-      properties:
-        tenant_id:
-          description: New tenant's ID.
-          type: string
-      type: object
     StorageSettings:
       description: Per tenant storage settings.
       example:
@@ -528,10 +545,10 @@ components:
           - azure
           type: string
         region:
-          description: "AWS region (S3 only: required)."
+          description: 'AWS region (S3 only: required).'
           type: string
         bucket:
-          description: "S3 Bucket (Azure: container) name."
+          description: 'S3 Bucket (Azure: container) name.'
           type: string
         uri:
           description: Bucket/container endpoint URI.
@@ -540,10 +557,10 @@ components:
           description: Public Endpoint URI for presigning URLs (S3 only).
           type: string
         key:
-          description: "Access key identifier (Azure: account name)."
+          description: 'Access key identifier (Azure: account name).'
           type: string
         secret:
-          description: "Secret access key (Azure: access key)."
+          description: 'Secret access key (Azure: access key).'
           type: string
         token:
           description: AWS S3 session token (S3 only).
@@ -578,12 +595,15 @@ components:
         usage: 536870912
       properties:
         limit:
-          description: |
-            Storage limit in bytes. If set to 0 - there is no limit for storage.
+          description: 'Storage limit in bytes. If set to 0 - there is no limit for
+            storage.
+
+            '
           type: integer
         usage:
-          description: |
-            Current storage usage in bytes.
+          description: 'Current storage usage in bytes.
+
+            '
           type: integer
       required:
       - limit
@@ -591,12 +611,12 @@ components:
       type: object
     DeploymentV1Internal:
       example:
-        created: 2016-02-11T13:03:17.063493443Z
+        created: 2016-02-11 13:03:17.063493+00:00
         status: finished
         name: production
         artifact_name: Application 0.0.1
         id: 00a0c91e6-7dec-11d0-a765-f81d4faebf6
-        finished: 2016-03-11T13:03:17.063493443Z
+        finished: 2016-03-11 13:03:17.063493+00:00
       properties:
         created:
           format: date-time
@@ -635,21 +655,26 @@ components:
       - name
       - status
       type: object
-    NewConfigurationDeployment:
+    ConfigurationDeploymentRequest:
       example:
         name: config-1.1
-        configuration: "{\"foo\":\"bar\"}"
+        configuration: '{"foo":"bar"}'
       properties:
         name:
           description: Name of the deployment
           type: string
         configuration:
-          description: |
-            A string containing a configuration object.
+          description: 'A string containing a configuration object.
+
             The deployments service will use it to generate configuration
+
             artifact for the device.
+
             The artifact will be generated when the device will ask
+
             for an update.
+
+            '
           type: string
       required:
       - configuration
@@ -663,14 +688,14 @@ components:
           name: production
           artifact_name: Application 0.0.1
           status: inprogress
-          created: 2016-02-11T13:03:17.063493443Z
+          created: 2016-02-11 13:03:17.063493+00:00
           device_count: 100
         device:
           id: 00a0c91e6-7dec-11d0-a765-f81d4faebf6
           device_type: Raspberry Pi 3
           status: installing
-          finished: 2016-03-11T13:03:17.063493443Z
-          created: 2016-02-11T13:03:17.063493443Z
+          finished: 2016-03-11 13:03:17.063493+00:00
+          created: 2016-02-11 13:03:17.063493+00:00
           state: installing
           substate: installing.enter;script:foo-bar
           log: false
@@ -706,20 +731,21 @@ components:
               clears_artifact_provides:
               - rootfs-image.*
             size: 36891648
-            modified: 2016-03-11T13:03:17.063493443Z
+            modified: 2016-03-11 13:03:17.063493+00:00
       properties:
         id:
           type: string
         deployment:
           $ref: '#/components/schemas/DeploymentV1Internal'
         device:
-          $ref: './common/schemas.yaml#/components/schemas/DeviceWithImage'
+          $ref: ../common/schemas.yaml#/components/schemas/DeviceWithImage
       required:
       - deployment
       - device
       type: object
     MetadataAny:
-      description: meta_data is an object of unknown structure as this is dependent of update type (also custom defined by user)
+      description: meta_data is an object of unknown structure as this is dependent
+        of update type (also custom defined by user)
       additionalProperties:
         type: string
       type: object
@@ -774,8 +800,8 @@ components:
     Upload_artifact_request:
       properties:
         artifact_id:
-          description: "Artifact ID, optional; the server generates a randome one\
-            \ if not provided."
+          description: Artifact ID, optional; the server generates a randome one if
+            not provided.
           type: string
         size:
           description: Size of the artifact file in bytes.

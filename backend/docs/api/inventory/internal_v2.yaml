@@ -3,57 +3,28 @@ info:
   title: Device inventory filters and search
   description: |
     An API for inventory-based filters management and device search.
-    It is intended for use by the web GUI.
-
-    Devices can upload vendor-specific attributes (software/hardware info, health checks, metrics, etc.) of various data types to the backend as scoped attributes.
-
-    This API enables the user to:
-    * search devices by inventory scoped attribute value
-    * use the results to create and manage device groups for deployment scheduling
-  version: "2"
+    Not exposed via the API Gateway - intended for internal use only.
+  version: "1"
 tags:
-  - name: Management API
+  - name: Internal API
 paths:
-  /api/management/v2/inventory/filters/attributes:
-    get:
-      tags:
-      - Management API
-      summary: Get the list of filterable inventory attributes
-      description: |
-        Returns a list of filterable inventory attributes.
-
-        The list is sorted in descending order by the count of occurrences of the
-        attribute in the inventory database, then in ascending order by scope and name.
-
-        Limitations:
-         * The API considers up to a sample of 5,000 devices when aggregating the number of attributes.
-         * The API returns up to 500 unique attributes.
-      operationId: Get filterable attributes
-      responses:
-        "200":
-          description: Successful response.
-          content:
-            application/json:
-              schema:
-                title: List of filter attributes
-                type: array
-                items:
-                  $ref: '#/components/schemas/FilterAttribute'
-        "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-      security:
-      - ManagementJWT: []
-  /api/management/v2/inventory/filters/search:
+  /api/internal/v2/inventory/tenants/{tenant_id}/filters/search:
     post:
       tags:
-      - Management API
-      summary: Search devices based on inventory attributes
+      - Internal API
+      summary: Search device inventories based on attributes
       description: |
         Returns a paged collection of devices and their attributes.
 
-        If multiple filter predicates are specified, the filters are
-        combined using boolean `and` operator.
-      operationId: Inventory V2 Search Device Inventories
+        It accepts optional filters and sort parameters as body parameters.
+      operationId: Inventory Internal V2 Search Device Inventories
+      parameters:
+      - name: tenant_id
+        in: path
+        description: Tenant ID.
+        required: true
+        schema:
+          type: string
       requestBody:
         description: The search and sort parameters of the filter
         content:
@@ -67,21 +38,28 @@ paths:
                   format: integer
                 per_page:
                   type: number
-                  description: Maximum number of results per page.
+                  description: Number of results per page.
                   format: integer
+                device_ids:
+                  type: array
+                  description: List of device IDs
+                  items:
+                    type: string
+                    description: Attribute filter predicate
                 text:
                   type: string
                   description: Free-text search query
                 filters:
                   type: array
-                  description: List of filter predicates.
+                  description: "List of filter predicates, chained with boolean AND\
+                    \ operators to build the search condition definition."
                   items:
-                    $ref: './common/schemas.yaml#/components/schemas/FilterPredicate'
+                    $ref: '../common/schemas.yaml#/components/schemas/FilterPredicate'
                 sort:
                   type: array
                   description: List of ordered sort criterias
                   items:
-                    $ref: './common/schemas.yaml#/components/schemas/SortCriteria'
+                    $ref: '../common/schemas.yaml#/components/schemas/SortCriteria'
                 attributes:
                   type: array
                   description: List of attributes to select and return
@@ -93,12 +71,8 @@ paths:
           description: Successful response.
           headers:
             X-Total-Count:
-              description: Total number of devices matched query.
-              schema:
-                type: string
-            Link:
-              description: |
-                Standard header used for page navigation, page relations: 'first', 'next' and 'prev'.
+              description: Custom header indicating the total number of devices for
+                the given query parameters
               schema:
                 type: string
           content:
@@ -128,15 +102,10 @@ paths:
                   description: MAC address
                 updated_ts: 2016-10-04T18:24:21.432Z
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
-      security:
-      - ManagementJWT: []
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
 components:
-  securitySchemes:
-    ManagementJWT:
-      $ref: './common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'
   schemas:
     DeviceInventory:
       type: object
@@ -151,7 +120,7 @@ components:
           type: array
           description: A list of attribute descriptors.
           items:
-            $ref: './common/schemas.yaml#/components/schemas/AttributeV2'
+            $ref: '../common/schemas.yaml#/components/schemas/AttributeV2'
       example:
         id: 291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
         attributes:
@@ -164,26 +133,6 @@ components:
           value: 00.01:02:03:04:05
           description: MAC address
         updated_ts: 2016-10-03T16:58:51.639Z
-    FilterAttribute:
-      required:
-      - count
-      - name
-      - scope
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the attribute.
-        scope:
-          $ref: '#/components/schemas/Scope'
-        count:
-          type: integer
-          description: Number of occurrences of the attribute in the database.
-      description: Filterable attribute
-      example:
-        name: serial_no
-        scope: inventory
-        count: 10
     SelectAttribute:
       required:
       - attribute

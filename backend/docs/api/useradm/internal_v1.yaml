@@ -1,0 +1,317 @@
+openapi: 3.0.1
+info:
+  title: User administration and authentication
+  description: |
+    An API for user administration and user authentication handling. Intended for use by the web GUI.
+    All responses from the API will contain 'X-MEN-RequestID' header with server-side generated request ID.
+    Not exposed via the API Gateway - intended for internal use only.
+  version: "1"
+tags:
+  - name: Internal API
+
+paths:
+  /api/internal/v1/useradm/health:
+    get:
+      tags:
+      - Internal API
+      summary: Check the health of the service
+      operationId: Useradm Check Health
+      responses:
+        "204":
+          description: |
+            Service is healthy and all dependencies are up and running.
+          content: {}
+        "500":
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+        "503":
+          description: |
+            Service unhealthy / not ready to accept traffic. At least one dependency is not running.
+          content:
+            application/json:
+              schema:
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
+              example:
+                error: "error reaching MongoDB: context deadline exceeded"
+                request_id: ffd712be-d697-4cb7-814b-88ff1e2eb5f6
+  /api/internal/v1/useradm/alive:
+    get:
+      tags:
+      - Internal API
+      summary: |
+        Trivial endpoint that unconditionally returns an empty 200 response whenever the API handler is running correctly.
+      operationId: Useradm Check Liveliness
+      responses:
+        "204":
+          description: Service is up and running.
+          content: {}
+        "500":
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+  /api/internal/v1/useradm/auth/verify:
+    post:
+      tags:
+      - Internal API
+      summary: Check the validity of a token
+      description: |
+        Besides the basic validity check, checks the token expiration time and user-initiated token revocation.
+        Services which intend to use it should be correctly set up in the gateway's configuration.
+      operationId: Verify JWT
+      parameters:
+      - name: Authorization
+        in: header
+        description: The token in base64-encoded form.
+        required: true
+        schema:
+          type: string
+          format: "Bearer [token]"
+      - name: X-Forwarded-Uri
+        in: header
+        description: |
+          URI the original request was sent to, the URI is expected to have
+          at least 4 components, eg. /api/management/1.0/foo/bar
+        required: true
+        schema:
+          type: string
+          format: HTTP path
+      - name: X-Forwarded-Method
+        in: header
+        description: HTTP method used when accessing the original URI
+        required: true
+        schema:
+          type: string
+          enum:
+          - GET
+          - PUT
+          - POST
+          - DELETE
+      responses:
+        "200":
+          description: The token is valid.
+          content: {}
+        "400":
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
+        "401":
+          description: "Verification failed, authentication should not be granted."
+          content:
+            application/json:
+              schema:
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
+        "403":
+          description: Token has expired - apply for a new one.
+          content:
+            application/json:
+              schema:
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
+        "500":
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+  /api/internal/v1/useradm/tenants:
+    post:
+      tags:
+      - Internal API
+      summary: Create a tenant with provided configuration.
+      operationId: Useradm Create Tenant
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TenantNew'
+        required: true
+      responses:
+        "201":
+          description: The tenant was created successfully.
+          content: {}
+        "400":
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
+        "500":
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+  /api/internal/v1/useradm/tenants/{tenant_id}/users:
+    get:
+      tags:
+      - Internal API
+      summary: |
+        List all users registered under the tenant owning the JWT.
+      operationId: List Users Internal
+      parameters:
+      - name: tenant_id
+        in: path
+        description: Tenant ID.
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: query
+        description: |
+          Limit result by user ID, can be repeated to include multiple users in the query.
+        schema:
+          type: string
+      - name: email
+        in: query
+        description: |
+          Limit result by user email, can be repeated to include multiple users in the query.
+        schema:
+          type: string
+      - name: created_after
+        in: query
+        description: |
+          Filter users created after timestamp (UNIX timestamp).
+        schema:
+          type: integer
+      - name: created_before
+        in: query
+        description: |
+          Filter users created before timestamp (UNIX timestamp).
+        schema:
+          type: integer
+      - name: updated_after
+        in: query
+        description: |
+          Filter users updated after timestamp (UNIX timestamp).
+        schema:
+          type: integer
+      - name: updated_before
+        in: query
+        description: |
+          Filter users updated before timestamp (UNIX timestamp).
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                title: ListOfUsers
+                type: array
+                items:
+                  $ref: './management_v1.yaml#/components/schemas/User'
+        "401":
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
+        "500":
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+    post:
+      tags:
+      - Internal API
+      summary: Create user
+      operationId: Create User Internal
+      parameters:
+      - name: tenant_id
+        in: path
+        description: Tenant ID.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: New user data.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserNewInternal'
+        required: true
+      responses:
+        "201":
+          description: The user was successfully created.
+          content: {}
+        "400":
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
+        "404":
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
+        "422":
+          description: |
+            User name or ID is duplicated.
+          content:
+            application/json:
+              schema:
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
+        "500":
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+  /api/internal/v1/useradm/tenants/{tenant_id}/users/{user_id}:
+    delete:
+      tags:
+      - Internal API
+      summary: Delete a user
+      description: |
+        Remove a user from the tenant.
+      operationId: Delete User Internal
+      parameters:
+      - name: tenant_id
+        in: path
+        description: Tenant ID.
+        required: true
+        schema:
+          type: string
+      - name: user_id
+        in: path
+        description: User ID.
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: User deleted.
+          content: {}
+        "400":
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
+        "500":
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+  /api/internal/v1/useradm/tokens:
+    delete:
+      tags:
+      - Internal API
+      summary: Delete all user tokens
+      description: |
+        This endpoint is designed to be used for tenant account suspension purpose.
+        When only tenant_id parameter is set, tokens for all tenant users will be removed.
+        It is also possible to remove tokens for user with given user_id by setting
+        optional user_id parameter.
+      operationId: Revoke User Tokens
+      parameters:
+      - name: tenant_id
+        in: query
+        description: Tenant ID.
+        required: true
+        schema:
+          type: string
+      - name: user_id
+        in: query
+        description: User ID.
+        schema:
+          type: string
+      responses:
+        "204":
+          description: Tokens deleted.
+          content: {}
+        "400":
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
+        "500":
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+components:
+  schemas:
+    UserNewInternal:
+      required:
+      - email
+      - password
+      type: object
+      properties:
+        email:
+          type: string
+          description: A unique email address. Non-ascii characters are invalid.
+        password:
+          type: string
+          description: Password.
+        propagate:
+          type: boolean
+          description: |
+            This paramter is deprecated _since Thu Jul 6 2023_, the propagation
+            of user information to tenantadm is disabled permanently.
+      description: New user descriptor.
+      example:
+        email: user@acme.com
+        password: mypass1234
+    TenantNew:
+      type: object
+      properties:
+        tenant_id:
+          type: string
+          description: ID of given tenant.
+      description: Tenant configuration.
+      example:
+        tenant_id: "1234"

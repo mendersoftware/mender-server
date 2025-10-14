@@ -41,19 +41,18 @@ paths:
                 value: 00.01:02:03:04:05
                 description: MAC address
               items:
-                $ref: './common/schemas.yaml#/components/schemas/Attribute'
+                $ref: '../common/schemas.yaml#/components/schemas/Attribute'
         required: true
       responses:
         "200":
           description: Attributes were uploaded successfully.
           content: {}
         "401":
-          description: The device is not authenticated.
-          content: {}
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - DeviceJWT: []
     patch:
@@ -85,27 +84,21 @@ paths:
                 value: 00.01:02:03:04:05
                 description: MAC address
               items:
-                $ref: './common/schemas.yaml#/components/schemas/Attribute'
+                $ref: '../common/schemas.yaml#/components/schemas/Attribute'
         required: true
       responses:
         "200":
           description: Attributes were uploaded successfully.
           content: {}
         "401":
-          description: The device is not authenticated.
-          content: {}
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "400":
-          $ref: './common/responses.yaml#/components/responses/InvalidRequestError'
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "500":
-          $ref: './common/responses.yaml#/components/responses/InternalServerError'
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
       - DeviceJWT: []
 components:
   securitySchemes:
     DeviceJWT:
-      type: apiKey
-      description: |
-        API token issued by Device Authentication service.
-        Format: 'Authorization: Bearer [JWT]'
-      name: Authorization
-      in: header
+      $ref: '../common/securitySchemes.yaml#/components/securitySchemes/DeviceJWT'
