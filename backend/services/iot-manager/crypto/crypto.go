@@ -94,7 +94,7 @@ func encrypt(data string, key string) ([]byte, error) {
 	if _, err = io.ReadFull(rand.Reader, iv); err != nil {
 		return nil, err
 	}
-	stream := cipher.NewCFBEncrypter(block, iv)
+	stream := cipher.NewCTR(block, iv)
 	stream.XORKeyStream(cipherText[aes.BlockSize:], dataToEncrypt)
 	// AES and SHA-1 (or SHA-256) are "sufficiently different" that there
 	// should be no practical issue with using the same key for AES and HMAC/SHA-*
@@ -128,7 +128,7 @@ func decrypt(data []byte, key string) (string, error) {
 	copy(iv, data[:aes.BlockSize])
 	cipherData := make([]byte, len(data)-aes.BlockSize)
 	copy(cipherData, data[aes.BlockSize:])
-	stream := cipher.NewCFBDecrypter(block, iv)
+	stream := cipher.NewCTR(block, iv)
 	stream.XORKeyStream(cipherData, cipherData)
 	cipherText := string(cipherData)
 	//
