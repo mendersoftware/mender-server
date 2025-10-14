@@ -36,7 +36,7 @@ exports[`ExpandedDevice Component > renders correctly 1`] = `
 
 .emotion-2 {
   background-color: #fff;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   box-shadow: var(--Paper-shadow);
@@ -59,9 +59,6 @@ exports[`ExpandedDevice Component > renders correctly 1`] = `
   top: 0;
   outline: 0;
   right: 0;
-  min-width: 40vw;
-  max-width: 80vw;
-  padding: 30px 75px 5%;
 }
 
 .emotion-3 {
@@ -107,7 +104,7 @@ exports[`ExpandedDevice Component > renders correctly 1`] = `
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
-  font-size: 1.3929rem;
+  font-size: 1.5rem;
   padding: 8px;
   border-radius: 50%;
   color: rgba(0, 0, 0, 0.54);
@@ -115,9 +112,7 @@ exports[`ExpandedDevice Component > renders correctly 1`] = `
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   --IconButton-hoverBg: rgba(0, 0, 0, 0.04);
   padding: 12px;
-  font-size: 1.625rem;
-  font-size: 1.2rem;
-  color: rgba(0, 0, 0, 0.54);
+  font-size: 1.75rem;
 }
 
 .emotion-4::-moz-focus-inner {
@@ -169,11 +164,7 @@ exports[`ExpandedDevice Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-}
-
-.emotion-5 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
 }
 
 .emotion-6 {
@@ -210,8 +201,8 @@ exports[`ExpandedDevice Component > renders correctly 1`] = `
   text-decoration: none;
   color: inherit;
   max-width: 100%;
-  font-family: Lato,sans-serif;
-  font-size: 0.7545rem;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-size: 0.8125rem;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -226,7 +217,7 @@ exports[`ExpandedDevice Component > renders correctly 1`] = `
   justify-content: center;
   height: 32px;
   line-height: 1.5;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 16px;
   white-space: nowrap;
@@ -246,8 +237,8 @@ exports[`ExpandedDevice Component > renders correctly 1`] = `
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;
-  background-color: #f7f7f7;
-  color: #969696;
+  background-color: #bdbdbd;
+  color: #212121;
 }
 
 .emotion-6::-moz-focus-inner {
@@ -276,18 +267,18 @@ exports[`ExpandedDevice Component > renders correctly 1`] = `
   margin-right: -6px;
   width: 24px;
   height: 24px;
-  color: #bcbcbc;
-  font-size: 0.6964rem;
+  color: #616161;
+  font-size: 0.75rem;
 }
 
 .emotion-6 .MuiChip-avatarColorPrimary {
   color: #fff;
-  background-color: rgb(35, 85, 94);
+  background-color: #1565c0;
 }
 
 .emotion-6 .MuiChip-avatarColorSecondary {
   color: #fff;
-  background-color: rgb(65, 10, 46);
+  background-color: #7b1fa2;
 }
 
 .emotion-6 .MuiChip-avatarSmall {
@@ -295,7 +286,7 @@ exports[`ExpandedDevice Component > renders correctly 1`] = `
   margin-right: -4px;
   width: 18px;
   height: 18px;
-  font-size: 0.5804rem;
+  font-size: 0.625rem;
 }
 
 .emotion-6 .MuiChip-icon {
@@ -305,18 +296,18 @@ exports[`ExpandedDevice Component > renders correctly 1`] = `
 
 .emotion-6 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
-  color: rgba(10, 10, 11, 0.26);
+  color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
   cursor: pointer;
   margin: 0 5px 0 -6px;
 }
 
 .emotion-6 .MuiChip-deleteIcon:hover {
-  color: rgba(10, 10, 11, 0.4);
+  color: rgba(0, 0, 0, 0.4);
 }
 
 .emotion-6 .MuiChip-icon {
-  color: #bcbcbc;
+  color: #616161;
 }
 
 .emotion-6:hover {
@@ -332,7 +323,7 @@ exports[`ExpandedDevice Component > renders correctly 1`] = `
 }
 
 .emotion-6 path {
-  fill: #969696;
+  fill: #212121;
 }
 
 .emotion-6 .MuiChip-icon {
@@ -436,10 +427,11 @@ exports[`ExpandedDevice Component > renders correctly 1`] = `
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.25;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   max-width: 360px;
   min-width: 90px;
@@ -455,8 +447,7 @@ exports[`ExpandedDevice Component > renders correctly 1`] = `
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
-  color: rgba(0, 0, 0, 0.54);
-  text-transform: none;
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .emotion-14::-moz-focus-inner {
@@ -476,7 +467,7 @@ exports[`ExpandedDevice Component > renders correctly 1`] = `
 }
 
 .emotion-14.Mui-selected {
-  color: #337a87;
+  color: #1976d2;
 }
 
 .emotion-14.Mui-disabled {
@@ -490,20 +481,21 @@ exports[`ExpandedDevice Component > renders correctly 1`] = `
   width: 100%;
   -webkit-transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  background-color: #337a87;
+  background-color: #1976d2;
 }
 
 .emotion-24 .key>b {
-  background-color: #f7f7f7;
+  background-color: #bdbdbd;
   color: rgba(0, 0, 0, 0.87);
 }
 
 .emotion-25 {
-  line-height: 1.4375em;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
-  color: rgba(10, 10, 11, 0.78);
+  font-size: 1rem;
+  line-height: 1.4375em;
+  letter-spacing: 0.00938em;
+  color: rgba(0, 0, 0, 0.87);
   box-sizing: border-box;
   position: relative;
   cursor: text;
@@ -518,7 +510,7 @@ exports[`ExpandedDevice Component > renders correctly 1`] = `
   position: relative;
   border-radius: 4px;
   padding-right: 14px;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
   font-size: 0.8125rem;
 }
 
@@ -528,7 +520,7 @@ exports[`ExpandedDevice Component > renders correctly 1`] = `
 }
 
 .emotion-25:hover .MuiOutlinedInput-notchedOutline {
-  border-color: rgba(10, 10, 11, 0.78);
+  border-color: rgba(0, 0, 0, 0.87);
 }
 
 @media (hover: none) {
@@ -542,11 +534,11 @@ exports[`ExpandedDevice Component > renders correctly 1`] = `
 }
 
 .emotion-25.Mui-focused .MuiOutlinedInput-notchedOutline {
-  border-color: #337a87;
+  border-color: #1976d2;
 }
 
 .emotion-25.Mui-error .MuiOutlinedInput-notchedOutline {
-  border-color: #ab1000;
+  border-color: #d32f2f;
 }
 
 .emotion-25.Mui-disabled .MuiOutlinedInput-notchedOutline {
@@ -698,10 +690,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.75;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   min-width: 64px;
   padding: 6px 16px;
@@ -712,19 +705,15 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
   padding: 6px 8px;
   color: var(--variant-textColor);
   background-color: var(--variant-textBg);
-  --variant-textColor: #337a87;
-  --variant-outlinedColor: #337a87;
-  --variant-outlinedBorder: rgba(51, 122, 135, 0.5);
+  --variant-textColor: #1976d2;
+  --variant-outlinedColor: #1976d2;
+  --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #337a87;
+  --variant-containedBg: #1976d2;
   padding: 4px 5px;
-  font-size: 0.7545rem;
+  font-size: 0.8125rem;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 2px;
-  font-size: 14px;
-  font-weight: bold;
-  padding: 10px 15px;
 }
 
 .emotion-28::-moz-focus-inner {
@@ -754,23 +743,15 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
 
 @media (hover: hover) {
   .emotion-28:hover {
-    --variant-containedBg: rgb(35, 85, 94);
-    --variant-textBg: rgba(51, 122, 135, 0.04);
-    --variant-outlinedBorder: #337a87;
-    --variant-outlinedBg: rgba(51, 122, 135, 0.04);
+    --variant-containedBg: #1565c0;
+    --variant-textBg: rgba(25, 118, 210, 0.04);
+    --variant-outlinedBorder: #1976d2;
+    --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
 }
 
 .emotion-28.MuiButton-loading {
   color: transparent;
-}
-
-.emotion-28:hover {
-  colors: #337a87;
-}
-
-.emotion-28.MuiButton-text {
-  color: rgba(10, 10, 11, 0.78);
 }
 
 .emotion-29 {
@@ -826,16 +807,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.1607rem;
-  color: #337a87;
-}
-
-.emotion-34 iconButton {
-  margin-right: 8px;
+  font-size: 1.25rem;
+  color: #1976d2;
 }
 
 .emotion-38 {
-  background-color: #f7f7f7;
+  background-color: #03a9f4;
   margin-bottom: 16px;
   min-width: 700px;
   padding: 16px;
@@ -855,12 +832,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-  color: #337a87;
-}
-
-.emotion-39 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
+  color: #1976d2;
 }
 
 .emotion-39.read {
@@ -873,7 +846,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
   bottom: 0;
   left: -5px;
   right: -5px;
-  border: 1px dashed #337a87;
+  border: 1px dashed #1976d2;
   border-radius: 50%;
 }
 
@@ -883,7 +856,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
 
 .emotion-41 .header,
 .emotion-41 .MuiAccordion-root {
-  border-bottom: 1px solid #cfcfcf;
+  border-bottom: 1px solid #757575;
 }
 
 .emotion-41 .columnHeader,
@@ -909,7 +882,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
 
 .emotion-43 {
   background-color: #fff;
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   box-shadow: var(--Paper-shadow);
@@ -918,10 +891,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
   -webkit-transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   overflow-anchor: none;
-  border: none;
-  box-shadow: none;
-  padding: 0;
-  background-color: #d4e9e7;
+  background-color: #03a9f4;
 }
 
 .emotion-43::before {
@@ -963,15 +933,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
 
 .emotion-43.Mui-expanded {
   margin: 16px 0;
-}
-
-.emotion-43:before {
-  display: none;
-}
-
-.emotion-43.Mui-expanded {
-  margin: auto;
-  background-color: #f7f7f7;
 }
 
 .emotion-43:before {
@@ -1038,8 +999,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
   padding: 0px 16px;
   -webkit-transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  margin-bottom: 0;
-  height: 48px;
 }
 
 .emotion-45::-moz-focus-inner {
@@ -1074,11 +1033,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
   min-height: 64px;
 }
 
-.emotion-45.Mui-expanded {
-  height: 48px;
-  min-height: 48px;
-}
-
 .emotion-46 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1092,22 +1046,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
   margin: 12px 0;
   -webkit-transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
 }
 
 .emotion-46.Mui-expanded {
   margin: 20px 0;
-}
-
-.emotion-46.Mui-expanded {
-  margin: 0;
-}
-
-.emotion-46>:last-child {
-  padding-right: 12px;
 }
 
 .emotion-47 {
@@ -1132,9 +1074,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
 
 .emotion-51 {
   padding: 8px 16px 16px;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
 }
 
 .emotion-52 {
@@ -1178,10 +1117,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.75;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   min-width: 64px;
   padding: 6px 16px;
@@ -1192,17 +1132,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
   padding: 6px 8px;
   color: var(--variant-textColor);
   background-color: var(--variant-textBg);
-  --variant-textColor: #5d0f43;
-  --variant-outlinedColor: #5d0f43;
-  --variant-outlinedBorder: rgba(93, 15, 67, 0.5);
+  --variant-textColor: #9c27b0;
+  --variant-outlinedColor: #9c27b0;
+  --variant-outlinedBorder: rgba(156, 39, 176, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #5d0f43;
+  --variant-containedBg: #9c27b0;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 2px;
-  font-size: 14px;
-  font-weight: bold;
-  padding: 10px 15px;
 }
 
 .emotion-53::-moz-focus-inner {
@@ -1232,10 +1168,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
 
 @media (hover: hover) {
   .emotion-53:hover {
-    --variant-containedBg: rgb(65, 10, 46);
-    --variant-textBg: rgba(93, 15, 67, 0.04);
-    --variant-outlinedBorder: #5d0f43;
-    --variant-outlinedBg: rgba(93, 15, 67, 0.04);
+    --variant-containedBg: #7b1fa2;
+    --variant-textBg: rgba(156, 39, 176, 0.04);
+    --variant-outlinedBorder: #9c27b0;
+    --variant-outlinedBg: rgba(156, 39, 176, 0.04);
   }
 }
 
@@ -1243,20 +1179,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
   color: transparent;
 }
 
-.emotion-53:hover {
-  colors: #337a87;
-}
-
-.emotion-53.MuiButton-text {
-  color: rgba(10, 10, 11, 0.78);
-}
-
 .emotion-57 {
   margin: 0;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.57;
+  letter-spacing: 0.00714em;
 }
 
 .emotion-58 {
@@ -1357,10 +1286,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.75;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   min-height: 36px;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -1373,9 +1303,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
   z-index: 1050;
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
   color: rgba(0, 0, 0, 0.87);
-  background-color: #e6f2f1;
+  background-color: #e0e0e0;
   color: #fff;
-  background-color: #337a87;
+  background-color: #1976d2;
   pointer-events: auto;
 }
 
@@ -1407,7 +1337,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
 
 @media (hover: none) {
   .emotion-62:hover {
-    background-color: #e6f2f1;
+    background-color: #e0e0e0;
   }
 }
 
@@ -1416,12 +1346,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
 }
 
 .emotion-62:hover {
-  background-color: rgb(35, 85, 94);
+  background-color: #1565c0;
 }
 
 @media (hover: none) {
   .emotion-62:hover {
-    background-color: #337a87;
+    background-color: #1976d2;
   }
 }
 
@@ -1496,14 +1426,15 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
 
 .emotion-67 {
   position: absolute;
-  line-height: 1.5;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
   background-color: #fff;
   border-radius: 4px;
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
-  color: rgba(0, 0, 0, 0.54);
+  color: rgba(0, 0, 0, 0.6);
   padding: 4px 16px;
   word-break: keep-all;
 }
@@ -1541,10 +1472,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.75;
+  letter-spacing: 0.02857em;
   text-transform: uppercase;
   min-height: 36px;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -1557,11 +1489,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
   z-index: 1050;
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
   color: rgba(0, 0, 0, 0.87);
-  background-color: #e6f2f1;
+  background-color: #e0e0e0;
   width: 40px;
   height: 40px;
   margin: 8px;
-  color: rgba(0, 0, 0, 0.54);
+  color: rgba(0, 0, 0, 0.6);
   background-color: #fff;
   -webkit-transition: -webkit-transform 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,opacity 0.8s;
   transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,opacity 0.8s;
@@ -1601,7 +1533,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
 
 @media (hover: none) {
   .emotion-68:hover {
-    background-color: #e6f2f1;
+    background-color: #e0e0e0;
   }
 }
 
@@ -1634,10 +1566,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
   font-size: inherit;
-}
-
-.emotion-81 iconButton {
-  margin-right: 8px;
 }
 
 <body

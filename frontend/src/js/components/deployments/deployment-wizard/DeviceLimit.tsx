@@ -18,7 +18,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
-import { DeploymentDeployments, Device, Filter, NewDeploymentPhase } from '@northern.tech/store/api/types';
+import type { DeploymentDeployments, Device, Filter, NewDeploymentPhase } from '@northern.tech/store/api/types';
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 import validator from 'validator';

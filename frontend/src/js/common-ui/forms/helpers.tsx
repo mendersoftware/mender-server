@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { render } from '../../../../tests/setupTests';
+import { render } from '@/testUtils';
 
 export const formRenderWrapper = ui => {
   const Wrapper = ({ children }) => {

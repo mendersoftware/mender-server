@@ -2,7 +2,7 @@
 
 exports[`ConfigurationObject Component > renders correctly 1`] = `
 .emotion-0 .key>b {
-  background-color: #f7f7f7;
+  background-color: #bdbdbd;
   color: rgba(0, 0, 0, 0.87);
 }
 

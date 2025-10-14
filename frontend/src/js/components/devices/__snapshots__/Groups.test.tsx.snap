@@ -93,20 +93,20 @@ exports[`Groups Component > renders GroupItem correctly 1`] = `
 }
 
 .emotion-0.Mui-selected {
-  background-color: rgba(51, 122, 135, 0.08);
+  background-color: rgba(25, 118, 210, 0.08);
 }
 
 .emotion-0.Mui-selected.Mui-focusVisible {
-  background-color: rgba(51, 122, 135, 0.2);
+  background-color: rgba(25, 118, 210, 0.2);
 }
 
 .emotion-0.Mui-selected:hover {
-  background-color: rgba(51, 122, 135, 0.12);
+  background-color: rgba(25, 118, 210, 0.12);
 }
 
 @media (hover: none) {
   .emotion-0.Mui-selected:hover {
-    background-color: rgba(51, 122, 135, 0.08);
+    background-color: rgba(25, 118, 210, 0.08);
   }
 }
 
@@ -125,9 +125,6 @@ exports[`Groups Component > renders GroupItem correctly 1`] = `
   min-width: 0;
   margin-top: 4px;
   margin-bottom: 4px;
-  margin-top: 0;
-  margin-bottom: 0;
-  color: rgba(10, 10, 11, 0.78);
 }
 
 .MuiTypography-root:where(.emotion-1 .MuiListItemText-primary) {
@@ -140,10 +137,11 @@ exports[`Groups Component > renders GroupItem correctly 1`] = `
 
 .emotion-2 {
   margin: 0;
-  line-height: 1.5;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
 }
 
 <div
@@ -168,11 +166,11 @@ exports[`Groups Component > renders GroupsSubheader correctly 1`] = `
   box-sizing: border-box;
   line-height: 48px;
   list-style: none;
-  color: rgba(0, 0, 0, 0.54);
-  font-family: Lato,sans-serif;
+  color: rgba(0, 0, 0, 0.6);
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
-  color: #a9a9a9;
+  font-size: 0.875rem;
+  color: #424242;
   height: 48px;
 }
 
@@ -181,7 +179,7 @@ exports[`Groups Component > renders GroupsSubheader correctly 1`] = `
 }
 
 .emotion-2 {
-  background: #d4e9e7;
+  background: #fafafa;
 }
 
 <li
@@ -300,20 +298,20 @@ exports[`Groups Component > renders correctly 1`] = `
 }
 
 .emotion-1.Mui-selected {
-  background-color: rgba(51, 122, 135, 0.08);
+  background-color: rgba(25, 118, 210, 0.08);
 }
 
 .emotion-1.Mui-selected.Mui-focusVisible {
-  background-color: rgba(51, 122, 135, 0.2);
+  background-color: rgba(25, 118, 210, 0.2);
 }
 
 .emotion-1.Mui-selected:hover {
-  background-color: rgba(51, 122, 135, 0.12);
+  background-color: rgba(25, 118, 210, 0.12);
 }
 
 @media (hover: none) {
   .emotion-1.Mui-selected:hover {
-    background-color: rgba(51, 122, 135, 0.08);
+    background-color: rgba(25, 118, 210, 0.08);
   }
 }
 
@@ -332,9 +330,6 @@ exports[`Groups Component > renders correctly 1`] = `
   min-width: 0;
   margin-top: 4px;
   margin-bottom: 4px;
-  margin-top: 0;
-  margin-bottom: 0;
-  color: rgba(10, 10, 11, 0.78);
 }
 
 .MuiTypography-root:where(.emotion-2 .MuiListItemText-primary) {
@@ -347,21 +342,22 @@ exports[`Groups Component > renders correctly 1`] = `
 
 .emotion-3 {
   margin: 0;
-  line-height: 1.5;
-  font-family: Lato,sans-serif;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.9286rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
 }
 
 .emotion-4 {
   box-sizing: border-box;
   line-height: 48px;
   list-style: none;
-  color: rgba(0, 0, 0, 0.54);
-  font-family: Lato,sans-serif;
+  color: rgba(0, 0, 0, 0.6);
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
-  color: #a9a9a9;
+  font-size: 0.875rem;
+  color: #424242;
   height: 48px;
 }
 
@@ -370,7 +366,7 @@ exports[`Groups Component > renders correctly 1`] = `
 }
 
 .emotion-6 {
-  background: #d4e9e7;
+  background: #fafafa;
 }
 
 .emotion-17 {
@@ -399,11 +395,7 @@ exports[`Groups Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-}
-
-.emotion-18 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
 }
 
 <div>

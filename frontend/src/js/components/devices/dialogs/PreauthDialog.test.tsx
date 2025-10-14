@@ -13,15 +13,18 @@
 //    limitations under the License.
 import { Provider } from 'react-redux';
 
+import { defaultState, render } from '@/testUtils';
+import * as StoreThunks from '@northern.tech/store/thunks';
+import { undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 import { vi } from 'vitest';
 
-import { defaultState, undefineds } from '../../../../../tests/mockData';
-import { render } from '../../../../../tests/setupTests';
 import { PreauthDialog } from './PreauthDialog';
+
+vi.mock('@northern.tech/store/thunks', { spy: true });
 
 const mockStore = configureStore([thunk]);
 
@@ -47,8 +50,7 @@ describe('PreauthDialog Component', () => {
   });
 
   it('works as intended', async () => {
-    const DeviceActions = await import('@northern.tech/store/devicesSlice/thunks');
-    const preAuthSpy = vi.spyOn(DeviceActions, 'preauthDevice');
+    const { preauthDevice: preAuthSpy } = StoreThunks;
 
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime, applyAccept: false });
     const submitMock = vi.fn();

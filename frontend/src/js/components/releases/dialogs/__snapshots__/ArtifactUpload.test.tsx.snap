@@ -28,11 +28,7 @@ exports[`ArtifactUpload Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-}
-
-.emotion-1 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
 }
 
 .emotion-2 {
@@ -76,7 +72,7 @@ exports[`ArtifactUpload Component > renders correctly 1`] = `
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
-  font-size: 1.3929rem;
+  font-size: 1.5rem;
   padding: 8px;
   border-radius: 50%;
   color: rgba(0, 0, 0, 0.54);
@@ -84,9 +80,7 @@ exports[`ArtifactUpload Component > renders correctly 1`] = `
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   --IconButton-hoverBg: rgba(0, 0, 0, 0.04);
   padding: 12px;
-  font-size: 1.625rem;
-  font-size: 1.2rem;
-  color: rgba(0, 0, 0, 0.54);
+  font-size: 1.75rem;
 }
 
 .emotion-3::-moz-focus-inner {
@@ -138,12 +132,8 @@ exports[`ArtifactUpload Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-  color: #337a87;
-}
-
-.emotion-5 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
+  color: #1976d2;
 }
 
 .emotion-5.read {
@@ -156,7 +146,7 @@ exports[`ArtifactUpload Component > renders correctly 1`] = `
   bottom: 0;
   left: -5px;
   right: -5px;
-  border: 1px dashed #337a87;
+  border: 1px dashed #1976d2;
   border-radius: 50%;
 }
 

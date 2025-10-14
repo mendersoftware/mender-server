@@ -5,9 +5,9 @@
     "moduleResolution": "bundler",
     "baseUrl": ".",
     "paths": {
-      "@northern.tech/store/*": ["src/js/store/*"],
       // should be removed once utils package is published
-      "@northern.tech/common-ui/*": ["src/js/common-ui/*"]
+      "@northern.tech/common-ui/*": ["src/js/common-ui/*"],
+      "@/testUtils": ["./tests/testUtils"]
     },
     "types": ["vitest/globals"]
   }

@@ -11,15 +11,19 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { defaultState } from '@/testUtils';
+import { render } from '@/testUtils';
 import { TIMEOUTS } from '@northern.tech/store/commonConstants';
+import * as StoreThunks from '@northern.tech/store/thunks';
+import { undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { defaultState, undefineds } from '../../../../tests/mockData';
-import { render } from '../../../../tests/setupTests';
 import Authorized from './AuthorizedDevices';
 import { routes } from './BaseDevices';
+
+vi.mock('@northern.tech/store/thunks', { spy: true });
 
 const preloadedState = {
   ...defaultState,
@@ -45,11 +49,7 @@ describe('AuthorizedDevices Component', () => {
 
   it('behaves as expected', { timeout: 3 * TIMEOUTS.fiveSeconds }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    const DeviceActions = await import('@northern.tech/store/devicesSlice/thunks');
-    const UserActions = await import('@northern.tech/store/usersSlice/thunks');
-    const setListStateSpy = vi.spyOn(DeviceActions, 'setDeviceListState');
-    const setUserSettingsSpy = vi.spyOn(UserActions, 'saveUserSettings');
-    const setColumnsSpy = vi.spyOn(UserActions, 'updateUserColumnSettings');
+    const { saveUserSettings: setUserSettingsSpy, updateUserColumnSettings: setColumnsSpy, setDeviceListState: setListStateSpy } = StoreThunks;
 
     const testKey = 'testKey';
     const attributeNames = {

@@ -1326,7 +1326,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               <input
                 aria-invalid="false"
                 class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart emotion-9"
-                id=":r1b:"
+                id="«r1o»"
                 name="search"
                 placeholder="Search devices"
                 type="text"
@@ -1809,9 +1809,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               class="clickable emotion-59"
             >
               <div>
-                <div>
-                  r1
-                </div>
+                <div />
                 <div
                   class=""
                   title="test deployment"
@@ -1999,9 +1997,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               class="clickable emotion-59"
             >
               <div>
-                <div>
-                  r1
-                </div>
+                <div />
                 <div
                   class=""
                   title="test deployment"
@@ -2024,7 +2020,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                     >
                       <div
                         class="progress-bar"
-                        style="width: 100%; background-color: rgb(170, 170, 170);"
+                        style="width: 1%; background-color: rgb(170, 170, 170);"
                       />
                       <div
                         style="display: contents;"
@@ -2203,9 +2199,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                 class="clickable emotion-59"
               >
                 <div>
-                  <div>
-                    r1
-                  </div>
+                  <div />
                   <div
                     class=""
                     title="test deployment"
@@ -3504,7 +3498,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
             <input
               aria-invalid="false"
               class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart emotion-6"
-              id=":r2:"
+              id="«r2»"
               name="search"
               placeholder="Search devices"
               type="text"

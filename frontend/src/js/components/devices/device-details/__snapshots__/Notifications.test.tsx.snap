@@ -9,17 +9,17 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
 
 .emotion-0.red,
 .emotion-0.green {
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .emotion-0.bordered {
-  border: 1px solid #e9e9e9;
-  background: #cfcfcf15;
+  border: 1px solid #9e9e9e;
+  background: #75757515;
 }
 
 .emotion-0.bordered.red {
-  border-color: #ab1000;
-  background: rgba(93, 15, 67, 0.075);
+  border-color: #d32f2f;
+  background: #ef5350;
 }
 
 .emotion-0>span {
@@ -40,11 +40,7 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-}
-
-.emotion-1 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
 }
 
 .emotion-2 {
@@ -66,12 +62,8 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.1607rem;
+  font-size: 1.25rem;
   margin-bottom: -4px;
-}
-
-.emotion-4 iconButton {
-  margin-right: 8px;
 }
 
 <div>
@@ -133,17 +125,17 @@ exports[`tiny components > renders DeviceOfflineHeaderNotification correctly 1`]
 
 .emotion-0.red,
 .emotion-0.green {
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .emotion-0.bordered {
-  border: 1px solid #e9e9e9;
-  background: #cfcfcf15;
+  border: 1px solid #9e9e9e;
+  background: #75757515;
 }
 
 .emotion-0.bordered.red {
-  border-color: #ab1000;
-  background: rgba(93, 15, 67, 0.075);
+  border-color: #d32f2f;
+  background: #ef5350;
 }
 
 .emotion-0>span {
@@ -164,11 +156,7 @@ exports[`tiny components > renders DeviceOfflineHeaderNotification correctly 1`]
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-}
-
-.emotion-1 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
 }
 
 <div>
@@ -217,17 +205,17 @@ exports[`tiny components > renders LastConnection correctly 1`] = `
 
 .emotion-0.red,
 .emotion-0.green {
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .emotion-0.bordered {
-  border: 1px solid #e9e9e9;
-  background: #cfcfcf15;
+  border: 1px solid #9e9e9e;
+  background: #75757515;
 }
 
 .emotion-0.bordered.red {
-  border-color: #ab1000;
-  background: rgba(93, 15, 67, 0.075);
+  border-color: #d32f2f;
+  background: #ef5350;
 }
 
 .emotion-0>span {
@@ -248,11 +236,7 @@ exports[`tiny components > renders LastConnection correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-}
-
-.emotion-1 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
 }
 
 .emotion-2 {
@@ -301,17 +285,17 @@ exports[`tiny components > renders NoAlertsHeaderNotification correctly 1`] = `
 
 .emotion-0.red,
 .emotion-0.green {
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .emotion-0.bordered {
-  border: 1px solid #e9e9e9;
-  background: #cfcfcf15;
+  border: 1px solid #9e9e9e;
+  background: #75757515;
 }
 
 .emotion-0.bordered.red {
-  border-color: #ab1000;
-  background: rgba(93, 15, 67, 0.075);
+  border-color: #d32f2f;
+  background: #ef5350;
 }
 
 .emotion-0>span {
@@ -332,11 +316,7 @@ exports[`tiny components > renders NoAlertsHeaderNotification correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-}
-
-.emotion-1 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
 }
 
 <div>
@@ -374,17 +354,17 @@ exports[`tiny components > renders ServiceNotification correctly 1`] = `
 
 .emotion-0.red,
 .emotion-0.green {
-  color: rgba(10, 10, 11, 0.78);
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .emotion-0.bordered {
-  border: 1px solid #e9e9e9;
-  background: #cfcfcf15;
+  border: 1px solid #9e9e9e;
+  background: #75757515;
 }
 
 .emotion-0.bordered.red {
-  border-color: #ab1000;
-  background: rgba(93, 15, 67, 0.075);
+  border-color: #d32f2f;
+  background: #ef5350;
 }
 
 .emotion-0>span {
@@ -405,11 +385,7 @@ exports[`tiny components > renders ServiceNotification correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-}
-
-.emotion-1 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
 }
 
 .emotion-2 {
@@ -431,12 +407,8 @@ exports[`tiny components > renders ServiceNotification correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.1607rem;
+  font-size: 1.25rem;
   margin-bottom: -4px;
-}
-
-.emotion-4 iconButton {
-  margin-right: 8px;
 }
 
 <div>

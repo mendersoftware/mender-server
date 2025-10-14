@@ -13,8 +13,9 @@
 //    limitations under the License.
 import { paperClasses } from '@mui/material';
 
-import { defaultState, undefineds } from '../../../../tests/mockData';
-import { render } from '../../../../tests/setupTests';
+import { defaultState, render } from '@/testUtils';
+import { undefineds } from '@northern.tech/testing/mockData';
+
 import ReleaseDetails from './ReleaseDetails';
 
 const preloadedState = {

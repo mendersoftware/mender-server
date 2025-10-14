@@ -11,11 +11,11 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { defaultState, render } from '@/testUtils';
 import { DEVICE_CONNECT_STATES } from '@northern.tech/store/constants';
+import { undefineds } from '@northern.tech/testing/mockData';
 import { vi } from 'vitest';
 
-import { defaultState, undefineds } from '../../../../../tests/mockData';
-import { render } from '../../../../../tests/setupTests';
 import { DeviceConnection, DeviceConnectionMissingNote, DeviceDisconnectedNote, PortForwardLink } from './Connection';
 
 describe('tiny DeviceConnection components', () => {

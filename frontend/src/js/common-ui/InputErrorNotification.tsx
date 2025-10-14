@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useEffect, useRef, useState } from 'react';
 
-import { TIMEOUTS } from '@northern.tech/store/commonConstants';
+import { TIMEOUTS } from '@northern.tech/store/constants';
 
 export const InputErrorNotification = ({ className, content }: { className: string; content: string }) => {
   const [isVisible, setIsVisible] = useState(false);

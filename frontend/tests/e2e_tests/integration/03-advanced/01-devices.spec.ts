@@ -139,7 +139,7 @@ test.describe('Devices', () => {
     await page.getByLabel(/attribute/i).fill('mem_total_kB');
     await page.getByText(/equals/i).click();
     await page.waitForTimeout(timeouts.default);
-    await page.getByRole('option', { name: '>=' }).click();
+    await page.getByRole('option', { name: '>', exact: true }).click();
     await page.getByLabel(/value/i).fill('1000000000');
     await page.getByRole('button', { name: /Add a rule/i }).waitFor();
     await page.getByText('No devices found').waitFor({ timeout: timeouts.fiveSeconds });

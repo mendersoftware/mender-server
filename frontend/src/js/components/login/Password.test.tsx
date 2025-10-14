@@ -11,13 +11,16 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { render } from '@/testUtils';
+import * as StoreThunks from '@northern.tech/store/thunks';
+import { undefineds } from '@northern.tech/testing/mockData';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { undefineds } from '../../../../tests/mockData';
-import { render } from '../../../../tests/setupTests';
 import Password from './Password';
+
+vi.mock('@northern.tech/store/thunks', { spy: true });
 
 describe('Password Component', () => {
   it('renders correctly', async () => {
@@ -28,9 +31,7 @@ describe('Password Component', () => {
   });
 
   it('works as intended', async () => {
-    const UserActions = await import('@northern.tech/store/usersSlice/thunks');
-
-    const startSpy = vi.spyOn(UserActions, 'passwordResetStart');
+    const { passwordResetStart: startSpy } = StoreThunks;
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const ui = <Password />;
     const { rerender } = render(ui);

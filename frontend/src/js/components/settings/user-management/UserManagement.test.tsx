@@ -11,14 +11,17 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { defaultState, render } from '@/testUtils';
 import { TIMEOUTS, yes } from '@northern.tech/store/constants';
+import * as StoreThunks from '@northern.tech/store/thunks';
+import { undefineds, userId } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 
-import { defaultState, undefineds, userId } from '../../../../../tests/mockData';
-import { render } from '../../../../../tests/setupTests';
 import { UserManagement } from './UserManagement';
+
+vi.mock('@northern.tech/store/thunks', { spy: true });
 
 const preloadedState = {
   ...defaultState,
@@ -77,8 +80,7 @@ describe('UserManagement Component', () => {
     await user.click(screen.getByRole('button', { name: /Save/i }));
   });
   it('supports user creation', async () => {
-    const UserActions = await import('@northern.tech/store/usersSlice/thunks');
-    const createUserSpy = vi.spyOn(UserActions, 'createUser');
+    const { createUser: createUserSpy } = StoreThunks;
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const copyCheck = vi.fn(yes);
     document.execCommand = copyCheck;

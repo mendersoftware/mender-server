@@ -23,11 +23,7 @@ exports[`Distribution Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
-}
-
-.emotion-1 iconButton {
-  margin-right: 8px;
+  font-size: 1.5rem;
 }
 
 .emotion-2 {
@@ -67,7 +63,7 @@ exports[`Distribution Component > renders correctly 1`] = `
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
-  font-size: 1.3929rem;
+  font-size: 1.5rem;
   padding: 8px;
   border-radius: 50%;
   color: rgba(0, 0, 0, 0.54);
@@ -75,9 +71,7 @@ exports[`Distribution Component > renders correctly 1`] = `
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   --IconButton-hoverBg: rgba(0, 0, 0, 0.04);
   padding: 5px;
-  font-size: 1.0446rem;
-  font-size: 1.2rem;
-  color: rgba(0, 0, 0, 0.54);
+  font-size: 1.125rem;
 }
 
 .emotion-2::-moz-focus-inner {
@@ -129,11 +123,7 @@ exports[`Distribution Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.1607rem;
-}
-
-.emotion-3 iconButton {
-  margin-right: 8px;
+  font-size: 1.25rem;
 }
 
 .emotion-6 {
@@ -149,11 +139,11 @@ exports[`Distribution Component > renders correctly 1`] = `
 }
 
 .emotion-6 .barchart .MuiLinearProgress-root {
-  background-color: #f7f7f7;
+  background-color: #bdbdbd;
 }
 
-.emotion-6 .barchart .color-f7f7f7 .MuiLinearProgress-barColorPrimary {
-  background-color: #f7f7f7;
+.emotion-6 .barchart .color-bdbdbd .MuiLinearProgress-barColorPrimary {
+  background-color: #bdbdbd;
 }
 
 .emotion-6 .barchart .color-337a87 .MuiLinearProgress-barColorPrimary {
@@ -211,14 +201,10 @@ exports[`Distribution Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.3929rem;
+  font-size: 1.5rem;
   font-size: 10px;
   min-width: initial;
   margin-left: 4px;
-}
-
-.emotion-8 iconButton {
-  margin-right: 8px;
 }
 
 <body>
