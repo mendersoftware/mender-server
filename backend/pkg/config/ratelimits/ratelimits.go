@@ -14,7 +14,16 @@
 
 package ratelimits
 
-import "github.com/mendersoftware/mender-server/pkg/config"
+import (
+	"fmt"
+	"regexp"
+
+	validation "github.com/go-ozzo/ozzo-validation/v4"
+
+	"github.com/mendersoftware/mender-server/pkg/config"
+)
+
+var pathRegex = regexp.MustCompile(`\{[^/]+\}`)
 
 type RatelimitConfig struct {
 	// RejectUnmatched rejects requests that does not resolve to a
@@ -29,6 +38,61 @@ type RatelimitConfig struct {
 	// MatchExpressions configures mathing expressions (API pattern) and mapping
 	// them to a group.
 	MatchExpressions []MatchGroup `json:"match"`
+}
+
+func (rc RatelimitConfig) Validate() error {
+	validGroupNames := make([]interface{}, len(rc.RatelimitGroups))
+	for i, group := range rc.RatelimitGroups {
+		validGroupNames[i] = group.Name
+	}
+
+	return validation.ValidateStruct(&rc,
+		validation.Field(&rc.MatchExpressions,
+			validation.By(validatePatterns),
+		),
+		validation.Field(&rc.RatelimitGroups,
+			validation.By(validateLimitGroups),
+		),
+	)
+
+}
+
+func validatePatterns(value interface{}) error {
+	groups, ok := value.([]MatchGroup)
+	if !ok {
+		return fmt.Errorf("value is not []MatchGroup")
+	}
+
+	seenPatterns := make(map[string]struct{})
+	for _, group := range groups {
+		normalizedPattern := normalizePattern(group.APIPattern)
+		if _, seen := seenPatterns[normalizedPattern]; seen {
+			return fmt.Errorf("duplicate API pattern: '%s'", group.APIPattern)
+		}
+		seenPatterns[normalizedPattern] = struct{}{}
+	}
+	return nil
+}
+
+func validateLimitGroups(value interface{}) error {
+	groups, ok := value.([]RatelimitGroupParams)
+	if !ok {
+		return fmt.Errorf("value is not []RatelimitGroupParams")
+	}
+
+	seenGroups := make(map[string]struct{})
+	for _, group := range groups {
+		if _, seen := seenGroups[group.Name]; seen {
+			return fmt.Errorf("duplicate limit group name: '%s'", group.Name)
+		}
+		seenGroups[group.Name] = struct{}{}
+	}
+	return nil
+}
+
+// Replace all placeholder or wildcard with "*"
+func normalizePattern(pattern string) string {
+	return pathRegex.ReplaceAllString(pattern, "*")
 }
 
 type RatelimitGroupParams struct {

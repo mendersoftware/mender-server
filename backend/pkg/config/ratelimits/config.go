@@ -105,6 +105,10 @@ func SetupRedisRateLimits(
 	if err != nil {
 		return nil, err
 	}
+	err = lims.Validate()
+	if err != nil {
+		return nil, err
+	}
 	log.NewEmpty().Debugf("loaded rate limit configuration: %v", lims)
 	mux := rate.NewHTTPLimiter()
 	if c.GetBool(SettingRatelimitsAuthRejectUnmatched) {
