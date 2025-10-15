@@ -611,7 +611,7 @@ components:
             type: string
           type: array
         info:
-          $ref: '../common/schemas.yaml#/components/schemas/ArtifactInfo'
+          $ref: './schemas.yaml#/components/schemas/ArtifactInfo'
         signed:
           description: Idicates if artifact is signed or not.
           type: boolean
@@ -774,10 +774,10 @@ components:
         Single updated to be applied.
       properties:
         type_info:
-          $ref: '../common/schemas.yaml#/components/schemas/ArtifactTypeInfo'
+          $ref: './schemas.yaml#/components/schemas/ArtifactTypeInfo'
         files:
           items:
-            $ref: '../common/schemas.yaml#/components/schemas/UpdateFile'
+            $ref: './schemas.yaml#/components/schemas/UpdateFile'
           type: array
         meta_data:
           description: |

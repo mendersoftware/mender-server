@@ -149,7 +149,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ../common/schemas.yaml#/components/schemas/StorageLimit
+              $ref: ./schemas.yaml#/components/schemas/StorageLimit
         required: true
       responses:
         '204':
@@ -738,7 +738,7 @@ components:
         deployment:
           $ref: '#/components/schemas/DeploymentV1Internal'
         device:
-          $ref: ../common/schemas.yaml#/components/schemas/DeviceWithImage
+          $ref: ./schemas.yaml#/components/schemas/DeviceWithImage
       required:
       - deployment
       - device

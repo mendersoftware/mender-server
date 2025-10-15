@@ -1,0 +1,238 @@
+openapi: 3.0.1
+info:
+  title: Common Deployment Schemas
+  version: "1.0"
+  description: Shared schemas used across API specifications
+paths: {}
+components:
+  schemas:
+    StorageLimit:
+      description: Tenant account storage limit and storage usage.
+      example:
+        limit: 1073741824
+        usage: 536870912
+      properties:
+        limit:
+          description: |
+            Storage limit in bytes. If set to 0 - there is no limit for storage.
+          type: integer
+        usage:
+          description: |
+            Current storage usage in bytes.
+          type: integer
+      required:
+        - limit
+        - usage
+      type: object
+    ArtifactTypeInfo:
+      description: |
+        Information about update type.
+      properties:
+        type:
+          description: "Note that for emtpy Artifacts, the type is 'null'"
+          type: string
+      type: object
+    DeviceWithImageImageMetaArtifact:
+      properties:
+        name:
+          type: string
+        device_types_compatible:
+          description: An array of compatible device types.
+          items:
+            type: string
+          type: array
+        info:
+          $ref: '#/components/schemas/ArtifactInfo'
+        signed:
+          description: Idicates if artifact is signed or not.
+          type: boolean
+        updates:
+          items:
+            $ref: '#/components/schemas/Update'
+          type: array
+        artifact_provides:
+          additionalProperties:
+            type: string
+          description: |
+            List of Artifact provides.
+
+            Map of key/value pairs, where both keys and values are strings.
+          type: object
+        artifact_depends:
+          additionalProperties:
+            items:
+              type: string
+            type: array
+          description: |
+            List of Artifact depends.
+
+            Map of key/value pairs, where keys are strings and values are lists of strings.
+          type: object
+        clears_artifact_provides:
+          description: List of Clear Artifact provides.
+          items:
+            type: string
+          type: array
+      type: object
+    ArtifactInfo:
+      description: Information about artifact format and version.
+      properties:
+        format:
+          type: string
+        version:
+          type: integer
+      type: object
+    UpdateFile:
+      description: |
+        Information about particular update file.
+      properties:
+        name:
+          type: string
+        checksum:
+          type: string
+        size:
+          type: integer
+        date:
+          format: date-time
+          type: string
+      type: object
+    Update:
+      description: |
+        Single updated to be applied.
+      properties:
+        type_info:
+          $ref: '#/components/schemas/ArtifactTypeInfo'
+        files:
+          items:
+            $ref: '#/components/schemas/UpdateFile'
+          type: array
+        meta_data:
+          description: meta_data is an object of unknown structure as this is dependent of update type (also custom defined by user)
+          additionalProperties: true
+          type: object
+      type: object
+    DeviceStatus:
+      enum:
+      - failure
+      - aborted
+      - pause_before_installing
+      - pause_before_committing
+      - pause_before_rebooting
+      - downloading
+      - installing
+      - rebooting
+      - pending
+      - success
+      - noartifact
+      - already-installed
+      - decommissioned
+      type: string
+    DeviceWithImageImageMeta:
+      properties:
+        description:
+          description: Image description
+          type: string
+      type: object
+    DeviceWithImageImage:
+      properties:
+        id:
+          description: Image ID
+          type: string
+        meta:
+          $ref: '#/components/schemas/DeviceWithImageImageMeta'
+        meta_artifact:
+          $ref: '#/components/schemas/DeviceWithImageImageMetaArtifact'
+        size:
+          description: Image size in bytes
+          type: integer
+        modified:
+          description: Creation / last edition of any of the artifact properties
+          format: date-time
+          type: string
+      type: object
+    DeviceWithImage:
+      example:
+        id: 00a0c91e6-7dec-11d0-a765-f81d4faebf6
+        finished: 2016-03-11T13:03:17.063493443Z
+        status: installing
+        created: 2016-02-11T13:03:17.063493443Z
+        started: 2016-02-12T13:03:17.063493443Z
+        device_type: Raspberry Pi 3
+        log: false
+        state: installing
+        substate: installing.enter;script:foo-bar
+        image:
+          id: 0c13a0e6-6b63-475d-8260-ee42a590e8ff
+          name: Application 1.0.0
+          meta:
+            description: Johns Monday test build
+          meta_artifact:
+            name: Application 1.0.0
+            device_types_compatible:
+            - Beagle Bone
+            info:
+              format: mender
+              version: 3
+            updates:
+            - type_info:
+                type: rootfs-image
+              files:
+              - name: rootfs-image-1
+                checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
+                size: 123
+                date: 2016-03-11T13:03:17.063+0000
+              meta_data: {}
+            artifact_provides:
+              artifact_name: test
+              rootfs-image.checksum: 32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99
+              rootfs-image.version: test
+            artifact_depends:
+              device_type:
+              - test
+            clears_artifact_provides:
+            - rootfs-image.*
+          size: 36891648
+          modified: 2016-03-11T13:03:17.063493443Z
+      properties:
+        id:
+          description: Device identifier.
+          type: string
+        status:
+          $ref: '#/components/schemas/DeviceStatus'
+        created:
+          format: date-time
+          type: string
+        started:
+          format: date-time
+          type: string
+        finished:
+          format: date-time
+          type: string
+        deleted:
+          format: date-time
+          type: string
+        device_type:
+          type: string
+        log:
+          description: Availability of the device's deployment log.
+          type: boolean
+        state:
+          description: State reported by device
+          type: string
+        substate:
+          description: Additional state information
+          type: string
+        image:
+          $ref: '#/components/schemas/DeviceWithImageImage'
+      required:
+      - id
+      - log
+      - status
+      type: object
+    MetadataAny:
+      description:
+        meta_data is an object of unknown structure as this is dependent
+        of update type (also custom defined by user)
+      additionalProperties:
+        type: string
+      type: object
