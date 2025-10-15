@@ -255,8 +255,20 @@ test:backend:combine-per-service-api:
 test:backend:combine-api:
   extends: .template:combine-api
   script:
-    - redocly join --prefix-tags-with-info-prop title root.openapi.yaml '!(dist|config)/**/*.yaml' -o openapi.tmp.yaml
-    - redocly bundle openapi.tmp.yaml --config config/redocly.yaml -o dist/openapi.yaml
+    - |
+      redocly join --prefix-tags-with-info-prop title \
+        root.openapi.yaml \
+        common/*.yaml \
+        deployments/*.yaml \
+        deviceauth/*.yaml \
+        deviceconfig/*.yaml \
+        deviceconnect/*.yaml \
+        inventory/*.yaml \
+        iot-manager/*.yaml \
+        useradm/*.yaml \
+        workflows/*.yaml \
+        -o dist/openapi.tmp.yaml
+    - redocly bundle dist/openapi.tmp.yaml --config config/redocly.yaml -o dist/openapi.yaml
     - git diff --exit-code dist/openapi.yaml
   allow_failure: false
 
