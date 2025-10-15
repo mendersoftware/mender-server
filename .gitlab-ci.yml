@@ -236,22 +236,6 @@ test:backend:static:
     paths:
       - backend/docs/api/
 
-# try to generate per service files
-test:backend:combine-per-service-api:
-  extends: .template:combine-api
-  script:
-    - redocly join --prefix-tags-with-info-prop title root.openapi.yaml auditlogs/*.yaml -o auditlogs.tmp.yml && redocly bundle auditlogs.tmp.yml -o auditlogs.combined.yml || true
-    - redocly join --prefix-tags-with-info-prop title root.openapi.yaml deployments/*.yaml -o deployments.tmp.yml && redocly bundle deployments.tmp.yml -o deployments.combined.yml || true
-    - redocly join --prefix-tags-with-info-prop title root.openapi.yaml deviceauth/*.yaml -o deviceauth.tmp.yml && redocly bundle deviceauth.tmp.yml -o deviceauth.combined.yml || true
-    - redocly join --prefix-tags-with-info-prop title root.openapi.yaml deviceconfig/*.yaml -o deviceconfig.tmp.yml && redocly bundle deviceconfig.tmp.yml -o deviceconfig.combined.yml || true
-    - redocly join --prefix-tags-with-info-prop title root.openapi.yaml deviceconnect/*.yaml -o deviceconnect.tmp.yml && redocly bundle deviceconnect.tmp.yml -o deviceconnect.combined.yml || true
-    - redocly join --prefix-tags-with-info-prop title root.openapi.yaml inventory/*.yaml -o inventory.tmp.yml && redocly bundle inventory.tmp.yml -o inventory.combined.yml || true
-    - redocly join --prefix-tags-with-info-prop title root.openapi.yaml iot-manager/*.yaml -o iot-manager.tmp.yml && redocly bundle iot-manager.tmp.yml -o iot-manager.combined.yml || true
-    - redocly join --prefix-tags-with-info-prop title root.openapi.yaml tenantadm/*.yaml -o tenantadm.tmp.yml && redocly bundle tenantadm.tmp.yml -o tenantadm.combined.yml || true
-    - redocly join --prefix-tags-with-info-prop title root.openapi.yaml useradm/*.yaml -o useradm.tmp.yml && redocly bundle useradm.tmp.yml -o useradm.combined.yml || true
-    - redocly join --prefix-tags-with-info-prop title root.openapi.yaml workflows/*.yaml -o workflows.tmp.yml && redocly bundle workflows.tmp.yml -o workflows.combined.yml || true
-  allow_failure: true # being explicit for now as the combination doesn't yet work
-
 test:backend:combine-api:
   extends: .template:combine-api
   script:
