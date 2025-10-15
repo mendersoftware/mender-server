@@ -267,7 +267,7 @@ const ArtifactsList = ({ artifacts, selectedArtifact, setSelectedArtifact, setSh
           {columns.map(item => (
             <div className="columnHeader" key={item.name} onClick={() => sortColumn(item)}>
               <Tooltip title={item.title} placement="top-start">
-                <>{item.title}</>
+                {item.title}
               </Tooltip>
               {item.sortable ? <SortIcon className={`sortIcon ${sortCol === item.name ? 'selected' : ''} ${sortDown.toString()}`} /> : null}
               {item.tooltip}

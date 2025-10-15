@@ -1829,7 +1829,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-21:focus::-ms-input-
       <div
         class="columnHeader"
       >
-        Device type compatibility
+        <span
+          aria-label="Device type compatibility"
+          class=""
+          data-mui-internal-clone-element="true"
+        >
+          Device type compatibility
+        </span>
         <div
           class="margin-left-small"
           data-mui-internal-clone-element="true"
@@ -1857,12 +1863,24 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-21:focus::-ms-input-
       <div
         class="columnHeader"
       >
-        Type
+        <span
+          aria-label="Type"
+          class=""
+          data-mui-internal-clone-element="true"
+        >
+          Type
+        </span>
       </div>
       <div
         class="columnHeader"
       >
-        Size
+        <span
+          aria-label="Size"
+          class=""
+          data-mui-internal-clone-element="true"
+        >
+          Size
+        </span>
         <svg
           aria-hidden="true"
           class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon true emotion-2"
@@ -1878,7 +1896,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-21:focus::-ms-input-
       <div
         class="columnHeader"
       >
-        Last modified
+        <span
+          aria-label="Last modified"
+          class=""
+          data-mui-internal-clone-element="true"
+        >
+          Last modified
+        </span>
         <svg
           aria-hidden="true"
           class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon selected true emotion-2"
