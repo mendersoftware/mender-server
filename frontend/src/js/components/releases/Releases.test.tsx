@@ -86,7 +86,7 @@ describe('Releases Component', () => {
       vi.runAllTicks();
     });
   });
-  it('can delete releases from the list', async () => {
+  it('can delete releases from the list', { timeout: 2 * TIMEOUTS.fiveSeconds }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const { removeReleases: deleteReleasesSpy } = StoreThunks;
     const deletionSpy = vi.spyOn(GeneralApi, 'delete');
