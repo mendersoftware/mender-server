@@ -151,7 +151,7 @@ describe('Devices Component', () => {
         ...preloadedState,
         users: {
           ...preloadedState.users,
-          settingsInitialized: false
+          userSettingsInitialized: false
         }
       }
     });

@@ -75,6 +75,7 @@ import {
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { toggle } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
+import durationDayJs from 'dayjs/plugin/duration.js';
 import { jwtDecode } from 'jwt-decode';
 import Cookies from 'universal-cookie';
 
@@ -89,6 +90,8 @@ import { DeviceCount } from './DeviceCount';
 import DeviceNotifications from './DeviceNotifications';
 import OfferHeader from './OfferHeader';
 import TrialNotification from './TrialNotification';
+
+dayjs.extend(durationDayJs);
 
 const { setShowFeedbackDialog } = storeActions;
 
