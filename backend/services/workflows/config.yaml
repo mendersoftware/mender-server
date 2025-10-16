@@ -41,6 +41,10 @@ nats_uri: "nats://mender-nats:4222"
 #     The time it takes before an ack is expected or the message is redelivered.
 #     Environment variable: WORKFLOWS_NATS_CONSUMER_ACK_WAIT
 #     ack_wait: 30s
+#   NATS JetStream parameters
+#   stream:
+#     Number of stream replicas.
+#     replicas: 3
 
 
 # Mongodb connection string
