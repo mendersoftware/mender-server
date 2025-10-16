@@ -41,7 +41,7 @@ paths:
                 value: 00.01:02:03:04:05
                 description: MAC address
               items:
-                $ref: '../common/schemas.yaml#/components/schemas/Attribute'
+                $ref: './schemas.yaml#/components/schemas/Attribute'
         required: true
       responses:
         "200":
@@ -84,7 +84,7 @@ paths:
                 value: 00.01:02:03:04:05
                 description: MAC address
               items:
-                $ref: '../common/schemas.yaml#/components/schemas/Attribute'
+                $ref: './schemas.yaml#/components/schemas/Attribute'
         required: true
       responses:
         "200":

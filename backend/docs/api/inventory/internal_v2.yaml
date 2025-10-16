@@ -54,12 +54,12 @@ paths:
                   description: "List of filter predicates, chained with boolean AND\
                     \ operators to build the search condition definition."
                   items:
-                    $ref: '../common/schemas.yaml#/components/schemas/FilterPredicate'
+                    $ref: './schemas.yaml#/components/schemas/FilterPredicate'
                 sort:
                   type: array
                   description: List of ordered sort criterias
                   items:
-                    $ref: '../common/schemas.yaml#/components/schemas/SortCriteria'
+                    $ref: './schemas.yaml#/components/schemas/SortCriteria'
                 attributes:
                   type: array
                   description: List of attributes to select and return
@@ -120,7 +120,7 @@ components:
           type: array
           description: A list of attribute descriptors.
           items:
-            $ref: '../common/schemas.yaml#/components/schemas/AttributeV2'
+            $ref: './schemas.yaml#/components/schemas/AttributeV2'
       example:
         id: 291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
         attributes:

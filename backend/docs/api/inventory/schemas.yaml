@@ -1,0 +1,153 @@
+# the "mender-server/pkg"of the api spec
+openapi: 3.0.1
+info:
+  title: Common Schemas
+  version: "1.0"
+  description: Shared schemas used across API specifications
+paths: {}
+components:
+  schemas:
+    Scope:
+      type: string
+      description: |
+        The scope of the attribute.
+
+        Scope is a string and acts as namespace for the attribute name.
+
+        * __inventory__: Attributes reported by the device.
+        * __system__: Attributes populated by the mender-server.
+        * __identity__: Device's identity attributes provided in the device's auth request.
+        * __monitor__: Attributes populated by the monitoring add-on.
+        * __tags__: User-defined attributes associated with the device.
+      enum:
+        - system
+        - identity
+        - inventory
+        - monitor
+        - tags
+    Attribute:
+      description: Attribute descriptor.
+      example:
+        name: ip_addr_eth
+        description: Device IP address on ethernet interface
+        value: 127.0.0.1
+      required:
+        - name
+        - value
+      type: object
+      properties:
+        name:
+          type: string
+          description: |
+            A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc.
+        description:
+          type: string
+          description: Attribute description.
+        value:
+          type: string
+          description: |
+            The current value of the attribute.
+
+            Attribute type is implicit, inferred from the JSON type.
+
+            Supported types: number, string, array of numbers, array of strings.
+            Mixed type arrays are not allowed.
+    AttributeV2:
+      description: Attribute descriptor with scope (v2 APIs).
+      example:
+        name: serial_no
+        scope: inventory
+        description: Serial number
+        value: "123456789"
+      required:
+        - name
+        - scope
+        - value
+      type: object
+      properties:
+        name:
+          type: string
+          description: |
+            A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc.
+        scope:
+          $ref: '#/components/schemas/Scope'
+        description:
+          type: string
+          description: Attribute description.
+        value:
+          type: string
+          description: |
+            The current value of the attribute.
+
+            Attribute type is implicit, inferred from the JSON type.
+
+            Supported types: number, string, array of numbers, array of strings.
+            Mixed arrays are not allowed.
+    SortCriteria:
+      description: Sort criteria definition
+      example:
+        attribute: serial_no
+        scope: inventory
+        order: asc
+      required:
+        - attribute
+        - order
+        - scope
+      type: object
+      properties:
+        attribute:
+          type: string
+          description: Attribute name.
+        scope:
+          $ref: '#/components/schemas/Scope'
+        order:
+          type: string
+          description: Sort order.
+          enum:
+            - asc
+            - desc
+    FilterPredicate:
+      required:
+      - attribute
+      - scope
+      - type
+      - value
+      type: object
+      properties:
+        scope:
+          $ref: '#/components/schemas/Scope'
+        attribute:
+          type: string
+          description: |
+            Name of the attribute to be queried for filtering.
+        type:
+          type: string
+          description: Type or operator of the filter predicate.
+          enum:
+          - $eq
+          - $in
+          - $nin
+        value:
+          type: string
+          description: |
+            The value of the attribute to be used in filtering.
+
+            Attribute type is implicit, inferred from the JSON type.
+
+            Supported types: number, string, array of numbers, array of strings.
+            Mixed arrays are not allowed.
+
+            The $exists operator expects a boolean value: true means the specified
+            attribute exists, false means the specified attribute doesn't exist.
+
+            The $regex operator expects a string as a Perl compatible regular expression
+            (PCRE), automatically anchored by ^. If the regular expression is not valid,
+            the filter will produce no results. If you need to specify options and flags,
+            you can provide the full regex in the format of /regex/flags, for example
+            `/[a-z]+/i`.
+      description: Attribute filter predicate
+      example:
+        type: $eq
+        attribute: serial_no
+        scope: inventory
+        value: "123456789"

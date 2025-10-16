@@ -215,7 +215,7 @@ paths:
               type: array
               description: A list of attribute descriptors.
               items:
-                $ref: '../common/schemas.yaml#/components/schemas/Attribute'
+                $ref: './schemas.yaml#/components/schemas/Attribute'
         required: true
       responses:
         "200":
@@ -322,7 +322,7 @@ components:
           type: array
           description: A list of attribute descriptors.
           items:
-            $ref: '../common/schemas.yaml#/components/schemas/Attribute'
+            $ref: './schemas.yaml#/components/schemas/Attribute'
       example:
         id: 291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
         attributes:
