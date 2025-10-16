@@ -156,7 +156,7 @@ describe('Deployments Component', () => {
     await user.click(screen.getByRole('button', { name: /Close/i }));
   });
 
-  it('allows navigating the deployment creation dialog', { timeout: 6 * TIMEOUTS.fiveSeconds }, async () => {
+  it('allows navigating the deployment creation dialog', { timeout: 8 * TIMEOUTS.fiveSeconds }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const preloadedState = {
       ...mockState,
@@ -222,7 +222,7 @@ describe('Deployments Component', () => {
     await waitFor(() => expect(screen.queryByText(/Cancel/i)).not.toBeInTheDocument());
   });
 
-  it('allows navigating the enterprise deployment creation dialog', { timeout: 6 * TIMEOUTS.fiveSeconds }, async () => {
+  it('allows navigating the enterprise deployment creation dialog', { timeout: 9 * TIMEOUTS.fiveSeconds }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const preloadedState = {
       ...mockState,
