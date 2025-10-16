@@ -363,7 +363,7 @@ func getImageFilter(c *gin.Context, paginated bool) *model.ImageFilter {
 		if filter.Page <= 0 {
 			filter.Page = 1
 		}
-		if filter.PerPage <= 0 || filter.PerPage > MaximumPerPage {
+		if filter.PerPage <= 0 {
 			filter.PerPage = DefaultPerPage
 		}
 	}
