@@ -617,7 +617,7 @@ components:
           type: boolean
         updates:
           items:
-            $ref: '#/components/schemas/UpdateV2'
+            $ref: './schemas.yaml#/components/schemas/Update'
           type: array
         artifact_provides:
           additionalProperties:
@@ -769,25 +769,6 @@ components:
       items:
         type: string
       type: array
-    UpdateV2:
-      description: |
-        Single updated to be applied.
-      properties:
-        type_info:
-          $ref: './schemas.yaml#/components/schemas/ArtifactTypeInfo'
-        files:
-          items:
-            $ref: './schemas.yaml#/components/schemas/UpdateFile'
-          type: array
-        meta_data:
-          description: |
-            meta_data is an array of objects of unknown structure as this
-            is dependent of update type (also custom defined by user)
-          items:
-            properties: {}
-            type: object
-          type: array
-      type: object
     UpdateTypes:
       description: Update types as present in the images.
       items:

@@ -1675,34 +1675,6 @@ components:
         description:
           type: string
       type: object
-    UpdateV1:
-      description: |
-        Single updated to be applied.
-      example:
-        type_info:
-          type: type
-        meta_data: []
-        files:
-        - date: 2000-01-23T04:56:07.000+00:00
-          size: 6
-          name: name
-          checksum: checksum
-        - date: 2000-01-23T04:56:07.000+00:00
-          size: 6
-          name: name
-          checksum: checksum
-      properties:
-        type_info:
-          $ref: './schemas.yaml#/components/schemas/ArtifactTypeInfo'
-        files:
-          items:
-            $ref: './schemas.yaml#/components/schemas/UpdateFile'
-          type: array
-        meta_data:
-          items:
-            $ref: './schemas.yaml#/components/schemas/MetadataAny'
-          type: array
-      type: object
     ArtifactV1:
       description: Detailed artifact.
       example:
@@ -1753,7 +1725,7 @@ components:
           type: boolean
         updates:
           items:
-            $ref: '#/components/schemas/UpdateV1'
+            $ref: './schemas.yaml#/components/schemas/Update'
           type: array
         artifact_provides:
           additionalProperties:
@@ -1964,7 +1936,7 @@ components:
         updates:
           description: List of updates for this artifact.
           items:
-            $ref: '#/components/schemas/UpdateV1'
+            $ref: './schemas.yaml#/components/schemas/Update'
           type: array
       type: object
     DeploymentIdentifier:
@@ -2138,9 +2110,4 @@ components:
       - file
       - name
       - type
-      type: object
-    MetadataAny:
-      description: meta_data is an object of unknown structure as this is dependent of update type (also custom defined by user)
-      additionalProperties:
-        type: string
       type: object

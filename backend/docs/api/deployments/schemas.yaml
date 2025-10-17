@@ -96,21 +96,6 @@ components:
           format: date-time
           type: string
       type: object
-    Update:
-      description: |
-        Single updated to be applied.
-      properties:
-        type_info:
-          $ref: '#/components/schemas/ArtifactTypeInfo'
-        files:
-          items:
-            $ref: '#/components/schemas/UpdateFile'
-          type: array
-        meta_data:
-          description: meta_data is an object of unknown structure as this is dependent of update type (also custom defined by user)
-          additionalProperties: true
-          type: object
-      type: object
     DeviceStatus:
       enum:
       - failure
@@ -313,4 +298,30 @@ components:
             If the same artifact is assigned to multiple device deployments,
             its size will be counted multiple times.
           type: integer
+      type: object
+    Update:
+      description: |
+        Single updated to be applied.
+      example:
+        type_info:
+          type: type
+        meta_data: {}
+        files:
+        - date: 2000-01-23T04:56:07.000+00:00
+          size: 6
+          name: name
+          checksum: checksum
+        - date: 2000-01-23T04:56:07.000+00:00
+          size: 6
+          name: name
+          checksum: checksum
+      properties:
+        type_info:
+          $ref: '#/components/schemas/ArtifactTypeInfo'
+        files:
+          items:
+            $ref: '#/components/schemas/UpdateFile'
+          type: array
+        meta_data:
+          $ref: '#/components/schemas/MetadataAny'
       type: object
