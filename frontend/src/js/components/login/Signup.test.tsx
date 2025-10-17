@@ -61,8 +61,8 @@ describe('Signup Component', () => {
     await waitFor(() => expect(screen.getByRole('button', { name: /sign up/i })).toBeEnabled());
     await user.click(screen.getByRole('button', { name: /sign up/i }));
     await act(async () => vi.runAllTicks());
-    await waitFor(() => screen.getByLabelText(/company or organization name \*/i));
-    await user.type(screen.getByLabelText(/company or organization name \*/i), 'test');
+    await waitFor(() => screen.getByLabelText(/organization name/i));
+    await user.type(screen.getByLabelText(/organization name/i), 'test');
     expect(screen.getByRole('button', { name: /complete signup/i })).toBeDisabled();
     await user.click(screen.getByRole('checkbox', { name: /by checking this you agree to our/i }));
     await waitFor(() => expect(screen.getByRole('button', { name: /complete signup/i })).toBeEnabled());
