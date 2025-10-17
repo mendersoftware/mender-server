@@ -1952,48 +1952,6 @@ components:
             type: string
           type: array
       type: object
-    FilterPredicateV1:
-      description: Attribute filter predicate
-      example:
-        type: $eq
-        attribute: group
-        scope: system
-        value: groupName
-      properties:
-        scope:
-          $ref: '../common/schemas.yaml#/components/schemas/Scope'
-        attribute:
-          description: |
-            Name of the attribute to be queried for filtering.
-          type: string
-        type:
-          description: Type or operator of the filter predicate.
-          enum:
-          - $eq
-          - $gt
-          - $gte
-          - $in
-          - $lt
-          - $lte
-          - $ne
-          - $nin
-          - $exists
-          type: string
-        value:
-          description: |
-            The value of the attribute to be used in filtering.
-
-            Attribute type is implicit, inferred from the JSON type.
-
-            Supported types: number, string, array of numbers, array of strings.
-            Mixed arrays are not allowed.
-          type: string
-      required:
-      - attribute
-      - scope
-      - type
-      - value
-      type: object
     FilterV1:
       description: |
         Filter built based on devices targeted by the deployment.
@@ -2006,7 +1964,7 @@ components:
       properties:
         terms:
           items:
-            $ref: '#/components/schemas/FilterPredicateV1'
+            $ref: './schemas.yaml#/components/schemas/AttributeFilterPredicate'
           type: array
       required:
       - terms

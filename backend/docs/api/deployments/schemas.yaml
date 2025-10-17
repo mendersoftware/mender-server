@@ -325,3 +325,43 @@ components:
         meta_data:
           $ref: '#/components/schemas/MetadataAny'
       type: object
+    AttributeFilterPredicate:
+      description: Attribute filter predicate
+      example:
+        type: $eq
+        attribute: serial_no
+        scope: inventory
+        value: "123456789"
+      properties:
+        scope:
+          $ref: '../common/schemas.yaml#/components/schemas/Scope'
+        attribute:
+          description: |
+            Name of the attribute to be queried for filtering.
+          type: string
+        type:
+          description: Type or operator of the filter predicate.
+          enum:
+          - $eq
+          - $gt
+          - $gte
+          - $in
+          - $lt
+          - $lte
+          - $ne
+          - $nin
+          - $exists
+          type: string
+        value:
+          description: |
+            The value of the attribute to be used in filtering.
+            Attribute type is implicit, inferred from the JSON type.
+            Supported types: number, string, array of numbers, array of strings.
+            Mixed arrays are not allowed.
+          type: string
+      required:
+      - attribute
+      - scope
+      - type
+      - value
+      type: object
