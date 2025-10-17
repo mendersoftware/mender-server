@@ -1961,11 +1961,7 @@ components:
         value: groupName
       properties:
         scope:
-          description: |
-            The scope of the attribute.
-
-            Scope is a string and acts as namespace for the attribute name.
-          type: string
+          $ref: '../common/schemas.yaml#/components/schemas/Scope'
         attribute:
           description: |
             Name of the attribute to be queried for filtering.
