@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Add as AddIcon } from '@mui/icons-material';
 // material ui
-import { Button, Chip, Collapse } from '@mui/material';
+import { Button, Chip, Collapse, Divider, Typography } from '@mui/material';
 
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
@@ -123,68 +123,79 @@ export const Filters = ({ className = '', onGroupClick, open }) => {
 
   const isFilterDefined = Object.values(newFilter).every(thing => !!thing);
   const currentFilters = filters.filter(filtersFilter);
+  const isFiltering = !!currentFilters.length || isFilterDefined;
   return (
     <Collapse in={open} timeout="auto" className={`${className} filter-wrapper`} unmountOnExit>
       <>
         <div className="flexbox">
-          <div className="margin-right" style={{ marginTop: currentFilters.length ? 8 : 25 }}>
-            Devices matching:
+          <Typography>Devices matching:</Typography>
+          <div className="margin-left-small filter-list">
+            {currentFilters.map(item => (
+              <Chip
+                className="margin-right-small"
+                key={`filter-${item.key}-${item.operator}-${item.value}`}
+                label={`${getFilterLabelByKey(item.key, attributes)} ${DEVICE_FILTERING_OPTIONS[item.operator].shortform} ${
+                  item.operator !== DEVICE_FILTERING_OPTIONS.$exists.key && item.operator !== DEVICE_FILTERING_OPTIONS.$nexists.key
+                    ? item.operator === DEVICE_FILTERING_OPTIONS.$regex.key
+                      ? `${item.value}.*`
+                      : item.value
+                    : ''
+                }`}
+                size="small"
+                onDelete={() => removeFilter(item)}
+              />
+            ))}
           </div>
-          <div>
-            <div className="filter-list">
-              {currentFilters.map(item => (
-                <Chip
-                  className="margin-right-small"
-                  key={`filter-${item.key}-${item.operator}-${item.value}`}
-                  label={`${getFilterLabelByKey(item.key, attributes)} ${DEVICE_FILTERING_OPTIONS[item.operator].shortform} ${
-                    item.operator !== DEVICE_FILTERING_OPTIONS.$exists.key && item.operator !== DEVICE_FILTERING_OPTIONS.$nexists.key
-                      ? item.operator === DEVICE_FILTERING_OPTIONS.$regex.key
-                        ? `${item.value}.*`
-                        : item.value
-                      : ''
-                  }`}
-                  onDelete={() => removeFilter(item)}
-                />
-              ))}
-            </div>
-            {(hasFullFiltering || !currentFilters.length) && (
-              <>
-                <FilterItem attributes={attributes} onChange={setNewFilter} onSelect={applyPreviewFilter} onSave={updateFilter} plan={plan} reset={reset} />
-                {isFilterDefined && <Chip className="margin-bottom-small" icon={<AddIcon />} label="Add a rule" color="primary" onClick={onAddClick} />}
-              </>
-            )}
+          <InfoHintContainer>
             <EnterpriseNotification id={BENEFITS.fullFiltering.id} />
-          </div>
+            {hasFullFiltering && <EnterpriseNotification id={BENEFITS.dynamicGroups.id} />}
+          </InfoHintContainer>
         </div>
-        {!!filters.length && !groupFilters.length && (
-          <div className="flexbox column margin-top-small margin-bottom-small" style={{ alignItems: 'flex-end' }}>
-            <span className="link margin-small margin-top-none" onClick={clearFilters}>
-              Clear filter
-            </span>
-          </div>
-        )}
-        {isEnterprise && !!filters.length && (
-          <div>
-            {selectedGroup ? (
-              !!groupFilters.length && (
-                <MenderTooltip
-                  title="Saved changes will not change the target devices of any ongoing deployments to this group, but will take effect for new deployments"
-                  arrow
-                >
-                  <Button variant="contained" color="secondary" onClick={onGroupClick}>
-                    Save group
-                  </Button>
-                </MenderTooltip>
-              )
-            ) : (
-              <Button variant="contained" color="secondary" onClick={onGroupClick}>
-                Create group with this filter
+        <div className="flexbox column">
+          <FilterItem attributes={attributes} onChange={setNewFilter} onSelect={applyPreviewFilter} onSave={updateFilter} plan={plan} reset={reset} />
+          <Button
+            className="align-self-start margin-bottom-small"
+            color="primary"
+            disabled={!(isFilterDefined && hasFullFiltering)}
+            onClick={onAddClick}
+            startIcon={<AddIcon />}
+            variant="outlined"
+          >
+            Add rule
+          </Button>
+        </div>
+
+        {!groupFilters.length && (
+          <>
+            <Divider />
+            <div className="flexbox space-between margin-top-small margin-bottom-small">
+              <Button disabled={!isFiltering} onClick={clearFilters} variant="outlined">
+                Clear filter
               </Button>
-            )}
-            <InfoHintContainer>
-              <EnterpriseNotification id={BENEFITS.dynamicGroups.id} />
-            </InfoHintContainer>
-          </div>
+              {isEnterprise && !!filters.length ? (
+                <div>
+                  {selectedGroup ? (
+                    !!groupFilters.length && (
+                      <MenderTooltip
+                        title="Saved changes will not change the target devices of any ongoing deployments to this group, but will take effect for new deployments"
+                        arrow
+                      >
+                        <Button variant="contained" color="secondary" onClick={onGroupClick}>
+                          Save group
+                        </Button>
+                      </MenderTooltip>
+                    )
+                  ) : (
+                    <Button variant="contained" color="secondary" onClick={onGroupClick}>
+                      Create group with this filter
+                    </Button>
+                  )}
+                </div>
+              ) : (
+                <div />
+              )}
+            </div>
+          </>
         )}
       </>
     </Collapse>
