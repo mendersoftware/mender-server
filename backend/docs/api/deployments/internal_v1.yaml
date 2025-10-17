@@ -742,12 +742,6 @@ components:
       - deployment
       - device
       type: object
-    MetadataAny:
-      description: meta_data is an object of unknown structure as this is dependent
-        of update type (also custom defined by user)
-      additionalProperties:
-        type: string
-      type: object
     LastDeviceDeploymentsStatuses:
       example:
         device_deployment_last_statuses:
