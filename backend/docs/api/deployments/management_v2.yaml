@@ -617,7 +617,7 @@ components:
           type: boolean
         updates:
           items:
-            $ref: '#/components/schemas/UpdateV2'
+            $ref: './schemas.yaml#/components/schemas/Update'
           type: array
         artifact_provides:
           additionalProperties:
@@ -769,76 +769,11 @@ components:
       items:
         type: string
       type: array
-    UpdateV2:
-      description: |
-        Single updated to be applied.
-      properties:
-        type_info:
-          $ref: './schemas.yaml#/components/schemas/ArtifactTypeInfo'
-        files:
-          items:
-            $ref: './schemas.yaml#/components/schemas/UpdateFile'
-          type: array
-        meta_data:
-          description: |
-            meta_data is an array of objects of unknown structure as this
-            is dependent of update type (also custom defined by user)
-          items:
-            properties: {}
-            type: object
-          type: array
-      type: object
     UpdateTypes:
       description: Update types as present in the images.
       items:
         type: string
       type: array
-    FilterPredicateV2:
-      description: Attribute filter predicate
-      example:
-        type: $eq
-        attribute: serial_no
-        scope: inventory
-        value: "123456789"
-      properties:
-        scope:
-          description: |
-            The scope of the attribute.
-
-            Scope is a string and acts as namespace for the attribute name.
-          type: string
-        attribute:
-          description: |
-            Name of the attribute to be queried for filtering.
-          type: string
-        type:
-          description: Type or operator of the filter predicate.
-          enum:
-          - $eq
-          - $gt
-          - $gte
-          - $in
-          - $lt
-          - $lte
-          - $ne
-          - $nin
-          - $exists
-          type: string
-        value:
-          description: |
-            The value of the attribute to be used in filtering.
-
-            Attribute type is implicit, inferred from the JSON type.
-
-            Supported types: number, string, array of numbers, array of strings.
-            Mixed arrays are not allowed.
-          type: string
-      required:
-      - attribute
-      - scope
-      - type
-      - value
-      type: object
     FilterV2:
       description: Inventory filter assigned to the deployment
       example:
@@ -860,7 +795,7 @@ components:
           type: string
         terms:
           items:
-            $ref: '#/components/schemas/FilterPredicateV2'
+            $ref: './schemas.yaml#/components/schemas/AttributeFilterPredicate'
           type: array
       required:
       - id
@@ -890,84 +825,6 @@ components:
         device_count:
           description: |
             Number of devices which already requested an update within this phase.
-          type: integer
-      type: object
-    StatisticsV2:
-      example:
-        success: 3
-        pending: 1
-        failure: 0
-        downloading: 1
-        installing: 2
-        rebooting: 3
-        noartifact: 0
-        already-installed: 0
-        aborted: 0
-        pause_before_installing: 0
-        pause_before_rebooting: 0
-        pause_before_committing: 0
-      properties:
-        success:
-          description: Number of successful deployments.
-          type: integer
-        pending:
-          description: Number of pending deployments.
-          type: integer
-        downloading:
-          description: Number of deployments being downloaded.
-          type: integer
-        rebooting:
-          description: Number of deployments devices are rebooting into.
-          type: integer
-        installing:
-          description: Number of deployments devices being installed.
-          type: integer
-        failure:
-          description: Number of failed deployments.
-          type: integer
-        noartifact:
-          description: Do not have appropriate artifact for device type.
-          type: integer
-        already-installed:
-          description: "Number of devices unaffected by upgrade, since they are already\
-            \ running the specified software version."
-          type: integer
-        aborted:
-          description: Number of deployments aborted by user.
-          type: integer
-        pause_before_installing:
-          description: Number of deployments paused before install state.
-          type: integer
-        pause_before_rebooting:
-          description: Number of deployments paused before reboot phase.
-          type: integer
-        pause_before_committing:
-          description: Number of deployments paused before commit phase.
-          type: integer
-      required:
-      - aborted
-      - already-installed
-      - downloading
-      - failure
-      - installing
-      - noartifact
-      - pause_before_committing
-      - pause_before_installing
-      - pause_before_rebooting
-      - pending
-      - rebooting
-      - success
-      type: object
-    DeploymentStatisticsV2:
-      properties:
-        status:
-          $ref: '#/components/schemas/StatisticsV2'
-        total_size:
-          description: |
-            Sum of sizes (in bytes) of all artifacts assigned to all device deployments,
-            which are part of this deployment.
-            If the same artifact is assigned to multiple device deployments,
-            its size will be counted multiple times.
           type: integer
       type: object
     DeploymentV2:
@@ -1075,7 +932,7 @@ components:
             The flag idicating if the autogeneration of delta artifacts is enabled for a given deployment.
           type: boolean
         statistics:
-          $ref: '#/components/schemas/DeploymentStatisticsV2'
+          $ref: './schemas.yaml#/components/schemas/DeploymentStatistics'
       required:
       - artifact_name
       - created

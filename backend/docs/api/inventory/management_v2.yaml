@@ -175,7 +175,7 @@ components:
           type: string
           description: Name of the attribute.
         scope:
-          $ref: '#/components/schemas/Scope'
+          $ref: '../common/schemas.yaml#/components/schemas/Scope'
         count:
           type: integer
           description: Number of occurrences of the attribute in the database.
@@ -194,7 +194,7 @@ components:
           type: string
           description: Attribute name.
         scope:
-          $ref: '#/components/schemas/Scope'
+          $ref: '../common/schemas.yaml#/components/schemas/Scope'
       description: Inventory attribute
       example:
         attribute: serial_no
