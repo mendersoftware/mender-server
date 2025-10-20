@@ -96,21 +96,6 @@ components:
           format: date-time
           type: string
       type: object
-    Update:
-      description: |
-        Single updated to be applied.
-      properties:
-        type_info:
-          $ref: '#/components/schemas/ArtifactTypeInfo'
-        files:
-          items:
-            $ref: '#/components/schemas/UpdateFile'
-          type: array
-        meta_data:
-          description: meta_data is an object of unknown structure as this is dependent of update type (also custom defined by user)
-          additionalProperties: true
-          type: object
-      type: object
     DeviceStatus:
       enum:
       - failure
@@ -235,4 +220,148 @@ components:
         of update type (also custom defined by user)
       additionalProperties:
         type: string
+      type: object
+    Statistics:
+      example:
+        success: 3
+        pending: 1
+        failure: 0
+        downloading: 1
+        installing: 2
+        rebooting: 3
+        noartifact: 0
+        already-installed: 0
+        aborted: 0
+        pause_before_installing: 0
+        pause_before_rebooting: 0
+        pause_before_committing: 0
+      properties:
+        success:
+          description: Number of successful deployments.
+          type: integer
+        pending:
+          description: Number of pending deployments.
+          type: integer
+        downloading:
+          description: Number of deployments being downloaded.
+          type: integer
+        rebooting:
+          description: Number of deployments devices are rebooting into.
+          type: integer
+        installing:
+          description: Number of deployments devices being installed.
+          type: integer
+        failure:
+          description: Number of failed deployments.
+          type: integer
+        noartifact:
+          description: Do not have appropriate artifact for device type.
+          type: integer
+        already-installed:
+          description: "Number of devices unaffected by upgrade, since they are already\
+            \ running the specified software version."
+          type: integer
+        aborted:
+          description: Number of deployments aborted by user.
+          type: integer
+        pause_before_installing:
+          description: Number of deployments paused before install state.
+          type: integer
+        pause_before_rebooting:
+          description: Number of deployments paused before reboot phase.
+          type: integer
+        pause_before_committing:
+          description: Number of deployments paused before commit phase.
+          type: integer
+      required:
+      - aborted
+      - already-installed
+      - downloading
+      - failure
+      - installing
+      - noartifact
+      - pause_before_committing
+      - pause_before_installing
+      - pause_before_rebooting
+      - pending
+      - rebooting
+      - success
+      type: object
+    DeploymentStatistics:
+      properties:
+        status:
+          $ref: '#/components/schemas/Statistics'
+        total_size:
+          description: |
+            Sum of sizes (in bytes) of all artifacts assigned to all device deployments,
+            which are part of this deployment.
+            If the same artifact is assigned to multiple device deployments,
+            its size will be counted multiple times.
+          type: integer
+      type: object
+    Update:
+      description: |
+        Single updated to be applied.
+      example:
+        type_info:
+          type: type
+        meta_data: {}
+        files:
+        - date: 2000-01-23T04:56:07.000+00:00
+          size: 6
+          name: name
+          checksum: checksum
+        - date: 2000-01-23T04:56:07.000+00:00
+          size: 6
+          name: name
+          checksum: checksum
+      properties:
+        type_info:
+          $ref: '#/components/schemas/ArtifactTypeInfo'
+        files:
+          items:
+            $ref: '#/components/schemas/UpdateFile'
+          type: array
+        meta_data:
+          $ref: '#/components/schemas/MetadataAny'
+      type: object
+    AttributeFilterPredicate:
+      description: Attribute filter predicate
+      example:
+        type: $eq
+        attribute: serial_no
+        scope: inventory
+        value: "123456789"
+      properties:
+        scope:
+          $ref: '../common/schemas.yaml#/components/schemas/Scope'
+        attribute:
+          description: |
+            Name of the attribute to be queried for filtering.
+          type: string
+        type:
+          description: Type or operator of the filter predicate.
+          enum:
+          - $eq
+          - $gt
+          - $gte
+          - $in
+          - $lt
+          - $lte
+          - $ne
+          - $nin
+          - $exists
+          type: string
+        value:
+          description: |
+            The value of the attribute to be used in filtering.
+            Attribute type is implicit, inferred from the JSON type.
+            Supported types: number, string, array of numbers, array of strings.
+            Mixed arrays are not allowed.
+          type: string
+      required:
+      - attribute
+      - scope
+      - type
+      - value
       type: object
