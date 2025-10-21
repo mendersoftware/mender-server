@@ -95,7 +95,7 @@ export const Organization = () => {
         return dispatch(deleteSsoConfig(ssoConfig)).then(() => setIsResettingSSO(false));
       }
       if (id) {
-        return dispatch(changeSsoConfig({ id, config, contentType }));
+        return dispatch(changeSsoConfig({ config: { ...config, id }, contentType }));
       }
       return dispatch(storeSsoConfig({ config, contentType }));
     },
