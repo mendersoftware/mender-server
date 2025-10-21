@@ -57,6 +57,9 @@ const (
 	SettingNatsConsumerMaxDeliverDefault = 3
 	SettingNatsConsumerMaxPending        = SettingNatsConsumer + ".max_pending"
 	SettingNatsConsumerMaxPendingDefault = 1000
+	SettingNatsJetStream                 = SettingsNats + ".stream"
+	SettingNatsJetStreamReplicas         = SettingNatsJetStream + ".replicas"
+	SettingNatsJetStreamReplicasDefault  = 1
 
 	// SettingMongo is the config key for the mongo URL
 	SettingMongo = "mongo-url"
@@ -122,6 +125,7 @@ var (
 		{Key: SettingNatsStreamName, Value: SettingNatsStreamNameDefault},
 		{Key: SettingNatsSubscriberTopic, Value: SettingNatsSubscriberTopicDefault},
 		{Key: SettingNatsSubscriberDurable, Value: SettingNatsSubscriberDurableDefault},
+		{Key: SettingNatsJetStreamReplicas, Value: SettingNatsJetStreamReplicasDefault},
 		{Key: SettingMongo, Value: SettingMongoDefault},
 		{Key: SettingDbName, Value: SettingDbNameDefault},
 		{Key: SettingDbSSL, Value: SettingDbSSLDefault},
