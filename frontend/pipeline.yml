@@ -22,13 +22,9 @@ test:frontend:lint:
     - npm ci --cache .npm --prefer-offline
     - cd tests/e2e_tests && npm ci && cd ../..
     - npm run lint
-  tags:
-    - k8s
 
 test:frontend:license-headers:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/denoland/deno:debian-2.0.2
-  tags:
-    - hetzner-podman
   stage: test
   rules:
     - changes:
@@ -62,8 +58,6 @@ test:frontend:licenses:
     - npm ci
   script:
     - deno run --allow-env --allow-read --allow-sys tests/licenses/licenseCheck.ts --rootDir $(pwd)
-  tags:
-    - k8s
 
 test:frontend:unit:
   stage: test
@@ -91,8 +85,6 @@ test:frontend:unit:
     reports:
       junit: frontend/junit.xml
     when: always
-  tags:
-    - k8s
 
 test:frontend:docs-links:
   stage: test
@@ -122,8 +114,6 @@ test:frontend:docs-links:
       if [ $error -gt 0 ]; then
         exit 1
       fi
-  tags:
-    - k8s
 
 test:frontend:docs-links:hosted:
   extends: test:frontend:docs-links
@@ -254,8 +244,6 @@ test:frontend:acceptance:enterprise:qemu:
     - export COVERALLS_SERVICE_NUMBER=${CI_PIPELINE_ID}
     - apk add --no-cache git
     - npm i -g coveralls
-  tags:
-    - hetzner-amd-beefy
   allow_failure: true
 
 publish:frontend:tests:
@@ -349,8 +337,6 @@ publish:frontend:docker:
 
 publish:frontend:licenses:
   stage: publish
-  tags:
-    - k8s
   rules:
     - changes:
         paths: ['frontend/**/*']
@@ -378,8 +364,6 @@ publish:frontend:sentry:finalize:
     - if: $CI_COMMIT_REF_PROTECTED == "true" && $CI_COMMIT_REF_NAME == "main"
       when: on_success
   allow_failure: true
-  tags:
-    - hetzner-amd-beefy
   script:
     # this has to be in one line as the cli won't work with formatting induced white space around passed options
     - sentry-cli --auth-token $SENTRY_AUTH_TOKEN --url $SENTRY_URL releases finalize mender-frontend@$CI_COMMIT_SHA  --project mender-frontend  --org $SENTRY_ORG
