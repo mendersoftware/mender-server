@@ -25,7 +25,6 @@ import { getBillingPreview, getCurrentCard, getUserBilling, getUserSubscription,
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { Elements } from '@stripe/react-stripe-js';
 
-import { addOnsToString } from '../settings/Upgrade';
 import { SubscriptionAddon } from './SubscriptionAddon';
 import { SubscriptionDrawer } from './SubscriptionDrawer';
 import { SubscriptionSummary } from './SubscriptionSummary';
@@ -57,6 +56,17 @@ const contactReasons = {
     )
   }
 } as const;
+
+const addOnsToString = (addons: Addon[] = []) =>
+  addons
+    .reduce((accu: string[], item) => {
+      if (item.enabled) {
+        accu.push(item.name);
+      }
+      return accu;
+    }, [])
+    .join(', ');
+
 interface ContactReasonProps {
   reason: keyof typeof contactReasons;
 }
