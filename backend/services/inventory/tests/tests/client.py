@@ -225,10 +225,10 @@ class InternalApiClient:
 
     def create_tenant(self, tenant_id):
         tenant = internal_v1.TenantNew(tenant_id=tenant_id)
-        return self.client.inventory_internal_create_tenant(tenant=tenant)
+        return self.client.inventory_internal_create_tenant(tenant_new=tenant)
 
     def create_device(self, device_id, attributes, description="test device"):
         device = self.DeviceNew(
-            id=device_id, description=description, attributes=attributes
+            id=device_id, attributes=attributes
         )
         return self.client.initialize_device(tenant_id="", device=device)
