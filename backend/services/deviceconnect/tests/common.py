@@ -46,7 +46,7 @@ class Device:
         client = internal_api.InternalAPIClient()
         r = client.device_connect_internal_provision_device_with_http_info(
             tenant_id=tenant_id,
-            device=internal_api.Device(device_id=device_id),
+            provision_device=internal_api.ProvisionDevice(device_id=device_id),
             _preload_content=False,
         )
         assert r.status == 201

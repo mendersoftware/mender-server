@@ -107,11 +107,15 @@ class InternalAPIClientWrapper:
             client = internal_api.InternalAPIClient()
         self._client = client
 
-    def provision_device_with_http_info(self, **kwargs):
-        return self._client.device_config_internal_provision_device_with_http_info(**kwargs)
+    def provision_device_with_http_info(self, tenant_id, new_device, **kwargs):
+        return self._client.device_config_internal_provision_device_with_http_info(
+            tenant_id, provision_device=new_device, **kwargs
+        )
 
-    def decommission_device_with_http_info(self, **kwargs):
-        return self._client.device_config_internal_decommission_device_with_http_info(**kwargs)
+    def decommission_device_with_http_info(self, tenant_id, device_id, **kwargs):
+        return self._client.device_config_internal_decommission_device_with_http_info(
+            tenant_id, device_id, **kwargs
+        )
 
 
 InternalAPIClient = InternalAPIClientWrapper
