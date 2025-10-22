@@ -16,8 +16,8 @@ import uuid
 import pytest
 
 from common import management_api_with_params
-from internal_api import InternalAPIClient
-from management_api import ApiException as ManagementApiException
+from common import InternalAPIClient
+from management_v1 import ApiException as ManagementApiException
 
 
 @pytest.fixture

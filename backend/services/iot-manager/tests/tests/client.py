@@ -19,13 +19,13 @@ import requests
 
 import management_v1 as management_api
 import internal_v1 as internal_api
-from management_api.apis import ManagementAPIClient as GenManagementAPIClient
-from management_api import (
+from management_v1.apis import ManagementAPIClient as GenManagementAPIClient
+from management_v1 import (
     Configuration as mgmt_Configuration,
     ApiClient as mgmt_ApiClient,
 )
-from internal_api.apis import InternalAPIClient as GenInternalAPIClient
-from internal_api import (
+from internal_v1.apis import InternalAPIClient as GenInternalAPIClient
+from internal_v1 import (
     Configuration as intrnl_Configuration,
     ApiClient as intrnl_ApiClient,
 )

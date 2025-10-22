@@ -21,7 +21,7 @@ from os import path
 import docker
 
 from client import ManagementAPIClient
-from management_api import models
+from management_v1 import models
 from utils import compare_expectations
 
 
