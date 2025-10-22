@@ -231,4 +231,4 @@ class InternalApiClient:
         device = self.DeviceNew(
             id=device_id, attributes=attributes
         )
-        return self.client.initialize_device(tenant_id="", device=device)
+        return self.client.initialize_device(tenant_id="", device_new=device)
