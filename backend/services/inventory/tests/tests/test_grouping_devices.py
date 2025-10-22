@@ -36,13 +36,11 @@ class TestGroupCreation:
         """
         did = "some-device-id"
         internal_client.create_device(did, inventory_attributes)
-        group = management_client.group(group="groupA")
-        management_client.addDeviceToGroup(group, did)
+        management_client.addDeviceToGroup("groupA", did)
         group_a_devs = management_client.getGroupDevices("groupA")
         assert len(group_a_devs) == 1
 
-        group = management_client.group(group="groupB")
-        management_client.addDeviceToGroup(group=group, device=did)
+        management_client.addDeviceToGroup(group="groupB", device=did)
 
         assert (
             len(management_client.getGroupDevices("groupA", expected_error=True)) == 0
@@ -60,12 +58,12 @@ class TestGroupCreation:
         internal_client.create_device(did1, inventory_attributes)
         internal_client.create_device(did2, inventory_attributes)
 
-        group = management_client.group(group="group-test-1")
+        group = "group-test-1"
         management_client.addDeviceToGroup(group=group, device=did1)
         management_client.addDeviceToGroup(group=group, device=did2)
         assert len(management_client.getGroupDevices("group-test-1")) == 2
 
-        group = management_client.group(group="group-test-2")
+        group = "group-test-2"
         management_client.addDeviceToGroup(group=group, device=did2)
         assert len(management_client.getGroupDevices("group-test-1")) == 1
         assert len(management_client.getGroupDevices("group-test-2")) == 1
@@ -77,7 +75,7 @@ class TestGroupCreation:
         )
         assert len(management_client.getGroupDevices("group-test-2")) == 2
 
-        group = management_client.group(group="group-test-1")
+        group = "group-test-1"
         management_client.addDeviceToGroup(group=group, device=did1)
         management_client.addDeviceToGroup(group=group, device=did2)
         assert len(management_client.getGroupDevices("group-test-1")) == 2
@@ -88,7 +86,7 @@ class TestGroupCreation:
 
     def test_get_groups(self, management_client, internal_client, inventory_attributes):
         for i in range(10):
-            group = management_client.group(group="group" + str(i))
+            group = "group" + str(i)
             did = "".join([format(i, "02x") for i in os.urandom(128)])
             internal_client.create_device(did, inventory_attributes)
             management_client.addDeviceToGroup(group=group, device=did)
@@ -105,7 +103,7 @@ class TestGroupCreation:
         did = "some-device-id"
         internal_client.create_device(did, inventory_attributes)
         for i in range(10):
-            group = management_client.group(group="group" + str(i))
+            group = "group" + str(i)
             management_client.addDeviceToGroup(group, did)
 
         assert len(management_client.getAllGroups()) == 1
@@ -119,7 +117,7 @@ class TestGroupCreation:
         assert len(management_client.getAllGroups()) == 0
         assert len(management_client.getAllDevices(has_group=True)) == 0
 
-        group = management_client.group(group="has_group_test_1")
+        group = "has_group_test_1"
         management_client.addDeviceToGroup(group=group, device=did)
         assert len(management_client.getAllDevices(has_group=True)) == 1
 
@@ -134,7 +132,7 @@ class TestGroupCreation:
         devices_in_groups = {}
 
         for i in range(total_groups):
-            group = management_client.group(group="group" + str(i))
+            group = "group" + str(i)
             for j in range(items_per_group):
                 device = "".join([format(i, "02x") for i in os.urandom(128)])
                 internal_client.create_device(device, inventory_attributes)

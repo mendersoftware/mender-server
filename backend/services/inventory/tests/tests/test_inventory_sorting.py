@@ -28,6 +28,10 @@ class TestInventorySorting:
     def test_inventory_sorting(
         self, management_client, internal_client, inventory_attributes
     ):
+        def get_raw_value(val):
+            if hasattr(val, 'actual_instance'):
+                return val.actual_instance
+            return val
         numbers = [100, 1000, 1, 999]
 
         for n in range(20):
@@ -46,7 +50,8 @@ class TestInventorySorting:
         for deviceInventoryList in r:
             for i in deviceInventoryList.attributes:
                 if i.name == "number":
-                    t.append(i.value)
+                    val = get_raw_value(i.value)
+                    t.append(val)
 
         assert sorted(numbers) == t
 
@@ -55,6 +60,7 @@ class TestInventorySorting:
         for deviceInventoryList in r:
             for i in deviceInventoryList.attributes:
                 if i.name == "number":
-                    t.append(i.value)
+                    val = get_raw_value(i.value)
+                    t.append(val)
 
         assert sorted(numbers, reverse=True) == t

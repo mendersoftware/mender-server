@@ -14,6 +14,12 @@
 #    limitations under the License.
 import logging
 
+import devices_v1
+import internal_v1
+import internal_v2
+import management_v1
+import management_v2
+
 
 def pytest_addoption(parser):
     parser.addoption(
@@ -35,19 +41,6 @@ def pytest_addoption(parser):
         "--devices", action="store", default="1001", help="# of devices to test with"
     )
     parser.addoption(
-        "--management-spec",
-        action="store",
-        default="management_api.yml.",
-        help="management API spec",
-    )
-    parser.addoption(
-        "--management-v2-spec",
-        action="store",
-        default="management_api_v2.yml.",
-        help="management API v2 spec",
-    )
-    parser.addoption("--internal-spec", default="../docs/internal_api.yml")
-    parser.addoption(
         "--inventory-items",
         action="store",
         default="inventory_items",
@@ -63,6 +56,20 @@ def pytest_configure(config):
     if config.getoption("verbose"):
         lvl = logging.DEBUG
     logging.basicConfig(level=lvl)
-    # configure bravado related loggers to be less verbose
-    logging.getLogger("swagger_spec_validator").setLevel(logging.INFO)
-    logging.getLogger("bravado_core").setLevel(logging.INFO)
+
+    # Configure generated API clients
+    devices_v1.Configuration.set_default(
+        devices_v1.Configuration(host="http://" + host)
+    )
+    internal_v1.Configuration.set_default(
+        internal_v1.Configuration(host="http://" + host)
+    )
+    internal_v2.Configuration.set_default(
+        internal_v2.Configuration(host="http://" + host)
+    )
+    management_v1.Configuration.set_default(
+        management_v1.Configuration(host="http://" + host)
+    )
+    management_v2.Configuration.set_default(
+        management_v2.Configuration(host="http://" + host)
+    )

@@ -19,7 +19,7 @@ from common import (
     mongo,
 )
 
-import bravado
+import management_v1
 import pytest
 import requests
 
@@ -41,9 +41,9 @@ class TestTagAttributes:
 
         res = management_client.getDevice(did)
         tags_attributes = []
-        for attr in res["attributes"]:
-            if attr["scope"] == "tags":
-                assert attr["name"] in tags
+        for attr in res.attributes:
+            if attr.scope == "tags":
+                assert attr.name in tags
                 tags_attributes.append(attr)
         assert len(tags_attributes) == len(tags)
 
@@ -61,9 +61,9 @@ class TestTagAttributes:
 
         res = management_client.getDevice(did)
         tags_attributes = []
-        for attr in res["attributes"]:
-            if attr["scope"] == "tags":
-                assert attr["name"] in tags
+        for attr in res.attributes:
+            if attr.scope == "tags":
+                assert attr.name in tags
                 tags_attributes.append(attr)
         assert len(tags_attributes) == len(tags_body)
 
@@ -78,9 +78,9 @@ class TestTagAttributes:
 
         res = management_client.getDevice(did)
         tags_attributes = []
-        for attr in res["attributes"]:
-            if attr["scope"] == "tags":
-                assert attr["name"] in tags
+        for attr in res.attributes:
+            if attr.scope == "tags":
+                assert attr.name in tags
                 tags_attributes.append(attr)
         assert len(tags_attributes) == len(tags_body)
 
@@ -94,13 +94,13 @@ class TestTagAttributes:
         management_client.updateTagAttributes(did, tags_body)
 
         res = requests.get(
-            management_client.client.swagger_spec.api_url + "/devices/" + did,
+            management_client.client.api_client.configuration.host + "/api/management/v1/inventory/devices/" + did,
             headers={"Authorization":DEFAULT_AUTH},
         )
         etag_one = res.headers["Etag"]
         management_client.setTagAttributes(did, tags_body, eTag=etag_one)
         res = requests.get(
-            management_client.client.swagger_spec.api_url + "/devices/" + did,
+            management_client.client.api_client.configuration.host + "/api/management/v1/inventory/devices/" + did,
             headers={"Authorization":DEFAULT_AUTH},
         )
         etag_two = res.headers["Etag"]
@@ -108,9 +108,9 @@ class TestTagAttributes:
 
         res = management_client.getDevice(did)
         tags_attributes = []
-        for attr in res["attributes"]:
-            if attr["scope"] == "tags":
-                assert attr["name"] in tags
+        for attr in res.attributes:
+            if attr.scope == "tags":
+                assert attr.name in tags
                 tags_attributes.append(attr)
         assert len(tags_attributes) == len(tags_body)
 
@@ -124,13 +124,13 @@ class TestTagAttributes:
         management_client.setTagAttributes(did, tags_body)
 
         res = requests.get(
-            management_client.client.swagger_spec.api_url + "/devices/" + did,
+            management_client.client.api_client.configuration.host + "/api/management/v1/inventory/devices/" + did,
             headers={"Authorization":DEFAULT_AUTH},
         )
         etag_one = res.headers["Etag"]
         management_client.setTagAttributes(did, tags_body, eTag=etag_one)
         res = requests.get(
-            management_client.client.swagger_spec.api_url + "/devices/" + did,
+            management_client.client.api_client.configuration.host + "/api/management/v1/inventory/devices/" + did,
             headers={"Authorization":DEFAULT_AUTH},
         )
         etag_two = res.headers["Etag"]
@@ -138,9 +138,9 @@ class TestTagAttributes:
 
         res = management_client.getDevice(did)
         tags_attributes = []
-        for attr in res["attributes"]:
-            if attr["scope"] == "tags":
-                assert attr["name"] in tags
+        for attr in res.attributes:
+            if attr.scope == "tags":
+                assert attr.name in tags
                 tags_attributes.append(attr)
         assert len(tags_attributes) == len(tags_body)
 
@@ -156,8 +156,8 @@ class TestTagAttributes:
         fake_etag = "241496e0-cbbb-4a83-90e9-70b4dd0e645a"
         try:
             management_client.updateTagAttributes(did, tags_body, eTag=fake_etag)
-        except Exception as e:
-            assert str(e) == "412 Precondition Failed"
+        except management_v1.exceptions.ApiException as e:
+            assert e.status == 412
         else:
             raise Exception("did not raise expected exception")
 
@@ -173,8 +173,8 @@ class TestTagAttributes:
         fake_etag = "241496e0-cbbb-4a83-90e9-70b4dd0e645a"
         try:
             management_client.setTagAttributes(did, tags_body, eTag=fake_etag)
-        except Exception as e:
-            assert str(e) == "412 Precondition Failed"
+        except management_v1.exceptions.ApiException as e:
+            assert e.status == 412
         else:
             raise Exception("did not raise expected exception")
 
@@ -186,12 +186,13 @@ class TestTagAttributes:
         tags_body = [
             {"name": "n_%d" % i, "value": "v_%d" % i} for i in range(LIMIT_TAGS + 1)
         ]
-        with pytest.raises(bravado.exception.HTTPBadRequest):
+        with pytest.raises(management_v1.exceptions.ApiException) as exc_info:
             management_client.updateTagAttributes(did, tags_body)
+        assert exc_info.value.status == 400
 
         res = management_client.getDevice(did)
         tags_attributes = []
-        for attr in res["attributes"]:
-            if attr["scope"] == "tags":
+        for attr in res.attributes:
+            if attr.scope == "tags":
                 tags_attributes.append(attr)
         assert len(tags_attributes) == 0
