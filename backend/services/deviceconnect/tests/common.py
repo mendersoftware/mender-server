@@ -23,7 +23,7 @@ from websocket import create_connection
 
 import devices_api
 import internal_api
-import management_api
+import management_v1 as management_api
 
 
 @contextmanager

@@ -17,8 +17,8 @@ import json
 import uuid
 from datetime import datetime, timedelta, timezone
 
-import devices_api
-import management_api
+import devices_v1 as devices_api
+import management_v1 as management_api
 
 
 def make_user_token(user_id=None, plan=None, tenant_id=None):

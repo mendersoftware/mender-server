@@ -27,10 +27,10 @@ from datetime import datetime, timedelta
 import hmac
 import uuid
 
-import devices_api
-import internal_api
-import management_api
-from management_api import models as management_models
+import devices_v1 as devices_api
+import internal_v1 as internal_api
+import management_v2 as management_api
+from management_v2 import models as management_models
 
 
 def generate_jwt(tenant_id: str = "", subject: str = "", is_user: bool = True) -> str:
