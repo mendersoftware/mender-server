@@ -18,6 +18,7 @@ import uuid
 from datetime import datetime, timedelta, timezone
 
 import devices_v1 as devices_api
+import internal_v1 as internal_api
 import management_v1 as management_api
 
 
@@ -75,13 +76,56 @@ def make_device_token(device_id=None, plan=None, tenant_id=None):
     )
 
 
+class ManagementAPIClientWrapper:
+    def __init__(self, client):
+        self._client = client
+
+    def get_device_configuration(self, device_id, **kwargs):
+        return self._client.device_config_management_get_device_configuration(device_id, **kwargs)
+
+    def set_device_configuration(self, device_id, **kwargs):
+        return self._client.device_config_management_set_device_configuration(device_id, **kwargs)
+
+    def deploy_device_configuration(self, device_id, **kwargs):
+        return self._client.device_config_management_deploy_device_configuration(device_id, **kwargs)
+
+
+class DeviceAPIClientWrapper:
+    def __init__(self, client):
+        self._client = client
+
+    def get_device_configuration(self, **kwargs):
+        return self._client.device_config_get_device_configuration(**kwargs)
+
+    def report_device_configuration(self, **kwargs):
+        return self._client.device_config_report_device_configuration(**kwargs)
+
+
+class InternalAPIClientWrapper:
+    def __init__(self, client=None):
+        if client is None:
+            client = internal_api.InternalAPIClient()
+        self._client = client
+
+    def provision_device_with_http_info(self, **kwargs):
+        return self._client.device_config_internal_provision_device_with_http_info(**kwargs)
+
+    def decommission_device_with_http_info(self, **kwargs):
+        return self._client.device_config_internal_decommission_device_with_http_info(**kwargs)
+
+
+InternalAPIClient = InternalAPIClientWrapper
+
+
 def management_api_with_params(user_id, plan=None, tenant_id=None):
     api_conf = management_api.Configuration.get_default_copy()
     api_conf.access_token = make_user_token(user_id, plan, tenant_id)
-    return management_api.ManagementAPIClient(management_api.ApiClient(api_conf))
+    client = management_api.ManagementAPIClient(management_api.ApiClient(api_conf))
+    return ManagementAPIClientWrapper(client)
 
 
 def devices_api_with_params(device_id, plan=None, tenant_id=None):
     api_conf = devices_api.Configuration.get_default_copy()
     api_conf.access_token = make_device_token(device_id, plan, tenant_id)
-    return devices_api.DeviceAPIClient(devices_api.ApiClient(api_conf))
+    client = devices_api.DeviceAPIClient(devices_api.ApiClient(api_conf))
+    return DeviceAPIClientWrapper(client)

@@ -21,8 +21,8 @@ from datetime import datetime, timedelta, timezone
 
 from websocket import create_connection
 
-import devices_api
-import internal_api
+import devices_v1 as devices_api
+import internal_v1 as internal_api
 import management_v1 as management_api
 
 
@@ -44,7 +44,7 @@ class Device:
         self.plan = plan
 
         client = internal_api.InternalAPIClient()
-        r = client.provision_device_with_http_info(
+        r = client.device_connect_internal_provision_device_with_http_info(
             tenant_id=tenant_id,
             device=internal_api.Device(device_id=device_id),
             _preload_content=False,
@@ -121,10 +121,37 @@ def make_user_token(user_id=None, plan=None, tenant_id=None):
     )
 
 
+class ManagementAPIClientWrapper:
+    def __init__(self, client):
+        self._client = client
+
+    def get_device(self, id, **kwargs):
+        return self._client.device_connect_management_get_device(id, **kwargs)
+
+    def check_update(self, id, **kwargs):
+        return self._client.device_connect_management_check_update(id, **kwargs)
+
+    def connect(self, id, **kwargs):
+        return self._client.device_connect_management_connect(id, **kwargs)
+
+    def download(self, id, path, **kwargs):
+        return self._client.device_connect_management_download(id, path, **kwargs)
+
+    def send_inventory(self, id, **kwargs):
+        return self._client.device_connect_management_send_inventory(id, **kwargs)
+
+    def playback(self, session_id, **kwargs):
+        return self._client.device_connect_management_playback(session_id, **kwargs)
+
+    def upload(self, id, **kwargs):
+        return self._client.device_connect_management_upload(id, **kwargs)
+
+
 def management_api_with_params(user_id, plan=None, tenant_id=None):
     api_conf = management_api.Configuration.get_default_copy()
     api_conf.access_token = make_user_token(user_id, plan, tenant_id)
-    return management_api.ManagementAPIClient(management_api.ApiClient(api_conf))
+    client = management_api.ManagementAPIClient(management_api.ApiClient(api_conf))
+    return ManagementAPIClientWrapper(client)
 
 
 def management_api_connect(
