@@ -14,7 +14,7 @@
 import { CSSProperties, ComponentType, MutableRefObject, ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 
 import { Settings as SettingsIcon, Sort as SortIcon } from '@mui/icons-material';
-import { Checkbox } from '@mui/material';
+import { Checkbox, Typography, typographyClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { DEVICE_LIST_DEFAULTS, IdAttribute, SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
@@ -102,8 +102,7 @@ export interface ListItemComponentProps<T> {
 
 const useStyles = makeStyles()(theme => ({
   header: {
-    // @ts-ignore
-    color: theme.palette.text.hint
+    [`.${typographyClasses.body1}`]: { fontWeight: theme.typography.fontWeightMedium }
   },
   resizer: {
     cursor: 'col-resize',
@@ -307,7 +306,7 @@ export const CommonList = <T extends wID>(props: CommonListProps<T>) => {
           />
         ))}
       </div>
-      <div className="footer flexbox margin-top">
+      <div className="footer flexbox margin-top-small">
         <Pagination
           className="margin-top-none"
           count={pageTotal}
@@ -405,7 +404,7 @@ const HeaderItem = <T extends wID>(props: HeaderItemProps<T>) => {
   resizeHandleClassName = resizeRef.current ? 'resizing' : resizeHandleClassName;
   const header = (
     <div className="columnHeader flexbox space-between relative" style={column.style} onMouseEnter={onMouseOver} onMouseLeave={onMouseOut} ref={ref}>
-      <div className="flexbox center-aligned" onClick={() => onSort(column.attribute ? column.attribute : {})}>
+      <Typography className="flexbox center-aligned" onClick={() => onSort(column.attribute ? column.attribute : {})}>
         {column.title}
         {column.sortable && (
           <SortIcon
@@ -413,7 +412,7 @@ const HeaderItem = <T extends wID>(props: HeaderItemProps<T>) => {
             style={{ fontSize: 16 }}
           />
         )}
-      </div>
+      </Typography>
       <div className="flexbox center-aligned full-height">
         {column.customize && <SettingsIcon onClick={column.customize} style={{ fontSize: 16 }} />}
         {index < columnCount - 2 && resizable && (
