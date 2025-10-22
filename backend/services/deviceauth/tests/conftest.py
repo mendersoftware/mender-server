@@ -38,15 +38,11 @@ def pytest_configure(config):
     logging.basicConfig(level=lvl)
     host = config.getoption("host")
     devices_v1.Configuration.set_default(
-        devices_v1.Configuration(
-            host="http://" + host + "/api/devices/v1/authentication"
-        )
+        devices_v1.Configuration(host="http://" + host + ":8080")
     )
     internal_v1.Configuration.set_default(
-        internal_v1.Configuration(host="http://" + host + "/api/internal/v1/devauth")
+        internal_v1.Configuration(host="http://" + host + ":8080")
     )
     management_v2.Configuration.set_default(
-        management_v2.Configuration(
-            host="http://" + host + "/api/management/v2/devauth"
-        )
+        management_v2.Configuration(host="http://" + host + ":8080")
     )

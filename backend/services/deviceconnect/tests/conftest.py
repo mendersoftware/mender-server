@@ -39,19 +39,13 @@ def pytest_addoption(parser):
 def pytest_configure(config):
     host = config.getoption("host")
     devices_v1.Configuration.set_default(
-        devices_v1.Configuration(
-            host="http://" + host + "/api/devices/v1/deviceconnect"
-        )
+        devices_v1.Configuration(host="http://" + host)
     )
     internal_v1.Configuration.set_default(
-        internal_v1.Configuration(
-            host="http://" + host + "/api/internal/v1/deviceconnect"
-        )
+        internal_v1.Configuration(host="http://" + host)
     )
     management_v1.Configuration.set_default(
-        management_v1.Configuration(
-            host="http://" + host + "/api/management/v1/deviceconnect"
-        )
+        management_v1.Configuration(host="http://" + host)
     )
 
 
