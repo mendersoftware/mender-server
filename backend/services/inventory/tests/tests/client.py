@@ -49,7 +49,7 @@ class ManagementClient:
         self.client = management_v1.ManagementAPIClient(management_v1.ApiClient(api_conf))
 
         self.group = management_v1.Group
-        self.inventoryAttribute = management_v1.Attribute
+        self.inventoryAttribute = management_v1.AttributeV1
         self.inventoryAttributeTag = management_v1.Tag
 
     def deleteAllGroups(self, **kwargs):
