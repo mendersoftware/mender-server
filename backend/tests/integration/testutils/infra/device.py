@@ -179,19 +179,15 @@ class MenderDevice:
         """
         waited = -1
         t0 = int(time.time())
-        raise_exception = None
-        for _ in redo.retrier(max_sleeptime=wait, attempts=wait, sleeptime=1):
-            try:
-                self.run("true", hide=True, wait=wait)
-                raise_exception = None
-                break
-            except Exception as e:
-                raise_exception = e
-            finally:
-                waited = int(time.time()) - t0
-        if raise_exception:
-            logger.error("Can't open ssh after %d s of waiting and trying" % waited)
-            raise (raise_exception)
+        try:
+            self.run("true", hide=True, wait=wait)
+        except Exception as e:
+            waited = int(time.time()) - t0
+            logger.error(
+                "Can't open ssh to %s after %d s of waiting and trying"
+                % (self.host_string, waited)
+            )
+            raise (e)
 
     def yocto_id_installed_on_machine(self):
         cmd = "mender-update show-artifact"
