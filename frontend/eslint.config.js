@@ -10,7 +10,7 @@ const globalsConfig = {
 
 export default [
   ...reactConfig,
-  { ignores: ['node_modules/', 'dist/', '**/api/types/**', 'tests/licenses'] },
+  { ignores: ['node_modules/', 'dist/', 'tests/licenses'] },
   {
     languageOptions: { globals: globalsConfig }
   },
