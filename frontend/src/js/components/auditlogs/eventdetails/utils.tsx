@@ -15,7 +15,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import Time from '@northern.tech/common-ui/Time';
-import type { AuditLog, Device, Object } from '@northern.tech/store/api/types/MenderTypes';
+import type { AuditLog, Device, Object } from '@northern.tech/store/api/types';
 import type { IdAttribute } from '@northern.tech/store/constants';
 import { getAuditlogDevice, getIdAttribute, getUserCapabilities } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';

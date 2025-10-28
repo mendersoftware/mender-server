@@ -16,7 +16,7 @@ import { SetStateAction, useEffect, useRef, useState } from 'react';
 import DetailsTable from '@northern.tech/common-ui/DetailsTable';
 import { ClassesOverrides } from '@northern.tech/common-ui/List';
 import Pagination from '@northern.tech/common-ui/Pagination';
-import { Event } from '@northern.tech/store/api/types/MenderTypes';
+import { Event } from '@northern.tech/store/api/types';
 import { DEVICE_LIST_DEFAULTS, TIMEOUTS, Webhook } from '@northern.tech/store/constants';
 
 import { WebhookColumns } from './Management';

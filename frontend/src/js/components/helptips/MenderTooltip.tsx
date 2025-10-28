@@ -20,7 +20,7 @@ import { Tooltip } from '@mui/material';
 import { makeStyles, withStyles } from 'tss-react/mui';
 
 import { MenderTooltipClickable, MenderTooltipClickableProps } from '@northern.tech/common-ui/helptips/MenderTooltip';
-import type { Device } from '@northern.tech/store/api/types/MenderTypes';
+import type { Device } from '@northern.tech/store/api/types';
 import { READ_STATES, TIMEOUTS } from '@northern.tech/store/constants';
 import { getDeviceById, getTooltipsState } from '@northern.tech/store/selectors';
 import { setAllTooltipsReadState, setTooltipReadState } from '@northern.tech/store/thunks';

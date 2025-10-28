@@ -20,7 +20,7 @@ import { makeStyles } from 'tss-react/mui';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import Form from '@northern.tech/common-ui/forms/Form';
 import storeActions from '@northern.tech/store/actions';
-import { Address } from '@northern.tech/store/api/types/Address';
+import { Address } from '@northern.tech/store/api/types';
 import { Plan } from '@northern.tech/store/constants';
 import { BillingProfile, Card, Organization } from '@northern.tech/store/organizationSlice/types';
 import { getCurrentUser } from '@northern.tech/store/selectors';
