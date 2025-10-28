@@ -24,7 +24,8 @@ from common import (
     TENANT_ONE,
     TENANT_TWO,
 )
-import bravado
+import internal_v1
+import management_v1
 import pytest
 import semver
 
@@ -71,7 +72,7 @@ class TestCli:
         email = "fooo@bar.com"
         password = "1234youseeme"
         cli.create_user(email, password)
-        _, r = api_client_mgmt.login(email, password)
+        r = api_client_mgmt.login(email, password)
         assert r.status_code == 200
 
         token = r.text
@@ -91,17 +92,17 @@ class TestCli:
         new_password = "5678youseeme"
         email = "fooooo@bar.com"
         cli.create_user(email, password)
-        _, r = api_client_mgmt.login(email, password)
+        r = api_client_mgmt.login(email, password)
         assert r.status_code == 200
         cli.set_password(email, new_password)
         status_code = 200
         try:
-            _, r = api_client_mgmt.login(email, password)
-        except bravado.exception.HTTPError as e:
-            assert e.response.status_code == 401
+            r = api_client_mgmt.login(email, password)
+        except management_v1.exceptions.ApiException as e:
+            assert e.status == 401
             status_code = 401
         assert status_code == 401
-        _, r = api_client_mgmt.login(email, new_password)
+        r = api_client_mgmt.login(email, new_password)
         assert r.status_code == 200
 
     def test_migrate(self, cli, clean_db_f, mongo):
