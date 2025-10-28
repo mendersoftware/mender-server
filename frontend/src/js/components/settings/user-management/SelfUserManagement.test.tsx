@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
 import { getSessionInfo } from '@northern.tech/store/auth';
-import { yes } from '@northern.tech/store/constants';
+import { TIMEOUTS, yes } from '@northern.tech/store/constants';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -44,7 +44,7 @@ describe('SelfUserManagement Component', () => {
     await act(async () => vi.runAllTimers());
   });
 
-  it('works as intended', async () => {
+  it('works as intended', { timeout: TIMEOUTS.refreshDefault + TIMEOUTS.fiveSeconds }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const preloadedState = { ...defaultState, app: { ...defaultState.app, features: { ...defaultState.app.features, isEnterprise: true } } };
 
@@ -87,5 +87,5 @@ describe('SelfUserManagement Component', () => {
     await user.click(screen.getByRole('button', { name: /Save/i }));
     await waitFor(() => rerender(ui));
     await act(async () => vi.runAllTicks());
-  }, 15000);
+  });
 });

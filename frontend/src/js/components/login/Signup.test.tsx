@@ -34,7 +34,7 @@ describe('Signup Component', () => {
     await act(() => vi.runAllTimersAsync());
   });
 
-  it('allows signing up', async () => {
+  it('allows signing up', { timeout: 2 * TIMEOUTS.fiveSeconds }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
 
     const ui = (
@@ -72,5 +72,5 @@ describe('Signup Component', () => {
     // we can't await the cookie setting anymore as we have no connection to the universal cookie instance used in the store,
     // so the store state + reliance on store tests should be the closest we can get to a successful expectation
     await waitFor(() => expect(getIsFirstLogin(store.getState())).toBeTruthy());
-  }, 10000);
+  });
 });

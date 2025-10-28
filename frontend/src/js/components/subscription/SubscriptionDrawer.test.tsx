@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
-import { PLANS } from '@northern.tech/store/constants';
+import { PLANS, TIMEOUTS } from '@northern.tech/store/constants';
 import * as StoreThunks from '@northern.tech/store/thunks';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { Elements } from '@stripe/react-stripe-js';
@@ -125,7 +125,7 @@ describe('Subscription Summary component', () => {
     await act(() => vi.runAllTimersAsync());
   });
 
-  it('allows creating billing profile', async () => {
+  it('allows creating billing profile', { timeout: TIMEOUTS.refreshDefault }, async () => {
     const stripe = loadStripe();
 
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
@@ -175,7 +175,7 @@ describe('Subscription Summary component', () => {
     await act(async () => await user.click(screen.getByRole('button', { name: /Save Billing details/i })));
 
     await waitFor(() => expect(createBillingProfile).toHaveBeenCalledWith(createBillingProfileReq));
-  }, 10000);
+  });
   const newOrder = { plan: 'professional', products: [{ name: 'mender_standard', quantity: 250, addons: [] }] };
   it('Allows upgrading subscription', async () => {
     const stripe = loadStripe();
