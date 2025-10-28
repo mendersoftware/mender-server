@@ -19,7 +19,7 @@ import { vi } from 'vitest';
 import AuditLogsList from './AuditLogsList';
 import { ActionDescriptor, ChangeDescriptor, ChangeDetailsDescriptor, TimeWrapper, TypeDescriptor, UserDescriptor } from './ColumnComponents';
 
-describe('Auditlogs Component', () => {
+describe('AuditlogsList Component', () => {
   it('renders correctly', async () => {
     const state = { ...defaultState };
     const { baseElement } = render(

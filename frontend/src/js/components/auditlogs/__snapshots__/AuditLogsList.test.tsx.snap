@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Auditlogs Component > renders correctly 1`] = `
+exports[`AuditlogsList Component > renders correctly 1`] = `
 "<div>
   <div
     class="fadeIn deploy-table-contain auditlogs-list css-1yc7te8-auditlogsList"
