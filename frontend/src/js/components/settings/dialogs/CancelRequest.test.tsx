@@ -11,6 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { TIMEOUTS } from '@northern.tech/store/constants';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -29,7 +30,7 @@ describe('CancelRequestDialog Component', () => {
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
 
-  it('works as intended', async () => {
+  it('works as intended', { timeout: TIMEOUTS.fiveSeconds + TIMEOUTS.oneSecond }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const submitMock = vi.fn();
     render(<CancelRequestDialog onCancel={vi.fn} onSubmit={submitMock} />);

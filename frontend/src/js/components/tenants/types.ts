@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Tenant as APITenant, UpgradeCompleteRequest } from '@northern.tech/store/api/types/MenderTypes';
+import { Tenant as APITenant, UpgradeCompleteRequest } from '@northern.tech/store/api/types';
 
 //TODO: rely on API tenant directly once type generation fixed
 export interface Tenant extends APITenant {

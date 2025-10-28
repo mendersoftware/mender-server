@@ -4,6 +4,5 @@
     "skipLibCheck": true,
     "noResolve": true
   },
-  "extends": "./tsconfig.json",
-  "exclude": ["src/js/store/api/types/Settings.ts"]
+  "extends": "./tsconfig.json"
 }

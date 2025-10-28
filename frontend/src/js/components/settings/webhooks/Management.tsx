@@ -25,7 +25,7 @@ import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import { ClassesOverrides } from '@northern.tech/common-ui/List';
 import Time from '@northern.tech/common-ui/Time';
 import actions from '@northern.tech/store/actions';
-import { Event } from '@northern.tech/store/api/types/MenderTypes';
+import { Event } from '@northern.tech/store/api/types';
 import { EXTERNAL_PROVIDER, Webhook, emptyWebhook } from '@northern.tech/store/constants';
 import { getTenantCapabilities, getWebhookEventInfo } from '@northern.tech/store/selectors';
 import { getWebhookEvents } from '@northern.tech/store/thunks';

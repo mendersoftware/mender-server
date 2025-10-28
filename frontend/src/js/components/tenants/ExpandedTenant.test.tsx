@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
-import { Tenant } from '@northern.tech/store/api/types/Tenant';
+import { Tenant } from '@northern.tech/store/api/types';
 import { getSessionInfo } from '@northern.tech/store/auth';
 import { initialState as initialOrganizationState } from '@northern.tech/store/organizationSlice';
 import * as StoreThunks from '@northern.tech/store/thunks';

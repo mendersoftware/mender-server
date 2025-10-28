@@ -22,7 +22,7 @@ import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import Loader from '@northern.tech/common-ui/Loader';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import Form from '@northern.tech/common-ui/forms/Form';
-import { Address } from '@northern.tech/store/api/types/Address';
+import { Address } from '@northern.tech/store/api/types';
 import { AvailableAddon, PLANS, Plan } from '@northern.tech/store/constants';
 import { Organization } from '@northern.tech/store/organizationSlice/types';
 import { getBillingProfile, getCard, getCurrentUser, getSubscription } from '@northern.tech/store/selectors';

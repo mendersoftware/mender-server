@@ -42,38 +42,34 @@ describe('Releases Component', () => {
     });
   });
 
-  it(
-    'works as expected',
-    async () => {
-      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-      const preloadedState = {
-        ...defaultState,
-        releases: {
-          ...defaultState.releases,
-          selectedArtifact: defaultState.releases.byId.r1.artifacts[0],
-          selectedRelease: defaultState.releases.byId.r1.name
-        }
-      };
-      const ui = <Releases />;
-      const { rerender } = render(ui, { preloadedState });
-      await waitFor(() => expect(screen.queryAllByText(defaultState.releases.byId.r1.name)[0]).toBeInTheDocument());
-      await user.click(screen.getAllByText(defaultState.releases.byId.r1.name)[0]);
-      await user.click(screen.getByText(/qemux/i));
-      expect(screen.queryByText(defaultState.releases.byId.r1.artifacts[0].description)).toBeVisible();
-      await user.click(screen.getByRole('button', { name: /Remove this/i }));
-      await waitFor(() => expect(screen.queryByRole('button', { name: /Cancel/i })).toBeInTheDocument());
-      await user.click(screen.getByRole('button', { name: /Cancel/i }));
-      await waitFor(() => expect(screen.queryByRole('button', { name: /Cancel/i })).not.toBeInTheDocument());
-      await user.click(screen.getByRole('button', { name: /Close/i }));
-      await waitFor(() => rerender(ui));
-      await act(async () => {
-        vi.runOnlyPendingTimers();
-        vi.runAllTicks();
-      });
-      expect(screen.queryByText(/release information/i)).toBeFalsy();
-    },
-    TIMEOUTS.refreshDefault * 2
-  );
+  it('works as expected', { timeout: 2 * TIMEOUTS.refreshDefault }, async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const preloadedState = {
+      ...defaultState,
+      releases: {
+        ...defaultState.releases,
+        selectedArtifact: defaultState.releases.byId.r1.artifacts[0],
+        selectedRelease: defaultState.releases.byId.r1.name
+      }
+    };
+    const ui = <Releases />;
+    const { rerender } = render(ui, { preloadedState });
+    await waitFor(() => expect(screen.queryAllByText(defaultState.releases.byId.r1.name)[0]).toBeInTheDocument());
+    await user.click(screen.getAllByText(defaultState.releases.byId.r1.name)[0]);
+    await user.click(screen.getByText(/qemux/i));
+    expect(screen.queryByText(defaultState.releases.byId.r1.artifacts[0].description)).toBeVisible();
+    await user.click(screen.getByRole('button', { name: /Remove this/i }));
+    await waitFor(() => expect(screen.queryByRole('button', { name: /Cancel/i })).toBeInTheDocument());
+    await user.click(screen.getByRole('button', { name: /Cancel/i }));
+    await waitFor(() => expect(screen.queryByRole('button', { name: /Cancel/i })).not.toBeInTheDocument());
+    await user.click(screen.getByRole('button', { name: /Close/i }));
+    await waitFor(() => rerender(ui));
+    await act(async () => {
+      vi.runOnlyPendingTimers();
+      vi.runAllTicks();
+    });
+    expect(screen.queryByText(/release information/i)).toBeFalsy();
+  });
   it('has working search handling as expected', async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     render(<Releases />);

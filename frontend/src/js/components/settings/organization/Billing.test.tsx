@@ -12,6 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
+import { TIMEOUTS } from '@northern.tech/store/constants';
 import * as StoreThunks from '@northern.tech/store/thunks';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor } from '@testing-library/react';
@@ -79,7 +80,7 @@ describe('Billing Component', () => {
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
 
-  it('supports modifying billing profile', async () => {
+  it('supports modifying billing profile', { timeout: TIMEOUTS.refreshDefault }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const { editBillingProfile: editProfileAction } = StoreThunks;
     const ui = <Billing />;
@@ -111,5 +112,5 @@ describe('Billing Component', () => {
     expect(input.value).toEqual('Poland');
 
     await waitFor(() => expect(editProfileAction).toHaveBeenCalledWith(editProfileActionParams));
-  }, 10000);
+  });
 });

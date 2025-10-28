@@ -14,6 +14,7 @@
 import { Provider } from 'react-redux';
 
 import { defaultState, render } from '@/testUtils';
+import { TIMEOUTS } from '@northern.tech/store/constants';
 import * as StoreThunks from '@northern.tech/store/thunks';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor } from '@testing-library/react';
@@ -49,7 +50,7 @@ describe('PreauthDialog Component', () => {
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
 
-  it('works as intended', async () => {
+  it('works as intended', { timeout: TIMEOUTS.fiveSeconds + TIMEOUTS.oneSecond }, async () => {
     const { preauthDevice: preAuthSpy } = StoreThunks;
 
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime, applyAccept: false });

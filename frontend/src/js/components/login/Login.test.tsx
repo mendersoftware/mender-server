@@ -13,6 +13,7 @@
 //    limitations under the License.
 import { defaultState } from '@/testUtils';
 import { render } from '@/testUtils';
+import { TIMEOUTS } from '@northern.tech/store/constants';
 import * as StoreThunks from '@northern.tech/store/thunks';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor } from '@testing-library/react';
@@ -42,7 +43,7 @@ describe('Login Component', () => {
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
 
-  it('works as intended', async () => {
+  it('works as intended', { timeout: 2 * TIMEOUTS.fiveSeconds }, async () => {
     window.localStorage.getItem.mockImplementation(() => null);
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const { loginUser: loginSpy } = StoreThunks;
@@ -74,5 +75,5 @@ describe('Login Component', () => {
     await act(async () => vi.runAllTicks());
     expect(loginSpy).toHaveBeenCalledWith({ email: 'something@example.com', password: 'mysecretpassword!123', token2fa: '123456', stayLoggedIn: false });
     window.localStorage.getItem.mockReset();
-  }, 10000);
+  });
 });

@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { render } from '@/testUtils';
-import { PLANS } from '@northern.tech/store/appSlice/constants';
+import { PLANS } from '@northern.tech/store/constants';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { vi } from 'vitest';
 

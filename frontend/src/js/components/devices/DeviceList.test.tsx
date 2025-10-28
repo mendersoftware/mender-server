@@ -12,6 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
+import { TIMEOUTS } from '@northern.tech/store/constants';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { prettyDOM, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -77,7 +78,7 @@ describe('DeviceList Component', () => {
     ]);
   });
 
-  it('works as expected', async () => {
+  it('works as expected', { timeout: 3 * TIMEOUTS.refreshDefault }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const onExpandClickMock = vi.fn();
     const onResizeColumns = vi.fn();
@@ -110,5 +111,5 @@ describe('DeviceList Component', () => {
     expect(onSelect).toHaveBeenCalledWith([0, 1]);
     await user.click(screen.getAllByRole('checkbox')[2]);
     expect(onSelect).toHaveBeenCalledWith([1]);
-  }, 30000);
+  });
 });

@@ -18,7 +18,7 @@ import ConfigurationObject from '@northern.tech/common-ui/ConfigurationObject';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import storeActions from '@northern.tech/store/actions';
-import { Device } from '@northern.tech/store/api/types/Device';
+import { Device } from '@northern.tech/store/api/types';
 import { READ_STATES } from '@northern.tech/store/constants';
 import { getFeatures } from '@northern.tech/store/selectors';
 
