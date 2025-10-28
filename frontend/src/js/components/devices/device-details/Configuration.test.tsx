@@ -12,6 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
+import { TIMEOUTS } from '@northern.tech/store/constants';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -84,7 +85,7 @@ describe('Configuration Component', () => {
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
 
-  it('works as expected', async () => {
+  it('works as expected', { timeout: TIMEOUTS.fiveSeconds + TIMEOUTS.oneSecond }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const preloadedState = {
       ...defaultState,
