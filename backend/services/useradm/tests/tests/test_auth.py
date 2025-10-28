@@ -30,7 +30,8 @@ from common import (
     explode_jwt,
 )
 from mockserver import run_fake
-import bravado
+import internal_v1
+import management_v1
 import pytest
 from base64 import urlsafe_b64encode
 
@@ -46,15 +47,15 @@ class TestAuthLogin:
     )
     def test_bad_user(self, api_client_mgmt, init_users, email, password):
         try:
-            _, r = api_client_mgmt.login(email, password)
-        except bravado.exception.HTTPError as herr:
-            assert herr.response.status_code == 401
+            r = api_client_mgmt.login(email, password)
+        except management_v1.exceptions.ApiException as herr:
+            assert herr.status == 401
 
     def test_ok(self, api_client_mgmt, init_users):
         email = "user-1@foo.com"
         password = "correcthorsebatterystaple"
 
-        _, r = api_client_mgmt.login(email, password)
+        r = api_client_mgmt.login(email, password)
         assert r.status_code == 200
 
         token = r.text
@@ -69,29 +70,29 @@ class TestAuthLogout:
         password = "correcthorsebatterystaple"
 
         # log in
-        _, r = api_client_mgmt.login(email, password)
+        r = api_client_mgmt.login(email, password)
         assert r.status_code == 200
         token = r.text
 
         # token is valid
-        _, r = api_client_int.verify(token)
+        r = api_client_int.verify(token)
         assert r.status_code == 200
 
         # log out
-        _, r = api_client_mgmt.logout(auth={"Authorization": "Bearer {}".format(token)})
+        r = api_client_mgmt.logout(auth={"Authorization": "Bearer {}".format(token)})
         assert r.status_code == 202
 
         # token is not valid anymore
         try:
-            _, r = api_client_int.verify(token)
-        except bravado.exception.HTTPError as herr:
-            assert herr.response.status_code == 401
+            r = api_client_int.verify(token)
+        except internal_v1.exceptions.ApiException as herr:
+            assert herr.status == 401
 
     def test_internal_error(self, api_client_mgmt, init_users):
         try:
-            _, r = api_client_mgmt.logout()
-        except bravado.exception.HTTPError as herr:
-            assert herr.response.status_code == 500
+            r = api_client_mgmt.logout()
+        except management_v1.exceptions.ApiException as herr:
+            assert herr.status == 500
 
 
 class TestAuthVerify:
@@ -100,13 +101,13 @@ class TestAuthVerify:
     )
     def test_fail(self, api_client_int, init_users, token):
         try:
-            _, r = api_client_int.verify(token)
-        except bravado.exception.HTTPError as herr:
-            assert herr.response.status_code == 401
+            r = api_client_int.verify(token)
+        except internal_v1.exceptions.ApiException as herr:
+            assert herr.status == 401
 
     def test_ok(self, api_client_int, init_users, user_tokens):
         for user, token in zip(init_users, user_tokens):
-            _, r = api_client_int.verify(token)
+            r = api_client_int.verify(token)
 
             assert r.status_code == 200
 
@@ -123,13 +124,13 @@ class TestAuthVerify:
                 ]
             )
             try:
-                _, r = api_client_int.verify(tampered)
-            except bravado.exception.HTTPError as herr:
-                assert herr.response.status_code == 401
+                r = api_client_int.verify(tampered)
+            except internal_v1.exceptions.ApiException as herr:
+                assert herr.status == 401
 
     def test_bad_x_original(self, api_client_int, init_users, user_tokens):
         user, token = init_users[0], user_tokens[0]
         try:
-            _, r = api_client_int.verify(token, uri="/foobar")
-        except bravado.exception.HTTPError as herr:
-            assert herr.response.status_code == 500
+            r = api_client_int.verify(token, uri="/foobar")
+        except internal_v1.exceptions.ApiException as herr:
+            assert herr.status == 500
