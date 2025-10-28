@@ -30,7 +30,8 @@ from common import (
     explode_jwt,
 )
 from mockserver import run_fake
-import bravado
+import internal_v1
+import management_v1
 import pytest
 import requests
 import uuid
@@ -39,9 +40,9 @@ from base64 import urlsafe_b64encode
 
 def verify_token(api_client_int, token, status_code):
     try:
-        _, r = api_client_int.verify(token)
-    except bravado.exception.HTTPError as herr:
-        assert herr.response.status_code == status_code
+        r = api_client_int.verify(token)
+    except internal_v1.exceptions.ApiException as herr:
+        assert herr.status == status_code
     else:
         assert r.status_code == status_code
 

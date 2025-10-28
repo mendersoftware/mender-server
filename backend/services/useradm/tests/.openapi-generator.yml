@@ -1,0 +1,10 @@
+additionalProperties:
+  apiNameSuffix: "client"
+  generateSourceCodeOnly: true
+  hideGenerationTimestamp: true
+
+globalProperties:
+  apiDocs: false
+  apiTests: false
+  modelDocs: false
+  modelTests: false

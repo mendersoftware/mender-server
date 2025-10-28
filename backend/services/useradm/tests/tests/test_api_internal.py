@@ -24,26 +24,27 @@ from common import (
     migrate,
     cli,
 )
-import bravado
+import internal_v1
+import management_v1
 import pytest
 
 
 class TestInternalApiTenantCreate:
     def test_create_ok(self, api_client_int, clean_db):
-        _, r = api_client_int.create_tenant("foobar")
+        r = api_client_int.create_tenant("foobar")
         assert r.status_code == 201
 
     def test_create_twice(self, api_client_int, clean_db):
 
-        _, r = api_client_int.create_tenant("foobar")
+        r = api_client_int.create_tenant("foobar")
         assert r.status_code == 201
 
         # creating once more should not fail
-        _, r = api_client_int.create_tenant("foobar")
+        r = api_client_int.create_tenant("foobar")
         assert r.status_code == 201
 
     def test_create_empty(self, api_client_int):
         try:
-            _, r = api_client_int.create_tenant("")
-        except bravado.exception.HTTPError as e:
-            assert e.response.status_code == 400
+            r = api_client_int.create_tenant("")
+        except internal_v1.exceptions.ApiException as e:
+            assert e.status == 400
