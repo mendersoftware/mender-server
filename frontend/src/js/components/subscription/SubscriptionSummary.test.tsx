@@ -22,7 +22,7 @@ describe('Subscription Summary component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(
       <SubscriptionSummary
-        addons={{ configure: true }}
+        addons={['configure']}
         deviceLimit={50}
         isNew
         isPreviewLoading={false}
