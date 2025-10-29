@@ -32,6 +32,7 @@ import { formatReleases, generateReleasesPath } from '@northern.tech/store/locat
 import { getDeltaJobById } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeltaGenerationJobDetails, getDeltaGenerationJobs } from '@northern.tech/store/thunks';
+import { DeltaJobDetailsItem, DeltaJobsListItem } from '@northern.tech/types/MenderTypes';
 import { formatTime } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
 import dayjs from 'dayjs';
@@ -112,7 +113,7 @@ const statusColumns = [
     key: 'toArtifactSize',
     title: 'Target Artifact size',
     cellProps: { style: { width: '12.5%' } },
-    render: ({ to_artifact_size }) => (to_artifact_size ? <FileSize fileSize={to_artifact_size} /> : '-')
+    render: ({ target_size }) => (target_size ? <FileSize fileSize={target_size} /> : '-')
   },
   {
     key: 'deltaArtifactSize',
@@ -179,39 +180,9 @@ const getFinishedTimeFromLog = (log?: string): string | undefined => {
   return;
 };
 
-// TODO: take the following from the types package once synced
-enum DeltaJobDetailsItemStatus {
-  PENDING = 'pending',
-  QUEUED = 'queued',
-  SUCCESS = 'success',
-  FAILED = 'failed',
-  ARTIFACT_UPLOADED = 'artifact_uploaded'
-}
-
-type DeltaJobDetailsItem = {
-  delta_artifact_size?: number;
-  deployment_id?: string;
-  devices_types_compatible?: Array<string>;
-  exit_code?: number;
-  from_release?: string;
-  log?: string;
-  status?: DeltaJobDetailsItemStatus;
-  to_artifact_size?: number;
-  to_release?: string;
-};
-
-export type DeltaJobsListItem = {
-  delta_job_id?: string;
-  devices_types_compatible?: Array<string>;
-  from_version?: string;
-  id?: string;
-  started?: string;
-  status?: DeltaJobDetailsItemStatus;
-  to_version?: string;
-};
-
 type EnhancedJobDetailsItem = DeltaJobDetailsItem &
   DeltaJobsListItem & {
+    details?: string; // TODO: remove this once the specs get corrected
     finished?: string;
     fromRelease: string;
     started?: string;
@@ -263,10 +234,10 @@ export const DeltaGenerationDetailsDrawer = ({ jobId, onClose, open }: DeltaGene
     if (!deltaJob) {
       return;
     }
-    const { log, started, to_artifact_size, delta_artifact_size, to_release, to_version, from_release, from_version } = deltaJob;
-    const finished = getFinishedTimeFromLog(log);
+    const { details, started, target_size, delta_artifact_size, to_release, to_version, from_release, from_version } = deltaJob;
+    const finished = getFinishedTimeFromLog(details);
     const totalTime = getTotalTime(started, finished);
-    const dataSaved = to_artifact_size && delta_artifact_size ? Math.max(0, to_artifact_size - delta_artifact_size) : '-';
+    const dataSaved = target_size && delta_artifact_size ? Math.max(0, target_size - delta_artifact_size) : 0;
 
     return {
       ...deltaJob,
