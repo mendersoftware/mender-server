@@ -793,7 +793,7 @@ definitions:
                     size: 123
                     date: 2016-03-11T13:03:17.063+0000
                 metadata: {}
-                meta_data: {}
+                meta_data: []
             artifact_provides:
               artifact_name: "test"
               rootfs-image.checksum: "32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99"
@@ -928,7 +928,7 @@ definitions:
                   size: 123
                   date: 2016-03-11T13:03:17.063+0000
               metadata: {}
-              meta_data: {}
+              meta_data: []
           artifact_provides:
             artifact_name: "test"
             rootfs-image.checksum: "32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99"
@@ -993,10 +993,14 @@ definitions:
           type: object
           description: an object of unknown structure as this is dependent of update type (also custom defined by user)
         meta_data:
-          type: object
+          type: array
+          items:
+            type: object
           description: |
             Deprecated: Please use `metadata` instead.
-            An object of unknown structure as this is dependent of update type (also custom defined by user)
+            A list of objects of unknown structure as this is dependent of update type (also custom defined by user)
+        items:
+          type: object
   ArtifactInfo:
       description: |
           Information about artifact format and version.
