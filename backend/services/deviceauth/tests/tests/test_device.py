@@ -29,7 +29,7 @@ from common import (
     internal_api,
     device_api,
 )
-import management_api as ma
+import management_v2 as ma
 
 from cryptutil import compare_keys
 

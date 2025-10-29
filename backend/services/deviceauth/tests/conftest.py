@@ -13,9 +13,9 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 import logging
-import devices_api
-import internal_api
-import management_api
+import devices_v1
+import internal_v1
+import management_v2
 
 
 def pytest_addoption(parser):
@@ -37,16 +37,12 @@ def pytest_configure(config):
         lvl = logging.DEBUG
     logging.basicConfig(level=lvl)
     host = config.getoption("host")
-    devices_api.Configuration.set_default(
-        devices_api.Configuration(
-            host="http://" + host + "/api/devices/v1/authentication"
-        )
+    devices_v1.Configuration.set_default(
+        devices_v1.Configuration(host="http://" + host)
     )
-    internal_api.Configuration.set_default(
-        internal_api.Configuration(host="http://" + host + "/api/internal/v1/devauth")
+    internal_v1.Configuration.set_default(
+        internal_v1.Configuration(host="http://" + host)
     )
-    management_api.Configuration.set_default(
-        management_api.Configuration(
-            host="http://" + host + "/api/management/v2/devauth"
-        )
+    management_v2.Configuration.set_default(
+        management_v2.Configuration(host="http://" + host)
     )
