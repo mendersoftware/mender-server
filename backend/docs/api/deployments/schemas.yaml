@@ -167,6 +167,7 @@ components:
                 size: 123
                 date: 2016-03-11T13:03:17.063+0000
               meta_data: {}
+              metadata: {}
             artifact_provides:
               artifact_name: test
               rootfs-image.checksum: 32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99
@@ -216,7 +217,16 @@ components:
       type: object
     MetadataAny:
       description:
-        meta_data is an object of unknown structure as this is dependent
+        metadata is an object of unknown structure as this is dependent
+        of update type (also custom defined by user)
+      additionalProperties:
+        type: string
+      type: object
+    MetadataAnyDeprecated:
+      deprecated: true
+      description: |
+        Deprecated: Please use `metadata` instead.
+        An object of unknown structure as this is dependent
         of update type (also custom defined by user)
       additionalProperties:
         type: string
@@ -305,6 +315,7 @@ components:
       example:
         type_info:
           type: type
+        metadata: {}
         meta_data: {}
         files:
         - date: 2000-01-23T04:56:07.000+00:00
@@ -322,8 +333,10 @@ components:
           items:
             $ref: '#/components/schemas/UpdateFile'
           type: array
-        meta_data:
+        metadata:
           $ref: '#/components/schemas/MetadataAny'
+        meta_data:
+          $ref: '#/components/schemas/MetadataAnyDeprecated'
       type: object
     AttributeFilterPredicate:
       description: Attribute filter predicate

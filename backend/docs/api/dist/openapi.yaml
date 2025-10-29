@@ -7656,7 +7656,7 @@ components:
           type: string
       type: object
     MetadataAny:
-      description: meta_data is an object of unknown structure as this is dependent of update type (also custom defined by user)
+      description: an object of unknown structure as this is dependent of update type (also custom defined by user)
       additionalProperties:
         type: string
       type: object
@@ -7666,6 +7666,7 @@ components:
       example:
         type_info:
           type: type
+        metadata: {}
         meta_data: {}
         files:
           - date: '2000-01-23T04:56:07.000+00:00'
@@ -7683,6 +7684,8 @@ components:
           items:
             $ref: '#/components/schemas/UpdateFile'
           type: array
+        metadata:
+          $ref: '#/components/schemas/MetadataAny'
         meta_data:
           $ref: '#/components/schemas/MetadataAny'
       type: object
