@@ -18,12 +18,12 @@ import time
 
 import pytest
 
-import internal_api.exceptions as intrnl_exceptions
+import internal_v1.exceptions as intrnl_exceptions
 
 from client import ManagementAPIClient, InternalAPIClient
-from management_api import models as mgmt_models
-from internal_api import models as intrnl_models
-from internal_api.model_utils import ModelNormal, ModelComposed
+from management_v1 import models as mgmt_models
+from internal_v1 import models as intrnl_models
+from internal_v1.model_utils import ModelNormal, ModelComposed
 from utils import compare_expectations
 
 TEST_TENANT_ID = "123456789012345678901234"
