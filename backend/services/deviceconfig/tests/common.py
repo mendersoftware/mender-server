@@ -17,8 +17,9 @@ import json
 import uuid
 from datetime import datetime, timedelta, timezone
 
-import devices_api
-import management_api
+import devices_v1 as devices_api
+import internal_v1 as internal_api
+import management_v1 as management_api
 
 
 def make_user_token(user_id=None, plan=None, tenant_id=None):
@@ -75,25 +76,113 @@ def make_device_token(device_id=None, plan=None, tenant_id=None):
     )
 
 
+class ManagementAPIClientWrapper:
+    def __init__(self, client):
+        self._client = client
+
+    @property
+    def configuration(self):
+        return self._client.api_client.configuration
+
+    def call_api(self, *args, **kwargs):
+        return self._client.api_client.call_api(*args, **kwargs)
+
+    def get_device_configuration(self, device_id, **kwargs):
+        return self._client.device_config_management_get_device_configuration(
+            device_id, **kwargs
+        )
+
+    def get_device_configuration_with_http_info(self, device_id, **kwargs):
+        return self._client.device_config_management_get_device_configuration_with_http_info(
+            device_id, **kwargs
+        )
+
+    def set_device_configuration(self, device_id, **kwargs):
+        return self._client.device_config_management_set_device_configuration(
+            device_id, **kwargs
+        )
+
+    def set_device_configuration_with_http_info(self, device_id, **kwargs):
+        return self._client.device_config_management_set_device_configuration_with_http_info(
+            device_id, **kwargs
+        )
+
+    def deploy_device_configuration(self, device_id, **kwargs):
+        return self._client.device_config_management_deploy_device_configuration(
+            device_id, **kwargs
+        )
+
+    def deploy_device_configuration_with_http_info(self, device_id, **kwargs):
+        return self._client.device_config_management_deploy_device_configuration_with_http_info(
+            device_id, **kwargs
+        )
+
+
+class DeviceAPIClientWrapper:
+    def __init__(self, client):
+        self._client = client
+
+    @property
+    def configuration(self):
+        return self._client.api_client.configuration
+
+    def call_api(self, *args, **kwargs):
+        return self._client.api_client.call_api(*args, **kwargs)
+
+    def get_device_configuration(self, **kwargs):
+        return self._client.device_config_get_device_configuration(**kwargs)
+
+    def get_device_configuration_with_http_info(self, **kwargs):
+        return self._client.device_config_get_device_configuration_with_http_info(**kwargs)
+
+    def report_device_configuration(self, **kwargs):
+        return self._client.device_config_report_device_configuration(**kwargs)
+
+    def report_device_configuration_with_http_info(self, **kwargs):
+        return self._client.device_config_report_device_configuration_with_http_info(**kwargs)
+
+
+class InternalAPIClientWrapper:
+    def __init__(self, client=None):
+        if client is None:
+            client = internal_api.InternalAPIClient()
+        self._client = client
+
+    def provision_device_with_http_info(self, tenant_id, new_device, **kwargs):
+        return self._client.device_config_internal_provision_device_with_http_info(
+            tenant_id, provision_device=new_device, **kwargs
+        )
+
+    def decommission_device_with_http_info(self, tenant_id, device_id, **kwargs):
+        return self._client.device_config_internal_decommission_device_with_http_info(
+            tenant_id, device_id, **kwargs
+        )
+
+
+InternalAPIClient = InternalAPIClientWrapper
+
+
 def management_api_with_params(user_id, plan=None, tenant_id=None):
     api_conf = management_api.Configuration.get_default_copy()
     api_conf.access_token = make_user_token(user_id, plan, tenant_id)
-    return management_api.ManagementAPIClient(management_api.ApiClient(api_conf))
+    client = management_api.ManagementAPIClient(management_api.ApiClient(api_conf))
+    return ManagementAPIClientWrapper(client)
 
 
 def devices_api_with_params(device_id, plan=None, tenant_id=None):
     api_conf = devices_api.Configuration.get_default_copy()
     api_conf.access_token = make_device_token(device_id, plan, tenant_id)
-    return devices_api.DeviceAPIClient(devices_api.ApiClient(api_conf))
+    client = devices_api.DeviceAPIClient(devices_api.ApiClient(api_conf))
+    return DeviceAPIClientWrapper(client)
 
 
 def management_api_set_config_raw(user_id, tenant_id, device_id, configuration):
     token = make_user_token(user_id, tenant_id=tenant_id)
     api_conf = management_api.Configuration.get_default_copy()
     api_conf.access_token = token
-    api_client = management_api.ApiClient(api_conf)
-    url = f"{api_client.configuration.host}/configurations/device/{device_id}"
-    return api_client.call_api(
+    api_client = management_api.ManagementAPIClient(management_api.ApiClient(api_conf))
+    url = f"{api_client.api_client.configuration.host}/api/management/v1/deviceconfig/configurations/device/{device_id}"
+    return api_client.api_client.call_api(
         "PUT",
         url,
         header_params={
@@ -108,9 +197,9 @@ def devices_api_report_config_raw(device_id, tenant_id, configuration):
     token = make_device_token(device_id, tenant_id=tenant_id)
     api_conf = devices_api.Configuration.get_default_copy()
     api_conf.access_token = token
-    api_client = devices_api.ApiClient(api_conf)
-    url = f"{api_client.configuration.host}/configuration"
-    return api_client.call_api(
+    api_client = devices_api.DeviceAPIClient(devices_api.ApiClient(api_conf))
+    url = f"{api_client.api_client.configuration.host}/api/devices/v1/deviceconfig/configuration"
+    return api_client.api_client.call_api(
         "PUT",
         url,
         header_params={

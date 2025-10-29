@@ -17,7 +17,7 @@ import pytest
 import requests
 
 from common import management_api_with_params
-from internal_api import InternalAPIClient
+from common import InternalAPIClient
 
 
 @pytest.fixture
