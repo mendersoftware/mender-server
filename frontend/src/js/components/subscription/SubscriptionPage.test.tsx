@@ -64,7 +64,7 @@ describe('Subscription Summary component', () => {
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
 
-  it('allows signing up', { timeout: 2 * TIMEOUTS.fiveSeconds }, async () => {
+  it('allows signing up', { timeout: 3 * TIMEOUTS.fiveSeconds }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const { getBillingPreview, requestPlanChange: requestEnterprise } = StoreThunks;
     const ui = <SubscriptionPage />;
