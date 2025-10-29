@@ -45,7 +45,8 @@ class TestManagementConfig:
         r = client.get_device_configuration(device_id)
         data = r.to_dict()
         assert {"id": device_id, "reported": {}, "configured": {}} == {
-            k: (str(data[k]) if k == "id" else data[k]) for k in ("id", "reported", "configured")
+            k: (str(data[k]) if k == "id" else data[k])
+            for k in ("id", "reported", "configured")
         }
         assert "updated_ts" in data.keys()
         #
@@ -71,7 +72,10 @@ class TestManagementConfig:
                 "another-key": "another-value",
                 "dollar-key": "$",
             },
-        } == {k: (str(data[k]) if k == "id" else data[k]) for k in ("id", "reported", "configured")}
+        } == {
+            k: (str(data[k]) if k == "id" else data[k])
+            for k in ("id", "reported", "configured")
+        }
         assert "updated_ts" in data.keys()
         #
         # replace the configuration
@@ -91,7 +95,10 @@ class TestManagementConfig:
             "id": device_id,
             "reported": {},
             "configured": {"key": "update-value", "additional-key": ""},
-        } == {k: (str(data[k]) if k == "id" else data[k]) for k in ("id", "reported", "configured")}
+        } == {
+            k: (str(data[k]) if k == "id" else data[k])
+            for k in ("id", "reported", "configured")
+        }
         assert "updated_ts" in data.keys()
         #
         # remove the configuration
@@ -105,7 +112,8 @@ class TestManagementConfig:
         r = client.get_device_configuration(device_id)
         data = r.to_dict()
         assert {"id": device_id, "reported": {}, "configured": {}} == {
-            k: (str(data[k]) if k == "id" else data[k]) for k in ("id", "reported", "configured")
+            k: (str(data[k]) if k == "id" else data[k])
+            for k in ("id", "reported", "configured")
         }
         assert "updated_ts" in data.keys()
 
@@ -117,7 +125,8 @@ class TestManagementConfig:
         r = client.get_device_configuration(device_id)
         data = r.to_dict()
         assert {"id": device_id, "reported": {}, "configured": {}} == {
-            k: (str(data[k]) if k == "id" else data[k]) for k in ("id", "reported", "configured")
+            k: (str(data[k]) if k == "id" else data[k])
+            for k in ("id", "reported", "configured")
         }
         assert "updated_ts" in data.keys()
         #
@@ -138,7 +147,10 @@ class TestManagementConfig:
             "id": device_id,
             "reported": {},
             "configured": {"key": "value", "another-key": "another-value"},
-        } == {k: (str(data[k]) if k == "id" else data[k]) for k in ("id", "reported", "configured")}
+        } == {
+            k: (str(data[k]) if k == "id" else data[k])
+            for k in ("id", "reported", "configured")
+        }
         assert "updated_ts" in data.keys()
         #
         # replace the configuration
@@ -158,7 +170,10 @@ class TestManagementConfig:
             "id": device_id,
             "reported": {},
             "configured": {"key": "value", "another-key": ""},
-        } == {k: (str(data[k]) if k == "id" else data[k]) for k in ("id", "reported", "configured")}
+        } == {
+            k: (str(data[k]) if k == "id" else data[k])
+            for k in ("id", "reported", "configured")
+        }
         assert "updated_ts" in data.keys()
 
     def test_config_device_value_number(self, device_id):

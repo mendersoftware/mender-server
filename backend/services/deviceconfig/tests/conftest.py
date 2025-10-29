@@ -20,9 +20,9 @@ import signal
 import bson
 import pymongo
 
-import devices_api
-import internal_api
-import management_api
+import devices_v1
+import internal_v1
+import management_v1
 
 
 MMOCK_URI = "http://mmock:8082"
@@ -41,20 +41,14 @@ def pytest_addoption(parser):
 
 def pytest_configure(config):
     host = config.getoption("host")
-    devices_api.Configuration.set_default(
-        devices_api.Configuration(
-            host="http://" + host + "/api/devices/v1/deviceconfig"
-        )
+    devices_v1.Configuration.set_default(
+        devices_v1.Configuration(host="http://" + host)
     )
-    internal_api.Configuration.set_default(
-        internal_api.Configuration(
-            host="http://" + host + "/api/internal/v1/deviceconfig"
-        )
+    internal_v1.Configuration.set_default(
+        internal_v1.Configuration(host="http://" + host)
     )
-    management_api.Configuration.set_default(
-        management_api.Configuration(
-            host="http://" + host + "/api/management/v1/deviceconfig"
-        )
+    management_v1.Configuration.set_default(
+        management_v1.Configuration(host="http://" + host)
     )
 
 
@@ -98,8 +92,8 @@ def tenant(tenant_id=None):
     """
     if tenant_id is None:
         tenant_id = str(bson.objectid.ObjectId())
-    client = internal_api.InternalAPIClient()
-    client.provision_tenant(new_tenant=internal_api.NewTenant(tenant_id=tenant_id))
+    client = internal_v1.InternalAPIClient()
+    client.provision_tenant(new_tenant=internal_v1.NewTenant(tenant_id=tenant_id))
     yield tenant_id
 
 
