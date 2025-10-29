@@ -109,4 +109,12 @@ describe('DeltaGenerationDetailsDrawer', () => {
     await user.click(screen.getByText(/success/i));
     await waitFor(() => expect(screen.queryByText('Delta Artifact information')).toBeInTheDocument());
   });
+  it('closes job details', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    render(<DeltaProgress />, { preloadedState: preloadedStateWithJobs });
+    await user.click(screen.getByText(/success/i));
+    await waitFor(() => expect(screen.queryByText('Delta Artifact information')).toBeInTheDocument());
+    await user.click(screen.getByLabelText(/close/i));
+    await waitFor(() => expect(screen.queryByText('Delta Artifact information')).not.toBeInTheDocument());
+  });
 });
