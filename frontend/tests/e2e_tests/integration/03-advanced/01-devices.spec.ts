@@ -152,7 +152,7 @@ test.describe('Devices', () => {
     await page.getByLabel(/attribute/i).fill(rootfs);
     await page.getByText(/equals/i).click();
     await page.waitForTimeout(timeouts.default);
-    await page.getByRole('option', { name: `doesn't exist` }).click();
+    await page.getByRole('option', { name: `doesn't exist`, exact: true }).click();
     await page.getByRole('button', { name: /Add a rule/i }).waitFor();
     await page.getByRole('button', { name: /Add a rule/i }).click();
     await expect(page.getByRole('button', { name: `${rootfs} doesn't exist` })).toBeVisible();
