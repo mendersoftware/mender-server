@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -28,6 +28,7 @@ import LinedHeader from '@northern.tech/common-ui/LinedHeader';
 import Loader from '@northern.tech/common-ui/Loader';
 import { MaybeTime } from '@northern.tech/common-ui/Time';
 import storeActions from '@northern.tech/store/actions';
+import { TIMEOUTS } from '@northern.tech/store/constants';
 import { formatReleases, generateReleasesPath } from '@northern.tech/store/locationutils';
 import { getDeltaJobById } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
@@ -211,11 +212,9 @@ export const DeltaGenerationDetailsDrawer = ({ jobId, onClose, open }: DeltaGene
   const dispatch = useAppDispatch();
   const deltaJob: EnhancedJobDetailsItem = useSelector(state => getDeltaJobById(state, jobId));
   const { classes } = useStyles();
+  const timer = useRef<ReturnType<typeof setInterval> | undefined>();
 
-  useEffect(() => {
-    if (!jobId) {
-      return;
-    }
+  const refreshJobDetails = useCallback(() => {
     setIsLoading(true);
     setError(null);
     // We need to get the list too to infer the completion time
@@ -223,6 +222,17 @@ export const DeltaGenerationDetailsDrawer = ({ jobId, onClose, open }: DeltaGene
       .catch(err => setError(err.message || 'Failed to load delta generation details'))
       .finally(() => setIsLoading(false));
   }, [dispatch, jobId]);
+
+  useEffect(() => {
+    if (!jobId) {
+      return;
+    }
+    clearInterval(timer.current);
+    if (!['failed', 'success'].includes(deltaJob?.status)) {
+      timer.current = setInterval(refreshJobDetails, TIMEOUTS.refreshDefault);
+    }
+    refreshJobDetails();
+  }, [deltaJob?.status, jobId, refreshJobDetails]);
 
   const copyLinkToClipboard = () => {
     const location = window.location.href.substring(0, window.location.href.indexOf('/releases'));
