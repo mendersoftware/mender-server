@@ -15,12 +15,12 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 
-import { AddCircle as AddIcon } from '@mui/icons-material';
-import { DialogContent } from '@mui/material';
+import { DialogContent, Typography } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import storeActions from '@northern.tech/store/actions';
-import { DEVICE_FILTERING_OPTIONS, DEVICE_ISSUE_OPTIONS, DEVICE_STATES, SORTING_OPTIONS, emptyFilter, onboardingSteps } from '@northern.tech/store/constants';
+import { DEVICE_FILTERING_OPTIONS, DEVICE_STATES, SORTING_OPTIONS, emptyFilter, onboardingSteps } from '@northern.tech/store/constants';
 import { useLocationParams } from '@northern.tech/store/liststatehook';
 import {
   getAcceptedDevices,
@@ -50,7 +50,6 @@ import {
   updateDynamicGroup
 } from '@northern.tech/store/thunks';
 import { toggle } from '@northern.tech/utils/helpers';
-import pluralize from 'pluralize';
 
 import { getOnboardingComponentFor } from '../../utils/onboardingManager';
 import Global from '../settings/Global';
@@ -65,6 +64,20 @@ import RemoveGroup from './group-management/RemoveGroup';
 import DeviceAdditionWidget from './widgets/DeviceAdditionWidget';
 
 const { setDeviceFilters, setShowConnectingDialog } = storeActions;
+
+const useStyles = makeStyles()(theme => ({
+  container: {
+    '&.tab-container': {
+      minHeight: 'max-content',
+      paddingTop: theme.spacing(2)
+    }
+  },
+  header: {
+    display: 'grid',
+    gridTemplateColumns: '1fr max-content',
+    alignItems: 'center'
+  }
+}));
 
 export const DeviceGroups = () => {
   const [createGroupExplanation, setCreateGroupExplanation] = useState(false);
@@ -85,12 +98,10 @@ export const DeviceGroups = () => {
   const { groupNames, ...groupsByType } = useSelector(getGroupsSelector);
   const groups = groupNames;
   const { total: acceptedCount = 0 } = useSelector(getAcceptedDevices);
-  const authRequestCount = useSelector(state => state.monitor.issueCounts.byType[DEVICE_ISSUE_OPTIONS.authRequests.key].total);
   const canPreview = useSelector(getIsPreview);
   const deviceLimit = useSelector(getDeviceLimit);
   const deviceListState = useSelector(state => state.devices.deviceList);
   const features = useSelector(getFeatures);
-  const { hasReporting } = features;
   const filters = useSelector(getDeviceFilters);
   const limitMaxed = useSelector(getLimitMaxed);
   const { pending: pendingCount } = useSelector(getDeviceCountsByStatus);
@@ -100,6 +111,7 @@ export const DeviceGroups = () => {
   const dispatch = useDispatch();
   const isInitialized = useRef(false);
   const location = useLocation();
+  const { classes } = useStyles();
 
   const [locationParams, setLocationParams] = useLocationParams('devices', {
     filteringAttributes,
@@ -237,11 +249,6 @@ export const DeviceGroups = () => {
     dispatch(setDeviceListState({ page: 1, refreshTrigger: !refreshTrigger, selection: [] }));
   };
 
-  const onShowAuthRequestDevicesClick = () => {
-    dispatch(setDeviceFilters([]));
-    dispatch(setDeviceListState({ selectedIssues: [DEVICE_ISSUE_OPTIONS.authRequests.key], page: 1 }));
-  };
-
   const toggleGroupRemoval = () => setRemoveGroup(toggle);
 
   const toggleMakeGatewayClick = () => setShowMakeGateway(toggle);
@@ -266,17 +273,9 @@ export const DeviceGroups = () => {
   }
   return (
     <>
-      <div className="tab-container with-sub-panels" style={{ paddingTop: 0, paddingBottom: 45, minHeight: 'max-content', alignContent: 'center' }}>
-        <h3 className="flexbox center-aligned" style={{ marginBottom: 0, marginTop: 0, flexWrap: 'wrap' }}>
-          Devices
-        </h3>
-        <span className="flexbox space-between margin-left-large margin-right center-aligned padding-top-small">
-          {hasReporting && !!authRequestCount && (
-            <a className="flexbox center-aligned margin-right-large" onClick={onShowAuthRequestDevicesClick}>
-              <AddIcon fontSize="small" style={{ marginRight: 6 }} />
-              {authRequestCount} new device authentication {pluralize('request', authRequestCount)}
-            </a>
-          )}
+      <div className={`flexbox center-aligned tab-container with-sub-panels margin-bottom ${classes.container}`}>
+        <Typography variant="h5">Devices</Typography>
+        <span className={`margin-right ${classes.header}`}>
           {!!pendingCount && !selectedGroup && selectedState !== DEVICE_STATES.pending ? (
             <DeviceStatusNotification deviceCount={pendingCount} state={DEVICE_STATES.pending} onClick={onShowDeviceStateClick} />
           ) : (

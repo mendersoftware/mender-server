@@ -55,9 +55,9 @@ export const TablePaginationActions = ({ count, page = 0, onPageChange, rowsPerP
 
   const isAtPaginationLimit = pageNo >= paginationLimit / rowsPerPage;
   return (
-    <div className="flexbox center-aligned">
+    <>
       {showCountInfo && <div>{`${(pageNo - paginationIndex) * rowsPerPage + 1}-${Math.min(pageNo * rowsPerPage, count)} of ${count}`}</div>}
-      <IconButton onClick={() => setPageNo(pageNo - 1)} disabled={pageNo === paginationIndex} size="large" aria-label="prev">
+      <IconButton className="margin-left-small" onClick={() => setPageNo(pageNo - 1)} disabled={pageNo === paginationIndex} size="large" aria-label="prev">
         <KeyboardArrowLeft />
       </IconButton>
       <MaybeWrapper disabled={isAtPaginationLimit}>
@@ -65,7 +65,7 @@ export const TablePaginationActions = ({ count, page = 0, onPageChange, rowsPerP
           <KeyboardArrowRight />
         </IconButton>
       </MaybeWrapper>
-    </div>
+    </>
   );
 };
 
@@ -80,7 +80,6 @@ const Pagination = props => {
       classes={{ spacer: 'flexbox no-basis' }}
       component="div"
       labelDisplayedRows={() => ''}
-      labelRowsPerPage="Rows"
       slotProps={{ select: { name: 'pagination' } }}
       rowsPerPageOptions={rowsPerPageOptions}
       onRowsPerPageChange={e => onChangeRowsPerPage(e.target.value)}
