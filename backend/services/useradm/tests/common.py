@@ -115,7 +115,7 @@ def migrate(cli: CliClient, mongo: MongoClient):
 @pytest.fixture(scope="session")
 def api_client_mgmt(request):
     return ManagementApiClient(
-        request.config.getoption("host"), request.config.getoption("management_spec"),
+        request.config.getoption("host"),
         make_auth("foo", None),
     )
 
@@ -123,7 +123,7 @@ def api_client_mgmt(request):
 @pytest.fixture(scope="session")
 def api_client_int(request):
     return InternalApiClient(
-        request.config.getoption("host"), request.config.getoption("internal_spec")
+        request.config.getoption("host")
     )
 
 
@@ -152,7 +152,7 @@ def init_users_f(cli, clean_migrated_db_f, api_client_mgmt, mongo):
 def user_tokens(init_users, api_client_mgmt):
     tokens = []
     for user in init_users:
-        _, r = api_client_mgmt.login(user.email, "correcthorsebatterystaple")
+        r = api_client_mgmt.login(user.email, "correcthorsebatterystaple")
         tokens.append(r.text)
 
     yield tokens
