@@ -143,6 +143,42 @@ default:
   - mkdir -p $HOME/.docker && echo $DOCKER_AUTH_CONFIG > $HOME/.docker/config.json
   - docker login --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
+.mantra-setup: &mantra-setup
+  - |
+    echo "Setting up Mantra test results uploader..."
+    curl -sSfL \
+      https://raw.githubusercontent.com/mendersoftware/mender-qa/074b590110e1793ada4acac7bb7b1add8fe40981/scripts/mantra_post_test_results \
+      -o /usr/local/bin/mantra_post_test_results
+    chmod +x /usr/local/bin/mantra_post_test_results
+
+.mantra-post-results: &mantra-post-results
+  - |
+    if [ -n "$MANTRA_PROJECT_NAME" ] && [ "$CI_PIPELINE_SOURCE" = "schedule" ]; then
+      # Generate MANTRA_BUILD_NAME for nightly runs only
+      MANTRA_BUILD_NAME="nightly-$(date +%Y-%m-%d)"
+
+      echo "Uploading test results to Mantra (project=$MANTRA_PROJECT_NAME, build=$MANTRA_BUILD_NAME)"
+
+      # Find and upload all test results files
+      results_found=false
+      for results_file in $(find . -type f -name "results_*.xml" 2>/dev/null); do
+        if [ -f "$results_file" ]; then
+          echo "Posting $results_file to Mantra"
+          /usr/local/bin/mantra_post_test_results --ensure \
+            "$MANTRA_PROJECT_NAME" \
+            "$MANTRA_BUILD_NAME" \
+            "$results_file" || echo "Failed to post $results_file (non-fatal)"
+          results_found=true
+        fi
+      done
+
+      if [ "$results_found" = false ]; then
+        echo "No test result files found to upload"
+      fi
+    else
+      echo "Skipping Mantra upload (MANTRA_PROJECT_NAME not set)"
+    fi
+
 .build:base:
   before_script:
     - *requires-docker
@@ -376,26 +412,31 @@ test:backend:integration:
       artifacts: false
     - job: build:backend:docker-acceptance
       artifacts: false
+  variables:
+    MANTRA_PROJECT_NAME: "backend_integration_open_source"
   before_script:
     - *requires-docker
-    - apk add make bash git curl
+    - apk add make bash git curl jq
     - *dind-login
+    - *mantra-setup
     - mkdir -p ${GOCOVERDIR}/integration
     - make -C backend -j 4 docker-pull MENDER_IMAGE_TAG=$MENDER_IMAGE_TAG_TEST
   script:
     - make -C backend test-integration
       GOCOVERDIR=${GOCOVERDIR}/integration
       MENDER_IMAGE_TAG=$MENDER_IMAGE_TAG_TEST
+  after_script:
+    - *mantra-post-results
   artifacts:
     expire_in: 1w
     when: always
     paths:
       - ${GOCOVERDIR}/integration
-      - backend/logs.*
-      - backend/results_integration_*.xml
-      - backend/report_integration_*.html
+      - backend/tests/integration/tests/logs.*
+      - backend/tests/integration/tests/results_integration_*.xml
+      - backend/tests/integration/report_integration_*.html
     reports:
-      junit: backend/results_integration_*.xml
+      junit: backend/tests/integration/tests/results_integration_*.xml
 
 test:integration:
   stage: test
